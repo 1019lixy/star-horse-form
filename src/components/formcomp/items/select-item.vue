@@ -1,0 +1,67 @@
+<template>
+  <starhorse-form-item :formDatas="formDatas" :form-item="field" :parentCompType="parentCompType"
+  >
+    <el-select
+        :fid="field.preps['name']"
+        :readonly="field.preps['readonly']=='yes'"
+        :automatic-dropdown="field.preps['automaticDropdown']=='yes'"
+        :clearable="field.preps['clearable']=='yes'"
+        :collapse-tags="field.preps['collapseTags']=='yes'"
+        :collapse-tags-tooltip="field.preps['collapseTagsTooltip']=='yes'"
+        :default-first-option="field.preps['defaultFirstOption']=='yes'"
+        :disabled="field.preps['disabled']=='yes'"
+        :filterable="field.preps['filterable']=='yes'"
+        :multiple="field.preps['multiple']=='yes'"
+        :multiple-limit="field.preps['multipleLimit']"
+        :name="field.preps['name']"
+        :placeholder="field.preps['placeholder']||'请选择'+field.preps['label']"
+        :size="field.preps['size']"
+        :tag-type="field.preps['tagType']"
+        v-on:[actionName]="keyEnterFun(field.preps['actionName'])"
+        @keydown.enter="keyEnterFun"
+        @focus="keyEnterFun('focus')"
+        @blur="keyEnterFun('blur')"
+        v-model="context.attrs['formFieldList'][field.preps['name']]">
+      <el-option :disabled="items['disabled']" :label="items['name']" :value="items['value']"
+                 v-for="items in field.preps['values']"/>
+    </el-select>
+
+  </starhorse-form-item>
+</template>
+
+<script lang="ts">
+import {defineComponent, onMounted, shallowRef} from "vue";
+
+export default defineComponent({
+  setup(props, context) {
+
+    const parentCompType = context.attrs["parentCompType"];
+    const formFieldList = context.attrs["formFieldList"] as any;
+    const field = context.attrs["field"] as any;
+    const formDatas = context.attrs["formDatas"];
+    let formItem = shallowRef({label: 'input', required: false});
+    let dataField = shallowRef("");
+    let actionName = shallowRef("change");
+    onMounted(() => {
+      actionName.value = field.preps["actionName"];
+    });
+    const keyEnterFun = (prep: any) => {
+      if (prep == actionName.value && field.preps["actionRelation"]) {
+        field.preps["actionRelation"](context.attrs['formFieldList'][field.preps['name']],context.attrs['formFieldList']["xh"]);
+      }
+      context.emit('selfFunc', prep);
+    };
+    const selectItem = (data: any) => {
+      context.emit('selectItem', data, parentCompType)
+    };
+    return {
+      parentCompType, formFieldList, context, field, formItem, formDatas,
+      dataField, selectItem, keyEnterFun, actionName
+    }
+  }
+});
+</script>
+
+<style scoped>
+
+</style>

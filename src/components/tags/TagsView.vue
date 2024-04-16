@@ -1,0 +1,502 @@
+<script setup lang="ts">
+import {nextTick, onMounted, ref, unref, watch} from "vue";
+import type {RouteLocationNormalizedLoaded, RouterLinkProps,} from "vue-router";
+import {useRouter} from "vue-router";
+import {ElScrollbar} from "element-plus";
+import {navBarList} from "@/store/NavbarListStore";
+import {useScrollTo} from "@/components/tags/useScrollTo";
+import ContextMenu from "@/components/tags/ContextMenu.vue";
+import {useTemplateRefsList} from "@vueuse/core";
+
+const {currentRoute, push, replace} = useRouter();
+
+const viewListStore = navBarList();
+
+// 初始化tag
+const initTags = () => {
+};
+
+const selectedTag = ref<RouteLocationNormalizedLoaded>();
+
+// 新增tag
+const addTags = () => {
+  const {name} = unref(currentRoute);
+  if (name) {
+    selectedTag.value = unref(currentRoute);
+  }
+};
+
+// 关闭选中的tag
+const closeSelectedTag = (view: RouteLocationNormalizedLoaded) => {
+  viewListStore.clearNavItem(view);
+  if (isActive(view)) {
+    toLastView();
+  }
+};
+
+// 关闭全部
+const closeAllTags = () => {
+  viewListStore.clearAll();
+  toLastView();
+};
+
+// 关闭其他
+const closeOthersTags = () => {
+  let path = unref(selectedTag)?.path;
+  let fData = viewListStore.getNavBarList.find((item: RouteLocationNormalizedLoaded) => item.path == path);
+  viewListStore.clearAll();
+  if (fData.path) {
+    viewListStore.addNavBar(fData);
+    toLastView();
+  }
+};
+
+
+// 重新加载
+const refreshSelectedTag = async (view?: RouteLocationNormalizedLoaded) => {
+  if (!view) {
+    return;
+  }
+  // viewListStore.clearNavItem(view);
+  const {path, query} = view;
+  query["redirectPath"] = path;
+  await nextTick();
+  replace({
+    path: '/redirect',
+    query: query
+  });
+};
+
+// 关闭左侧
+const closeLeftTags = () => {
+  let path = unref(selectedTag)?.path as string;
+  viewListStore.getNavBarList.splice(1, getCurrentIndex(path) - 1);
+};
+const getCurrentIndex = (path: string) => {
+
+  let tagsList = viewListStore.getNavBarList;
+  let i = 0;
+  for (; i < tagsList.length; i++) {
+    let temp = tagsList[i];
+    if (temp.path == path) {
+      break;
+    }
+  }
+  return i;
+}
+// 关闭右侧
+const closeRightTags = () => {
+  let tagsList = viewListStore.getNavBarList;
+  let path = unref(selectedTag)?.path || "";
+  viewListStore.getNavBarList.splice(getCurrentIndex(path) + 1, tagsList.length - 1);
+};
+
+// 跳转到最后一个
+const toLastView = () => {
+  const visitedViews = viewListStore.getNavBarList;
+  const latestView = visitedViews.slice(-1)[0]
+  if (latestView) {
+    push(latestView)
+  }
+};
+
+// 滚动到选中的tag
+const moveToCurrentTag = async () => {
+  await nextTick();
+  for (const v of unref(viewListStore.getNavBarList)) {
+    if (v.fullPath === unref(currentRoute).path) {
+      moveToTarget(v);
+      if (v.fullPath !== unref(currentRoute).fullPath) {
+        viewListStore.updateVisitedView(unref(currentRoute));
+      }
+      break;
+    }
+  }
+};
+const tagLinksRefs = useTemplateRefsList<RouterLinkProps>();
+const moveToTarget = (currentTag: RouteLocationNormalizedLoaded) => {
+  const wrap$ = unref(scrollbarRef)?.wrapRef;
+  let firstTag: any = null;
+  let lastTag: any = null;
+  //
+  const tagList = unref(tagLinksRefs);
+  // find first tag and last tag
+  if (tagList.length > 0) {
+    firstTag = tagList[0];
+    lastTag = tagList[tagList.length - 1];
+  }
+  if ((firstTag?.to as RouteLocationNormalizedLoaded).fullPath === currentTag.fullPath) {
+    // 直接滚动到0的位置
+    const {start} = useScrollTo({
+      el: wrap$!,
+      position: "scrollLeft",
+      to: 0,
+      duration: 500,
+    });
+    start();
+  } else if (
+      (lastTag?.to as RouteLocationNormalizedLoaded).fullPath === currentTag.fullPath
+  ) {
+    // 滚动到最后的位置
+    const {start} = useScrollTo({
+      el: wrap$!,
+      position: "scrollLeft",
+      to: wrap$!.scrollWidth - wrap$!.offsetWidth,
+      duration: 500,
+    });
+    start();
+  } else {
+    // find preTag and nextTag
+    const currentIndex: number = tagList.findIndex(
+        (item) =>
+            (item?.to as RouteLocationNormalizedLoaded).fullPath === currentTag.fullPath
+    );
+    const tgsRefs = document.getElementsByClassName("tags-item");
+    const prevTag = tgsRefs[currentIndex - 1] as HTMLElement;
+    const nextTag = tgsRefs[currentIndex + 1] as HTMLElement;
+
+    // the tag's offsetLeft after of nextTag
+    const afterNextTagOffsetLeft = nextTag.offsetLeft + nextTag.offsetWidth + 4;
+
+    // the tag's offsetLeft before of prevTag
+    const beforePrevTagOffsetLeft = prevTag.offsetLeft - 4;
+
+    if (afterNextTagOffsetLeft > unref(scrollLeftNumber) + wrap$!.offsetWidth) {
+      const {start} = useScrollTo({
+        el: wrap$!,
+        position: "scrollLeft",
+        to: afterNextTagOffsetLeft - wrap$!.offsetWidth,
+        duration: 500,
+      });
+      start();
+    } else if (beforePrevTagOffsetLeft < unref(scrollLeftNumber)) {
+      const {start} = useScrollTo({
+        el: wrap$!,
+        position: "scrollLeft",
+        to: beforePrevTagOffsetLeft,
+        duration: 500,
+      });
+      start();
+    }
+  }
+};
+
+// 是否是当前tag
+const isActive = (route: RouteLocationNormalizedLoaded): boolean => {
+  return route.path === unref(currentRoute).path;
+};
+
+// 所有右键菜单组件的元素
+const itemRefs = useTemplateRefsList<InstanceType<typeof Object>>();
+
+// 右键菜单装填改变的时候
+const visibleChange = (visible: boolean, tagItem: RouteLocationNormalizedLoaded) => {
+  selectedTag.value = tagItem;
+  if (visible) {
+    for (const v of unref(itemRefs)) {
+      const elDropdownMenuRef = v.elDropdownMenuRef;
+      if (tagItem.fullPath !== v.tagItem.fullPath) {
+        elDropdownMenuRef?.handleClose();
+      }
+    }
+  }
+};
+
+// elscroll 实例
+const scrollbarRef = ref(null);
+
+// 保存滚动位置
+const scrollLeftNumber = ref(0);
+
+const scroll = ({scrollLeft}) => {
+  scrollLeftNumber.value = scrollLeft as number;
+};
+
+// 移动到某个位置
+const move = (to: number) => {
+  const wrap$ = unref(scrollbarRef)?.wrapRef;
+  const {start} = useScrollTo({
+    el: wrap$!,
+    position: "scrollLeft",
+    to: unref(scrollLeftNumber) + to,
+    duration: 500,
+  });
+  start();
+};
+
+onMounted(() => {
+  initTags();
+  addTags();
+});
+
+watch(
+    () => currentRoute.value,
+    () => {
+      addTags();
+      moveToCurrentTag();
+    }
+);
+</script>
+
+<template>
+  <div class="prefixCls">
+    <el-tooltip content="向左移动">
+    <span class="tool" @click="move(-200)">
+      <star-horse-icon icon-class="arrow-double-left" cursor="pointer"/>
+    </span>
+    </el-tooltip>
+    <div class="overflow-hidden">
+      <ElScrollbar ref="scrollbarRef" style="height: 100%" @scroll="scroll">
+        <div style="display: flex; height: 100%;position: relative;z-index: 999999">
+          <ContextMenu
+              :ref="itemRefs.set"
+              v-for="item in viewListStore.getNavBarList"
+              :schema="[
+              {
+                icon: 'refresh',
+                label: '刷新页面',
+                disabled: false,
+                command: () => {
+                  refreshSelectedTag(item);
+                },
+              },
+              {
+                icon: 'close',
+                label: '关闭页面',
+                disabled: item.path=='/home',
+                command: () => {
+                  closeSelectedTag(item);
+                },
+              },
+              {
+                divided: true,
+                icon: 'list-left',
+                label: '关闭左侧页面',
+                disabled: false,
+                command: () => {
+                  closeLeftTags();
+                },
+              },
+              {
+                icon: 'list-right',
+                label: '关闭右侧页面',
+                disabled: false,
+                command: () => {
+                  closeRightTags();
+                },
+              },
+              {
+                divided: true,
+                icon: 'other',
+                label: '关闭其它',
+                disabled: false,
+                command: () => {
+                  closeOthersTags();
+                },
+              },
+              {
+                icon: 'close-all',
+                label: '关闭所有',
+                command: () => {
+                  closeAllTags();
+                },
+              },
+            ]"
+              :tag-item="item"
+              :key="item.path"
+              @visible-change="visibleChange"
+              :class="['tags-item', $route.path === item.path ? 'is-active' : '']">
+            <div>
+              <router-link
+                  :ref="tagLinksRefs.set"
+                  :to="{ ...item }"
+                  custom
+                  v-slot="{ navigate }"
+              >
+                <div @click="navigate" class="tags">
+                  <el-icon
+                      :style="{
+                    color: $route.path === item.path ? 'var(--star-horse-white)' : '',
+                    size: '18px',
+                  }"
+                  >
+                    <component :is="item.meta.menuIcon"/>
+                  </el-icon>
+                  &nbsp;{{ item.meta.title }}
+                  <star-horse-icon
+                      v-if="item.path != '/home'"
+                      icon-class="close"
+                      class="close-icon"
+                      cursor="pointer"
+                      @click.prevent.stop="closeSelectedTag(item)"
+                  />
+                </div>
+              </router-link>
+            </div>
+          </ContextMenu>
+        </div>
+      </ElScrollbar>
+    </div>
+    <el-tooltip content="向右移动">
+    <span class="tool" @click="move(200)">
+      <star-horse-icon icon-class="arrow-double-right" cursor="pointer"/>
+    </span>
+    </el-tooltip>
+    <el-tooltip content="刷新菜单">
+    <span class="tool" @click="refreshSelectedTag(selectedTag)">
+      <star-horse-icon icon-class="refresh" cursor="pointer"/>
+    </span>
+    </el-tooltip>
+    <ContextMenu
+        trigger="click"
+        :schema="[
+        {
+          icon: 'refresh',
+          label: '刷新页面',
+          disabled: false,
+          command: () => {
+            refreshSelectedTag(selectedTag);
+          },
+        },
+        {
+          icon: 'close',
+          label: '关闭页面',
+          disabled: currentRoute.path=='/home',
+          command: () => {
+            closeSelectedTag(selectedTag);
+          },
+        },
+        {
+          divided: true,
+          icon: 'list-left',
+          label: '关闭左侧页面',
+          disabled: false,
+          command: () => {
+            closeLeftTags();
+          },
+        },
+        {
+          icon: 'list-right',
+          label: '关闭右侧页面',
+          disabled: false,
+          command: () => {
+            closeRightTags();
+          },
+        },
+        {
+          divided: true,
+          icon: 'other',
+          label: '关闭其它',
+          disabled: false,
+          command: () => {
+            closeOthersTags();
+          },
+        },
+        {
+          icon: 'close-all',
+          label: '关闭所有',
+          command: () => {
+            closeAllTags();
+          },
+        },
+      ]"
+    >
+      <span class="tool">
+        <star-horse-icon icon-class="setting" cursor="pointer"/>
+      </span>
+    </ContextMenu>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+.prefixCls {
+  display: flex;
+  width: 100%;
+  background: #fff;
+
+  :deep(.scrollbar__view) {
+    height: 100%;
+  }
+
+  .overflow-hidden {
+    position: relative;
+    overflow-x: hidden;
+    flex: 1;
+  }
+
+  .tool {
+    position: relative;
+    display: flex;
+    width: 35px;
+    height: 35px;
+    align-items: center;
+    vertical-align: middle;
+
+    &:hover {
+      :deep(span) {
+        color: #000000 !important;
+      }
+    }
+
+    border-right: 1px solid var(--star-horse-style);;
+    border-left: 1px solid var(--star-horse-style);;
+  }
+
+  .tags-item {
+    position: relative;
+    top: 3px;
+    align-items: center;
+    padding-right: 5px;
+    margin-left: 4px;
+    font-size: 12px;
+    cursor: pointer;
+    height: 100%;
+    border: 1px solid #d9d9d9;
+    display: inline-flex;
+
+    .close-icon {
+      position: relative;
+      top: 35%;
+      color: #333;
+      display: none;
+      transform: translate(0, -50%);
+    }
+
+    :not(.close-icon):hover {
+      .close-icon {
+        display: block;
+      }
+    }
+
+    .tags {
+      height: 28px;
+      display: flex;
+      position: relative;
+      padding-left: 5px;
+      right: 1px;
+      vertical-align: middle;
+      justify-content: center;
+      align-items: center;
+      white-space: nowrap;
+    }
+  }
+
+  .tags-item:not(.is-active) {
+    &:hover {
+      color: var(--el-color-primary);
+    }
+  }
+
+  .tags-item.is-active {
+    color: var(--el-color-white);
+    background-color: var(--el-color-primary);
+    border: 1px solid var(--el-color-primary);
+
+    .item--close {
+      :deep(span) {
+        color: var(--el-color-white) !important;
+      }
+    }
+  }
+}
+</style>
