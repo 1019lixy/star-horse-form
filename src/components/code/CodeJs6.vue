@@ -1,5 +1,5 @@
 <script setup lang = "ts" name = "CodeJs6">
-import {nextTick, onMounted, ref} from "vue";
+import {nextTick, onMounted, reactive, ref} from "vue";
 import {basicSetup} from 'codemirror';
 import {EditorView, keymap} from "@codemirror/view";
 import {Compartment} from "@codemirror/state";
@@ -7,7 +7,7 @@ import {historyKeymap} from "@codemirror/history";
 import {insertTab, standardKeymap} from "@codemirror/commands";
 import {autocompletion, startCompletion} from '@codemirror/autocomplete';
 import {python} from "@codemirror/lang-python";
-import {javascript} from "@codemirror/lang-javascript";
+import {javascript, javascriptLanguage} from "@codemirror/lang-javascript";
 import {java} from "@codemirror/lang-java";
 import {json} from "@codemirror/lang-json";
 import {yaml} from "@codemirror/lang-yaml";
@@ -19,7 +19,7 @@ import {xml} from "@codemirror/lang-xml";
 import {markdown} from "@codemirror/lang-markdown";
 import {go} from "@codemirror/lang-go";
 import {linter} from "@codemirror/lint";
-import {sql} from "@codemirror/lang-sql";
+import {sql, SQLConfig} from "@codemirror/lang-sql";
 import {amy, ayuLight, barf, bespin, birdsOfParadise, boysAndGirls, clouds, dracula} from 'thememirror';
 
 const model = defineModel("value", {default: ""});
@@ -34,11 +34,17 @@ const props = defineProps({
 });
 const languageConf = new Compartment;
 const completionList = ref<any>([]);
+const config = ref<SQLConfig>({
+  defaultSchema: "test",
+  tables: [],
+  defaultTable: "",
+  schema: {}
+});
 const languages = ref<Array<any>>([
   {name: "Java", value: "java", obj: java(), icon: "setting"},
   {name: "Python", value: "python", obj: python(), icon: "setting"},
   {name: "JSON", value: "json", obj: json(), icon: "setting"},
-  {name: "Sql", value: "sql", obj: sql({tables: [{label: 'sys_menusinfo', apply: 'sys_menusinfo', detail: 'String'}]}), icon: "setting"},
+  {name: "Sql", value: "sql", obj: sql(config.value), icon: "setting"},
   {name: "JavaScript", value: "javascript", obj: javascript(), icon: "setting"},
   {name: "Vue", value: "vue", obj: vue(), icon: "setting"},
   {name: "Css", value: "css", obj: css(), icon: "setting"},
@@ -95,7 +101,9 @@ const updateList = (args: any) => {
   }
 }
 const docCompletions = () => {
-
+  // javascriptLanguage.data.of({
+  //   autocompletion
+  // });
 };
 /**
  * 初始化
@@ -135,24 +143,21 @@ onMounted(async () => {
   });
 });
 
-function myCompletions(context: CompletionContext) {
-  let word = context.matchBefore(/\w*/)
-  if (word.from == word.to && !context.explicit)
-    return null
-  return {
-    from: word.from,
-    options: completionList.value
-  }
-};
+
 const setAutoCompletion = (val: object) => {
   completionList.value.push(...Object.keys(val).map(item =>
       ({
         label: item,
-        apply: item,
-        detail: "String",
+        apply: item
       })
   ));
-  console.log(completionList.value);
+  config.value["tables"] = completionList.value;
+  for(let key in completionList.value){
+    let temp=completionList.value[key];
+    config.value["schema"]["test."+temp.label]=[];
+  }
+  console.log(config.value);
+  init();
 };
 defineExpose({
   editor, setAutoCompletion
