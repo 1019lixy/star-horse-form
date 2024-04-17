@@ -1,4 +1,4 @@
-<script setup lang="ts" name="DbSearch">
+<script setup lang = "ts" name = "DbSearch">
 import CodeJs from "@/components/code/CodeJs6.vue";
 import {onMounted, ref} from "vue";
 import {closeLoad, commonParseCodeToName, load, loadGetData} from "@/api/sh_api";
@@ -48,8 +48,8 @@ const viewDataDetail = (row: any, column: any, event: Event) => {
   detailData.value = row;
 };
 const openDb = () => {
-  getRequest(`/dbsearch-manage/dbsearch/dbinfoEntity/openConn/${dbIndex.value}`).then(
-      (res) => {
+  let editor = editorRef.value!;
+  getRequest(`/dbsearch-manage/dbsearch/dbinfoEntity/openConn/${dbIndex.value}`).then((res) => {
         tableList.value = {};
         if (res.data.code != 0) {
           error(res.data.cnMessage);
@@ -57,35 +57,20 @@ const openDb = () => {
         }
         tableAndColumnsList.value = res.data.data;
         assignDataList.value = tableAndColumnsList.value;
-        // console.log(tableAndColumnsList.value);
-        if (currentIndex.value) {
-          // cacheValue.value[currentIndex.value] = editorRef.value!.editor.getValue();
-          let temp = cacheValue.value[dbIndex.value];
-          // editorRef.value!.editor.setValue(!temp ? "" : temp);
-          // editorRef.value!.editor.refresh();
-        }
         currentIndex.value = dbIndex.value;
-        tableAndColumnsList.value.forEach((item: any) => {
-          tableList.value[item.tableName] = [];
-          //现在将属性设置为分开加载，智能提示失效
-          item.fields.forEach((sitem: any) => {
-            tableList.value[item.tableName].push(sitem.filedName);
-          });
-        });
-        // editorRef.value!.editor.setOption("hintOptions", {
-        //   completeSingle: false,
-        //   // 自定义提示选项
-        //   tables: tableList.value,
-        // });
+        editor.setAutoCompletion("test",tableAndColumnsList.value);
       }
   );
 };
 const getSql = () => {
-  // let sData = editorRef.value!.editor.getSelection();
-  // if (!sData) {
-  //   sData = editorRef.value!.editor.getValue();
-  // }
-  // return sData;
+  let editor = editorRef.value!.editor.state;
+  let sData = editor.sliceDoc(
+      editor.selection.main.from,
+      editor.selection.main.to);
+  if (!sData) {
+    sData = editor.doc.toString();
+  }
+  return sData;
 };
 const executeSql = () => {
   if (!dbIndex.value) {
@@ -219,78 +204,78 @@ const filterData = () => {
 };
 </script>
 <template>
-  <el-card class="inner_content">
+  <el-card class = "inner_content">
     <el-container>
       <el-header>
         <el-container>
-          <el-aside width="200px">
+          <el-aside width = "200px">
             <el-select
-                @change="openDb"
+                @change = "openDb"
                 clearable
                 filterable
-                id="dbInfo"
-                placeholder="请选择数据库信息"
-                v-model="dbIndex"
+                id = "dbInfo"
+                placeholder = "请选择数据库信息"
+                v-model = "dbIndex"
             >
               <el-option
-                  :key="sitem.configId"
-                  :label="sitem.name"
-                  :value="sitem.configId"
-                  v-for="sitem in dbList"
+                  :key = "sitem.configId"
+                  :label = "sitem.name"
+                  :value = "sitem.configId"
+                  v-for = "sitem in dbList"
               >
               </el-option>
             </el-select>
           </el-aside>
           <el-main>
-            <el-select style="width: 130px; margin-right: 5px" v-model="pageSize">
+            <el-select style = "width: 130px; margin-right: 5px" v-model = "pageSize">
               <el-option
-                  :key="sitem"
-                  :label="'每页' + sitem + '条'"
-                  :value="sitem"
-                  v-for="sitem in pageSizeLimit"
+                  :key = "sitem"
+                  :label = "'每页' + sitem + '条'"
+                  :value = "sitem"
+                  v-for = "sitem in pageSizeLimit"
               >
               </el-option>
             </el-select>
             <el-tooltip
-                class="box-item"
-                content="快捷键Ctrl+Enter"
-                effect="dark"
-                placement="right-start"
+                class = "box-item"
+                content = "快捷键Ctrl+Enter"
+                effect = "dark"
+                placement = "right-start"
             >
-              <span @click="executeSql" style="color: green" v-if="!!dbIndex"
-              ><star-horse-icon icon-class="run"/> 执行
+              <span @click = "executeSql" style = "color: green" v-if = "!!dbIndex"
+              ><star-horse-icon icon-class = "run"/> 执行
               </span>
             </el-tooltip>
-            <el-divider direction="vertical" v-if="!!dbIndex"/>
-            <span @click="executeStop" style="color: red" v-if="!!dbIndex"
-            ><star-horse-icon icon-class="stop"/>停止</span
+            <el-divider direction = "vertical" v-if = "!!dbIndex"/>
+            <span @click = "executeStop" style = "color: red" v-if = "!!dbIndex"
+            ><star-horse-icon icon-class = "stop"/>停止</span
             >
-            <el-divider direction="vertical" v-if="!!dbIndex"/>
+            <el-divider direction = "vertical" v-if = "!!dbIndex"/>
             <el-tooltip
-                class="box-item"
-                content="快捷键Ctrl+Shift+F"
-                effect="dark"
-                placement="right-start"
+                class = "box-item"
+                content = "快捷键Ctrl+Shift+F"
+                effect = "dark"
+                placement = "right-start"
             >
-              <span @click="dataFormat" style="color: darkorange" v-if="!!dbIndex"
-              ><star-horse-icon icon-class="format"/>格式化
+              <span @click = "dataFormat" style = "color: darkorange" v-if = "!!dbIndex"
+              ><star-horse-icon icon-class = "format"/>格式化
               </span>
             </el-tooltip>
-            <el-divider direction="vertical" v-if="!!dbIndex"/>
-            <el-popover :width="500" placement="right" trigger="hover">
+            <el-divider direction = "vertical" v-if = "!!dbIndex"/>
+            <el-popover :width = "500" placement = "right" trigger = "hover">
               <template #reference>
                 <el-icon
-                    class="star-page-icon"
-                    style="cursor: pointer"
+                    class = "star-page-icon"
+                    style = "cursor: pointer"
                 >
-                  <el-tooltip content="使用说明">
+                  <el-tooltip content = "使用说明">
                     <InfoFilled/>
                   </el-tooltip>
                 </el-icon>
               </template>
               <div>
                 <span>使用说明</span>
-                <p style="color:red">目前快捷键失效,提示表字段需先单击表名加载字段到本地.</p>
+                <p style = "color:red">目前快捷键失效,提示表字段需先单击表名加载字段到本地.</p>
                 <p>
                   1,使用前需先连接数据库;如果在左侧下拉框中,无数据或者无您要连接的DB,请联系管理员配置并授权;
                 </p>
@@ -310,22 +295,22 @@ const filterData = () => {
         </el-container>
       </el-header>
       <el-container>
-        <el-aside style="width: 200px; overflow-y: auto;overflow-x: hidden;" v-if="!!dbIndex">
+        <el-aside style = "width: 200px; overflow-y: auto;overflow-x: hidden;" v-if = "!!dbIndex">
           <ul>
             <li>
-              <el-input v-model="filterTableName" @input="filterData" prefix-icon="Search"/>
+              <el-input v-model = "filterTableName" @input = "filterData" prefix-icon = "Search"/>
             </li>
-            <template v-for="(data, index) in assignDataList">
-              <el-popover :width="540" placement="right" trigger="click">
+            <template v-for = "(data, index) in assignDataList">
+              <el-popover :width = "540" placement = "right" trigger = "click">
                 <template #reference>
-                  <li @click="tableField(data.tableName)">
-                    <star-horse-icon icon-class="table" style="margin-top: 5px"/>
-                    <el-tooltip :content="data.comment">
+                  <li @click = "tableField(data.tableName)">
+                    <star-horse-icon icon-class = "table" style = "margin-top: 5px"/>
+                    <el-tooltip :content = "data.comment">
                       {{ data.tableName }}
                     </el-tooltip>
                   </li>
                 </template>
-                <table class="el-table field-table">
+                <table class = "el-table field-table">
                   <thead>
                   <tr>
                     <th>名称</th>
@@ -334,7 +319,7 @@ const filterData = () => {
                   </tr>
                   </thead>
                   <tbody>
-                  <tr v-for="sdata in data.fields">
+                  <tr v-for = "sdata in data.fields">
                     <td>{{ sdata.filedName }}</td>
                     <td>{{ sdata.type }}</td>
                     <td>{{ sdata.comment }}</td>
@@ -345,57 +330,57 @@ const filterData = () => {
             </template>
           </ul>
         </el-aside>
-        <el-container style="overflow-y: auto;height:100%;">
+        <el-container style = "overflow-y: auto;height:100%;">
           <el-main>
-            <code-js :lang="'sql'" ref="editorRef"/>
+            <code-js :lang = "'sql'" ref = "editorRef"/>
           </el-main>
-          <el-footer v-if="!!queryResult">
-            <el-tabs class="demo-tabs" type="border-card" v-model="activeName">
+          <el-footer v-if = "!!queryResult">
+            <el-tabs class = "demo-tabs" type = "border-card" v-model = "activeName">
               <el-tab-pane
-                  :label="'Result' + (indexa + 1)"
-                  :name="'Result' + (indexa + 1)"
-                  v-for="(item, indexa) in queryResult"
+                  :label = "'Result' + (indexa + 1)"
+                  :name = "'Result' + (indexa + 1)"
+                  v-for = "(item, indexa) in queryResult"
               >
-                <ul class="inner_button" v-if="item?.dataList&&item?.dataList.length>0">
+                <ul class = "inner_button" v-if = "item?.dataList&&item?.dataList.length>0">
                   <li>
-                    <el-button @click="exportData(item)" link title="" type="primary">
-                      <star-horse-icon icon-class="excel-export"/>
-                      <el-tooltip content="导出">导出</el-tooltip>
+                    <el-button @click = "exportData(item)" link title = "" type = "primary">
+                      <star-horse-icon icon-class = "excel-export"/>
+                      <el-tooltip content = "导出">导出</el-tooltip>
                     </el-button>
                   </li>
                 </ul>
                 <hr>
                 <el-table
-                    :data="item.dataList"
-                    :id="'queryResultId' + (indexa + 1)"
-                    @row-dblclick="viewDataDetail"
-                    highlight-current-row=true
-                    ref="multipleTable"
+                    :data = "item.dataList"
+                    :id = "'queryResultId' + (indexa + 1)"
+                    @row-dblclick = "viewDataDetail"
+                    highlight-current-row = true
+                    ref = "multipleTable"
                     stripe
-                    style="min-width: 1000px"
+                    style = "min-width: 1000px"
                 >
                   <!--  <el-table-column label="显示/隐藏" :render-header="columnListFun(item.columnNames)"/>-->
                   <el-table-column
-                      :formatter="resultDataFormat"
-                      :index="index"
-                      :label="pp"
-                      :prop="pp"
-                      :show-overflow-tooltip="true"
-                      min-width="200px"
+                      :formatter = "resultDataFormat"
+                      :index = "index"
+                      :label = "pp"
+                      :prop = "pp"
+                      :show-overflow-tooltip = "true"
+                      min-width = "200px"
                       sortable
-                      v-for="(pp, index) in item.columnNames"
+                      v-for = "(pp, index) in item.columnNames"
                   >
                   </el-table-column>
                 </el-table>
                 <hr>
                 <el-pagination
-                    :total="item.totalDatas"
-                    @current-change="handleCurrentChange(
+                    :total = "item.totalDatas"
+                    @current-change = "handleCurrentChange(
                       indexa,item.currentSql,item.currentPage,item.pageSize)
                   "
-                    layout="total,  prev, pager, next,jumper"
-                    v-model:currentPage="item.currentPage"
-                    v-model:page-size="item.pageSize"
+                    layout = "total,  prev, pager, next,jumper"
+                    v-model:currentPage = "item.currentPage"
+                    v-model:page-size = "item.pageSize"
                 />
               </el-tab-pane>
             </el-tabs>
@@ -405,31 +390,31 @@ const filterData = () => {
     </el-container>
 
     <el-drawer
-        :before-close="handleClose"
-        :direction="direction"
-        title="数据详情"
-        v-model="drawer"
+        :before-close = "handleClose"
+        :direction = "direction"
+        title = "数据详情"
+        v-model = "drawer"
     >
-      <div class="el-table__header-wrapper">
-        <table class="el-table">
+      <div class = "el-table__header-wrapper">
+        <table class = "el-table">
           <thead>
-          <tr class="el-table__header">
-            <th class="el-table__cell">
-              <div class="cell">字段名</div>
+          <tr class = "el-table__header">
+            <th class = "el-table__cell">
+              <div class = "cell">字段名</div>
             </th>
-            <th class="el-table__cell">
-              <div class="cell">值</div>
+            <th class = "el-table__cell">
+              <div class = "cell">值</div>
             </th>
           </tr>
           </thead>
           <tbody>
-          <tr :class="['el-table__row',index%2==0?'el-table__row--striped':'']" v-for="(val, key, index) in
+          <tr :class = "['el-table__row',index%2==0?'el-table__row--striped':'']" v-for = "(val, key, index) in
           detailData">
-            <td class="el-table__cell">
-              <div class="cell">{{ key }}</div>
+            <td class = "el-table__cell">
+              <div class = "cell">{{ key }}</div>
             </td>
-            <td class="el-table__cell">
-              <div class="cell">{{ commonParseCodeToName(key, val) }}</div>
+            <td class = "el-table__cell">
+              <div class = "cell">{{ commonParseCodeToName(key, val) }}</div>
             </td>
           </tr>
           </tbody>
@@ -439,7 +424,7 @@ const filterData = () => {
   </el-card>
 </template>
 
-<style lang="scss" scoped>
+<style lang = "scss" scoped>
 .el-card {
   height: 100%;
   overflow: hidden;

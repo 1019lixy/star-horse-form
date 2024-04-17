@@ -1,13 +1,13 @@
 <script setup lang = "ts" name = "CodeJs6">
-import {nextTick, onMounted, reactive, ref} from "vue";
+import {nextTick, onMounted, ref} from "vue";
 import {basicSetup} from 'codemirror';
 import {EditorView, keymap} from "@codemirror/view";
 import {Compartment} from "@codemirror/state";
 import {historyKeymap} from "@codemirror/history";
 import {insertTab, standardKeymap} from "@codemirror/commands";
-import {autocompletion, startCompletion} from '@codemirror/autocomplete';
+import {autocompletion} from '@codemirror/autocomplete';
 import {python} from "@codemirror/lang-python";
-import {javascript, javascriptLanguage} from "@codemirror/lang-javascript";
+import {javascript} from "@codemirror/lang-javascript";
 import {java} from "@codemirror/lang-java";
 import {json} from "@codemirror/lang-json";
 import {yaml} from "@codemirror/lang-yaml";
@@ -18,7 +18,6 @@ import {cpp} from "@codemirror/lang-cpp";
 import {xml} from "@codemirror/lang-xml";
 import {markdown} from "@codemirror/lang-markdown";
 import {go} from "@codemirror/lang-go";
-import {linter} from "@codemirror/lint";
 import {sql, SQLConfig} from "@codemirror/lang-sql";
 import {amy, ayuLight, barf, bespin, birdsOfParadise, boysAndGirls, clouds, dracula} from 'thememirror';
 
@@ -33,7 +32,6 @@ const props = defineProps({
   boxHeight: {type: String, default: "95%"}
 });
 const languageConf = new Compartment;
-const completionList = ref<any>([]);
 const config = ref<SQLConfig>({
   defaultSchema: "test",
   tables: [],
@@ -87,24 +85,17 @@ const currentValFun = (val: string) => {
  */
 const langInfo = (lang: string) => {
   let fdata = languages.value.find(item => item.value == lang);
-  editorLang.value = fdata.obj;
+  if (lang == "sql") {
+    editorLang.value = sql(config.value);
+  } else {
+    editorLang.value = fdata.obj;
+  }
   editor.value?.dispatch({
     effects: languageConf.reconfigure(editorLang.value)
   });
 };
-const updateList = (args: any) => {
-  let change = args?.changes?.inserted[1]?.text[0];
-  console.log(change);
-  let changes = args?.changes?.sections[0];
-  if (change == ".") {
-    startCompletion(editor.value);
-  }
-}
-const docCompletions = () => {
-  // javascriptLanguage.data.of({
-  //   autocompletion
-  // });
-};
+
+
 /**
  * 初始化
  */
@@ -121,12 +112,10 @@ const init = async () => {
     extensions: [
       basicSetup,
       themesConf.of(editorTheme.value),
-      linter(),
       keymap.of([standardKeymap, historyKeymap, {key: "Tab", run: insertTab}]),
       languageConf.of(editorLang.value),
       autocompletion({activateOnTyping: true}),
       EditorView.updateListener.of((v) => {
-        updateList(v);
         if (v.docChanged) {
           model.value = v.state.doc.toString();
           currentValFun(model.value);
@@ -143,63 +132,72 @@ onMounted(async () => {
   });
 });
 
-
-const setAutoCompletion = (val: object) => {
-  completionList.value.push(...Object.keys(val).map(item =>
-      ({
-        label: item,
-        apply: item
-      })
-  ));
-  config.value["tables"] = completionList.value;
-  for(let key in completionList.value){
-    let temp=completionList.value[key];
-    config.value["schema"]["test."+temp.label]=[];
-  }
-  console.log(config.value);
-  init();
+/**
+ * 根据不同数据库生成不同的查询提示
+ * @param dbName
+ * @param datas
+ */
+const setAutoCompletion = (dbName: string, datas: any) => {
+  config.value["tables"] = [];
+  config.value["schema"] = {};
+  config.value["defaultSchema"] = dbName;
+  datas.forEach((item: any) => {
+    config.value["tables"]?.push({
+      label: item.comment || item.tableName,
+      apply: item.tableName
+    });
+    config.value["schema"][dbName + "." + item.tableName] = item.fields.map((sitem: any) => sitem.filedName);
+  });
+  langInfo("sql");
 };
 defineExpose({
   editor, setAutoCompletion
 })
 </script>
 <template>
-  <el-dropdown>
+  <div class = "inner_button">
+    <el-dropdown>
     <span class = "el-dropdown-link">
       主题
       <el-icon class = "el-icon--right">
         <arrow-down/>
       </el-icon>
     </span>
-    <template #dropdown>
-      <el-dropdown-menu>
-        <el-dropdown-item @click = "customerTheme(item.value)" v-for = "item in themes">
-          <star-horse-icon :icon-class = "item.icon" color = "gray" size = "14px"/>
-          {{ item.name }}
-        </el-dropdown-item>
-      </el-dropdown-menu>
-    </template>
-  </el-dropdown>
-  <el-dropdown v-if = "!lang">
+      <template #dropdown>
+        <el-dropdown-menu>
+          <el-dropdown-item @click = "customerTheme(item.value)" v-for = "item in themes">
+            <star-horse-icon :icon-class = "item.icon" color = "gray" size = "14px"/>
+            {{ item.name }}
+          </el-dropdown-item>
+        </el-dropdown-menu>
+      </template>
+    </el-dropdown>
+    &nbsp;&nbsp;
+    <el-dropdown v-if = "!lang">
     <span class = "el-dropdown-link">
       语言
       <el-icon class = "el-icon--right">
         <arrow-down/>
       </el-icon>
     </span>
-    <template #dropdown>
-      <el-dropdown-menu>
-        <el-dropdown-item @click = "langInfo(item.value)" v-for = "item in languages">
-          <star-horse-icon :icon-class = "item.icon" color = "gray" size = "14px"/>
-          {{ item.name }}
-        </el-dropdown-item>
+      <template #dropdown>
+        <el-dropdown-menu>
+          <el-dropdown-item @click = "langInfo(item.value)" v-for = "item in languages">
+            <star-horse-icon :icon-class = "item.icon" color = "gray" size = "14px"/>
+            {{ item.name }}
+          </el-dropdown-item>
 
-      </el-dropdown-menu>
-    </template>
-  </el-dropdown>
+        </el-dropdown-menu>
+      </template>
+    </el-dropdown>
+  </div>
   <div ref = "codemirror" class = "coder"></div>
 </template>
 <style lang = "scss" scoped>
+.inner_button {
+  margin-bottom: 5px;
+}
+
 .coder {
   font-size: 17px;
   width: 100%;
