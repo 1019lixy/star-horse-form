@@ -1,9 +1,9 @@
 <script setup lang = "ts" name = "CodeJs6">
-import {nextTick, onMounted, ref, reactive, toRefs} from "vue";
+import {nextTick, onMounted, ref} from "vue";
 import {basicSetup} from 'codemirror';
 import {EditorView, keymap} from "@codemirror/view";
-import {EditorState, Compartment} from "@codemirror/state";
-import {historyKeymap, history} from "@codemirror/history";
+import {Compartment} from "@codemirror/state";
+import {historyKeymap} from "@codemirror/history";
 import {insertTab, standardKeymap} from "@codemirror/commands";
 import {autocompletion, startCompletion} from '@codemirror/autocomplete';
 import {python} from "@codemirror/lang-python";
@@ -18,8 +18,9 @@ import {cpp} from "@codemirror/lang-cpp";
 import {xml} from "@codemirror/lang-xml";
 import {markdown} from "@codemirror/lang-markdown";
 import {go} from "@codemirror/lang-go";
-import {MariaSQL, MSSQL, MySQL, PLSQL, PostgreSQL, sql, StandardSQL} from "@codemirror/lang-sql";
-import {birdsOfParadise, boysAndGirls, amy, ayuLight, bespin, clouds, barf, dracula} from 'thememirror';
+import {linter} from "@codemirror/lint";
+import {sql} from "@codemirror/lang-sql";
+import {amy, ayuLight, barf, bespin, birdsOfParadise, boysAndGirls, clouds, dracula} from 'thememirror';
 
 const model = defineModel("value", {default: ""});
 const editorLang = ref<any>(javascript());
@@ -112,6 +113,7 @@ const init = async () => {
     extensions: [
       basicSetup,
       themesConf.of(editorTheme.value),
+      linter(),
       keymap.of([standardKeymap, historyKeymap, {key: "Tab", run: insertTab}]),
       languageConf.of(editorLang.value),
       autocompletion({activateOnTyping: true}),
