@@ -7,7 +7,7 @@ import {historyKeymap} from "@codemirror/history";
 import {insertTab, standardKeymap} from "@codemirror/commands";
 import {autocompletion} from '@codemirror/autocomplete';
 import {python} from "@codemirror/lang-python";
-import {javascript} from "@codemirror/lang-javascript";
+import {javascript, javascriptLanguage, scopeCompletionSource} from "@codemirror/lang-javascript";
 import {java} from "@codemirror/lang-java";
 import {json} from "@codemirror/lang-json";
 import {yaml} from "@codemirror/lang-yaml";
@@ -19,6 +19,7 @@ import {xml} from "@codemirror/lang-xml";
 import {markdown} from "@codemirror/lang-markdown";
 import {go} from "@codemirror/lang-go";
 import {sql, SQLConfig} from "@codemirror/lang-sql";
+import {showMinimap} from "@replit/codemirror-minimap";
 import {amy, ayuLight, barf, bespin, birdsOfParadise, boysAndGirls, clouds, dracula} from 'thememirror';
 
 const model = defineModel("value", {default: ""});
@@ -90,11 +91,14 @@ const langInfo = (lang: string) => {
   } else {
     editorLang.value = fdata.obj;
   }
-  editor.value?.dispatch({
+  let disData = {
     effects: languageConf.reconfigure(editorLang.value)
-  });
+  };
+  editor.value?.dispatch(disData);
 };
-
+const windowCompletions = javascriptLanguage.data.of({
+  autocomplete: scopeCompletionSource(window)
+})
 
 /**
  * 初始化
@@ -107,6 +111,10 @@ const init = async () => {
   }
   await nextTick(() => {
   });
+  let create = (v: EditorView) => {
+    const dom = document.createElement('div');
+    return { dom }
+  }
   editor.value = new EditorView({
     doc: model.value,
     extensions: [
@@ -115,10 +123,19 @@ const init = async () => {
       keymap.of([standardKeymap, historyKeymap, {key: "Tab", run: insertTab}]),
       languageConf.of(editorLang.value),
       autocompletion({activateOnTyping: true}),
+      windowCompletions,
       EditorView.updateListener.of((v) => {
         if (v.docChanged) {
           model.value = v.state.doc.toString();
           currentValFun(model.value);
+        }
+      }),
+      showMinimap.compute(['doc'],(state:any)=>{
+        return{
+          create,
+          displayText:"blocks",
+          showOverlay:"always",
+          gutters:[{ 1: '#00FF00', 2: '#00FF00' } ]
         }
       })
     ],
