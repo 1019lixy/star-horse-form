@@ -5,10 +5,10 @@ import {EditorView, keymap} from "@codemirror/view";
 import {Compartment} from "@codemirror/state";
 import {historyKeymap} from "@codemirror/history";
 import {insertTab, standardKeymap} from "@codemirror/commands";
-import {autocompletion} from '@codemirror/autocomplete';
+import {autocompletion,CompletionContext} from '@codemirror/autocomplete';
 import {python} from "@codemirror/lang-python";
 import {javascript, javascriptLanguage, scopeCompletionSource} from "@codemirror/lang-javascript";
-import {java} from "@codemirror/lang-java";
+import {java,javaLanguage} from "@codemirror/lang-java";
 import {json} from "@codemirror/lang-json";
 import {yaml} from "@codemirror/lang-yaml";
 import {css} from "@codemirror/lang-css";
@@ -20,6 +20,7 @@ import {markdown} from "@codemirror/lang-markdown";
 import {go} from "@codemirror/lang-go";
 import {sql, SQLConfig} from "@codemirror/lang-sql";
 import {showMinimap} from "@replit/codemirror-minimap";
+import {javaKeywords} from "./java.ts";
 import {amy, ayuLight, barf, bespin, birdsOfParadise, boysAndGirls, clouds, dracula} from 'thememirror';
 
 const model = defineModel("value", {default: ""});
@@ -80,6 +81,18 @@ const customerTheme = (theme: string) => {
 const currentValFun = (val: string) => {
   // console.log(val);
 };
+// 自定义自动完成函数
+const  javaHint=(context: CompletionContext)=> {
+  let word = context.matchBefore(/\w*/)
+  if (word.from == word.to && !context.explicit)
+    return null
+  return {
+    from: word.from,
+    options: [
+        ...javaKeywords
+    ]
+  }
+}
 /**
  * 获取语言信息
  * @param lang
@@ -94,11 +107,24 @@ const langInfo = (lang: string) => {
   let disData = {
     effects: languageConf.reconfigure(editorLang.value)
   };
+  /**
+   *   view.dispatch({
+   *           effects: complete(myComplete),
+   *         });
+   */
   editor.value?.dispatch(disData);
+  // if(lang=="java"){
+  //   javaLanguage.data.of({})
+  //
+  // }
 };
+const javaCompletions=javaLanguage.data.of({
+  autocomplete:javaHint
+})
 const windowCompletions = javascriptLanguage.data.of({
   autocomplete: scopeCompletionSource(window)
-})
+});
+
 
 /**
  * 初始化
@@ -124,6 +150,7 @@ const init = async () => {
       languageConf.of(editorLang.value),
       autocompletion({activateOnTyping: true}),
       windowCompletions,
+      javaCompletions,
       EditorView.updateListener.of((v) => {
         if (v.docChanged) {
           model.value = v.state.doc.toString();
