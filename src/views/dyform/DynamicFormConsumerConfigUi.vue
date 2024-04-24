@@ -1,0 +1,327 @@
+<script setup lang="ts" name="DynamicFormConsumerConfig">
+import {ApiUrls} from "@/components/types/ApiUrls";
+import {DialogProps} from "@/components/types/DialogProps"
+import {onMounted, provide, reactive, ref} from "vue";
+import {SearchProps, SelectOption} from "@/components/types/SearchProps";
+import {PageFieldInfo} from "@/components/types/PageFieldInfo";
+import {dictData} from "@/api/sh_api";
+import {useRouter} from "vue-router";
+import {BtnAuth} from "@/components/types/BtnAuth";
+import StarHorseDialog from "@/components/comp/StarHorseDialog.vue";
+import ViewPage from "@/views/dyform/ViewPage.vue";
+import {Config} from "@/api/settings";
+
+const router = useRouter();
+//后端交互接口地址
+const dataUrl: ApiUrls = {
+  loadByPageUrl: "/userdb-manage/userdb/dynamicFormConsumerConfig/pageList",
+  mergeUrl: "/userdb-manage/userdb/dynamicFormConsumerConfig/merge",
+  mergeDraftUrl: "/userdb-manage/userdb/dynamicFormConsumerConfig/mergeDraft",
+  batchMergeUrl: "/userdb-manage/userdb/dynamicFormConsumerConfig/mergeBatch",
+  batchMergeDraftUrl: "/userdb-manage/userdb/dynamicFormConsumerConfig/mergeBatchDraft",
+  loadByIdUrl: "/userdb-manage/userdb/dynamicFormConsumerConfig/getById",
+  deleteUrl: "/userdb-manage/userdb/dynamicFormConsumerConfig/batchDeleteById",
+  exportAllUrl: "/userdb-manage/userdb/dynamicFormConsumerConfig/exportData",
+  downloadTemplateUrl: "/userdb-manage/userdb/dynamicFormConsumerConfig/downloadTemplate",
+  userConditionUrl: "/userdb-manage/userdb/dynamicFormConsumerConfig/getAllByCondition",
+  uploadUrl: "/userdb-manage/userdb/dynamicFormConsumerConfig/importData",
+  importUrl: ""
+};
+let viewTypeList = ref<SelectOption[]>();
+let auditList = ref<SelectOption[]>([{
+  name: "是", value: "yes"
+}, {
+  name: "否", value: "no"
+}]);
+//查询属性
+const searchFormData = reactive<SearchProps[]>([
+  {label: "视图名称", fieldName: "viewName", type: "input", matchType: "lk"},
+  {label: "视图类别", fieldName: "viewType", type: "select", optionList: viewTypeList},
+  {label: "消费权限", fieldName: "consumeAuthority", type: "select"},
+  {label: "是否需要认证", fieldName: "isAudit", type: "select", optionList: auditList},
+]);
+const currentRow = ref({});
+const preview = (row: any, currentPage: number, pageSize: number) => {
+  currentRow.value = row;
+  console.log(currentRow.value);
+  dialogProps.bakeVisible1 = true;
+};
+//页面属性
+const tableFieldList = reactive<PageFieldInfo | any>({
+  fieldList: [
+    {
+      label: "主键",
+      fieldName: "idConsumerConfig",
+      type: "long",
+      required: true,
+      formShow: false,
+      tableShow: false,
+      minWidth: 180
+    },
+    {
+      label: "视图Token",
+      fieldName: "dataNo",
+      type: "input",
+      required: false,
+      formShow: !true,
+      tableShow: true,
+      minWidth: 180
+    },
+    {
+      label: "视图名称",
+      fieldName: "viewName",
+      type: "input",
+      required: true,
+      formShow: !false,
+      tableShow: !false,
+      minWidth: 180
+    },
+    {
+      label: "视图类别",
+      fieldName: "viewType",
+      type: "input",
+      required: true,
+      formShow: !false,
+      tableShow: !false,
+      minWidth: 180
+    },
+    {
+      label: "消费权限",
+      fieldName: "consumeAuthority",
+      type: "input",
+      required: false,
+      formShow: !false,
+      tableShow: !false,
+      minWidth: 180
+    },
+    {
+      label: "是否需要认证 ",
+      fieldName: "isAudit",
+      type: "input",
+      required: true,
+      formShow: !false,
+      tableShow: !false,
+      minWidth: 180
+    },
+    {
+      label: "单次请求数据限制",
+      fieldName: "dataLimits",
+      type: "long",
+      required: true,
+      formShow: !false,
+      tableShow: !false,
+      minWidth: 180
+    },
+    {
+      label: "版本号",
+      fieldName: "version",
+      type: "long",
+      required: false,
+      formShow: !true,
+      tableShow: !true,
+      minWidth: 180
+    },
+    {
+      label: "创建人", disabled: true,
+      fieldName: "createdBy",
+      type: "input",
+      required: false,
+      formShow: !true,
+      tableShow: true,
+      minWidth: 180
+    },
+    {
+      label: "创建时间",
+      fieldName: "createdTime",
+      type: "date",
+      required: false,
+      formShow: !true,
+      tableShow: true,
+      minWidth: 180
+    },
+    {
+      label: "修改人", disabled: true,
+      fieldName: "updatedBy",
+      type: "input",
+      required: false,
+      formShow: !true,
+      tableShow: true,
+      minWidth: 180
+    },
+    {
+      label: "修改时间",
+      fieldName: "updatedTime",
+      type: "date",
+      required: false,
+      formShow: !true,
+      tableShow: !true,
+      minWidth: 180
+    },
+
+    {
+      label: "状态吗",
+      fieldName: "statusCode",
+      type: "input",
+      required: false,
+      formShow: !true,
+      tableShow: !true,
+      minWidth: 180
+    },
+    {
+      label: "状态名称",
+      fieldName: "statusName",
+      type: "input",
+      required: false,
+      formShow: !true,
+      tableShow: !true,
+      minWidth: 180
+    },
+    {
+      label: "是否删除",
+      fieldName: "isDel",
+      type: "long",
+      required: false,
+      formShow: !true,
+      tableShow: !true,
+      minWidth: 180
+    },
+    {
+      label: "国际码",
+      fieldName: "local",
+      type: "input",
+      required: false,
+      formShow: !true,
+      tableShow: !true,
+      minWidth: 180
+    },
+    {
+      label: "备注",
+      fieldName: "remark",
+      type: "input",
+      required: false,
+      formShow: !false,
+      tableShow: !false,
+      minWidth: 180
+    },
+  ],
+  batchFieldList: [],
+  userTableFuncs: [{btnName: "数据预览", authority: "view", funcName: (row: any) => preview(row, 1, 20)}],
+  stopAutoLoad: false
+});
+
+//主键
+const primaryKey = "idConsumerConfig";
+const dynamicFormConsumerConfigRef = ref();
+//校验
+const rules = {
+  idConsumerConfig: [{required: true, message: "必填项不能为空", trigger: "blur"}],
+  viewName: [{required: true, message: "必填项不能为空", trigger: "blur"}],
+  viewType: [{required: true, message: "必填项不能为空", trigger: "blur"}],
+  isAudit: [{required: true, message: "必填项不能为空", trigger: "blur"}],
+  dataLimits: [{required: true, message: "必填项不能为空", trigger: "blur"}],
+};
+const searchForm = ref({});
+//全局查询对象
+provide("searchForm", searchForm);
+const dataForm = ref({});
+//全局数据对象
+provide("dataForm", dataForm);
+//控制弹窗相关设置
+const dialogProps = reactive<DialogProps>({
+  ids: 0,
+  batchDialogTitle: "批量编辑",
+  dialogTitle: "编辑",
+  batchEditVisible: false,
+  editVisible: false,
+  uploadVisible: false,
+  viewVisible: false,
+  dialogPwdVisible: false,
+  bakeVisible1: false, bakeVisible2: false, bakeVisible3: false
+});
+provide("dialogProps", dialogProps);
+const selfBtnFunc = ref<BtnAuth[]>([]);
+const closeAction = () => {
+  dialogProps.bakeVisible1 = false;
+  currentRow.value = {};
+}
+//初始化方法
+const initData = async () => {
+  viewTypeList.value = await dictData("consumer_type");
+  selfBtnFunc.value?.push({
+    labelName: "新增",
+    btnName: "add", exec: () => {
+      router.push("/dyform/DataConsumerConfig");
+    }
+  });
+  selfBtnFunc.value?.push({
+    labelName: "编辑",
+    btnName: "edit", exec: (params: any) => {
+      //params 页面刷新后 参数丢失，query 页面刷新后参数不会丢失
+      router.push({path: "/dyform/DataConsumerConfig", query: {configId: params[primaryKey]}});
+    }
+  });
+  selfBtnFunc.value?.push({
+    labelName: "查看详情",
+    btnName: "view", exec: (params: any) => {
+      router.push({path: "/dyform/DataConsumerConfig", query: {configId: params[primaryKey], isView: "yes"}});
+    }
+  });
+
+};
+onMounted(() => {
+  initData();
+});
+/**
+ * 列表，查看数据时数据转换
+ * @param name 名称
+ * @param cellValue 值
+ * @param row 列表行数据
+ */
+const dataFormat = (name: string, cellValue: any, row: any): any => {
+  //转换显示信息
+  if (name == "viewType") {
+    let redata = viewTypeList.value?.find((item: SelectOption) => item.value == cellValue);
+    return redata?.name || cellValue;
+  } else if (name == "isAudit") {
+    let redata = auditList.value?.find((item: SelectOption) => item.value == cellValue);
+    return redata?.name || cellValue;
+  }
+  return cellValue;
+}
+const changePage = (currentPage: number, pageSize: number) => {
+  preview(currentRow.value, currentPage, pageSize)
+}
+</script>
+<style lang="scss" scoped>
+
+</style>
+<template>
+  <star-horse-dialog :dialogVisible="dialogProps.bakeVisible1" :title="'数据预览'"
+                     @closeAction="closeAction"
+                     :isBatch="false" :isView="true">
+    <ViewPage :param="currentRow.dataNo"/>
+  </star-horse-dialog>
+  <star-horse-dialog :dialog-visible="dialogProps.editVisible" :dialogProps="dialogProps">
+    <star-horse-form @refresh="dynamicFormConsumerConfigRef.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList"
+                     :rules="rules"/>
+  </star-horse-dialog>
+  <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title=
+      "'查看数据'" :isView="true">
+    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+  </star-horse-dialog>
+  <el-card class="inner_content">
+
+    <div class="search_btn" :style="{'flex-direction':Config.buttonStyle=='line'?'column':'row'}">
+      <star-horse-search-comp @searchData="(data)=>dynamicFormConsumerConfigRef.createCreateParams(data)"
+                              :formData="searchFormData"
+                              :compUrl="dataUrl"/>
+      <hr/>
+      <star-horse-button-list @tableCompFunc="(fun)=>dynamicFormConsumerConfigRef.tableCompFunc(fun)"
+                              :selfBtnFunc="selfBtnFunc" :compUrl="dataUrl"
+                              :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
+    </div>
+    <star-horse-table-comp ref="dynamicFormConsumerConfigRef" :fieldList="tableFieldList" :primaryKey="primaryKey"
+                           :compUrl="dataUrl"
+                           :dataFormat="dataFormat" :selfBtnFunc="selfBtnFunc"/>
+  </el-card>
+</template>
