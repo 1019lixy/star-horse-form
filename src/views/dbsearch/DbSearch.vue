@@ -1,5 +1,5 @@
 <script setup lang = "ts" name = "DbSearch">
-import CodeJs from "@/components/code/CodeJs6.vue";
+import StarHorseEditor from "@/components/comp/StarHorseEditor.js";
 import {onMounted, ref} from "vue";
 import {closeLoad, commonParseCodeToName, load, loadGetData} from "@/api/sh_api";
 import {error, warning} from "@/utils/message";
@@ -58,7 +58,7 @@ const openDb = () => {
         tableAndColumnsList.value = res.data.data;
         assignDataList.value = tableAndColumnsList.value;
         currentIndex.value = dbIndex.value;
-        editor.setAutoCompletion("test",tableAndColumnsList.value);
+        editor.setAutoCompletion("test", tableAndColumnsList.value);
       }
   );
 };
@@ -332,7 +332,7 @@ const filterData = () => {
         </el-aside>
         <el-container style = "overflow-y: auto;height:100%;">
           <el-main>
-            <code-js :lang = "'sql'" ref = "editorRef"/>
+            <StarHorseEditor :lang = "'sql'" ref = "editorRef"/>
           </el-main>
           <el-footer v-if = "!!queryResult">
             <el-tabs class = "demo-tabs" type = "border-card" v-model = "activeName">

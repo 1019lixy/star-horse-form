@@ -47,10 +47,44 @@
   resolved "https://mirrors.huaweicloud.com/repository/npm/@antv/x6-plugin-clipboard/-/x6-plugin-clipboard-2.1.6.tgz"
   integrity sha512-roZPLnZx6PK8MBvee0QMo90fz/TXeF0WNe4EGin2NBq5M1I5XTWrYvA6N2XVIiWAAI67gjQeEE8TpkL7f8QdqA==
 
+"@antv/x6-plugin-dnd@^2.x":
+  version "2.1.1"
+  resolved "https://mirrors.huaweicloud.com/repository/npm/@antv/x6-plugin-dnd/-/x6-plugin-dnd-2.1.1.tgz"
+  integrity sha512-v0szzik1RkadPDn4Qi5mOSaB2AeI78D40/YuCYbPVzplG+HydGsHwO3MLTgJPQ+R5n0eM0W5F850p1VfTOHR7g==
+
+"@antv/x6-plugin-history@^2.2.4":
+  version "2.2.4"
+  resolved "https://mirrors.huaweicloud.com/repository/npm/@antv/x6-plugin-history/-/x6-plugin-history-2.2.4.tgz"
+  integrity sha512-9gHHvEW4Fla+1hxUV49zNgJyIMoV9CjVM52MrFgAJcvyRn1Kvxz4MfxiKlG+DEZUs+/zvfjl9pS6gJOd8laRkg==
+
+"@antv/x6-plugin-keyboard@^2.2.3":
+  version "2.2.3"
+  resolved "https://mirrors.huaweicloud.com/repository/npm/@antv/x6-plugin-keyboard/-/x6-plugin-keyboard-2.2.3.tgz"
+  integrity sha512-pnCIC+mDyKKfkcDyLePfGxKVIqXBcldTgannITkHC1kc0IafRS1GMvzpvuDGrM5haRYd6Nwz8kjkJyHkJE4GPA==
+  dependencies:
+    mousetrap "^1.6.5"
+
 "@antv/x6-plugin-selection@^2.2.2":
   version "2.2.2"
   resolved "https://mirrors.huaweicloud.com/repository/npm/@antv/x6-plugin-selection/-/x6-plugin-selection-2.2.2.tgz"
   integrity sha512-s2gtR9Onlhr7HOHqyqg0d+4sG76JCcQEbvrZZ64XmSChlvieIPlC3YtH4dg1KMNhYIuBmBmpSum6S0eVTEiPQw==
+
+"@antv/x6-plugin-snapline@^2.1.7":
+  version "2.1.7"
+  resolved "https://mirrors.huaweicloud.com/repository/npm/@antv/x6-plugin-snapline/-/x6-plugin-snapline-2.1.7.tgz"
+  integrity sha512-AsysoCb9vES0U2USNhEpYuO/W8I0aYfkhlbee5Kt4NYiMfQfZKQyqW/YjDVaS2pm38C1NKu1LdPVk/BBr4CasA==
+
+"@antv/x6-plugin-stencil@^2.1.5":
+  version "2.1.5"
+  resolved "https://mirrors.huaweicloud.com/repository/npm/@antv/x6-plugin-stencil/-/x6-plugin-stencil-2.1.5.tgz"
+  integrity sha512-q7wx7XRMFkUKPv3WsHkvZda6O1GW+6q6H/+c1lcrwlQoEKOFv1Djc4Hu2J4SGhV2z98P2JLfVJiT5m7YoOoCHw==
+  dependencies:
+    "@antv/x6-plugin-dnd" "^2.x"
+
+"@antv/x6-plugin-transform@^2.1.8":
+  version "2.1.8"
+  resolved "https://mirrors.huaweicloud.com/repository/npm/@antv/x6-plugin-transform/-/x6-plugin-transform-2.1.8.tgz"
+  integrity sha512-GvJuiJ4BKp0H7+qx3R1I+Vzbw5gXp9+oByXo/WyVxE3urOC7LC5sqnaDfIjyYMN6ROLPYPZraLSeSyYBgMgcDw==
 
 "@antv/x6-vue-shape@^2.1.2":
   version "2.1.2"
@@ -7150,6 +7184,11 @@ moo@^0.5.1:
   version "0.5.2"
   resolved "https://mirrors.huaweicloud.com/repository/npm/moo/-/moo-0.5.2.tgz"
   integrity sha512-iSAJLHYKnX41mKcJKjqvnAN9sf0LMDTXDEvFv+ffuRR9a1MIuXLjMNL6EsnDHSkKLTWNqQQ5uo61P4EbU4NU+Q==
+
+mousetrap@^1.6.5:
+  version "1.6.5"
+  resolved "https://mirrors.huaweicloud.com/repository/npm/mousetrap/-/mousetrap-1.6.5.tgz"
+  integrity sha512-QNo4kEepaIBwiT8CDhP98umTetp+JNfQYBWvC1pc6/OAibuXtRcxZ58Qz8skvEHYvURne/7R8T5VoOI7rDsEUA==
 
 mri@^1.2.0:
   version "1.2.0"

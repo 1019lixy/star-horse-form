@@ -1,9 +1,7 @@
 <script setup lang = "ts" name = "DataConsumerConfig">
 import {nextTick, onMounted, ref, watch} from "vue";
 import {ElTreeV2} from 'element-plus'
-import {Cell, Graph, Shape} from "@antv/x6";
-import {Selection} from '@antv/x6-plugin-selection';
-import {Clipboard} from '@antv/x6-plugin-clipboard';
+import {Cell} from "@antv/x6";
 import type {TreeNode, TreeNodeData} from 'element-plus/es/components/tree-v2/src/types'
 import {closeLoad, dictData, load, loadData, loadGetData, rowClassName, searchMatchList} from "@/api/sh_api";
 import {error, success, warning} from "@/utils/message";
@@ -14,8 +12,6 @@ import {ApiUrls} from "@/components/types/ApiUrls";
 import StarHorseDialog from "@/components/comp/StarHorseDialog.vue";
 import DataPreview from "@/views/dyform/DataPreview.vue";
 import Help from "@/components/help.vue";
-import {v4 as uuid} from "uuid";
-import {ContextMenuTool} from "@/views/dyform/utils/ContextToolMenu";
 
 const route = useRoute();
 const isView = ref<boolean>(false);
@@ -56,355 +52,128 @@ const onQueryChanged = (query: string) => {
 const filterMethod = (query: string, node: TreeNode) => {
   return node["comment"]!.includes(query);
 }
-let pubDiagram = {};
 const hasItemFlag = ref(false);
 const formConditionProps = ref<any>({});
-const tablePreps = ref<any>({});
-const graph = ref();
+const relationConditionList = ref<Array<any>>([]);
 const hasItems = () => {
   return hasItemFlag.value = cells.value.length > 0;
 };
 //hasItemFlag.value = computed(() => hasItemFlag);
-const commands = [
-  {
-    key: 'zoomIn',
-    label: '放大(0.2)',
-  },
-  {
-    key: 'zoomOut',
-    label: '缩小(-0.2)',
-  },
-  {
-    key: 'zoomTo',
-    label: 'ZoomTo(1)',
-  },
-  {
-    key: 'zoomToFit',
-    label: '恢复',
-  },
-  {
-    key: 'reDo',
-    label: '前进一步',
-  },
-  {
-    key: 'unDo',
-    label: '后退一步',
-  },
-  {
-    key: 'centerContent',
-    label: '居中',
-  },
-];
-const transform = (command: string) => {
-  switch (command) {
-    case 'translate':
-      graph.value.translate(20, 20)
-      break
-    case 'zoomIn':
-      graph.value.zoom(0.2)
-      break
-    case 'zoomOut':
-      graph.value.zoom(-0.2)
-      break
-    case 'zoomTo':
-      graph.value.zoomTo(1)
-      break
-    case 'zoomToFit':
-      graph.value.zoomToFit()
-      break
-    case 'centerContent':
-      graph.value.centerContent()
-      break
-    default:
-      break
-  }
-};
-const menu = [
-  {
-    key: 'copy',
-    label: '复制',
-  },
-  {
-    key: 'paste',
-    label: '粘贴',
-  },
-  {
-    key: 'delete',
-    label: '删除',
-    type: 'danger',
-  },
-]
+
 const line_height = 24;
 const table_width = 320;
-const initDiagram = () => {
-  // 在初始化画布之前注册自定义工具
-  Graph.registerEdgeTool("contextmenu",ContextMenuTool,true);
-  Graph.registerNodeTool("contextmenu",ContextMenuTool,true);
-  Graph.registerPortLayout(
-      'erPortPosition',
-      (portsPositionArgs) => {
-        return portsPositionArgs.map((_, index) => {
-          return {
-            position: {
-              x: 0,
-              y: (index + 1) * line_height,
-            },
-            angle: 0,
-          }
-        })
-      },
-      true,
-  );
-  Graph.registerNode(
-      'er-rect',
+
+const nodeData: any = {
+  portName: "erPortPosition",
+  name: 'er-rect',
+  entity: {
+    inherit: 'rect',
+    markup: [
       {
-        inherit: 'rect',
-        markup: [
-          {
-            tagName: 'rect',
-            selector: 'body',
-          },
-          {
-            tagName: 'text',
-            selector: 'label',
-          }, {
-            tagName: 'g',
-            children: [
-              {
-                tagName: 'text',
-                selector: 'btnText',
-              },
-              {
-                tagName: 'rect',
-                selector: 'btn',
-              },
-            ],
-          }
-        ],
-        attrs: {
-          btn: {
-            refX: '100%',
-            refX2: -28,
-            y: 4,
-            width: 24,
-            height: 18,
-            rx: 10,
-            ry: 10,
-            fill: 'rgba(255,255,0,0.01)',
-            stroke: 'red',
-            cursor: 'pointer',
-            event: 'node:delete',
-          },
-          btnText: {
-            fontSize: 14,
-            fill: 'red',
-            text: 'x',
-            refX: '100%',
-            refX2: -19,
-            y: 17,
-            cursor: 'pointer',
-            pointerEvent: 'none',
-          },
-          rect: {
-            strokeWidth: 1,
-            stroke: '#5F95FF',
-            fill: '#5F95FF',
-          },
-          label: {
-            fontWeight: 'bold',
-            fill: '#ffffff',
-            fontSize: 12,
-          },
-        },
-        ports: {
-          groups: {
-            list: {
-              markup: [
-                {
-                  tagName: 'rect',
-                  selector: 'portBody',
-                },
-                {
-                  tagName: 'text',
-                  selector: 'name',
-                },
-                {
-                  tagName: 'text',
-                  selector: 'type',
-                },
-                {
-                  tagName: 'text',
-                  selector: 'comment',
-                },
-
-                {
-                  tagName: 'text',
-                  selector: 'primaryFlag',
-                },
-              ],
-              attrs: {
-                portBody: {
-                  width: table_width,
-                  height: line_height,
-                  strokeWidth: 1,
-                  stroke: '#5F95FF',
-                  fill: '#EFF4FF',
-                  magnet: true,
-                },
-                name: {
-                  ref: 'portBody',
-                  refX: 0,
-                  refY: 6,
-                  fontSize: 10,
-                },
-                type: {
-                  ref: 'portBody',
-                  refX: 80,
-                  refY: 6,
-                  fontSize: 10,
-                },
-                comment: {
-                  ref: 'portBody',
-                  refX: 150,
-                  refY: 6,
-                  fontSize: 10,
-                },
-                primaryFlag: {
-                  ref: 'portBody',
-                  refX: 300,
-                  refY: 6,
-                  fontSize: 10,
-                },
-              },
-              position: 'erPortPosition',
-            },
-          },
-        },
+        tagName: 'rect',
+        selector: 'body',
       },
-      true,
-  );
-  graph.value = new Graph({
-    autoResize: true,
-    container: containerDiagramRef.value,
-    background: {
-      color: '#F2F7FA',
+      {
+        tagName: 'text',
+        selector: 'label',
+      },
+    ],
+    attrs: {
+      rect: {
+        strokeWidth: 1,
+        stroke: '#5F95FF',
+        fill: '#5F95FF',
+      },
+      label: {
+        fontWeight: 'bold',
+        fill: '#ffffff',
+        fontSize: 12,
+        textWrap: {
+          width: 300,
+          ellipsis: true,
+          breakWord: true
+        }
+      },
     },
-    highlighting: {
-      // 当连接桩可以被链接时，在连接桩外围渲染一个 2px 宽的红色矩形框
-      magnetAvailable: {
-        name: 'stroke',
-        args: {
-          padding: 4,
+    ports: {
+      groups: {
+        list: {
+          markup: [
+            {
+              tagName: 'rect',
+              selector: 'portBody',
+            },
+            {
+              tagName: 'text',
+              selector: 'name',
+            },
+            {
+              tagName: 'text',
+              selector: 'type',
+            },
+            {
+              tagName: 'text',
+              selector: 'comment',
+            },
+
+            {
+              tagName: 'text',
+              selector: 'primaryFlag',
+            },
+          ],
           attrs: {
-            'stroke-width': 2,
-            stroke: 'red',
-          },
-        },
-      },
-    },
-    connecting: {
-      allowMulti: true,
-      router: {
-        name: 'er',
-        args: {
-          offset: 25,
-          direction: 'H',
-        },
-      },
-      createEdge() {
-        return new Shape.Edge({
-          attrs: {
-            line: {
-              stroke: '#A2B1C3',
-              strokeWidth: 2,
+            portBody: {
+              width: table_width,
+              height: line_height,
+              strokeWidth: 1,
+              stroke: '#5F95FF',
+              fill: '#EFF4FF',
+              magnet: true,
+            },
+            name: {
+              ref: 'portBody',
+              refX: 5,
+              refY: 6,
+              fontSize: 10,
+              textWrap: {
+                width: 78,
+                ellipsis: true,
+                breakWord: true
+              }
+            },
+            type: {
+              ref: 'portBody',
+              refX: 80,
+              refY: 6,
+              fontSize: 10,
+            },
+            comment: {
+              ref: 'portBody',
+              refX: 150,
+              refY: 6,
+              fontSize: 10,
+              textWrap: {
+                width: 150,
+                ellipsis: true,
+                breakWord: true
+              }
+            },
+            primaryFlag: {
+              ref: 'portBody',
+              refX: 300,
+              refY: 6,
+              fontSize: 10,
             },
           },
-        })
+          position: 'erPortPosition',
+        },
       },
     },
-    grid: {
-      visible: true,
-      type: 'doubleMesh',
-      args: [
-        {
-          color: '#eee', // 主网格线颜色
-          thickness: 1, // 主网格线宽度
-        },
-        {
-          color: '#ddd', // 次网格线颜色
-          thickness: 1, // 次网格线宽度
-          factor: 4, // 主次网格线间隔
-        },
-      ],
-    },
-    // panning: true,
-    mousewheel: {
-      enabled: true,
-      modifiers: 'Ctrl',
-      maxScale: 4,
-      minScale: 0.2,
-    },
-  });
-  graph.value.on('cell:mouseenter', ({cell}) => {
-    if (cell.isNode()) {
-      cell.addTools([
-        {
-          name: 'boundary',
-          args: {
-            attrs: {
-              fill: '#7c68fc',
-              stroke: '#333',
-              'stroke-width': 1,
-              'fill-opacity': 0.2,
-            },
-          },
-        },
-        /* {
-           name: 'button-remove',
-           args: {
-             x: 0,
-             y: 0,
-             offset: { x: 0, y: 0 },
-           },
-         },*/
-      ])
-    } else if (cell.isEdge()) {
+  },
+  force: true
+};
+const initDiagram = () => {
 
-    } else {
-      cell.addTools(['vertices', 'segments'])
-    }
-  })
-
-  graph.value.on('cell:mouseleave', ({cell}) => {
-    cell.removeTools()
-  })
-  graph.value.use(
-      new Selection({
-        enabled: true,
-        multiple: true,
-        rubberband: true,
-        movable: true,
-        showNodeSelectionBox: true,
-      }),
-  );
-  graph.value.on("cell:contextmenu", ({e, x, y, cell, view}) => {
-
-  });
-  graph.value.on('edge:click', ({e, x, y, edge, view}) => {
-    console.log(e, x, y, edge, view);
-  });
-  graph.value.on('node:delete', ({view, e}) => {
-    e.stopPropagation();
-    let cellData = view.cell.store.data;
-    for (let index in cells.value) {
-      let temp = cells.value[index];
-      debugger;
-      if (temp.id == cellData.id) {
-        cells.value.splice(index, 1);
-      }
-    }
-    view.cell.remove();
-  })
 };
 let viewTypeList = ref<SelectOption[]>();
 let conditionList = ref<SelectOption[]>();
@@ -420,6 +189,7 @@ const init = async () => {
     return;
   }
   treeData.value = data["dataList"];
+  // containerDiagramRef.value.createStencil(null, data["dataList"], "er-rect");
   if (route.query["configId"]) {
     loadConfigData(route.query["configId"]);
   }
@@ -430,42 +200,29 @@ onMounted(() => {
 let cells = ref<Array<Cell>>([]);
 const addNode = (data: TreeNodeData, node: TreeNode, e: MouseEvent) => {
   let reData = JSON.parse(JSON.stringify(data));
-  console.log(reData);
-  // let fdata = pushedData.filter((item: any) => item["tableName"] == reData["key"]);
-  // if (fdata?.length >= 3) {
-  //   warning("相同的表最多能添加三次");
-  //   return;
-  // }
+  console.log(reData, cells.value);
+  let fdata = cells.value.filter((item: any) => item.store.data["tableName"] == reData["key"]);
+  if (fdata?.length >= 3) {
+    warning("相同的表最多能添加三次");
+    return;
+  }
+  // let graph = containerDiagramRef.value.graph;
+  // let sceneWidth = graph.options.width;
+  // let sceneHeight = graph.options.height;
+  // let sceneX = graph.options.x;
+  // let sceneY = graph.options.y;
   let len = cells.value.length;
-  let x = (len % 4) * 350;
-  let y = Math.floor(len / 4) * 400;
-  hasItems();
+  let x = (len % 4) * 350 + 15;
+  let y = Math.floor(len / 4) * 400 + 10;
+
   let ports = [];
 
   let items = reData["items"];
-  let date = new Date();
   for (let index in items) {
     let temp = items[index];
     let field = {
-      id: uuid(), group: "list", "attrs": {
-        btn: {
-          fill: 'rgba(255,255,0,0.01)',
-          stroke: 'red',
-          cursor: 'pointer',
-          event: 'node:delete',
-
-        },
-        btnText: {
-          fontSize: 14,
-          fill: 'red',
-          text: 'x',
-          refX: '100%',
-          refX2: -19,
-          y: 17,
-          cursor: 'pointer',
-          pointerEvent: 'none',
-        },
-      }
+      group: "list",
+      "attrs": {}
     };
     for (let key in temp) {
       field["attrs"][key] = {"text": temp[key]};
@@ -473,25 +230,22 @@ const addNode = (data: TreeNodeData, node: TreeNode, e: MouseEvent) => {
     ports.push(field);
   }
   let datat = {
-    "id": uuid(),
     "shape": "er-rect",
-    "label": reData["comment"],
-    "tableName": reData["key"],
+    "label": `${reData["comment"]}:${reData["key"]} `,
+    "name": reData["key"],
     "width": table_width,
-
-    "height": 24,
-    "position": {
-      "x": x,
-      "y": y
+    position: {
+      x: x,
+      y: y,
     },
-    "ports": ports,
-    tools:[{name:"contextmenu",args:{menu}}]
+    "height": 24,
+    "ports": ports
   };
-  let cell = graph.value.createNode(datat);
-  cells.value.push(cell);
-  graph.value.resetCells(cells.value);
-  graph.value.zoomToFit({padding: 10, maxScale: 1});
-  transform("centerContent")
+  let cell = containerDiagramRef.value.addNode(datat);
+  if (cell) {
+    cells.value.push(cell);
+  }
+  hasItems();
 };
 const cxcommand = (event: any) => {
   if (isView.value) {
@@ -504,16 +258,13 @@ const cxcommand = (event: any) => {
   hasItems();
 };
 const newCreate = () => {
+  cells.value = [];
+  containerDiagramRef.value.graph.clearCells();
   hasItems();
 };
 const checkRelation = () => {
 };
-const undo = () => {
-  hasItems();
-};
-const redo = () => {
-  hasItems();
-};
+
 let isConfig = ref<boolean>(false);
 const configView = (flag: boolean) => {
   isConfig.value = flag;
@@ -548,6 +299,10 @@ const exclusionOptionList = (tempCond: any) => {
   return condition;
 }
 const relationData = () => {
+  let edges = containerDiagramRef.value.graph.getEdges();
+  if (edges && edges.length > 0) {
+
+  }
   return {};
 };
 const createTableList = (tableList: SelectOption[], name: string, value: string): SelectOption | any => {
@@ -557,13 +312,8 @@ const createTableList = (tableList: SelectOption[], name: string, value: string)
   }
   return {name, value};
 }
-const selectAll = () => {
-};
-const elementAlign = (type: number) => {
-};
-const zoom = (num: number) => {
 
-};
+
 const consumerDialogVisible = ref<boolean>(false);
 const relationDialogVisible = ref<boolean>(false);
 const dataPreviewVisible = ref<boolean>(false);
@@ -755,13 +505,27 @@ watch(
 );
 const conditionParamsRef = ref();
 const conditionFormRef = ref();
+
 const conditionValid = () => {
   conditionFormRef.value.validate((result: boolean) => {
     if (!result) {
       console.error("验证失败");
       return;
     }
-
+    let item = formConditionProps.value;
+    let flag = false;
+    for (let index in relationConditionList.value) {
+      let data = relationConditionList.value[index];
+      if (item.from == data.from && item.fromPort == data.fromPort &&
+          item.to == data.to && item.toPort == data.toPort) {
+        relationConditionList.value[index] = item;
+        flag = true;
+        break;
+      }
+    }
+    if (!flag) {
+      relationConditionList.value.push(item);
+    }
     conditionClose();
   });
 };
@@ -832,7 +596,31 @@ const dataFormat = (row: any, column: any, cellValue: any, index: number): any =
   }
   return cellValue;
 };
+const lineOperation = (data: any) => {
+  console.log(data);
+  let
+      fdata = relationConditionList.value.find(item => item.from == data.from && item.fromPort == data.fromPort &&
+          item.to == data.to && item.toPort == data.toPort);
+  if (fdata) {
+    formConditionProps.value = fdata;
+  } else {
+    formConditionProps.value = {...data};
+  }
+  relationDialogVisible.value = true;
+};
+const nodeOperation = (cell: any) => {
+  console.log(cell);
+};
+const onDataCopy = (data: any, type: String) => {
+  let reData = JSON.parse(JSON.stringify(data));
 
+  return reData;
+};
+const onStart = () => {
+};
+const dragend = (evt) => {
+  console.log("end",evt);
+};
 </script>
 
 
@@ -847,7 +635,7 @@ const dataFormat = (row: any, column: any, cellValue: any, index: number): any =
                      @merge = "conditionValid"
                      @closeAction = "conditionClose"
                      @reset = "resetConditionForm" :selfFunc = "true">
-    <el-form :model = "formConditionProps" :rules = "dataRules" ref = "conditionFormRef">
+    <el-form :model = "formConditionProps" size = "small" :rules = "dataRules" ref = "conditionFormRef">
       <el-row>
         <el-col :span = "12">
           <el-form-item label = "关联主表名" prop = "from">
@@ -879,9 +667,21 @@ const dataFormat = (row: any, column: any, cellValue: any, index: number): any =
             :data = "formConditionProps['conditionList']"
             :fit = true
             :row-class-name = "rowClassName"
-            border
-            :height = "'200px'"
+            height = "200px"
             ref = "conditionParamsRef"
+            :row-style = "{
+        'height':'30px'
+      }"
+            :cell-style = "{
+        'height':'30px',
+        'font-size':'12px'
+      }"
+            :header-cell-style = "{'background':'#f2f2f2',
+      'color': '#707070',
+      'font-size':'13px',
+      'background-image': '-webkit-gradient(linear,left 0,left 100%,from(#f8f8f8),to(#ececec))'
+      }"
+            border
         >
           <el-table-column
               :show-overflow-tooltip = "true"
@@ -969,7 +769,7 @@ const dataFormat = (row: any, column: any, cellValue: any, index: number): any =
                   @click = "handelDeleteParamData(scope.row)"
                   class = "oper-btn"
                   title = "删除"
-                  v-if = "formConditionProps.conditions.length>1">
+                  v-if = "formConditionProps.conditions?.length>1">
 											<star-horse-icon icon-class = "delete"/>
 										</span>
             </template>
@@ -978,7 +778,6 @@ const dataFormat = (row: any, column: any, cellValue: any, index: number): any =
       </el-form-item>
     </el-form>
   </star-horse-dialog>
-
   <star-horse-dialog :dialogVisible = "consumerDialogVisible" :title = "'消费配置'" :isBatch = "false"
                      @merge = "submitValid"
                      @closeAction = "closeAction"
@@ -1230,143 +1029,49 @@ const dataFormat = (row: any, column: any, cellValue: any, index: number): any =
       </el-form-item>
     </el-form>
   </star-horse-dialog>
-  <el-container>
-    <el-header height = "30px">
-      <el-button-group>
-        <el-tooltip class = "item" content = "创建" effect = "dark" placement = "bottom" v-if = "!isView">
-          <el-button @click = "newCreate" link type = "primary">
-            <star-horse-icon icon-class = "new-file"/>
-          </el-button>
-        </el-tooltip>
-        <template v-for = "item in commands">
-          <el-tooltip v-if = "!isView&&hasItemFlag" class = "item" :content = "item.label"
-                      effect = "dark"
-                      placement = "bottom">
-            <el-button @click = "transform(item.key)" link type = "primary">
-              <star-horse-icon icon-class = "setting"/>
-            </el-button>
-          </el-tooltip>
-        </template>
-        <el-tooltip v-if = "!isView&&hasItemFlag" class = "item" content = "检查" effect =
-            "dark"
-                    placement = "bottom">
-          <el-button @click = "checkRelation" link type = "primary">
-            <star-horse-icon icon-class = "check"/>
-          </el-button>
-        </el-tooltip>
-        <el-tooltip v-if = "!isView&&hasItemFlag" class = "item" content = "提交" effect =
-            "dark"
-                    placement = "bottom">
-          <el-button @click = "configView(false)" link type = "primary">
-            <star-horse-icon icon-class = "save"/>
-          </el-button>
-        </el-tooltip>
-        <el-tooltip v-if = "hasItemFlag" class = "item" content = "全选" effect = "dark"
-                    placement = "bottom">
-          <el-button @click = "selectAll" link type = "primary">
-            <star-horse-icon icon-class = "select"/>
-          </el-button>
-        </el-tooltip>
+  <el-card class = "inner_content" style = "height: 100%;padding: 5px;">
+     <el-row style = "height: 100%;">
+           <el-col :span = "3" style = "height: inherit">
+<!--              <el-aside width = "200px" v-if = "!isView">
+                <el-input
+                    v-model = "query"
+                    size = "small"
+                    placeholder = "请输入关键字"
+                    @input = "onQueryChanged"
+                />
+                <el-tree-v2
+                    ref = "treeRef"
+                    :data = "treeData"
+                    :props = "props"
+                    :draggable="true"
+                    @node-click = "addNode"
+                    :filter-method = "filterMethod"
+                    :height = "700"
+                    :check-on-click-node = "true"
+                    :show-checkbox = "true"
 
-        <!--        <el-tooltip v-if = "!isView&&hasItemFlag" class = "item" content = "撤销" effect =
-                    "dark"
-                            placement = "bottom">
-                  <el-button @click = "undo" link type = "primary">
-                    <star-horse-icon icon-class = "undo"/>
-                  </el-button>
-                </el-tooltip>
-                <el-tooltip v-if = "!isView&&hasItemFlag" class = "item" content = "恢复" effect =
-                    "dark"
-                            placement = "bottom">
-                  <el-button @click = "redo" link type = "primary">
-                    <star-horse-icon icon-class = "redo"/>
-                  </el-button>
-                </el-tooltip>
-                <el-tooltip v-if = "!isView&&hasItemFlag" class = "item" content = "居中对齐"
-                            effect = "dark" placement = "bottom">
-                  <el-button @click = "elementAlign(1)" link type = "primary">
-                    <star-horse-icon icon-class = "horizontal-align"/>
-                  </el-button>
-                </el-tooltip>
-
-                <el-tooltip v-if = "hasItemFlag" class = "item" content = "放大" effect = "dark"
-                            placement = "bottom">
-                  <el-button @click = "zoom(0.05)" link type = "primary">
-                    <star-horse-icon icon-class = "amplify"/>
-                  </el-button>
-                </el-tooltip>
-                <el-tooltip v-if = "hasItemFlag" class = "item" content = "缩小" effect = "dark"
-                            placement = "bottom">
-                  <el-button @click = "zoom(-0.05)" link type = "primary">
-                    <star-horse-icon icon-class = "reduce"/>
-                  </el-button>
-                </el-tooltip>-->
-        <el-tooltip v-if = "hasItemFlag" class = "item" content = "预览" effect = "dark"
-                    placement = "bottom">
-          <el-button @click = "preview(1,20)" link type = "primary">
-            <star-horse-icon icon-class = "preview"/>
-          </el-button>
-        </el-tooltip>
-      </el-button-group>
-    </el-header>
-    <el-container>
-      <el-aside width = "200px" v-if = "!isView">
-        <el-input
-            v-model = "query"
-            placeholder = "请输入关键字"
-            @input = "onQueryChanged"
-        />
-        <el-tree-v2
-            ref = "treeRef"
-            :data = "treeData"
-            :props = "props"
-            @node-click = "addNode"
-            :filter-method = "filterMethod"
-            :height = "700"
-            :check-on-click-node = "true"
-            :show-checkbox = "true"
-
-        />
-      </el-aside>
-      <el-main>
-        <div className = "backgournd-grid-app">
-          <div id="graph-dropdown" className = "app-content" ref = "containerDiagramRef"/>
-        </div>
-
-<!--
-        <ul id="myContextMenu" v-if="contextMenuVisible"
-            class = "menu">
-          <li id = "cut"
-              class = "menu-item"
-              @click = "cxcommand($event)">
-            <star-horse-icon icon-class = "cut"/>
-            剪切
-          </li>
-          <li id = "copy"
-              class = "menu-item"
-              @click = "cxcommand($event)">
-            <star-horse-icon icon-class = "copy"/>
-            复制
-          </li>
-          <li id = "paste"
-              class = "menu-item"
-              @click = "cxcommand($event)">
-            <star-horse-icon icon-class = "paste"/>
-            粘贴
-          </li>
-          <li id = "delete"
-              class = "menu-item"
-              @click = "cxcommand($event)">
-            <star-horse-icon icon-class = "delete"/>
-            删除
-          </li>
-        </ul>
-        <div v-if = "!isView">
-
-        </div>-->
-      </el-main>
-    </el-container>
-  </el-container>
+                />
+              </el-aside>-->
+              <ul>
+               <li
+                   draggable="true"
+                   @dragend="dragend"
+                   class="field-item"
+                   v-for="item in treeData"
+               >&nbsp;&nbsp;<span>&nbsp;&nbsp;{{ item.comment }}</span>
+               </li>
+              </ul>
+            </el-col>
+            <el-col :span = "21">
+    <star-horse-design :register-node = "nodeData" ref = "containerDiagramRef" :tableFlag = "true"
+                       @lineClick = "lineOperation"
+                       @preview = "preview"
+                       @save = "configView"
+                       @validation = "checkRelation"
+                       @nodeClick = "nodeOperation"/>
+          </el-col>
+        </el-row>
+  </el-card>
 </template>
 <style lang = "scss" scoped>
 #myDiagramDiv {

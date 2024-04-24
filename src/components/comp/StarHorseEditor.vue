@@ -1,4 +1,4 @@
-<script setup lang = "ts" name = "CodeJs6">
+<script setup lang = "ts" name = "StarHorseEditor">
 import {nextTick, onMounted, ref} from "vue";
 import {basicSetup} from 'codemirror';
 import {EditorView, keymap} from "@codemirror/view";
@@ -20,7 +20,7 @@ import {markdown} from "@codemirror/lang-markdown";
 import {go} from "@codemirror/lang-go";
 import {sql, SQLConfig} from "@codemirror/lang-sql";
 import {showMinimap} from "@replit/codemirror-minimap";
-import {javaKeywords} from "./java.ts";
+import {javaKeywords} from "../code/java.ts";
 import {amy, ayuLight, barf, bespin, birdsOfParadise, boysAndGirls, clouds, dracula} from 'thememirror';
 
 const model = defineModel("value", {default: ""});
@@ -107,16 +107,8 @@ const langInfo = (lang: string) => {
   let disData = {
     effects: languageConf.reconfigure(editorLang.value)
   };
-  /**
-   *   view.dispatch({
-   *           effects: complete(myComplete),
-   *         });
-   */
   editor.value?.dispatch(disData);
-  // if(lang=="java"){
-  //   javaLanguage.data.of({})
-  //
-  // }
+
 };
 const javaCompletions=javaLanguage.data.of({
   autocomplete:javaHint
@@ -239,7 +231,7 @@ defineExpose({
 </template>
 <style lang = "scss" scoped>
 .inner_button {
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 
 .coder {
