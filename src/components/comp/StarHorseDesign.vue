@@ -169,10 +169,11 @@ const visibleChange = (flag: boolean) => {
 };
 let nodeList = ref<Array<Cell>>([]);
 const init = async () => {
-  if (props.registerNode) {
-    registerPort(props.registerNode.portName);
-    registerNode(props.registerNode.name, props.registerNode.entity, props.registerNode.force);
-  }
+  // if (props.registerNode) {
+  //   registerPort(props.registerNode.portName);
+  //   registerNode(props.registerNode.name, props.registerNode.entity, props.registerNode.force);
+  // }
+  registerPort(props.registerNode.portName);
   await nextTick();
   graph.value = new Graph({
     autoResize: true,
@@ -186,10 +187,6 @@ const init = async () => {
     snapline: true,
     keyboard: true,
     clipboard: true,
-    // minimap: {
-    //   enabled: true,
-    //   container: minimapContainer,
-    // },
     highlighting: {
       // 当连接桩可以被链接时，在连接桩外围渲染一个 2px 宽的红色矩形框
       magnetAdsorbed: {

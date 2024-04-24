@@ -66,7 +66,7 @@ const nodeData: any = {
       },
       label: {
         fontWeight: 'bold',
-        // fill: '#ffffff',
+        fill: '#ffffff',
         fontSize: 12,
         textWrap: {
           width: 300,
