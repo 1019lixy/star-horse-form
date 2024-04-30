@@ -1,17 +1,35 @@
-<script lang = "ts" setup name = "StarHorseTableComp">
-import {ApiUrls} from '@/components/types/ApiUrls'
-import {inject, onMounted, PropType, reactive, Ref, ref, unref, watch} from 'vue'
-import {download, postRequest} from '@/api/star_horse'
-import {PageProps} from '@/components/types/PageProps'
-import {closeLoad, commonParseCodeToName, deleteByIds, load, loadPagePermission} from '@/api/sh_api'
-import {SearchParams} from '@/components/types/Params'
-import Sortable from 'sortablejs'
-import {DialogProps} from '../types/DialogProps'
+<script lang="ts" setup name="StarHorseTableComp">
+import {ApiUrls} from "@/components/types/ApiUrls";
+import {
+  inject,
+  onMounted,
+  PropType,
+  reactive,
+  Ref,
+  ref,
+  unref,
+  watch,
+} from "vue";
+import {download, postRequest} from "@/api/star_horse";
+import {PageProps} from "@/components/types/PageProps";
+import {
+  closeLoad,
+  commonParseCodeToName,
+  deleteByIds,
+  load,
+  loadPagePermission,
+} from "@/api/sh_api";
+import {SearchParams} from "@/components/types/Params";
+import Sortable from "sortablejs";
+import {DialogProps} from "../types/DialogProps";
 import {BtnAuth} from "@/components/types/BtnAuth";
 import {error, warning} from "@/utils/message";
 import {OrderByInfo} from "@/components/types/PageFieldInfo";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
+import {DynamicForm} from "@/store/DynamicFormStore";
+import piniaInstance from "@/store";
 
+const dynamicForm = DynamicForm(piniaInstance);
 const props = defineProps({
   //url地址
   compUrl: {type: Object as PropType<ApiUrls>, required: true},
@@ -50,10 +68,11 @@ const props = defineProps({
   title: {type: String},
   //按钮操作权限
   selfPermission: {
-    type: Object, default: () => {
-      return {view: true}
-    }
-  }
+    type: Object,
+    default: () => {
+      return {view: true};
+    },
+  },
 });
 const emits = defineEmits(["selectItem"]);
 const multipleSelection = ref<any>([]);
@@ -63,26 +82,25 @@ let pageInfo = reactive<PageProps>({
   currentPage: 1,
   totalData: 0,
   totalPage: 0,
-  dataList: []
+  dataList: [],
 });
 
-const searchForm = inject('searchForm') as Ref
+const searchForm = inject("searchForm") as Ref;
 let searchFields = reactive<Array<SearchParams>>([]);
 let defaultSearchFields = reactive<Array<SearchParams>>([]);
 let orderBys = reactive<Array<OrderByInfo>>([]);
 
 let permissions = ref({});
-let dialogProps = inject('dialogProps') as DialogProps;
+let dialogProps = inject("dialogProps") as DialogProps;
 let toolFields = reactive<Array<any>>([]);
 const tableCompFunc = (func: any) => {
-  if (func == 'refresh') {
-    loadByPage()
+  if (func == "refresh") {
+    loadByPage();
   } else if (func == "batch_delete") {
     batchDelete();
   } else if (func == "exportData") {
     exportData();
   } else if (func == "exec") {
-
   }
 };
 const exportData = () => {
@@ -93,7 +111,7 @@ const exportData = () => {
     params.push({
       propertyName: props.primaryKey,
       operation: "in",
-      value: ids
+      value: ids,
     });
   } else {
     params = searchFields;
@@ -104,15 +122,17 @@ const exportData = () => {
   }
   let condition = {
     fieldList: params,
-  }
+  };
   if (props.fieldList?.orderBy) {
     condition["orderBy"] = props.fieldList.orderBy;
   }
-  download(props.compUrl!.exportAllUrl, condition).catch(err => {
-    error("接口不存在或网络异常:" + err);
-  }).finally(() => {
-    closeLoad();
-  })
+  download(props.compUrl!.exportAllUrl, condition)
+      .catch((err) => {
+        error("接口不存在或网络异常:" + err);
+      })
+      .finally(() => {
+        closeLoad();
+      });
 };
 const getIds = () => {
   let selectDatas = unref(multipleSelection);
@@ -141,15 +161,11 @@ const createCreateParams = (formData: SearchParams[]) => {
 };
 
 const init = async () => {
-  if (!props.fieldList || Object.keys(props.fieldList).length == 0) {
-    warning("请先配置列表属性");
-    return;
-  }
-  const {permission} = await loadPagePermission()
+  const {permission} = await loadPagePermission();
   if (Object.keys(permission).length == 0) {
     permissions.value = {...props.selfPermission};
   } else {
-    permissions.value = permission
+    permissions.value = permission;
   }
   //是否初始化时自动加载列表数据开关
   if (!props.fieldList["stopAutoLoad"]) {
@@ -171,15 +187,18 @@ const init = async () => {
   reCreateData();
 };
 //监听外面传入数据的变化
-watch(() => props.tableDataList,
+watch(
+    () => props.tableDataList,
     (val) => {
       if (props.fieldList["stopAutoLoad"]) {
         pageInfo.dataList = val;
       }
-    }, {deep: true, immediate: false});
+    },
+    {deep: true, immediate: false}
+);
 const assignData = (dataList: Array<any>) => {
   for (let key in dataList) {
-    let temp: any = dataList[key]
+    let temp: any = dataList[key];
     if (temp instanceof Array) {
       toolFields.push(...temp);
     } else if (temp.tabList?.length > 0) {
@@ -187,49 +206,51 @@ const assignData = (dataList: Array<any>) => {
         toolFields.push(...temp.tabList[skey]?.fieldList);
       }
     } else {
-      toolFields.push(temp)
+      toolFields.push(temp);
     }
   }
-}
+};
 const reCreateData = () => {
   toolFields = [];
-  let tempList = props.fieldList["fieldList"]
+  let tempList = props.fieldList["fieldList"];
   if (tempList) {
-    assignData(tempList)
+    assignData(tempList);
   }
-}
+};
 
 const moveColumn = () => {
   const tbody = document.querySelector(
-      '.sh-columns .el-table__body-wrapper tbody'
-  ) as HTMLElement | null
+      ".sh-columns .el-table__body-wrapper tbody"
+  ) as HTMLElement | null;
   if (tbody) {
     Sortable.create(tbody, {
-      handle: '.move',
+      handle: ".move",
       animation: 200,
-      ghostClass: 'ghost',
+      ghostClass: "ghost",
       onEnd(event: any) {
-        const {oldIndex, newIndex} = event
+        const {oldIndex, newIndex} = event;
         //删除并获取当前行
-        const currRow = props.fieldList?.fieldList.splice(oldIndex, 1)[0]
+        const currRow = props.fieldList?.fieldList.splice(oldIndex, 1)[0];
         //再拖动结束位置插入当前行
-        props.fieldList?.fieldList.splice(newIndex, 0, currRow)
-      }
-    })
+        props.fieldList?.fieldList.splice(newIndex, 0, currRow);
+      },
+    });
   }
-}
+};
 onMounted(() => {
   init();
-})
+});
 
 const editData = (row: any, column: any, evt: any) => {
   let id = getRowIdentity(row);
+  dynamicForm.setDataId(id);
+  dynamicForm.setSelectData(row);
   if (!props.dialogInput) {
     viewById(id);
   } else {
     emits("selectItem", row);
   }
-}
+};
 
 /**
  * 检查是否可以选择父节点
@@ -251,7 +272,7 @@ const checkParent = (val: any) => {
     warning("非叶子节点不能选择");
     return false;
   }
-  return true
+  return true;
 };
 const handleSelectionChange = (val: any) => {
   if (!checkParent(val)) {
@@ -260,18 +281,23 @@ const handleSelectionChange = (val: any) => {
   //如果是弹出选择，只能选择一条数据
   if (props.dialogInput) {
     if (val.length <= 1) {
-      multipleSelection.value = val
+      multipleSelection.value = val;
     } else {
-      let ids = multipleSelection.value.map((item: any) => item[props.primaryKey]) as Array<any>;
-      let datas = val.filter((item: any) => !ids.includes(item[props.primaryKey]));
-      starHorseTableCompRef.value.toggleRowSelection(multipleSelection.value[0]);
+      let ids = multipleSelection.value.map(
+          (item: any) => item[props.primaryKey]
+      ) as Array<any>;
+      let datas = val.filter(
+          (item: any) => !ids.includes(item[props.primaryKey])
+      );
+      starHorseTableCompRef.value.toggleRowSelection(
+          multipleSelection.value[0]
+      );
       multipleSelection.value = datas;
     }
   } else {
-    multipleSelection.value = val
+    multipleSelection.value = val;
   }
-
-}
+};
 const getRowIdentity = (row: any) => {
   let arr = props.primaryKey?.split(".");
   if (arr?.length > 1) {
@@ -282,15 +308,16 @@ const getRowIdentity = (row: any) => {
     return temp;
   }
   return props.primaryKey ? row[props.primaryKey] : "";
-}
+};
 const dataFormat = (row: any, column: any, cellValue: any, index: number) => {
   cellValue = commonParseCodeToName(column.property, cellValue);
   return null == props.dataFormat
       ? cellValue
-      : props.dataFormat(column.property, cellValue, row)
-}
+      : props.dataFormat(column.property, cellValue, row);
+};
 const tbCommonFun = (name: string, param: any) => {
-  let data = props.selfBtnFunc && props.selfBtnFunc.find(item => item.btnName == name);
+  let data =
+      props.selfBtnFunc && props.selfBtnFunc.find((item) => item.btnName == name);
   if (data) {
     data["exec"](param);
   } else {
@@ -302,31 +329,34 @@ const tbCommonFun = (name: string, param: any) => {
       deleteById(param[props.primaryKey]);
     }
   }
-}
+};
 const viewById = (id: any) => {
   dialogProps!.viewVisible = true;
   dialogProps!.ids = id;
-}
+};
 const editById = (id: any) => {
   dialogProps!.editVisible = true;
   dialogProps!.ids = id;
-}
+};
 const deleteById = async (id: any) => {
-  let flag = await deleteByIds(props.compUrl?.deleteUrl, (id instanceof Array) ? id : [id])
+  let flag = await deleteByIds(
+      props.compUrl?.deleteUrl,
+      id instanceof Array ? id : [id]
+  );
   if (flag) {
-    loadByPage()
+    loadByPage();
   }
-}
+};
 const parseSearchData = () => {
-}
+};
 const pageSizeClick = (pageSize: number) => {
-  pageInfo.pageSize = pageSize
-  loadByPage()
-}
+  pageInfo.pageSize = pageSize;
+  loadByPage();
+};
 const pageChangeClick = (currentPage: number) => {
-  pageInfo.currentPage = currentPage
-  loadByPage()
-}
+  pageInfo.currentPage = currentPage;
+  loadByPage();
+};
 //弹出选择框属性名称
 const inputFieldName = ref<String>("");
 //弹窗选择框属性值
@@ -336,7 +366,7 @@ const inputFieldVal = ref<any>();
  * 分页显示数据
  */
 const loadByPage = () => {
-  load('数据加载中');
+  load("数据加载中");
   let searchTemp = JSON.parse(JSON.stringify(searchFields)) || [];
   let orderByTemp = JSON.parse(JSON.stringify(orderBys)) || [];
 
@@ -357,24 +387,29 @@ const loadByPage = () => {
     currentPage: pageInfo.currentPage,
     pageSize: pageInfo.pageSize,
     fieldList: searchTemp,
-    orderBy: orderByTemp
-  }).then((res) => {
-    let redata = res.data.data
-    pageInfo.dataList = redata?.dataList;
-    if (props.dialogInput) {
-      filterData();
-    }
-    pageInfo.totalPage = redata.totalPages;
-    pageInfo.totalData = redata.totalDatas;
-  }).catch((err) => {
-    console.log(err)
-  }).finally(() => {
-    closeLoad()
-  });
+    orderBy: orderByTemp,
+  })
+      .then((res) => {
+        let redata = res.data.data;
+        pageInfo.dataList = redata?.dataList;
+        if (props.dialogInput) {
+          filterData();
+        }
+        pageInfo.totalPage = redata.totalPages;
+        pageInfo.totalData = redata.totalDatas;
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        closeLoad();
+      });
 };
 const filterData = () => {
   if (pageInfo.dataList && inputFieldName.value && inputFieldVal.value) {
-    let row = pageInfo.dataList.find((item: any) => item[inputFieldName.value] == inputFieldVal.value);
+    let row = pageInfo.dataList.find(
+        (item: any) => item[inputFieldName.value] == inputFieldVal.value
+    );
     if (row) {
       multipleSelection.value.push(row);
       starHorseTableCompRef.value.toggleRowSelection(row, true);
@@ -402,10 +437,12 @@ const selectRow = (row: any, column: any, evt: any) => {
       starHorseTableCompRef.value.toggleRowSelection(valueElement);
     }
   }
-  const selected = multipleSelection.value.some((item: any) => item[props.primaryKey] === row[props.primaryKey]);
+  const selected = multipleSelection.value.some(
+      (item: any) => item[props.primaryKey] === row[props.primaryKey]
+  );
   if (!selected) {
-    multipleSelection.value.push(row)
-    starHorseTableCompRef.value.toggleRowSelection(row)
+    multipleSelection.value.push(row);
+    starHorseTableCompRef.value.toggleRowSelection(row);
   } else {
     const finArr = multipleSelection.value.filter((item: any) => {
       return item[props.primaryKey] !== row[props.primaryKey];
@@ -413,8 +450,8 @@ const selectRow = (row: any, column: any, evt: any) => {
     multipleSelection.value = finArr;
     starHorseTableCompRef.value.toggleRowSelection(row, false);
   }
+  dynamicForm.setSelectData(row);
   emits("selectItem", row);
-
 };
 /**
  * 动态改变条件并
@@ -434,88 +471,71 @@ defineExpose({
   getIds,
   multipleSelection,
   setDataInfo,
-
   setCondition,
   //按钮事件
-  tableCompFunc
-})
+  tableCompFunc,
+});
 </script>
 <template>
-  <div style = "display:flex;justify-content:space-between ;width: 100%;border-bottom:
-   var(--star-horse-style) 1px solid" v-if = "!dialogInput">
-    <div class = "tb_title">
-      <star-horse-icon icon-class = "info" size = "14px"/>
+  <div
+      class="d-f j-c-s-b"
+      style="width: 100%;border-bottom:  var(--star-horse-style); 1px solid"
+      v-if="!dialogInput"
+  >
+    <div class="tb_title">
+      <star-horse-icon icon-class="info" size="14px"/>
       {{ title }}
     </div>
-    <div style = "display: flex;align-items: center;flex-direction: row-reverse">
-      <el-button @click = "loadByPage" link title = "" size = "small" type = "primary">
-        <star-horse-icon icon-class = "refresh" size = "16px"/>
-        <el-tooltip content = "刷新">刷新</el-tooltip>
+    <div class="d-f a-i-c a-i-c f-d-r-r">
+      <el-button @click="loadByPage" link title="" size="small" type="primary">
+        <star-horse-icon icon-class="refresh" size="16px"/>
+        <el-tooltip content="刷新">刷新</el-tooltip>
       </el-button>
-      <el-popover
-          trigger = "click"
-          :width = "340"
-          placement = "left-end">
+      <el-popover trigger="click" :width="340" placement="left-end">
         <template #reference>
-          <el-icon
-              class = "star-page-icon"
-              style = "cursor: pointer">
-            <el-tooltip content = "显示/隐藏列">
+          <el-icon class="star-page-icon" style="cursor: pointer">
+            <el-tooltip content="显示/隐藏列">
               <Tools/>
             </el-tooltip>
           </el-icon>
         </template>
         <el-table
-            class = "sh-columns"
-            ref = "table"
-            :data = "toolFields"
-            :strip = "true"
-            :fit = "true"
-            :highlight-current-row = "true"
-            max-height = "400px"
-            row-key = "prop"
-            style = "width: 100%"
+            class="sh-columns"
+            ref="table"
+            :data="toolFields"
+            :strip="true"
+            :fit="true"
+            :highlight-current-row="true"
+            max-height="400px"
+            row-key="prop"
+            style="width: 100%"
             border
         >
-          <el-table-column
-              prop = ""
-              label = "排序"
-              width = "60"
-          >
-            <el-tag
-                class = "move"
-                style = "cursor: move;"
-            >
-              <el-icon style = "cursor: move;">
+          <el-table-column prop="" label="排序" width="60">
+            <el-tag class="move" style="cursor: move">
+              <el-icon style="cursor: move">
                 <Sort/>
               </el-icon>
             </el-tag>
           </el-table-column>
           <el-table-column
-              prop = "label"
-              label = "列名"
-              :show-overflow-tooltip = "true"
+              prop="label"
+              label="列名"
+              :show-overflow-tooltip="true"
           >
-            <template #default = "scope">
-              <el-tag
-                  round
-                  :effect = "scope.row.tableShow?'dark':'light'"
-              >
+            <template #default="scope">
+              <el-tag round :effect="scope.row.tableShow ? 'dark' : 'light'">
                 {{ scope.row.label }}
               </el-tag>
             </template>
           </el-table-column>
-          <el-table-column
-              prop = "tableShow"
-              label = "显示/隐藏"
-              width = "100"
-          >
-            <template #default = "scope">
+          <el-table-column prop="tableShow" label="显示/隐藏" width="100">
+            <template #default="scope">
               <el-switch
-                  v-model = "scope.row.tableShow"
-                  size = "small"
-                  :active-value = "true"
-                  :inactive-value = "false"
+                  v-model="scope.row.tableShow"
+                  size="small"
+                  :active-value="true"
+                  :inactive-value="false"
               />
             </template>
           </el-table-column>
@@ -525,144 +545,145 @@ defineExpose({
   </div>
 
   <el-table
-      ref = "starHorseTableCompRef"
-      :data = "pageInfo.dataList"
-      @selection-change = "handleSelectionChange"
-      @row-click = "selectRow"
-      @row-dblclick = "editData"
-      :row-key = "getRowIdentity"
-      :stripe = "true"
-      :fit = "true"
-      :height = "height"
-      :highlight-current-row = "true"
-      :default-expand-all = "expand"
-      :row-style = "{
-        'height':'30px'
-      }"
-      :cell-style = "{
-        'height':'30px',
-        'font-size':'12px'
-      }"
-      :header-cell-style = "{'background':'#f2f2f2',
-      'color': '#707070',
-      'font-size':'13px',
-      'background-image': '-webkit-gradient(linear,left 0,left 100%,from(#f8f8f8),to(#ececec))'
-      }"
+      ref="starHorseTableCompRef"
+      :data="pageInfo.dataList"
+      @selection-change="handleSelectionChange"
+      @row-click="selectRow"
+      @row-dblclick="editData"
+      :row-key="getRowIdentity"
+      :stripe="true"
+      :fit="true"
+      :height="height"
+      :highlight-current-row="true"
+      :default-expand-all="expand"
+      :row-style="{
+      height: '30px',
+    }"
+      :cell-style="{
+      height: '30px',
+      'font-size': '12px',
+    }"
+      :header-cell-style="{
+      background: '#f2f2f2',
+      color: '#707070',
+      'font-size': '13px',
+      'background-image':
+        '-webkit-gradient(linear,left 0,left 100%,from(#f8f8f8),to(#ececec))',
+    }"
       border
   >
     <el-table-column
-        type = "selection"
-        align = "center"
-        fixed = "left"
-        :reserve-selection = "true"
+        type="selection"
+        align="center"
+        fixed="left"
+        :reserve-selection="true"
     >
     </el-table-column>
-    <template v-for = "item in fieldList['fieldList']">
-      <template v-if = "item instanceof Array">
+    <template v-for="item in fieldList['fieldList']">
+      <template v-if="item instanceof Array">
         <star-horse-table-column
-            :data-format = "dataFormat"
-            :cellEditable = "fieldList['tableCellEditabled']"
-            :item = "sitem"
-            :compUrl = "compUrl"
-            v-for = "sitem in item"
+            :data-format="dataFormat"
+            :cellEditable="fieldList['tableCellEditabled']"
+            :item="sitem"
+            :compUrl="compUrl"
+            v-for="sitem in item"
         />
       </template>
-      <template v-else-if = "item.tabList?.length>0">
+      <template v-else-if="item.tabList?.length > 0">
         <star-horse-table-column
-            :data-format = "dataFormat"
-            :cellEditable = "fieldList['tableCellEditabled']"
-            :item = "sitem"
-            :compUrl = "compUrl"
-            v-for = "sitem in item.tabList.fieldList"
+            :data-format="dataFormat"
+            :cellEditable="fieldList['tableCellEditabled']"
+            :item="sitem"
+            :compUrl="compUrl"
+            v-for="sitem in item.tabList.fieldList"
         />
       </template>
       <star-horse-table-column
           v-else
-          :compUrl = "compUrl"
-          :cellEditable = "fieldList['tableCellEditabled']"
-          :data-format = "dataFormat"
-          :item = "item"
+          :compUrl="compUrl"
+          :cellEditable="fieldList['tableCellEditabled']"
+          :data-format="dataFormat"
+          :item="item"
       />
     </template>
-    <template
-        v-if = "showBatchField"
-        v-for = "item in fieldList['batchFieldList']"
-    >
-      <star-horse-table-column
-          :data-format = "dataFormat"
-          :item = "item"
-      />
+    <template v-if="showBatchField" v-for="item in fieldList['batchFieldList']">
+      <star-horse-table-column :data-format="dataFormat" :item="item"/>
     </template>
     <el-table-column
-        v-if = "!disableAction"
-        fixed = "right"
-        label = "操作"
-        width = "180px"
+        v-if="!disableAction"
+        fixed="right"
+        label="操作"
+        width="180px"
     >
-
-      <template #default = "scope">
+      <template #default="scope">
         <el-button
-            v-if = "permissions['edit']"
-            @click = "tbCommonFun('edit',scope.row)"
+            v-if="permissions['edit']"
+            @click="tbCommonFun('edit', scope.row)"
             link
-            title = ""
-            type = "primary"
-            :size = "buttonSize"
+            title=""
+            type="primary"
+            :size="buttonSize"
         >
-          <el-tooltip content = "编辑">编辑</el-tooltip>
+          <el-tooltip content="编辑">编辑</el-tooltip>
         </el-button>
         <el-button
-            v-if = "permissions['view']"
-            @click = "tbCommonFun('view',scope.row)"
+            v-if="permissions['view']"
+            @click="tbCommonFun('view', scope.row)"
             link
-            title = ""
-            type = "primary"
-            :size = "buttonSize"
+            title=""
+            type="primary"
+            :size="buttonSize"
         >
-          <el-tooltip content = "查看">查看</el-tooltip>
+          <el-tooltip content="查看">查看</el-tooltip>
         </el-button>
-        <template v-if = "fieldList['userTableFuncs']&&fieldList['userTableFuncs'].length>0">
+        <slot :rowData="scope"/>
+        <template
+            v-if="
+            fieldList['userTableFuncs'] &&
+            fieldList['userTableFuncs'].length > 0
+          "
+        >
           <el-button
-              v-for = "auth in fieldList['userTableFuncs']"
-              :v-if = "permissions[auth.authority]"
-              @click = "auth.funcName(scope.row)"
+              v-for="auth in fieldList['userTableFuncs']"
+              :v-if="permissions[auth.authority]"
+              @click="auth.funcName(scope.row)"
               link
-              title = ""
-              type = "primary"
-              :size = "buttonSize"
+              title=""
+              type="primary"
+              :size="buttonSize"
           >
-            <el-tooltip :content = "auth.btnName">{{ auth.btnName }}</el-tooltip>
+            <el-tooltip :content="auth.btnName">{{ auth.btnName }}</el-tooltip>
           </el-button>
         </template>
 
         <el-button
-            v-if = "permissions['delete']"
-            @click = "tbCommonFun('delete',scope.row)"
+            v-if="permissions['delete']"
+            @click="tbCommonFun('delete', scope.row)"
             link
-            title = ""
-            type = "danger"
-            :size = "buttonSize"
+            title=""
+            type="danger"
+            :size="buttonSize"
         >
-          <el-tooltip content = "删除">删除</el-tooltip>
+          <el-tooltip content="删除">删除</el-tooltip>
         </el-button>
       </template>
     </el-table-column>
   </el-table>
   <el-pagination
-      v-if = "showPageBar"
-      :total = "pageInfo.totalData"
-      @current-change = "pageChangeClick"
-      @size-change = "pageSizeClick"
-      :small = "true"
-      layout = "total, sizes, prev, pager, next, jumper"
-      v-model:currentPage = "pageInfo.currentPage"
-      v-model:page-size = "pageInfo.pageSize"
-      v-model:pageCount = "pageInfo.totalPage"
+      v-if="showPageBar"
+      :total="pageInfo.totalData"
+      @current-change="pageChangeClick"
+      @size-change="pageSizeClick"
+      :small="true"
+      layout="total, sizes, prev, pager, next, jumper"
+      v-model:currentPage="pageInfo.currentPage"
+      v-model:page-size="pageInfo.pageSize"
+      v-model:pageCount="pageInfo.totalPage"
   />
 </template>
-<style lang = "scss" scoped>
+<style lang="scss" scoped>
 .warning-row {
-  background: #8F8F8F;
+  background: #8f8f8f;
 }
 
 :deep(.el-table__cell) {
@@ -675,6 +696,6 @@ defineExpose({
 
 .tb_title {
   flex: 1;
-  color: var(--star-horse-style);;
+  color: var(--star-horse-style);
 }
 </style>

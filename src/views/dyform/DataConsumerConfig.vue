@@ -56,6 +56,7 @@ const nodeData: any = {
       {
         tagName: 'text',
         selector: 'label',
+
       },
     ],
     attrs: {
@@ -68,6 +69,8 @@ const nodeData: any = {
         fontWeight: 'bold',
         fill: '#ffffff',
         fontSize: 12,
+        textAnchor: 'middle',
+        textVerticalAnchor: 'middle',
         textWrap: {
           width: 300,
           ellipsis: true,
@@ -177,9 +180,9 @@ const init = async () => {
     name: "flow",
     title: "工艺流程组件",
     compItems: [
-      {label: "盒标打印", name: "box_print"},
-      {label: "数据传输", name: "data_trans"},
-      {label: "测试过站", name: "data_test"},
+      {label: "盒标打印", name: "box_print",icon:"drag"},
+      {label: "数据传输", name: "data_trans",icon:"equal"},
+      {label: "测试过站", name: "data_test",icon:"edit"},
     ]
   });
   // containerDiagramRef.value.createStencil(null, data["dataList"], "er-rect");
@@ -1023,7 +1026,6 @@ const dragend = (evt) => {
     </el-form>
   </star-horse-dialog>
   <el-card class="inner_content" style="height: 100%;padding: 5px;">
-
     <star-horse-design :customerItems="customerItems" :register-node="nodeData" ref="containerDiagramRef"
                        :tableFlag="true"
                        :compType="'table'"

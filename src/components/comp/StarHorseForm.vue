@@ -1,13 +1,12 @@
-<script setup lang = "ts" name = "StarHorseForm">
-import {inject, ReactiveEffect, ref, Ref, watch} from "vue";
+<script setup lang="ts" name="StarHorseForm">
+import {inject, ref, Ref, watch} from "vue";
 import {ApiUrls} from "@/components/types/ApiUrls";
-import {PropType, reactive} from "vue/dist/vue";
+import {PropType} from "vue/dist/vue";
 import {error, success, warning} from "@/utils/message";
 import {postRequest} from "@/api/star_horse";
-import {closeLoad, load, loadById} from "@/api/sh_api";
-// import mitter from "@/api/eventbus";
+import {closeLoad, formFieldMapping, load, loadById} from "@/api/sh_api";
 import {DialogProps} from "@/components/types/DialogProps";
-import {BatchFieldInfo, FieldInfo, PageFieldInfo, TabFieldInfo} from "@/components/types/PageFieldInfo";
+import {BatchFieldInfo, PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {ShallowReactive} from "@vue/reactivity";
 
 const props = defineProps({
@@ -45,42 +44,7 @@ watch(
     }
 );
 let batchDefaultValues = ref({});
-const assignDefault = () => {
-  let defaultDatas = {};
-  let tempList = props.fieldList.fieldList;
-  const fieldsOperation = (dataList: any) => {
-    for (let key in dataList) {
-      let temp = dataList[key];
-      if (temp instanceof Array) {
-        temp.forEach((item: FieldInfo) => {
-          if (item.defaultValue) {
-            defaultDatas[item.fieldName] = item.defaultValue;
-          }
-        })
-      } else if (temp['tabList']) {
-        //如果是tabList
-        let tabList = temp["tabList"] as TabFieldInfo;
-        fieldsOperation(tabList.fieldList);
-      } else {
-        if (temp.defaultValue) {
-          defaultDatas[temp.fieldName] = temp.defaultValue;
-        }
-      }
-    }
-  };
-  fieldsOperation(tempList);
-  let batchTempList = props.fieldList.batchFieldList;
-  for (let key in batchTempList) {
-    let temp = batchTempList[key];
-    let fieldList = temp.fieldList as Array<FieldInfo>;
-    fieldList.forEach(item => {
-      if (item.defaultValue) {
-        batchDefaultValues.value[temp.batchName][item.fieldName] = item.defaultValue;
-      }
-    });
-  }
-  dataForm.value = defaultDatas;
-};
+
 const loadData = async () => {
   let objData = await loadById(props.compUrl.loadByIdUrl!, dialogProps.ids, false);
   dataForm.value = objData;
@@ -98,18 +62,6 @@ const checkActionRelation = () => {
     }
   }
 };
-watch(() => dialogProps.ids,
-    (val) => {
-      console.log(val);
-      if (!val || val == -1) {
-        assignDefault();
-      } else {
-        loadData();
-      }
-    }, {
-      immediate: true,
-      deep: true
-    });
 
 const merge = (type: string) => {
   starHorseFormRef.value!.validate((result: boolean) => {
@@ -193,76 +145,120 @@ const doMerge = (type: string) => {
   });
 };
 const resetForm = () => {
-  assignDefault();
+  dataForm.value = formFieldMapping(props.fieldList).defaultDatas;
 };
+const setDataForm = (data: object) => {
+  let defaultDatas = formFieldMapping(props.fieldList).defaultDatas;
+  dataForm.value = {...defaultDatas, ...data};
+
+}
 const tableListRef = ref<any>([]);
 const setTableRef = (el: any) => {
   if (el) {
     tableListRef.value.push(el);
   }
 }
+watch(() => dialogProps.ids,
+    (val) => {
+      console.log(val);
+      if (!val || val == -1) {
+        // dataForm.value = formFieldMapping(props.fieldList).defaultDatas;
+        setDataForm(dataForm.value);
+      } else {
+        loadData();
+      }
+    }, {
+      immediate: true,
+      deep: true
+    });
+
 defineExpose({
-  merge, mergeDraft, resetForm, assignDefault, starHorseFormRef, tableListRef
+  merge, mergeDraft, resetForm, setDataForm, starHorseFormRef, tableListRef
 });
 </script>
 <template>
-  <el-form :model = "dataForm" :rules = "rules" class = "data-form" ref = "starHorseFormRef">
-    <template v-for = "item in fieldList.fieldList">
-      <el-row v-if = "item instanceof Array">
-        <el-col :span = "24/item.length" v-for = "sitem in item">
+  <el-form :model="dataForm" :rules="rules" class="data-form" ref="starHorseFormRef">
+    <template v-for="item in fieldList.fieldList">
+      <el-row v-if="item instanceof Array">
+        <el-col :span="24/item.length" v-for="sitem in item">
           <el-form-item
-              :size = "'small'"
-              :label = "sitem.label"
-              :required = "sitem.required=='yes'||sitem.required"
-              :rules="[{required: sitem.required=='yes'||sitem.required, message: '必填项不能为空', trigger: 'blur'}]"
-              :prop = "sitem.fieldName"
-              v-if = "sitem.formShow">
-            <star-horse-item :primaryKey = "primaryKey" :data-form = "dataForm" :item = "sitem"
-                             :isEdit = "!dialogProps?.ids||dialogProps?.ids==-1"/>
+              :size="'small'"
+              :label="sitem.label"
+              :required="sitem.required"
+              :prop="sitem.fieldName"
+              :rules="sitem.required?[{'required': true, 'message': '必填项不能为空', 'trigger': 'blur'}]:[]"
+              v-if="sitem.formShow">
+            <star-horse-item :primaryKey="primaryKey" v-model:dataForm="dataForm" :item="sitem"
+                             :isEdit="!dialogProps?.ids||dialogProps?.ids==-1"/>
           </el-form-item>
         </el-col>
       </el-row>
-      <el-tabs v-if = "item.tabList&&item.tabList.length>0">
-        <el-tab-pane v-for = "tabItem in item.tabList" :label = "tabItem.tabName">
-          <star-horse-form :compUrl = "compUrl" :fieldList = "{fieldList:tabItem.fieldList}" :rules = "rules"
-                           :primaryKey = "primaryKey"/>
+      <el-tabs v-if="item.tabList&&item.tabList.length>0">
+        <el-tab-pane v-for="tabItem in item.tabList" :label="tabItem.tabName">
+          <star-horse-form :compUrl="compUrl" :fieldList="{
+            fieldList:tabItem.fieldList,
+            batchFieldList:tabItem.batchFieldList}" :rules="rules"
+                           :primaryKey="primaryKey"/>
         </el-tab-pane>
       </el-tabs>
+      <star-horse-item v-else-if="item.type=='comp'" :primaryKey="primaryKey" v-model:dataForm="dataForm" :item="item"
+                       :isEdit="!dialogProps?.ids||dialogProps?.ids==-1"/>
       <el-form-item
           v-else
-          :size = "'small'"
-          :label = "item.label"
-          :required = "item.required=='yes'||item.required"
-          :rules="[{required: item.required=='yes'||item.required, message: '必填项不能为空', trigger: 'blur'}]"
-          :prop = "item.fieldName"
-          v-if = "item.formShow">
-        <star-horse-item :primaryKey = "primaryKey" :data-form = "dataForm" :item = "item"
-                         :isEdit = "!dialogProps?.ids||dialogProps?.ids==-1"/>
+          :size="'small'"
+          :label="item.label"
+          :required="item.required"
+          :rules="item.required?[{'required': true, 'message': '必填项不能为空', 'trigger': 'blur'}]:[]"
+          :prop="item.fieldName"
+          v-if="item.formShow">
+        <star-horse-item :primaryKey="primaryKey" v-model:dataForm="dataForm" :item="item"
+                         :isEdit="!dialogProps?.ids||dialogProps?.ids==-1"/>
       </el-form-item>
     </template>
     <el-tabs
-        v-if = "fieldList[batchFieldName].length > 0">
-      <el-tab-pane v-for = "item in fieldList[batchFieldName]" :label = "item['title']">
+        v-if="fieldList[batchFieldName]?.length > 0">
+      <el-tab-pane v-for="item in fieldList[batchFieldName]" :label="item['title']">
         <star-horse-form-list
-            style = "min-height:100px"
-            :compUrl = "item['compUrl']"
-            :primaryKey = "item['primaryKey']"
-            :batchName = "item['batchName']"
-            :initRows = "item['initRows']"
-            :batchUrl = "item['batchUrl']"
-            :downloadTemplateUrl = "item['downloadTemplateUrl']"
-            :importInfo = "item['importInfo']"
-            :defaultValues = "batchDefaultValues[item['batchName']]"
-            :ref = "setTableRef"
-            :field-list = "item['fieldList']"
-            :rules = "item['rules']||rules"
+            style="min-height:100px"
+            :compUrl="item['compUrl']"
+            :primaryKey="item['primaryKey']"
+            :batchName="item['batchName']"
+            :initRows="item['initRows']"
+            :batchUrl="item['batchUrl']"
+            :downloadTemplateUrl="item['downloadTemplateUrl']"
+            :importInfo="item['importInfo']"
+            :defaultValues="batchDefaultValues[item['batchName']]"
+            :ref="setTableRef"
+            :field-list="item['fieldList']"
+            :rules="item['rules']||rules"
         />
       </el-tab-pane>
     </el-tabs>
   </el-form>
 </template>
-<style lang = "scss" scoped>
+<style lang="scss" scoped>
 :deep(.el-tabs) {
-  min-height: 250px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+:deep(.el-tabs__content ) {
+  height: 100%;
+  flex: 1;
+}
+
+:deep(.el-tab-pane) {
+  height: 100%;
+  flex: 1;
+}
+
+:deep(.el-form) {
+  display: block;
+  width: 100%;
+}
+
+.data-form {
+  height: 100%;
 }
 </style>

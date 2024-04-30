@@ -1,22 +1,30 @@
 <script setup lang="ts" name="StarHorseDesign">
-import {nextTick, onMounted, PropType, ref} from "vue";
-import {Cell, Graph, Point, Shape} from "@antv/x6";
-import {Transform} from '@antv/x6-plugin-transform'
-import {Selection} from '@antv/x6-plugin-selection'
-import {Snapline} from '@antv/x6-plugin-snapline'
-import {Keyboard} from '@antv/x6-plugin-keyboard'
-import {Clipboard} from '@antv/x6-plugin-clipboard'
-import {History} from '@antv/x6-plugin-history'
+import {nextTick, onMounted, PropType, provide, ref, watch} from "vue";
+import {Cell, Graph, Point, Shape, View} from "@antv/x6";
 import {confirm, warning} from "@/utils/message.ts";
-import StarHorseDialog from "@/components/comp/StarHorseDialog.vue";
-import StarHorseEditor from "@/components/comp/StarHorseEditor.vue";
-import {CustomerItem} from "@/components/types/CompInfo.d.ts";
+import {CompInfo, CustomerItem} from "@/components/types/CompInfo.d.ts";
+import {commands, configInfo, helpMessage, ports} from "@/utils/sh_design.ts";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-import {commands,ports} from "@/utils/sh_design.ts.js";
+import {ApiUrls} from "@/components/types/ApiUrls.d.ts";
+import {PageFieldInfo} from "@/components/types/PageFieldInfo.d.ts";
+import piniaInstance from "@/store";
+import {DesignGraph} from "@/store/DesignGraphStore";
+import {formFieldMapping} from "@/api/sh_api";
+import {DynamicForm} from "@/store/DynamicFormStore";
+import Help from "@/components/help.vue";
+
+const designGraph = DesignGraph(piniaInstance);
+const dynamicForm = DynamicForm(piniaInstance);
 const starHorseDesignRef = ref();
 const graph = ref();
 const contextmenuRef = ref();
+const leftPanelVisible = ref<Boolean>(true);
 const connectorStyle = ref<String>("normal");
+const rightPanel = ref<Boolean>(false);
+const normalRightPanel = ref<Boolean>(true);
+const currentComp = ref<any>();
+const currentCellInfo = ref<Object>({});
+const fieldList = ref<PageFieldInfo>();
 const menuPosition = ref({
   top: "0px",
   left: "0px"
@@ -27,15 +35,25 @@ const props = defineProps({
   tableWidth: {type: Number, default: 320},
   tableFlag: {type: Boolean, default: false},
   editable: {type: Boolean, default: true},
+  compUrl: {type: Object as PropType<ApiUrls>},
+  nodeFieldList: {type: Object as PropType<PageFieldInfo>},
+  lineFieldList: {type: Object as PropType<PageFieldInfo>},
+  batchName: {type: String, default: "batchDataList"},
+  batchFieldName: {type: String, default: "batchFieldList"},
+  primaryKey: {type: String, required: true},
+  rules: {type: Object, required: true},
   //table,normal,其他待定
   compType: {type: String, default: "normal"},
+  //drawer,normal
+  panelStyle: {type: String, default: "normal"},
   customerItems: {type: Array as PropType<CustomerItem[]>, default: []}
 });
 const emits = defineEmits(["lineClick", "nodeClick", "save", "validation", "preview"]);
-
+let compAttr = ref({});
+provide("dataForm", compAttr);
 const jsonData = ref<String>();
 const dataPreviewVisible = ref<Boolean>(false);
-let list = ref<Array<any>>([]);
+let activeItem = ref<any>([]);
 const transform = (command: string) => {
   switch (command) {
     case 'translate':
@@ -68,11 +86,18 @@ const transform = (command: string) => {
     case 'verticalMode':
       connectorStyle.value = "rounded";
       break;
+    case "leftPanel":
+      leftPanelVisible.value = !leftPanelVisible.value;
+      break;
+    case "rightPanel":
+      normalRightPanel.value = !normalRightPanel.value;
+      break;
     case 'empty':
       confirm("清空画布，所有的数据都会丢失，确定要清空吗？").then(res => {
         if (res) {
           nodeList.value = [];
           graph.value.resetCells([]);
+          nodeIndex = 0;
         }
       });
       break;
@@ -102,7 +127,6 @@ const dataValid = () => {
 
 const alignOperation = (align: string) => {
   let cells = graph.value.getSelectedCells();
-  console.log("cells", cells);
   if (align == "deleteItem") {
     if (!cells || cells.length == 0) {
       warning("请先选择要删除的对象");
@@ -169,240 +193,167 @@ const visibleChange = (flag: boolean) => {
 };
 let nodeList = ref<Array<Cell>>([]);
 const init = async () => {
-  // if (props.registerNode) {
-  //   registerPort(props.registerNode.portName);
-  //   registerNode(props.registerNode.name, props.registerNode.entity, props.registerNode.force);
-  // }
-  registerPort(props.registerNode.portName);
+  registerPort(props.registerNode?.portName);
+  if (props.registerNode) {
+    registerNode(props.registerNode.name, props.registerNode.entity, props.registerNode.force);
+  }
   await nextTick();
   graph.value = new Graph({
     autoResize: true,
     container: starHorseDesignRef.value,
-    rotating: true,
-    selecting: {
-      enabled: true,
-      rubberband: true,
-      showNodeSelectionBox: true,
-    },
-    snapline: true,
-    keyboard: true,
-    clipboard: true,
-    highlighting: {
-      // 当连接桩可以被链接时，在连接桩外围渲染一个 2px 宽的红色矩形框
-      magnetAdsorbed: {
-        name: 'stroke',
-        args: {
-          attrs: {
-            fill: '#5F95FF',
-            stroke: '#5F95FF',
-          },
-        },
-      },
-    },
-    connecting: {
-      router: {
-        name: 'manhattan',
-        args: {
-          padding: 1,
-        },
-      },
-      connector: {
-        name: 'rounded',
-        args: {
-          radius: 8,
-        },
-      },
-      anchor: 'center',
-      connectionPoint: 'anchor',
-      allowBlank: false,
-      snap: {
-        radius: 20,
-      },
-      createEdge() {
-        return new Shape.Edge({
-          attrs: {
-            line: {
-              stroke: '#A2B1C3',
-              strokeWidth: 2,
-              targetMarker: {
-                name: 'block',
-                width: 12,
-                height: 8,
-              },
-            },
-          },
-          zIndex: 0,
-        })
-      },
-      validateConnection({targetMagnet}) {
-        return !!targetMagnet
-      },
-    },
-    grid: {
-      visible: true,
-      type: 'doubleMesh',
-      args: [
-        {
-          color: '#eee', // 主网格线颜色
-          thickness: 1, // 主网格线宽度
-        },
-        {
-          color: '#ddd', // 次网格线颜色
-          thickness: 1, // 次网格线宽度
-          factor: 4, // 主次网格线间隔
-        },
-      ],
-    },
-    mousewheel: {
-      enabled: true,
-      zoomAtMousePosition: true,
-      modifiers: 'ctrl',
-      maxScale: 4,
-      minScale: 0.2,
-    },
+    ...configInfo
   });
-  if (props.compType != "table") {
-    //缩放大小，或者旋转
-    graph.value.use(
-        new Transform({
-          resizing: true,
-          rotating: true,
-        }),
-    );
-  }
-
-  graph.value.use(new Selection({
-        rubberband: true,
-        showNodeSelectionBox: true,
-      }),
-  ).use(new Snapline())
-      .use(new Keyboard())
-      .use(new Clipboard())
-      .use(new History());
-  // #region 快捷键与事件
-  graph.value.bindKey(['meta+c', 'ctrl+c'], () => {
-    const cells = graph.value.getSelectedCells()
-    if (cells.length) {
-      graph.value.copy(cells)
-    }
-    return false
-  })
-  graph.value.bindKey(['meta+x', 'ctrl+x'], () => {
-    const cells = graph.value.getSelectedCells()
-    if (cells.length) {
-      graph.value.cut(cells)
-    }
-    return false
-  })
-  graph.value.bindKey(['meta+v', 'ctrl+v'], () => {
-    if (!graph.value.isClipboardEmpty()) {
-      const cells = graph.value.paste({offset: 32});
-      graph.value.cleanSelection()
-      graph.value.select(cells)
-    }
-    return false
-  })
-
-// undo redo
-  graph.value.bindKey(['meta+z', 'ctrl+z'], () => {
-    if (graph.value.canUndo()) {
-      graph.value.undo()
-    }
-    return false
-  })
-  graph.value.bindKey(['meta+shift+z', 'ctrl+shift+z'], () => {
-    if (graph.value.canRedo()) {
-      graph.value.redo()
-    }
-    return false
-  })
-
-// select all
-  graph.value.bindKey(['meta+a', 'ctrl+a'], () => {
-    const nodes = graph.value.getNodes()
-    if (nodes) {
-      graph.value.select(nodes)
-    }
-  })
-
-// delete
+  designGraph.setGraph(graph.value);
+  // delete
   graph.value.bindKey(['backspace', 'delete'], () => {
-    const cells = graph.value.getSelectedCells()
-    if (cells.length) {
-      deleteNode(cells);
-
-      graph.value.removeCells(cells)
-    }
+    alignOperation("deleteItem");
+    // const cells = graph.value.getSelectedCells()
+    // if (cells.length) {
+    //   deleteNode(cells);
+    //   graph.value.removeCells(cells)
+    // }
   })
-
-// zoom
-  graph.value.bindKey(['ctrl+1', 'meta+1'], () => {
-    const zoom = graph.value.zoom()
-    if (zoom < 1.5) {
-      graph.value.zoom(0.1)
-    }
-  })
-  graph.value.bindKey(['ctrl+2', 'meta+2'], () => {
-    const zoom = graph.value.zoom()
-    if (zoom > 0.5) {
-      graph.value.zoom(-0.1)
-    }
-  })
-
 // 控制连接桩显示/隐藏
   const showPorts = (ports: NodeListOf<SVGElement>, show: boolean) => {
-    // if (props.tableFlag) {
-    //   return;
-    // }
     for (let i = 0, len = ports.length; i < len; i += 1) {
-      ports[i].style.visibility = show ? 'visible' : 'hidden'
+      let temp = ports[i];
+      //过滤掉表格的字段
+      if (temp.localName != "g") {
+        temp.style.visibility = show ? 'visible' : 'hidden'
+      }
     }
   }
-  graph.value.on('node:mouseenter', () => {
-    const ports = starHorseDesignRef.value.querySelectorAll(
-        '.x6-port-body',
+
+  graph.value.on('cell:mouseenter', ({cell}) => {
+    const ports = starHorseDesignRef.value.querySelectorAll('.x6-port-body',
     ) as NodeListOf<SVGElement>;
-    console.log(ports);
-    showPorts(ports, true)
+    showPorts(ports, true);
+    if (cell.isNode()) {
+      cell.addTools([
+        {
+          name: 'boundary',
+          args: {
+            attrs: {
+              fill: '#7c68fc',
+              stroke: '#333',
+              'stroke-width': 1,
+              'fill-opacity': 0.2,
+            },
+          },
+        }]);
+    } else {
+      cell.addTools([
+        {name: 'segments'},
+        {
+          name: 'source-arrowhead',
+        },
+        {
+          name: 'target-arrowhead',
+          args: {
+            attrs: {
+              fill: 'blue',
+            },
+          },
+        },
+      ]);
+    }
   });
-  graph.value.on('node:mouseleave', () => {
-    const ports = starHorseDesignRef.value.querySelectorAll(
-        '.x6-port-body',
+  graph.value.on('cell:mouseleave', ({cell}) => {
+    const ports = starHorseDesignRef.value.querySelectorAll('.x6-port-body',
     ) as NodeListOf<SVGElement>
-    showPorts(ports, false)
+    showPorts(ports, false);
+    if (cell.isNode()) {
+      cell.removeTools();
+    } else {
+      cell.removeTools(["source-arrowhead", "target-arrowhead"])
+    }
+
   })
 // #endregion
+  graph.value.on("cell:added", (edge: View) => {
+    designGraph.setCell(edge.cell, true);
+    if (edge.cell.isEdge()) {
+      designGraph.setLabel("OK", "#15C912");
+    } else {
+      clickOperation(edge);
+    }
 
-  graph.value.use(
-      new Selection({
-        enabled: true,
-        multiple: true,
-        rubberband: true,
-        movable: true,
-        showNodeSelectionBox: true,
-      }),
-  );
+  });
+  graph.value.on("edge:connected", (edge: View) => {
+    clickOperation(edge.view);
+  });
+
   //节点右键菜单
-  graph.value.on("node:contextmenu", ({e, x, y, cell, view}) => {
+  graph.value.on("cell:contextmenu", ({e, x, y, cell, view}) => {
     contextMenu(e, x, y, cell, view);
   });
-  //连线右键菜单
-  graph.value.on("edge:contextmenu", ({e, x, y, cell, view}) => {
-    contextMenu(e, x, y, cell, view);
+  // //连线右键菜单
+
+  // //点击节点
+  graph.value.on('cell:click', ({e, x, y, cell, view}) => {
+    // graph.value.trigger("blank:click", {e, x, y, edge, view});
+    if (props.panelStyle == "normal") {
+      clickOperation(view);
+    }
+    if (cell.isEdge()) {
+      cell.addTools([
+        {
+          name: 'boundary',
+          args: {
+            attrs: {
+              fill: '#7c68fc',
+              stroke: '#333',
+              'stroke-width': 1,
+              'fill-opacity': 0.2,
+            },
+          },
+        }]);
+    }
   });
-  //点击节点
-  graph.value.on('node:click', ({e, x, y, edge, view}) => {
-    console.log(e, x, y, edge, view.cell);
-    emits("nodeClick", view.cell);
+  graph.value.on("blank:click", ({e, x, y, edge, view}) => {
+    let cells = graph.value.getCells();
+    for (let index in cells) {
+      cells[index].removeTools();
+    }
+    currentComp.value = null;
   });
-  //点击连线
-  graph.value.on('edge:dblclick', ({e, x, y, edge, view}) => {
-    console.log(e, x, y, edge, view.cell);
-    emits("lineClick", getEdgeInfo(view.cell));
-  });
+  if (props.panelStyle == "drawer") {
+    //点击连线
+    graph.value.on('cell:dblclick', async ({e, x, y, edge, view}) => {
+      clickOperation(view);
+    });
+
+  }
 
 };
-let currentView = ref(null);
+const clickOperation = async (view: View) => {
+  let cell = view.cell;
+  const isNode = cell.isNode();
+  designGraph.setCell(cell);
+  let data = getCellnfo(cell)!;
+  if (!isNode) {
+    graph.value.trigger("blank:click", {view});
+    graph.value.trigger("edge:click", {view});
+  }
+  currentCellInfo.value = data
+  if (data.fromType == "table") {
+    emits(isNode ? "nodeClick" : "lineClick", data);
+  } else {
+    currentComp.value = cell;
+    await readCompAttr();
+    if (props.panelStyle == "drawer") {
+      rightPanel.value = true;
+    }
+    await nextTick(() => {
+      rightAttrPanel.value.setDataForm(compAttr.value);
+    });
+  }
+}
+let currentView = ref<View>(null);
+const checkIsNode = () => {
+  let flag = !currentComp.value ? 3 : currentComp.value.isNode() ? 1 : 2;
+  return flag;
+};
 /**
  * 删除指定节点
  * @param cells
@@ -420,20 +371,28 @@ const deleteNode = (cells: Array<any>) => {
 }
 const contextMenuOperation = (type: any) => {
   console.log(type);
+  if (type == "copy") {
+    graph.value.copy([currentComp.value]);
+  } else if (type == "cut") {
+    graph.value.cut([currentComp.value]);
+  } else if (type == "paste") {
+    const cells = graph.value.paste({offset: 32});
+    graph.value.cleanSelection()
+    graph.value.select(cells)
+  } else {
+    transform(type)
+  }
 };
-const contextMenu = (e, x, y, cell, view) => {
+const contextMenu = (e: MouseEvent, x: number, y: number, cell: Cell, view: View) => {
+  console.log(cell, view);
   const menuWidth = 280;
   currentView.value = view;
-  const windowWidth = window.innerWidth;
-  const maxLeft = windowWidth - menuWidth; // 弹窗最大允许的 left 值
   contextMenuVisible.value = true;
-  let left = e.clientX;
-  if (left > maxLeft) {
-    left = maxLeft;
-  }
+  currentComp.value = cell;
+
   menuPosition.value = {
-    top: `${e.clientY - 80}px`,
-    left: `${left - 200}px`
+    top: `${e.pageY - 200}px`,
+    left: `${e.pageX}px`
   };
   nextTick(() => {
     contextmenuRef.value.handleOpen();
@@ -449,10 +408,24 @@ const addNode = (data: any) => {
   }
   let cell = graph.value.createNode(data);
   nodeList.value.push(cell);
-  graph.value.resetCells(nodeList.value);
-  // graph.value.zoomToFit({padding: 10, maxScale: 1});
-  // transform("centerContent");
+  graph.value.addNode(cell);
+  // graph.value.resetCells(nodeList.value);
   return cell;
+};
+/**
+ * 更改标签信息
+ */
+const changeLabelText = (val: any, color: string = "#15C912") => {
+  if (currentComp.value.isNode()) {
+    currentComp.value!.setAttr("label/text", val);
+  } else {
+    currentComp.value!.removeLabelAt(0);
+    currentComp.value!.insertLabel("OK", 0);
+    currentComp.value!.getLabelAt(0)['attrs']['label'] = {
+      fill: color,
+      text: val
+    }
+  }
 };
 /**
  * 注册节点
@@ -465,71 +438,151 @@ const registerNode = (name: string, entry: any, force: boolean = false) => {
 /**
  * 注册装
  */
-const registerPort = (portName: string = "portPosition") => {
+const registerPort = (portName: string) => {
   Graph.registerNode(
       'custom-rect',
       {
         inherit: 'rect',
-        width: 100,
-        height: 40,
+        width: 140,
+        height: 50,
         attrs: {
           body: {
             strokeWidth: 1,
             stroke: '#5F95FF',
             fill: '#EFF4FF',
+            rx: 10,
+            ry: 10,
+          },
+          image: {
+            // 'xlink:href': defaultSvg,
+            width: 16,
+            height: 16,
+            x: 12,
+            y: 12,
           },
           text: {
             fontSize: 12,
             fill: '#262626',
+            textAnchor: 'middle',
+            textVerticalAnchor: 'middle',
           },
         },
-        ports: { ...ports },
+        markup: [{
+          tagName: 'rect',
+          selector: 'body',
+        },
+          {
+            tagName: 'svg',
+            selector: 'image',
+            children: [
+              {
+                tagName: "use"
+              }
+            ]
+          },
+          {
+            tagName: 'text',
+            selector: 'text',
+          },],
+        ports: {...ports},
       },
       true,
   );
-  // Graph.registerPortLayout(
-  //     portName,
-  //     (portsPositionArgs) => {
-  //       return portsPositionArgs.map((_, index) => {
-  //         return {
-  //           position: {
-  //             x: 0,
-  //             y: (index + 1) * props.lineHeight,
-  //           },
-  //           angle: 0,
-  //         }
-  //       })
-  //     },
-  //     true,
-  // );
+  // 注册自定义节点 图标+标题+描述
+  Shape.HTML.register({
+    shape: 'cu-data-node',
+    width: 'auto',
+    height: 104,
+    effect: ['data'],
+    html(cell) {
+      // 获取节点传递过来的数据
+      const {label, img, desc} = cell.getData();
+      // 创建自定义的节点容器
+      const container = document.createElement('div');
+      container.setAttribute('class', 'cu-container');
+      // 图片根据不同的类型进行切换，可以是后端返回的图标，也可以是自己本地的图标，如果是后端返回就通过节点的data传进来
+      const container_img = document.createElement('img');
+      container_img.src = '@/icons/default.svg';
+      container_img.setAttribute('class', 'cu-container-img');
+
+
+      const container_title = document.createElement('div');
+      container_title.innerText = label;
+      container_title.setAttribute('class', 'cu-container-title');
+
+
+      const container_desc = document.createElement('div');
+      container_desc.setAttribute('class', 'cu-container-desc');
+      container_desc.innerText = desc || '描述信息';
+
+
+      container.appendChild(container_img);
+      container.appendChild(container_title);
+      container.appendChild(container_desc);
+
+
+      return container;
+    }
+  });
+  if (portName) {
+    Graph.registerPortLayout(
+        portName,
+        (portsPositionArgs: any) => {
+          return portsPositionArgs.map((_, index: number) => {
+            return {
+              position: {
+                x: 0,
+                y: (index + 1) * props.lineHeight,
+              },
+              angle: 0,
+            }
+          })
+        },
+        true,
+    );
+  }
+
 };
 /**
  * 获取
  * @param cell
  */
-const getEdgeInfo = (cell: any) => {
+const getCellnfo = (cell: any) => {
   if (!cell) {
     return;
   }
-  let sourceNode = cell.getSourceNode();
-  let sourceInfo = sourceNode.store.data;
-  let sourcePort = sourceNode.getPort(cell.store.data.source.port);
-  let targetNode = cell.getTargetNode();
-  let targetInfo = targetNode.store.data;
-  if (!targetInfo) {
-    console.log("连线没有目标节点")
-    return;
+  let isNode = cell.isNode();
+  if (isNode) {
+    return {
+      fromType: cell.store.data.compType
+    }
+  } else {
+    let sourceNode = cell.getSourceNode();
+    let sourceInfo = sourceNode.store.data;
+    console.log(sourceInfo);
+    let sourcePort = sourceNode.getPort(cell.store.data.source.port);
+    let targetNode = cell.getTargetNode();
+    let targetInfo = targetNode.store.data;
+    if (!targetInfo) {
+      console.log("连线没有目标节点")
+      return;
+    }
+    let targetPort = targetNode.getPort(cell.store.data.target.port);
+    if (!targetPort) {
+      console.log("连线没有目标属性")
+      return;
+    }
+    let from = sourceInfo.data.fieldName || sourceInfo.id;
+    let fromLabel = sourceInfo.data.label;
+    let fromType = sourceInfo.compType;
+    let fromPort = sourcePort.attrs?.name?.text || sourcePort.group || sourcePort.id;
+    let to = targetInfo.data.fieldName || sourceInfo.id;
+    let toLabel = targetInfo.data.label;
+    let toType = targetPort.compType;
+    let toPort = targetPort?.attrs?.name?.text || sourcePort.group || targetPort.id;
+    return {from, fromLabel, fromPort, fromType, to, toLabel, toPort, toType};
   }
-  let targetPort = targetNode.getPort(cell.store.data.target.port);
-  if (!targetPort) {
-    console.log("连线没有目标属性")
-    return;
-  }
-  let from = sourceInfo.name || sourceInfo.id;
-  let fromPort = sourcePort.attrs['name'].text || sourcePort.id;
-  let to = targetInfo.name || sourceInfo.id;
-  let toPort = targetPort.attrs['name'].text || targetPort.id;
-  return {from, fromPort, to, toPort};
+
 }
 /**
  * 获取所有连线的数据
@@ -539,25 +592,27 @@ const edgeList = () => {
   let dataList: any = [];
   if (edgeList && edgeList.length > 0) {
     edgeList.forEach((item: any) => {
-      dataList.push(getEdgeInfo(item));
+      dataList.push(getCellnfo(item));
     })
   }
   return dataList;
 }
 const dratStart = (item: any, evt: DragEvent) => {
-      let dt = evt.dataTransfer!;
-      dt.effectAllowed = "copy";
-      dt.setData("text/plain", JSON.stringify(item));
-    }
-;
+  let dt = evt.dataTransfer!;
+  dt.effectAllowed = "copy";
+  dt.setData("text/plain", JSON.stringify(item));
+};
+let nodeIndex = 0;
 const dragDrop = (evt: DragEvent) => {
   let dt = evt.dataTransfer!;
   let data = JSON.parse(dt.getData("text/plain"));
-  let fdata = nodeList.value.filter((item: any) => item.store.data["name"] == data["name"]);
+  let fdata = nodeList.value.filter((item: any) => item.store.data["fieldName"] == data["fieldName"]);
   if (fdata?.length >= 3) {
-    warning("相同的表最多能添加三次");
+    warning("相同的组件最多能添加三次");
     return;
   }
+
+  data["index"] = nodeIndex++;
   let point = graph.value.pageToLocal(evt.pageX, evt.pageY);
   if (data["items"]) {
     createTableNode(data, point);
@@ -565,19 +620,21 @@ const dragDrop = (evt: DragEvent) => {
     //创建普通节点
     createNormalNode(data, point);
   }
-
 };
 const createNormalNode = (data: any, position: Point) => {
   let datat = {
     "shape": "custom-rect",
-    "label": data["label"],
+    "label": "\t\t" + data["label"],
     "name": data["name"],
+    'compType': "normal",
+    data,
     position: {
       x: position.x,
       y: position.y
     },
   };
-  addNode(datat);
+  let cell = addNode(datat);
+  cell.setAttrByPath('use', {"xlink:href": data.icon ? `#icon-${data.icon}` : "#icon-default"});
 }
 const createTableNode = (data: any, position: Point, tableWidth: Number = 320) => {
   let ports = [];
@@ -598,6 +655,8 @@ const createTableNode = (data: any, position: Point, tableWidth: Number = 320) =
     "label": `${data["label"]}:${data["name"]} `,
     "name": data["name"],
     "width": tableWidth,
+    'compType': "table",
+    data,
     position: {
       x: position.x,
       y: position.y
@@ -610,11 +669,80 @@ const createTableNode = (data: any, position: Point, tableWidth: Number = 320) =
 const dragOver = (evt: DragEvent) => {
   evt.preventDefault();
 }
+const query = ref<String>("");
+const filterDatas = ref<Array<CustomerItem>>([]);
+const onQueryChanged = () => {
+  let dataList = JSON.parse(JSON.stringify(props.customerItems));
+  filterDatas.value = [];
+  activeItem.value = [];
+  if (!query) {
+    filterDatas.value = dataList;
+  } else {
+    for (let index in dataList) {
+      let temp = dataList[index];
+      let matchDatas = temp.compItems.filter((item: CompInfo) => item.label.indexOf(query.value) != -1);
+      console.log(matchDatas);
+      if (matchDatas && matchDatas.length > 0) {
+        temp.compItems = matchDatas;
+        filterDatas.value.push(temp);
+        activeItem.value.push(temp.name);
+      }
+    }
+  }
+};
+
+
+const writeAttrToComp = () => {
+  console.log("writeAttrToComp")
+  currentComp.value.setData(compAttr.value);
+  compAttr.value = {};
+};
+let rightAttrPanel = ref();
+const readCompAttr = async () => {
+  let data = currentComp.value.getData() || {};
+  let isNode = currentComp.value.isNode();
+  fieldList.value = isNode ? props.nodeFieldList : props.lineFieldList;
+  let {defaultDatas, mappingFields, batchDefaultValues} = formFieldMapping(fieldList.value);
+  compAttr.value = {};
+
+  if (!isNode && data) {
+    compAttr.value = data;
+  } else {
+    compAttr.value = {...data, ...defaultDatas};
+  }
+
+  for (let key in mappingFields) {
+    let temp = mappingFields[key];
+    if (!compAttr.value[temp.name]) {
+      compAttr.value[temp.name] = data[temp.alias];
+    }
+    if (currentCellInfo.value[temp.alias]) {
+      compAttr.value[temp.name] = currentCellInfo.value[temp.alias];
+    }
+  }
+  compAttr.value["nodeFlag"] = isNode;
+  console.log(data, defaultDatas, mappingFields,compAttr.value);
+};
 onMounted(() => {
   init();
+  filterDatas.value = props.customerItems;
 });
+watch(() => props.customerItems,
+    (val) => {
+      filterDatas.value = props.customerItems;
+    }, {
+      deep: true
+    });
+watch(() => compAttr.value,
+    (val) => {
+      currentComp.value.setData(val);
+    }, {
+      immediate: false,
+      deep: true
+    }
+)
 defineExpose({
-  graph, registerPort, registerNode, addNode, nodeList, getEdgeInfo, edgeList
+  graph, registerPort, registerNode, addNode, nodeList, getEdgeInfo: getCellnfo, edgeList, changeLabelText
 })
 </script>
 
@@ -622,34 +750,50 @@ defineExpose({
   <star-horse-dialog :dialogVisible="dataPreviewVisible" :title="'JSON'"
                      @closeAction="closeAction"
                      :isBatch="false" :isView="true">
-    <star-horse-editor :lang="'json'" v-model:value="jsonData"/>
+    <pre>
+      {{ jsonData }}
+    </pre>
   </star-horse-dialog>
-  <el-row style="height: 100%;">
-    <el-col :span="3" style="height: inherit">
-      <el-collapse accordion>
-        <template v-for="item in customerItems">
-          <el-collapse-item :name="item.name" :title="item.title">
-            <el-scrollbar>
-              <ul>
-                <li
-                    draggable="true"
-                    @dragstart="evt=>dratStart(sitem,evt)"
-                    class="field-item"
-                    v-for="sitem in item.compItems"
-                >&nbsp;&nbsp;<span>&nbsp;&nbsp;<star-horse-icon icon-class="default"/>&nbsp;{{ sitem.label }}</span>
-                </li>
-              </ul>
-            </el-scrollbar>
-          </el-collapse-item>
+  <div class="design-content">
+    <div class="comp-list" v-show="leftPanelVisible">
+      <el-input
+          v-model="query"
+          size="small"
+          clearable
+          placeholder="请输入关键字"
+          @input="onQueryChanged"
+      >
+        <template #suffix>
+          <star-horse-icon icon-class="search"/>
         </template>
-      </el-collapse>
-    </el-col>
-    <el-col :span="21">
+      </el-input>
+      <el-scrollbar>
+        <el-collapse accordion v-model="activeItem">
+          <template v-for="item in filterDatas">
+            <el-collapse-item :name="item.name" :title="item.title" type="small">
+              <el-scrollbar max-height="350">
+                <ul>
+                  <li
+                      draggable="true"
+                      @dragstart="evt=>dratStart(sitem,evt)"
+                      class="field-item"
+                      v-for="sitem in item.compItems"
+                  ><span>&nbsp;&nbsp;<star-horse-icon
+                      :icon-class="sitem.icon?sitem.icon:'default'"/>&nbsp;{{ sitem.label }}</span>
+                  </li>
+                </ul>
+              </el-scrollbar>
+            </el-collapse-item>
+          </template>
+        </el-collapse>
+      </el-scrollbar>
+    </div>
+    <div class="design-main">
       <div class="inner_button">
         <el-menu mode="horizontal" style="height: inherit;width: 100%;">
-          <template v-for="item in commands">
+          <template v-for="(item,index) in commands">
             <el-menu-item v-if="hasItems()||item.defaultEdit">
-              <el-tooltip class="item" :content="item.label"
+              <el-tooltip class="item" :content="item.label" :index="index"
                           effect="dark"
                           placement="bottom">
                 <star-horse-icon @click="transform(item.key)" :icon-class="item.icon" size="24px" color="#303133"/>
@@ -657,12 +801,14 @@ defineExpose({
             </el-menu-item>
           </template>
         </el-menu>
+        <help :message="helpMessage"/>
       </div>
-      <div class="backgournd-grid-app">
+      <div class="background-grid-app">
         <div id="graph-dropdown" @dragover.prevent="dragOver" @drop="dragDrop" class="app-content" ref=
             "starHorseDesignRef"></div>
-        <el-dropdown ref="contextmenuRef" v-if="contextMenuVisible" @visibleChange="visibleChange" trigger=
-            "contextmenu"
+        <el-dropdown @command="contextMenuOperation" ref="contextmenuRef" v-if="contextMenuVisible"
+                     @visibleChange="visibleChange" trigger=
+                         "contextmenu"
                      :style=
                          "{'z-index': 99999999,
           'position': 'absolute',
@@ -671,94 +817,203 @@ defineExpose({
           }">
           <span class="el-dropdown-link"> 右键菜单</span>
           <template #dropdown>
-            <el-dropdown-menu @click="contextMenuOperation">
+            <el-dropdown-menu>
               <el-dropdown-item command="cut" divided>剪切</el-dropdown-item>
               <el-dropdown-item command="copy" divided>复制</el-dropdown-item>
-              <el-dropdown-item command="paste" divided>粘贴</el-dropdown-item>
-              <el-dropdown-item command="delete" divided>删除</el-dropdown-item>
-              <el-dropdown-item command="clear" divided>清空</el-dropdown-item>
+              <el-dropdown-item command="paste" :disabled="graph.isClipboardEmpty()" divided>粘贴</el-dropdown-item>
+              <el-dropdown-item command="deleteItem" divided>删除</el-dropdown-item>
+              <el-dropdown-item command="empty" divided>清空</el-dropdown-item>
             </el-dropdown-menu>
           </template>
         </el-dropdown>
       </div>
-    </el-col>
-  </el-row>
-
+    </div>
+    <div class="right-attr-panel" v-if="panelStyle=='normal'" v-show="normalRightPanel">
+      <div class="title">属性面板</div>
+      <div class="item" style="border-bottom: none">
+        <div class="content" v-if="checkIsNode()==1">
+          <h3>{{ compAttr.label }}({{ compAttr.belongTo }})</h3>
+        </div>
+        <div class="content" v-else-if="checkIsNode()==2">
+          <h3>连线属性</h3>
+        </div>
+      </div>
+      <hr/>
+      <star-horse-form v-if="checkIsNode()==1" ref="rightAttrPanel" @refresh="()=>{}" :compUrl="compUrl"
+                       :fieldList="nodeFieldList" :rules="rules"/>
+      <star-horse-form v-else-if="checkIsNode()==2" ref="rightAttrPanel" @refresh="()=>{}" :compUrl="compUrl"
+                       :fieldList="lineFieldList" :rules="rules"/>
+      <div v-else class="empty-info">
+        <el-empty description="点击画布中的组件或者连线可设置属性"/>
+      </div>
+    </div>
+  </div>
+  <el-drawer
+      v-if="panelStyle=='drawer'"
+      v-model="rightPanel"
+      title="属性面板"
+      direction="rtl"
+      :modal="false"
+      @close="writeAttrToComp"
+      size="30%"
+  >
+    <div class="item" style="border-bottom: none">
+      <div class="content" v-if="checkIsNode()==1">
+        <h3>{{ compAttr.label }}({{ compAttr.belongTo }})</h3>
+      </div>
+      <div class="content" v-else-if="checkIsNode()==2">
+        <h3>连线属性</h3>
+      </div>
+    </div>
+    <hr/>
+    <star-horse-form v-if="checkIsNode()==1" ref="rightAttrPanel" @refresh="()=>{}" :compUrl="compUrl"
+                     :fieldList="nodeFieldList" :rules="rules"/>
+    <star-horse-form v-else-if="checkIsNode()==2" ref="rightAttrPanel" @refresh="()=>{}" :compUrl="compUrl"
+                     :fieldList="lineFieldList" :rules="rules"/>
+    <div v-else class="empty-info"> 右侧面板</div>
+  </el-drawer>
 </template>
 
-<style scoped lang="scss">
-ul {
-  padding-left: 10px; /* 重置IE11默认样式 */
-  margin: 0; /* 重置IE11默认样式 */
-  margin-block-start: 0;
-  margin-block-end: 0.25em;
-  padding-inline-start: 10px;
+<style lang="scss" scoped>
+hr {
+  height: 1px;
+  margin: 10px 0;
+  border: 0;
+  clear: both;
+}
 
-  &:after {
-    content: '';
-    display: block;
-    clear: both;
-  }
+.el-drawer__header {
 
-  .field-item {
-    display: inline-block;
-    height: 28px;
-    line-height: 28px;
-    width: 100%;
-    margin: 2px 6px 6px 0;
-    cursor: move;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    background: #f1f2f3;
-  }
+  border-bottom: 1px solid #8F8F8F;
+  padding: 10px;
+  margin-bottom: 10px;
+  height: 40px;
+  line-height: 40px;
+  text-indent: .5em;
+  background-color: #eee;
 
-  .field-item:hover {
-    background: #ebeef5;
-    outline: 1px solid #999999;
-  }
-
-  .drag-handler {
-    position: absolute;
-    top: 0;
-    left: 160px;
-    background-color: #dddddd;
-    border-radius: 5px;
-    padding-right: 5px;
-    font-size: 11px;
-    color: #666666;
+  span {
+    font-weight: bold;
+    font-size: 14px;
   }
 }
 
-.inner_button {
-  width: 99%;
-  height: 48px;
-  text-align: left;
-  justify-content: flex-start;
-  background-color: #fafafa;
-  border: solid 1px #ccc;
-  -moz-user-select: none;
-  margin-left: 7px;
-  -webkit-user-select: none;
-  -ms-user-select: none;
-  -khtml-user-select: none;
-  user-select: none;
-}
-
-.backgournd-grid-app {
+.design-content {
   display: flex;
-  width: 100%;
   height: 100%;
-  padding: 0;
-  font-family: sans-serif;
+  width: 100%;
+  flex-direction: row;
 
-  .app-content {
+  .comp-list {
+    min-width: 205px;
+    margin-right: 5px;
+    border: 1px solid #eee;
+
+    .el-collapse {
+      padding-left: 5px;
+    }
+
+    &:after, &:before {
+      box-sizing: border-box;
+    }
+
+    ul {
+      margin: 0;
+      padding: 0;
+
+      &:after {
+        content: '';
+        display: block;
+        clear: both;
+      }
+
+      .field-item {
+        display: flex;
+        height: 28px;
+        line-height: 28px;
+        width: 98%;
+        margin-bottom: 2px;
+        margin-left: 2px;
+        cursor: move;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        background: #f1f2f3;
+        border-radius: 3px;
+
+        span {
+          display: flex;
+          align-content: center;
+          align-items: center;
+        }
+      }
+
+      .field-item:first-child {
+        margin-top: 5px;
+      }
+
+      .field-item:hover {
+        background: #ebeef5;
+        outline: 1px solid #999999;
+      }
+
+      .drag-handler {
+        position: absolute;
+        top: 0;
+        left: 160px;
+        background-color: #dddddd;
+        border-radius: 5px;
+        padding-right: 5px;
+        font-size: 11px;
+        color: #666666;
+      }
+    }
+  }
+
+  .design-main {
     flex: 1;
-    height: 280px;
-    margin-right: 8px;
-    margin-left: 8px;
-    border-radius: 5px;
-    box-shadow: 0 12px 5px -10px rgb(0 0 0 / 10%), 0 0 4px 0 rgb(0 0 0 / 10%);
+    height: 100%;
+    /*min-height: 500px;*/
+    display: flex;
+    flex-direction: column;
+
+    .inner_button {
+      height: 40px;
+      text-align: left;
+      justify-content: flex-start;
+      background-color: #fafafa;
+      border: solid 1px #ccc;
+      -moz-user-select: none;
+      -webkit-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    .background-grid-app {
+      display: flex;
+      flex: 1;
+      padding: 0;
+      font-family: sans-serif;
+    }
+  }
+
+  .right-attr-panel {
+    width: 280px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #eee;
+    margin-left: 5px;
+
+    .title {
+      padding-left: 5px;
+      align-items: center;
+      vertical-align: middle;
+      width: 99%;
+      line-height: 40px;
+      height: 40px;
+      font-size: 14px;
+      background: #eee;
+    }
   }
 }
 </style>

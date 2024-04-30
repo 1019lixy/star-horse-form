@@ -4,11 +4,11 @@ import {warning} from "@/utils/message";
 import {FieldInfo} from "@/components/types/PageFieldInfo";
 
 const props = defineProps({
-      allItem: {type: Array, required: true},
+      // allItem: {type: Array, required: true},
       item: {type: Object, required: true},
       column: {type: Object},
-      primaryKey: {type: String, required: true},
-      dataForm: {type: Object, required: true},
+      primaryKey: {type: String},
+      // dataForm: {type: Object, required: true},
       batchName: {type: String, default: ""},
       buttonSize: {type: String, default: "small"},
       isSearch: {type: Boolean, default: false}, //是否查询数据
@@ -16,6 +16,7 @@ const props = defineProps({
       isEdit: {type: Boolean, default: false} //是否编辑数据
     }
 );
+const dataForm = defineModel("dataForm");
 const itemType = ref<String>("input");
 const showPassword = ref(false);
 const emit = defineEmits(["dataSearch", "focus", "blur"]);
@@ -39,7 +40,7 @@ const dataSearch = (act: String) => {
   } else if (act != "keydown.enter") {
     let actionFun = props.item.actions;
     if (actionFun && actionName.value == act) {
-      actionFun(props.dataForm)
+      actionFun(dataForm.value)
     }
     if (act == "focus") {
       emit("focus", props.column)
@@ -72,7 +73,7 @@ const typePreps = () => {
   field.value.preps["values"] = props.item.optionList;
   if (itemType.value == "number") {
     field.value.preps["step"] = props.item.step || 1;
-    field.value.preps["min"] = props.item.min || 1;
+    field.value.preps["min"] = props.item.min || 0;
     field.value.preps["precision"] = props.item.precision || 0;
   } else if (itemType.value == "select") {
     field.value.preps["filterable"] = "yes";
@@ -135,6 +136,8 @@ const typePreps = () => {
     field.value.preps["inactiveText"] = props.item.inactiveText || "否";
     field.value.preps["activeValue"] = props.item.activeValue || "Y";
     field.value.preps["inactiveValue"] = props.item.inactiveValue || "N";
+  } else if (itemType.value == "comp") {
+    field.value.preps["params"] = props.item.params || {};
   }
   field.value.preps["actionName"] = actionName.value;
   field.value.preps["disabled"] = props.item.disabled == 2 ? "yes" : props.isEdit && props.item.disabled == 1 ? "yes" : "no";
@@ -149,18 +152,18 @@ const typePreps = () => {
       if (!batchFields) {
         formFields[props.batchName] = [];
       }
-      let row = formFields[props.batchName][props.dataForm["xh"] - 1]
+      let row = formFields[props.batchName][dataForm.value["xh"] - 1]
       if (!row) {
         formFields[props.batchName].push([]);
       }
       //[[{},{}],[]]
-      formFields[props.batchName][props.dataForm["xh"] - 1].push(field);
+      formFields[props.batchName][dataForm.value["xh"] - 1].push(field);
     } else {
       formFields[fieldName] = field;
     }
 
   }
-
+  // console.log(dataForm.value);
 };
 const viewOrHide = () => {
   showPassword.value = !showPassword.value;
@@ -177,17 +180,15 @@ onMounted(() => {
   randId.value = "Id" + new Date().getTime();
   actionName.value = props.item.actionName ? props.item.actionName : defaultAction.value;
   typePreps();
-
 });
-
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .el-cascader {
   width: 100%;
 }
 </style>
 <template>
-  <div :style="{ 'width': isSearch && field.preps['type'] != 'daterange' ? '150px' : '100%' }">
+  <div :style="{ 'width': isSearch && field.preps['type'] != 'daterange' ? '150px' : '100%','height':'100%' }">
     <component :id="randId" :is="itemType+'-item'" @selfFunc="dataSearch" :isDesign="false" ref="componentRef"
                :field="field" :formFieldList="dataForm"/>
   </div>

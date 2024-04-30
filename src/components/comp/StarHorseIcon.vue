@@ -29,6 +29,7 @@ const svgClass = computed(() => {
   color: v-bind("color");
   margin-left: 0.35em;
   margin-right: 0.35em;
+
   vertical-align: -0.15em;
   fill: currentColor;
   overflow: hidden;

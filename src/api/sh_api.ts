@@ -7,6 +7,9 @@ import {confirm, error, success, warning} from "@/utils/message";
 import {SelectOption} from "@/components/types/SearchProps";
 import * as ElementPlusIconsVue from '@element-plus/icons-vue';
 import {MenusInfo} from "@/components/types/MenusInfo";
+import {getCustomerParam} from "@/utils/auth";
+import mitter from "@/api/eventbus";
+import {FieldInfo, PageFieldInfo, TabFieldInfo} from "@/components/types/PageFieldInfo";
 
 let loading: any = null;
 /**
@@ -437,7 +440,10 @@ export async function mesDictData(dictType: string, nameValueSame: boolean = tru
  */
 export async function dictData(dictType: string) {
     let query = [];
-    query.push(createCondition("dictType",dictType));
+    query.push({
+        "propertyName": "dictType",
+        "value": dictType
+    });
     let dicts: SelectOption[] = [];
     await postRequest(dictUrl, {fieldList: query}).then(res => {
         let redata = res.data;
@@ -486,6 +492,7 @@ export function searchMatchList(): SelectOption[] {
  * @param msg
  */
 export function copy(msg: string) {
+    console.log(msg);
     navigator.clipboard.writeText(msg).then(() => {
         success("已复制");
     }).catch(() => {
@@ -505,8 +512,8 @@ export function rowClassName({row, rowIndex}: any) {
 /**
  * 创建条件
  */
-export function createCondition(name: string, val: any, matchType: string="eq"): SearchParams {
-    let params: SearchParams = {propertyName: name, value: val, operation: matchType };
+export function createCondition(name: string, val: any, matchType: string | null): SearchParams {
+    let params: SearchParams = {propertyName: name, value: val, operation: matchType || "eq"};
     return params;
 };
 
@@ -517,19 +524,21 @@ export function createCondition(name: string, val: any, matchType: string="eq"):
  */
 export function filterTree(search: any, menusList: MenusInfo[]): MenusInfo[] {
     // let tempData = permissionMenuList.value;
-    const filterRecursive = (node: any, parentInclude: boolean | undefined):any => {
+    const filterRecursive = (node, parentInclude) => {
         // 如果节点是数组，则对每个元素应用过滤逻辑
         if (Array.isArray(node)) {
-            return node.map(child => filterRecursive(child, parentInclude)).filter((item) => item !== null);
+            const result: Array = node.map(child => filterRecursive(child, parentInclude)).filter((item) => item !== null);
+            return result;
         }
         const containsData = !search || node.meta?.title.toLowerCase().includes(search?.toLowerCase());
         const includeNode = parentInclude || containsData;
-        const filteredChildren = node.children && node.children.length > 0 ? filterRecursive(node.children,parentInclude) : [];
+        const filteredChildren = node.children && node.children.length > 0 ? filterRecursive(node.children) : [];
         return includeNode || filteredChildren.length > 0 ? {...node, children: filteredChildren} : null;
     }
     const filteredTree = filterRecursive(menusList, false);
-    return JSON.parse(JSON.stringify(filteredTree));
-};
+    const cleanFilteredTree = JSON.parse(JSON.stringify(filteredTree))
+    return cleanFilteredTree;
+}
 
 /**
  * 设置css 全局变量
@@ -550,6 +559,7 @@ export function setCssVar(name: string, val: any, dom = document.documentElement
  */
 export function relationFieldOperation(formFields: any, fieldName: string, batchName: string | null, xh: number | null): any {
     if (batchName) {
+
         let tempList = formFields[batchName];
         for (let index in tempList) {
             const tmpIndex = +index;
@@ -568,4 +578,57 @@ export function relationFieldOperation(formFields: any, fieldName: string, batch
         return formFields[fieldName].value;
     }
 
+}
+
+/**
+ * 解析表单字段映射
+ * @param fieldList
+ */
+export function formFieldMapping(fieldList: PageFieldInfo) {
+    let defaultDatas = {};
+    //解析出字段之间的映射关系
+    let mappingFields: Array<any> = [];
+    let tempList = fieldList.fieldList;
+    let batchDefaultValues = {};
+    const fieldsOperation = (dataList: any) => {
+        for (let key in dataList) {
+            let temp = dataList[key];
+            if (temp instanceof Array) {
+                temp.forEach((item: FieldInfo) => {
+                    if (item.defaultValue) {
+                        defaultDatas[item.fieldName] = item.defaultValue;
+                    }
+                    if (item.aliasName) {
+                        mappingFields.push({name: item.fieldName, alias: item.aliasName});
+                    }
+                })
+            } else if (temp['tabList']) {
+                //如果是tabList
+                let tabList = temp["tabList"] as TabFieldInfo;
+                fieldsOperation(tabList.fieldList);
+            } else {
+                if (temp.defaultValue) {
+                    defaultDatas[temp.fieldName] = temp.defaultValue;
+                }
+                if (temp.aliasName) {
+                    mappingFields.push({name: temp.fieldName, alias: temp.aliasName});
+                }
+            }
+        }
+    };
+    fieldsOperation(tempList);
+    let batchTempList = fieldList.batchFieldList;
+    for (let key in batchTempList) {
+        let temp = batchTempList[key];
+        let fieldList = temp.fieldList as Array<FieldInfo>;
+        fieldList?.forEach(item => {
+            if (item.defaultValue) {
+                batchDefaultValues[temp.batchName][item.fieldName] = item.defaultValue;
+            }
+            if (item.aliasName) {
+                mappingFields.push({name: item.fieldName, alias: item.aliasName});
+            }
+        });
+    }
+    return {defaultDatas, mappingFields, batchDefaultValues};
 }

@@ -1,5 +1,5 @@
 <script setup lang="ts" name="StarHorseDialog">
-import {computed, onMounted, provide, reactive, ref, watch} from "vue";
+import {computed, onMounted, provide, ref, watch, reactive} from "vue";
 import {PropType} from "vue/dist/vue";
 import {DialogProps} from "@/components/types/DialogProps";
 
@@ -14,6 +14,7 @@ const props = defineProps({
   boxHeight: {type: String, default: "60%"},
   boxWidth: {type: String, default: "60%"},
   isBatch: {type: Boolean, default: false},
+  fullScreen: {type: Boolean, default: false},
   selfFunc: {type: Boolean, default: false},
   title: {type: String, default: ""}
 });
@@ -28,7 +29,7 @@ watch(
     }
 );
 
-let isFullScreen = ref(false);
+let isFullScreen = ref(props.fullScreen);
 const dialogStyle = computed(() => {
   return {"max-height": isFullScreen ? "100%" : props.boxHeight};
 });
