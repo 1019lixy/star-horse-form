@@ -1,12 +1,13 @@
 <script setup lang="ts" name="DbSearch">
 import StarHorseEditor from "@/components/comp/StarHorseEditor.vue";
-import {onMounted, ref} from "vue";
+import {onMounted, ref, unref} from "vue";
 import {closeLoad, commonParseCodeToName, load, loadGetData} from "@/api/sh_api";
 import {error, warning} from "@/utils/message";
 import {download, getRequest, postRequest} from "@/api/star_horse";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import Help from "@/components/help.vue";
 import {commands} from "@/utils/sh_design.ts";
+import {sql} from "@codemirror/lang-sql";
 
 let editorRef = ref(null);
 let cacheValue = ref({});
@@ -204,6 +205,30 @@ const filterData = () => {
   assignDataList.value = tableAndColumnsList.value.filter((item: any) =>
       item.tableName.toLowerCase().match(filterTableName.value.toLowerCase()));
 };
+const dratStart = (item: any, evt: DragEvent) => {
+  let dt = evt.dataTransfer!;
+  dt.effectAllowed = "copy";
+  dt.setData("text/plain", item.tableName);
+};
+let bakeData = ref<String>("");
+const dragOver = (evt: DragEvent) => {
+  evt.preventDefault();
+  bakeData.value = unref(sqlInfo);
+};
+const sqlInfo = ref<String>("");
+const dragDrop = (evt: DragEvent) => {
+  let dt = evt.dataTransfer!;
+  let data = dt.getData("text/plain");
+  if (!unref(bakeData)) {
+    sqlInfo.value = " SELECT * FROM " + data;
+  } else {
+    sqlInfo.value = unref(bakeData) + " " + data;
+  }
+  // editorRef.value.editor.dispatch({
+  //   changes: {from: 0, to: bakeData.value.length, insert: sqlInfo.value}
+  // })
+  // console.log(sqlInfo.value, bakeData.value, data);
+}
 const operMsg = `
  使用说明:
      目前快捷键失效,提示表字段需先单击表名加载字段到本地.
@@ -289,7 +314,7 @@ const operMsg = `
             <template v-for="(data, index) in assignDataList">
               <el-popover :width="540" placement="right" trigger="click">
                 <template #reference>
-                  <li @click="tableField(data.tableName)">
+                  <li @click="tableField(data.tableName)" @dragstart="evt=>dratStart(data,evt)" draggable="true">
                     <star-horse-icon icon-class="table" style="margin-top: 5px;height: 18px"/>
                     <el-tooltip :content="data.comment">
                       {{ data.tableName }}
@@ -318,8 +343,8 @@ const operMsg = `
         </el-scrollbar>
       </div>
       <div class="search-editor-result">
-        <div class="search-editor">
-          <StarHorseEditor :lang="'sql'" ref="editorRef"/>
+        <div class="search-editor" @dragover.prevent="dragOver" @drop="dragDrop">
+          <StarHorseEditor :lang="'sql'" ref="editorRef" v-model:value="sqlInfo"/>
         </div>
         <div class="search-result" v-if="queryResult?.length>0">
           <el-tabs class="demo-tabs" type="border-card" v-model="activeName">
