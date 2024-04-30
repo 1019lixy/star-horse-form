@@ -136,6 +136,7 @@ const alignOperation = (align: string) => {
       if (res) {
         deleteNode(cells);
         graph.value.removeCells(cells);
+        currentComp.value = null;
       }
     });
     return;
@@ -326,7 +327,7 @@ const clickOperation = async (view: View) => {
   designGraph.setCell(cell);
   let data = getCellnfo(cell)!;
   if (!isNode) {
-    graph.value.trigger("blank:click", {view});
+    // graph.value.trigger("blank:click", {view});
     graph.value.trigger("edge:click", {view});
   }
   currentCellInfo.value = data
@@ -691,7 +692,7 @@ const readCompAttr = async () => {
     }
   }
   compAttr.value["nodeFlag"] = isNode;
-  console.log(data, defaultDatas, mappingFields,compAttr.value);
+  console.log(data, defaultDatas, mappingFields, compAttr.value);
 };
 onMounted(() => {
   init();
