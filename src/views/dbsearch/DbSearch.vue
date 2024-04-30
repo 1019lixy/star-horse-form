@@ -1,10 +1,12 @@
-<script setup lang = "ts" name = "DbSearch">
-import StarHorseEditor from "@/components/comp/StarHorseEditor.js";
+<script setup lang="ts" name="DbSearch">
+import StarHorseEditor from "@/components/comp/StarHorseEditor.vue";
 import {onMounted, ref} from "vue";
 import {closeLoad, commonParseCodeToName, load, loadGetData} from "@/api/sh_api";
 import {error, warning} from "@/utils/message";
 import {download, getRequest, postRequest} from "@/api/star_horse";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
+import Help from "@/components/help.vue";
+import {commands} from "@/utils/sh_design.ts";
 
 let editorRef = ref(null);
 let cacheValue = ref({});
@@ -202,115 +204,99 @@ const filterData = () => {
   assignDataList.value = tableAndColumnsList.value.filter((item: any) =>
       item.tableName.toLowerCase().match(filterTableName.value.toLowerCase()));
 };
+const operMsg = `
+ 使用说明:
+     目前快捷键失效,提示表字段需先单击表名加载字段到本地.
+    1、使用前需先连接数据库;如果在左侧下拉框中,无数据或者无您要连接的DB,请联系管理员配置并授权;
+    2、Sql查询器理论上支持数据库的所有DDL,DML,DCL等操作,但基于合规性,请在配置数据库的时候慎重赋予操作权限;
+    3、建议不要执行耗时的Sql,容易被网关拦截;
+    4、建议每条Sql写完后加上";",以方便多条sql拆分;
+    5、默认每条Sql 一次最多返回10条数据,页面支持最大返回100条配置;
+    6、每次最多执行的Sql数不能超过5条,超过数量取前5条;
+    7、执行器支持选中某条Sql进行执行;
+    8、Ctrl+Enter 执行,Ctrl+Shift+F 格式化,Ctrl+Enter 打开提示.`;
 </script>
 <template>
-  <el-card class = "inner_content">
-    <el-container>
-      <el-header>
-        <el-container>
-          <el-aside width = "200px">
-            <el-select
-                @change = "openDb"
-                clearable
-                filterable
-                id = "dbInfo"
-                placeholder = "请选择数据库信息"
-                v-model = "dbIndex"
-            >
-              <el-option
-                  :key = "sitem.configId"
-                  :label = "sitem.name"
-                  :value = "sitem.configId"
-                  v-for = "sitem in dbList"
-              >
-              </el-option>
-            </el-select>
-          </el-aside>
-          <el-main>
-            <el-select style = "width: 130px; margin-right: 5px" v-model = "pageSize">
-              <el-option
-                  :key = "sitem"
-                  :label = "'每页' + sitem + '条'"
-                  :value = "sitem"
-                  v-for = "sitem in pageSizeLimit"
-              >
-              </el-option>
-            </el-select>
-            <el-tooltip
-                class = "box-item"
-                content = "快捷键Ctrl+Enter"
-                effect = "dark"
-                placement = "right-start"
-            >
-              <span @click = "executeSql" style = "color: green" v-if = "!!dbIndex"
-              ><star-horse-icon icon-class = "run"/> 执行
-              </span>
-            </el-tooltip>
-            <el-divider direction = "vertical" v-if = "!!dbIndex"/>
-            <span @click = "executeStop" style = "color: red" v-if = "!!dbIndex"
-            ><star-horse-icon icon-class = "stop"/>停止</span
-            >
-            <el-divider direction = "vertical" v-if = "!!dbIndex"/>
-            <el-tooltip
-                class = "box-item"
-                content = "快捷键Ctrl+Shift+F"
-                effect = "dark"
-                placement = "right-start"
-            >
-              <span @click = "dataFormat" style = "color: darkorange" v-if = "!!dbIndex"
-              ><star-horse-icon icon-class = "format"/>格式化
-              </span>
-            </el-tooltip>
-            <el-divider direction = "vertical" v-if = "!!dbIndex"/>
-            <el-popover :width = "500" placement = "right" trigger = "hover">
-              <template #reference>
-                <el-icon
-                    class = "star-page-icon"
-                    style = "cursor: pointer"
-                >
-                  <el-tooltip content = "使用说明">
-                    <InfoFilled/>
-                  </el-tooltip>
-                </el-icon>
-              </template>
-              <div>
-                <span>使用说明</span>
-                <p style = "color:red">目前快捷键失效,提示表字段需先单击表名加载字段到本地.</p>
-                <p>
-                  1,使用前需先连接数据库;如果在左侧下拉框中,无数据或者无您要连接的DB,请联系管理员配置并授权;
-                </p>
-                <p>
-                  2,Sql查询器理论上支持数据库的所有DDL,DML,DCL等操作,但基于合规性,请在配置数据库的时候慎重赋予操作权限;
-                </p>
-                <p>3,建议不要执行耗时的Sql,容易被网关拦截;</p>
-                <p>4,建议每条Sql写完后加上";",以方便多条sql拆分;</p>
-                <p>5,默认每条Sql 一次最多返回10条数据,页面支持最大返回100条配置;</p>
-                <p>6,每次最多执行的Sql数不能超过5条,超过数量取前5条;</p>
-                <p>7,执行器支持选中某条Sql进行执行;</p>
-                <p>8,Ctrl+Enter 执行,Ctrl+Shift+F 格式化,Ctrl+Enter 打开提示.</p>
+  <el-card class="inner_content">
+    <el-row>
+      <el-col :span="4">
+        <el-select
+            size="small"
+            @change="openDb"
+            clearable
+            filterable
+            id="dbInfo"
+            placeholder="请选择数据库信息"
+            v-model="dbIndex"
+        >
+          <el-option
+              :key="sitem.configId"
+              :label="sitem.name"
+              :value="sitem.configId"
+              v-for="sitem in dbList"
+          >
+          </el-option>
+        </el-select>
+      </el-col>
+      <el-col :span="20">
+        <div class="inner_button">
+          <el-menu mode="horizontal" style="height: inherit;width: 100%;">
+            <el-menu-item index="0">
+              <el-select style="width: 130px; margin-right: 5px" v-model="pageSize" size="small">
+                <el-option
+                    :key="sitem"
+                    :label="'每页' + sitem + '条'"
+                    :value="sitem"
+                    v-for="sitem in pageSizeLimit">
+                </el-option>
+              </el-select>
+            </el-menu-item>
+            <el-menu-item @click="executeSql" index="1" v-if="!!dbIndex">
+              <el-tooltip class="item" content="执行" index="1"
+                          effect="dark"
+                          placement="bottom">
+                <star-horse-icon icon-class="run" size="24px" color="#303133"/>
+              </el-tooltip>
+            </el-menu-item>
+            <el-menu-item @click="executeStop" index="2" v-if="!!dbIndex">
+              <el-tooltip class="item" content="停止"
+                          effect="dark"
+                          placement="bottom">
+                <star-horse-icon icon-class="stop" size="24px" color="red"/>
+                停止
+              </el-tooltip>
+            </el-menu-item>
+            <el-menu-item @click="executeStop" index="2" v-if="!!dbIndex">
+              <el-tooltip class="item" content="格式化"
+                          effect="dark"
+                          placement="bottom">
+                <star-horse-icon icon-class="format" size="24px" color="darkorange"/>
+                格式化
+              </el-tooltip>
+            </el-menu-item>
+          </el-menu>
+          <help :message="operMsg" width="650"/>
+        </div>
+      </el-col>
+    </el-row>
 
-              </div>
-            </el-popover>
-          </el-main>
-        </el-container>
-      </el-header>
-      <el-container>
-        <el-aside style = "width: 200px; overflow-y: auto;overflow-x: hidden;" v-if = "!!dbIndex">
+    <div class="search-area">
+      <div class="table-list" v-if="assignDataList.length>0">
+        <el-input size="small" placeholder="请输入关键字" v-model="filterTableName" @input="filterData"
+                  suffix-icon="Search"/>
+        <el-scrollbar height="90%">
           <ul>
-            <li>
-              <el-input v-model = "filterTableName" @input = "filterData" prefix-icon = "Search"/>
-            </li>
-            <template v-for = "(data, index) in assignDataList">
-              <el-popover :width = "540" placement = "right" trigger = "click">
+            <template v-for="(data, index) in assignDataList">
+              <el-popover :width="540" placement="right" trigger="click">
                 <template #reference>
-                  <li @click = "tableField(data.tableName)">
-                    <star-horse-icon icon-class = "table" style = "margin-top: 5px"/>
-                    <el-tooltip :content = "data.comment">
+                  <li @click="tableField(data.tableName)">
+                    <star-horse-icon icon-class="table" style="margin-top: 5px;height: 18px"/>
+                    <el-tooltip :content="data.comment">
                       {{ data.tableName }}
                     </el-tooltip>
                   </li>
                 </template>
-                <table class = "el-table field-table">
+                <table class="el-table field-table">
                   <thead>
                   <tr>
                     <th>名称</th>
@@ -319,7 +305,7 @@ const filterData = () => {
                   </tr>
                   </thead>
                   <tbody>
-                  <tr v-for = "sdata in data.fields">
+                  <tr v-for="sdata in data.fields">
                     <td>{{ sdata.filedName }}</td>
                     <td>{{ sdata.type }}</td>
                     <td>{{ sdata.comment }}</td>
@@ -329,92 +315,95 @@ const filterData = () => {
               </el-popover>
             </template>
           </ul>
-        </el-aside>
-        <el-container style = "overflow-y: auto;height:100%;">
-          <el-main>
-            <StarHorseEditor :lang = "'sql'" ref = "editorRef"/>
-          </el-main>
-          <el-footer v-if = "!!queryResult">
-            <el-tabs class = "demo-tabs" type = "border-card" v-model = "activeName">
-              <el-tab-pane
-                  :label = "'Result' + (indexa + 1)"
-                  :name = "'Result' + (indexa + 1)"
-                  v-for = "(item, indexa) in queryResult"
-              >
-                <ul class = "inner_button" v-if = "item?.dataList&&item?.dataList.length>0">
-                  <li>
-                    <el-button @click = "exportData(item)" link title = "" type = "primary">
-                      <star-horse-icon icon-class = "excel-export"/>
-                      <el-tooltip content = "导出">导出</el-tooltip>
-                    </el-button>
-                  </li>
-                </ul>
-                <hr>
-                <el-table
-                    :data = "item.dataList"
-                    :id = "'queryResultId' + (indexa + 1)"
-                    @row-dblclick = "viewDataDetail"
-                    highlight-current-row = true
-                    ref = "multipleTable"
-                    stripe
-                    style = "min-width: 1000px"
-                >
-                  <!--  <el-table-column label="显示/隐藏" :render-header="columnListFun(item.columnNames)"/>-->
-                  <el-table-column
-                      :formatter = "resultDataFormat"
-                      :index = "index"
-                      :label = "pp"
-                      :prop = "pp"
-                      :show-overflow-tooltip = "true"
-                      min-width = "200px"
-                      sortable
-                      v-for = "(pp, index) in item.columnNames"
-                  >
-                  </el-table-column>
-                </el-table>
-                <hr>
-                <el-pagination
-                    :total = "item.totalDatas"
-                    @current-change = "handleCurrentChange(
-                      indexa,item.currentSql,item.currentPage,item.pageSize)
-                  "
-                    layout = "total,  prev, pager, next,jumper"
-                    v-model:currentPage = "item.currentPage"
-                    v-model:page-size = "item.pageSize"
-                />
-              </el-tab-pane>
-            </el-tabs>
-          </el-footer>
-        </el-container>
-      </el-container>
-    </el-container>
+        </el-scrollbar>
+      </div>
+      <div class="search-editor-result">
+        <div class="search-editor">
+          <StarHorseEditor :lang="'sql'" ref="editorRef"/>
+        </div>
+        <div class="search-result" v-if="queryResult?.length>0">
+          <el-tabs class="demo-tabs" type="border-card" v-model="activeName">
+            <el-tab-pane
+                :label="'Result' + (indexa + 1)"
+                :name="'Result' + (indexa + 1)"
+                v-for="(item, indexa) in queryResult"
+            >
 
+              <el-button @click="exportData(item)" link title="" type="primary">
+                <star-horse-icon icon-class="excel-export"/>
+                <el-tooltip content="导出">导出</el-tooltip>
+              </el-button>
+              <hr>
+              <el-table
+                  :data="item.dataList"
+                  :id="'queryResultId' + (indexa + 1)"
+                  @row-dblclick="viewDataDetail"
+                  highlight-current-row
+                  ref="multipleTable"
+                  stripe
+                  style="width: 2500px;"
+                  :row-style="{height: '30px',}"
+                  :cell-style="{height: '30px','font-size': '12px',}"
+                  :header-cell-style="{
+                      background: '#f2f2f2',
+                      color: '#707070',
+                      'font-size': '13px',
+                      'background-image': '-webkit-gradient(linear,left 0,left 100%,from(#f8f8f8),to(#ececec))',
+                      }"
+                  border
+              >
+                <!--  <el-table-column label="显示/隐藏" :render-header="columnListFun(item.columnNames)"/>-->
+                <el-table-column
+                    :formatter="resultDataFormat"
+                    :index="index"
+                    :label="pp"
+                    :prop="pp"
+                    :show-overflow-tooltip="true"
+                    min-width="200px"
+                    sortable
+                    v-for="(pp, index) in item.columnNames"
+                >
+                </el-table-column>
+              </el-table>
+              <hr>
+              <el-pagination
+                  small
+                  :total="item.totalDatas"
+                  @current-change="handleCurrentChange(indexa,item.currentSql,item.currentPage,item.pageSize)"
+                  layout="total,  prev, pager, next,jumper"
+                  v-model:currentPage="item.currentPage"
+                  v-model:page-size="item.pageSize"/>
+            </el-tab-pane>
+          </el-tabs>
+        </div>
+      </div>
+    </div>
     <el-drawer
-        :before-close = "handleClose"
-        :direction = "direction"
-        title = "数据详情"
-        v-model = "drawer"
+        :before-close="handleClose"
+        :direction="direction"
+        title="数据详情"
+        v-model="drawer"
     >
-      <div class = "el-table__header-wrapper">
-        <table class = "el-table">
+      <div class="el-table__header-wrapper">
+        <table class="el-table">
           <thead>
-          <tr class = "el-table__header">
-            <th class = "el-table__cell">
-              <div class = "cell">字段名</div>
+          <tr class="el-table__header">
+            <th class="el-table__cell">
+              <div class="cell">字段名</div>
             </th>
-            <th class = "el-table__cell">
-              <div class = "cell">值</div>
+            <th class="el-table__cell">
+              <div class="cell">值</div>
             </th>
           </tr>
           </thead>
           <tbody>
-          <tr :class = "['el-table__row',index%2==0?'el-table__row--striped':'']" v-for = "(val, key, index) in
-          detailData">
-            <td class = "el-table__cell">
-              <div class = "cell">{{ key }}</div>
+          <tr :class="['el-table__row',index%2==0?'el-table__row--striped':'']"
+              v-for="(val, key, index) in detailData">
+            <td class="el-table__cell">
+              <div class="cell">{{ key }}</div>
             </td>
-            <td class = "el-table__cell">
-              <div class = "cell">{{ commonParseCodeToName(key, val) }}</div>
+            <td class="el-table__cell">
+              <div class="cell">{{ commonParseCodeToName(key, val) }}</div>
             </td>
           </tr>
           </tbody>
@@ -424,118 +413,89 @@ const filterData = () => {
   </el-card>
 </template>
 
-<style lang = "scss" scoped>
+<style lang="scss" scoped>
+.search-area {
+  display: flex;
+  height: inherit;
+  flex-direction: row;
+
+  .table-list {
+    min-width: 200px;
+    height: inherit;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    ul {
+      margin: 5px;
+      display: flex;
+      flex-direction: column;
+
+      li {
+        height: 25px;
+        border-radius: 2px;
+        cursor: pointer;
+        margin: 1px;
+        display: flex;
+
+        :deep(.el-tooltip__trigger) {
+          display: inline-flex;
+          align-items: center;
+          margin-top: 0;
+          overflow: hidden;
+          vertical-align: middle;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          text-align: left;
+          height: inherit;
+          flex: 1;
+        }
+
+        .svg-icon {
+          width: 18px;
+          height: 18px;
+        }
+      }
+
+      li:nth-child(even) {
+        background: #e5e5e5;
+      }
+
+      li:nth-child(odd) {
+        background: #f1f2f3;
+      }
+    }
+  }
+
+  .search-editor-result {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+
+    .search-editor {
+      flex: 1;
+    }
+
+    .search-result {
+      resize: both;
+      overflow: auto;
+      height: 350px;
+    }
+  }
+}
+
+:deep(.el-table__cell) {
+  padding: 0;
+}
+
+:deep(th.el-table__cell:first-child) {
+  padding: 5px 0;
+}
+
 .el-card {
   height: 100%;
   overflow: hidden;
 }
 
-.el-container {
-  width: 100%;
-
-  .el-header {
-    width: inherit;
-    height: 40px;
-
-    .el-container {
-      height: 40px;
-
-      .el-aside {
-        height: inherit;
-        justify-content: center;
-        vertical-align: middle;
-        padding: 3px;
-      }
-
-      .el-main {
-        height: inherit;
-        --el-main-padding: 3px;
-        overflow: hidden;
-
-        span {
-          height: 30px;
-          margin-left: 10px;
-          text-align: left;
-          text-wrap: normal;
-          flex: 1;
-          cursor: pointer;
-          align-items: center;
-          justify-items: center;
-          justify-content: flex-start;
-          font-size: 13px;
-
-          i {
-            padding-right: 10px;
-          }
-        }
-      }
-    }
-  }
-
-  .el-container {
-    height: 100%;
-    padding: 0px;
-
-    .el-aside {
-      border-right: 1px solid #f1f2f3;
-      height: 100%;
-      background: #ebeef5;
-
-      ul {
-        margin: 5px;
-        display: flex;
-        flex-direction: column;
-
-        li {
-          height: 32px;
-          overflow: hidden;
-          border-radius: 5px;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-          text-wrap: inherit;
-          vertical-align: center;
-          text-align: left;
-          cursor: pointer;
-          margin: 1px;
-
-          :deep(.el-tooltip__trigger) {
-
-            :deep(.svg-icon) {
-              margin-top: 15px;
-              width: 25px;
-              height: 25px;
-            }
-
-            width: 100%;
-
-          }
-        }
-
-        li:nth-child(even) {
-          background: #e5e5e5;
-        }
-
-        li:nth-child(odd) {
-          background: #f1f2f3;
-        }
-      }
-    }
-
-    .el-container {
-      height: 600px;
-
-      .el-main {
-        --el-main-padding: 0;
-        height: 350px;
-      }
-
-      .el-footer {
-        --el-footer-padding: 0;
-        height: calc(100% - 300px);
-      }
-    }
-  }
-}
 
 .field-table {
   border: 1px solid #409eff;

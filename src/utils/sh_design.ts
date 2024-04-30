@@ -91,7 +91,7 @@ const commands = [
         key: 'json',
         label: 'JSON数据',
     },
-    /*  {
+      {
           icon: "valid",
           key: 'valid',
           label: '校验',
@@ -105,7 +105,7 @@ const commands = [
           icon: "save",
           key: 'save',
           label: '保存',
-      },*/
+      },
     /*{
         icon: "right_panel",
         defaultEdit: true,

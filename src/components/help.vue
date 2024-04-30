@@ -1,28 +1,29 @@
-<script setup lang = "ts" name = "help">
-const props = defineProps({
+<script setup lang="ts" name="help">
+defineProps({
+  width: {type: Number, default: 340},
   message: {type: String, required: true, default: "帮助"}
 });
 </script>
 
 <template>
   <el-popover
-      trigger = "hover"
-      :width = "340"
-      placement = "left-end"
+      trigger="hover"
+      :width="width"
+      placement="left-end"
   >
     <template #reference>
       <el-icon
-          class = "star-page-icon"
-          style = "cursor: pointer;font-size:16px;"
+          class="star-page-icon"
+          style="cursor: pointer;font-size:16px;"
       >
-        <el-tooltip content = "帮助">
+        <el-tooltip content="帮助">
           <InfoFilled/>
         </el-tooltip>
       </el-icon>
     </template>
     <div style="font-size: 12px;">
       <pre>
-         {{ message}}
+         {{ message }}
       </pre>
 
     </div>
@@ -30,6 +31,6 @@ const props = defineProps({
   </el-popover>
 </template>
 
-<style scoped lang = "scss">
+<style scoped lang="scss">
 
 </style>

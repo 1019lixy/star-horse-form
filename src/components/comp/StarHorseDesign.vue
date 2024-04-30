@@ -207,11 +207,6 @@ const init = async () => {
   // delete
   graph.value.bindKey(['backspace', 'delete'], () => {
     alignOperation("deleteItem");
-    // const cells = graph.value.getSelectedCells()
-    // if (cells.length) {
-    //   deleteNode(cells);
-    //   graph.value.removeCells(cells)
-    // }
   })
 // 控制连接桩显示/隐藏
   const showPorts = (ports: NodeListOf<SVGElement>, show: boolean) => {

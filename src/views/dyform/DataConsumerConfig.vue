@@ -1028,6 +1028,7 @@ const dragend = (evt) => {
   <el-card class="inner_content" style="height: 100%;padding: 5px;">
     <star-horse-design :customerItems="customerItems" :register-node="nodeData" ref="containerDiagramRef"
                        :tableFlag="true"
+                       :panelStyle="'other'"
                        :compType="'table'"
                        @lineClick="lineOperation"
                        @preview="preview"
