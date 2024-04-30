@@ -317,7 +317,6 @@ const init = async () => {
     graph.value.on('cell:dblclick', async ({e, x, y, edge, view}) => {
       clickOperation(view);
     });
-
   }
 
 };
@@ -408,21 +407,6 @@ const addNode = (data: any) => {
   return cell;
 };
 /**
- * 更改标签信息
- */
-const changeLabelText = (val: any, color: string = "#15C912") => {
-  if (currentComp.value.isNode()) {
-    currentComp.value!.setAttr("label/text", val);
-  } else {
-    currentComp.value!.removeLabelAt(0);
-    currentComp.value!.insertLabel("OK", 0);
-    currentComp.value!.getLabelAt(0)['attrs']['label'] = {
-      fill: color,
-      text: val
-    }
-  }
-};
-/**
  * 注册节点
  * @param name
  * @param entry
@@ -499,23 +483,15 @@ const registerPort = (portName: string) => {
       const container_img = document.createElement('img');
       container_img.src = '@/icons/default.svg';
       container_img.setAttribute('class', 'cu-container-img');
-
-
       const container_title = document.createElement('div');
       container_title.innerText = label;
       container_title.setAttribute('class', 'cu-container-title');
-
-
       const container_desc = document.createElement('div');
       container_desc.setAttribute('class', 'cu-container-desc');
       container_desc.innerText = desc || '描述信息';
-
-
       container.appendChild(container_img);
       container.appendChild(container_title);
       container.appendChild(container_desc);
-
-
       return container;
     }
   });
@@ -688,7 +664,6 @@ const onQueryChanged = () => {
 
 
 const writeAttrToComp = () => {
-  console.log("writeAttrToComp")
   currentComp.value.setData(compAttr.value);
   compAttr.value = {};
 };
@@ -737,7 +712,7 @@ watch(() => compAttr.value,
     }
 )
 defineExpose({
-  graph, registerPort, registerNode, addNode, nodeList, getEdgeInfo: getCellnfo, edgeList, changeLabelText
+  graph, registerPort, registerNode, addNode, nodeList, getEdgeInfo: getCellnfo, edgeList
 })
 </script>
 
