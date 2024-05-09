@@ -14,6 +14,7 @@
         :name="field.preps['name']"
         :size="field.preps['size']"
         :width="field.preps['width']"
+        v-on:[actionName]="keyEnterFun(field.preps['actionName'])"
         v-model="context.attrs['formFieldList'][field.preps['name']]"
     />
 
@@ -22,6 +23,7 @@
 
 <script lang="ts">
 import {defineComponent, shallowRef} from "vue";
+import {onMounted} from "vue/dist/vue";
 
 export default defineComponent({
   setup(props, context) {
@@ -32,10 +34,24 @@ export default defineComponent({
     const formDatas = context.attrs["formDatas"];
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
+    let actionName = shallowRef("change");
+    onMounted(() => {
+      actionName.value = field.preps["actionName"];
+    });
+    const keyEnterFun = (prep: any) => {
+      if (prep == actionName.value && field.preps["actionRelation"]) {
+        field.preps["actionRelation"](context.attrs['formFieldList'][field.preps['name']], context.attrs['formFieldList']["xh"]);
+      }
+      // console.log(prep, context.attrs['formFieldList']);
+      context.emit('selfFunc', prep);
+    };
     const selectItem = (data: any) => {
       context.emit('selectItem', data, parentCompType)
     };
-    return {parentCompType, formFieldList, context, field, formItem, formDatas, dataField, selectItem}
+    return {
+      parentCompType, formFieldList, context, field, formItem, formDatas, dataField, selectItem
+      , keyEnterFun, actionName
+    }
   }
 });
 </script>

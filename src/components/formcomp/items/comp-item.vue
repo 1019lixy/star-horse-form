@@ -1,13 +1,18 @@
 <template>
-  未知组件。。。。。。。。。。。。。。。
+  <component :is="context.attrs['field'].preps['name']"
+             :nodeFieldList="field['preps']['params']['nodeFieldList']"
+             :lineFieldList="field['preps']['params']['lineFieldList']"
+             :customerItems="field['preps']['params']['nodeList']"
+             :readonly="field['preps']['readonly']=='yes'"
+  />
 </template>
 
-<script lang = "ts">
+<script lang="ts">
 import {defineComponent, shallowRef} from "vue";
 
 export default defineComponent({
   setup(props, context) {
-
+    console.log("this is comp-item")
     const parentCompType = context.attrs["parentCompType"];
     const formFieldList = context.attrs["formFieldList"] as any;
     const field = context.attrs["field"] as any;

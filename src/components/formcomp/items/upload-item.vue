@@ -1,40 +1,40 @@
 <template>
-  <starhorse-form-item :formDatas="formDatas" :form-item="field" :parentCompType="parentCompType"
+  <starhorse-form-item :formDatas = "formDatas" :form-item = "field" :parentCompType = "parentCompType"
   >
     <el-upload
-        :fid="field.preps['name']"
-        :accept="field.preps['accept']"
-        :action="field.preps['action']"
-        :auto-upload="field.preps['autoUpload']=='yes'"
-        :before-remove="field.preps['beforeRemove']"
-        :before-upload="field.preps['beforeUpload']"
-        :data="field.preps['data']"
-        :disabled="field.preps['disabled']=='yes'"
-        :drag="field.preps['drag']=='yes'"
-        :headers="field.preps['headers']"
-        :http-request="field.preps['httpRequest']"
-        :limit="field.preps['limit']"
-        :list-type="field.preps['listType']"
-        :method="field.preps['method']"
-        :multiple="field.preps['multiple']=='yes'"
-        :name="field.preps['name']"
-        :on-change="field.preps['onChange']"
-        :on-error="field.preps['onError']"
-        :on-exceed="field.preps['onExceed']"
-        :on-preview="field.preps['onPreview']"
-        :on-progress="field.preps['onProgress']"
-        :on-remove="field.preps['onRemove']"
-        :on-success="field.preps['onSuccess']"
-        :show-file-list="field.preps['showFileList']=='yes'"
-        :with-credentials="field.preps['withCredentials']=='yes'"
-        v-model:file-list="dataField"
+        :fid = "field.preps['name']"
+        :accept = "field.preps['accept']"
+        :action = "field.preps['action']"
+        :auto-upload = "field.preps['autoUpload']=='yes'"
+        :before-remove = "field.preps['beforeRemove']"
+        :before-upload = "field.preps['beforeUpload']"
+        :data = "field.preps['data']"
+        :disabled = "field.preps['disabled']=='yes'"
+        :drag = "field.preps['drag']=='yes'"
+        :headers = "field.preps['headers']"
+        :http-request = "field.preps['httpRequest']"
+        :limit = "field.preps['limit']"
+        :list-type = "field.preps['listType']"
+        :method = "field.preps['method']"
+        :multiple = "field.preps['multiple']=='yes'"
+        :name = "field.preps['name']"
+        :on-change = "field.preps['onChange']"
+        :on-error = "field.preps['onError']"
+        :on-exceed = "field.preps['onExceed']"
+        :on-preview = "field.preps['onPreview']"
+        :on-progress = "field.preps['onProgress']"
+        :on-remove = "field.preps['onRemove']"
+        :on-success = "field.preps['onSuccess']"
+        :show-file-list = "field.preps['showFileList']=='yes'"
+        :with-credentials = "field.preps['withCredentials']=='yes'"
+        v-model:file-list = "dataField"
     >
-      <star-horse-icon icon-class="plus"/>
+      <star-horse-icon icon-class = "plus"/>
     </el-upload>
   </starhorse-form-item>
 </template>
 
-<script lang="ts">
+<script lang = "ts">
 import {defineComponent, shallowRef} from "vue";
 
 export default defineComponent({

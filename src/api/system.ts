@@ -13,10 +13,10 @@ import {warning} from "@/utils/message";
  * @param data 树节点
  * @param checked
  */
-export function treeCheckChange(treeComp: any, tableComp: any, dataForm: any, data: TreeNodeData, checked: any) {
+export function treeCheckChange(treeComp: any, tableComp: any, dataForm: any, data: TreeNodeData, checked: boolean) {
     let checkedNodes = treeComp.getCheckedNodes();
     if (checkedNodes?.length > 0) {
-        checkedNodes.forEach((item: { value: any; }) => {
+        checkedNodes.forEach(item => {
             treeComp.setChecked(item.value, false);
         });
     }
@@ -47,11 +47,11 @@ export function searchData(tableComp: any, data: SearchParams[]) {
  * @param dataList
  * @param name
  */
-export function parseFormData(dataList: any, name: any) {
-    const filterRecursive = (node: any) => {
+export function parseFormData(dataList: any, name) {
+    const filterRecursive = (node) => {
         // 如果节点是数组，则对每个元素应用过滤逻辑
         if (Array.isArray(node)) {
-            const result: Array<any> = node.map(child => filterRecursive(child)).filter((item) => item !== null);
+            const result: Array = node.map(child => filterRecursive(child)).filter((item) => item !== null);
             return result;
         }
         const containsData = node.preps.name == name;

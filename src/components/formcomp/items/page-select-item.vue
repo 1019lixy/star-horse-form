@@ -48,7 +48,7 @@ export default defineComponent({
       if (orderBy) {
         orderByTemp = orderBy;
       }
-      postRequest(field.preps["dataUrl"]?.loadByPageUrl, {
+      postRequest(field.preps["dataUrl"].loadByPageUrl, {
         currentPage: pageInfo.value.currentPage,
         pageSize: pageInfo.value.pageSize,
         fieldList: searchData.value,
@@ -170,7 +170,7 @@ export default defineComponent({
                   fixed="left"
                   :reserve-selection="true"
               />
-              <template v-for="item in field.preps?.fieldList?.fieldList">
+              <template v-for="item in field.preps['fieldList']['fieldList']">
                 <star-horse-table-column
                     :compUrl="field.preps['dataUrl']"
                     :cellEditable="false"

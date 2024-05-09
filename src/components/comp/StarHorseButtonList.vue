@@ -15,7 +15,7 @@ const props = defineProps({
   compUrl: {type: Object as PropType<ApiUrls>, required: true},
   selfBtnFunc: {type: Array as PropType<BtnAuth[]>, default: null},
   viewFlag: {type: Boolean, default: false},
-  buttonSize: {type: String, default: "small"},
+  compSize: {type: String, default: "small"},
   showType: {type: String, default: "line"},
   selfPermission: {
     type: Object,
@@ -122,7 +122,7 @@ onMounted(() => {
 <template>
   <ul class="inner_button" v-if="showType=='line'">
     <li v-if="permissions?.add&&!viewFlag&&checkSelfBtn('add')">
-      <el-button @click="btnOperation('add')" title="" type="primary" :size="buttonSize">
+      <el-button @click="btnOperation('add')" title="" type="primary" :size="compSize">
         <star-horse-icon icon-class="plus" color="#ffffff" size="12px"/>
         <el-tooltip content="新增">新增</el-tooltip>
       </el-button>
@@ -138,7 +138,7 @@ onMounted(() => {
                 <el-dropdown-menu>
                   <el-dropdown-item v-for="sitem in item.children">
                     <el-button @click="sitem['exec'](sitem.btnName)" link title="" type="primary" :size=
-                        "buttonSize">
+                        "compSize">
                       <star-horse-icon :icon-class="sitem.icon||'default'" size="12px"/>
                       {{ sitem.labelName }}
                     </el-button>
@@ -148,7 +148,7 @@ onMounted(() => {
               </template>
             </el-dropdown>
           </template>
-          <el-button v-else @click="item['exec']()" title="" type="primary" :size="buttonSize">
+          <el-button v-else @click="item['exec']()" title="" type="primary" :size="compSize">
             <star-horse-icon :icon-class="item.icon||'default'" color="#ffffff" size="12px"/>
             <el-tooltip :content="item.labelName">{{ item.labelName }}</el-tooltip>
           </el-button>
@@ -158,13 +158,13 @@ onMounted(() => {
 
 
     <li v-if="permissions?.download&&!viewFlag&&checkSelfBtn('download')">
-      <el-button @click="downloadTemplate" title="" type="primary" :size="buttonSize">
+      <el-button @click="downloadTemplate" title="" type="primary" :size="compSize">
         <star-horse-icon icon-class="download" color="#ffffff" size="12px"/>
         <el-tooltip content="下载模板">下载模板</el-tooltip>
       </el-button>
     </li>
     <li v-if="permissions?.execution&&checkSelfBtn('exec')">
-      <el-button @click="tableCompFunc('exec')" title="" type="primary" :size="buttonSize">
+      <el-button @click="tableCompFunc('exec')" title="" type="primary" :size="compSize">
         <star-horse-icon icon-class="run" color="#ffffff" size="12px"/>
         <el-tooltip content="执行">执行</el-tooltip>
       </el-button>
@@ -184,21 +184,21 @@ onMounted(() => {
           class="upload"
           name="file"
       >
-        <el-button title="" type="primary" :size="buttonSize">
+        <el-button title="" type="primary" :size="compSize">
           <star-horse-icon icon-class="excel-upload" color="#ffffff" size="12px"/>
           <el-tooltip content="导入">导入</el-tooltip>
         </el-button>
       </el-upload>
     </li>
     <li v-if="permissions?.export&&checkSelfBtn('exportData')">
-      <el-button @click="tableCompFunc('exportData')" title="" type="primary" :size="buttonSize">
+      <el-button @click="tableCompFunc('exportData')" title="" type="primary" :size="compSize">
         <star-horse-icon icon-class="excel-export" color="#ffffff" size="12px"/>
         <el-tooltip content="导出">导出</el-tooltip>
       </el-button>
       <help message="如果选择了数据，则按选择数据导出;没有选择数据，则根据查询条件导出" style="font-size: 16px"/>
     </li>
     <li v-if="permissions?.batchDelete&&!viewFlag&&checkSelfBtn('batch_delete')">
-      <el-button @click="tableCompFunc('batch_delete')" title="" type="danger" :size="buttonSize">
+      <el-button @click="tableCompFunc('batch_delete')" title="" type="danger" :size="compSize">
         <star-horse-icon icon-class="batch_delete1" color="#ffffff" size="12px"/>
         <el-tooltip content="批量删除">批量删除</el-tooltip>
       </el-button>
@@ -222,7 +222,7 @@ onMounted(() => {
           <template v-for="item in selfBtnFunc">
             <template v-if="item.children?.length>0">
               <el-dropdown-item>
-                <el-dropdown size="small">
+                <el-dropdown size="small"  >
                   <span class="el-dropdown-link">
      {{ item.labelName }}
       <el-icon class="el-icon--right">

@@ -21,9 +21,10 @@
 </template>
 
 <script lang = "ts">
-import {defineComponent, provide, ref, shallowRef,onMounted} from "vue";
+import {defineComponent, provide, ref, shallowRef} from "vue";
 import Crontab from "@/components/cron/Crontab.vue";
 import StarHorseDialog from "@/components/comp/StarHorseDialog.vue";
+import {onMounted} from "vue/dist/vue";
 
 export default defineComponent({
   components: {Crontab, StarHorseDialog},

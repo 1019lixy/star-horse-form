@@ -1,20 +1,24 @@
 <template>
-  <starhorse-form-item :formDatas="formDatas" :form-item="field" :parentCompType="parentCompType"
+  <starhorse-form-item :formDatas = "formDatas" :form-item = "field" :parentCompType = "parentCompType"
   >
     <el-color-picker
-        :fid="field.preps['name']"
-        :color-format="field.preps['colorFormat']"
-        :disabled="field.preps['disabled']=='yes'"
-        :show-alpha="field.preps['showAlpha']=='yes'"
-        :size="field.preps['disabled']"
-        v-model="context.attrs['formFieldList'][field.preps['name']]"
+        :fid = "field.preps['name']"
+        :color-format = "field.preps['colorFormat']"
+        :disabled = "field.preps['disabled']=='yes'"
+        :show-alpha = "field.preps['showAlpha']=='yes'"
+        :size = "field.preps['disabled']"
+        v-on:[actionName]="keyEnterFun(field.preps['actionName'])"
+        @keydown.enter="keyEnterFun"
+        @focus="keyEnterFun('focus')"
+        @blur="keyEnterFun('blur')"
+        v-model = "context.attrs['formFieldList'][field.preps['name']]"
     />
 
   </starhorse-form-item>
 </template>
 
-<script lang="ts">
-import {defineComponent, shallowRef} from "vue";
+<script lang = "ts">
+import {defineComponent, onMounted, shallowRef} from "vue";
 
 export default defineComponent({
   setup(props, context) {
@@ -24,10 +28,20 @@ export default defineComponent({
     const formDatas = context.attrs["formDatas"];
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
+    let actionName = shallowRef("change");
+    onMounted(() => {
+      actionName.value = field.preps["actionName"];
+    });
+    const keyEnterFun = (prep: any) => {
+      if (prep == actionName.value && field.preps["actionRelation"]) {
+        field.preps["actionRelation"](context.attrs['formFieldList'][field.preps['name']],context.attrs['formFieldList']["xh"]);
+      }
+      context.emit('selfFunc', prep);
+    };
     const selectItem = (data: any) => {
       context.emit('selectItem', data, parentCompType)
     };
-    return {parentCompType, formFieldList, context, field, formItem, formDatas, dataField, selectItem}
+    return {parentCompType, formFieldList, context, field, formItem, formDatas, dataField, selectItem,keyEnterFun, actionName}
   }
 });
 </script>

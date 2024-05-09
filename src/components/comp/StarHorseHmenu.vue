@@ -12,14 +12,14 @@ const handleSelect = (data: any) => {
 let query = getUserInfo().idUsersinfo;
 const initData = async () => {
   await postRequest("/system-config/system/informationsEntity/getUserSystem/" + query, [])
-      .then((res) => {
-        dataList.value = res?.data?.data;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    .then((res) => {
+      dataList.value = res?.data?.data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
-onMounted(() => {
+onMounted(()=>{
   initData();
 });
 </script>
@@ -29,7 +29,6 @@ onMounted(() => {
   .el-menu-item {
     height: inherit;
   }
-
   .el-menu-item.is-active,
   .el-menu-item:hover,
   .el-submenu__title:hover,
@@ -75,11 +74,9 @@ onMounted(() => {
   font-size: 16px;
 
 }
-
-:deep(.el-menu-item ) {
+:deep(.el-menu-item ){
   padding: 0 3px;
 }
-
 :deep(.el-sub-menu) {
   background-color: unset !important;
 }
@@ -99,12 +96,12 @@ onMounted(() => {
 </style>
 <template>
   <el-menu
-      class="el-menu-demo"
-      mode="horizontal"
-      text-color="#fff"
-      active-text-color="#ffd04b"
-      background-color="#409eff"
-      @select="handleSelect"
+    class="el-menu-demo"
+    mode="horizontal"
+    text-color="#fff"
+    active-text-color="#ffd04b"
+    background-color="#409eff"
+    @select="handleSelect"
   >
     <sub-system-menu :dataList="dataList"/>
   </el-menu>

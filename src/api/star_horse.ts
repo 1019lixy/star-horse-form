@@ -1,5 +1,13 @@
 import axios, {AxiosRequestConfig, AxiosResponse} from "axios";
-import {getToken, getUserInfo, removeToken, setCustomerInfo, setToken, setUserInfo} from "@/utils/auth";
+import {
+    getCustomerParam,
+    getToken,
+    getUserInfo,
+    removeToken,
+    setCustomerInfo,
+    setToken,
+    setUserInfo
+} from "@/utils/auth";
 import router from "@/router";
 import {error, warning} from "../utils/message";
 import {Config} from "@/api/settings";
@@ -131,7 +139,7 @@ export async function userLogin(loginData: any) {
             };
             userInfoStore.login({...userData, rememberMe: loginData.rememberMe});
             setToken(userData.dataNo, data.rememberMe);
-            setUserInfo({...userData, ...loginData, rememberMe: loginData.rememberMe});
+            setUserInfo({...userData,...loginData, rememberMe: loginData.rememberMe});
             setCustomerInfo(userData.customerInfo);
             //登录成功，获取当前用户的权限菜单
             await permissionMenus(condition, "-1").then(res2 => {

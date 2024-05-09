@@ -1,5 +1,5 @@
 <script setup lang="ts" name="ShDynamicForm">
-import {inject, reactive, ref, watch} from "vue";
+import {inject, ref, Ref, watch} from "vue";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {PropType} from "vue/dist/vue";
 import {error, success, warning} from "@/utils/message";
@@ -18,21 +18,20 @@ const emits = defineEmits(["refresh"]);
 const starHorseFormRef = ref(null);
 const dataForm = ref<any>({});// inject("dataForm");
 const closeDialog = inject("closeDialog") as Function;
-const dialogOperation = inject("dialogOperation") as reactive<Object>;
+const dialogOperation = inject("dialogOperation") as Ref;
 const dialogProps = inject<DialogProps>("dialogProps", {});
 watch(
-    () => dialogOperation,
-    (val: any) => {
-      if (val['funcName'] == "merge") {
-        merge(val["type"]);
-      } else if (val['funcName'] == "mergeDraft") {
-        mergeDraft(val["type"]);
-      } else if (val['funcName'] == "resetForm") {
+    () => dialogOperation.value,
+    (val: string) => {
+      if (val == "merge") {
+        merge();
+      } else if (val == "mergeDraft") {
+        mergeDraft();
+      } else if (val == "resetForm") {
         resetForm();
       }
       //为了触发多次点击响应
-      dialogOperation["funcName"] = "";
-      dialogOperation["type"] = "";
+      dialogOperation.value = "";
     }, {
       immediate: false,
       deep: true
@@ -68,13 +67,13 @@ watch(() => dialogProps.ids,
       deep: true
     });
 
-const merge = (type: string) => {
+const merge = () => {
   starHorseFormRef.value.validate((result: boolean) => {
     if (!result) {
       return;
     }
     //  assignStatusName();
-    doMerge(type);
+    doMerge();
   });
 };
 
@@ -89,11 +88,11 @@ const assignStatusName = () => {
     }
   }
 }
-const mergeDraft = (type: string) => {
-  doMerge(type);
+const mergeDraft = () => {
+  doMerge();
 };
 
-const doMerge = (type: string) => {
+const doMerge = () => {
   load("数据处理中");
   assignStatusName();
   postRequest(props.compUrl.mergeUrl, dataForm.value).then(res => {
@@ -106,9 +105,7 @@ const doMerge = (type: string) => {
     }
     emits("refresh");
     resetForm();
-    if (type == "close") {
-      closeDialog();
-    }
+    closeDialog();
     //关闭弹窗
   }).catch(err => {
     error("接口调用异常" + err);

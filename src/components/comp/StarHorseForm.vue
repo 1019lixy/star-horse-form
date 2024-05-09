@@ -1,5 +1,5 @@
 <script setup lang="ts" name="StarHorseForm">
-import {inject, ref, Ref, watch} from "vue";
+import {inject, ref, Ref, watch, nextTick} from "vue";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {PropType} from "vue/dist/vue";
 import {error, success, warning} from "@/utils/message";
@@ -8,6 +8,8 @@ import {closeLoad, formFieldMapping, load, loadById} from "@/api/sh_api";
 import {DialogProps} from "@/components/types/DialogProps";
 import {BatchFieldInfo, PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {ShallowReactive} from "@vue/reactivity";
+import StarHorseSubForm from "@/components/comp/StarHorseFormItem.vue";
+import StarHorseFormItem from "@/components/comp/StarHorseFormItem.vue";
 
 const props = defineProps({
   compUrl: {type: Object as PropType<ApiUrls>, required: true},
@@ -16,15 +18,16 @@ const props = defineProps({
   batchFieldName: {type: String, default: "batchFieldList"},
   primaryKey: {type: String, required: true},
   rules: {type: Object, required: true},
+  isView: {type: Boolean, default: false},
 });
-const emits = defineEmits(["refresh"]);
+const emits = defineEmits(["refresh", "dataLoaded"]);
 const starHorseFormRef = ref(null);
 const dataForm = inject("dataForm") as Ref;
 const closeDialog = inject("closeDialog") as Function;
 let dialogOperation = inject("dialogOperation") as ShallowReactive<Object>;
 const dialogProps = inject<DialogProps>("dialogProps", {});
 const selectData = ref<any>([]);
-const formFields = inject("formFields") as ShallowReactive<Array<any>>;
+const formFields = inject("formFields") as ShallowReactive<any>;
 watch(
     () => dialogOperation,
     (val: any) => {
@@ -46,19 +49,34 @@ watch(
 let batchDefaultValues = ref({});
 
 const loadData = async () => {
+  if (!props.compUrl || !props.compUrl.loadByIdUrl) {
+    return;
+  }
   let objData = await loadById(props.compUrl.loadByIdUrl!, dialogProps.ids, false);
-  dataForm.value = objData;
-  checkActionRelation();
+  dataForm.value = {...objData};
+  await nextTick(() => {
+    emits("dataLoaded", objData);
+    checkActionRelation();
+  });
+
+
 };
 /**
  * 加载了数据，检查是否有数据联动的相关方法
  */
 const checkActionRelation = () => {
+  // if (formFields instanceof Array) {
+  //   console.log("is array");
+
   for (let key in formFields) {
-    let temp = formFields[key].value;
+    let temp = formFields[key];
+    let preps = temp?.preps;
     //有事件联动的方法
-    if (temp?.preps["actionRelation"]) {
+    if (preps?.actionRelation) {
       temp.preps["actionRelation"](dataForm.value[temp.preps["name"]]);
+    }
+    if (preps?.actions) {
+      temp.preps["actions"](dataForm.value);
     }
   }
 };
@@ -160,7 +178,6 @@ const setTableRef = (el: any) => {
 }
 watch(() => dialogProps.ids,
     (val) => {
-      console.log(val);
       if (!val || val == -1) {
         // dataForm.value = formFieldMapping(props.fieldList).defaultDatas;
         setDataForm(dataForm.value);
@@ -177,63 +194,16 @@ defineExpose({
 });
 </script>
 <template>
+
   <el-form :model="dataForm" :rules="rules" class="data-form" ref="starHorseFormRef">
-    <template v-for="item in fieldList.fieldList">
-      <el-row v-if="item instanceof Array">
-        <el-col :span="24/item.length" v-for="sitem in item">
-          <el-form-item
-              :size="'small'"
-              :label="sitem.label"
-              :required="sitem.required"
-              :prop="sitem.fieldName"
-              :rules="sitem.required?[{'required': true, 'message': '必填项不能为空', 'trigger': 'blur'}]:[]"
-              v-if="sitem.formShow">
-            <star-horse-item :primaryKey="primaryKey" v-model:dataForm="dataForm" :item="sitem"
-                             :isEdit="!dialogProps?.ids||dialogProps?.ids==-1"/>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-tabs v-if="item.tabList&&item.tabList.length>0">
-        <el-tab-pane v-for="tabItem in item.tabList" :label="tabItem.tabName">
-          <star-horse-form :compUrl="compUrl" :fieldList="{
-            fieldList:tabItem.fieldList,
-            batchFieldList:tabItem.batchFieldList}" :rules="rules"
-                           :primaryKey="primaryKey"/>
-        </el-tab-pane>
-      </el-tabs>
-      <star-horse-item v-else-if="item.type=='comp'" :primaryKey="primaryKey" v-model:dataForm="dataForm" :item="item"
-                       :isEdit="!dialogProps?.ids||dialogProps?.ids==-1"/>
-      <el-form-item
-          v-else
-          :size="'small'"
-          :label="item.label"
-          :required="item.required"
-          :rules="item.required?[{'required': true, 'message': '必填项不能为空', 'trigger': 'blur'}]:[]"
-          :prop="item.fieldName"
-          v-if="item.formShow">
-        <star-horse-item :primaryKey="primaryKey" v-model:dataForm="dataForm" :item="item"
-                         :isEdit="!dialogProps?.ids||dialogProps?.ids==-1"/>
-      </el-form-item>
-    </template>
-    <el-tabs
-        v-if="fieldList[batchFieldName]?.length > 0">
-      <el-tab-pane v-for="item in fieldList[batchFieldName]" :label="item['title']">
-        <star-horse-form-list
-            style="min-height:100px"
-            :compUrl="item['compUrl']"
-            :primaryKey="item['primaryKey']"
-            :batchName="item['batchName']"
-            :initRows="item['initRows']"
-            :batchUrl="item['batchUrl']"
-            :downloadTemplateUrl="item['downloadTemplateUrl']"
-            :importInfo="item['importInfo']"
-            :defaultValues="batchDefaultValues[item['batchName']]"
-            :ref="setTableRef"
-            :field-list="item['fieldList']"
-            :rules="item['rules']||rules"
-        />
-      </el-tab-pane>
-    </el-tabs>
+    <star-horse-form-item :primaryKey="primaryKey"
+                          :compUrl="compUrl"
+                          :fieldList="fieldList"
+                          :rules="rules"
+                          :isView="isView"
+                          :batchName="batchName"
+                          :batchFieldName="batchFieldName"
+    />
   </el-form>
 </template>
 <style lang="scss" scoped>

@@ -1,5 +1,5 @@
 <script lang="ts" setup name="StarHorseTableComp">
-import {ApiUrls} from "@/components/types/ApiUrls";
+import { ApiUrls } from "@/components/types/ApiUrls";
 import {
   inject,
   onMounted,
@@ -10,8 +10,8 @@ import {
   unref,
   watch,
 } from "vue";
-import {download, postRequest} from "@/api/star_horse";
-import {PageProps} from "@/components/types/PageProps";
+import { download, postRequest } from "@/api/star_horse";
+import { PageProps } from "@/components/types/PageProps";
 import {
   closeLoad,
   commonParseCodeToName,
@@ -19,12 +19,12 @@ import {
   load,
   loadPagePermission,
 } from "@/api/sh_api";
-import {SearchParams} from "@/components/types/Params";
+import { SearchParams } from "@/components/types/Params";
 import Sortable from "sortablejs";
-import {DialogProps} from "../types/DialogProps";
-import {BtnAuth} from "@/components/types/BtnAuth";
-import {error, warning} from "@/utils/message";
-import {OrderByInfo} from "@/components/types/PageFieldInfo";
+import { DialogProps } from "../types/DialogProps";
+import { BtnAuth } from "@/components/types/BtnAuth";
+import { error, warning } from "@/utils/message";
+import { OrderByInfo } from "@/components/types/PageFieldInfo";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {DynamicForm} from "@/store/DynamicFormStore";
 import piniaInstance from "@/store";
@@ -32,45 +32,45 @@ import piniaInstance from "@/store";
 const dynamicForm = DynamicForm(piniaInstance);
 const props = defineProps({
   //url地址
-  compUrl: {type: Object as PropType<ApiUrls>, required: true},
+  compUrl: { type: Object as PropType<ApiUrls>, required: true },
   //主键
-  primaryKey: {type: String, required: true},
+  primaryKey: { type: String, required: true },
   //列名
-  fieldList: {type: Object, required: true},
+  fieldList: { type: Object, required: true },
   //是否显示批量属性
-  showBatchField: {type: Boolean, default: false},
+  showBatchField: { type: Boolean, default: false },
   //格式化方法
-  dataFormat: {type: Function, default: null},
+  dataFormat: { type: Function, default: null },
   //按钮大小
-  buttonSize: {type: String, default: "small"},
+  compSize: { type: String, default: "small" },
   //自定义按钮事件
-  selfBtnFunc: {type: Array as PropType<BtnAuth[]>, default: null},
+  selfBtnFunc: { type: Array as PropType<BtnAuth[]>, default: null },
   //禁用事件
-  disableAction: {type: Boolean, default: false},
+  disableAction: { type: Boolean, default: false },
   //弹窗模式
-  dialogInput: {type: Boolean, default: false},
+  dialogInput: { type: Boolean, default: false },
   //默认表格高度
-  height: {type: String, default: "100%"},
+  height: { type: String, default: "100%" },
   //过滤条件
-  filterCondition: {type: Array as PropType<SearchParams>, default: []},
+  filterCondition: { type: Array as PropType<SearchParams>, default: [] },
 
   //是否显示分页条
-  showPageBar: {type: Boolean, default: true},
+  showPageBar: { type: Boolean, default: true },
   //数据列表
-  tableDataList: {type: Array, default: []},
+  tableDataList: { type: Array, default: [] },
   //回显数据列表
-  reverseDataList: {type: Array, default: []},
+  reverseDataList: { type: Array, default: [] },
   //是否运行选择父级节点
-  allowSelectParent: {type: Boolean, default: true},
+  allowSelectParent: { type: Boolean, default: true },
   //默认是否展开所有子节点
-  expand: {type: Boolean, default: false},
+  expand: { type: Boolean, default: false },
   //标题
-  title: {type: String},
+  title: { type: String },
   //按钮操作权限
   selfPermission: {
     type: Object,
     default: () => {
-      return {view: true};
+      return { view: true };
     },
   },
 });
@@ -127,12 +127,12 @@ const exportData = () => {
     condition["orderBy"] = props.fieldList.orderBy;
   }
   download(props.compUrl!.exportAllUrl, condition)
-      .catch((err) => {
-        error("接口不存在或网络异常:" + err);
-      })
-      .finally(() => {
-        closeLoad();
-      });
+    .catch((err) => {
+      error("接口不存在或网络异常:" + err);
+    })
+    .finally(() => {
+      closeLoad();
+    });
 };
 const getIds = () => {
   let selectDatas = unref(multipleSelection);
@@ -161,9 +161,9 @@ const createCreateParams = (formData: SearchParams[]) => {
 };
 
 const init = async () => {
-  const {permission} = await loadPagePermission();
+  const { permission } = await loadPagePermission();
   if (Object.keys(permission).length == 0) {
-    permissions.value = {...props.selfPermission};
+    permissions.value = { ...props.selfPermission };
   } else {
     permissions.value = permission;
   }
@@ -188,13 +188,13 @@ const init = async () => {
 };
 //监听外面传入数据的变化
 watch(
-    () => props.tableDataList,
-    (val) => {
-      if (props.fieldList["stopAutoLoad"]) {
-        pageInfo.dataList = val;
-      }
-    },
-    {deep: true, immediate: false}
+  () => props.tableDataList,
+  (val) => {
+    if (props.fieldList["stopAutoLoad"]) {
+      pageInfo.dataList = val;
+    }
+  },
+  { deep: true, immediate: false }
 );
 const assignData = (dataList: Array<any>) => {
   for (let key in dataList) {
@@ -203,7 +203,10 @@ const assignData = (dataList: Array<any>) => {
       toolFields.push(...temp);
     } else if (temp.tabList?.length > 0) {
       for (let skey in temp.tabList) {
-        toolFields.push(...temp.tabList[skey]?.fieldList);
+        let stemp=temp.tabList[skey];
+        if(stemp["fieldList"]){
+          toolFields.push(...stemp["fieldList"]);
+        }
       }
     } else {
       toolFields.push(temp);
@@ -220,7 +223,7 @@ const reCreateData = () => {
 
 const moveColumn = () => {
   const tbody = document.querySelector(
-      ".sh-columns .el-table__body-wrapper tbody"
+    ".sh-columns .el-table__body-wrapper tbody"
   ) as HTMLElement | null;
   if (tbody) {
     Sortable.create(tbody, {
@@ -228,7 +231,7 @@ const moveColumn = () => {
       animation: 200,
       ghostClass: "ghost",
       onEnd(event: any) {
-        const {oldIndex, newIndex} = event;
+        const { oldIndex, newIndex } = event;
         //删除并获取当前行
         const currRow = props.fieldList?.fieldList.splice(oldIndex, 1)[0];
         //再拖动结束位置插入当前行
@@ -284,13 +287,13 @@ const handleSelectionChange = (val: any) => {
       multipleSelection.value = val;
     } else {
       let ids = multipleSelection.value.map(
-          (item: any) => item[props.primaryKey]
+        (item: any) => item[props.primaryKey]
       ) as Array<any>;
       let datas = val.filter(
-          (item: any) => !ids.includes(item[props.primaryKey])
+        (item: any) => !ids.includes(item[props.primaryKey])
       );
       starHorseTableCompRef.value.toggleRowSelection(
-          multipleSelection.value[0]
+        multipleSelection.value[0]
       );
       multipleSelection.value = datas;
     }
@@ -312,12 +315,12 @@ const getRowIdentity = (row: any) => {
 const dataFormat = (row: any, column: any, cellValue: any, index: number) => {
   cellValue = commonParseCodeToName(column.property, cellValue);
   return null == props.dataFormat
-      ? cellValue
-      : props.dataFormat(column.property, cellValue, row);
+    ? cellValue
+    : props.dataFormat(column.property, cellValue, row);
 };
 const tbCommonFun = (name: string, param: any) => {
   let data =
-      props.selfBtnFunc && props.selfBtnFunc.find((item) => item.btnName == name);
+    props.selfBtnFunc && props.selfBtnFunc.find((item) => item.btnName == name);
   if (data) {
     data["exec"](param);
   } else {
@@ -340,15 +343,14 @@ const editById = (id: any) => {
 };
 const deleteById = async (id: any) => {
   let flag = await deleteByIds(
-      props.compUrl?.deleteUrl,
-      id instanceof Array ? id : [id]
+    props.compUrl?.deleteUrl,
+    id instanceof Array ? id : [id]
   );
   if (flag) {
     loadByPage();
   }
 };
-const parseSearchData = () => {
-};
+const parseSearchData = () => {};
 const pageSizeClick = (pageSize: number) => {
   pageInfo.pageSize = pageSize;
   loadByPage();
@@ -389,26 +391,26 @@ const loadByPage = () => {
     fieldList: searchTemp,
     orderBy: orderByTemp,
   })
-      .then((res) => {
-        let redata = res.data.data;
-        pageInfo.dataList = redata?.dataList;
-        if (props.dialogInput) {
-          filterData();
-        }
-        pageInfo.totalPage = redata.totalPages;
-        pageInfo.totalData = redata.totalDatas;
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {
-        closeLoad();
-      });
+    .then((res) => {
+      let redata = res.data.data;
+      pageInfo.dataList = redata?.dataList;
+      if (props.dialogInput) {
+        filterData();
+      }
+      pageInfo.totalPage = redata.totalPages;
+      pageInfo.totalData = redata.totalDatas;
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+    .finally(() => {
+      closeLoad();
+    });
 };
 const filterData = () => {
   if (pageInfo.dataList && inputFieldName.value && inputFieldVal.value) {
     let row = pageInfo.dataList.find(
-        (item: any) => item[inputFieldName.value] == inputFieldVal.value
+      (item: any) => item[inputFieldName.value] == inputFieldVal.value
     );
     if (row) {
       multipleSelection.value.push(row);
@@ -438,7 +440,7 @@ const selectRow = (row: any, column: any, evt: any) => {
     }
   }
   const selected = multipleSelection.value.some(
-      (item: any) => item[props.primaryKey] === row[props.primaryKey]
+    (item: any) => item[props.primaryKey] === row[props.primaryKey]
   );
   if (!selected) {
     multipleSelection.value.push(row);
@@ -478,50 +480,50 @@ defineExpose({
 </script>
 <template>
   <div
-      class="d-f j-c-s-b"
-      style="width: 100%;border-bottom:  var(--star-horse-style); 1px solid"
-      v-if="!dialogInput"
+    class="d-f j-c-s-b"
+    style="width: 100%;border-bottom:  var(--star-horse-style); 1px solid"
+    v-if="!dialogInput"
   >
     <div class="tb_title">
-      <star-horse-icon icon-class="info" size="14px"/>
+      <star-horse-icon icon-class="info" size="14px" />
       {{ title }}
     </div>
     <div class="d-f a-i-c a-i-c f-d-r-r">
       <el-button @click="loadByPage" link title="" size="small" type="primary">
-        <star-horse-icon icon-class="refresh" size="16px"/>
+        <star-horse-icon icon-class="refresh" size="16px" />
         <el-tooltip content="刷新">刷新</el-tooltip>
       </el-button>
       <el-popover trigger="click" :width="340" placement="left-end">
         <template #reference>
           <el-icon class="star-page-icon" style="cursor: pointer">
             <el-tooltip content="显示/隐藏列">
-              <Tools/>
+              <Tools />
             </el-tooltip>
           </el-icon>
         </template>
         <el-table
-            class="sh-columns"
-            ref="table"
-            :data="toolFields"
-            :strip="true"
-            :fit="true"
-            :highlight-current-row="true"
-            max-height="400px"
-            row-key="prop"
-            style="width: 100%"
-            border
+          class="sh-columns"
+          ref="table"
+          :data="toolFields"
+          :strip="true"
+          :fit="true"
+          :highlight-current-row="true"
+          max-height="400px"
+          row-key="prop"
+          style="width: 100%"
+          border
         >
           <el-table-column prop="" label="排序" width="60">
             <el-tag class="move" style="cursor: move">
               <el-icon style="cursor: move">
-                <Sort/>
+                <Sort />
               </el-icon>
             </el-tag>
           </el-table-column>
           <el-table-column
-              prop="label"
-              label="列名"
-              :show-overflow-tooltip="true"
+            prop="label"
+            label="列名"
+            :show-overflow-tooltip="true"
           >
             <template #default="scope">
               <el-tag round :effect="scope.row.tableShow ? 'dark' : 'light'">
@@ -532,10 +534,10 @@ defineExpose({
           <el-table-column prop="tableShow" label="显示/隐藏" width="100">
             <template #default="scope">
               <el-switch
-                  v-model="scope.row.tableShow"
-                  size="small"
-                  :active-value="true"
-                  :inactive-value="false"
+                v-model="scope.row.tableShow"
+                size="small"
+                :active-value="true"
+                :inactive-value="false"
               />
             </template>
           </el-table-column>
@@ -545,124 +547,124 @@ defineExpose({
   </div>
 
   <el-table
-      ref="starHorseTableCompRef"
-      :data="pageInfo.dataList"
-      @selection-change="handleSelectionChange"
-      @row-click="selectRow"
-      @row-dblclick="editData"
-      :row-key="getRowIdentity"
-      :stripe="true"
-      :fit="true"
-      :height="height"
-      :highlight-current-row="true"
-      :default-expand-all="expand"
-      :row-style="{
+    ref="starHorseTableCompRef"
+    :data="pageInfo.dataList"
+    @selection-change="handleSelectionChange"
+    @row-click="selectRow"
+    @row-dblclick="editData"
+    :row-key="getRowIdentity"
+    :stripe="true"
+    :fit="true"
+    :height="height"
+    :highlight-current-row="true"
+    :default-expand-all="expand"
+    :row-style="{
       height: '30px',
     }"
-      :cell-style="{
+    :cell-style="{
       height: '30px',
       'font-size': '12px',
     }"
-      :header-cell-style="{
+    :header-cell-style="{
       background: '#f2f2f2',
       color: '#707070',
       'font-size': '13px',
       'background-image':
         '-webkit-gradient(linear,left 0,left 100%,from(#f8f8f8),to(#ececec))',
     }"
-      border
+    border
   >
     <el-table-column
-        type="selection"
-        align="center"
-        fixed="left"
-        :reserve-selection="true"
+      type="selection"
+      align="center"
+      fixed="left"
+      :reserve-selection="true"
     >
     </el-table-column>
     <template v-for="item in fieldList['fieldList']">
       <template v-if="item instanceof Array">
         <star-horse-table-column
-            :data-format="dataFormat"
-            :cellEditable="fieldList['tableCellEditabled']"
-            :item="sitem"
-            :compUrl="compUrl"
-            v-for="sitem in item"
+          :data-format="dataFormat"
+          :cellEditable="fieldList['tableCellEditabled']"
+          :item="sitem"
+          :compUrl="compUrl"
+          v-for="sitem in item"
         />
       </template>
       <template v-else-if="item.tabList?.length > 0">
         <star-horse-table-column
-            :data-format="dataFormat"
-            :cellEditable="fieldList['tableCellEditabled']"
-            :item="sitem"
-            :compUrl="compUrl"
-            v-for="sitem in item.tabList.fieldList"
+          :data-format="dataFormat"
+          :cellEditable="fieldList['tableCellEditabled']"
+          :item="sitem"
+          :compUrl="compUrl"
+          v-for="sitem in item.tabList.fieldList"
         />
       </template>
       <star-horse-table-column
-          v-else
-          :compUrl="compUrl"
-          :cellEditable="fieldList['tableCellEditabled']"
-          :data-format="dataFormat"
-          :item="item"
+        v-else
+        :compUrl="compUrl"
+        :cellEditable="fieldList['tableCellEditabled']"
+        :data-format="dataFormat"
+        :item="item"
       />
     </template>
     <template v-if="showBatchField" v-for="item in fieldList['batchFieldList']">
-      <star-horse-table-column :data-format="dataFormat" :item="item"/>
+      <star-horse-table-column :data-format="dataFormat" :item="item" />
     </template>
     <el-table-column
-        v-if="!disableAction"
-        fixed="right"
-        label="操作"
-        width="180px"
+      v-if="!disableAction"
+      fixed="right"
+      label="操作"
+      width="180px"
     >
       <template #default="scope">
         <el-button
-            v-if="permissions['edit']"
-            @click="tbCommonFun('edit', scope.row)"
-            link
-            title=""
-            type="primary"
-            :size="buttonSize"
+          v-if="permissions['edit']"
+          @click="tbCommonFun('edit', scope.row)"
+          link
+          title=""
+          type="primary"
+          :size="compSize"
         >
           <el-tooltip content="编辑">编辑</el-tooltip>
         </el-button>
         <el-button
-            v-if="permissions['view']"
-            @click="tbCommonFun('view', scope.row)"
-            link
-            title=""
-            type="primary"
-            :size="buttonSize"
+          v-if="permissions['view']"
+          @click="tbCommonFun('view', scope.row)"
+          link
+          title=""
+          type="primary"
+          :size="compSize"
         >
           <el-tooltip content="查看">查看</el-tooltip>
         </el-button>
-        <slot :rowData="scope"/>
+        <slot name="extend" :rowData="scope.row" />
         <template
-            v-if="
+          v-if="
             fieldList['userTableFuncs'] &&
             fieldList['userTableFuncs'].length > 0
           "
         >
           <el-button
-              v-for="auth in fieldList['userTableFuncs']"
-              :v-if="permissions[auth.authority]"
-              @click="auth.funcName(scope.row)"
-              link
-              title=""
-              type="primary"
-              :size="buttonSize"
+            v-for="auth in fieldList['userTableFuncs']"
+            :v-if="permissions[auth.authority]"
+            @click="auth.funcName(scope.row)"
+            link
+            title=""
+            type="primary"
+            :size="compSize"
           >
             <el-tooltip :content="auth.btnName">{{ auth.btnName }}</el-tooltip>
           </el-button>
         </template>
 
         <el-button
-            v-if="permissions['delete']"
-            @click="tbCommonFun('delete', scope.row)"
-            link
-            title=""
-            type="danger"
-            :size="buttonSize"
+          v-if="permissions['delete']"
+          @click="tbCommonFun('delete', scope.row)"
+          link
+          title=""
+          type="danger"
+          :size="compSize"
         >
           <el-tooltip content="删除">删除</el-tooltip>
         </el-button>
@@ -670,15 +672,15 @@ defineExpose({
     </el-table-column>
   </el-table>
   <el-pagination
-      v-if="showPageBar"
-      :total="pageInfo.totalData"
-      @current-change="pageChangeClick"
-      @size-change="pageSizeClick"
-      :small="true"
-      layout="total, sizes, prev, pager, next, jumper"
-      v-model:currentPage="pageInfo.currentPage"
-      v-model:page-size="pageInfo.pageSize"
-      v-model:pageCount="pageInfo.totalPage"
+    v-if="showPageBar"
+    :total="pageInfo.totalData"
+    @current-change="pageChangeClick"
+    @size-change="pageSizeClick"
+    :small="true"
+    layout="total, sizes, prev, pager, next, jumper"
+    v-model:currentPage="pageInfo.currentPage"
+    v-model:page-size="pageInfo.pageSize"
+    v-model:pageCount="pageInfo.totalPage"
   />
 </template>
 <style lang="scss" scoped>

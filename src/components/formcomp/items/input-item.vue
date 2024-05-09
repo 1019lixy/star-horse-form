@@ -16,7 +16,7 @@
         type="text"
         :fid="field.preps['name']"
         v-on:[actionName]="keyEnterFun(field.preps['actionName'])"
-        @keydown.enter="keyEnterFun"
+        @keydown.enter = "keyEnterFun"
         @focus="keyEnterFun('focus')"
         @blur="keyEnterFun('blur')"
         v-model="context.attrs['formFieldList'][field.preps['name']]"/>
@@ -27,7 +27,7 @@
 import {defineComponent, onMounted, shallowRef} from "vue";
 
 export default defineComponent({
-  emits: ["selectItem", "selfFunc"],
+  emits:["selectItem","selfFunc"],
   setup(props, context) {
     const parentCompType = context.attrs["parentCompType"];
     const formFieldList = context.attrs["formFieldList"];

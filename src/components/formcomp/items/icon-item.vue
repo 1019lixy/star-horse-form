@@ -4,7 +4,7 @@
     <el-popover
         width="400"
         ref="popoverRef"
-        trigger="click">
+       trigger="click">
       <template #reference>
         <el-input
             :clearable="field.preps['clearable']=='yes'"

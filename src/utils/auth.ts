@@ -26,7 +26,7 @@ export function setCustomerInfo(customerInfo: any) {
  */
 export function getCustomerInfo() {
     let str = sessionStorage.getItem(Config.customerInfo);
-    if (!str || "undefined" == str) {
+    if (!str) {
         console.log("未找到客户编码");
         return null;
     }
@@ -37,7 +37,7 @@ export function getCustomerInfo() {
 /**
  * 获取查询对象
  */
-export function getCustomerParam(propertyName = "a.dataAuth"): SearchParams | null {
+export function getCustomerParam(propertyName = "a.dataAuth"): SearchParams {
     let customerInfo = getCustomerInfo();
     if (!customerInfo) {
         return null;

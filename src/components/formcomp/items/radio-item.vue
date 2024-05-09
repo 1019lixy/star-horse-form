@@ -1,27 +1,27 @@
 <template>
-  <starhorse-form-item :formDatas="formDatas" :form-item="field" :parentCompType="parentCompType"
+  <starhorse-form-item :formDatas = "formDatas" :form-item = "field" :parentCompType = "parentCompType"
   >
     <el-radio-group
-        :fid="field.preps['name']"
-        :disabled="field.preps['disabled']=='yes'"
-        :readonly="field.preps['readonly']=='yes'"
-        :fill="field.preps['fill']"
-        :label="field.preps['label']"
-        :max="field.preps['max']"
-        :min="field.preps['min']"
-        :size="field.preps['size']"
-        :text-color="field.preps['textColor']"
-        @keydown.enter="keyEnterFun"
-        v-model="context.attrs['formFieldList'][field.preps['name']]"
+        :fid = "field.preps['name']"
+        :disabled = "field.preps['disabled']=='yes'"
+        :readonly = "field.preps['readonly']=='yes'"
+        :fill = "field.preps['fill']"
+        :label = "field.preps['label']"
+        :max = "field.preps['max']"
+        :min = "field.preps['min']"
+        :size = "field.preps['size']"
+        :text-color = "field.preps['textColor']"
+        @keydown.enter = "keyEnterFun"
+        v-model = "context.attrs['formFieldList'][field.preps['name']]"
     >
-      <el-radio :border="item['border']=='yes'"
-                :checked="item['checked']"
-                :disabled="item['disabled']=='yes'"
-                :false-label="item['falseLabel']"
-                :label="item['name']"
-                :true-label="item['trueLabel']"
+      <el-radio :border = "item['border']=='yes'"
+                :checked = "item['checked']"
+                :disabled = "item['disabled']=='yes'"
+                :false-label = "item['falseLabel']"
+                :label = "item['name']"
+                :true-label = "item['trueLabel']"
                 :value="item['value']"
-                v-for="item in field.preps['values']"
+                v-for = "item in field.preps['values']"
       >
 
       </el-radio>
@@ -29,7 +29,7 @@
   </starhorse-form-item>
 </template>
 
-<script lang="ts">
+<script lang = "ts">
 import {defineComponent, shallowRef} from "vue";
 
 export default defineComponent({
@@ -47,7 +47,7 @@ export default defineComponent({
     const selectItem = (data: any) => {
       context.emit('selectItem', data, parentCompType)
     };
-    return {parentCompType, formFieldList, context, field, formItem, formDatas, dataField, selectItem, keyEnterFun}
+    return {parentCompType, formFieldList, context, field, formItem, formDatas, dataField, selectItem,keyEnterFun}
   }
 });
 </script>

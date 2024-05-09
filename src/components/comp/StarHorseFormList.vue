@@ -1,5 +1,6 @@
 <script lang="ts" setup name="StarHorseFormList">
-import {inject, onMounted, Ref, ref} from 'vue'
+import {inject, nextTick, onMounted, Ref, ref} from 'vue'
+import {Table} from "element-plus";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings";
 import {PropType, reactive} from "vue/dist/vue";
@@ -19,9 +20,11 @@ const props = defineProps({
   primaryKey: {type: String, required: true},
   initRows: {type: Number, default: 1},
   importInfo: {type: Object},
-  rules: {type: Object, required: true}
+  rules: {type: Object, required: true},
+  isView: {type: Boolean, default: false},
 });
-const dataForm = inject('dataForm') as Ref;
+// const dataForm = inject('dataForm') as Ref;
+const dataForm = defineModel("dataForm") as Ref;
 const formFields = inject("formFields") as reactive<Object>;
 onMounted(() => {
   init();
@@ -125,7 +128,7 @@ const uploadSuccess = (response: any, file, fileList) => {
     </el-card>
   </star-horse-dialog>
   <div class="form-list">
-    <ul class="inner_button">
+    <ul class="inner_button" v-if="!isView">
       <li v-if="importInfo?.importDataUrl">
         <el-button @click="excelOperation" title="" type="primary" size="small">
           <star-horse-icon icon-class="upload" color="#ffffff" size="12px"/>
@@ -188,7 +191,7 @@ const uploadSuccess = (response: any, file, fileList) => {
       </template>
       <el-table-column fixed="right" label="操作" width="80">
 
-        <template #default="scope">
+        <template #default="scope" v-if="!isView">
           <el-button
               v-if="dataForm[batchName]?.length == scope.row['xh']"
               @click="handleAddDetails(scope.row, 1)"

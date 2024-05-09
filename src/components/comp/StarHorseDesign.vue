@@ -1,8 +1,8 @@
 <script setup lang="ts" name="StarHorseDesign">
-import {nextTick, onMounted, PropType, provide, ref, watch} from "vue";
+import {computed, nextTick, onMounted, PropType, provide, ref, watch} from "vue";
 import {Cell, Graph, Point, Shape, View} from "@antv/x6";
 import {confirm, warning} from "@/utils/message.ts";
-import {CompInfo, CustomerItem} from "@/components/types/CompInfo.d.ts";
+import {CompInfo, CustomerItem, NodeInfo} from "@/components/types/CompInfo.d.ts";
 import {commands, configInfo, helpMessage, ports} from "@/utils/sh_design.ts";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {ApiUrls} from "@/components/types/ApiUrls.d.ts";
@@ -34,7 +34,7 @@ const props = defineProps({
   lineHeight: {type: Number, default: 24},
   tableWidth: {type: Number, default: 320},
   tableFlag: {type: Boolean, default: false},
-  editable: {type: Boolean, default: true},
+  readonly: {type: Boolean, default: false},
   compUrl: {type: Object as PropType<ApiUrls>},
   nodeFieldList: {type: Object as PropType<PageFieldInfo>},
   lineFieldList: {type: Object as PropType<PageFieldInfo>},
@@ -114,10 +114,11 @@ const transform = (command: string) => {
       break
   }
 };
-const hasItemFlag = ref(false);
-const hasItems = () => {
-  return hasItemFlag.value = nodeList.value.length > 0;
-};
+let hasItemFlag = ref<boolean>(false);
+// const hasItems = () => {
+//   let cells = graph?.value?.getNodes();
+//   return hasItemFlag.value = cells?.length > 0 && !props.readonly;
+// };
 const closeAction = () => {
   dataPreviewVisible.value = false;
 };
@@ -150,10 +151,10 @@ const alignOperation = (align: string) => {
   }
   for (let index in cells) {
     let cell = cells[index];
-    console.log(cell.position());
+    //  console.log(cell.position());
   }
   if (align == "alignTop") {
-    let pos = cells.map(item => item.position().y);
+    let pos = cells.map((item: any) => item.position().y);
     let min = Math.min(...pos);
     for (let index in cells) {
       let cell = cells[index];
@@ -162,7 +163,7 @@ const alignOperation = (align: string) => {
   }
 
   if (align == "alignBottom") {
-    let pos = cells.map(item => item.position().y);
+    let pos = cells.map((item: any) => item.position().y);
     let max = Math.max(...pos);
     for (let index in cells) {
       let cell = cells[index];
@@ -170,7 +171,7 @@ const alignOperation = (align: string) => {
     }
   }
   if (align == "alignLeft") {
-    let pos = cells.map(item => item.position().x);
+    let pos = cells.map((item: any) => item.position().x);
     let min = Math.min(...pos);
     for (let index in cells) {
       let cell = cells[index];
@@ -178,7 +179,7 @@ const alignOperation = (align: string) => {
     }
   }
   if (align == "alignRight") {
-    let pos = cells.map(item => item.position().x);
+    let pos = cells.map((item: any) => item.position().x);
     let max = Math.max(...pos);
     for (let index in cells) {
       let cell = cells[index];
@@ -204,7 +205,9 @@ const init = async () => {
     container: starHorseDesignRef.value,
     ...configInfo
   });
-  designGraph.setGraph(graph.value);
+  graph.value.resetCells([]);
+  designGraph.setGraph(graph.value, props.readonly);
+  console.log("画布初始化完成。。。")
   // delete
   graph.value.bindKey(['backspace', 'delete'], () => {
     alignOperation("deleteItem");
@@ -261,7 +264,7 @@ const init = async () => {
     if (cell.isNode()) {
       cell.removeTools();
     } else {
-      cell.removeTools(["source-arrowhead", "target-arrowhead"])
+      cell.removeTools(["source-arrowhead", "target-arrowhead"]);
     }
 
   })
@@ -306,7 +309,7 @@ const init = async () => {
         }]);
     }
   });
-  graph.value.on("blank:click", ({e, x, y, edge, view}) => {
+  graph.value.on("blank:click", ({}) => {
     let cells = graph.value.getCells();
     for (let index in cells) {
       cells[index].removeTools();
@@ -318,19 +321,23 @@ const init = async () => {
     graph.value.on('cell:dblclick', async ({e, x, y, edge, view}) => {
       clickOperation(view);
     });
+
   }
 
 };
 const clickOperation = async (view: View) => {
   let cell = view.cell;
   const isNode = cell.isNode();
-  designGraph.setCell(cell);
+  if (isNode || cell.isEdge()) {
+    designGraph.setCell(cell);
+  }
   let data = getCellnfo(cell)!;
   if (!isNode) {
     // graph.value.trigger("blank:click", {view});
     graph.value.trigger("edge:click", {view});
   }
-  currentCellInfo.value = data
+  currentCellInfo.value = data;
+
   if (data.fromType == "table") {
     emits(isNode ? "nodeClick" : "lineClick", data);
   } else {
@@ -340,11 +347,11 @@ const clickOperation = async (view: View) => {
       rightPanel.value = true;
     }
     await nextTick(() => {
-      rightAttrPanel.value.setDataForm(compAttr.value);
+      rightAttrPanel.value?.setDataForm(compAttr.value);
     });
   }
 }
-let currentView = ref<View>(null);
+let currentView = ref<View>();
 const checkIsNode = () => {
   let flag = !currentComp.value ? 3 : currentComp.value.isNode() ? 1 : 2;
   return flag;
@@ -393,19 +400,21 @@ const contextMenu = (e: MouseEvent, x: number, y: number, cell: Cell, view: View
     contextmenuRef.value.handleOpen();
   });
 };
+
 /**
- * 添加节点
- * @param data
+ * 更改标签信息
  */
-const addNode = (data: any) => {
-  if (!data) {
-    return;
+const changeLabelText = (val: any, color: string = "#15C912") => {
+  if (currentComp.value.isNode()) {
+    currentComp.value!.setAttr("label/text", val);
+  } else {
+    currentComp.value!.removeLabelAt(0);
+    currentComp.value!.insertLabel("OK", 0);
+    currentComp.value!.getLabelAt(0)['attrs']['label'] = {
+      fill: color,
+      text: val
+    }
   }
-  let cell = graph.value.createNode(data);
-  nodeList.value.push(cell);
-  graph.value.addNode(cell);
-  // graph.value.resetCells(nodeList.value);
-  return cell;
 };
 /**
  * 注册节点
@@ -484,15 +493,23 @@ const registerPort = (portName: string) => {
       const container_img = document.createElement('img');
       container_img.src = '@/icons/default.svg';
       container_img.setAttribute('class', 'cu-container-img');
+
+
       const container_title = document.createElement('div');
       container_title.innerText = label;
       container_title.setAttribute('class', 'cu-container-title');
+
+
       const container_desc = document.createElement('div');
       container_desc.setAttribute('class', 'cu-container-desc');
       container_desc.innerText = desc || '描述信息';
+
+
       container.appendChild(container_img);
       container.appendChild(container_title);
       container.appendChild(container_desc);
+
+
       return container;
     }
   });
@@ -500,7 +517,7 @@ const registerPort = (portName: string) => {
     Graph.registerPortLayout(
         portName,
         (portsPositionArgs: any) => {
-          return portsPositionArgs.map((_, index: number) => {
+          return portsPositionArgs.map((_a: any, index: number) => {
             return {
               position: {
                 x: 0,
@@ -530,11 +547,11 @@ const getCellnfo = (cell: any) => {
     }
   } else {
     let sourceNode = cell.getSourceNode();
-    let sourceInfo = sourceNode.store.data;
+    let sourceInfo = sourceNode.getData();
     console.log(sourceInfo);
     let sourcePort = sourceNode.getPort(cell.store.data.source.port);
     let targetNode = cell.getTargetNode();
-    let targetInfo = targetNode.store.data;
+    let targetInfo = targetNode.getData();
     if (!targetInfo) {
       console.log("连线没有目标节点")
       return;
@@ -544,12 +561,12 @@ const getCellnfo = (cell: any) => {
       console.log("连线没有目标属性")
       return;
     }
-    let from = sourceInfo.data.fieldName || sourceInfo.id;
-    let fromLabel = sourceInfo.data.label;
+    let from = sourceInfo.fieldName || sourceInfo.id;
+    let fromLabel = sourceInfo.label;
     let fromType = sourceInfo.compType;
     let fromPort = sourcePort.attrs?.name?.text || sourcePort.group || sourcePort.id;
-    let to = targetInfo.data.fieldName || sourceInfo.id;
-    let toLabel = targetInfo.data.label;
+    let to = targetInfo.fieldName || sourceInfo.id;
+    let toLabel = targetInfo.label;
     let toType = targetPort.compType;
     let toPort = targetPort?.attrs?.name?.text || sourcePort.group || targetPort.id;
     return {from, fromLabel, fromPort, fromType, to, toLabel, toPort, toType};
@@ -577,67 +594,26 @@ const dratStart = (item: any, evt: DragEvent) => {
 let nodeIndex = 0;
 const dragDrop = (evt: DragEvent) => {
   let dt = evt.dataTransfer!;
-  let data = JSON.parse(dt.getData("text/plain"));
+  let data = JSON.parse(dt.getData("text/plain")) as NodeInfo;
   let fdata = nodeList.value.filter((item: any) => item.store.data["fieldName"] == data["fieldName"]);
   if (fdata?.length >= 3) {
     warning("相同的组件最多能添加三次");
     return;
   }
-
   data["index"] = nodeIndex++;
-  let point = graph.value.pageToLocal(evt.pageX, evt.pageY);
+  data["posX"] = evt.pageX;
+  data["posY"] = evt.pageY;
   if (data["items"]) {
-    createTableNode(data, point);
+    data["shape"] = "er-rect";
+    data["compType"] = "table";
   } else {
+    data["shape"] = "custom-rect";
     //创建普通节点
-    createNormalNode(data, point);
   }
+  let cell = designGraph.addNode(data);
+  nodeList.value.push(cell);
 };
-const createNormalNode = (data: any, position: Point) => {
-  let datat = {
-    "shape": "custom-rect",
-    "label": "\t\t" + data["label"],
-    "name": data["name"],
-    'compType': "normal",
-    data,
-    position: {
-      x: position.x,
-      y: position.y
-    },
-  };
-  let cell = addNode(datat);
-  cell.setAttrByPath('use', {"xlink:href": data.icon ? `#icon-${data.icon}` : "#icon-default"});
-}
-const createTableNode = (data: any, position: Point, tableWidth: Number = 320) => {
-  let ports = [];
-  let items = data["items"];
-  for (let index in items) {
-    let temp = items[index];
-    let field = {
-      group: "list",
-      "attrs": {}
-    };
-    for (let key in temp) {
-      field["attrs"][key] = {"text": temp[key]};
-    }
-    ports.push(field);
-  }
-  let datat = {
-    "shape": "er-rect",
-    "label": `${data["label"]}:${data["name"]} `,
-    "name": data["name"],
-    "width": tableWidth,
-    'compType': "table",
-    data,
-    position: {
-      x: position.x,
-      y: position.y
-    },
-    "height": 24,
-    "ports": ports
-  };
-  addNode(datat);
-};
+
 const dragOver = (evt: DragEvent) => {
   evt.preventDefault();
 }
@@ -653,7 +629,7 @@ const onQueryChanged = () => {
     for (let index in dataList) {
       let temp = dataList[index];
       let matchDatas = temp.compItems.filter((item: CompInfo) => item.label.indexOf(query.value) != -1);
-      console.log(matchDatas);
+      // console.log(matchDatas);
       if (matchDatas && matchDatas.length > 0) {
         temp.compItems = matchDatas;
         filterDatas.value.push(temp);
@@ -665,6 +641,7 @@ const onQueryChanged = () => {
 
 
 const writeAttrToComp = () => {
+  // console.log("writeAttrToComp")
   currentComp.value.setData(compAttr.value);
   compAttr.value = {};
 };
@@ -673,10 +650,9 @@ const readCompAttr = async () => {
   let data = currentComp.value.getData() || {};
   let isNode = currentComp.value.isNode();
   fieldList.value = isNode ? props.nodeFieldList : props.lineFieldList;
-  let {defaultDatas, mappingFields, batchDefaultValues} = formFieldMapping(fieldList.value);
+  let {defaultDatas, mappingFields, batchDefaultValues} = formFieldMapping(fieldList.value!);
   compAttr.value = {};
-
-  if (!isNode && data) {
+  if (data) {
     compAttr.value = data;
   } else {
     compAttr.value = {...data, ...defaultDatas};
@@ -692,7 +668,7 @@ const readCompAttr = async () => {
     }
   }
   compAttr.value["nodeFlag"] = isNode;
-  console.log(data, defaultDatas, mappingFields, compAttr.value);
+  // console.log(data, currentCellInfo.value, defaultDatas, mappingFields, compAttr.value);
 };
 onMounted(() => {
   init();
@@ -713,7 +689,7 @@ watch(() => compAttr.value,
     }
 )
 defineExpose({
-  graph, registerPort, registerNode, addNode, nodeList, getEdgeInfo: getCellnfo, edgeList
+  graph, registerPort, registerNode, nodeList, getEdgeInfo: getCellnfo, edgeList, changeLabelText
 })
 </script>
 
@@ -726,7 +702,7 @@ defineExpose({
     </pre>
   </star-horse-dialog>
   <div class="design-content">
-    <div class="comp-list" v-show="leftPanelVisible">
+    <div class="comp-list" v-show="leftPanelVisible&&!readonly">
       <el-input
           v-model="query"
           size="small"
@@ -750,7 +726,7 @@ defineExpose({
                       class="field-item"
                       v-for="sitem in item.compItems"
                   ><span>&nbsp;&nbsp;<star-horse-icon
-                      :icon-class="sitem.icon?sitem.icon:'default'"/>&nbsp;{{ sitem.label }}</span>
+                      :icon-class="sitem['icon']?sitem['icon']:'default'"/>&nbsp;{{ sitem.label }}</span>
                   </li>
                 </ul>
               </el-scrollbar>
@@ -763,7 +739,7 @@ defineExpose({
       <div class="inner_button">
         <el-menu mode="horizontal" style="height: inherit;width: 100%;">
           <template v-for="(item,index) in commands">
-            <el-menu-item v-if="hasItems()||item.defaultEdit">
+            <el-menu-item v-if="(Object.keys(compAttr).length>0&&!readonly)||item.defaultEdit">
               <el-tooltip class="item" :content="item.label" :index="index"
                           effect="dark"
                           placement="bottom">
@@ -777,7 +753,7 @@ defineExpose({
       <div class="background-grid-app">
         <div id="graph-dropdown" @dragover.prevent="dragOver" @drop="dragDrop" class="app-content" ref=
             "starHorseDesignRef"></div>
-        <el-dropdown @command="contextMenuOperation" ref="contextmenuRef" v-if="contextMenuVisible"
+        <el-dropdown @command="contextMenuOperation" ref="contextmenuRef" v-if="contextMenuVisible&&!readonly"
                      @visibleChange="visibleChange" trigger=
                          "contextmenu"
                      :style=
@@ -803,16 +779,18 @@ defineExpose({
       <div class="title">属性面板</div>
       <div class="item" style="border-bottom: none">
         <div class="content" v-if="checkIsNode()==1">
-          <h3>{{ compAttr.label }}({{ compAttr.belongTo }})</h3>
+          <h3>{{ compAttr['label'] || currentComp.label }}({{ compAttr['belongTo'] || "组件" }})</h3>
         </div>
         <div class="content" v-else-if="checkIsNode()==2">
           <h3>连线属性</h3>
         </div>
       </div>
       <hr/>
-      <star-horse-form v-if="checkIsNode()==1" ref="rightAttrPanel" @refresh="()=>{}" :compUrl="compUrl"
+      <star-horse-form v-if="checkIsNode()==1" :isView="readonly" ref="rightAttrPanel" @refresh="()=>{}"
+                       :compUrl="compUrl"
                        :fieldList="nodeFieldList" :rules="rules"/>
-      <star-horse-form v-else-if="checkIsNode()==2" ref="rightAttrPanel" @refresh="()=>{}" :compUrl="compUrl"
+      <star-horse-form v-else-if="checkIsNode()==2" :isView="readonly" ref="rightAttrPanel" @refresh="()=>{}"
+                       :compUrl="compUrl"
                        :fieldList="lineFieldList" :rules="rules"/>
       <div v-else class="empty-info">
         <el-empty description="点击画布中的组件或者连线可设置属性"/>
@@ -830,7 +808,7 @@ defineExpose({
   >
     <div class="item" style="border-bottom: none">
       <div class="content" v-if="checkIsNode()==1">
-        <h3>{{ compAttr.label }}({{ compAttr.belongTo }})</h3>
+        <h3>{{ compAttr['label'] }}({{ compAttr['belongTo'] }})</h3>
       </div>
       <div class="content" v-else-if="checkIsNode()==2">
         <h3>连线属性</h3>
@@ -846,6 +824,10 @@ defineExpose({
 </template>
 
 <style lang="scss" scoped>
+.x6-edge-selected {
+  border: 1px dotted #3a8ee6;
+}
+
 hr {
   height: 1px;
   margin: 10px 0;

@@ -1,6 +1,7 @@
 <script setup lang="ts" name="StarHorseSearchComp">
 import {inject, onMounted, ref} from "vue";
 import {ApiUrls} from "@/components/types/ApiUrls";
+import {Config} from "@/api/settings";
 import {PropType} from "vue/dist/vue";
 import {SearchProps, SelectOption} from "@/components/types/SearchProps";
 import {searchMatchList} from "@/api/sh_api";

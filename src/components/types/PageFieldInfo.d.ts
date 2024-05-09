@@ -12,9 +12,25 @@ export declare interface TabFieldInfo {
      */
     tabName: string,
     /**
+     * fieldList 是否是子表单
+     */
+    subFormFlag: boolean,
+    /**
+     * 子集合Key 名称
+     */
+    objectName: string,
+    /**
+     * 主键
+     */
+    primaryKey: string,
+    /**
      * 属性名
      */
-    fieldList: FieldInfo[]
+    fieldList: Array<FieldInfo>,
+    /**
+     * 批量表达属性
+     */
+    batchFieldList?: Array<BatchFieldInfo>;
 }
 
 /**
@@ -44,6 +60,10 @@ export declare interface FieldInfo {
      * 隐藏属性名称
      */
     hideFieldName?: string;
+    /**
+     * 属性别名
+     */
+    aliasName?: string;
     /**
      * 类型名称,支持
      * date 日期,
@@ -81,9 +101,9 @@ export declare interface FieldInfo {
      */
     optionList?: SelectOption[];
     /**
-     * 是否禁用,1:编辑禁用 2: 全局警用
+     * 是否禁用,1:编辑禁用 2: 全局禁用
      */
-    disabled?: Number;
+    disabled?: boolean | Number;
     /**
      * 是否允许多选,在类型为select时有效
      */
@@ -116,6 +136,10 @@ export declare interface FieldInfo {
      * 事件联动
      */
     actionRelation?: ActionRelation;
+    /**
+     * 参数
+     */
+    params?: Object;
 }
 
 /**
@@ -224,6 +248,31 @@ export declare interface ImportInfo {
      * 默认查询条件
      */
     conditions?: Array<SearchParams>;
+}
+
+/**
+ * 子表单信息
+ */
+export declare interface SubFieldInfo {
+    /**
+     * 对应后端dto 里的Object/Map属性名称
+     */
+    objectName: String;
+
+    /**
+     * 主键名称，对应后端dto Object/Map泛型对象的主键名称
+     */
+    primaryKey?: String;
+    /**
+     * 字段属性
+     */
+    fieldList: Array<FieldInfo> | any;
+
+    /**
+     * fieldName和fieldList 是否同一个表，组件会根据这个字段校验数据是一对多关系
+     * 还是单表的批量处理
+     */
+    sameParentTable?: boolean;
 }
 
 /**

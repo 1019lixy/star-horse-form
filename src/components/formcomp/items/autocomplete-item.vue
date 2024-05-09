@@ -1,33 +1,33 @@
 <template>
   <starhorse-form-item
-      :formDatas="formDatas"
-      :form-item="field"
-      :parentCompType="parentCompType"
+      :formDatas = "formDatas"
+      :form-item = "field"
+      :parentCompType = "parentCompType"
   >
     <el-autocomplete
-        :fid="field.preps['name']"
-        :clearable="field.preps['clearable']=='yes'"
-        :disabled="field.preps['disabled']=='yes'"
-        :readonly="field.preps['readonly']=='yes'"
-        :fetch-suggestions="querySearch"
-        :fit-input-width="field.preps['fitInputWidth']=='yes'"
-        :label="field.preps['label']"
-        :name="field.preps['name']"
-        :placeholder="field.preps['placeholder']||'请输入'+field.preps['label']"
-        :placement="field.preps['placement']"
-        :teleported="field.preps['teleported']=='yes'"
-        :trigger-on-focus="field.preps['triggerOnFocus']=='yes'"
-        :value-key="field.preps['valueKey']"
+        :fid = "field.preps['name']"
+        :clearable = "field.preps['clearable']=='yes'"
+        :disabled = "field.preps['disabled']=='yes'"
+        :readonly = "field.preps['readonly']=='yes'"
+        :fetch-suggestions = "querySearch"
+        :fit-input-width = "field.preps['fitInputWidth']=='yes'"
+        :label = "field.preps['label']"
+        :name = "field.preps['name']"
+        :placeholder = "field.preps['placeholder']||'请输入'+field.preps['label']"
+        :placement = "field.preps['placement']"
+        :teleported = "field.preps['teleported']=='yes'"
+        :trigger-on-focus = "field.preps['triggerOnFocus']=='yes'"
+        :value-key = "field.preps['valueKey']"
         v-on:[actionName]="keyEnterFun(field.preps['actionName'])"
-        @keydown.enter="keyEnterFun"
+        @keydown.enter = "keyEnterFun"
         @focus="keyEnterFun('focus')"
         @blur="keyEnterFun('blur')"
-        v-model="context.attrs['formFieldList'][field.preps['name']]"
+        v-model = "context.attrs['formFieldList'][field.preps['name']]"
     />
   </starhorse-form-item>
 </template>
 
-<script lang="ts">
+<script lang = "ts">
 import {defineComponent, onMounted, shallowRef} from "vue";
 
 export default defineComponent({
@@ -42,11 +42,11 @@ export default defineComponent({
     onMounted(() => {
       actionName.value = field.preps["actionName"];
     });
-    const keyEnterFun = (prep: any) => {
+    const keyEnterFun = (prep:any) => {
       if (prep == actionName.value && field.preps["actionRelation"]) {
         field.preps["actionRelation"](context.attrs['formFieldList'][field.preps['name']],context.attrs['formFieldList']["xh"]);
       }
-      context.emit('selfFunc', prep);
+      context.emit('selfFunc',prep);
     };
     const selectItem = (data: any) => {
       context.emit('selectItem', data, parentCompType)
@@ -65,10 +65,8 @@ export default defineComponent({
         )
       }
     }
-    return {
-      parentCompType, formFieldList, context, field, formItem, formDatas, dataField, selectItem,
-      keyEnterFun, querySearch, actionName
-    }
+    return {parentCompType, formFieldList, context, field, formItem, formDatas, dataField, selectItem,
+      keyEnterFun,querySearch,actionName}
   }
 });
 </script>

@@ -5,7 +5,7 @@ import {getRequest, postRequest} from "@/api/star_horse.js";
  * @param roleId
  */
 export async function loadRolesMenus(idRolesinfo: Number) {
-    let roleMenus: any = [];
+    let roleMenus:any = [];
     await getRequest(`/system-config/system/rolesinfoEntity/roleAuthorityPageList/${idRolesinfo}`).then(res => {
         if (res.data.code != 0) {
             console.warn(res.data.cnMessage);
@@ -24,8 +24,8 @@ export async function loadRolesMenus(idRolesinfo: Number) {
  */
 export function submitMenus(roleId: Number, menuIds: Array<Number>) {
     postRequest(`/system-config/system/rolesMenusinfo/roleMenuAuthority/${roleId}`, menuIds).then(res => {
-        if (res.data.data) {
+      if(res.data.data){
 
-        }
+      }
     });
 }

@@ -1,4 +1,4 @@
-<script setup lang="ts" name="starhorse-form-item">
+<script setup lang = "ts" name = "starhorse-form-item">
 import {inject, unref} from "vue";
 
 const props = defineProps({
@@ -152,59 +152,59 @@ const removeItem = (formItem: any) => {
 };
 </script>
 <template>
-  <div :class="[formDatas?.isEdit ? 'field-item design-star-horse' : '',
+  <div :class = "[formDatas?.isEdit ? 'field-item design-star-horse' : '',
   (formDatas?.activeId == formItem?.preps.id && formDatas?.isEdit)?'active-item':''
-  ]" v-if="isDesign">
+  ]" v-if = "isDesign">
     <el-form-item
-        :label="formItem?.preps['label']"
-        :prop="formItem?.preps['name']"
-        :required="formItem?.preps['required']=='yes'"
-        @click="selectData(formItem)"
+        :label = "formItem?.preps['label']"
+        :prop = "formItem?.preps['name']"
+        :required = "formItem?.preps['required']=='yes'"
+        @click = "selectData(formItem)"
     >
       <slot></slot>
     </el-form-item>
     <div
-        class="field-action"
-        v-if="formDatas?.activeId == formItem?.preps.id && formDatas?.isEdit&&getParentComp()!='container'"
+        class = "field-action"
+        v-if = "formDatas?.activeId == formItem?.preps.id && formDatas?.isEdit&&getParentComp()!='container'"
     >
-      <el-tooltip content="选择父容器">
+      <el-tooltip content = "选择父容器">
         <star-horse-icon
-            @click.stop="selectParentContainer()"
-            icon-class="select-parent"
-            style="color: var(--star-horse-white)"
+            @click.stop = "selectParentContainer()"
+            icon-class = "select-parent"
+            style = "color: var(--star-horse-white)"
         />
       </el-tooltip>
-      <el-tooltip content="上移">
+      <el-tooltip content = "上移">
         <star-horse-icon
-            @click.stop="moveUpItem(formItem?.preps)"
-            icon-class="move-up"
-            style="color: var(--star-horse-white)"
+            @click.stop = "moveUpItem(formItem?.preps)"
+            icon-class = "move-up"
+            style = "color: var(--star-horse-white)"
         />
       </el-tooltip>
-      <el-tooltip content="下移">
+      <el-tooltip content = "下移">
         <star-horse-icon
-            @click.stop="moveDownItem(formItem?.preps)"
-            icon-class="move-down"
-            style="color: var(--star-horse-white)"
+            @click.stop = "moveDownItem(formItem?.preps)"
+            icon-class = "move-down"
+            style = "color: var(--star-horse-white)"
         />
       </el-tooltip>
     </div>
-    <div class="drag-handler background-opacity" v-if="formDatas?.isEdit">
-      <el-tooltip content="拖动">
-        <star-horse-icon icon-class="drag" style="color: var(--star-horse-white)"/>
+    <div class = "drag-handler background-opacity" v-if = "formDatas?.isEdit">
+      <el-tooltip content = "拖动">
+        <star-horse-icon icon-class = "drag" style = "color: var(--star-horse-white)"/>
       </el-tooltip>
-      <el-tooltip content="删除组件">
+      <el-tooltip content = "删除组件">
         <star-horse-icon
-            @click.stop="removeItem(formItem?.preps)"
-            icon-class="clear-all"
-            style="color: var(--star-horse-white)"
+            @click.stop = "removeItem(formItem?.preps)"
+            icon-class = "clear-all"
+            style = "color: var(--star-horse-white)"
         />
       </el-tooltip>
     </div>
   </div>
   <slot v-else></slot>
 </template>
-<style lang="scss" scoped>
+<style lang = "scss" scoped>
 .active-item {
   border: 2px dotted yellow;
 }

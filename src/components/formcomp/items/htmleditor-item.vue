@@ -1,23 +1,23 @@
 <template>
-  <starhorse-form-item :formDatas="formDatas" :form-item="field" :parentCompType="parentCompType"
+  <starhorse-form-item :formDatas = "formDatas" :form-item = "field" :parentCompType = "parentCompType"
   >
-    <div style="border: 1px solid #ccc">
-      <Toolbar style="border-bottom: 1px solid #ccc" :editor="editorRef" :defaultConfig="toolbarConfig"
-               mode="default"/>
+    <div style = "border: 1px solid #ccc">
+      <Toolbar style = "border-bottom: 1px solid #ccc" :editor = "editorRef" :defaultConfig = "toolbarConfig"
+               mode = "default"/>
       <Editor
-          :style="{height: field.preps.height||'300px','overflow-y': 'hidden'}"
-          @keydown.enter="keyEnterFun"
-          v-model="context.attrs['formFieldList'][field.preps['name']]"
-          :defaultConfig="editorConfig"
-          mode="default"
-          :fid="field.preps['name']"
-          @onCreated="handleCreated"
+          :style = "{height: field.preps.height||'300px','overflow-y': 'hidden'}"
+          @keydown.enter = "keyEnterFun"
+          v-model = "context.attrs['formFieldList'][field.preps['name']]"
+          :defaultConfig = "editorConfig"
+          mode = "default"
+          :fid = "field.preps['name']"
+          @onCreated = "handleCreated"
       />
     </div>
   </starhorse-form-item>
 </template>
 
-<script lang="ts">
+<script lang = "ts">
 import {defineComponent, getCurrentInstance, shallowRef} from "vue";
 import "@wangeditor/editor/dist/css/style.css"
 import {Editor, Toolbar} from "@wangeditor/editor-for-vue"

@@ -1,13 +1,12 @@
 <template>
-  未知组件。。。。。。。。。。。。。。。
+  <el-tag type="primary">{{context.attrs['formFieldList'][field.preps['name']]}}</el-tag>
 </template>
 
-<script lang = "ts">
+<script lang="ts">
 import {defineComponent, shallowRef} from "vue";
 
 export default defineComponent({
   setup(props, context) {
-
     const parentCompType = context.attrs["parentCompType"];
     const formFieldList = context.attrs["formFieldList"] as any;
     const field = context.attrs["field"] as any;

@@ -1,5 +1,4 @@
-[
-  {
+[{
     "idMenusinfo": 1,
     "informationsSingleId": 1,
     "menuName": "菜单配置",
@@ -10,14 +9,13 @@
     "parentNo": "",
     "children": [],
     "informationsPo": {
-      "idInformations": 1,
-      "sysCode": "system-config",
-      "sysDesc": "系统管理",
-      "sysLogo": "photo-video",
-      "sysName": "系统管理"
+        "idInformations": 1,
+        "sysCode": "system-config",
+        "sysDesc": "系统管理",
+        "sysLogo": "photo-video",
+        "sysName": "系统管理"
     }
-  },
-  {
+}, {
     "idMenusinfo": 2,
     "informationsSingleId": 1,
     "menuName": "系统配置",
@@ -28,14 +26,13 @@
     "parentNo": "",
     "children": [],
     "informationsPo": {
-      "idInformations": 1,
-      "sysCode": "system-config",
-      "sysDesc": "系统管理",
-      "sysLogo": "photo-video",
-      "sysName": "系统管理"
+        "idInformations": 1,
+        "sysCode": "system-config",
+        "sysDesc": "系统管理",
+        "sysLogo": "photo-video",
+        "sysName": "系统管理"
     }
-  },
-  {
+}, {
     "idMenusinfo": 3,
     "informationsSingleId": 1,
     "menuName": "资源权限",
@@ -45,14 +42,13 @@
     "menuCode": "resources",
     "children": [],
     "informationsPo": {
-      "idInformations": 1,
-      "sysCode": "system-config",
-      "sysDesc": "系统管理",
-      "sysLogo": "photo-video",
-      "sysName": "系统管理"
+        "idInformations": 1,
+        "sysCode": "system-config",
+        "sysDesc": "系统管理",
+        "sysLogo": "photo-video",
+        "sysName": "系统管理"
     }
-  },
-  {
+}, {
     "idMenusinfo": 5,
     "informationsSingleId": 1,
     "menuName": "系统角色",
@@ -62,14 +58,13 @@
     "menuCode": "rolesinfo",
     "children": [],
     "informationsPo": {
-      "idInformations": 1,
-      "sysCode": "system-config",
-      "sysDesc": "系统管理",
-      "sysLogo": "photo-video",
-      "sysName": "系统管理"
+        "idInformations": 1,
+        "sysCode": "system-config",
+        "sysDesc": "系统管理",
+        "sysLogo": "photo-video",
+        "sysName": "系统管理"
     }
-  },
-  {
+}, {
     "idMenusinfo": 8,
     "informationsSingleId": 1,
     "menuName": "部门信息",
@@ -79,14 +74,13 @@
     "menuCode": "department",
     "children": [],
     "informationsPo": {
-      "idInformations": 1,
-      "sysCode": "system-config",
-      "sysDesc": "系统管理",
-      "sysLogo": "photo-video",
-      "sysName": "系统管理"
+        "idInformations": 1,
+        "sysCode": "system-config",
+        "sysDesc": "系统管理",
+        "sysLogo": "photo-video",
+        "sysName": "系统管理"
     }
-  },
-  {
+}, {
     "idMenusinfo": 9,
     "informationsSingleId": 1,
     "menuName": "系统用户",
@@ -96,15 +90,14 @@
     "menuCode": "usersinfo",
     "children": [],
     "informationsPo": {
-      "dataNo": "0000001",
-      "idInformations": 1,
-      "sysCode": "system-config",
-      "sysDesc": "系统管理",
-      "sysLogo": "photo-video",
-      "sysName": "系统管理"
+        "dataNo": "0000001",
+        "idInformations": 1,
+        "sysCode": "system-config",
+        "sysDesc": "系统管理",
+        "sysLogo": "photo-video",
+        "sysName": "系统管理"
     }
-  },
-  {
+}, {
     "dataNo": "No1641447977062",
     "idMenusinfo": 14,
     "informationsSingleId": 1,
@@ -115,16 +108,15 @@
     "menuCode": "audit",
     "children": [],
     "informationsPo": {
-      "dataNo": "0000001",
-      "local": "zh_CN",
-      "idInformations": 1,
-      "sysCode": "system-config",
-      "sysDesc": "系统管理",
-      "sysLogo": "photo-video",
-      "sysName": "系统管理"
+        "dataNo": "0000001",
+        "local": "zh_CN",
+        "idInformations": 1,
+        "sysCode": "system-config",
+        "sysDesc": "系统管理",
+        "sysLogo": "photo-video",
+        "sysName": "系统管理"
     }
-  },
-  {
+}, {
     "dataNo": "No1668412957170",
     "statusCode": "1",
     "statusName": "正常",
@@ -137,14 +129,13 @@
     "menuCode": "statuc_info",
     "children": [],
     "informationsPo": {
-      "dataNo": "0000001",
-      "statusCode": "001",
-      "statusName": "正常",
-      "idInformations": 1,
-      "sysCode": "system-config",
-      "sysDesc": "系统管理",
-      "sysLogo": "photo-video",
-      "sysName": "系统管理"
+        "dataNo": "0000001",
+        "statusCode": "001",
+        "statusName": "正常",
+        "idInformations": 1,
+        "sysCode": "system-config",
+        "sysDesc": "系统管理",
+        "sysLogo": "photo-video",
+        "sysName": "系统管理"
     }
-  }
-]
+}]

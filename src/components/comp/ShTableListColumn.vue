@@ -15,9 +15,9 @@ const dialogProps = inject<DialogProps>("dialogProps");
 
 <template>
   <el-form-item
-      :required = "item.required=='yes'||item.required"
-      :rules="[{required: item.required=='yes'||item.required, message: '必填项不能为空', trigger: 'blur'}]"
+      :required = "item.required"
       :size = "'small'"
+      :rules = "rules[item.fieldName]"
       :prop = "`${batchName}.${index}.${item.fieldName}`">
     <star-horse-item :primaryKey = "primaryKey" :batchName = "batchName" :item = "item" :data-form = "dataForm"
                      :isEdit = "dialogProps?.ids&&dialogProps?.ids!=-1"/>

@@ -27,7 +27,8 @@
 </template>
 
 <script lang = "ts">
-import {defineComponent, shallowRef,onMounted} from "vue";
+import {defineComponent, shallowRef} from "vue";
+import {onMounted} from "vue/dist/vue";
 
 export default defineComponent({
   setup(props, context) {

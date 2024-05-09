@@ -10,25 +10,26 @@ const props = defineProps({
       primaryKey: {type: String},
       // dataForm: {type: Object, required: true},
       batchName: {type: String, default: ""},
-      buttonSize: {type: String, default: "small"},
+      compSize: {type: String, default: "small"},
       isSearch: {type: Boolean, default: false}, //是否查询数据
       showLabel: {type: Boolean, default: true},//是否显示标签
-      isEdit: {type: Boolean, default: false} //是否编辑数据
+      isEdit: {type: Boolean, default: false}, //是否编辑数据
+      isView: {type: Boolean, default: false} //是否编辑数据
     }
 );
 const dataForm = defineModel("dataForm");
 const itemType = ref<String>("input");
 const showPassword = ref(false);
 const emit = defineEmits(["dataSearch", "focus", "blur"]);
-const formFields = inject("formFields") as reactive<Object>;
+const formFields = inject("formFields") ;
 const field = ref({
   preps: {
     clearable: "yes",
     label: props.item.label,
     name: props.item.fieldName,
     required: props.item.required,
-    size: props.isSearch ? "small" : "default",
-    readonly: props.item.readonly ? 'yes' : 'no',
+    size: props.compSize,
+    readonly: (props.item.readonly || props.isView) ? 'yes' : 'no',
   }
 });
 const dataSearch = (act: String) => {
@@ -120,7 +121,7 @@ const typePreps = () => {
         ...item
       };
       temp["defaultShow"] = true;
-      if (item.type == "input" && !item.matchType) {
+      if (item.type == "input" && !item['matchType']) {
         temp["matchType"] = "lk";
       }
       field.value.preps["searchFieldList"].push(temp);
@@ -128,7 +129,7 @@ const typePreps = () => {
     field.value.preps["dataUrl"] = inputPreps.dataUrl;
     field.value.preps["needField"] = inputPreps.needField;
     field.value.preps["dataFormat"] = inputPreps.dataFormat;
-    console.log(inputPreps);
+    // console.log(inputPreps);
     field.value.preps["recall"] = inputPreps.recall;
     field.value.preps["readonly"] = inputPreps.readonly;
   } else if (itemType.value == "switch") {
@@ -140,9 +141,15 @@ const typePreps = () => {
     field.value.preps["params"] = props.item.params || {};
   }
   field.value.preps["actionName"] = actionName.value;
-  field.value.preps["disabled"] = props.item.disabled == 2 ? "yes" : props.isEdit && props.item.disabled == 1 ? "yes" : "no";
-  field.value.preps['size'] = "small";
+  field.value.preps["disabled"] =
+      props.isView ? "yes" :
+          props.item.disabled == 2 ? "yes" :
+              props.isEdit && props.item.disabled == 1 ? "yes" : "no";
+  //联动
   field.value.preps['actionRelation'] = props.item.actionRelation;
+  //触发事件
+  field.value.preps['actions'] = props.item.actions;
+
   //过滤掉查询表单的信息
   if (!props.isSearch && formFields) {
     let fieldName = field.value.preps["name"];
@@ -155,15 +162,18 @@ const typePreps = () => {
       let row = formFields[props.batchName][dataForm.value["xh"] - 1]
       if (!row) {
         formFields[props.batchName].push([]);
+      } else {
+        row.push(field);
       }
       //[[{},{}],[]]
-      formFields[props.batchName][dataForm.value["xh"] - 1].push(field);
+      // let temp1 = formFields[props.batchName][dataForm.value["xh"] - 1];
+
     } else {
       formFields[fieldName] = field;
     }
 
   }
-  // console.log(dataForm.value);
+//  console.log(field);
 };
 const viewOrHide = () => {
   showPassword.value = !showPassword.value;
@@ -189,7 +199,8 @@ onMounted(() => {
 </style>
 <template>
   <div :style="{ 'width': isSearch && field.preps['type'] != 'daterange' ? '150px' : '100%','height':'100%' }">
-    <component :id="randId" :is="itemType+'-item'" @selfFunc="dataSearch" :isDesign="false" ref="componentRef"
+    <component :id="randId" :is="itemType+'-item'" @selfFunc="dataSearch" :isDesign="false"
+               ref="componentRef"
                :field="field" :formFieldList="dataForm"/>
   </div>
 </template>

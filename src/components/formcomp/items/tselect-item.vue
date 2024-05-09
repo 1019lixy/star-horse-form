@@ -1,35 +1,35 @@
 <template>
-  <starhorse-form-item :formDatas="formDatas" :form-item="field" :parentCompType="parentCompType"
+  <starhorse-form-item :formDatas = "formDatas" :form-item = "field" :parentCompType = "parentCompType"
   >
     <el-tree-select
-        :fid="field.preps['name']"
-        :readonly="field.preps['readonly']=='yes'"
+        :fid = "field.preps['name']"
+        :readonly = "field.preps['readonly']=='yes'"
         :show-checkbox="field.preps['showCheckbox']=='yes'"
-        :clearable="field.preps['clearable']=='yes'"
-        :collapse-tags="field.preps['collapseTags']=='yes'"
-        :collapse-tags-tooltip="field.preps['collapseTagsTooltip']=='yes'"
-        :default-first-option="field.preps['defaultFirstOption']=='yes'"
+        :clearable = "field.preps['clearable']=='yes'"
+        :collapse-tags = "field.preps['collapseTags']=='yes'"
+        :collapse-tags-tooltip = "field.preps['collapseTagsTooltip']=='yes'"
+        :default-first-option = "field.preps['defaultFirstOption']=='yes'"
         :props="field.preps['props']"
-        :disabled="field.preps['disabled']=='yes'"
-        :multiple="field.preps['multiple']=='yes'"
-        :multiple-limit="field.preps['multipleLimit']"
-        :name="field.preps['name']"
-        :placeholder="field.preps['placeholder']||'请选择'+field.preps['label']"
-        :size="field.preps['size']"
+        :disabled = "field.preps['disabled']=='yes'"
+        :multiple = "field.preps['multiple']=='yes'"
+        :multiple-limit = "field.preps['multipleLimit']"
+        :name = "field.preps['name']"
+        :placeholder = "field.preps['placeholder']||'请选择'+field.preps['label']"
+        :size = "field.preps['size']"
         :data="field.preps['values']"
-        :tag-type="field.preps['tagType']"
+        :tag-type = "field.preps['tagType']"
         v-on:[actionName]="keyEnterFun(field.preps['actionName'])"
-        @keydown.enter="keyEnterFun"
+        @keydown.enter = "keyEnterFun"
         @focus="keyEnterFun('focus')"
         @blur="keyEnterFun('blur')"
-        v-model="context.attrs['formFieldList'][field.preps['name']]">
+        v-model = "context.attrs['formFieldList'][field.preps['name']]">
 
     </el-tree-select>
 
   </starhorse-form-item>
 </template>
 
-<script lang="ts">
+<script lang = "ts">
 import {defineComponent, onMounted, shallowRef} from "vue";
 
 export default defineComponent({
@@ -45,27 +45,16 @@ export default defineComponent({
     onMounted(() => {
       actionName.value = field.preps["actionName"];
     });
-    const keyEnterFun = (prep: any) => {
+    const keyEnterFun = (prep:any) => {
       if (prep == actionName.value && field.preps["actionRelation"]) {
         field.preps["actionRelation"](context.attrs['formFieldList'][field.preps['name']],context.attrs['formFieldList']["xh"]);
       }
-      context.emit('selfFunc', prep);
+      context.emit('selfFunc',prep);
     };
     const selectItem = (data: any) => {
       context.emit('selectItem', data, parentCompType)
     };
-    return {
-      parentCompType,
-      formFieldList,
-      context,
-      field,
-      formItem,
-      formDatas,
-      dataField,
-      selectItem,
-      keyEnterFun,
-      actionName
-    }
+    return {parentCompType, formFieldList, context, field, formItem, formDatas, dataField, selectItem,keyEnterFun,actionName}
   }
 });
 </script>

@@ -1,27 +1,27 @@
 <template>
-  <starhorse-form-item :formDatas="formDatas" :form-item="field" :parentCompType="parentCompType">
+  <starhorse-form-item :formDatas = "formDatas" :form-item = "field" :parentCompType = "parentCompType">
     <el-checkbox-group
-        :fid="field.preps['name']"
-        :disabled="field.preps['disabled']=='yes'"
-        :readonly="field.preps['readonly']=='yes'"
-        :fill="field.preps['fill']"
-        :label="field.preps['label']"
+        :fid = "field.preps['name']"
+        :disabled = "field.preps['disabled']=='yes'"
+        :readonly = "field.preps['readonly']=='yes'"
+        :fill = "field.preps['fill']"
+        :label = "field.preps['label']"
 
-        v-model="context.attrs['formFieldList'][field.preps['name']]">
-      <el-checkbox :border="item['border']=='yes'"
-                   :checked="item['checked']=='yes'"
-                   :disabled="item['disabled']=='yes'"
-                   :label="item['name']"
+        v-model = "context.attrs['formFieldList'][field.preps['name']]">
+      <el-checkbox :border = "item['border']=='yes'"
+                   :checked = "item['checked']=='yes'"
+                   :disabled = "item['disabled']=='yes'"
+                   :label = "item['name']"
                    :value="item['value']"
-                   :key="index"
-                   v-for="(item,index) in field.preps['values']">
+                   :key = "index"
+                   v-for = "(item,index) in field.preps['values']">
 
       </el-checkbox>
     </el-checkbox-group>
   </starhorse-form-item>
 </template>
 
-<script lang="ts">
+<script lang = "ts">
 import {defineComponent, shallowRef} from "vue";
 
 export default defineComponent({
