@@ -194,7 +194,6 @@ defineExpose({
 });
 </script>
 <template>
-
   <el-form :model="dataForm" :rules="rules" class="data-form" ref="starHorseFormRef">
     <star-horse-form-item :primaryKey="primaryKey"
                           :compUrl="compUrl"

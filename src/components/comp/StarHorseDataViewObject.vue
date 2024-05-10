@@ -30,9 +30,9 @@ const viewDataFormat = (row: any, column: any, cellValue: any, index: number) =>
 const dataFormat = (item: any) => {
   let name = item['hideName'] || item['fieldName'];
   try {
-    console.log(dataForm.value);
-    return dataForm.value[props.objectName][name]||"--";
-
+    // console.log(dataForm.value);
+    let objInfo = dataForm.value[props.objectName];
+    return objInfo ? objInfo[name] : "--";
   } catch (e) {
     console.log(e);
   }
@@ -49,7 +49,7 @@ const dataFormat = (item: any) => {
             <label>{{ sitem.label }} :</label>
             <div class="content">
               <el-tooltip :content="dataFormat(sitem)">
-                {{dataFormat(sitem)}}
+                {{ dataFormat(sitem) }}
               </el-tooltip>
             </div>
           </div>
@@ -81,11 +81,12 @@ const dataFormat = (item: any) => {
       </div>
     </template>
   </template>
+
   <template v-if="fieldList[batchFieldName] instanceof Array&&fieldList[batchFieldName].length > 0">
     <el-tabs v-model="subTabList">
       <el-tab-pane v-for="(item,key) in fieldList[batchFieldName]" :label="item['title']">
         <el-table
-            :data="dataForm[item['batchName']]"
+            :data="dataForm[objectName]?dataForm[objectName][item['batchName']]:[]"
             fit=true
             border
             :stripe="true"
@@ -114,6 +115,7 @@ const dataFormat = (item: any) => {
                 :formatter="viewDataFormat"
                 :min-width="(item.minWidth||Config.defaultColumnWidth) + 'px'"
             />
+            {{ dataFormat(sitem) }}
           </template>
         </el-table>
       </el-tab-pane>
