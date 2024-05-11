@@ -26,7 +26,7 @@ export function setCustomerInfo(customerInfo: any) {
  */
 export function getCustomerInfo() {
     let str = sessionStorage.getItem(Config.customerInfo);
-    if (!str) {
+    if (!str||str=="undefined") {
         console.log("未找到客户编码");
         return null;
     }

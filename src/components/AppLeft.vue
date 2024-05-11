@@ -45,7 +45,7 @@ watch(() => props.sysemId,
 );
 </script>
 
-<style lang = "scss">
+<style lang = "scss" scoped>
 .base {
   background: white;
 
@@ -56,6 +56,10 @@ watch(() => props.sysemId,
 .el-menu {
   min-height: 100%;
   font-size: 13px;
+}
+.el-menu-item{
+  background: #eee;
+  margin-top: 1px;
 }
 .menu-active {
 }

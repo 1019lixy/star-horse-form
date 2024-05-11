@@ -117,6 +117,7 @@ defineExpose({
   <el-form
       :model = "formInfo"
       :rules = "rules"
+      :size="'small'"
       class = "dynamic-form"
       ref = "itemFormInfo"
   >

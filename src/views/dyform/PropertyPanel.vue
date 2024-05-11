@@ -16,22 +16,7 @@ watch(() => props.activeTab,
 </script>
 
 <style lang = "scss" scoped>
-.demo-tabs {
-  background: #fff;
-  padding: 5px;
-  height: 100%;
-  min-width: 300px;
-}
 
-/*:deep(.el-tabs__content) {
-  height: 100%;
-  .el-tab-pane {
-    height: 100%;
-    .el-scrollbar {
-      height: 100%;
-    }
-  }
-}*/
 </style>
 <template>
   <!--  <el-tabs @tab-click = "handleClick" class = "demo-tabs" v-model = "activeName">

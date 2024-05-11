@@ -5,7 +5,7 @@ const props = defineProps({
 </script>
 <template>
   <template v-for="item in dataList">
-    <el-menu-item v-if="!item.children.length" :key="item.meta.menuId" :index="item.meta.menuId">
+    <el-menu-item v-if="!item.children.length" :key="item.meta.menuId" :index="item.meta.menuId" >
       <el-icon class="star-icon">
         <component :is="item.meta.menuIcon||'document'"/>
       </el-icon>
@@ -13,7 +13,7 @@ const props = defineProps({
         <router-link :to="{ path: item.path }">{{ item.meta.title }}</router-link>
       </template>
     </el-menu-item>
-    <el-sub-menu v-else :key="item.meta.menuId" :index="item.meta.menuId" popper-class="popers">
+    <el-sub-menu v-else :key="item.meta.menuId" :index="item.meta.menuId" >
       <template #title>
         <el-icon class="star-icon">
           <component :is="item.meta.menuIcon||'document'"/>
@@ -30,7 +30,12 @@ const props = defineProps({
   font-size: 22px;
 }
 
-:deep(.el-sub-menu__title) {
+.el-sub-menu {
+  background: #eee;
+  margin-top: 1px;
+}
+
+.el-sub-menu__title {
   height: 40px;
   line-height: 40px;
 }
@@ -40,7 +45,8 @@ const props = defineProps({
 }
 
 .popers {
-  overflow: auto !important;
+  overflow: auto;
   height: 100% !important;
+  z-index: 999999;
 }
 </style>

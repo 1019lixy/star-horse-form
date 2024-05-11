@@ -190,7 +190,7 @@ const init = async () => {
 watch(
   () => props.tableDataList,
   (val) => {
-    if (props.fieldList["stopAutoLoad"]) {
+    if (props.fieldList?.stopAutoLoad) {
       pageInfo.dataList = val;
     }
   },
@@ -581,7 +581,7 @@ defineExpose({
       :reserve-selection="true"
     >
     </el-table-column>
-    <template v-for="item in fieldList['fieldList']">
+    <template v-for="item in fieldList?.fieldList">
       <template v-if="item instanceof Array">
         <star-horse-table-column
           :data-format="dataFormat"

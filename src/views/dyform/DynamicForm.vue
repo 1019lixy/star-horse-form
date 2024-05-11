@@ -10,6 +10,9 @@ import {ApiUrls} from "@/components/types/ApiUrls";
 import {SearchParams} from "@/components/types/Params";
 import FieldAnalysis from "@/views/dyform/FieldAnalysis.vue";
 import FormPropertyPanel from "@/views/dyform/FormPropertyPanel.vue";
+import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
+import Help from "@/components/help.vue";
+import {formActions} from "@/views/dyform/utils/DynamicForm.ts";
 
 const dataUrl = reactive<ApiUrls>(<ApiUrls>{
   loadByPageUrl: "/userdb-manage/userdb/dynamicForm/pageList",
@@ -48,7 +51,7 @@ let formInfo = ref<any>({
   statusIcon: "no",
   createTable: "yes",
   validateOnRuleChange: "yes",
-  size: "default",
+  size: "small",
   disabled: "no",
   scrollToError: "no",
 });
@@ -283,6 +286,38 @@ const tableEdit = (submit: boolean) => {
   isSubmit.value = submit;
   configDialogVisible.value = true;
 };
+const helpMessage = `help`;
+let leftPanelVisible = ref<Boolean>(true);
+let rightPanelVisible = ref<Boolean>(true);
+const actions = (action: string) => {
+  switch (action) {
+    case "leftPanel":
+      leftPanelVisible.value = !leftPanelVisible.value;
+      break;
+    case "rightPanel":
+      rightPanelVisible.value = !rightPanelVisible.value;
+      break;
+    case "new":
+      clearData();
+      break;
+    case "eprep":
+      batchEdit();
+      break;
+    case "tprep":
+      tableEdit(false);
+      break;
+    case "save":
+      tableEdit(true);
+      break;
+    case "preview":
+      preview();
+      break;
+    case "code":
+      createCode();
+      break;
+  }
+
+};
 </script>
 
 <template>
@@ -303,7 +338,7 @@ const tableEdit = (submit: boolean) => {
       :title="'批量修改属性'"
   >
 
-    <el-row style="font-width: bold;font-size:14px;margin-bottom: 5px;">
+    <el-row style="font-width: bold;font-size:12px;margin-bottom: 5px;">
       <el-col :span="3">标签名称</el-col>
       <el-col :span="3">属性名称</el-col>
       <el-col :span="3">最大长度/精度</el-col>
@@ -359,172 +394,177 @@ const tableEdit = (submit: boolean) => {
     </template>
   </star-horse-dialog>
 
-  <el-card class="form_content">
-    <div class="dynamic-toolbar">
-      <el-tooltip content="新建">
-        <el-button
-            :disabled="list.length == 0"
-            @click="clearData"
-            title="新建"
-            size="small"
-        >
-          <star-horse-icon icon-class="clear-all"/>&nbsp;新建
-        </el-button>
-      </el-tooltip>
-      <el-tooltip content="批量修改属性">
-        <el-button :disabled="list.length == 0" @click="batchEdit" size="small">
-          <star-horse-icon icon-class="edit"/>&nbsp;修改属性
-        </el-button>
-      </el-tooltip>
-      <el-tooltip content="表属性配置">
-        <el-button :disabled="list.length == 0" @click="tableEdit" size="small">
-          <star-horse-icon icon-class="setting"/>&nbsp;表属性配置
-        </el-button>
-      </el-tooltip>
-      <el-tooltip content="保存设置">
-        <el-button :disabled="list.length == 0" @click="tableEdit(true)" size="small">
-          <star-horse-icon icon-class="save"/>&nbsp;保存设置
-        </el-button>
-      </el-tooltip>
-      <el-tooltip content="预览页面">
-        <el-button :disabled="list.length == 0" @click="preview" size="small">
-          <star-horse-icon icon-class="preview"/>&nbsp;预览页面
-        </el-button>
-      </el-tooltip>
-      <el-tooltip content="生成代码">
-        <el-button :disabled="list.length == 0" @click="createCode" size="small">
-          <star-horse-icon icon-class="code"/>&nbsp;生成代码
-        </el-button>
-      </el-tooltip>
-    </div>
-    <hr>
-    <div class="form-main">
-      <div class="side-panel">
+  <el-card class="inner_content">
+
+    <div class="form_content">
+      <div class="side-panel" v-show="leftPanelVisible">
         <field-panel ref="fieldPanelRef"/>
       </div>
-
-      <div class="main-design-outer">
-        <el-form
-            style="height: inherit"
-            :disabled="formInfo['disabled'] == 'yes'"
-            :hide-required-asterisk="formInfo['hideRequiredAsterisk'] == 'yes'"
-            :inline="formInfo.inline == 'yes'"
-            :inline-message="formInfo['inlineMessage'] == 'yes'"
-            :label-position="formInfo['labelPosition']"
-            :label-suffix="formInfo['labelSuffix']"
-            :label-width="formInfo['labelWidth']"
-            :model="formFieldList"
-            :require-asterisk-position="formInfo['requireAsteriskPosition']"
-            :rules="formInfo.rules"
-            :scroll-to-error="formInfo['scrollToError'] == 'yes'"
-            :show-message="formInfo['showMessage'] == 'yes'"
-            :size="formInfo['size']"
-            :status-icon="formInfo['statusIcon'] == 'yes'"
-            :validate-on-rule-change="formInfo['validateOnRuleChange']=='yes'"
-        >
-          <draggable
-              @add="(evt) => onDragAdd(evt, list)"
-              class="main-design"
-              :animation="100"
-              group="starHorseGroup"
-              :disable="!editable"
-              ghostClass="ghost"
-              :list="list"
-          >
-            <template v-for="(data, index) in list">
-              <component
-                  :key="data.id"
-                  :field="data"
-                  :formDatas="formDatas"
-                  :is="data.itemType + '-container'"
-                  :formFieldList="formFieldList"
-                  @selectItem="selectItem"
-                  v-if="data.compType === 'container'"
-              />
-              <component
-                  :key="data.id"
-                  :field="data"
-                  :formDatas="formDatas"
-                  :is="getComponentName(data)"
-                  :parentCompType="'item'"
-                  :formFieldList="formFieldList"
-                  @selectItem="selectItem"
-                  v-else-if="data.compType == 'formItem'"
-              />
+      <div class="form-main">
+        <div class="inner_button">
+          <el-menu mode="horizontal" style="height: inherit;width: 100%;">
+            <template v-for="(item,index) in formActions">
+              <el-menu-item v-if="list.length>0||item.defaultEdit">
+                <el-tooltip class="item" :content="item.label" :index="index"
+                            effect="dark"
+                            placement="bottom">
+                  <star-horse-icon @click="actions(item.key)" :icon-class="item.icon" size="24px" color="#303133"/>
+                </el-tooltip>
+              </el-menu-item>
             </template>
-          </draggable>
-        </el-form>
-      </div>
-      <div class="side-panel-item">
-        <property-panel
-            :activeTab="activeTab"
-            :formDatas="formDatas"
-            @formInfoChange="formInfoChange"
-            ref="propertyRef"
-        />
+          </el-menu>
+          <help :message="helpMessage"/>
+        </div>
+        <div class="main-design-a">
+          <div class="main-design-outer">
+            <el-form
+                style="height: 100%"
+                :disabled="formInfo['disabled'] == 'yes'"
+                :hide-required-asterisk="formInfo['hideRequiredAsterisk'] == 'yes'"
+                :inline="formInfo.inline == 'yes'"
+                :inline-message="formInfo['inlineMessage'] == 'yes'"
+                :label-position="formInfo['labelPosition']"
+                :label-suffix="formInfo['labelSuffix']"
+                :label-width="formInfo['labelWidth']"
+                :model="formFieldList"
+                :require-asterisk-position="formInfo['requireAsteriskPosition']"
+                :rules="formInfo.rules"
+                :scroll-to-error="formInfo['scrollToError'] == 'yes'"
+                :show-message="formInfo['showMessage'] == 'yes'"
+                :size="formInfo['size']"
+                :status-icon="formInfo['statusIcon'] == 'yes'"
+                :validate-on-rule-change="formInfo['validateOnRuleChange']=='yes'"
+            >
+              <el-scrollbar>
+                <draggable
+                    @add="(evt) => onDragAdd(evt, list)"
+                    class="main-design"
+                    :animation="100"
+                    group="starHorseGroup"
+                    :disable="!editable"
+                    ghostClass="ghost"
+                    :list="list"
+                >
+                  <template v-for="(data, index) in list">
+                    <component
+                        :key="data.id"
+                        :field="data"
+                        :formDatas="formDatas"
+                        :is="data.itemType + '-container'"
+                        :formFieldList="formFieldList"
+                        @selectItem="selectItem"
+                        v-if="data.compType === 'container'"
+                    />
+                    <component
+                        :key="data.id"
+                        :field="data"
+                        :formDatas="formDatas"
+                        :is="getComponentName(data)"
+                        :parentCompType="'item'"
+                        :formFieldList="formFieldList"
+                        @selectItem="selectItem"
+                        v-else-if="data.compType == 'formItem'"
+                    />
+                  </template>
+                </draggable>
+              </el-scrollbar>
+            </el-form>
+          </div>
+          <div class="side-panel-item" v-show="rightPanelVisible">
+            <property-panel
+                :activeTab="activeTab"
+                :formDatas="formDatas"
+                @formInfoChange="formInfoChange"
+                ref="propertyRef"
+            />
+          </div>
+        </div>
       </div>
     </div>
   </el-card>
 </template>
 <style lang="scss" scoped>
 :deep(.el-card__body) {
-  padding: 5px 20px;
-  height: inherit;
+  padding: 5px;
+  height: 100%;
 }
 
 :deep(.el-divider--horizontal) {
   margin: 10px 0px;
 }
 
+:deep(.el-collapse-item__header) {
+  height: 30px;
+  background: #eee;
+  border-bottom: 1px solid #8F8F8F;
+}
+
+:deep(.el-collapse-item__wrap) {
+  margin-top: 5px;
+}
+
+:deep(.el-scrollbar__view) {
+  height: 100%;
+}
+
 .form_content {
   display: flex;
   width: 100%;
-  height: calc(100vh - 142px);
-  box-sizing: border-box;
-  flex-direction: column;
+  height: 100%;
+  flex-direction: row;
+  margin-top: 0px;
 
-  .dynamic-toolbar {
-    height: 30px;
-    width: 100%;
-    vertical-align: middle;
-    justify-content: right;
-    align-items: center;
-    display: flex;
-    right: 15px;
+  .side-panel {
+    width: 270px !important;
+    justify-content: flex-start;
+    background: #ffffff;
+    border: 1px solid #eee;
   }
 
   .form-main {
     display: flex;
-    flex-direction: row;
-    height: calc(100vh - 200px);
-    padding: 5px 0px;
-    box-sizing: border-box;
+    flex: 1;
+    flex-direction: column;
+    height: 100%;
 
-    .side-panel {
-      width: 270px !important;
+    .inner_button {
+      height: 40px;
+      text-align: left;
       justify-content: flex-start;
-      background: #ffffff;
+      background-color: #fafafa;
+      border: solid 1px #ccc;
+      -moz-user-select: none;
+      -webkit-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
     }
 
-    .main-design-outer {
-      height: inherit;
+    .main-design-a {
+      display: flex;
+      flex-direction: row;
       flex: 1;
-      background: #f1f2f3;
-      border-radius: 3px;
-      padding: 0px 8px;
-      position: relative;
-      justify-content: center;
+      overflow: auto;
 
-      .main-design {
-        width: inherit;
-        height: inherit;
-        background: rgba(255, 255, 255, 0.8);
-        overflow: auto;
+      .main-design-outer {
+        flex: 1;
+        background: #f1f2f3;
+        justify-content: center;
+        border: 1px dotted #eee;
+        margin-top: 5px;
+        border-radius: 3px;
+
+        .main-design {
+          height: 99%;
+          width: inherit;
+          margin: 3px 5px;
+          background: rgba(255, 255, 255, 0.8);
+        }
       }
-    }
 
-    .side-panel-item {
-
+      .side-panel-item {
+        margin-top: 5px;
+        border: 1px solid #eee;
+      }
     }
   }
 }

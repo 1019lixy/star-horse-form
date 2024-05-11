@@ -1,4 +1,4 @@
-<script setup lang = "ts" name = "ItemPropertiesPanel">
+<script setup lang="ts" name="ItemPropertiesPanel">
 import {inject, nextTick, onMounted, reactive, ref, Ref, unref} from 'vue'
 import {confirm} from "@/utils/message";
 import {dictData, loadData, rowClassName, searchMatchList} from "@/api/sh_api";
@@ -371,223 +371,223 @@ defineExpose({
 })
 </script>
 <template>
-  <star-horse-dialog :dialogVisible = "dataSourceDialogVisible" :title = "'数据源配置'" :isBatch = "false"
-                     @merge = "submitValid"
-                     @closeAction = "closeAction"
-                     @reset = "resetDataSourceForm" :selfFunc = "true">
-    <el-form :model = "formProps" :rules = "dataRules" ref = "dataSourceFormRef">
+  <star-horse-dialog :dialogVisible="dataSourceDialogVisible" :title="'数据源配置'" :isBatch="false"
+                     @merge="submitValid"
+                     @closeAction="closeAction"
+                     @reset="resetDataSourceForm" :selfFunc="true">
+    <el-form :model="formProps" :rules="dataRules" ref="dataSourceFormRef">
       <el-row>
-        <el-col :span = "8">
-          <el-form-item label = "表单属性">{{ formProps["label"] }}</el-form-item>
+        <el-col :span="8">
+          <el-form-item label="表单属性">{{ formProps["label"] }}</el-form-item>
         </el-col>
-        <el-col :span = "16">
-          <el-form-item label = "数据源类型" prop = "dataSource" required>
-            <el-select placeholder = "请选择数据源类型" v-model = "formProps['dataSource']">
-              <el-option value = "url" label = "动态接口"/>
-              <el-option value = "dict" label = "数据字典"/>
-              <el-option value = "data" label = "静态数据"/>
+        <el-col :span="16">
+          <el-form-item label="数据源类型" prop="dataSource" required>
+            <el-select placeholder="请选择数据源类型" v-model="formProps['dataSource']">
+              <el-option value="url" label="动态接口"/>
+              <el-option value="dict" label="数据字典"/>
+              <el-option value="data" label="静态数据"/>
             </el-select>
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row v-if = "formProps['dataSource']=='url'||formProps['dataSource']=='dict'">
-        <el-col :span = "20">
-          <template v-if = "formProps['dataSource']=='url'">
+      <el-row v-if="formProps['dataSource']=='url'||formProps['dataSource']=='dict'">
+        <el-col :span="20">
+          <template v-if="formProps['dataSource']=='url'">
             <el-row>
-              <el-col :span = "18">
-                <el-form-item label = "接口地址" prop = "values" required>
-                  <el-input v-model = "formProps['urlOrDictName']" clearable placeholder = "请输入地址"/>
+              <el-col :span="18">
+                <el-form-item label="接口地址" prop="values" required>
+                  <el-input v-model="formProps['urlOrDictName']" clearable placeholder="请输入地址"/>
                 </el-form-item>
               </el-col>
-              <el-col :span = "6">
-                <el-form-item label = "请求方式" prop = "requestType" required>
-                  <el-select v-model = "formProps['requestType']" filterable clearable placeholder = "请选择请求方式">
-                    <el-option label = "POST" value = "post"/>
-                    <el-option label = "GET" value = "get"/>
+              <el-col :span="6">
+                <el-form-item label="请求方式" prop="requestType" required>
+                  <el-select v-model="formProps['requestType']" filterable clearable placeholder="请选择请求方式">
+                    <el-option label="POST" value="post"/>
+                    <el-option label="GET" value="get"/>
                   </el-select>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
-              <el-col :span = "12">
-                <el-form-item label = "标签名字段" prop = "selectLabel" required>
-                  <el-input v-model = "formProps['selectLabel']" clearable placeholder = "请输入标签名字段名，如：name"/>
+              <el-col :span="12">
+                <el-form-item label="标签名字段" prop="selectLabel" required>
+                  <el-input v-model="formProps['selectLabel']" clearable placeholder="请输入标签名字段名，如：name"/>
                 </el-form-item>
               </el-col>
-              <el-col :span = "12">
-                <el-form-item label = "标签值字段" prop = "selectValue" required>
-                  <el-input v-model = "formProps['selectValue']" clearable placeholder = "请输入标签值字段名,如：value"/>
+              <el-col :span="12">
+                <el-form-item label="标签值字段" prop="selectValue" required>
+                  <el-input v-model="formProps['selectValue']" clearable placeholder="请输入标签值字段名,如：value"/>
                 </el-form-item>
               </el-col>
             </el-row>
 
-            <el-form-item label = "参数" v-if = "formProps['requestType']=='post'">
+            <el-form-item label="参数" v-if="formProps['requestType']=='post'">
               <el-table
-                  :data = "formProps['queryParams']"
-                  :fit = true
-                  :row-class-name = "rowClassName"
+                  :data="formProps['queryParams']"
+                  :fit=true
+                  :row-class-name="rowClassName"
                   border
-                  :height = "'200px'"
-                  ref = "queryParamsRef"
+                  :height="'200px'"
+                  ref="queryParamsRef"
               >
                 <el-table-column
-                    :show-overflow-tooltip = "true"
-                    :width = "60"
-                    label = "行号"
-                    prop = "rowIndex"
-                    v-if = "true ">
-                  <template #default = "scope">
-                    <el-form-item :prop = "'queryParams.'+scope.$index+'.rowIndex'">
+                    :show-overflow-tooltip="true"
+                    :width="60"
+                    label="行号"
+                    prop="rowIndex"
+                    v-if="true ">
+                  <template #default="scope">
+                    <el-form-item :prop="'queryParams.'+scope.$index+'.rowIndex'">
                       {{ scope.row.xh }}
                     </el-form-item>
                   </template>
 
                 </el-table-column>
-                <el-table-column prop = "name" label = "参数名">
-                  <template #default = "scope">
+                <el-table-column prop="name" label="参数名">
+                  <template #default="scope">
                     <el-form-item required
-                                  :rules = "dataRules['name']"
-                                  :prop = "'queryParams.'+scope.$index+'.name'">
-                      <el-input v-model = "scope.row.name"/>
+                                  :rules="dataRules['name']"
+                                  :prop="'queryParams.'+scope.$index+'.name'">
+                      <el-input v-model="scope.row.name"/>
                     </el-form-item>
                   </template>
                 </el-table-column>
-                <el-table-column prop = "value" label = "参数值">
-                  <template #default = "scope">
-                    <el-form-item required :rules = "dataRules['value']" :prop = "'queryParams.'+scope.$index+'.value'">
-                      <el-input v-model = "scope.row.value"/>
+                <el-table-column prop="value" label="参数值">
+                  <template #default="scope">
+                    <el-form-item required :rules="dataRules['value']" :prop="'queryParams.'+scope.$index+'.value'">
+                      <el-input v-model="scope.row.value"/>
                     </el-form-item>
                   </template>
                 </el-table-column>
-                <el-table-column prop = "matchType" label = "匹配方式">
-                  <template #default = "scope">
-                    <el-form-item required :rules = "dataRules['matchType']"
-                                  :prop = "'queryParams.'+scope.$index+'.matchType'">
-                      <el-select v-model = "scope.row.matchType">
-                        <el-option :value = "item.value" :label = "item.name" :key = "item.value" v-for = "item in
+                <el-table-column prop="matchType" label="匹配方式">
+                  <template #default="scope">
+                    <el-form-item required :rules="dataRules['matchType']"
+                                  :prop="'queryParams.'+scope.$index+'.matchType'">
+                      <el-select v-model="scope.row.matchType">
+                        <el-option :value="item.value" :label="item.name" :key="item.value" v-for="item in
                       matchTypeList"/>
                       </el-select>
                     </el-form-item>
                   </template>
                 </el-table-column>
                 <el-table-column
-                    align = "center"
-                    prop = "oper"
-                    width = "100px"
+                    align="center"
+                    prop="oper"
+                    width="100px"
                 >
                   <template #header>
 										<span
-                        @click = "handelAddParamData"
-                        class = "oper-btn"
-                        title = "添加"
+                        @click="handelAddParamData"
+                        class="oper-btn"
+                        title="添加"
                     >
                       操作
-											<star-horse-icon icon-class = "add"/>
+											<star-horse-icon icon-class="add"/>
 										</span>
                   </template>
-                  <template #default = "scope">
+                  <template #default="scope">
 										<span
-                        @click = "handelAddParamData"
-                        class = "oper-btn"
-                        title = "添加"
+                        @click="handelAddParamData"
+                        class="oper-btn"
+                        title="添加"
                     >
-											<star-horse-icon icon-class = "add"/>
+											<star-horse-icon icon-class="add"/>
 										</span>&nbsp;&nbsp;
                     <span
-                        @click = "handelDeleteParamData(scope.row)"
-                        class = "oper-btn"
-                        title = "删除"
-                        v-if = "formProps.queryParams.length>1"
+                        @click="handelDeleteParamData(scope.row)"
+                        class="oper-btn"
+                        title="删除"
+                        v-if="formProps.queryParams.length>1"
                     >
-											<star-horse-icon icon-class = "delete"/>
+											<star-horse-icon icon-class="delete"/>
 										</span>
                   </template>
                 </el-table-column>
               </el-table>
             </el-form-item>
           </template>
-          <el-form-item label = "字典名称" prop = "urlOrDictName" required v-else>
-            <el-input v-model = "formProps['urlOrDictName']" clearable placeholder = "请输入字典名称"/>
+          <el-form-item label="字典名称" prop="urlOrDictName" required v-else>
+            <el-input v-model="formProps['urlOrDictName']" clearable placeholder="请输入字典名称"/>
           </el-form-item>
         </el-col>
-        <el-col :span = "4">
-          <el-button type = "primary" @click = "validInterface">
-            <star-horse-icon icon-class = "check" style = "color:#f1f2f3"/>
+        <el-col :span="4">
+          <el-button type="primary" @click="validInterface">
+            <star-horse-icon icon-class="check" style="color:#f1f2f3"/>
             验证
           </el-button>
         </el-col>
       </el-row>
 
-      <el-form-item label = "静态数据" v-else-if = "formProps['dataSource']=='data'">
+      <el-form-item label="静态数据" v-else-if="formProps['dataSource']=='data'">
         <el-table
-            :data = "formProps['values']"
-            :fit = true
-            :row-class-name = "rowClassName"
+            :data="formProps['values']"
+            :fit=true
+            :row-class-name="rowClassName"
             border
-            :height = "'300px'"
-            ref = "dataSourceRef"
+            :height="'300px'"
+            ref="dataSourceRef"
         >
           <el-table-column
-              :show-overflow-tooltip = "true"
-              :width = "60"
-              label = "行号"
-              align = "center"
-              prop = "rowIndex"
-              v-if = "true ">
-            <template #default = "scope">
-              <el-form-item :prop = "'values.'+scope.$index+'.rowIndex'">
+              :show-overflow-tooltip="true"
+              :width="60"
+              label="行号"
+              align="center"
+              prop="rowIndex"
+              v-if="true ">
+            <template #default="scope">
+              <el-form-item :prop="'values.'+scope.$index+'.rowIndex'">
                 {{ scope.row.xh }}
               </el-form-item>
             </template>
 
           </el-table-column>
-          <el-table-column prop = "name" label = "属性名">
-            <template #default = "scope">
-              <el-form-item required :rules = "dataRules['name']"
-                            :prop = "'values.'+scope.$index+'.name'">
-                <el-input v-model = "scope.row.name"/>
+          <el-table-column prop="name" label="属性名">
+            <template #default="scope">
+              <el-form-item required :rules="dataRules['name']"
+                            :prop="'values.'+scope.$index+'.name'">
+                <el-input v-model="scope.row.name"/>
               </el-form-item>
             </template>
           </el-table-column>
-          <el-table-column prop = "value" label = "属性值">
-            <template #default = "scope">
+          <el-table-column prop="value" label="属性值">
+            <template #default="scope">
               <el-form-item
-                  required :rules = "dataRules['value']"
-                  :prop = "'values.'+scope.$index+'.value'">
-                <el-input v-model = "scope.row.value"/>
+                  required :rules="dataRules['value']"
+                  :prop="'values.'+scope.$index+'.value'">
+                <el-input v-model="scope.row.value"/>
               </el-form-item>
             </template>
           </el-table-column>
           <el-table-column
-              align = "center"
-              prop = "oper"
-              width = "100px"
+              align="center"
+              prop="oper"
+              width="100px"
           >
             <template #header>
 										<span
-                        @click = "handelAddData"
-                        class = "oper-btn"
-                        title = "添加"
+                        @click="handelAddData"
+                        class="oper-btn"
+                        title="添加"
                     >
                       操作
-											<star-horse-icon icon-class = "add"/>
+											<star-horse-icon icon-class="add"/>
 										</span>
             </template>
-            <template #default = "scope">
+            <template #default="scope">
 										<span
-                        @click = "handelAddData"
-                        class = "oper-btn"
-                        title = "添加"
+                        @click="handelAddData"
+                        class="oper-btn"
+                        title="添加"
                     >
-											<star-horse-icon icon-class = "add"/>
+											<star-horse-icon icon-class="add"/>
 										</span>&nbsp;&nbsp;
               <span
-                  @click = "handelDeleteData(scope.row)"
-                  class = "oper-btn"
-                  title = "删除"
-                  v-if = "formProps.values.length>1"
+                  @click="handelDeleteData(scope.row)"
+                  class="oper-btn"
+                  title="删除"
+                  v-if="formProps.values.length>1"
               >
-											<star-horse-icon icon-class = "delete"/>
+											<star-horse-icon icon-class="delete"/>
 										</span>
             </template>
           </el-table-column>
@@ -595,115 +595,115 @@ defineExpose({
       </el-form-item>
     </el-form>
     <el-alert
-        title = "正确"
-        type = "success"
-        :description = "validSuccessMsg"
+        title="正确"
+        type="success"
+        :description="validSuccessMsg"
         show-icon
-        :closable = "false"
-        v-if = "validSuccessMsg"
+        :closable="false"
+        v-if="validSuccessMsg"
     >
-      <el-select v-model = "tempData">
-        <el-option v-for = "item in dataList" :value = "item.value" :label = "item.name" :key = "item.value"/>
+      <el-select v-model="tempData">
+        <el-option v-for="item in dataList" :value="item.value" :label="item.name" :key="item.value"/>
       </el-select>
     </el-alert>
     <el-alert
-        title = "错误"
-        type = "error"
-        :description = "validErrorMsg"
+        title="错误"
+        type="error"
+        :description="validErrorMsg"
         show-icon
-        :closable = "false"
-        v-if = "validErrorMsg"
+        :closable="false"
+        v-if="validErrorMsg"
     />
   </star-horse-dialog>
-  <star-horse-dialog :dialogVisible = "containerDialogVisible"
-                     :title = "'设置容器'" :isBatch = "false" @merge = "closeAction"
-                     @closeAction = "closeAction"
-                     @reset = "resetForm" :selfFunc = "true">
+  <star-horse-dialog :dialogVisible="containerDialogVisible"
+                     :title="'设置容器'" :isBatch="false" @merge="closeAction"
+                     @closeAction="closeAction"
+                     @reset="resetForm" :selfFunc="true">
     <el-table
-        v-if = "currentField.itemType!='tab'"
-        :data = "formProps?.elements"
-        :fit = true
-        :row-class-name = "rowClassName"
+        v-if="currentField.itemType!='tab'"
+        :data="formProps?.elements"
+        :fit=true
+        :row-class-name="rowClassName"
         border
-        max-height = "470px"
-        ref = "containerRef"
+        max-height="470px"
+        ref="containerRef"
     >
       <el-table-column
-          :show-overflow-tooltip = "true"
-          :width = "60"
-          label = "行号"
-          align = "center"
-          prop = "rowIndex"
-          v-if = "true ">
-        <template #default = "scope">
+          :show-overflow-tooltip="true"
+          :width="60"
+          label="行号"
+          align="center"
+          prop="rowIndex"
+          v-if="true ">
+        <template #default="scope">
           <el-form-item
-              :prop = "'formProps.'+scope.$index+'.rowIndex'"
-              v-if = "!false">
+              :prop="'formProps.'+scope.$index+'.rowIndex'"
+              v-if="!false">
             {{ scope.row.xh }}
           </el-form-item>
         </template>
       </el-table-column>
       <el-table-column
-          :show-overflow-tooltip = "true"
-          label = "列"
-          prop = "colIndex"
-          v-if = "true "
+          :show-overflow-tooltip="true"
+          label="列"
+          prop="colIndex"
+          v-if="true "
       >
-        <template #default = "scope">
+        <template #default="scope">
           <el-table
-              :data = "scope.row.columns"
-              :fit = true
-              :row-class-name = "rowClassName"
+              :data="scope.row.columns"
+              :fit=true
+              :row-class-name="rowClassName"
               border
-              ref = "stb"
+              ref="stb"
           >
-            <el-table-column label = "列宽">
-              <template #default = "sscope">
+            <el-table-column label="列宽">
+              <template #default="sscope">
                 <el-form-item
-                    :prop = "'scope.row.columns.'+sscope.$index+'.colspan'"
+                    :prop="'scope.row.columns.'+sscope.$index+'.colspan'"
 
                 >
                   <el-input-number
-                      :min = "1"
-                      :max = "24"
-                      :step = "4"
-                      controls-position = "right"
-                      v-model = "sscope.row.colspan"
+                      :min="1"
+                      :max="24"
+                      :step="4"
+                      controls-position="right"
+                      v-model="sscope.row.colspan"
 
                   />
                 </el-form-item>
               </template>
             </el-table-column>
             <el-table-column
-                align = "center"
-                prop = "oper"
-                width = "100px"
+                align="center"
+                prop="oper"
+                width="100px"
             >
               <template #header>
 										<span
-                        @click = "handelAddCol(scope.row)"
-                        class = "oper-btn"
-                        title = "添加列"
+                        @click="handelAddCol(scope.row)"
+                        class="oper-btn"
+                        title="添加列"
                     >
                       操作
-											<star-horse-icon icon-class = "add"/>
+											<star-horse-icon icon-class="add"/>
 										</span>
               </template>
-              <template #default = "sscope">
+              <template #default="sscope">
 										<span
-                        @click = "handelAddCol(scope.row)"
-                        class = "oper-btn"
-                        title = "添加列"
+                        @click="handelAddCol(scope.row)"
+                        class="oper-btn"
+                        title="添加列"
                     >
-											<star-horse-icon icon-class = "add"/>
+											<star-horse-icon icon-class="add"/>
 										</span>&nbsp;&nbsp;
                 <span
-                    @click = "handelDeleteCol(scope.row,sscope.row)"
-                    class = "oper-btn"
-                    title = "删除列"
-                    v-if = "scope.row.columns.length>1"
+                    @click="handelDeleteCol(scope.row,sscope.row)"
+                    class="oper-btn"
+                    title="删除列"
+                    v-if="scope.row.columns.length>1"
                 >
-											<star-horse-icon icon-class = "delete"/>
+											<star-horse-icon icon-class="delete"/>
 										</span>
               </template>
             </el-table-column>
@@ -711,36 +711,36 @@ defineExpose({
         </template>
       </el-table-column>
       <el-table-column
-          align = "center"
-          prop = "oper"
-          width = "100px"
+          align="center"
+          prop="oper"
+          width="100px"
       >
         <template #header>
 										<span
-                        @click = "handelAddRow"
-                        class = "oper-btn"
-                        title = "添加行"
+                        @click="handelAddRow"
+                        class="oper-btn"
+                        title="添加行"
                     >
                       操作
-											<star-horse-icon icon-class = "add"/>
+											<star-horse-icon icon-class="add"/>
 										</span>
         </template>
-        <template #default = "scope">
+        <template #default="scope">
 										<span
-                        @click = "handelAddRow"
-                        class = "oper-btn"
-                        title = "添加行"
+                        @click="handelAddRow"
+                        class="oper-btn"
+                        title="添加行"
                     >
-											<star-horse-icon icon-class = "add"/>
+											<star-horse-icon icon-class="add"/>
 										</span>&nbsp;&nbsp;
           <span
-              @click = "handelDelete(scope.row)"
-              class = "oper-btn"
-              title = "删除行"
-              v-if = "formProps.elements.length>1"
+              @click="handelDelete(scope.row)"
+              class="oper-btn"
+              title="删除行"
+              v-if="formProps.elements.length>1"
           >
 											<star-horse-icon
-                          icon-class = "delete"
+                          icon-class="delete"
                       />
 										</span>
         </template>
@@ -748,95 +748,95 @@ defineExpose({
     </el-table>
     <el-table
         v-else
-        :data = "formProps?.elements"
-        :fit = true
-        :row-class-name = "rowClassName"
+        :data="formProps?.elements"
+        :fit=true
+        :row-class-name="rowClassName"
         border
-        max-height = "470px"
-        ref = "containerRef"
+        max-height="470px"
+        ref="containerRef"
     >
       <el-table-column
-          :show-overflow-tooltip = "true"
-          :width = "60"
-          label = "行号"
-          align = "center"
-          prop = "rowIndex"
-          v-if = "true ">
-        <template #default = "scope">
+          :show-overflow-tooltip="true"
+          :width="60"
+          label="行号"
+          align="center"
+          prop="rowIndex"
+          v-if="true ">
+        <template #default="scope">
           <el-form-item
-              :prop = "'formProps.'+scope.$index+'.rowIndex'"
-              v-if = "!false">
+              :prop="'formProps.'+scope.$index+'.rowIndex'"
+              v-if="!false">
             {{ scope.row.xh }}
           </el-form-item>
         </template>
       </el-table-column>
       <el-table-column
-          label = "Tab名字"
-          prop = "label"
+          label="Tab名字"
+          prop="label"
       >
-        <template #default = "scope">
+        <template #default="scope">
           <el-form-item
-              :prop = "'scope.row.columns.'+scope.$index+'.label'"
+              :prop="'scope.row.columns.'+scope.$index+'.label'"
 
           >
             <el-input
                 clearable
-                placeholder = "请输入Tab名称"
-                v-model = "scope.row.label"
+                placeholder="请输入Tab名称"
+                v-model="scope.row.label"
 
             />
           </el-form-item>
         </template>
       </el-table-column>
       <el-table-column
-          label = "Tab属性"
-          prop = "name"
+          label="Tab属性"
+          prop="name"
       >
-        <template #default = "scope">
+        <template #default="scope">
           <el-form-item
-              :prop = "'scope.row.columns.'+scope.$index+'.name'"
+              :prop="'scope.row.columns.'+scope.$index+'.name'"
 
           >
             <el-input
                 clearable
-                placeholder = "请输入Tab属性"
-                v-model = "scope.row.name"
+                placeholder="请输入Tab属性"
+                v-model="scope.row.name"
 
             />
           </el-form-item>
         </template>
       </el-table-column>
       <el-table-column
-          align = "center"
-          prop = "oper"
-          width = "100px"
+          align="center"
+          prop="oper"
+          width="100px"
       >
         <template #header>
 										<span
-                        @click = "handelAddRow"
-                        class = "oper-btn"
-                        title = "添加行"
+                        @click="handelAddRow"
+                        class="oper-btn"
+                        title="添加行"
                     >
                       操作
-											<star-horse-icon icon-class = "add"/>
+											<star-horse-icon icon-class="add"/>
 										</span>
         </template>
-        <template #default = "scope">
+        <template #default="scope">
 										<span
-                        @click = "handelAddRow"
-                        class = "oper-btn"
-                        title = "添加行"
+                        @click="handelAddRow"
+                        class="oper-btn"
+                        title="添加行"
                     >
-											<star-horse-icon icon-class = "add"/>
+											<star-horse-icon icon-class="add"/>
 										</span>&nbsp;&nbsp;
           <span
-              @click = "handelDelete(scope.row)"
-              class = "oper-btn"
-              title = "删除行"
-              v-if = "formProps.elements.length>1"
+              @click="handelDelete(scope.row)"
+              class="oper-btn"
+              title="删除行"
+              v-if="formProps.elements.length>1"
           >
 											<star-horse-icon
-                          icon-class = "delete"
+                          icon-class="delete"
                       />
 										</span>
         </template>
@@ -844,9 +844,9 @@ defineExpose({
     </el-table>
   </star-horse-dialog>
 
-  <star-horse-dialog :dialogVisible = "jsEditor" :title = "'自定义事件'" :isBatch = "false" @merge = "merge"
-                     @closeAction = "closeAction"
-                     @reset = "resetForm" :selfFunc = "true">
+  <star-horse-dialog :dialogVisible="jsEditor" :title="'自定义事件'" :isBatch="false" @merge="merge"
+                     @closeAction="closeAction"
+                     @reset="resetForm" :selfFunc="true">
     <!--    <code-js
             :fieldName = "fieldName"
             :value = "jsValue"
@@ -855,279 +855,285 @@ defineExpose({
             @changeValue = "changeValue"
         />-->
   </star-horse-dialog>
-  <el-scrollbar>
-    <el-form
-        :model = "formProps"
-        :rules = "formRules"
-        class = "dynamic-form"
-        ref = "itemPropertiesRef"
-        size = "small"
-        label-position = "top"
+  <el-form
+      :model="formProps"
+      :rules="formRules"
+      class="dynamic-form"
+      ref="itemPropertiesRef"
+      size="small"
+      label-position="top"
+  >
+    <el-collapse
+        class="widget-collapse"
+        :accordion="true"
+        v-model="activeNames"
     >
-      <el-collapse
-          class = "widget-collapse"
-          v-model = "activeNames"
-      >
-        <el-collapse-item name = "1">
-          <template #title>
-            &nbsp;<star-horse-icon icon-class = "base_preps"/>&nbsp;&nbsp;<span>基础属性</span>
-          </template>
-          <template v-if = "formDatas?.compType==='container'">
+      <el-collapse-item name="1">
+        <template #title>
+          &nbsp;<star-horse-icon icon-class="base_preps"/>&nbsp;&nbsp;<span>基础属性</span>
+        </template>
+        <el-scrollbar height="500">
+          <template v-if="formDatas?.compType==='container'">
             <el-form-item
-                label = ""
-                prop = "rows"
+                label=""
+                prop="rows"
             >
-              <el-button @click = "editContainerPrep">编辑容器属性</el-button>
+              <el-button @click="editContainerPrep">编辑容器属性</el-button>
             </el-form-item>
-            <template v-for = "(item) in fieldList">
+            <template v-for="(item) in fieldList">
               <el-form-item
-                  :label = "item.label"
-                  :prop = "item.fieldName"
-                  v-if = "item.fieldType==='input'"
+                  :label="item.label"
+                  :prop="item.fieldName"
+                  v-if="item.fieldType==='input'"
               >
                 <el-input
-                    :placeholder = "'请输入'+item.label"
-                    v-model = "formProps[item.fieldName]"
+                    :placeholder="'请输入'+item.label"
+                    v-model="formProps[item.fieldName]"
                 />
               </el-form-item>
               <el-form-item
-                  :label = "item.label"
-                  :prop = "item.fieldName"
-                  v-if = "item.fieldType==='radio'"
+                  :label="item.label"
+                  :prop="item.fieldName"
+                  v-if="item.fieldType==='radio'"
               >
-                <el-radio-group v-model = "formProps[item.fieldName]">
+                <el-radio-group v-model="formProps[item.fieldName]">
                   <el-radio
-                      :label = "data"
-                      :value = "data"
-                      v-for = "data in JSON.parse(item.selectValues)"
+                      :label="data"
+                      :value="data"
+                      v-for="data in JSON.parse(item.selectValues)"
                   />
                 </el-radio-group>
               </el-form-item>
               <el-form-item
-                  :label = "item.label"
-                  :prop = "item.fieldName"
-                  v-if = "item.fieldType==='checkbox'"
+                  :label="item.label"
+                  :prop="item.fieldName"
+                  v-if="item.fieldType==='checkbox'"
               >
-                <el-checkbox-group v-model = "formProps[item.fieldName]">
+                <el-checkbox-group v-model="formProps[item.fieldName]">
                   <el-checkbox
-                      :label = "data"
-                      :value = "data"
-                      v-for = "data in JSON.parse(item.selectValues)"
+                      :label="data"
+                      :value="data"
+                      v-for="data in JSON.parse(item.selectValues)"
                   />
                 </el-checkbox-group>
               </el-form-item>
               <el-form-item
-                  :label = "item.label"
-                  :prop = "item.fieldName"
-                  v-if = "item.fieldType==='number'"
+                  :label="item.label"
+                  :prop="item.fieldName"
+                  v-if="item.fieldType==='number'"
               >
                 <el-input-number
-                    :placeholder = "'请输入'+item.label"
-                    v-model = "formProps[item.fieldName]"
+                    :placeholder="'请输入'+item.label"
+                    v-model="formProps[item.fieldName]"
                 />
               </el-form-item>
               <el-form-item
-                  :label = "item.label"
-                  :prop = "item.fieldName"
-                  v-if = "item.fieldType==='switch'"
+                  :label="item.label"
+                  :prop="item.fieldName"
+                  v-if="item.fieldType==='switch'"
               >
                 <el-switch
-                    :active-value = "JSON.parse(item.selectValues)[0]"
-                    :inactive-value = "JSON.parse(item.selectValues)[1]"
-                    active-text = "是"
-                    inactive-text = "否"
-                    v-model = "formProps[item.fieldName]"
+                    :active-value="JSON.parse(item.selectValues)[0]"
+                    :inactive-value="JSON.parse(item.selectValues)[1]"
+                    active-text="是"
+                    inactive-text="否"
+                    v-model="formProps[item.fieldName]"
                 />
               </el-form-item>
               <el-form-item
-                  :label = "item.label"
-                  :prop = "item.fieldName"
-                  v-if = "item.fieldType==='button'"
+                  :label="item.label"
+                  :prop="item.fieldName"
+                  v-if="item.fieldType==='button'"
               >
                 <el-button>Click</el-button>
               </el-form-item>
               <el-form-item
-                  :label = "item.label"
-                  :prop = "item.fieldName"
-                  v-if = "item.fieldType==='select'"
+                  :label="item.label"
+                  :prop="item.fieldName"
+                  v-if="item.fieldType==='select'"
               >
-                <el-select v-model = "formProps[item.fieldName]">
+                <el-select v-model="formProps[item.fieldName]">
                   <el-option
-                      :label = "data"
-                      :value = "data"
-                      v-for = "data in JSON.parse(item.selectValues)"
+                      :label="data"
+                      :value="data"
+                      v-for="data in JSON.parse(item.selectValues)"
                   />
                 </el-select>
               </el-form-item>
               <el-form-item
-                  :label = "item.label"
-                  :prop = "item.fieldName"
-                  v-if = "item.fieldType==='textarea'"
+                  :label="item.label"
+                  :prop="item.fieldName"
+                  v-if="item.fieldType==='textarea'"
               >
                 <el-input
-                    :placeholder = "'请输入'+item.label"
-                    type = "textarea"
-                    v-model = "formProps[item.fieldName]"
+                    :placeholder="'请输入'+item.label"
+                    type="textarea"
+                    v-model="formProps[item.fieldName]"
                 />
               </el-form-item>
             </template>
           </template>
-          <template v-else v-for = "(item) in fieldList">
+          <template v-else v-for="(item) in fieldList">
 
-            <el-form-item :label = "item.label" :prop = "item.fieldName" :required = "item.required=='yes'"
+            <el-form-item :label="item.label" :prop="item.fieldName" :required="item.required=='yes'"
                           :rules="[{required: item.required=='yes', message: '必填项不能为空', trigger: 'blur'}]">
               <el-input
-                  v-if = "item.fieldType==='input'"
-                  :placeholder = "'请输入'+item.label"
-                  v-model = "formProps[item.fieldName]"/>
-              <el-radio-group v-model = "formProps[item.fieldName]" v-if = "item.fieldType==='radio'">
-                <el-radio :label = "data" :value = "data" v-for = "data in JSON.parse(item.selectValues)"/>
+                  v-if="item.fieldType==='input'"
+                  :placeholder="'请输入'+item.label"
+                  v-model="formProps[item.fieldName]"/>
+              <el-radio-group v-model="formProps[item.fieldName]" v-if="item.fieldType==='radio'">
+                <el-radio :label="data" :value="data" v-for="data in JSON.parse(item.selectValues)"/>
               </el-radio-group>
-              <el-checkbox-group v-model = "formProps[item.fieldName]" v-if = "item.fieldType==='checkbox'">
-                <el-checkbox :label = "data" :value = "data" v-for = "data in JSON.parse(item.selectValues)"/>
+              <el-checkbox-group v-model="formProps[item.fieldName]" v-if="item.fieldType==='checkbox'">
+                <el-checkbox :label="data" :value="data" v-for="data in JSON.parse(item.selectValues)"/>
               </el-checkbox-group>
-              <el-input-number v-if = "item.fieldType==='number'" :placeholder = "'请输入'+item.label" v-model =
+              <el-input-number v-if="item.fieldType==='number'" :placeholder="'请输入'+item.label" v-model=
                   "formProps[item.fieldName]"/>
-              <el-switch v-if = "item.fieldType==='switch'"
-                         :active-value = "JSON.parse(item.selectValues)[0]"
-                         :inactive-value = "JSON.parse(item.selectValues)[1]"
-                         active-text = "是"
-                         inactive-text = "否"
-                         v-model = "formProps[item.fieldName]"
+              <el-switch v-if="item.fieldType==='switch'"
+                         :active-value="JSON.parse(item.selectValues)[0]"
+                         :inactive-value="JSON.parse(item.selectValues)[1]"
+                         active-text="是"
+                         inactive-text="否"
+                         v-model="formProps[item.fieldName]"
               />
-              <el-button v-if = "item.fieldType==='button'" @click = "jsButtonClick(item.eventName)">添加事件
+              <el-button v-if="item.fieldType==='button'" @click="jsButtonClick(item.eventName)">添加事件
               </el-button>
-              <el-button v-if = "item.fieldType==='data'" @click = "dataSource(formProps['itemType'])">添加数据源
+              <el-button v-if="item.fieldType==='data'" @click="dataSource(formProps['itemType'])">添加数据源
               </el-button>
-              <el-select v-model = "formProps[item.fieldName]" v-if = "item.fieldType==='select'">
-                <el-option :label = "data.name||data" :value = "data.value||data"
-                           v-for = "data in JSON.parse(item.selectValues)"/>
+              <el-select v-model="formProps[item.fieldName]" v-if="item.fieldType==='select'">
+                <el-option :label="data.name||data" :value="data.value||data"
+                           v-for="data in JSON.parse(item.selectValues)"/>
               </el-select>
-              <el-input v-if = "item.fieldType==='textarea'"
-                        :placeholder = "'请输入'+item.label"
-                        type = "textarea" v-model = "formProps[item.fieldName]"/>
+              <el-input v-if="item.fieldType==='textarea'"
+                        :placeholder="'请输入'+item.label"
+                        type="textarea" v-model="formProps[item.fieldName]"/>
             </el-form-item>
           </template>
-          <el-table v-if = "currentField?.itemType==='checkbox'||currentField?.itemType==='radio'"
-                    :data = "formProps.values"
-                    :fit = true
-                    :row-class-name = "rowClassName">
-            <el-table-column label = "标签名称" prop = "label">
-              <template #default = "scope">
-                <el-input v-model = "scope.row.label"/>
+          <el-table v-if="currentField?.itemType==='checkbox'||currentField?.itemType==='radio'"
+                    :data="formProps.values"
+                    :fit=true
+                    :row-class-name="rowClassName">
+            <el-table-column label="标签名称" prop="label">
+              <template #default="scope">
+                <el-input v-model="scope.row.label"/>
               </template>
             </el-table-column>
-            <el-table-column label = "选中值" prop = "trueLabel">
-              <template #default = "scope">
-                <el-input v-model = "scope.row.trueLabel"/>
+            <el-table-column label="选中值" prop="trueLabel">
+              <template #default="scope">
+                <el-input v-model="scope.row.trueLabel"/>
               </template>
             </el-table-column>
-            <el-table-column label = "未选中值" prop = "falseLabel">
-              <template #default = "scope">
-                <el-input v-model = "scope.row.falseLabel"/>
+            <el-table-column label="未选中值" prop="falseLabel">
+              <template #default="scope">
+                <el-input v-model="scope.row.falseLabel"/>
               </template>
             </el-table-column>
             <el-table-column
-                align = "center"
-                prop = "oper"
-                width = "60px">
+                align="center"
+                prop="oper"
+                width="60px">
               <template #header>
 										<span
-                        @click = "handelAddItem"
-                        class = "oper-btn"
-                        title = "添加行">
-											<star-horse-icon icon-class = "add"/>
+                        @click="handelAddItem"
+                        class="oper-btn"
+                        title="添加行">
+											<star-horse-icon icon-class="add"/>
 										</span>
               </template>
-              <template #default = "scope">
+              <template #default="scope">
 										<span
-                        @click = "handelAddItem"
-                        class = "oper-btn"
-                        title = "添加行">
-											<star-horse-icon icon-class = "add"/>
+                        @click="handelAddItem"
+                        class="oper-btn"
+                        title="添加行">
+											<star-horse-icon icon-class="add"/>
 										</span>&nbsp;&nbsp;
                 <span
-                    @click = "handelDeleteItem(scope.row)"
-                    class = "oper-btn"
-                    title = "删除行"
-                    v-if = "formProps.values?.length>1">
+                    @click="handelDeleteItem(scope.row)"
+                    class="oper-btn"
+                    title="删除行"
+                    v-if="formProps.values?.length>1">
 											<star-horse-icon
-                          icon-class = "delete"
-                          style = "color:indianred"
+                          icon-class="delete"
+                          style="color:indianred"
                       />
 										</span>
               </template>
             </el-table-column>
           </el-table>
-        </el-collapse-item>
-        <el-collapse-item name = "2">
-          <template #title>
-            &nbsp;<star-horse-icon icon-class = "advance_preps"/>&nbsp;&nbsp;<span>高级属性(未验证,慎用)</span>
+        </el-scrollbar>
+      </el-collapse-item>
+      <el-collapse-item name="2">
+        <template #title>
+          &nbsp;<star-horse-icon icon-class="advance_preps"/>&nbsp;&nbsp;<span>高级属性</span>
+        </template>
+        <el-scrollbar height="500">
+          <template v-if="formDatas?.compType==='container'">
           </template>
-          <template v-if = "formDatas?.compType==='container'">
-          </template>
-          <template v-else v-for = "(item) in advancedFieldList">
+          <template v-else v-for="(item) in advancedFieldList">
             <el-form-item
-                :label = "item.label"
-                :prop = "item.fieldName"
+                :label="item.label"
+                :prop="item.fieldName"
                 :rules="[{required: item.required=='yes'||item.required, message: '必填项不能为空', trigger: 'blur'}]"
-                :required = "item.required=='yes'||item.required">
-              <el-input v-if = "item.fieldType==='input'"
-                        :placeholder = "'请输入'+item.label" v-model = "formProps[item.fieldName]"/>
-              <el-radio-group v-model = "formProps[item.fieldName]" v-if = "item.fieldType==='radio'">
-                <el-radio :label = "data" :value = "data" v-for = "data in JSON.parse(item.selectValues)"/>
+                :required="item.required=='yes'||item.required">
+              <el-input v-if="item.fieldType==='input'"
+                        :placeholder="'请输入'+item.label" v-model="formProps[item.fieldName]"/>
+              <el-radio-group v-model="formProps[item.fieldName]" v-if="item.fieldType==='radio'">
+                <el-radio :label="data" :value="data" v-for="data in JSON.parse(item.selectValues)"/>
               </el-radio-group>
 
-              <el-checkbox-group v-model = "formProps[item.fieldName]" v-if = "item.fieldType==='checkbox'">
-                <el-checkbox :label = "data" :value = "data" v-for = "data in JSON.parse(item.selectValues)"/>
+              <el-checkbox-group v-model="formProps[item.fieldName]" v-if="item.fieldType==='checkbox'">
+                <el-checkbox :label="data" :value="data" v-for="data in JSON.parse(item.selectValues)"/>
               </el-checkbox-group>
-              <el-input-number v-if = "item.fieldType==='number'"
-                               :placeholder = "'请输入'+item.label"
-                               v-model = "formProps[item.fieldName]"/>
-              <el-switch v-if = "item.fieldType==='switch'"
-                         :active-value = "JSON.parse(item.selectValues)[0]"
-                         :inactive-value = "JSON.parse(item.selectValues)[1]"
-                         active-text = "是"
-                         inactive-text = "否"
-                         v-model = "formProps[item.fieldName]"/>
-              <el-button v-if = "item.fieldType==='button'" @click = "jsButtonClick(item.eventName)">添加事件
+              <el-input-number v-if="item.fieldType==='number'"
+                               :placeholder="'请输入'+item.label"
+                               v-model="formProps[item.fieldName]"/>
+              <el-switch v-if="item.fieldType==='switch'"
+                         :active-value="JSON.parse(item.selectValues)[0]"
+                         :inactive-value="JSON.parse(item.selectValues)[1]"
+                         active-text="是"
+                         inactive-text="否"
+                         v-model="formProps[item.fieldName]"/>
+              <el-button v-if="item.fieldType==='button'" @click="jsButtonClick(item.eventName)">添加事件
               </el-button>
-              <el-select v-model = "formProps[item.fieldName]" v-if = "item.fieldType==='select'">
-                <el-option :label = "data.name||data" :value = "data||data.value"
-                           v-for = "data in JSON.parse(item.selectValues)"/>
+              <el-select v-model="formProps[item.fieldName]" v-if="item.fieldType==='select'">
+                <el-option :label="data.name||data" :value="data||data.value"
+                           v-for="data in JSON.parse(item.selectValues)"/>
               </el-select>
-              <el-input v-if = "item.fieldType==='textarea'"
-                        :placeholder = "'请输入'+item.label" type = "textarea" v-model = "formProps[item.fieldName]"/>
+              <el-input v-if="item.fieldType==='textarea'"
+                        :placeholder="'请输入'+item.label" type="textarea" v-model="formProps[item.fieldName]"/>
             </el-form-item>
           </template>
-        </el-collapse-item>
-        <el-collapse-item name = "3">
-          <template #title>
-            &nbsp;<star-horse-icon icon-class = "event-action"/>&nbsp;&nbsp;<span>自定义事件(未验证,慎用)</span>
-          </template>
-          <template v-if = "formDatas?.compType==='container'">
+        </el-scrollbar>
+      </el-collapse-item>
+      <el-collapse-item name="3">
+        <template #title>
+          &nbsp;<star-horse-icon icon-class="event-action"/>&nbsp;&nbsp;<span>自定义事件</span>
+        </template>
+        <el-scrollbar height="500">
+          <template v-if="formDatas?.compType==='container'">
           </template>
           <template
               v-else
-              v-for = "(item) in actions"
+              v-for="(item) in actions"
           >
             <el-form-item
-                :label = "item.label"
-                :prop = "item.actionName"
-                v-if = "item.fieldType==='button'">
+                :label="item.label"
+                :prop="item.actionName"
+                v-if="item.fieldType==='button'">
               <el-button
-                  @click = "jsButtonClick(item.actionName)" size = "small">
-                <star-horse-icon icon-class = "code" size = "16px"/>
+                  @click="jsButtonClick(item.actionName)" size="small">
+                <star-horse-icon icon-class="code" size="16px"/>
                 编辑事件代码
               </el-button>
             </el-form-item>
           </template>
-        </el-collapse-item>
-      </el-collapse>
-    </el-form>
-  </el-scrollbar>
+        </el-scrollbar>
+      </el-collapse-item>
+    </el-collapse>
+  </el-form>
+
 </template>
-<style lang = "scss" scoped>
+<style lang="scss" scoped>
 :deep(.el-scrollbar) {
   height: 90% !important;
 }
@@ -1136,13 +1142,16 @@ defineExpose({
   padding: 0;
 }
 
+.widget-collapse {
+  height: 99%;
+}
+
 .oper-btn {
   cursor: pointer;
 }
 
 .dynamic-form {
-  width: inherit;
-  padding: 0 5px;
+  width: 200px;
   height: 100%;
 }
 </style>
