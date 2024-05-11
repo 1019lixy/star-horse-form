@@ -4,6 +4,7 @@ import {confirm} from "@/utils/message";
 import {dictData, loadData, rowClassName, searchMatchList} from "@/api/sh_api";
 import type {FormRules} from 'element-plus'
 import {SelectOption} from "@/components/types/SearchProps";
+import StarHorseEditor from "@/components/comp/StarHorseEditor.vue";
 
 let formDatas = inject("activeItemData") as Ref;
 const fieldList = ref<any>({});
@@ -844,16 +845,15 @@ defineExpose({
     </el-table>
   </star-horse-dialog>
 
-  <star-horse-dialog :dialogVisible="jsEditor" :title="'自定义事件'" :isBatch="false" @merge="merge"
+  <star-horse-dialog :dialogVisible="jsEditor" :title="'自定义事件'" :isBatch="false" @merge="closeAction"
                      @closeAction="closeAction"
-                     @reset="resetForm" :selfFunc="true">
-    <!--    <code-js
-            :fieldName = "fieldName"
-            :value = "jsValue"
-            ref = "codeCompRef"
-            style = "height: 100%"
-            @changeValue = "changeValue"
-        />-->
+                     @reset="closeAction" :selfFunc="true">
+    <star-horse-editor
+        v-model:value="formProps[fieldName]"
+        lang="javascript"
+        ref="codeCompRef"
+        style="height: 100%"
+    />
   </star-horse-dialog>
   <el-form
       :model="formProps"
