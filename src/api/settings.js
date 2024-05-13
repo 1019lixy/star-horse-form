@@ -2,7 +2,7 @@ export const Config = {
     /**
      * @description 网站标题
      */
-    title: 'DOOV',
+    title: 'StarHorseDevops',
     /**
      * @description 是否显示 tagsView
      */
