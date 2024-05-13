@@ -35,17 +35,17 @@ const selectItem = (data: any, parentCompType: String) => {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .smain-design {
   width: inherit;
   background: var(--star-horse-white);;
   border-radius: 3px;
   min-height: 50px;
-  display: block;
+  display: flex;
 }
 
-:deep(.el-col) {
-  border: 1px dotted gold;
+.el-col {
+  border: 2px dotted var(--star-horse-border—color);
   min-height: 50px;
 }
 </style>

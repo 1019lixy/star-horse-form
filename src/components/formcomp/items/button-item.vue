@@ -1,30 +1,33 @@
 <template>
-  <starhorse-form-item :formDatas = "formDatas" :form-item = "field" :parentCompType = "parentCompType"
+  <starhorse-form-item :formDatas="formDatas" :form-item="field" :parentCompType="parentCompType"
   >
     <el-button
-        :autofocus = "field?.preps['autofocus']=='yes'"
-        :bg = "field?.preps['bg']=='yes'"
-        :circle = "field?.preps['circle']=='yes'"
-        :disabled = "field?.preps['disabled']=='yes'"
-        :icon = "field?.preps['icon']"
-        :link = "field?.preps['link']=='yes'"
-        :loading = "field?.preps['loading']=='yes'"
-        :loading-icon = "field?.preps['loadingIcon']"
-        :native-type = "field?.preps['nativeType']"
-        :plain = "field?.preps['plain']=='yes'"
-        :round = "field?.preps['round']=='yes'"
-        :size = "field?.preps['size']"
-        :text = "field?.preps['text']=='yes'"
-        @click = "dynamicFunc(field?.preps['click'])"
-        :type = "field?.preps['type']">{{ field?.preps["btnLabel"] }}
+        :autofocus="field?.preps['autofocus']=='yes'"
+        :bg="field?.preps['bg']=='yes'"
+        :circle="field?.preps['circle']=='yes'"
+        :disabled="field?.preps['disabled']=='yes'"
+        :icon="field?.preps['icon']||'document'"
+        :link="field?.preps['link']=='yes'"
+        :loading="field?.preps['loading']=='yes'"
+        :loading-icon="field?.preps['loadingIcon']"
+        :native-type="field?.preps['nativeType']"
+        :plain="field?.preps['plain']=='yes'"
+        :round="field?.preps['round']=='yes'"
+        :size="field?.preps['size']"
+        :text="field?.preps['text']=='yes'"
+        @click="dynamicFunc(field?.preps['click'])"
+        :type="field?.preps['type']">
+      {{ field?.preps["label"] }}
     </el-button>
   </starhorse-form-item>
 </template>
 
-<script lang = "ts" name = "buttonItem">
-import {defineComponent, shallowRef} from "vue";
+<script lang="ts" name="buttonItem">
+import {defineComponent, shallowRef,onMounted} from "vue";
+import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 
 export default defineComponent({
+  components: {StarHorseIcon},
   setup(props, context) {
 
     const parentCompType = context.attrs["parentCompType"];
@@ -33,15 +36,25 @@ export default defineComponent({
     const formDatas = context.attrs["formDatas"];
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
-    const keyEnterFun = () => {
-      context.emit('selfFunc');
-    };
+    let actionName = shallowRef("click");
+
+    onMounted(() => {
+      actionName.value = field.preps["actionName"];
+    });
     const selectItem = (data: any) => {
       context.emit('selectItem', data, parentCompType)
     };
     const dynamicFunc = (code: any) => {
-      let func = new Function(code);
-      func.call(this);
+      if (code) {
+        let func = new Function(code);
+        func.call(this);
+      } else {
+        if (field.preps["actions"]) {
+          field.preps["actions"](context.attrs['formFieldList']);
+        }
+        context.emit('selfFunc', context.attrs['formFieldList']);
+      }
+
     };
     return {parentCompType, formFieldList, dynamicFunc, context, field, formItem, formDatas, dataField, selectItem}
   }

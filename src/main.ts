@@ -1,6 +1,5 @@
 import "element-plus/theme-chalk/index.css"
 import "@/assets/css/index.scss"
-import "@/assets/css/custom.scss"
 import userComponent from "@/components/comp/selfcomp";
 import itemComponent from "@/components/formcomp/items/allitem";
 import containerComponent from "@/components/formcomp/container/callitem";

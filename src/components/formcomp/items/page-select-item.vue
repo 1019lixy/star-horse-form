@@ -48,6 +48,9 @@ export default defineComponent({
       if (orderBy) {
         orderByTemp = orderBy;
       }
+      if (!field.preps["dataUrl"]?.loadByPageUrl) {
+        return;
+      }
       postRequest(field.preps["dataUrl"].loadByPageUrl, {
         currentPage: pageInfo.value.currentPage,
         pageSize: pageInfo.value.pageSize,
@@ -66,7 +69,7 @@ export default defineComponent({
     };
     const keyEnterFun = (prep: any) => {
       if (prep == actionName.value && field.preps["actionRelation"]) {
-        field.preps["actionRelation"](context.attrs['formFieldList'][field.preps['name']],context.attrs['formFieldList']["xh"]);
+        field.preps["actionRelation"](context.attrs['formFieldList'][field.preps['name']], context.attrs['formFieldList']["xh"]);
       }
       context.emit('selfFunc', prep);
     };
@@ -141,44 +144,44 @@ export default defineComponent({
         v-model="context.attrs['formFieldList'][field.preps['name']]">
       <template #empty="scope">
         <el-card>
-<!--          <div class="search_btn" :style="{'flex-direction':Config.buttonStyle=='line'?'column':'row'}">-->
-            <star-horse-search-comp :formData="field.preps['searchFieldList']"
-                                    @searchData="(data)=>starHorseTableCompRef.createCreateParams(data)"
-                                    :mutComp="true"
-                                    :compUrl="field.preps['dataUrl']"/>
-            <el-table
-                ref="starHorseTableCompRef"
-                :data="pageInfo.dataList"
-                @selection-change="handleSelectionChange"
-                @row-click="selectRow"
-                :stripe="true"
-                :row-key="getRowIdentity"
-                :fit="true"
-                height="250px"
-                :highlight-current-row="true"
-                :header-cell-style="{'background':'#f2f2f2',
+          <!--          <div class="search_btn" :style="{'flex-direction':Config.buttonStyle=='line'?'column':'row'}">-->
+          <star-horse-search-comp :formData="field.preps['searchFieldList']"
+                                  @searchData="(data)=>starHorseTableCompRef.createCreateParams(data)"
+                                  :mutComp="true"
+                                  :compUrl="field.preps['dataUrl']"/>
+          <el-table
+              ref="starHorseTableCompRef"
+              :data="pageInfo.dataList"
+              @selection-change="handleSelectionChange"
+              @row-click="selectRow"
+              :stripe="true"
+              :row-key="getRowIdentity"
+              :fit="true"
+              height="250px"
+              :highlight-current-row="true"
+              :header-cell-style="{'background':'#f2f2f2',
       'color': '#707070',
       'font-size':'13px',
       'background-image': '-webkit-gradient(linear,left 0,left 100%,from(#f8f8f8),to(#ececec))'
       }"
-                :cell-style="{'font-size':'12px'}"
-                border
-            >
-              <el-table-column
-                  type="selection"
-                  align="center"
-                  fixed="left"
-                  :reserve-selection="true"
+              :cell-style="{'font-size':'12px'}"
+              border
+          >
+            <el-table-column
+                type="selection"
+                align="center"
+                fixed="left"
+                :reserve-selection="true"
+            />
+            <template v-for="item in field.preps['fieldList']['fieldList']">
+              <star-horse-table-column
+                  :compUrl="field.preps['dataUrl']"
+                  :cellEditable="false"
+                  :data-format="field.preps['dataFormat']"
+                  :item="item"
               />
-              <template v-for="item in field.preps['fieldList']['fieldList']">
-                <star-horse-table-column
-                    :compUrl="field.preps['dataUrl']"
-                    :cellEditable="false"
-                    :data-format="field.preps['dataFormat']"
-                    :item="item"
-                />
-              </template>
-            </el-table>
+            </template>
+          </el-table>
         </el-card>
       </template>
       <template #footer>

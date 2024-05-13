@@ -6,7 +6,7 @@ import {Config} from "@/api/settings";
 import {PropType, reactive} from "vue/dist/vue";
 import ShTableListColumn from "@/components/comp/ShTableListColumn.vue";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-import {rowClassName} from "@/api/sh_api";
+import {batchFieldDefaultValues, rowClassName} from "@/api/sh_api";
 import {error, success, warning} from "@/utils/message";
 import {download} from "@/api/star_horse";
 import {getToken} from "@/utils/auth";
@@ -20,10 +20,13 @@ const props = defineProps({
   primaryKey: {type: String, required: true},
   initRows: {type: Number, default: 1},
   importInfo: {type: Object},
+  title: {type: String, default: ""},
   rules: {type: Object, required: true},
   isView: {type: Boolean, default: false},
+  subFlag: {type: Boolean, default: false},
 });
 // const dataForm = inject('dataForm') as Ref;
+let batchDefaultValues = ref({});
 const dataForm = defineModel("dataForm") as Ref;
 const formFields = inject("formFields") as reactive<Object>;
 onMounted(() => {
@@ -32,9 +35,13 @@ onMounted(() => {
 const loading = ref(null);
 const starHorseFormListRef = ref(null);
 const init = async () => {
+  if (!Object.keys(dataForm.value).includes(props.batchName)) {
+    dataForm.value[props.batchName] = [];
+  }
   for (let i = 0; i < props.initRows; i++) {
     handleAddDetails(null, 1);
   }
+
 };
 const handleAddDetails = (row: any, type: number) => {
   if (!dataForm.value[props.batchName]) {
@@ -48,6 +55,8 @@ const handleAddDetails = (row: any, type: number) => {
     formFields && formFields[props.batchName].splice(index, 1);
     dataForm.value[props.batchName].splice(index, 1)
   }
+  //将事件传出去
+
 };
 const getRowIdentity = (row: any) => {
   return row[props.primaryKey];
@@ -88,7 +97,7 @@ const uploadSuccess = (response: any, file, fileList) => {
 };
 </script>
 <template>
-  <star-horse-dialog :title="'导入文件'" :dialogVisible="importDialogVisible"
+  <star-horse-dialog v-if="!subFlag" :title="'导入文件'" :dialogVisible="importDialogVisible"
                      :boxWidth="'30%'"
                      :isView="true"
                      :draggable="false"
@@ -128,20 +137,31 @@ const uploadSuccess = (response: any, file, fileList) => {
     </el-card>
   </star-horse-dialog>
   <div class="form-list">
-    <ul class="inner_button" v-if="!isView">
-      <li v-if="importInfo?.importDataUrl">
-        <el-button @click="excelOperation" title="" type="primary" size="small">
-          <star-horse-icon icon-class="upload" color="#ffffff" size="12px"/>
-          <el-tooltip content="导入Excel">导入Excel</el-tooltip>
-        </el-button>
-      </li>
-      <li>
-        <el-button @click="handleAddDetails(null, 1)" title="" type="primary" size="small">
-          <star-horse-icon icon-class="add" color="#ffffff" size="12px"/>
-          <el-tooltip content="添加">添加</el-tooltip>
-        </el-button>
-      </li>
-    </ul>
+    <div
+        v-if="!subFlag"
+        style="display:flex;justify-content:space-between;width: 100%;border-bottom:  var(--star-horse-style) 1px solid"
+    >
+      <div class="tb_title">
+        <star-horse-icon icon-class="info" size="14px"/>
+        {{ title }}
+      </div>
+      <div style="display: flex;align-items: center;flex-direction: row-reverse">
+        <ul class="inner_button" v-if="!isView">
+          <li v-if="importInfo?.importDataUrl">
+            <el-button @click="excelOperation" title="" type="primary" size="small">
+              <star-horse-icon icon-class="upload" color="#ffffff" size="12px"/>
+              <el-tooltip content="导入Excel">导入Excel</el-tooltip>
+            </el-button>
+          </li>
+          <li>
+            <el-button @click="handleAddDetails(null, 1)" title="" type="primary" size="small">
+              <star-horse-icon icon-class="add" color="#ffffff" size="12px"/>
+              <el-tooltip content="添加">添加</el-tooltip>
+            </el-button>
+          </li>
+        </ul>
+      </div>
+    </div>
     <el-table
         v-loading="loading"
         :data="dataForm[batchName]"
@@ -152,7 +172,7 @@ const uploadSuccess = (response: any, file, fileList) => {
         :highlight-current-row="true"
         :row-class-name="rowClassName"
         ref="starHorseFormListRef"
-        height="400"
+
         :stripe="true"
         :header-cell-style="{'background':'#f2f2f2',
       'color': '#707070',
@@ -182,14 +202,30 @@ const uploadSuccess = (response: any, file, fileList) => {
             :min-width="item.minWidth||Config.defaultColumnWidth + 'px'"
             v-if="item.formShow">
           <template #default="scope">
-            <sh-table-list-column :primaryKey="primaryKey" :batchName="batchName"
-                                  :data-form="scope.row"
-                                  :rules="rules" :item="item"
-                                  :index="scope.$index"/>
+            <template v-if="item.batchFieldList?.length>0" v-for="sitem in  item.batchFieldList">
+              <star-horse-form-list
+                  style="min-height:100px"
+                  v-model:dataForm="scope.row"
+                  :compUrl="sitem['compUrl']"
+                  :primaryKey="sitem['primaryKey']"
+                  :batchName="sitem['batchName']"
+                  :initRows="sitem['initRows']"
+                  :subFlag="true"
+                  :defaultValues="batchFieldDefaultValues(sitem)"
+                  :field-list="sitem['fieldList']"
+                  :rules="sitem['rules']||rules"
+              />
+            </template>
+            <template v-else>
+              <sh-table-list-column :primaryKey="primaryKey" :batchName="batchName"
+                                    :data-form="scope.row"
+                                    :rules="rules" :item="item"
+                                    :index="scope.$index"/>
+            </template>
           </template>
         </el-table-column>
       </template>
-      <el-table-column fixed="right" label="操作" width="80">
+      <el-table-column fixed="right" label="操作" width="120">
 
         <template #default="scope" v-if="!isView">
           <el-button

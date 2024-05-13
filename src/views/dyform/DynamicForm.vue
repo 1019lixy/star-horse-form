@@ -408,7 +408,8 @@ const actions = (action: string) => {
                 <el-tooltip class="item" :content="item.label" :index="index"
                             effect="dark"
                             placement="bottom">
-                  <star-horse-icon @click="actions(item.key)" :icon-class="item.icon" size="24px" color="#303133"/>
+                  <star-horse-icon @click="actions(item.key)" :icon-class="item.icon" size="24px" style="color: var(--star-horse-style)"
+                  />
                 </el-tooltip>
               </el-menu-item>
             </template>
@@ -519,6 +520,7 @@ const actions = (action: string) => {
     justify-content: flex-start;
     background: #ffffff;
     border: 1px solid #eee;
+    overflow: auto;
   }
 
   .form-main {

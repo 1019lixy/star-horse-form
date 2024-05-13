@@ -632,3 +632,19 @@ export function formFieldMapping(fieldList: PageFieldInfo) {
     }
     return {defaultDatas, mappingFields, batchDefaultValues};
 }
+
+/**
+ * 批量列表数据默认值
+ * @param datas
+ */
+export function batchFieldDefaultValues(datas: Array<FieldInfo>) {
+    let defaultValues = {};
+    let fieldList = datas['fieldList'];
+    for (let inde in fieldList) {
+        let temp = fieldList[inde];
+        if (temp.defaultValue) {
+            defaultValues[temp.fieldName] = temp.defaultValue;
+        }
+    }
+    return defaultValues;
+}

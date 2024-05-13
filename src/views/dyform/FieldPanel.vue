@@ -1,5 +1,6 @@
 <script setup lang="ts" name="FieldPanel">
 import {inject, Ref, ref} from 'vue'
+import {Setting} from "@element-plus/icons-vue";
 
 let formDataList = ref<any>();
 let containerList = ref<any>();
@@ -137,7 +138,7 @@ defineExpose({dataInit})
   >
     <el-collapse-item name="a">
       <template #title>
-        &nbsp;<star-horse-icon icon-class="container"/>&nbsp;&nbsp;<span>容器</span>
+        &nbsp;<star-horse-icon icon-class="container" style="color: var(--star-horse-style)"/>&nbsp;&nbsp;<span>容器</span>
       </template>
       <el-scrollbar height="100%">
         <draggable
@@ -155,14 +156,14 @@ defineExpose({dataInit})
           <li
               class="field-item"
               v-for="item in containerList"
-          >&nbsp;&nbsp;<span><star-horse-icon :icon-class="item.itemIcon"/>&nbsp;&nbsp;{{ item.itemName }}</span>
+          >&nbsp;&nbsp;<span><star-horse-icon :icon-class="item.itemIcon" style="color: var(--star-horse-style)"/>&nbsp;&nbsp;{{ item.itemName }}</span>
           </li>
         </draggable>
       </el-scrollbar>
     </el-collapse-item>
     <el-collapse-item name="b">
       <template #title>
-        &nbsp;<star-horse-icon icon-class="form"/>&nbsp;&nbsp;<span>表单元素</span>
+        &nbsp;<star-horse-icon icon-class="form" style="color: var(--star-horse-style)"/>&nbsp;&nbsp;<span>表单元素</span>
       </template>
       <el-scrollbar height="100%">
         <draggable
@@ -181,14 +182,14 @@ defineExpose({dataInit})
           <li
               class="field-item"
               v-for="item in formDataList"
-          >&nbsp;&nbsp;<span><star-horse-icon :icon-class="item.itemIcon"/>&nbsp;&nbsp;{{ item.itemName }}</span>
+          >&nbsp;&nbsp;<span><star-horse-icon :icon-class="item.itemIcon" style="color: var(--star-horse-style)"/>&nbsp;&nbsp;{{ item.itemName }}</span>
           </li>
         </draggable>
       </el-scrollbar>
     </el-collapse-item>
     <el-collapse-item name="c">
       <template #title>
-        &nbsp;<star-horse-icon icon-class="other"/>&nbsp;&nbsp;<span>自定义组件</span>
+        &nbsp;<star-horse-icon icon-class="other" style="color: var(--star-horse-style)"/>&nbsp;&nbsp;<span>自定义组件</span>
       </template>
       <el-scrollbar height="100%">
         <draggable
@@ -207,7 +208,7 @@ defineExpose({dataInit})
           <li
               class="field-item"
               v-for="item in selfFormDataList">&nbsp;&nbsp;
-            <span><star-horse-icon :icon-class="item.itemIcon"/>&nbsp;&nbsp;{{ item.itemName }}</span>
+            <span><star-horse-icon :icon-class="item.itemIcon" style="color: var(--star-horse-style)"/>&nbsp;&nbsp;{{ item.itemName }}</span>
           </li>
         </draggable>
       </el-scrollbar>

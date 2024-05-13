@@ -485,7 +485,7 @@ defineExpose({
       v-if="!dialogInput"
   >
     <div class="tb_title">
-      <star-horse-icon icon-class="info" size="14px"/>
+      <star-horse-icon icon-class="info" size="14px" style="font-weight:bold;color: var(--star-horse-style)"/>
       {{ title }}
     </div>
     <div style="display: flex;align-items: center;flex-direction: row-reverse">

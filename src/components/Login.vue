@@ -323,7 +323,7 @@ watch(
                       v-model="loginForm.password"
                   >
                     <template #suffix>
-                      <el-icon @click="getFlag" style="cursor: pointer">
+                      <el-icon @mousedown="getFlag" @mouseup="getFlag" style="cursor: pointer">
                         <component :is="flag?'view':'hide'"/>
                       </el-icon>
                     </template>

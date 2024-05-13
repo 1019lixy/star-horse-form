@@ -47,9 +47,14 @@ export default defineComponent({
     });
     const keyEnterFun = (prep: any) => {
       if (prep == actionName.value && field.preps["actionRelation"]) {
-        field.preps["actionRelation"](context.attrs['formFieldList'][field.preps['name']],context.attrs['formFieldList']["xh"]);
+        field.preps["actionRelation"](context.attrs['formFieldList'][field.preps['name']], context.attrs['formFieldList']["xh"]);
       }
-      context.emit('selfFunc', prep);
+      try {
+        context.emit('selfFunc', prep);
+      } catch (e) {
+        console.log(e);
+      }
+
     };
     const selectItem = (data: any) => {
       context.emit('selectItem', data, parentCompType)

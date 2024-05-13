@@ -21,8 +21,8 @@ const dataForm = defineModel("dataForm");
 const itemType = ref<String>("input");
 const showPassword = ref(false);
 const emit = defineEmits(["dataSearch", "focus", "blur"]);
-const formFields = inject("formFields") ;
-const field = ref({
+const formFields = inject("formFields");
+const field = ref<any>({
   preps: {
     clearable: "yes",
     label: props.item.label,
@@ -141,10 +141,8 @@ const typePreps = () => {
     field.value.preps["params"] = props.item.params || {};
   }
   field.value.preps["actionName"] = actionName.value;
-  field.value.preps["disabled"] =
-      props.isView ? "yes" :
-          props.item.disabled == 2 ? "yes" :
-              props.isEdit && props.item.disabled == 1 ? "yes" : "no";
+  field.value.preps["disabled"] =props.isView ? "yes" :
+          props.item.disabled == 2 ? "yes" : props.isEdit && props.item.disabled == 1 ? "yes" : "no";
   //联动
   field.value.preps['actionRelation'] = props.item.actionRelation;
   //触发事件

@@ -53,7 +53,7 @@ defineExpose({
             :disabled="item.disabled"
             :command="item"
         >
-          <star-horse-icon :icon-class="item.icon"/>
+          <star-horse-icon :icon-class="item.icon" style="color: var(--star-horse-style)"/>
           {{ item.label }}
         </el-dropdown-item>
       </el-dropdown-menu>

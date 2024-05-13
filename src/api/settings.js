@@ -52,7 +52,7 @@ export const Config = {
     /**
      * 底部文字，支持html语法
      */
-    footerTxt: '©Copyright2020-2021 星骁个人工作室',
+    footerTxt: `©Copyright2020-${new Date().getFullYear()} 星骁个人工作室`,
     /**
      * 备案号
      */

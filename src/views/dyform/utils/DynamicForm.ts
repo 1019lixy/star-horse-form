@@ -6,14 +6,13 @@ const formActions = [
         label: '左侧工具栏',
     },
     {
-        icon: "clear-all",
+        icon: "add",
         defaultEdit: true,
         key: 'new',
         label: '新建',
     },
     {
         icon: "edit",
-
         key: 'eprep',
         label: '修改属性',
     },

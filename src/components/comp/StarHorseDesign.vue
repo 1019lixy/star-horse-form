@@ -743,7 +743,8 @@ defineExpose({
               <el-tooltip class="item" :content="item.label" :index="index"
                           effect="dark"
                           placement="bottom">
-                <star-horse-icon @click="transform(item.key)" :icon-class="item.icon" size="24px" color="#303133"/>
+                <star-horse-icon @click="transform(item.key)" :icon-class="item.icon" size="24px" style="color: var(--star-horse-style)"
+                />
               </el-tooltip>
             </el-menu-item>
           </template>

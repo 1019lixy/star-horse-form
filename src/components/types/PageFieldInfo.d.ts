@@ -8,9 +8,17 @@ import {SearchParams} from "@/components/types/Params";
  */
 export declare interface TabFieldInfo {
     /**
+     * 标题
+     */
+    title: string,
+    /**
      * TabName
      */
     tabName: string,
+    /**
+     * 是否默认禁用
+     */
+    disabled: boolean,
     /**
      * fieldList 是否是子表单
      */
@@ -112,6 +120,10 @@ export declare interface FieldInfo {
      * Tab标签
      */
     tabList?: TabFieldInfo[];
+    /**
+     * 批量属性
+     */
+    batchFieldList?: BatchFieldInfo[];
     /**
      * 默认值，在重置表单时，自动填充默认值，自定义重置表单时失效
      */
@@ -283,6 +295,10 @@ export declare interface BatchFieldInfo {
      * 对应后端dto 里的List属性名称
      */
     batchName: String;
+    /**
+     * 是否禁用
+     */
+    disabled: Boolean;
     /**
      * 列表标题
      */

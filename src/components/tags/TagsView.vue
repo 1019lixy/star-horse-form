@@ -242,7 +242,7 @@ watch(
   <div class="prefixCls">
     <el-tooltip content="向左移动">
     <span class="tool" @click="move(-200)">
-      <star-horse-icon icon-class="arrow-double-left" cursor="pointer"/>
+      <star-horse-icon icon-class="arrow-double-left" style="color: var(--star-horse-style)"  cursor="pointer"/>
     </span>
     </el-tooltip>
     <div class="overflow-hidden">
@@ -339,12 +339,12 @@ watch(
     </div>
     <el-tooltip content="向右移动">
     <span class="tool" @click="move(200)">
-      <star-horse-icon icon-class="arrow-double-right" cursor="pointer"/>
+      <star-horse-icon icon-class="arrow-double-right" style="color: var(--star-horse-style)" cursor="pointer"/>
     </span>
     </el-tooltip>
     <el-tooltip content="刷新菜单">
     <span class="tool" @click="refreshSelectedTag(selectedTag)">
-      <star-horse-icon icon-class="refresh" cursor="pointer"/>
+      <star-horse-icon icon-class="refresh" style="color: var(--star-horse-style)" cursor="pointer"/>
     </span>
     </el-tooltip>
     <ContextMenu
@@ -402,7 +402,7 @@ watch(
       ]"
     >
       <span class="tool">
-        <star-horse-icon icon-class="setting" cursor="pointer"/>
+        <star-horse-icon icon-class="setting" style="color: var(--star-horse-style)" cursor="pointer"/>
       </span>
     </ContextMenu>
   </div>
@@ -412,8 +412,6 @@ watch(
 .prefixCls {
   display: flex;
   width: 100%;
-  background: #fff;
-
   :deep(.scrollbar__view) {
     height: 100%;
   }
