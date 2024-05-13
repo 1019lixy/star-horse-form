@@ -26,7 +26,7 @@ const props = defineProps({
   subFlag: {type: Boolean, default: false},
 });
 // const dataForm = inject('dataForm') as Ref;
-let batchDefaultValues = ref({});
+
 const dataForm = defineModel("dataForm") as Ref;
 const formFields = inject("formFields") as reactive<Object>;
 onMounted(() => {
@@ -56,7 +56,13 @@ const handleAddDetails = (row: any, type: number) => {
     dataForm.value[props.batchName].splice(index, 1)
   }
   //将事件传出去
-
+  let fieldList = props.fieldList;
+  for (let ind in fieldList) {
+    let temp = fieldList[ind];
+    if (temp.actions) {
+      temp.actions(dataForm, "oper");
+    }
+  }
 };
 const getRowIdentity = (row: any) => {
   return row[props.primaryKey];

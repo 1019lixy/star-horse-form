@@ -1,4 +1,4 @@
-import {reactive, ref} from "vue";
+import {reactive, Ref, ref} from "vue";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {SelectOption} from "@/components/types/SearchProps";
 import {searchMatchList} from "@/api/sh_api.ts";
@@ -255,8 +255,16 @@ export function containerField(fieldName: string) {
                                 tableShow: !false,
                                 minWidth: 180,
                                 actionName: "change",
-                                actions: (val) => {
-                                    console.log(val);
+                                actions: (val: any, type: string) => {
+                                    let cols = val.value?.columns || val?.columns;
+                                    if (type == "oper") {
+                                        let len = 24 / cols.length;
+                                        cols.forEach(item => {
+                                            item.colspan = len;
+                                        })
+                                    }
+
+                                    console.log(val, type);
                                 }
                             }]
                         }]
