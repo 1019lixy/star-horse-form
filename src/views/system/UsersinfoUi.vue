@@ -323,6 +323,7 @@ const checkChange = (data: TreeNodeData, checked: boolean) => {
 
   let conditions: Array<SearchParams> = [];
   if (checked) {
+    console.log(data.value);
     conditions.push(createCondition("c.idDepartment", data.value));
   }
   // menuTableListRef.value.setDataInfo(conditions, null);

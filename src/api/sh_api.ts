@@ -515,7 +515,7 @@ export function rowClassName({row, rowIndex}: any) {
 export function createCondition(name: string, val: any, matchType: string | null): SearchParams {
     let params: SearchParams = {propertyName: name, value: val, operation: matchType || "eq"};
     return params;
-};
+}
 
 /**
  * 动态过滤数据
