@@ -46,9 +46,7 @@ export default defineComponent({
       }
       context.emit('selfFunc',prep);
     };
-    const selectItem = (data: any) => {
-      context.emit('selectItem', data, parentCompType)
-    };
+
     const querySearch = (queryString: string, cb: any) => {
       const results = queryString
           ? field.preps['values'].filter(createFilter(queryString))
@@ -63,7 +61,7 @@ export default defineComponent({
         )
       }
     }
-    return {parentCompType, formFieldList, context, field, formItem, dataField, selectItem,
+    return {parentCompType, formFieldList, context, field, formItem, dataField,
       keyEnterFun,querySearch,actionName}
   }
 });

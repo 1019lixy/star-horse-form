@@ -49,12 +49,10 @@ export default defineComponent({
       }
       context.emit('selfFunc',prep);
     };
-    const selectItem = (data: any) => {
-      context.emit('selectItem', data, parentCompType)
-    };
+
     return {
       parentCompType, formFieldList, context, field, formItem,
-       dataField, dynamicFunction, selectItem,keyEnterFun,actionName
+       dataField, dynamicFunction, keyEnterFun,actionName
     }
   }
 });

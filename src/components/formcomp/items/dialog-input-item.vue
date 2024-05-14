@@ -120,7 +120,7 @@ export default defineComponent({
     };
     return {
       parentCompType, formFieldList, context, field, formItem,
-       dataField, dynamicFunction, selectItem, keyEnterFun, dialogInputVisible, closeAction
+       dataField, dynamicFunction,  keyEnterFun, dialogInputVisible, closeAction
       , showVisible, actionName, dialogInputTableRef, searchData
     }
   }

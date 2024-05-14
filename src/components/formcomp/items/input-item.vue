@@ -35,7 +35,6 @@ export default defineComponent({
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
     let actionName = shallowRef("keydown.enter");
-
     onMounted(() => {
       actionName.value = field.preps["actionName"];
     });
@@ -57,12 +56,10 @@ export default defineComponent({
       }
       context.emit('selfFunc', prep);
     };
-    const selectItem = (data: any) => {
-      context.emit('selectItem', data, parentCompType)
-    };
+
     return {
       parentCompType, formFieldList, context, field, formItem,
-       dataField, dynamicFunction, selectItem, keyEnterFun, actionName
+       dataField, dynamicFunction,  keyEnterFun, actionName
     }
   }
 });

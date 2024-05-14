@@ -72,9 +72,7 @@ export default defineComponent({
       }
       context.emit('selfFunc', prep);
     };
-    const selectItem = (data: any) => {
-      context.emit('selectItem', data, parentCompType)
-    };
+
     const searchDataFun = (data: any) => {
       searchData.value = data;
       loadByPage();
@@ -112,7 +110,7 @@ export default defineComponent({
     };
     return {
       parentCompType, formFieldList, context, field, formItem,
-      dataField, selectItem, keyEnterFun, actionName, pageInfo, pageSizeClick, pageChangeClick
+      dataField,  keyEnterFun, actionName, pageInfo, pageSizeClick, pageChangeClick
       , getRowIdentity, searchDataFun, handleSelectionChange, starHorseTableCompRef, selectRow
     }
   }

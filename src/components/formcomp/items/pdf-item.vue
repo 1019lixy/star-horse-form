@@ -33,9 +33,7 @@ export default defineComponent({
     const keyEnterFun = () => {
       context.emit('selfFunc');
     };
-    const selectItem = (data: any) => {
-      context.emit('selectItem', data, parentCompType)
-    };
+
 
 //获取pdf文档流与pdf文件的页数
     const loadFile = async (url) => {
@@ -78,7 +76,7 @@ export default defineComponent({
         }
       });
     };
-    return {parentCompType, formFieldList, context, field, formItem,  dataField, selectItem,
+    return {parentCompType, formFieldList, context, field, formItem,  dataField,
       keyEnterFun,pdfPages}
   }
 });

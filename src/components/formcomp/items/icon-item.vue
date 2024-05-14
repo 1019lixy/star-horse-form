@@ -63,12 +63,10 @@ export default defineComponent({
       }
       context.emit('selfFunc', prep);
     };
-    const selectItem = (data: any) => {
-      context.emit('selectItem', data, parentCompType)
-    };
+
     return {
       parentCompType, formFieldList, context, field, formItem,  dataField, assignIcon,
-      selectItem, keyEnterFun, actionName, popoverRef
+       keyEnterFun, actionName, popoverRef
     }
   }
 });

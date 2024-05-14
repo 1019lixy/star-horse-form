@@ -55,12 +55,10 @@ export default defineComponent({
       }
 
     };
-    const selectItem = (data: any) => {
-      context.emit('selectItem', data, parentCompType)
-    };
+
     return {
       parentCompType, formFieldList, context, field, formItem,
-      dataField, selectItem, keyEnterFun, actionName
+      dataField,  keyEnterFun, actionName
     }
   }
 });

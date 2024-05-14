@@ -51,9 +51,7 @@ export default defineComponent({
       }
       context.emit('selfFunc');
     };
-    const selectItem = (data: any) => {
-      context.emit('selectItem', data, parentCompType)
-    };
+
     const resetForm = () => {
       context.attrs['formFieldList'][field.preps['name']] = defaultExpress;
       if (cronTabRef.value) {
@@ -71,7 +69,7 @@ export default defineComponent({
     resetForm();
     return {
       parentCompType, formFieldList, context, field, formItem,
-       dataField, selectItem, keyEnterFun, cronVisible
+       dataField,  keyEnterFun, cronVisible
       , resetForm, close, submit, cronTabRef,actionName
     }
   }

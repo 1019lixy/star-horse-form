@@ -51,9 +51,7 @@ export default defineComponent({
     const keyEnterFun = () => {
       context.emit('selfFunc');
     };
-    const selectItem = (data: any) => {
-      context.emit('selectItem', data, parentCompType)
-    };
+
     toolbarConfig.value = {
       //excludeKeys: ["insertLink", "insertImage", "editImage", "viewImageLink", "insertVideo", "emotion", "fullScreen"],
     }
@@ -109,7 +107,7 @@ export default defineComponent({
 
     return {
       parentCompType, formFieldList, context, field, formItem, editorConfig, editorRef, toolbarConfig,
-       dataField, dynamicFunction, selectItem, keyEnterFun, handleCreated
+       dataField, dynamicFunction,  keyEnterFun, handleCreated
     }
   },
 });

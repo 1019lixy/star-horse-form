@@ -18,9 +18,7 @@ export default defineComponent({
     const field = context.attrs["field"] as any;
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
-    const selectItem = (data: any) => {
-      context.emit('selectItem', data, parentCompType)
-    };
+
     return {parentCompType, formFieldList, context, field, formItem, dataField, selectItem}
   }
 });

@@ -39,9 +39,7 @@ export default defineComponent({
     const keyEnterFun = () => {
       context.emit('selfFunc');
     };
-    const selectItem = (data: any) => {
-      context.emit('selectItem', data, parentCompType)
-    };
+
     const load = () => {
       let element = document.getElementsByName('videoElement')[0];
       if (flvjs.isSupported() && element) {
@@ -124,7 +122,7 @@ export default defineComponent({
     });
 
     return {
-      parentCompType, formFieldList, context, field, formItem,  dataField, selectItem, keyEnterFun, seekpoint,
+      parentCompType, formFieldList, context, field, formItem,  dataField,  keyEnterFun, seekpoint,
       saveSettings, load, start, pause, destroy, seekto
     }
   }

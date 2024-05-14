@@ -40,9 +40,7 @@ export default defineComponent({
     onMounted(() => {
       actionName.value = field.preps["actionName"];
     });
-    const selectItem = (data: any) => {
-      context.emit('selectItem', data, parentCompType)
-    };
+
     const dynamicFunc = (code: any) => {
       if (code) {
         let func = new Function(code);

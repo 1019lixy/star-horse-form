@@ -20,9 +20,7 @@ export default defineComponent({
     const keyEnterFun = () => {
       context.emit('selfFunc');
     };
-    const selectItem = (data: any) => {
-      context.emit('selectItem', data, parentCompType)
-    };
+
     const init = async () => {
       let file = await blobData(field["audioUrl"]);
       if (!file) {

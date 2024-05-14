@@ -18,9 +18,7 @@ export default defineComponent({
     const keyEnterFun = () => {
       context.emit('selfFunc');
     };
-    const selectItem = (data: any) => {
-      context.emit('selectItem', data, parentCompType)
-    };
+
     const init = async () => {
 
     };
@@ -31,7 +29,7 @@ export default defineComponent({
       init();
     });
 
-    return {parentCompType, formFieldList, context, field, formItem,  dataField, selectItem, keyEnterFunrendered}
+    return {parentCompType, formFieldList, context, field, formItem,  dataField,  keyEnterFunrendered}
   }
 });
 
