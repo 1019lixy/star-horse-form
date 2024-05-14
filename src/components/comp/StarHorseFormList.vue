@@ -38,9 +38,15 @@ const init = async () => {
   if (!Object.keys(dataForm.value).includes(props.batchName)) {
     dataForm.value[props.batchName] = [];
   }
-  for (let i = 0; i < props.initRows; i++) {
-    handleAddDetails(null, 1);
+  /**
+   * 如果列表为空得情况才初始化行数
+   */
+  if (dataForm.value[props.batchName].length == 0) {
+    for (let i = 0; i < props.initRows; i++) {
+      handleAddDetails(null, 1);
+    }
   }
+
 
 };
 const handleAddDetails = (row: any, type: number) => {

@@ -366,6 +366,7 @@ let selfFormDataList = ref<any>();
  * @param isItem
  */
 const activeItem = (item: any, itemType: string, isItem: boolean) => {
+  console.log(item,itemType,isItem);
   formProps.value = item;
   currentItemType.value = itemType;
   assignPrep(itemType, isItem);
@@ -390,6 +391,7 @@ defineExpose({
                      :title="'设置容器'" :isBatch="false" @merge="closeAction"
                      @closeAction="closeAction"
                      @reset="resetForm" :selfFunc="true">
+
     <star-horse-form rules="{}" primary-key="" :fieldList="containerField(currentItemType)" comp-url=""/>
   </star-horse-dialog>
 

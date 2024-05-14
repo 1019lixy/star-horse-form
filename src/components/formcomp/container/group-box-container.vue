@@ -1,6 +1,8 @@
 <script setup lang="ts" name="GroupBoxContainer">
 import {confirm} from "@/utils/message";
 import {watch} from "vue";
+import {DynamicForm} from "@/store/DynamicFormStore.ts";
+import piniaInstance from "@/store/index.ts";
 
 const props = defineProps({
   formItem: {
@@ -10,8 +12,10 @@ const props = defineProps({
   formDatas: {type: Object, required: true}
 });
 const emits = defineEmits(["selectItem"]);
+let dynamicFormStore = DynamicForm(piniaInstance);
 const selectData = () => {
-
+  console.log(props.formItem);
+  dynamicFormStore.setSelectData(props.formItem);
   emits("selectItem", props.formItem);
 };
 const removeData = () => {
@@ -27,26 +31,34 @@ const removeData = () => {
     }
   });
 };
-watch(() => props.formItem["activeId"],
-    () => {
-    },
-    {immediate: true, deep: true});
-</script>
 
+</script>
+<template>
+  <div :class="formDatas?.isEdit?'field-item':''">
+    <slot></slot>
+    <div class="field-action" v-if="formDatas?.isEdit">
+      <el-tooltip content="选中容器">
+        <star-horse-icon class="icon-cls" @click.stop="selectData" icon-class="select-parent" style="color:#e3e9f2;"/>
+      </el-tooltip>
+      <el-tooltip content="删除容器">
+        <star-horse-icon class="icon-cls" @click.stop="removeData" icon-class="clear-all" style="color:#e3e9f2;"/>
+      </el-tooltip>
+    </div>
+  </div>
+</template>
 <style lang="scss" scoped>
 .field-item {
-  margin-bottom: 5px;
-  width: calc(100% - 10px);
+  width: 100%;
   padding: 3px;
 
   .field-action {
     position: relative;
-    bottom: 0;
+    top: 3px;
+    right: 10px;
     height: 22px;
     line-height: 22px;
     background: var(--star-horse-style);;
     z-index: 9999999;
-    margin-top: 10px;
     float: right;
     text-align: right;
     display: flex;
@@ -153,16 +165,3 @@ watch(() => props.formItem["activeId"],
   justify-content: flex-end !important;
 }
 </style>
-<template>
-  <div :class="formDatas?.isEdit?'field-item':''">
-    <slot></slot>
-    <div class="field-action" v-if="formDatas?.isEdit">
-      <el-tooltip content="选中容器">
-        <star-horse-icon class="icon-cls" @click.stop="selectData" icon-class="select-parent" style="color:#e3e9f2;"/>
-      </el-tooltip>
-      <el-tooltip content="删除容器">
-        <star-horse-icon class="icon-cls" @click.stop="removeData" icon-class="clear-all" style="color:#e3e9f2;"/>
-      </el-tooltip>
-    </div>
-  </div>
-</template>

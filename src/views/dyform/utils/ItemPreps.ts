@@ -261,9 +261,15 @@ export function containerField(fieldName: string) {
                                         let len = 24 / cols.length;
                                         cols.forEach(item => {
                                             item.colspan = len;
+
                                         })
                                     }
+                                    cols?.forEach(item => {
+                                        if (!Object.keys(item).includes("items")) {
+                                            item["items"] = [];
+                                        }
 
+                                    });
                                     console.log(val, type);
                                 }
                             }]

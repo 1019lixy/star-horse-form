@@ -106,6 +106,7 @@ const initPreps = () => {
   propertyRef.value.$refs.formItemRef.dataInit(containerList.value, formDataList.value, selfFormDataList.value);
 };
 const activeItemFun = (name: string, data: any, itemType: string, item: any) => {
+  console.log(name, data, itemType, item);
   if (name == "selectItem") {
     selectItem(data, itemType, item);
   } else {
@@ -259,13 +260,14 @@ const formInfoChange = (data: any) => {
  * @param parentCompType 父组件类型
  */
 const selectItem = (data: any, itemType: string, parentCompType: string) => {
+  console.log(data, itemType, parentCompType);
   formDatas.value["activeId"] = data?.id || "";
   formDatas.value["dataList"] = list.value;
   formDatas.value["formInfo"] = formInfo.value;
   //当前组件是否在容器组件内
   formDatas.value["parentCompType"] = parentCompType;
   formDatas.value["compType"] = data?.compType || "";
-  propertyRef.value.$refs.formItemRef.activeItem(data["preps"] || data, itemType, parentCompType == "item");
+  propertyRef.value.$refs.formItemRef.activeItem(data["preps"] || data, itemType || data.itemType, parentCompType == "item");
 };
 const getComponentName = (data: any) => {
   return data.itemType + "-item";
@@ -408,7 +410,8 @@ const actions = (action: string) => {
                 <el-tooltip class="item" :content="item.label" :index="index"
                             effect="dark"
                             placement="bottom">
-                  <star-horse-icon @click="actions(item.key)" :icon-class="item.icon" size="24px" style="color: var(--star-horse-style)"
+                  <star-horse-icon @click="actions(item.key)" :icon-class="item.icon" size="24px"
+                                   style="color: var(--star-horse-style)"
                   />
                 </el-tooltip>
               </el-menu-item>
@@ -436,7 +439,7 @@ const actions = (action: string) => {
                 :status-icon="formInfo['statusIcon'] == 'yes'"
                 :validate-on-rule-change="formInfo['validateOnRuleChange']=='yes'"
             >
-              <el-scrollbar>
+
                 <draggable
                     @add="(evt) => onDragAdd(evt, list)"
                     class="main-design"
@@ -468,7 +471,7 @@ const actions = (action: string) => {
                     />
                   </template>
                 </draggable>
-              </el-scrollbar>
+              <el-scrollbar>  </el-scrollbar>
             </el-form>
           </div>
           <div class="side-panel-item" v-show="rightPanelVisible">
@@ -545,7 +548,7 @@ const actions = (action: string) => {
       display: flex;
       flex-direction: row;
       flex: 1;
-      overflow: auto;
+    /*  overflow: auto;*/
 
       .main-design-outer {
         flex: 1;
@@ -559,6 +562,7 @@ const actions = (action: string) => {
           height: 99%;
           width: inherit;
           margin: 3px 5px;
+          overflow-y: auto;
           background: rgba(255, 255, 255, 0.8);
         }
       }

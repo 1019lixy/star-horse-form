@@ -19,9 +19,24 @@ const getComponentName = (data: any) => {
 const onDragAdd = (evt: Event, dataList: any) => {
   let newIndex = evt.newIndex
 
-  if (dragingItem.itemType == 'box' || dragingItem.itemType == 'table') {
-    warning('容器不能嵌套容器')
-    return
+  if (dragingItem.value.itemType == 'box' || dragingItem.value.itemType == "tab" || dragingItem.value.itemType == "table") {
+    warning('栅格容器不允许嵌套其他容器');
+    let elements = props.field.preps.elements;
+    for (let inde in elements) {
+      let element = elements[inde];
+      for (let sind in element?.columns) {
+        let column = element.columns[sind];
+        for (let i in column?.items) {
+          let item = column.items[i];
+          if (dragingItem.value.id == item.id) {
+            console.log("find data", item);
+            column.items.splice(i, 1);
+          }
+        }
+      }
+    }
+ //   console.log(dragingItem.value, dataList, props.field.elements);
+    return false;
   }
 
   if (newIndex != null && newIndex != 'undefined') {
@@ -35,27 +50,14 @@ const selectItem = (data: any, parentCompType: String) => {
 }
 </script>
 
-<style lang="scss" scoped>
-.smain-design {
-  width: inherit;
-  background: var(--star-horse-white);;
-  border-radius: 3px;
-  min-height: 50px;
-  display: flex;
-}
 
-.el-col {
-  border: 2px dotted var(--star-horse-border—color);
-  min-height: 50px;
-}
-</style>
 <template>
   <group-box-container
       :formDatas="formDatas"
       :form-item="field"
       @selectItem="selectItem"
   >
-    <!-- {{ field.preps.elements }} -->
+<!--    {{ field.preps.elements }}-->
     <el-row v-for="adata in field.preps.elements" :gutter="field.preps.gutter"
             :justify="field.preps.justify"
             :align="field.preps.align" :tag="field.preps.tag">
@@ -117,3 +119,17 @@ const selectItem = (data: any, parentCompType: String) => {
     </el-row>
   </group-box-container>
 </template>
+<style lang="scss" scoped>
+.smain-design {
+  width: 100%;
+  background: var(--star-horse-white);;
+  border-radius: 3px;
+  min-height: 50px;
+  /* display: flex;*/
+}
+
+.el-col {
+  border: 2px dotted var(--star-horse-border—color);
+  min-height: 50px;
+}
+</style>

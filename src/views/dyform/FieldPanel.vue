@@ -25,7 +25,7 @@ const onDataCopy = (data: any, type: String) => {
   let ms = formFieldList.value["index"]++;
   let mvData = {};
   mvData['id'] = 'Id' + ms;
-  //console.log(reData);
+  console.log(reData);
   /**
    * 处理preps
    */
@@ -36,11 +36,7 @@ const onDataCopy = (data: any, type: String) => {
     mvData.preps[temp.fieldName] = temp.defaultValues;
   }
   mvData.preps['id'] = mvData['id'];
-  if (reData.itemType === 'button') {
-    mvData.preps['btnLabel'] = reData.itemName;
-  } else {
-    mvData.preps['label'] = reData.itemName;
-  }
+  mvData.preps['label'] = reData.itemName;
   mvData.preps['name'] = reData.itemType + ms;
   formFieldList.value[reData.preps.fieldName] = getDefaultVal(reData.itemType);
   mvData['compType'] = type;
@@ -138,7 +134,8 @@ defineExpose({dataInit})
   >
     <el-collapse-item name="a">
       <template #title>
-        &nbsp;<star-horse-icon icon-class="container" style="color: var(--star-horse-style)"/>&nbsp;&nbsp;<span>容器</span>
+        &nbsp;<star-horse-icon icon-class="container"
+                               style="color: var(--star-horse-style)"/>&nbsp;&nbsp;<span>容器</span>
       </template>
       <el-scrollbar height="100%">
         <draggable
@@ -156,14 +153,17 @@ defineExpose({dataInit})
           <li
               class="field-item"
               v-for="item in containerList"
-          >&nbsp;&nbsp;<span><star-horse-icon :icon-class="item.itemIcon" style="color: var(--star-horse-style)"/>&nbsp;&nbsp;{{ item.itemName }}</span>
+          >&nbsp;&nbsp;<span><star-horse-icon :icon-class="item.itemIcon" style="color: var(--star-horse-style)"/>&nbsp;&nbsp;{{
+              item.itemName
+            }}</span>
           </li>
         </draggable>
       </el-scrollbar>
     </el-collapse-item>
     <el-collapse-item name="b">
       <template #title>
-        &nbsp;<star-horse-icon icon-class="form" style="color: var(--star-horse-style)"/>&nbsp;&nbsp;<span>表单元素</span>
+        &nbsp;<star-horse-icon icon-class="form"
+                               style="color: var(--star-horse-style)"/>&nbsp;&nbsp;<span>表单元素</span>
       </template>
       <el-scrollbar height="100%">
         <draggable
@@ -182,14 +182,17 @@ defineExpose({dataInit})
           <li
               class="field-item"
               v-for="item in formDataList"
-          >&nbsp;&nbsp;<span><star-horse-icon :icon-class="item.itemIcon" style="color: var(--star-horse-style)"/>&nbsp;&nbsp;{{ item.itemName }}</span>
+          >&nbsp;&nbsp;<span><star-horse-icon :icon-class="item.itemIcon" style="color: var(--star-horse-style)"/>&nbsp;&nbsp;{{
+              item.itemName
+            }}</span>
           </li>
         </draggable>
       </el-scrollbar>
     </el-collapse-item>
     <el-collapse-item name="c">
       <template #title>
-        &nbsp;<star-horse-icon icon-class="other" style="color: var(--star-horse-style)"/>&nbsp;&nbsp;<span>自定义组件</span>
+        &nbsp;<star-horse-icon icon-class="other"
+                               style="color: var(--star-horse-style)"/>&nbsp;&nbsp;<span>自定义组件</span>
       </template>
       <el-scrollbar height="100%">
         <draggable
@@ -208,7 +211,8 @@ defineExpose({dataInit})
           <li
               class="field-item"
               v-for="item in selfFormDataList">&nbsp;&nbsp;
-            <span><star-horse-icon :icon-class="item.itemIcon" style="color: var(--star-horse-style)"/>&nbsp;&nbsp;{{ item.itemName }}</span>
+            <span><star-horse-icon :icon-class="item.itemIcon"
+                                   style="color: var(--star-horse-style)"/>&nbsp;&nbsp;{{ item.itemName }}</span>
           </li>
         </draggable>
       </el-scrollbar>
