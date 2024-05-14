@@ -1,25 +1,26 @@
 <script setup lang="ts" name="box-container">
-import {inject, PropType, Ref, ref} from 'vue'
+import {computed, inject, PropType, Ref, ref} from 'vue'
 import {warning} from '@/utils/message'
+import {DesignForm} from "@/store/DesignFormStore.ts";
+import piniaInstance from "@/store/index.ts";
 
 const props = defineProps({
   parentCompType: {type: String},
   formFieldList: {type: Object as PropType<any>},
   field: {type: Object as PropType<any>},
-  formDatas: {type: Object as PropType<any>}
 });
+let designForm = DesignForm(piniaInstance);
 const emits = defineEmits(["selectItem"]);
-let dragingItem = inject('dragingItem') as Ref;
+let draggingItem = computed(()=>designForm.draggingItem);
 let containerList = ref([]);
 let itemType = ref('container');
-
+let isEdit = computed(() => designForm.isEdit);
 const getComponentName = (data: any) => {
   return data?.itemType + '-item'
 };
 const onDragAdd = (evt: Event, dataList: any) => {
   let newIndex = evt.newIndex
-
-  if (dragingItem.value.itemType == 'box' || dragingItem.value.itemType == "tab" || dragingItem.value.itemType == "table") {
+  if (draggingItem.value.itemType == 'box' || draggingItem.value.itemType == "tab" || draggingItem.value.itemType == "table") {
     warning('栅格容器不允许嵌套其他容器');
     let elements = props.field.preps.elements;
     for (let inde in elements) {
@@ -28,36 +29,29 @@ const onDragAdd = (evt: Event, dataList: any) => {
         let column = element.columns[sind];
         for (let i in column?.items) {
           let item = column.items[i];
-          if (dragingItem.value.id == item.id) {
+          if (draggingItem.value.id == item.id) {
             console.log("find data", item);
             column.items.splice(i, 1);
           }
         }
       }
     }
- //   console.log(dragingItem.value, dataList, props.field.elements);
     return false;
   }
-
   if (newIndex != null && newIndex != 'undefined') {
-    props.formDatas.activeId = dataList[newIndex].id
-    props.formDatas.compType = dataList[newIndex].compType
-    props.formDatas.parentCompType = itemType.value
+    designForm.setCurrentItemId(dataList[newIndex].id);
+    designForm.setCurrentItemType(dataList[newIndex].compType);
+    designForm.setParentCompType(itemType.value);
   }
 };
-const selectItem = (data: any, parentCompType: String) => {
-  emits("selectItem", data, parentCompType);
-}
 </script>
 
 
 <template>
   <group-box-container
-      :formDatas="formDatas"
       :form-item="field"
-      @selectItem="selectItem"
   >
-<!--    {{ field.preps.elements }}-->
+    <!--    {{ field.preps.elements }}-->
     <el-row v-for="adata in field.preps.elements" :gutter="field.preps.gutter"
             :justify="field.preps.justify"
             :align="field.preps.align" :tag="field.preps.tag">
@@ -65,7 +59,7 @@ const selectItem = (data: any, parentCompType: String) => {
           :item-key="index"
           :span="sdata.colspan||24"
           v-for="(sdata,index) in adata.columns"
-          v-if="formDatas.isEdit"
+          v-if="isEdit"
       >
         <draggable
             @add="(evt:Event)=>onDragAdd(evt,sdata.items)"
@@ -79,7 +73,6 @@ const selectItem = (data: any, parentCompType: String) => {
             <component
                 :key="data?.id"
                 :field="data"
-                :formDatas="formDatas"
                 :is="getComponentName(data)"
                 :parentField="field"
                 :formFieldList="formFieldList"
@@ -99,19 +92,15 @@ const selectItem = (data: any, parentCompType: String) => {
         <template v-for="data in sdata.items">
           <component
               :field="data"
-              :formDatas="formDatas"
               :is="data?.type+'-container'"
               :formFieldList="formFieldList"
-              @selectItem="selectItem"
               v-if="data?.compType==='container'"
           >
           </component>
           <component
               :field="data"
-              :formDatas="formDatas"
               :is="getComponentName(data)"
               :formFieldList="formFieldList"
-              @selectItem="selectItem"
               v-else-if="data?.compType==='formItem'"
           />
         </template>

@@ -1,6 +1,6 @@
 <script lang="ts" setup name="DynamicForm">
 import FieldPanel from "@/views/dyform/FieldPanel.vue";
-import {nextTick, onMounted, provide, reactive, ref, unref, watch} from "vue";
+import {computed, nextTick, onMounted, provide, reactive, ref, unref, watch} from "vue";
 import PropertyPanel from "@/views/dyform/PropertyPanel.vue";
 import {postRequest} from "@/api/star_horse";
 import {confirm, error, warning} from "@/utils/message";
@@ -13,6 +13,8 @@ import FormPropertyPanel from "@/views/dyform/FormPropertyPanel.vue";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import Help from "@/components/help.vue";
 import {formActions} from "@/views/dyform/utils/DynamicForm.ts";
+import {DesignForm} from "@/store/DesignFormStore.ts";
+import piniaInstance from "@/store/index.ts";
 
 const dataUrl = reactive<ApiUrls>(<ApiUrls>{
   loadByPageUrl: "/userdb-manage/userdb/dynamicForm/pageList",
@@ -27,96 +29,25 @@ const dataUrl = reactive<ApiUrls>(<ApiUrls>{
   userConditionUrl: "/userdb-manage/userdb/dynamicForm/getAllByCondition",
   importUrl: "/userdb-manage/userdb/dynamicForm/importData",
 });
+let designForm = DesignForm(piniaInstance);
 let route = useRoute();
 let router = useRouter();
-let dragingItem = ref<any>({});
-let list = ref<any>([]);
+let draggingItem = computed(()=>designForm.draggingItem);
+let list = computed(() => designForm.compList);
 let isPreview = ref<any>(false);
 let batchEditFieldVisible = ref<any>(false);
-let isEdit = ref<any>(true);
+let isEdit = computed(() => designForm.isEdit);
 let activeTab = ref<any>("first");
-let activeId = ref<any>("");
-let formFieldList = ref<any>({index: 1});
+let formFieldList = computed(() => designForm.formFieldList);
 let editable = ref<any>(true);
-let formInfo = ref<any>({
-  rules: "",
-  inline: "no",
-  labelPosition: "left",
-  labelWidth: "",
-  labelSuffix: "",
-  hideRequiredAsterisk: "no",
-  requireAsteriskPosition: "left",
-  showMessage: "yes",
-  inlineMessage: "no",
-  statusIcon: "no",
-  createTable: "yes",
-  validateOnRuleChange: "yes",
-  size: "small",
-  disabled: "no",
-  scrollToError: "no",
-});
-let formDatas = ref<any>({
-  formInfo: formInfo.value,
-  dataList: list.value,
-  activeId: activeId.value,
-  isEdit: isEdit.value,
-});
-provide("formFieldList", formFieldList);
-provide("dragingItem", dragingItem);
-provide("tableEditable", editable);
-provide("formInfo", formInfo);
-let formDataList = ref<any>();
-let containerList = ref<any>();
-let selfFormDataList = ref<any>();
+let formInfo = computed(() => designForm.formInfo);
 const fieldPanelRef = ref();
-const url = "/userdb-manage/userdb/dynamicFormItems/getAllByCondition";
-const initContainer = async () => {
-  let params: SearchParams[] = [{
-    propertyName: "category",
-    value: 2
-  }];
-  let {data, error} = await loadData(url, params);
-  containerList.value = data;
-};
-const initItems = async () => {
-  let params: SearchParams[] = [{
-    propertyName: "category",
-    value: 1
-  }];
-  let {data, error} = await loadData(url, params);
-  formDataList.value = data;
-};
-const initSelfItems = async () => {
-  let params: SearchParams[] = [{
-    propertyName: "category",
-    value: 3
-  }];
-  let {data, error} = await loadData(url, params);
-  selfFormDataList.value = data;
-};
+
 const init = async () => {
-  await initContainer();
-  await initItems();
-  await initSelfItems();
-  initPreps();
-};
-const initPreps = () => {
-  fieldPanelRef.value.dataInit(containerList.value, formDataList.value, selfFormDataList.value);
-  //给item 赋值
-  propertyRef.value.$refs.formItemRef.dataInit(containerList.value, formDataList.value, selfFormDataList.value);
-};
-const activeItemFun = (name: string, data: any, itemType: string, item: any) => {
-  console.log(name, data, itemType, item);
-  if (name == "selectItem") {
-    selectItem(data, itemType, item);
-  } else {
-  }
-};
-provide("activeItemFun", activeItemFun);
-provide("activeItemData", formDatas);
+  clearData();
 
+};
 const propertyRef = ref();
-
 const loadFormData = async (formId: any, isParent: boolean) => {
   await nextTick();
   clearData();
@@ -125,7 +56,7 @@ const loadFormData = async (formId: any, isParent: boolean) => {
     warning(error);
     return;
   }
-  formInfo.value = data;
+  designForm.setFormInfo(data);
   if (isParent) {
     data["idDynamicForm"] = null;
     data["parentId"] = formId;
@@ -137,19 +68,13 @@ const loadFormData = async (formId: any, isParent: boolean) => {
   if (data["relations"]) {
     formInfo.value["relations"] = JSON.parse(data["relations"]);
   }
-  list.value = JSON.parse(data["details"].content);
-  formFieldList.value = JSON.parse(data["details"].fieldNames);
+  designForm.setCompList(JSON.parse(data["details"].content));
+  designForm.setFormFieldList(JSON.parse(data["details"].fieldNames));
   data["details"] = {};
-
-  isEdit.value = true;
-  formDatas.value["formInfo"] = formInfo.value;
-  formDatas.value["dataList"] = list.value;
-  formDatas.value["activeId"] = list.value[0].id;
-  formDatas.value["isEdit"] = true;
+  designForm.setIsEdit(true);
   let activeItem = list.value[0];
-  setTimeout(() => {
-    selectItem(activeItem, activeItem.itemType, "item");
-  }, 500);
+  designForm.selectItem(activeItem,activeItem.itemType,"item");
+
 };
 onMounted(async () => {
   clearData();
@@ -180,36 +105,25 @@ watch(
  */
 
 const closeAction = () => {
-  isEdit.value = false;
+  designForm.setIsEdit(false);
   isPreview.value = false;
   batchEditFieldVisible.value = false;
   configDialogVisible.value = false;
-  formDatas.value["isEdit"] = true;
 };
 const clearData = () => {
-  list.value = [];
-  formFieldList.value = {index: 1};
-  let ms = new Date().getTime();
-  formInfo.value = {};
-  formInfo.value["formId"] = "id" + ms;
-  formInfo.value["tbName"] = "tb" + ms;
-  formDatas.value["dataList"] = unref(list);
-  formDatas.value["formInfo"] = unref(formInfo);
-  formDatas.value["isEdit"] = unref(isEdit);
-  formDatas.value["activeId"] = "";
-  formDatas.value["compType"] = "";
+  designForm.clearAll();
 
 };
 const preview = () => {
   isPreview.value = true;
-  formDatas.value["isEdit"] = false;
+  designForm.setIsEdit(false);
 };
 const formPropertyRef = ref();
 const doSave = async () => {
   if (!isSubmit.value) {
     return;
   }
-  let dynameForm = formDatas.value["formInfo"];
+  let dynameForm =formInfo.value;
   let flag = false;
   await nextTick();
   await formPropertyRef.value.$refs.itemFormInfo.validate((evt: boolean) => {
@@ -222,7 +136,7 @@ const doSave = async () => {
   //解决多次转换
   dynameForm!["relations"] = (dynameForm["relations"] instanceof Array) ? JSON.stringify(dynameForm["relations"]) : dynameForm["relations"];
   dynameForm!["details"] = {};
-  dynameForm!["details"]["content"] = JSON.stringify(formDatas.value["dataList"]);
+  dynameForm!["details"]["content"] = JSON.stringify(list.value);
   dynameForm!["details"]["fieldNames"] = JSON.stringify(formFieldList.value);
   postRequest("/userdb-manage/userdb/dynamicForm/merge", dynameForm)
       .then((res) => {
@@ -249,32 +163,15 @@ const doSave = async () => {
     error("操作异常:" + err);
   });
 };
-const createData = () => {
-};
+
 const formInfoChange = (data: any) => {
 };
-/**
- * 激活组件的数下
- * @param data 数据
- * @param itemType 数据类型
- * @param parentCompType 父组件类型
- */
-const selectItem = (data: any, itemType: string, parentCompType: string) => {
-  console.log(data, itemType, parentCompType);
-  formDatas.value["activeId"] = data?.id || "";
-  formDatas.value["dataList"] = list.value;
-  formDatas.value["formInfo"] = formInfo.value;
-  //当前组件是否在容器组件内
-  formDatas.value["parentCompType"] = parentCompType;
-  formDatas.value["compType"] = data?.compType || "";
-  propertyRef.value.$refs.formItemRef.activeItem(data["preps"] || data, itemType || data.itemType, parentCompType == "item");
-};
+
 const getComponentName = (data: any) => {
   return data.itemType + "-item";
 };
 const onDragAdd = (evt: Event, dataList: Array<any>) => {
-  selectItem(dragingItem.value, dragingItem.value["itemType"], "");
-  dragingItem.value = {};
+  designForm.selectItem(draggingItem.value, draggingItem.value["itemType"], "");
 };
 const createCode = () => {
   warning("该功能还未上线");
@@ -379,7 +276,6 @@ const actions = (action: string) => {
       <component
           :id="data.id"
           :field="data"
-          :formDatas="formDatas"
           :formFieldList="formFieldList"
           :is="data.itemType + '-container'"
           v-if="data.compType === 'container'"
@@ -388,7 +284,6 @@ const actions = (action: string) => {
       <component
           :id="data.id"
           :field="data"
-          :formDatas="formDatas"
           :formFieldList="formFieldList"
           :is="getComponentName(data)"
           v-else-if="data.compType === 'formItem'"
@@ -440,44 +335,40 @@ const actions = (action: string) => {
                 :validate-on-rule-change="formInfo['validateOnRuleChange']=='yes'"
             >
 
-                <draggable
-                    @add="(evt) => onDragAdd(evt, list)"
-                    class="main-design"
-                    :animation="100"
-                    group="starHorseGroup"
-                    :disable="!editable"
-                    ghostClass="ghost"
-                    :list="list"
-                >
-                  <template v-for="(data, index) in list">
-                    <component
-                        :key="data.id"
-                        :field="data"
-                        :formDatas="formDatas"
-                        :is="data.itemType + '-container'"
-                        :formFieldList="formFieldList"
-                        @selectItem="selectItem"
-                        v-if="data.compType === 'container'"
-                    />
-                    <component
-                        :key="data.id"
-                        :field="data"
-                        :formDatas="formDatas"
-                        :is="getComponentName(data)"
-                        :parentCompType="'item'"
-                        :formFieldList="formFieldList"
-                        @selectItem="selectItem"
-                        v-else-if="data.compType == 'formItem'"
-                    />
-                  </template>
-                </draggable>
-              <el-scrollbar>  </el-scrollbar>
+              <draggable
+                  @add="(evt) => onDragAdd(evt, list)"
+                  class="main-design"
+                  :animation="100"
+                  group="starHorseGroup"
+                  :disable="!editable"
+                  ghostClass="ghost"
+                  :list="list"
+              >
+                <template v-for="(data, index) in list">
+                  <component
+                      :key="data.id"
+                      :field="data"
+                      :is="data.itemType + '-container'"
+                      :formFieldList="formFieldList"
+
+                      v-if="data.compType === 'container'"
+                  />
+                  <component
+                      :key="data.id"
+                      :field="data"
+                      :is="getComponentName(data)"
+                      :parentCompType="'item'"
+                      :formFieldList="formFieldList"
+                      v-else-if="data.compType == 'formItem'"
+                  />
+                </template>
+              </draggable>
+              <el-scrollbar></el-scrollbar>
             </el-form>
           </div>
           <div class="side-panel-item" v-show="rightPanelVisible">
             <property-panel
                 :activeTab="activeTab"
-                :formDatas="formDatas"
                 @formInfoChange="formInfoChange"
                 ref="propertyRef"
             />
@@ -548,7 +439,7 @@ const actions = (action: string) => {
       display: flex;
       flex-direction: row;
       flex: 1;
-    /*  overflow: auto;*/
+      /*  overflow: auto;*/
 
       .main-design-outer {
         flex: 1;

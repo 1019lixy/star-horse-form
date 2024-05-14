@@ -325,7 +325,7 @@ const checkChange = (data: TreeNodeData, checked: boolean) => {
   if (checked) {
     conditions.push(createCondition("c.idDepartment", data.value));
   }
-  menuTableListRef.value.setDataInfo(conditions, null);
+  // menuTableListRef.value.setDataInfo(conditions, null);
   usersinfoTableListRef.value.createCreateParams(conditions);
 };
 const searchData = (data: SearchParams[]) => {

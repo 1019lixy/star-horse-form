@@ -1,27 +1,28 @@
 <script setup lang="ts" name="GroupBoxContainer">
 import {confirm} from "@/utils/message";
-import {watch} from "vue";
-import {DynamicForm} from "@/store/DynamicFormStore.ts";
 import piniaInstance from "@/store/index.ts";
+import {DesignForm} from "@/store/DesignFormStore.ts";
+import {computed} from "vue";
 
 const props = defineProps({
   formItem: {
     type: Object,
     required: true
   },
-  formDatas: {type: Object, required: true}
 });
-const emits = defineEmits(["selectItem"]);
-let dynamicFormStore = DynamicForm(piniaInstance);
+let designForm = DesignForm(piniaInstance);
+let compList=computed(()=>designForm.compList);
+let isEdit=computed(()=>designForm.isEdit);
 const selectData = () => {
-  console.log(props.formItem);
-  dynamicFormStore.setSelectData(props.formItem);
-  emits("selectItem", props.formItem);
+  let container = props.formItem;
+  console.log(container);
+  designForm.selectItem(container, container?.itemType, "");
 };
 const removeData = () => {
   confirm("删除容器，容器内的所有元素都会被删除").then(res => {
     if (res) {
-      let dataList = props.formDatas.dataList;
+
+      let dataList = compList.value;
       let id = props.formItem.preps?.id || props.formItem.id;
       for (let i = 0; i < dataList.length; i++) {
         if (id === dataList[i].id) {
@@ -34,9 +35,9 @@ const removeData = () => {
 
 </script>
 <template>
-  <div :class="formDatas?.isEdit?'field-item':''">
+  <div :class="isEdit?'field-item':''">
     <slot></slot>
-    <div class="field-action" v-if="formDatas?.isEdit">
+    <div class="field-action" v-if="isEdit">
       <el-tooltip content="选中容器">
         <star-horse-icon class="icon-cls" @click.stop="selectData" icon-class="select-parent" style="color:#e3e9f2;"/>
       </el-tooltip>

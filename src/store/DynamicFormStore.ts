@@ -6,8 +6,6 @@ export const DynamicForm: any = defineStore("DynamicForm", {
         return {
             dataForm: {} as Object,
             selectData: null as Object | Array<object>,
-            itemType: "",
-            parentComp: "",
             dataId: null as Number | String
         }
     },
@@ -38,13 +36,9 @@ export const DynamicForm: any = defineStore("DynamicForm", {
         /**
          *选中数据
          * @param data
-         * @param itemType
-         * @param parentComp
          */
-        setSelectData(data: Object | Array<object>, itemType: string, parentComp: string) {
+        setSelectData(data: Object | Array<object>) {
             this.selectData = data;
-            this.itemType = itemType;
-            this.parentComp = parentComp;
         },
         /**
          * 赋值
@@ -57,8 +51,8 @@ export const DynamicForm: any = defineStore("DynamicForm", {
          * 存数据
          * @param data
          */
-        setDataForm(data: any) {
-            this.dataForm = data;
+        setDataForm(data: object) {
+            this.dataForm = {...data};
         },
         /**
          * 向集合添加数据
@@ -172,7 +166,7 @@ export const DynamicForm: any = defineStore("DynamicForm", {
                 }
                 let bakeValue = data[sourceField];
                 delete this.dataForm[sourceField];
-                this.dataForm[distField] = newValue || bakeValue;
+                this.dataForm[distField] = newValue|| bakeValue;
                 return true;
             };
             if (batchDatas instanceof Object) {

@@ -187,7 +187,7 @@ provide("dialogOperation", clickFunction);
              <el-button @click="operation('mergeDraft','continue')" link type="primary" v-if="isShowSave">
             <star-horse-icon icon-class="save"/>存为草稿并继续</el-button>
           <el-button @click="operation('resetForm','reset')" link v-if="isShowReset" size="small">
-            <star-horse-icon icon-class="undo"/>
+            <star-horse-icon icon-class="undo" style="color:var(--star-horse-style);"/>
             重置</el-button>
         </span>
         <slot name="footer"></slot>

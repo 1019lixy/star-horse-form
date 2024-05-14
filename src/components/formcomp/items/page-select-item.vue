@@ -11,7 +11,6 @@ export default defineComponent({
     const parentCompType = context.attrs["parentCompType"];
     let formFieldList = context.attrs["formFieldList"] as any;
     const field = context.attrs["field"] as any;
-    const formDatas = context.attrs["formDatas"];
     const starHorseTableCompRef = ref();
     const filterCondtion = field.preps["filterCondition"] as Array<SearchParams>;
     const orderBy = field.preps["orderBy"] as Array<OrderByInfo>;
@@ -112,7 +111,7 @@ export default defineComponent({
       }
     };
     return {
-      parentCompType, formFieldList, context, field, formItem, formDatas,
+      parentCompType, formFieldList, context, field, formItem,
       dataField, selectItem, keyEnterFun, actionName, pageInfo, pageSizeClick, pageChangeClick
       , getRowIdentity, searchDataFun, handleSelectionChange, starHorseTableCompRef, selectRow
     }
@@ -120,7 +119,7 @@ export default defineComponent({
 });
 </script>
 <template>
-  <starhorse-form-item :formDatas="formDatas" :form-item="field" :parentCompType="parentCompType">
+  <starhorse-form-item  :form-item="field" :parentCompType="parentCompType">
     <el-select
         :fid="field.preps['name']"
         :readonly="field.preps['readonly']=='yes'"

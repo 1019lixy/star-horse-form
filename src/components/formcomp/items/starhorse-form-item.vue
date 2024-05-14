@@ -1,18 +1,18 @@
 <script setup lang="ts" name="starhorse-form-item">
-import {inject, unref} from "vue";
+import {computed, inject, unref} from "vue";
+import {DesignForm} from "@/store/DesignFormStore.ts";
+import piniaInstance from "@/store/index.ts";
 
 const props = defineProps({
   parentField: {type: Object},
   parentId: {type: Object},
-  formItem: {
-    type: Object,
-    required: true,
-  },
-  formDatas: {type: Object, required: true},
+  formItem: {type: Object, required: true},
   isDesign: {type: Boolean, default: true}
 });
-
-const activeItemFun = inject("activeItemFun") as Function;
+let designForm = DesignForm(piniaInstance);
+let isEdit=computed(()=>designForm.isEdit);
+let compList=computed(()=>designForm.compList);
+let currentItemId=computed(()=>designForm.currentItemId);
 const getParentComp = () => {
   return props.parentField &&
   (props.parentField.itemType == "box" || props.parentField.itemType == "table")
@@ -20,22 +20,22 @@ const getParentComp = () => {
       : "item";
 };
 const selectParentContainer = () => {
-  if (!props.formDatas.isEdit) {
+  if (!isEdit) {
     return;
   }
-  activeItemFun("selectItem", props.parentField, "", "item");
+  designForm.selectItem(props.parentField, "", "item");
 };
 const selectData = (data: any) => {
-  if (!props.formDatas.isEdit) {
+  if (!isEdit) {
     return;
   }
-  activeItemFun("selectItem", data.preps, data.itemType, getParentComp());
+  designForm.selectItem(props.formItem, data.itemType, getParentComp());
 };
 const moveUpItem = (formItem: any) => {
-  if (!props.formDatas.isEdit) {
+  if (!isEdit) {
     return;
   }
-  let dataList = unref(props.formDatas).dataList;
+  let dataList = compList.value;
   let compType = getParentComp();
   if (compType === "item") {
     for (let i = 0; i < dataList.length; i++) {
@@ -73,10 +73,10 @@ const moveUpItem = (formItem: any) => {
   }
 };
 const moveDownItem = (formItem: any) => {
-  if (!props.formDatas.isEdit) {
+  if (!isEdit) {
     return;
   }
-  let dataList = unref(props.formDatas).dataList;
+  let dataList = compList.value;
   let compType = getParentComp();
   if (compType === "item") {
     for (let i = 0; i < dataList.length; i++) {
@@ -114,10 +114,10 @@ const moveDownItem = (formItem: any) => {
   }
 };
 const removeItem = (formItem: any) => {
-  if (!props.formDatas.isEdit) {
+  if (!isEdit) {
     return;
   }
-  let dataList = unref(props.formDatas).dataList;
+  let dataList = compList.value;
   let compType = getParentComp();
   if (compType === "item") {
     for (let i = 0; i < dataList.length; i++) {
@@ -152,8 +152,8 @@ const removeItem = (formItem: any) => {
 };
 </script>
 <template>
-  <div :class="[formDatas?.isEdit ? 'field-item design-star-horse' : '',
-  (formDatas?.activeId == formItem?.preps.id && formDatas?.isEdit)?'active-item':''
+  <div :class="[isEdit ? 'field-item design-star-horse' : '',
+  (currentItemId == formItem?.preps.id && isEdit)?'active-item':''
   ]" v-if="isDesign">
     <el-form-item
         :label="formItem?.preps['label']"
@@ -165,7 +165,7 @@ const removeItem = (formItem: any) => {
     </el-form-item>
     <div
         class="field-action"
-        v-if="formDatas?.activeId == formItem?.preps.id && formDatas?.isEdit&&getParentComp()!='container'"
+        v-if="currentItemId == formItem?.preps.id && isEdit&&getParentComp()!='container'"
     >
       <el-tooltip content="选择父容器">
         <star-horse-icon
@@ -189,7 +189,7 @@ const removeItem = (formItem: any) => {
         />
       </el-tooltip>
     </div>
-    <div class="drag-handler background-opacity" v-if="formDatas?.isEdit">
+    <div class="drag-handler background-opacity" v-if="isEdit">
       <el-tooltip content="拖动">
         <star-horse-icon icon-class="drag" style="color: var(--star-horse-white)"/>
       </el-tooltip>

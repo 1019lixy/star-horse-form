@@ -2,8 +2,10 @@
 // 右键菜单组件
 import RightKeyMenu from '@/components/formcomp/container/right-key-menu.vue'
 import GroupBoxContainer from "@/components/formcomp/container/group-box-container.vue";
-import {inject, nextTick, PropType, reactive, Ref, ref} from "vue";
+import {computed, inject, nextTick, PropType, reactive, Ref, ref} from "vue";
 import {warning} from "@/utils/message";
+import {DesignForm} from "@/store/DesignFormStore.ts";
+import piniaInstance from "@/store/index.ts";
 
 let alignDict = reactive({
   '左': 'left',
@@ -37,10 +39,9 @@ const props = defineProps({
   parentCompType: {type: String},
   formFieldList: {type: Object as PropType<any>},
   field: {type: Object as PropType<any>},
-  formDatas: {type: Object as PropType<any>}
 });
-const emits = defineEmits(["selectItem"]);
-let dragingItem = inject('dragingItem') as Ref;
+let designForm = DesignForm(piniaInstance);
+let draggingItem = computed(() => designForm.draggingItem);
 let editable = inject("tableEditable");
 
 /**
@@ -92,15 +93,15 @@ const getComponentName = (data: any) => {
 const onDragAdd = (evt: Event, dataList: any) => {
   let newIndex = evt.newIndex
 
-  if (dragingItem.itemType == 'box' || dragingItem.itemType == 'table') {
+  if (draggingItem.itemType == 'box' || draggingItem.itemType == 'table') {
     warning('容器不能嵌套容器')
     return
   }
-
   if (newIndex != null && newIndex != 'undefined') {
-    props.formDatas.activeId = dataList[newIndex].id
-    props.formDatas.compType = dataList[newIndex].compType
-    props.formDatas.parentCompType = itemType.value
+    let dataInfo = dataList[newIndex];
+    designForm.setCurrentItemId(dataInfo.id);
+    designForm.setCurrentItemType(dataInfo.compType);
+    designForm.setParentCompType(itemType.value);
   }
 };
 const selectItem = (data: any, parentCompType: String) => {
@@ -258,7 +259,7 @@ const removeCol = () => {
 <template>
   <div :id="tableId" style="position: relative;" @contextmenu.prevent.stop>
     <right-key-menu :ref="tableId+'menu'" :menu-list="menuList"/>
-    <group-box-container class="dynamic-table-wapper" :formDatas="formDatas" :form-item="field.preps"
+    <group-box-container class="dynamic-table-wapper" :form-item="field.preps"
     >
       <table
           v-if="reflush"
@@ -297,7 +298,7 @@ const removeCol = () => {
                          v-bind="{group:'starHorseGroup', ghostClass: 'ghost',animation: 200}"
                          v-model="td.datas">
                 <template v-for="data in td.datas">
-                  <component :field="data" :formDatas="formDatas" :is="getComponentName(data)"
+                  <component :field="data" :is="getComponentName(data)"
                              @selectItem="selectItem" v-if="data.compType==='formItem'"/>
                 </template>
 

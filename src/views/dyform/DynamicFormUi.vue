@@ -1,13 +1,15 @@
 <script setup lang="ts" name="DynamicForm">
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {DialogProps} from "@/components/types/DialogProps"
-import {nextTick, onMounted, provide, reactive, ref} from "vue";
+import {computed, nextTick, onMounted, provide, reactive, ref} from "vue";
 import {SearchProps} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {BtnAuth} from "@/components/types/BtnAuth";
 import {useRouter} from "vue-router";
 import {loadGetData} from "@/api/sh_api";
 import {Config} from "@/api/settings";
+import {DesignForm} from "@/store/DesignFormStore.ts";
+import piniaInstance from "@/store/index.ts";
 
 const router = useRouter();
 const dataUrl: ApiUrls = {
@@ -24,6 +26,8 @@ const dataUrl: ApiUrls = {
   importUrl: "/userdb-manage/userdb/dynamicForm/importData",
   uploadUrl: ""
 };
+let designForm = DesignForm(piniaInstance);
+
 let selfBtnFunc = ref<BtnAuth[]>([]);
 let isPreview = ref<boolean>(false);
 const closeAction = () => {
@@ -31,23 +35,17 @@ const closeAction = () => {
 
 };
 let formFieldList = ref<any>({});
-let list = ref<any>([]);
-let formDatas = ref<any>({
-  formInfo: {},
-  dataList: [],
-  activeId: "",
-  isEdit: false
-});
+let list = computed(() => designForm.compList);
 const loadFormData = async (formId: any) => {
   let {data, error} = await loadGetData(dataUrl.loadByIdUrl + "/" + formId);
   await nextTick();
   isPreview.value = true;
-  list.value = JSON.parse(data["details"].content);
-  formFieldList.value = JSON.parse(data["details"].fieldNames);
+  designForm.clearAll(false);
+  designForm.setCompList(JSON.parse(data["details"].content));
+  designForm.setFormFieldList(JSON.parse(data["details"].fieldNames));
   data["details"] = {};
-  formDatas.value["formInfo"] = data;
-  formDatas.value["dataList"] = list.value;
-  formDatas.value["activeId"] = "";
+  designForm.setFormInfo(data);
+
 }
 const initData = async () => {
   selfBtnFunc.value?.push({
@@ -275,7 +273,6 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
     <template v-for="data in list">
       <component
           :field="data"
-          :formDatas="formDatas"
           :formFieldList="formFieldList"
           :is="data?.itemType+'-container'"
           v-if="data?.compType==='container'"
@@ -283,7 +280,6 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
       </component>
       <component
           :field="data"
-          :formDatas="formDatas"
           :formFieldList="formFieldList"
           :is="data?.itemType + '-item'"
           v-else-if="data?.compType=='formItem'"

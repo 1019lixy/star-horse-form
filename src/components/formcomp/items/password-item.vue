@@ -1,5 +1,5 @@
 <template>
-  <starhorse-form-item :formDatas = "formDatas" :form-item = "field" :parentCompType = "parentCompType"
+  <starhorse-form-item  :form-item = "field" :parentCompType = "parentCompType"
   >
     <el-input
         :fid = "field.preps['name']"
@@ -30,7 +30,6 @@ export default defineComponent({
     const parentCompType = context.attrs["parentCompType"];
     const formFieldList = context.attrs["formFieldList"] as any;
     const field = context.attrs["field"] as any;
-    const formDatas = context.attrs["formDatas"];
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
     const dynamicFunction = (data: any) => {
@@ -55,7 +54,7 @@ export default defineComponent({
     };
     return {
       parentCompType, formFieldList, context, field, formItem,
-      formDatas, dataField, dynamicFunction, selectItem,keyEnterFun,actionName
+       dataField, dynamicFunction, selectItem,keyEnterFun,actionName
     }
   }
 });

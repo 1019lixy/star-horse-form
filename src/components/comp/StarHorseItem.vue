@@ -191,7 +191,7 @@ onMounted(() => {
 });
 </script>
 <style lang="scss" scoped>
-.el-cascader {
+:deep(.el-cascader) {
   width: 100%;
 }
 </style>

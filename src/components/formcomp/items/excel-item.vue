@@ -1,5 +1,5 @@
 <template>
-  <starhorse-form-item :formDatas = "formDatas" :form-item = "field" :parentCompType = "parentCompType"
+  <starhorse-form-item  :form-item = "field" :parentCompType = "parentCompType"
   >
     <VueOfficeExcel :fid = "field.preps['name']" :src = "field['docUrl']" @rendered = "rendered"/>
   </starhorse-form-item>
@@ -13,7 +13,6 @@ export default defineComponent({
     const parentCompType = context.attrs["parentCompType"];
     const formFieldList = context.attrs["formFieldList"] as any;
     const field = context.attrs["field"] as any;
-    const formDatas = context.attrs["formDatas"];
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
     const keyEnterFun = () => {
@@ -32,7 +31,7 @@ export default defineComponent({
       init();
     });
 
-    return {parentCompType, formFieldList, context, field, formItem, formDatas, dataField, selectItem, keyEnterFunrendered}
+    return {parentCompType, formFieldList, context, field, formItem,  dataField, selectItem, keyEnterFunrendered}
   }
 });
 

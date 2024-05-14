@@ -5,7 +5,7 @@
     <Crontab ref = "cronTabRef" :expression = "context.attrs['formFieldList'][field.preps['name']]"
     />
   </star-horse-dialog>
-  <starhorse-form-item :formDatas = "formDatas" :form-item = "field" :parentCompType = "parentCompType"
+  <starhorse-form-item  :form-item = "field" :parentCompType = "parentCompType"
   >
     <el-input
         :fid = "field.preps['name']"
@@ -31,7 +31,6 @@ export default defineComponent({
     const parentCompType = context.attrs["parentCompType"];
     const formFieldList = context.attrs["formFieldList"];
     const field = context.attrs["field"] as any;
-    const formDatas = context.attrs["formDatas"];
     const defaultExpress = "* * * * * * *";
 
     let formItem = shallowRef({label: 'input', required: false});
@@ -72,7 +71,7 @@ export default defineComponent({
     resetForm();
     return {
       parentCompType, formFieldList, context, field, formItem,
-      formDatas, dataField, selectItem, keyEnterFun, cronVisible
+       dataField, selectItem, keyEnterFun, cronVisible
       , resetForm, close, submit, cronTabRef,actionName
     }
   }

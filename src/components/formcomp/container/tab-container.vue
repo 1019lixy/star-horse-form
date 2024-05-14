@@ -1,34 +1,32 @@
 <script setup lang="ts" name="tab-container">
-import {inject, onMounted, PropType, ref, Ref} from "vue";
+import {computed, inject, onMounted, PropType, ref, Ref} from "vue";
+import {DesignForm} from "@/store/DesignFormStore.ts";
+import piniaInstance from "@/store/index.ts";
 
 const props = defineProps({
   parentCompType: {type: String},
   formFieldList: {type: Object as PropType<any>},
   field: {type: Object as PropType<any>},
-  formDatas: {type: Object as PropType<any>}
 });
-const emits = defineEmits(["selectItem"]);
-let dragingItem = inject('dragingItem') as Ref;
+let designForm = DesignForm(piniaInstance);
+
+let draggingItem = computed(()=>designForm.draggingItem);
 let containerList = ref([]);
 let itemType = ref('container');
 const getComponentName = (data: any) => {
-
   return data.itemType == "tab" || data.itemType == "box" ? data.itemType + '-container' : data.itemType + '-item'
 };
 const onDragAdd = (evt: Event, dataList: any) => {
   let newIndex = evt.newIndex;
   if (newIndex != null && newIndex != 'undefined') {
-    props.formDatas.activeId = dataList[newIndex].id
-    props.formDatas.compType = dataList[newIndex].compType
-    props.formDatas.parentCompType = itemType.value
+    let dataInfo = dataList[newIndex];
+    designForm.setCurrentItemId(dataInfo.id);
+    designForm.setCurrentItemType(dataInfo.compType);
+    designForm.setParentCompType(itemType.value);
+    designForm.setDraggingItem({});
   }
 };
 const activeTabName = ref();
-const selectItem = (data: any, parentCompType: String) => {
-  console.log(data, parentCompType);
-
-  emits("selectItem", data, parentCompType);
-}
 onMounted(() => {
   if (!props.field['preps']["elements"]) {
     props.field['preps']["elements"] = [{
@@ -56,9 +54,7 @@ const addTab = () => {
 
 <template>
   <group-box-container class="dynamic-tab-wapper"
-                       :formDatas="formDatas"
                        :form-item="field"
-                       @selectItem="selectItem"
   >
     <el-tabs
         :tab-position="field.preps['tablePosition']"
@@ -91,7 +87,6 @@ const addTab = () => {
               <component
                   :key="data.id"
                   :field="data"
-                  :formDatas="formDatas"
                   :is="getComponentName(data)"
                   :parentField="field"
                   :formFieldList="formFieldList"

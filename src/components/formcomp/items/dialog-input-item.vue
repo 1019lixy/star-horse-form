@@ -16,7 +16,7 @@
                            @selectItem="selectItem"
                            :dataFormat="field.preps['dataFormat']" :disableAction="true"/>
   </star-horse-dialog>
-  <starhorse-form-item :formDatas="formDatas" :isDesign="context.attrs['isDesign']" :form-item="field"
+  <starhorse-form-item  :isDesign="context.attrs['isDesign']" :form-item="field"
                        :parentCompType="parentCompType">
     <el-input :autocomplete="field.preps['autocomplete'] == 'yes'" :clearable="field.preps['clearable'] == 'yes'"
               :disabled="field.preps['disabled'] == 'yes'" :max="field.preps['max']"
@@ -46,7 +46,6 @@ export default defineComponent({
     const parentCompType = context.attrs["parentCompType"];
     const formFieldList = context.attrs["formFieldList"] as any;
     const field = context.attrs["field"] as any;
-    const formDatas = context.attrs["formDatas"];
     const dialogInputTableRef = ref();
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
@@ -121,7 +120,7 @@ export default defineComponent({
     };
     return {
       parentCompType, formFieldList, context, field, formItem,
-      formDatas, dataField, dynamicFunction, selectItem, keyEnterFun, dialogInputVisible, closeAction
+       dataField, dynamicFunction, selectItem, keyEnterFun, dialogInputVisible, closeAction
       , showVisible, actionName, dialogInputTableRef, searchData
     }
   }

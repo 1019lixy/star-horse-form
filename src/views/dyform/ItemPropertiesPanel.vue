@@ -1,18 +1,25 @@
 <script setup lang="ts" name="ItemPropertiesPanel">
-import {inject, nextTick, onMounted, provide, reactive, ref, Ref, unref} from 'vue'
-import {confirm} from "@/utils/message";
+import {computed, inject, nextTick, onMounted, provide, reactive, ref, Ref, unref, watch} from 'vue'
 import {dictData, loadData, rowClassName, searchMatchList} from "@/api/sh_api";
 import type {FormRules} from 'element-plus'
 import {SelectOption} from "@/components/types/SearchProps";
 import StarHorseEditor from "@/components/comp/StarHorseEditor.vue";
 import StarHorseForm from "@/components/comp/StarHorseForm.vue";
 import {containerField, dataSourceFields} from "@/views/dyform/utils/ItemPreps.ts";
+import {DesignForm} from "@/store/DesignFormStore.ts";
+import piniaInstance from "@/store/index.ts";
 
-let formDatas = inject("activeItemData") as Ref;
+let designForm = DesignForm(piniaInstance);
+let formDataList = computed(() => designForm.formDataList);
+let containerList = computed(() => designForm.containerList);
+let selfFormDataList = computed(() => designForm.selfFormDataList);
+
 const fieldList = ref<any>({});
-const formProps = ref<any>({});
+const formProps = computed(() => designForm.currentFormPreps);
 provide("dataForm", formProps);
-let currentItemType = ref<String>("");
+let currentItemType = computed(() => designForm.currentItemType);
+let currentCompCategory = computed(() => designForm.currentCompCategory);
+let parentCompType = computed(() => designForm.parentCompType);
 const advancedFieldList = ref<any>({});
 const actions = ref<any>({});
 let currentField = ref<any>({});
@@ -65,69 +72,7 @@ const jsButtonClick = (name: string) => {
 const configParams = (params: Array<any>) => {
 
 }
-const changeValue = (name: string, data: any) => {
-  formProps.value[name] = data;
-};
-const handelDelete = (rows: any) => {
-  let items = formProps.value.elements;
-  confirm('删除行，已设置组件可能丢失，确认删除吗？').then(res => {
-    if (res) {
-      for (let item in items) {
-        let temp = items[item];
-        if (temp.xh == rows.xh) {
-          items.splice(item, 1)
-        }
 
-      }
-    }
-
-  })
-};
-const handelDeleteCol = (row: any, srow: any) => {
-  confirm('删除列，已设置组件将丢失，确认删除吗？').then(res => {
-    if (res) {
-      for (let item in row.columns) {
-        let temp = row.columns[item];
-        if (temp.colIndex == srow.colIndex) {
-          row.columns.splice(item, 1)
-        }
-      }
-      countColumns(row);
-    }
-  });
-};
-const handelAddRow = () => {
-
-  if (!formProps.value.elements) {
-    formProps.value["elements"] = [];
-  }
-  if (currentField.value.itemType == "tab") {
-    formProps.value.elements.push({
-      items: []
-    });
-  } else {
-    formProps.value.elements.push({
-      rowIndex: formProps.value.elements.length + 1,
-      columns: [{colIndex: 1, colspan: 24, items: []}]
-    })
-  }
-
-};
-const handelAddData = () => {
-  if (!formProps.value.values) {
-    formProps.value["values"] = [];
-  }
-  formProps.value.values.push({})
-};
-const handelDeleteData = (row: any) => {
-  let data = formProps.value.values;
-  for (let item in data) {
-    let temp = data[item];
-    if (temp.xh == row.xh) {
-      data.splice(item, 1)
-    }
-  }
-};
 /**
  * 验证是否url
  * @param url
@@ -156,21 +101,7 @@ const submitValid = async () => {
     closeAction();
   }
 };
-const handelAddParamData = () => {
-  if (!formProps.value.queryParams) {
-    formProps.value["queryParams"] = [];
-  }
-  formProps.value.queryParams.push({matchType: "eq"});
-};
-const handelDeleteParamData = (row: any) => {
-  let data = formProps.value.queryParams;
-  for (let item in data) {
-    let temp = data[item];
-    if (temp.xh == row.xh) {
-      data.splice(item, 1)
-    }
-  }
-};
+
 const handelAddItem = (row: any) => {
   if (!formProps.value.values) {
     formProps.value["values"] = [];
@@ -186,24 +117,6 @@ const handelDeleteItem = (row: any) => {
     }
   }
 };
-const handelAddCol = (row: any) => {
-  if (!row.columns) {
-    row.columns = [];
-  }
-  row.columns.push({
-    colIndex: row.columns.length + 1,
-    colspan: 24,
-    items: []
-  });
-  countColumns(row);
-};
-const countColumns = (row: any) => {
-  let span = parseInt(String(24 / row.columns.length));
-  row.columns.forEach((item: any) => {
-    item.colspan = span;
-  });
-};
-
 const merge = () => {
   let code = unref(codeCompRef).exportCode();
   let eventName = unref(codeCompRef).eventName;
@@ -221,7 +134,6 @@ const resetDataSourceForm = () => {
   formProps.value["values"] = [];
 };
 let dataList = ref<SelectOption[]>([]);
-let tempData = ref<string>();
 const validInterface = async () => {
   let flag = await validEmpty();
   clearMsg();
@@ -264,7 +176,7 @@ const validInterface = async () => {
         validErrorMsg.value = "验证失败\n【标签值字段】错误：" + JSON.stringify(keys);
       } else {
         validSuccessMsg.value = "验证成功";
-        data.forEach(item => {
+        data.forEach((item: any) => {
           if (dataList.value) {
             dataList.value.push({name: item[temp["selectLabel"]], value: item[temp["selectValue"]]});
           }
@@ -356,29 +268,15 @@ const assignValue = (temp: any) => {
   advancedFieldList.value = temp.advancedFields;
   actions.value = temp.actions;
 };
-let formDataList = ref<any>();
-let containerList = ref<any>();
-let selfFormDataList = ref<any>();
-/**
- * 集合当前编辑属性对应的参数信息
- * @param item
- * @param itemType
- * @param isItem
- */
-const activeItem = (item: any, itemType: string, isItem: boolean) => {
-  console.log(item,itemType,isItem);
-  formProps.value = item;
-  currentItemType.value = itemType;
-  assignPrep(itemType, isItem);
-};
-const dataInit = (container: any, items: any, selfItems: any) => {
-  containerList.value = container;
-  formDataList.value = items;
-  selfFormDataList.value = selfItems;
-};
-defineExpose({
-  dataInit, activeItem
-})
+
+watch(() => formProps,
+    (val) => {
+      assignPrep(currentItemType.value, parentCompType.value == "item");
+    }, {
+      immediate: true,
+      deep: true
+    })
+
 </script>
 <template>
   <star-horse-dialog :dialogVisible="dataSourceDialogVisible" :title="'数据源配置'" :isBatch="false"
@@ -416,15 +314,14 @@ defineExpose({
     <el-collapse
         class="widget-collapse"
         :accordion="true"
-        v-model="activeNames"
-    >
+        v-model="activeNames">
       <el-collapse-item name="1">
         <template #title>
           &nbsp;<star-horse-icon icon-class="base_preps"
                                  style="color: var(--star-horse-style)"/>&nbsp;&nbsp;<span>基础属性</span>
         </template>
         <el-scrollbar height="500">
-          <template v-if="formDatas?.compType==='container'">
+          <template v-if="currentCompCategory==='container'">
             <el-form-item
                 label=""
                 prop="rows"
@@ -525,7 +422,6 @@ defineExpose({
             </template>
           </template>
           <template v-else v-for="(item) in fieldList">
-
             <el-form-item :label="item.label" :prop="item.fieldName" :required="item.required=='yes'"
                           :rules="[{required: item.required=='yes', message: '必填项不能为空', trigger: 'blur'}]">
               <el-input
@@ -590,7 +486,7 @@ defineExpose({
                         @click="handelAddItem"
                         class="oper-btn"
                         title="添加行">
-											<star-horse-icon icon-class="add"/>
+											<star-horse-icon icon-class="add" style="color: var(--star-horse-style)"/>
 										</span>
               </template>
               <template #default="scope">
@@ -598,7 +494,7 @@ defineExpose({
                         @click="handelAddItem"
                         class="oper-btn"
                         title="添加行">
-											<star-horse-icon icon-class="add"/>
+											<star-horse-icon icon-class="add" style="color: var(--star-horse-style)"/>
 										</span>&nbsp;&nbsp;
                 <span
                     @click="handelDeleteItem(scope.row)"
@@ -620,7 +516,7 @@ defineExpose({
           &nbsp;<star-horse-icon icon-class="advance_preps" style="color: var(--star-horse-style)"/>&nbsp;&nbsp;<span>高级属性</span>
         </template>
         <el-scrollbar height="500">
-          <template v-if="formDatas?.compType==='container'">
+          <template v-if="currentCompCategory==='container'">
           </template>
           <template v-else v-for="(item) in advancedFieldList">
             <el-form-item
@@ -665,12 +561,11 @@ defineExpose({
           &nbsp;<star-horse-icon icon-class="event-action" style="color: var(--star-horse-style)"/>&nbsp;&nbsp;<span>自定义事件</span>
         </template>
         <el-scrollbar height="500">
-          <template v-if="formDatas?.compType==='container'">
+          <template v-if="currentCompCategory==='container'">
           </template>
           <template
               v-else
-              v-for="(item) in actions"
-          >
+              v-for="(item) in actions">
             <el-form-item
                 :label="item.label"
                 :prop="item.actionName"

@@ -1,19 +1,15 @@
 <script setup lang="ts" name="FieldPanel">
-import {inject, Ref, ref} from 'vue'
+import {computed, inject, Ref, ref} from 'vue'
 import {Setting} from "@element-plus/icons-vue";
+import {DesignForm} from "@/store/DesignFormStore.ts";
+import piniaInstance from "@/store/index.ts";
+let designForm = DesignForm(piniaInstance);
+let formDataList = computed(()=>designForm.formDataList);
+let containerList = computed(()=>designForm.containerList);
+let selfFormDataList =computed(()=>designForm.selfFormDataList);
 
-let formDataList = ref<any>();
-let containerList = ref<any>();
-let selfFormDataList = ref<any>();
-
-const dataInit = (container: any, items: any, selfItems: any) => {
-  containerList.value = container;
-  formDataList.value = items;
-  selfFormDataList.value = selfItems;
-};
 let activeNames = ref(['a', 'b', 'c', 'd']);
-let formFieldList = inject('formFieldList') as Ref;
-let dragingItem = inject('dragingItem') as Ref;
+let formFieldList = computed(()=>designForm.formFieldList);
 const onContainerCopy = (data: any) => {
   return onDataCopy(data, 'container');
 };
@@ -44,7 +40,7 @@ const onDataCopy = (data: any, type: String) => {
   if (reData.itemType == "box" || reData.itemType == "table") {
     mvData.preps["elements"] = [{rowIndex: 1, columns: [{colIndex: 1, colspan: 24, items: [{}]}]}];
   }
-  dragingItem.value = mvData;
+  designForm.setDraggingItem(mvData);
   return mvData;
 };
 const getDefaultVal = (type: String) => {
@@ -63,7 +59,7 @@ const onEnd = () => {
 const onRemove = () => {
 
 };
-defineExpose({dataInit})
+
 </script>
 
 <style lang="scss" scoped>

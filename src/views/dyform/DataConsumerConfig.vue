@@ -462,8 +462,6 @@ const loadColumnFields = async () => {
       }
     }
   });
-  // searchFormData.value = formDatas;
-  // columnList.value = columns;
 }
 const preview = (currentPage: number, pageSize: number) => {
 
