@@ -28,6 +28,7 @@ import {OrderByInfo} from "@/components/types/PageFieldInfo";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {DynamicForm} from "@/store/DynamicFormStore";
 import piniaInstance from "@/store";
+import {Pointer} from "@element-plus/icons-vue";
 
 const dynamicForm = DynamicForm(piniaInstance);
 const props = defineProps({
@@ -103,6 +104,10 @@ const tableCompFunc = (func: any) => {
   } else if (func == "exec") {
   }
 };
+const authorityLength = () => {
+  console.log(Object.values(permissions.value).map(item => !!item));
+  return Object.values(permissions.value).map(item => !!item).length;
+};
 const exportData = () => {
   load("数据处理中");
   let ids = getIds();
@@ -168,7 +173,7 @@ const init = async () => {
     permissions.value = permission;
   }
   //是否初始化时自动加载列表数据开关
-  if (!props.fieldList["stopAutoLoad"]) {
+  if (!props.fieldList?.stopAutoLoad) {
     loadByPage();
   } else {
     pageInfo.dataList = props.tableDataList;
@@ -215,7 +220,7 @@ const assignData = (dataList: Array<any>) => {
 };
 const reCreateData = () => {
   toolFields = [];
-  let tempList = props.fieldList["fieldList"];
+  let tempList = props.fieldList?.fieldList;
   if (tempList) {
     assignData(tempList);
   }
@@ -369,7 +374,7 @@ const inputFieldVal = ref<any>();
  * 分页显示数据
  */
 const loadByPage = () => {
-  load("数据加载中");
+
   let searchTemp = JSON.parse(JSON.stringify(searchFields)) || [];
   let orderByTemp = JSON.parse(JSON.stringify(orderBys)) || [];
 
@@ -386,6 +391,10 @@ const loadByPage = () => {
   if (condition && condition.length > 0) {
     searchTemp.push(...condition);
   }
+  if (!props.compUrl?.loadByPageUrl) {
+    return;
+  }
+  load("数据加载中");
   postRequest(props.compUrl?.loadByPageUrl, {
     currentPage: pageInfo.currentPage,
     pageSize: pageInfo.pageSize,
@@ -615,7 +624,7 @@ defineExpose({
         v-if="!disableAction"
         fixed="right"
         label="操作"
-        width="180px"
+        :width="160"
     >
       <template #default="scope">
         <el-button
@@ -638,36 +647,53 @@ defineExpose({
         >
           <el-tooltip content="查看">查看</el-tooltip>
         </el-button>
-        <slot name="extend" :rowData="scope.row"/>
-        <template
-            v-if="
-            fieldList['userTableFuncs'] &&
-            fieldList['userTableFuncs'].length > 0
-          "
-        >
+        <template v-if="fieldList.userTableFuncs?.length > 0">
+          <el-dropdown>
+              <span class="el-dropdown-link">
+      <star-horse-icon icon-class="ellipsis" style="color: var(--star-horse-style)"/>
+    </span>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item v-for="auth in fieldList['userTableFuncs']"
+                                  :v-if="permissions[auth.authority]">
+                  <el-button
+                      @click="auth.funcName(scope.row)"
+                      link
+                      title=""
+                      type="primary"
+                      :size="compSize"
+                  >
+                    {{ auth.btnName }}
+                  </el-button>
+                </el-dropdown-item>
+                <el-dropdown-item>
+                  <el-button
+                      v-if="permissions['delete']"
+                      @click="tbCommonFun('delete', scope.row)"
+                      link
+                      title=""
+                      type="danger"
+                      :size="compSize">
+                    删除
+                  </el-button>
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
+        </template>
+        <template v-else>
+          <slot name="extend" :rowData="scope.row"/>
           <el-button
-              v-for="auth in fieldList['userTableFuncs']"
-              :v-if="permissions[auth.authority]"
-              @click="auth.funcName(scope.row)"
+              v-if="permissions['delete']"
+              @click="tbCommonFun('delete', scope.row)"
               link
               title=""
-              type="primary"
+              type="danger"
               :size="compSize"
           >
-            <el-tooltip :content="auth.btnName">{{ auth.btnName }}</el-tooltip>
+            <el-tooltip content="删除">删除</el-tooltip>
           </el-button>
         </template>
-
-        <el-button
-            v-if="permissions['delete']"
-            @click="tbCommonFun('delete', scope.row)"
-            link
-            title=""
-            type="danger"
-            :size="compSize"
-        >
-          <el-tooltip content="删除">删除</el-tooltip>
-        </el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -684,6 +710,7 @@ defineExpose({
   />
 </template>
 <style lang="scss" scoped>
+
 .warning-row {
   background: #8f8f8f;
 }

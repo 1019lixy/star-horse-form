@@ -37,7 +37,7 @@ onMounted(() => {
 });
 const createCreateParams = (formData: any) => {
   let searchFields = []
-  for (let key in searchForm.value) {
+  for (let key in searchForm?.value) {
     let val = searchForm.value[key]
     let temp = formData?.find((item: any) => item.fieldName == key);
     //如果子项和父项存在同名会存在bug，
@@ -109,7 +109,7 @@ const searchArea = () => {
             v-if="item.defaultShow"
             :prop="item.fieldName">
           <template v-if="item.type=='input'" :span="6">
-            <el-select size="small" style="width: 90px" v-model="item['matchType']" clearable filterable>
+            <el-select size="small" style="width: 90px;height:100%;padding-top:2px;" v-model="item['matchType']" clearable filterable>
               <el-option v-for="sitem in matchTypeList" :value="sitem.value" :label="sitem.name" :key=
                   "sitem.value"/>
             </el-select>&nbsp;&nbsp;
@@ -126,7 +126,7 @@ const searchArea = () => {
             :label="item.label"
             :prop="item.fieldName">
           <template v-if="item.type=='input'" :span="6">
-            <el-select size="small" style="width: 90px" v-model="item['matchType']" clearable filterable>
+            <el-select size="small" style="width: 90px;height:100%;padding-top:2px;" v-model="item['matchType']" clearable filterable>
               <el-option v-for="sitem in matchTypeList" :value="sitem.value" :label="sitem.name" :key=
                   "sitem.value"/>
             </el-select>&nbsp;&nbsp;

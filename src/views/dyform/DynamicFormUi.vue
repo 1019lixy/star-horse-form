@@ -32,7 +32,7 @@ let selfBtnFunc = ref<BtnAuth[]>([]);
 let isPreview = ref<boolean>(false);
 const closeAction = () => {
   isPreview.value = false;
-
+  designForm.setIsEdit(true);
 };
 let formFieldList = ref<any>({});
 let list = computed(() => designForm.compList);
@@ -43,6 +43,7 @@ const loadFormData = async (formId: any) => {
   designForm.clearAll(false);
   designForm.setCompList(JSON.parse(data["details"].content));
   designForm.setFormFieldList(JSON.parse(data["details"].fieldNames));
+  designForm.setIsEdit(false);
   data["details"] = {};
   designForm.setFormInfo(data);
 
@@ -75,8 +76,8 @@ onMounted(() => {
   initData();
 })
 const searchFormData = reactive<SearchProps[]>([
-  {label: "表单名称", fieldName: "formName", type: "input", matchType: "lk"},
-  {label: "创建时间", fieldName: "createDate", type: "date", matchType: "bt"},
+  {label: "表单名称", fieldName: "formName", defaultShow: true, type: "input", matchType: "lk"},
+  {label: "创建时间", fieldName: "createDate", defaultShow: true, type: "date", matchType: "bt"},
 ]);
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [

@@ -56,6 +56,7 @@ const onDragAdd = (evt: Event, dataList: any) => {
             :justify="field.preps.justify"
             :align="field.preps.align" :tag="field.preps.tag">
       <el-col
+          class="edit_col"
           :item-key="index"
           :span="sdata.colspan||24"
           v-for="(sdata,index) in adata.columns"
@@ -117,7 +118,7 @@ const onDragAdd = (evt: Event, dataList: any) => {
   /* display: flex;*/
 }
 
-.el-col {
+.edit_col {
   border: 2px dotted var(--star-horse-border—color);
   min-height: 50px;
 }

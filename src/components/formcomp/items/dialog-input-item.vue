@@ -112,11 +112,11 @@ export default defineComponent({
         if (fields) {
           name = fields.map((item: FieldMapping) => item.sourceField)[0];
         }
-        dialogInputTableRef.value.setDataInfo(name, context.attrs["formFieldList"][field.preps['name']]);
+        dialogInputTableRef.value?.setDataInfo(name, context.attrs["formFieldList"][field.preps['name']]);
       });
     };
     const searchData = (data: SearchParams[]) => {
-      dialogInputTableRef.value.createCreateParams(data);
+      dialogInputTableRef.value?.createCreateParams(data);
     };
     return {
       parentCompType, formFieldList, context, field, formItem,

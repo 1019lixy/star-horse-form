@@ -39,7 +39,7 @@ export default defineComponent({
       loadByPage()
     }
     const loadByPage = () => {
-      load('数据加载中');
+
       if (filterCondtion) {
         searchData.value.push(...filterCondtion);
       }
@@ -50,6 +50,7 @@ export default defineComponent({
       if (!field.preps["dataUrl"]?.loadByPageUrl) {
         return;
       }
+      load('数据加载中');
       postRequest(field.preps["dataUrl"].loadByPageUrl, {
         currentPage: pageInfo.value.currentPage,
         pageSize: pageInfo.value.pageSize,
@@ -170,7 +171,7 @@ export default defineComponent({
                 fixed="left"
                 :reserve-selection="true"
             />
-            <template v-for="item in field.preps['fieldList']['fieldList']">
+            <template v-for="item in field.preps?.fieldList?.fieldList">
               <star-horse-table-column
                   :compUrl="field.preps['dataUrl']"
                   :cellEditable="false"

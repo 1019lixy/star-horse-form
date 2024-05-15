@@ -10,9 +10,9 @@ const props = defineProps({
   isDesign: {type: Boolean, default: true}
 });
 let designForm = DesignForm(piniaInstance);
-let isEdit=computed(()=>designForm.isEdit);
-let compList=computed(()=>designForm.compList);
-let currentItemId=computed(()=>designForm.currentItemId);
+let isEdit = computed(() => designForm.isEdit);
+let compList = computed(() => designForm.compList);
+let currentItemId = computed(() => designForm.currentItemId);
 const getParentComp = () => {
   return props.parentField &&
   (props.parentField.itemType == "box" || props.parentField.itemType == "table")
@@ -159,6 +159,7 @@ const removeItem = (formItem: any) => {
         :label="formItem?.preps['label']"
         :prop="formItem?.preps['name']"
         :required="formItem?.preps['required']=='yes'"
+        :rules="formItem?.preps['required']=='yes'?[{required:true,trigger:'blur',message:'必须项不能为空'}]:[]"
         @click="selectData(formItem)"
     >
       <slot></slot>

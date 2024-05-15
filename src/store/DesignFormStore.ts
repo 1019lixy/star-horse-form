@@ -6,7 +6,6 @@ import {ref} from "vue/dist/vue";
 
 export const DesignForm: any = defineStore("DesignForm", {
     state: () => {
-
         return {
             /**
              * 容器组件列表

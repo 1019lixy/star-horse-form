@@ -121,6 +121,7 @@ const preview = () => {
 const formPropertyRef = ref();
 const doSave = async () => {
   if (!isSubmit.value) {
+    closeAction();
     return;
   }
   let dynameForm =formInfo.value;
