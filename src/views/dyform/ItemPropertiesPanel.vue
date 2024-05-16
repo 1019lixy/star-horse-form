@@ -8,6 +8,7 @@ import StarHorseForm from "@/components/comp/StarHorseForm.vue";
 import {containerField, dataSourceFields, paramsFields} from "@/views/dyform/utils/ItemPreps.ts";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
+import {validDataUrl} from "@/api/system.ts";
 
 let designForm = DesignForm(piniaInstance);
 let formDataList = computed(() => designForm.formDataList);
@@ -184,12 +185,8 @@ const validInterface = async () => {
         });
       });
     }
-    let checkParams: any = {
-      url: urlOrDictName,
-      httpMethod: requestType.toUpperCase(),
-      params: requestParams
-    };
-    let {data, error} = await loadData("/userdb-manage/userdb/dynamicForm/validInterface", checkParams);
+
+    let {data, error} = validDataUrl(urlOrDictName, requestType, requestParams);
     if (error) {
       flag = false;
       validErrorMsg.value = error;

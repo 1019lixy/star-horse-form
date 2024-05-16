@@ -79,7 +79,8 @@ const typePreps = () => {
   } else if (itemType.value == "select") {
     field.value.preps["filterable"] = "yes";
     field.value.preps["collapseTags"] = "yes";
-    field.value.preps['multiple'] = props.item.multiSelect ? "yes" : "no";
+    field.value.preps['multiple'] = props.item.multiple ? "yes" : "no";
+    field.value.preps['allowCreate'] = props.item.allowCreate ? "yes" : "no";
   } else if (itemType.value == "tselect") {
     field.value.preps["filterable"] = "yes";
     field.value.preps["collapseTags"] = "yes";
@@ -88,11 +89,11 @@ const typePreps = () => {
       label: 'name',
       value: "value"
     };
-    field.value.preps['multiple'] = props.item.multiSelect ? "yes" : "no";
+    field.value.preps['multiple'] = props.item.multiple ? "yes" : "no";
   } else if (itemType.value == 'cascade') {
     field.value.preps["props"] = {
       label: 'name',
-      multiple: props.item.multiSelect,
+      multiple: props.item.multiple,
       checkStrictly: true
     };
   } else if (itemType.value === 'date' || itemType.value === 'daterange') {

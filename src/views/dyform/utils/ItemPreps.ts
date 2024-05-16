@@ -3,7 +3,7 @@ import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {SelectOption} from "@/components/types/SearchProps";
 import {searchMatchList} from "@/api/sh_api.ts";
 import {FieldInfo} from "../../../components/types/PageFieldInfo";
-import {ascOrDesc} from "../../../api/system.ts";
+import {ascOrDesc, validDataUrl} from "../../../api/system.ts";
 
 /**
  * 数据源属性配置
@@ -225,6 +225,10 @@ export function paramsFields(fieldName: string, item: Object) {
             label: "验证",
             fieldName: "urlValid",
             type: "button",
+            actions: async (val: any) => {
+                let result = await validDataUrl(val["interfaceUrl"]);
+                console.log(result);
+            },
             colSpan: 4,
             required: true,
             formShow: true,

@@ -80,7 +80,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         },
         {
           label: "归属部门", fieldName: "departments", type: "select", optionList: departmentList,
-          required: true, formShow: !true, multiSelect: true,
+          required: true, formShow: !true, multiple: true,
           tableShow: !true, minWidth: 180
         },*/
 
@@ -101,12 +101,12 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     },
     [{
       label: "系统权限", fieldName: "appsList", type: "select", optionList: systemList,
-      required: true, formShow: false, multiSelect: true,
+      required: true, formShow: false, multiple: true,
       tableShow: false, minWidth: 180
     },
       {
         label: "菜单权限", fieldName: "menusList", type: "tselect", optionList: menusList,
-        required: true, formShow: false, multiSelect: true,
+        required: true, formShow: false, multiple: true,
         tableShow: false, minWidth: 180
       }],
     {

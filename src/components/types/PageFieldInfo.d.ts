@@ -115,7 +115,7 @@ export declare interface FieldInfo {
     /**
      * 是否允许多选,在类型为select时有效
      */
-    multiSelect?: boolean;
+    multiple?: boolean;
     /**
      * Tab标签
      */

@@ -1,5 +1,5 @@
 <template>
-  <starhorse-form-item  :form-item="field" :parentCompType="parentCompType"
+  <starhorse-form-item :form-item="field" :parentCompType="parentCompType"
   >
     <el-select
         :fid="field.preps['name']"
@@ -12,6 +12,7 @@
         :disabled="field.preps['disabled']=='yes'"
         :filterable="field.preps['filterable']=='yes'"
         :multiple="field.preps['multiple']=='yes'"
+        :allow-create="field.preps['allowCreate']=='yes'"
         :multiple-limit="field.preps['multipleLimit']"
         :name="field.preps['name']"
         :placeholder="field.preps['placeholder']||'请选择'+field.preps['label']"
@@ -58,7 +59,7 @@ export default defineComponent({
 
     return {
       parentCompType, formFieldList, context, field, formItem,
-      dataField,  keyEnterFun, actionName
+      dataField, keyEnterFun, actionName
     }
   }
 });

@@ -1,9 +1,10 @@
 import {TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
 import {SearchParams} from "@/components/types/Params";
 import {createCondition} from "@/api/sh_api";
-import {Ref} from "vue";
 import {SelectOption} from "@/components/types/SearchProps";
-import {warning} from "@/utils/message";
+import {loadData} from "./sh_api.ts";
+
+const validInterfaceUrl: string = "/userdb-manage/userdb/dynamicForm/validInterface";
 
 /**
  * 点击事件
@@ -109,4 +110,20 @@ export function ascOrDesc(): SelectOption[] {
     options.push({name: "Asc", value: "asc"});
     options.push({name: "Desc", value: "desc"});
     return options;
+}
+
+/**
+ * 验证接口，并取回数据
+ * @param url
+ * @param requestType
+ * @param params
+ */
+export async function validDataUrl(url: string, requestType: string = "POST", params: any ={}) {
+    let checkParams: any = {
+        url: url,
+        httpMethod: requestType.toUpperCase(),
+        params: params
+    };
+    let data = await loadData(validInterfaceUrl, checkParams);
+    return data;
 }

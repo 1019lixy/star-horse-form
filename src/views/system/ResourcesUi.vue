@@ -56,17 +56,17 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     },
       {
         label: "角色名称", fieldName: "rolesList", type: "select", optionList: rolesList,
-        required: true, formShow: !false, multiSelect: true,
+        required: true, formShow: !false, multiple: true,
         tableShow: !false, minWidth: 180
       }],
     [{
       label: "菜单名称", fieldName: "menusList", type: "tselect", optionList: menusList,
-      required: true, formShow: !false, multiSelect: true,
+      required: true, formShow: !false, multiple: true,
       tableShow: !false, minWidth: 180
     },
       {
         label: "权限", fieldName: "resourcesPos", type: "select", optionList: authorityList,
-        required: true, formShow: !false, multiSelect: true,
+        required: true, formShow: !false, multiple: true,
         tableShow: !false, minWidth: 180
       }],
     {

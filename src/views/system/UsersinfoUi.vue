@@ -99,7 +99,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       tableShow: !false, minWidth: 180
     }, {
       label: "角色", fieldName: "rolesList", type: "select", optionList: rolesList,
-      required: true, formShow: !false, multiSelect: true,
+      required: true, formShow: !false, multiple: true,
       tableShow: !false, minWidth: 180
     }],
     [
