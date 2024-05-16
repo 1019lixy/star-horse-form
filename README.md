@@ -97,7 +97,11 @@
 "@codemirror/lang-sql": "^6.5.4",
 "@codemirror/theme-one-dark": "^6.1.2",
 "codemirror": "^6.0.1",
-
+##package 中插件版本检测工具
+npm install -g npm-check-updates
+ncu -- 检查最新版本
+ncu -u  更新版本
+ncu -m  检查devDependencies 中的版本
 ## 开发清单
 
 1、目前系统没有对外提供网关接口，第三方数据没法通过http方式或者MQ方式进来；

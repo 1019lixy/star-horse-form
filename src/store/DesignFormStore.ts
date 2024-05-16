@@ -55,7 +55,7 @@ export const DesignForm: any = defineStore("DesignForm", {
             /**
              * 是否编辑
              */
-            isEdit: true,
+            isEdit: false,
             /**
              * 当前选中元素的属性
              */

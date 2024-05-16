@@ -1,5 +1,5 @@
 <script setup lang="ts" name="box-container">
-import {computed, inject, PropType, Ref, ref} from 'vue'
+import {computed, PropType, ref} from 'vue'
 import {warning} from '@/utils/message'
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
@@ -10,16 +10,16 @@ const props = defineProps({
   field: {type: Object as PropType<any>},
 });
 let designForm = DesignForm(piniaInstance);
-const emits = defineEmits(["selectItem"]);
-let draggingItem = computed(()=>designForm.draggingItem);
-let containerList = ref([]);
+// const emits = defineEmits(["selectItem"]);
+let draggingItem = computed(() => designForm.draggingItem);
+// let containerList = ref([]);
 let itemType = ref('container');
 let isEdit = computed(() => designForm.isEdit);
 const getComponentName = (data: any) => {
   return data?.itemType + '-item'
 };
 const onDragAdd = (evt: Event, dataList: any) => {
-  let newIndex = evt.newIndex
+  let newIndex = evt.newIndex;
   if (draggingItem.value.itemType == 'box' || draggingItem.value.itemType == "tab" || draggingItem.value.itemType == "table") {
     warning('栅格容器不允许嵌套其他容器');
     let elements = props.field.preps.elements;
@@ -48,9 +48,7 @@ const onDragAdd = (evt: Event, dataList: any) => {
 
 
 <template>
-  <group-box-container
-      :form-item="field"
-  >
+  <group-box-container :form-item="field">
     <!--    {{ field.preps.elements }}-->
     <el-row v-for="adata in field.preps.elements" :gutter="field.preps.gutter"
             :justify="field.preps.justify"
@@ -70,7 +68,7 @@ const onDragAdd = (evt: Event, dataList: any) => {
             ghostClass="ghost"
             v-model="sdata.items"
         >
-          <template v-for="(data,index) in sdata.items">
+          <template v-for="data in sdata.items">
             <component
                 :key="data?.id"
                 :field="data"
@@ -79,7 +77,6 @@ const onDragAdd = (evt: Event, dataList: any) => {
                 :formFieldList="formFieldList"
                 v-if="data?.compType==='formItem'"
             />
-
           </template>
         </draggable>
       </el-col>

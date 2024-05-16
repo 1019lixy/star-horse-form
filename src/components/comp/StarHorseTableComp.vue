@@ -1,24 +1,9 @@
 <script lang="ts" setup name="StarHorseTableComp">
 import {ApiUrls} from "@/components/types/ApiUrls";
-import {
-  inject,
-  onMounted,
-  PropType,
-  reactive,
-  Ref,
-  ref,
-  unref,
-  watch,
-} from "vue";
+import {inject, onMounted, PropType, reactive, ref, unref, watch,} from "vue";
 import {download, postRequest} from "@/api/star_horse";
 import {PageProps} from "@/components/types/PageProps";
-import {
-  closeLoad,
-  commonParseCodeToName,
-  deleteByIds,
-  load,
-  loadPagePermission,
-} from "@/api/sh_api";
+import {closeLoad, commonParseCodeToName, deleteByIds, load, loadPagePermission,} from "@/api/sh_api";
 import {SearchParams} from "@/components/types/Params";
 import Sortable from "sortablejs";
 import {DialogProps} from "../types/DialogProps";
@@ -28,7 +13,6 @@ import {OrderByInfo} from "@/components/types/PageFieldInfo";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {DynamicForm} from "@/store/DynamicFormStore";
 import piniaInstance from "@/store";
-import {Pointer} from "@element-plus/icons-vue";
 
 const dynamicForm = DynamicForm(piniaInstance);
 const props = defineProps({
@@ -53,8 +37,8 @@ const props = defineProps({
   //默认表格高度
   height: {type: String, default: "100%"},
   //过滤条件
-  filterCondition: {type: Array as PropType<SearchParams>, default: []},
-
+  filterCondition: {type: Array as PropType<SearchParams[]>, default: []},
+  orderBy: {type: Array as PropType<OrderByInfo[]>, default: []},
   //是否显示分页条
   showPageBar: {type: Boolean, default: true},
   //数据列表
@@ -85,13 +69,11 @@ let pageInfo = reactive<PageProps>({
   totalPage: 0,
   dataList: [],
 });
-
-const searchForm = inject("searchForm") as Ref;
 let searchFields = reactive<Array<SearchParams>>([]);
 let defaultSearchFields = reactive<Array<SearchParams>>([]);
 let orderBys = reactive<Array<OrderByInfo>>([]);
 
-let permissions = ref({});
+let permissions = ref<Object>({});
 let dialogProps = inject("dialogProps") as DialogProps;
 let toolFields = reactive<Array<any>>([]);
 const tableCompFunc = (func: any) => {
@@ -104,10 +86,7 @@ const tableCompFunc = (func: any) => {
   } else if (func == "exec") {
   }
 };
-const authorityLength = () => {
-  console.log(Object.values(permissions.value).map(item => !!item));
-  return Object.values(permissions.value).map(item => !!item).length;
-};
+
 const exportData = () => {
   load("数据处理中");
   let ids = getIds();
@@ -132,7 +111,7 @@ const exportData = () => {
     condition["orderBy"] = props.fieldList.orderBy;
   }
   download(props.compUrl!.exportAllUrl, condition)
-      .catch((err) => {
+      .catch((err: any) => {
         error("接口不存在或网络异常:" + err);
       })
       .finally(() => {
@@ -209,8 +188,8 @@ const assignData = (dataList: Array<any>) => {
     } else if (temp.tabList?.length > 0) {
       for (let skey in temp.tabList) {
         let stemp = temp.tabList[skey];
-        if (stemp["fieldList"]) {
-          toolFields.push(...stemp["fieldList"]);
+        if (stemp?.fieldList) {
+          toolFields.push(...stemp.fieldList);
         }
       }
     } else {
@@ -355,8 +334,7 @@ const deleteById = async (id: any) => {
     loadByPage();
   }
 };
-const parseSearchData = () => {
-};
+
 const pageSizeClick = (pageSize: number) => {
   pageInfo.pageSize = pageSize;
   loadByPage();
@@ -400,22 +378,19 @@ const loadByPage = () => {
     pageSize: pageInfo.pageSize,
     fieldList: searchTemp,
     orderBy: orderByTemp,
-  })
-      .then((res) => {
-        let redata = res.data.data;
-        pageInfo.dataList = redata?.dataList;
-        if (props.dialogInput) {
-          filterData();
-        }
-        pageInfo.totalPage = redata.totalPages;
-        pageInfo.totalData = redata.totalDatas;
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {
-        closeLoad();
-      });
+  }).then((res: any) => {
+    let redata = res.data.data;
+    pageInfo.dataList = redata?.dataList;
+    if (props.dialogInput) {
+      filterData();
+    }
+    pageInfo.totalPage = redata.totalPages;
+    pageInfo.totalData = redata.totalDatas;
+  }).catch((err: any) => {
+    console.log(err);
+  }).finally(() => {
+    closeLoad();
+  });
 };
 const filterData = () => {
   if (pageInfo.dataList && inputFieldName.value && inputFieldVal.value) {
@@ -468,6 +443,7 @@ const selectRow = (row: any, column: any, evt: any) => {
 /**
  * 动态改变条件并
  * @param cond
+ * @param orderBy
  */
 const setCondition = (cond: SearchParams[], orderBy: OrderByInfo[]) => {
   defaultSearchFields = cond;
@@ -490,7 +466,7 @@ defineExpose({
 </script>
 <template>
   <div
-      style="display:flex;justify-content:space-between;width: 100%;border-bottom:  var(--star-horse-style); 1px solid"
+      style="display:flex;justify-content:space-between;width: 100%;border-bottom:  var(--star-horse-style) 1px solid"
       v-if="!dialogInput"
   >
     <div class="tb_title">
@@ -628,7 +604,7 @@ defineExpose({
     >
       <template #default="scope">
         <el-button
-            v-if="permissions['edit']"
+            v-if="permissions?.edit"
             @click="tbCommonFun('edit', scope.row)"
             link
             title=""
@@ -638,7 +614,7 @@ defineExpose({
           <el-tooltip content="编辑">编辑</el-tooltip>
         </el-button>
         <el-button
-            v-if="permissions['view']"
+            v-if="permissions?.view"
             @click="tbCommonFun('view', scope.row)"
             link
             title=""
@@ -668,7 +644,7 @@ defineExpose({
                 </el-dropdown-item>
                 <el-dropdown-item>
                   <el-button
-                      v-if="permissions['delete']"
+                      v-if="permissions?.delete"
                       @click="tbCommonFun('delete', scope.row)"
                       link
                       title=""
@@ -684,7 +660,7 @@ defineExpose({
         <template v-else>
           <slot name="extend" :rowData="scope.row"/>
           <el-button
-              v-if="permissions['delete']"
+              v-if="permissions?.delete"
               @click="tbCommonFun('delete', scope.row)"
               link
               title=""
