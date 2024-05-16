@@ -136,7 +136,7 @@ export default defineComponent({
       audio = document.getElementById("audio");
       init();
     });
-    return {parentCompType, formFieldList, context, field, formItem, dataField, selectItem}
+    return {parentCompType, formFieldList, context, field, formItem, dataField}
   }
 });
 

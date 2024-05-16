@@ -1,11 +1,10 @@
 <script setup lang="ts" name="StarHorseButtonList">
-import {inject, onMounted, PropType, ref} from "vue";
+import {inject, onMounted, PropType, ref,Ref} from "vue";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {loadPagePermission} from "@/api/sh_api";
 import {download} from "@/api/star_horse";
 import {error} from "@/utils/message";
 import {DialogProps} from "../types/DialogProps";
-import {Ref} from "vue/dist/vue";
 import {BtnAuth} from "@/components/types/BtnAuth";
 import {getToken} from "@/utils/auth";
 import Help from "@/components/help.vue";

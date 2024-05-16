@@ -13,6 +13,7 @@
         :format = "field.preps['format']"
         :target-order = "field.preps['targetOrder']"
         :titles = "field.preps['titles']"
+        :size="field?.preps['size']||'small'"
         :left-default-checked = "JSON.parse(field.preps['leftDefaultChecked'])"
         :right-default-checked = "JSON.parse(field.preps['rightDefaultChecked'])"
         v-on:[actionName]="keyEnterFun(field.preps['actionName'])"

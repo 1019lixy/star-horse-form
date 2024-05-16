@@ -15,7 +15,7 @@
         :multiple-limit="field.preps['multipleLimit']"
         :name="field.preps['name']"
         :placeholder="field.preps['placeholder']||'请选择'+field.preps['label']"
-        :size="field.preps['size']"
+        :size="field?.preps['size']||'small'"
         :tag-type="field.preps['tagType']"
         v-on:[actionName]="keyEnterFun(field.preps['actionName'])"
         @keydown.enter="keyEnterFun"

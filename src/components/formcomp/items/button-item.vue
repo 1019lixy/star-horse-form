@@ -13,7 +13,7 @@
         :native-type="field?.preps['nativeType']"
         :plain="field?.preps['plain']=='yes'"
         :round="field?.preps['round']=='yes'"
-        :size="field?.preps['size']"
+        :size="field?.preps['size']||'small'"
         :text="field?.preps['text']=='yes'"
         @click="dynamicFunc(field?.preps['click'])"
         :type="field?.preps['type']">
@@ -53,7 +53,7 @@ export default defineComponent({
       }
 
     };
-    return {parentCompType, formFieldList, dynamicFunc, context, field, formItem, dataField, selectItem}
+    return {parentCompType, formFieldList, dynamicFunc, context, field, formItem, dataField}
   }
 });
 

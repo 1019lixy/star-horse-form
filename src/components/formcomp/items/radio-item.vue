@@ -9,7 +9,7 @@
         :label = "field.preps['label']"
         :max = "field.preps['max']"
         :min = "field.preps['min']"
-        :size = "field.preps['size']"
+        :size="field?.preps['size']||'small'"
         :text-color = "field.preps['textColor']"
         @keydown.enter = "keyEnterFun"
         v-model = "context.attrs['formFieldList'][field.preps['name']]"
@@ -17,10 +17,8 @@
       <el-radio :border = "item['border']=='yes'"
                 :checked = "item['checked']"
                 :disabled = "item['disabled']=='yes'"
-                :false-label = "item['falseLabel']"
-                :label = "item['name']"
-                :true-label = "item['trueLabel']"
-                :value="item['value']"
+                :label = "item['label']"
+                :value="item['trueLabel']"
                 v-for = "item in field.preps['values']"
       >
 

@@ -9,6 +9,7 @@
   >
     <el-input
         :fid = "field.preps['name']"
+        :size="field?.preps['size']||'small'"
         readonly
         v-on:[actionName]="keyEnterFun(field.preps['actionName'])"
         @keydown.enter = "keyEnterFun"

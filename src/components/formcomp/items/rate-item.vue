@@ -15,7 +15,7 @@
         :show-score = "field.preps['showScore']=='yes'"
 
         :show-text = "field.preps['showText']=='yes'"
-        :size = "field.preps['size']"
+        :size="field?.preps['size']||'small'"
         :text-color = "field.preps['textColor']"
         :texts = "field.preps['texts']"
         :void-color = "field.preps['voidColor']"
@@ -40,7 +40,7 @@ export default defineComponent({
       context.emit('selfFunc');
     };
 
-    return {parentCompType, formFieldList, context, field, formItem,  dataField, selectItem}
+    return {parentCompType, formFieldList, context, field, formItem,  dataField}
   }
 });
 </script>

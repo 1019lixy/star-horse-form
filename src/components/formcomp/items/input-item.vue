@@ -12,7 +12,7 @@
         :minlength="field.preps['maxlength']"
         :placeholder="field.preps['placeholder']||'请输入'+field.preps['label']"
         :readonly="field.preps['readonly']=='yes'"
-        :size="field.preps['size']"
+        :size="field?.preps['size']||'small'"
         type="text"
         :fid="field.preps['name']"
         v-on:[actionName]="keyEnterFun(field.preps['actionName'])"

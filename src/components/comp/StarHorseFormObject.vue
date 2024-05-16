@@ -1,7 +1,6 @@
 <script setup lang="ts" name="StarHorseFormObject">
-import {inject, ref, Ref} from "vue";
+import {inject, PropType, ref} from "vue";
 import {ApiUrls} from "@/components/types/ApiUrls";
-import {PropType} from "vue/dist/vue";
 import {DialogProps} from "@/components/types/DialogProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {batchFieldDefaultValues} from "@/api/sh_api.ts";

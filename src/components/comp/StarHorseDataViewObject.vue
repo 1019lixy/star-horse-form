@@ -1,8 +1,5 @@
 <script setup lang="ts" name="StarHorseDataViewObject">
-import {inject, ref, Ref} from "vue";
-import {ApiUrls} from "@/components/types/ApiUrls";
-import {PropType} from "vue/dist/vue";
-import {DialogProps} from "@/components/types/DialogProps";
+import {PropType, ref} from "vue";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {rowClassName} from "@/api/sh_api";
 import {Config} from "@/api/settings";

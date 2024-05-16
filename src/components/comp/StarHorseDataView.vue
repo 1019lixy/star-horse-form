@@ -1,7 +1,6 @@
 <script setup lang="ts" name="StarHorseDataView">
 import {ApiUrls} from "@/components/types/ApiUrls";
-import {PropType} from "vue/dist/vue";
-import {inject, nextTick, onMounted, ref, watch} from "vue";
+import {inject, nextTick, onMounted, ref, watch,PropType} from "vue";
 import {DialogProps} from "@/components/types/DialogProps";
 import {commonParseCodeToName, loadById, rowClassName} from "@/api/sh_api";
 import {Config} from "@/api/settings";

@@ -13,7 +13,7 @@
         :readonly = "field.preps['readonly']=='yes'"
         :rows = "field.preps['rows']"
         :show-word-limit = "field.preps['showWordLimit']=='yes'"
-        :size = "field.preps.size"
+        :size="field?.preps['size']||'small'"
         type = "textarea"
         v-on:[actionName]="keyEnterFun(field.preps['actionName'])"
         @keydown.enter = "keyEnterFun"

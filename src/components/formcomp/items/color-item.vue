@@ -6,7 +6,7 @@
         :color-format = "field.preps['colorFormat']"
         :disabled = "field.preps['disabled']=='yes'"
         :show-alpha = "field.preps['showAlpha']=='yes'"
-        :size = "field.preps['disabled']"
+        :size="field?.preps['size']||'small'"
         v-on:[actionName]="keyEnterFun(field.preps['actionName'])"
         @keydown.enter="keyEnterFun"
         @focus="keyEnterFun('focus')"

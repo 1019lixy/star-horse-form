@@ -1,14 +1,12 @@
 <script setup lang="ts" name="StarHorseForm">
-import {inject, ref, Ref, watch, nextTick} from "vue";
+import {inject, nextTick, PropType, ref, Ref, watch} from "vue";
 import {ApiUrls} from "@/components/types/ApiUrls";
-import {PropType} from "vue/dist/vue";
 import {error, success, warning} from "@/utils/message";
 import {postRequest} from "@/api/star_horse";
 import {closeLoad, formFieldMapping, load, loadById} from "@/api/sh_api";
 import {DialogProps} from "@/components/types/DialogProps";
 import {BatchFieldInfo, PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {ShallowReactive} from "@vue/reactivity";
-import StarHorseSubForm from "@/components/comp/StarHorseFormItem.vue";
 import StarHorseFormItem from "@/components/comp/StarHorseFormItem.vue";
 
 const props = defineProps({

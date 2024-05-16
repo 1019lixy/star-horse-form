@@ -1,8 +1,6 @@
 import {defineStore} from "pinia";
-import {warning} from "@/utils/message";
-import {SearchParams} from "../components/types/Params";
-import {loadData} from "../api/sh_api.ts";
-import {ref} from "vue/dist/vue";
+import {SearchParams} from "@/components/types/Params";
+import {loadData} from "@/api/sh_api.ts";
 
 export const DesignForm: any = defineStore("DesignForm", {
     state: () => {
@@ -27,7 +25,7 @@ export const DesignForm: any = defineStore("DesignForm", {
             /**
              * 设计器里得组件列表
              */
-            compList: [],
+            compList: [] as Array<any>,
             /**
              * 表达属性列表
              */
@@ -173,7 +171,7 @@ export const DesignForm: any = defineStore("DesignForm", {
             _this.isEdit = true;
             _this.currentFormPreps = {};
             _this.currentItemType = "";
-            _this.currentComp = null;
+            _this.currentComp = {};
             _this.currentItemId = "";
             _this.currentItemType = "";
             _this.parentCompType = "";

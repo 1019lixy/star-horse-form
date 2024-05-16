@@ -17,7 +17,7 @@
         :placeholder = "field.preps['placeholder']"
         :range-separator = "field.preps['rangeSeparator']"
         :readonly = "field.preps['readonly']=='yes'"
-        :size = "field.preps['size']"
+        :size="field?.preps['size']||'small'"
         :start-placeholder = "field.preps['startPlaceholder']"
         :value-format = "field.preps['valueFormat']"
         v-on:[actionName]="keyEnterFun(field.preps['actionName'])"

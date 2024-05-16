@@ -13,13 +13,14 @@ let designForm = DesignForm(piniaInstance);
 let formDataList = computed(() => designForm.formDataList);
 let containerList = computed(() => designForm.containerList);
 let selfFormDataList = computed(() => designForm.selfFormDataList);
-
+let formInfo = computed(() => designForm.formInfo);
 const fieldList = ref<any>({});
 const formProps = computed(() => designForm.currentFormPreps);
 provide("dataForm", formProps);
 let currentItemType = computed(() => designForm.currentItemType);
 let currentCompCategory = computed(() => designForm.currentCompCategory);
 let parentCompType = computed(() => designForm.parentCompType);
+let formFieldList = computed(() => designForm.formFieldList);
 const advancedFieldList = ref<any>({});
 const actions = ref<any>({});
 let currentField = ref<any>({});
@@ -238,6 +239,12 @@ const assignPrep = async (itemType: string, isItem: boolean) => {
   let formDatas = unref(formDataList);
   let selfFormDatas = unref(selfFormDataList);
   let containers = unref(containerList);
+  //让form
+  formProps.value["size"] = formInfo.value["size"];
+  //在表单中加入字段？
+  // if (!Object.keys(formFieldList.value).includes(formProps.value["name"])) {
+  //   formFieldList.value[formProps.value["name"]] = null;
+  // }
   if (!isItem) {
     for (let key in containers) {
       let temp = containers[key];

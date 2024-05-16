@@ -1,6 +1,5 @@
 <script setup lang="ts" name="StarHorseDialog">
-import {computed, onMounted, provide, ref, watch, reactive} from "vue";
-import {PropType} from "vue/dist/vue";
+import {computed, onMounted, provide, ref, watch, reactive,PropType} from "vue";
 import {DialogProps} from "@/components/types/DialogProps";
 
 const emits = defineEmits(["merge", "mergeDraft", "resetForm", "closeAction"]);

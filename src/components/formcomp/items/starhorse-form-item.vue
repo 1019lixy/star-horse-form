@@ -198,7 +198,7 @@ const removeItem = (formItem: any) => {
         <star-horse-icon
             @click.stop="removeItem(formItem?.preps)"
             icon-class="clear-all"
-            style="color: var(--star-horse-white)"
+            style="color: orangered"
         />
       </el-tooltip>
     </div>

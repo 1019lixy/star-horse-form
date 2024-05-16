@@ -24,7 +24,7 @@
               :min="field.preps['min']" :minlength="field.preps['maxlength']"
               :placeholder="field.preps['placeholder'] || '请输入' + field.preps['label']"
               :prefix-icon="field.preps['prefixIcon']"
-              :readonly="field.preps['readonly']=='yes'" :size="field.preps.size" type="text" :fid="field.preps['name']"
+              :readonly="field.preps['readonly']=='yes'"  :size="field?.preps['size']||'small'" type="text" :fid="field.preps['name']"
               v-on:[actionName]="keyEnterFun(field.preps['actionName'])" @keydown.enter="keyEnterFun"
               @focus="keyEnterFun('focus')" @blur="keyEnterFun('blur')"
               v-model="context.attrs['formFieldList'][field.preps['name']]">
@@ -121,7 +121,7 @@ export default defineComponent({
     return {
       parentCompType, formFieldList, context, field, formItem,
        dataField, dynamicFunction,  keyEnterFun, dialogInputVisible, closeAction
-      , showVisible, actionName, dialogInputTableRef, searchData
+      , showVisible, actionName, dialogInputTableRef, searchData,selectItem
     }
   }
 });

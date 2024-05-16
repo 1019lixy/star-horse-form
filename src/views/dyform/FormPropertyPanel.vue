@@ -10,6 +10,7 @@ import piniaInstance from "@/store/index.ts";
 
 let designForm = DesignForm(piniaInstance);
 let formInfo = computed(() => designForm.formInfo);
+let compList = computed(() => designForm.compList);
 let formActiveNames = ref<string>("tab1");
 let dbList = ref<any>([]);
 let rules = ref({
@@ -62,7 +63,9 @@ const loadSameDataSourceTables = () => {
     operation: formInfo.value["datasourceConfigId"] ? "eq" : "is",
     datatype: "input"
   })
-  postRequest("/userdb-manage/userdb/dynamicForm/getAllByCondition", params).then(res => {
+  postRequest("/userdb-manage/userdb/dynamicForm/getAllByCondition", {
+    dataList: params
+  }).then(res => {
     relationDataList.value = [];
     if (res.data.code != 0) {
       return;
@@ -99,13 +102,35 @@ const relationChange = (row: any) => {
   row["tbName"] = fdata?.tbName;
   console.log(row);
 };
+/**
+ * 表单更新的时候，更新表单的属性
+ */
+const updateCompInfo = () => {
+
+};
 onMounted(() => {
   initData();
   initDbList();
   loadMenus(formInfo.value['sysId']);
   loadSameDataSourceTables();
-
 });
+const relationMsg = `
+映射关系表示当前表与所选择的表之间的关系:
+ 一对一: 表示当前表和被选择表数据是一一对应关系;
+ 一对多: 表示当前表一条数据对应被选择表多条数据;
+ 多对一: 表示当前表多条数据对应被选择表1条数据;
+ 多对多: 表示当前表1条数据对应被选择表多条,
+        反之被选择表的一条数据也对于当前表的多条数据。`;
+const dbPositionMsg = `
+动态创建的表需要存在那个数据库，
+如果为空，则在当前业务数据库创建表信息。`;
+watch(() => formInfo.value,
+    () => {
+      updateCompInfo();
+    }, {
+      immediate: true,
+      deep: true
+    })
 defineExpose({
   loadMenus
 })
@@ -148,7 +173,7 @@ defineExpose({
             >
             </el-option>
           </el-select>
-          <help message="动态创建的表需要存在哪个数据库，如果为空，则在当前业务数据库创建对于表结构"/>
+          <help :message="dbPositionMsg"/>
         </el-form-item>
       </el-col>
     </el-row>
@@ -273,7 +298,8 @@ defineExpose({
       </el-tab-pane>
       <el-tab-pane name="tab2" label="映射关系配置">
         <help
-            message="映射关系表示当前表与所选择的表之间的关系; 1对1:表示当前表和选择表数据是一一对应关系；1对多:表示当前表一条数据对应选择表多条数据;多对1：表示当前表多条数据对应选择表1条数据；多对多：表示当前表1条数据对应选择表多条，反之选择表的一条数据也对于当前表的多条数据"/>
+
+            :message="relationMsg"/>
         <el-table
             :data="formInfo['relations']"
             :fit=true
@@ -328,7 +354,7 @@ defineExpose({
                 <el-select v-model="scope.row.relationType">
                   <el-option label="一对一" value="11"/>
                   <el-option label="一对多" value="1n"/>
-                  <el-option label="多对1" value="n1"/>
+                  <el-option label="多对一" value="n1"/>
                   <el-option label="多对多" value="mn"/>
                 </el-select>
               </el-form-item>
@@ -415,15 +441,14 @@ defineExpose({
 
         <el-row>
           <el-col :span="12">
-            <el-form-item label="行内表单模式" prop="inline">
-              <el-switch
-                  :active-value="'yes'"
-                  :inactive-value="'no'"
-                  active-text="是"
-                  inactive-text="否"
-                  v-model="formInfo['inline']"
-              />
+            <el-form-item label="表单风格" prop="labelPosition">
+              <el-select placeholder="请选择表单风格" v-model="formInfo['size']">
+                <el-option label="large" value="large"/>
+                <el-option label="default" value="default"/>
+                <el-option label="small" value="small"/>
+              </el-select>
             </el-form-item>
+
           </el-col>
           <el-col :span="12">
             <el-form-item label="是否禁用该表单内的所有组件" prop="disabled">
@@ -528,10 +553,18 @@ defineExpose({
               />
             </el-form-item>
           </el-col>
-          <el-col :span="12"></el-col>
+          <el-col :span="12">
+            <el-form-item label="行内表单模式" prop="inline">
+              <el-switch
+                  :active-value="'yes'"
+                  :inactive-value="'no'"
+                  active-text="是"
+                  inactive-text="否"
+                  v-model="formInfo['inline']"
+              />
+            </el-form-item>
+          </el-col>
         </el-row>
-
-
       </el-tab-pane>
     </el-tabs>
   </el-form>

@@ -4,17 +4,14 @@
         :fid = "field.preps['name']"
         :disabled = "field.preps['disabled']=='yes'"
         :readonly = "field.preps['readonly']=='yes'"
-        :fill = "field.preps['fill']"
-        :label = "field.preps['label']"
-
+        :size="field?.preps['size']||'small'"
         v-model = "context.attrs['formFieldList'][field.preps['name']]">
       <el-checkbox :border = "item['border']=='yes'"
                    :checked = "item['checked']=='yes'"
                    :disabled = "item['disabled']=='yes'"
-                   :label = "item['name']"
-                   :value="item['value']"
-                   :key = "index"
-                   v-for = "(item,index) in field.preps['values']">
+                   :label = "item['label']"
+                   :value="item['trueLabel']"
+                   v-for = "item in field.preps['values']">
 
       </el-checkbox>
     </el-checkbox-group>
@@ -32,7 +29,7 @@ export default defineComponent({
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
 
-    return {parentCompType, formFieldList, context, field, formItem, dataField, selectItem}
+    return {parentCompType, formFieldList, context, field, formItem, dataField}
   }
 });
 </script>

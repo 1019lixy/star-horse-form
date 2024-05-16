@@ -1,9 +1,7 @@
 <script lang="ts" setup name="StarHorseFormList">
-import {inject, nextTick, onMounted, Ref, ref} from 'vue'
-import {Table} from "element-plus";
+import {inject, onMounted, Ref, ref, reactive, PropType} from 'vue'
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings";
-import {PropType, reactive} from "vue/dist/vue";
 import ShTableListColumn from "@/components/comp/ShTableListColumn.vue";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {batchFieldDefaultValues, rowClassName} from "@/api/sh_api";

@@ -19,7 +19,7 @@ export default defineComponent({
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
 
-    return {parentCompType, formFieldList, context, field, formItem, dataField, selectItem}
+    return {parentCompType, formFieldList, context, field, formItem, dataField}
   }
 });
 </script>

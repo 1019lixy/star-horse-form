@@ -13,7 +13,7 @@
         :placeholder = "field.preps['placeholder']||'请输入'+field.preps['label']"
         :precision = "field.preps['precision']"
         :readonly = "field.preps['readonly']=='yes'"
-        :size = "field.preps['size']"
+        :size="field?.preps['size']||'small'"
         :step = "field.preps['step']"
         :step-strictly = "field.preps['stepStrictly']=='yes'"
         v-on:[actionName]="keyEnterFun(field.preps['actionName'])"

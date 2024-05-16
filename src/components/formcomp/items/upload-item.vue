@@ -18,6 +18,7 @@
         :method = "field.preps['method']"
         :multiple = "field.preps['multiple']=='yes'"
         :name = "field.preps['name']"
+        :size="field?.preps['size']||'small'"
         :on-change = "field.preps['onChange']"
         :on-error = "field.preps['onError']"
         :on-exceed = "field.preps['onExceed']"
@@ -45,7 +46,7 @@ export default defineComponent({
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef([]);
 
-    return {parentCompType, formFieldList, context, field, formItem,  dataField, selectItem}
+    return {parentCompType, formFieldList, context, field, formItem,  dataField}
   }
 });
 </script>

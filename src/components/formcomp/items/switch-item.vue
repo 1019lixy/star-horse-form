@@ -12,7 +12,7 @@
         :inactive-text="field.preps['inactiveText']"
         :inactive-value="field.preps['inactiveValue']"
         :name="field.preps['name']"
-        :size="field.preps['size']"
+        :size="field?.preps['size']||'small'"
         :width="field.preps['width']"
         v-on:[actionName]="keyEnterFun(field.preps['actionName'])"
         v-model="context.attrs['formFieldList'][field.preps['name']]"
@@ -45,7 +45,7 @@ export default defineComponent({
     };
 
     return {
-      parentCompType, formFieldList, context, field, formItem, dataField, selectItem
+      parentCompType, formFieldList, context, field, formItem, dataField
       , keyEnterFun, actionName
     }
   }

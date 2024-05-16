@@ -12,6 +12,7 @@
         :fit-input-width = "field.preps['fitInputWidth']=='yes'"
         :label = "field.preps['label']"
         :name = "field.preps['name']"
+        :size="field?.preps['size']||'small'"
         :placeholder = "field.preps['placeholder']||'请输入'+field.preps['label']"
         :placement = "field.preps['placement']"
         :teleported = "field.preps['teleported']=='yes'"

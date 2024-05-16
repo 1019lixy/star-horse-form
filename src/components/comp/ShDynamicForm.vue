@@ -1,7 +1,6 @@
 <script setup lang="ts" name="ShDynamicForm">
-import {inject, ref, Ref, watch} from "vue";
+import {inject, ref, Ref, watch,PropType} from "vue";
 import {ApiUrls} from "@/components/types/ApiUrls";
-import {PropType} from "vue/dist/vue";
 import {error, success, warning} from "@/utils/message";
 import {postRequest} from "@/api/star_horse";
 import {closeLoad, load, loadById} from "@/api/sh_api";

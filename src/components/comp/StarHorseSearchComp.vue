@@ -1,8 +1,6 @@
 <script setup lang="ts" name="StarHorseSearchComp">
-import {inject, onMounted, ref} from "vue";
+import {inject, onMounted, PropType, ref} from "vue";
 import {ApiUrls} from "@/components/types/ApiUrls";
-import {Config} from "@/api/settings";
-import {PropType} from "vue/dist/vue";
 import {SearchProps, SelectOption} from "@/components/types/SearchProps";
 import {searchMatchList} from "@/api/sh_api";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
@@ -109,7 +107,8 @@ const searchArea = () => {
             v-if="item.defaultShow"
             :prop="item.fieldName">
           <template v-if="item.type=='input'" :span="6">
-            <el-select size="small" style="width: 90px;height:100%;padding-top:2px;" v-model="item['matchType']" clearable filterable>
+            <el-select size="small" style="width: 90px;height:100%;padding-top:2px;" v-model="item['matchType']"
+                       clearable filterable>
               <el-option v-for="sitem in matchTypeList" :value="sitem.value" :label="sitem.name" :key=
                   "sitem.value"/>
             </el-select>&nbsp;&nbsp;
@@ -126,7 +125,8 @@ const searchArea = () => {
             :label="item.label"
             :prop="item.fieldName">
           <template v-if="item.type=='input'" :span="6">
-            <el-select size="small" style="width: 90px;height:100%;padding-top:2px;" v-model="item['matchType']" clearable filterable>
+            <el-select size="small" style="width: 90px;height:100%;padding-top:2px;" v-model="item['matchType']"
+                       clearable filterable>
               <el-option v-for="sitem in matchTypeList" :value="sitem.value" :label="sitem.name" :key=
                   "sitem.value"/>
             </el-select>&nbsp;&nbsp;

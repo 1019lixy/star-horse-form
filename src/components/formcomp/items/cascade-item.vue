@@ -12,7 +12,7 @@
         :props = "field.preps['props']"
         :separator = "field.preps['separator']"
         :show-all-levels = "field.preps['showAllLevels']=='yes'"
-        :size = "field.preps['size']"
+        :size="field?.preps['size']||'small'"
         :tag-type = "field.preps['tagType']"
         v-on:[actionName]="keyEnterFun(field.preps['actionName'])"
         @keydown.enter = "keyEnterFun"

@@ -19,7 +19,7 @@
         :show-input-controls = "field.preps['showInputControls']=='yes'"
         :show-stops = "field.preps['showStops']=='yes'"
         :show-tooltip = "field.preps['showTooltip']=='yes'"
-        :size = "field.preps['size']"
+        :size="field?.preps['size']||'small'"
         :step = "field.preps['step']"
         v-model = "context.attrs['formFieldList'][field.preps['name']]"
     />
@@ -39,7 +39,7 @@ export default defineComponent({
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
 
-    return {parentCompType, formFieldList, context, field, formItem,  dataField, selectItem}
+    return {parentCompType, formFieldList, context, field, formItem,  dataField}
   }
 });
 </script>
