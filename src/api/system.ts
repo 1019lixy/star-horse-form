@@ -100,3 +100,13 @@ export async function printerList(): Promise<Array<SelectOption>> {
         };
     });
 }
+
+/**
+ * 升序或者降序
+ */
+export function ascOrDesc(): SelectOption[] {
+    let options: SelectOption[] = [];
+    options.push({name: "Asc", value: "asc"});
+    options.push({name: "Desc", value: "desc"});
+    return options;
+}

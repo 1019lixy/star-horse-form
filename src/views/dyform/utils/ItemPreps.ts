@@ -2,6 +2,8 @@ import {reactive, Ref, ref} from "vue";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {SelectOption} from "@/components/types/SearchProps";
 import {searchMatchList} from "@/api/sh_api.ts";
+import {FieldInfo} from "../../../components/types/PageFieldInfo";
+import {ascOrDesc} from "../../../api/system.ts";
 
 /**
  * 数据源属性配置
@@ -193,7 +195,146 @@ export function dataSourceFields() {
         userTableFuncs: [],
         stopAutoLoad: false
     });
-};
+}
+
+/**
+ * 组件参数属性配置
+ * @param fieldName
+ * @param item
+ */
+export function paramsFields(fieldName: string, item: Object) {
+    console.log(fieldName, item);
+    let datas = [...item['advancedFields'], ...item['fields']];
+    let currentData: Array = [];
+    datas.forEach(item => {
+        if (item.fieldName == fieldName) {
+            currentData = item.configParams;
+            return false;
+        }
+    });
+    let fields: FieldInfo[] = [];
+    let dataUrls: FieldInfo[] = [
+        {
+            label: "接口地址",
+            fieldName: "interfaceUrl",
+            type: "input",
+            required: true,
+            colSpan: 20,
+            formShow: true,
+        }, {
+            label: "验证",
+            fieldName: "urlValid",
+            type: "button",
+            colSpan: 4,
+            required: true,
+            formShow: true,
+        }
+    ];
+    let orderBys: FieldInfo[] = [
+        {
+            label: "列名",
+            fieldName: "fieldName",
+            type: "input",
+            required: false,
+            formShow: true,
+        },
+        {
+            label: "排序",
+            fieldName: "ascOrDesc",
+            type: "select",
+            required: false,
+            formShow: true,
+            optionList: ascOrDesc()
+        }];
+    let fieldLists: FieldInfo[] = [{
+        label: "列名",
+        fieldName: "label",
+        type: "input",
+        required: false,
+        formShow: true,
+    }, {
+        label: "属性名称",
+        fieldName: "fieldName",
+        type: "input",
+        required: false,
+        formShow: true,
+    }, {
+        label: "搜索显示",
+        fieldName: "searchFlag",
+        type: "switch",
+        defaultValue: "yes",
+        required: false,
+        formShow: true,
+    }];
+    let needFields: FieldInfo[] = [{
+        label: "原属性名",
+        fieldName: "sourceField",
+        type: "input",
+        required: false,
+        formShow: true,
+    }, {
+        label: "目标属性名",
+        fieldName: "distField",
+        type: "input",
+        required: false,
+        formShow: true,
+    }];
+
+    let otherField: FieldInfo[] = [];
+    let fieldInfos: string[] = ["dataUrl", "orderby", "fieldList", "needField"];
+    for (let index in currentData) {
+        let temp = currentData[index];
+        if (!fieldInfos.includes(temp.fieldName)) {
+            otherField.push({
+                label: temp.label,
+                fieldName: temp.fieldName,
+                type: "input",
+                required: false,
+                tableShow: !false,
+            });
+
+        }
+    }
+    fields.push(dataUrls);
+    if (otherField) {
+        fields.push(...otherField);
+    }
+    let tabInfo = {
+        tabList: [
+            {
+                title: "属性配置",
+                tabName: "0",
+                fieldName: "tabName",
+                actions: () => {
+                },
+                batchFieldList: [
+                    {
+                        title: "显示属性",
+                        fieldName: "",
+                        batchName: "fieldLists",
+                        fieldList: fieldLists
+                    }, {
+                        title: "回调字段",
+                        batchName: "needField",
+                        fieldList: needFields
+                    }, {
+                        title: "接口排序",
+                        batchName: "orderBy",
+                        fieldList: orderBys
+                    }
+                ]
+            },
+
+        ]
+    };
+    fields.push(tabInfo);
+    console.log(fields);
+
+    return reactive<PageFieldInfo | any>({
+        fieldList: fields
+    });
+
+}
 
 /**
  * 容器属性

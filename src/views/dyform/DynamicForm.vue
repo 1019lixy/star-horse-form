@@ -458,7 +458,6 @@ const actions = (action: string) => {
           background: rgba(255, 255, 255, 0.8);
         }
       }
-
       .side-panel-item {
         margin-top: 5px;
         border: 1px solid #eee;

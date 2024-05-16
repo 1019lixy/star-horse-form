@@ -52,6 +52,7 @@ const setTableRef = (el: any) => {
       </template>
     </el-row>
     <template v-if="item.tabList&&item.tabList.length>0">
+
       <el-tabs v-model="item.fieldName" v-on:tab-change="item.actions">
         <template v-for="(tabItem,key ) in item.tabList">
           <el-tab-pane :label="tabItem.title" :name="tabItem.tabName||key" :disabled="tabItem.disabled">
@@ -94,11 +95,11 @@ const setTableRef = (el: any) => {
                        :isEdit="!dialogProps?.ids||dialogProps?.ids==-1"/>
     </el-form-item>
   </template>
-  <template v-if="fieldList[batchFieldName]?.length > 1">
-    <el-tabs v-model="fieldList[batchFieldName].fieldName">
-      <template v-for="(item,key) in fieldList[batchFieldName]">
 
-        <el-tab-pane :label="item['title']" :name="item.tabName||'tab'+key" :disabled="item.disabled">
+  <template v-if="fieldList[batchFieldName]?.length > 1">
+    <el-tabs v-model="tabList">
+      <template v-for="(item,key) in fieldList[batchFieldName]">
+        <el-tab-pane :label="item['title']" :name="'tab'+key" :disabled="item.disabled">
           <star-horse-form-list
               style="min-height:100px"
               v-model:dataForm="dataForm"

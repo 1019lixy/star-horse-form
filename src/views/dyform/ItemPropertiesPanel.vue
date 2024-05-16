@@ -5,7 +5,7 @@ import type {FormRules} from 'element-plus'
 import {SelectOption} from "@/components/types/SearchProps";
 import StarHorseEditor from "@/components/comp/StarHorseEditor.vue";
 import StarHorseForm from "@/components/comp/StarHorseForm.vue";
-import {containerField, dataSourceFields} from "@/views/dyform/utils/ItemPreps.ts";
+import {containerField, dataSourceFields, paramsFields} from "@/views/dyform/utils/ItemPreps.ts";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
 
@@ -27,6 +27,7 @@ let currentField = ref<any>({});
 let jsEditor = ref<boolean>(false);
 let containerDialogVisible = ref<boolean>(false);
 let dataSourceDialogVisible = ref<boolean>(false);
+let paramsDialogVisible = ref<boolean>(false);
 let activeNames = ref("1");
 let formRules = ref({});
 let jsValue = ref<string>("console.log('hello world')");
@@ -70,8 +71,10 @@ const jsButtonClick = (name: string) => {
   jsValue.value = code ? code : "";
   fieldName.value = name;
 };
-const configParams = (params: Array<any>) => {
-
+// let fieldName = ref<String>("");
+const configParams = (params: object) => {
+  fieldName.value = params["fieldName"];
+  paramsDialogVisible.value = true;
 }
 
 /**
@@ -101,6 +104,30 @@ const submitValid = async () => {
   if (flag) {
     closeAction();
   }
+};
+const paramsValid = async () => {
+  formProps.value["dataUrl"] = {
+    loadByPageUrl: formProps.value["interfaceUrl"],
+    condition: [],
+  }
+  let searchFieldList = [];
+  formProps.value["fieldLists"].forEach(item => {
+    item["tableShow"] = true;
+    item["type"] = "input";
+    item["formShow"] = true;
+    if (item.searchFlag == "Y") {
+      searchFieldList.push({...item, matchType: "lk", defaultShow: true})
+    }
+  });
+  formProps.value["searchFieldList"] = searchFieldList;
+  formProps.value["fieldList"] = {
+    fieldList: formProps.value["fieldLists"]
+  };
+  //删除多余的属性
+  formProps.value["orderBy"].forEach(item => {
+    delete item["xh"];
+  })
+  closeAction();
 };
 
 const handelAddItem = (row: any) => {
@@ -221,6 +248,7 @@ const closeAction = () => {
   jsEditor.value = false;
   containerDialogVisible.value = false;
   dataSourceDialogVisible.value = false;
+  paramsDialogVisible.value = false;
 };
 /**
  * 数据源操作框
@@ -291,6 +319,12 @@ watch(() => formProps,
                      @closeAction="closeAction"
                      @reset="resetDataSourceForm" :selfFunc="true">
     <star-horse-form rules="{}" primary-key="" :fieldList="dataSourceFields()" comp-url=""/>
+  </star-horse-dialog>
+  <star-horse-dialog :dialogVisible="paramsDialogVisible" :title="'参数配置'" :isBatch="false"
+                     @merge="paramsValid"
+                     @closeAction="closeAction"
+                     @reset="resetDataSourceForm" :selfFunc="true">
+    <star-horse-form rules="{}" primary-key="" :fieldList="paramsFields(fieldName,currentField)" comp-url=""/>
   </star-horse-dialog>
   <star-horse-dialog :dialogVisible="containerDialogVisible"
                      :title="'设置容器'" :isBatch="false" @merge="closeAction"
@@ -452,7 +486,7 @@ watch(() => formProps,
               />
               <el-button v-if="item.fieldType==='button'" @click="jsButtonClick(item.eventName)">添加事件
               </el-button>
-              <el-button v-if="item.fieldType==='config'" @click="configParams(item.configParams)">参数配置
+              <el-button v-if="item.fieldType==='config'" @click="configParams(item)">参数配置
               </el-button>
               <el-button v-if="item.fieldType==='data'" @click="dataSource(formProps['itemType'])">添加数据源
               </el-button>
@@ -551,7 +585,7 @@ watch(() => formProps,
                          v-model="formProps[item.fieldName]"/>
               <el-button v-if="item.fieldType==='button'" @click="jsButtonClick(item.eventName)">添加事件
               </el-button>
-              <el-button v-if="item.fieldType==='config'" @click="configParams(item.configParams)">参数配置
+              <el-button v-if="item.fieldType==='config'" @click="configParams(item)">参数配置
               </el-button>
               <el-select v-model="formProps[item.fieldName]" v-if="item.fieldType==='select'">
                 <el-option :label="data.name||data" :value="data||data.value"
