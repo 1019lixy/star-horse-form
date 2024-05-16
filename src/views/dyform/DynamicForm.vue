@@ -105,7 +105,7 @@ watch(
  */
 
 const closeAction = () => {
-  designForm.setIsEdit(false);
+  designForm.setIsEdit(true);
   isPreview.value = false;
   batchEditFieldVisible.value = false;
   configDialogVisible.value = false;

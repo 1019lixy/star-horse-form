@@ -203,24 +203,24 @@ export const DesignForm: any = defineStore("DesignForm", {
                         propertyName: "category",
                         value: 2
                     }];
-                    let {data, error} = await loadData(url, params);
-                    _this.containerList = data;
+                    let result = await loadData(url, params);
+                    _this.containerList = result.data;
                 };
                 const initItems = async () => {
                     let params: SearchParams[] = [{
                         propertyName: "category",
                         value: 1
                     }];
-                    let {data, error} = await loadData(url, params);
-                    _this.formDataList = data;
+                    let result = await loadData(url, params);
+                    _this.formDataList = result.data;
                 };
                 const initSelfItems = async () => {
                     let params: SearchParams[] = [{
                         propertyName: "category",
                         value: 3
                     }];
-                    let {data, error} = await loadData(url, params);
-                    _this.selfFormDataList = data;
+                    let result = await loadData(url, params);
+                    _this.selfFormDataList = result.data;
                 };
                 const init = async () => {
                     await initContainer();

@@ -1,8 +1,8 @@
 {
-  "name": "devopsui",
+  "name": "starhorseui",
   "private": true,
   "author": "l_1019@163.com",
-  "version": "1.0.0",
+  "version": "2.0",
   "type": "module",
   "scripts": {
     "memory": "cross-env LIMIT=3072 increase-memory-limit",
