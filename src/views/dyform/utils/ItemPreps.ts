@@ -4,6 +4,7 @@ import {SelectOption} from "@/components/types/SearchProps";
 import {searchMatchList} from "@/api/sh_api.ts";
 import {FieldInfo} from "../../../components/types/PageFieldInfo";
 import {ascOrDesc, validDataUrl} from "../../../api/system.ts";
+import {warning} from "../../../utils/message.ts";
 
 /**
  * 数据源属性配置
@@ -213,6 +214,22 @@ export function paramsFields(fieldName: string, item: Object) {
         }
     });
     let fields: FieldInfo[] = [];
+    const helpMsg = `
+    接口返回的数据格式必须是：
+        {
+        "data": {
+            "pageSize": 0,
+            "currentPage": 0,
+            "totalDatas": 34,
+            "totalPages": 4,
+            "dataList": [ {} ]
+        },
+        "code": 0, //0 表示数据正常 
+        "message": "success",
+        "cnMessage": "操作成功"
+    }
+    `;
+    let fieldList = ref<SelectOption[]>([]);
     let dataUrls: FieldInfo[] = [
         {
             label: "接口地址",
@@ -220,14 +237,26 @@ export function paramsFields(fieldName: string, item: Object) {
             type: "input",
             required: true,
             colSpan: 20,
+            helpMsg: helpMsg,
             formShow: true,
         }, {
             label: "验证",
             fieldName: "urlValid",
             type: "button",
             actions: async (val: any) => {
-                let result = await validDataUrl(val["interfaceUrl"]);
-                console.log(result);
+                let result = await validDataUrl(val["interfaceUrl"], {});
+                let datas = result.data;
+                let error = result.error;
+                if (error) {
+                    warning(error);
+                    return;
+                }
+                let data = datas.dataList[0];
+                let keys = Object.keys(data);
+                fieldList.value = [];
+                for (let ind in keys) {
+                    fieldList.value.push({name: keys[ind], value: keys[ind]})
+                }
             },
             colSpan: 4,
             required: true,
@@ -259,7 +288,9 @@ export function paramsFields(fieldName: string, item: Object) {
     }, {
         label: "属性名称",
         fieldName: "fieldName",
-        type: "input",
+        type: "select",
+        allowCreate: true,
+        optionList: fieldList,
         required: false,
         formShow: true,
     }, {
@@ -273,8 +304,9 @@ export function paramsFields(fieldName: string, item: Object) {
     let needFields: FieldInfo[] = [{
         label: "原属性名",
         fieldName: "sourceField",
-        type: "input",
+        type: "select",
         required: false,
+        optionList: fieldList,
         formShow: true,
     }, {
         label: "目标属性名",

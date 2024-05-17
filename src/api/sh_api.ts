@@ -52,7 +52,7 @@ export async function loadData(url: string, params: SearchParams[] | any) {
             fieldList: params
         }
     }
-    await postRequest(url, cond).then(res => {
+    await postRequest(url, cond).then((res: any) => {
         let redata = res.data;
         if (redata.code != 0) {
             error = redata.cnMessage;

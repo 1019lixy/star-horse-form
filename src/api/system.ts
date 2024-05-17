@@ -118,7 +118,7 @@ export function ascOrDesc(): SelectOption[] {
  * @param requestType
  * @param params
  */
-export async function validDataUrl(url: string, requestType: string = "POST", params: any ={}) {
+export async function validDataUrl(url: string, params?: any, requestType: string = "POST") {
     let checkParams: any = {
         url: url,
         httpMethod: requestType.toUpperCase(),

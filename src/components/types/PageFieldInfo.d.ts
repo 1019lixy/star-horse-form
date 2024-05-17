@@ -73,6 +73,10 @@ export declare interface FieldInfo {
      */
     aliasName?: string;
     /**
+     * 帮助信息
+     */
+    helpMsg?: string;
+    /**
      * 类型名称,支持
      * date 日期,
      * daterange 日期范围,
