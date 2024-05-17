@@ -41,6 +41,7 @@ const props = defineProps({
   orderBy: {type: Array as PropType<OrderByInfo[]>, default: []},
   //是否显示分页条
   showPageBar: {type: Boolean, default: true},
+
   //数据列表
   tableDataList: {type: Array, default: []},
   //回显数据列表
@@ -372,13 +373,21 @@ const loadByPage = () => {
   if (!props.compUrl?.loadByPageUrl) {
     return;
   }
-  load("数据加载中");
-  postRequest(props.compUrl?.loadByPageUrl, {
+  let params = {
     currentPage: pageInfo.currentPage,
     pageSize: pageInfo.pageSize,
     fieldList: searchTemp,
     orderBy: orderByTemp,
-  }).then((res: any) => {
+  };
+  if (props.compUrl.redirect) {
+    params = {
+      ...condition,
+      params: params
+    }
+  }
+
+  load("数据加载中");
+  postRequest(props.compUrl?.loadByPageUrl, params).then((res: any) => {
     let redata = res.data.data;
     pageInfo.dataList = redata?.dataList;
     if (props.dialogInput) {

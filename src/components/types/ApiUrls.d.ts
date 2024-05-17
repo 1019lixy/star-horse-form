@@ -55,4 +55,8 @@ export  type ApiUrls = {
      * 接口过滤条件
      */
     condition?: Array<SearchParams>;
+    /**
+     * 是否接口转发
+     */
+    redirect?: boolean;
 }

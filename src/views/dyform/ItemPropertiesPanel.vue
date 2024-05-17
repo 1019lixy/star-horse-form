@@ -107,9 +107,15 @@ const submitValid = async () => {
   }
 };
 const paramsValid = async () => {
+
   formProps.value["dataUrl"] = {
-    loadByPageUrl: formProps.value["interfaceUrl"],
-    condition: [],
+    loadByPageUrl: "/userdb-manage/userdb/dynamicForm/validInterface",
+    redirect: true,
+    condition: {
+      url: formProps.value["interfaceUrl"],
+      httpMethod: "POST",
+      params: {}
+    },
   }
   let searchFieldList = [];
   formProps.value["fieldLists"].forEach(item => {
