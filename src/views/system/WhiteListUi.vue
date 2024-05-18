@@ -110,9 +110,7 @@ const tableFieldList = reactive<PageFieldInfo>({
 const primaryKey = "idWhiteList";
 const whiteListRef = ref();
 const rules = {
-  idWhiteList: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  whiteName: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  remark: [{required: true, message: "必填项不能为空", trigger: "blur"}],
+
 };
 const searchForm = ref({});
 provide("searchForm", searchForm);

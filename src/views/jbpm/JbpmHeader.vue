@@ -2,6 +2,8 @@
 import {postRequest} from "@/api/star_horse";
 import {warning} from "@/utils/message";
 import {PropType, ref, unref} from "vue";
+import {buttonList} from "@/views/jbpm/utils/FlowData.ts";
+import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 
 const scale = ref<number>(1.0);
 const dialogTableVisible = ref<boolean>(false);
@@ -119,9 +121,24 @@ const zoom = (val: any) => {
   props.modeler.get("canvas").zoom(newScale);
   scale.value = newScale;
 };
+const actionOperation = (actionName: string) => {
+  console.log(actionName);
+};
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+.inner_button {
+  height: 40px;
+  text-align: left;
+  justify-content: flex-start;
+  background-color: #fafafa;
+  border: solid 1px #ccc;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+</style>
 <template>
   <div>
     <el-dialog
@@ -185,73 +202,20 @@ const zoom = (val: any) => {
         </el-col>
       </el-row>
     </el-dialog>
-    <el-button-group>
-      <el-tooltip class="item" content="发布" effect="dark" placement="bottom">
-        <el-button @click="confirm(2)" link type="primary">
-          <star-horse-icon icon-class="save"/>
-        </el-button>
-      </el-tooltip>
-      <el-tooltip class="item" content="检查" effect="dark" placement="bottom">
-        <el-button @click="checkFlow" link type="primary">
-          <star-horse-icon icon-class="check"/>
-        </el-button>
-      </el-tooltip>
-      <el-tooltip class="item" content="打开流程文件" effect="dark" placement="bottom">
-        <el-button link type="primary">
-          <star-horse-icon icon-class="open-file"/>
-        </el-button>
-      </el-tooltip>
-      <el-tooltip class="item" content="创建新流程图" effect="dark" placement="bottom">
-        <el-button @click="reset" link type="primary">
-          <star-horse-icon icon-class="new-file"/>
-        </el-button>
-      </el-tooltip>
-      <el-tooltip class="item" content="下载流程图" effect="dark" placement="bottom">
-        <el-button @click="downloadSvg" link type="primary">
-          <star-horse-icon icon-class="download"/>
-        </el-button>
-      </el-tooltip>
-      <el-tooltip class="item" content="下载流程文件" effect="dark" placement="bottom">
-        <el-button @click="downloadBpmn" link type="primary">
-          <star-horse-icon icon-class="file_download"/>
-        </el-button>
-      </el-tooltip>
-      <el-tooltip class="item" content="撤销" effect="dark" placement="bottom">
-        <el-button @click="undo" link type="primary">
-          <star-horse-icon icon-class="undo"/>
-        </el-button>
-      </el-tooltip>
-      <el-tooltip class="item" content="恢复" effect="dark" placement="bottom">
-        <el-button @click="redo" link type="primary">
-          <star-horse-icon icon-class="redo"/>
-        </el-button>
-      </el-tooltip>
-      <!--      <el-tooltip class="item" content="水平对齐" effect="dark" placement="bottom">
-              <el-button @click="elementAlign(1)" link type="primary">
-                <star-horse-icon icon-class="horizontal-align" />
-              </el-button>
-            </el-tooltip>
-            <el-tooltip class="item" content="垂直对齐" effect="dark" placement="bottom">
-              <el-button @click="elementAlign(2)" link type="primary">
-                <star-horse-icon icon-class="vertical-align" />
-              </el-button>
-            </el-tooltip>-->
-      <el-tooltip class="item" content="放大" effect="dark" placement="bottom">
-        <el-button @click="zoom(0.05)" link type="primary">
-          <star-horse-icon icon-class="amplify"/>
-        </el-button>
-      </el-tooltip>
-      <el-tooltip class="item" content="缩小" effect="dark" placement="bottom">
-        <el-button @click="zoom(-0.05)" link type="primary">
-          <star-horse-icon icon-class="reduce"/>
-        </el-button>
-      </el-tooltip>
-      <el-tooltip class="item" content="重置" effect="dark" placement="bottom">
-        <el-button @click="zoom(0)" link type="primary">
-          <star-horse-icon icon-class="reset"/>
-        </el-button>
-      </el-tooltip>
-    </el-button-group>
+    <div class="inner_button">
+      <el-menu mode="horizontal" style="height: inherit;width: 100%;">
+        <el-menu-item v-for="(item,index ) in buttonList">
+          <el-tooltip class="item" :content="item.label" :index="index"
+                      effect="dark"
+                      placement="bottom">
+            <star-horse-icon @click="actionOperation(item.key)" :icon-class="item.icon" size="24px"
+                             style="color: var(--star-horse-style)"
+            />
+          </el-tooltip>
+        </el-menu-item>
+      </el-menu>
+    </div>
+
   </div>
 </template>
 

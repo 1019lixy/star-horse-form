@@ -196,12 +196,7 @@ const primaryKey = "idFormActions";
 const dynamicFormActionRef = ref();
 //校验
 const rules = {
-  idFormActions: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  idFormItems: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  label: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  actionName: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  fieldType: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  dataSort: [{required: true, message: "必填项不能为空", trigger: "blur"}],
+
 };
 const searchForm = ref({});
 //全局查询对象

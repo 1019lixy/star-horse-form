@@ -126,13 +126,7 @@ const tableFieldList = reactive({
 const primaryKey = "idUsersAudit";
 const usersAuditRef = ref();
 const rules = {
-  idUsersAudit: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  idUserinfo: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  password: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  effectiveDate: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  expiredDate: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  remark: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  dataType: [{required: true, message: "必填项不能为空", trigger: "blur"}],
+
 };
 const searchForm = ref({});
 provide("searchForm", searchForm);

@@ -155,12 +155,7 @@ const tableFieldList = reactive<PageFieldInfo>({
 });
 const primaryKey = "idComplianceReport";
 const rules = {
-  idDepartment: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  deptName: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  deptCode: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  deptDesc: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  deptPhone: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  parentDept: [{required: true, message: "必填项不能为空", trigger: "blur"}],
+
 };
 const searchForm = ref({});
 provide("searchForm", searchForm);

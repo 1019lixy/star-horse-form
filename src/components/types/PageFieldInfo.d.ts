@@ -36,7 +36,7 @@ export declare interface TabFieldInfo {
      */
     fieldList: Array<FieldInfo>,
     /**
-     * 批量表达属性
+     * 批量表单属性
      */
     batchFieldList?: Array<BatchFieldInfo>;
 }
@@ -156,6 +156,10 @@ export declare interface FieldInfo {
      * 参数
      */
     params?: Object;
+    /**
+     * 组件个性化属性
+     */
+    preps?: Object;
 }
 
 /**

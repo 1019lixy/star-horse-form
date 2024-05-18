@@ -236,16 +236,7 @@ const primaryKey = "idFormFields";
 const dynamicFormFieldsRef = ref();
 //校验
 const rules = {
-  idFormFields: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  idFormItems: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  label: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  fieldName: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  fieldType: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  required: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  selectValues: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  defaultValues: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  category: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  dataSort: [{required: true, message: "必填项不能为空", trigger: "blur"}],
+
 };
 const searchForm = ref({});
 //全局查询对象

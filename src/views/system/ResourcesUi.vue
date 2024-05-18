@@ -131,14 +131,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 });
 const primaryKey = "idResourcesSummary";
 const rules = {
-  idResourcesSummary: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  remark: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  informationsSingleId: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  menusList: [{required: true, message: "必选项不能为空", trigger: "blur"}],
-  rolesList: [{required: true, message: "必选项不能为空", trigger: "blur"}],
-  resName: [{required: true, message: "必选项不能为空", trigger: "blur"}],
-  resCode: [{required: true, message: "必选项不能为空", trigger: "blur"}],
-  resourcesPos: [{required: true, message: "必选项不能为空", trigger: "blur"}],
+
 };
 const searchForm = ref({});
 provide("searchForm", searchForm);

@@ -195,9 +195,7 @@ const primaryKey = "idRolesMenusinfo";
 const rolesMenusinfoRef = ref();
 //校验
 const rules = {
-  idRolesMenusinfo: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  idRolesinfo: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  idMenusinfo: [{required: true, message: "必填项不能为空", trigger: "blur"}],
+
 };
 const searchForm = ref({});
 //全局查询对象

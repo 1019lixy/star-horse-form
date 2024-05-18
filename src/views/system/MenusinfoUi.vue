@@ -176,15 +176,7 @@ const tableFieldList = reactive<PageFieldInfo>({
 });
 const primaryKey = "idMenusinfo";
 const rules = {
-  idMenusinfo: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  informationsSingleId: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  menuName: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  menuPath: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  menuIcon: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  menuDesc: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  menuCode: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  parentNo: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  dataIndex: [{required: true, message: "必填项不能为空", trigger: "blur"}],
+
 };
 const searchForm = ref({});
 provide("searchForm", searchForm);

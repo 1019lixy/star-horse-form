@@ -126,11 +126,7 @@ const tableFieldList = reactive<PageFieldInfo>({
 });
 const primaryKey = "idDictinfo";
 const rules = {
-  idDictinfo: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  dictType: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  dictName: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  dictCode: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  dictDesc: [{required: true, message: "必填项不能为空", trigger: "blur"}],
+
 };
 const searchForm = ref({}) as Ref;
 provide("searchForm", searchForm);

@@ -146,15 +146,7 @@ const tableFieldList = reactive({
 const primaryKey = "idDbAssign";
 const grantPermissionRef = ref();
 const rules = {
-  idDbAssign: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  dbinfoSingle: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  assignNo: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  assignType: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  operator: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  operatorRange: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  assginDesc: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  effectiveDate: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  expiredDate: [{required: true, message: "必填项不能为空", trigger: "blur"}],
+
 };
 
 const searchForm = ref<any>({});

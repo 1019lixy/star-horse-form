@@ -196,9 +196,7 @@ const primaryKey = "idDbBakeup";
 const dbBakeupRef = ref();
 //校验
 const rules = {
-  idDbBakeup: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  dbType: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  datasourcceConfigId: [{required: true, message: "必填项不能为空", trigger: "blur"}],
+
 };
 const searchForm = ref({});
 //全局查询对象

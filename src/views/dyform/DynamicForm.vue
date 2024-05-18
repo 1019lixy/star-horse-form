@@ -189,6 +189,10 @@ const tableEdit = (submit: boolean) => {
 const helpMessage = `help`;
 let leftPanelVisible = ref<Boolean>(true);
 let rightPanelVisible = ref<Boolean>(true);
+let processMsg=`
+1,前后端Tab里的嵌套栅格，字段还没有解析
+2、优化后前端页面联动效果没有验证
+`;
 const actions = (action: string) => {
   switch (action) {
     case "leftPanel":
@@ -314,6 +318,7 @@ const actions = (action: string) => {
             </template>
           </el-menu>
           <help :message="helpMessage"/>
+          <help :message="processMsg"/>
         </div>
         <div class="main-design-a">
           <div class="main-design-outer">

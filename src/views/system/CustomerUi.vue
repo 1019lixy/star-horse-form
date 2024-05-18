@@ -194,8 +194,7 @@ const primaryKey = "idCustomer";
 const customerRef = ref();
 //校验
 const rules = {
-  idCustomer: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  customerName: [{required: true, message: "必填项不能为空", trigger: "blur"}],
+
 };
 const searchForm = ref({});
 //全局查询对象

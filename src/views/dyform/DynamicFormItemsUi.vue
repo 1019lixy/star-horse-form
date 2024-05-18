@@ -201,11 +201,7 @@ const dynamicFormItemsRef = ref();
 
 //校验
 const rules = {
-  itemName: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  itemType: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  itemIcon: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  category: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  dataSort: [{required: true, message: "必填项不能为空", trigger: "blur"}],
+
 };
 const searchForm = ref({});
 //全局查询对象

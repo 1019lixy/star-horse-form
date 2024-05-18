@@ -51,19 +51,6 @@
 交接员工所有直接参与的流程实例中对应的参与者将自动由系统修改为接管人。-->
 <!--8、回退：流程实例不按照流程模版中预定义好的节点顺序往下执行，而是回退到曾经运行过的任意节点上。-->
 
-<template>
-  <el-card>
-    <div class="jbpm">
-      <jbpm-header :modeler="bpmnModeler" :process-data="initData" @flowCheck="flowCheck"
-                   @handleExportBpmn="handleExportBpmn" @handleExportSvg="handleExportSvg"
-                   @processSave="processSave" @restart="restart"/>
-      <div class="bpmn-container">
-        <div class="bpmn-content" ref="canvas"></div>
-      </div>
-    </div>
-    <jbpm-property-panel :modeler="bpmnModeler" :process="initData" v-if="bpmnModeler"/>
-  </el-card>
-</template>
 
 <script setup lang="ts" name="JbpmDesign">
 import jpbmInit from "@/views/jbpm/utils/template";
@@ -331,11 +318,11 @@ onMounted(() => {
 //路由监听
 watch(() => router.query,
     (to, from) => {
-      if (to.fullPath.indexOf("workflowDesign") == -1) {
+      if (to.fullPath?.indexOf("workflowDesign") == -1) {
         return;
       }
-      formId.value = to.query.formId;
-      isEdit.value = to.query.isEdit;
+      formId.value = to.query?.formId;
+      isEdit.value = to.query?.isEdit;
     }, {
       deep: true,
       immediate: true  //第一次是否要监听到
@@ -353,17 +340,33 @@ watch(
     } //第一次是否要监听到
 );
 </script>
+<template>
+  <el-card class="inner_content">
+    <div class="flow-design">
+      <div class="jbpm">
+        <jbpm-header :modeler="bpmnModeler" :process-data="initData" @flowCheck="flowCheck"
+                     @handleExportBpmn="handleExportBpmn" @handleExportSvg="handleExportSvg"
+                     @processSave="processSave" @restart="restart"/>
+        <div class="bpmn-container">
+          <div class="bpmn-content" ref="canvas"></div>
+        </div>
+      </div>
+      <jbpm-property-panel :modeler="bpmnModeler" :process="initData" v-if="bpmnModeler"/>
 
+    </div>
+  </el-card>
+</template>
 <style lang="scss" scoped>
-.el-card {
-  height: 100%;
-  display: flex;
-  border: 1px solid #e3e9f2;
-}
-
 :deep(.el-card__body) {
   display: flex;
   width: 100%;
+}
+
+.flow-design {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  flex-direction: row;
 }
 
 .container {
@@ -373,24 +376,28 @@ watch(
 }
 
 .jbpm {
+  display: flex;
   flex: 1;
+  flex-direction: column;
 }
 
 .bpmn-container {
   padding: 10px;
   height: 100%;
+  flex: 1;
+
+  .bpmn-content {
+    width: 100%;
+    height: 100%;
+    background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImEiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTTAgMTBoNDBNMTAgMHY0ME0wIDIwaDQwTTIwIDB2NDBNMCAzMGg0ME0zMCAwdjQwIiBmaWxsPSJub25lIiBzdHJva2U9IiNlMGUwZTAiIG9wYWNpdHk9Ii4yIi8+PHBhdGggZD0iTTQwIDBIMHY0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZTBlMGUwIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2EpIi8+PC9zdmc+") repeat !important;
+  }
+
+  .canvas {
+    width: 100%;
+    height: 100%;
+  }
 }
 
-.bpmn-content {
-  width: 100%;
-  height: 100%;
-  background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImEiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTTAgMTBoNDBNMTAgMHY0ME0wIDIwaDQwTTIwIDB2NDBNMCAzMGg0ME0zMCAwdjQwIiBmaWxsPSJub25lIiBzdHJva2U9IiNlMGUwZTAiIG9wYWNpdHk9Ii4yIi8+PHBhdGggZD0iTTQwIDBIMHY0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZTBlMGUwIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2EpIi8+PC9zdmc+") repeat !important;
-}
-
-.canvas {
-  width: 100%;
-  height: 100%;
-}
 
 .panel {
   position: absolute;

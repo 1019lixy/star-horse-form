@@ -117,8 +117,8 @@ const paramsValid = async () => {
       params: {}
     },
   }
-  let searchFieldList = [];
-  formProps.value["fieldLists"].forEach(item => {
+  let searchFieldList:Array<any> = [];
+  formProps.value["fieldLists"].forEach((item:any) => {
     item["tableShow"] = true;
     item["type"] = "input";
     item["formShow"] = true;
@@ -131,7 +131,7 @@ const paramsValid = async () => {
     fieldList: formProps.value["fieldLists"]
   };
   //删除多余的属性
-  formProps.value["orderBy"].forEach(item => {
+  formProps.value["orderBy"].forEach((item:any) => {
     delete item["xh"];
   })
   closeAction();

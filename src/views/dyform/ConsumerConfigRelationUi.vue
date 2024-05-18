@@ -226,15 +226,7 @@ const primaryKey = "idConsumerConfigRelation";
 const consumerConfigRelationRef = ref();
 //校验
 const rules = {
-  idConsumerConfigRelation: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  idConsumerConfig: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  fromTable: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  fromKey: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  fromField: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  toTable: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  toKey: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  toField: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  mapper: [{required: true, message: "必填项不能为空", trigger: "blur"}],
+
 };
 const searchForm = ref({});
 //全局查询对象

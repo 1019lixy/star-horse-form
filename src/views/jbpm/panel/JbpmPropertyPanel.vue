@@ -52,7 +52,7 @@ const handleModeler = () => {
     handleFormData(element);
   })
   //节点属性变化
-  emits.modeler.on("element.changed", e => {
+  props.modeler.on("element.changed", e => {
     console.log("element.changed");
     const {element} = e;
     if (!element) {

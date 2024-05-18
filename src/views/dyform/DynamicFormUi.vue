@@ -218,21 +218,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 const primaryKey = "idDynamicForm";
 const dynamicFormRef = ref();
 const rules = {
-  idDynamicForm: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  formName: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  labelWidth: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  labelPosition: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  labelSuffix: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  rules: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  inline: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  disabled: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  hideRequiredAsterisk: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  scrolToError: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  requireAsteriskPosition: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  statusIcon: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  showMessage: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  inlineMessage: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  validateOnRuleChange: [{required: true, message: "必填项不能为空", trigger: "blur"}],
+
 };
 const searchForm = ref({});
 provide("searchForm", searchForm);

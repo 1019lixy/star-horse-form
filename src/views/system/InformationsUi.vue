@@ -156,12 +156,7 @@ const primaryKey = "idInformations";
 const informationsRef = ref();
 const iconList = icon;
 const rules = {
-  sysName: [{required: true, message: "必选项不能为空", trigger: "blur"}],
-  sysCode: [{required: true, message: "必选项不能为空", trigger: "blur"}],
-  dataSort: [{required: true, message: "必选项不能为空", trigger: "blur"}],
-  sysLogo: [{required: true, message: "必选项不能为空", trigger: "blur"}],
-  sysDesc: [{required: false, message: "必选项不能为空", trigger: "blur"}],
-  statusCode: [{required: false, message: "必选项不能为空", trigger: "blur"}],
+
 };
 const searchForm = ref({});
 provide("searchForm", searchForm);

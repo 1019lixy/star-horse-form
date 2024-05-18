@@ -171,16 +171,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 });
 const primaryKey = "idRolesinfo";
 const rules = {
-  departments: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  idRolesinfo: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  idDepartment: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  roleName: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  roleCode: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  roleDesc: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  roleType: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  appsList: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  menusList: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  sessionTimeout: [{required: true, message: "必填项不能为空", trigger: "blur"}],
+
 };
 const searchForm = ref({});
 provide("searchForm", searchForm);

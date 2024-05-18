@@ -214,11 +214,7 @@ const primaryKey = "idConsumerConfig";
 const dynamicFormConsumerConfigRef = ref();
 //校验
 const rules = {
-  idConsumerConfig: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  viewName: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  viewType: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  isAudit: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  dataLimits: [{required: true, message: "必填项不能为空", trigger: "blur"}],
+
 };
 const searchForm = ref({});
 //全局查询对象

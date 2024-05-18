@@ -136,14 +136,7 @@ const tableFieldList = reactive({
 const primaryKey = "idDbinfo";
 const dbinfoRef = ref();
 const rules = {
-  idDbinfo: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  dbType: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  host: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  port: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  userName: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  password: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  dbName: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  exclusions: [{required: true, message: "必填项不能为空", trigger: "blur"}],
+
 };
 
 provide("searchForm", searchForm);

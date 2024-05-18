@@ -239,28 +239,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 });
 const primaryKey = "idUsersinfo";
 const rules = {
-  idUsersinfo: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  idUserAudit: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  name: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  username: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  sex: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  phone: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  bakePhone: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  email: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  address: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  education: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  entryDate: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  leaveDate: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  nativePlace: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  politicalStatus: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  identityType: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  identityNo: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  remark: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  imagePath: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  employeeNo: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  initPwd: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  deptList: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  rolesList: [{required: true, message: "必填项不能为空", trigger: "blur"}],
+
 };
 const searchForm = ref({});
 provide("searchForm", searchForm);
@@ -301,7 +280,6 @@ const treeRef = ref<InstanceType<typeof ElTreeV2>>();
 const query = ref('');
 const onQueryChanged = (query: string) => {
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-expect-error
   treeRef.value!.filter(query)
 };
 const filterMethod = (query: string, node: TreeNode) => {
@@ -313,13 +291,13 @@ const filterMethod = (query: string, node: TreeNode) => {
  * @param checked
  */
 const checkChange = (data: TreeNodeData, checked: boolean) => {
-  let checkedNodes = treeRef.value.getCheckedNodes();
-  if (checkedNodes?.length > 0) {
-    checkedNodes.forEach(item => {
-      treeRef.value.setChecked(item.value, false);
-    });
-  }
-  treeRef.value.setChecked(data.value, (checked instanceof Boolean) ? checked : true);
+  // let checkedNodes = treeRef.value.getCheckedNodes();
+  // if (checkedNodes?.length > 0) {
+  //   checkedNodes.forEach(item => {
+  //     treeRef.value.setChecked(item.value, false);
+  //   });
+  // }
+  // treeRef.value.setChecked(data.value, (checked instanceof Boolean) ? checked : true);
 
   let conditions: Array<SearchParams> = [];
   if (checked) {
@@ -333,16 +311,6 @@ const searchData = (data: SearchParams[]) => {
   usersinfoTableListRef.value.createCreateParams(data);
 };
 </script>
-<style lang="scss" scoped>
-.el-card {
-  height: 100%;
-
-  :deep(.el-card__body) {
-    height: 98%;
-    padding: 5px;
-  }
-}
-</style>
 <template>
   <star-horse-dialog :dialog-visible="dialogProps.editVisible" :dialogProps="dialogProps">
     <star-horse-form @refresh="usersinfoTableListRef.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList"
@@ -400,3 +368,13 @@ const searchData = (data: SearchParams[]) => {
   </el-card>
 
 </template>
+<style lang="scss" scoped>
+.el-card {
+  height: 100%;
+
+  :deep(.el-card__body) {
+    height: 98%;
+    padding: 5px;
+  }
+}
+</style>

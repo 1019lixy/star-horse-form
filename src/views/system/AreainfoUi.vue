@@ -106,10 +106,7 @@ const tableFieldList = reactive({
 const primaryKey = "idAreainfo";
 const areainfoRef = ref();
 const rules = {
-  idAreainfo: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  areaName: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  areaCode: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  parentNo: [{required: true, message: "必填项不能为空", trigger: "blur"}],
+
 };
 const searchForm = ref({});
 provide("searchForm", searchForm);

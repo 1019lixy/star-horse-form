@@ -105,10 +105,7 @@ const tableFieldList = reactive({
 const primaryKey = "idDynamicFormDetails";
 const dynamicFormDetailsRef = ref();
 const rules = {
-  idDynamicFormDetails: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  idDynamicForm: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  content: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  fieldNames: [{required: true, message: "必填项不能为空", trigger: "blur"}],
+
 };
 const searchForm = ref({});
 provide("searchForm", searchForm);

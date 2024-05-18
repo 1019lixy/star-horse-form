@@ -127,13 +127,7 @@ const tableFieldList = reactive<PageFieldInfo>({
 const primaryKey = "idAudit";
 const auditRef = ref();
 const rules = {
-  idAudit: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  operator: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  signature: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  operContent: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  url: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  remark: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  requestMethod: [{required: true, message: "必填项不能为空", trigger: "blur"}],
+
 };
 const searchForm = ref({});
 provide("searchForm", searchForm);
