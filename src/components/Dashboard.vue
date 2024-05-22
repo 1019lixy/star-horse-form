@@ -8,6 +8,7 @@ import {viewList} from "@/store/ViewCacheStore";
 import TagsView from "@/components/tags/TagsView.vue";
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 import en from 'element-plus/dist/locale/en.mjs'
+import {Config} from "@/api/settings.js";
 
 const route = router.getRoutes().find(item => item.path == "/home");
 let navBarListStore = navBarList();
@@ -50,11 +51,11 @@ watch(
 </script>
 <template>
   <el-config-provider :locale="locale">
-    <el-container style="max-height: 100%">
+    <el-container style="min-height: 100%">
       <el-header class="star-horse-header">
         <app-header :is-collapse="!isCollapse" @collopseOperation="collopseOperation" @changeLang="changeLang"/>
       </el-header>
-      <el-container style="height: calc( 100vh - 95px); padding-bottom:1cm; ">
+      <el-container style="padding-bottom: 1px !important;" >
         <el-aside :width="outerIsCollapse" class="star-horse-left animate__animated animate__bounceInLeft"
                   @mouseover="mouseOver" @mouseout="mouseOut">
           <app-left :sysem-id="sysemId" :is-collapse="!isCollapse" style="overflow-x: hidden"/>
@@ -68,6 +69,7 @@ watch(
               </keep-alive>
             </transition>
           </router-view>
+          <div class="main-copyright">{{ Config.footerTxt }}</div>
         </el-main>
       </el-container>
     </el-container>
@@ -92,5 +94,17 @@ watch(
 
 .star-horse-main {
   margin-top: 5px;
+}
+
+.main-copyright {
+  display: flex;
+  margin-top: 3px;
+  line-height: 30px;
+  border-radius: 2px;
+  font-weight: bold;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  width: 100%;
 }
 </style>

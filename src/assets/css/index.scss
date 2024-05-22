@@ -554,10 +554,12 @@ hr {
       }
 
       .el-pagination {
-        height: 25px;
+        height: 30px;
         box-sizing: border-box;
-        padding-top: 5px;
+        margin-top: 5px;
         flex-shrink: 0;
+        padding-left: 15px;
+        border: 1px solid #eee;
       }
     }
   }

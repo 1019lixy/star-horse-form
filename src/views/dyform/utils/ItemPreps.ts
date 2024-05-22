@@ -395,7 +395,15 @@ export function containerField(fieldName: string) {
                         minWidth: 180
                     }, {
                         label: "Tab属性",
-                        fieldName: "name",
+                        fieldName: "tabName",
+                        type: "input",
+                        required: true,
+                        formShow: !false,
+                        tableShow: !false,
+                        minWidth: 180
+                    }, {
+                        label: "对象名字",
+                        fieldName: "objectName",
                         type: "input",
                         required: true,
                         formShow: !false,
@@ -436,16 +444,14 @@ export function containerField(fieldName: string) {
                                     let cols = val.value?.columns || val?.columns;
                                     if (type == "oper") {
                                         let len = 24 / cols.length;
-                                        cols.forEach(item => {
+                                        cols.forEach((item:any) => {
                                             item.colspan = len;
-
                                         })
                                     }
-                                    cols?.forEach(item => {
+                                    cols?.forEach((item:any) => {
                                         if (!Object.keys(item).includes("items")) {
                                             item["items"] = [];
                                         }
-
                                     });
                                     console.log(val, type);
                                 }

@@ -764,6 +764,7 @@
 <script setup lang="ts" name="ProjectInfoUi">
 import {rowClassName} from "@/api/sh_api.js";
 import {ApiUrls} from "@/components/types/ApiUrls";
+import {onMounted} from "vue";
 
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/devops-continus/continus/projectInfo/pageList",
