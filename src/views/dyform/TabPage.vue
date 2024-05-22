@@ -8,7 +8,9 @@ import {SearchProps} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {TabsPaneContext} from "element-plus";
 import {Config} from "@/api/settings";
-
+import {DesignForm} from "@/store/DesignFormStore.ts";
+import piniaInstance from "@/store/index.ts";
+let designForm = DesignForm(piniaInstance);
 const router = useRouter();
 const starHorseTableCompRef = ref(null);
 const dataUrl = ref<ApiUrls>({
@@ -86,6 +88,7 @@ watch(
 );
 
 onMounted(() => {
+  designForm.setIsEdit(false);
   loadFormData(<string>props.param);
 });
 const searchForm = ref({});

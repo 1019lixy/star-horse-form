@@ -21,8 +21,6 @@ const formActions = [
         key: 'tprep',
         label: '表属性配置',
     },
-
-
     {
         icon: "empty_setting",
         key: 'empty',

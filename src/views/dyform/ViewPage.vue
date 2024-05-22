@@ -10,7 +10,9 @@ import {analysisSearchData, viewColumns, viewDataList} from "@/views/dyform/util
 import {download} from "@/api/star_horse";
 import {error} from "@/utils/message";
 import {Config} from "@/api/settings";
-
+import {DesignForm} from "@/store/DesignFormStore.ts";
+import piniaInstance from "@/store/index.ts";
+let designForm = DesignForm(piniaInstance);
 const router = useRouter();
 const props = defineProps({
   param: {type: String, required: true},
@@ -105,6 +107,7 @@ watch(
 );
 
 onMounted(() => {
+  designForm.setIsEdit(false);
   loadColumnFields();
   loadFormData(1, 20);
 });

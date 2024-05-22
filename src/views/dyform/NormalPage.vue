@@ -1,4 +1,4 @@
-<script setup lang = "ts">
+<script setup lang="ts">
 import {nextTick, onMounted, provide, reactive, ref, watch} from "vue";
 import {closeLoad, load, loadGetData} from "@/api/sh_api";
 import {ApiUrls} from "@/components/types/ApiUrls";
@@ -7,7 +7,10 @@ import {navBarList} from "@/store/NavbarListStore";
 import {DialogProps} from "@/components/types/DialogProps";
 import {SearchProps} from "@/components/types/SearchProps";
 import {Config} from "@/api/settings";
+import {DesignForm} from "@/store/DesignFormStore.ts";
+import piniaInstance from "@/store/index.ts";
 
+let designForm = DesignForm(piniaInstance);
 const navBarListStore = navBarList();
 const router = useRouter();
 const normalPageRef = ref(null);
@@ -87,6 +90,7 @@ watch(
 );
 
 onMounted(() => {
+  designForm.setIsEdit(false);
   loadFormData(<string>props.param);
 });
 const searchForm = ref({});
@@ -115,39 +119,39 @@ const dataFormat = (name: string, cellValue: Object, row: any): any => {
 </script>
 
 <template>
-  <template v-if = "hasData">
+  <template v-if="hasData">
     <star-horse-dialog
-        :dialog-visible = "dialogProps.editVisible"
-        :dialogProps = "dialogProps"
+        :dialog-visible="dialogProps.editVisible"
+        :dialogProps="dialogProps"
     >
-      <sh-dynamic-form @refresh = "normalPageRef.loadByPage()" :compUrl = "dataUrl" :formInfo = "formInfo"
-                       :fieldList = "tableFieldList.dynamicFormas" :rules = "rules"/>
+      <sh-dynamic-form @refresh="normalPageRef.loadByPage()" :compUrl="dataUrl" :formInfo="formInfo"
+                       :fieldList="tableFieldList.dynamicFormas" :rules="rules"/>
     </star-horse-dialog>
     <star-horse-dialog
-        :dialog-visible = "dialogProps.viewVisible"
-        :dialogProps = "dialogProps"
-        :title = "'查看数据'"
-        :is-view = "true"
+        :dialog-visible="dialogProps.viewVisible"
+        :dialogProps="dialogProps"
+        :title="'查看数据'"
+        :is-view="true"
     >
       <star-horse-data-view
-          :dataFormat = "dataFormat"
-          :field-list = "tableFieldList"
-          :compUrl = "dataUrl"
+          :dataFormat="dataFormat"
+          :field-list="tableFieldList"
+          :compUrl="dataUrl"
       />
     </star-horse-dialog>
-    <el-card class = "inner_content">
-      <div class = "search_btn" :style = "{'flex-direction':Config.buttonStyle=='line'?'column':'row'}">
-        <star-horse-search-comp @searchData = "(data)=>normalPageRef.createCreateParams(data)"
-                                :formData = "searchFormData"
-                                :compUrl = "dataUrl"/>
+    <el-card class="inner_content">
+      <div class="search_btn" :style="{'flex-direction':Config.buttonStyle=='line'?'column':'row'}">
+        <star-horse-search-comp @searchData="(data)=>normalPageRef.createCreateParams(data)"
+                                :formData="searchFormData"
+                                :compUrl="dataUrl"/>
         <hr/>
-        <star-horse-button-list @tableCompFunc = "(fun)=>normalPageRef.tableCompFunc(fun)" :compUrl = "dataUrl"
-                                :dialogProps = "dialogProps" :showType = "Config.buttonStyle"/>
+        <star-horse-button-list @tableCompFunc="(fun)=>normalPageRef.tableCompFunc(fun)" :compUrl="dataUrl"
+                                :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
       </div>
       <hr>
       <star-horse-table-comp
-          ref = "normalPageRef" :fieldList = "tableFieldList" :primaryKey = "primaryKey"
-          :compUrl = "dataUrl" :showBatchField = "true" :dataFormat = "dataFormat"/>
+          ref="normalPageRef" :fieldList="tableFieldList" :primaryKey="primaryKey"
+          :compUrl="dataUrl" :showBatchField="true" :dataFormat="dataFormat"/>
     </el-card>
   </template>
   <el-empty :content="errorMsg" v-else></el-empty>
