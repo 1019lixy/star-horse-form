@@ -10,11 +10,12 @@ const props = defineProps({
 });
 let designForm = DesignForm(piniaInstance);
 
-let draggingItem = computed(()=>designForm.draggingItem);
+let draggingItem = computed(() => designForm.draggingItem);
 let containerList = ref([]);
 let itemType = ref('container');
 const getComponentName = (data: any) => {
-  return data.itemType == "tab" || data.itemType == "box" ? data.itemType + '-container' : data.itemType + '-item'
+  console.log(data);
+  return data.itemType == "tab" || data.itemType == "box" || data.itemType == "table" ? data.itemType + '-container' : data.itemType + '-item'
 };
 const onDragAdd = (evt: Event, dataList: any) => {
   let newIndex = evt.newIndex;
@@ -31,11 +32,15 @@ onMounted(() => {
   if (!props.field['preps']["elements"]) {
     props.field['preps']["elements"] = [{
       label: "Tab1",
-      name: 0,
+      tabName: "tab1",
+      objectName: "tab1",
+      subFormFlag: "yes",
       items: []
     }, {
       label: "Tab2",
-      name: 1,
+      tabName: "tab1",
+      objectName: "tab2",
+      subFormFlag: "yes",
       items: []
     }];
     props.field['stretch'] = "no";
@@ -90,7 +95,7 @@ const addTab = () => {
                   :is="getComponentName(data)"
                   :parentField="field"
                   :formFieldList="formFieldList"
-                  v-if="data.compType==='formItem'||data.itemType=='box'"/>
+                  v-if="data.compType==='formItem'||data.itemType=='box'||data.itemType=='table'"/>
             </template>
           </draggable>
         </el-scrollbar>

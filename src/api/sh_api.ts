@@ -254,10 +254,11 @@ export function closeLoad() {
  */
 export async function loadPagePermission() {
     let permission = {};
-    let meta = useRoute().meta;
+    let meta = useRoute()?.meta;
+    console.log(meta);
     let menuId = meta?.menuId as string;
     if (!menuId) {
-        return {permission};
+        return permission;
     }
 
     menuId = menuId.split("_")[1];
@@ -268,7 +269,7 @@ export async function loadPagePermission() {
             permission[item.resCode] = item.resCode;
         });
     });
-    return {permission}
+    return permission
 };
 
 export function commonDataFormat(row: any, column: any, cellValue: any, index: number) {

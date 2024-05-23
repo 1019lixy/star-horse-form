@@ -146,7 +146,7 @@ const createCreateParams = (formData: SearchParams[]) => {
 };
 
 const init = async () => {
-  const {permission} = await loadPagePermission();
+  const permission = await loadPagePermission();
   if (Object.keys(permission).length == 0) {
     permissions.value = {...props.selfPermission};
   } else {
@@ -388,6 +388,10 @@ const loadByPage = () => {
 
   load("数据加载中");
   postRequest(props.compUrl?.loadByPageUrl, params).then((res: any) => {
+    if (res.data.code != 0) {
+      console.error(res.data.cnMessage);
+      return;
+    }
     let redata = res.data.data;
     pageInfo.dataList = redata?.dataList;
     if (props.dialogInput) {
@@ -549,7 +553,7 @@ defineExpose({
       :row-key="getRowIdentity"
       :stripe="true"
       :fit="true"
-      :height="height"
+      :min-height="400"
       :highlight-current-row="true"
       :default-expand-all="expand"
       :row-style="{
@@ -695,6 +699,7 @@ defineExpose({
   />
 </template>
 <style lang="scss" scoped>
+
 
 .warning-row {
   background: #8f8f8f;

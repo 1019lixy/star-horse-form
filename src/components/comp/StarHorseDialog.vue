@@ -66,14 +66,67 @@ const operation = (funcName: string, type: string) => {
   if (props.selfFunc) {
     emits(`${funcName}`, type);
   } else {
+    console.log("xxxxxxxxxxxx2")
     clickFunction["funcName"] = funcName;
     clickFunction["type"] = type;
   }
 }
-
 provide("dialogOperation", clickFunction);
 </script>
-
+<template>
+  <Teleport to="body">
+    <div class="di animated animate__fadeIn">
+      <el-dialog :append-to-body="false" :center="false" :destroy-on-close="true" :close-on-click-modal="false"
+                 :close-on-press-escape="false" :lock-scroll="true" class="dialog-settings"
+                 :fullscreen="isFullScreen"
+                 :show-close="false" :draggable="draggable" :align-center="true" v-model="windowsType"
+                 @close="beforeClose"
+                 :width="boxWidth" :style="dialogStyle">
+        <template #header="{ close }">
+          <h3>{{ title || dialogProps.dialogTitle }}</h3>
+          <div class="my-header">
+            <el-button type="primary" size="medium" @click="fullScreen" link v-if="!!isFullScreen && draggable">
+              <el-tooltip content="还原">
+                <star-horse-icon icon-class="fullscreen-shrink"/>
+              </el-tooltip>
+            </el-button>
+            <el-button type="primary" size="medium" @click="fullScreen" link v-if="!isFullScreen && draggable">
+              <el-tooltip content="最大化">
+                <star-horse-icon icon-class="fullscreen-expand"/>
+              </el-tooltip>
+            </el-button>
+            <el-button type="danger" size="medium" @click="close" link>
+              <el-tooltip content="关闭">
+                <star-horse-icon icon-class="close"/>
+              </el-tooltip>
+            </el-button>
+          </div>
+        </template>
+        <div class="eee">
+          <slot></slot>
+        </div>
+        <slot name="extand"></slot>
+        <span class="dialog-footer" v-if="!isView">
+          <el-button @click="operation('merge','close')" type="primary" size="small">
+            <star-horse-icon icon-class="save" style="color:var(--star-horse-white);"/>
+            提交
+          </el-button>
+             <el-button @click="operation('merge','continue')" type="primary" size="small">
+            <star-horse-icon icon-class="save_continue" style="color:var(--star-horse-white);"/>
+            提交并继续</el-button>
+          <el-button @click="operation('mergeDraft','close')" link type="primary" v-if="isShowSave">
+            <star-horse-icon icon-class="short_save"/>存为草稿</el-button>
+             <el-button @click="operation('mergeDraft','continue')" link type="primary" v-if="isShowSave">
+            <star-horse-icon icon-class="save"/>存为草稿并继续</el-button>
+          <el-button @click="operation('resetForm','reset')" link v-if="isShowReset" size="small">
+            <star-horse-icon icon-class="undo" style="color:var(--star-horse-style);"/>
+            重置</el-button>
+        </span>
+        <slot name="footer"></slot>
+      </el-dialog>
+    </div>
+  </Teleport>
+</template>
 <style lang="scss" scoped>
 .di {
   :deep(.el-dialog) {
@@ -140,57 +193,3 @@ provide("dialogOperation", clickFunction);
   margin-top: 10px;
 }
 </style>
-<template>
-  <Teleport to="body">
-    <div class="di animated animate__fadeIn">
-      <el-dialog :append-to-body="false" :center="false" :destroy-on-close="true" :close-on-click-modal="false"
-                 :close-on-press-escape="false" :lock-scroll="true" class="dialog-settings"
-                 :fullscreen="isFullScreen"
-                 :show-close="false" :draggable="draggable" :align-center="true" v-model="windowsType"
-                 @close="beforeClose"
-                 :width="boxWidth" :style="dialogStyle">
-        <template #header="{ close }">
-          <h3>{{ title || dialogProps.dialogTitle }}</h3>
-          <div class="my-header">
-            <el-button type="primary" size="medium" @click="fullScreen" link v-if="!!isFullScreen && draggable">
-              <el-tooltip content="还原">
-                <star-horse-icon icon-class="fullscreen-shrink"/>
-              </el-tooltip>
-            </el-button>
-            <el-button type="primary" size="medium" @click="fullScreen" link v-if="!isFullScreen && draggable">
-              <el-tooltip content="最大化">
-                <star-horse-icon icon-class="fullscreen-expand"/>
-              </el-tooltip>
-            </el-button>
-            <el-button type="danger" size="medium" @click="close" link>
-              <el-tooltip content="关闭">
-                <star-horse-icon icon-class="close"/>
-              </el-tooltip>
-            </el-button>
-          </div>
-        </template>
-        <div class="eee">
-          <slot></slot>
-        </div>
-        <slot name="extand"></slot>
-        <span class="dialog-footer" v-if="!isView">
-          <el-button @click="operation('merge','close')" type="primary" size="small">
-            <star-horse-icon icon-class="save" style="color:var(--star-horse-white);"/>
-            提交
-          </el-button>
-             <el-button @click="operation('merge','continue')" type="primary" size="small">
-            <star-horse-icon icon-class="save_continue" style="color:var(--star-horse-white);"/>
-            提交并继续</el-button>
-          <el-button @click="operation('mergeDraft','close')" link type="primary" v-if="isShowSave">
-            <star-horse-icon icon-class="short_save"/>存为草稿</el-button>
-             <el-button @click="operation('mergeDraft','continue')" link type="primary" v-if="isShowSave">
-            <star-horse-icon icon-class="save"/>存为草稿并继续</el-button>
-          <el-button @click="operation('resetForm','reset')" link v-if="isShowReset" size="small">
-            <star-horse-icon icon-class="undo" style="color:var(--star-horse-style);"/>
-            重置</el-button>
-        </span>
-        <slot name="footer"></slot>
-      </el-dialog>
-    </div>
-  </Teleport>
-</template>

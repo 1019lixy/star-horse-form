@@ -1,5 +1,5 @@
 <script setup lang="ts" name="StarHorseSearchComp">
-import {inject, onMounted, PropType, ref} from "vue";
+import {inject, nextTick, onMounted, PropType, ref} from "vue";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {SearchProps, SelectOption} from "@/components/types/SearchProps";
 import {searchMatchList} from "@/api/sh_api";
@@ -15,15 +15,17 @@ const emits = defineEmits(["searchData"]);
 const props = defineProps({
   dialogInput: {type: Boolean, default: false},
   mutComp: {type: Boolean, default: false},
+  compSize: {type: String, default: "small"},
   compUrl: {type: Object as PropType<ApiUrls>, required: true},
   formData: {type: Array as PropType<SearchProps[]>, required: true},
 });
 let searchForm: any = inject("searchForm");
-const init = () => {
+const init = async () => {
   matchTypeList.value = searchMatchList();
   if (!searchForm && props.dialogInput) {
     searchForm = [];
   }
+  await nextTick();
   //没有隐藏的查询属性，则隐藏掉展开图标
   let fdata = props.formData?.find(item => !item.defaultShow);
   if (!fdata) {
@@ -99,15 +101,17 @@ const searchArea = () => {
 </style>
 <template>
   <div class="search_content">
-    <el-form class="search_area" size="mini">
+
+    <el-form class="search_area" :size="compSize" v-if="formData">
+
       <template v-for="item in formData" v-if="defaultSearch">
         <el-form-item
-            size="small"
+            :size="compSize"
             :label="item.label"
             v-if="item.defaultShow"
             :prop="item.fieldName">
           <template v-if="item.type=='input'" :span="6">
-            <el-select size="small" style="width: 90px;height:100%;padding-top:2px;" v-model="item['matchType']"
+            <el-select :size="compSize" style="width: 90px;height:100%;padding-top:2px;" v-model="item['matchType']"
                        clearable filterable>
               <el-option v-for="sitem in matchTypeList" :value="sitem.value" :label="sitem.name" :key=
                   "sitem.value"/>
@@ -121,11 +125,11 @@ const searchArea = () => {
       </template>
       <template v-for="item in formData" v-else>
         <el-form-item
-            size="small"
+            :size="compSize"
             :label="item.label"
             :prop="item.fieldName">
           <template v-if="item.type=='input'" :span="6">
-            <el-select size="small" style="width: 90px;height:100%;padding-top:2px;" v-model="item['matchType']"
+            <el-select :size="compSize" style="width: 90px;height:100%;padding-top:2px;" v-model="item['matchType']"
                        clearable filterable>
               <el-option v-for="sitem in matchTypeList" :value="sitem.value" :label="sitem.name" :key=
                   "sitem.value"/>
@@ -137,11 +141,11 @@ const searchArea = () => {
         </el-form-item>
       </template>
       <el-form-item label="     ">
-        <el-button @click="dataSearch" type="primary" size="small">
+        <el-button @click="dataSearch" type="primary" :size="compSize">
           <star-horse-icon icon-class="search" size="13px"/>
           <span style="vertical-align: middle"> 查询 </span>
         </el-button>
-        <el-button @click="dataSearch('reset')" link size="small">
+        <el-button @click="dataSearch('reset')" link :size="compSize">
           <span style="vertical-align: middle"> 重置 </span>
         </el-button>
         &nbsp;&nbsp;

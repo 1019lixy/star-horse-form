@@ -101,7 +101,7 @@ const checkSelfBtn = (btn: string) => {
   return true;
 }
 const init = async () => {
-  const {permission} = await loadPagePermission();
+  const permission = await loadPagePermission();
   if (Object.keys(permission).length == 0) {
     permissions.value = {...props.selfPermission};
   } else {

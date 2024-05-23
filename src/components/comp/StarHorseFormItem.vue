@@ -1,5 +1,5 @@
 <script setup lang="ts" name="StarHorseFormItem">
-import {inject, ref, Ref,PropType} from "vue";
+import {inject, ref, Ref, PropType} from "vue";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {DialogProps} from "@/components/types/DialogProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
@@ -28,7 +28,12 @@ const setTableRef = (el: any) => {
     tableListRef.value.push(el);
   }
 }
-
+const checkObject = (item: any) => {
+  if (!Object.keys(dataForm.value).includes(item.objectName)) {
+    dataForm.value[item.objectName] = {};
+  }
+  return 1;
+}
 </script>
 <template>
   <template v-for="item in fieldList.fieldList">
@@ -52,11 +57,10 @@ const setTableRef = (el: any) => {
       </template>
     </el-row>
     <template v-if="item.tabList&&item.tabList.length>0">
-
       <el-tabs v-model="item.fieldName" v-on:tab-change="item.actions">
         <template v-for="(tabItem,key ) in item.tabList">
-          <el-tab-pane :label="tabItem.title" :name="tabItem.tabName||key" :disabled="tabItem.disabled">
-            <template v-if="tabItem.subFormFlag">
+          <el-tab-pane :label="tabItem.title" :name="tabItem.tabName||key" :disabled="tabItem.disabled" :index="checkObject(tabItem)">
+            <template v-if="tabItem.subFormFlag" >
               <star-horse-form-object v-if="tabItem.subFormFlag" :compUrl="compUrl" :objectName="tabItem.objectName"
                                       :rules="rules"
                                       :isView="isView"

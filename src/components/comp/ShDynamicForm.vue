@@ -1,10 +1,11 @@
 <script setup lang="ts" name="ShDynamicForm">
-import {inject, ref, Ref, watch,PropType} from "vue";
+import {inject, ref, Ref, watch, PropType} from "vue";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {error, success, warning} from "@/utils/message";
 import {postRequest} from "@/api/star_horse";
 import {closeLoad, load, loadById} from "@/api/sh_api";
 import {DialogProps} from "@/components/types/DialogProps";
+import {ShallowReactive} from "@vue/reactivity";
 
 const props = defineProps({
   compUrl: {type: Object as PropType<ApiUrls>, required: true},
@@ -15,22 +16,23 @@ const props = defineProps({
 });
 const emits = defineEmits(["refresh"]);
 const starHorseFormRef = ref(null);
-const dataForm = ref<any>({});// inject("dataForm");
+const dataForm =inject("dataForm") as Ref;
 const closeDialog = inject("closeDialog") as Function;
-const dialogOperation = inject("dialogOperation") as Ref;
+const dialogOperation = inject("dialogOperation") as ShallowReactive<Object>;
 const dialogProps = inject<DialogProps>("dialogProps", {});
 watch(
-    () => dialogOperation.value,
-    (val: string) => {
-      if (val == "merge") {
-        merge();
-      } else if (val == "mergeDraft") {
-        mergeDraft();
-      } else if (val == "resetForm") {
+    () => dialogOperation,
+    (val: any) => {
+      if (val['funcName'] == "merge") {
+        merge(val["type"]);
+      } else if (val['funcName'] == "mergeDraft") {
+        mergeDraft(val["type"]);
+      } else if (val['funcName'] == "resetForm") {
         resetForm();
       }
       //为了触发多次点击响应
-      dialogOperation.value = "";
+      dialogOperation["funcName"] = "";
+      dialogOperation["type"] = "";
     }, {
       immediate: false,
       deep: true
@@ -66,7 +68,8 @@ watch(() => dialogProps.ids,
       deep: true
     });
 
-const merge = () => {
+const merge = (type: string) => {
+  console.log("xxxxxxxxxxx", type);
   starHorseFormRef.value.validate((result: boolean) => {
     if (!result) {
       return;
@@ -87,7 +90,8 @@ const assignStatusName = () => {
     }
   }
 }
-const mergeDraft = () => {
+const mergeDraft = (type: string) => {
+  console.log("mergeDraft", type)
   doMerge();
 };
 

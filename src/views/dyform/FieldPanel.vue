@@ -37,7 +37,7 @@ const onDataCopy = (data: any, type: String) => {
   formFieldList.value[reData.preps.fieldName] = getDefaultVal(reData.itemType);
   mvData['compType'] = type;
   mvData['itemType'] = reData.itemType;
-  if (reData.itemType == "box" || reData.itemType == "table") {
+  if (reData.itemType == "box"||reData.itemType=="table" ) {
     mvData.preps["elements"] = [{rowIndex: 1, columns: [{colIndex: 1, colspan: 24, items: [{}]}]}];
   }
   designForm.setDraggingItem(mvData);

@@ -409,6 +409,15 @@ export function containerField(fieldName: string) {
                         formShow: !false,
                         tableShow: !false,
                         minWidth: 180
+                    }, {
+                        label: "是否子表",
+                        fieldName: "subFormFlag",
+                        type: "switch",
+                        defaultValue: "yes",
+                        required: true,
+                        formShow: !false,
+                        tableShow: !false,
+                        minWidth: 180
                     }]
                 }]
             }, {
@@ -444,11 +453,11 @@ export function containerField(fieldName: string) {
                                     let cols = val.value?.columns || val?.columns;
                                     if (type == "oper") {
                                         let len = 24 / cols.length;
-                                        cols.forEach((item:any) => {
+                                        cols.forEach((item: any) => {
                                             item.colspan = len;
                                         })
                                     }
-                                    cols?.forEach((item:any) => {
+                                    cols?.forEach((item: any) => {
                                         if (!Object.keys(item).includes("items")) {
                                             item["items"] = [];
                                         }
@@ -459,7 +468,45 @@ export function containerField(fieldName: string) {
                         }]
                     }]
                 }]
-            }, {tabName: "表格属性"}]
+            }, {
+                title: "表格属性",
+                tabName: "table",
+                disabled: fieldName != "table",
+                fieldList: [
+                    {
+                        label: "集合名称",
+                        fieldName: "batchFieldName",
+                        type: "input",
+                        required: true,
+                        formShow: !false,
+                        tableShow: !false,
+                        minWidth: 180,
+                    }],
+                batchFieldList: [{
+                    batchName: "elements",
+                    fieldList: [{
+                        label: "列",
+                        fieldName: "colIndex",
+                        type: "input",
+                        required: true,
+                        formShow: !false,
+                        tableShow: !false,
+                        minWidth: 180,
+                        batchFieldList: [{
+                            batchName: "columns",
+                            fieldList: [{
+                                label: "表头",
+                                fieldName: "label",
+                                type: "input",
+                                required: true,
+                                formShow: !false,
+                                tableShow: !false,
+                                minWidth: 180
+                            }]
+                        }]
+                    }]
+                }]
+            }]
         }]
     });
 }

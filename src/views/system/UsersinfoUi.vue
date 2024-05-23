@@ -320,7 +320,7 @@ const searchData = (data: SearchParams[]) => {
       "'查看数据'" :is-view="true">
     <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
   </star-horse-dialog>
-  <el-card class="inner_content" style="height: 100%;padding: 5px;">
+  <el-card class="inner_content" >
     <el-row style="height: 100%;">
       <el-col :span="3" style="height: inherit">
         <el-card class="inner_content" style="height: inherit">

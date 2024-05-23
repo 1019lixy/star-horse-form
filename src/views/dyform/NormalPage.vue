@@ -13,7 +13,7 @@ import piniaInstance from "@/store/index.ts";
 let designForm = DesignForm(piniaInstance);
 const navBarListStore = navBarList();
 const router = useRouter();
-const normalPageRef = ref(null);
+const normalPageRef = ref();
 const currentRoute = useRoute();
 const dataUrl = ref<ApiUrls>({
   uploadUrl: "",
@@ -44,7 +44,7 @@ const tableFieldList = ref<any>({
  */
 const primaryKey = ref<string>("");
 const rules = ref<any>({});
-const hasData = ref<boolean>(false);
+const hasData = ref<boolean>(true);
 const formInfo = ref<any>({});
 
 const props = defineProps({
@@ -58,7 +58,7 @@ const loadFormData = async (formId: string) => {
   );
   if (error) {
     errorMsg.value = error;
-    hasData.value = false;
+    clear();
     closeLoad();
     return;
   }
@@ -77,7 +77,6 @@ const loadFormData = async (formId: string) => {
 watch(
     () => props.param,
     (val) => {
-      clear();
       try {
         load("数据加载中。。。");
         loadFormData(<string>val);
@@ -119,13 +118,16 @@ const dataFormat = (name: string, cellValue: Object, row: any): any => {
 </script>
 
 <template>
+
   <template v-if="hasData">
     <star-horse-dialog
         :dialog-visible="dialogProps.editVisible"
         :dialogProps="dialogProps"
     >
-      <sh-dynamic-form @refresh="normalPageRef.loadByPage()" :compUrl="dataUrl" :formInfo="formInfo"
-                       :fieldList="tableFieldList.dynamicFormas" :rules="rules"/>
+<!--      <sh-dynamic-form @refresh="normalPageRef.loadByPage()" :compUrl="dataUrl" :formInfo="formInfo"
+                       :fieldList="tableFieldList.dynamicFormas" :rules="rules"/>-->
+      <star-horse-form @refresh="normalPageRef.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList"
+                       :rules="rules"/>
     </star-horse-dialog>
     <star-horse-dialog
         :dialog-visible="dialogProps.viewVisible"
@@ -158,4 +160,4 @@ const dataFormat = (name: string, cellValue: Object, row: any): any => {
 
 </template>
 
-<style scoped></style>
+<style lang="scss" scoped></style>
