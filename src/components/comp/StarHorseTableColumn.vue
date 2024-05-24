@@ -61,6 +61,7 @@ const cellClick = (row: any, column: any) => {
     }, 300);
   })
 };
+
 </script>
 
 <template>

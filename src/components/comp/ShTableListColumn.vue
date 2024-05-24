@@ -1,4 +1,4 @@
-<script setup lang = "ts" name = "ShTableListColumn">
+<script setup lang="ts" name="ShTableListColumn">
 import {inject} from "vue";
 import {DialogProps} from "@/components/types/DialogProps";
 
@@ -11,16 +11,21 @@ defineProps({
   rules: {type: Object, required: true}
 });
 const dialogProps = inject<DialogProps>("dialogProps");
+const validMsg = (item: any) => {
+  if (item.required && item.disabled != 'yes') {
+    return [{'required': true, 'message': '必填项不能为空', 'trigger': 'blur'}];
+  }
+  return []
+};
 </script>
 
 <template>
   <el-form-item
-      :required = "item.required"
-      :size = "'small'"
-      :rules = "rules[item.fieldName]"
-      :prop = "`${batchName}.${index}.${item.fieldName}`">
-    <star-horse-item :primaryKey = "primaryKey" :batchName = "batchName" :item = "item" :data-form = "dataForm"
-                     :isEdit = "dialogProps?.ids&&dialogProps?.ids!=-1"/>
+      :size="'small'"
+      :rules="validMsg(item)"
+      :prop="`${batchName}.${index}.${item.fieldName}`">
+    <star-horse-item :primaryKey="primaryKey" :batchName="batchName" :item="item" :data-form="dataForm"
+                     :isEdit="dialogProps?.ids&&dialogProps?.ids!=-1"/>
   </el-form-item>
 </template>
 

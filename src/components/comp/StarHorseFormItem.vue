@@ -34,6 +34,12 @@ const checkObject = (item: any) => {
   }
   return 1;
 }
+const validMsg = (item: any) => {
+  if (item.required && item.disabled != 'yes') {
+    return [{'required': true, 'message': '必填项不能为空', 'trigger': 'blur'}];
+  }
+  return []
+};
 </script>
 <template>
   <template v-for="item in fieldList.fieldList">
@@ -43,9 +49,8 @@ const checkObject = (item: any) => {
           <el-form-item
               :size="'small'"
               :label="sitem.label"
-              :required="sitem.required"
               :prop="sitem.fieldName"
-              :rules="sitem.required?[{'required': true, 'message': '必填项不能为空', 'trigger': 'blur'}]:[]"
+              :rules="validMsg(sitem)"
               v-if="sitem.formShow&&sitem.type!='button'">
             <star-horse-item :isView="isView" :primaryKey="primaryKey" v-model:dataForm="dataForm" :item="sitem"
                              :isEdit="!dialogProps?.ids||dialogProps?.ids==-1"/>
@@ -91,8 +96,7 @@ const checkObject = (item: any) => {
         v-else
         :size="'small'"
         :label="item.label"
-        :required="item.required"
-        :rules="item.required?[{'required': true, 'message': '必填项不能为空', 'trigger': 'blur'}]:[]"
+        :rules="validMsg(item)"
         :prop="item.fieldName"
         v-if="item.formShow">
       <star-horse-item :isView="isView" :primaryKey="primaryKey" v-model:dataForm="dataForm" :item="item"
