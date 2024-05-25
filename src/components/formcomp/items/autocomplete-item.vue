@@ -10,7 +10,7 @@
         :readonly = "field.preps['readonly']=='yes'"
         :fetch-suggestions = "querySearch"
         :fit-input-width = "field.preps['fitInputWidth']=='yes'"
-        :label = "field.preps['label']"
+        :aria-label = "field.preps['label']"
         :name = "field.preps['name']"
         :size="field?.preps['size']||'small'"
         :placeholder = "field.preps['placeholder']||'请输入'+field.preps['label']"

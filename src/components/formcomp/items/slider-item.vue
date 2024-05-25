@@ -8,7 +8,7 @@
         :format-value-text = "field.preps['formatValueText']"
         :height = "field.preps['height']"
         :input-size = "field.preps['inputSize']"
-        :label = "field.preps['label']"
+        :aria-label = "field.preps['label']"
         :marks = "field.preps['marks']"
         :max = "field.preps['max']"
         :min = "field.preps['min']"
