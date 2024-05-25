@@ -1,5 +1,5 @@
 <template>
-  <starhorse-form-item  :form-item="field" :parentCompType="parentCompType"
+  <starhorse-form-item  :form-item="field" :parentField="parentField"
   >
     <el-popover
         width="400"
@@ -40,7 +40,7 @@ import {defineComponent, onMounted, shallowRef, unref} from "vue";
 export default defineComponent({
   emits: ["selectItem", "selfFunc"],
   setup(props, context) {
-    const parentCompType = context.attrs["parentCompType"];
+    const parentField = context.attrs["parentField"];
     const formFieldList = context.attrs["formFieldList"] as any;
     const field = context.attrs["field"] as any;
     const dialogVisible = shallowRef("false");
@@ -65,7 +65,7 @@ export default defineComponent({
     };
 
     return {
-      parentCompType, formFieldList, context, field, formItem,  dataField, assignIcon,
+      parentField, formFieldList, context, field, formItem,  dataField, assignIcon,
        keyEnterFun, actionName, popoverRef
     }
   }

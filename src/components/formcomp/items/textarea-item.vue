@@ -1,5 +1,5 @@
 <template>
-  <starhorse-form-item  :form-item = "field" :parentCompType = "parentCompType"
+  <starhorse-form-item  :form-item = "field" :parentField = "parentField"
   >
     <el-input
         :fid = "field.preps['name']"
@@ -28,7 +28,7 @@ import {defineComponent, onMounted, shallowRef} from "vue";
 
 export default defineComponent({
   setup(props, context) {
-    const parentCompType = context.attrs["parentCompType"];
+    const parentField = context.attrs["parentField"];
     const formFieldList = context.attrs["formFieldList"] as any;
     const field = context.attrs["field"] as any;
     let formItem = shallowRef({label: 'input', required: false});
@@ -52,7 +52,7 @@ export default defineComponent({
     };
 
     return {
-      parentCompType, formFieldList, context, field, formItem,
+      parentField, formFieldList, context, field, formItem,
        dataField, dynamicFunction, keyEnterFun,actionName
     }
   }

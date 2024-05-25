@@ -5,7 +5,7 @@ import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
 
 const props = defineProps({
-  parentCompType: {type: String},
+  parentField: {type: String},
   formFieldList: {type: Object as PropType<any>},
   field: {type: Object as PropType<any>},
 });
@@ -20,7 +20,8 @@ const getComponentName = (data: any) => {
 };
 const onDragAdd = (evt: Event, dataList: any) => {
   let newIndex = evt.newIndex;
-  if (draggingItem.value.itemType == 'box' || draggingItem.value.itemType == "tab" || draggingItem.value.itemType == "table") {
+  if (draggingItem.value.itemType == 'box'
+      || draggingItem.value.itemType == "tab" || draggingItem.value.itemType == "table") {
     warning('栅格容器不允许嵌套其他容器');
     let elements = props.field.preps.elements;
     for (let inde in elements) {

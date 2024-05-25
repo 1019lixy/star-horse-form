@@ -1,5 +1,5 @@
 <template>
-  <starhorse-form-item :form-item="field" :parentCompType="parentCompType"
+  <starhorse-form-item :form-item="field" :parentField="parentField"
   >
     <div class="interviewVideo_main" id="videoContainer">
       <!--此处根据pdf的页数动态生成相应数量的canvas画布-->
@@ -21,7 +21,7 @@ import {defineComponent, nextTick, reactive, ref, shallowRef} from "vue";
 export default defineComponent({
   setup(props, context) {
 
-    const parentCompType = context.attrs["parentCompType"];
+    const parentField = context.attrs["parentField"];
     const formFieldList = context.attrs["formFieldList"] as any;
     const field = context.attrs["field"] as any;
     let formItem = shallowRef({label: 'input', required: false});
@@ -32,7 +32,7 @@ export default defineComponent({
     };
 
     return {
-      parentCompType, formFieldList, context, field, formItem, dataField,
+      parentField, formFieldList, context, field, formItem, dataField,
       keyEnterFun, pdfPages
     }
   }

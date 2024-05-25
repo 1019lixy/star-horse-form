@@ -57,9 +57,21 @@ const createCreateParams = (formData: any) => {
   }
   return searchFields;
 };
+/**
+ * 解析默认值
+ */
+const analysisDefaultValue = () => {
+  let defaultDatas = {};
+  props.formData?.forEach(item => {
+    if (item.defaultValue) {
+      defaultDatas[item.fieldName] = item.defaultValue;
+    }
+  });
+  return defaultDatas;
+};
 const dataSearch = (val: string | null) => {
   if (val === "reset") {
-    searchForm.value = {};
+    searchForm.value = {...analysisDefaultValue()};
   }
   let searchDatas = createCreateParams(props.formData);
   //如果一个页面（包括引入的页面）出现多个此组件,不能走消息总线，
@@ -110,7 +122,7 @@ const searchArea = () => {
             :label="item.label"
             v-if="item.defaultShow"
             :prop="item.fieldName">
-          <template v-if="item.type=='input'" :span="6">
+          <template v-if="item.type=='input'&&(item.disabled===false||item.disabled=='no')" :span="6">
             <el-select :size="compSize" style="width: 90px;height:100%;padding-top:2px;" v-model="item['matchType']"
                        clearable filterable>
               <el-option v-for="sitem in matchTypeList" :value="sitem.value" :label="sitem.name" :key=

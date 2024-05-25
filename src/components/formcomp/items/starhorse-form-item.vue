@@ -15,7 +15,10 @@ let compList = computed(() => designForm.compList);
 let currentItemId = computed(() => designForm.currentItemId);
 const getParentComp = () => {
   return props.parentField &&
-  (props.parentField.itemType == "box" || props.parentField.itemType == "table")
+  (props.parentField.itemType == "box"
+      ||
+      props.parentField.itemType == "tab"
+      || props.parentField.itemType == "table")
       ? "container"
       : "item";
 };
@@ -156,6 +159,7 @@ const removeItem = (formItem: any) => {
   (currentItemId == formItem?.preps.id && isEdit)?'active-item':''
   ]" v-if="isDesign">
     <el-form-item
+        v-if="parentField?.itemType!='table'"
         :label="formItem?.preps['label']"
         :prop="formItem?.preps['name']"
         :required="formItem?.preps['required']=='yes'"
@@ -164,6 +168,11 @@ const removeItem = (formItem: any) => {
     >
       <slot></slot>
     </el-form-item>
+    <div v-else
+         @click="selectData(formItem)">
+      <slot></slot>
+    </div>
+
     <div
         class="field-action"
         v-if="currentItemId == formItem?.preps.id && isEdit&&getParentComp()!='container'"

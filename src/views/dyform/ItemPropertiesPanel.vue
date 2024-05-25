@@ -117,8 +117,8 @@ const paramsValid = async () => {
       params: {}
     },
   }
-  let searchFieldList:Array<any> = [];
-  formProps.value["fieldLists"].forEach((item:any) => {
+  let searchFieldList: Array<any> = [];
+  formProps.value["fieldLists"].forEach((item: any) => {
     item["tableShow"] = true;
     item["type"] = "input";
     item["formShow"] = true;
@@ -131,7 +131,7 @@ const paramsValid = async () => {
     fieldList: formProps.value["fieldLists"]
   };
   //删除多余的属性
-  formProps.value["orderBy"].forEach((item:any) => {
+  formProps.value["orderBy"].forEach((item: any) => {
     delete item["xh"];
   })
   closeAction();
@@ -365,7 +365,7 @@ watch(() => formProps,
                                  style="color: var(--star-horse-style)"/>&nbsp;&nbsp;<span>基础属性</span>
         </template>
         <el-scrollbar height="500">
-          <template v-if="currentCompCategory==='container'">
+          <template v-if="currentCompCategory==='container'&&currentItemType!='table'">
             <el-form-item
                 label=""
                 prop="rows"

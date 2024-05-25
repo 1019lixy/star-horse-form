@@ -16,8 +16,8 @@
                            @selectItem="selectItem"
                            :dataFormat="field.preps['dataFormat']" :disableAction="true"/>
   </star-horse-dialog>
-  <starhorse-form-item  :isDesign="context.attrs['isDesign']" :form-item="field"
-                       :parentCompType="parentCompType">
+  <starhorse-form-item  :isDesign="context.attrs['isDesign']" :formItem="field"
+                        :parentField="parentField">
     <el-input :autocomplete="field.preps['autocomplete'] == 'yes'" :clearable="field.preps['clearable'] == 'yes'"
               :disabled="field.preps['disabled'] == 'yes'" :max="field.preps['max']"
               :maxlength="field.preps['maxlength']"
@@ -43,7 +43,7 @@ import {SearchParams} from "@/components/types/Params";
 
 export default defineComponent({
   setup(props, context) {
-    const parentCompType = context.attrs["parentCompType"];
+    const parentField = context.attrs["parentField"];
     const formFieldList = context.attrs["formFieldList"] as any;
     const field = context.attrs["field"] as any;
     const dialogInputTableRef = ref();
@@ -119,7 +119,7 @@ export default defineComponent({
       dialogInputTableRef.value?.createCreateParams(data);
     };
     return {
-      parentCompType, formFieldList, context, field, formItem,
+      parentField, formFieldList, context, field, formItem,
        dataField, dynamicFunction,  keyEnterFun, dialogInputVisible, closeAction
       , showVisible, actionName, dialogInputTableRef, searchData,selectItem
     }

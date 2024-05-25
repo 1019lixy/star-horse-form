@@ -15,7 +15,8 @@ export type SearchProps = {
     fieldName?: string,
     type?: string,
     matchType?: string,
-    disabled?: boolean,
+    disabled?: boolean | string,
+    defaultValue?: object,
     defaultShow?: boolean,
     /**
      * 弹窗数据配置

@@ -1,5 +1,5 @@
 <template>
-  <starhorse-form-item  :form-item="field" :parentCompType="parentCompType"
+  <starhorse-form-item  :form-item="field" :parentField="parentField"
   >
     <el-button
         :autofocus="field?.preps['autofocus']=='yes'"
@@ -30,7 +30,7 @@ export default defineComponent({
   components: {StarHorseIcon},
   setup(props, context) {
 
-    const parentCompType = context.attrs["parentCompType"];
+    const parentField = context.attrs["parentField"];
     const formFieldList = context.attrs["formFieldList"] as any;
     const field = context.attrs["field"] as any;
     let formItem = shallowRef({label: 'input', required: false});
@@ -53,7 +53,7 @@ export default defineComponent({
       }
 
     };
-    return {parentCompType, formFieldList, dynamicFunc, context, field, formItem, dataField}
+    return {parentField, formFieldList, dynamicFunc, context, field, formItem, dataField}
   }
 });
 

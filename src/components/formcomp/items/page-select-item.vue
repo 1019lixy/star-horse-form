@@ -8,7 +8,7 @@ import {SearchParams} from "@/components/types/Params";
 
 export default defineComponent({
   setup(props, context) {
-    const parentCompType = context.attrs["parentCompType"];
+    const parentField = context.attrs["parentField"];
     let formFieldList = context.attrs["formFieldList"] as any;
     const field = context.attrs["field"] as any;
     const starHorseTableCompRef = ref();
@@ -110,7 +110,7 @@ export default defineComponent({
       }
     };
     return {
-      parentCompType, formFieldList, context, field, formItem,
+      parentField, formFieldList, context, field, formItem,
       dataField,  keyEnterFun, actionName, pageInfo, pageSizeClick, pageChangeClick
       , getRowIdentity, searchDataFun, handleSelectionChange, starHorseTableCompRef, selectRow
     }
@@ -118,7 +118,7 @@ export default defineComponent({
 });
 </script>
 <template>
-  <starhorse-form-item  :form-item="field" :parentCompType="parentCompType">
+  <starhorse-form-item  :form-item="field" :parentField="parentField">
     <el-select
         :fid="field.preps['name']"
         :readonly="field.preps['readonly']=='yes'"

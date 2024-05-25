@@ -1,6 +1,6 @@
 <template>
   <starhorse-form-item  :isDesign="context.attrs['isDesign']" :formItem="field"
-                       :parentCompType="parentCompType"
+                       :parentField="parentField"
   >
     <el-input
         :autocomplete="field.preps['autocomplete']=='yes'"
@@ -29,7 +29,7 @@ import {defineComponent, onMounted, shallowRef} from "vue";
 export default defineComponent({
   emits:["selectItem","selfFunc"],
   setup(props, context) {
-    const parentCompType = context.attrs["parentCompType"];
+    const parentField = context.attrs["parentField"];
     const formFieldList = context.attrs["formFieldList"];
     const field = context.attrs["field"] as any;
     let formItem = shallowRef({label: 'input', required: false});
@@ -58,7 +58,7 @@ export default defineComponent({
     };
 
     return {
-      parentCompType, formFieldList, context, field, formItem,
+      parentField, formFieldList, context, field, formItem,
        dataField, dynamicFunction,  keyEnterFun, actionName
     }
   }

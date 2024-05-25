@@ -468,45 +468,7 @@ export function containerField(fieldName: string) {
                         }]
                     }]
                 }]
-            }, {
-                title: "表格属性",
-                tabName: "table",
-                disabled: fieldName != "table",
-                fieldList: [
-                    {
-                        label: "集合名称",
-                        fieldName: "batchFieldName",
-                        type: "input",
-                        required: true,
-                        formShow: !false,
-                        tableShow: !false,
-                        minWidth: 180,
-                    }],
-                batchFieldList: [{
-                    batchName: "elements",
-                    fieldList: [{
-                        label: "列",
-                        fieldName: "colIndex",
-                        type: "input",
-                        required: true,
-                        formShow: !false,
-                        tableShow: !false,
-                        minWidth: 180,
-                        batchFieldList: [{
-                            batchName: "columns",
-                            fieldList: [{
-                                label: "表头",
-                                fieldName: "label",
-                                type: "input",
-                                required: true,
-                                formShow: !false,
-                                tableShow: !false,
-                                minWidth: 180
-                            }]
-                        }]
-                    }]
-                }]
-            }]
+            }, ]
         }]
     });
 }

@@ -1,5 +1,5 @@
 <template>
-  <starhorse-form-item  :form-item = "field" :parentCompType = "parentCompType"
+  <starhorse-form-item  :form-item = "field" :parentField = "parentField"
   >
     <div style = "border: 1px solid #ccc">
       <Toolbar style = "border-bottom: 1px solid #ccc" :editor = "editorRef" :defaultConfig = "toolbarConfig"
@@ -31,7 +31,7 @@ export default defineComponent({
     editor.destroy();
   },
   setup(props, context) {
-    const parentCompType = context.attrs["parentCompType"];
+    const parentField = context.attrs["parentField"];
     const formFieldList = context.attrs["formFieldList"] as any;
     const field = context.attrs["field"] as any;
     let formItem = shallowRef({label: 'input', required: false});
@@ -106,7 +106,7 @@ export default defineComponent({
 
 
     return {
-      parentCompType, formFieldList, context, field, formItem, editorConfig, editorRef, toolbarConfig,
+      parentField, formFieldList, context, field, formItem, editorConfig, editorRef, toolbarConfig,
        dataField, dynamicFunction,  keyEnterFun, handleCreated
     }
   },

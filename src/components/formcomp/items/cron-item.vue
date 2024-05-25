@@ -5,7 +5,7 @@
     <Crontab ref = "cronTabRef" :expression = "context.attrs['formFieldList'][field.preps['name']]"
     />
   </star-horse-dialog>
-  <starhorse-form-item  :form-item = "field" :parentCompType = "parentCompType"
+  <starhorse-form-item  :form-item = "field" :parentField = "parentField"
   >
     <el-input
         :fid = "field.preps['name']"
@@ -29,7 +29,7 @@ import StarHorseDialog from "@/components/comp/StarHorseDialog.vue";
 export default defineComponent({
   components: {Crontab, StarHorseDialog},
   setup(props, context) {
-    const parentCompType = context.attrs["parentCompType"];
+    const parentField = context.attrs["parentField"];
     const formFieldList = context.attrs["formFieldList"];
     const field = context.attrs["field"] as any;
     const defaultExpress = "* * * * * * *";
@@ -69,7 +69,7 @@ export default defineComponent({
     };
     resetForm();
     return {
-      parentCompType, formFieldList, context, field, formItem,
+      parentField, formFieldList, context, field, formItem,
        dataField,  keyEnterFun, cronVisible
       , resetForm, close, submit, cronTabRef,actionName
     }

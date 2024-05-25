@@ -3,13 +3,14 @@ import {computed, inject, Ref, ref} from 'vue'
 import {Setting} from "@element-plus/icons-vue";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
+
 let designForm = DesignForm(piniaInstance);
-let formDataList = computed(()=>designForm.formDataList);
-let containerList = computed(()=>designForm.containerList);
-let selfFormDataList =computed(()=>designForm.selfFormDataList);
+let formDataList = computed(() => designForm.formDataList);
+let containerList = computed(() => designForm.containerList);
+let selfFormDataList = computed(() => designForm.selfFormDataList);
 
 let activeNames = ref(['a', 'b', 'c', 'd']);
-let formFieldList = computed(()=>designForm.formFieldList);
+let formFieldList = computed(() => designForm.formFieldList);
 const onContainerCopy = (data: any) => {
   return onDataCopy(data, 'container');
 };
@@ -37,8 +38,10 @@ const onDataCopy = (data: any, type: String) => {
   formFieldList.value[reData.preps.fieldName] = getDefaultVal(reData.itemType);
   mvData['compType'] = type;
   mvData['itemType'] = reData.itemType;
-  if (reData.itemType == "box"||reData.itemType=="table" ) {
+  if (reData.itemType == "box") {
     mvData.preps["elements"] = [{rowIndex: 1, columns: [{colIndex: 1, colspan: 24, items: [{}]}]}];
+  } else if (reData.itemType == "table") {
+    mvData.preps["elements"] = [{colIndex: 1, items: [{}]}];
   }
   designForm.setDraggingItem(mvData);
   return mvData;

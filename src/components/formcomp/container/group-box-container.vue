@@ -35,6 +35,7 @@ const removeData = () => {
 
 </script>
 <template>
+
   <div :class="isEdit?'field-item':''">
     <slot></slot>
     <div class="field-action" v-if="isEdit">

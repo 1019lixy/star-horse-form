@@ -6,25 +6,23 @@ import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
 
 let containerTableRef = ref(); // 强制刷新表格
-// 对齐方式
-let result = ref(0);
-const emits = defineEmits(["selectItem"]);
 const props = defineProps({
-  parentCompType: {type: String},
+  parentField: {type: String},
   formFieldList: {type: Object as PropType<any>},
   field: {type: Object as PropType<any>},
 });
 let designForm = DesignForm(piniaInstance);
 let draggingItem = computed(() => designForm.draggingItem);
 let itemType = ref('container');
+let isEdit = computed(() => designForm.isEdit);
 const getComponentName = (data: any) => {
-  return data.itemType + '-item'
+  return data?.itemType + '-item'
 };
 const onDragAdd = (evt: Event, dataList: any) => {
   let newIndex = evt.newIndex
-  if (draggingItem.itemType == 'box'
-      || draggingItem.itemType == 'tab'
-      || draggingItem.itemType == 'table') {
+  if (draggingItem.value.itemType == 'box'
+      || draggingItem.value.itemType == 'tab'
+      || draggingItem.value.itemType == 'table') {
     warning('容器不能嵌套容器');
     let elements = props.field.preps.elements;
     for (let inde in elements) {
@@ -40,7 +38,7 @@ const onDragAdd = (evt: Event, dataList: any) => {
         }
       }
     }
-    return;
+    return false;
   }
   if (newIndex != null && newIndex != 'undefined') {
     let dataInfo = dataList[newIndex];
@@ -49,8 +47,19 @@ const onDragAdd = (evt: Event, dataList: any) => {
     designForm.setParentCompType(itemType.value);
   }
 };
-const selectItem = (data: any, parentCompType: String) => {
-  emits("selectItem", data, parentCompType);
+const analysisData = (index: number) => {
+  let field = props.field?.preps;
+  let elements = field?.elements;
+  let f = elements.find(item => item.colIndex == index);
+  if (index > 1) {
+    if (!f) {
+      elements.push({
+        colIndex: index,
+        items: []
+      });
+    }
+  }
+  return f?.items[0]?.preps?.label || `Title${index}`;
 }
 </script>
 <template>
@@ -58,28 +67,36 @@ const selectItem = (data: any, parentCompType: String) => {
     <table ref="containerTableRef" class="dynamic-table">
       <thead>
       <tr>
-        <th v-for="td in field.preps.elements[0].columns">
-          {{ td.label }}
+        <th v-for="td of parseInt(field.preps.columns)">
+          {{ analysisData(td) }}
         </th>
       </tr>
       </thead>
       <tbody>
-      <tr v-for="adata in field.preps.elements">
-        <template v-for="td in adata.columns">
+      <tr>
+        <template v-for="td of parseInt(field.preps.columns)">
           <td :style="{ 'height':'35px',
-                        width:(100/adata.columns.length)+'%',
+                        width:(100/parseInt(field.preps.columns))+'%',
                         borderTop: `1px solid  #dfe6ec`,
                         borderBottom: `1px solid #dfe6ec`,
                         borderLeft: `1px solid #dfe6ec`,
                         borderRight: `1px solid #dfe6ec`,
                       }">
-            <draggable @add="(evt)=>onDragAdd(evt,td.items)" class="smain-design"
+            <draggable @add="(evt:Event)=>onDragAdd(evt,field.preps.elements[td-1].items)"
+                       class="smain-design"
                        tag="div"
-                       v-bind="{group:'starHorseGroup', ghostClass: 'ghost',animation: 200}"
-                       v-model="td.items">
-              <template v-for="data in td.items">
-                <component :field="data" :is="getComponentName(data)"
-                           @selectItem="selectItem" v-if="data.compType==='formItem'"/>
+                       group="starHorseGroup"
+                       ghostClass="ghost"
+                       animation="200"
+                       v-model="field.preps.elements[td-1].items">
+              <template v-for="data in field.preps.elements[td-1].items">
+
+                <component :key="data?.id"
+                           :field="data"
+                           :is="getComponentName(data)"
+                           :parentField="field"
+                           :formFieldList="formFieldList"
+                           v-if="data?.compType==='formItem'"/>
               </template>
             </draggable>
           </td>
@@ -93,10 +110,11 @@ const selectItem = (data: any, parentCompType: String) => {
 .dynamic-table {
   width: 100%;
   border: 1px dotted #8F8F8F;
-  thead{
+
+  thead {
     background: #eee;
     height: 30px;
-    font-size:14px
+    font-size: 14px
   }
 }
 </style>
