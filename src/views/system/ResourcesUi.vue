@@ -127,7 +127,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   ],
   batchFieldList: [],
   userTableFuncs: [],
-  tableCellEditabled: false
+  cellEditable: false
 });
 const primaryKey = "idResourcesSummary";
 const rules = {

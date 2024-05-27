@@ -186,7 +186,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   ],
   batchFieldList: [],
   userTableFuncs: [],
-  tableCellEditabled: false,
+  cellEditable: false,
   stopAutoLoad: false
 });
 //主键

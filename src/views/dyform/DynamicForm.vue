@@ -32,7 +32,7 @@ const dataUrl = reactive<ApiUrls>(<ApiUrls>{
 let designForm = DesignForm(piniaInstance);
 let route = useRoute();
 let router = useRouter();
-let draggingItem = computed(()=>designForm.draggingItem);
+let draggingItem = computed(() => designForm.draggingItem);
 let list = computed(() => designForm.compList);
 let isPreview = ref<any>(false);
 let batchEditFieldVisible = ref<any>(false);
@@ -73,7 +73,7 @@ const loadFormData = async (formId: any, isParent: boolean) => {
   data["details"] = {};
   designForm.setIsEdit(true);
   let activeItem = list.value[0];
-  designForm.selectItem(activeItem,activeItem.itemType,"item");
+  designForm.selectItem(activeItem, activeItem.itemType, "item");
 
 };
 onMounted(async () => {
@@ -124,7 +124,7 @@ const doSave = async () => {
     closeAction();
     return;
   }
-  let dynameForm =formInfo.value;
+  let dynameForm = formInfo.value;
   let flag = false;
   await nextTick();
   await formPropertyRef.value.$refs.itemFormInfo.validate((evt: boolean) => {
@@ -172,6 +172,23 @@ const getComponentName = (data: any) => {
   return data.itemType + "-item";
 };
 const onDragAdd = (evt: Event, dataList: Array<any>) => {
+  if (draggingItem.value.itemType == 'table') {
+    let id = draggingItem.value.id;
+
+    let datas = dataList.filter(item => item.itemType == "table");
+    console.log(dataList);
+    if (datas.length > 1) {
+      warning("同级容器中只能添加一次Table 组件");
+      for (let i = 0; i < dataList.length; i++) {
+        let temp = dataList[i];
+        if (temp.id == id) {
+          dataList.splice(i, 1);
+          break;
+        }
+      }
+    }
+
+  }
   designForm.selectItem(draggingItem.value, draggingItem.value["itemType"], "");
 };
 const createCode = () => {
@@ -186,10 +203,19 @@ const tableEdit = (submit: boolean) => {
   isSubmit.value = submit;
   configDialogVisible.value = true;
 };
-const helpMessage = `help`;
+const helpMessage =
+    `
+描述：StarHorse 表单设计器是一款通过拖拽即可实现复杂表单模型，机会可满足大部分常见业务。
+操作步骤：
+  1、将左边的组件拖动中间空白区域
+  2、
+  3、
+  4、
+  5、
+`;
 let leftPanelVisible = ref<Boolean>(true);
 let rightPanelVisible = ref<Boolean>(true);
-let processMsg=`
+let processMsg = `
 1,前后端Tab里的嵌套栅格，字段还没有解析
 2、优化后前端页面联动效果没有验证
 `;
@@ -222,6 +248,12 @@ const actions = (action: string) => {
   }
 
 };
+/**
+ * 动态表单当前还存在问题
+ * 1、tab 删除元素
+ * 2、tab 中数据位置改变问题，点击向上或者向下无效果
+ * 3、box 的数据位置改变问题
+ */
 </script>
 
 <template>
@@ -243,28 +275,29 @@ const actions = (action: string) => {
   >
 
     <el-row style="font-width: bold;font-size:12px;margin-bottom: 5px;">
+      <el-col :span="3">容器名称</el-col>
       <el-col :span="3">标签名称</el-col>
       <el-col :span="3">属性名称</el-col>
       <el-col :span="3">最大长度/精度</el-col>
       <el-col :span="3">是否必须</el-col>
-      <el-col :span="3">表单显示</el-col>
-      <el-col :span="3">查询显示</el-col>
-      <el-col :span="3">列表显示</el-col>
+      <el-col :span="2">表单显示</el-col>
+      <el-col :span="2">查询显示</el-col>
+      <el-col :span="2">列表显示</el-col>
       <el-col :span="3">默认值</el-col>
     </el-row>
     <template v-for="(item,index) in list">
       <template v-if="item.preps['elements']?.length>0" v-for="sitem in item.preps['elements']">
         <template v-for="sitem1 in sitem['columns']">
           <template v-for="sitem2 in sitem1.items">
-            <FieldAnalysis :index="index" :field="sitem2"/>
+            <FieldAnalysis :index="index" :field="sitem2" :container="item.preps.label"/>
           </template>
         </template>
         <template v-for="sitem2 in sitem.items">
-          <FieldAnalysis :index="index" :field="sitem2"/>
+          <FieldAnalysis :index="index" :field="sitem2" :container="sitem.label||item.preps.label"/>
         </template>
       </template>
       <FieldAnalysis :index="index" :field="item"
-                     v-if="item.itemType!=='box'&&item.itemType!=='table' &&item.itemType!='tab'"/>
+                     v-if="item.itemType!=='box'&&item.itemType!=='table' &&item.itemType!='tab'" :container="'--'"/>
     </template>
 
   </star-horse-dialog>
@@ -356,7 +389,6 @@ const actions = (action: string) => {
                       :field="data"
                       :is="data.itemType + '-container'"
                       :formFieldList="formFieldList"
-
                       v-if="data.compType === 'container'"
                   />
                   <component
@@ -369,7 +401,6 @@ const actions = (action: string) => {
                   />
                 </template>
               </draggable>
-              <el-scrollbar></el-scrollbar>
             </el-form>
           </div>
           <div class="side-panel-item" v-show="rightPanelVisible">
@@ -463,6 +494,7 @@ const actions = (action: string) => {
           background: rgba(255, 255, 255, 0.8);
         }
       }
+
       .side-panel-item {
         margin-top: 5px;
         border: 1px solid #eee;

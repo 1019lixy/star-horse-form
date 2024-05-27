@@ -10,26 +10,25 @@ const props = defineProps({
 });
 let designForm = DesignForm(piniaInstance);
 
-let draggingItem = computed(() => designForm.draggingItem);
-let containerList = ref([]);
-let itemType = ref('container');
+// let draggingItem = computed(() => designForm.draggingItem);
+// let containerList = ref([]);
+// let itemType = ref('container');
 const getComponentName = (data: any) => {
-  console.log(data);
-  return data.itemType == "tab" || data.itemType == "box" || data.itemType == "table" ? data.itemType + '-container' : data.itemType + '-item'
+  return (data.itemType == "tab" || data.itemType == "box" || data.itemType == "table") ? data.itemType + '-container' : data.itemType + '-item'
 };
 const onDragAdd = (evt: Event, dataList: any) => {
+  console.log(evt, dataList);
   let newIndex = evt.newIndex;
   if (newIndex != null && newIndex != 'undefined') {
     let dataInfo = dataList[newIndex];
-    designForm.setCurrentItemId(dataInfo.id);
-    designForm.setCurrentItemType(dataInfo.compType);
-    designForm.setParentCompType(itemType.value);
-    designForm.setDraggingItem({});
+    // designForm.setDraggingItem({});
+    designForm.selectItem(dataInfo, dataInfo.itemType, "");
   }
 };
 const activeTabName = ref();
 onMounted(() => {
   if (!props.field['preps']["elements"]) {
+    console.log("init tab elements.........");
     props.field['preps']["elements"] = [{
       label: "Tab1",
       tabName: "tab1",
@@ -59,6 +58,7 @@ const addTab = () => {
 
 <template>
   <group-box-container class="dynamic-tab-wapper"
+                       :parentField="parentField"
                        :form-item="field"
   >
     <el-tabs
@@ -80,6 +80,7 @@ const addTab = () => {
                    :name="adata['name']||index"
       >
         <el-scrollbar>
+
           <draggable
               @add="(evt:Event)=>onDragAdd(evt,adata['items'])"
               class="tab-design"
@@ -95,7 +96,7 @@ const addTab = () => {
                   :is="getComponentName(data)"
                   :parentField="field"
                   :formFieldList="formFieldList"
-                  v-if="data.compType==='formItem'||data.itemType=='box'||data.itemType=='table'"/>
+                  v-if="data?.compType==='formItem'||data?.itemType=='box'||data?.itemType=='table'"/>
             </template>
           </draggable>
         </el-scrollbar>

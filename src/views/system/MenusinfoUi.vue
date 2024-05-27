@@ -172,7 +172,7 @@ const tableFieldList = reactive<PageFieldInfo>({
   ],
   batchFieldList: [],
   userTableFuncs: [],
-  tableCellEditabled: true
+  cellEditable: true
 });
 const primaryKey = "idMenusinfo";
 const rules = {

@@ -583,7 +583,7 @@ defineExpose({
       <template v-if="item instanceof Array">
         <star-horse-table-column
             :data-format="dataFormat"
-            :cellEditable="fieldList['tableCellEditabled']"
+            :cellEditable="fieldList['cellEditable']"
             :item="sitem"
             :compUrl="compUrl"
             v-for="sitem in item"
@@ -592,7 +592,7 @@ defineExpose({
       <template v-else-if="item.tabList?.length > 0">
         <star-horse-table-column
             :data-format="dataFormat"
-            :cellEditable="fieldList['tableCellEditabled']"
+            :cellEditable="fieldList['cellEditable']"
             :item="sitem"
             :compUrl="compUrl"
             v-for="sitem in item.tabList.fieldList"
@@ -601,7 +601,7 @@ defineExpose({
       <star-horse-table-column
           v-else
           :compUrl="compUrl"
-          :cellEditable="fieldList['tableCellEditabled']"
+          :cellEditable="fieldList['cellEditable']"
           :data-format="dataFormat"
           :item="item"
       />

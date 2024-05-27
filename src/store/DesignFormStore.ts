@@ -134,6 +134,8 @@ export const DesignForm: any = defineStore("DesignForm", {
         setCompList(compList: Array<any>) {
             this.compList = compList;
         },
+
+
         setFormFieldList(formFieldList: any) {
             this.formFieldList = formFieldList
         },

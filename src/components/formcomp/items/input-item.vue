@@ -1,9 +1,8 @@
 <template>
-  <starhorse-form-item  :isDesign="context.attrs['isDesign']" :formItem="field"
+  <starhorse-form-item :isDesign="context.attrs['isDesign']" :formItem="field"
                        :parentField="parentField"
   >
     <el-input
-        :autocomplete="field.preps['autocomplete']=='yes'"
         :clearable="field.preps['clearable']=='yes'"
         :disabled="field.preps['disabled']=='yes'"
         :max="field.preps['max']"
@@ -16,7 +15,7 @@
         type="text"
         :fid="field.preps['name']"
         v-on:[actionName]="keyEnterFun(field.preps['actionName'])"
-        @keydown.enter = "keyEnterFun"
+        @keydown.enter="keyEnterFun"
         @focus="keyEnterFun('focus')"
         @blur="keyEnterFun('blur')"
         v-model="context.attrs['formFieldList'][field.preps['name']]"/>
@@ -27,7 +26,7 @@
 import {defineComponent, onMounted, shallowRef} from "vue";
 
 export default defineComponent({
-  emits:["selectItem","selfFunc"],
+  emits: ["selectItem", "selfFunc"],
   setup(props, context) {
     const parentField = context.attrs["parentField"];
     const formFieldList = context.attrs["formFieldList"];
@@ -52,21 +51,18 @@ export default defineComponent({
 
     const keyEnterFun = (prep: any) => {
       if (prep == actionName.value && field.preps["actionRelation"]) {
-        field.preps["actionRelation"](context.attrs['formFieldList'][field.preps['name']],context.attrs['formFieldList']["xh"]);
+        field.preps["actionRelation"](context.attrs['formFieldList'][field.preps['name']], context.attrs['formFieldList']["xh"]);
       }
       context.emit('selfFunc', prep);
     };
 
     return {
       parentField, formFieldList, context, field, formItem,
-       dataField, dynamicFunction,  keyEnterFun, actionName
+      dataField, dynamicFunction, keyEnterFun, actionName
     }
   }
 });
-
-
 </script>
-
-<style scoped>
+<style lang="scss" scoped>
 
 </style>

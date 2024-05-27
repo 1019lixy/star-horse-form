@@ -147,7 +147,7 @@ export declare interface FieldInfo {
     /**
      * 弹窗数据配置
      */
-    dialogInputPreps?: DialogInput;
+    params?: DialogInput;
     /**
      * 事件联动
      */
@@ -368,7 +368,7 @@ export declare interface PageFieldInfo {
     /**
      * 是否允许列表单元格可以编辑
      */
-    tableCellEditabled?: boolean;
+    cellEditable?: boolean;
     /**
      * 列表数据排序
      */

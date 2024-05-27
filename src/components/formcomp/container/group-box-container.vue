@@ -5,28 +5,40 @@ import {DesignForm} from "@/store/DesignFormStore.ts";
 import {computed} from "vue";
 
 const props = defineProps({
-  formItem: {
-    type: Object,
-    required: true
-  },
+  parentField: {type: Object},
+  formItem: {type: Object, required: true},
 });
 let designForm = DesignForm(piniaInstance);
-let compList=computed(()=>designForm.compList);
-let isEdit=computed(()=>designForm.isEdit);
+let compList = computed(() => designForm.compList);
+let isEdit = computed(() => designForm.isEdit);
 const selectData = () => {
   let container = props.formItem;
-  console.log(container);
   designForm.selectItem(container, container?.itemType, "");
 };
 const removeData = () => {
   confirm("删除容器，容器内的所有元素都会被删除").then(res => {
     if (res) {
-
-      let dataList = compList.value;
       let id = props.formItem.preps?.id || props.formItem.id;
-      for (let i = 0; i < dataList.length; i++) {
-        if (id === dataList[i].id) {
-          dataList.splice(i, 1);
+      console.log(id, props.parentField);
+      if (props.parentField?.itemType == "tab") {
+        let elements = props.parentField!.preps.elements;
+        for (let i = 0; i < elements.length; i++) {
+          let items = elements[i].items;
+          for (let j = 0; j < items.length; j++) {
+            if (id === items[j]?.id) {
+              items.splice(j, 1);
+              return;
+            }
+          }
+        }
+      } else if (props.parentField?.itemType == "box") {
+
+      } else {
+        let dataList = compList.value;
+        for (let i = 0; i < dataList.length; i++) {
+          if (id === dataList[i].id) {
+            dataList.splice(i, 1);
+          }
         }
       }
     }
@@ -35,10 +47,12 @@ const removeData = () => {
 
 </script>
 <template>
-
-  <div :class="isEdit?'field-item':''">
+  <div :class="isEdit?'field-item':''" >
     <slot></slot>
     <div class="field-action" v-if="isEdit">
+      <el-tooltip content="拖动">
+        <star-horse-icon icon-class="drag" style="color: var(--star-horse-white)"/>
+      </el-tooltip>
       <el-tooltip content="选中容器">
         <star-horse-icon class="icon-cls" @click.stop="selectData" icon-class="select-parent" style="color:#e3e9f2;"/>
       </el-tooltip>
@@ -51,17 +65,25 @@ const removeData = () => {
 <style lang="scss" scoped>
 .field-item {
   width: 100%;
+  position: relative;
   padding: 3px;
+  z-index: 999;
+  border: 1px dotted #e6a23c;
+  margin-top: 3px;
+  &:hover .field-action {
+    opacity: 1;
+  }
 
   .field-action {
-    position: relative;
-    top: 3px;
-    right: 10px;
+    position: absolute;
+    top: 0;
+    left: 3px;
     height: 22px;
+    opacity: 0;
     line-height: 22px;
     background: var(--star-horse-style);;
     z-index: 9999999;
-    float: right;
+    float: left;
     text-align: right;
     display: flex;
     flex-direction: row;

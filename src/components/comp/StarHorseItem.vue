@@ -1,5 +1,5 @@
 <script setup lang="ts" name="StarHorseItem">
-import {inject, onMounted, reactive, ref, unref, watch} from "vue";
+import {inject, onMounted, ref, unref, watch} from "vue";
 import {warning} from "@/utils/message";
 import {FieldInfo} from "@/components/types/PageFieldInfo";
 import Help from "@/components/help.vue";
@@ -20,7 +20,6 @@ const props = defineProps({
 );
 const dataForm = defineModel("dataForm");
 const itemType = ref<String>("input");
-const showPassword = ref(false);
 const emit = defineEmits(["dataSearch", "focus", "blur"]);
 const formFields = inject("formFields");
 const field = ref<any>({
@@ -56,7 +55,7 @@ const dataSearch = (act: String) => {
 //页面属性改变，重新刷新数据
 watch(() => props.item,
     () => {
-      typePreps();
+      compPreps();
     }, {
       immediate: false,
       deep: true
@@ -70,12 +69,15 @@ watch(() => props.isEdit,
       deep: true
     }
 );
-const typePreps = () => {
+const compPreps = () => {
   itemType.value = props.item.type || props.item.fieldType;
   field.value.preps["values"] = props.item.optionList;
   if (itemType.value == "number") {
     field.value.preps["step"] = props.item.step || 1;
     field.value.preps["min"] = props.item.min || 0;
+    if (props.item.max) {
+      field.value.preps["max"] = props.item.max;
+    }
     field.value.preps["precision"] = props.item.precision || 0;
   } else if (itemType.value == "select") {
     field.value.preps["filterable"] = "yes";
@@ -105,14 +107,14 @@ const typePreps = () => {
     field.value.preps["rangeSeparator"] = "到";
     field.value.preps["startPlaceholder"] = "开始日期";
   } else if (itemType.value === "dialog-input" || itemType.value == "page-select") {
-    let inputPreps = props.item.dialogInputPreps;
+    let inputPreps = props.item.params;
     if (!inputPreps) {
-      warning("属性" + props.item.label + "需要配置dialogInputPreps 信息");
+      warning("属性" + props.item.label + "需要配置params 信息");
       return;
     }
     field.value.preps["primaryKey"] = inputPreps.primaryKey;
     field.value.preps["fieldList"] = {
-      tableCellEditabled: false,
+      cellEditable: false,
       fieldList: inputPreps.fieldList
     };
     field.value.preps["searchFieldList"] = [];
@@ -165,9 +167,6 @@ const typePreps = () => {
       } else {
         row.push(field);
       }
-      //[[{},{}],[]]
-      // let temp1 = formFields[props.batchName][dataForm.value["xh"] - 1];
-
     } else {
       formFields[fieldName] = field;
     }
@@ -175,9 +174,6 @@ const typePreps = () => {
   }
 //  console.log(field);
 };
-const viewOrHide = () => {
-  showPassword.value = !showPassword.value;
-}
 const defaultAction = ref("keydown.enter")
 const typeList = ["select", "tselect", "date", "daterange"];
 const actionName = ref();
@@ -189,7 +185,7 @@ onMounted(() => {
   }
   randId.value = "Id" + new Date().getTime();
   actionName.value = props.item.actionName ? props.item.actionName : defaultAction.value;
-  typePreps();
+  compPreps();
 });
 </script>
 <style lang="scss" scoped>
@@ -205,5 +201,4 @@ onMounted(() => {
     <help :message="item.helpMsg" v-if="item.helpMsg"/>
   </div>
 </template>
-
 <style scoped></style>

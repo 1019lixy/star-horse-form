@@ -42,15 +42,13 @@ const onDragAdd = (evt: Event, dataList: any) => {
   }
   if (newIndex != null && newIndex != 'undefined') {
     let dataInfo = dataList[newIndex];
-    designForm.setCurrentItemId(dataInfo.id);
-    designForm.setCurrentItemType(dataInfo.compType);
-    designForm.setParentCompType(itemType.value);
+    designForm.selectItem(dataInfo, dataInfo.itemType, "");
   }
 };
 const analysisData = (index: number) => {
   let field = props.field?.preps;
   let elements = field?.elements;
-  let f = elements.find(item => item.colIndex == index);
+  let f = elements.find((item: any) => item.colIndex == index);
   if (index > 1) {
     if (!f) {
       elements.push({
@@ -63,7 +61,9 @@ const analysisData = (index: number) => {
 }
 </script>
 <template>
-  <group-box-container class="dynamic-tab-wapper" :form-item="field">
+  <group-box-container class="dynamic-tab-wapper"
+                       :parentField="parentField"
+                       :form-item="field">
     <table ref="containerTableRef" class="dynamic-table">
       <thead>
       <tr>

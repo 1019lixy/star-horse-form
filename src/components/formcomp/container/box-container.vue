@@ -40,16 +40,17 @@ const onDragAdd = (evt: Event, dataList: any) => {
     return false;
   }
   if (newIndex != null && newIndex != 'undefined') {
-    designForm.setCurrentItemId(dataList[newIndex].id);
-    designForm.setCurrentItemType(dataList[newIndex].compType);
-    designForm.setParentCompType(itemType.value);
+    let dataInfo = dataList[newIndex];
+    designForm.selectItem(dataInfo, dataInfo.itemType, "");
   }
 };
 </script>
 
 
 <template>
-  <group-box-container :form-item="field">
+  <group-box-container
+      :parentField="parentField"
+      :form-item="field">
     <!--    {{ field.preps.elements }}-->
     <el-row v-for="adata in field.preps.elements" :gutter="field.preps.gutter"
             :justify="field.preps.justify"
@@ -113,7 +114,10 @@ const onDragAdd = (evt: Event, dataList: any) => {
   background: var(--star-horse-white);;
   border-radius: 3px;
   min-height: 50px;
-  /* display: flex;*/
+  display: flex;
+  vertical-align: middle;
+  justify-content: center;
+  align-items: center;
 }
 
 .edit_col {

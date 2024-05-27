@@ -118,7 +118,8 @@ export default defineComponent({
 });
 </script>
 <template>
-  <starhorse-form-item  :form-item="field" :parentField="parentField">
+  <starhorse-form-item  :isDesign="context.attrs['isDesign']" :formItem="field"
+                        :parentField="parentField">
     <el-select
         :fid="field.preps['name']"
         :readonly="field.preps['readonly']=='yes'"
@@ -184,6 +185,7 @@ export default defineComponent({
       </template>
       <template #footer>
         <el-pagination
+            small
             :total="pageInfo.totalData"
             @current-change="pageChangeClick"
             @size-change="pageSizeClick"

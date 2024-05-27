@@ -21,6 +21,6 @@ export type SearchProps = {
     /**
      * 弹窗数据配置
      */
-    dialogInputPreps?: DialogInput,
+    params?: DialogInput,
     optionList?: SelectOption[]
 }

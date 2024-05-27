@@ -16,20 +16,29 @@
                            @selectItem="selectItem"
                            :dataFormat="field.preps['dataFormat']" :disableAction="true"/>
   </star-horse-dialog>
-  <starhorse-form-item  :isDesign="context.attrs['isDesign']" :formItem="field"
-                        :parentField="parentField">
-    <el-input :autocomplete="field.preps['autocomplete'] == 'yes'" :clearable="field.preps['clearable'] == 'yes'"
-              :disabled="field.preps['disabled'] == 'yes'" :max="field.preps['max']"
+  <starhorse-form-item :isDesign="context.attrs['isDesign']" :formItem="field"
+                       :parentField="parentField">
+    <el-input
+              :clearable="field.preps['clearable'] == 'yes'"
+              :disabled="field.preps['disabled'] == 'yes'"
+              :max="field.preps['max']"
               :maxlength="field.preps['maxlength']"
-              :min="field.preps['min']" :minlength="field.preps['maxlength']"
+              :min="field.preps['min']"
+              :minlength="field.preps['maxlength']"
               :placeholder="field.preps['placeholder'] || '请输入' + field.preps['label']"
               :prefix-icon="field.preps['prefixIcon']"
-              :readonly="field.preps['readonly']=='yes'"  :size="field?.preps['size']||'small'" type="text" :fid="field.preps['name']"
-              v-on:[actionName]="keyEnterFun(field.preps['actionName'])" @keydown.enter="keyEnterFun"
-              @focus="keyEnterFun('focus')" @blur="keyEnterFun('blur')"
+              :readonly="field.preps['readonly']=='yes'"
+              :size="field?.preps['size']||'small'"
+              type="text"
+              :fid="field.preps['name']"
+              v-on:[actionName]="keyEnterFun(field.preps['actionName'])"
+              @keydown.enter="keyEnterFun"
+              @focus="keyEnterFun('focus')"
+              @blur="keyEnterFun('blur')"
               v-model="context.attrs['formFieldList'][field.preps['name']]">
       <template #append>
-        <el-button icon="Search" @click="showVisible" :disabled="field.preps['disabled'] == 'yes'"/>
+        <el-button icon="Search" @click="showVisible" :size="field?.preps['size']||'small'"
+                   :disabled="field.preps['disabled'] == 'yes'"/>
       </template>
     </el-input>
   </starhorse-form-item>
@@ -69,7 +78,7 @@ export default defineComponent({
     });
     const keyEnterFun = (prep: any) => {
       if (prep == actionName.value && field.preps["actionRelation"]) {
-        field.preps["actionRelation"](context.attrs['formFieldList'][field.preps['name']],context.attrs['formFieldList']["xh"]);
+        field.preps["actionRelation"](context.attrs['formFieldList'][field.preps['name']], context.attrs['formFieldList']["xh"]);
       }
       context.emit('selfFunc', prep);
     };
@@ -120,8 +129,8 @@ export default defineComponent({
     };
     return {
       parentField, formFieldList, context, field, formItem,
-       dataField, dynamicFunction,  keyEnterFun, dialogInputVisible, closeAction
-      , showVisible, actionName, dialogInputTableRef, searchData,selectItem
+      dataField, dynamicFunction, keyEnterFun, dialogInputVisible, closeAction
+      , showVisible, actionName, dialogInputTableRef, searchData, selectItem
     }
   }
 });

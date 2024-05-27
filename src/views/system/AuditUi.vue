@@ -122,7 +122,7 @@ const tableFieldList = reactive<PageFieldInfo>({
   ],
   batchFieldList: [],
   userTableFuncs: [],
-  tableCellEditabled: false
+  cellEditable: false
 });
 const primaryKey = "idAudit";
 const auditRef = ref();

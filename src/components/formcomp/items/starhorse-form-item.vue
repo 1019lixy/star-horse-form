@@ -1,5 +1,5 @@
 <script setup lang="ts" name="starhorse-form-item">
-import {computed, inject, unref} from "vue";
+import {computed, onMounted} from "vue";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
 
@@ -13,11 +13,11 @@ let designForm = DesignForm(piniaInstance);
 let isEdit = computed(() => designForm.isEdit);
 let compList = computed(() => designForm.compList);
 let currentItemId = computed(() => designForm.currentItemId);
+
 const getParentComp = () => {
   return props.parentField &&
   (props.parentField.itemType == "box"
-      ||
-      props.parentField.itemType == "tab"
+      || props.parentField.itemType == "tab"
       || props.parentField.itemType == "table")
       ? "container"
       : "item";
@@ -38,7 +38,25 @@ const moveUpItem = (formItem: any) => {
   if (!isEdit) {
     return;
   }
+  //这个数据解析好麻烦
   let dataList = compList.value;
+  if (props.parentField?.itemType == "tab") {
+    let elements = props.parentField!.preps.elements;
+    for (let i = 0; i < elements.length; i++) {
+      let items = elements[i].items;
+      for (let j = 0; j < items.length; j++) {
+        if (formItem.id === items[j]?.id && j > 0) {
+          let temp = items[j];
+          items[j] = items[j - 1];
+          items[j - 1] = temp;
+          return;
+        }
+      }
+    }
+  } else if (props.parentField?.itemType == "box") {
+
+  }
+  console.log(props.parentField);
   let compType = getParentComp();
   if (compType === "item") {
     for (let i = 0; i < dataList.length; i++) {
@@ -80,6 +98,22 @@ const moveDownItem = (formItem: any) => {
     return;
   }
   let dataList = compList.value;
+  if (props.parentField?.itemType == "tab") {
+    let elements = props.parentField!.preps.elements;
+    for (let i = 0; i < elements.length; i++) {
+      let items = elements[i].items;
+      for (let j = 0; j < items.length; j++) {
+        if (formItem.id === items[j]?.id && j < items.length - 1) {
+          let temp = items[j];
+          items[j] = items[j + 1];
+          items[j + 1] = temp;
+          return;
+        }
+      }
+    }
+  } else if (props.parentField?.itemType == "box") {
+
+  }
   let compType = getParentComp();
   if (compType === "item") {
     for (let i = 0; i < dataList.length; i++) {
@@ -121,44 +155,51 @@ const removeItem = (formItem: any) => {
     return;
   }
   let dataList = compList.value;
-  let compType = getParentComp();
-  if (compType === "item") {
+  if (props.parentField?.itemType == "tab" || props.parentField?.itemType == "table") {
+    let elements = props.parentField!.preps.elements;
+    for (let i = 0; i < elements.length; i++) {
+      let items = elements[i].items;
+      for (let j = 0; j < items.length; j++) {
+        if (formItem.id === items[j]?.id) {
+          items.splice(j, 1);
+          return;
+        }
+      }
+    }
+  } else if (props.parentField?.itemType == "box") {
+    let elements = props.parentField!.preps.elements;
+    for (let index in elements) {
+      let sdataTemp = elements[index];
+      if (sdataTemp.columns.length > 0) {
+        for (let i = 0; i < sdataTemp.columns.length; i++) {
+          let items = sdataTemp.columns[i].items;
+          for (let j = 0; j < items.length; j++) {
+            if (formItem.id === items[j].id) {
+              items.splice(j, 1);
+              break;
+            }
+          }
+        }
+      }
+    }
+  } else {
     for (let i = 0; i < dataList.length; i++) {
       if (formItem.id === dataList[i].id) {
         dataList.splice(i, 1);
         break;
       }
     }
-  } else {
-    for (let i = 0; i < dataList.length; i++) {
-      let dataTemp = dataList[i];
-      if (dataTemp.compType !== "container") {
-        continue;
-      }
-      let elements = dataTemp.preps.elements;
-      for (let index in elements) {
-        let sdataTemp = elements[index];
-        if (sdataTemp.columns.length > 0) {
-          for (let i = 0; i < sdataTemp.columns.length; i++) {
-            let items = sdataTemp.columns[i].items;
-            for (let j = 0; j < items.length; j++) {
-              if (formItem.id === items[j].id) {
-                items.splice(j, 1);
-                break;
-              }
-            }
-          }
-        }
-      }
-    }
   }
 };
+onMounted(() => {
+})
 </script>
 <template>
   <div :class="[isEdit ? 'field-item design-star-horse' : '',
   (currentItemId == formItem?.preps.id && isEdit)?'active-item':''
   ]" v-if="isDesign">
     <el-form-item
+        :size="formItem?.preps['size']||'small'"
         v-if="parentField?.itemType!='table'"
         :label="formItem?.preps['label']"
         :prop="formItem?.preps['name']"
@@ -175,7 +216,7 @@ const removeItem = (formItem: any) => {
 
     <div
         class="field-action"
-        v-if="currentItemId == formItem?.preps.id && isEdit&&getParentComp()!='container'"
+        v-if="isEdit"
     >
       <el-tooltip content="选择父容器">
         <star-horse-icon
@@ -202,6 +243,13 @@ const removeItem = (formItem: any) => {
     <div class="drag-handler background-opacity" v-if="isEdit">
       <el-tooltip content="拖动">
         <star-horse-icon icon-class="drag" style="color: var(--star-horse-white)"/>
+      </el-tooltip>
+      <el-tooltip content="选中组件">
+        <star-horse-icon
+            @click.stop="selectData"
+            icon-class="check"
+            style="color: var(--star-horse-white)"
+        />
       </el-tooltip>
       <el-tooltip content="删除组件">
         <star-horse-icon
@@ -235,6 +283,14 @@ const removeItem = (formItem: any) => {
   position: relative;
   width: inherit;
 
+  &:hover + .field-action {
+    opacity: 1
+  }
+
+  &:hover + .drag-handler {
+    opacity: 1
+  }
+
   .el-form-item {
     margin-bottom: 1px;
   }
@@ -242,12 +298,13 @@ const removeItem = (formItem: any) => {
   .field-action {
     position: absolute;
     //bottom: -24px;
-    bottom: 6px;
+    bottom: 0;
     right: 5px;
     height: 22px;
     line-height: 22px;
     background: var(--star-horse-style);;
     z-index: 9999999;
+    opacity: 0;
 
     i {
       font-size: 14px;
@@ -255,11 +312,16 @@ const removeItem = (formItem: any) => {
       margin: 0 3px;
       cursor: pointer;
     }
+
+    &:hover {
+      opacity: 1;
+      background: var(--star-horse-style);
+    }
   }
 
   .drag-handler {
     position: absolute;
-    top: 0;
+    bottom: 0;
     left: -1px;
     height: 20px;
     line-height: 20px;

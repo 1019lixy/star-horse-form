@@ -364,8 +364,6 @@ export function paramsFields(fieldName: string, item: Object) {
         ]
     };
     fields.push(tabInfo);
-    console.log(fields);
-
     return reactive<PageFieldInfo | any>({
         fieldList: fields
     });
@@ -462,7 +460,6 @@ export function containerField(fieldName: string) {
                                             item["items"] = [];
                                         }
                                     });
-                                    console.log(val, type);
                                 }
                             }]
                         }]

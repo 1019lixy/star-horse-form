@@ -301,14 +301,18 @@ const assignPrep = async (itemType: string, isItem: boolean) => {
   }
 };
 const assignValue = (temp: any) => {
-  currentField.value = temp;
-  fieldList.value = temp.fields;
-  advancedFieldList.value = temp.advancedFields;
-  actions.value = temp.actions;
+  try {
+    currentField.value = temp;
+    fieldList.value = temp.fields;
+    advancedFieldList.value = temp.advancedFields;
+    actions.value = temp.actions;
+  } catch (e) {
+    console.log(e)
+  }
 };
 
 watch(() => formProps,
-    (val) => {
+    (val: any) => {
       assignPrep(currentItemType.value, parentCompType.value == "item");
     }, {
       immediate: true,
