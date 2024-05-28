@@ -218,6 +218,14 @@ let rightPanelVisible = ref<Boolean>(true);
 let processMsg = `
 1,前后端Tab里的嵌套栅格，字段还没有解析
 2、优化后前端页面联动效果没有验证
+3、数据合法性校验没有做（主要考虑其字段重复，集合Key的重复）
+4、组件必须项参数没有做校验
+5、生成Vue 代码没有实现
+6、后退和前进没有实现
+8、参数和组件一致性没有处理
+9、优化后的动态表单解析表字段还没有处理
+10、关联表单还没有考虑其主键定义
+11、其它还未总结项
 `;
 const actions = (action: string) => {
   switch (action) {
