@@ -1,9 +1,9 @@
 <script setup lang="ts" name="StarHorseFormObject">
-import {inject, PropType, ref} from "vue";
+import {inject, onMounted, PropType, ref} from "vue";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {DialogProps} from "@/components/types/DialogProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
-import {batchFieldDefaultValues} from "@/api/sh_api.ts";
+import StarHorseFormTable from "@/components/comp/StarHorseFormTable.vue";
 
 const props = defineProps({
   compUrl: {type: Object as PropType<ApiUrls>},
@@ -17,36 +17,45 @@ const props = defineProps({
   isView: {type: Boolean, default: false},
 });
 const dataForm = defineModel("dataForm");
-if (!dataForm[props.objectName]) {
-  dataForm[props.objectName] = {};
 
-}
 const dialogProps = inject<DialogProps>("dialogProps", {});
-const subTabObject = ref<any>();
-const subTabList = ref<any>();
+const normalTabList = ref<String>("tab0");
 const tableListRef = ref<any>([]);
-
 const setTableRef = (el: any) => {
   if (el) {
     tableListRef.value.push(el);
   }
 }
+const validMsg = (item: any) => {
+  if (item.required && item.disabled != 'yes') {
+    return [{'required': true, 'message': '必填项不能为空', 'trigger': 'blur'}];
+  }
+  return []
+};
+onMounted(() => {
+  if (!dataForm[props.objectName]) {
+    dataForm[props.objectName] = {};
+  }
+});
 </script>
 <template>
+
   <template v-for="item in fieldList.fieldList">
     <el-row v-if="item instanceof Array">
       <template v-for="sitem in item">
         <el-col :span="sitem.colSpan||(24/item.length)">
+
           <el-form-item
               :size="'small'"
               :label="sitem.label"
               :required="sitem.required"
-              :prop="dataForm[objectName][sitem.fieldName]"
-              :rules="sitem.required?[{'required': true, 'message': '必填项不能为空', 'trigger': 'blur'}]:[]"
+              :prop="sitem.fieldName"
+              :rules="validMsg(sitem)"
               v-if="sitem.formShow&&sitem.type!='button'">
             <star-horse-item :primaryKey="primaryKey" v-model:dataForm="dataForm[objectName]" :item="sitem"
                              :isEdit="!dialogProps?.ids||dialogProps?.ids==-1"/>
           </el-form-item>
+
           <star-horse-item v-else-if="sitem.formShow" :primaryKey="primaryKey" v-model:dataForm="dataForm[objectName]"
                            :item="sitem"
                            :isEdit="!dialogProps?.ids||dialogProps?.ids==-1"/>
@@ -69,12 +78,25 @@ const setTableRef = (el: any) => {
                      v-model:dataForm="dataForm[objectName]"
                      :item="item"
                      :isEdit="!dialogProps?.ids||dialogProps?.ids==-1"/>
+    <template v-else-if="item.batchFieldList&&item.batchFieldList.length>0">
+      <template v-if="item.batchFieldList.length>1">
+        <el-tabs v-model="normalTabList">
+          <template v-for="(sitem,key) in item.batchFieldList">
+            <el-tab-pane :label="sitem['title']" :name="'tab'+key" :disabled="sitem.disabled">
+              <star-horse-form-table :rules="rules" :item="sitem" v-model:dataForm="dataForm"/>
+            </el-tab-pane>
+          </template>
+        </el-tabs>
+      </template>
+      <star-horse-form-table v-else :rules="rules" :item="item.batchFieldList[0]"
+                             v-model:dataForm="dataForm"/>
+    </template>
     <el-form-item
         v-else
         :size="'small'"
         :label="item.label"
         :required="item.required"
-        :rules="item.required?[{'required': true, 'message': '必填项不能为空', 'trigger': 'blur'}]:[]"
+        :rules="validMsg(item)"
         :prop="item.fieldName"
         v-if="item.formShow">
       <star-horse-item :primaryKey="primaryKey" v-model:dataForm="dataForm[objectName]" :item="item"
@@ -85,43 +107,14 @@ const setTableRef = (el: any) => {
     <el-tabs v-model="fieldList[batchFieldName].fieldName">
       <template v-for="(item,key) in fieldList[batchFieldName]">
         <el-tab-pane :label="item['title']" :name="item.tabName||'sub_tab'+key" :disabled="item.disabled">
-          <star-horse-form-list
-              style="min-height:100px"
-              v-model:dataForm="dataForm[objectName]"
-              :compUrl="item['compUrl']"
-              :primaryKey="item['primaryKey']"
-              :batchName="item['batchName']"
-              :initRows="item['initRows']"
-              :batchUrl="item['batchUrl']"
-              :downloadTemplateUrl="item['downloadTemplateUrl']"
-              :importInfo="item['importInfo']"
-              :defaultValues="batchFieldDefaultValues(item)"
-              :ref="setTableRef"
-              :field-list="item['fieldList']"
-              :rules="item['rules']||rules"
-          />
+          <star-horse-form-table :rules="rules" :item="item" v-model:dataForm="dataForm"/>
         </el-tab-pane>
       </template>
     </el-tabs>
   </template>
   <template v-else-if="fieldList[batchFieldName]?.length == 1">
     <template v-for="item in fieldList[batchFieldName]">
-      <star-horse-form-list
-          style="min-height:100px"
-          v-model:dataForm="dataForm[objectName]"
-          :compUrl="item['compUrl']"
-          :primaryKey="item['primaryKey']"
-          :batchName="item['batchName']"
-          :initRows="item['initRows']"
-          :batchUrl="item['batchUrl']"
-          :title="item['title']"
-          :downloadTemplateUrl="item['downloadTemplateUrl']"
-          :importInfo="item['importInfo']"
-          :defaultValues="batchFieldDefaultValues(item)"
-          :ref="setTableRef"
-          :field-list="item['fieldList']"
-          :rules="item['rules']||rules"
-      />
+      <star-horse-form-table :rules="rules" :item="item" v-model:dataForm="dataForm"/>
     </template>
   </template>
 </template>

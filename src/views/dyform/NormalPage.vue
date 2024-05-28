@@ -124,8 +124,8 @@ const dataFormat = (name: string, cellValue: Object, row: any): any => {
         :dialog-visible="dialogProps.editVisible"
         :dialogProps="dialogProps"
     >
-<!--      <sh-dynamic-form @refresh="normalPageRef.loadByPage()" :compUrl="dataUrl" :formInfo="formInfo"
-                       :fieldList="tableFieldList.dynamicFormas" :rules="rules"/>-->
+      <!--      <sh-dynamic-form @refresh="normalPageRef.loadByPage()" :compUrl="dataUrl" :formInfo="formInfo"
+                             :fieldList="tableFieldList.dynamicFormas" :rules="rules"/>-->
       <star-horse-form @refresh="normalPageRef.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList"
                        :rules="rules"/>
     </star-horse-dialog>

@@ -159,13 +159,13 @@ const uploadSuccess = (response: any, file, fileList) => {
         <ul class="inner_button" v-if="!isView">
           <li v-if="importInfo?.importDataUrl">
             <el-button @click="excelOperation" title="" type="primary" size="small">
-              <star-horse-icon icon-class="upload" color="#ffffff" size="12px"/>
+              <star-horse-icon icon-class="upload" color="var(--star-horse-style)" size="12px"/>
               <el-tooltip content="导入Excel">导入Excel</el-tooltip>
             </el-button>
           </li>
           <li>
-            <el-button @click="handleAddDetails(null, 1)" title="" type="primary" size="small">
-              <star-horse-icon icon-class="add" color="#ffffff" size="12px"/>
+            <el-button @click="handleAddDetails(null, 1)" title="" type="text" size="small">
+              <star-horse-icon icon-class="add" color="var(--star-horse-style)" size="12px"/>
               <el-tooltip content="添加">添加</el-tooltip>
             </el-button>
           </li>

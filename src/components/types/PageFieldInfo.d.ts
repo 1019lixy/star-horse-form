@@ -355,6 +355,7 @@ export declare interface PageFieldInfo {
      * tb1 对应后端dto 里的List属性名称
      * primaryKey 对应后端dto List泛型对象的主键名称
      * fieldList 对应后端dto List泛型对象的属性
+     * 后面将废弃这种用法,此种用户没法保证动态表单设置的数据位置
      */
     batchFieldList?: Array<BatchFieldInfo>;
     /**

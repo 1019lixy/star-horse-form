@@ -1,7 +1,7 @@
 import {SearchParams} from "@/components/types/Params";
 import {reactive, ShallowRef} from "vue";
 import {ElLoading} from "element-plus";
-import {useRoute} from "vue-router";
+import {useRoute, useRouter} from "vue-router";
 import {getRequest, permissionResources, postRequest} from "@/api/star_horse";
 import {confirm, error, success, warning} from "@/utils/message";
 import {SelectOption} from "@/components/types/SearchProps";
@@ -254,6 +254,7 @@ export function closeLoad() {
  */
 export async function loadPagePermission() {
     let permission = {};
+    console.log(useRouter());
     let meta = useRoute()?.meta;
     console.log(meta);
     let menuId = meta?.menuId as string;

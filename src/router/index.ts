@@ -8,11 +8,13 @@ import {createRouterAndMenuList} from "@/api/star_horse";
 import {userInfo} from "@/store/UserInfoStore";
 import {navBarList} from "@/store/NavbarListStore";
 import {viewList} from "@/store/ViewCacheStore";
+import {computed} from "vue";
 
 const {start, done} = starhorseProcess();
 const userInfoStore = userInfo(piniaInstance);
 const navBarListStore = navBarList(piniaInstance);
 const viewListStore = viewList(piniaInstance);
+let dynamicMenus = computed(() => userInfoStore.dynamicMenus);
 const router = createRouter({
     history: createWebHistory("/"),
     routes: routers,
@@ -27,6 +29,9 @@ const assignTitle = (meta: any) => {
 router.beforeEach((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
     assignTitle(to.meta);
     start();
+    let menus = JSON.parse(JSON.stringify(userInfoStore.dynamicMenus));
+
+    console.log(to, menus, localStorage.getItem("userInfoStore"));
     if (getToken()) {
         // 已登录且要跳转的页面是登录页
         if (to.path === "/login") {
@@ -83,7 +88,8 @@ router.afterEach((to, from) => {
     if (to.path !== "/login" && to.path !== "/404") {
         //动态表单路由，导航信息拼接
         if (to.path.indexOf("page/") != -1) {
-            let menus = userInfoStore.getDynamicMenus;
+            let menuLists = localStorage.getItem("dynamicMenusLists");
+            let menus = JSON.parse(menuLists);
             let fdata = menus.find((item: any) => item.path == to.path);
             to.meta = fdata?.meta || to.meta;
         }

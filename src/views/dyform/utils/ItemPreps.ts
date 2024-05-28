@@ -411,7 +411,7 @@ export function containerField(fieldName: string) {
                         label: "是否子表",
                         fieldName: "subFormFlag",
                         type: "switch",
-                        defaultValue: "yes",
+                        defaultValue: "Y",
                         required: true,
                         formShow: !false,
                         tableShow: !false,
@@ -465,7 +465,7 @@ export function containerField(fieldName: string) {
                         }]
                     }]
                 }]
-            }, ]
+            },]
         }]
     });
 }

@@ -1,12 +1,12 @@
 import {defineStore} from "pinia";
 import {MenusInfo} from "@/components/types/MenusInfo";
-import { Config } from "@/api/settings";
+import {Config} from "@/api/settings";
 
 export const userInfo = defineStore("userInfo", {
     state: () => {
 
         return {
-            userInfo: sessionStorage.getItem(Config.loginInfo)?JSON.parse(sessionStorage.getItem(Config.loginInfo) as string):{},
+            userInfo: sessionStorage.getItem(Config.loginInfo) ? JSON.parse(sessionStorage.getItem(Config.loginInfo) as string) : {},
             permissionMenus: [] as Array<any>,
             dynamicMenus: [] as Array<MenusInfo>,
         }
@@ -50,7 +50,7 @@ export const userInfo = defineStore("userInfo", {
         logout() {
             // this.userInfo = {};
             this.permissionMenus = [];
-            this.dynamicMenus=[];
+            this.dynamicMenus = [];
         },
         /**
          * 权限菜单
@@ -67,13 +67,14 @@ export const userInfo = defineStore("userInfo", {
             if (!this.dynamicMenus) {
                 this.dynamicMenus = [];
             }
-            if(data){
+            if (data) {
                 this.dynamicMenus.push(data);
             }
-          
+
         }
     },
     persist: {
         enabled: true, // 开启数据缓存
+        strategies: [{key: "userInfoStore", storage: localStorage}]
     }
 });

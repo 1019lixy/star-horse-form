@@ -5,6 +5,7 @@ import {DialogProps} from "@/components/types/DialogProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import StarHorseFormObject from "@/components/comp/StarHorseFormObject.vue";
 import {batchFieldDefaultValues} from "@/api/sh_api.ts";
+import StarHorseFormTable from "@/components/comp/StarHorseFormTable.vue";
 
 const props = defineProps({
   compUrl: {type: Object as PropType<ApiUrls>},
@@ -23,6 +24,7 @@ const dialogProps = inject<DialogProps>("dialogProps", {});
 const tableListRef = ref<any>([]);
 const tabObject = ref<any>(0);
 const tabList = ref<any>("tab0");
+const normalTabList = ref<any>("tab0");
 const setTableRef = (el: any) => {
   if (el) {
     tableListRef.value.push(el);
@@ -64,9 +66,11 @@ const validMsg = (item: any) => {
     <template v-if="item.tabList&&item.tabList.length>0">
       <el-tabs v-model="item.fieldName" v-on:tab-change="item.actions">
         <template v-for="(tabItem,key ) in item.tabList">
-          <el-tab-pane :label="tabItem.title" :name="tabItem.tabName||key" :disabled="tabItem.disabled" :index="checkObject(tabItem)">
-            <template v-if="tabItem.subFormFlag" >
-              <star-horse-form-object v-if="tabItem.subFormFlag" :compUrl="compUrl" :objectName="tabItem.objectName"
+          <el-tab-pane :label="tabItem.title" :name="tabItem.tabName||key" :disabled="tabItem.disabled"
+                       :index="checkObject(tabItem)">
+            <template v-if="tabItem.subFormFlag">
+              <star-horse-form-object v-if="tabItem.subFormFlag" :compUrl="compUrl"
+                                      :objectName="tabItem.objectName"
                                       :rules="rules"
                                       :isView="isView"
                                       v-model:dataForm="dataForm"
@@ -92,6 +96,18 @@ const validMsg = (item: any) => {
                      v-model:dataForm="dataForm"
                      :item="item"
                      :isEdit="!dialogProps?.ids||dialogProps?.ids==-1"/>
+    <template v-else-if="item.batchFieldList&&item.batchFieldList.length>0">
+      <template v-if="item.batchFieldList.length>1">
+        <el-tabs v-model="normalTabList">
+          <template v-for="(sitem,key) in item.batchFieldList">
+            <el-tab-pane :label="sitem['title']" :name="'tab'+key" :disabled="sitem.disabled">
+              <star-horse-form-table :rules="rules" :item="sitem" v-model:dataForm="dataForm"/>
+            </el-tab-pane>
+          </template>
+        </el-tabs>
+      </template>
+      <star-horse-form-table v-else :rules="rules" :item="item.batchFieldList[0]" v-model:dataForm="dataForm"/>
+    </template>
     <el-form-item
         v-else
         :size="'small'"
@@ -108,43 +124,14 @@ const validMsg = (item: any) => {
     <el-tabs v-model="tabList">
       <template v-for="(item,key) in fieldList[batchFieldName]">
         <el-tab-pane :label="item['title']" :name="'tab'+key" :disabled="item.disabled">
-          <star-horse-form-list
-              style="min-height:100px"
-              v-model:dataForm="dataForm"
-              :compUrl="item['compUrl']"
-              :primaryKey="item['primaryKey']"
-              :batchName="item['batchName']"
-              :initRows="item['initRows']"
-              :batchUrl="item['batchUrl']"
-              :downloadTemplateUrl="item['downloadTemplateUrl']"
-              :importInfo="item['importInfo']"
-              :defaultValues="batchFieldDefaultValues(item)"
-              :ref="setTableRef"
-              :field-list="item['fieldList']"
-              :rules="item['rules']||rules"
-          />
+          <star-horse-form-table :rules="rules" :item="item" v-model:dataForm="dataForm"/>
         </el-tab-pane>
       </template>
     </el-tabs>
   </template>
   <template v-else-if="fieldList[batchFieldName]?.length ==1">
     <template v-for="(item,key) in fieldList[batchFieldName]">
-      <star-horse-form-list
-          style="min-height:100px"
-          v-model:dataForm="dataForm"
-          :compUrl="item['compUrl']"
-          :primaryKey="item['primaryKey']"
-          :batchName="item['batchName']"
-          :initRows="item['initRows']"
-          :batchUrl="item['batchUrl']"
-          :title="item['title']"
-          :downloadTemplateUrl="item['downloadTemplateUrl']"
-          :importInfo="item['importInfo']"
-          :defaultValues="batchFieldDefaultValues(item)"
-          :ref="setTableRef"
-          :field-list="item['fieldList']"
-          :rules="item['rules']||rules"
-      />
+      <star-horse-form-table :rules="rules" :item="item" v-model:dataForm="dataForm"/>
     </template>
   </template>
 </template>

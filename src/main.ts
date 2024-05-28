@@ -16,7 +16,7 @@ import ZhLocale from 'element-plus/es/locale/lang/zh-cn'; // 中文
 import router from "@/router";
 import {VueDraggableNext} from "vue-draggable-next";
 import * as ElementPlusIconsVue from '@element-plus/icons-vue';
-import {installStore} from "@/store";
+import piniaInstance from "@/store";
 import Particles from "vue3-particles";
 
 // @ts-ignore
@@ -33,7 +33,7 @@ app.use(Particles);
 app.use(userComponent);
 app.use(itemComponent);
 app.use(containerComponent);
-installStore(app);
+app.use(piniaInstance);
 app.use(router);
 app.use(ElementPlus, {
     locale: ZhLocale
