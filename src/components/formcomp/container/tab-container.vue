@@ -37,7 +37,7 @@ onMounted(() => {
       items: []
     }, {
       label: "Tab2",
-      tabName: "tab1",
+      tabName: "tab2",
       objectName: "tab2",
       subFormFlag: "yes",
       items: []

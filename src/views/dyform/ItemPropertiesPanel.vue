@@ -35,6 +35,7 @@ let jsValue = ref<string>("console.log('hello world')");
 let fieldName = ref<string>('');
 const codeCompRef = ref<any>(null);
 const dataSourceFormRef = ref<any>(null);
+const paramsConfigRef = ref<any>(null);
 let validErrorMsg = ref<string>();
 let validSuccessMsg = ref<string>();
 const urlValid = (rule: any, value: any, callback: any) => {
@@ -95,7 +96,7 @@ const checkHttpUrl = (url: string): boolean => {
 
 const validEmpty = async () => {
   let flag = false;
-  await dataSourceFormRef.value.validate((res: boolean) => {
+  await dataSourceFormRef.value.$refs.starHorseFormRef.validate((res: boolean) => {
     flag = res;
   });
   return flag;
@@ -107,7 +108,13 @@ const submitValid = async () => {
   }
 };
 const paramsValid = async () => {
-
+  let flag = false;
+  await paramsConfigRef.value.$refs.starHorseFormRef.validate((res: boolean) => {
+    flag = res;
+  });
+  if (!flag) {
+    return;
+  }
   formProps.value["dataUrl"] = {
     loadByPageUrl: "/userdb-manage/userdb/dynamicForm/validInterface",
     redirect: true,
@@ -325,13 +332,14 @@ watch(() => formProps,
                      @merge="submitValid"
                      @closeAction="closeAction"
                      @reset="resetDataSourceForm" :selfFunc="true">
-    <star-horse-form rules="{}" primary-key="" :fieldList="dataSourceFields()" comp-url=""/>
+    <star-horse-form rules="{}" primary-key="" ref="dataSourceFormRef" :fieldList="dataSourceFields()" comp-url=""/>
   </star-horse-dialog>
   <star-horse-dialog :dialogVisible="paramsDialogVisible" :title="'参数配置'" :isBatch="false"
                      @merge="paramsValid"
                      @closeAction="closeAction"
                      @reset="resetDataSourceForm" :selfFunc="true">
-    <star-horse-form rules="{}" primary-key="" :fieldList="paramsFields(fieldName,currentField)" comp-url=""/>
+    <star-horse-form rules="{}" primary-key="" ref="paramsConfigRef" :fieldList="paramsFields(fieldName,currentField)"
+                     comp-url=""/>
   </star-horse-dialog>
   <star-horse-dialog :dialogVisible="containerDialogVisible"
                      :title="'设置容器'" :isBatch="false" @merge="closeAction"
@@ -366,7 +374,7 @@ watch(() => formProps,
       <el-collapse-item name="1">
         <template #title>
           &nbsp;<star-horse-icon icon-class="base_preps"
-                                 style="color: var(--star-horse-style)"/>&nbsp;&nbsp;<span>基础属性</span>
+                                 style="color: var(--star-horse-style)"/>&nbsp;&nbsp;<span>常用属性</span>
         </template>
         <el-scrollbar height="500">
           <template v-if="currentCompCategory==='container'&&currentItemType!='table'">
@@ -469,7 +477,7 @@ watch(() => formProps,
               </el-form-item>
             </template>
           </template>
-          <template v-else v-for="(item) in fieldList">
+          <template v-else-if="currentItemType" v-for="(item) in fieldList">
             <el-form-item :label="item.label" :prop="item.fieldName" :required="item.required=='yes'"
                           :rules="[{required: item.required=='yes', message: '必填项不能为空', trigger: 'blur'}]">
               <el-input
@@ -561,12 +569,12 @@ watch(() => formProps,
       </el-collapse-item>
       <el-collapse-item name="2">
         <template #title>
-          &nbsp;<star-horse-icon icon-class="advance_preps" style="color: var(--star-horse-style)"/>&nbsp;&nbsp;<span>高级属性</span>
+          &nbsp;<star-horse-icon icon-class="advance_preps" style="color: var(--star-horse-style)"/>&nbsp;&nbsp;<span>其他属性</span>
         </template>
         <el-scrollbar height="500">
           <template v-if="currentCompCategory==='container'">
           </template>
-          <template v-else v-for="(item) in advancedFieldList">
+          <template v-if="currentItemType" v-for="(item) in advancedFieldList">
             <el-form-item
                 :label="item.label"
                 :prop="item.fieldName"
@@ -612,7 +620,7 @@ watch(() => formProps,
           <template v-if="currentCompCategory==='container'">
           </template>
           <template
-              v-else
+              v-else-if="currentItemType"
               v-for="(item) in actions">
             <el-form-item
                 :label="item.label"

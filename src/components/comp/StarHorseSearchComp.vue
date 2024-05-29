@@ -131,7 +131,6 @@ const searchArea = () => {
           </template>
           <star-horse-item :dataForm="searchForm" :item="item" :isSearch="true"
                            @dataSearch="dataSearch" isEdit="true">
-
           </star-horse-item>
         </el-form-item>
       </template>

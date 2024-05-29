@@ -1,32 +1,32 @@
 <template>
-  <starhorse-form-item  :form-item = "field" :parentField = "parentField"
+  <starhorse-form-item :form-item="field" :parentField="parentField"
   >
     <el-transfer
-        :fid = "field.preps['name']"
-        :button-texts = "field.preps['buttonTexts']"
-        :data = "field.preps['values']"
-        :filter-method = "field.preps['filterMethod']"
-        :props = "{key:field.preps['dataSource']=='url'?field.preps['selectValue']:'value',
+        :fid="field.preps['name']"
+        :button-texts="field.preps['buttonTexts']"
+        :data="field.preps['values']"
+        :filter-method="field.preps['filterMethod']"
+        :props="{key:field.preps['dataSource']=='url'?field.preps['selectValue']:'value',
         label:field.preps['dataSource']=='url'?field.preps['selectLabel']:'name'}"
-        :filter-placeholder = "field.preps['filterPlaceholder']||'请输入'+field.preps['label']"
-        :filterable = "field.preps['filterable']=='yes'"
-        :format = "field.preps['format']"
-        :target-order = "field.preps['targetOrder']"
-        :titles = "field.preps['titles']"
+        :filter-placeholder="field.preps['filterPlaceholder']||'请输入'+field.preps['label']"
+        :filterable="field.preps['filterable']=='yes'"
+        :format="field.preps['format']"
+        :target-order="field.preps['targetOrder']"
+        :titles="[field.preps['leftTitle'],field.preps['rightTitle']]"
         :size="field?.preps['size']||'small'"
-        :left-default-checked = "JSON.parse(field.preps['leftDefaultChecked'])"
-        :right-default-checked = "JSON.parse(field.preps['rightDefaultChecked'])"
+        :left-default-checked="JSON.parse(field.preps['leftDefaultChecked'])"
+        :right-default-checked="JSON.parse(field.preps['rightDefaultChecked'])"
         v-on:[actionName]="keyEnterFun(field.preps['actionName'])"
-        @keydown.enter = "keyEnterFun"
+        @keydown.enter="keyEnterFun"
         @focus="keyEnterFun('focus')"
         @blur="keyEnterFun('blur')"
-        v-model = "context.attrs['formFieldList'][field.preps['name']]"
+        v-model="context.attrs['formFieldList'][field.preps['name']]"
     />
 
   </starhorse-form-item>
 </template>
 
-<script lang = "ts">
+<script lang="ts">
 import {defineComponent, onMounted, shallowRef} from "vue";
 
 export default defineComponent({
@@ -40,15 +40,16 @@ export default defineComponent({
     onMounted(() => {
       actionName.value = field.preps["actionName"];
     });
-    const keyEnterFun = (prep:String) => {
+    const keyEnterFun = (prep: String) => {
       if (prep == actionName.value && field.preps["actionRelation"]) {
-        field.preps["actionRelation"](context.attrs['formFieldList'][field.preps['name']],context.attrs['formFieldList']["xh"]);
+        field.preps["actionRelation"](context.attrs['formFieldList'][field.preps['name']], context.attrs['formFieldList']["xh"]);
       }
-      context.emit('selfFunc',prep);
+      context.emit('selfFunc', prep);
     };
 
-    return {parentField, formFieldList, context, field, formItem,
-       dataField,  keyEnterFun,actionName
+    return {
+      parentField, formFieldList, context, field, formItem,
+      dataField, keyEnterFun, actionName
     }
   }
 });

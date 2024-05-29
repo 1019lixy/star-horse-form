@@ -177,6 +177,7 @@ export const DesignForm: any = defineStore("DesignForm", {
             _this.currentItemId = "";
             _this.currentItemType = "";
             _this.parentCompType = "";
+            _this.currentCompCategory = "";
             _this.formInfo = {
                 rules: "",
                 inline: "no",
@@ -205,7 +206,11 @@ export const DesignForm: any = defineStore("DesignForm", {
                         propertyName: "category",
                         value: 2
                     }];
-                    let result = await loadData(url, params);
+                    let query = {
+                        fieldList: params,
+                        orderBy: [{fieldName: "dataSort", ascOrDesc: "asc"}]
+                    }
+                    let result = await loadData(url, query);
                     _this.containerList = result.data;
                 };
                 const initItems = async () => {
@@ -213,7 +218,11 @@ export const DesignForm: any = defineStore("DesignForm", {
                         propertyName: "category",
                         value: 1
                     }];
-                    let result = await loadData(url, params);
+                    let query = {
+                        fieldList: params,
+                        orderBy: [{fieldName: "dataSort", ascOrDesc: "asc"}]
+                    }
+                    let result = await loadData(url, query);
                     _this.formDataList = result.data;
                 };
                 const initSelfItems = async () => {
@@ -221,7 +230,11 @@ export const DesignForm: any = defineStore("DesignForm", {
                         propertyName: "category",
                         value: 3
                     }];
-                    let result = await loadData(url, params);
+                    let query = {
+                        fieldList: params,
+                        orderBy: [{fieldName: "dataSort", ascOrDesc: "asc"}]
+                    }
+                    let result = await loadData(url, query);
                     _this.selfFormDataList = result.data;
                 };
                 const init = async () => {

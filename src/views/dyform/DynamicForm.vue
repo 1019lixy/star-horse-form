@@ -15,6 +15,7 @@ import Help from "@/components/help.vue";
 import {formActions} from "@/views/dyform/utils/DynamicForm.ts";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
+import {validDynamicFormCompParams} from "@/views/dyform/utils/preview.ts";
 
 const dataUrl = reactive<ApiUrls>(<ApiUrls>{
   loadByPageUrl: "/userdb-manage/userdb/dynamicForm/pageList",
@@ -38,6 +39,7 @@ let isPreview = ref<any>(false);
 let batchEditFieldVisible = ref<any>(false);
 let isEdit = computed(() => designForm.isEdit);
 let activeTab = ref<any>("first");
+let errMessage = ref<String>("");
 let formFieldList = computed(() => designForm.formFieldList);
 let editable = ref<any>(true);
 let formInfo = computed(() => designForm.formInfo);
@@ -110,8 +112,8 @@ const closeAction = () => {
   batchEditFieldVisible.value = false;
   configDialogVisible.value = false;
 };
-const clearData = () => {
-  designForm.clearAll();
+const clearData = (flag: boolean = true) => {
+  designForm.clearAll(flag);
 
 };
 const preview = () => {
@@ -124,9 +126,14 @@ const doSave = async () => {
     closeAction();
     return;
   }
+
   let dynameForm = formInfo.value;
   let flag = false;
   await nextTick();
+  errMessage.value = validDynamicFormCompParams(list.value);
+  if (errMessage.value) {
+    return;
+  }
   await formPropertyRef.value.$refs.itemFormInfo.validate((evt: boolean) => {
     flag = evt;
   });
@@ -205,7 +212,9 @@ const tableEdit = (submit: boolean) => {
 };
 const helpMessage =
     `
-描述：StarHorse 表单设计器是一款通过拖拽即可实现复杂表单模型，机会可满足大部分常见业务。
+描述：StarHorse 表单设计器是一款通过拖拽即可实现复杂表单模型，可满足大部分常见业务。
+   规则：所有同级组件的名字不能重复，在Tab组件中tabName和objectName 不能重复；
+       Table组件中batchFieldName不能重复
 操作步骤：
   1、将左边的组件拖动中间空白区域
   2、
@@ -236,7 +245,7 @@ const actions = (action: string) => {
       rightPanelVisible.value = !rightPanelVisible.value;
       break;
     case "new":
-      clearData();
+      clearData(false);
       break;
     case "eprep":
       batchEdit();
@@ -250,18 +259,16 @@ const actions = (action: string) => {
     case "preview":
       preview();
       break;
+    case "valid":
+      errMessage.value = validDynamicFormCompParams(list.value);
+      break;
     case "code":
       createCode();
       break;
   }
 
 };
-/**
- * 动态表单当前还存在问题
- * 1、tab 删除元素
- * 2、tab 中数据位置改变问题，点击向上或者向下无效果
- * 3、box 的数据位置改变问题
- */
+
 </script>
 
 <template>
@@ -361,8 +368,22 @@ const actions = (action: string) => {
           <help :message="helpMessage"/>
           <help :message="processMsg"/>
         </div>
+
         <div class="main-design-a">
           <div class="main-design-outer">
+            <el-alert
+                title="组件参数异常警告"
+                type="warning"
+                v-show="errMessage?.length>0"
+                show-icon
+                @close="()=>errMessage=''"
+            >
+              <template #default>
+            <pre>
+              {{ errMessage }}
+            </pre>
+              </template>
+            </el-alert>
             <el-form
                 style="height: 100%"
                 :disabled="formInfo['disabled'] == 'yes'"

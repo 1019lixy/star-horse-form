@@ -65,67 +65,7 @@ const onRemove = () => {
 
 </script>
 
-<style lang="scss" scoped>
-.widget-collapse {
-  border-top-width: 0;
-  height: inherit;
 
-  .el-collapse-item__header {
-    padding-left: 10px;
-    font-weight: bold;
-  }
-
-  .el-collapse-item__content {
-    padding-bottom: 6px;
-    margin-left: 8px;
-    overflow: auto;
-
-    ul {
-      padding-left: 10px; /* 重置IE11默认样式 */
-      margin: 0; /* 重置IE11默认样式 */
-      margin-block-start: 0;
-      margin-block-end: 0.25em;
-      padding-inline-start: 10px;
-
-      &:after {
-        content: '';
-        display: block;
-        clear: both;
-      }
-
-      .field-item {
-        display: inline-block;
-        height: 28px;
-        line-height: 28px;
-        width: 115px;
-        float: left;
-        margin: 2px 6px 6px 0;
-        cursor: move;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        background: #f1f2f3;
-      }
-
-      .field-item:hover {
-        background: #ebeef5;
-        outline: 1px solid #999999;
-      }
-
-      .drag-handler {
-        position: absolute;
-        top: 0;
-        left: 160px;
-        background-color: #dddddd;
-        border-radius: 5px;
-        padding-right: 5px;
-        font-size: 11px;
-        color: #666666;
-      }
-    }
-  }
-}
-</style>
 <template>
   <el-collapse
       class="widget-collapse"
@@ -218,3 +158,80 @@ const onRemove = () => {
     </el-collapse-item>
   </el-collapse>
 </template>
+<style lang="scss" scoped>
+.widget-collapse {
+  border-top-width: 0;
+  height: inherit;
+
+  .el-collapse-item__header {
+    padding-left: 10px;
+    font-weight: bold;
+  }
+
+  .el-collapse-item__content {
+    padding-bottom: 6px;
+    margin-left: 8px;
+    overflow: auto;
+
+    ul {
+      padding-left: 10px; /* 重置IE11默认样式 */
+      margin: 0; /* 重置IE11默认样式 */
+      margin-block-start: 0;
+      margin-block-end: 0.25em;
+      padding-inline-start: 10px;
+
+      &:after {
+        content: '';
+        display: block;
+        clear: both;
+      }
+
+      .field-item {
+        display: inline-flex;
+        height: 28px;
+        line-height: 28px;
+        width: 115px;
+        float: left;
+        margin: 2px 6px 6px 0;
+        cursor: move;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        background: #f1f2f3;
+
+        span {
+          display: inline-flex;
+          justify-items: center;
+          vertical-align: middle;
+          align-items: center;
+          width: 100%;
+          padding: 0;
+          margin: 0;
+          height: 100%;
+
+          .svg-icon {
+            margin-left: 0;
+            margin-right: 0;
+          }
+        }
+      }
+
+      .field-item:hover {
+        background: #ebeef5;
+        outline: 1px solid #999999;
+      }
+
+      .drag-handler {
+        position: absolute;
+        top: 0;
+        left: 160px;
+        background-color: #dddddd;
+        border-radius: 5px;
+        padding-right: 5px;
+        font-size: 11px;
+        color: #666666;
+      }
+    }
+  }
+}
+</style>
