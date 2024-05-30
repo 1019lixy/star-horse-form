@@ -1,4 +1,4 @@
-<script setup lang = "ts">
+<script setup lang="ts">
 import {createRouterAndMenuList, permissionMenus} from "@/api/star_horse";
 import {computed, onMounted, reactive, ref, watch, nextTick} from "vue";
 import {userInfo} from "@/store/UserInfoStore";
@@ -45,43 +45,47 @@ watch(() => props.sysemId,
 );
 </script>
 
-<style lang = "scss" scoped>
+<style lang="scss" scoped>
 .base {
   background: white;
-
+  width: 100%;
 }
+
 :deep(.el-icon) {
   color: var(--star-horse-style);;
 }
+
 .el-menu {
   min-height: 100%;
   font-size: 13px;
 }
-.el-menu-item{
+
+.el-menu-item {
   background: #eee;
   margin-top: 1px;
 }
+
 .menu-active {
 }
 </style>
 <template>
-  <el-scrollbar height = "100%" class = "base">
-    <el-menu :collapse = "isCollapse" ref = "systemMenu"
-             popper-effect = "light"
-             :default-openeds = "defaultOpenMenu">
-      <el-menu-item index = "-1">
-        <el-icon class = "star-icon" v-if = "isCollapse">
-          <component :is = "'search'"/>
+  <el-scrollbar height="100%" class="base">
+    <el-menu :collapse="isCollapse" ref="systemMenu"
+             popper-effect="light"
+             :default-openeds="defaultOpenMenu">
+      <el-menu-item index="-1">
+        <el-icon class="star-icon" v-if="isCollapse">
+          <component :is="'search'"/>
         </el-icon>
         <template #title>
-          <el-input v-model = "search" size = "small" placeholder = "请输入关键字" clearable>
+          <el-input v-model="search" size="small" placeholder="请输入关键字" clearable>
             <template #suffix>
-              <star-horse-icon icon-class = "search"/>
+              <star-horse-icon icon-class="search"/>
             </template>
           </el-input>
         </template>
       </el-menu-item>
-      <SubMenu :dataList = "filterTableData"></SubMenu>
+      <SubMenu :dataList="filterTableData"></SubMenu>
     </el-menu>
   </el-scrollbar>
 </template>

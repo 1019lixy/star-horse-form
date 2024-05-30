@@ -1,7 +1,5 @@
 :root {
   --el-color-success: #5cb87a;
-  //--star-horse-style: #3a8ee6;
-
   --star-horse-style: #3a8ee6;
   --star-horse-white: #f1f2f3;
   --star-horse-shadow: #f7f7f9;
@@ -31,15 +29,15 @@ html, body {
   width: 100%;
   height: 100%;
   font-size: 12px;
-  font-family: Serif 微软雅黑 宋体;
+  font-family: Serif 微软雅黑 宋体, serif;
   overflow: hidden;
 }
 
 * {
   scrollbar-color: var(--star-horse-white) var(--star-horse-shadow);
   scrollbar-width: thin;
-  margin: 0px;
-  padding: 0px;
+  margin: 0;
+  padding: 0;
   offset-width: 0px;
 
 }
@@ -78,14 +76,16 @@ a {
 .star-horse-left {
   height: inherit;
   border-radius: 8px;
-
+  display: flex;
+  flex-direction: row;
 }
 
 .star-horse-main {
   margin-top: 4px;
-  padding: 0px 10px 5px 5px;
+  padding: 0 10px 5px 0;
   border-radius: 4px;
   height: inherit;
+  flex: 1;
   overflow: hidden;
 
 }
@@ -473,6 +473,7 @@ hr {
     box-sizing: border-box;
     height: 100%;
     padding: 5px;
+
     .search_btn {
       display: flex;
 
