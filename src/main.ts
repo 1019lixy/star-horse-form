@@ -19,9 +19,11 @@ import * as ElementPlusIconsVue from '@element-plus/icons-vue';
 import piniaInstance from "@/store";
 import Particles from "vue3-particles";
 
+
 // @ts-ignore
 const app = createApp(App);
 app.component("draggable", VueDraggableNext);
+
 /**
  * 加载elementplus 自己提供的图标
  */

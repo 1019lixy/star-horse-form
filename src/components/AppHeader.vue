@@ -12,6 +12,8 @@ import {ElTable} from "element-plus";
 import {closeLoad, filterTree, load} from "@/api/sh_api";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import StarHorseTableComp from "@/components/comp/StarHorseTableComp.vue";
+import {setLang} from "@/theme/localStorge.ts";
+import {LangType} from "@/theme/theme.ts";
 
 const userInfoStore = userinfoStore();
 const shortcutMenuList = ref<Array<any>>([]);
@@ -300,8 +302,9 @@ watch(
     {immediate: true}
 );
 let curLangName = ref("中文");
-const handleLanguageChanged = (lang: string) => {
-  curLangName.value = lang == "zhCn" ? "中文" : "English";
+const handleLanguageChanged = (lang: LangType) => {
+  curLangName.value = lang == LangType.ZH_CN ? "中文" : "English";
+  setLang(lang);
   emits("changeLang", lang);
 };
 const fieldList = ref<PageFieldInfo>({
@@ -390,8 +393,8 @@ const filterTableData = computed(() => filterTree(search.value, permissionMenuLi
                                                                            style="color:var(--star-horse-white)"/></span>
           <template #dropdown>
             <el-dropdown-menu>
-              <el-dropdown-item command="zhCn">中文</el-dropdown-item>
-              <el-dropdown-item command="en">English</el-dropdown-item>
+              <el-dropdown-item command="ZH_CN">中文</el-dropdown-item>
+              <el-dropdown-item command="EN_US">English</el-dropdown-item>
             </el-dropdown-menu>
           </template>
         </el-dropdown>

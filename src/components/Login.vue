@@ -8,6 +8,7 @@ import {RouteLocationNormalized, useRouter} from "vue-router";
 import type {ElForm, FormInstance, FormRules, TabsPaneContext} from 'element-plus'
 import {warning} from "@/utils/message";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
+import {i18n} from "@/lang";
 
 interface LoginInfo {
   userName: string;
@@ -31,9 +32,9 @@ const loginFormRef = ref<FormInstance>();
 let router = useRouter();
 let showValid = ref<boolean>(false);
 let loginRules = reactive<FormRules<LoginInfo>>({
-  userName: [{required: true, trigger: "blur", message: "用户名不能为空"},],
-  password: [{required: true, trigger: "blur", message: "密码不能为空"},],
-  validCode: [{required: true, trigger: "blur", message: "验证码不能为空"},],
+  userName: [{required: true, trigger: "blur", message: i18n("login.userName", ["starhorse.notAllowEmpty"])},],
+  password: [{required: true, trigger: "blur", message: i18n("login.password", ["starhorse.notAllowEmpty"])},],
+  validCode: [{required: true, trigger: "blur", message: i18n("login.validCode", ["starhorse.notAllowEmpty"])},],
 });
 /**
  * 显示或者隐藏密码
@@ -117,6 +118,138 @@ watch(
     }
 );
 </script>
+
+<template>
+  <div class="login">
+
+    <div class="login-content">
+      <div class="left">
+        <div class="title">
+          <img/>
+          <span>{{ loginTitle }}</span>
+        </div>
+        <div class="left_content">
+          <div>
+            <div style="text-align:center;color: rgba(255, 255, 255,1);font-size: 1.875rem;
+    line-height: 2.25rem;">{{ Config.title }}
+            </div>
+            <img src="../assets/login-box-bg.svg" alt="" style="width:350px">
+            <div style="text-align: center;color: rgba(255, 255, 255,.8);">{{ i18n("starhorse.copyright") }}</div>
+          </div>
+        </div>
+      </div>
+      <div class="right">
+        <div class="title"></div>
+        <div class="right-content">
+          <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
+            <el-tab-pane :label="i18n('loginType.password')" name="first">
+              <el-form
+                  :model="loginForm"
+                  :rules="loginRules"
+                  class="login-form animate__animated animate__fadeIn"
+                  label-position="top"
+                  ref="loginFormRef"
+              >
+                <h2 style="text-align: center;font-weight: 700;font-size:1.5rem;line-height:2rem;width: 100%;">
+                  {{ i18n("loginButton.login") }}</h2>
+                <el-form-item prop="userName" :label="i18n('login.userName')" required>
+                  <el-input
+                      auto-complete="off"
+                      @keyup.enter="handleLogin(loginFormRef)"
+                      :placeholder="i18n('starhorse.pleaseInput','login.userName')"
+                      prefix-icon="User"
+                      type="text"
+                      v-model="loginForm.userName"
+                  >
+                  </el-input>
+                </el-form-item>
+                <el-form-item prop="password" :label="i18n('login.password')" required>
+                  <el-input
+                      @keyup.enter="handleLogin(loginFormRef)"
+                      :prefix-icon="flag?'Unlock':'Lock'"
+                      auto-complete="off"
+                      :placeholder="i18n('starhorse.pleaseInput','login.password')"
+                      :type="flag?'text':'password'"
+                      v-model="loginForm.password"
+                  >
+                    <template #suffix>
+                      <el-icon @mousedown="getFlag" @mouseup="getFlag" style="cursor: pointer">
+                        <component :is="flag?'view':'hide'"/>
+                      </el-icon>
+                    </template>
+                  </el-input>
+                </el-form-item>
+                <el-form-item v-if="showValid" prop="validCode" :label="i18n('login.validCode')" required>
+                  <el-input @keyup.enter="handleLogin(loginFormRef)" auto-complete="off"
+                            :placeholder="i18n('starhorse.pleaseInput','login.validCode')"
+                            style="width: 63%"
+                            prefix-icon="key"
+                            v-model="loginForm.validCode">
+                  </el-input>
+                  <div class="login-code">
+                    <img :src="validateImg" @click="refreshValidate">
+                  </div>
+                </el-form-item>
+                <el-row>
+                  <el-col :span="18">
+                    <el-checkbox style="margin: 0 0 25px 0" v-model="loginForm.rememberMe">
+                      {{ i18n("login.rememberMe") }}
+                    </el-checkbox>
+                  </el-col>
+                  <el-col :span="6">
+                    <el-button link size="normal"> {{ i18n("login.forget") }}</el-button>
+                  </el-col>
+                </el-row>
+                <el-form-item style="width: 100%;height:30px;">
+                  <el-button
+                      :loading="loading"
+                      @click="handleLogin(loginFormRef)"
+                      style="width: 100%"
+                      type="primary"
+                  >
+                    <span v-if="!loading">{{ i18n("loginButton.login") }}</span>
+                    <span v-else>{{ i18n("loginButton.logging") }}</span>
+                  </el-button>
+                </el-form-item>
+                <el-form-item style="width: 100%;height:30px;">
+                  <el-button style="width: 100%">
+                    {{ i18n("loginButton.register") }}
+                  </el-button>
+                </el-form-item>
+              </el-form>
+
+            </el-tab-pane>
+            <el-tab-pane :label="i18n('loginType.rtCode')" name="second">
+              <div class="login-form" style="margin:0 auto;height: 455px">
+                <img :src="rtCodeimg">
+              </div>
+            </el-tab-pane>
+          </el-tabs>
+
+          <el-divider content-position="center">{{ i18n("loginType.otherType") }}</el-divider>
+          <div class="other-login-icon">
+            <el-tooltip :content="i18n('loginType.github')">
+              <star-horse-icon icon-class="github" size="30px" cursor="pointer" @click="otherLogin('github')"/>
+            </el-tooltip>
+            <el-tooltip :content="i18n('loginType.wechat')">
+              <star-horse-icon icon-class="wechat" size="30px" cursor="pointer" @click="otherLogin('wechat')"/>
+            </el-tooltip>
+            <el-tooltip :content="i18n('loginType.alipay')">
+              <star-horse-icon icon-class="alipay" size="30px" cursor="pointer" @click=
+                  "otherLogin('alipay')"/>
+            </el-tooltip>
+            <el-tooltip :content="i18n('loginType.weibo')">
+              <star-horse-icon icon-class="weibo" size="30px" cursor="pointer" @click="otherLogin('weibo')"/>
+            </el-tooltip>
+          </div>
+        </div>
+      </div>
+
+      <!--  底部  -->
+    </div>
+  </div>
+
+</template>
 <style lang="scss" scoped>
 .demo-tabs > .el-tabs__content {
   padding: 32px;
@@ -270,133 +403,3 @@ watch(
   font-size: 18px;
 }
 </style>
-<template>
-  <div class="login">
-
-    <div class="login-content">
-      <div class="left">
-        <div class="title">
-          <img/>
-          <span>{{ loginTitle }}</span>
-        </div>
-        <div class="left_content">
-          <div>
-            <div style="text-align:center;color: rgba(255, 255, 255,1);font-size: 1.875rem;
-    line-height: 2.25rem;">{{ Config.title }}
-            </div>
-            <img src="../assets/login-box-bg.svg" alt="" style="width:350px">
-            <div style="text-align: center;color: rgba(255, 255, 255,.8);">{{ Config.footerTxt }}</div>
-          </div>
-        </div>
-      </div>
-      <div class="right">
-        <div class="title"></div>
-        <div class="right-content">
-          <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
-            <el-tab-pane label="密码登录" name="first">
-              <el-form
-                  :model="loginForm"
-                  :rules="loginRules"
-                  class="login-form animate__animated animate__fadeIn"
-                  label-position="top"
-                  ref="loginFormRef"
-              >
-                <h2 style="text-align: center;font-weight: 700;font-size:1.5rem;line-height:2rem;width: 100%;">登录</h2>
-                <el-form-item prop="userName" label="账&nbsp;&nbsp;号" required>
-                  <el-input
-                      auto-complete="off"
-                      @keyup.enter="handleLogin(loginFormRef)"
-                      placeholder="请输入用户名"
-                      prefix-icon="User"
-                      type="text"
-                      v-model="loginForm.userName"
-                  >
-                  </el-input>
-                </el-form-item>
-                <el-form-item prop="password" label="密&nbsp;&nbsp;码" required>
-                  <el-input
-                      @keyup.enter="handleLogin(loginFormRef)"
-                      :prefix-icon="flag?'Unlock':'Lock'"
-                      auto-complete="off"
-                      placeholder="请输入密码"
-                      :type="flag?'text':'password'"
-                      v-model="loginForm.password"
-                  >
-                    <template #suffix>
-                      <el-icon @mousedown="getFlag" @mouseup="getFlag" style="cursor: pointer">
-                        <component :is="flag?'view':'hide'"/>
-                      </el-icon>
-                    </template>
-                  </el-input>
-                </el-form-item>
-                <el-form-item v-if="showValid" prop="validCode" label="验证码" required>
-                  <el-input @keyup.enter="handleLogin(loginFormRef)" auto-complete="off"
-                            placeholder="请填写验证码"
-                            style="width: 63%"
-                            prefix-icon="key"
-                            v-model="loginForm.validCode">
-                  </el-input>
-                  <div class="login-code">
-                    <img :src="validateImg" @click="refreshValidate">
-                  </div>
-                </el-form-item>
-                <el-row>
-                  <el-col :span="18">
-                    <el-checkbox style="margin: 0 0 25px 0" v-model="loginForm.rememberMe">
-                      记住我
-                    </el-checkbox>
-                  </el-col>
-                  <el-col :span="6">
-                    <el-button link size="normal">忘记密码？</el-button>
-                  </el-col>
-                </el-row>
-                <el-form-item style="width: 100%;height:30px;">
-                  <el-button
-                      :loading="loading"
-                      @click="handleLogin(loginFormRef)"
-                      style="width: 100%"
-                      type="primary"
-                  >
-                    <span v-if="!loading">登 录</span>
-                    <span v-else>登 录 中...</span>
-                  </el-button>
-                </el-form-item>
-                <el-form-item style="width: 100%;height:30px;">
-                  <el-button style="width: 100%">
-                    注册
-                  </el-button>
-                </el-form-item>
-              </el-form>
-
-            </el-tab-pane>
-            <el-tab-pane label="扫码登录" name="second">
-              <div class="login-form" style="margin:0 auto;height: 455px">
-                <img :src="rtCodeimg">
-              </div>
-            </el-tab-pane>
-          </el-tabs>
-
-          <el-divider content-position="center">其它登录方式</el-divider>
-          <div class="other-login-icon">
-            <el-tooltip content="GitHub">
-              <star-horse-icon icon-class="github" size="30px" cursor="pointer" @click="otherLogin('github')"/>
-            </el-tooltip>
-            <el-tooltip content="微信">
-              <star-horse-icon icon-class="wechat" size="30px" cursor="pointer" @click="otherLogin('wechat')"/>
-            </el-tooltip>
-            <el-tooltip content="支付宝">
-              <star-horse-icon icon-class="alipay" size="30px" cursor="pointer" @click=
-                  "otherLogin('alipay')"/>
-            </el-tooltip>
-            <el-tooltip content="微博">
-              <star-horse-icon icon-class="weibo" size="30px" cursor="pointer" @click="otherLogin('weibo')"/>
-            </el-tooltip>
-          </div>
-        </div>
-      </div>
-
-      <!--  底部  -->
-    </div>
-  </div>
-
-</template>

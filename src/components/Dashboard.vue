@@ -10,6 +10,7 @@ import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 import en from 'element-plus/dist/locale/en.mjs'
 import {Config} from "@/api/settings.js";
 import {warning} from "@/utils/message.ts";
+import {LangType} from "@/theme/theme.ts";
 
 const route = router.getRoutes().find(item => item.path == "/home");
 let navBarListStore = navBarList();
@@ -18,10 +19,9 @@ let isCollapse = ref<boolean>(true);
 let sysemId = ref<string>("-1");
 let outerIsCollapse = ref<number>(64);
 navBarListStore.addNavBar(route);
-const language = ref('zhCn')
-const locale = computed(() => (language.value === 'zhCn' ? zhCn : en));
-const changeLang = (lang: string) => {
-  language.value = lang;
+let locale = ref();
+const changeLang = (lang: LangType) => {
+  locale.value = lang == LangType.ZH_CN ? zhCn : en;
 };
 const loadMenuFun = (data: string) => {
   sysemId.value = data;
@@ -145,6 +145,7 @@ const compDragging = (x: number) => {
   margin: 0px -2px;
   border-left: 2px solid transparent;
   border-right: 2px solid transparent;
+
   &:hover {
     background-color: var(--star-horse-style);
     cursor: col-resize;
