@@ -4,15 +4,25 @@ import {RouteLocationNormalizedLoaded} from "vue-router";
 
 export const navBarList: any = defineStore("navBarList", {
     state: () => ({
-        // let navTagsList:Tags[]=[];
+        currentView: {} as RouteLocationNormalizedLoaded,
         navTagsList: [] as RouteLocationNormalizedLoaded[]
     }),
     getters: {
         getNavBarList: (state: any) => {
             return state.navTagsList;
+        },
+        getCurrentView: (state: any) => {
+            return state.currentView;
         }
     },
     actions: {
+        /**
+         * 设置当前激活的View
+         * @param view
+         */
+        setCurrentView(view: RouteLocationNormalizedLoaded) {
+            this.currentView = view;
+        },
         updateVisitedView(view: RouteLocationNormalizedLoaded) {
             for (let v of this.navTagsList) {
                 if (v.path === view.path) {

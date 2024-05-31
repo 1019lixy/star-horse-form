@@ -1,4 +1,4 @@
-<script lang="ts" setup name="AppHeader">
+<script lang="ts" setup name="Header">
 import {computed, nextTick, onMounted, provide, reactive, ref, unref, watch} from "vue"
 import {Config} from "@/api/settings"
 import {postRequest, trim, userLogout} from "@/api/star_horse";
@@ -12,8 +12,9 @@ import {ElTable} from "element-plus";
 import {closeLoad, filterTree, load} from "@/api/sh_api";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import StarHorseTableComp from "@/components/comp/StarHorseTableComp.vue";
-import {setLang} from "@/theme/localStorge.ts";
+import {getLang, setLang} from "@/theme/localStorge.ts";
 import {LangType} from "@/theme/theme.ts";
+import {i18n} from "../lang";
 
 const userInfoStore = userinfoStore();
 const shortcutMenuList = ref<Array<any>>([]);
@@ -132,6 +133,7 @@ const rules = {
 
 const initData = async () => {
   await loadShortMenu();
+  changeLang(getLang(), true);
 };
 onMounted(() => {
   initData();
@@ -303,10 +305,14 @@ watch(
 );
 let curLangName = ref("中文");
 const handleLanguageChanged = (lang: LangType) => {
+  changeLang(lang, false);
+  window.location.reload();
+};
+const changeLang = (lang: LangType, isInit: boolean) => {
   curLangName.value = lang == LangType.ZH_CN ? "中文" : "English";
   setLang(lang);
-  emits("changeLang", lang);
-};
+  emits("changeLang", lang, isInit);
+}
 const fieldList = ref<PageFieldInfo>({
   fieldList: [{
     label: "菜单名称",
@@ -375,15 +381,15 @@ const filterTableData = computed(() => filterTree(search.value, permissionMenuLi
               </el-dropdown-item>
               <el-dropdown-item divided class="clearfix" @click="permissionEdit">
                 <star-horse-icon icon-class="sys-authority"/>
-                个人权限
+                {{ i18n("main.header.authority") }}
               </el-dropdown-item>
               <el-dropdown-item class="clearfix" @click="modifyInfo">
                 <star-horse-icon icon-class="user-edit"/>
-                修改个人信息
+                {{ i18n("main.header.userEdit") }}
               </el-dropdown-item>
               <el-dropdown-item divided @click="loginOut" class="clearfix">
                 <star-horse-icon icon-class="login_out" style="vertical-align: middle;color:#f56c6c;"/>
-                退出
+                {{ i18n("main.header.logout") }}
               </el-dropdown-item>
             </el-dropdown-menu>
           </template>
@@ -393,8 +399,8 @@ const filterTableData = computed(() => filterTree(search.value, permissionMenuLi
                                                                            style="color:var(--star-horse-white)"/></span>
           <template #dropdown>
             <el-dropdown-menu>
-              <el-dropdown-item command="ZH_CN">中文</el-dropdown-item>
-              <el-dropdown-item command="EN_US">English</el-dropdown-item>
+              <el-dropdown-item command="zh_cn">中文</el-dropdown-item>
+              <el-dropdown-item command="en_us">English</el-dropdown-item>
             </el-dropdown-menu>
           </template>
         </el-dropdown>

@@ -8,6 +8,7 @@ import {batchFieldDefaultValues, rowClassName} from "@/api/sh_api";
 import {error, success, warning} from "@/utils/message";
 import {download} from "@/api/star_horse";
 import {getToken} from "@/utils/auth";
+import Sortable from "sortablejs";
 
 let importDialogVisible = ref<Boolean>(false);
 const props = defineProps({
@@ -19,7 +20,7 @@ const props = defineProps({
   initRows: {type: Number, default: 1},
   importInfo: {type: Object},
   title: {type: String, default: ""},
-  rules: {type: Object, required: true},
+  rules: {type: Object},
   isView: {type: Boolean, default: false},
   subFlag: {type: Boolean, default: false},
 });
@@ -44,7 +45,7 @@ const init = async () => {
       handleAddDetails(null, 1);
     }
   }
-
+  moveColumn();
 
 };
 const handleAddDetails = (row: any, type: number) => {
@@ -105,6 +106,25 @@ const uploadSuccess = (response: any, file, fileList) => {
   importDialogVisible.value = false;
 
 };
+const moveColumn = () => {
+  const tbody = document.querySelector(
+      ".sh-columns .el-table__body-wrapper tbody"
+  ) as HTMLElement | null;
+  if (tbody) {
+    Sortable.create(tbody, {
+      handle: ".move",
+      animation: 200,
+      ghostClass: "ghost",
+      onEnd(event: any) {
+        const {oldIndex, newIndex} = event;
+        let oitem = dataForm.value[props.batchName][oldIndex];
+        let nitem = dataForm.value[props.batchName][newIndex];
+        dataForm.value[props.batchName][newIndex] = oitem;
+        dataForm.value[props.batchName][oldIndex] = nitem;
+      },
+    });
+  }
+};
 </script>
 <template>
   <star-horse-dialog v-if="!subFlag" :title="'导入文件'" :dialogVisible="importDialogVisible"
@@ -163,12 +183,12 @@ const uploadSuccess = (response: any, file, fileList) => {
               <el-tooltip content="导入Excel">导入Excel</el-tooltip>
             </el-button>
           </li>
-          <li>
-            <el-button @click="handleAddDetails(null, 1)" title="" link size="small">
-              <star-horse-icon icon-class="add" color="var(--star-horse-style)" size="12px"/>
-              <el-tooltip content="添加">添加</el-tooltip>
-            </el-button>
-          </li>
+          <!--          <li>
+                      <el-button @click="handleAddDetails(null, 1)" title="" link size="small">
+                        <star-horse-icon icon-class="add" color="var(&#45;&#45;star-horse-style)" size="12px"/>
+                        <el-tooltip content="添加">添加</el-tooltip>
+                      </el-button>
+                    </li>-->
         </ul>
       </div>
     </div>
@@ -182,7 +202,7 @@ const uploadSuccess = (response: any, file, fileList) => {
         :highlight-current-row="true"
         :row-class-name="rowClassName"
         ref="starHorseFormListRef"
-
+        class="sh-columns"
         :stripe="true"
         :header-cell-style="{'background':'#f2f2f2',
       'color': '#707070',
@@ -204,6 +224,14 @@ const uploadSuccess = (response: any, file, fileList) => {
           prop="xh"
           width="50"
       />
+      <el-table-column prop="" label="排序" width="60">
+        <el-tag class="move" style="cursor: move">
+          <el-icon style="cursor: move">
+            <Sort/>
+          </el-icon>
+        </el-tag>
+      </el-table-column>
+
       <template v-for="item in fieldList">
         <el-table-column
             :prop="item.fieldName"
@@ -235,17 +263,8 @@ const uploadSuccess = (response: any, file, fileList) => {
           </template>
         </el-table-column>
       </template>
-      <el-table-column fixed="right" label="操作" width="120">
-
+      <el-table-column fixed="right" label="操作" width="80">
         <template #default="scope" v-if="!isView">
-          <el-button
-              v-if="dataForm[batchName]?.length == scope.row['xh']"
-              @click="handleAddDetails(scope.row, 1)"
-              link
-              size="small"
-              type="primary">
-            <el-tooltip content="添加一行">添加</el-tooltip>
-          </el-button>
           <el-button
               @click="handleAddDetails(scope.row, 2)"
               link
@@ -256,9 +275,27 @@ const uploadSuccess = (response: any, file, fileList) => {
         </template>
       </el-table-column>
     </el-table>
+    <div class="add-row" v-if="!isView" @click="handleAddDetails(null, 1)">
+      <star-horse-icon icon-class="plus" color="var(--star-horse-style)"/>
+      加一行
+    </div>
   </div>
 </template>
 <style lang="scss" scoped>
+.add-row {
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 30px;
+  border: 1px dotted #eee;
+
+  &:hover {
+    cursor: pointer;
+    border: 1px dotted var(--star-horse-style);
+  }
+}
+
 :deep(.el-table__cell) {
   padding: 0;
 }

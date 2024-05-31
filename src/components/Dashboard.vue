@@ -1,27 +1,31 @@
 <script lang="ts" setup>
-import AppHeader from "@/components/AppHeader.vue";
-import AppLeft from "@/components/AppLeft.vue";
 import router from "@/router";
-import {computed, nextTick, onMounted, provide, ref, watch} from "vue";
+import {nextTick, onMounted, provide, ref, watch} from "vue";
 import {navBarList} from "@/store/NavbarListStore";
 import {viewList} from "@/store/ViewCacheStore";
 import TagsView from "@/components/tags/TagsView.vue";
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 import en from 'element-plus/dist/locale/en.mjs'
-import {Config} from "@/api/settings.js";
 import {warning} from "@/utils/message.ts";
 import {LangType} from "@/theme/theme.ts";
+import {getLang} from "@/theme/localStorge.ts";
+import {i18n} from "../lang";
+import piniaInstance from "@/store";
+import LeftMenu from "@/components/LeftMenu.vue";
+import HeaderComp from "@/components/HeaderComp.vue";
 
 const route = router.getRoutes().find(item => item.path == "/home");
-let navBarListStore = navBarList();
 let viewListStore = viewList();
+const navBarListStore = navBarList(piniaInstance);
 let isCollapse = ref<boolean>(true);
 let sysemId = ref<string>("-1");
 let outerIsCollapse = ref<number>(64);
 navBarListStore.addNavBar(route);
 let locale = ref();
-const changeLang = (lang: LangType) => {
+const changeLang = (lang: LangType, isInit: boolean) => {
   locale.value = lang == LangType.ZH_CN ? zhCn : en;
+  console.log(isInit);
+
 };
 const loadMenuFun = (data: string) => {
   sysemId.value = data;
@@ -72,6 +76,7 @@ const dragStart = (event: MouseEvent) => {
 onMounted(async () => {
   await nextTick();
   resizerRef.value.onmousedown = dragStart;
+  changeLang(getLang());
 })
 // 移动完成
 const compDragging = (x: number) => {
@@ -92,20 +97,20 @@ const compDragging = (x: number) => {
   } else if (outerIsCollapse.value >= 500) {
     outerIsCollapse.value = 500;
   }
-  console.log(outerIsCollapse.value);
+
 };
 </script>
 <template>
   <el-config-provider :locale="locale">
     <el-container style="height: 100%">
       <el-header class="star-horse-header">
-        <app-header :is-collapse="!isCollapse" @collopseOperation="collopseOperation" @changeLang="changeLang"/>
+        <header-comp :is-collapse="!isCollapse" @collopseOperation="collopseOperation" @changeLang="changeLang"/>
       </el-header>
       <el-container style="padding-bottom: 1px !important;">
         <el-aside :width="outerIsCollapse+'px'" ref="mainLeftAside"
                   class="star-horse-left animate__animated animate__bounceInLeft"
                   @mouseover="mouseOver" @mouseout="mouseOut">
-          <app-left :sysem-id="sysemId" :is-collapse="!isCollapse" style="overflow-x: hidden"/>
+          <left-menu :sysem-id="sysemId" :is-collapse="!isCollapse" style="overflow-x: hidden"/>
           <span
               ref="resizerRef"
               class="Resizer vertical"
@@ -122,7 +127,7 @@ const compDragging = (x: number) => {
               </keep-alive>
             </transition>
           </router-view>
-          <div class="main-copyright">{{ Config.footerTxt }}</div>
+          <div class="main-copyright">{{ i18n("starhorse.copyright") }}</div>
         </el-main>
       </el-container>
     </el-container>

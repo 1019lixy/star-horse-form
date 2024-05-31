@@ -4,8 +4,8 @@ import {LangType} from "@/theme/theme.ts";
 import {getLang} from "@/theme/localStorge.ts";
 
 const language = {
-    "ZH_CN": zh_CN,
-    "EN_US": en_US
+    "zh_cn": zh_CN,
+    "en_us": en_US
 }
 export const currentLang: LangType = getLang() || LangType.ZH_CN;
 export const isEn = currentLang === LangType.EN_US;
@@ -30,6 +30,6 @@ export function i18n(key: keyof typeof zh_CN, ...args: any[]) {
                 resultList.push(temp);
             }
         });
-        return resultList.join("en_us" === LangType.EN_US ? " " : "fds");
+        return resultList.join("en_us" === LangType.EN_US ? " " : "");
     }
 }

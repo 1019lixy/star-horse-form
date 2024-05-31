@@ -218,9 +218,13 @@ const moveColumn = () => {
       onEnd(event: any) {
         const {oldIndex, newIndex} = event;
         //删除并获取当前行
-        const currRow = props.fieldList?.fieldList.splice(oldIndex, 1)[0];
+        //   const currRow = props.fieldList?.fieldList.splice(oldIndex, 1)[0];
         //再拖动结束位置插入当前行
-        props.fieldList?.fieldList.splice(newIndex, 0, currRow);
+        //  props.fieldList?.fieldList.splice(newIndex, 0, currRow);
+        let oitem = props.fieldList?.fieldList[oldIndex];
+        let nitem = props.fieldList?.fieldList[newIndex];
+        props.fieldList.fieldList[newIndex] = oitem;
+        props.fieldList.fieldList[oldIndex] = nitem;
       },
     });
   }

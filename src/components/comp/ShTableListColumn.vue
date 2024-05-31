@@ -8,7 +8,8 @@ defineProps({
   item: {type: Object, required: true},
   primaryKey: {type: String, required: true},
   batchName: {type: String, default: "batchDataList"},
-  rules: {type: Object, required: true}
+  rules: {type: Object},
+  size: {type: String, default: "small"}
 });
 const dialogProps = inject<DialogProps>("dialogProps");
 const validMsg = (item: any) => {
@@ -21,7 +22,7 @@ const validMsg = (item: any) => {
 
 <template>
   <el-form-item
-      :size="'small'"
+      :size="size"
       :rules="validMsg(item)"
       :prop="`${batchName}.${index}.${item.fieldName}`">
     <star-horse-item :primaryKey="primaryKey" :batchName="batchName" :item="item" :data-form="dataForm"

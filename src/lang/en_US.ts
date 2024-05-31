@@ -1,7 +1,5 @@
-import {Config} from "@/api/settings";
-
 export default {
-    "starhorse.copyright": Config.footerTxt,
+    "starhorse.copyright": `©Copyright2020-${new Date().getFullYear()} Star Horse Personal Work House`,
     "starhorse.pleaseInput": "Please input",
     "starhorse.pleaseSelect": "Please select",
     "starhorse.notAllowEmpty": "required",
@@ -23,4 +21,7 @@ export default {
     "loginButton.register": "Register",
     "loginButton.login": "Login",
     "loginButton.logging": "Logging...",
+    "main.header.authority": "Authority",
+    "main.header.userEdit": "Modify",
+    "main.header.logout": "Logout",
 }

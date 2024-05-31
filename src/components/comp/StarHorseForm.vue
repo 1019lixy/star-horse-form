@@ -15,7 +15,7 @@ const props = defineProps({
   batchName: {type: String, default: "batchDataList"},
   batchFieldName: {type: String, default: "batchFieldList"},
   primaryKey: {type: String, required: true},
-  rules: {type: Object, required: true},
+  rules: {type: Object},
   isView: {type: Boolean, default: false},
 });
 const emits = defineEmits(["refresh", "dataLoaded"]);

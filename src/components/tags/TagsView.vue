@@ -7,10 +7,11 @@ import {navBarList} from "@/store/NavbarListStore";
 import {useScrollTo} from "@/components/tags/useScrollTo";
 import ContextMenu from "@/components/tags/ContextMenu.vue";
 import {useTemplateRefsList} from "@vueuse/core";
+import piniaInstance from "@/store";
 
 const {currentRoute, push, replace} = useRouter();
 
-const viewListStore = navBarList();
+const viewListStore = navBarList(piniaInstance);
 
 // 初始化tag
 const initTags = () => {
@@ -23,6 +24,7 @@ const addTags = () => {
   const {name} = unref(currentRoute);
   if (name) {
     selectedTag.value = unref(currentRoute);
+    viewListStore.setCurrentView(currentRoute);
   }
 };
 
@@ -57,7 +59,6 @@ const refreshSelectedTag = async (view?: RouteLocationNormalizedLoaded) => {
   if (!view) {
     return;
   }
-  // viewListStore.clearNavItem(view);
   const {path, query} = view;
   query["redirectPath"] = path;
   await nextTick();
@@ -73,7 +74,6 @@ const closeLeftTags = () => {
   viewListStore.getNavBarList.splice(1, getCurrentIndex(path) - 1);
 };
 const getCurrentIndex = (path: string) => {
-
   let tagsList = viewListStore.getNavBarList;
   let i = 0;
   for (; i < tagsList.length; i++) {
@@ -192,6 +192,7 @@ const itemRefs = useTemplateRefsList<InstanceType<typeof Object>>();
 // 右键菜单装填改变的时候
 const visibleChange = (visible: boolean, tagItem: RouteLocationNormalizedLoaded) => {
   selectedTag.value = tagItem;
+  viewListStore.setCurrentView(tagItem);
   if (visible) {
     for (const v of unref(itemRefs)) {
       const elDropdownMenuRef = v.elDropdownMenuRef;
@@ -242,7 +243,7 @@ watch(
   <div class="prefixCls">
     <el-tooltip content="向左移动">
     <span class="tool" @click="move(-200)">
-      <star-horse-icon icon-class="arrow-double-left" style="color: var(--star-horse-style)"  cursor="pointer"/>
+      <star-horse-icon icon-class="arrow-double-left" style="color: var(--star-horse-style)" cursor="pointer"/>
     </span>
     </el-tooltip>
     <div class="overflow-hidden">
@@ -412,6 +413,7 @@ watch(
 .prefixCls {
   display: flex;
   width: 100%;
+
   :deep(.scrollbar__view) {
     height: 100%;
   }
