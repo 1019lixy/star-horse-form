@@ -22,9 +22,10 @@ const props = defineProps({
 let searchForm: any = inject("searchForm");
 const init = async () => {
   matchTypeList.value = searchMatchList();
-  if (!searchForm && props.dialogInput) {
-    searchForm = [];
-  }
+  searchForm.value ={...analysisDefaultValue()};
+  // if (!searchForm && props.dialogInput) {
+  //
+  // }
   await nextTick();
   //没有隐藏的查询属性，则隐藏掉展开图标
   let fdata = props.formData?.find(item => !item.defaultShow);

@@ -9,6 +9,9 @@ import {error, success, warning} from "@/utils/message";
 import {download} from "@/api/star_horse";
 import {getToken} from "@/utils/auth";
 import Sortable from "sortablejs";
+import {useDrag, useDrop} from 'vue3-dnd';
+import {toRefs} from '@vueuse/core';
+import type {XYCoord, Identifier} from 'dnd-core'
 
 let importDialogVisible = ref<Boolean>(false);
 const props = defineProps({
@@ -106,6 +109,13 @@ const uploadSuccess = (response: any, file, fileList) => {
   importDialogVisible.value = false;
 
 };
+
+let currentItem = ref<any>({});
+const selectData = (item: any) => {
+  currentItem.value = item;
+};
+
+
 const moveColumn = () => {
   const tbody = document.querySelector(
       ".sh-columns .el-table__body-wrapper tbody"
@@ -117,10 +127,21 @@ const moveColumn = () => {
       ghostClass: "ghost",
       onEnd(event: any) {
         const {oldIndex, newIndex} = event;
-        let oitem = dataForm.value[props.batchName][oldIndex];
-        let nitem = dataForm.value[props.batchName][newIndex];
-        dataForm.value[props.batchName][newIndex] = oitem;
-        dataForm.value[props.batchName][oldIndex] = nitem;
+        if (oldIndex === newIndex) {
+          return
+        }
+        let list = JSON.parse(JSON.stringify(dataForm.value[props.batchName]));
+        //   console.log(oldIndex, newIndex, event, dataForm.value[props.batchName]);
+        // let oitem = dataForm.value[props.batchName][oldIndex];
+        // let nitem = dataForm.value[props.batchName][newIndex];
+        // dataForm.value[props.batchName][newIndex] = oitem;
+        // dataForm.value[props.batchName][oldIndex] = nitem;
+        //获取原始数据
+        const data = list[oldIndex];
+        //删除元素数据
+        list.splice(oldIndex, 1);
+        list.splice(newIndex, 0, data);
+        dataForm.value[props.batchName] = [...list];
       },
     });
   }
@@ -195,8 +216,9 @@ const moveColumn = () => {
     <el-table
         v-loading="loading"
         :data="dataForm[batchName]"
-        fit=true
+        fit
         border
+        sortable
         :row-key="getRowIdentity"
         :strip="true"
         :highlight-current-row="true"
@@ -225,11 +247,14 @@ const moveColumn = () => {
           width="50"
       />
       <el-table-column prop="" label="排序" width="60">
-        <el-tag class="move" style="cursor: move">
-          <el-icon style="cursor: move">
-            <Sort/>
-          </el-icon>
-        </el-tag>
+        <template #default="scope">
+          <el-tag class="move" style="cursor: move"
+                  @mousedown="selectData(scope.row)">
+            <el-icon style="cursor: move">
+              <Sort/>
+            </el-icon>
+          </el-tag>
+        </template>
       </el-table-column>
 
       <template v-for="item in fieldList">
