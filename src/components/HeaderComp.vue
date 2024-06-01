@@ -18,7 +18,7 @@ import {i18n} from "../lang";
 
 const userInfoStore = userinfoStore();
 const shortcutMenuList = ref<Array<any>>([]);
-let menuIcon = ref<string>("expand");
+
 let systemName = Config.title;
 let userInfo = getUserInfo();
 let shortcutVisible = ref<boolean>(false);
@@ -43,11 +43,7 @@ const dataUrl: ApiUrls = {
   uploadUrl: "",
   condition: [getCustomerParam()]
 };
-
-const props = defineProps({
-  isCollapse: {type: Boolean, default: true}
-});
-const emits = defineEmits(["collopseOperation", "changeLang"]);
+const emits = defineEmits(["changeLang"]);
 const dialogProps = reactive<DialogProps>({
   bakeVisible1: false, bakeVisible2: false, bakeVisible3: false,
   ids: -1,
@@ -184,12 +180,7 @@ const loginOut = () => {
   });
 
 };
-const menuBarFun = () => {
-  emits('collopseOperation');
-};
-const changeArrow = () => {
-  menuIcon.value = unref(menuIcon) == "expand" ? "collapse" : "expand";
-};
+
 const operSearch = () => {
 
 }
@@ -296,13 +287,7 @@ const batchMerge = () => {
 const shortcutReset = () => {
   shortcutMultipleTable.value!.clearSelection();
 };
-watch(
-    () => props.isCollapse,
-    (val) => {
-      changeArrow()
-    },
-    {immediate: true}
-);
+
 let curLangName = ref("中文");
 const handleLanguageChanged = (lang: LangType) => {
   changeLang(lang, false);
@@ -409,27 +394,29 @@ const filterTableData = computed(() => filterTree(search.value, permissionMenuLi
   </div>
   <div style="clear: both"></div>
   <div class="shortcut">
-    <ul class="shortcut_ul">
-      <li @click="menuBarFun">
-        <el-tooltip content="展开/隐藏菜单">
-          <star-horse-icon :icon-class="menuIcon" style="color:var(--star-horse-white);"/>
-        </el-tooltip>
-      </li>
+    <div class="shortcut_ul">
       <template v-for="(item, index) in shortcutMenuList">
-        <li>
+        <span>
           <el-tooltip :content="item.menuName">
-            <router-link :to="{ path: item.menuPath }">{{ item["menuName"] }}</router-link>
+            <router-link :to="{ path: item.menuPath }">
+               <el-icon class="star-icon" style="color: var(--star-horse-white);font-size:18px">
+          <component :is="item.menuIcon||'document'"/>
+        </el-icon>
+              {{
+                item["menuName"]
+              }}</router-link>
           </el-tooltip>
-        </li>
-        <li style="width: 1px;cursor: none;color: #ffd04b" v-if="index < shortcutMenuList.length - 1">|</li>
+        </span>
+        <span style=" display:flex;height:100%;width: 1px;cursor: none;color: #ffd04b"
+              v-if="index < shortcutMenuList.length - 1">|</span>
       </template>
 
-      <li @click="addShortcutMenu">
+      <span @click="addShortcutMenu">
         <el-tooltip content="添加快捷菜单">
           <star-horse-icon icon-class="add" style="color: var(--star-horse-white);"/>
         </el-tooltip>
-      </li>
-    </ul>
+      </span>
+    </div>
   </div>
 </template>
 
@@ -465,8 +452,8 @@ const filterTableData = computed(() => filterTree(search.value, permissionMenuLi
       display: flex;
       flex-direction: row;
       height: 100%;
-      margin-left: 0px;
-      padding-left: 0px;
+      margin-left: 0;
+      padding-left: 0;
 
       li {
         span {
@@ -504,7 +491,9 @@ const filterTableData = computed(() => filterTree(search.value, permissionMenuLi
 
       .el-dropdown-link {
         color: var(--star-horse-white);
-        display: block;
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
     }
   }
@@ -532,38 +521,42 @@ const filterTableData = computed(() => filterTree(search.value, permissionMenuLi
     margin-left: 0px;
     padding-left: 0px;
 
-    li {
-      display: block;
+    span {
+      display: flex;
+      justify-content: center;
+      align-items: center;
       vertical-align: middle;
       font-size: 13px;
       cursor: pointer;
       color: var(--star-horse-white);
       margin-left: 15px;
-      padding-top: 9px;
       text-align: center;
-      height: inherit;
+      height: 100%;
 
       a {
-        float: left;
-        display: block;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
         vertical-align: middle;
         font-size: 13px;
         cursor: pointer;
+        margin-top: 0;
+        padding-top: 0;
         color: var(--star-horse-white);
         text-align: center;
-        height: inherit;
+        height: 100%;
       }
 
-      &first-child {
-        color: var(--star-horse-white);
-        margin-left: 0px;
-        box-shadow: 0 2px 10px 0 var(--star-horse-shadow-rgba);
-        box-sizing: border-box;
-        width: 25px;
-        height: inherit;
-      }
+      /*  &:first-child {
+          color: var(--star-horse-white);
+          margin-left: 0;
+          box-shadow: 0 2px 10px 0 var(--star-horse-shadow-rgba);
+          box-sizing: border-box;
+          width: 25px;
+          height: inherit;
+        }*/
 
-      &last-child {
+      &:last-child {
         font-size: 14px;
         color: var(--star-horse-white);
         box-shadow: 0 2px 10px 0 var(--star-horse-shadow-rgba);

@@ -13,6 +13,7 @@ import {i18n} from "../lang";
 import piniaInstance from "@/store";
 import LeftMenu from "@/components/LeftMenu.vue";
 import HeaderComp from "@/components/HeaderComp.vue";
+import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 
 const route = router.getRoutes().find(item => item.path == "/home");
 let viewListStore = viewList();
@@ -99,18 +100,19 @@ const compDragging = (x: number) => {
   }
 
 };
+let drawer = ref<Boolean>(false);
 </script>
 <template>
   <el-config-provider :locale="locale">
     <el-container style="height: 100%">
       <el-header class="star-horse-header">
-        <header-comp :is-collapse="!isCollapse" @collopseOperation="collopseOperation" @changeLang="changeLang"/>
+        <header-comp :is-collapse="!isCollapse" @changeLang="changeLang"/>
       </el-header>
       <el-container style="padding-bottom: 1px !important;">
         <el-aside :width="outerIsCollapse+'px'" ref="mainLeftAside"
                   class="star-horse-left animate__animated animate__bounceInLeft"
                   @mouseover="mouseOver" @mouseout="mouseOut">
-          <left-menu :sysem-id="sysemId" :is-collapse="!isCollapse" style="overflow-x: hidden"/>
+          <left-menu :sysem-id="sysemId" :is-collapse="!isCollapse" @collopseOperation="collopseOperation"/>
           <span
               ref="resizerRef"
               class="Resizer vertical"
@@ -131,11 +133,32 @@ const compDragging = (x: number) => {
         </el-main>
       </el-container>
     </el-container>
-    <el-backtop :bottom="100">
-      <div class="page-up">
-        UP
-      </div>
-    </el-backtop>
+    <div class="main-config" @click="drawer=true">
+      <el-tooltip content="主题设置">
+        <star-horse-icon icon-class="setting" color="var(--star-horse-style)"/>
+      </el-tooltip>
+    </div>
+    <el-drawer v-model="drawer" :direction="direction">
+      <template #header>
+        <h4>操作习惯配置</h4>
+      </template>
+      <template #default>
+        <div>
+          <el-radio v-model="radio1" value="Option 1" size="large">
+            Option 1
+          </el-radio>
+          <el-radio v-model="radio1" value="Option 2" size="large">
+            Option 2
+          </el-radio>
+        </div>
+      </template>
+      <template #footer>
+        <div style="flex: auto">
+          <el-button @click="cancelClick">cancel</el-button>
+          <el-button type="primary" @click="confirmClick">confirm</el-button>
+        </div>
+      </template>
+    </el-drawer>
   </el-config-provider>
 </template>
 
@@ -187,6 +210,18 @@ const compDragging = (x: number) => {
 
 :deep(.el-aside) {
   overflow: hidden;
+}
+
+.main-config {
+  position: absolute;
+  top: 50%;
+  right: 1px;
+  border-radius: 3px;
+  background: #eee;
+
+  &:hover, svg:hover {
+    cursor: pointer;
+  }
 }
 
 .main-copyright {

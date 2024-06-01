@@ -480,7 +480,7 @@ const actions = (action: string) => {
     justify-content: flex-start;
     background: #ffffff;
     border: 1px solid #eee;
-    overflow: auto;
+    overflow: hidden;
   }
 
   .form-main {

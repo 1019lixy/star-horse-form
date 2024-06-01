@@ -76,7 +76,7 @@ const onRemove = () => {
         &nbsp;<star-horse-icon icon-class="container"
                                style="color: var(--star-horse-style)"/>&nbsp;&nbsp;<span>容器</span>
       </template>
-      <el-scrollbar height="100%">
+      <el-scrollbar height="90%">
         <draggable
             :clone="onContainerCopy"
             :group="{name: 'starHorseGroup', pull: 'clone', put: false}"
@@ -104,7 +104,7 @@ const onRemove = () => {
         &nbsp;<star-horse-icon icon-class="form"
                                style="color: var(--star-horse-style)"/>&nbsp;&nbsp;<span>表单元素</span>
       </template>
-      <el-scrollbar height="100%">
+      <el-scrollbar height="90%">
         <draggable
             :clone="onFormItemCopy"
             :group="{name: 'starHorseGroup', pull: 'clone', put: false}"
@@ -133,7 +133,7 @@ const onRemove = () => {
         &nbsp;<star-horse-icon icon-class="other"
                                style="color: var(--star-horse-style)"/>&nbsp;&nbsp;<span>自定义组件</span>
       </template>
-      <el-scrollbar height="100%">
+      <el-scrollbar height="90%">
         <draggable
             :clone="onFormItemCopy"
             :group="{name: 'starHorseGroup', pull: 'clone', put: false}"
@@ -154,14 +154,36 @@ const onRemove = () => {
                                    style="color: var(--star-horse-style)"/>&nbsp;&nbsp;{{ item.itemName }}</span>
           </li>
         </draggable>
+        <div style="height: 50px"></div>
       </el-scrollbar>
     </el-collapse-item>
   </el-collapse>
 </template>
 <style lang="scss" scoped>
+:deep(.el-collapse-item) {
+  overflow: hidden;
+  .el-collapse-item__wrap {
+    height: 100%;
+    overflow: hidden;
+
+    .el-collapse-item__content {
+      height: inherit;
+      overflow: hidden;
+    }
+  }
+
+  &:last-child {
+    flex: 1;
+    height: 100%;
+  }
+}
+
 .widget-collapse {
   border-top-width: 0;
-  height: inherit;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
 
   .el-collapse-item__header {
     padding-left: 10px;
@@ -171,8 +193,6 @@ const onRemove = () => {
   .el-collapse-item__content {
     padding-bottom: 6px;
     margin-left: 8px;
-    overflow: auto;
-
     ul {
       padding-left: 10px; /* 重置IE11默认样式 */
       margin: 0; /* 重置IE11默认样式 */

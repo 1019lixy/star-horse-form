@@ -640,8 +640,36 @@ watch(() => formProps,
 
 </template>
 <style lang="scss" scoped>
+:deep(.el-collapse-item) {
+  overflow: hidden;
+  .el-collapse-item__wrap {
+    height: 100%;
+    overflow: hidden;
+
+    .el-collapse-item__content {
+      height: inherit;
+      overflow: hidden;
+    }
+  }
+
+  &:last-child {
+    flex: 1;
+    height: 100%;
+  }
+}
+
+:deep(.el-form-item__content) {
+  width: 90%;
+  margin-left: 5px;
+  padding-left: 5px;
+}
+
 :deep(.el-scrollbar) {
-  height: 90% !important;
+  border-top-width: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
 }
 
 :deep(.el-dialog__body) {

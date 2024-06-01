@@ -56,7 +56,6 @@ const nodeData: any = {
       {
         tagName: 'text',
         selector: 'label',
-
       },
     ],
     attrs: {
@@ -80,6 +79,32 @@ const nodeData: any = {
     },
     ports: {
       groups: {
+        left: {
+          position: 'left',
+          attrs: {
+            circle: {
+              magnet: true,
+              stroke: '#8f8f8f',
+              r: 5,
+            },
+          },
+          label: {
+            position: 'left',
+          },
+        },
+        right: {
+          position: 'right',
+          attrs: {
+            circle: {
+              magnet: true,
+              stroke: '#8f8f8f',
+              r: 5,
+            },
+          },
+          label: {
+            position: 'right',
+          },
+        },
         list: {
           markup: [
             {
@@ -88,6 +113,7 @@ const nodeData: any = {
             },
             {
               tagName: 'text',
+              group: "left",
               selector: 'name',
             },
             {
@@ -98,7 +124,6 @@ const nodeData: any = {
               tagName: 'text',
               selector: 'comment',
             },
-
             {
               tagName: 'text',
               selector: 'primaryFlag',
@@ -117,6 +142,11 @@ const nodeData: any = {
               ref: 'portBody',
               refX: 5,
               refY: 6,
+              ports: {
+                items: [{
+                  group: "left"
+                }],
+              },
               fontSize: 10,
               textWrap: {
                 width: 78,
@@ -134,6 +164,11 @@ const nodeData: any = {
               ref: 'portBody',
               refX: 150,
               refY: 6,
+              ports: {
+                items: [{
+                  group: "right"
+                }]
+              },
               fontSize: 10,
               textWrap: {
                 width: 150,
@@ -178,11 +213,11 @@ const init = async () => {
   });
   customerItems.value?.push({
     name: "flow",
-    title: "工艺流程组件",
+    title: "流程组件",
     compItems: [
-      {label: "盒标打印", name: "box_print",icon:"drag"},
-      {label: "数据传输", name: "data_trans",icon:"equal"},
-      {label: "测试过站", name: "data_test",icon:"edit"},
+      {label: "组件1", name: "box_print", icon: "drag"},
+      {label: "组件2", name: "data_trans", icon: "equal"},
+      {label: "组件3", name: "data_test", icon: "edit"},
     ]
   });
   // containerDiagramRef.value.createStencil(null, data["dataList"], "er-rect");

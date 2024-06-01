@@ -373,8 +373,8 @@ const searchData = (data: SearchParams[]) => {
   height: 100%;
 
   :deep(.el-card__body) {
-    height: 98%;
-    padding: 5px;
+    height: 100%;
+    padding: 0;
   }
 }
 </style>
