@@ -1,11 +1,13 @@
 <script setup lang="ts" name="StarHorseFormItem">
-import {inject, ref, Ref, PropType} from "vue";
+import {inject, ref, Ref, PropType, computed} from "vue";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {DialogProps} from "@/components/types/DialogProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import StarHorseFormObject from "@/components/comp/StarHorseFormObject.vue";
 import {batchFieldDefaultValues} from "@/api/sh_api.ts";
 import StarHorseFormTable from "@/components/comp/StarHorseFormTable.vue";
+import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
+import piniaInstance from "@/store";
 
 const props = defineProps({
   compUrl: {type: Object as PropType<ApiUrls>},
@@ -18,7 +20,8 @@ const props = defineProps({
   rules: {type: Object, required: true},
   isView: {type: Boolean, default: false},
 });
-// let batchDefaultValues = ref({});
+let configStore = GlobalConfig(piniaInstance);
+let compSize = computed(() => configStore.configFormInfo?.inputSize || "small");
 const dataForm = inject("dataForm") as Ref;
 const dialogProps = inject<DialogProps>("dialogProps", {});
 const tableListRef = ref<any>([]);
@@ -49,7 +52,7 @@ const validMsg = (item: any) => {
       <template v-for="sitem in item">
         <el-col :span="sitem.colSpan||(24/item.length)">
           <el-form-item
-              :size="'small'"
+              :size="compSize"
               :label="sitem.label"
               :prop="sitem.fieldName"
               :rules="validMsg(sitem)"
@@ -72,6 +75,7 @@ const validMsg = (item: any) => {
               <star-horse-form-object v-if="tabItem.subFormFlag" :compUrl="compUrl"
                                       :objectName="tabItem.objectName"
                                       :rules="rules"
+                                      :size="compSize"
                                       :isView="isView"
                                       v-model:dataForm="dataForm"
                                       :primaryKey="tabItem.primaryKey" :fieldList="{
@@ -101,16 +105,17 @@ const validMsg = (item: any) => {
         <el-tabs v-model="normalTabList">
           <template v-for="(sitem,key) in item.batchFieldList">
             <el-tab-pane :label="sitem['title']" :name="'tab'+key" :disabled="sitem.disabled">
-              <star-horse-form-table :rules="rules" :item="sitem" v-model:dataForm="dataForm"/>
+              <star-horse-form-table :rules="rules" :item="sitem" :size="compSize" v-model:dataForm="dataForm"/>
             </el-tab-pane>
           </template>
         </el-tabs>
       </template>
-      <star-horse-form-table v-else :rules="rules" :item="item.batchFieldList[0]" v-model:dataForm="dataForm"/>
+      <star-horse-form-table v-else :rules="rules" :size="compSize" :item="item.batchFieldList[0]"
+                             v-model:dataForm="dataForm"/>
     </template>
     <el-form-item
         v-else
-        :size="'small'"
+        :size="compSize"
         :label="item.label"
         :rules="validMsg(item)"
         :prop="item.fieldName"
@@ -124,14 +129,14 @@ const validMsg = (item: any) => {
     <el-tabs v-model="tabList">
       <template v-for="(item,key) in fieldList[batchFieldName]">
         <el-tab-pane :label="item['title']" :name="'tab'+key" :disabled="item.disabled">
-          <star-horse-form-table :rules="rules" :item="item" v-model:dataForm="dataForm"/>
+          <star-horse-form-table :rules="rules" :size="compSize" :item="item" v-model:dataForm="dataForm"/>
         </el-tab-pane>
       </template>
     </el-tabs>
   </template>
   <template v-else-if="fieldList[batchFieldName]?.length ==1">
     <template v-for="(item,key) in fieldList[batchFieldName]">
-      <star-horse-form-table :rules="rules" :item="item" v-model:dataForm="dataForm"/>
+      <star-horse-form-table :rules="rules" :size="compSize" :item="item" v-model:dataForm="dataForm"/>
     </template>
   </template>
 </template>

@@ -143,7 +143,7 @@ export default defineComponent({
         v-model="context.attrs['formFieldList'][field.preps['name']]">
       <template #empty="scope">
         <el-card>
-          <!--          <div class="search_btn" :style="{'flex-direction':Config.buttonStyle=='line'?'column':'row'}">-->
+          <!--          <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">-->
           <star-horse-search-comp :formData="field.preps['searchFieldList']"
                                   @searchData="(data)=>starHorseTableCompRef.createCreateParams(data)"
                                   :mutComp="true"

@@ -205,7 +205,7 @@ watch(
                       :loading="loading"
                       @click="handleLogin(loginFormRef)"
                       style="width: 100%"
-                      type="primary"
+                      style="background: var(--star-horse-style);color: var(--star-horse-white)"
                   >
                     <span v-if="!loading">{{ i18n("loginButton.login") }}</span>
                     <span v-else>{{ i18n("loginButton.logging") }}</span>

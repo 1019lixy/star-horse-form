@@ -129,8 +129,8 @@ const addUser = (properties: any) => {
         </template>
         <div>
           <div style="margin-bottom: 4px;">
-            <el-button link size="mini" type="primary">添加</el-button>
-            <el-button link size="mini" type="primary">选择</el-button>
+            <el-button link size="mini" style="background: var(--star-horse-style);color: var(--star-horse-white)">添加</el-button>
+            <el-button link size="mini" style="background: var(--star-horse-style);color: var(--star-horse-white)">选择</el-button>
           </div>
           <el-table
               border
@@ -207,9 +207,9 @@ const addUser = (properties: any) => {
         </template>
         <div>
           <div class="collapse-item-header">
-            <el-button icon="el-icon-plus" link size="mini" type="primary">添加</el-button>
-            <el-button icon="el-icon-edit-outline" link size="mini" type="primary">修改</el-button>
-            <el-button icon="el-icon-delete" link size="mini" type="primary">删除</el-button>
+            <el-button icon="el-icon-plus" link size="mini" style="background: var(--star-horse-style);color: var(--star-horse-white)">添加</el-button>
+            <el-button icon="el-icon-edit-outline" link size="mini" style="background: var(--star-horse-style);color: var(--star-horse-white)">修改</el-button>
+            <el-button icon="el-icon-delete" link size="mini" style="background: var(--star-horse-style);color: var(--star-horse-white)">删除</el-button>
           </div>
           <el-table
               border
@@ -238,8 +238,8 @@ const addUser = (properties: any) => {
         </template>
         <div>
           <div style="margin-bottom: 4px;">
-            <el-button link size="mini" type="primary">添加</el-button>
-            <el-button link size="mini" type="primary">选择</el-button>
+            <el-button link size="mini" style="background: var(--star-horse-style);color: var(--star-horse-white)">添加</el-button>
+            <el-button link size="mini" style="background: var(--star-horse-style);color: var(--star-horse-white)">选择</el-button>
           </div>
           <el-table
               border

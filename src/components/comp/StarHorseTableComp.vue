@@ -491,8 +491,8 @@ defineExpose({
       {{ title }}
     </div>
     <div style="display: flex;align-items: center;flex-direction: row-reverse">
-      <el-button @click="loadByPage" link title="" size="small" type="primary">
-        <star-horse-icon icon-class="refresh" size="16px"/>
+      <el-button @click="loadByPage" link title="" size="small" >
+        <star-horse-icon icon-class="refresh" style="color: var(--star-horse-style);" size="16px"/>
         <el-tooltip content="刷新">刷新</el-tooltip>
       </el-button>
       <el-popover trigger="click" :width="340" placement="left-end">
@@ -625,7 +625,7 @@ defineExpose({
             @click="tbCommonFun('edit', scope.row)"
             link
             title=""
-            type="primary"
+            style="color: var(--star-horse-style)"
             :size="compSize"
         >
           <el-tooltip content="编辑">编辑</el-tooltip>
@@ -635,7 +635,7 @@ defineExpose({
             @click="tbCommonFun('view', scope.row)"
             link
             title=""
-            type="primary"
+            style="color: var(--star-horse-style)"
             :size="compSize"
         >
           <el-tooltip content="查看">查看</el-tooltip>
@@ -653,7 +653,7 @@ defineExpose({
                       @click="auth.funcName(scope.row)"
                       link
                       title=""
-                      type="primary"
+                      style="color: var(--star-horse-style)"
                       :size="compSize"
                   >
                     {{ auth.btnName }}

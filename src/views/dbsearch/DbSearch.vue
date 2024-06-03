@@ -312,7 +312,7 @@ const operMsg = `
         <el-scrollbar height="90%">
           <ul>
             <template v-for="(data, index) in assignDataList">
-              <el-popover :width="540" placement="right" trigger="click">
+              <el-popover :width="640" placement="right" trigger="click">
                 <template #reference>
                   <li @click="tableField(data.tableName)" @dragstart="evt=>dratStart(data,evt)" draggable="true">
                     <star-horse-icon icon-class="table" style="margin-top: 5px;height: 18px"/>
@@ -321,7 +321,7 @@ const operMsg = `
                     </el-tooltip>
                   </li>
                 </template>
-                <table class="el-table field-table">
+                <table class="el-table field-table" style="width: 100%;overflow: auto;">
                   <thead>
                   <tr>
                     <th>名称</th>
@@ -354,7 +354,7 @@ const operMsg = `
                 v-for="(item, indexa) in queryResult"
             >
 
-              <el-button @click="exportData(item)" link title="" type="primary">
+              <el-button @click="exportData(item)" link title="" style="background: var(--star-horse-style);color: var(--star-horse-white)">
                 <star-horse-icon icon-class="excel-export"/>
                 <el-tooltip content="导出">导出</el-tooltip>
               </el-button>
@@ -439,6 +439,10 @@ const operMsg = `
 </template>
 
 <style lang="scss" scoped>
+:deep(.el-popover) {
+  overflow-x: hidden;
+}
+
 .search-area {
   display: flex;
   height: inherit;

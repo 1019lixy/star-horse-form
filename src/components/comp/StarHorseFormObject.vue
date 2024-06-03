@@ -14,6 +14,7 @@ const props = defineProps({
   batchFieldName: {type: String, default: "batchFieldList"},
   primaryKey: {type: String, required: true},
   rules: {type: Object, required: true},
+  size: {type: String, default: "small"},
   isView: {type: Boolean, default: false},
 });
 const dataForm = defineModel("dataForm");
@@ -46,17 +47,19 @@ onMounted(() => {
         <el-col :span="sitem.colSpan||(24/item.length)">
 
           <el-form-item
-              :size="'small'"
+              :size="size"
               :label="sitem.label"
               :required="sitem.required"
               :prop="sitem.fieldName"
               :rules="validMsg(sitem)"
               v-if="sitem.formShow&&sitem.type!='button'">
-            <star-horse-item :primaryKey="primaryKey" v-model:dataForm="dataForm[objectName]" :item="sitem"
+            <star-horse-item :primaryKey="primaryKey" :compSize="size" v-model:dataForm="dataForm[objectName]"
+                             :item="sitem"
                              :isEdit="!dialogProps?.ids||dialogProps?.ids==-1"/>
           </el-form-item>
 
-          <star-horse-item v-else-if="sitem.formShow" :primaryKey="primaryKey" v-model:dataForm="dataForm[objectName]"
+          <star-horse-item v-else-if="sitem.formShow" :compSize="size" :primaryKey="primaryKey"
+                           v-model:dataForm="dataForm[objectName]"
                            :item="sitem"
                            :isEdit="!dialogProps?.ids||dialogProps?.ids==-1"/>
         </el-col>
@@ -77,29 +80,30 @@ onMounted(() => {
     <star-horse-item v-else-if="item.type=='comp'||item.type=='button'" :primaryKey="primaryKey"
                      v-model:dataForm="dataForm[objectName]"
                      :item="item"
+                     :compSize="size"
                      :isEdit="!dialogProps?.ids||dialogProps?.ids==-1"/>
     <template v-else-if="item.batchFieldList&&item.batchFieldList.length>0">
       <template v-if="item.batchFieldList.length>1">
         <el-tabs v-model="normalTabList">
           <template v-for="(sitem,key) in item.batchFieldList">
             <el-tab-pane :label="sitem['title']" :name="'tab'+key" :disabled="sitem.disabled">
-              <star-horse-form-table :rules="rules" :item="sitem" v-model:dataForm="dataForm"/>
+              <star-horse-form-table :size="size" :rules="rules" :item="sitem" v-model:dataForm="dataForm"/>
             </el-tab-pane>
           </template>
         </el-tabs>
       </template>
-      <star-horse-form-table v-else :rules="rules" :item="item.batchFieldList[0]"
+      <star-horse-form-table v-else :rules="rules" :size="size" :item="item.batchFieldList[0]"
                              v-model:dataForm="dataForm"/>
     </template>
     <el-form-item
         v-else
-        :size="'small'"
+        :size="size"
         :label="item.label"
         :required="item.required"
         :rules="validMsg(item)"
         :prop="item.fieldName"
         v-if="item.formShow">
-      <star-horse-item :primaryKey="primaryKey" v-model:dataForm="dataForm[objectName]" :item="item"
+      <star-horse-item :primaryKey="primaryKey" :compSize="size" v-model:dataForm="dataForm[objectName]" :item="item"
                        :isEdit="!dialogProps?.ids||dialogProps?.ids==-1"/>
     </el-form-item>
   </template>
@@ -107,14 +111,14 @@ onMounted(() => {
     <el-tabs v-model="fieldList[batchFieldName].fieldName">
       <template v-for="(item,key) in fieldList[batchFieldName]">
         <el-tab-pane :label="item['title']" :name="item.tabName||'sub_tab'+key" :disabled="item.disabled">
-          <star-horse-form-table :rules="rules" :item="item" v-model:dataForm="dataForm"/>
+          <star-horse-form-table :size="size" :rules="rules" :item="item" v-model:dataForm="dataForm"/>
         </el-tab-pane>
       </template>
     </el-tabs>
   </template>
   <template v-else-if="fieldList[batchFieldName]?.length == 1">
     <template v-for="item in fieldList[batchFieldName]">
-      <star-horse-form-table :rules="rules" :item="item" v-model:dataForm="dataForm"/>
+      <star-horse-form-table :size="size" :rules="rules" :item="item" v-model:dataForm="dataForm"/>
     </template>
   </template>
 </template>

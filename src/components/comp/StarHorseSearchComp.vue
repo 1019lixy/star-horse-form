@@ -1,10 +1,12 @@
 <script setup lang="ts" name="StarHorseSearchComp">
-import {inject, nextTick, onMounted, PropType, ref} from "vue";
+import {computed, inject, nextTick, onMounted, PropType, ref} from "vue";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {SearchProps, SelectOption} from "@/components/types/SearchProps";
 import {searchMatchList} from "@/api/sh_api";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {SearchParams} from "@/components/types/Params";
+import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
+import piniaInstance from "@/store";
 
 let matchTypeList = ref<SelectOption[]>();
 let sarchIcon = ref<String>("search_down");
@@ -15,10 +17,11 @@ const emits = defineEmits(["searchData"]);
 const props = defineProps({
   dialogInput: {type: Boolean, default: false},
   mutComp: {type: Boolean, default: false},
-  compSize: {type: String, default: "small"},
   compUrl: {type: Object as PropType<ApiUrls>, required: true},
   formData: {type: Array as PropType<SearchProps[]>, required: true},
 });
+let configStore = GlobalConfig(piniaInstance);
+let compSize = computed(() => configStore.configFormInfo?.inputSize || "small");
 let searchForm: any = inject("searchForm");
 const init = async () => {
   matchTypeList.value = searchMatchList();
@@ -130,7 +133,7 @@ const searchArea = () => {
                   "sitem.value"/>
             </el-select>&nbsp;&nbsp;
           </template>
-          <star-horse-item :dataForm="searchForm" :item="item" :isSearch="true"
+          <star-horse-item :dataForm="searchForm" :compSize="compSize" :item="item" :isSearch="true"
                            @dataSearch="dataSearch" isEdit="true">
           </star-horse-item>
         </el-form-item>
@@ -147,13 +150,13 @@ const searchArea = () => {
                   "sitem.value"/>
             </el-select>&nbsp;&nbsp;
           </template>
-          <star-horse-item :dataForm="searchForm" :item="item" :isSearch="true"
+          <star-horse-item :dataForm="searchForm" :compSize="compSize" :item="item" :isSearch="true"
                            @dataSearch="dataSearch" isEdit="true">
           </star-horse-item>
         </el-form-item>
       </template>
       <el-form-item label="     ">
-        <el-button @click="dataSearch" type="primary" :size="compSize">
+        <el-button @click="dataSearch" style="background: var(--star-horse-style);color: var(--star-horse-white)" :size="compSize">
           <star-horse-icon icon-class="search" size="13px"/>
           <span style="vertical-align: middle"> 查询 </span>
         </el-button>
@@ -162,7 +165,7 @@ const searchArea = () => {
         </el-button>
         &nbsp;&nbsp;
         <el-tooltip :content="tips" v-if="showTips">
-          <star-horse-icon :iconClass="sarchIcon" size="20px" color="var(--star-horse-style);" cursor="pointer"
+          <star-horse-icon :iconClass="sarchIcon" size="20px" color="var(--star-horse-style)" cursor="pointer"
                            @click="searchArea"/>
         </el-tooltip>
       </el-form-item>

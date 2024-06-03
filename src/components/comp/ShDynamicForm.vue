@@ -158,7 +158,7 @@ defineExpose({
       />
     </template>
     <el-form-item v-if="typeModel=='tab'">
-      <el-button @click="merge" type="primary">
+      <el-button @click="merge" style="background: var(--star-horse-style);color: var(--star-horse-white)">
         <star-horse-icon icon-class="save" style="color:var(--star-horse-white);"/>
         提交
       </el-button>

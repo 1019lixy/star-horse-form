@@ -1,3 +1,5 @@
+import {ref} from "vue";
+
 export const Config = {
     /**
      * @description 网站标题
@@ -69,7 +71,7 @@ export const Config = {
     /**
      * 按钮风格
      */
-    buttonStyle: "dropdown",
+    buttonStyle: ref("dropdown"),
     /**
      * 默认列表宽度
      */

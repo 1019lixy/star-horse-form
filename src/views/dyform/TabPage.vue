@@ -139,7 +139,7 @@ const dataFormat = (name: string, cellValue: Object): any => {
                                "tableFieldList.dynamicFormas" :rules="rules" :typeModel="'tab'"/>
         </el-tab-pane>
         <el-tab-pane label="数据列表" name="table">
-          <div class="search_btn" :style="{'flex-direction':Config.buttonStyle=='line'?'column':'row'}">
+          <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
             <star-horse-search-comp @searchData="(data)=>starHorseTableCompRef.createCreateParams(data)"
                                     :formData="searchFormData"
                                     :compUrl="dataUrl"/>

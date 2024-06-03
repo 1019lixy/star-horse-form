@@ -1,5 +1,5 @@
 <script lang="ts" setup name="Header">
-import {computed, nextTick, onMounted, provide, reactive, ref, unref, watch} from "vue"
+import {computed, nextTick, onMounted, provide, reactive, ref, unref} from "vue"
 import {Config} from "@/api/settings"
 import {postRequest, trim, userLogout} from "@/api/star_horse";
 import {confirm, error, success, warning} from "@/utils/message";
@@ -546,15 +546,6 @@ const filterTableData = computed(() => filterTree(search.value, permissionMenuLi
         text-align: center;
         height: 100%;
       }
-
-      /*  &:first-child {
-          color: var(--star-horse-white);
-          margin-left: 0;
-          box-shadow: 0 2px 10px 0 var(--star-horse-shadow-rgba);
-          box-sizing: border-box;
-          width: 25px;
-          height: inherit;
-        }*/
 
       &:last-child {
         font-size: 14px;

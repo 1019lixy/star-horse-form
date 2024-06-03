@@ -62,7 +62,7 @@
       </el-button>
     </div>
     <div>
-      <el-button type="primary">保存并启用</el-button>
+      <el-button style="background: var(--star-horse-style);color: var(--star-horse-white)">保存并启用</el-button>
       <el-button>保存并执行</el-button>
     </div>
   </div>

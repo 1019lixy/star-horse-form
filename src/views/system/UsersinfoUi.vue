@@ -349,7 +349,7 @@ const searchData = (data: SearchParams[]) => {
       </el-col>
       <el-col :span="21" style="height: inherit">
         <el-card class="inner_content" style="height: inherit">
-          <div class="search_btn" :style="{'flex-direction':Config.buttonStyle=='line'?'column':'row'}">
+          <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
             <star-horse-search-comp @searchData="(data)=>usersinfoTableListRef.createCreateParams(data)"
                                     :formData="searchFormData"
                                     :compUrl="dataUrl"/>

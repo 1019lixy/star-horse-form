@@ -1,5 +1,5 @@
 <script lang="ts" setup name="StarHorseFormList">
-import {inject, onMounted, Ref, ref, reactive, PropType} from 'vue'
+import {inject, onMounted, PropType, reactive, Ref, ref} from 'vue'
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings";
 import ShTableListColumn from "@/components/comp/ShTableListColumn.vue";
@@ -9,9 +9,6 @@ import {error, success, warning} from "@/utils/message";
 import {download} from "@/api/star_horse";
 import {getToken} from "@/utils/auth";
 import Sortable from "sortablejs";
-import {useDrag, useDrop} from 'vue3-dnd';
-import {toRefs} from '@vueuse/core';
-import type {XYCoord, Identifier} from 'dnd-core'
 
 let importDialogVisible = ref<Boolean>(false);
 const props = defineProps({
@@ -24,11 +21,11 @@ const props = defineProps({
   importInfo: {type: Object},
   title: {type: String, default: ""},
   rules: {type: Object},
+  size: {type: String, default: "small"},
   isView: {type: Boolean, default: false},
   subFlag: {type: Boolean, default: false},
 });
 // const dataForm = inject('dataForm') as Ref;
-
 const dataForm = defineModel("dataForm") as Ref;
 const formFields = inject("formFields") as reactive<Object>;
 onMounted(() => {
@@ -176,9 +173,9 @@ const moveColumn = () => {
         <template #tip>
           <div class="el-upload__tip">
             只能上传 xls/xlsx 文件类型
-            <el-button @click="downloadTemplate" title="" size="small" link v-if=
+            <el-button @click="downloadTemplate" title="" :size="size" link v-if=
                 "importInfo?.downloadTemplateUrl">
-              <star-horse-icon icon-class="download" color="#ffffff" size="12px"/>
+              <star-horse-icon icon-class="download" color="var(--star-horse-white)" size="12px"/>
               <el-tooltip content="下载模板">下载模板</el-tooltip>
             </el-button>
           </div>
@@ -199,7 +196,7 @@ const moveColumn = () => {
       <div style="display: flex;align-items: center;flex-direction: row-reverse">
         <ul class="inner_button" v-if="!isView">
           <li v-if="importInfo?.importDataUrl">
-            <el-button @click="excelOperation" title="" link size="small">
+            <el-button @click="excelOperation" title="" link :size="size">
               <star-horse-icon icon-class="upload" color="var(--star-horse-style)" size="12px"/>
               <el-tooltip content="导入Excel">导入Excel</el-tooltip>
             </el-button>
@@ -219,6 +216,7 @@ const moveColumn = () => {
         fit
         border
         sortable
+        :size="size"
         :row-key="getRowIdentity"
         :strip="true"
         :highlight-current-row="true"
@@ -282,6 +280,7 @@ const moveColumn = () => {
             <template v-else>
               <sh-table-list-column :primaryKey="primaryKey" :batchName="batchName"
                                     :data-form="scope.row"
+                                    :size="size"
                                     :rules="rules" :item="item"
                                     :index="scope.$index"/>
             </template>
@@ -293,7 +292,7 @@ const moveColumn = () => {
           <el-button
               @click="handleAddDetails(scope.row, 2)"
               link
-              size="small"
+              :size="size"
               type="danger">
             <el-tooltip content="删除当前行">删除</el-tooltip>
           </el-button>

@@ -1,5 +1,5 @@
 <script setup lang="ts" name="StarHorseForm">
-import {inject, nextTick, PropType, ref, Ref, watch} from "vue";
+import {computed, inject, nextTick, PropType, ref, Ref, watch} from "vue";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {error, success, warning} from "@/utils/message";
 import {postRequest} from "@/api/star_horse";
@@ -8,6 +8,8 @@ import {DialogProps} from "@/components/types/DialogProps";
 import {BatchFieldInfo, PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {ShallowReactive} from "@vue/reactivity";
 import StarHorseFormItem from "@/components/comp/StarHorseFormItem.vue";
+import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
+import piniaInstance from "@/store";
 
 const props = defineProps({
   compUrl: {type: Object as PropType<ApiUrls>, required: true},
@@ -18,6 +20,8 @@ const props = defineProps({
   rules: {type: Object},
   isView: {type: Boolean, default: false},
 });
+let configStore = GlobalConfig(piniaInstance);
+let compSize = computed(() => configStore.configFormInfo?.inputSize || "small");
 const emits = defineEmits(["refresh", "dataLoaded"]);
 const starHorseFormRef = ref(null);
 const dataForm = inject("dataForm") as Ref;
@@ -29,7 +33,7 @@ const formFields = inject("formFields") as ShallowReactive<any>;
 watch(
     () => dialogOperation,
     (val: any) => {
-      console.log("form",val);
+      console.log("form", val);
       if (val['funcName'] == "merge") {
         merge(val["type"]);
       } else if (val['funcName'] == "mergeDraft") {
@@ -193,7 +197,7 @@ defineExpose({
 });
 </script>
 <template>
-  <el-form :model="dataForm" :rules="rules" class="data-form" ref="starHorseFormRef">
+  <el-form :model="dataForm" :size="compSize" :rules="rules" class="data-form" ref="starHorseFormRef">
     <star-horse-form-item :primaryKey="primaryKey"
                           :compUrl="compUrl"
                           :fieldList="fieldList"

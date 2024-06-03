@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import router from "@/router";
-import {nextTick, onMounted, provide, ref, watch} from "vue";
+import {computed, nextTick, onMounted, provide, ref, watch} from "vue";
 import {navBarList} from "@/store/NavbarListStore";
 import {viewList} from "@/store/ViewCacheStore";
 import TagsView from "@/components/tags/TagsView.vue";
@@ -14,7 +14,10 @@ import piniaInstance from "@/store";
 import LeftMenu from "@/components/LeftMenu.vue";
 import HeaderComp from "@/components/HeaderComp.vue";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
+import PageConfig from "@/components/PageConfig.vue";
+import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 
+let configStore = GlobalConfig(piniaInstance);
 const route = router.getRoutes().find(item => item.path == "/home");
 let viewListStore = viewList();
 const navBarListStore = navBarList(piniaInstance);
@@ -78,6 +81,7 @@ onMounted(async () => {
   await nextTick();
   resizerRef.value.onmousedown = dragStart;
   changeLang(getLang());
+  configStore.clearAll();
 })
 // 移动完成
 const compDragging = (x: number) => {
@@ -101,6 +105,7 @@ const compDragging = (x: number) => {
 
 };
 let drawer = ref<Boolean>(false);
+const configInfo = computed(() => configStore.configFormInfo);
 </script>
 <template>
   <el-config-provider :locale="locale">
@@ -121,7 +126,7 @@ let drawer = ref<Boolean>(false);
           </span>
         </el-aside>
         <el-main class="star-horse-main  animate__animated animate__bounceInUp">
-          <tags-view/>
+          <tags-view v-if="configInfo.tagsView=='yes'"/>
           <router-view v-slot="{ Component }" class="animate__animated animate__fadeIn">
             <transition name="solid">
               <keep-alive :include="viewListStore.getViewCache">
@@ -139,24 +144,16 @@ let drawer = ref<Boolean>(false);
       </el-tooltip>
     </div>
     <el-drawer v-model="drawer" :direction="direction">
-      <template #header>
-        <h4>操作习惯配置</h4>
+      <template #header style="margin-bottom: 0">
+        <h3>操作习惯配置</h3>
       </template>
       <template #default>
-        <div>
-          <el-radio v-model="radio1" value="Option 1" size="large">
-            Option 1
-          </el-radio>
-          <el-radio v-model="radio1" value="Option 2" size="large">
-            Option 2
-          </el-radio>
-        </div>
+        <el-card class="inner_content operation-area">
+          <page-config/>
+        </el-card>
       </template>
       <template #footer>
-        <div style="flex: auto">
-          <el-button @click="cancelClick">cancel</el-button>
-          <el-button type="primary" @click="confirmClick">confirm</el-button>
-        </div>
+
       </template>
     </el-drawer>
   </el-config-provider>
@@ -165,7 +162,16 @@ let drawer = ref<Boolean>(false);
 
 <style lang="scss" scoped>
 .el-header {
-  box-shadow: 0px 10px 5px var(--star-horse-white);
+  box-shadow: 0 10px 5px var(--star-horse-white);
+}
+
+:deep(.el-drawer__header) {
+  margin-bottom: 0;
+  border-bottom: 1px solid #eee;
+}
+
+.operation-area {
+  height: 100%;
 }
 
 .Resizer.vertical {

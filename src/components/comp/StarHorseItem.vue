@@ -1,5 +1,5 @@
 <script setup lang="ts" name="StarHorseItem">
-import {inject, onMounted, ref, unref, watch} from "vue";
+import {computed, inject, onMounted, reactive, ref, unref, watch} from "vue";
 import {warning} from "@/utils/message";
 import {FieldInfo} from "@/components/types/PageFieldInfo";
 import Help from "@/components/help.vue";
@@ -9,7 +9,6 @@ const props = defineProps({
       item: {type: Object, required: true},
       column: {type: Object},
       primaryKey: {type: String},
-      // dataForm: {type: Object, required: true},
       batchName: {type: String, default: ""},
       compSize: {type: String, default: "small"},
       isSearch: {type: Boolean, default: false}, //是否查询数据
@@ -25,13 +24,17 @@ const formFields = inject("formFields");
 const field = ref<any>({
   preps: {
     clearable: "yes",
-    label: props.item.label,
-    name: props.item.fieldName,
-    required: props.item.required,
+    label: props.item?.label,
+    name: props.item?.fieldName,
+    required: props.item?.required,
     size: props.compSize,
-    readonly: (props.item.readonly || props.isView) ? 'yes' : 'no',
+    readonly: (props.item?.readonly || props.isView) ? 'yes' : 'no',
   }
 });
+// let data = computed(() => {
+//   field.preps.size = props.compSize;
+//   console.log(field);
+// });
 const dataSearch = (act: String) => {
   if (props.isSearch) {
     if (act == "focus" || act == "blur") {
@@ -39,7 +42,7 @@ const dataSearch = (act: String) => {
     }
     emit("dataSearch");
   } else if (act != "keydown.enter") {
-    let actionFun = props.item.actions;
+    let actionFun = props.item?.actions;
     if (actionFun && actionName.value == act) {
       actionFun(dataForm.value)
     }
@@ -53,7 +56,7 @@ const dataSearch = (act: String) => {
   }
 };
 //页面属性改变，重新刷新数据
-watch(() => props.item,
+watch(() => props,
     () => {
       compPreps();
     }, {
@@ -63,27 +66,28 @@ watch(() => props.item,
 );
 watch(() => props.isEdit,
     () => {
-      field.value.preps["disabled"] = props.item.disabled == 2 ? "yes" : props.isEdit && props.item.disabled == 1 ? "yes" : "no";
+      field.value.preps["disabled"] = props.item?.disabled == 2 ? "yes" : props.isEdit && props.item?.disabled == 1 ? "yes" : "no";
     }, {
       immediate: false,
       deep: true
     }
 );
 const compPreps = () => {
-  itemType.value = props.item.type || props.item.fieldType;
-  field.value.preps["values"] = props.item.optionList;
+  field.value.preps["size"] = props.compSize;
+  itemType.value = props.item?.type || props.item?.fieldType;
+  field.value.preps["values"] = props.item?.optionList;
   if (itemType.value == "number") {
-    field.value.preps["step"] = props.item.step || 1;
-    field.value.preps["min"] = props.item.min || 0;
-    if (props.item.max) {
-      field.value.preps["max"] = props.item.max;
+    field.value.preps["step"] = props.item?.step || 1;
+    field.value.preps["min"] = props.item?.min || 0;
+    if (props.item?.max) {
+      field.value.preps["max"] = props.item?.max;
     }
-    field.value.preps["precision"] = props.item.precision || 0;
+    field.value.preps["precision"] = props.item?.precision || 0;
   } else if (itemType.value == "select") {
     field.value.preps["filterable"] = "yes";
     field.value.preps["collapseTags"] = "yes";
-    field.value.preps['multiple'] = props.item.multiple ? "yes" : "no";
-    field.value.preps['allowCreate'] = props.item.allowCreate ? "yes" : "no";
+    field.value.preps['multiple'] = props.item?.multiple ? "yes" : "no";
+    field.value.preps['allowCreate'] = props.item?.allowCreate ? "yes" : "no";
   } else if (itemType.value == "tselect") {
     field.value.preps["filterable"] = "yes";
     field.value.preps["collapseTags"] = "yes";
@@ -92,11 +96,11 @@ const compPreps = () => {
       label: 'name',
       value: "value"
     };
-    field.value.preps['multiple'] = props.item.multiple ? "yes" : "no";
+    field.value.preps['multiple'] = props.item?.multiple ? "yes" : "no";
   } else if (itemType.value == 'cascade') {
     field.value.preps["props"] = {
       label: 'name',
-      multiple: props.item.multiple,
+      multiple: props.item?.multiple,
       checkStrictly: true
     };
   } else if (itemType.value === 'date' || itemType.value === 'daterange') {
@@ -107,9 +111,9 @@ const compPreps = () => {
     field.value.preps["rangeSeparator"] = "到";
     field.value.preps["startPlaceholder"] = "开始日期";
   } else if (itemType.value === "dialog-input" || itemType.value == "page-select") {
-    let inputPreps = props.item.params;
+    let inputPreps = props.item?.params;
     if (!inputPreps) {
-      warning("属性" + props.item.label + "需要配置params 信息");
+      warning("属性" + props.item?.label + "需要配置params 信息");
       return;
     }
     field.value.preps["primaryKey"] = inputPreps.primaryKey;
@@ -125,7 +129,7 @@ const compPreps = () => {
         ...item
       };
       temp["defaultShow"] = true;
-      if (item.type == "input" && !item['matchType']) {
+      if (item?.type == "input" && !item['matchType']) {
         temp["matchType"] = "lk";
       }
       field.value.preps["searchFieldList"].push(temp);
@@ -137,20 +141,20 @@ const compPreps = () => {
     field.value.preps["recall"] = inputPreps.recall;
     field.value.preps["readonly"] = inputPreps.readonly;
   } else if (itemType.value == "switch") {
-    field.value.preps["activeText"] = props.item.activeText || "是";
-    field.value.preps["inactiveText"] = props.item.inactiveText || "否";
-    field.value.preps["activeValue"] = props.item.activeValue || "Y";
-    field.value.preps["inactiveValue"] = props.item.inactiveValue || "N";
+    field.value.preps["activeText"] = props.item?.activeText || "是";
+    field.value.preps["inactiveText"] = props.item?.inactiveText || "否";
+    field.value.preps["activeValue"] = props.item?.activeValue || "Y";
+    field.value.preps["inactiveValue"] = props.item?.inactiveValue || "N";
   } else if (itemType.value == "comp") {
-    field.value.preps["params"] = props.item.params || {};
+    field.value.preps["params"] = props.item?.params || {};
   }
   field.value.preps["actionName"] = actionName.value;
   field.value.preps["disabled"] = props.isView ? "yes" :
-      props.item.disabled == 2 ? "yes" : props.isEdit && props.item.disabled == 1 ? "yes" : "no";
+      props.item?.disabled == 2 ? "yes" : props.isEdit && props.item?.disabled == 1 ? "yes" : "no";
   //联动
-  field.value.preps['actionRelation'] = props.item.actionRelation;
+  field.value.preps['actionRelation'] = props.item?.actionRelation;
   //触发事件
-  field.value.preps['actions'] = props.item.actions;
+  field.value.preps['actions'] = props.item?.actions;
 
   //过滤掉查询表单的信息
   if (!props.isSearch && formFields) {
@@ -180,11 +184,11 @@ const actionName = ref();
 const randId = ref();
 const componentRef = ref();
 onMounted(() => {
-  if (typeList.includes(props.item.type) || typeList.includes(props.item.fieldType)) {
+  if (typeList.includes(props.item?.type) || typeList.includes(props.item?.fieldType)) {
     defaultAction.value = "change";
   }
   randId.value = "Id" + new Date().getTime();
-  actionName.value = props.item.actionName ? props.item.actionName : defaultAction.value;
+  actionName.value = props.item?.actionName ? props.item?.actionName : defaultAction.value;
   compPreps();
 });
 </script>
@@ -194,11 +198,12 @@ onMounted(() => {
 }
 </style>
 <template>
+
   <div :style="{ 'width': isSearch && field.preps['type'] != 'daterange' ? '150px' : '100%','height':'100%' }">
     <component :id="randId" :is="itemType+'-item'" @selfFunc="dataSearch" :isDesign="false"
                ref="componentRef"
                :field="field" :formFieldList="dataForm"/>
-    <help :message="item.helpMsg" v-if="item.helpMsg"/>
+    <help :message="item?.helpMsg" v-if="item?.helpMsg"/>
   </div>
 </template>
 <style scoped></style>

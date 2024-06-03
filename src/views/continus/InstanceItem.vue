@@ -84,15 +84,15 @@ const lineDetail = (instanceId: string) => {
         <span>#71992</span>
       </div>
       <div class="item-bar-right">
-        <el-button @click="execLine(1)" link title="" type="primary">
+        <el-button @click="execLine(1)" link title="" style="background: var(--star-horse-style);color: var(--star-horse-white)">
           <star-horse-icon icon-class="fa-circle-play"/>
           <el-tooltip content="执行">执行</el-tooltip>
         </el-button>
-        <el-button @click="configLine(1)" link title="" type="primary">
+        <el-button @click="configLine(1)" link title="" style="background: var(--star-horse-style);color: var(--star-horse-white)">
           <star-horse-icon icon-class="fa-gear"/>
           <el-tooltip content="配置">配置</el-tooltip>
         </el-button>
-        <el-button @click="publishLine(1)" link title="" type="primary">
+        <el-button @click="publishLine(1)" link title="" style="background: var(--star-horse-style);color: var(--star-horse-white)">
           <star-horse-icon icon-class="fa-gear"/>
           <el-tooltip content="发布">发布</el-tooltip>
         </el-button>

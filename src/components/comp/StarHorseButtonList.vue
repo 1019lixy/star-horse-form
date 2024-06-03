@@ -1,5 +1,5 @@
 <script setup lang="ts" name="StarHorseButtonList">
-import {inject, onMounted, PropType, ref, Ref} from "vue";
+import {computed, inject, onMounted, PropType, ref, Ref} from "vue";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {loadPagePermission} from "@/api/sh_api";
 import {download} from "@/api/star_horse";
@@ -8,14 +8,14 @@ import {DialogProps} from "../types/DialogProps";
 import {BtnAuth} from "@/components/types/BtnAuth";
 import {getToken} from "@/utils/auth";
 import Help from "@/components/help.vue";
+import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
+import piniaInstance from "@/store";
 
 const props = defineProps({
   dialogProps: {type: Object as PropType<DialogProps>, required: true},
   compUrl: {type: Object as PropType<ApiUrls>, required: true},
   selfBtnFunc: {type: Array as PropType<BtnAuth[]>, default: null},
   viewFlag: {type: Boolean, default: false},
-  compSize: {type: String, default: "small"},
-  showType: {type: String, default: "line"},
   selfPermission: {
     type: Object,
     default: () => {
@@ -31,6 +31,9 @@ const emits = defineEmits([
   "btnOperation",
   "tableCompFunc"
 ]);
+let configStore = GlobalConfig(piniaInstance);
+let compSize = computed(() => configStore.configFormInfo?.buttonSize|| "small") ;
+let showType = computed(() => configStore.configFormInfo?.buttonShowType || "dropdown");
 const permissions = ref({view: true});
 const dataForm = inject("dataForm") as Ref;
 const tableCompFunc = (funcName: string) => {
@@ -134,8 +137,8 @@ onMounted(() => {
 <template>
   <ul class="inner_button" v-if="showType=='line'">
     <li v-if="permissions?.add&&!viewFlag&&checkSelfBtn('add')">
-      <el-button @click="btnOperation('add')" title="" type="primary" :size="compSize">
-        <star-horse-icon icon-class="plus" color="#ffffff" size="12px"/>
+      <el-button @click="btnOperation('add')" title="" style="background: var(--star-horse-style);color: var(--star-horse-white)" :size="compSize">
+        <star-horse-icon icon-class="plus" color="var(--star-horse-white)" size="12px"/>
         <el-tooltip content="新增">新增</el-tooltip>
       </el-button>
     </li>
@@ -143,13 +146,13 @@ onMounted(() => {
       <template v-for="item in selfBtnFunc">
         <li>
           <template v-if="item.children?.length>0">
-            <el-dropdown size="small" split-button type="primary" placement="top-start">
-              <star-horse-icon :icon-class="item.icon" color="#ffffff"/>
+            <el-dropdown :size="compSize" split-button style="background: var(--star-horse-style);color: var(--star-horse-white)" placement="top-start">
+              <star-horse-icon :icon-class="item.icon" color="var(--star-horse-white)"/>
               {{ item.labelName }}
               <template #dropdown>
                 <el-dropdown-menu>
                   <el-dropdown-item v-for="sitem in item.children">
-                    <el-button @click="sitem['exec'](sitem.btnName)" link title="" type="primary" :size=
+                    <el-button @click="sitem['exec'](sitem.btnName)" link title="" style="background: var(--star-horse-style);color: var(--star-horse-white)" :size=
                         "compSize">
                       <star-horse-icon :icon-class="sitem.icon||'default'" size="12px"/>
                       {{ sitem.labelName }}
@@ -160,8 +163,8 @@ onMounted(() => {
               </template>
             </el-dropdown>
           </template>
-          <el-button v-else @click="item['exec']()" title="" type="primary" :size="compSize">
-            <star-horse-icon :icon-class="item.icon||'default'" color="#ffffff" size="12px"/>
+          <el-button v-else @click="item['exec']()" title="" style="background: var(--star-horse-style);color: var(--star-horse-white)" :size="compSize">
+            <star-horse-icon :icon-class="item.icon||'default'" color="var(--star-horse-white)" size="12px"/>
             <el-tooltip :content="item.labelName">{{ item.labelName }}</el-tooltip>
           </el-button>
         </li>
@@ -170,14 +173,14 @@ onMounted(() => {
 
 
     <li v-if="permissions?.download&&!viewFlag&&checkSelfBtn('download')">
-      <el-button @click="downloadTemplate" title="" type="primary" :size="compSize">
-        <star-horse-icon icon-class="download" color="#ffffff" size="12px"/>
+      <el-button @click="downloadTemplate" title="" style="background: var(--star-horse-style);color: var(--star-horse-white)" :size="compSize">
+        <star-horse-icon icon-class="download" color="var(--star-horse-white)" size="12px"/>
         <el-tooltip content="下载模板">下载模板</el-tooltip>
       </el-button>
     </li>
     <li v-if="permissions?.execution&&checkSelfBtn('exec')">
-      <el-button @click="tableCompFunc('exec')" title="" type="primary" :size="compSize">
-        <star-horse-icon icon-class="run" color="#ffffff" size="12px"/>
+      <el-button @click="tableCompFunc('exec')" title="" style="background: var(--star-horse-style);color: var(--star-horse-white)" :size="compSize">
+        <star-horse-icon icon-class="run" color="var(--star-horse-white)" size="12px"/>
         <el-tooltip content="执行">执行</el-tooltip>
       </el-button>
     </li>
@@ -196,22 +199,22 @@ onMounted(() => {
           class="upload"
           name="file"
       >
-        <el-button title="" type="primary" :size="compSize">
-          <star-horse-icon icon-class="excel-upload" color="#ffffff" size="12px"/>
+        <el-button title="" style="background: var(--star-horse-style);color: var(--star-horse-white)" :size="compSize">
+          <star-horse-icon icon-class="excel-upload" color="var(--star-horse-white)" size="12px"/>
           <el-tooltip content="导入">导入</el-tooltip>
         </el-button>
       </el-upload>
     </li>
     <li v-if="permissions?.export&&checkSelfBtn('exportData')">
-      <el-button @click="tableCompFunc('exportData')" title="" type="primary" :size="compSize">
-        <star-horse-icon icon-class="excel-export" color="#ffffff" size="12px"/>
+      <el-button @click="tableCompFunc('exportData')" title="" style="background: var(--star-horse-style);color: var(--star-horse-white)" :size="compSize">
+        <star-horse-icon icon-class="excel-export" color="var(--star-horse-white)" size="12px"/>
         <el-tooltip content="导出">导出</el-tooltip>
       </el-button>
       <help message="如果选择了数据，则按选择数据导出;没有选择数据，则根据查询条件导出" style="font-size: 16px"/>
     </li>
     <li v-if="permissions?.batchDelete&&!viewFlag&&checkSelfBtn('batch_delete')">
       <el-button @click="tableCompFunc('batch_delete')" title="" type="danger" :size="compSize">
-        <star-horse-icon icon-class="batch_delete1" color="#ffffff" size="12px"/>
+        <star-horse-icon icon-class="batch_delete1" color="var(--star-horse-white)" size="12px"/>
         <el-tooltip content="批量删除">批量删除</el-tooltip>
       </el-button>
     </li>
@@ -230,13 +233,11 @@ onMounted(() => {
             <el-sub-menu :index="'2-'+ain">
               <template #title>
                 {{ item.labelName }}
-                <!--                <el-icon class="el-icon&#45;&#45;right">
-                                  <arrow-down/>
-                                </el-icon>-->
               </template>
               <el-menu-item :index="'3-'+ain+'-'+index" v-for="(sitem,index) in item.children"
                             @click="sitem['exec'](sitem.btnName)">
-                <star-horse-icon :icon-class="sitem.icon||'default'" style="color: var(--star-horse-style)" size="12px"/>
+                <star-horse-icon :icon-class="sitem.icon||'default'" style="color: var(--star-horse-style)"
+                                 size="12px"/>
                 {{ sitem.labelName }}
               </el-menu-item>
             </el-sub-menu>
@@ -272,9 +273,10 @@ onMounted(() => {
             :action="compUrl.importUrl"
             :headers="{ token: getToken() }"
             class="upload"
+            style="color: var(--star-horse-style)"
             name="file"
         >
-          <star-horse-icon icon-class="excel-upload" style="color: var(--star-horse-style)" size="12px"/>
+          <star-horse-icon icon-class="excel-upload" style="color: var(--star-horse-white)" size="12px"/>
           导入
         </el-upload>
       </el-menu-item>

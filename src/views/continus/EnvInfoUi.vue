@@ -277,14 +277,14 @@
         <el-table-column fixed="right" label="操作" min-width="150px">
           <template #header="scope">
             <span>操作</span>&nbsp;&nbsp;
-            <el-button @click="handleAddDetails(scope.row,1)" link size="mini" type="primary">
+            <el-button @click="handleAddDetails(scope.row,1)" link size="mini" style="background: var(--star-horse-style);color: var(--star-horse-white)">
               <el-tooltip content="添加一行">
                 <star-horse-icon icon-class="plus" style="vertical-align: middle;color:#409EFF;"/>
               </el-tooltip>
             </el-button>
           </template>
           <template #default="scope">
-            <el-button @click="handleAddDetails(scope.row,1)" link size="mini" type="primary">
+            <el-button @click="handleAddDetails(scope.row,1)" link size="mini" style="background: var(--star-horse-style);color: var(--star-horse-white)">
               <el-tooltip content="添加一行">添加</el-tooltip>
             </el-button>
             <el-button @click="handleAddDetails(scope.row,2)" link size="mini" type="danger">
@@ -483,7 +483,7 @@
         />
       </el-form-item>
       <el-form-item label="     ">
-        <el-button @click="dataSearch" link type="primary">
+        <el-button @click="dataSearch" link style="background: var(--star-horse-style);color: var(--star-horse-white)">
           <star-horse-icon icon-class="search"/>
           <span style="vertical-align: middle;"> 查询 </span>
         </el-button>
@@ -495,13 +495,13 @@
     <hr>
     <ul class="inner_button">
       <li v-if="permission.add">
-        <el-button @click="btnOperation(1)" link title="" type="primary">
+        <el-button @click="btnOperation(1)" link title="" style="background: var(--star-horse-style);color: var(--star-horse-white)">
           <star-horse-icon icon-class="add"/>
           <el-tooltip content="新增">新增</el-tooltip>
         </el-button>
       </li>
       <li v-if="permission.batchAdd">
-        <el-button @click="btnOperation(11)" link title="" type="primary">
+        <el-button @click="btnOperation(11)" link title="" style="background: var(--star-horse-style);color: var(--star-horse-white)">
           <star-horse-icon icon-class="batch-add"/>
           <el-tooltip content="批量新增">批量新增</el-tooltip>
         </el-button>
@@ -513,19 +513,19 @@
         </el-button>
       </li>
       <li v-if="permission.view">
-        <el-button @click="btnOperation(5)" link title="" type="primary">
+        <el-button @click="btnOperation(5)" link title="" style="background: var(--star-horse-style);color: var(--star-horse-white)">
           <star-horse-icon icon-class="refresh"/>
           <el-tooltip content="刷新">刷新</el-tooltip>
         </el-button>
       </li>
       <li v-if="permission.download">
-        <el-button @click="btnOperation(6)" link title="" type="primary">
+        <el-button @click="btnOperation(6)" link title="" style="background: var(--star-horse-style);color: var(--star-horse-white)">
           <star-horse-icon icon-class="document_download"/>
           <el-tooltip content="下载模板">下载模板</el-tooltip>
         </el-button>
       </li>
       <li v-if="permission.execution">
-        <el-button @click="btnOperation(7)" link title="" type="primary">
+        <el-button @click="btnOperation(7)" link title="" style="background: var(--star-horse-style);color: var(--star-horse-white)">
           <star-horse-icon icon-class="run"/>
           <el-tooltip content="执行">执行</el-tooltip>
         </el-button>
@@ -542,7 +542,7 @@
             class="upload-demo"
             name="file"
         >
-          <el-button link title="" type="primary">
+          <el-button link title="" style="background: var(--star-horse-style);color: var(--star-horse-white)">
             <star-horse-icon icon-class="excel-upload"/>
             <el-tooltip content="上传">上传</el-tooltip>
           </el-button>
@@ -550,7 +550,7 @@
         </el-upload>
       </li>
       <li v-if="permission.export">
-        <el-button @click="btnOperation(8)" link title="" type="primary">
+        <el-button @click="btnOperation(8)" link title="" style="background: var(--star-horse-style);color: var(--star-horse-white)">
           <star-horse-icon icon-class="excel-export"/>
           <el-tooltip content="导出">导出</el-tooltip>
         </el-button>
@@ -713,11 +713,11 @@
       </el-table-column>
       <el-table-column fixed="right" label="操作" min-width="180px">
         <template #default="scope">
-          <el-button @click="editById(scope.row[primaryKey])" link title="" type="primary"
+          <el-button @click="editById(scope.row[primaryKey])" link title="" style="background: var(--star-horse-style);color: var(--star-horse-white)"
                      v-if="permission.edit">
             <el-tooltip content="编辑">编辑</el-tooltip>
           </el-button>
-          <el-button @click="viewById(scope.row[primaryKey])" link title="" type="primary"
+          <el-button @click="viewById(scope.row[primaryKey])" link title="" style="background: var(--star-horse-style);color: var(--star-horse-white)"
                      v-if="permission.view">
             <el-tooltip content="查看">查看</el-tooltip>
           </el-button>

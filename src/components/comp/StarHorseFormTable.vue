@@ -5,7 +5,7 @@ import {batchFieldDefaultValues} from "@/api/sh_api.ts";
 const props = defineProps({
   item: {type: Object, required: true},
   rules: {type: Object, required: true},
-
+  size: {type: String, default: "small"}
 });
 
 const dataForm = defineModel("dataForm");
@@ -21,6 +21,7 @@ const currentTableRef = ref();
       :initRows="item['initRows']"
       :batchUrl="item['batchUrl']"
       :title="item['title']"
+      :size="size"
       :downloadTemplateUrl="item['downloadTemplateUrl']"
       :importInfo="item['importInfo']"
       :defaultValues="batchFieldDefaultValues(item)"

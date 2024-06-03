@@ -159,7 +159,7 @@ const dataFormat = (name: string, cellValue: Object): any => {
       />
     </star-horse-dialog>
     <el-card class="inner_content">
-      <div class="search_btn" :style="{'flex-direction':Config.buttonStyle=='line'?'column':'row'}">
+      <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
         <star-horse-search-comp @searchData="(data)=>starHorseTableCompRef.createCreateParams(data)"
                                 :formData="searchFormData"
                                 :compUrl="dataUrl"/>

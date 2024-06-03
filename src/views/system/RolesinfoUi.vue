@@ -476,7 +476,7 @@ const filterMethod = (query: string, node: TreeNode) => {
       <el-row style = "height: 100%;">
         <el-col :span = "12" style = "height: 100%;">-->
   <el-card class="inner_content" style="height: 100%;">
-    <div class="search_btn" :style="{'flex-direction':Config.buttonStyle=='line'?'column':'row'}">
+    <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
       <star-horse-search-comp @searchData="(data)=>starHorseTableCompRef.createCreateParams(data)"
                               :formData="searchFormData"
                               :compUrl="dataUrl"/>

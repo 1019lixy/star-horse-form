@@ -54,7 +54,7 @@ const primaryKey = "idContinusInst";
       <span><star-horse-icon icon-class="flow"/>流水线</span>
     </div>
     <div class="nav-bar-right">
-      <el-button @click="execLine" link title="" type="primary">
+      <el-button @click="execLine" link title="" style="background: var(--star-horse-style);color: var(--star-horse-white)">
         <star-horse-icon icon-class="fa-circle-play"/>
         <el-tooltip content="执行">执行</el-tooltip>
       </el-button>

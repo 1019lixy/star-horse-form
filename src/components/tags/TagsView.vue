@@ -483,14 +483,14 @@ watch(
 
   .tags-item:not(.is-active) {
     &:hover {
-      color: var(--el-color-primary);
+      color: var(--star-horse-style);
     }
   }
 
   .tags-item.is-active {
     color: var(--el-color-white);
-    background-color: var(--el-color-primary);
-    border: 1px solid var(--el-color-primary);
+    background-color: var(--star-horse-style);
+    border: 1px solid var(--star-horse-style);
 
     .item--close {
       :deep(span) {
