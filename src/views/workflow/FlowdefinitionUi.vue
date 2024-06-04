@@ -1,21 +1,21 @@
-
-<script setup lang="ts" name="ContinusInstanceUi">
+<script setup lang="ts" name="EnvInfo">
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {onMounted, provide, reactive, ref} from "vue";
 import {SearchProps} from "@/components/types/SearchProps.d.ts";
 import {Config} from "@/api/settings.js";
+
 const dataUrl: ApiUrls = {
-  loadByPageUrl: "/devops-continus/continus/continusInstance/pageList",
-  mergeUrl: "/devops-continus/continus/continusInstance/merge",
-  mergeDraftUrl: "/devops-continus/continus/continusInstance/mergeDraft",
-  batchMergeUrl: "/devops-continus/continus/continusInstance/mergeBatch",
-  batchMergeDraftUrl: "/devops-continus/continus/continusInstance/mergeBatchDraft",
-  loadByIdUrl: "/devops-continus/continus/continusInstance/getById",
-  deleteUrl: "/devops-continus/continus/continusInstance/batchDeleteById",
-  exportAllUrl: "/devops-continus/continus/continusInstance/exportData",
-  downloadTemplateUrl: "/devops-continus/continus/continusInstance/downloadTemplate",
-  userConditionUrl: "/devops-continus/continus/continusInstance/getAllByCondition",
-  importUrl: "/devops-continus/continus/continusInstance/importData",
+  loadByPageUrl: "/flow-engine/workflow/flowoperation/pageList",
+  mergeUrl: "/flow-engine/workflow/flowoperation/merge",
+  mergeDraftUrl: "/flow-engine/workflow/flowoperation/mergeDraft",
+  batchMergeUrl: "/flow-engine/workflow/flowoperation/mergeBatch",
+  batchMergeDraftUrl: "/flow-engine/workflow/flowoperation/mergeBatchDraft",
+  loadByIdUrl: "/flow-engine/workflow/flowoperation/getById",
+  deleteUrl: "/flow-engine/workflow/flowoperation/batchDeleteById",
+  exportAllUrl: "/flow-engine/workflow/flowoperation/exportData",
+  downloadTemplateUrl: "/flow-engine/workflow/flowoperation/downloadTemplate",
+  userConditionUrl: "/flow-engine/workflow/flowoperation/getAllByCondition",
+  importUrl: "/flow-engine/workflow/flowoperation/importData",
   uploadUrl: ""
 };
 const searchFormData = reactive<SearchProps[]>([
@@ -26,45 +26,28 @@ const searchFormData = reactive<SearchProps[]>([
 const tableFieldList = reactive({
   fieldList: [
     {
-      label: "主键", fieldName: "idContinusInst", type: "long",
+      label: "主键", fieldName: "defineId", type: "long",
       required: false, formShow: false,
       tableShow: false, minWidth: 180
-    }, {
-      label: "实例名称", fieldName: "instanceName", type: "input",
+    }, [{
+      label: "流程名称", fieldName: "flowName", type: "input",
       required: true, formShow: !false,
       tableShow: !false, minWidth: 180
     },
-    [{
-      label: "模板", fieldName: "template", type: "input",
+    {
+      label: "流程Id", fieldName: "flowId", type: "input",
       required: false, formShow: !false,
       tableShow: !false, minWidth: 180
-    },
-      {
-        label: "是否独占 1是 2否 默认2", fieldName: "isAlone", type: "number",
+    }],
+      [{
+        label: "流程定义Xml文件", fieldName: "flowXml", type: "number",
         required: false, formShow: !false,
         tableShow: !false, minWidth: 180
-      }],
-    [{
-      label: "关联计划", fieldName: "linkDataPlan", type: "input",
-      required: true, formShow: !false,
+      }, {
+      label: "流程定义图片", fieldName: "flowSvg", type: "number",
+      required: false, formShow: !false,
       tableShow: !false, minWidth: 180
-    },
-
-      {
-        label: "Cron定时触发执行", fieldName: "cron", type: "cron",
-        required: true, formShow: !false,
-        tableShow: !false, minWidth: 180
-      }],
-    [{
-      label: "代码下载后存放目录", fieldName: "targetDir", type: "input",
-      required: true, formShow: !false,
-      tableShow: !false, minWidth: 180
-    },
-      {
-        label: "是否自动触发构建 1是 2否 默认2", fieldName: "autoBuild", type: "input",
-        required: true, formShow: !false,
-        tableShow: !false, minWidth: 180
-      }],
+    }],
 
     {
       label: "备注", fieldName: "remark", type: "textarea",
@@ -124,8 +107,8 @@ const tableFieldList = reactive({
   ],
   batchFieldList: []
 });
-const primaryKey = "idContinusInst";
-const environmentInfoRef = ref();
+const primaryKey = "idEnvInfo";
+const flowDefinitionRef = ref();
 const rules = {};
 const searchForm = ref({});
 provide("searchForm", searchForm);
@@ -157,7 +140,7 @@ onMounted(async () => {
 
 <template>
   <star-horse-dialog :dialog-visible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form @refresh="environmentInfoRef.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList"
+    <star-horse-form @refresh="flowDefinitionRef.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList"
                      :rules="rules"/>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title=
@@ -166,14 +149,14 @@ onMounted(async () => {
   </star-horse-dialog>
   <el-card class="inner_content">
     <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
-      <star-horse-search-comp @searchData="(data)=>environmentInfoRef.createCreateParams(data)"
+      <star-horse-search-comp @searchData="(data)=>flowDefinitionRef.createCreateParams(data)"
                               :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
-      <star-horse-button-list @tableCompFunc="(fun)=>environmentInfoRef.tableCompFunc(fun)" :compUrl="dataUrl"
+      <star-horse-button-list @tableCompFunc="(fun)=>flowDefinitionRef.tableCompFunc(fun)" :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
-    <star-horse-table-comp ref="environmentInfoRef" :fieldList="tableFieldList" :primaryKey="primaryKey"
+    <star-horse-table-comp ref="flowDefinitionRef" :fieldList="tableFieldList" :primaryKey="primaryKey"
                            :compUrl="dataUrl"
                            :dataFormat="dataFormat" @selectItem="selectItemFun"/>
   </el-card>
@@ -181,4 +164,3 @@ onMounted(async () => {
 <style lang="scss" scoped>
 
 </style>
-

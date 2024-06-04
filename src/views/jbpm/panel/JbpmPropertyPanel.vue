@@ -113,7 +113,30 @@ const modifyFormData = (data: any) => {
 
 </script>
 
-<style scoped>
+
+<template>
+  <div class="bpmn-panel">
+    <el-container>
+      <el-header height="45px">
+        <div :class="{active: configTab=='node'}" @click="handleConfigSelect('node')" class="config-tab">节点属性
+        </div>
+        <div :class="{active: configTab=='process'}" @click="handleConfigSelect('process')" class="config-tab">
+          流程属性
+        </div>
+      </el-header>
+      <el-main>
+
+        <node-property-panel :formData="formData" :modeler="modeler" :nodeElement="nodeElement"
+                             @modifyConfigTab="modifyConfigTab" @modifyFormData="modifyFormData"
+                             v-if="configTab=='node'"/>
+        <process-property-panel :element="element" :modeler="modeler" :process-data="process"
+                                v-if="configTab=='process'"/>
+      </el-main>
+    </el-container>
+
+  </div>
+</template>
+<style lang="scss" scoped>
 .bpmn-panel {
   width: 350px;
   border: 1px solid #eeeeee;
@@ -165,25 +188,3 @@ const modifyFormData = (data: any) => {
   color: #c0c4cc;
 }
 </style>
-<template>
-  <div class="bpmn-panel">
-    <el-container>
-      <el-header height="45px">
-        <div :class="{active: configTab=='node'}" @click="handleConfigSelect('node')" class="config-tab">节点属性
-        </div>
-        <div :class="{active: configTab=='process'}" @click="handleConfigSelect('process')" class="config-tab">
-          流程属性
-        </div>
-      </el-header>
-      <el-main>
-
-        <node-property-panel :formData="formData" :modeler="modeler" :nodeElement="nodeElement"
-                             @modifyConfigTab="modifyConfigTab" @modifyFormData="modifyFormData"
-                             v-if="configTab=='node'"/>
-        <process-property-panel :element="element" :modeler="modeler" :process-data="process"
-                                v-if="configTab=='process'"/>
-      </el-main>
-    </el-container>
-
-  </div>
-</template>

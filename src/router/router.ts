@@ -17,7 +17,7 @@ routers.push({
                 keepAlive: false
             }
         },
-        {
+        /*{
             path: "/continus/instanceDetail",
             name: "ContinusInstanceDetail",
             component: () => import("@/views/continus/ContinusInstanceDetail.vue"),
@@ -25,8 +25,17 @@ routers.push({
                 title: "流水线详情",
                 keepAlive: false
             }
-
         }, {
+            path: "/continus/instanceInit",
+            name: "ContinusInstanceInit",
+            component: () => import("@/views/continus/ContinusInstanceInit.vue"),
+            meta: {
+                title: "流水线配置",
+                keepAlive: false
+            }
+
+        }, */
+        {
             path: "/dict_list",
             name: "DictinfoUi",
             component: () => import("@/views/system/DictinfoUI.vue"),

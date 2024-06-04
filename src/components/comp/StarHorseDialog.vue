@@ -88,19 +88,19 @@ provide("dialogOperation", clickFunction);
             <el-button style="background: var(--star-horse-style);color: var(--star-horse-white)" size="small"
                        @click="fullScreen" link v-if="!!isFullScreen && draggable">
               <el-tooltip content="还原">
-                <star-horse-icon icon-class="fullscreen-shrink"/>
+                <star-horse-icon icon-class="fullscreen-shrink" color="var(--star-horse-white)"/>
               </el-tooltip>
             </el-button>
             <el-button style="background: var(--star-horse-style);color: var(--star-horse-white)" size="small"
                        @click="fullScreen" link v-if="!isFullScreen && draggable">
               <el-tooltip content="最大化">
-                <star-horse-icon icon-class="fullscreen-expand"/>
+                <star-horse-icon icon-class="fullscreen-expand" color="var(--star-horse-white)"/>
               </el-tooltip>
             </el-button>
             <el-button style="background: var(--star-horse-style);color: var(--star-horse-white)" size="small"
                        @click="close" link>
               <el-tooltip content="关闭">
-                <star-horse-icon icon-class="close"/>
+                <star-horse-icon icon-class="close" color="var(--star-horse-white)"/>
               </el-tooltip>
             </el-button>
           </div>

@@ -1,268 +1,7 @@
-<template>
-  <star-horse-dialog :title="'更换模板'" :visible="tempDialog">
-    <el-scrollbar>
-      <div class="template-list">
-        <div class="template-item">
-          <div class="title">
-            <el-tag type="info">标签二</el-tag>
-            脚本部署模板
-          </div>
-          <div class="contents">
-            <div class="content">
-              <span class="content-title">ssss1</span>
-              <i>
-                <star-horse-icon icon-class="fa-solid fa-arrow-right-long"/>
-              </i>
-            </div>
-            <div class="content">
-              <span class="content-title">ssss2</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </el-scrollbar>
-  </star-horse-dialog>
-  <star-horse-dialog :title="'节点列表'" :visible="nodeDialog">
-    <div class="content-tools">
-      <div class="node-menu">
-        <div :class="{'active':currentItem==0}" class="node-item">全部</div>
-        <div :class="{'active':currentItem==1}" class="node-item">编译</div>
-        <div :class="{'active':currentItem==2}" class="node-item">测试</div>
-        <div :class="{'active':currentItem==3}" class="node-item">扫描</div>
-        <div :class="{'active':currentItem==4}" class="node-item">安全</div>
-        <div :class="{'active':currentItem==5}" class="node-item">部署</div>
-        <div :class="{'active':currentItem==6}" class="node-item">其他</div>
-      </div>
-      <div class="node-list">
-        <div class="content-node">
-          <div class="node">
-            <div class="item-box" v-for="(item,index) in nodeList">
-              <div>
-                <div class="item-logo">
-                  <div class="node-icon"></div>
-                  <span class="text text-overflow">{{ item.name }}</span>
-                </div>
-                <span class="item-desc">{{ item.name }}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="node-desc"></div>
-    </div>
-  </star-horse-dialog>
-  <div class="config-nav-bar">
-    <div class="nav-bar-left">
-      <span>xxxx-----</span>
-      <span style="width: 40px;"></span>
-      <apan>当前模板：XXX</apan>&nbsp;&nbsp;
-      <el-button @click="changeTemplate">
-        <star-horse-icon icon-class="fa-screwdriver-wrench" style="vertical-align: middle;"/>
-        更换模板
-      </el-button>
-    </div>
-    <div>
-      <el-button style="background: var(--star-horse-style);color: var(--star-horse-white)">保存并启用</el-button>
-      <el-button>保存并执行</el-button>
-    </div>
-  </div>
-  <div style="height: 20px;"></div>
-  <div class="pipeline-nav">
-    <div class="nav">
-      <div :class="{'is-active':-1==currentNode}" @click="editNode(-1)" class="nav-setting nav-panel">
-        <i class="icon">
-          <star-horse-icon icon-class="fa-solid fa-screwdriver-wrench" style="vertical-align: middle;"/>
-        </i>&nbsp;
-        流水线配置
-      </div>
-      <div class="nav-line"></div>
-      <div class="start_end">开始</div>
-      <div class="nav-nodes">
-        <div class="node-content" v-for="(item,index) in processList">
-          <div class="step">
-            <i class="icon node-arrow">
-              <star-horse-icon icon-class="fa-circle-chevron-right" style="vertical-align: middle;"/>
-            </i>
-            <i @click="addNode(index)" class="icon node-add">
-              <el-tooltip content="插入节点">
-                <star-horse-icon icon-class="fa-circle-plus" style="vertical-align: middle;"/>
-              </el-tooltip>
-            </i>
-          </div>
-          <div :class="{'is-active':index==currentNode}" @click="editNode(index)" class="nav-panel">
-                        <span class="label text-overflow">{{ item.name }}
-                           <i class="icon pright"><star-horse-icon icon-class="fa-close"
-                                                                   style="vertical-align: middle;"/></i>
-                        </span>
-          </div>
-        </div>
-      </div>
-      <div class="step">
-
-        <i class="icon node-arrow">
-          <star-horse-icon icon-class="fa-circle-chevron-right" style="vertical-align: middle;"/>
-        </i>
-        <i @click="addNode(processList.length)" class="icon node-add">
-          <el-tooltip content="插入节点">
-            <star-horse-icon icon-class="fa-circle-plus" style="vertical-align: middle;"/>
-          </el-tooltip>
-        </i>
-
-      </div>
-      <div class="start_end">结束</div>
-      <el-button @click="addNode(-1)" class="init-btn" text>
-        <star-horse-icon icon-class="fa-plus" style="vertical-align: middle;"/>
-        添加节点
-      </el-button>
-    </div>
-  </div>
-  <div class="config-content">
-    <el-form label-position="top" v-model="dataForm">
-      <el-card v-if="currentNode==-1">
-        <el-card shadow="hover">
-          <template #header>
-            <div class="card-header">
-              <span>基础信息</span>
-            </div>
-          </template>
-          <el-row>
-            <el-col :span="11">
-              <el-form-item label="流水线名称" prop="instanceName" required>
-                <el-input clearable placeholder="请输入流水线名称" v-model="dataForm.instanceName"/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="2"></el-col>
-            <el-col :span="11">
-              <el-form-item label="代码分支" prop="codeBranch" required>
-                <el-select clearable filterable placeholder="请选择流水线名称" v-model="dataForm.codeBranch">
-
-                </el-select>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="11">
-              <el-form-item label="流水线类型" prop="execType" required>
-                <el-select clearable placeholder="请选择流水线类型" v-model="dataForm.execType">
-                  <el-option label="独占模式" value="single"/>
-                  <el-option label="并行模式" value="multiple"/>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="2"></el-col>
-            <el-col :span="11">
-              <el-form-item label="Cron定时触发" prop="cron" required>
-                <el-input clearable placeholder="请输入Cron定时触发" v-model="dataForm.cron"/>
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-card>
-        <div style="height: 15px;"/>
-        <el-card shadow="hover">
-          <template #header>
-            <div class="card-header">
-              <span>数据源</span>
-              <el-select @change="addRepo" clearable filterable placeholder="请选择数据源类型"
-                         required v-model="dataForm.repoType">
-                <el-option label="SVN" value="svn"/>
-                <el-option label="Git" value="git"/>
-              </el-select>
-            </div>
-          </template>
-          <el-form-item label="数据源名称" prop="repoInstName" required>
-            <el-input placeholder="请输入数据源名称" v-model="dataForm.repoInstName"/>
-          </el-form-item>
-          <el-row>
-            <el-col :span="20">
-              <el-form-item label="URL" prop="repoInstUrl" required>
-                <el-input placeholder="请输入数据源URL" v-model="dataForm.repoInstUrl"/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="1"></el-col>
-            <el-col :span="3">
-              <el-form-item label="自动触发" prop="autoExecution">
-                <el-checkbox v-model="dataForm.autoExecution"/>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="11">
-              <el-form-item label="版本号" prop="dataVersion">
-                <el-input placeholder="请输入版本号" v-model="dataForm.dataVersion"/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="2"></el-col>
-            <el-col :span="11">
-              <el-form-item label="代码下载目标目录" prop="targetDir">
-                <el-input placeholder="请输入代码下载目标目录" v-model="dataForm.targetDir"/>
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-card>
-      </el-card>
-      <el-card v-else>
-        <el-row>
-          <el-col :span="11">
-            <el-form-item label="节点名称" prop="nodeName" required>
-              <el-input clearable placeholder="请输入节点名称" v-model="dataForm.nodeName"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="2"></el-col>
-          <el-col :span="11">
-            <el-form-item label="执行方式" prop="nodeExecType">
-              <el-radio-group v-model="dataForm.nodeExecType">
-                <el-radio label="1">并行</el-radio>
-                <el-radio label="2">串行</el-radio>
-              </el-radio-group>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col>
-            <el-form-item label="节点成功条件" prop="nodeSuccessCondition">
-              <el-radio-group v-model="dataForm.nodeSuccessCondition">
-                <el-radio checked label="1">成功完成所有子任务</el-radio>
-                <el-radio label="2">成功完成任意子任务</el-radio>
-                <el-radio label="3">成功完成指定子任务&nbsp;<el-select clearable
-                                                                       filterable placeholder="请选择子节点"
-                                                                       v-model="dataForm.subNodeList">
-
-                </el-select>
-                </el-radio>
-
-              </el-radio-group>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-card shadow="hover">
-          <template #header>
-            <div class="card-header">
-              <span>节点配置</span>
-              <el-button @click="addSubNode" class="init-btn" text>
-                <star-horse-icon icon-class="fa-plus" style="vertical-align: middle;"/>
-                添加子节点
-              </el-button>
-            </div>
-          </template>
-          <el-tabs>
-            <el-tab-pane label="节点一">
-              <sub-node-info/>
-            </el-tab-pane>
-            <el-tab-pane label="节点二"></el-tab-pane>
-            <el-tab-pane label="节点三"></el-tab-pane>
-            <el-tab-pane label="节点四"></el-tab-pane>
-          </el-tabs>
-        </el-card>
-      </el-card>
-    </el-form>
-  </div>
-</template>
-
 <script setup lang="ts" name="ContinusInstanceInit">
 import {ref} from "vue";
 
 import SubNodeInfo from "@/views/continus/SubNodeInfo.vue";
-
 
 const step = ref<number>(2);
 const currentItem = ref<number>(0);
@@ -337,7 +76,268 @@ const editNode = (currentIndex: number) => {
   currentNode.value = currentIndex;
 };
 </script>
+<template>
+  <star-horse-dialog :title="'更换模板'" :dialogVisible="tempDialog">
+    <el-scrollbar>
+      <div class="template-list">
+        <div class="template-item">
+          <div class="title">
+            <el-tag type="info">标签二</el-tag>
+            脚本部署模板
+          </div>
+          <div class="contents">
+            <div class="content">
+              <span class="content-title">ssss1</span>
+              <i>
+                <star-horse-icon icon-class="fa-solid fa-arrow-right-long"/>
+              </i>
+            </div>
+            <div class="content">
+              <span class="content-title">ssss2</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </el-scrollbar>
+  </star-horse-dialog>
+  <star-horse-dialog :title="'节点列表'" :dialogVisible="nodeDialog">
+    <div class="content-tools">
+      <div class="node-menu">
+        <div :class="{'active':currentItem==0}" class="node-item">全部</div>
+        <div :class="{'active':currentItem==1}" class="node-item">编译</div>
+        <div :class="{'active':currentItem==2}" class="node-item">测试</div>
+        <div :class="{'active':currentItem==3}" class="node-item">扫描</div>
+        <div :class="{'active':currentItem==4}" class="node-item">安全</div>
+        <div :class="{'active':currentItem==5}" class="node-item">部署</div>
+        <div :class="{'active':currentItem==6}" class="node-item">其他</div>
+      </div>
+      <div class="node-list">
+        <div class="content-node">
+          <div class="node">
+            <div class="item-box" v-for="(item,index) in nodeList">
+              <div>
+                <div class="item-logo">
+                  <div class="node-icon"></div>
+                  <span class="text text-overflow">{{ item.name }}</span>
+                </div>
+                <span class="item-desc">{{ item.name }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="node-desc"></div>
+    </div>
+  </star-horse-dialog>
+  <el-card class="inner_content">
+    <div class="config-nav-bar">
+      <div class="nav-bar-left">
+        <span>xxxx-----</span>
+        <span style="width: 40px;"></span>
+        <apan>当前模板：XXX</apan>&nbsp;&nbsp;
+        <el-button @click="changeTemplate" link>
+          <star-horse-icon icon-class="transfer" style="vertical-align: middle;"/>
+          更换模板
+        </el-button>
+      </div>
+      <div class="nav-bar-right">
+        <el-button style="background: var(--star-horse-style);color: var(--star-horse-white)">保存并启用</el-button>
+        <el-button>保存并执行</el-button>
+      </div>
+    </div>
+    <div class="pipeline-nav">
+      <div class="nav">
+        <div :class="{'is-active':-1==currentNode}" @click="editNode(-1)" class="nav-setting nav-panel">
+          <i class="icon">
+            <star-horse-icon icon-class="setting" style="vertical-align: middle; color:var(--star-horse-white)"/>
+          </i>&nbsp;
+          流水线配置
+        </div>
+        <div class="nav-line"></div>
+        <div class="start_end">开始</div>
+        <div class="nav-nodes">
+          <div class="node-content" v-for="(item,index) in processList">
+            <div class="step">
+              <i class="icon node-arrow">
+                <star-horse-icon icon-class="arrow-double-right" style="vertical-align: middle;"/>
+              </i>
+              <i @click="addNode(index)" class="icon node-add">
+                <el-tooltip content="插入节点">
+                  <star-horse-icon icon-class="add" style="vertical-align: middle;"/>
+                </el-tooltip>
+              </i>
+            </div>
+            <div :class="{'is-active':index==currentNode}" @click="editNode(index)" class="nav-panel">
+                        <span class="label text-overflow">{{ item.name }}
+                           <i class="icon pright"><star-horse-icon icon-class="close"
+                                                                   style="vertical-align: middle;"/></i>
+                        </span>
+            </div>
+          </div>
+        </div>
+        <div class="step">
 
+          <i class="icon node-arrow">
+            <star-horse-icon icon-class="arrow-double-right" style="vertical-align: middle;"/>
+          </i>
+          <i @click="addNode(processList.length)" class="icon node-add">
+            <el-tooltip content="插入节点">
+              <star-horse-icon icon-class="add" style="vertical-align: middle;"/>
+            </el-tooltip>
+          </i>
+
+        </div>
+        <div class="start_end">结束</div>
+        <el-button @click="addNode(-1)" class="init-btn" text>
+          <star-horse-icon icon-class="add" style="vertical-align: middle;"/>
+          添加节点
+        </el-button>
+      </div>
+    </div>
+    <div class="config-content">
+      <el-scrollbar height="100%">
+        <el-form label-position="left" v-model="dataForm">
+          <el-card v-if="currentNode==-1">
+            <el-card shadow="hover">
+              <template #header>
+                <div class="card-header">
+                  <span>基础信息</span>
+                </div>
+              </template>
+              <el-row>
+                <el-col :span="11">
+                  <el-form-item label="流水线名称" prop="instanceName" required>
+                    <el-input clearable placeholder="请输入流水线名称" v-model="dataForm.instanceName"/>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="2"></el-col>
+                <el-col :span="11">
+                  <el-form-item label="代码分支" prop="codeBranch" required>
+                    <el-select clearable filterable placeholder="请选择流水线名称" v-model="dataForm.codeBranch">
+
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="11">
+                  <el-form-item label="流水线类型" prop="execType" required>
+                    <el-select clearable placeholder="请选择流水线类型" v-model="dataForm.execType">
+                      <el-option label="独占模式" value="single"/>
+                      <el-option label="并行模式" value="multiple"/>
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="2"></el-col>
+                <el-col :span="11">
+                  <el-form-item label="Cron定时触发" prop="cron" required>
+                    <el-input clearable placeholder="请输入Cron定时触发" v-model="dataForm.cron"/>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+            </el-card>
+            <div style="height: 15px;"/>
+            <el-card shadow="hover">
+              <template #header>
+                <div class="card-header">
+                  <span>数据源</span>
+                  <el-select @change="addRepo" clearable filterable placeholder="请选择数据源类型"
+                             required v-model="dataForm.repoType">
+                    <el-option label="SVN" value="svn"/>
+                    <el-option label="Git" value="git"/>
+                  </el-select>
+                </div>
+              </template>
+              <el-form-item label="数据源名称" prop="repoInstName" required>
+                <el-input placeholder="请输入数据源名称" v-model="dataForm.repoInstName"/>
+              </el-form-item>
+              <el-row>
+                <el-col :span="20">
+                  <el-form-item label="URL" prop="repoInstUrl" required>
+                    <el-input placeholder="请输入数据源URL" v-model="dataForm.repoInstUrl"/>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="1"></el-col>
+                <el-col :span="3">
+                  <el-form-item label="自动触发" prop="autoExecution">
+                    <el-checkbox v-model="dataForm.autoExecution"/>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="11">
+                  <el-form-item label="版本号" prop="dataVersion">
+                    <el-input placeholder="请输入版本号" v-model="dataForm.dataVersion"/>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="2"></el-col>
+                <el-col :span="11">
+                  <el-form-item label="代码下载目标目录" prop="targetDir">
+                    <el-input placeholder="请输入代码下载目标目录" v-model="dataForm.targetDir"/>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+            </el-card>
+          </el-card>
+          <el-card v-else>
+            <el-row>
+              <el-col :span="11">
+                <el-form-item label="节点名称" prop="nodeName" required>
+                  <el-input clearable placeholder="请输入节点名称" v-model="dataForm.nodeName"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="2"></el-col>
+              <el-col :span="11">
+                <el-form-item label="执行方式" prop="nodeExecType">
+                  <el-radio-group v-model="dataForm.nodeExecType">
+                    <el-radio label="1">并行</el-radio>
+                    <el-radio label="2">串行</el-radio>
+                  </el-radio-group>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col>
+                <el-form-item label="节点成功条件" prop="nodeSuccessCondition">
+                  <el-radio-group v-model="dataForm.nodeSuccessCondition">
+                    <el-radio checked label="1">成功完成所有子任务</el-radio>
+                    <el-radio label="2">成功完成任意子任务</el-radio>
+                    <el-radio label="3">成功完成指定子任务&nbsp;<el-select clearable
+                                                                           filterable placeholder="请选择子节点"
+                                                                           v-model="dataForm.subNodeList">
+
+                    </el-select>
+                    </el-radio>
+
+                  </el-radio-group>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-card shadow="hover">
+              <template #header>
+                <div class="card-header">
+                  <span>节点配置</span>
+                  <el-button @click="addSubNode" class="init-btn" text>
+                    <star-horse-icon icon-class="fa-plus" style="vertical-align: middle;"/>
+                    添加子节点
+                  </el-button>
+                </div>
+              </template>
+              <el-tabs>
+                <el-tab-pane label="节点一">
+                  <sub-node-info/>
+                </el-tab-pane>
+                <el-tab-pane label="节点二"></el-tab-pane>
+                <el-tab-pane label="节点三"></el-tab-pane>
+                <el-tab-pane label="节点四"></el-tab-pane>
+              </el-tabs>
+            </el-card>
+          </el-card>
+        </el-form>
+      </el-scrollbar>
+    </div>
+  </el-card>
+</template>
 <style lang="scss" scoped>
 .content-tools {
   display: flex;
@@ -365,10 +365,10 @@ const editNode = (currentIndex: number) => {
     }
 
     .node-item.active {
-      color: #398bf7;
+      color: var(--star-horse-style);
 
       &:before {
-        background-color: #398bf7;
+        background-color: var(--star-horse-style);
         bottom: 0;
         content: "";
         left: 0;
@@ -445,8 +445,8 @@ const editNode = (currentIndex: number) => {
 }
 
 .config-content {
-  height: calc(100% - 150px);
-  overflow: auto;
+  flex: 1;
+  overflow: hidden;
 
   .el-card {
     height: inherit;
@@ -507,7 +507,9 @@ const editNode = (currentIndex: number) => {
 
 .pipeline-nav {
   display: inline-block;
-  max-width: calc(100% - 250px);
+  margin: 5px 0;
+  border: 1px solid var(--star-horse-font-color);
+  width: 100%;
   position: relative;
 
   .icon {
@@ -531,15 +533,15 @@ const editNode = (currentIndex: number) => {
   }
 
   .nav-panel {
-    background-color: #ffffff;
+    background-color: var(--star-horse-white);
     border: 1px solid #dadada;
     border-radius: 4px;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .04);
     cursor: pointer;
     flex-shrink: 0;
     font-size: 14px;
-    height: 50px;
-    line-height: 50px;
+    height: 40px;
+    line-height: 40px;
     position: relative;
     text-align: center;
     width: 110px;
@@ -562,14 +564,14 @@ const editNode = (currentIndex: number) => {
   }
 
   .nav-panel.is-active {
-    background-color: #398bf7;
-    border: 1px solid #398bf7;
+    background-color: var(--star-horse-style);
+    border: 1px solid var(--star-horse-style);
     box-shadow: none;
     color: #ffffff !important;
 
     &:after {
       border: 9px solid transparent;
-      border-top-color: #398bf7;
+      border-top-color: var(--star-horse-style);
       content: "";
       height: 0;
       left: 47px;
@@ -588,7 +590,7 @@ const editNode = (currentIndex: number) => {
     .node-add {
       cursor: pointer;
       display: none;
-      color: #398bf7;
+      color: var(--star-horse-style);
       font-size: 16px;
     }
 
@@ -631,12 +633,13 @@ const editNode = (currentIndex: number) => {
     display: flex;
     overflow-x: auto;
     overflow-y: hidden;
-    padding: 40px 0 20px;
+    margin: 5px 0;
 
     .nav-setting {
       align-items: center;
       color: #383838;
       display: flex;
+      margin-left: 5px;
       justify-content: center;
     }
 
@@ -664,7 +667,7 @@ const editNode = (currentIndex: number) => {
     .init-btn {
       margin-left: 20px;
       background: 0 0;
-      color: #398bf7;
+      color: var(--star-horse-style);
       padding-left: 0;
       padding-right: 0;
 
