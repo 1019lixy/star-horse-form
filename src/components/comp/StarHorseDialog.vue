@@ -1,5 +1,5 @@
 <script setup lang="ts" name="StarHorseDialog">
-import {computed, onMounted, provide, ref, watch, reactive,PropType} from "vue";
+import {computed, onMounted, provide, ref, watch, reactive, PropType} from "vue";
 import {DialogProps} from "@/components/types/DialogProps";
 
 const emits = defineEmits(["merge", "mergeDraft", "resetForm", "closeAction"]);
@@ -85,17 +85,20 @@ provide("dialogOperation", clickFunction);
         <template #header="{ close }">
           <h3>{{ title || dialogProps.dialogTitle }}</h3>
           <div class="my-header">
-            <el-button style="background: var(--star-horse-style);color: var(--star-horse-white)" size="medium" @click="fullScreen" link v-if="!!isFullScreen && draggable">
+            <el-button style="background: var(--star-horse-style);color: var(--star-horse-white)" size="small"
+                       @click="fullScreen" link v-if="!!isFullScreen && draggable">
               <el-tooltip content="还原">
                 <star-horse-icon icon-class="fullscreen-shrink"/>
               </el-tooltip>
             </el-button>
-            <el-button style="background: var(--star-horse-style);color: var(--star-horse-white)" size="medium" @click="fullScreen" link v-if="!isFullScreen && draggable">
+            <el-button style="background: var(--star-horse-style);color: var(--star-horse-white)" size="small"
+                       @click="fullScreen" link v-if="!isFullScreen && draggable">
               <el-tooltip content="最大化">
                 <star-horse-icon icon-class="fullscreen-expand"/>
               </el-tooltip>
             </el-button>
-            <el-button type="danger" size="medium" @click="close" link>
+            <el-button style="background: var(--star-horse-style);color: var(--star-horse-white)" size="small"
+                       @click="close" link>
               <el-tooltip content="关闭">
                 <star-horse-icon icon-class="close"/>
               </el-tooltip>
@@ -107,16 +110,20 @@ provide("dialogOperation", clickFunction);
         </div>
         <slot name="extand"></slot>
         <span class="dialog-footer" v-if="!isView">
-          <el-button @click="operation('merge','close')" style="background: var(--star-horse-style);color: var(--star-horse-white)" size="small">
+          <el-button @click="operation('merge','close')"
+                     style="background: var(--star-horse-style);color: var(--star-horse-white)" size="small">
             <star-horse-icon icon-class="save" style="color:var(--star-horse-white);"/>
             提交
           </el-button>
-             <el-button @click="operation('merge','continue')" style="background: var(--star-horse-style);color: var(--star-horse-white)" size="small">
+             <el-button @click="operation('merge','continue')"
+                        style="background: var(--star-horse-style);color: var(--star-horse-white)" size="small">
             <star-horse-icon icon-class="save_continue" style="color:var(--star-horse-white);"/>
             提交并继续</el-button>
-          <el-button @click="operation('mergeDraft','close')" link style="background: var(--star-horse-style);color: var(--star-horse-white)" v-if="isShowSave">
+          <el-button @click="operation('mergeDraft','close')" link
+                     style="background: var(--star-horse-style);color: var(--star-horse-white)" v-if="isShowSave">
             <star-horse-icon icon-class="short_save"/>存为草稿</el-button>
-             <el-button @click="operation('mergeDraft','continue')" link style="background: var(--star-horse-style);color: var(--star-horse-white)" v-if="isShowSave">
+             <el-button @click="operation('mergeDraft','continue')" link
+                        style="background: var(--star-horse-style);color: var(--star-horse-white)" v-if="isShowSave">
             <star-horse-icon icon-class="save"/>存为草稿并继续</el-button>
           <el-button @click="operation('resetForm','reset')" link v-if="isShowReset" size="small">
             <star-horse-icon icon-class="undo" style="color:var(--star-horse-style);"/>
@@ -144,6 +151,7 @@ provide("dialogOperation", clickFunction);
       display: flex;
       flex-direction: row;
       color: var(--star-horse-white);
+
       h3 {
         flex: 1;
       }

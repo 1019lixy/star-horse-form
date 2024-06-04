@@ -157,7 +157,7 @@ const searchArea = () => {
       </template>
       <el-form-item label="     ">
         <el-button @click="dataSearch" style="background: var(--star-horse-style);color: var(--star-horse-white)" :size="compSize">
-          <star-horse-icon icon-class="search" size="13px"/>
+          <star-horse-icon icon-class="search" color="var(--star-horse-white)"/>
           <span style="vertical-align: middle"> 查询 </span>
         </el-button>
         <el-button @click="dataSearch('reset')" link :size="compSize">

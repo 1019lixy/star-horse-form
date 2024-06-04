@@ -449,7 +449,7 @@ const filterMethod = (query: string, node: TreeNode) => {
           @input="onQueryChanged"
       >
         <template #suffix>
-          <star-horse-icon icon-class="search"/>
+          <star-horse-icon icon-class="search" color="var(--star-horse-style)"/>
         </template>
       </el-input>
       <el-tree-v2 :height="700"

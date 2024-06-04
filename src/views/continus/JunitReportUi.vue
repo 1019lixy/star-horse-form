@@ -618,7 +618,7 @@
       </el-form-item>
       <el-form-item label="     ">
         <el-button @click="dataSearch" link style="background: var(--star-horse-style);color: var(--star-horse-white)">
-          <star-horse-icon icon-class="search"/>
+          <star-horse-icon icon-class="search" color="var(--star-horse-style)"/>
           <span style="vertical-align: middle;"> 查询 </span>
         </el-button>
         <el-button @click="dataSearch(1)" link small>

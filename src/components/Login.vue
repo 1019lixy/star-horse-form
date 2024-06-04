@@ -197,15 +197,14 @@ watch(
                     </el-checkbox>
                   </el-col>
                   <el-col :span="6">
-                    <el-button link size="normal"> {{ i18n("login.forget") }}</el-button>
+                    <el-button link size="small"> {{ i18n("login.forget") }}</el-button>
                   </el-col>
                 </el-row>
                 <el-form-item style="width: 100%;height:30px;">
                   <el-button
                       :loading="loading"
                       @click="handleLogin(loginFormRef)"
-                      style="width: 100%"
-                      style="background: var(--star-horse-style);color: var(--star-horse-white)"
+                      style="width: 100%;background: var(--star-horse-style);color: var(--star-horse-white)"
                   >
                     <span v-if="!loading">{{ i18n("loginButton.login") }}</span>
                     <span v-else>{{ i18n("loginButton.logging") }}</span>

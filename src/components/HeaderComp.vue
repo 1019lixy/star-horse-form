@@ -15,13 +15,14 @@ import StarHorseTableComp from "@/components/comp/StarHorseTableComp.vue";
 import {getLang, setLang} from "@/theme/localStorge.ts";
 import {LangType} from "@/theme/theme.ts";
 import {i18n} from "../lang";
+import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
+import piniaInstance from "@/store";
 
 const userInfoStore = userinfoStore();
 const shortcutMenuList = ref<Array<any>>([]);
 
 let systemName = Config.title;
 let userInfo = getUserInfo();
-let shortcutVisible = ref<boolean>(false);
 let permissionMenuList = ref<Array<any>>([]);
 let multipleSelection = ref<Array<any>>([]);
 const shortcutMultipleTable = ref<InstanceType<typeof ElTable>>();
@@ -43,6 +44,7 @@ const dataUrl: ApiUrls = {
   uploadUrl: "",
   condition: [getCustomerParam()]
 };
+let configStore = GlobalConfig(piniaInstance);
 const emits = defineEmits(["changeLang"]);
 const dialogProps = reactive<DialogProps>({
   bakeVisible1: false, bakeVisible2: false, bakeVisible3: false,
@@ -318,6 +320,7 @@ const dataFormat = (name: string, val: any, row: any) => {
 };
 const search = ref<String>();
 const filterTableData = computed(() => filterTree(search.value, permissionMenuList.value));
+let shortcutVisible = computed(()=>configStore.configFormInfo.shortCutMenus||"yes");
 </script>
 <template>
   <star-horse-dialog :dialog-visible="dialogProps.editVisible" :dialogProps="dialogProps" @merge="doModifyUserInfo"
@@ -331,7 +334,7 @@ const filterTableData = computed(() => filterTree(search.value, permissionMenuLi
                      :self-func="true" @merge="batchMerge" @resetForm="shortcutReset">
     <el-input style="width: 15%;" v-model="search" size="small" placeholder="请输入关键字" clearable>
       <template #suffix>
-        <star-horse-icon icon-class="search"/>
+        <star-horse-icon icon-class="search" color="var(--star-horse-style)"/>
       </template>
     </el-input>
     <star-horse-table-comp ref="shortcutMultipleTable" :field-list="fieldList" primaryKey="meta.title"
@@ -365,11 +368,11 @@ const filterTableData = computed(() => filterTree(search.value, permissionMenuLi
                 <p>({{ userInfo.username }})</p>
               </el-dropdown-item>
               <el-dropdown-item divided class="clearfix" @click="permissionEdit">
-                <star-horse-icon icon-class="sys-authority"/>
+                <star-horse-icon icon-class="sys-authority" color="var(--star-horse-style)"/>
                 {{ i18n("main.header.authority") }}
               </el-dropdown-item>
               <el-dropdown-item class="clearfix" @click="modifyInfo">
-                <star-horse-icon icon-class="user-edit"/>
+                <star-horse-icon icon-class="user-edit" color="var(--star-horse-style)"/>
                 {{ i18n("main.header.userEdit") }}
               </el-dropdown-item>
               <el-dropdown-item divided @click="loginOut" class="clearfix">
@@ -393,7 +396,7 @@ const filterTableData = computed(() => filterTree(search.value, permissionMenuLi
     </div>
   </div>
   <div style="clear: both"></div>
-  <div class="shortcut">
+  <div class="shortcut" v-if="shortcutVisible=='yes'">
     <div class="shortcut_ul">
       <template v-for="(item, index) in shortcutMenuList">
         <span>

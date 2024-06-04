@@ -413,6 +413,8 @@ watch(
 .prefixCls {
   display: flex;
   width: 100%;
+  background: var(--star-horse-white);
+  border: 1px solid #eee;
 
   :deep(.scrollbar__view) {
     height: 100%;

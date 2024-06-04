@@ -1,9 +1,9 @@
 :root {
   --el-color-success: #5cb87a;
   --star-horse-style: #3a8ee6;
-  --star-horse-white: #f1f2f3;
+  --star-horse-white: #fff;
   --star-horse-shadow: #f7f7f9;
-  --star-horse-font-color: #707070;
+  --star-horse-font-color: #eee;
   --star-horse-border—color: #2233;
   --star-horse-shadow-rgba: rgba(75, 61, 89, 0.3);
 }
@@ -127,7 +127,7 @@ a {
 
   li {
     text-wrap: none;
-    padding: 0px 10px;
+    padding: 0 10px;
     font-weight: 800;
   }
 }
@@ -145,7 +145,6 @@ a {
 
 .system-icon {
   list-style: none;
-  display: block;
   height: 150px;
   display: flex;
   flex: 1;
@@ -354,7 +353,7 @@ a {
 
 
 .el-form-item__label {
-  padding: 0px 12px;
+  padding: 0 12px;
 }
 
 :deep(.el-cascader-menu) {
@@ -364,14 +363,14 @@ a {
 .item, .audit_item {
   display: flex;
   flex-direction: row;
-  border-bottom: 1px dotted var(--star-horse-border—color);
+  border-bottom: 1px dotted var(--star-horse-style);
   line-height: 32px;
   width: 100%;
 
   label {
     flex-wrap: wrap;
     font-size: 12px;
-    background-color: var(--star-horse-white);
+    background-color: var(--star-horse-font-color);
     font-weight: bolder;
     text-align: right;
     min-width: 130px;
@@ -424,6 +423,19 @@ button, button:focus, button:visited {
   padding-bottom: 5px !important;
 }
 
+.el-drawer {
+  height: 100%;
+  overflow: hidden;
+}
+
+.el-drawer__header {
+  background: var(--star-horse-style);
+  margin-bottom: unset;
+  color: var(--star-horse-white);
+  border-bottom: 1px solid #eee;
+  padding: 10px;
+}
+
 hr {
   background: var(--star-horse-white);
   height: 1px;
@@ -432,130 +444,143 @@ hr {
   border: none;
 }
 
-.star-horse-header {
-  position: sticky;
-  top: 0;
-  z-index: 999;
-  height: 70px;
-  margin-bottom: 5px;
-  flex-shrink: 0;
-}
-
-.star-horse-left {
-  height: inherit;
-  border-radius: 4px;
-  display: flex;
-  flex-direction: row;
-}
-
-.star-horse-main {
-  box-sizing: border-box;
+.star-horse-container {
+  height: 100%;
   display: flex;
   flex-direction: column;
-  margin-top: 4px;
-  padding: 0 10px 0 0;
-  border-radius: 4px;
-  height: 100%;
-  flex: 1;
-  overflow: hidden;
 
-  .nav_area {
+  .star-horse-header {
+    width: 100%;
+    z-index: 999;
+    height: unset;
     flex-shrink: 0;
   }
 
-  .inner_content {
+  .star-horse-container-main {
     flex: 1;
-    display: flex;
-    flex-direction: column;
-    box-sizing: border-box;
-    height: 100%;
-    padding: 5px;
+    background: #fff;
+    margin-top: 4px;
 
-    .search_btn {
+    .star-horse-left {
+      height: inherit;
+      border-radius: 4px;
+
       display: flex;
-
-      .search_content {
-        flex: 1;
-      }
-
-      .el-dropdown {
-        vertical-align: top;
-        justify-content: center;
-        align-items: center;
-
-        width: 80px;
-      }
+      background: var(--star-horse-white);
+      flex-direction: row;
     }
 
-
-
-    .el-tabs {
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-
-      .el-tabs__header {
-        flex-shrink: 0;
-      }
-
-      .el-tabs__content {
-        flex: 1;
-
-        .el-tab-pane {
-          height: 100%;
-        }
-
-        .el-pagination {
-          margin-bottom: 0px;
-        }
-      }
-    }
-    .el-card__body {
-      padding: 0;
-      display: flex;
+    .star-horse-main {
       box-sizing: border-box;
+      display: flex;
       flex-direction: column;
+      padding: 0 10px 0 0;
+      border-radius: 4px;
       height: 100%;
+      flex: 1;
+      overflow: hidden;
 
-      :deep(.el-divider--horizontal ) {
-        margin: 5px 0;
+      .nav_area {
+        flex-shrink: 0;
       }
 
-      .el-vl__wrapper {
-        height: 100%;
-
-        .el-vl__window {
-          height: 100%;
-        }
-      }
-
-      svg[role="img"] {
-        vertical-align: middle;
-        color: var(--star-horse-style);
-        padding-right: 5px;
-      }
-
-
-      .el-table {
-        overflow: auto;
+      .inner_content {
         flex: 1;
-        padding-bottom: 0;
-
-      }
-
-      .el-divider--horizontal {
-        margin: 5px 0;
-        flex-shrink: 0;
-      }
-
-      .el-pagination {
-        height: 30px;
+        display: flex;
+        flex-direction: column;
         box-sizing: border-box;
-        margin-top: 5px;
-        flex-shrink: 0;
-        padding-left: 15px;
-        border: 1px solid #eee;
+        height: 100%;
+        padding: 5px;
+
+        .search_btn {
+          display: flex;
+
+          .search_content {
+            flex: 1;
+          }
+
+          .el-dropdown {
+            vertical-align: top;
+            justify-content: center;
+            align-items: center;
+
+            width: 80px;
+          }
+        }
+
+
+        .el-tabs {
+          display: flex;
+          flex-direction: column;
+          height: 100%;
+
+          .el-tabs__header {
+            flex-shrink: 0;
+          }
+
+          .el-tabs__content {
+            flex: 1;
+
+            .el-tab-pane {
+              height: 100%;
+            }
+
+            .el-pagination {
+              margin-bottom: 0px;
+            }
+          }
+        }
+
+        .el-card__body {
+          padding: 0;
+          display: flex;
+          box-sizing: border-box;
+          flex-direction: column;
+          height: 100%;
+
+          :deep(.el-divider--horizontal ) {
+            margin: 5px 0;
+          }
+
+          .el-vl__wrapper {
+            height: 100%;
+
+            .el-vl__window {
+              height: 100%;
+            }
+          }
+
+          svg[role="img"] {
+            vertical-align: middle;
+            color: var(--star-horse-style);
+            padding-right: 5px;
+          }
+
+
+          .el-table {
+            overflow: auto;
+            flex: 1;
+            padding-bottom: 0;
+
+          }
+
+          .el-divider--horizontal {
+            margin: 5px 0;
+            flex-shrink: 0;
+          }
+
+          .el-pagination {
+            height: 30px;
+            box-sizing: border-box;
+            margin-top: 5px;
+            flex-shrink: 0;
+            padding-left: 15px;
+            border: 1px solid #eee;
+          }
+        }
       }
     }
   }
+
+
 }

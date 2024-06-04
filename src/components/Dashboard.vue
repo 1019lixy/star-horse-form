@@ -109,11 +109,11 @@ const configInfo = computed(() => configStore.configFormInfo);
 </script>
 <template>
   <el-config-provider :locale="locale">
-    <el-container style="height: 100%">
+    <el-container class="star-horse-container">
       <el-header class="star-horse-header">
         <header-comp :is-collapse="!isCollapse" @changeLang="changeLang"/>
       </el-header>
-      <el-container style="padding-bottom: 1px !important;">
+      <el-container class="star-horse-container-main">
         <el-aside :width="outerIsCollapse+'px'" ref="mainLeftAside"
                   class="star-horse-left animate__animated animate__bounceInLeft"
                   @mouseover="mouseOver" @mouseout="mouseOut">
@@ -161,17 +161,23 @@ const configInfo = computed(() => configStore.configFormInfo);
 
 
 <style lang="scss" scoped>
-.el-header {
-  box-shadow: 0 10px 5px var(--star-horse-white);
+:deep(.el-header) {
+  height: -1;
+  /* box-shadow: 0 10px 5px var(--star-horse-white);*/
 }
 
-:deep(.el-drawer__header) {
-  margin-bottom: 0;
-  border-bottom: 1px solid #eee;
-}
+//.star-horse-header{
+//  height: ;
+//}
+
 
 .operation-area {
   height: 100%;
+  overflow: hidden;
+  :deep(.el-card__body){
+    height: 100%;
+    overflow: hidden;
+  }
 }
 
 .Resizer.vertical {

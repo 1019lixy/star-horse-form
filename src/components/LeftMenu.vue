@@ -67,17 +67,19 @@ watch(() => props.sysemId,
 <template>
   <div class="starhorse-menu">
     <el-scrollbar height="100%" class="base">
-      <el-menu :collapse="isCollapse" ref="systemMenu"
-               popper-effect="light"
+      <el-menu :collapse="isCollapse"
+               ref="systemMenu"
+               popper-effect="dark"
+               popper-class="popper-class"
                :default-openeds="defaultOpenMenu">
-        <el-menu-item index="-1" style="height: 38px">
+        <el-menu-item index="-1" style="height: 38px;background: var(--star-horse-white)">
           <el-icon class="star-icon" v-if="isCollapse">
             <component :is="'search'"/>
           </el-icon>
           <template #title>
             <el-input v-model="search" size="small" placeholder="请输入关键字" clearable>
               <template #suffix>
-                <star-horse-icon icon-class="search"/>
+                <star-horse-icon icon-class="search" color="var(--star-horse-style)"/>
               </template>
             </el-input>
           </template>
@@ -91,6 +93,9 @@ watch(() => props.sysemId,
   </div>
 </template>
 <style lang="scss" scoped>
+.popper-class{
+  background: var(--star-horse-style);
+}
 .starhorse-menu {
   height: 100%;
   width: 100%;
@@ -98,7 +103,7 @@ watch(() => props.sysemId,
   flex-direction: column;
 
   .base {
-   border-radius: 3px;
+    border-radius: 3px;
     width: 100%;
   }
 
@@ -112,7 +117,8 @@ watch(() => props.sysemId,
     height: 26px;
     background: #fff;
     margin-bottom: -1px;
-    &:hover,svg:hover {
+
+    &:hover, svg:hover {
       cursor: pointer;
     }
   }

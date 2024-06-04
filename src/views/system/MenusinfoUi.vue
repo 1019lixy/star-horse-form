@@ -320,7 +320,7 @@ const checkChange = (data: TreeNodeData, checked: boolean) => {
               @input="onQueryChanged"
           >
             <template #suffix>
-              <star-horse-icon icon-class="search"/>
+              <star-horse-icon icon-class="search" color="var(--star-horse-style)"/>
             </template>
           </el-input>
           <el-tree-v2 :data="informationsList" :filter-method="filterMethod"

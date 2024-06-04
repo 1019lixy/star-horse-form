@@ -711,7 +711,7 @@ defineExpose({
           @input="onQueryChanged"
       >
         <template #suffix>
-          <star-horse-icon icon-class="search"/>
+          <star-horse-icon icon-class="search" color="var(--star-horse-style)"/>
         </template>
       </el-input>
       <el-scrollbar>

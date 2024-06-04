@@ -29,7 +29,7 @@ const addDataFun = () => {
     </div>
     <div class="nav-bar-right">
       <el-button @click="btnOperation(3)" link title="" style="background: var(--star-horse-style);color: var(--star-horse-white)">
-        <star-horse-icon icon-class="search"/>
+        <star-horse-icon icon-class="search" color="var(--star-horse-style)"/>
         <el-tooltip content="搜索流水线">搜索流水线</el-tooltip>
       </el-button>
       <el-select placeholder="请选择迭代版本">

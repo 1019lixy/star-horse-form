@@ -30,6 +30,7 @@ export const GlobalConfig: any = defineStore("GlobalConfig", {
             console.log(data,Config.buttonStyle.value);
             if (data.themeColor) {
                 document.documentElement.style.setProperty('--star-horse-style', data.themeColor)
+                document.documentElement.style.setProperty('--el-color-primary', data.themeColor)
             }
         },
 

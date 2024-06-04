@@ -31,10 +31,7 @@ const field = ref<any>({
     readonly: (props.item?.readonly || props.isView) ? 'yes' : 'no',
   }
 });
-// let data = computed(() => {
-//   field.preps.size = props.compSize;
-//   console.log(field);
-// });
+field.value.preps.size = computed(() => props.compSize);
 const dataSearch = (act: String) => {
   if (props.isSearch) {
     if (act == "focus" || act == "blur") {
@@ -56,7 +53,7 @@ const dataSearch = (act: String) => {
   }
 };
 //页面属性改变，重新刷新数据
-watch(() => props,
+watch(() => props.item,
     () => {
       compPreps();
     }, {
@@ -73,7 +70,6 @@ watch(() => props.isEdit,
     }
 );
 const compPreps = () => {
-  field.value.preps["size"] = props.compSize;
   itemType.value = props.item?.type || props.item?.fieldType;
   field.value.preps["values"] = props.item?.optionList;
   if (itemType.value == "number") {
