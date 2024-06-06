@@ -57,6 +57,25 @@ const loadData = async () => {
   }
   let objData = await loadById(props.compUrl.loadByIdUrl!, dialogProps.ids, false);
   dataForm.value = {...objData};
+  let data = formFieldMapping(props.fieldList);
+  dataForm.value = objData;
+  let mapping = data.mappingFields;
+  if (mapping) {
+    for (let index in mapping) {
+      let temp = mapping[index];
+      dataForm.value[temp.name] = dataForm.value[temp.alias];
+    }
+  }
+  let actions = data.actions;
+  if (actions && actions.length > 0) {
+    for (let index in actions) {
+      let temp = actions[index];
+      let data = objData;
+      if (temp.actionNames == "change") {
+        temp.actions(data);
+      }
+    }
+  }
   await nextTick(() => {
     emits("dataLoaded", objData);
     checkActionRelation();

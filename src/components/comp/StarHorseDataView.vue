@@ -1,8 +1,8 @@
 <script setup lang="ts" name="StarHorseDataView">
 import {ApiUrls} from "@/components/types/ApiUrls";
-import {inject, nextTick, onMounted, ref, watch,PropType} from "vue";
+import {inject, nextTick, onMounted, ref, watch, PropType} from "vue";
 import {DialogProps} from "@/components/types/DialogProps";
-import {commonParseCodeToName, loadById, rowClassName} from "@/api/sh_api";
+import {commonParseCodeToName, formFieldMapping, loadById, rowClassName} from "@/api/sh_api";
 import {Config} from "@/api/settings";
 import StarHorseDataViewObject from "@/components/comp/StarHorseDataViewObject.vue";
 
@@ -41,9 +41,17 @@ const loadData = async () => {
     return;
   }
   let objData = await loadById(props.compUrl?.loadByIdUrl, id, true);
+  let data = formFieldMapping(props.fieldList);
   dataForm.value = objData;
+  let mapping = data.mappingFields;
+  if (mapping) {
+    for (let index in mapping) {
+      let temp = mapping[index];
+      dataForm.value[temp.name] = dataForm.value[temp.alias];
+    }
+  }
   await nextTick(() => {
-    emits("dataLoaded", objData,true);
+    emits("dataLoaded", objData, true);
   });
 };
 const viewDataFormat = (row: any, column: any, cellValue: any, index: number) => {
@@ -86,7 +94,7 @@ const tabList = ref<any>("tab0");
     <template v-else-if="item.tabList&&item.tabList.length>0">
       <el-tabs v-model="tabObject" type="border-card">
         <template v-for="(tabItem,key )  in item.tabList">
-          <el-tab-pane :label="tabItem.tabName" :name="key">
+          <el-tab-pane :label="tabItem.title||tabItem.tabName" :name="key">
             <template v-if="tabItem.subFormFlag">
               <star-horse-data-view-object :objectName="tabItem.objectName"
                                            :subCreateFlag="true"
@@ -128,7 +136,7 @@ const tabList = ref<any>("tab0");
   <template v-if="fieldList[batchFieldName] instanceof Array&&fieldList[batchFieldName].length > 0">
     <el-tabs v-model="tabList">
       <template v-for="(item,key) in fieldList[batchFieldName]">
-        <el-tab-pane :label="item['title']" :name="'tab'+key">
+        <el-tab-pane :label="item.title||item.tabName" :name="'tab'+key">
           <el-table
               :data="dataForm[item['batchName']]"
               fit=true

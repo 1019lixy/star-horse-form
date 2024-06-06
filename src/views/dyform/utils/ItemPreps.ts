@@ -23,6 +23,9 @@ export function dataSourceFields() {
     let disableData = ref<Boolean>(false);
     let disableUrl = ref<Boolean>(true);
     let disableDict = ref<Boolean>(true);
+    let dataRequired = ref<Boolean>(true);
+    let urlRequired = ref<Boolean>(false);
+    let dictRequired = ref<Boolean>(false);
     let currentTabName = ref<String>("data");
     return reactive<PageFieldInfo | any>({
         fieldList: [
@@ -50,13 +53,19 @@ export function dataSourceFields() {
                         disableData.value = true;
                         disableUrl.value = true;
                         disableDict.value = true;
+                        dataRequired.value = false;
+                        urlRequired.value = false;
+                        dictRequired.value = false;
                         currentTabName.value = type;
                         if (type == "url") {
                             disableUrl.value = false;
+                            urlRequired.value = true;
                         } else if (type == "data") {
                             disableData.value = false;
+                            dataRequired.value = true;
                         } else if (type == "dict") {
                             disableDict.value = false;
+                            dictRequired.value = true;
                         }
                     },
                     minWidth: 180
@@ -84,7 +93,7 @@ export function dataSourceFields() {
                             label: "属性名",
                             fieldName: "name",
                             type: "input",
-                            required: true,
+                            required: dataRequired,
                             formShow: !false,
                             tableShow: !false,
                             minWidth: 180
@@ -92,7 +101,7 @@ export function dataSourceFields() {
                             label: "属性值",
                             fieldName: "value",
                             type: "input",
-                            required: true,
+                            required: dataRequired,
                             formShow: !false,
                             tableShow: !false,
                             minWidth: 180
@@ -107,7 +116,7 @@ export function dataSourceFields() {
                             label: "接口地址",
                             fieldName: "values",
                             type: "input",
-                            required: true,
+                            required: urlRequired,
                             formShow: !false,
                             tableShow: !false,
                             minWidth: 180
@@ -116,7 +125,7 @@ export function dataSourceFields() {
                                 label: "请求方式",
                                 fieldName: "requestType",
                                 type: "select",
-                                required: true,
+                                required: urlRequired,
                                 formShow: !false,
                                 tableShow: !false,
                                 optionList: requestTypeList,
@@ -126,7 +135,7 @@ export function dataSourceFields() {
                             label: "标签名字段",
                             fieldName: "selectLabel",
                             type: "input",
-                            required: true,
+                            required: urlRequired,
                             formShow: !false,
                             tableShow: !false,
                             minWidth: 180
@@ -135,7 +144,7 @@ export function dataSourceFields() {
                                 label: "标签值字段",
                                 fieldName: "selectValue",
                                 type: "input",
-                                required: true,
+                                required: urlRequired,
                                 formShow: !false,
                                 tableShow: !false,
                                 minWidth: 180
@@ -148,7 +157,7 @@ export function dataSourceFields() {
                                 label: "参数名",
                                 fieldName: "name",
                                 type: "input",
-                                required: true,
+                                required: urlRequired,
                                 formShow: !false,
                                 tableShow: !false,
                                 minWidth: 180
@@ -156,7 +165,7 @@ export function dataSourceFields() {
                                 label: "参数值",
                                 fieldName: "value",
                                 type: "input",
-                                required: true,
+                                required: urlRequired,
                                 formShow: !false,
                                 tableShow: !false,
                                 minWidth: 180
@@ -165,7 +174,7 @@ export function dataSourceFields() {
                                 fieldName: "matchType",
                                 type: "select",
                                 defaultValue: "eq",
-                                required: true,
+                                required: urlRequired,
                                 formShow: !false,
                                 tableShow: !false,
                                 optionList: matchTypeList,
@@ -181,7 +190,7 @@ export function dataSourceFields() {
                             label: "字典名称",
                             fieldName: "urlOrDictName",
                             type: "input",
-                            required: true,
+                            required: dictRequired,
                             formShow: !false,
                             tableShow: !false,
                             minWidth: 180
@@ -374,98 +383,101 @@ export function paramsFields(fieldName: string, item: Object) {
  * 容器属性
  */
 export function containerField(fieldName: string) {
-    return reactive<PageFieldInfo | any>({
-        fieldList: [{
-            fieldName: fieldName,
-            tabList: [{
-                title: "Tab属性",
-                tabName: "tab",
-                disabled: fieldName != "tab",
-                batchFieldList: [{
-                    batchName: "elements",
-                    fieldList: [{
-                        label: "Tab名字",
-                        fieldName: "label",
-                        type: "input",
-                        required: true,
-                        formShow: !false,
-                        tableShow: !false,
-                        minWidth: 180
-                    }, {
-                        label: "Tab属性",
-                        fieldName: "tabName",
-                        type: "input",
-                        required: true,
-                        formShow: !false,
-                        tableShow: !false,
-                        minWidth: 180
-                    }, {
-                        label: "对象名字",
-                        fieldName: "objectName",
-                        type: "input",
-                        required: true,
-                        formShow: !false,
-                        tableShow: !false,
-                        minWidth: 180
-                    }, {
-                        label: "是否子表",
-                        fieldName: "subFormFlag",
-                        type: "switch",
-                        defaultValue: "Y",
-                        required: true,
-                        formShow: !false,
-                        tableShow: !false,
-                        minWidth: 180
-                    }]
-                }]
+    let tabFields = {
+        title: "Tab属性",
+        tabName: "tab",
+        batchFieldList: [{
+            batchName: "elements",
+            fieldList: [{
+                label: "Tab名字",
+                fieldName: "label",
+                type: "input",
+                required: true,
+                formShow: !false,
+                tableShow: !false,
+                minWidth: 180
             }, {
-                title: "栅格属性",
-                tabName: "box",
-                disabled: fieldName != "box",
+                label: "Tab属性",
+                fieldName: "tabName",
+                type: "input",
+                required: true,
+                formShow: !false,
+                tableShow: !false,
+                minWidth: 180
+            }, {
+                label: "对象名字",
+                fieldName: "objectName",
+                type: "input",
+                required: true,
+                formShow: !false,
+                tableShow: !false,
+                minWidth: 180
+            }, {
+                label: "是否子表",
+                fieldName: "subFormFlag",
+                type: "switch",
+                defaultValue: "Y",
+                required: true,
+                formShow: !false,
+                tableShow: !false,
+                minWidth: 180
+            }]
+        }]
+    };
+    let boxFields = {
+        title: "栅格属性",
+        tabName: "box",
+        batchFieldList: [{
+            batchName: "elements",
+            fieldList: [{
+                label: "列",
+                fieldName: "colIndex",
+                type: "input",
+                required: true,
+                formShow: !false,
+                tableShow: !false,
+                minWidth: 180,
                 batchFieldList: [{
-                    batchName: "elements",
+                    batchName: "columns",
+                    batchDefaultData: {items: []},
                     fieldList: [{
-                        label: "列",
-                        fieldName: "colIndex",
-                        type: "input",
+                        label: "列宽",
+                        fieldName: "colspan",
+                        type: "number",
+                        min: 1,
+                        max: 24,
+                        step: 4,
+                        defaultValue: 24,
                         required: true,
                         formShow: !false,
                         tableShow: !false,
                         minWidth: 180,
-                        batchFieldList: [{
-                            batchName: "columns",
-                            fieldList: [{
-                                label: "列宽",
-                                fieldName: "colspan",
-                                type: "number",
-                                min: 1,
-                                max: 24,
-                                step: 4,
-                                defaultValue: 24,
-                                required: true,
-                                formShow: !false,
-                                tableShow: !false,
-                                minWidth: 180,
-                                actionName: "change",
-                                actions: (val: any, type: string) => {
-                                    let cols = val.value?.columns || val?.columns;
-                                    if (type == "oper") {
-                                        let len = 24 / cols.length;
-                                        cols.forEach((item: any) => {
-                                            item.colspan = len;
-                                        })
-                                    }
-                                    cols?.forEach((item: any) => {
-                                        if (!Object.keys(item).includes("items")) {
-                                            item["items"] = [];
-                                        }
-                                    });
-                                }
-                            }]
-                        }]
+                        actionName: "change",
+                        actions: (val: any, type: string) => {
+                            let obj = val.value || val;
+                            let cols = obj.columns;
+                            if (type == "oper") {
+                                let len = 24 / cols.length;
+                                cols.forEach((item: any) => {
+                                    item.colspan = len;
+                                })
+                            }
+                            // cols.forEach((item: any) => {
+                            //     if (!Object.keys(item).includes("items")) {
+                            //         item["items"] = [];
+                            //     }
+                            // });
+                        }
                     }]
                 }]
-            },]
+            }]
+        }]
+    };
+
+    return reactive<PageFieldInfo | any>({
+        fieldList: [{
+            fieldName: fieldName,
+            tabList: [fieldName == "tab" ? tabFields : boxFields]
         }]
     });
 }

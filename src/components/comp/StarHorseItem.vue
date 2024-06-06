@@ -63,7 +63,7 @@ watch(() => props.item,
 );
 watch(() => props.isEdit,
     () => {
-      field.value.preps["disabled"] = props.item?.disabled == 2 ? "yes" : props.isEdit && props.item?.disabled == 1 ? "yes" : "no";
+      field.value.preps["disabled"] = props.item?.disabled;
     }, {
       immediate: false,
       deep: true
@@ -145,8 +145,7 @@ const compPreps = () => {
     field.value.preps["params"] = props.item?.params || {};
   }
   field.value.preps["actionName"] = actionName.value;
-  field.value.preps["disabled"] = props.isView ? "yes" :
-      props.item?.disabled == 2 ? "yes" : props.isEdit && props.item?.disabled == 1 ? "yes" : "no";
+  field.value.preps["disabled"] = props.item.disabled;
   //联动
   field.value.preps['actionRelation'] = props.item?.actionRelation;
   //触发事件
@@ -195,11 +194,18 @@ onMounted(() => {
 </style>
 <template>
 
-  <div :style="{ 'width': isSearch && field.preps['type'] != 'daterange' ? '150px' : '100%','height':'100%' }">
+  <div class="comp-info"
+       :style="{ 'width': isSearch && field.preps['type'] != 'daterange' ? '150px' : '100%','height':'100%' }">
     <component :id="randId" :is="itemType+'-item'" @selfFunc="dataSearch" :isDesign="false"
                ref="componentRef"
                :field="field" :formFieldList="dataForm"/>
     <help :message="item?.helpMsg" v-if="item?.helpMsg"/>
   </div>
 </template>
-<style scoped></style>
+<style lang="scss" scoped>
+.comp-info {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+</style>

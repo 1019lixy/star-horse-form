@@ -55,7 +55,7 @@ const validMsg = (item: any) => {
               :size="compSize"
               :label="sitem.label"
               :prop="sitem.fieldName"
-              :rules="validMsg(sitem)"
+              :rules="sitem.required?validMsg(sitem):[]"
               v-if="sitem.formShow&&sitem.type!='button'">
             <star-horse-item :isView="isView" :primaryKey="primaryKey" v-model:dataForm="dataForm" :item="sitem"
                              :isEdit="!dialogProps?.ids||dialogProps?.ids==-1"/>
@@ -117,7 +117,7 @@ const validMsg = (item: any) => {
         v-else
         :size="compSize"
         :label="item.label"
-        :rules="validMsg(item)"
+        :rules="item.required?validMsg(item):[]"
         :prop="item.fieldName"
         v-if="item.formShow">
       <star-horse-item :isView="isView" :primaryKey="primaryKey" v-model:dataForm="dataForm" :item="item"

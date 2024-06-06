@@ -16,6 +16,15 @@ let designForm = DesignForm(piniaInstance);
 const getComponentName = (data: any) => {
   return (data.itemType == "tab" || data.itemType == "box" || data.itemType == "table") ? data.itemType + '-container' : data.itemType + '-item'
 };
+/**
+ * 如果没有items，动态添加
+ * @param adata
+ */
+const checkItem = (adata: any) => {
+  if (!adata['items']) {
+    adata['items'] = [];
+  }
+}
 const onDragAdd = (evt: Event, dataList: any) => {
   console.log(evt, dataList);
   let newIndex = evt.newIndex;
@@ -28,7 +37,6 @@ const onDragAdd = (evt: Event, dataList: any) => {
 const activeTabName = ref();
 onMounted(() => {
   if (!props.field['preps']["elements"]) {
-    console.log("init tab elements.........");
     props.field['preps']["elements"] = [{
       label: "Tab1",
       tabName: "tab1",
@@ -83,6 +91,7 @@ const addTab = () => {
 
           <draggable
               @add="(evt:Event)=>onDragAdd(evt,adata['items'])"
+              @dragover="checkItem(adata)"
               class="tab-design"
               group="starHorseGroup"
               animation="100"

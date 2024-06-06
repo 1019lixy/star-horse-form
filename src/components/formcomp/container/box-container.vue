@@ -18,6 +18,11 @@ let isEdit = computed(() => designForm.isEdit);
 const getComponentName = (data: any) => {
   return data?.itemType + '-item'
 };
+const checkItem = (items: any) => {
+  if (!items['items']) {
+    items['items'] = [];
+  }
+}
 const onDragAdd = (evt: Event, dataList: any) => {
   let newIndex = evt.newIndex;
   if (draggingItem.value.itemType == 'box'
@@ -64,6 +69,7 @@ const onDragAdd = (evt: Event, dataList: any) => {
       >
         <draggable
             @add="(evt:Event)=>onDragAdd(evt,sdata.items)"
+            @dragover="checkItem(sdata)"
             class="smain-design"
             group="starHorseGroup"
             animation="100"

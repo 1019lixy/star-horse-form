@@ -1,149 +1,225 @@
 <script setup lang="ts" name="EnvInfo">
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {onMounted, provide, reactive, ref} from "vue";
-import {SearchProps} from "@/components/types/SearchProps.d.ts";
+import {SearchProps, SelectOption} from "@/components/types/SearchProps.d.ts";
 import {Config} from "@/api/settings.js";
+import {PageFieldInfo} from "@/components/types/PageFieldInfo.d.ts";
+import {initDbList, tableList} from "@/views/dbsearch/utils/DbSearchUtils.ts";
+import {closeLoad, dictData, load} from "@/api/sh_api.ts";
+import {download} from "@/api/star_horse.ts";
+import {warning} from "@/utils/message.ts";
 
 const dataUrl: ApiUrls = {
-  loadByPageUrl: "/code-generator-dev/generator/code/pageList",
-  mergeUrl: "/code-generator-dev/generator/code/merge",
-  mergeDraftUrl: "/code-generator-dev/generator/code/mergeDraft",
-  batchMergeUrl: "/code-generator-dev/generator/code/mergeBatch",
-  batchMergeDraftUrl: "/code-generator-dev/generator/code/mergeBatchDraft",
-  loadByIdUrl: "/code-generator-dev/generator/code/getById",
-  deleteUrl: "/code-generator-dev/generator/code/batchDeleteById",
-  exportAllUrl: "/code-generator-dev/generator/code/exportData",
-  downloadTemplateUrl: "/code-generator-dev/generator/code/downloadTemplate",
-  userConditionUrl: "/code-generator-dev/generator/code/getAllByCondition",
-  importUrl: "/code-generator-dev/generator/code/importData",
+  loadByPageUrl: "/code-generator/generator/code/pageList",
+  mergeUrl: "/code-generator/generator/code/merge",
+  mergeDraftUrl: "/code-generator/generator/code/mergeDraft",
+  batchMergeUrl: "/code-generator/generator/code/mergeBatch",
+  batchMergeDraftUrl: "/code-generator/generator/code/mergeBatchDraft",
+  loadByIdUrl: "/code-generator/generator/code/getById",
+  deleteUrl: "/code-generator/generator/code/batchDeleteById",
+  exportAllUrl: "/code-generator/generator/code/exportData",
+  downloadTemplateUrl: "/code-generator/generator/code/downloadTemplate",
+  userConditionUrl: "/code-generator/generator/code/getAllByCondition",
+  importUrl: "/code-generator/generator/code/importData",
   uploadUrl: ""
 };
 const searchFormData = reactive<SearchProps[]>([
-  {label: "项目名称", fieldName: "projectName", type: "input", matchType: "lk", defaultShow: true},
-  {label: "项目类型", fieldName: "projectType", type: "input", matchType: "lk", defaultShow: true},
-  {label: "程序语言", fieldName: "language", type: "input", matchType: "lk", defaultShow: true},
+  {label: "应用名称", fieldName: "projectName", type: "input", matchType: "lk", defaultShow: true},
+  {label: "项目名称", fieldName: "applicationName", type: "input", matchType: "lk", defaultShow: true},
 ]);
-const tableFieldList = reactive({
+let dbInfoList = ref<Array<SelectOption>>([]);
+let tableInfoList = ref<Array<SelectOption>>([]);
+let templateVersionList = ref<Array<SelectOption>>([]);
+let fileTypeList = ref<Array<SelectOption>>([]);
+//,可用值:VUE_3,VUE_3_TS,REACT,REACT_TS
+let uiTypeList = ref<Array<SelectOption>>([]);
+let packagingList = ref<Array<SelectOption>>([]);
+const loadTabInfo = async (val) => {
+  tableInfoList.value = await tableList(val["datasourceConfigId"]);
+};
+const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
-      label: "主键", fieldName: "defineId", type: "long",
+      label: "主键", fieldName: "idCodeGenerator", type: "long",
       required: false, formShow: false,
       tableShow: false, minWidth: 180
     },
-    {
+    [{
       label: "数据库信息", fieldName: "datasourceConfigId", type: "select",
       required: true, formShow: true,
-      tableShow: !true, minWidth: 180
+      optionList: dbInfoList,
+      actionNames: "change",
+      actions: loadTabInfo,
+      tableShow: true, minWidth: 180
+    }, {
+      label: "模版版本", fieldName: "templateVersion", type: "select",
+      required: false, formShow: true,
+      optionList: templateVersionList,
+      tableShow: true, minWidth: 180
+    },],
+    {
+      label: "需要生成的表名", fieldName: "tablesList", type: "select",
+      multiple: true,
+      optionList: tableInfoList,
+      helpMsg: `该属性为空表示生成所有数据库表的代码,
+如果表数量太多（>100），程序自动转异步执行，
+有构建失败风险.`,
+      required: false, formShow: !false,
+      tableShow: false, minWidth: 180
+    },
+    {
+      label: "需要排除的表", fieldName: "excludesList",
+      type: "select",
+      multiple: true,
+      optionList: tableInfoList,
+      required: false, formShow: !false,
+      tableShow: !false, minWidth: 180
     },
     [{
-      label: "需要生成的表名", fieldName: "tables", type: "select",
-      multiple: true,
+      label: "去除表前缀", fieldName: "prefixesStr", type: "input",
+      aliasName: "prefixes",
       required: false, formShow: !false,
+      helpMsg: `如果该属性为空，所生成的文件会带上表前缀，
+eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
+多个前缀请用英文分号（;）隔开。`,
       tableShow: !false, minWidth: 180
     },
       {
-        label: "需要排除的表", fieldName: "excludes",
-        type: "select",
-        multiple: true,
-        required: false, formShow: !false,
-        tableShow: !false, minWidth: 180
+        label: "包名", fieldName: "packageName", type: "input",
+        required: true, formShow: true,
+        helpMsg: `eg: com.starhorse.test`,
+        tableShow: true, minWidth: 180
+      }],
+    {
+      label: "要生成的文件", fieldName: "fileTypesList", type: "select",
+      required: false, formShow: true,
+      multiple: true,
+      optionList: fileTypeList,
+      helpMsg: `为空生成所有类型文件`,
+      tableShow: true, minWidth: 180
+    },
+    {
+      fieldName: "tab2",
+      tabList: [{
+        title: "模块相关",
+        tabName: "tab2",
+        fieldList: [{
+          label: "项目名称", fieldName: "projectName", type: "input",
+          required: false, formShow: true,
+          helpMsg: "生成代码归属项目",
+          tableShow: !true, minWidth: 180
+        },
+          {
+            label: "模块名称", fieldName: "categoryName", type: "input",
+            required: true, formShow: true,
+            helpMsg: "Maven 项目的模块名",
+            tableShow: true, minWidth: 180
+          },
+          {
+            label: "应用名称", fieldName: "applicationName", type: "input",
+            required: true, formShow: true,
+            helpMsg: "在配置文件application.yml中对应spring.application.name",
+            tableShow: true, minWidth: 180
+          },
+          {
+            label: "应用端口", fieldName: "port", type: "number",
+            required: false, formShow: true,
+            helpMsg: "在配置文件application.yml中对应server.port",
+            tableShow: !true, minWidth: 180
+          }, {
+            label: "发布目录", fieldName: "targetDir", type: "input",
+            required: false, formShow: true,
+            helpMsg: "文件部署到服务器上的目录",
+            tableShow: !true, minWidth: 180
+          }, {
+            label: "RestFul风格接口", fieldName: "restFul", type: "switch",
+            required: false, formShow: true,
+            defaultValue: "Y",
+            tableShow: !true, minWidth: 180
+          },
+          {
+            label: "包构建类型", fieldName: "war", type: "select",
+            required: false, formShow: true,
+            defaultValue: "jar",
+            optionList: packagingList,
+            helpMsg: "对应pom.xml文件中的packaging",
+            tableShow: !true, minWidth: 180
+          },
+          {
+            label: "代码版本", fieldName: "version", type: "input",
+            helpMsg: "对应pom.xml文件中version",
+            required: false, formShow: true,
+            tableShow: !true, minWidth: 180
+          },],
+
       }, {
-      label: "表前缀", fieldName: "prefixes", type: "number",
-      required: false, formShow: !false,
-      tableShow: !false, minWidth: 180
-    }],
-    [{
-      label: "开发人员", fieldName: "author", type: "input",
-      required: false, formShow: true,
-      tableShow: !true, minWidth: 180
+        title: "注释相关",
+        tabName: "tab1",
+        fieldList: [{
+          label: "开发人员", fieldName: "author", type: "input",
+          required: false, formShow: true,
+          tableShow: !true, minWidth: 180
+        },
+          {
+            label: "邮箱地址", fieldName: "email", type: "input",
+            required: false, formShow: true,
+            tableShow: !true, minWidth: 180
+          },
+          {
+            label: "是否需要版权", fieldName: "needCopyright", type: "switch",
+            required: false, formShow: true,
+            tableShow: !true, minWidth: 180
+          }],
+      },
+        {
+          title: "UI相关",
+          tabName: "tab3",
+          fieldList: [
+            {
+              label: "是否生成UI页面", fieldName: "needUi", type: "switch",
+              required: false, formShow: true,
+              defaultValue: "Y",
+              tableShow: !true, minWidth: 180
+            },
+            {
+              label: "是否分离UI", fieldName: "needSplitUI", type: "switch",
+              required: false, formShow: true,
+              helpMsg: "UI文件和业务文件是否放在同一个module里面",
+              defaultValue: "N",
+              tableShow: !true, minWidth: 180
+            },
+            {
+              label: "Ui 文件后缀", fieldName: "uiSuffix", type: "input",
+              required: false, formShow: true,
+              defaultValue: ".vue",
+              tableShow: !true, minWidth: 180
+            },
+            {
+              label: "UI 类型", fieldName: "uiType", type: "select",
+              required: false, formShow: true,
+              optionList: uiTypeList,
+              defaultValue: "VUE_3_TS",
+              tableShow: !true, minWidth: 180
+            },
+          ]
+        },
+        {
+          title: "Dto相关",
+          tabName: "tab4",
+          fieldList: [
+            {
+              label: "是否分离DTO", fieldName: "needSplitDto", type: "switch",
+              required: false, formShow: true,
+              helpMsg: "DTO文件和业务文件是否放在同一个module里面",
+              defaultValue: "N",
+              tableShow: !true, minWidth: 180
+            },
+          ]
+        }
+      ]
     },
-    {
-      label: "邮箱地址", fieldName: "email", type: "input",
-      required: false, formShow: true,
-      tableShow: !true, minWidth: 180
-    },
-    {
-      label: "是否需要版权", fieldName: "needCopyright", type: "switch",
-      required: false, formShow: true,
-      tableShow: !true, minWidth: 180
-    }],
 
-    [{
-      label: "项目名称", fieldName: "projectName", type: "input",
-      required: false, formShow: true,
-      tableShow: !true, minWidth: 180
-    },
-    {
-      label: "应用名称", fieldName: "applicationName", type: "input",
-      required: false, formShow: true,
-      tableShow: !true, minWidth: 180
-    },
-    {
-      label: "应用端口", fieldName: "port", type: "number",
-      required: false, formShow: true,
-      tableShow: !true, minWidth: 180
-    }],
-    {
-      label: "包名", fieldName: "categoryName", type: "input",
-      required: false, formShow: true,
-      tableShow: !true, minWidth: 180
-    },
-    {
-      label: "是否生成前端页面", fieldName: "needUi", type: "switch",
-      required: false, formShow: true,
-      tableShow: !true, minWidth: 180
-    },
-    {
-      label: "Ui 文件后缀", fieldName: "uiSuffix", type: "input",
-      required: false, formShow: true,
-      tableShow: !true, minWidth: 180
-    },
-    {
-      label: "UI 类型,可用值:VUE_3,VUE_3_TS,REACT,REACT_TS", fieldName: "uiType", type: "select",
-      required: false, formShow: true,
-      tableShow: !true, minWidth: 180
-    },
 
-    {
-      label: "前端代码目录（为空则和后端代码放一起）", fieldName: "uiFilePath", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
-    },
-    {
-      label: "后端代码存放目录", fieldName: "sourcePath", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
-    },
-
-
-    {
-      label: "是否分离DTO", fieldName: "needSplitDto", type: "switch",
-      required: false, formShow: true,
-      tableShow: !true, minWidth: 180
-    },
-    {
-      label: "是否以旧版本构建", fieldName: "buildWithOldVersion", type: "switch",
-      required: false, formShow: true,
-      tableShow: !true, minWidth: 180
-    },
-    {
-      label: "模版版本", fieldName: "templateVersion", type: "select",
-      required: false, formShow: true,
-      tableShow: !true, minWidth: 180
-    }, {
-      label: "发布目录", fieldName: "targetDir", type: "input",
-      required: false, formShow: true,
-      tableShow: !true, minWidth: 180
-    }, {
-      label: "RestFul风格接口", fieldName: "restFul", type: "switch",
-      required: false, formShow: true,
-      tableShow: !true, minWidth: 180
-    },
-    {
-      label: "包构建类型", fieldName: "war", type: "select",
-      required: false, formShow: true,
-      tableShow: !true, minWidth: 180
-    },
     {
       label: "创建人", disabled: true, fieldName: "createdBy", type: "input",
       required: false, formShow: !true,
@@ -161,11 +237,6 @@ const tableFieldList = reactive({
     },
     {
       label: "修改日期", disabled: true, fieldName: "updatedDate", type: "date",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
-    },
-    {
-      label: "数据版本号", fieldName: "version", type: "number",
       required: false, formShow: !true,
       tableShow: !true, minWidth: 180
     },
@@ -197,7 +268,7 @@ const tableFieldList = reactive({
   ],
   batchFieldList: []
 });
-const primaryKey = "idEnvInfo";
+const primaryKey = "idCodeGenerator";
 const codeGeneratorRef = ref();
 const rules = {};
 const searchForm = ref({});
@@ -220,17 +291,44 @@ const dataFormat = (name: string, cellValue: Object): any => {
   return cellValue;
 }
 const init = async () => {
-
+  dbInfoList.value = await initDbList();
+  fileTypeList.value = await dictData("program_file_type");
+  templateVersionList.value = await dictData("template_version");
+  uiTypeList.value = await dictData("ui_type");
+  packagingList.value = await dictData("packaging_type");
 };
 
 onMounted(async () => {
   await init();
-})
+});
+const generateFormRef = ref();
+const generateMerge = () => {
+  generateFormRef.value.$refs.starHorseFormRef.validate(res => {
+    if (res) {
+      load("代码生成中...");
+      if (dataForm.value["prefixesStr"]) {
+        dataForm.value["prefixesList"] = dataForm.value["prefixesStr"].split(";");
+      }
+      download("/code-generator/generator/code/convertToCode", dataForm.value).catch(err => {
+        warning(err);
+      }).finally(() => {
+        closeLoad();
+      });
+    }
+  });
+
+};
+const closeAction = () => {
+  dialogProps.editVisible = false;
+  dataForm.value = {};
+}
 </script>
 
 <template>
-  <star-horse-dialog :dialog-visible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form @refresh="codeGeneratorRef.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList"
+  <star-horse-dialog :dialog-visible="dialogProps.editVisible" :dialogProps="dialogProps" :selfFunc="true"
+                     @merge="generateMerge" @closeAction="closeAction">
+    <star-horse-form ref="generateFormRef" @refresh="codeGeneratorRef.loadByPage()" :compUrl="dataUrl"
+                     :fieldList="tableFieldList"
                      :rules="rules"/>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title=

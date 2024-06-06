@@ -320,6 +320,10 @@ export declare interface BatchFieldInfo {
      */
     primaryKey?: String;
     /**
+     * 新增行时默认添加的属性
+     */
+    batchDefaultData?: any;
+    /**
      * 字段属性
      */
     fieldList: Array<FieldInfo> | any;

@@ -22,10 +22,9 @@ defineProps({
       </el-icon>
     </template>
     <div style="font-size: 12px;">
-      <pre>
-         {{ message }}
-      </pre>
-
+<pre>
+{{ message }}
+</pre>
     </div>
 
   </el-popover>

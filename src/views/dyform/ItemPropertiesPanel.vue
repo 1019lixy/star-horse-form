@@ -53,19 +53,12 @@ const urlValid = (rule: any, value: any, callback: any) => {
 };
 const dataRules = reactive<FormRules>({
   values: [{validator: urlValid, trigger: "blur"}],
-  requestType: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  name: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  value: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  matchType: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  selectLabel: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  selectValue: [{required: true, message: "必填项不能为空", trigger: "blur"}],
 
 });
 //-----------------------数据源相关属性---------------------
 let matchTypeList = ref<SelectOption[]>();
 onMounted(() => {
   matchTypeList.value = searchMatchList();
-
 })
 const jsButtonClick = (name: string) => {
   jsEditor.value = !jsEditor.value;
@@ -345,7 +338,6 @@ watch(() => formProps,
                      :title="'设置容器'" :isBatch="false" @merge="closeAction"
                      @closeAction="closeAction"
                      @reset="resetForm" :selfFunc="true">
-
     <star-horse-form rules="{}" primary-key="" :fieldList="containerField(currentItemType)" comp-url=""/>
   </star-horse-dialog>
 
@@ -642,6 +634,7 @@ watch(() => formProps,
 <style lang="scss" scoped>
 :deep(.el-collapse-item) {
   overflow: hidden;
+
   .el-collapse-item__wrap {
     height: 100%;
     overflow: hidden;

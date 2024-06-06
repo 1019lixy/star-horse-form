@@ -8,6 +8,7 @@ import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import Help from "@/components/help.vue";
 import {commands} from "@/utils/sh_design.ts";
 import {sql} from "@codemirror/lang-sql";
+import {initDbList} from "@/views/dbsearch/utils/DbSearchUtils.ts";
 
 let editorRef = ref(null);
 let cacheValue = ref({});
@@ -27,19 +28,12 @@ let dbIndex = ref<any>(null);
 let currentIndex = ref<any>(null);
 let readOnly = ref<boolean>(true);
 const init = async () => {
-  initDbList();
+  dbList.value = await initDbList();
 };
 onMounted(() => {
   init();
 });
-const initDbList = async () => {
-  let {data, error} = await loadGetData("/dbsearch-manage/dbsearch/dbinfoEntity/getDbInfoByUser");
-  if (error) {
-    warning(error);
-    return
-  }
-  dbList.value = data;
-};
+
 const handleClose = () => {
   drawer.value = !drawer.value;
 };
@@ -255,9 +249,9 @@ const operMsg = `
             v-model="dbIndex"
         >
           <el-option
-              :key="sitem.configId"
+              :key="sitem.value"
               :label="sitem.name"
-              :value="sitem.configId"
+              :value="sitem.value"
               v-for="sitem in dbList"
           >
           </el-option>
@@ -354,7 +348,8 @@ const operMsg = `
                 v-for="(item, indexa) in queryResult"
             >
 
-              <el-button @click="exportData(item)" link title="" style="background: var(--star-horse-style);color: var(--star-horse-white)">
+              <el-button @click="exportData(item)" link title=""
+                         style="background: var(--star-horse-style);color: var(--star-horse-white)">
                 <star-horse-icon icon-class="excel-export"/>
                 <el-tooltip content="导出">导出</el-tooltip>
               </el-button>

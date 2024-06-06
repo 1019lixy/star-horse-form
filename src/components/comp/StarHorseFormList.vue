@@ -281,7 +281,8 @@ const moveColumn = () => {
               <sh-table-list-column :primaryKey="primaryKey" :batchName="batchName"
                                     :data-form="scope.row"
                                     :size="size"
-                                    :rules="rules" :item="item"
+                                    :rules="rules"
+                                    :item="item"
                                     :index="scope.$index"/>
             </template>
           </template>

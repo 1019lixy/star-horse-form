@@ -23,7 +23,7 @@ const validMsg = (item: any) => {
 <template>
   <el-form-item
       :size="size"
-      :rules="validMsg(item)"
+      :rules="item.required?validMsg(item):[]"
       :prop="`${batchName}.${index}.${item.fieldName}`">
     <star-horse-item :primaryKey="primaryKey" :batchName="batchName" :item="item" :data-form="dataForm"
                      :isEdit="dialogProps?.ids&&dialogProps?.ids!=-1"/>

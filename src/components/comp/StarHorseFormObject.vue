@@ -51,7 +51,7 @@ onMounted(() => {
               :label="sitem.label"
               :required="sitem.required"
               :prop="sitem.fieldName"
-              :rules="validMsg(sitem)"
+              :rules="sitem.required?validMsg(sitem):[]"
               v-if="sitem.formShow&&sitem.type!='button'">
             <star-horse-item :primaryKey="primaryKey" :compSize="size" v-model:dataForm="dataForm[objectName]"
                              :item="sitem"
@@ -100,7 +100,7 @@ onMounted(() => {
         :size="size"
         :label="item.label"
         :required="item.required"
-        :rules="validMsg(item)"
+        :rules="item.required?validMsg(item):[]"
         :prop="item.fieldName"
         v-if="item.formShow">
       <star-horse-item :primaryKey="primaryKey" :compSize="size" v-model:dataForm="dataForm[objectName]" :item="item"

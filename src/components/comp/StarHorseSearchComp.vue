@@ -126,7 +126,7 @@ const searchArea = () => {
             :label="item.label"
             v-if="item.defaultShow"
             :prop="item.fieldName">
-          <template v-if="item.type=='input'&&(item.disabled===false||item.disabled=='no')" :span="6">
+          <template v-if="item.type=='input'&&(!item.disabled||item.disabled=='no')" :span="6">
             <el-select :size="compSize" style="width: 90px;height:100%;padding-top:2px;" v-model="item['matchType']"
                        clearable filterable>
               <el-option v-for="sitem in matchTypeList" :value="sitem.value" :label="sitem.name" :key=
@@ -134,8 +134,7 @@ const searchArea = () => {
             </el-select>&nbsp;&nbsp;
           </template>
           <star-horse-item :dataForm="searchForm" :compSize="compSize" :item="item" :isSearch="true"
-                           @dataSearch="dataSearch" isEdit="true">
-          </star-horse-item>
+                           @dataSearch="dataSearch" isEdit="true"/>
         </el-form-item>
       </template>
       <template v-for="item in formData" v-else>
@@ -143,7 +142,7 @@ const searchArea = () => {
             :size="compSize"
             :label="item.label"
             :prop="item.fieldName">
-          <template v-if="item.type=='input'" :span="6">
+          <template v-if="item.type=='input'&&(!item.disabled||item.disabled=='no')" :span="6">
             <el-select :size="compSize" style="width: 90px;height:100%;padding-top:2px;" v-model="item['matchType']"
                        clearable filterable>
               <el-option v-for="sitem in matchTypeList" :value="sitem.value" :label="sitem.name" :key=

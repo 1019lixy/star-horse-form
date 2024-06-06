@@ -2,7 +2,7 @@
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings";
 import {DialogProps} from "@/components/types/DialogProps"
-import {onMounted, provide, reactive, ref, Ref, watch} from "vue";
+import {onMounted, provide, reactive, ref, Ref, watch, computed} from "vue";
 import {SearchProps, SelectOption} from "@/components/types/SearchProps";
 import {useRoute} from "vue-router";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
@@ -34,11 +34,12 @@ const props = defineProps({
 const initData = async () => {
   commonDictList.value = await loadDict();
 };
-
+let dictType = computed(() => props.dictType);
 const searchFormData = reactive<SearchProps[]>([
-  {label: "字典类型", fieldName: "dictType", type: "input", disabled: 1},
+  {label: "字典类型", fieldName: "dictType", type: "input", defaultValue: dictType, disabled: "yes"},
   {label: "字典名称", defaultShow: true, fieldName: "dictName", type: "input", matchType: "lk"}
 ]);
+
 const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
@@ -48,8 +49,8 @@ const tableFieldList = reactive<PageFieldInfo>({
     },
     {
       label: "字典类型", fieldName: "dictType", type: "input",
-      required: true, formShow: !false, defaultValue: route.query.typeCode,
-      tableShow: !false, minWidth: 180, disabled: 1
+      required: true, formShow: !false, defaultValue: dictType,
+      tableShow: !false, minWidth: 180, disabled: "yes"
     },
     {
       label: "字典名称", fieldName: "dictName", type: "input",
@@ -125,17 +126,15 @@ const tableFieldList = reactive<PageFieldInfo>({
   stopAutoLoad: true,
 });
 const primaryKey = "idDictinfo";
-const rules = {
-
-};
+const rules = {};
 const searchForm = ref({}) as Ref;
 provide("searchForm", searchForm);
 const dataForm = ref({}) as Ref;
 provide("dataForm", dataForm);
-
 watch(
     () => props.dictType,
     (val) => {
+      searchForm.value["dictType"] = val;
       let condition = [createCondition("dictType", val)];
       tabListRef.value!.setDataInfo(condition, null);
       tabListRef.value!.createCreateParams(condition);

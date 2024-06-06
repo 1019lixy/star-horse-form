@@ -7,7 +7,7 @@ import viteCompression from 'vite-plugin-compression'
 import {resolve} from "path";
 import {createSvgIconsPlugin} from 'vite-plugin-svg-icons'
 
-const cmsHost = "http://localhost:8848/"
+const codeHost = "http://localhost:8888/"
 const systemHost = "http://localhost:8749/"
 const workflowHost = "http://localhost:8899/"
 const continusHost = "http://localhost:8859/"
@@ -33,9 +33,10 @@ export default defineConfig({
                 ws: true
             },
 
-            "/lee-cms": {
-                target: cmsHost,
+            "/code-generator": {
+                target: codeHost,
                 changeOrigin: true,
+                rewrite: (path) => path.replace(/^\/code-generator/, '/code-generator-dev'),
                 ws: true
             },
             "/flow-engine": {

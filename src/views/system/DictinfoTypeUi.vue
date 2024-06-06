@@ -46,7 +46,7 @@ const tableFieldList = reactive<PageFieldInfo>({
     },
     {
       label: "字典类型编码", fieldName: "dictTypeCode", type: "input",
-      required: true, formShow: !false, disabled: 1,
+      required: true, formShow: !false,
       tableShow: !false, minWidth: 180
     },
     {

@@ -56,7 +56,7 @@ const dataFormat = (item: any) => {
     <template v-if="item.tabList&&item.tabList.length>0">
       <el-tabs v-model="subTabObject">
         <template v-for="tabItem in item.tabList">
-          <el-tab-pane :label="tabItem.tabName">
+          <el-tab-pane :label="tabItem.title||tabItem.tabName">
             <star-horse-data-view :objectName="objectName" :fieldList="{
                         fieldList:tabItem.fieldList,
                         batchFieldList:tabItem.batchFieldList}" :subCreateFlag="true"
@@ -81,7 +81,7 @@ const dataFormat = (item: any) => {
 
   <template v-if="fieldList[batchFieldName] instanceof Array&&fieldList[batchFieldName].length > 0">
     <el-tabs v-model="subTabList">
-      <el-tab-pane v-for="(item,key) in fieldList[batchFieldName]" :label="item['title']">
+      <el-tab-pane v-for="(item,key) in fieldList[batchFieldName]" :label="item.title||item.tabName">
         <el-table
             :data="dataForm[objectName]?dataForm[objectName][item['batchName']]:[]"
             fit=true
