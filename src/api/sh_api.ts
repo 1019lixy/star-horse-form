@@ -596,7 +596,7 @@ export function formFieldMapping(fieldList: PageFieldInfo) {
     const tabOperation = (data: TabFieldInfo) => {
         let fieldList = data.fieldList as Array<FieldInfo>;
         if (data.subFormFlag) {
-            defaultDatas[data.tabName] = {};
+            defaultDatas[data.tabName] = [];
             //如果是子表
             fieldsOperation(fieldList, defaultDatas[data.tabName]);
         } else {

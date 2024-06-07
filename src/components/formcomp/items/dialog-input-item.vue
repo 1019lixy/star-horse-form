@@ -19,23 +19,23 @@
   <starhorse-form-item :isDesign="context.attrs['isDesign']" :formItem="field"
                        :parentField="parentField">
     <el-input
-              :clearable="field.preps['clearable'] == 'yes'"
-              :disabled="field.preps['disabled'] == 'yes'"
-              :max="field.preps['max']"
-              :maxlength="field.preps['maxlength']"
-              :min="field.preps['min']"
-              :minlength="field.preps['maxlength']"
-              :placeholder="field.preps['placeholder'] || '请输入' + field.preps['label']"
-              :prefix-icon="field.preps['prefixIcon']"
-              :readonly="field.preps['readonly']=='yes'"
-              :size="field?.preps['size']||'small'"
-              type="text"
-              :fid="field.preps['name']"
-              v-on:[actionName]="keyEnterFun(field.preps['actionName'])"
-              @keydown.enter="keyEnterFun"
-              @focus="keyEnterFun('focus')"
-              @blur="keyEnterFun('blur')"
-              v-model="context.attrs['formFieldList'][field.preps['name']]">
+        :clearable="field.preps['clearable'] == 'yes'"
+        :disabled="field.preps['disabled'] == 'yes'"
+        :max="field.preps['max']"
+        :maxlength="field.preps['maxlength']"
+        :min="field.preps['min']"
+        :minlength="field.preps['maxlength']"
+        :placeholder="field.preps['placeholder'] || '请输入' + field.preps['label']"
+        :prefix-icon="field.preps['prefixIcon']"
+        :readonly="field.preps['readonly']=='yes'"
+        :size="field?.preps['size']||'small'"
+        type="text"
+        :fid="field.preps['name']"
+        v-on:[actionName]="keyEnterFun(field.preps['actionName'])"
+        @keydown.enter="keyEnterFun"
+        @focus="keyEnterFun('focus')"
+        @blur="keyEnterFun('blur')"
+        v-model="context.attrs['formFieldList'][field.preps['name']]">
       <template #append>
         <el-button icon="Search" @click="showVisible" :size="field?.preps['size']||'small'"
                    :disabled="field.preps['disabled'] == 'yes'"/>
@@ -118,10 +118,14 @@ export default defineComponent({
       nextTick(() => {
         let fields = field.preps["needField"];
         let name = field.preps['name'];
+        let realName = name;
+        if (field.preps['aliasName']) {
+          realName = field.preps['aliasName'];
+        }
         if (fields) {
           name = fields.map((item: FieldMapping) => item.sourceField)[0];
         }
-        dialogInputTableRef.value?.setDataInfo(name, context.attrs["formFieldList"][field.preps['name']]);
+        dialogInputTableRef.value?.setDataInfo(name, context.attrs["formFieldList"][realName]);
       });
     };
     const searchData = (data: SearchParams[]) => {

@@ -195,6 +195,7 @@ onMounted(() => {
 })
 </script>
 <template>
+  <div class="form-item-operation">
   <div :class="[isEdit ? 'field-item design-star-horse' : '',
   (currentItemId == formItem?.preps.id && isEdit)?'active-item':''
   ]" v-if="isDesign">
@@ -261,8 +262,12 @@ onMounted(() => {
     </div>
   </div>
   <slot v-else></slot>
+  </div>
 </template>
 <style lang="scss" scoped>
+.form-item-operation {
+  width: 100%;
+}
 .active-item {
   border: 2px dotted yellow;
 }

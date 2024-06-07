@@ -1,5 +1,5 @@
 <template>
-  <starhorse-form-item :form-item="field" :parentField="parentField">
+  <starhorse-form-item :isDesign="context.attrs['isDesign']" :form-item="field" :parentField="parentField">
     <el-cascader
         :fid="field.preps['name']"
         :clearable="field.preps['clearable']=='yes'"

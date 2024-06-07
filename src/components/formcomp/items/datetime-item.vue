@@ -1,5 +1,5 @@
 <template>
-  <starhorse-form-item  :form-item = "field" :parentField = "parentField"
+  <starhorse-form-item :isDesign="context.attrs['isDesign']" :form-item = "field" :parentField = "parentField"
   >
     <el-date-picker
         :fid = "field.preps['name']"

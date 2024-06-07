@@ -1,5 +1,6 @@
 <template>
   <component :is="context.attrs['field'].preps['name']"
+             :isDesign="context.attrs['isDesign']"
              :nodeFieldList="field['preps']['params']['nodeFieldList']"
              :lineFieldList="field['preps']['params']['lineFieldList']"
              :customerItems="field['preps']['params']['nodeList']"

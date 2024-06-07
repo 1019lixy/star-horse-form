@@ -32,24 +32,29 @@ const field = ref<any>({
   }
 });
 field.value.preps.size = computed(() => props.compSize);
-const dataSearch = (act: String) => {
+/**
+ * 组件派发事件
+ * @param act
+ * @param params
+ */
+const dataSearch = (act: String, ...params: any[]) => {
   if (props.isSearch) {
     if (act == "focus" || act == "blur") {
       return;
     }
-    emit("dataSearch");
+    emit("dataSearch", params);
   } else if (act != "keydown.enter") {
-    let actionFun = props.item?.actions;
+    let actionFun = props.item.actions;
     if (actionFun && actionName.value == act) {
-      actionFun(dataForm.value)
+      actionFun(dataForm.value, params);
     }
     if (act == "focus") {
-      emit("focus", props.column)
+      emit("focus", props.column, params)
     } else if (act == "blur") {
-      emit("blur", props.column)
+      emit("blur", props.column, params)
     }
   } else {
-
+    console.log("未知事件", act)
   }
 };
 //页面属性改变，重新刷新数据
@@ -150,7 +155,17 @@ const compPreps = () => {
   field.value.preps['actionRelation'] = props.item?.actionRelation;
   //触发事件
   field.value.preps['actions'] = props.item?.actions;
-
+  //将隐藏属性传递给组件
+  if (props.item?.aliasName) {
+    field.value.preps['aliasName'] = props.item.aliasName;
+  }
+  //组件个性化参数
+  if (props.item?.preps) {
+    field.value.preps = {...field.value.preps, ...props.item.preps}
+  }
+  if (itemType.value == "upload" && !field.value.preps["action"]) {
+    warning("删除组件需要配置上传路径");
+  }
   //过滤掉查询表单的信息
   if (!props.isSearch && formFields) {
     let fieldName = field.value.preps["name"];

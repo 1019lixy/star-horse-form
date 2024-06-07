@@ -1,8 +1,11 @@
 <template>
-  未知组件。。。。。。。。。。。。。。。
+  <starhorse-form-item :isDesign="context.attrs['isDesign']" :form-item="field" :parentField="parentField"
+  >
+    未知组件。。。。。。。。。。。。。。。
+  </starhorse-form-item>
 </template>
 
-<script lang = "ts">
+<script lang="ts">
 import {defineComponent, shallowRef} from "vue";
 
 export default defineComponent({
@@ -14,7 +17,7 @@ export default defineComponent({
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
 
-    return {parentField, formFieldList, context, field, formItem,  dataField}
+    return {parentField, formFieldList, context, field, formItem, dataField}
   }
 });
 </script>

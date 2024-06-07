@@ -1,5 +1,5 @@
 <template>
-  <starhorse-form-item  :form-item = "field" :parentField = "parentField">
+  <starhorse-form-item  :isDesign="context.attrs['isDesign']" :form-item = "field" :parentField = "parentField">
     <el-checkbox-group
         :fid = "field.preps['name']"
         :disabled = "field.preps['disabled']=='yes'"

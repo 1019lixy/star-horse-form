@@ -1,56 +1,72 @@
 <template>
-  <starhorse-form-item  :form-item = "field" :parentField = "parentField"
+  <starhorse-form-item :isDesign="context.attrs['isDesign']" :form-item="field" :parentField="parentField"
   >
     <el-upload
-        :fid = "field.preps['name']"
-        :accept = "field.preps['accept']"
-        :action = "field.preps['action']"
-        :auto-upload = "field.preps['autoUpload']=='yes'"
-        :before-remove = "field.preps['beforeRemove']"
-        :before-upload = "field.preps['beforeUpload']"
-        :data = "field.preps['data']"
-        :disabled = "field.preps['disabled']=='yes'"
-        :drag = "field.preps['drag']=='yes'"
-        :headers = "field.preps['headers']"
-        :http-request = "field.preps['httpRequest']"
-        :limit = "field.preps['limit']"
-        :list-type = "field.preps['listType']"
-        :method = "field.preps['method']"
-        :multiple = "field.preps['multiple']=='yes'"
-        :name = "field.preps['name']"
+        :fid="field.preps['name']"
+        :accept="field.preps['accept']"
+        :action="field.preps['action']"
+        :auto-upload="field.preps['autoUpload']=='yes'"
+        :before-remove="field.preps['beforeRemove']"
+        :before-upload="field.preps['beforeUpload']"
+        :data="field.preps['data']||{}"
+        :disabled="field.preps['disabled']=='yes'"
+        :drag="field.preps['drag']=='yes'"
+        :headers="field.preps['headers']||{}"
+        :http-request="field.preps['httpRequest']"
+        :limit="field.preps['limit']"
+        :list-type="field.preps['listType']"
+        :method="field.preps['method']||'post'"
+        :multiple="field.preps['multiple']=='yes'"
+        :name="field.preps['name']||'file'"
         :size="field?.preps['size']||'small'"
-        :on-change = "field.preps['onChange']"
-        :on-error = "field.preps['onError']"
-        :on-exceed = "field.preps['onExceed']"
-        :on-preview = "field.preps['onPreview']"
-        :on-progress = "field.preps['onProgress']"
-        :on-remove = "field.preps['onRemove']"
-        :on-success = "field.preps['onSuccess']"
-        :show-file-list = "field.preps['showFileList']=='yes'"
-        :with-credentials = "field.preps['withCredentials']=='yes'"
-        v-model:file-list = "dataField"
+        :on-change="selfAction('change')"
+        :on-error="selfAction('error')"
+        :on-exceed="selfAction('exceed')"
+        :on-preview="selfAction('preview')"
+        :on-progress="selfAction('progress')"
+        :on-remove="selfAction('remove')"
+        :on-success="selfAction('success')"
+        :show-file-list="field.preps['showFileList']=='yes'"
+        :with-credentials="field.preps['withCredentials']=='yes'"
+        v-model:file-list="dataField"
     >
-      <star-horse-icon icon-class = "plus"/>
+      <el-icon class="el-icon--upload" v-if="field.preps['drag']=='yes'">
+        <upload-filled/>
+      </el-icon>
+      <div class="el-upload__text" v-if="field.preps['drag']=='yes'">
+        将文件拖到此处 或 <em>点击上传</em>
+      </div>
+      <template #tip v-if="field.preps['maxSize']">
+        <div class="el-upload__tip">
+          文件大小不能超过{{ field.preps['maxSize'] }}
+        </div>
+      </template>
+      <star-horse-icon v-if="field.preps['drag']!='yes'" icon-class="plus" color="var(--star-horse-style)"/>
     </el-upload>
   </starhorse-form-item>
 </template>
 
-<script lang = "ts">
+<script lang="ts">
 import {defineComponent, shallowRef} from "vue";
 
 export default defineComponent({
+  emits: ["selectItem", "selfFunc"],
   setup(props, context) {
     const parentField = context.attrs["parentField"];
     const formFieldList = context.attrs["formFieldList"] as any;
     const field = context.attrs["field"] as any;
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef([]);
-
-    return {parentField, formFieldList, context, field, formItem,  dataField}
+    const selfAction = (prep: any) => {
+      context.emit('selfFunc', prep, dataField);
+    };
+    return {parentField, formFieldList, context, field, formItem, dataField, selfAction}
   }
 });
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+.el-upload {
+  width: 100%;
+}
 </style>

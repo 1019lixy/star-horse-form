@@ -32,7 +32,7 @@ const emits = defineEmits([
   "tableCompFunc"
 ]);
 let configStore = GlobalConfig(piniaInstance);
-let compSize = computed(() => configStore.configFormInfo?.buttonSize|| "small") ;
+let compSize = computed(() => configStore.configFormInfo?.buttonSize || "small");
 let showType = computed(() => configStore.configFormInfo?.buttonShowType || "dropdown");
 const permissions = ref({view: true});
 const dataForm = inject("dataForm") as Ref;
@@ -47,6 +47,7 @@ const btnOperation = (funcName: string) => {
   } else {
     //？表示判断是否为空 ！表示断言not null
     if (funcName == "add") {
+      dataForm.value = {};
       props.dialogProps!.ids = -1;
       props.dialogProps!.editVisible = true;
       props.dialogProps!.dialogTitle = "新增数据";
@@ -137,7 +138,8 @@ onMounted(() => {
 <template>
   <ul class="inner_button" v-if="showType=='line'">
     <li v-if="permissions?.add&&!viewFlag&&checkSelfBtn('add')">
-      <el-button @click="btnOperation('add')" title="" style="background: var(--star-horse-style);color: var(--star-horse-white)" :size="compSize">
+      <el-button @click="btnOperation('add')" title=""
+                 style="background: var(--star-horse-style);color: var(--star-horse-white)" :size="compSize">
         <star-horse-icon icon-class="plus" color="var(--star-horse-white)" size="12px"/>
         <el-tooltip content="新增">新增</el-tooltip>
       </el-button>
@@ -146,14 +148,17 @@ onMounted(() => {
       <template v-for="item in selfBtnFunc">
         <li>
           <template v-if="item.children?.length>0">
-            <el-dropdown :size="compSize" split-button style="background: var(--star-horse-style);color: var(--star-horse-white)" placement="top-start">
+            <el-dropdown :size="compSize" split-button
+                         style="background: var(--star-horse-style);color: var(--star-horse-white)"
+                         placement="top-start">
               <star-horse-icon :icon-class="item.icon" color="var(--star-horse-white)"/>
               {{ item.labelName }}
               <template #dropdown>
                 <el-dropdown-menu>
                   <el-dropdown-item v-for="sitem in item.children">
-                    <el-button @click="sitem['exec'](sitem.btnName)" link title="" style="background: var(--star-horse-style);color: var(--star-horse-white)" :size=
-                        "compSize">
+                    <el-button @click="sitem['exec'](sitem.btnName)" link title=""
+                               style="background: var(--star-horse-style);color: var(--star-horse-white)" :size=
+                                   "compSize">
                       <star-horse-icon :icon-class="sitem.icon||'default'" size="12px"/>
                       {{ sitem.labelName }}
                     </el-button>
@@ -163,7 +168,8 @@ onMounted(() => {
               </template>
             </el-dropdown>
           </template>
-          <el-button v-else @click="item['exec']()" title="" style="background: var(--star-horse-style);color: var(--star-horse-white)" :size="compSize">
+          <el-button v-else @click="item['exec']()" title=""
+                     style="background: var(--star-horse-style);color: var(--star-horse-white)" :size="compSize">
             <star-horse-icon :icon-class="item.icon||'default'" color="var(--star-horse-white)" size="12px"/>
             <el-tooltip :content="item.labelName">{{ item.labelName }}</el-tooltip>
           </el-button>
@@ -173,13 +179,15 @@ onMounted(() => {
 
 
     <li v-if="permissions?.download&&!viewFlag&&checkSelfBtn('download')">
-      <el-button @click="downloadTemplate" title="" style="background: var(--star-horse-style);color: var(--star-horse-white)" :size="compSize">
+      <el-button @click="downloadTemplate" title=""
+                 style="background: var(--star-horse-style);color: var(--star-horse-white)" :size="compSize">
         <star-horse-icon icon-class="download" color="var(--star-horse-white)" size="12px"/>
         <el-tooltip content="下载模板">下载模板</el-tooltip>
       </el-button>
     </li>
     <li v-if="permissions?.execution&&checkSelfBtn('exec')">
-      <el-button @click="tableCompFunc('exec')" title="" style="background: var(--star-horse-style);color: var(--star-horse-white)" :size="compSize">
+      <el-button @click="tableCompFunc('exec')" title=""
+                 style="background: var(--star-horse-style);color: var(--star-horse-white)" :size="compSize">
         <star-horse-icon icon-class="run" color="var(--star-horse-white)" size="12px"/>
         <el-tooltip content="执行">执行</el-tooltip>
       </el-button>
@@ -206,7 +214,8 @@ onMounted(() => {
       </el-upload>
     </li>
     <li v-if="permissions?.export&&checkSelfBtn('exportData')">
-      <el-button @click="tableCompFunc('exportData')" title="" style="background: var(--star-horse-style);color: var(--star-horse-white)" :size="compSize">
+      <el-button @click="tableCompFunc('exportData')" title=""
+                 style="background: var(--star-horse-style);color: var(--star-horse-white)" :size="compSize">
         <star-horse-icon icon-class="excel-export" color="var(--star-horse-white)" size="12px"/>
         <el-tooltip content="导出">导出</el-tooltip>
       </el-button>

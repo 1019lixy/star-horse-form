@@ -57,6 +57,7 @@ const validMsg = (item: any) => {
               :prop="sitem.fieldName"
               :rules="sitem.required?validMsg(sitem):[]"
               v-if="sitem.formShow&&sitem.type!='button'">
+
             <star-horse-item :isView="isView" :primaryKey="primaryKey" v-model:dataForm="dataForm" :item="sitem"
                              :isEdit="!dialogProps?.ids||dialogProps?.ids==-1"/>
           </el-form-item>

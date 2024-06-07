@@ -63,7 +63,9 @@ const loadData = async () => {
   if (mapping) {
     for (let index in mapping) {
       let temp = mapping[index];
-      dataForm.value[temp.name] = dataForm.value[temp.alias];
+      if (!Object.keys(objData).includes(temp.name)) {
+        dataForm.value[temp.name] = dataForm.value[temp.alias];
+      }
     }
   }
   let actions = data.actions;

@@ -1,5 +1,6 @@
 <template>
   <starhorse-form-item
+      :isDesign="context.attrs['isDesign']"
       :form-item = "field"
       :parentField = "parentField"
   >
