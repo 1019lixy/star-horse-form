@@ -134,8 +134,23 @@ export const DesignForm: any = defineStore("DesignForm", {
         setCompList(compList: Array<any>) {
             this.compList = compList;
         },
-
-
+        /**
+         * 手动添加组件
+         * @param comp
+         */
+        addComp(comp: any) {
+            //如果已存在，则要过滤掉,不能重复添加
+            let _this=this;
+            let compList=_this.compList;
+            if (comp instanceof Array) {
+                comp.forEach(item=>{
+                   // compList.
+                })
+                this.compList = [...this.compList, ...comp];
+            } else {
+                this.compList.push(comp);
+            }
+        },
         setFormFieldList(formFieldList: any) {
             this.formFieldList = formFieldList
         },

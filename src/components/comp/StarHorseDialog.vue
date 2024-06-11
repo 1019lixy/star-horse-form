@@ -1,6 +1,7 @@
 <script setup lang="ts" name="StarHorseDialog">
 import {computed, onMounted, provide, ref, watch, reactive, PropType} from "vue";
 import {DialogProps} from "@/components/types/DialogProps";
+import {i18n} from "../../lang";
 
 const emits = defineEmits(["merge", "mergeDraft", "resetForm", "closeAction"]);
 const props = defineProps({
@@ -8,6 +9,7 @@ const props = defineProps({
   dialogProps: {type: Object as PropType<DialogProps>, default: {}},
   isShowReset: {type: Boolean, default: true},
   isShowSave: {type: Boolean, default: false},
+  isShowBtnContinue: {type: Boolean, default: true},
   isView: {type: Boolean, default: false},
   draggable: {type: Boolean, default: true},
   boxHeight: {type: String, default: "60%"},
@@ -15,6 +17,8 @@ const props = defineProps({
   isBatch: {type: Boolean, default: false},
   fullScreen: {type: Boolean, default: false},
   selfFunc: {type: Boolean, default: false},
+  btnText: {type: String, default: "提交"},
+  btnTextContinue: {type: String, default: "提交并继续"},
   title: {type: String, default: ""}
 });
 let windowsType = ref<boolean>(false);
@@ -66,7 +70,6 @@ const operation = (funcName: string, type: string) => {
   if (props.selfFunc) {
     emits(`${funcName}`, type);
   } else {
-    console.log("xxxxxxxxxxxx2")
     clickFunction["funcName"] = funcName;
     clickFunction["type"] = type;
   }
@@ -87,19 +90,19 @@ provide("dialogOperation", clickFunction);
           <div class="my-header">
             <el-button style="background: var(--star-horse-style);color: var(--star-horse-white)" size="small"
                        @click="fullScreen" link v-if="!!isFullScreen && draggable">
-              <el-tooltip content="还原">
+              <el-tooltip :content="i18n('dialog.resize')">
                 <star-horse-icon icon-class="fullscreen-shrink" color="var(--star-horse-white)"/>
               </el-tooltip>
             </el-button>
             <el-button style="background: var(--star-horse-style);color: var(--star-horse-white)" size="small"
                        @click="fullScreen" link v-if="!isFullScreen && draggable">
-              <el-tooltip content="最大化">
+              <el-tooltip :content="i18n('dialog.fullScreen')">
                 <star-horse-icon icon-class="fullscreen-expand" color="var(--star-horse-white)"/>
               </el-tooltip>
             </el-button>
             <el-button style="background: var(--star-horse-style);color: var(--star-horse-white)" size="small"
                        @click="close" link>
-              <el-tooltip content="关闭">
+              <el-tooltip :content="i18n('dialog.close')">
                 <star-horse-icon icon-class="close" color="var(--star-horse-white)"/>
               </el-tooltip>
             </el-button>
@@ -113,21 +116,23 @@ provide("dialogOperation", clickFunction);
           <el-button @click="operation('merge','close')"
                      style="background: var(--star-horse-style);color: var(--star-horse-white)" size="small">
             <star-horse-icon icon-class="save" style="color:var(--star-horse-white);"/>
-            提交
+            {{ i18n("dialog.submit") }}
           </el-button>
              <el-button @click="operation('merge','continue')"
-                        style="background: var(--star-horse-style);color: var(--star-horse-white)" size="small">
+                        style="background: var(--star-horse-style);color: var(--star-horse-white)" size="small"
+                        v-if="isShowBtnContinue">
             <star-horse-icon icon-class="save_continue" style="color:var(--star-horse-white);"/>
-            提交并继续</el-button>
+             {{ i18n("dialog.submitContinue") }}</el-button>
           <el-button @click="operation('mergeDraft','close')" link
                      style="background: var(--star-horse-style);color: var(--star-horse-white)" v-if="isShowSave">
-            <star-horse-icon icon-class="short_save"/>存为草稿</el-button>
+            <star-horse-icon icon-class="short_save"/>{{ i18n("dialog.save") }}</el-button>
              <el-button @click="operation('mergeDraft','continue')" link
-                        style="background: var(--star-horse-style);color: var(--star-horse-white)" v-if="isShowSave">
-            <star-horse-icon icon-class="save"/>存为草稿并继续</el-button>
+                        style="background: var(--star-horse-style);color: var(--star-horse-white)"
+                        v-if="isShowSave&&isShowBtnContinue">
+            <star-horse-icon icon-class="save"/>{{ i18n("dialog.saveContinue") }}</el-button>
           <el-button @click="operation('resetForm','reset')" link v-if="isShowReset" size="small">
             <star-horse-icon icon-class="undo" style="color:var(--star-horse-style);"/>
-            重置</el-button>
+            {{ i18n("dialog.reset") }}</el-button>
         </span>
         <slot name="footer"></slot>
       </el-dialog>

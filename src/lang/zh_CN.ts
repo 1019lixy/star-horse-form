@@ -23,7 +23,18 @@ export default {
     "loginButton.register": "注册",
     "loginButton.login": "登 录",
     "loginButton.logging": "登 录 中...",
-    "main.header.authority":"个人权限",
-    "main.header.userEdit":"修改个人信息",
-    "main.header.logout":"退出",
+    "main.header.authority": "个人权限",
+    "main.header.userEdit": "修改个人信息",
+    "main.header.logout": "退出",
+    /**
+     * 对话框--------------
+     */
+    "dialog.submit": "提交",
+    "dialog.submitContinue": "提交并继续",
+    "dialog.save": "保存",
+    "dialog.saveContinue": "保存并继续",
+    "dialog.reset": "重置",
+    "dialog.fullScreen": "最大化",
+    "dialog.resize": "还原",
+    "dialog.close": "关闭",
 }

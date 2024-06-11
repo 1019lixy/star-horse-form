@@ -178,7 +178,11 @@ const formInfoChange = (data: any) => {
 const getComponentName = (data: any) => {
   return data.itemType + "-item";
 };
+const dataChange = (evt: Event, dataList: Array<any>) => {
+  console.log(evt, dataList);
+};
 const onDragAdd = (evt: Event, dataList: Array<any>) => {
+
   if (draggingItem.value.itemType == 'table') {
     let id = draggingItem.value.id;
 
@@ -194,9 +198,17 @@ const onDragAdd = (evt: Event, dataList: Array<any>) => {
         }
       }
     }
-
   }
-  designForm.selectItem(draggingItem.value, draggingItem.value["itemType"], "");
+  if (!draggingItem.value) {
+    return;
+  }
+  if (draggingItem.value instanceof Array) {
+    let temp = draggingItem.value[draggingItem.value.length - 1];
+    designForm.selectItem(temp, temp["itemType"], "");
+  } else {
+    designForm.selectItem(draggingItem.value, draggingItem.value["itemType"], "");
+  }
+
 };
 const createCode = () => {
   warning("该功能还未上线");
@@ -402,9 +414,9 @@ const actions = (action: string) => {
                 :status-icon="formInfo['statusIcon'] == 'yes'"
                 :validate-on-rule-change="formInfo['validateOnRuleChange']=='yes'"
             >
-
               <draggable
                   @add="(evt) => onDragAdd(evt, list)"
+                  @dragstart="(evt)=>dataChange(evt,list)"
                   class="main-design"
                   :animation="100"
                   group="starHorseGroup"
@@ -488,6 +500,7 @@ const actions = (action: string) => {
     flex: 1;
     flex-direction: column;
     height: 100%;
+    overflow: hidden;
 
     .inner_button {
       height: 40px;
@@ -505,7 +518,7 @@ const actions = (action: string) => {
       display: flex;
       flex-direction: row;
       flex: 1;
-      /*  overflow: auto;*/
+      overflow: hidden;
 
       .main-design-outer {
         flex: 1;

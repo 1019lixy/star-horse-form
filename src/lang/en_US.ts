@@ -24,4 +24,15 @@ export default {
     "main.header.authority": "Authority",
     "main.header.userEdit": "Modify",
     "main.header.logout": "Logout",
+    /**
+     * 对话框--------------
+     */
+    "dialog.submit": "Submit",
+    "dialog.submitContinue": "Submit&Continue",
+    "dialog.save": "Save",
+    "dialog.saveContinue": "Save&Continue",
+    "dialog.reset": "Reset",
+    "dialog.fullScreen": "FullScreen",
+    "dialog.resize": "Restore",
+    "dialog.close": "Close",
 }

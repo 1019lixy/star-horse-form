@@ -228,11 +228,11 @@ export function createTree(data: any, valField: string, name: string, val: strin
 /**
  * 加载框
  */
-export function load(msg: string) {
+export function load(msg: string, defaultTarget?: string = "#app") {
     closeLoad();
     loading = ElLoading.service({
         lock: true,
-        target: "#app",
+        target: defaultTarget,
         text: msg || 'Loading...',
         background: 'rgba(0, 0, 0, 0.7)',
     });

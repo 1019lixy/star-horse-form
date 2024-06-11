@@ -3,12 +3,13 @@ import {computed, inject, Ref, ref} from 'vue'
 import {Setting} from "@element-plus/icons-vue";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
+import DbListComp from "@/views/dbsearch/utils/DbListComp.vue";
 
 let designForm = DesignForm(piniaInstance);
 let formDataList = computed(() => designForm.formDataList);
 let containerList = computed(() => designForm.containerList);
 let selfFormDataList = computed(() => designForm.selfFormDataList);
-
+let tabModel = ref<string>("component");
 let activeNames = ref(['a', 'b', 'c', 'd']);
 let formFieldList = computed(() => designForm.formFieldList);
 const onContainerCopy = (data: any) => {
@@ -67,101 +68,118 @@ const onRemove = () => {
 
 
 <template>
-  <el-collapse
-      class="widget-collapse"
-      v-model="activeNames"
-  >
-    <el-collapse-item name="a">
-      <template #title>
-        &nbsp;<star-horse-icon icon-class="container"
-                               style="color: var(--star-horse-style)"/>&nbsp;&nbsp;<span>容器</span>
+  <el-tabs v-model="tabModel">
+    <el-tab-pane name="component">
+      <template #label>
+        <star-horse-icon icon-class="component"
+                         style="color: var(--star-horse-style)"/>&nbsp;<span>组件</span>
       </template>
-      <el-scrollbar height="90%">
-        <draggable
-            :clone="onContainerCopy"
-            :group="{name: 'starHorseGroup', pull: 'clone', put: false}"
-            :sort="false"
-            @end="onEnd"
-            @start="onStart"
-            animation="300"
-            ghost-class="ghost"
-            item-key="index"
-            tag="ul"
-            v-model="containerList"
-        >
-          <li
-              class="field-item"
-              v-for="item in containerList"
-          >&nbsp;&nbsp;<span><star-horse-icon :icon-class="item.itemIcon" style="color: var(--star-horse-style)"/>&nbsp;&nbsp;{{
-              item.itemName
-            }}</span>
-          </li>
-        </draggable>
-      </el-scrollbar>
-    </el-collapse-item>
-    <el-collapse-item name="b">
-      <template #title>
-        &nbsp;<star-horse-icon icon-class="form"
-                               style="color: var(--star-horse-style)"/>&nbsp;&nbsp;<span>表单元素</span>
+      <el-collapse
+          class="widget-collapse"
+          v-model="activeNames"
+      >
+        <el-collapse-item name="a">
+          <template #title>
+            &nbsp;<star-horse-icon icon-class="container"
+                                   style="color: var(--star-horse-style)"/>&nbsp;&nbsp;<span>容器</span>
+          </template>
+          <el-scrollbar height="90%">
+            <draggable
+                :clone="onContainerCopy"
+                :group="{name: 'starHorseGroup', pull: 'clone', put: false}"
+                :sort="false"
+                @end="onEnd"
+                @start="onStart"
+                animation="300"
+                ghost-class="ghost"
+                item-key="index"
+                tag="ul"
+                v-model="containerList"
+            >
+              <li
+                  class="field-item"
+                  v-for="item in containerList"
+              >&nbsp;&nbsp;<span><star-horse-icon :icon-class="item.itemIcon" style="color: var(--star-horse-style)"/>&nbsp;&nbsp;{{
+                  item.itemName
+                }}</span>
+              </li>
+            </draggable>
+          </el-scrollbar>
+        </el-collapse-item>
+        <el-collapse-item name="b">
+          <template #title>
+            &nbsp;<star-horse-icon icon-class="form"
+                                   style="color: var(--star-horse-style)"/>&nbsp;&nbsp;<span>表单元素</span>
+          </template>
+          <el-scrollbar height="90%">
+            <draggable
+                :clone="onFormItemCopy"
+                :group="{name: 'starHorseGroup', pull: 'clone', put: false}"
+                :sort="false"
+                @end="onEnd"
+                @start="onStart"
+                @remove="onRemove"
+                animation="300"
+                ghost-class="ghost"
+                item-key="key"
+                tag="ul"
+                v-model="formDataList"
+            >
+              <li
+                  class="field-item"
+                  v-for="item in formDataList"
+              >&nbsp;&nbsp;<span><star-horse-icon :icon-class="item.itemIcon" style="color: var(--star-horse-style)"/>&nbsp;&nbsp;{{
+                  item.itemName
+                }}</span>
+              </li>
+            </draggable>
+          </el-scrollbar>
+        </el-collapse-item>
+        <el-collapse-item name="c">
+          <template #title>
+            &nbsp;<star-horse-icon icon-class="other"
+                                   style="color: var(--star-horse-style)"/>&nbsp;&nbsp;<span>自定义组件</span>
+          </template>
+          <el-scrollbar height="90%">
+            <draggable
+                :clone="onFormItemCopy"
+                :group="{name: 'starHorseGroup', pull: 'clone', put: false}"
+                :sort="false"
+                @end="onEnd"
+                @start="onStart"
+                @remove="onRemove"
+                animation="300"
+                ghost-class="ghost"
+                item-key="key"
+                tag="ul"
+                v-model="selfFormDataList"
+            >
+              <li
+                  class="field-item"
+                  v-for="item in selfFormDataList">&nbsp;&nbsp;
+                <span><star-horse-icon :icon-class="item.itemIcon"
+                                       style="color: var(--star-horse-style)"/>&nbsp;&nbsp;{{ item.itemName }}</span>
+              </li>
+            </draggable>
+            <div style="height: 50px"></div>
+          </el-scrollbar>
+        </el-collapse-item>
+      </el-collapse>
+    </el-tab-pane>
+    <el-tab-pane name="dbinfo">
+      <template #label>
+        <star-horse-icon icon-class="database"
+                         style="color: var(--star-horse-style)"/>&nbsp;<span>数据库</span>
       </template>
-      <el-scrollbar height="90%">
-        <draggable
-            :clone="onFormItemCopy"
-            :group="{name: 'starHorseGroup', pull: 'clone', put: false}"
-            :sort="false"
-            @end="onEnd"
-            @start="onStart"
-            @remove="onRemove"
-            animation="300"
-            ghost-class="ghost"
-            item-key="key"
-            tag="ul"
-            v-model="formDataList"
-        >
-          <li
-              class="field-item"
-              v-for="item in formDataList"
-          >&nbsp;&nbsp;<span><star-horse-icon :icon-class="item.itemIcon" style="color: var(--star-horse-style)"/>&nbsp;&nbsp;{{
-              item.itemName
-            }}</span>
-          </li>
-        </draggable>
-      </el-scrollbar>
-    </el-collapse-item>
-    <el-collapse-item name="c">
-      <template #title>
-        &nbsp;<star-horse-icon icon-class="other"
-                               style="color: var(--star-horse-style)"/>&nbsp;&nbsp;<span>自定义组件</span>
-      </template>
-      <el-scrollbar height="90%">
-        <draggable
-            :clone="onFormItemCopy"
-            :group="{name: 'starHorseGroup', pull: 'clone', put: false}"
-            :sort="false"
-            @end="onEnd"
-            @start="onStart"
-            @remove="onRemove"
-            animation="300"
-            ghost-class="ghost"
-            item-key="key"
-            tag="ul"
-            v-model="selfFormDataList"
-        >
-          <li
-              class="field-item"
-              v-for="item in selfFormDataList">&nbsp;&nbsp;
-            <span><star-horse-icon :icon-class="item.itemIcon"
-                                   style="color: var(--star-horse-style)"/>&nbsp;&nbsp;{{ item.itemName }}</span>
-          </li>
-        </draggable>
-        <div style="height: 50px"></div>
-      </el-scrollbar>
-    </el-collapse-item>
-  </el-collapse>
+      <db-list-comp/>
+    </el-tab-pane>
+  </el-tabs>
+
 </template>
 <style lang="scss" scoped>
 :deep(.el-collapse-item) {
   overflow: hidden;
+
   .el-collapse-item__wrap {
     height: 100%;
     overflow: hidden;
@@ -193,6 +211,7 @@ const onRemove = () => {
   .el-collapse-item__content {
     padding-bottom: 6px;
     margin-left: 8px;
+
     ul {
       padding-left: 10px; /* 重置IE11默认样式 */
       margin: 0; /* 重置IE11默认样式 */

@@ -218,10 +218,6 @@ const dragDrop = (evt: DragEvent) => {
   } else {
     sqlInfo.value = unref(bakeData) + " " + data;
   }
-  // editorRef.value.editor.dispatch({
-  //   changes: {from: 0, to: bakeData.value.length, insert: sqlInfo.value}
-  // })
-  // console.log(sqlInfo.value, bakeData.value, data);
 }
 const operMsg = `
  使用说明:
@@ -320,13 +316,17 @@ const operMsg = `
                   <tr>
                     <th>名称</th>
                     <th>类型</th>
+                    <th>空标识</th>
+                    <th>主键</th>
                     <th>备注</th>
                   </tr>
                   </thead>
                   <tbody>
                   <tr v-for="sdata in data.fields">
-                    <td>{{ sdata.filedName }}</td>
+                    <td>{{ sdata.fieldName }}</td>
                     <td>{{ sdata.type }}</td>
+                    <td>{{ sdata.nullFlag }}</td>
+                    <td>{{ sdata.primaryKey }}</td>
                     <td>{{ sdata.comment }}</td>
                   </tr>
                   </tbody>
@@ -522,10 +522,10 @@ const operMsg = `
 
 
 .field-table {
-  border: 1px solid #409eff;
+  border: 1px solid var(--star-horse-style);
 
   tr > th, tr > td {
-    border: 1px solid #409eff;
+    border: 1px solid var(--star-horse-style);
     height: 30px;
     font-size: 13px;
     padding-left: 5px;
