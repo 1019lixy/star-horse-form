@@ -69,7 +69,7 @@ const loadFormData = async (formId: any, isParent: boolean) => {
   if (data["relations"]) {
     formInfo.value["relations"] = JSON.parse(data["relations"]);
   }
-    designForm.setCompList(JSON.parse(data["details"].content));
+  designForm.setCompList(JSON.parse(data["details"].content));
   designForm.setFormFieldList(JSON.parse(data["details"].fieldNames));
   data["details"] = {};
   designForm.setIsEdit(true);
@@ -100,6 +100,14 @@ watch(
     },
     {immediate: true, deep: true}
 );
+watch(() => list.value,
+    (val) => {
+      designForm.removePromise()
+    }, {
+      immediate: true,
+      deep: true
+    }
+)
 /**
  * 加载Form数据
  * @param id
@@ -180,7 +188,7 @@ const getComponentName = (data: any) => {
 const dataChange = (evt: Event, dataList: Array<any>) => {
   console.log(evt, dataList);
 };
-const onDragAdd = (evt: Event, dataList: Array<any>) => {
+const onDragAdd = async (evt: Event, dataList: Array<any>) => {
   console.log(evt, dataList);
   let index = evt.oldIndex;
   if (draggingItem.value.itemType == 'table') {
@@ -201,15 +209,6 @@ const onDragAdd = (evt: Event, dataList: Array<any>) => {
   }
   if (!draggingItem.value) {
     return;
-  }
-  if (dataList[index] instanceof Promise) {
-    let data = dataList[index] as Promise;
-    data.then(res => {
-      dataList.splice(index, 1);
-      designForm.addComp(res);
-
-    });
- //   console.log(data, "********************************");
   }
 
   if (draggingItem.value instanceof Array) {
@@ -427,7 +426,6 @@ const actions = (action: string) => {
 
               <draggable
                   @add="(evt) => onDragAdd(evt, list)"
-                  @ended="(evt)=>console.log(evt)"
                   class="main-design"
                   :animation="100"
                   group="starHorseGroup"

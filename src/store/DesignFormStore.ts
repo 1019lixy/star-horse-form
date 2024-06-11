@@ -140,15 +140,11 @@ export const DesignForm: any = defineStore("DesignForm", {
          */
         addComp(comp: any) {
             //如果已存在，则要过滤掉,不能重复添加
-            let _this=this;
-            let compList=_this.compList;
+            let _this = this;
             if (comp instanceof Array) {
-                comp.forEach(item=>{
-                   // compList.
-                })
-                this.compList = [...this.compList, ...comp];
+                _this.compList = [..._this.compList, ...comp];
             } else {
-                this.compList.push(comp);
+                _this.compList.push(comp);
             }
         },
         setFormFieldList(formFieldList: any) {
@@ -178,6 +174,25 @@ export const DesignForm: any = defineStore("DesignForm", {
          */
         setDraggingItem(draggingItem: any) {
             this.draggingItem = draggingItem;
+        },
+        /**
+         * 删除数据
+         */
+        removePromise() {
+            let _this = this;
+            let comps = _this.compList;
+            for (let i = 0; i < comps.length; i++) {
+                let temp = comps[i];
+                if (temp instanceof Promise) {
+                    temp.then(res => {
+                        if (res instanceof Array) {
+                            comps.splice(i, 1, ...res);
+                        } else {
+                            comps.splice(i, 1, res);
+                        }
+                    })
+                }
+            }
         },
         /**
          * 清除所有数据

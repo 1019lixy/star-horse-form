@@ -24,12 +24,12 @@ let configData = ref<any>({
   columns: 1,
   commonField: 'N'
 });
-const openDb = () => {
+const openDb = async () => {
   if (!dbIndex.value) {
     return;
   }
   load("数据加载中");
-  getRequest(`/dbsearch-manage/dbsearch/dbinfoEntity/openConn/${dbIndex.value}`).then((res) => {
+  await getRequest(`/dbsearch-manage/dbsearch/dbinfoEntity/openConn/${dbIndex.value}`).then((res) => {
         tableList.value = {};
         if (res.data.code != 0) {
           error(res.data.cnMessage);
@@ -120,7 +120,7 @@ const onDataCopy = async (data: any) => {
       formInfo["formId"] = reData.fieldName;
       continue;
     }
-    let mvData = {};
+    let mvData: any = {};
     mvData['id'] = 'persistId' + ms;
     /**
      * 处理preps
@@ -135,7 +135,7 @@ const onDataCopy = async (data: any) => {
       placeholder: "",
     };
     if (reData.defaultValue) {
-      mvData.preps[temp.fieldName] = temp.defaultValue;
+      mvData.preps[reData.fieldName] = reData.defaultValue;
     }
     mvData['itemType'] = getFieldType(reData);
     mvData.preps['id'] = mvData['id'];
@@ -148,7 +148,7 @@ const onDataCopy = async (data: any) => {
   if (config.columns > 1) {
     let elements = [];
     let boxId = "box" + formFieldList.value["index"]++;
-    let box = {
+    let box :any= {
       id: boxId,
       compType: "container",
       itemType: "box",
@@ -156,7 +156,6 @@ const onDataCopy = async (data: any) => {
         id: boxId,
         "formShow": "no",
         "gutter": 0,
-        "id": "Id1",
         "justify": "start",
         "readonly": "no",
         "required": "no",
