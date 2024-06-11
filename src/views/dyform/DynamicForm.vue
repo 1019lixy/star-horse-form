@@ -1,13 +1,12 @@
 <script lang="ts" setup name="DynamicForm">
 import FieldPanel from "@/views/dyform/FieldPanel.vue";
-import {computed, nextTick, onMounted, provide, reactive, ref, unref, watch} from "vue";
+import {computed, nextTick, onMounted, reactive, ref, watch} from "vue";
 import PropertyPanel from "@/views/dyform/PropertyPanel.vue";
 import {postRequest} from "@/api/star_horse";
 import {confirm, error, warning} from "@/utils/message";
 import {useRoute, useRouter} from "vue-router";
-import {loadData, loadGetData} from "@/api/sh_api";
+import {loadGetData} from "@/api/sh_api";
 import {ApiUrls} from "@/components/types/ApiUrls";
-import {SearchParams} from "@/components/types/Params";
 import FieldAnalysis from "@/views/dyform/FieldAnalysis.vue";
 import FormPropertyPanel from "@/views/dyform/FormPropertyPanel.vue";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
@@ -70,7 +69,7 @@ const loadFormData = async (formId: any, isParent: boolean) => {
   if (data["relations"]) {
     formInfo.value["relations"] = JSON.parse(data["relations"]);
   }
-  designForm.setCompList(JSON.parse(data["details"].content));
+    designForm.setCompList(JSON.parse(data["details"].content));
   designForm.setFormFieldList(JSON.parse(data["details"].fieldNames));
   data["details"] = {};
   designForm.setIsEdit(true);
@@ -182,7 +181,8 @@ const dataChange = (evt: Event, dataList: Array<any>) => {
   console.log(evt, dataList);
 };
 const onDragAdd = (evt: Event, dataList: Array<any>) => {
-
+  console.log(evt, dataList);
+  let index = evt.oldIndex;
   if (draggingItem.value.itemType == 'table') {
     let id = draggingItem.value.id;
 
@@ -202,6 +202,16 @@ const onDragAdd = (evt: Event, dataList: Array<any>) => {
   if (!draggingItem.value) {
     return;
   }
+  if (dataList[index] instanceof Promise) {
+    let data = dataList[index] as Promise;
+    data.then(res => {
+      dataList.splice(index, 1);
+      designForm.addComp(res);
+
+    });
+ //   console.log(data, "********************************");
+  }
+
   if (draggingItem.value instanceof Array) {
     let temp = draggingItem.value[draggingItem.value.length - 1];
     designForm.selectItem(temp, temp["itemType"], "");
@@ -414,9 +424,10 @@ const actions = (action: string) => {
                 :status-icon="formInfo['statusIcon'] == 'yes'"
                 :validate-on-rule-change="formInfo['validateOnRuleChange']=='yes'"
             >
+
               <draggable
                   @add="(evt) => onDragAdd(evt, list)"
-                  @dragstart="(evt)=>dataChange(evt,list)"
+                  @ended="(evt)=>console.log(evt)"
                   class="main-design"
                   :animation="100"
                   group="starHorseGroup"

@@ -23,8 +23,8 @@ const onDataCopy = (data: any, type: String) => {
   let ms = formFieldList.value["index"]++;
   let mvData = {};
   mvData['id'] = 'Id' + ms;
-  console.log(reData);
-  /**
+  // console.log(reData);
+   /**
    * 处理preps
    */
   let preps = reData.preps;
