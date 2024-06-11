@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-import {computed, onMounted, ref} from "vue";
+import {computed, onMounted, ref, unref} from "vue";
 import {getRequest} from "@/api/star_horse.ts";
 import {error, warning} from "@/utils/message.ts";
 import {initDbList} from "@/views/dbsearch/utils/DbSearchUtils.ts";
@@ -53,15 +53,16 @@ const tableField = async (tableName: string) => {
     fdata['fields'] = [];
   }
   load(`${tableName}的属性加载中`);
-  await getRequest(`/dbsearch-manage/dbsearch/dbinfoEntity/tableColumns/${dbIndex.value}/${tableName}`).then((res) => {
-    if (res.data.code != 0) {
-      warning(res.data.cnMessage);
-      return fdata;
-    }
-    fdata['fields'] = res.data.data;
-  }).finally(() => {
-    closeLoad();
-  });
+  await getRequest(`/dbsearch-manage/dbsearch/dbinfoEntity/tableColumns/${dbIndex.value}/${tableName}`)
+      .then((res) => {
+        if (res.data.code != 0) {
+          warning(res.data.cnMessage);
+          return fdata;
+        }
+        fdata['fields'] = res.data.data;
+      }).finally(() => {
+        closeLoad();
+      });
   return fdata;
 };
 const filterData = () => {
@@ -102,20 +103,37 @@ const onDataCopy = async (data: any) => {
   let tableInfo = await tableField(tableName);
   if (!tableInfo || !tableInfo.fields) {
     warning(`${tableInfo}属性异常，请检查`);
-    return;
+    return {};
   }
   let fieldList = JSON.parse(JSON.stringify(tableInfo.fields));
   let mvDataList = [];
+  let config = unref(configData);
+  let formInfo = {};
+
   for (let i in fieldList) {
     let reData = fieldList[i];
     let ms = formFieldList.value["index"]++;
+    if (reData.commonField?.toLowerCase() == "y" && config.commonField?.toLowerCase() == "n") {
+      continue;
+    }
+    if (reData.primaryKey?.toLowerCase() == "y") {
+      formInfo["formId"] = reData.fieldName;
+      continue;
+    }
     let mvData = {};
     mvData['id'] = 'persistId' + ms;
-
     /**
      * 处理preps
      */
-    mvData["preps"] = {};
+    mvData["preps"] = {
+      clearable: "no",
+      comment: "",
+      controls: "yes",
+      controlsPosition: "",
+      disabled: "no",
+      formShow: "yes",
+      placeholder: "",
+    };
     if (reData.defaultValue) {
       mvData.preps[temp.fieldName] = temp.defaultValue;
     }
@@ -127,17 +145,61 @@ const onDataCopy = async (data: any) => {
     mvData['compType'] = "formItem";
     mvDataList.push(mvData);
   }
-  designForm.addComp(mvDataList);
-  designForm.selectItem(mvDataList[0], mvDataList[0].itemType, "");
-  return mvDataList;
+  if (config.columns > 1) {
+    let elements = [];
+    let boxId = "box" + formFieldList.value["index"]++;
+    let box = {
+      id: boxId,
+      compType: "container",
+      itemType: "box",
+      preps: {
+        id: boxId,
+        "formShow": "no",
+        "gutter": 0,
+        "id": "Id1",
+        "justify": "start",
+        "readonly": "no",
+        "required": "no",
+        "searchShow": "no",
+        "size": "small",
+        "tableShow": "no",
+        "tag": "div",
+        label: "栅格",
+        name: "box",
+      }
+    };
+    console.log(mvDataList.length, config.columns);
+    let col = parseInt(config.columns);
+    let rows = mvDataList.length % col == 0 ?
+        mvDataList.length / col
+        : (mvDataList.length / col) + 1;
+    let index = 0;
+    for (let r = 1; r <= rows; r++) {
+      let columns = [];
+      for (let i = 1; i <= col; i++) {
+        let temp = mvDataList[index++];
+        if (temp) {
+          columns.push({colIndex: i, colspan: 24 / col, items: [temp], xh: i});
+        }
+      }
+      elements.push({
+        rowIndex: r,
+        columns: columns,
+        xh: r
+      })
+    }
+    box.preps["elements"] = elements;
+    designForm.setDraggingItem(mvDataList[0]);
+    return box;
+  } else {
+    designForm.setDraggingItem(mvDataList[0]);
+    return mvDataList;
+  }
 };
 const configDialogVisible = ref<Boolean>(false);
 const closeAction = () => {
   configDialogVisible.value = false;
 };
-const doSave = () => {
-
-}
 const viewConfig = () => {
   configDialogVisible.value = true;
 };
@@ -151,7 +213,7 @@ onMounted(() => {
       :dialogVisible="configDialogVisible"
       @closeAction="closeAction"
       :selfFunc="true"
-      @merge="doSave"
+      @merge="closeAction"
       :title="'属性配置'"
       :is-show-btn-continue="false"
       :box-width="'20%'"
@@ -196,7 +258,18 @@ onMounted(() => {
   <el-input :size="compSize" placeholder="请输入关键字" v-model="filterTableName" @input="filterData"
             suffix-icon="Search"/>
   <el-scrollbar height="90%">
-    <ul>
+    <draggable
+        :clone="onDataCopy"
+        :group="{name: 'starHorseGroup', pull: 'clone', put: false}"
+        :sort="false"
+        @end="onEnd"
+        @start="onStart"
+        animation="300"
+        ghost-class="ghost"
+        item-key="index"
+        tag="ul"
+        v-model="assignDataList"
+    >
       <template v-for="(data, index) in assignDataList">
         <el-popover :width="640" placement="right" trigger="contextmenu">
           <template #reference>
@@ -229,7 +302,7 @@ onMounted(() => {
           </table>
         </el-popover>
       </template>
-    </ul>
+    </draggable>
   </el-scrollbar>
 </template>
 
