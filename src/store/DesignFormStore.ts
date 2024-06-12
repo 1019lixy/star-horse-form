@@ -23,7 +23,7 @@ export const DesignForm: any = defineStore("DesignForm", {
             formInfo: {},
 
             /**
-             * 设计器里得组件列表
+             * 设计器里的组件列表
              */
             compList: [] as Array<any>,
             /**
@@ -129,7 +129,11 @@ export const DesignForm: any = defineStore("DesignForm", {
          * @param formInfo
          */
         setFormInfo(formInfo: any) {
-            this.formInfo = formInfo;
+            let _this = this;
+            _this.formInfo = {
+                ..._this.formInfo,
+                ...formInfo
+            };
         },
         setCompList(compList: Array<any>) {
             this.compList = compList;

@@ -14,6 +14,7 @@ let compSize = computed(() => configStore.configFormInfo?.buttonSize || "small")
 let dbIndex = ref<any>(null);
 let designForm = DesignForm(piniaInstance);
 let formFieldList = computed(() => designForm.formFieldList);
+let compList = computed(() => designForm.compList);
 const filterTableName = ref("");
 let assignDataList = ref<Array<any>>([]);
 let dbList = ref<any>([]);
@@ -105,10 +106,15 @@ const onDataCopy = async (data: any) => {
     warning(`${tableInfo}属性异常，请检查`);
     return {};
   }
+  let compLength = compList.value.length;
   let fieldList = JSON.parse(JSON.stringify(tableInfo.fields));
   let mvDataList = [];
   let config = unref(configData);
-  let formInfo = {};
+  let formInfo: any = {
+    tbName: tableName,
+    formName: data.comment || ""
+  };
+
 
   for (let i in fieldList) {
     let reData = fieldList[i];
@@ -145,10 +151,13 @@ const onDataCopy = async (data: any) => {
     mvData['compType'] = "formItem";
     mvDataList.push(mvData);
   }
+  if (compLength == 0||compLength==1) {
+    designForm.setFormInfo(formInfo);
+  }
   if (config.columns > 1) {
     let elements = [];
     let boxId = "box" + formFieldList.value["index"]++;
-    let box :any= {
+    let box: any = {
       id: boxId,
       compType: "container",
       itemType: "box",
@@ -261,8 +270,6 @@ onMounted(() => {
         :clone="onDataCopy"
         :group="{name: 'starHorseGroup', pull: 'clone', put: false}"
         :sort="false"
-        @end="onEnd"
-        @start="onStart"
         animation="300"
         ghost-class="ghost"
         item-key="index"
@@ -272,7 +279,7 @@ onMounted(() => {
       <template v-for="(data, index) in assignDataList">
         <el-popover :width="640" placement="right" trigger="contextmenu">
           <template #reference>
-            <li @click="onDataCopy(data)">
+            <li>
               <star-horse-icon icon-class="table" style="margin-top: 5px;height: 18px"/>
               <el-tooltip :content="data.comment">
                 {{ data.tableName }}
