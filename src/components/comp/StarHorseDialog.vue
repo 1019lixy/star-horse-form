@@ -1,7 +1,7 @@
 <script setup lang="ts" name="StarHorseDialog">
 import {computed, onMounted, provide, ref, watch, reactive, PropType} from "vue";
 import {DialogProps} from "@/components/types/DialogProps";
-import {i18n} from "../../lang";
+import {i18n} from "@/lang";
 
 const emits = defineEmits(["merge", "mergeDraft", "resetForm", "closeAction"]);
 const props = defineProps({
@@ -181,11 +181,10 @@ provide("dialogOperation", clickFunction);
 .eee {
   flex: 1;
   overflow-y: auto;
-  padding: 0 20px;
+  padding: 0 10px;
   box-sizing: border-box;
-
   &::-webkit-scrollbar {
-    width: 8px;
+    width:6px;
   }
 
   &::-webkit-scrollbar-track {

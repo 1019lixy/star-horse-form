@@ -122,7 +122,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       minWidth: 180
     },
     {
-      label: "创建人", disabled: true,
+      label: "创建人", disabled: "yes",
       fieldName: "createdBy",
       type: "input",
       required: false,
@@ -140,7 +140,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       minWidth: 180
     },
     {
-      label: "修改人", disabled: true,
+      label: "修改人", disabled: "yes",
       fieldName: "updatedBy",
       type: "input",
       required: false,

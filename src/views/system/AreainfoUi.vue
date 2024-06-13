@@ -2,8 +2,9 @@
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings";
 import {DialogProps} from "@/components/types/DialogProps"
-import {provide, reactive, ref} from "vue";
+import {onMounted, provide, reactive, ref} from "vue";
 import {SearchProps} from "@/components/types/SearchProps";
+import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/system-config/system/areainfo/pageList",
@@ -22,13 +23,13 @@ const dataUrl: ApiUrls = {
 };
 const initData = async () => {
 };
-initData();
+
 const searchFormData = reactive<SearchProps[]>([{label: "区域主键", fieldName: "idAreainfo", type: "long"},
   {label: "区域名称", defaultShow: true, fieldName: "areaName", type: "input"},
   {label: "区域编码", fieldName: "areaCode", type: "input"},
   {label: "父节点编号", fieldName: "parentNo", type: "input"},
 ]);
-const tableFieldList = reactive({
+const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
       label: "区域主键", fieldName: "idAreainfo", type: "long",
@@ -105,9 +106,7 @@ const tableFieldList = reactive({
 });
 const primaryKey = "idAreainfo";
 const areainfoRef = ref();
-const rules = {
-
-};
+const rules = {};
 const searchForm = ref({});
 provide("searchForm", searchForm);
 const dataForm = ref({});
@@ -127,6 +126,9 @@ provide("dialogProps", dialogProps);
 const dataFormat = (name: string, cellValue: Object): any => {
   return cellValue;
 }
+onMounted(() => {
+  initData();
+});
 </script>
 
 <template>

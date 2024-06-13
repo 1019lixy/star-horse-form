@@ -22,11 +22,12 @@ const currentTableRef = ref();
       :batchUrl="item['batchUrl']"
       :title="item['title']"
       :size="size"
+      :helpMsg="item['helpMsg']"
       :downloadTemplateUrl="item['downloadTemplateUrl']"
       :importInfo="item['importInfo']"
       :defaultValues="batchFieldDefaultValues(item)"
       ref="currentTableRef"
-      :field-list="item['fieldList']"
+      :fieldList="item['fieldList']"
       :rules="item['rules']||rules"
   />
 

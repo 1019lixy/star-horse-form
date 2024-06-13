@@ -60,12 +60,12 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     [{
       label: "工号", fieldName: "employeeNo", type: "input",
-      required: false, formShow: !false, disabled: 1,
+      required: false, formShow: !false, disabled: "yes",
       tableShow: false, minWidth: 180
     },
       {
         label: "用户名", fieldName: "username", type: "input",
-        required: false, formShow: !false, disabled: 1,
+        required: false, formShow: !false, disabled: "yes",
         tableShow: false, minWidth: 180
       }],
     {

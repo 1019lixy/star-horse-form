@@ -312,6 +312,10 @@ export declare interface BatchFieldInfo {
      */
     title?: String;
     /**
+     * 帮助提示
+     */
+    helpMsg?:String;
+    /**
      * 默认初始化行数
      */
     initRows?: Number;

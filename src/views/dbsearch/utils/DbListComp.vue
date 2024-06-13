@@ -1,49 +1,186 @@
 <script setup lang="ts">
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-import {computed, onMounted, ref, unref} from "vue";
-import {getRequest} from "@/api/star_horse.ts";
-import {error, warning} from "@/utils/message.ts";
-import {initDbList} from "@/views/dbsearch/utils/DbSearchUtils.ts";
-import {closeLoad, load} from "@/api/sh_api.ts";
+import {computed, onMounted, provide, ref, unref} from "vue";
+import {warning} from "@/utils/message.ts";
+import {initDbList, openDatabase, tableColumns} from "@/views/dbsearch/utils/DbSearchUtils.ts";
+import {convertToCamelCase} from "@/api/sh_api.ts";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
+import Help from "@/components/help.vue";
+import {PageFieldInfo} from "@/components/types/PageFieldInfo.d.ts";
+import {SelectOption} from "@/components/types/SearchProps.d.ts";
+import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
+import StarHorseDialog from "@/components/comp/StarHorseDialog.vue";
 
 let configStore = GlobalConfig(piniaInstance);
+let designForm = DesignForm(piniaInstance);
+let allFormDataList = computed(() => designForm.allFormDataList);
 let compSize = computed(() => configStore.configFormInfo?.buttonSize || "small");
 let dbIndex = ref<any>(null);
-let designForm = DesignForm(piniaInstance);
 let formFieldList = computed(() => designForm.formFieldList);
-const filterTableName = ref("");
+let compList = computed(() => designForm.compList);
+const filterTableName = ref<String>("");
+const tbTab = ref<String>("tb1");
 let assignDataList = ref<Array<any>>([]);
+let selectFields = ref<Array<SelectOption>>([]);
 let dbList = ref<any>([]);
 let tableAndColumnsList = ref<any>([]);
-let tableList = ref({});
 let currentIndex = ref<any>(null);
+let containerTypeList = computed(() => {
+  let temp: Array<SelectOption> = [];
+  designForm.containerList.forEach((item: any) => {
+    temp.push({
+      name: item.itemName,
+      value: item.itemType
+    })
+  });
+  return temp;
+});
 let configData = ref<any>({
   columns: 1,
   commonField: 'N'
 });
+const dataForm = ref({});
+let currentData = ref<any>({});
+//全局数据对象
+provide("dataForm", dataForm);
+const fieldCompTypesMsg = `类型操作提示：
+1、系统默认将数字类型的字段映射为数字输入框组件；
+   将字符串类型的字段映射为单行文本框组件；
+   将日期类型映射为日期选择器组件；
+2、如果字段有特色业务需要，则可以将字段配置为对应的组件类型`;
+let columnsContr = ref<String>("yes");
+/**
+ * 判断列数是否需要禁用
+ * @param val
+ */
+const containerTypeOperation = (val: any) => {
+  columnsContr.value = val['containerType'] == 'box' ? "no" : "yes"
+}
+let dataFieldInfo = ref<PageFieldInfo>({
+  fieldList: [
+    [{
+      label: "展示方式",
+      fieldName: "containerType",
+      type: "select",
+      required: false,
+      optionList: containerTypeList,
+      formShow: !false,
+      tableShow: !false,
+      minWidth: 180,
+      actionNames: "change",
+      actions: (val) => containerTypeOperation(val)
+    }, {
+      label: "列数",
+      fieldName: "columns",
+      type: "number",
+      helpMsg: "一行展示几列,展示方式为栅格时有效",
+      required: false,
+      formShow: !false,
+      tableShow: !false,
+      disabled: columnsContr,
+      defaultValue: configData.value.columns,
+      minWidth: 180,
+      preps: {
+        min: 1,
+        max: 12,
+        step: 1
+      }
+    }]
+    ,
+    {
+      label: "排除字段",
+      fieldName: "exclusionFields",
+      type: "select",
+      required: false,
+      multiple: "yes",
+      optionList: selectFields,
+      formShow: !false,
+      tableShow: !false,
+      minWidth: 180
+    },
+    {
+      batchFieldList: [
+        {
+          batchName: "fieldCompTypes",
+          title: "字段类型",
+          helpMsg: fieldCompTypesMsg,
+          fieldList: [{
+            label: "字段",
+            fieldName: "fieldName",
+            type: "select",
+            required: false,
+            optionList: selectFields,
+            formShow: !false,
+            tableShow: !false,
+            minWidth: 180
+          }, {
+            label: "组件类型",
+            fieldName: "fieldType",
+            type: "select",
+            required: false,
+            optionList: allFormDataList,
+            formShow: !false,
+            tableShow: !false,
+            minWidth: 180
+          }]
+        }
+      ]
+    }
+  ]
+});
+let currentDataVisible = ref<boolean>(false);
+const contextOperation = async (evt: Event, data: any, index: number) => {
+  evt.preventDefault();
+  evt.stopPropagation();
+  currentData.value = data;
+  console.log(data, index);
+  await tableField(data.tableName);
+  currentDataVisible.value = true;
+  selectFieldsOperation(data.fields);
+  dataForm.value = {...data};
+  containerTypeOperation(dataForm.value);
+}
+const dataReset = () => {
+  dataForm.value = {...currentData.value};
+}
+const tableSubmit = () => {
+  currentData.value["containerType"] = unref(dataForm)["containerType"];
+  currentData.value["columns"] = unref(dataForm)["columns"];
+  currentData.value["exclusionFields"] = unref(dataForm)["exclusionFields"];
+  currentData.value["fieldCompTypes"] = unref(dataForm)["fieldCompTypes"];
+  tableOperClose();
+}
+const tableOperClose = () => {
+  dataForm.value = {};
+  currentDataVisible.value = false;
+}
 const openDb = () => {
   if (!dbIndex.value) {
     return;
   }
-  load("数据加载中");
-  getRequest(`/dbsearch-manage/dbsearch/dbinfoEntity/openConn/${dbIndex.value}`).then((res) => {
-        tableList.value = {};
-        if (res.data.code != 0) {
-          error(res.data.cnMessage);
-          return;
-        }
-        tableAndColumnsList.value = res.data.data;
-        assignDataList.value = tableAndColumnsList.value;
-        currentIndex.value = dbIndex.value;
-      }
-  ).finally(() => {
-    closeLoad();
+
+  openDatabase(dbIndex.value)?.then((res: any) => {
+    tableAndColumnsList.value = res;
+    tableAndColumnsList.value.forEach((item: any) => {
+      item['visible'] = false;
+      item['containerType'] = "box";
+      item["columns"] = configData.value.columns;
+    });
+    assignDataList.value = tableAndColumnsList.value;
   });
+
+  currentIndex.value = dbIndex.value;
 };
 
+const selectFieldsOperation = (datas: any) => {
+  datas?.forEach((item: any) => {
+    selectFields.value.push({
+      name: item.fieldName + '(' + item.comment + ')',
+      value: item.fieldName
+    })
+  })
+};
 const tableField = async (tableName: string) => {
   let fdata = tableAndColumnsList.value.find((item: any) => item.tableName == tableName);
   if (fdata?.fields?.length > 0) {
@@ -52,17 +189,7 @@ const tableField = async (tableName: string) => {
   } else {
     fdata['fields'] = [];
   }
-  load(`${tableName}的属性加载中`);
-  await getRequest(`/dbsearch-manage/dbsearch/dbinfoEntity/tableColumns/${dbIndex.value}/${tableName}`)
-      .then((res) => {
-        if (res.data.code != 0) {
-          warning(res.data.cnMessage);
-          return fdata;
-        }
-        fdata['fields'] = res.data.data;
-      }).finally(() => {
-        closeLoad();
-      });
+  fdata['fields'] = await tableColumns(currentIndex.value, tableName);
   return fdata;
 };
 const filterData = () => {
@@ -105,22 +232,32 @@ const onDataCopy = async (data: any) => {
     warning(`${tableInfo}属性异常，请检查`);
     return {};
   }
+  let compLength = compList.value.length;
   let fieldList = JSON.parse(JSON.stringify(tableInfo.fields));
   let mvDataList = [];
   let config = unref(configData);
-  let formInfo = {};
-
+  let formInfo: any = {
+    tbName: tableName,
+    formName: data.comment || ""
+  };
   for (let i in fieldList) {
     let reData = fieldList[i];
+    let fieldName = convertToCamelCase(reData.fieldName.toLowerCase());
     let ms = formFieldList.value["index"]++;
     if (reData.commonField?.toLowerCase() == "y" && config.commonField?.toLowerCase() == "n") {
       continue;
     }
+
     if (reData.primaryKey?.toLowerCase() == "y") {
-      formInfo["formId"] = reData.fieldName;
+      formInfo["formId"] = fieldName;
       continue;
     }
-    let mvData = {};
+    //如果有过滤的字段，则跳过
+    let fResult = data.exclusionFields?.find((item: string) => item == reData.fieldName);
+    if (fResult) {
+      continue;
+    }
+    let mvData: any = {};
     mvData['id'] = 'persistId' + ms;
     /**
      * 处理preps
@@ -134,21 +271,24 @@ const onDataCopy = async (data: any) => {
       formShow: "yes",
       placeholder: "",
     };
-    if (reData.defaultValue) {
-      mvData.preps[temp.fieldName] = temp.defaultValue;
-    }
+
     mvData['itemType'] = getFieldType(reData);
     mvData.preps['id'] = mvData['id'];
     mvData.preps['label'] = reData.comment;
-    mvData.preps['name'] = reData.fieldName.toLowerCase();
-    formFieldList.value[reData.fieldName] = getDefaultVal(mvData['itemType']);
+    mvData.preps['name'] = fieldName;
+    formFieldList.value[fieldName] = getDefaultVal(mvData['itemType']);
     mvData['compType'] = "formItem";
     mvDataList.push(mvData);
   }
-  if (config.columns > 1) {
-    let elements = [];
+
+  if (compLength == 0 || compLength == 1) {
+    designForm.setFormInfo(formInfo);
+  }
+  let elements = [];
+  if ((config.columns > 1 || data.columns > 1) && data.containerType == "box") {
+    let boxColumns = data.columns > 1 ? data.columns : config.columns;
     let boxId = "box" + formFieldList.value["index"]++;
-    let box = {
+    let box: any = {
       id: boxId,
       compType: "container",
       itemType: "box",
@@ -156,7 +296,6 @@ const onDataCopy = async (data: any) => {
         id: boxId,
         "formShow": "no",
         "gutter": 0,
-        "id": "Id1",
         "justify": "start",
         "readonly": "no",
         "required": "no",
@@ -168,8 +307,7 @@ const onDataCopy = async (data: any) => {
         name: "box",
       }
     };
-    console.log(mvDataList.length, config.columns);
-    let col = parseInt(config.columns);
+    let col = parseInt(boxColumns);
     let rows = mvDataList.length % col == 0 ?
         mvDataList.length / col
         : (mvDataList.length / col) + 1;
@@ -191,6 +329,40 @@ const onDataCopy = async (data: any) => {
     box.preps["elements"] = elements;
     designForm.setDraggingItem(mvDataList[0]);
     return box;
+  } else if (data.containerType == "table") {
+    let tableId = "table" + formFieldList.value["index"]++;
+    let table: any = {
+      id: tableId,
+      compType: "container",
+      itemType: "table",
+      preps: {
+        id: tableId,
+        "align": "top",
+        "batchFieldName": convertToCamelCase(tableName),
+        "columns": mvDataList.length,
+        "comment": "",
+        "formShow": "no",
+        "readonly": "no",
+        "required": "no",
+        "searchShow": "no",
+        "size": "small",
+        "tableShow": "no",
+        label: "动态列表",
+        templateDownFlag: "no",
+        importFlag: "no",
+        name: "table",
+      }
+    };
+    for (let index in mvDataList) {
+      let temp = mvDataList[index];
+      elements.push({
+        colIndex: parseInt(index) + 1,
+        items: [temp]
+      })
+    }
+    table.preps["elements"] = elements;
+    designForm.setDraggingItem(mvDataList[0]);
+    return table;
   } else {
     designForm.setDraggingItem(mvDataList[0]);
     return mvDataList;
@@ -203,12 +375,57 @@ const closeAction = () => {
 const viewConfig = () => {
   configDialogVisible.value = true;
 };
+const configMsg = `操作指引：
+1、此处配置主要是对字段展示方式,排除字段和组件类型做配置；
+1、表字段在添加到舞台前需要做配置，配置好后再拖入舞台，
+   否则配置不生效；
+3、其他细节配置需要在舞台中进行处理`;
 onMounted(() => {
   init();
 });
 </script>
 
 <template>
+  <star-horse-dialog :box-width="640" :dialog-visible="currentDataVisible"
+                     self-func="true"
+                     :is-show-btn-continue="false"
+                     @reset="dataReset"
+                     @closeAction="tableOperClose"
+                     @merge="tableSubmit"
+  >
+    <el-tabs v-model="tbTab">
+      <el-tab-pane name="tb1">
+        <template #label><span><star-horse-icon icon-class="config" color="var(--star-horse-style)"/>风格设置
+          <help :width="400" :message="configMsg"/></span>
+        </template>
+        <star-horse-form :field-list="dataFieldInfo"/>
+      </el-tab-pane>
+      <el-tab-pane name="tb2" label="表格属性">
+        <el-scrollbar height="600px">
+          <table class="el-table field-table" style="width: 100%;overflow: auto;">
+            <thead>
+            <tr>
+              <th>名称</th>
+              <th>类型</th>
+              <th>空标识</th>
+              <th>主键</th>
+              <th>备注</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="sdata in currentData.fields">
+              <td>{{ sdata.fieldName }}</td>
+              <td>{{ sdata.type }}</td>
+              <td>{{ sdata.nullFlag }}</td>
+              <td>{{ sdata.primaryKey }}</td>
+              <td>{{ sdata.comment }}</td>
+            </tr>
+            </tbody>
+          </table>
+        </el-scrollbar>
+      </el-tab-pane>
+    </el-tabs>
+  </star-horse-dialog>
   <star-horse-dialog
       :dialogVisible="configDialogVisible"
       @closeAction="closeAction"
@@ -262,8 +479,6 @@ onMounted(() => {
         :clone="onDataCopy"
         :group="{name: 'starHorseGroup', pull: 'clone', put: false}"
         :sort="false"
-        @end="onEnd"
-        @start="onStart"
         animation="300"
         ghost-class="ghost"
         item-key="index"
@@ -271,44 +486,33 @@ onMounted(() => {
         v-model="assignDataList"
     >
       <template v-for="(data, index) in assignDataList">
-        <el-popover :width="640" placement="right" trigger="contextmenu">
-          <template #reference>
-            <li @click="onDataCopy(data)">
-              <star-horse-icon icon-class="table" style="margin-top: 5px;height: 18px"/>
-              <el-tooltip :content="data.comment">
-                {{ data.tableName }}
-              </el-tooltip>
-            </li>
-          </template>
-          <table class="el-table field-table" style="width: 100%;overflow: auto;">
-            <thead>
-            <tr>
-              <th>名称</th>
-              <th>类型</th>
-              <th>空标识</th>
-              <th>主键</th>
-              <th>备注</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr v-for="sdata in data.fields">
-              <td>{{ sdata.fieldName }}</td>
-              <td>{{ sdata.type }}</td>
-              <td>{{ sdata.nullFlag }}</td>
-              <td>{{ sdata.primaryKey }}</td>
-              <td>{{ sdata.comment }}</td>
-            </tr>
-            </tbody>
-          </table>
-        </el-popover>
+        <li :style="{
+          'border':currentData.tableName==data.tableName?'2px dotted var(--star-horse-style)':'none',
+          'align-items':'center'
+        }">
+          <star-horse-icon icon-class="table" style="height: 18px"/>
+          <el-tooltip :content="data.comment">
+            {{ data.tableName }}
+          </el-tooltip>
+          <star-horse-icon title="查看&配置" icon-class="setting" style="color:var(--star-horse-style);cursor: pointer"
+                           @click="(evt)=>contextOperation(evt,data,index)"/>
+        </li>
       </template>
     </draggable>
   </el-scrollbar>
+
 </template>
 
 <style scoped lang="scss">
 :deep(.el-popover) {
   overflow-x: hidden;
+}
+
+.popover-header {
+  display: flex;
+  background: var(--star-horse-style);
+  height: 30px;
+  justify-content: end;
 }
 
 ul {

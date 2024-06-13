@@ -97,7 +97,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       minWidth: 180
     },
     {
-      label: "创建人", disabled: true,
+      label: "创建人", disabled: "yes",
       fieldName: "createdBy",
       type: "input",
       required: false,
@@ -106,7 +106,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       minWidth: 180
     },
     {
-      label: "修改人", disabled: true,
+      label: "修改人", disabled: "yes",
       fieldName: "updatedBy",
       type: "input",
       required: false,
@@ -115,7 +115,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       minWidth: 180
     },
     {
-      label: "创建日期", disabled: true,
+      label: "创建日期", disabled: "yes",
       fieldName: "createdDate",
       type: "date",
       required: false,
@@ -124,7 +124,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       minWidth: 180
     },
     {
-      label: "修改日期", disabled: true,
+      label: "修改日期", disabled: "yes",
       fieldName: "updatedDate",
       type: "date",
       required: false,

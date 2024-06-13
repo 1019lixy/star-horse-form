@@ -17,13 +17,14 @@ export const DesignForm: any = defineStore("DesignForm", {
              * 自定义组件列表
              */
             selfFormDataList: [],
+            allFormDataList: [],
             /**
              * 表单信息
              */
             formInfo: {},
 
             /**
-             * 设计器里得组件列表
+             * 设计器里的组件列表
              */
             compList: [] as Array<any>,
             /**
@@ -73,6 +74,9 @@ export const DesignForm: any = defineStore("DesignForm", {
         },
         getSelfFormDataList(state) {
             return state.selfFormDataList;
+        },
+        getAllFormDataList(state) {
+            return state.allFormDataList;
         },
         getFormInfo(state) {
             return state.formInfo;
@@ -129,7 +133,11 @@ export const DesignForm: any = defineStore("DesignForm", {
          * @param formInfo
          */
         setFormInfo(formInfo: any) {
-            this.formInfo = formInfo;
+            let _this = this;
+            _this.formInfo = {
+                ..._this.formInfo,
+                ...formInfo
+            };
         },
         setCompList(compList: Array<any>) {
             this.compList = compList;
@@ -140,15 +148,11 @@ export const DesignForm: any = defineStore("DesignForm", {
          */
         addComp(comp: any) {
             //如果已存在，则要过滤掉,不能重复添加
-            let _this=this;
-            let compList=_this.compList;
+            let _this = this;
             if (comp instanceof Array) {
-                comp.forEach(item=>{
-                   // compList.
-                })
-                this.compList = [...this.compList, ...comp];
+                _this.compList = [..._this.compList, ...comp];
             } else {
-                this.compList.push(comp);
+                _this.compList.push(comp);
             }
         },
         setFormFieldList(formFieldList: any) {
@@ -178,6 +182,25 @@ export const DesignForm: any = defineStore("DesignForm", {
          */
         setDraggingItem(draggingItem: any) {
             this.draggingItem = draggingItem;
+        },
+        /**
+         * 删除数据
+         */
+        removePromise() {
+            let _this = this;
+            let comps = _this.compList;
+            for (let i = 0; i < comps.length; i++) {
+                let temp = comps[i];
+                if (temp instanceof Promise) {
+                    temp.then(res => {
+                        if (res instanceof Array) {
+                            comps.splice(i, 1, ...res);
+                        } else {
+                            comps.splice(i, 1, res);
+                        }
+                    })
+                }
+            }
         },
         /**
          * 清除所有数据
@@ -253,10 +276,17 @@ export const DesignForm: any = defineStore("DesignForm", {
                     _this.selfFormDataList = result.data;
                 };
                 const init = async () => {
+                    let _this = this;
                     await initContainer();
                     await initItems();
                     await initSelfItems();
-
+                    let temp: Array = [..._this.formDataList, ..._this.selfFormDataList];
+                    temp.forEach((item: any) => {
+                        _this.allFormDataList.push({
+                            name: item.itemName,
+                            value: item.itemType
+                        })
+                    });
                 };
                 init();
             }

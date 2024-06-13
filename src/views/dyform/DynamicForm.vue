@@ -15,6 +15,7 @@ import {formActions} from "@/views/dyform/utils/DynamicForm.ts";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
 import {validDynamicFormCompParams} from "@/views/dyform/utils/preview.ts";
+import CodeComp from "@/views/dyform/code/CodeComp.vue";
 
 const dataUrl = reactive<ApiUrls>(<ApiUrls>{
   loadByPageUrl: "/userdb-manage/userdb/dynamicForm/pageList",
@@ -69,7 +70,7 @@ const loadFormData = async (formId: any, isParent: boolean) => {
   if (data["relations"]) {
     formInfo.value["relations"] = JSON.parse(data["relations"]);
   }
-    designForm.setCompList(JSON.parse(data["details"].content));
+  designForm.setCompList(JSON.parse(data["details"].content));
   designForm.setFormFieldList(JSON.parse(data["details"].fieldNames));
   data["details"] = {};
   designForm.setIsEdit(true);
@@ -100,6 +101,14 @@ watch(
     },
     {immediate: true, deep: true}
 );
+watch(() => list.value,
+    (val) => {
+      designForm.removePromise()
+    }, {
+      immediate: true,
+      deep: true
+    }
+)
 /**
  * 加载Form数据
  * @param id
@@ -110,6 +119,7 @@ const closeAction = () => {
   isPreview.value = false;
   batchEditFieldVisible.value = false;
   configDialogVisible.value = false;
+  codeDialogVisible.value = false;
 };
 const clearData = (flag: boolean = true) => {
   designForm.clearAll(flag);
@@ -120,6 +130,12 @@ const preview = () => {
   designForm.setIsEdit(false);
 };
 const formPropertyRef = ref();
+/**
+ * 代码操作
+ */
+const codeDoSave = () => {
+
+};
 const doSave = async () => {
   if (!isSubmit.value) {
     closeAction();
@@ -180,7 +196,7 @@ const getComponentName = (data: any) => {
 const dataChange = (evt: Event, dataList: Array<any>) => {
   console.log(evt, dataList);
 };
-const onDragAdd = (evt: Event, dataList: Array<any>) => {
+const onDragAdd = async (evt: Event, dataList: Array<any>) => {
   console.log(evt, dataList);
   let index = evt.oldIndex;
   if (draggingItem.value.itemType == 'table') {
@@ -202,16 +218,6 @@ const onDragAdd = (evt: Event, dataList: Array<any>) => {
   if (!draggingItem.value) {
     return;
   }
-  if (dataList[index] instanceof Promise) {
-    let data = dataList[index] as Promise;
-    data.then(res => {
-      dataList.splice(index, 1);
-      designForm.addComp(res);
-
-    });
- //   console.log(data, "********************************");
-  }
-
   if (draggingItem.value instanceof Array) {
     let temp = draggingItem.value[draggingItem.value.length - 1];
     designForm.selectItem(temp, temp["itemType"], "");
@@ -221,12 +227,13 @@ const onDragAdd = (evt: Event, dataList: Array<any>) => {
 
 };
 const createCode = () => {
-  warning("该功能还未上线");
+  codeDialogVisible.value = true;
 };
 const batchEdit = () => {
   batchEditFieldVisible.value = true;
 };
 const configDialogVisible = ref(false);
+const codeDialogVisible = ref(false);
 const isSubmit = ref(false);
 const tableEdit = (submit: boolean) => {
   isSubmit.value = submit;
@@ -295,6 +302,16 @@ const actions = (action: string) => {
 
 <template>
   <star-horse-dialog
+      :dialogVisible="codeDialogVisible"
+      @closeAction="closeAction"
+      :selfFunc="true"
+      :full-screen="true"
+      @merge="codeDoSave"
+      :title="'代码'"
+  >
+    <code-comp/>
+  </star-horse-dialog>
+  <star-horse-dialog
       :dialogVisible="configDialogVisible"
       @closeAction="closeAction"
       :selfFunc="true"
@@ -338,7 +355,6 @@ const actions = (action: string) => {
     </template>
 
   </star-horse-dialog>
-
   <star-horse-dialog
       :dialogVisible="isPreview"
       @closeAction="closeAction"
@@ -367,7 +383,6 @@ const actions = (action: string) => {
   </star-horse-dialog>
 
   <el-card class="inner_content">
-
     <div class="form_content">
       <div class="side-panel" v-show="leftPanelVisible">
         <field-panel ref="fieldPanelRef"/>
@@ -427,7 +442,6 @@ const actions = (action: string) => {
 
               <draggable
                   @add="(evt) => onDragAdd(evt, list)"
-                  @ended="(evt)=>console.log(evt)"
                   class="main-design"
                   :animation="100"
                   group="starHorseGroup"
@@ -435,24 +449,27 @@ const actions = (action: string) => {
                   ghostClass="ghost"
                   :list="list"
               >
-                <template v-for="(data, index) in list">
-                  <component
-                      :key="data.id"
-                      :field="data"
-                      :is="data.itemType + '-container'"
-                      :formFieldList="formFieldList"
-                      v-if="data.compType === 'container'"
-                  />
-                  <component
-                      :key="data.id"
-                      :field="data"
-                      :is="getComponentName(data)"
-                      :parentCompType="'item'"
-                      :formFieldList="formFieldList"
-                      v-else-if="data.compType == 'formItem'"
-                  />
-                </template>
+                <el-scrollbar height="100%">
+                  <template v-for="(data, index) in list">
+                    <component
+                        :key="data.id"
+                        :field="data"
+                        :is="data.itemType + '-container'"
+                        :formFieldList="formFieldList"
+                        v-if="data.compType === 'container'"
+                    />
+                    <component
+                        :key="data.id"
+                        :field="data"
+                        :is="getComponentName(data)"
+                        :parentCompType="'item'"
+                        :formFieldList="formFieldList"
+                        v-else-if="data.compType == 'formItem'"
+                    />
+                  </template>
+                </el-scrollbar>
               </draggable>
+
             </el-form>
           </div>
           <div class="side-panel-item" v-show="rightPanelVisible">
@@ -543,7 +560,7 @@ const actions = (action: string) => {
           height: 99%;
           width: inherit;
           margin: 3px 5px;
-          overflow-y: auto;
+          overflow: hidden;
           background: rgba(255, 255, 255, 0.8);
         }
       }

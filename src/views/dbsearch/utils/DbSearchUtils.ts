@@ -1,6 +1,32 @@
-import {loadGetData} from "@/api/sh_api.ts";
-import {warning} from "@/utils/message.ts";
+import {warning, error} from "@/utils/message.ts";
 import {SelectOption} from "@/components/types/SearchProps";
+import {closeLoad, load, loadGetData} from "@/api/sh_api.ts";
+import {getRequest} from "@/api/star_horse.ts";
+
+/**
+ * 打开数据库，并返回所以表信息
+ * @param configId
+ */
+export function openDatabase(configId: any): Promise<any> | null {
+    if (!configId) {
+        return null;
+    }
+    load("数据加载中");
+    return new Promise<any>((resolve, reject) => {
+        getRequest(`/dbsearch-manage/dbsearch/dbinfoEntity/openConn/${configId}`).then((res: any) => {
+                if (res.data.code != 0) {
+                    error(res.data.cnMessage);
+                    return;
+                }
+                resolve(res.data.data);
+            }
+        ).catch((err: any) => {
+            reject(err)
+        }).finally(() => {
+            closeLoad();
+        });
+    });
+}
 
 /**
  * 初始化当前用户权限的数据库配置信息
@@ -9,10 +35,10 @@ export async function initDbList(): Array<SelectOption> {
     let {data, error} = await loadGetData("/dbsearch-manage/dbsearch/dbinfoEntity/getDbInfoByUser");
     if (error) {
         warning(error);
-        return
+        return [];
     }
     let redata: Array<SelectOption> = [];
-    data.forEach(item => {
+    data.forEach((item: any) => {
         redata.push({
             name: item.name,
             value: item.configId + ""
@@ -22,24 +48,47 @@ export async function initDbList(): Array<SelectOption> {
 }
 
 /**
- * 获取所有数据库表信息
+ * 获取数据库所有表信息
  * @param configId
  */
 export async function tableList(configId: number): Array<SelectOption> {
     let {data, error} = await loadGetData(`/dbsearch-manage/dbsearch/dbinfoEntity/tableList/${configId}`);
     if (error) {
         warning(error);
-        return
+        return [];
     }
     let redata: Array<SelectOption> = [];
-    data.forEach(item => {
+    data.forEach((item: any) => {
         if (!item.tableName.includes("BIN$")) {
             redata.push({
                 name: (item.comment || '') + `(${item.tableName})`,
                 value: item.tableName
             })
         }
-
     })
+    return redata;
+}
+
+/**
+ * 获取指定表的所有字段信息
+ * @param configId 数据库配置Id
+ * @param tableName 表名
+ */
+export async function tableColumns(configId: any, tableName: string): Array<any> {
+    let redata: Array<any> = [];
+    if (!tableName) {
+        return redata;
+    }
+    load("数据加载中");
+    await getRequest(`/dbsearch-manage/dbsearch/dbinfoEntity/tableColumns/${configId}/${tableName}`)
+        .then((res: any) => {
+            if (res.data.code != 0) {
+                warning(res.data.cnMessage);
+                return;
+            }
+            redata = res.data.data;
+        }).finally(() => {
+            closeLoad();
+        });
     return redata;
 }

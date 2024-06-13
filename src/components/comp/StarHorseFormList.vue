@@ -9,6 +9,7 @@ import {error, success, warning} from "@/utils/message";
 import {download} from "@/api/star_horse";
 import {getToken} from "@/utils/auth";
 import Sortable from "sortablejs";
+import Help from "@/components/help.vue";
 
 let importDialogVisible = ref<Boolean>(false);
 const props = defineProps({
@@ -20,6 +21,7 @@ const props = defineProps({
   initRows: {type: Number, default: 1},
   importInfo: {type: Object},
   title: {type: String, default: ""},
+  helpMsg: {type: String, default: ""},
   rules: {type: Object},
   size: {type: String, default: "small"},
   isView: {type: Boolean, default: false},
@@ -192,6 +194,7 @@ const moveColumn = () => {
       <div class="tb_title">
         <star-horse-icon icon-class="info" size="14px"/>
         {{ title }}
+        <help v-if="helpMsg" :message="helpMsg" :width="400"/>
       </div>
       <div style="display: flex;align-items: center;flex-direction: row-reverse">
         <ul class="inner_button" v-if="!isView">

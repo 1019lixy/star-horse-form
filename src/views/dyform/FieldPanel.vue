@@ -169,7 +169,7 @@ const onRemove = () => {
     <el-tab-pane name="dbinfo">
       <template #label>
         <star-horse-icon icon-class="database"
-                         style="color: var(--star-horse-style)"/>&nbsp;<span>数据库</span>
+                         style="color: var(--star-horse-style)"/>&nbsp;<span>数据源</span>
       </template>
       <db-list-comp/>
     </el-tab-pane>

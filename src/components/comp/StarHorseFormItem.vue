@@ -47,6 +47,7 @@ const validMsg = (item: any) => {
 };
 </script>
 <template>
+
   <template v-for="item in fieldList.fieldList">
     <el-row v-if="item instanceof Array">
       <template v-for="sitem in item">
@@ -97,13 +98,17 @@ const validMsg = (item: any) => {
 
       </el-tabs>
     </template>
+
     <star-horse-item v-else-if="item.type=='comp'||item.type=='button'" :isView="isView" :primaryKey="primaryKey"
                      v-model:dataForm="dataForm"
                      :item="item"
                      :isEdit="!dialogProps?.ids||dialogProps?.ids==-1"/>
+
     <template v-else-if="item.batchFieldList&&item.batchFieldList.length>0">
       <template v-if="item.batchFieldList.length>1">
+        sss
         <el-tabs v-model="normalTabList">
+
           <template v-for="(sitem,key) in item.batchFieldList">
             <el-tab-pane :label="sitem['title']" :name="'tab'+key" :disabled="sitem.disabled">
               <star-horse-form-table :rules="rules" :item="sitem" :size="compSize" v-model:dataForm="dataForm"/>

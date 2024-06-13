@@ -8,7 +8,7 @@ import {SelectOption} from "@/components/types/SearchProps";
 import * as ElementPlusIconsVue from '@element-plus/icons-vue';
 import {MenusInfo} from "@/components/types/MenusInfo";
 import {FieldInfo, PageFieldInfo, TabFieldInfo} from "@/components/types/PageFieldInfo";
-import {BatchFieldInfo} from "../components/types/PageFieldInfo";
+import {BatchFieldInfo} from "@/components/types/PageFieldInfo";
 
 let loading: any = null;
 /**
@@ -274,7 +274,7 @@ export async function loadPagePermission() {
 
 export function commonDataFormat(row: any, column: any, cellValue: any, index: number) {
     return commonParseCodeToName(column.property, cellValue);
-};
+}
 
 /**
  * 下划线转驼峰
@@ -284,10 +284,24 @@ export function convertToCamelCase(str: string) {
     if (!str) {
         return undefined;
     }
-    return str.replace(/_([a-z])/g, function (match, p1) {
+    str = str.toLowerCase();
+    return str.replace(/_(\w)/g, function (match, p1) {
         return p1.toUpperCase();
     });
-};
+}
+
+/**
+ * 驼峰转下划线
+ * @param str
+ */
+export function camelCaseToUnderline(str: string) {
+    if (!str) {
+        return undefined;
+    }
+    return str.replace(/[A-Z]/g, function (match, p1) {
+        return "_" + match.toLowerCase();
+    });
+}
 
 /**
  * 数据格式化
@@ -311,7 +325,7 @@ export function commonParseCodeToName(name: string, cellValue: any) {
     } else {
         return cellValue;
     }
-};
+}
 
 /**
  * 创建日期
@@ -324,7 +338,7 @@ export function createDate(val: any) {
     }
     let date = new Date(val);
     return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
-};
+}
 
 
 /**
@@ -342,7 +356,7 @@ export function createDatetime(val: any) {
     let hour = date.getHours() < 10 ? '0' + date.getHours() : date.getHours();
     let minute = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
     return date.getFullYear() + "-" + m1 + "-" + day + " " + hour + ":" + minute;
-};
+}
 
 /**
  * 加载Id数据
@@ -406,34 +420,6 @@ export async function deleteByIds(url: string, ids: any) {
     return objData;
 };
 
-/**
- * 根据字典类别获取字典数据
- * @param dictType 字典类别
- * @param nameValueSame 名字和值取相同的
- */
-export async function mesDictData(dictType: string, nameValueSame: boolean = true) {
-    let query = [];
-    query.push({
-        "propertyName": "dictCode",
-        "value": dictType
-    });
-    let dicts: SelectOption[] = [];
-    await postRequest(mesDictUrl, {
-        fieldList: query,
-        orderBy: [{fieldName: "dispIndx", ascOrDesc: "asc"}]
-    }).then(res => {
-        let redata = res.data;
-        if (redata.code == 0) {
-            redata.data.forEach((item: any) => {
-                dicts.push({name: item.value, value: nameValueSame ? item.value : item.code});
-            });
-        }
-
-    }).catch(err => {
-        console.log("接口不存在或网络异常", err);
-    });
-    return dicts;
-};
 
 /**
  * 根据字典类别获取字典数据
@@ -455,11 +441,11 @@ export async function dictData(dictType: string) {
             });
         }
 
-    }).catch(err => {
+    }).catch((err:any) => {
         console.log("接口不存在或网络异常", err);
     });
     return dicts;
-};
+}
 
 /**
  * 加载ElementPlus 提供的官方矢量图标
@@ -596,7 +582,7 @@ export function formFieldMapping(fieldList: PageFieldInfo) {
     const tabOperation = (data: TabFieldInfo) => {
         let fieldList = data.fieldList as Array<FieldInfo>;
         if (data.subFormFlag) {
-            defaultDatas[data.tabName] = [];
+            defaultDatas[data.tabName] = {};
             //如果是子表
             fieldsOperation(fieldList, defaultDatas[data.tabName]);
         } else {
@@ -607,7 +593,7 @@ export function formFieldMapping(fieldList: PageFieldInfo) {
         for (let key in batchTempList) {
             let temp = batchTempList[key];
             if (!defaultDatas[temp.batchName]) {
-                defaultDatas[temp.batchName] = {};
+                defaultDatas[temp.batchName] = [];
             }
             let fieldList = temp.fieldList as Array<FieldInfo>;
             fieldList?.forEach(item => {

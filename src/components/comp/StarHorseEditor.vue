@@ -1,14 +1,14 @@
-<script setup lang = "ts" name = "StarHorseEditor">
+<script setup lang="ts" name="StarHorseEditor">
 import {nextTick, onMounted, ref} from "vue";
 import {basicSetup} from 'codemirror';
 import {EditorView, keymap} from "@codemirror/view";
 import {Compartment} from "@codemirror/state";
 import {historyKeymap} from "@codemirror/history";
 import {insertTab, standardKeymap} from "@codemirror/commands";
-import {autocompletion,CompletionContext} from '@codemirror/autocomplete';
+import {autocompletion, CompletionContext} from '@codemirror/autocomplete';
 import {python} from "@codemirror/lang-python";
 import {javascript, javascriptLanguage, scopeCompletionSource} from "@codemirror/lang-javascript";
-import {java,javaLanguage} from "@codemirror/lang-java";
+import {java, javaLanguage} from "@codemirror/lang-java";
 import {json} from "@codemirror/lang-json";
 import {yaml} from "@codemirror/lang-yaml";
 import {css} from "@codemirror/lang-css";
@@ -82,14 +82,14 @@ const currentValFun = (val: string) => {
   // console.log(val);
 };
 // 自定义自动完成函数
-const  javaHint=(context: CompletionContext)=> {
+const javaHint = (context: CompletionContext) => {
   let word = context.matchBefore(/\w*/)
   if (word.from == word.to && !context.explicit)
     return null
   return {
     from: word.from,
     options: [
-        ...javaKeywords
+      ...javaKeywords
     ]
   }
 }
@@ -110,8 +110,8 @@ const langInfo = (lang: string) => {
   editor.value?.dispatch(disData);
 
 };
-const javaCompletions=javaLanguage.data.of({
-  autocomplete:javaHint
+const javaCompletions = javaLanguage.data.of({
+  autocomplete: javaHint
 })
 const windowCompletions = javascriptLanguage.data.of({
   autocomplete: scopeCompletionSource(window)
@@ -131,7 +131,7 @@ const init = async () => {
   });
   let create = (v: EditorView) => {
     const dom = document.createElement('div');
-    return { dom }
+    return {dom}
   }
   editor.value = new EditorView({
     doc: model.value,
@@ -149,12 +149,12 @@ const init = async () => {
           currentValFun(model.value);
         }
       }),
-      showMinimap.compute(['doc'],(state:any)=>{
-        return{
+      showMinimap.compute(['doc'], (state: any) => {
+        return {
           create,
-          displayText:"blocks",
-          showOverlay:"always",
-          gutters:[{ 1: '#00FF00', 2: '#00FF00' } ]
+          displayText: "blocks",
+          showOverlay: "always",
+          gutters: [{1: '#00FF00', 2: '#00FF00'}]
         }
       })
     ],
@@ -186,40 +186,45 @@ const setAutoCompletion = (dbName: string, datas: any) => {
   });
   langInfo("sql");
 };
+const setValue = (val: any) => {
+  editor.value?.dispatch({
+    changes: {from: 0, to: editor.value.state.doc.length, insert: val}
+  })
+}
 defineExpose({
-  editor, setAutoCompletion
+  editor, setValue, setAutoCompletion
 })
 </script>
 <template>
-  <div class = "inner_button">
+  <div class="inner_button">
     <el-dropdown>
-    <span class = "el-dropdown-link">
+    <span class="el-dropdown-link">
       主题
-      <el-icon class = "el-icon--right">
+      <el-icon class="el-icon--right">
         <arrow-down/>
       </el-icon>
     </span>
       <template #dropdown>
         <el-dropdown-menu>
-          <el-dropdown-item @click = "customerTheme(item.value)" v-for = "item in themes">
-            <star-horse-icon :icon-class = "item.icon" color = "gray" size = "14px"/>
+          <el-dropdown-item @click="customerTheme(item.value)" v-for="item in themes">
+            <star-horse-icon :icon-class="item.icon" color="gray" size="14px"/>
             {{ item.name }}
           </el-dropdown-item>
         </el-dropdown-menu>
       </template>
     </el-dropdown>
     &nbsp;&nbsp;
-    <el-dropdown v-if = "!lang">
-    <span class = "el-dropdown-link">
+    <el-dropdown v-if="!lang">
+    <span class="el-dropdown-link">
       语言
-      <el-icon class = "el-icon--right">
+      <el-icon class="el-icon--right">
         <arrow-down/>
       </el-icon>
     </span>
       <template #dropdown>
         <el-dropdown-menu>
-          <el-dropdown-item @click = "langInfo(item.value)" v-for = "item in languages">
-            <star-horse-icon :icon-class = "item.icon" color = "gray" size = "14px"/>
+          <el-dropdown-item @click="langInfo(item.value)" v-for="item in languages">
+            <star-horse-icon :icon-class="item.icon" color="gray" size="14px"/>
             {{ item.name }}
           </el-dropdown-item>
 
@@ -227,9 +232,9 @@ defineExpose({
       </template>
     </el-dropdown>
   </div>
-  <div ref = "codemirror" class = "coder"></div>
+  <div ref="codemirror" class="coder"></div>
 </template>
-<style lang = "scss" scoped>
+<style lang="scss" scoped>
 .inner_button {
   margin-bottom: 10px;
 }

@@ -286,7 +286,7 @@ onMounted(() => {
 
 .field-item {
   position: relative;
-  width: inherit;
+  width: 98%;
 
   &:hover + .field-action {
     opacity: 1

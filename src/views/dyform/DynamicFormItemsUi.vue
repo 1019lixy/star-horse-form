@@ -92,7 +92,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       minWidth: 180
     },
     {
-      label: "创建人", disabled: true,
+      label: "创建人", disabled: "yes",
       fieldName: "createdBy",
       type: "input",
       required: false,
@@ -110,7 +110,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       minWidth: 180
     },
     {
-      label: "修改人", disabled: true,
+      label: "修改人", disabled: "yes",
       fieldName: "updatedBy",
       type: "input",
       required: false,
@@ -200,9 +200,7 @@ const primaryKey = "idFormItems";
 const dynamicFormItemsRef = ref();
 
 //校验
-const rules = {
-
-};
+const rules = {};
 const searchForm = ref({});
 //全局查询对象
 provide("searchForm", searchForm);

@@ -55,22 +55,22 @@ const tableFieldList = reactive({
       tableShow: !true, minWidth: 180
     },
     {
-      label: "创建人", disabled: true, fieldName: "createdBy", type: "input",
+      label: "创建人", disabled: "yes", fieldName: "createdBy", type: "input",
       required: false, formShow: !true,
       tableShow: !true, minWidth: 180
     },
     {
-      label: "修改人", disabled: true, fieldName: "updatedBy", type: "input",
+      label: "修改人", disabled: "yes", fieldName: "updatedBy", type: "input",
       required: false, formShow: !true,
       tableShow: !true, minWidth: 180
     },
     {
-      label: "创建日期", disabled: true, fieldName: "createdDate", type: "date",
+      label: "创建日期", disabled: "yes", fieldName: "createdDate", type: "date",
       required: false, formShow: !true,
       tableShow: !true, minWidth: 180
     },
     {
-      label: "修改日期", disabled: true, fieldName: "updatedDate", type: "date",
+      label: "修改日期", disabled: "yes", fieldName: "updatedDate", type: "date",
       required: false, formShow: !true,
       tableShow: !true, minWidth: 180
     },

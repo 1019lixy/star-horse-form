@@ -64,7 +64,7 @@ const removeData = () => {
 </template>
 <style lang="scss" scoped>
 .field-item {
-  width: 100%;
+  width: inherit;
   position: relative;
   padding: 3px;
   z-index: 999;

@@ -12,11 +12,11 @@ import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import piniaInstance from "@/store";
 
 const props = defineProps({
-  compUrl: {type: Object as PropType<ApiUrls>, required: true},
+  compUrl: {type: Object as PropType<ApiUrls>,},
   fieldList: {type: Object as PropType<PageFieldInfo>, required: true},
   batchName: {type: String, default: "batchDataList"},
   batchFieldName: {type: String, default: "batchFieldList"},
-  primaryKey: {type: String, required: true},
+  primaryKey: {type: String,},
   rules: {type: Object},
   isView: {type: Boolean, default: false},
 });
