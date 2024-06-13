@@ -11,7 +11,7 @@ import {getToken} from "@/utils/auth";
 import Sortable from "sortablejs";
 import Help from "@/components/help.vue";
 
-let importDialogVisible = ref<Boolean>(false);
+let importDialogVisible = ref<boolean>(false);
 const props = defineProps({
   compUrl: {type: Object as PropType<ApiUrls>, required: true},
   fieldList: {type: Object, required: true},

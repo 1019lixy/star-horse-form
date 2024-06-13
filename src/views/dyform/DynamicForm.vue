@@ -251,18 +251,18 @@ const helpMessage =
   4、
   5、
 `;
-let leftPanelVisible = ref<Boolean>(true);
-let rightPanelVisible = ref<Boolean>(true);
+let leftPanelVisible = ref<boolean>(true);
+let rightPanelVisible = ref<boolean>(true);
 let processMsg = `
-1,前后端Tab里的嵌套栅格，字段还没有解析
-2、优化后前端页面联动效果没有验证
-3、数据合法性校验没有做（主要考虑其字段重复，集合Key的重复）
-4、组件必须项参数没有做校验
-5、生成Vue 代码没有实现
-6、后退和前进没有实现
-8、参数和组件一致性没有处理
-9、优化后的动态表单解析表字段还没有处理
-10、关联表单还没有考虑其主键定义
+1、优化后前端页面联动效果没有验证
+2、后退和前进没有实现
+3、参数和组件一致性没有处理
+4、优化后的动态表单解析表字段还没有处理
+5、关联表单还没有考虑其主键定义
+6、数据源生成的数据，调整位置未实现
+7、关联表单提交后台数据和回显未处理，
+8、在数据源模式下，配置风格时，需支持直接添加到舞台
+9、现在生成代码，默认带上公共字段，需要根据前端条件生成
 11、其它还未总结项
 `;
 const actions = (action: string) => {
@@ -491,7 +491,7 @@ const actions = (action: string) => {
 }
 
 :deep(.el-divider--horizontal) {
-  margin: 10px 0px;
+  margin: 10px 0;
 }
 
 :deep(.el-collapse-item__header) {
@@ -513,7 +513,7 @@ const actions = (action: string) => {
   width: 100%;
   height: 100%;
   flex-direction: row;
-  margin-top: 0px;
+  margin-top: 0;
 
   .side-panel {
     width: 270px !important;

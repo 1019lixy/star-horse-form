@@ -20,12 +20,12 @@ export function dataSourceFields() {
         {value: "get", name: "GET"},
     ];
     let matchTypeList = searchMatchList();
-    let disableData = ref<Boolean>(false);
-    let disableUrl = ref<Boolean>(true);
-    let disableDict = ref<Boolean>(true);
-    let dataRequired = ref<Boolean>(true);
-    let urlRequired = ref<Boolean>(false);
-    let dictRequired = ref<Boolean>(false);
+    let disableData = ref<boolean>(false);
+    let disableUrl = ref<boolean>(true);
+    let disableDict = ref<boolean>(true);
+    let dataRequired = ref<boolean>(true);
+    let urlRequired = ref<boolean>(false);
+    let dictRequired = ref<boolean>(false);
     let currentTabName = ref<String>("data");
     return reactive<PageFieldInfo | any>({
         fieldList: [

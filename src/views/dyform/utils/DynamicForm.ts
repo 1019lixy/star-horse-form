@@ -36,11 +36,7 @@ const formActions = [
         key: 'reDo',
         label: '前进一步',
     },
-    {
-        icon: "code",
-        key: 'code',
-        label: '生成代码',
-    },
+
     {
         icon: "valid",
         key: 'valid',
@@ -52,10 +48,16 @@ const formActions = [
         label: '预览',
     },
     {
+        icon: "code",
+        key: 'code',
+        label: '生成代码',
+    },
+    {
         icon: "save",
         key: 'save',
         label: '保存',
     },
+
     {
         icon: "right_panel",
         defaultEdit: true,

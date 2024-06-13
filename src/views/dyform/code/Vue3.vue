@@ -96,7 +96,7 @@ onMounted(() => {
 }
 
 const init = () => {
-  let searchFields = JSON.stringify(props.compList?.searchFormData || [])
+  let searchFields = JSON.stringify(props.compList?.searchFormData || [],null,4);
   let formFields = JSON.stringify(props.compList?.tableFieldList?.fieldList || [], null, 4);
   code.value = asssignVal(searchFields, formFields);
   if (starHorseEditorRef.value) {

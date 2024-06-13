@@ -10,9 +10,9 @@ import piniaInstance from "@/store";
 
 let matchTypeList = ref<SelectOption[]>();
 let sarchIcon = ref<String>("search_down");
-let defaultSearch = ref<Boolean>(true);
+let defaultSearch = ref<boolean>(true);
 let tips = ref<String>("高级查询");
-let showTips = ref<Boolean>(true);
+let showTips = ref<boolean>(true);
 const emits = defineEmits(["searchData"]);
 const props = defineProps({
   dialogInput: {type: Boolean, default: false},

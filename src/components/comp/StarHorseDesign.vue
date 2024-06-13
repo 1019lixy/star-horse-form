@@ -18,10 +18,10 @@ const dynamicForm = DynamicForm(piniaInstance);
 const starHorseDesignRef = ref();
 const graph = ref();
 const contextmenuRef = ref();
-const leftPanelVisible = ref<Boolean>(true);
+const leftPanelVisible = ref<boolean>(true);
 const connectorStyle = ref<String>("normal");
-const rightPanel = ref<Boolean>(false);
-const normalRightPanel = ref<Boolean>(true);
+const rightPanel = ref<boolean>(false);
+const normalRightPanel = ref<boolean>(true);
 const currentComp = ref<any>();
 const currentCellInfo = ref<Object>({});
 const fieldList = ref<PageFieldInfo>();
@@ -52,7 +52,7 @@ const emits = defineEmits(["lineClick", "nodeClick", "save", "validation", "prev
 let compAttr = ref({});
 provide("dataForm", compAttr);
 const jsonData = ref<String>();
-const dataPreviewVisible = ref<Boolean>(false);
+const dataPreviewVisible = ref<boolean>(false);
 let activeItem = ref<any>([]);
 const transform = (command: string) => {
   switch (command) {
@@ -187,7 +187,7 @@ const alignOperation = (align: string) => {
     }
   }
 }
-const contextMenuVisible = ref<Boolean>(false);
+const contextMenuVisible = ref<boolean>(false);
 const visibleChange = (flag: boolean) => {
   if (!flag) {
     contextMenuVisible.value = false;

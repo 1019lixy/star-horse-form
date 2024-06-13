@@ -174,6 +174,7 @@ const openDb = () => {
 };
 
 const selectFieldsOperation = (datas: any) => {
+  selectFields.value = [];
   datas?.forEach((item: any) => {
     selectFields.value.push({
       name: item.fieldName + '(' + item.comment + ')',
@@ -213,7 +214,13 @@ const getDefaultVal = (type: String) => {
   }
 };
 
-const getFieldType = (item: any) => {
+const getFieldType = (item: any, fieldCompTypes: Array<any>) => {
+  if (fieldCompTypes && fieldCompTypes.length > 0) {
+    let result = fieldCompTypes.find((temp: any) => temp.fieldName == item.fieldName);
+    if (result && result.fieldType) {
+      return result.fieldType;
+    }
+  }
   let type = item.type.toLowerCase();
   if (type.includes("varchar") || type.includes("character")) {
     return "input";
@@ -272,7 +279,7 @@ const onDataCopy = async (data: any) => {
       placeholder: "",
     };
 
-    mvData['itemType'] = getFieldType(reData);
+    mvData['itemType'] = getFieldType(reData, data.fieldCompTypes);
     mvData.preps['id'] = mvData['id'];
     mvData.preps['label'] = reData.comment;
     mvData.preps['name'] = fieldName;
@@ -368,7 +375,7 @@ const onDataCopy = async (data: any) => {
     return mvDataList;
   }
 };
-const configDialogVisible = ref<Boolean>(false);
+const configDialogVisible = ref<boolean>(false);
 const closeAction = () => {
   configDialogVisible.value = false;
 };

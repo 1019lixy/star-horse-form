@@ -104,7 +104,7 @@ const compDragging = (x: number) => {
   }
 
 };
-let drawer = ref<Boolean>(false);
+let drawer = ref<boolean>(false);
 const configInfo = computed(() => configStore.configFormInfo);
 </script>
 <template>
