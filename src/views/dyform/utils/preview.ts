@@ -104,7 +104,7 @@ export function arrayDuplicateDatas(arr: Array<any>) {
  * 校验表单组件参数
  * @param compList
  */
-export function validDynamicFormCompParams(compList: Array<any>) {
+export function validDynamicFormCompParams(compList: Array<any>, isSubmit: boolean = false) {
     let errorMsg = "";
     // console.log("校验表单组件参数完整性", compList);
     let {fieldList, tabNames, objectNames, batchNames} = analysisFields(compList);
@@ -159,7 +159,7 @@ export function validDynamicFormCompParams(compList: Array<any>) {
             errorMsg += msg;
         }
     }
-    if (!errorMsg) {
+    if (!errorMsg && !isSubmit) {
         success("校验通过");
     }
     return errorMsg;

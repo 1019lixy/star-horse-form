@@ -124,8 +124,15 @@ const closeAction = () => {
   codeDialogVisible.value = false;
 };
 const clearData = (flag: boolean = true) => {
-  designForm.clearAll(flag);
-
+  if (list.value?.length > 0) {
+    confirm("新建将清空舞台上的所有元素，是否确定要清空？").then((res: boolean) => {
+      if (res) {
+        designForm.clearAll(flag);
+      }
+    })
+  } else {
+    designForm.clearAll(flag);
+  }
 };
 const preview = () => {
   isPreview.value = true;
@@ -147,7 +154,7 @@ const doSave = async () => {
   let dynameForm = formInfo.value;
   let flag = false;
   await nextTick();
-  errMessage.value = validDynamicFormCompParams(list.value);
+  errMessage.value = validDynamicFormCompParams(list.value, true);
   if (errMessage.value) {
     return;
   }
@@ -447,16 +454,13 @@ const dragUpdate = (evt) => {
                 :status-icon="formInfo['statusIcon'] == 'yes'"
                 :validate-on-rule-change="formInfo['validateOnRuleChange']=='yes'"
             >
-
               <draggable
                   @add="(evt) => onDragAdd(evt, list)"
                   class="main-design"
-                  handle=".drag-handler"
-                  tag="transition-group" :component-data="{name: 'fade'}"
-                  :disable="!editable"
-                  :move="checkMove"
-                  @update="dragUpdate"
-                  v-bind="{group:'starHorseGroup', ghostClass: 'ghost',animation: 300}"
+                  tag="div"
+                  group="starHorseGroup"
+                  ghostClass="ghost"
+                  animation="200"
                   :list="list"
               >
                 <template #item="{element:data}">
@@ -504,13 +508,6 @@ const dragUpdate = (evt) => {
   height: 100%;
   border: 2px dotted var(--star-horse-style);
   background: var(--star-horse-white);
-/*  transition-group {
-    height: 100%;
-    width: 100%;
-    display: block;
-    overflow: auto;
-    background: var(--star-horse-white);
-  }*/
 }
 
 :deep(.el-divider--horizontal) {
@@ -584,7 +581,8 @@ const dragUpdate = (evt) => {
         .main-design {
           flex: 1;
           margin: 3px 5px;
-          overflow: hidden;
+          height: 100%;
+          overflow: auto;
           background: rgba(255, 255, 255, 0.8);
         }
       }

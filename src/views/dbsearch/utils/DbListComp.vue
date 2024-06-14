@@ -488,21 +488,22 @@ onMounted(() => {
         :sort="false"
         animation="300"
         ghost-class="ghost"
-        item-key="index"
+        item-key="id"
         tag="ul"
-        v-model="assignDataList"
+        :list="assignDataList"
     >
-      <template v-for="(data, index) in assignDataList">
+      <template #item="{element:data,index:idx}">
         <li :style="{
           'border':currentData.tableName==data.tableName?'2px dotted var(--star-horse-style)':'none',
-          'align-items':'center'
+          'align-items':'center',
+          'cursor':'move'
         }">
           <star-horse-icon icon-class="table" style="height: 18px"/>
           <el-tooltip :content="data.comment">
             {{ data.tableName }}
           </el-tooltip>
           <star-horse-icon title="查看&配置" icon-class="setting" style="color:var(--star-horse-style);cursor: pointer"
-                           @click="(evt)=>contextOperation(evt,data,index)"/>
+                           @click="(evt)=>contextOperation(evt,data,idx)"/>
         </li>
       </template>
     </draggable>
