@@ -94,14 +94,16 @@ watch(() => props.field,
             :list="sdata.items"
         >
           <template #item="{element:data}">
-            <component
-                :key="data.id"
-                :field="data"
-                :is="getComponentName(data)"
-                :parentField="boxCompList"
-                :formFieldList="formFieldList"
-                v-if="data?.compType=='formItem'"
-            />
+            <div class="comp-item">
+              <component
+                  :key="data.id"
+                  :field="data"
+                  :is="getComponentName(data)"
+                  :parentField="boxCompList"
+                  :formFieldList="formFieldList"
+                  v-if="data?.compType=='formItem'"
+              />
+            </div>
           </template>
         </draggable>
       </el-col>

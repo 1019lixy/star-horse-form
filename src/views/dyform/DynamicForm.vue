@@ -460,10 +460,11 @@ const dragUpdate = (evt) => {
                   tag="div"
                   group="starHorseGroup"
                   ghostClass="ghost"
-                  animation="200"
+                  animation="300"
                   :list="list"
               >
                 <template #item="{element:data}">
+                  <div class="comp-item">
                   <template v-if="data.compType === 'container'">
                     <component
                         :key="data.id"
@@ -482,6 +483,7 @@ const dragUpdate = (evt) => {
                         :formFieldList="formFieldList"
                     />
                   </template>
+                  </div>
                 </template>
               </draggable>
             </el-form>

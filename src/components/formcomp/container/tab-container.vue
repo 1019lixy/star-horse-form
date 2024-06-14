@@ -1,5 +1,5 @@
 <script setup lang="ts" name="tab-container">
-import {computed, inject, onMounted, PropType, ref, Ref} from "vue";
+import {onMounted, PropType, ref} from "vue";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
 
@@ -99,14 +99,17 @@ const addTab = () => {
               :list="adata['items']"
           >
             <template #item="{element:data}">
-              <component
-                  :key="data.id"
-                  :field="data"
-                  :is="getComponentName(data)"
-                  :parentField="field"
-                  :formFieldList="formFieldList"
-                  v-if="data?.compType==='formItem'||data?.itemType=='box'||data?.itemType=='table'"/>
+              <div class="comp-item">
+                <component
+                    :key="data.id"
+                    :field="data"
+                    :is="getComponentName(data)"
+                    :parentField="field"
+                    :formFieldList="formFieldList"
+                    v-if="data?.compType==='formItem'||data?.itemType=='box'||data?.itemType=='table'"/>
+              </div>
             </template>
+
           </draggable>
         </el-scrollbar>
       </el-tab-pane>
