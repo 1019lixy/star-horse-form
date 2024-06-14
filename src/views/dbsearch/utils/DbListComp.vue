@@ -245,7 +245,8 @@ const onDataCopy = async (data: any) => {
   let config = unref(configData);
   let formInfo: any = {
     tbName: tableName,
-    formName: data.comment || ""
+    formName: data.comment || "",
+    needCommonFields: data.commonField == "Y" ? "yes" : configData.value.commonField == "Y" ? "yes" : "no"
   };
   for (let i in fieldList) {
     let reData = fieldList[i];
@@ -273,6 +274,7 @@ const onDataCopy = async (data: any) => {
       clearable: "no",
       comment: "",
       controls: "yes",
+      required: reData["nullFlag"] == "n" ? "yes" : "no",
       controlsPosition: "",
       disabled: "no",
       formShow: "yes",
@@ -393,9 +395,8 @@ onMounted(() => {
 </script>
 
 <template>
-  <star-horse-dialog :box-width="640" :dialog-visible="currentDataVisible"
-                     self-func="true"
-                     :is-show-btn-continue="false"
+  <star-horse-dialog :boxWidth="640" :dialog-visible="currentDataVisible"
+                     selfFunc="true"
                      @reset="dataReset"
                      @closeAction="tableOperClose"
                      @merge="tableSubmit"
@@ -439,7 +440,6 @@ onMounted(() => {
       :selfFunc="true"
       @merge="closeAction"
       :title="'属性配置'"
-      :is-show-btn-continue="false"
       :box-width="'20%'"
   >
     <el-form :model="configData" :size="compSize">

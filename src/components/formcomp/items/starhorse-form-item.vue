@@ -11,6 +11,7 @@ const props = defineProps({
 });
 let designForm = DesignForm(piniaInstance);
 let isEdit = computed(() => designForm.isEdit);
+let refresh = computed(() => designForm.refresh);
 let compList = computed(() => designForm.compList);
 let currentItemId = computed(() => designForm.currentItemId);
 
@@ -154,6 +155,7 @@ const removeItem = (formItem: any) => {
   if (!isEdit) {
     return;
   }
+  console.log(formItem, props.parentField);
   let dataList = compList.value;
   if (props.parentField?.itemType == "tab" || props.parentField?.itemType == "table") {
     let elements = props.parentField!.preps.elements;
@@ -176,7 +178,7 @@ const removeItem = (formItem: any) => {
           for (let j = 0; j < items.length; j++) {
             if (formItem.id === items[j].id) {
               items.splice(j, 1);
-              break;
+              return;
             }
           }
         }
@@ -186,7 +188,7 @@ const removeItem = (formItem: any) => {
     for (let i = 0; i < dataList.length; i++) {
       if (formItem.id === dataList[i].id) {
         dataList.splice(i, 1);
-        break;
+        return;
       }
     }
   }
@@ -195,79 +197,80 @@ onMounted(() => {
 })
 </script>
 <template>
-  <div class="form-item-operation">
-  <div :class="[isEdit ? 'field-item design-star-horse' : '',
+  <div class="form-item-operation" :style="{width:refresh%2==0?'100%':'99%'}">
+    <div :class="[isEdit ? 'field-item design-star-horse' : '',
   (currentItemId == formItem?.preps.id && isEdit)?'active-item':''
   ]" v-if="isDesign">
-    <el-form-item
-        :size="formItem?.preps['size']||'small'"
-        v-if="parentField?.itemType!='table'"
-        :label="formItem?.preps['label']"
-        :prop="formItem?.preps['name']"
-        :required="formItem?.preps['required']=='yes'"
-        :rules="formItem?.preps['required']=='yes'?[{required:true,trigger:'blur',message:'必须项不能为空'}]:[]"
-        @click="selectData(formItem)"
-    >
-      <slot></slot>
-    </el-form-item>
-    <div v-else
-         @click="selectData(formItem)">
-      <slot></slot>
-    </div>
+      <el-form-item
+          :size="formItem?.preps['size']||'small'"
+          v-if="parentField?.itemType!='table'"
+          :label="formItem?.preps['label']"
+          :prop="formItem?.preps['name']"
+          :required="formItem?.preps['required']=='yes'"
+          :rules="formItem?.preps['required']=='yes'?[{required:true,trigger:'blur',message:'必须项不能为空'}]:[]"
+          @click="selectData(formItem)"
+      >
+        <slot></slot>
+      </el-form-item>
+      <div v-else
+           @click="selectData(formItem)">
+        <slot></slot>
+      </div>
 
-    <div
-        class="field-action"
-        v-if="isEdit"
-    >
-      <el-tooltip content="选择父容器">
-        <star-horse-icon
-            @click.stop="selectParentContainer()"
-            icon-class="select-parent"
-            style="color: var(--star-horse-white)"
-        />
-      </el-tooltip>
-      <el-tooltip content="上移">
-        <star-horse-icon
-            @click.stop="moveUpItem(formItem?.preps)"
-            icon-class="move-up"
-            style="color: var(--star-horse-white)"
-        />
-      </el-tooltip>
-      <el-tooltip content="下移">
-        <star-horse-icon
-            @click.stop="moveDownItem(formItem?.preps)"
-            icon-class="move-down"
-            style="color: var(--star-horse-white)"
-        />
-      </el-tooltip>
+      <div
+          class="field-action"
+          v-if="isEdit"
+      >
+        <el-tooltip content="选择父容器">
+          <star-horse-icon
+              @click.stop="selectParentContainer()"
+              icon-class="select-parent"
+              style="color: var(--star-horse-white)"
+          />
+        </el-tooltip>
+        <el-tooltip content="上移">
+          <star-horse-icon
+              @click.stop="moveUpItem(formItem?.preps)"
+              icon-class="move-up"
+              style="color: var(--star-horse-white)"
+          />
+        </el-tooltip>
+        <el-tooltip content="下移">
+          <star-horse-icon
+              @click.stop="moveDownItem(formItem?.preps)"
+              icon-class="move-down"
+              style="color: var(--star-horse-white)"
+          />
+        </el-tooltip>
+      </div>
+      <div class="drag-handler background-opacity" v-if="isEdit">
+        <el-tooltip content="拖动">
+          <star-horse-icon icon-class="drag" style="cursor:move;color: var(--star-horse-white)"/>
+        </el-tooltip>
+        <el-tooltip content="选中组件">
+          <star-horse-icon
+              @click.stop="selectData"
+              icon-class="check"
+              style="color: var(--star-horse-white)"
+          />
+        </el-tooltip>
+        <el-tooltip content="删除组件">
+          <star-horse-icon
+              @click.stop="removeItem(formItem?.preps)"
+              icon-class="clear-all"
+              style="color: orangered"
+          />
+        </el-tooltip>
+      </div>
     </div>
-    <div class="drag-handler background-opacity" v-if="isEdit">
-      <el-tooltip content="拖动">
-        <star-horse-icon icon-class="drag" style="color: var(--star-horse-white)"/>
-      </el-tooltip>
-      <el-tooltip content="选中组件">
-        <star-horse-icon
-            @click.stop="selectData"
-            icon-class="check"
-            style="color: var(--star-horse-white)"
-        />
-      </el-tooltip>
-      <el-tooltip content="删除组件">
-        <star-horse-icon
-            @click.stop="removeItem(formItem?.preps)"
-            icon-class="clear-all"
-            style="color: orangered"
-        />
-      </el-tooltip>
-    </div>
-  </div>
-  <slot v-else></slot>
+    <slot v-else></slot>
   </div>
 </template>
 <style lang="scss" scoped>
 .form-item-operation {
   width: 100%;
 }
+
 .active-item {
   border: 2px dotted yellow;
 }

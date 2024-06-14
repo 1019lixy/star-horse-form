@@ -1,5 +1,5 @@
 <script setup lang="ts" name="box-container">
-import {computed, PropType, ref} from 'vue'
+import {ComponentInternalInstance, computed, getCurrentInstance, PropType, ref, watch} from 'vue'
 import {warning} from '@/utils/message'
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
@@ -9,12 +9,12 @@ const props = defineProps({
   formFieldList: {type: Object as PropType<any>},
   field: {type: Object as PropType<any>},
 });
+const update = getCurrentInstance() as ComponentInternalInstance | null;
 let designForm = DesignForm(piniaInstance);
-// const emits = defineEmits(["selectItem"]);
 let draggingItem = computed(() => designForm.draggingItem);
-// let containerList = ref([]);
 let itemType = ref('container');
 let isEdit = computed(() => designForm.isEdit);
+let boxCompList = computed(() => props.field);
 const getComponentName = (data: any) => {
   return data?.itemType + '-item'
 };
@@ -26,7 +26,8 @@ const checkItem = (items: any) => {
 const onDragAdd = (evt: Event, dataList: any) => {
   let newIndex = evt.newIndex;
   if (draggingItem.value.itemType == 'box'
-      || draggingItem.value.itemType == "tab" || draggingItem.value.itemType == "table") {
+      || draggingItem.value.itemType == "tab"
+      || draggingItem.value.itemType == "table") {
     warning('栅格容器不允许嵌套其他容器');
     let elements = props.field.preps.elements;
     for (let inde in elements) {
@@ -49,17 +50,32 @@ const onDragAdd = (evt: Event, dataList: any) => {
     designForm.selectItem(dataInfo, dataInfo.itemType, "");
   }
 };
+const checkMove = () => {
+  return true
+}
+const dragUpdate = (evt) => {
+  console.log(evt);
+}
+watch(() => props.field,
+    () => {
+      update!.proxy!.$forceUpdate();
+      console.log("forceupdate")
+    }, {
+      immediate: false,
+      deep: true
+    })
 </script>
 
 
 <template>
   <group-box-container
       :parentField="parentField"
-      :form-item="field">
-    <!--    {{ field.preps.elements }}-->
-    <el-row v-for="adata in field.preps.elements" :gutter="field.preps.gutter"
-            :justify="field.preps.justify"
-            :align="field.preps.align" :tag="field.preps.tag">
+      :form-item="boxCompList">
+    <el-row v-for="adata in boxCompList.preps?.elements"
+            :gutter="boxCompList.preps?.gutter"
+            :justify="boxCompList.preps?.justify"
+            :align="boxCompList.preps?.align"
+            :tag="boxCompList.preps?.tag">
       <el-col
           class="edit_col"
           :item-key="index"
@@ -71,19 +87,20 @@ const onDragAdd = (evt: Event, dataList: any) => {
             @add="(evt:Event)=>onDragAdd(evt,sdata.items)"
             @dragover="checkItem(sdata)"
             class="smain-design"
+            tag="div"
             group="starHorseGroup"
-            animation="100"
             ghostClass="ghost"
-            v-model="sdata.items"
+            animation="200"
+            :list="sdata.items"
         >
-          <template v-for="data in sdata.items">
+          <template #item="{element:data}">
             <component
-                :key="data?.id"
+                :key="data.id"
                 :field="data"
                 :is="getComponentName(data)"
-                :parentField="field"
+                :parentField="boxCompList"
                 :formFieldList="formFieldList"
-                v-if="data?.compType==='formItem'"
+                v-if="data?.compType=='formItem'"
             />
           </template>
         </draggable>
@@ -111,6 +128,7 @@ const onDragAdd = (evt: Event, dataList: any) => {
           />
         </template>
       </el-col>
+      <!--      <box-col :adata="adata" :parentComp="boxCompList" :formFieldList="formFieldList"/>-->
     </el-row>
   </group-box-container>
 </template>
@@ -121,9 +139,20 @@ const onDragAdd = (evt: Event, dataList: any) => {
   border-radius: 3px;
   min-height: 50px;
   display: flex;
+  flex-direction: column;
   vertical-align: middle;
   justify-content: center;
   align-items: center;
+
+  .ghost {
+    content: '';
+    font-size: 0;
+    height: 3px;
+    box-sizing: border-box;
+    outline-width: 0;
+    padding: 0;
+    overflow: hidden;
+  }
 }
 
 .edit_col {

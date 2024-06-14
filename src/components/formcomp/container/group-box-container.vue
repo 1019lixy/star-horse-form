@@ -54,10 +54,10 @@ const removeData = () => {
         <star-horse-icon icon-class="drag" style="color: var(--star-horse-white)"/>
       </el-tooltip>
       <el-tooltip content="选中容器">
-        <star-horse-icon class="icon-cls" @click.stop="selectData" icon-class="select-parent" style="color:#e3e9f2;"/>
+        <star-horse-icon class="icon-cls" @click.stop="selectData" icon-class="select-parent" style="color:var(--star-horse-white);"/>
       </el-tooltip>
       <el-tooltip content="删除容器">
-        <star-horse-icon class="icon-cls" @click.stop="removeData" icon-class="clear-all" style="color:#e3e9f2;"/>
+        <star-horse-icon class="icon-cls" @click.stop="removeData" icon-class="clear-all" style="color:var(--star-horse-white);"/>
       </el-tooltip>
     </div>
   </div>

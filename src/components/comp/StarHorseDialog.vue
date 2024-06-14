@@ -9,7 +9,7 @@ const props = defineProps({
   dialogProps: {type: Object as PropType<DialogProps>, default: {}},
   isShowReset: {type: Boolean, default: true},
   isShowSave: {type: Boolean, default: false},
-  isShowBtnContinue: {type: Boolean, default: true},
+  isShowBtnContinue: {type: Boolean, default: false},
   isView: {type: Boolean, default: false},
   draggable: {type: Boolean, default: true},
   boxHeight: {type: String, default: "60%"},
@@ -144,7 +144,7 @@ provide("dialogOperation", clickFunction);
   :deep(.el-dialog) {
     display: flex;
     flex-direction: column;
-
+    padding: unset;
     .el-dialog__header {
       flex-shrink: 0;
       height: 40px;
@@ -183,8 +183,9 @@ provide("dialogOperation", clickFunction);
   overflow-y: auto;
   padding: 0 10px;
   box-sizing: border-box;
+
   &::-webkit-scrollbar {
-    width:6px;
+    width: 6px;
   }
 
   &::-webkit-scrollbar-track {

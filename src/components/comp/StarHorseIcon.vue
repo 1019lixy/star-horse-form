@@ -1,14 +1,13 @@
-<script setup lang = "ts" name = "StarHorseIcon">
+<script setup lang="ts" name="StarHorseIcon">
 import {computed} from 'vue';
 
 const props = defineProps({
-  iconClass: {type:String,required: true,},
-  className: { type:String,},
-  title: {type:String,default: "",},
-  size: { type:String,default: "20px",
-  },
-  color:{type:String,default:"var(--star-horse-style)"},
-  cursor: {type:String,default: "default"}
+  iconClass: {type: String, required: true,},
+  className: {type: String,},
+  title: {type: String, default: "",},
+  size: {type: String, default: "20px"},
+  color: {type: String, default: "var(--star-horse-style)"},
+  cursor: {type: String, default: "default"}
 });
 const iconName = computed(() => `#icon-${props.iconClass}`);
 const svgClass = computed(() => {
@@ -20,12 +19,12 @@ const svgClass = computed(() => {
 });
 </script>
 
-<style lang = "scss" scoped>
+<style lang="scss" scoped>
 .svg-icon {
-  cursor: v-bind("cursor");
-  width: v-bind("size");
-  height: v-bind("size");
-  color:  v-bind("color");
+  cursor: v-bind(cursor);
+  width: v-bind(size);
+  height: v-bind(size);
+  color: v-bind(color);
   margin-left: 0.35em;
   margin-right: 0.35em;
   vertical-align: -0.15em;
@@ -35,8 +34,8 @@ const svgClass = computed(() => {
 }
 </style>
 <template>
-  <svg :class = "svgClass" aria-hidden = "true">
-    <use :xlink:href = "iconName"></use>
-    <title v-if = "!!title">{{ title }}</title>
+  <svg :class="svgClass" aria-hidden="true">
+    <use :xlink:href="iconName"></use>
+    <title v-if="!!title">{{ title }}</title>
   </svg>
 </template>

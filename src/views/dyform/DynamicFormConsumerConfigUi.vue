@@ -297,7 +297,7 @@ const changePage = (currentPage: number, pageSize: number) => {
                      :isBatch="false" :isView="true">
     <ViewPage :param="currentRow.dataNo"/>
   </star-horse-dialog>
-  <star-horse-dialog :dialog-visible="dialogProps.editVisible" :dialogProps="dialogProps">
+  <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
     <star-horse-form @refresh="dynamicFormConsumerConfigRef.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList"
                      :rules="rules"/>
   </star-horse-dialog>

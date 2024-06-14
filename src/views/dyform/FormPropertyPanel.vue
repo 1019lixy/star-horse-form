@@ -233,7 +233,18 @@ defineExpose({
         </el-row>
 
         <el-row>
-          <el-col :span="12">
+          <el-col :span="8">
+            <el-form-item label="是否创建表" prop="createTable" required>
+              <el-switch
+                  :active-value="'yes'"
+                  :inactive-value="'no'"
+                  active-text="是"
+                  inactive-text="否"
+                  v-model="formInfo['createTable']"
+              />
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
             <el-form-item label="是否创建菜单" prop="createMenu">
               <el-switch
                   :active-value="'yes'"
@@ -244,14 +255,14 @@ defineExpose({
               />
             </el-form-item>
           </el-col>
-          <el-col :span="12">
-            <el-form-item label="是否创建表" prop="createTable" required>
+          <el-col :span="8">
+            <el-form-item label="是否需要公共字段" prop="needCommonFields">
               <el-switch
                   :active-value="'yes'"
                   :inactive-value="'no'"
                   active-text="是"
                   inactive-text="否"
-                  v-model="formInfo['createTable']"
+                  v-model="formInfo['needCommonFields']"
               />
             </el-form-item>
           </el-col>

@@ -178,7 +178,7 @@ const dataFormat = (name: string, cellValue: Object): any => {
 
 </style>
 <template>
-  <star-horse-dialog :dialog-visible="dialogProps.editVisible" :dialogProps="dialogProps">
+  <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
     <star-horse-form @refresh="dbinfoRef.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList" :rules="rules"/>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title=

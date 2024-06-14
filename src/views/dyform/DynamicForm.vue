@@ -1,6 +1,6 @@
 <script lang="ts" setup name="DynamicForm">
 import FieldPanel from "@/views/dyform/FieldPanel.vue";
-import {computed, nextTick, onMounted, reactive, ref, watch} from "vue";
+import {computed, nextTick, onMounted, reactive, ref, watch, ComponentInternalInstance, getCurrentInstance} from "vue";
 import PropertyPanel from "@/views/dyform/PropertyPanel.vue";
 import {postRequest} from "@/api/star_horse";
 import {confirm, error, warning} from "@/utils/message";
@@ -95,15 +95,17 @@ watch(
 watch(
     () => route.query["parentId"],
     (val) => {
-      if (val > 0) {
+      if (val && val > 0) {
         loadFormData(val, true);
       }
     },
     {immediate: true, deep: true}
 );
+// const update = getCurrentInstance() as ComponentInternalInstance | null;
 watch(() => list.value,
-    (val) => {
-      designForm.removePromise()
+    () => {
+      designForm.removePromise();
+      designForm.setRefresh();
     }, {
       immediate: true,
       deep: true
@@ -297,7 +299,12 @@ const actions = (action: string) => {
   }
 
 };
-
+const checkMove = () => {
+  return true
+}
+const dragUpdate = (evt) => {
+  console.log(evt);
+}
 </script>
 
 <template>
@@ -305,6 +312,7 @@ const actions = (action: string) => {
       :dialogVisible="codeDialogVisible"
       @closeAction="closeAction"
       :selfFunc="true"
+      :isView="true"
       :full-screen="true"
       @merge="codeDoSave"
       :title="'代码'"
@@ -422,7 +430,7 @@ const actions = (action: string) => {
               </template>
             </el-alert>
             <el-form
-                style="height: 100%"
+                class="design-form-container"
                 :disabled="formInfo['disabled'] == 'yes'"
                 :hide-required-asterisk="formInfo['hideRequiredAsterisk'] == 'yes'"
                 :inline="formInfo.inline == 'yes'"
@@ -443,33 +451,35 @@ const actions = (action: string) => {
               <draggable
                   @add="(evt) => onDragAdd(evt, list)"
                   class="main-design"
-                  :animation="100"
-                  group="starHorseGroup"
+                  handle=".drag-handler"
+                  tag="transition-group" :component-data="{name: 'fade'}"
                   :disable="!editable"
-                  ghostClass="ghost"
+                  :move="checkMove"
+                  @update="dragUpdate"
+                  v-bind="{group:'starHorseGroup', ghostClass: 'ghost',animation: 300}"
                   :list="list"
               >
-                <el-scrollbar height="100%">
-                  <template v-for="(data, index) in list">
+                <template #item="{element:data}">
+                  <template v-if="data.compType === 'container'">
                     <component
                         :key="data.id"
                         :field="data"
                         :is="data.itemType + '-container'"
                         :formFieldList="formFieldList"
-                        v-if="data.compType === 'container'"
+
                     />
+                  </template>
+                  <template v-else-if="data.compType == 'formItem'">
                     <component
                         :key="data.id"
                         :field="data"
                         :is="getComponentName(data)"
                         :parentCompType="'item'"
                         :formFieldList="formFieldList"
-                        v-else-if="data.compType == 'formItem'"
                     />
                   </template>
-                </el-scrollbar>
+                </template>
               </draggable>
-
             </el-form>
           </div>
           <div class="side-panel-item" v-show="rightPanelVisible">
@@ -488,6 +498,19 @@ const actions = (action: string) => {
 :deep(.el-card__body) {
   padding: 5px;
   height: 100%;
+}
+
+.design-form-container {
+  height: 100%;
+  border: 2px dotted var(--star-horse-style);
+  background: var(--star-horse-white);
+/*  transition-group {
+    height: 100%;
+    width: 100%;
+    display: block;
+    overflow: auto;
+    background: var(--star-horse-white);
+  }*/
 }
 
 :deep(.el-divider--horizontal) {
@@ -555,10 +578,11 @@ const actions = (action: string) => {
         border: 1px dotted #eee;
         margin-top: 5px;
         border-radius: 3px;
+        display: flex;
+        flex-direction: column;
 
         .main-design {
-          height: 99%;
-          width: inherit;
+          flex: 1;
           margin: 3px 5px;
           overflow: hidden;
           background: rgba(255, 255, 255, 0.8);

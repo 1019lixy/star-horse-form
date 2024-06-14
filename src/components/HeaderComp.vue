@@ -323,7 +323,7 @@ const filterTableData = computed(() => filterTree(search.value, permissionMenuLi
 let shortcutVisible = computed(()=>configStore.configFormInfo.shortCutMenus||"yes");
 </script>
 <template>
-  <star-horse-dialog :dialog-visible="dialogProps.editVisible" :dialogProps="dialogProps" @merge="doModifyUserInfo"
+  <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps" @merge="doModifyUserInfo"
                      @resetForm="resetForm" :self-func="true">
     <star-horse-form :compUrl="dataUrl" :fieldList="tableFieldList" :rules="rules"/>
   </star-horse-dialog>

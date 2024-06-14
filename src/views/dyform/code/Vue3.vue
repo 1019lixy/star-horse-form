@@ -5,7 +5,8 @@ import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 
 const props = defineProps({
   formInfo: {type: Object, required: true},
-  compList: {type: Array, required: true}
+  compList: {type: Array, required: true},
+  compSize: {type: String, required: true},
 });
 let searchFieldList: Array<any> = [];
 let formFieldList: Array<any> = [];
@@ -70,7 +71,7 @@ onMounted(() => {
 });
 <\/script>
 <template>
-<star-horse-dialog :dialog-visible="dialogProps.editVisible" :dialogProps="dialogProps">
+<star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
     <star-horse-form @refresh="${convertToCamelCase(props.formInfo.tbName)}Ref.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList" :rules="rules"\/>
   <\/star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title="'查看数据'" :is-view="true">
@@ -96,7 +97,7 @@ onMounted(() => {
 }
 
 const init = () => {
-  let searchFields = JSON.stringify(props.compList?.searchFormData || [],null,4);
+  let searchFields = JSON.stringify(props.compList?.searchFormData || [], null, 4);
   let formFields = JSON.stringify(props.compList?.tableFieldList?.fieldList || [], null, 4);
   code.value = asssignVal(searchFields, formFields);
   if (starHorseEditorRef.value) {
@@ -135,7 +136,7 @@ watch(
 <template>
   <div class="vue3-code">
     <div class="inner_button">
-      <el-button type="primary" @click="saveFile">
+      <el-button type="primary" @click="saveFile" :size="compSize">
         <star-horse-icon icon-class="save" color="var(--star-horse-white)"/>
         保存为文件
       </el-button>

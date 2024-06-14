@@ -1,6 +1,5 @@
 <script setup lang="ts" name="FieldPanel">
-import {computed, inject, Ref, ref} from 'vue'
-import {Setting} from "@element-plus/icons-vue";
+import {computed, ref} from 'vue'
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
 import DbListComp from "@/views/dbsearch/utils/DbListComp.vue";
@@ -21,10 +20,10 @@ const onFormItemCopy = (data: any) => {
 const onDataCopy = (data: any, type: String) => {
   let reData = JSON.parse(JSON.stringify(data));
   let ms = formFieldList.value["index"]++;
-  let mvData = {};
+  let mvData: any = {};
   mvData['id'] = 'Id' + ms;
   // console.log(reData);
-   /**
+  /**
    * 处理preps
    */
   let preps = reData.preps;
@@ -88,21 +87,18 @@ const onRemove = () => {
                 :clone="onContainerCopy"
                 :group="{name: 'starHorseGroup', pull: 'clone', put: false}"
                 :sort="false"
-                @end="onEnd"
-                @start="onStart"
                 animation="300"
                 ghost-class="ghost"
-                item-key="index"
+                item-key="id"
                 tag="ul"
-                v-model="containerList"
+                :list="containerList"
             >
-              <li
-                  class="field-item"
-                  v-for="item in containerList"
-              >&nbsp;&nbsp;<span><star-horse-icon :icon-class="item.itemIcon" style="color: var(--star-horse-style)"/>&nbsp;&nbsp;{{
-                  item.itemName
-                }}</span>
-              </li>
+              <template #item="{element}">
+                <li class="field-item">&nbsp;&nbsp;
+                  <span><star-horse-icon :icon-class="element.itemIcon" style="color: var(--star-horse-style)"/>&nbsp;
+                    &nbsp;{{ element.itemName }}</span>
+                </li>
+              </template>
             </draggable>
           </el-scrollbar>
         </el-collapse-item>
@@ -116,22 +112,20 @@ const onRemove = () => {
                 :clone="onFormItemCopy"
                 :group="{name: 'starHorseGroup', pull: 'clone', put: false}"
                 :sort="false"
-                @end="onEnd"
-                @start="onStart"
-                @remove="onRemove"
                 animation="300"
                 ghost-class="ghost"
                 item-key="key"
                 tag="ul"
-                v-model="formDataList"
+                :list="formDataList"
             >
-              <li
-                  class="field-item"
-                  v-for="item in formDataList"
-              >&nbsp;&nbsp;<span><star-horse-icon :icon-class="item.itemIcon" style="color: var(--star-horse-style)"/>&nbsp;&nbsp;{{
-                  item.itemName
-                }}</span>
-              </li>
+              <template #item="{element}">
+                <li class="field-item">&nbsp;&nbsp;
+                  <span><star-horse-icon :icon-class="element.itemIcon"
+                                         style="color: var(--star-horse-style)"/>&nbsp;&nbsp;{{
+                      element.itemName
+                    }}</span>
+                </li>
+              </template>
             </draggable>
           </el-scrollbar>
         </el-collapse-item>
@@ -145,21 +139,21 @@ const onRemove = () => {
                 :clone="onFormItemCopy"
                 :group="{name: 'starHorseGroup', pull: 'clone', put: false}"
                 :sort="false"
-                @end="onEnd"
-                @start="onStart"
-                @remove="onRemove"
                 animation="300"
                 ghost-class="ghost"
                 item-key="key"
                 tag="ul"
-                v-model="selfFormDataList"
+                :list="selfFormDataList"
             >
-              <li
-                  class="field-item"
-                  v-for="item in selfFormDataList">&nbsp;&nbsp;
-                <span><star-horse-icon :icon-class="item.itemIcon"
-                                       style="color: var(--star-horse-style)"/>&nbsp;&nbsp;{{ item.itemName }}</span>
-              </li>
+              <template #item="{element}">
+                <li class="field-item">&nbsp;&nbsp;
+                  <span><star-horse-icon :icon-class="element.itemIcon"
+                                         style="color: var(--star-horse-style)"/>&nbsp;&nbsp;{{
+                      element.itemName
+                    }}</span>
+                </li>
+              </template>
+
             </draggable>
             <div style="height: 50px"></div>
           </el-scrollbar>

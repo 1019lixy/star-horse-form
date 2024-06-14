@@ -299,7 +299,7 @@ const checkChange = (data: TreeNodeData, checked: boolean) => {
 
 </style>
 <template>
-  <star-horse-dialog :dialog-visible="dialogProps.editVisible" :dialogProps="dialogProps" :self-func="true"
+  <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps" :self-func="true"
                      @merge="merge" @mergeDraft="mergeDraft" @resetForm="resetForm">
     <star-horse-form :compUrl="dataUrl" :fieldList="tableFieldList" :primaryKey="primaryKey" :rules="rules"
                      ref="menuFormRef"/>

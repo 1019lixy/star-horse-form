@@ -6,6 +6,7 @@
   --star-horse-font-color: #eee;
   --star-horse-border—color: #2233;
   --star-horse-shadow-rgba: rgba(75, 61, 89, 0.3);
+  --el-header-padding:0;
 }
 
 /* 滚动条样式 begin */
@@ -76,7 +77,7 @@ a {
   float: left;
 }
 
-.el-select, .el-input, .el-date-editor.el-input, .el-autocomplete, .el-input-number {
+.el-select, .el-input, .el-date-editor.el-input, .el-autocomplete, .el-input-number,.el-input-number--small {
   width: 100%;
 }
 
@@ -142,6 +143,8 @@ a {
   line-height: 40px;
   color: var(--star-horse-style);
 }
+
+
 
 .system-icon {
   list-style: none;

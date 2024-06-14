@@ -14,6 +14,7 @@ let designForm = DesignForm(piniaInstance);
 let compList = computed(() => designForm.compList);
 let formInfo = computed(() => designForm.formInfo);
 let formFieldList = computed(() => designForm.formFieldList);
+let compSize = computed(() => configStore.configFormInfo?.buttonSize || "small");
 let tabName = ref<String>("vue3");
 let pageInfo = ref<any>({});
 const init = async () => {
@@ -37,15 +38,15 @@ onMounted(async () => {
 
 <template>
   <div class="code-container">
-    <el-tabs v-model="tabName">
-      <el-tab-pane name="vue3" label="Vue3">
-        <vue3 :formInfo="formInfo" :compList="pageInfo"/>
+    <el-tabs v-model="tabName" >
+      <el-tab-pane name="vue3" label="Vue3" >
+        <vue3 :formInfo="formInfo" :compList="pageInfo" :compSize="compSize"/>
       </el-tab-pane>
       <el-tab-pane name="vue2" label="Vue2">
-        <vue2 :formInfo="formInfo" :compList="pageInfo"/>
+        <vue2 :formInfo="formInfo" :compList="pageInfo" :compSize="compSize"/>
       </el-tab-pane>
       <el-tab-pane name="react" label="React">
-        <react :formInfo="formInfo" :compList="pageInfo"/>
+        <react :formInfo="formInfo" :compList="pageInfo" :compSize="compSize"/>
       </el-tab-pane>
     </el-tabs>
   </div>

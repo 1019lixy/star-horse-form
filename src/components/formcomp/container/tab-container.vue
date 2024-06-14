@@ -96,9 +96,9 @@ const addTab = () => {
               group="starHorseGroup"
               animation="100"
               ghostClass="ghost"
-              v-model="adata['items']"
+              :list="adata['items']"
           >
-            <template v-for="(data,index) in adata['items']">
+            <template #item="{element:data}">
               <component
                   :key="data.id"
                   :field="data"

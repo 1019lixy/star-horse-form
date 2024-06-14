@@ -273,7 +273,7 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
       />
     </template>
   </star-horse-dialog>
-  <star-horse-dialog :dialog-visible="dialogProps.editVisible" :dialogProps="dialogProps">
+  <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
     <star-horse-form :compUrl="dataUrl" :fieldList="tableFieldList" :rules="rules"/>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title=
@@ -291,7 +291,6 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
     </div>
     <hr>
     <star-horse-table-comp ref="dynamicFormRef" :fieldList="tableFieldList" :primaryKey="primaryKey" :compUrl=
-        "dataUrl"
-                           :dataFormat="dataFormat" :selfBtnFunc="selfBtnFunc"/>
+        "dataUrl" :dataFormat="dataFormat" :selfBtnFunc="selfBtnFunc"/>
   </el-card>
 </template>

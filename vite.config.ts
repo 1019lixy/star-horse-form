@@ -6,6 +6,9 @@ import inject from "@rollup/plugin-inject"
 import viteCompression from 'vite-plugin-compression'
 import {resolve} from "path";
 import {createSvgIconsPlugin} from 'vite-plugin-svg-icons'
+import Components from 'unplugin-vue-components/vite'
+import {ElementPlusResolver} from 'unplugin-vue-components/resolvers'
+import AutoImport from 'unplugin-auto-import/vite'
 
 const codeHost = "http://localhost:8888/"
 const systemHost = "http://localhost:8749/"
@@ -75,6 +78,13 @@ export default defineConfig({
                 // 开启 defineModel
                 defineModel: true
             }
+        }),
+        AutoImport({
+            imports: ['vue']
+        }),
+        Components({
+            // 这里就是相关ui库的解析工具, 里面的选项有是否使用自动导入样式 如果需要通过 var 变量改变主题 需要注意一下
+            resolvers: [ElementPlusResolver()]
         }),
         progress(),
         vueJsx({}),

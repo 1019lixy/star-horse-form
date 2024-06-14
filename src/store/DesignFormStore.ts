@@ -17,7 +17,7 @@ export const DesignForm: any = defineStore("DesignForm", {
              * 自定义组件列表
              */
             selfFormDataList: [],
-            allFormDataList: [],
+            allFormDataList: [] as Array<any>,
             /**
              * 表单信息
              */
@@ -55,6 +55,7 @@ export const DesignForm: any = defineStore("DesignForm", {
              * 是否编辑
              */
             isEdit: false,
+            refresh: 0,
             /**
              * 当前选中元素的属性
              */
@@ -110,6 +111,9 @@ export const DesignForm: any = defineStore("DesignForm", {
         },
         getCurrentCompCategory(state) {
             return state.currentCompCategory;
+        },
+        getRefresh(state) {
+            return state.refresh;
         }
     },
     actions: {
@@ -127,6 +131,12 @@ export const DesignForm: any = defineStore("DesignForm", {
             _this.parentCompType = parentCompType;
             _this.currentItemType = itemType || data.itemType;
             _this.currentFormPreps = data.preps || data;
+        },
+        /**
+         * 刷新页面
+         */
+        setRefresh() {
+            this.refresh++;
         },
         /**
          * 设置表单信息
@@ -201,6 +211,7 @@ export const DesignForm: any = defineStore("DesignForm", {
                     })
                 }
             }
+            // _this.compList = [...JSON.parse(JSON.stringify(comps))];
         },
         /**
          * 清除所有数据
@@ -280,7 +291,7 @@ export const DesignForm: any = defineStore("DesignForm", {
                     await initContainer();
                     await initItems();
                     await initSelfItems();
-                    let temp: Array = [..._this.formDataList, ..._this.selfFormDataList];
+                    let temp: Array<any> = [..._this.formDataList, ..._this.selfFormDataList];
                     temp.forEach((item: any) => {
                         _this.allFormDataList.push({
                             name: item.itemName,

@@ -88,9 +88,8 @@ const analysisData = (index: number) => {
                        group="starHorseGroup"
                        ghostClass="ghost"
                        animation="200"
-                       v-model="field.preps.elements[td-1].items">
-              <template v-for="data in field.preps.elements[td-1].items">
-
+                       :list="field.preps.elements[td-1].items">
+              <template #item="{element:data}">
                 <component :key="data?.id"
                            :field="data"
                            :is="getComponentName(data)"

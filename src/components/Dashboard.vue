@@ -162,7 +162,8 @@ const configInfo = computed(() => configStore.configFormInfo);
 
 <style lang="scss" scoped>
 :deep(.el-header) {
-  height: -1;
+  height: unset;
+  padding:unset;
   /* box-shadow: 0 10px 5px var(--star-horse-white);*/
 }
 

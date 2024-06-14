@@ -235,7 +235,7 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
 </script>
 
 <template>
-  <star-horse-dialog :dialog-visible="dialogProps.editVisible" :dialogProps="dialogProps">
+  <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
     <star-horse-form @refresh="rolesMenusinfoRef.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList"
                      :rules="rules"/>
   </star-horse-dialog>

@@ -325,7 +325,7 @@ const closeAction = () => {
 </script>
 
 <template>
-  <star-horse-dialog :dialog-visible="dialogProps.editVisible" :dialogProps="dialogProps" :selfFunc="true"
+  <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps" :selfFunc="true"
                      @merge="generateMerge" @closeAction="closeAction">
     <star-horse-form ref="generateFormRef" @refresh="codeGeneratorRef.loadByPage()" :compUrl="dataUrl"
                      :fieldList="tableFieldList"

@@ -121,11 +121,9 @@ const dataFormat = (name: string, cellValue: Object, row: any): any => {
 
   <template v-if="hasData">
     <star-horse-dialog
-        :dialog-visible="dialogProps.editVisible"
+        :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible"
         :dialogProps="dialogProps"
     >
-      <!--      <sh-dynamic-form @refresh="normalPageRef.loadByPage()" :compUrl="dataUrl" :formInfo="formInfo"
-                             :fieldList="tableFieldList.dynamicFormas" :rules="rules"/>-->
       <star-horse-form @refresh="normalPageRef.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList"
                        :rules="rules"/>
     </star-horse-dialog>

@@ -14,7 +14,7 @@ import hljsVuePlugin from '@highlightjs/vue-plugin'
 import "animate.css"
 import ZhLocale from 'element-plus/es/locale/lang/zh-cn'; // 中文
 import router from "@/router";
-import {VueDraggableNext} from "vue-draggable-next";
+import draggable from "vuedraggable";
 import * as ElementPlusIconsVue from '@element-plus/icons-vue';
 import piniaInstance from "@/store";
 import Particles from "vue3-particles";
@@ -22,7 +22,7 @@ import Particles from "vue3-particles";
 
 // @ts-ignore
 const app = createApp(App);
-app.component("draggable", VueDraggableNext);
+app.component("draggable", draggable);
 
 /**
  * 加载elementplus 自己提供的图标
