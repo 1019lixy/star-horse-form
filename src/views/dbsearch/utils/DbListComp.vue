@@ -348,6 +348,7 @@ const onDataCopy = async (data: any) => {
         id: tableId,
         "align": "top",
         "batchFieldName": convertToCamelCase(tableName),
+        "primaryKeyName": formInfo.formId,
         "columns": mvDataList.length,
         "comment": "",
         "formShow": "no",

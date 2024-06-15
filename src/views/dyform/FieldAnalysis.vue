@@ -5,18 +5,19 @@ const props = defineProps({
   index: {type: Number, required: true, default: 1},
   size: {type: String, default: "small"}
 });
+const needLengthComp: Array<string> = ["input", "number", "text", "tselect", "textarea", "htmleditor", "cascade", "autocomplete", "dialog-input", "select", "page-select"]
 </script>
 
 <template>
   <template v-if="field?.compType=='container'&&(field.itemType=='box'||field.itemType=='table')">
     <template v-if="field.preps['elements']?.length>0" v-for="sitem in field.preps['elements']">
       <template v-for="sitem1 in sitem['columns']">
-        <template v-for="sitem2 in sitem1.items">
-          <FieldAnalysis :index="index" :field="sitem2" :container="container+'>'+field.preps.label"/>
+        <template v-for="(sitem2 ,sindex) in sitem1.items">
+          <FieldAnalysis :index="index+sindex+1" :field="sitem2" :container="container+'>'+field.preps.label"/>
         </template>
       </template>
-      <template v-for="sitem2 in sitem.items">
-        <FieldAnalysis :index="index" :field="sitem2" :container="container+'>'+field.preps.label"/>
+      <template v-for="(sitem2 ,sindex) in sitem.items">
+        <FieldAnalysis :index="index+sindex+1" :field="sitem2" :container="container+'>'+field.preps.label"/>
       </template>
     </template>
   </template>
@@ -32,11 +33,11 @@ const props = defineProps({
         <el-input v-model="field.preps['name']" :size="size" placeholder="属性名称" clearable/>
       </el-col>
       <el-col :span="3">
-        <el-row>
+        <el-row :align="'middle'">
           <el-col :span="12">
             <el-input-number v-model="field.preps['maxLength']" :size="size" placeholder="最大长度" min="1"
                              :controls="false"
-                             v-if="field.itemType=='input'||field.itemType=='textarea'||field.itemType=='number'"
+                             v-if="needLengthComp.includes(field.itemType)"
                              clearable/>
           </el-col>
           <el-col :span="12">
@@ -73,5 +74,7 @@ const props = defineProps({
 </template>
 
 <style scoped lang="scss">
-
+.el-input-number, .el-input-number-small {
+  width: unset;
+}
 </style>

@@ -17,6 +17,7 @@ const props = defineProps({
   batchName: {type: String, default: "batchDataList"},
   batchFieldName: {type: String, default: "batchFieldList"},
   primaryKey: {type: String,},
+  globalCondition: {type: Object},
   rules: {type: Object},
   isView: {type: Boolean, default: false},
 });
@@ -55,7 +56,8 @@ const loadData = async () => {
   if (!props.compUrl || !props.compUrl.loadByIdUrl) {
     return;
   }
-  let objData = await loadById(props.compUrl.loadByIdUrl!, dialogProps.ids, false);
+  let params = props.globalCondition || {};
+  let objData = await loadById(props.compUrl.loadByIdUrl!, dialogProps.ids, false, params);
   dataForm.value = {...objData};
   let data = formFieldMapping(props.fieldList);
   dataForm.value = objData;

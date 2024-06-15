@@ -5,6 +5,8 @@ import {DialogProps} from "@/components/types/DialogProps";
 import {commonParseCodeToName, formFieldMapping, loadById, rowClassName} from "@/api/sh_api";
 import {Config} from "@/api/settings";
 import StarHorseDataViewObject from "@/components/comp/StarHorseDataViewObject.vue";
+import StarHorseFormTable from "@/components/comp/StarHorseFormTable.vue";
+import StarHorseDataViewTable from "@/components/comp/StarHorseDataViewTable.vue";
 
 const dataForm = ref({});
 const props = defineProps({
@@ -12,11 +14,13 @@ const props = defineProps({
   objectName: {type: String},
   subCreateFlag: {type: Boolean, default: false},
   fieldList: {type: Object, required: true},
+  globalCondition: {type: Object},
   batchFieldName: {type: String, default: "batchFieldList"},
   dataFormat: {type: Function, default: null}
 });
 const emits = defineEmits(["dataLoaded"]);
 const dialogProps = inject<DialogProps>("dialogProps") as any;
+const normalTabList = ref<any>("tab0");
 watch(() => dialogProps.ids,
     (val) => {
       if (val == -2) {
@@ -40,7 +44,8 @@ const loadData = async () => {
   if (!props.compUrl) {
     return;
   }
-  let objData = await loadById(props.compUrl?.loadByIdUrl, id, true);
+  let params = props.globalCondition || {};
+  let objData = await loadById(props.compUrl?.loadByIdUrl, id, true, params);
   let data = formFieldMapping(props.fieldList);
   dataForm.value = objData;
   let mapping = data.mappingFields;
@@ -80,7 +85,7 @@ const tabList = ref<any>("tab0");
 <template>
   <template v-for="item in fieldList.fieldList">
     <el-row v-if="item instanceof Array">
-      <el-col :span="24/item.length" v-for="sitem in item">
+      <el-col :span="sitem.colSpan||(24/item.length)" v-for="sitem in item">
         <div class="item" v-if="sitem.formShow||sitem.tableShow||sitem.viewShow">
           <label>{{ sitem.label }} :</label>
           <div class="content">
@@ -120,6 +125,22 @@ const tabList = ref<any>("tab0");
     </template>
     <star-horse-item v-else-if="item.type=='comp'" :primaryKey="'id'" v-model:dataForm="dataForm" :item="item"
                      :isView="true"/>
+    <template v-else-if="item.batchFieldList&&item.batchFieldList.length>0">
+      <template v-if="item.batchFieldList.length>1">
+        <el-tabs v-model="normalTabList">
+
+          <template v-for="(sitem,key) in item.batchFieldList">
+            <el-tab-pane :label="sitem['title']" :name="'tab'+key" :disabled="sitem.disabled">
+              <star-horse-data-view-table :commonFormat="commonFormat" :item="sitem"
+                                          :batchName="sitem['batchName']"
+                                          v-model:dataForm="dataForm"/>
+            </el-tab-pane>
+          </template>
+        </el-tabs>
+      </template>
+      <star-horse-data-view-table v-else :commonFormat="commonFormat" :item="item.batchFieldList[0]"
+                                  v-model:dataForm="dataForm" :batchName="item.batchFieldList[0]['batchName']"/>
+    </template>
     <template v-else>
       <div class="item" v-if="item.formShow||item.tableShow||item.viewShow">
         <label>{{ item.label }} :</label>
@@ -132,43 +153,12 @@ const tabList = ref<any>("tab0");
       </div>
     </template>
   </template>
-
   <template v-if="fieldList[batchFieldName] instanceof Array&&fieldList[batchFieldName].length > 0">
     <el-tabs v-model="tabList">
       <template v-for="(item,key) in fieldList[batchFieldName]">
         <el-tab-pane :label="item.title||item.tabName" :name="'tab'+key">
-          <el-table
-              :data="dataForm[item['batchName']]"
-              fit=true
-              border
-              :stripe="true"
-              height="400px"
-              :row-class-name="rowClassName"
-              :highlight-current-row="true"
-              :header-cell-style="{'background':'var(--star-horse-white)',
-      'color': 'var(--star-horse-font-color)',
-      'font-size':'12px',
-      'background-image': '-webkit-gradient(linear,left 0,left 100%,from(#f8f8f8),to(#ececec))'
-      }"
-              :cell-style="{'font-size':'12px'}"
-          >
-            <el-table-column
-                label="序号"
-                align="center"
-                prop="xh"
-                width="50"
-            />
-            <template v-for="sitem in item['fieldList']">
-              <el-table-column
-                  :prop="sitem.hideName||sitem.fieldName"
-                  :label="sitem.label"
-                  sortable
-                  v-if="sitem.formShow||sitem.tableShow||sitem.viewShow"
-                  :formatter="viewDataFormat"
-                  :min-width="(item.minWidth||Config.defaultColumnWidth) + 'px'"
-              />
-            </template>
-          </el-table>
+          <star-horse-data-view-table v-model:data-form="dataForm" :commonFormat="commonFormat"
+                                      :batchName="item['batchName']" :item="item"/>
         </el-tab-pane>
       </template>
     </el-tabs>

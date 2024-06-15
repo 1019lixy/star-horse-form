@@ -1,9 +1,10 @@
 <script setup lang="ts" name="table-container">
 // 右键菜单组件
 import {computed, PropType, ref} from "vue";
-import {warning} from "@/utils/message";
+import {warning, confirm} from "@/utils/message";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
+import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 
 let containerTableRef = ref(); // 强制刷新表格
 const props = defineProps({
@@ -59,6 +60,34 @@ const analysisData = (index: number) => {
   }
   return f?.items[0]?.preps?.label || `Title${index}`;
 }
+let currentIndex = ref<number>(-1);
+const tdOver = (evt: MouseEvent, index: number) => {
+  evt.preventDefault();
+  evt.stopPropagation();
+  if (currentIndex.value == index) {
+    return;
+  }
+  currentIndex.value = index;
+}
+const tdOut = (evt: MouseEvent, index: number) => {
+  evt.preventDefault();
+  evt.stopPropagation();
+  currentIndex.value = 0;
+}
+const deleteCol = (index: number) => {
+  confirm("列删除后，对应的组件也会删除，确认删除吗？").then((res: boolean) => {
+    if (res) {
+      let elements = props.field.preps.elements;
+      elements.splice(index - 1, 1);
+      for (let index in elements) {
+        elements[index].colIndex = parseInt(index) + 1;
+      }
+      console.log(elements);
+      props.field.preps.columns = props.field.preps.columns - 1;
+      currentIndex.value = 0;
+    }
+  })
+}
 </script>
 <template>
   <group-box-container class="dynamic-tab-wapper"
@@ -67,7 +96,13 @@ const analysisData = (index: number) => {
     <table ref="containerTableRef" class="dynamic-table">
       <thead>
       <tr>
-        <th v-for="td of parseInt(field.preps.columns)">
+        <th v-for="td of parseInt(field.preps.columns)" @mouseenter="(evt)=>tdOver(evt,td)"
+            @mouseleave="(evt)=>tdOut(evt,td)">
+          <div class="td-operator" v-if="currentIndex==td&&isEdit">
+            <el-tooltip content="删除列">
+              <star-horse-icon icon-class="delete" cursor="pointer" @click="deleteCol(td)"/>
+            </el-tooltip>
+          </div>
           {{ analysisData(td) }}
         </th>
       </tr>
@@ -81,7 +116,8 @@ const analysisData = (index: number) => {
                         borderBottom: `1px solid #dfe6ec`,
                         borderLeft: `1px solid #dfe6ec`,
                         borderRight: `1px solid #dfe6ec`,
-                      }">
+                      }" @mouseenter="(evt)=>tdOver(evt,td)" @mouseleave="(evt)=>tdOut(evt,td)">
+
             <draggable @add="(evt:Event)=>onDragAdd(evt,field.preps.elements[td-1].items)"
                        class="smain-design"
                        tag="div"
@@ -108,6 +144,18 @@ const analysisData = (index: number) => {
   </group-box-container>
 </template>
 <style lang="scss" scoped>
+th {
+  position: relative;
+
+  .td-operator {
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 9999;
+  }
+}
+
+
 .dynamic-table {
   width: 100%;
   border: 1px dotted #8F8F8F;

@@ -15,6 +15,7 @@ const navBarListStore = navBarList();
 const router = useRouter();
 const normalPageRef = ref();
 const currentRoute = useRoute();
+let relationTables = ref<any>({});
 const dataUrl = ref<ApiUrls>({
   uploadUrl: "",
   batchMergeDraftUrl: "",
@@ -30,7 +31,7 @@ const dataUrl = ref<ApiUrls>({
   userConditionUrl: ""
 });
 const errorMsg = ref("数据加载中");
-let searchFormData = ref<SearchProps[]>();
+let searchFormData = ref<SearchProps[]>([]);
 const tableFieldList = ref<any>({
   fieldList: [],
   batchFieldList: [],
@@ -69,6 +70,7 @@ const loadFormData = async (formId: string) => {
   tableFieldList.value = data["tableFieldList"];
   rules.value = data["rules"];
   formInfo.value = data["formInfo"];
+  relationTables.value = data["relationTables"];
   await nextTick();
   closeLoad();
   normalPageRef.value?.init();
@@ -113,6 +115,7 @@ const dialogProps = reactive<DialogProps>({
 });
 provide("dialogProps", dialogProps);
 const dataFormat = (name: string, cellValue: Object, row: any): any => {
+  console.log(name, cellValue);
   return cellValue;
 };
 </script>
@@ -125,7 +128,7 @@ const dataFormat = (name: string, cellValue: Object, row: any): any => {
         :dialogProps="dialogProps"
     >
       <star-horse-form @refresh="normalPageRef.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList"
-                       :rules="rules"/>
+                       :rules="rules" :globalCondition="relationTables"/>
     </star-horse-dialog>
     <star-horse-dialog
         :dialog-visible="dialogProps.viewVisible"
@@ -136,6 +139,7 @@ const dataFormat = (name: string, cellValue: Object, row: any): any => {
       <star-horse-data-view
           :dataFormat="dataFormat"
           :field-list="tableFieldList"
+          :globalCondition="relationTables"
           :compUrl="dataUrl"
       />
     </star-horse-dialog>

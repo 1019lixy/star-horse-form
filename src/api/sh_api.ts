@@ -363,13 +363,13 @@ export function createDatetime(val: any) {
  * @param url
  * @param id
  */
-export async function loadById(url: string, id: any, isView: boolean) {
+export async function loadById(url: string, id: any, isView: boolean,params:any={}) {
     if (!url || !id) {
         warning("请提供正确的数据");
         return;
     }
     let objData: any = {};
-    await getRequest(url + (isView ? "ForView" : "") + "/" + id).then(res => {
+    await postRequest(url + (isView ? "ForView" : "") + "/" + id,params).then(res => {
         let redata = res.data.data;
         if (!redata) {
             warning("未找到对应数据");

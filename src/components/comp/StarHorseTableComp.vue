@@ -299,7 +299,9 @@ const getRowIdentity = (row: any) => {
     }
     return temp;
   }
-  return props.primaryKey ? row[props.primaryKey] : "";
+  let keyName = row[props.primaryKey] || "";
+  console.log(row,keyName);
+  return keyName;
 };
 const dataFormat = (row: any, column: any, cellValue: any, index: number) => {
   cellValue = commonParseCodeToName(column.property, cellValue);
@@ -491,7 +493,7 @@ defineExpose({
       {{ title }}
     </div>
     <div style="display: flex;align-items: center;flex-direction: row-reverse">
-      <el-button @click="loadByPage" link title="" size="small" >
+      <el-button @click="loadByPage" link title="" size="small">
         <star-horse-icon icon-class="refresh" style="color: var(--star-horse-style);" size="16px"/>
         <el-tooltip content="刷新">刷新</el-tooltip>
       </el-button>
@@ -547,7 +549,6 @@ defineExpose({
       </el-popover>
     </div>
   </div>
-
   <el-table
       ref="starHorseTableCompRef"
       :data="pageInfo.dataList"

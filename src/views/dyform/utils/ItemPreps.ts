@@ -397,8 +397,10 @@ export function containerField(fieldName: string) {
                 tableShow: !false,
                 minWidth: 180
             }, {
-                label: "Tab属性",
+                label: "主键",
                 fieldName: "tabName",
+                helpMsg: `默认作为tab组件的名称，
+                当设置对应关系时,系统作为表的主键`,
                 type: "input",
                 required: true,
                 formShow: !false,

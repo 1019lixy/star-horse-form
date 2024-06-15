@@ -1,11 +1,11 @@
 <script lang="ts" setup name="DynamicForm">
 import FieldPanel from "@/views/dyform/FieldPanel.vue";
-import {computed, nextTick, onMounted, reactive, ref, watch, ComponentInternalInstance, getCurrentInstance} from "vue";
+import {computed, nextTick, onMounted, reactive, ref, watch} from "vue";
 import PropertyPanel from "@/views/dyform/PropertyPanel.vue";
 import {postRequest} from "@/api/star_horse";
 import {confirm, error, warning} from "@/utils/message";
 import {useRoute, useRouter} from "vue-router";
-import {loadGetData} from "@/api/sh_api";
+import {loadData} from "@/api/sh_api";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import FieldAnalysis from "@/views/dyform/FieldAnalysis.vue";
 import FormPropertyPanel from "@/views/dyform/FormPropertyPanel.vue";
@@ -53,7 +53,7 @@ const propertyRef = ref();
 const loadFormData = async (formId: any, isParent: boolean) => {
   await nextTick();
   clearData();
-  let {data, error} = await loadGetData(dataUrl.loadByIdUrl + "/" + formId);
+  let {data, error} = await loadData(dataUrl.loadByIdUrl + "/" + formId, {});
   if (error) {
     warning(error);
     return;
@@ -357,15 +357,15 @@ const dragUpdate = (evt) => {
     <template v-for="(item,index) in list">
       <template v-if="item.preps['elements']?.length>0" v-for="sitem in item.preps['elements']">
         <template v-for="sitem1 in sitem['columns']">
-          <template v-for="sitem2 in sitem1.items">
-            <FieldAnalysis :index="index" :field="sitem2" :container="item.preps.label"/>
+          <template v-for="(sitem2,sindex) in sitem1.items">
+            <FieldAnalysis :index="index+sindex+1" :field="sitem2" :container="item.preps.label"/>
           </template>
         </template>
-        <template v-for="sitem2 in sitem.items">
-          <FieldAnalysis :index="index" :field="sitem2" :container="sitem.label||item.preps.label"/>
+        <template v-for="(sitem2,sindex) in sitem.items">
+          <FieldAnalysis :index="index+sindex+1" :field="sitem2" :container="sitem.label||item.preps.label"/>
         </template>
       </template>
-      <FieldAnalysis :index="index" :field="item"
+      <FieldAnalysis :index="index+1" :field="item"
                      v-if="item.itemType!=='box'&&item.itemType!=='table' &&item.itemType!='tab'" :container="'--'"/>
     </template>
 
@@ -465,24 +465,24 @@ const dragUpdate = (evt) => {
               >
                 <template #item="{element:data}">
                   <div class="comp-item">
-                  <template v-if="data.compType === 'container'">
-                    <component
-                        :key="data.id"
-                        :field="data"
-                        :is="data.itemType + '-container'"
-                        :formFieldList="formFieldList"
+                    <template v-if="data.compType === 'container'">
+                      <component
+                          :key="data.id"
+                          :field="data"
+                          :is="data.itemType + '-container'"
+                          :formFieldList="formFieldList"
 
-                    />
-                  </template>
-                  <template v-else-if="data.compType == 'formItem'">
-                    <component
-                        :key="data.id"
-                        :field="data"
-                        :is="getComponentName(data)"
-                        :parentCompType="'item'"
-                        :formFieldList="formFieldList"
-                    />
-                  </template>
+                      />
+                    </template>
+                    <template v-else-if="data.compType == 'formItem'">
+                      <component
+                          :key="data.id"
+                          :field="data"
+                          :is="getComponentName(data)"
+                          :parentCompType="'item'"
+                          :formFieldList="formFieldList"
+                      />
+                    </template>
                   </div>
                 </template>
               </draggable>

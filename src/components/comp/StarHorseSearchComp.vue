@@ -23,12 +23,13 @@ const props = defineProps({
 let configStore = GlobalConfig(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.inputSize || "small");
 let searchForm: any = inject("searchForm");
+computed(() => {
+  init();
+  return props.formData;
+});
 const init = async () => {
   matchTypeList.value = searchMatchList();
-  searchForm.value ={...analysisDefaultValue()};
-  // if (!searchForm && props.dialogInput) {
-  //
-  // }
+  searchForm.value = {...analysisDefaultValue()};
   await nextTick();
   //没有隐藏的查询属性，则隐藏掉展开图标
   let fdata = props.formData?.find(item => !item.defaultShow);
@@ -94,32 +95,10 @@ const searchArea = () => {
 
 };
 </script>
-<style lang="scss" scoped>
-:deep(.el-form-item) {
-  margin-bottom: 3px;
-}
 
-:deep(.el-form-item__label) {
-  padding: 3px 12px;
-}
-
-.search_content {
-  display: flex;
-
-  .search_area {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    flex: 1;
-    flex-shrink: 0;
-  }
-}
-</style>
 <template>
   <div class="search_content">
-
     <el-form class="search_area" :size="compSize" v-if="formData">
-
       <template v-for="item in formData" v-if="defaultSearch">
         <el-form-item
             :size="compSize"
@@ -155,7 +134,8 @@ const searchArea = () => {
         </el-form-item>
       </template>
       <el-form-item label="     ">
-        <el-button @click="dataSearch" style="background: var(--star-horse-style);color: var(--star-horse-white)" :size="compSize">
+        <el-button @click="dataSearch" style="background: var(--star-horse-style);color: var(--star-horse-white)"
+                   :size="compSize">
           <star-horse-icon icon-class="search" color="var(--star-horse-white)"/>
           <span style="vertical-align: middle"> 查询 </span>
         </el-button>
@@ -164,10 +144,31 @@ const searchArea = () => {
         </el-button>
         &nbsp;&nbsp;
         <el-tooltip :content="tips" v-if="showTips">
-          <star-horse-icon :iconClass="sarchIcon" size="20px" color="var(--star-horse-style)" cursor="pointer"
+          <star-horse-icon :icon-class="sarchIcon" size="20px" color="var(--star-horse-style)" cursor="pointer"
                            @click="searchArea"/>
         </el-tooltip>
       </el-form-item>
     </el-form>
   </div>
 </template>
+<style lang="scss" scoped>
+:deep(.el-form-item) {
+  margin-bottom: 3px;
+}
+
+:deep(.el-form-item__label) {
+  padding: 3px 12px;
+}
+
+.search_content {
+  display: flex;
+
+  .search_area {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    flex: 1;
+    flex-shrink: 0;
+  }
+}
+</style>

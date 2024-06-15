@@ -106,7 +106,6 @@ const validMsg = (item: any) => {
 
     <template v-else-if="item.batchFieldList&&item.batchFieldList.length>0">
       <template v-if="item.batchFieldList.length>1">
-        sss
         <el-tabs v-model="normalTabList">
 
           <template v-for="(sitem,key) in item.batchFieldList">
