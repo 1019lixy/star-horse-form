@@ -1,5 +1,5 @@
 <script lang="ts" setup name="StarHorseFormList">
-import {inject, onMounted, PropType, reactive, Ref, ref} from 'vue'
+import {inject, onMounted, PropType, Ref, ref} from 'vue'
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings";
 import ShTableListColumn from "@/components/comp/ShTableListColumn.vue";
@@ -10,6 +10,7 @@ import {download} from "@/api/star_horse";
 import {getToken} from "@/utils/auth";
 import Sortable from "sortablejs";
 import Help from "@/components/help.vue";
+import {ShallowReactive} from "@vue/reactivity";
 
 let importDialogVisible = ref<boolean>(false);
 const props = defineProps({
@@ -29,7 +30,7 @@ const props = defineProps({
 });
 // const dataForm = inject('dataForm') as Ref;
 const dataForm = defineModel("dataForm") as Ref;
-const formFields = inject("formFields") as reactive<Object>;
+const formFields = inject("formFields") as ShallowReactive<Object>;
 onMounted(() => {
   init();
 });

@@ -128,7 +128,7 @@ const dataFormat = (name: string, cellValue: Object, row: any): any => {
         :dialogProps="dialogProps"
     >
       <star-horse-form @refresh="normalPageRef.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList"
-                       :rules="rules" :globalCondition="relationTables"/>
+                       :rules="rules" :globalCondition="relationTables" :dynamicForm="true"/>
     </star-horse-dialog>
     <star-horse-dialog
         :dialog-visible="dialogProps.viewVisible"

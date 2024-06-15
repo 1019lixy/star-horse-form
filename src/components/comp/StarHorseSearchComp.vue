@@ -23,17 +23,13 @@ const props = defineProps({
 let configStore = GlobalConfig(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.inputSize || "small");
 let searchForm: any = inject("searchForm");
-computed(() => {
-  init();
-  return props.formData;
-});
 const init = async () => {
   matchTypeList.value = searchMatchList();
   searchForm.value = {...analysisDefaultValue()};
   await nextTick();
   //没有隐藏的查询属性，则隐藏掉展开图标
   let fdata = props.formData?.find(item => !item.defaultShow);
-  if (!fdata) {
+  if (!fdata && props.formData?.length > 0) {
     showTips.value = false;
   }
 };

@@ -19,6 +19,7 @@ const props = defineProps({
   primaryKey: {type: String,},
   globalCondition: {type: Object},
   rules: {type: Object},
+  dynamicForm: {type: Boolean, default: false},
   isView: {type: Boolean, default: false},
 });
 let configStore = GlobalConfig(piniaInstance);
@@ -144,7 +145,7 @@ const mergeDraft = (type: string) => {
 };
 
 const doMerge = (type: string) => {
-  load("数据处理中");
+
   assignStatusName();
   let tempForm: any;
   let tempDatas = JSON.parse(JSON.stringify(dataForm.value));
@@ -164,10 +165,19 @@ const doMerge = (type: string) => {
       }
     }
   });
+
+  let dydata: any = {
+    relationTables: props.globalCondition,
+  }
   if (flag) {
     tempForm = dataForm.value;
+    dydata["dataMap"] = tempForm;
+  } else {
+    dydata["dataListsMap"] = tempForm;
   }
-  postRequest(mergeUrl!, tempForm).then(res => {
+  load("数据处理中");
+  //dynamicForm 如果为true 表示动态表单，动态表单需额外封装数据对象
+  postRequest(mergeUrl!, props.dynamicForm ? dydata : tempForm).then(res => {
     closeLoad();
     if (res.data.code != 0) {
       warning(res.data.cnMessage);
