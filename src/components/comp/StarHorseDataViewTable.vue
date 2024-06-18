@@ -41,7 +41,6 @@ const dataFormat = (item: any) => {
       fit
       border
       :stripe="true"
-      height="400px"
       :row-class-name="rowClassName"
       :highlight-current-row="true"
       :row-style="{

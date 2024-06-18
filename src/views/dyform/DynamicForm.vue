@@ -166,7 +166,8 @@ const doSave = async () => {
     return;
   }
   //解决多次转换
-  dynameForm!["relations"] = (dynameForm["relations"] instanceof Array) ? JSON.stringify(dynameForm["relations"]) : dynameForm["relations"];
+  dynameForm!["relations"] = (dynameForm["relations"] && dynameForm["relations"] instanceof Array) ?
+      JSON.stringify(dynameForm["relations"]) : dynameForm["relations"];
   dynameForm!["details"] = {};
   dynameForm!["details"]["content"] = JSON.stringify(list.value);
   dynameForm!["details"]["fieldNames"] = JSON.stringify(formFieldList.value);
@@ -582,7 +583,7 @@ const dragUpdate = (evt) => {
 
         .main-design {
           flex: 1;
-          margin: 3px 5px;
+          margin: 3px 3px 0 5px;
           height: 100%;
           overflow: auto;
           background: rgba(255, 255, 255, 0.8);

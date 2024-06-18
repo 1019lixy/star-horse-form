@@ -18,7 +18,7 @@ const props = defineProps({
 });
 let batchDefaultValues = ref({});
 const dataForm = defineModel("dataForm");
-
+const normalTabList = ref<any>("tab0");
 const subTabObject = ref<any>();
 const subTabList = ref<any>();
 const viewDataFormat = (row: any, column: any, cellValue: any, index: number) => {
@@ -69,6 +69,22 @@ const dataFormat = (item: any) => {
     <star-horse-item v-else-if="item.type=='comp'" :primaryKey="'id'"
                      v-model:dataForm="dataForm" :item="item"
                      :isView="true"/>
+    <template v-else-if="item.batchFieldList&&item.batchFieldList.length>0">
+      <template v-if="item.batchFieldList.length>1">
+        <el-tabs v-model="normalTabList">
+
+          <template v-for="(sitem,key) in item.batchFieldList">
+            <el-tab-pane :label="sitem['title']" :name="'tab'+key" :disabled="sitem.disabled">
+              <star-horse-data-view-table :commonFormat="commonFormat" :item="sitem"
+                                          :batchName="sitem['batchName']"
+                                          v-model:dataForm="dataForm"/>
+            </el-tab-pane>
+          </template>
+        </el-tabs>
+      </template>
+      <star-horse-data-view-table v-else :commonFormat="commonFormat" :item="item.batchFieldList[0]"
+                                  v-model:dataForm="dataForm" :batchName="item.batchFieldList[0]['batchName']"/>
+    </template>
     <template v-else>
       <div class="item" v-if="item.formShow||item.tableShow||item.viewShow">
         <label>{{ item.label }} :</label>

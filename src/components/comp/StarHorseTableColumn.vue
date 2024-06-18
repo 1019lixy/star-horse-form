@@ -16,6 +16,7 @@ const props = defineProps({
 const emits = defineEmits(["focusEvent", "blurEvent"]);
 const currentRow = ref();
 const currentRowColumnRef = ref();
+
 const focusEvent = (column: any) => {
   // currentRow.value[column["property"]] = currentRow.value[column["property"]];
 };
