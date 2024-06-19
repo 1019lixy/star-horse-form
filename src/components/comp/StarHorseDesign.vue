@@ -13,6 +13,7 @@ import {formFieldMapping} from "@/api/sh_api";
 import {DynamicForm} from "@/store/DynamicFormStore";
 import Help from "@/components/help.vue";
 import ConsumerDbListComp from "@/views/dbsearch/utils/ConsumerDbListComp.vue";
+import StarHorseEditor from "@/components/comp/StarHorseEditor.vue";
 
 const designGraph = DesignGraph(piniaInstance);
 const dynamicForm = DynamicForm(piniaInstance);
@@ -52,7 +53,7 @@ const props = defineProps({
   panelStyle: {type: String, default: "normal"},
   customerItems: {type: Array as PropType<CustomerItem[]>, default: []}
 });
-const emits = defineEmits(["lineClick", "nodeClick", "save", "validation", "preview"]);
+const emits = defineEmits(["config", "lineClick", "nodeClick", "save", "validation", "preview"]);
 let compAttr = ref({});
 provide("dataForm", compAttr);
 const jsonData = ref<String>();
@@ -117,6 +118,12 @@ const transform = (command: string) => {
       break;
     case "save":
       emits("save", analisyAllData());
+      break;
+    case "config":
+      emits("config", analisyAllData());
+      break;
+    case "preview":
+      emits("preview", analisyAllData());
       break;
     default:
       alignOperation(command);
@@ -738,9 +745,7 @@ defineExpose({
   <star-horse-dialog :dialogVisible="dataPreviewVisible" :title="'JSON'"
                      @closeAction="closeAction"
                      :isBatch="false" :isView="true">
-    <pre>
-      {{ jsonData }}
-    </pre>
+    <star-horse-editor :value="jsonData" :lang="'json'"/>
   </star-horse-dialog>
   <div class="design-content">
     <div class="comp-list" v-show="leftPanelVisible&&!readonly">
@@ -847,10 +852,12 @@ defineExpose({
         </div>
       </div>
       <hr/>
-      <star-horse-form v-model:data-form="dataForm" v-if="checkIsNode()==1" :isView="readonly" ref="rightAttrPanel" @refresh="()=>{}"
+      <star-horse-form v-model:data-form="dataForm" v-if="checkIsNode()==1" :isView="readonly" ref="rightAttrPanel"
+                       @refresh="()=>{}"
                        :compUrl="compUrl"
                        :fieldList="nodeFieldList" :rules="rules"/>
-      <star-horse-form v-model:data-form="dataForm" v-else-if="checkIsNode()==2" :isView="readonly" ref="rightAttrPanel" @refresh="()=>{}"
+      <star-horse-form v-model:data-form="dataForm" v-else-if="checkIsNode()==2" :isView="readonly" ref="rightAttrPanel"
+                       @refresh="()=>{}"
                        :compUrl="compUrl"
                        :fieldList="lineFieldList" :rules="rules"/>
       <div v-else class="empty-info">
@@ -876,9 +883,11 @@ defineExpose({
       </div>
     </div>
     <hr/>
-    <star-horse-form v-model:data-form="dataForm" v-if="checkIsNode()==1" ref="rightAttrPanel" @refresh="()=>{}" :compUrl="compUrl"
+    <star-horse-form v-model:data-form="dataForm" v-if="checkIsNode()==1" ref="rightAttrPanel" @refresh="()=>{}"
+                     :compUrl="compUrl"
                      :fieldList="nodeFieldList" :rules="rules"/>
-    <star-horse-form v-model:data-form="dataForm" v-else-if="checkIsNode()==2" ref="rightAttrPanel" @refresh="()=>{}" :compUrl="compUrl"
+    <star-horse-form v-model:data-form="dataForm" v-else-if="checkIsNode()==2" ref="rightAttrPanel" @refresh="()=>{}"
+                     :compUrl="compUrl"
                      :fieldList="lineFieldList" :rules="rules"/>
     <div v-else class="empty-info"> 右侧面板</div>
   </el-drawer>

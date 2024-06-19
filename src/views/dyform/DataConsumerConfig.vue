@@ -11,7 +11,7 @@ import {ApiUrls} from "@/components/types/ApiUrls";
 import StarHorseDialog from "@/components/comp/StarHorseDialog.vue";
 import DataPreview from "@/views/dyform/DataPreview.vue";
 import {CustomerItem} from "@/components/types/CompInfo.d.ts";
-import {consumerNodeData, relationFieldInfo, viewFieldInfo} from "@/views/dyform/utils/DataConsumer.ts";
+import {consumerNodeData, relationFieldInfo, table_width, viewFieldInfo} from "@/views/dyform/utils/DataConsumer.ts";
 
 const route = useRoute();
 const isView = ref<boolean>(false);
@@ -128,17 +128,9 @@ const checkRelation = () => {
 };
 
 let isConfig = ref<boolean>(false);
-/**
- * 保存数据前配置
- * @param dataInfo
- */
-let viewConfigInfo = ref<any>({});
-const configView = (dataInfo: any) => {
-  console.log(dataInfo);
-  viewConfigInfo.value = {...dataInfo};
-  consumerDialogVisible.value = true;
 
-};
+let viewConfigInfo = ref<any>({});
+
 
 /**
  *
@@ -157,13 +149,6 @@ const exclusionOptionList = (tempCond: any) => {
   }
   return condition;
 }
-const relationData = () => {
-  let edges = containerDiagramRef.value.graph.getEdges();
-  if (edges && edges.length > 0) {
-
-  }
-  return {};
-};
 const consumerDialogVisible = ref<boolean>(false);
 const relationDialogVisible = ref<boolean>(false);
 const dataPreviewVisible = ref<boolean>(false);
@@ -205,7 +190,6 @@ const resetDataSourceForm = () => {
 const closeAction = () => {
   consumerDialogVisible.value = false;
   dataPreviewVisible.value = false;
-
 };
 const resetConditionForm = () => {
   formConditionProps.value = {};
@@ -263,10 +247,38 @@ const loadConfigData = async (configId: string | LocationQueryValue[]) => {
 
 };
 const createMergeData = () => {
+  let configInfo = viewConfigInfo.value;
+  let relations = configInfo.relations;
+  let tables = configInfo.tables;
+  if (!relations && tables.length > 1) {
+    warning("两张表之间必须要设置关联关系");
+    return {};
+  }
+  //如果有关系则只处理有关系的数据
+  let subData: Array<any> = [];
+  if (relations && relations.length > 0) {
+    for (let index in relations) {
+      let temp = relations[index];
+      subData.push({
+        fromTable: temp.from,
+        fromKey: temp.from,
+        fromField: temp.fromPort,
+        toTable: temp.to,
+        toKey: temp.to,
+        toField: temp.toPort
+      });
+    }
+  } else {
+    let temp = tables[0];
+    subData.push({
+      fromTable: temp.from,
+      fromKey: temp.from,
+    });
+  }
   let sortFieldsTemp = formProps.value["sortFields"];
   let limitFieldsTemp = formProps.value["limitFields"];
   formProps.value["consumerConfigRelationList"] = subData;
-  formProps.value["dataSourceConfigId"] = dataSourceConfigId;
+  formProps.value["dataSourceConfigId"] = "3";
   formProps.value["sortFieldList"] = exclusionOptionList(sortFieldsTemp);
   formProps.value["limitFieldList"] = exclusionOptionList(limitFieldsTemp);
   let data = JSON.parse(JSON.stringify(formProps.value));
@@ -305,14 +317,26 @@ const loadColumnFields = async () => {
   });
 }
 /**
- * 预览数据
- * @param currentPage
- * @param pageSize
+ * 保存数据前配置
+ * @param dataInfo
+ * @param isSubmit 是否是数据提交
  */
-const preview = (currentPage: number, pageSize: number) => {
+const configView = (dataInfo: any, isSubmit: boolean) => {
+  isConfig.value = !isSubmit;
+  viewConfigInfo.value = {...dataInfo};
+  consumerDialogVisible.value = true;
+};
+
+/**
+ * 预览数据
+ * @param dataInfo
+ */
+const preview = (dataInfo: any) => {
+
+  viewConfigInfo.value = {...dataInfo};
   //加载视图
   loadColumnFields();
-  dataList(currentPage, pageSize);
+  dataList(1, 20);
 }
 const dataList = (currentPage: number, pageSize: number) => {
   load("数据解析中");
@@ -415,7 +439,8 @@ const nodeOperation = (cell: any) => {
                        :compType="'table'"
                        @lineClick="lineOperation"
                        @preview="preview"
-                       @save="configView"
+                       @save="(val:any)=>configView(val,true)"
+                       @config="(val:any)=>configView(val,false)"
                        @validation="checkRelation"
                        @nodeClick="nodeOperation"/>
   </el-card>

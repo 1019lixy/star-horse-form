@@ -11,8 +11,8 @@ let lineDatas: any = {};
 let tableList = ref<SelectOption[]>([]);
 let fieldList = ref<SelectOption[]>([]);
 
-const line_height = 24;
-const table_width = 320;
+export const line_height = 24;
+export const table_width = 320;
 
 export const consumerNodeData: any = {
     portName: "erPortPosition",
@@ -252,7 +252,7 @@ export function viewFieldInfo(viewTypeList: Ref<Selection[]>, viewConfigInfo: an
 
                     ]
                 }, {
-                    batchName: "sortFields",
+                    batchName: "limitFields",
                     title: "指定返回字段",
                     disVisible: limitFieldVisible,
                     fieldList: [

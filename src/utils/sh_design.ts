@@ -92,6 +92,11 @@ const commands = [
         label: 'JSON数据',
     },
     {
+        icon: "config",
+        key: 'config',
+        label: '配置',
+    },
+    {
         icon: "valid",
         key: 'valid',
         label: '校验',
