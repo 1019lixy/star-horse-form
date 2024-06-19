@@ -262,6 +262,7 @@ onMounted(() => {
 </template>
 
 <style scoped lang="scss">
+
 .theme-item {
   align-items: center;
   cursor: pointer;

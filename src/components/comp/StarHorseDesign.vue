@@ -12,6 +12,7 @@ import {DesignGraph} from "@/store/DesignGraphStore";
 import {formFieldMapping} from "@/api/sh_api";
 import {DynamicForm} from "@/store/DynamicFormStore";
 import Help from "@/components/help.vue";
+import ConsumerDbListComp from "@/views/dbsearch/utils/ConsumerDbListComp.vue";
 
 const designGraph = DesignGraph(piniaInstance);
 const dynamicForm = DynamicForm(piniaInstance);
@@ -20,6 +21,7 @@ const graph = ref();
 const contextmenuRef = ref();
 const leftPanelVisible = ref<boolean>(true);
 const connectorStyle = ref<String>("normal");
+const tabModel = ref<String>("dynamicTable");
 const rightPanel = ref<boolean>(false);
 const normalRightPanel = ref<boolean>(true);
 const currentComp = ref<any>();
@@ -42,9 +44,11 @@ const props = defineProps({
   batchFieldName: {type: String, default: "batchFieldList"},
   primaryKey: {type: String, required: true},
   rules: {type: Object, required: true},
+  showDbList: {type: Object, required: false},
   //table,normal,其他待定
   compType: {type: String, default: "normal"},
   //drawer,normal
+  activeCollapse: {type: String, default: "0"},
   panelStyle: {type: String, default: "normal"},
   customerItems: {type: Array as PropType<CustomerItem[]>, default: []}
 });
@@ -53,7 +57,7 @@ let compAttr = ref({});
 provide("dataForm", compAttr);
 const jsonData = ref<String>();
 const dataPreviewVisible = ref<boolean>(false);
-let activeItem = ref<any>([]);
+let activeItem = computed(() => props.activeCollapse);
 const transform = (command: string) => {
   switch (command) {
     case 'translate':
@@ -603,6 +607,7 @@ const dragDrop = (evt: DragEvent) => {
   data["index"] = nodeIndex++;
   data["posX"] = evt.pageX;
   data["posY"] = evt.pageY;
+  //有items 数据
   if (data["items"]) {
     data["shape"] = "er-rect";
     data["compType"] = "table";
@@ -703,37 +708,54 @@ defineExpose({
   </star-horse-dialog>
   <div class="design-content">
     <div class="comp-list" v-show="leftPanelVisible&&!readonly">
-      <el-input
-          v-model="query"
-          size="small"
-          clearable
-          placeholder="请输入关键字"
-          @input="onQueryChanged"
-      >
-        <template #suffix>
-          <star-horse-icon icon-class="search" color="var(--star-horse-style)"/>
-        </template>
-      </el-input>
-      <el-scrollbar>
-        <el-collapse accordion v-model="activeItem">
-          <template v-for="item in filterDatas">
-            <el-collapse-item :name="item.name" :title="item.title" type="small">
-              <el-scrollbar max-height="350">
-                <ul>
-                  <li
-                      draggable="true"
-                      @dragstart="evt=>dratStart(sitem,evt)"
-                      class="field-item"
-                      v-for="sitem in item.compItems"
-                  ><span>&nbsp;&nbsp;<star-horse-icon
-                      :icon-class="sitem['icon']?sitem['icon']:'default'"/>&nbsp;{{ sitem.label }}</span>
-                  </li>
-                </ul>
-              </el-scrollbar>
-            </el-collapse-item>
+      <el-tabs v-model="tabModel">
+        <el-tab-pane name="dynamicTable">
+          <template #label>
+            <star-horse-icon icon-class="setting"
+                             style="color: var(--star-horse-style)"/>&nbsp;<span>组件</span>
           </template>
-        </el-collapse>
-      </el-scrollbar>
+          <el-input
+              v-model="query"
+              size="small"
+              clearable
+              placeholder="请输入关键字"
+              @input="onQueryChanged"
+          >
+            <template #suffix>
+              <star-horse-icon icon-class="search" color="var(--star-horse-style)"/>
+            </template>
+          </el-input>
+          <el-scrollbar>
+            <el-collapse accordion v-model="activeItem">
+              <template v-for="item in filterDatas">
+                <el-collapse-item :name="item.name" :title="item.title" type="small">
+                  <el-scrollbar max-height="350">
+                    <ul>
+                      <li
+                          draggable="true"
+                          @dragstart="evt=>dratStart(sitem,evt)"
+                          class="field-item"
+                          v-for="sitem in item.compItems"
+                      ><span>&nbsp;&nbsp;<star-horse-icon
+                          :icon-class="sitem['icon']?sitem['icon']:'default'"/>&nbsp;{{
+                          sitem.label || sitem.name
+                        }}</span>
+                      </li>
+                    </ul>
+                  </el-scrollbar>
+                </el-collapse-item>
+              </template>
+            </el-collapse>
+          </el-scrollbar>
+        </el-tab-pane>
+        <el-tab-pane name="dbList" v-if="showDbList">
+          <template #label>
+            <star-horse-icon icon-class="database"
+                             style="color: var(--star-horse-style)"/>&nbsp;<span>数据源</span>
+          </template>
+          <ConsumerDbListComp/>
+        </el-tab-pane>
+      </el-tabs>
     </div>
     <div class="design-main">
       <div class="inner_button">
@@ -743,7 +765,8 @@ defineExpose({
               <el-tooltip class="item" :content="item.label" :index="index"
                           effect="dark"
                           placement="bottom">
-                <star-horse-icon @click="transform(item.key)" :icon-class="item.icon" size="24px" style="color: var(--star-horse-style)"
+                <star-horse-icon @click="transform(item.key)" :icon-class="item.icon" size="24px"
+                                 style="color: var(--star-horse-style)"
                 />
               </el-tooltip>
             </el-menu-item>

@@ -79,7 +79,7 @@ const loadFormData = async (formId: any, isParent: boolean) => {
 
 };
 onMounted(async () => {
-  clearData();
+  designForm.clearAll(true);
   await init();
 });
 //监听参数变化
@@ -151,7 +151,7 @@ const doSave = async () => {
     return;
   }
 
-  let dynameForm = formInfo.value;
+  let dynameForm = JSON.parse(JSON.stringify(formInfo.value));
   let flag = false;
   await nextTick();
   errMessage.value = validDynamicFormCompParams(list.value, true);
@@ -180,19 +180,20 @@ const doSave = async () => {
         }
         closeAction();
         //添加成功后是否还要继续添加，
-        confirm(res.data.cnMessage + ",是否继续留在当前页面").then((res) => {
-          if (res) {
-            clearData();
-          } else {
-            let sdata = {
-              path: "/dyform/DynamicFormUi",
-              componentName: "DynamicFormUi",
-            };
-            router.push(sdata);
+        confirm(res.data.cnMessage + ",是否继续留在当前页面").then((cfm: boolean) => {
+          if (cfm) {
+            designForm.clearAll(false);
           }
+        }).catch(() => {
+          let sdata = {
+            path: "/dyform/DynamicFormUi",
+            componentName: "DynamicFormUi",
+          };
+          router.push(sdata);
         });
       }).catch((err) => {
     activeTab.value = "second";
+    closeAction();
     error("操作异常:" + err);
   });
 };
@@ -202,9 +203,6 @@ const formInfoChange = (data: any) => {
 
 const getComponentName = (data: any) => {
   return data.itemType + "-item";
-};
-const dataChange = (evt: Event, dataList: Array<any>) => {
-  console.log(evt, dataList);
 };
 const onDragAdd = async (evt: Event, dataList: Array<any>) => {
   console.log(evt, dataList);

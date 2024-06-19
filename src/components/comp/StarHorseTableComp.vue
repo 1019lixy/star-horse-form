@@ -300,7 +300,7 @@ const getRowIdentity = (row: any) => {
     return temp;
   }
   let keyName = row[props.primaryKey] || "";
-  console.log(row,keyName);
+  // console.log(row,keyName);
   return keyName;
 };
 const dataFormat = (row: any, column: any, cellValue: any, index: number) => {

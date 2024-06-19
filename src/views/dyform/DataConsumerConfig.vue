@@ -61,8 +61,8 @@ const nodeData: any = {
     attrs: {
       rect: {
         strokeWidth: 1,
-        stroke: '#5F95FF',
-        fill: '#5F95FF',
+        stroke: 'var(--star-horse-style)',
+        fill: 'var(--star-horse-style)',
       },
       label: {
         fontWeight: 'bold',
@@ -79,32 +79,6 @@ const nodeData: any = {
     },
     ports: {
       groups: {
-        left: {
-          position: 'left',
-          attrs: {
-            circle: {
-              magnet: true,
-              stroke: '#8f8f8f',
-              r: 5,
-            },
-          },
-          label: {
-            position: 'left',
-          },
-        },
-        right: {
-          position: 'right',
-          attrs: {
-            circle: {
-              magnet: true,
-              stroke: '#8f8f8f',
-              r: 5,
-            },
-          },
-          label: {
-            position: 'right',
-          },
-        },
         list: {
           markup: [
             {
@@ -113,7 +87,6 @@ const nodeData: any = {
             },
             {
               tagName: 'text',
-              group: "left",
               selector: 'name',
             },
             {
@@ -134,20 +107,15 @@ const nodeData: any = {
               width: table_width,
               height: line_height,
               strokeWidth: 1,
-              stroke: '#5F95FF',
+              stroke: 'var(--star-horse-style)',
               fill: '#EFF4FF',
-              magnet: true,
+
             },
             name: {
-              ref: 'portBody',
               refX: 5,
               refY: 6,
-              ports: {
-                items: [{
-                  group: "left"
-                }],
-              },
               fontSize: 10,
+              magnet: true,
               textWrap: {
                 width: 78,
                 ellipsis: true,
@@ -155,20 +123,13 @@ const nodeData: any = {
               }
             },
             type: {
-              ref: 'portBody',
               refX: 80,
               refY: 6,
               fontSize: 10,
             },
             comment: {
-              ref: 'portBody',
               refX: 150,
               refY: 6,
-              ports: {
-                items: [{
-                  group: "right"
-                }]
-              },
               fontSize: 10,
               textWrap: {
                 width: 150,
@@ -177,10 +138,22 @@ const nodeData: any = {
               }
             },
             primaryFlag: {
-              ref: 'portBody',
               refX: 300,
               refY: 6,
               fontSize: 10,
+              points:{
+                position:"left",
+                attrs: {
+                  circle: {
+                    r: 6,
+                    magnet: true,
+                    stroke: '#31d0c6',
+                    strokeWidth: 2,
+                    fill: '#fff',
+                  },
+                },
+              },
+              magnet: true,
             },
           },
           position: 'erPortPosition',
@@ -211,15 +184,15 @@ const init = async () => {
     title: "自定义表组件",
     compItems: data["dataList"]
   });
-  customerItems.value?.push({
-    name: "flow",
-    title: "流程组件",
-    compItems: [
-      {label: "组件1", name: "box_print", icon: "drag"},
-      {label: "组件2", name: "data_trans", icon: "equal"},
-      {label: "组件3", name: "data_test", icon: "edit"},
-    ]
-  });
+  // customerItems.value?.push({
+  //   name: "flow",
+  //   title: "流程组件",
+  //   compItems: [
+  //     {label: "组件1", name: "box_print", icon: "drag"},
+  //     {label: "组件2", name: "data_trans", icon: "equal"},
+  //     {label: "组件3", name: "data_test", icon: "edit"},
+  //   ]
+  // });
   // containerDiagramRef.value.createStencil(null, data["dataList"], "er-rect");
   if (route.query["configId"]) {
     loadConfigData(route.query["configId"]);
@@ -306,7 +279,6 @@ const configView = (flag: boolean) => {
  *
  */
 const submit = () => {
-
   let {subData, tableList} = relationData();
   if (subData) {
     consumerDialogVisible.value = true;
@@ -1061,7 +1033,9 @@ const dragend = (evt) => {
   <el-card class="inner_content" style="height: 100%;padding: 5px;">
     <star-horse-design :customerItems="customerItems" :register-node="nodeData" ref="containerDiagramRef"
                        :tableFlag="true"
+                       :activeCollapse="'db'"
                        :panelStyle="'other'"
+                       :showDbList="true"
                        :compType="'table'"
                        @lineClick="lineOperation"
                        @preview="preview"

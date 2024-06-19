@@ -163,9 +163,10 @@ const configInfo = computed(() => configStore.configFormInfo);
 <style lang="scss" scoped>
 :deep(.el-header) {
   height: unset;
-  padding:unset;
+  padding: unset;
   /* box-shadow: 0 10px 5px var(--star-horse-white);*/
 }
+
 
 //.star-horse-header{
 //  height: ;
@@ -175,7 +176,8 @@ const configInfo = computed(() => configStore.configFormInfo);
 .operation-area {
   height: 100%;
   overflow: hidden;
-  :deep(.el-card__body){
+
+  :deep(.el-card__body) {
     height: 100%;
     overflow: hidden;
   }

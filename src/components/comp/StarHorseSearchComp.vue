@@ -43,7 +43,7 @@ const createCreateParams = (formData: any) => {
     let temp = formData?.find((item: any) => item.fieldName == key);
     //如果子项和父项存在同名会存在bug，
     if (!!val && temp) {
-      if (temp?.type == 'datarange') {
+      if (temp?.type == 'daterange') {
         val = [val[0] + ' 00:00:00', val[1] + ' 23:59:59']
       } else if (temp?.type == 'date') {
         val = [val + ' 00:00:00', val + ' 23:59:59']

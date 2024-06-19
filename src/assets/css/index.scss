@@ -594,4 +594,14 @@ hr {
   width: 100%;
 }
 
+.el-drawer__header,:deep(.el-drawer__header) {
+  margin: 0;
+  height: 35px;
+  padding: unset;
+  color: var(--star-horse-white);
+  h3,.el-drawer__close-btn{
+    margin: unset;
+    color: var(--star-horse-white);
+  }
+}
 
