@@ -18,10 +18,7 @@ export default defineComponent({
     let dataField = shallowRef("");
     let multipleSelection = shallowRef<Array<any>>([]);
     let actionName = shallowRef("keydown.enter");
-    onMounted(() => {
-      actionName.value = field.preps["actionName"];
-      loadByPage();
-    });
+
     let pageInfo = ref<PageProps>({
       pageSize: 20,
       currentPage: 1,
@@ -109,17 +106,22 @@ export default defineComponent({
         field.preps["recall"](multipleSelection.value);
       }
     };
+    onMounted(() => {
+      actionName.value = field.preps["actionName"];
+      loadByPage();
+      keyEnterFun(actionName.value);
+    });
     return {
       parentField, formFieldList, context, field, formItem,
-      dataField,  keyEnterFun, actionName, pageInfo, pageSizeClick, pageChangeClick
+      dataField, keyEnterFun, actionName, pageInfo, pageSizeClick, pageChangeClick
       , getRowIdentity, searchDataFun, handleSelectionChange, starHorseTableCompRef, selectRow
     }
   }
 });
 </script>
 <template>
-  <starhorse-form-item  :isDesign="context.attrs['isDesign']" :formItem="field"
-                        :parentField="parentField">
+  <starhorse-form-item :isDesign="context.attrs['isDesign']" :formItem="field"
+                       :parentField="parentField">
     <el-select
         :fid="field.preps['name']"
         :readonly="field.preps['readonly']=='yes'"

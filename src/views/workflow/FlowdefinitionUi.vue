@@ -140,7 +140,7 @@ onMounted(async () => {
 
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form @refresh="flowDefinitionRef.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList"
+    <star-horse-form v-model:data-form="dataForm" @refresh="flowDefinitionRef.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList"
                      :rules="rules"/>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title=

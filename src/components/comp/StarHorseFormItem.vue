@@ -16,13 +16,13 @@ const props = defineProps({
   subCreateFlag: {type: Boolean, default: false},
   batchName: {type: String, default: "batchDataList"},
   batchFieldName: {type: String, default: "batchFieldList"},
-  primaryKey: {type: String, required: true},
-  rules: {type: Object, required: true},
+  primaryKey: {type: String},
+  rules: {type: Object},
   isView: {type: Boolean, default: false},
 });
 let configStore = GlobalConfig(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.inputSize || "small");
-const dataForm = inject("dataForm") as Ref;
+const dataForm = defineModel("dataForm");
 const dialogProps = inject<DialogProps>("dialogProps", {});
 const tableListRef = ref<any>([]);
 const tabObject = ref<any>(0);
@@ -107,7 +107,6 @@ const validMsg = (item: any) => {
     <template v-else-if="item.batchFieldList&&item.batchFieldList.length>0">
       <template v-if="item.batchFieldList.length>1">
         <el-tabs v-model="normalTabList">
-
           <template v-for="(sitem,key) in item.batchFieldList">
             <el-tab-pane :label="sitem['title']" :name="'tab'+key" :disabled="sitem.disabled">
               <star-horse-form-table :rules="rules" :item="sitem" :size="compSize" v-model:dataForm="dataForm"/>

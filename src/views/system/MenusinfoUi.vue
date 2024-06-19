@@ -301,7 +301,7 @@ const checkChange = (data: TreeNodeData, checked: boolean) => {
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps" :self-func="true"
                      @merge="merge" @mergeDraft="mergeDraft" @resetForm="resetForm">
-    <star-horse-form :compUrl="dataUrl" :fieldList="tableFieldList" :primaryKey="primaryKey" :rules="rules"
+    <star-horse-form v-model:data-form="dataForm" :compUrl="dataUrl" :fieldList="tableFieldList" :primaryKey="primaryKey" :rules="rules"
                      ref="menuFormRef"/>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title="'查看数据'"

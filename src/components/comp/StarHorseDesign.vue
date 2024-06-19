@@ -3,7 +3,7 @@ import {computed, nextTick, onMounted, PropType, provide, ref, watch} from "vue"
 import {Cell, Graph, Point, Shape, View} from "@antv/x6";
 import {confirm, warning} from "@/utils/message.ts";
 import {CompInfo, CustomerItem, NodeInfo} from "@/components/types/CompInfo.d.ts";
-import {commands, configInfo, helpMessage, ports} from "@/utils/sh_design.ts";
+import {commands, configInfo, helpMessage, ports, tableConfigInfo} from "@/utils/sh_design.ts";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {ApiUrls} from "@/components/types/ApiUrls.d.ts";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo.d.ts";
@@ -58,6 +58,7 @@ provide("dataForm", compAttr);
 const jsonData = ref<String>();
 const dataPreviewVisible = ref<boolean>(false);
 let activeItem = computed(() => props.activeCollapse);
+const hasData = ref<Array<any>>([]);
 const transform = (command: string) => {
   switch (command) {
     case 'translate':
@@ -102,6 +103,7 @@ const transform = (command: string) => {
           nodeList.value = [];
           graph.value.resetCells([]);
           nodeIndex = 0;
+          hasItems();
         }
       });
       break;
@@ -113,16 +115,21 @@ const transform = (command: string) => {
       jsonData.value = JSON.stringify(graph.value.toJSON(), null, 4);
       dataPreviewVisible.value = true;
       break;
+    case "save":
+      emits("save", analisyAllData());
+      break;
     default:
       alignOperation(command);
       break
   }
+  hasItems();
 };
 let hasItemFlag = ref<boolean>(false);
-// const hasItems = () => {
-//   let cells = graph?.value?.getNodes();
-//   return hasItemFlag.value = cells?.length > 0 && !props.readonly;
-// };
+const hasItems = () => {
+  let cells = graph?.value?.getNodes();
+  hasData.value = cells;
+  return hasItemFlag.value = cells?.length > 0 && !props.readonly;
+};
 const closeAction = () => {
   dataPreviewVisible.value = false;
 };
@@ -142,15 +149,16 @@ const alignOperation = (align: string) => {
         deleteNode(cells);
         graph.value.removeCells(cells);
         currentComp.value = null;
+        hasItems();
       }
     });
     return;
   }
+  hasItems();
   if (!cells || cells.length == 0) {
     cells = graph.value.getNodes();
   }
   if (cells?.length == 0) {
-    // warning("画布内没有任何组件");
     return;
   }
   for (let index in cells) {
@@ -207,7 +215,7 @@ const init = async () => {
   graph.value = new Graph({
     autoResize: true,
     container: starHorseDesignRef.value,
-    ...configInfo
+    ...(props.compType == 'table' ? tableConfigInfo : configInfo)
   });
   graph.value.resetCells([]);
   designGraph.setGraph(graph.value, props.readonly);
@@ -275,7 +283,7 @@ const init = async () => {
 // #endregion
   graph.value.on("cell:added", (edge: View) => {
     designGraph.setCell(edge.cell, true);
-    if (edge.cell.isEdge()) {
+    if (edge.cell.isEdge() && props.compType != "table") {
       designGraph.setLabel("OK", "#15C912");
     } else {
       clickOperation(edge);
@@ -295,7 +303,7 @@ const init = async () => {
   // //点击节点
   graph.value.on('cell:click', ({e, x, y, cell, view}) => {
     // graph.value.trigger("blank:click", {e, x, y, edge, view});
-    if (props.panelStyle == "normal") {
+    if (props.panelStyle == "normal" || props.compType == "table") {
       clickOperation(view);
     }
     if (cell.isEdge()) {
@@ -335,6 +343,7 @@ const clickOperation = async (view: View) => {
   if (isNode || cell.isEdge()) {
     designGraph.setCell(cell);
   }
+  hasItems();
   let data = getCellnfo(cell)!;
   if (!isNode) {
     // graph.value.trigger("blank:click", {view});
@@ -342,8 +351,9 @@ const clickOperation = async (view: View) => {
   }
   currentCellInfo.value = data;
 
-  if (data.fromType == "table") {
+  if (data?.fromType == "table") {
     emits(isNode ? "nodeClick" : "lineClick", data);
+    //
   } else {
     currentComp.value = cell;
     await readCompAttr();
@@ -374,6 +384,7 @@ const deleteNode = (cells: Array<any>) => {
       }
     }
   }
+  hasItems();
 }
 const contextMenuOperation = (type: any) => {
   console.log(type);
@@ -536,6 +547,22 @@ const registerPort = (portName: string) => {
   }
 
 };
+const analisyAllData = () => {
+  let cells = graph.value.getCells();
+  let tableList = [];
+  let relationList = [];
+  for (let index in cells) {
+    let cell = cells[index];
+    console.log(cell);
+    if (cell.isNode()) {
+      tableList.push(getCellnfo(cell));
+    } else {
+      relationList.push(getCellnfo(cell));
+    }
+
+  }
+  return {tables: tableList, relations: relationList};
+}
 /**
  * 获取
  * @param cell
@@ -546,8 +573,12 @@ const getCellnfo = (cell: any) => {
   }
   let isNode = cell.isNode();
   if (isNode) {
+    let data = cell.getData();
     return {
-      fromType: cell.store.data.compType
+      fromId: cell.id,
+      fromType: data.compType,
+      from: data.fieldName || data.name || data.id,
+      fromData: data
     }
   } else {
     let sourceNode = cell.getSourceNode();
@@ -565,15 +596,20 @@ const getCellnfo = (cell: any) => {
       console.log("连线没有目标属性")
       return;
     }
-    let from = sourceInfo.fieldName || sourceInfo.id;
+    let fromId = sourceNode.id;
+    let from = sourceInfo.fieldName || sourceInfo.name || sourceInfo.id;
     let fromLabel = sourceInfo.label;
     let fromType = sourceInfo.compType;
     let fromPort = sourcePort.attrs?.name?.text || sourcePort.group || sourcePort.id;
-    let to = targetInfo.fieldName || sourceInfo.id;
+    let toId = targetNode.id;
+    let to = targetInfo.fieldName || targetInfo.name || sourceInfo.id;
     let toLabel = targetInfo.label;
-    let toType = targetPort.compType;
+    let toType = targetInfo.compType;
     let toPort = targetPort?.attrs?.name?.text || sourcePort.group || targetPort.id;
-    return {from, fromLabel, fromPort, fromType, to, toLabel, toPort, toType};
+    return {
+      fromId, from, fromLabel, fromPort, fromType, fromData: sourceInfo,
+      toId, to, toLabel, toPort, toType, toData: targetInfo
+    };
   }
 
 }
@@ -761,7 +797,8 @@ defineExpose({
       <div class="inner_button">
         <el-menu mode="horizontal" style="height: inherit;width: 100%;">
           <template v-for="(item,index) in commands">
-            <el-menu-item v-if="(Object.keys(compAttr).length>0&&!readonly)||item.defaultEdit">
+
+            <el-menu-item v-if="(hasData.length>0&&!readonly)||item.defaultEdit">
               <el-tooltip class="item" :content="item.label" :index="index"
                           effect="dark"
                           placement="bottom">
@@ -810,10 +847,10 @@ defineExpose({
         </div>
       </div>
       <hr/>
-      <star-horse-form v-if="checkIsNode()==1" :isView="readonly" ref="rightAttrPanel" @refresh="()=>{}"
+      <star-horse-form v-model:data-form="dataForm" v-if="checkIsNode()==1" :isView="readonly" ref="rightAttrPanel" @refresh="()=>{}"
                        :compUrl="compUrl"
                        :fieldList="nodeFieldList" :rules="rules"/>
-      <star-horse-form v-else-if="checkIsNode()==2" :isView="readonly" ref="rightAttrPanel" @refresh="()=>{}"
+      <star-horse-form v-model:data-form="dataForm" v-else-if="checkIsNode()==2" :isView="readonly" ref="rightAttrPanel" @refresh="()=>{}"
                        :compUrl="compUrl"
                        :fieldList="lineFieldList" :rules="rules"/>
       <div v-else class="empty-info">
@@ -839,9 +876,9 @@ defineExpose({
       </div>
     </div>
     <hr/>
-    <star-horse-form v-if="checkIsNode()==1" ref="rightAttrPanel" @refresh="()=>{}" :compUrl="compUrl"
+    <star-horse-form v-model:data-form="dataForm" v-if="checkIsNode()==1" ref="rightAttrPanel" @refresh="()=>{}" :compUrl="compUrl"
                      :fieldList="nodeFieldList" :rules="rules"/>
-    <star-horse-form v-else-if="checkIsNode()==2" ref="rightAttrPanel" @refresh="()=>{}" :compUrl="compUrl"
+    <star-horse-form v-model:data-form="dataForm" v-else-if="checkIsNode()==2" ref="rightAttrPanel" @refresh="()=>{}" :compUrl="compUrl"
                      :fieldList="lineFieldList" :rules="rules"/>
     <div v-else class="empty-info"> 右侧面板</div>
   </el-drawer>

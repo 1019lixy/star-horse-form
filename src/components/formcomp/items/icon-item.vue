@@ -4,7 +4,7 @@
     <el-popover
         width="400"
         ref="popoverRef"
-       trigger="click">
+        trigger="click">
       <template #reference>
         <el-input
             :clearable="field.preps['clearable']=='yes'"
@@ -49,9 +49,7 @@ export default defineComponent({
     const popoverRef = shallowRef();
     let actionName = shallowRef("keydown.enter");
 
-    onMounted(() => {
-      actionName.value = field.preps["actionName"];
-    });
+
     const assignIcon = (iconName: String) => {
       context.attrs['formFieldList'][field.preps['name']] = iconName;
       unref(popoverRef).popperRef?.delayHide?.();
@@ -59,14 +57,17 @@ export default defineComponent({
     };
     const keyEnterFun = (prep: any) => {
       if (prep == actionName.value && field.preps["actionRelation"]) {
-        field.preps["actionRelation"](context.attrs['formFieldList'][field.preps['name']],context.attrs['formFieldList']["xh"]);
+        field.preps["actionRelation"](context.attrs['formFieldList'][field.preps['name']], context.attrs['formFieldList']["xh"]);
       }
       context.emit('selfFunc', prep);
     };
-
+    onMounted(() => {
+      actionName.value = field.preps["actionName"];
+      keyEnterFun(actionName.value);
+    });
     return {
-      parentField, formFieldList, context, field, formItem,  dataField, assignIcon,
-       keyEnterFun, actionName, popoverRef
+      parentField, formFieldList, context, field, formItem, dataField, assignIcon,
+      keyEnterFun, actionName, popoverRef
     }
   }
 });

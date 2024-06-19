@@ -1,29 +1,29 @@
 <template>
-  <star-horse-dialog :title = "'Crontab 配置器'" :self-func = "true " @resetForm = "resetForm" @closeAction = "close"
-                     @merge = "submit"
-                     :dialog-visible = "cronVisible">
-    <Crontab ref = "cronTabRef" :expression = "context.attrs['formFieldList'][field.preps['name']]"
+  <star-horse-dialog :title="'Crontab 配置器'" :self-func="true " @resetForm="resetForm" @closeAction="close"
+                     @merge="submit"
+                     :dialog-visible="cronVisible">
+    <Crontab ref="cronTabRef" :expression="context.attrs['formFieldList'][field.preps['name']]"
     />
   </star-horse-dialog>
-  <starhorse-form-item :isDesign="context.attrs['isDesign']"  :form-item = "field" :parentField = "parentField"
+  <starhorse-form-item :isDesign="context.attrs['isDesign']" :form-item="field" :parentField="parentField"
   >
 
     <el-input
-        :fid = "field.preps['name']"
+        :fid="field.preps['name']"
         :size="field?.preps['size']||'small'"
         readonly
         v-on:[actionName]="keyEnterFun(field.preps['actionName'])"
-        @keydown.enter = "keyEnterFun"
-        v-model = "context.attrs['formFieldList'][field.preps['name']]">
+        @keydown.enter="keyEnterFun"
+        v-model="context.attrs['formFieldList'][field.preps['name']]">
       <template #append>
-        <el-button icon = "Clock" @click = "cronVisible=true"/>
+        <el-button icon="Clock" @click="cronVisible=true"/>
       </template>
     </el-input>
   </starhorse-form-item>
 </template>
 
-<script lang = "ts">
-import {defineComponent, provide, ref, shallowRef,onMounted} from "vue";
+<script lang="ts">
+import {defineComponent, provide, ref, shallowRef, onMounted} from "vue";
 import Crontab from "@/components/cron/Crontab.vue";
 import StarHorseDialog from "@/components/comp/StarHorseDialog.vue";
 
@@ -44,12 +44,10 @@ export default defineComponent({
       recordNewExpress = val;
     });
     let actionName = shallowRef("change");
-    onMounted(() => {
-      actionName.value = field.preps["actionName"];
-    });
-    const keyEnterFun = (prep:any) => {
+
+    const keyEnterFun = (prep: any) => {
       if (prep == actionName.value && field.preps["actionRelation"]) {
-        field.preps["actionRelation"](context.attrs['formFieldList'][field.preps['name']],context.attrs['formFieldList']["xh"]);
+        field.preps["actionRelation"](context.attrs['formFieldList'][field.preps['name']], context.attrs['formFieldList']["xh"]);
       }
       context.emit('selfFunc');
     };
@@ -69,10 +67,14 @@ export default defineComponent({
       context.attrs['formFieldList'][field.preps['name']] = recordNewExpress;
     };
     resetForm();
+    onMounted(() => {
+      actionName.value = field.preps["actionName"];
+      keyEnterFun(actionName.value);
+    });
     return {
       parentField, formFieldList, context, field, formItem,
-       dataField,  keyEnterFun, cronVisible
-      , resetForm, close, submit, cronTabRef,actionName
+      dataField, keyEnterFun, cronVisible
+      , resetForm, close, submit, cronTabRef, actionName
     }
   }
 });

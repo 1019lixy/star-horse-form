@@ -133,7 +133,7 @@ onMounted(() => {
 
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form @refresh="areainfoRef.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList" :rules="rules"/>
+    <star-horse-form v-model:data-form="dataForm" @refresh="areainfoRef.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList" :rules="rules"/>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title=
       "'查看数据'" :is-view="true">

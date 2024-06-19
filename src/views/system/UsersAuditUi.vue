@@ -153,7 +153,7 @@ const dataFormat = (name: string, cellValue: Object): any => {
 </style>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form @refresh="usersAuditRef.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList"
+    <star-horse-form v-model:data-form="dataForm" @refresh="usersAuditRef.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList"
                      :rules="rules"/>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title=

@@ -1,29 +1,29 @@
 <template>
-  <starhorse-form-item :isDesign="context.attrs['isDesign']" :form-item = "field" :parentField = "parentField"
+  <starhorse-form-item :isDesign="context.attrs['isDesign']" :form-item="field" :parentField="parentField"
   >
     <el-input
-        :fid = "field.preps['name']"
-        :clearable = "field.preps['clearable']=='yes'"
-        :disabled = "field.preps['disabled']=='yes'"
-        :max = "field.preps['max']"
-        :maxlength = "field.preps['maxlength']"
-        :min = "field.preps['min']"
-        :minlength = "field.preps['maxlength']"
-        :placeholder = "field.preps['placeholder']||'请输入'+field.preps['label']"
-        :readonly = "field.preps['readonly']=='yes'"
-        :rows = "field.preps['rows']"
-        :show-word-limit = "field.preps['showWordLimit']=='yes'"
+        :fid="field.preps['name']"
+        :clearable="field.preps['clearable']=='yes'"
+        :disabled="field.preps['disabled']=='yes'"
+        :max="field.preps['max']"
+        :maxlength="field.preps['maxlength']"
+        :min="field.preps['min']"
+        :minlength="field.preps['maxlength']"
+        :placeholder="field.preps['placeholder']||'请输入'+field.preps['label']"
+        :readonly="field.preps['readonly']=='yes'"
+        :rows="field.preps['rows']"
+        :show-word-limit="field.preps['showWordLimit']=='yes'"
         :size="field?.preps['size']||'small'"
-        type = "textarea"
+        type="textarea"
         v-on:[actionName]="keyEnterFun(field.preps['actionName'])"
-        @keydown.enter = "keyEnterFun"
+        @keydown.enter="keyEnterFun"
         @focus="keyEnterFun('focus')"
         @blur="keyEnterFun('blur')"
-        v-model = "context.attrs['formFieldList'][field.preps['name']]"/>
+        v-model="context.attrs['formFieldList'][field.preps['name']]"/>
   </starhorse-form-item>
 </template>
 
-<script lang = "ts">
+<script lang="ts">
 import {defineComponent, onMounted, shallowRef} from "vue";
 
 export default defineComponent({
@@ -41,19 +41,20 @@ export default defineComponent({
       fun();
     };
     let actionName = shallowRef("keydown.enter");
-    onMounted(() => {
-      actionName.value = field.preps["actionName"];
-    });
+
     const keyEnterFun = (prep: any) => {
       if (prep == actionName.value && field.preps["actionRelation"]) {
-        field.preps["actionRelation"](context.attrs['formFieldList'][field.preps['name']],context.attrs['formFieldList']["xh"]);
+        field.preps["actionRelation"](context.attrs['formFieldList'][field.preps['name']], context.attrs['formFieldList']["xh"]);
       }
       context.emit('selfFunc', prep);
     };
-
+    onMounted(() => {
+      actionName.value = field.preps["actionName"];
+      keyEnterFun(actionName.value)
+    });
     return {
       parentField, formFieldList, context, field, formItem,
-       dataField, dynamicFunction, keyEnterFun,actionName
+      dataField, dynamicFunction, keyEnterFun, actionName
     }
   }
 });

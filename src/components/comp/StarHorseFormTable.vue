@@ -22,6 +22,7 @@ const currentTableRef = ref();
       :batchUrl="item['batchUrl']"
       :title="item['title']"
       :size="size"
+      v-if="!item['disVisible']"
       :helpMsg="item['helpMsg']"
       :downloadTemplateUrl="item['downloadTemplateUrl']"
       :importInfo="item['importInfo']"

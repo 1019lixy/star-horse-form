@@ -106,7 +106,20 @@ const viewConfig = () => {
 const dratStart = async (item: any, evt: DragEvent) => {
   let dt = evt.dataTransfer!;
   dt.effectAllowed = "copy";
-  item["items"] = await tableField(item.tableName);
+  item["name"] = item.tableName;
+  item["label"] = item.comment || "";
+  let fields = await tableField(item.tableName);
+  let items: Array<any> = [];
+  for (let i in fields) {
+    let temp = fields[i];
+    items.push({
+      name: temp.fieldName,
+      type: temp.type,
+      comment: temp.comment,
+      primaryFlag: temp.primaryKey
+    })
+  }
+  item["items"] = items;
   console.log(item);
   dt.setData("text/plain", JSON.stringify(item));
 };

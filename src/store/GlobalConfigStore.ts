@@ -31,6 +31,7 @@ export const GlobalConfig: any = defineStore("GlobalConfig", {
             if (data.themeColor) {
                 document.documentElement.style.setProperty('--star-horse-style', data.themeColor)
                 document.documentElement.style.setProperty('--el-color-primary', data.themeColor)
+                document.documentElement.style.setProperty('--el-tree-expand-icon-color', data.themeColor)
             }
         },
 

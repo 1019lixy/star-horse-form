@@ -91,21 +91,21 @@ const commands = [
         key: 'json',
         label: 'JSON数据',
     },
-      {
-          icon: "valid",
-          key: 'valid',
-          label: '校验',
-      },
-      {
-          icon: "preview",
-          key: 'preview',
-          label: '预览',
-      },
-      {
-          icon: "save",
-          key: 'save',
-          label: '保存',
-      },
+    {
+        icon: "valid",
+        key: 'valid',
+        label: '校验',
+    },
+    {
+        icon: "preview",
+        key: 'preview',
+        label: '预览',
+    },
+    {
+        icon: "save",
+        key: 'save',
+        label: '保存',
+    },
     /*{
         icon: "right_panel",
         defaultEdit: true,
@@ -199,7 +199,7 @@ const ports = {
  * 画布配置参数
  * @type {{rotating: boolean, keyboard: boolean, grid: {args: [{color: string, thickness: number},{color: string, thickness: number, factor: number}], visible: boolean, type: string}, mousewheel: {zoomAtMousePosition: boolean, maxScale: number, minScale: number, modifiers: string, enabled: boolean}, snapline: boolean, highlighting: {magnetAdsorbed: {args: {attrs: {fill: string, stroke: string}}, name: string}}, connecting: {allowBlank: boolean, router: {args: {padding: number}, name: string}, connector: {args: {radius: number}, name: string}, anchor: string, connectionPoint: string, createEdge(): Edge<Properties>, snap: {radius: number}, validateConnection({targetMagnet: *}): *}, clipboard: boolean, selecting: {showNodeSelectionBox: boolean, rubberband: boolean, enabled: boolean}}}
  */
-const configInfo = {
+const commonConfig = {
     rotating: true,
     snapline: true,
     keyboard: true,
@@ -209,77 +209,6 @@ const configInfo = {
     panning: {
         enabled: true,
         modifiers: ['alt']
-    },
-    selecting: {
-        enabled: true,
-        rubberband: true,
-        showNodeSelectionBox: true,
-    },
-    highlighting: {
-        // 当连接桩可以被链接时，在连接桩外围渲染一个 2px 宽的红色矩形框
-        magnetAdsorbed: {
-            name: 'stroke',
-            args: {
-                attrs: {
-                    fill: '#5F95FF',
-                    stroke: '#5F95FF',
-                },
-            },
-        },
-    },
-    connecting: {
-        router: {
-            name: 'er',
-            // args: {
-            //     startDirections: ['bottom'],
-            //     endDirections: ['top'],
-            // },
-
-        },
-        connector: {
-            name: 'rounded',
-            args: {
-                radius: 8,
-            },
-        },
-        anchor: 'center',
-        connectionPoint: 'anchor',
-        allowBlank: false,
-        highlight: true,
-        snap: {
-            //距离20px 自动吸附
-            radius: 20,
-        },
-        createEdge: () => {
-            return new Shape.Edge({
-                 // defaultLabel: "OK", //添加此属性再动态设置Label 报错
-                tools: [
-                    {
-                        name: 'edge-editor',
-                        args: {
-                            attrs: {
-                                backgroundColor: '#eee',
-                            },
-                        },
-                    },
-                ],
-                attrs: {
-                    line: {
-                        stroke: '#A2B1C3',
-                        strokeWidth: 2,
-                        targetMarker: {
-                            name: 'block',
-                            width: 12,
-                            height: 8,
-                        },
-                    },
-                },
-                zIndex: 0,
-            })
-        },
-        // validateConnection: ({targetMagnet}) => {
-        //     return !!targetMagnet
-        // },
     },
     grid: {
         visible: true,
@@ -309,7 +238,104 @@ const configInfo = {
         maxScale: 4,
         minScale: 0.2,
     },
+};
+const configInfo = {
+    ...commonConfig,
+    selecting: {
+        enabled: true,
+        rubberband: true,
+        showNodeSelectionBox: true,
+    },
+    highlighting: {
+        // 当连接桩可以被链接时，在连接桩外围渲染一个 2px 宽的红色矩形框
+        magnetAdsorbed: {
+            name: 'stroke',
+            args: {
+                attrs: {
+                    stroke: '#5F95FF',
+                },
+            },
+        },
+    },
+    connecting: {
+        router: {
+            name: 'er',
+            args: {
+                offset: 25,
+                direction: 'H',
+            },
+
+        },
+        connector: {
+            name: 'rounded',
+            args: {
+                radius: 8,
+            },
+        },
+        // anchor: 'center',
+        // connectionPoint: 'anchor',
+        allowBlank: false,
+        highlight: true,
+        snap: {
+            //距离20px 自动吸附
+            radius: 20,
+        },
+        createEdge: () => {
+            return new Shape.Edge({
+                // defaultLabel: "OK", //添加此属性再动态设置Label 报错
+                tools: [
+                    {
+                        name: 'edge-editor',
+                        args: {
+                            attrs: {
+                                backgroundColor: '#eee',
+                            },
+                        },
+                    },
+                ],
+                attrs: {
+                    line: {
+                        stroke: '#A2B1C3',
+                        strokeWidth: 2,
+                        targetMarker: {
+                            name: 'block',
+                            width: 12,
+                            height: 8,
+                        },
+                    },
+                },
+                zIndex: 0,
+            })
+        },
+    },
+
 }
+const tableConfigInfo = {
+    ...commonConfig,
+    connecting: {
+        router: {
+            name: 'er',
+            args: {
+                offset: 25,
+                direction: 'H',
+            },
+
+        },
+        allowBlank: false,
+        highlight: true,
+        createEdge: () => {
+            return new Shape.Edge({
+                attrs: {
+                    line: {
+                        stroke: '#A2B1C3',
+                        strokeWidth: 2,
+                    },
+                },
+                zIndex: 0,
+            })
+        },
+    },
+};
 const helpMessage = `
 一、操作步骤:
 1、编辑其打开后可将左边的组件拖到中间网格画布区域；
@@ -331,4 +357,4 @@ Ctrl+1:放大；
 Ctrl+2:缩小；
 Backspace/Delete:删除组件或者连线。
 `;
-export {commands, ports, configInfo, helpMessage};
+export {commands, ports, configInfo, helpMessage, tableConfigInfo};

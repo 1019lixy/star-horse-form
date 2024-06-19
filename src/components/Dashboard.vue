@@ -144,7 +144,7 @@ const configInfo = computed(() => configStore.configFormInfo);
       </el-tooltip>
     </div>
     <el-drawer v-model="drawer" :direction="direction">
-      <template #header style="margin-bottom: 0">
+      <template #header>
         <h3>操作习惯配置</h3>
       </template>
       <template #default>
@@ -164,14 +164,7 @@ const configInfo = computed(() => configStore.configFormInfo);
 :deep(.el-header) {
   height: unset;
   padding: unset;
-  /* box-shadow: 0 10px 5px var(--star-horse-white);*/
 }
-
-
-//.star-horse-header{
-//  height: ;
-//}
-
 
 .operation-area {
   height: 100%;
@@ -180,6 +173,7 @@ const configInfo = computed(() => configStore.configFormInfo);
   :deep(.el-card__body) {
     height: 100%;
     overflow: hidden;
+    margin: 5px !important;
   }
 }
 

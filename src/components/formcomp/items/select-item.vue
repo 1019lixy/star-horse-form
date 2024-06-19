@@ -24,7 +24,7 @@
         @blur="keyEnterFun('blur')"
         v-model="context.attrs['formFieldList'][field.preps['name']]">
       <el-option :disabled="items['disabled']" :label="items['name']" :value="items['value']"
-                 v-for="items in field.preps['values']"/>
+                 v-for="items in field.preps['values']||context.attrs['formFieldList'][field.preps['name']+'OptionList']"/>
     </el-select>
 
   </starhorse-form-item>
@@ -42,9 +42,7 @@ export default defineComponent({
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
     let actionName = shallowRef("change");
-    onMounted(() => {
-      actionName.value = field.preps["actionName"];
-    });
+
     const keyEnterFun = (prep: any) => {
       if (prep == actionName.value && field.preps["actionRelation"]) {
         field.preps["actionRelation"](context.attrs['formFieldList'][field.preps['name']], context.attrs['formFieldList']["xh"]);
@@ -56,7 +54,10 @@ export default defineComponent({
       }
 
     };
-
+    onMounted(() => {
+      actionName.value = field.preps["actionName"];
+      keyEnterFun(actionName.value);
+    });
     return {
       parentField, formFieldList, context, field, formItem,
       dataField, keyEnterFun, actionName

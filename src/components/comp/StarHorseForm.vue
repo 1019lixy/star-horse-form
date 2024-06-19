@@ -26,7 +26,7 @@ let configStore = GlobalConfig(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.inputSize || "small");
 const emits = defineEmits(["refresh", "dataLoaded"]);
 const starHorseFormRef = ref(null);
-const dataForm = inject("dataForm") as Ref;
+const dataForm = defineModel("dataForm");
 const closeDialog = inject("closeDialog") as Function;
 let dialogOperation = inject("dialogOperation") as ShallowReactive<Object>;
 const dialogProps = inject<DialogProps>("dialogProps", {});
@@ -207,11 +207,6 @@ const setDataForm = (data: object) => {
 
 }
 const tableListRef = ref<any>([]);
-const setTableRef = (el: any) => {
-  if (el) {
-    tableListRef.value.push(el);
-  }
-}
 watch(() => dialogProps.ids,
     (val) => {
       if (!val || val == -1) {
@@ -235,6 +230,7 @@ defineExpose({
                           :compUrl="compUrl"
                           :fieldList="fieldList"
                           :rules="rules"
+                          v-model:data-form="dataForm"
                           :isView="isView"
                           :batchName="batchName"
                           :batchFieldName="batchFieldName"

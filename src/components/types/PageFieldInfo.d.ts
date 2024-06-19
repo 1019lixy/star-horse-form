@@ -308,13 +308,17 @@ export declare interface BatchFieldInfo {
      */
     disabled: Boolean;
     /**
+     * 禁止显示
+     */
+    disVisible?: boolean;
+    /**
      * 列表标题
      */
     title?: String;
     /**
      * 帮助提示
      */
-    helpMsg?:String;
+    helpMsg?: String;
     /**
      * 默认初始化行数
      */

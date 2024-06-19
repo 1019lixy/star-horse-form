@@ -325,7 +325,7 @@ let shortcutVisible = computed(()=>configStore.configFormInfo.shortCutMenus||"ye
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps" @merge="doModifyUserInfo"
                      @resetForm="resetForm" :self-func="true">
-    <star-horse-form :compUrl="dataUrl" :fieldList="tableFieldList" :rules="rules"/>
+    <star-horse-form v-model:data-form="dataForm" :compUrl="dataUrl" :fieldList="tableFieldList" :rules="rules"/>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.batchEditVisible" :dialogProps="dialogProps" :self-func="true">
     该功能建设中。。。。

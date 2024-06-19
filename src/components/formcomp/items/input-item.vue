@@ -34,9 +34,7 @@ export default defineComponent({
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
     let actionName = shallowRef("keydown.enter");
-    onMounted(() => {
-      actionName.value = field.preps["actionName"];
-    });
+
     const dynamicFunction = (funcName: String, data: any) => {
       if (!data) {
         return;
@@ -55,7 +53,10 @@ export default defineComponent({
       }
       context.emit('selfFunc', prep);
     };
-
+    onMounted(() => {
+      actionName.value = field.preps["actionName"];
+      keyEnterFun(actionName.value);
+    });
     return {
       parentField, formFieldList, context, field, formItem,
       dataField, dynamicFunction, keyEnterFun, actionName

@@ -134,7 +134,7 @@ onMounted(() => {
         </template>
       </el-segmented>
     </div>
-    <star-horse-form v-if="segmentValue=='basic'" :primaryKey="primaryKey" :fieldList="tableFieldList"
+    <star-horse-form v-model:data-form="dataForm" v-if="segmentValue=='basic'" :primaryKey="primaryKey" :fieldList="tableFieldList"
                      :compUrl="dataUrl"/>
     <star-horse-form-table v-if="segmentValue=='column'" :item="columnFieldList"
                            v-model:dataForm="dataForm"

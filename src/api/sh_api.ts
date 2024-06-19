@@ -363,13 +363,13 @@ export function createDatetime(val: any) {
  * @param url
  * @param id
  */
-export async function loadById(url: string, id: any, isView: boolean,params:any={}) {
+export async function loadById(url: string, id: any, isView: boolean, params: any = {}) {
     if (!url || !id) {
         warning("请提供正确的数据");
         return;
     }
     let objData: any = {};
-    await postRequest(url + (isView ? "ForView" : "") + "/" + id,params).then(res => {
+    await postRequest(url + (isView ? "ForView" : "") + "/" + id, params).then(res => {
         let redata = res.data.data;
         if (!redata) {
             warning("未找到对应数据");
@@ -441,7 +441,7 @@ export async function dictData(dictType: string) {
             });
         }
 
-    }).catch((err:any) => {
+    }).catch((err: any) => {
         console.log("接口不存在或网络异常", err);
     });
     return dicts;
@@ -577,7 +577,7 @@ export function formFieldMapping(fieldList: PageFieldInfo) {
     let actions = [];
     //解析出字段之间的映射关系
     let mappingFields: Array<any> = [];
-    let tempList = fieldList.fieldList;
+    let tempList = fieldList?.fieldList;
     let batchDefaultValues = {};
     const tabOperation = (data: TabFieldInfo) => {
         let fieldList = data.fieldList as Array<FieldInfo>;
@@ -595,6 +595,9 @@ export function formFieldMapping(fieldList: PageFieldInfo) {
             if (!defaultDatas[temp.batchName]) {
                 defaultDatas[temp.batchName] = [];
             }
+            // if (!batchDefaultValues[temp.batchName]) {
+            //     batchDefaultValues[temp.batchName] = {};
+            // }
             let fieldList = temp.fieldList as Array<FieldInfo>;
             fieldList?.forEach(item => {
                 if (item.defaultValue) {
@@ -662,7 +665,7 @@ export function formFieldMapping(fieldList: PageFieldInfo) {
         }
     };
     fieldsOperation(tempList, defaultDatas);
-    let batchTempList = fieldList.batchFieldList;
+    let batchTempList = fieldList?.batchFieldList;
     tableOperation(batchTempList);
     defaultDatas = {...defaultDatas, ...batchDefaultValues};
     return {defaultDatas, mappingFields, batchDefaultValues, actions};

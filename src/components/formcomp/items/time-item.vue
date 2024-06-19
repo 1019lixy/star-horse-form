@@ -43,16 +43,17 @@ export default defineComponent({
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
     let actionName = shallowRef("keydown.enter");
-    onMounted(() => {
-      actionName.value = field.preps["actionName"];
-    });
+
     const keyEnterFun = (prep: String) => {
       if (prep == actionName.value && field.preps["actionRelation"]) {
         field.preps["actionRelation"](context.attrs['formFieldList'][field.preps['name']], context.attrs['formFieldList']["xh"]);
       }
       context.emit('selfFunc', prep);
     };
-
+    onMounted(() => {
+      actionName.value = field.preps["actionName"];
+      keyEnterFun(actionName.value);
+    });
     return {
       parentField, formFieldList, context, field, formItem,
       dataField, keyEnterFun, actionName
@@ -62,7 +63,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.el-time-picker,.el-date-editor {
+.el-time-picker, .el-date-editor {
   width: unset;
 }
 </style>

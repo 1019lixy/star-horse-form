@@ -73,7 +73,7 @@ let pageInfo = reactive<PageProps>({
 let searchFields = reactive<Array<SearchParams>>([]);
 let defaultSearchFields = reactive<Array<SearchParams>>([]);
 let orderBys = reactive<Array<OrderByInfo>>([]);
-
+let fieldVisible = ref<boolean>(false);
 let permissions = ref<Object>({});
 let dialogProps = inject("dialogProps") as DialogProps;
 let toolFields = reactive<Array<any>>([]);
@@ -493,17 +493,20 @@ defineExpose({
       {{ title }}
     </div>
     <div style="display: flex;align-items: center;flex-direction: row-reverse">
-      <el-button @click="loadByPage" link title="" size="small">
+      <el-button @click="loadByPage" link title="" :size="compSize">
         <star-horse-icon icon-class="refresh" style="color: var(--star-horse-style);" size="16px"/>
         <el-tooltip content="刷新">刷新</el-tooltip>
       </el-button>
       <el-popover trigger="click" :width="340" placement="left-end">
         <template #reference>
-          <el-icon class="star-page-icon" style="cursor: pointer">
+          <el-button @click="fieldVisible=!fieldVisible" link title="" :size="compSize">
+            <star-horse-icon icon-class="setting"
+                             style="color: var(--star-horse-style); cursor: pointer" size="16px"/>
             <el-tooltip content="显示/隐藏列">
-              <Tools/>
+              显示/隐藏列
             </el-tooltip>
-          </el-icon>
+          </el-button>
+
         </template>
         <el-table
             class="sh-columns"
@@ -539,7 +542,7 @@ defineExpose({
             <template #default="scope">
               <el-switch
                   v-model="scope.row.tableShow"
-                  size="small"
+                  :size="compSize"
                   :active-value="true"
                   :inactive-value="false"
               />

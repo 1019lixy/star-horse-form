@@ -73,15 +73,14 @@ export default defineComponent({
       }
     };
     let actionName = shallowRef("keydown.enter");
-    onMounted(() => {
-      actionName.value = field.preps["actionName"];
-    });
+
     const keyEnterFun = (prep: any) => {
       if (prep == actionName.value && field.preps["actionRelation"]) {
         field.preps["actionRelation"](context.attrs['formFieldList'][field.preps['name']], context.attrs['formFieldList']["xh"]);
       }
       context.emit('selfFunc', prep);
     };
+
     const selectItem = (row: any) => {
       let data = "";
       let needField = field.preps["needField"];
@@ -131,6 +130,10 @@ export default defineComponent({
     const searchData = (data: SearchParams[]) => {
       dialogInputTableRef.value?.createCreateParams(data);
     };
+    onMounted(() => {
+      actionName.value = field.preps["actionName"];
+      keyEnterFun( actionName.value);
+    });
     return {
       parentField, formFieldList, context, field, formItem,
       dataField, dynamicFunction, keyEnterFun, dialogInputVisible, closeAction

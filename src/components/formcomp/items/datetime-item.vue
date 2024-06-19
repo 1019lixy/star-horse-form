@@ -1,35 +1,35 @@
 <template>
-  <starhorse-form-item :isDesign="context.attrs['isDesign']" :form-item = "field" :parentField = "parentField"
+  <starhorse-form-item :isDesign="context.attrs['isDesign']" :form-item="field" :parentField="parentField"
   >
     <el-date-picker
-        :fid = "field.preps['name']"
-        :clear-icon = "field.preps['clearIcon']"
-        :clearable = "field.preps['clearable']=='yes'"
-        :default-time = "field.preps['defaultTime']"
-        :default-value = "field.preps['defaultValue']||new Date()"
-        :disabled = "field.preps['disabled']=='yes'"
-        :editable = "field.preps['editable']=='yes'"
-        :end-placeholder = "field.preps['endPlaceholder']"
-        :format = "field.preps['format']||'YYYY-MM-DD HH:mm:ss'"
+        :fid="field.preps['name']"
+        :clear-icon="field.preps['clearIcon']"
+        :clearable="field.preps['clearable']=='yes'"
+        :default-time="field.preps['defaultTime']"
+        :default-value="field.preps['defaultValue']||new Date()"
+        :disabled="field.preps['disabled']=='yes'"
+        :editable="field.preps['editable']=='yes'"
+        :end-placeholder="field.preps['endPlaceholder']"
+        :format="field.preps['format']||'YYYY-MM-DD HH:mm:ss'"
         date-format="YYYY-MM-DD"
         time-format="HH:mm"
-        :type = "field.preps['type']"
-        :placeholder = "field.preps['placeholder']"
-        :range-separator = "field.preps['rangeSeparator']"
-        :readonly = "field.preps['readonly']=='yes'"
+        :type="field.preps['type']"
+        :placeholder="field.preps['placeholder']"
+        :range-separator="field.preps['rangeSeparator']"
+        :readonly="field.preps['readonly']=='yes'"
         :size="field?.preps['size']||'small'"
-        :start-placeholder = "field.preps['startPlaceholder']"
-        :value-format = "field.preps['valueFormat']"
+        :start-placeholder="field.preps['startPlaceholder']"
+        :value-format="field.preps['valueFormat']"
         v-on:[actionName]="keyEnterFun(field.preps['actionName'])"
-        @keydown.enter = "keyEnterFun"
+        @keydown.enter="keyEnterFun"
         @focus="keyEnterFun('focus')"
         @blur="keyEnterFun('blur')"
-        v-model = "context.attrs['formFieldList'][field.preps['name']]"
+        v-model="context.attrs['formFieldList'][field.preps['name']]"
     ></el-date-picker>
   </starhorse-form-item>
 </template>
 
-<script lang = "ts">
+<script lang="ts">
 import {defineComponent, onMounted, shallowRef} from "vue";
 
 export default defineComponent({
@@ -41,18 +41,21 @@ export default defineComponent({
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
     let actionName = shallowRef("keydown.enter");
+
+    const keyEnterFun = (prep: any) => {
+      if (prep == actionName.value && field.preps["actionRelation"]) {
+        field.preps["actionRelation"](context.attrs['formFieldList'][field.preps['name']], context.attrs['formFieldList']["xh"]);
+      }
+      context.emit('selfFunc', prep);
+    };
     onMounted(() => {
       actionName.value = field.preps["actionName"];
+      keyEnterFun(actionName.value);
     });
-    const keyEnterFun = (prep:any) => {
-      if (prep == actionName.value && field.preps["actionRelation"]) {
-        field.preps["actionRelation"](context.attrs['formFieldList'][field.preps['name']],context.attrs['formFieldList']["xh"]);
-      }
-      context.emit('selfFunc',prep);
-    };
-
-    return {parentField, formFieldList, context, field, formItem,
-       dataField, keyEnterFun,actionName}
+    return {
+      parentField, formFieldList, context, field, formItem,
+      dataField, keyEnterFun, actionName
+    }
   }
 });
 </script>

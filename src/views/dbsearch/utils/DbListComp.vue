@@ -407,7 +407,7 @@ onMounted(() => {
         <template #label><span><star-horse-icon icon-class="config" color="var(--star-horse-style)"/>风格设置
           <help :width="400" :message="configMsg"/></span>
         </template>
-        <star-horse-form :field-list="dataFieldInfo"/>
+        <star-horse-form v-model:data-form="dataForm" :field-list="dataFieldInfo"/>
       </el-tab-pane>
       <el-tab-pane name="tb2" label="表格属性">
         <el-scrollbar height="600px">

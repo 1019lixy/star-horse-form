@@ -325,20 +325,20 @@ watch(() => formProps,
                      @merge="submitValid"
                      @closeAction="closeAction"
                      @reset="resetDataSourceForm" :selfFunc="true">
-    <star-horse-form rules="{}" primary-key="" ref="dataSourceFormRef" :fieldList="dataSourceFields()" comp-url=""/>
+    <star-horse-form v-model:data-form="dataForm" rules="{}" primary-key="" ref="dataSourceFormRef" :fieldList="dataSourceFields()" comp-url=""/>
   </star-horse-dialog>
   <star-horse-dialog :dialogVisible="paramsDialogVisible" :title="'参数配置'" :isBatch="false"
                      @merge="paramsValid"
                      @closeAction="closeAction"
                      @reset="resetDataSourceForm" :selfFunc="true">
-    <star-horse-form rules="{}" primary-key="" ref="paramsConfigRef" :fieldList="paramsFields(fieldName,currentField)"
+    <star-horse-form v-model:data-form="dataForm" rules="{}" primary-key="" ref="paramsConfigRef" :fieldList="paramsFields(fieldName,currentField)"
                      comp-url=""/>
   </star-horse-dialog>
   <star-horse-dialog :dialogVisible="containerDialogVisible"
                      :title="'设置容器'" :isBatch="false" @merge="closeAction"
                      @closeAction="closeAction"
                      @reset="resetForm" :selfFunc="true">
-    <star-horse-form rules="{}" primary-key="" :fieldList="containerField(currentItemType)" comp-url=""/>
+    <star-horse-form v-model:data-form="dataForm" rules="{}" primary-key="" :fieldList="containerField(currentItemType)" comp-url=""/>
   </star-horse-dialog>
 
   <star-horse-dialog :dialogVisible="jsEditor" :title="'自定义事件'" :isBatch="false" @merge="closeAction"

@@ -211,10 +211,10 @@ onMounted(() => {
 
   <div class="comp-info"
        :style="{ 'width': isSearch && field.preps['type'] != 'daterange' ? '150px' : '100%','height':'100%' }">
+    <help :message="item?.helpMsg" v-if="item?.helpMsg"/>
     <component :id="randId" :is="itemType+'-item'" @selfFunc="dataSearch" :isDesign="false"
                ref="componentRef"
                :field="field" :formFieldList="dataForm"/>
-    <help :message="item?.helpMsg" v-if="item?.helpMsg"/>
   </div>
 </template>
 <style lang="scss" scoped>
