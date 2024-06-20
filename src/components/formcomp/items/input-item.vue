@@ -51,7 +51,7 @@ export default defineComponent({
       if (prep == actionName.value && field.preps["actionRelation"]) {
         field.preps["actionRelation"](context.attrs['formFieldList'][field.preps['name']], context.attrs['formFieldList']["xh"]);
       }
-      context.emit('selfFunc', prep);
+      context.emit('selfFunc',(prep instanceof KeyboardEvent)? prep.code.toLowerCase(): prep||actionName.value);
     };
     onMounted(() => {
       actionName.value = field.preps["actionName"];
