@@ -236,8 +236,8 @@ defineExpose({
           <el-col :span="8">
             <el-form-item label="是否创建表" prop="createTable" required>
               <el-switch
-                  :active-value="'yes'"
-                  :inactive-value="'no'"
+                  :active-value="'Y'"
+                  :inactive-value="'N'"
                   active-text="是"
                   inactive-text="否"
                   v-model="formInfo['createTable']"
@@ -247,8 +247,8 @@ defineExpose({
           <el-col :span="8">
             <el-form-item label="是否创建菜单" prop="createMenu">
               <el-switch
-                  :active-value="'yes'"
-                  :inactive-value="'no'"
+                  :active-value="'Y'"
+                  :inactive-value="'N'"
                   active-text="是"
                   inactive-text="否"
                   v-model="formInfo['createMenu']"
@@ -258,8 +258,8 @@ defineExpose({
           <el-col :span="8">
             <el-form-item label="是否需要公共字段" prop="needCommonFields">
               <el-switch
-                  :active-value="'yes'"
-                  :inactive-value="'no'"
+                  :active-value="'Y'"
+                  :inactive-value="'N'"
                   active-text="是"
                   inactive-text="否"
                   v-model="formInfo['needCommonFields']"
@@ -267,7 +267,7 @@ defineExpose({
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row v-if="formInfo['createMenu'] == 'yes'">
+        <el-row v-if="formInfo['createMenu'] == 'Y'">
           <el-col :span="12">
             <el-form-item
                 label="所属系统"
@@ -464,8 +464,8 @@ defineExpose({
           <el-col :span="12">
             <el-form-item label="是否禁用该表单内的所有组件" prop="disabled">
               <el-switch
-                  :active-value="'yes'"
-                  :inactive-value="'no'"
+                  :active-value="'Y'"
+                  :inactive-value="'N'"
                   active-text="是"
                   inactive-text="否"
                   v-model="formInfo['disabled']"
@@ -480,8 +480,8 @@ defineExpose({
                 prop="hideRequiredAsterisk"
             >
               <el-switch
-                  :active-value="'yes'"
-                  :inactive-value="'no'"
+                  :active-value="'Y'"
+                  :inactive-value="'N'"
                   active-text="是"
                   inactive-text="否"
                   v-model="formInfo['hideRequiredAsterisk']"
@@ -491,8 +491,8 @@ defineExpose({
           <el-col :span="12">
             <el-form-item label="当校验失败时，滚动到第一个错误表单项" prop="scrollToError">
               <el-switch
-                  :active-value="'yes'"
-                  :inactive-value="'no'"
+                  :active-value="'Y'"
+                  :inactive-value="'N'"
                   active-text="是"
                   inactive-text="否"
                   v-model="formInfo['scrollToError']"
@@ -515,8 +515,8 @@ defineExpose({
           <el-col :span="12">
             <el-form-item label="是否在输入框中显示校验结果反馈图标" prop="statusIcon">
               <el-switch
-                  :active-value="'yes'"
-                  :inactive-value="'no'"
+                  :active-value="'Y'"
+                  :inactive-value="'N'"
                   active-text="是"
                   inactive-text="否"
                   v-model="formInfo['statusIcon']"
@@ -529,8 +529,8 @@ defineExpose({
           <el-col :span="12">
             <el-form-item label="是否显示校验错误信息" prop="showMessage">
               <el-switch
-                  :active-value="'yes'"
-                  :inactive-value="'no'"
+                  :active-value="'Y'"
+                  :inactive-value="'N'"
                   active-text="是"
                   inactive-text="否"
                   v-model="formInfo['showMessage']"
@@ -540,8 +540,8 @@ defineExpose({
           <el-col :span="12">
             <el-form-item label="是否以行内形式展示校验信息" prop="inlineMessage">
               <el-switch
-                  :active-value="'yes'"
-                  :inactive-value="'no'"
+                  :active-value="'Y'"
+                  :inactive-value="'N'"
                   active-text="是"
                   inactive-text="否"
                   v-model="formInfo['inlineMessage']"
@@ -556,8 +556,8 @@ defineExpose({
                 prop="validateOnRuleChange"
             >
               <el-switch
-                  :active-value="'yes'"
-                  :inactive-value="'no'"
+                  :active-value="'Y'"
+                  :inactive-value="'N'"
                   active-text="是"
                   inactive-text="否"
                   v-model="formInfo['validateOnRuleChange']"
@@ -567,8 +567,8 @@ defineExpose({
           <el-col :span="12">
             <el-form-item label="行内表单模式" prop="inline">
               <el-switch
-                  :active-value="'yes'"
-                  :inactive-value="'no'"
+                  :active-value="'Y'"
+                  :inactive-value="'N'"
                   active-text="是"
                   inactive-text="否"
                   v-model="formInfo['inline']"

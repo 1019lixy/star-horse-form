@@ -10,6 +10,7 @@ import {TabsPaneContext} from "element-plus";
 import {Config} from "@/api/settings";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
+
 let designForm = DesignForm(piniaInstance);
 const router = useRouter();
 const starHorseTableCompRef = ref(null);
@@ -136,7 +137,7 @@ const dataFormat = (name: string, cellValue: Object): any => {
         <el-tab-pane label="表单" name="form">
           <sh-dynamic-form @refresh="starHorseTableCompRef?.loadByPage()" :compUrl="dataUrl" :formInfo="formInfo"
                            :fieldList=
-                               "tableFieldList.dynamicFormas" :rules="rules" :typeModel="'tab'" />
+                               "tableFieldList.dynamicFormas" :rules="rules" :typeModel="'tab'"/>
         </el-tab-pane>
         <el-tab-pane label="数据列表" name="table">
           <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">

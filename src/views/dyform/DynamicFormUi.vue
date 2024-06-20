@@ -6,7 +6,7 @@ import {SearchProps} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {BtnAuth} from "@/components/types/BtnAuth";
 import {useRouter} from "vue-router";
-import {loadGetData} from "@/api/sh_api";
+import {loadData, loadGetData} from "@/api/sh_api";
 import {Config} from "@/api/settings";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
@@ -37,7 +37,7 @@ const closeAction = () => {
 let formFieldList = ref<any>({});
 let list = computed(() => designForm.compList);
 const loadFormData = async (formId: any) => {
-  let {data, error} = await loadGetData(dataUrl.loadByIdUrl + "/" + formId);
+  let {data, error} = await loadData(dataUrl.loadByIdUrl + "/" + formId, {});
   await nextTick();
   isPreview.value = true;
   designForm.clearAll(false);
@@ -83,128 +83,128 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     {
       label: "主键", fieldName: "idDynamicForm", type: "long",
-      required: false, formShow: false,
-      tableShow: false, minWidth: 180
+
+
     },
     {
       label: "表单名称", fieldName: "formName", type: "input",
-      required: false, formShow: !false,
-      tableShow: !false, minWidth: 180
+      formShow: !false,
+      tableShow: !false
     },
     {
       label: "标签长度", fieldName: "labelWidth", type: "input",
-      required: false, formShow: !false,
-      tableShow: !false, minWidth: 180
+      formShow: !false,
+      tableShow: !false
     },
     {
       label: "标签位置", fieldName: "labelPosition", type: "input",
-      required: false, formShow: !false,
-      tableShow: !false, minWidth: 180
+      formShow: !false,
+      tableShow: !false
     },
     {
       label: "表单域标签的后缀", fieldName: "labelSuffix", type: "input",
-      required: false, formShow: !false,
-      tableShow: !false, minWidth: 180
+      formShow: !false,
+      tableShow: !false
     },
     {
       label: "表单验证规则名称", fieldName: "rules", type: "input",
-      required: false, formShow: !false,
-      tableShow: !false, minWidth: 180
+      formShow: !false,
+      tableShow: !false
     },
     {
       label: "行内表单模式", fieldName: "inline", type: "input",
-      required: false, formShow: !false,
-      tableShow: !false, minWidth: 180
+      formShow: !false,
+      tableShow: !false
     },
     {
       label: "是否禁用该表单内的所有组件", fieldName: "disabled", type: "input",
-      required: false, formShow: !false,
-      tableShow: !false, minWidth: 180
+      formShow: !false,
+      tableShow: !false
     },
     {
       label: "是否隐藏必填字段标签旁边的红色星号", fieldName: "hideRequiredAsterisk", type: "input",
-      required: false, formShow: !false,
-      tableShow: !false, minWidth: 180
+      formShow: !false,
+      tableShow: !false
     },
     {
       label: "当校验失败时，滚动到第一个错误表单项", fieldName: "scrolToError", type: "input",
-      required: false, formShow: !false,
-      tableShow: !false, minWidth: 180
+      formShow: !false,
+      tableShow: !false
     },
     {
       label: "星号的位置", fieldName: "requireAsteriskPosition", type: "input",
-      required: false, formShow: !false,
-      tableShow: !false, minWidth: 180
+      formShow: !false,
+      tableShow: !false
     },
     {
       label: "是否在输入框中显示校验结果反馈图标", fieldName: "statusIcon", type: "input",
-      required: false, formShow: !false,
-      tableShow: !false, minWidth: 180
+      formShow: !false,
+      tableShow: !false
     },
     {
       label: "是否显示校验错误信息", fieldName: "showMessage", type: "input",
-      required: false, formShow: !false,
-      tableShow: !false, minWidth: 180
+      formShow: !false,
+      tableShow: !false
     },
     {
       label: "是否以行内形式展示校验信息", fieldName: "inlineMessage", type: "input",
-      required: false, formShow: !false,
-      tableShow: !false, minWidth: 180
+      formShow: !false,
+      tableShow: !false
     },
     {
       label: "是否在 rules 属性改变后立即触发一次验证", fieldName: "validateOnRuleChange", type: "input",
-      required: false, formShow: !false,
-      tableShow: !false, minWidth: 180
+      formShow: !false,
+      tableShow: !false
     },
     {
-      label: "创建人", disabled: "yes", fieldName: "createdBy", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+      label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
+
+
     },
     {
-      label: "修改人", disabled: "yes", fieldName: "updatedBy", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+      label: "修改人", disabled: "Y", fieldName: "updatedBy", type: "input",
+
+
     },
     {
-      label: "创建日期", disabled: "yes", fieldName: "createdDate", type: "date",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+      label: "创建日期", disabled: "Y", fieldName: "createdDate", type: "date",
+
+
     },
     {
-      label: "修改日期", disabled: "yes", fieldName: "updatedDate", type: "date",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+      label: "修改日期", disabled: "Y", fieldName: "updatedDate", type: "date",
+
+
     },
     {
       label: "数据版本号", fieldName: "version", type: "number",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "是否已逻辑", fieldName: "isDel", type: "number",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "数据编号", fieldName: "dataNo", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "状态码", fieldName: "statusCode", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "状态码名称", fieldName: "statusName", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "国际码", fieldName: "local", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
   ],
   batchFieldList: [],
@@ -217,9 +217,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 });
 const primaryKey = "idDynamicForm";
 const dynamicFormRef = ref();
-const rules = {
-
-};
+const rules = {};
 const searchForm = ref({});
 provide("searchForm", searchForm);
 const dataForm = ref({});
@@ -243,7 +241,7 @@ const addSubForm = (params: any) => {
   router.push({path: "/dyform/DynamicForm", query: {parentId: params.idDynamicForm}});
 }
 const dataFormat = (name: string, cellValue: any, row: any): any => {
-  return cellValue == "yes" ? "是" : cellValue == "no" ? "否" : cellValue;
+  return cellValue == "Y" ? "是" : cellValue == "N" ? "否" : cellValue;
 }
 </script>
 <style lang="scss" scoped>

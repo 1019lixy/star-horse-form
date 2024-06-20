@@ -33,10 +33,8 @@ export function dataSourceFields() {
                 label: "表单属性",
                 fieldName: "label",
                 type: "text",
-                required: false,
                 formShow: !false,
                 tableShow: !false,
-                minWidth: 180
             },
                 {
                     label: "数据源类型",
@@ -68,138 +66,137 @@ export function dataSourceFields() {
                             dictRequired.value = true;
                         }
                     },
-                    minWidth: 180
+
                 }, {
                 label: "验证",
                 fieldName: "validBtn",
                 type: "button",
                 formShow: !false,
                 tableShow: !false,
-                minWidth: 180,
                 actionName: "click",
-                actions: (val) => {
+                actions: (val: any) => {
                     console.log(val);
                 }
             }],
             {
                 fieldName: currentTabName,
-                tabList: [{
-                    title: "静态数据",
-                    tabName: "data",
-                    disabled: disableData,
-                    batchFieldList: [{
-                        batchName: "values",
-                        fieldList: [{
-                            label: "属性名",
-                            fieldName: "name",
-                            type: "input",
-                            required: dataRequired,
-                            formShow: !false,
-                            tableShow: !false,
-                            minWidth: 180
-                        }, {
-                            label: "属性值",
-                            fieldName: "value",
-                            type: "input",
-                            required: dataRequired,
-                            formShow: !false,
-                            tableShow: !false,
-                            minWidth: 180
-                        }]
-                    }]
-                }, {
-                    title: "动态接口参数",
-                    tabName: "url",
-                    disabled: disableUrl,
-                    fieldList: [
-                        [{
-                            label: "接口地址",
-                            fieldName: "values",
-                            type: "input",
-                            required: urlRequired,
-                            formShow: !false,
-                            tableShow: !false,
-                            minWidth: 180
-                        },
-                            {
-                                label: "请求方式",
-                                fieldName: "requestType",
-                                type: "select",
-                                required: urlRequired,
-                                formShow: !false,
-                                tableShow: !false,
-                                optionList: requestTypeList,
-                                minWidth: 180
-                            }],
-                        [{
-                            label: "标签名字段",
-                            fieldName: "selectLabel",
-                            type: "input",
-                            required: urlRequired,
-                            formShow: !false,
-                            tableShow: !false,
-                            minWidth: 180
-                        },
-                            {
-                                label: "标签值字段",
-                                fieldName: "selectValue",
-                                type: "input",
-                                required: urlRequired,
-                                formShow: !false,
-                                tableShow: !false,
-                                minWidth: 180
-                            }]],
-                    batchFieldList: [
-                        {
-                            batchName: "queryParams",
-                            title: "参数",
+                tabList:
+                    [{
+                        title: "静态数据",
+                        tabName: "data",
+                        disabled: disableData,
+                        batchFieldList: [{
+                            batchName: "values",
                             fieldList: [{
-                                label: "参数名",
+                                label: "属性名",
                                 fieldName: "name",
                                 type: "input",
-                                required: urlRequired,
+                                required: dataRequired,
                                 formShow: !false,
                                 tableShow: !false,
-                                minWidth: 180
+
                             }, {
-                                label: "参数值",
+                                label: "属性值",
                                 fieldName: "value",
+                                type: "input",
+                                required: dataRequired,
+                                formShow: !false,
+                                tableShow: !false,
+
+                            }]
+                        }]
+                    }, {
+                        title: "动态接口参数",
+                        tabName: "url",
+                        disabled: disableUrl,
+                        fieldList: [
+                            [{
+                                label: "接口地址",
+                                fieldName: "values",
                                 type: "input",
                                 required: urlRequired,
                                 formShow: !false,
                                 tableShow: !false,
-                                minWidth: 180
-                            }, {
-                                label: "匹配方式",
-                                fieldName: "matchType",
-                                type: "select",
-                                defaultValue: "eq",
+
+                            },
+                                {
+                                    label: "请求方式",
+                                    fieldName: "requestType",
+                                    type: "select",
+                                    required: urlRequired,
+                                    formShow: !false,
+                                    tableShow: !false,
+                                    optionList: requestTypeList,
+
+                                }],
+                            [{
+                                label: "标签名字段",
+                                fieldName: "selectLabel",
+                                type: "input",
                                 required: urlRequired,
                                 formShow: !false,
                                 tableShow: !false,
-                                optionList: matchTypeList,
-                                minWidth: 180
-                            },]
-                        }]
-                },
-                    {
-                        title: "数据字典",
-                        tabName: "dict",
-                        disabled: disableDict,
-                        fieldList: [{
-                            label: "字典名称",
-                            fieldName: "urlOrDictName",
-                            type: "input",
-                            required: dictRequired,
-                            formShow: !false,
-                            tableShow: !false,
-                            minWidth: 180
-                        }]
+
+                            },
+                                {
+                                    label: "标签值字段",
+                                    fieldName: "selectValue",
+                                    type: "input",
+                                    required: urlRequired,
+                                    formShow: !false,
+                                    tableShow: !false,
+
+                                }]],
+                        batchFieldList: [
+                            {
+                                batchName: "queryParams",
+                                title: "参数",
+                                fieldList: [{
+                                    label: "参数名",
+                                    fieldName: "name",
+                                    type: "input",
+                                    required: urlRequired,
+                                    formShow: !false,
+                                    tableShow: !false,
+
+                                }, {
+                                    label: "参数值",
+                                    fieldName: "value",
+                                    type: "input",
+                                    required: urlRequired,
+                                    formShow: !false,
+                                    tableShow: !false,
+
+                                }, {
+                                    label: "匹配方式",
+                                    fieldName: "matchType",
+                                    type: "select",
+                                    defaultValue: "eq",
+                                    required: urlRequired,
+                                    formShow: !false,
+                                    tableShow: !false,
+                                    optionList: matchTypeList,
+
+                                },]
+                            }]
                     },
+                        {
+                            title: "数据字典",
+                            tabName: "dict",
+                            disabled: disableDict,
+                            fieldList: [{
+                                label: "字典名称",
+                                fieldName: "urlOrDictName",
+                                type: "input",
+                                required: dictRequired,
+                                formShow: !false,
+                                tableShow: !false,
 
-                ],
-            },
+                            }]
+                        },
 
+                    ],
+            }
         ],
         batchFieldList: [],
         userTableFuncs: [],
@@ -212,10 +209,10 @@ export function dataSourceFields() {
  * @param fieldName
  * @param item
  */
-export function paramsFields(fieldName: string, item: Object) {
+export function paramsFields(fieldName: string, item: any) {
     console.log(fieldName, item);
     let datas = [...item['advancedFields'], ...item['fields']];
-    let currentData: Array = [];
+    let currentData: Array<any> = [];
     datas.forEach(item => {
         if (item.fieldName == fieldName) {
             currentData = item.configParams;
@@ -254,7 +251,7 @@ export function paramsFields(fieldName: string, item: Object) {
             type: "button",
             actions: async (val: any) => {
                 let result = await validDataUrl(val["interfaceUrl"], {});
-                let datas = result.data;
+                let datas: any = result.data;
                 let error = result.error;
                 if (error) {
                     warning(error);
@@ -277,14 +274,12 @@ export function paramsFields(fieldName: string, item: Object) {
             label: "列名",
             fieldName: "fieldName",
             type: "input",
-            required: false,
             formShow: true,
         },
         {
             label: "排序",
             fieldName: "ascOrDesc",
             type: "select",
-            required: false,
             formShow: true,
             optionList: ascOrDesc()
         }];
@@ -292,7 +287,6 @@ export function paramsFields(fieldName: string, item: Object) {
         label: "列名",
         fieldName: "label",
         type: "input",
-        required: false,
         formShow: true,
     }, {
         label: "属性名称",
@@ -300,28 +294,25 @@ export function paramsFields(fieldName: string, item: Object) {
         type: "select",
         allowCreate: true,
         optionList: fieldList,
-        required: false,
         formShow: true,
     }, {
         label: "搜索显示",
         fieldName: "searchFlag",
         type: "switch",
-        defaultValue: "yes",
-        required: false,
+        defaultValue: "Y",
         formShow: true,
     }];
     let needFields: FieldInfo[] = [{
         label: "原属性名",
         fieldName: "sourceField",
         type: "select",
-        required: false,
         optionList: fieldList,
         formShow: true,
     }, {
         label: "目标属性名",
         fieldName: "distField",
         type: "input",
-        required: false,
+
         formShow: true,
     }];
 
@@ -334,7 +325,7 @@ export function paramsFields(fieldName: string, item: Object) {
                 label: temp.label,
                 fieldName: temp.fieldName,
                 type: "input",
-                required: false,
+
                 tableShow: !false,
             });
 
@@ -395,7 +386,7 @@ export function containerField(fieldName: string) {
                 required: true,
                 formShow: !false,
                 tableShow: !false,
-                minWidth: 180
+
             }, {
                 label: "主键",
                 fieldName: "tabName",
@@ -405,7 +396,7 @@ export function containerField(fieldName: string) {
                 required: true,
                 formShow: !false,
                 tableShow: !false,
-                minWidth: 180
+
             }, {
                 label: "对象名字",
                 fieldName: "objectName",
@@ -413,7 +404,7 @@ export function containerField(fieldName: string) {
                 required: true,
                 formShow: !false,
                 tableShow: !false,
-                minWidth: 180
+
             }, {
                 label: "是否子表",
                 fieldName: "subFormFlag",
@@ -422,7 +413,7 @@ export function containerField(fieldName: string) {
                 required: true,
                 formShow: !false,
                 tableShow: !false,
-                minWidth: 180
+
             }]
         }]
     };
@@ -438,7 +429,6 @@ export function containerField(fieldName: string) {
                 required: true,
                 formShow: !false,
                 tableShow: !false,
-                minWidth: 180,
                 batchFieldList: [{
                     batchName: "columns",
                     batchDefaultData: {items: []},
@@ -446,15 +436,16 @@ export function containerField(fieldName: string) {
                         label: "列宽",
                         fieldName: "colspan",
                         type: "number",
-                        min: 1,
-                        max: 24,
-                        step: 4,
                         defaultValue: 24,
                         required: true,
                         formShow: !false,
                         tableShow: !false,
-                        minWidth: 180,
                         actionName: "change",
+                        preps: {
+                            min: 1,
+                            max: 24,
+                            step: 4,
+                        },
                         actions: (val: any, type: string) => {
                             let obj = val.value || val;
                             let cols = obj.columns;
@@ -464,18 +455,12 @@ export function containerField(fieldName: string) {
                                     item.colspan = len;
                                 })
                             }
-                            // cols.forEach((item: any) => {
-                            //     if (!Object.keys(item).includes("items")) {
-                            //         item["items"] = [];
-                            //     }
-                            // });
                         }
                     }]
                 }]
             }]
         }]
     };
-
     return reactive<PageFieldInfo | any>({
         fieldList: [{
             fieldName: fieldName,

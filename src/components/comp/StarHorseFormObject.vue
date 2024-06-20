@@ -28,7 +28,7 @@ const setTableRef = (el: any) => {
   }
 }
 const validMsg = (item: any) => {
-  if (item.required && item.disabled != 'yes') {
+  if (item.required && item.disabled != 'Y') {
     return [{'required': true, 'message': '必填项不能为空', 'trigger': 'blur'}];
   }
   return []

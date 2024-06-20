@@ -35,118 +35,118 @@ const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
       label: "主键", fieldName: "idComplianceReport", type: "long",
-      required: false, formShow: false,
-      tableShow: false, minWidth: 180
+
+
     }, {
       label: "主键", fieldName: "idNodeProperty", type: "long",
-      required: false, formShow: false,
-      tableShow: false, minWidth: 180
+
+
     },
 
     {
       label: "致命总数", fieldName: "blocker", type: "number",
       required: true, formShow: !false,
-      tableShow: !false, minWidth: 180
+      tableShow: !false
     },
 
     {
       label: "严重总数", fieldName: "critical", type: "number",
       required: true, formShow: !false,
-      tableShow: !false, minWidth: 180
+      tableShow: !false
     },
     {
       label: "中度总数", fieldName: "major", type: "",
-      required: false, formShow: !false,
-      tableShow: !false, minWidth: 180
+       formShow: !false,
+      tableShow: !false
     },
 
     {
       label: "轻微总数", fieldName: "minor", type: "number",
-      required: false, formShow: !false,
-      tableShow: !false, minWidth: 180
+       formShow: !false,
+      tableShow: !false
     },
     {
       label: "Info总数", fieldName: "infos", type: "number",
-      required: false, formShow: !false,
-      tableShow: !false, minWidth: 180
+       formShow: !false,
+      tableShow: !false
     }, {
       label: "重复率", fieldName: "repeatRate", type: "number",
-      required: false, formShow: !false,
-      tableShow: !false, minWidth: 180
+       formShow: !false,
+      tableShow: !false
     }, {
       label: "重复代码行", fieldName: "repeatCodeLines", type: "number",
-      required: false, formShow: !false,
-      tableShow: !false, minWidth: 180
+       formShow: !false,
+      tableShow: !false
     }, {
       label: "重复代码块", fieldName: "repeatCodeBlock", type: "number",
-      required: false, formShow: !false,
-      tableShow: !false, minWidth: 180
+       formShow: !false,
+      tableShow: !false
     }, {
       label: "重复文件", fieldName: "repeatFiles", type: "number",
-      required: false, formShow: !false,
-      tableShow: !false, minWidth: 180
+       formShow: !false,
+      tableShow: !false
     }, {
       label: "总复杂度", fieldName: "totalComplex", type: "number",
-      required: false, formShow: !false,
-      tableShow: !false, minWidth: 180
+       formShow: !false,
+      tableShow: !false
     }, {
       label: "文件平均复杂度", fieldName: "fileAvgComplex", type: "number",
-      required: false, formShow: !false,
-      tableShow: !false, minWidth: 180
+       formShow: !false,
+      tableShow: !false
     }, {
       label: "详情地址", fieldName: "detailUrls", type: "number",
-      required: false, formShow: !false,
-      tableShow: !false, minWidth: 180
+       formShow: !false,
+      tableShow: !false
     },
     {
-      label: "创建人", disabled: "yes", fieldName: "createdBy", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+      label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
+
+
     },
     {
-      label: "修改人", disabled: "yes", fieldName: "updatedBy", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+      label: "修改人", disabled: "Y", fieldName: "updatedBy", type: "input",
+
+
     },
     {
-      label: "创建日期", disabled: "yes", fieldName: "createdDate", type: "date",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+      label: "创建日期", disabled: "Y", fieldName: "createdDate", type: "date",
+
+
     },
     {
-      label: "修改日期", disabled: "yes", fieldName: "updatedDate", type: "date",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+      label: "修改日期", disabled: "Y", fieldName: "updatedDate", type: "date",
+
+
     },
     {
       label: "数据版本号", fieldName: "version", type: "number",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "是否已逻辑", fieldName: "isDel", type: "number",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "数据编号", fieldName: "dataNo", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "状态码", fieldName: "statusCode", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "状态码名称", fieldName: "statusName", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "国际码", fieldName: "local", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
 
   ],
@@ -154,9 +154,7 @@ const tableFieldList = reactive<PageFieldInfo>({
   userTableFuncs: [],
 });
 const primaryKey = "idComplianceReport";
-const rules = {
-
-};
+const rules = {};
 const searchForm = ref({});
 provide("searchForm", searchForm);
 const dataForm = ref({});

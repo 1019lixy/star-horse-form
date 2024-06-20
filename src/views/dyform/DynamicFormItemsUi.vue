@@ -41,8 +41,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       fieldName: "idFormItems",
       type: "long",
       required: true,
-      formShow: false,
-      tableShow: false,
+
+
       minWidth: 180
     },
     {
@@ -86,97 +86,97 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       label: "版本号",
       fieldName: "version",
       type: "number",
-      required: false,
-      formShow: !true,
-      tableShow: !true,
+
+
+
       minWidth: 180
     },
     {
-      label: "创建人", disabled: "yes",
+      label: "创建人", disabled: "Y",
       fieldName: "createdBy",
       type: "input",
-      required: false,
-      formShow: !true,
-      tableShow: !true,
+
+
+
       minWidth: 180
     },
     {
       label: "创建时间",
       fieldName: "createdTime",
       type: "date",
-      required: false,
-      formShow: !true,
-      tableShow: !true,
+
+
+
       minWidth: 180
     },
     {
-      label: "修改人", disabled: "yes",
+      label: "修改人", disabled: "Y",
       fieldName: "updatedBy",
       type: "input",
-      required: false,
-      formShow: !true,
-      tableShow: !true,
+
+
+
       minWidth: 180
     },
     {
       label: "修改时间",
       fieldName: "updatedTime",
       type: "date",
-      required: false,
-      formShow: !true,
-      tableShow: !true,
+
+
+
       minWidth: 180
     },
     {
       label: "数据编号",
       fieldName: "dataNo",
       type: "input",
-      required: false,
-      formShow: !true,
-      tableShow: !true,
+
+
+
       minWidth: 180
     },
     {
       label: "状态吗",
       fieldName: "statusCode",
       type: "input",
-      required: false,
-      formShow: !true,
-      tableShow: !true,
+
+
+
       minWidth: 180
     },
     {
       label: "状态名称",
       fieldName: "statusName",
       type: "input",
-      required: false,
-      formShow: !true,
-      tableShow: !true,
+
+
+
       minWidth: 180
     },
     {
       label: "是否删除",
       fieldName: "isDel",
       type: "number",
-      required: false,
-      formShow: !true,
-      tableShow: !true,
+
+
+
       minWidth: 180
     },
     {
       label: "国际码",
       fieldName: "local",
       type: "input",
-      required: false,
-      formShow: !true,
-      tableShow: !true,
+
+
+
       minWidth: 180
     },
     {
       label: "备注",
       fieldName: "remark",
       type: "input",
-      required: false,
+
       formShow: !false,
       tableShow: !false,
       minWidth: 180
@@ -246,7 +246,8 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
 </style>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form v-model:data-form="dataForm" @refresh="dynamicFormItemsRef.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList"
+    <star-horse-form v-model:data-form="dataForm" @refresh="dynamicFormItemsRef.loadByPage()" :compUrl="dataUrl"
+                     :fieldList="tableFieldList"
                      :rules="rules"/>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title=

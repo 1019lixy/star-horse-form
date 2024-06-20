@@ -36,7 +36,7 @@ const initData = async () => {
 };
 let dictType = computed(() => props.dictType);
 const searchFormData = reactive<SearchProps[]>([
-  {label: "字典类型", fieldName: "dictType", type: "input", defaultValue: dictType, disabled: "yes"},
+  {label: "字典类型", fieldName: "dictType", type: "input", defaultValue: dictType, disabled: "Y"},
   {label: "字典名称", defaultShow: true, fieldName: "dictName", type: "input", matchType: "lk"}
 ]);
 
@@ -44,80 +44,80 @@ const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
       label: "主键", fieldName: "idDictinfo", type: "long",
-      required: false, formShow: false,
-      tableShow: false, minWidth: 180
+
+
     },
     {
       label: "字典类型", fieldName: "dictType", type: "input",
       required: true, formShow: !false, defaultValue: dictType,
-      tableShow: !false, minWidth: 180, disabled: "yes"
+      tableShow: !false, disabled: "Y"
     },
     {
       label: "字典名称", fieldName: "dictName", type: "input",
       required: true, formShow: true,
-      tableShow: true, minWidth: 180
+      tableShow: true
     },
     {
       label: "字典编码", fieldName: "dictCode", type: "input",
       required: true, formShow: true,
-      tableShow: true, minWidth: 180
+      tableShow: true
     },
     {
       label: "状态名称", fieldName: "statusName", type: "input",
-      required: true, formShow: !true,
-      tableShow: !true, minWidth: 180
+      required: true,
+
     },
     {
       label: "状态", fieldName: "statusCode", type: "select", optionList: commonDictList,
-      required: true, formShow: !true,
-      tableShow: true, minWidth: 180
+      required: true,
+      tableShow: true
     },
 
     {
       label: "字典描述", fieldName: "dictDesc", type: "input",
-      required: false, formShow: !false,
-      tableShow: !false, minWidth: 180
+       formShow: !false,
+      tableShow: !false
     },
     {
-      label: "创建人", disabled: 1, fieldName: "createdBy", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+      label: "创建人", disabled:"Y", fieldName: "createdBy", type: "input",
+
+
     },
     {
-      label: "修改人", disabled: 1, fieldName: "updatedBy", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+      label: "修改人", disabled:"Y", fieldName: "updatedBy", type: "input",
+
+
     },
     {
-      label: "创建日期", disabled: 1, fieldName: "createdDate", type: "date",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+      label: "创建日期", disabled:"Y", fieldName: "createdDate", type: "date",
+
+
     },
     {
-      label: "修改日期", disabled: 1, fieldName: "updatedDate", type: "date",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+      label: "修改日期", disabled:"Y", fieldName: "updatedDate", type: "date",
+
+
     },
     {
       label: "数据版本号", fieldName: "version", type: "number",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "是否已逻辑", fieldName: "isDel", type: "number",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "数据编号", fieldName: "dataNo", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
 
     {
       label: "国际码", fieldName: "local", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
   ],
   batchFieldList: [],
@@ -169,7 +169,8 @@ const dataFormat = (name: string, cellValue: Object): any => {
 </style>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form v-model:data-form="dataForm"  @refresh="tabListRef.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList" :rules="rules"/>
+    <star-horse-form v-model:data-form="dataForm" @refresh="tabListRef.loadByPage()" :compUrl="dataUrl"
+                     :fieldList="tableFieldList" :rules="rules"/>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title=
       "'查看数据'" :is-view="true">

@@ -16,7 +16,7 @@ const props = defineProps({
 });
 const emits = defineEmits(["refresh"]);
 const starHorseFormRef = ref(null);
-const dataForm =inject("dataForm") as Ref;
+const dataForm = inject("dataForm") as Ref;
 const closeDialog = inject("closeDialog") as Function;
 const dialogOperation = inject("dialogOperation") as ShallowReactive<Object>;
 const dialogProps = inject<DialogProps>("dialogProps", {});
@@ -69,27 +69,14 @@ watch(() => dialogProps.ids,
     });
 
 const merge = (type: string) => {
-  console.log("xxxxxxxxxxx", type);
   starHorseFormRef.value.validate((result: boolean) => {
     if (!result) {
       return;
     }
-    //  assignStatusName();
     doMerge();
   });
 };
 
-/**
- * 对状态名称赋值
- */
-const assignStatusName = () => {
-  if (dataForm.statusCode) {
-    let sData = selectData.find((item: string) => item.statusCode === dataForm.statusCode);
-    if (sData) {
-      dataForm["statusName"] = sData.statusName;
-    }
-  }
-}
 const mergeDraft = (type: string) => {
   console.log("mergeDraft", type)
   doMerge();
@@ -97,7 +84,6 @@ const mergeDraft = (type: string) => {
 
 const doMerge = () => {
   load("数据处理中");
-  assignStatusName();
   postRequest(props.compUrl.mergeUrl, dataForm.value).then(res => {
     closeLoad();
     if (res.data.code != 0) {
@@ -127,19 +113,19 @@ defineExpose({
 <style scoped></style>
 <template>
   <el-form :model="dataForm" :rules="rules" class="data-form" ref="starHorseFormRef"
-           :disabled="formInfo['disabled'] == 'yes'"
-           :hide-required-asterisk="formInfo['hideRequiredAsterisk'] == 'yes'"
-           :inline="formInfo.inline == 'yes'"
-           :inline-message="formInfo['inlineMessage'] == 'yes'"
+           :disabled="formInfo['disabled'] == 'Y'"
+           :hide-required-asterisk="formInfo['hideRequiredAsterisk'] == 'Y'"
+           :inline="formInfo.inline == 'Y'"
+           :inline-message="formInfo['inlineMessage'] == 'Y'"
            :label-position="formInfo['labelPosition']"
            :label-suffix="formInfo['labelSuffix']"
            :label-width="formInfo['labelWidth']"
            :require-asterisk-position="formInfo['requireAsteriskPosition']"
-           :scroll-to-error="formInfo['scrollToError'] == 'yes'"
-           :show-message="formInfo['showMessage'] == 'yes'"
+           :scroll-to-error="formInfo['scrollToError'] == 'Y'"
+           :show-message="formInfo['showMessage'] == 'Y'"
            :size="formInfo['size']"
-           :status-icon="formInfo['statusIcon'] == 'yes'"
-           :validate-on-rule-change="formInfo['validateOnRuleChange']=='yes'"
+           :status-icon="formInfo['statusIcon'] == 'Y'"
+           :validate-on-rule-change="formInfo['validateOnRuleChange']=='Y'"
   >
     <template v-for="data in fieldList">
       <component

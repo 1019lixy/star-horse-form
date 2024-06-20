@@ -206,8 +206,8 @@ onMounted(() => {
           v-if="parentField?.itemType!='table'"
           :label="formItem?.preps['label']"
           :prop="formItem?.preps['name']"
-          :required="formItem?.preps['required']=='yes'"
-          :rules="formItem?.preps['required']=='yes'?[{required:true,trigger:'blur',message:'必须项不能为空'}]:[]"
+          :required="formItem?.preps['required']=='Y'"
+          :rules="formItem?.preps['required']=='Y'?[{required:true,trigger:'blur',message:'必须项不能为空'}]:[]"
           @click="selectData(formItem)"
       >
         <slot></slot>

@@ -8,7 +8,7 @@ import {Config} from "@/api/settings";
 
 const props = defineProps({
   compUrl: {type: Object},
-  batchName:{type:String,default:""},
+  batchName: {type: String, default: ""},
   item: {type: Object, required: true},
   dataFormat: {type: Function, required: true},
   cellEditable: {type: Boolean, default: true}
@@ -42,14 +42,14 @@ const blurEvent = (column: any) => {
   });
 };
 const cellClick = (row: any, column: any) => {
-  if (!props.cellEditable||props.item["disabled"]) {
+  if (!props.cellEditable || props.item["disabled"]) {
     return;
   }
   row["isSelected"] = true;
   row["selectName"] = column["property"];
-  let bakeValue=row[column["property"]];
+  let bakeValue = row[column["property"]];
   //解决空值不能提交问题
-  row["starHorseBakeValue"] = bakeValue?bakeValue:"_";
+  row["starHorseBakeValue"] = bakeValue ? bakeValue : "_";
   currentRow.value = row;
   nextTick(() => {
     setTimeout(() => {
@@ -85,8 +85,10 @@ const cellClick = (row: any, column: any) => {
                        v-if="scope.row.isSelected&&(scope.row.selectName==item.hideName||scope.row.selectName==item.fieldName)"/>
 
       <p @click="cellClick(scope.row, scope.column)" v-else>
-        {{dataFormat? dataFormat(scope.row, scope.column, scope.row[item.hideName||item.fieldName],
-          scope.$index):scope.row[item.hideName||item.fieldName] }}</p>
+        {{
+          dataFormat ? dataFormat(scope.row, scope.column, scope.row[item.hideName || item.fieldName],
+              scope.$index) : scope.row[item.hideName || item.fieldName]
+        }}</p>
     </template>
 
   </el-table-column>
@@ -97,9 +99,11 @@ tbody {
   .cell {
     display: flex;
     flex-direction: row;
+
     .el-table__expand-icon {
       margin-top: 5px;
     }
+
     p {
       display: block;
     }

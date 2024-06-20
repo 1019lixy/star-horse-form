@@ -10,7 +10,7 @@
           </video>
         </div>
       </div>
-      <div class="controls" v-if="field['showButton']=='yes'">
+      <div class="controls" v-if="field['showButton']=='Y'">
         <el-button @click="load()">Load</el-button>
         <el-button @click="start()">Start</el-button>
         <el-button @click="pause()">Pause</el-button>
@@ -45,26 +45,26 @@ export default defineComponent({
       if (flvjs.isSupported() && element) {
         const flvOption = {
           url: field["videoUrl"], // 播放地址
-          hasAudio: field["hasAudio"] == "yes", // 是否有音频
-          hasVideo: field["hasVideo"] == "yes", //是否有视频
-          isLive: field["isLive"] == "yes", // 是否是直播流，默认 true
+          hasAudio: field["hasAudio"] == "Y", // 是否有音频
+          hasVideo: field["hasVideo"] == "Y", //是否有视频
+          isLive: field["isLive"] == "Y", // 是否是直播流，默认 true
           type: field["videoType"] || "mp4", // 是否是直播流，默认 true
           stashInitialSize: field["stashInitialSize"] || 128, // 减少首帧显示等待时长
         };
         player.value = flvjs.createPlayer(flvOption, {
-          enableWorker: field["enableWorker"] == "yes", // 不启用分离的线程进行转换，之前为true
-          enableStashBuffer: field["enableStashBuffer"] == "yes", // 关闭IO隐藏缓冲区
+          enableWorker: field["enableWorker"] == "Y", // 不启用分离的线程进行转换，之前为true
+          enableStashBuffer: field["enableStashBuffer"] == "Y", // 关闭IO隐藏缓冲区
           stashInitialSize: field["stashInitialSize"] || 128, // 减少首帧显示等待时长
-          autoCleanupSourceBuffer: field["autoCleanupSourceBuffer"] == "yes", // 打开自动清除缓存
-          fixAudioTimestampGap: field["fixAudioTimestampGap"] == "yes", //false才会音视频同步,新增
-          lazyLoad: field["lazyLoad"] == "yes", // 去掉懒加载,新增
+          autoCleanupSourceBuffer: field["autoCleanupSourceBuffer"] == "Y", // 打开自动清除缓存
+          fixAudioTimestampGap: field["fixAudioTimestampGap"] == "Y", //false才会音视频同步,新增
+          lazyLoad: field["lazyLoad"] == "Y", // 去掉懒加载,新增
         });
 
         player.value.attachMediaElement(element);
-        if (field["autoLoad"] == "yes") {
+        if (field["autoLoad"] == "Y") {
           player.value.load();
         }
-        if (field["autoPlay"] == "yes") {
+        if (field["autoPlay"] == "Y") {
           player.value.play();
         }
 
@@ -122,7 +122,7 @@ export default defineComponent({
     });
 
     return {
-      parentField, formFieldList, context, field, formItem,  dataField,  keyEnterFun, seekpoint,
+      parentField, formFieldList, context, field, formItem, dataField, keyEnterFun, seekpoint,
       saveSettings, load, start, pause, destroy, seekto
     }
   }

@@ -101,7 +101,7 @@ const searchArea = () => {
             :label="item.label"
             v-if="item.defaultShow"
             :prop="item.fieldName">
-          <template v-if="item.type=='input'&&(!item.disabled||item.disabled=='no')" :span="6">
+          <template v-if="item.type=='input'&&(!item.disabled||item.disabled=='N')" :span="6">
             <el-select :size="compSize" style="width: 90px;height:100%;padding-top:2px;" v-model="item['matchType']"
                        clearable filterable>
               <el-option v-for="sitem in matchTypeList" :value="sitem.value" :label="sitem.name" :key=
@@ -117,7 +117,7 @@ const searchArea = () => {
             :size="compSize"
             :label="item.label"
             :prop="item.fieldName">
-          <template v-if="item.type=='input'&&(!item.disabled||item.disabled=='no')" :span="6">
+          <template v-if="item.type=='input'&&(!item.disabled||item.disabled=='N')" :span="6">
             <el-select :size="compSize" style="width: 90px;height:100%;padding-top:2px;" v-model="item['matchType']"
                        clearable filterable>
               <el-option v-for="sitem in matchTypeList" :value="sitem.value" :label="sitem.name" :key=

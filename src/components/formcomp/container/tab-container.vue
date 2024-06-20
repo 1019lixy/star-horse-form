@@ -41,16 +41,16 @@ onMounted(() => {
       label: "Tab1",
       tabName: "tab1",
       objectName: "tab1",
-      subFormFlag: "yes",
+      subFormFlag: "Y",
       items: []
     }, {
       label: "Tab2",
       tabName: "tab2",
       objectName: "tab2",
-      subFormFlag: "yes",
+      subFormFlag: "Y",
       items: []
     }];
-    props.field['stretch'] = "no";
+    props.field['stretch'] = "N";
   }
   activeTabName.value = 0;// props.field?["tabList"][0]["name"] || 0;
 });
@@ -72,10 +72,10 @@ const addTab = () => {
     <el-tabs
         :tab-position="field.preps['tablePosition']"
         :type="field.preps['type']"
-        :closable="field.preps['closable']=='yes'"
-        :addable="field.preps['addable']=='yes'"
-        :editable="field.preps['editable']=='yes'"
-        :stretch="field.preps['stretch']=='yes'"
+        :closable="field.preps['closable']=='Y'"
+        :addable="field.preps['addable']=='Y'"
+        :editable="field.preps['editable']=='Y'"
+        :stretch="field.preps['stretch']=='Y'"
         v-model="activeTabName"
         @tab-add="addTab()"
         @tab-click="dynamicFunc('tabClick',field['tabClick'])"

@@ -55,15 +55,18 @@ const showDetail = (nodeType: string, instanceId: string) => {
         <span>#71992</span>
       </div>
       <div class="item-bar-right">
-        <el-button @click="execLine" link title="" style="background: var(--star-horse-style);color: var(--star-horse-white)">
+        <el-button @click="execLine" link title=""
+                   style="background: var(--star-horse-style);color: var(--star-horse-white)">
           <star-horse-icon icon-class="fa-circle-play"/>
           <el-tooltip content="执行">执行</el-tooltip>
         </el-button>
-        <el-button @click="configLine" link title="" style="background: var(--star-horse-style);color: var(--star-horse-white)">
+        <el-button @click="configLine" link title=""
+                   style="background: var(--star-horse-style);color: var(--star-horse-white)">
           <star-horse-icon icon-class="fa-gear"/>
           <el-tooltip content="配置">配置</el-tooltip>
         </el-button>
-        <el-button @click="publishLine" link title="" style="background: var(--star-horse-style);color: var(--star-horse-white)">
+        <el-button @click="publishLine" link title=""
+                   style="background: var(--star-horse-style);color: var(--star-horse-white)">
           <star-horse-icon icon-class="fa-gear"/>
           <el-tooltip content="发布">发布</el-tooltip>
         </el-button>
@@ -104,15 +107,21 @@ const showDetail = (nodeType: string, instanceId: string) => {
         <div class="node-content">
           <div @click="dataDetail('deploy_ci')" class="line-node-item">
             <span class="title">CI</span>
-            <el-button @click="operationAction('deploy_ci')" size="mini" style="background: var(--star-horse-style);color: var(--star-horse-white)">发起部署</el-button>
+            <el-button @click="operationAction('deploy_ci')" size="mini"
+                       style="background: var(--star-horse-style);color: var(--star-horse-white)">发起部署
+            </el-button>
           </div>
           <div @click="dataDetail('deploy_test1')" class="line-node-item">
             <span class="title">Test1</span>
-            <el-button @click="operationAction('deploy_test1')" size="mini" style="background: var(--star-horse-style);color: var(--star-horse-white)">发起部署</el-button>
+            <el-button @click="operationAction('deploy_test1')" size="mini"
+                       style="background: var(--star-horse-style);color: var(--star-horse-white)">发起部署
+            </el-button>
           </div>
           <div @click="dataDetail('deploy_test2')" class="line-node-item">
             <span class="title">Test2</span>
-            <el-button @click="operationAction('deploy_test2')" size="mini" style="background: var(--star-horse-style);color: var(--star-horse-white)">发起部署</el-button>
+            <el-button @click="operationAction('deploy_test2')" size="mini"
+                       style="background: var(--star-horse-style);color: var(--star-horse-white)">发起部署
+            </el-button>
           </div>
           <div class="line-node-item">
             <span class="title">Sonar</span>

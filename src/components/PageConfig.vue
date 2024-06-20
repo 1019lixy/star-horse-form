@@ -4,7 +4,7 @@ import {SelectOption} from "@/components/types/SearchProps.d.ts";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import piniaInstance from "@/store";
 
-let configInfo = ref<any>({tagsView: 'yes'});
+let configInfo = ref<any>({tagsView: 'Y'});
 let configStore = GlobalConfig(piniaInstance);
 let sizeList = ref<Array<SelectOption>>([
   {name: "大", value: "large"},
@@ -177,12 +177,12 @@ const changeOperation = (val: any) => {
 };
 const resetDefault = () => {
   let defaultConfig = {
-    tagsView: 'yes',
+    tagsView: 'Y',
     inputSize: 'small',
     buttonSize: 'small',
     buttonShowType: "dropdown",
     themeColor: "#3a8ee6",
-    shortCutMenus: "yes"
+    shortCutMenus: "Y"
   };
   configStore.setConfigFormInfo(defaultConfig);
 };
@@ -211,7 +211,7 @@ onMounted(() => {
       <el-form-item prop="themeColor" label="主题颜色">
         <template v-for="item in classicsList">
           <div class="theme-item" @click="classicsTheme(item.color)">
-            <el-tag  :color="item.color" style="margin-right: 8px" size="small"/>
+            <el-tag :color="item.color" style="margin-right: 8px" size="small"/>
             <span>{{ item.name }}</span>
           </div>
         </template>
@@ -246,11 +246,11 @@ onMounted(() => {
         <h4>其他配置</h4>
       </el-divider>
       <el-form-item prop="tagsView" label="开启/关闭TagsView ">
-        <el-switch v-model="configInfo.tagsView" :active-value="'yes'" inactive-value="'no'" @change="changeOperation">
+        <el-switch v-model="configInfo.tagsView" :active-value="'Y'" inactive-value="'N'" @change="changeOperation">
         </el-switch>
       </el-form-item>
       <el-form-item prop="shortCutMenus" label="开启/关闭快捷菜单 ">
-        <el-switch v-model="configInfo.shortCutMenus" :active-value="'yes'" inactive-value="'no'"
+        <el-switch v-model="configInfo.shortCutMenus" :active-value="'Y'" inactive-value="'N'"
                    @change="changeOperation">
         </el-switch>
       </el-form-item>

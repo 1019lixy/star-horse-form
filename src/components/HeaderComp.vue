@@ -60,33 +60,32 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     [{
       label: "工号", fieldName: "employeeNo", type: "input",
-      required: false, formShow: !false, disabled: "yes",
-      tableShow: false, minWidth: 180
+       formShow: !false, disabled: "Y",
+
     },
       {
         label: "用户名", fieldName: "username", type: "input",
-        required: false, formShow: !false, disabled: "yes",
-        tableShow: false, minWidth: 180
+         formShow: !false, disabled: "Y",
+
       }],
     {
       label: "联系电话", fieldName: "phone", type: "input",
-      required: false, formShow: true,
-      tableShow: !true, minWidth: 180
+       formShow: true,
+
     },
     {
       label: "原始密码", fieldName: "oldPassword", type: "password",
       required: true, formShow: true,
-      tableShow: !true, minWidth: 180
+
     },
     {
       label: "新密码", fieldName: "password", type: "password",
       required: true, formShow: true,
-      tableShow: !true, minWidth: 180
     },
     {
       label: "确认密码", fieldName: "rePassword", type: "password",
       required: true, formShow: true,
-      tableShow: !true, minWidth: 180
+
     }
   ],
   batchFieldList: [],
@@ -320,10 +319,11 @@ const dataFormat = (name: string, val: any, row: any) => {
 };
 const search = ref<String>();
 const filterTableData = computed(() => filterTree(search.value, permissionMenuList.value));
-let shortcutVisible = computed(()=>configStore.configFormInfo.shortCutMenus||"yes");
+let shortcutVisible = computed(() => configStore.configFormInfo.shortCutMenus || "Y");
 </script>
 <template>
-  <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps" @merge="doModifyUserInfo"
+  <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps"
+                     @merge="doModifyUserInfo"
                      @resetForm="resetForm" :self-func="true">
     <star-horse-form v-model:data-form="dataForm" :compUrl="dataUrl" :fieldList="tableFieldList" :rules="rules"/>
   </star-horse-dialog>
@@ -396,7 +396,7 @@ let shortcutVisible = computed(()=>configStore.configFormInfo.shortCutMenus||"ye
     </div>
   </div>
   <div style="clear: both"></div>
-  <div class="shortcut" v-if="shortcutVisible=='yes'">
+  <div class="shortcut" v-if="shortcutVisible=='Y'">
     <div class="shortcut_ul">
       <template v-for="(item, index) in shortcutMenuList">
         <span>

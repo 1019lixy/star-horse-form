@@ -1,24 +1,24 @@
 <template>
-  <starhorse-form-item  :isDesign="context.attrs['isDesign']" :form-item = "field" :parentField = "parentField">
+  <starhorse-form-item :isDesign="context.attrs['isDesign']" :form-item="field" :parentField="parentField">
     <el-checkbox-group
-        :fid = "field.preps['name']"
-        :disabled = "field.preps['disabled']=='yes'"
-        :readonly = "field.preps['readonly']=='yes'"
+        :fid="field.preps['name']"
+        :disabled="field.preps['disabled']=='Y'"
+        :readonly="field.preps['readonly']=='Y'"
         :size="field?.preps['size']||'small'"
-        v-model = "context.attrs['formFieldList'][field.preps['name']]">
-      <el-checkbox :border = "item['border']=='yes'"
-                   :checked = "item['checked']=='yes'"
-                   :disabled = "item['disabled']=='yes'"
-                   :label = "item['label']"
+        v-model="context.attrs['formFieldList'][field.preps['name']]">
+      <el-checkbox :border="item['border']=='Y'"
+                   :checked="item['checked']=='Y'"
+                   :disabled="item['disabled']=='Y'"
+                   :label="item['label']"
                    :value="item['trueLabel']"
-                   v-for = "item in field.preps['values']">
+                   v-for="item in field.preps['values']">
 
       </el-checkbox>
     </el-checkbox-group>
   </starhorse-form-item>
 </template>
 
-<script lang = "ts">
+<script lang="ts">
 import {defineComponent, shallowRef} from "vue";
 
 export default defineComponent({

@@ -75,162 +75,162 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     /*    {
           label: "主键", fieldName: "idUsersinfo", type: "long",
-          required: false, formShow: false,
-          tableShow: false, minWidth: 180
+
+
         },
         {
           label: "主键", fieldName: "idUserAudit", type: "long",
-          required: false, formShow: false,
-          tableShow: false, minWidth: 180
+
+
         },*/
     [{
       label: "用户名", fieldName: "username", type: "input",
-      required: true, formShow: !false, disabled: 1,
-      tableShow: !false, minWidth: 180
+      required: true, formShow: !false, disabled:"Y",
+      tableShow: !false
     }, {
       label: "员工编号", fieldName: "employeeNo", type: "input",
       required: true, formShow: !false,
-      tableShow: !false, minWidth: 180
+      tableShow: !false
     }],
 
     [{
       label: "归属部门", fieldName: "deptList", type: "cascade", optionList: deptList,
-      required: true, formShow: !false, multiple: true,
-      tableShow: !false, minWidth: 180
+      required: true, formShow: !false, multiple:"Y",
+      tableShow: !false
     }, {
       label: "角色", fieldName: "rolesList", type: "select", optionList: rolesList,
-      required: true, formShow: !false, multiple: true,
-      tableShow: !false, minWidth: 180
+      required: true, formShow: !false, multiple:"Y",
+      tableShow: !false
     }],
     [
       {
         label: "邮箱地址", fieldName: "email", type: "input",
         required: true, formShow: !false,
-        tableShow: !false, minWidth: 180
+        tableShow: !false
       },
       {
         label: "联系电话", fieldName: "phone", type: "input",
         required: true, formShow: !false,
-        tableShow: !false, minWidth: 180
+        tableShow: !false
       }],
     [
       {
         label: "姓名", fieldName: "name", type: "input",
         required: true, formShow: !false,
-        tableShow: !false, minWidth: 180
+        tableShow: !false
       },
       {
         label: "性别", fieldName: "sex", type: "select", optionList: sexList,
-        required: false, formShow: !false,
-        tableShow: !false, minWidth: 180
+         formShow: !false,
+        tableShow: !false
       }],
     /*
      {
       label: "紧急联系人电话", fieldName: "bakePhone", type: "input",
-      required: false, formShow: false,
-      tableShow: false, minWidth: 180
+
+
     },
     {
       label: "学历", fieldName: "education", type: "select", optionList: educationList.value,
-      required: false, formShow: !false,
-      tableShow: !false, minWidth: 180
+       formShow: !false,
+      tableShow: !false
     },
     [{
       label: "入职时间", fieldName: "entryDate", type: "date",
-      required: false, formShow: false,
-      tableShow: false, minWidth: 180
+
+
     },
       {
         label: "离职时间", fieldName: "leaveDate", type: "date",
-        required: false, formShow: false,
-        tableShow: false, minWidth: 180
+
+
       }],
     {
       label: "籍贯", fieldName: "nativePlace", type: "select", optionList: nativePlaceList.value,
-      required: false, formShow: !false,
-      tableShow: !false, minWidth: 180
+       formShow: !false,
+      tableShow: !false
     },
     {
       label: "政治面貌", fieldName: "politicalStatus", type: "select", optionList: politicalStatusList.value,
-      required: false, formShow: !false,
-      tableShow: !false, minWidth: 180
+       formShow: !false,
+      tableShow: !false
     },
     {
       label: "证件类型", fieldName: "identityType", type: "select", optionList: identityTypeList.value,
-      required: false, formShow: !false,
-      tableShow: !false, minWidth: 180
+       formShow: !false,
+      tableShow: !false
     },
     {
       label: "证件编号", fieldName: "identityNo", type: "input",
-      required: false, formShow: !false,
-      tableShow: !false, minWidth: 180
+       formShow: !false,
+      tableShow: !false
     },*/
     [{
       label: "状态", fieldName: "statusCode", type: "select",
-      required: false, formShow: true,
+       formShow: true,
       optionList: statusList,
-      tableShow: !true, minWidth: 180
+
     },
       {
         label: "通信地址", fieldName: "address", type: "input",
-        required: false, formShow: !false,
-        tableShow: !false, minWidth: 180
+         formShow: !false,
+        tableShow: !false
       }],
     {
       label: "备注", fieldName: "remark", type: "textarea",
-      required: false, formShow: !false,
-      tableShow: !false, minWidth: 180
+       formShow: !false,
+      tableShow: !false
     },
     {
       label: "证件照", fieldName: "imagePath", type: "input",
-      required: false, formShow: false,
-      tableShow: false, minWidth: 180
+
+
     },
     {
-      label: "创建人", disabled: 1, fieldName: "createdBy", type: "input",
-      required: false, formShow: !true,
-      tableShow: true, minWidth: 180
+      label: "创建人", disabled:"Y", fieldName: "createdBy", type: "input",
+
+      tableShow: true
     },
     {
-      label: "修改人", disabled: 1, fieldName: "updatedBy", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+      label: "修改人", disabled:"Y", fieldName: "updatedBy", type: "input",
+
+
     },
     {
-      label: "创建日期", disabled: 1, fieldName: "createdDate", type: "date",
-      required: false, formShow: !true,
-      tableShow: true, minWidth: 180
+      label: "创建日期", disabled:"Y", fieldName: "createdDate", type: "date",
+
+      tableShow: true
     },
     {
-      label: "修改日期", disabled: 1, fieldName: "updatedDate", type: "date",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+      label: "修改日期", disabled:"Y", fieldName: "updatedDate", type: "date",
+
+
     },
     {
       label: "数据版本号", fieldName: "version", type: "number",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "是否已逻辑删除", fieldName: "isDel", type: "number",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "数据编号", fieldName: "dataNo", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
 
     {
       label: "状态", fieldName: "statusName", type: "input",
-      required: false, formShow: !true,
-      tableShow: true, minWidth: 180
+
+      tableShow: true
     },
     {
       label: "国际码", fieldName: "local", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
   ],
   batchFieldList: [],
@@ -238,9 +238,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   stopAutoLoad: props.viewRolesinfoId ? true : false
 });
 const primaryKey = "idUsersinfo";
-const rules = {
-
-};
+const rules = {};
 const searchForm = ref({});
 provide("searchForm", searchForm);
 const dataForm = ref({});
@@ -313,14 +311,15 @@ const searchData = (data: SearchParams[]) => {
 </script>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form v-model:data-form="dataForm" @refresh="usersinfoTableListRef.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList"
+    <star-horse-form v-model:data-form="dataForm" @refresh="usersinfoTableListRef.loadByPage()" :compUrl="dataUrl"
+                     :fieldList="tableFieldList"
                      :rules="rules"/>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title=
       "'查看数据'" :is-view="true">
     <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
   </star-horse-dialog>
-  <el-card class="inner_content" >
+  <el-card class="inner_content">
     <el-row style="height: 100%;">
       <el-col :span="3" style="height: inherit">
         <el-card class="inner_content" style="height: inherit">

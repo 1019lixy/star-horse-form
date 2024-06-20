@@ -41,8 +41,8 @@ const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
       label: "主键", fieldName: "idCodeGenerator", type: "long",
-      required: false, formShow: false,
-      tableShow: false, minWidth: 180
+
+
     },
     [{
       label: "数据库信息", fieldName: "datasourceConfigId", type: "select",
@@ -50,53 +50,53 @@ const tableFieldList = reactive<PageFieldInfo>({
       optionList: dbInfoList,
       actionNames: "change",
       actions: loadTabInfo,
-      tableShow: true, minWidth: 180
+      tableShow: true
     }, {
       label: "模版版本", fieldName: "templateVersion", type: "select",
-      required: false, formShow: true,
+       formShow: true,
       optionList: templateVersionList,
-      tableShow: true, minWidth: 180
+      tableShow: true
     },],
     {
       label: "需要生成的表名", fieldName: "tablesList", type: "select",
-      multiple: true,
+      multiple:"Y",
       optionList: tableInfoList,
       helpMsg: `该属性为空表示生成所有数据库表的代码,
 如果表数量太多（>100），程序自动转异步执行，
 有构建失败风险.`,
-      required: false, formShow: !false,
-      tableShow: false, minWidth: 180
+       formShow: !false,
+
     },
     {
       label: "需要排除的表", fieldName: "excludesList",
       type: "select",
-      multiple: true,
+      multiple:"Y",
       optionList: tableInfoList,
-      required: false, formShow: !false,
-      tableShow: !false, minWidth: 180
+       formShow: !false,
+      tableShow: !false
     },
     [{
       label: "去除表前缀", fieldName: "prefixesStr", type: "input",
       aliasName: "prefixes",
-      required: false, formShow: !false,
+       formShow: !false,
       helpMsg: `如果该属性为空，所生成的文件会带上表前缀，
 eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
 多个前缀请用英文分号（;）隔开。`,
-      tableShow: !false, minWidth: 180
+      tableShow: !false
     },
       {
         label: "包名", fieldName: "packageName", type: "input",
         required: true, formShow: true,
         helpMsg: `eg: com.starhorse.test`,
-        tableShow: true, minWidth: 180
+        tableShow: true
       }],
     {
       label: "要生成的文件", fieldName: "fileTypesList", type: "select",
-      required: false, formShow: true,
-      multiple: true,
+       formShow: true,
+      multiple:"Y",
       optionList: fileTypeList,
       helpMsg: `为空生成所有类型文件`,
-      tableShow: true, minWidth: 180
+      tableShow: true
     },
     {
       fieldName: "tab2",
@@ -105,51 +105,51 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
         tabName: "tab2",
         fieldList: [{
           label: "项目名称", fieldName: "projectName", type: "input",
-          required: false, formShow: true,
+           formShow: true,
           helpMsg: "生成代码归属项目",
-          tableShow: !true, minWidth: 180
+
         },
           {
             label: "模块名称", fieldName: "categoryName", type: "input",
             required: true, formShow: true,
             helpMsg: "Maven 项目的模块名",
-            tableShow: true, minWidth: 180
+            tableShow: true
           },
           {
             label: "应用名称", fieldName: "applicationName", type: "input",
             required: true, formShow: true,
             helpMsg: "在配置文件application.yml中对应spring.application.name",
-            tableShow: true, minWidth: 180
+            tableShow: true
           },
           {
             label: "应用端口", fieldName: "port", type: "number",
-            required: false, formShow: true,
+             formShow: true,
             helpMsg: "在配置文件application.yml中对应server.port",
-            tableShow: !true, minWidth: 180
+
           }, {
             label: "发布目录", fieldName: "targetDir", type: "input",
-            required: false, formShow: true,
+             formShow: true,
             helpMsg: "文件部署到服务器上的目录",
-            tableShow: !true, minWidth: 180
+
           }, {
             label: "RestFul风格接口", fieldName: "restFul", type: "switch",
-            required: false, formShow: true,
+             formShow: true,
             defaultValue: "Y",
-            tableShow: !true, minWidth: 180
+
           },
           {
             label: "包构建类型", fieldName: "war", type: "select",
-            required: false, formShow: true,
+             formShow: true,
             defaultValue: "jar",
             optionList: packagingList,
             helpMsg: "对应pom.xml文件中的packaging",
-            tableShow: !true, minWidth: 180
+
           },
           {
             label: "代码版本", fieldName: "version", type: "input",
             helpMsg: "对应pom.xml文件中version",
-            required: false, formShow: true,
-            tableShow: !true, minWidth: 180
+             formShow: true,
+
           },],
 
       }, {
@@ -157,18 +157,18 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
         tabName: "tab1",
         fieldList: [{
           label: "开发人员", fieldName: "author", type: "input",
-          required: false, formShow: true,
-          tableShow: !true, minWidth: 180
+           formShow: true,
+
         },
           {
             label: "邮箱地址", fieldName: "email", type: "input",
-            required: false, formShow: true,
-            tableShow: !true, minWidth: 180
+             formShow: true,
+
           },
           {
             label: "是否需要版权", fieldName: "needCopyright", type: "switch",
-            required: false, formShow: true,
-            tableShow: !true, minWidth: 180
+             formShow: true,
+
           }],
       },
         {
@@ -177,29 +177,29 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
           fieldList: [
             {
               label: "是否生成UI页面", fieldName: "needUi", type: "switch",
-              required: false, formShow: true,
+               formShow: true,
               defaultValue: "Y",
-              tableShow: !true, minWidth: 180
+
             },
             {
               label: "是否分离UI", fieldName: "needSplitUI", type: "switch",
-              required: false, formShow: true,
+               formShow: true,
               helpMsg: "UI文件和业务文件是否放在同一个module里面",
               defaultValue: "N",
-              tableShow: !true, minWidth: 180
+
             },
             {
               label: "Ui 文件后缀", fieldName: "uiSuffix", type: "input",
-              required: false, formShow: true,
+               formShow: true,
               defaultValue: ".vue",
-              tableShow: !true, minWidth: 180
+
             },
             {
               label: "UI 类型", fieldName: "uiType", type: "select",
-              required: false, formShow: true,
+               formShow: true,
               optionList: uiTypeList,
               defaultValue: "VUE_3_TS",
-              tableShow: !true, minWidth: 180
+
             },
           ]
         },
@@ -209,10 +209,10 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
           fieldList: [
             {
               label: "是否分离DTO", fieldName: "needSplitDto", type: "switch",
-              required: false, formShow: true,
+               formShow: true,
               helpMsg: "DTO文件和业务文件是否放在同一个module里面",
               defaultValue: "N",
-              tableShow: !true, minWidth: 180
+
             },
           ]
         }
@@ -221,49 +221,49 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
 
 
     {
-      label: "创建人", disabled: "yes", fieldName: "createdBy", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+      label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
+
+
     },
     {
-      label: "修改人", disabled: "yes", fieldName: "updatedBy", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+      label: "修改人", disabled: "Y", fieldName: "updatedBy", type: "input",
+
+
     },
     {
-      label: "创建日期", disabled: "yes", fieldName: "createdDate", type: "date",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+      label: "创建日期", disabled: "Y", fieldName: "createdDate", type: "date",
+
+
     },
     {
-      label: "修改日期", disabled: "yes", fieldName: "updatedDate", type: "date",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+      label: "修改日期", disabled: "Y", fieldName: "updatedDate", type: "date",
+
+
     },
     {
       label: "是否已逻辑", fieldName: "isDel", type: "number",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "数据编号", fieldName: "dataNo", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "状态码", fieldName: "statusCode", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "状态码名称", fieldName: "statusName", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "国际码", fieldName: "local", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
   ],
   batchFieldList: []
@@ -325,9 +325,11 @@ const closeAction = () => {
 </script>
 
 <template>
-  <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps" :selfFunc="true"
+  <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps"
+                     :selfFunc="true"
                      @merge="generateMerge" @closeAction="closeAction">
-    <star-horse-form v-model:data-form="dataForm" ref="generateFormRef" @refresh="codeGeneratorRef.loadByPage()" :compUrl="dataUrl"
+    <star-horse-form v-model:data-form="dataForm" ref="generateFormRef" @refresh="codeGeneratorRef.loadByPage()"
+                     :compUrl="dataUrl"
                      :fieldList="tableFieldList"
                      :rules="rules"/>
   </star-horse-dialog>

@@ -7,7 +7,7 @@
         :active-text="field.preps['activeText']"
         :active-value="field.preps['activeValue']"
         :before-change="field.preps['beforeChange']"
-        :disabled="field.preps['disabled']=='yes'"
+        :disabled="field.preps['disabled']=='Y'"
         :inactive-color="field.preps['inactiveColor']"
         :inactive-text="field.preps['inactiveText']"
         :inactive-value="field.preps['inactiveValue']"

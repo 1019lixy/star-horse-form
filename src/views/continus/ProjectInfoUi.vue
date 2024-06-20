@@ -29,58 +29,58 @@ const tableFieldList = reactive({
   fieldList: [
     {
       label: "主键", fieldName: "idProjectInfo", type: "long",
-      required: false, formShow: false,
-      tableShow: false, minWidth: 180
+
+
     }, {
       label: "代码库类型", fieldName: "type", type: "select", optionList: libTypeList,
       required: true, formShow: !false,
-      tableShow: !false, minWidth: 180
+      tableShow: !false
     },
     [{
       label: "代码库地址", fieldName: "host", type: "input",
-      required: false, formShow: !false,
-      tableShow: !false, minWidth: 180
+       formShow: !false,
+      tableShow: !false
     },
       {
         label: "代码库端口", fieldName: "port", type: "number",
-        required: false, formShow: !false,
-        tableShow: !false, minWidth: 180
+         formShow: !false,
+        tableShow: !false
       }],
     [{
       label: "项目名称", fieldName: "projectName", type: "input",
       required: true, formShow: !false,
-      tableShow: !false, minWidth: 180
+      tableShow: !false
     },
 
       {
         label: "项目编码", fieldName: "projectCharset", type: "input",
         required: true, formShow: !false,
-        tableShow: !false, minWidth: 180
+        tableShow: !false
       }],
     [{
       label: "项目类型", fieldName: "projectType", type: "input",
       required: true, formShow: !false,
-      tableShow: !false, minWidth: 180
+      tableShow: !false
     },
       {
         label: "程序语言", fieldName: "language", type: "input",
         required: true, formShow: !false,
-        tableShow: !false, minWidth: 180
+        tableShow: !false
       }],
     [{
       label: "流水线账号", fieldName: "account", type: "input",
-      required: false, formShow: !false,
-      tableShow: !false, minWidth: 180
+       formShow: !false,
+      tableShow: !false
     },
       {
         label: "流水线密码", fieldName: "security", type: "input",
-        required: false, formShow: !false,
-        tableShow: !false, minWidth: 180
+         formShow: !false,
+        tableShow: !false
       }],
     {
       label: "备注", fieldName: "remark", type: "textarea",
-      required: false, formShow: true,
-      tableShow: !true, minWidth: 180
+       formShow: true,
+
     },
     {
       batchFieldList: [{
@@ -88,87 +88,87 @@ const tableFieldList = reactive({
         title: "项目成员",
         fieldList: [{
           label: "用户名", fieldName: "username", type: "input",
-          required: false, formShow: !false,
-          tableShow: !false, minWidth: 180
+           formShow: !false,
+          tableShow: !false
         },
 
           {
             label: "姓名", fieldName: "name", type: "input",
-            required: false, formShow: !false,
-            tableShow: !false, minWidth: 180
+             formShow: !false,
+            tableShow: !false
           },
 
           {
             label: "角色名称", fieldName: "roleName", type: "input",
-            required: false, formShow: !false,
-            tableShow: !false, minWidth: 180
+             formShow: !false,
+            tableShow: !false
           },
           {
             label: "生效时间", fieldName: "effectiveDate", type: "input",
-            required: false, formShow: !false,
-            tableShow: !false, minWidth: 180
+             formShow: !false,
+            tableShow: !false
           },
           {
             label: "失效日期", fieldName: "expirationDate", type: "input",
-            required: false, formShow: !false,
-            tableShow: !false, minWidth: 180
+             formShow: !false,
+            tableShow: !false
           },
           {
             label: "是否管理员 1是 2否", fieldName: "isManager", type: "input",
-            required: false, formShow: !false,
-            tableShow: !false, minWidth: 180
+             formShow: !false,
+            tableShow: !false
           },]
       }]
     },
     {
-      label: "创建人", disabled: "yes", fieldName: "createdBy", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+      label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
+
+
     },
     {
-      label: "修改人", disabled: "yes", fieldName: "updatedBy", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+      label: "修改人", disabled: "Y", fieldName: "updatedBy", type: "input",
+
+
     },
     {
-      label: "创建日期", disabled: "yes", fieldName: "createdDate", type: "date",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+      label: "创建日期", disabled: "Y", fieldName: "createdDate", type: "date",
+
+
     },
     {
-      label: "修改日期", disabled: "yes", fieldName: "updatedDate", type: "date",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+      label: "修改日期", disabled: "Y", fieldName: "updatedDate", type: "date",
+
+
     },
     {
       label: "数据版本号", fieldName: "version", type: "number",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "是否已逻辑", fieldName: "isDel", type: "number",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "数据编号", fieldName: "dataNo", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "状态码", fieldName: "statusCode", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "状态码名称", fieldName: "statusName", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "国际码", fieldName: "local", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
   ],
   batchFieldList: []
@@ -209,7 +209,8 @@ onMounted(async () => {
 
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form v-model:data-form="dataForm" @refresh="projectInfoRef.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList"
+    <star-horse-form v-model:data-form="dataForm" @refresh="projectInfoRef.loadByPage()" :compUrl="dataUrl"
+                     :fieldList="tableFieldList"
                      :rules="rules"/>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title=

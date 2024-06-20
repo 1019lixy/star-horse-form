@@ -97,11 +97,11 @@ const buttonList = [
         key: 'valid',
         label: '校验',
     },
-   /* {
-        icon: "preview",
-        key: 'preview',
-        label: '预览',
-    },*/
+    /* {
+         icon: "preview",
+         key: 'preview',
+         label: '预览',
+     },*/
     {
         icon: "save",
         key: 'save',

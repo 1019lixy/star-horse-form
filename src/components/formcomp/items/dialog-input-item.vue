@@ -19,15 +19,15 @@
   <starhorse-form-item :isDesign="context.attrs['isDesign']" :formItem="field"
                        :parentField="parentField">
     <el-input
-        :clearable="field.preps['clearable'] == 'yes'"
-        :disabled="field.preps['disabled'] == 'yes'"
+        :clearable="field.preps['clearable'] == 'Y'"
+        :disabled="field.preps['disabled'] == 'Y'"
         :max="field.preps['max']"
         :maxlength="field.preps['maxlength']"
         :min="field.preps['min']"
         :minlength="field.preps['maxlength']"
         :placeholder="field.preps['placeholder'] || '请输入' + field.preps['label']"
         :prefix-icon="field.preps['prefixIcon']"
-        :readonly="field.preps['readonly']=='yes'"
+        :readonly="field.preps['readonly']=='Y'"
         :size="field?.preps['size']||'small'"
         type="text"
         :fid="field.preps['name']"
@@ -38,7 +38,7 @@
         v-model="context.attrs['formFieldList'][field.preps['name']]">
       <template #append>
         <el-button icon="Search" @click="showVisible" :size="field?.preps['size']||'small'"
-                   :disabled="field.preps['disabled'] == 'yes'"/>
+                   :disabled="field.preps['disabled'] == 'Y'"/>
       </template>
     </el-input>
   </starhorse-form-item>
@@ -132,7 +132,7 @@ export default defineComponent({
     };
     onMounted(() => {
       actionName.value = field.preps["actionName"];
-      keyEnterFun( actionName.value);
+      keyEnterFun(actionName.value);
     });
     return {
       parentField, formFieldList, context, field, formItem,

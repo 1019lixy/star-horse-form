@@ -126,7 +126,7 @@ const configInfo = computed(() => configStore.configFormInfo);
           </span>
         </el-aside>
         <el-main class="star-horse-main  animate__animated animate__bounceInUp">
-          <tags-view v-if="configInfo.tagsView=='yes'"/>
+          <tags-view v-if="configInfo.tagsView=='Y'"/>
           <router-view v-slot="{ Component }" class="animate__animated animate__fadeIn">
             <transition name="solid">
               <keep-alive :include="viewListStore.getViewCache">

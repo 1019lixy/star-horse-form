@@ -1,4 +1,6 @@
 <script setup lang="ts" name="help">
+import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
+
 defineProps({
   width: {type: Number, default: 340},
   message: {type: String, required: true, default: "帮助"}
@@ -12,14 +14,7 @@ defineProps({
       placement="left-end"
   >
     <template #reference>
-      <el-icon
-          class="star-page-icon"
-          style="cursor: pointer;font-size:16px;"
-      >
-        <el-tooltip content="帮助">
-          <InfoFilled/>
-        </el-tooltip>
-      </el-icon>
+      <star-horse-icon icon-class="help" color="var(--star-horse-style)"/>
     </template>
     <div style="font-size: 12px;">
 <pre>

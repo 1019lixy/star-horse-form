@@ -26,12 +26,12 @@ const tableFieldList = reactive({
     {
       label: "表名", fieldName: "tableName", type: "input",
       required: true, formShow: !false,
-      tableShow: !false, minWidth: 180
+      tableShow: !false
     },
     {
       label: "描述", fieldName: "comment", type: "input",
       required: true, formShow: !false,
-      tableShow: !false, minWidth: 180
+      tableShow: !false
     },
   ]
 });
@@ -41,33 +41,33 @@ const columnFieldList = reactive<BatchFieldInfo>({
     {
       label: "名称", fieldName: "name", type: "input",
       required: true, formShow: !false,
-      tableShow: !false, minWidth: 180
+      tableShow: !false
     },
     {
       label: "类型", fieldName: "type", type: "input",
       required: true, formShow: !false,
-      tableShow: !false, minWidth: 180
+      tableShow: !false
     },
     {
       label: "长度", fieldName: "length", type: "input",
-      required: false, formShow: !false,
-      tableShow: !false, minWidth: 180
+       formShow: !false,
+      tableShow: !false
     },
     {
       label: "允许为空", fieldName: "allowNull", type: "switch",
       defaultValue: "Y",
-      required: false, formShow: !false,
-      tableShow: !false, minWidth: 180
+       formShow: !false,
+      tableShow: !false
     },
     {
       label: "是否主键", fieldName: "isPrimaryKey", type: "switch",
-      required: false, formShow: !false,
-      tableShow: !false, minWidth: 180
+       formShow: !false,
+      tableShow: !false
     },
     {
       label: "备注", fieldName: "comment", type: "input",
       required: true, formShow: !false,
-      tableShow: !false, minWidth: 180
+      tableShow: !false
     },
   ]
 });
@@ -77,12 +77,12 @@ const indexFieldList = reactive<BatchFieldInfo>({
     {
       label: "表名", fieldName: "tableName", type: "input",
       required: true, formShow: !false,
-      tableShow: !false, minWidth: 180
+      tableShow: !false
     },
     {
       label: "描述", fieldName: "comment", type: "input",
       required: true, formShow: !false,
-      tableShow: !false, minWidth: 180
+      tableShow: !false
     },
   ]
 });
@@ -134,7 +134,8 @@ onMounted(() => {
         </template>
       </el-segmented>
     </div>
-    <star-horse-form v-model:data-form="dataForm" v-if="segmentValue=='basic'" :primaryKey="primaryKey" :fieldList="tableFieldList"
+    <star-horse-form v-model:data-form="dataForm" v-if="segmentValue=='basic'" :primaryKey="primaryKey"
+                     :fieldList="tableFieldList"
                      :compUrl="dataUrl"/>
     <star-horse-form-table v-if="segmentValue=='column'" :item="columnFieldList"
                            v-model:dataForm="dataForm"

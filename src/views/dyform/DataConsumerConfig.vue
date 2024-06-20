@@ -1,8 +1,8 @@
 <script setup lang="ts" name="DataConsumerConfig">
-import {nextTick, onMounted, provide, ref, watch} from "vue";
+import {computed, nextTick, onMounted, ref, watch} from "vue";
 import {Cell} from "@antv/x6";
 import type {TreeNode, TreeNodeData} from 'element-plus/es/components/tree-v2/src/types'
-import {closeLoad, dictData, load, loadData, loadGetData, searchMatchList} from "@/api/sh_api";
+import {closeLoad, dictData, load, loadGetData, searchMatchList} from "@/api/sh_api";
 import {error, success, warning} from "@/utils/message";
 import {postRequest} from "@/api/star_horse";
 import {SelectOption} from "@/components/types/SearchProps";
@@ -12,6 +12,8 @@ import StarHorseDialog from "@/components/comp/StarHorseDialog.vue";
 import DataPreview from "@/views/dyform/DataPreview.vue";
 import {CustomerItem} from "@/components/types/CompInfo.d.ts";
 import {consumerNodeData, relationFieldInfo, table_width, viewFieldInfo} from "@/views/dyform/utils/DataConsumer.ts";
+import {ConsumerView} from "@/store/ConsumerViewStore.ts";
+import piniaInstance from "@/store";
 
 const route = useRoute();
 const isView = ref<boolean>(false);
@@ -33,9 +35,10 @@ const dataUrl: ApiUrls = {
 
 const customerItems = ref<CustomerItem[]>([]);
 const formConditionProps = ref<any>({});
-provide("dataForm", formConditionProps);
+const dataForm = ref<any>({});
 const relationConditionList = ref<Array<any>>([]);
-
+const consumerView = ConsumerView(piniaInstance);
+let dbConfigId = computed(() => consumerView.dbConfigId);
 const initDiagram = () => {
 
 };
@@ -44,28 +47,28 @@ let conditionList = ref<SelectOption[]>();
 let matchTypeList = ref<SelectOption[]>();
 const init = async () => {
   initDiagram();
-  let {data, error} = await loadData("/userdb-manage/userdb/dynamicForm/modelList", {});
+  // let {data, error} = await loadData("/userdb-manage/userdb/dynamicForm/modelList", {});
   viewTypeList.value = await dictData("consumer_type");
   conditionList.value = await dictData("consumer_relation_condition");
   matchTypeList.value = searchMatchList();
-  if (error) {
-    warning(error);
-    return;
-  }
-  customerItems.value?.push({
-    name: "db",
-    title: "自定义表组件",
-    compItems: data["dataList"]
-  });
-  customerItems.value?.push({
-    name: "flow",
-    title: "流程组件",
-    compItems: [
-      {label: "组件1", name: "box_print", icon: "drag"},
-      {label: "组件2", name: "data_trans", icon: "equal"},
-      {label: "组件3", name: "data_test", icon: "edit"},
-    ]
-  });
+  // if (error) {
+  //   warning(error);
+  //   return;
+  // }
+  // customerItems.value?.push({
+  //   name: "db",
+  //   title: "自定义表组件",
+  //   compItems: data["dataList"]
+  // });
+  // customerItems.value?.push({
+  //   name: "flow",
+  //   title: "流程组件",
+  //   compItems: [
+  //     {label: "组件1", name: "box_print", icon: "drag"},
+  //     {label: "组件2", name: "data_trans", icon: "equal"},
+  //     {label: "组件3", name: "data_test", icon: "edit"},
+  //   ]
+  // });
   // containerDiagramRef.value.createStencil(null, data["dataList"], "er-rect");
   if (route.query["configId"]) {
     loadConfigData(route.query["configId"]);
@@ -218,7 +221,7 @@ const getRelationTable = (datas: any, tableName: string): any => {
 const loadConfigData = async (configId: string | LocationQueryValue[]) => {
 //加载数据
   await nextTick();
-  isView.value = route.query["isView"] == "yes";
+  isView.value = route.query["isView"] == "Y";
   let {data, error} = await loadGetData(dataUrl.loadByIdUrl + "/" + configId);
   if (error) {
     warning(error);
@@ -261,10 +264,10 @@ const createMergeData = () => {
       let temp = relations[index];
       subData.push({
         fromTable: temp.from,
-        fromKey: temp.from,
+        fromKey: "from" + index,
         fromField: temp.fromPort,
         toTable: temp.to,
-        toKey: temp.to,
+        toKey: "to" + index,
         toField: temp.toPort
       });
     }
@@ -272,13 +275,13 @@ const createMergeData = () => {
     let temp = tables[0];
     subData.push({
       fromTable: temp.from,
-      fromKey: temp.from,
+      fromKey: "from1",
     });
   }
   let sortFieldsTemp = formProps.value["sortFields"];
   let limitFieldsTemp = formProps.value["limitFields"];
   formProps.value["consumerConfigRelationList"] = subData;
-  formProps.value["dataSourceConfigId"] = "3";
+  formProps.value["dataSourceConfigId"] = dbConfigId.value;
   formProps.value["sortFieldList"] = exclusionOptionList(sortFieldsTemp);
   formProps.value["limitFieldList"] = exclusionOptionList(limitFieldsTemp);
   let data = JSON.parse(JSON.stringify(formProps.value));
@@ -303,7 +306,7 @@ const loadColumnFields = async () => {
       let temp = columnList.value [key];
       for (let j in temp) {
         let stemp = temp[j] as any;
-        if (stemp.primaryFlag == "yes") {
+        if (stemp.primaryFlag == "Y") {
           continue;
         }
         searchFormData.value.push({
@@ -332,11 +335,11 @@ const configView = (dataInfo: any, isSubmit: boolean) => {
  * @param dataInfo
  */
 const preview = (dataInfo: any) => {
-
   viewConfigInfo.value = {...dataInfo};
   //加载视图
   loadColumnFields();
   dataList(1, 20);
+  dataPreviewVisible.value = true;
 }
 const dataList = (currentPage: number, pageSize: number) => {
   load("数据解析中");
@@ -352,7 +355,6 @@ const dataList = (currentPage: number, pageSize: number) => {
       return;
     }
     previewDatas.value = redata.data;
-    dataPreviewVisible.value = true;
   }).finally(() => {
     closeLoad();
   });
@@ -412,7 +414,7 @@ const nodeOperation = (cell: any) => {
   <star-horse-dialog :dialogVisible="dataPreviewVisible" :title="'数据预览'"
                      @closeAction="closeAction"
                      :isBatch="false" :isView="true">
-    <DataPreview :item="previewDatas" :columns="columnList" @changePage="preview"/>
+    <DataPreview :item="previewDatas" :columns="columnList" @changePage="dataList"/>
   </star-horse-dialog>
   <star-horse-dialog :dialogVisible="relationDialogVisible" :title="'关系配置'" :isBatch="false"
                      @merge="conditionValid"
@@ -436,7 +438,9 @@ const nodeOperation = (cell: any) => {
                        :activeCollapse="'db'"
                        :panelStyle="'other'"
                        :showDbList="true"
+                       :showCompList="false"
                        :compType="'table'"
+                       v-model:data-form="dataForm"
                        @lineClick="lineOperation"
                        @preview="preview"
                        @save="(val:any)=>configView(val,true)"

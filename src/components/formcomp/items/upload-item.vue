@@ -5,18 +5,18 @@
         :fid="field.preps['name']"
         :accept="field.preps['accept']"
         :action="field.preps['action']"
-        :auto-upload="field.preps['autoUpload']=='yes'"
+        :auto-upload="field.preps['autoUpload']=='Y'"
         :before-remove="field.preps['beforeRemove']"
         :before-upload="field.preps['beforeUpload']"
         :data="field.preps['data']||{}"
-        :disabled="field.preps['disabled']=='yes'"
-        :drag="field.preps['drag']=='yes'"
+        :disabled="field.preps['disabled']=='Y'"
+        :drag="field.preps['drag']=='Y'"
         :headers="field.preps['headers']||{}"
         :http-request="field.preps['httpRequest']"
         :limit="field.preps['limit']"
         :list-type="field.preps['listType']"
         :method="field.preps['method']||'post'"
-        :multiple="field.preps['multiple']=='yes'"
+        :multiple="field.preps['multiple']=='Y'"
         :name="field.preps['name']||'file'"
         :size="field?.preps['size']||'small'"
         :on-change="selfAction('change')"
@@ -26,14 +26,14 @@
         :on-progress="selfAction('progress')"
         :on-remove="selfAction('remove')"
         :on-success="selfAction('success')"
-        :show-file-list="field.preps['showFileList']=='yes'"
-        :with-credentials="field.preps['withCredentials']=='yes'"
+        :show-file-list="field.preps['showFileList']=='Y'"
+        :with-credentials="field.preps['withCredentials']=='Y'"
         v-model:file-list="dataField"
     >
-      <el-icon class="el-icon--upload" v-if="field.preps['drag']=='yes'">
+      <el-icon class="el-icon--upload" v-if="field.preps['drag']=='Y'">
         <upload-filled/>
       </el-icon>
-      <div class="el-upload__text" v-if="field.preps['drag']=='yes'">
+      <div class="el-upload__text" v-if="field.preps['drag']=='Y'">
         将文件拖到此处 或 <em>点击上传</em>
       </div>
       <template #tip v-if="field.preps['maxSize']">
@@ -41,7 +41,7 @@
           文件大小不能超过{{ field.preps['maxSize'] }}
         </div>
       </template>
-      <star-horse-icon v-if="field.preps['drag']!='yes'" icon-class="plus" color="var(--star-horse-style)"/>
+      <star-horse-icon v-if="field.preps['drag']!='Y'" icon-class="plus" color="var(--star-horse-style)"/>
     </el-upload>
   </starhorse-form-item>
 </template>

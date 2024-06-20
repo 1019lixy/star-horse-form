@@ -1,9 +1,8 @@
 import {postRequest} from "@/api/star_horse";
 import {error} from "@/utils/message";
 import {closeLoad, load} from "@/api/sh_api";
-import {Params} from "@/components/types/Params";
-import {BatchFieldInfo, FieldInfo, TabFieldInfo} from "../../../components/types/PageFieldInfo";
-import {success} from "../../../utils/message.ts";
+import {SearchParams} from "@/components/types/Params";
+import {success} from "@/utils/message.ts";
 
 /**
  * 获取视图属性
@@ -22,7 +21,7 @@ export async function viewColumns(param: string) {
             let temp = columns[key];
             for (let j in temp) {
                 let stemp = temp[j];
-                if (stemp.primaryFlag == "yes") {
+                if (stemp.primaryFlag == "Y") {
                     continue;
                 }
                 formDatas.push({
@@ -81,7 +80,7 @@ export function analysisSearchData(searchForm: any, searchFormData: any) {
             } else if (temp?.type == 'date') {
                 val = [val + ' 00:00:00', val + ' 23:59:59']
             }
-            let param: Params = {
+            let param: SearchParams = {
                 propertyName: key,
                 operation: temp?.matchType || 'eq',
                 value: val

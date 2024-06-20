@@ -38,8 +38,8 @@ onMounted(async () => {
 
 <template>
   <div class="code-container">
-    <el-tabs v-model="tabName" >
-      <el-tab-pane name="vue3" label="Vue3" >
+    <el-tabs v-model="tabName">
+      <el-tab-pane name="vue3" label="Vue3">
         <vue3 :formInfo="formInfo" :compList="pageInfo" :compSize="compSize"/>
       </el-tab-pane>
       <el-tab-pane name="vue2" label="Vue2">
@@ -62,10 +62,12 @@ onMounted(async () => {
 
   }
 }
-:deep(.el-tabs__content),.el-tabs__content {
+
+:deep(.el-tabs__content), .el-tabs__content {
   height: 100%;
 }
-:deep(.el-tab-pane),.el-tab-pane {
+
+:deep(.el-tab-pane), .el-tab-pane {
   height: 100%;
 }
 </style>

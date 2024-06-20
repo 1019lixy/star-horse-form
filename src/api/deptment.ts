@@ -40,7 +40,7 @@ export function createDeptUserTree(datas: any, valField: string, name: string, v
         let temp = {};
         temp["value"] = valField ? item[valField] : parseInt(item[val]);
         temp["name"] = item[name];
-        temp["children"]=[];
+        temp["children"] = [];
         let userList = item["userList"];
         if (item.children && item.children.length > 0) {
             temp["children"] = createDeptUserTree(item.children, valField, name, val);

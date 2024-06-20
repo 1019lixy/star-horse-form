@@ -17,7 +17,7 @@ body {
 
 .not-found-card {
   margin: 0 auto;
-  padding: 0px;
+  padding: 0;
   width: 50%;
   background: #e4e7ed;
 

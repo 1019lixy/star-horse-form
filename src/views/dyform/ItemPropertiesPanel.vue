@@ -325,20 +325,23 @@ watch(() => formProps,
                      @merge="submitValid"
                      @closeAction="closeAction"
                      @reset="resetDataSourceForm" :selfFunc="true">
-    <star-horse-form v-model:data-form="dataForm" rules="{}" primary-key="" ref="dataSourceFormRef" :fieldList="dataSourceFields()" comp-url=""/>
+    <star-horse-form v-model:data-form="dataForm" rules="{}" primary-key="" ref="dataSourceFormRef"
+                     :fieldList="dataSourceFields()" comp-url=""/>
   </star-horse-dialog>
   <star-horse-dialog :dialogVisible="paramsDialogVisible" :title="'参数配置'" :isBatch="false"
                      @merge="paramsValid"
                      @closeAction="closeAction"
                      @reset="resetDataSourceForm" :selfFunc="true">
-    <star-horse-form v-model:data-form="dataForm" rules="{}" primary-key="" ref="paramsConfigRef" :fieldList="paramsFields(fieldName,currentField)"
+    <star-horse-form v-model:data-form="dataForm" rules="{}" primary-key="" ref="paramsConfigRef"
+                     :fieldList="paramsFields(fieldName,currentField)"
                      comp-url=""/>
   </star-horse-dialog>
   <star-horse-dialog :dialogVisible="containerDialogVisible"
                      :title="'设置容器'" :isBatch="false" @merge="closeAction"
                      @closeAction="closeAction"
                      @reset="resetForm" :selfFunc="true">
-    <star-horse-form v-model:data-form="dataForm" rules="{}" primary-key="" :fieldList="containerField(currentItemType)" comp-url=""/>
+    <star-horse-form v-model:data-form="dataForm" rules="{}" primary-key="" :fieldList="containerField(currentItemType)"
+                     comp-url=""/>
   </star-horse-dialog>
 
   <star-horse-dialog :dialogVisible="jsEditor" :title="'自定义事件'" :isBatch="false" @merge="closeAction"
@@ -470,8 +473,8 @@ watch(() => formProps,
             </template>
           </template>
           <template v-else-if="currentItemType" v-for="(item) in fieldList">
-            <el-form-item :label="item.label" :prop="item.fieldName" :required="item.required=='yes'"
-                          :rules="[{required: item.required=='yes', message: '必填项不能为空', trigger: 'blur'}]">
+            <el-form-item :label="item.label" :prop="item.fieldName" :required="item.required=='Y'"
+                          :rules="[{required: item.required=='Y', message: '必填项不能为空', trigger: 'blur'}]">
               <el-input
                   v-if="item.fieldType==='input'"
                   :placeholder="'请输入'+item.label"
@@ -570,8 +573,8 @@ watch(() => formProps,
             <el-form-item
                 :label="item.label"
                 :prop="item.fieldName"
-                :rules="[{required: item.required=='yes'||item.required, message: '必填项不能为空', trigger: 'blur'}]"
-                :required="item.required=='yes'||item.required">
+                :rules="[{required: item.required=='Y'||item.required, message: '必填项不能为空', trigger: 'blur'}]"
+                :required="item.required=='Y'||item.required">
               <el-input v-if="item.fieldType==='input'"
                         :placeholder="'请输入'+item.label" v-model="formProps[item.fieldName]"/>
               <el-radio-group v-model="formProps[item.fieldName]" v-if="item.fieldType==='radio'">

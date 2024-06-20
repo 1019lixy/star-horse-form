@@ -18,7 +18,7 @@ export declare interface TabFieldInfo {
     /**
      * 是否默认禁用
      */
-    disabled: boolean,
+    disabled: string,
     /**
      * fieldList 是否是子表单
      */
@@ -115,11 +115,11 @@ export declare interface FieldInfo {
     /**
      * 是否禁用,1:编辑禁用 2: 全局禁用
      */
-    disabled?: boolean | Number;
+    disabled?: string;
     /**
      * 是否允许多选,在类型为select时有效
      */
-    multiple?: boolean;
+    multiple?: string;
     /**
      * Tab标签
      */
@@ -135,15 +135,15 @@ export declare interface FieldInfo {
     /**
      * 事件名称
      */
-    actionName: string;
+    actionName?: string;
     /**
      * 事件内容
      */
-    actions: Function;
+    actions?: Function;
     /**
      * 小数点精度
      */
-    precision: Number;
+    precision?: Number;
     /**
      * 弹窗数据配置
      */
@@ -302,11 +302,11 @@ export declare interface BatchFieldInfo {
     /**
      * 对应后端dto 里的List属性名称
      */
-    batchName: String;
+    batchName: string;
     /**
      * 是否禁用
      */
-    disabled: Boolean;
+    disabled: string;
     /**
      * 禁止显示
      */

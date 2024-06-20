@@ -47,23 +47,23 @@ const needLengthComp: Array<string> = ["input", "number", "text", "tselect", "te
         </el-row>
       </el-col>
       <el-col :span="3">
-        <el-switch v-model="field.preps['required']" :size="size" active-value="yes" active-text="是"
-                   inactive-value="no"
+        <el-switch v-model="field.preps['required']" :size="size" active-value="Y" active-text="是"
+                   inactive-value="N"
                    inactive-text="否"/>
       </el-col>
       <el-col :span="2">
-        <el-switch v-model="field.preps['formShow']" :size="size" active-value="yes" active-text="是"
-                   inactive-value="no"
+        <el-switch v-model="field.preps['formShow']" :size="size" active-value="Y" active-text="是"
+                   inactive-value="N"
                    inactive-text="否"/>
       </el-col>
       <el-col :span="2">
-        <el-switch v-model="field.preps['searchShow']" :size="size" active-value="yes" active-text="是"
-                   inactive-value="no"
+        <el-switch v-model="field.preps['searchShow']" :size="size" active-value="Y" active-text="是"
+                   inactive-value="N"
                    inactive-text="否"/>
       </el-col>
       <el-col :span="2">
-        <el-switch v-model="field.preps['tableShow']" :size="size" active-value="yes" active-text="是"
-                   inactive-value="no"
+        <el-switch v-model="field.preps['tableShow']" :size="size" active-value="Y" active-text="是"
+                   inactive-value="N"
                    inactive-text="否"/>
       </el-col>
       <el-col :span="3">

@@ -1,4 +1,4 @@
-<script setup lang = "ts" name = "PropertyPanel">
+<script setup lang="ts" name="PropertyPanel">
 import ItemPropertiesPanel from "@/views/dyform/ItemPropertiesPanel.vue";
 import {ref, watch} from "vue";
 
@@ -15,7 +15,7 @@ watch(() => props.activeTab,
     {immediate: true, deep: true});
 </script>
 
-<style lang = "scss" scoped>
+<style lang="scss" scoped>
 
 </style>
 <template>
@@ -27,5 +27,5 @@ watch(() => props.activeTab,
         <form-property-panel ref = "formRef"/>
       </el-tab-pane>
     </el-tabs>-->
-  <item-properties-panel ref = "formItemRef"/>
+  <item-properties-panel ref="formItemRef"/>
 </template>

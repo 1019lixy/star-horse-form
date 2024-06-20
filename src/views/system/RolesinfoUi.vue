@@ -65,104 +65,104 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     {
       label: "主键", fieldName: "idRolesinfo", type: "long",
-      required: false, formShow: false,
-      tableShow: false, minWidth: 180
+
+
     },
     {
       label: "角色名称", fieldName: "roleName", type: "input",
       required: true, formShow: !false,
-      tableShow: !false, minWidth: 180
+      tableShow: !false
     },
     /*    {
           label: "归属部门", fieldName: "idDepartment", type: "select", optionList: departmentList,
-          required: true, formShow: false,
-          tableShow: false, minWidth: 180
+          required: true,
+
         },
         {
           label: "归属部门", fieldName: "departments", type: "select", optionList: departmentList,
-          required: true, formShow: !true, multiple: true,
-          tableShow: !true, minWidth: 180
+          required: true,  multiple:"Y",
+
         },*/
 
     {
       label: "角色编码", fieldName: "roleCode", type: "input",
-      required: true, formShow: false,
-      tableShow: false, minWidth: 180
+      required: true,
+
     },
     {
       label: "角色类型", fieldName: "roleType", type: "select", optionList: roleTypes,
       required: true, formShow: !false,
-      tableShow: !false, minWidth: 180
+      tableShow: !false
     },
     {
       label: "会话超时时间", fieldName: "sessionTimeOut", type: "select", optionList: sessionTimeOut,
       required: true, formShow: !false, defaultValue: 30,
-      tableShow: !false, minWidth: 180
+      tableShow: !false
     },
     [{
       label: "系统权限", fieldName: "appsList", type: "select", optionList: systemList,
-      required: true, formShow: false, multiple: true,
-      tableShow: false, minWidth: 180
+      required: true, multiple:"Y",
+
     },
       {
         label: "菜单权限", fieldName: "menusList", type: "tselect", optionList: menusList,
-        required: true, formShow: false, multiple: true,
-        tableShow: false, minWidth: 180
+        required: true, multiple:"Y",
+
       }],
     {
       label: "角色描述", fieldName: "roleDesc", type: "textarea",
-      required: false, formShow: !false,
-      tableShow: !false, minWidth: 180
+       formShow: !false,
+      tableShow: !false
     },
     {
-      label: "创建人", disabled: 1, fieldName: "createdBy", type: "input",
-      required: false, formShow: !true,
-      tableShow: true, minWidth: 180
+      label: "创建人", disabled:"Y", fieldName: "createdBy", type: "input",
+
+      tableShow: true
     },
     {
-      label: "修改人", disabled: 1, fieldName: "updatedBy", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+      label: "修改人", disabled:"Y", fieldName: "updatedBy", type: "input",
+
+
     },
     {
-      label: "创建日期", disabled: 1, fieldName: "createdDate", type: "date",
-      required: false, formShow: !true,
-      tableShow: true, minWidth: 180
+      label: "创建日期", disabled:"Y", fieldName: "createdDate", type: "date",
+
+      tableShow: true
     },
     {
-      label: "修改日期", disabled: 1, fieldName: "updatedDate", type: "date",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+      label: "修改日期", disabled:"Y", fieldName: "updatedDate", type: "date",
+
+
     },
     {
       label: "数据版本号", fieldName: "version", type: "number",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "是否已逻辑", fieldName: "isDel", type: "number",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "数据编号", fieldName: "dataNo", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "状态码", fieldName: "statusCode", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "状态码名称", fieldName: "statusName", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "国际码", fieldName: "local", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
 
   ],
@@ -170,9 +170,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   userTableFuncs: [],
 });
 const primaryKey = "idRolesinfo";
-const rules = {
-
-};
+const rules = {};
 const searchForm = ref({});
 provide("searchForm", searchForm);
 const dataForm = ref({});

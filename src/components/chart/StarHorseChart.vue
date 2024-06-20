@@ -1,4 +1,4 @@
-<script setup lang = "ts">
+<script setup lang="ts">
 import {ref, onMounted} from "vue";
 
 const props = defineProps({
@@ -154,7 +154,7 @@ const drawGrid = (e, i) => {//e表示每两条线的间隔距离值；i颜色值
   });
   console.log(minX, maxX, minY, maxY);
   //纵向线条
-  t = 20*info.scale;
+  t = 20 * info.scale;
   while (true) {
     console.log(t, Math.abs(t - minX), e, t, minX);
     if (Math.abs(t - minX) <= e || t >= minX) {
@@ -165,7 +165,7 @@ const drawGrid = (e, i) => {//e表示每两条线的间隔距离值；i颜色值
     if (t >= maxX) break;
   }
   //横向线条
-  t = 30*info.scale;
+  t = 30 * info.scale;
   while (true) {
     if (Math.abs(t - minY) <= e || t >= minY) {
       context.moveTo(minX, t);
@@ -254,14 +254,14 @@ const onMouseUp = (event: MouseEvent) => {
 </script>
 
 <template>
-  <div id = "container" class = "canvas-container">
-    <canvas ref = "starHorseChartRef" @mousedown = "onMouseDown" @mousemove =
-        "onMouseMove" @wheel = "onMouseWheel"
-            @mouseup = "onMouseUp" style = "border: 1px solid #ccc;"></canvas>
+  <div id="container" class="canvas-container">
+    <canvas ref="starHorseChartRef" @mousedown="onMouseDown" @mousemove=
+        "onMouseMove" @wheel="onMouseWheel"
+            @mouseup="onMouseUp" style="border: 1px solid #ccc;"></canvas>
   </div>
 </template>
 
-<style scoped lang = "scss">
+<style scoped lang="scss">
 .canvas-container {
   height: 100%;
   width: 100%;

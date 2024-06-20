@@ -22,12 +22,12 @@ export const GlobalConfig: any = defineStore("GlobalConfig", {
          *设置数据
          * @param data
          */
-        setConfigFormInfo(data: Object) {
+        setConfigFormInfo(data: any) {
             this.configFormInfo = data;
             localStorage.setItem("starHorseConfigInfo", JSON.stringify(data));
 
             Config.buttonStyle.value = data.buttonShowType || "dropdown";
-            console.log(data,Config.buttonStyle.value);
+            console.log(data, Config.buttonStyle.value);
             if (data.themeColor) {
                 document.documentElement.style.setProperty('--star-horse-style', data.themeColor)
                 document.documentElement.style.setProperty('--el-color-primary', data.themeColor)
@@ -41,7 +41,7 @@ export const GlobalConfig: any = defineStore("GlobalConfig", {
         clearAll() {
             let _this = this;
             _this.configFormInfo = {
-                tagsView: 'yes'
+                tagsView: 'Y'
             };
             let starHorseConfigInfo = localStorage.getItem("starHorseConfigInfo");
             if (starHorseConfigInfo) {

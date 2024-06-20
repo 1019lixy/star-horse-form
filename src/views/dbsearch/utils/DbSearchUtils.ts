@@ -1,7 +1,11 @@
-import {warning, error} from "@/utils/message.ts";
+import {error, warning} from "@/utils/message.ts";
 import {SelectOption} from "@/components/types/SearchProps";
 import {closeLoad, load, loadGetData} from "@/api/sh_api.ts";
 import {getRequest} from "@/api/star_horse.ts";
+import piniaInstance from "@/store";
+import {ConsumerView} from "@/store/ConsumerViewStore.ts";
+
+const consumerView = ConsumerView(piniaInstance);
 
 /**
  * 打开数据库，并返回所以表信息
@@ -31,7 +35,7 @@ export function openDatabase(configId: any): Promise<any> | null {
 /**
  * 初始化当前用户权限的数据库配置信息
  */
-export async function initDbList(): Array<SelectOption> {
+export async function initDbList(): Promise<Array<SelectOption>> {
     let {data, error} = await loadGetData("/dbsearch-manage/dbsearch/dbinfoEntity/getDbInfoByUser");
     if (error) {
         warning(error);
@@ -51,7 +55,7 @@ export async function initDbList(): Array<SelectOption> {
  * 获取数据库所有表信息
  * @param configId
  */
-export async function tableList(configId: number): Array<SelectOption> {
+export async function tableList(configId: number): Promise<Array<SelectOption>> {
     let {data, error} = await loadGetData(`/dbsearch-manage/dbsearch/dbinfoEntity/tableList/${configId}`);
     if (error) {
         warning(error);
@@ -74,12 +78,12 @@ export async function tableList(configId: number): Array<SelectOption> {
  * @param configId 数据库配置Id
  * @param tableName 表名
  */
-export async function tableColumns(configId: any, tableName: string): Array<any> {
+export async function tableColumns(configId: any, tableName: string): Promise<Array<any>> {
     let redata: Array<any> = [];
     if (!tableName) {
         return redata;
     }
-    load("数据加载中");
+    // load("数据加载中");
     await getRequest(`/dbsearch-manage/dbsearch/dbinfoEntity/tableColumns/${configId}/${tableName}`)
         .then((res: any) => {
             if (res.data.code != 0) {
@@ -87,6 +91,7 @@ export async function tableColumns(configId: any, tableName: string): Array<any>
                 return;
             }
             redata = res.data.data;
+            consumerView.addTableInfo(tableName, redata);
         }).finally(() => {
             closeLoad();
         });

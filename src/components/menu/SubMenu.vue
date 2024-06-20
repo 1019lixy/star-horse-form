@@ -30,9 +30,11 @@ const props = defineProps({
 .star-icon {
   font-size: 22px;
 }
-.popper-class{
+
+.popper-class {
   background: var(--star-horse-style);
 }
+
 .el-sub-menu {
   background: var(--star-horse-font-color);
   margin-top: 1px;

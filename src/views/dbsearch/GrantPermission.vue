@@ -42,112 +42,110 @@ const tableFieldList = reactive({
   fieldList: [
     {
       label: "db授权主键", fieldName: "idDbAssign", type: "long",
-      required: false, formShow: false,
-      tableShow: false, minWidth: 180
+
+
     },
     {
       label: "授权数据库", fieldName: "dbinfoSingle", type: "select", optionList: dbList,
       required: true, formShow: !false,
-      tableShow: false, minWidth: 180
+
     },
     {
       label: "授权数据库", fieldName: "dbinfoRespDto['dbComment']", type: "select", optionList: dbList,
-      required: true, formShow: false,
-      tableShow: true, minWidth: 180
+      required: true,
+      tableShow: true
     },
     {
       label: "被授权人账号", fieldName: "assignNo", type: "input",
       required: true, formShow: !false,
-      tableShow: !false, minWidth: 180
+      tableShow: !false
     },
     {
       label: "授权类型", fieldName: "assignType", type: "select", optionList: assignType,
       required: true, formShow: !false,
-      tableShow: !false, minWidth: 180
+      tableShow: !false
     },
     {
       label: "经办人", fieldName: "operator", type: "input",
-      required: false, formShow: false,
-      tableShow: !false, minWidth: 180
+
+      tableShow: !false
     },
     {
       label: "被授权人操作范围", fieldName: "operatorRange", type: "textarea",
       required: true, formShow: !false,
-      tableShow: !false, minWidth: 180
+      tableShow: !false
     },
     {
       label: "授权描述", fieldName: "assginDesc", type: "textarea",
       required: true, formShow: !false,
-      tableShow: !false, minWidth: 180
+      tableShow: !false
     },
     {
       label: "授权生效日期", fieldName: "effectiveDate", type: "date",
       required: true, formShow: !false,
-      tableShow: !false, minWidth: 180
+      tableShow: !false
     },
     {
       label: "授权失效日期", fieldName: "expiredDate", type: "date",
       required: true, formShow: !false,
-      tableShow: !false, minWidth: 180
+      tableShow: !false
     },
     {
-      label: "创建人", disabled: "yes", fieldName: "createdBy", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+      label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
+
+
     },
     {
-      label: "修改人", disabled: "yes", fieldName: "updatedBy", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+      label: "修改人", disabled: "Y", fieldName: "updatedBy", type: "input",
+
+
     },
     {
-      label: "创建日期", disabled: "yes", fieldName: "createdDate", type: "date",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+      label: "创建日期", disabled: "Y", fieldName: "createdDate", type: "date",
+
+
     },
     {
-      label: "修改日期", disabled: "yes", fieldName: "updatedDate", type: "date",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+      label: "修改日期", disabled: "Y", fieldName: "updatedDate", type: "date",
+
+
     },
     {
       label: "数据版本号", fieldName: "version", type: "number",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "是否已逻辑", fieldName: "isDel", type: "number",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "数据编号", fieldName: "dataNo", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "状态码", fieldName: "statusCode", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "状态码名称", fieldName: "statusName", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "国际码", fieldName: "local", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
   ],
   batchFieldList: []
 });
 const primaryKey = "idDbAssign";
 const grantPermissionRef = ref();
-const rules = {
-
-};
+const rules = {};
 
 const searchForm = ref<any>({});
 provide("searchForm", searchForm);
@@ -238,8 +236,9 @@ const dataFormat = (name: string, cellValue: Object): any => {
 </style>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form v-model:data-form="dataForm" @refresh="grantPermissionRef.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList" :rules=
-        "rules"/>
+    <star-horse-form v-model:data-form="dataForm" @refresh="grantPermissionRef.loadByPage()" :compUrl="dataUrl"
+                     :fieldList="tableFieldList" :rules=
+                         "rules"/>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title=
       "'查看数据'" :is-view="true">
