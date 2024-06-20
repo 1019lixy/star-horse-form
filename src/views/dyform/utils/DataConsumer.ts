@@ -128,7 +128,7 @@ export const consumerNodeData: any = {
 /**
  * 关联属性信息
  */
-export function viewFieldInfo(viewTypeList: Ref<Selection[]>, viewConfigInfo: any) {
+export function viewFieldInfo(viewTypeList: Ref<SelectOption[]>, consumeAuthorityList: Ref<SelectOption[]>, viewConfigInfo: any) {
     lineDatas = {};
     tableList.value = [];
     let tables = viewConfigInfo.tables;
@@ -163,6 +163,7 @@ export function viewFieldInfo(viewTypeList: Ref<Selection[]>, viewConfigInfo: an
             ],
             [{
                 label: "消费权限", fieldName: "consumeAuthority", type: "select",
+                optionList: consumeAuthorityList,
                 required: true, formShow: true,
 
             }, {
@@ -174,30 +175,30 @@ export function viewFieldInfo(viewTypeList: Ref<Selection[]>, viewConfigInfo: an
             },],
             [{
                 label: "是否认证", fieldName: "isAudit", type: "switch",
-                 formShow: true,
+                formShow: true,
                 defaultValue: "N",
 
             }, {
                 label: "是否去重", fieldName: "isDistinct", type: "switch",
-                 formShow: true,
+                formShow: true,
                 defaultValue: "N",
 
             },],
             [{
                 label: "是否需要公共字段", fieldName: "isCommonField", type: "switch",
-                 formShow: true,
+                formShow: true,
                 defaultValue: "N",
                 helpMsg: "如果指定返回字段，该设置失效",
 
             }, {
                 label: "是否创建菜单", fieldName: "isCreateMenu", type: "switch",
-                 formShow: true,
+                formShow: true,
                 defaultValue: "N",
 
             },],
             [{
                 label: "是否字段排序", fieldName: "dataSortType", type: "switch",
-                 formShow: true,
+                formShow: true,
                 defaultValue: "N",
                 actionName: "change",
                 actions: (val: any) => {
@@ -206,7 +207,7 @@ export function viewFieldInfo(viewTypeList: Ref<Selection[]>, viewConfigInfo: an
 
             }, {
                 label: "是否指定返回字段", fieldName: "limitFieldType", type: "switch",
-                 formShow: true,
+                formShow: true,
                 defaultValue: "N",
                 actionName: "change",
                 actions: (val: any) => {
@@ -216,7 +217,7 @@ export function viewFieldInfo(viewTypeList: Ref<Selection[]>, viewConfigInfo: an
             },],
             {
                 label: "视图描述", fieldName: "remark", type: "textarea",
-                 formShow: true,
+                formShow: true,
 
             },
             {
@@ -234,19 +235,19 @@ export function viewFieldInfo(viewTypeList: Ref<Selection[]>, viewConfigInfo: an
                                 val["fieldNameOptionList"] = lineDatas[val["tableName"]];
                                 console.log(val);
                             },
-                             formShow: true,
+                            formShow: true,
 
                         },
                         {
                             label: "属性名", fieldName: "fieldName",
                             type: "select",
-                             formShow: true,
+                            formShow: true,
 
                         },
                         {
                             label: "排序方式", fieldName: "sortType",
                             type: "select",
-                             formShow: true,
+                            formShow: true,
 
                         },
 
@@ -266,14 +267,14 @@ export function viewFieldInfo(viewTypeList: Ref<Selection[]>, viewConfigInfo: an
                                 val["exclusionFieldNameOptionList"] = lineDatas[val["tableName"]];
                                 console.log(val);
                             },
-                             formShow: true,
+                            formShow: true,
 
                         },
                         {
                             label: "返回字段", fieldName: "fieldName",
                             type: "select",
                             helpMsg: "返回字段和排除字段设置一个",
-                             formShow: true,
+                            formShow: true,
 
                             preps: {
                                 multiple: "Y",
@@ -282,7 +283,7 @@ export function viewFieldInfo(viewTypeList: Ref<Selection[]>, viewConfigInfo: an
                         {
                             label: "排除字段", fieldName: "exclusionFieldName",
                             type: "select",
-                             formShow: true,
+                            formShow: true,
 
                             preps: {
                                 multiple: "Y",
@@ -327,27 +328,27 @@ export function relationFieldInfo(datas: any) {
             [
                 {
                     label: "关联主表名", fieldName: "from", type: "text",
-                     formShow: true,
+                    formShow: true,
 
                 },
                 {
                     label: "关联主表字段名", fieldName: "fromPort", type: "text",
-                     formShow: true,
+                    formShow: true,
 
                 },
             ],
             [{
                 label: "被关联表名", fieldName: "to", type: "text",
-                 formShow: true,
+                formShow: true,
 
             }, {
                 label: "被关联表字段名", fieldName: "toPort", type: "text",
-                 formShow: true,
+                formShow: true,
 
             },],
             {
                 label: "自定义条件", fieldName: "condition", type: "switch",
-                 formShow: true,
+                formShow: true,
                 defaultValue: "N",
                 actionName: "input",
                 actions: (val: any) => {
