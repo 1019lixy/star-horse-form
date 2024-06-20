@@ -158,7 +158,7 @@ const
 </style>
 <template>
   <div class="query-area">
-    <star-horse-editor :value="value" :lang="'markdown'" />
+    <star-horse-editor :value="value" :lang="'markdown'"/>
   </div>
 </template>
 

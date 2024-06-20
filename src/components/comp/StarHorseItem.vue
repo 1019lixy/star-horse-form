@@ -23,12 +23,12 @@ const emit = defineEmits(["dataSearch", "focus", "blur"]);
 const formFields = inject("formFields");
 const field = ref<any>({
   preps: {
-    clearable: "yes",
+    clearable: "Y",
     label: props.item?.label,
     name: props.item?.fieldName,
     required: props.item?.required,
     size: props.compSize,
-    readonly: (props.item?.readonly || props.isView) ? 'yes' : 'no',
+    readonly: props.item?.readonly || props.isView ? 'Y' : 'N',
   }
 });
 field.value.preps.size = computed(() => props.compSize);
@@ -85,19 +85,17 @@ const compPreps = () => {
     }
     field.value.preps["precision"] = props.item?.precision || 0;
   } else if (itemType.value == "select") {
-    field.value.preps["filterable"] = "yes";
-    field.value.preps["collapseTags"] = "yes";
-    field.value.preps['multiple'] = props.item?.multiple ? "yes" : "no";
-    field.value.preps['allowCreate'] = props.item?.allowCreate ? "yes" : "no";
+    field.value.preps["filterable"] = "Y";
+    field.value.preps["collapseTags"] = "Y";
+    field.value.preps['allowCreate'] = props.item?.allowCreate ? "Y" : "N";
   } else if (itemType.value == "tselect") {
-    field.value.preps["filterable"] = "yes";
-    field.value.preps["collapseTags"] = "yes";
-    field.value.preps["showCheckbox"] = "yes";
+    field.value.preps["filterable"] = "Y";
+    field.value.preps["collapseTags"] = "Y";
+    field.value.preps["showCheckbox"] = "Y";
     field.value.preps["props"] = {
       label: 'name',
       value: "value"
     };
-    field.value.preps['multiple'] = props.item?.multiple ? "yes" : "no";
   } else if (itemType.value == 'cascade') {
     field.value.preps["props"] = {
       label: 'name',
@@ -149,6 +147,7 @@ const compPreps = () => {
   } else if (itemType.value == "comp") {
     field.value.preps["params"] = props.item?.params || {};
   }
+  field.value.preps['multiple'] = props.item?.multiple;
   field.value.preps["actionName"] = actionName.value;
   field.value.preps["disabled"] = props.item.disabled;
   //联动

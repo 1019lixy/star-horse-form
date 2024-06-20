@@ -58,7 +58,7 @@ export const consumerNodeData: any = {
                         },
                         {
                             tagName: 'text',
-                            selector: 'name',
+                            selector: 'fieldName',
                         },
                         /*       {
                                  tagName: 'text',
@@ -152,72 +152,72 @@ export function viewFieldInfo(viewTypeList: Ref<Selection[]>, viewConfigInfo: an
                 {
                     label: "视图名称", fieldName: "viewName", type: "input",
                     required: true, formShow: true,
-                    tableShow: false, minWidth: 180
+
                 },
                 {
                     label: "视图类型", fieldName: "viewType", type: "select",
                     required: true, formShow: true,
                     optionList: viewTypeList,
-                    tableShow: false, minWidth: 180
+
                 },
             ],
             [{
                 label: "消费权限", fieldName: "consumeAuthority", type: "select",
                 required: true, formShow: true,
-                tableShow: false, minWidth: 180
+
             }, {
                 label: "单次最大数量", fieldName: "dataLimits", type: "number",
                 required: true, formShow: true,
                 min: 1,
                 defaultValue: 100,
-                tableShow: false, minWidth: 180
+
             },],
             [{
                 label: "是否认证", fieldName: "isAudit", type: "switch",
-                required: false, formShow: true,
+                 formShow: true,
                 defaultValue: "N",
-                tableShow: false, minWidth: 180
+
             }, {
                 label: "是否去重", fieldName: "isDistinct", type: "switch",
-                required: false, formShow: true,
+                 formShow: true,
                 defaultValue: "N",
-                tableShow: false, minWidth: 180
+
             },],
             [{
                 label: "是否需要公共字段", fieldName: "isCommonField", type: "switch",
-                required: false, formShow: true,
+                 formShow: true,
                 defaultValue: "N",
                 helpMsg: "如果指定返回字段，该设置失效",
-                tableShow: false, minWidth: 180
+
             }, {
                 label: "是否创建菜单", fieldName: "isCreateMenu", type: "switch",
-                required: false, formShow: true,
+                 formShow: true,
                 defaultValue: "N",
-                tableShow: false, minWidth: 180
+
             },],
             [{
                 label: "是否字段排序", fieldName: "dataSortType", type: "switch",
-                required: false, formShow: true,
+                 formShow: true,
                 defaultValue: "N",
                 actionName: "change",
                 actions: (val: any) => {
                     sortTableVisible.value = val["dataSortType"] == "N";
                 },
-                tableShow: false, minWidth: 180
+
             }, {
                 label: "是否指定返回字段", fieldName: "limitFieldType", type: "switch",
-                required: false, formShow: true,
+                 formShow: true,
                 defaultValue: "N",
                 actionName: "change",
                 actions: (val: any) => {
                     limitFieldVisible.value = val["limitFieldType"] == "N";
                 },
-                tableShow: false, minWidth: 180
+
             },],
             {
                 label: "视图描述", fieldName: "remark", type: "textarea",
-                required: false, formShow: true,
-                tableShow: false, minWidth: 180
+                 formShow: true,
+
             },
             {
                 batchFieldList: [{
@@ -234,20 +234,20 @@ export function viewFieldInfo(viewTypeList: Ref<Selection[]>, viewConfigInfo: an
                                 val["fieldNameOptionList"] = lineDatas[val["tableName"]];
                                 console.log(val);
                             },
-                            required: false, formShow: true,
-                            tableShow: false, minWidth: 180
+                             formShow: true,
+
                         },
                         {
                             label: "属性名", fieldName: "fieldName",
                             type: "select",
-                            required: false, formShow: true,
-                            tableShow: false, minWidth: 180
+                             formShow: true,
+
                         },
                         {
                             label: "排序方式", fieldName: "sortType",
                             type: "select",
-                            required: false, formShow: true,
-                            tableShow: false, minWidth: 180
+                             formShow: true,
+
                         },
 
                     ]
@@ -266,26 +266,26 @@ export function viewFieldInfo(viewTypeList: Ref<Selection[]>, viewConfigInfo: an
                                 val["exclusionFieldNameOptionList"] = lineDatas[val["tableName"]];
                                 console.log(val);
                             },
-                            required: false, formShow: true,
-                            tableShow: false, minWidth: 180
+                             formShow: true,
+
                         },
                         {
                             label: "返回字段", fieldName: "fieldName",
                             type: "select",
                             helpMsg: "返回字段和排除字段设置一个",
-                            required: false, formShow: true,
-                            tableShow: false, minWidth: 180,
+                             formShow: true,
+
                             preps: {
-                                multiple: "yes",
+                                multiple: "Y",
                             }
                         },
                         {
                             label: "排除字段", fieldName: "exclusionFieldName",
                             type: "select",
-                            required: false, formShow: true,
-                            tableShow: false, minWidth: 180,
+                             formShow: true,
+
                             preps: {
-                                multiple: "yes",
+                                multiple: "Y",
                             }
                         },
                     ]
@@ -327,34 +327,34 @@ export function relationFieldInfo(datas: any) {
             [
                 {
                     label: "关联主表名", fieldName: "from", type: "text",
-                    required: false, formShow: true,
-                    tableShow: false, minWidth: 180
+                     formShow: true,
+
                 },
                 {
                     label: "关联主表字段名", fieldName: "fromPort", type: "text",
-                    required: false, formShow: true,
-                    tableShow: false, minWidth: 180
+                     formShow: true,
+
                 },
             ],
             [{
                 label: "被关联表名", fieldName: "to", type: "text",
-                required: false, formShow: true,
-                tableShow: false, minWidth: 180
+                 formShow: true,
+
             }, {
                 label: "被关联表字段名", fieldName: "toPort", type: "text",
-                required: false, formShow: true,
-                tableShow: false, minWidth: 180
+                 formShow: true,
+
             },],
             {
                 label: "自定义条件", fieldName: "condition", type: "switch",
-                required: false, formShow: true,
+                 formShow: true,
                 defaultValue: "N",
                 actionName: "input",
                 actions: (val: any) => {
                     tableVisible.value = val["condition"] == "N";
                     relationRequired.value = val["condition"] == "Y";
                 },
-                tableShow: false, minWidth: 180
+
             },
             {
                 batchFieldList: [{
@@ -372,26 +372,26 @@ export function relationFieldInfo(datas: any) {
                                 console.log(val);
                             },
                             required: relationRequired, formShow: true,
-                            tableShow: false, minWidth: 180
+
                         },
                         {
                             label: "属性名", fieldName: "fieldName",
                             type: "select",
                             required: relationRequired, formShow: true,
-                            tableShow: false, minWidth: 180
+
                         },
                         {
                             label: "匹配方式", fieldName: "matchType",
                             type: "select",
                             optionList: searchMatchList(),
                             required: relationRequired, formShow: true,
-                            tableShow: false, minWidth: 180
+
                         },
                         {
                             label: "匹配值", fieldName: "matchValue",
                             type: "input",
                             required: relationRequired, formShow: true,
-                            tableShow: false, minWidth: 180
+
                         }
                     ]
                 }]

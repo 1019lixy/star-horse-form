@@ -1,20 +1,20 @@
 <template>
-  <starhorse-form-item :isDesign="context.attrs['isDesign']"  :form-item="field" :parentField="parentField"
+  <starhorse-form-item :isDesign="context.attrs['isDesign']" :form-item="field" :parentField="parentField"
   >
     <el-button
-        :autofocus="field?.preps['autofocus']=='yes'"
-        :bg="field?.preps['bg']=='yes'"
-        :circle="field?.preps['circle']=='yes'"
-        :disabled="field?.preps['disabled']=='yes'"
+        :autofocus="field?.preps['autofocus']=='Y'"
+        :bg="field?.preps['bg']=='Y'"
+        :circle="field?.preps['circle']=='Y'"
+        :disabled="field?.preps['disabled']=='Y'"
         :icon="field?.preps['icon']||'document'"
-        :link="field?.preps['link']=='yes'"
-        :loading="field?.preps['loading']=='yes'"
+        :link="field?.preps['link']=='Y'"
+        :loading="field?.preps['loading']=='Y'"
         :loading-icon="field?.preps['loadingIcon']"
         :native-type="field?.preps['nativeType']"
-        :plain="field?.preps['plain']=='yes'"
-        :round="field?.preps['round']=='yes'"
+        :plain="field?.preps['plain']=='Y'"
+        :round="field?.preps['round']=='Y'"
         :size="field?.preps['size']||'small'"
-        :text="field?.preps['text']=='yes'"
+        :text="field?.preps['text']=='Y'"
         @click="dynamicFunc(field?.preps['click'])"
         :type="field?.preps['type']">
       {{ field?.preps["label"] }}
@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts" name="buttonItem">
-import {defineComponent, shallowRef,onMounted} from "vue";
+import {defineComponent, shallowRef, onMounted} from "vue";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 
 export default defineComponent({

@@ -37,97 +37,95 @@ const tableFieldList = reactive({
   fieldList: [
     {
       label: "主键", fieldName: "idUsersAudit", type: "long",
-      required: false, formShow: !false,
-      tableShow: !false, minWidth: 180
+       formShow: !false,
+      tableShow: !false
     },
     {
       label: "主键", fieldName: "idUserinfo", type: "long",
-      required: false, formShow: !false,
-      tableShow: !false, minWidth: 180
+       formShow: !false,
+      tableShow: !false
     },
     {
       label: "密码", fieldName: "password", type: "input",
-      required: false, formShow: !false,
-      tableShow: !false, minWidth: 180
+       formShow: !false,
+      tableShow: !false
     },
     {
       label: "生效日期", fieldName: "effectiveDate", type: "date",
-      required: false, formShow: !false,
-      tableShow: !false, minWidth: 180
+       formShow: !false,
+      tableShow: !false
     },
     {
       label: "失效日期", fieldName: "expiredDate", type: "date",
-      required: false, formShow: !false,
-      tableShow: !false, minWidth: 180
+       formShow: !false,
+      tableShow: !false
     },
     {
       label: "备注", fieldName: "remark", type: "input",
-      required: false, formShow: !false,
-      tableShow: !false, minWidth: 180
+       formShow: !false,
+      tableShow: !false
     },
     {
       label: "数据类型", fieldName: "dataType", type: "number",
-      required: false, formShow: !false,
-      tableShow: !false, minWidth: 180
+       formShow: !false,
+      tableShow: !false
     },
     {
-      label: "创建人", disabled: 1, fieldName: "createdBy", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+      label: "创建人", disabled:"Y", fieldName: "createdBy", type: "input",
+
+
     },
     {
-      label: "修改人", disabled: 1, fieldName: "updatedBy", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+      label: "修改人", disabled:"Y", fieldName: "updatedBy", type: "input",
+
+
     },
     {
-      label: "创建日期", disabled: 1, fieldName: "createdDate", type: "date",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+      label: "创建日期", disabled:"Y", fieldName: "createdDate", type: "date",
+
+
     },
     {
-      label: "修改日期", disabled: 1, fieldName: "updatedDate", type: "date",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+      label: "修改日期", disabled:"Y", fieldName: "updatedDate", type: "date",
+
+
     },
     {
       label: "数据版本号", fieldName: "version", type: "number",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "是否已逻辑", fieldName: "isDel", type: "number",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "数据编号", fieldName: "dataNo", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "状态码", fieldName: "statusCode", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "状态码名称", fieldName: "statusName", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "国际码", fieldName: "local", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
   ],
   batchFieldList: []
 });
 const primaryKey = "idUsersAudit";
 const usersAuditRef = ref();
-const rules = {
-
-};
+const rules = {};
 const searchForm = ref({});
 provide("searchForm", searchForm);
 const dataForm = ref({});
@@ -153,7 +151,8 @@ const dataFormat = (name: string, cellValue: Object): any => {
 </style>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form v-model:data-form="dataForm" @refresh="usersAuditRef.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList"
+    <star-horse-form v-model:data-form="dataForm" @refresh="usersAuditRef.loadByPage()" :compUrl="dataUrl"
+                     :fieldList="tableFieldList"
                      :rules="rules"/>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title=

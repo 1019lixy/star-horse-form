@@ -3,8 +3,8 @@
   >
     <el-radio-group
         :fid="field.preps['name']"
-        :disabled="field.preps['disabled']=='yes'"
-        :readonly="field.preps['readonly']=='yes'"
+        :disabled="field.preps['disabled']=='Y'"
+        :readonly="field.preps['readonly']=='Y'"
         :max="field.preps['max']"
         :min="field.preps['min']"
         :size="field?.preps['size']||'small'"
@@ -12,9 +12,9 @@
         @change="keyEnterFun"
         v-model="context.attrs['formFieldList'][field.preps['name']]"
     >
-      <el-radio :border="item['border']=='yes'"
+      <el-radio :border="item['border']=='Y'"
                 :checked="item['checked']"
-                :disabled="item['disabled']=='yes'"
+                :disabled="item['disabled']=='Y'"
                 :label="item['label']"
                 :value="item['trueLabel']"
                 v-for="item in field.preps['values']"

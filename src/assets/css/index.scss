@@ -380,9 +380,11 @@ a {
     background-color: var(--star-horse-font-color);
     font-weight: bolder;
     text-align: right;
-    min-width: 130px;
+    width: 150px;
     padding-right: 5px;
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .content {
@@ -602,6 +604,7 @@ hr {
   color: var(--star-horse-white) !important;
 
 }
-.el-drawer__body{
+
+.el-drawer__body {
   padding: 5px !important;
 }

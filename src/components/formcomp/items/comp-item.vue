@@ -4,7 +4,7 @@
              :nodeFieldList="field['preps']['params']['nodeFieldList']"
              :lineFieldList="field['preps']['params']['lineFieldList']"
              :customerItems="field['preps']['params']['nodeList']"
-             :readonly="field['preps']['readonly']=='yes'"
+             :readonly="field['preps']['readonly']=='Y'"
   />
 </template>
 

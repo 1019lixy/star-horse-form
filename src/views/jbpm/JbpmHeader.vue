@@ -196,9 +196,15 @@ const actionOperation = (actionName: string) => {
       </el-form>
       <el-row>
         <el-col :span="12">
-          <el-button @click="save(0)" link style="background: var(--star-horse-style);color: var(--star-horse-white)">取消</el-button>
-          <el-button @click="save(1)" link style="background: var(--star-horse-style);color: var(--star-horse-white)">保存</el-button>
-          <el-button @click="save(2)" link style="background: var(--star-horse-style);color: var(--star-horse-white)">保存并关闭编辑器</el-button>
+          <el-button @click="save(0)" link style="background: var(--star-horse-style);color: var(--star-horse-white)">
+            取消
+          </el-button>
+          <el-button @click="save(1)" link style="background: var(--star-horse-style);color: var(--star-horse-white)">
+            保存
+          </el-button>
+          <el-button @click="save(2)" link style="background: var(--star-horse-style);color: var(--star-horse-white)">
+            保存并关闭编辑器
+          </el-button>
         </el-col>
       </el-row>
     </el-dialog>

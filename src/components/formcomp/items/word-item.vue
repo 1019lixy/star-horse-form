@@ -1,11 +1,11 @@
 <template>
-  <starhorse-form-item :isDesign="context.attrs['isDesign']" :form-item = "field" :parentField = "parentField"
+  <starhorse-form-item :isDesign="context.attrs['isDesign']" :form-item="field" :parentField="parentField"
   >
-    <VueOfficeDocx :fid = "field.preps['name']" :src = "field['docUrl']" @rendered = "rendered"/>
+    <VueOfficeDocx :fid="field.preps['name']" :src="field['docUrl']" @rendered="rendered"/>
   </starhorse-form-item>
 </template>
 
-<script lang = "ts" name = "excelItem">
+<script lang="ts" name="excelItem">
 import {defineComponent, onMounted, shallowRef} from "vue";
 
 export default defineComponent({
@@ -29,7 +29,7 @@ export default defineComponent({
       init();
     });
 
-    return {parentField, formFieldList, context, field, formItem,  dataField,  keyEnterFunrendered}
+    return {parentField, formFieldList, context, field, formItem, dataField, keyEnterFunrendered}
   }
 });
 

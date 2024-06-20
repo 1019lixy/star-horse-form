@@ -1,5 +1,6 @@
 <script setup lang="ts" name="DataPreview">
 import {onMounted, ref, watch} from "vue";
+import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 
 const props = defineProps({
   item: {type: Object, default: {}},
@@ -60,14 +61,9 @@ defineExpose({
         placement="left-end"
     >
       <template #reference>
-        <el-icon
-            class="star-page-icon"
-            style="cursor: pointer"
-        >
-          <el-tooltip content="显示/隐藏列">
-            <Tools/>
-          </el-tooltip>
-        </el-icon>
+        <el-tooltip content="显示/隐藏列">
+          <star-horse-icon icon-class="setting" color="var(--star-horse-style)"/>
+        </el-tooltip>
       </template>
       <el-table
           class="sh-columns"
@@ -125,27 +121,44 @@ defineExpose({
       </el-table>
     </el-popover>
   </div>
+
   <el-table
       :data="item.dataList"
       id="'previewResultId'"
       @row-dblclick="viewDataDetail"
-      highlight-current-row=true
+      highlight-current-row
       ref="viewDataPreviewRef"
-      :strip=true
-      :fit=true
-      row-key="prop"
-      style="width: 100%"
+      :stripe="true"
+      :fit="true"
+      row-key="pop"
+      :height="400"
+      :highlight-current-row="true"
+      :row-style="{
+      height: '30px',
+    }"
+      :cell-style="{
+      height: '30px',
+      'font-size': '12px',
+    }"
+      :header-cell-style="{
+      background: '#f2f2f2',
+      color: '#707070',
+      'font-size': '13px',
+      'background-image':
+        '-webkit-gradient(linear,left 0,left 100%,from(#f8f8f8),to(#ececec))',
+    }"
       border
   >
+
     <template v-for="(scols,key) in columns">
       <template v-for="(pp, index) in scols">
         <el-table-column
             :formatter="resultDataFormat"
             :index="index"
             :label="pp.comment"
-            :prop="key+'&'+pp.name"
+            :prop="key+'&'+pp.fieldName"
             :show-overflow-tooltip="true"
-            min-width="120px"
+            min-width="150px"
             v-if="pp.tableShow"
             sortable
         >

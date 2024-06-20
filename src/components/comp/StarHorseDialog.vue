@@ -145,6 +145,7 @@ provide("dialogOperation", clickFunction);
     display: flex;
     flex-direction: column;
     padding: unset;
+
     .el-dialog__header {
       flex-shrink: 0;
       height: 40px;

@@ -7,9 +7,9 @@
         trigger="click">
       <template #reference>
         <el-input
-            :clearable="field.preps['clearable']=='yes'"
-            :readonly="field.preps['readonly']=='yes'"
-            :disabled="field.preps['disabled']=='yes'"
+            :clearable="field.preps['clearable']=='Y'"
+            :readonly="field.preps['readonly']=='Y'"
+            :disabled="field.preps['disabled']=='Y'"
             :size="field?.preps['size']||'small'"
             v-on:[actionName]="keyEnterFun(field.preps['actionName'])"
             :placeholder="field.preps['placeholder']||'请选择' + field.preps['label']"

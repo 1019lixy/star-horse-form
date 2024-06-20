@@ -47,17 +47,19 @@ const removeData = () => {
 
 </script>
 <template>
-  <div :class="isEdit?'field-item':''" >
+  <div :class="isEdit?'field-item':''">
     <slot></slot>
     <div class="field-action" v-if="isEdit">
       <el-tooltip content="拖动">
         <star-horse-icon icon-class="drag" style="color: var(--star-horse-white)"/>
       </el-tooltip>
       <el-tooltip content="选中容器">
-        <star-horse-icon class="icon-cls" @click.stop="selectData" icon-class="select-parent" style="color:var(--star-horse-white);"/>
+        <star-horse-icon class="icon-cls" @click.stop="selectData" icon-class="select-parent"
+                         style="color:var(--star-horse-white);"/>
       </el-tooltip>
       <el-tooltip content="删除容器">
-        <star-horse-icon class="icon-cls" @click.stop="removeData" icon-class="clear-all" style="color:var(--star-horse-white);"/>
+        <star-horse-icon class="icon-cls" @click.stop="removeData" icon-class="clear-all"
+                         style="color:var(--star-horse-white);"/>
       </el-tooltip>
     </div>
   </div>
@@ -70,6 +72,7 @@ const removeData = () => {
   z-index: 999;
   border: 1px dotted #e6a23c;
   margin-top: 3px;
+
   &:hover .field-action {
     opacity: 1;
   }

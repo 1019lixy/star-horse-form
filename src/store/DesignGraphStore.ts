@@ -249,7 +249,7 @@ export const DesignGraph: any = defineStore("DesignGraph", {
          * @param data
          */
         addNode(data: NodeInfo): Cell {
-           // console.log(data);
+            // console.log(data);
             let _this = this;
             let graph = _this.graph;
             if (!graph) {

@@ -3,14 +3,14 @@
                        :parentField="parentField"
   >
     <el-input
-        :clearable="field.preps['clearable']=='yes'"
-        :disabled="field.preps['disabled']=='yes'"
+        :clearable="field.preps['clearable']=='Y'"
+        :disabled="field.preps['disabled']=='Y'"
         :max="field.preps['max']"
         :maxlength="field.preps['maxlength']"
         :min="field.preps['min']"
         :minlength="field.preps['maxlength']"
         :placeholder="field.preps['placeholder']||'请输入'+field.preps['label']"
-        :readonly="field.preps['readonly']=='yes'"
+        :readonly="field.preps['readonly']=='Y'"
         :size="field?.preps['size']||'small'"
         type="text"
         :fid="field.preps['name']"

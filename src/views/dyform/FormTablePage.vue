@@ -114,7 +114,8 @@ const dataFormat = (name: string, cellValue: Object): any => {
         :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible"
         :dialogProps="dialogProps"
     >
-      <star-horse-form v-model:data-form="dataForm" @refresh="starHorseTableCompRef.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList"
+      <star-horse-form v-model:data-form="dataForm" @refresh="starHorseTableCompRef.loadByPage()" :compUrl="dataUrl"
+                       :fieldList="tableFieldList"
                        :rules="rules"/>
     </star-horse-dialog>
     <star-horse-dialog

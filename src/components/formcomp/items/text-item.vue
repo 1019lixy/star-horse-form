@@ -4,11 +4,11 @@
   >
     <el-tag
         :type="field?.preps['type']||'primary'"
-        :disable-transitions="field?.preps['disableTransitions']=='yes'"
-        :hit="field?.preps['hit']=='yes'"
+        :disable-transitions="field?.preps['disableTransitions']=='Y'"
+        :hit="field?.preps['hit']=='Y'"
         :color="field?.preps['color']"
         :effect="field?.preps['effect']||'light'"
-        :round="field?.preps['round']=='yes'"
+        :round="field?.preps['round']=='Y'"
         :size="field?.preps['size']||'small'"
         @click="keyEnterFun('click')"
     >

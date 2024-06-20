@@ -39,90 +39,90 @@ initData();
 const searchFormData = reactive<SearchProps[]>([
   /* {label: "所属系统", fieldName: "informationsSingleId", type: "select", optionList: systemInfoList},*/
   {label: "角色名称", defaultShow: true, fieldName: "idRolesinfo", type: "select", optionList: rolesList},
-  {label: "创建日期", disabled: 1, fieldName: "createdDate", type: "date", matchType: "bt"},
+  {label: "创建日期", disabled:"Y", fieldName: "createdDate", type: "date", matchType: "bt"},
 ]);
 
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     {
       label: "主键", fieldName: "idResourcesSummary", type: "long",
-      required: false, formShow: false,
-      tableShow: false, minWidth: 180
+
+
     },
     [{
       label: "所属系统", fieldName: "informationsSingleId", type: "select", optionList: systemInfoList,
-      required: true, formShow: !false, disabled: 1,
-      tableShow: !false, minWidth: 180
+      required: true, formShow: !false, disabled:"Y",
+      tableShow: !false
     },
       {
         label: "角色名称", fieldName: "rolesList", type: "select", optionList: rolesList,
-        required: true, formShow: !false, multiple: true,
-        tableShow: !false, minWidth: 180
+        required: true, formShow: !false, multiple:"Y",
+        tableShow: !false
       }],
     [{
       label: "菜单名称", fieldName: "menusList", type: "tselect", optionList: menusList,
-      required: true, formShow: !false, multiple: true,
-      tableShow: !false, minWidth: 180
+      required: true, formShow: !false, multiple:"Y",
+      tableShow: !false
     },
       {
         label: "权限", fieldName: "resourcesPos", type: "select", optionList: authorityList,
-        required: true, formShow: !false, multiple: true,
-        tableShow: !false, minWidth: 180
+        required: true, formShow: !false, multiple:"Y",
+        tableShow: !false
       }],
     {
       label: "备注", fieldName: "remark", type: "textarea",
-      required: false, formShow: !false,
-      tableShow: !false, minWidth: 180
+       formShow: !false,
+      tableShow: !false
     },
     {
-      label: "创建人", disabled: 1, fieldName: "createdBy", type: "input",
-      required: false, formShow: !true,
-      tableShow: true, minWidth: 180
+      label: "创建人", disabled:"Y", fieldName: "createdBy", type: "input",
+
+      tableShow: true
     },
     {
-      label: "修改人", disabled: 1, fieldName: "updatedBy", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+      label: "修改人", disabled:"Y", fieldName: "updatedBy", type: "input",
+
+
     },
     {
-      label: "创建日期", disabled: 1, fieldName: "createdDate", type: "date",
-      required: false, formShow: !true,
-      tableShow: true, minWidth: 180
+      label: "创建日期", disabled:"Y", fieldName: "createdDate", type: "date",
+
+      tableShow: true
     },
     {
-      label: "修改日期", disabled: 1, fieldName: "updatedDate", type: "date",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+      label: "修改日期", disabled:"Y", fieldName: "updatedDate", type: "date",
+
+
     },
     {
       label: "数据版本号", fieldName: "version", type: "number",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "是否已逻辑", fieldName: "isDel", type: "number",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "数据编号", fieldName: "dataNo", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "状态码", fieldName: "statusCode", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "状态码名称", fieldName: "statusName", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "国际码", fieldName: "local", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
   ],
   batchFieldList: [],
@@ -130,9 +130,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   cellEditable: false
 });
 const primaryKey = "idResourcesSummary";
-const rules = {
-
-};
+const rules = {};
 const searchForm = ref({});
 provide("searchForm", searchForm);
 const dataForm = ref({});
@@ -212,7 +210,8 @@ const checkChange = (data: TreeNodeData, checked: boolean) => {
 </style>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form v-model:data-form="dataForm" @refresh="menuBtnTableRef.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList"
+    <star-horse-form v-model:data-form="dataForm" @refresh="menuBtnTableRef.loadByPage()" :compUrl="dataUrl"
+                     :fieldList="tableFieldList"
                      :rules="rules"/>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title=

@@ -9,7 +9,7 @@ let code = `<script setup lang='ts'>
 </script>
 
 <template>
-  <StarHorseEditor :lang="'vue'"  v-model:value="code"/>
+  <StarHorseEditor :lang="'vue'" v-model:value="code"/>
 </template>
 
 <style scoped lang="scss">

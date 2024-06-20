@@ -9,7 +9,7 @@
         :props="{key:field.preps['dataSource']=='url'?field.preps['selectValue']:'value',
         label:field.preps['dataSource']=='url'?field.preps['selectLabel']:'name'}"
         :filter-placeholder="field.preps['filterPlaceholder']||'请输入'+field.preps['label']"
-        :filterable="field.preps['filterable']=='yes'"
+        :filterable="field.preps['filterable']=='Y'"
         :format="field.preps['format']"
         :target-order="field.preps['targetOrder']"
         :titles="[field.preps['leftTitle'],field.preps['rightTitle']]"

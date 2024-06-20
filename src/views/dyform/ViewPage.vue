@@ -12,6 +12,7 @@ import {error} from "@/utils/message";
 import {Config} from "@/api/settings";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
+
 let designForm = DesignForm(piniaInstance);
 const router = useRouter();
 const props = defineProps({

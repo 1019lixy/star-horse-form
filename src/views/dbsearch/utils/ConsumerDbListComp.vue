@@ -6,9 +6,10 @@ import piniaInstance from "@/store";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import {SelectOption} from "@/components/types/SearchProps.d.ts";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
+import {ConsumerView} from "@/store/ConsumerViewStore.ts";
 
 let configStore = GlobalConfig(piniaInstance);
-let designForm = DesignForm(piniaInstance);
+const consumerView = ConsumerView(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.buttonSize || "small");
 let dbIndex = ref<any>(null);
 const filterTableName = ref<String>("");
@@ -28,13 +29,13 @@ const fieldCompTypesMsg = `类型操作提示：
    将字符串类型的字段映射为单行文本框组件；
    将日期类型映射为日期选择器组件；
 2、如果字段有特色业务需要，则可以将字段配置为对应的组件类型`;
-let columnsContr = ref<String>("yes");
+let columnsContr = ref<String>("Y");
 /**
  * 判断列数是否需要禁用
  * @param val
  */
 const containerTypeOperation = (val: any) => {
-  columnsContr.value = val['containerType'] == 'box' ? "no" : "yes"
+  columnsContr.value = val['containerType'] == 'box' ? "N" : "Y"
 }
 let currentDataVisible = ref<boolean>(false);
 const contextOperation = async (evt: Event, data: any, index: number) => {
@@ -62,6 +63,7 @@ const openDb = () => {
     assignDataList.value = tableAndColumnsList.value;
   });
   currentIndex.value = dbIndex.value;
+  consumerView.setDbConfigId(currentIndex.value);
 };
 const selectFieldsOperation = (datas: any) => {
   selectFields.value = [];
@@ -76,6 +78,7 @@ const tableField = async (tableName: string) => {
   let fdata = tableAndColumnsList.value.find((item: any) => item.tableName == tableName);
   if (fdata?.fields?.length > 0) {
     //如果已经有值，则不再请求后端
+    consumerView.addTableInfo(tableName, fdata.fields);
     return fdata.fields;
   } else {
     fdata['fields'] = [];
@@ -103,12 +106,12 @@ const closeAction = () => {
 const viewConfig = () => {
   configDialogVisible.value = true;
 };
-const dratStart = async (item: any, evt: DragEvent) => {
+const dratStart = (item: any, evt: DragEvent) => {
   let dt = evt.dataTransfer!;
   dt.effectAllowed = "copy";
   item["name"] = item.tableName;
   item["label"] = item.comment || "";
-  let fields = await tableField(item.tableName);
+  let fields = tableField(item.tableName);
   let items: Array<any> = [];
   for (let i in fields) {
     let temp = fields[i];

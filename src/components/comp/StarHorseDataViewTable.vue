@@ -25,17 +25,17 @@ const dataFormat = (item: any) => {
 };
 </script>
 <template>
-    <div
-        style="display:flex;justify-content:space-between;width: 100%;border-bottom:  var(--star-horse-style) 1px solid"
-    >
-      <div class="tb_title">
-        <star-horse-icon icon-class="info" size="14px"/>
-        {{ item.title }}
-      </div>
-      <div style="display: flex;align-items: center;flex-direction: row-reverse">
-
-      </div>
+  <div
+      style="display:flex;justify-content:space-between;width: 100%;border-bottom:  var(--star-horse-style) 1px solid"
+  >
+    <div class="tb_title">
+      <star-horse-icon icon-class="info" size="14px"/>
+      {{ item.title }}
     </div>
+    <div style="display: flex;align-items: center;flex-direction: row-reverse">
+
+    </div>
+  </div>
   <el-table
       :data="dataForm[batchName]"
       fit

@@ -35,83 +35,81 @@ const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
       label: "主键", fieldName: "idWhiteList", type: "long",
-      required: false, formShow: false,
-      tableShow: false, minWidth: 180
+
+
     },
     {
       label: "过滤类型", fieldName: "whiteType", type: "select", optionList: typeList,
       required: true, formShow: !false,
-      tableShow: !false, minWidth: 180
+      tableShow: !false
     },
     {
       label: "过滤内容", fieldName: "whiteName", type: "input",
       required: true, formShow: !false,
-      tableShow: !false, minWidth: 180
+      tableShow: !false
     },
     {
-      label: "创建人", disabled: 1, fieldName: "createdBy", type: "input",
-      required: false, formShow: !true,
-      tableShow: true, minWidth: 180
+      label: "创建人", disabled:"Y", fieldName: "createdBy", type: "input",
+
+      tableShow: true
     },
 
     {
-      label: "创建日期", disabled: 1, fieldName: "createdDate", type: "date",
-      required: false, formShow: !true,
-      tableShow: true, minWidth: 180
+      label: "创建日期", disabled:"Y", fieldName: "createdDate", type: "date",
+
+      tableShow: true
     },
     {
-      label: "修改人", disabled: 1, fieldName: "updatedBy", type: "input",
-      required: false, formShow: false,
-      tableShow: true, minWidth: 180
+      label: "修改人", disabled:"Y", fieldName: "updatedBy", type: "input",
+
+      tableShow: true
     },
     {
-      label: "修改日期", disabled: 1, fieldName: "updatedDate", type: "date",
-      required: false, formShow: !true,
-      tableShow: true, minWidth: 180
+      label: "修改日期", disabled:"Y", fieldName: "updatedDate", type: "date",
+
+      tableShow: true
     },
     {
       label: "数据版本号", fieldName: "version", type: "number",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "是否已逻辑", fieldName: "isDel", type: "number",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "数据编号", fieldName: "dataNo", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "状态码", fieldName: "statusCode", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "状态码名称", fieldName: "statusName", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "国际码", fieldName: "local", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "备注", fieldName: "remark", type: "textarea",
-      required: false, formShow: !false,
-      tableShow: !false, minWidth: 180
+       formShow: !false,
+      tableShow: !false
     },
   ],
   batchFieldList: []
 });
 const primaryKey = "idWhiteList";
 const whiteListRef = ref();
-const rules = {
-
-};
+const rules = {};
 const searchForm = ref({});
 provide("searchForm", searchForm);
 const dataForm = ref({});
@@ -136,7 +134,8 @@ const dataFormat = (name: string, cellValue: Object): any => {
 </style>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form v-model:data-form="dataForm" @refresh="whiteListRef.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList"
+    <star-horse-form v-model:data-form="dataForm" @refresh="whiteListRef.loadByPage()" :compUrl="dataUrl"
+                     :fieldList="tableFieldList"
                      :rules="rules"/>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title=

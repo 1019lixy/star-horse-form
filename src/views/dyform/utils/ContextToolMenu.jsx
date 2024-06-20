@@ -7,7 +7,7 @@ let timer = null; // timer
 const ContextMenuTool = ({node: Node}) => {
     const label = node.prop('label')
     return (
-        <ElDropdown trigger = "contextmenu">
+        <ElDropdown trigger="contextmenu">
             <ElDropdownItem>复制</ElDropdownItem>
             <ElDropdownItem>粘贴</ElDropdownItem>
             <ElDropdownItem>删除</ElDropdownItem>

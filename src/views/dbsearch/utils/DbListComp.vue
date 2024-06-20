@@ -38,7 +38,7 @@ let containerTypeList = computed(() => {
 });
 let configData = ref<any>({
   columns: 1,
-  commonField: 'N'
+  commonFieldFlag: 'N'
 });
 const dataForm = ref({});
 let currentData = ref<any>({});
@@ -49,13 +49,13 @@ const fieldCompTypesMsg = `类型操作提示：
    将字符串类型的字段映射为单行文本框组件；
    将日期类型映射为日期选择器组件；
 2、如果字段有特色业务需要，则可以将字段配置为对应的组件类型`;
-let columnsContr = ref<String>("yes");
+let columnsContr = ref<String>("Y");
 /**
  * 判断列数是否需要禁用
  * @param val
  */
 const containerTypeOperation = (val: any) => {
-  columnsContr.value = val['containerType'] == 'box' ? "no" : "yes"
+  columnsContr.value = val['containerType'] == 'box' ? "N" : "Y"
 }
 let dataFieldInfo = ref<PageFieldInfo>({
   fieldList: [
@@ -63,7 +63,7 @@ let dataFieldInfo = ref<PageFieldInfo>({
       label: "展示方式",
       fieldName: "containerType",
       type: "select",
-      required: false,
+
       optionList: containerTypeList,
       formShow: !false,
       tableShow: !false,
@@ -75,7 +75,7 @@ let dataFieldInfo = ref<PageFieldInfo>({
       fieldName: "columns",
       type: "number",
       helpMsg: "一行展示几列,展示方式为栅格时有效",
-      required: false,
+
       formShow: !false,
       tableShow: !false,
       disabled: columnsContr,
@@ -92,8 +92,8 @@ let dataFieldInfo = ref<PageFieldInfo>({
       label: "排除字段",
       fieldName: "exclusionFields",
       type: "select",
-      required: false,
-      multiple: "yes",
+
+      multiple: "Y",
       optionList: selectFields,
       formShow: !false,
       tableShow: !false,
@@ -109,7 +109,7 @@ let dataFieldInfo = ref<PageFieldInfo>({
             label: "字段",
             fieldName: "fieldName",
             type: "select",
-            required: false,
+
             optionList: selectFields,
             formShow: !false,
             tableShow: !false,
@@ -118,7 +118,7 @@ let dataFieldInfo = ref<PageFieldInfo>({
             label: "组件类型",
             fieldName: "fieldType",
             type: "select",
-            required: false,
+
             optionList: allFormDataList,
             formShow: !false,
             tableShow: !false,
@@ -246,13 +246,13 @@ const onDataCopy = async (data: any) => {
   let formInfo: any = {
     tbName: tableName,
     formName: data.comment || "",
-    needCommonFields: data.commonField == "Y" ? "yes" : configData.value.commonField == "Y" ? "yes" : "no"
+    needCommonFields: data.commonFieldFlag == "Y" ? "Y" : configData.value.commonFieldFlag == "Y" ? "Y" : "N"
   };
   for (let i in fieldList) {
     let reData = fieldList[i];
     let fieldName = convertToCamelCase(reData.fieldName.toLowerCase());
     let ms = formFieldList.value["index"]++;
-    if (reData.commonField?.toLowerCase() == "y" && config.commonField?.toLowerCase() == "n") {
+    if (reData.commonFieldFlag?.toLowerCase() == "y" && config.commonFieldFlag?.toLowerCase() == "n") {
       continue;
     }
 
@@ -271,13 +271,13 @@ const onDataCopy = async (data: any) => {
      * 处理preps
      */
     mvData["preps"] = {
-      clearable: "no",
+      clearable: "N",
       comment: "",
-      controls: "yes",
-      required: reData["nullFlag"] == "n" ? "yes" : "no",
+      controls: "Y",
+      required: reData["nullFlag"] == "n" ? "Y" : "N",
       controlsPosition: "",
-      disabled: "no",
-      formShow: "yes",
+      disabled: "N",
+      formShow: "Y",
       placeholder: "",
     };
 
@@ -303,14 +303,14 @@ const onDataCopy = async (data: any) => {
       itemType: "box",
       preps: {
         id: boxId,
-        "formShow": "no",
+        "formShow": "N",
         "gutter": 0,
         "justify": "start",
-        "readonly": "no",
-        "required": "no",
-        "searchShow": "no",
+        "readonly": "N",
+        "required": "N",
+        "searchShow": "N",
         "size": "small",
-        "tableShow": "no",
+        "tableShow": "N",
         "tag": "div",
         label: "栅格",
         name: "box",
@@ -348,18 +348,18 @@ const onDataCopy = async (data: any) => {
         id: tableId,
         "align": "top",
         "batchFieldName": convertToCamelCase(tableName),
-        "primaryKeyName":formInfo.formId,
+        "primaryKeyName": formInfo.formId,
         "columns": mvDataList.length,
         "comment": "",
-        "formShow": "no",
-        "readonly": "no",
-        "required": "no",
-        "searchShow": "no",
+        "formShow": "N",
+        "readonly": "N",
+        "required": "N",
+        "searchShow": "N",
         "size": "small",
-        "tableShow": "no",
+        "tableShow": "N",
         label: "动态列表",
-        templateDownFlag: "no",
-        importFlag: "no",
+        templateDownFlag: "N",
+        importFlag: "N",
         name: "table",
       }
     };
@@ -448,7 +448,7 @@ onMounted(() => {
         <el-input-number min="1" max="12" step="1" v-model="configData.columns" placeholder="请设置每行列数"/>
       </el-form-item>
       <el-form-item label="显示公共属性">
-        <el-switch v-model="configData.commonField" active-value="Y" inactive-value="N"/>
+        <el-switch v-model="configData.commonFieldFlag" active-value="Y" inactive-value="N"/>
       </el-form-item>
     </el-form>
   </star-horse-dialog>

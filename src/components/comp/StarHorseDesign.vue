@@ -9,20 +9,21 @@ import {ApiUrls} from "@/components/types/ApiUrls.d.ts";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo.d.ts";
 import piniaInstance from "@/store";
 import {DesignGraph} from "@/store/DesignGraphStore";
-import {formFieldMapping} from "@/api/sh_api";
+import {closeLoad, formFieldMapping, load} from "@/api/sh_api";
 import {DynamicForm} from "@/store/DynamicFormStore";
 import Help from "@/components/help.vue";
 import ConsumerDbListComp from "@/views/dbsearch/utils/ConsumerDbListComp.vue";
 import StarHorseEditor from "@/components/comp/StarHorseEditor.vue";
+import {ConsumerView} from "@/store/ConsumerViewStore.ts";
 
 const designGraph = DesignGraph(piniaInstance);
-const dynamicForm = DynamicForm(piniaInstance);
+const consumerView = ConsumerView(piniaInstance);
 const starHorseDesignRef = ref();
 const graph = ref();
 const contextmenuRef = ref();
 const leftPanelVisible = ref<boolean>(true);
 const connectorStyle = ref<String>("normal");
-const tabModel = ref<String>("dynamicTable");
+
 const rightPanel = ref<boolean>(false);
 const normalRightPanel = ref<boolean>(true);
 const currentComp = ref<any>();
@@ -45,6 +46,7 @@ const props = defineProps({
   batchFieldName: {type: String, default: "batchFieldList"},
   primaryKey: {type: String, required: true},
   rules: {type: Object, required: true},
+  showCompList: {type: Object, required: true},
   showDbList: {type: Object, required: false},
   //table,normal,其他待定
   compType: {type: String, default: "normal"},
@@ -53,9 +55,11 @@ const props = defineProps({
   panelStyle: {type: String, default: "normal"},
   customerItems: {type: Array as PropType<CustomerItem[]>, default: []}
 });
+const tabModel = computed(() => props.showCompList ? "dynamicTable" : "dbList");
 const emits = defineEmits(["config", "lineClick", "nodeClick", "save", "validation", "preview"]);
 let compAttr = ref({});
 provide("dataForm", compAttr);
+const dataForm = defineModel("dataForm");
 const jsonData = ref<String>();
 const dataPreviewVisible = ref<boolean>(false);
 let activeItem = computed(() => props.activeCollapse);
@@ -607,12 +611,13 @@ const getCellnfo = (cell: any) => {
     let from = sourceInfo.fieldName || sourceInfo.name || sourceInfo.id;
     let fromLabel = sourceInfo.label;
     let fromType = sourceInfo.compType;
-    let fromPort = sourcePort.attrs?.name?.text || sourcePort.group || sourcePort.id;
+    let fromPort = sourcePort.attrs?.name?.text || sourcePort.attrs?.fieldName?.text || sourcePort.id;
     let toId = targetNode.id;
     let to = targetInfo.fieldName || targetInfo.name || sourceInfo.id;
     let toLabel = targetInfo.label;
     let toType = targetInfo.compType;
-    let toPort = targetPort?.attrs?.name?.text || sourcePort.group || targetPort.id;
+    console.log(sourcePort, targetPort);
+    let toPort = targetPort?.attrs?.name?.text || targetPort?.attrs?.fieldName?.text || targetPort.id;
     return {
       fromId, from, fromLabel, fromPort, fromType, fromData: sourceInfo,
       toId, to, toLabel, toPort, toType, toData: targetInfo
@@ -642,7 +647,7 @@ let nodeIndex = 0;
 const dragDrop = (evt: DragEvent) => {
   let dt = evt.dataTransfer!;
   let data = JSON.parse(dt.getData("text/plain")) as NodeInfo;
-  let fdata = nodeList.value.filter((item: any) => item.store.data["fieldName"] == data["fieldName"]);
+  let fdata = nodeList.value.filter((item: any) => item.store.data["name"] == data["name"]);
   if (fdata?.length >= 3) {
     warning("相同的组件最多能添加三次");
     return;
@@ -651,15 +656,28 @@ const dragDrop = (evt: DragEvent) => {
   data["posX"] = evt.pageX;
   data["posY"] = evt.pageY;
   //有items 数据
-  if (data["items"]) {
+  if (Object.keys(data).includes("items")) {
     data["shape"] = "er-rect";
     data["compType"] = "table";
   } else {
     data["shape"] = "custom-rect";
     //创建普通节点
   }
-  let cell = designGraph.addNode(data);
-  nodeList.value.push(cell);
+  //如果网络慢可能还没有数据回来
+  if (Object.keys(data).includes("items") && data["items"]?.length == 0) {
+    load("数据解析中");
+    data["items"] = consumerView.getTableInfo(data["name"]);
+    setTimeout(() => {
+      let cell = designGraph.addNode(data);
+      nodeList.value.push(cell);
+      closeLoad();
+    }, 500)
+  } else {
+    let cell = designGraph.addNode(data);
+    nodeList.value.push(cell);
+  }
+
+
 };
 
 const dragOver = (evt: DragEvent) => {
@@ -750,7 +768,7 @@ defineExpose({
   <div class="design-content">
     <div class="comp-list" v-show="leftPanelVisible&&!readonly">
       <el-tabs v-model="tabModel">
-        <el-tab-pane name="dynamicTable">
+        <el-tab-pane name="dynamicTable" v-if="showCompList">
           <template #label>
             <star-horse-icon icon-class="setting"
                              style="color: var(--star-horse-style)"/>&nbsp;<span>组件</span>

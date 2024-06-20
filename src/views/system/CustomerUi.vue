@@ -49,8 +49,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       fieldName: "idCustomer",
       type: "long",
       required: true,
-      formShow: false,
-      tableShow: false,
+
+
       minWidth: 180
     },
     {
@@ -66,9 +66,9 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       label: "主体编码",
       fieldName: "customerCode",
       type: "input",
-      disabled: 1,
-      required: false,
-      formShow: false,
+      disabled:"Y",
+
+
       tableShow: !false,
       minWidth: 180
     },
@@ -76,7 +76,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       label: "Logo",
       fieldName: "customerLogo",
       type: "icon",
-      required: false,
+
       formShow: !false,
       tableShow: !false,
       minWidth: 180,
@@ -86,7 +86,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       label: "主体描述",
       fieldName: "customerDesc",
       type: "textarea",
-      required: false,
+
       formShow: !false,
       tableShow: !false,
       minWidth: 180
@@ -94,93 +94,93 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
 
     {
-      label: "创建人", disabled: 1,
+      label: "创建人", disabled:"Y",
       fieldName: "createdBy",
       type: "input",
-      required: false,
-      formShow: !true,
-      tableShow: !true,
+
+
+
       minWidth: 180
     },
     {
-      label: "修改人", disabled: 1,
+      label: "修改人", disabled:"Y",
       fieldName: "updatedBy",
       type: "input",
-      required: false,
-      formShow: !true,
-      tableShow: !true,
+
+
+
       minWidth: 180
     },
     {
       label: "创建时间",
       fieldName: "createdDate",
       type: "date",
-      required: false,
-      formShow: !true,
-      tableShow: !true,
+
+
+
       minWidth: 180
     },
     {
       label: "修改时间",
       fieldName: "updatedDate",
       type: "date",
-      required: false,
-      formShow: !true,
-      tableShow: !true,
+
+
+
       minWidth: 180
     },
     {
       label: "版本号",
       fieldName: "version",
       type: "number",
-      required: false,
-      formShow: !true,
-      tableShow: !true,
+
+
+
       minWidth: 180
     },
     {
       label: "是否逻辑删除",
       fieldName: "isDel",
       type: "number",
-      required: false,
-      formShow: !true,
-      tableShow: !true,
+
+
+
       minWidth: 180
     },
     {
       label: "数据编号",
       fieldName: "dataNo",
       type: "input",
-      required: false,
-      formShow: !true,
-      tableShow: !true,
+
+
+
       minWidth: 180
     },
     {
       label: "状态码",
       fieldName: "statusCode",
       type: "input",
-      required: false,
-      formShow: !true,
-      tableShow: !true,
+
+
+
       minWidth: 180
     },
     {
       label: "状态名称",
       fieldName: "statusName",
       type: "input",
-      required: false,
-      formShow: !true,
-      tableShow: !true,
+
+
+
       minWidth: 180
     },
     {
       label: "国际码",
       fieldName: "local",
       type: "input",
-      required: false,
-      formShow: !true,
-      tableShow: !true,
+
+
+
       minWidth: 180
     },
   ],
@@ -193,9 +193,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 const primaryKey = "idCustomer";
 const customerRef = ref();
 //校验
-const rules = {
-
-};
+const rules = {};
 const searchForm = ref({});
 //全局查询对象
 provide("searchForm", searchForm);
@@ -236,7 +234,8 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
 
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form v-model:data-form="dataForm" @refresh="customerRef.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList" :rules="rules"/>
+    <star-horse-form v-model:data-form="dataForm" @refresh="customerRef.loadByPage()" :compUrl="dataUrl"
+                     :fieldList="tableFieldList" :rules="rules"/>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title=
       "'查看数据'" :isView="true">

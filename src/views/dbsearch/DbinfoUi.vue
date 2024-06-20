@@ -37,107 +37,105 @@ const tableFieldList = reactive({
   fieldList: [
     {
       label: "主键", fieldName: "idDbinfo", type: "long",
-      required: false, formShow: false,
-      tableShow: false, minWidth: 180
+
+
     },
     {
       label: "数据库类型", fieldName: "dbType", type: "select", optionList: dbTypeList,
       required: true, formShow: !false,
-      tableShow: !false, minWidth: 180
+      tableShow: !false
     },
     {
       label: "数据库地址", fieldName: "host", type: "input",
-      required: false, formShow: !false,
-      tableShow: !false, minWidth: 180
+       formShow: !false,
+      tableShow: !false
     },
     {
       label: "数据库名称", fieldName: "dbName", type: "input",
-      required: false, formShow: !false,
-      tableShow: !false, minWidth: 180
+       formShow: !false,
+      tableShow: !false
     },
     {
       label: "数据库端口", fieldName: "port", type: "number",
-      required: false, formShow: !false,
-      tableShow: !false, minWidth: 180
+       formShow: !false,
+      tableShow: !false
     },
     {
       label: "用户名", fieldName: "userName", type: "input",
-      required: false, formShow: !false,
-      tableShow: !false, minWidth: 180
+       formShow: !false,
+      tableShow: !false
     },
     {
       label: "密码", fieldName: "password", type: "password",
-      required: false, formShow: !false,
-      tableShow: !false, minWidth: 180
+       formShow: !false,
+      tableShow: !false
     },
     {
       label: "禁用操作权限", fieldName: "exclusions", type: "textarea",
-      required: false, formShow: !false,
-      tableShow: !false, minWidth: 180
+       formShow: !false,
+      tableShow: !false
     },
     {
       label: "数据库描述", fieldName: "dbComment", type: "textarea",
-      required: false, formShow: !false,
-      tableShow: !false, minWidth: 180
+       formShow: !false,
+      tableShow: !false
     },
     {
-      label: "创建人", disabled: "yes", fieldName: "createdBy", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+      label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
+
+
     },
     {
-      label: "修改人", disabled: "yes", fieldName: "updatedBy", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+      label: "修改人", disabled: "Y", fieldName: "updatedBy", type: "input",
+
+
     },
     {
-      label: "创建日期", disabled: "yes", fieldName: "createdDate", type: "date",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+      label: "创建日期", disabled: "Y", fieldName: "createdDate", type: "date",
+
+
     },
     {
-      label: "修改日期", disabled: "yes", fieldName: "updatedDate", type: "date",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+      label: "修改日期", disabled: "Y", fieldName: "updatedDate", type: "date",
+
+
     },
     {
       label: "数据版本号", fieldName: "version", type: "number",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "是否已逻辑", fieldName: "isDel", type: "number",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "数据编号", fieldName: "dataNo", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "状态码", fieldName: "statusCode", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "状态码名称", fieldName: "statusName", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "国际码", fieldName: "local", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
   ],
   batchFieldList: []
 });
 const primaryKey = "idDbinfo";
 const dbinfoRef = ref();
-const rules = {
-
-};
+const rules = {};
 
 provide("searchForm", searchForm);
 const dataForm = ref({});
@@ -179,7 +177,8 @@ const dataFormat = (name: string, cellValue: Object): any => {
 </style>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form v-model:data-form="dataForm" @refresh="dbinfoRef.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList" :rules="rules"/>
+    <star-horse-form v-model:data-form="dataForm" @refresh="dbinfoRef.loadByPage()" :compUrl="dataUrl"
+                     :fieldList="tableFieldList" :rules="rules"/>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title=
       "'查看数据'" :is-view="true">

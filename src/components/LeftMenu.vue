@@ -93,9 +93,10 @@ watch(() => props.sysemId,
   </div>
 </template>
 <style lang="scss" scoped>
-.popper-class{
+.popper-class {
   background: var(--star-horse-style);
 }
+
 .starhorse-menu {
   height: 100%;
   width: 100%;

@@ -4,7 +4,7 @@
         v-for="(item,index) in menuList"
         v-show="!item.hide"
         :key="index"
-        :class="{'no-enable':!item.enable, 'active': index === activeIndex}"
+        :class="{'N-enable':!item.enable, 'active': index === activeIndex}"
         @mousemove.stop="closeMenuMove(index)"
         @mouseup.stop="closeMenu(index)"
     >
@@ -101,7 +101,7 @@
 </script>
 
 <style lang="scss" scoped="scoped">
-.no-enable {
+.N-enable {
   color: #8F8F8F !important;
   cursor: default !important;
 

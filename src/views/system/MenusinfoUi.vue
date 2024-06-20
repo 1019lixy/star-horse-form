@@ -76,98 +76,98 @@ let menuIconList = ref<SelectOption[]>([]);
 const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [{
     label: "主键", fieldName: "idMenusinfo", type: "long",
-    required: false, formShow: false,
-    tableShow: false, minWidth: 180
+
+
   },
     [{
       label: "菜单名称", fieldName: "menuName", type: "input",
       required: true, formShow: !false,
-      tableShow: !false, minWidth: 180
+      tableShow: !false
     },
       {
         label: "菜单路径", fieldName: "menuPath", type: "input",
         required: true, formShow: !false,
-        tableShow: !false, minWidth: 180
+        tableShow: !false
       }],
     [{
       label: "归属应用名称", fieldName: "informationsSingleId", type: "select", optionList: informationsList,
-      required: true, formShow: !false, disabled: 1,
-      tableShow: !false, minWidth: 180
+      required: true, formShow: !false, disabled:"Y",
+      tableShow: !false
     },
       {
         label: "父菜单", fieldName: "parentNo", type: "tselect", optionList: parentMenus,
-        required: false, formShow: !false,
-        tableShow: false, minWidth: 180
+         formShow: !false,
+
       }],
     {
       label: "菜单编码", fieldName: "menuCode", type: "input",
-      required: true, formShow: false, disabled: 1,
-      tableShow: !false, minWidth: 180
+      required: true, disabled:"Y",
+      tableShow: !false
     },
     [{
       label: "菜单图标", fieldName: "menuIcon", type: "icon", optionList: menuIconList,
       required: true, formShow: !false,
-      tableShow: !false, minWidth: 180
+      tableShow: !false
     },
       {
         label: "排序", fieldName: "dataIndex", type: "number",
         required: true, formShow: !false,
-        tableShow: !false, minWidth: 180
+        tableShow: !false
       }],
     {
       label: "菜单描述", fieldName: "menuDesc", type: "textarea",
-      required: false, formShow: !false,
-      tableShow: !false, minWidth: 180
+       formShow: !false,
+      tableShow: !false
     },
     {
-      label: "创建人", disabled: 1, fieldName: "createdBy", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+      label: "创建人", disabled:"Y", fieldName: "createdBy", type: "input",
+
+
     },
     {
-      label: "修改人", disabled: 1, fieldName: "updatedBy", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+      label: "修改人", disabled:"Y", fieldName: "updatedBy", type: "input",
+
+
     },
     {
-      label: "创建日期", disabled: 1, fieldName: "createdDate", type: "date",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+      label: "创建日期", disabled:"Y", fieldName: "createdDate", type: "date",
+
+
     },
     {
-      label: "修改日期", disabled: 1, fieldName: "updatedDate", type: "date",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+      label: "修改日期", disabled:"Y", fieldName: "updatedDate", type: "date",
+
+
     },
     {
       label: "数据版本号", fieldName: "version", type: "number",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "是否已逻辑", fieldName: "isDel", type: "number",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "数据编号", fieldName: "dataNo", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "状态码", fieldName: "statusCode", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "状态码名称", fieldName: "statusName", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "国际码", fieldName: "local", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
   ],
   batchFieldList: [],
@@ -175,9 +175,7 @@ const tableFieldList = reactive<PageFieldInfo>({
   cellEditable: true
 });
 const primaryKey = "idMenusinfo";
-const rules = {
-
-};
+const rules = {};
 const searchForm = ref({});
 provide("searchForm", searchForm);
 const dataForm = ref({});
@@ -299,9 +297,11 @@ const checkChange = (data: TreeNodeData, checked: boolean) => {
 
 </style>
 <template>
-  <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps" :self-func="true"
+  <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps"
+                     :self-func="true"
                      @merge="merge" @mergeDraft="mergeDraft" @resetForm="resetForm">
-    <star-horse-form v-model:data-form="dataForm" :compUrl="dataUrl" :fieldList="tableFieldList" :primaryKey="primaryKey" :rules="rules"
+    <star-horse-form v-model:data-form="dataForm" :compUrl="dataUrl" :fieldList="tableFieldList"
+                     :primaryKey="primaryKey" :rules="rules"
                      ref="menuFormRef"/>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title="'查看数据'"

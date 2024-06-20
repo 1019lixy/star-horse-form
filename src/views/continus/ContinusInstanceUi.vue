@@ -1,9 +1,9 @@
-
 <script setup lang="ts" name="ContinusInstanceUi">
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {onMounted, provide, reactive, ref} from "vue";
 import {SearchProps} from "@/components/types/SearchProps.d.ts";
 import {Config} from "@/api/settings.js";
+
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/devops-continus/continus/continusInstance/pageList",
   mergeUrl: "/devops-continus/continus/continusInstance/merge",
@@ -27,99 +27,99 @@ const tableFieldList = reactive({
   fieldList: [
     {
       label: "主键", fieldName: "idContinusInst", type: "long",
-      required: false, formShow: false,
-      tableShow: false, minWidth: 180
+
+
     }, {
       label: "实例名称", fieldName: "instanceName", type: "input",
       required: true, formShow: !false,
-      tableShow: !false, minWidth: 180
+      tableShow: !false
     },
     [{
       label: "模板", fieldName: "template", type: "input",
-      required: false, formShow: !false,
-      tableShow: !false, minWidth: 180
+       formShow: !false,
+      tableShow: !false
     },
       {
         label: "是否独占 1是 2否 默认2", fieldName: "isAlone", type: "number",
-        required: false, formShow: !false,
-        tableShow: !false, minWidth: 180
+         formShow: !false,
+        tableShow: !false
       }],
     [{
       label: "关联计划", fieldName: "linkDataPlan", type: "input",
       required: true, formShow: !false,
-      tableShow: !false, minWidth: 180
+      tableShow: !false
     },
 
       {
         label: "Cron定时触发执行", fieldName: "cron", type: "cron",
         required: true, formShow: !false,
-        tableShow: !false, minWidth: 180
+        tableShow: !false
       }],
     [{
       label: "代码下载后存放目录", fieldName: "targetDir", type: "input",
       required: true, formShow: !false,
-      tableShow: !false, minWidth: 180
+      tableShow: !false
     },
       {
         label: "是否自动触发构建 1是 2否 默认2", fieldName: "autoBuild", type: "input",
         required: true, formShow: !false,
-        tableShow: !false, minWidth: 180
+        tableShow: !false
       }],
 
     {
       label: "备注", fieldName: "remark", type: "textarea",
-      required: false, formShow: true,
-      tableShow: !true, minWidth: 180
+       formShow: true,
+
     },
     {
-      label: "创建人", disabled: "yes", fieldName: "createdBy", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+      label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
+
+
     },
     {
-      label: "修改人", disabled: "yes", fieldName: "updatedBy", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+      label: "修改人", disabled: "Y", fieldName: "updatedBy", type: "input",
+
+
     },
     {
-      label: "创建日期", disabled: "yes", fieldName: "createdDate", type: "date",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+      label: "创建日期", disabled: "Y", fieldName: "createdDate", type: "date",
+
+
     },
     {
-      label: "修改日期", disabled: "yes", fieldName: "updatedDate", type: "date",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+      label: "修改日期", disabled: "Y", fieldName: "updatedDate", type: "date",
+
+
     },
     {
       label: "数据版本号", fieldName: "version", type: "number",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "是否已逻辑", fieldName: "isDel", type: "number",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "数据编号", fieldName: "dataNo", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "状态码", fieldName: "statusCode", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "状态码名称", fieldName: "statusName", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
     {
       label: "国际码", fieldName: "local", type: "input",
-      required: false, formShow: !true,
-      tableShow: !true, minWidth: 180
+
+
     },
   ],
   batchFieldList: []
@@ -157,7 +157,8 @@ onMounted(async () => {
 
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form v-model:data-form="dataForm" @refresh="environmentInfoRef.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList"
+    <star-horse-form v-model:data-form="dataForm" @refresh="environmentInfoRef.loadByPage()" :compUrl="dataUrl"
+                     :fieldList="tableFieldList"
                      :rules="rules"/>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title=

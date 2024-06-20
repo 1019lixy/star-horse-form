@@ -1,11 +1,11 @@
 <template>
-  <starhorse-form-item :isDesign="context.attrs['isDesign']"  :form-item = "field" :parentField = "parentField"
+  <starhorse-form-item :isDesign="context.attrs['isDesign']" :form-item="field" :parentField="parentField"
   >
-    <audio :fid = "field.preps['name']" id = "audio" controls></audio>
+    <audio :fid="field.preps['name']" id="audio" controls></audio>
   </starhorse-form-item>
 </template>
 
-<script lang = "ts" name = "audioItem">
+<script lang="ts" name="audioItem">
 import {defineComponent, onMounted, shallowRef} from "vue";
 import {blobData} from "@/api/star_horse";
 

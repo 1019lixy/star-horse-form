@@ -5,8 +5,8 @@ export const DynamicForm: any = defineStore("DynamicForm", {
     state: () => {
         return {
             dataForm: {} as Object,
-            selectData: null as Object | Array<object>,
-            dataId: null as Number | String
+            selectData: null as any,
+            dataId: null as any
         }
     },
     getters: {
@@ -60,10 +60,11 @@ export const DynamicForm: any = defineStore("DynamicForm", {
          * @param data
          */
         addBatchData(batchName: string, data: any) {
-            let batchDatas = this.dataForm[batchName];
+            let _this = this;
+            let batchDatas: Array<any> = _this.dataForm[batchName] as Array<any>;
             if (!batchDatas || batchDatas.length == 0) {
-                this.dataForm[batchName] = [];
-                batchDatas = this.dataForm[batchName];
+                _this.dataForm[batchName] = [];
+                batchDatas = _this.dataForm[batchName];
             }
             batchDatas.push(data);
         },
@@ -166,7 +167,7 @@ export const DynamicForm: any = defineStore("DynamicForm", {
                 }
                 let bakeValue = data[sourceField];
                 delete this.dataForm[sourceField];
-                this.dataForm[distField] = newValue|| bakeValue;
+                this.dataForm[distField] = newValue || bakeValue;
                 return true;
             };
             if (batchDatas instanceof Object) {
