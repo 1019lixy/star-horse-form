@@ -5,6 +5,7 @@
         :fid="field.preps['name']"
         :readonly="field.preps['readonly']=='Y'"
         :show-checkbox="field.preps['showCheckbox']=='Y'"
+        :check-strictly="field.preps['checkStrictly']=='Y'"
         :clearable="field.preps['clearable']=='Y'"
         :collapse-tags="field.preps['collapseTags']=='Y'"
         :collapse-tags-tooltip="field.preps['collapseTagsTooltip']=='Y'"

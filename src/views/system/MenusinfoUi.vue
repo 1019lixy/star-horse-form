@@ -91,17 +91,19 @@ const tableFieldList = reactive<PageFieldInfo>({
       }],
     [{
       label: "归属应用名称", fieldName: "informationsSingleId", type: "select", optionList: informationsList,
-      required: true, formShow: !false, disabled:"Y",
+      required: true, formShow: !false, disabled: "Y",
       tableShow: !false
     },
       {
         label: "父菜单", fieldName: "parentNo", type: "tselect", optionList: parentMenus,
-         formShow: !false,
-
+        formShow: !false,
+        preps: {
+          checkStrictly: "Y"
+        }
       }],
     {
       label: "菜单编码", fieldName: "menuCode", type: "input",
-      required: true, disabled:"Y",
+      required: true, disabled: "Y",
       tableShow: !false
     },
     [{
@@ -116,26 +118,26 @@ const tableFieldList = reactive<PageFieldInfo>({
       }],
     {
       label: "菜单描述", fieldName: "menuDesc", type: "textarea",
-       formShow: !false,
+      formShow: !false,
       tableShow: !false
     },
     {
-      label: "创建人", disabled:"Y", fieldName: "createdBy", type: "input",
+      label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
 
 
     },
     {
-      label: "修改人", disabled:"Y", fieldName: "updatedBy", type: "input",
+      label: "修改人", disabled: "Y", fieldName: "updatedBy", type: "input",
 
 
     },
     {
-      label: "创建日期", disabled:"Y", fieldName: "createdDate", type: "date",
+      label: "创建日期", disabled: "Y", fieldName: "createdDate", type: "date",
 
 
     },
     {
-      label: "修改日期", disabled:"Y", fieldName: "updatedDate", type: "date",
+      label: "修改日期", disabled: "Y", fieldName: "updatedDate", type: "date",
 
 
     },
@@ -198,7 +200,7 @@ const loadMenuBySystemId = async (loadAll: boolean) => {
       "propertyName": "informationsSingleId",
       "value": dataForm.value["informationsSingleId"]
     }];
-    let {data, error} = await loadData(dataUrl.userConditionUrl, params);
+    let {data, error} = await loadData("/system-config/system/menusinfoEntity/getAllTreeDataByCondition/false", params);
     if (data) {
       parentMenus.value = createTree(data, "dataNo", "menuName", "idMenusinfo");
     }
