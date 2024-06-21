@@ -127,6 +127,9 @@ const compPreps = () => {
       let temp = {
         ...item
       };
+      if (item.prefix) {
+        temp["fieldName"] = item.prefix + "." + temp["fieldName"];
+      }
       temp["defaultShow"] = true;
       if (item?.type == "input" && !item['matchType']) {
         temp["matchType"] = "lk";

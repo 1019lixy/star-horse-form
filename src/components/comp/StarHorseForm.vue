@@ -238,6 +238,10 @@ defineExpose({
   </el-form>
 </template>
 <style lang="scss" scoped>
+:deep(.el-form-item__label) {
+  min-width: 100px;
+}
+
 :deep(.el-tabs) {
   height: 100%;
   display: flex;

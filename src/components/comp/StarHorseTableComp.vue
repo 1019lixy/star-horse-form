@@ -699,7 +699,7 @@ defineExpose({
       :total="pageInfo.totalData"
       @current-change="pageChangeClick"
       @size-change="pageSizeClick"
-      :small="true"
+      :small="compSize=='small'"
       layout="total, sizes, prev, pager, next, jumper"
       v-model:currentPage="pageInfo.currentPage"
       v-model:page-size="pageInfo.pageSize"
@@ -707,8 +707,6 @@ defineExpose({
   />
 </template>
 <style lang="scss" scoped>
-
-
 .warning-row {
   background: #8f8f8f;
 }

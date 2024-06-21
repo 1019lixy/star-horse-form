@@ -160,6 +160,10 @@ export declare interface FieldInfo {
      * 组件个性化属性
      */
     preps?: Object;
+    /**
+     * 查询表前缀
+     */
+    prefix?: string;
 }
 
 /**
