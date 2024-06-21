@@ -15,6 +15,7 @@
         :show-word-limit="field.preps['showWordLimit']=='Y'"
         :size="field?.preps['size']||'small'"
         type="textarea"
+        :resize="field?.preps['resize']||'--'"
         v-on:[actionName]="keyEnterFun(field.preps['actionName'])"
         @keydown.enter="keyEnterFun"
         @focus="keyEnterFun('focus')"
@@ -46,7 +47,7 @@ export default defineComponent({
       if (prep == actionName.value && field.preps["actionRelation"]) {
         field.preps["actionRelation"](context.attrs['formFieldList'][field.preps['name']], context.attrs['formFieldList']["xh"]);
       }
-      context.emit('selfFunc', prep);
+      context.emit('selfFunc', (prep instanceof KeyboardEvent) ? prep.code.toLowerCase() : prep || actionName.value);
     };
     onMounted(() => {
       actionName.value = field.preps["actionName"];

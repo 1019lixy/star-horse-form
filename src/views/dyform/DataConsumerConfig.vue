@@ -2,7 +2,7 @@
 import {computed, nextTick, onMounted, ref, watch} from "vue";
 import {Cell} from "@antv/x6";
 import type {TreeNode, TreeNodeData} from 'element-plus/es/components/tree-v2/src/types'
-import {closeLoad, dictData, load, loadGetData, searchMatchList} from "@/api/sh_api";
+import {closeLoad, dictData, load, loadData, loadGetData, loadRolesInfo} from "@/api/sh_api";
 import {error, success, warning} from "@/utils/message";
 import {postRequest} from "@/api/star_horse";
 import {SelectOption} from "@/components/types/SearchProps";
@@ -44,13 +44,14 @@ const initDiagram = () => {
 };
 let viewTypeList = ref<SelectOption[]>();
 let conditionList = ref<SelectOption[]>();
-let matchTypeList = ref<SelectOption[]>();
+// let matchTypeList = ref<SelectOption[]>();
+let consumeAuthorityList = ref<SelectOption[]>();
 const init = async () => {
   initDiagram();
   // let {data, error} = await loadData("/userdb-manage/userdb/dynamicForm/modelList", {});
   viewTypeList.value = await dictData("consumer_type");
   conditionList.value = await dictData("consumer_relation_condition");
-  matchTypeList.value = searchMatchList();
+  consumeAuthorityList.value = await loadRolesInfo([]);
   // if (error) {
   //   warning(error);
   //   return;
@@ -222,7 +223,7 @@ const loadConfigData = async (configId: string | LocationQueryValue[]) => {
 //加载数据
   await nextTick();
   isView.value = route.query["isView"] == "Y";
-  let {data, error} = await loadGetData(dataUrl.loadByIdUrl + "/" + configId);
+  let {data, error} = await loadData(dataUrl.loadByIdUrl + "/" + configId,{});
   if (error) {
     warning(error);
     return;
@@ -429,7 +430,7 @@ const nodeOperation = (cell: any) => {
                      @closeAction="closeAction"
                      @reset="resetDataSourceForm" :selfFunc="true">
     <star-horse-form ref="dataSourceFormRef" v-model:data-form="formProps" :compUrl="dataUrl"
-                     :fieldList="viewFieldInfo(viewTypeList,viewConfigInfo)"
+                     :fieldList="viewFieldInfo(viewTypeList,consumeAuthorityList,viewConfigInfo)"
                      :rules="{}"/>
   </star-horse-dialog>
   <el-card class="inner_content" style="height: 100%;padding: 5px;">
