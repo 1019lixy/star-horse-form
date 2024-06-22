@@ -76,8 +76,6 @@ let menuIconList = ref<SelectOption[]>([]);
 const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [{
     label: "主键", fieldName: "idMenusinfo", type: "long",
-
-
   },
     [{
       label: "菜单名称", fieldName: "menuName", type: "input",
@@ -114,6 +112,12 @@ const tableFieldList = reactive<PageFieldInfo>({
       {
         label: "排序", fieldName: "dataIndex", type: "number",
         required: true, formShow: !false,
+        tableShow: !false
+      },
+      {
+        label: "是否缓存页面", fieldName: "keepAlive", type: "switch",
+        defaultValue: "Y",
+        formShow: !false,
         tableShow: !false
       }],
     {

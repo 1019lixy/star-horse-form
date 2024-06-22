@@ -127,10 +127,17 @@ const configInfo = computed(() => configStore.configFormInfo);
         </el-aside>
         <el-main class="star-horse-main  animate__animated animate__bounceInUp">
           <tags-view v-if="configInfo.tagsView=='Y'"/>
-          <router-view v-slot="{ Component }" class="animate__animated animate__fadeIn">
+<!--          <router-view v-slot="{ Component }" class="animate__animated animate__fadeIn">
             <transition name="solid">
               <keep-alive :include="viewListStore.getViewCache">
                 <component :is="Component"/>
+              </keep-alive>
+            </transition>
+          </router-view>-->
+          <router-view v-slot="{ Component, route }">
+            <transition name="router-fade" mode="out-in">
+              <keep-alive :include="viewListStore.cachedViews">
+                <component :is="Component" :key="route.fullPath" />
               </keep-alive>
             </transition>
           </router-view>
