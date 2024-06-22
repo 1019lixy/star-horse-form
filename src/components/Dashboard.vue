@@ -19,7 +19,7 @@ import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 
 let configStore = GlobalConfig(piniaInstance);
 const route = router.getRoutes().find(item => item.path == "/home");
-let viewListStore = viewList();
+let viewListStore = viewList(piniaInstance);
 const navBarListStore = navBarList(piniaInstance);
 let isCollapse = ref<boolean>(true);
 let sysemId = ref<string>("-1");
@@ -127,20 +127,21 @@ const configInfo = computed(() => configStore.configFormInfo);
         </el-aside>
         <el-main class="star-horse-main  animate__animated animate__bounceInUp">
           <tags-view v-if="configInfo.tagsView=='Y'"/>
-<!--          <router-view v-slot="{ Component }" class="animate__animated animate__fadeIn">
+          <router-view v-slot="{ Component }" class="animate__animated animate__fadeIn">
             <transition name="solid">
-              <keep-alive :include="viewListStore.getViewCache">
+              <!--              :include="viewListStore.getViewCache"          -->
+              <keep-alive>
                 <component :is="Component"/>
               </keep-alive>
             </transition>
-          </router-view>-->
-          <router-view v-slot="{ Component, route }">
-            <transition name="router-fade" mode="out-in">
-              <keep-alive :include="viewListStore.cachedViews">
-                <component :is="Component" :key="route.fullPath" />
-              </keep-alive>
-            </transition>
           </router-view>
+          <!--          <router-view v-slot="{ Component, route }">
+                      <transition name="router-fade" mode="out-in">
+                        <keep-alive :include="viewListStore.cachedViews">
+                          <component :is="Component" :key="route.fullPath"/>
+                        </keep-alive>
+                      </transition>
+                    </router-view>-->
           <div class="main-copyright">{{ i18n("starhorse.copyright") }}</div>
         </el-main>
       </el-container>

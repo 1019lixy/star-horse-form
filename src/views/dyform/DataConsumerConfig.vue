@@ -1,5 +1,5 @@
 <script setup lang="ts" name="DataConsumerConfig">
-import {computed, nextTick, onMounted, ref, watch} from "vue";
+import {computed, nextTick, onMounted, ref, unref, watch} from "vue";
 import {Cell} from "@antv/x6";
 import type {TreeNode, TreeNodeData} from 'element-plus/es/components/tree-v2/src/types'
 import {closeLoad, dictData, load, loadData, loadGetData, loadRolesInfo} from "@/api/sh_api";
@@ -14,6 +14,7 @@ import {CustomerItem} from "@/components/types/CompInfo.d.ts";
 import {consumerNodeData, relationFieldInfo, table_width, viewFieldInfo} from "@/views/dyform/utils/DataConsumer.ts";
 import {ConsumerView} from "@/store/ConsumerViewStore.ts";
 import piniaInstance from "@/store";
+import {tableColumns} from "@/views/dbsearch/utils/DbSearchUtils.ts";
 
 const route = useRoute();
 const isView = ref<boolean>(false);
@@ -79,50 +80,61 @@ onMounted(() => {
   init();
 });
 let cells = ref<Array<Cell>>([]);
-const addNode = (data: TreeNodeData, node: TreeNode, e: MouseEvent) => {
-  let reData = JSON.parse(JSON.stringify(data));
-  console.log(reData, cells.value);
-  let fdata = cells.value.filter((item: any) => item.store.data["tableName"] == reData["key"]);
-  if (fdata?.length >= 3) {
-    warning("相同的表最多能添加三次");
-    return;
-  }
-  let len = cells.value.length;
-  let x = (len % 4) * 350 + 15;
-  let y = Math.floor(len / 4) * 400 + 10;
-
-  let ports = [];
-
-  let items = reData["items"];
-  for (let index in items) {
-    let temp = items[index];
-    let field = {
-      group: "list",
-      "attrs": {}
-    };
-    for (let key in temp) {
-      field["attrs"][key] = {"text": temp[key]};
-    }
-    ports.push(field);
-  }
+const addNode = (data: any, columns: Array<any>, index: number = 0) => {
+  console.log(data, columns, cells.value);
+  let x = data.posX || (index % 4) * 350 + 450;
+  let y = data.posY || Math.floor(index / 4) * 100 + 150;
   let datat = {
+    items: columns,
+    compType: "table",
     "shape": "er-rect",
-    "label": `${reData["comment"]}:${reData["key"]} `,
-    "name": reData["key"],
+    "label": data["key"],
+    "tableName": data["key"],
+    "name": data["key"],
     "width": table_width,
-    position: {
-      x: x,
-      y: y,
-    },
-    "height": 24,
-    "ports": ports
+    posX: x,
+    posY: y,
   };
-  let cell = containerDiagramRef.value.addNode(datat);
-  if (cell) {
-    cells.value.push(cell);
-  }
-
+  cells = containerDiagramRef.value.addNode(datat);
+  console.log(cells);
 };
+/**
+ * 创建表之间的连线
+ * @param tableName 表名
+ * @param column 列明
+ */
+const addLine = (fromTable: string, fromKey: string, toTable: string, toKey: string) => {
+  let nodes = unref(cells);
+  const filterNode = (tableName: string) => {
+    return nodes.find(item => item.getData().name == tableName);
+  }
+  const filterPort = (ports: Array<any>, column: string) => {
+    return ports.find(item => item.attrs?.fieldName?.text == column).id;
+  }
+  let fromNode = filterNode(fromTable);
+  let fromPorts = fromNode?.getPorts();
+  let fromId = filterPort(fromPorts, fromKey);
+  let toNode = filterNode(toTable);
+  let toPorts = toNode?.getPorts();
+  let toId = filterPort(toPorts, toKey);
+  let edge = containerDiagramRef.value.graph.addEdge({
+    source: {
+      cell: fromNode!.id,
+      port: fromId,
+    },
+    target: {
+      cell: toNode!.id,
+      port: toId
+    },
+    "attrs": {
+      "line": {
+        "stroke": "var(--star-horse-style)",
+        "strokeWidth": 2
+      }
+    }
+  });
+  cells.value.push(edge);
+}
 const newCreate = () => {
   cells.value = [];
   containerDiagramRef.value.graph.clearCells();
@@ -223,12 +235,14 @@ const loadConfigData = async (configId: string | LocationQueryValue[]) => {
 //加载数据
   await nextTick();
   isView.value = route.query["isView"] == "Y";
-  let {data, error} = await loadData(dataUrl.loadByIdUrl + "/" + configId,{});
+  let {data, error} = await loadData(dataUrl.loadByIdUrl + "/" + configId, {});
   if (error) {
     warning(error);
     return;
   }
   newCreate();
+  let dbCfgId = data.dataSourceConfigId;
+  consumerView.setDbConfigId(dbCfgId);
   formProps.value = data;
   formProps.value["sortFields"] = JSON.parse(data["sortFields"]);
   formProps.value["limitFields"] = JSON.parse(data["limitFields"]);
@@ -237,22 +251,25 @@ const loadConfigData = async (configId: string | LocationQueryValue[]) => {
   //把关系加入舞台
   for (let index in relationDatas) {
     let temp = relationDatas[index];
-
-    let fdata = getRelationTable(treeData.value, temp.fromTable) as Array<any>;
-    if (parseInt(index) == 0) {
-      addNode(fdata, {} as TreeNode, {} as MouseEvent);
+    let tbColumns = await tableColumns(dbCfgId, temp.fromTable);
+    addNode({comment: temp.fromTable, key: temp.fromTable, posX: temp.fromPosX, posY: temp.fromPosY}, tbColumns, 0);
+    if (temp.toTable) {
+      tbColumns = await tableColumns(dbCfgId, temp.toTable);
+      addNode({comment: temp.toTable, key: temp.toTable, posX: temp.toPosX, posY: temp.toPosY}, tbColumns, 1);
+      //创建连线
+      addLine(temp.fromTable, temp.fromField, temp.toTable, temp.toField);
     }
-
-    fdata = getRelationTable(treeData.value, temp.toTable) as Array<any>;
-    addNode(fdata, {} as TreeNode, {} as MouseEvent);
-    //获取最新添加的两个节点Key
-
+  }
+  if (cells.value.length > 0) {
+    console.log(cells.value);
+    containerDiagramRef.value.graph.resetCells(cells.value);
   }
 
 };
 const createMergeData = () => {
   let configInfo = viewConfigInfo.value;
   let relations = configInfo.relations;
+  console.log(configInfo);
   let tables = configInfo.tables;
   if (!relations && tables.length > 1) {
     warning("两张表之间必须要设置关联关系");
@@ -265,11 +282,17 @@ const createMergeData = () => {
       let temp = relations[index];
       subData.push({
         fromTable: temp.from,
+        fromLabel: temp.fromLabel,
         fromKey: "from" + index,
         fromField: temp.fromPort,
         toTable: temp.to,
+        toLabel: temp.toLabel,
         toKey: "to" + index,
-        toField: temp.toPort
+        toField: temp.toPort,
+        fromPosX: temp.fromData.posX,
+        fromPosY: temp.fromData.posY,
+        toPosX: temp.toData.posX,
+        toPosY: temp.toData.posY,
       });
     }
   } else {

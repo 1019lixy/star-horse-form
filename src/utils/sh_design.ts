@@ -130,7 +130,7 @@ const ports = {
                 circle: {
                     r: 4,
                     magnet: true,
-                    stroke: '#5F95FF',
+                    stroke: "var(--star-horse-style)",
                     strokeWidth: 1,
                     fill: '#fff',
                     style: {
@@ -145,7 +145,7 @@ const ports = {
                 circle: {
                     r: 4,
                     magnet: true,
-                    stroke: '#5F95FF',
+                    stroke: "var(--star-horse-style)",
                     strokeWidth: 1,
                     fill: '#fff',
                     style: {
@@ -160,7 +160,7 @@ const ports = {
                 circle: {
                     r: 4,
                     magnet: true,
-                    stroke: '#5F95FF',
+                    stroke: "var(--star-horse-style)",
                     strokeWidth: 1,
                     fill: '#fff',
                     style: {
@@ -175,7 +175,7 @@ const ports = {
                 circle: {
                     r: 4,
                     magnet: true,
-                    stroke: '#5F95FF',
+                    stroke: "var(--star-horse-style)",
                     strokeWidth: 1,
                     fill: '#fff',
                     style: {
@@ -300,7 +300,7 @@ const configInfo = {
                 ],
                 attrs: {
                     line: {
-                        stroke: '#A2B1C3',
+                        stroke: "var(--star-horse-style)",
                         strokeWidth: 2,
                         targetMarker: {
                             name: 'block',

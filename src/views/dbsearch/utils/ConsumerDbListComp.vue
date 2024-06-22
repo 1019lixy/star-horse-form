@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {computed, onMounted, provide, ref, unref} from "vue";
+import {computed, onMounted, provide, ref, unref, watch} from "vue";
 import {initDbList, openDatabase, tableColumns} from "@/views/dbsearch/utils/DbSearchUtils.ts";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store";
@@ -11,7 +11,7 @@ import {ConsumerView} from "@/store/ConsumerViewStore.ts";
 let configStore = GlobalConfig(piniaInstance);
 const consumerView = ConsumerView(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.buttonSize || "small");
-let dbIndex = ref<any>(null);
+//let dbIndex = ref<any>(null);
 const filterTableName = ref<String>("");
 const tbTab = ref<String>("tb1");
 let assignDataList = ref<Array<any>>([]);
@@ -21,6 +21,7 @@ let tableAndColumnsList = ref<any>([]);
 let currentIndex = ref<any>(null);
 
 const dataForm = ref({});
+
 let currentData = ref<any>({});
 //全局数据对象
 provide("dataForm", dataForm);
@@ -126,6 +127,18 @@ const dratStart = (item: any, evt: DragEvent) => {
   console.log(item);
   dt.setData("text/plain", JSON.stringify(item));
 };
+let dbIndex = ref<string>("");
+let dbConfigId = computed(() => consumerView.dbConfigId);
+watch(() => dbConfigId.value,
+    (val: string) => {
+      if (val != dbIndex.value) {
+        dbIndex.value = val;
+        openDb();
+      }
+    }, {
+      immediate: true,
+      deep: true
+    });
 const configMsg = `操作指引：
 1、此处配置主要是对字段展示方式,排除字段和组件类型做配置；
 1、表字段在添加到舞台前需要做配置，配置好后再拖入舞台，

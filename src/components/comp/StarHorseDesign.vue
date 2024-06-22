@@ -663,6 +663,15 @@ const dragDrop = (evt: DragEvent) => {
     data["shape"] = "custom-rect";
     //创建普通节点
   }
+  addNode(data);
+
+};
+
+/**
+ * 添加节点
+ * @param data
+ */
+const addNode = (data: any) => {
   //如果网络慢可能还没有数据回来
   if (Object.keys(data).includes("items") && data["items"]?.length == 0) {
     load("数据解析中");
@@ -676,10 +685,8 @@ const dragDrop = (evt: DragEvent) => {
     let cell = designGraph.addNode(data);
     nodeList.value.push(cell);
   }
-
-
-};
-
+  return nodeList;
+}
 const dragOver = (evt: DragEvent) => {
   evt.preventDefault();
 }
@@ -755,7 +762,9 @@ watch(() => compAttr.value,
     }
 )
 defineExpose({
-  graph, registerPort, registerNode, nodeList, getEdgeInfo: getCellnfo, edgeList, changeLabelText
+  graph, registerPort, registerNode, nodeList,
+  getEdgeInfo: getCellnfo, edgeList, changeLabelText,
+  addNode
 })
 </script>
 

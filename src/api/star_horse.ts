@@ -225,7 +225,7 @@ export function createRouterAndMenuList(redata: Array<Object>): MenusInfo[] {
                     menuIcon: item.menuIcon,
                     title: item.menuName,
                     menuId: item.idMenusinfo ? prefix + item.idMenusinfo : prefix + (sindex++),
-                    keepAlive: item.keepAlive || false
+                    keepAlive: item.keepAlive
                 },
             });
             if (path.indexOf("/page/") == -1) {

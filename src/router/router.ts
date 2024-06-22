@@ -14,34 +14,16 @@ routers.push({
             meta: {
                 menuIcon: "house",
                 title: "系统首页",
-                keepAlive: false
+                keepAlive: "N"
             }
         },
-        /*{
-            path: "/continus/instanceDetail",
-            name: "ContinusInstanceDetail",
-            component: () => import("@/views/continus/ContinusInstanceDetail.vue"),
-            meta: {
-                title: "流水线详情",
-                keepAlive: false
-            }
-        }, {
-            path: "/continus/instanceInit",
-            name: "ContinusInstanceInit",
-            component: () => import("@/views/continus/ContinusInstanceInit.vue"),
-            meta: {
-                title: "流水线配置",
-                keepAlive: false
-            }
-
-        }, */
         {
             path: "/dict_list",
             name: "DictinfoUi",
             component: () => import("@/views/system/DictinfoUI.vue"),
             meta: {
                 title: "数据字典详情",
-                keepAlive: false
+                keepAlive: "N"
             }
         }, {
             path: "/tab/page/:param",
@@ -50,7 +32,7 @@ routers.push({
             meta: {
                 title: "动态表单实例",
                 menuIcon: "folder",
-                keepAlive: true
+                keepAlive: "Y"
             }
         }, {
             path: "/general/page/:param",
@@ -59,7 +41,7 @@ routers.push({
             meta: {
                 title: "动态表单实例",
                 menuIcon: "position",
-                keepAlive: true
+                keepAlive: "Y"
             }
         }, {
             path: "/formtb/page/:param",
@@ -68,7 +50,7 @@ routers.push({
             meta: {
                 title: "动态表单实例",
                 menuIcon: "list",
-                keepAlive: true
+                keepAlive: "Y"
             }
         }, {
             path: "/view/page/:param",
@@ -77,7 +59,7 @@ routers.push({
             meta: {
                 title: "动态视图",
                 menuIcon: "list",
-                keepAlive: true
+                keepAlive: "Y"
             }
         }, {
             path: '/redirect',
@@ -86,33 +68,18 @@ routers.push({
             meta: {noCache: true}
         }],
     meta: {
-        title: "主页",
-        keepAlive: false
+        title: "首页",
+        keepAlive: "N"
     }
 });
-/*routers.push({
-    path: '/redirect',
-    component: () => import("@/components/Dashboard.vue"),
-    name: 'Redirect',
-    children: [
-        {
-            path: '/redirect/:path(.*)',
-            name: 'Redirect',
-            component: () => import('@/views/utils/Redirect.vue'),
-            meta: {}
-        }
-    ],
-    meta: {
-        noCache: true,
-    }
-});*/
+
 
 routers.push({
     path: "/login",
     component: () => import("@/components/Login.vue"),
     name: "登录",
     meta: {
-        keepAlive: false,
+        keepAlive: "N",
         title: "系统登录"
     }
 }, {
@@ -120,7 +87,7 @@ routers.push({
     component: () => import("@/components/404.vue"),
     name: "404",
     meta: {
-        keepAlive: false,
+        keepAlive: "N",
         title: "404页面"
     }
 });

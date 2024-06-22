@@ -29,9 +29,8 @@ const assignTitle = (meta: any) => {
 router.beforeEach((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
     assignTitle(to.meta);
     start();
-    let menus = JSON.parse(JSON.stringify(userInfoStore.dynamicMenus));
-
-    console.log(to, menus, localStorage.getItem("userInfoStore"));
+   // let menus = JSON.parse(JSON.stringify(userInfoStore.dynamicMenus));
+   // console.log(to, menus, localStorage.getItem("userInfoStore"));
     if (getToken()) {
         // 已登录且要跳转的页面是登录页
         if (to.path === "/login") {
@@ -89,16 +88,18 @@ router.afterEach((to, from) => {
         //动态表单路由，导航信息拼接
         if (to.path.indexOf("page/") != -1) {
             let menuLists = localStorage.getItem("dynamicMenusLists");
-            let menus = JSON.parse(menuLists);
-            let fdata = menus.find((item: any) => item.path == to.path);
-            to.meta = fdata?.meta || to.meta;
+            if (menuLists) {
+                let menus = JSON.parse(menuLists);
+                let fdata = menus.find((item: any) => item.path == to.path);
+                to.meta = fdata?.meta || to.meta;
+            }
         }
         let keepAlive = to.meta?.keepAlive;
         assignTitle(to.meta);
         if (!to.meta.noCache) {
             navBarListStore.addNavBar(to);
         }
-        if (keepAlive) {
+        if (keepAlive == "Y") {
             viewListStore.setViewCache(to);
         }
     }
