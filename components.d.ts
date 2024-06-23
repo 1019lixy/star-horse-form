@@ -77,7 +77,6 @@ declare module 'vue' {
     ElTabs: typeof import('element-plus/es')['ElTabs']
     ElTag: typeof import('element-plus/es')['ElTag']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
-    ElTransfer: typeof import('element-plus/es')['ElTransfer']
     ElUpload: typeof import('element-plus/es')['ElUpload']
     EvolInput: typeof import('./src/components/formcomp/container/evol-input.vue')['default']
     ExcelItem: typeof import('./src/components/formcomp/items/excel-item.vue')['default']

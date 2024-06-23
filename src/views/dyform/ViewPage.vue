@@ -17,6 +17,7 @@ let designForm = DesignForm(piniaInstance);
 const router = useRouter();
 const props = defineProps({
   param: {type: String, required: true},
+  isPreview: {type: Boolean, default: false}
 });
 const dataUrl = ref<ApiUrls>({
   uploadUrl: "",
@@ -49,7 +50,7 @@ const rules = ref<any>({});
 const hasData = ref<boolean>(false);
 const formInfo = ref<any>({});
 const previewDatas = ref<any>({});
-
+const starHorseTableCompRef = ref();
 const clear = () => {
   hasData.value = false;
 };
@@ -160,17 +161,17 @@ const dataFormat = (name: string, cellValue: Object): any => {
       />
     </star-horse-dialog>
     <el-card class="inner_content">
-      <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
-        <star-horse-search-comp @searchData="(data)=>starHorseTableCompRef.createCreateParams(data)"
+      <div class="search_btn" :style="{'display':'flex', 'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
+        <star-horse-search-comp @searchData="(data:any)=>starHorseTableCompRef.createCreateParams(data)"
                                 :formData="searchFormData"
                                 :compUrl="dataUrl"/>
-        <hr/>
-        <star-horse-button-list @tableCompFunc="(fun)=>starHorseTableCompRef.tableCompFunc(fun)" :viewFlag="true"
+        <hr v-if="Config.buttonStyle.value=='line'"/>
+        <star-horse-button-list @tableCompFunc="(fun:any)=>starHorseTableCompRef.tableCompFunc(fun)" :viewFlag="true"
                                 :compUrl="dataUrl" :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
       </div>
       <hr>
       <DataPreview ref="starHorseTableCompRef" :item="previewDatas" :columns="columnList" @exportData="exportData"
-                   @changePage="loadFormData"/>
+                   @changePage="loadFormData" :isPreview="isPreview"/>
     </el-card>
   </template>
 

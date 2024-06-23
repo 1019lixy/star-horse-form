@@ -253,9 +253,7 @@ export function closeLoad() {
  */
 export async function loadPagePermission() {
     let permission = {};
-    console.log(useRouter());
     let meta = useRoute()?.meta;
-    console.log(meta);
     let menuId = meta?.menuId as string;
     if (!menuId) {
         return permission;

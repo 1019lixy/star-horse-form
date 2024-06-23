@@ -1,8 +1,7 @@
 <script setup lang="ts" name="DataConsumerConfig">
 import {computed, nextTick, onMounted, ref, unref, watch} from "vue";
 import {Cell} from "@antv/x6";
-import type {TreeNode, TreeNodeData} from 'element-plus/es/components/tree-v2/src/types'
-import {closeLoad, dictData, load, loadData, loadGetData, loadRolesInfo} from "@/api/sh_api";
+import {closeLoad, dictData, load, loadData, loadRolesInfo} from "@/api/sh_api";
 import {error, success, warning} from "@/utils/message";
 import {postRequest} from "@/api/star_horse";
 import {SelectOption} from "@/components/types/SearchProps";
@@ -45,33 +44,12 @@ const initDiagram = () => {
 };
 let viewTypeList = ref<SelectOption[]>();
 let conditionList = ref<SelectOption[]>();
-// let matchTypeList = ref<SelectOption[]>();
 let consumeAuthorityList = ref<SelectOption[]>();
 const init = async () => {
   initDiagram();
-  // let {data, error} = await loadData("/userdb-manage/userdb/dynamicForm/modelList", {});
   viewTypeList.value = await dictData("consumer_type");
   conditionList.value = await dictData("consumer_relation_condition");
   consumeAuthorityList.value = await loadRolesInfo([]);
-  // if (error) {
-  //   warning(error);
-  //   return;
-  // }
-  // customerItems.value?.push({
-  //   name: "db",
-  //   title: "自定义表组件",
-  //   compItems: data["dataList"]
-  // });
-  // customerItems.value?.push({
-  //   name: "flow",
-  //   title: "流程组件",
-  //   compItems: [
-  //     {label: "组件1", name: "box_print", icon: "drag"},
-  //     {label: "组件2", name: "data_trans", icon: "equal"},
-  //     {label: "组件3", name: "data_test", icon: "edit"},
-  //   ]
-  // });
-  // containerDiagramRef.value.createStencil(null, data["dataList"], "er-rect");
   if (route.query["configId"]) {
     loadConfigData(route.query["configId"]);
   }
@@ -241,7 +219,7 @@ const loadConfigData = async (configId: string | LocationQueryValue[]) => {
     return;
   }
   newCreate();
-  let dbCfgId = data.dataSourceConfigId;
+  let dbCfgId = data["dataSourceConfigId"];
   consumerView.setDbConfigId(dbCfgId);
   formProps.value = data;
   formProps.value["sortFields"] = JSON.parse(data["sortFields"]);
@@ -438,7 +416,7 @@ const nodeOperation = (cell: any) => {
   <star-horse-dialog :dialogVisible="dataPreviewVisible" :title="'数据预览'"
                      @closeAction="closeAction"
                      :isBatch="false" :isView="true">
-    <DataPreview :item="previewDatas" :columns="columnList" @changePage="dataList"/>
+    <DataPreview :item="previewDatas" :columns="columnList" @changePage="dataList" :isPriview="true"/>
   </star-horse-dialog>
   <star-horse-dialog :dialogVisible="relationDialogVisible" :title="'关系配置'" :isBatch="false"
                      @merge="conditionValid"

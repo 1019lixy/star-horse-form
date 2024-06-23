@@ -118,7 +118,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "long",
 
 
-
       minWidth: 180
     },
     {
@@ -154,7 +153,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "date",
 
 
-
       minWidth: 180
     },
 
@@ -162,7 +160,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       label: "状态吗",
       fieldName: "statusCode",
       type: "input",
-
 
 
       minWidth: 180
@@ -173,7 +170,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "input",
 
 
-
       minWidth: 180
     },
     {
@@ -182,14 +178,12 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "long",
 
 
-
       minWidth: 180
     },
     {
       label: "国际码",
       fieldName: "local",
       type: "input",
-
 
 
       minWidth: 180
@@ -292,8 +286,9 @@ const changePage = (currentPage: number, pageSize: number) => {
 <template>
   <star-horse-dialog :dialogVisible="dialogProps.bakeVisible1" :title="'数据预览'"
                      @closeAction="closeAction"
+                     :box-width="'70%'"
                      :isBatch="false" :isView="true">
-    <ViewPage :param="currentRow.dataNo"/>
+    <ViewPage :param="currentRow.dataNo" :isPreview="true"/>
   </star-horse-dialog>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
     <star-horse-form v-model:data-form="dataForm" @refresh="dynamicFormConsumerConfigRef.loadByPage()"

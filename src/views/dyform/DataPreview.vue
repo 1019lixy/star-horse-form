@@ -4,7 +4,8 @@ import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 
 const props = defineProps({
   item: {type: Object, default: {}},
-  columns: {type: Array<any>, default: []}
+  columns: {type: Array<any>, default: []},
+  isPreview: {type: Boolean, default: false},
 });
 const emits = defineEmits(["changePage", "exportData"]);
 const viewDataPreviewRef = ref();
@@ -72,7 +73,7 @@ defineExpose({
           :strip="true"
           :fit="true"
           :highlight-current-row="true"
-          max-height="400px"
+          min-height="400px"
           row-key="prop"
           style="width: 100%"
           border
@@ -131,7 +132,7 @@ defineExpose({
       :stripe="true"
       :fit="true"
       row-key="pop"
-      :height="400"
+      :height="isPreview?400:'100%'"
       :highlight-current-row="true"
       :row-style="{
       height: '30px',
