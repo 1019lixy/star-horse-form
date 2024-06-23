@@ -241,7 +241,7 @@ const loadConfigData = async (configId: string | LocationQueryValue[]) => {
     return;
   }
   newCreate();
-  let dbCfgId = data.dataSourceConfigId;
+  let dbCfgId = data["dataSourceConfigId"];
   consumerView.setDbConfigId(dbCfgId);
   formProps.value = data;
   formProps.value["sortFields"] = JSON.parse(data["sortFields"]);
