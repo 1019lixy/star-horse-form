@@ -125,29 +125,37 @@ const searchArea = () => {
             </el-select>&nbsp;&nbsp;
           </template>
           <star-horse-item :dataForm="searchForm" :compSize="compSize" :item="item" :isSearch="true"
-                           @dataSearch="dataSearch" isEdit="true">
+                           @dataSearch="dataSearch" :isEdit="true">
           </star-horse-item>
         </el-form-item>
       </template>
-      <el-form-item label="     ">
-        <el-button @click="dataSearch" style="background: var(--star-horse-style);color: var(--star-horse-white)"
-                   :size="compSize">
-          <star-horse-icon icon-class="search" color="var(--star-horse-white)"/>
-          <span style="vertical-align: middle"> 查询 </span>
-        </el-button>
-        <el-button @click="dataSearch('reset')" link :size="compSize">
-          <span style="vertical-align: middle"> 重置 </span>
-        </el-button>
-        &nbsp;&nbsp;
-        <el-tooltip :content="tips" v-if="showTips">
-          <star-horse-icon :icon-class="sarchIcon" size="20px" color="var(--star-horse-style)" cursor="pointer"
-                           @click="searchArea"/>
-        </el-tooltip>
-      </el-form-item>
     </el-form>
+    <div class="search_btn">
+      <el-button @click="dataSearch" style="background: var(--star-horse-style);color: var(--star-horse-white)"
+                 :size="compSize">
+        <star-horse-icon icon-class="search" color="var(--star-horse-white)"/>
+        <span style="vertical-align: middle"> 查询 </span>
+      </el-button>
+      <el-button @click="dataSearch('reset')" link :size="compSize">
+        <span style="vertical-align: middle"> 重置 </span>
+      </el-button>
+      &nbsp;&nbsp;
+      <el-tooltip :content="tips" v-if="showTips">
+        <star-horse-icon :icon-class="sarchIcon" size="20px" color="var(--star-horse-style)" cursor="pointer"
+                         @click="searchArea"/>
+      </el-tooltip>
+    </div>
   </div>
 </template>
 <style lang="scss" scoped>
+:deep(.el-form-item__label) {
+  min-width: 80px;
+}
+
+:deep(.el-form-item__label):last-child {
+  max-width: 5px;
+}
+
 :deep(.el-form-item) {
   margin-bottom: 3px;
 }
@@ -158,6 +166,7 @@ const searchArea = () => {
 
 .search_content {
   display: flex;
+  flex-direction: column;
 
   .search_area {
     display: flex;
@@ -165,6 +174,13 @@ const searchArea = () => {
     flex-direction: row;
     flex: 1;
     flex-shrink: 0;
+  }
+
+  .search_btn {
+    display: flex;
+    margin-top: 5px;
+    align-items: center;
+    justify-content: center;
   }
 }
 </style>

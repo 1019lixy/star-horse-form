@@ -21,19 +21,29 @@ export async function viewColumns(param: string) {
             let temp = columns[key];
             for (let j in temp) {
                 let stemp = temp[j];
-                if (stemp.primaryFlag == "Y") {
+                if (stemp.primaryKey == "Y") {
                     continue;
                 }
                 formDatas.push({
                     label: stemp.comment,
-                    fieldName: key + "&" + stemp.name,
-                    type: stemp.type,
+                    fieldName: key + "&" + stemp.fieldName,
+                    type: convertType(stemp.type),
+                    defaultShow: stemp.tableShow,
                     matchType: "lk"
                 })
             }
         }
     });
     return {formDatas, columns}
+};
+const convertType = (type: string) => {
+    if (type.includes("int") || type.includes("num")) {
+        return "number";
+    } else if (type.includes("date") || type.includes("time")) {
+        return "datetime";
+    } else {
+        return "input";
+    }
 };
 
 /**
