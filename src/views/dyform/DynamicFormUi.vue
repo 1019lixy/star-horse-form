@@ -6,7 +6,7 @@ import {SearchProps} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {BtnAuth} from "@/components/types/BtnAuth";
 import {useRouter} from "vue-router";
-import {loadData} from "@/api/sh_api";
+import {getMenuId, loadData, loadPagePermission} from "@/api/sh_api";
 import {Config} from "@/api/settings";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
@@ -48,33 +48,7 @@ const loadFormData = async (formId: any) => {
   designForm.setFormInfo(data);
 
 }
-const initData = async () => {
-  selfBtnFunc.value?.push({
-    labelName: "新增",
-    btnName: "add", exec: () => {
-      router.push("/dyform/DynamicForm");
-    }
-  });
-  selfBtnFunc.value?.push({
-    labelName: "编辑",
-    btnName: "edit", exec: (params: any) => {
-      //params 页面刷新后 参数丢失，query 页面刷新后参数不会丢失
-      router.push({
-        path: "/dyform/DynamicForm",
-        query: {formId: params[primaryKey], parentId: params["parentId"] || 0}
-      });
-    }
-  });
-  selfBtnFunc.value?.push({
-    labelName: "查看详情",
-    btnName: "view", exec: (params: any) => {
-      loadFormData(params[primaryKey]);
-    }
-  });
-};
-onMounted(() => {
-  initData();
-})
+
 const searchFormData = reactive<SearchProps[]>([
   {label: "表单名称", fieldName: "formName", defaultShow: true, type: "input", matchType: "lk"},
   {label: "创建时间", fieldName: "createDate", defaultShow: true, type: "date", matchType: "bt"},
@@ -199,11 +173,9 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "状态码名称", fieldName: "statusName", type: "input",
 
-
     },
     {
       label: "国际码", fieldName: "local", type: "input",
-
 
     },
   ],
@@ -234,7 +206,7 @@ const dialogProps = reactive<DialogProps>({
   bakeVisible3: false,
   viewVisible: false
 });
-provide("dialogProps", dialogProps);
+provide("dialogProps", dialogProps);let permissions = ref<any>({});
 
 const addSubForm = (params: any) => {
   console.log(params);
@@ -243,6 +215,35 @@ const addSubForm = (params: any) => {
 const dataFormat = (name: string, cellValue: any, row: any): any => {
   return cellValue == "Y" ? "是" : cellValue == "N" ? "否" : cellValue;
 }
+const initData = async () => {
+  permissions.value = await loadPagePermission(getMenuId())
+  selfBtnFunc.value?.push({
+    labelName: "新增",
+    btnName: "add", exec: () => {
+      router.push("/dyform/DynamicForm");
+    }
+  });
+  selfBtnFunc.value?.push({
+    labelName: "编辑",
+    btnName: "edit", exec: (params: any) => {
+      //params 页面刷新后 参数丢失，query 页面刷新后参数不会丢失
+      router.push({
+        path: "/dyform/DynamicForm",
+        query: {formId: params[primaryKey], parentId: params["parentId"] || 0}
+      });
+    }
+  });
+  selfBtnFunc.value?.push({
+    labelName: "查看详情",
+    btnName: "view", exec: (params: any) => {
+      loadFormData(params[primaryKey]);
+    }
+  });
+
+};
+onMounted(async () => {
+  await  initData();
+})
 </script>
 <style lang="scss" scoped>
 
@@ -283,12 +284,12 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
       <star-horse-search-comp @searchData="(data:any)=>dynamicFormRef.createCreateParams(data)" :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
-      <star-horse-button-list @tableCompFunc="(fun:any)=>dynamicFormRef.tableCompFunc(fun)" :selfBtnFunc="selfBtnFunc"
+      <star-horse-button-list :permissions="permissions"  @tableCompFunc="(fun:any)=>dynamicFormRef.tableCompFunc(fun)" :selfBtnFunc="selfBtnFunc"
                               :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
     <hr>
-    <star-horse-table-comp ref="dynamicFormRef" :fieldList="tableFieldList" :primaryKey="primaryKey" :compUrl=
+    <star-horse-table-comp :permissions="permissions"   ref="dynamicFormRef" :fieldList="tableFieldList" :primaryKey="primaryKey" :compUrl=
         "dataUrl" :dataFormat="dataFormat" :selfBtnFunc="selfBtnFunc"/>
   </el-card>
 </template>

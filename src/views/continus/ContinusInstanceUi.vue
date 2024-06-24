@@ -3,6 +3,9 @@ import {ApiUrls} from "@/components/types/ApiUrls";
 import {onMounted, provide, reactive, ref} from "vue";
 import {SearchProps} from "@/components/types/SearchProps.d.ts";
 import {Config} from "@/api/settings.js";
+import {DialogProps} from "element-plus";
+import {DialogInput} from "@/components/types/PageFieldInfo";
+import {getMenuId, loadPagePermission} from "@/api/sh_api.ts";
 
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/devops-continus/continus/continusInstance/pageList",
@@ -131,7 +134,7 @@ const rules = {};
 
 const dataForm = ref({});
 provide("dataForm", dataForm);
-const dialogProps = reactive<DialogProps>({
+const dialogProps = reactive<DialogInput>({
   bakeVisible1: false, bakeVisible2: false, bakeVisible3: false,
   ids: 0,
   batchDialogTitle: "批量编辑",
@@ -142,12 +145,13 @@ const dialogProps = reactive<DialogProps>({
   viewVisible: false,
 });
 provide("dialogProps", dialogProps);
+let permissions = ref<any>({});
 const dataFormat = (name: string, cellValue: Object): any => {
 
   return cellValue;
 }
 const init = async () => {
-
+  permissions.value = await loadPagePermission(getMenuId())
 };
 
 onMounted(async () => {
@@ -171,10 +175,12 @@ onMounted(async () => {
                               :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
-      <star-horse-button-list @tableCompFunc="(fun:any)=>environmentInfoRef.tableCompFunc(fun)" :compUrl="dataUrl"
+      <star-horse-button-list :permissions="permissions"
+                              @tableCompFunc="(fun:any)=>environmentInfoRef.tableCompFunc(fun)" :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
-    <star-horse-table-comp ref="environmentInfoRef" :fieldList="tableFieldList" :primaryKey="primaryKey"
+    <star-horse-table-comp :permissions="permissions" ref="environmentInfoRef" :fieldList="tableFieldList"
+                           :primaryKey="primaryKey"
                            :compUrl="dataUrl"
                            :dataFormat="dataFormat" @selectItem="selectItemFun"/>
   </el-card>

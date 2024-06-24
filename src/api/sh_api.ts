@@ -1,7 +1,7 @@
 import {SearchParams} from "@/components/types/Params";
-import {reactive, ShallowRef} from "vue";
+import {nextTick, reactive, ShallowRef} from "vue";
 import {ElLoading} from "element-plus";
-import {useRoute} from "vue-router";
+import router from "@/router";
 import {getRequest, permissionResources, postRequest} from "@/api/star_horse";
 import {confirm, error, success, warning} from "@/utils/message";
 import {SelectOption} from "@/components/types/SearchProps";
@@ -247,18 +247,25 @@ export function closeLoad() {
     }
 }
 
-/**
- * 加载权限
- */
-export async function loadPagePermission() {
-    let permission = {};
-    let meta = useRoute()?.meta;
+export function getMenuId() {
+    // let temp = router.currentRoute();
+    console.log(router.currentRoute);
+    let meta = router.currentRoute.value?.meta;
     let menuId = meta?.menuId as string;
     if (!menuId) {
-        return permission;
+        return "";
     }
-
     menuId = menuId.split("_")[1];
+    return menuId;
+}
+
+/**
+ * 加载权限
+ * @param menuId 菜单id
+ */
+export async function loadPagePermission(menuId: string) {
+    console.log(menuId);
+    let permission = {};
     let data = {"menuId": menuId};
     await permissionResources(data).then(res => {
         let redata = res.data.data;
@@ -267,8 +274,15 @@ export async function loadPagePermission() {
         });
     });
     return permission
-};
+}
 
+/**
+ * 公共数据格式化
+ * @param row
+ * @param column
+ * @param cellValue
+ * @param index
+ */
 export function commonDataFormat(row: any, column: any, cellValue: any, index: number) {
     return commonParseCodeToName(column.property, cellValue);
 }

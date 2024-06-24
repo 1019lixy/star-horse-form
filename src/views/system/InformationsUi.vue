@@ -5,7 +5,7 @@ import {Config} from "@/api/settings";
 import {DialogProps} from "@/components/types/DialogProps"
 import {onMounted, provide, reactive, ref} from "vue";
 import {SearchProps, SelectOption} from "@/components/types/SearchProps";
-import {loadCustomInfo, loadElementPlusIcon, loadSystemInfo} from "@/api/sh_api";
+import {getMenuId, loadCustomInfo, loadElementPlusIcon, loadPagePermission, loadSystemInfo} from "@/api/sh_api";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {postRequest} from "@/api/star_horse";
 
@@ -27,17 +27,7 @@ const dataUrl: ApiUrls = {
 };
 let systemIconList = ref<SelectOption[]>([]);
 let customerList = ref<SelectOption[]>([]);
-const initData = async () => {
-  let params = [{propertyName: "statusCode", value: "1"}]
-  const datas = await loadSystemInfo(params);
-  const customs = await loadCustomInfo(params);
-  informationsList.value = datas;
-  customerList.value = customs;
-  systemIconList.value = loadElementPlusIcon();
-}
-onMounted(() => {
-  initData();
-});
+
 const searchFormData = reactive<SearchProps[]>([
   {label: "归属主体", fieldName: "idCustomer", type: "select", optionList: customerList},
   {label: "系统名称", defaultShow: true, fieldName: "sysName", type: "input", matchType: "lk"},
@@ -172,6 +162,7 @@ const dialogProps = reactive<DialogProps>({
 
 });
 provide("dialogProps", dialogProps);
+let permissions = ref<any>({});
 const dataFormat = (name: string, cellValue: Object): any => {
   if (name == "parentId") {
     let fdata: SelectOption = informationsList.value.find((item: SelectOption) => item.value == cellValue);
@@ -182,6 +173,18 @@ const dataFormat = (name: string, cellValue: Object): any => {
   }
   return cellValue;
 };
+const initData = async () => {
+  let params = [{propertyName: "statusCode", value: "1"}]
+  const datas = await loadSystemInfo(params);
+  const customs = await loadCustomInfo(params);
+  informationsList.value = datas;
+  customerList.value = customs;
+  permissions.value = await loadPagePermission(getMenuId())
+  systemIconList.value = loadElementPlusIcon();
+}
+onMounted(async () => {
+  await initData();
+});
 </script>
 <style>
 
@@ -198,14 +201,17 @@ const dataFormat = (name: string, cellValue: Object): any => {
   </star-horse-dialog>
   <el-card class="inner_content">
     <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
-      <star-horse-search-comp @searchData="(data:any)=>informationsRef.createCreateParams(data)" :formData="searchFormData"
+      <star-horse-search-comp @searchData="(data:any)=>informationsRef.createCreateParams(data)"
+                              :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
-      <star-horse-button-list @tableCompFunc="(fun:any)=>informationsRef.tableCompFunc(fun)" :compUrl="dataUrl"
+      <star-horse-button-list :permissions="permissions" @tableCompFunc="(fun:any)=>informationsRef.tableCompFunc(fun)"
+                              :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
     <hr>
-    <star-horse-table-comp ref="informationsRef" :fieldList="tableFieldList" :primaryKey="primaryKey" :compUrl="dataUrl"
+    <star-horse-table-comp :permissions="permissions" ref="informationsRef" :fieldList="tableFieldList"
+                           :primaryKey="primaryKey" :compUrl="dataUrl"
                            :dataFormat="dataFormat"/>
   </el-card>
 </template>

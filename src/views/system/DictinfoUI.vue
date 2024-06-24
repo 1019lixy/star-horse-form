@@ -8,7 +8,7 @@ import {useRoute} from "vue-router";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {ElTable} from "element-plus";
 import {loadDict} from "@/api/star_horse";
-import {createCondition} from "@/api/sh_api";
+import {createCondition, getMenuId, loadPagePermission} from "@/api/sh_api";
 
 const route = useRoute();
 const tabListRef = ref<InstanceType<typeof ElTable>>();
@@ -27,13 +27,11 @@ const dataUrl: ApiUrls = {
   uploadUrl: "",
   condition: []
 };
-const commonDictList = ref<SelectOption>([]);
+const commonDictList = ref<SelectOption[]>([]);
 const props = defineProps({
   dictType: {type: String, required: true}
 });
-const initData = async () => {
-  commonDictList.value = await loadDict();
-};
+
 let dictType = computed(() => props.dictType);
 const searchFormData = reactive<SearchProps[]>([
   {label: "字典类型", fieldName: "dictType", type: "input", defaultValue: dictType, disabled: "Y"},
@@ -144,10 +142,6 @@ watch(
     }
 );
 
-onMounted(() => {
-  initData();
-
-});
 const dialogProps = reactive<DialogProps>({
   bakeVisible1: false, bakeVisible2: false, bakeVisible3: false,
   ids: 0,
@@ -160,9 +154,17 @@ const dialogProps = reactive<DialogProps>({
 
 });
 provide("dialogProps", dialogProps);
+let permissions = ref<any>({});
 const dataFormat = (name: string, cellValue: Object): any => {
   return cellValue;
 }
+const initData = async () => {
+  permissions.value = await loadPagePermission(getMenuId())
+  commonDictList.value = await loadDict("");
+};
+onMounted(async () => {
+  await initData();
+});
 </script>
 <style lang="scss" scoped>
 
@@ -181,11 +183,13 @@ const dataFormat = (name: string, cellValue: Object): any => {
       <star-horse-search-comp @searchData="(data:any)=>tabListRef.createCreateParams(data)" :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
-      <star-horse-button-list @tableCompFunc="(fun:any)=>tabListRef.tableCompFunc(fun)" :compUrl="dataUrl"
+      <star-horse-button-list :permissions="permissions" @tableCompFunc="(fun:any)=>tabListRef.tableCompFunc(fun)"
+                              :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
     <hr>
-    <star-horse-table-comp ref="tabListRef" :fieldList="tableFieldList" :primaryKey="primaryKey"
+    <star-horse-table-comp :permissions="permissions" ref="tabListRef" :fieldList="tableFieldList"
+                           :primaryKey="primaryKey"
                            :compUrl="dataUrl" :dataFormat="dataFormat"/>
   </el-card>
 </template>

@@ -4,6 +4,7 @@ import {DialogProps} from "@/components/types/DialogProps"
 import {onMounted, provide, reactive, ref} from "vue";
 import {SearchProps} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
+import {getMenuId, loadPagePermission} from "@/api/sh_api.ts";
 
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/devops-continus/continus/complianceScanReport/pageList",
@@ -19,12 +20,7 @@ const dataUrl: ApiUrls = {
   importUrl: "/devops-continus/continus/complianceScanReport/importData",
   uploadUrl: ""
 };
-const initData = async () => {
 
-};
-onMounted(() => {
-  initData();
-});
 
 const searchFormData = reactive<SearchProps[]>([
   {label: "致命总数", fieldName: "blocker", type: "input"},
@@ -171,9 +167,16 @@ const dialogProps = reactive<DialogProps>({
 
 });
 provide("dialogProps", dialogProps);
+let permissions = ref<any>({});
 const dataFormat = (name: string, cellValue: Object): any => {
   return cellValue;
 }
+const initData = async () => {
+  permissions.value = await loadPagePermission(getMenuId())
+};
+onMounted(async () => {
+ await initData();
+});
 </script>
 <style lang="scss" scoped>
 
@@ -191,7 +194,8 @@ const dataFormat = (name: string, cellValue: Object): any => {
     <hr>
     <star-horse-button-list :compUrl="dataUrl" :dialogProps="dialogProps"/>
     <hr>
-    <star-horse-table-comp :fieldList="tableFieldList" :primaryKey="primaryKey" :compUrl="dataUrl"
+    <star-horse-table-comp :permissions="permissions" :fieldList="tableFieldList" :primaryKey="primaryKey"
+                           :compUrl="dataUrl"
                            :dataFormat="dataFormat"/>
   </el-card>
 </template>

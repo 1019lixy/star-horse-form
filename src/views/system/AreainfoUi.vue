@@ -5,6 +5,7 @@ import {DialogProps} from "@/components/types/DialogProps"
 import {onMounted, provide, reactive, ref} from "vue";
 import {SearchProps} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
+import {getMenuId, loadPagePermission} from "@/api/sh_api.ts";
 
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/system-config/system/areainfo/pageList",
@@ -21,8 +22,7 @@ const dataUrl: ApiUrls = {
   uploadUrl: "",
   condition: []
 };
-const initData = async () => {
-};
+
 
 const searchFormData = reactive<SearchProps[]>([{label: "区域主键", fieldName: "idAreainfo", type: "long"},
   {label: "区域名称", defaultShow: true, fieldName: "areaName", type: "input"},
@@ -105,9 +105,13 @@ const dialogProps = reactive<DialogProps>({
   dialogPwdVisible: false
 });
 provide("dialogProps", dialogProps);
+let permissions = ref<any>({});
 const dataFormat = (name: string, cellValue: Object): any => {
   return cellValue;
 }
+const initData = async () => {
+  permissions.value = await loadPagePermission(getMenuId())
+};
 onMounted(() => {
   initData();
 });
@@ -127,11 +131,13 @@ onMounted(() => {
       <star-horse-search-comp @searchData="(data:any)=>areainfoRef.createCreateParams(data)" :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr>
-      <star-horse-button-list @tableCompFunc="(fun:any)=>areainfoRef.tableCompFunc(fun)" :compUrl="dataUrl"
+      <star-horse-button-list :permissions="permissions" @tableCompFunc="(fun:any)=>areainfoRef.tableCompFunc(fun)"
+                              :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
     <hr>
-    <star-horse-table-comp ref="areainfoRef" :fieldList="tableFieldList" :primaryKey="primaryKey" :compUrl="dataUrl"
+    <star-horse-table-comp :permissions="permissions" ref="areainfoRef" :fieldList="tableFieldList"
+                           :primaryKey="primaryKey" :compUrl="dataUrl"
                            :dataFormat="dataFormat"/>
   </el-card>
 </template>

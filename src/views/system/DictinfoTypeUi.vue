@@ -2,14 +2,13 @@
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings";
 import {DialogProps} from "@/components/types/DialogProps"
-import {provide, reactive, ref} from "vue";
+import {onMounted, provide, reactive, ref} from "vue";
 import {SearchProps} from "@/components/types/SearchProps";
-import {useRouter} from "vue-router";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import DictinfoUI from "@/views/system/DictinfoUI.vue";
 import {SearchParams} from "@/components/types/Params";
+import {getMenuId, loadPagePermission} from "@/api/sh_api.ts";
 
-const router = useRouter();
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/system-config/system/dictinfoType/pageList",
   mergeUrl: "/system-config/system/dictinfoType/merge",
@@ -25,9 +24,7 @@ const dataUrl: ApiUrls = {
   uploadUrl: "",
   condition: []
 };
-const initData = async () => {
-};
-initData();
+
 const searchFormData = reactive<SearchProps[]>([
   {label: "字典类型名称", defaultShow: true, fieldName: "dictTypeName", type: "input"},
   {label: "字典类型编码", defaultShow: true, fieldName: "dictTypeCode", type: "input"},
@@ -101,8 +98,6 @@ const tableFieldList = reactive<PageFieldInfo>({
     },
     {
       label: "状态值", fieldName: "statusCode", type: "input",
-
-
     },
   ],
 
@@ -127,6 +122,7 @@ const dialogProps = reactive<DialogProps>({
 
 });
 provide("dialogProps", dialogProps);
+let permissions = ref<any>({});
 const dataFormat = (name: string, cellValue: Object): any => {
   return cellValue;
 }
@@ -139,7 +135,12 @@ const selectItemFun = (row: any) => {
 const searchData = (data: SearchParams[]) => {
   dictTypeRef.value.createCreateParams(data);
 };
-
+const initData = async () => {
+  permissions.value = await loadPagePermission(getMenuId())
+};
+onMounted(async () => {
+  await initData();
+})
 </script>
 <style lang="scss" scoped>
 
@@ -158,11 +159,13 @@ const searchData = (data: SearchParams[]) => {
       <star-horse-search-comp @searchData="(data:any)=>dictTypeRef.createCreateParams(data)" :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
-      <star-horse-button-list @tableCompFunc="(fun:any)=>dictTypeRef.tableCompFunc(fun)" :compUrl="dataUrl"
+      <star-horse-button-list :permissions="permissions" @tableCompFunc="(fun:any)=>dictTypeRef.tableCompFunc(fun)"
+                              :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
     <hr>
-    <star-horse-table-comp ref="dictTypeRef" @selectItem="selectItemFun" :fieldList="tableFieldList"
+    <star-horse-table-comp :permissions="permissions" ref="dictTypeRef" @selectItem="selectItemFun"
+                           :fieldList="tableFieldList"
                            :primaryKey="primaryKey"
                            :compUrl="dataUrl"
                            :dataFormat="dataFormat"/>

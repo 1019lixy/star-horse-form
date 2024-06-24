@@ -4,7 +4,7 @@ import {Config} from "@/api/settings";
 import {DialogProps} from "@/components/types/DialogProps"
 import {nextTick, onMounted, provide, reactive, ref} from "vue";
 import {SearchProps, SelectOption} from "@/components/types/SearchProps";
-import {loadDepartmentInfo, loadMenusInfo, loadSystemInfo} from "@/api/sh_api";
+import {getMenuId, loadDepartmentInfo, loadMenusInfo, loadPagePermission, loadSystemInfo} from "@/api/sh_api";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {BtnAuth} from "@/components/types/BtnAuth";
 import {success, warning} from "@/utils/message";
@@ -39,9 +39,7 @@ let selfBtnFunc = ref<BtnAuth[]>([]);
 const starHorseTableCompRef = ref(null);
 let currentRoleId = ref<Number>(0);
 
-onMounted(() => {
-  initData();
-});
+
 // 0 普通角色 1高级角色 2普通管理员 3 超级管理员 默认 0
 const roleTypes = [{name: "普通角色", value: 0},
   {name: "高级角色", value: 1},
@@ -187,6 +185,7 @@ const dialogProps = reactive<DialogProps>({
 
 });
 provide("dialogProps", dialogProps);
+let permissions = ref<any>({});
 const dataFormat = (name: string, cellValue: any, row: any): any => {
   let data = [] as Array<any>;
 
@@ -319,46 +318,7 @@ const addUsers = async () => {
   await nextTick();
   userResetForm(userIds);
 };
-const initData = async () => {
-  let params: any = [{propertyName: "isDel", value: 0}, {propertyName: "statusCode", value: '1'}];
-  departmentList.value = await loadDepartmentInfo(params);
-  systemList.value = await loadSystemInfo(params);
 
-  selfBtnFunc.value.push({
-    btnName: "auth",
-    labelName: "授权",
-    icon: "card",
-    children: [
-      {
-        labelName: "菜单权限",
-        btnName: "menuAuth",
-        exec: menuAuthority
-      },
-      {
-        labelName: "按钮权限",
-        btnName: "buttonAuth",
-        exec: btnAuthority
-      },
-    ]
-  });
-  selfBtnFunc.value.push({
-    btnName: "user",
-    icon: "user-edit",
-    labelName: "用户",
-    children: [
-      {
-        labelName: "查看用户",
-        btnName: "viewUser",
-        exec: viewUsers
-      },
-      {
-        labelName: "分配用户",
-        btnName: "grantRowToUser",
-        exec: addUsers
-      }
-    ]
-  });
-};
 /**
  * 考虑角色管理 和角色权限分离
  * 增加角色成员，可一件移动角色
@@ -367,12 +327,7 @@ const initData = async () => {
  * 可串联出谋公司下某部门，某公司的某系统等
  *
  */
-const selectedMenuIds = ref([]);
 const menuAuthorityRef = ref();
-const selectMenus = (val: any) => {
-  selectedMenuIds.value = val;
-};
-
 const submit = () => {
   let menuIds: Array<Number> = menuAuthorityRef.value!.getCheckedKeys();
   if (menuIds.length == 0) {
@@ -416,13 +371,56 @@ const userSubmit = () => {
 };
 const query = ref('');
 const onQueryChanged = (query: string) => {
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-expect-error
   menuAuthorityRef.value!.filter(query)
 };
 const filterMethod = (query: string, node: TreeNode) => {
   return node.menuName.toLowerCase()!.includes(query?.toLowerCase());
 };
+const initData = async () => {
+  permissions.value = await loadPagePermission(getMenuId())
+  let params: any = [{propertyName: "isDel", value: 0}, {propertyName: "statusCode", value: '1'}];
+  departmentList.value = await loadDepartmentInfo(params);
+  systemList.value = await loadSystemInfo(params);
+
+  selfBtnFunc.value.push({
+    btnName: "auth",
+    labelName: "授权",
+    icon: "card",
+    children: [
+      {
+        labelName: "菜单权限",
+        btnName: "menuAuth",
+        exec: menuAuthority
+      },
+      {
+        labelName: "按钮权限",
+        btnName: "buttonAuth",
+        exec: btnAuthority
+      },
+    ]
+  });
+  selfBtnFunc.value.push({
+    btnName: "user",
+    icon: "user-edit",
+    labelName: "用户",
+    children: [
+      {
+        labelName: "查看用户",
+        btnName: "viewUser",
+        exec: viewUsers
+      },
+      {
+        labelName: "分配用户",
+        btnName: "grantRowToUser",
+        exec: addUsers
+      }
+    ]
+  });
+
+};
+onMounted(async () => {
+  await initData();
+});
 </script>
 <style lang="scss" scoped>
 
@@ -479,12 +477,14 @@ const filterMethod = (query: string, node: TreeNode) => {
                               :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
-      <star-horse-button-list @tableCompFunc="(fun:any)=>starHorseTableCompRef.tableCompFunc(fun)" :compUrl="dataUrl"
+      <star-horse-button-list :permissions="permissions"
+                              @tableCompFunc="(fun:any)=>starHorseTableCompRef.tableCompFunc(fun)" :compUrl="dataUrl"
                               :selfBtnFunc="selfBtnFunc"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
     <hr>
-    <star-horse-table-comp ref="starHorseTableCompRef" :fieldList="tableFieldList" :primaryKey="primaryKey"
+    <star-horse-table-comp :permissions="permissions" ref="starHorseTableCompRef" :fieldList="tableFieldList"
+                           :primaryKey="primaryKey"
                            :compUrl="dataUrl"
                            :dataFormat="dataFormat"/>
   </el-card>

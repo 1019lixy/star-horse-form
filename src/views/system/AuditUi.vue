@@ -2,9 +2,10 @@
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings";
 import {DialogProps} from "@/components/types/DialogProps"
-import {provide, reactive, ref} from "vue";
+import {onMounted, provide, reactive, ref} from "vue";
 import {SearchProps} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
+import {getMenuId, loadPagePermission} from "@/api/sh_api.ts";
 
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/system-config/system/auditEntity/pageList",
@@ -21,9 +22,7 @@ const dataUrl: ApiUrls = {
   uploadUrl: "",
   condition: []
 };
-const initData = async () => {
-};
-initData();
+
 const requestMethod = [{name: "POST", value: "POST"}, {name: "GET", value: "GET"},
   {name: "PUT", value: "PUT"}, {name: "DELETE", value: "DELETE"},];
 const searchFormData = reactive<SearchProps[]>([
@@ -142,9 +141,16 @@ const dialogProps = reactive<DialogProps>({
 
 });
 provide("dialogProps", dialogProps);
+let permissions = ref<any>({});
 const dataFormat = (name: string, cellValue: Object): any => {
   return cellValue;
 }
+const initData = async () => {
+  permissions.value = await loadPagePermission(getMenuId())
+};
+onMounted(async () => {
+  await initData()
+})
 </script>
 <style lang="scss" scoped>
 
@@ -163,11 +169,13 @@ const dataFormat = (name: string, cellValue: Object): any => {
       <star-horse-search-comp @searchData="(data:any)=>auditRef.createCreateParams(data)" :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr>
-      <star-horse-button-list @tableCompFunc="(fun:any)=>auditRef.tableCompFunc(fun)" :compUrl="dataUrl"
+      <star-horse-button-list :permissions="permissions" @tableCompFunc="(fun:any)=>auditRef.tableCompFunc(fun)"
+                              :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
     <hr>
-    <star-horse-table-comp ref="auditRef" :fieldList="tableFieldList" :primaryKey="primaryKey" :compUrl="dataUrl"
+    <star-horse-table-comp :permissions="permissions" ref="auditRef" :fieldList="tableFieldList"
+                           :primaryKey="primaryKey" :compUrl="dataUrl"
                            :dataFormat="dataFormat"/>
   </el-card>
 </template>

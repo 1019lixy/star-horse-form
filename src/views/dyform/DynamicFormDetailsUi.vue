@@ -1,9 +1,10 @@
 <script setup lang="ts" name="DynamicFormDetails">
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {DialogProps} from "@/components/types/DialogProps"
-import {provide, reactive, ref} from "vue";
+import {onMounted, provide, reactive, ref} from "vue";
 import {SearchProps} from "@/components/types/SearchProps";
 import {Config} from "@/api/settings";
+import {getMenuId, loadPagePermission} from "@/api/sh_api.ts";
 
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/userdb-manage/userdb/dynamicFormDetails/pageList",
@@ -19,9 +20,8 @@ const dataUrl: ApiUrls = {
   importUrl: "/userdb-manage/userdb/dynamicFormDetails/importData",
   uploadUrl: "",
 };
-const initData = async () => {
-};
-initData();
+
+
 const searchFormData = reactive<SearchProps[]>([{label: "主键", fieldName: "idDynamicFormDetails", type: "long"},
   {label: "主键", fieldName: "idDynamicForm", type: "long"},
   {label: "表单内容", fieldName: "content", type: "input"},
@@ -121,9 +121,16 @@ const dialogProps = reactive<DialogProps>({
   dialogPwdVisible: false
 });
 provide("dialogProps", dialogProps);
+let permissions = ref<any>({});
 const dataFormat = (name: string, cellValue: Object): any => {
   return cellValue;
 }
+const initData = async () => {
+  permissions.value = await loadPagePermission(getMenuId())
+};
+onMounted(async () => {
+  await initData();
+})
 </script>
 <style lang="scss" scoped>
 
@@ -144,10 +151,12 @@ const dataFormat = (name: string, cellValue: Object): any => {
                               :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
-      <star-horse-button-list @tableCompFunc="(fun:any)=>dynamicFormDetailsRef.tableCompFunc(fun)" :compUrl="dataUrl"
+      <star-horse-button-list :permissions="permissions"
+                              @tableCompFunc="(fun:any)=>dynamicFormDetailsRef.tableCompFunc(fun)" :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
-    <star-horse-table-comp ref="dynamicFormDetailsRef" :fieldList="tableFieldList" :primaryKey="primaryKey"
+    <star-horse-table-comp :permissions="permissions" ref="dynamicFormDetailsRef" :fieldList="tableFieldList"
+                           :primaryKey="primaryKey"
                            :compUrl="dataUrl"
                            :dataFormat="dataFormat"/>
   </el-card>

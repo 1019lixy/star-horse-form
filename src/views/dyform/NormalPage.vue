@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import {nextTick, onMounted, provide, reactive, ref, watch} from "vue";
-import {closeLoad, load, loadGetData} from "@/api/sh_api";
+import {computed, nextTick, onMounted, provide, reactive, ref, watch} from "vue";
+import {closeLoad, getMenuId, load, loadGetData, loadPagePermission} from "@/api/sh_api";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {DialogProps} from "@/components/types/DialogProps";
 import {SearchProps} from "@/components/types/SearchProps";
@@ -42,7 +42,7 @@ const hasData = ref<boolean>(true);
 const formInfo = ref<any>({});
 
 const props = defineProps({
-  param: {required: true},
+  param: {type: String, required: true},
 });
 const clear = () => {
   hasData.value = false;
@@ -67,7 +67,6 @@ const loadFormData = async (formId: string) => {
   await nextTick();
   closeLoad();
   normalPageRef.value?.init();
-
 };
 watch(
     () => props.param,
@@ -82,11 +81,6 @@ watch(
     },
     {deep: true}
 );
-
-onMounted(() => {
-  designForm.setIsEdit(false);
-  loadFormData(<string>props.param);
-});
 
 
 const dataForm = ref({});
@@ -107,10 +101,28 @@ const dialogProps = reactive<DialogProps>({
   viewVisible: false
 });
 provide("dialogProps", dialogProps);
+let permissions = ref<any>({});
 const dataFormat = (name: string, cellValue: Object, row: any): any => {
   // console.log(name, cellValue);
   return cellValue;
 };
+const loadPermission = async () => {
+  permissions.value = await loadPagePermission(getMenuId());
+};
+const init = async () => {
+  designForm.setIsEdit(false);
+  await loadPermission();
+  await loadFormData(props.param);
+}
+onMounted(async () => {
+  await init();
+});
+watch(() => props.param,
+    () => {
+      loadPermission();
+    }, {
+      immediate: false
+    })
 </script>
 
 <template>
@@ -143,13 +155,14 @@ const dataFormat = (name: string, cellValue: Object, row: any): any => {
                                 :formData="searchFormData"
                                 :compUrl="dataUrl"/>
         <hr/>
-        <star-horse-button-list @tableCompFunc="(fun:any)=>normalPageRef.tableCompFunc(fun)" :compUrl="dataUrl"
+        <star-horse-button-list :permissions="permissions" @tableCompFunc="(fun:any)=>normalPageRef.tableCompFunc(fun)"
+                                :compUrl="dataUrl"
                                 :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
       </div>
       <hr>
-      <star-horse-table-comp
-          ref="normalPageRef" :fieldList="tableFieldList" :primaryKey="primaryKey"
-          :compUrl="dataUrl" :showBatchField="true" :dataFormat="dataFormat"/>
+      <star-horse-table-comp :permissions="permissions"
+                             ref="normalPageRef" :fieldList="tableFieldList" :primaryKey="primaryKey"
+                             :compUrl="dataUrl" :showBatchField="true" :dataFormat="dataFormat"/>
     </el-card>
   </template>
   <el-empty :content="errorMsg" v-else></el-empty>

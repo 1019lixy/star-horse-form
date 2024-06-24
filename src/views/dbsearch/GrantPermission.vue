@@ -3,7 +3,14 @@ import {ApiUrls} from "@/components/types/ApiUrls";
 import {DialogProps} from "@/components/types/DialogProps"
 import {onMounted, provide, reactive, ref} from "vue";
 import {SearchProps, SelectOption} from "@/components/types/SearchProps";
-import {commonParseCodeToName, createDatetime, loadData, loadGetData} from "@/api/sh_api";
+import {
+  commonParseCodeToName,
+  createDatetime,
+  getMenuId,
+  loadData,
+  loadGetData,
+  loadPagePermission
+} from "@/api/sh_api";
 import {warning} from "@/utils/message";
 import {Config} from "@/api/settings";
 
@@ -26,12 +33,7 @@ const dataUrl: ApiUrls = {
   uploadUrl: "/dbsearch-manage/dbsearch/dbAssign/importData",
   importUrl: ""
 };
-const initData = async () => {
-  await initDbList();
-};
-onMounted(() => {
-  initData();
-});
+
 const searchFormData = reactive<SearchProps[]>([
   {label: "授权数据库", fieldName: "dbinfoSingle", type: "select", optionList: dbList},
   {label: "被授权人编号", fieldName: "assignNo", type: "input", matchType: "lk"},
@@ -147,8 +149,6 @@ const primaryKey = "idDbAssign";
 const grantPermissionRef = ref();
 const rules = {};
 
-const searchForm = ref<any>({});
-
 const dataForm = ref<any>({});
 provide("dataForm", dataForm);
 const dialogProps = reactive<DialogProps>({
@@ -162,6 +162,7 @@ const dialogProps = reactive<DialogProps>({
   viewVisible: false,
 });
 provide("dialogProps", dialogProps);
+let permissions = ref<any>({});
 
 const searchUserOrRole = (val: any) => {
   let type = dataForm.value.assignType;
@@ -198,10 +199,6 @@ const queryCondition = async (obj: any) => {
     });
   }
 };
-const getUserOrRole = () => {
-  queryCondition(null);
-
-};
 const initDbList = async () => {
   let params = [{"propertyName": "isDel", "value": 0},
     {"propertyName": "statusCode", "value": "1"}];
@@ -214,11 +211,6 @@ const initDbList = async () => {
     dbList.value.push({name: item.dbType + ':' + item.host + '/' + item.dbName, value: item.dataNo})
   });
 };
-const initSqlLang = async () => {
-  let {data, error} = await loadGetData("/dbsearch-manage/dbsearch/dbAssign/allSqlLang");
-  sqlLangs.value = data;
-
-};
 
 
 const dataFormat = (name: string, cellValue: Object): any => {
@@ -230,6 +222,13 @@ const dataFormat = (name: string, cellValue: Object): any => {
   }
   return commonParseCodeToName(name, cellValue);
 }
+const initData = async () => {
+  permissions.value = await loadPagePermission(getMenuId())
+  await initDbList();
+};
+onMounted(() => {
+  initData();
+});
 </script>
 <style lang="scss" scoped>
 
@@ -250,11 +249,13 @@ const dataFormat = (name: string, cellValue: Object): any => {
                               :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
-      <star-horse-button-list @tableCompFunc="(fun:any)=>grantPermissionRef.tableCompFunc(fun)" :compUrl="dataUrl"
+      <star-horse-button-list :permissions="permissions"
+                              @tableCompFunc="(fun:any)=>grantPermissionRef.tableCompFunc(fun)" :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
-    <star-horse-table-comp ref="grantPermissionRef" :fieldList="tableFieldList" :primaryKey="primaryKey" :compUrl=
-        "dataUrl"
+    <star-horse-table-comp :permissions="permissions" ref="grantPermissionRef" :fieldList="tableFieldList"
+                           :primaryKey="primaryKey" :compUrl=
+                               "dataUrl"
                            :dataFormat="dataFormat"/>
   </el-card>
 </template>

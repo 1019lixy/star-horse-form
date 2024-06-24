@@ -53,12 +53,7 @@ const props = defineProps({
   //标题
   title: {type: String},
   //按钮操作权限
-  selfPermission: {
-    type: Object,
-    default: () => {
-      return {view: true};
-    },
-  },
+  permissions: {type: Object, required: true, default: {}},
 });
 const emits = defineEmits(["selectItem"]);
 const multipleSelection = ref<any>([]);
@@ -74,7 +69,6 @@ let searchFields = reactive<Array<SearchParams>>([]);
 let defaultSearchFields = reactive<Array<SearchParams>>([]);
 let orderBys = reactive<Array<OrderByInfo>>([]);
 let fieldVisible = ref<boolean>(false);
-let permissions = ref<Object>({});
 let dialogProps = inject("dialogProps") as DialogProps;
 let toolFields = reactive<Array<any>>([]);
 const tableCompFunc = (func: any) => {
@@ -146,12 +140,6 @@ const createCreateParams = (formData: SearchParams[]) => {
 };
 
 const init = async () => {
-  const permission = await loadPagePermission();
-  if (Object.keys(permission).length == 0) {
-    permissions.value = {...props.selfPermission};
-  } else {
-    permissions.value = permission;
-  }
   //是否初始化时自动加载列表数据开关
   if (!props.fieldList?.stopAutoLoad) {
     loadByPage();

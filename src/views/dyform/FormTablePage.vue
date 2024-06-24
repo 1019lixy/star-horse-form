@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {nextTick, onMounted, provide, reactive, ref, watch} from "vue";
-import {closeLoad, load, loadGetData} from "@/api/sh_api";
+import {closeLoad, getMenuId, load, loadGetData, loadPagePermission} from "@/api/sh_api";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {useRoute, useRouter} from "vue-router";
 import {navBarList} from "@/store/NavbarListStore";
@@ -30,14 +30,14 @@ const dataUrl = ref<ApiUrls>({
 const errorMsg = ref("数据加载中");
 let searchFormData = ref<SearchProps[]>();
 const tableFieldList = ref<PageFieldInfo>({
-      fieldList: [],
+  fieldList: [],
 });
 const primaryKey = ref("");
 const rules = ref({});
 const hasData = ref(false);
 
 const props = defineProps({
-  param: {required: true},
+  param: {type: String, required: true},
 });
 const clear = () => {
   hasData.value = false;
@@ -77,10 +77,6 @@ watch(
     {deep: true}
 );
 
-onMounted(() => {
-  loadFormData(<string>props.param);
-});
-
 
 const dataForm = ref({});
 provide("dataForm", dataForm);
@@ -100,9 +96,17 @@ const dialogProps = reactive<DialogProps>({
   viewVisible: false
 });
 provide("dialogProps", dialogProps);
+let permissions = ref<any>({});
 const dataFormat = (name: string, cellValue: Object): any => {
   return cellValue;
 };
+const init = async () => {
+  permissions.value = await loadPagePermission(getMenuId())
+  await loadFormData(props.param);
+}
+onMounted(async () => {
+  await init();
+});
 </script>
 <style scoped></style>
 <template>
@@ -133,17 +137,18 @@ const dataFormat = (name: string, cellValue: Object): any => {
                                 :formData="searchFormData"
                                 :compUrl="dataUrl"/>
         <hr/>
-        <star-horse-button-list @tableCompFunc="(fun:any)=>starHorseTableCompRef.tableCompFunc(fun)" :compUrl="dataUrl"
+        <star-horse-button-list :permissions="permissions"
+                                @tableCompFunc="(fun:any)=>starHorseTableCompRef.tableCompFunc(fun)" :compUrl="dataUrl"
                                 :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
       </div>
       <hr>
-      <star-horse-table-comp
-          ref="starHorseTableCompRef"
-          :fieldList="tableFieldList"
-          :primaryKey="primaryKey"
-          :compUrl="dataUrl"
-          :showBatchField="true"
-          :dataFormat="dataFormat"
+      <star-horse-table-comp :permissions="permissions"
+                             ref="starHorseTableCompRef"
+                             :fieldList="tableFieldList"
+                             :primaryKey="primaryKey"
+                             :compUrl="dataUrl"
+                             :showBatchField="true"
+                             :dataFormat="dataFormat"
       />
     </el-card>
   </template>

@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import {onMounted, provide, reactive, ref, watch} from "vue";
-import {closeLoad, load} from "@/api/sh_api";
+import {closeLoad, getMenuId, load, loadPagePermission} from "@/api/sh_api";
 import {ApiUrls} from "@/components/types/ApiUrls";
-import {useRouter} from "vue-router";
 import {DialogProps} from "@/components/types/DialogProps";
 import {SearchProps} from "@/components/types/SearchProps";
 import DataPreview from "@/views/dyform/DataPreview.vue";
@@ -14,7 +13,6 @@ import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
 
 let designForm = DesignForm(piniaInstance);
-const router = useRouter();
 const props = defineProps({
   param: {type: String, required: true},
   isPreview: {type: Boolean, default: false}
@@ -107,12 +105,6 @@ watch(
     {deep: true}
 );
 
-onMounted(() => {
-  designForm.setIsEdit(false);
-  loadColumnFields();
-  loadFormData(1, 20);
-});
-
 
 const dataForm = ref({});
 
@@ -133,9 +125,21 @@ const dialogProps = reactive<DialogProps>({
   viewVisible: false
 });
 provide("dialogProps", dialogProps);
+let permissions = ref<any>({});
 const dataFormat = (name: string, cellValue: Object): any => {
   return cellValue;
 };
+
+
+const init = async () => {
+  designForm.setIsEdit(false);
+  permissions.value = await loadPagePermission(getMenuId());
+  await loadColumnFields();
+  await loadFormData(1, 20);
+}
+onMounted(async () => {
+  await init();
+});
 </script>
 
 <template>
@@ -168,7 +172,8 @@ const dataFormat = (name: string, cellValue: Object): any => {
                                 :formData="searchFormData"
                                 :compUrl="dataUrl"/>
         <hr v-if="Config.buttonStyle.value=='line'"/>
-        <star-horse-button-list @tableCompFunc="(fun:any)=>starHorseTableCompRef.tableCompFunc(fun)" :viewFlag="true"
+        <star-horse-button-list :permissions="permissions"
+                                @tableCompFunc="(fun:any)=>starHorseTableCompRef.tableCompFunc(fun)" :viewFlag="true"
                                 :compUrl="dataUrl" :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
       </div>
       <hr>

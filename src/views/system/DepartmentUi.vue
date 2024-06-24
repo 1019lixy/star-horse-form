@@ -2,9 +2,9 @@
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings";
 import {DialogProps} from "@/components/types/DialogProps"
-import {provide, reactive, ref} from "vue";
+import {onMounted, provide, reactive, ref} from "vue";
 import {SearchProps, SelectOption} from "@/components/types/SearchProps";
-import {loadDepartmentInfo} from "@/api/sh_api";
+import {getMenuId, loadDepartmentInfo, loadPagePermission} from "@/api/sh_api";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 
 const dataUrl: ApiUrls = {
@@ -23,10 +23,7 @@ const dataUrl: ApiUrls = {
   condition: []
 };
 let departmentList = ref<SelectOption[]>([]);
-const initData = async () => {
-  departmentList.value = await loadDepartmentInfo([{propertyName: "isDel", value: 0}])
-};
-initData();
+
 const searchFormData = reactive<SearchProps[]>([
   {label: "部门名称", defaultShow: true, fieldName: "deptName", type: "input", matchType: "lk"},
   {label: "部门编码", fieldName: "deptCode", type: "input", matchType: "lk"},
@@ -139,9 +136,17 @@ const dialogProps = reactive<DialogProps>({
 
 });
 provide("dialogProps", dialogProps);
+let permissions = ref<any>({});
 const dataFormat = (name: string, cellValue: Object): any => {
   return cellValue;
 }
+const initData = async () => {
+  permissions.value = await loadPagePermission(getMenuId())
+  departmentList.value = await loadDepartmentInfo([{propertyName: "isDel", value: 0}])
+};
+onMounted(async () => {
+  await initData();
+});
 </script>
 <style lang="scss" scoped>
 
@@ -158,14 +163,17 @@ const dataFormat = (name: string, cellValue: Object): any => {
   </star-horse-dialog>
   <el-card class="inner_content">
     <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
-      <star-horse-search-comp @searchData="(data:any)=>departmentRef.createCreateParams(data)" :formData="searchFormData"
+      <star-horse-search-comp @searchData="(data:any)=>departmentRef.createCreateParams(data)"
+                              :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
-      <star-horse-button-list @tableCompFunc="(fun:any)=>departmentRef.tableCompFunc(fun)" :compUrl="dataUrl"
+      <star-horse-button-list :permissions="permissions" @tableCompFunc="(fun:any)=>departmentRef.tableCompFunc(fun)"
+                              :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
     <hr>
-    <star-horse-table-comp ref="departmentRef" :fieldList="tableFieldList" :primaryKey="primaryKey" :compUrl="dataUrl"
+    <star-horse-table-comp :permissions="permissions" ref="departmentRef" :fieldList="tableFieldList"
+                           :primaryKey="primaryKey" :compUrl="dataUrl"
                            :dataFormat="dataFormat"/>
   </el-card>
 </template>

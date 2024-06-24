@@ -2,10 +2,10 @@
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings";
 import {DialogProps} from "@/components/types/DialogProps"
-import {provide, reactive, ref} from "vue";
+import {onMounted, provide, reactive, ref} from "vue";
 import {SearchProps} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
-import {dictData} from "@/api/sh_api";
+import {dictData, getMenuId, loadPagePermission} from "@/api/sh_api";
 
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/system-config/system/whiteList/pageList",
@@ -22,11 +22,8 @@ const dataUrl: ApiUrls = {
   condition: []
 };
 let typeList = ref({});
-const initData = async () => {
-  let reDictData = await dictData("white_name_filter_type");
-  typeList.value = reDictData;
-};
-initData();
+
+
 const searchFormData = reactive<SearchProps[]>([
   {label: "过滤类型", fieldName: "whiteType", defaultShow: true, type: "select", optionList: typeList},
   {label: "过滤内容", fieldName: "whiteName", defaultShow: true, type: "input", matchType: "lk"},
@@ -125,9 +122,18 @@ const dialogProps = reactive<DialogProps>({
   dialogPwdVisible: false
 });
 provide("dialogProps", dialogProps);
+let permissions = ref<any>({});
 const dataFormat = (name: string, cellValue: Object): any => {
   return cellValue;
 }
+const initData = async () => {
+  permissions.value = await loadPagePermission(getMenuId())
+  let reDictData = await dictData("white_name_filter_type");
+  typeList.value = reDictData;
+};
+onMounted(async () => {
+  await initData();
+})
 </script>
 <style lang="scss" scoped>
 
@@ -147,11 +153,13 @@ const dataFormat = (name: string, cellValue: Object): any => {
       <star-horse-search-comp @searchData="(data:any)=>whiteListRef.createCreateParams(data)" :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
-      <star-horse-button-list @tableCompFunc="(fun:any)=>whiteListRef.tableCompFunc(fun)" :compUrl="dataUrl"
+      <star-horse-button-list :permissions="permissions" @tableCompFunc="(fun:any)=>whiteListRef.tableCompFunc(fun)"
+                              :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
     <hr>
-    <star-horse-table-comp ref="whiteListRef" :fieldList="tableFieldList" :primaryKey="primaryKey" :compUrl="dataUrl"
+    <star-horse-table-comp :permissions="permissions" ref="whiteListRef" :fieldList="tableFieldList"
+                           :primaryKey="primaryKey" :compUrl="dataUrl"
                            :dataFormat="dataFormat"/>
   </el-card>
 </template>

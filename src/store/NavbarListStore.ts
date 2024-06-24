@@ -55,8 +55,8 @@ export const navBarList: any = defineStore("navBarList", {
         clearNavItem(data: RouteLocationNormalizedLoaded) {
             let dataList = this.navTagsList;
             const index = dataList.findIndex((item: RouteLocationNormalizedLoaded) => item.path === data.path);
-            const isActive = router.currentRoute.value.path == dataList[index]["path"];
-            const len = dataList.length - 1;
+            // const isActive = router.currentRoute.value.path == dataList[index]["path"];
+            // const len = dataList.length - 1;
             dataList.splice(index, 1);
             //   (index == len || isActive) && router.push({path: dataList[dataList.length - 1]["path"]})
         },
@@ -90,7 +90,6 @@ export const navBarList: any = defineStore("navBarList", {
             if (route) {
                 this.navTagsList = [route];
             }
-
         }
     }
 });

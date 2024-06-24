@@ -2,10 +2,10 @@
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings";
 import {DialogProps} from "@/components/types/DialogProps"
-import {provide, reactive, ref, watch} from "vue";
+import {onMounted, provide, reactive, ref, watch} from "vue";
 import {SearchProps, SelectOption} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
-import {dictData, loadMenusInfo, loadRolesInfo, loadSystemInfo} from "@/api/sh_api";
+import {dictData, getMenuId, loadMenusInfo, loadPagePermission, loadRolesInfo, loadSystemInfo} from "@/api/sh_api";
 import {ElTreeV2} from "element-plus";
 import {TreeNode, TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
@@ -30,12 +30,7 @@ let systemInfoList = ref<SelectOption[]>();
 let rolesList = ref<SelectOption[]>();
 let menusList = ref<SelectOption[]>();
 let authorityList = ref<SelectOption[]>();
-const initData = async () => {
-  systemInfoList.value = await loadSystemInfo([]);
-  rolesList.value = await loadRolesInfo([]);
-  authorityList.value = await dictData("button_authority");
-};
-initData();
+
 const searchFormData = reactive<SearchProps[]>([
   /* {label: "所属系统", fieldName: "informationsSingleId", type: "select", optionList: systemInfoList},*/
   {label: "角色名称", defaultShow: true, fieldName: "idRolesinfo", type: "select", optionList: rolesList},
@@ -147,6 +142,7 @@ const dialogProps = reactive<DialogProps>({
 
 });
 provide("dialogProps", dialogProps);
+let permissions = ref<any>({});
 watch(() => dataForm.value["informationsSingleId"],
     (val) => {
       if (val) {
@@ -204,6 +200,15 @@ const filterMethod = (query: string, node: TreeNode) => {
 const checkChange = (data: TreeNodeData, checked: boolean) => {
   treeCheckChange(treeRef.value, menuBtnTableRef.value, dataForm.value, data, checked);
 };
+const initData = async () => {
+  permissions.value = await loadPagePermission(getMenuId())
+  systemInfoList.value = await loadSystemInfo([]);
+  rolesList.value = await loadRolesInfo([]);
+  authorityList.value = await dictData("button_authority");
+};
+onMounted(async () => {
+  await initData();
+})
 </script>
 <style lang="scss" scoped>
 
@@ -253,11 +258,13 @@ const checkChange = (data: TreeNodeData, checked: boolean) => {
                                     :formData="searchFormData"
                                     :compUrl="dataUrl"/>
             <hr/>
-            <star-horse-button-list @tableCompFunc="(fun:any)=>menuBtnTableRef.tableCompFunc(fun)" :compUrl="dataUrl"
+            <star-horse-button-list :permissions="permissions"
+                                    @tableCompFunc="(fun:any)=>menuBtnTableRef.tableCompFunc(fun)" :compUrl="dataUrl"
                                     :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
           </div>
           <hr>
-          <star-horse-table-comp :fieldList="tableFieldList" :primaryKey="primaryKey" :compUrl="dataUrl"
+          <star-horse-table-comp :permissions="permissions" :fieldList="tableFieldList" :primaryKey="primaryKey"
+                                 :compUrl="dataUrl"
                                  :dataFormat="dataFormat" ref="menuBtnTableRef"/>
         </el-card>
       </el-col>

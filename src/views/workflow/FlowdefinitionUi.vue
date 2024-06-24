@@ -125,7 +125,7 @@ const dialogProps = reactive<DialogProps>({
   uploadVisible: false,
   viewVisible: false,
 });
-provide("dialogProps", dialogProps);
+provide("dialogProps", dialogProps);let permissions = ref<any>({});
 const dataFormat = (name: string, cellValue: Object): any => {
 
   return cellValue;
@@ -155,10 +155,10 @@ onMounted(async () => {
                               :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
-      <star-horse-button-list @tableCompFunc="(fun:any)=>flowDefinitionRef.tableCompFunc(fun)" :compUrl="dataUrl"
+      <star-horse-button-list :permissions="permissions"  @tableCompFunc="(fun:any)=>flowDefinitionRef.tableCompFunc(fun)" :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
-    <star-horse-table-comp ref="flowDefinitionRef" :fieldList="tableFieldList" :primaryKey="primaryKey"
+    <star-horse-table-comp :permissions="permissions"   ref="flowDefinitionRef" :fieldList="tableFieldList" :primaryKey="primaryKey"
                            :compUrl="dataUrl"
                            :dataFormat="dataFormat" @selectItem="selectItemFun"/>
   </el-card>

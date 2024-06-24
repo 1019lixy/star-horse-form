@@ -3,7 +3,7 @@ import {ApiUrls} from "@/components/types/ApiUrls";
 import {DialogProps} from "@/components/types/DialogProps"
 import {onMounted, provide, reactive, ref} from "vue";
 import {SearchProps, SelectOption} from "@/components/types/SearchProps";
-import {loadGetData} from "@/api/sh_api";
+import {getMenuId, loadGetData, loadPagePermission} from "@/api/sh_api";
 import {warning} from "@/utils/message";
 import {Config} from "@/api/settings";
 
@@ -21,12 +21,7 @@ const dataUrl: ApiUrls = {
   uploadUrl: "/dbsearch-manage/dbsearch/dbinfoEntity/importData",
   importUrl: ""
 };
-const initData = async () => {
-  await loadDbTypeList();
-};
-onMounted(() => {
-  initData();
-})
+
 
 let dbTypeList = ref<SelectOption[]>([]);
 const searchFormData = reactive<SearchProps[]>([
@@ -150,7 +145,7 @@ const dialogProps = reactive<DialogProps>({
   uploadVisible: false,
   viewVisible: false,
 });
-provide("dialogProps", dialogProps);
+provide("dialogProps", dialogProps);let permissions = ref<any>({});
 const loadDbTypeList = async () => {
   let {data, error} = await loadGetData("/dbsearch-manage/dbsearch/dbinfoEntity/dbType");
   if (error) {
@@ -171,6 +166,13 @@ const dataFormat = (name: string, cellValue: Object): any => {
   }
   return cellValue;
 }
+const initData = async () => {
+  permissions.value = await loadPagePermission(getMenuId())
+  await loadDbTypeList();
+};
+onMounted(() => {
+  initData();
+});
 </script>
 <style lang="scss" scoped>
 
@@ -189,10 +191,10 @@ const dataFormat = (name: string, cellValue: Object): any => {
       <star-horse-search-comp @searchData="(data:any)=>dbinfoRef.createCreateParams(data)" :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
-      <star-horse-button-list @tableCompFunc="(fun:any)=>dbinfoRef.tableCompFunc(fun)" :compUrl="dataUrl"
+      <star-horse-button-list :permissions="permissions"  @tableCompFunc="(fun:any)=>dbinfoRef.tableCompFunc(fun)" :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
-    <star-horse-table-comp ref="dbinfoRef" :fieldList="tableFieldList" :primaryKey="primaryKey" :compUrl="dataUrl"
+    <star-horse-table-comp :permissions="permissions"   ref="dbinfoRef" :fieldList="tableFieldList" :primaryKey="primaryKey" :compUrl="dataUrl"
                            :dataFormat="dataFormat"/>
   </el-card>
 </template>

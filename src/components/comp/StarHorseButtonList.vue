@@ -16,12 +16,7 @@ const props = defineProps({
   compUrl: {type: Object as PropType<ApiUrls>, required: true},
   selfBtnFunc: {type: Array as PropType<BtnAuth[]>, default: null},
   viewFlag: {type: Boolean, default: false},
-  selfPermission: {
-    type: Object,
-    default: () => {
-      return {view: true};
-    },
-  },
+  permissions: { type: Object,required:true},
 });
 const emits = defineEmits([
   "upload",
@@ -34,7 +29,6 @@ const emits = defineEmits([
 let configStore = GlobalConfig(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.buttonSize || "small");
 let showType = computed(() => configStore.configFormInfo?.buttonShowType || "dropdown");
-const permissions = ref({view: true});
 const dataForm = inject("dataForm") as Ref;
 const tableCompFunc = (funcName: string) => {
   emits("tableCompFunc", funcName);
@@ -105,12 +99,6 @@ const checkSelfBtn = (btn: string) => {
   return true;
 }
 const init = async () => {
-  const permission = await loadPagePermission();
-  if (Object.keys(permission).length == 0) {
-    permissions.value = {...props.selfPermission};
-  } else {
-    permissions.value = permission;
-  }
 };
 onMounted(() => {
   init();

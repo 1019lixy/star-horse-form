@@ -5,7 +5,14 @@ import {DialogProps} from "@/components/types/DialogProps"
 import {nextTick, onMounted, provide, reactive, ref} from "vue";
 import {SearchProps, SelectOption} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
-import {createCondition, dictData, loadDepartmentInfo, loadRolesInfo} from "@/api/sh_api";
+import {
+  createCondition,
+  dictData,
+  getMenuId,
+  loadDepartmentInfo,
+  loadPagePermission,
+  loadRolesInfo
+} from "@/api/sh_api";
 import {analysisData} from "@/api/deptment";
 import {ElTreeV2} from "element-plus";
 import {TreeNode, TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
@@ -40,22 +47,7 @@ const rolesList = ref<SelectOption[]>([]);
 const deptList = ref<SelectOption[]>([]);
 const usersinfoTableListRef = ref();
 const statusList = ref<SelectOption[]>([]);
-const initData = async () => {
-  rolesList.value = await loadRolesInfo([]);
-  deptList.value = await loadDepartmentInfo([]);
-  statusList.value = await dictData("common");
-  //如果是从其它页面加载的该页面，则将条件加入查询
-  if (props.viewRolesinfoId) {
-    searchForm.value["b.idRolesinfo"] = props.viewRolesinfoId;
-    await nextTick(() => {
-      usersinfoTableListRef.value.createCreateParams(searchFormData);
-      // usersinfoTableListRef.value.loadByPage();
-    });
-  }
-};
-onMounted(() => {
-  initData();
-});
+
 const searchFormData = reactive<SearchProps[]>([
   {label: "姓名", fieldName: "name", defaultShow: true, type: "input", matchType: "lk"},
   {label: "用户名", fieldName: "username", defaultShow: true, type: "input", matchType: "lk"},
@@ -64,25 +56,16 @@ const searchFormData = reactive<SearchProps[]>([
     label: "角色",
     fieldName: "idRolesinfo",
     type: "select",
+    prefix: "b",
+    defaultValue: props.viewRolesinfoId,
     optionList: rolesList,
     disabled: props.viewRolesinfoId ? true : false
   },
-  /* {label: "部门", fieldName: "idDepartment", type: "cascade", optionList: deptList},*/
   {label: "性别", fieldName: "sex", type: "select", optionList: sexList},
 ]);
 
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
-    /*    {
-          label: "主键", fieldName: "idUsersinfo", type: "long",
-
-
-        },
-        {
-          label: "主键", fieldName: "idUserAudit", type: "long",
-
-
-        },*/
     [{
       label: "用户名", fieldName: "username", type: "input",
       required: true, formShow: !false, disabled: "Y",
@@ -233,8 +216,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
     },
   ],
-
-
   stopAutoLoad: props.viewRolesinfoId ? true : false
 });
 const primaryKey = "idUsersinfo";
@@ -255,6 +236,7 @@ const dialogProps = reactive<DialogProps>({
 
 });
 provide("dialogProps", dialogProps);
+let permissions = ref<any>({});
 const dataFormat = (name: string, cellValue: any, row: any): any => {
   if (name == "sex") {
     let fdata = sexList.value.find((item: any) => parseInt(item.value) == parseInt(cellValue));
@@ -308,6 +290,23 @@ const checkChange = (data: TreeNodeData, checked: boolean) => {
 const searchData = (data: SearchParams[]) => {
   usersinfoTableListRef.value.createCreateParams(data);
 };
+const initData = async () => {
+  permissions.value = await loadPagePermission(getMenuId())
+  rolesList.value = await loadRolesInfo([]);
+  deptList.value = await loadDepartmentInfo([]);
+  statusList.value = await dictData("common");
+  //如果是从其它页面加载的该页面，则将条件加入查询
+  if (props.viewRolesinfoId) {
+    await nextTick(() => {
+      usersinfoTableListRef.value.createCreateParams(searchFormData);
+      // usersinfoTableListRef.value.loadByPage();
+    });
+  }
+
+};
+onMounted(async () => {
+  await initData();
+});
 </script>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
@@ -354,11 +353,13 @@ const searchData = (data: SearchParams[]) => {
                                     :compUrl="dataUrl"/>
             <hr/>
             <star-horse-button-list v-if="!viewRolesinfoId"
-                                    @tableCompFunc="(fun:any)=>usersinfoTableListRef.tableCompFunc(fun)" :compUrl="dataUrl"
+                                    @tableCompFunc="(fun:any)=>usersinfoTableListRef.tableCompFunc(fun)"
+                                    :compUrl="dataUrl"
                                     :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
           </div>
           <hr>
-          <star-horse-table-comp ref="usersinfoTableListRef" :fieldList="tableFieldList" :primaryKey="primaryKey"
+          <star-horse-table-comp :permissions="permissions" ref="usersinfoTableListRef" :fieldList="tableFieldList"
+                                 :primaryKey="primaryKey"
                                  :compUrl="dataUrl"
                                  :dataFormat="dataFormat" :disableAction="disableAction"/>
         </el-card>

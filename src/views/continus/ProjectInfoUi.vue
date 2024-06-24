@@ -4,6 +4,8 @@ import {onMounted, provide, reactive, ref} from "vue";
 import {SearchProps, SelectOption} from "@/components/types/SearchProps.d.ts";
 import {Config} from "@/api/settings.js";
 import ProjectMemberUi from "@/views/continus/ProjectMemberUi.vue";
+import {DialogInput} from "@/components/types/PageFieldInfo";
+import {getMenuId, loadPagePermission} from "@/api/sh_api.ts";
 
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/devops-continus/continus/projectInfo/pageList",
@@ -180,7 +182,7 @@ const rules = {};
 
 const dataForm = ref({});
 provide("dataForm", dataForm);
-const dialogProps = reactive<DialogProps>({
+const dialogProps = reactive<DialogInput>({
   bakeVisible1: false, bakeVisible2: false, bakeVisible3: false,
   ids: 0,
   batchDialogTitle: "批量编辑",
@@ -190,13 +192,13 @@ const dialogProps = reactive<DialogProps>({
   uploadVisible: false,
   viewVisible: false,
 });
-provide("dialogProps", dialogProps);
+provide("dialogProps", dialogProps);let permissions = ref<any>({});
 const dataFormat = (name: string, cellValue: Object): any => {
 
   return cellValue;
 }
 const init = async () => {
-
+  permissions.value = await loadPagePermission(getMenuId())
 };
 let projectId = ref<Number>(-1);
 const selectItemFun = (row: any) => {
@@ -222,10 +224,10 @@ onMounted(async () => {
       <star-horse-search-comp @searchData="(data:any)=>projectInfoRef.createCreateParams(data)" :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
-      <star-horse-button-list @tableCompFunc="(fun:any)=>projectInfoRef.tableCompFunc(fun)" :compUrl="dataUrl"
+      <star-horse-button-list :permissions="permissions"  @tableCompFunc="(fun:any)=>projectInfoRef.tableCompFunc(fun)" :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
-    <star-horse-table-comp ref="projectInfoRef" :fieldList="tableFieldList" :primaryKey="primaryKey" :compUrl="dataUrl"
+    <star-horse-table-comp :permissions="permissions"   ref="projectInfoRef" :fieldList="tableFieldList" :primaryKey="primaryKey" :compUrl="dataUrl"
                            :dataFormat="dataFormat" @selectItem="selectItemFun"/>
     <project-member-ui :projectId="projectId"/>
   </el-card>

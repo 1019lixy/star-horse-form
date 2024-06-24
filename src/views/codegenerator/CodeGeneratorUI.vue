@@ -5,7 +5,7 @@ import {SearchProps, SelectOption} from "@/components/types/SearchProps.d.ts";
 import {Config} from "@/api/settings.js";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo.d.ts";
 import {initDbList, tableList} from "@/views/dbsearch/utils/DbSearchUtils.ts";
-import {closeLoad, dictData, load} from "@/api/sh_api.ts";
+import {closeLoad, dictData, getMenuId, load, loadPagePermission} from "@/api/sh_api.ts";
 import {download} from "@/api/star_horse.ts";
 import {warning} from "@/utils/message.ts";
 
@@ -286,16 +286,22 @@ const dialogProps = reactive<DialogProps>({
   viewVisible: false,
 });
 provide("dialogProps", dialogProps);
+let permissions = ref<any>({});
+const selectItemFun = (data: any) => {
+
+}
 const dataFormat = (name: string, cellValue: Object): any => {
 
   return cellValue;
 }
 const init = async () => {
+  permissions.value = await loadPagePermission(getMenuId())
   dbInfoList.value = await initDbList();
   fileTypeList.value = await dictData("program_file_type");
   templateVersionList.value = await dictData("template_version");
   uiTypeList.value = await dictData("ui_type");
   packagingList.value = await dictData("packaging_type");
+
 };
 
 onMounted(async () => {
@@ -343,10 +349,12 @@ const closeAction = () => {
                               :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
-      <star-horse-button-list @tableCompFunc="(fun:any)=>codeGeneratorRef.tableCompFunc(fun)" :compUrl="dataUrl"
+      <star-horse-button-list :permissions="permissions" @tableCompFunc="(fun:any)=>codeGeneratorRef.tableCompFunc(fun)"
+                              :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
-    <star-horse-table-comp ref="codeGeneratorRef" :fieldList="tableFieldList" :primaryKey="primaryKey"
+    <star-horse-table-comp :permissions="permissions" ref="codeGeneratorRef" :fieldList="tableFieldList"
+                           :primaryKey="primaryKey"
                            :compUrl="dataUrl"
                            :dataFormat="dataFormat" @selectItem="selectItemFun"/>
   </el-card>

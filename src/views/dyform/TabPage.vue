@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {nextTick, onMounted, provide, reactive, ref, watch} from "vue";
-import {closeLoad, load, loadGetData} from "@/api/sh_api";
+import {closeLoad, getMenuId, load, loadGetData, loadPagePermission} from "@/api/sh_api";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {useRouter} from "vue-router";
 import {DialogProps} from "@/components/types/DialogProps";
@@ -39,7 +39,7 @@ const hasData = ref(false);
 const formInfo = ref<any>({});
 const activeName = ref<string>("form");
 const props = defineProps({
-  param: {required: true},
+  param: {type: String, required: true},
 });
 const handleClick = (tab: TabsPaneContext, event: Event) => {
   console.log(tab, event)
@@ -84,11 +84,6 @@ watch(
     {deep: true}
 );
 
-onMounted(() => {
-  designForm.setIsEdit(false);
-  loadFormData(<string>props.param);
-});
-
 
 const dataForm = ref({});
 provide("dataForm", dataForm);
@@ -108,10 +103,19 @@ const dialogProps = reactive<DialogProps>({
   viewVisible: false
 });
 provide("dialogProps", dialogProps);
+let permissions = ref<any>({});
 
+const init = async () => {
+  designForm.setIsEdit(false);
+  permissions.value = await loadPagePermission(getMenuId())
+  await loadFormData(props.param);
+}
 const dataFormat = (name: string, cellValue: Object): any => {
   return cellValue;
 };
+onMounted(async () => {
+  await init();
+});
 </script>
 
 <template>
@@ -140,17 +144,19 @@ const dataFormat = (name: string, cellValue: Object): any => {
                                     :formData="searchFormData"
                                     :compUrl="dataUrl"/>
             <hr/>
-            <star-horse-button-list @tableCompFunc="(fun:any)=>starHorseTableCompRef.tableCompFunc(fun)" :compUrl="dataUrl"
+            <star-horse-button-list :permissions="permissions"
+                                    @tableCompFunc="(fun:any)=>starHorseTableCompRef.tableCompFunc(fun)"
+                                    :compUrl="dataUrl"
                                     :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
           </div>
           <hr>
-          <star-horse-table-comp
-              ref="starHorseTableCompRef"
-              :fieldList="tableFieldList"
-              :primaryKey="primaryKey"
-              :compUrl="dataUrl"
-              :showBatchField="true"
-              :dataFormat="dataFormat"
+          <star-horse-table-comp :permissions="permissions"
+                                 ref="starHorseTableCompRef"
+                                 :fieldList="tableFieldList"
+                                 :primaryKey="primaryKey"
+                                 :compUrl="dataUrl"
+                                 :showBatchField="true"
+                                 :dataFormat="dataFormat"
           />
         </el-tab-pane>
       </el-tabs>

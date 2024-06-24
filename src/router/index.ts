@@ -96,6 +96,7 @@ router.afterEach((to, from) => {
         }
         let keepAlive = to.meta?.keepAlive;
         assignTitle(to.meta);
+        navBarListStore.setCurrentView(to);
         if (!to.meta.noCache) {
             navBarListStore.addNavBar(to);
         }

@@ -5,6 +5,7 @@ import {onMounted, provide, reactive, ref} from "vue";
 import {SearchProps} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {Config} from "@/api/settings";
+import {getMenuId, loadPagePermission} from "@/api/sh_api.ts";
 //后端交互接口地址
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/userdb-manage/userdb/dynamicFormActions/pageList",
@@ -193,11 +194,13 @@ const dialogProps = reactive<DialogProps>({
   bakeVisible1: false, bakeVisible2: false, bakeVisible3: false
 });
 provide("dialogProps", dialogProps);
+let permissions = ref<any>({});
 //初始化方法
 const initData = async () => {
+  permissions.value = await loadPagePermission(getMenuId())
 };
-onMounted(() => {
-  initData();
+onMounted(async () => {
+  await initData();
 });
 /**
  * 列表，查看数据时数据转换
@@ -229,10 +232,12 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
                               :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
-      <star-horse-button-list @tableCompFunc="(fun:any)=>dynamicFormActionRef.tableCompFunc(fun)" :compUrl="dataUrl"
+      <star-horse-button-list :permissions="permissions"
+                              @tableCompFunc="(fun:any)=>dynamicFormActionRef.tableCompFunc(fun)" :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
-    <star-horse-table-comp ref="dynamicFormActionRef" :fieldList="tableFieldList" :primaryKey="primaryKey"
+    <star-horse-table-comp :permissions="permissions" ref="dynamicFormActionRef" :fieldList="tableFieldList"
+                           :primaryKey="primaryKey"
                            :compUrl="dataUrl"
                            :dataFormat="dataFormat"/>
   </el-card>

@@ -4,7 +4,15 @@ import {Config} from "@/api/settings";
 import {DialogProps} from "@/components/types/DialogProps"
 import {ComponentInternalInstance, getCurrentInstance, onMounted, provide, reactive, ref, unref, watch} from "vue";
 import {SearchProps, SelectOption} from "@/components/types/SearchProps";
-import {closeLoad, createTree, load, loadData, loadElementPlusIcon, loadSystemInfo} from "@/api/sh_api";
+import {
+  closeLoad,
+  createTree, getMenuId,
+  load,
+  loadData,
+  loadElementPlusIcon,
+  loadPagePermission,
+  loadSystemInfo
+} from "@/api/sh_api";
 import {postRequest} from "@/api/star_horse";
 import {error, success, warning} from "@/utils/message";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
@@ -46,25 +54,7 @@ const proxy: ComponentInternalInstance | null = getCurrentInstance();
 
  }
  provide('commonFunction', commonFunction);*/
-const initData = async () => {
-  let params: any = [{propertyName: "statusCode", value: "1"}]
-  const datas = await loadSystemInfo(params);
-  informationsList.value = datas;
-  // await loadMenuBySystemId(true);
-  let {data, error} = await loadData(dataUrl.userConditionUrl, params);
-  if (data) {
-    data.forEach((item: any) => {
-      let temp: SelectOption = {name: item.menuName, value: item.dataNo};
-      searchParentMenus.value.push(temp);
-    })
-  }
-  menuIconList.value = loadElementPlusIcon();
-};
 
-
-onMounted(() => {
-  initData();
-})
 const searchFormData = reactive<SearchProps[]>([
   /*{label: "归属系统", fieldName: "informationsSingleId", type: "select", optionList: informationsList},
   {label: "父菜单", fieldName: "parentNo", type: "tselect", optionList: searchParentMenus},*/
@@ -223,6 +213,7 @@ const dialogProps = reactive<DialogProps>({
 
 });
 provide("dialogProps", dialogProps);
+let permissions = ref<any>({});
 const menuFormRef = ref(null);
 const menuTableListRef = ref();
 const dataFormat = (name: string, cellValue: any, row: any): any => {
@@ -296,7 +287,27 @@ const checkChange = (data: TreeNodeData, checked: boolean) => {
   treeCheckChange(treeRef.value, menuTableListRef.value, dataForm.value, data, checked);
 
 };
+const initData = async () => {
+  permissions.value = await loadPagePermission(getMenuId())
+  let params: any = [{propertyName: "statusCode", value: "1"}]
+  const datas = await loadSystemInfo(params);
+  informationsList.value = datas;
+  // await loadMenuBySystemId(true);
+  let {data, error} = await loadData(dataUrl.userConditionUrl, params);
+  if (data) {
+    data.forEach((item: any) => {
+      let temp: SelectOption = {name: item.menuName, value: item.dataNo};
+      searchParentMenus.value.push(temp);
+    })
+  }
+  menuIconList.value = loadElementPlusIcon();
 
+};
+
+
+onMounted(async () => {
+  await initData();
+})
 </script>
 
 <style lang="scss" scoped>
@@ -348,11 +359,13 @@ const checkChange = (data: TreeNodeData, checked: boolean) => {
                                     :formData="searchFormData"
                                     :compUrl="dataUrl"/>
             <hr/>
-            <star-horse-button-list @tableCompFunc="(fun:any)=>menuTableListRef.tableCompFunc(fun)" :compUrl="dataUrl"
+            <star-horse-button-list :permissions="permissions"
+                                    @tableCompFunc="(fun:any)=>menuTableListRef.tableCompFunc(fun)" :compUrl="dataUrl"
                                     :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
           </div>
           <hr>
-          <star-horse-table-comp :fieldList="tableFieldList" :primaryKey="primaryKey" :compUrl="dataUrl"
+          <star-horse-table-comp :permissions="permissions" :fieldList="tableFieldList" :primaryKey="primaryKey"
+                                 :compUrl="dataUrl"
                                  :dataFormat="dataFormat" :show-batch-field="true" ref="menuTableListRef"/>
         </el-card>
       </el-col>
