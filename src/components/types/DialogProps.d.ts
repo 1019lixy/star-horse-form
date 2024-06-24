@@ -42,6 +42,4 @@ export type DialogProps = {
      * 数据id
      */
     ids?: number | string | undefined | null
-
-
 }

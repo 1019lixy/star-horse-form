@@ -91,7 +91,6 @@
         this.showtextAlign = false
       }
       if ([3, 4].includes(this.activeIndex) && !val) return
-
       if (isEnableCall && clickNum !== null && typeof this.callback === 'function') {
         this.callback(this.menuList[clickNum].code, val)
       }
@@ -99,18 +98,15 @@
   }
 }*/
 </script>
-
 <style lang="scss" scoped="scoped">
 .N-enable {
   color: #8F8F8F !important;
   cursor: default !important;
-
   &:hover {
     background-color: #fff !important;
     background-image: none !important;
   }
 }
-
 .right-key-menu {
   display: inline-block;
   position: fixed;
@@ -132,12 +128,10 @@
   z-index: 9999999999;
   background-color: #fff;
   -webkit-font-smoothing: antialiased;
-
   li {
     padding: 4px 12px;
     color: #333;
     cursor: pointer;
-
     &.active {
       background-color: #e8e8e8;
       background-image: linear-gradient(to bottom, #f5f5f5 0, #e8e8e8 100%);
@@ -146,7 +140,6 @@
       text-decoration: none;
     }
   }
-
   .textAlign {
     position: absolute;
     right: -120px;
@@ -159,12 +152,10 @@
     background-color: #fff;
     line-height: 25px;
     display: none;
-
     span {
       cursor: pointer;
       width: 100%;
       text-align: center;
-
       &:hover {
         background-color: #e8e8e8;
         background-image: linear-gradient(to bottom, #f5f5f5 0, #e8e8e8 100%);
@@ -174,7 +165,6 @@
       }
     }
   }
-
   .showtextAlign {
     display: block;
     display: flex;

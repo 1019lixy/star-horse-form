@@ -8,7 +8,6 @@ import {Clipboard} from '@antv/x6-plugin-clipboard';
 import {History} from '@antv/x6-plugin-history';
 import {Selection} from '@antv/x6-plugin-selection';
 import {EdgeInfo, NodeInfo} from "@/components/types/CompInfo";
-
 export const DesignGraph: any = defineStore("DesignGraph", {
     state: () => {
         return {
@@ -41,7 +40,6 @@ export const DesignGraph: any = defineStore("DesignGraph", {
         getAdded: (state: any) => {
             return state.added;
         }
-
     },
     actions: {
         /**
@@ -50,7 +48,6 @@ export const DesignGraph: any = defineStore("DesignGraph", {
         // setAddFlag() {
         //     this.added = true;
         // },
-
         /**
          * 设置线条或者边框颜色
          * @param color
@@ -69,7 +66,6 @@ export const DesignGraph: any = defineStore("DesignGraph", {
             } else {
                 cell.attr('line/stroke', color);
             }
-
         },
         /**
          * 设置标签名称
@@ -115,7 +111,6 @@ export const DesignGraph: any = defineStore("DesignGraph", {
                     showNodeSelectionBox: true,
                 }),
             );
-
             // #region 快捷键与事件
             graph.bindKey(['meta+c', 'ctrl+c'], () => {
                 let cells = graph.getSelectedCells()
@@ -139,7 +134,6 @@ export const DesignGraph: any = defineStore("DesignGraph", {
                 }
                 return false
             })
-
             // undo redo
             graph.bindKey(['meta+z', 'ctrl+z'], () => {
                 if (graph.canUndo()) {
@@ -153,7 +147,6 @@ export const DesignGraph: any = defineStore("DesignGraph", {
                 }
                 return false
             })
-
 // select all
             graph.bindKey(['meta+a', 'ctrl+a'], () => {
                 const nodes = graph.getNodes()
@@ -174,7 +167,6 @@ export const DesignGraph: any = defineStore("DesignGraph", {
                     graph.zoom(-0.1)
                 }
             });
-
         },
         /**
          * 存组件

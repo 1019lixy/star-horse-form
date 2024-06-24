@@ -12,7 +12,6 @@ export const initFieldList = (data: any, rule = {}) => {
         return prev;
     }, []);
 };
-
 /**
  * 数组组合成
  * @param {tree} data tree
@@ -45,14 +44,12 @@ export const buildCascaderDept = (data: any, users: any) => {
                         }) || [];
                 item.children.unshift(...b);
             }
-
             item.selectable = false;
             item.value = id;
             item.label = item.name;
             res.push(item);
         }
     }
-
     // 传入根节点id 递归查找所有子节点
     function getNode1(id) {
         const node = [];
@@ -85,10 +82,8 @@ export const buildCascaderDept = (data: any, users: any) => {
         }
         return node;
     }
-
     return res;
 };
-
 function loopData(data, ids, flag) {
     let arr = [];
     if (flag) {

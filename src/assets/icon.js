@@ -127,6 +127,5 @@ let icon = [
     {"label": "", "menuIcon": "xtcsh"},
     {"label": "", "menuIcon": "xtgl"},
     {"label": "放大", "menuIcon": "zoom-in"}
-
 ]
 export default icon;

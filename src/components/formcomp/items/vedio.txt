@@ -34,7 +34,6 @@
         @click="fullscreenHandle"
       />
     </span>
-
     <!-- 无播放源提示 -->
     <Empty
       v-if="!url"
@@ -42,7 +41,6 @@
       class="flv-refresh"
       text="暂无播放源"
     />
-
     <!-- 错误刷新提示 -->
     <Empty
       v-if="url && errorCount > maxReconnectCount"
@@ -53,7 +51,6 @@
     />
   </div>
 </template>
-
 <script>
 /**
  * @description: 视频播放器 MP4/flv
@@ -104,12 +101,10 @@ export default {
         };
       },
     },
-
     flvReload: {
       type: Boolean,
       default: false,
     },
-
     // 是否追帧和跳帧，默认需要
     isBufferedEnd: {
       type: Boolean,
@@ -122,15 +117,12 @@ export default {
       loading: true, // 加载动画
       flvPlayer: null,
       delayTimer: null,
-
       maxReconnectCount: Window.reconnectFlvCount, // 重连的最大次数
       errorCount: 0, // 错误次数，连接10次则不再连接
       lastDecodedFrame: 0, // 用于判断卡顿
       endedReloadFlag: true, // 用于判断推流结束，是否要再次构建（情景：后端关闭推流后重新打开，有几秒的断流时间）
-
       isFlullscreen: false,
     });
-
     onMounted(() => {
       if (prop.url) {
         flvInitLoad(); // 如果有地址，则直接构建视频
@@ -138,11 +130,9 @@ export default {
         state.loading = false; // 没有地址，则去掉loading
       }
     });
-
     onUnmounted(() => {
       flvDestory();
     });
-
     watch(
       () => [prop.url, prop.flvReload],
       ([newUrl, newflvReload], [oldUrl, oldflvReload]) => {
@@ -167,7 +157,6 @@ export default {
         }
       }
     );
-
     /**
      * @description: 报错刷新
      * @return {*}
@@ -177,7 +166,6 @@ export default {
       ctx.emit("faultRefresh"); // 传递给父组件，用于请求后端推流
       flvInitLoad();
     }
-
     /**
      * @description: 播放器初始化处理
      * @return {*}
@@ -192,7 +180,6 @@ export default {
         flvCreated("flvInitLoad");
       }, Window.flvTimeOut); // 等待一会儿再打开，防止找不到元素，最好不要超过1000,，否则切换时，容易导致锁死
     }
-
     /**
      * @description: 构建播放器
      * @return {*}
@@ -220,7 +207,6 @@ export default {
             fixAudioTimestampGap: false, //false才会音视频同步,新增
             lazyLoad: false, // 去掉懒加载,新增
           });
-
           state.flvPlayer.attachMediaElement(videoElement);
           state.flvPlayer.load();
           state.flvPlayer.play();
@@ -232,7 +218,6 @@ export default {
         console.error("构建错误", error);
       }
     }
-
     /**
      * @description: 销毁播放器
      * @return {*}
@@ -243,7 +228,6 @@ export default {
         clearTimeout(state.delayTimer); // 清除推迟打开播放器定时器
       }
       if (state.flvPlayer == null) return; // 空对象，不执行销毁
-
       /* ----- 销毁开始 ----- */
       addLog(`flv destory,address:${prop.url}`);
       try {
@@ -259,7 +243,6 @@ export default {
         console.error("销毁错误");
       }
     }
-
     /**
      * @description: video监听事件
      * @return {*}
@@ -270,7 +253,6 @@ export default {
       if (!videoElement) {
         return;
       }
-
       /**
        * @description: 浏览器下载流事件，手动跳帧，防止累计延时
        * @return {*}
@@ -306,7 +288,6 @@ export default {
           videoElement.playbackRate = 1.2;
         }
       };
-
       /**
        * @description: 监听点击事件，不执行暂停
        * @return {*}
@@ -316,7 +297,6 @@ export default {
         e.preventDefault();
       };
     }
-
     /**
      * @description: flv对象事件监听，断流、卡顿处理
      * @return {*}
@@ -326,12 +306,10 @@ export default {
       if (!state.flvPlayer._hasPendingLoad) {
         return;
       }
-
       state.flvPlayer.on(flvjs.Events.ERROR, errorHandle); // 监听出错消息后，销毁后重连
       state.flvPlayer.on(flvjs.Events.LOADING_COMPLETE, errorHandle); // ctrl+f5刷新，会莫名因为停止end不播放
       state.flvPlayer.on(flvjs.Events.STATISTICS_INFO, statisticsInfoHanle); // 断流重连
     }
-
     /**
      * @description: 错误回调事件
      * @param {*} errorType
@@ -345,18 +323,15 @@ export default {
       if (state.flvPlayer && state.errorCount <= state.maxReconnectCount) {
         addLog(`Video error ${state.errorCount} reconnection,
             address:${prop.url}`); // 视频报错N重连
-
         state.loading = true; // 添加loading动画
         state.errorCount++; //错误重连次数+1
         flvDestory();
         flvCreated("ERROR");
       }
-
       if (state.errorCount > state.maxReconnectCount) {
         state.loading = false; // 去掉loading
       }
     }
-
     /**
      * @description: 视频卡顿，销毁后重建
      * @param {*} errorType
@@ -388,7 +363,6 @@ export default {
         }
       }
     }
-
     /**
      * @description: 添加前后端日志
      * @param {*} log 日志文字
@@ -407,7 +381,6 @@ export default {
       //   })
       // );
     }
-
     /**
      * @description: 全屏 / 退出全屏
      * @return {*}
@@ -415,7 +388,6 @@ export default {
      */
     function fullscreenHandle() {
       state.isFlullscreen = !state.isFlullscreen;
-
       document.addEventListener("keydown", function (e) {
         //此处填写你的业务逻辑即可
         if (e.key == "Escape") {
@@ -424,7 +396,6 @@ export default {
         }
       });
     }
-
     return {
       ...toRefs(state),
       flvPlayerVideo,
@@ -435,7 +406,6 @@ export default {
   },
 };
 </script>
-
 <style lang="scss" scoped>
 .video-div {
   position: relative;
@@ -460,7 +430,6 @@ export default {
     font-size: 30px;
   }
 }
-
 .fullscreen-span {
   display: block;
   width: 100%;
@@ -471,12 +440,10 @@ export default {
   display: none;
   text-align: right;
 }
-
 .fullscreen-icon {
   cursor: pointer;
   font-size: 20px;
 }
-
 .flv-video {
   width: 100%;
   height: 100%;
@@ -492,7 +459,6 @@ export default {
     color: $fontHoverColor;
   }
 }
-
 .camera-name {
   color: $dangerColor;
   @include position-absolute(null, null, 10px, 10px);

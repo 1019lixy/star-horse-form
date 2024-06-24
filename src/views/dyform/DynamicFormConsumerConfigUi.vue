@@ -10,7 +10,6 @@ import {BtnAuth} from "@/components/types/BtnAuth";
 import StarHorseDialog from "@/components/comp/StarHorseDialog.vue";
 import ViewPage from "@/views/dyform/ViewPage.vue";
 import {Config} from "@/api/settings";
-
 const router = useRouter();
 //后端交互接口地址
 const dataUrl: ApiUrls = {
@@ -54,17 +53,12 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       fieldName: "idConsumerConfig",
       type: "long",
       required: true,
-
-
     },
     {
       label: "视图Token",
       fieldName: "dataNo",
       type: "input",
-
-
       tableShow: true,
-
     },
     {
       label: "视图名称",
@@ -73,7 +67,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       required: true,
       formShow: !false,
       tableShow: !false,
-
     },
     {
       label: "视图类别",
@@ -82,16 +75,13 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       required: true,
       formShow: !false,
       tableShow: !false,
-
     },
     {
       label: "消费权限",
       fieldName: "consumeAuthority",
       type: "input",
-
       formShow: !false,
       tableShow: !false,
-
     },
     {
       label: "是否需要认证 ",
@@ -100,7 +90,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       required: true,
       formShow: !false,
       tableShow: !false,
-
     },
     {
       label: "单次请求数据限制",
@@ -109,100 +98,70 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       required: true,
       formShow: !false,
       tableShow: !false,
-
     },
     {
       label: "版本号",
       fieldName: "version",
       type: "long",
-
-
     },
     {
       label: "创建人", disabled: "Y",
       fieldName: "createdBy",
       type: "input",
-
-
       tableShow: true,
-
     },
     {
       label: "创建时间",
       fieldName: "createdTime",
       type: "date",
-
-
       tableShow: true,
-
     },
     {
       label: "修改人", disabled: "Y",
       fieldName: "updatedBy",
       type: "input",
-
-
       tableShow: true,
-
     },
     {
       label: "修改时间",
       fieldName: "updatedTime",
       type: "date",
-
-
     },
-
     {
       label: "状态吗",
       fieldName: "statusCode",
       type: "input",
-
-
     },
     {
       label: "状态名称",
       fieldName: "statusName",
       type: "input",
-
-
     },
     {
       label: "是否删除",
       fieldName: "isDel",
       type: "long",
-
-
     },
     {
       label: "国际码",
       fieldName: "local",
       type: "input",
-
-
     },
     {
       label: "备注",
       fieldName: "remark",
       type: "input",
-
       formShow: !false,
       tableShow: !false,
-
     },
   ],
-
   userTableFuncs: [{btnName: "数据预览", authority: "view", funcName: (row: any) => preview(row, 1, 20)}],
-
 });
-
 //主键
 const primaryKey = "idConsumerConfig";
 const dynamicFormConsumerConfigRef = ref();
 //校验
 const rules = {};
-
-
 const dataForm = ref({});
 //全局数据对象
 provide("dataForm", dataForm);
@@ -248,7 +207,6 @@ const initData = async () => {
       router.push({path: "/dyform/DataConsumerConfig", query: {configId: params[primaryKey], isView: "Y"}});
     }
   });
-
 };
 onMounted(async () => {
   await initData();
@@ -275,7 +233,6 @@ const changePage = (currentPage: number, pageSize: number) => {
 }
 </script>
 <style lang="scss" scoped>
-
 </style>
 <template>
   <star-horse-dialog :dialogVisible="dialogProps.bakeVisible1" :title="'数据预览'"
@@ -294,7 +251,6 @@ const changePage = (currentPage: number, pageSize: number) => {
     <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
   </star-horse-dialog>
   <el-card class="inner_content">
-
     <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
       <star-horse-search-comp @searchData="(data:any)=>dynamicFormConsumerConfigRef.createCreateParams(data)"
                               :formData="searchFormData"

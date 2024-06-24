@@ -1,6 +1,5 @@
 <script setup lang="ts" name="InstanceItemDetail">
 import {ref} from "vue";
-
 const props = defineProps({
   isEdit: {
     type: Number,
@@ -10,7 +9,6 @@ const props = defineProps({
 const emits = defineEmits(["nodeDetail"]);
 let dataSourceStatus = ref<number>(1);
 let compileStatus = ref<number>(2);
-
 const dataDetail = (type) => {
   emits("nodeDetail", type);
 };
@@ -28,19 +26,14 @@ const getStatus = (statusCode: number) => {
   }
 };
 const showDetail = (nodeType: string, instanceId: string) => {
-
 };
 </script>
-
 <style lang="scss" scoped>
-
-
 .svg-path {
   fill: none;
   stroke: #d8d8d8;
   stroke-width: 1;
 }
-
 </style>
 <template>
   <div class="instance-item">
@@ -71,7 +64,6 @@ const showDetail = (nodeType: string, instanceId: string) => {
           <el-tooltip content="发布">发布</el-tooltip>
         </el-button>
       </div>
-
     </div>
     <el-card class="item-line">
       <div class="line-node" style="transform: translate(10px,14px);">
@@ -85,7 +77,6 @@ const showDetail = (nodeType: string, instanceId: string) => {
             <div></div>
           </div>
         </div>
-
       </div>
       <div class="line-node" style="transform: translate(230px,14px)">
         <div :style="getStatus(compileStatus)" class="node-title">
@@ -185,7 +176,6 @@ const showDetail = (nodeType: string, instanceId: string) => {
       </svg>
     </el-card>
     <div class="node-detail">
-
     </div>
   </div>
 </template>

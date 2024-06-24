@@ -13,7 +13,6 @@ import {
 } from "@/api/sh_api";
 import {warning} from "@/utils/message";
 import {Config} from "@/api/settings";
-
 const assignType = ref<SelectOption[]>([{name: "按用户授权", value: 1}, {name: "按角色授权", value: 2}]);
 const assignTypeRef = ref(null);
 let userOrRoleList = ref<SelectOption[]>([]);
@@ -33,24 +32,20 @@ const dataUrl: ApiUrls = {
   uploadUrl: "/dbsearch-manage/dbsearch/dbAssign/importData",
   importUrl: ""
 };
-
 const searchFormData = reactive<SearchProps[]>([
-  {label: "授权数据库", fieldName: "dbinfoSingle", type: "select", optionList: dbList},
-  {label: "被授权人编号", fieldName: "assignNo", type: "input", matchType: "lk"},
-  {label: "授权类型 ", fieldName: "assignType", type: "select", optionList: assignType},
+  {label: "授权数据库", fieldName: "dbinfoSingle", defaultShow: true, type: "select", optionList: dbList},
+  {label: "被授权人编号", fieldName: "assignNo", defaultShow: true, type: "input", matchType: "lk"},
+  {label: "授权类型 ", fieldName: "assignType", defaultShow: true, type: "select", optionList: assignType},
   {label: "经办人", fieldName: "operator", type: "input"},
 ]);
 const tableFieldList = reactive({
   fieldList: [
     {
       label: "db授权主键", fieldName: "idDbAssign", type: "long",
-
-
     },
     {
       label: "授权数据库", fieldName: "dbinfoSingle", type: "select", optionList: dbList,
       required: true, formShow: !false,
-
     },
     {
       label: "授权数据库", fieldName: "dbinfoRespDto['dbComment']", type: "select", optionList: dbList,
@@ -69,7 +64,6 @@ const tableFieldList = reactive({
     },
     {
       label: "经办人", fieldName: "operator", type: "input",
-
       tableShow: !false
     },
     {
@@ -94,53 +88,33 @@ const tableFieldList = reactive({
     },
     {
       label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
-
-
     },
     {
       label: "修改人", disabled: "Y", fieldName: "updatedBy", type: "input",
-
-
     },
     {
       label: "创建日期", disabled: "Y", fieldName: "createdDate", type: "date",
-
-
     },
     {
       label: "修改日期", disabled: "Y", fieldName: "updatedDate", type: "date",
-
-
     },
     {
       label: "数据版本号", fieldName: "version", type: "number",
-
-
     },
     {
       label: "是否已逻辑", fieldName: "isDel", type: "number",
-
-
     },
     {
       label: "数据编号", fieldName: "dataNo", type: "input",
-
-
     },
     {
       label: "状态码", fieldName: "statusCode", type: "input",
-
-
     },
     {
       label: "状态码名称", fieldName: "statusName", type: "input",
-
-
     },
     {
       label: "国际码", fieldName: "local", type: "input",
-
-
     },
   ],
   batchFieldList: []
@@ -148,7 +122,6 @@ const tableFieldList = reactive({
 const primaryKey = "idDbAssign";
 const grantPermissionRef = ref();
 const rules = {};
-
 const dataForm = ref<any>({});
 provide("dataForm", dataForm);
 const dialogProps = reactive<DialogProps>({
@@ -163,7 +136,6 @@ const dialogProps = reactive<DialogProps>({
 });
 provide("dialogProps", dialogProps);
 let permissions = ref<any>({});
-
 const searchUserOrRole = (val: any) => {
   let type = dataForm.value.assignType;
   if (!type) {
@@ -211,8 +183,6 @@ const initDbList = async () => {
     dbList.value.push({name: item.dbType + ':' + item.host + '/' + item.dbName, value: item.dataNo})
   });
 };
-
-
 const dataFormat = (name: string, cellValue: Object): any => {
   if (name == "assignType") {
     return assignType.value.find(item => item.value == parseInt(cellValue))?.name;
@@ -231,7 +201,6 @@ onMounted(() => {
 });
 </script>
 <style lang="scss" scoped>
-
 </style>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">

@@ -3,7 +3,6 @@ import {computed, inject, onMounted, ref, unref, watch} from "vue";
 import {warning} from "@/utils/message";
 import {FieldInfo} from "@/components/types/PageFieldInfo";
 import Help from "@/components/help.vue";
-
 const props = defineProps({
       // allItem: {type: Array, required: true},
       item: {type: Object, required: true},
@@ -187,7 +186,6 @@ const compPreps = () => {
     } else {
       formFields[fieldName] = field;
     }
-
   }
 //  console.log(field);
 };
@@ -211,7 +209,6 @@ onMounted(() => {
 }
 </style>
 <template>
-
   <div class="comp-info"
        :style="{ 'width': isSearch && field.preps['type'] != 'daterange' ? '150px' : '100%','height':'100%' }">
     <help :message="item?.helpMsg" v-if="item?.helpMsg"/>

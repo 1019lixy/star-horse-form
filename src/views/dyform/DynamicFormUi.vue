@@ -10,7 +10,6 @@ import {getMenuId, loadData, loadPagePermission} from "@/api/sh_api";
 import {Config} from "@/api/settings";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
-
 const router = useRouter();
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/userdb-manage/userdb/dynamicForm/pageList",
@@ -27,7 +26,6 @@ const dataUrl: ApiUrls = {
   uploadUrl: ""
 };
 let designForm = DesignForm(piniaInstance);
-
 let selfBtnFunc = ref<BtnAuth[]>([]);
 let isPreview = ref<boolean>(false);
 const closeAction = () => {
@@ -46,9 +44,7 @@ const loadFormData = async (formId: any) => {
   designForm.setIsEdit(false);
   data["details"] = {};
   designForm.setFormInfo(data);
-
 }
-
 const searchFormData = reactive<SearchProps[]>([
   {label: "表单名称", fieldName: "formName", defaultShow: true, type: "input", matchType: "lk"},
   {label: "创建时间", fieldName: "createDate", defaultShow: true, type: "date", matchType: "bt"},
@@ -57,8 +53,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     {
       label: "主键", fieldName: "idDynamicForm", type: "long",
-
-
     },
     {
       label: "表单名称", fieldName: "formName", type: "input",
@@ -132,66 +126,44 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     },
     {
       label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
-
-
     },
     {
       label: "修改人", disabled: "Y", fieldName: "updatedBy", type: "input",
-
-
     },
     {
       label: "创建日期", disabled: "Y", fieldName: "createdDate", type: "date",
-
-
     },
     {
       label: "修改日期", disabled: "Y", fieldName: "updatedDate", type: "date",
-
-
     },
     {
       label: "数据版本号", fieldName: "version", type: "number",
-
-
     },
     {
       label: "是否已逻辑", fieldName: "isDel", type: "number",
-
-
     },
     {
       label: "数据编号", fieldName: "dataNo", type: "input",
-
-
     },
     {
       label: "状态码", fieldName: "statusCode", type: "input",
-
-
     },
     {
       label: "状态码名称", fieldName: "statusName", type: "input",
-
     },
     {
       label: "国际码", fieldName: "local", type: "input",
-
     },
   ],
-
   userTableFuncs: [{
     authority: "add", funcName: "addSubForm", btnName: "添加子表", funcName: (row) => {
       addSubForm(row);
     }
   }],
-
 });
 const primaryKey = "idDynamicForm";
 const dynamicFormRef = ref();
 const rules = {};
-
-
 const dataForm = ref({});
 provide("dataForm", dataForm);
 const dialogProps = reactive<DialogProps>({
@@ -207,7 +179,6 @@ const dialogProps = reactive<DialogProps>({
   viewVisible: false
 });
 provide("dialogProps", dialogProps);let permissions = ref<any>({});
-
 const addSubForm = (params: any) => {
   console.log(params);
   router.push({path: "/dyform/DynamicForm", query: {parentId: params.idDynamicForm}});
@@ -239,14 +210,12 @@ const initData = async () => {
       loadFormData(params[primaryKey]);
     }
   });
-
 };
 onMounted(async () => {
   await  initData();
 })
 </script>
 <style lang="scss" scoped>
-
 </style>
 <template>
   <star-horse-dialog

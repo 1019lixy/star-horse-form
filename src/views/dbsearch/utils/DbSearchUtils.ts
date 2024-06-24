@@ -4,9 +4,7 @@ import {closeLoad, load, loadGetData} from "@/api/sh_api.ts";
 import {getRequest} from "@/api/star_horse.ts";
 import piniaInstance from "@/store";
 import {ConsumerView} from "@/store/ConsumerViewStore.ts";
-
 const consumerView = ConsumerView(piniaInstance);
-
 /**
  * 打开数据库，并返回所以表信息
  * @param configId
@@ -31,7 +29,6 @@ export function openDatabase(configId: any): Promise<any> | null {
         });
     });
 }
-
 /**
  * 初始化当前用户权限的数据库配置信息
  */
@@ -50,7 +47,6 @@ export async function initDbList(): Promise<Array<SelectOption>> {
     })
     return redata;
 }
-
 /**
  * 获取数据库所有表信息
  * @param configId
@@ -72,7 +68,6 @@ export async function tableList(configId: number): Promise<Array<SelectOption>> 
     })
     return redata;
 }
-
 /**
  * 获取指定表的所有字段信息
  * @param configId 数据库配置Id

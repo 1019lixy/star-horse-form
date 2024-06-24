@@ -5,7 +5,6 @@ import {closeLoad, load} from "@/api/sh_api";
 import {postRequest} from "@/api/star_horse";
 import {FieldMapping, OrderByInfo} from "@/components/types/PageFieldInfo";
 import {SearchParams} from "@/components/types/Params";
-
 export default defineComponent({
   setup(props, context) {
     const parentField = context.attrs["parentField"];
@@ -18,7 +17,6 @@ export default defineComponent({
     let dataField = shallowRef("");
     let multipleSelection = shallowRef<Array<any>>([]);
     let actionName = shallowRef("keydown.enter");
-
     let pageInfo = ref<PageProps>({
       pageSize: 20,
       currentPage: 1,
@@ -36,7 +34,6 @@ export default defineComponent({
       loadByPage()
     }
     const loadByPage = () => {
-
       if (filterCondtion) {
         searchData.value.push(...filterCondtion);
       }
@@ -70,7 +67,6 @@ export default defineComponent({
       }
       context.emit('selfFunc', prep);
     };
-
     const searchDataFun = (data: any) => {
       searchData.value = data;
       loadByPage();
@@ -206,7 +202,6 @@ export default defineComponent({
 :deep(.el-table__cell) {
   padding: 0;
 }
-
 :deep(th.el-table__cell:first-child) {
   padding: 5px 0;
 }

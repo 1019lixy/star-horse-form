@@ -7,7 +7,6 @@ import StarHorseFormObject from "@/components/comp/StarHorseFormObject.vue";
 import StarHorseFormTable from "@/components/comp/StarHorseFormTable.vue";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import piniaInstance from "@/store";
-
 const props = defineProps({
   compUrl: {type: Object as PropType<ApiUrls>},
   fieldList: {type: Object as PropType<PageFieldInfo>, required: true},
@@ -47,7 +46,6 @@ const validMsg = (item: any) => {
 };
 </script>
 <template>
-
   <template v-for="item in fieldList.fieldList">
     <el-row v-if="item instanceof Array">
       <template v-for="sitem in item">
@@ -58,7 +56,6 @@ const validMsg = (item: any) => {
               :prop="sitem.fieldName"
               :rules="sitem.required?validMsg(sitem):[]"
               v-if="sitem.formShow&&sitem.type!='button'">
-
             <star-horse-item :compSize="compSize" :isView="isView" :primaryKey="primaryKey" v-model:dataForm="dataForm"
                              :item="sitem"
                              :isEdit="!dialogProps?.ids||dialogProps?.ids==-1"/>
@@ -97,16 +94,13 @@ const validMsg = (item: any) => {
             </template>
           </el-tab-pane>
         </template>
-
       </el-tabs>
     </template>
-
     <star-horse-item v-else-if="item.type=='comp'||item.type=='button'" :isView="isView" :primaryKey="primaryKey"
                      v-model:dataForm="dataForm"
                      :item="item"
                      :compSize="compSize"
                      :isEdit="!dialogProps?.ids||dialogProps?.ids==-1"/>
-
     <template v-else-if="item.batchFieldList&&item.batchFieldList.length>0">
       <template v-if="item.batchFieldList.length>1">
         <el-tabs v-model="normalTabList">
@@ -131,7 +125,6 @@ const validMsg = (item: any) => {
                        :isEdit="!dialogProps?.ids||dialogProps?.ids==-1"/>
     </el-form-item>
   </template>
-
   <template v-if="fieldList[batchFieldName]?.length > 1">
     <el-tabs v-model="tabList">
       <template v-for="(item,key) in fieldList[batchFieldName]">
@@ -153,22 +146,18 @@ const validMsg = (item: any) => {
   display: flex;
   flex-direction: column;
 }
-
 :deep(.el-tabs__content ) {
   height: 100%;
   flex: 1;
 }
-
 :deep(.el-tab-pane) {
   height: 100%;
   flex: 1;
 }
-
 :deep(.el-form) {
   display: block;
   width: 100%;
 }
-
 .data-form {
   height: 100%;
 }

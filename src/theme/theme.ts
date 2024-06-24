@@ -4,12 +4,10 @@ export enum ThemeType {
     DarkDimmed = 'darkDimmed',
     FollowOs = 'followOs',
 }
-
 export enum EditorThemeType {
     DashboardLightTheme = 'DashboardLightTheme',
     DashboardBlackTheme = 'DashboardBlackTheme',
 }
-
 export enum PrimaryColorType {
     Polar_Green = 'polar-green',
     Golden_Purple = 'golden-purple',
@@ -20,7 +18,6 @@ export enum PrimaryColorType {
     Blue2 = 'blue2',
     Gold = 'gold',
 }
-
 export enum LangType {
     EN_US = 'en_us',
     ZH_CN = 'zh_cn',

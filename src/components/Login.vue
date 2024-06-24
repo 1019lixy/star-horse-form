@@ -9,7 +9,6 @@ import type {ElForm, FormInstance, FormRules, TabsPaneContext} from 'element-plu
 import {warning} from "@/utils/message";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {i18n} from "@/lang";
-
 interface LoginInfo {
   userName: string;
   password: string;
@@ -18,7 +17,6 @@ interface LoginInfo {
   validCode: string;
   uuid: string;
 }
-
 const loginTitle = Config.title;
 let validateImg = ref<string>("");
 let uuid = ref<string>("");
@@ -46,7 +44,6 @@ const getFlag = () => {
  * 处理登录信息
  */
 const handleLogin = async (elForm: FormInstance | undefined) => {
-
   if (!elForm) return;
   await elForm.validate(async (valid, fields) => {
     loading.value = !loading.value;
@@ -75,7 +72,6 @@ const handleLogin = async (elForm: FormInstance | undefined) => {
         } else {
           router.push("/");
         }
-
       }
     }
   });
@@ -118,10 +114,8 @@ watch(
     }
 );
 </script>
-
 <template>
   <div class="login">
-
     <div class="login-content">
       <div class="left">
         <div class="title">
@@ -216,7 +210,6 @@ watch(
                   </el-button>
                 </el-form-item>
               </el-form>
-
             </el-tab-pane>
             <el-tab-pane :label="i18n('loginType.rtCode')" name="second">
               <div class="login-form" style="margin:0 auto;height: 455px">
@@ -224,7 +217,6 @@ watch(
               </div>
             </el-tab-pane>
           </el-tabs>
-
           <el-divider content-position="center">{{ i18n("loginType.otherType") }}</el-divider>
           <div class="other-login-icon">
             <el-tooltip :content="i18n('loginType.github')">
@@ -243,11 +235,9 @@ watch(
           </div>
         </div>
       </div>
-
       <!--  底部  -->
     </div>
   </div>
-
 </template>
 <style lang="scss" scoped>
 .demo-tabs > .el-tabs__content {
@@ -256,35 +246,29 @@ watch(
   font-size: 32px;
   font-weight: 600;
 }
-
 :deep(#app) {
   height: 100%;
   margin: 0 auto;
 }
-
 .login {
   position: relative;
   height: 100%;
-
   .login-content {
     display: flex;
     margin-left: auto;
     margin-right: auto;
     height: 100%;
-
     .left {
       padding: 30px;
       flex: 1 1 0%;
       --tw-bg-opacity: 0.2;
       --tw-bg-opacity: 1;
       background-color: rgba(107, 114, 128, 1);
-
       .title {
         position: relative;
         display: flex;
         align-items: center;
         color: rgba(255, 255, 255, 1);
-
         img {
           margin-right: 10px;
           height: 48px;
@@ -293,14 +277,12 @@ watch(
           border-style: solid;
           max-width: 100%;
         }
-
         span {
           font-size: 20px;
           line-height: 1;
           font-weight: 700;
         }
       }
-
       .left_content {
         height: calc(100% - 60px);
         justify-content: center;
@@ -308,20 +290,17 @@ watch(
         display: flex;
       }
     }
-
     .right {
       padding: 30px;
       display: flex;
       flex-direction: row;
       flex: 1 1 0%;
-
       .title {
         justify-content: flex-end;
         color: rgba(255, 255, 255, 1);
         align-items: center;
         display: flex;
       }
-
       .right-content {
         max-width: 500px;
         margin: auto;
@@ -332,65 +311,54 @@ watch(
     }
   }
 }
-
 .__title {
   margin: 0 auto 30px auto;
   text-align: center;
   color: #707070;
 }
-
 .login-form {
   border-radius: 6px;
   background: #ffffff;
   width: 500px;
   padding: 25px 25px 5px 25px;
 }
-
 .other-login-icon {
   display: flex;
   width: 100%;
   justify-content: space-between;
 }
-
 .login-form .el-input,
 .el-button,
 .login-form.el-input input {
   height: 42px;
 }
-
 .el-button > span {
   font-size: 18px;
 }
-
 .input-icon {
   height: 39px;
   width: 14px;
   margin-left: 2px;
 }
-
 .login-tip {
   font-size: 13px;
   text-align: center;
   color: #bfbfbf;
 }
-
 .login-code {
   width: 33%;
   display: inline-block;
   height: 38px;
   float: right;
 }
-
 .login-code img {
   cursor: pointer;
   vertical-align: middle;
 }
-
 .login-footer {
   width: 100%;
   clear: both;
 }
-
 .login-footer > span {
   width: 100%;
   align-items: center;

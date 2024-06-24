@@ -1,6 +1,5 @@
 import {defineStore} from "pinia";
 import {Config} from "@/api/settings";
-
 export const GlobalConfig: any = defineStore("GlobalConfig", {
     state: () => {
         return {
@@ -15,7 +14,6 @@ export const GlobalConfig: any = defineStore("GlobalConfig", {
         getConfigFormInfo: (state: any) => {
             return state.configFormInfo;
         },
-
     },
     actions: {
         /**
@@ -25,7 +23,6 @@ export const GlobalConfig: any = defineStore("GlobalConfig", {
         setConfigFormInfo(data: any) {
             this.configFormInfo = data;
             localStorage.setItem("starHorseConfigInfo", JSON.stringify(data));
-
             Config.buttonStyle.value = data.buttonShowType || "dropdown";
             console.log(data, Config.buttonStyle.value);
             if (data.themeColor) {
@@ -34,7 +31,6 @@ export const GlobalConfig: any = defineStore("GlobalConfig", {
                 document.documentElement.style.setProperty('--el-tree-expand-icon-color', data.themeColor)
             }
         },
-
         /**
          * 清除所有Tab
          */

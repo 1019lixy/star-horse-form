@@ -1,8 +1,6 @@
 <script setup lang="ts" name="ContinusInstanceInit">
 import {ref} from "vue";
-
 import SubNodeInfo from "@/views/continus/SubNodeInfo.vue";
-
 const step = ref<number>(2);
 const currentItem = ref<number>(0);
 const dataForm = ref<any>({});
@@ -59,9 +57,7 @@ const nodeList = ref<any>([
   {icon: "", name: "Jenkins任务"},
   {icon: "", name: "大文件外发"}
 ]);
-
 const addRepo = () => {
-
 };
 const addSubNode = () => {
   nodeDialog.value = !nodeDialog.value;
@@ -176,7 +172,6 @@ const editNode = (currentIndex: number) => {
           </div>
         </div>
         <div class="step">
-
           <i class="icon node-arrow">
             <star-horse-icon icon-class="arrow-double-right" style="vertical-align: middle;"/>
           </i>
@@ -185,7 +180,6 @@ const editNode = (currentIndex: number) => {
               <star-horse-icon icon-class="add" style="vertical-align: middle;"/>
             </el-tooltip>
           </i>
-
         </div>
         <div class="start_end">结束</div>
         <el-button @click="addNode(-1)" class="init-btn" text>
@@ -214,7 +208,6 @@ const editNode = (currentIndex: number) => {
                 <el-col :span="11">
                   <el-form-item label="代码分支" prop="codeBranch" required>
                     <el-select clearable filterable placeholder="请选择流水线名称" v-model="dataForm.codeBranch">
-
                     </el-select>
                   </el-form-item>
                 </el-col>
@@ -305,10 +298,8 @@ const editNode = (currentIndex: number) => {
                     <el-radio label="3">成功完成指定子任务&nbsp;<el-select clearable
                                                                            filterable placeholder="请选择子节点"
                                                                            v-model="dataForm.subNodeList">
-
                     </el-select>
                     </el-radio>
-
                   </el-radio-group>
                 </el-form-item>
               </el-col>
@@ -344,14 +335,12 @@ const editNode = (currentIndex: number) => {
   visibility: visible;
   overflow-x: hidden;
   overflow-y: auto;
-
   .node-menu {
     box-shadow: inset -1px 0 0 0 #e8e8e8;
     flex-shrink: 0;
     overflow: auto;
     width: 110px;
     height: calc(100% - 200px);
-
     .node-item {
       box-shadow: inset -1px -1px 0 0 #e8e8e8;
       cursor: pointer;
@@ -360,13 +349,9 @@ const editNode = (currentIndex: number) => {
       line-height: 48px;
       padding-left: 16px;
       position: relative;
-
-
     }
-
     .node-item.active {
       color: var(--star-horse-style);
-
       &:before {
         background-color: var(--star-horse-style);
         bottom: 0;
@@ -378,7 +363,6 @@ const editNode = (currentIndex: number) => {
       }
     }
   }
-
   .node-list {
     display: flex;
     flex-direction: column;
@@ -386,22 +370,18 @@ const editNode = (currentIndex: number) => {
     position: relative;
     width: calc(100% - 110px);
     height: 90%;
-
     .content-node {
       max-height: calc(100vh - 200px);
       overflow: auto;
-
       .node {
         display: flex;
         flex-wrap: wrap;
         padding: 0 20px 8px 0;
-
         .item-box {
           display: inline-block;
           margin: 0 0 12px 20px;
           max-width: 200px;
           width: calc(33.3333% - 20px);
-
           div {
             .item-logo {
               align-items: center;
@@ -412,13 +392,11 @@ const editNode = (currentIndex: number) => {
               font-size: 14px;
               height: 64px;
               padding: 12px;
-
               .node-icon {
                 width: 40px;
                 height: 40px;
               }
             }
-
             .item-desc {
               border-radius: 4px;
               bottom: 0;
@@ -438,41 +416,32 @@ const editNode = (currentIndex: number) => {
       }
     }
   }
-
   .node-desc {
-
   }
 }
-
 .config-content {
   flex: 1;
   overflow: hidden;
-
   .el-card {
     height: inherit;
   }
 }
-
 .template-list {
   height: 420px;
   padding: 0 24px;
-
   .template-item {
     border: 1px solid #e8e8e8;
     border-radius: 4px;
     padding: 16px;
     position: relative;
     width: 98%;
-
     .title {
       color: #383838;
       font-weight: 600;
     }
-
     .contents {
       display: flex;
       flex-wrap: wrap;
-
       .content {
         align-items: center;
         cursor: pointer;
@@ -480,7 +449,6 @@ const editNode = (currentIndex: number) => {
         height: 40px;
         line-height: 40px;
         margin-top: 12px;
-
         .content-title {
           border-radius: 4px;
           box-shadow: 0 0 4px 0 rgba(0, 0, 0, .12);
@@ -492,26 +460,22 @@ const editNode = (currentIndex: number) => {
     }
   }
 }
-
 .config-nav-bar {
   .nav-bar-left {
     width: 75%;
   }
-
   .nav-bar-right {
     justify-items: right;
     align-items: center;
     text-align: center;
   }
 }
-
 .pipeline-nav {
   display: inline-block;
   margin: 5px 0;
   border: 1px solid var(--star-horse-font-color);
   width: 100%;
   position: relative;
-
   .icon {
     font-style: normal;
     text-align: center;
@@ -521,7 +485,6 @@ const editNode = (currentIndex: number) => {
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
   }
-
   .pright {
     color: #e8e8e8;
     cursor: pointer;
@@ -531,7 +494,6 @@ const editNode = (currentIndex: number) => {
     display: none;
     position: absolute;
   }
-
   .nav-panel {
     background-color: var(--star-horse-white);
     border: 1px solid #dadada;
@@ -545,30 +507,24 @@ const editNode = (currentIndex: number) => {
     position: relative;
     text-align: center;
     width: 110px;
-
     .label {
       display: block;
       width: 110px;
     }
-
     &:hover .pright {
       display: block;
     }
-
     .text-overflow {
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
-
   }
-
   .nav-panel.is-active {
     background-color: var(--star-horse-style);
     border: 1px solid var(--star-horse-style);
     box-shadow: none;
     color: #ffffff !important;
-
     &:after {
       border: 9px solid transparent;
       border-top-color: var(--star-horse-style);
@@ -580,42 +536,33 @@ const editNode = (currentIndex: number) => {
       width: 0;
     }
   }
-
   .step {
     flex-shrink: 0;
     position: relative;
     text-align: center;
     width: 30px;
-
     .node-add {
       cursor: pointer;
       display: none;
       color: var(--star-horse-style);
       font-size: 16px;
     }
-
     .node-arrow {
       cursor: pointer;
       font-size: 16px;
-
     }
-
     &:hover .node-arrow {
       display: none;
     }
-
     &:hover .node-add {
       display: block;
     }
-
     &:before {
       left: 0;
     }
-
     &:after {
       right: 0;
     }
-
     &:after, &:before {
       background-color: #e8e8e8;
       content: "";
@@ -624,9 +571,7 @@ const editNode = (currentIndex: number) => {
       top: 9px;
       width: 6px;
     }
-
   }
-
   .nav {
     align-items: center;
     color: #606060;
@@ -634,7 +579,6 @@ const editNode = (currentIndex: number) => {
     overflow-x: auto;
     overflow-y: hidden;
     margin: 5px 0;
-
     .nav-setting {
       align-items: center;
       color: #383838;
@@ -642,14 +586,12 @@ const editNode = (currentIndex: number) => {
       margin-left: 5px;
       justify-content: center;
     }
-
     .nav-line {
       background-color: #dadada;
       height: 52px;
       margin: 0 20px;
       width: 1px;
     }
-
     .start_end {
       border: 1px solid #e8e8e8;
       border-radius: 100%;
@@ -663,29 +605,24 @@ const editNode = (currentIndex: number) => {
       text-align: center;
       vertical-align: middle;
     }
-
     .init-btn {
       margin-left: 20px;
       background: 0 0;
       color: var(--star-horse-style);
       padding-left: 0;
       padding-right: 0;
-
       &:hover {
         background-color: transparent;
         -webkit-box-shadow: none;
         box-shadow: none;
       }
     }
-
     .nav-nodes {
       align-items: center;
       display: flex;
-
       .node-content {
         align-items: center;
         display: flex;
-
       }
     }
   }

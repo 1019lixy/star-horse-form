@@ -7,7 +7,6 @@ import {SearchProps} from "@/components/types/SearchProps";
 import {Config} from "@/api/settings";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
-
 let designForm = DesignForm(piniaInstance);
 const normalPageRef = ref();
 let relationTables = ref<any>({});
@@ -31,7 +30,6 @@ const tableFieldList = ref<any>({
       fieldList: [],
     })
 ;
-
 /**
  * 表单数据直接取定义的数据preps,
  * 列表数据重新定义，方便排序和位置拖拽
@@ -40,7 +38,6 @@ const primaryKey = ref<string>("");
 const rules = ref<any>({});
 const hasData = ref<boolean>(true);
 const formInfo = ref<any>({});
-
 const props = defineProps({
   param: {type: String, required: true},
 });
@@ -81,8 +78,6 @@ watch(
     },
     {deep: true}
 );
-
-
 const dataForm = ref({});
 provide("dataForm", dataForm);
 //记录表单的属性
@@ -124,9 +119,7 @@ watch(() => props.param,
       immediate: false
     })
 </script>
-
 <template>
-
   <template v-if="hasData">
     <star-horse-dialog
         :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible"
@@ -166,7 +159,5 @@ watch(() => props.param,
     </el-card>
   </template>
   <el-empty :content="errorMsg" v-else></el-empty>
-
 </template>
-
 <style lang="scss" scoped></style>

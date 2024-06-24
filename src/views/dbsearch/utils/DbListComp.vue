@@ -11,7 +11,6 @@ import {PageFieldInfo} from "@/components/types/PageFieldInfo.d.ts";
 import {SelectOption} from "@/components/types/SearchProps.d.ts";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import StarHorseDialog from "@/components/comp/StarHorseDialog.vue";
-
 let configStore = GlobalConfig(piniaInstance);
 let designForm = DesignForm(piniaInstance);
 let allFormDataList = computed(() => designForm.allFormDataList);
@@ -63,11 +62,9 @@ let dataFieldInfo = ref<PageFieldInfo>({
       label: "展示方式",
       fieldName: "containerType",
       type: "select",
-
       optionList: containerTypeList,
       formShow: !false,
       tableShow: !false,
-
       actionNames: "change",
       actions: (val) => containerTypeOperation(val)
     }, {
@@ -75,12 +72,10 @@ let dataFieldInfo = ref<PageFieldInfo>({
       fieldName: "columns",
       type: "number",
       helpMsg: "一行展示几列,展示方式为栅格时有效",
-
       formShow: !false,
       tableShow: !false,
       disabled: columnsContr,
       defaultValue: configData.value.columns,
-
       preps: {
         min: 1,
         max: 12,
@@ -92,12 +87,10 @@ let dataFieldInfo = ref<PageFieldInfo>({
       label: "排除字段",
       fieldName: "exclusionFields",
       type: "select",
-
       multiple: "Y",
       optionList: selectFields,
       formShow: !false,
       tableShow: !false,
-
     },
     {
       batchFieldList: [
@@ -109,20 +102,16 @@ let dataFieldInfo = ref<PageFieldInfo>({
             label: "字段",
             fieldName: "fieldName",
             type: "select",
-
             optionList: selectFields,
             formShow: !false,
             tableShow: !false,
-
           }, {
             label: "组件类型",
             fieldName: "fieldType",
             type: "select",
-
             optionList: allFormDataList,
             formShow: !false,
             tableShow: !false,
-
           }]
         }
       ]
@@ -159,7 +148,6 @@ const openDb = () => {
   if (!dbIndex.value) {
     return;
   }
-
   openDatabase(dbIndex.value)?.then((res: any) => {
     tableAndColumnsList.value = res;
     tableAndColumnsList.value.forEach((item: any) => {
@@ -169,10 +157,8 @@ const openDb = () => {
     });
     assignDataList.value = tableAndColumnsList.value;
   });
-
   currentIndex.value = dbIndex.value;
 };
-
 const selectFieldsOperation = (datas: any) => {
   selectFields.value = [];
   datas?.forEach((item: any) => {
@@ -213,7 +199,6 @@ const getDefaultVal = (type: String) => {
     return "";
   }
 };
-
 const getFieldType = (item: any, fieldCompTypes: Array<any>) => {
   if (fieldCompTypes && fieldCompTypes.length > 0) {
     let result = fieldCompTypes.find((temp: any) => temp.fieldName == item.fieldName);
@@ -255,7 +240,6 @@ const onDataCopy = async (data: any) => {
     if (reData.commonFieldFlag?.toLowerCase() == "y" && config.commonFieldFlag?.toLowerCase() == "n") {
       continue;
     }
-
     if (reData.primaryKey?.toLowerCase() == "y") {
       formInfo["formId"] = fieldName;
       continue;
@@ -280,7 +264,6 @@ const onDataCopy = async (data: any) => {
       formShow: "Y",
       placeholder: "",
     };
-
     mvData['itemType'] = getFieldType(reData, data.fieldCompTypes);
     mvData.preps['id'] = mvData['id'];
     mvData.preps['label'] = reData.comment;
@@ -289,7 +272,6 @@ const onDataCopy = async (data: any) => {
     mvData['compType'] = "formItem";
     mvDataList.push(mvData);
   }
-
   if (compLength == 0 || compLength == 1) {
     designForm.setFormInfo(formInfo);
   }
@@ -394,7 +376,6 @@ onMounted(() => {
   init();
 });
 </script>
-
 <template>
   <star-horse-dialog :boxWidth="640" :dialog-visible="currentDataVisible"
                      selfFunc="true"
@@ -509,33 +490,27 @@ onMounted(() => {
       </template>
     </draggable>
   </el-scrollbar>
-
 </template>
-
 <style scoped lang="scss">
 :deep(.el-popover) {
   overflow-x: hidden;
 }
-
 .popover-header {
   display: flex;
   background: var(--star-horse-style);
   height: 30px;
   justify-content: end;
 }
-
 ul {
   margin: 5px;
   display: flex;
   flex-direction: column;
-
   li {
     height: 25px;
     border-radius: 2px;
     cursor: pointer;
     margin: 1px;
     display: flex;
-
     :deep(.el-tooltip__trigger) {
       display: inline-flex;
       align-items: center;
@@ -548,35 +523,28 @@ ul {
       height: inherit;
       flex: 1;
     }
-
     .svg-icon {
       width: 18px;
       height: 18px;
     }
   }
-
   li:nth-child(even) {
     background: #e5e5e5;
   }
-
   li:nth-child(odd) {
     background: #f1f2f3;
   }
 }
-
 .field-table {
   border: 1px solid var(--star-horse-style);
-
   tr > th, tr > td {
     border: 1px solid var(--star-horse-style);
     height: 25px;
     font-size: 12px;
     padding-left: 5px;
-
     :nth-child(2) {
       width: 120px;
     }
   }
-
 }
 </style>

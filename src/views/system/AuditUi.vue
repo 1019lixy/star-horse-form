@@ -6,7 +6,6 @@ import {onMounted, provide, reactive, ref} from "vue";
 import {SearchProps} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {getMenuId, loadPagePermission} from "@/api/sh_api.ts";
-
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/system-config/system/auditEntity/pageList",
   mergeUrl: "/system-config/system/auditEntity/merge",
@@ -22,7 +21,6 @@ const dataUrl: ApiUrls = {
   uploadUrl: "",
   condition: []
 };
-
 const requestMethod = [{name: "POST", value: "POST"}, {name: "GET", value: "GET"},
   {name: "PUT", value: "PUT"}, {name: "DELETE", value: "DELETE"},];
 const searchFormData = reactive<SearchProps[]>([
@@ -35,8 +33,6 @@ const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
       label: "主键", fieldName: "idAudit", type: "long",
-
-
     },
     {
       label: "操作人", fieldName: "operator", type: "input",
@@ -55,53 +51,33 @@ const tableFieldList = reactive<PageFieldInfo>({
     },
     {
       label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
-
-
     },
     {
       label: "修改人", disabled: "Y", fieldName: "updatedBy", type: "input",
-
-
     },
     {
       label: "创建日期", disabled: "Y", fieldName: "createdDate", type: "date",
-
-
     },
     {
       label: "修改日期", disabled: "Y", fieldName: "updatedDate", type: "date",
-
-
     },
     {
       label: "数据版本号", fieldName: "version", type: "number",
-
-
     },
     {
       label: "是否已逻辑", fieldName: "isDel", type: "number",
-
-
     },
     {
       label: "数据编号", fieldName: "dataNo", type: "input",
-
-
     },
     {
       label: "状态码", fieldName: "statusCode", type: "input",
-
-
     },
     {
       label: "状态码名称", fieldName: "statusName", type: "input",
-
-
     },
     {
       label: "国际码", fieldName: "local", type: "input",
-
-
     },
     {
       label: "接口地址", fieldName: "url", type: "input",
@@ -119,15 +95,11 @@ const tableFieldList = reactive<PageFieldInfo>({
       tableShow: !false
     },
   ],
-
-
   cellEditable: false
 });
 const primaryKey = "idAudit";
 const auditRef = ref();
 const rules = {};
-
-
 const dataForm = ref({});
 provide("dataForm", dataForm);
 const dialogProps = reactive<DialogProps>({
@@ -138,7 +110,6 @@ const dialogProps = reactive<DialogProps>({
   editVisible: false,
   uploadVisible: false,
   viewVisible: false,
-
 });
 provide("dialogProps", dialogProps);
 let permissions = ref<any>({});
@@ -153,7 +124,6 @@ onMounted(async () => {
 })
 </script>
 <style lang="scss" scoped>
-
 </style>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">

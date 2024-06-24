@@ -11,7 +11,6 @@ import {error} from "@/utils/message";
 import {Config} from "@/api/settings";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
-
 let designForm = DesignForm(piniaInstance);
 const props = defineProps({
   param: {type: String, required: true},
@@ -53,7 +52,6 @@ const clear = () => {
 };
 const exportData = () => {
   load("数据处理中");
-
   let params = {
     fieldList: viewSearchRef.value.createCreateParams(searchFormData.value),
     pageSize: 100,
@@ -104,10 +102,7 @@ watch(
     },
     {deep: true}
 );
-
-
 const dataForm = ref({});
-
 provide("dataForm", dataForm);
 //记录表单的属性
 const formFields = reactive<Array<any>>([]);
@@ -129,8 +124,6 @@ let permissions = ref<any>({});
 const dataFormat = (name: string, cellValue: Object): any => {
   return cellValue;
 };
-
-
 const init = async () => {
   designForm.setIsEdit(false);
   permissions.value = await loadPagePermission(getMenuId());
@@ -141,7 +134,6 @@ onMounted(async () => {
   await init();
 });
 </script>
-
 <template>
   <template v-if="hasData">
     <star-horse-dialog
@@ -181,7 +173,5 @@ onMounted(async () => {
                    @changePage="loadFormData" :isPreview="isPreview"/>
     </el-card>
   </template>
-
 </template>
-
 <style scoped></style>

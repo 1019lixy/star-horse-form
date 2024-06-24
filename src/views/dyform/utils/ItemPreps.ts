@@ -5,7 +5,6 @@ import {searchMatchList} from "@/api/sh_api.ts";
 import {FieldInfo} from "../../../components/types/PageFieldInfo";
 import {ascOrDesc, validDataUrl} from "../../../api/system.ts";
 import {warning} from "../../../utils/message.ts";
-
 /**
  * 数据源属性配置
  */
@@ -66,7 +65,6 @@ export function dataSourceFields() {
                             dictRequired.value = true;
                         }
                     },
-
                 }, {
                 label: "验证",
                 fieldName: "validBtn",
@@ -94,7 +92,6 @@ export function dataSourceFields() {
                                 required: dataRequired,
                                 formShow: !false,
                                 tableShow: !false,
-
                             }, {
                                 label: "属性值",
                                 fieldName: "value",
@@ -102,7 +99,6 @@ export function dataSourceFields() {
                                 required: dataRequired,
                                 formShow: !false,
                                 tableShow: !false,
-
                             }]
                         }]
                     }, {
@@ -117,7 +113,6 @@ export function dataSourceFields() {
                                 required: urlRequired,
                                 formShow: !false,
                                 tableShow: !false,
-
                             },
                                 {
                                     label: "请求方式",
@@ -127,7 +122,6 @@ export function dataSourceFields() {
                                     formShow: !false,
                                     tableShow: !false,
                                     optionList: requestTypeList,
-
                                 }],
                             [{
                                 label: "标签名字段",
@@ -136,7 +130,6 @@ export function dataSourceFields() {
                                 required: urlRequired,
                                 formShow: !false,
                                 tableShow: !false,
-
                             },
                                 {
                                     label: "标签值字段",
@@ -145,7 +138,6 @@ export function dataSourceFields() {
                                     required: urlRequired,
                                     formShow: !false,
                                     tableShow: !false,
-
                                 }]],
                         batchFieldList: [
                             {
@@ -158,7 +150,6 @@ export function dataSourceFields() {
                                     required: urlRequired,
                                     formShow: !false,
                                     tableShow: !false,
-
                                 }, {
                                     label: "参数值",
                                     fieldName: "value",
@@ -166,7 +157,6 @@ export function dataSourceFields() {
                                     required: urlRequired,
                                     formShow: !false,
                                     tableShow: !false,
-
                                 }, {
                                     label: "匹配方式",
                                     fieldName: "matchType",
@@ -176,7 +166,6 @@ export function dataSourceFields() {
                                     formShow: !false,
                                     tableShow: !false,
                                     optionList: matchTypeList,
-
                                 },]
                             }]
                     },
@@ -191,18 +180,13 @@ export function dataSourceFields() {
                                 required: dictRequired,
                                 formShow: !false,
                                 tableShow: !false,
-
                             }]
                         },
-
                     ],
             }
         ],
-
-
     });
 }
-
 /**
  * 组件参数属性配置
  * @param fieldName
@@ -311,10 +295,8 @@ export function paramsFields(fieldName: string, item: any) {
         label: "目标属性名",
         fieldName: "distField",
         type: "input",
-
         formShow: true,
     }];
-
     let otherField: FieldInfo[] = [];
     let fieldInfos: string[] = ["dataUrl", "orderby", "fieldList", "needField"];
     for (let index in currentData) {
@@ -324,10 +306,8 @@ export function paramsFields(fieldName: string, item: any) {
                 label: temp.label,
                 fieldName: temp.fieldName,
                 type: "input",
-
                 tableShow: !false,
             });
-
         }
     }
     fields.push(dataUrls);
@@ -359,16 +339,13 @@ export function paramsFields(fieldName: string, item: any) {
                     }
                 ]
             },
-
         ]
     };
     fields.push(tabInfo);
     return reactive<PageFieldInfo | any>({
         fieldList: fields
     });
-
 }
-
 /**
  * 容器属性
  */
@@ -385,7 +362,6 @@ export function containerField(fieldName: string) {
                 required: true,
                 formShow: !false,
                 tableShow: !false,
-
             }, {
                 label: "主键",
                 fieldName: "tabName",
@@ -395,7 +371,6 @@ export function containerField(fieldName: string) {
                 required: true,
                 formShow: !false,
                 tableShow: !false,
-
             }, {
                 label: "对象名字",
                 fieldName: "objectName",
@@ -403,7 +378,6 @@ export function containerField(fieldName: string) {
                 required: true,
                 formShow: !false,
                 tableShow: !false,
-
             }, {
                 label: "是否子表",
                 fieldName: "subFormFlag",
@@ -412,7 +386,6 @@ export function containerField(fieldName: string) {
                 required: true,
                 formShow: !false,
                 tableShow: !false,
-
             }]
         }]
     };

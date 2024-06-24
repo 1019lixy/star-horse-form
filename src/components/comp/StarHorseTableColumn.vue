@@ -5,7 +5,6 @@ import {postRequest} from "@/api/star_horse";
 import {closeLoad} from "@/api/sh_api";
 import {error, success, warning} from "@/utils/message";
 import {Config} from "@/api/settings";
-
 const props = defineProps({
   compUrl: {type: Object},
   batchName: {type: String, default: ""},
@@ -16,7 +15,6 @@ const props = defineProps({
 const emits = defineEmits(["focusEvent", "blurEvent"]);
 const currentRow = ref();
 const currentRowColumnRef = ref();
-
 const focusEvent = (column: any) => {
   // currentRow.value[column["property"]] = currentRow.value[column["property"]];
 };
@@ -62,9 +60,7 @@ const cellClick = (row: any, column: any) => {
     }, 300);
   })
 };
-
 </script>
-
 <template>
   <el-table-column
       :prop="item.hidName||item.fieldName"
@@ -83,27 +79,22 @@ const cellClick = (row: any, column: any) => {
                        ref="currentRowColumnRef"
                        @blur="blurEvent"
                        v-if="scope.row.isSelected&&(scope.row.selectName==item.hideName||scope.row.selectName==item.fieldName)"/>
-
       <p @click="cellClick(scope.row, scope.column)" v-else>
         {{
           dataFormat ? dataFormat(scope.row, scope.column, scope.row[item.hideName || item.fieldName],
               scope.$index) : scope.row[item.hideName || item.fieldName]
         }}</p>
     </template>
-
   </el-table-column>
 </template>
-
 <style lang="scss">
 tbody {
   .cell {
     display: flex;
     flex-direction: row;
-
     .el-table__expand-icon {
       margin-top: 5px;
     }
-
     p {
       display: block;
     }

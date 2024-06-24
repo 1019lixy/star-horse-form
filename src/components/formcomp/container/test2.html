@@ -11,50 +11,40 @@
             margin: 0 0 1em;
             background-color: white;
         }
-
         table {
             border: 0;
             border-collapse: collapse;
         }
-
         table td, table th {
             border: 1px solid #999;
             padding: .5em 1em;
         }
-
         /*对齐*/
         .table-time div {
             text-align: center;
             min-width: 104px;
         }
-
         .table-time, tr th {
             background-color: #DBE5F1;
         }
-
         .selected {
             background-color: #FBD4B4;
         }
-
         /*图例*/
         ul li {
             list-style: none;
             float: left;
         }
-
         .table-container td {
             cursor: pointer;
         }
     </style>
-
 </head>
 <body>
 <div class="table-title"></div>
 <div class="table-container">
     <table id="myTable">
-
         <tr>
-
             <td class='select'>
                 1-1
             </td>
@@ -78,7 +68,6 @@
             </td>
         </tr>
         <tr>
-
             <td class='select'>
                 2-1
             </td>
@@ -102,7 +91,6 @@
             </td>
         </tr>
         <tr>
-
             <td class='select'>
                 3-1
             </td>
@@ -126,7 +114,6 @@
             </td>
         </tr>
         <tr>
-
             <td class='select'>
                 4-1
             </td>
@@ -159,7 +146,6 @@
     let selectedCells = [];
     let currentCell = null;
     const table = document.getElementById("myTable");
-
     // 添加鼠标事件监听器
     table.addEventListener("mousedown", function (event) {
         isDragging = true;
@@ -167,26 +153,22 @@
         startY = event.clientY;
         currentCell = event.target; // 获取当前鼠标所在的单元格
     });
-
     table.addEventListener("mousemove", function (event) {
         if (!isDragging) return;
         endX = event.clientX;
         endY = event.clientY;
     });
-
     table.addEventListener("mouseup", function () {
         isDragging = false;
         selectedCells = [];
         currentCell = null; // 清空当前单元格
     });
-
     // 获取单元格索引
     function getCellIndex(cell) {
         let rowIndex = cell.parentNode.rowIndex;
         let colIndex = cell.cellIndex;
         return {rowIndex, colIndex};
     }
-
     // 判断单元格是否在选区内
     function isCellSelected(cell, start, end, currentCell) {
         const rect = table.getBoundingClientRect();
@@ -196,16 +178,13 @@
         const cellY = rect.top + rowHeight * cell.parentNode.rowIndex;
         const currentCellX = rect.left + colWidth * currentCell ? currentCell.cellIndex : 1;
         const currentCellY = rect.top + rowHeight * currentCell ? currentCell.parentNode.rowIndex : 1;
-
         // 如果当前单元格在选区内，直接返回 true
         if (currentCellX >= startX && currentCellX <= endX && currentCellY >= startY && currentCellY <= endY) {
             return true;
         }
-
         // 否则，判断单元格是否在选区内
         return (cellX >= startX && cellX <= endX && cellY >= startY && cellY <= endY);
     }
-
     // 处理鼠标移动事件，选择单元格
     table.addEventListener("mousemove", function (event) {
         if (!isDragging) return;

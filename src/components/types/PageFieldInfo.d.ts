@@ -1,7 +1,6 @@
 import {SelectOption} from "@/components/types/SearchProps";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {SearchParams} from "@/components/types/Params";
-
 /**
  * Tab 表单数据
  */
@@ -39,7 +38,6 @@ export declare interface TabFieldInfo {
      */
     batchFieldList?: Array<BatchFieldInfo>;
 }
-
 /**
  * 事件联动
  */
@@ -53,7 +51,6 @@ export declare interface ActionRelation {
      */
     actionMethod: Function;
 }
-
 export declare interface FieldInfo {
     /**
      * 标签名称
@@ -164,7 +161,6 @@ export declare interface FieldInfo {
      */
     prefix?: string;
 }
-
 /**
  * 属性映射
  *
@@ -179,7 +175,6 @@ export declare interface FieldMapping {
      */
     distField: String
 }
-
 /**
  * 弹窗文本框属性
  */
@@ -221,7 +216,6 @@ export declare interface DialogInput {
      */
     readonly?: String;
 }
-
 /**
  * 用户自定义方法信息
  */
@@ -238,9 +232,7 @@ export declare interface UserFuncInfo {
      * 按钮显示文字名称
      */
     btnName?: string;
-
 }
-
 /**
  * 列表排序
  */
@@ -254,7 +246,6 @@ export declare interface OrderByInfo {
      */
     ascOrDesc: String;
 }
-
 /**
  * 批量添加时的导入信息
  */
@@ -272,7 +263,6 @@ export declare interface ImportInfo {
      */
     conditions?: Array<SearchParams>;
 }
-
 /**
  * 子表单信息
  */
@@ -281,7 +271,6 @@ export declare interface SubFieldInfo {
      * 对应后端dto 里的Object/Map属性名称
      */
     objectName: String;
-
     /**
      * 主键名称，对应后端dto Object/Map泛型对象的主键名称
      */
@@ -290,14 +279,12 @@ export declare interface SubFieldInfo {
      * 字段属性
      */
     fieldList: Array<FieldInfo> | any;
-
     /**
      * fieldName和fieldList 是否同一个表，组件会根据这个字段校验数据是一对多关系
      * 还是单表的批量处理
      */
     sameParentTable?: boolean;
 }
-
 /**
  * 批量表单
  */
@@ -352,7 +339,6 @@ export declare interface BatchFieldInfo {
      */
     sameParentTable?: boolean;
 }
-
 /**
  * 页面属性信息
  */
@@ -402,5 +388,4 @@ export declare interface PageFieldInfo {
      * 还是单表的批量处理
      */
     sameTable?: boolean;
-
 }

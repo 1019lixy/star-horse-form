@@ -16,7 +16,6 @@ import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
 import {validDynamicFormCompParams} from "@/views/dyform/utils/preview.ts";
 import CodeComp from "@/views/dyform/code/CodeComp.vue";
-
 const dataUrl = reactive<ApiUrls>(<ApiUrls>{
   loadByPageUrl: "/userdb-manage/userdb/dynamicForm/pageList",
   mergeUrl: "/userdb-manage/userdb/dynamicForm/merge",
@@ -44,10 +43,8 @@ let formFieldList = computed(() => designForm.formFieldList);
 let editable = ref<any>(true);
 let formInfo = computed(() => designForm.formInfo);
 const fieldPanelRef = ref();
-
 const init = async () => {
   clearData();
-
 };
 const propertyRef = ref();
 const loadFormData = async (formId: any, isParent: boolean) => {
@@ -76,7 +73,6 @@ const loadFormData = async (formId: any, isParent: boolean) => {
   designForm.setIsEdit(true);
   let activeItem = list.value[0];
   designForm.selectItem(activeItem, activeItem.itemType, "item");
-
 };
 onMounted(async () => {
   designForm.clearAll(true);
@@ -115,7 +111,6 @@ watch(() => list.value,
  * 加载Form数据
  * @param id
  */
-
 const closeAction = () => {
   designForm.setIsEdit(true);
   isPreview.value = false;
@@ -143,14 +138,12 @@ const formPropertyRef = ref();
  * 代码操作
  */
 const codeDoSave = () => {
-
 };
 const doSave = async () => {
   if (!isSubmit.value) {
     closeAction();
     return;
   }
-
   let dynameForm = JSON.parse(JSON.stringify(formInfo.value));
   let flag = false;
   await nextTick();
@@ -197,10 +190,8 @@ const doSave = async () => {
     error("操作异常:" + err);
   });
 };
-
 const formInfoChange = (data: any) => {
 };
-
 const getComponentName = (data: any) => {
   return data.itemType + "-item";
 };
@@ -209,7 +200,6 @@ const onDragAdd = async (evt: Event, dataList: Array<any>) => {
   let index = evt.oldIndex;
   if (draggingItem.value.itemType == 'table') {
     let id = draggingItem.value.id;
-
     let datas = dataList.filter(item => item.itemType == "table");
     console.log(dataList);
     if (datas.length > 1) {
@@ -232,7 +222,6 @@ const onDragAdd = async (evt: Event, dataList: Array<any>) => {
   } else {
     designForm.selectItem(draggingItem.value, draggingItem.value["itemType"], "");
   }
-
 };
 const createCode = () => {
   codeDialogVisible.value = true;
@@ -303,7 +292,6 @@ const actions = (action: string) => {
       createCode();
       break;
   }
-
 };
 const checkMove = () => {
   return true
@@ -312,7 +300,6 @@ const dragUpdate = (evt) => {
   console.log(evt);
 }
 </script>
-
 <template>
   <star-horse-dialog
       :dialogVisible="codeDialogVisible"
@@ -341,7 +328,6 @@ const dragUpdate = (evt) => {
       @merge="closeAction"
       :title="'批量修改属性'"
   >
-
     <el-row style="font-width: bold;font-size:12px;margin-bottom: 5px;">
       <el-col :span="3">容器名称</el-col>
       <el-col :span="3">标签名称</el-col>
@@ -367,7 +353,6 @@ const dragUpdate = (evt) => {
       <FieldAnalysis :index="index+1" :field="item"
                      v-if="item.itemType!=='box'&&item.itemType!=='table' &&item.itemType!='tab'" :container="'--'"/>
     </template>
-
   </star-horse-dialog>
   <star-horse-dialog
       :dialogVisible="isPreview"
@@ -376,7 +361,6 @@ const dragUpdate = (evt) => {
       :title="'表单预览'"
       :is-view="true"
   >
-
     <template v-for="data in list">
       <component
           :id="data.id"
@@ -395,7 +379,6 @@ const dragUpdate = (evt) => {
       />
     </template>
   </star-horse-dialog>
-
   <el-card class="inner_content">
     <div class="form_content">
       <div class="side-panel" v-show="leftPanelVisible">
@@ -419,7 +402,6 @@ const dragUpdate = (evt) => {
           <help :message="helpMessage"/>
           <help :message="processMsg"/>
         </div>
-
         <div class="main-design-a">
           <div class="main-design-outer">
             <el-alert
@@ -470,7 +452,6 @@ const dragUpdate = (evt) => {
                           :field="data"
                           :is="data.itemType + '-container'"
                           :formFieldList="formFieldList"
-
                       />
                     </template>
                     <template v-else-if="data.compType == 'formItem'">
@@ -504,38 +485,31 @@ const dragUpdate = (evt) => {
   padding: 5px;
   height: 100%;
 }
-
 .design-form-container {
   height: 100%;
   border: 2px dotted var(--star-horse-style);
   background: var(--star-horse-white);
 }
-
 :deep(.el-divider--horizontal) {
   margin: 10px 0;
 }
-
 :deep(.el-collapse-item__header) {
   height: 30px;
   background: #eee;
   border-bottom: 1px solid #8F8F8F;
 }
-
 :deep(.el-collapse-item__wrap) {
   margin-top: 5px;
 }
-
 :deep(.el-scrollbar__view) {
   height: 100%;
 }
-
 .form_content {
   display: flex;
   width: 100%;
   height: 100%;
   flex-direction: row;
   margin-top: 0;
-
   .side-panel {
     width: 270px !important;
     justify-content: flex-start;
@@ -543,14 +517,12 @@ const dragUpdate = (evt) => {
     border: 1px solid #eee;
     overflow: hidden;
   }
-
   .form-main {
     display: flex;
     flex: 1;
     flex-direction: column;
     height: 100%;
     overflow: hidden;
-
     .inner_button {
       height: 40px;
       text-align: left;
@@ -562,13 +534,11 @@ const dragUpdate = (evt) => {
       -ms-user-select: none;
       user-select: none;
     }
-
     .main-design-a {
       display: flex;
       flex-direction: row;
       flex: 1;
       overflow: hidden;
-
       .main-design-outer {
         flex: 1;
         background: #f1f2f3;
@@ -578,7 +548,6 @@ const dragUpdate = (evt) => {
         border-radius: 3px;
         display: flex;
         flex-direction: column;
-
         .main-design {
           flex: 1;
           margin: 3px 3px 0 5px;
@@ -587,7 +556,6 @@ const dragUpdate = (evt) => {
           background: rgba(255, 255, 255, 0.8);
         }
       }
-
       .side-panel-item {
         margin-top: 5px;
         border: 1px solid #eee;

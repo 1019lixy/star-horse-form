@@ -8,7 +8,6 @@ import {initDbList, tableList} from "@/views/dbsearch/utils/DbSearchUtils.ts";
 import {closeLoad, dictData, getMenuId, load, loadPagePermission} from "@/api/sh_api.ts";
 import {download} from "@/api/star_horse.ts";
 import {warning} from "@/utils/message.ts";
-
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/code-generator/generator/code/pageList",
   mergeUrl: "/code-generator/generator/code/merge",
@@ -41,8 +40,6 @@ const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
       label: "主键", fieldName: "idCodeGenerator", type: "long",
-
-
     },
     [{
       label: "数据库信息", fieldName: "datasourceConfigId", type: "select",
@@ -65,7 +62,6 @@ const tableFieldList = reactive<PageFieldInfo>({
 如果表数量太多（>100），程序自动转异步执行，
 有构建失败风险.`,
       formShow: !false,
-
     },
     {
       label: "需要排除的表", fieldName: "excludesList",
@@ -107,7 +103,6 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
           label: "项目名称", fieldName: "projectName", type: "input",
           formShow: true,
           helpMsg: "生成代码归属项目",
-
         },
           {
             label: "模块名称", fieldName: "categoryName", type: "input",
@@ -125,17 +120,14 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
             label: "应用端口", fieldName: "port", type: "number",
             formShow: true,
             helpMsg: "在配置文件application.yml中对应server.port",
-
           }, {
             label: "发布目录", fieldName: "targetDir", type: "input",
             formShow: true,
             helpMsg: "文件部署到服务器上的目录",
-
           }, {
             label: "RestFul风格接口", fieldName: "restFul", type: "switch",
             formShow: true,
             defaultValue: "Y",
-
           },
           {
             label: "包构建类型", fieldName: "war", type: "select",
@@ -143,32 +135,26 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
             defaultValue: "jar",
             optionList: packagingList,
             helpMsg: "对应pom.xml文件中的packaging",
-
           },
           {
             label: "代码版本", fieldName: "version", type: "input",
             helpMsg: "对应pom.xml文件中version",
             formShow: true,
-
           },],
-
       }, {
         title: "注释相关",
         tabName: "tab1",
         fieldList: [{
           label: "开发人员", fieldName: "author", type: "input",
           formShow: true,
-
         },
           {
             label: "邮箱地址", fieldName: "email", type: "input",
             formShow: true,
-
           },
           {
             label: "是否需要版权", fieldName: "needCopyright", type: "switch",
             formShow: true,
-
           }],
       },
         {
@@ -179,27 +165,23 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
               label: "是否生成UI页面", fieldName: "needUi", type: "switch",
               formShow: true,
               defaultValue: "Y",
-
             },
             {
               label: "是否分离UI", fieldName: "needSplitUI", type: "switch",
               formShow: true,
               helpMsg: "UI文件和业务文件是否放在同一个module里面",
               defaultValue: "N",
-
             },
             {
               label: "Ui 文件后缀", fieldName: "uiSuffix", type: "input",
               formShow: true,
               defaultValue: ".vue",
-
             },
             {
               label: "UI 类型", fieldName: "uiType", type: "select",
               formShow: true,
               optionList: uiTypeList,
               defaultValue: "VUE_3_TS",
-
             },
           ]
         },
@@ -212,58 +194,37 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
               formShow: true,
               helpMsg: "DTO文件和业务文件是否放在同一个module里面",
               defaultValue: "N",
-
             },
           ]
         }
       ]
     },
-
-
     {
       label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
-
-
     },
     {
       label: "修改人", disabled: "Y", fieldName: "updatedBy", type: "input",
-
-
     },
     {
       label: "创建日期", disabled: "Y", fieldName: "createdDate", type: "date",
-
-
     },
     {
       label: "修改日期", disabled: "Y", fieldName: "updatedDate", type: "date",
-
-
     },
     {
       label: "是否已逻辑", fieldName: "isDel", type: "number",
-
-
     },
     {
       label: "数据编号", fieldName: "dataNo", type: "input",
-
-
     },
     {
       label: "状态码", fieldName: "statusCode", type: "input",
-
-
     },
     {
       label: "状态码名称", fieldName: "statusName", type: "input",
-
-
     },
     {
       label: "国际码", fieldName: "local", type: "input",
-
-
     },
   ],
   batchFieldList: []
@@ -271,8 +232,6 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
 const primaryKey = "idCodeGenerator";
 const codeGeneratorRef = ref();
 const rules = {};
-
-
 const dataForm = ref({});
 provide("dataForm", dataForm);
 const dialogProps = reactive<DialogProps>({
@@ -288,10 +247,8 @@ const dialogProps = reactive<DialogProps>({
 provide("dialogProps", dialogProps);
 let permissions = ref<any>({});
 const selectItemFun = (data: any) => {
-
 }
 const dataFormat = (name: string, cellValue: Object): any => {
-
   return cellValue;
 }
 const init = async () => {
@@ -301,9 +258,7 @@ const init = async () => {
   templateVersionList.value = await dictData("template_version");
   uiTypeList.value = await dictData("ui_type");
   packagingList.value = await dictData("packaging_type");
-
 };
-
 onMounted(async () => {
   await init();
 });
@@ -322,14 +277,12 @@ const generateMerge = () => {
       });
     }
   });
-
 };
 const closeAction = () => {
   dialogProps.editVisible = false;
   dataForm.value = {};
 }
 </script>
-
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps"
                      :selfFunc="true"
@@ -360,5 +313,4 @@ const closeAction = () => {
   </el-card>
 </template>
 <style lang="scss" scoped>
-
 </style>

@@ -1,5 +1,4 @@
 import {ElMessage, ElMessageBox} from "element-plus";
-
 export const confirm = (msg: string): Promise<boolean> => {
     return new Promise((resolve, reject) => {
         ElMessageBox.confirm(msg, "警告", {
@@ -12,7 +11,6 @@ export const confirm = (msg: string): Promise<boolean> => {
             reject(false);
         });
     });
-
 }
 export const message = (msg: string) => {
     ElMessage(msg)

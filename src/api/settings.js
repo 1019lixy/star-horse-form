@@ -1,5 +1,4 @@
 import {ref} from "vue";
-
 export const Config = {
     /**
      * @description 网站标题
@@ -37,7 +36,6 @@ export const Config = {
      * 客户信息
      */
     customerInfo: "customerInfo",
-
     reportId: "reportId",
     /**
      * @description 请求超时时间，毫秒（默认2分钟）
@@ -59,7 +57,6 @@ export const Config = {
      * 备案号
      */
     caseNumber: '',
-
     /**
      * RSA 公钥
      */

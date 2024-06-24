@@ -8,7 +8,6 @@ import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import DictinfoUI from "@/views/system/DictinfoUI.vue";
 import {SearchParams} from "@/components/types/Params";
 import {getMenuId, loadPagePermission} from "@/api/sh_api.ts";
-
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/system-config/system/dictinfoType/pageList",
   mergeUrl: "/system-config/system/dictinfoType/merge",
@@ -24,7 +23,6 @@ const dataUrl: ApiUrls = {
   uploadUrl: "",
   condition: []
 };
-
 const searchFormData = reactive<SearchProps[]>([
   {label: "字典类型名称", defaultShow: true, fieldName: "dictTypeName", type: "input"},
   {label: "字典类型编码", defaultShow: true, fieldName: "dictTypeCode", type: "input"},
@@ -33,8 +31,6 @@ const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
       label: "主键", fieldName: "idDictinfoType", type: "long",
-
-
     },
     {
       label: "字典类型名称", fieldName: "dictTypeName", type: "input",
@@ -53,61 +49,39 @@ const tableFieldList = reactive<PageFieldInfo>({
     },
     {
       label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
-
-
     },
     {
       label: "修改人", disabled: "Y", fieldName: "updatedBy", type: "input",
-
-
     },
     {
       label: "创建日期", disabled: "Y", fieldName: "createdDate", type: "date",
-
-
     },
     {
       label: "修改日期", disabled: "Y", fieldName: "updatedDate", type: "date",
-
-
     },
     {
       label: "数据版本号", fieldName: "version", type: "number",
-
-
     },
     {
       label: "是否已逻辑", fieldName: "isDel", type: "number",
-
-
     },
     {
       label: "数据编号", fieldName: "dataNo", type: "input",
-
-
     },
     {
       label: "国际码", fieldName: "local", type: "input",
-
-
     },
     {
       label: "状态名称", fieldName: "statusName", type: "input",
-
-
     },
     {
       label: "状态值", fieldName: "statusCode", type: "input",
     },
   ],
-
   //在表格右侧添加自定义功能
-
 });
 const primaryKey = "idDictinfoType";
 const rules = {};
-
-
 const dataForm = ref({});
 provide("dataForm", dataForm);
 const dialogProps = reactive<DialogProps>({
@@ -119,7 +93,6 @@ const dialogProps = reactive<DialogProps>({
   editVisible: false,
   uploadVisible: false,
   viewVisible: false
-
 });
 provide("dialogProps", dialogProps);
 let permissions = ref<any>({});
@@ -143,7 +116,6 @@ onMounted(async () => {
 })
 </script>
 <style lang="scss" scoped>
-
 </style>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">

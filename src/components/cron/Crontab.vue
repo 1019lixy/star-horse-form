@@ -4,7 +4,6 @@
       <el-tab-pane label="秒" v-if="shouldHide('second')">
         <CrontabSecond @update="updateContabValue" :check="checkNumber" ref="cronsecond"/>
       </el-tab-pane>
-
       <el-tab-pane label="分钟" v-if="shouldHide('min')">
         <CrontabMin
             @update="updateContabValue"
@@ -13,7 +12,6 @@
             ref="cronmin"
         />
       </el-tab-pane>
-
       <el-tab-pane label="小时" v-if="shouldHide('hour')">
         <CrontabHour
             @update="updateContabValue"
@@ -22,7 +20,6 @@
             ref="cronhour"
         />
       </el-tab-pane>
-
       <el-tab-pane label="日" v-if="shouldHide('day')">
         <CrontabDay
             @update="updateContabValue"
@@ -31,7 +28,6 @@
             ref="cronday"
         />
       </el-tab-pane>
-
       <el-tab-pane label="月" v-if="shouldHide('month')">
         <Crontabmonth
             @update="updateContabValue"
@@ -40,7 +36,6 @@
             ref="cronmonth"
         />
       </el-tab-pane>
-
       <el-tab-pane label="周" v-if="shouldHide('week')">
         <CrontabWeek
             @update="updateContabValue"
@@ -49,7 +44,6 @@
             ref="cronweek"
         />
       </el-tab-pane>
-
       <el-tab-pane label="年" v-if="shouldHide('year')">
         <CrontabYear
             @update="updateContabValue"
@@ -59,7 +53,6 @@
         />
       </el-tab-pane>
     </el-tabs>
-
     <div class="popup-main">
       <div class="popup-result">
         <p class="title">时间表达式</p>
@@ -103,7 +96,6 @@
     </div>
   </div>
 </template>
-
 <script setup lang="ts">
 import {computed, inject, nextTick, onMounted, ref, watch} from "vue";
 import CrontabSecond from "@/components/cron/Crontab-Second.vue";
@@ -115,7 +107,6 @@ import CrontabWeek from "@/components/cron/Crontab-Week.vue";
 import CrontabYear from "@/components/cron/Crontab-Year.vue";
 import CrontabResult from "@/components/cron/Crontab-Result.vue";
 import {copy} from "@/api/sh_api";
-
 const props = defineProps({
   "expression": {type: String}, "hideComponent": {}
 });
@@ -141,12 +132,10 @@ let contabValueObj = ref({
   week: "?",
   year: "",
 });
-
 const shouldHide = (key) => {
   if (props.hideComponent && props.hideComponent.includes(key)) return false;
   return true;
 };
-
 const resolveExp = () => {
   //反解析 表达式
   if (props.expression) {
@@ -184,7 +173,6 @@ const updateContabValue = (name: string, value: any, from: any) => {
   if (from && from !== name) {
     changeRadio(name, value);
   }
-
 };
 const getRefObj = (name: string) => {
   if (name == "cronsecond") {
@@ -208,8 +196,6 @@ const changeRadio = async (name, value) => {
   let arr = ["second", "min", "hour", "month"],
       refName = "cron" + name,
       insVlaue;
-
-
   await nextTick();
   let refObj = getRefObj(refName);
   if (arr.includes(name)) {
@@ -365,10 +351,8 @@ const contabValueStringFun = () => {
 };
 watch(() => "resolveExp",
     (val) => {
-
     }
 );
-
 onMounted(() => {
   resolveExp();
 });
@@ -384,15 +368,12 @@ defineExpose({
   border-radius: 5px;
   font-size: 12px;
   overflow: hidden;
-
-
   .popup-title {
     overflow: hidden;
     line-height: 34px;
     padding-top: 6px;
     background: #f2f2f2;
   }
-
   .popup-result {
     box-sizing: border-box;
     line-height: 24px;
@@ -401,7 +382,6 @@ defineExpose({
     border: 1px solid #ccc;
     position: relative;
     font-size: 14px;
-
     .title {
       position: absolute;
       top: -28px;
@@ -413,12 +393,10 @@ defineExpose({
       line-height: 30px;
       background: #fff;
     }
-
     table {
       text-align: center;
       width: 100%;
       margin: 0 auto;
-
       span {
         display: block;
         width: 100%;
@@ -431,7 +409,6 @@ defineExpose({
         border: 1px solid #e8e8e8;
       }
     }
-
     .popup-result-scroll {
       font-size: 12px;
       line-height: 24px;

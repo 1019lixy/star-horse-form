@@ -2,9 +2,7 @@
 import {PropType, ref} from 'vue'
 import type {RouteLocationNormalizedLoaded} from 'vue-router'
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-
 const emit = defineEmits(['visibleChange']);
-
 const props = defineProps({
   schema: {
     type: Array<any>,
@@ -19,23 +17,18 @@ const props = defineProps({
     default: () => ({})
   }
 })
-
 const command = (item: any) => {
   item.command && item.command(item)
 }
-
 const visibleChange = (visible: boolean) => {
   emit('visibleChange', visible, props.tagItem)
 }
-
 const elDropdownMenuRef = ref(null);
-
 defineExpose({
   elDropdownMenuRef,
   tagItem: props.tagItem
 })
 </script>
-
 <template>
   <el-dropdown
       ref="elDropdownMenuRef"

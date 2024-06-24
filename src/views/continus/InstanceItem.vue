@@ -1,6 +1,5 @@
 <script setup lang="ts" name="InstanceItem">
 import {useRouter} from "vue-router";
-
 const router = useRouter();
 const props = defineProps({
   isEdit: {
@@ -8,8 +7,6 @@ const props = defineProps({
     default: 1 //1 编辑 2 已发布
   }
 });
-
-
 const execRecord = (instanceId: string) => {
   this.$router.push({
     path: "/continus/instanceExecRecord",
@@ -23,38 +20,30 @@ const lineDetail = (instanceId: string) => {
   })
 };
 </script>
-
 <style lang="scss" scoped>
 :deep(.el-progress-bar__outer) {
   border-radius: 0%;
 }
-
 :deep(.el-progress-bar__inner) {
   border-radius: 0%;
 }
-
 .el-card__header {
   padding: 5px;
   box-sizing: border-box;
 }
-
 .instance-item {
   box-shadow: rgb(232, 232, 232) 0px 0px 0px 1px;
   background: rgb(255, 255, 255);
   transition: all 0.5s linear 0s;
-
   .item-line {
     height: inherit;
     padding-bottom: 0px;
-
     .line-node {
       cursor: pointer;
-
       .node-content {
         margin: 10px 1px;
         width: 100%;
         display: table;
-
         .node-process {
           display: table-cell;
         }
@@ -62,14 +51,11 @@ const lineDetail = (instanceId: string) => {
     }
   }
 }
-
 .svg-path {
   fill: none;
   stroke: #d8d8d8;
   stroke-width: 1;
 }
-
-
 </style>
 <template>
   <div class="instance-item">

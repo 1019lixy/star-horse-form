@@ -45,10 +45,8 @@
     </el-upload>
   </starhorse-form-item>
 </template>
-
 <script lang="ts">
 import {defineComponent, shallowRef} from "vue";
-
 export default defineComponent({
   emits: ["selectItem", "selfFunc"],
   setup(props, context) {
@@ -64,7 +62,6 @@ export default defineComponent({
   }
 });
 </script>
-
 <style lang="scss" scoped>
 .el-upload {
   width: 100%;

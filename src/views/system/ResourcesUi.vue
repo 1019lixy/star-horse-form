@@ -10,7 +10,6 @@ import {ElTreeV2} from "element-plus";
 import {TreeNode, TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {treeCheckChange} from "@/api/system";
-
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/system-config/system/resourcesSummaryEntity/pageList",
   mergeUrl: "/system-config/system/resourcesSummaryEntity/merge",
@@ -30,19 +29,15 @@ let systemInfoList = ref<SelectOption[]>();
 let rolesList = ref<SelectOption[]>();
 let menusList = ref<SelectOption[]>();
 let authorityList = ref<SelectOption[]>();
-
 const searchFormData = reactive<SearchProps[]>([
   /* {label: "所属系统", fieldName: "informationsSingleId", type: "select", optionList: systemInfoList},*/
   {label: "角色名称", defaultShow: true, fieldName: "idRolesinfo", type: "select", optionList: rolesList},
   {label: "创建日期", disabled: "Y", fieldName: "createdDate", type: "date", matchType: "bt"},
 ]);
-
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     {
       label: "主键", fieldName: "idResourcesSummary", type: "long",
-
-
     },
     [{
       label: "所属系统", fieldName: "informationsSingleId", type: "select", optionList: systemInfoList,
@@ -71,63 +66,41 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     },
     {
       label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
-
       tableShow: true
     },
     {
       label: "修改人", disabled: "Y", fieldName: "updatedBy", type: "input",
-
-
     },
     {
       label: "创建日期", disabled: "Y", fieldName: "createdDate", type: "date",
-
       tableShow: true
     },
     {
       label: "修改日期", disabled: "Y", fieldName: "updatedDate", type: "date",
-
-
     },
     {
       label: "数据版本号", fieldName: "version", type: "number",
-
-
     },
     {
       label: "是否已逻辑", fieldName: "isDel", type: "number",
-
-
     },
     {
       label: "数据编号", fieldName: "dataNo", type: "input",
-
-
     },
     {
       label: "状态码", fieldName: "statusCode", type: "input",
-
-
     },
     {
       label: "状态码名称", fieldName: "statusName", type: "input",
-
-
     },
     {
       label: "国际码", fieldName: "local", type: "input",
-
-
     },
   ],
-
-
   cellEditable: false
 });
 const primaryKey = "idResourcesSummary";
 const rules = {};
-
-
 const dataForm = ref({});
 provide("dataForm", dataForm);
 const dialogProps = reactive<DialogProps>({
@@ -139,7 +112,6 @@ const dialogProps = reactive<DialogProps>({
   editVisible: false,
   uploadVisible: false,
   viewVisible: false
-
 });
 provide("dialogProps", dialogProps);
 let permissions = ref<any>({});
@@ -211,7 +183,6 @@ onMounted(async () => {
 })
 </script>
 <style lang="scss" scoped>
-
 </style>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
@@ -223,7 +194,6 @@ onMounted(async () => {
       "'查看数据'" :is-view="true">
     <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
   </star-horse-dialog>
-
   <el-card class="inner_content">
     <el-row style="height: 100%;">
       <el-col :span="3" style="height: inherit">
@@ -269,8 +239,5 @@ onMounted(async () => {
         </el-card>
       </el-col>
     </el-row>
-
   </el-card>
-
-
 </template>

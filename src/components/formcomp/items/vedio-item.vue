@@ -21,11 +21,9 @@
     </div>
   </starhorse-form-item>
 </template>
-
 <script lang="ts" name="vedioItem">
 import {defineComponent, onMounted, ref, shallowRef} from "vue";
 import flvjs from "flv.js";
-
 export default defineComponent({
   setup(props, context) {
     const parentField = context.attrs["parentField"];
@@ -39,7 +37,6 @@ export default defineComponent({
     const keyEnterFun = () => {
       context.emit('selfFunc');
     };
-
     const load = () => {
       let element = document.getElementsByName('videoElement')[0];
       if (flvjs.isSupported() && element) {
@@ -59,7 +56,6 @@ export default defineComponent({
           fixAudioTimestampGap: field["fixAudioTimestampGap"] == "Y", //false才会音视频同步,新增
           lazyLoad: field["lazyLoad"] == "Y", // 去掉懒加载,新增
         });
-
         player.value.attachMediaElement(element);
         if (field["autoLoad"] == "Y") {
           player.value.load();
@@ -67,21 +63,17 @@ export default defineComponent({
         if (field["autoPlay"] == "Y") {
           player.value.play();
         }
-
         // state.endedReloadFlag = true; // 重置画面停滞的播放状态，下次停滞了会再次打开
         //  videoElementEvent(); // 手动跳帧，防止延时
         //  flvPlayerEvent(); // 断流、卡顿处理
       }
     };
-
     const start = () => {
       player.value.play();
     };
-
     const pause = () => {
       player.value.pause();
     }
-
     const destroy = () => {
       player.value.pause();
       player.value.unload();
@@ -89,11 +81,9 @@ export default defineComponent({
       player.value.destroy();
       player.value = null;
     };
-
     const seekto = () => {
       player.value.currentTime = parseFloat(seekpoint.value);
     };
-
     const getCfg = (key, def) => {
       try {
         let ret = localStorage.getItem('vedio-item.' + key);
@@ -105,31 +95,25 @@ export default defineComponent({
       }
       return def;
     };
-
     const setCfg = (key, value) => {
       try {
         localStorage.setItem('vedio-item.' + key, value);
       } catch (e) {
       }
     }
-
     const saveSettings = () => {
       setCfg('sURL', field["videoUrl"]);
     };
-
     onMounted(() => {
       load();
     });
-
     return {
       parentField, formFieldList, context, field, formItem, dataField, keyEnterFun, seekpoint,
       saveSettings, load, start, pause, destroy, seekto
     }
   }
 });
-
 </script>
-
 <style lang="scss" scoped>
 .mainContainer {
   display: block;
@@ -137,19 +121,16 @@ export default defineComponent({
   margin-left: auto;
   margin-right: auto;
 }
-
 .video-container {
   position: relative;
   margin-top: 8px;
 }
-
 .video-container:before {
   display: block;
   content: "";
   width: 100%;
   padding-bottom: 56.25%;
 }
-
 .video-container > div {
   position: absolute;
   top: 0;
@@ -157,12 +138,10 @@ export default defineComponent({
   right: 0;
   bottom: 0;
 }
-
 .video-container video {
   width: 100%;
   height: 100%;
 }
-
 .urlInput {
   display: block;
   width: 100%;
@@ -171,7 +150,6 @@ export default defineComponent({
   margin-top: 8px;
   margin-bottom: 8px;
 }
-
 .centeredVideo {
   display: block;
   width: 100%;
@@ -180,7 +158,6 @@ export default defineComponent({
   margin-right: auto;
   margin-bottom: auto;
 }
-
 .controls {
   display: block;
   width: 100%;
@@ -190,7 +167,6 @@ export default defineComponent({
   margin-top: 8px;
   margin-bottom: 10px;
 }
-
 .logcatBox {
   border-color: #CCCCCC;
   font-size: 11px;
@@ -201,33 +177,26 @@ export default defineComponent({
   margin-left: auto;
   margin-right: auto;
 }
-
 .url-input, .options {
   font-size: 13px;
 }
-
 .url-input {
   display: flex;
 }
-
 .url-input label {
   flex: initial;
 }
-
 .url-input input {
   flex: auto;
   margin-left: 8px;
 }
-
 .url-input button {
   flex: initial;
   margin-left: 8px;
 }
-
 .options {
   margin-top: 5px;
 }
-
 .hidden {
   display: none;
 }

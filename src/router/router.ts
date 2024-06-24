@@ -1,5 +1,4 @@
 import {RouteRecordRaw} from "vue-router";
-
 const routers: RouteRecordRaw[] = [];
 routers.push({
     path: "/",
@@ -72,8 +71,6 @@ routers.push({
         keepAlive: "N"
     }
 });
-
-
 routers.push({
     path: "/login",
     component: () => import("@/components/Login.vue"),

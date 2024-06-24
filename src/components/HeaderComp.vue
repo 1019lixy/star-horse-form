@@ -17,10 +17,8 @@ import {LangType} from "@/theme/theme.ts";
 import {i18n} from "../lang";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import piniaInstance from "@/store";
-
 const userInfoStore = userinfoStore();
 const shortcutMenuList = ref<Array<any>>([]);
-
 let systemName = Config.title;
 let userInfo = getUserInfo();
 let permissionMenuList = ref<Array<any>>([]);
@@ -28,7 +26,6 @@ let multipleSelection = ref<Array<any>>([]);
 const shortcutMultipleTable = ref<InstanceType<typeof ElTable>>();
 const dataForm = ref<any>({});
 provide("dataForm", dataForm);
-
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/system-config/system/dictinfoEntity/pageList",
   mergeUrl: "/system-config/system/dictinfoEntity/merge",
@@ -61,22 +58,18 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     [{
       label: "工号", fieldName: "employeeNo", type: "input",
       formShow: !false, disabled: "Y",
-
     },
       {
         label: "用户名", fieldName: "username", type: "input",
         formShow: !false, disabled: "Y",
-
       }],
     {
       label: "联系电话", fieldName: "phone", type: "input",
       formShow: true,
-
     },
     {
       label: "原始密码", fieldName: "oldPassword", type: "password",
       required: true, formShow: true,
-
     },
     {
       label: "新密码", fieldName: "password", type: "password",
@@ -85,15 +78,11 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "确认密码", fieldName: "rePassword", type: "password",
       required: true, formShow: true,
-
     }
   ],
-
-
   //阻止初始化时自动加载列表数据
   stopAutoLoad: true,
 });
-
 const rules = {
   phone: [{
     type: 'string',
@@ -127,7 +116,6 @@ const rules = {
     }
   ],
 };
-
 const initData = async () => {
   await loadShortMenu();
   changeLang(getLang(), true);
@@ -150,7 +138,6 @@ const modifyInfo = () => {
   dialogProps.editVisible = true;
   resetForm();
 };
-
 const doModifyUserInfo = () => {
   postRequest("/system-config/system/usersAuditEntity/refreshInvalidPassword/" + dataForm.username +
       "/" + dataForm.password + "/" + (dataForm.oldPassword || "0") + "/" + dataForm.phone, {}).then(res => {
@@ -170,7 +157,6 @@ const resetForm = () => {
   dataForm.value = {};
   dataForm.value["username"] = userInfo?.username;
   dataForm.value["employeeNo"] = userInfo?.employeeNo;
-
 };
 const loginOut = () => {
   confirm("是否确认退出系统?").then((res: boolean) => {
@@ -179,11 +165,8 @@ const loginOut = () => {
       userLogout(userInfo || {});
     }
   });
-
 };
-
 const operSearch = () => {
-
 }
 const loadShortMenu = async () => {
   let param: any = [];
@@ -193,7 +176,6 @@ const loadShortMenu = async () => {
     console.log(err);
   })
 };
-
 const handleSelectionChange = (val: any) => {
   let flag = false;
   for (let i in val) {
@@ -213,7 +195,6 @@ const handleSelectionChange = (val: any) => {
   }
   multipleSelection.value = val;
 };
-
 /**
  * 递归函数，查找已设置为快捷菜单的数据
  *
@@ -258,7 +239,6 @@ const addShortcutMenu = async () => {
       }
     });
   });
-
 };
 const batchMerge = () => {
   let selectedRows = shortcutMultipleTable.value!.multipleSelection;
@@ -288,7 +268,6 @@ const batchMerge = () => {
 const shortcutReset = () => {
   shortcutMultipleTable.value!.clearSelection();
 };
-
 let curLangName = ref("中文");
 const handleLanguageChanged = (lang: LangType) => {
   changeLang(lang, false);
@@ -342,7 +321,6 @@ let shortcutVisible = computed(() => configStore.configFormInfo.shortCutMenus ||
                            :dataFormat="dataFormat"
                            :allowSelectParent="false" :expand="true" :reverseDataList="reverseDataList"
                            :tableDataList="filterTableData"/>
-
   </star-horse-dialog>
   <div class="header">
     <div :title="systemName" class="logo">
@@ -350,7 +328,6 @@ let shortcutVisible = computed(() => configStore.configFormInfo.shortCutMenus ||
       <!-- <star-horse-icon icon-class="star" style="vertical-align:middle;color: #e3e9f2;"/>
        <star-horse-icon icon-class="horse" style="vertical-align:middle;color: #e3e9f2;font-size: 22px"/>-->
     </div>
-
     <div class="header-left">
       <star-horse-hmenu/>
     </div>
@@ -413,7 +390,6 @@ let shortcutVisible = computed(() => configStore.configFormInfo.shortCutMenus ||
         <span style=" display:flex;height:100%;width: 1px;cursor: none;color: #ffd04b"
               v-if="index < shortcutMenuList.length - 1">|</span>
       </template>
-
       <span @click="addShortcutMenu">
         <el-tooltip content="添加快捷菜单">
           <star-horse-icon icon-class="add" style="color: var(--star-horse-white);"/>
@@ -422,17 +398,14 @@ let shortcutVisible = computed(() => configStore.configFormInfo.shortCutMenus ||
     </div>
   </div>
 </template>
-
 <style lang="scss" scoped>
 .el-avatar {
   margin-top: -10px;
 }
-
 .el-icon {
   font-size: 22px;
   margin: 3px auto;
 }
-
 .header {
   height: 50px;
   width: 100%;
@@ -445,11 +418,9 @@ let shortcutVisible = computed(() => configStore.configFormInfo.shortCutMenus ||
   justify-content: space-between;
   box-sizing: border-box;
   flex-direction: row;
-
   .header-left {
     height: 100%;
     flex: 1;
-
     ul {
       list-style: none;
       display: flex;
@@ -457,7 +428,6 @@ let shortcutVisible = computed(() => configStore.configFormInfo.shortCutMenus ||
       height: 100%;
       margin-left: 0;
       padding-left: 0;
-
       li {
         span {
           color: var(--star-horse-white);
@@ -465,7 +435,6 @@ let shortcutVisible = computed(() => configStore.configFormInfo.shortCutMenus ||
       }
     }
   }
-
   .header-right {
     width: 150px;
     height: 100%;
@@ -475,7 +444,6 @@ let shortcutVisible = computed(() => configStore.configFormInfo.shortCutMenus ||
     justify-content: center;
     vertical-align: middle;
     text-align: right;
-
     .user-info {
       width: inherit;
       height: 100%;
@@ -485,13 +453,11 @@ let shortcutVisible = computed(() => configStore.configFormInfo.shortCutMenus ||
       flex-direction: row-reverse;
       vertical-align: middle;
       align-items: center;
-
       .lang {
         align-items: center;
         justify-content: center;
         vertical-align: middle;
       }
-
       .el-dropdown-link {
         color: var(--star-horse-white);
         display: flex;
@@ -501,11 +467,9 @@ let shortcutVisible = computed(() => configStore.configFormInfo.shortCutMenus ||
     }
   }
 }
-
 .el-dropdown-menu > .el-dropdown-menu__item:first-child {
   border-bottom: 1px solid silver;
 }
-
 .shortcut {
   height: 30px;
   background: var(--star-horse-style);;
@@ -513,7 +477,6 @@ let shortcutVisible = computed(() => configStore.configFormInfo.shortCutMenus ||
   box-shadow: 0 2px 10px 0 var(--star-horse-shadow-rgba);
   border-top: 1px solid rgba($color: #fff, $alpha: .2);
   box-sizing: border-box;
-
   .shortcut_ul {
     width: 100%;
     height: 100%;
@@ -523,7 +486,6 @@ let shortcutVisible = computed(() => configStore.configFormInfo.shortCutMenus ||
     align-items: center;
     margin-left: 0px;
     padding-left: 0px;
-
     span {
       display: flex;
       justify-content: center;
@@ -535,7 +497,6 @@ let shortcutVisible = computed(() => configStore.configFormInfo.shortCutMenus ||
       margin-left: 15px;
       text-align: center;
       height: 100%;
-
       a {
         display: inline-flex;
         justify-content: center;
@@ -549,7 +510,6 @@ let shortcutVisible = computed(() => configStore.configFormInfo.shortCutMenus ||
         text-align: center;
         height: 100%;
       }
-
       &:last-child {
         font-size: 14px;
         color: var(--star-horse-white);
@@ -559,11 +519,9 @@ let shortcutVisible = computed(() => configStore.configFormInfo.shortCutMenus ||
     }
   }
 }
-
 :deep(.el-table__cell) {
   padding: 0;
 }
-
 :deep(th.el-table__cell:first-child) {
   padding: 5px 0;
 }

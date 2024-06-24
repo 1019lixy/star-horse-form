@@ -9,7 +9,6 @@ import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {ElTable} from "element-plus";
 import {loadDict} from "@/api/star_horse";
 import {createCondition, getMenuId, loadPagePermission} from "@/api/sh_api";
-
 const route = useRoute();
 const tabListRef = ref<InstanceType<typeof ElTable>>();
 const dataUrl: ApiUrls = {
@@ -31,19 +30,15 @@ const commonDictList = ref<SelectOption[]>([]);
 const props = defineProps({
   dictType: {type: String, required: true}
 });
-
 let dictType = computed(() => props.dictType);
 const searchFormData = reactive<SearchProps[]>([
   {label: "字典类型", fieldName: "dictType", type: "input", defaultValue: dictType, disabled: "Y"},
   {label: "字典名称", defaultShow: true, fieldName: "dictName", type: "input", matchType: "lk"}
 ]);
-
 const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
       label: "主键", fieldName: "idDictinfo", type: "long",
-
-
     },
     {
       label: "字典类型", fieldName: "dictType", type: "input",
@@ -63,14 +58,12 @@ const tableFieldList = reactive<PageFieldInfo>({
     {
       label: "状态名称", fieldName: "statusName", type: "input",
       required: true,
-
     },
     {
       label: "状态", fieldName: "statusCode", type: "select", optionList: commonDictList,
       required: true,
       tableShow: true
     },
-
     {
       label: "字典描述", fieldName: "dictDesc", type: "input",
       formShow: !false,
@@ -78,55 +71,35 @@ const tableFieldList = reactive<PageFieldInfo>({
     },
     {
       label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
-
-
     },
     {
       label: "修改人", disabled: "Y", fieldName: "updatedBy", type: "input",
-
-
     },
     {
       label: "创建日期", disabled: "Y", fieldName: "createdDate", type: "date",
-
-
     },
     {
       label: "修改日期", disabled: "Y", fieldName: "updatedDate", type: "date",
-
-
     },
     {
       label: "数据版本号", fieldName: "version", type: "number",
-
-
     },
     {
       label: "是否已逻辑", fieldName: "isDel", type: "number",
-
-
     },
     {
       label: "数据编号", fieldName: "dataNo", type: "input",
-
-
     },
-
     {
       label: "国际码", fieldName: "local", type: "input",
-
-
     },
   ],
-
-
   //阻止初始化时自动加载列表数据
   stopAutoLoad: true,
 });
 const primaryKey = "idDictinfo";
 const rules = {};
 const searchForm = ref({}) as Ref;
-
 const dataForm = ref({}) as Ref;
 provide("dataForm", dataForm);
 watch(
@@ -141,7 +114,6 @@ watch(
       deep: true
     }
 );
-
 const dialogProps = reactive<DialogProps>({
   bakeVisible1: false, bakeVisible2: false, bakeVisible3: false,
   ids: 0,
@@ -151,7 +123,6 @@ const dialogProps = reactive<DialogProps>({
   editVisible: false,
   uploadVisible: false,
   viewVisible: false
-
 });
 provide("dialogProps", dialogProps);
 let permissions = ref<any>({});
@@ -167,7 +138,6 @@ onMounted(async () => {
 });
 </script>
 <style lang="scss" scoped>
-
 </style>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">

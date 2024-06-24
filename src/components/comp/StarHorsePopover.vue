@@ -1,6 +1,5 @@
 <script>
 import icon from "@/assets/icon";
-
 export default {
   name: "StarHorsePopover",
   props: {
@@ -13,14 +12,11 @@ export default {
   },
   methods: {
     menuIconSelect(icon) {
-
     }
   }
 }
 </script>
-
 <style scoped>
-
 </style>
 <template>
   <el-popover placement="bottom" :width="550" trigger="click">
@@ -38,4 +34,3 @@ export default {
     </ul>
   </el-popover>
 </template>
-

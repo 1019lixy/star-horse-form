@@ -5,7 +5,6 @@ import {confirm, warning} from "@/utils/message";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-
 let containerTableRef = ref(); // 强制刷新表格
 const props = defineProps({
   parentField: {type: String},
@@ -117,7 +116,6 @@ const deleteCol = (index: number) => {
                         borderLeft: `1px solid #dfe6ec`,
                         borderRight: `1px solid #dfe6ec`,
                       }" @mouseenter="(evt)=>tdOver(evt,td)" @mouseleave="(evt)=>tdOut(evt,td)">
-
             <draggable @add="(evt:Event)=>onDragAdd(evt,field.preps.elements[td-1].items)"
                        class="smain-design"
                        tag="div"
@@ -146,7 +144,6 @@ const deleteCol = (index: number) => {
 <style lang="scss" scoped>
 th {
   position: relative;
-
   .td-operator {
     position: absolute;
     right: 0;
@@ -154,12 +151,9 @@ th {
     z-index: 9999;
   }
 }
-
-
 .dynamic-table {
   width: 100%;
   border: 1px dotted #8F8F8F;
-
   thead {
     background: #eee;
     height: 30px;

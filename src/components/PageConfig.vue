@@ -3,7 +3,6 @@ import {computed, onMounted, ref} from "vue";
 import {SelectOption} from "@/components/types/SearchProps.d.ts";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import piniaInstance from "@/store";
-
 let configInfo = ref<any>({tagsView: 'Y'});
 let configStore = GlobalConfig(piniaInstance);
 let sizeList = ref<Array<SelectOption>>([
@@ -51,7 +50,6 @@ let classicsList = ref<Array<any>>([
   {code: "pink", color: "#ffc0cb", name: "粉红色"},
   {code: "lightpink", color: "#ffb6c1", name: "亮粉红色"},
   {code: "lightsalmon", color: "#ffa07a", name: "亮肉色"},
-
   {code: "hotpink", color: "#ff69b4", name: "热粉红色"},
   {code: "tomato", color: "#ff6347", name: "西红柿色"},
   {code: "orangered", color: "#ff4500", name: "红橙色"},
@@ -170,7 +168,6 @@ const init = () => {
   //   }
   //
   // }
-
 };
 const changeOperation = (val: any) => {
   configStore.setConfigFormInfo(configInfo.value);
@@ -238,7 +235,6 @@ onMounted(() => {
           </el-form-item>
         </el-col>
       </el-row>
-
       <el-divider content-position="left">
         <h4>菜单</h4>
       </el-divider>
@@ -260,9 +256,7 @@ onMounted(() => {
     </el-scrollbar>
   </el-form>
 </template>
-
 <style scoped lang="scss">
-
 .theme-item {
   align-items: center;
   cursor: pointer;
@@ -270,7 +264,6 @@ onMounted(() => {
   flex-direction: row;
   width: 25%;
 }
-
 .el-tag {
   border: none;
   aspect-ratio: 1;

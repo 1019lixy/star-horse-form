@@ -252,81 +252,68 @@
         <el-input clearable placeholder="请输入主键"
                   v-model="ruleForm.idToolConfig"></el-input>
       </el-form-item>
-
       <el-form-item label="主键" prop="idToolCategory"
                     required v-if="!false">
         <el-input-number clearable placeholder="请输入主键"
                          v-model="ruleForm.idToolCategory"/>
       </el-form-item>
-
       <el-form-item label="部署地址" prop="deployHost"
                     required v-if="!false">
         <el-input clearable placeholder="请输入部署地址"
                   v-model="ruleForm.deployHost"></el-input>
       </el-form-item>
-
       <el-form-item label="端口" prop="deployPort"
                     required v-if="!false">
         <el-input clearable placeholder="请输入端口"
                   v-model="ruleForm.deployPort"></el-input>
       </el-form-item>
-
       <el-form-item label="管理员账号" prop="adminAccount"
                     required v-if="!false">
         <el-input clearable placeholder="请输入管理员账号"
                   v-model="ruleForm.adminAccount"></el-input>
       </el-form-item>
-
       <el-form-item label="管理员密码" prop="adminSecurity"
                     required v-if="!false">
         <el-input clearable placeholder="请输入管理员密码"
                   v-model="ruleForm.adminSecurity"></el-input>
       </el-form-item>
-
       <el-form-item label="修改人" prop="updatedBy"
                     v-if="!true">
         <el-input clearable placeholder="请输入修改人"
                   v-model="ruleForm.updatedBy"></el-input>
       </el-form-item>
-
       <el-form-item label="修改时间" prop="updatedDate"
                     v-if="!true">
         <el-date-picker clearable placeholder="请选择修改时间" type="date"
                         v-model="ruleForm.updatedDate">
         </el-date-picker>
       </el-form-item>
-
       <el-form-item label="创建人" prop="createdBy"
                     v-if="!true">
         <el-input clearable placeholder="请输入创建人"
                   v-model="ruleForm.createdBy"></el-input>
       </el-form-item>
-
       <el-form-item label="创建时间" prop="createdDate"
                     v-if="!true">
         <el-date-picker clearable placeholder="请选择创建时间" type="date"
                         v-model="ruleForm.createdDate">
         </el-date-picker>
       </el-form-item>
-
       <el-form-item label="数据编号" prop="dataNo"
                     v-if="!true">
         <el-input clearable placeholder="请输入数据编号"
                   v-model="ruleForm.dataNo"></el-input>
       </el-form-item>
-
       <el-form-item label="是否删除 1 是 2 否 默认2" prop="isDel"
                     v-if="!true">
         <el-input-number clearable placeholder="请输入是否删除 1 是 2 否 默认2"
                          v-model="ruleForm.isDel"/>
       </el-form-item>
-
       <el-form-item label="状态名称" prop="statusName"
                     v-if="!true">
         <el-input clearable placeholder="请输入状态名称"
                   v-model="ruleForm.statusName"></el-input>
       </el-form-item>
-
       <el-form-item label="状态编码" prop="statusCode"
                     required v-if="!false">
         <el-select placeholder="请选择状态编码" v-model="ruleForm.statusCode">
@@ -340,7 +327,6 @@
           </el-option>
         </el-select>
       </el-form-item>
-
     </el-form>
   </star-horse-dialog>
   <star-horse-dialog :is-view="true" :title="'查看数据'" :visible="viewVisible">
@@ -472,7 +458,6 @@
             <star-horse-icon icon-class="excel-upload"/>
             <el-tooltip content="上传">上传</el-tooltip>
           </el-button>
-
         </el-upload>
       </li>
       <li v-if="permission.export">
@@ -645,12 +630,9 @@
   </el-card>
 </template>
 <style lang="scss" scoped>
-
 </style>
 <script setup lang="ts" name="ToolsConfigs">
-
 import {ApiUrls} from "@/components/types/ApiUrls";
-
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/devops-continus/continus/toolsConfigs/pageList",
   mergeUrl: "/devops-continus/continus/toolsConfigs/merge",
@@ -665,7 +647,6 @@ const dataUrl: ApiUrls = {
   importUrl: "/devops-continus/continus/toolsConfigs/importData",
   uploadUrl: ""
 };
-
 const dataFormat = (row, column, cellValue, index) => {
   //cellValue = commonDataFormat(row, column, cellValue, index);
   return cellValue;

@@ -8,17 +8,12 @@ import {useScrollTo} from "@/components/tags/useScrollTo";
 import ContextMenu from "@/components/tags/ContextMenu.vue";
 import {useTemplateRefsList} from "@vueuse/core";
 import piniaInstance from "@/store";
-
 const {currentRoute, push, replace} = useRouter();
-
 const viewListStore = navBarList(piniaInstance);
-
 // 初始化tag
 const initTags = () => {
 };
-
 const selectedTag = ref<RouteLocationNormalizedLoaded>();
-
 // 新增tag
 const addTags = () => {
   const {name} = unref(currentRoute);
@@ -27,7 +22,6 @@ const addTags = () => {
     viewListStore.setCurrentView(currentRoute);
   }
 };
-
 // 关闭选中的tag
 const closeSelectedTag = (view: RouteLocationNormalizedLoaded) => {
   viewListStore.clearNavItem(view);
@@ -35,13 +29,11 @@ const closeSelectedTag = (view: RouteLocationNormalizedLoaded) => {
     toLastView();
   }
 };
-
 // 关闭全部
 const closeAllTags = () => {
   viewListStore.clearAll();
   toLastView();
 };
-
 // 关闭其他
 const closeOthersTags = () => {
   let path = unref(selectedTag)?.path;
@@ -52,8 +44,6 @@ const closeOthersTags = () => {
     toLastView();
   }
 };
-
-
 // 重新加载
 const refreshSelectedTag = async (view?: RouteLocationNormalizedLoaded) => {
   if (!view) {
@@ -67,7 +57,6 @@ const refreshSelectedTag = async (view?: RouteLocationNormalizedLoaded) => {
     query: query
   });
 };
-
 // 关闭左侧
 const closeLeftTags = () => {
   let path = unref(selectedTag)?.path as string;
@@ -90,7 +79,6 @@ const closeRightTags = () => {
   let path = unref(selectedTag)?.path || "";
   viewListStore.getNavBarList.splice(getCurrentIndex(path) + 1, tagsList.length - 1);
 };
-
 // 跳转到最后一个
 const toLastView = () => {
   const visitedViews = viewListStore.getNavBarList;
@@ -99,7 +87,6 @@ const toLastView = () => {
     push(latestView)
   }
 };
-
 // 滚动到选中的tag
 const moveToCurrentTag = async () => {
   await nextTick();
@@ -154,13 +141,10 @@ const moveToTarget = (currentTag: RouteLocationNormalizedLoaded) => {
     const tgsRefs = document.getElementsByClassName("tags-item");
     const prevTag = tgsRefs[currentIndex - 1] as HTMLElement;
     const nextTag = tgsRefs[currentIndex + 1] as HTMLElement;
-
     // the tag's offsetLeft after of nextTag
     const afterNextTagOffsetLeft = nextTag.offsetLeft + nextTag.offsetWidth + 4;
-
     // the tag's offsetLeft before of prevTag
     const beforePrevTagOffsetLeft = prevTag.offsetLeft - 4;
-
     if (afterNextTagOffsetLeft > unref(scrollLeftNumber) + wrap$!.offsetWidth) {
       const {start} = useScrollTo({
         el: wrap$!,
@@ -180,15 +164,12 @@ const moveToTarget = (currentTag: RouteLocationNormalizedLoaded) => {
     }
   }
 };
-
 // 是否是当前tag
 const isActive = (route: RouteLocationNormalizedLoaded): boolean => {
   return route.path === unref(currentRoute).path;
 };
-
 // 所有右键菜单组件的元素
 const itemRefs = useTemplateRefsList<InstanceType<typeof Object>>();
-
 // 右键菜单装填改变的时候
 const visibleChange = (visible: boolean, tagItem: RouteLocationNormalizedLoaded) => {
   selectedTag.value = tagItem;
@@ -202,17 +183,13 @@ const visibleChange = (visible: boolean, tagItem: RouteLocationNormalizedLoaded)
     }
   }
 };
-
 // elscroll 实例
 const scrollbarRef = ref(null);
-
 // 保存滚动位置
 const scrollLeftNumber = ref(0);
-
 const scroll = ({scrollLeft}) => {
   scrollLeftNumber.value = scrollLeft as number;
 };
-
 // 移动到某个位置
 const move = (to: number) => {
   const wrap$ = unref(scrollbarRef)?.wrapRef;
@@ -224,12 +201,10 @@ const move = (to: number) => {
   });
   start();
 };
-
 onMounted(() => {
   initTags();
   addTags();
 });
-
 watch(
     () => currentRoute.value,
     () => {
@@ -238,7 +213,6 @@ watch(
     }
 );
 </script>
-
 <template>
   <div class="prefixCls">
     <el-tooltip content="向左移动">
@@ -408,24 +382,20 @@ watch(
     </ContextMenu>
   </div>
 </template>
-
 <style lang="scss" scoped>
 .prefixCls {
   display: flex;
   width: 100%;
   background: var(--star-horse-white);
   border: 1px solid #eee;
-
   :deep(.scrollbar__view) {
     height: 100%;
   }
-
   .overflow-hidden {
     position: relative;
     overflow-x: hidden;
     flex: 1;
   }
-
   .tool {
     position: relative;
     display: flex;
@@ -433,17 +403,14 @@ watch(
     height: 35px;
     align-items: center;
     vertical-align: middle;
-
     &:hover {
       :deep(span) {
         color: #000000 !important;
       }
     }
-
     border-right: 1px solid var(--star-horse-style);;
     border-left: 1px solid var(--star-horse-style);;
   }
-
   .tags-item {
     position: relative;
     top: 3px;
@@ -455,7 +422,6 @@ watch(
     height: 100%;
     border: 1px solid #d9d9d9;
     display: inline-flex;
-
     .close-icon {
       position: relative;
       top: 35%;
@@ -463,13 +429,11 @@ watch(
       display: none;
       transform: translate(0, -50%);
     }
-
     :not(.close-icon):hover {
       .close-icon {
         display: block;
       }
     }
-
     .tags {
       height: 28px;
       display: flex;
@@ -482,18 +446,15 @@ watch(
       white-space: nowrap;
     }
   }
-
   .tags-item:not(.is-active) {
     &:hover {
       color: var(--star-horse-style);
     }
   }
-
   .tags-item.is-active {
     color: var(--el-color-white);
     background-color: var(--star-horse-style);
     border: 1px solid var(--star-horse-style);
-
     .item--close {
       :deep(span) {
         color: var(--el-color-white) !important;

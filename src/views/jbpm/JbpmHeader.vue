@@ -4,7 +4,6 @@ import {warning} from "@/utils/message";
 import {PropType, ref, unref} from "vue";
 import {buttonList} from "@/views/jbpm/utils/FlowData.ts";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-
 const scale = ref<number>(1.0);
 const dialogTableVisible = ref<boolean>(false);
 const labelPosition = ref<string>("top");
@@ -40,7 +39,6 @@ const elementAlign = (type: any) => {
 //   props.modeler.get("modeling").autoPlace();
 //   //alignElements.trigger(Elements, type);
 // const AlignElements = props.modeler.get("alignElements");
-
   /**
    * Executes the alignment of a selection of elements
    * 執行元素選擇的對齊
@@ -69,7 +67,6 @@ const deploy = async () => {
         warning(err);
       });
 };
-
 const save = async (type: any) => {
   const result_xml = await props.modeler.saveXML();
   const result_svg = await props.modeler.saveSVG();
@@ -98,7 +95,6 @@ const save = async (type: any) => {
 const reset = () => {
   emits("restart");
 };
-
 const downloadSvg = () => {
   emits("handleExportSvg");
 };
@@ -125,7 +121,6 @@ const actionOperation = (actionName: string) => {
   console.log(actionName);
 };
 </script>
-
 <style lang="scss" scoped>
 .inner_button {
   height: 40px;
@@ -221,8 +216,5 @@ const actionOperation = (actionName: string) => {
         </el-menu-item>
       </el-menu>
     </div>
-
   </div>
 </template>
-
-

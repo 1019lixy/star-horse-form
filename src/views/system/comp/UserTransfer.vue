@@ -4,7 +4,6 @@ import {SelectOption} from "@/components/types/SearchProps";
 import {postRequest} from "@/api/star_horse";
 import {closeLoad} from "@/api/sh_api";
 import {analysisData} from "@/api/deptment";
-
 const deptUserList = ref<SelectOption>([]);
 const selectUsers = ref<Array<Number>>([]);
 const pageInfo = ref<any>({
@@ -15,7 +14,6 @@ const init = async () => {
   // deptUserList.value = await loadDeptUser(false, []);
   // console.log(deptUserList.value);
   await loadByPage();
-
 };
 onMounted(() => {
   init();
@@ -80,7 +78,6 @@ defineExpose({
   resetSelect
 });
 </script>
-
 <template>
   <div style="text-align: center;height: 100%;">
     <el-transfer
@@ -112,7 +109,6 @@ defineExpose({
     </el-transfer>
   </div>
 </template>
-
 <style scoped lang="scss">
 :deep(.el-transfer-panel) {
   width: 400px;

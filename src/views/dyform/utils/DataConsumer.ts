@@ -2,7 +2,6 @@ import {reactive, Ref, ref} from "vue";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {SelectOption} from "@/components/types/SearchProps";
 import {searchMatchList} from "@/api/sh_api.ts";
-
 let tableVisible = ref<boolean>(true);
 let relationRequired = ref<boolean>(false);
 let sortTableVisible = ref<boolean>(true);
@@ -10,10 +9,8 @@ let limitFieldVisible = ref<boolean>(true);
 let lineDatas: any = {};
 let tableList = ref<SelectOption[]>([]);
 let fieldList = ref<SelectOption[]>([]);
-
 export const line_height = 24;
 export const table_width = 320;
-
 export const consumerNodeData: any = {
     portName: "erPortPosition",
     name: 'er-rect',
@@ -124,7 +121,6 @@ export const consumerNodeData: any = {
     },
     force: true
 };
-
 /**
  * 关联属性信息
  */
@@ -152,49 +148,41 @@ export function viewFieldInfo(viewTypeList: Ref<SelectOption[]>, consumeAuthorit
                 {
                     label: "视图名称", fieldName: "viewName", type: "input",
                     required: true, formShow: true,
-
                 },
                 {
                     label: "视图类型", fieldName: "viewType", type: "select",
                     required: true, formShow: true,
                     optionList: viewTypeList,
-
                 },
             ],
             [{
                 label: "消费权限", fieldName: "consumeAuthority", type: "select",
                 optionList: consumeAuthorityList,
                 required: true, formShow: true,
-
             }, {
                 label: "单次最大数量", fieldName: "dataLimits", type: "number",
                 required: true, formShow: true,
                 min: 1,
                 defaultValue: 100,
-
             },],
             [{
                 label: "是否认证", fieldName: "isAudit", type: "switch",
                 formShow: true,
                 defaultValue: "N",
-
             }, {
                 label: "是否去重", fieldName: "isDistinct", type: "switch",
                 formShow: true,
                 defaultValue: "N",
-
             },],
             [{
                 label: "是否需要公共字段", fieldName: "isCommonField", type: "switch",
                 formShow: true,
                 defaultValue: "N",
                 helpMsg: "如果指定返回字段，该设置失效",
-
             }, {
                 label: "是否创建菜单", fieldName: "isCreateMenu", type: "switch",
                 formShow: true,
                 defaultValue: "N",
-
             },],
             [{
                 label: "是否字段排序", fieldName: "dataSortType", type: "switch",
@@ -204,7 +192,6 @@ export function viewFieldInfo(viewTypeList: Ref<SelectOption[]>, consumeAuthorit
                 actions: (val: any) => {
                     sortTableVisible.value = val["dataSortType"] == "N";
                 },
-
             }, {
                 label: "是否指定返回字段", fieldName: "limitFieldType", type: "switch",
                 formShow: true,
@@ -213,12 +200,10 @@ export function viewFieldInfo(viewTypeList: Ref<SelectOption[]>, consumeAuthorit
                 actions: (val: any) => {
                     limitFieldVisible.value = val["limitFieldType"] == "N";
                 },
-
             },],
             {
                 label: "视图描述", fieldName: "remark", type: "textarea",
                 formShow: true,
-
             },
             {
                 batchFieldList: [{
@@ -236,21 +221,17 @@ export function viewFieldInfo(viewTypeList: Ref<SelectOption[]>, consumeAuthorit
                                 console.log(val);
                             },
                             formShow: true,
-
                         },
                         {
                             label: "属性名", fieldName: "fieldName",
                             type: "select",
                             formShow: true,
-
                         },
                         {
                             label: "排序方式", fieldName: "sortType",
                             type: "select",
                             formShow: true,
-
                         },
-
                     ]
                 }, {
                     batchName: "limitFields",
@@ -268,14 +249,12 @@ export function viewFieldInfo(viewTypeList: Ref<SelectOption[]>, consumeAuthorit
                                 console.log(val);
                             },
                             formShow: true,
-
                         },
                         {
                             label: "返回字段", fieldName: "fieldName",
                             type: "select",
                             helpMsg: "返回字段和排除字段设置一个",
                             formShow: true,
-
                             preps: {
                                 multiple: "Y",
                             }
@@ -284,7 +263,6 @@ export function viewFieldInfo(viewTypeList: Ref<SelectOption[]>, consumeAuthorit
                             label: "排除字段", fieldName: "exclusionFieldName",
                             type: "select",
                             formShow: true,
-
                             preps: {
                                 multiple: "Y",
                             }
@@ -295,8 +273,6 @@ export function viewFieldInfo(viewTypeList: Ref<SelectOption[]>, consumeAuthorit
         ]
     });
 }
-
-
 export function relationFieldInfo(datas: any) {
     lineDatas = {};
     tableVisible.value = true;
@@ -329,22 +305,18 @@ export function relationFieldInfo(datas: any) {
                 {
                     label: "关联主表名", fieldName: "from", type: "text",
                     formShow: true,
-
                 },
                 {
                     label: "关联主表字段名", fieldName: "fromPort", type: "text",
                     formShow: true,
-
                 },
             ],
             [{
                 label: "被关联表名", fieldName: "to", type: "text",
                 formShow: true,
-
             }, {
                 label: "被关联表字段名", fieldName: "toPort", type: "text",
                 formShow: true,
-
             },],
             {
                 label: "自定义条件", fieldName: "condition", type: "switch",
@@ -355,7 +327,6 @@ export function relationFieldInfo(datas: any) {
                     tableVisible.value = val["condition"] == "N";
                     relationRequired.value = val["condition"] == "Y";
                 },
-
             },
             {
                 batchFieldList: [{
@@ -373,26 +344,22 @@ export function relationFieldInfo(datas: any) {
                                 console.log(val);
                             },
                             required: relationRequired, formShow: true,
-
                         },
                         {
                             label: "属性名", fieldName: "fieldName",
                             type: "select",
                             required: relationRequired, formShow: true,
-
                         },
                         {
                             label: "匹配方式", fieldName: "matchType",
                             type: "select",
                             optionList: searchMatchList(),
                             required: relationRequired, formShow: true,
-
                         },
                         {
                             label: "匹配值", fieldName: "matchValue",
                             type: "input",
                             required: relationRequired, formShow: true,
-
                         }
                     ]
                 }]

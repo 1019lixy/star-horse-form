@@ -19,15 +19,12 @@
                 :value="item['trueLabel']"
                 v-for="item in field.preps['values']"
       >
-
       </el-radio>
     </el-radio-group>
   </starhorse-form-item>
 </template>
-
 <script lang="ts">
 import {defineComponent, onMounted, shallowRef} from "vue";
-
 export default defineComponent({
   setup(props, context) {
     const parentField = context.attrs["parentField"];
@@ -35,7 +32,6 @@ export default defineComponent({
     const field = context.attrs["field"] as any;
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
-
     const keyEnterFun = () => {
       context.emit('selfFunc');
     };
@@ -46,7 +42,5 @@ export default defineComponent({
   }
 });
 </script>
-
 <style scoped>
-
 </style>

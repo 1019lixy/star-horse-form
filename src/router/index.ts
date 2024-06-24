@@ -8,13 +8,12 @@ import {createRouterAndMenuList} from "@/api/star_horse";
 import {userInfo} from "@/store/UserInfoStore";
 import {navBarList} from "@/store/NavbarListStore";
 import {viewList} from "@/store/ViewCacheStore";
-import {computed} from "vue";
 
 const {start, done} = starhorseProcess();
 const userInfoStore = userInfo(piniaInstance);
 const navBarListStore = navBarList(piniaInstance);
 const viewListStore = viewList(piniaInstance);
-let dynamicMenus = computed(() => userInfoStore.dynamicMenus);
+//let dynamicMenus = computed(() => userInfoStore.dynamicMenus);
 const router = createRouter({
     history: createWebHistory("/"),
     routes: routers,
@@ -104,6 +103,5 @@ router.afterEach((to, from) => {
             viewListStore.setViewCache(to);
         }
     }
-
 });
 export default router;

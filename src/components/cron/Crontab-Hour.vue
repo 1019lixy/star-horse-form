@@ -5,7 +5,6 @@
         小时，允许的通配符[, - * /]
       </el-radio>
     </el-form-item>
-
     <el-form-item>
       <el-radio v-model='radioValue' :label="2" border>
         周期
@@ -16,7 +15,6 @@
       <el-input-number v-model='cycle02' :min="0" :max="60"/>
       <span style="margin-left: 10px; margin-right: 5px;">小时</span>
     </el-form-item>
-
     <el-form-item>
       <el-radio v-model='radioValue' :label="3" border>循环</el-radio>
       <span style="margin-left: 10px; margin-right: 5px;">从</span>
@@ -24,9 +22,7 @@
       <span style="margin-left: 10px; margin-right: 5px;">小时开始，每</span>
       <el-input-number v-model='average02' :min="0" :max="60"/>
       <span style="margin-left: 10px; margin-right: 5px;">小时执行一次</span>
-
     </el-form-item>
-
     <el-form-item>
       <el-radio v-model='radioValue' :label="4" border>
         指定
@@ -34,7 +30,6 @@
       <el-select clearable filterable collapse-tags v-model="checkboxList" placeholder="请选择小时" multiple>
         <el-option v-for="item in 24" :key="item" :value="item-1" :label="item-1"/>
       </el-select>
-
     </el-form-item>
   </el-form>
 </template>
@@ -42,14 +37,12 @@
 .el-select {
   width: 250px;
 }
-
 .el-input-number {
   width: 150px;
 }
 </style>
 <script lang="ts" setup name="crontab-hour">
 import {computed, ref, watch} from "vue";
-
 let radioValue = ref(1);
 let cycle01 = ref(1);
 let cycle02 = ref(2);
@@ -65,7 +58,6 @@ const props = defineProps({
 });
 let checkNum = ref(props.check);
 const emits = defineEmits(["update"]);
-
 // 单选按钮值变化时
 const radioChange = () => {
   if (radioValue.value === 1) {
@@ -129,7 +121,6 @@ watch(() => checkboxString.value,
       immediate: true,
       deep: true
     });
-
 cycleTotal.value = computed(() => cycleTotalFun());
 averageTotal.value = computed(() => averageTotalFun());
 checkboxString.value = computed(() => checkboxStringFun());

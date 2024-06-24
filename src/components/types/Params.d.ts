@@ -14,5 +14,4 @@ declare export interface SearchParams {
      * 查询值
      */
     value?: any
-
 }

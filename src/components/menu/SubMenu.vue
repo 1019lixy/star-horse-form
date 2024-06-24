@@ -25,30 +25,24 @@ const props = defineProps({
     </el-sub-menu>
   </template>
 </template>
-
 <style lang="scss" scoped>
 .star-icon {
   font-size: 22px;
 }
-
 .popper-class {
   background: var(--star-horse-style);
 }
-
 .el-sub-menu {
   background: var(--star-horse-font-color);
   margin-top: 1px;
 }
-
 :deep(.el-sub-menu__title) {
   height: 40px;
   line-height: 40px;
 }
-
 :deep(.el-scrollbar__view) {
   height: 100%;
 }
-
 .popers {
   overflow: auto;
   height: 100% !important;

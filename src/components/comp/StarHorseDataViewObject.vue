@@ -3,7 +3,6 @@ import {PropType, ref} from "vue";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import StarHorseDataView from "@/components/comp/StarHorseDataView.vue";
 import StarHorseDataViewTable from "@/components/comp/StarHorseDataViewTable.vue";
-
 const props = defineProps({
   // compUrl: {type: Object as PropType<ApiUrls>},
   fieldList: {type: Object as PropType<PageFieldInfo>, required: true},
@@ -33,7 +32,6 @@ const dataFormat = (item: any) => {
     console.log(e);
   }
   return name;
-
 };
 </script>
 <template>
@@ -70,7 +68,6 @@ const dataFormat = (item: any) => {
     <template v-else-if="item.batchFieldList&&item.batchFieldList.length>0">
       <template v-if="item.batchFieldList.length>1">
         <el-tabs v-model="normalTabList">
-
           <template v-for="(sitem,key) in item.batchFieldList">
             <el-tab-pane :label="sitem['title']" :name="'tab'+key" :disabled="sitem.disabled">
               <star-horse-data-view-table :commonFormat="commonFormat" :item="sitem"
@@ -109,22 +106,18 @@ const dataFormat = (item: any) => {
   display: flex;
   flex-direction: column;
 }
-
 :deep(.el-tabs__content ) {
   height: 100%;
   flex: 1;
 }
-
 :deep(.el-tab-pane) {
   height: 100%;
   flex: 1;
 }
-
 :deep(.el-form) {
   display: block;
   width: 100%;
 }
-
 .data-form {
   height: 100%;
 }

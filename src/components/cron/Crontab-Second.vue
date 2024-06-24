@@ -5,7 +5,6 @@
         秒，允许的通配符[, - * /]
       </el-radio>
     </el-form-item>
-
     <el-form-item>
       <el-radio v-model='radioValue' :label="2" border>周期</el-radio>
       <span style="margin-left: 10px; margin-right: 5px;">从</span>
@@ -35,14 +34,12 @@
 .el-select {
   width: 250px;
 }
-
 .el-input-number {
   width: 150px;
 }
 </style>
 <script setup lang="ts" name="crontab-second">
 import {computed, onMounted, ref, watch} from "vue";
-
 let radioValue = ref(1);
 let cycle01 = ref(1);
 let cycle02 = ref(2);
@@ -59,7 +56,6 @@ const props = defineProps({
 });
 let checkNum = ref(props.check);
 const emits = defineEmits(["update"]);
-
 // 单选按钮值变化时
 const radioChange = () => {
   switch (radioValue.value) {
@@ -130,14 +126,12 @@ watch(() => checkboxString.value,
       immediate: true,
       deep: true
     });
-
 cycleTotal.value = computed(() => cycleTotalFun());
 averageTotal.value = computed(() => averageTotalFun());
 checkboxString.value = computed(() => checkboxStringFun());
 onMounted(() => {
   radioValue.value = props.radioParent;
 })
-
 // 计算两个周期值
 const cycleTotalFun = () => {
   cycle01.value = checkNum.value(cycle01.value, 0, 59)

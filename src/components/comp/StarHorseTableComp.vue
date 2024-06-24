@@ -13,7 +13,6 @@ import {OrderByInfo} from "@/components/types/PageFieldInfo";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {DynamicForm} from "@/store/DynamicFormStore";
 import piniaInstance from "@/store";
-
 const dynamicForm = DynamicForm(piniaInstance);
 const props = defineProps({
   //url地址
@@ -41,7 +40,6 @@ const props = defineProps({
   orderBy: {type: Array as PropType<OrderByInfo[]>, default: []},
   //是否显示分页条
   showPageBar: {type: Boolean, default: true},
-
   //数据列表
   tableDataList: {type: Array, default: []},
   //回显数据列表
@@ -81,7 +79,6 @@ const tableCompFunc = (func: any) => {
   } else if (func == "exec") {
   }
 };
-
 const exportData = () => {
   load("数据处理中");
   let ids = getIds();
@@ -138,7 +135,6 @@ const createCreateParams = (formData: SearchParams[]) => {
   searchFields = formData;
   loadByPage();
 };
-
 const init = async () => {
   //是否初始化时自动加载列表数据开关
   if (!props.fieldList?.stopAutoLoad) {
@@ -193,7 +189,6 @@ const reCreateData = () => {
     assignData(tempList);
   }
 };
-
 const moveColumn = () => {
   const tbody = document.querySelector(
       ".sh-columns .el-table__body-wrapper tbody"
@@ -220,7 +215,6 @@ const moveColumn = () => {
 onMounted(() => {
   init();
 });
-
 const editData = (row: any, column: any, evt: any) => {
   let id = getRowIdentity(row);
   dynamicForm.setDataId(id);
@@ -231,7 +225,6 @@ const editData = (row: any, column: any, evt: any) => {
     emits("selectItem", row);
   }
 };
-
 /**
  * 检查是否可以选择父节点
  * @param val
@@ -329,7 +322,6 @@ const deleteById = async (id: any) => {
     loadByPage();
   }
 };
-
 const pageSizeClick = (pageSize: number) => {
   pageInfo.pageSize = pageSize;
   loadByPage();
@@ -342,15 +334,12 @@ const pageChangeClick = (currentPage: number) => {
 const inputFieldName = ref<String>("");
 //弹窗选择框属性值
 const inputFieldVal = ref<any>();
-
 /**
  * 分页显示数据
  */
 const loadByPage = () => {
-
   let searchTemp = JSON.parse(JSON.stringify(searchFields)) || [];
   let orderByTemp = JSON.parse(JSON.stringify(orderBys)) || [];
-
   if (props.filterCondition) {
     searchTemp.push(...props.filterCondition);
   }
@@ -379,7 +368,6 @@ const loadByPage = () => {
       params: params
     }
   }
-
   load("数据加载中");
   postRequest(props.compUrl?.loadByPageUrl, params).then((res: any) => {
     if (res.data.code != 0) {
@@ -494,7 +482,6 @@ defineExpose({
               显示/隐藏列
             </el-tooltip>
           </el-button>
-
         </template>
         <el-table
             class="sh-columns"
@@ -698,15 +685,12 @@ defineExpose({
 .warning-row {
   background: #8f8f8f;
 }
-
 :deep(.el-table__cell) {
   padding: 0;
 }
-
 :deep(th.el-table__cell:first-child) {
   padding: 5px 0;
 }
-
 .tb_title {
   flex: 1;
   color: var(--star-horse-style);

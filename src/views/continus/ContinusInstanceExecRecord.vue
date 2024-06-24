@@ -1,9 +1,6 @@
 <script setup lang="ts" name="ContinusInstanceExecRecord">
-
 import {ref} from "vue";
-
 import InstanceItemDetail from "@/views/continus/InstanceItemDetail.vue";
-
 const loadByPageUrl = ref("/devops-continus/continus/continusInstance/pageList");
 const mergeUrl = ref("/devops-continus/continus/continusInstance/merge");
 const mergeDraftUrl = ref("/devops-continus/continus/continusInstance/mergeDraft");
@@ -16,8 +13,6 @@ const downloadTemplateUrl = ref("/devops-continus/continus/continusInstance/down
 const uploadUrl = ref("/devops-continus/continus/continusInstance/importData");
 const userConditionUrl = ref("/devops-continus/continus/continusInstance/getAllByCondition");
 const primaryKey = "idContinusInst";
-
-
 </script>
 <style lang="scss" scoped>
 .config-nav-bar {
@@ -31,15 +26,12 @@ const primaryKey = "idContinusInst";
   margin-left: -20px;
   margin-top: -12px;
   align-items: center;
-
   .nav-bar-left {
     width: 55%;
-
     span {
       margin-left: 15px;
     }
   }
-
   .nav-bar-right {
     display: flex;
     position: relative;
@@ -69,5 +61,4 @@ const primaryKey = "idContinusInst";
     <el-tab-pane label="修改历史" name="second">修改历史</el-tab-pane>
     <el-tab-pane label="回滚记录" name="third">回滚记录</el-tab-pane>
   </el-tabs>
-
 </template>

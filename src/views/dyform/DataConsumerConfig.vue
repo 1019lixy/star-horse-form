@@ -14,7 +14,6 @@ import {consumerNodeData, relationFieldInfo, table_width, viewFieldInfo} from "@
 import {ConsumerView} from "@/store/ConsumerViewStore.ts";
 import piniaInstance from "@/store";
 import {tableColumns} from "@/views/dbsearch/utils/DbSearchUtils.ts";
-
 const route = useRoute();
 const isView = ref<boolean>(false);
 //后端交互接口地址
@@ -32,7 +31,6 @@ const dataUrl: ApiUrls = {
   uploadUrl: "/userdb-manage/userdb/dynamicFormConsumerConfig/importData",
   importUrl: ""
 };
-
 const customerItems = ref<CustomerItem[]>([]);
 const formConditionProps = ref<any>({});
 const dataForm = ref<any>({});
@@ -40,7 +38,6 @@ const relationConditionList = ref<Array<any>>([]);
 const consumerView = ConsumerView(piniaInstance);
 let dbConfigId = computed(() => consumerView.dbConfigId);
 const initDiagram = () => {
-
 };
 let viewTypeList = ref<SelectOption[]>();
 let conditionList = ref<SelectOption[]>();
@@ -116,16 +113,11 @@ const addLine = (fromTable: string, fromKey: string, toTable: string, toKey: str
 const newCreate = () => {
   cells.value = [];
   containerDiagramRef.value.graph.clearCells();
-
 };
 const checkRelation = () => {
 };
-
 let isConfig = ref<boolean>(false);
-
 let viewConfigInfo = ref<any>({});
-
-
 /**
  *
  * @param tempCond
@@ -149,7 +141,6 @@ const dataPreviewVisible = ref<boolean>(false);
 const containerDiagramRef = ref();
 const formProps = ref<any>({});
 const dataSourceFormRef = ref();
-
 const submitValid = () => {
   if (isConfig.value) {
     console.log(formProps.value)
@@ -175,11 +166,9 @@ const submitValid = () => {
       });
     }
   });
-
 };
 const resetDataSourceForm = () => {
   formProps.value = {};
-
 };
 const closeAction = () => {
   consumerDialogVisible.value = false;
@@ -192,7 +181,6 @@ const conditionClose = () => {
   resetConditionForm();
   relationDialogVisible.value = false;
 }
-
 const getRelationTable = (datas: any, tableName: string): any => {
   let tempDatas = JSON.parse(JSON.stringify(datas));
   for (let index = 0; index < tempDatas.length; index++) {
@@ -242,7 +230,6 @@ const loadConfigData = async (configId: string | LocationQueryValue[]) => {
     console.log(cells.value);
     containerDiagramRef.value.graph.resetCells(cells.value);
   }
-
 };
 const createMergeData = () => {
   let configInfo = viewConfigInfo.value;
@@ -331,7 +318,6 @@ const configView = (dataInfo: any, isSubmit: boolean) => {
   viewConfigInfo.value = {...dataInfo};
   consumerDialogVisible.value = true;
 };
-
 /**
  * 预览数据
  * @param dataInfo
@@ -371,7 +357,6 @@ watch(
     {immediate: false, deep: true}
 );
 const conditionFormRef = ref();
-
 const conditionValid = () => {
   conditionFormRef.value.$refs.starHorseFormRef.validate((result: boolean) => {
     if (!result) {
@@ -395,8 +380,6 @@ const conditionValid = () => {
     conditionClose();
   });
 };
-
-
 const lineOperation = (data: any) => {
   // console.log(data);
   let fdata = relationConditionList.value.find(item => item.from == data.from && item.fromPort == data.fromPort &&
@@ -452,6 +435,4 @@ const nodeOperation = (cell: any) => {
   </el-card>
 </template>
 <style lang="scss" scoped>
-
 </style>
-

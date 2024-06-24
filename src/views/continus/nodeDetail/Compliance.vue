@@ -1,7 +1,6 @@
 <script setup lang="ts" name="Compliance">
 import DataLog from "@/views/continus/nodeDetail/DataLog.vue";
 import {ref} from "vue";
-
 const tabCurrent = ref("second");
 </script>
 <style scoped>
@@ -10,11 +9,9 @@ const tabCurrent = ref("second");
   justify-content: space-between;
   align-items: center;
 }
-
 .el-space {
   width: 100%;
 }
-
 .el-card__header {
   padding: 5px;
 }

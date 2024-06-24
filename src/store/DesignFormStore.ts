@@ -1,7 +1,6 @@
 import {defineStore} from "pinia";
 import {SearchParams} from "@/components/types/Params";
 import {loadData} from "@/api/sh_api.ts";
-
 export const DesignForm: any = defineStore("DesignForm", {
     state: () => {
         return {
@@ -22,7 +21,6 @@ export const DesignForm: any = defineStore("DesignForm", {
              * 表单信息
              */
             formInfo: {},
-
             /**
              * 设计器里的组件列表
              */

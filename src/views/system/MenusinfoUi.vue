@@ -20,7 +20,6 @@ import {TreeNode, TreeNodeData} from "element-plus/es/components/tree-v2/src/typ
 import {ElTreeV2} from "element-plus";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {treeCheckChange} from "@/api/system";
-
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/system-config/system/menusinfoEntity/pageList",
   mergeUrl: "/system-config/system/menusinfoEntity/merge",
@@ -51,16 +50,13 @@ const proxy: ComponentInternalInstance | null = getCurrentInstance();
  } else {
  console.log("未获取到实例");
  }
-
  }
  provide('commonFunction', commonFunction);*/
-
 const searchFormData = reactive<SearchProps[]>([
   /*{label: "归属系统", fieldName: "informationsSingleId", type: "select", optionList: informationsList},
   {label: "父菜单", fieldName: "parentNo", type: "tselect", optionList: searchParentMenus},*/
   {label: "菜单名称", defaultShow: true, fieldName: "menuName", type: "input", matchType: "lk"},
   {label: "菜单编码", fieldName: "menuCode", type: "input", matchType: "lk"},
-
 ]);
 let menuIconList = ref<SelectOption[]>([]);
 const tableFieldList = reactive<PageFieldInfo>({
@@ -117,63 +113,39 @@ const tableFieldList = reactive<PageFieldInfo>({
     },
     {
       label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
-
-
     },
     {
       label: "修改人", disabled: "Y", fieldName: "updatedBy", type: "input",
-
-
     },
     {
       label: "创建日期", disabled: "Y", fieldName: "createdDate", type: "date",
-
-
     },
     {
       label: "修改日期", disabled: "Y", fieldName: "updatedDate", type: "date",
-
-
     },
     {
       label: "数据版本号", fieldName: "version", type: "number",
-
-
     },
     {
       label: "是否已逻辑", fieldName: "isDel", type: "number",
-
-
     },
     {
       label: "数据编号", fieldName: "dataNo", type: "input",
-
-
     },
     {
       label: "状态码", fieldName: "statusCode", type: "input",
-
-
     },
     {
       label: "状态码名称", fieldName: "statusName", type: "input",
-
-
     },
     {
       label: "国际码", fieldName: "local", type: "input",
-
-
     },
   ],
-
-
   cellEditable: true
 });
 const primaryKey = "idMenusinfo";
 const rules = {};
-
-
 const dataForm = ref({});
 provide("dataForm", dataForm);
 watch(() => dataForm.value["informationsSingleId"],
@@ -199,7 +171,6 @@ const loadMenuBySystemId = async (loadAll: boolean) => {
       parentMenus.value = createTree(data, "dataNo", "menuName", "idMenusinfo");
     }
   }
-
 };
 const dialogProps = reactive<DialogProps>({
   bakeVisible1: false, bakeVisible2: false, bakeVisible3: false,
@@ -210,7 +181,6 @@ const dialogProps = reactive<DialogProps>({
   editVisible: false,
   uploadVisible: false,
   viewVisible: false
-
 });
 provide("dialogProps", dialogProps);
 let permissions = ref<any>({});
@@ -226,7 +196,6 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
   }
   return cellValue;
 }
-
 const merge = () => {
   menuFormRef.value!.$refs["starHorseFormRef"].validate((result: boolean) => {
     if (!result) {
@@ -235,12 +204,9 @@ const merge = () => {
     doMerge();
   });
 };
-
-
 const mergeDraft = () => {
   doMerge();
 };
-
 const doMerge = () => {
   load("数据处理中");
   let temp = unref(dataForm);
@@ -283,9 +249,7 @@ const filterMethod = (query: string, node: TreeNode) => {
  * @param checked
  */
 const checkChange = (data: TreeNodeData, checked: boolean) => {
-
   treeCheckChange(treeRef.value, menuTableListRef.value, dataForm.value, data, checked);
-
 };
 const initData = async () => {
   permissions.value = await loadPagePermission(getMenuId())
@@ -301,17 +265,12 @@ const initData = async () => {
     })
   }
   menuIconList.value = loadElementPlusIcon();
-
 };
-
-
 onMounted(async () => {
   await initData();
 })
 </script>
-
 <style lang="scss" scoped>
-
 </style>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps"
@@ -370,6 +329,5 @@ onMounted(async () => {
         </el-card>
       </el-col>
     </el-row>
-
   </el-card>
 </template>

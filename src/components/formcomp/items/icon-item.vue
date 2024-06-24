@@ -33,10 +33,8 @@
     </el-popover>
   </starhorse-form-item>
 </template>
-
 <script lang="ts">
 import {defineComponent, onMounted, shallowRef, unref} from "vue";
-
 export default defineComponent({
   emits: ["selectItem", "selfFunc"],
   setup(props, context) {
@@ -48,8 +46,6 @@ export default defineComponent({
     let dataField = shallowRef("");
     const popoverRef = shallowRef();
     let actionName = shallowRef("keydown.enter");
-
-
     const assignIcon = (iconName: String) => {
       context.attrs['formFieldList'][field.preps['name']] = iconName;
       unref(popoverRef).popperRef?.delayHide?.();
@@ -74,7 +70,5 @@ export default defineComponent({
   }
 });
 </script>
-
 <style scoped>
-
 </style>

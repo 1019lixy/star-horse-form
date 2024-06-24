@@ -22,7 +22,6 @@ import {sql, SQLConfig} from "@codemirror/lang-sql";
 import {showMinimap} from "@replit/codemirror-minimap";
 import {javaKeywords} from "../code/java.ts";
 import {amy, ayuLight, barf, bespin, birdsOfParadise, boysAndGirls, clouds, dracula} from 'thememirror';
-
 const model = defineModel("value", {default: ""});
 const editorLang = ref<any>(javascript());
 const editorTheme = ref<any>(dracula);
@@ -65,11 +64,9 @@ const themes = ref<Array<any>>([
   {name: "Clouds", value: "clouds", obj: clouds, icon: "setting"},
   {name: "Barf", value: "barf", obj: barf, icon: "setting"},
   {name: "Dracula", value: "dracula", obj: dracula, icon: "setting"},
-
 ]);
 const editor = ref<EditorView>();
 const codemirror = ref();
-
 const customerTheme = (theme: string) => {
   let fdata = themes.value.find(item => item.value == theme);
   editorTheme.value = fdata.obj;
@@ -77,7 +74,6 @@ const customerTheme = (theme: string) => {
     effects: themesConf.reconfigure(editorTheme.value)
   });
 };
-
 const currentValFun = (val: string) => {
   // console.log(val);
 };
@@ -108,7 +104,6 @@ const langInfo = (lang: string) => {
     effects: languageConf.reconfigure(editorLang.value)
   };
   editor.value?.dispatch(disData);
-
 };
 const javaCompletions = javaLanguage.data.of({
   autocomplete: javaHint
@@ -116,8 +111,6 @@ const javaCompletions = javaLanguage.data.of({
 const windowCompletions = javascriptLanguage.data.of({
   autocomplete: scopeCompletionSource(window)
 });
-
-
 /**
  * 初始化
  */
@@ -167,7 +160,6 @@ onMounted(async () => {
     init();
   });
 });
-
 /**
  * 根据不同数据库生成不同的查询提示
  * @param dbName
@@ -227,7 +219,6 @@ defineExpose({
             <star-horse-icon :icon-class="item.icon" color="gray" size="14px"/>
             {{ item.name }}
           </el-dropdown-item>
-
         </el-dropdown-menu>
       </template>
     </el-dropdown>
@@ -238,12 +229,10 @@ defineExpose({
 .inner_button {
   margin-bottom: 10px;
 }
-
 .coder {
   font-size: 17px;
   width: 100%;
   height: v-bind(boxHeight);
-
   :deep(.cm-editor) {
     height: inherit;
   }

@@ -15,7 +15,6 @@ import UserTransfer from "@/views/system/comp/UserTransfer.vue";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {ElTreeV2} from "element-plus";
 import {TreeNode} from "element-plus/es/components/tree-v2/src/types";
-
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/system-config/system/rolesinfoEntity/pageList",
   mergeUrl: "/system-config/system/rolesinfoEntity/merge",
@@ -38,8 +37,6 @@ let authorityMenusList = ref([]);
 let selfBtnFunc = ref<BtnAuth[]>([]);
 const starHorseTableCompRef = ref(null);
 let currentRoleId = ref<Number>(0);
-
-
 // 0 普通角色 1高级角色 2普通管理员 3 超级管理员 默认 0
 const roleTypes = [{name: "普通角色", value: 0},
   {name: "高级角色", value: 1},
@@ -58,13 +55,10 @@ const searchFormData = reactive<SearchProps[]>([
   /* {label: "角色编码", fieldName: "roleCode", type: "input", matchType: "lk"},*/
   {label: "角色类型", fieldName: "roleType", defaultShow: true, type: "select", optionList: roleTypes},
 ]);
-
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     {
       label: "主键", fieldName: "idRolesinfo", type: "long",
-
-
     },
     {
       label: "角色名称", fieldName: "roleName", type: "input",
@@ -74,18 +68,14 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     /*    {
           label: "归属部门", fieldName: "idDepartment", type: "select", optionList: departmentList,
           required: true,
-
         },
         {
           label: "归属部门", fieldName: "departments", type: "select", optionList: departmentList,
           required: true,  multiple:"Y",
-
         },*/
-
     {
       label: "角色编码", fieldName: "roleCode", type: "input",
       required: true,
-
     },
     {
       label: "角色类型", fieldName: "roleType", type: "select", optionList: roleTypes,
@@ -100,12 +90,10 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     [{
       label: "系统权限", fieldName: "appsList", type: "select", optionList: systemList,
       required: true, multiple: "Y",
-
     },
       {
         label: "菜单权限", fieldName: "menusList", type: "tselect", optionList: menusList,
         required: true, multiple: "Y",
-
       }],
     {
       label: "角色描述", fieldName: "roleDesc", type: "textarea",
@@ -114,63 +102,40 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     },
     {
       label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
-
       tableShow: true
     },
     {
       label: "修改人", disabled: "Y", fieldName: "updatedBy", type: "input",
-
-
     },
     {
       label: "创建日期", disabled: "Y", fieldName: "createdDate", type: "date",
-
       tableShow: true
     },
     {
       label: "修改日期", disabled: "Y", fieldName: "updatedDate", type: "date",
-
-
     },
     {
       label: "数据版本号", fieldName: "version", type: "number",
-
-
     },
     {
       label: "是否已逻辑", fieldName: "isDel", type: "number",
-
-
     },
     {
       label: "数据编号", fieldName: "dataNo", type: "input",
-
-
     },
     {
       label: "状态码", fieldName: "statusCode", type: "input",
-
-
     },
     {
       label: "状态码名称", fieldName: "statusName", type: "input",
-
-
     },
     {
       label: "国际码", fieldName: "local", type: "input",
-
-
     },
-
   ],
-
-
 });
 const primaryKey = "idRolesinfo";
 const rules = {};
-
-
 const dataForm = ref({});
 provide("dataForm", dataForm);
 const dialogProps = reactive<DialogProps>({
@@ -182,15 +147,12 @@ const dialogProps = reactive<DialogProps>({
   editVisible: false,
   uploadVisible: false,
   viewVisible: false
-
 });
 provide("dialogProps", dialogProps);
 let permissions = ref<any>({});
 const dataFormat = (name: string, cellValue: any, row: any): any => {
   let data = [] as Array<any>;
-
   if (name == "roleType") {
-
     let fdata = roleTypes.find(item => item.value == parseInt(cellValue));
     return fdata?.name || cellValue;
   } else if (name == "departments" && row) {
@@ -212,7 +174,6 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
   }
   return cellValue;
 };
-
 /**
  * 检查是否选择了数据
  * @param msg
@@ -233,7 +194,6 @@ const dataCheck = (msg: string) => {
 /**
  * 分配菜单权限
  */
-
 /**
  * 递归函数，查找已设置为快捷菜单的数据
  *
@@ -256,7 +216,6 @@ const recallFun = (id: number, datas: any): any => {
     }
   }
   return reitem;
-
 };
 const menuAuthority = async () => {
   let id = dataCheck("请先选择要分配菜单权限的角色");
@@ -274,7 +233,6 @@ const menuAuthority = async () => {
     setTimeout(() => {
       menuAuthorityRef.value!.setCheckedKeys(roleMenus);
     }, 500);
-
     /*   roleMenus.forEach((item: any) => {
          console.log(item)
          menuAuthorityRef.value!.setChecked(parseInt(item));
@@ -288,7 +246,6 @@ const btnAuthority = () => {
   if (!dataCheck("请先选择要分配权按钮限的角色")) {
     return;
   }
-
 };
 /**
  * 查看角色下的用户
@@ -318,7 +275,6 @@ const addUsers = async () => {
   await nextTick();
   userResetForm(userIds);
 };
-
 /**
  * 考虑角色管理 和角色权限分离
  * 增加角色成员，可一件移动角色
@@ -334,7 +290,6 @@ const submit = () => {
     warning("请先分配菜单权限");
     return;
   }
-
   postRequest(`/system-config/system/rolesMenusinfo/roleMenuAuthority/${currentRoleId.value}`, menuIds).then(res => {
     if (res.data.data) {
       success("操作成功");
@@ -381,7 +336,6 @@ const initData = async () => {
   let params: any = [{propertyName: "isDel", value: 0}, {propertyName: "statusCode", value: '1'}];
   departmentList.value = await loadDepartmentInfo(params);
   systemList.value = await loadSystemInfo(params);
-
   selfBtnFunc.value.push({
     btnName: "auth",
     labelName: "授权",
@@ -416,14 +370,12 @@ const initData = async () => {
       }
     ]
   });
-
 };
 onMounted(async () => {
   await initData();
 });
 </script>
 <style lang="scss" scoped>
-
 </style>
 <template>
   <star-horse-dialog selfFunc="true" :dialogVisible="dialogProps.bakeVisible2" :title="'查看用户'" @resetForm=

@@ -7,7 +7,6 @@ const props = defineProps({
 });
 const needLengthComp: Array<string> = ["input", "number", "text", "tselect", "textarea", "htmleditor", "cascade", "autocomplete", "dialog-input", "select", "page-select"]
 </script>
-
 <template>
   <template v-if="field?.compType=='container'&&(field.itemType=='box'||field.itemType=='table')">
     <template v-if="field.preps['elements']?.length>0" v-for="sitem in field.preps['elements']">
@@ -72,7 +71,6 @@ const needLengthComp: Array<string> = ["input", "number", "text", "tselect", "te
     </el-row>
   </template>
 </template>
-
 <style scoped lang="scss">
 .el-input-number, .el-input-number-small {
   width: unset;

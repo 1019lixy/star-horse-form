@@ -5,7 +5,6 @@ import {DialogProps} from "@/components/types/DialogProps";
 import {commonParseCodeToName, formFieldMapping, loadById} from "@/api/sh_api";
 import StarHorseDataViewObject from "@/components/comp/StarHorseDataViewObject.vue";
 import StarHorseDataViewTable from "@/components/comp/StarHorseDataViewTable.vue";
-
 const dataForm = ref({});
 const props = defineProps({
   compUrl: {type: Object as PropType<ApiUrls>, required: true},
@@ -66,7 +65,6 @@ const commonFormat = (name: string, cellValue: any, row: any) => {
   if (name == "isDel") {
     return cellValue == 1 ? "是" : "否";
   }
-
   return null == props.dataFormat ? cellValue : props.dataFormat(name, cellValue, dataForm.value);
 };
 const dataFormat = (item: any) => {
@@ -117,7 +115,6 @@ const tabList = ref<any>("tab0");
             }"
               />
             </template>
-
           </el-tab-pane>
         </template>
       </el-tabs>
@@ -127,7 +124,6 @@ const tabList = ref<any>("tab0");
     <template v-else-if="item.batchFieldList&&item.batchFieldList.length>0">
       <template v-if="item.batchFieldList.length>1">
         <el-tabs v-model="normalTabList">
-
           <template v-for="(sitem,key) in item.batchFieldList">
             <el-tab-pane :label="sitem['title']" :name="'tab'+key" :disabled="sitem.disabled">
               <star-horse-data-view-table :commonFormat="commonFormat" :item="sitem"
@@ -169,25 +165,20 @@ const tabList = ref<any>("tab0");
   display: flex;
   flex-direction: column;
 }
-
 .el-tabs {
   height: 100%;
 }
-
 :deep(.el-tabs__content ) {
   height: 100%;
   flex: 1;
 }
-
 :deep(.el-tab-pane) {
   height: 100%;
   flex: 1;
 }
-
 :deep(.el-table__cell) {
   padding: 0;
 }
-
 :deep(th.el-table__cell:first-child) {
   padding: 5px 0;
 }

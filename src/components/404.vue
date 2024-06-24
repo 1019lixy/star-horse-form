@@ -1,12 +1,10 @@
 <script lang="ts" setup name="NotFound">
 import {useRouter} from "vue-router";
-
 const router = useRouter();
 const backFun = () => {
   router.go(-2);
 };
 </script>
-
 <style lang="scss" scoped>
 body {
   margin: 0;
@@ -14,27 +12,22 @@ body {
   background: var(--star-horse-white);
   font-family: Georgia, Times, Verdana, Geneva, Arial, Helvetica, sans-serif;
 }
-
 .not-found-card {
   margin: 0 auto;
   padding: 0;
   width: 50%;
   background: #e4e7ed;
-
   .error-content {
     display: flex;
     flex-direction: row;
     position: relative;
-
     .error-icon {
       flex: 1;
       margin: 0 auto;
       background: url(@/icons/404.svg) no-repeat center;
     }
-
     .errorText {
       width: 70%;
-
       div {
         display: block;
         width: 303px;
@@ -44,7 +37,6 @@ body {
     }
   }
 }
-
 h1 {
   font-size: 40px;
   margin-bottom: 35px;

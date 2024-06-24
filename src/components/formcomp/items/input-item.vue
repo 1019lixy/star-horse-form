@@ -21,10 +21,8 @@
         v-model="context.attrs['formFieldList'][field.preps['name']]"/>
   </starhorse-form-item>
 </template>
-
 <script lang="ts">
 import {defineComponent, onMounted, shallowRef} from "vue";
-
 export default defineComponent({
   emits: ["selectItem", "selfFunc"],
   setup(props, context) {
@@ -34,7 +32,6 @@ export default defineComponent({
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
     let actionName = shallowRef("keydown.enter");
-
     const dynamicFunction = (funcName: String, data: any) => {
       if (!data) {
         return;
@@ -46,7 +43,6 @@ export default defineComponent({
         console.error(e);
       }
     };
-
     const keyEnterFun = (prep: any) => {
       if (prep == actionName.value && field.preps["actionRelation"]) {
         field.preps["actionRelation"](context.attrs['formFieldList'][field.preps['name']], context.attrs['formFieldList']["xh"]);
@@ -67,5 +63,4 @@ export default defineComponent({
 });
 </script>
 <style lang="scss" scoped>
-
 </style>

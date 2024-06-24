@@ -16,7 +16,6 @@ import HeaderComp from "@/components/HeaderComp.vue";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import PageConfig from "@/components/PageConfig.vue";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
-
 let configStore = GlobalConfig(piniaInstance);
 const route = router.getRoutes().find(item => item.path == "/home");
 let viewListStore = viewList(piniaInstance);
@@ -29,7 +28,6 @@ let locale = ref();
 const changeLang = (lang: LangType, isInit: boolean) => {
   locale.value = lang == LangType.ZH_CN ? zhCn : en;
   console.log(isInit);
-
 };
 const loadMenuFun = (data: string) => {
   sysemId.value = data;
@@ -41,12 +39,9 @@ const mouseOver = () => {
 const mouseOut = () => {
   jQuery(".star-horse-left").removeClass('show-scroll-bar');
 };
-
 const collopseOperation = () => {
   isCollapse.value = !isCollapse.value;
 };
-
-
 watch(
     () => isCollapse.value,
     (val: boolean) => {
@@ -61,7 +56,6 @@ let currentX = ref<number>(0);
 let dragging = ref<boolean>(false);
 let mainLeftAside = ref();
 let resizerRef = ref();
-
 const dragStart = (event: MouseEvent) => {
   // event.preventDefault();
   currentX.value = event.x;
@@ -102,7 +96,6 @@ const compDragging = (x: number) => {
   } else if (outerIsCollapse.value >= 500) {
     outerIsCollapse.value = 500;
   }
-
 };
 let drawer = ref<boolean>(false);
 const configInfo = computed(() => configStore.configFormInfo);
@@ -161,48 +154,39 @@ const configInfo = computed(() => configStore.configFormInfo);
         </el-card>
       </template>
       <template #footer>
-
       </template>
     </el-drawer>
   </el-config-provider>
 </template>
-
-
 <style lang="scss" scoped>
 :deep(.el-header) {
   height: unset;
   padding: unset;
 }
-
 .operation-area {
   height: 100%;
   overflow: hidden;
-
   :deep(.el-card__body) {
     height: 100%;
     overflow: hidden;
     margin: 5px !important;
   }
 }
-
 .Resizer.vertical {
   width: 5px;
   margin: 0px -2px;
   border-left: 2px solid transparent;
   border-right: 2px solid transparent;
-
   &:hover {
     background-color: var(--star-horse-style);
     cursor: col-resize;
   }
 }
-
 .Resizer {
   z-index: 1;
   box-sizing: border-box;
   background: padding-box rgb(240, 240, 240);
 }
-
 .moveBox {
   width: 10px;
   height: 100%;
@@ -213,34 +197,27 @@ const configInfo = computed(() => configStore.configFormInfo);
   align-items: center;
   justify-content: center;
   font-weight: bold;
-
   &:hover {
     cursor: col-resize;
   }
 }
-
 .el-menu--collapse {
   width: 100%;
   height: 100%;
 }
-
-
 :deep(.el-aside) {
   overflow: hidden;
 }
-
 .main-config {
   position: absolute;
   top: 50%;
   right: 1px;
   border-radius: 3px;
   background: #eee;
-
   &:hover, svg:hover {
     cursor: pointer;
   }
 }
-
 .main-copyright {
   display: flex;
   margin-top: 3px;

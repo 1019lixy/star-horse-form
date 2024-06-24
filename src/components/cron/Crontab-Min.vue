@@ -5,7 +5,6 @@
         分钟，允许的通配符[, - * /]
       </el-radio>
     </el-form-item>
-
     <el-form-item>
       <el-radio v-model='radioValue' :label="2" border>周期</el-radio>
       <span style="margin-left: 10px; margin-right: 5px;">从</span>
@@ -14,7 +13,6 @@
       <el-input-number v-model='cycle02' :min="0" :max="60"/>
       <span style="margin-left: 5px; margin-right: 5px;">分钟</span>
     </el-form-item>
-
     <el-form-item>
       <el-radio v-model='radioValue' :label="3" border> 循环</el-radio>
       <span style="margin-left: 10px; margin-right: 5px;">从</span>
@@ -22,9 +20,7 @@
       <span style="margin-left: 10px; margin-right: 5px;"> 分钟开始，每</span>
       <el-input-number v-model='average02' :min="0" :max="60"/>
       <span style="margin-left: 10px; margin-right: 5px;"> 分钟执行一次</span>
-
     </el-form-item>
-
     <el-form-item>
       <el-radio v-model='radioValue' :label="4" border>
         指定
@@ -34,20 +30,17 @@
       </el-select>
     </el-form-item>
   </el-form>
-
 </template>
 <style lang="scss" scoped>
 .el-select {
   width: 250px;
 }
-
 .el-input-number {
   width: 150px;
 }
 </style>
 <script setup lang="ts" name="crontab-min">
 import {computed, ref, watch} from "vue";
-
 let radioValue = ref(1);
 let cycle01 = ref(1);
 let cycle02 = ref(2);
@@ -122,7 +115,6 @@ watch(() => checkboxString.value,
       immediate: true,
       deep: true
     });
-
 cycleTotal.value = computed(() => cycleTotalFun());
 averageTotal.value = computed(() => averageTotalFun());
 checkboxString.value = computed(() => checkboxStringFun());

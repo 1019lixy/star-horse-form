@@ -6,7 +6,6 @@ import {onMounted, provide, reactive, ref} from "vue";
 import {SearchProps, SelectOption} from "@/components/types/SearchProps";
 import {getMenuId, loadDepartmentInfo, loadPagePermission} from "@/api/sh_api";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
-
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/system-config/system/departmentEntity/pageList",
   mergeUrl: "/system-config/system/departmentEntity/merge",
@@ -23,7 +22,6 @@ const dataUrl: ApiUrls = {
   condition: []
 };
 let departmentList = ref<SelectOption[]>([]);
-
 const searchFormData = reactive<SearchProps[]>([
   {label: "部门名称", defaultShow: true, fieldName: "deptName", type: "input", matchType: "lk"},
   {label: "部门编码", fieldName: "deptCode", type: "input", matchType: "lk"},
@@ -32,20 +30,16 @@ const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
       label: "主键", fieldName: "idDepartment", type: "long",
-
-
     },
     {
       label: "上级部门", fieldName: "parentDeptList", type: "cascade", optionList: departmentList,
       formShow: !false,
-
     },
     {
       label: "部门名称", fieldName: "deptName", type: "input",
       required: true, formShow: !false,
       tableShow: !false
     },
-
     {
       label: "部门编码", fieldName: "deptCode", type: "input",
       required: true, disabled: "Y",
@@ -56,7 +50,6 @@ const tableFieldList = reactive<PageFieldInfo>({
       formShow: !false,
       tableShow: !false
     },
-
     {
       label: "部门描述", fieldName: "deptDesc", type: "textarea",
       formShow: !false,
@@ -64,64 +57,39 @@ const tableFieldList = reactive<PageFieldInfo>({
     },
     {
       label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
-
-
     },
     {
       label: "修改人", disabled: "Y", fieldName: "updatedBy", type: "input",
-
-
     },
     {
       label: "创建日期", disabled: "Y", fieldName: "createdDate", type: "date",
-
-
     },
     {
       label: "修改日期", disabled: "Y", fieldName: "updatedDate", type: "date",
-
-
     },
     {
       label: "数据版本号", fieldName: "version", type: "number",
-
-
     },
     {
       label: "是否已逻辑", fieldName: "isDel", type: "number",
-
-
     },
     {
       label: "数据编号", fieldName: "dataNo", type: "input",
-
-
     },
     {
       label: "状态码", fieldName: "statusCode", type: "input",
-
-
     },
     {
       label: "状态码名称", fieldName: "statusName", type: "input",
-
-
     },
     {
       label: "国际码", fieldName: "local", type: "input",
-
-
     },
-
   ],
-
-
 });
 const primaryKey = "idDepartment";
 const departmentRef = ref();
 const rules = {};
-
-
 const dataForm = ref({});
 provide("dataForm", dataForm);
 const dialogProps = reactive<DialogProps>({
@@ -133,7 +101,6 @@ const dialogProps = reactive<DialogProps>({
   editVisible: false,
   uploadVisible: false,
   viewVisible: false
-
 });
 provide("dialogProps", dialogProps);
 let permissions = ref<any>({});
@@ -149,7 +116,6 @@ onMounted(async () => {
 });
 </script>
 <style lang="scss" scoped>
-
 </style>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">

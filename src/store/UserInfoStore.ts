@@ -1,7 +1,6 @@
 import {defineStore} from "pinia";
 import {MenusInfo} from "@/components/types/MenusInfo";
 import {Config} from "@/api/settings";
-
 export const userInfo = defineStore("userInfo", {
     state: () => {
         return {
@@ -69,7 +68,6 @@ export const userInfo = defineStore("userInfo", {
             if (data) {
                 this.dynamicMenus.push(data);
             }
-
         }
     },
     persist: {

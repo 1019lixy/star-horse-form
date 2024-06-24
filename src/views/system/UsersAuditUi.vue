@@ -5,7 +5,6 @@ import {DialogProps} from "@/components/types/DialogProps"
 import {onMounted, provide, reactive, ref} from "vue";
 import {SearchProps} from "@/components/types/SearchProps";
 import {getMenuId, loadPagePermission} from "@/api/sh_api.ts";
-
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/system-config/system/usersAudit/pageList",
   mergeUrl: "/system-config/system/usersAudit/merge",
@@ -21,7 +20,6 @@ const dataUrl: ApiUrls = {
   uploadUrl: "",
   condition: []
 };
-
 const searchFormData = reactive<SearchProps[]>([{label: "主键", fieldName: "idUsersAudit", type: "long"},
   {label: "主键", fieldName: "idUserinfo", type: "long"},
   {label: "密码", fieldName: "password", type: "input"},
@@ -69,53 +67,33 @@ const tableFieldList = reactive({
     },
     {
       label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
-
-
     },
     {
       label: "修改人", disabled: "Y", fieldName: "updatedBy", type: "input",
-
-
     },
     {
       label: "创建日期", disabled: "Y", fieldName: "createdDate", type: "date",
-
-
     },
     {
       label: "修改日期", disabled: "Y", fieldName: "updatedDate", type: "date",
-
-
     },
     {
       label: "数据版本号", fieldName: "version", type: "number",
-
-
     },
     {
       label: "是否已逻辑", fieldName: "isDel", type: "number",
-
-
     },
     {
       label: "数据编号", fieldName: "dataNo", type: "input",
-
-
     },
     {
       label: "状态码", fieldName: "statusCode", type: "input",
-
-
     },
     {
       label: "状态码名称", fieldName: "statusName", type: "input",
-
-
     },
     {
       label: "国际码", fieldName: "local", type: "input",
-
-
     },
   ],
   batchFieldList: []
@@ -123,8 +101,6 @@ const tableFieldList = reactive({
 const primaryKey = "idUsersAudit";
 const usersAuditRef = ref();
 const rules = {};
-
-
 const dataForm = ref({});
 provide("dataForm", dataForm);
 const dialogProps = reactive<DialogProps>({
@@ -150,7 +126,6 @@ onMounted(async () => {
 });
 </script>
 <style lang="scss" scoped>
-
 </style>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">

@@ -10,7 +10,6 @@ import {getToken} from "@/utils/auth";
 import Help from "@/components/help.vue";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import piniaInstance from "@/store";
-
 const props = defineProps({
   dialogProps: {type: Object as PropType<DialogProps>, required: true},
   compUrl: {type: Object as PropType<ApiUrls>, required: true},
@@ -33,7 +32,6 @@ const dataForm = inject("dataForm") as Ref;
 const tableCompFunc = (funcName: string) => {
   emits("tableCompFunc", funcName);
 };
-
 const btnOperation = (funcName: string) => {
   let data = props.selfBtnFunc && props.selfBtnFunc.find((item) => item.btnName == funcName);
   if (data) {
@@ -103,22 +101,18 @@ const init = async () => {
 onMounted(() => {
   init();
 });
-
 </script>
 <style lang="scss" scoped>
 :deep(.el-tooltip__trigger:focus-visible) {
   outline: unset;
 }
-
 .el-menu {
   background: none;
   border-bottom: none;
 }
-
 :deep(.el-sub-menu) {
   background: none;
 }
-
 .el-menu--horizontal {
   height: 30px;
 }
@@ -151,7 +145,6 @@ onMounted(() => {
                       {{ sitem.labelName }}
                     </el-button>
                   </el-dropdown-item>
-
                 </el-dropdown-menu>
               </template>
             </el-dropdown>
@@ -164,8 +157,6 @@ onMounted(() => {
         </li>
       </template>
     </template>
-
-
     <li v-if="permissions?.download&&!viewFlag&&checkSelfBtn('download')">
       <el-button @click="downloadTemplate" title=""
                  style="background: var(--star-horse-style);color: var(--star-horse-white)" :size="compSize">
@@ -223,7 +214,6 @@ onMounted(() => {
         <star-horse-icon icon-class="plus" style="color: var(--star-horse-style)" size="14px"/>
         新增
       </el-menu-item>
-
       <template v-if="selfBtnFunc&&selfBtnFunc.length>0">
         <template v-for="(item,ain) in selfBtnFunc">
           <template v-if="item.children?.length>0">
@@ -245,8 +235,6 @@ onMounted(() => {
           </el-menu-item>
         </template>
       </template>
-
-
       <el-menu-item index="1-2" v-if="permissions?.download&&!viewFlag&&checkSelfBtn('download')"
                     @click="downloadTemplate">
         <star-horse-icon icon-class="download" style="color: var(--star-horse-style)" size="12px"/>
@@ -292,5 +280,4 @@ onMounted(() => {
       </el-menu-item>
     </el-sub-menu>
   </el-menu>
-
 </template>

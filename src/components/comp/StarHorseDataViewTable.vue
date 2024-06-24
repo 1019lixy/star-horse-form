@@ -4,23 +4,19 @@ import {FieldInfo} from "@/components/types/PageFieldInfo";
 import {rowClassName} from "@/api/sh_api";
 import {Config} from "@/api/settings";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-
 const props = defineProps({
   item: {type: Array as PropType<Array<FieldInfo>>, required: true},
   batchName: {type: String, required: true},
   commonFormat: {type: Function, required: true},
 });
 const dataForm = defineModel("dataForm");
-
 const viewDataFormat = (row: any, column: any, cellValue: any, index: number) => {
   //如果在这个地方遍历是否有隐藏属性，会拉低系统性能
   return props.commonFormat(column.property, cellValue, row);
 };
 const dataFormat = (item: any) => {
   let name = item['hideName'] || item['fieldName'];
-
   return name;
-
 };
 </script>
 <template>
@@ -32,7 +28,6 @@ const dataFormat = (item: any) => {
       {{ item.title }}
     </div>
     <div style="display: flex;align-items: center;flex-direction: row-reverse">
-
     </div>
   </div>
   <el-table
@@ -76,7 +71,6 @@ const dataFormat = (item: any) => {
       {{ dataFormat(sitem) }}
     </template>
   </el-table>
-
 </template>
 <style lang="scss" scoped>
 .el-table {

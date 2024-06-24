@@ -2,7 +2,6 @@
 import {computed, onMounted, PropType, provide, reactive, ref, watch} from "vue";
 import {DialogProps} from "@/components/types/DialogProps";
 import {i18n} from "@/lang";
-
 const emits = defineEmits(["merge", "mergeDraft", "resetForm", "closeAction"]);
 const props = defineProps({
   dialogVisible: {type: Boolean, default: false},
@@ -31,7 +30,6 @@ watch(
       deep: true
     }
 );
-
 let isFullScreen = ref(props.fullScreen);
 const dialogStyle = computed(() => {
   return {"max-height": isFullScreen ? "100%" : props.boxHeight};
@@ -59,7 +57,6 @@ const beforeClose = () => {
   windowsType.value = false;
 };
 onMounted(() => {
-
 });
 provide("closeDialog", beforeClose);
 const fullScreen = () => {
@@ -145,7 +142,6 @@ provide("dialogOperation", clickFunction);
     display: flex;
     flex-direction: column;
     padding: unset;
-
     .el-dialog__header {
       flex-shrink: 0;
       height: 40px;
@@ -157,11 +153,9 @@ provide("dialogOperation", clickFunction);
       display: flex;
       flex-direction: row;
       color: var(--star-horse-white);
-
       h3 {
         flex: 1;
       }
-
       .my-header {
         width: 100px;
         display: flex;
@@ -170,7 +164,6 @@ provide("dialogOperation", clickFunction);
         right: 10px;
       }
     }
-
     .el-dialog__body {
       flex: 1;
       display: flex;
@@ -178,29 +171,24 @@ provide("dialogOperation", clickFunction);
     }
   }
 }
-
 .eee {
   flex: 1;
   overflow-y: auto;
   padding: 0 10px;
   box-sizing: border-box;
-
   &::-webkit-scrollbar {
     width: 6px;
   }
-
   &::-webkit-scrollbar-track {
     background: transparent;
     border-radius: 10px;
   }
-
   &::-webkit-scrollbar-thumb {
     background: #f2f2f2 !important;
     z-index: 222;
     border-radius: 8px;
   }
 }
-
 .dialog-footer {
   display: flex;
   justify-content: center;

@@ -336,117 +336,98 @@
         <el-input clearable placeholder="请输入主键"
                   v-model="ruleForm.idNodeProperty"></el-input>
       </el-form-item>
-
       <el-form-item label="主键" prop="idContinusInst"
                     required v-if="!false">
         <el-input-number clearable placeholder="请输入主键"
                          v-model="ruleForm.idContinusInst"/>
       </el-form-item>
-
       <el-form-item label="名称" prop="nodeName"
                     required v-if="!false">
         <el-input clearable placeholder="请输入名称"
                   v-model="ruleForm.nodeName"></el-input>
       </el-form-item>
-
       <el-form-item label="列索引" prop="columnIndex"
                     required v-if="!false">
         <el-input-number clearable placeholder="请输入列索引"
                          v-model="ruleForm.columnIndex"/>
       </el-form-item>
-
       <el-form-item label="执行方式" prop="executionType"
                     required v-if="!false">
         <el-input-number clearable placeholder="请输入执行方式"
                          v-model="ruleForm.executionType"/>
       </el-form-item>
-
       <el-form-item label="程序语言" prop="language"
                     required v-if="!false">
         <el-input clearable placeholder="请输入程序语言"
                   v-model="ruleForm.language"></el-input>
       </el-form-item>
-
       <el-form-item label="项目编码" prop="charset"
                     required v-if="!false">
         <el-input clearable placeholder="请输入项目编码"
                   v-model="ruleForm.charset"></el-input>
       </el-form-item>
-
       <el-form-item label="源码相对目录" prop="codeDir"
                     required v-if="!false">
         <el-input clearable placeholder="请输入源码相对目录"
                   v-model="ruleForm.codeDir"></el-input>
       </el-form-item>
-
       <el-form-item label="执行失败通知" prop="failurReport"
                     required v-if="!false">
         <el-input clearable placeholder="请输入执行失败通知"
                   v-model="ruleForm.failurReport"></el-input>
       </el-form-item>
-
       <el-form-item label="执行成功通知" prop="successReport"
                     required v-if="!false">
         <el-input clearable placeholder="请输入执行成功通知"
                   v-model="ruleForm.successReport"></el-input>
       </el-form-item>
-
       <el-form-item label="自定义规则" prop="selfRules"
                     required v-if="!false">
         <el-input clearable placeholder="请输入自定义规则"
                   v-model="ruleForm.selfRules"></el-input>
       </el-form-item>
-
       <el-form-item label="行索引" prop="rowIndex"
                     required v-if="!false">
         <el-input-number clearable placeholder="请输入行索引"
                          v-model="ruleForm.rowIndex"/>
       </el-form-item>
-
       <el-form-item label="修改人" prop="updatedBy"
                     v-if="!true">
         <el-input clearable placeholder="请输入修改人"
                   v-model="ruleForm.updatedBy"></el-input>
       </el-form-item>
-
       <el-form-item label="修改时间" prop="updatedDate"
                     v-if="!true">
         <el-date-picker clearable placeholder="请选择修改时间" type="date"
                         v-model="ruleForm.updatedDate">
         </el-date-picker>
       </el-form-item>
-
       <el-form-item label="创建人" prop="createdBy"
                     v-if="!true">
         <el-input clearable placeholder="请输入创建人"
                   v-model="ruleForm.createdBy"></el-input>
       </el-form-item>
-
       <el-form-item label="创建时间" prop="createdDate"
                     v-if="!true">
         <el-date-picker clearable placeholder="请选择创建时间" type="date"
                         v-model="ruleForm.createdDate">
         </el-date-picker>
       </el-form-item>
-
       <el-form-item label="数据编号" prop="dataNo"
                     v-if="!true">
         <el-input clearable placeholder="请输入数据编号"
                   v-model="ruleForm.dataNo"></el-input>
       </el-form-item>
-
       <el-form-item label="是否删除 1 是 2 否 默认2" prop="isDel"
                     v-if="!true">
         <el-input-number clearable placeholder="请输入是否删除 1 是 2 否 默认2"
                          v-model="ruleForm.isDel"/>
       </el-form-item>
-
       <el-form-item label="状态名称" prop="statusName"
                     v-if="!true">
         <el-input clearable placeholder="请输入状态名称"
                   v-model="ruleForm.statusName"></el-input>
       </el-form-item>
-
       <el-form-item label="状态编码" prop="statusCode"
                     required v-if="!false">
         <el-select placeholder="请选择状态编码" v-model="ruleForm.statusCode">
@@ -460,7 +441,6 @@
           </el-option>
         </el-select>
       </el-form-item>
-
     </el-form>
   </star-horse-dialog>
   <star-horse-dialog :is-view="true" :title="'查看数据'" :visible="viewVisible">
@@ -610,7 +590,6 @@
             <star-horse-icon icon-class="excel-upload"/>
             <el-tooltip content="上传">上传</el-tooltip>
           </el-button>
-
         </el-upload>
       </li>
       <li v-if="permission.export">
@@ -831,13 +810,9 @@
   </el-card>
 </template>
 <style lang="scss" scoped>
-
 </style>
 <script setup lang="ts" name="NodeProperties">
-
-
 import {ApiUrls} from "@/components/types/ApiUrls";
-
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/devops-continus/continus/nodeProperties/pageList",
   mergeUrl: "/devops-continus/continus/nodeProperties/merge",
@@ -852,7 +827,6 @@ const dataUrl: ApiUrls = {
   importUrl: "/devops-continus/continus/nodeProperties/importData",
   uploadUrl: ""
 };
-
 const dataFormat = (row, column, cellValue, index) => {
   //cellValue = commonDataFormat(row, column, cellValue, index);
   return cellValue;

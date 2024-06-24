@@ -1,14 +1,12 @@
 <template>
   <textarea ref="codemirror" v-model="code" style="font-size: 20px;"></textarea>
 </template>
-
 <script lang="ts" setup name="CodeJs">
 import "@/api/codemirror_import";
 import {onMounted, reactive, ref, watch} from "vue";
 import {markRaw} from "@vue/reactivity";
 import CodeMirror from "codemirror";
 import {js_beautify} from "js-beautify";
-
 const codemirror = ref();
 const props = defineProps({
   value: {type: String, default: ""},
@@ -36,8 +34,6 @@ const completeAfter = (cm: any, pred: any) => {
   }
   return CodeMirror.Pass;
 };
-
-
 const dataFormat = () => {
   let val = editor.value.getValue();
   editor.value.setValue(js_beautify(val));
@@ -150,21 +146,17 @@ defineExpose({
   width: 100%;
   z-index: 9999;
 }
-
 .cm-editor {
   min-height: 100px;
   border: 1px solid #ddd;
 }
-
 .cm-scroller {
   overflow: auto;
 }
-
 .CodeMirror, .CodeMirror-line {
   font-size: 16px;
   font-family: 微软雅黑 Arial;
 }
-
 .CodeMirror-hints, .CodeMirror-lint-tooltip {
   font-size: 16px;
   font-family: 微软雅黑 Arial;

@@ -7,7 +7,6 @@ import {warning} from "@/utils/message";
 import Help from "@/components/help.vue";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
-
 let designForm = DesignForm(piniaInstance);
 let formInfo = computed(() => designForm.formInfo);
 let compList = computed(() => designForm.compList);
@@ -38,7 +37,6 @@ const initData = async () => {
   informationsList.value = datas;
   systemIconList.value = loadElementPlusIcon();
 };
-
 const loadMenus = (val: any) => {
   if (!val) {
     return;
@@ -106,7 +104,6 @@ const relationChange = (row: any) => {
  * 表单更新的时候，更新表单的属性
  */
 const updateCompInfo = () => {
-
 };
 onMounted(() => {
   initData();
@@ -135,7 +132,6 @@ defineExpose({
   loadMenus
 })
 </script>
-
 <style lang="scss" scoped>
 .dynamic-form {
   width: 100%;
@@ -231,7 +227,6 @@ defineExpose({
             </el-form-item>
           </el-col>
         </el-row>
-
         <el-row>
           <el-col :span="8">
             <el-form-item label="是否创建表" prop="createTable" required>
@@ -305,11 +300,9 @@ defineExpose({
             </el-form-item>
           </el-col>
         </el-row>
-
       </el-tab-pane>
       <el-tab-pane name="tab2" label="映射关系配置">
         <help
-
             :message="relationMsg"/>
         <el-table
             :data="formInfo['relations']"
@@ -407,12 +400,8 @@ defineExpose({
             </template>
           </el-table-column>
         </el-table>
-
-
       </el-tab-pane>
       <el-tab-pane name="tab3" label="脚本绑定">
-
-
       </el-tab-pane>
       <el-tab-pane name="tab4" label="其它属性">
         <el-row>
@@ -449,7 +438,6 @@ defineExpose({
             </el-form-item>
           </el-col>
         </el-row>
-
         <el-row>
           <el-col :span="12">
             <el-form-item label="表单风格" prop="labelPosition">
@@ -459,7 +447,6 @@ defineExpose({
                 <el-option label="small" value="small"/>
               </el-select>
             </el-form-item>
-
           </el-col>
           <el-col :span="12">
             <el-form-item label="是否禁用该表单内的所有组件" prop="disabled">
@@ -524,7 +511,6 @@ defineExpose({
             </el-form-item>
           </el-col>
         </el-row>
-
         <el-row>
           <el-col :span="12">
             <el-form-item label="是否显示校验错误信息" prop="showMessage">

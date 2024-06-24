@@ -10,17 +10,12 @@
           style="display: block"
       ></canvas>
     </div>
-
   </starhorse-form-item>
 </template>
-
 <script lang="ts" name="pdfItem">
 import {defineComponent, ref, shallowRef} from "vue";
-
-
 export default defineComponent({
   setup(props, context) {
-
     const parentField = context.attrs["parentField"];
     const formFieldList = context.attrs["formFieldList"] as any;
     const field = context.attrs["field"] as any;
@@ -30,16 +25,13 @@ export default defineComponent({
     const keyEnterFun = () => {
       context.emit('selfFunc');
     };
-
     return {
       parentField, formFieldList, context, field, formItem, dataField,
       keyEnterFun, pdfPages
     }
   }
 });
-
 </script>
-
 <style lang="scss" scoped>
 .interviewVideo_main {
   height: 100%;

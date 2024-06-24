@@ -8,7 +8,6 @@ import {DialogProps} from "@/components/types/DialogProps";
 import {SearchProps} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {Config} from "@/api/settings";
-
 const navBarListStore = navBarList();
 const router = useRouter();
 const starHorseTableCompRef = ref();
@@ -35,7 +34,6 @@ const tableFieldList = ref<PageFieldInfo>({
 const primaryKey = ref("");
 const rules = ref({});
 const hasData = ref(false);
-
 const props = defineProps({
   param: {type: String, required: true},
 });
@@ -60,7 +58,6 @@ const loadFormData = async (formId: string) => {
   await nextTick();
   closeLoad();
   starHorseTableCompRef.value.init();
-
 };
 watch(
     () => props.param,
@@ -76,8 +73,6 @@ watch(
     },
     {deep: true}
 );
-
-
 const dataForm = ref({});
 provide("dataForm", dataForm);
 //记录表单的属性
@@ -152,7 +147,4 @@ onMounted(async () => {
       />
     </el-card>
   </template>
-
 </template>
-
-

@@ -2,7 +2,6 @@
   <div ref="input" class="input-div" :contenteditable="isEdit?'plaintext-only':false" @click.stop @mousedown.stop
        @blur="inputVal"/>
 </template>
-
 <script>
 function keepLastIndex(obj) {
   if (window.getSelection) { // ie11 10 9 ff safari
@@ -18,7 +17,6 @@ function keepLastIndex(obj) {
     range.select()
   }
 }
-
 export default {
   name: "evol-input",
   props: {
@@ -73,7 +71,6 @@ export default {
   }
 }
 </script>
-
 <style lang="scss" scoped>
 .input-div {
   display: inline-block;
@@ -82,5 +79,4 @@ export default {
   white-space: pre-wrap;
   padding: 1px 0px;
 }
-
 </style>

@@ -1,5 +1,4 @@
 import {assign} from "min-dash";
-
 export default function ContextPadProvider(config, injector, contextPad, modeling, elementFactory, connect, create, translate) {
     this.modeling = modeling;
     this.elementFactory = elementFactory;
@@ -15,24 +14,20 @@ export default function ContextPadProvider(config, injector, contextPad, modelin
 ContextPadProvider.$inject = ["config.contextPad", "injector", "contextPad", "modeling", "elementFactory", "connect", "create", "translate"];
 ContextPadProvider.prototype.getContextPadEntries = function (element) {
     const {autoPlace, create, elementFactory, translate, modeling, connect} = this;
-
     function appendAction(type, className, title, options) {
         function appendStart(event, element) {
             var shape = elementFactory.createShape(assign({type: type}, options));
             create.start(event, shape, {source: element});
         }
-
         var append = autoPlace ? function (event, element) {
             var shape = elementFactory.createShape(assign({type: type}, options));
             autoPlace.append(element, shape);
         } : appendStart;
         return {group: "model", className: className, title: title, action: {dragstart: appendStart, click: append}};
     }
-
     function removeElement(e) {
         modeling.removeElements([element]);
     }
-
     var actions = {};
     if (element.type === "bpmn:UserTask" || element.type === "bpmn:SequenceFlow") {
         assign(actions, {

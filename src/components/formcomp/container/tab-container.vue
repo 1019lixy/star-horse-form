@@ -2,14 +2,12 @@
 import {onMounted, PropType, ref} from "vue";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
-
 const props = defineProps({
   parentField: {type: String},
   formFieldList: {type: Object as PropType<any>},
   field: {type: Object as PropType<any>},
 });
 let designForm = DesignForm(piniaInstance);
-
 // let draggingItem = computed(() => designForm.draggingItem);
 // let containerList = ref([]);
 // let itemType = ref('container');
@@ -59,11 +57,8 @@ const dynamicFunc = (funcType: string, funcCode: any) => {
   func.call(this);
 };
 const addTab = () => {
-
 }
 </script>
-
-
 <template>
   <group-box-container class="dynamic-tab-wapper"
                        :parentField="parentField"
@@ -88,7 +83,6 @@ const addTab = () => {
                    :name="adata['name']||index"
       >
         <el-scrollbar>
-
           <draggable
               @add="(evt:Event)=>onDragAdd(evt,adata['items'])"
               @dragover="checkItem(adata)"
@@ -109,7 +103,6 @@ const addTab = () => {
                     v-if="data?.compType==='formItem'||data?.itemType=='box'||data?.itemType=='table'"/>
               </div>
             </template>
-
           </draggable>
         </el-scrollbar>
       </el-tab-pane>
@@ -119,21 +112,17 @@ const addTab = () => {
 <style lang="scss" scoped>
 .dynamic-tab-wapper {
   height: 100%;
-
   .el-tabs {
     height: 100%;
     width: 100%;
-
     :deep(.el-tabs__content) {
       height: 100%;
-
       .el-tab-pane {
         height: 100%;
       }
     }
   }
 }
-
 .tab-design {
   height: inherit;
   overflow-y: auto;

@@ -6,7 +6,6 @@ import {onMounted, provide, reactive, ref} from "vue";
 import {SearchProps} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {dictData, getMenuId, loadPagePermission} from "@/api/sh_api";
-
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/system-config/system/whiteList/pageList",
   mergeUrl: "/system-config/system/whiteList/merge",
@@ -22,8 +21,6 @@ const dataUrl: ApiUrls = {
   condition: []
 };
 let typeList = ref({});
-
-
 const searchFormData = reactive<SearchProps[]>([
   {label: "过滤类型", fieldName: "whiteType", defaultShow: true, type: "select", optionList: typeList},
   {label: "过滤内容", fieldName: "whiteName", defaultShow: true, type: "input", matchType: "lk"},
@@ -32,8 +29,6 @@ const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
       label: "主键", fieldName: "idWhiteList", type: "long",
-
-
     },
     {
       label: "过滤类型", fieldName: "whiteType", type: "select", optionList: typeList,
@@ -47,54 +42,37 @@ const tableFieldList = reactive<PageFieldInfo>({
     },
     {
       label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
-
       tableShow: true
     },
-
     {
       label: "创建日期", disabled: "Y", fieldName: "createdDate", type: "date",
-
       tableShow: true
     },
     {
       label: "修改人", disabled: "Y", fieldName: "updatedBy", type: "input",
-
       tableShow: true
     },
     {
       label: "修改日期", disabled: "Y", fieldName: "updatedDate", type: "date",
-
       tableShow: true
     },
     {
       label: "数据版本号", fieldName: "version", type: "number",
-
-
     },
     {
       label: "是否已逻辑", fieldName: "isDel", type: "number",
-
-
     },
     {
       label: "数据编号", fieldName: "dataNo", type: "input",
-
-
     },
     {
       label: "状态码", fieldName: "statusCode", type: "input",
-
-
     },
     {
       label: "状态码名称", fieldName: "statusName", type: "input",
-
-
     },
     {
       label: "国际码", fieldName: "local", type: "input",
-
-
     },
     {
       label: "备注", fieldName: "remark", type: "textarea",
@@ -107,8 +85,6 @@ const tableFieldList = reactive<PageFieldInfo>({
 const primaryKey = "idWhiteList";
 const whiteListRef = ref();
 const rules = {};
-
-
 const dataForm = ref({});
 provide("dataForm", dataForm);
 const dialogProps = reactive<DialogProps>({
@@ -136,7 +112,6 @@ onMounted(async () => {
 })
 </script>
 <style lang="scss" scoped>
-
 </style>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">

@@ -382,139 +382,117 @@
         <el-input clearable placeholder="请输入主键"
                   v-model="ruleForm.idJunitReport"></el-input>
       </el-form-item>
-
       <el-form-item label="主键" prop="idNodeProperty"
                     required v-if="!false">
         <el-input-number clearable placeholder="请输入主键"
                          v-model="ruleForm.idNodeProperty"/>
       </el-form-item>
-
       <el-form-item label="类覆盖率" prop="classCoverRate"
                     required v-if="!false">
         <el-input-number :precision="4" :step="0.1" clearable
                          placeholder="请输入类覆盖率"
                          v-model="ruleForm.classCoverRate"/>
       </el-form-item>
-
       <el-form-item label="类总数" prop="classNums"
                     required v-if="!false">
         <el-input-number clearable placeholder="请输入类总数"
                          v-model="ruleForm.classNums"/>
       </el-form-item>
-
       <el-form-item label="类覆盖数" prop="classCoverNums"
                     required v-if="!false">
         <el-input-number clearable placeholder="请输入类覆盖数"
                          v-model="ruleForm.classCoverNums"/>
       </el-form-item>
-
       <el-form-item label="方法覆盖率" prop="methodCoverRate"
                     required v-if="!false">
         <el-input-number :precision="4" :step="0.1" clearable
                          placeholder="请输入方法覆盖率"
                          v-model="ruleForm.methodCoverRate"/>
       </el-form-item>
-
       <el-form-item label="方法总数" prop="methodNums"
                     required v-if="!false">
         <el-input-number clearable placeholder="请输入方法总数"
                          v-model="ruleForm.methodNums"/>
       </el-form-item>
-
       <el-form-item label="方法覆盖数" prop="methodCoverNums"
                     required v-if="!false">
         <el-input-number clearable placeholder="请输入方法覆盖数"
                          v-model="ruleForm.methodCoverNums"/>
       </el-form-item>
-
       <el-form-item label="行覆盖率" prop="lineCoverRate"
                     required v-if="!false">
         <el-input-number :precision="4" :step="0.1" clearable
                          placeholder="请输入行覆盖率"
                          v-model="ruleForm.lineCoverRate"/>
       </el-form-item>
-
       <el-form-item label="行总数" prop="lineNums"
                     required v-if="!false">
         <el-input-number clearable placeholder="请输入行总数"
                          v-model="ruleForm.lineNums"/>
       </el-form-item>
-
       <el-form-item label="行覆盖数" prop="lineCoverNums"
                     required v-if="!false">
         <el-input-number clearable placeholder="请输入行覆盖数"
                          v-model="ruleForm.lineCoverNums"/>
       </el-form-item>
-
       <el-form-item label="分支覆盖率" prop="branchCoverRate"
                     required v-if="!false">
         <el-input-number :precision="4" :step="0.1" clearable
                          placeholder="请输入分支覆盖率"
                          v-model="ruleForm.branchCoverRate"/>
       </el-form-item>
-
       <el-form-item label="分支总数" prop="branchNums"
                     required v-if="!false">
         <el-input-number clearable placeholder="请输入分支总数"
                          v-model="ruleForm.branchNums"/>
       </el-form-item>
-
       <el-form-item label="分支覆盖数" prop="branchCoverNums"
                     required v-if="!false">
         <el-input-number clearable placeholder="请输入分支覆盖数"
                          v-model="ruleForm.branchCoverNums"/>
       </el-form-item>
-
       <el-form-item label="测试报告类型 1 权利覆盖报告，2变更覆盖报告" prop="reportType"
                     required v-if="!false">
         <el-input-number clearable placeholder="请输入测试报告类型 1 权利覆盖报告，2变更覆盖报告"
                          v-model="ruleForm.reportType"/>
       </el-form-item>
-
       <el-form-item label="修改人" prop="updatedBy"
                     v-if="!true">
         <el-input clearable placeholder="请输入修改人"
                   v-model="ruleForm.updatedBy"></el-input>
       </el-form-item>
-
       <el-form-item label="修改时间" prop="updatedDate"
                     v-if="!true">
         <el-date-picker clearable placeholder="请选择修改时间" type="date"
                         v-model="ruleForm.updatedDate">
         </el-date-picker>
       </el-form-item>
-
       <el-form-item label="创建人" prop="createdBy"
                     v-if="!true">
         <el-input clearable placeholder="请输入创建人"
                   v-model="ruleForm.createdBy"></el-input>
       </el-form-item>
-
       <el-form-item label="创建时间" prop="createdDate"
                     v-if="!true">
         <el-date-picker clearable placeholder="请选择创建时间" type="date"
                         v-model="ruleForm.createdDate">
         </el-date-picker>
       </el-form-item>
-
       <el-form-item label="数据编号" prop="dataNo"
                     v-if="!true">
         <el-input clearable placeholder="请输入数据编号"
                   v-model="ruleForm.dataNo"></el-input>
       </el-form-item>
-
       <el-form-item label="是否删除 1 是 2 否 默认2" prop="isDel"
                     v-if="!true">
         <el-input-number clearable placeholder="请输入是否删除 1 是 2 否 默认2"
                          v-model="ruleForm.isDel"/>
       </el-form-item>
-
       <el-form-item label="状态名称" prop="statusName"
                     v-if="!true">
         <el-input clearable placeholder="请输入状态名称"
                   v-model="ruleForm.statusName"></el-input>
       </el-form-item>
-
       <el-form-item label="状态编码" prop="statusCode"
                     required v-if="!false">
         <el-select placeholder="请选择状态编码" v-model="ruleForm.statusCode">
@@ -528,7 +506,6 @@
           </el-option>
         </el-select>
       </el-form-item>
-
     </el-form>
   </star-horse-dialog>
   <star-horse-dialog :is-view="true" :title="'查看数据'" :visible="viewVisible">
@@ -687,7 +664,6 @@
             <star-horse-icon icon-class="excel-upload"/>
             <el-tooltip content="上传">上传</el-tooltip>
           </el-button>
-
         </el-upload>
       </li>
       <li v-if="permission.export">
@@ -932,13 +908,9 @@
   </el-card>
 </template>
 <style lang="scss" scoped>
-
 </style>
 <script setup lang="ts" name="JunitReport">
-
-
 import {ApiUrls} from "@/components/types/ApiUrls";
-
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/devops-continus/continus/junitReport/pageList",
   mergeUrl: "/devops-continus/continus/junitReport/merge",
@@ -953,7 +925,6 @@ const dataUrl: ApiUrls = {
   importUrl: "/devops-continus/continus/junitReport/importData",
   uploadUrl: ""
 };
-
 const dataFormat = (row, column, cellValue, index) => {
   //cellValue = commonDataFormat(row, column, cellValue, index);
   return cellValue;

@@ -18,7 +18,6 @@ import {ElTreeV2} from "element-plus";
 import {TreeNode, TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
 import {SearchParams} from "@/components/types/Params";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-
 const props = defineProps({
   viewRolesinfoId: {type: String},
   disableAction: {type: Boolean, default: false}
@@ -47,7 +46,6 @@ const rolesList = ref<SelectOption[]>([]);
 const deptList = ref<SelectOption[]>([]);
 const usersinfoTableListRef = ref();
 const statusList = ref<SelectOption[]>([]);
-
 const searchFormData = reactive<SearchProps[]>([
   {label: "姓名", fieldName: "name", defaultShow: true, type: "input", matchType: "lk"},
   {label: "用户名", fieldName: "username", defaultShow: true, type: "input", matchType: "lk"},
@@ -63,7 +61,6 @@ const searchFormData = reactive<SearchProps[]>([
   },
   {label: "性别", fieldName: "sex", type: "select", optionList: sexList},
 ]);
-
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     [{
@@ -75,7 +72,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       required: true, formShow: !false,
       tableShow: !false
     }],
-
     [{
       label: "归属部门", fieldName: "deptList", type: "cascade", optionList: deptList,
       required: true, formShow: !false, multiple: "Y",
@@ -110,8 +106,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     /*
      {
       label: "紧急联系人电话", fieldName: "bakePhone", type: "input",
-
-
     },
     {
       label: "学历", fieldName: "education", type: "select", optionList: educationList.value,
@@ -120,13 +114,9 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     },
     [{
       label: "入职时间", fieldName: "entryDate", type: "date",
-
-
     },
       {
         label: "离职时间", fieldName: "leaveDate", type: "date",
-
-
       }],
     {
       label: "籍贯", fieldName: "nativePlace", type: "select", optionList: nativePlaceList.value,
@@ -152,7 +142,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       label: "状态", fieldName: "statusCode", type: "select",
       formShow: true,
       optionList: statusList,
-
     },
       {
         label: "通信地址", fieldName: "address", type: "input",
@@ -166,62 +155,42 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     },
     {
       label: "证件照", fieldName: "imagePath", type: "input",
-
-
     },
     {
       label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
-
       tableShow: true
     },
     {
       label: "修改人", disabled: "Y", fieldName: "updatedBy", type: "input",
-
-
     },
     {
       label: "创建日期", disabled: "Y", fieldName: "createdDate", type: "date",
-
       tableShow: true
     },
     {
       label: "修改日期", disabled: "Y", fieldName: "updatedDate", type: "date",
-
-
     },
     {
       label: "数据版本号", fieldName: "version", type: "number",
-
-
     },
     {
       label: "是否已逻辑删除", fieldName: "isDel", type: "number",
-
-
     },
     {
       label: "数据编号", fieldName: "dataNo", type: "input",
-
-
     },
-
     {
       label: "状态", fieldName: "statusName", type: "input",
-
       tableShow: true
     },
     {
       label: "国际码", fieldName: "local", type: "input",
-
-
     },
   ],
   stopAutoLoad: props.viewRolesinfoId ? true : false
 });
 const primaryKey = "idUsersinfo";
 const rules = {};
-
-
 const dataForm = ref({});
 provide("dataForm", dataForm);
 const dialogProps = reactive<DialogProps>({
@@ -233,7 +202,6 @@ const dialogProps = reactive<DialogProps>({
   editVisible: false,
   uploadVisible: false,
   viewVisible: false
-
 });
 provide("dialogProps", dialogProps);
 let permissions = ref<any>({});
@@ -244,7 +212,6 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
   }
   if (name == "rolesList" && row["rolesList"]) {
     let roles: Array<String> = [];
-
     row["rolesList"].forEach((item: any) => {
       roles.push(item.roleName);
     });
@@ -278,7 +245,6 @@ const checkChange = (data: TreeNodeData, checked: boolean) => {
   //   });
   // }
   // treeRef.value.setChecked(data.value, (checked instanceof Boolean) ? checked : true);
-
   let conditions: Array<SearchParams> = [];
   if (checked) {
     console.log(data.value);
@@ -302,7 +268,6 @@ const initData = async () => {
       // usersinfoTableListRef.value.loadByPage();
     });
   }
-
 };
 onMounted(async () => {
   await initData();
@@ -366,12 +331,10 @@ onMounted(async () => {
       </el-col>
     </el-row>
   </el-card>
-
 </template>
 <style lang="scss" scoped>
 .el-card {
   height: 100%;
-
   :deep(.el-card__body) {
     height: 100%;
     padding: 0;

@@ -5,7 +5,9 @@ import StarHorseForm from "@/components/comp/StarHorseForm.vue";
 import {ApiUrls} from "@/components/types/ApiUrls.d.ts";
 import StarHorseFormTable from "@/components/comp/StarHorseFormTable.vue";
 import {BatchFieldInfo} from "@/components/types/PageFieldInfo.d.ts";
-
+import {SelectOption} from "@/components/types/SearchProps";
+import {initDbList} from "@/views/dbsearch/utils/DbSearchUtils.ts";
+import {interceptors} from "axios";
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/dbsearch-manage/dbsearch/dbinfoEntity/pageList",
   mergeUrl: "/dbsearch-manage/dbsearch/dbinfoEntity//merge",
@@ -20,15 +22,22 @@ const dataUrl: ApiUrls = {
   uploadUrl: "/dbsearch-manage/dbsearch/dbinfoEntity/importData",
   importUrl: ""
 };
+let dbList = ref<SelectOption[]>([]);
 const tableFieldList = reactive({
   fieldList: [
+    {
+      label: "数据库信息", fieldName: "dbconfigId", type: "select",
+      optionList: dbList,
+      required: true, formShow: !false,
+      tableShow: !false
+    },
     {
       label: "表名", fieldName: "tableName", type: "input",
       required: true, formShow: !false,
       tableShow: !false
     },
     {
-      label: "描述", fieldName: "comment", type: "input",
+      label: "描述", fieldName: "comment", type: "textarea",
       required: true, formShow: !false,
       tableShow: !false
     },
@@ -113,20 +122,21 @@ let options = ref<Array<Option>>([{
     value: 'index',
     icon: "document",
   },]);
-
+const init = async () => {
+  dbList.value = await initDbList();
+}
 onMounted(() => {
-
+  init();
 });
 </script>
-
 <template>
   <el-card class="inner_content">
     <div class="table-type">
       <el-segmented v-model="segmentValue" :options="options">
         <template #default="{ item }">
-          <div class="flex flex-col items-center gap-2 p-2">
+          <div class="table-segment">
             <div>
-              <star-horse-icon :icon-class="item.icon" :size="'20px'"/>
+              <star-horse-icon :icon-class="item.icon" :size="'20px'" color="var(--star-horse-white)"/>
               {{ item.label }}
             </div>
           </div>
@@ -144,8 +154,14 @@ onMounted(() => {
     />
   </el-card>
 </template>
-
 <style scoped lang="scss">
+.table-segment {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 2px;
+}
 .table-type {
   width: 200px;
 }

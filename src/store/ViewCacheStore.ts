@@ -1,6 +1,5 @@
 import {defineStore} from "pinia";
 import {RouteRecordNormalized} from "vue-router";
-
 export const viewList: any = defineStore("viewList", {
     state: () => {
         return {
@@ -15,7 +14,6 @@ export const viewList: any = defineStore("viewList", {
         getViewCache: (state: any) => {
             return state.viewListDatas;
         },
-
     },
     actions: {
         /**

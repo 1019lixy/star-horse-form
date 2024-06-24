@@ -1,5 +1,4 @@
 import {Config} from "@/api/settings";
-
 export default {
     "starhorse.copyright": Config.footerTxt,
     "starhorse.pleaseInput": "请输入",

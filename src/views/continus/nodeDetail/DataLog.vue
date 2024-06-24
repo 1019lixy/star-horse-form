@@ -1,7 +1,6 @@
 <script setup lang="ts" name="DataLog">
 import {ref} from "vue";
 import StarHorseEditor from "@/components/comp/StarHorseEditor.vue";
-
 const
     value = ref("devops-continus:8859 2022-11-28 09:49:58 [Catalina-utility-2] DEBUG o.a.catalina.session.ManagerBase - End expire sessions StandardManager processingTime 1 expired sessions: 0\n" +
         "devops-continus:8859 2022-11-28 09:50:58 [Catalina-utility-2] DEBUG o.a.catalina.session.ManagerBase - Start expire sessions StandardManager at 1669600258602 sessioncount 0\n" +
@@ -142,9 +141,7 @@ const
         "devops-continus:8859 2022-11-28 10:58:01 [Catalina-utility-1] DEBUG o.a.catalina.session.ManagerBase - Start expire sessions StandardManager at 1669604281678 sessioncount 0\n" +
         "devops-continus:8859 2022-11-28 10:58:01 [Catalina-utility-1] DEBUG o.a.catalina.session.ManagerBase - End expire sessions StandardManager processingTime 0 expired sessions: 0\n" +
         "devops-continus:8859 2022-11-28 10:59:01 [Catalina-utility-1] DEBUG o.a.catalina.session.ManagerBase - Start expire sessions StandardManager at 1669604341718 sessioncount 0\n");
-
 </script>
-
 <style lang="scss" scoped>
 .query-area {
   text-align: left;
@@ -161,4 +158,3 @@ const
     <star-horse-editor :value="value" :lang="'markdown'"/>
   </div>
 </template>
-

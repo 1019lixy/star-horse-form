@@ -10,7 +10,6 @@ import {ShallowReactive} from "@vue/reactivity";
 import StarHorseFormItem from "@/components/comp/StarHorseFormItem.vue";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import piniaInstance from "@/store";
-
 const props = defineProps({
   compUrl: {type: Object as PropType<ApiUrls>,},
   fieldList: {type: Object as PropType<PageFieldInfo>, required: true},
@@ -51,7 +50,6 @@ watch(
       deep: true
     }
 );
-
 const loadData = async () => {
   if (!props.compUrl || !props.compUrl.loadByIdUrl) {
     return;
@@ -84,8 +82,6 @@ const loadData = async () => {
     emits("dataLoaded", objData);
     checkActionRelation();
   });
-
-
 };
 /**
  * 加载了数据，检查是否有数据联动的相关方法
@@ -93,7 +89,6 @@ const loadData = async () => {
 const checkActionRelation = () => {
   // if (formFields instanceof Array) {
   //   console.log("is array");
-
   for (let key in formFields) {
     let temp = formFields[key];
     let preps = temp?.preps;
@@ -106,7 +101,6 @@ const checkActionRelation = () => {
     }
   }
 };
-
 const merge = (type: string) => {
   starHorseFormRef.value!.validate((result: boolean) => {
     if (!result) {
@@ -115,7 +109,6 @@ const merge = (type: string) => {
     doMerge(type);
   });
 };
-
 /**
  * 对状态名称赋值
  */
@@ -142,7 +135,6 @@ const assignStatusName = () => {
 const mergeDraft = (type: string) => {
   doMerge(type);
 };
-
 const doMerge = (type: string) => {
   assignStatusName();
   let tempForm: any;
@@ -163,7 +155,6 @@ const doMerge = (type: string) => {
       }
     }
   });
-
   let dydata: any = {
     relationTables: props.globalCondition,
   }
@@ -212,7 +203,6 @@ const getFormData = () => {
 const setDataForm = (data: object) => {
   let defaultDatas = formFieldMapping(props.fieldList).defaultDatas;
   dataForm.value = {...defaultDatas, ...data};
-
 }
 const tableListRef = ref<any>([]);
 watch(() => dialogProps.ids,
@@ -227,7 +217,6 @@ watch(() => dialogProps.ids,
       immediate: true,
       deep: true
     });
-
 defineExpose({
   merge, mergeDraft, resetForm, setDataForm, getFormData, starHorseFormRef, tableListRef
 });
@@ -249,28 +238,23 @@ defineExpose({
 :deep(.el-form-item__label) {
   min-width: 100px;
 }
-
 :deep(.el-tabs) {
   height: 100%;
   display: flex;
   flex-direction: column;
 }
-
 :deep(.el-tabs__content ) {
   height: 100%;
   flex: 1;
 }
-
 :deep(.el-tab-pane) {
   height: 100%;
   flex: 1;
 }
-
 :deep(.el-form) {
   display: block;
   width: 100%;
 }
-
 .data-form {
   height: 100%;
 }

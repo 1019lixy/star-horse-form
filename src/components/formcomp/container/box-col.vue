@@ -3,7 +3,6 @@ import {computed, PropType, ref} from 'vue'
 import {warning} from '@/utils/message'
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
-
 const props = defineProps({
   parentField: {type: String},
   formFieldList: {type: Object as PropType<any>},
@@ -14,7 +13,6 @@ let designForm = DesignForm(piniaInstance);
 let draggingItem = computed(() => designForm.draggingItem);
 let itemType = ref('container');
 let isEdit = computed(() => designForm.isEdit);
-
 const getComponentName = (data: any) => {
   return data?.itemType + '-item'
 };
@@ -55,12 +53,9 @@ const dragUpdate = (evt) => {
   console.log(evt);
 }
 </script>
-
-
 <template>
   <el-col
       class="edit_col"
-
       :span="sdata.colspan||24"
       v-for="(sdata,index) in adata.columns"
       v-if="isEdit"
@@ -127,7 +122,6 @@ const dragUpdate = (evt) => {
   justify-content: center;
   align-items: center;
 }
-
 .edit_col {
   border: 2px dotted var(--star-horse-border—color);
   min-height: 50px;

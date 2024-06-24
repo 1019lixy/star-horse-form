@@ -12,15 +12,12 @@
                    :label="item['label']"
                    :value="item['trueLabel']"
                    v-for="item in field.preps['values']">
-
       </el-checkbox>
     </el-checkbox-group>
   </starhorse-form-item>
 </template>
-
 <script lang="ts">
 import {defineComponent, shallowRef} from "vue";
-
 export default defineComponent({
   setup(props, context) {
     const parentField = context.attrs["parentField"];
@@ -28,12 +25,9 @@ export default defineComponent({
     const field = context.attrs["field"] as any;
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
-
     return {parentField, formFieldList, context, field, formItem, dataField}
   }
 });
 </script>
-
 <style scoped>
-
 </style>

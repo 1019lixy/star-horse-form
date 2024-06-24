@@ -1,7 +1,6 @@
 <script setup lang="ts" name="ShTableListColumn">
 import {inject} from "vue";
 import {DialogProps} from "@/components/types/DialogProps";
-
 defineProps({
   dataForm: {type: Object, required: true},
   index: {type: Object, required: true},
@@ -19,7 +18,6 @@ const validMsg = (item: any) => {
   return []
 };
 </script>
-
 <template>
   <el-form-item
       :size="size"
@@ -29,7 +27,5 @@ const validMsg = (item: any) => {
                      :isEdit="dialogProps?.ids&&dialogProps?.ids!=-1"/>
   </el-form-item>
 </template>
-
 <style scoped>
-
 </style>

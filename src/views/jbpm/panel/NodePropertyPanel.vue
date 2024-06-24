@@ -1,6 +1,5 @@
 <script setup lang="ts" name="NodePropertyPanel">
 import {computed, ref, watch} from "vue";
-
 const props = defineProps({
   modeler: {
     type: Object,
@@ -78,7 +77,6 @@ const updateName = (name: string) => {
   updateProperties({name: name});
 };
 const changeServiceType = () => {
-
 };
 const changeUserType = () => {
 };
@@ -97,7 +95,6 @@ const addUser = (properties: any) => {
 }
 </script>
 <style scoped>
-
 </style>
 <template>
   <div>
@@ -179,7 +176,6 @@ const addUser = (properties: any) => {
         </div>
       </el-collapse-item>
     </el-collapse>
-
     <!-- 开始节点 -->
     <el-collapse accordion v-if="panelIndex==1">
       <el-collapse-item name="1">
@@ -276,7 +272,6 @@ const addUser = (properties: any) => {
     </el-collapse>
     <el-form :inline="false"
              label-position="right"
-
              label-width="100px">
       <el-form-item label="节点类型">
         <el-input disabled v-model="localFormData.type"></el-input>

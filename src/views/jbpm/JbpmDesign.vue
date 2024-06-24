@@ -8,7 +8,6 @@
 新的修改在新的版本中。流程名称＋流程版本 是唯一标识一个业务流程的。-->
 <!--5、工作流建模：利用流程设计器将业务处理过程用工作流的节点方式表示出来，就是工作流建模，也可以说是流程建模。-->
 <!--6、工作流节点：是工作流引擎的设计基本节点，一个节点表示一个业务处理过程，在流程设计器中，会有相应的表示方式。-->
-
 <!--1、流程实例：按照工作流模版定义的处理过程启动运行的业务处理过程，即流程实例。利用建立好的业务流程模版，可以 多次启动流程实例，
 一个流程实例即一个业务处理过程。如请假审批的流程，张三填写他的请假单，启动一个审批流程实例。李四也填写一个自己的清单单，也是启 动了一条流程实例。-->
 <!--2、流程实例id：每条启动的流程实例，在工作流引擎中，都会对应一个流程实例id，来唯一标识这条流程实例。-->
@@ -20,7 +19,6 @@
 <!--7、历史步骤：流程实例运行完成的节点，都认为是历史步骤。-->
 <!--8、流程实例运行轨迹：每条流程实例在工作流模版的节点上运行的轨迹。-->
 <!--9、流程实例监控：监控每个流程实例在各个节点的运行情况。-->
-
 <!--1、任务：每条流程实例在运行到流程的各个节点时，会产生一些待执行的任务信息。有任务名称，描述，和参与人，完成人等任务的基本信息。
 通过任务链接到待处理的业务过程。-->
 <!--2、任务参与人：任务信息的参与人，能够查看到任务的相关人。-->
@@ -30,7 +28,6 @@
 <!--6、并行路由：业务建模中，节点并行的方式往后链接。-->
 <!--7、条件路由：业务建模中，按设置的条件为真，链接一个路由方式，条件为false，往后链接一个路由方式。在流程实例运行时，只会执行一条路由，
 即条件要么＝true，要么=false.-->
-
 <!--1、分支：业务建模中，平行分支的节点路由方式。-->
 <!--2、合并：业务建模中，将平行分支的节点路由再合并起来的路由方式。-->
 <!--3、子流程：为一个独立的业务流程，嵌入到主流程中。-->
@@ -38,7 +35,6 @@
 <!--5、自由流：流程实例不按照流程模版中预定义好的节点顺序往下执行，而是可以自由的跳转。-->
 <!--6、回退流：流程实例不按照流程模版中预定义好的节点顺序往下执行，而是回退到曾经运行过的任意节点上。-->
 <!--7、业务补偿类：在流程发生自由跳转的时候，需要辅助执行一些业务处理过程来对业务数据进行修改。-->
-
 <!--1、转派：直接将任务办理人换成别人，这时任务的拥有着者不再是转办人，相当于将任务转出。-->
 <!--2、委托：就是可以让一个用户将自己某个流程的主办或者经办权限转移委托至别的用户，则当有流程设定为该用户办理时，
 流程自动转由被委托的人在有效期限里接收并办理，等被委托人处理好之后，委托任务会自动回到委托人的任务中 。-->
@@ -50,8 +46,6 @@
 <!--7、交接：管理员将离职或换岗员工的待执行、待领取、代办他人、委托他人代办的任务转交给接管人，并删除与该员工相关的委托代理关系。
 交接员工所有直接参与的流程实例中对应的参与者将自动由系统修改为接管人。-->
 <!--8、回退：流程实例不按照流程模版中预定义好的节点顺序往下执行，而是回退到曾经运行过的任意节点上。-->
-
-
 <script setup lang="ts" name="JbpmDesign">
 import jpbmInit from "@/views/jbpm/utils/template";
 import BpmnModeler from 'bpmn-js/lib/Modeler'
@@ -71,11 +65,9 @@ import "bpmn-js/dist/assets/bpmn-font/css/bpmn.css"
 import "bpmn-js/dist/assets/bpmn-font/css/bpmn-codes.css"
 import "bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css"
 import "bpmn-js-bpmnlint/dist/assets/css/bpmn-js-bpmnlint.css";
-
 import {markRaw, onMounted, ref, unref, watch} from "vue";
 import {closeLoad, load} from "@/api/sh_api";
 import {useRoute} from "vue-router";
-
 /**
  * https://github.com/bpmn-io/bpmn-js-examples
  * 先删除再安装所需插件
@@ -105,7 +97,6 @@ const createXml = (str: string) => {
   } else {
     return new DOMParser().parseFromString(str, "text/xml");
   }
-
 };
 const loadById = (id: any, isView: boolean) => {
   load("数据加载中");
@@ -127,7 +118,6 @@ const loadById = (id: any, isView: boolean) => {
       ]
     }
     createNewDiagram(unref(initTemplate));
-
   }).catch(err => {
     error("接口错误或网络异常:" + err);
   }).finally(() => {
@@ -148,10 +138,8 @@ const createData = () => {
       {name: "聚餐", value: "003"},
     ]
   }
-
 };
 const flowCheck = () => {
-
 };
 const init = () => {
   // canvas.value = _this.$refs.canvas;
@@ -214,7 +202,6 @@ const handleExportBpmn = async () => {
     a.click(); // 模拟点击
     URL.revokeObjectURL(a.href); // 释放URL 对象
   }
-
 };
 const handleExportSvg = async () => {
   const {svg} = await bpmnModeler.saveSVG();
@@ -226,7 +213,6 @@ const handleExportSvg = async () => {
     a.click();
     URL.revokeObjectURL(a.href);
   }
-
 };
 const setEncoded = (type: String, data: any) => {
   const encodedData = encodeURIComponent(data);
@@ -276,7 +262,6 @@ const setEncoded = (type: String, data: any) => {
   });
   //设置当前节点属性
   bpmnModeler.updateProperties(element, {'attrs:name': '属性名称name'});
-
   //创建 conditionExpression 条件表达式
   const moddle = bpmnModeler.get('moddle')
   const conditionElement = await moddle.create('bpmn:FormalExpression', {
@@ -290,8 +275,6 @@ const setEncoded = (type: String, data: any) => {
   })
   bpmnModeler.off('element.changed', e => {
   })
-
-
 };*/
 const processSave = (data: any) => {
   postRequest(mergeUrl.value, data).then(res => {
@@ -309,12 +292,10 @@ const restart = () => {
   createData();
   createNewDiagram(initTemplate.value);
 };
-
 onMounted(() => {
   createData();
   init();
 });
-
 //路由监听
 watch(() => router.query,
     (to, from) => {
@@ -352,7 +333,6 @@ watch(
         </div>
       </div>
       <jbpm-property-panel :modeler="bpmnModeler" :process="initData" v-if="bpmnModeler"/>
-
     </div>
   </el-card>
 </template>
@@ -361,59 +341,47 @@ watch(
   display: flex;
   width: 100%;
 }
-
 .flow-design {
   display: flex;
   height: 100%;
   width: 100%;
   flex-direction: row;
 }
-
 .container {
   height: inherit;
   display: flex;
   border: 1px solid #e3e9f2;
 }
-
 .jbpm {
   display: flex;
   flex: 1;
   flex-direction: column;
 }
-
 .bpmn-container {
   padding: 10px;
   height: 100%;
   flex: 1;
-
   .bpmn-content {
     width: 100%;
     height: 100%;
     background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImEiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTTAgMTBoNDBNMTAgMHY0ME0wIDIwaDQwTTIwIDB2NDBNMCAzMGg0ME0zMCAwdjQwIiBmaWxsPSJub25lIiBzdHJva2U9IiNlMGUwZTAiIG9wYWNpdHk9Ii4yIi8+PHBhdGggZD0iTTQwIDBIMHY0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZTBlMGUwIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2EpIi8+PC9zdmc+") repeat !important;
   }
-
   .canvas {
     width: 100%;
     height: 100%;
   }
 }
-
-
 .panel {
   position: absolute;
   right: 0;
   top: 0;
   width: 500px;
 }
-
 :deep( .bjs-powered-by) {
   display: none;
 }
-
 .container {
   width: 100%;
   height: 100%;
-
 }
-
 </style>

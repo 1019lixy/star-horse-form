@@ -4,7 +4,6 @@ interface Meta {
     keepAlive: boolean;
     menuIcon: string;
 }
-
 export declare interface MenusInfo {
     path: string;
     /* @vite-ignore */
@@ -12,5 +11,4 @@ export declare interface MenusInfo {
     name: string;
     children: Array<MenusInfo>;
     meta: Meta;
-
 }

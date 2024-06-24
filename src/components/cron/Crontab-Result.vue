@@ -9,10 +9,8 @@
     </div>
   </div>
 </template>
-
 <script setup lang="ts" name="crontab-result">
 import {onMounted, ref, watch} from "vue";
-
 const props = defineProps({
   ex: {type: Object}
 });
@@ -21,7 +19,6 @@ let dayRuleSup = ref();
 let dateArr = ref([]);
 let resultList = ref<String[]>([]);
 let isShow = ref(false);
-
 // 表达式值变化时，开始去计算结果
 const expressionChange = () => {
   // 计算开始-隐藏结果
@@ -108,7 +105,6 @@ const expressionChange = () => {
   if (nMin !== mDate[mIdx]) {
     resetSecond();
   }
-
   // 循环年份数组
   goYear: for (let Yi = YIdx; Yi < YDate.length; Yi++) {
     let YY = YDate[Yi];
@@ -136,7 +132,6 @@ const expressionChange = () => {
         // 赋值、方便后面运算
         let DD = DDate[Di];
         let thisDD = DD < 10 ? '0' + DD : DD;
-
         // 如果到达最大值时
         if (nHour > hDate[hDate.length - 1]) {
           resetHour();
@@ -150,7 +145,6 @@ const expressionChange = () => {
           }
           continue;
         }
-
         // 判断日期的合法性，不合法的话也是跳出当前循环
         if (checkDate(YY + '-' + MM + '-' + thisDD + ' 00:00:00') !== true && dayRule.value !== 'workDay' &&
             dayRule.value
@@ -161,11 +155,9 @@ const expressionChange = () => {
         // 如果日期规则中有值时
         if (dayRule.value == 'lastDay') {
           //如果不是合法日期则需要将前将日期调到合法日期即月末最后一天
-
           if (checkDate(YY + '-' + MM + '-' + thisDD + ' 00:00:00') !== true) {
             while (DD > 0 && checkDate(YY + '-' + MM + '-' + thisDD + ' 00:00:00') !== true) {
               DD--;
-
               thisDD = DD < 10 ? '0' + DD : DD;
             }
           }
@@ -242,11 +234,9 @@ const expressionChange = () => {
         }
         // 判断时间值是否小于10置换成“05”这种格式
         DD = DD < 10 ? '0' + DD : DD;
-
         // 循环“时”数组
         goHour: for (let hi = hIdx; hi < hDate.length; hi++) {
           let hh = hDate[hi] < 10 ? '0' + hDate[hi] : hDate[hi]
-
           // 如果到达最大值时
           if (nMin > mDate[mDate.length - 1]) {
             resetMin();
@@ -267,7 +257,6 @@ const expressionChange = () => {
           // 循环"分"数组
           goMin: for (let mi = mIdx; mi < mDate.length; mi++) {
             let mm = mDate[mi] < 10 ? '0' + mDate[mi] : mDate[mi];
-
             // 如果到达最大值时
             if (nSecond > sDate[sDate.length - 1]) {
               resetSecond();
@@ -337,8 +326,6 @@ const expressionChange = () => {
   }
   // 计算完成-显示结果
   isShow.value = true;
-
-
 };
 //用于计算某位数字在数组中的索引
 const getIndex = (arr: any, value: any) => {

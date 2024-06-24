@@ -14,7 +14,6 @@ let xml = `
         </bpmndi:BPMNPlane>
       </bpmndi:BPMNDiagram>
     </bpmn2:definitions>`;
-
 export default {
     initTemplate: function (flowName, processId) {
         let temp = xml.replace(/{name}/g, flowName);

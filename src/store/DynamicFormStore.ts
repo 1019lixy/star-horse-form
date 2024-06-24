@@ -1,6 +1,5 @@
 import {defineStore} from "pinia";
 import {warning} from "@/utils/message";
-
 export const DynamicForm: any = defineStore("DynamicForm", {
     state: () => {
         return {
@@ -211,10 +210,8 @@ export const DynamicForm: any = defineStore("DynamicForm", {
                 } else {
                     return batchDatas.map((item: any) => item[fieldName]);
                 }
-
             }
         },
-
         /**
          * 清除所有Tab
          */

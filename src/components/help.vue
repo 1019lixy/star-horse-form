@@ -1,12 +1,10 @@
 <script setup lang="ts" name="help">
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-
 defineProps({
   width: {type: Number, default: 340},
   message: {type: String, required: true, default: "帮助"}
 });
 </script>
-
 <template>
   <el-popover
       trigger="hover"
@@ -21,10 +19,7 @@ defineProps({
 {{ message }}
 </pre>
     </div>
-
   </el-popover>
 </template>
-
 <style scoped lang="scss">
-
 </style>

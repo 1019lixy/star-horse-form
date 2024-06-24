@@ -9,7 +9,6 @@ import {containerField, dataSourceFields, paramsFields} from "@/views/dyform/uti
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
 import {validDataUrl} from "@/api/system.ts";
-
 let designForm = DesignForm(piniaInstance);
 let formDataList = computed(() => designForm.formDataList);
 let containerList = computed(() => designForm.containerList);
@@ -53,7 +52,6 @@ const urlValid = (rule: any, value: any, callback: any) => {
 };
 const dataRules = reactive<FormRules>({
   values: [{validator: urlValid, trigger: "blur"}],
-
 });
 //-----------------------数据源相关属性---------------------
 let matchTypeList = ref<SelectOption[]>();
@@ -71,7 +69,6 @@ const configParams = (params: object) => {
   fieldName.value = params["fieldName"];
   paramsDialogVisible.value = true;
 }
-
 /**
  * 验证是否url
  * @param url
@@ -86,7 +83,6 @@ const checkHttpUrl = (url: string): boolean => {
   }
   return givenURL.protocol === "http:" || givenURL.protocol === "https:";
 }
-
 const validEmpty = async () => {
   let flag = false;
   await dataSourceFormRef.value.$refs.starHorseFormRef.validate((res: boolean) => {
@@ -136,7 +132,6 @@ const paramsValid = async () => {
   })
   closeAction();
 };
-
 const handelAddItem = (row: any) => {
   if (!formProps.value.values) {
     formProps.value["values"] = [];
@@ -191,7 +186,6 @@ const validInterface = async () => {
         });
       });
     }
-
     let {data, error} = validDataUrl(urlOrDictName, requestType, requestParams);
     if (error) {
       flag = false;
@@ -233,7 +227,6 @@ const validInterface = async () => {
       dataList.value = datas;
       validSuccessMsg.value = "验证成功";
     }
-
   }
   setTimeout(() => {
     clearMsg();
@@ -310,7 +303,6 @@ const assignValue = (temp: any) => {
     console.log(e)
   }
 };
-
 watch(() => formProps,
     (val: any) => {
       assignPrep(currentItemType.value, parentCompType.value == "item");
@@ -318,7 +310,6 @@ watch(() => formProps,
       immediate: true,
       deep: true
     })
-
 </script>
 <template>
   <star-horse-dialog :dialogVisible="dataSourceDialogVisible" :title="'数据源配置'" :isBatch="false"
@@ -343,7 +334,6 @@ watch(() => formProps,
     <star-horse-form v-model:data-form="dataForm" rules="{}" primary-key="" :fieldList="containerField(currentItemType)"
                      comp-url=""/>
   </star-horse-dialog>
-
   <star-horse-dialog :dialogVisible="jsEditor" :title="'自定义事件'" :isBatch="false" @merge="closeAction"
                      @closeAction="closeAction"
                      @reset="closeAction" :selfFunc="true">
@@ -580,7 +570,6 @@ watch(() => formProps,
               <el-radio-group v-model="formProps[item.fieldName]" v-if="item.fieldType==='radio'">
                 <el-radio :label="data" :value="data" v-for="data in JSON.parse(item.selectValues)"/>
               </el-radio-group>
-
               <el-checkbox-group v-model="formProps[item.fieldName]" v-if="item.fieldType==='checkbox'">
                 <el-checkbox :label="data" :value="data" v-for="data in JSON.parse(item.selectValues)"/>
               </el-checkbox-group>
@@ -632,34 +621,28 @@ watch(() => formProps,
       </el-collapse-item>
     </el-collapse>
   </el-form>
-
 </template>
 <style lang="scss" scoped>
 :deep(.el-collapse-item) {
   overflow: hidden;
-
   .el-collapse-item__wrap {
     height: 100%;
     overflow: hidden;
-
     .el-collapse-item__content {
       height: inherit;
       overflow: hidden;
     }
   }
-
   &:last-child {
     flex: 1;
     height: 100%;
   }
 }
-
 :deep(.el-form-item__content) {
   width: 90%;
   margin-left: 5px;
   padding-left: 5px;
 }
-
 :deep(.el-scrollbar) {
   border-top-width: 0;
   display: flex;
@@ -667,19 +650,15 @@ watch(() => formProps,
   height: 100%;
   overflow: hidden;
 }
-
 :deep(.el-dialog__body) {
   padding: 0;
 }
-
 .widget-collapse {
   height: 99%;
 }
-
 .oper-btn {
   cursor: pointer;
 }
-
 .dynamic-form {
   width: 200px;
   height: 100%;

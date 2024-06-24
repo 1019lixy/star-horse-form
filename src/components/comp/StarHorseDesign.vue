@@ -14,7 +14,6 @@ import Help from "@/components/help.vue";
 import ConsumerDbListComp from "@/views/dbsearch/utils/ConsumerDbListComp.vue";
 import StarHorseEditor from "@/components/comp/StarHorseEditor.vue";
 import {ConsumerView} from "@/store/ConsumerViewStore.ts";
-
 const designGraph = DesignGraph(piniaInstance);
 const consumerView = ConsumerView(piniaInstance);
 const starHorseDesignRef = ref();
@@ -22,7 +21,6 @@ const graph = ref();
 const contextmenuRef = ref();
 const leftPanelVisible = ref<boolean>(true);
 const connectorStyle = ref<String>("normal");
-
 const rightPanel = ref<boolean>(false);
 const normalRightPanel = ref<boolean>(true);
 const currentComp = ref<any>();
@@ -144,9 +142,7 @@ const closeAction = () => {
   dataPreviewVisible.value = false;
 };
 const dataValid = () => {
-
 };
-
 const alignOperation = (align: string) => {
   let cells = graph.value.getSelectedCells();
   if (align == "deleteItem") {
@@ -183,7 +179,6 @@ const alignOperation = (align: string) => {
       cell.setPosition(cell.position().x, min);
     }
   }
-
   if (align == "alignBottom") {
     let pos = cells.map((item: any) => item.position().y);
     let max = Math.max(...pos);
@@ -244,7 +239,6 @@ const init = async () => {
       }
     }
   }
-
   graph.value.on('cell:mouseenter', ({cell}) => {
     const ports = starHorseDesignRef.value.querySelectorAll('.x6-port-body',
     ) as NodeListOf<SVGElement>;
@@ -288,7 +282,6 @@ const init = async () => {
     } else {
       cell.removeTools(["source-arrowhead", "target-arrowhead"]);
     }
-
   })
 // #endregion
   graph.value.on("cell:added", (edge: View) => {
@@ -298,18 +291,15 @@ const init = async () => {
     } else {
       clickOperation(edge);
     }
-
   });
   graph.value.on("edge:connected", (edge: View) => {
     clickOperation(edge.view);
   });
-
   //节点右键菜单
   graph.value.on("cell:contextmenu", ({e, x, y, cell, view}) => {
     contextMenu(e, x, y, cell, view);
   });
   // //连线右键菜单
-
   // //点击节点
   graph.value.on('cell:click', ({e, x, y, cell, view}) => {
     // graph.value.trigger("blank:click", {e, x, y, edge, view});
@@ -343,9 +333,7 @@ const init = async () => {
     graph.value.on('cell:dblclick', async ({e, x, y, edge, view}) => {
       clickOperation(view);
     });
-
   }
-
 };
 const clickOperation = async (view: View) => {
   let cell = view.cell;
@@ -360,7 +348,6 @@ const clickOperation = async (view: View) => {
     graph.value.trigger("edge:click", {view});
   }
   currentCellInfo.value = data;
-
   if (data?.fromType == "table") {
     emits(isNode ? "nodeClick" : "lineClick", data);
     //
@@ -416,7 +403,6 @@ const contextMenu = (e: MouseEvent, x: number, y: number, cell: Cell, view: View
   currentView.value = view;
   contextMenuVisible.value = true;
   currentComp.value = cell;
-
   menuPosition.value = {
     top: `${e.pageY - 200}px`,
     left: `${e.pageX}px`
@@ -425,7 +411,6 @@ const contextMenu = (e: MouseEvent, x: number, y: number, cell: Cell, view: View
     contextmenuRef.value.handleOpen();
   });
 };
-
 /**
  * 更改标签信息
  */
@@ -518,23 +503,15 @@ const registerPort = (portName: string) => {
       const container_img = document.createElement('img');
       container_img.src = '@/icons/default.svg';
       container_img.setAttribute('class', 'cu-container-img');
-
-
       const container_title = document.createElement('div');
       container_title.innerText = label;
       container_title.setAttribute('class', 'cu-container-title');
-
-
       const container_desc = document.createElement('div');
       container_desc.setAttribute('class', 'cu-container-desc');
       container_desc.innerText = desc || '描述信息';
-
-
       container.appendChild(container_img);
       container.appendChild(container_title);
       container.appendChild(container_desc);
-
-
       return container;
     }
   });
@@ -555,7 +532,6 @@ const registerPort = (portName: string) => {
         true,
     );
   }
-
 };
 const analisyAllData = () => {
   let cells = graph.value.getCells();
@@ -569,7 +545,6 @@ const analisyAllData = () => {
     } else {
       relationList.push(getCellnfo(cell));
     }
-
   }
   return {tables: tableList, relations: relationList};
 }
@@ -622,7 +597,6 @@ const getCellnfo = (cell: any) => {
       toId, to, toLabel, toPort, toType, toData: targetInfo
     };
   }
-
 }
 /**
  * 获取所有连线的数据
@@ -663,9 +637,7 @@ const dragDrop = (evt: DragEvent) => {
     //创建普通节点
   }
   addNode(data);
-
 };
-
 /**
  * 添加节点
  * @param data
@@ -710,8 +682,6 @@ const onQueryChanged = () => {
     }
   }
 };
-
-
 const writeAttrToComp = () => {
   // console.log("writeAttrToComp")
   currentComp.value.setData(compAttr.value);
@@ -729,7 +699,6 @@ const readCompAttr = async () => {
   } else {
     compAttr.value = {...data, ...defaultDatas};
   }
-
   for (let key in mappingFields) {
     let temp = mappingFields[key];
     if (!compAttr.value[temp.name]) {
@@ -766,7 +735,6 @@ defineExpose({
   addNode
 })
 </script>
-
 <template>
   <star-horse-dialog :dialogVisible="dataPreviewVisible" :title="'JSON'"
                      @closeAction="closeAction"
@@ -828,7 +796,6 @@ defineExpose({
       <div class="inner_button">
         <el-menu mode="horizontal" style="height: inherit;width: 100%;">
           <template v-for="(item,index) in commands">
-
             <el-menu-item v-if="(hasData.length>0&&!readonly)||item.defaultEdit">
               <el-tooltip class="item" :content="item.label" :index="index"
                           effect="dark"
@@ -918,21 +885,17 @@ defineExpose({
     <div v-else class="empty-info"> 右侧面板</div>
   </el-drawer>
 </template>
-
 <style lang="scss" scoped>
 .x6-edge-selected {
   border: 1px dotted #3a8ee6;
 }
-
 hr {
   height: 1px;
   margin: 10px 0;
   border: 0;
   clear: both;
 }
-
 .el-drawer__header {
-
   border-bottom: 1px solid #8F8F8F;
   padding: 10px;
   margin-bottom: 10px;
@@ -940,42 +903,34 @@ hr {
   line-height: 40px;
   text-indent: .5em;
   background-color: #eee;
-
   span {
     font-weight: bold;
     font-size: 14px;
   }
 }
-
 .design-content {
   display: flex;
   height: 100%;
   width: 100%;
   flex-direction: row;
-
   .comp-list {
     min-width: 205px;
     margin-right: 5px;
     border: 1px solid #eee;
-
     .el-collapse {
       padding-left: 5px;
     }
-
     &:after, &:before {
       box-sizing: border-box;
     }
-
     ul {
       margin: 0;
       padding: 0;
-
       &:after {
         content: '';
         display: block;
         clear: both;
       }
-
       .field-item {
         display: flex;
         height: 28px;
@@ -989,23 +944,19 @@ hr {
         overflow: hidden;
         background: #f1f2f3;
         border-radius: 3px;
-
         span {
           display: flex;
           align-content: center;
           align-items: center;
         }
       }
-
       .field-item:first-child {
         margin-top: 5px;
       }
-
       .field-item:hover {
         background: #ebeef5;
         outline: 1px solid #999999;
       }
-
       .drag-handler {
         position: absolute;
         top: 0;
@@ -1018,14 +969,12 @@ hr {
       }
     }
   }
-
   .design-main {
     flex: 1;
     height: 100%;
     /*min-height: 500px;*/
     display: flex;
     flex-direction: column;
-
     .inner_button {
       height: 40px;
       text-align: left;
@@ -1037,7 +986,6 @@ hr {
       -ms-user-select: none;
       user-select: none;
     }
-
     .background-grid-app {
       display: flex;
       flex: 1;
@@ -1045,14 +993,12 @@ hr {
       font-family: sans-serif;
     }
   }
-
   .right-attr-panel {
     width: 280px;
     display: flex;
     flex-direction: column;
     border: 1px solid #eee;
     margin-left: 5px;
-
     .title {
       padding-left: 5px;
       align-items: center;

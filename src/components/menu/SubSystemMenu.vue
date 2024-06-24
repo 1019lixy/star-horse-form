@@ -24,17 +24,14 @@ const props = defineProps({
     </el-sub-menu>
   </template>
 </template>
-
 <style lang="scss">
 .star-icon {
   font-size: 22px;
 }
-
 :deep(.el-sub-menu__title) {
   height: 40px;
   line-height: 40px;
 }
-
 :deep(.el-scrollbar__view) {
   height: 100%;
 }

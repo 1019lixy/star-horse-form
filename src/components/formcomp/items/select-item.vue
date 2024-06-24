@@ -26,23 +26,18 @@
       <el-option :disabled="items['disabled']" :label="items['name']" :value="items['value']"
                  v-for="items in field.preps['values']||context.attrs['formFieldList'][field.preps['name']+'OptionList']"/>
     </el-select>
-
   </starhorse-form-item>
 </template>
-
 <script lang="ts">
 import {defineComponent, onMounted, shallowRef} from "vue";
-
 export default defineComponent({
   setup(props, context) {
-
     const parentField = context.attrs["parentField"];
     const formFieldList = context.attrs["formFieldList"] as any;
     const field = context.attrs["field"] as any;
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
     let actionName = shallowRef("change");
-
     const keyEnterFun = (prep: any) => {
       if (prep == actionName.value && field.preps["actionRelation"]) {
         field.preps["actionRelation"](context.attrs['formFieldList'][field.preps['name']], context.attrs['formFieldList']["xh"]);
@@ -52,7 +47,6 @@ export default defineComponent({
       } catch (e) {
         console.log(e);
       }
-
     };
     onMounted(() => {
       actionName.value = field.preps["actionName"];
@@ -67,7 +61,5 @@ export default defineComponent({
   }
 });
 </script>
-
 <style scoped>
-
 </style>

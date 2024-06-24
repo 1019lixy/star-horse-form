@@ -3,7 +3,6 @@ import {confirm} from "@/utils/message";
 import piniaInstance from "@/store/index.ts";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import {computed} from "vue";
-
 const props = defineProps({
   parentField: {type: Object},
   formItem: {type: Object, required: true},
@@ -32,7 +31,6 @@ const removeData = () => {
           }
         }
       } else if (props.parentField?.itemType == "box") {
-
       } else {
         let dataList = compList.value;
         for (let i = 0; i < dataList.length; i++) {
@@ -44,7 +42,6 @@ const removeData = () => {
     }
   });
 };
-
 </script>
 <template>
   <div :class="isEdit?'field-item':''">
@@ -72,11 +69,9 @@ const removeData = () => {
   z-index: 999;
   border: 1px dotted #e6a23c;
   margin-top: 3px;
-
   &:hover .field-action {
     opacity: 1;
   }
-
   .field-action {
     position: absolute;
     top: 0;
@@ -90,7 +85,6 @@ const removeData = () => {
     text-align: right;
     display: flex;
     flex-direction: row;
-
     .icon-cls {
       font-size: 14px;
       color: var(--star-horse-white);
@@ -98,7 +92,6 @@ const removeData = () => {
       cursor: pointer;
     }
   }
-
   .drag-handler {
     position: absolute;
     top: 0;
@@ -108,7 +101,6 @@ const removeData = () => {
     background: var(--star-horse-style);;
     z-index: 9;
     opacity: 0;
-
     .icon-cls {
       font-size: 12px;
       font-style: normal;
@@ -116,77 +108,62 @@ const removeData = () => {
       margin: 4px;
       cursor: move;
     }
-
     &:hover {
       opacity: 1;
       background: var(--star-horse-style);;
     }
   }
 }
-
 .field-action, .drag-handler {
   .svg-icon {
     margin-left: 0;
     margin-right: 0;
   }
 }
-
 .el-form-item {
   position: relative;
-
   :deep(.el-form-item__label) {
     white-space: nowrap;
     text-overflow: ellipsis;
   }
-
   :deep(.el-form-item__content) {
     //position: unset;  /* TODO: 忘了这个样式设置是为了解决什么问题？？ */
   }
-
   span.custom-label .icon-cls {
     margin: 0 3px;
   }
-
   :deep(.hide-spin-button) input::-webkit-outer-spin-button,
   :deep(.hide-spin-button) input::-webkit-inner-spin-button {
     -webkit-appearance: none !important;
   }
-
   :deep(.hide-spin-button) input[type="number"] {
     -moz-appearance: textfield;
   }
 }
-
 .required :deep(.el-form-item__label)::before {
   content: '*';
   color: #F56C6C;
   margin-right: 4px;
 }
-
 .static-content-item {
   min-height: 20px;
   display: flex; /* 垂直居中 */
   align-items: center; /* 垂直居中 */
-
   :deep(.el-divider--horizontal) {
     margin: 0;
   }
 }
-
 .el-form-item.selected, .static-content-item.selected {
   outline: 2px solid var(--star-horse-style);;
 }
-
 :deep(.label-left-align) .el-form-item__label {
   text-align: left;
   justify-content: flex-start !important;
 }
-
 :deep(.label-center-align) .el-form-item__label {
   text-align: center;
   justify-content: center !important;
 }
-
 :deep(.label-right-align) .el-form-item__label {
   text-align: right;
   justify-content: flex-end !important;

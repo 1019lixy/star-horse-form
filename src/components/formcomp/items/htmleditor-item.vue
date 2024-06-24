@@ -16,12 +16,10 @@
     </div>
   </starhorse-form-item>
 </template>
-
 <script lang="ts">
 import {defineComponent, getCurrentInstance, shallowRef} from "vue";
 import "@wangeditor/editor/dist/css/style.css"
 import {Editor, Toolbar} from "@wangeditor/editor-for-vue"
-
 export default defineComponent({
   components: {Editor, Toolbar},
   beforeUnmount: () => {
@@ -38,9 +36,7 @@ export default defineComponent({
     let dataField = shallowRef("");
     let editorConfig = shallowRef({});
     let toolbarConfig = shallowRef({});
-
     const editorRef = shallowRef() // 编辑器实例，必须用 shallowRef
-
     const dynamicFunction = (data: any) => {
       if (!data) {
         return;
@@ -51,7 +47,6 @@ export default defineComponent({
     const keyEnterFun = () => {
       context.emit('selfFunc');
     };
-
     toolbarConfig.value = {
       //excludeKeys: ["insertLink", "insertImage", "editImage", "viewImageLink", "insertVideo", "emotion", "fullScreen"],
     }
@@ -103,18 +98,12 @@ export default defineComponent({
       },
     }
 // 组件销毁时，也及时销毁编辑器
-
-
     return {
       parentField, formFieldList, context, field, formItem, editorConfig, editorRef, toolbarConfig,
       dataField, dynamicFunction, keyEnterFun, handleCreated
     }
   },
 });
-
-
 </script>
-
 <style scoped>
-
 </style>

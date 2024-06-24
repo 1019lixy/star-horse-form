@@ -1,5 +1,4 @@
 import {Shape} from "@antv/x6";
-
 const commands = [
     {
         icon: "left_panel",
@@ -234,7 +233,6 @@ const configInfo = {
             //     startDirections: ['bottom'],
             //     endDirections: ['top'],
             // },
-
         },
         connector: {
             name: 'rounded',

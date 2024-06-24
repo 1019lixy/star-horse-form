@@ -5,7 +5,6 @@ import {onMounted, provide, reactive, ref} from "vue";
 import {SearchProps} from "@/components/types/SearchProps";
 import {Config} from "@/api/settings";
 import {getMenuId, loadPagePermission} from "@/api/sh_api.ts";
-
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/userdb-manage/userdb/dynamicFormDetails/pageList",
   mergeUrl: "/userdb-manage/userdb/dynamicFormDetails/merge",
@@ -20,8 +19,6 @@ const dataUrl: ApiUrls = {
   importUrl: "/userdb-manage/userdb/dynamicFormDetails/importData",
   uploadUrl: "",
 };
-
-
 const searchFormData = reactive<SearchProps[]>([{label: "主键", fieldName: "idDynamicFormDetails", type: "long"},
   {label: "主键", fieldName: "idDynamicForm", type: "long"},
   {label: "表单内容", fieldName: "content", type: "input"},
@@ -51,53 +48,33 @@ const tableFieldList = reactive({
     },
     {
       label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
-
-
     },
     {
       label: "修改人", disabled: "Y", fieldName: "updatedBy", type: "input",
-
-
     },
     {
       label: "创建日期", disabled: "Y", fieldName: "createdDate", type: "date",
-
-
     },
     {
       label: "修改日期", disabled: "Y", fieldName: "updatedDate", type: "date",
-
-
     },
     {
       label: "数据版本号", fieldName: "version", type: "number",
-
-
     },
     {
       label: "是否已逻辑", fieldName: "isDel", type: "number",
-
-
     },
     {
       label: "数据编号", fieldName: "dataNo", type: "input",
-
-
     },
     {
       label: "状态码", fieldName: "statusCode", type: "input",
-
-
     },
     {
       label: "状态码名称", fieldName: "statusName", type: "input",
-
-
     },
     {
       label: "国际码", fieldName: "local", type: "input",
-
-
     },
   ],
   batchFieldList: []
@@ -105,8 +82,6 @@ const tableFieldList = reactive({
 const primaryKey = "idDynamicFormDetails";
 const dynamicFormDetailsRef = ref();
 const rules = {};
-
-
 const dataForm = ref({});
 provide("dataForm", dataForm);
 const dialogProps = reactive<DialogProps>({
@@ -133,7 +108,6 @@ onMounted(async () => {
 })
 </script>
 <style lang="scss" scoped>
-
 </style>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">

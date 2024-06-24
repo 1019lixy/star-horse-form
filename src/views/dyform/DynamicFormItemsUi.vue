@@ -42,8 +42,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       fieldName: "idFormItems",
       type: "long",
       required: true,
-
-
     },
     {
       label: "名称",
@@ -52,7 +50,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       required: true,
       formShow: !false,
       tableShow: !false,
-
     },
     {
       label: "类别",
@@ -61,7 +58,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       required: true,
       formShow: !false,
       tableShow: !false,
-
     },
     {
       label: "图标",
@@ -70,7 +66,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       required: true,
       formShow: !false,
       tableShow: !false,
-
     },
     {
       label: "分类",
@@ -80,86 +75,63 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       required: true,
       formShow: !false,
       tableShow: !false,
-
     },
     {
       label: "版本号",
       fieldName: "version",
       type: "number",
-
-
     },
     {
       label: "创建人", disabled: "Y",
       fieldName: "createdBy",
       type: "input",
-
-
     },
     {
       label: "创建时间",
       fieldName: "createdTime",
       type: "date",
-
-
     },
     {
       label: "修改人", disabled: "Y",
       fieldName: "updatedBy",
       type: "input",
-
-
     },
     {
       label: "修改时间",
       fieldName: "updatedTime",
       type: "date",
-
-
     },
     {
       label: "数据编号",
       fieldName: "dataNo",
       type: "input",
-
-
     },
     {
       label: "状态吗",
       fieldName: "statusCode",
       type: "input",
-
-
     },
     {
       label: "状态名称",
       fieldName: "statusName",
       type: "input",
-
-
     },
     {
       label: "是否删除",
       fieldName: "isDel",
       type: "number",
-
-
     },
     {
       label: "国际码",
       fieldName: "local",
       type: "input",
-
-
     },
     {
       label: "备注",
       fieldName: "remark",
       type: "input",
-
       formShow: !false,
       tableShow: !false,
-
     },
     {
       label: "元素排序",
@@ -168,11 +140,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       required: true,
       formShow: !false,
       tableShow: !false,
-
     },
   ],
-
-
 });
 //主键
 const primaryKey = "idFormItems";
@@ -218,7 +187,6 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
 }
 </script>
 <style lang="scss" scoped>
-
 </style>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">

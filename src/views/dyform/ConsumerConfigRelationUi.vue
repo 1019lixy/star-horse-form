@@ -44,7 +44,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       required: true,
       formShow: !false,
       tableShow: !false,
-
     },
     {
       label: "消费配置ID",
@@ -53,7 +52,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       required: true,
       formShow: !false,
       tableShow: !false,
-
     },
     {
       label: "关联主表名",
@@ -62,7 +60,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       required: true,
       formShow: !false,
       tableShow: !false,
-
     },
     {
       label: "关联主表Key",
@@ -71,7 +68,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       required: true,
       formShow: !false,
       tableShow: !false,
-
     },
     {
       label: "关联主表字段名",
@@ -80,7 +76,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       required: true,
       formShow: !false,
       tableShow: !false,
-
     },
     {
       label: "被关联表名",
@@ -89,7 +84,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       required: true,
       formShow: !false,
       tableShow: !false,
-
     },
     {
       label: "被关联表Key",
@@ -98,7 +92,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       required: true,
       formShow: !false,
       tableShow: !false,
-
     },
     {
       label: "被关联表字段",
@@ -107,7 +100,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       required: true,
       formShow: !false,
       tableShow: !false,
-
     },
     {
       label: "关联映射关系 默认 eq",
@@ -116,98 +108,71 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       required: true,
       formShow: !false,
       tableShow: !false,
-
     },
     {
       label: "版本号",
       fieldName: "version",
       type: "long",
-
-
     },
     {
       label: "创建人", disabled: "Y",
       fieldName: "createdBy",
       type: "input",
-
-
     },
     {
       label: "创建时间",
       fieldName: "createdTime",
       type: "date",
-
-
     },
     {
       label: "修改人", disabled: "Y",
       fieldName: "updatedBy",
       type: "input",
-
-
     },
     {
       label: "修改时间",
       fieldName: "updatedTime",
       type: "date",
-
-
     },
     {
       label: "数据编号",
       fieldName: "dataNo",
       type: "input",
-
-
     },
     {
       label: "状态吗",
       fieldName: "statusCode",
       type: "input",
-
-
     },
     {
       label: "状态名称",
       fieldName: "statusName",
       type: "input",
-
-
     },
     {
       label: "是否删除",
       fieldName: "isDel",
       type: "long",
-
-
     },
     {
       label: "国际码",
       fieldName: "local",
       type: "input",
-
-
     },
     {
       label: "备注",
       fieldName: "remark",
       type: "input",
-
       formShow: !false,
       tableShow: !false,
-
     },
   ],
-
-
 });
 //主键
 const primaryKey = "idConsumerConfigRelation";
 const consumerConfigRelationRef = ref();
 //校验
 const rules = {};
-
-
 const dataForm = ref({});
 //全局数据对象
 provide("dataForm", dataForm);
@@ -244,7 +209,6 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
 }
 </script>
 <style lang="scss" scoped>
-
 </style>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">

@@ -3,7 +3,6 @@ import {ComponentInternalInstance, computed, getCurrentInstance, PropType, ref, 
 import {warning} from '@/utils/message'
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
-
 const props = defineProps({
   parentField: {type: String},
   formFieldList: {type: Object as PropType<any>},
@@ -65,8 +64,6 @@ watch(() => props.field,
       deep: true
     })
 </script>
-
-
 <template>
   <group-box-container
       :parentField="parentField"
@@ -145,7 +142,6 @@ watch(() => props.field,
   vertical-align: middle;
   justify-content: center;
   align-items: center;
-
   .ghost {
     content: '';
     font-size: 0;
@@ -156,7 +152,6 @@ watch(() => props.field,
     overflow: hidden;
   }
 }
-
 .edit_col {
   border: 2px dotted var(--star-horse-border—color);
   min-height: 50px;

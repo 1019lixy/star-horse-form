@@ -3,7 +3,6 @@ import {computed, ref} from 'vue'
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
 import DbListComp from "@/views/dbsearch/utils/DbListComp.vue";
-
 let designForm = DesignForm(piniaInstance);
 let formDataList = computed(() => designForm.formDataList);
 let containerList = computed(() => designForm.containerList);
@@ -60,12 +59,8 @@ const onStart = () => {
 const onEnd = () => {
 };
 const onRemove = () => {
-
 };
-
 </script>
-
-
 <template>
   <el-tabs v-model="tabModel">
     <el-tab-pane name="component">
@@ -153,7 +148,6 @@ const onRemove = () => {
                     }}</span>
                 </li>
               </template>
-
             </draggable>
             <div style="height: 50px"></div>
           </el-scrollbar>
@@ -168,57 +162,47 @@ const onRemove = () => {
       <db-list-comp/>
     </el-tab-pane>
   </el-tabs>
-
 </template>
 <style lang="scss" scoped>
 :deep(.el-collapse-item) {
   overflow: hidden;
-
   .el-collapse-item__wrap {
     height: 100%;
     overflow: hidden;
-
     .el-collapse-item__content {
       height: inherit;
       overflow: hidden;
     }
   }
-
   &:last-child {
     flex: 1;
     height: 100%;
   }
 }
-
 .widget-collapse {
   border-top-width: 0;
   display: flex;
   flex-direction: column;
   height: 100%;
   overflow: hidden;
-
   .el-collapse-item__header {
     padding-left: 10px;
     font-weight: bold;
   }
-
   .el-collapse-item__content {
     padding-bottom: 6px;
     margin-left: 8px;
-
     ul {
       padding-left: 10px; /* 重置IE11默认样式 */
       margin: 0; /* 重置IE11默认样式 */
       margin-block-start: 0;
       margin-block-end: 0.25em;
       padding-inline-start: 10px;
-
       &:after {
         content: '';
         display: block;
         clear: both;
       }
-
       .field-item {
         display: inline-flex;
         height: 28px;
@@ -231,7 +215,6 @@ const onRemove = () => {
         text-overflow: ellipsis;
         overflow: hidden;
         background: #f1f2f3;
-
         span {
           display: inline-flex;
           justify-items: center;
@@ -241,19 +224,16 @@ const onRemove = () => {
           padding: 0;
           margin: 0;
           height: 100%;
-
           .svg-icon {
             margin-left: 0;
             margin-right: 0;
           }
         }
       }
-
       .field-item:hover {
         background: #ebeef5;
         outline: 1px solid #999999;
       }
-
       .drag-handler {
         position: absolute;
         top: 0;

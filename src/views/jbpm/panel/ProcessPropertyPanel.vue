@@ -1,6 +1,5 @@
 <script setup lang="ts" name="ProcessProperty">
 import {onMounted, ref} from "vue";
-
 const props = defineProps({
   processData: {
     type: Object,
@@ -30,9 +29,7 @@ const updateDesc = (name: string) => {
   props.modeler.get("modeling").updateProperties(props.element, {documentation: [doc]});
 };
 </script>
-
 <style scoped>
-
 </style>
 <template>
   <div>
@@ -59,7 +56,6 @@ const updateDesc = (name: string) => {
       <el-form-item label="流程ID">
         <el-input @input="updateId" v-model="localProcessData.flowId"></el-input>
       </el-form-item>
-
       <el-form-item label="流程描述">
         <el-input @input="updateDesc" v-model="localProcessData.description"></el-input>
       </el-form-item>

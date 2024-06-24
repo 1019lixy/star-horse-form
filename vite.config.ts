@@ -9,7 +9,6 @@ import {createSvgIconsPlugin} from 'vite-plugin-svg-icons'
 import Components from 'unplugin-vue-components/vite'
 import {ElementPlusResolver} from 'unplugin-vue-components/resolvers'
 import AutoImport from 'unplugin-auto-import/vite'
-
 const codeHost = "http://localhost:8888/"
 const systemHost = "http://localhost:8749/"
 const workflowHost = "http://localhost:8899/"
@@ -36,7 +35,6 @@ export default defineConfig({
                 rewrite: (path) => path.replace(/^\/system-config/, '/system-config-dev'),
                 ws: true
             },
-
             "/code-generator": {
                 target: codeHost,
                 changeOrigin: true,
@@ -70,7 +68,6 @@ export default defineConfig({
                 rewrite: (path) => path.replace(/^\/userdb-manage/, '/userdb-manage-dev'),
                 ws: true
             },
-
         }
     },
     plugins: [

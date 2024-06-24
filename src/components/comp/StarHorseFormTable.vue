@@ -1,13 +1,11 @@
 <script setup lang="ts" name="StarHorseFormItem">
 import {ref} from "vue";
 import {batchFieldDefaultValues} from "@/api/sh_api.ts";
-
 const props = defineProps({
   item: {type: Object, required: true},
   rules: {type: Object, required: true},
   size: {type: String, default: "small"}
 });
-
 const dataForm = defineModel("dataForm");
 const currentTableRef = ref();
 </script>
@@ -31,8 +29,6 @@ const currentTableRef = ref();
       :fieldList="item['fieldList']"
       :rules="item['rules']||rules"
   />
-
 </template>
 <style lang="scss" scoped>
-
 </style>

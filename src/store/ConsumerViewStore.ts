@@ -1,5 +1,4 @@
 import {defineStore} from "pinia";
-
 export const ConsumerView: any = defineStore("ConsumerView", {
     state: () => {
         return {
@@ -18,7 +17,6 @@ export const ConsumerView: any = defineStore("ConsumerView", {
         getDbConfigId: (state: any) => {
             return state.dbConfigId;
         }
-
     },
     actions: {
         /**
@@ -50,7 +48,6 @@ export const ConsumerView: any = defineStore("ConsumerView", {
         clearAll() {
             this.tableList = {};
         },
-
     },
     persist: true
 });

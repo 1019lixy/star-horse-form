@@ -5,13 +5,11 @@
         不填，允许的通配符[, - * /]
       </el-radio>
     </el-form-item>
-
     <el-form-item>
       <el-radio :label="2" v-model='radioValue' border>
         每年
       </el-radio>
     </el-form-item>
-
     <el-form-item>
       <el-radio :label="3" v-model='radioValue' border>周期</el-radio>
       <span style="margin-left: 10px; margin-right: 5px;">从</span>
@@ -27,7 +25,6 @@
       <el-input-number v-model='average02' :min='fullYear'/>
       <span style="margin-left: 10px; margin-right: 5px;">年执行一次</span>
     </el-form-item>
-
     <el-form-item>
       <el-radio :label="5" v-model='radioValue' border>
         指定
@@ -35,7 +32,6 @@
       <el-select clearable filterable collapse-tags v-model="checkboxList" placeholder="请选择年" multiple>
         <el-option v-for="item in 20" :key="item" :value="item - 1 + fullYear" :label="item -1 + fullYear"/>
       </el-select>
-
     </el-form-item>
   </el-form>
 </template>
@@ -43,14 +39,12 @@
 .el-select {
   width: 250px;
 }
-
 .el-input-number {
   width: 150px;
 }
 </style>
 <script lang="ts" setup name="crontab-year">
 import {computed, onMounted, ref, watch} from "vue";
-
 const props = defineProps({
   check: {type: Function},
   month: {},
@@ -141,7 +135,6 @@ watch(() => checkboxString.value,
       immediate: true,
       deep: true
     });
-
 cycleTotal.value = computed(() => cycleTotalFun());
 averageTotal.value = computed(() => averageTotalFun());
 checkboxString.value = computed(() => checkboxStringFun());

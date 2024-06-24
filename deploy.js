@@ -1,7 +1,6 @@
 import scp from "scp2";
 import ora from "ora";
 import chalk from "chalk";
-
 const defaultPort = '22'
 const defaultUsername = 'root'
 const defaultPassword = 'doov-2023'
@@ -43,6 +42,3 @@ for (let i = 0; i < servers.length; i++) {
         }
     })
 }
-
-
-

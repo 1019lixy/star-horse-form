@@ -8,7 +8,6 @@ import {SearchProps, SelectOption} from "@/components/types/SearchProps";
 import {getMenuId, loadCustomInfo, loadElementPlusIcon, loadPagePermission, loadSystemInfo} from "@/api/sh_api";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {postRequest} from "@/api/star_horse";
-
 let informationsList = ref<any>([]);
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/system-config/system/informationsEntity/pageList",
@@ -27,7 +26,6 @@ const dataUrl: ApiUrls = {
 };
 let systemIconList = ref<SelectOption[]>([]);
 let customerList = ref<SelectOption[]>([]);
-
 const searchFormData = reactive<SearchProps[]>([
   {label: "归属主体", fieldName: "idCustomer", type: "select", optionList: customerList},
   {label: "系统名称", defaultShow: true, fieldName: "sysName", type: "input", matchType: "lk"},
@@ -44,13 +42,10 @@ const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
       label: "主键", fieldName: "idInformations", type: "long",
-
-
     },
     {
       label: "上级系统", fieldName: "parentId", type: "select", optionList: informationsList,
       formShow: !false,
-
       actionName: "change",
       actions: testFun
     },
@@ -83,73 +78,49 @@ const tableFieldList = reactive<PageFieldInfo>({
       formShow: !false,
       tableShow: !false
     },],
-
-
     {
       label: "系统描述", fieldName: "sysDesc", type: "textarea",
       formShow: !false,
       tableShow: !false, actionName: "input", actions: testFun
     },
-
     {
       label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
-
-
     },
     {
       label: "修改人", disabled: "Y", fieldName: "updatedBy", type: "input",
-
-
     },
     {
       label: "创建日期", disabled: "Y", fieldName: "createdDate", type: "date",
-
-
     },
     {
       label: "修改日期", disabled: "Y", fieldName: "updatedDate", type: "date",
-
     },
     {
       label: "数据版本号", fieldName: "version", type: "number",
-
     },
     {
       label: "是否已逻辑", fieldName: "isDel", type: "number",
-
     },
     {
       label: "数据编号", fieldName: "dataNo", type: "input",
-
     },
     {
       label: "状态码", fieldName: "statusCode", type: "input",
-
     },
     {
       label: "状态码名称", fieldName: "statusName", type: "input",
-
-
     },
     {
       label: "国际码", fieldName: "local", type: "input",
-
-
     },
-
   ],
-
-
 });
 const primaryKey = "idInformations";
 const informationsRef = ref();
 const iconList = icon;
 const rules = {};
-
-
 const dataForm = ref({});
 provide("dataForm", dataForm);
-
 const dialogProps = reactive<DialogProps>({
   bakeVisible1: false, bakeVisible2: false, bakeVisible3: false,
   ids: 0,
@@ -159,7 +130,6 @@ const dialogProps = reactive<DialogProps>({
   editVisible: false,
   uploadVisible: false,
   viewVisible: false
-
 });
 provide("dialogProps", dialogProps);
 let permissions = ref<any>({});
@@ -187,7 +157,6 @@ onMounted(async () => {
 });
 </script>
 <style>
-
 </style>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">

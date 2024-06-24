@@ -6,7 +6,6 @@ import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import {SelectOption} from "@/components/types/SearchProps.d.ts";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {ConsumerView} from "@/store/ConsumerViewStore.ts";
-
 let configStore = GlobalConfig(piniaInstance);
 const consumerView = ConsumerView(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.buttonSize || "small");
@@ -18,9 +17,7 @@ let selectFields = ref<Array<SelectOption>>([]);
 let dbList = ref<any>([]);
 let tableAndColumnsList = ref<any>([]);
 let currentIndex = ref<any>(null);
-
 const dataForm = ref({});
-
 let currentData = ref<any>({});
 //全局数据对象
 provide("dataForm", dataForm);
@@ -49,7 +46,6 @@ const contextOperation = async (evt: Event, data: any, index: number) => {
   dataForm.value = {...data};
   containerTypeOperation(dataForm.value);
 }
-
 const tableOperClose = () => {
   dataForm.value = {};
   currentDataVisible.value = false;
@@ -97,8 +93,6 @@ const filterData = () => {
 const init = async () => {
   dbList.value = await initDbList();
 };
-
-
 const configDialogVisible = ref<boolean>(false);
 const closeAction = () => {
   configDialogVisible.value = false;
@@ -147,7 +141,6 @@ onMounted(() => {
   init();
 });
 </script>
-
 <template>
   <el-row>
     <el-col :span="24">
@@ -194,33 +187,27 @@ onMounted(() => {
       </template>
     </ul>
   </el-scrollbar>
-
 </template>
-
 <style scoped lang="scss">
 :deep(.el-popover) {
   overflow-x: hidden;
 }
-
 .popover-header {
   display: flex;
   background: var(--star-horse-style);
   height: 30px;
   justify-content: end;
 }
-
 ul {
   margin: 5px;
   display: flex;
   flex-direction: column;
-
   li {
     height: 25px;
     border-radius: 2px;
     cursor: pointer;
     margin: 1px;
     display: flex;
-
     :deep(.el-tooltip__trigger) {
       display: inline-flex;
       align-items: center;
@@ -233,35 +220,28 @@ ul {
       height: inherit;
       flex: 1;
     }
-
     .svg-icon {
       width: 18px;
       height: 18px;
     }
   }
-
   li:nth-child(even) {
     background: #e5e5e5;
   }
-
   li:nth-child(odd) {
     background: #f1f2f3;
   }
 }
-
 .field-table {
   border: 1px solid var(--star-horse-style);
-
   tr > th, tr > td {
     border: 1px solid var(--star-horse-style);
     height: 25px;
     font-size: 12px;
     padding-left: 5px;
-
     :nth-child(2) {
       width: 120px;
     }
   }
-
 }
 </style>

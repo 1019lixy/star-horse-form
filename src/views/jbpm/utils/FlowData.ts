@@ -41,7 +41,6 @@ const buttonList = [
         key: 'zoomTo',
         label: '1:1大小',
     },
-
     {
         icon: "align_top",
         key: 'alignTop',

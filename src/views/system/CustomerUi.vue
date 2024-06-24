@@ -37,8 +37,6 @@ const searchFormData = reactive<SearchProps[]>([
     type: "input",
     matchType: "lk"
   },
-
-
 ]);
 let systemIconList = ref<SelectOption[]>([]);
 //页面属性
@@ -49,8 +47,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       fieldName: "idCustomer",
       type: "long",
       required: true,
-
-
     },
     {
       label: "主体名称",
@@ -59,122 +55,87 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       required: true,
       formShow: !false,
       tableShow: !false,
-
     },
     {
       label: "主体编码",
       fieldName: "customerCode",
       type: "input",
       disabled: "Y",
-
-
       tableShow: !false,
-
     },
     {
       label: "Logo",
       fieldName: "customerLogo",
       type: "icon",
-
       formShow: !false,
       tableShow: !false,
-
       optionList: systemIconList,
     },
     {
       label: "主体描述",
       fieldName: "customerDesc",
       type: "textarea",
-
       formShow: !false,
       tableShow: !false,
-
     },
-
-
     {
       label: "创建人", disabled: "Y",
       fieldName: "createdBy",
       type: "input",
-
-
     },
     {
       label: "修改人", disabled: "Y",
       fieldName: "updatedBy",
       type: "input",
-
-
     },
     {
       label: "创建时间",
       fieldName: "createdDate",
       type: "date",
-
-
     },
     {
       label: "修改时间",
       fieldName: "updatedDate",
       type: "date",
-
-
     },
     {
       label: "版本号",
       fieldName: "version",
       type: "number",
-
-
     },
     {
       label: "是否逻辑删除",
       fieldName: "isDel",
       type: "number",
-
-
     },
     {
       label: "数据编号",
       fieldName: "dataNo",
       type: "input",
-
-
     },
     {
       label: "状态码",
       fieldName: "statusCode",
       type: "input",
-
-
     },
     {
       label: "状态名称",
       fieldName: "statusName",
       type: "input",
-
-
     },
     {
       label: "国际码",
       fieldName: "local",
       type: "input",
-
-
     },
   ],
-
-
   cellEditable: false,
-
 });
 //主键
 const primaryKey = "idCustomer";
 const customerRef = ref();
 //校验
 const rules = {};
-
-
 const dataForm = ref({});
 //全局数据对象
 provide("dataForm", dataForm);
@@ -187,7 +148,6 @@ const dialogProps = reactive<DialogProps>({
   editVisible: false,
   uploadVisible: false,
   viewVisible: false,
-
   bakeVisible1: false, bakeVisible2: false, bakeVisible3: false
 });
 provide("dialogProps", dialogProps);
@@ -211,7 +171,6 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
   return cellValue;
 }
 </script>
-
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
     <star-horse-form v-model:data-form="dataForm" @refresh="customerRef.loadByPage()" :compUrl="dataUrl"
@@ -237,5 +196,4 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
   </el-card>
 </template>
 <style lang="scss" scoped>
-
 </style>

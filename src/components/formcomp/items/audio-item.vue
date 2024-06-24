@@ -4,11 +4,9 @@
     <audio :fid="field.preps['name']" id="audio" controls></audio>
   </starhorse-form-item>
 </template>
-
 <script lang="ts" name="audioItem">
 import {defineComponent, onMounted, shallowRef} from "vue";
 import {blobData} from "@/api/star_horse";
-
 export default defineComponent({
   setup(props, context) {
     const parentField = context.attrs["parentField"];
@@ -20,13 +18,11 @@ export default defineComponent({
     const keyEnterFun = () => {
       context.emit('selfFunc');
     };
-
     const init = async () => {
       let file = await blobData(field["audioUrl"]);
       if (!file) {
         return;
       }
-
       // 开始识别
       let reader = new FileReader();
       reader.readAsArrayBuffer(file);
@@ -42,16 +38,13 @@ export default defineComponent({
           let endOffset = rate * 3;
           let frameCount = endOffset - startOffset;
           let newAudioBuffer;
-
           newAudioBuffer = new AudioContext().createBuffer(channels, endOffset - startOffset, rate);
           let anotherArray = new Float32Array(frameCount);
           let offset = 0;
-
           for (let channel = 0; channel < channels; channel++) {
             audioBuffer.copyFromChannel(anotherArray, channel, startOffset);
             newAudioBuffer.copyToChannel(anotherArray, channel, offset);
           }
-
           /**
            * 直接播放使用下面的代码
            // 创建AudioBufferSourceNode对象
@@ -64,7 +57,6 @@ export default defineComponent({
            // 资源开始播放
            source.start();
            */
-
           let blob = bufferToWave(newAudioBuffer, frameCount);
           /**
            * 转换成Base64使用下面的代码
@@ -78,9 +70,7 @@ export default defineComponent({
           audio.src = URL.createObjectURL(blob);
         });
       };
-
     }
-
 // Convert AudioBuffer to a Blob using WAVE representation
     const bufferToWave = (abuffer, len) => {
       let numOfChan = abuffer.numberOfChannels,
@@ -94,7 +84,6 @@ export default defineComponent({
         view.setUint16(pos, data, true);
         pos += 2;
       };
-
       const setUint32 = (data) => {
         view.setUint32(pos, data, true);
         pos += 4;
@@ -103,7 +92,6 @@ export default defineComponent({
       setUint32(0x46464952);                         // "RIFF"
       setUint32(length - 8);                         // file length - 8
       setUint32(0x45564157);                         // "WAVE"
-
       setUint32(0x20746d66);                         // "fmt " chunk
       setUint32(16);                                 // length = 16
       setUint16(1);                                  // PCM (uncompressed)
@@ -112,10 +100,8 @@ export default defineComponent({
       setUint32(abuffer.sampleRate * 2 * numOfChan); // avg. bytes/sec
       setUint16(numOfChan * 2);                      // block-align
       setUint16(16);                                 // 16-bit (hardcoded in this demo)
-
       setUint32(0x61746164);                         // "data" - chunk
       setUint32(length - pos - 4);                   // chunk length
-
       // write interleaved data
       for (i = 0; i < abuffer.numberOfChannels; i++) {
         channels.push(abuffer.getChannelData(i));
@@ -139,9 +125,6 @@ export default defineComponent({
     return {parentField, formFieldList, context, field, formItem, dataField}
   }
 });
-
 </script>
-
 <style scoped>
-
 </style>

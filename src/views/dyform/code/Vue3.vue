@@ -2,7 +2,6 @@
 import {onMounted, ref, watch} from "vue";
 import {convertToCamelCase} from "@/api/sh_api.ts";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-
 const props = defineProps({
   formInfo: {type: Object, required: true},
   compList: {type: Array, required: true},
@@ -45,8 +44,6 @@ const initData = async () => {
 };
 const ${convertToCamelCase(props.formInfo.tbName)}Ref = ref();
 const rules = {};
-
-
 const dataForm = ref({});
 provide("dataForm", dataForm);
 const dialogProps = reactive<DialogProps>({
@@ -91,11 +88,9 @@ onMounted(() => {
   <\/el-card>
 <\/template>
 <style scoped lang="scss">
-
 <\/style>
 `;
 }
-
 const init = () => {
   let searchFields = JSON.stringify(props.compList?.searchFormData || [], null, 4);
   let formFields = JSON.stringify(props.compList?.tableFieldList?.fieldList || [], null, 4);
@@ -103,7 +98,6 @@ const init = () => {
   if (starHorseEditorRef.value) {
     starHorseEditorRef.value.setValue(code.value);
   }
-
 };
 const saveFile = () => {
   let blob = new Blob([code.value]);
@@ -132,7 +126,6 @@ watch(
     }
 );
 </script>
-
 <template>
   <div class="vue3-code">
     <div class="inner_button">
@@ -148,14 +141,12 @@ watch(
     </div>
   </div>
 </template>
-
 <style scoped lang="scss">
 .vue3-code {
   height: 100%;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-
   .code-editor {
     flex: 1;
     overflow: hidden;

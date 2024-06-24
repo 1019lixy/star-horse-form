@@ -8,7 +8,6 @@ import {SearchParams} from "@/components/types/Params";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import piniaInstance from "@/store";
 import {analysisSearchData} from "@/views/dyform/utils/preview.ts";
-
 let matchTypeList = ref<SelectOption[]>();
 let sarchIcon = ref<String>("search_down");
 let defaultSearch = ref<boolean>(true);
@@ -74,13 +73,11 @@ const searchArea = () => {
     sarchIcon.value = "search_down";
   }
   defaultSearch.value = !defaultSearch.value;
-
 };
 defineExpose({
   searchForm, createCreateParams
 })
 </script>
-
 <template>
   <div class="search_content">
     <el-form class="search_area" :size="compSize" v-if="formData">
@@ -140,23 +137,18 @@ defineExpose({
 :deep(.el-form-item__label) {
   min-width: 80px;
 }
-
 :deep(.el-form-item__label):last-child {
   max-width: 5px;
 }
-
 :deep(.el-form-item) {
   margin-bottom: 3px;
 }
-
 :deep(.el-form-item__label) {
   padding: 3px 12px;
 }
-
 .search_content {
   display: flex;
   flex-direction: column;
-
   .search_area {
     display: flex;
     flex-wrap: wrap;
@@ -165,7 +157,6 @@ defineExpose({
     justify-content: left;
     flex-shrink: 0;
   }
-
   .search_btn {
     display: flex;
     margin-top: 5px;

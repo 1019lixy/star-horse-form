@@ -2,7 +2,6 @@
 import {computed, onMounted} from "vue";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
-
 const props = defineProps({
   parentField: {type: Object},
   parentId: {type: Object},
@@ -14,7 +13,6 @@ let isEdit = computed(() => designForm.isEdit);
 let refresh = computed(() => designForm.refresh);
 let compList = computed(() => designForm.compList);
 let currentItemId = computed(() => designForm.currentItemId);
-
 const getParentComp = () => {
   return props.parentField &&
   (props.parentField.itemType == "box"
@@ -55,7 +53,6 @@ const moveUpItem = (formItem: any) => {
       }
     }
   } else if (props.parentField?.itemType == "box") {
-
   }
   console.log(props.parentField);
   let compType = getParentComp();
@@ -113,7 +110,6 @@ const moveDownItem = (formItem: any) => {
       }
     }
   } else if (props.parentField?.itemType == "box") {
-
   }
   let compType = getParentComp();
   if (compType === "item") {
@@ -216,7 +212,6 @@ onMounted(() => {
            @click="selectData(formItem)">
         <slot></slot>
       </div>
-
       <div
           class="field-action"
           v-if="isEdit"
@@ -270,39 +265,31 @@ onMounted(() => {
 .form-item-operation {
   width: 100%;
 }
-
 .active-item {
   border: 2px dotted yellow;
 }
-
 .design-star-horse {
   padding: 3px;
   width: 100%;
   justify-content: center;
   vertical-align: middle;
   z-index: 0;
-
   /*  :hover + .field-action {
       visibility: visible;
     }*/
 }
-
 .field-item {
   position: relative;
   width: 98%;
-
   &:hover + .field-action {
     opacity: 1
   }
-
   &:hover + .drag-handler {
     opacity: 1
   }
-
   .el-form-item {
     margin-bottom: 1px;
   }
-
   .field-action {
     position: absolute;
     //bottom: -24px;
@@ -313,20 +300,17 @@ onMounted(() => {
     background: var(--star-horse-style);;
     z-index: 9999999;
     opacity: 0;
-
     i {
       font-size: 14px;
       color: var(--star-horse-white);
       margin: 0 3px;
       cursor: pointer;
     }
-
     &:hover {
       opacity: 1;
       background: var(--star-horse-style);
     }
   }
-
   .drag-handler {
     position: absolute;
     bottom: 0;
@@ -336,7 +320,6 @@ onMounted(() => {
     background: var(--star-horse-style);
     z-index: 9;
     opacity: 0;
-
     i {
       font-size: 12px;
       font-style: normal;
@@ -344,18 +327,15 @@ onMounted(() => {
       margin: 4px;
       cursor: move;
     }
-
     &:hover {
       opacity: 1;
       background: var(--star-horse-style);
     }
   }
 }
-
 /*.field-action {
   visibility: hidden;
 }*/
-
 .field-action,
 .drag-handler {
   :deep(.svg-icon) {
@@ -363,70 +343,56 @@ onMounted(() => {
     margin-right: 0;
   }
 }
-
 .el-form-item {
   //margin-bottom: 0 !important;
   //margin-bottom: 6px;
-
   //margin-top: 2px;
   position: relative;
-
   :deep(.el-form-item__label) {
     white-space: nowrap;
     text-overflow: ellipsis;
   }
-
   :deep(.el-form-item__content) {
     //position: unset;  /* TODO: 忘了这个样式设置是为了解决什么问题？？ */
   }
-
   span.custom-label i {
     margin: 0 3px;
   }
-
   /* 隐藏Chrome浏览器中el-input数字输入框右侧的上下调整小箭头 */
   :deep(.hide-spin-button) input::-webkit-outer-spin-button,
   :deep(.hide-spin-button) input::-webkit-inner-spin-button {
     -webkit-appearance: none !important;
   }
-
   /* 隐藏Firefox浏览器中el-input数字输入框右侧的上下调整小箭头 */
   :deep(.hide-spin-button) input[type="number"] {
     -moz-appearance: textfield;
   }
 }
-
 .required :deep(.el-form-item__label)::before {
   content: "*";
   color: #f56c6c;
   margin-right: 4px;
 }
-
 .static-content-item {
   min-height: 20px;
   display: flex; /* 垂直居中 */
   align-items: center; /* 垂直居中 */
-
   :deep(.el-divider--horizontal) {
     margin: 0;
   }
 }
-
 .el-form-item.selected,
 .static-content-item.selected {
   outline: 2px solid var(--star-horse-style);;
 }
-
 :deep(.label-left-align) .el-form-item__label {
   text-align: left;
   justify-content: flex-start !important;
 }
-
 :deep(.label-center-align) .el-form-item__label {
   text-align: center;
   justify-content: center !important;
 }
-
 :deep(.label-right-align) .el-form-item__label {
   text-align: right;
   justify-content: flex-end !important;

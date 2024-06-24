@@ -21,16 +21,12 @@
         :void-color="field.preps['voidColor']"
         v-model="context.attrs['formFieldList'][field.preps['name']]"
     />
-
   </starhorse-form-item>
 </template>
-
 <script lang="ts">
 import {defineComponent, onMounted, shallowRef} from "vue";
-
 export default defineComponent({
   setup(props, context) {
-
     const parentField = context.attrs["parentField"];
     const formFieldList = context.attrs["formFieldList"] as any;
     const field = context.attrs["field"] as any;
@@ -46,7 +42,5 @@ export default defineComponent({
   }
 });
 </script>
-
 <style scoped>
-
 </style>

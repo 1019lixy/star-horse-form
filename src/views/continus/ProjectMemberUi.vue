@@ -1,12 +1,10 @@
 <script setup lang="ts" name="ProjectMember">
-
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {onMounted, provide, reactive, ref, watch} from "vue";
 import {SearchProps} from "@/components/types/SearchProps.d.ts";
 import {SearchParams} from "@/components/types/Params.d.ts";
 import {DialogInput} from "@/components/types/PageFieldInfo";
 import {getMenuId, loadPagePermission} from "@/api/sh_api.ts";
-
 const props = defineProps({
   projectId: {type: Number}
 });
@@ -29,8 +27,6 @@ const tableFieldList = reactive({
   fieldList: [
     {
       label: "主键", fieldName: "idprojectMember", type: "long",
-
-
     },
     {
       label: "归属项目", fieldName: "projectId", type: "input",
@@ -42,13 +38,11 @@ const tableFieldList = reactive({
       formShow: !false,
       tableShow: !false
     },
-
     {
       label: "姓名", fieldName: "name", type: "input",
       formShow: !false,
       tableShow: !false
     },
-
     {
       label: "角色名称", fieldName: "roleName", type: "input",
       formShow: !false,
@@ -69,66 +63,42 @@ const tableFieldList = reactive({
       formShow: !false,
       tableShow: !false
     },
-
     {
       label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
-
-
     },
     {
       label: "修改人", disabled: "Y", fieldName: "updatedBy", type: "input",
-
-
     },
     {
       label: "创建日期", disabled: "Y", fieldName: "createdDate", type: "date",
-
-
     },
     {
       label: "修改日期", disabled: "Y", fieldName: "updatedDate", type: "date",
-
-
     },
     {
       label: "数据版本号", fieldName: "version", type: "number",
-
-
     },
     {
       label: "是否已逻辑", fieldName: "isDel", type: "number",
-
-
     },
     {
       label: "数据编号", fieldName: "dataNo", type: "input",
-
-
     },
     {
       label: "状态码", fieldName: "statusCode", type: "input",
-
-
     },
     {
       label: "状态码名称", fieldName: "statusName", type: "input",
-
-
     },
     {
       label: "国际码", fieldName: "local", type: "input",
-
-
     },
   ],
-
   stopAutoLoad: true,
 });
 const primaryKey = "idDbinfo";
 const projectMemberRef = ref();
 const rules = {};
-
-
 const dataForm = ref({});
 provide("dataForm", dataForm);
 const dialogProps = reactive<DialogInput>({
@@ -143,9 +113,7 @@ const dialogProps = reactive<DialogInput>({
 });
 provide("dialogProps", dialogProps);
 let permissions = ref<any>({});
-
 const dataFormat = (name: string, cellValue: Object): any => {
-
   return cellValue;
 }
 const init = async () => {
@@ -170,7 +138,6 @@ onMounted(async () => {
   await init();
 })
 </script>
-
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
     <star-horse-form v-model:data-form="dataForm" @refresh="projectMemberRef.loadByPage()" :compUrl="dataUrl"
@@ -196,5 +163,4 @@ onMounted(async () => {
   </el-card>
 </template>
 <style lang="scss" scoped>
-
 </style>

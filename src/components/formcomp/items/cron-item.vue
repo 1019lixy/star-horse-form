@@ -7,7 +7,6 @@
   </star-horse-dialog>
   <starhorse-form-item :isDesign="context.attrs['isDesign']" :form-item="field" :parentField="parentField"
   >
-
     <el-input
         :fid="field.preps['name']"
         :size="field?.preps['size']||'small'"
@@ -21,12 +20,10 @@
     </el-input>
   </starhorse-form-item>
 </template>
-
 <script lang="ts">
 import {defineComponent, onMounted, provide, ref, shallowRef} from "vue";
 import Crontab from "@/components/cron/Crontab.vue";
 import StarHorseDialog from "@/components/comp/StarHorseDialog.vue";
-
 export default defineComponent({
   components: {Crontab, StarHorseDialog},
   setup(props, context) {
@@ -34,7 +31,6 @@ export default defineComponent({
     const formFieldList = context.attrs["formFieldList"];
     const field = context.attrs["field"] as any;
     const defaultExpress = "* * * * * * *";
-
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
     let cronVisible = ref(false);
@@ -44,20 +40,17 @@ export default defineComponent({
       recordNewExpress = val;
     });
     let actionName = shallowRef("change");
-
     const keyEnterFun = (prep: any) => {
       if (prep == actionName.value && field.preps["actionRelation"]) {
         field.preps["actionRelation"](context.attrs['formFieldList'][field.preps['name']], context.attrs['formFieldList']["xh"]);
       }
       context.emit('selfFunc');
     };
-
     const resetForm = () => {
       context.attrs['formFieldList'][field.preps['name']] = defaultExpress;
       if (cronTabRef.value) {
         cronTabRef.value.clearCron();
       }
-
     };
     const close = () => {
       cronVisible.value = false;
@@ -80,10 +73,6 @@ export default defineComponent({
     }
   }
 });
-
-
 </script>
-
 <style scoped>
-
 </style>

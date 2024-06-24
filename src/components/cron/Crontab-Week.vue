@@ -5,13 +5,11 @@
         周，允许的通配符[, - * / L #]
       </el-radio>
     </el-form-item>
-
     <el-form-item>
       <el-radio v-model='radioValue' :label="2" border>
         不指定
       </el-radio>
     </el-form-item>
-
     <el-form-item>
       <el-radio v-model='radioValue' :label="3" border>
         周期
@@ -20,9 +18,7 @@
       <el-input-number v-model='cycle01' :min="1" :max="7"/>
       <span style="margin-left: 10px; margin-right: 5px;">至</span>
       <el-input-number v-model='cycle02' :min="1" :max="7"/>
-
     </el-form-item>
-
     <el-form-item>
       <el-radio v-model='radioValue' :label="4" border> 循环</el-radio>
       <span style="margin-left: 10px; margin-right: 5px;">第</span>
@@ -30,13 +26,11 @@
       <span style="margin-left: 10px; margin-right: 5px;">周的星期</span>
       <el-input-number v-model='average02' :min="1" :max="7"/>
     </el-form-item>
-
     <el-form-item>
       <el-radio v-model='radioValue' :label="5" border>本月最后一个</el-radio>
       <span style="margin-left: 10px; margin-right: 5px;">星期</span>
       <el-input-number v-model='weekday' :min="1" :max="7"/>
     </el-form-item>
-
     <el-form-item>
       <el-radio v-model='radioValue' :label="6" border>
         指定
@@ -45,21 +39,18 @@
         <el-option v-for="(item,index) of weekList" :key="index" :value="index+1" :label="item"/>
       </el-select>
     </el-form-item>
-
   </el-form>
 </template>
 <style lang="scss" scoped>
 .el-select {
   width: 250px;
 }
-
 .el-input-number {
   width: 150px;
 }
 </style>
 <script setup lang="ts" name="crontab-week">
 import {computed, ref, watch} from "vue";
-
 const props = defineProps({
   check: {type: Function},
   cron: {type: Object}
@@ -78,7 +69,6 @@ let checkboxString = ref(0);
 let checkboxList = ref([]);
 let weekList = ref(['周一', '周二', '周三', '周四', '周五', '周六', '周日']);
 let checkNum = ref(props.check);
-
 // 单选按钮值变化时
 const radioChange = () => {
   if (radioValue.value === 1) {
@@ -120,7 +110,6 @@ const radioChange = () => {
   }
 };
 // 根据互斥事件，更改radio的值
-
 // 周期两个值变化时
 const cycleChange = () => {
   if (radioValue.value == 3) {
@@ -170,7 +159,6 @@ watch(() => checkboxString.value,
       immediate: true,
       deep: true
     });
-
 cycleTotal.value = computed(() => cycleTotalFun());
 averageTotal.value = computed(() => averageTotalFun());
 weekdayCheck.value = computed(() => weekdayCheckFun());

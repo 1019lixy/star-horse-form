@@ -7,7 +7,6 @@ import Compliance from "@/views/continus/nodeDetail/Compliance.vue";
   .nav-bar-left {
     width: 81%;
   }
-
   .nav-bar-right {
     justify-items: right;
     align-items: center;
@@ -30,5 +29,4 @@ import Compliance from "@/views/continus/nodeDetail/Compliance.vue";
   <div style="height: 60px;"></div>
   <instance-item-detail @nodeDetail="nodeDetail"></instance-item-detail>
   <compliance/>
-
 </template>

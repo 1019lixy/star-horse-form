@@ -21,26 +21,21 @@
     </el-button>
   </starhorse-form-item>
 </template>
-
 <script lang="ts" name="buttonItem">
 import {defineComponent, onMounted, shallowRef} from "vue";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-
 export default defineComponent({
   components: {StarHorseIcon},
   setup(props, context) {
-
     const parentField = context.attrs["parentField"];
     const formFieldList = context.attrs["formFieldList"] as any;
     const field = context.attrs["field"] as any;
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
     let actionName = shallowRef("click");
-
     onMounted(() => {
       actionName.value = field.preps["actionName"];
     });
-
     const dynamicFunc = (code: any) => {
       if (code) {
         let func = new Function(code);
@@ -51,14 +46,10 @@ export default defineComponent({
         }
         context.emit('selfFunc', context.attrs['formFieldList']);
       }
-
     };
     return {parentField, formFieldList, dynamicFunc, context, field, formItem, dataField}
   }
 });
-
 </script>
-
 <style scoped>
-
 </style>

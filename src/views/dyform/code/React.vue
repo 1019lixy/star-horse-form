@@ -5,11 +5,8 @@ const props = defineProps({
 });
 let code = ``;
 </script>
-
 <template>
   <StarHorseEditor :lang="'vue'" v-model:value="code"/>
 </template>
-
 <style scoped lang="scss">
-
 </style>

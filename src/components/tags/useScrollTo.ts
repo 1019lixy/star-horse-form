@@ -1,5 +1,4 @@
 import {ref, unref} from 'vue'
-
 export interface ScrollToParams {
     el: HTMLElement
     to: number
@@ -7,7 +6,6 @@ export interface ScrollToParams {
     duration?: number
     callback?: () => void
 }
-
 const easeInOutQuad = (t: number, b: number, c: number, d: number) => {
     t /= d / 2
     if (t < 1) {
@@ -19,7 +17,6 @@ const easeInOutQuad = (t: number, b: number, c: number, d: number) => {
 const move = (el: HTMLElement, position: string, amount: number) => {
     el[position] = amount
 }
-
 export function useScrollTo({
                                 el,
                                 position = 'scrollLeft',
@@ -32,7 +29,6 @@ export function useScrollTo({
     const change = to - start
     const increment = 20
     let currentTime = 0
-
     function animateScroll() {
         if (!unref(isActiveRef)) {
             return
@@ -48,15 +44,12 @@ export function useScrollTo({
             }
         }
     }
-
     function run() {
         isActiveRef.value = true
         animateScroll()
     }
-
     function stop() {
         isActiveRef.value = false
     }
-
     return {start: run, stop}
 }

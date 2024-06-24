@@ -10,7 +10,6 @@ import {TabsPaneContext} from "element-plus";
 import {Config} from "@/api/settings";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
-
 let designForm = DesignForm(piniaInstance);
 const starHorseTableCompRef = ref();
 const dataUrl = ref<ApiUrls>({
@@ -56,7 +55,6 @@ const loadFormData = async (formId: string) => {
     closeLoad();
     return;
   }
-
   hasData.value = data && Object.keys(data).length > 0;
   console.log(hasData);
   dataUrl.value = data["dataUrl"] as ApiUrls;
@@ -83,8 +81,6 @@ watch(
     },
     {deep: true}
 );
-
-
 const dataForm = ref({});
 provide("dataForm", dataForm);
 //记录表单的属性
@@ -104,7 +100,6 @@ const dialogProps = reactive<DialogProps>({
 });
 provide("dialogProps", dialogProps);
 let permissions = ref<any>({});
-
 const init = async () => {
   designForm.setIsEdit(false);
   permissions.value = await loadPagePermission(getMenuId())
@@ -117,7 +112,6 @@ onMounted(async () => {
   await init();
 });
 </script>
-
 <template>
   <template v-if="hasData">
     <star-horse-dialog
@@ -162,7 +156,5 @@ onMounted(async () => {
       </el-tabs>
     </el-card>
   </template>
-
 </template>
-
 <style scoped></style>

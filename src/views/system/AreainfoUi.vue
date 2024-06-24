@@ -6,7 +6,6 @@ import {onMounted, provide, reactive, ref} from "vue";
 import {SearchProps} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {getMenuId, loadPagePermission} from "@/api/sh_api.ts";
-
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/system-config/system/areainfo/pageList",
   mergeUrl: "/system-config/system/areainfo/merge",
@@ -22,8 +21,6 @@ const dataUrl: ApiUrls = {
   uploadUrl: "",
   condition: []
 };
-
-
 const searchFormData = reactive<SearchProps[]>([{label: "区域主键", fieldName: "idAreainfo", type: "long"},
   {label: "区域名称", defaultShow: true, fieldName: "areaName", type: "input"},
   {label: "区域编码", fieldName: "areaCode", type: "input"},
@@ -80,8 +77,6 @@ const tableFieldList = reactive<PageFieldInfo>({
     },
     {
       label: "国际码", fieldName: "local", type: "input",
-
-
     },
   ],
   batchFieldList: []
@@ -89,8 +84,6 @@ const tableFieldList = reactive<PageFieldInfo>({
 const primaryKey = "idAreainfo";
 const areainfoRef = ref();
 const rules = {};
-
-
 const dataForm = ref({});
 provide("dataForm", dataForm);
 const dialogProps = reactive<DialogProps>({
@@ -116,7 +109,6 @@ onMounted(() => {
   initData();
 });
 </script>
-
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
     <star-horse-form v-model:data-form="dataForm" @refresh="areainfoRef.loadByPage()" :compUrl="dataUrl"
@@ -142,5 +134,4 @@ onMounted(() => {
   </el-card>
 </template>
 <style lang="scss" scoped>
-
 </style>

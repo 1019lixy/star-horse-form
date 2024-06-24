@@ -8,7 +8,6 @@ import Vue2 from "@/views/dyform/code/Vue2.vue";
 import React from "@/views/dyform/code/React.vue";
 import {postRequest} from "@/api/star_horse.ts";
 import {warning} from "@/utils/message.ts";
-
 let configStore = GlobalConfig(piniaInstance);
 let designForm = DesignForm(piniaInstance);
 let compList = computed(() => designForm.compList);
@@ -35,7 +34,6 @@ onMounted(async () => {
   await init();
 });
 </script>
-
 <template>
   <div class="code-container">
     <el-tabs v-model="tabName">
@@ -51,22 +49,17 @@ onMounted(async () => {
     </el-tabs>
   </div>
 </template>
-
 <style scoped lang="scss">
 .code-container {
   height: 100%;
   overflow: hidden;
-
   :deep(.el-tabs) {
     height: 100%;
-
   }
 }
-
 :deep(.el-tabs__content), .el-tabs__content {
   height: 100%;
 }
-
 :deep(.el-tab-pane), .el-tab-pane {
   height: 100%;
 }

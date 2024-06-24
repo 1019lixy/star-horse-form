@@ -230,7 +230,6 @@ export default {
     'Create Task': '任务节点',
     'Create UserTask': '用户任务节点',
     'Condition Type': '条件类型',
-
     // 左侧工具箱补充汉化项 热水2020.1.12
     'Create Group': '创建组',
     'Create DataObjectReference': '创建数据对象引用',

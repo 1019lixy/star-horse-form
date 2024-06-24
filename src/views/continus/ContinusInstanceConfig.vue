@@ -1,19 +1,13 @@
 <script setup lang="ts" name="ContinusInstanceConfig">
-
 import InstanceItem from "@/views/continus/InstanceItem.vue";
 import {useRouter} from "vue-router";
-
 const router = useRouter();
-
 const addDataFun = () => {
   router.push("/continus/instanceInit");
 };
-
 </script>
 <style lang="scss" scoped>
-
 .config-nav-bar {
-
   .nav-bar-right {
     display: flex;
     position: relative;
@@ -43,7 +37,6 @@ const addDataFun = () => {
         <star-horse-icon icon-class="fa-filter"/>
         <el-tooltip content="筛选">筛选</el-tooltip>
       </el-button>
-
       <el-button @click="btnOperation(3)" link title=""
                  style="background: var(--star-horse-style);color: var(--star-horse-white)">
         <star-horse-icon icon-class="batch-add"/>
@@ -56,9 +49,7 @@ const addDataFun = () => {
       </el-button>
     </div>
   </div>
-
   <div style="height: 60px;"></div>
-
   <instance-item></instance-item>
   <instance-item></instance-item>
   <instance-item></instance-item>
@@ -68,5 +59,4 @@ const addDataFun = () => {
   <instance-item></instance-item>
   <instance-item></instance-item>
   <instance-item></instance-item>
-
 </template>

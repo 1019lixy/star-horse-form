@@ -1,7 +1,6 @@
 import {defineStore} from "pinia";
 import router from "@/router/index";
 import {RouteLocationNormalizedLoaded} from "vue-router";
-
 export const navBarList: any = defineStore("navBarList", {
     state: () => ({
         currentView: {} as RouteLocationNormalizedLoaded,
@@ -45,10 +44,8 @@ export const navBarList: any = defineStore("navBarList", {
                 } else {
                     dataList.push(data);
                 }
-
             }
         },
-
         /**
          * 清除数据
          */

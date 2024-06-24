@@ -6,7 +6,6 @@ import {MenusInfo} from "@/components/types/MenusInfo";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import SubMenu from "@/components/menu/SubMenu.vue";
 import {filterTree} from "@/api/sh_api";
-
 let userInfoStore = userInfo();
 const emits = defineEmits(["collopseOperation"]);
 let leftMenuDatas = ref<MenusInfo[]>([]);
@@ -46,7 +45,6 @@ onMounted(async () => {
   } else {
     leftMenuDatas.value = menus;
   }
-
 });
 watch(
     () => props.isCollapse,
@@ -62,8 +60,6 @@ watch(() => props.sysemId,
     {immediate: false}
 );
 </script>
-
-
 <template>
   <div class="starhorse-menu">
     <el-scrollbar height="100%" class="base">
@@ -96,18 +92,15 @@ watch(() => props.sysemId,
 .popper-class {
   background: var(--star-horse-style);
 }
-
 .starhorse-menu {
   height: 100%;
   width: 100%;
   display: flex;
   flex-direction: column;
-
   .base {
     border-radius: 3px;
     width: 100%;
   }
-
   .menu-button {
     width: 100%;
     display: flex;
@@ -118,31 +111,24 @@ watch(() => props.sysemId,
     height: 26px;
     background: #fff;
     margin-bottom: -1px;
-
     &:hover, svg:hover {
       cursor: pointer;
     }
   }
 }
-
-
 :deep(.el-icon) {
   color: var(--star-horse-style);;
 }
-
 .el-menu {
   min-height: 100%;
   font-size: 13px;
 }
-
 .el-menu-item {
   background: #eee;
   margin-top: 1px;
 }
-
 .menu-active {
 }
-
 :deep(.el-scrollbar__view) {
   height: 100%;
 }

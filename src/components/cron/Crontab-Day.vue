@@ -5,13 +5,11 @@
         日，允许的通配符[, - * / L M]
       </el-radio>
     </el-form-item>
-
     <el-form-item>
       <el-radio v-model='radioValue' :label="2" border>
         不指定
       </el-radio>
     </el-form-item>
-
     <el-form-item>
       <el-radio v-model='radioValue' :label="3" border>
         周期
@@ -21,9 +19,7 @@
       <span style="margin-left: 10px; margin-right: 5px;">至</span>
       <el-input-number v-model='cycle02' :min="0" :max="31"/>
       <span style="margin-left: 10px; margin-right: 5px;">日</span>
-
     </el-form-item>
-
     <el-form-item>
       <el-radio v-model='radioValue' :label="4" border>循环</el-radio>
       <span style="margin-left: 10px; margin-right: 5px;">从</span>
@@ -32,14 +28,12 @@
       <el-input-number v-model='average02' :min="0" :max="31"/>
       <span style="margin-left: 10px; margin-right: 5px;">日执行一次</span>
     </el-form-item>
-
     <el-form-item>
       <el-radio v-model='radioValue' :label="5" border>工作日</el-radio>
       <span style="margin-left: 10px; margin-right: 5px;">每月</span>
       <el-input-number v-model='workday' :min="0" :max="31"/>
       <span style="margin-left: 10px; margin-right: 5px;">号最近的那个工作日</span>
     </el-form-item>
-
     <el-form-item>
       <el-radio v-model='radioValue' :label="6" border>
         本月最后一天
@@ -52,7 +46,6 @@
       <el-select clearable filterable collapse-tags v-model="checkboxList" placeholder="请选择日期" multiple>
         <el-option v-for="item in 31" :key="item" :value="item" :label="item"/>
       </el-select>
-
     </el-form-item>
   </el-form>
 </template>
@@ -60,14 +53,12 @@
 .el-select {
   width: 250px;
 }
-
 .el-input-number {
   width: 150px;
 }
 </style>
 <script setup lang="ts" name="crontab-day">
 import {computed, ref, watch} from "vue";
-
 let radioValue = ref(1);
 let workday = ref(1);
 let cycle01 = ref(1);
@@ -102,7 +93,6 @@ const radioChange = () => {
       emits('update', 'second', '0', 'day');
     }
   }
-
   switch (radioValue.value) {
     case 2:
       emits('update', 'day', '?');
@@ -182,7 +172,6 @@ watch(() => checkboxString.value,
       immediate: true,
       deep: true
     });
-
 cycleTotal.value = computed(() => cycleTotalFun());
 averageTotal.value = computed(() => averageTotalFun());
 workdayCheck.value = computed(() => workdayCheckFun());
@@ -209,5 +198,4 @@ const checkboxStringFun = () => {
   let str = checkboxList.value.join();
   return str == '' ? '*' : str;
 };
-
 </script>

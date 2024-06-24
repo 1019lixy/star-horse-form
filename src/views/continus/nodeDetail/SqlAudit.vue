@@ -1,12 +1,9 @@
 <script setup lang="ts" name="SqlAudit">
 import DataLog from "@/views/continus/nodeDetail/DataLog.vue";
 import {ref} from "vue";
-
 const tabCurrent = ref("second");
 </script>
-
 <style scoped>
-
 </style>
 <template>
   <el-card>

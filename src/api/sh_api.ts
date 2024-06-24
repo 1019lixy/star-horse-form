@@ -8,7 +8,6 @@ import {SelectOption} from "@/components/types/SearchProps";
 import * as ElementPlusIconsVue from '@element-plus/icons-vue';
 import {MenusInfo} from "@/components/types/MenusInfo";
 import {BatchFieldInfo, FieldInfo, PageFieldInfo, TabFieldInfo} from "@/components/types/PageFieldInfo";
-
 let loading: any = null;
 /**
  * 系统接口
@@ -34,7 +33,6 @@ const menuUrl: string = "/system-config/system/menusinfoEntity/getAllTreeDataByC
  * 归属主体
  */
 const customerUrl: string = "/system-config/system/customer/getAllByCondition";
-
 /**
  * 加载Post 数据
  * @param url 接口地址
@@ -44,7 +42,6 @@ export async function loadData(url: string, params: SearchParams[] | any) {
     let data = reactive([]);
     let error = "";
     let cond = params;
-
     if (params instanceof Array) {
         cond = {
             fieldList: params
@@ -64,8 +61,6 @@ export async function loadData(url: string, params: SearchParams[] | any) {
         data, error
     }
 }
-
-
 /**
  * 加载Get 数据
  * @param url 接口地址
@@ -88,7 +83,6 @@ export async function loadGetData(url: string) {
         data, error
     }
 }
-
 /**
  * 加载所有系统信息
  * @param params 查询参数
@@ -110,7 +104,6 @@ export async function loadSystemInfo(params: any) {
     });
     return systemList;
 }
-
 /**
  * 加载所有主体信息
  * @param params 查询参数
@@ -135,7 +128,6 @@ export async function loadCustomInfo(params: any) {
     });
     return customerList;
 }
-
 /**
  * 加载部门信息
  * @param param 查询参数
@@ -154,7 +146,6 @@ export async function loadDepartmentInfo(param: any) {
     }).catch(err => console.error(err));
     return deptData;
 }
-
 /**
  * 获取角色信息
  * @param param
@@ -175,7 +166,6 @@ export async function loadRolesInfo(param: any) {
     }).catch(err => console.error(err))
     return roleData;
 }
-
 /**
  * 加载菜单数据
  * @param direct
@@ -203,8 +193,6 @@ export async function loadMenusInfo(direct: boolean, params: any, needSystem: bo
     });
     return menuDatas;
 }
-
-
 /**
  * 构建菜单树
  * @param data
@@ -222,8 +210,6 @@ export function createTree(data: any, valField: string, name: string, val: strin
     });
     return list;
 }
-
-
 /**
  * 加载框
  */
@@ -236,7 +222,6 @@ export function load(msg: string, defaultTarget?: string = "#app") {
         background: 'rgba(0, 0, 0, 0.7)',
     });
 }
-
 /**
  * 关闭加载框
  */
@@ -246,7 +231,6 @@ export function closeLoad() {
         loading = null;
     }
 }
-
 export function getMenuId() {
     // let temp = router.currentRoute();
     console.log(router.currentRoute);
@@ -258,7 +242,6 @@ export function getMenuId() {
     menuId = menuId.split("_")[1];
     return menuId;
 }
-
 /**
  * 加载权限
  * @param menuId 菜单id
@@ -275,7 +258,6 @@ export async function loadPagePermission(menuId: string) {
     });
     return permission
 }
-
 /**
  * 公共数据格式化
  * @param row
@@ -286,7 +268,6 @@ export async function loadPagePermission(menuId: string) {
 export function commonDataFormat(row: any, column: any, cellValue: any, index: number) {
     return commonParseCodeToName(column.property, cellValue);
 }
-
 /**
  * 下划线转驼峰
  * @param str
@@ -300,7 +281,6 @@ export function convertToCamelCase(str: string) {
         return p1.toUpperCase();
     });
 }
-
 /**
  * 驼峰转下划线
  * @param str
@@ -313,7 +293,6 @@ export function camelCaseToUnderline(str: string) {
         return "_" + match.toLowerCase();
     });
 }
-
 /**
  * 数据格式化
  * @param name
@@ -337,7 +316,6 @@ export function commonParseCodeToName(name: string, cellValue: any) {
         return cellValue;
     }
 }
-
 /**
  * 创建日期
  * @param val
@@ -350,8 +328,6 @@ export function createDate(val: any) {
     let date = new Date(val);
     return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
 }
-
-
 /**
  * 创建年月日时分秒
  * @param val
@@ -368,7 +344,6 @@ export function createDatetime(val: any) {
     let minute = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
     return date.getFullYear() + "-" + m1 + "-" + day + " " + hour + ":" + minute;
 }
-
 /**
  * 加载Id数据
  * @param url
@@ -390,8 +365,6 @@ export async function loadById(url: string, id: any, isView: boolean, params: an
     });
     return objData;
 };
-
-
 /**
  * 根据Id删除数据
  * @param url
@@ -430,8 +403,6 @@ export async function deleteByIds(url: string, ids: any) {
     });
     return objData;
 };
-
-
 /**
  * 根据字典类别获取字典数据
  * @param dictType 字典类别
@@ -443,7 +414,6 @@ export async function dictData(dictType: string) {
         "value": dictType
     });
     let dicts: SelectOption[] = [];
-
     await postRequest(dictUrl, {fieldList: query}).then(res => {
         let redata = res.data;
         if (redata.code == 0) {
@@ -451,13 +421,11 @@ export async function dictData(dictType: string) {
                 dicts.push({name: item.dictName, value: item.dictCode});
             });
         }
-
     }).catch((err: any) => {
         console.log("接口不存在或网络异常", err);
     });
     return dicts;
 }
-
 /**
  * 加载ElementPlus 提供的官方矢量图标
  */
@@ -468,7 +436,6 @@ export function loadElementPlusIcon() {
     }
     return menuIconList;
 }
-
 /**
  * 数据匹配方式
  */
@@ -485,7 +452,6 @@ export function searchMatchList(): SelectOption[] {
     data.push({name: "范围", value: "bt"});
     return data;
 }
-
 /**
  * 复制数据
  * @param msg
@@ -498,7 +464,6 @@ export function copy(msg: string) {
         error("复制失败");
     });
 }
-
 /**
  * 表格序号
  * @param row
@@ -507,7 +472,6 @@ export function copy(msg: string) {
 export function rowClassName({row, rowIndex}: any) {
     row.xh = rowIndex + 1
 };
-
 /**
  * 创建条件
  */
@@ -515,7 +479,6 @@ export function createCondition(name: string, val: any, matchType: string | null
     let params: SearchParams = {propertyName: name, value: val, operation: matchType || "eq"};
     return params;
 }
-
 /**
  * 动态过滤数据
  * @param search
@@ -538,7 +501,6 @@ export function filterTree(search: any, menusList: MenusInfo[]): MenusInfo[] {
     const cleanFilteredTree = JSON.parse(JSON.stringify(filteredTree))
     return cleanFilteredTree;
 }
-
 /**
  * 设置css 全局变量
  * @param name 变量名称
@@ -548,7 +510,6 @@ export function filterTree(search: any, menusList: MenusInfo[]): MenusInfo[] {
 export function setCssVar(name: string, val: any, dom = document.documentElement) {
     dom.style.setProperty(name, val);
 }
-
 /**
  * 获取关联属性逻辑
  * @param formFields 表单属性
@@ -558,7 +519,6 @@ export function setCssVar(name: string, val: any, dom = document.documentElement
  */
 export function relationFieldOperation(formFields: any, fieldName: string, batchName: string | null, xh: number | null): any {
     if (batchName) {
-
         let tempList = formFields[batchName];
         for (let index in tempList) {
             const tmpIndex = +index;
@@ -576,9 +536,7 @@ export function relationFieldOperation(formFields: any, fieldName: string, batch
     } else {
         return formFields[fieldName].value;
     }
-
 }
-
 /**
  * 解析表单字段映射
  * @param fieldList
@@ -681,7 +639,6 @@ export function formFieldMapping(fieldList: PageFieldInfo) {
     defaultDatas = {...defaultDatas, ...batchDefaultValues};
     return {defaultDatas, mappingFields, batchDefaultValues, actions};
 }
-
 /**
  * 批量列表数据默认值
  * @param datas

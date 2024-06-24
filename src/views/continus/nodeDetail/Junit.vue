@@ -1,8 +1,6 @@
 <script setup lang="ts" name="Junit">
 </script>
-
 <style scoped>
-
 </style>
 <template>
   <el-tabs>

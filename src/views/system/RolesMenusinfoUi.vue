@@ -22,7 +22,6 @@ const dataUrl: ApiUrls = {
   uploadUrl: "",
   condition: []
 };
-
 //查询属性
 const searchFormData = reactive<SearchProps[]>([
   {
@@ -46,133 +45,95 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       fieldName: "idRolesMenusinfo",
       type: "long",
       required: true,
-
-
     },
     {
       label: "角色Id",
       fieldName: "idRolesinfo",
       type: "long",
       required: true,
-
-
     },
     {
       label: "系统Id",
       fieldName: "idInformations",
       type: "long",
-
-
     },
     {
       label: "菜单Id",
       fieldName: "idMenusinfo",
       type: "long",
       required: true,
-
-
     },
     {
       label: "系统名称",
       fieldName: "sysName",
       type: "input",
-
-
       tableShow: !false,
-
     },
     {
       label: "菜单名称",
       fieldName: "menuName",
       type: "input",
       required: true,
-
       tableShow: !false,
-
     },
     {
       label: "创建人", disabled: "Y",
       fieldName: "createdBy",
       type: "input",
-
-
     },
     {
       label: "修改人", disabled: "Y",
       fieldName: "updatedBy",
       type: "input",
-
-
     },
     {
       label: "创建时间",
       fieldName: "createdDate",
       type: "date",
-
-
     },
     {
       label: "修改时间",
       fieldName: "updatedDate",
       type: "date",
-
-
     },
     {
       label: "版本号",
       fieldName: "version",
       type: "number",
-
-
     },
     {
       label: "是否逻辑删除",
       fieldName: "isDel",
       type: "number",
-
-
     },
     {
       label: "数据编号",
       fieldName: "dataNo",
       type: "input",
-
-
     },
     {
       label: "数据状态码",
       fieldName: "statusCode",
       type: "input",
-
-
     },
     {
       label: "数据状态名称",
       fieldName: "statusName",
       type: "input",
-
-
     },
     {
       label: "国际码",
       fieldName: "local",
       type: "input",
-
-
     },
   ],
-
-
   cellEditable: false,
-
 });
 //主键
 const primaryKey = "idRolesMenusinfo";
 const rolesMenusinfoRef = ref();
 //校验
 const rules = {};
-
-
 const dataForm = ref({});
 //全局数据对象
 provide("dataForm", dataForm);
@@ -185,7 +146,6 @@ const dialogProps = reactive<DialogProps>({
   editVisible: false,
   uploadVisible: false,
   viewVisible: false,
-
   bakeVisible1: false, bakeVisible2: false, bakeVisible3: false
 });
 provide("dialogProps", dialogProps);
@@ -208,7 +168,6 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
   return cellValue;
 }
 </script>
-
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
     <star-horse-form v-model:data-form="dataForm" @refresh="rolesMenusinfoRef.loadByPage()" :compUrl="dataUrl"
@@ -237,5 +196,4 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
   </el-card>
 </template>
 <style lang="scss" scoped>
-
 </style>

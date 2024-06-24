@@ -36,7 +36,6 @@ const formActions = [
         key: 'reDo',
         label: '前进一步',
     },
-
     {
         icon: "valid",
         key: 'valid',
@@ -57,7 +56,6 @@ const formActions = [
         key: 'save',
         label: '保存',
     },
-
     {
         icon: "right_panel",
         defaultEdit: true,

@@ -6,7 +6,6 @@ import {postRequest} from "@/api/star_horse";
 import {closeLoad, load, loadById} from "@/api/sh_api";
 import {DialogProps} from "@/components/types/DialogProps";
 import {ShallowReactive} from "@vue/reactivity";
-
 const props = defineProps({
   compUrl: {type: Object as PropType<ApiUrls>, required: true},
   fieldList: {type: Object as PropType<any>, required: true},
@@ -67,7 +66,6 @@ watch(() => dialogProps.ids,
       immediate: true,
       deep: true
     });
-
 const merge = (type: string) => {
   starHorseFormRef.value.validate((result: boolean) => {
     if (!result) {
@@ -76,12 +74,10 @@ const merge = (type: string) => {
     doMerge();
   });
 };
-
 const mergeDraft = (type: string) => {
   console.log("mergeDraft", type)
   doMerge();
 };
-
 const doMerge = () => {
   load("数据处理中");
   postRequest(props.compUrl.mergeUrl, dataForm.value).then(res => {
@@ -109,7 +105,6 @@ defineExpose({
   merge, mergeDraft, resetForm, assignDefault
 });
 </script>
-
 <style scoped></style>
 <template>
   <el-form :model="dataForm" :rules="rules" class="data-form" ref="starHorseFormRef"

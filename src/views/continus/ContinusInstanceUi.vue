@@ -6,7 +6,6 @@ import {Config} from "@/api/settings.js";
 import {DialogProps} from "element-plus";
 import {DialogInput} from "@/components/types/PageFieldInfo";
 import {getMenuId, loadPagePermission} from "@/api/sh_api.ts";
-
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/devops-continus/continus/continusInstance/pageList",
   mergeUrl: "/devops-continus/continus/continusInstance/merge",
@@ -30,8 +29,6 @@ const tableFieldList = reactive({
   fieldList: [
     {
       label: "主键", fieldName: "idContinusInst", type: "long",
-
-
     }, {
       label: "实例名称", fieldName: "instanceName", type: "input",
       required: true, formShow: !false,
@@ -52,7 +49,6 @@ const tableFieldList = reactive({
       required: true, formShow: !false,
       tableShow: !false
     },
-
       {
         label: "Cron定时触发执行", fieldName: "cron", type: "cron",
         required: true, formShow: !false,
@@ -68,61 +64,39 @@ const tableFieldList = reactive({
         required: true, formShow: !false,
         tableShow: !false
       }],
-
     {
       label: "备注", fieldName: "remark", type: "textarea",
       formShow: true,
-
     },
     {
       label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
-
-
     },
     {
       label: "修改人", disabled: "Y", fieldName: "updatedBy", type: "input",
-
-
     },
     {
       label: "创建日期", disabled: "Y", fieldName: "createdDate", type: "date",
-
-
     },
     {
       label: "修改日期", disabled: "Y", fieldName: "updatedDate", type: "date",
-
-
     },
     {
       label: "数据版本号", fieldName: "version", type: "number",
-
-
     },
     {
       label: "是否已逻辑", fieldName: "isDel", type: "number",
-
-
     },
     {
       label: "数据编号", fieldName: "dataNo", type: "input",
-
-
     },
     {
       label: "状态码", fieldName: "statusCode", type: "input",
-
-
     },
     {
       label: "状态码名称", fieldName: "statusName", type: "input",
-
-
     },
     {
       label: "国际码", fieldName: "local", type: "input",
-
-
     },
   ],
   batchFieldList: []
@@ -130,8 +104,6 @@ const tableFieldList = reactive({
 const primaryKey = "idContinusInst";
 const environmentInfoRef = ref();
 const rules = {};
-
-
 const dataForm = ref({});
 provide("dataForm", dataForm);
 const dialogProps = reactive<DialogInput>({
@@ -147,18 +119,15 @@ const dialogProps = reactive<DialogInput>({
 provide("dialogProps", dialogProps);
 let permissions = ref<any>({});
 const dataFormat = (name: string, cellValue: Object): any => {
-
   return cellValue;
 }
 const init = async () => {
   permissions.value = await loadPagePermission(getMenuId())
 };
-
 onMounted(async () => {
   await init();
 })
 </script>
-
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
     <star-horse-form v-model:data-form="dataForm" @refresh="environmentInfoRef.loadByPage()" :compUrl="dataUrl"
@@ -186,6 +155,4 @@ onMounted(async () => {
   </el-card>
 </template>
 <style lang="scss" scoped>
-
 </style>
-

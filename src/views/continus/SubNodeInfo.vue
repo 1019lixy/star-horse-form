@@ -1,13 +1,9 @@
 <script setup lang="ts" name="SubNodeInfo">
 import {ref} from "vue";
-
-
 const nodeInfo = ref<any>({});
 const successFlag = ref<number>(2);
 const errorFlag = ref<number>(2);
-
 </script>
-
 <style lang="scss" scoped>
 .report-switch {
   display: block;
@@ -15,11 +11,9 @@ const errorFlag = ref<number>(2);
   vertical-align: middle;
   margin-left: 15px;
 }
-
 .report-content {
   margin: 0 20px;
 }
-
 .el-sub-menu {
   margin-top: 10px;
   border: 1px solid #e8e8e8;
@@ -196,7 +190,6 @@ const errorFlag = ref<number>(2);
             </el-form-item>
           </div>
         </el-sub-menu>
-
       </el-menu>
     </el-card>
   </el-card>

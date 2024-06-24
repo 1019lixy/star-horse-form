@@ -2,7 +2,6 @@
 import {onMounted, ref} from "vue";
 import NodePropertyPanel from "@/views/jbpm/panel/NodePropertyPanel.vue";
 import ProcessPropertyPanel from "@/views/jbpm/panel/ProcessPropertyPanel.vue";
-
 const props = defineProps({
   modeler: {
     type: Object,
@@ -110,10 +109,7 @@ const modifyFormData = (data: any) => {
   formData.value.assignee = data.assignee;
   formData.value.userType = data.userType;
 };
-
 </script>
-
-
 <template>
   <div class="bpmn-panel">
     <el-container>
@@ -125,7 +121,6 @@ const modifyFormData = (data: any) => {
         </div>
       </el-header>
       <el-main>
-
         <node-property-panel :formData="formData" :modeler="modeler" :nodeElement="nodeElement"
                              @modifyConfigTab="modifyConfigTab" @modifyFormData="modifyFormData"
                              v-if="configTab=='node'"/>
@@ -133,7 +128,6 @@ const modifyFormData = (data: any) => {
                                 v-if="configTab=='process'"/>
       </el-main>
     </el-container>
-
   </div>
 </template>
 <style lang="scss" scoped>
@@ -142,12 +136,10 @@ const modifyFormData = (data: any) => {
   border: 1px solid #eeeeee;
   padding: 0 5px;
 }
-
 .el-header {
   border-bottom: solid 2px #e4e7ed;
   padding: 0;
 }
-
 .config-tab {
   height: 43px;
   line-height: 43px;
@@ -159,31 +151,25 @@ const modifyFormData = (data: any) => {
   position: relative;
   cursor: pointer;
 }
-
 .config-tab.active {
   border-bottom: solid 2px #409EFF;
 }
-
 .bpmn-panel {
   width: 370px;
   border: 1px solid #eeeeee;
   padding: 0 5px;
 }
-
 .el-select--small {
   width: 100%;
 }
-
 .el-dialog > .el-dialog__header {
   padding: 5px 20px;
 }
-
 .el-dialog > .el-dialog__body {
   padding: 0px;
   margin: 0 20px;
   border: 1px solid #cccccc;
 }
-
 .default-undo {
   color: #c0c4cc;
 }

@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import {onMounted, ref} from "vue";
-
 const props = defineProps({
   height: {type: Object, default: "100%"},
   width: {type: Object, default: "100%"}
@@ -10,7 +9,6 @@ let ctx = ref();
 let isDrawing = ref(false);
 let startX = ref<Number>(0);
 let startY = ref<Number>(0);
-
 /**
  * @Event 方法
  * @description: canvas 绘制网格背景
@@ -86,7 +84,6 @@ const drawCycle = () => {
   //   context.fillText(temp.school, width * index++, i * height + 15);
   //   context.fillText(temp.address, width * index++, i * height + 15);
   // }
-
 };
 const resize = () => {
   let container = document.getElementById("container");
@@ -105,9 +102,7 @@ const init = async () => {
   draw();
   // ctx.value.setTransform(ratio, 0, 0, ratio, 0, 0);
   // drawGrid("rgba(238,238,238,0.6)", 10, 10, "#333", 0, 0);
-
 };
-
 onMounted(() => {
   init();
   window.onresize = resize;
@@ -119,7 +114,6 @@ const drawGrid = (e, i) => {//e表示每两条线的间隔距离值；i颜色值
   let scale = info.scale || 1;
   context.beginPath();
   //为优化性能，控制只绘制当前画面大小的网格线
-
   let winInfo = {
     width: starHorseChartRef.value.clientWidth,
     height: starHorseChartRef.value.clientHeight,
@@ -134,7 +128,6 @@ const drawGrid = (e, i) => {//e表示每两条线的间隔距离值；i颜色值
   windowViewPoints.push({x: viewMaxx, y: viewMaxy});
   windowViewPoints.push({x: viewMinx, y: viewMaxy});
   windowViewPoints.push({x: viewMaxx, y: viewMiny});
-
   let minX = 0, maxX = 0, minY = 0, maxY = 0;//最大、最新 x y值
   let tt: DOMMatrix = document.createElementNS("http://www.w3.org/2000/svg", "svg");
   let n = tt.createSVGMatrix();
@@ -197,7 +190,6 @@ const draw = () => {
   ctx.value.clearRect(0, 0, starHorseChartRef.value.width, starHorseChartRef.value.height);//清空画布
   drawGrid(t, i + 0.03);//绘制小格子
   drawGrid(t * 4, .21 - i);//绘制大格子
-
 };
 const onMouseDown = (event: MouseEvent) => {
   isDrawing.value = true;
@@ -252,7 +244,6 @@ const onMouseUp = (event: MouseEvent) => {
   isDrawing.value = false;
 };
 </script>
-
 <template>
   <div id="container" class="canvas-container">
     <canvas ref="starHorseChartRef" @mousedown="onMouseDown" @mousemove=
@@ -260,7 +251,6 @@ const onMouseUp = (event: MouseEvent) => {
             @mouseup="onMouseUp" style="border: 1px solid #ccc;"></canvas>
   </div>
 </template>
-
 <style scoped lang="scss">
 .canvas-container {
   height: 100%;

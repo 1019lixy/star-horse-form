@@ -6,7 +6,6 @@ import {SearchProps, SelectOption} from "@/components/types/SearchProps";
 import {getMenuId, loadGetData, loadPagePermission} from "@/api/sh_api";
 import {warning} from "@/utils/message";
 import {Config} from "@/api/settings";
-
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/dbsearch-manage/dbsearch/dbinfoEntity/pageList",
   mergeUrl: "/dbsearch-manage/dbsearch/dbinfoEntity//merge",
@@ -21,19 +20,15 @@ const dataUrl: ApiUrls = {
   uploadUrl: "/dbsearch-manage/dbsearch/dbinfoEntity/importData",
   importUrl: ""
 };
-
-
 let dbTypeList = ref<SelectOption[]>([]);
 const searchFormData = reactive<SearchProps[]>([
-  {label: "数据库类型", fieldName: "dbType", type: "select", optionList: dbTypeList},
-  {label: "数据库名称", fieldName: "dbName", type: "input", matchType: "lk"},
+  {label: "数据库类型", fieldName: "dbType", type: "select", defaultShow:true, optionList: dbTypeList},
+  {label: "数据库名称", fieldName: "dbName", type: "input", defaultShow:true, matchType: "lk"},
 ]);
 const tableFieldList = reactive({
   fieldList: [
     {
       label: "主键", fieldName: "idDbinfo", type: "long",
-
-
     },
     {
       label: "数据库类型", fieldName: "dbType", type: "select", optionList: dbTypeList,
@@ -77,53 +72,33 @@ const tableFieldList = reactive({
     },
     {
       label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
-
-
     },
     {
       label: "修改人", disabled: "Y", fieldName: "updatedBy", type: "input",
-
-
     },
     {
       label: "创建日期", disabled: "Y", fieldName: "createdDate", type: "date",
-
-
     },
     {
       label: "修改日期", disabled: "Y", fieldName: "updatedDate", type: "date",
-
-
     },
     {
       label: "数据版本号", fieldName: "version", type: "number",
-
-
     },
     {
       label: "是否已逻辑", fieldName: "isDel", type: "number",
-
-
     },
     {
       label: "数据编号", fieldName: "dataNo", type: "input",
-
-
     },
     {
       label: "状态码", fieldName: "statusCode", type: "input",
-
-
     },
     {
       label: "状态码名称", fieldName: "statusName", type: "input",
-
-
     },
     {
       label: "国际码", fieldName: "local", type: "input",
-
-
     },
   ],
   batchFieldList: []
@@ -131,8 +106,6 @@ const tableFieldList = reactive({
 const primaryKey = "idDbinfo";
 const dbinfoRef = ref();
 const rules = {};
-
-
 const dataForm = ref({});
 provide("dataForm", dataForm);
 const dialogProps = reactive<DialogProps>({
@@ -175,7 +148,6 @@ onMounted(() => {
 });
 </script>
 <style lang="scss" scoped>
-
 </style>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">

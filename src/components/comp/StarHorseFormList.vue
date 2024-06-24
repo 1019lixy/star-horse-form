@@ -11,7 +11,6 @@ import {getToken} from "@/utils/auth";
 import Sortable from "sortablejs";
 import Help from "@/components/help.vue";
 import {ShallowReactive} from "@vue/reactivity";
-
 let importDialogVisible = ref<boolean>(false);
 const props = defineProps({
   compUrl: {type: Object as PropType<ApiUrls>, required: true},
@@ -49,7 +48,6 @@ const init = async () => {
     }
   }
   moveColumn();
-
 };
 const handleAddDetails = (row: any, type: number) => {
   if (!dataForm.value[props.batchName]) {
@@ -107,15 +105,11 @@ const uploadSuccess = (response: any, file, fileList) => {
   success("导入成功");
   dataForm.value[props.batchName] = response.data;
   importDialogVisible.value = false;
-
 };
-
 let currentItem = ref<any>({});
 const selectData = (item: any) => {
   currentItem.value = item;
 };
-
-
 const moveColumn = () => {
   const tbody = document.querySelector(
       ".sh-columns .el-table__body-wrapper tbody"
@@ -184,7 +178,6 @@ const moveColumn = () => {
           </div>
         </template>
       </el-upload>
-
     </el-card>
   </star-horse-dialog>
   <div class="form-list">
@@ -258,7 +251,6 @@ const moveColumn = () => {
           </el-tag>
         </template>
       </el-table-column>
-
       <template v-for="item in fieldList">
         <el-table-column
             :prop="item.fieldName"
@@ -318,46 +310,36 @@ const moveColumn = () => {
   justify-content: center;
   line-height: 30px;
   border: 1px dotted #eee;
-
   &:hover {
     cursor: pointer;
     border: 1px dotted var(--star-horse-style);
   }
 }
-
 :deep(.el-table__cell) {
   padding: 0;
 }
-
 .form-list {
   display: flex;
   flex-direction: column;
-
   .inner_button {
     margin-bottom: 5px;
   }
-
   .el-table {
     flex: 1;
   }
 }
-
-
 :deep(th.el-table__cell:first-child) {
   padding: 5px 0;
 }
-
 :deep(.el-form-item) {
   font-size: 11px;
   margin-bottom: 1px;
   width: 100%;
 }
-
 :deep(.el-input__inner ), :deep(el-select) {
   height: 25px;
   font-size: 12px;
 }
-
 :deep(.el-select) {
   line-height: 25px;
 }

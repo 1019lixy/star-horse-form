@@ -6,13 +6,11 @@
         :options="particles"/>-->
   <RouterView/>
 </template>
-
 <script lang="ts" setup>
 import {onMounted} from "vue";
 import {userInfo as userinfoStore} from "@/store/UserInfoStore";
 import {getUserInfo} from "@/utils/auth";
 import {loadSlim} from "tsparticles-slim";
-
 const userInfoStore = userinfoStore();
 let userInfo = getUserInfo();
 const closeAction = () => {
@@ -26,12 +24,10 @@ const closeAction = () => {
 onMounted(() => {
   closeAction();
 });
-
 const particlesInit = async engine => {
   //await loadFull(engine);
   await loadSlim(engine);
 };
-
 const particlesLoaded = async container => {
   console.log("Particles container loaded", container);
 };

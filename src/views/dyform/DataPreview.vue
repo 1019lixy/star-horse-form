@@ -1,7 +1,6 @@
 <script setup lang="ts" name="DataPreview">
 import {onMounted, ref, watch} from "vue";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-
 const props = defineProps({
   item: {type: Object, default: {}},
   columns: {type: Array<any>, default: []},
@@ -18,7 +17,6 @@ const tableCompFunc = (func: any) => {
   } else if (func == "exportData") {
     emits("exportData");
   } else if (func == "exec") {
-
   }
 };
 const createCreateParams = (formData: any) => {
@@ -38,7 +36,6 @@ watch(() => props.columns,
       initData()
     }, {immediate: true, deep: true})
 const viewDataDetail = () => {
-
 };
 const resultDataFormat = (row: any, column: any, val: any) => {
   return val;
@@ -53,7 +50,6 @@ defineExpose({
   createCreateParams
 })
 </script>
-
 <template>
   <div style="width: 100%;display: flex;flex-direction: row-reverse">
     <el-popover
@@ -122,7 +118,6 @@ defineExpose({
       </el-table>
     </el-popover>
   </div>
-
   <el-table
       :data="item.dataList"
       id="'previewResultId'"
@@ -150,7 +145,6 @@ defineExpose({
     }"
       border
   >
-
     <template v-for="(scols,key) in columns">
       <template v-for="(pp, index) in scols">
         <el-table-column
@@ -176,7 +170,5 @@ defineExpose({
       v-model:page-size="item.pageSize"
   />
 </template>
-
 <style scoped lang="scss">
-
 </style>

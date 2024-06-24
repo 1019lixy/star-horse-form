@@ -238,75 +238,63 @@
         <el-input clearable placeholder="请输入主键"
                   v-model="ruleForm.idToolCategory"></el-input>
       </el-form-item>
-
       <el-form-item label="工具名称" prop="toolName"
                     required v-if="!false">
         <el-input clearable placeholder="请输入工具名称"
                   v-model="ruleForm.toolName"></el-input>
       </el-form-item>
-
       <el-form-item label="工具编码" prop="toolCode"
                     required v-if="!false">
         <el-input clearable placeholder="请输入工具编码"
                   v-model="ruleForm.toolCode"></el-input>
       </el-form-item>
-
       <el-form-item label="工具描述" prop="toolDesc"
                     required v-if="!false">
         <el-input clearable placeholder="请输入工具描述"
                   v-model="ruleForm.toolDesc"></el-input>
       </el-form-item>
-
       <el-form-item label="发行版本" prop="toolVersion"
                     required v-if="!false">
         <el-input clearable placeholder="请输入发行版本"
                   v-model="ruleForm.toolVersion"></el-input>
       </el-form-item>
-
       <el-form-item label="修改人" prop="updatedBy"
                     v-if="!true">
         <el-input clearable placeholder="请输入修改人"
                   v-model="ruleForm.updatedBy"></el-input>
       </el-form-item>
-
       <el-form-item label="修改时间" prop="updatedDate"
                     v-if="!true">
         <el-date-picker clearable placeholder="请选择修改时间" type="date"
                         v-model="ruleForm.updatedDate">
         </el-date-picker>
       </el-form-item>
-
       <el-form-item label="创建人" prop="createdBy"
                     v-if="!true">
         <el-input clearable placeholder="请输入创建人"
                   v-model="ruleForm.createdBy"></el-input>
       </el-form-item>
-
       <el-form-item label="创建时间" prop="createdDate"
                     v-if="!true">
         <el-date-picker clearable placeholder="请选择创建时间" type="date"
                         v-model="ruleForm.createdDate">
         </el-date-picker>
       </el-form-item>
-
       <el-form-item label="数据编号" prop="dataNo"
                     v-if="!true">
         <el-input clearable placeholder="请输入数据编号"
                   v-model="ruleForm.dataNo"></el-input>
       </el-form-item>
-
       <el-form-item label="是否删除 1 是 2 否 默认2" prop="isDel"
                     v-if="!true">
         <el-input-number clearable placeholder="请输入是否删除 1 是 2 否 默认2"
                          v-model="ruleForm.isDel"/>
       </el-form-item>
-
       <el-form-item label="状态名称" prop="statusName"
                     v-if="!true">
         <el-input clearable placeholder="请输入状态名称"
                   v-model="ruleForm.statusName"></el-input>
       </el-form-item>
-
       <el-form-item label="状态编码" prop="statusCode"
                     required v-if="!false">
         <el-select placeholder="请选择状态编码" v-model="ruleForm.statusCode">
@@ -320,7 +308,6 @@
           </el-option>
         </el-select>
       </el-form-item>
-
     </el-form>
   </star-horse-dialog>
   <star-horse-dialog :is-view="true" :title="'查看数据'" :visible="viewVisible">
@@ -449,7 +436,6 @@
             <star-horse-icon icon-class="excel-upload"/>
             <el-tooltip content="上传">上传</el-tooltip>
           </el-button>
-
         </el-upload>
       </li>
       <li v-if="permission.export">
@@ -614,13 +600,9 @@
   </el-card>
 </template>
 <style lang="scss" scoped>
-
 </style>
 <script setup lang="ts" name="ToolsCategories">
-
-
 import {ApiUrls} from "@/components/types/ApiUrls";
-
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/devops-continus/continus/toolsCategories/pageList",
   mergeUrl: "/devops-continus/continus/toolsCategories/merge",
@@ -635,7 +617,6 @@ const dataUrl: ApiUrls = {
   importUrl: "/devops-continus/continus/toolsCategories/importData",
   uploadUrl: ""
 };
-
 const dataFormat = (row, column, cellValue, index) => {
   //cellValue = commonDataFormat(row, column, cellValue, index);
   return cellValue;
