@@ -51,7 +51,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       required: true,
 
 
-      minWidth: 180
     },
     {
       label: "主体名称",
@@ -60,17 +59,17 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       required: true,
       formShow: !false,
       tableShow: !false,
-      minWidth: 180
+
     },
     {
       label: "主体编码",
       fieldName: "customerCode",
       type: "input",
-      disabled:"Y",
+      disabled: "Y",
 
 
       tableShow: !false,
-      minWidth: 180
+
     },
     {
       label: "Logo",
@@ -79,7 +78,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       formShow: !false,
       tableShow: !false,
-      minWidth: 180,
+
       optionList: systemIconList,
     },
     {
@@ -89,27 +88,23 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       formShow: !false,
       tableShow: !false,
-      minWidth: 180
+
     },
 
 
     {
-      label: "创建人", disabled:"Y",
+      label: "创建人", disabled: "Y",
       fieldName: "createdBy",
       type: "input",
 
 
-
-      minWidth: 180
     },
     {
-      label: "修改人", disabled:"Y",
+      label: "修改人", disabled: "Y",
       fieldName: "updatedBy",
       type: "input",
 
 
-
-      minWidth: 180
     },
     {
       label: "创建时间",
@@ -117,8 +112,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "date",
 
 
-
-      minWidth: 180
     },
     {
       label: "修改时间",
@@ -126,8 +119,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "date",
 
 
-
-      minWidth: 180
     },
     {
       label: "版本号",
@@ -135,8 +126,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "number",
 
 
-
-      minWidth: 180
     },
     {
       label: "是否逻辑删除",
@@ -144,8 +133,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "number",
 
 
-
-      minWidth: 180
     },
     {
       label: "数据编号",
@@ -153,8 +140,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "input",
 
 
-
-      minWidth: 180
     },
     {
       label: "状态码",
@@ -162,8 +147,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "input",
 
 
-
-      minWidth: 180
     },
     {
       label: "状态名称",
@@ -171,8 +154,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "input",
 
 
-
-      minWidth: 180
     },
     {
       label: "国际码",
@@ -180,23 +161,20 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "input",
 
 
-
-      minWidth: 180
     },
   ],
-  batchFieldList: [],
-  userTableFuncs: [],
+
+
   cellEditable: false,
-  stopAutoLoad: false
+
 });
 //主键
 const primaryKey = "idCustomer";
 const customerRef = ref();
 //校验
 const rules = {};
-const searchForm = ref({});
-//全局查询对象
-provide("searchForm", searchForm);
+
+
 const dataForm = ref({});
 //全局数据对象
 provide("dataForm", dataForm);
@@ -243,10 +221,10 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
   </star-horse-dialog>
   <el-card class="inner_content">
     <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
-      <star-horse-search-comp @searchData="(data)=>customerRef.createCreateParams(data)" :formData="searchFormData"
+      <star-horse-search-comp @searchData="(data:any)=>customerRef.createCreateParams(data)" :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
-      <star-horse-button-list @tableCompFunc="(fun)=>customerRef.tableCompFunc(fun)" :compUrl="dataUrl"
+      <star-horse-button-list @tableCompFunc="(fun:any)=>customerRef.tableCompFunc(fun)" :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
     <hr>

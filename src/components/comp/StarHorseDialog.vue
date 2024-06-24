@@ -1,5 +1,5 @@
 <script setup lang="ts" name="StarHorseDialog">
-import {computed, onMounted, provide, ref, watch, reactive, PropType} from "vue";
+import {computed, onMounted, PropType, provide, reactive, ref, watch} from "vue";
 import {DialogProps} from "@/components/types/DialogProps";
 import {i18n} from "@/lang";
 

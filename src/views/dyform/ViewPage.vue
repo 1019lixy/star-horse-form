@@ -36,16 +36,15 @@ const dataUrl = ref<ApiUrls>({
 const errorMsg = ref("数据加载中");
 let searchFormData = ref<SearchProps[]>([]);
 const tableFieldList = ref<any>({
-  fieldList: [],
-  batchFieldList: [],
-  userTableFuncs: [],
-  stopAutoLoad: false,
-});
+      fieldList: [],
+    })
+;
 /**
  * 表单数据直接取定义的数据preps,
  * 列表数据重新定义，方便排序和位置拖拽
  */
 const primaryKey = ref<string>("");
+const viewSearchRef = ref();
 const rules = ref<any>({});
 const hasData = ref<boolean>(false);
 const formInfo = ref<any>({});
@@ -56,12 +55,13 @@ const clear = () => {
 };
 const exportData = () => {
   load("数据处理中");
+
   let params = {
-    fieldList: analysisSearchData(searchForm.value, searchFormData.value),
+    fieldList: viewSearchRef.value.createCreateParams(searchFormData.value),
     pageSize: 100,
     currentPage: 1
   }
-  download(dataUrl.value.exportAllUrl, params).catch(err => {
+  download(dataUrl.value!.exportAllUrl, params).catch(err => {
     error("接口不存在或网络异常:" + err);
   }).finally(() => {
     closeLoad();
@@ -77,7 +77,7 @@ const loadColumnFields = async () => {
 }
 const loadFormData = async (currentPage: number, pageSize: number) => {
   let {viewDatas, error} = await viewDataList(props.param, currentPage, pageSize,
-      analysisSearchData(searchForm.value, searchFormData.value));
+      analysisSearchData(viewSearchRef.value?.searchForm || {}, searchFormData.value));
   if (error) {
     errorMsg.value = error;
     hasData.value = false;
@@ -94,7 +94,6 @@ watch(
     (val) => {
       clear();
       try {
-
         if (props.param) {
           load("数据加载中。。。");
           loadColumnFields();
@@ -113,9 +112,10 @@ onMounted(() => {
   loadColumnFields();
   loadFormData(1, 20);
 });
-const searchForm = ref({});
-provide("searchForm", searchForm);
+
+
 const dataForm = ref({});
+
 provide("dataForm", dataForm);
 //记录表单的属性
 const formFields = reactive<Array<any>>([]);
@@ -161,8 +161,10 @@ const dataFormat = (name: string, cellValue: Object): any => {
       />
     </star-horse-dialog>
     <el-card class="inner_content">
-      <div class="search_btn" :style="{'display':'flex', 'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
-        <star-horse-search-comp @searchData="(data:any)=>starHorseTableCompRef.createCreateParams(data)"
+      <div class="search_btn"
+           :style="{'display':'flex', 'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
+        <star-horse-search-comp ref="viewSearchRef"
+                                @searchData="(data:any)=>starHorseTableCompRef.createCreateParams(data)"
                                 :formData="searchFormData"
                                 :compUrl="dataUrl"/>
         <hr v-if="Config.buttonStyle.value=='line'"/>

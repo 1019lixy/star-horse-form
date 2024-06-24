@@ -24,7 +24,7 @@
             :class="sdata.value==context.attrs['formFieldList'][field.preps['name']]?'icon-active':''"
         >
           <el-tooltip :content="sdata.name">
-            <el-icon class="star-icon" style="font-size: 50px">
+            <el-icon class="star-icon" style="font-size: 50px;color:var(--star-horse-style)">
               <component :is="sdata.value"/>
             </el-icon>
           </el-tooltip>
@@ -63,7 +63,9 @@ export default defineComponent({
     };
     onMounted(() => {
       actionName.value = field.preps["actionName"];
-      keyEnterFun(actionName.value);
+      if (!context.attrs["isSearch"]) {
+        keyEnterFun(actionName.value);
+      }
     });
     return {
       parentField, formFieldList, context, field, formItem, dataField, assignIcon,

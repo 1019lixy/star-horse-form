@@ -1,6 +1,6 @@
 <script setup lang="ts" name="ItemPropertiesPanel">
 import {computed, nextTick, onMounted, provide, reactive, ref, unref, watch} from 'vue'
-import {dictData, loadData, rowClassName, searchMatchList} from "@/api/sh_api";
+import {dictData, rowClassName, searchMatchList} from "@/api/sh_api";
 import type {FormRules} from 'element-plus'
 import {SelectOption} from "@/components/types/SearchProps";
 import StarHorseEditor from "@/components/comp/StarHorseEditor.vue";

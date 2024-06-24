@@ -111,8 +111,8 @@ const tableFieldList = reactive({
 const primaryKey = "idEnvInfo";
 const flowDefinitionRef = ref();
 const rules = {};
-const searchForm = ref({});
-provide("searchForm", searchForm);
+
+
 const dataForm = ref({});
 provide("dataForm", dataForm);
 const dialogProps = reactive<DialogProps>({
@@ -151,11 +151,11 @@ onMounted(async () => {
   </star-horse-dialog>
   <el-card class="inner_content">
     <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
-      <star-horse-search-comp @searchData="(data)=>flowDefinitionRef.createCreateParams(data)"
+      <star-horse-search-comp @searchData="(data:any)=>flowDefinitionRef.createCreateParams(data)"
                               :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
-      <star-horse-button-list @tableCompFunc="(fun)=>flowDefinitionRef.tableCompFunc(fun)" :compUrl="dataUrl"
+      <star-horse-button-list @tableCompFunc="(fun:any)=>flowDefinitionRef.tableCompFunc(fun)" :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
     <star-horse-table-comp ref="flowDefinitionRef" :fieldList="tableFieldList" :primaryKey="primaryKey"

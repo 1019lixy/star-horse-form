@@ -3,7 +3,7 @@
                      :dialog-visible="dialogInputVisible"
                      @merge="selectItem"
                      @closeAction="closeAction">
-    <star-horse-search-comp @searchData="(data)=>dialogInputTableRef.createCreateParams(data)"
+    <star-horse-search-comp @searchData="(data:any)=>dialogInputTableRef.createCreateParams(data)"
                             :formData="field.preps['searchFieldList']"
                             :compUrl="field.preps['dataUrl']"/>
     <star-horse-table-comp :fieldList="field.preps['fieldList']" :primaryKey="field.preps['primaryKey']"
@@ -132,7 +132,9 @@ export default defineComponent({
     };
     onMounted(() => {
       actionName.value = field.preps["actionName"];
-      keyEnterFun(actionName.value);
+      if (!context.attrs["isSearch"]) {
+        keyEnterFun(actionName.value);
+      }
     });
     return {
       parentField, formFieldList, context, field, formItem,

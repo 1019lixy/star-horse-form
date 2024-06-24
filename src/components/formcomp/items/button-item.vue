@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts" name="buttonItem">
-import {defineComponent, shallowRef, onMounted} from "vue";
+import {defineComponent, onMounted, shallowRef} from "vue";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 
 export default defineComponent({

@@ -2,7 +2,7 @@
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings";
 import {DialogProps} from "@/components/types/DialogProps"
-import {onMounted, provide, reactive, ref, Ref, watch, computed} from "vue";
+import {computed, onMounted, provide, reactive, Ref, ref, watch} from "vue";
 import {SearchProps, SelectOption} from "@/components/types/SearchProps";
 import {useRoute} from "vue-router";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
@@ -75,26 +75,26 @@ const tableFieldList = reactive<PageFieldInfo>({
 
     {
       label: "字典描述", fieldName: "dictDesc", type: "input",
-       formShow: !false,
+      formShow: !false,
       tableShow: !false
     },
     {
-      label: "创建人", disabled:"Y", fieldName: "createdBy", type: "input",
+      label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
 
 
     },
     {
-      label: "修改人", disabled:"Y", fieldName: "updatedBy", type: "input",
+      label: "修改人", disabled: "Y", fieldName: "updatedBy", type: "input",
 
 
     },
     {
-      label: "创建日期", disabled:"Y", fieldName: "createdDate", type: "date",
+      label: "创建日期", disabled: "Y", fieldName: "createdDate", type: "date",
 
 
     },
     {
-      label: "修改日期", disabled:"Y", fieldName: "updatedDate", type: "date",
+      label: "修改日期", disabled: "Y", fieldName: "updatedDate", type: "date",
 
 
     },
@@ -120,15 +120,15 @@ const tableFieldList = reactive<PageFieldInfo>({
 
     },
   ],
-  batchFieldList: [],
-  userTableFuncs: [],
+
+
   //阻止初始化时自动加载列表数据
   stopAutoLoad: true,
 });
 const primaryKey = "idDictinfo";
 const rules = {};
 const searchForm = ref({}) as Ref;
-provide("searchForm", searchForm);
+
 const dataForm = ref({}) as Ref;
 provide("dataForm", dataForm);
 watch(
@@ -178,10 +178,10 @@ const dataFormat = (name: string, cellValue: Object): any => {
   </star-horse-dialog>
   <el-card class="inner_content">
     <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
-      <star-horse-search-comp @searchData="(data)=>tabListRef.createCreateParams(data)" :formData="searchFormData"
+      <star-horse-search-comp @searchData="(data:any)=>tabListRef.createCreateParams(data)" :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
-      <star-horse-button-list @tableCompFunc="(fun)=>tabListRef.tableCompFunc(fun)" :compUrl="dataUrl"
+      <star-horse-button-list @tableCompFunc="(fun:any)=>tabListRef.tableCompFunc(fun)" :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
     <hr>

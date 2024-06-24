@@ -4,7 +4,6 @@ import {Config} from "@/api/settings";
 
 export const userInfo = defineStore("userInfo", {
     state: () => {
-
         return {
             userInfo: sessionStorage.getItem(Config.loginInfo) ? JSON.parse(sessionStorage.getItem(Config.loginInfo) as string) : {},
             permissionMenus: [] as Array<any>,

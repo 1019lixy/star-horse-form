@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import {computed, onMounted, provide, ref, unref, watch} from "vue";
+import {computed, onMounted, provide, ref, watch} from "vue";
 import {initDbList, openDatabase, tableColumns} from "@/views/dbsearch/utils/DbSearchUtils.ts";
-import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import {SelectOption} from "@/components/types/SearchProps.d.ts";

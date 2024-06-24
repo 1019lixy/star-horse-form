@@ -56,46 +56,46 @@ const tableFieldList = reactive<PageFieldInfo>({
     },
     {
       label: "中度总数", fieldName: "major", type: "",
-       formShow: !false,
+      formShow: !false,
       tableShow: !false
     },
 
     {
       label: "轻微总数", fieldName: "minor", type: "number",
-       formShow: !false,
+      formShow: !false,
       tableShow: !false
     },
     {
       label: "Info总数", fieldName: "infos", type: "number",
-       formShow: !false,
+      formShow: !false,
       tableShow: !false
     }, {
       label: "重复率", fieldName: "repeatRate", type: "number",
-       formShow: !false,
+      formShow: !false,
       tableShow: !false
     }, {
       label: "重复代码行", fieldName: "repeatCodeLines", type: "number",
-       formShow: !false,
+      formShow: !false,
       tableShow: !false
     }, {
       label: "重复代码块", fieldName: "repeatCodeBlock", type: "number",
-       formShow: !false,
+      formShow: !false,
       tableShow: !false
     }, {
       label: "重复文件", fieldName: "repeatFiles", type: "number",
-       formShow: !false,
+      formShow: !false,
       tableShow: !false
     }, {
       label: "总复杂度", fieldName: "totalComplex", type: "number",
-       formShow: !false,
+      formShow: !false,
       tableShow: !false
     }, {
       label: "文件平均复杂度", fieldName: "fileAvgComplex", type: "number",
-       formShow: !false,
+      formShow: !false,
       tableShow: !false
     }, {
       label: "详情地址", fieldName: "detailUrls", type: "number",
-       formShow: !false,
+      formShow: !false,
       tableShow: !false
     },
     {
@@ -150,13 +150,13 @@ const tableFieldList = reactive<PageFieldInfo>({
     },
 
   ],
-  batchFieldList: [],
-  userTableFuncs: [],
+
+
 });
 const primaryKey = "idComplianceReport";
 const rules = {};
-const searchForm = ref({});
-provide("searchForm", searchForm);
+
+
 const dataForm = ref({});
 provide("dataForm", dataForm);
 const dialogProps = reactive<DialogProps>({

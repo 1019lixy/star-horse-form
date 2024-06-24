@@ -30,10 +30,7 @@ const dataUrl = ref<ApiUrls>({
 const errorMsg = ref("数据加载中");
 let searchFormData = ref<SearchProps[]>();
 const tableFieldList = ref<PageFieldInfo>({
-  fieldList: [],
-  batchFieldList: [],
-  userTableFuncs: [],
-  stopAutoLoad: false,
+      fieldList: [],
 });
 const primaryKey = ref("");
 const rules = ref({});
@@ -83,8 +80,8 @@ watch(
 onMounted(() => {
   loadFormData(<string>props.param);
 });
-const searchForm = ref({});
-provide("searchForm", searchForm);
+
+
 const dataForm = ref({});
 provide("dataForm", dataForm);
 //记录表单的属性
@@ -132,11 +129,11 @@ const dataFormat = (name: string, cellValue: Object): any => {
     </star-horse-dialog>
     <el-card class="inner_content">
       <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
-        <star-horse-search-comp @searchData="(data)=>starHorseTableCompRef.createCreateParams(data)"
+        <star-horse-search-comp @searchData="(data:any)=>starHorseTableCompRef.createCreateParams(data)"
                                 :formData="searchFormData"
                                 :compUrl="dataUrl"/>
         <hr/>
-        <star-horse-button-list @tableCompFunc="(fun)=>starHorseTableCompRef.tableCompFunc(fun)" :compUrl="dataUrl"
+        <star-horse-button-list @tableCompFunc="(fun:any)=>starHorseTableCompRef.tableCompFunc(fun)" :compUrl="dataUrl"
                                 :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
       </div>
       <hr>

@@ -1,5 +1,5 @@
 <script setup lang="ts" name="StarHorseForm">
-import {computed, inject, nextTick, PropType, ref, Ref, watch} from "vue";
+import {computed, inject, nextTick, PropType, ref, watch} from "vue";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {error, success, warning} from "@/utils/message";
 import {postRequest} from "@/api/star_horse";
@@ -26,7 +26,7 @@ let configStore = GlobalConfig(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.inputSize || "small");
 const emits = defineEmits(["refresh", "dataLoaded"]);
 const starHorseFormRef = ref(null);
-const dataForm = defineModel("dataForm");
+const dataForm = ref<any>({}); //defineModel("dataForm");
 const closeDialog = inject("closeDialog") as Function;
 let dialogOperation = inject("dialogOperation") as ShallowReactive<Object>;
 const dialogProps = inject<DialogProps>("dialogProps", {});
@@ -51,7 +51,6 @@ watch(
       deep: true
     }
 );
-let batchDefaultValues = ref({});
 
 const loadData = async () => {
   if (!props.compUrl || !props.compUrl.loadByIdUrl) {
@@ -124,7 +123,7 @@ const assignStatusName = () => {
   if (dataForm.value.statusCode) {
     let sData = selectData.value.find((item: any) => item.value === dataForm.value.statusCode);
     if (sData) {
-      dataForm["statusName"] = sData.statusName;
+      dataForm.value["statusName"] = sData.statusName;
     }
   }
   let batchFields = props.fieldList.batchFieldList || [];
@@ -145,17 +144,16 @@ const mergeDraft = (type: string) => {
 };
 
 const doMerge = (type: string) => {
-
   assignStatusName();
   let tempForm: any;
   let tempDatas = JSON.parse(JSON.stringify(dataForm.value));
-  let mergeUrl = props.compUrl.mergeUrl;
+  let mergeUrl = props.compUrl?.mergeUrl;
   let batchFields = props.fieldList.batchFieldList || [];
   let flag = true;
   batchFields.forEach((item: BatchFieldInfo) => {
     if (item.sameParentTable) {
       flag = false;
-      mergeUrl = props.compUrl.batchMergeUrl;
+      mergeUrl = props.compUrl?.batchMergeUrl;
       tempForm = [];
       let batchDatas = tempDatas[item.batchName];
       delete tempDatas[item.batchName];
@@ -201,6 +199,16 @@ const doMerge = (type: string) => {
 const resetForm = () => {
   dataForm.value = formFieldMapping(props.fieldList).defaultDatas;
 };
+/**
+ * 返回表单数据
+ */
+const getFormData = () => {
+  return dataForm;
+}
+/**
+ * 设置表单数据
+ * @param data
+ */
 const setDataForm = (data: object) => {
   let defaultDatas = formFieldMapping(props.fieldList).defaultDatas;
   dataForm.value = {...defaultDatas, ...data};
@@ -221,7 +229,7 @@ watch(() => dialogProps.ids,
     });
 
 defineExpose({
-  merge, mergeDraft, resetForm, setDataForm, starHorseFormRef, tableListRef
+  merge, mergeDraft, resetForm, setDataForm, getFormData, starHorseFormRef, tableListRef
 });
 </script>
 <template>
@@ -230,11 +238,11 @@ defineExpose({
                           :compUrl="compUrl"
                           :fieldList="fieldList"
                           :rules="rules"
+                          :compSize="compSize"
                           v-model:data-form="dataForm"
                           :isView="isView"
                           :batchName="batchName"
-                          :batchFieldName="batchFieldName"
-    />
+                          :batchFieldName="batchFieldName"/>
   </el-form>
 </template>
 <style lang="scss" scoped>

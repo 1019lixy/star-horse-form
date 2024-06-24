@@ -176,14 +176,14 @@ const tableFieldList = reactive<PageFieldInfo>({
 
     },
   ],
-  batchFieldList: [],
-  userTableFuncs: [],
+
+
   cellEditable: true
 });
 const primaryKey = "idMenusinfo";
 const rules = {};
-const searchForm = ref({});
-provide("searchForm", searchForm);
+
+
 const dataForm = ref({});
 provide("dataForm", dataForm);
 watch(() => dataForm.value["informationsSingleId"],
@@ -344,11 +344,11 @@ const checkChange = (data: TreeNodeData, checked: boolean) => {
       <el-col :span="21" style="height: inherit">
         <el-card class="inner_content" style="height: inherit">
           <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
-            <star-horse-search-comp @searchData="(data)=>menuTableListRef.createCreateParams(data)"
+            <star-horse-search-comp @searchData="(data:any)=>menuTableListRef.createCreateParams(data)"
                                     :formData="searchFormData"
                                     :compUrl="dataUrl"/>
             <hr/>
-            <star-horse-button-list @tableCompFunc="(fun)=>menuTableListRef.tableCompFunc(fun)" :compUrl="dataUrl"
+            <star-horse-button-list @tableCompFunc="(fun:any)=>menuTableListRef.tableCompFunc(fun)" :compUrl="dataUrl"
                                     :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
           </div>
           <hr>

@@ -1,4 +1,4 @@
-import {reactive, Ref, ref} from "vue";
+import {reactive, ref} from "vue";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {SelectOption} from "@/components/types/SearchProps";
 import {searchMatchList} from "@/api/sh_api.ts";
@@ -198,9 +198,8 @@ export function dataSourceFields() {
                     ],
             }
         ],
-        batchFieldList: [],
-        userTableFuncs: [],
-        stopAutoLoad: false
+
+
     });
 }
 

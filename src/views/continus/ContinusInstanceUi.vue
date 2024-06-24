@@ -36,12 +36,12 @@ const tableFieldList = reactive({
     },
     [{
       label: "模板", fieldName: "template", type: "input",
-       formShow: !false,
+      formShow: !false,
       tableShow: !false
     },
       {
         label: "是否独占 1是 2否 默认2", fieldName: "isAlone", type: "number",
-         formShow: !false,
+        formShow: !false,
         tableShow: !false
       }],
     [{
@@ -68,7 +68,7 @@ const tableFieldList = reactive({
 
     {
       label: "备注", fieldName: "remark", type: "textarea",
-       formShow: true,
+      formShow: true,
 
     },
     {
@@ -127,8 +127,8 @@ const tableFieldList = reactive({
 const primaryKey = "idContinusInst";
 const environmentInfoRef = ref();
 const rules = {};
-const searchForm = ref({});
-provide("searchForm", searchForm);
+
+
 const dataForm = ref({});
 provide("dataForm", dataForm);
 const dialogProps = reactive<DialogProps>({
@@ -167,11 +167,11 @@ onMounted(async () => {
   </star-horse-dialog>
   <el-card class="inner_content">
     <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
-      <star-horse-search-comp @searchData="(data)=>environmentInfoRef.createCreateParams(data)"
+      <star-horse-search-comp @searchData="(data:any)=>environmentInfoRef.createCreateParams(data)"
                               :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
-      <star-horse-button-list @tableCompFunc="(fun)=>environmentInfoRef.tableCompFunc(fun)" :compUrl="dataUrl"
+      <star-horse-button-list @tableCompFunc="(fun:any)=>environmentInfoRef.tableCompFunc(fun)" :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
     <star-horse-table-comp ref="environmentInfoRef" :fieldList="tableFieldList" :primaryKey="primaryKey"

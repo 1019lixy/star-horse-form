@@ -1,5 +1,5 @@
 <script setup lang="ts" name="StarHorseItem">
-import {computed, inject, onMounted, reactive, ref, unref, watch} from "vue";
+import {computed, inject, onMounted, ref, unref, watch} from "vue";
 import {warning} from "@/utils/message";
 import {FieldInfo} from "@/components/types/PageFieldInfo";
 import Help from "@/components/help.vue";
@@ -38,8 +38,9 @@ field.value.preps.size = computed(() => props.compSize);
  * @param params
  */
 const dataSearch = (act: String, ...params: any[]) => {
+  console.log(act);
   if (props.isSearch) {
-    if (act == "focus" || act == "blur") {
+    if (!act || act == "focus" || act == "blur") {
       return;
     }
     emit("dataSearch", params);
@@ -216,6 +217,7 @@ onMounted(() => {
     <help :message="item?.helpMsg" v-if="item?.helpMsg"/>
     <component :id="randId" :is="itemType+'-item'" @selfFunc="dataSearch" :isDesign="false"
                ref="componentRef"
+               :isSearch="isSearch"
                :field="field" :formFieldList="dataForm"/>
   </div>
 </template>

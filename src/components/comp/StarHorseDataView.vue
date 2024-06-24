@@ -1,11 +1,9 @@
 <script setup lang="ts" name="StarHorseDataView">
 import {ApiUrls} from "@/components/types/ApiUrls";
-import {inject, nextTick, onMounted, ref, watch, PropType} from "vue";
+import {inject, nextTick, onMounted, PropType, ref, watch} from "vue";
 import {DialogProps} from "@/components/types/DialogProps";
-import {commonParseCodeToName, formFieldMapping, loadById, rowClassName} from "@/api/sh_api";
-import {Config} from "@/api/settings";
+import {commonParseCodeToName, formFieldMapping, loadById} from "@/api/sh_api";
 import StarHorseDataViewObject from "@/components/comp/StarHorseDataViewObject.vue";
-import StarHorseFormTable from "@/components/comp/StarHorseFormTable.vue";
 import StarHorseDataViewTable from "@/components/comp/StarHorseDataViewTable.vue";
 
 const dataForm = ref({});
@@ -68,6 +66,7 @@ const commonFormat = (name: string, cellValue: any, row: any) => {
   if (name == "isDel") {
     return cellValue == 1 ? "是" : "否";
   }
+
   return null == props.dataFormat ? cellValue : props.dataFormat(name, cellValue, dataForm.value);
 };
 const dataFormat = (item: any) => {

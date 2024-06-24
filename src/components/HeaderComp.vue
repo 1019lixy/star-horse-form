@@ -60,17 +60,17 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     [{
       label: "工号", fieldName: "employeeNo", type: "input",
-       formShow: !false, disabled: "Y",
+      formShow: !false, disabled: "Y",
 
     },
       {
         label: "用户名", fieldName: "username", type: "input",
-         formShow: !false, disabled: "Y",
+        formShow: !false, disabled: "Y",
 
       }],
     {
       label: "联系电话", fieldName: "phone", type: "input",
-       formShow: true,
+      formShow: true,
 
     },
     {
@@ -88,8 +88,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
     }
   ],
-  batchFieldList: [],
-  userTableFuncs: [],
+
+
   //阻止初始化时自动加载列表数据
   stopAutoLoad: true,
 });

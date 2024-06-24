@@ -1,6 +1,5 @@
 import {SelectOption} from "@/components/types/SearchProps";
 import {ApiUrls} from "@/components/types/ApiUrls";
-import {Config} from "@/api/settings";
 import {SearchParams} from "@/components/types/Params";
 
 /**

@@ -26,7 +26,7 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, shallowRef, onMounted} from "vue";
+import {defineComponent, onMounted, shallowRef} from "vue";
 
 export default defineComponent({
   setup(props, context) {
@@ -46,7 +46,9 @@ export default defineComponent({
     };
     onMounted(() => {
       actionName.value = field.preps["actionName"];
-      keyEnterFun(actionName.value);
+      if (!context.attrs["isSearch"]) {
+        keyEnterFun(actionName.value);
+      }
     });
     return {
       parentField, formFieldList, context, field, formItem, dataField, actionName,

@@ -109,7 +109,9 @@ export default defineComponent({
     onMounted(() => {
       actionName.value = field.preps["actionName"];
       loadByPage();
-      keyEnterFun(actionName.value);
+      if (!context.attrs["isSearch"]) {
+        keyEnterFun(actionName.value);
+      }
     });
     return {
       parentField, formFieldList, context, field, formItem,
@@ -147,7 +149,7 @@ export default defineComponent({
         <el-card>
           <!--          <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">-->
           <star-horse-search-comp :formData="field.preps['searchFieldList']"
-                                  @searchData="(data)=>starHorseTableCompRef.createCreateParams(data)"
+                                  @searchData="(data:any)=>starHorseTableCompRef.createCreateParams(data)"
                                   :mutComp="true"
                                   :compUrl="field.preps['dataUrl']"/>
           <el-table

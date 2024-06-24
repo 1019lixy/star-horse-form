@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import {onMounted, ref, provide, reactive} from "vue";
+import {onMounted, provide, reactive, ref} from "vue";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import StarHorseForm from "@/components/comp/StarHorseForm.vue";
 import {ApiUrls} from "@/components/types/ApiUrls.d.ts";
-import StarHorseFormList from "@/components/comp/StarHorseFormList.vue";
 import StarHorseFormTable from "@/components/comp/StarHorseFormTable.vue";
 import {BatchFieldInfo} from "@/components/types/PageFieldInfo.d.ts";
 
@@ -50,18 +49,18 @@ const columnFieldList = reactive<BatchFieldInfo>({
     },
     {
       label: "长度", fieldName: "length", type: "input",
-       formShow: !false,
+      formShow: !false,
       tableShow: !false
     },
     {
       label: "允许为空", fieldName: "allowNull", type: "switch",
       defaultValue: "Y",
-       formShow: !false,
+      formShow: !false,
       tableShow: !false
     },
     {
       label: "是否主键", fieldName: "isPrimaryKey", type: "switch",
-       formShow: !false,
+      formShow: !false,
       tableShow: !false
     },
     {

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {createRouterAndMenuList, permissionMenus} from "@/api/star_horse";
-import {computed, onMounted, reactive, ref, watch, nextTick, unref} from "vue";
+import {computed, nextTick, onMounted, reactive, ref, unref, watch} from "vue";
 import {userInfo} from "@/store/UserInfoStore";
 import {MenusInfo} from "@/components/types/MenusInfo";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";

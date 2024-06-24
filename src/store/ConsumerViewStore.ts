@@ -1,5 +1,4 @@
 import {defineStore} from "pinia";
-import {warning} from "@/utils/message";
 
 export const ConsumerView: any = defineStore("ConsumerView", {
     state: () => {

@@ -58,7 +58,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       required: true,
       formShow: !false,
       tableShow: !false,
-      minWidth: 180
+
     },
     {
       label: "数据库类型",
@@ -67,7 +67,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       required: true,
       formShow: !false,
       tableShow: !false,
-      minWidth: 180
+
     },
     {
       label: "数据库配置ID",
@@ -76,7 +76,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       required: true,
       formShow: !false,
       tableShow: !false,
-      minWidth: 180
+
     },
     {
       label: "备份文件路径",
@@ -85,7 +85,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       formShow: !false,
       tableShow: !false,
-      minWidth: 180
+
     },
     {
       label: "备注",
@@ -94,7 +94,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       formShow: !false,
       tableShow: !false,
-      minWidth: 180
+
     },
     {
       label: "创建人", disabled: "Y",
@@ -102,8 +102,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "input",
 
 
-
-      minWidth: 180
     },
     {
       label: "修改人", disabled: "Y",
@@ -111,8 +109,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "input",
 
 
-
-      minWidth: 180
     },
     {
       label: "创建日期", disabled: "Y",
@@ -120,8 +116,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "date",
 
 
-
-      minWidth: 180
     },
     {
       label: "修改日期", disabled: "Y",
@@ -129,8 +123,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "date",
 
 
-
-      minWidth: 180
     },
     {
       label: "数据版本号",
@@ -138,8 +130,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "number",
 
 
-
-      minWidth: 180
     },
     {
       label: "是否已逻辑",
@@ -147,8 +137,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "number",
 
 
-
-      minWidth: 180
     },
     {
       label: "数据编号",
@@ -156,8 +144,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "input",
 
 
-
-      minWidth: 180
     },
     {
       label: "状态码",
@@ -165,8 +151,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "input",
 
 
-
-      minWidth: 180
     },
     {
       label: "状态码名称",
@@ -174,8 +158,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "input",
 
 
-
-      minWidth: 180
     },
     {
       label: "国际码",
@@ -183,22 +165,18 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "input",
 
 
-
-      minWidth: 180
     },
   ],
-  batchFieldList: [],
-  userTableFuncs: [],
-  stopAutoLoad: false
+
+
 });
 //主键
 const primaryKey = "idDbBakeup";
 const dbBakeupRef = ref();
 //校验
 const rules = {};
-const searchForm = ref({});
-//全局查询对象
-provide("searchForm", searchForm);
+
+
 const dataForm = ref({});
 //全局数据对象
 provide("dataForm", dataForm);
@@ -247,10 +225,10 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
   <el-card class="inner_content">
 
     <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
-      <star-horse-search-comp @searchData="(data)=>dbBakeupRef.createCreateParams(data)" :formData="searchFormData"
+      <star-horse-search-comp @searchData="(data:any)=>dbBakeupRef.createCreateParams(data)" :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
-      <star-horse-button-list @tableCompFunc="(fun)=>dbBakeupRef.tableCompFunc(fun)" :compUrl="dataUrl"
+      <star-horse-button-list @tableCompFunc="(fun:any)=>dbBakeupRef.tableCompFunc(fun)" :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
     <hr>

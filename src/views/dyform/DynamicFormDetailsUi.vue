@@ -31,22 +31,22 @@ const tableFieldList = reactive({
   fieldList: [
     {
       label: "主键", fieldName: "idDynamicFormDetails", type: "long",
-       formShow: !false,
+      formShow: !false,
       tableShow: !false
     },
     {
       label: "主键", fieldName: "idDynamicForm", type: "long",
-       formShow: !false,
+      formShow: !false,
       tableShow: !false
     },
     {
       label: "表单内容", fieldName: "content", type: "input",
-       formShow: !false,
+      formShow: !false,
       tableShow: !false
     },
     {
       label: "表单属性", fieldName: "fieldNames", type: "input",
-       formShow: !false,
+      formShow: !false,
       tableShow: !false
     },
     {
@@ -105,8 +105,8 @@ const tableFieldList = reactive({
 const primaryKey = "idDynamicFormDetails";
 const dynamicFormDetailsRef = ref();
 const rules = {};
-const searchForm = ref({});
-provide("searchForm", searchForm);
+
+
 const dataForm = ref({});
 provide("dataForm", dataForm);
 const dialogProps = reactive<DialogProps>({
@@ -140,11 +140,11 @@ const dataFormat = (name: string, cellValue: Object): any => {
   </star-horse-dialog>
   <el-card class="inner_content">
     <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
-      <star-horse-search-comp @searchData="(data)=>dynamicFormDetailsRef.createCreateParams(data)"
+      <star-horse-search-comp @searchData="(data:any)=>dynamicFormDetailsRef.createCreateParams(data)"
                               :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
-      <star-horse-button-list @tableCompFunc="(fun)=>dynamicFormDetailsRef.tableCompFunc(fun)" :compUrl="dataUrl"
+      <star-horse-button-list @tableCompFunc="(fun:any)=>dynamicFormDetailsRef.tableCompFunc(fun)" :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
     <star-horse-table-comp ref="dynamicFormDetailsRef" :fieldList="tableFieldList" :primaryKey="primaryKey"

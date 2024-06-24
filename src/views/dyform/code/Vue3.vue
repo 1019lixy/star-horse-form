@@ -45,8 +45,8 @@ const initData = async () => {
 };
 const ${convertToCamelCase(props.formInfo.tbName)}Ref = ref();
 const rules = {};
-const searchForm = ref({});
-provide("searchForm", searchForm);
+
+
 const dataForm = ref({});
 provide("dataForm", dataForm);
 const dialogProps = reactive<DialogProps>({
@@ -79,10 +79,10 @@ onMounted(() => {
   <\/star-horse-dialog>
   <el-card class="inner_content">
     <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
-      <star-horse-search-comp @searchData="(data)=>${convertToCamelCase(props.formInfo.tbName)}Ref.createCreateParams(data)" :formData="searchFormData"
+      <star-horse-search-comp   @searchData="(data:any)=>${convertToCamelCase(props.formInfo.tbName)}Ref.createCreateParams(data)" :formData="searchFormData"
                               :compUrl="dataUrl"\/>
       <hr>
-      <star-horse-button-list @tableCompFunc="(fun)=>${convertToCamelCase(props.formInfo.tbName)}Ref.tableCompFunc(fun)" :compUrl="dataUrl"
+      <star-horse-button-list @tableCompFunc="(fun:any)=>${convertToCamelCase(props.formInfo.tbName)}Ref.tableCompFunc(fun)" :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"\/>
     <\/div>
     <hr>

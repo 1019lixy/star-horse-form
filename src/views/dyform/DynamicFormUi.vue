@@ -6,7 +6,7 @@ import {SearchProps} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {BtnAuth} from "@/components/types/BtnAuth";
 import {useRouter} from "vue-router";
-import {loadData, loadGetData} from "@/api/sh_api";
+import {loadData} from "@/api/sh_api";
 import {Config} from "@/api/settings";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
@@ -207,19 +207,19 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
     },
   ],
-  batchFieldList: [],
+
   userTableFuncs: [{
     authority: "add", funcName: "addSubForm", btnName: "添加子表", funcName: (row) => {
       addSubForm(row);
     }
   }],
-  stopAutoLoad: false
+
 });
 const primaryKey = "idDynamicForm";
 const dynamicFormRef = ref();
 const rules = {};
-const searchForm = ref({});
-provide("searchForm", searchForm);
+
+
 const dataForm = ref({});
 provide("dataForm", dataForm);
 const dialogProps = reactive<DialogProps>({
@@ -280,10 +280,10 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
   </star-horse-dialog>
   <el-card class="inner_content">
     <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
-      <star-horse-search-comp @searchData="(data)=>dynamicFormRef.createCreateParams(data)" :formData="searchFormData"
+      <star-horse-search-comp @searchData="(data:any)=>dynamicFormRef.createCreateParams(data)" :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
-      <star-horse-button-list @tableCompFunc="(fun)=>dynamicFormRef.tableCompFunc(fun)" :selfBtnFunc="selfBtnFunc"
+      <star-horse-button-list @tableCompFunc="(fun:any)=>dynamicFormRef.tableCompFunc(fun)" :selfBtnFunc="selfBtnFunc"
                               :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>

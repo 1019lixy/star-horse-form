@@ -1,5 +1,5 @@
 <script setup lang="ts" name="ShDynamicForm">
-import {inject, ref, Ref, watch, PropType} from "vue";
+import {inject, PropType, Ref, ref, watch} from "vue";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {error, success, warning} from "@/utils/message";
 import {postRequest} from "@/api/star_horse";

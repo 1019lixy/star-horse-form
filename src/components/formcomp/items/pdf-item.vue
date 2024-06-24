@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts" name="pdfItem">
-import {defineComponent, nextTick, reactive, ref, shallowRef} from "vue";
+import {defineComponent, ref, shallowRef} from "vue";
 
 
 export default defineComponent({

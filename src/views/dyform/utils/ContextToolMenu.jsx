@@ -1,5 +1,4 @@
 import {ElDropdown, ElDropdownItem} from 'element-plus'
-import {Node} from '@antv/x6'
 
 // ContextMenu挂载的Vue实例
 let app = null;

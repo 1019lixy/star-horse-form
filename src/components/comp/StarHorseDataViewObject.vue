@@ -1,8 +1,6 @@
 <script setup lang="ts" name="StarHorseDataViewObject">
 import {PropType, ref} from "vue";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
-import {rowClassName} from "@/api/sh_api";
-import {Config} from "@/api/settings";
 import StarHorseDataView from "@/components/comp/StarHorseDataView.vue";
 import StarHorseDataViewTable from "@/components/comp/StarHorseDataViewTable.vue";
 

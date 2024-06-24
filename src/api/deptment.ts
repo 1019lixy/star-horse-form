@@ -1,5 +1,4 @@
 import {postRequest} from "@/api/star_horse";
-import {createTree} from "@/api/sh_api";
 import {SelectOption} from "@/components/types/SearchProps";
 
 const deptAndUserTree: string = "/system-config/system/departmentEntity/deptAndUserTree";

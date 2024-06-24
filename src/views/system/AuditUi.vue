@@ -41,36 +41,36 @@ const tableFieldList = reactive<PageFieldInfo>({
     },
     {
       label: "操作人", fieldName: "operator", type: "input",
-       formShow: !false,
+      formShow: !false,
       tableShow: !false
     },
     {
       label: "操作接口", fieldName: "signature", type: "input",
-       formShow: !false,
+      formShow: !false,
       tableShow: !false
     },
     {
       label: "操作内容", fieldName: "operContent", type: "input",
-       formShow: !false,
+      formShow: !false,
       tableShow: !false
     },
     {
-      label: "创建人", disabled:"Y", fieldName: "createdBy", type: "input",
+      label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
 
 
     },
     {
-      label: "修改人", disabled:"Y", fieldName: "updatedBy", type: "input",
+      label: "修改人", disabled: "Y", fieldName: "updatedBy", type: "input",
 
 
     },
     {
-      label: "创建日期", disabled:"Y", fieldName: "createdDate", type: "date",
+      label: "创建日期", disabled: "Y", fieldName: "createdDate", type: "date",
 
 
     },
     {
-      label: "修改日期", disabled:"Y", fieldName: "updatedDate", type: "date",
+      label: "修改日期", disabled: "Y", fieldName: "updatedDate", type: "date",
 
 
     },
@@ -106,29 +106,29 @@ const tableFieldList = reactive<PageFieldInfo>({
     },
     {
       label: "接口地址", fieldName: "url", type: "input",
-       formShow: !false,
+      formShow: !false,
       tableShow: !false
     },
     {
       label: "备注", fieldName: "remark", type: "input",
-       formShow: !false,
+      formShow: !false,
       tableShow: !false
     },
     {
       label: "请求方法", fieldName: "requestMethod", type: "input",
-       formShow: !false,
+      formShow: !false,
       tableShow: !false
     },
   ],
-  batchFieldList: [],
-  userTableFuncs: [],
+
+
   cellEditable: false
 });
 const primaryKey = "idAudit";
 const auditRef = ref();
 const rules = {};
-const searchForm = ref({});
-provide("searchForm", searchForm);
+
+
 const dataForm = ref({});
 provide("dataForm", dataForm);
 const dialogProps = reactive<DialogProps>({
@@ -160,10 +160,10 @@ const dataFormat = (name: string, cellValue: Object): any => {
   </star-horse-dialog>
   <el-card class="inner_content">
     <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
-      <star-horse-search-comp @searchData="(data)=>auditRef.createCreateParams(data)" :formData="searchFormData"
+      <star-horse-search-comp @searchData="(data:any)=>auditRef.createCreateParams(data)" :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr>
-      <star-horse-button-list @tableCompFunc="(fun)=>auditRef.tableCompFunc(fun)" :compUrl="dataUrl"
+      <star-horse-button-list @tableCompFunc="(fun:any)=>auditRef.tableCompFunc(fun)" :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
     <hr>

@@ -37,56 +37,56 @@ const tableFieldList = reactive({
   fieldList: [
     {
       label: "主键", fieldName: "idUsersAudit", type: "long",
-       formShow: !false,
+      formShow: !false,
       tableShow: !false
     },
     {
       label: "主键", fieldName: "idUserinfo", type: "long",
-       formShow: !false,
+      formShow: !false,
       tableShow: !false
     },
     {
       label: "密码", fieldName: "password", type: "input",
-       formShow: !false,
+      formShow: !false,
       tableShow: !false
     },
     {
       label: "生效日期", fieldName: "effectiveDate", type: "date",
-       formShow: !false,
+      formShow: !false,
       tableShow: !false
     },
     {
       label: "失效日期", fieldName: "expiredDate", type: "date",
-       formShow: !false,
+      formShow: !false,
       tableShow: !false
     },
     {
       label: "备注", fieldName: "remark", type: "input",
-       formShow: !false,
+      formShow: !false,
       tableShow: !false
     },
     {
       label: "数据类型", fieldName: "dataType", type: "number",
-       formShow: !false,
+      formShow: !false,
       tableShow: !false
     },
     {
-      label: "创建人", disabled:"Y", fieldName: "createdBy", type: "input",
+      label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
 
 
     },
     {
-      label: "修改人", disabled:"Y", fieldName: "updatedBy", type: "input",
+      label: "修改人", disabled: "Y", fieldName: "updatedBy", type: "input",
 
 
     },
     {
-      label: "创建日期", disabled:"Y", fieldName: "createdDate", type: "date",
+      label: "创建日期", disabled: "Y", fieldName: "createdDate", type: "date",
 
 
     },
     {
-      label: "修改日期", disabled:"Y", fieldName: "updatedDate", type: "date",
+      label: "修改日期", disabled: "Y", fieldName: "updatedDate", type: "date",
 
 
     },
@@ -126,8 +126,8 @@ const tableFieldList = reactive({
 const primaryKey = "idUsersAudit";
 const usersAuditRef = ref();
 const rules = {};
-const searchForm = ref({});
-provide("searchForm", searchForm);
+
+
 const dataForm = ref({});
 provide("dataForm", dataForm);
 const dialogProps = reactive<DialogProps>({
@@ -161,10 +161,10 @@ const dataFormat = (name: string, cellValue: Object): any => {
   </star-horse-dialog>
   <el-card class="inner_content">
     <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
-      <star-horse-search-comp @searchData="(data)=>usersAuditRef.createCreateParams(data)" :formData="searchFormData"
+      <star-horse-search-comp @searchData="(data:any)=>usersAuditRef.createCreateParams(data)" :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
-      <star-horse-button-list @tableCompFunc="(fun)=>usersAuditRef.tableCompFunc(fun)" :compUrl="dataUrl"
+      <star-horse-button-list @tableCompFunc="(fun:any)=>usersAuditRef.tableCompFunc(fun)" :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
     <hr>

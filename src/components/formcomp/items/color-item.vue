@@ -37,7 +37,9 @@ export default defineComponent({
     };
     onMounted(() => {
       actionName.value = field.preps["actionName"];
-      keyEnterFun(actionName.value);
+      if (!context.attrs["isSearch"]) {
+        keyEnterFun(actionName.value);
+      }
     });
     return {parentField, formFieldList, context, field, formItem, dataField, keyEnterFun, actionName}
   }

@@ -2,8 +2,6 @@
 import {nextTick, onMounted, provide, reactive, ref, watch} from "vue";
 import {closeLoad, load, loadGetData} from "@/api/sh_api";
 import {ApiUrls} from "@/components/types/ApiUrls";
-import {useRoute, useRouter} from "vue-router";
-import {navBarList} from "@/store/NavbarListStore";
 import {DialogProps} from "@/components/types/DialogProps";
 import {SearchProps} from "@/components/types/SearchProps";
 import {Config} from "@/api/settings";
@@ -11,10 +9,7 @@ import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
 
 let designForm = DesignForm(piniaInstance);
-const navBarListStore = navBarList();
-const router = useRouter();
 const normalPageRef = ref();
-const currentRoute = useRoute();
 let relationTables = ref<any>({});
 const dataUrl = ref<ApiUrls>({
   uploadUrl: "",
@@ -33,11 +28,9 @@ const dataUrl = ref<ApiUrls>({
 const errorMsg = ref("数据加载中");
 let searchFormData = ref<SearchProps[]>([]);
 const tableFieldList = ref<any>({
-  fieldList: [],
-  batchFieldList: [],
-  userTableFuncs: [],
-  stopAutoLoad: false,
-});
+      fieldList: [],
+    })
+;
 
 /**
  * 表单数据直接取定义的数据preps,
@@ -94,8 +87,8 @@ onMounted(() => {
   designForm.setIsEdit(false);
   loadFormData(<string>props.param);
 });
-const searchForm = ref({});
-provide("searchForm", searchForm);
+
+
 const dataForm = ref({});
 provide("dataForm", dataForm);
 //记录表单的属性
@@ -115,7 +108,7 @@ const dialogProps = reactive<DialogProps>({
 });
 provide("dialogProps", dialogProps);
 const dataFormat = (name: string, cellValue: Object, row: any): any => {
-  console.log(name, cellValue);
+  // console.log(name, cellValue);
   return cellValue;
 };
 </script>
@@ -146,11 +139,11 @@ const dataFormat = (name: string, cellValue: Object, row: any): any => {
     </star-horse-dialog>
     <el-card class="inner_content">
       <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
-        <star-horse-search-comp @searchData="(data)=>normalPageRef.createCreateParams(data)"
+        <star-horse-search-comp @searchData="(data:any)=>normalPageRef.createCreateParams(data)"
                                 :formData="searchFormData"
                                 :compUrl="dataUrl"/>
         <hr/>
-        <star-horse-button-list @tableCompFunc="(fun)=>normalPageRef.tableCompFunc(fun)" :compUrl="dataUrl"
+        <star-horse-button-list @tableCompFunc="(fun:any)=>normalPageRef.tableCompFunc(fun)" :compUrl="dataUrl"
                                 :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
       </div>
       <hr>

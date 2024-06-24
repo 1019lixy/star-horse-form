@@ -1,5 +1,5 @@
 import {defineStore} from "pinia";
-import {Graph, Cell, Point,} from "@antv/x6";
+import {Cell, Graph,} from "@antv/x6";
 import {warning} from "@/utils/message";
 import {Transform} from '@antv/x6-plugin-transform';
 import {Snapline} from '@antv/x6-plugin-snapline';

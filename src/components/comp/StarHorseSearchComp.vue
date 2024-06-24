@@ -1,5 +1,5 @@
 <script setup lang="ts" name="StarHorseSearchComp">
-import {computed, inject, nextTick, onMounted, PropType, ref} from "vue";
+import {computed, nextTick, onMounted, PropType, ref} from "vue";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {SearchProps, SelectOption} from "@/components/types/SearchProps";
 import {searchMatchList} from "@/api/sh_api";
@@ -7,6 +7,7 @@ import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {SearchParams} from "@/components/types/Params";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import piniaInstance from "@/store";
+import {analysisSearchData} from "@/views/dyform/utils/preview.ts";
 
 let matchTypeList = ref<SelectOption[]>();
 let sarchIcon = ref<String>("search_down");
@@ -22,7 +23,7 @@ const props = defineProps({
 });
 let configStore = GlobalConfig(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.inputSize || "small");
-let searchForm: any = inject("searchForm");
+let searchForm = ref<any>({});
 const init = async () => {
   matchTypeList.value = searchMatchList();
   searchForm.value = {...analysisDefaultValue()};
@@ -37,26 +38,7 @@ onMounted(() => {
   init();
 });
 const createCreateParams = (formData: any) => {
-  let searchFields = []
-  for (let key in searchForm?.value) {
-    let val = searchForm.value[key]
-    let temp = formData?.find((item: any) => item.fieldName == key);
-    //如果子项和父项存在同名会存在bug，
-    if (!!val && temp) {
-      if (temp?.type == 'daterange') {
-        val = [val[0] + ' 00:00:00', val[1] + ' 23:59:59']
-      } else if (temp?.type == 'date') {
-        val = [val + ' 00:00:00', val + ' 23:59:59']
-      }
-      let param: SearchParams = {
-        propertyName: key,
-        operation: temp?.matchType || 'eq',
-        value: val
-      }
-      searchFields.push(param)
-    }
-  }
-  return searchFields;
+  return analysisSearchData(searchForm.value, formData);
 };
 /**
  * 解析默认值
@@ -71,8 +53,12 @@ const analysisDefaultValue = () => {
   return defaultDatas;
 };
 const dataSearch = (val: string | null) => {
+  console.log(val);
   if (val === "reset") {
+    searchForm.value = {};
+    console.log("before reset", searchForm.value);
     searchForm.value = {...analysisDefaultValue()};
+    console.log("after reset", searchForm.value);
   }
   let searchDatas = createCreateParams(props.formData);
   //如果一个页面（包括引入的页面）出现多个此组件,不能走消息总线，
@@ -81,15 +67,18 @@ const dataSearch = (val: string | null) => {
 };
 const searchArea = () => {
   if (defaultSearch.value) {
-    tips.value = "普通查询";
+    tips.value = "日常查询";
     sarchIcon.value = "search_up";
   } else {
-    tips.value = "高级查询";
+    tips.value = "更多查询";
     sarchIcon.value = "search_down";
   }
   defaultSearch.value = !defaultSearch.value;
 
 };
+defineExpose({
+  searchForm, createCreateParams
+})
 </script>
 
 <template>
@@ -173,6 +162,7 @@ const searchArea = () => {
     flex-wrap: wrap;
     flex-direction: row;
     flex: 1;
+    justify-content: left;
     flex-shrink: 0;
   }
 

@@ -39,7 +39,7 @@ initData();
 const searchFormData = reactive<SearchProps[]>([
   /* {label: "所属系统", fieldName: "informationsSingleId", type: "select", optionList: systemInfoList},*/
   {label: "角色名称", defaultShow: true, fieldName: "idRolesinfo", type: "select", optionList: rolesList},
-  {label: "创建日期", disabled:"Y", fieldName: "createdDate", type: "date", matchType: "bt"},
+  {label: "创建日期", disabled: "Y", fieldName: "createdDate", type: "date", matchType: "bt"},
 ]);
 
 const tableFieldList = reactive<PageFieldInfo | any>({
@@ -51,46 +51,46 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     },
     [{
       label: "所属系统", fieldName: "informationsSingleId", type: "select", optionList: systemInfoList,
-      required: true, formShow: !false, disabled:"Y",
+      required: true, formShow: !false, disabled: "Y",
       tableShow: !false
     },
       {
         label: "角色名称", fieldName: "rolesList", type: "select", optionList: rolesList,
-        required: true, formShow: !false, multiple:"Y",
+        required: true, formShow: !false, multiple: "Y",
         tableShow: !false
       }],
     [{
       label: "菜单名称", fieldName: "menusList", type: "tselect", optionList: menusList,
-      required: true, formShow: !false, multiple:"Y",
+      required: true, formShow: !false, multiple: "Y",
       tableShow: !false
     },
       {
         label: "权限", fieldName: "resourcesPos", type: "select", optionList: authorityList,
-        required: true, formShow: !false, multiple:"Y",
+        required: true, formShow: !false, multiple: "Y",
         tableShow: !false
       }],
     {
       label: "备注", fieldName: "remark", type: "textarea",
-       formShow: !false,
+      formShow: !false,
       tableShow: !false
     },
     {
-      label: "创建人", disabled:"Y", fieldName: "createdBy", type: "input",
+      label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
 
       tableShow: true
     },
     {
-      label: "修改人", disabled:"Y", fieldName: "updatedBy", type: "input",
+      label: "修改人", disabled: "Y", fieldName: "updatedBy", type: "input",
 
 
     },
     {
-      label: "创建日期", disabled:"Y", fieldName: "createdDate", type: "date",
+      label: "创建日期", disabled: "Y", fieldName: "createdDate", type: "date",
 
       tableShow: true
     },
     {
-      label: "修改日期", disabled:"Y", fieldName: "updatedDate", type: "date",
+      label: "修改日期", disabled: "Y", fieldName: "updatedDate", type: "date",
 
 
     },
@@ -125,14 +125,14 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
     },
   ],
-  batchFieldList: [],
-  userTableFuncs: [],
+
+
   cellEditable: false
 });
 const primaryKey = "idResourcesSummary";
 const rules = {};
-const searchForm = ref({});
-provide("searchForm", searchForm);
+
+
 const dataForm = ref({});
 provide("dataForm", dataForm);
 const dialogProps = reactive<DialogProps>({
@@ -249,11 +249,11 @@ const checkChange = (data: TreeNodeData, checked: boolean) => {
       <el-col :span="21" style="height: inherit">
         <el-card class="inner_content" style="height: inherit">
           <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
-            <star-horse-search-comp @searchData="(data)=>menuBtnTableRef.createCreateParams(data)"
+            <star-horse-search-comp @searchData="(data:any)=>menuBtnTableRef.createCreateParams(data)"
                                     :formData="searchFormData"
                                     :compUrl="dataUrl"/>
             <hr/>
-            <star-horse-button-list @tableCompFunc="(fun)=>menuBtnTableRef.tableCompFunc(fun)" :compUrl="dataUrl"
+            <star-horse-button-list @tableCompFunc="(fun:any)=>menuBtnTableRef.tableCompFunc(fun)" :compUrl="dataUrl"
                                     :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
           </div>
           <hr>

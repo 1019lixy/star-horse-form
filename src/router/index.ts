@@ -29,8 +29,8 @@ const assignTitle = (meta: any) => {
 router.beforeEach((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
     assignTitle(to.meta);
     start();
-   // let menus = JSON.parse(JSON.stringify(userInfoStore.dynamicMenus));
-   // console.log(to, menus, localStorage.getItem("userInfoStore"));
+    // let menus = JSON.parse(JSON.stringify(userInfoStore.dynamicMenus));
+    // console.log(to, menus, localStorage.getItem("userInfoStore"));
     if (getToken()) {
         // 已登录且要跳转的页面是登录页
         if (to.path === "/login") {

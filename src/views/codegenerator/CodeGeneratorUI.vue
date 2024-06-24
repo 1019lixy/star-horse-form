@@ -53,32 +53,32 @@ const tableFieldList = reactive<PageFieldInfo>({
       tableShow: true
     }, {
       label: "模版版本", fieldName: "templateVersion", type: "select",
-       formShow: true,
+      formShow: true,
       optionList: templateVersionList,
       tableShow: true
     },],
     {
       label: "需要生成的表名", fieldName: "tablesList", type: "select",
-      multiple:"Y",
+      multiple: "Y",
       optionList: tableInfoList,
       helpMsg: `该属性为空表示生成所有数据库表的代码,
 如果表数量太多（>100），程序自动转异步执行，
 有构建失败风险.`,
-       formShow: !false,
+      formShow: !false,
 
     },
     {
       label: "需要排除的表", fieldName: "excludesList",
       type: "select",
-      multiple:"Y",
+      multiple: "Y",
       optionList: tableInfoList,
-       formShow: !false,
+      formShow: !false,
       tableShow: !false
     },
     [{
       label: "去除表前缀", fieldName: "prefixesStr", type: "input",
       aliasName: "prefixes",
-       formShow: !false,
+      formShow: !false,
       helpMsg: `如果该属性为空，所生成的文件会带上表前缀，
 eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
 多个前缀请用英文分号（;）隔开。`,
@@ -92,8 +92,8 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
       }],
     {
       label: "要生成的文件", fieldName: "fileTypesList", type: "select",
-       formShow: true,
-      multiple:"Y",
+      formShow: true,
+      multiple: "Y",
       optionList: fileTypeList,
       helpMsg: `为空生成所有类型文件`,
       tableShow: true
@@ -105,7 +105,7 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
         tabName: "tab2",
         fieldList: [{
           label: "项目名称", fieldName: "projectName", type: "input",
-           formShow: true,
+          formShow: true,
           helpMsg: "生成代码归属项目",
 
         },
@@ -123,23 +123,23 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
           },
           {
             label: "应用端口", fieldName: "port", type: "number",
-             formShow: true,
+            formShow: true,
             helpMsg: "在配置文件application.yml中对应server.port",
 
           }, {
             label: "发布目录", fieldName: "targetDir", type: "input",
-             formShow: true,
+            formShow: true,
             helpMsg: "文件部署到服务器上的目录",
 
           }, {
             label: "RestFul风格接口", fieldName: "restFul", type: "switch",
-             formShow: true,
+            formShow: true,
             defaultValue: "Y",
 
           },
           {
             label: "包构建类型", fieldName: "war", type: "select",
-             formShow: true,
+            formShow: true,
             defaultValue: "jar",
             optionList: packagingList,
             helpMsg: "对应pom.xml文件中的packaging",
@@ -148,7 +148,7 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
           {
             label: "代码版本", fieldName: "version", type: "input",
             helpMsg: "对应pom.xml文件中version",
-             formShow: true,
+            formShow: true,
 
           },],
 
@@ -157,17 +157,17 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
         tabName: "tab1",
         fieldList: [{
           label: "开发人员", fieldName: "author", type: "input",
-           formShow: true,
+          formShow: true,
 
         },
           {
             label: "邮箱地址", fieldName: "email", type: "input",
-             formShow: true,
+            formShow: true,
 
           },
           {
             label: "是否需要版权", fieldName: "needCopyright", type: "switch",
-             formShow: true,
+            formShow: true,
 
           }],
       },
@@ -177,26 +177,26 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
           fieldList: [
             {
               label: "是否生成UI页面", fieldName: "needUi", type: "switch",
-               formShow: true,
+              formShow: true,
               defaultValue: "Y",
 
             },
             {
               label: "是否分离UI", fieldName: "needSplitUI", type: "switch",
-               formShow: true,
+              formShow: true,
               helpMsg: "UI文件和业务文件是否放在同一个module里面",
               defaultValue: "N",
 
             },
             {
               label: "Ui 文件后缀", fieldName: "uiSuffix", type: "input",
-               formShow: true,
+              formShow: true,
               defaultValue: ".vue",
 
             },
             {
               label: "UI 类型", fieldName: "uiType", type: "select",
-               formShow: true,
+              formShow: true,
               optionList: uiTypeList,
               defaultValue: "VUE_3_TS",
 
@@ -209,7 +209,7 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
           fieldList: [
             {
               label: "是否分离DTO", fieldName: "needSplitDto", type: "switch",
-               formShow: true,
+              formShow: true,
               helpMsg: "DTO文件和业务文件是否放在同一个module里面",
               defaultValue: "N",
 
@@ -271,8 +271,8 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
 const primaryKey = "idCodeGenerator";
 const codeGeneratorRef = ref();
 const rules = {};
-const searchForm = ref({});
-provide("searchForm", searchForm);
+
+
 const dataForm = ref({});
 provide("dataForm", dataForm);
 const dialogProps = reactive<DialogProps>({
@@ -339,11 +339,11 @@ const closeAction = () => {
   </star-horse-dialog>
   <el-card class="inner_content">
     <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
-      <star-horse-search-comp @searchData="(data)=>codeGeneratorRef.createCreateParams(data)"
+      <star-horse-search-comp @searchData="(data:any)=>codeGeneratorRef.createCreateParams(data)"
                               :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
-      <star-horse-button-list @tableCompFunc="(fun)=>codeGeneratorRef.tableCompFunc(fun)" :compUrl="dataUrl"
+      <star-horse-button-list @tableCompFunc="(fun:any)=>codeGeneratorRef.tableCompFunc(fun)" :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
     <star-horse-table-comp ref="codeGeneratorRef" :fieldList="tableFieldList" :primaryKey="primaryKey"

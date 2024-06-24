@@ -74,7 +74,7 @@ const addNode = (data: any, columns: Array<any>, index: number = 0) => {
     posY: y,
   };
   cells = containerDiagramRef.value.addNode(datat);
-  console.log(cells);
+  // console.log(cells);
 };
 /**
  * 创建表之间的连线
@@ -247,7 +247,7 @@ const loadConfigData = async (configId: string | LocationQueryValue[]) => {
 const createMergeData = () => {
   let configInfo = viewConfigInfo.value;
   let relations = configInfo.relations;
-  console.log(configInfo);
+  // console.log(configInfo);
   let tables = configInfo.tables;
   if (!relations && tables.length > 1) {
     warning("两张表之间必须要设置关联关系");
@@ -398,7 +398,7 @@ const conditionValid = () => {
 
 
 const lineOperation = (data: any) => {
-  console.log(data);
+  // console.log(data);
   let fdata = relationConditionList.value.find(item => item.from == data.from && item.fromPort == data.fromPort &&
       item.to == data.to && item.toPort == data.toPort);
   if (fdata) {
@@ -409,7 +409,7 @@ const lineOperation = (data: any) => {
   relationDialogVisible.value = true;
 };
 const nodeOperation = (cell: any) => {
-  console.log(cell);
+  // console.log(cell);
 };
 </script>
 <template>

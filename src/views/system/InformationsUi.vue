@@ -7,7 +7,7 @@ import {onMounted, provide, reactive, ref} from "vue";
 import {SearchProps, SelectOption} from "@/components/types/SearchProps";
 import {loadCustomInfo, loadElementPlusIcon, loadSystemInfo} from "@/api/sh_api";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
-import {getRequest} from "@/api/star_horse";
+import {postRequest} from "@/api/star_horse";
 
 let informationsList = ref<any>([]);
 const dataUrl: ApiUrls = {
@@ -43,9 +43,9 @@ const searchFormData = reactive<SearchProps[]>([
   {label: "系统名称", defaultShow: true, fieldName: "sysName", type: "input", matchType: "lk"},
   {label: "添加时间", fieldName: "createdDate", type: "daterange", matchType: "bt"}
 ]);
-const testFun = (formData) => {
-  console.log(formData['parentId']);
-  getRequest(dataUrl.loadByIdUrl + "/" + formData['parentId']).then(res => {
+const testFun = (formData: any) => {
+  // console.log(formData['parentId']);
+  postRequest(dataUrl.loadByIdUrl + "/" + formData['parentId'], {}).then(res => {
     let redata = res.data.data;
     formData['idCustomer'] = redata['idCustomer'];
   });
@@ -59,7 +59,7 @@ const tableFieldList = reactive<PageFieldInfo>({
     },
     {
       label: "上级系统", fieldName: "parentId", type: "select", optionList: informationsList,
-       formShow: !false,
+      formShow: !false,
 
       actionName: "change",
       actions: testFun
@@ -81,43 +81,43 @@ const tableFieldList = reactive<PageFieldInfo>({
      },*/
     {
       label: "系统编码", fieldName: "sysCode", type: "input",
-      required: true, disabled:"Y",
+      required: true, disabled: "Y",
       tableShow: !false
     },
     [{
       label: "系统Logo", fieldName: "sysLogo", type: "icon", optionList: systemIconList,
-       formShow: !false,
+      formShow: !false,
       tableShow: !false
     }, {
       label: "数据排序", fieldName: "dataSort", type: "number",
-       formShow: !false,
+      formShow: !false,
       tableShow: !false
     },],
 
 
     {
       label: "系统描述", fieldName: "sysDesc", type: "textarea",
-       formShow: !false,
+      formShow: !false,
       tableShow: !false, actionName: "input", actions: testFun
     },
 
     {
-      label: "创建人", disabled:"Y", fieldName: "createdBy", type: "input",
+      label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
 
 
     },
     {
-      label: "修改人", disabled:"Y", fieldName: "updatedBy", type: "input",
+      label: "修改人", disabled: "Y", fieldName: "updatedBy", type: "input",
 
 
     },
     {
-      label: "创建日期", disabled:"Y", fieldName: "createdDate", type: "date",
+      label: "创建日期", disabled: "Y", fieldName: "createdDate", type: "date",
 
 
     },
     {
-      label: "修改日期", disabled:"Y", fieldName: "updatedDate", type: "date",
+      label: "修改日期", disabled: "Y", fieldName: "updatedDate", type: "date",
 
     },
     {
@@ -148,16 +148,15 @@ const tableFieldList = reactive<PageFieldInfo>({
     },
 
   ],
-  batchFieldList: [],
-  userTableFuncs: [],
+
 
 });
 const primaryKey = "idInformations";
 const informationsRef = ref();
 const iconList = icon;
 const rules = {};
-const searchForm = ref({});
-provide("searchForm", searchForm);
+
+
 const dataForm = ref({});
 provide("dataForm", dataForm);
 
@@ -199,10 +198,10 @@ const dataFormat = (name: string, cellValue: Object): any => {
   </star-horse-dialog>
   <el-card class="inner_content">
     <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
-      <star-horse-search-comp @searchData="(data)=>informationsRef.createCreateParams(data)" :formData="searchFormData"
+      <star-horse-search-comp @searchData="(data:any)=>informationsRef.createCreateParams(data)" :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
-      <star-horse-button-list @tableCompFunc="(fun)=>informationsRef.tableCompFunc(fun)" :compUrl="dataUrl"
+      <star-horse-button-list @tableCompFunc="(fun:any)=>informationsRef.tableCompFunc(fun)" :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
     <hr>

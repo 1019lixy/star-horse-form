@@ -67,7 +67,7 @@ let dataFieldInfo = ref<PageFieldInfo>({
       optionList: containerTypeList,
       formShow: !false,
       tableShow: !false,
-      minWidth: 180,
+
       actionNames: "change",
       actions: (val) => containerTypeOperation(val)
     }, {
@@ -80,7 +80,7 @@ let dataFieldInfo = ref<PageFieldInfo>({
       tableShow: !false,
       disabled: columnsContr,
       defaultValue: configData.value.columns,
-      minWidth: 180,
+
       preps: {
         min: 1,
         max: 12,
@@ -97,7 +97,7 @@ let dataFieldInfo = ref<PageFieldInfo>({
       optionList: selectFields,
       formShow: !false,
       tableShow: !false,
-      minWidth: 180
+
     },
     {
       batchFieldList: [
@@ -113,7 +113,7 @@ let dataFieldInfo = ref<PageFieldInfo>({
             optionList: selectFields,
             formShow: !false,
             tableShow: !false,
-            minWidth: 180
+
           }, {
             label: "组件类型",
             fieldName: "fieldType",
@@ -122,7 +122,7 @@ let dataFieldInfo = ref<PageFieldInfo>({
             optionList: allFormDataList,
             formShow: !false,
             tableShow: !false,
-            minWidth: 180
+
           }]
         }
       ]

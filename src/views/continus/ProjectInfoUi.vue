@@ -1,6 +1,6 @@
 <script setup lang="ts" name="ProjectInfoUi">
 import {ApiUrls} from "@/components/types/ApiUrls";
-import {onMounted, reactive, ref, provide} from "vue";
+import {onMounted, provide, reactive, ref} from "vue";
 import {SearchProps, SelectOption} from "@/components/types/SearchProps.d.ts";
 import {Config} from "@/api/settings.js";
 import ProjectMemberUi from "@/views/continus/ProjectMemberUi.vue";
@@ -38,12 +38,12 @@ const tableFieldList = reactive({
     },
     [{
       label: "代码库地址", fieldName: "host", type: "input",
-       formShow: !false,
+      formShow: !false,
       tableShow: !false
     },
       {
         label: "代码库端口", fieldName: "port", type: "number",
-         formShow: !false,
+        formShow: !false,
         tableShow: !false
       }],
     [{
@@ -69,17 +69,17 @@ const tableFieldList = reactive({
       }],
     [{
       label: "流水线账号", fieldName: "account", type: "input",
-       formShow: !false,
+      formShow: !false,
       tableShow: !false
     },
       {
         label: "流水线密码", fieldName: "security", type: "input",
-         formShow: !false,
+        formShow: !false,
         tableShow: !false
       }],
     {
       label: "备注", fieldName: "remark", type: "textarea",
-       formShow: true,
+      formShow: true,
 
     },
     {
@@ -88,34 +88,34 @@ const tableFieldList = reactive({
         title: "项目成员",
         fieldList: [{
           label: "用户名", fieldName: "username", type: "input",
-           formShow: !false,
+          formShow: !false,
           tableShow: !false
         },
 
           {
             label: "姓名", fieldName: "name", type: "input",
-             formShow: !false,
+            formShow: !false,
             tableShow: !false
           },
 
           {
             label: "角色名称", fieldName: "roleName", type: "input",
-             formShow: !false,
+            formShow: !false,
             tableShow: !false
           },
           {
             label: "生效时间", fieldName: "effectiveDate", type: "input",
-             formShow: !false,
+            formShow: !false,
             tableShow: !false
           },
           {
             label: "失效日期", fieldName: "expirationDate", type: "input",
-             formShow: !false,
+            formShow: !false,
             tableShow: !false
           },
           {
             label: "是否管理员 1是 2否", fieldName: "isManager", type: "input",
-             formShow: !false,
+            formShow: !false,
             tableShow: !false
           },]
       }]
@@ -176,8 +176,8 @@ const tableFieldList = reactive({
 const primaryKey = "idProjectInfo";
 const projectInfoRef = ref();
 const rules = {};
-const searchForm = ref({});
-provide("searchForm", searchForm);
+
+
 const dataForm = ref({});
 provide("dataForm", dataForm);
 const dialogProps = reactive<DialogProps>({
@@ -219,10 +219,10 @@ onMounted(async () => {
   </star-horse-dialog>
   <el-card class="inner_content">
     <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
-      <star-horse-search-comp @searchData="(data)=>projectInfoRef.createCreateParams(data)" :formData="searchFormData"
+      <star-horse-search-comp @searchData="(data:any)=>projectInfoRef.createCreateParams(data)" :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
-      <star-horse-button-list @tableCompFunc="(fun)=>projectInfoRef.tableCompFunc(fun)" :compUrl="dataUrl"
+      <star-horse-button-list @tableCompFunc="(fun:any)=>projectInfoRef.tableCompFunc(fun)" :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
     <star-horse-table-comp ref="projectInfoRef" :fieldList="tableFieldList" :primaryKey="primaryKey" :compUrl="dataUrl"

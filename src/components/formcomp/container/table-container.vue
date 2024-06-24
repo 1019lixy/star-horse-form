@@ -1,7 +1,7 @@
 <script setup lang="ts" name="table-container">
 // 右键菜单组件
 import {computed, PropType, ref} from "vue";
-import {warning, confirm} from "@/utils/message";
+import {confirm, warning} from "@/utils/message";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";

@@ -1,13 +1,11 @@
 <script setup lang="ts" name="DbSearch">
 import StarHorseEditor from "@/components/comp/StarHorseEditor.vue";
 import {onMounted, ref, unref} from "vue";
-import {closeLoad, commonParseCodeToName, load, loadGetData} from "@/api/sh_api";
+import {closeLoad, commonParseCodeToName, load} from "@/api/sh_api";
 import {error, warning} from "@/utils/message";
 import {download, getRequest, postRequest} from "@/api/star_horse";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import Help from "@/components/help.vue";
-import {commands} from "@/utils/sh_design.ts";
-import {sql} from "@codemirror/lang-sql";
 import {initDbList} from "@/views/dbsearch/utils/DbSearchUtils.ts";
 
 let editorRef = ref(null);

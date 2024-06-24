@@ -66,7 +66,7 @@
 }
 </style>
 <script setup lang="ts" name="crontab-day">
-import {computed, ref, watch, watchEffect} from "vue";
+import {computed, ref, watch} from "vue";
 
 let radioValue = ref(1);
 let workday = ref(1);

@@ -27,7 +27,7 @@ const initData = async () => {
 onMounted(() => {
   initData();
 })
-const searchForm = ref({});
+
 let dbTypeList = ref<SelectOption[]>([]);
 const searchFormData = reactive<SearchProps[]>([
   {label: "数据库类型", fieldName: "dbType", type: "select", optionList: dbTypeList},
@@ -47,37 +47,37 @@ const tableFieldList = reactive({
     },
     {
       label: "数据库地址", fieldName: "host", type: "input",
-       formShow: !false,
+      formShow: !false,
       tableShow: !false
     },
     {
       label: "数据库名称", fieldName: "dbName", type: "input",
-       formShow: !false,
+      formShow: !false,
       tableShow: !false
     },
     {
       label: "数据库端口", fieldName: "port", type: "number",
-       formShow: !false,
+      formShow: !false,
       tableShow: !false
     },
     {
       label: "用户名", fieldName: "userName", type: "input",
-       formShow: !false,
+      formShow: !false,
       tableShow: !false
     },
     {
       label: "密码", fieldName: "password", type: "password",
-       formShow: !false,
+      formShow: !false,
       tableShow: !false
     },
     {
       label: "禁用操作权限", fieldName: "exclusions", type: "textarea",
-       formShow: !false,
+      formShow: !false,
       tableShow: !false
     },
     {
       label: "数据库描述", fieldName: "dbComment", type: "textarea",
-       formShow: !false,
+      formShow: !false,
       tableShow: !false
     },
     {
@@ -137,7 +137,7 @@ const primaryKey = "idDbinfo";
 const dbinfoRef = ref();
 const rules = {};
 
-provide("searchForm", searchForm);
+
 const dataForm = ref({});
 provide("dataForm", dataForm);
 const dialogProps = reactive<DialogProps>({
@@ -186,10 +186,10 @@ const dataFormat = (name: string, cellValue: Object): any => {
   </star-horse-dialog>
   <el-card class="inner_content">
     <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
-      <star-horse-search-comp @searchData="(data)=>dbinfoRef.createCreateParams(data)" :formData="searchFormData"
+      <star-horse-search-comp @searchData="(data:any)=>dbinfoRef.createCreateParams(data)" :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
-      <star-horse-button-list @tableCompFunc="(fun)=>dbinfoRef.tableCompFunc(fun)" :compUrl="dataUrl"
+      <star-horse-button-list @tableCompFunc="(fun:any)=>dbinfoRef.tableCompFunc(fun)" :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
     <star-horse-table-comp ref="dbinfoRef" :fieldList="tableFieldList" :primaryKey="primaryKey" :compUrl="dataUrl"

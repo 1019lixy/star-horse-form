@@ -101,36 +101,36 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     },
     [{
       label: "系统权限", fieldName: "appsList", type: "select", optionList: systemList,
-      required: true, multiple:"Y",
+      required: true, multiple: "Y",
 
     },
       {
         label: "菜单权限", fieldName: "menusList", type: "tselect", optionList: menusList,
-        required: true, multiple:"Y",
+        required: true, multiple: "Y",
 
       }],
     {
       label: "角色描述", fieldName: "roleDesc", type: "textarea",
-       formShow: !false,
+      formShow: !false,
       tableShow: !false
     },
     {
-      label: "创建人", disabled:"Y", fieldName: "createdBy", type: "input",
+      label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
 
       tableShow: true
     },
     {
-      label: "修改人", disabled:"Y", fieldName: "updatedBy", type: "input",
+      label: "修改人", disabled: "Y", fieldName: "updatedBy", type: "input",
 
 
     },
     {
-      label: "创建日期", disabled:"Y", fieldName: "createdDate", type: "date",
+      label: "创建日期", disabled: "Y", fieldName: "createdDate", type: "date",
 
       tableShow: true
     },
     {
-      label: "修改日期", disabled:"Y", fieldName: "updatedDate", type: "date",
+      label: "修改日期", disabled: "Y", fieldName: "updatedDate", type: "date",
 
 
     },
@@ -166,13 +166,13 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     },
 
   ],
-  batchFieldList: [],
-  userTableFuncs: [],
+
+
 });
 const primaryKey = "idRolesinfo";
 const rules = {};
-const searchForm = ref({});
-provide("searchForm", searchForm);
+
+
 const dataForm = ref({});
 provide("dataForm", dataForm);
 const dialogProps = reactive<DialogProps>({
@@ -475,11 +475,11 @@ const filterMethod = (query: string, node: TreeNode) => {
         <el-col :span = "12" style = "height: 100%;">-->
   <el-card class="inner_content" style="height: 100%;">
     <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
-      <star-horse-search-comp @searchData="(data)=>starHorseTableCompRef.createCreateParams(data)"
+      <star-horse-search-comp @searchData="(data:any)=>starHorseTableCompRef.createCreateParams(data)"
                               :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
-      <star-horse-button-list @tableCompFunc="(fun)=>starHorseTableCompRef.tableCompFunc(fun)" :compUrl="dataUrl"
+      <star-horse-button-list @tableCompFunc="(fun:any)=>starHorseTableCompRef.tableCompFunc(fun)" :compUrl="dataUrl"
                               :selfBtnFunc="selfBtnFunc"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>

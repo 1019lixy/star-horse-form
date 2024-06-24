@@ -4,7 +4,6 @@ import {FieldInfo} from "@/components/types/PageFieldInfo";
 import {rowClassName} from "@/api/sh_api";
 import {Config} from "@/api/settings";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-import Help from "@/components/help.vue";
 
 const props = defineProps({
   item: {type: Array as PropType<Array<FieldInfo>>, required: true},

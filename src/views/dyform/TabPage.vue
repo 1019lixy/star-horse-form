@@ -12,8 +12,7 @@ import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
 
 let designForm = DesignForm(piniaInstance);
-const router = useRouter();
-const starHorseTableCompRef = ref(null);
+const starHorseTableCompRef = ref();
 const dataUrl = ref<ApiUrls>({
   uploadUrl: "",
   batchMergeDraftUrl: "",
@@ -31,17 +30,14 @@ const dataUrl = ref<ApiUrls>({
 const errorMsg = ref("数据加载中");
 let searchFormData = ref<SearchProps[]>();
 const tableFieldList = ref<PageFieldInfo>({
-  fieldList: [],
-  batchFieldList: [],
-  userTableFuncs: [],
-  stopAutoLoad: false,
-});
+      fieldList: [],
+    })
+;
 const primaryKey = ref("");
 const rules = ref({});
 const hasData = ref(false);
 const formInfo = ref<any>({});
 const activeName = ref<string>("form");
-
 const props = defineProps({
   param: {required: true},
 });
@@ -92,8 +88,8 @@ onMounted(() => {
   designForm.setIsEdit(false);
   loadFormData(<string>props.param);
 });
-const searchForm = ref({});
-provide("searchForm", searchForm);
+
+
 const dataForm = ref({});
 provide("dataForm", dataForm);
 //记录表单的属性
@@ -136,16 +132,15 @@ const dataFormat = (name: string, cellValue: Object): any => {
       <el-tabs v-model="activeName" type="border-card" @tab-click="handleClick">
         <el-tab-pane label="表单" name="form">
           <sh-dynamic-form @refresh="starHorseTableCompRef?.loadByPage()" :compUrl="dataUrl" :formInfo="formInfo"
-                           :fieldList=
-                               "tableFieldList.dynamicFormas" :rules="rules" :typeModel="'tab'"/>
+                           :fieldList="tableFieldList['dynamicFormas']" :rules="rules" :typeModel="'tab'"/>
         </el-tab-pane>
         <el-tab-pane label="数据列表" name="table">
           <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
-            <star-horse-search-comp @searchData="(data)=>starHorseTableCompRef.createCreateParams(data)"
+            <star-horse-search-comp @searchData="(data:any)=>starHorseTableCompRef.createCreateParams(data)"
                                     :formData="searchFormData"
                                     :compUrl="dataUrl"/>
             <hr/>
-            <star-horse-button-list @tableCompFunc="(fun)=>starHorseTableCompRef.tableCompFunc(fun)" :compUrl="dataUrl"
+            <star-horse-button-list @tableCompFunc="(fun:any)=>starHorseTableCompRef.tableCompFunc(fun)" :compUrl="dataUrl"
                                     :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
           </div>
           <hr>

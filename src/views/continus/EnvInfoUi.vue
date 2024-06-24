@@ -36,12 +36,12 @@ const tableFieldList = reactive({
     },
     [{
       label: "环境编码", fieldName: "nevCode", type: "input",
-       formShow: !false,
+      formShow: !false,
       tableShow: !false
     },
       {
         label: "环境地址", fieldName: "envHose", type: "number",
-         formShow: !false,
+        formShow: !false,
         tableShow: !false
       }],
     [{
@@ -67,17 +67,17 @@ const tableFieldList = reactive({
       }],
     [{
       label: "失效日期", fieldName: "expirationDate", type: "input",
-       formShow: !false,
+      formShow: !false,
       tableShow: !false
     },
       {
         label: "生效时间", fieldName: "effectiveDate", type: "input",
-         formShow: !false,
+        formShow: !false,
         tableShow: !false
       }],
     {
       label: "备注", fieldName: "remark", type: "textarea",
-       formShow: true,
+      formShow: true,
 
     },
     {
@@ -136,8 +136,8 @@ const tableFieldList = reactive({
 const primaryKey = "idEnvInfo";
 const environmentInfoRef = ref();
 const rules = {};
-const searchForm = ref({});
-provide("searchForm", searchForm);
+
+
 const dataForm = ref({});
 provide("dataForm", dataForm);
 const dialogProps = reactive<DialogProps>({
@@ -176,11 +176,11 @@ onMounted(async () => {
   </star-horse-dialog>
   <el-card class="inner_content">
     <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
-      <star-horse-search-comp @searchData="(data)=>environmentInfoRef.createCreateParams(data)"
+      <star-horse-search-comp @searchData="(data:any)=>environmentInfoRef.createCreateParams(data)"
                               :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
-      <star-horse-button-list @tableCompFunc="(fun)=>environmentInfoRef.tableCompFunc(fun)" :compUrl="dataUrl"
+      <star-horse-button-list @tableCompFunc="(fun:any)=>environmentInfoRef.tableCompFunc(fun)" :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
     <star-horse-table-comp ref="environmentInfoRef" :fieldList="tableFieldList" :primaryKey="primaryKey"

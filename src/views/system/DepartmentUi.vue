@@ -40,7 +40,7 @@ const tableFieldList = reactive<PageFieldInfo>({
     },
     {
       label: "上级部门", fieldName: "parentDeptList", type: "cascade", optionList: departmentList,
-       formShow: !false,
+      formShow: !false,
 
     },
     {
@@ -51,37 +51,37 @@ const tableFieldList = reactive<PageFieldInfo>({
 
     {
       label: "部门编码", fieldName: "deptCode", type: "input",
-      required: true, disabled:"Y",
+      required: true, disabled: "Y",
       tableShow: !false
     },
     {
       label: "部门电话", fieldName: "deptPhone", type: "input",
-       formShow: !false,
+      formShow: !false,
       tableShow: !false
     },
 
     {
       label: "部门描述", fieldName: "deptDesc", type: "textarea",
-       formShow: !false,
+      formShow: !false,
       tableShow: !false
     },
     {
-      label: "创建人", disabled:"Y", fieldName: "createdBy", type: "input",
+      label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
 
 
     },
     {
-      label: "修改人", disabled:"Y", fieldName: "updatedBy", type: "input",
+      label: "修改人", disabled: "Y", fieldName: "updatedBy", type: "input",
 
 
     },
     {
-      label: "创建日期", disabled:"Y", fieldName: "createdDate", type: "date",
+      label: "创建日期", disabled: "Y", fieldName: "createdDate", type: "date",
 
 
     },
     {
-      label: "修改日期", disabled:"Y", fieldName: "updatedDate", type: "date",
+      label: "修改日期", disabled: "Y", fieldName: "updatedDate", type: "date",
 
 
     },
@@ -117,14 +117,14 @@ const tableFieldList = reactive<PageFieldInfo>({
     },
 
   ],
-  batchFieldList: [],
-  userTableFuncs: [],
+
+
 });
 const primaryKey = "idDepartment";
 const departmentRef = ref();
 const rules = {};
-const searchForm = ref({});
-provide("searchForm", searchForm);
+
+
 const dataForm = ref({});
 provide("dataForm", dataForm);
 const dialogProps = reactive<DialogProps>({
@@ -158,10 +158,10 @@ const dataFormat = (name: string, cellValue: Object): any => {
   </star-horse-dialog>
   <el-card class="inner_content">
     <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
-      <star-horse-search-comp @searchData="(data)=>departmentRef.createCreateParams(data)" :formData="searchFormData"
+      <star-horse-search-comp @searchData="(data:any)=>departmentRef.createCreateParams(data)" :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
-      <star-horse-button-list @tableCompFunc="(fun)=>departmentRef.tableCompFunc(fun)" :compUrl="dataUrl"
+      <star-horse-button-list @tableCompFunc="(fun:any)=>departmentRef.tableCompFunc(fun)" :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
     <hr>

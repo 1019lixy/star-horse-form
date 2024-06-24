@@ -1,6 +1,6 @@
 <script setup lang="ts" name="StarHorseDesign">
 import {computed, nextTick, onMounted, PropType, provide, ref, watch} from "vue";
-import {Cell, Graph, Point, Shape, View} from "@antv/x6";
+import {Cell, Graph, Shape, View} from "@antv/x6";
 import {confirm, warning} from "@/utils/message.ts";
 import {CompInfo, CustomerItem, NodeInfo} from "@/components/types/CompInfo.d.ts";
 import {commands, configInfo, helpMessage, ports, tableConfigInfo} from "@/utils/sh_design.ts";
@@ -10,7 +10,6 @@ import {PageFieldInfo} from "@/components/types/PageFieldInfo.d.ts";
 import piniaInstance from "@/store";
 import {DesignGraph} from "@/store/DesignGraphStore";
 import {closeLoad, formFieldMapping, load} from "@/api/sh_api";
-import {DynamicForm} from "@/store/DynamicFormStore";
 import Help from "@/components/help.vue";
 import ConsumerDbListComp from "@/views/dbsearch/utils/ConsumerDbListComp.vue";
 import StarHorseEditor from "@/components/comp/StarHorseEditor.vue";

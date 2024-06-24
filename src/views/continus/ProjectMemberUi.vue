@@ -32,39 +32,39 @@ const tableFieldList = reactive({
     },
     {
       label: "归属项目", fieldName: "projectId", type: "input",
-       formShow: !false,
+      formShow: !false,
       tableShow: !false
     },
     {
       label: "用户名", fieldName: "username", type: "input",
-       formShow: !false,
+      formShow: !false,
       tableShow: !false
     },
 
     {
       label: "姓名", fieldName: "name", type: "input",
-       formShow: !false,
+      formShow: !false,
       tableShow: !false
     },
 
     {
       label: "角色名称", fieldName: "roleName", type: "input",
-       formShow: !false,
+      formShow: !false,
       tableShow: !false
     },
     {
       label: "生效时间", fieldName: "effectiveDate", type: "input",
-       formShow: !false,
+      formShow: !false,
       tableShow: !false
     },
     {
       label: "失效日期", fieldName: "expirationDate", type: "input",
-       formShow: !false,
+      formShow: !false,
       tableShow: !false
     },
     {
       label: "是否管理员 1是 2否", fieldName: "isManager", type: "input",
-       formShow: !false,
+      formShow: !false,
       tableShow: !false
     },
 
@@ -119,14 +119,14 @@ const tableFieldList = reactive({
 
     },
   ],
-  batchFieldList: [],
+
   stopAutoLoad: true,
 });
 const primaryKey = "idDbinfo";
 const projectMemberRef = ref();
 const rules = {};
-const searchForm = ref({});
-provide("searchForm", searchForm);
+
+
 const dataForm = ref({});
 provide("dataForm", dataForm);
 const dialogProps = reactive<DialogProps>({
@@ -180,10 +180,10 @@ onMounted(async () => {
   </star-horse-dialog>
   <el-card class="inner_content">
     <!--    <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
-          <star-horse-search-comp @searchData="(data)=>projectMemberRef.createCreateParams(data)" :formData="searchFormData"
+          <star-horse-search-comp   @searchData="(data:any)=>projectMemberRef.createCreateParams(data)" :formData="searchFormData"
                                   :compUrl="dataUrl"/>
           <hr/>
-          <star-horse-button-list @tableCompFunc="(fun)=>projectMemberRef.tableCompFunc(fun)" :compUrl="dataUrl"
+          <star-horse-button-list @tableCompFunc="(fun:any)=>projectMemberRef.tableCompFunc(fun)" :compUrl="dataUrl"
                                   :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
         </div>-->
     <star-horse-table-comp ref="projectMemberRef" :fieldList="tableFieldList" :primaryKey="primaryKey"
