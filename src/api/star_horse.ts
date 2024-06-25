@@ -10,6 +10,7 @@ import {navBarList} from "@/store/NavbarListStore";
 import {userInfo} from "@/store/UserInfoStore";
 import {viewList} from "@/store/ViewCacheStore";
 import {SelectOption} from "@/components/types/SearchProps";
+
 const navBarListStore = navBarList(piniaInstance);
 const userInfoStore = userInfo(piniaInstance);
 const viewListStore = viewList(piniaInstance);
@@ -44,7 +45,7 @@ service.interceptors.response.use((response: AxiosResponse) => {
     // }
     return response;
 }, (error) => {
-    if (error.toString().indexOf("status code 401") > 1) {
+    if (error.toString().includes("status code 401")) {
         console.log("系统超时，请登录后再操出");
         removeToken();
         navBarListStore.clearAll();
@@ -56,10 +57,12 @@ service.interceptors.response.use((response: AxiosResponse) => {
         return Promise.reject(error);
     }
 });
+
 function getUserId() {
     let userInfo = getUserInfo();
     return userInfo?.idUsersinfo;
 }
+
 /**
  * 获取系统验证码
  * @returns {Promise<AxiosResponse<any>>}
@@ -67,6 +70,7 @@ function getUserId() {
 export function getValidateImg() {
     return getRequest("/system-config/global/imageCode");
 }
+
 /**
  * 加载二维码
  * @param content
@@ -78,6 +82,7 @@ export async function rtCode(content: string) {
     });
     return data;
 }
+
 /**
  * 菜单选择树
  * @param data
@@ -86,13 +91,13 @@ export async function rtCode(content: string) {
 export function selectMenusTreeData(data: any) {
     let list: any = [];
     data.forEach((item: any) => {
-        let temp = {};
+        let temp:any = {};
         temp["value"] = item.idMenusinfo;
         temp["label"] = item.menuName;
         if (item.children && item.children.length > 0) {
             temp["children"] = [];
             item.children.forEach((sitem: any) => {
-                let stemp = {};
+                let stemp:any = {};
                 stemp["value"] = sitem.idMenusinfo;
                 stemp["label"] = sitem.menuName;
                 temp["children"].push(stemp);
@@ -102,9 +107,10 @@ export function selectMenusTreeData(data: any) {
     });
     return list;
 }
+
 /**
  * 用户登录
- * @param data
+ * @param loginData
  * @returns {Promise<AxiosResponse<any>>}
  */
 export async function userLogin(loginData: any) {
@@ -136,6 +142,7 @@ export async function userLogin(loginData: any) {
     });
     return {data, errMsg};
 }
+
 /**
  * 退出登录
  * @param data
@@ -158,6 +165,7 @@ export async function userLogout(data: Array<Object>) {
         }
     }).catch(err => error(err));
 }
+
 /**
  * 一次性加载用户权限菜单
  * @param data
@@ -167,10 +175,12 @@ export async function permissionMenus(data: any, sysId: string) {
     let userId = data.userId || getUserId();
     return await postRequest(`/system-config/system/menusinfoEntity/permissionMenus/${userId}/${sysId}`, {});
 }
+
 export function permissionResources(data: any) {
     let userId = data.userId || getUserId();
     return postRequest(`/system-config/system/resourcesEntity/permissionResources/${userId}/${data.menuId}`, {})
 }
+
 /**
  * 创建路由和菜单数据
  * @param redata
@@ -183,6 +193,7 @@ export function createRouterAndMenuList(redata: Array<Object>): MenusInfo[] {
     }
     const baseDir = "/src/views";
     const compPath = import.meta.glob("@/views/**/*.vue");
+
     /**
      * 递归组装菜单
      * @param redata
@@ -224,10 +235,12 @@ export function createRouterAndMenuList(redata: Array<Object>): MenusInfo[] {
         }
         return menuDatas;
     }
+
     leftMenuDatas = loopCreateMenu(redata, 1);
     localStorage.setItem("dynamicMenusLists", JSON.stringify(userInfoStore.dynamicMenus));
     return leftMenuDatas;
 }
+
 /**
  * 下载文件,
  * @param url 路径
@@ -240,8 +253,7 @@ export function download(url: string, param: any) {
             let delement = document.createElement("a");
             let href = window.URL.createObjectURL(blob);
             delement.href = href;
-            let name = decodeURI(res.headers["content-disposition"].split("=")[1]);
-            delement.download = name;
+            delement.download = decodeURI(res.headers["content-disposition"].split("=")[1]);
             document.body.appendChild(delement);
             delement.click();
             document.body.removeChild(delement);
@@ -253,6 +265,7 @@ export function download(url: string, param: any) {
         });
     });
 }
+
 /**
  * 加载资源文件
  * @param url
@@ -264,6 +277,7 @@ export async function blobData(url: string) {
     });
     return redata;
 }
+
 /**
  * 加载已配置的菜单
  * @param param
@@ -272,6 +286,7 @@ export async function blobData(url: string) {
 export function loadConfigedMenus(param: Array<Object>) {
     return postRequest("/system-config/system/menusinfoEntity/getAllByCondition", param);
 }
+
 /**
  * 获取部门信息
  * @param param
@@ -284,12 +299,12 @@ export async function loadDepartments(param: Array<Object>) {
         if (res.data.code != 0) {
             errMsg = res.data.cnMessage;
         } else {
-            let resdata = res.data.data;
-            redata = resdata
+            redata = res.data.data
         }
     }).catch(err => errMsg = err)
     return {redata, errMsg};
 }
+
 /**
  * 获取部门信息
  * @param param
@@ -302,12 +317,12 @@ export async function loadSystems(param: Array<Object>) {
         if (res.data.code != 0) {
             errMsg = res.data.cnMessage;
         } else {
-            let resdata = res.data.data;
-            redata = resdata
+            redata = res.data.data
         }
     }).catch(err => errMsg = err)
     return {redata, errMsg};
 }
+
 /**
  * 获取数据字典
  * @param param
@@ -323,7 +338,7 @@ export async function loadDict(dictName: String) {
             console.log(res.data.cnMessage);
         } else {
             let resdata = res.data.data;
-            resdata.forEach(item => {
+            resdata.forEach((item: any) => {
                 redata.push({
                     name: item.dictName,
                     value: item.dictCode
@@ -333,6 +348,7 @@ export async function loadDict(dictName: String) {
     }).catch(err => console.log(err));
     return redata;
 }
+
 /**
  * 获取下拉数据
  * @param param
@@ -351,6 +367,7 @@ export async function loadRoleDatas(param: Array<Object>) {
     }).catch(err => errMsg = err);
     return {redata, errMsg}
 }
+
 /**
  * Post 请求
  * @param url
@@ -360,6 +377,7 @@ export async function loadRoleDatas(param: Array<Object>) {
 export function postRequest(url: string, data: Array<any> | any) {
     return service.post(url, data);
 }
+
 /**
  * Get请求
  * @param url
@@ -368,6 +386,7 @@ export function postRequest(url: string, data: Array<any> | any) {
 export function getRequest(url: string) {
     return service.get(url);
 }
+
 /**
  * Post Upload 请求
  * @param url
@@ -377,6 +396,7 @@ export function getRequest(url: string) {
 export function uploadRequest(url: string, data: Array<Object>) {
     return service.post(url, data, {headers: {"Content-Type": "multipart/form-data"}});
 }
+
 /**
  * 去除空格
  * @param data
@@ -388,6 +408,7 @@ export function trim(data: string) {
     }
     return data.replace(/(^\s*)|(\s*$)/g, '');
 }
+
 /**
  * PostV2 请求
  * @param url
