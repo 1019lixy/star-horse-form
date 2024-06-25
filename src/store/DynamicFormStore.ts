@@ -1,9 +1,10 @@
 import {defineStore} from "pinia";
 import {warning} from "@/utils/message";
+
 export const DynamicForm: any = defineStore("DynamicForm", {
     state: () => {
         return {
-            dataForm: {} as Object,
+            dataForm: {} as any,
             selectData: null as any,
             dataId: null as any
         }
@@ -159,12 +160,12 @@ export const DynamicForm: any = defineStore("DynamicForm", {
                 this.batchAddOrUpdateField(batchName, distField, newValue, rowIndex);
                 return;
             }
-            let dataFun = (data: object, sourceField: string, distField: string, newValue?: any) => {
+            let dataFun = (data: any, sourceField: string, distField: string, newValue?: any) => {
                 if (Object.keys(data).includes(distField)) {
                     warning("新的属性名已存在，不能进行修改");
                     return false;
                 }
-                let bakeValue = data[sourceField];
+                let bakeValue: any = data[sourceField];
                 delete this.dataForm[sourceField];
                 this.dataForm[distField] = newValue || bakeValue;
                 return true;

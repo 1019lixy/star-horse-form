@@ -6,7 +6,6 @@ import {confirm, error, success, warning} from "@/utils/message";
 import {DialogProps} from "@/components/types/DialogProps";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {getCustomerInfo, getCustomerParam, getUserInfo} from "@/utils/auth";
-import {userInfo as userinfoStore} from "@/store/UserInfoStore";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {ElTable} from "element-plus";
 import {closeLoad, filterTree, load} from "@/api/sh_api";
@@ -17,7 +16,9 @@ import {LangType} from "@/theme/theme.ts";
 import {i18n} from "../lang";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import piniaInstance from "@/store";
-const userInfoStore = userinfoStore();
+import {UserInfo} from "@/store/UserInfoStore.ts";
+
+const userInfoStore = UserInfo(piniaInstance);
 const shortcutMenuList = ref<Array<any>>([]);
 let systemName = Config.title;
 let userInfo = getUserInfo();
@@ -402,10 +403,12 @@ let shortcutVisible = computed(() => configStore.configFormInfo.shortCutMenus ||
 .el-avatar {
   margin-top: -10px;
 }
+
 .el-icon {
   font-size: 22px;
   margin: 3px auto;
 }
+
 .header {
   height: 50px;
   width: 100%;
@@ -418,9 +421,11 @@ let shortcutVisible = computed(() => configStore.configFormInfo.shortCutMenus ||
   justify-content: space-between;
   box-sizing: border-box;
   flex-direction: row;
+
   .header-left {
     height: 100%;
     flex: 1;
+
     ul {
       list-style: none;
       display: flex;
@@ -428,6 +433,7 @@ let shortcutVisible = computed(() => configStore.configFormInfo.shortCutMenus ||
       height: 100%;
       margin-left: 0;
       padding-left: 0;
+
       li {
         span {
           color: var(--star-horse-white);
@@ -435,6 +441,7 @@ let shortcutVisible = computed(() => configStore.configFormInfo.shortCutMenus ||
       }
     }
   }
+
   .header-right {
     width: 150px;
     height: 100%;
@@ -444,6 +451,7 @@ let shortcutVisible = computed(() => configStore.configFormInfo.shortCutMenus ||
     justify-content: center;
     vertical-align: middle;
     text-align: right;
+
     .user-info {
       width: inherit;
       height: 100%;
@@ -453,11 +461,13 @@ let shortcutVisible = computed(() => configStore.configFormInfo.shortCutMenus ||
       flex-direction: row-reverse;
       vertical-align: middle;
       align-items: center;
+
       .lang {
         align-items: center;
         justify-content: center;
         vertical-align: middle;
       }
+
       .el-dropdown-link {
         color: var(--star-horse-white);
         display: flex;
@@ -467,9 +477,11 @@ let shortcutVisible = computed(() => configStore.configFormInfo.shortCutMenus ||
     }
   }
 }
+
 .el-dropdown-menu > .el-dropdown-menu__item:first-child {
   border-bottom: 1px solid silver;
 }
+
 .shortcut {
   height: 30px;
   background: var(--star-horse-style);;
@@ -477,6 +489,7 @@ let shortcutVisible = computed(() => configStore.configFormInfo.shortCutMenus ||
   box-shadow: 0 2px 10px 0 var(--star-horse-shadow-rgba);
   border-top: 1px solid rgba($color: #fff, $alpha: .2);
   box-sizing: border-box;
+
   .shortcut_ul {
     width: 100%;
     height: 100%;
@@ -486,6 +499,7 @@ let shortcutVisible = computed(() => configStore.configFormInfo.shortCutMenus ||
     align-items: center;
     margin-left: 0px;
     padding-left: 0px;
+
     span {
       display: flex;
       justify-content: center;
@@ -497,6 +511,7 @@ let shortcutVisible = computed(() => configStore.configFormInfo.shortCutMenus ||
       margin-left: 15px;
       text-align: center;
       height: 100%;
+
       a {
         display: inline-flex;
         justify-content: center;
@@ -510,6 +525,7 @@ let shortcutVisible = computed(() => configStore.configFormInfo.shortCutMenus ||
         text-align: center;
         height: 100%;
       }
+
       &:last-child {
         font-size: 14px;
         color: var(--star-horse-white);
@@ -519,9 +535,11 @@ let shortcutVisible = computed(() => configStore.configFormInfo.shortCutMenus ||
     }
   }
 }
+
 :deep(.el-table__cell) {
   padding: 0;
 }
+
 :deep(th.el-table__cell:first-child) {
   padding: 5px 0;
 }

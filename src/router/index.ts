@@ -5,12 +5,12 @@ import {Config} from "@/api/settings";
 import {getToken} from "@/utils/auth";
 import piniaInstance from "@/store";
 import {createRouterAndMenuList} from "@/api/star_horse";
-import {userInfo} from "@/store/UserInfoStore";
+import {UserInfo} from "@/store/UserInfoStore";
 import {navBarList} from "@/store/NavbarListStore";
 import {viewList} from "@/store/ViewCacheStore";
 
 const {start, done} = starhorseProcess();
-const userInfoStore = userInfo(piniaInstance);
+const userInfoStore = UserInfo(piniaInstance);
 const navBarListStore = navBarList(piniaInstance);
 const viewListStore = viewList(piniaInstance);
 //let dynamicMenus = computed(() => userInfoStore.dynamicMenus);

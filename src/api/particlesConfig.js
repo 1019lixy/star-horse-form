@@ -17,7 +17,7 @@
 export const particles = {
     background: {
         color: {
-            value: '#0d47a1'
+            value: 'var(--star-horse-style)'
         }
     },
     fpsLimit: 120,
@@ -51,10 +51,10 @@ export const particles = {
     },
     particles: {
         color: {
-            value: '#ffffff'
+            value: 'var(--star-horse-white)'
         },
         links: {
-            color: '#ffffff',
+            color: 'var(--star-horse-white)',
             distance: 150,
             enable: true,
             opacity: 0.5,

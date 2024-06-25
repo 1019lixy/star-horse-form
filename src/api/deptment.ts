@@ -1,8 +1,12 @@
 import {postRequest} from "@/api/star_horse";
 import {SelectOption} from "@/components/types/SearchProps";
+
 const deptAndUserTree: string = "/system-config/system/departmentEntity/deptAndUserTree";
+
 /**
  * 获取部门用户
+ * @param direct
+ * @param params
  */
 export async function loadDeptUser(direct: boolean, params: any) {
     let menuDatas: Array<SelectOption> = [];
@@ -24,7 +28,8 @@ export async function loadDeptUser(direct: boolean, params: any) {
         console.error(err);
     });
     return menuDatas;
-};
+}
+
 /**
  * 解析部门信息
  * @param roleId
@@ -33,7 +38,7 @@ export async function loadDeptUser(direct: boolean, params: any) {
 export function createDeptUserTree(datas: any, valField: string, name: string, val: string) {
     let deptUserList: Array<SelectOption> = [];
     datas.forEach((item: any) => {
-        let temp = {};
+        let temp: any = {};
         temp["value"] = valField ? item[valField] : parseInt(item[val]);
         temp["name"] = item[name];
         temp["children"] = [];
@@ -41,8 +46,7 @@ export function createDeptUserTree(datas: any, valField: string, name: string, v
         if (item.children && item.children.length > 0) {
             temp["children"] = createDeptUserTree(item.children, valField, name, val);
         }
-        console.log(temp);
-        userList.forEach(item => {
+        userList.forEach((item: any) => {
             temp["children"].push({
                 name: item.userName + "(" + item.name + ")",
                 value: item.idUsersinfo
@@ -52,15 +56,18 @@ export function createDeptUserTree(datas: any, valField: string, name: string, v
     });
     return deptUserList;
 };
+
 /**
  * 解析部门信息
- * @param roleId
- * @param menuIds
+ * @param datas
+ * @param valField
+ * @param name
+ * @param val
  */
 export function analysisData(datas: any, valField: string, name: string, val: string) {
     let listNames: Array<String> = [], listValues: Array<Number> = [];
     datas.forEach((item: any) => {
-        let temp = {};
+        let temp: any = {};
         temp["value"] = valField ? item[valField] : parseInt(item[val]);
         temp["name"] = item[name];
         listNames.push(temp['name']);
@@ -74,4 +81,4 @@ export function analysisData(datas: any, valField: string, name: string, val: st
     return {
         listNames, listValues
     }
-};
+}

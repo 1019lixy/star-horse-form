@@ -1,10 +1,10 @@
 import {defineStore} from "pinia";
 import {MenusInfo} from "@/components/types/MenusInfo";
-import {Config} from "@/api/settings";
-export const userInfo = defineStore("userInfo", {
+
+export const UserInfo: any = defineStore("UserInfo", {
     state: () => {
         return {
-            userInfo: sessionStorage.getItem(Config.loginInfo) ? JSON.parse(sessionStorage.getItem(Config.loginInfo) as string) : {},
+            userInfo: {} as any,
             permissionMenus: [] as Array<any>,
             dynamicMenus: [] as Array<MenusInfo>,
         }
@@ -42,8 +42,6 @@ export const userInfo = defineStore("userInfo", {
         },
         /**
          * 用户登出
-         * @param state
-         * @param data
          */
         logout() {
             // this.userInfo = {};

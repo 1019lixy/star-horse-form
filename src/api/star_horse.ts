@@ -7,12 +7,12 @@ import {reactive} from "vue";
 import {MenusInfo} from "@/components/types/MenusInfo";
 import piniaInstance from "@/store";
 import {navBarList} from "@/store/NavbarListStore";
-import {userInfo} from "@/store/UserInfoStore";
+import {UserInfo} from "@/store/UserInfoStore";
 import {viewList} from "@/store/ViewCacheStore";
 import {SelectOption} from "@/components/types/SearchProps";
 
 const navBarListStore = navBarList(piniaInstance);
-const userInfoStore = userInfo(piniaInstance);
+const userInfoStore = UserInfo(piniaInstance);
 const viewListStore = viewList(piniaInstance);
 const service = axios.create({
     baseURL: "/",
@@ -35,26 +35,22 @@ service.interceptors.request.use((config: AxiosRequestConfig) => {
 });
 // 添加响应拦截器
 service.interceptors.response.use((response: AxiosResponse) => {
-    // 对响应数据做点什么
-    // const {code, cnMessage} = response.data;
-    // if (code == 0 || code == 1 || code == 4) {
-    //     return response;
-    // }
-    // if (response.data instanceof ArrayBuffer || response.data instanceof Blob) {
-    //     return response;
-    // }
     return response;
-}, (error) => {
-    if (error.toString().includes("status code 401")) {
+}, (err) => {
+    let data = err.toString().toLowerCase();
+    if (data?.includes("status code 401")) {
         console.log("系统超时，请登录后再操出");
         removeToken();
         navBarListStore.clearAll();
         userInfoStore.logout();
         router.push({path: "/login", query: {redirect: router.currentRoute.value.fullPath}});
+    } else if (data?.includes("status code 500")) {
+        error("服务接口异常，请联系管理员");
+        return Promise.reject(err);
     } else {
-        console.log(error)
+        console.log(err)
         // 对响应错误做点什么
-        return Promise.reject(error);
+        return Promise.reject(err);
     }
 });
 
@@ -91,13 +87,13 @@ export async function rtCode(content: string) {
 export function selectMenusTreeData(data: any) {
     let list: any = [];
     data.forEach((item: any) => {
-        let temp:any = {};
+        let temp: any = {};
         temp["value"] = item.idMenusinfo;
         temp["label"] = item.menuName;
         if (item.children && item.children.length > 0) {
             temp["children"] = [];
             item.children.forEach((sitem: any) => {
-                let stemp:any = {};
+                let stemp: any = {};
                 stemp["value"] = sitem.idMenusinfo;
                 stemp["label"] = sitem.menuName;
                 temp["children"].push(stemp);

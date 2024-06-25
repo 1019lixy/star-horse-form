@@ -1,5 +1,5 @@
 import {SearchParams} from "@/components/types/Params";
-import {nextTick, reactive, ShallowRef} from "vue";
+import {reactive, ShallowRef} from "vue";
 import {ElLoading} from "element-plus";
 import router from "@/router";
 import {getRequest, permissionResources, postRequest} from "@/api/star_horse";
@@ -8,23 +8,18 @@ import {SelectOption} from "@/components/types/SearchProps";
 import * as ElementPlusIconsVue from '@element-plus/icons-vue';
 import {MenusInfo} from "@/components/types/MenusInfo";
 import {BatchFieldInfo, FieldInfo, PageFieldInfo, TabFieldInfo} from "@/components/types/PageFieldInfo";
+
 let loading: any = null;
 /**
  * 系统接口
  */
 const systemUrl: string = "/system-config/system/informationsEntity/systemTree";
-/**
- * 部门接口
- */
-const departUrl: string = "/system-config/system/departmentEntity/getAllByCondition";
+
 /**
  * 字典接口
  */
 const dictUrl: string = "/system-config/system/dictinfoEntity/getAllByCondition";
-/**
- * MES系统数据字段
- */
-const mesDictUrl: string = "/base-manage/base/dictVal/getAllByCondition";
+
 /**
  * 获取所有菜单
  */
@@ -33,6 +28,7 @@ const menuUrl: string = "/system-config/system/menusinfoEntity/getAllTreeDataByC
  * 归属主体
  */
 const customerUrl: string = "/system-config/system/customer/getAllByCondition";
+
 /**
  * 加载Post 数据
  * @param url 接口地址
@@ -61,6 +57,7 @@ export async function loadData(url: string, params: SearchParams[] | any) {
         data, error
     }
 }
+
 /**
  * 加载Get 数据
  * @param url 接口地址
@@ -83,6 +80,7 @@ export async function loadGetData(url: string) {
         data, error
     }
 }
+
 /**
  * 加载所有系统信息
  * @param params 查询参数
@@ -104,6 +102,7 @@ export async function loadSystemInfo(params: any) {
     });
     return systemList;
 }
+
 /**
  * 加载所有主体信息
  * @param params 查询参数
@@ -128,6 +127,7 @@ export async function loadCustomInfo(params: any) {
     });
     return customerList;
 }
+
 /**
  * 加载部门信息
  * @param param 查询参数
@@ -146,6 +146,7 @@ export async function loadDepartmentInfo(param: any) {
     }).catch(err => console.error(err));
     return deptData;
 }
+
 /**
  * 获取角色信息
  * @param param
@@ -166,6 +167,7 @@ export async function loadRolesInfo(param: any) {
     }).catch(err => console.error(err))
     return roleData;
 }
+
 /**
  * 加载菜单数据
  * @param direct
@@ -193,14 +195,18 @@ export async function loadMenusInfo(direct: boolean, params: any, needSystem: bo
     });
     return menuDatas;
 }
+
 /**
  * 构建菜单树
  * @param data
+ * @param valField
+ * @param name
+ * @param val
  */
 export function createTree(data: any, valField: string, name: string, val: string) {
     let list: SelectOption[] = [];
     data.forEach((item: any) => {
-        let temp = {};
+        let temp: any = {};
         temp["value"] = valField ? item[valField] : parseInt(item[val]);
         temp["name"] = item[name];
         if (item.children && item.children.length > 0) {
@@ -210,18 +216,22 @@ export function createTree(data: any, valField: string, name: string, val: strin
     });
     return list;
 }
+
 /**
  * 加载框
+ * @param msg
+ * @param defaultTarget
  */
-export function load(msg: string, defaultTarget?: string = "#app") {
+export function load(msg: string, defaultTarget?: string) {
     closeLoad();
     loading = ElLoading.service({
         lock: true,
-        target: defaultTarget,
+        target: defaultTarget || "#app",
         text: msg || 'Loading...',
         background: 'rgba(0, 0, 0, 0.7)',
     });
 }
+
 /**
  * 关闭加载框
  */
@@ -231,9 +241,8 @@ export function closeLoad() {
         loading = null;
     }
 }
+
 export function getMenuId() {
-    // let temp = router.currentRoute();
-    console.log(router.currentRoute);
     let meta = router.currentRoute.value?.meta;
     let menuId = meta?.menuId as string;
     if (!menuId) {
@@ -242,14 +251,14 @@ export function getMenuId() {
     menuId = menuId.split("_")[1];
     return menuId;
 }
+
 /**
  * 加载权限
  * @param menuId 菜单id
  */
 export async function loadPagePermission(menuId: string) {
-    console.log(menuId);
-    let permission = {};
-    let data = {"menuId": menuId};
+    let permission: any = {};
+    let data: any = {"menuId": menuId};
     await permissionResources(data).then(res => {
         let redata = res.data.data;
         redata.forEach((item: any) => {
@@ -258,6 +267,7 @@ export async function loadPagePermission(menuId: string) {
     });
     return permission
 }
+
 /**
  * 公共数据格式化
  * @param row
@@ -268,6 +278,7 @@ export async function loadPagePermission(menuId: string) {
 export function commonDataFormat(row: any, column: any, cellValue: any, index: number) {
     return commonParseCodeToName(column.property, cellValue);
 }
+
 /**
  * 下划线转驼峰
  * @param str
@@ -277,10 +288,11 @@ export function convertToCamelCase(str: string) {
         return undefined;
     }
     str = str.toLowerCase();
-    return str.replace(/_(\w)/g, function (match, p1) {
+    return str.replace(/_(\w)/g, (match, p1) => {
         return p1.toUpperCase();
     });
 }
+
 /**
  * 驼峰转下划线
  * @param str
@@ -289,10 +301,11 @@ export function camelCaseToUnderline(str: string) {
     if (!str) {
         return undefined;
     }
-    return str.replace(/[A-Z]/g, function (match, p1) {
+    return str.replace(/[A-Z]/g, (match, p1) => {
         return "_" + match.toLowerCase();
     });
 }
+
 /**
  * 数据格式化
  * @param name
@@ -316,6 +329,7 @@ export function commonParseCodeToName(name: string, cellValue: any) {
         return cellValue;
     }
 }
+
 /**
  * 创建日期
  * @param val
@@ -328,6 +342,7 @@ export function createDate(val: any) {
     let date = new Date(val);
     return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
 }
+
 /**
  * 创建年月日时分秒
  * @param val
@@ -344,10 +359,13 @@ export function createDatetime(val: any) {
     let minute = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
     return date.getFullYear() + "-" + m1 + "-" + day + " " + hour + ":" + minute;
 }
+
 /**
  * 加载Id数据
  * @param url
  * @param id
+ * @param isView
+ * @param params
  */
 export async function loadById(url: string, id: any, isView: boolean, params: any = {}) {
     if (!url || !id) {
@@ -364,11 +382,12 @@ export async function loadById(url: string, id: any, isView: boolean, params: an
         }
     });
     return objData;
-};
+}
+
 /**
  * 根据Id删除数据
  * @param url
- * @param id
+ * @param ids
  */
 export async function deleteByIds(url: string, ids: any) {
     if (!url) {
@@ -402,7 +421,8 @@ export async function deleteByIds(url: string, ids: any) {
         closeLoad();
     });
     return objData;
-};
+}
+
 /**
  * 根据字典类别获取字典数据
  * @param dictType 字典类别
@@ -426,6 +446,7 @@ export async function dictData(dictType: string) {
     });
     return dicts;
 }
+
 /**
  * 加载ElementPlus 提供的官方矢量图标
  */
@@ -436,6 +457,7 @@ export function loadElementPlusIcon() {
     }
     return menuIconList;
 }
+
 /**
  * 数据匹配方式
  */
@@ -452,18 +474,19 @@ export function searchMatchList(): SelectOption[] {
     data.push({name: "范围", value: "bt"});
     return data;
 }
+
 /**
  * 复制数据
  * @param msg
  */
 export function copy(msg: string) {
-    console.log(msg);
     navigator.clipboard.writeText(msg).then(() => {
         success("已复制");
     }).catch(() => {
         error("复制失败");
     });
 }
+
 /**
  * 表格序号
  * @param row
@@ -471,14 +494,15 @@ export function copy(msg: string) {
  */
 export function rowClassName({row, rowIndex}: any) {
     row.xh = rowIndex + 1
-};
+}
+
 /**
  * 创建条件
  */
 export function createCondition(name: string, val: any, matchType: string | null): SearchParams {
-    let params: SearchParams = {propertyName: name, value: val, operation: matchType || "eq"};
-    return params;
+    return {propertyName: name, value: val, operation: matchType || "eq"};
 }
+
 /**
  * 动态过滤数据
  * @param search
@@ -486,21 +510,21 @@ export function createCondition(name: string, val: any, matchType: string | null
  */
 export function filterTree(search: any, menusList: MenusInfo[]): MenusInfo[] {
     // let tempData = permissionMenuList.value;
-    const filterRecursive = (node, parentInclude) => {
+    const filterRecursive = (node: any, parentInclude: any) => {
         // 如果节点是数组，则对每个元素应用过滤逻辑
         if (Array.isArray(node)) {
-            const result: Array = node.map(child => filterRecursive(child, parentInclude)).filter((item) => item !== null);
+            const result: Array<any> = node.map(child => filterRecursive(child, parentInclude)).filter((item) => item !== null);
             return result;
         }
         const containsData = !search || node.meta?.title.toLowerCase().includes(search?.toLowerCase());
         const includeNode = parentInclude || containsData;
-        const filteredChildren = node.children && node.children.length > 0 ? filterRecursive(node.children) : [];
+        const filteredChildren: any = node.children && node.children.length > 0 ? filterRecursive(node.children, includeNode) : [];
         return includeNode || filteredChildren.length > 0 ? {...node, children: filteredChildren} : null;
     }
     const filteredTree = filterRecursive(menusList, false);
-    const cleanFilteredTree = JSON.parse(JSON.stringify(filteredTree))
-    return cleanFilteredTree;
+    return JSON.parse(JSON.stringify(filteredTree));
 }
+
 /**
  * 设置css 全局变量
  * @param name 变量名称
@@ -510,6 +534,7 @@ export function filterTree(search: any, menusList: MenusInfo[]): MenusInfo[] {
 export function setCssVar(name: string, val: any, dom = document.documentElement) {
     dom.style.setProperty(name, val);
 }
+
 /**
  * 获取关联属性逻辑
  * @param formFields 表单属性
@@ -537,17 +562,18 @@ export function relationFieldOperation(formFields: any, fieldName: string, batch
         return formFields[fieldName].value;
     }
 }
+
 /**
  * 解析表单字段映射
  * @param fieldList
  */
 export function formFieldMapping(fieldList: PageFieldInfo) {
-    let defaultDatas = {};
-    let actions = [];
+    let defaultDatas: any = {};
+    let actions: Array<any> = [];
     //解析出字段之间的映射关系
     let mappingFields: Array<any> = [];
     let tempList = fieldList?.fieldList;
-    let batchDefaultValues = {};
+    let batchDefaultValues: any = {};
     const tabOperation = (data: TabFieldInfo) => {
         let fieldList = data.fieldList as Array<FieldInfo>;
         if (data.subFormFlag) {
@@ -634,17 +660,18 @@ export function formFieldMapping(fieldList: PageFieldInfo) {
         }
     };
     fieldsOperation(tempList, defaultDatas);
-    let batchTempList = fieldList?.batchFieldList;
+    let batchTempList = fieldList?.batchFieldList!;
     tableOperation(batchTempList);
     defaultDatas = {...defaultDatas, ...batchDefaultValues};
     return {defaultDatas, mappingFields, batchDefaultValues, actions};
 }
+
 /**
  * 批量列表数据默认值
  * @param datas
  */
 export function batchFieldDefaultValues(datas: BatchFieldInfo) {
-    let defaultValues = {};
+    let defaultValues: any = {};
     if (datas["batchDefaultData"]) {
         defaultValues = {...datas["batchDefaultData"]};
     }

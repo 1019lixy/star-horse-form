@@ -16,28 +16,31 @@ import HeaderComp from "@/components/HeaderComp.vue";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import PageConfig from "@/components/PageConfig.vue";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
+
 let configStore = GlobalConfig(piniaInstance);
 const route = router.getRoutes().find(item => item.path == "/home");
 let viewListStore = viewList(piniaInstance);
 const navBarListStore = navBarList(piniaInstance);
+const cachedDatas = computed(() => viewListStore.viewListDatas);
 let isCollapse = ref<boolean>(true);
 let sysemId = ref<string>("-1");
 let outerIsCollapse = ref<number>(64);
 navBarListStore.addNavBar(route);
 let locale = ref();
+let direction = ref();
 const changeLang = (lang: LangType, isInit: boolean) => {
   locale.value = lang == LangType.ZH_CN ? zhCn : en;
-  console.log(isInit);
+  // console.log(isInit);
 };
 const loadMenuFun = (data: string) => {
   sysemId.value = data;
 }
 provide("loadMenu", loadMenuFun);
 const mouseOver = () => {
-  jQuery(".star-horse-left").addClass('show-scroll-bar');
+  $(".star-horse-left").addClass('show-scroll-bar');
 };
 const mouseOut = () => {
-  jQuery(".star-horse-left").removeClass('show-scroll-bar');
+  $(".star-horse-left").removeClass('show-scroll-bar');
 };
 const collopseOperation = () => {
   isCollapse.value = !isCollapse.value;
@@ -45,7 +48,7 @@ const collopseOperation = () => {
 watch(
     () => isCollapse.value,
     (val: boolean) => {
-      setTimeout(function () {
+      setTimeout(() => {
         outerIsCollapse.value = val ? 200 : 64;
       }, 200);
     }, {
@@ -74,7 +77,7 @@ const dragStart = (event: MouseEvent) => {
 onMounted(async () => {
   await nextTick();
   resizerRef.value.onmousedown = dragStart;
-  changeLang(getLang());
+  changeLang(getLang(), true);
   configStore.clearAll();
 })
 // 移动完成
@@ -122,15 +125,14 @@ const configInfo = computed(() => configStore.configFormInfo);
           <tags-view v-if="configInfo.tagsView=='Y'"/>
           <router-view v-slot="{ Component }" class="animate__animated animate__fadeIn">
             <transition name="solid">
-              <!--              :include="viewListStore.getViewCache"          -->
-              <keep-alive>
+              <keep-alive :include="cachedDatas">
                 <component :is="Component"/>
               </keep-alive>
             </transition>
           </router-view>
           <!--          <router-view v-slot="{ Component, route }">
                       <transition name="router-fade" mode="out-in">
-                        <keep-alive :include="viewListStore.cachedViews">
+                        <keep-alive :include="cachedDatas">
                           <component :is="Component" :key="route.fullPath"/>
                         </keep-alive>
                       </transition>
@@ -163,30 +165,36 @@ const configInfo = computed(() => configStore.configFormInfo);
   height: unset;
   padding: unset;
 }
+
 .operation-area {
   height: 100%;
   overflow: hidden;
+
   :deep(.el-card__body) {
     height: 100%;
     overflow: hidden;
     margin: 5px !important;
   }
 }
+
 .Resizer.vertical {
   width: 5px;
   margin: 0px -2px;
   border-left: 2px solid transparent;
   border-right: 2px solid transparent;
+
   &:hover {
     background-color: var(--star-horse-style);
     cursor: col-resize;
   }
 }
+
 .Resizer {
   z-index: 1;
   box-sizing: border-box;
   background: padding-box rgb(240, 240, 240);
 }
+
 .moveBox {
   width: 10px;
   height: 100%;
@@ -197,27 +205,33 @@ const configInfo = computed(() => configStore.configFormInfo);
   align-items: center;
   justify-content: center;
   font-weight: bold;
+
   &:hover {
     cursor: col-resize;
   }
 }
+
 .el-menu--collapse {
   width: 100%;
   height: 100%;
 }
+
 :deep(.el-aside) {
   overflow: hidden;
 }
+
 .main-config {
   position: absolute;
   top: 50%;
   right: 1px;
   border-radius: 3px;
   background: #eee;
+
   &:hover, svg:hover {
     cursor: pointer;
   }
 }
+
 .main-copyright {
   display: flex;
   margin-top: 3px;

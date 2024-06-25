@@ -8,11 +8,8 @@
 </template>
 <script lang="ts" setup>
 import {onMounted} from "vue";
-import {userInfo as userinfoStore} from "@/store/UserInfoStore";
-import {getUserInfo} from "@/utils/auth";
 import {loadSlim} from "tsparticles-slim";
-const userInfoStore = userinfoStore();
-let userInfo = getUserInfo();
+//const userInfoStore = UserInfo(piniaInstance);
 const closeAction = () => {
   //关闭浏览器情况数据
   window.onbeforeunload = async (evt) => {
