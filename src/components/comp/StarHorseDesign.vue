@@ -42,7 +42,7 @@ const props = defineProps({
   batchName: {type: String, default: "batchDataList"},
   batchFieldName: {type: String, default: "batchFieldList"},
   primaryKey: {type: String, required: true},
-  rules: {type: Object, required: true},
+  rules: {type: Object},
   showCompList: {type: Object, required: true},
   showDbList: {type: Object, required: false},
   //table,normal,其他待定

@@ -3,7 +3,7 @@ import {ref} from "vue";
 import {batchFieldDefaultValues} from "@/api/sh_api.ts";
 const props = defineProps({
   item: {type: Object, required: true},
-  rules: {type: Object, required: true},
+  rules: {type: Object},
   size: {type: String, default: "small"}
 });
 const dataForm = defineModel("dataForm");

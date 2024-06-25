@@ -10,7 +10,7 @@ const props = defineProps({
   compUrl: {type: Object as PropType<ApiUrls>, required: true},
   fieldList: {type: Object as PropType<any>, required: true},
   formInfo: {type: Object as PropType<any>, required: true},
-  rules: {type: Object, required: true},
+  rules: {type: Object},
   typeModel: {type: String, default: "normal"}
 });
 const emits = defineEmits(["refresh"]);

@@ -17,7 +17,7 @@ const props = defineProps({
   fieldList: {type: Object, required: true},
   defaultValues: {type: Object, default: {}},
   batchName: {type: String, default: "batchDataList"},
-  primaryKey: {type: String, required: true},
+  primaryKey: {type: String},
   initRows: {type: Number, default: 1},
   importInfo: {type: Object},
   title: {type: String, default: ""},

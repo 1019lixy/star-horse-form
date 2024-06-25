@@ -12,7 +12,7 @@ const props = defineProps({
   batchName: {type: String, default: "batchDataList"},
   batchFieldName: {type: String, default: "batchFieldList"},
   primaryKey: {type: String, required: true},
-  rules: {type: Object, required: true},
+  rules: {type: Object},
   size: {type: String, default: "small"},
   isView: {type: Boolean, default: false},
 });

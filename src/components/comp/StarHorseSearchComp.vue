@@ -17,7 +17,7 @@ const emits = defineEmits(["searchData"]);
 const props = defineProps({
   dialogInput: {type: Boolean, default: false},
   mutComp: {type: Boolean, default: false},
-  compUrl: {type: Object as PropType<ApiUrls>, required: true},
+  compUrl: {type: Object as PropType<ApiUrls>},
   formData: {type: Array as PropType<SearchProps[]>, required: true},
 });
 let configStore = GlobalConfig(piniaInstance);

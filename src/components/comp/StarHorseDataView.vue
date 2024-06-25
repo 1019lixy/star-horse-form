@@ -140,8 +140,7 @@ const tabList = ref<any>("tab0");
       <div class="item" v-if="item.formShow||item.tableShow||item.viewShow">
         <label>{{ item.label }} :</label>
         <div class="content">
-          <el-tooltip
-              :content="dataFormat(item)">
+          <el-tooltip :content="dataFormat(item)">
             {{ dataFormat(item) }}
           </el-tooltip>
         </div>

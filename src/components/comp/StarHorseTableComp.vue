@@ -3,7 +3,7 @@ import {ApiUrls} from "@/components/types/ApiUrls";
 import {inject, onMounted, PropType, reactive, ref, unref, watch,} from "vue";
 import {download, postRequest} from "@/api/star_horse";
 import {PageProps} from "@/components/types/PageProps";
-import {closeLoad, commonParseCodeToName, deleteByIds, load, loadPagePermission,} from "@/api/sh_api";
+import {closeLoad, commonParseCodeToName, deleteByIds, load,} from "@/api/sh_api";
 import {SearchParams} from "@/components/types/Params";
 import Sortable from "sortablejs";
 import {DialogProps} from "../types/DialogProps";
@@ -13,6 +13,7 @@ import {OrderByInfo} from "@/components/types/PageFieldInfo";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {DynamicForm} from "@/store/DynamicFormStore";
 import piniaInstance from "@/store";
+
 const dynamicForm = DynamicForm(piniaInstance);
 const props = defineProps({
   //url地址
@@ -102,7 +103,7 @@ const exportData = () => {
   if (props.fieldList?.orderBy) {
     condition["orderBy"] = props.fieldList.orderBy;
   }
-  download(props.compUrl!.exportAllUrl, condition)
+  download(props.compUrl!.exportAllUrl!, condition)
       .catch((err: any) => {
         error("接口不存在或网络异常:" + err);
       })
@@ -280,9 +281,7 @@ const getRowIdentity = (row: any) => {
     }
     return temp;
   }
-  let keyName = row[props.primaryKey] || "";
-  // console.log(row,keyName);
-  return keyName;
+  return row[props.primaryKey] || "";
 };
 const dataFormat = (row: any, column: any, cellValue: any, index: number) => {
   cellValue = commonParseCodeToName(column.property, cellValue);
@@ -315,7 +314,7 @@ const editById = (id: any) => {
 };
 const deleteById = async (id: any) => {
   let flag = await deleteByIds(
-      props.compUrl?.deleteUrl,
+      props.compUrl?.deleteUrl!,
       id instanceof Array ? id : [id]
   );
   if (flag) {
@@ -426,10 +425,9 @@ const selectRow = (row: any, column: any, evt: any) => {
     multipleSelection.value.push(row);
     starHorseTableCompRef.value.toggleRowSelection(row);
   } else {
-    const finArr = multipleSelection.value.filter((item: any) => {
+    multipleSelection.value = multipleSelection.value.filter((item: any) => {
       return item[props.primaryKey] !== row[props.primaryKey];
     });
-    multipleSelection.value = finArr;
     starHorseTableCompRef.value.toggleRowSelection(row, false);
   }
   dynamicForm.setSelectData(row);
@@ -685,12 +683,15 @@ defineExpose({
 .warning-row {
   background: #8f8f8f;
 }
+
 :deep(.el-table__cell) {
   padding: 0;
 }
+
 :deep(th.el-table__cell:first-child) {
   padding: 5px 0;
 }
+
 .tb_title {
   flex: 1;
   color: var(--star-horse-style);

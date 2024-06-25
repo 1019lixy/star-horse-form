@@ -5,7 +5,7 @@ defineProps({
   dataForm: {type: Object, required: true},
   index: {type: Object, required: true},
   item: {type: Object, required: true},
-  primaryKey: {type: String, required: true},
+  primaryKey: {type: String},
   batchName: {type: String, default: "batchDataList"},
   rules: {type: Object},
   size: {type: String, default: "small"}

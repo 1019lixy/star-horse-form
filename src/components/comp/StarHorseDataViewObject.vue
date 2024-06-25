@@ -10,7 +10,7 @@ const props = defineProps({
   subCreateFlag: {type: Boolean, default: false},
   batchName: {type: String, default: "batchDataList"},
   batchFieldName: {type: String, default: "batchFieldList"},
-  primaryKey: {type: String, required: true},
+  primaryKey: {type: String},
   commonFormat: {type: Function, required: true},
 });
 let batchDefaultValues = ref({});
