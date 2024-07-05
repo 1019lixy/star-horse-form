@@ -49,6 +49,8 @@ const props = defineProps({
   allowSelectParent: {type: Boolean, default: true},
   //默认是否展开所有子节点
   expand: {type: Boolean, default: false},
+  //是否需要加载框
+  needLoad: {type: Boolean, default: true},
   //标题
   title: {type: String},
   //按钮操作权限
@@ -263,9 +265,8 @@ const handleSelectionChange = (val: any) => {
       let datas = val.filter(
           (item: any) => !ids.includes(item[props.primaryKey])
       );
-      starHorseTableCompRef.value.toggleRowSelection(
-          multipleSelection.value[0]
-      );
+      let data = multipleSelection.value[0];
+      starHorseTableCompRef.value.toggleRowSelection(data, true);
       multipleSelection.value = datas;
     }
   } else {
@@ -367,7 +368,9 @@ const loadByPage = () => {
       params: params
     }
   }
-  load("数据加载中");
+  if (props.needLoad) {
+    load("数据加载中");
+  }
   postRequest(props.compUrl?.loadByPageUrl, params).then((res: any) => {
     if (res.data.code != 0) {
       console.error(res.data.cnMessage);
@@ -388,9 +391,7 @@ const loadByPage = () => {
 };
 const filterData = () => {
   if (pageInfo.dataList && inputFieldName.value && inputFieldVal.value) {
-    let row = pageInfo.dataList.find(
-        (item: any) => item[inputFieldName.value] == inputFieldVal.value
-    );
+    let row = pageInfo.dataList.find((item: any) => item[inputFieldName.value] == inputFieldVal.value);
     if (row) {
       multipleSelection.value.push(row);
       starHorseTableCompRef.value.toggleRowSelection(row, true);
@@ -423,7 +424,7 @@ const selectRow = (row: any, column: any, evt: any) => {
   );
   if (!selected) {
     multipleSelection.value.push(row);
-    starHorseTableCompRef.value.toggleRowSelection(row);
+    starHorseTableCompRef.value.toggleRowSelection(row, true);
   } else {
     multipleSelection.value = multipleSelection.value.filter((item: any) => {
       return item[props.primaryKey] !== row[props.primaryKey];
@@ -548,8 +549,7 @@ defineExpose({
       background: '#f2f2f2',
       color: '#707070',
       'font-size': '13px',
-      'background-image':
-        '-webkit-gradient(linear,left 0,left 100%,from(#f8f8f8),to(#ececec))',
+      'background-image':'-webkit-gradient(linear,left 0,left 100%,from(#f8f8f8),to(#ececec))',
     }"
       border
   >
