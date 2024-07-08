@@ -10,11 +10,13 @@ import {ShallowReactive} from "@vue/reactivity";
 import StarHorseFormItem from "@/components/comp/StarHorseFormItem.vue";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import piniaInstance from "@/store";
+
 const props = defineProps({
   compUrl: {type: Object as PropType<ApiUrls>,},
   fieldList: {type: Object as PropType<PageFieldInfo>, required: true},
   batchName: {type: String, default: "batchDataList"},
   batchFieldName: {type: String, default: "batchFieldList"},
+  outerFormData: {type: Object},
   primaryKey: {type: String},
   globalCondition: {type: Object},
   rules: {type: Object},
@@ -23,9 +25,19 @@ const props = defineProps({
 });
 let configStore = GlobalConfig(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.inputSize || "small");
+
 const emits = defineEmits(["refresh", "dataLoaded"]);
 const starHorseFormRef = ref(null);
-const dataForm = ref<any>({}); //defineModel("dataForm");
+
+const dataForm = ref<any>({});
+//此方法，如果赋值给变量，变量没有用得情况下，里面得逻辑不会触发，
+//如果不赋值给其它变量，则用.value 使其触发
+computed(() => {
+  let outerForm = props.outerFormData;
+  dataForm.value = {...dataForm.value, ...outerForm}
+  return outerForm;
+}).value;
+
 const closeDialog = inject("closeDialog") as Function;
 let dialogOperation = inject("dialogOperation") as ShallowReactive<Object>;
 const dialogProps = inject<DialogProps>("dialogProps", {});
@@ -238,23 +250,28 @@ defineExpose({
 :deep(.el-form-item__label) {
   min-width: 100px;
 }
+
 :deep(.el-tabs) {
   height: 100%;
   display: flex;
   flex-direction: column;
 }
+
 :deep(.el-tabs__content ) {
   height: 100%;
   flex: 1;
 }
+
 :deep(.el-tab-pane) {
   height: 100%;
   flex: 1;
 }
+
 :deep(.el-form) {
   display: block;
   width: 100%;
 }
+
 .data-form {
   height: 100%;
 }

@@ -20,6 +20,7 @@ import {TreeNode, TreeNodeData} from "element-plus/es/components/tree-v2/src/typ
 import {ElTreeV2} from "element-plus";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {treeCheckChange} from "@/api/system";
+
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/system-config/system/menusinfoEntity/pageList",
   mergeUrl: "/system-config/system/menusinfoEntity/merge",
@@ -75,7 +76,7 @@ const tableFieldList = reactive<PageFieldInfo>({
       }],
     [{
       label: "归属应用名称", fieldName: "informationsSingleId", type: "select", optionList: informationsList,
-      required: true, formShow: !false, disabled: "Y",
+      required: true, formShow: !false, disabled: "N",
       tableShow: !false
     },
       {
@@ -147,7 +148,6 @@ const tableFieldList = reactive<PageFieldInfo>({
 const primaryKey = "idMenusinfo";
 const rules = {};
 const dataForm = ref({});
-provide("dataForm", dataForm);
 watch(() => dataForm.value["informationsSingleId"],
     (val) => {
       if (val) {
@@ -172,6 +172,7 @@ const loadMenuBySystemId = async (loadAll: boolean) => {
     }
   }
 };
+
 const dialogProps = reactive<DialogProps>({
   bakeVisible1: false, bakeVisible2: false, bakeVisible3: false,
   ids: 0,
@@ -209,7 +210,7 @@ const mergeDraft = () => {
 };
 const doMerge = () => {
   load("数据处理中");
-  let temp = unref(dataForm);
+  let temp = unref(menuFormRef.value.getFormData());
   // let batchData = temp["batchDataList"];
   // batchData.forEach((item: any) => item["informationsSingleId"] = temp["informationsSingleId"]);
   postRequest(dataUrl.mergeUrl, temp).then(res => {
@@ -249,7 +250,7 @@ const filterMethod = (query: string, node: TreeNode) => {
  * @param checked
  */
 const checkChange = (data: TreeNodeData, checked: boolean) => {
-  treeCheckChange(treeRef.value, menuTableListRef.value, dataForm.value, data, checked);
+  treeCheckChange(treeRef.value, menuTableListRef.value, dataForm, data, checked);
 };
 const initData = async () => {
   permissions.value = await loadPagePermission(getMenuId())
@@ -276,7 +277,7 @@ onMounted(async () => {
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps"
                      :self-func="true"
                      @merge="merge" @mergeDraft="mergeDraft" @resetForm="resetForm">
-    <star-horse-form v-model:data-form="dataForm" :compUrl="dataUrl" :fieldList="tableFieldList"
+    <star-horse-form :outerFormData="dataForm" :compUrl="dataUrl" :fieldList="tableFieldList"
                      :primaryKey="primaryKey" :rules="rules"
                      ref="menuFormRef"/>
   </star-horse-dialog>

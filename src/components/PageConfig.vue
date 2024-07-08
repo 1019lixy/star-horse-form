@@ -178,7 +178,7 @@ const resetDefault = () => {
     inputSize: 'small',
     buttonSize: 'small',
     buttonShowType: "dropdown",
-    themeColor: "#3a8ee6",
+    themeColor: "#409EFF",
     shortCutMenus: "Y"
   };
   configStore.setConfigFormInfo(defaultConfig);

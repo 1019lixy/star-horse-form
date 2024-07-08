@@ -8,7 +8,7 @@
 import {ref} from "vue";
 let val = ref("xxx");
 </script>
-<style scoped>
+<style lang="scss" scoped>
 :deep(.el-card__body) {
   height: 100%;
 }

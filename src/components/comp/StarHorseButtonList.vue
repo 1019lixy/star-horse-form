@@ -10,12 +10,13 @@ import {getToken} from "@/utils/auth";
 import Help from "@/components/help.vue";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import piniaInstance from "@/store";
+
 const props = defineProps({
   dialogProps: {type: Object as PropType<DialogProps>, required: true},
   compUrl: {type: Object as PropType<ApiUrls>, required: true},
   selfBtnFunc: {type: Array as PropType<BtnAuth[]>, default: null},
   viewFlag: {type: Boolean, default: false},
-  permissions: { type: Object,required:true},
+  permissions: {type: Object, required: true},
 });
 const emits = defineEmits([
   "upload",
@@ -28,7 +29,7 @@ const emits = defineEmits([
 let configStore = GlobalConfig(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.buttonSize || "small");
 let showType = computed(() => configStore.configFormInfo?.buttonShowType || "dropdown");
-const dataForm = inject("dataForm") as Ref;
+const dataForm = ref<any>({});
 const tableCompFunc = (funcName: string) => {
   emits("tableCompFunc", funcName);
 };
@@ -39,7 +40,7 @@ const btnOperation = (funcName: string) => {
   } else {
     //？表示判断是否为空 ！表示断言not null
     if (funcName == "add") {
-      dataForm.value = {};
+      //  dataForm.value = {};
       props.dialogProps!.ids = -1;
       props.dialogProps!.editVisible = true;
       props.dialogProps!.dialogTitle = "新增数据";
@@ -96,23 +97,32 @@ const checkSelfBtn = (btn: string) => {
   }
   return true;
 }
+const setDataForm = (val: any) => {
+  dataForm.value = {...val};
+}
 const init = async () => {
 };
 onMounted(() => {
   init();
 });
+defineExpose({
+  setDataForm
+})
 </script>
 <style lang="scss" scoped>
 :deep(.el-tooltip__trigger:focus-visible) {
   outline: unset;
 }
+
 .el-menu {
   background: none;
   border-bottom: none;
 }
+
 :deep(.el-sub-menu) {
   background: none;
 }
+
 .el-menu--horizontal {
   height: 30px;
 }

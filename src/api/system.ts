@@ -15,11 +15,11 @@ const validInterfaceUrl: string = "/userdb-manage/userdb/dynamicForm/validInterf
 export function treeCheckChange(treeComp: any, tableComp: any, dataForm: any, data: TreeNodeData, checked: boolean) {
     let checkedNodes = treeComp.getCheckedNodes();
     if (checkedNodes?.length > 0) {
-        checkedNodes.forEach(item => {
+        checkedNodes.forEach((item:any) => {
             treeComp.setChecked(item.value, false);
         });
     }
-    dataForm["informationsSingleId"] = parseInt(data.value);
+    dataForm.value["informationsSingleId"] = data.value;
     treeComp.setChecked(data.value, (checked instanceof Boolean) ? checked : true);
     if (!checked) {
         return;
