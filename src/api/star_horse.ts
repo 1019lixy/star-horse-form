@@ -203,13 +203,16 @@ export function createRouterAndMenuList(redata: Array<Object>): MenusInfo[] {
             if (item.menuPath == "#" && item.children?.length == 0) {
                 continue;
             }
+            let arr = item.menuPath.split("/");
+            let menuName = arr[arr.length - 1];
+            menuName = menuName.endsWith(Config.fileExt) ? menuName.split(".")[0] : menuName;
             let path = item.menuPath?.startsWith("/") ? item.menuPath : "/" + item.menuPath;
             path = path.endsWith(Config.fileExt) ? path : path + Config.fileExt;
             let prefix = key_index + "_";
             let data = reactive<MenusInfo>({
                 path: item.menuPath,
                 component: compPath[`${baseDir}${path}`],
-                name: item.menuCode,
+                name: menuName,
                 children: [],
                 meta: {
                     menuIcon: item.menuIcon,
