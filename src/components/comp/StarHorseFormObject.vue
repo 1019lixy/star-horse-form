@@ -4,6 +4,7 @@ import {ApiUrls} from "@/components/types/ApiUrls";
 import {DialogProps} from "@/components/types/DialogProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import StarHorseFormTable from "@/components/comp/StarHorseFormTable.vue";
+
 const props = defineProps({
   compUrl: {type: Object as PropType<ApiUrls>},
   fieldList: {type: Object as PropType<PageFieldInfo>, required: true},
@@ -41,7 +42,7 @@ onMounted(() => {
   <template v-for="item in fieldList.fieldList">
     <el-row v-if="item instanceof Array">
       <template v-for="sitem in item">
-        <el-col :span="sitem.colSpan||(24/item.length)">
+        <el-col :span="sitem.colSpan||sitem.preps?.colSpan||(24/item.length)">
           <el-form-item
               :size="size"
               :label="sitem.label"
@@ -123,18 +124,22 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
 }
+
 :deep(.el-tabs__content ) {
   height: 100%;
   flex: 1;
 }
+
 :deep(.el-tab-pane) {
   height: 100%;
   flex: 1;
 }
+
 :deep(.el-form) {
   display: block;
   width: 100%;
 }
+
 .data-form {
   height: 100%;
 }

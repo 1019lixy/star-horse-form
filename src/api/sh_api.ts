@@ -564,6 +564,17 @@ export function relationFieldOperation(formFields: any, fieldName: string, batch
 }
 
 /**
+ * 判断是不是Json
+ * @param v
+ */
+export function isJson(v: any) {
+    if (typeof v === 'object' && Object.prototype.toString.call(v).toLowerCase() === '[object object]' && !v.length) {
+        return true;
+    }
+    return false;
+}
+
+/**
  * 解析表单字段映射
  * @param fieldList
  */
@@ -596,7 +607,12 @@ export function formFieldMapping(fieldList: PageFieldInfo) {
             let fieldList = temp.fieldList as Array<FieldInfo>;
             fieldList?.forEach(item => {
                 if (item.defaultValue) {
-                    batchDefaultValues[temp.batchName][item.fieldName] = item.defaultValue;
+                    if (isJson(item.defaultValue)) {
+                        batchDefaultValues[temp.batchName] = {...batchDefaultValues[temp.batchName], ...item.defaultValue};
+                    } else {
+
+                        batchDefaultValues[temp.batchName][item.fieldName] = item.defaultValue;
+                    }
                 }
                 if (item.aliasName) {
                     mappingFields.push({name: item.fieldName, alias: item.aliasName});
@@ -618,7 +634,14 @@ export function formFieldMapping(fieldList: PageFieldInfo) {
             if (temp instanceof Array) {
                 temp.forEach((item: FieldInfo) => {
                     if (item.defaultValue) {
-                        defaultData[item.fieldName] = item.defaultValue;
+                       // console.log(Object.keys(item.defaultValue));
+                        if (isJson(item.defaultValue)) {
+                            for (let key in item.defaultValue) {
+                                defaultData[key] = item.defaultValue[key];
+                            }
+                        } else {
+                            defaultData[item.fieldName] = item.defaultValue;
+                        }
                     }
                     if (item.aliasName) {
                         mappingFields.push({name: item.fieldName, alias: item.aliasName});
@@ -644,7 +667,13 @@ export function formFieldMapping(fieldList: PageFieldInfo) {
                 tableOperation(tableList);
             } else {
                 if (temp.defaultValue) {
-                    defaultData[temp.fieldName] = temp.defaultValue;
+                    if (isJson(temp.defaultValue)) {
+                        for (let key in temp.defaultValue) {
+                            defaultData[key] = temp.defaultValue[key];
+                        }
+                    } else {
+                        defaultData[temp.fieldName] = temp.defaultValue;
+                    }
                 }
                 if (temp.aliasName) {
                     mappingFields.push({name: temp.fieldName, alias: temp.aliasName});
@@ -679,7 +708,14 @@ export function batchFieldDefaultValues(datas: BatchFieldInfo) {
     for (let inde in fieldList) {
         let temp = fieldList[inde];
         if (temp.defaultValue) {
-            defaultValues[temp.fieldName] = temp.defaultValue;
+            if (isJson(temp.defaultValue)) {
+                for (let key in temp.defaultValue) {
+                    defaultValues[key] = temp.defaultValue[key];
+                }
+            } else {
+                defaultValues[temp.fieldName] = temp.defaultValue;
+            }
+
         }
     }
     return defaultValues;

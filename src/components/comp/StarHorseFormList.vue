@@ -11,6 +11,7 @@ import {getToken} from "@/utils/auth";
 import Sortable from "sortablejs";
 import Help from "@/components/help.vue";
 import {ShallowReactive} from "@vue/reactivity";
+
 let importDialogVisible = ref<boolean>(false);
 const props = defineProps({
   compUrl: {type: Object as PropType<ApiUrls>, required: true},
@@ -30,25 +31,10 @@ const props = defineProps({
 // const dataForm = inject('dataForm') as Ref;
 const dataForm = defineModel("dataForm") as Ref;
 const formFields = inject("formFields") as ShallowReactive<Object>;
-onMounted(() => {
-  init();
-});
+
 const loading = ref(null);
 const starHorseFormListRef = ref(null);
-const init = async () => {
-  if (!Object.keys(dataForm.value).includes(props.batchName)) {
-    dataForm.value[props.batchName] = [];
-  }
-  /**
-   * 如果列表为空得情况才初始化行数
-   */
-  if (dataForm.value[props.batchName].length == 0) {
-    for (let i = 0; i < props.initRows; i++) {
-      handleAddDetails(null, 1);
-    }
-  }
-  moveColumn();
-};
+
 const handleAddDetails = (row: any, type: number) => {
   if (!dataForm.value[props.batchName]) {
     dataForm.value[props.batchName] = [];
@@ -140,6 +126,25 @@ const moveColumn = () => {
     });
   }
 };
+const init = async () => {
+ // console.log(Object.keys(dataForm.value), props.batchName);
+  if (!Object.keys(dataForm.value).includes(props.batchName)) {
+    dataForm.value[props.batchName] = [];
+  }
+  /**
+   * 如果列表为空得情况才初始化行数
+   */
+  if (dataForm.value[props.batchName].length == 0) {
+    for (let i = 0; i < props.initRows; i++) {
+      handleAddDetails(null, 1);
+    }
+  }
+  moveColumn();
+};
+onMounted(async () => {
+  console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+  await init();
+});
 </script>
 <template>
   <star-horse-dialog v-if="!subFlag" :title="'导入文件'" :dialogVisible="importDialogVisible"
@@ -198,12 +203,6 @@ const moveColumn = () => {
               <el-tooltip content="导入Excel">导入Excel</el-tooltip>
             </el-button>
           </li>
-          <!--          <li>
-                      <el-button @click="handleAddDetails(null, 1)" title="" link size="small">
-                        <star-horse-icon icon-class="add" color="var(&#45;&#45;star-horse-style)" size="12px"/>
-                        <el-tooltip content="添加">添加</el-tooltip>
-                      </el-button>
-                    </li>-->
         </ul>
       </div>
     </div>
@@ -310,36 +309,45 @@ const moveColumn = () => {
   justify-content: center;
   line-height: 30px;
   border: 1px dotted #eee;
+
   &:hover {
     cursor: pointer;
     border: 1px dotted var(--star-horse-style);
   }
 }
+
 :deep(.el-table__cell) {
   padding: 0;
 }
+
 .form-list {
   display: flex;
   flex-direction: column;
+
   .inner_button {
     margin-bottom: 5px;
   }
+
   .el-table {
     flex: 1;
   }
 }
+
 :deep(th.el-table__cell:first-child) {
   padding: 5px 0;
 }
+
 :deep(.el-form-item) {
   font-size: 11px;
   margin-bottom: 1px;
   width: 100%;
 }
+
 :deep(.el-input__inner ), :deep(el-select) {
   height: 25px;
   font-size: 12px;
 }
+
 :deep(.el-select) {
   line-height: 25px;
 }

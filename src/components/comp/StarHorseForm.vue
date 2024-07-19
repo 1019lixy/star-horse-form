@@ -30,11 +30,12 @@ const emits = defineEmits(["refresh", "dataLoaded"]);
 const starHorseFormRef = ref(null);
 
 const dataForm = ref<any>({});
-//此方法，如果赋值给变量，变量没有用得情况下，里面得逻辑不会触发，
+//此方法，如果赋值给变量，变量没有用的情况下，里面得逻辑不会触发，
 //如果不赋值给其它变量，则用.value 使其触发
 computed(() => {
   let outerForm = props.outerFormData;
-  dataForm.value = {...dataForm.value, ...outerForm}
+  dataForm.value = {...dataForm.value, ...outerForm};
+  console.log(dataForm.value, outerForm)
   return outerForm;
 }).value;
 
@@ -214,6 +215,7 @@ const getFormData = () => {
  */
 const setDataForm = (data: object) => {
   let defaultDatas = formFieldMapping(props.fieldList).defaultDatas;
+  console.log(defaultDatas);
   dataForm.value = {...defaultDatas, ...data};
 }
 const tableListRef = ref<any>([]);
@@ -240,7 +242,7 @@ defineExpose({
                           :fieldList="fieldList"
                           :rules="rules"
                           :compSize="compSize"
-                          v-model:data-form="dataForm"
+                          v-model:dataForm="dataForm"
                           :isView="isView"
                           :batchName="batchName"
                           :batchFieldName="batchFieldName"/>

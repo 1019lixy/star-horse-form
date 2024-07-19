@@ -1,3 +1,5 @@
+import {OrderByInfo} from "@/components/types/PageFieldInfo";
+
 /**
  * 查询条件组装数据对象
  */
@@ -13,5 +15,40 @@ declare export interface SearchParams {
     /**
      * 查询值
      */
-    value?: any
+    value?: any,
+    /**
+     * 或查询
+     */
+    orOperList: SearchParams[]
+}
+
+/**
+ * 查询对象
+ */
+declare export interface SearchInfo {
+
+    /**
+     * 每页数据量大小
+     */
+    pageSize: number,
+    /**
+     * 页码
+     */
+    currentPage: number,
+    /**
+     * 总数据量
+     */
+    totalDatas: number,
+    /**
+     * 总页数
+     */
+    totalPages: number,
+    /**
+     * 查询条件
+     */
+    fieldList: SearchParams[],
+    /**
+     * 排序条件
+     */
+    orderBy: OrderByInfo[]
 }

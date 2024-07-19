@@ -2,12 +2,13 @@
 import {computed, nextTick, onMounted, PropType, ref} from "vue";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {SearchProps, SelectOption} from "@/components/types/SearchProps";
-import {searchMatchList} from "@/api/sh_api";
+import {isJson, searchMatchList} from "@/api/sh_api";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {SearchParams} from "@/components/types/Params";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import piniaInstance from "@/store";
 import {analysisSearchData} from "@/views/dyform/utils/preview.ts";
+
 let matchTypeList = ref<SelectOption[]>();
 let sarchIcon = ref<String>("search_down");
 let defaultSearch = ref<boolean>(true);
@@ -46,7 +47,13 @@ const analysisDefaultValue = () => {
   let defaultDatas = {};
   props.formData?.forEach(item => {
     if (item.defaultValue) {
-      defaultDatas[item.fieldName] = item.defaultValue;
+      if (isJson(item.defaultValue)) {
+        for (let key in item.defaultValue) {
+          defaultDatas[key] = item.defaultValue[key];
+        }
+      } else {
+        defaultDatas[item.fieldName] = item.defaultValue;
+      }
     }
   });
   return defaultDatas;
@@ -137,18 +144,23 @@ defineExpose({
 :deep(.el-form-item__label) {
   min-width: 80px;
 }
+
 :deep(.el-form-item__label):last-child {
   max-width: 5px;
 }
+
 :deep(.el-form-item) {
   margin-bottom: 3px;
 }
+
 :deep(.el-form-item__label) {
   padding: 3px 12px;
 }
+
 .search_content {
   display: flex;
   flex-direction: column;
+
   .search_area {
     display: flex;
     flex-wrap: wrap;
@@ -157,6 +169,7 @@ defineExpose({
     justify-content: left;
     flex-shrink: 0;
   }
+
   .search_btn {
     display: flex;
     margin-top: 5px;

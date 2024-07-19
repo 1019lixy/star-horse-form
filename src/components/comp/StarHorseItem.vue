@@ -210,7 +210,8 @@ onMounted(() => {
 </style>
 <template>
   <div class="comp-info"
-       :style="{ 'width': isSearch && field.preps['type'] != 'daterange' ? '150px' : '100%','height':'100%' }">
+       :style="{ 'width': isSearch && field.preps['type'] != 'daterange' ? '150px' : '100%','height':
+       itemType != 'button' ?'100%':'inherit' }">
     <help :message="item?.helpMsg" v-if="item?.helpMsg"/>
     <component :id="randId" :is="itemType+'-item'" @selfFunc="dataSearch" :isDesign="false"
                ref="componentRef"

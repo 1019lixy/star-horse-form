@@ -1,14 +1,108 @@
-import {reactive, ref} from "vue";
+import {nextTick, reactive, Ref, ref} from "vue";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {SelectOption} from "@/components/types/SearchProps";
-import {searchMatchList} from "@/api/sh_api.ts";
-import {FieldInfo} from "../../../components/types/PageFieldInfo";
-import {ascOrDesc, validDataUrl} from "../../../api/system.ts";
-import {warning} from "../../../utils/message.ts";
+import {dictData, searchMatchList} from "@/api/sh_api.ts";
+import {FieldInfo} from "@/components/types/PageFieldInfo";
+import {ascOrDesc, dataType, httpMethod, validDataUrl} from "@/api/system.ts";
+import {warning} from "@/utils/message.ts";
+
+const helpMsg = `
+    接口返回的数据格式必须是：
+        {
+        "data": {
+            "pageSize": 0,
+            "currentPage": 0,
+            "totalDatas": 34,
+            "totalPages": 4,
+            "dataList": [ {} ]
+        },
+        "code": 0, //0 表示数据正常 
+        "message": "success",
+        "cnMessage": "操作成功"
+    }
+    `;
+
+
+export async function validInterface(formProps: any, dataSourceRef: Ref<any>, recall: Function) {
+    let flag = false;
+    let dataList: SelectOption[] = [];
+    await nextTick();
+    await dataSourceRef?.$refs.starHorseFormRef.validate((res: boolean) => {
+        flag = res;
+    });
+    //   clearMsg();
+    if (!flag) {
+        console.log(flag)
+        return flag;
+    }
+    let temp = formProps;
+    let dataSource = temp['dataSource'];
+    let requestType = temp['requestType'];
+    let urlOrDictName = temp['urlOrDictName'];
+    let params = temp['queryParams'];
+    let validErrorMsg: string = "";
+    let validSuccessMsg: string = "";
+    if (dataSource == "url") {
+        let requestParams = [] as any;
+        if (params && params.length > 0) {
+            params.forEach((item: any) => {
+                requestParams.push({
+                    propertyName: item.name,
+                    value: item.value,
+                    operation: item.matchType
+                });
+            });
+        }
+        let {data, error} = validDataUrl(urlOrDictName, requestType, requestParams);
+        if (error) {
+            flag = false;
+            validErrorMsg = error;
+        } else {
+            let element = data[0];
+            let keys = Object.keys(element);
+            if (!(keys.find(item => item == temp["selectLabel"]))) {
+                flag = false;
+                validErrorMsg = "验证失败\n【标签名字段】错误：" + JSON.stringify(keys);
+            } else if (!(keys.find(item => item == temp["selectValue"]))) {
+                flag = false;
+                validErrorMsg = "验证失败\n【标签值字段】错误：" + JSON.stringify(keys);
+            } else {
+                validSuccessMsg = "验证成功";
+                data.forEach((item: any) => {
+                    dataList.push({name: item[temp["selectLabel"]], value: item[temp["selectValue"]]});
+                })
+            }
+        }
+    } else if (dataSource == "dict") {
+        let dicts = await dictData(urlOrDictName);
+        if (Object.keys(dicts).length == 0) {
+            flag = false;
+            validErrorMsg = "验证失败\n数据字典可能未配置";
+        } else {
+            dataList = dicts;
+            validSuccessMsg = "验证成功";
+        }
+    } else {
+        //静态数据
+        let datas = temp['values'] as SelectOption[];
+        if (Object.keys(datas).length == 0) {
+            flag = false;
+            validErrorMsg = "验证失败\n请设置数据";
+        } else {
+            dataList = datas;
+            validSuccessMsg = "验证成功";
+        }
+    }
+    if (recall) {
+        recall(dataList, validSuccessMsg, validErrorMsg);
+    }
+    return flag;
+}
+
 /**
  * 数据源属性配置
  */
-export function dataSourceFields() {
+export function dataSourceFields(dataSourceRef: Ref<any>, recall: Function) {
     let dataSourceList: Array<SelectOption> = [
         {value: "url", name: "动态接口"},
         {value: "dict", name: "数据字典"},
@@ -73,7 +167,7 @@ export function dataSourceFields() {
                 tableShow: !false,
                 actionName: "click",
                 actions: (val: any) => {
-                    console.log(val);
+                    validInterface(val, dataSourceRef, recall);
                 }
             }],
             {
@@ -108,20 +202,31 @@ export function dataSourceFields() {
                         fieldList: [
                             [{
                                 label: "接口地址",
-                                fieldName: "values",
+                                fieldName: "interfaceUrl",
                                 type: "input",
+                                defaultValue: {"preinterfaceUrl": "http://"},
                                 required: urlRequired,
-                                formShow: !false,
-                                tableShow: !false,
+                                helpMsg: helpMsg,
+                                formShow: true,
+                                preps: {
+                                    colSpan: 16,
+                                    prependList: [
+                                        {name: "HTTP", value: "http://"},
+                                        {name: "HTTPS", value: "https://"}]
+                                }
                             },
                                 {
                                     label: "请求方式",
                                     fieldName: "requestType",
                                     type: "select",
                                     required: urlRequired,
+                                    defaultValue: "POST",
                                     formShow: !false,
                                     tableShow: !false,
-                                    optionList: requestTypeList,
+                                    optionList: httpMethod(),
+                                    preps: {
+                                        colSpan: 8
+                                    }
                                 }],
                             [{
                                 label: "标签名字段",
@@ -187,12 +292,13 @@ export function dataSourceFields() {
         ],
     });
 }
+
 /**
  * 组件参数属性配置
  * @param fieldName
  * @param item
  */
-export function paramsFields(fieldName: string, item: any) {
+export function paramsFields(fieldName: string, item: any, successMsg: Ref<any>, errorMsg: Ref<any>) {
     console.log(fieldName, item);
     let datas = [...item['advancedFields'], ...item['fields']];
     let currentData: Array<any> = [];
@@ -203,37 +309,69 @@ export function paramsFields(fieldName: string, item: any) {
         }
     });
     let fields: FieldInfo[] = [];
-    const helpMsg = `
-    接口返回的数据格式必须是：
-        {
-        "data": {
-            "pageSize": 0,
-            "currentPage": 0,
-            "totalDatas": 34,
-            "totalPages": 4,
-            "dataList": [ {} ]
-        },
-        "code": 0, //0 表示数据正常 
-        "message": "success",
-        "cnMessage": "操作成功"
-    }
-    `;
+
     let fieldList = ref<SelectOption[]>([]);
-    let dataUrls: FieldInfo[] = [
+    let urlBaseInfo: FieldInfo[] = [
+        {
+            fieldName: "preinterfaceUrl",
+            type: "input",
+            formShow: false,
+            defaultValue: "http://",
+            preps: {
+                colSpan: -1
+            }
+        },
         {
             label: "接口地址",
             fieldName: "interfaceUrl",
             type: "input",
             required: true,
-            colSpan: 20,
             helpMsg: helpMsg,
             formShow: true,
-        }, {
+            preps: {
+                colSpan: 24,
+                prependList: [
+                    {name: "HTTP", value: "http://"},
+                    {name: "HTTPS", value: "https://"}]
+            }
+        },
+
+    ];
+    let dataUrls: FieldInfo[] = [
+        {
+            label: "请求方式",
+            fieldName: "httpMethod",
+            type: "select",
+            defaultValue: "POST",
+            required: true,
+            optionList: httpMethod(),
+            formShow: true,
+            preps: {
+                colSpan: 10
+            }
+        },
+        {
+            label: "请求数据格式",
+            fieldName: "dataType",
+            type: "select",
+            defaultValue: "JSON",
+            formShow: true,
+            required: true,
+            optionList: dataType(),
+            preps: {
+                colSpan: 10
+            }
+        },
+        {
             label: "验证",
             fieldName: "urlValid",
             type: "button",
             actions: async (val: any) => {
-                let result = await validDataUrl(val["interfaceUrl"], {});
+                if (!val["interfaceUrl"]) {
+                    return;
+                }
+                let url = val["preinterfaceUrl"] + val["interfaceUrl"];
+                let result = await validDataUrl(url, {});
                 let datas: any = result.data;
                 let error = result.error;
                 if (error) {
@@ -247,9 +385,11 @@ export function paramsFields(fieldName: string, item: any) {
                     fieldList.value.push({name: keys[ind], value: keys[ind]})
                 }
             },
-            colSpan: 4,
             required: true,
             formShow: true,
+            preps: {
+                colSpan: 4,
+            }
         }
     ];
     let orderBys: FieldInfo[] = [
@@ -310,42 +450,37 @@ export function paramsFields(fieldName: string, item: any) {
             });
         }
     }
+    fields.push(urlBaseInfo);
     fields.push(dataUrls);
     if (otherField) {
         fields.push(...otherField);
     }
     let tabInfo = {
-        tabList: [
-            {
-                title: "属性配置",
-                tabName: "0",
-                fieldName: "tabName",
-                actions: () => {
-                },
-                batchFieldList: [
-                    {
-                        title: "显示属性",
-                        fieldName: "",
-                        batchName: "fieldLists",
-                        fieldList: fieldLists
-                    }, {
-                        title: "回调字段",
-                        batchName: "needField",
-                        fieldList: needFields
-                    }, {
-                        title: "接口排序",
-                        batchName: "orderBy",
-                        fieldList: orderBys
-                    }
-                ]
-            },
-        ]
+        tabList: [{
+            title: "属性配置",
+            tabName: "0",
+            fieldName: "tabName",
+            batchFieldList: [{
+                title: "显示属性",
+                batchName: "fieldLists",
+                fieldList: fieldLists
+            }, {
+                title: "回调字段",
+                batchName: "needField",
+                fieldList: needFields
+            }, {
+                title: "接口排序",
+                batchName: "orderBy",
+                fieldList: orderBys
+            }]
+        },]
     };
     fields.push(tabInfo);
     return reactive<PageFieldInfo | any>({
         fieldList: fields
     });
 }
+
 /**
  * 容器属性
  */

@@ -1,5 +1,5 @@
 <script setup lang="ts" name="ItemPropertiesPanel">
-import {computed, nextTick, onMounted, provide, reactive, ref, unref, watch} from 'vue'
+import {computed, nextTick, onMounted, reactive, ref, unref, watch} from 'vue'
 import {dictData, rowClassName, searchMatchList} from "@/api/sh_api";
 import type {FormRules} from 'element-plus'
 import {SelectOption} from "@/components/types/SearchProps";
@@ -9,6 +9,7 @@ import {containerField, dataSourceFields, paramsFields} from "@/views/dyform/uti
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
 import {validDataUrl} from "@/api/system.ts";
+
 let designForm = DesignForm(piniaInstance);
 let formDataList = computed(() => designForm.formDataList);
 let containerList = computed(() => designForm.containerList);
@@ -16,7 +17,7 @@ let selfFormDataList = computed(() => designForm.selfFormDataList);
 let formInfo = computed(() => designForm.formInfo);
 const fieldList = ref<any>({});
 const formProps = computed(() => designForm.currentFormPreps);
-provide("dataForm", formProps);
+// provide("dataForm", formProps);
 let currentItemType = computed(() => designForm.currentItemType);
 let currentCompCategory = computed(() => designForm.currentCompCategory);
 let parentCompType = computed(() => designForm.parentCompType);
@@ -83,13 +84,7 @@ const checkHttpUrl = (url: string): boolean => {
   }
   return givenURL.protocol === "http:" || givenURL.protocol === "https:";
 }
-const validEmpty = async () => {
-  let flag = false;
-  await dataSourceFormRef.value.$refs.starHorseFormRef.validate((res: boolean) => {
-    flag = res;
-  });
-  return flag;
-};
+
 const submitValid = async () => {
   let flag = await validInterface();
   if (flag) {
@@ -132,21 +127,7 @@ const paramsValid = async () => {
   })
   closeAction();
 };
-const handelAddItem = (row: any) => {
-  if (!formProps.value.values) {
-    formProps.value["values"] = [];
-  }
-  formProps.value.values.push({});
-};
-const handelDeleteItem = (row: any) => {
-  let data = formProps.value.values;
-  for (let item in data) {
-    let temp = data[item];
-    if (temp.label == row.label) {
-      data.splice(item, 1)
-    }
-  }
-};
+
 const merge = () => {
   let code = unref(codeCompRef).exportCode();
   let eventName = unref(codeCompRef).eventName;
@@ -162,80 +143,6 @@ const resetDataSourceForm = () => {
   formProps.value["urlOrDictName"] = null;
   formProps.value["queryParams"] = [];
   formProps.value["values"] = [];
-};
-let dataList = ref<SelectOption[]>([]);
-const validInterface = async () => {
-  let flag = await validEmpty();
-  clearMsg();
-  if (!flag) {
-    return flag;
-  }
-  let temp = unref(formProps);
-  let dataSource = temp['dataSource'];
-  let requestType = temp['requestType'];
-  let urlOrDictName = temp['urlOrDictName'];
-  let params = temp['queryParams'];
-  if (dataSource == "url") {
-    let requestParams = [] as any;
-    if (params && params.length > 0) {
-      params.forEach((item: any) => {
-        requestParams.push({
-          propertyName: item.name,
-          value: item.value,
-          operation: item.matchType
-        });
-      });
-    }
-    let {data, error} = validDataUrl(urlOrDictName, requestType, requestParams);
-    if (error) {
-      flag = false;
-      validErrorMsg.value = error;
-    } else {
-      let element = data[0];
-      let keys = Object.keys(element);
-      if (!(keys.find(item => item == temp["selectLabel"]))) {
-        flag = false;
-        validErrorMsg.value = "验证失败\n【标签名字段】错误：" + JSON.stringify(keys);
-      } else if (!(keys.find(item => item == temp["selectValue"]))) {
-        flag = false;
-        validErrorMsg.value = "验证失败\n【标签值字段】错误：" + JSON.stringify(keys);
-      } else {
-        validSuccessMsg.value = "验证成功";
-        data.forEach((item: any) => {
-          if (dataList.value) {
-            dataList.value.push({name: item[temp["selectLabel"]], value: item[temp["selectValue"]]});
-          }
-        })
-      }
-    }
-  } else if (dataSource == "dict") {
-    let dicts = await dictData(urlOrDictName);
-    if (Object.keys(dicts).length == 0) {
-      flag = false;
-      validErrorMsg.value = "验证失败\n数据字典可能未配置";
-    } else {
-      dataList.value = dicts;
-      validSuccessMsg.value = "验证成功";
-    }
-  } else {
-    //静态数据
-    let datas = temp['values'] as SelectOption[];
-    if (Object.keys(datas).length == 0) {
-      flag = false;
-      validErrorMsg.value = "验证失败\n请设置数据";
-    } else {
-      dataList.value = datas;
-      validSuccessMsg.value = "验证成功";
-    }
-  }
-  setTimeout(() => {
-    clearMsg();
-  }, 10000);
-  return flag;
-};
-const clearMsg = () => {
-  validErrorMsg.value = "";
-  validSuccessMsg.value = "";
 };
 const editContainerPrep = () => {
   containerDialogVisible.value = true;
@@ -303,6 +210,16 @@ const assignValue = (temp: any) => {
     console.log(e)
   }
 };
+let dataList = ref<SelectOption[]>([]);
+const recall = (options: SelectOption[], successMsg: string, errorMsg: string) => {
+  dataList.value = options;
+  validSuccessMsg.value = successMsg;
+  validErrorMsg.value = errorMsg;
+  setTimeout(() => {
+    validErrorMsg.value = "";
+    validSuccessMsg.value = "";
+  }, 5000)
+}
 watch(() => formProps,
     (val: any) => {
       assignPrep(currentItemType.value, parentCompType.value == "item");
@@ -316,23 +233,22 @@ watch(() => formProps,
                      @merge="submitValid"
                      @closeAction="closeAction"
                      @reset="resetDataSourceForm" :selfFunc="true">
-    <star-horse-form v-model:data-form="dataForm" rules="{}" primary-key="" ref="dataSourceFormRef"
-                     :fieldList="dataSourceFields()" comp-url=""/>
+    <el-alert :title="validSuccessMsg" type="success" effect="dark" v-show="validSuccessMsg"/>
+    <el-alert :title="validErrorMsg" type="error" effect="dark" v-show="validErrorMsg"/>
+    <star-horse-form :outerFormData="formProps" primary-key="" ref="dataSourceFormRef"
+                     :fieldList="dataSourceFields(dataSourceFormRef,recall)"/>
   </star-horse-dialog>
   <star-horse-dialog :dialogVisible="paramsDialogVisible" :title="'参数配置'" :isBatch="false"
                      @merge="paramsValid"
                      @closeAction="closeAction"
                      @reset="resetDataSourceForm" :selfFunc="true">
-    <star-horse-form v-model:data-form="dataForm" rules="{}" primary-key="" ref="paramsConfigRef"
-                     :fieldList="paramsFields(fieldName,currentField)"
-                     comp-url=""/>
+    <star-horse-form :outerFormData="formInfo" ref="paramsConfigRef" :fieldList="paramsFields(fieldName,currentField)"/>
   </star-horse-dialog>
   <star-horse-dialog :dialogVisible="containerDialogVisible"
                      :title="'设置容器'" :isBatch="false" @merge="closeAction"
                      @closeAction="closeAction"
                      @reset="resetForm" :selfFunc="true">
-    <star-horse-form v-model:data-form="dataForm" rules="{}" primary-key="" :fieldList="containerField(currentItemType)"
-                     comp-url=""/>
+    <star-horse-form :outerFormData="formInfo" :fieldList="containerField(currentItemType)"/>
   </star-horse-dialog>
   <star-horse-dialog :dialogVisible="jsEditor" :title="'自定义事件'" :isBatch="false" @merge="closeAction"
                      @closeAction="closeAction"
@@ -625,24 +541,29 @@ watch(() => formProps,
 <style lang="scss" scoped>
 :deep(.el-collapse-item) {
   overflow: hidden;
+
   .el-collapse-item__wrap {
     height: 100%;
     overflow: hidden;
+
     .el-collapse-item__content {
       height: inherit;
       overflow: hidden;
     }
   }
+
   &:last-child {
     flex: 1;
     height: 100%;
   }
 }
+
 :deep(.el-form-item__content) {
   width: 90%;
   margin-left: 5px;
   padding-left: 5px;
 }
+
 :deep(.el-scrollbar) {
   border-top-width: 0;
   display: flex;
@@ -650,15 +571,19 @@ watch(() => formProps,
   height: 100%;
   overflow: hidden;
 }
+
 :deep(.el-dialog__body) {
   padding: 0;
 }
+
 .widget-collapse {
   height: 99%;
 }
+
 .oper-btn {
   cursor: pointer;
 }
+
 .dynamic-form {
   width: 200px;
   height: 100%;

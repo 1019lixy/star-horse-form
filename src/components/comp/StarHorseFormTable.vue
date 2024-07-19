@@ -1,6 +1,7 @@
 <script setup lang="ts" name="StarHorseFormItem">
-import {ref} from "vue";
+import {ref, onMounted} from "vue";
 import {batchFieldDefaultValues} from "@/api/sh_api.ts";
+
 const props = defineProps({
   item: {type: Object, required: true},
   rules: {type: Object},
@@ -8,6 +9,9 @@ const props = defineProps({
 });
 const dataForm = defineModel("dataForm");
 const currentTableRef = ref();
+onMounted(() => {
+  console.log(dataForm);
+});
 </script>
 <template>
   <star-horse-form-list
