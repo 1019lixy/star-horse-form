@@ -25,7 +25,7 @@ const assignTitle = (meta: any) => {
         document.title = meta.title + " - " + Config.title;
     }
 };
-router.beforeEach((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
+router.beforeEach((to: RouteLocationNormalized, _from: RouteLocationNormalized, next: NavigationGuardNext) => {
     assignTitle(to.meta);
     start();
     // let menus = JSON.parse(JSON.stringify(userInfoStore.dynamicMenus));
@@ -78,10 +78,10 @@ router.beforeEach((to: RouteLocationNormalized, from: RouteLocationNormalized, n
         }
     }
 });
-router.beforeResolve((to, from, next) => {
+router.beforeResolve((_to, _from, next) => {
     next();
 });
-router.afterEach((to, from) => {
+router.afterEach((to, _from) => {
     done();
     if (to.path !== "/login" && to.path !== "/404") {
         //动态表单路由，导航信息拼接

@@ -66,7 +66,7 @@ watch(() => dialogProps.ids,
       immediate: true,
       deep: true
     });
-const merge = (type: string) => {
+const merge = (_type: string) => {
   starHorseFormRef.value.validate((result: boolean) => {
     if (!result) {
       return;

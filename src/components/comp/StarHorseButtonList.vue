@@ -64,25 +64,25 @@ const downloadTemplate = () => {
 const upload = (file: any, fileList: any) => {
   emits("upload", file, fileList);
 };
-const beforeUpload = (_file, _fileList) => {
+const beforeUpload = (_file:any, _fileList:any) => {
   //load("数据导入中");
 };
 /**
  * 上传过程
  */
-const uploadProcess = (event, file, fileList) => {
+const uploadProcess = (_event:any, _file:any, _fileList:any) => {
 };
 /**
  * 上传失败
  */
-const uploadError = (err, file, fileList) => {
+const uploadError = (_err:any, _file:any, _fileList:any) => {
   // closeLoad();
   tableCompFunc("refresh");
 };
 /**
  * 上传成功
  */
-const uploadSuccess = (response, file, fileList) => {
+const uploadSuccess = (_response:any, _file:any, _fileList:any) => {
   //closeLoad();
   tableCompFunc("refresh");
 };

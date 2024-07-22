@@ -1,7 +1,8 @@
 import {TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
 import {SearchInfo, SearchParams} from "@/components/types/Params";
-import {createCondition,loadData} from "@/api/sh_api";
+import {createCondition, loadData} from "@/api/sh_api";
 import {SelectOption} from "@/components/types/SearchProps";
+
 const validUrl: string = "/userdb-manage/redirect/valid";
 const redirectUrl: string = "/userdb-manage/redirect/valid";
 
@@ -47,8 +48,8 @@ export function searchData(tableComp: any, data: SearchParams[]) {
  * @param dataList
  * @param name
  */
-export function parseFormData(dataList: any, name:string) {
-    const filterRecursive = (node:any) => {
+export function parseFormData(dataList: any, name: string) {
+    const filterRecursive = (node: any) => {
         // 如果节点是数组，则对每个元素应用过滤逻辑
         if (Array.isArray(node)) {
             const result: Array<any> = node.map(child => filterRecursive(child)).filter((item) => item !== null);
@@ -72,18 +73,18 @@ export async function printerList(): Promise<Array<SelectOption>> {
     //创建一个实例
     let ws = new WebSocket("ws://127.0.0.1:55333");
     //用于指定连接成功后的回调函数
-    ws.onopen = (evt) => {
+    ws.onopen = (_evt) => {
         console.log("Connection open ...");
         ws.send(JSON.stringify(getData));
     };
     //用于指定连接关闭后的回调函数
-    ws.onclose = (event) => {
-        let code = event.code;
-        let reason = event.reason;
-        let wasClean = event.wasClean;
+    ws.onclose = (_event) => {
+        // let _code: number = event.code;
+        // let _reason: string = event.reason;
+        // let _wasClean: boolean = event.wasClean;
     };
     //
-    return await new Promise((resolve, reject) => {
+    return await new Promise((resolve, _reject) => {
         //用于指定收到服务器数据后的回调函数
         ws.onmessage = (event) => {
             let data = event.data;
