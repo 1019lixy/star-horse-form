@@ -1,5 +1,5 @@
 import {defineStore} from "pinia";
-import {Config} from "@/api/settings";
+import {Config} from "@/api/settings.ts";
 
 export const GlobalConfig: any = defineStore("GlobalConfig", {
     state: () => {

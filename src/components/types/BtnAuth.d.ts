@@ -18,5 +18,8 @@ export declare interface BtnAuth {
      * 自定义调用方法
      */
     exec?: Function;
+    /**
+     * 子节点
+     */
     children?: BtnAuth[]
 }

@@ -1,5 +1,6 @@
 import {ref} from "vue";
-export const Config = {
+
+export const Config: any = {
     /**
      * @description 网站标题
      */
@@ -73,4 +74,4 @@ export const Config = {
      * 默认列表宽度
      */
     defaultColumnWidth: '180'
-}
+};

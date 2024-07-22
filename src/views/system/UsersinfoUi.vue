@@ -1,6 +1,6 @@
 <script setup lang="ts" name="Usersinfo">
 import {ApiUrls} from "@/components/types/ApiUrls";
-import {Config} from "@/api/settings";
+import {Config} from "@/api/settings.ts";
 import {DialogProps} from "@/components/types/DialogProps"
 import {nextTick, onMounted, provide, reactive, ref} from "vue";
 import {SearchProps, SelectOption} from "@/components/types/SearchProps";
@@ -8,7 +8,7 @@ import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {
   createCondition,
   dictData,
-  getMenuId,
+  getMenuId, loadById,
   loadDepartmentInfo,
   loadPagePermission,
   loadRolesInfo
@@ -18,6 +18,9 @@ import {ElTreeV2} from "element-plus";
 import {TreeNode, TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
 import {SearchParams} from "@/components/types/Params";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
+import {postRequest, trim} from "@/api/star_horse.ts";
+import {success, warning} from "@/utils/message.ts";
+
 const props = defineProps({
   viewRolesinfoId: {type: String},
   disableAction: {type: Boolean, default: false}
@@ -37,11 +40,11 @@ const dataUrl: ApiUrls = {
   uploadUrl: "",
   condition: []
 };
-const nativePlaceList = ref<any>([]);
+// const nativePlaceList = ref<any>([]);
+// const educationList = ref<SelectOption[]>([]);
+// const politicalStatusList = ref<SelectOption[]>([]);
+// const identityTypeList = ref<SelectOption[]>([]);
 const sexList = ref([{name: "男", value: 1}, {name: "女", value: 2}, {name: "保密", value: 3}]);
-const educationList = ref<SelectOption[]>([]);
-const politicalStatusList = ref<SelectOption[]>([]);
-const identityTypeList = ref<SelectOption[]>([]);
 const rolesList = ref<SelectOption[]>([]);
 const deptList = ref<SelectOption[]>([]);
 const usersinfoTableListRef = ref();
@@ -61,6 +64,55 @@ const searchFormData = reactive<SearchProps[]>([
   },
   {label: "性别", fieldName: "sex", type: "select", optionList: sexList},
 ]);
+//修改密码方法
+const ruleForm = ref<any>({});
+const pwdFormRef = ref();
+const dialogPwdVisible = ref<boolean>(false);
+const resetForm = () => {
+  let data = pwdFormRef.value.getFormData();
+  data.password = "";
+  data.rePassword = "";
+  // ruleForm.value = {};
+}
+const pwdMerge = () => {
+  pwdFormRef.value.$refs.starHorseFormRef.validate((valid: any) => {
+    if (!valid) {
+      return;
+    }
+    let pwdForm = pwdFormRef.value.getFormData().value;
+    console.log(pwdForm);
+    let pwd = pwdForm.password;
+    let rePwd = pwdForm.rePassword;
+    if (!trim(pwd)) {
+      warning("不能设置空格密码");
+      return;
+    }
+    if (pwd.length < 6 || pwd.length > 15) {
+      warning("请设置长度为6到15的密码");
+      return;
+    }
+    if (pwd !== rePwd) {
+      warning("两次密码不一致，请重新录入");
+      return;
+    }
+    postRequest("/system-config/system/usersAuditEntity/refreshInvalidPassword/" + pwdForm.username
+        + "/" + pwd + "/" + (pwdForm.oldPassword || "0") + "/" + pwdForm.phone, {}).then(res => {
+      let redata = res.data;
+      if (redata.code == 1) {
+        warning(redata.cnMessage);
+        return;
+      }
+      success(redata.cnMessage);
+      dialogProps.bakeVisible3 = false;
+    });
+  });
+}
+const editPwd = async (row: any) => {
+  let data = await loadById(dataUrl.loadByIdUrl, row[primaryKey], false, {});
+  dialogProps.bakeVisible3 = true;
+  await nextTick();
+  pwdFormRef.value.setDataForm(data);
+};
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     [{
@@ -187,7 +239,14 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       label: "国际码", fieldName: "local", type: "input",
     },
   ],
-  stopAutoLoad: props.viewRolesinfoId ? true : false
+  stopAutoLoad: props.viewRolesinfoId ? true : false,
+  userTableFuncs: [{
+    authority: "edit",
+    btnName: "修改密码",
+    funcName: (row: any) => {
+      editPwd(row);
+    }
+  }]
 });
 const primaryKey = "idUsersinfo";
 const rules = {};
@@ -218,8 +277,8 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
     return roles.join(";");
   }
   if (name == "deptList" && row['deptList']) {
-    let {listNames, listValues} = analysisData(row['deptList'], "", "deptName", "idDepartment")
-    return listNames.join("/");
+    let data = analysisData(row['deptList'], "", "deptName", "idDepartment")
+    return data.listNames.join("/");
   }
   return cellValue;
 };
@@ -272,8 +331,37 @@ const initData = async () => {
 onMounted(async () => {
   await initData();
 });
+const pwdFieldInfo = reactive<PageFieldInfo | any>({
+  fieldList: [[{
+    label: "工号", fieldName: "employeeNo", type: "text",
+    formShow: true
+  }, {
+    label: "用户名", fieldName: "username", type: "text",
+    formShow: true
+  }], [{
+    label: "密码", fieldName: "password", type: "password",
+    formShow: true
+  }, {
+    label: "确认密码", fieldName: "rePassword", type: "password",
+    formShow: true
+  }]]
+});
 </script>
 <template>
+  <star-horse-dialog
+      :dialog-visible="dialogProps.bakeVisible3"
+      :is-show-reset="false"
+      :is-show-save="false"
+      :is-show-btn-continue="false"
+      :self-func="true"
+      :title="'修改密码'"
+      @merge="pwdMerge"
+      @reset="resetForm"
+  >
+    <star-horse-form v-model:data-form="dataForm" :compUrl="dataUrl"
+                     :fieldList="pwdFieldInfo"
+                     :rules="rules" ref="pwdFormRef"/>
+  </star-horse-dialog>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
     <star-horse-form v-model:data-form="dataForm" @refresh="usersinfoTableListRef.loadByPage()" :compUrl="dataUrl"
                      :fieldList="tableFieldList"
@@ -335,6 +423,7 @@ onMounted(async () => {
 <style lang="scss" scoped>
 .el-card {
   height: 100%;
+
   :deep(.el-card__body) {
     height: 100%;
     padding: 0;

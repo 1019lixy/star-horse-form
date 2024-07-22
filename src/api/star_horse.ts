@@ -1,8 +1,8 @@
-import axios, {AxiosRequestConfig, AxiosResponse} from "axios";
+import axios, {AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig} from "axios";
 import {getToken, getUserInfo, removeToken, setCustomerInfo, setToken, setUserInfo} from "@/utils/auth";
 import router from "@/router";
 import {error, warning} from "../utils/message";
-import {Config} from "@/api/settings";
+import {Config} from "@/api/settings.ts";
 import {reactive} from "vue";
 import {MenusInfo} from "@/components/types/MenusInfo";
 import piniaInstance from "@/store";
@@ -22,7 +22,7 @@ const service = axios.create({
     }
 })
 // 添加请求拦截器
-service.interceptors.request.use((config: AxiosRequestConfig) => {
+service.interceptors.request.use((config: InternalAxiosRequestConfig) => {
     let token = getToken();
     // 请求头带上token
     if (token && config.headers) {

@@ -7,7 +7,7 @@ import {navBarList} from "@/store/NavbarListStore";
 import {DialogProps} from "@/components/types/DialogProps";
 import {SearchProps} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
-import {Config} from "@/api/settings";
+import {Config} from "@/api/settings.ts";
 const navBarListStore = navBarList();
 const router = useRouter();
 const starHorseTableCompRef = ref();

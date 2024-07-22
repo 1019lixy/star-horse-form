@@ -12,7 +12,7 @@ import {
   loadPagePermission
 } from "@/api/sh_api";
 import {warning} from "@/utils/message";
-import {Config} from "@/api/settings";
+import {Config} from "@/api/settings.ts";
 const assignType = ref<SelectOption[]>([{name: "按用户授权", value: 1}, {name: "按角色授权", value: 2}]);
 const assignTypeRef = ref(null);
 let userOrRoleList = ref<SelectOption[]>([]);

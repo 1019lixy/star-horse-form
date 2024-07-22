@@ -7,7 +7,7 @@ import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {BtnAuth} from "@/components/types/BtnAuth";
 import {useRouter} from "vue-router";
 import {getMenuId, loadData, loadPagePermission} from "@/api/sh_api";
-import {Config} from "@/api/settings";
+import {Config} from "@/api/settings.ts";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
 const router = useRouter();

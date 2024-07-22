@@ -2,7 +2,7 @@
 import {PropType} from "vue";
 import {FieldInfo} from "@/components/types/PageFieldInfo";
 import {rowClassName} from "@/api/sh_api";
-import {Config} from "@/api/settings";
+import {Config} from "@/api/settings.ts";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 const props = defineProps({
   item: {type: Array as PropType<Array<FieldInfo>>, required: true},

@@ -19,7 +19,7 @@ declare export interface SearchParams {
     /**
      * 或查询
      */
-    orOperList: SearchParams[]
+    orOperList?: SearchParams[]
 }
 
 /**

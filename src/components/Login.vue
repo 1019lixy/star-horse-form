@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import {Config} from "@/api/settings";
+import {Config} from "@/api/settings.ts";
 import {getValidateImg, rtCode, userLogin} from "@/api/star_horse";
 import {JSEncrypt} from "jsencrypt";
 import {removeToken} from "@/utils/auth";

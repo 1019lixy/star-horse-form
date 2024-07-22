@@ -1,7 +1,7 @@
 import {createRouter, createWebHistory, NavigationGuardNext, RouteLocationNormalized} from "vue-router";
 import routers from "./router";
 import {starhorseProcess} from "@/utils/starhorseProcess";
-import {Config} from "@/api/settings";
+import {Config} from "@/api/settings.ts";
 import {getToken} from "@/utils/auth";
 import piniaInstance from "@/store";
 import {createRouterAndMenuList} from "@/api/star_horse";

@@ -8,7 +8,7 @@ import DataPreview from "@/views/dyform/DataPreview.vue";
 import {analysisSearchData, viewColumns, viewDataList} from "@/views/dyform/utils/preview";
 import {download} from "@/api/star_horse";
 import {error} from "@/utils/message";
-import {Config} from "@/api/settings";
+import {Config} from "@/api/settings.ts";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
 let designForm = DesignForm(piniaInstance);

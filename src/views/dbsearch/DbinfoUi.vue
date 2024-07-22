@@ -5,7 +5,7 @@ import {onMounted, provide, reactive, ref} from "vue";
 import {SearchProps, SelectOption} from "@/components/types/SearchProps";
 import {getMenuId, loadGetData, loadPagePermission} from "@/api/sh_api";
 import {warning} from "@/utils/message";
-import {Config} from "@/api/settings";
+import {Config} from "@/api/settings.ts";
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/dbsearch-manage/dbsearch/dbinfoEntity/pageList",
   mergeUrl: "/dbsearch-manage/dbsearch/dbinfoEntity//merge",

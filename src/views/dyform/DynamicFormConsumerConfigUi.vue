@@ -9,7 +9,7 @@ import {useRouter} from "vue-router";
 import {BtnAuth} from "@/components/types/BtnAuth";
 import StarHorseDialog from "@/components/comp/StarHorseDialog.vue";
 import ViewPage from "@/views/dyform/ViewPage.vue";
-import {Config} from "@/api/settings";
+import {Config} from "@/api/settings.ts";
 const router = useRouter();
 //后端交互接口地址
 const dataUrl: ApiUrls = {

@@ -4,7 +4,7 @@ import {DialogProps} from "@/components/types/DialogProps"
 import {onMounted, provide, reactive, ref} from "vue";
 import {SearchProps, SelectOption} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
-import {Config} from "@/api/settings";
+import {Config} from "@/api/settings.ts";
 import {getMenuId, loadPagePermission} from "@/api/sh_api.ts";
 //后端交互接口地址
 const dataUrl: ApiUrls = {

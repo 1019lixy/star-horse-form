@@ -1,6 +1,6 @@
 <script setup lang="ts" name="Rolesinfo">
 import {ApiUrls} from "@/components/types/ApiUrls";
-import {Config} from "@/api/settings";
+import {Config} from "@/api/settings.ts";
 import {DialogProps} from "@/components/types/DialogProps"
 import {nextTick, onMounted, provide, reactive, ref} from "vue";
 import {SearchProps, SelectOption} from "@/components/types/SearchProps";

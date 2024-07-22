@@ -109,11 +109,11 @@ export declare interface FieldInfo {
      */
     optionList?: SelectOption[];
     /**
-     * 是否禁用,1:编辑禁用 2: 全局禁用
+     * 是否禁用,Y 禁用 N 非禁用
      */
     disabled?: string;
     /**
-     * 是否允许多选,在类型为select时有效
+     * 是否允许多选,在类型为select时有效 Y 多选 
      */
     multiple?: string;
     /**

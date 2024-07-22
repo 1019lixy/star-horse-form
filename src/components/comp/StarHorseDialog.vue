@@ -77,7 +77,7 @@ provide("dialogOperation", clickFunction);
   <Teleport to="body">
     <div class="di animated animate__fadeIn">
       <el-dialog :append-to-body="false" :center="false" :destroy-on-close="true" :close-on-click-modal="false"
-                 :close-on-press-escape="false" :lock-scroll="true" class="dialog-settings"
+                 :close-on-press-escape="false" :lock-scroll="true" class="dialog-settings.ts"
                  :fullscreen="isFullScreen"
                  :show-close="false" :draggable="draggable" :align-center="true" v-model="windowsType"
                  @close="beforeClose"

@@ -4,7 +4,7 @@ import {closeLoad, getMenuId, load, loadGetData, loadPagePermission} from "@/api
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {DialogProps} from "@/components/types/DialogProps";
 import {SearchProps} from "@/components/types/SearchProps";
-import {Config} from "@/api/settings";
+import {Config} from "@/api/settings.ts";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
 let designForm = DesignForm(piniaInstance);

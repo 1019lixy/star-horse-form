@@ -1,7 +1,6 @@
 <script setup lang="ts" name="StarHorseButtonList">
-import {computed, inject, onMounted, PropType, ref, Ref} from "vue";
+import {computed, onMounted, PropType, ref} from "vue";
 import {ApiUrls} from "@/components/types/ApiUrls";
-import {loadPagePermission} from "@/api/sh_api";
 import {download} from "@/api/star_horse";
 import {error} from "@/utils/message";
 import {DialogProps} from "../types/DialogProps";
@@ -62,10 +61,10 @@ const downloadTemplate = () => {
     error("接口不存在或网络异常:" + err);
   });
 };
-const upload = (file, fileList) => {
+const upload = (file: any, fileList: any) => {
   emits("upload", file, fileList);
 };
-const beforeUpload = (file, fileList) => {
+const beforeUpload = (_file, _fileList) => {
   //load("数据导入中");
 };
 /**
@@ -149,8 +148,7 @@ defineExpose({
                 <el-dropdown-menu>
                   <el-dropdown-item v-for="sitem in item.children">
                     <el-button @click="sitem['exec'](sitem.btnName)" link title=""
-                               style="background: var(--star-horse-style);color: var(--star-horse-white)" :size=
-                                   "compSize">
+                               style="background: var(--star-horse-style);color: var(--star-horse-white)" :size="compSize">
                       <star-horse-icon :icon-class="sitem.icon||'default'" size="12px"/>
                       {{ sitem.labelName }}
                     </el-button>

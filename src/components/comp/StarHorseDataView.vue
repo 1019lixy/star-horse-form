@@ -7,7 +7,7 @@ import StarHorseDataViewObject from "@/components/comp/StarHorseDataViewObject.v
 import StarHorseDataViewTable from "@/components/comp/StarHorseDataViewTable.vue";
 const dataForm = ref({});
 const props = defineProps({
-  compUrl: {type: Object as PropType<ApiUrls>, required: true},
+  compUrl: {type: Object as PropType<ApiUrls>},
   objectName: {type: String},
   subCreateFlag: {type: Boolean, default: false},
   fieldList: {type: Object, required: true},
@@ -82,7 +82,7 @@ const tabList = ref<any>("tab0");
 <template>
   <template v-for="item in fieldList.fieldList">
     <el-row v-if="item instanceof Array">
-      <el-col :span="sitem.colSpan||(24/item.length)" v-for="sitem in item">
+      <el-col :span="sitem.colSpan||sitem.preps?.colSpan||(24/item.length)" v-for="sitem in item">
         <div class="item" v-if="sitem.formShow||sitem.tableShow||sitem.viewShow">
           <label>{{ sitem.label }} :</label>
           <div class="content">

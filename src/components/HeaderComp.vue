@@ -1,6 +1,6 @@
 <script lang="ts" setup name="Header">
 import {computed, nextTick, onMounted, provide, reactive, ref, unref} from "vue"
-import {Config} from "@/api/settings"
+import {Config} from "@/api/settings.ts"
 import {postRequest, trim, userLogout} from "@/api/star_horse";
 import {confirm, error, success, warning} from "@/utils/message";
 import {DialogProps} from "@/components/types/DialogProps";

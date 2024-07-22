@@ -2,8 +2,7 @@
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {onMounted, provide, reactive, ref} from "vue";
 import {SearchProps} from "@/components/types/SearchProps.d.ts";
-import {Config} from "@/api/settings.js";
-import {DialogProps} from "element-plus";
+import {Config} from "@/api/settings.ts";
 import {DialogInput} from "@/components/types/PageFieldInfo";
 import {getMenuId, loadPagePermission} from "@/api/sh_api.ts";
 const dataUrl: ApiUrls = {

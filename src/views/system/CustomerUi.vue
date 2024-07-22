@@ -1,6 +1,6 @@
 <script setup lang="ts" name="Customer">
 import {ApiUrls} from "@/components/types/ApiUrls";
-import {Config} from "@/api/settings";
+import {Config} from "@/api/settings.ts";
 import {DialogProps} from "@/components/types/DialogProps"
 import {onMounted, provide, reactive, ref} from "vue";
 import {SearchProps, SelectOption} from "@/components/types/SearchProps";

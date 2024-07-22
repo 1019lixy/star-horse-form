@@ -1,6 +1,6 @@
 <script setup lang="ts" name="Menusinfo">
 import {ApiUrls} from "@/components/types/ApiUrls";
-import {Config} from "@/api/settings";
+import {Config} from "@/api/settings.ts";
 import {DialogProps} from "@/components/types/DialogProps"
 import {ComponentInternalInstance, getCurrentInstance, onMounted, provide, reactive, ref, unref, watch} from "vue";
 import {SearchProps, SelectOption} from "@/components/types/SearchProps";

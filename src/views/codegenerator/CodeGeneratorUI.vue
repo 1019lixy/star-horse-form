@@ -2,7 +2,7 @@
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {onMounted, provide, reactive, ref} from "vue";
 import {SearchProps, SelectOption} from "@/components/types/SearchProps.d.ts";
-import {Config} from "@/api/settings.js";
+import {Config} from "@/api/settings.ts";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo.d.ts";
 import {initDbList, tableList} from "@/views/dbsearch/utils/DbSearchUtils.ts";
 import {closeLoad, dictData, getMenuId, load, loadPagePermission} from "@/api/sh_api.ts";

@@ -38,7 +38,7 @@ const dataFormat = (item: any) => {
   <template v-for="item in fieldList.fieldList">
     <el-row v-if="item instanceof Array">
       <template v-for="sitem in item">
-        <el-col :span="sitem.colSpan||(24/item.length)">
+        <el-col :span="sitem.colSpan||sitem.preps?.colSpan||(24/item.length)">
           <div class="item" v-if="sitem.formShow||sitem.tableShow||sitem.viewShow">
             <label>{{ sitem.label }} :</label>
             <div class="content">

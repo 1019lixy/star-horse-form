@@ -499,8 +499,8 @@ export function rowClassName({row, rowIndex}: any) {
 /**
  * 创建条件
  */
-export function createCondition(name: string, val: any, matchType: string | null): SearchParams {
-    return {propertyName: name, value: val, operation: matchType || "eq"};
+export function createCondition(name: string, val: any, matchType: string="eq"): SearchParams {
+    return {propertyName: name, value: val, operation: matchType};
 }
 
 /**
@@ -620,7 +620,7 @@ export function formFieldMapping(fieldList: PageFieldInfo) {
                 if (item.actions) {
                     actions.push({
                         batchName: temp.batchName,
-                        actionNames: item.actionNames,
+                        actionNames: item.actionName,
                         actions: item.actions,
                         fieldName: item.fieldName
                     })
@@ -648,7 +648,7 @@ export function formFieldMapping(fieldList: PageFieldInfo) {
                     }
                     if (item.actions) {
                         actions.push({
-                            actionNames: item.actionNames,
+                            actionNames: item.actionName,
                             actions: item.actions,
                             fieldName: item.fieldName
                         })

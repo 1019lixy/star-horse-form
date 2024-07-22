@@ -1,9 +1,7 @@
 import {TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
 import {SearchInfo, SearchParams} from "@/components/types/Params";
-import {createCondition} from "@/api/sh_api";
+import {createCondition,loadData} from "@/api/sh_api";
 import {SelectOption} from "@/components/types/SearchProps";
-import {loadData} from "./sh_api.ts";
-
 const validUrl: string = "/userdb-manage/redirect/valid";
 const redirectUrl: string = "/userdb-manage/redirect/valid";
 
@@ -15,7 +13,7 @@ const redirectUrl: string = "/userdb-manage/redirect/valid";
  * @param data 树节点
  * @param checked
  */
-export function treeCheckChange(treeComp: any, tableComp: any, dataForm: any, data: TreeNodeData, checked: boolean) {
+export function treeCheckChange(treeComp: any, tableComp: any, dataForm: any, data: TreeNodeData, checked: any) {
     let checkedNodes = treeComp.getCheckedNodes();
     if (checkedNodes?.length > 0) {
         checkedNodes.forEach((item: any) => {
@@ -49,11 +47,11 @@ export function searchData(tableComp: any, data: SearchParams[]) {
  * @param dataList
  * @param name
  */
-export function parseFormData(dataList: any, name) {
-    const filterRecursive = (node) => {
+export function parseFormData(dataList: any, name:string) {
+    const filterRecursive = (node:any) => {
         // 如果节点是数组，则对每个元素应用过滤逻辑
         if (Array.isArray(node)) {
-            const result: Array = node.map(child => filterRecursive(child)).filter((item) => item !== null);
+            const result: Array<any> = node.map(child => filterRecursive(child)).filter((item) => item !== null);
             return result;
         }
         const containsData = node.preps.name == name;
