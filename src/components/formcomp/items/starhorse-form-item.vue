@@ -251,14 +251,16 @@ onMounted(() => {
         <el-tooltip content="拖动">
           <star-horse-icon icon-class="drag" style="cursor:move;color: var(--star-horse-white)"/>
         </el-tooltip>
-        <el-tooltip content="选中组件">
+<!--        <el-tooltip content="选中组件">
           <star-horse-icon
               @click.stop="selectData"
               icon-class="check"
-              style="color: var(--star-horse-white)"
+              style="color: var(&#45;&#45;star-horse-white)"
           />
+        </el-tooltip>-->
+        <el-tooltip :content="formItem?.preps['itemNameLabel']" >
+          <span style="color:var(--star-horse-white)">{{formItem?.preps['itemNameLabel']}}</span>
         </el-tooltip>
-
       </div>
     </div>
     <slot v-else></slot>
@@ -372,7 +374,10 @@ onMounted(() => {
     margin-right: 0;
   }
 }
-
+.drag-handler{
+  padding-right: 10px;
+  font-size:13px;
+}
 .el-form-item {
   //margin-bottom: 0 !important;
   //margin-bottom: 6px;
