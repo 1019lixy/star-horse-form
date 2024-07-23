@@ -2,7 +2,7 @@
 import {computed, onMounted, provide, ref, unref} from "vue";
 import {warning} from "@/utils/message.ts";
 import {initDbList, openDatabase, tableColumns} from "@/views/dbsearch/utils/DbSearchUtils.ts";
-import {convertToCamelCase} from "@/api/sh_api.ts";
+import {convertToCamelCase, isJson} from "@/api/sh_api.ts";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
@@ -11,6 +11,7 @@ import {PageFieldInfo} from "@/components/types/PageFieldInfo.d.ts";
 import {SelectOption} from "@/components/types/SearchProps.d.ts";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import StarHorseDialog from "@/components/comp/StarHorseDialog.vue";
+
 let configStore = GlobalConfig(piniaInstance);
 let designForm = DesignForm(piniaInstance);
 let allFormDataList = computed(() => designForm.allFormDataList);
@@ -123,7 +124,7 @@ const contextOperation = async (evt: Event, data: any, index: number) => {
   evt.preventDefault();
   evt.stopPropagation();
   currentData.value = data;
-  console.log(data, index);
+  // console.log(data, index);
   await tableField(data.tableName);
   currentDataVisible.value = true;
   selectFieldsOperation(data.fields);
@@ -266,7 +267,20 @@ const onDataCopy = async (data: any) => {
     };
     mvData['itemType'] = getFieldType(reData, data.fieldCompTypes);
     mvData.preps['id'] = mvData['id'];
-    mvData.preps['label'] = reData.comment;
+    let labelName = reData.comment;
+    if (labelName && isJson(labelName)) {
+      labelName = labelName.replaceAll("“", "\"");
+      labelName = labelName.replaceAll("”", "\"");
+      try {
+        let jsonData = JSON.parse(labelName);
+        labelName = jsonData ["desc"];
+      } catch (e) {
+        labelName = "属性";
+      }
+
+    }
+    mvData.preps['label'] = labelName;
+    mvData.preps['itemNameLabel'] = labelName;
     mvData.preps['name'] = fieldName;
     formFieldList.value[fieldName] = getDefaultVal(mvData['itemType']);
     mvData['compType'] = "formItem";
@@ -495,22 +509,26 @@ onMounted(() => {
 :deep(.el-popover) {
   overflow-x: hidden;
 }
+
 .popover-header {
   display: flex;
   background: var(--star-horse-style);
   height: 30px;
   justify-content: end;
 }
+
 ul {
   margin: 5px;
   display: flex;
   flex-direction: column;
+
   li {
     height: 25px;
     border-radius: 2px;
     cursor: pointer;
     margin: 1px;
     display: flex;
+
     :deep(.el-tooltip__trigger) {
       display: inline-flex;
       align-items: center;
@@ -523,25 +541,31 @@ ul {
       height: inherit;
       flex: 1;
     }
+
     .svg-icon {
       width: 18px;
       height: 18px;
     }
   }
+
   li:nth-child(even) {
     background: #e5e5e5;
   }
+
   li:nth-child(odd) {
     background: #f1f2f3;
   }
 }
+
 .field-table {
   border: 1px solid var(--star-horse-style);
+
   tr > th, tr > td {
     border: 1px solid var(--star-horse-style);
     height: 25px;
     font-size: 12px;
     padding-left: 5px;
+
     :nth-child(2) {
       width: 120px;
     }

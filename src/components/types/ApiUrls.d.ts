@@ -59,4 +59,12 @@ export  type ApiUrls = {
      * 是否接口转发
      */
     redirect?: boolean;
+    /**
+     * 接口请求方式
+     */
+    httpMethod?: string;
+    /**
+     * 数据请求方式
+     */
+    dataType?: string;
 }

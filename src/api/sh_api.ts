@@ -499,7 +499,7 @@ export function rowClassName({row, rowIndex}: any) {
 /**
  * 创建条件
  */
-export function createCondition(name: string, val: any, matchType: string="eq"): SearchParams {
+export function createCondition(name: string, val: any, matchType: string = "eq"): SearchParams {
     return {propertyName: name, value: val, operation: matchType};
 }
 
@@ -568,6 +568,11 @@ export function relationFieldOperation(formFields: any, fieldName: string, batch
  * @param v
  */
 export function isJson(v: any) {
+    if (v && typeof v === "string") {
+        let start = v.substring(0, 1);
+        let end = v.substring(v.length - 1, v.length);
+        return (start == "{" && end == "}") || (start == "[" && end == "]");
+    }
     if (typeof v === 'object' && Object.prototype.toString.call(v).toLowerCase() === '[object object]' && !v.length) {
         return true;
     }
@@ -634,7 +639,7 @@ export function formFieldMapping(fieldList: PageFieldInfo) {
             if (temp instanceof Array) {
                 temp.forEach((item: FieldInfo) => {
                     if (item.defaultValue) {
-                       // console.log(Object.keys(item.defaultValue));
+                        // console.log(Object.keys(item.defaultValue));
                         if (isJson(item.defaultValue)) {
                             for (let key in item.defaultValue) {
                                 defaultData[key] = item.defaultValue[key];

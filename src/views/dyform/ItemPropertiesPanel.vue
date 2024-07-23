@@ -101,16 +101,21 @@ const paramsValid = async () => {
   if (!flag) {
     return;
   }
+  let formDdata = paramsConfigRef.value.getFormData();
+  for (let key in formDdata.value) {
+    formProps.value[key] = formDdata.value[key];
+  }
   formProps.value["dataUrl"] = {
-    loadByPageUrl: "/userdb-manage/userdb/dynamicForm/validInterface",
+    loadByPageUrl: formDdata.value["preinterfaceUrl"] + formDdata.value["interfaceUrl"],
     redirect: true,
     condition: {
-      url: formProps.value["interfaceUrl"],
-      httpMethod: "POST",
-      params: {}
+     // url: formDdata.value["preinterfaceUrl"] + formDdata.value["interfaceUrl"],
+      httpMethod: formDdata.value.httpMethod,
+      params: formDdata.value.params
     },
   }
   let searchFieldList: Array<any> = [];
+
   formProps.value["fieldLists"].forEach((item: any) => {
     item["tableShow"] = true;
     item["type"] = "input";
@@ -463,7 +468,7 @@ watch(() => formProps,
                     class="oper-btn"
                     title="删除行"
                     v-if="formProps.values?.length>1">
-											<star-horse-icon icon-class="delete" style="color:indianred" />
+											<star-horse-icon icon-class="delete" style="color:indianred"/>
 										</span>
                 </template>
               </el-table-column>

@@ -19,7 +19,7 @@
         />
       </template>
       <ul class="system-icon">
-        <li v-for="sdata in field.preps['values']"
+        <li v-for="sdata in field.preps['values']||loadElementPlusIcon()"
             @click="assignIcon(sdata.value)"
             :class="sdata.value==context.attrs['formFieldList'][field.preps['name']]?'icon-active':''"
         >
@@ -35,13 +35,15 @@
 </template>
 <script lang="ts">
 import {defineComponent, onMounted, shallowRef, unref} from "vue";
+import {loadElementPlusIcon} from "@/api/sh_api.ts";
+
 export default defineComponent({
+  methods: {loadElementPlusIcon},
   emits: ["selectItem", "selfFunc"],
   setup(props, context) {
     const parentField = context.attrs["parentField"];
     const formFieldList = context.attrs["formFieldList"] as any;
     const field = context.attrs["field"] as any;
-    const dialogVisible = shallowRef("false");
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
     const popoverRef = shallowRef();

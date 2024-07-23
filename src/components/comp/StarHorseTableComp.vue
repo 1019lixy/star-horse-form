@@ -53,6 +53,7 @@ const props = defineProps({
   needLoad: {type: Boolean, default: true},
   //标题
   title: {type: String},
+
   //按钮操作权限
   permissions: {type: Object, required: true, default: {}},
 });
@@ -362,16 +363,20 @@ const loadByPage = () => {
     fieldList: searchTemp,
     orderBy: orderByTemp,
   };
+  let url = props.compUrl?.loadByPageUrl;
   if (props.compUrl.redirect) {
     params = {
-      ...condition,
-      params: params
+      url: url,
+      httpMethod: props.compUrl?.httpMethod || "POST",
+      dataType: props.compUrl?.dataType || "JSON",
+      searchInfo: params
     }
+    url = "/system-manage/redirect/pageList";
   }
   if (props.needLoad) {
     load("数据加载中");
   }
-  postRequest(props.compUrl?.loadByPageUrl, params).then((res: any) => {
+  postRequest(url, params).then((res: any) => {
     if (res.data.code != 0) {
       console.error(res.data.cnMessage);
       return;
