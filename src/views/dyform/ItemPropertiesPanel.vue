@@ -9,6 +9,7 @@ import {containerField, dataSourceFields, paramsFields} from "@/views/dyform/uti
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
 import {validDataUrl} from "@/api/system.ts";
+import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 
 let designForm = DesignForm(piniaInstance);
 let formDataList = computed(() => designForm.formDataList);
@@ -51,9 +52,7 @@ const urlValid = (rule: any, value: any, callback: any) => {
   }
   callback();
 };
-const dataRules = reactive<FormRules>({
-  values: [{validator: urlValid, trigger: "blur"}],
-});
+
 //-----------------------数据源相关属性---------------------
 let matchTypeList = ref<SelectOption[]>();
 onMounted(() => {
@@ -61,9 +60,12 @@ onMounted(() => {
 })
 const jsButtonClick = (name: string) => {
   jsEditor.value = !jsEditor.value;
-  let code = formProps.value[name];
-  jsValue.value = code ? code : "";
+  if (!Object.keys(formProps.value).includes(name)) {
+    formProps.value[name] = "";
+  }
   fieldName.value = name;
+  console.log(fieldName);
+  jsValue.value = formProps.value[name];
 };
 // let fieldName = ref<String>("");
 const configParams = (params: object) => {
@@ -220,6 +222,21 @@ const recall = (options: SelectOption[], successMsg: string, errorMsg: string) =
     validSuccessMsg.value = "";
   }, 5000)
 }
+const handelAddItem = (row: any) => {
+  if (!formProps.value.values) {
+    formProps.value["values"] = [];
+  }
+  formProps.value.values.push({});
+};
+const handelDeleteItem = (row: any) => {
+  let data = formProps.value.values;
+  for (let item in data) {
+    let temp = data[item];
+    if (temp.label == row.label) {
+      data.splice(item, 1)
+    }
+  }
+};
 watch(() => formProps,
     (val: any) => {
       assignPrep(currentItemType.value, parentCompType.value == "item");
@@ -250,12 +267,12 @@ watch(() => formProps,
                      @reset="resetForm" :selfFunc="true">
     <star-horse-form :outerFormData="formInfo" :fieldList="containerField(currentItemType)"/>
   </star-horse-dialog>
-  <star-horse-dialog :dialogVisible="jsEditor" :title="'自定义事件'" :isBatch="false" @merge="closeAction"
+  <star-horse-dialog :dialogVisible="jsEditor" :title="'自定义信息'" :isBatch="false" @merge="closeAction"
                      @closeAction="closeAction"
                      @reset="closeAction" :selfFunc="true">
     <star-horse-editor
         v-model:value="formProps[fieldName]"
-        lang="javascript"
+        lang=""
         ref="codeCompRef"
         style="height: 100%"
     />
@@ -400,7 +417,7 @@ watch(() => formProps,
                          inactive-text="否"
                          v-model="formProps[item.fieldName]"
               />
-              <el-button v-if="item.fieldType==='button'" @click="jsButtonClick(item.eventName)">添加事件
+              <el-button v-if="item.fieldType==='button'" @click="jsButtonClick(item.fieldName)">添加代码
               </el-button>
               <el-button v-if="item.fieldType==='config'" @click="configParams(item)">参数配置
               </el-button>
@@ -415,57 +432,47 @@ watch(() => formProps,
                         type="textarea" v-model="formProps[item.fieldName]"/>
             </el-form-item>
           </template>
-          <el-table v-if="currentField?.itemType==='checkbox'||currentField?.itemType==='radio'"
-                    :data="formProps.values"
-                    :fit=true
-                    :row-class-name="rowClassName">
-            <el-table-column label="标签名称" prop="label">
-              <template #default="scope">
-                <el-input v-model="scope.row.label"/>
-              </template>
-            </el-table-column>
-            <el-table-column label="选中值" prop="trueLabel">
-              <template #default="scope">
-                <el-input v-model="scope.row.trueLabel"/>
-              </template>
-            </el-table-column>
-            <el-table-column label="未选中值" prop="falseLabel">
-              <template #default="scope">
-                <el-input v-model="scope.row.falseLabel"/>
-              </template>
-            </el-table-column>
-            <el-table-column
-                align="center"
-                prop="oper"
-                width="60px">
-              <template #header>
-										<span
-                        @click="handelAddItem"
-                        class="oper-btn"
-                        title="添加行">
-											<star-horse-icon icon-class="add" style="color: var(--star-horse-style)"/>
-										</span>
-              </template>
-              <template #default="scope">
-										<span
-                        @click="handelAddItem"
-                        class="oper-btn"
-                        title="添加行">
-											<star-horse-icon icon-class="add" style="color: var(--star-horse-style)"/>
-										</span>&nbsp;&nbsp;
+          <template v-if="currentField?.itemType==='checkbox'||currentField?.itemType==='radio'">
+            <el-table
+                :data="formProps.values"
+                :fit=true
+                :row-class-name="rowClassName">
+              <el-table-column label="标签名称" prop="label">
+                <template #default="scope">
+                  <el-input v-model="scope.row.label"/>
+                </template>
+              </el-table-column>
+              <el-table-column label="选中值" prop="trueLabel">
+                <template #default="scope">
+                  <el-input v-model="scope.row.trueLabel"/>
+                </template>
+              </el-table-column>
+              <el-table-column label="未选中值" prop="falseLabel">
+                <template #default="scope">
+                  <el-input v-model="scope.row.falseLabel"/>
+                </template>
+              </el-table-column>
+              <el-table-column
+                  align="center"
+                  prop="oper"
+                  label="操作"
+                  width="60px">
+                <template #default="scope">
                 <span
                     @click="handelDeleteItem(scope.row)"
                     class="oper-btn"
                     title="删除行"
                     v-if="formProps.values?.length>1">
-											<star-horse-icon
-                          icon-class="delete"
-                          style="color:indianred"
-                      />
+											<star-horse-icon icon-class="delete" style="color:indianred" />
 										</span>
-              </template>
-            </el-table-column>
-          </el-table>
+                </template>
+              </el-table-column>
+            </el-table>
+            <div class="add-row" @click="handelAddItem">
+              <star-horse-icon icon-class="plus" color="var(--star-horse-style)"/>
+              加一行
+            </div>
+          </template>
         </el-scrollbar>
       </el-collapse-item>
       <el-collapse-item name="2">
@@ -498,7 +505,7 @@ watch(() => formProps,
                          active-text="是"
                          inactive-text="否"
                          v-model="formProps[item.fieldName]"/>
-              <el-button v-if="item.fieldType==='button'" @click="jsButtonClick(item.eventName)">添加事件
+              <el-button v-if="item.fieldType==='button'" @click="jsButtonClick(item.fieldName)">添加代码
               </el-button>
               <el-button v-if="item.fieldType==='config'" @click="configParams(item)">参数配置
               </el-button>

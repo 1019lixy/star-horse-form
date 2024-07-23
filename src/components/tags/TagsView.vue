@@ -52,7 +52,7 @@ const refreshSelectedTag = async (view?: RouteLocationNormalizedLoaded) => {
   const {path, query} = view;
   query["redirectPath"] = path;
   await nextTick();
-  replace({
+  await replace({
     path: '/redirect',
     query: query
   });

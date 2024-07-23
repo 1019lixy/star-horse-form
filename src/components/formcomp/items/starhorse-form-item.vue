@@ -2,6 +2,7 @@
 import {computed, onMounted} from "vue";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
+
 const props = defineProps({
   parentField: {type: Object},
   parentId: {type: Object},
@@ -54,7 +55,7 @@ const moveUpItem = (formItem: any) => {
     }
   } else if (props.parentField?.itemType == "box") {
   }
-  console.log(props.parentField);
+  //console.log(props.parentField);
   let compType = getParentComp();
   if (compType === "item") {
     for (let i = 0; i < dataList.length; i++) {
@@ -151,7 +152,7 @@ const removeItem = (formItem: any) => {
   if (!isEdit) {
     return;
   }
-  console.log(formItem, props.parentField);
+  // console.log(formItem, props.parentField);
   let dataList = compList.value;
   if (props.parentField?.itemType == "tab" || props.parentField?.itemType == "table") {
     let elements = props.parentField!.preps.elements;
@@ -197,9 +198,10 @@ onMounted(() => {
     <div :class="[isEdit ? 'field-item design-star-horse' : '',
   (currentItemId == formItem?.preps.id && isEdit)?'active-item':''
   ]" v-if="isDesign">
+
       <el-form-item
           :size="formItem?.preps['size']||'small'"
-          v-if="parentField?.itemType!='table'"
+          v-if="parentField?.itemType!='table'&&formItem?.itemType!='divider'"
           :label="formItem?.preps['label']"
           :prop="formItem?.preps['name']"
           :required="formItem?.preps['required']=='Y'"
@@ -214,7 +216,7 @@ onMounted(() => {
       </div>
       <div
           class="field-action"
-          v-if="isEdit"
+          v-if="isEdit&&currentItemId == formItem?.preps.id "
       >
         <el-tooltip content="选择父容器">
           <star-horse-icon
@@ -237,8 +239,15 @@ onMounted(() => {
               style="color: var(--star-horse-white)"
           />
         </el-tooltip>
+        <el-tooltip content="删除组件">
+          <star-horse-icon
+              @click.stop="removeItem(formItem?.preps)"
+              icon-class="clear-all"
+              style="color: var(--star-horse-white)"
+          />
+        </el-tooltip>
       </div>
-      <div class="drag-handler background-opacity" v-if="isEdit">
+      <div class="drag-handler background-opacity" v-if="isEdit&&currentItemId == formItem?.preps.id">
         <el-tooltip content="拖动">
           <star-horse-icon icon-class="drag" style="cursor:move;color: var(--star-horse-white)"/>
         </el-tooltip>
@@ -249,13 +258,7 @@ onMounted(() => {
               style="color: var(--star-horse-white)"
           />
         </el-tooltip>
-        <el-tooltip content="删除组件">
-          <star-horse-icon
-              @click.stop="removeItem(formItem?.preps)"
-              icon-class="clear-all"
-              style="color: orangered"
-          />
-        </el-tooltip>
+
       </div>
     </div>
     <slot v-else></slot>
@@ -265,74 +268,100 @@ onMounted(() => {
 .form-item-operation {
   width: 100%;
 }
+
 .active-item {
-  border: 2px dotted yellow;
+  border: 2px solid rgba(64, 158, 255, .6);
 }
+
 .design-star-horse {
-  padding: 3px;
+
   width: 100%;
   justify-content: center;
   vertical-align: middle;
+  align-items: center;
   z-index: 0;
   /*  :hover + .field-action {
       visibility: visible;
     }*/
 }
+
 .field-item {
   position: relative;
-  width: 98%;
+  width: 100%;
+
   &:hover + .field-action {
     opacity: 1
   }
+
   &:hover + .drag-handler {
     opacity: 1
   }
+
   .el-form-item {
     margin-bottom: 1px;
   }
+
   .field-action {
     position: absolute;
     //bottom: -24px;
-    bottom: 0;
-    right: 5px;
-    height: 22px;
-    line-height: 22px;
+    bottom: 1px;
+    right: 3px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    line-height: 28px;
     background: var(--star-horse-style);;
     z-index: 9999999;
-    opacity: 0;
-    i {
+    opacity: 1;
+
+    .svg-icon {
       font-size: 14px;
       color: var(--star-horse-white);
       margin: 0 3px;
       cursor: pointer;
     }
-    &:hover {
-      opacity: 1;
-      background: var(--star-horse-style);
-    }
+
+    /* &:hover {
+       opacity: 1;
+       background: var(--star-horse-style);
+     }*/
   }
+
   .drag-handler {
     position: absolute;
-    bottom: 0;
+    top: 0;
     left: -1px;
-    height: 20px;
-    line-height: 20px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    line-height: 28px;
     background: var(--star-horse-style);
     z-index: 9;
-    opacity: 0;
-    i {
+    opacity: 1;
+
+    .svg-icon {
       font-size: 12px;
       font-style: normal;
       color: var(--star-horse-style);
       margin: 4px;
-      cursor: move;
+
+      &:first-child {
+        cursor: move;
+      }
+
+      &:last-child {
+        cursor: pointer;
+      }
     }
-    &:hover {
-      opacity: 1;
-      background: var(--star-horse-style);
-    }
+
+
+    /*   &:hover {
+         opacity: 1;
+         background: var(--star-horse-style);
+       }*/
   }
 }
+
 /*.field-action {
   visibility: hidden;
 }*/
@@ -343,36 +372,44 @@ onMounted(() => {
     margin-right: 0;
   }
 }
+
 .el-form-item {
   //margin-bottom: 0 !important;
   //margin-bottom: 6px;
   //margin-top: 2px;
   position: relative;
+
   :deep(.el-form-item__label) {
     white-space: nowrap;
     text-overflow: ellipsis;
   }
+
   :deep(.el-form-item__content) {
     //position: unset;  /* TODO: 忘了这个样式设置是为了解决什么问题？？ */
   }
+
   span.custom-label i {
     margin: 0 3px;
   }
+
   /* 隐藏Chrome浏览器中el-input数字输入框右侧的上下调整小箭头 */
   :deep(.hide-spin-button) input::-webkit-outer-spin-button,
   :deep(.hide-spin-button) input::-webkit-inner-spin-button {
     -webkit-appearance: none !important;
   }
+
   /* 隐藏Firefox浏览器中el-input数字输入框右侧的上下调整小箭头 */
   :deep(.hide-spin-button) input[type="number"] {
     -moz-appearance: textfield;
   }
 }
+
 .required :deep(.el-form-item__label)::before {
   content: "*";
   color: #f56c6c;
   margin-right: 4px;
 }
+
 .static-content-item {
   min-height: 20px;
   display: flex; /* 垂直居中 */
@@ -381,18 +418,22 @@ onMounted(() => {
     margin: 0;
   }
 }
+
 .el-form-item.selected,
 .static-content-item.selected {
   outline: 2px solid var(--star-horse-style);;
 }
+
 :deep(.label-left-align) .el-form-item__label {
   text-align: left;
   justify-content: flex-start !important;
 }
+
 :deep(.label-center-align) .el-form-item__label {
   text-align: center;
   justify-content: center !important;
 }
+
 :deep(.label-right-align) .el-form-item__label {
   text-align: right;
   justify-content: flex-end !important;

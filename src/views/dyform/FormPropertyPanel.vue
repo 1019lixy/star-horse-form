@@ -7,6 +7,7 @@ import {warning} from "@/utils/message";
 import Help from "@/components/help.vue";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
+
 let designForm = DesignForm(piniaInstance);
 let formInfo = computed(() => designForm.formInfo);
 let compList = computed(() => designForm.compList);
@@ -176,16 +177,25 @@ defineExpose({
     <el-tabs type="border-card" v-model="formActiveNames">
       <el-tab-pane name="tab1" label="基础属性">
         <el-row>
-          <el-col :span="12">
+          <el-col :span="9">
+            <el-form-item label="表名" prop="tbName" required>
+              <el-input placeholder="请输入表名,如:tb_table_name" v-model="formInfo['tbName']"
+                        :disabled="!!formInfo['idDynamicForm']"/>
+            </el-form-item>
+          </el-col>
+          <el-col :span="9">
             <el-form-item label="主键" prop="formId" required>
               <el-input placeholder="请输入表单ID" v-model="formInfo['formId']"
                         :disabled="!!formInfo['idDynamicForm']"/>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
-            <el-form-item label="表名" prop="tbName" required>
-              <el-input placeholder="请输入表名,如:tb_table_name" v-model="formInfo['tbName']"
-                        :disabled="!!formInfo['idDynamicForm']"/>
+          <el-col :span="6">
+            <el-form-item label="主键策略" prop="primaryKeyPolicy">
+              <el-select placeholder="请选择主键策略" v-model="formInfo['primaryKeyPolicy']">
+                <el-option label="自增" value="auto"/>
+                <el-option label="动态赋值" value="manual"/>
+                <el-option label="序列" value="sequence"/>
+              </el-select>
             </el-form-item>
           </el-col>
         </el-row>

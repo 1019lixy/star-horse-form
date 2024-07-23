@@ -680,7 +680,7 @@ export function formFieldMapping(fieldList: PageFieldInfo) {
                 }
                 if (temp.actions) {
                     actions.push({
-                        actionNames: temp.actionNames,
+                        actionNames: temp.actionName,
                         actions: temp.actions,
                         fieldName: temp.fieldName
                     })

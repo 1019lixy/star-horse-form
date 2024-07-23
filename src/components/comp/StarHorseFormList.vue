@@ -302,19 +302,7 @@ onMounted(async () => {
   </div>
 </template>
 <style lang="scss" scoped>
-.add-row {
-  margin-top: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 30px;
-  border: 1px dotted #eee;
 
-  &:hover {
-    cursor: pointer;
-    border: 1px dotted var(--star-horse-style);
-  }
-}
 
 :deep(.el-table__cell) {
   padding: 0;
