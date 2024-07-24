@@ -215,7 +215,7 @@ const getFormData = () => {
  */
 const setDataForm = (data: object) => {
   let defaultDatas = formFieldMapping(props.fieldList).defaultDatas;
-  console.log(defaultDatas);
+  // console.log(defaultDatas);
   dataForm.value = {...defaultDatas, ...data};
 }
 const tableListRef = ref<any>([]);

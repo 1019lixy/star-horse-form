@@ -48,6 +48,7 @@ import {defineComponent, nextTick, onMounted, ref, shallowRef} from "vue";
 import {warning} from "@/utils/message";
 import {FieldMapping} from "@/components/types/PageFieldInfo";
 import {SearchParams} from "@/components/types/Params";
+
 export default defineComponent({
   setup(props, context) {
     const parentField = context.attrs["parentField"];
@@ -91,14 +92,19 @@ export default defineComponent({
         data = row;
       }
       //如果没有指定属性，则默认取相同的属性
+      let name = field.preps['name'];
       if (!needField) {
-        let name = field.preps['name'];
         context.attrs["formFieldList"][name] = data[name];
       } else {
         needField.forEach((item: FieldMapping) => {
-          context.attrs["formFieldList"][item.distField] = data[item.sourceField];
+          if (needField.length == 1) {
+            context.attrs["formFieldList"][name] = data[item.sourceField];
+          } else {
+            context.attrs["formFieldList"][item.distField] = data[item.sourceField];
+          }
         });
       }
+      console.log(data, needField);
       if (field.preps["recall"]) {
         field.preps["recall"](row);
       }

@@ -371,7 +371,7 @@ const loadByPage = () => {
       dataType: props.compUrl?.dataType || "JSON",
       searchInfo: params
     }
-    url = "/system-manage/redirect/pageList";
+    url = "/system-config/redirect/pageList";
   }
   if (props.needLoad) {
     load("数据加载中");
