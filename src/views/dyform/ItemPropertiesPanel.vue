@@ -1,7 +1,6 @@
 <script setup lang="ts" name="ItemPropertiesPanel">
-import {computed, nextTick, onMounted, reactive, ref, unref, watch} from 'vue'
-import {dictData, rowClassName, searchMatchList} from "@/api/sh_api";
-import type {FormRules} from 'element-plus'
+import {computed, nextTick, onMounted, ref, unref, watch} from 'vue'
+import {rowClassName, searchMatchList} from "@/api/sh_api";
 import {SelectOption} from "@/components/types/SearchProps";
 import StarHorseEditor from "@/components/comp/StarHorseEditor.vue";
 import StarHorseForm from "@/components/comp/StarHorseForm.vue";
@@ -14,8 +13,8 @@ import {
 } from "@/views/dyform/utils/ItemPreps.ts";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
-import {validDataUrl} from "@/api/system.ts";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
+import {error, success} from "@/utils/message.ts";
 
 let designForm = DesignForm(piniaInstance);
 let formDataList = computed(() => designForm.formDataList);
@@ -96,12 +95,13 @@ const checkHttpUrl = (url: string): boolean => {
 }
 
 const submitValid = async () => {
-  await validInterface(formProps, dataSourceFormRef, (dataList: any, successMsg: string, errorMsg: string) => {
-    validSuccessMsg.value = successMsg;
-    validErrorMsg.value = errorMsg;
-    if (!validErrorMsg.value) {
+  await validInterface(formProps, dataSourceFormRef, (dataList: any, _successMsg: string, errorMsg: string) => {
+    if (!errorMsg) {
+      //只保存静态数据,
       formProps.value["values"] = createData(dataSourceFormRef, dataList).reDataList;
       closeAction();
+    } else {
+      error(errorMsg);
     }
   });
 };
@@ -147,13 +147,6 @@ const paramsValid = async () => {
   closeAction();
 };
 
-const merge = () => {
-  let code = unref(codeCompRef).exportCode();
-  let eventName = unref(codeCompRef).eventName;
-  jsEditor.value = false;
-  formProps.value[eventName] = code;
-  // console.log(code, eventName);
-};
 const resetForm = () => {
 };
 const resetDataSourceForm = () => {
@@ -234,12 +227,12 @@ const assignValue = (temp: any) => {
 let dataList = ref<SelectOption[]>([]);
 const recall = (options: SelectOption[], successMsg: string, errorMsg: string) => {
   dataList.value = options;
-  validSuccessMsg.value = successMsg;
-  validErrorMsg.value = errorMsg;
-  setTimeout(() => {
-    validErrorMsg.value = "";
-    validSuccessMsg.value = "";
-  }, 5000)
+  if (successMsg) {
+    success(successMsg);
+  }
+  if (errorMsg) {
+    error(errorMsg);
+  }
 }
 const handelAddItem = (row: any) => {
   if (!formProps.value.values) {

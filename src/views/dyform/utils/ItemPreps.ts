@@ -1,8 +1,7 @@
 import {nextTick, reactive, Ref, ref} from "vue";
-import {PageFieldInfo} from "@/components/types/PageFieldInfo";
+import {FieldInfo, PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {SelectOption} from "@/components/types/SearchProps";
 import {dictData, loadData, searchMatchList} from "@/api/sh_api.ts";
-import {FieldInfo} from "@/components/types/PageFieldInfo";
 import {ascOrDesc, dataType, httpMethod, validDataUrl} from "@/api/system.ts";
 import {error, success, warning} from "@/utils/message.ts";
 
@@ -27,6 +26,7 @@ const helpMsg = `
  * @param formProps
  * @param dataSourceRef
  * @param recall
+ * @param validForm
  */
 export async function validInterface(formProps: any, dataSourceRef: Ref<any>, recall: Function, validForm: boolean = true) {
     let flag = false;
@@ -110,27 +110,35 @@ export async function validInterface(formProps: any, dataSourceRef: Ref<any>, re
  * 创建数据
  * @param dataSourceRef
  * @param dataList
+ * @param needDynamicData
  */
-export function createData(dataSourceRef: any, dataList: any) {
+export function createData(dataSourceRef: any, dataList: any, needDynamicData: boolean = false) {
     let refName = dataSourceRef.value || dataSourceRef;
     let temp = refName.getFormData().value;
     let reDataList: SelectOption[] = [];
     let dataSource = temp['dataSource'];
     let errorMsg = "";
-    if (dataSource == "url") {
-        let element = dataList[0];
-        let keys = Object.keys(element);
-        if (!(keys.find(item => item == temp["selectLabel"]))) {
-            errorMsg = "验证失败\n【标签名字段】错误：" + JSON.stringify(keys);
-        } else if (!(keys.find(item => item == temp["selectValue"]))) {
-            errorMsg = "验证失败\n【标签值字段】错误：" + JSON.stringify(keys);
-        } else {
-            dataList.forEach((item: any) => {
-                reDataList.push({name: item[temp["selectLabel"]], value: item[temp["selectValue"]]});
-            })
-        }
-    } else {
+    if (dataSource == "data") {
         reDataList = dataList;
+    } else {
+        if (dataSource == "url") {
+            let element = dataList[0];
+            let keys = Object.keys(element);
+            if (!(keys.find(item => item == temp["selectLabel"]))) {
+                errorMsg = "验证失败\n【标签名字段】错误：" + JSON.stringify(keys);
+            } else if (!(keys.find(item => item == temp["selectValue"]))) {
+                errorMsg = "验证失败\n【标签值字段】错误：" + JSON.stringify(keys);
+            } else {
+                dataList.forEach((item: any) => {
+                    reDataList.push({name: item[temp["selectLabel"]], value: item[temp["selectValue"]]});
+                });
+            }
+        } else {
+            reDataList = dataList;
+        }
+        if (!needDynamicData) {
+            reDataList = [];
+        }
     }
     return {
         reDataList, errorMsg
