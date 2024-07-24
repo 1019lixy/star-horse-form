@@ -1,10 +1,10 @@
 import {nextTick, reactive, Ref, ref} from "vue";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {SelectOption} from "@/components/types/SearchProps";
-import {dictData, searchMatchList} from "@/api/sh_api.ts";
+import {dictData, loadData, searchMatchList} from "@/api/sh_api.ts";
 import {FieldInfo} from "@/components/types/PageFieldInfo";
 import {ascOrDesc, dataType, httpMethod, validDataUrl} from "@/api/system.ts";
-import {warning} from "@/utils/message.ts";
+import {error, success, warning} from "@/utils/message.ts";
 
 const helpMsg = `
     接口返回的数据格式必须是：
@@ -22,56 +22,63 @@ const helpMsg = `
     }
     `;
 
-
-export async function validInterface(formProps: any, dataSourceRef: Ref<any>, recall: Function) {
+/**
+ * 验证接口
+ * @param formProps
+ * @param dataSourceRef
+ * @param recall
+ */
+export async function validInterface(formProps: any, dataSourceRef: Ref<any>, recall: Function, validForm: boolean = true) {
     let flag = false;
     let dataList: SelectOption[] = [];
-    await nextTick();
-    await dataSourceRef?.$refs.starHorseFormRef.validate((res: boolean) => {
-        flag = res;
-    });
-    //   clearMsg();
-    if (!flag) {
-        console.log(flag)
-        return flag;
+    let refName = dataSourceRef?.value || dataSourceRef;
+    let temp = refName.getFormData().value;
+    if (validForm) {
+        await nextTick();
+        await dataSourceRef?.value?.$refs.starHorseFormRef.validate((res: boolean) => {
+            flag = res;
+        });
+        if (!flag) {
+            return flag;
+        }
+        for (let key in temp) {
+            formProps.value[key] = temp[key];
+        }
     }
-    let temp = formProps;
+
     let dataSource = temp['dataSource'];
-    let requestType = temp['requestType'];
     let urlOrDictName = temp['urlOrDictName'];
-    let params = temp['queryParams'];
+    let queryParams = temp['queryParams'];
     let validErrorMsg: string = "";
     let validSuccessMsg: string = "";
     if (dataSource == "url") {
         let requestParams = [] as any;
-        if (params && params.length > 0) {
-            params.forEach((item: any) => {
-                requestParams.push({
-                    propertyName: item.name,
-                    value: item.value,
-                    operation: item.matchType
-                });
-            });
-        }
-        let {data, error} = validDataUrl(urlOrDictName, requestType, requestParams);
-        if (error) {
-            flag = false;
-            validErrorMsg = error;
-        } else {
-            let element = data[0];
-            let keys = Object.keys(element);
-            if (!(keys.find(item => item == temp["selectLabel"]))) {
-                flag = false;
-                validErrorMsg = "验证失败\n【标签名字段】错误：" + JSON.stringify(keys);
-            } else if (!(keys.find(item => item == temp["selectValue"]))) {
-                flag = false;
-                validErrorMsg = "验证失败\n【标签值字段】错误：" + JSON.stringify(keys);
-            } else {
-                validSuccessMsg = "验证成功";
-                data.forEach((item: any) => {
-                    dataList.push({name: item[temp["selectLabel"]], value: item[temp["selectValue"]]});
-                })
+        queryParams?.forEach((item: any) => {
+            if (!item.name) {
+                return;
             }
+            requestParams.push({
+                propertyName: item.name,
+                value: item.value,
+                operation: item.matchType
+            });
+        });
+        let url = temp["preinterfaceUrl"] + temp["interfaceUrl"];
+        let params = {
+            url: url,
+            httpMethod: temp.httpMethod || "POST",
+            dataType: temp.dataType || "JSON",
+            searchInfo: {
+                fieldList: requestParams
+            }
+        }
+        url = "/system-config/redirect/execute";
+        let validResult = await loadData(url, params);
+        if (validResult.error) {
+            flag = false;
+            validErrorMsg = validResult.error;
+        } else {
+            dataList = validResult.data;
         }
     } else if (dataSource == "dict") {
         let dicts = await dictData(urlOrDictName);
@@ -100,6 +107,37 @@ export async function validInterface(formProps: any, dataSourceRef: Ref<any>, re
 }
 
 /**
+ * 创建数据
+ * @param dataSourceRef
+ * @param dataList
+ */
+export function createData(dataSourceRef: any, dataList: any) {
+    let refName = dataSourceRef.value || dataSourceRef;
+    let temp = refName.getFormData().value;
+    let reDataList: SelectOption[] = [];
+    let dataSource = temp['dataSource'];
+    let errorMsg = "";
+    if (dataSource == "url") {
+        let element = dataList[0];
+        let keys = Object.keys(element);
+        if (!(keys.find(item => item == temp["selectLabel"]))) {
+            errorMsg = "验证失败\n【标签名字段】错误：" + JSON.stringify(keys);
+        } else if (!(keys.find(item => item == temp["selectValue"]))) {
+            errorMsg = "验证失败\n【标签值字段】错误：" + JSON.stringify(keys);
+        } else {
+            dataList.forEach((item: any) => {
+                reDataList.push({name: item[temp["selectLabel"]], value: item[temp["selectValue"]]});
+            })
+        }
+    } else {
+        reDataList = dataList;
+    }
+    return {
+        reDataList, errorMsg
+    }
+}
+
+/**
  * 数据源属性配置
  */
 export function dataSourceFields(dataSourceRef: Ref<any>, recall: Function) {
@@ -108,10 +146,7 @@ export function dataSourceFields(dataSourceRef: Ref<any>, recall: Function) {
         {value: "dict", name: "数据字典"},
         {value: "data", name: "静态数据"},
     ];
-    let requestTypeList: Array<SelectOption> = [
-        {value: "post", name: "POST"},
-        {value: "get", name: "GET"},
-    ];
+
     let matchTypeList = searchMatchList();
     let disableData = ref<boolean>(false);
     let disableUrl = ref<boolean>(true);
@@ -120,6 +155,7 @@ export function dataSourceFields(dataSourceRef: Ref<any>, recall: Function) {
     let urlRequired = ref<boolean>(false);
     let dictRequired = ref<boolean>(false);
     let currentTabName = ref<String>("data");
+    let fieldList = ref<SelectOption[]>([]);
     return reactive<PageFieldInfo | any>({
         fieldList: [
             [{
@@ -166,8 +202,27 @@ export function dataSourceFields(dataSourceRef: Ref<any>, recall: Function) {
                 formShow: !false,
                 tableShow: !false,
                 actionName: "click",
-                actions: (val: any) => {
-                    validInterface(val, dataSourceRef, recall);
+                actions: async (val: any) => {
+                    await validInterface(val, dataSourceRef, (dataList: any, successMsg: string, errorMsg: string) => {
+                        if (dataList && !disableUrl.value) {
+                            let temp = dataList[0];
+                            let keys = Object.keys(temp);
+                            console.log(temp, keys);
+                            fieldList.value = [];
+                            for (let ind in keys) {
+                                fieldList.value.push({name: keys[ind], value: keys[ind]})
+                            }
+                        }
+                        if (successMsg) {
+                            success(successMsg);
+                        }
+                        if (errorMsg) {
+                            error(errorMsg);
+                        }
+                        // if (recall) {
+                        //     recall(dataList, successMsg, errorMsg);
+                        // }
+                    }, false);
                 }
             }],
             {
@@ -231,7 +286,8 @@ export function dataSourceFields(dataSourceRef: Ref<any>, recall: Function) {
                             [{
                                 label: "标签名字段",
                                 fieldName: "selectLabel",
-                                type: "input",
+                                type: "select",
+                                optionList: fieldList,
                                 required: urlRequired,
                                 formShow: !false,
                                 tableShow: !false,
@@ -239,7 +295,8 @@ export function dataSourceFields(dataSourceRef: Ref<any>, recall: Function) {
                                 {
                                     label: "标签值字段",
                                     fieldName: "selectValue",
-                                    type: "input",
+                                    type: "select",
+                                    optionList: fieldList,
                                     required: urlRequired,
                                     formShow: !false,
                                     tableShow: !false,
@@ -251,7 +308,8 @@ export function dataSourceFields(dataSourceRef: Ref<any>, recall: Function) {
                                 fieldList: [{
                                     label: "参数名",
                                     fieldName: "name",
-                                    type: "input",
+                                    type: "select",
+                                    optionList: fieldList,
                                     required: urlRequired,
                                     formShow: !false,
                                     tableShow: !false,
@@ -358,6 +416,18 @@ export function paramsFields(fieldName: string, item: any, successMsg: Ref<any>,
             formShow: true,
             required: true,
             optionList: dataType(),
+            preps: {
+                colSpan: 10
+            }
+        },
+        {
+            label: "主键",
+            fieldName: "primaryKey",
+            type: "select",
+            helpMsg: "在列表中需用到",
+            formShow: true,
+            required: true,
+            optionList: fieldList,
             preps: {
                 colSpan: 10
             }

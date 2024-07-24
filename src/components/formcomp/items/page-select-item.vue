@@ -5,6 +5,7 @@ import {closeLoad, load} from "@/api/sh_api";
 import {postRequest} from "@/api/star_horse";
 import {FieldMapping, OrderByInfo} from "@/components/types/PageFieldInfo";
 import {SearchParams} from "@/components/types/Params";
+
 export default defineComponent({
   setup(props, context) {
     const parentField = context.attrs["parentField"];
@@ -44,13 +45,24 @@ export default defineComponent({
       if (!field.preps["dataUrl"]?.loadByPageUrl) {
         return;
       }
-      load('数据加载中');
-      postRequest(field.preps["dataUrl"].loadByPageUrl, {
+      let params = {
         currentPage: pageInfo.value.currentPage,
         pageSize: pageInfo.value.pageSize,
         fieldList: searchData.value,
         orderBy: orderByTemp
-      }).then((res) => {
+      };
+      let url = field.preps.dataUrl?.loadByPageUrl;
+      if (field.preps.dataUrl.redirect) {
+        params = {
+          url: url,
+          httpMethod: field.preps?.httpMethod || "POST",
+          dataType: field.preps?.dataType || "JSON",
+          searchInfo: params
+        }
+        url = "/system-config/redirect/pageList";
+      }
+      load('数据加载中');
+      postRequest(url, params).then((res) => {
         let redata = res.data.data
         pageInfo.value.dataList = redata.dataList;
         pageInfo.value.totalPage = redata.totalPages;
@@ -92,8 +104,17 @@ export default defineComponent({
       let fields = field.preps["needField"];
       let name = field.preps['name'];
       if (fields) {
+        console.log(multipleSelection.value, fields);
         fields.forEach((temp: FieldMapping) => {
-          context.attrs['formFieldList'][temp.distField] = multipleSelection.value.map(item => item[temp.sourceField]);
+          let value = multipleSelection.value.map(item => item[temp.sourceField]);
+          if (!field.preps['multiple'] || field.preps['multiple'] == 'N') {
+            value = value[0];
+          }
+          if (fields.length == 1) {
+            context.attrs['formFieldList'][name] = value;
+          } else {
+            context.attrs['formFieldList'][temp.distField] = value;
+          }
         });
       } else {
         context.attrs['formFieldList'][name] = multipleSelection.value.map(item => item[name]);
@@ -202,6 +223,7 @@ export default defineComponent({
 :deep(.el-table__cell) {
   padding: 0;
 }
+
 :deep(th.el-table__cell:first-child) {
   padding: 5px 0;
 }

@@ -5,7 +5,13 @@ import type {FormRules} from 'element-plus'
 import {SelectOption} from "@/components/types/SearchProps";
 import StarHorseEditor from "@/components/comp/StarHorseEditor.vue";
 import StarHorseForm from "@/components/comp/StarHorseForm.vue";
-import {containerField, dataSourceFields, paramsFields} from "@/views/dyform/utils/ItemPreps.ts";
+import {
+  containerField,
+  createData,
+  dataSourceFields,
+  paramsFields,
+  validInterface
+} from "@/views/dyform/utils/ItemPreps.ts";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
 import {validDataUrl} from "@/api/system.ts";
@@ -68,9 +74,11 @@ const jsButtonClick = (name: string) => {
   jsValue.value = formProps.value[name];
 };
 // let fieldName = ref<String>("");
-const configParams = (params: object) => {
+const configParams = async (params: object) => {
   fieldName.value = params["fieldName"];
   paramsDialogVisible.value = true;
+  await nextTick();
+  paramsConfigRef.value.setDataForm(formProps.value);
 }
 /**
  * 验证是否url
@@ -88,10 +96,14 @@ const checkHttpUrl = (url: string): boolean => {
 }
 
 const submitValid = async () => {
-  let flag = await validInterface();
-  if (flag) {
-    closeAction();
-  }
+  await validInterface(formProps, dataSourceFormRef, (dataList: any, successMsg: string, errorMsg: string) => {
+    validSuccessMsg.value = successMsg;
+    validErrorMsg.value = errorMsg;
+    if (!validErrorMsg.value) {
+      formProps.value["values"] = createData(dataSourceFormRef, dataList).reDataList;
+      closeAction();
+    }
+  });
 };
 const paramsValid = async () => {
   let flag = false;
@@ -109,7 +121,7 @@ const paramsValid = async () => {
     loadByPageUrl: formDdata.value["preinterfaceUrl"] + formDdata.value["interfaceUrl"],
     redirect: true,
     condition: {
-     // url: formDdata.value["preinterfaceUrl"] + formDdata.value["interfaceUrl"],
+      // url: formDdata.value["preinterfaceUrl"] + formDdata.value["interfaceUrl"],
       httpMethod: formDdata.value.httpMethod,
       params: formDdata.value.params
     },
@@ -129,7 +141,7 @@ const paramsValid = async () => {
     fieldList: formProps.value["fieldLists"]
   };
   //删除多余的属性
-  formProps.value["orderBy"].forEach((item: any) => {
+  formProps.value["orderBy"]?.forEach((item: any) => {
     delete item["xh"];
   })
   closeAction();
@@ -164,8 +176,10 @@ const closeAction = () => {
  * 数据源操作框
  * @param type
  */
-const dataSource = (type: string) => {
+const dataSource = async (type: string) => {
   dataSourceDialogVisible.value = true;
+  await nextTick();
+  dataSourceFormRef.value.setDataForm(formProps.value);
 };
 /**
  * 根据属性类别获取对应参数
@@ -255,8 +269,6 @@ watch(() => formProps,
                      @merge="submitValid"
                      @closeAction="closeAction"
                      @reset="resetDataSourceForm" :selfFunc="true">
-    <el-alert :title="validSuccessMsg" type="success" effect="dark" v-show="validSuccessMsg"/>
-    <el-alert :title="validErrorMsg" type="error" effect="dark" v-show="validErrorMsg"/>
     <star-horse-form :outerFormData="formProps" primary-key="" ref="dataSourceFormRef"
                      :fieldList="dataSourceFields(dataSourceFormRef,recall)"/>
   </star-horse-dialog>

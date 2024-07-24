@@ -153,7 +153,7 @@ export async function validDataUrl(url: string, params?: any, dataType: string =
         params: params
     };
     let data = await loadData(validUrl, checkParams);
-    return data;
+    return {...data};
 }
 
 /**

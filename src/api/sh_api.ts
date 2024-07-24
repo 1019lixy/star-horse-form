@@ -48,7 +48,8 @@ export async function loadData(url: string, params: SearchParams[] | any) {
         if (redata.code != 0) {
             error = redata.cnMessage;
         } else {
-            data = redata.data || redata.dataList;
+            //先去分页数据，没有再去非分页数据
+            data =  redata.data.dataList||redata.data;
         }
     }).catch(err => {
         error = err;
