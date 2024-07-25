@@ -126,14 +126,14 @@ defineExpose({
       <component
           :id="data.id"
           :field="data"
-          :formFieldList="dataForm"
+          :formData="dataForm"
           :is="data.itemType + '-container'"
           v-if="data.compType === 'container'"
       />
       <component
           :id="data.id"
           :field="data"
-          :formFieldList="dataForm"
+          :formData="dataForm"
           :is="data.itemType + '-item'"
           v-if="data.compType === 'formItem'"
       />

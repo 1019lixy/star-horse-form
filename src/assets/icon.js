@@ -30,7 +30,7 @@ let icon = [
     {"label": "", "menuIcon": "data_db"},
     {"label": "", "menuIcon": "date-field"},
     {"label": "", "menuIcon": "date-range-field"},
-    {"label": "", "menuIcon": "default"},
+    {"label": "", "menuIcon": "small"},
     {"label": "", "menuIcon": "delete"},
     {"label": "", "menuIcon": "delete-fill"},
     {"label": "", "menuIcon": "diagram"},

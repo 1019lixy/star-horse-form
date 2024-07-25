@@ -508,7 +508,7 @@
     </el-form>
   </star-horse-dialog>
   <el-card>
-    <el-form class="search_area" size="default">
+    <el-form class="search_area" size="small">
       <el-form-item label="状态名称">
         <el-input placeholder="请输入状态名称" v-model="searchForm.statusName"/>
       </el-form-item>

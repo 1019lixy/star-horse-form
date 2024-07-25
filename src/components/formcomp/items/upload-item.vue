@@ -18,7 +18,7 @@
         :method="field.preps['method']||'post'"
         :multiple="field.preps['multiple']=='Y'"
         :name="field.preps['name']||'file'"
-        :size="field?.preps['size']||'small'"
+        :size="context.attrs.formInfo?.size||field?.preps['size']||'small'"
         :on-change="selfAction('change')"
         :on-error="selfAction('error')"
         :on-exceed="selfAction('exceed')"
@@ -51,14 +51,14 @@ export default defineComponent({
   emits: ["selectItem", "selfFunc"],
   setup(props, context) {
     const parentField = context.attrs["parentField"];
-    const formFieldList = context.attrs["formFieldList"] as any;
+
     const field = context.attrs["field"] as any;
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef([]);
     const selfAction = (prep: any) => {
       context.emit('selfFunc', prep, dataField);
     };
-    return {parentField, formFieldList, context, field, formItem, dataField, selfAction}
+    return {parentField,  context, field, formItem, dataField, selfAction}
   }
 });
 </script>

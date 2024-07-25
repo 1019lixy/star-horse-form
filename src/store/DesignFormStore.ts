@@ -1,6 +1,7 @@
 import {defineStore} from "pinia";
 import {SearchParams} from "@/components/types/Params";
 import {loadData} from "@/api/sh_api.ts";
+
 export const DesignForm: any = defineStore("DesignForm", {
     state: () => {
         return {
@@ -26,9 +27,9 @@ export const DesignForm: any = defineStore("DesignForm", {
              */
             compList: [] as Array<any>,
             /**
-             * 表达属性列表
+             * 表单属性列表
              */
-            formFieldList: {},
+            formData: {},
             /**
              * 当前组件
              */
@@ -83,8 +84,8 @@ export const DesignForm: any = defineStore("DesignForm", {
         getCompList(state) {
             return state.compList;
         },
-        getFormFieldList(state) {
-            return state.formFieldList;
+        getFormData(state) {
+            return state.formData;
         },
         getCurrentComp(state) {
             return state.currentComp;
@@ -162,8 +163,8 @@ export const DesignForm: any = defineStore("DesignForm", {
                 _this.compList.push(comp);
             }
         },
-        setFormFieldList(formFieldList: any) {
-            this.formFieldList = formFieldList
+        setFormData(formData: any) {
+            this.formData = formData
         },
         setIsEdit(isEdit: boolean) {
             this.isEdit = isEdit;
@@ -244,13 +245,16 @@ export const DesignForm: any = defineStore("DesignForm", {
                 tbName: "tb" + ms
             };
             _this.compList = [];
-            _this.formFieldList = {index: 1};
+            _this.formData = {index: 1};
             if (initComp) {
                 const url = "/userdb-manage/userdb/dynamicFormItems/getAllByCondition";
                 const initContainer = async () => {
                     let params: SearchParams[] = [{
                         propertyName: "category",
                         value: 2
+                    }, {
+                        propertyName: "isDel",
+                        value: 0
                     }];
                     let query = {
                         fieldList: params,
@@ -263,6 +267,9 @@ export const DesignForm: any = defineStore("DesignForm", {
                     let params: SearchParams[] = [{
                         propertyName: "category",
                         value: 1
+                    }, {
+                        propertyName: "isDel",
+                        value: 0
                     }];
                     let query = {
                         fieldList: params,
@@ -275,6 +282,9 @@ export const DesignForm: any = defineStore("DesignForm", {
                     let params: SearchParams[] = [{
                         propertyName: "category",
                         value: 3
+                    }, {
+                        propertyName: "isDel",
+                        value: 0
                     }];
                     let query = {
                         fieldList: params,

@@ -7,6 +7,7 @@ import {warning} from "@/utils/message";
 import Help from "@/components/help.vue";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
+
 let designForm = DesignForm(piniaInstance);
 let formInfo = computed(() => designForm.formInfo);
 let compList = computed(() => designForm.compList);

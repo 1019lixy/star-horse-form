@@ -8,7 +8,7 @@ const props = defineProps({
   compSize: {type: String, required: true},
 });
 let searchFieldList: Array<any> = [];
-let formFieldList: Array<any> = [];
+let formData: Array<any> = [];
 let code = ref<String>("");
 const starHorseEditorRef = ref();
 const asssignVal = (searchFields: string, formFields: string) => {

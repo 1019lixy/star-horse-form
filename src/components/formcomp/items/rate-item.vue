@@ -15,11 +15,11 @@
         :show-score="field.preps['showScore']=='Y'"
         @change="keyEnterFun"
         :show-text="field.preps['showText']=='Y'"
-        :size="field?.preps['size']||'small'"
+        :size="context.attrs.formInfo?.size||field?.preps['size']||'small'"
         :text-color="field.preps['textColor']"
         :texts="field.preps['texts']"
         :void-color="field.preps['voidColor']"
-        v-model="context.attrs['formFieldList'][field.preps['name']]"
+        v-model="context.attrs['formData'][field.preps['name']]"
     />
   </starhorse-form-item>
 </template>
@@ -28,7 +28,7 @@ import {defineComponent, onMounted, shallowRef} from "vue";
 export default defineComponent({
   setup(props, context) {
     const parentField = context.attrs["parentField"];
-    const formFieldList = context.attrs["formFieldList"] as any;
+
     const field = context.attrs["field"] as any;
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
@@ -38,7 +38,7 @@ export default defineComponent({
     onMounted(() => {
       keyEnterFun();
     });
-    return {parentField, formFieldList, context, field, formItem, dataField, keyEnterFun}
+    return {parentField,  context, field, formItem, dataField, keyEnterFun}
   }
 });
 </script>

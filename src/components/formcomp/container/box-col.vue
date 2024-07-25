@@ -5,7 +5,7 @@ import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
 const props = defineProps({
   parentField: {type: String},
-  formFieldList: {type: Object as PropType<any>},
+  formData: {type: Object as PropType<any>},
   parentComp: {type: Object as PropType<any>},
   adata: {type: Object as PropType<any>},
 });
@@ -79,7 +79,7 @@ const dragUpdate = (evt) => {
                 :field="data"
                 :is="getComponentName(data)"
                 :parentField="parentComp"
-                :formFieldList="formFieldList"
+                :formData="formData"
             />
           </template>
         </template>
@@ -97,14 +97,14 @@ const dragUpdate = (evt) => {
       <component
           :field="data"
           :is="data?.type+'-container'"
-          :formFieldList="formFieldList"
+          :formData="formData"
           v-if="data?.compType==='container'"
       >
       </component>
       <component
           :field="data"
           :is="getComponentName(data)"
-          :formFieldList="formFieldList"
+          :formData="formData"
           v-else-if="data?.compType==='formItem'"
       />
     </template>

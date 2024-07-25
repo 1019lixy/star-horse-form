@@ -22,7 +22,7 @@ const javaKeywords = [
     {label: "float", apply: "float "},
     {label: "Float", apply: "Float "},
     {label: "Return", apply: "Return "},
-    {label: "default", apply: "default "},
+    {label: "small", apply: "default "},
     {label: "switch", apply: "switch "},
     {label: "forin", apply: "for in {\n}"},
     {label: "foreach", apply: "forEach(item->{\n});"},

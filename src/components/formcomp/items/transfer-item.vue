@@ -5,50 +5,92 @@
         :fid="field.preps['name']"
         :button-texts="field.preps['buttonTexts']"
         :data="field.preps['values']"
-        :filter-method="field.preps['filterMethod']"
-        :props="{key:field.preps['dataSource']=='url'?field.preps['selectValue']:'value',
-        label:field.preps['dataSource']=='url'?field.preps['selectLabel']:'name'}"
+        :props="{
+          key:'value',
+          label:'name'
+        }"
         :filter-placeholder="field.preps['filterPlaceholder']||'请输入'+field.preps['label']"
         :filterable="field.preps['filterable']=='Y'"
-        :format="field.preps['format']"
+        :format="{
+        noChecked: '${total}',
+        hasChecked: '${checked}/${total}',
+         }"
         :target-order="field.preps['targetOrder']"
         :titles="[field.preps['leftTitle'],field.preps['rightTitle']]"
-        :size="field?.preps['size']||'small'"
+        :size="context.attrs.formInfo?.size||field?.preps['size']||'small'"
         :left-default-checked="JSON.parse(field.preps['leftDefaultChecked'])"
         :right-default-checked="JSON.parse(field.preps['rightDefaultChecked'])"
         v-on:[actionName]="keyEnterFun(field.preps['actionName'])"
         @keydown.enter="keyEnterFun"
         @focus="keyEnterFun('focus')"
         @blur="keyEnterFun('blur')"
-        v-model="context.attrs['formFieldList'][field.preps['name']]"
+        v-model="context.attrs['formData'][field.preps['name']]"
     />
   </starhorse-form-item>
 </template>
 <script lang="ts">
 import {defineComponent, onMounted, shallowRef} from "vue";
+import {compDynamicData} from "@/api/sh_api.ts";
+import {SelectOption} from "@/components/types/SearchProps";
+
 export default defineComponent({
   setup(props, context) {
     const parentField = context.attrs["parentField"];
-    const formFieldList = context.attrs["formFieldList"] as any;
+
     const field = context.attrs["field"] as any;
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
     let actionName = shallowRef("keydown.enter");
+    let bakeData: SelectOption[] = [];
     const keyEnterFun = (prep: String) => {
       if (prep == actionName.value && field.preps["actionRelation"]) {
-        field.preps["actionRelation"](context.attrs['formFieldList'][field.preps['name']], context.attrs['formFieldList']["xh"]);
+        field.preps["actionRelation"](context.attrs['formData'][field.preps['name']], context.attrs['formData']["xh"]);
       }
       context.emit('selfFunc', prep);
     };
+    const initData = async () => {
+      field.preps["values"] = await compDynamicData(field.preps);
+      bakeData = JSON.parse(JSON.stringify(field.preps["values"]));
+    }
+
+    let bakeQueryString
+    const querySearch = async (queryString: string, item: Record<string, any>) => {
+      let temp = field.preps;
+      let dataSource = temp['dataSource'];
+      //虽然实现类远程搜索，但是数据没法还原为初始状态
+      // if (dataSource == "url") {
+      //   console.log(queryString);
+      //   if (!queryString) {
+      //    field.preps["values"] = JSON.parse(JSON.stringify(bakeData));
+      //     return false;
+      //   }
+      //   if (bakeQueryString == queryString) {
+      //     return false;
+      //   }
+      //   bakeQueryString = queryString;
+      //   let searchParams: SearchParams[] = [];
+      //   searchParams.push({
+      //     propertyName: temp["selectLabel"],
+      //     value: queryString,
+      //     operation: "lk"
+      //   });
+      //   temp['values'] = await dynamicUrlOperation(temp, searchParams);
+      // } else {
+      //temp['values'] = queryString ? temp['values'].filter(createFilter(queryString)) : temp['values'];
+      // }
+      // return item.initial.toLowerCase().includes(queryString.toLowerCase());
+    }
+
     onMounted(() => {
+      initData();
       actionName.value = field.preps["actionName"];
       if (!context.attrs["isSearch"]) {
         keyEnterFun(actionName.value);
       }
     });
     return {
-      parentField, formFieldList, context, field, formItem,
-      dataField, keyEnterFun, actionName
+      parentField,  context, field, formItem,
+      dataField, keyEnterFun, actionName, querySearch
     }
   }
 });

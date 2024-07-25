@@ -16,14 +16,14 @@
         :multiple-limit="field.preps['multipleLimit']"
         :name="field.preps['name']"
         :placeholder="field.preps['placeholder']||'请选择'+field.preps['label']"
-        :size="field?.preps['size']||'small'"
-        :data="field.preps['values']||context.attrs['formFieldList'][field.preps['name']+'OptionList']"
+        :size="context.attrs.formInfo?.size||field?.preps['size']||'small'"
+        :data="field.preps['values']||context.attrs['formData'][field.preps['name']+'OptionList']"
         :tag-type="field.preps['tagType']"
         v-on:[actionName]="keyEnterFun(field.preps['actionName'])"
         @keydown.enter="keyEnterFun"
         @focus="keyEnterFun('focus')"
         @blur="keyEnterFun('blur')"
-        v-model="context.attrs['formFieldList'][field.preps['name']]">
+        v-model="context.attrs['formData'][field.preps['name']]">
     </el-tree-select>
   </starhorse-form-item>
 </template>
@@ -35,14 +35,14 @@ import {SelectOption} from "@/components/types/SearchProps";
 export default defineComponent({
   setup(props, context) {
     const parentField = context.attrs["parentField"];
-    const formFieldList = context.attrs["formFieldList"] as any;
+
     const field = context.attrs["field"] as any;
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
     let actionName = shallowRef("keydown.enter");
     const keyEnterFun = (prep: any) => {
       if (prep == actionName.value && field.preps["actionRelation"]) {
-        field.preps["actionRelation"](context.attrs['formFieldList'][field.preps['name']], context.attrs['formFieldList']["xh"]);
+        field.preps["actionRelation"](context.attrs['formData'][field.preps['name']], context.attrs['formData']["xh"]);
       }
       context.emit('selfFunc', prep);
     };
@@ -102,7 +102,7 @@ export default defineComponent({
         keyEnterFun(actionName.value);
       }
     });
-    return {parentField, formFieldList, context, field, formItem, dataField, keyEnterFun, actionName}
+    return {parentField,  context, field, formItem, dataField, keyEnterFun, actionName}
   }
 });
 </script>

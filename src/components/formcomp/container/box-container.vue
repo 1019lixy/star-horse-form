@@ -3,9 +3,11 @@ import {ComponentInternalInstance, computed, getCurrentInstance, PropType, ref, 
 import {warning} from '@/utils/message'
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
+
 const props = defineProps({
   parentField: {type: String},
-  formFieldList: {type: Object as PropType<any>},
+  formInfo: {type: Object as PropType<any>},
+  formData: {type: Object as PropType<any>},
   field: {type: Object as PropType<any>},
 });
 const update = getCurrentInstance() as ComponentInternalInstance | null;
@@ -95,9 +97,10 @@ watch(() => props.field,
               <component
                   :key="data.id"
                   :field="data"
+                  :formInfo="formInfo"
                   :is="getComponentName(data)"
                   :parentField="boxCompList"
-                  :formFieldList="formFieldList"
+                  :formData="formData"
                   v-if="data?.compType=='formItem'"
               />
             </div>
@@ -115,19 +118,21 @@ watch(() => props.field,
           <component
               :field="data"
               :is="data?.type+'-container'"
-              :formFieldList="formFieldList"
+              :formData="formData"
+              :formInfo="formInfo"
               v-if="data?.compType==='container'"
           >
           </component>
           <component
               :field="data"
               :is="getComponentName(data)"
-              :formFieldList="formFieldList"
+              :formData="formData"
+              :formInfo="formInfo"
               v-else-if="data?.compType==='formItem'"
           />
         </template>
       </el-col>
-      <!--      <box-col :adata="adata" :parentComp="boxCompList" :formFieldList="formFieldList"/>-->
+      <!--      <box-col :adata="adata" :parentComp="boxCompList" :formData="formData"/>-->
     </el-row>
   </group-box-container>
 </template>
@@ -142,6 +147,7 @@ watch(() => props.field,
   vertical-align: middle;
   justify-content: center;
   align-items: center;
+
   .ghost {
     content: '';
     font-size: 0;
@@ -152,6 +158,7 @@ watch(() => props.field,
     overflow: hidden;
   }
 }
+
 .edit_col {
   border: 2px dotted var(--star-horse-border—color);
   min-height: 50px;

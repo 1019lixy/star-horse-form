@@ -17,19 +17,10 @@ const props = defineProps({
   rules: {type: Object},
   isView: {type: Boolean, default: false},
 });
-// let configStore = GlobalConfig(piniaInstance);
-//let compSize = computed(() => configStore.configFormInfo?.inputSize || "small");
 const dataForm = defineModel("dataForm");
 const dialogProps = inject<DialogProps>("dialogProps", {});
-// const tableListRef = ref<any>([]);
-// const tabObject = ref<any>(0);
 const tabList = ref<any>("tab0");
 const normalTabList = ref<any>("tab0");
-// const setTableRef = (el: any) => {
-//   if (el) {
-//     tableListRef.value.push(el);
-//   }
-// }
 const checkObject = (item: any) => {
   if (!Object.keys(dataForm.value).includes(item.objectName)) {
     dataForm.value[item.objectName] = {};

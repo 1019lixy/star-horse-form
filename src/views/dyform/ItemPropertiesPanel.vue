@@ -15,6 +15,7 @@ import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {error, success} from "@/utils/message.ts";
+
 let designForm = DesignForm(piniaInstance);
 let formDataList = computed(() => designForm.formDataList);
 let containerList = computed(() => designForm.containerList);
@@ -26,7 +27,7 @@ const formProps = computed(() => designForm.currentFormPreps);
 let currentItemType = computed(() => designForm.currentItemType);
 let currentCompCategory = computed(() => designForm.currentCompCategory);
 let parentCompType = computed(() => designForm.parentCompType);
-let formFieldList = computed(() => designForm.formFieldList);
+let formData = computed(() => designForm.formData);
 const advancedFieldList = ref<any>({});
 const actions = ref<any>({});
 let currentField = ref<any>({});
@@ -41,6 +42,7 @@ let fieldName = ref<string>('');
 const codeCompRef = ref<any>(null);
 const dataSourceFormRef = ref<any>(null);
 const paramsConfigRef = ref<any>(null);
+const containerPrepRef = ref<any>(null);
 //-----------------------数据源相关属性---------------------
 let matchTypeList = ref<SelectOption[]>();
 const jsButtonClick = (name: string) => {
@@ -118,9 +120,18 @@ const resetDataSourceForm = () => {
   formProps.value["queryParams"] = [];
   formProps.value["values"] = [];
 };
-const editContainerPrep = () => {
+const editContainerPrep = async () => {
   containerDialogVisible.value = true;
+  await nextTick();
+  containerPrepRef.value.setDataForm(formProps.value);
 }
+const containerAction = () => {
+  let formDdata = containerPrepRef.value.getFormData();
+  for (let key in formDdata.value) {
+    formProps.value[key] = formDdata.value[key];
+  }
+  closeAction();
+};
 const closeAction = () => {
   jsEditor.value = false;
   containerDialogVisible.value = false;
@@ -149,8 +160,8 @@ const assignPrep = async (itemType: string, isItem: boolean) => {
   //让form
   formProps.value["size"] = formInfo.value["size"];
   //在表单中加入字段？
-  // if (!Object.keys(formFieldList.value).includes(formProps.value["name"])) {
-  //   formFieldList.value[formProps.value["name"]] = null;
+  // if (!Object.keys(formData.value).includes(formProps.value["name"])) {
+  //   formData.value[formProps.value["name"]] = null;
   // }
   if (!isItem) {
     for (let key in containers) {
@@ -237,10 +248,10 @@ watch(() => formProps,
     <star-horse-form :outerFormData="formInfo" ref="paramsConfigRef" :fieldList="paramsFields(fieldName,currentField)"/>
   </star-horse-dialog>
   <star-horse-dialog :dialogVisible="containerDialogVisible"
-                     :title="'设置容器'" :isBatch="false" @merge="closeAction"
+                     :title="'设置容器'" :isBatch="false" @merge="containerAction"
                      @closeAction="closeAction"
                      @reset="resetForm" :selfFunc="true">
-    <star-horse-form :outerFormData="formInfo" :fieldList="containerField(currentItemType)"/>
+    <star-horse-form ref="containerPrepRef" :outerFormData="formInfo" :fieldList="containerField(currentItemType)"/>
   </star-horse-dialog>
   <star-horse-dialog :dialogVisible="jsEditor" :title="'自定义信息'" :isBatch="false" @merge="closeAction"
                      @closeAction="closeAction"
@@ -523,24 +534,29 @@ watch(() => formProps,
 <style lang="scss" scoped>
 :deep(.el-collapse-item) {
   overflow: hidden;
+
   .el-collapse-item__wrap {
     height: 100%;
     overflow: hidden;
+
     .el-collapse-item__content {
       height: inherit;
       overflow: hidden;
     }
   }
+
   &:last-child {
     flex: 1;
     height: 100%;
   }
 }
+
 :deep(.el-form-item__content) {
   width: 90%;
   margin-left: 5px;
   padding-left: 5px;
 }
+
 :deep(.el-scrollbar) {
   border-top-width: 0;
   display: flex;
@@ -548,15 +564,19 @@ watch(() => formProps,
   height: 100%;
   overflow: hidden;
 }
+
 :deep(.el-dialog__body) {
   padding: 0;
 }
+
 .widget-collapse {
   height: 99%;
 }
+
 .oper-btn {
   cursor: pointer;
 }
+
 .dynamic-form {
   width: 200px;
   height: 100%;

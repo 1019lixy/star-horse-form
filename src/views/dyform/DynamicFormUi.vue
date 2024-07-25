@@ -32,7 +32,7 @@ const closeAction = () => {
   isPreview.value = false;
   designForm.setIsEdit(true);
 };
-let formFieldList = ref<any>({});
+let formData = ref<any>({});
 let list = computed(() => designForm.compList);
 const loadFormData = async (formId: any) => {
   let {data, error} = await loadData(dataUrl.loadByIdUrl + "/" + formId, {});
@@ -40,7 +40,7 @@ const loadFormData = async (formId: any) => {
   isPreview.value = true;
   designForm.clearAll(false);
   designForm.setCompList(JSON.parse(data["details"].content));
-  designForm.setFormFieldList(JSON.parse(data["details"].fieldNames));
+  designForm.setFormData(JSON.parse(data["details"].fieldNames));
   designForm.setIsEdit(false);
   data["details"] = {};
   designForm.setFormInfo(data);
@@ -227,14 +227,14 @@ onMounted(async () => {
     <template v-for="data in list">
       <component
           :field="data"
-          :formFieldList="formFieldList"
+          :formData="formData"
           :is="data?.itemType+'-container'"
           v-if="data?.compType==='container'"
       >
       </component>
       <component
           :field="data"
-          :formFieldList="formFieldList"
+          :formData="formData"
           :is="data?.itemType + '-item'"
           v-else-if="data?.compType=='formItem'"
       />

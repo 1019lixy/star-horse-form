@@ -16,6 +16,7 @@ import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
 import {validDynamicFormCompParams} from "@/views/dyform/utils/preview.ts";
 import CodeComp from "@/views/dyform/code/CodeComp.vue";
+
 const dataUrl = reactive<ApiUrls>(<ApiUrls>{
   loadByPageUrl: "/userdb-manage/userdb/dynamicForm/pageList",
   mergeUrl: "/userdb-manage/userdb/dynamicForm/merge",
@@ -39,7 +40,7 @@ let batchEditFieldVisible = ref<any>(false);
 let isEdit = computed(() => designForm.isEdit);
 let activeTab = ref<any>("first");
 let errMessage = ref<String>("");
-let formFieldList = computed(() => designForm.formFieldList);
+let formData = computed(() => designForm.formData);
 let editable = ref<any>(true);
 let formInfo = computed(() => designForm.formInfo);
 const fieldPanelRef = ref();
@@ -68,7 +69,7 @@ const loadFormData = async (formId: any, isParent: boolean) => {
     formInfo.value["relations"] = JSON.parse(data["relations"]);
   }
   designForm.setCompList(JSON.parse(data["details"].content));
-  designForm.setFormFieldList(JSON.parse(data["details"].fieldNames));
+  designForm.setFormData(JSON.parse(data["details"].fieldNames));
   data["details"] = {};
   designForm.setIsEdit(true);
   let activeItem = list.value[0];
@@ -163,7 +164,7 @@ const doSave = async () => {
       JSON.stringify(dynameForm["relations"]) : dynameForm["relations"];
   dynameForm!["details"] = {};
   dynameForm!["details"]["content"] = JSON.stringify(list.value);
-  dynameForm!["details"]["fieldNames"] = JSON.stringify(formFieldList.value);
+  dynameForm!["details"]["fieldNames"] = JSON.stringify(formData.value);
   postRequest("/userdb-manage/userdb/dynamicForm/merge", dynameForm)
       .then((res) => {
         if (res.data.code != 0) {
@@ -292,7 +293,6 @@ const actions = (action: string) => {
       break;
   }
 };
-
 </script>
 <template>
   <star-horse-dialog
@@ -359,7 +359,7 @@ const actions = (action: string) => {
       <component
           :id="data.id"
           :field="data"
-          :formFieldList="formFieldList"
+          :formData="formData"
           :is="data.itemType + '-container'"
           v-if="data.compType === 'container'"
       >
@@ -367,7 +367,7 @@ const actions = (action: string) => {
       <component
           :id="data.id"
           :field="data"
-          :formFieldList="formFieldList"
+          :formData="formData"
           :is="getComponentName(data)"
           v-else-if="data.compType === 'formItem'"
       />
@@ -420,7 +420,7 @@ const actions = (action: string) => {
                 :label-position="formInfo['labelPosition']"
                 :label-suffix="formInfo['labelSuffix']"
                 :label-width="formInfo['labelWidth']"
-                :model="formFieldList"
+                :model="formData"
                 :require-asterisk-position="formInfo['requireAsteriskPosition']"
                 :rules="formInfo.rules"
                 :scroll-to-error="formInfo['scrollToError'] == 'Y'"
@@ -439,25 +439,30 @@ const actions = (action: string) => {
                   :list="list"
               >
                 <template #item="{element:data}">
-                  <div class="comp-item">
-                    <template v-if="data.compType === 'container'">
+                  <template v-if="data.compType === 'container'">
+                    <div class="comp-item" style="height: 100%">
                       <component
                           :key="data.id"
                           :field="data"
+                          :formInfo="formInfo"
                           :is="data.itemType + '-container'"
-                          :formFieldList="formFieldList"
+                          :formData="formData"
                       />
-                    </template>
-                    <template v-else-if="data.compType == 'formItem'">
+                    </div>
+                  </template>
+                  <template v-else-if="data.compType == 'formItem'">
+                    <div class="comp-item" >
                       <component
                           :key="data.id"
                           :field="data"
+                          :formInfo="formInfo"
                           :is="getComponentName(data)"
                           :parentCompType="'item'"
-                          :formFieldList="formFieldList"
+                          :formData="formData"
                       />
-                    </template>
-                  </div>
+                    </div>
+                  </template>
+
                 </template>
               </draggable>
             </el-form>
@@ -479,31 +484,38 @@ const actions = (action: string) => {
   padding: 5px;
   height: 100%;
 }
+
 .design-form-container {
   height: 100%;
   border: 2px dotted var(--star-horse-style);
   background: var(--star-horse-white);
 }
+
 :deep(.el-divider--horizontal) {
   margin: 10px 0;
 }
+
 :deep(.el-collapse-item__header) {
   height: 30px;
   background: #eee;
   border-bottom: 1px solid #8F8F8F;
 }
+
 :deep(.el-collapse-item__wrap) {
   margin-top: 5px;
 }
+
 :deep(.el-scrollbar__view) {
   height: 100%;
 }
+
 .form_content {
   display: flex;
   width: 100%;
   height: 100%;
   flex-direction: row;
   margin-top: 0;
+
   .side-panel {
     width: 270px !important;
     justify-content: flex-start;
@@ -511,12 +523,14 @@ const actions = (action: string) => {
     border: 1px solid #eee;
     overflow: hidden;
   }
+
   .form-main {
     display: flex;
     flex: 1;
     flex-direction: column;
     height: 100%;
     overflow: hidden;
+
     .inner_button {
       height: 40px;
       text-align: left;
@@ -528,11 +542,13 @@ const actions = (action: string) => {
       -ms-user-select: none;
       user-select: none;
     }
+
     .main-design-a {
       display: flex;
       flex-direction: row;
       flex: 1;
       overflow: hidden;
+
       .main-design-outer {
         flex: 1;
         background: #f1f2f3;
@@ -542,6 +558,7 @@ const actions = (action: string) => {
         border-radius: 3px;
         display: flex;
         flex-direction: column;
+
         .main-design {
           flex: 1;
           margin: 3px 3px 0 5px;
@@ -550,6 +567,7 @@ const actions = (action: string) => {
           background: rgba(255, 255, 255, 0.8);
         }
       }
+
       .side-panel-item {
         margin-top: 5px;
         border: 1px solid #eee;

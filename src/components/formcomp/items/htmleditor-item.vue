@@ -3,13 +3,13 @@
   >
     <div style="border: 1px solid #ccc">
       <Toolbar style="border-bottom: 1px solid #ccc" :editor="editorRef" :defaultConfig="toolbarConfig"
-               mode="default"/>
+               mode="small"/>
       <Editor
           :style="{height: field.preps.height||'300px','overflow-y': 'hidden'}"
           @keydown.enter="keyEnterFun"
-          v-model="context.attrs['formFieldList'][field.preps['name']]"
+          v-model="context.attrs['formData'][field.preps['name']]"
           :defaultConfig="editorConfig"
-          mode="default"
+          mode="small"
           :fid="field.preps['name']"
           @onCreated="handleCreated"
       />
@@ -30,7 +30,7 @@ export default defineComponent({
   },
   setup(props, context) {
     const parentField = context.attrs["parentField"];
-    const formFieldList = context.attrs["formFieldList"] as any;
+
     const field = context.attrs["field"] as any;
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
@@ -99,7 +99,7 @@ export default defineComponent({
     }
 // 组件销毁时，也及时销毁编辑器
     return {
-      parentField, formFieldList, context, field, formItem, editorConfig, editorRef, toolbarConfig,
+      parentField,  context, field, formItem, editorConfig, editorRef, toolbarConfig,
       dataField, dynamicFunction, keyEnterFun, handleCreated
     }
   },

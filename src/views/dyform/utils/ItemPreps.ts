@@ -38,6 +38,9 @@ export async function validInterface(formProps: any, dataSourceRef: Ref<any>, re
     let flag = false;
     let dataList: SelectOption[] = [];
     let refName = dataSourceRef?.value || dataSourceRef;
+    if (!refName) {
+        return false;
+    }
     let temp = refName.getFormData().value;
     if (validForm) {
         await nextTick();

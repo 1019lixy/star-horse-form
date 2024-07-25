@@ -3,6 +3,7 @@ import {computed, onMounted, ref} from "vue";
 import {SelectOption} from "@/components/types/SearchProps.d.ts";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import piniaInstance from "@/store";
+
 let configInfo = ref<any>({tagsView: 'Y'});
 let configStore = GlobalConfig(piniaInstance);
 let sizeList = ref<Array<SelectOption>>([
@@ -264,6 +265,7 @@ onMounted(() => {
   flex-direction: row;
   width: 25%;
 }
+
 .el-tag {
   border: none;
   aspect-ratio: 1;

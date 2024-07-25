@@ -6,7 +6,7 @@ const props = defineProps({
   title: {type: String, default: "",},
   size: {type: String, default: "20px"},
   color: {type: String, default: "var(--star-horse-style)"},
-  cursor: {type: String, default: "default"}
+  cursor: {type: String, default: "small"}
 });
 const iconName = computed(() => `#icon-${props.iconClass}`);
 const svgClass = computed(() => {

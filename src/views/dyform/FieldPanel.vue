@@ -9,7 +9,7 @@ let containerList = computed(() => designForm.containerList);
 let selfFormDataList = computed(() => designForm.selfFormDataList);
 let tabModel = ref<string>("component");
 let activeNames = ref(['a', 'b', 'c', 'd']);
-let formFieldList = computed(() => designForm.formFieldList);
+let formData = computed(() => designForm.formData);
 const onContainerCopy = (data: any) => {
   return onDataCopy(data, 'container');
 };
@@ -18,7 +18,7 @@ const onFormItemCopy = (data: any) => {
 };
 const onDataCopy = (data: any, type: String) => {
   let reData = JSON.parse(JSON.stringify(data));
-  let ms = formFieldList.value["index"]++;
+  let ms = formData.value["index"]++;
   let mvData: any = {};
   mvData['id'] = 'Id' + ms;
   // console.log(reData);
@@ -35,7 +35,7 @@ const onDataCopy = (data: any, type: String) => {
   mvData.preps['label'] = reData.itemName;
   mvData.preps["itemNameLabel"] = reData.itemName;
   mvData.preps['name'] = reData.itemType + ms;
-  formFieldList.value[reData.preps.fieldName] = getDefaultVal(reData.itemType);
+  formData.value[reData.preps.fieldName] = getDefaultVal(reData.itemType);
   mvData['compType'] = type;
   mvData['itemType'] = reData.itemType;
   if (reData.itemType == "box") {
@@ -110,10 +110,7 @@ const getDefaultVal = (type: String) => {
             >
               <template #item="{element}">
                 <li class="field-item">&nbsp;&nbsp;
-                  <span><star-horse-icon :icon-class="element.itemIcon"
-                                         style="color: var(--star-horse-style)"/>&nbsp;&nbsp;{{
-                      element.itemName
-                    }}</span>
+                  <span><star-horse-icon :icon-class="element.itemIcon" style="color: var(--star-horse-style)"/>&nbsp;&nbsp;{{ element.itemName}}</span>
                 </li>
               </template>
             </draggable>
@@ -121,8 +118,7 @@ const getDefaultVal = (type: String) => {
         </el-collapse-item>
         <el-collapse-item name="c">
           <template #title>
-            &nbsp;<star-horse-icon icon-class="other"
-                                   style="color: var(--star-horse-style)"/>&nbsp;&nbsp;<span>自定义组件</span>
+            &nbsp;<star-horse-icon icon-class="other" style="color: var(--star-horse-style)"/>&nbsp;&nbsp;<span>自定义组件</span>
           </template>
           <el-scrollbar height="90%">
             <draggable
@@ -138,9 +134,7 @@ const getDefaultVal = (type: String) => {
               <template #item="{element}">
                 <li class="field-item">&nbsp;&nbsp;
                   <span><star-horse-icon :icon-class="element.itemIcon"
-                                         style="color: var(--star-horse-style)"/>&nbsp;&nbsp;{{
-                      element.itemName
-                    }}</span>
+                                         style="color: var(--star-horse-style)"/>&nbsp;&nbsp;{{ element.itemName }}</span>
                 </li>
               </template>
             </draggable>
@@ -151,8 +145,7 @@ const getDefaultVal = (type: String) => {
     </el-tab-pane>
     <el-tab-pane name="dbinfo">
       <template #label>
-        <star-horse-icon icon-class="database"
-                         style="color: var(--star-horse-style)"/>&nbsp;<span>数据源</span>
+        <star-horse-icon icon-class="database"  style="color: var(--star-horse-style)"/>&nbsp;<span>数据源</span>
       </template>
       <db-list-comp/>
     </el-tab-pane>

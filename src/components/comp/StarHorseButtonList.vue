@@ -145,7 +145,7 @@ defineExpose({
                   <el-dropdown-item v-for="sitem in item.children">
                     <el-button @click="sitem['exec'](sitem.btnName)" link title=""
                                style="background: var(--star-horse-style);color: var(--star-horse-white)" :size="compSize">
-                      <star-horse-icon :icon-class="sitem.icon||'default'" size="12px"/>
+                      <star-horse-icon :icon-class="sitem.icon||'small'" size="12px"/>
                       {{ sitem.labelName }}
                     </el-button>
                   </el-dropdown-item>
@@ -155,7 +155,7 @@ defineExpose({
           </template>
           <el-button v-else @click="item['exec']()" title=""
                      style="background: var(--star-horse-style);color: var(--star-horse-white)" :size="compSize">
-            <star-horse-icon :icon-class="item.icon||'default'" color="var(--star-horse-white)" size="12px"/>
+            <star-horse-icon :icon-class="item.icon||'small'" color="var(--star-horse-white)" size="12px"/>
             <el-tooltip :content="item.labelName">{{ item.labelName }}</el-tooltip>
           </el-button>
         </li>
@@ -227,14 +227,14 @@ defineExpose({
               </template>
               <el-menu-item :index="'3-'+ain+'-'+index" v-for="(sitem,index) in item.children"
                             @click="sitem['exec'](sitem.btnName)">
-                <star-horse-icon :icon-class="sitem.icon||'default'" style="color: var(--star-horse-style)"
+                <star-horse-icon :icon-class="sitem.icon||'small'" style="color: var(--star-horse-style)"
                                  size="12px"/>
                 {{ sitem.labelName }}
               </el-menu-item>
             </el-sub-menu>
           </template>
           <el-menu-item :index="'2-'+ain" v-else @click="item['exec'](item.btnName)">
-            <star-horse-icon :icon-class="item.icon||'default'" style="color: var(--star-horse-style)" size="12px"/>
+            <star-horse-icon :icon-class="item.icon||'small'" style="color: var(--star-horse-style)" size="12px"/>
             {{ item.labelName }}
           </el-menu-item>
         </template>

@@ -152,7 +152,7 @@ export function validDynamicFormCompParams(compList: Array<any>, isSubmit: boole
             }
         } else if (itemType == "select" || itemType == "transfer" || itemType == "autocomplete" || itemType == "cascade") {
             console.log(preps);
-            if ((!preps.values || preps.values?.length <= 0) && !preps.urlOrDictName) {
+            if ((!preps.values || preps.values?.length <= 0)&&!preps.interfaceUrl && !preps.urlOrDictName) {
                 msg = "\n" + name + "组件必须在【属性面板->基础属性->数据源】中配置数据源";
             }
         } else if (itemType == "checkbox" || itemType == "radio") {

@@ -2,9 +2,11 @@
 import {onMounted, PropType, ref} from "vue";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
+
 const props = defineProps({
   parentField: {type: String},
-  formFieldList: {type: Object as PropType<any>},
+  formInfo: {type: Object as PropType<any>},
+  formData: {type: Object as PropType<any>},
   field: {type: Object as PropType<any>},
 });
 let designForm = DesignForm(piniaInstance);
@@ -65,6 +67,7 @@ const addTab = () => {
                        :form-item="field"
   >
     <el-tabs
+        class="tab-container"
         :tab-position="field.preps['tablePosition']"
         :type="field.preps['type']"
         :closable="field.preps['closable']=='Y'"
@@ -77,12 +80,11 @@ const addTab = () => {
         @tab-change="dynamicFunc('tabChange',field['tabChange'])"
         @tab-remove="dynamicFunc('tabRemove',field['tabRemove'])"
     >
-      <!--      {{ field['preps']['elements'] }}-->
       <el-tab-pane v-for="(adata,index) in field['preps']['elements']"
                    :label="adata['label']"
                    :name="adata['name']||index"
       >
-        <el-scrollbar>
+        <el-scrollbar height="100%">
           <draggable
               @add="(evt:Event)=>onDragAdd(evt,adata['items'])"
               @dragover="checkItem(adata)"
@@ -97,9 +99,10 @@ const addTab = () => {
                 <component
                     :key="data.id"
                     :field="data"
+                    :formInfo="formInfo"
                     :is="getComponentName(data)"
                     :parentField="field"
-                    :formFieldList="formFieldList"
+                    :formData="formData"
                     v-if="data?.compType==='formItem'||data?.itemType=='box'||data?.itemType=='table'"/>
               </div>
             </template>
@@ -110,21 +113,13 @@ const addTab = () => {
   </group-box-container>
 </template>
 <style lang="scss" scoped>
+
 .dynamic-tab-wapper {
   height: 100%;
-  .el-tabs {
-    height: 100%;
-    width: 100%;
-    :deep(.el-tabs__content) {
-      height: 100%;
-      .el-tab-pane {
-        height: 100%;
-      }
-    }
-  }
 }
+
 .tab-design {
-  height: inherit;
+  height: 100%;
   overflow-y: auto;
 }
 </style>

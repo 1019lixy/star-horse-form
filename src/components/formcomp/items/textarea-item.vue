@@ -13,14 +13,14 @@
         :readonly="field.preps['readonly']=='Y'"
         :rows="field.preps['rows']"
         :show-word-limit="field.preps['showWordLimit']=='Y'"
-        :size="field?.preps['size']||'small'"
+        :size="context.attrs.formInfo?.size||field?.preps['size']||'small'"
         type="textarea"
         :resize="field?.preps['resize']||'--'"
         v-on:[actionName]="keyEnterFun(field.preps['actionName'])"
         @keydown.enter="keyEnterFun"
         @focus="keyEnterFun('focus')"
         @blur="keyEnterFun('blur')"
-        v-model="context.attrs['formFieldList'][field.preps['name']]"/>
+        v-model="context.attrs['formData'][field.preps['name']]"/>
   </starhorse-form-item>
 </template>
 <script lang="ts">
@@ -28,7 +28,7 @@ import {defineComponent, onMounted, shallowRef} from "vue";
 export default defineComponent({
   setup(props, context) {
     const parentField = context.attrs["parentField"];
-    const formFieldList = context.attrs["formFieldList"] as any;
+
     const field = context.attrs["field"] as any;
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
@@ -42,7 +42,7 @@ export default defineComponent({
     let actionName = shallowRef("keydown.enter");
     const keyEnterFun = (prep: any) => {
       if (prep == actionName.value && field.preps["actionRelation"]) {
-        field.preps["actionRelation"](context.attrs['formFieldList'][field.preps['name']], context.attrs['formFieldList']["xh"]);
+        field.preps["actionRelation"](context.attrs['formData'][field.preps['name']], context.attrs['formData']["xh"]);
       }
       context.emit('selfFunc', (prep instanceof KeyboardEvent) ? prep.code.toLowerCase() : prep || actionName.value);
     };
@@ -51,7 +51,7 @@ export default defineComponent({
       keyEnterFun(actionName.value)
     });
     return {
-      parentField, formFieldList, context, field, formItem,
+      parentField,  context, field, formItem,
       dataField, dynamicFunction, keyEnterFun, actionName
     }
   }

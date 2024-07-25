@@ -16,7 +16,7 @@ let designForm = DesignForm(piniaInstance);
 let allFormDataList = computed(() => designForm.allFormDataList);
 let compSize = computed(() => configStore.configFormInfo?.buttonSize || "small");
 let dbIndex = ref<any>(null);
-let formFieldList = computed(() => designForm.formFieldList);
+let formData = computed(() => designForm.formData);
 let compList = computed(() => designForm.compList);
 const filterTableName = ref<String>("");
 const tbTab = ref<String>("tb1");
@@ -236,7 +236,7 @@ const onDataCopy = async (data: any) => {
   for (let i in fieldList) {
     let reData = fieldList[i];
     let fieldName = convertToCamelCase(reData.fieldName.toLowerCase());
-    let ms = formFieldList.value["index"]++;
+    let ms = formData.value["index"]++;
     if (reData.commonFieldFlag?.toLowerCase() == "y" && config.commonFieldFlag?.toLowerCase() == "n") {
       continue;
     }
@@ -280,7 +280,7 @@ const onDataCopy = async (data: any) => {
     mvData.preps['label'] = labelName;
     mvData.preps['itemNameLabel'] = labelName;
     mvData.preps['name'] = fieldName;
-    formFieldList.value[fieldName] = getDefaultVal(mvData['itemType']);
+    formData.value[fieldName] = getDefaultVal(mvData['itemType']);
     mvData['compType'] = "formItem";
     mvDataList.push(mvData);
   }
@@ -290,7 +290,7 @@ const onDataCopy = async (data: any) => {
   let elements = [];
   if ((config.columns > 1 || data.columns > 1) && data.containerType == "box") {
     let boxColumns = data.columns > 1 ? data.columns : config.columns;
-    let boxId = "box" + formFieldList.value["index"]++;
+    let boxId = "box" + formData.value["index"]++;
     let box: any = {
       id: boxId,
       compType: "container",
@@ -333,7 +333,7 @@ const onDataCopy = async (data: any) => {
     designForm.setDraggingItem(mvDataList[0]);
     return box;
   } else if (data.containerType == "table") {
-    let tableId = "table" + formFieldList.value["index"]++;
+    let tableId = "table" + formData.value["index"]++;
     let table: any = {
       id: tableId,
       compType: "container",

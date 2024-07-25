@@ -216,7 +216,7 @@ onMounted(() => {
     <component :id="randId" :is="itemType+'-item'" @selfFunc="dataSearch" :isDesign="false"
                ref="componentRef"
                :isSearch="isSearch"
-               :field="field" :formFieldList="dataForm"/>
+               :field="field" :formData="dataForm"/>
   </div>
 </template>
 <style lang="scss" scoped>

@@ -8,7 +8,8 @@ import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 let containerTableRef = ref(); // 强制刷新表格
 const props = defineProps({
   parentField: {type: String},
-  formFieldList: {type: Object as PropType<any>},
+  formInfo: {type: Object as PropType<any>},
+  formData: {type: Object as PropType<any>},
   field: {type: Object as PropType<any>},
 });
 let designForm = DesignForm(piniaInstance);
@@ -127,9 +128,10 @@ const deleteCol = (index: number) => {
                 <div class="comp-item">
                   <component :key="data?.id"
                              :field="data"
+                             :formInfo="formInfo"
                              :is="getComponentName(data)"
                              :parentField="field"
-                             :formFieldList="formFieldList"
+                             :formData="formData"
                              v-if="data?.compType==='formItem'"/>
                 </div>
               </template>

@@ -13,11 +13,11 @@ export default defineComponent({
   setup(props, context) {
     console.log("this is comp-item")
     const parentField = context.attrs["parentField"];
-    const formFieldList = context.attrs["formFieldList"] as any;
+
     const field = context.attrs["field"] as any;
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
-    return {parentField, formFieldList, context, field, formItem, dataField}
+    return {parentField,  context, field, formItem, dataField}
   }
 });
 </script>

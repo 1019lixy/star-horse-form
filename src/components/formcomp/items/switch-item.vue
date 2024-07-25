@@ -12,10 +12,10 @@
         :inactive-text="field.preps['inactiveText']"
         :inactive-value="field.preps['inactiveValue']"
         :name="field.preps['name']"
-        :size="field?.preps['size']||'small'"
+        :size="context.attrs.formInfo?.size||field?.preps['size']||'small'"
         :width="field.preps['width']"
         v-on:[actionName]="keyEnterFun(field.preps['actionName'])"
-        v-model="context.attrs['formFieldList'][field.preps['name']]"
+        v-model="context.attrs['formData'][field.preps['name']]"
     />
   </starhorse-form-item>
 </template>
@@ -24,14 +24,14 @@ import {defineComponent, onMounted, shallowRef} from "vue";
 export default defineComponent({
   setup(props, context) {
     const parentField = context.attrs["parentField"];
-    const formFieldList = context.attrs["formFieldList"] as any;
+
     const field = context.attrs["field"] as any;
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
     let actionName = shallowRef("change");
     const keyEnterFun = (prep: any) => {
       if (prep == actionName.value && field.preps["actionRelation"]) {
-        field.preps["actionRelation"](context.attrs['formFieldList'][field.preps['name']], context.attrs['formFieldList']["xh"]);
+        field.preps["actionRelation"](context.attrs['formData'][field.preps['name']], context.attrs['formData']["xh"]);
       }
       context.emit('selfFunc', prep);
     };
@@ -42,7 +42,7 @@ export default defineComponent({
       }
     });
     return {
-      parentField, formFieldList, context, field, formItem, dataField
+      parentField,  context, field, formItem, dataField
       , keyEnterFun, actionName
     }
   }

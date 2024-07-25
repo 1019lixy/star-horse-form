@@ -11,7 +11,7 @@
         :minlength="field.preps['maxlength']"
         :placeholder="field.preps['placeholder']||'请输入'+field.preps['label']"
         :readonly="field.preps['readonly']=='Y'"
-        :size="field?.preps['size']||'small'"
+        :size="context.attrs.formInfo?.size||field?.preps['size']||'small'"
         type="text"
         :fid="field.preps['name']"
         class="input-with-select"
@@ -19,12 +19,12 @@
         @keydown.enter="keyEnterFun"
         @focus="keyEnterFun('focus')"
         @blur="keyEnterFun('blur')"
-        v-model="context.attrs['formFieldList'][field.preps['name']]">
+        v-model="context.attrs['formData'][field.preps['name']]">
       <template #prepend v-if="field.preps['prependText']">
         {{ field.preps['prependText'] }}
       </template>
       <template #prepend v-if="field.preps['prependList']">
-        <el-select v-model="context.attrs['formFieldList']['pre'+field.preps['name']]">
+        <el-select v-model="context.attrs['formData']['pre'+field.preps['name']]">
           <el-option v-for="item in field.preps['prependList']" :key="item.value" :label="item.name"
                      :value="item.value"/>
         </el-select>
@@ -33,7 +33,7 @@
         {{ field.preps['appendText'] }}
       </template>
       <template #append v-if="field.preps['appendList']">
-        <el-select v-model="context.attrs['formFieldList']['app'+field.preps['name']]">
+        <el-select v-model="context.attrs['formData']['app'+field.preps['name']]">
           <el-option v-for="item in field.preps['appendList']" :key="item.value" :label="item.name"
                      :value="item.value"/>
         </el-select>
@@ -43,11 +43,12 @@
 </template>
 <script lang="ts">
 import {defineComponent, onMounted, shallowRef} from "vue";
+
 export default defineComponent({
   emits: ["selectItem", "selfFunc"],
   setup(props, context) {
     const parentField = context.attrs["parentField"];
-    const formFieldList = context.attrs["formFieldList"];
+    const formData = context.attrs["formData"];
     const field = context.attrs["field"] as any;
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
@@ -67,7 +68,7 @@ export default defineComponent({
     };
     const keyEnterFun = (prep: any) => {
       if (prep == actionName.value && field.preps["actionRelation"]) {
-        field.preps["actionRelation"](context.attrs['formFieldList'][field.preps['name']], context.attrs['formFieldList']["xh"]);
+        field.preps["actionRelation"](context.attrs['formData'][field.preps['name']], context.attrs['formData']["xh"]);
       }
       context.emit('selfFunc', (prep instanceof KeyboardEvent) ? prep.code.toLowerCase() : prep || actionName.value);
     };
@@ -78,7 +79,7 @@ export default defineComponent({
       }
     });
     return {
-      parentField, formFieldList, context, field, formItem,
+      parentField, context, field, formItem,
       dataField, dynamicFunction, keyEnterFun, actionName, preSelect, appSelect
     }
   }
@@ -88,7 +89,8 @@ export default defineComponent({
 .input-with-select .el-input-group__prepend {
   background-color: var(--el-fill-color-blank);
 }
-:deep(.el-input-group__prepend){
+
+:deep(.el-input-group__prepend) {
   min-width: 100px;
   padding: 0;
 }

@@ -52,7 +52,7 @@
           "name": "local",
           "isAttr": true,
           "type": "boolean",
-          "default": false
+          "small": false
         },
         {
           "name": "variables",
@@ -96,25 +96,25 @@
           "name": "async",
           "isAttr": true,
           "type": "boolean",
-          "default": false
+          "small": false
         },
         {
           "name": "asyncBefore",
           "isAttr": true,
           "type": "boolean",
-          "default": false
+          "small": false
         },
         {
           "name": "asyncAfter",
           "isAttr": true,
           "type": "boolean",
-          "default": false
+          "small": false
         },
         {
           "name": "exclusive",
           "isAttr": true,
           "type": "boolean",
-          "default": true
+          "small": true
         }
       ]
     },
@@ -144,7 +144,7 @@
           "name": "async",
           "isAttr": true,
           "type": "boolean",
-          "default": false
+          "small": false
         }
       ]
     },
@@ -292,7 +292,7 @@
           "name": "isStartableInTasklist",
           "isAttr": true,
           "type": "boolean",
-          "default": true
+          "small": true
         },
         {
           "name": "executionListener",
@@ -394,7 +394,7 @@
           "name": "calledElementBinding",
           "isAttr": true,
           "type": "string",
-          "default": "latest"
+          "small": "latest"
         },
         {
           "name": "calledElementVersion",
@@ -420,7 +420,7 @@
           "name": "caseBinding",
           "isAttr": true,
           "type": "string",
-          "default": "latest"
+          "small": "latest"
         },
         {
           "name": "caseVersion",
@@ -490,7 +490,7 @@
           "name": "decisionRefBinding",
           "isAttr": true,
           "type": "string",
-          "default": "latest"
+          "small": "latest"
         },
         {
           "name": "decisionRefVersion",
@@ -501,7 +501,7 @@
           "name": "mapDecisionResult",
           "isAttr": true,
           "type": "string",
-          "default": "resultList"
+          "small": "resultList"
         },
         {
           "name": "decisionRefTenantId",
@@ -997,7 +997,7 @@
           "isAttr": true
         },
         {
-          "name": "default",
+          "name": "small",
           "type": "string",
           "isAttr": true
         },

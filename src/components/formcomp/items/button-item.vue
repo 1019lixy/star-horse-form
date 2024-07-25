@@ -13,7 +13,7 @@
         :native-type="field?.preps['nativeType']"
         :plain="field?.preps['plain']=='Y'"
         :round="field?.preps['round']=='Y'"
-        :size="field?.preps['size']||'small'"
+        :size="context.attrs.formInfo?.size||field?.preps['size']||'small'"
         :text="field?.preps['text']=='Y'"
         @click="dynamicFunc(field?.preps['click'])"
         :type="field?.preps['type']">
@@ -28,7 +28,7 @@ export default defineComponent({
   components: {StarHorseIcon},
   setup(props, context) {
     const parentField = context.attrs["parentField"];
-    const formFieldList = context.attrs["formFieldList"] as any;
+
     const field = context.attrs["field"] as any;
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
@@ -42,12 +42,12 @@ export default defineComponent({
         func.call(this);
       } else {
         if (field.preps["actions"]) {
-          field.preps["actions"](context.attrs['formFieldList']);
+          field.preps["actions"](context.attrs['formData']);
         }
-        context.emit('selfFunc', context.attrs['formFieldList']);
+        context.emit('selfFunc', context.attrs['formData']);
       }
     };
-    return {parentField, formFieldList, dynamicFunc, context, field, formItem, dataField}
+    return {parentField,  dynamicFunc, context, field, formItem, dataField}
   }
 });
 </script>

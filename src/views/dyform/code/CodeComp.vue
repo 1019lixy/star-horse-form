@@ -12,7 +12,7 @@ let configStore = GlobalConfig(piniaInstance);
 let designForm = DesignForm(piniaInstance);
 let compList = computed(() => designForm.compList);
 let formInfo = computed(() => designForm.formInfo);
-let formFieldList = computed(() => designForm.formFieldList);
+let formData = computed(() => designForm.formData);
 let compSize = computed(() => configStore.configFormInfo?.buttonSize || "small");
 let tabName = ref<String>("vue3");
 let pageInfo = ref<any>({});
@@ -21,7 +21,7 @@ const init = async () => {
   dynameForm!["relations"] = (dynameForm["relations"] instanceof Array) ? JSON.stringify(dynameForm["relations"]) : dynameForm["relations"];
   dynameForm!["details"] = {};
   dynameForm!["details"]["content"] = JSON.stringify(compList.value);
-  dynameForm!["details"]["fieldNames"] = JSON.stringify(formFieldList.value);
+  dynameForm!["details"]["fieldNames"] = JSON.stringify(formData.value);
   await postRequest("/userdb-manage/userdb/dynamicForm/analysisFields", dynameForm).then((res: any) => {
     if (res.data.code != 0) {
       warning(res.data.cnMessage);

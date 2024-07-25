@@ -8,7 +8,7 @@ import {SearchParams} from "@/components/types/Params";
 export default defineComponent({
   setup(props, context) {
     const parentField = context.attrs["parentField"];
-    let formFieldList = context.attrs["formFieldList"] as any;
+    let formData = context.attrs["formData"] as any;
     const field = context.attrs["field"] as any;
     const starHorseTableCompRef = ref();
     const filterCondtion = field.preps["filterCondition"] as Array<SearchParams>;
@@ -74,7 +74,7 @@ export default defineComponent({
     };
     const keyEnterFun = (prep: any) => {
       if (prep == actionName.value && field.preps["actionRelation"]) {
-        field.preps["actionRelation"](context.attrs['formFieldList'][field.preps['name']], context.attrs['formFieldList']["xh"]);
+        field.preps["actionRelation"](context.attrs['formData'][field.preps['name']], context.attrs['formData']["xh"]);
       }
       context.emit('selfFunc', prep);
     };
@@ -110,13 +110,13 @@ export default defineComponent({
             value = value[0];
           }
           if (fields.length == 1) {
-            context.attrs['formFieldList'][name] = value;
+            context.attrs['formData'][name] = value;
           } else {
-            context.attrs['formFieldList'][temp.distField] = value;
+            context.attrs['formData'][temp.distField] = value;
           }
         });
       } else {
-        context.attrs['formFieldList'][name] = multipleSelection.value.map(item => item[name]);
+        context.attrs['formData'][name] = multipleSelection.value.map(item => item[name]);
       }
       if (field.preps["recall"]) {
         field.preps["recall"](multipleSelection.value);
@@ -130,7 +130,7 @@ export default defineComponent({
       }
     });
     return {
-      parentField, formFieldList, context, field, formItem,
+      parentField,  context, field, formItem,
       dataField, keyEnterFun, actionName, pageInfo, pageSizeClick, pageChangeClick
       , getRowIdentity, searchDataFun, handleSelectionChange, starHorseTableCompRef, selectRow
     }
@@ -154,13 +154,13 @@ export default defineComponent({
         :multiple-limit="field.preps['multipleLimit']"
         :name="field.preps['name']"
         :placeholder="field.preps['placeholder']||'请选择'+field.preps['label']"
-        :size="field?.preps['size']||'small'"
+        :size="context.attrs.formInfo?.size||field?.preps['size']||'small'"
         :tag-type="field.preps['tagType']"
         v-on:[actionName]="keyEnterFun(field.preps['actionName'])"
         @keydown.enter="keyEnterFun"
         @focus="keyEnterFun('focus')"
         @blur="keyEnterFun('blur')"
-        v-model="context.attrs['formFieldList'][field.preps['name']]">
+        v-model="context.attrs['formData'][field.preps['name']]">
       <template #empty="scope">
         <el-card>
           <!--          <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">-->

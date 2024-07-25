@@ -12,18 +12,18 @@ import {defineComponent, shallowRef} from "vue";
 export default defineComponent({
   setup(props, context) {
     const parentField = context.attrs["parentField"];
-    const formFieldList = context.attrs["formFieldList"] as any;
+
     const field = context.attrs["field"] as any;
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
-    context.attrs['formFieldList'][field.preps['name']] = field.preps['content'];
+    context.attrs['formData'][field.preps['name']] = field.preps['content'];
     const keyEnterFun = (prep: any) => {
       if (field.preps["actionRelation"]) {
-        field.preps["actionRelation"](context.attrs['formFieldList'][field.preps['name']], context.attrs['formFieldList']["xh"]);
+        field.preps["actionRelation"](context.attrs['formData'][field.preps['name']], context.attrs['formData']["xh"]);
       }
       context.emit('selfFunc', prep);
     };
-    return {parentField, formFieldList, context, field, formItem, dataField, keyEnterFun}
+    return {parentField,  context, field, formItem, dataField, keyEnterFun}
   }
 });
 </script>
