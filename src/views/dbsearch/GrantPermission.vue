@@ -45,7 +45,7 @@ const tableFieldList = reactive({
     },
     {
       label: "授权数据库", fieldName: "dbinfoSingle", type: "select", optionList: dbList,
-      required: true, formShow: !false,
+      required: true, formShow: true,
     },
     {
       label: "授权数据库", fieldName: "dbinfoRespDto['dbComment']", type: "select", optionList: dbList,
@@ -54,37 +54,37 @@ const tableFieldList = reactive({
     },
     {
       label: "被授权人账号", fieldName: "assignNo", type: "input",
-      required: true, formShow: !false,
-      tableShow: !false
+      required: true, formShow: true,
+      tableShow: true
     },
     {
       label: "授权类型", fieldName: "assignType", type: "select", optionList: assignType,
-      required: true, formShow: !false,
-      tableShow: !false
+      required: true, formShow: true,
+      tableShow: true
     },
     {
       label: "经办人", fieldName: "operator", type: "input",
-      tableShow: !false
+      tableShow: true
     },
     {
       label: "被授权人操作范围", fieldName: "operatorRange", type: "textarea",
-      required: true, formShow: !false,
-      tableShow: !false
+      required: true, formShow: true,
+      tableShow: true
     },
     {
       label: "授权描述", fieldName: "assginDesc", type: "textarea",
-      required: true, formShow: !false,
-      tableShow: !false
+      required: true, formShow: true,
+      tableShow: true
     },
     {
       label: "授权生效日期", fieldName: "effectiveDate", type: "date",
-      required: true, formShow: !false,
-      tableShow: !false
+      required: true, formShow: true,
+      tableShow: true
     },
     {
       label: "授权失效日期", fieldName: "expiredDate", type: "date",
-      required: true, formShow: !false,
-      tableShow: !false
+      required: true, formShow: true,
+      tableShow: true
     },
     {
       label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",

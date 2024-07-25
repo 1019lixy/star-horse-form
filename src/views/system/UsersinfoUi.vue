@@ -116,43 +116,43 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     [{
       label: "用户名", fieldName: "username", type: "input",
-      required: true, formShow: !false, disabled: "Y",
-      tableShow: !false
+      required: true, formShow: true, disabled: "Y",
+      tableShow: true
     }, {
       label: "员工编号", fieldName: "employeeNo", type: "input",
-      required: true, formShow: !false,
-      tableShow: !false
+      required: true, formShow: true,
+      tableShow: true
     }],
     [{
       label: "归属部门", fieldName: "deptList", type: "cascade", optionList: deptList,
-      required: true, formShow: !false, multiple: "Y",
-      tableShow: !false
+      required: true, formShow: true, multiple: "Y",
+      tableShow: true
     }, {
       label: "角色", fieldName: "rolesList", type: "select", optionList: rolesList,
-      required: true, formShow: !false, multiple: "Y",
-      tableShow: !false
+      required: true, formShow: true, multiple: "Y",
+      tableShow: true
     }],
     [
       {
         label: "邮箱地址", fieldName: "email", type: "input",
-        required: true, formShow: !false,
-        tableShow: !false
+        required: true, formShow: true,
+        tableShow: true
       },
       {
         label: "联系电话", fieldName: "phone", type: "input",
-        required: true, formShow: !false,
-        tableShow: !false
+        required: true, formShow: true,
+        tableShow: true
       }],
     [
       {
         label: "姓名", fieldName: "name", type: "input",
-        required: true, formShow: !false,
-        tableShow: !false
+        required: true, formShow: true,
+        tableShow: true
       },
       {
         label: "性别", fieldName: "sex", type: "select", optionList: sexList,
-        formShow: !false,
-        tableShow: !false
+        formShow: true,
+        tableShow: true
       }],
     /*
      {
@@ -160,8 +160,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     },
     {
       label: "学历", fieldName: "education", type: "select", optionList: educationList.value,
-       formShow: !false,
-      tableShow: !false
+       formShow: true,
+      tableShow: true
     },
     [{
       label: "入职时间", fieldName: "entryDate", type: "date",
@@ -171,23 +171,23 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       }],
     {
       label: "籍贯", fieldName: "nativePlace", type: "select", optionList: nativePlaceList.value,
-       formShow: !false,
-      tableShow: !false
+       formShow: true,
+      tableShow: true
     },
     {
       label: "政治面貌", fieldName: "politicalStatus", type: "select", optionList: politicalStatusList.value,
-       formShow: !false,
-      tableShow: !false
+       formShow: true,
+      tableShow: true
     },
     {
       label: "证件类型", fieldName: "identityType", type: "select", optionList: identityTypeList.value,
-       formShow: !false,
-      tableShow: !false
+       formShow: true,
+      tableShow: true
     },
     {
       label: "证件编号", fieldName: "identityNo", type: "input",
-       formShow: !false,
-      tableShow: !false
+       formShow: true,
+      tableShow: true
     },*/
     [{
       label: "状态", fieldName: "statusCode", type: "select",
@@ -196,13 +196,13 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     },
       {
         label: "通信地址", fieldName: "address", type: "input",
-        formShow: !false,
-        tableShow: !false
+        formShow: true,
+        tableShow: true
       }],
     {
       label: "备注", fieldName: "remark", type: "textarea",
-      formShow: !false,
-      tableShow: !false
+      formShow: true,
+      tableShow: true
     },
     {
       label: "证件照", fieldName: "imagePath", type: "input",

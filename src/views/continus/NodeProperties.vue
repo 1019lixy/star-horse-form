@@ -337,57 +337,57 @@
                   v-model="ruleForm.idNodeProperty"></el-input>
       </el-form-item>
       <el-form-item label="主键" prop="idContinusInst"
-                    required v-if="!false">
+                    required v-if="true">
         <el-input-number clearable placeholder="请输入主键"
                          v-model="ruleForm.idContinusInst"/>
       </el-form-item>
       <el-form-item label="名称" prop="nodeName"
-                    required v-if="!false">
+                    required v-if="true">
         <el-input clearable placeholder="请输入名称"
                   v-model="ruleForm.nodeName"></el-input>
       </el-form-item>
       <el-form-item label="列索引" prop="columnIndex"
-                    required v-if="!false">
+                    required v-if="true">
         <el-input-number clearable placeholder="请输入列索引"
                          v-model="ruleForm.columnIndex"/>
       </el-form-item>
       <el-form-item label="执行方式" prop="executionType"
-                    required v-if="!false">
+                    required v-if="true">
         <el-input-number clearable placeholder="请输入执行方式"
                          v-model="ruleForm.executionType"/>
       </el-form-item>
       <el-form-item label="程序语言" prop="language"
-                    required v-if="!false">
+                    required v-if="true">
         <el-input clearable placeholder="请输入程序语言"
                   v-model="ruleForm.language"></el-input>
       </el-form-item>
       <el-form-item label="项目编码" prop="charset"
-                    required v-if="!false">
+                    required v-if="true">
         <el-input clearable placeholder="请输入项目编码"
                   v-model="ruleForm.charset"></el-input>
       </el-form-item>
       <el-form-item label="源码相对目录" prop="codeDir"
-                    required v-if="!false">
+                    required v-if="true">
         <el-input clearable placeholder="请输入源码相对目录"
                   v-model="ruleForm.codeDir"></el-input>
       </el-form-item>
       <el-form-item label="执行失败通知" prop="failurReport"
-                    required v-if="!false">
+                    required v-if="true">
         <el-input clearable placeholder="请输入执行失败通知"
                   v-model="ruleForm.failurReport"></el-input>
       </el-form-item>
       <el-form-item label="执行成功通知" prop="successReport"
-                    required v-if="!false">
+                    required v-if="true">
         <el-input clearable placeholder="请输入执行成功通知"
                   v-model="ruleForm.successReport"></el-input>
       </el-form-item>
       <el-form-item label="自定义规则" prop="selfRules"
-                    required v-if="!false">
+                    required v-if="true">
         <el-input clearable placeholder="请输入自定义规则"
                   v-model="ruleForm.selfRules"></el-input>
       </el-form-item>
       <el-form-item label="行索引" prop="rowIndex"
-                    required v-if="!false">
+                    required v-if="true">
         <el-input-number clearable placeholder="请输入行索引"
                          v-model="ruleForm.rowIndex"/>
       </el-form-item>
@@ -429,7 +429,7 @@
                   v-model="ruleForm.statusName"></el-input>
       </el-form-item>
       <el-form-item label="状态编码" prop="statusCode"
-                    required v-if="!false">
+                    required v-if="true">
         <el-select placeholder="请选择状态编码" v-model="ruleForm.statusCode">
           <el-option
               :key="sitem.statusCode"

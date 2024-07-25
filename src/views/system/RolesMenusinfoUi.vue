@@ -67,14 +67,14 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       label: "系统名称",
       fieldName: "sysName",
       type: "input",
-      tableShow: !false,
+      tableShow: true,
     },
     {
       label: "菜单名称",
       fieldName: "menuName",
       type: "input",
       required: true,
-      tableShow: !false,
+      tableShow: true,
     },
     {
       label: "创建人", disabled: "Y",

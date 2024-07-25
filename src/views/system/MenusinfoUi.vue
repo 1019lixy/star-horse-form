@@ -65,22 +65,22 @@ const tableFieldList = reactive<PageFieldInfo>({
   },
     [{
       label: "菜单名称", fieldName: "menuName", type: "input",
-      required: true, formShow: !false,
-      tableShow: !false
+      required: true, formShow: true,
+      tableShow: true
     },
       {
         label: "菜单路径", fieldName: "menuPath", type: "input",
-        required: true, formShow: !false,
-        tableShow: !false
+        required: true, formShow: true,
+        tableShow: true
       }],
     [{
       label: "归属应用名称", fieldName: "informationsSingleId", type: "select", optionList: informationsList,
-      required: true, formShow: !false, disabled: "N",
-      tableShow: !false
+      required: true, formShow: true, disabled: "N",
+      tableShow: true
     },
       {
         label: "父菜单", fieldName: "parentNo", type: "tselect", optionList: parentMenus,
-        formShow: !false,
+        formShow: true,
         preps: {
           checkStrictly: "Y"
         }
@@ -88,28 +88,28 @@ const tableFieldList = reactive<PageFieldInfo>({
     {
       label: "菜单编码", fieldName: "menuCode", type: "input",
       required: true, disabled: "Y",
-      tableShow: !false
+      tableShow: true
     },
     [{
       label: "菜单图标", fieldName: "menuIcon", type: "icon", optionList: menuIconList,
-      required: true, formShow: !false,
-      tableShow: !false
+      required: true, formShow: true,
+      tableShow: true
     },
       {
         label: "排序", fieldName: "dataIndex", type: "number",
-        required: true, formShow: !false,
-        tableShow: !false
+        required: true, formShow: true,
+        tableShow: true
       },
       {
         label: "是否缓存页面", fieldName: "keepAlive", type: "switch",
         defaultValue: "Y",
-        formShow: !false,
-        tableShow: !false
+        formShow: true,
+        tableShow: true
       }],
     {
       label: "菜单描述", fieldName: "menuDesc", type: "textarea",
-      formShow: !false,
-      tableShow: !false
+      formShow: true,
+      tableShow: true
     },
     {
       label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",

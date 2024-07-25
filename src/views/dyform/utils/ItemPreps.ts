@@ -1,10 +1,10 @@
 import {nextTick, reactive, Ref, ref} from "vue";
-import {PageFieldInfo} from "@/components/types/PageFieldInfo";
+import {FieldInfo, PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {SelectOption} from "@/components/types/SearchProps";
 import {dictData, loadData, searchMatchList} from "@/api/sh_api.ts";
-import {FieldInfo} from "@/components/types/PageFieldInfo";
 import {ascOrDesc, dataType, httpMethod, validDataUrl} from "@/api/system.ts";
 import {error, success, warning} from "@/utils/message.ts";
+
 const helpMsg = `
     接口返回的数据格式必须是：
         {
@@ -18,13 +18,21 @@ const helpMsg = `
         "code": 0, //0 表示数据正常 
         "message": "success",
         "cnMessage": "操作成功"
+    }或者：
+    {
+        "data":  [ {} ],
+        "code": 0, //0 表示数据正常 
+        "message": "success",
+        "cnMessage": "操作成功"
     }
     `;
+
 /**
  * 验证接口
  * @param formProps
  * @param dataSourceRef
  * @param recall
+ * @param validForm
  */
 export async function validInterface(formProps: any, dataSourceRef: Ref<any>, recall: Function, validForm: boolean = true) {
     let flag = false;
@@ -102,36 +110,46 @@ export async function validInterface(formProps: any, dataSourceRef: Ref<any>, re
     }
     return flag;
 }
+
 /**
  * 创建数据
  * @param dataSourceRef
  * @param dataList
+ * @param needDynamicData
  */
-export function createData(dataSourceRef: any, dataList: any) {
+export function createData(dataSourceRef: any, dataList: any, needDynamicData: boolean = false) {
     let refName = dataSourceRef.value || dataSourceRef;
     let temp = refName.getFormData().value;
     let reDataList: SelectOption[] = [];
     let dataSource = temp['dataSource'];
     let errorMsg = "";
-    if (dataSource == "url") {
-        let element = dataList[0];
-        let keys = Object.keys(element);
-        if (!(keys.find(item => item == temp["selectLabel"]))) {
-            errorMsg = "验证失败\n【标签名字段】错误：" + JSON.stringify(keys);
-        } else if (!(keys.find(item => item == temp["selectValue"]))) {
-            errorMsg = "验证失败\n【标签值字段】错误：" + JSON.stringify(keys);
-        } else {
-            dataList.forEach((item: any) => {
-                reDataList.push({name: item[temp["selectLabel"]], value: item[temp["selectValue"]]});
-            })
-        }
-    } else {
+    if (dataSource == "data") {
         reDataList = dataList;
+    } else {
+        if (dataSource == "url") {
+            let element = dataList[0];
+            let keys = Object.keys(element);
+            if (!(keys.find(item => item == temp["selectLabel"]))) {
+                errorMsg = "验证失败\n【标签名字段】错误：" + JSON.stringify(keys);
+            } else if (!(keys.find(item => item == temp["selectValue"]))) {
+                errorMsg = "验证失败\n【标签值字段】错误：" + JSON.stringify(keys);
+            } else {
+                dataList.forEach((item: any) => {
+                    reDataList.push({name: item[temp["selectLabel"]], value: item[temp["selectValue"]]});
+                });
+            }
+        } else {
+            reDataList = dataList;
+        }
+        if (!needDynamicData) {
+            reDataList = [];
+        }
     }
     return {
         reDataList, errorMsg
     }
 }
+
 /**
  * 数据源属性配置
  */
@@ -156,16 +174,16 @@ export function dataSourceFields(dataSourceRef: Ref<any>, recall: Function) {
                 label: "表单属性",
                 fieldName: "label",
                 type: "text",
-                formShow: !false,
-                tableShow: !false,
+                formShow: true,
+                tableShow: true,
             },
                 {
                     label: "数据源类型",
                     fieldName: "dataSource",
                     type: "select",
                     required: true,
-                    formShow: !false,
-                    tableShow: !false,
+                    formShow: true,
+                    tableShow: true,
                     optionList: dataSourceList,
                     actionName: "change",
                     actions: (val: any) => {
@@ -193,8 +211,8 @@ export function dataSourceFields(dataSourceRef: Ref<any>, recall: Function) {
                 label: "验证",
                 fieldName: "validBtn",
                 type: "button",
-                formShow: !false,
-                tableShow: !false,
+                formShow: true,
+                tableShow: true,
                 actionName: "click",
                 actions: async (val: any) => {
                     await validInterface(val, dataSourceRef, (dataList: any, successMsg: string, errorMsg: string) => {
@@ -233,15 +251,15 @@ export function dataSourceFields(dataSourceRef: Ref<any>, recall: Function) {
                                 fieldName: "name",
                                 type: "input",
                                 required: dataRequired,
-                                formShow: !false,
-                                tableShow: !false,
+                                formShow: true,
+                                tableShow: true,
                             }, {
                                 label: "属性值",
                                 fieldName: "value",
                                 type: "input",
                                 required: dataRequired,
-                                formShow: !false,
-                                tableShow: !false,
+                                formShow: true,
+                                tableShow: true,
                             }]
                         }]
                     }, {
@@ -270,8 +288,8 @@ export function dataSourceFields(dataSourceRef: Ref<any>, recall: Function) {
                                     type: "select",
                                     required: urlRequired,
                                     defaultValue: "POST",
-                                    formShow: !false,
-                                    tableShow: !false,
+                                    formShow: true,
+                                    tableShow: true,
                                     optionList: httpMethod(),
                                     preps: {
                                         colSpan: 8
@@ -283,8 +301,8 @@ export function dataSourceFields(dataSourceRef: Ref<any>, recall: Function) {
                                 type: "select",
                                 optionList: fieldList,
                                 required: urlRequired,
-                                formShow: !false,
-                                tableShow: !false,
+                                formShow: true,
+                                tableShow: true,
                             },
                                 {
                                     label: "标签值字段",
@@ -292,8 +310,8 @@ export function dataSourceFields(dataSourceRef: Ref<any>, recall: Function) {
                                     type: "select",
                                     optionList: fieldList,
                                     required: urlRequired,
-                                    formShow: !false,
-                                    tableShow: !false,
+                                    formShow: true,
+                                    tableShow: true,
                                 }]],
                         batchFieldList: [
                             {
@@ -305,23 +323,23 @@ export function dataSourceFields(dataSourceRef: Ref<any>, recall: Function) {
                                     type: "select",
                                     optionList: fieldList,
                                     required: urlRequired,
-                                    formShow: !false,
-                                    tableShow: !false,
+                                    formShow: true,
+                                    tableShow: true,
                                 }, {
                                     label: "参数值",
                                     fieldName: "value",
                                     type: "input",
                                     required: urlRequired,
-                                    formShow: !false,
-                                    tableShow: !false,
+                                    formShow: true,
+                                    tableShow: true,
                                 }, {
                                     label: "匹配方式",
                                     fieldName: "matchType",
                                     type: "select",
                                     defaultValue: "eq",
                                     required: urlRequired,
-                                    formShow: !false,
-                                    tableShow: !false,
+                                    formShow: true,
+                                    tableShow: true,
                                     optionList: matchTypeList,
                                 },]
                             }]
@@ -335,8 +353,8 @@ export function dataSourceFields(dataSourceRef: Ref<any>, recall: Function) {
                                 fieldName: "urlOrDictName",
                                 type: "input",
                                 required: dictRequired,
-                                formShow: !false,
-                                tableShow: !false,
+                                formShow: true,
+                                tableShow: true,
                             }]
                         },
                     ],
@@ -344,12 +362,13 @@ export function dataSourceFields(dataSourceRef: Ref<any>, recall: Function) {
         ],
     });
 }
+
 /**
  * 组件参数属性配置
  * @param fieldName
  * @param item
  */
-export function paramsFields(fieldName: string, item: any, successMsg: Ref<any>, errorMsg: Ref<any>) {
+export function paramsFields(fieldName: string, item: any) {
     console.log(fieldName, item);
     let datas = [...item['advancedFields'], ...item['fields']];
     let currentData: Array<any> = [];
@@ -507,7 +526,7 @@ export function paramsFields(fieldName: string, item: any, successMsg: Ref<any>,
                 label: temp.label,
                 fieldName: temp.fieldName,
                 type: "input",
-                tableShow: !false,
+                tableShow: true,
             });
         }
     }
@@ -541,6 +560,7 @@ export function paramsFields(fieldName: string, item: any, successMsg: Ref<any>,
         fieldList: fields
     });
 }
+
 /**
  * 容器属性
  */
@@ -555,8 +575,8 @@ export function containerField(fieldName: string) {
                 fieldName: "label",
                 type: "input",
                 required: true,
-                formShow: !false,
-                tableShow: !false,
+                formShow: true,
+                tableShow: true,
             }, {
                 label: "主键",
                 fieldName: "tabName",
@@ -564,23 +584,23 @@ export function containerField(fieldName: string) {
                 当设置对应关系时,系统作为表的主键`,
                 type: "input",
                 required: true,
-                formShow: !false,
-                tableShow: !false,
+                formShow: true,
+                tableShow: true,
             }, {
                 label: "对象名字",
                 fieldName: "objectName",
                 type: "input",
                 required: true,
-                formShow: !false,
-                tableShow: !false,
+                formShow: true,
+                tableShow: true,
             }, {
                 label: "是否子表",
                 fieldName: "subFormFlag",
                 type: "switch",
                 defaultValue: "Y",
                 required: true,
-                formShow: !false,
-                tableShow: !false,
+                formShow: true,
+                tableShow: true,
             }]
         }]
     };
@@ -594,8 +614,8 @@ export function containerField(fieldName: string) {
                 fieldName: "colIndex",
                 type: "input",
                 required: true,
-                formShow: !false,
-                tableShow: !false,
+                formShow: true,
+                tableShow: true,
                 batchFieldList: [{
                     batchName: "columns",
                     batchDefaultData: {items: []},
@@ -605,8 +625,8 @@ export function containerField(fieldName: string) {
                         type: "number",
                         defaultValue: 24,
                         required: true,
-                        formShow: !false,
-                        tableShow: !false,
+                        formShow: true,
+                        tableShow: true,
                         actionName: "change",
                         preps: {
                             min: 1,

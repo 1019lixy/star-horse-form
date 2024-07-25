@@ -32,43 +32,43 @@ const tableFieldList = reactive({
     },
     {
       label: "数据库类型", fieldName: "dbType", type: "select", optionList: dbTypeList,
-      required: true, formShow: !false,
-      tableShow: !false
+      required: true, formShow: true,
+      tableShow: true
     },
     {
       label: "数据库地址", fieldName: "host", type: "input",
-      formShow: !false,
-      tableShow: !false
+      formShow: true,
+      tableShow: true
     },
     {
       label: "数据库名称", fieldName: "dbName", type: "input",
-      formShow: !false,
-      tableShow: !false
+      formShow: true,
+      tableShow: true
     },
     {
       label: "数据库端口", fieldName: "port", type: "number",
-      formShow: !false,
-      tableShow: !false
+      formShow: true,
+      tableShow: true
     },
     {
       label: "用户名", fieldName: "userName", type: "input",
-      formShow: !false,
-      tableShow: !false
+      formShow: true,
+      tableShow: true
     },
     {
       label: "密码", fieldName: "password", type: "password",
-      formShow: !false,
-      tableShow: !false
+      formShow: true,
+      tableShow: true
     },
     {
       label: "禁用操作权限", fieldName: "exclusions", type: "textarea",
-      formShow: !false,
-      tableShow: !false
+      formShow: true,
+      tableShow: true
     },
     {
       label: "数据库描述", fieldName: "dbComment", type: "textarea",
-      formShow: !false,
-      tableShow: !false
+      formShow: true,
+      tableShow: true
     },
     {
       label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",

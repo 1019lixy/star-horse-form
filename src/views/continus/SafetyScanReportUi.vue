@@ -267,32 +267,32 @@
                   v-model="ruleForm.idSafetyReport"></el-input>
       </el-form-item>
       <el-form-item label="主键" prop="idNodeProperty"
-                    required v-if="!false">
+                    required v-if="true">
         <el-input-number clearable placeholder="请输入主键"
                          v-model="ruleForm.idNodeProperty"/>
       </el-form-item>
       <el-form-item label="致命总数" prop="blocker"
-                    required v-if="!false">
+                    required v-if="true">
         <el-input-number clearable placeholder="请输入致命总数"
                          v-model="ruleForm.blocker"/>
       </el-form-item>
       <el-form-item label="严重总数" prop="critical"
-                    required v-if="!false">
+                    required v-if="true">
         <el-input-number clearable placeholder="请输入严重总数"
                          v-model="ruleForm.critical"/>
       </el-form-item>
       <el-form-item label="中度总数" prop="major"
-                    required v-if="!false">
+                    required v-if="true">
         <el-input-number clearable placeholder="请输入中度总数"
                          v-model="ruleForm.major"/>
       </el-form-item>
       <el-form-item label="轻微总数" prop="minor"
-                    required v-if="!false">
+                    required v-if="true">
         <el-input-number clearable placeholder="请输入轻微总数"
                          v-model="ruleForm.minor"/>
       </el-form-item>
       <el-form-item label="详情地址" prop="detailUrls"
-                    required v-if="!false">
+                    required v-if="true">
         <el-input clearable placeholder="请输入详情地址"
                   v-model="ruleForm.detailUrls"></el-input>
       </el-form-item>
@@ -334,7 +334,7 @@
                   v-model="ruleForm.statusName"></el-input>
       </el-form-item>
       <el-form-item label="状态编码" prop="statusCode"
-                    required v-if="!false">
+                    required v-if="true">
         <el-select placeholder="请选择状态编码" v-model="ruleForm.statusCode">
           <el-option
               :key="sitem.statusCode"

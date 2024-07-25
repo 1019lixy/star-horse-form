@@ -30,23 +30,23 @@ const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
       label: "区域主键", fieldName: "idAreainfo", type: "long",
-      formShow: !false,
-      tableShow: !false
+      formShow: true,
+      tableShow: true
     },
     {
       label: "区域名称", fieldName: "areaName", type: "input",
-      formShow: !false,
-      tableShow: !false
+      formShow: true,
+      tableShow: true
     },
     {
       label: "区域编码", fieldName: "areaCode", type: "input",
-      formShow: !false,
-      tableShow: !false
+      formShow: true,
+      tableShow: true
     },
     {
       label: "父节点编号", fieldName: "parentNo", type: "input",
-      formShow: !false,
-      tableShow: !false
+      formShow: true,
+      tableShow: true
     },
     {
       label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",

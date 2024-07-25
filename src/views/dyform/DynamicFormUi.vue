@@ -56,73 +56,73 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     },
     {
       label: "表单名称", fieldName: "formName", type: "input",
-      formShow: !false,
-      tableShow: !false
+      formShow: true,
+      tableShow: true
     },
     {
       label: "标签长度", fieldName: "labelWidth", type: "input",
-      formShow: !false,
-      tableShow: !false
+      formShow: true,
+      tableShow: true
     },
     {
       label: "标签位置", fieldName: "labelPosition", type: "input",
-      formShow: !false,
-      tableShow: !false
+      formShow: true,
+      tableShow: true
     },
     {
       label: "表单域标签的后缀", fieldName: "labelSuffix", type: "input",
-      formShow: !false,
-      tableShow: !false
+      formShow: true,
+      tableShow: true
     },
     {
       label: "表单验证规则名称", fieldName: "rules", type: "input",
-      formShow: !false,
-      tableShow: !false
+      formShow: true,
+      tableShow: true
     },
     {
       label: "行内表单模式", fieldName: "inline", type: "input",
-      formShow: !false,
-      tableShow: !false
+      formShow: true,
+      tableShow: true
     },
     {
       label: "是否禁用该表单内的所有组件", fieldName: "disabled", type: "input",
-      formShow: !false,
-      tableShow: !false
+      formShow: true,
+      tableShow: true
     },
     {
       label: "是否隐藏必填字段标签旁边的红色星号", fieldName: "hideRequiredAsterisk", type: "input",
-      formShow: !false,
-      tableShow: !false
+      formShow: true,
+      tableShow: true
     },
     {
       label: "当校验失败时，滚动到第一个错误表单项", fieldName: "scrolToError", type: "input",
-      formShow: !false,
-      tableShow: !false
+      formShow: true,
+      tableShow: true
     },
     {
       label: "星号的位置", fieldName: "requireAsteriskPosition", type: "input",
-      formShow: !false,
-      tableShow: !false
+      formShow: true,
+      tableShow: true
     },
     {
       label: "是否在输入框中显示校验结果反馈图标", fieldName: "statusIcon", type: "input",
-      formShow: !false,
-      tableShow: !false
+      formShow: true,
+      tableShow: true
     },
     {
       label: "是否显示校验错误信息", fieldName: "showMessage", type: "input",
-      formShow: !false,
-      tableShow: !false
+      formShow: true,
+      tableShow: true
     },
     {
       label: "是否以行内形式展示校验信息", fieldName: "inlineMessage", type: "input",
-      formShow: !false,
-      tableShow: !false
+      formShow: true,
+      tableShow: true
     },
     {
       label: "是否在 rules 属性改变后立即触发一次验证", fieldName: "validateOnRuleChange", type: "input",
-      formShow: !false,
-      tableShow: !false
+      formShow: true,
+      tableShow: true
     },
     {
       label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",

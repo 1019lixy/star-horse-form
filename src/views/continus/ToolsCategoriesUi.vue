@@ -239,22 +239,22 @@
                   v-model="ruleForm.idToolCategory"></el-input>
       </el-form-item>
       <el-form-item label="工具名称" prop="toolName"
-                    required v-if="!false">
+                    required v-if="true">
         <el-input clearable placeholder="请输入工具名称"
                   v-model="ruleForm.toolName"></el-input>
       </el-form-item>
       <el-form-item label="工具编码" prop="toolCode"
-                    required v-if="!false">
+                    required v-if="true">
         <el-input clearable placeholder="请输入工具编码"
                   v-model="ruleForm.toolCode"></el-input>
       </el-form-item>
       <el-form-item label="工具描述" prop="toolDesc"
-                    required v-if="!false">
+                    required v-if="true">
         <el-input clearable placeholder="请输入工具描述"
                   v-model="ruleForm.toolDesc"></el-input>
       </el-form-item>
       <el-form-item label="发行版本" prop="toolVersion"
-                    required v-if="!false">
+                    required v-if="true">
         <el-input clearable placeholder="请输入发行版本"
                   v-model="ruleForm.toolVersion"></el-input>
       </el-form-item>
@@ -296,7 +296,7 @@
                   v-model="ruleForm.statusName"></el-input>
       </el-form-item>
       <el-form-item label="状态编码" prop="statusCode"
-                    required v-if="!false">
+                    required v-if="true">
         <el-select placeholder="请选择状态编码" v-model="ruleForm.statusCode">
           <el-option
               :key="sitem.statusCode"

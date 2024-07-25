@@ -45,43 +45,43 @@ const tableFieldList = reactive<PageFieldInfo>({
     },
     {
       label: "上级系统", fieldName: "parentId", type: "select", optionList: informationsList,
-      formShow: !false,
+      formShow: true,
       actionName: "change",
       actions: testFun
     },
     [{
       label: "系统名称", fieldName: "sysName", type: "input",
-      required: true, formShow: !false,
-      tableShow: !false
+      required: true, formShow: true,
+      tableShow: true
     },
       {
         label: "归属主体", fieldName: "idCustomer", type: "select", optionList: customerList,
-        required: true, formShow: !false,
-        tableShow: !false
+        required: true, formShow: true,
+        tableShow: true
       }],
     /* {
        label: "归属主体", fieldName: "customer['customerName']", type: "select",
        required: true,
-       tableShow: !false
+       tableShow: true
      },*/
     {
       label: "系统编码", fieldName: "sysCode", type: "input",
       required: true, disabled: "Y",
-      tableShow: !false
+      tableShow: true
     },
     [{
       label: "系统Logo", fieldName: "sysLogo", type: "icon", optionList: systemIconList,
-      formShow: !false,
-      tableShow: !false
+      formShow: true,
+      tableShow: true
     }, {
       label: "数据排序", fieldName: "dataSort", type: "number",
-      formShow: !false,
-      tableShow: !false
+      formShow: true,
+      tableShow: true
     },],
     {
       label: "系统描述", fieldName: "sysDesc", type: "textarea",
-      formShow: !false,
-      tableShow: !false, actionName: "input", actions: testFun
+      formShow: true,
+      tableShow: true, actionName: "input", actions: testFun
     },
     {
       label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",

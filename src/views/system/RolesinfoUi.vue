@@ -62,8 +62,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     },
     {
       label: "角色名称", fieldName: "roleName", type: "input",
-      required: true, formShow: !false,
-      tableShow: !false
+      required: true, formShow: true,
+      tableShow: true
     },
     /*    {
           label: "归属部门", fieldName: "idDepartment", type: "select", optionList: departmentList,
@@ -79,13 +79,13 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     },
     {
       label: "角色类型", fieldName: "roleType", type: "select", optionList: roleTypes,
-      required: true, formShow: !false,
-      tableShow: !false
+      required: true, formShow: true,
+      tableShow: true
     },
     {
       label: "会话超时时间", fieldName: "sessionTimeOut", type: "select", optionList: sessionTimeOut,
-      required: true, formShow: !false, defaultValue: 30,
-      tableShow: !false
+      required: true, formShow: true, defaultValue: 30,
+      tableShow: true
     },
     [{
       label: "系统权限", fieldName: "appsList", type: "select", optionList: systemList,
@@ -97,8 +97,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       }],
     {
       label: "角色描述", fieldName: "roleDesc", type: "textarea",
-      formShow: !false,
-      tableShow: !false
+      formShow: true,
+      tableShow: true
     },
     {
       label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",

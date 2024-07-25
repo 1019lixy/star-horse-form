@@ -61,24 +61,24 @@ const tableFieldList = reactive<PageFieldInfo>({
       helpMsg: `该属性为空表示生成所有数据库表的代码,
 如果表数量太多（>100），程序自动转异步执行，
 有构建失败风险.`,
-      formShow: !false,
+      formShow: true,
     },
     {
       label: "需要排除的表", fieldName: "excludesList",
       type: "select",
       multiple: "Y",
       optionList: tableInfoList,
-      formShow: !false,
-      tableShow: !false
+      formShow: true,
+      tableShow: true
     },
     [{
       label: "去除表前缀", fieldName: "prefixesStr", type: "input",
       aliasName: "prefixes",
-      formShow: !false,
+      formShow: true,
       helpMsg: `如果该属性为空，所生成的文件会带上表前缀，
 eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
 多个前缀请用英文分号（;）隔开。`,
-      tableShow: !false
+      tableShow: true
     },
       {
         label: "包名", fieldName: "packageName", type: "input",

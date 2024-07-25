@@ -253,27 +253,27 @@
                   v-model="ruleForm.idToolConfig"></el-input>
       </el-form-item>
       <el-form-item label="主键" prop="idToolCategory"
-                    required v-if="!false">
+                    required v-if="true">
         <el-input-number clearable placeholder="请输入主键"
                          v-model="ruleForm.idToolCategory"/>
       </el-form-item>
       <el-form-item label="部署地址" prop="deployHost"
-                    required v-if="!false">
+                    required v-if="true">
         <el-input clearable placeholder="请输入部署地址"
                   v-model="ruleForm.deployHost"></el-input>
       </el-form-item>
       <el-form-item label="端口" prop="deployPort"
-                    required v-if="!false">
+                    required v-if="true">
         <el-input clearable placeholder="请输入端口"
                   v-model="ruleForm.deployPort"></el-input>
       </el-form-item>
       <el-form-item label="管理员账号" prop="adminAccount"
-                    required v-if="!false">
+                    required v-if="true">
         <el-input clearable placeholder="请输入管理员账号"
                   v-model="ruleForm.adminAccount"></el-input>
       </el-form-item>
       <el-form-item label="管理员密码" prop="adminSecurity"
-                    required v-if="!false">
+                    required v-if="true">
         <el-input clearable placeholder="请输入管理员密码"
                   v-model="ruleForm.adminSecurity"></el-input>
       </el-form-item>
@@ -315,7 +315,7 @@
                   v-model="ruleForm.statusName"></el-input>
       </el-form-item>
       <el-form-item label="状态编码" prop="statusCode"
-                    required v-if="!false">
+                    required v-if="true">
         <el-select placeholder="请选择状态编码" v-model="ruleForm.statusCode">
           <el-option
               :key="sitem.statusCode"

@@ -29,22 +29,22 @@ const tableFieldList = reactive({
       label: "主键", fieldName: "defineId", type: "long",
     }, [{
       label: "流程名称", fieldName: "flowName", type: "input",
-      required: true, formShow: !false,
-      tableShow: !false
+      required: true, formShow: true,
+      tableShow: true
     },
       {
         label: "流程Id", fieldName: "flowId", type: "input",
-        formShow: !false,
-        tableShow: !false
+        formShow: true,
+        tableShow: true
       }],
     [{
       label: "流程定义Xml文件", fieldName: "flowXml", type: "number",
-      formShow: !false,
-      tableShow: !false
+      formShow: true,
+      tableShow: true
     }, {
       label: "流程定义图片", fieldName: "flowSvg", type: "number",
-      formShow: !false,
-      tableShow: !false
+      formShow: true,
+      tableShow: true
     }],
     {
       label: "备注", fieldName: "remark", type: "textarea",

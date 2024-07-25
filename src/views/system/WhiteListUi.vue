@@ -32,13 +32,13 @@ const tableFieldList = reactive<PageFieldInfo>({
     },
     {
       label: "过滤类型", fieldName: "whiteType", type: "select", optionList: typeList,
-      required: true, formShow: !false,
-      tableShow: !false
+      required: true, formShow: true,
+      tableShow: true
     },
     {
       label: "过滤内容", fieldName: "whiteName", type: "input",
-      required: true, formShow: !false,
-      tableShow: !false
+      required: true, formShow: true,
+      tableShow: true
     },
     {
       label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
@@ -76,8 +76,8 @@ const tableFieldList = reactive<PageFieldInfo>({
     },
     {
       label: "备注", fieldName: "remark", type: "textarea",
-      formShow: !false,
-      tableShow: !false
+      formShow: true,
+      tableShow: true
     },
   ],
   batchFieldList: []

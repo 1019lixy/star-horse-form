@@ -33,27 +33,27 @@ const tableFieldList = reactive<PageFieldInfo>({
     },
     {
       label: "上级部门", fieldName: "parentDeptList", type: "cascade", optionList: departmentList,
-      formShow: !false,
+      formShow: true,
     },
     {
       label: "部门名称", fieldName: "deptName", type: "input",
-      required: true, formShow: !false,
-      tableShow: !false
+      required: true, formShow: true,
+      tableShow: true
     },
     {
       label: "部门编码", fieldName: "deptCode", type: "input",
       required: true, disabled: "Y",
-      tableShow: !false
+      tableShow: true
     },
     {
       label: "部门电话", fieldName: "deptPhone", type: "input",
-      formShow: !false,
-      tableShow: !false
+      formShow: true,
+      tableShow: true
     },
     {
       label: "部门描述", fieldName: "deptDesc", type: "textarea",
-      formShow: !false,
-      tableShow: !false
+      formShow: true,
+      tableShow: true
     },
     {
       label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",

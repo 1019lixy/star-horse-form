@@ -57,11 +57,11 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     [{
       label: "工号", fieldName: "employeeNo", type: "input",
-      formShow: !false, disabled: "Y",
+      formShow: true, disabled: "Y",
     },
       {
         label: "用户名", fieldName: "username", type: "input",
-        formShow: !false, disabled: "Y",
+        formShow: true, disabled: "Y",
       }],
     {
       label: "联系电话", fieldName: "phone", type: "input",

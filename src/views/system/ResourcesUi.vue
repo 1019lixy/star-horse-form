@@ -41,28 +41,28 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     },
     [{
       label: "所属系统", fieldName: "informationsSingleId", type: "select", optionList: systemInfoList,
-      required: true, formShow: !false, disabled: "Y",
-      tableShow: !false
+      required: true, formShow: true, disabled: "Y",
+      tableShow: true
     },
       {
         label: "角色名称", fieldName: "rolesList", type: "select", optionList: rolesList,
-        required: true, formShow: !false, multiple: "Y",
-        tableShow: !false
+        required: true, formShow: true, multiple: "Y",
+        tableShow: true
       }],
     [{
       label: "菜单名称", fieldName: "menusList", type: "tselect", optionList: menusList,
-      required: true, formShow: !false, multiple: "Y",
-      tableShow: !false
+      required: true, formShow: true, multiple: "Y",
+      tableShow: true
     },
       {
         label: "权限", fieldName: "resourcesPos", type: "select", optionList: authorityList,
-        required: true, formShow: !false, multiple: "Y",
-        tableShow: !false
+        required: true, formShow: true, multiple: "Y",
+        tableShow: true
       }],
     {
       label: "备注", fieldName: "remark", type: "textarea",
-      formShow: !false,
-      tableShow: !false
+      formShow: true,
+      tableShow: true
     },
     {
       label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",

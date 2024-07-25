@@ -63,8 +63,8 @@ let dataFieldInfo = ref<PageFieldInfo>({
       fieldName: "containerType",
       type: "select",
       optionList: containerTypeList,
-      formShow: !false,
-      tableShow: !false,
+      formShow: true,
+      tableShow: true,
       actionNames: "change",
       actions: (val) => containerTypeOperation(val)
     }, {
@@ -72,8 +72,8 @@ let dataFieldInfo = ref<PageFieldInfo>({
       fieldName: "columns",
       type: "number",
       helpMsg: "一行展示几列,展示方式为栅格时有效",
-      formShow: !false,
-      tableShow: !false,
+      formShow: true,
+      tableShow: true,
       disabled: columnsContr,
       defaultValue: configData.value.columns,
       preps: {
@@ -89,8 +89,8 @@ let dataFieldInfo = ref<PageFieldInfo>({
       type: "select",
       multiple: "Y",
       optionList: selectFields,
-      formShow: !false,
-      tableShow: !false,
+      formShow: true,
+      tableShow: true,
     },
     {
       batchFieldList: [
@@ -103,15 +103,15 @@ let dataFieldInfo = ref<PageFieldInfo>({
             fieldName: "fieldName",
             type: "select",
             optionList: selectFields,
-            formShow: !false,
-            tableShow: !false,
+            formShow: true,
+            tableShow: true,
           }, {
             label: "组件类型",
             fieldName: "fieldType",
             type: "select",
             optionList: allFormDataList,
-            formShow: !false,
-            tableShow: !false,
+            formShow: true,
+            tableShow: true,
           }]
         }
       ]

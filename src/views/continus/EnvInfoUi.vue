@@ -30,48 +30,48 @@ const tableFieldList = reactive({
       label: "主键", fieldName: "idEnvInfo", type: "long",
     }, {
       label: "环境名称", fieldName: "envName", type: "input",
-      required: true, formShow: !false,
-      tableShow: !false
+      required: true, formShow: true,
+      tableShow: true
     },
     [{
       label: "环境编码", fieldName: "nevCode", type: "input",
-      formShow: !false,
-      tableShow: !false
+      formShow: true,
+      tableShow: true
     },
       {
         label: "环境地址", fieldName: "envHose", type: "number",
-        formShow: !false,
-        tableShow: !false
+        formShow: true,
+        tableShow: true
       }],
     [{
       label: "环境端口", fieldName: "envPort", type: "input",
-      required: true, formShow: !false,
-      tableShow: !false
+      required: true, formShow: true,
+      tableShow: true
     },
       {
         label: "初始空间大小", fieldName: "envInitSpace", type: "input",
-        required: true, formShow: !false,
-        tableShow: !false
+        required: true, formShow: true,
+        tableShow: true
       }],
     [{
       label: "已使用空间大小", fieldName: "envUsedSpace", type: "input",
-      required: true, formShow: !false,
-      tableShow: !false
+      required: true, formShow: true,
+      tableShow: true
     },
       {
         label: "程序语言", fieldName: "language", type: "input",
-        required: true, formShow: !false,
-        tableShow: !false
+        required: true, formShow: true,
+        tableShow: true
       }],
     [{
       label: "失效日期", fieldName: "expirationDate", type: "input",
-      formShow: !false,
-      tableShow: !false
+      formShow: true,
+      tableShow: true
     },
       {
         label: "生效时间", fieldName: "effectiveDate", type: "input",
-        formShow: !false,
-        tableShow: !false
+        formShow: true,
+        tableShow: true
       }],
     {
       label: "备注", fieldName: "remark", type: "textarea",

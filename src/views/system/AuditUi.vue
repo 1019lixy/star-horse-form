@@ -36,18 +36,18 @@ const tableFieldList = reactive<PageFieldInfo>({
     },
     {
       label: "操作人", fieldName: "operator", type: "input",
-      formShow: !false,
-      tableShow: !false
+      formShow: true,
+      tableShow: true
     },
     {
       label: "操作接口", fieldName: "signature", type: "input",
-      formShow: !false,
-      tableShow: !false
+      formShow: true,
+      tableShow: true
     },
     {
       label: "操作内容", fieldName: "operContent", type: "input",
-      formShow: !false,
-      tableShow: !false
+      formShow: true,
+      tableShow: true
     },
     {
       label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
@@ -81,18 +81,18 @@ const tableFieldList = reactive<PageFieldInfo>({
     },
     {
       label: "接口地址", fieldName: "url", type: "input",
-      formShow: !false,
-      tableShow: !false
+      formShow: true,
+      tableShow: true
     },
     {
       label: "备注", fieldName: "remark", type: "input",
-      formShow: !false,
-      tableShow: !false
+      formShow: true,
+      tableShow: true
     },
     {
       label: "请求方法", fieldName: "requestMethod", type: "input",
-      formShow: !false,
-      tableShow: !false
+      formShow: true,
+      tableShow: true
     },
   ],
   cellEditable: false

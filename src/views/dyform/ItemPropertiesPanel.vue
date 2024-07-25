@@ -1,7 +1,6 @@
 <script setup lang="ts" name="ItemPropertiesPanel">
-import {computed, nextTick, onMounted, reactive, ref, unref, watch} from 'vue'
-import {dictData, rowClassName, searchMatchList} from "@/api/sh_api";
-import type {FormRules} from 'element-plus'
+import {computed, nextTick, onMounted, ref, unref, watch} from 'vue'
+import {rowClassName, searchMatchList} from "@/api/sh_api";
 import {SelectOption} from "@/components/types/SearchProps";
 import StarHorseEditor from "@/components/comp/StarHorseEditor.vue";
 import StarHorseForm from "@/components/comp/StarHorseForm.vue";
@@ -14,8 +13,8 @@ import {
 } from "@/views/dyform/utils/ItemPreps.ts";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
-import {validDataUrl} from "@/api/system.ts";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
+import {error, success} from "@/utils/message.ts";
 let designForm = DesignForm(piniaInstance);
 let formDataList = computed(() => designForm.formDataList);
 let containerList = computed(() => designForm.containerList);
@@ -42,26 +41,8 @@ let fieldName = ref<string>('');
 const codeCompRef = ref<any>(null);
 const dataSourceFormRef = ref<any>(null);
 const paramsConfigRef = ref<any>(null);
-let validErrorMsg = ref<string>();
-let validSuccessMsg = ref<string>();
-const urlValid = (rule: any, value: any, callback: any) => {
-  if (!value) {
-    callback(new Error("必填项不能为空"));
-  }
-  let temp = unref(formProps);
-  let dataSource = temp['dataSource'];
-  let requestType = temp['requestType'];
-  let values = temp['values'] as string;
-  if (dataSource == "url" && !checkHttpUrl(values)) {
-    callback(new Error("非法接口地址"));
-  }
-  callback();
-};
 //-----------------------数据源相关属性---------------------
 let matchTypeList = ref<SelectOption[]>();
-onMounted(() => {
-  matchTypeList.value = searchMatchList();
-})
 const jsButtonClick = (name: string) => {
   jsEditor.value = !jsEditor.value;
   if (!Object.keys(formProps.value).includes(name)) {
@@ -72,33 +53,20 @@ const jsButtonClick = (name: string) => {
   jsValue.value = formProps.value[name];
 };
 // let fieldName = ref<String>("");
-const configParams = async (params: object) => {
+const configParams = async (params: any) => {
   fieldName.value = params["fieldName"];
   paramsDialogVisible.value = true;
   await nextTick();
   paramsConfigRef.value.setDataForm(formProps.value);
 }
-/**
- * 验证是否url
- * @param url
- */
-const checkHttpUrl = (url: string): boolean => {
-  let givenURL;
-  try {
-    givenURL = new URL(url);
-  } catch (error) {
-    console.log("error is", error)
-    return false;
-  }
-  return givenURL.protocol === "http:" || givenURL.protocol === "https:";
-}
 const submitValid = async () => {
-  await validInterface(formProps, dataSourceFormRef, (dataList: any, successMsg: string, errorMsg: string) => {
-    validSuccessMsg.value = successMsg;
-    validErrorMsg.value = errorMsg;
-    if (!validErrorMsg.value) {
+  await validInterface(formProps, dataSourceFormRef, (dataList: any, _successMsg: string, errorMsg: string) => {
+    if (!errorMsg) {
+      //只保存静态数据,
       formProps.value["values"] = createData(dataSourceFormRef, dataList).reDataList;
       closeAction();
+    } else {
+      error(errorMsg);
     }
   });
 };
@@ -142,13 +110,6 @@ const paramsValid = async () => {
   })
   closeAction();
 };
-const merge = () => {
-  let code = unref(codeCompRef).exportCode();
-  let eventName = unref(codeCompRef).eventName;
-  jsEditor.value = false;
-  formProps.value[eventName] = code;
-  // console.log(code, eventName);
-};
 const resetForm = () => {
 };
 const resetDataSourceForm = () => {
@@ -169,9 +130,9 @@ const closeAction = () => {
 };
 /**
  * 数据源操作框
- * @param type
+ * @param _type
  */
-const dataSource = async (type: string) => {
+const dataSource = async (_type: string) => {
   dataSourceDialogVisible.value = true;
   await nextTick();
   dataSourceFormRef.value.setDataForm(formProps.value);
@@ -229,14 +190,14 @@ const assignValue = (temp: any) => {
 let dataList = ref<SelectOption[]>([]);
 const recall = (options: SelectOption[], successMsg: string, errorMsg: string) => {
   dataList.value = options;
-  validSuccessMsg.value = successMsg;
-  validErrorMsg.value = errorMsg;
-  setTimeout(() => {
-    validErrorMsg.value = "";
-    validSuccessMsg.value = "";
-  }, 5000)
+  if (successMsg) {
+    success(successMsg);
+  }
+  if (errorMsg) {
+    error(errorMsg);
+  }
 }
-const handelAddItem = (row: any) => {
+const handelAddItem = (_row: any) => {
   if (!formProps.value.values) {
     formProps.value["values"] = [];
   }
@@ -251,8 +212,11 @@ const handelDeleteItem = (row: any) => {
     }
   }
 };
+onMounted(() => {
+  matchTypeList.value = searchMatchList();
+});
 watch(() => formProps,
-    (val: any) => {
+    (_val: any) => {
       assignPrep(currentItemType.value, parentCompType.value == "item");
     }, {
       immediate: true,

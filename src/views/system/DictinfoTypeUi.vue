@@ -34,18 +34,18 @@ const tableFieldList = reactive<PageFieldInfo>({
     },
     {
       label: "字典类型名称", fieldName: "dictTypeName", type: "input",
-      required: true, formShow: !false,
-      tableShow: !false
+      required: true, formShow: true,
+      tableShow: true
     },
     {
       label: "字典类型编码", fieldName: "dictTypeCode", type: "input",
-      required: true, formShow: !false,
-      tableShow: !false
+      required: true, formShow: true,
+      tableShow: true
     },
     {
       label: "备注", fieldName: "remark", type: "textarea",
-      formShow: !false,
-      tableShow: !false
+      formShow: true,
+      tableShow: true
     },
     {
       label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",

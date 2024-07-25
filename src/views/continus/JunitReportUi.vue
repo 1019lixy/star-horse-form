@@ -383,76 +383,76 @@
                   v-model="ruleForm.idJunitReport"></el-input>
       </el-form-item>
       <el-form-item label="主键" prop="idNodeProperty"
-                    required v-if="!false">
+                    required v-if="true">
         <el-input-number clearable placeholder="请输入主键"
                          v-model="ruleForm.idNodeProperty"/>
       </el-form-item>
       <el-form-item label="类覆盖率" prop="classCoverRate"
-                    required v-if="!false">
+                    required v-if="true">
         <el-input-number :precision="4" :step="0.1" clearable
                          placeholder="请输入类覆盖率"
                          v-model="ruleForm.classCoverRate"/>
       </el-form-item>
       <el-form-item label="类总数" prop="classNums"
-                    required v-if="!false">
+                    required v-if="true">
         <el-input-number clearable placeholder="请输入类总数"
                          v-model="ruleForm.classNums"/>
       </el-form-item>
       <el-form-item label="类覆盖数" prop="classCoverNums"
-                    required v-if="!false">
+                    required v-if="true">
         <el-input-number clearable placeholder="请输入类覆盖数"
                          v-model="ruleForm.classCoverNums"/>
       </el-form-item>
       <el-form-item label="方法覆盖率" prop="methodCoverRate"
-                    required v-if="!false">
+                    required v-if="true">
         <el-input-number :precision="4" :step="0.1" clearable
                          placeholder="请输入方法覆盖率"
                          v-model="ruleForm.methodCoverRate"/>
       </el-form-item>
       <el-form-item label="方法总数" prop="methodNums"
-                    required v-if="!false">
+                    required v-if="true">
         <el-input-number clearable placeholder="请输入方法总数"
                          v-model="ruleForm.methodNums"/>
       </el-form-item>
       <el-form-item label="方法覆盖数" prop="methodCoverNums"
-                    required v-if="!false">
+                    required v-if="true">
         <el-input-number clearable placeholder="请输入方法覆盖数"
                          v-model="ruleForm.methodCoverNums"/>
       </el-form-item>
       <el-form-item label="行覆盖率" prop="lineCoverRate"
-                    required v-if="!false">
+                    required v-if="true">
         <el-input-number :precision="4" :step="0.1" clearable
                          placeholder="请输入行覆盖率"
                          v-model="ruleForm.lineCoverRate"/>
       </el-form-item>
       <el-form-item label="行总数" prop="lineNums"
-                    required v-if="!false">
+                    required v-if="true">
         <el-input-number clearable placeholder="请输入行总数"
                          v-model="ruleForm.lineNums"/>
       </el-form-item>
       <el-form-item label="行覆盖数" prop="lineCoverNums"
-                    required v-if="!false">
+                    required v-if="true">
         <el-input-number clearable placeholder="请输入行覆盖数"
                          v-model="ruleForm.lineCoverNums"/>
       </el-form-item>
       <el-form-item label="分支覆盖率" prop="branchCoverRate"
-                    required v-if="!false">
+                    required v-if="true">
         <el-input-number :precision="4" :step="0.1" clearable
                          placeholder="请输入分支覆盖率"
                          v-model="ruleForm.branchCoverRate"/>
       </el-form-item>
       <el-form-item label="分支总数" prop="branchNums"
-                    required v-if="!false">
+                    required v-if="true">
         <el-input-number clearable placeholder="请输入分支总数"
                          v-model="ruleForm.branchNums"/>
       </el-form-item>
       <el-form-item label="分支覆盖数" prop="branchCoverNums"
-                    required v-if="!false">
+                    required v-if="true">
         <el-input-number clearable placeholder="请输入分支覆盖数"
                          v-model="ruleForm.branchCoverNums"/>
       </el-form-item>
       <el-form-item label="测试报告类型 1 权利覆盖报告，2变更覆盖报告" prop="reportType"
-                    required v-if="!false">
+                    required v-if="true">
         <el-input-number clearable placeholder="请输入测试报告类型 1 权利覆盖报告，2变更覆盖报告"
                          v-model="ruleForm.reportType"/>
       </el-form-item>
@@ -494,7 +494,7 @@
                   v-model="ruleForm.statusName"></el-input>
       </el-form-item>
       <el-form-item label="状态编码" prop="statusCode"
-                    required v-if="!false">
+                    required v-if="true">
         <el-select placeholder="请选择状态编码" v-model="ruleForm.statusCode">
           <el-option
               :key="sitem.statusCode"
