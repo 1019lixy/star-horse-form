@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {computed, onMounted, provide, ref, unref} from "vue";
+import {computed, nextTick, onMounted, provide, ref, unref} from "vue";
 import {warning} from "@/utils/message.ts";
 import {initDbList, openDatabase, tableColumns} from "@/views/dbsearch/utils/DbSearchUtils.ts";
 import {convertToCamelCase, isJson} from "@/api/sh_api.ts";
@@ -11,6 +11,8 @@ import {PageFieldInfo} from "@/components/types/PageFieldInfo.d.ts";
 import {SelectOption} from "@/components/types/SearchProps.d.ts";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import StarHorseDialog from "@/components/comp/StarHorseDialog.vue";
+import {BtnAuth} from "@/components/types/BtnAuth";
+
 let configStore = GlobalConfig(piniaInstance);
 let designForm = DesignForm(piniaInstance);
 let allFormDataList = computed(() => designForm.allFormDataList);
@@ -23,6 +25,7 @@ const tbTab = ref<String>("tb1");
 let assignDataList = ref<Array<any>>([]);
 let selectFields = ref<Array<SelectOption>>([]);
 let dbList = ref<any>([]);
+let tableFieldInfoRef = ref<any>();
 let tableAndColumnsList = ref<any>([]);
 let currentIndex = ref<any>(null);
 let containerTypeList = computed(() => {
@@ -49,6 +52,7 @@ const fieldCompTypesMsg = `类型操作提示：
    将日期类型映射为日期选择器组件；
 2、如果字段有特色业务需要，则可以将字段配置为对应的组件类型`;
 let columnsContr = ref<String>("Y");
+let added=ref<string>("N");
 /**
  * 判断列数是否需要禁用
  * @param val
@@ -119,7 +123,7 @@ let dataFieldInfo = ref<PageFieldInfo>({
   ]
 });
 let currentDataVisible = ref<boolean>(false);
-const contextOperation = async (evt: Event, data: any, index: number) => {
+const contextOperation = async (evt: Event, data: any, _index: number) => {
   evt.preventDefault();
   evt.stopPropagation();
   currentData.value = data;
@@ -127,18 +131,34 @@ const contextOperation = async (evt: Event, data: any, index: number) => {
   await tableField(data.tableName);
   currentDataVisible.value = true;
   selectFieldsOperation(data.fields);
-  dataForm.value = {...data};
-  containerTypeOperation(dataForm.value);
+  // dataForm.value = {...data};
+  containerTypeOperation(data);
+  await nextTick();
+  added.value=data["added"];
+  tableFieldInfoRef.value.setDataForm(currentData.value);
 }
 const dataReset = () => {
-  dataForm.value = {...currentData.value};
+  //dataForm.value = {...currentData.value};
+  tableFieldInfoRef.value.setDataForm(currentData.value);
 }
-const tableSubmit = () => {
-  currentData.value["containerType"] = unref(dataForm)["containerType"];
-  currentData.value["columns"] = unref(dataForm)["columns"];
-  currentData.value["exclusionFields"] = unref(dataForm)["exclusionFields"];
-  currentData.value["fieldCompTypes"] = unref(dataForm)["fieldCompTypes"];
+const tableSubmit = async (addFlag: boolean = false) => {
+  let data = tableFieldInfoRef.value.getFormData();
+  currentData.value["containerType"] = unref(data)["containerType"];
+  currentData.value["columns"] = unref(data)["columns"];
+  currentData.value["exclusionFields"] = unref(data)["exclusionFields"];
+  currentData.value["fieldCompTypes"] = unref(data)["fieldCompTypes"];
   tableOperClose();
+  if (addFlag) {
+    let datas = await onDataCopy(currentData.value);
+
+    designForm.addComp(datas);
+    if (datas instanceof Array) {
+      let temp = datas[datas.length - 1];
+      designForm.selectItem(temp, temp["itemType"], "");
+    } else {
+      designForm.selectItem(datas, datas["itemType"], "");
+    }
+  }
 }
 const tableOperClose = () => {
   dataForm.value = {};
@@ -233,6 +253,7 @@ const onDataCopy = async (data: any) => {
     formName: data.comment || "",
     needCommonFields: data.commonFieldFlag == "Y" ? "Y" : configData.value.commonFieldFlag == "Y" ? "Y" : "N"
   };
+  data["added"] = "Y";
   for (let i in fieldList) {
     let reData = fieldList[i];
     let fieldName = convertToCamelCase(reData.fieldName.toLowerCase());
@@ -384,23 +405,37 @@ const configMsg = `操作指引：
 1、表字段在添加到舞台前需要做配置，配置好后再拖入舞台，
    否则配置不生效；
 3、其他细节配置需要在舞台中进行处理`;
+const dynamicBtn = () => {
+  let userBtn: BtnAuth[] = [];
+  userBtn.push({
+    btnName: "add",
+    labelName: "添加",
+    icon: "add",
+    disabled: added.value,
+    exec: () => {
+      tableSubmit(true);
+    }
+  });
+  return userBtn;
+}
 onMounted(() => {
   init();
 });
 </script>
 <template>
   <star-horse-dialog :boxWidth="640" :dialog-visible="currentDataVisible"
-                     selfFunc="true"
+                     :selfFunc="true"
+                     :userBtn="dynamicBtn()"
                      @reset="dataReset"
                      @closeAction="tableOperClose"
-                     @merge="tableSubmit"
+                     @merge="()=>tableSubmit(false)"
   >
     <el-tabs v-model="tbTab">
       <el-tab-pane name="tb1">
         <template #label><span><star-horse-icon icon-class="config" color="var(--star-horse-style)"/>风格设置
           <help :width="400" :message="configMsg"/></span>
         </template>
-        <star-horse-form v-model:data-form="dataForm" :field-list="dataFieldInfo"/>
+        <star-horse-form ref="tableFieldInfoRef" :field-list="dataFieldInfo"/>
       </el-tab-pane>
       <el-tab-pane name="tb2" label="表格属性">
         <el-scrollbar height="600px">
@@ -507,22 +542,26 @@ onMounted(() => {
 :deep(.el-popover) {
   overflow-x: hidden;
 }
+
 .popover-header {
   display: flex;
   background: var(--star-horse-style);
   height: 30px;
   justify-content: end;
 }
+
 ul {
   margin: 5px;
   display: flex;
   flex-direction: column;
+
   li {
     height: 25px;
     border-radius: 2px;
     cursor: pointer;
     margin: 1px;
     display: flex;
+
     :deep(.el-tooltip__trigger) {
       display: inline-flex;
       align-items: center;
@@ -535,25 +574,31 @@ ul {
       height: inherit;
       flex: 1;
     }
+
     .svg-icon {
       width: 18px;
       height: 18px;
     }
   }
+
   li:nth-child(even) {
     background: #e5e5e5;
   }
+
   li:nth-child(odd) {
     background: #f1f2f3;
   }
 }
+
 .field-table {
   border: 1px solid var(--star-horse-style);
+
   tr > th, tr > td {
     border: 1px solid var(--star-horse-style);
     height: 25px;
     font-size: 12px;
     padding-left: 5px;
+
     :nth-child(2) {
       width: 120px;
     }

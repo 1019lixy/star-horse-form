@@ -197,7 +197,7 @@ const getComponentName = (data: any) => {
   return data.itemType + "-item";
 };
 const onDragAdd = async (evt: Event, dataList: Array<any>) => {
-  let index = evt.oldIndex;
+  // let index = evt.oldIndex;
   if (draggingItem.value.itemType == 'table') {
     let id = draggingItem.value.id;
     let datas = dataList.filter(item => item.itemType == "table");
@@ -251,16 +251,11 @@ const helpMessage =
 let leftPanelVisible = ref<boolean>(true);
 let rightPanelVisible = ref<boolean>(true);
 let processMsg = `
-1、优化后前端页面联动效果没有验证
+现在已完成动态表单的基本功能，但还存在以下情况：
 2、后退和前进没有实现
-3、参数和组件一致性没有处理
-4、优化后的动态表单解析表字段还没有处理
-5、关联表单还没有考虑其主键定义
 6、数据源生成的数据，调整位置未实现
-7、关联表单提交后台数据和回显未处理，
-8、在数据源模式下，配置风格时，需支持直接添加到舞台
-9、现在生成代码，默认带上公共字段，需要根据前端条件生成
-11、其它还未总结项
+10、其它未覆盖测试的bug
+以上已实现则删除，功能及bug完善后记得删除此消息
 `;
 const actions = (action: string) => {
   switch (action) {
@@ -355,6 +350,23 @@ const actions = (action: string) => {
       :title="'表单预览'"
       :is-view="true"
   >
+    <el-form
+        :disabled="formInfo['disabled'] == 'Y'"
+        :hide-required-asterisk="formInfo['hideRequiredAsterisk'] == 'Y'"
+        :inline="formInfo.inline == 'Y'"
+        :inline-message="formInfo['inlineMessage'] == 'Y'"
+        :label-position="formInfo['labelPosition']"
+        :label-suffix="formInfo['labelSuffix']"
+        :label-width="formInfo['labelWidth']"
+        :model="formData"
+        :require-asterisk-position="formInfo['requireAsteriskPosition']"
+        :rules="formInfo.rules"
+        :scroll-to-error="formInfo['scrollToError'] == 'Y'"
+        :show-message="formInfo['showMessage'] == 'Y'"
+        :size="formInfo['size']"
+        :status-icon="formInfo['statusIcon'] == 'Y'"
+        :validate-on-rule-change="formInfo['validateOnRuleChange']=='Y'"
+    >
     <template v-for="data in list">
       <component
           :id="data.id"
@@ -372,6 +384,7 @@ const actions = (action: string) => {
           v-else-if="data.compType === 'formItem'"
       />
     </template>
+    </el-form>
   </star-horse-dialog>
   <el-card class="inner_content">
     <div class="form_content">
@@ -440,7 +453,7 @@ const actions = (action: string) => {
               >
                 <template #item="{element:data}">
                   <template v-if="data.compType === 'container'">
-                    <div class="comp-item" style="height: 100%">
+                    <div class="comp-item" :style="{height: data.itemType=='tab'?'100%':'none'}">
                       <component
                           :key="data.id"
                           :field="data"

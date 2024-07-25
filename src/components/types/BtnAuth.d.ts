@@ -19,6 +19,10 @@ export declare interface BtnAuth {
      */
     exec?: Function;
     /**
+     * 是否禁用 Y 是 N否
+     */
+    disabled?: string;
+    /**
      * 子节点
      */
     children?: BtnAuth[]

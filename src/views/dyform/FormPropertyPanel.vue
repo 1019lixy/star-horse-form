@@ -417,9 +417,9 @@ defineExpose({
           <el-col :span="12">
             <el-form-item label="标签位置" prop="labelPosition">
               <el-select placeholder="请选择标签位置" v-model="formInfo['labelPosition']">
-                <el-option label="left" value="left"/>
-                <el-option label="right" value="right"/>
-                <el-option label="top" value="top"/>
+                <el-option label="左" value="left"/>
+                <el-option label="右" value="right"/>
+                <el-option label="顶部" value="top"/>
               </el-select>
             </el-form-item>
           </el-col>
@@ -451,9 +451,9 @@ defineExpose({
           <el-col :span="12">
             <el-form-item label="表单风格" prop="labelPosition">
               <el-select placeholder="请选择表单风格" v-model="formInfo['size']">
-                <el-option label="large" value="large"/>
-                <el-option label="default" value="default"/>
-                <el-option label="small" value="small"/>
+                <el-option label="大" value="large"/>
+                <el-option label="中" value="default"/>
+                <el-option label="小" value="small"/>
               </el-select>
             </el-form-item>
           </el-col>
