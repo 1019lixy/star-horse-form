@@ -32,7 +32,6 @@ import {defineComponent, onMounted, shallowRef} from "vue";
 import {dictData, loadData} from "@/api/sh_api.ts";
 import {error} from "@/utils/message.ts";
 import {SelectOption} from "@/components/types/SearchProps";
-
 export default defineComponent({
   setup(props, context) {
     const parentField = context.attrs["parentField"];

@@ -9,7 +9,6 @@ import {getToken} from "@/utils/auth";
 import Help from "@/components/help.vue";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import piniaInstance from "@/store";
-
 const props = defineProps({
   dialogProps: {type: Object as PropType<DialogProps>, required: true},
   compUrl: {type: Object as PropType<ApiUrls>, required: true},
@@ -112,16 +111,13 @@ defineExpose({
 :deep(.el-tooltip__trigger:focus-visible) {
   outline: unset;
 }
-
 .el-menu {
   background: none;
   border-bottom: none;
 }
-
 :deep(.el-sub-menu) {
   background: none;
 }
-
 .el-menu--horizontal {
   height: 30px;
 }

@@ -2,10 +2,8 @@ import {TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
 import {SearchInfo, SearchParams} from "@/components/types/Params";
 import {createCondition, loadData} from "@/api/sh_api";
 import {SelectOption} from "@/components/types/SearchProps";
-
 const validUrl: string = "/userdb-manage/redirect/valid";
 const redirectUrl: string = "/userdb-manage/redirect/valid";
-
 /**
  * 点击事件
  * @param treeComp 树组件对象
@@ -33,7 +31,6 @@ export function treeCheckChange(treeComp: any, tableComp: any, dataForm: any, da
     tableComp.setDataInfo(conditions, null);
     searchData(tableComp, conditions);
 };
-
 /**
  * 调用Table组件查询数据
  * @param tableComp
@@ -42,7 +39,6 @@ export function treeCheckChange(treeComp: any, tableComp: any, dataForm: any, da
 export function searchData(tableComp: any, data: SearchParams[]) {
     tableComp.createCreateParams(data);
 };
-
 /**
  * 解析属性
  * @param dataList
@@ -61,7 +57,6 @@ export function parseFormData(dataList: any, name: string) {
     let filterDatas = filterRecursive(dataList);
     return filterDatas.length > 0 ? filterDatas[0] : {};
 }
-
 /**
  * 获取打印机列表
  */
@@ -100,7 +95,6 @@ export async function printerList(): Promise<Array<SelectOption>> {
         };
     });
 }
-
 /**
  * 升序或者降序
  */
@@ -110,7 +104,6 @@ export function ascOrDesc(): SelectOption[] {
     options.push({name: "Desc", value: "desc"});
     return options;
 }
-
 /**
  * 请求方式
  */
@@ -126,7 +119,6 @@ export function httpMethod(): SelectOption[] {
     options.push({name: "TRACE", value: "TRACE"});
     return options;
 }
-
 /**
  * 数据格式
  */
@@ -137,7 +129,6 @@ export function dataType(): SelectOption[] {
     options.push({name: "BINARY", value: "BINARY"});
     return options;
 }
-
 /**
  * 验证接口，并取回数据
  * @param url
@@ -155,7 +146,6 @@ export async function validDataUrl(url: string, params?: any, dataType: string =
     let data = await loadData(validUrl, checkParams);
     return {...data};
 }
-
 /**
  * 通过系统重定向接口
  * @param url 接口地址

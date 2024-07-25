@@ -20,7 +20,6 @@ import {SearchParams} from "@/components/types/Params";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {postRequest, trim} from "@/api/star_horse.ts";
 import {success, warning} from "@/utils/message.ts";
-
 const props = defineProps({
   viewRolesinfoId: {type: String},
   disableAction: {type: Boolean, default: false}
@@ -423,7 +422,6 @@ const pwdFieldInfo = reactive<PageFieldInfo | any>({
 <style lang="scss" scoped>
 .el-card {
   height: 100%;
-
   :deep(.el-card__body) {
     height: 100%;
     padding: 0;

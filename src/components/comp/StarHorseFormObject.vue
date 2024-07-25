@@ -4,7 +4,6 @@ import {ApiUrls} from "@/components/types/ApiUrls";
 import {DialogProps} from "@/components/types/DialogProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import StarHorseFormTable from "@/components/comp/StarHorseFormTable.vue";
-
 const props = defineProps({
   compUrl: {type: Object as PropType<ApiUrls>},
   fieldList: {type: Object as PropType<PageFieldInfo>, required: true},
@@ -124,22 +123,18 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
 }
-
 :deep(.el-tabs__content ) {
   height: 100%;
   flex: 1;
 }
-
 :deep(.el-tab-pane) {
   height: 100%;
   flex: 1;
 }
-
 :deep(.el-form) {
   display: block;
   width: 100%;
 }
-
 .data-form {
   height: 100%;
 }

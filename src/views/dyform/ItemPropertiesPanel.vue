@@ -16,7 +16,6 @@ import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
 import {validDataUrl} from "@/api/system.ts";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-
 let designForm = DesignForm(piniaInstance);
 let formDataList = computed(() => designForm.formDataList);
 let containerList = computed(() => designForm.containerList);
@@ -58,7 +57,6 @@ const urlValid = (rule: any, value: any, callback: any) => {
   }
   callback();
 };
-
 //-----------------------数据源相关属性---------------------
 let matchTypeList = ref<SelectOption[]>();
 onMounted(() => {
@@ -94,7 +92,6 @@ const checkHttpUrl = (url: string): boolean => {
   }
   return givenURL.protocol === "http:" || givenURL.protocol === "https:";
 }
-
 const submitValid = async () => {
   await validInterface(formProps, dataSourceFormRef, (dataList: any, successMsg: string, errorMsg: string) => {
     validSuccessMsg.value = successMsg;
@@ -127,7 +124,6 @@ const paramsValid = async () => {
     },
   }
   let searchFieldList: Array<any> = [];
-
   formProps.value["fieldLists"].forEach((item: any) => {
     item["tableShow"] = true;
     item["type"] = "input";
@@ -146,7 +142,6 @@ const paramsValid = async () => {
   })
   closeAction();
 };
-
 const merge = () => {
   let code = unref(codeCompRef).exportCode();
   let eventName = unref(codeCompRef).eventName;
@@ -565,29 +560,24 @@ watch(() => formProps,
 <style lang="scss" scoped>
 :deep(.el-collapse-item) {
   overflow: hidden;
-
   .el-collapse-item__wrap {
     height: 100%;
     overflow: hidden;
-
     .el-collapse-item__content {
       height: inherit;
       overflow: hidden;
     }
   }
-
   &:last-child {
     flex: 1;
     height: 100%;
   }
 }
-
 :deep(.el-form-item__content) {
   width: 90%;
   margin-left: 5px;
   padding-left: 5px;
 }
-
 :deep(.el-scrollbar) {
   border-top-width: 0;
   display: flex;
@@ -595,19 +585,15 @@ watch(() => formProps,
   height: 100%;
   overflow: hidden;
 }
-
 :deep(.el-dialog__body) {
   padding: 0;
 }
-
 .widget-collapse {
   height: 99%;
 }
-
 .oper-btn {
   cursor: pointer;
 }
-
 .dynamic-form {
   width: 200px;
   height: 100%;

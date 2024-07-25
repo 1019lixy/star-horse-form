@@ -1,9 +1,7 @@
 import {postRequest} from "@/api/star_horse.ts";
 import {SelectOption} from "@/components/types/SearchProps";
-
 const templateListUrl: String = "/code-generator/dynamic/code/templateList";
 const loadTemplateUrl: String = "/code-generator/dynamic/code/loadTemplate";
-
 /**
  * 加载模板列表
  */
@@ -24,7 +22,6 @@ export async function templateList() {
     });
     return optionList;
 }
-
 /**
  * 加载模板信息
  * @param templateCode 模板编码
@@ -40,9 +37,7 @@ export async function loadTemplate(templateCode: string, packageName: string, cl
             console.log("加载模板代码异常:" + res.data.cnMessage);
         } else {
             sourceCode = res.data.data;
-
         }
-
     });
     return sourceCode;
 }

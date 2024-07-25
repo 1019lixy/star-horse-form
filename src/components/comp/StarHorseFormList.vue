@@ -11,7 +11,6 @@ import {getToken} from "@/utils/auth";
 import Sortable from "sortablejs";
 import Help from "@/components/help.vue";
 import {ShallowReactive} from "@vue/reactivity";
-
 let importDialogVisible = ref<boolean>(false);
 const props = defineProps({
   compUrl: {type: Object as PropType<ApiUrls>, required: true},
@@ -31,10 +30,8 @@ const props = defineProps({
 // const dataForm = inject('dataForm') as Ref;
 const dataForm = defineModel("dataForm") as Ref;
 const formFields = inject("formFields") as ShallowReactive<Object>;
-
 const loading = ref(null);
 const starHorseFormListRef = ref(null);
-
 const handleAddDetails = (row: any, type: number) => {
   if (!dataForm.value[props.batchName]) {
     dataForm.value[props.batchName] = [];
@@ -302,40 +299,31 @@ onMounted(async () => {
   </div>
 </template>
 <style lang="scss" scoped>
-
-
 :deep(.el-table__cell) {
   padding: 0;
 }
-
 .form-list {
   display: flex;
   flex-direction: column;
-
   .inner_button {
     margin-bottom: 5px;
   }
-
   .el-table {
     flex: 1;
   }
 }
-
 :deep(th.el-table__cell:first-child) {
   padding: 5px 0;
 }
-
 :deep(.el-form-item) {
   font-size: 11px;
   margin-bottom: 1px;
   width: 100%;
 }
-
 :deep(.el-input__inner ), :deep(el-select) {
   height: 25px;
   font-size: 12px;
 }
-
 :deep(.el-select) {
   line-height: 25px;
 }

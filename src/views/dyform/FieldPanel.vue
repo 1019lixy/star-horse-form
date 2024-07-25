@@ -3,7 +3,6 @@ import {computed, ref} from 'vue'
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
 import DbListComp from "@/views/dbsearch/utils/DbListComp.vue";
-
 let designForm = DesignForm(piniaInstance);
 let formDataList = computed(() => designForm.formDataList);
 let containerList = computed(() => designForm.containerList);
@@ -162,52 +161,43 @@ const getDefaultVal = (type: String) => {
 <style lang="scss" scoped>
 :deep(.el-collapse-item) {
   overflow: hidden;
-
   .el-collapse-item__wrap {
     height: 100%;
     overflow: hidden;
-
     .el-collapse-item__content {
       height: inherit;
       overflow: hidden;
     }
   }
-
   &:last-child {
     flex: 1;
     height: 100%;
   }
 }
-
 .widget-collapse {
   border-top-width: 0;
   display: flex;
   flex-direction: column;
   height: 100%;
   overflow: hidden;
-
   .el-collapse-item__header {
     padding-left: 10px;
     font-weight: bold;
   }
-
   .el-collapse-item__content {
     padding-bottom: 6px;
     margin-left: 8px;
-
     ul {
       padding-left: 10px; /* 重置IE11默认样式 */
       margin: 0; /* 重置IE11默认样式 */
       margin-block-start: 0;
       margin-block-end: 0.25em;
       padding-inline-start: 10px;
-
       &:after {
         content: '';
         display: block;
         clear: both;
       }
-
       .field-item {
         display: inline-flex;
         height: 28px;
@@ -220,7 +210,6 @@ const getDefaultVal = (type: String) => {
         text-overflow: ellipsis;
         overflow: hidden;
         border: 1px solid #f1f2f3;
-
         span {
           display: inline-flex;
           justify-items: center;
@@ -230,19 +219,16 @@ const getDefaultVal = (type: String) => {
           padding: 0;
           margin: 0;
           height: 100%;
-
           .svg-icon {
             margin-left: 0;
             margin-right: 0;
           }
         }
       }
-
       .field-item:hover {
         background: #ebeef5;
         outline: 1px solid #999999;
       }
-
       .drag-handler {
         position: absolute;
         top: 0;

@@ -8,7 +8,6 @@ import {createRouterAndMenuList} from "@/api/star_horse";
 import {UserInfo} from "@/store/UserInfoStore";
 import {navBarList} from "@/store/NavbarListStore";
 import {viewList} from "@/store/ViewCacheStore";
-
 const {start, done} = starhorseProcess();
 const userInfoStore = UserInfo(piniaInstance);
 const navBarListStore = navBarList(piniaInstance);

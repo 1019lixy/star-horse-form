@@ -1,6 +1,5 @@
 import {defineStore} from "pinia";
 import {RouteRecordNormalized} from "vue-router";
-
 export const viewList: any = defineStore("viewList", {
     state: () => {
         return {

@@ -13,7 +13,6 @@ import {OrderByInfo} from "@/components/types/PageFieldInfo";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {DynamicForm} from "@/store/DynamicFormStore";
 import piniaInstance from "@/store";
-
 const dynamicForm = DynamicForm(piniaInstance);
 const props = defineProps({
   //url地址
@@ -53,7 +52,6 @@ const props = defineProps({
   needLoad: {type: Boolean, default: true},
   //标题
   title: {type: String},
-
   //按钮操作权限
   permissions: {type: Object, required: true, default: {}},
 });
@@ -688,15 +686,12 @@ defineExpose({
 .warning-row {
   background: #8f8f8f;
 }
-
 :deep(.el-table__cell) {
   padding: 0;
 }
-
 :deep(th.el-table__cell:first-child) {
   padding: 5px 0;
 }
-
 .tb_title {
   flex: 1;
   color: var(--star-horse-style);

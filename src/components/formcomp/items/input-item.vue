@@ -32,7 +32,6 @@
       <template #append v-if="field.preps['appendText']">
         {{ field.preps['appendText'] }}
       </template>
-
       <template #append v-if="field.preps['appendList']">
         <el-select v-model="context.attrs['formFieldList']['app'+field.preps['name']]">
           <el-option v-for="item in field.preps['appendList']" :key="item.value" :label="item.name"
@@ -44,7 +43,6 @@
 </template>
 <script lang="ts">
 import {defineComponent, onMounted, shallowRef} from "vue";
-
 export default defineComponent({
   emits: ["selectItem", "selfFunc"],
   setup(props, context) {

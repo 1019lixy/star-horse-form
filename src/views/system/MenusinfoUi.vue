@@ -20,7 +20,6 @@ import {TreeNode, TreeNodeData} from "element-plus/es/components/tree-v2/src/typ
 import {ElTreeV2} from "element-plus";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {treeCheckChange} from "@/api/system";
-
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/system-config/system/menusinfoEntity/pageList",
   mergeUrl: "/system-config/system/menusinfoEntity/merge",
@@ -172,7 +171,6 @@ const loadMenuBySystemId = async (loadAll: boolean) => {
     }
   }
 };
-
 const dialogProps = reactive<DialogProps>({
   bakeVisible1: false, bakeVisible2: false, bakeVisible3: false,
   ids: 0,

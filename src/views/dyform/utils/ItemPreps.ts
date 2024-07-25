@@ -5,7 +5,6 @@ import {dictData, loadData, searchMatchList} from "@/api/sh_api.ts";
 import {FieldInfo} from "@/components/types/PageFieldInfo";
 import {ascOrDesc, dataType, httpMethod, validDataUrl} from "@/api/system.ts";
 import {error, success, warning} from "@/utils/message.ts";
-
 const helpMsg = `
     接口返回的数据格式必须是：
         {
@@ -21,7 +20,6 @@ const helpMsg = `
         "cnMessage": "操作成功"
     }
     `;
-
 /**
  * 验证接口
  * @param formProps
@@ -45,7 +43,6 @@ export async function validInterface(formProps: any, dataSourceRef: Ref<any>, re
             formProps.value[key] = temp[key];
         }
     }
-
     let dataSource = temp['dataSource'];
     let urlOrDictName = temp['urlOrDictName'];
     let queryParams = temp['queryParams'];
@@ -105,7 +102,6 @@ export async function validInterface(formProps: any, dataSourceRef: Ref<any>, re
     }
     return flag;
 }
-
 /**
  * 创建数据
  * @param dataSourceRef
@@ -136,7 +132,6 @@ export function createData(dataSourceRef: any, dataList: any) {
         reDataList, errorMsg
     }
 }
-
 /**
  * 数据源属性配置
  */
@@ -146,7 +141,6 @@ export function dataSourceFields(dataSourceRef: Ref<any>, recall: Function) {
         {value: "dict", name: "数据字典"},
         {value: "data", name: "静态数据"},
     ];
-
     let matchTypeList = searchMatchList();
     let disableData = ref<boolean>(false);
     let disableUrl = ref<boolean>(true);
@@ -350,7 +344,6 @@ export function dataSourceFields(dataSourceRef: Ref<any>, recall: Function) {
         ],
     });
 }
-
 /**
  * 组件参数属性配置
  * @param fieldName
@@ -367,7 +360,6 @@ export function paramsFields(fieldName: string, item: any, successMsg: Ref<any>,
         }
     });
     let fields: FieldInfo[] = [];
-
     let fieldList = ref<SelectOption[]>([]);
     let urlBaseInfo: FieldInfo[] = [
         {
@@ -393,7 +385,6 @@ export function paramsFields(fieldName: string, item: any, successMsg: Ref<any>,
                     {name: "HTTPS", value: "https://"}]
             }
         },
-
     ];
     let dataUrls: FieldInfo[] = [
         {
@@ -550,7 +541,6 @@ export function paramsFields(fieldName: string, item: any, successMsg: Ref<any>,
         fieldList: fields
     });
 }
-
 /**
  * 容器属性
  */

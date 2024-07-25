@@ -8,18 +8,15 @@ import {SelectOption} from "@/components/types/SearchProps";
 import * as ElementPlusIconsVue from '@element-plus/icons-vue';
 import {MenusInfo} from "@/components/types/MenusInfo";
 import {BatchFieldInfo, FieldInfo, PageFieldInfo, TabFieldInfo} from "@/components/types/PageFieldInfo";
-
 let loading: any = null;
 /**
  * 系统接口
  */
 const systemUrl: string = "/system-config/system/informationsEntity/systemTree";
-
 /**
  * 字典接口
  */
 const dictUrl: string = "/system-config/system/dictinfoEntity/getAllByCondition";
-
 /**
  * 获取所有菜单
  */
@@ -28,7 +25,6 @@ const menuUrl: string = "/system-config/system/menusinfoEntity/getAllTreeDataByC
  * 归属主体
  */
 const customerUrl: string = "/system-config/system/customer/getAllByCondition";
-
 /**
  * 加载Post 数据
  * @param url 接口地址
@@ -58,7 +54,6 @@ export async function loadData(url: string, params: SearchParams[] | any) {
         data, error
     }
 }
-
 /**
  * 加载Get 数据
  * @param url 接口地址
@@ -81,7 +76,6 @@ export async function loadGetData(url: string) {
         data, error
     }
 }
-
 /**
  * 加载所有系统信息
  * @param params 查询参数
@@ -103,7 +97,6 @@ export async function loadSystemInfo(params: any) {
     });
     return systemList;
 }
-
 /**
  * 加载所有主体信息
  * @param params 查询参数
@@ -128,7 +121,6 @@ export async function loadCustomInfo(params: any) {
     });
     return customerList;
 }
-
 /**
  * 加载部门信息
  * @param param 查询参数
@@ -147,7 +139,6 @@ export async function loadDepartmentInfo(param: any) {
     }).catch(err => console.error(err));
     return deptData;
 }
-
 /**
  * 获取角色信息
  * @param param
@@ -168,7 +159,6 @@ export async function loadRolesInfo(param: any) {
     }).catch(err => console.error(err))
     return roleData;
 }
-
 /**
  * 加载菜单数据
  * @param direct
@@ -196,7 +186,6 @@ export async function loadMenusInfo(direct: boolean, params: any, needSystem: bo
     });
     return menuDatas;
 }
-
 /**
  * 构建菜单树
  * @param data
@@ -217,7 +206,6 @@ export function createTree(data: any, valField: string, name: string, val: strin
     });
     return list;
 }
-
 /**
  * 加载框
  * @param msg
@@ -232,7 +220,6 @@ export function load(msg: string, defaultTarget?: string) {
         background: 'rgba(0, 0, 0, 0.7)',
     });
 }
-
 /**
  * 关闭加载框
  */
@@ -242,7 +229,6 @@ export function closeLoad() {
         loading = null;
     }
 }
-
 export function getMenuId() {
     let meta = router.currentRoute.value?.meta;
     let menuId = meta?.menuId as string;
@@ -252,7 +238,6 @@ export function getMenuId() {
     menuId = menuId.split("_")[1];
     return menuId;
 }
-
 /**
  * 加载权限
  * @param menuId 菜单id
@@ -268,7 +253,6 @@ export async function loadPagePermission(menuId: string) {
     });
     return permission
 }
-
 /**
  * 公共数据格式化
  * @param row
@@ -279,7 +263,6 @@ export async function loadPagePermission(menuId: string) {
 export function commonDataFormat(row: any, column: any, cellValue: any, index: number) {
     return commonParseCodeToName(column.property, cellValue);
 }
-
 /**
  * 下划线转驼峰
  * @param str
@@ -293,7 +276,6 @@ export function convertToCamelCase(str: string) {
         return p1.toUpperCase();
     });
 }
-
 /**
  * 驼峰转下划线
  * @param str
@@ -306,7 +288,6 @@ export function camelCaseToUnderline(str: string) {
         return "_" + match.toLowerCase();
     });
 }
-
 /**
  * 数据格式化
  * @param name
@@ -330,7 +311,6 @@ export function commonParseCodeToName(name: string, cellValue: any) {
         return cellValue;
     }
 }
-
 /**
  * 创建日期
  * @param val
@@ -343,7 +323,6 @@ export function createDate(val: any) {
     let date = new Date(val);
     return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
 }
-
 /**
  * 创建年月日时分秒
  * @param val
@@ -360,7 +339,6 @@ export function createDatetime(val: any) {
     let minute = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
     return date.getFullYear() + "-" + m1 + "-" + day + " " + hour + ":" + minute;
 }
-
 /**
  * 加载Id数据
  * @param url
@@ -384,7 +362,6 @@ export async function loadById(url: string, id: any, isView: boolean, params: an
     });
     return objData;
 }
-
 /**
  * 根据Id删除数据
  * @param url
@@ -423,7 +400,6 @@ export async function deleteByIds(url: string, ids: any) {
     });
     return objData;
 }
-
 /**
  * 根据字典类别获取字典数据
  * @param dictType 字典类别
@@ -447,7 +423,6 @@ export async function dictData(dictType: string) {
     });
     return dicts;
 }
-
 /**
  * 加载ElementPlus 提供的官方矢量图标
  */
@@ -458,7 +433,6 @@ export function loadElementPlusIcon() {
     }
     return menuIconList;
 }
-
 /**
  * 数据匹配方式
  */
@@ -475,7 +449,6 @@ export function searchMatchList(): SelectOption[] {
     data.push({name: "范围", value: "bt"});
     return data;
 }
-
 /**
  * 复制数据
  * @param msg
@@ -487,7 +460,6 @@ export function copy(msg: string) {
         error("复制失败");
     });
 }
-
 /**
  * 表格序号
  * @param row
@@ -496,14 +468,12 @@ export function copy(msg: string) {
 export function rowClassName({row, rowIndex}: any) {
     row.xh = rowIndex + 1
 }
-
 /**
  * 创建条件
  */
 export function createCondition(name: string, val: any, matchType: string = "eq"): SearchParams {
     return {propertyName: name, value: val, operation: matchType};
 }
-
 /**
  * 动态过滤数据
  * @param search
@@ -525,7 +495,6 @@ export function filterTree(search: any, menusList: MenusInfo[]): MenusInfo[] {
     const filteredTree = filterRecursive(menusList, false);
     return JSON.parse(JSON.stringify(filteredTree));
 }
-
 /**
  * 设置css 全局变量
  * @param name 变量名称
@@ -535,7 +504,6 @@ export function filterTree(search: any, menusList: MenusInfo[]): MenusInfo[] {
 export function setCssVar(name: string, val: any, dom = document.documentElement) {
     dom.style.setProperty(name, val);
 }
-
 /**
  * 获取关联属性逻辑
  * @param formFields 表单属性
@@ -563,7 +531,6 @@ export function relationFieldOperation(formFields: any, fieldName: string, batch
         return formFields[fieldName].value;
     }
 }
-
 /**
  * 判断是不是Json
  * @param v
@@ -579,7 +546,6 @@ export function isJson(v: any) {
     }
     return false;
 }
-
 /**
  * 解析表单字段映射
  * @param fieldList
@@ -616,7 +582,6 @@ export function formFieldMapping(fieldList: PageFieldInfo) {
                     if (isJson(item.defaultValue)) {
                         batchDefaultValues[temp.batchName] = {...batchDefaultValues[temp.batchName], ...item.defaultValue};
                     } else {
-
                         batchDefaultValues[temp.batchName][item.fieldName] = item.defaultValue;
                     }
                 }
@@ -700,7 +665,6 @@ export function formFieldMapping(fieldList: PageFieldInfo) {
     defaultDatas = {...defaultDatas, ...batchDefaultValues};
     return {defaultDatas, mappingFields, batchDefaultValues, actions};
 }
-
 /**
  * 批量列表数据默认值
  * @param datas
@@ -721,7 +685,6 @@ export function batchFieldDefaultValues(datas: BatchFieldInfo) {
             } else {
                 defaultValues[temp.fieldName] = temp.defaultValue;
             }
-
         }
     }
     return defaultValues;

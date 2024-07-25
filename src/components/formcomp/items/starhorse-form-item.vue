@@ -2,7 +2,6 @@
 import {computed, onMounted} from "vue";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
-
 const props = defineProps({
   parentField: {type: Object},
   parentId: {type: Object},
@@ -198,7 +197,6 @@ onMounted(() => {
     <div :class="[isEdit ? 'field-item design-star-horse' : '',
   (currentItemId == formItem?.preps.id && isEdit)?'active-item':''
   ]" v-if="isDesign">
-
       <el-form-item
           :size="formItem?.preps['size']||'small'"
           v-if="parentField?.itemType!='table'&&formItem?.itemType!='divider'"
@@ -270,13 +268,10 @@ onMounted(() => {
 .form-item-operation {
   width: 100%;
 }
-
 .active-item {
   border: 2px solid rgba(64, 158, 255, .6);
 }
-
 .design-star-horse {
-
   width: 100%;
   justify-content: center;
   vertical-align: middle;
@@ -286,23 +281,18 @@ onMounted(() => {
       visibility: visible;
     }*/
 }
-
 .field-item {
   position: relative;
   width: 100%;
-
   &:hover + .field-action {
     opacity: 1
   }
-
   &:hover + .drag-handler {
     opacity: 1
   }
-
   .el-form-item {
     margin-bottom: 1px;
   }
-
   .field-action {
     position: absolute;
     //bottom: -24px;
@@ -315,20 +305,17 @@ onMounted(() => {
     background: var(--star-horse-style);;
     z-index: 9999999;
     opacity: 1;
-
     .svg-icon {
       font-size: 14px;
       color: var(--star-horse-white);
       margin: 0 3px;
       cursor: pointer;
     }
-
     /* &:hover {
        opacity: 1;
        background: var(--star-horse-style);
      }*/
   }
-
   .drag-handler {
     position: absolute;
     top: 0;
@@ -340,30 +327,24 @@ onMounted(() => {
     background: var(--star-horse-style);
     z-index: 9;
     opacity: 1;
-
     .svg-icon {
       font-size: 12px;
       font-style: normal;
       color: var(--star-horse-style);
       margin: 4px;
-
       &:first-child {
         cursor: move;
       }
-
       &:last-child {
         cursor: pointer;
       }
     }
-
-
     /*   &:hover {
          opacity: 1;
          background: var(--star-horse-style);
        }*/
   }
 }
-
 /*.field-action {
   visibility: hidden;
 }*/
@@ -383,38 +364,31 @@ onMounted(() => {
   //margin-bottom: 6px;
   //margin-top: 2px;
   position: relative;
-
   :deep(.el-form-item__label) {
     white-space: nowrap;
     text-overflow: ellipsis;
   }
-
   :deep(.el-form-item__content) {
     //position: unset;  /* TODO: 忘了这个样式设置是为了解决什么问题？？ */
   }
-
   span.custom-label i {
     margin: 0 3px;
   }
-
   /* 隐藏Chrome浏览器中el-input数字输入框右侧的上下调整小箭头 */
   :deep(.hide-spin-button) input::-webkit-outer-spin-button,
   :deep(.hide-spin-button) input::-webkit-inner-spin-button {
     -webkit-appearance: none !important;
   }
-
   /* 隐藏Firefox浏览器中el-input数字输入框右侧的上下调整小箭头 */
   :deep(.hide-spin-button) input[type="number"] {
     -moz-appearance: textfield;
   }
 }
-
 .required :deep(.el-form-item__label)::before {
   content: "*";
   color: #f56c6c;
   margin-right: 4px;
 }
-
 .static-content-item {
   min-height: 20px;
   display: flex; /* 垂直居中 */
@@ -423,22 +397,18 @@ onMounted(() => {
     margin: 0;
   }
 }
-
 .el-form-item.selected,
 .static-content-item.selected {
   outline: 2px solid var(--star-horse-style);;
 }
-
 :deep(.label-left-align) .el-form-item__label {
   text-align: left;
   justify-content: flex-start !important;
 }
-
 :deep(.label-center-align) .el-form-item__label {
   text-align: center;
   justify-content: center !important;
 }
-
 :deep(.label-right-align) .el-form-item__label {
   text-align: right;
   justify-content: flex-end !important;

@@ -1,5 +1,4 @@
 import {OrderByInfo} from "@/components/types/PageFieldInfo";
-
 /**
  * 查询条件组装数据对象
  */
@@ -21,12 +20,10 @@ declare export interface SearchParams {
      */
     orOperList?: SearchParams[]
 }
-
 /**
  * 查询对象
  */
 declare export interface SearchInfo {
-
     /**
      * 每页数据量大小
      */

@@ -48,7 +48,6 @@ import {defineComponent, nextTick, onMounted, ref, shallowRef} from "vue";
 import {warning} from "@/utils/message";
 import {FieldMapping} from "@/components/types/PageFieldInfo";
 import {SearchParams} from "@/components/types/Params";
-
 export default defineComponent({
   setup(props, context) {
     const parentField = context.attrs["parentField"];

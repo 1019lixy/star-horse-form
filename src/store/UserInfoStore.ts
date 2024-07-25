@@ -1,6 +1,5 @@
 import {defineStore} from "pinia";
 import {MenusInfo} from "@/components/types/MenusInfo";
-
 export const UserInfo: any = defineStore("UserInfo", {
     state: () => {
         return {

@@ -5,7 +5,6 @@ import {closeLoad, load} from "@/api/sh_api";
 import {postRequest} from "@/api/star_horse";
 import {FieldMapping, OrderByInfo} from "@/components/types/PageFieldInfo";
 import {SearchParams} from "@/components/types/Params";
-
 export default defineComponent({
   setup(props, context) {
     const parentField = context.attrs["parentField"];
@@ -223,7 +222,6 @@ export default defineComponent({
 :deep(.el-table__cell) {
   padding: 0;
 }
-
 :deep(th.el-table__cell:first-child) {
   padding: 5px 0;
 }

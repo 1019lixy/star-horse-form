@@ -1,5 +1,4 @@
 import {getRequest, postRequest} from "@/api/star_horse.js";
-
 /**
  * 获取角色菜单
  * @param idRolesinfo
@@ -15,7 +14,6 @@ export async function loadRolesMenus(idRolesinfo: Number) {
     }).catch(err => console.error(err));
     return roleMenus;
 }
-
 /**
  * 分配角色菜单
  * @param roleId

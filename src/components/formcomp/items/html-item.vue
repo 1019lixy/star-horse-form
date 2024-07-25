@@ -6,7 +6,6 @@
 </template>
 <script lang="ts">
 import {defineComponent, shallowRef} from "vue";
-
 export default defineComponent({
   setup(props, context) {
     const parentField = context.attrs["parentField"];

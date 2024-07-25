@@ -3,7 +3,6 @@ import {error} from "@/utils/message";
 import {closeLoad, load} from "@/api/sh_api";
 import {SearchParams} from "@/components/types/Params";
 import {success} from "@/utils/message.ts";
-
 /**
  * 获取视图属性
  * @param param 视图Token
@@ -45,7 +44,6 @@ const convertType = (type: string) => {
         return "input";
     }
 };
-
 /**
  * 获取视图列表
  * @param viewToken
@@ -73,7 +71,6 @@ export async function viewDataList(viewToken: string, currentPage: number, pageS
     });
     return {viewDatas, error};
 };
-
 /**
  * 解析查询字段类型
  * @param searchForm
@@ -100,7 +97,6 @@ export function analysisSearchData(searchForm: any, searchFormData: any) {
     }
     return searchFields;
 }
-
 /**
  * 获取数组重复数据
  * @param arr
@@ -108,7 +104,6 @@ export function analysisSearchData(searchForm: any, searchFormData: any) {
 export function arrayDuplicateDatas(arr: Array<any>) {
     return [...new Set(arr)].filter(item => arr.indexOf(item) !== arr.lastIndexOf(item));
 }
-
 /**
  * 校验表单组件参数
  * @param compList
@@ -174,7 +169,6 @@ export function validDynamicFormCompParams(compList: Array<any>, isSubmit: boole
     }
     return errorMsg;
 }
-
 /**
  * 解析组件
  * @param compList
