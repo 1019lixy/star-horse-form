@@ -79,7 +79,6 @@ const pwdMerge = () => {
       return;
     }
     let pwdForm = pwdFormRef.value.getFormData().value;
-    console.log(pwdForm);
     let pwd = pwdForm.password;
     let rePwd = pwdForm.rePassword;
     if (!trim(pwd)) {

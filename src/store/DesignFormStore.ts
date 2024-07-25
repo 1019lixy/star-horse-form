@@ -122,7 +122,6 @@ export const DesignForm: any = defineStore("DesignForm", {
          * @param parentCompType 父组件类型
          */
         selectItem(data: any, itemType: string, parentCompType: string) {
-            console.log(data, itemType, parentCompType);
             let _this = this;
             _this.currentCompCategory = data.compType;
             _this.currentItemId = data?.id;

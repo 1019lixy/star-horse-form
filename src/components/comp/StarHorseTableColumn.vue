@@ -23,7 +23,6 @@ const blurEvent = (column: any) => {
   let bakeValue = currentRow.value["starHorseBakeValue"];
   delete currentRow.value["selectName"];
   delete currentRow.value["starHorseBakeValue"];
-  console.log(bakeValue, currentRow.value[column["property"]]);
   if ((!bakeValue && bakeValue != 0) || bakeValue == currentRow.value[column["property"]]) {
     return;
   }

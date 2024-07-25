@@ -42,7 +42,6 @@ const searchFormData = reactive<SearchProps[]>([
 const currentRow = ref({});
 const preview = (row: any, currentPage: number, pageSize: number) => {
   currentRow.value = row;
-  console.log(currentRow.value);
   dialogProps.bakeVisible1 = true;
 };
 //页面属性

@@ -139,7 +139,6 @@ const init = async () => {
   moveColumn();
 };
 onMounted(async () => {
-  console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
   await init();
 });
 </script>

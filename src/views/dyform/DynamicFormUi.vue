@@ -180,7 +180,6 @@ const dialogProps = reactive<DialogProps>({
 });
 provide("dialogProps", dialogProps);let permissions = ref<any>({});
 const addSubForm = (params: any) => {
-  console.log(params);
   router.push({path: "/dyform/DynamicForm", query: {parentId: params.idDynamicForm}});
 }
 const dataFormat = (name: string, cellValue: any, row: any): any => {

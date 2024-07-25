@@ -37,7 +37,7 @@ field.value.preps.size = computed(() => props.compSize);
  * @param params
  */
 const dataSearch = (act: String, ...params: any[]) => {
-  console.log(act);
+ // console.log(act);
   if (props.isSearch) {
     if (!act || act == "focus" || act == "blur") {
       return;

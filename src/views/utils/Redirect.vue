@@ -4,7 +4,6 @@ import {useRouter} from 'vue-router'
 const {currentRoute, replace} = useRouter();
 const {params, query} = unref(currentRoute);
 const {path, _redirect_type = 'path'} = params;
-console.log(path, _redirect_type);
 Reflect.deleteProperty(params, '_redirect_type');
 Reflect.deleteProperty(params, 'path');
 console.log(params, query, path)

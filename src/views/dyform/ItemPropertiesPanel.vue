@@ -49,7 +49,6 @@ const jsButtonClick = (name: string) => {
     formProps.value[name] = "";
   }
   fieldName.value = name;
-  console.log(fieldName);
   jsValue.value = formProps.value[name];
 };
 // let fieldName = ref<String>("");

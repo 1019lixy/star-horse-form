@@ -9,7 +9,7 @@ const props = defineProps({
 const dataForm = defineModel("dataForm");
 const currentTableRef = ref();
 onMounted(() => {
-  console.log(dataForm);
+  //console.log(dataForm);
 });
 </script>
 <template>

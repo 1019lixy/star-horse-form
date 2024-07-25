@@ -143,7 +143,6 @@ const formProps = ref<any>({});
 const dataSourceFormRef = ref();
 const submitValid = () => {
   if (isConfig.value) {
-    console.log(formProps.value)
     closeAction();
     return;
   }

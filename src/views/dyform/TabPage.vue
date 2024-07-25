@@ -40,8 +40,7 @@ const activeName = ref<string>("form");
 const props = defineProps({
   param: {type: String, required: true},
 });
-const handleClick = (tab: TabsPaneContext, event: Event) => {
-  console.log(tab, event)
+const handleClick = (_tab: TabsPaneContext, _event: Event) => {
 }
 const clear = () => {
   hasData.value = false;

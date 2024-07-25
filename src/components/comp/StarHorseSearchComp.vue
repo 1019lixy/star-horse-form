@@ -58,12 +58,8 @@ const analysisDefaultValue = () => {
   return defaultDatas;
 };
 const dataSearch = (val: string | null) => {
-  console.log(val);
   if (val === "reset") {
-    searchForm.value = {};
-    console.log("before reset", searchForm.value);
     searchForm.value = {...analysisDefaultValue()};
-    console.log("after reset", searchForm.value);
   }
   let searchDatas = createCreateParams(props.formData);
   //如果一个页面（包括引入的页面）出现多个此组件,不能走消息总线，

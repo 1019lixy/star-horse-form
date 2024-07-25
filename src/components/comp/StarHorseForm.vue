@@ -43,7 +43,7 @@ const formFields = inject("formFields") as ShallowReactive<any>;
 watch(
     () => dialogOperation,
     (val: any) => {
-      console.log("form", val);
+      //console.log("form", val);
       if (val['funcName'] == "merge") {
         merge(val["type"]);
       } else if (val['funcName'] == "mergeDraft") {

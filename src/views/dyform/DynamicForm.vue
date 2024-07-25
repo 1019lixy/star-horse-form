@@ -196,7 +196,6 @@ const getComponentName = (data: any) => {
   return data.itemType + "-item";
 };
 const onDragAdd = async (evt: Event, dataList: Array<any>) => {
-  console.log(evt, dataList);
   let index = evt.oldIndex;
   if (draggingItem.value.itemType == 'table') {
     let id = draggingItem.value.id;
@@ -293,12 +292,7 @@ const actions = (action: string) => {
       break;
   }
 };
-const checkMove = () => {
-  return true
-}
-const dragUpdate = (evt) => {
-  console.log(evt);
-}
+
 </script>
 <template>
   <star-horse-dialog

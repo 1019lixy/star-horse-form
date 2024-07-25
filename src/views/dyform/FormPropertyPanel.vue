@@ -98,7 +98,6 @@ const relationChange = (row: any) => {
   let fdata = dataSourceData.value.find(item => item.formId == tableId);
   row["formName"] = fdata?.formName;
   row["tbName"] = fdata?.tbName;
-  console.log(row);
 };
 /**
  * 表单更新的时候，更新表单的属性

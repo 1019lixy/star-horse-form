@@ -10,6 +10,5 @@ export function getLang(): LangType {
  * @param lang
  */
 export function setLang(lang: LangType) {
-    console.log(lang);
     return localStorage.setItem('lang', lang);
 }
