@@ -33,7 +33,7 @@ const customerUrl: string = "/system-config/system/customer/getAllByCondition";
  * @param params 参数
  */
 export async function loadData(url: string, params: SearchParams[] | any) {
-    let data = reactive([]);
+    let data :any= null;
     let error = "";
     let cond = params;
     if (params instanceof Array) {
@@ -807,7 +807,7 @@ export async function dynamicUrlOperation(preps: any, queryInfo?: SearchParams[]
         });
 
     }
-    return  reDataList;
+    return reDataList;
 }
 
 /**
@@ -816,7 +816,7 @@ export async function dynamicUrlOperation(preps: any, queryInfo?: SearchParams[]
  */
 export async function createFilter(queryString: string) {
     return (restaurant: SelectOption) => {
-        return ( restaurant?.name.toLowerCase().search(queryString.toLowerCase())
+        return (restaurant?.name.toLowerCase().search(queryString.toLowerCase())
             || restaurant?.value.toString().toLowerCase().search(queryString.toLowerCase())
         )
     }

@@ -55,6 +55,7 @@ const loadFormData = async (formId: any, isParent: boolean) => {
     warning(error);
     return;
   }
+  data["datasourceConfigId"] = data["datasourceConfigId"] + "";
   designForm.setFormInfo(data);
   if (isParent) {
     data["idDynamicForm"] = null;
@@ -75,11 +76,6 @@ const loadFormData = async (formId: any, isParent: boolean) => {
   designForm.selectItem(activeItem, activeItem.itemType, "item");
 };
 
-
-/**
- * 加载Form数据
- * @param id
- */
 const closeAction = () => {
   designForm.setIsEdit(true);
   isPreview.value = false;
