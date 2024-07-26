@@ -7,6 +7,7 @@ import {warning} from "@/utils/message";
 import Help from "@/components/help.vue";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
+import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 
 let designForm = DesignForm(piniaInstance);
 let formInfo = computed(() => designForm.formInfo);
@@ -217,7 +218,7 @@ defineExpose({
                   >
                     <el-tooltip :content="sdata.name">
                       <el-icon class="star-icon" style="font-size: 50px">
-                        <component :is="sdata.value" :key="sdata.value"/>
+                        <component :id="sdata.value" :is="sdata.value" />
                       </el-icon>
                     </el-tooltip>
                   </li>
@@ -310,8 +311,7 @@ defineExpose({
         </el-row>
       </el-tab-pane>
       <el-tab-pane name="tab2" label="映射关系配置">
-        <help
-            :message="relationMsg"/>
+        <help :message="relationMsg"/>
         <el-table
             :data="formInfo['relations']"
             :fit=true
@@ -327,9 +327,7 @@ defineExpose({
               prop="rowIndex"
               v-if="true ">
             <template #default="scope">
-              <el-form-item
-                  :prop="'relations.'+scope.$index+'.rowIndex'"
-              >
+              <el-form-item :prop="'relations.'+scope.$index+'.rowIndex'">
                 {{ scope.row.xh }}
               </el-form-item>
             </template>
@@ -377,37 +375,21 @@ defineExpose({
               prop="oper"
               width="100px"
           >
-            <template #header>
-										<span
-                        @click="handelAddRow"
-                        class="oper-btn"
-                        title="添加行"
-                    >
-                      操作
-											<star-horse-icon icon-class="add"/>
-										</span>
-            </template>
             <template #default="scope">
-										<span
-                        @click="handelAddRow"
-                        class="oper-btn"
-                        title="添加行"
-                    >
-											<star-horse-icon icon-class="add"/>
-										</span>&nbsp;&nbsp;
               <span
                   @click="handelDelete(scope.row)"
                   class="oper-btn"
                   title="删除行"
-                  v-if="formInfo['relations']?.length>1"
-              >
-											<star-horse-icon
-                          icon-class="delete"
-                      />
+                  v-if="formInfo['relations']?.length>1">
+											<star-horse-icon icon-class="delete"/>
 										</span>
             </template>
           </el-table-column>
         </el-table>
+        <div class="add-row" @click="handelAddRow">
+          <star-horse-icon icon-class="plus" color="var(--star-horse-style)"/>
+          加一行
+        </div>
       </el-tab-pane>
       <el-tab-pane name="tab3" label="脚本绑定">
       </el-tab-pane>

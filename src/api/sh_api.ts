@@ -33,7 +33,7 @@ const customerUrl: string = "/system-config/system/customer/getAllByCondition";
  * @param params 参数
  */
 export async function loadData(url: string, params: SearchParams[] | any) {
-    let data :any= null;
+    let data: any = null;
     let error = "";
     let cond = params;
     if (params instanceof Array) {
@@ -466,6 +466,7 @@ export function searchMatchList(): SelectOption[] {
     data.push({name: "模糊", value: "lk"});
     data.push({name: "左模糊", value: "llk"});
     data.push({name: "右模糊", value: "rlk"});
+    data.push({name: "不匹配", value: "nlk"});
     data.push({name: "小于", value: "lt"});
     data.push({name: "小于且等于", value: "lte"});
     data.push({name: "大于", value: "gt"});
