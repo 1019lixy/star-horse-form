@@ -86,6 +86,7 @@ export async function validInterface(formProps: any, dataSourceRef: Ref<any>, re
             flag = false;
             validErrorMsg = validResult.error;
         } else {
+            validSuccessMsg = "验证成功";
             dataList = validResult.data;
         }
     } else if (dataSource == "dict") {

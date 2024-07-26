@@ -157,12 +157,6 @@ const assignPrep = async (itemType: string, isItem: boolean) => {
   let formDatas = unref(formDataList);
   let selfFormDatas = unref(selfFormDataList);
   let containers = unref(containerList);
-  //让form
-  formProps.value["size"] = formInfo.value["size"];
-  //在表单中加入字段？
-  // if (!Object.keys(formData.value).includes(formProps.value["name"])) {
-  //   formData.value[formProps.value["name"]] = null;
-  // }
   if (!isItem) {
     for (let key in containers) {
       let temp = containers[key];
@@ -231,7 +225,7 @@ watch(() => formProps,
     }, {
       immediate: true,
       deep: true
-    })
+    });
 </script>
 <template>
   <star-horse-dialog :dialogVisible="dataSourceDialogVisible" :title="'数据源配置'" :isBatch="false"

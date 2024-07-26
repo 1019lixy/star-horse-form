@@ -63,6 +63,14 @@ export const DesignForm: any = defineStore("DesignForm", {
              * 当前拖动中的元素
              */
             draggingItem: {},
+            /**
+             *历史记录
+             */
+            historyRecord: {
+                index: -1,
+                maxStep: 20,
+                datas: [],
+            },
         }
     },
     getters: {
@@ -116,6 +124,75 @@ export const DesignForm: any = defineStore("DesignForm", {
         }
     },
     actions: {
+        /**
+         * 添加历史记录
+         * @param reOrUnDoFlag 是否点击按钮时触发
+         */
+        addHistoryRecord(reOrUnDoFlag: boolean) {
+            let _this = this;
+            if (reOrUnDoFlag || _this.compList.length == 0) {
+                return;
+            }
+
+            let record = _this.historyRecord;
+            let recordData = {
+                complist: _this.compList,
+                currentCompCategory: _this.currentCompCategory,
+                currentItemId: _this.currentItemId,
+                parentCompType: _this.parentCompType,
+                currentItemType: _this.currentItemType,
+                currentFormPreps: _this.currentFormPreps,
+            }
+            record.index = -1;
+            record.datas.splice(0, 0, JSON.stringify(recordData));
+            //数据只存20条，当大于20条时，删除最旧的一条
+            if (record.datas.length > record.maxStep) {
+                record.datas.splice(record.datas.length - 1, 1);
+            }
+        },
+        /**
+         * 下一步
+         */
+        redo() {
+            let record = this.historyRecord;
+            //数据本身就是最新的
+            if (record.index < 0) {
+                return;
+            }
+            record.index = record.index - 1;
+            this.reAndUnDo();
+
+        },
+
+        reAndUnDo() {
+            let _this = this;
+            let record = this.historyRecord;
+            let data = JSON.parse(record.datas[record.index]);
+            this.setCompList(data.complist);
+            _this.currentCompCategory = data.currentCompCategory;
+            _this.currentItemId = data.currentItemId;
+            _this.parentCompType = data.parentCompType;
+            _this.currentItemType = data.currentItemType;
+            _this.currentFormPreps = data.currentFormPreps;
+        },
+
+        /**
+         * 上一步
+         */
+        undo() {
+            let record = this.historyRecord;
+            console.log(record);
+            record.index = record.index < 0 ? 1 : record.index + 1;
+            //上一步大于已存在的数据量
+            if (record.index > record.datas.length) {
+                record.index = record.datas.length - 1;
+            }
+            //达到最大步骤，取允许的最大数据
+            if (record.index > record.maxStep) {
+                record.index = record.maxStep;
+            }
+            this.reAndUnDo();
+        },
         /**
          * 激活组件的数下
          * @param data 数据
@@ -247,6 +324,11 @@ export const DesignForm: any = defineStore("DesignForm", {
             };
             _this.compList = [];
             _this.formData = {index: 1};
+            _this.historyRecord = {
+                index: -1,
+                maxStep: 20,
+                datas: []
+            };
             if (initComp) {
                 const url = "/userdb-manage/userdb/dynamicFormItems/getAllByCondition";
                 const initContainer = async () => {

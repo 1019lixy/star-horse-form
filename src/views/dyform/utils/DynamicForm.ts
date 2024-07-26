@@ -28,12 +28,12 @@ const formActions = [
     },
     {
         icon: "undo",
-        key: 'unDo',
+        key: 'undo',
         label: '后退一步',
     },
     {
         icon: "redo",
-        key: 'reDo',
+        key: 'redo',
         label: '前进一步',
     },
     {

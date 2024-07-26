@@ -10,7 +10,6 @@ import piniaInstance from "@/store/index.ts";
 
 let designForm = DesignForm(piniaInstance);
 let formInfo = computed(() => designForm.formInfo);
-let compList = computed(() => designForm.compList);
 let formActiveNames = ref<string>("tab1");
 let dbList = ref<any>([]);
 let rules = ref({

@@ -3,6 +3,7 @@ import {computed, ref} from 'vue'
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
 import DbListComp from "@/views/dbsearch/utils/DbListComp.vue";
+
 let designForm = DesignForm(piniaInstance);
 let formDataList = computed(() => designForm.formDataList);
 let containerList = computed(() => designForm.containerList);
@@ -16,6 +17,8 @@ const onContainerCopy = (data: any) => {
 const onFormItemCopy = (data: any) => {
   return onDataCopy(data, 'formItem');
 };
+const numField: Array<string> = ["minlength", "maxLength", "step", "rows","height","width","columns","gutter",
+  "limit", "precision", "min", "max","highThreshold","lowThreshold","multipleLimit"];
 const onDataCopy = (data: any, type: String) => {
   let reData = JSON.parse(JSON.stringify(data));
   let ms = formData.value["index"]++;
@@ -29,7 +32,16 @@ const onDataCopy = (data: any, type: String) => {
   mvData["preps"] = {};
   for (let key in preps) {
     let temp = preps[key];
-    mvData.preps[temp.fieldName] = temp.defaultValues;
+    if (numField.includes(temp.fieldName)) {
+      try {
+        mvData.preps[temp.fieldName] = parseInt(temp.defaultValues);
+      } catch (e) {
+        mvData.preps[temp.fieldName] = null;
+      }
+    } else {
+      mvData.preps[temp.fieldName] = temp.defaultValues;
+    }
+
   }
   mvData.preps['id'] = mvData['id'];
   mvData.preps['label'] = reData.itemName;
@@ -110,7 +122,9 @@ const getDefaultVal = (type: String) => {
             >
               <template #item="{element}">
                 <li class="field-item">&nbsp;&nbsp;
-                  <span><star-horse-icon :icon-class="element.itemIcon" style="color: var(--star-horse-style)"/>&nbsp;&nbsp;{{ element.itemName}}</span>
+                  <span><star-horse-icon :icon-class="element.itemIcon" style="color: var(--star-horse-style)"/>&nbsp;&nbsp;{{
+                      element.itemName
+                    }}</span>
                 </li>
               </template>
             </draggable>
@@ -118,7 +132,8 @@ const getDefaultVal = (type: String) => {
         </el-collapse-item>
         <el-collapse-item name="c">
           <template #title>
-            &nbsp;<star-horse-icon icon-class="other" style="color: var(--star-horse-style)"/>&nbsp;&nbsp;<span>自定义组件</span>
+            &nbsp;<star-horse-icon icon-class="other"
+                                   style="color: var(--star-horse-style)"/>&nbsp;&nbsp;<span>自定义组件</span>
           </template>
           <el-scrollbar height="90%">
             <draggable
@@ -134,7 +149,9 @@ const getDefaultVal = (type: String) => {
               <template #item="{element}">
                 <li class="field-item">&nbsp;&nbsp;
                   <span><star-horse-icon :icon-class="element.itemIcon"
-                                         style="color: var(--star-horse-style)"/>&nbsp;&nbsp;{{ element.itemName }}</span>
+                                         style="color: var(--star-horse-style)"/>&nbsp;&nbsp;{{
+                      element.itemName
+                    }}</span>
                 </li>
               </template>
             </draggable>
@@ -145,7 +162,7 @@ const getDefaultVal = (type: String) => {
     </el-tab-pane>
     <el-tab-pane name="dbinfo">
       <template #label>
-        <star-horse-icon icon-class="database"  style="color: var(--star-horse-style)"/>&nbsp;<span>数据源</span>
+        <star-horse-icon icon-class="database" style="color: var(--star-horse-style)"/>&nbsp;<span>数据源</span>
       </template>
       <db-list-comp/>
     </el-tab-pane>
@@ -154,43 +171,52 @@ const getDefaultVal = (type: String) => {
 <style lang="scss" scoped>
 :deep(.el-collapse-item) {
   overflow: hidden;
+
   .el-collapse-item__wrap {
     height: 100%;
     overflow: hidden;
+
     .el-collapse-item__content {
       height: inherit;
       overflow: hidden;
     }
   }
+
   &:last-child {
     flex: 1;
     height: 100%;
   }
 }
+
 .widget-collapse {
   border-top-width: 0;
   display: flex;
   flex-direction: column;
   height: 100%;
   overflow: hidden;
+
   .el-collapse-item__header {
     padding-left: 10px;
     font-weight: bold;
   }
+
   .el-collapse-item__content {
     padding-bottom: 6px;
     margin-left: 8px;
+
     ul {
       padding-left: 10px; /* 重置IE11默认样式 */
       margin: 0; /* 重置IE11默认样式 */
       margin-block-start: 0;
       margin-block-end: 0.25em;
       padding-inline-start: 10px;
+
       &:after {
         content: '';
         display: block;
         clear: both;
       }
+
       .field-item {
         display: inline-flex;
         height: 28px;
@@ -203,6 +229,7 @@ const getDefaultVal = (type: String) => {
         text-overflow: ellipsis;
         overflow: hidden;
         border: 1px solid #f1f2f3;
+
         span {
           display: inline-flex;
           justify-items: center;
@@ -212,16 +239,19 @@ const getDefaultVal = (type: String) => {
           padding: 0;
           margin: 0;
           height: 100%;
+
           .svg-icon {
             margin-left: 0;
             margin-right: 0;
           }
         }
       }
+
       .field-item:hover {
         background: #ebeef5;
         outline: 1px solid #999999;
       }
+
       .drag-handler {
         position: absolute;
         top: 0;

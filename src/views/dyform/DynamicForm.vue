@@ -37,13 +37,12 @@ let draggingItem = computed(() => designForm.draggingItem);
 let list = computed(() => designForm.compList);
 let isPreview = ref<any>(false);
 let batchEditFieldVisible = ref<any>(false);
-let isEdit = computed(() => designForm.isEdit);
 let activeTab = ref<any>("first");
 let errMessage = ref<String>("");
 let formData = computed(() => designForm.formData);
-let editable = ref<any>(true);
 let formInfo = computed(() => designForm.formInfo);
 const fieldPanelRef = ref();
+let reOrUnDoFlag = ref<boolean>(false);
 const init = async () => {
   clearData();
 };
@@ -75,39 +74,8 @@ const loadFormData = async (formId: any, isParent: boolean) => {
   let activeItem = list.value[0];
   designForm.selectItem(activeItem, activeItem.itemType, "item");
 };
-onMounted(async () => {
-  designForm.clearAll(true);
-  await init();
-});
-//监听参数变化
-watch(
-    () => route.query["formId"],
-    (val) => {
-      if (val) {
-        loadFormData(val, false);
-      }
-    },
-    {immediate: true, deep: true}
-);
-watch(
-    () => route.query["parentId"],
-    (val) => {
-      if (val && val > 0) {
-        loadFormData(val, true);
-      }
-    },
-    {immediate: true, deep: true}
-);
-// const update = getCurrentInstance() as ComponentInternalInstance | null;
-watch(() => list.value,
-    () => {
-      designForm.removePromise();
-      designForm.setRefresh();
-    }, {
-      immediate: true,
-      deep: true
-    }
-)
+
+
 /**
  * 加载Form数据
  * @param id
@@ -150,6 +118,7 @@ const doSave = async () => {
   await nextTick();
   errMessage.value = validDynamicFormCompParams(list.value, true);
   if (errMessage.value) {
+    warning(errMessage.value);
     return;
   }
   await formPropertyRef.value.$refs.itemFormInfo.validate((evt: boolean) => {
@@ -191,7 +160,7 @@ const doSave = async () => {
     error("操作异常:" + err);
   });
 };
-const formInfoChange = (data: any) => {
+const formInfoChange = (_data: any) => {
 };
 const getComponentName = (data: any) => {
   return data.itemType + "-item";
@@ -238,25 +207,22 @@ const tableEdit = (submit: boolean) => {
 };
 const helpMessage =
     `
-描述：StarHorse 表单设计器是一款通过拖拽即可实现复杂表单模型，可满足大部分常见业务。
-   规则：所有同级组件的名字不能重复，在Tab组件中tabName和objectName 不能重复；
-       Table组件中batchFieldName不能重复
+描述：StarHorse 表单设计器是一款通过拖拽即可实现
+     复杂表单模型，可满足大部分常见业务。
+规则：所有同级组件的名字不能重复，在Tab组件中tabName
+     和objectName不能重复;
+     Table组件中batchFieldName不能重复。
 操作步骤：
-  1、将左边的组件拖动中间空白区域
-  2、
-  3、
-  4、
-  5、
+  1、将左边的组件拖动中间空白区域；
+  2、在右边属性区域设置选中组件得属性；
+  3、在头部可批量编辑按钮可编辑属性名称；
+  4、在在头部设置按钮可设置表单属性；
+  5、在头部代码按钮可以生产代码（目前只能生产vue3）；
+  6、在头部预览按钮可以预览表单信息；
 `;
 let leftPanelVisible = ref<boolean>(true);
 let rightPanelVisible = ref<boolean>(true);
-let processMsg = `
-现在已完成动态表单的基本功能，但还存在以下情况：
-2、后退和前进没有实现
-6、数据源生成的数据，调整位置未实现
-10、其它未覆盖测试的bug
-以上已实现则删除，功能及bug完善后记得删除此消息
-`;
+
 const actions = (action: string) => {
   switch (action) {
     case "leftPanel":
@@ -282,12 +248,57 @@ const actions = (action: string) => {
       break;
     case "valid":
       errMessage.value = validDynamicFormCompParams(list.value);
+      if (errMessage.value) {
+        warning(errMessage.value);
+      }
       break;
     case "code":
       createCode();
       break;
+    case "undo":
+      reOrUnDoFlag.value = true;
+      designForm.undo();
+      break;
+    case "redo":
+      reOrUnDoFlag.value = true;
+      designForm.redo();
+      break;
   }
 };
+//监听参数变化
+watch(
+    () => route.query["formId"],
+    (val) => {
+      if (val) {
+        loadFormData(val, false);
+      }
+    },
+    {immediate: true, deep: true}
+);
+watch(
+    () => route.query["parentId"],
+    (val) => {
+      if (val && val > 0) {
+        loadFormData(val, true);
+      }
+    },
+    {immediate: true, deep: true}
+);
+watch(() => list.value,
+    () => {
+      designForm.removePromise();
+      designForm.setRefresh();
+      designForm.addHistoryRecord(reOrUnDoFlag.value);
+      reOrUnDoFlag.value = false;
+    }, {
+      immediate: false,
+      deep: true
+    }
+);
+onMounted(async () => {
+  designForm.clearAll(true);
+  await init();
+});
 </script>
 <template>
   <star-horse-dialog
@@ -367,23 +378,23 @@ const actions = (action: string) => {
         :status-icon="formInfo['statusIcon'] == 'Y'"
         :validate-on-rule-change="formInfo['validateOnRuleChange']=='Y'"
     >
-    <template v-for="data in list">
-      <component
-          :id="data.id"
-          :field="data"
-          :formData="formData"
-          :is="data.itemType + '-container'"
-          v-if="data.compType === 'container'"
-      >
-      </component>
-      <component
-          :id="data.id"
-          :field="data"
-          :formData="formData"
-          :is="getComponentName(data)"
-          v-else-if="data.compType === 'formItem'"
-      />
-    </template>
+      <template v-for="data in list">
+        <component
+            :id="data.id"
+            :field="data"
+            :formData="formData"
+            :is="data.itemType + '-container'"
+            v-if="data.compType === 'container'"
+        >
+        </component>
+        <component
+            :id="data.id"
+            :field="data"
+            :formData="formData"
+            :is="getComponentName(data)"
+            v-else-if="data.compType === 'formItem'"
+        />
+      </template>
     </el-form>
   </star-horse-dialog>
   <el-card class="inner_content">
@@ -407,23 +418,9 @@ const actions = (action: string) => {
             </template>
           </el-menu>
           <help :message="helpMessage"/>
-          <help :message="processMsg"/>
         </div>
         <div class="main-design-a">
           <div class="main-design-outer">
-            <el-alert
-                title="组件参数异常警告"
-                type="warning"
-                v-show="errMessage?.length>0"
-                show-icon
-                @close="()=>errMessage=''"
-            >
-              <template #default>
-            <pre>
-              {{ errMessage }}
-            </pre>
-              </template>
-            </el-alert>
             <el-form
                 class="design-form-container"
                 :disabled="formInfo['disabled'] == 'Y'"
@@ -464,7 +461,7 @@ const actions = (action: string) => {
                     </div>
                   </template>
                   <template v-else-if="data.compType == 'formItem'">
-                    <div class="comp-item" >
+                    <div class="comp-item">
                       <component
                           :key="data.id"
                           :field="data"

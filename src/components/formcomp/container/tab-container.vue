@@ -113,7 +113,6 @@ const addTab = () => {
   </group-box-container>
 </template>
 <style lang="scss" scoped>
-
 .dynamic-tab-wapper {
   height: 100%;
 }

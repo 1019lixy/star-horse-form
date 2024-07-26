@@ -35,7 +35,7 @@ const closeAction = () => {
 let formData = ref<any>({});
 let list = computed(() => designForm.compList);
 const loadFormData = async (formId: any) => {
-  let {data, error} = await loadData(dataUrl.loadByIdUrl + "/" + formId, {});
+  let {data, _error} = await loadData(dataUrl.loadByIdUrl + "/" + formId, {});
   await nextTick();
   isPreview.value = true;
   designForm.clearAll(false);
