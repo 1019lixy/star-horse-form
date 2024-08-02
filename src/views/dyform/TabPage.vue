@@ -2,7 +2,6 @@
 import {nextTick, onMounted, provide, reactive, ref, watch} from "vue";
 import {closeLoad, getMenuId, load, loadGetData, loadPagePermission} from "@/api/sh_api";
 import {ApiUrls} from "@/components/types/ApiUrls";
-import {useRouter} from "vue-router";
 import {DialogProps} from "@/components/types/DialogProps";
 import {SearchProps} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
@@ -10,6 +9,7 @@ import {TabsPaneContext} from "element-plus";
 import {Config} from "@/api/settings.ts";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
+
 let designForm = DesignForm(piniaInstance);
 const starHorseTableCompRef = ref();
 const dataUrl = ref<ApiUrls>({

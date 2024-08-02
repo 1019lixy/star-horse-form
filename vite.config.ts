@@ -49,6 +49,7 @@ export default defineConfig({
             "/devops-continus": {
                 target: continusHost,
                 changeOrigin: true,
+                rewrite: (path) => path.replace(/^\/devops-continus/, '/devops-continus-dev'),
                 ws: true
             },
             "/dbsearch-manage": {

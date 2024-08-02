@@ -1,3 +1,36 @@
+
+<style lang="scss" scoped>
+</style>
+<script setup lang="ts" name="NodeProperties">
+import {ApiUrls} from "@/components/types/ApiUrls";
+const dataUrl: ApiUrls = {
+  loadByPageUrl: "/devops-continus/continus/nodeProperties/pageList",
+  mergeUrl: "/devops-continus/continus/nodeProperties/merge",
+  mergeDraftUrl: "/devops-continus/continus/nodeProperties/mergeDraft",
+  batchMergeUrl: "/devops-continus/continus/nodeProperties/mergeBatch",
+  batchMergeDraftUrl: "/devops-continus/continus/nodeProperties/mergeBatchDraft",
+  loadByIdUrl: "/devops-continus/continus/nodeProperties/getById",
+  deleteUrl: "/devops-continus/continus/nodeProperties/batchDeleteById",
+  exportAllUrl: "/devops-continus/continus/nodeProperties/exportData",
+  downloadTemplateUrl: "/devops-continus/continus/nodeProperties/downloadTemplate",
+  userConditionUrl: "/devops-continus/continus/nodeProperties/getAllByCondition",
+  importUrl: "/devops-continus/continus/nodeProperties/importData",
+  uploadUrl: ""
+};
+const dataFormat = (row, column, cellValue, index) => {
+  //cellValue = commonDataFormat(row, column, cellValue, index);
+  return cellValue;
+};
+/**
+ * 初始化数据
+ */
+const init = () => {
+  //commonSelectData("cts_env_info");
+};
+onMounted(() => {
+  init();
+});
+</script>
 <template>
   <star-horse-dialog :title="dialogTitle" :visible="batchDialogTableVisible" @merge="merge"
                      @mergeDraft="mergeDraft"
@@ -809,35 +842,3 @@
         v-model:pageCount="totalPage"/>
   </el-card>
 </template>
-<style lang="scss" scoped>
-</style>
-<script setup lang="ts" name="NodeProperties">
-import {ApiUrls} from "@/components/types/ApiUrls";
-const dataUrl: ApiUrls = {
-  loadByPageUrl: "/devops-continus/continus/nodeProperties/pageList",
-  mergeUrl: "/devops-continus/continus/nodeProperties/merge",
-  mergeDraftUrl: "/devops-continus/continus/nodeProperties/mergeDraft",
-  batchMergeUrl: "/devops-continus/continus/nodeProperties/mergeBatch",
-  batchMergeDraftUrl: "/devops-continus/continus/nodeProperties/mergeBatchDraft",
-  loadByIdUrl: "/devops-continus/continus/nodeProperties/getById",
-  deleteUrl: "/devops-continus/continus/nodeProperties/batchDeleteById",
-  exportAllUrl: "/devops-continus/continus/nodeProperties/exportData",
-  downloadTemplateUrl: "/devops-continus/continus/nodeProperties/downloadTemplate",
-  userConditionUrl: "/devops-continus/continus/nodeProperties/getAllByCondition",
-  importUrl: "/devops-continus/continus/nodeProperties/importData",
-  uploadUrl: ""
-};
-const dataFormat = (row, column, cellValue, index) => {
-  //cellValue = commonDataFormat(row, column, cellValue, index);
-  return cellValue;
-};
-/**
- * 初始化数据
- */
-const init = () => {
-  //commonSelectData("cts_env_info");
-};
-onMounted(() => {
-  init();
-});
-</script>

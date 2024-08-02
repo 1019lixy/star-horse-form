@@ -5,7 +5,8 @@ const props = defineProps({
   index: {type: Number, required: true, default: 1},
   size: {type: String, default: "small"}
 });
-const needLengthComp: Array<string> = ["input", "number", "text", "tselect", "textarea", "htmleditor", "cascade", "autocomplete", "dialog-input", "select", "page-select"]
+const needLengthComp: Array<string> = ["input", "number", "text", "tselect", "textarea", "htmleditor", "cascade",
+  "autocomplete", "dialog-input", "select", "page-select"]
 </script>
 <template>
   <template v-if="field?.compType=='container'&&(field.itemType=='box'||field.itemType=='table')">

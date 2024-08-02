@@ -1,3 +1,35 @@
+
+
+<script setup lang="ts" name="JunitReport">
+import {ApiUrls} from "@/components/types/ApiUrls";
+const dataUrl: ApiUrls = {
+  loadByPageUrl: "/devops-continus/continus/junitReport/pageList",
+  mergeUrl: "/devops-continus/continus/junitReport/merge",
+  mergeDraftUrl: "/devops-continus/continus/junitReport/mergeDraft",
+  batchMergeUrl: "/devops-continus/continus/junitReport/mergeBatch",
+  batchMergeDraftUrl: "/devops-continus/continus/junitReport/mergeBatchDraft",
+  loadByIdUrl: "/devops-continus/continus/junitReport/getById",
+  deleteUrl: "/devops-continus/continus/junitReport/batchDeleteById",
+  exportAllUrl: "/devops-continus/continus/junitReport/exportData",
+  downloadTemplateUrl: "/devops-continus/continus/junitReport/downloadTemplate",
+  userConditionUrl: "/devops-continus/continus/junitReport/getAllByCondition",
+  importUrl: "/devops-continus/continus/junitReport/importData",
+  uploadUrl: ""
+};
+const dataFormat = (row, column, cellValue, index) => {
+  //cellValue = commonDataFormat(row, column, cellValue, index);
+  return cellValue;
+};
+/**
+ * 初始化数据
+ */
+const init = () => {
+  //commonSelectData("cts_env_info");
+};
+onMounted(() => {
+  init();
+});
+</script>
 <template>
   <star-horse-dialog :title="dialogTitle" :visible="batchDialogTableVisible" @merge="merge"
                      @mergeDraft="mergeDraft"
@@ -9,7 +41,7 @@
           :row-class-name="rowClassName"
           @selection-change="handleDetailSelectionChange"
           border
-          fit=true
+          fit
           ref="tb"
           v-loading="loading"
       >
@@ -909,33 +941,3 @@
 </template>
 <style lang="scss" scoped>
 </style>
-<script setup lang="ts" name="JunitReport">
-import {ApiUrls} from "@/components/types/ApiUrls";
-const dataUrl: ApiUrls = {
-  loadByPageUrl: "/devops-continus/continus/junitReport/pageList",
-  mergeUrl: "/devops-continus/continus/junitReport/merge",
-  mergeDraftUrl: "/devops-continus/continus/junitReport/mergeDraft",
-  batchMergeUrl: "/devops-continus/continus/junitReport/mergeBatch",
-  batchMergeDraftUrl: "/devops-continus/continus/junitReport/mergeBatchDraft",
-  loadByIdUrl: "/devops-continus/continus/junitReport/getById",
-  deleteUrl: "/devops-continus/continus/junitReport/batchDeleteById",
-  exportAllUrl: "/devops-continus/continus/junitReport/exportData",
-  downloadTemplateUrl: "/devops-continus/continus/junitReport/downloadTemplate",
-  userConditionUrl: "/devops-continus/continus/junitReport/getAllByCondition",
-  importUrl: "/devops-continus/continus/junitReport/importData",
-  uploadUrl: ""
-};
-const dataFormat = (row, column, cellValue, index) => {
-  //cellValue = commonDataFormat(row, column, cellValue, index);
-  return cellValue;
-};
-/**
- * 初始化数据
- */
-const init = () => {
-  //commonSelectData("cts_env_info");
-};
-onMounted(() => {
-  init();
-});
-</script>

@@ -22,10 +22,10 @@ const lineDetail = (instanceId: string) => {
 </script>
 <style lang="scss" scoped>
 :deep(.el-progress-bar__outer) {
-  border-radius: 0%;
+  border-radius: 0;
 }
 :deep(.el-progress-bar__inner) {
-  border-radius: 0%;
+  border-radius: 0;
 }
 .el-card__header {
   padding: 5px;
