@@ -4,9 +4,11 @@ import {FieldInfo} from "@/components/types/PageFieldInfo";
 import {rowClassName} from "@/api/sh_api";
 import {Config} from "@/api/settings.ts";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
+
 const props = defineProps({
   item: {type: Array as PropType<Array<FieldInfo>>, required: true},
   batchName: {type: String, required: true},
+  compSize: {type: String, default: "small"},
   commonFormat: {type: Function, required: true},
 });
 const dataForm = defineModel("dataForm");
@@ -37,6 +39,7 @@ const dataFormat = (item: any) => {
       :stripe="true"
       :row-class-name="rowClassName"
       :highlight-current-row="true"
+      :size="compSize"
       :row-style="{
       height: '30px',
     }"

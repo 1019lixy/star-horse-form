@@ -21,7 +21,8 @@ const props = defineProps({
   btnText: {type: String, default: "提交"},
   userBtn: {type: Array<BtnAuth>, default: []},
   btnTextContinue: {type: String, default: "提交并继续"},
-  title: {type: String, default: ""}
+  title: {type: String, default: ""},
+  compSize:{type:String,default:"small"}
 });
 let windowsType = ref<boolean>(false);
 watch(
@@ -88,19 +89,19 @@ provide("dialogOperation", clickFunction);
         <template #header="{ close }">
           <h3>{{ title || dialogProps.dialogTitle }}</h3>
           <div class="my-header">
-            <el-button style="background: var(--star-horse-style);color: var(--star-horse-white)" size="small"
+            <el-button style="background: var(--star-horse-style);color: var(--star-horse-white)" :size="compSize"
                        @click="fullScreen" link v-if="!!isFullScreen && draggable">
               <el-tooltip :content="i18n('dialog.resize')">
                 <star-horse-icon icon-class="fullscreen-shrink" color="var(--star-horse-white)"/>
               </el-tooltip>
             </el-button>
-            <el-button style="background: var(--star-horse-style);color: var(--star-horse-white)" size="small"
+            <el-button style="background: var(--star-horse-style);color: var(--star-horse-white)" :size="compSize"
                        @click="fullScreen" link v-if="!isFullScreen && draggable">
               <el-tooltip :content="i18n('dialog.fullScreen')">
                 <star-horse-icon icon-class="fullscreen-expand" color="var(--star-horse-white)"/>
               </el-tooltip>
             </el-button>
-            <el-button style="background: var(--star-horse-style);color: var(--star-horse-white)" size="small"
+            <el-button style="background: var(--star-horse-style);color: var(--star-horse-white)" :size="compSize"
                        @click="close" link>
               <el-tooltip :content="i18n('dialog.close')">
                 <star-horse-icon icon-class="close" color="var(--star-horse-white)"/>
@@ -114,19 +115,19 @@ provide("dialogOperation", clickFunction);
         <slot name="extand"></slot>
         <span class="dialog-footer" v-if="!isView">
           <el-button @click="operation('merge','close')"
-                     style="background: var(--star-horse-style);color: var(--star-horse-white)" size="small">
+                     style="background: var(--star-horse-style);color: var(--star-horse-white)" :size="compSize">
             <star-horse-icon icon-class="save" style="color:var(--star-horse-white);"/>
             {{ i18n("dialog.submit") }}
           </el-button>
              <el-button @click="operation('merge','continue')"
-                        style="background: var(--star-horse-style);color: var(--star-horse-white)" size="small"
+                        style="background: var(--star-horse-style);color: var(--star-horse-white)" :size="compSize"
                         v-if="isShowBtnContinue">
             <star-horse-icon icon-class="save_continue" style="color:var(--star-horse-white);"/>
              {{ i18n("dialog.submitContinue") }}</el-button>
-          <el-button @click="operation('mergeDraft','close')" link
+          <el-button @click="operation('mergeDraft','close')" :size="compSize" link
                      style="background: var(--star-horse-style);color: var(--star-horse-white)" v-if="isShowSave">
             <star-horse-icon icon-class="short_save"/>{{ i18n("dialog.save") }}</el-button>
-             <el-button @click="operation('mergeDraft','continue')" link
+             <el-button @click="operation('mergeDraft','continue')" :size="compSize" link
                         style="background: var(--star-horse-style);color: var(--star-horse-white)"
                         v-if="isShowSave&&isShowBtnContinue">
             <star-horse-icon icon-class="save"/>{{ i18n("dialog.saveContinue") }}</el-button>
@@ -134,12 +135,12 @@ provide("dialogOperation", clickFunction);
 
                <el-button @click="item?.exec()" :disabled="item.disabled=='Y'"
                           :style="{background: item.disabled=='Y'?'var(--star-horse-disable)':'var(--star-horse-style)',
-                          color: 'var(--star-horse-white)'}" size="small">
+                          color: 'var(--star-horse-white)'}" :size="compSize">
             <star-horse-icon :icon-class="item.icon" style="color:var(--star-horse-white);"/>
             {{ item.labelName }}
           </el-button>
            </template>
-          <el-button @click="operation('resetForm','reset')" link v-if="isShowReset" size="small">
+          <el-button @click="operation('resetForm','reset')" :size="compSize" link v-if="isShowReset" size="small">
             <star-horse-icon icon-class="undo" style="color:var(--star-horse-style);"/>
             {{ i18n("dialog.reset") }}</el-button>
         </span>

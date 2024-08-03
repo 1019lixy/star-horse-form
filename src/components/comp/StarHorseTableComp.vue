@@ -495,6 +495,7 @@ defineExpose({
             max-height="400px"
             row-key="prop"
             style="width: 100%"
+            :size="compSize"
             border
         >
           <el-table-column prop="" label="排序" width="60">
@@ -538,6 +539,7 @@ defineExpose({
       :row-key="getRowIdentity"
       :stripe="true"
       :fit="true"
+      :size="compSize"
       :min-height="400"
       :highlight-current-row="true"
       :default-expand-all="expand"
