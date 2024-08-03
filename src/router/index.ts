@@ -4,21 +4,19 @@ import {starhorseProcess} from "@/utils/starhorseProcess";
 import {Config} from "@/api/settings.ts";
 import {getToken} from "@/utils/auth";
 import piniaInstance from "@/store";
-import {createRouterAndMenuList} from "@/api/star_horse";
-import {UserInfo} from "@/store/UserInfoStore";
+import {restoreMenu} from "@/api/star_horse";
 import {navBarList} from "@/store/NavbarListStore";
 import {viewList} from "@/store/ViewCacheStore";
+
 const {start, done} = starhorseProcess();
-const userInfoStore = UserInfo(piniaInstance);
 const navBarListStore = navBarList(piniaInstance);
 const viewListStore = viewList(piniaInstance);
-//let dynamicMenus = computed(() => userInfoStore.dynamicMenus);
 const router = createRouter({
     history: createWebHistory("/"),
     routes: routers,
     scrollBehavior: () => ({left: 0, top: 0}),
 });
-const whiteList = ["/login", "/dynamicform", "/workflowDesign"]; // N redirect whitelist
+const whiteList = ["/login", "/continus", "/workflowDesign"]; // N redirect whitelist
 const assignTitle = (meta: any) => {
     if (meta.title) {
         document.title = meta.title + " - " + Config.title;
@@ -27,8 +25,6 @@ const assignTitle = (meta: any) => {
 router.beforeEach((to: RouteLocationNormalized, _from: RouteLocationNormalized, next: NavigationGuardNext) => {
     assignTitle(to.meta);
     start();
-    // let menus = JSON.parse(JSON.stringify(userInfoStore.dynamicMenus));
-    // console.log(to, menus, localStorage.getItem("userInfoStore"));
     if (getToken()) {
         // 已登录且要跳转的页面是登录页
         if (to.path === "/login") {
@@ -41,29 +37,13 @@ router.beforeEach((to: RouteLocationNormalized, _from: RouteLocationNormalized, 
             //第一次验证路由是不是存在，不存在则重新加载
             let toPath = router.getRoutes().find((item) => item.path === path);
             if (!toPath) {
-                let data = localStorage.getItem("menusInfo");
-                if (data) {
-                    userInfoStore.addPermissionMenus(
-                        createRouterAndMenuList(JSON.parse(data))
-                    );
-                } else {
-                    //登录时，由于菜单时异步加载可能还没有加载成功，则直接跳转到主页
-                    next({path: "/"});
-                }
-                //加载完成后再次验证，还是不存在，则说明当前用户没有权限或者是非法路由
-                toPath = router.getRoutes().find((item) => item.path === path);
-                if (!toPath) {
-                    next("/404");
-                } else {
-                    next(to);
-                }
+                restoreMenu();
+                next({...to, replace: true});
             } else {
                 if (to.path.indexOf("page/") == -1 && !toPath?.components) {
                     next("/404");
-                } else if (toPath || to.path.indexOf("page/") != -1) {
-                    next();
                 } else {
-                    next(to);
+                    next();
                 }
             }
         }

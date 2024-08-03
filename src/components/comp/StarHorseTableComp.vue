@@ -677,7 +677,7 @@ defineExpose({
       :total="pageInfo.totalData"
       @current-change="pageChangeClick"
       @size-change="pageSizeClick"
-      :small="compSize=='small'"
+      :size="compSize"
       layout="total, sizes, prev, pager, next, jumper"
       v-model:currentPage="pageInfo.currentPage"
       v-model:page-size="pageInfo.pageSize"

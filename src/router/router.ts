@@ -24,7 +24,27 @@ routers.push({
                 title: "数据字典详情",
                 keepAlive: "N"
             }
-        }, {
+        },
+        {
+            path: "/continus/instanceConfig",
+            name: "ContinusInstanceConfig",
+            component: () => import("@/views/continus/ContinusInstanceConfig.vue"),
+            meta: {
+                title: "持续集成实例配置",
+                keepAlive: "N"
+            }
+        },
+        {
+            path: "/continus/instanceItem",
+            name: "InstanceItem",
+            component: () => import("@/views/continus/InstanceItem.vue"),
+            meta: {
+                title: "实例项目",
+                keepAlive: "N"
+            }
+        },
+
+        {
             path: "/tab/page/:param",
             component: () => import("@/views/dyform/TabPage.vue"),
             props: true,
