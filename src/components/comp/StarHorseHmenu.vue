@@ -8,8 +8,9 @@ const loadMenuFun = inject("loadMenu") as Function;
 const handleSelect = (data: any) => {
   loadMenuFun(data);
 };
-let query = getUserInfo().idUsersinfo;
+
 const initData = async () => {
+  let query = getUserInfo()?.idUsersinfo;
   await postRequest("/system-config/system/informationsEntity/getUserSystem/" + query, [])
       .then((res) => {
         dataList.value = res?.data?.data;

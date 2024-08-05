@@ -32,7 +32,7 @@ const dataForm = ref<any>({});
 computed(() => {
   let outerForm = props.outerFormData;
   dataForm.value = {...dataForm.value, ...outerForm};
-  console.log(dataForm.value, outerForm)
+ // console.log(dataForm.value, outerForm)
   return outerForm;
 }).value;
 const closeDialog = inject("closeDialog") as Function;
@@ -232,7 +232,6 @@ defineExpose({
 });
 </script>
 <template>
-
   <el-form :model="dataForm" :size="compSize" :rules="rules" class="data-form" ref="starHorseFormRef">
     <star-horse-form-item :primaryKey="primaryKey"
                           :compUrl="compUrl"

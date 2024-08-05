@@ -1,12 +1,11 @@
 <script setup lang="ts" name="ContinusInstanceInit">
 import {onMounted, ref} from "vue";
 import NodeList from "@/views/continus/NodeList.vue";
-import SubNodeInfo from "@/views/continus/nodeInfo/SubNodeInfo.vue";
 import DeployTemplate from "@/views/continus/DeployTemplate.vue";
 
 const nodeCompRef = ref<any>();
 const tempDialog = ref<boolean>(false);
-
+const nodeDialog = ref<boolean>(false);
 const currentNode = ref<number>(-1);
 let currentCompName = ref<string>("PipelineCfg");
 
@@ -19,17 +18,26 @@ const processList = ref<any>([
 ]);
 
 
-
 const changeTemplate = () => {
   tempDialog.value = !tempDialog.value;
 };
 const addNode = (currentIndex: number) => {
-  alert(currentIndex);
+  currentNode.value = currentIndex;
+  addSubNode();
 };
 const editNode = (compName: string, currentIndex: number) => {
   currentCompName.value = compName;
   currentNode.value = currentIndex;
 };
+const addSubNode = () => {
+  nodeDialog.value = true;
+};
+const closeAction = () => {
+  nodeDialog.value = false;
+}
+const dataSubmit = () => {
+
+}
 const init = async () => {
 
 }
@@ -38,6 +46,10 @@ onMounted(async () => {
 });
 </script>
 <template>
+  <star-horse-dialog :title="'节点列表'" :dialogVisible="nodeDialog" :self-func="true" @closeAction="closeAction"
+                     @merge="dataSubmit" :is-batch="false" :is-show-btn-continue="false">
+    <node-list/>
+  </star-horse-dialog>
   <star-horse-dialog :title="'更换模板'" :dialogVisible="tempDialog">
     <deploy-template/>
   </star-horse-dialog>

@@ -48,7 +48,8 @@ router.beforeEach((to: RouteLocationNormalized, _from: RouteLocationNormalized, 
             }
         }
     } else {
-        if (whiteList.indexOf(to.path) !== -1) {
+        console.log(to.path);
+        if (whiteList.find((item:string)=>to.path.includes(item))) {
             // 在免登录白名单，直接进入
             next();
         } else {

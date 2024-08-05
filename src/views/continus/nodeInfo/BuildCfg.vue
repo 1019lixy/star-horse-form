@@ -1,5 +1,5 @@
 <script setup lang="ts" name="PipelineCfg">
-import {onMounted, ref, reactive} from "vue";
+import {onMounted, reactive, ref} from "vue";
 import {SelectOption} from "@/components/types/SearchProps";
 import {loadData} from "@/api/sh_api.ts";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
@@ -14,95 +14,89 @@ const nodeDialog = ref<boolean>(false);
 let assignSelect = ref<boolean>(false);
 //页面属性
 const fieldList = reactive<PageFieldInfo | any>({
-      fieldList: [
-        {
-          cardList: [
-            {
-              title: "节点信息",
-              tabName: "nodeInfo",
-              fieldList: [[{
-                label: "名称",
-                fieldName: "nodeName",
-                type: "input",
-                required: true,
-                formShow: true,
-                tableShow: true,
-              }, {
-                label: "执行方式",
-                fieldName: "nodeExecType",
-                type: "select",
-                optionList: execTypeList,
-                required: true,
-                formShow: true,
-                tableShow: true,
-              }], [{
-                label: "节点成功条件",
-                fieldName: "nodeSuccessCondition",
-                type: "radio",
-                optionList: nodeSuccessConditionList,
-                actionName: "change",
-                actions: (val: any) => {
-                  console.log(val);
-                  assignSelect.value = val["nodeSuccessCondition"] == "assign";
-                },
-                required: true,
-                formShow: true,
-                tableShow: true
-              }, {
-                label: "",
-                fieldName: "assignNode",
-                type: "select",
-                optionList: subNodeList,
-                required: true,
-                formShow: assignSelect,
-                preps: {
-                  colSpan: 6
-                }
-              }],
-                {
-                  cardList: [{
-                    title: "子节点配置",
-                    subFormFlag: true,
-                    tabName: "subNodeInfo",
-                    objectName:"subNodeInfo",
-                    headerFieldList: [{
-                      label: "添加子节点",
-                      type: "button",
-                      fieldName: "subNodeBtn",
-                      actionName: "click",
-                      actions: (val: any) => {
-                        if (val["starHorseBtnName"] == "subNodeBtn") {
-                          addSubNode();
-                        }
-                      },
-                      preps: {
-                        text: "Y",
-                        icon: "plus",
-                      }
-                    }],
-                    fieldList: [{
-                      fieldName:"tab1",
-                      tabList: [{
-                        title: "节点一",
-                        tabName: "tab1",
-                        subFormFlag: true,
-                        objectName: "sub",
-                        fieldList: [{
-                          label: "",
-                          type: "comp",
-                          formShow: true,
-                          fieldName: "SubNodeInfo"
-                        }]
-                      }]
-                    }
-                    ]
-                  }]
-                },
-              ],
+      fieldList: [{
+        cardList: [{
+          title: "节点信息",
+          tabName: "nodeInfo",
+          fieldList: [[{
+            label: "名称",
+            fieldName: "nodeName",
+            type: "input",
+            required: true,
+            formShow: true,
+            tableShow: true,
+          }, {
+            label: "执行方式",
+            fieldName: "nodeExecType",
+            type: "select",
+            optionList: execTypeList,
+            required: true,
+            formShow: true,
+            tableShow: true,
+          }], [{
+            label: "节点成功条件",
+            fieldName: "nodeSuccessCondition",
+            type: "radio",
+            optionList: nodeSuccessConditionList,
+            actionName: "change",
+            actions: (val: any) => {
+              console.log(val);
+              assignSelect.value = val["nodeSuccessCondition"] == "assign";
             },
-          ],
-        },
-      ],
+            required: true,
+            formShow: true,
+            tableShow: true
+          }, {
+            label: "",
+            fieldName: "assignNode",
+            type: "select",
+            optionList: subNodeList,
+            required: true,
+            formShow: assignSelect,
+            preps: {
+              colSpan: 6
+            }
+          }],
+            {
+              cardList: [{
+                title: "子节点配置",
+                subFormFlag: true,
+                tabName: "subNodeInfo",
+                objectName: "subNodeInfo",
+                headerFieldList: [{
+                  label: "添加子节点",
+                  type: "button",
+                  fieldName: "subNodeBtn",
+                  actionName: "click",
+                  actions: (val: any) => {
+                    if (val["starHorseBtnName"] == "subNodeBtn") {
+                      addSubNode();
+                    }
+                  },
+                  preps: {
+                    text: "Y",
+                    icon: "plus",
+                  }
+                }],
+                fieldList: [{
+                  fieldName: "tab1",
+                  tabList: [{
+                    title: "节点一",
+                    tabName: "tab1",
+                    subFormFlag: true,
+                    objectName: "sub",
+                    fieldList: [{
+                      label: "",
+                      type: "comp",
+                      formShow: true,
+                      fieldName: "SubNodeInfo"
+                    }]
+                  }]
+                }]
+              }]
+            }],
+        }],
+      }],
     })
 ;
 const getFormData = () => {
