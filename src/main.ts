@@ -1,6 +1,7 @@
 import "element-plus/theme-chalk/index.css"
 import "@/assets/css/index.scss"
 import userComponent from "@/components/comp/selfcomp";
+import nodeComponent from "@/views/continus/nodeInfo/nodecomp.ts";
 import itemComponent from "@/components/formcomp/items/allitem";
 import containerComponent from "@/components/formcomp/container/callitem";
 import App from "@/App.vue";
@@ -32,6 +33,7 @@ app.use(Particles);
 app.use(userComponent);
 app.use(itemComponent);
 app.use(containerComponent);
+app.use(nodeComponent);
 app.use(piniaInstance);
 app.use(router);
 app.use(ElementPlus, {

@@ -1,5 +1,5 @@
 <template>
-  <starhorse-form-item :isDesign="context.attrs['isDesign']" :formItem="field"
+  <starhorse-form-item :isDesign="context.attrs['isDesign']" :bareFlag="context.attrs['bareFlag']" :formItem="field"
                        :parentField="parentField"
   >
     <el-tag

@@ -1,5 +1,5 @@
 <template>
-  <starhorse-form-item :isDesign="context.attrs['isDesign']" :form-item="field" :parentField="parentField"
+  <starhorse-form-item :isDesign="context.attrs['isDesign']" :bareFlag="context.attrs['bareFlag']" :form-item="field" :parentField="parentField"
   >
     未知组件。。。。。。。。。。。。。。。
   </starhorse-form-item>

@@ -3,17 +3,20 @@ import {computed, inject, onMounted, ref, unref, watch} from "vue";
 import {warning} from "@/utils/message";
 import {FieldInfo} from "@/components/types/PageFieldInfo";
 import Help from "@/components/help.vue";
+
 const props = defineProps({
       // allItem: {type: Array, required: true},
       item: {type: Object, required: true},
       column: {type: Object},
       primaryKey: {type: String},
+      bareFlag: {type: Boolean, default: false},
       batchName: {type: String, default: ""},
       compSize: {type: String, default: "small"},
       isSearch: {type: Boolean, default: false}, //是否查询数据
       showLabel: {type: Boolean, default: true},//是否显示标签
       isEdit: {type: Boolean, default: false}, //是否编辑数据
-      isView: {type: Boolean, default: false} //是否编辑数据
+      isView: {type: Boolean, default: false}, //是否视图数据
+      isDesign: {type: Boolean, default: false},
     }
 );
 const dataForm = defineModel("dataForm");
@@ -37,7 +40,7 @@ field.value.preps.size = computed(() => props.compSize);
  * @param params
  */
 const dataSearch = (act: String, ...params: any[]) => {
- // console.log(act);
+  // console.log(act);
   if (props.isSearch) {
     if (!act || act == "focus" || act == "blur") {
       return;
@@ -75,7 +78,10 @@ watch(() => props.isEdit,
     }
 );
 const compPreps = () => {
+
   itemType.value = props.item?.type || props.item?.fieldType;
+  field.value["isDesign"] = props.isDesign;
+  field.value["bareFlag"] = props.bareFlag;
   field.value.preps["values"] = props.item?.optionList;
   if (itemType.value == "number") {
     field.value.preps["step"] = props.item?.step || 1;
@@ -148,6 +154,7 @@ const compPreps = () => {
     field.value.preps["activeValue"] = props.item?.activeValue || "Y";
     field.value.preps["inactiveValue"] = props.item?.inactiveValue || "N";
   } else if (itemType.value == "comp") {
+
     field.value.preps["params"] = props.item?.params || {};
   }
   field.value.preps['multiple'] = props.item?.multiple;
@@ -187,7 +194,7 @@ const compPreps = () => {
       formFields[fieldName] = field;
     }
   }
-//  console.log(field);
+ // console.log(field);
 };
 const defaultAction = ref("keydown.enter")
 const typeList = ["select", "tselect", "date", "daterange"];
@@ -209,15 +216,40 @@ onMounted(() => {
 }
 </style>
 <template>
-  <div class="comp-info"
-       :style="{ 'width': isSearch && field.preps['type'] != 'daterange' ? '150px' : '100%','height':
-       itemType != 'button' ?'100%':'inherit' }">
+  <template v-if="bareFlag">
     <help :message="item?.helpMsg" v-if="item?.helpMsg"/>
-    <component :id="randId" :is="itemType+'-item'" @selfFunc="dataSearch" :isDesign="false"
+    <component :id="randId" :is="itemType+'-item'" @selfFunc="dataSearch" :isDesign="isDesign"
                ref="componentRef"
                :isSearch="isSearch"
+               :bareFlag="bareFlag"
                :field="field" :formData="dataForm"/>
-  </div>
+    <template v-if="item.brotherNode">
+      <star-horse-item v-for="temp in item.brotherNode" :primaryKey="primaryKey" :compSize="compSize"
+                       v-model:dataForm="dataForm"
+                       :item="temp" :isDesign="isDesign"
+                       :bareFlag="bareFlag"
+                       :isEdit="isEdit"/>
+    </template>
+  </template>
+  <template v-else>
+    <div class="comp-info"
+         :style="{ 'width': isSearch && field.preps['type'] != 'daterange' ? '150px' : '100%','height':
+       itemType != 'button' ?'100%':'inherit' }">
+      <help :message="item?.helpMsg" v-if="item?.helpMsg"/>
+      <component :id="randId" :is="itemType+'-item'" @selfFunc="dataSearch" :isDesign="isDesign"
+                 ref="componentRef"
+                 :isSearch="isSearch"
+                 :bareFlag="bareFlag"
+                 :field="field" :formData="dataForm"/>
+      <template v-if="item.brotherNode">
+        <star-horse-item v-for="temp in item.brotherNode" :primaryKey="primaryKey" :compSize="compSize"
+                         v-model:dataForm="dataForm"
+                         :item="temp" :isDesign="isDesign"
+                         :bareFlag="bareFlag"
+                         :isEdit="isEdit"/>
+      </template>
+    </div>
+  </template>
 </template>
 <style lang="scss" scoped>
 .comp-info {

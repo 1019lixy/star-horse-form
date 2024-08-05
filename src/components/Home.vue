@@ -1,12 +1,9 @@
 <template>
   <el-card class="box-card" style="height: 100%;width: 100%">
-    {{ val }}
-    <StarHorseEditor v-model:value="val"/>
+    <h3>功能建设中。。。</h3>
   </el-card>
 </template>
 <script setup lang="ts">
-import {ref} from "vue";
-let val = ref("xxx");
 </script>
 <style lang="scss" scoped>
 :deep(.el-card__body) {

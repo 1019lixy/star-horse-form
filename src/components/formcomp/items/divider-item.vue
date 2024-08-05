@@ -1,5 +1,5 @@
 <template>
-  <starhorse-form-item :isDesign="context.attrs['isDesign']" :formItem="field"
+  <starhorse-form-item :isDesign="context.attrs['isDesign']" :bareFlag="context.attrs['bareFlag']" :formItem="field"
                        :parentField="parentField">
     <el-divider :direction="field.preps['direction']||'horizontal'"
                 :content-position="field.preps['contentPosition']||'center'">

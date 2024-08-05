@@ -1,6 +1,7 @@
 import {SelectOption} from "@/components/types/SearchProps";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {SearchParams} from "@/components/types/Params";
+
 /**
  * Tab 表单数据
  */
@@ -38,6 +39,17 @@ export declare interface TabFieldInfo {
      */
     batchFieldList?: Array<BatchFieldInfo>;
 }
+
+/**
+ * Card 容器信息
+ */
+export declare interface CardFieldInfo extends TabFieldInfo {
+    /**
+     * 头部右侧组件信息
+     */
+    headerFieldList?: FieldInfo[]
+}
+
 /**
  * 事件联动
  */
@@ -51,6 +63,7 @@ export declare interface ActionRelation {
      */
     actionMethod: Function;
 }
+
 export declare interface FieldInfo {
     /**
      * 标签名称
@@ -113,13 +126,17 @@ export declare interface FieldInfo {
      */
     disabled?: string;
     /**
-     * 是否允许多选,在类型为select时有效 Y 多选 
+     * 是否允许多选,在类型为select时有效 Y 多选
      */
     multiple?: string;
     /**
      * Tab标签
      */
     tabList?: TabFieldInfo[];
+    /**
+     * Card 标签
+     */
+    cardList?: CardFieldInfo[];
     /**
      * 批量属性
      */
@@ -160,7 +177,12 @@ export declare interface FieldInfo {
      * 查询表前缀
      */
     prefix?: string;
+    /**
+     * 相邻的兄弟节点
+     */
+    brotherNode?: FieldInfo[];
 }
+
 /**
  * 属性映射
  *
@@ -175,6 +197,7 @@ export declare interface FieldMapping {
      */
     distField: String
 }
+
 /**
  * 弹窗文本框属性
  */
@@ -216,6 +239,7 @@ export declare interface DialogInput {
      */
     readonly?: String;
 }
+
 /**
  * 用户自定义方法信息
  */
@@ -233,6 +257,7 @@ export declare interface UserFuncInfo {
      */
     btnName?: string;
 }
+
 /**
  * 列表排序
  */
@@ -246,6 +271,7 @@ export declare interface OrderByInfo {
      */
     ascOrDesc: String;
 }
+
 /**
  * 批量添加时的导入信息
  */
@@ -263,6 +289,7 @@ export declare interface ImportInfo {
      */
     conditions?: Array<SearchParams>;
 }
+
 /**
  * 子表单信息
  */
@@ -285,6 +312,7 @@ export declare interface SubFieldInfo {
      */
     sameParentTable?: boolean;
 }
+
 /**
  * 批量表单
  */
@@ -339,6 +367,7 @@ export declare interface BatchFieldInfo {
      */
     sameParentTable?: boolean;
 }
+
 /**
  * 页面属性信息
  */

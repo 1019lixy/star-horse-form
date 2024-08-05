@@ -1,5 +1,5 @@
 <template>
-  <starhorse-form-item :isDesign="context.attrs['isDesign']" :form-item="field" :parentField="parentField"
+  <starhorse-form-item :isDesign="context.attrs['isDesign']" :bareFlag="context.attrs['bareFlag']" :form-item="field" :parentField="parentField"
   >
     <el-radio-group
         :fid="field.preps['name']"
@@ -15,8 +15,8 @@
       <el-radio :border="item['border']=='Y'"
                 :checked="item['checked']"
                 :disabled="item['disabled']=='Y'"
-                :label="item['label']"
-                :value="item['trueLabel']"
+                :label="item['name']"
+                :value="item['value']"
                 v-for="item in field.preps['values']"
       >
       </el-radio>
@@ -33,7 +33,7 @@ export default defineComponent({
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
     const keyEnterFun = () => {
-      context.emit('selfFunc');
+      context.emit('selfFunc',"change");
     };
     onMounted(() => {
       keyEnterFun();

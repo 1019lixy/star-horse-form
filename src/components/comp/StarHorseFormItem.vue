@@ -5,6 +5,7 @@ import {DialogProps} from "@/components/types/DialogProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import StarHorseFormObject from "@/components/comp/StarHorseFormObject.vue";
 import StarHorseFormTable from "@/components/comp/StarHorseFormTable.vue";
+
 const props = defineProps({
   compUrl: {type: Object as PropType<ApiUrls>},
   fieldList: {type: Object as PropType<PageFieldInfo>, required: true},
@@ -36,7 +37,7 @@ const validMsg = (item: any) => {
 </script>
 <template>
   <template v-for="item in fieldList.fieldList">
-    <el-row v-if="item instanceof Array">
+    <el-row v-if="item instanceof Array" :gutter="10">
       <template v-for="sitem in item">
         <el-col :span="sitem.colSpan||sitem.preps?.colSpan||(24/item.length)">
           <el-form-item
@@ -44,7 +45,7 @@ const validMsg = (item: any) => {
               :label="sitem.label"
               :prop="sitem.fieldName"
               :rules="sitem.required?validMsg(sitem):[]"
-              v-if="sitem.formShow&&sitem.type!='button'">
+              v-if="sitem.formShow&&sitem.type!='button'&&sitem.type!='comp'">
             <star-horse-item :compSize="compSize" :isView="isView" :primaryKey="primaryKey" v-model:dataForm="dataForm"
                              :item="sitem"
                              :isEdit="!dialogProps?.ids||dialogProps?.ids==-1"/>
@@ -61,7 +62,7 @@ const validMsg = (item: any) => {
         <template v-for="(tabItem,key ) in item.tabList">
           <el-tab-pane :label="tabItem.title" :name="tabItem.tabName||key" :disabled="tabItem.disabled"
                        :index="checkObject(tabItem)">
-            <template v-if="tabItem.subFormFlag">
+            <el-scrollbar height="95%">
               <star-horse-form-object v-if="tabItem.subFormFlag" :compUrl="compUrl"
                                       :objectName="tabItem.objectName"
                                       :rules="rules"
@@ -72,9 +73,7 @@ const validMsg = (item: any) => {
                     'fieldList':tabItem.fieldList,
                     'batchFieldList':tabItem.batchFieldList
                   }"/>
-            </template>
-            <template v-else>
-              <star-horse-form-item :isView="isView" :compUrl="compUrl"
+              <star-horse-form-item :isView="isView" :compUrl="compUrl" v-else
                                     v-model:dataForm="dataForm"
                                     :fieldList="{
                                   fieldList:tabItem.fieldList,
@@ -82,10 +81,45 @@ const validMsg = (item: any) => {
                                  }"
                                     :rules="rules" :subCreateFlag="true"
                                     :primaryKey="primaryKey"/>
-            </template>
+            </el-scrollbar>
           </el-tab-pane>
         </template>
       </el-tabs>
+    </template>
+    <template v-if="item.cardList&&item.cardList.length>0">
+      <template v-for="cardItem in item.cardList">
+        <el-card shadow="hover">
+          <template #header>
+            <div class="card-header">
+              <span>{{ cardItem.title || cardItem.tabName }}</span>
+              <template v-for="headerItem in cardItem.headerFieldList">
+                <star-horse-item :compSize="compSize" :bareFlag="true" :isView="isView" :primaryKey="primaryKey"
+                                 v-model:dataForm="dataForm"
+                                 :item="headerItem"
+                                 :isEdit="!dialogProps?.ids||dialogProps?.ids==-1"/>
+              </template>
+            </div>
+          </template>
+          <star-horse-form-object v-if="cardItem.subFormFlag" :compUrl="compUrl"
+                                  :objectName="cardItem.objectName"
+                                  :rules="rules"
+                                  :size="compSize"
+                                  :isView="isView"
+                                  v-model:dataForm="dataForm"
+                                  :primaryKey="cardItem.primaryKey" :fieldList="{
+                    'fieldList':cardItem.fieldList,
+                    'batchFieldList':cardItem.batchFieldList
+                  }"/>
+          <star-horse-form-item :isView="isView" :compUrl="compUrl" v-else
+                                v-model:dataForm="dataForm"
+                                :fieldList="{
+                                  fieldList:cardItem.fieldList,
+                                  batchFieldList:cardItem.batchFieldList
+                                 }"
+                                :rules="rules" :subCreateFlag="true"
+                                :primaryKey="primaryKey"/>
+        </el-card>
+      </template>
     </template>
     <star-horse-item v-else-if="item.type=='comp'||item.type=='button'" :isView="isView" :primaryKey="primaryKey"
                      v-model:dataForm="dataForm"
@@ -133,23 +167,41 @@ const validMsg = (item: any) => {
   </template>
 </template>
 <style lang="scss" scoped>
+:deep(.el-card__header) {
+  padding: 10px 20px;
+}
+
+.el-card:nth-child(n+1) {
+  margin-top: 10px;
+  height: 100%;
+  overflow: hidden;
+}
+
+:deep(.el-card__body) {
+  margin-top: 5px;
+}
+
 :deep(.el-tabs) {
   height: 100%;
   display: flex;
   flex-direction: column;
 }
+
 :deep(.el-tabs__content ) {
   height: 100%;
   flex: 1;
 }
+
 :deep(.el-tab-pane) {
   height: 100%;
   flex: 1;
 }
+
 :deep(.el-form) {
   display: block;
   width: 100%;
 }
+
 .data-form {
   height: 100%;
 }

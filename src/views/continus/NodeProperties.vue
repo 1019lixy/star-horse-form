@@ -1,6 +1,3 @@
-
-<style lang="scss" scoped>
-</style>
 <script setup lang="ts" name="NodeProperties">
 import {ApiUrls} from "@/components/types/ApiUrls";
 const dataUrl: ApiUrls = {
@@ -842,3 +839,6 @@ onMounted(() => {
         v-model:pageCount="totalPage"/>
   </el-card>
 </template>
+
+<style lang="scss" scoped>
+</style>

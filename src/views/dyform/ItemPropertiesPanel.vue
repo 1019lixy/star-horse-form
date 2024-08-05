@@ -417,19 +417,14 @@ watch(() => formProps,
                 :data="formProps.values"
                 :fit=true
                 :row-class-name="rowClassName">
-              <el-table-column label="标签名称" prop="label">
+              <el-table-column label="显示名称" prop="name">
                 <template #default="scope">
                   <el-input v-model="scope.row.label"/>
                 </template>
               </el-table-column>
-              <el-table-column label="选中值" prop="trueLabel">
+              <el-table-column label="值" prop="value">
                 <template #default="scope">
-                  <el-input v-model="scope.row.trueLabel"/>
-                </template>
-              </el-table-column>
-              <el-table-column label="未选中值" prop="falseLabel">
-                <template #default="scope">
-                  <el-input v-model="scope.row.falseLabel"/>
+                  <el-input v-model="scope.row.value"/>
                 </template>
               </el-table-column>
               <el-table-column
@@ -441,7 +436,7 @@ watch(() => formProps,
                 <span
                     @click="handelDeleteItem(scope.row)"
                     class="oper-btn"
-                    title="删除行"
+                    title="删除"
                     v-if="formProps.values?.length>1">
 											<star-horse-icon icon-class="delete" style="color:indianred"/>
 										</span>

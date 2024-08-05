@@ -16,7 +16,7 @@
                            @selectItem="selectItem"
                            :dataFormat="field.preps['dataFormat']" :disableAction="true"/>
   </star-horse-dialog>
-  <starhorse-form-item :isDesign="context.attrs['isDesign']" :formItem="field"
+  <starhorse-form-item :isDesign="context.attrs['isDesign']" :bareFlag="context.attrs['bareFlag']" :formItem="field"
                        :parentField="parentField">
     <el-input
         :clearable="field.preps['clearable'] == 'Y'"

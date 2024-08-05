@@ -13,6 +13,7 @@ declare module 'vue' {
     BoxCol: typeof import('./src/components/formcomp/container/box-col.vue')['default']
     BoxContainer: typeof import('./src/components/formcomp/container/box-container.vue')['default']
     ButtonItem: typeof import('./src/components/formcomp/items/button-item.vue')['default']
+    CardContainer: typeof import('./src/components/formcomp/container/card-container.vue')['default']
     CascadeItem: typeof import('./src/components/formcomp/items/cascade-item.vue')['default']
     CheckboxItem: typeof import('./src/components/formcomp/items/checkbox-item.vue')['default']
     CodeJs5: typeof import('./src/components/code/CodeJs5.vue')['default']

@@ -5,6 +5,7 @@ import {DialogProps} from "@/components/types/DialogProps";
 import {commonParseCodeToName, formFieldMapping, loadById} from "@/api/sh_api";
 import StarHorseDataViewObject from "@/components/comp/StarHorseDataViewObject.vue";
 import StarHorseDataViewTable from "@/components/comp/StarHorseDataViewTable.vue";
+
 const dataForm = ref({});
 const props = defineProps({
   compUrl: {type: Object as PropType<ApiUrls>},
@@ -81,7 +82,7 @@ const tabList = ref<any>("tab0");
 </script>
 <template>
   <template v-for="item in fieldList.fieldList">
-    <el-row v-if="item instanceof Array">
+    <el-row v-if="item instanceof Array" :gutter="10">
       <el-col :span="sitem.colSpan||sitem.preps?.colSpan||(24/item.length)" v-for="sitem in item">
         <div class="item" v-if="sitem.formShow||sitem.tableShow||sitem.viewShow">
           <label>{{ sitem.label }} :</label>
@@ -118,6 +119,32 @@ const tabList = ref<any>("tab0");
           </el-tab-pane>
         </template>
       </el-tabs>
+    </template>
+    <template v-else-if="item.cardList&&item.cardList.length>0">
+      <template v-for="cardItem  in item.tabList">
+        <el-card shadow="hover">
+          <template #header>
+            <div class="card-header">
+              <span>{{ cardItem.title || cardItem.tabName }}</span>
+            </div>
+          </template>
+          <star-horse-data-view-object :objectName="cardItem.objectName"
+                                       :subCreateFlag="true"
+                                       v-bind:data-form="dataForm"
+                                       :commonFormat="commonFormat"
+                                       v-if="cardItem.subFormFlag"
+                                       primaryKey="id"
+                                       :fieldList="{
+               fieldList:cardItem.fieldList,
+              batchFieldList:cardItem.batchFieldList
+            }"/>
+          <star-horse-data-view v-else :compUrl="compUrl" :fieldList="{
+              fieldList:cardItem.fieldList,
+              batchFieldList:cardItem.batchFieldList
+            }"
+          />
+        </el-card>
+      </template>
     </template>
     <star-horse-item v-else-if="item.type=='comp'" :primaryKey="'id'" v-model:dataForm="dataForm" :item="item"
                      :isView="true"/>
@@ -159,25 +186,39 @@ const tabList = ref<any>("tab0");
   </template>
 </template>
 <style lang="scss" scoped>
+:deep(.el-card__header){
+  padding: 10px 20px;
+}
+.el-card:nth-child(n+1) {
+  margin-top: 10px;
+}
+:deep(.el-card__body) {
+  margin-top: 5px;
+}
 :deep(.el-tabs) {
   height: 100%;
   display: flex;
   flex-direction: column;
 }
+
 .el-tabs {
   height: 100%;
 }
+
 :deep(.el-tabs__content ) {
   height: 100%;
   flex: 1;
 }
+
 :deep(.el-tab-pane) {
   height: 100%;
   flex: 1;
 }
+
 :deep(.el-table__cell) {
   padding: 0;
 }
+
 :deep(th.el-table__cell:first-child) {
   padding: 5px 0;
 }

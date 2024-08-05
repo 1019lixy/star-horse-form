@@ -1,6 +1,6 @@
 <template>
   <starhorse-form-item
-      :isDesign="context.attrs['isDesign']"
+      :isDesign="context.attrs['isDesign']" :bareFlag="context.attrs['bareFlag']"
       :form-item="field"
       :parentField="parentField"
   >

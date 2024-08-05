@@ -7,7 +7,9 @@ const props = defineProps({
   parentField: {type: Object},
   parentId: {type: Object},
   formItem: {type: Object, required: true},
-  isDesign: {type: Boolean, default: true}
+  isDesign: {type: Boolean, default: true},
+  //是否需要css 修饰
+  bareFlag: {type: Boolean, default: false}
 });
 let designForm = DesignForm(piniaInstance);
 let isEdit = computed(() => designForm.isEdit);
@@ -194,7 +196,10 @@ onMounted(() => {
 })
 </script>
 <template>
-  <div class="form-item-operation" :style="{width:refresh%2==0?'100%':'99%'}">
+  <div v-if="bareFlag">
+    <slot></slot>
+  </div>
+  <div v-else class="form-item-operation" :style="{width:refresh%2==0?'100%':'99%'}">
     <div :class="[isEdit ? 'field-item design-star-horse' : '',
   (currentItemId == formItem?.preps.id && isEdit)?'active-item':''
   ]" v-if="isDesign">

@@ -5,7 +5,7 @@
     <Crontab ref="cronTabRef" :expression="context.attrs['formData'][field.preps['name']]"
     />
   </star-horse-dialog>
-  <starhorse-form-item :isDesign="context.attrs['isDesign']" :form-item="field" :parentField="parentField"
+  <starhorse-form-item :isDesign="context.attrs['isDesign']" :bareFlag="context.attrs['bareFlag']" :form-item="field" :parentField="parentField"
   >
     <el-input
         :fid="field.preps['name']"

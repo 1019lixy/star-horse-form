@@ -6,6 +6,7 @@ import {Config} from "@/api/settings.ts";
 import ProjectMemberUi from "@/views/continus/ProjectMemberUi.vue";
 import {DialogInput} from "@/components/types/PageFieldInfo";
 import {getMenuId, loadPagePermission} from "@/api/sh_api.ts";
+
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/devops-continus/continus/projectInfo/pageList",
   mergeUrl: "/devops-continus/continus/projectInfo/merge",
@@ -163,7 +164,8 @@ const dialogProps = reactive<DialogInput>({
   uploadVisible: false,
   viewVisible: false,
 });
-provide("dialogProps", dialogProps);let permissions = ref<any>({});
+provide("dialogProps", dialogProps);
+let permissions = ref<any>({});
 const dataFormat = (name: string, cellValue: Object): any => {
   return cellValue;
 }
@@ -190,13 +192,16 @@ onMounted(async () => {
   </star-horse-dialog>
   <el-card class="inner_content">
     <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
-      <star-horse-search-comp @searchData="(data:any)=>projectInfoRef.createCreateParams(data)" :formData="searchFormData"
+      <star-horse-search-comp @searchData="(data:any)=>projectInfoRef.createCreateParams(data)"
+                              :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
-      <star-horse-button-list :permissions="permissions"  @tableCompFunc="(fun:any)=>projectInfoRef.tableCompFunc(fun)" :compUrl="dataUrl"
+      <star-horse-button-list :permissions="permissions" @tableCompFunc="(fun:any)=>projectInfoRef.tableCompFunc(fun)"
+                              :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
-    <star-horse-table-comp :permissions="permissions"   ref="projectInfoRef" :fieldList="tableFieldList" :primaryKey="primaryKey" :compUrl="dataUrl"
+    <star-horse-table-comp :permissions="permissions" ref="projectInfoRef" :fieldList="tableFieldList"
+                           :primaryKey="primaryKey" :compUrl="dataUrl"
                            :dataFormat="dataFormat" @selectItem="selectItemFun"/>
     <project-member-ui :projectId="projectId"/>
   </el-card>

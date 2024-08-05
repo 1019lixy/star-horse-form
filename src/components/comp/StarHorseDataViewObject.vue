@@ -3,6 +3,7 @@ import {PropType, ref} from "vue";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import StarHorseDataView from "@/components/comp/StarHorseDataView.vue";
 import StarHorseDataViewTable from "@/components/comp/StarHorseDataViewTable.vue";
+
 const props = defineProps({
   // compUrl: {type: Object as PropType<ApiUrls>},
   fieldList: {type: Object as PropType<PageFieldInfo>, required: true},
@@ -36,7 +37,7 @@ const dataFormat = (item: any) => {
 </script>
 <template>
   <template v-for="item in fieldList.fieldList">
-    <el-row v-if="item instanceof Array">
+    <el-row v-if="item instanceof Array" :gutter="10">
       <template v-for="sitem in item">
         <el-col :span="sitem.colSpan||sitem.preps?.colSpan||(24/item.length)">
           <div class="item" v-if="sitem.formShow||sitem.tableShow||sitem.viewShow">
@@ -61,6 +62,21 @@ const dataFormat = (item: any) => {
           </el-tab-pane>
         </template>
       </el-tabs>
+    </template>
+    <template v-if="item.cardList&&item.cardList.length>0">
+      <template v-for="cardItem in item.cardList">
+        <el-card shadow="hover">
+          <template #header>
+            <div class="card-header">
+              {{ cardItem.title || cardItem.tabName }}
+            </div>
+          </template>
+          <star-horse-data-view :objectName="objectName" :fieldList="{
+                        fieldList:cardItem.fieldList,
+                        batchFieldList:cardItem.batchFieldList}" :subCreateFlag="true"
+                                :primaryKey="primaryKey"/>
+        </el-card>
+      </template>
     </template>
     <star-horse-item v-else-if="item.type=='comp'" :primaryKey="'id'"
                      v-model:dataForm="dataForm" :item="item"
@@ -101,23 +117,37 @@ const dataFormat = (item: any) => {
   </template>
 </template>
 <style lang="scss" scoped>
+:deep(.el-card__header){
+  padding: 10px 20px;
+}
+.el-card:nth-child(n+1) {
+  margin-top: 10px;
+}
+
+:deep(.el-card__body) {
+  margin-top: 5px;
+}
 :deep(.el-tabs) {
   height: 100%;
   display: flex;
   flex-direction: column;
 }
+
 :deep(.el-tabs__content ) {
   height: 100%;
   flex: 1;
 }
+
 :deep(.el-tab-pane) {
   height: 100%;
   flex: 1;
 }
+
 :deep(.el-form) {
   display: block;
   width: 100%;
 }
+
 .data-form {
   height: 100%;
 }

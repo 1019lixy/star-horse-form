@@ -4,21 +4,7 @@ const nodeInfo = ref<any>({});
 const successFlag = ref<number>(2);
 const errorFlag = ref<number>(2);
 </script>
-<style lang="scss" scoped>
-.report-switch {
-  display: block;
-  width: 100%;
-  vertical-align: middle;
-  margin-left: 15px;
-}
-.report-content {
-  margin: 0 20px;
-}
-.el-sub-menu {
-  margin-top: 10px;
-  border: 1px solid #e8e8e8;
-}
-</style>
+
 <template>
   <el-card shadow="hover">
     <template #header>
@@ -194,3 +180,18 @@ const errorFlag = ref<number>(2);
     </el-card>
   </el-card>
 </template>
+<style lang="scss" scoped>
+.report-switch {
+  display: block;
+  width: 100%;
+  vertical-align: middle;
+  margin-left: 15px;
+}
+.report-content {
+  margin: 0 20px;
+}
+.el-sub-menu {
+  margin-top: 10px;
+  border: 1px solid #e8e8e8;
+}
+</style>

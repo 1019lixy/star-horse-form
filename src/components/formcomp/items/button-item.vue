@@ -1,5 +1,7 @@
 <template>
-  <starhorse-form-item :isDesign="context.attrs['isDesign']" :form-item="field" :parentField="parentField"
+
+  <starhorse-form-item :isDesign="context.attrs['isDesign']" :bareFlag="context.attrs['bareFlag']" :form-item="field"
+                       :parentField="parentField"
   >
     <el-button
         :autofocus="field?.preps['autofocus']=='Y'"
@@ -17,6 +19,8 @@
         :text="field?.preps['text']=='Y'"
         @click="dynamicFunc(field?.preps['click'])"
         :type="field?.preps['type']">
+      <star-horse-icon v-if="field?.preps['icon']" :icon-class="field?.preps['icon']"
+                       style="vertical-align: middle;color:var(--star-horse-style)"/>
       {{ field?.preps["label"] }}
     </el-button>
   </starhorse-form-item>
@@ -24,6 +28,7 @@
 <script lang="ts" name="buttonItem">
 import {defineComponent, onMounted, shallowRef} from "vue";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
+
 export default defineComponent({
   components: {StarHorseIcon},
   setup(props, context) {
@@ -41,15 +46,19 @@ export default defineComponent({
         let func = new Function(code);
         func.call(this);
       } else {
+        context.attrs['formData']["starHorseBtnName"] = field.preps['name'];
         if (field.preps["actions"]) {
           field.preps["actions"](context.attrs['formData']);
         }
         context.emit('selfFunc', context.attrs['formData']);
       }
     };
-    return {parentField,  dynamicFunc, context, field, formItem, dataField}
+    return {parentField, dynamicFunc, context, field, formItem, dataField}
   }
 });
 </script>
-<style scoped>
+<style lang="scss" scoped>
+:deep(.el-icon) {
+  display: none;
+}
 </style>
