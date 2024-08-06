@@ -51,6 +51,12 @@ export declare interface CardFieldInfo extends TabFieldInfo {
 }
 
 /**
+ * Collapse 容器信息
+ */
+export declare interface CollapseList extends TabFieldInfo {
+}
+
+/**
  * 事件联动
  */
 export declare interface ActionRelation {
@@ -138,6 +144,10 @@ export declare interface FieldInfo {
      */
     cardList?: CardFieldInfo[];
     /**
+     * Collapse标签
+     */
+    collapseList?: CollapseList[];
+    /**
      * 批量属性
      */
     batchFieldList?: BatchFieldInfo[];
@@ -180,7 +190,7 @@ export declare interface FieldInfo {
     /**
      * 相邻的兄弟节点
      */
-    brotherNode?: FieldInfo[];
+    brotherNodes?: FieldInfo[];
 }
 
 /**

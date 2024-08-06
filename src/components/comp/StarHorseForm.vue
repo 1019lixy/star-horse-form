@@ -10,6 +10,7 @@ import {ShallowReactive} from "@vue/reactivity";
 import StarHorseFormItem from "@/components/comp/StarHorseFormItem.vue";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import piniaInstance from "@/store";
+
 const props = defineProps({
   compUrl: {type: Object as PropType<ApiUrls>,},
   fieldList: {type: Object as PropType<PageFieldInfo>, required: true},
@@ -32,7 +33,7 @@ const dataForm = ref<any>({});
 computed(() => {
   let outerForm = props.outerFormData;
   dataForm.value = {...dataForm.value, ...outerForm};
- // console.log(dataForm.value, outerForm)
+  // console.log(dataForm.value, outerForm)
   return outerForm;
 }).value;
 const closeDialog = inject("closeDialog") as Function;
@@ -60,9 +61,10 @@ watch(
     }
 );
 const loadData = async () => {
-  if (!props.compUrl || !props.compUrl.loadByIdUrl) {
+  if (!props.compUrl || !props.compUrl.loadByIdUrl || !dialogProps.ids) {
     return;
   }
+  await nextTick();
   let params = props.globalCondition || {};
   let objData = await loadById(props.compUrl.loadByIdUrl!, dialogProps.ids, false, params);
   dataForm.value = {...objData};
@@ -221,6 +223,7 @@ watch(() => dialogProps.ids,
         // dataForm.value = formFieldMapping(props.fieldList).defaultDatas;
         setDataForm(dataForm.value);
       } else {
+        console.log(dialogProps.ids);
         loadData();
       }
     }, {
@@ -248,24 +251,32 @@ defineExpose({
 :deep(.el-form-item__label) {
   min-width: 100px;
 }
+
 :deep(.el-tabs) {
   height: 100%;
   display: flex;
   flex-direction: column;
 }
+
 :deep(.el-tabs__content ) {
   height: 100%;
   flex: 1;
 }
+
 :deep(.el-tab-pane) {
   height: 100%;
   flex: 1;
 }
+
 :deep(.el-form) {
-  display: block;
+  display: flex;
   width: 100%;
+  flex-direction: column;
 }
+
 .data-form {
   height: 100%;
+  flex: 1;
+  overflow: hidden;
 }
 </style>

@@ -1,7 +1,8 @@
 import "element-plus/theme-chalk/index.css"
 import "@/assets/css/index.scss"
 import userComponent from "@/components/comp/selfcomp";
-import nodeComponent from "@/views/continus/nodeInfo/nodecomp.ts";
+import nodeComponent from "@/views/continus/nodeInfo/nodecomp";
+import userContainerComponent from "@/components/comp/utils/callitem";
 import itemComponent from "@/components/formcomp/items/allitem";
 import containerComponent from "@/components/formcomp/container/callitem";
 import App from "@/App.vue";
@@ -32,6 +33,7 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 app.use(Particles);
 app.use(userComponent);
 app.use(itemComponent);
+app.use(userContainerComponent);
 app.use(containerComponent);
 app.use(nodeComponent);
 app.use(piniaInstance);

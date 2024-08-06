@@ -29,7 +29,6 @@ router.beforeEach((to: RouteLocationNormalized, _from: RouteLocationNormalized, 
         // 已登录且要跳转的页面是登录页
         if (to.path === "/login") {
             next({path: "/"});
-            done();
         } else {
             let path = to.path;
             //判断是不是动态菜单
@@ -48,13 +47,12 @@ router.beforeEach((to: RouteLocationNormalized, _from: RouteLocationNormalized, 
             }
         }
     } else {
-        console.log(to.path);
         if (whiteList.find((item:string)=>to.path.includes(item))) {
-            // 在免登录白名单，直接进入
+            // 在免登录白名单，直接放行
             next();
         } else {
+            //中断当前导航执行新的导航
             next({path: "/login", query: {redirect: to.fullPath}}); // 否则全部重定向到登录页
-            done();
         }
     }
 });

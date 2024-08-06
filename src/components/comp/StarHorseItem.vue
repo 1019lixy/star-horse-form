@@ -194,7 +194,7 @@ const compPreps = () => {
       formFields[fieldName] = field;
     }
   }
- // console.log(field);
+  // console.log(field);
 };
 const defaultAction = ref("keydown.enter")
 const typeList = ["select", "tselect", "date", "daterange"];
@@ -216,45 +216,54 @@ onMounted(() => {
 }
 </style>
 <template>
-  <template v-if="bareFlag">
+  <div v-if="bareFlag" class="bare-comp">
     <help :message="item?.helpMsg" v-if="item?.helpMsg"/>
     <component :id="randId" :is="itemType+'-item'" @selfFunc="dataSearch" :isDesign="isDesign"
                ref="componentRef"
                :isSearch="isSearch"
                :bareFlag="bareFlag"
                :field="field" :formData="dataForm"/>
-    <template v-if="item.brotherNode">
-      <star-horse-item v-for="temp in item.brotherNode" :primaryKey="primaryKey" :compSize="compSize"
-                       v-model:dataForm="dataForm"
-                       :item="temp" :isDesign="isDesign"
-                       :bareFlag="bareFlag"
-                       :isEdit="isEdit"/>
-    </template>
-  </template>
-  <template v-else>
-    <div class="comp-info"
-         :style="{ 'width': isSearch && field.preps['type'] != 'daterange' ? '150px' : '100%','height':
-       itemType != 'button' ?'100%':'inherit' }">
-      <help :message="item?.helpMsg" v-if="item?.helpMsg"/>
-      <component :id="randId" :is="itemType+'-item'" @selfFunc="dataSearch" :isDesign="isDesign"
-                 ref="componentRef"
-                 :isSearch="isSearch"
-                 :bareFlag="bareFlag"
-                 :field="field" :formData="dataForm"/>
-      <template v-if="item.brotherNode">
-        <star-horse-item v-for="temp in item.brotherNode" :primaryKey="primaryKey" :compSize="compSize"
+    <div v-if="item.brotherNodes">
+      <template v-for="temp in item.brotherNodes">
+        <star-horse-item v-if="temp.formShow" :primaryKey="primaryKey"
+                         :compSize="compSize"
                          v-model:dataForm="dataForm"
                          :item="temp" :isDesign="isDesign"
-                         :bareFlag="bareFlag"
+                         :bareFlag="true"
                          :isEdit="isEdit"/>
       </template>
     </div>
-  </template>
+  </div>
+  <div v-else class="comp-info"
+       :style="{ 'width': isSearch && field.preps['type'] != 'daterange' ? '150px' : '100%','height':
+       itemType != 'button' ?'100%':'inherit' }">
+    <help :message="item?.helpMsg" v-if="item?.helpMsg"/>
+    <component :id="randId" :is="itemType+'-item'" @selfFunc="dataSearch" :isDesign="isDesign"
+               ref="componentRef"
+               :isSearch="isSearch"
+               :bareFlag="bareFlag"
+               :field="field" :formData="dataForm"/>
+    <div v-if="item.brotherNodes" class="brother-node">
+      <template v-for="temp in item.brotherNodes">
+        <star-horse-item v-if="temp.formShow" :primaryKey="primaryKey"
+                         :compSize="compSize"
+                         v-model:dataForm="dataForm"
+                         :item="temp" :isDesign="isDesign"
+                         :bareFlag="true"
+                         :isEdit="isEdit"/>
+      </template>
+    </div>
+  </div>
 </template>
 <style lang="scss" scoped>
 .comp-info {
   display: flex;
   justify-content: left;
   align-items: center;
+}
+.bare-comp{
+}
+.brother-node {
+  min-width: 30%;
 }
 </style>

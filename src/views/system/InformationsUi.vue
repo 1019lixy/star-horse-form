@@ -8,6 +8,7 @@ import {SearchProps, SelectOption} from "@/components/types/SearchProps";
 import {getMenuId, loadCustomInfo, loadElementPlusIcon, loadPagePermission, loadSystemInfo} from "@/api/sh_api";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {postRequest} from "@/api/star_horse";
+
 let informationsList = ref<any>([]);
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/system-config/system/informationsEntity/pageList",
@@ -32,7 +33,9 @@ const searchFormData = reactive<SearchProps[]>([
   {label: "添加时间", fieldName: "createdDate", type: "daterange", matchType: "bt"}
 ]);
 const testFun = (formData: any) => {
-  // console.log(formData['parentId']);
+  if (!formData['parentId']) {
+    return;
+  }
   postRequest(dataUrl.loadByIdUrl + "/" + formData['parentId'], {}).then(res => {
     let redata = res.data.data;
     formData['idCustomer'] = redata['idCustomer'];

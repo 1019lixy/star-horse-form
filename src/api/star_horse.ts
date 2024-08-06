@@ -176,7 +176,7 @@ export function permissionResources(data: any) {
 }
 
 /**
- * 讲Store里的菜单还原
+ * 将Store里的菜单还原
  */
 export function restoreMenu() {
     let menuns = userInfoStore.permissionMenus;

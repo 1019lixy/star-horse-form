@@ -1,5 +1,5 @@
 import {SearchParams} from "@/components/types/Params";
-import {reactive, ShallowRef} from "vue";
+import {reactive, Ref, ShallowRef} from "vue";
 import {ElLoading} from "element-plus";
 import router from "@/router";
 import {getRequest, permissionResources, postRequest} from "@/api/star_horse";
@@ -367,7 +367,7 @@ export function createDatetime(val: any) {
  * @param params
  */
 export async function loadById(url: string, id: any, isView: boolean, params: any = {}) {
-    if (!url || !id) {
+    if (!url || !id || "undefined" == id) {
         warning("请提供正确的数据");
         return;
     }
@@ -822,3 +822,26 @@ export async function createFilter(queryString: string) {
         )
     }
 }
+
+/**
+ * 检测表达是否包含某对象
+ * @param item
+ * @param dataForm
+ */
+export function checkObject(item: any, dataForm: Ref<any>) {
+    if (item && item.objectName && !Object.keys(dataForm.value).includes(item.objectName)) {
+        dataForm.value[item.objectName] = {};
+    }
+    return 1;
+}
+
+/**
+ * 创建验证规则
+ * @param item
+ */
+export function validMsg(item: any) {
+    if (item.required && item.disabled != 'Y') {
+        return [{'required': true, 'message': '必填项不能为空', 'trigger': 'blur'}];
+    }
+    return []
+};

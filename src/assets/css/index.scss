@@ -531,7 +531,7 @@ hr {
           box-sizing: border-box;
           flex-direction: column;
           height: 100%;
-
+          overflow:hidden;
           :deep(.el-divider--horizontal ) {
             margin: 5px 0;
           }
@@ -608,10 +608,5 @@ hr {
   }
 }
 
-.el-card {
-  width: 100%;
-}
-.el-tabs{
-  margin: 5px 10px;
-}
+
 

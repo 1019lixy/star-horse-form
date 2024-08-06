@@ -19,7 +19,7 @@ export function treeCheckChange(treeComp: any, tableComp: any, dataForm: any, da
             treeComp.setChecked(item.value, false);
         });
     }
-    dataForm.value["informationsSingleId"] = data.value;
+    dataForm["informationsSingleId"] = data.value;
     treeComp.setChecked(data.value, (checked instanceof Boolean) ? checked : true);
     if (!checked) {
         return;

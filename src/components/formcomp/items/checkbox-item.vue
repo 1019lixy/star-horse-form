@@ -5,6 +5,7 @@
         :disabled="field.preps['disabled']=='Y'"
         :readonly="field.preps['readonly']=='Y'"
         :size="context.attrs.formInfo?.size||field?.preps['size']||'small'"
+        @change="keyEnterFun"
         v-model="context.attrs['formData'][field.preps['name']]">
       <el-checkbox :border="item['border']=='Y'"
                    :checked="item['checked']=='Y'"
@@ -17,7 +18,7 @@
   </starhorse-form-item>
 </template>
 <script lang="ts">
-import {defineComponent, shallowRef} from "vue";
+import {defineComponent, onMounted, shallowRef} from "vue";
 
 export default defineComponent({
   setup(props, context) {
@@ -25,7 +26,13 @@ export default defineComponent({
     const field = context.attrs["field"] as any;
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
-    return {parentField, context, field, formItem, dataField}
+    const keyEnterFun = () => {
+      context.emit('selfFunc',"change");
+    };
+    onMounted(() => {
+      keyEnterFun();
+    })
+    return {parentField, context, field, formItem, dataField,keyEnterFun}
   }
 });
 </script>

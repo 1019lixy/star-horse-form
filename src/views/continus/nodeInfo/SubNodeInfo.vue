@@ -1,13 +1,15 @@
 <script setup lang="ts" name="SubNodeInfo">
 import {onMounted, reactive, ref} from "vue";
-import {PageFieldInfo} from "@/components/types/PageFieldInfo";
+import {FieldInfo, PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {SelectOption} from "@/components/types/SearchProps";
+import {loadPlugin, mavenTools} from "@/views/continus/utils/ToolsParams.ts";
+import {loadData} from "@/api/sh_api.ts";
 
 const nodeInfoRef = ref<any>();
-const nodeInfo = ref<any>({});
-const successFlag = ref<number>(2);
-const errorFlag = ref<number>(2);
 const nodeTypeList = ref<SelectOption[]>([]);
+const execTypeList = ref<SelectOption[]>([]);
+const compileTypeList = ref<SelectOption[]>([]);
+let nodeParams = ref<FieldInfo[]>([]);
 const fieldList = reactive<PageFieldInfo | any>({
   fieldList: [{
     cardList: [{
@@ -27,30 +29,89 @@ const fieldList = reactive<PageFieldInfo | any>({
         },
         preps: {
           text: "Y",
-          icon: "plus",
+          icon: "copy",
         }
       }],
-      fieldList: []}]
+      fieldList: [
+        [{
+          label: "节点类型",
+          fieldName: "nodeType",
+          type: "select",
+          optionList: nodeTypeList,
+          required: true,
+          formShow: true,
+
+        }, {
+          label: "节点名称",
+          fieldName: "nodeName",
+          type: "input",
+          required: true,
+          formShow: true
+        }, {
+          label: "执行方式",
+          fieldName: "execType",
+          type: "select",
+          optionList: execTypeList,
+          required: true,
+          formShow: true
+        }],
+        [{
+          label: "归档制品",
+          fieldName: "uploadProduct",
+          type: "input",
+          required: true,
+          formShow: true,
+          brotherNodes: [{
+            label: "添加目录",
+            fieldName: "uploadProductBtn",
+            type: "button",
+            formShow: true,
+            preps: {
+              text: "Y",
+              icon: "plus"
+            }
+          }]
+        }, {
+          label: "获取制品",
+          fieldName: "downloadProduct",
+          type: "input",
+          required: true,
+          formShow: true,
+          brotherNodes: [{
+            label: "添加制品来源",
+            fieldName: "downloadProductBtn",
+            type: "button",
+            formShow: true,
+            preps: {
+              text: "Y",
+              icon: "plus"
+            }
+          }]
+        }]
+      ]
+    }, {
+      title: "节点参数",
+      subFormFlag: true,
+      tabName: "subNodeInfoParams",
+      objectName: "subNodeInfoParams",
+      headerFieldList: [{
+        label: "编译类型",
+        fieldName: "compileType",
+        type: "select",
+        actionName: "change",
+        actions: (val: any) => {
+          nodeParams.value = loadPlugin(val["compileType"])
+        },
+        optionList: compileTypeList,
+        required: true,
+        formShow: true
+      }],
+      fieldList: nodeParams
+    }]
   }]
 });
 const init = async () => {
-  /**
-   * [{
-   *         label: "节点类型",
-   *         fieldName: "nodeType",
-   *         type: "select",
-   *         optionList: nodeTypeList,
-   *         required: true,
-   *         formShow: true
-   *       }, {
-   *         label: "节点名称",
-   *         fieldName: "nodeName",
-   *         type: "input",
-   *         required: true,
-   *         formShow: true
-   *       },
-   *       ]
-   */
+  compileTypeList.value = (await loadData("/devops-continus/continus/baseInfo/projectType", {})).data;
 }
 onMounted(async () => {
   await init();
@@ -61,6 +122,14 @@ onMounted(async () => {
   <star-horse-form ref="nodeInfoRef" class="node-info" :fieldList="fieldList"/>
 </template>
 <style lang="scss" scoped>
+:deep(.el-card) {
+  width: 100%;
+}
+
+.el-tabs {
+  margin: 5px 10px;
+}
+
 .report-switch {
   display: block;
   width: 100%;

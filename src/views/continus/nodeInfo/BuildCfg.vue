@@ -12,6 +12,7 @@ let nodeSuccessConditionList = ref<SelectOption[]>([]);
 let subNodeList = ref<SelectOption[]>([]);
 const nodeDialog = ref<boolean>(false);
 let assignSelect = ref<boolean>(false);
+
 //页面属性
 const fieldList = reactive<PageFieldInfo | any>({
       fieldList: [{
@@ -45,16 +46,20 @@ const fieldList = reactive<PageFieldInfo | any>({
             },
             required: true,
             formShow: true,
-            tableShow: true
-          }, {
-            label: "",
-            fieldName: "assignNode",
-            type: "select",
-            optionList: subNodeList,
-            required: true,
-            formShow: assignSelect,
+            tableShow: true,
+            brotherNodes: [{
+              label: "  ",
+              fieldName: "assignNode",
+              type: "select",
+              optionList: subNodeList,
+              required: true,
+              formShow: assignSelect,
+              preps: {
+                colSpan: 6
+              }
+            }],
             preps: {
-              colSpan: 6
+              colSpan: 13
             }
           }],
             {
@@ -112,7 +117,7 @@ const closeAction = () => {
   nodeDialog.value = false;
 }
 const dataSubmit = () => {
-
+  closeAction();
 }
 const init = async () => {
   repoList.value = (await loadData("/devops-continus/continus/baseInfo/repoTypes")).data;

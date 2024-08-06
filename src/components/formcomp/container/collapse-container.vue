@@ -1,4 +1,4 @@
-<script setup lang="ts" name="card-container">
+<script setup lang="ts" name="collapse-container">
 import {onMounted, PropType, ref} from "vue";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
@@ -36,9 +36,9 @@ const activeTabName = ref();
 onMounted(() => {
   if (!props.field['preps']["elements"]) {
     props.field['preps']["elements"] = [{
-      label: "Card",
-      tabName: "card",
-      objectName: "card",
+      label: "Collapse",
+      tabName: "collapse",
+      objectName: "collapse",
       subFormFlag: "Y",
       items: []
     }];
@@ -49,53 +49,53 @@ onMounted(() => {
 </script>
 <template>
   <group-box-container class="dynamic-tab-wapper" :parentField="parentField" :form-item="field">
-    <el-card
-        class="card-container"
-        :shadow="field.preps['shadow']=='Y'"
-        v-for="(adata,index) in field['preps']['elements']"
+    <el-collapse v-model="activeTabName"
+                 class="collapse-container"
+                 :accordion="field.preps['accordion']=='Y'"
     >
-      <template #header>
-        <div class="card-header">
-          <span>{adata.label}</span>
-        </div>
-      </template>
-      <el-scrollbar height="100%">
-        <draggable
-            @add="(evt:Event)=>onDragAdd(evt,adata['items'])"
-            @dragover="checkItem(adata)"
-            class="card-design"
-            group="starHorseGroup"
-            animation="100"
-            ghostClass="ghost"
-            :list="adata['items']"
-        >
-          <template #item="{element:data}">
-            <div class="comp-item">
-              <component
-                  :key="data.id"
-                  :field="data"
-                  :formInfo="formInfo"
-                  :is="getComponentName(data)"
-                  :parentField="field"
-                  :formData="formData"
-                  v-if="data?.compType==='formItem'||data?.itemType=='box'||data?.itemType=='table'"/>
-            </div>
-          </template>
-        </draggable>
-      </el-scrollbar>
-    </el-card>
+      <el-collapse-item v-for="(adata,index) in field['preps']['elements']" :title="adata.title||adata.tabName"
+                        :name="adata.tabName">
+        <el-scrollbar height="100%">
+          <draggable
+              @add="(evt:Event)=>onDragAdd(evt,adata['items'])"
+              @dragover="checkItem(adata)"
+              class="card-design"
+              group="starHorseGroup"
+              animation="100"
+              ghostClass="ghost"
+              :list="adata['items']"
+          >
+            <template #item="{element:data}">
+              <div class="comp-item">
+                <component
+                    :key="data.id"
+                    :field="data"
+                    :formInfo="formInfo"
+                    :is="getComponentName(data)"
+                    :parentField="field"
+                    :formData="formData"
+                    v-if="data?.compType==='formItem'||data?.itemType=='box'||data?.itemType=='table'"/>
+              </div>
+            </template>
+          </draggable>
+        </el-scrollbar>
+      </el-collapse-item>
+    </el-collapse>
   </group-box-container>
 </template>
 <style lang="scss" scoped>
 .dynamic-tab-wapper {
   height: 100%;
 }
+
 :deep(.el-card) {
   margin-top: 10px;
 }
+
 :deep(.el-card__body) {
   margin-top: 5px;
 }
+
 .card-design {
   height: 100%;
   overflow-y: auto;

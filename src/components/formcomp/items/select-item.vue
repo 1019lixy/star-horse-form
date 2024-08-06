@@ -1,5 +1,6 @@
 <template>
-  <starhorse-form-item :isDesign="context.attrs['isDesign']" :bareFlag="context.attrs['bareFlag']" :form-item="field" :parentField="parentField"
+  <starhorse-form-item :isDesign="context.attrs['isDesign']" :bareFlag="context.attrs['bareFlag']" :form-item="field"
+                       :parentField="parentField"
   >
     <el-select
         :fid="field.preps['name']"
@@ -57,7 +58,7 @@ export default defineComponent({
      * 动态获取数据
      */
     const initData = async () => {
-      field.preps["values"] =await compDynamicData(field.preps);
+      field.preps["values"] = await compDynamicData(field.preps);
     }
     const remoteMethod = async (queryString: string) => {
       let temp = field.preps;
@@ -82,11 +83,14 @@ export default defineComponent({
       }
     });
     return {
-      parentField,  context, field, formItem,
+      parentField, context, field, formItem,
       dataField, keyEnterFun, actionName, remoteMethod
     }
   }
 });
 </script>
-<style scoped>
+<style lang="scss" scoped>
+.el-select {
+  width: 100%;
+}
 </style>
