@@ -4,7 +4,7 @@ import {SelectOption} from "@/components/types/SearchProps.d.ts";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import piniaInstance from "@/store";
 
-let configInfo = ref<any>({tagsView: 'Y'});
+let configInfo = ref<any>({});
 let configStore = GlobalConfig(piniaInstance);
 let sizeList = ref<Array<SelectOption>>([
   {name: "大", value: "large"},
@@ -180,8 +180,8 @@ const resetDefault = () => {
     buttonSize: 'small',
     buttonShowType: "dropdown",
     themeColor: "#409EFF",
-    position:"left",
-    menusCfg:"tradition",
+    position: "left",
+    menusCfg: "tradition",
     shortCutMenus: "Y"
   };
   configStore.setConfigFormInfo(defaultConfig);
@@ -198,17 +198,11 @@ onMounted(() => {
   <el-form style="height: 100%;overflow: hidden;" :model="configInfo" size="small" label-position="top">
     <el-scrollbar height="100%">
       <el-divider content-position="left">
-        <h4>布局</h4>
+        <el-form-item prop="themeColor" label="颜色" :label-position="'left'">
+          <el-color-picker v-model="configInfo.themeColor" @change="changeOperation"/>
+        </el-form-item>
       </el-divider>
-      <el-form-item prop="buttonShowType" label="页面按钮显示风格">
-        <el-select v-model="configInfo.buttonShowType" @change="changeOperation">
-          <el-option v-for="item in showTypeList" :value="item.value" :label="item.name" :key="item.value"/>
-        </el-select>
-      </el-form-item>
-      <el-divider content-position="left">
-        <h4>颜色</h4>
-      </el-divider>
-      <el-form-item prop="themeColor" label="主题颜色">
+      <el-form-item prop="themeColor" label="主题颜色" style="height: 200px;width: 100%;overflow: auto">
         <template v-for="item in classicsList">
           <div class="theme-item" @click="classicsTheme(item.color)">
             <el-tag :color="item.color" style="margin-right: 8px" size="small"/>
@@ -216,13 +210,11 @@ onMounted(() => {
           </div>
         </template>
       </el-form-item>
-      <el-form-item prop="themeColor" label="自定义颜色">
-        <el-color-picker v-model="configInfo.themeColor" @change="changeOperation"/>
-      </el-form-item>
+
       <el-divider content-position="left">
         <h4>尺寸</h4>
       </el-divider>
-      <el-row>
+      <el-row gutter="10">
         <el-col :span="12">
           <el-form-item prop="inputSize" label="组件尺寸">
             <el-select v-model="configInfo.inputSize" @change="changeOperation">
@@ -241,31 +233,52 @@ onMounted(() => {
       <el-divider content-position="left">
         <h4>菜单</h4>
       </el-divider>
-      <el-form-item prop="position" label="菜单位置 ">
-        <el-radio-group v-model="configInfo.position" @change="changeOperation">
-          <el-radio label="头部" value="top"/>
-          <el-radio label="左侧" value="left"/>
-          <el-radio label="右侧" value="right"/>
-        </el-radio-group>
-      </el-form-item>
-      <el-form-item prop="menusCfg" label="菜单风格 ">
-        <el-radio-group v-model="configInfo.menusCfg" @change="changeOperation">
-          <el-radio label="传统风格" value="tradition"/>
-          <el-radio label="固定宽度" value="fixed"/>
-        </el-radio-group>
-      </el-form-item>
+      <el-row gutter="10">
+        <el-col :span="12">
+          <el-form-item prop="position" label="菜单位置 ">
+            <el-radio-group v-model="configInfo.position" @change="changeOperation">
+              <el-radio label="头部" value="top"/>
+              <el-radio label="左侧" value="left"/>
+              <el-radio label="右侧" value="right"/>
+            </el-radio-group>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item prop="menusCfg" label="菜单风格 ">
+            <el-radio-group v-model="configInfo.menusCfg" @change="changeOperation">
+              <el-radio label="传统风格" value="tradition"/>
+              <el-radio label="固定宽度" value="fixed"/>
+            </el-radio-group>
+          </el-form-item>
+        </el-col>
+      </el-row>
+
+
       <el-divider content-position="left">
         <h4>其他配置</h4>
       </el-divider>
-      <el-form-item prop="tagsView" label="开启/关闭TagsView ">
-        <el-switch v-model="configInfo.tagsView" :active-value="'Y'" inactive-value="'N'" @change="changeOperation">
-        </el-switch>
-      </el-form-item>
-      <el-form-item prop="shortCutMenus" label="开启/关闭快捷菜单 ">
-        <el-switch v-model="configInfo.shortCutMenus" :active-value="'Y'" inactive-value="'N'"
-                   @change="changeOperation">
-        </el-switch>
-      </el-form-item>
+      <el-row :gutter="10">
+        <el-col :span="8">
+          <el-form-item prop="tagsView" label="开启/关闭TagsView ">
+            <el-switch v-model="configInfo.tagsView" :active-value="'Y'" inactive-value="'N'" @change="changeOperation">
+            </el-switch>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="shortCutMenus" label="开启/关闭快捷菜单 ">
+            <el-switch v-model="configInfo.shortCutMenus" :active-value="'Y'" inactive-value="'N'"
+                       @change="changeOperation">
+            </el-switch>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="buttonShowType" label="页面按钮显示风格">
+            <el-select v-model="configInfo.buttonShowType" @change="changeOperation">
+              <el-option v-for="item in showTypeList" :value="item.value" :label="item.name" :key="item.value"/>
+            </el-select>
+          </el-form-item>
+        </el-col>
+      </el-row>
       <el-form-item prop="shortCutMenus" label=" ">
         <el-button @click="resetDefault">一键默认配置</el-button>
       </el-form-item>
@@ -279,6 +292,7 @@ onMounted(() => {
   display: flex;
   flex-direction: row;
   width: 25%;
+  overflow: auto;
 }
 
 .el-tag {

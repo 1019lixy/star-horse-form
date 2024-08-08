@@ -29,7 +29,7 @@ let outerIsCollapse = ref<number>(64);
 navBarListStore.addNavBar(route);
 let locale = ref();
 let direction = ref();
-const changeLang = (lang: LangType, isInit: boolean) => {
+const changeLang = (lang: LangType, _isInit: boolean) => {
   locale.value = lang == LangType.ZH_CN ? zhCn : en;
   // console.log(isInit);
 };
@@ -62,6 +62,9 @@ let mainLeftAside = ref();
 let resizerRef = ref();
 const dragStart = (event: MouseEvent) => {
   // event.preventDefault();
+  if (configInfo.value.menusCfg != 'tradition') {
+    return;
+  }
   currentX.value = event.x;
   dragging.value = true;
   document.onmousemove = (_e) => {
@@ -77,7 +80,9 @@ const dragStart = (event: MouseEvent) => {
 };
 onMounted(async () => {
   await nextTick();
-  resizerRef.value.onmousedown = dragStart;
+  if (resizerRef.value) {
+    resizerRef.value.onmousedown = dragStart;
+  }
   changeLang(getLang(), true);
   configStore.clearAll();
 })
@@ -116,10 +121,10 @@ const configInfo = computed(() => configStore.configFormInfo);
                   @mouseover="mouseOver" @mouseout="mouseOut">
           <left-menu v-if="configInfo.menusCfg=='tradition'" :sysem-id="sysemId" :is-collapse="!isCollapse"
                      @collopseOperation="collopseOperation"/>
-          <span v-if="configInfo.menusCfg=='tradition'"
-                ref="resizerRef"
-                class="Resizer vertical"
-                @mousedown="dragStart">
+          <span
+              ref="resizerRef"
+              class="Resizer vertical"
+              @mousedown="dragStart">
             ⁝
           </span>
           <FixedMenu :sysem-id="sysemId" v-if="configInfo.menusCfg=='fixed'"/>
@@ -219,9 +224,9 @@ const configInfo = computed(() => configStore.configFormInfo);
   height: 100%;
 }
 
-:deep(.el-aside) {
+/*:deep(.el-aside) {
   overflow: hidden;
-}
+}*/
 
 .main-config {
   position: absolute;

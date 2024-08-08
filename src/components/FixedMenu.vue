@@ -3,8 +3,6 @@ import {createRouterAndMenuList, permissionMenus} from "@/api/star_horse";
 import {computed, nextTick, onMounted, reactive, ref, unref, watch} from "vue";
 import {UserInfo} from "@/store/UserInfoStore";
 import {MenusInfo} from "@/components/types/MenusInfo";
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-import SubMenu from "@/components/menu/SubMenu.vue";
 import {filterTree} from "@/api/sh_api";
 import piniaInstance from "@/store";
 
@@ -61,18 +59,20 @@ watch(() => props.sysemId,
 </script>
 <template>
   <div class="starhorse-menu">
-    <el-scrollbar height="100%" class="base">
+    <div height="100%" class="base">
       <template v-for="item in leftMenuDatas">
-        <div>
-          <div>
+        <div class="item">
+          <div class="item-icon">
             <el-icon class="star-icon">
               <component :is="item.meta.menuIcon||'document'"/>
             </el-icon>
           </div>
-          <div>{{ item.meta.title }}</div>
+          <div class="item-title">{{ item.meta.title }}</div>
+          <div class="item-line"></div>
+          <div class="sub-item"></div>
         </div>
       </template>
-    </el-scrollbar>
+    </div>
 
   </div>
 </template>
@@ -84,8 +84,67 @@ watch(() => props.sysemId,
   display: flex;
   flex-direction: column;
   background: var(--star-horse-style);
+
   .base {
     width: 100%;
+    flex: 1;
+
+
+    .item {
+      width: 100%;
+      height: 80px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      .item-icon {
+        width: inherit;
+        height: 45px;
+
+        .star-icon {
+          color: var(--star-horse-white);
+          width: inherit;
+          height: inherit;
+          svg {
+            height: 2em;
+            width: 2em;
+          }
+
+        }
+      }
+
+      .item-title {
+        line-height: 30px;
+        font-weight: bold;
+        color: var(--star-horse-white);
+      }
+
+      .item-line {
+        height: 2px;
+        width: 90%;
+        border-bottom: 1px solid var(--star-horse-disable);
+      }
+
+      &:hover .sub-item {
+        opacity: 1;
+        position: absolute;
+
+      }
+
+      .sub-item {
+        opacity: 1;
+        top: 0;
+        right: 0;
+        transition: opacity 0.5s;
+        z-index: 999999999;
+        background: var(--star-horse-shadow);
+        border: 1px solid var(--star-horse-disable);
+        height: 500px;
+        width: 200px;
+
+      }
+    }
   }
 }
 
