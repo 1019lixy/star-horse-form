@@ -1,5 +1,6 @@
 import {defineStore} from "pinia";
 import {Config} from "@/api/settings.ts";
+
 export const GlobalConfig: any = defineStore("GlobalConfig", {
     state: () => {
         return {
@@ -12,6 +13,9 @@ export const GlobalConfig: any = defineStore("GlobalConfig", {
          * @param state
          */
         getConfigFormInfo: (state: any) => {
+            if(Object.keys(state.configFormInfo).length==0){
+                state.actions.clearAll();
+            }
             return state.configFormInfo;
         },
     },
@@ -24,7 +28,7 @@ export const GlobalConfig: any = defineStore("GlobalConfig", {
             this.configFormInfo = data;
             localStorage.setItem("starHorseConfigInfo", JSON.stringify(data));
             Config.buttonStyle.value = data.buttonShowType || "dropdown";
-            // console.log(data, Config.buttonStyle.value);
+            console.log(data, Config.buttonStyle.value);
             if (data.themeColor) {
                 document.documentElement.style.setProperty('--star-horse-style', data.themeColor)
                 document.documentElement.style.setProperty('--el-color-primary', data.themeColor)
@@ -37,7 +41,9 @@ export const GlobalConfig: any = defineStore("GlobalConfig", {
         clearAll() {
             let _this = this;
             _this.configFormInfo = {
-                tagsView: 'Y'
+                tagsView: 'Y',
+                position: "left",
+                menusCfg: "tradition",
             };
             let starHorseConfigInfo = localStorage.getItem("starHorseConfigInfo");
             if (starHorseConfigInfo) {
