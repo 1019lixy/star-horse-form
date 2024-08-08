@@ -1,9 +1,11 @@
 <script setup lang="ts" name="ContinusInstanceInit">
 import {onMounted, ref} from "vue";
-import NodeList from "@/views/continus/NodeList.vue";
+import ToolInfo from "@/views/continus/ToolInfo.vue";
 import DeployTemplate from "@/views/continus/DeployTemplate.vue";
+import {warning} from "@/utils/message.ts";
 
 const nodeCompRef = ref<any>();
+const toolInfoRef = ref<any>();
 const tempDialog = ref<boolean>(false);
 const nodeDialog = ref<boolean>(false);
 const currentNode = ref<number>(-1);
@@ -36,7 +38,14 @@ const closeAction = () => {
   nodeDialog.value = false;
 }
 const dataSubmit = () => {
-
+  let node = toolInfoRef.value.getNode();
+  if (!node) {
+    warning("请先选择要配置的节点");
+    return;
+  }
+  let index = currentNode.value == -1 ? processList.value.length : currentNode.value;
+  processList.value.splice(index, 0, {name: node.name, value: node.code});
+  closeAction();
 }
 const init = async () => {
 
@@ -48,7 +57,7 @@ onMounted(async () => {
 <template>
   <star-horse-dialog :title="'节点列表'" :dialogVisible="nodeDialog" :self-func="true" @closeAction="closeAction"
                      @merge="dataSubmit" :is-batch="false" :is-show-btn-continue="false">
-    <node-list/>
+    <ToolInfo ref="toolInfoRef"/>
   </star-horse-dialog>
   <star-horse-dialog :title="'更换模板'" :dialogVisible="tempDialog">
     <deploy-template/>

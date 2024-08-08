@@ -35,7 +35,7 @@ onMounted(() => {
 
 <template>
   <template v-if="item.tabList&&item.tabList.length>0">
-    <el-tabs v-model="item.fieldName" v-on:tab-change="item.actions">
+    <el-tabs v-model="item.fieldName" :closable="item.closable=='Y'" v-on:tab-change="item.actions">
       <template v-for="(tabItem,key) in item.tabList">
         <el-tab-pane :label="tabItem.title" :name="tabItem.tabName||key" :disabled="tabItem.disabled"
                      :index="checkObject(tabItem)">
