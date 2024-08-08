@@ -170,7 +170,7 @@ const init = () => {
   //
   // }
 };
-const changeOperation = (val: any) => {
+const changeOperation = (_val: any) => {
   configStore.setConfigFormInfo(configInfo.value);
 };
 const resetDefault = () => {
@@ -180,13 +180,15 @@ const resetDefault = () => {
     buttonSize: 'small',
     buttonShowType: "dropdown",
     themeColor: "#409EFF",
+    position:"left",
+    menusCfg:"tradition",
     shortCutMenus: "Y"
   };
   configStore.setConfigFormInfo(defaultConfig);
 };
 const classicsTheme = (color: string) => {
   configInfo.value.themeColor = color;
-  changeOperation();
+  changeOperation(null);
 };
 onMounted(() => {
   init();
@@ -239,6 +241,19 @@ onMounted(() => {
       <el-divider content-position="left">
         <h4>菜单</h4>
       </el-divider>
+      <el-form-item prop="position" label="菜单位置 ">
+        <el-radio-group v-model="configInfo.position" @change="changeOperation">
+          <el-radio label="头部" value="top"/>
+          <el-radio label="左侧" value="left"/>
+          <el-radio label="右侧" value="right"/>
+        </el-radio-group>
+      </el-form-item>
+      <el-form-item prop="menusCfg" label="菜单风格 ">
+        <el-radio-group v-model="configInfo.menusCfg" @change="changeOperation">
+          <el-radio label="传统风格" value="tradition"/>
+          <el-radio label="固定宽度" value="fixed"/>
+        </el-radio-group>
+      </el-form-item>
       <el-divider content-position="left">
         <h4>其他配置</h4>
       </el-divider>

@@ -188,6 +188,10 @@ export declare interface FieldInfo {
      */
     prefix?: string;
     /**
+     * 默认值匹配类型
+     */
+    matchType?: string;
+    /**
      * 相邻的兄弟节点
      */
     brotherNodes?: FieldInfo[];

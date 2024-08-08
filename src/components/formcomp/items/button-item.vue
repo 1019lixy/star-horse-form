@@ -8,7 +8,6 @@
         :bg="field?.preps['bg']=='Y'"
         :circle="field?.preps['circle']=='Y'"
         :disabled="field?.preps['disabled']=='Y'"
-        :icon="field?.preps['icon']||'document'"
         :link="field?.preps['link']=='Y'"
         :loading="field?.preps['loading']=='Y'"
         :loading-icon="field?.preps['loadingIcon']"

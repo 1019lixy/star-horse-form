@@ -88,6 +88,7 @@ declare module 'vue' {
     ElUpload: typeof import('element-plus/es')['ElUpload']
     EvolInput: typeof import('./src/components/formcomp/container/evol-input.vue')['default']
     ExcelItem: typeof import('./src/components/formcomp/items/excel-item.vue')['default']
+    FixedMenu: typeof import('./src/components/FixedMenu.vue')['default']
     GroupBoxContainer: typeof import('./src/components/formcomp/container/group-box-container.vue')['default']
     HeaderComp: typeof import('./src/components/HeaderComp.vue')['default']
     Help: typeof import('./src/components/help.vue')['default']

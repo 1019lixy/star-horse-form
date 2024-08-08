@@ -20,6 +20,7 @@ const props = defineProps({
   height: {type: String, default: "100%"},
   //默认是否展开所有子节点
   expand: {type: Boolean, default: false},
+  showBatchField: {type: Boolean, default: false},
   //是否运行选择父级节点
   allowSelectParent: {type: Boolean, default: true},
   //标题
@@ -275,7 +276,7 @@ defineExpose({
         :row-key="getRowIdentity"
         :stripe="true"
         :fit="true"
-        :height="height"
+        :max-height="height"
         :highlight-current-row="true"
         :default-expand-all="expand"
         :row-style="{

@@ -3,6 +3,7 @@ import {computed, inject, onMounted, ref, unref, watch} from "vue";
 import {warning} from "@/utils/message";
 import {FieldInfo} from "@/components/types/PageFieldInfo";
 import Help from "@/components/help.vue";
+import {ModelRef} from "vue-demi";
 
 const props = defineProps({
       // allItem: {type: Array, required: true},
@@ -19,10 +20,10 @@ const props = defineProps({
       isDesign: {type: Boolean, default: false},
     }
 );
-const dataForm = defineModel("dataForm");
+const dataForm: ModelRef<any> = defineModel("dataForm");
 const itemType = ref<String>("input");
 const emit = defineEmits(["dataSearch", "focus", "blur"]);
-const formFields = inject("formFields");
+const formFields: any = inject("formFields");
 const field = ref<any>({
   preps: {
     clearable: "Y",
@@ -130,14 +131,14 @@ const compPreps = () => {
     field.value.preps["filterCondition"] = inputPreps.filterCondition;
     field.value.preps["orderBy"] = inputPreps.orderBy;
     inputPreps.fieldList?.forEach((item: FieldInfo) => {
-      let temp = {
+      let temp: any = {
         ...item
       };
       if (item.prefix) {
         temp["fieldName"] = item.prefix + "." + temp["fieldName"];
       }
       temp["defaultShow"] = true;
-      if (item?.type == "input" && !item['matchType']) {
+      if (item?.type == "input" && !item["matchType"]) {
         temp["matchType"] = "lk";
       }
       field.value.preps["searchFieldList"].push(temp);
@@ -261,8 +262,10 @@ onMounted(() => {
   justify-content: left;
   align-items: center;
 }
-.bare-comp{
+
+.bare-comp {
 }
+
 .brother-node {
   min-width: 30%;
 }
