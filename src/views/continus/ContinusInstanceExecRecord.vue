@@ -20,7 +20,7 @@ const primaryKey = "idContinusInst";
   width: 100%;
   height: 60px;
   display: flex;
-  z-index: 999999;
+  z-index: 9999;
   flex-direction: row;
   background: #f1f2f3;
   margin-left: -20px;

@@ -125,7 +125,7 @@
   display: inline-block;
   min-width: 120px;
   text-rendering: auto;
-  z-index: 9999999999;
+  z-index: 9999;
   background-color: #fff;
   -webkit-font-smoothing: antialiased;
   li {

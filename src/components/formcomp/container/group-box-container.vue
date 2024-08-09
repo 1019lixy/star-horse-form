@@ -80,7 +80,7 @@ const removeData = () => {
     opacity: 0;
     line-height: 22px;
     background: var(--star-horse-style);;
-    z-index: 9999999;
+    z-index: 9999;
     float: left;
     text-align: right;
     display: flex;

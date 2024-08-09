@@ -417,7 +417,6 @@ button, button:focus, button:visited {
 .el-container {
   flex: 1;
   overflow: hidden;
-  padding-bottom: 5px !important;
 }
 
 .el-drawer {
@@ -456,11 +455,11 @@ hr {
   .star-horse-container-main {
     flex: 1;
     background: #fff;
-    margin-top: 4px;
+    margin: 4px 0 0 0;
 
     .star-horse-left {
-      height: inherit;
-      border-radius: 4px;
+      height: 100%;
+      width: var(--el-aside-width);
       display: flex;
       background: var(--star-horse-white);
       flex-direction: row;

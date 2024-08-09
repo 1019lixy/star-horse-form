@@ -149,7 +149,7 @@ const
   font-size: 13px;
   height: calc(100% - 250px);
   flex-direction: column;
-  z-index: 9999999;
+  z-index: 9999;
   flex: 1;
 }
 </style>

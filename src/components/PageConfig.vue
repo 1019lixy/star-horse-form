@@ -260,13 +260,13 @@ onMounted(() => {
       <el-row :gutter="10">
         <el-col :span="8">
           <el-form-item prop="tagsView" label="开启/关闭TagsView ">
-            <el-switch v-model="configInfo.tagsView" :active-value="'Y'" inactive-value="'N'" @change="changeOperation">
+            <el-switch v-model="configInfo.tagsView" :active-value="'Y'" :inactive-value="'N'" @change="changeOperation">
             </el-switch>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item prop="shortCutMenus" label="开启/关闭快捷菜单 ">
-            <el-switch v-model="configInfo.shortCutMenus" :active-value="'Y'" inactive-value="'N'"
+            <el-switch v-model="configInfo.shortCutMenus" :active-value="'Y'" :inactive-value="'N'"
                        @change="changeOperation">
             </el-switch>
           </el-form-item>

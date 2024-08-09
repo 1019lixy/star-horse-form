@@ -38,6 +38,9 @@ const loadMenuFun = (data: string) => {
 }
 provide("loadMenu", loadMenuFun);
 const mouseOver = () => {
+  if(configInfo.value.menusCfg=="fixed"){
+    return;
+  }
   $(".star-horse-left").addClass('show-scroll-bar');
 };
 const mouseOut = () => {
@@ -117,8 +120,7 @@ const configInfo = computed(() => configStore.configFormInfo);
       </el-header>
       <el-container class="star-horse-container-main">
         <el-aside :width="(configInfo.menusCfg=='tradition'?outerIsCollapse:90)+'px'" ref="mainLeftAside"
-                  class="star-horse-left animate__animated animate__bounceInLeft"
-                  @mouseover="mouseOver" @mouseout="mouseOut">
+                  class="star-horse-left"  @mouseover="mouseOver" @mouseout="mouseOut">
           <left-menu v-if="configInfo.menusCfg=='tradition'" :sysem-id="sysemId" :is-collapse="!isCollapse"
                      @collopseOperation="collopseOperation"/>
           <span
@@ -127,7 +129,7 @@ const configInfo = computed(() => configStore.configFormInfo);
               @mousedown="dragStart">
             ⁝
           </span>
-          <FixedMenu :sysem-id="sysemId" v-if="configInfo.menusCfg=='fixed'"/>
+          <FixedMenu :sysem-id="sysemId" :top="configInfo.shortCutMenus=='N'?'53px':'83px'" v-if="configInfo.menusCfg=='fixed'"/>
         </el-aside>
         <el-main class="star-horse-main  animate__animated animate__bounceInUp">
           <tags-view v-if="configInfo.tagsView=='Y'"/>

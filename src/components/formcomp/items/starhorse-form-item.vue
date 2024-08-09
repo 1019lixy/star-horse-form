@@ -317,7 +317,7 @@ onMounted(() => {
     align-items: center;
     line-height: 28px;
     background: var(--star-horse-style);;
-    z-index: 9999999;
+    z-index: 99999;
     opacity: 1;
 
     .svg-icon {
