@@ -440,6 +440,10 @@ hr {
   border: none;
 }
 
+.el-aside {
+  overflow: hidden !important;
+}
+
 .star-horse-container {
   height: 100%;
   display: flex;
@@ -470,7 +474,6 @@ hr {
       display: flex;
       flex-direction: column;
       padding: 0 10px 0 0;
-      border-radius: 4px;
       height: 100%;
       flex: 1;
       overflow: hidden;
@@ -530,7 +533,8 @@ hr {
           box-sizing: border-box;
           flex-direction: column;
           height: 100%;
-          overflow:hidden;
+          overflow: hidden;
+
           :deep(.el-divider--horizontal ) {
             margin: 5px 0;
           }

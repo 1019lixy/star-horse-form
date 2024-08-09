@@ -38,7 +38,7 @@ const loadMenuFun = (data: string) => {
 }
 provide("loadMenu", loadMenuFun);
 const mouseOver = () => {
-  if(configInfo.value.menusCfg=="fixed"){
+  if (configInfo.value.menusCfg == "fixed") {
     return;
   }
   $(".star-horse-left").addClass('show-scroll-bar');
@@ -88,6 +88,10 @@ onMounted(async () => {
   }
   changeLang(getLang(), true);
   configStore.clearAll();
+  $(".star-horse-left").addClass("animate__animated animate__bounceInLeft");
+  setTimeout(() => {
+    $(".star-horse-left").removeClass("animate__animated animate__bounceInLeft");
+  }, 1000);
 })
 // 移动完成
 const compDragging = (x: number) => {
@@ -120,20 +124,24 @@ const configInfo = computed(() => configStore.configFormInfo);
       </el-header>
       <el-container class="star-horse-container-main">
         <el-aside :width="(configInfo.menusCfg=='tradition'?outerIsCollapse:90)+'px'" ref="mainLeftAside"
-                  class="star-horse-left"  @mouseover="mouseOver" @mouseout="mouseOut">
+                  class="star-horse-left" @mouseover="mouseOver" @mouseout="mouseOut">
           <left-menu v-if="configInfo.menusCfg=='tradition'" :sysem-id="sysemId" :is-collapse="!isCollapse"
                      @collopseOperation="collopseOperation"/>
-          <span
-              ref="resizerRef"
-              class="Resizer vertical"
-              @mousedown="dragStart">
+          <span v-if="configInfo.menusCfg=='tradition'"
+                ref="resizerRef"
+                class="Resizer vertical"
+                @mousedown="dragStart">
             ⁝
           </span>
-          <FixedMenu :sysem-id="sysemId" :top="configInfo.shortCutMenus=='N'?'53px':'83px'" v-if="configInfo.menusCfg=='fixed'"/>
+          <FixedMenu :sysem-id="sysemId" :top="configInfo.shortCutMenus=='N'?'53px':'83px'"
+                     v-if="configInfo.menusCfg=='fixed'"/>
         </el-aside>
-        <el-main class="star-horse-main  animate__animated animate__bounceInUp">
+        <el-main class="star-horse-main animate__animated animate__bounceInUp">
+          <!--          <el-header class="star-horse-header" v-if="configInfo.menusCfg=='fixed'">
+                      <header-comp :is-collapse="!isCollapse" @changeLang="changeLang"/>
+                    </el-header>-->
           <tags-view v-if="configInfo.tagsView=='Y'"/>
-          <router-view v-slot="{ Component }" class="animate__animated animate__fadeIn">
+          <router-view v-slot="{ Component }" >
             <transition name="solid">
               <keep-alive :include="cachedDatas">
                 <component :is="Component"/>

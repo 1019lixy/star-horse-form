@@ -10,6 +10,7 @@ import Components from 'unplugin-vue-components/vite'
 import {ElementPlusResolver} from 'unplugin-vue-components/resolvers'
 import AutoImport from 'unplugin-auto-import/vite'
 const codeHost = "http://localhost:8888/"
+// const systemHost = "http://192.168.20.165:8749/"
 const systemHost = "http://localhost:8749/"
 const workflowHost = "http://localhost:8899/"
 const continusHost = "http://localhost:8859/"

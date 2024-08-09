@@ -7,6 +7,7 @@ import {filterTree} from "@/api/sh_api";
 import piniaInstance from "@/store";
 import {Position} from "@element-plus/icons-vue";
 import SubMenu from "@/components/menu/SubMenu.vue";
+import FixedSubMenu from "@/components/menu/FixedSubMenu.vue";
 
 let userInfoStore = UserInfo(piniaInstance);
 const emits = defineEmits(["collopseOperation"]);
@@ -17,10 +18,6 @@ let props = defineProps({
   top: {type: String, default: "83px"}
 });
 let defaultOpenMenu = ref<Array<String>>([]);
-let menuIcon = ref<String>("expand");
-const changeArrow = () => {
-  menuIcon.value = unref(menuIcon) == "expand" ? "collapse" : "expand";
-};
 let htop = ref<string>(computed(() => props.top).value == "83px" ? "65px" : "35px");
 const loadMenus = async (sysemId: string) => {
   if (!sysemId) {
@@ -37,7 +34,6 @@ const loadMenus = async (sysemId: string) => {
   });
 };
 const search = ref<String>();
-const systemMenu = ref();
 let currentItem = ref<any>({});
 
 const filterTableData = computed(() => filterTree(search.value, leftMenuDatas.value));
@@ -67,10 +63,8 @@ watch(() => props.sysemId,
   <div class="starhorse-menu">
     <div class="menu-base">
       <template v-for="item in leftMenuDatas">
-
-        <div :class="{'menu-item':true,'is-active':true}"
-             @mouseover="overHandler(item)" @mouseout="outHandler(item)">
-
+        <div :class="{'menu-item':true,'is-active':item.meta.title==currentItem.meta?.title}"
+             @mouseover="overHandler(item)">
           <div class="menu-item-icon">
             <el-icon class="star-icon">
               <component :is="item.meta.menuIcon||'document'"/>
@@ -78,10 +72,8 @@ watch(() => props.sysemId,
           </div>
           <div class="menu-item-title">{{ item.meta.title }}</div>
           <div class="menu-item-line"></div>
-          <div class="menu-sub-item">
-            <div class="sub-menu-list">
-
-            </div>
+          <div class="menu-sub-item" v-if="item.children &&item.meta.title==currentItem.meta?.title">
+            <FixedSubMenu :top="top" :data-list="item.children"/>
           </div>
         </div>
       </template>
@@ -116,7 +108,6 @@ watch(() => props.sysemId,
       align-items: center;
       vertical-align: middle;
       cursor: pointer;
-      position: relative;
 
       .menu-item-icon {
         width: 100%;
@@ -142,6 +133,7 @@ watch(() => props.sysemId,
         justify-content: center;
         align-items: center;
         font-weight: bold;
+        font-size: 13px;
         color: var(--star-horse-white);
       }
 
@@ -151,37 +143,47 @@ watch(() => props.sysemId,
         border-bottom: 1px solid var(--star-horse-disable);
       }
 
-       &:hover .menu-sub-item {
-         display: block;
-       }
       .menu-sub-item {
-          display: none;
+        display: none;
+        opacity: 0;
         position: fixed;
         top: v-bind(top);
         left: 90px;
-        z-index: 99999999 !important;
-        background: var(--star-horse-shadow);
+        transition-delay: 1s;
+        flex-direction: column;
+        align-items: center;
+        vertical-align: middle;
+        z-index: 9992 !important;
+        background: #f9f9f9;
         border: var(--star-horse-white);
         height: calc(100vh - v-bind(htop));
         width: 200px;
       }
-
     }
 
     .is-active:hover:after {
       display: block;
     }
 
+    .is-active {
+      position: relative;
+
+      &:hover .menu-sub-item {
+        display: flex;
+        opacity: 1;
+      }
+    }
+
     .is-active:after {
       display: none;
       position: absolute;
       content: '';
-      top: 45%;
+      top: 40%;
       right: 0;
       border-right: 10px solid #ccc;
       border-bottom: 10px solid transparent;
       border-top: 10px solid transparent;
-      z-index: 9999;
+      z-index: 9991;
       width: 0;
       height: 0;
     }

@@ -17,6 +17,8 @@ import {i18n} from "../lang";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import piniaInstance from "@/store";
 import {UserInfo} from "@/store/UserInfoStore.ts";
+import {configInfo} from "@/utils/sh_design.ts";
+
 const userInfoStore = UserInfo(piniaInstance);
 const shortcutMenuList = ref<Array<any>>([]);
 let systemName = Config.title;
@@ -298,7 +300,7 @@ const dataFormat = (name: string, val: any, row: any) => {
 };
 const search = ref<String>();
 const filterTableData = computed(() => filterTree(search.value, permissionMenuList.value));
-let shortcutVisible = computed(() => configStore.configFormInfo.shortCutMenus || "Y");
+let configInfo = computed(() => configStore.configFormInfo);
 </script>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps"
@@ -329,7 +331,7 @@ let shortcutVisible = computed(() => configStore.configFormInfo.shortCutMenus ||
        <star-horse-icon icon-class="horse" style="vertical-align:middle;color: #e3e9f2;font-size: 22px"/>-->
     </div>
     <div class="header-left">
-      <star-horse-hmenu/>
+      <star-horse-hmenu v-if="configInfo.menusCfg=='tradition'"/>
     </div>
     <div class="header-right">
       <div class="user-info">
@@ -373,7 +375,7 @@ let shortcutVisible = computed(() => configStore.configFormInfo.shortCutMenus ||
     </div>
   </div>
   <div style="clear: both"></div>
-  <div class="shortcut" v-if="shortcutVisible=='Y'">
+  <div class="shortcut" v-if="configInfo.shortCutMenus=='Y'">
     <div class="shortcut_ul">
       <template v-for="(item, index) in shortcutMenuList">
         <span>
@@ -382,9 +384,7 @@ let shortcutVisible = computed(() => configStore.configFormInfo.shortCutMenus ||
                <el-icon class="star-icon" style="color: var(--star-horse-white);font-size:18px">
           <component :is="item.menuIcon||'document'"/>
         </el-icon>
-              {{
-                item["menuName"]
-              }}</router-link>
+              {{ item["menuName"] }}</router-link>
           </el-tooltip>
         </span>
         <span style=" display:flex;height:100%;width: 1px;cursor: none;color: #ffd04b"
@@ -402,10 +402,12 @@ let shortcutVisible = computed(() => configStore.configFormInfo.shortCutMenus ||
 .el-avatar {
   margin-top: -10px;
 }
+
 .el-icon {
   font-size: 22px;
   margin: 3px auto;
 }
+
 .header {
   height: 50px;
   width: 100%;
@@ -418,9 +420,11 @@ let shortcutVisible = computed(() => configStore.configFormInfo.shortCutMenus ||
   justify-content: space-between;
   box-sizing: border-box;
   flex-direction: row;
+
   .header-left {
     height: 100%;
     flex: 1;
+
     ul {
       list-style: none;
       display: flex;
@@ -428,6 +432,7 @@ let shortcutVisible = computed(() => configStore.configFormInfo.shortCutMenus ||
       height: 100%;
       margin-left: 0;
       padding-left: 0;
+
       li {
         span {
           color: var(--star-horse-white);
@@ -435,6 +440,7 @@ let shortcutVisible = computed(() => configStore.configFormInfo.shortCutMenus ||
       }
     }
   }
+
   .header-right {
     width: 150px;
     height: 100%;
@@ -444,6 +450,7 @@ let shortcutVisible = computed(() => configStore.configFormInfo.shortCutMenus ||
     justify-content: center;
     vertical-align: middle;
     text-align: right;
+
     .user-info {
       width: inherit;
       height: 100%;
@@ -453,11 +460,13 @@ let shortcutVisible = computed(() => configStore.configFormInfo.shortCutMenus ||
       flex-direction: row-reverse;
       vertical-align: middle;
       align-items: center;
+
       .lang {
         align-items: center;
         justify-content: center;
         vertical-align: middle;
       }
+
       .el-dropdown-link {
         color: var(--star-horse-white);
         display: flex;
@@ -467,9 +476,11 @@ let shortcutVisible = computed(() => configStore.configFormInfo.shortCutMenus ||
     }
   }
 }
+
 .el-dropdown-menu > .el-dropdown-menu__item:first-child {
   border-bottom: 1px solid silver;
 }
+
 .shortcut {
   height: 30px;
   background: var(--star-horse-style);;
@@ -477,6 +488,7 @@ let shortcutVisible = computed(() => configStore.configFormInfo.shortCutMenus ||
   box-shadow: 0 2px 10px 0 var(--star-horse-shadow-rgba);
   border-top: 1px solid rgba($color: #fff, $alpha: .2);
   box-sizing: border-box;
+
   .shortcut_ul {
     width: 100%;
     height: 100%;
@@ -486,6 +498,7 @@ let shortcutVisible = computed(() => configStore.configFormInfo.shortCutMenus ||
     align-items: center;
     margin-left: 0px;
     padding-left: 0px;
+
     span {
       display: flex;
       justify-content: center;
@@ -497,6 +510,7 @@ let shortcutVisible = computed(() => configStore.configFormInfo.shortCutMenus ||
       margin-left: 15px;
       text-align: center;
       height: 100%;
+
       a {
         display: inline-flex;
         justify-content: center;
@@ -510,6 +524,7 @@ let shortcutVisible = computed(() => configStore.configFormInfo.shortCutMenus ||
         text-align: center;
         height: 100%;
       }
+
       &:last-child {
         font-size: 14px;
         color: var(--star-horse-white);
@@ -519,9 +534,11 @@ let shortcutVisible = computed(() => configStore.configFormInfo.shortCutMenus ||
     }
   }
 }
+
 :deep(.el-table__cell) {
   padding: 0;
 }
+
 :deep(th.el-table__cell:first-child) {
   padding: 5px 0;
 }
