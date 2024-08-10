@@ -118,7 +118,7 @@ watch(() => props.sysemId,
   }
 }
 :deep(.el-icon) {
-  color: var(--star-horse-style);;
+  color: var(--star-horse-style);
 }
 .el-menu {
   min-height: 100%;

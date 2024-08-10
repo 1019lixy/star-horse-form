@@ -113,7 +113,7 @@ const dragUpdate = (evt) => {
 <style lang="scss" scoped>
 .smain-design {
   width: 100%;
-  background: var(--star-horse-white);;
+  background: var(--star-horse-white);
   border-radius: 3px;
   min-height: 50px;
   display: flex;

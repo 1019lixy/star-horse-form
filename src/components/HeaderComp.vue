@@ -483,7 +483,7 @@ let configInfo = computed(() => configStore.configFormInfo);
 
 .shortcut {
   height: 30px;
-  background: var(--star-horse-style);;
+  background: var(--star-horse-style);
   -webkit-box-shadow: 0 2px 10px 0 var(--star-horse-shadow-rgba);
   box-shadow: 0 2px 10px 0 var(--star-horse-shadow-rgba);
   border-top: 1px solid rgba($color: #fff, $alpha: .2);

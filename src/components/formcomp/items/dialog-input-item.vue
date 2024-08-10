@@ -37,7 +37,8 @@
         @blur="keyEnterFun('blur')"
         v-model="context.attrs['formData'][field.preps['name']]">
       <template #append>
-        <el-button icon="Search" @click="showVisible" :size="context.attrs.formInfo?.size||field?.preps['size']||'small'"
+        <el-button icon="Search" @click="showVisible"
+                   :size="context.attrs.formInfo?.size||field?.preps['size']||'small'"
                    :disabled="field.preps['disabled'] == 'Y'"/>
       </template>
     </el-input>
@@ -48,6 +49,8 @@ import {defineComponent, nextTick, onMounted, ref, shallowRef} from "vue";
 import {warning} from "@/utils/message";
 import {FieldMapping} from "@/components/types/PageFieldInfo";
 import {SearchParams} from "@/components/types/Params";
+import {isJson} from "@/api/sh_api.ts";
+
 export default defineComponent({
   setup(props, context) {
     const parentField = context.attrs["parentField"];
@@ -80,7 +83,7 @@ export default defineComponent({
     const selectItem = (row: any) => {
       let data = "";
       let needField = field.preps["needField"];
-      if (!row) {
+      if (!row || !isJson(row)) {
         let selectDatas = dialogInputTableRef.value.multipleSelection;
         if (!selectDatas) {
           warning("请选择数据");
@@ -137,7 +140,7 @@ export default defineComponent({
       }
     });
     return {
-      parentField,  context, field, formItem,
+      parentField, context, field, formItem,
       dataField, dynamicFunction, keyEnterFun, dialogInputVisible, closeAction
       , showVisible, actionName, dialogInputTableRef, searchData, selectItem
     }

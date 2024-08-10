@@ -79,7 +79,7 @@ const removeData = () => {
     height: 22px;
     opacity: 0;
     line-height: 22px;
-    background: var(--star-horse-style);;
+    background: var(--star-horse-style);
     z-index: 9999;
     float: left;
     text-align: right;
@@ -98,7 +98,7 @@ const removeData = () => {
     left: -1px;
     height: 20px;
     line-height: 20px;
-    background: var(--star-horse-style);;
+    background: var(--star-horse-style);
     z-index: 9;
     opacity: 0;
     .icon-cls {
@@ -110,7 +110,7 @@ const removeData = () => {
     }
     &:hover {
       opacity: 1;
-      background: var(--star-horse-style);;
+      background: var(--star-horse-style);
     }
   }
 }
@@ -154,7 +154,7 @@ const removeData = () => {
   }
 }
 .el-form-item.selected, .static-content-item.selected {
-  outline: 2px solid var(--star-horse-style);;
+  outline: 2px solid var(--star-horse-style);
 }
 :deep(.label-left-align) .el-form-item__label {
   text-align: left;

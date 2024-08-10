@@ -4,6 +4,7 @@ import progress from 'vite-plugin-progress'
 import vueJsx from "@vitejs/plugin-vue-jsx"
 import inject from "@rollup/plugin-inject"
 import viteCompression from 'vite-plugin-compression'
+import topLevelAwait from 'vite-plugin-top-level-await';
 import {resolve} from "path";
 import {createSvgIconsPlugin} from 'vite-plugin-svg-icons'
 import Components from 'unplugin-vue-components/vite'
@@ -87,6 +88,7 @@ export default defineConfig({
             resolvers: [ElementPlusResolver()]
         }),
         progress(),
+        topLevelAwait(),
         vueJsx({}),
         inject({
             $: "jquery", // 这里会自动载入 node_modules 中的 jquery

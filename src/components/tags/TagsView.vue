@@ -8,6 +8,7 @@ import {useScrollTo} from "@/components/tags/useScrollTo";
 import ContextMenu from "@/components/tags/ContextMenu.vue";
 import {useTemplateRefsList} from "@vueuse/core";
 import piniaInstance from "@/store";
+
 const {currentRoute, push, replace} = useRouter();
 const viewListStore = navBarList(piniaInstance);
 // 初始化tag
@@ -388,14 +389,17 @@ watch(
   width: 100%;
   background: var(--star-horse-white);
   border: 1px solid #eee;
+
   :deep(.scrollbar__view) {
     height: 100%;
   }
+
   .overflow-hidden {
     position: relative;
     overflow-x: hidden;
     flex: 1;
   }
+
   .tool {
     position: relative;
     display: flex;
@@ -403,14 +407,18 @@ watch(
     height: 35px;
     align-items: center;
     vertical-align: middle;
+    border-right: 1px solid var(--star-horse-style);
+    border-left: 1px solid var(--star-horse-style);
+
     &:hover {
       :deep(span) {
         color: #000000 !important;
       }
     }
-    border-right: 1px solid var(--star-horse-style);;
-    border-left: 1px solid var(--star-horse-style);;
+
+
   }
+
   .tags-item {
     position: relative;
     top: 3px;
@@ -422,6 +430,7 @@ watch(
     height: 100%;
     border: 1px solid #d9d9d9;
     display: inline-flex;
+
     .close-icon {
       position: relative;
       top: 35%;
@@ -429,11 +438,13 @@ watch(
       display: none;
       transform: translate(0, -50%);
     }
+
     :not(.close-icon):hover {
       .close-icon {
         display: block;
       }
     }
+
     .tags {
       height: 28px;
       display: flex;
@@ -446,15 +457,18 @@ watch(
       white-space: nowrap;
     }
   }
+
   .tags-item:not(.is-active) {
     &:hover {
       color: var(--star-horse-style);
     }
   }
+
   .tags-item.is-active {
     color: var(--el-color-white);
     background-color: var(--star-horse-style);
     border: 1px solid var(--star-horse-style);
+
     .item--close {
       :deep(span) {
         color: var(--el-color-white) !important;
