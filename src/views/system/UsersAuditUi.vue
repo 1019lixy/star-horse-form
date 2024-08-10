@@ -3,7 +3,7 @@ import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings.ts";
 import {DialogProps} from "@/components/types/DialogProps"
 import {onMounted, provide, reactive, ref} from "vue";
-import {SearchProps} from "@/components/types/SearchProps";
+import {SearchFields, SearchProps} from "@/components/types/SearchProps";
 import {getMenuId, loadPagePermission} from "@/api/sh_api.ts";
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/system-config/system/usersAudit/pageList",
@@ -20,14 +20,15 @@ const dataUrl: ApiUrls = {
   uploadUrl: "",
   condition: []
 };
-const searchFormData = reactive<SearchProps[]>([{label: "主键", fieldName: "idUsersAudit", type: "long"},
+const searchFormData = reactive<SearchFields>({fieldList:[
+    {label: "主键", fieldName: "idUsersAudit", type: "long"},
   {label: "主键", fieldName: "idUserinfo", type: "long"},
   {label: "密码", fieldName: "password", type: "input"},
   {label: "生效日期", fieldName: "effectiveDate", type: "date"},
   {label: "失效日期", fieldName: "expiredDate", type: "date"},
   {label: "备注", fieldName: "remark", type: "input"},
   {label: "数据类型", fieldName: "dataType", type: "number"},
-]);
+]});
 const tableFieldList = reactive({
   fieldList: [
     {
@@ -101,8 +102,6 @@ const tableFieldList = reactive({
 const primaryKey = "idUsersAudit";
 const usersAuditRef = ref();
 const rules = {};
-const dataForm = ref({});
-provide("dataForm", dataForm);
 const dialogProps = reactive<DialogProps>({
   bakeVisible1: false, bakeVisible2: false, bakeVisible3: false,
   ids: 0,
@@ -129,7 +128,7 @@ onMounted(async () => {
 </style>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form v-model:data-form="dataForm" @refresh="usersAuditRef.loadByPage()" :compUrl="dataUrl"
+    <star-horse-form  @refresh="usersAuditRef.loadByPage()" :compUrl="dataUrl"
                      :fieldList="tableFieldList"
                      :rules="rules"/>
   </star-horse-dialog>

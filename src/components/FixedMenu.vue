@@ -111,11 +111,12 @@ watch(() => props.sysemId,
         height: 45px;
 
         .star-icon {
-          color: var(--star-horse-white);
+
           width: 100%;
           height: inherit;
 
           svg {
+            color: var(--star-horse-white) !important;
             height: 2em;
             width: 2em;
           }

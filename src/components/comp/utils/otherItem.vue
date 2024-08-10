@@ -16,6 +16,7 @@ defineProps({
   rules: {type: Object},
   compSize: {type: String, default: "small"},
   isView: {type: Boolean, default: false},
+  isEdit: {type: Boolean, default: false},
 });
 const dataForm: ModelRef<any> = defineModel("dataForm");
 const init = () => {
@@ -31,7 +32,7 @@ onMounted(() => {
                    v-model:dataForm="dataForm"
                    :item="item"
                    :compSize="compSize"
-                   :isEdit="isView"/>
+                   :isEdit="isEdit"/>
   <el-form-item
       :size="compSize"
       :label="item.label"
@@ -40,7 +41,7 @@ onMounted(() => {
       :prop="item.fieldName"
       v-else-if="item.formShow">
     <star-horse-item :primaryKey="primaryKey" :compSize="compSize" v-model:dataForm="dataForm" :item="item"
-                     :isEdit="isView"/>
+                     :isEdit="isEdit"/>
   </el-form-item>
 </template>
 

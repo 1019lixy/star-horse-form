@@ -73,6 +73,25 @@ export default defineConfig({
             },
         }
     },
+    optimizeDeps: {
+        include: [
+            'vue',
+            'vue-router',
+            'vue-types',
+            'element-plus/es/locale/lang/zh-cn',
+            'element-plus/es/locale/lang/en',
+            '@iconify/iconify',
+            '@vueuse/core',
+            '@/components/types',
+            'axios',
+            'qs',
+            'echarts',
+            'echarts-wordcloud',
+            'qrcode',
+            '@wangeditor/editor',
+            '@wangeditor/editor-for-vue'
+        ]
+    },
     plugins: [
         vue({
             script: {

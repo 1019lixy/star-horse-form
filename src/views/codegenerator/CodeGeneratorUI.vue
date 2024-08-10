@@ -1,7 +1,7 @@
 <script setup lang="ts" name="EnvInfo">
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {onMounted, provide, reactive, ref} from "vue";
-import {SearchProps, SelectOption} from "@/components/types/SearchProps.d.ts";
+import {SearchFields, SearchProps, SelectOption} from "@/components/types/SearchProps.d.ts";
 import {Config} from "@/api/settings.ts";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo.d.ts";
 import {initDbList, tableList} from "@/views/dbsearch/utils/DbSearchUtils.ts";
@@ -24,10 +24,10 @@ const dataUrl: ApiUrls = {
   importUrl: "/code-generator/generator/code/importData",
   uploadUrl: ""
 };
-const searchFormData = reactive<SearchProps[]>([
+const searchFormData = reactive<SearchFields>({fieldList:[
   {label: "应用名称", fieldName: "projectName", type: "input", matchType: "lk", defaultShow: true},
   {label: "项目名称", fieldName: "applicationName", type: "input", matchType: "lk", defaultShow: true},
-]);
+]});
 let dbInfoList = ref<Array<SelectOption>>([]);
 let tableInfoList = ref<Array<SelectOption>>([]);
 let templateVersionList = ref<Array<SelectOption>>([]);

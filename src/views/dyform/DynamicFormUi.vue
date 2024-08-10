@@ -2,7 +2,7 @@
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {DialogProps} from "@/components/types/DialogProps"
 import {computed, nextTick, onMounted, provide, reactive, ref} from "vue";
-import {SearchProps} from "@/components/types/SearchProps";
+import {SearchFields, SearchProps} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {BtnAuth} from "@/components/types/BtnAuth";
 import {useRouter} from "vue-router";
@@ -45,10 +45,10 @@ const loadFormData = async (formId: any) => {
   data["details"] = {};
   designForm.setFormInfo(data);
 }
-const searchFormData = reactive<SearchProps[]>([
+const searchFormData = reactive<SearchFields>({fieldList:[
   {label: "表单名称", fieldName: "formName", defaultShow: true, type: "input", matchType: "lk"},
   {label: "创建时间", fieldName: "createDate", defaultShow: true, type: "date", matchType: "bt"},
-]);
+]});
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     {
@@ -164,8 +164,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 const primaryKey = "idDynamicForm";
 const dynamicFormRef = ref();
 const rules = {};
-const dataForm = ref({});
-provide("dataForm", dataForm);
 const dialogProps = reactive<DialogProps>({
   ids: 0,
   batchDialogTitle: "批量编辑",
@@ -241,7 +239,7 @@ onMounted(async () => {
     </template>
   </star-horse-dialog>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form v-model:data-form="dataForm" :compUrl="dataUrl" :fieldList="tableFieldList" :rules="rules"/>
+    <star-horse-form  :compUrl="dataUrl" :fieldList="tableFieldList" :rules="rules"/>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title=
       "'查看数据'" :is-view="true">

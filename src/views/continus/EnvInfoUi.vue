@@ -1,7 +1,7 @@
 <script setup lang="ts" name="EnvInfo">
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {onMounted, provide, reactive, ref} from "vue";
-import {SearchProps} from "@/components/types/SearchProps.d.ts";
+import {SearchFields, SearchProps} from "@/components/types/SearchProps.d.ts";
 import {Config} from "@/api/settings.ts";
 import {DialogInput} from "@/components/types/PageFieldInfo";
 import {getMenuId, loadPagePermission} from "@/api/sh_api.ts";
@@ -19,11 +19,11 @@ const dataUrl: ApiUrls = {
   importUrl: "/devops-continus/continus/envInfo/importData",
   uploadUrl: ""
 };
-const searchFormData = reactive<SearchProps[]>([
+const searchFormData = reactive<SearchFields>({fieldList:[
   {label: "项目名称", fieldName: "projectName", type: "input", matchType: "lk", defaultShow: true},
   {label: "项目类型", fieldName: "projectType", type: "input", matchType: "lk", defaultShow: true},
   {label: "程序语言", fieldName: "language", type: "input", matchType: "lk", defaultShow: true},
-]);
+]});
 const tableFieldList = reactive({
   fieldList: [
     {
@@ -113,8 +113,6 @@ const tableFieldList = reactive({
 const primaryKey = "idEnvInfo";
 const environmentInfoRef = ref();
 const rules = {};
-const dataForm = ref({});
-provide("dataForm", dataForm);
 const dialogProps = reactive<DialogInput>({
   bakeVisible1: false, bakeVisible2: false, bakeVisible3: false,
   ids: 0,
@@ -139,7 +137,7 @@ onMounted(async () => {
 </script>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form v-model:data-form="dataForm" @refresh="environmentInfoRef.loadByPage()" :compUrl="dataUrl"
+    <star-horse-form  @refresh="environmentInfoRef.loadByPage()" :compUrl="dataUrl"
                      :fieldList="tableFieldList"
                      :rules="rules"/>
   </star-horse-dialog>

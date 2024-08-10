@@ -2,7 +2,7 @@
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {DialogProps} from "@/components/types/DialogProps"
 import {onMounted, provide, reactive, ref} from "vue";
-import {SearchProps} from "@/components/types/SearchProps";
+import {SearchFields, SearchProps} from "@/components/types/SearchProps";
 import {Config} from "@/api/settings.ts";
 import {getMenuId, loadPagePermission} from "@/api/sh_api.ts";
 const dataUrl: ApiUrls = {
@@ -19,11 +19,11 @@ const dataUrl: ApiUrls = {
   importUrl: "/userdb-manage/userdb/dynamicFormDetails/importData",
   uploadUrl: "",
 };
-const searchFormData = reactive<SearchProps[]>([{label: "主键", fieldName: "idDynamicFormDetails", type: "long"},
+const searchFormData = reactive<SearchFields>({fieldList:[{label: "主键", fieldName: "idDynamicFormDetails", type: "long"},
   {label: "主键", fieldName: "idDynamicForm", type: "long"},
   {label: "表单内容", fieldName: "content", type: "input"},
   {label: "表单属性", fieldName: "fieldNames", type: "input"},
-]);
+]});
 const tableFieldList = reactive({
   fieldList: [
     {
@@ -82,8 +82,6 @@ const tableFieldList = reactive({
 const primaryKey = "idDynamicFormDetails";
 const dynamicFormDetailsRef = ref();
 const rules = {};
-const dataForm = ref({});
-provide("dataForm", dataForm);
 const dialogProps = reactive<DialogProps>({
   bakeVisible1: false, bakeVisible2: false, bakeVisible3: false,
   ids: 0,
@@ -111,7 +109,7 @@ onMounted(async () => {
 </style>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form v-model:data-form="dataForm" @refresh="dynamicFormDetailsRef.loadByPage()" :compUrl="dataUrl"
+    <star-horse-form  @refresh="dynamicFormDetailsRef.loadByPage()" :compUrl="dataUrl"
                      :fieldList="tableFieldList"
                      :rules="rules"/>
   </star-horse-dialog>

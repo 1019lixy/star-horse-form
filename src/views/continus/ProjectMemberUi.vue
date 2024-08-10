@@ -1,7 +1,7 @@
 <script setup lang="ts" name="ProjectMember">
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {onMounted, provide, reactive, ref, watch} from "vue";
-import {SearchProps} from "@/components/types/SearchProps.d.ts";
+import {SearchFields, SearchProps} from "@/components/types/SearchProps.d.ts";
 import {SearchParams} from "@/components/types/Params.d.ts";
 import {DialogInput} from "@/components/types/PageFieldInfo";
 import {getMenuId, loadPagePermission} from "@/api/sh_api.ts";
@@ -22,7 +22,7 @@ const dataUrl: ApiUrls = {
   importUrl: "/devops-continus/continus/projectMember/importData",
   uploadUrl: ""
 };
-const searchFormData = reactive<SearchProps[]>([]);
+const searchFormData = reactive<SearchFields>({fieldList:[]});
 const tableFieldList = reactive({
   fieldList: [
     {
@@ -99,8 +99,6 @@ const tableFieldList = reactive({
 const primaryKey = "idDbinfo";
 const projectMemberRef = ref();
 const rules = {};
-const dataForm = ref({});
-provide("dataForm", dataForm);
 const dialogProps = reactive<DialogInput>({
   bakeVisible1: false, bakeVisible2: false, bakeVisible3: false,
   ids: 0,
@@ -140,7 +138,7 @@ onMounted(async () => {
 </script>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form v-model:data-form="dataForm" @refresh="projectMemberRef.loadByPage()" :compUrl="dataUrl"
+    <star-horse-form  @refresh="projectMemberRef.loadByPage()" :compUrl="dataUrl"
                      :fieldList="tableFieldList"
                      :rules="rules"/>
   </star-horse-dialog>

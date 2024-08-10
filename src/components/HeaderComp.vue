@@ -319,7 +319,7 @@ let configInfo = computed(() => configStore.configFormInfo);
       </template>
     </el-input>
     <star-horse-table-comp ref="shortcutMultipleTable" :field-list="fieldList" primaryKey="meta.title"
-                           :compUrl="dataUrl" height="400px" :disableAction="true" :showPageBar="false"
+                           :compUrl="dataUrl" :disableAction="true" :showPageBar="false"
                            :dataFormat="dataFormat"
                            :allowSelectParent="false" :expand="true" :reverseDataList="reverseDataList"
                            :tableDataList="filterTableData"/>
@@ -384,7 +384,7 @@ let configInfo = computed(() => configStore.configFormInfo);
                <el-icon class="star-icon" style="color: var(--star-horse-white);font-size:18px">
           <component :is="item.menuIcon||'document'"/>
         </el-icon>
-              {{ item["menuName"] }}</router-link>
+             &nbsp;{{ item["menuName"] }}</router-link>
           </el-tooltip>
         </span>
         <span style=" display:flex;height:100%;width: 1px;cursor: none;color: #ffd04b"
@@ -406,6 +406,10 @@ let configInfo = computed(() => configStore.configFormInfo);
 .el-icon {
   font-size: 22px;
   margin: 3px auto;
+
+  svg {
+    color: var(--star-horse-white);
+  }
 }
 
 .header {

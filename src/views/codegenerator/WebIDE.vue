@@ -17,8 +17,7 @@ const changeTemplate = async (val: string) => {
   let value = await loadTemplate(val, "com.starhorse.devops.customer", "Customer");
   editor.value.setValue(value);
 }
-const helpMessage = `
-`;
+const helpMessage = ``;
 onMounted(() => {
   init();
 });

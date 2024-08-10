@@ -35,16 +35,16 @@ const props = defineProps({
   //弹窗模式
   dialogInput: {type: Boolean, default: false},
   //默认表格高度
-  height: {type: String, default: "100%"},
+  height: {type: String, default: "400"},
   //过滤条件
-  filterCondition: {type: Array as PropType<SearchParams[]>, default: []},
-  orderBy: {type: Array as PropType<OrderByInfo[]>, default: []},
+  filterCondition: {type: Array as PropType<SearchParams[]>},
+  orderBy: {type: Array as PropType<OrderByInfo[]>},
   //是否显示分页条
   showPageBar: {type: Boolean, default: true},
   //数据列表
-  tableDataList: {type: Array, default: []},
+  tableDataList: {type: Array},
   //回显数据列表
-  reverseDataList: {type: Array, default: []},
+  reverseDataList: {type: Array},
   //是否运行选择父级节点
   allowSelectParent: {type: Boolean, default: true},
   //默认是否展开所有子节点
@@ -543,7 +543,7 @@ defineExpose({
       :stripe="true"
       :fit="true"
       :size="compSize"
-      :min-height="400"
+      :min-height="height"
       :highlight-current-row="true"
       :default-expand-all="expand"
       :row-style="{

@@ -3,10 +3,11 @@ import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings.ts";
 import {DialogProps} from "@/components/types/DialogProps"
 import {ComponentInternalInstance, getCurrentInstance, onMounted, provide, reactive, ref, unref, watch} from "vue";
-import {SearchProps, SelectOption} from "@/components/types/SearchProps";
+import {SearchFields, SearchProps, SelectOption} from "@/components/types/SearchProps";
 import {
   closeLoad,
-  createTree, getMenuId,
+  createTree,
+  getMenuId,
   load,
   loadData,
   loadElementPlusIcon,
@@ -20,6 +21,7 @@ import {TreeNode, TreeNodeData} from "element-plus/es/components/tree-v2/src/typ
 import {ElTreeV2} from "element-plus";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {treeCheckChange} from "@/api/system";
+
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/system-config/system/menusinfoEntity/pageList",
   mergeUrl: "/system-config/system/menusinfoEntity/merge",
@@ -52,12 +54,12 @@ const proxy: ComponentInternalInstance | null = getCurrentInstance();
  }
  }
  provide('commonFunction', commonFunction);*/
-const searchFormData = reactive<SearchProps[]>([
+const searchFormData = reactive<SearchFields>({fieldList:[
   /*{label: "归属系统", fieldName: "informationsSingleId", type: "select", optionList: informationsList},
   {label: "父菜单", fieldName: "parentNo", type: "tselect", optionList: searchParentMenus},*/
   {label: "菜单名称", defaultShow: true, fieldName: "menuName", type: "input", matchType: "lk"},
   {label: "菜单编码", fieldName: "menuCode", type: "input", matchType: "lk"},
-]);
+]});
 let menuIconList = ref<SelectOption[]>([]);
 const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [{
@@ -146,7 +148,7 @@ const tableFieldList = reactive<PageFieldInfo>({
 });
 const primaryKey = "idMenusinfo";
 const rules = {};
-const dataForm = ref({});
+const dataForm = ref<any>({});
 watch(() => dataForm.value["informationsSingleId"],
     (val) => {
       if (val) {
@@ -157,7 +159,7 @@ watch(() => dataForm.value["informationsSingleId"],
       immediate: true
     }
 )
-const loadMenuBySystemId = async (loadAll: boolean) => {
+const loadMenuBySystemId = async (_loadAll: boolean) => {
   if (dataForm.value["batchDataList"]?.length > 0) {
     parentMenus.value = createTree(dataForm.value["batchDataList"], "dataNo", "menuName", "idMenusinfo");
   } else {
@@ -165,7 +167,7 @@ const loadMenuBySystemId = async (loadAll: boolean) => {
       "propertyName": "informationsSingleId",
       "value": dataForm.value["informationsSingleId"]
     }];
-    let {data, error} = await loadData("/system-config/system/menusinfoEntity/getAllTreeDataByCondition/false", params);
+    let {data} = await loadData("/system-config/system/menusinfoEntity/getAllTreeDataByCondition/false", params);
     if (data) {
       parentMenus.value = createTree(data, "dataNo", "menuName", "idMenusinfo");
     }
@@ -253,10 +255,9 @@ const checkChange = (data: TreeNodeData, checked: boolean) => {
 const initData = async () => {
   permissions.value = await loadPagePermission(getMenuId())
   let params: any = [{propertyName: "statusCode", value: "1"}]
-  const datas = await loadSystemInfo(params);
-  informationsList.value = datas;
+  informationsList.value = await loadSystemInfo(params);
   // await loadMenuBySystemId(true);
-  let {data, error} = await loadData(dataUrl.userConditionUrl, params);
+  let {data} = await loadData(dataUrl.userConditionUrl!, params);
   if (data) {
     data.forEach((item: any) => {
       let temp: SelectOption = {name: item.menuName, value: item.dataNo};
@@ -284,7 +285,7 @@ onMounted(async () => {
     <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
   </star-horse-dialog>
   <el-card class="inner_content">
-    <el-row style="height: 100%;">
+    <el-row style="height: 100%;" :gutter="10">
       <el-col :span="3" style="height: inherit">
         <el-card class="inner_content" style="height: inherit">
           <el-input

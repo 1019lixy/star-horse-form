@@ -3,7 +3,7 @@ import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings.ts";
 import {DialogProps} from "@/components/types/DialogProps"
 import {onMounted, provide, reactive, ref} from "vue";
-import {SearchProps} from "@/components/types/SearchProps";
+import {SearchFields, SearchProps} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {getMenuId, loadPagePermission} from "@/api/sh_api.ts";
 const dataUrl: ApiUrls = {
@@ -21,11 +21,11 @@ const dataUrl: ApiUrls = {
   uploadUrl: "",
   condition: []
 };
-const searchFormData = reactive<SearchProps[]>([{label: "区域主键", fieldName: "idAreainfo", type: "long"},
+const searchFormData = reactive<SearchFields>({fieldList:[{label: "区域主键", fieldName: "idAreainfo", type: "long"},
   {label: "区域名称", defaultShow: true, fieldName: "areaName", type: "input"},
   {label: "区域编码", fieldName: "areaCode", type: "input"},
   {label: "父节点编号", fieldName: "parentNo", type: "input"},
-]);
+]});
 const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
@@ -84,8 +84,6 @@ const tableFieldList = reactive<PageFieldInfo>({
 const primaryKey = "idAreainfo";
 const areainfoRef = ref();
 const rules = {};
-const dataForm = ref({});
-provide("dataForm", dataForm);
 const dialogProps = reactive<DialogProps>({
   bakeVisible1: false, bakeVisible2: false, bakeVisible3: false,
   ids: 0,
@@ -95,11 +93,10 @@ const dialogProps = reactive<DialogProps>({
   editVisible: false,
   uploadVisible: false,
   viewVisible: false,
-  dialogPwdVisible: false
 });
 provide("dialogProps", dialogProps);
 let permissions = ref<any>({});
-const dataFormat = (name: string, cellValue: Object): any => {
+const dataFormat = (_name: string, cellValue: Object): any => {
   return cellValue;
 }
 const initData = async () => {
@@ -111,7 +108,7 @@ onMounted(() => {
 </script>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form v-model:data-form="dataForm" @refresh="areainfoRef.loadByPage()" :compUrl="dataUrl"
+    <star-horse-form  @refresh="areainfoRef.loadByPage()" :compUrl="dataUrl"
                      :fieldList="tableFieldList" :rules="rules"/>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title=

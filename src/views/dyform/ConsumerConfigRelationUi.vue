@@ -2,7 +2,7 @@
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {DialogProps} from "@/components/types/DialogProps"
 import {onMounted, provide, reactive, ref} from "vue";
-import {SearchProps} from "@/components/types/SearchProps";
+import {SearchFields, SearchProps} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {Config} from "@/api/settings.ts";
 import {getMenuId, loadPagePermission} from "@/api/sh_api.ts";
@@ -22,7 +22,7 @@ const dataUrl: ApiUrls = {
   importUrl: ""
 };
 //查询属性
-const searchFormData = reactive<SearchProps[]>([
+const searchFormData = reactive<SearchFields>({fieldList:[
   {label: "主键", fieldName: "idConsumerConfigRelation", type: "long"},
   {label: "消费配置ID", fieldName: "idConsumerConfig", type: "long"},
   {label: "关联主表名", fieldName: "fromTable", type: "input"},
@@ -33,7 +33,7 @@ const searchFormData = reactive<SearchProps[]>([
   {label: "被关联表字段", fieldName: "toField", type: "input"},
   {label: "关联映射关系 默认 eq", fieldName: "mapper", type: "input"},
   {label: "备注", fieldName: "remark", type: "input"},
-]);
+]});
 //页面属性
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
@@ -173,9 +173,6 @@ const primaryKey = "idConsumerConfigRelation";
 const consumerConfigRelationRef = ref();
 //校验
 const rules = {};
-const dataForm = ref({});
-//全局数据对象
-provide("dataForm", dataForm);
 //控制弹窗相关设置
 const dialogProps = reactive<DialogProps>({
   ids: 0,
@@ -212,7 +209,7 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
 </style>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form v-model:data-form="dataForm" @refresh="consumerConfigRelationRef.loadByPage()" :compUrl="dataUrl"
+    <star-horse-form  @refresh="consumerConfigRelationRef.loadByPage()" :compUrl="dataUrl"
                      :fieldList="tableFieldList"
                      :rules="rules"/>
   </star-horse-dialog>

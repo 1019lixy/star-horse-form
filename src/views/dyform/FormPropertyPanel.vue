@@ -96,7 +96,7 @@ const handelDelete = (row: any) => {
 //赋值
 const relationChange = (row: any) => {
   let tableId = row.tableId;
-  let fdata = dataSourceData.value.find(item => item.formId == tableId);
+  let fdata = dataSourceData.value.find((item:any) => item.formId == tableId);
   row["formName"] = fdata?.formName;
   row["tbName"] = fdata?.tbName;
 };
@@ -136,6 +136,7 @@ defineExpose({
 .dynamic-form {
   width: 100%;
 }
+
 </style>
 <template>
   <el-form
@@ -153,6 +154,7 @@ defineExpose({
       </el-col>
       <el-col :span="12">
         <el-form-item label="数据源">
+          <help :message="dbPositionMsg"/>
           <el-select
               clearable
               filterable
@@ -169,7 +171,7 @@ defineExpose({
             >
             </el-option>
           </el-select>
-          <help :message="dbPositionMsg"/>
+
         </el-form-item>
       </el-col>
     </el-row>
@@ -217,7 +219,7 @@ defineExpose({
                       :class="sdata.value == formInfo['formIcon'] ? 'icon-active' : ''"
                   >
                     <el-tooltip :content="sdata.name">
-                      <el-icon class="star-icon" style="font-size: 50px">
+                      <el-icon class="star-icon" style="font-size: 50px;color: var(--star-horse-style)">
                         <component :id="sdata.value" :is="sdata.value" />
                       </el-icon>
                     </el-tooltip>

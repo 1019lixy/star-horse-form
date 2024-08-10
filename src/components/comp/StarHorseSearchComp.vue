@@ -1,13 +1,13 @@
 <script setup lang="ts" name="StarHorseSearchComp">
 import {computed, nextTick, onMounted, PropType, ref} from "vue";
 import {ApiUrls} from "@/components/types/ApiUrls";
-import {SearchProps, SelectOption} from "@/components/types/SearchProps";
+import {SearchFields, SelectOption} from "@/components/types/SearchProps";
 import {isJson, searchMatchList} from "@/api/sh_api";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-import {SearchParams} from "@/components/types/Params";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import piniaInstance from "@/store";
 import {analysisSearchData} from "@/views/dyform/utils/preview.ts";
+
 let matchTypeList = ref<SelectOption[]>();
 let sarchIcon = ref<String>("search_down");
 let defaultSearch = ref<boolean>(true);
@@ -18,24 +18,12 @@ const props = defineProps({
   dialogInput: {type: Boolean, default: false},
   mutComp: {type: Boolean, default: false},
   compUrl: {type: Object as PropType<ApiUrls>},
-  formData: {type: Array as PropType<SearchProps[]>, required: true},
+  formData: {type: Object as PropType<SearchFields>, required: true},
 });
 let configStore = GlobalConfig(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.inputSize || "small");
 let searchForm = ref<any>({});
-const init = async () => {
-  matchTypeList.value = searchMatchList();
-  searchForm.value = {...analysisDefaultValue()};
-  await nextTick();
-  //没有隐藏的查询属性，则隐藏掉展开图标
-  let fdata = props.formData?.find(item => !item.defaultShow);
-  if (!fdata && props.formData?.length > 0) {
-    showTips.value = false;
-  }
-};
-onMounted(() => {
-  init();
-});
+
 const createCreateParams = (formData: any) => {
   return analysisSearchData(searchForm.value, formData);
 };
@@ -43,8 +31,8 @@ const createCreateParams = (formData: any) => {
  * 解析默认值
  */
 const analysisDefaultValue = () => {
-  let defaultDatas:any = {};
-  props.formData?.forEach((item:any) => {
+  let defaultDatas: any = {};
+  props.formData?.fieldList.forEach((item: any) => {
     if (item.defaultValue) {
       if (isJson(item.defaultValue)) {
         for (let key in item.defaultValue) {
@@ -61,7 +49,7 @@ const dataSearch = (val: string | null) => {
   if (val === "reset") {
     searchForm.value = {...analysisDefaultValue()};
   }
-  let searchDatas = createCreateParams(props.formData);
+  let searchDatas = createCreateParams(props.formData?.fieldList);
   //如果一个页面（包括引入的页面）出现多个此组件,不能走消息总线，
   // 否则只有最后一个组件能收到查询消息
   emits("searchData", searchDatas);
@@ -76,14 +64,36 @@ const searchArea = () => {
   }
   defaultSearch.value = !defaultSearch.value;
 };
+/**
+ * 设置查询值
+ * @param data
+ */
+const setData = (data: any) => {
+  if (data) {
+    searchForm.value = {...searchForm.value, ...data};
+  }
+}
+const init = async () => {
+  matchTypeList.value = searchMatchList();
+  searchForm.value = {...analysisDefaultValue()};
+  await nextTick();
+  //没有隐藏的查询属性，则隐藏掉展开图标
+  let fdata = props.formData?.fieldList.find(item => !item.defaultShow);
+  if (!fdata && props.formData?.fieldList.length > 0) {
+    showTips.value = false;
+  }
+};
+onMounted(() => {
+  init();
+});
 defineExpose({
-  searchForm, createCreateParams
+  searchForm, setData, createCreateParams
 })
 </script>
 <template>
   <div class="search_content">
-    <el-form class="search_area" :size="compSize" v-if="formData">
-      <template v-for="item in formData" v-if="defaultSearch">
+    <el-form class="search_area" :size="compSize" v-if="formData&&formData.fieldList">
+      <template v-for="item in formData.fieldList" v-if="defaultSearch">
         <el-form-item
             :size="compSize"
             :label="item.label"
@@ -96,11 +106,11 @@ defineExpose({
                   "sitem.value"/>
             </el-select>&nbsp;&nbsp;
           </template>
-          <star-horse-item :dataForm="searchForm" :compSize="compSize" :item="item" :isSearch="true"
+          <star-horse-item v-model:data-form="searchForm" :compSize="compSize" :item="item" :isSearch="true"
                            @dataSearch="dataSearch" isEdit="true"/>
         </el-form-item>
       </template>
-      <template v-for="item in formData" v-else>
+      <template v-for="item in formData.fieldList" v-else>
         <el-form-item
             :size="compSize"
             :label="item.label"
@@ -112,7 +122,7 @@ defineExpose({
                   "sitem.value"/>
             </el-select>&nbsp;&nbsp;
           </template>
-          <star-horse-item :dataForm="searchForm" :compSize="compSize" :item="item" :isSearch="true"
+          <star-horse-item v-model:data-form="searchForm" :compSize="compSize" :item="item" :isSearch="true"
                            @dataSearch="dataSearch" :isEdit="true">
           </star-horse-item>
         </el-form-item>
@@ -139,18 +149,23 @@ defineExpose({
 :deep(.el-form-item__label) {
   min-width: 80px;
 }
+
 :deep(.el-form-item__label):last-child {
   max-width: 5px;
 }
+
 :deep(.el-form-item) {
   margin-bottom: 3px;
 }
+
 :deep(.el-form-item__label) {
   padding: 3px 12px;
 }
+
 .search_content {
   display: flex;
   flex-direction: column;
+
   .search_area {
     display: flex;
     flex-wrap: wrap;
@@ -159,6 +174,7 @@ defineExpose({
     justify-content: left;
     flex-shrink: 0;
   }
+
   .search_btn {
     display: flex;
     margin-top: 5px;

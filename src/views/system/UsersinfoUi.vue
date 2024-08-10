@@ -3,7 +3,7 @@ import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings.ts";
 import {DialogProps} from "@/components/types/DialogProps"
 import {nextTick, onMounted, provide, reactive, ref} from "vue";
-import {SearchProps, SelectOption} from "@/components/types/SearchProps";
+import {SearchFields, SearchProps, SelectOption} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {
   createCondition,
@@ -20,6 +20,7 @@ import {SearchParams} from "@/components/types/Params";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {postRequest, trim} from "@/api/star_horse.ts";
 import {success, warning} from "@/utils/message.ts";
+
 const props = defineProps({
   viewRolesinfoId: {type: String},
   disableAction: {type: Boolean, default: false}
@@ -43,30 +44,30 @@ const dataUrl: ApiUrls = {
 // const educationList = ref<SelectOption[]>([]);
 // const politicalStatusList = ref<SelectOption[]>([]);
 // const identityTypeList = ref<SelectOption[]>([]);
-const sexList = ref([{name: "男", value: 1}, {name: "女", value: 2}, {name: "保密", value: 3}]);
+const sexList = ref<SelectOption[]>([{name: "男", value: 1}, {name: "女", value: 2}, {name: "保密", value: 3}]);
 const rolesList = ref<SelectOption[]>([]);
 const deptList = ref<SelectOption[]>([]);
 const usersinfoTableListRef = ref();
 const statusList = ref<SelectOption[]>([]);
-const searchFormData = reactive<SearchProps[]>([
-  {label: "姓名", fieldName: "name", defaultShow: true, type: "input", matchType: "lk"},
-  {label: "用户名", fieldName: "username", defaultShow: true, type: "input", matchType: "lk"},
-  {label: "员工编号", fieldName: "employeeNo", defaultShow: true, type: "input", matchType: "lk"},
-  {
-    label: "角色",
-    fieldName: "idRolesinfo",
-    type: "select",
-    prefix: "b",
-    defaultValue: props.viewRolesinfoId,
-    optionList: rolesList,
-    disabled: props.viewRolesinfoId ? true : false
-  },
-  {label: "性别", fieldName: "sex", type: "select", optionList: sexList},
-]);
+const searchFormData = reactive<SearchFields>({
+  fieldList: [
+    {label: "姓名", fieldName: "name", defaultShow: true, type: "input", matchType: "lk"},
+    {label: "用户名", fieldName: "username", defaultShow: true, type: "input", matchType: "lk"},
+    {label: "员工编号", fieldName: "employeeNo", defaultShow: true, type: "input", matchType: "lk"},
+    {
+      label: "角色",
+      fieldName: "idRolesinfo",
+      type: "select",
+      prefix: "b",
+      defaultValue: props.viewRolesinfoId,
+      optionList: rolesList,
+      disabled: !!props.viewRolesinfoId
+    },
+    {label: "性别", fieldName: "sex", type: "select", optionList: sexList},
+  ]
+});
 //修改密码方法
-const ruleForm = ref<any>({});
 const pwdFormRef = ref();
-const dialogPwdVisible = ref<boolean>(false);
 const resetForm = () => {
   let data = pwdFormRef.value.getFormData();
   data.password = "";
@@ -106,7 +107,7 @@ const pwdMerge = () => {
   });
 }
 const editPwd = async (row: any) => {
-  let data = await loadById(dataUrl.loadByIdUrl, row[primaryKey], false, {});
+  let data = await loadById(dataUrl.loadByIdUrl!, row[primaryKey], false, {});
   dialogProps.bakeVisible3 = true;
   await nextTick();
   pwdFormRef.value.setDataForm(data);
@@ -115,11 +116,11 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     [{
       label: "用户名", fieldName: "username", type: "input",
-      required: true, formShow: true, disabled: "Y",
+      required: true, formShow: true, editDisabled: "Y",
       tableShow: true
     }, {
       label: "员工编号", fieldName: "employeeNo", type: "input",
-      required: true, formShow: true,
+      required: true, formShow: true, editDisabled: "Y",
       tableShow: true
     }],
     [{
@@ -237,7 +238,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       label: "国际码", fieldName: "local", type: "input",
     },
   ],
-  stopAutoLoad: props.viewRolesinfoId ? true : false,
+  stopAutoLoad: !!props.viewRolesinfoId,
   userTableFuncs: [{
     authority: "edit",
     btnName: "修改密码",
@@ -248,8 +249,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 });
 const primaryKey = "idUsersinfo";
 const rules = {};
-const dataForm = ref({});
-provide("dataForm", dataForm);
 const dialogProps = reactive<DialogProps>({
   bakeVisible1: false, bakeVisible2: false, bakeVisible3: false,
   ids: 0,
@@ -286,7 +285,7 @@ const onQueryChanged = (query: string) => {
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   treeRef.value!.filter(query)
 };
-const filterMethod = (query: string, node: TreeNode) => {
+const filterMethod = (query: string, node: any) => {
   return node.name.toLowerCase()!.includes(query?.toLowerCase())
 };
 /**
@@ -310,20 +309,17 @@ const checkChange = (data: TreeNodeData, checked: boolean) => {
   // menuTableListRef.value.setDataInfo(conditions, null);
   usersinfoTableListRef.value.createCreateParams(conditions);
 };
-const searchData = (data: SearchParams[]) => {
-  usersinfoTableListRef.value.createCreateParams(data);
-};
+
 const initData = async () => {
   permissions.value = await loadPagePermission(getMenuId())
   rolesList.value = await loadRolesInfo([]);
   deptList.value = await loadDepartmentInfo([]);
   statusList.value = await dictData("common");
+  await nextTick();
   //如果是从其它页面加载的该页面，则将条件加入查询
   if (props.viewRolesinfoId) {
-    await nextTick(() => {
-      usersinfoTableListRef.value.createCreateParams(searchFormData);
-      // usersinfoTableListRef.value.loadByPage();
-    });
+    let params: SearchParams[] = [{propertyName: "b.idRolesinfo", value: props.viewRolesinfoId}];
+    usersinfoTableListRef.value.createCreateParams(params);
   }
 };
 onMounted(async () => {
@@ -361,7 +357,7 @@ const pwdFieldInfo = reactive<PageFieldInfo | any>({
                      :rules="rules" ref="pwdFormRef"/>
   </star-horse-dialog>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form v-model:data-form="dataForm" @refresh="usersinfoTableListRef.loadByPage()" :compUrl="dataUrl"
+    <star-horse-form  @refresh="usersinfoTableListRef.loadByPage()" :compUrl="dataUrl"
                      :fieldList="tableFieldList"
                      :rules="rules"/>
   </star-horse-dialog>
@@ -370,8 +366,8 @@ const pwdFieldInfo = reactive<PageFieldInfo | any>({
     <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
   </star-horse-dialog>
   <el-card class="inner_content">
-    <el-row style="height: 100%;">
-      <el-col :span="3" style="height: inherit">
+    <el-row style="height: 100%;" :gutter="10">
+      <el-col :span="viewRolesinfoId?5:3" style="height: inherit">
         <el-card class="inner_content" style="height: inherit">
           <el-input
               v-model="query"
@@ -385,7 +381,7 @@ const pwdFieldInfo = reactive<PageFieldInfo | any>({
             </template>
           </el-input>
           <el-tree-v2 :data="deptList" :filter-method="filterMethod"
-                      check-on-click-node="true"
+                      :check-on-click-node="true"
                       @check-change="checkChange"
                       @node-click="checkChange"
                       :height="600"
@@ -396,7 +392,7 @@ const pwdFieldInfo = reactive<PageFieldInfo | any>({
           }"/>
         </el-card>
       </el-col>
-      <el-col :span="21" style="height: inherit">
+      <el-col :span="viewRolesinfoId?19:21" style="height: inherit">
         <el-card class="inner_content" style="height: inherit">
           <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
             <star-horse-search-comp @searchData="(data:any)=>usersinfoTableListRef.createCreateParams(data)"
@@ -421,6 +417,7 @@ const pwdFieldInfo = reactive<PageFieldInfo | any>({
 <style lang="scss" scoped>
 .el-card {
   height: 100%;
+
   :deep(.el-card__body) {
     height: 100%;
     padding: 0;

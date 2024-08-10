@@ -262,10 +262,10 @@ defineExpose({
             :action="compUrl.importUrl"
             :headers="{ token: getToken() }"
             class="upload"
-            style="color: var(--star-horse-style)"
+
             name="file"
         >
-          <star-horse-icon icon-class="excel-upload" style="color: var(--star-horse-white)" size="12px"/>
+          <star-horse-icon icon-class="excel-upload" style="color: var(--star-horse-style)" size="12px"/>
           导入
         </el-upload>
       </el-menu-item>

@@ -73,8 +73,6 @@ watch(
     },
     {deep: true}
 );
-const dataForm = ref({});
-provide("dataForm", dataForm);
 //记录表单的属性
 const formFields = reactive<Array<any>>([]);
 provide("formFields", formFields);
@@ -110,7 +108,7 @@ onMounted(async () => {
         :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible"
         :dialogProps="dialogProps"
     >
-      <star-horse-form v-model:data-form="dataForm" @refresh="starHorseTableCompRef.loadByPage()" :compUrl="dataUrl"
+      <star-horse-form  @refresh="starHorseTableCompRef.loadByPage()" :compUrl="dataUrl"
                        :fieldList="tableFieldList"
                        :rules="rules"/>
     </star-horse-dialog>

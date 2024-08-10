@@ -3,13 +3,14 @@ import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings.ts";
 import {DialogProps} from "@/components/types/DialogProps"
 import {onMounted, provide, reactive, ref, watch} from "vue";
-import {SearchProps, SelectOption} from "@/components/types/SearchProps";
+import {SearchFields, SearchProps, SelectOption} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {dictData, getMenuId, loadMenusInfo, loadPagePermission, loadRolesInfo, loadSystemInfo} from "@/api/sh_api";
 import {ElTreeV2} from "element-plus";
 import {TreeNode, TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {treeCheckChange} from "@/api/system";
+
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/system-config/system/resourcesSummaryEntity/pageList",
   mergeUrl: "/system-config/system/resourcesSummaryEntity/merge",
@@ -29,11 +30,18 @@ let systemInfoList = ref<SelectOption[]>();
 let rolesList = ref<SelectOption[]>();
 let menusList = ref<SelectOption[]>();
 let authorityList = ref<SelectOption[]>();
-const searchFormData = reactive<SearchProps[]>([
+const searchFormData = reactive<SearchFields>({fieldList:[
   /* {label: "所属系统", fieldName: "informationsSingleId", type: "select", optionList: systemInfoList},*/
   {label: "角色名称", defaultShow: true, fieldName: "idRolesinfo", type: "select", optionList: rolesList},
-  {label: "创建日期", disabled: "Y", fieldName: "createdDate", type: "date", matchType: "bt"},
-]);
+  {label: "创建日期", fieldName: "createdDate", type: "date", matchType: "bt"},
+]});
+const loadMenuBySystemId = async (systemId: any) => {
+  let params = [{
+    "propertyName": "informationsSingleId",
+    "value": systemId
+  }];
+  menusList.value = await loadMenusInfo(false, params, false);
+};
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     {
@@ -41,7 +49,12 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     },
     [{
       label: "所属系统", fieldName: "informationsSingleId", type: "select", optionList: systemInfoList,
-      required: true, formShow: true, disabled: "Y",
+      required: true, formShow: true, editDisabled: "Y", actionName: "change", actions: (val: any) => {
+        let systemId = val["informationsSingleId"];
+        if (systemId) {
+          loadMenuBySystemId(systemId);
+        }
+      },
       tableShow: true
     },
       {
@@ -101,8 +114,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 });
 const primaryKey = "idResourcesSummary";
 const rules = {};
-const dataForm = ref({});
-provide("dataForm", dataForm);
 const dialogProps = reactive<DialogProps>({
   bakeVisible1: false, bakeVisible2: false, bakeVisible3: false,
   ids: 0,
@@ -115,24 +126,8 @@ const dialogProps = reactive<DialogProps>({
 });
 provide("dialogProps", dialogProps);
 let permissions = ref<any>({});
-watch(() => dataForm.value["informationsSingleId"],
-    (val) => {
-      if (val) {
-        loadMenuBySystemId();
-      }
-    }, {
-      deep: true,
-      immediate: true
-    }
-);
-const loadMenuBySystemId = async () => {
-  let params = [{
-    "propertyName": "informationsSingleId",
-    "value": dataForm.value["informationsSingleId"]
-  }];
-  let menuList = await loadMenusInfo(false, params, false);
-  menusList.value = menuList;
-};
+
+
 const dataFormat = (name: string, cellValue: any, row: any): any => {
   let names: any = [];
   if (name == "rolesList" && row["rolesList"]) {
@@ -186,7 +181,7 @@ onMounted(async () => {
 </style>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form v-model:data-form="dataForm" @refresh="menuBtnTableRef.loadByPage()" :compUrl="dataUrl"
+    <star-horse-form  @refresh="menuBtnTableRef.loadByPage()" :compUrl="dataUrl"
                      :fieldList="tableFieldList"
                      :rules="rules"/>
   </star-horse-dialog>

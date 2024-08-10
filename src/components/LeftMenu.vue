@@ -7,6 +7,7 @@ import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import SubMenu from "@/components/menu/SubMenu.vue";
 import {filterTree} from "@/api/sh_api";
 import piniaInstance from "@/store";
+
 let userInfoStore = UserInfo(piniaInstance);
 const emits = defineEmits(["collopseOperation"]);
 let leftMenuDatas = ref<MenusInfo[]>([]);
@@ -14,7 +15,7 @@ let props = defineProps({
   sysemId: {type: String},
   isCollapse: {type: Boolean, default: true}
 });
-let defaultOpenMenu = ref<Array<String>>([]);
+let defaultOpenMenu = ref<string>("");
 let menuIcon = ref<String>("expand");
 const menuBarFun = () => {
   emits('collopseOperation');
@@ -30,11 +31,10 @@ const loadMenus = async (sysemId: string) => {
     let redata = res.data.data;
     localStorage.setItem("menusInfo", JSON.stringify(redata));
     leftMenuDatas.value = reactive(createRouterAndMenuList(redata));
-    let allId = leftMenuDatas.value.map(item => item.meta.menuId);
-    nextTick(() => {
-      defaultOpenMenu.value = allId.splice(0, 1);
-    });
   });
+  let allId = leftMenuDatas.value.map(item => item.meta.menuId);
+  await nextTick();
+  defaultOpenMenu.value = allId[0];
 };
 const search = ref<String>();
 const systemMenu = ref();
@@ -49,14 +49,14 @@ onMounted(async () => {
 });
 watch(
     () => props.isCollapse,
-    (val) => {
+    () => {
       changeArrow()
     },
     {immediate: true}
 );
 watch(() => props.sysemId,
-    (val: string) => {
-      loadMenus(val);
+    (val) => {
+      loadMenus(val!);
     },
     {immediate: false}
 );
@@ -68,7 +68,8 @@ watch(() => props.sysemId,
                ref="systemMenu"
                popper-effect="dark"
                popper-class="popper-class"
-               :default-openeds="defaultOpenMenu">
+               :default-openeds="defaultOpenMenu"
+      >
         <el-menu-item index="-1" style="height: 38px;background: var(--star-horse-white)">
           <el-icon class="star-icon" v-if="isCollapse">
             <component :is="'search'"/>
@@ -93,15 +94,18 @@ watch(() => props.sysemId,
 .popper-class {
   background: var(--star-horse-style);
 }
+
 .starhorse-menu {
   height: 100%;
   width: 100%;
   display: flex;
   flex-direction: column;
+
   .base {
     border-radius: 3px;
     width: 100%;
   }
+
   .menu-button {
     width: 100%;
     display: flex;
@@ -112,24 +116,30 @@ watch(() => props.sysemId,
     height: 26px;
     background: #fff;
     margin-bottom: -1px;
+
     &:hover, svg:hover {
       cursor: pointer;
     }
   }
 }
+
 :deep(.el-icon) {
   color: var(--star-horse-style);
 }
+
 .el-menu {
   min-height: 100%;
   font-size: 13px;
 }
+
 .el-menu-item {
   background: #eee;
   margin-top: 1px;
 }
+
 .menu-active {
 }
+
 :deep(.el-scrollbar__view) {
   height: 100%;
 }

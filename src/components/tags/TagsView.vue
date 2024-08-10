@@ -188,7 +188,7 @@ const visibleChange = (visible: boolean, tagItem: RouteLocationNormalizedLoaded)
 const scrollbarRef = ref<any>(null);
 // 保存滚动位置
 const scrollLeftNumber = ref(0);
-const scroll = (scroll:any) => {
+const scroll = (scroll: any) => {
   scrollLeftNumber.value = scroll.scrollLeft as number;
 };
 // 移动到某个位置
@@ -384,6 +384,8 @@ watch(
   </div>
 </template>
 <style lang="scss" scoped>
+
+
 .prefixCls {
   display: flex;
   width: 100%;
@@ -468,9 +470,14 @@ watch(
     color: var(--el-color-white);
     background-color: var(--star-horse-style);
     border: 1px solid var(--star-horse-style);
-
+    :deep(.el-icon) {
+      svg{
+        color: var(--star-horse-white);
+      }
+    }
     .item--close {
       :deep(span) {
+
         color: var(--el-color-white) !important;
       }
     }

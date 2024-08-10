@@ -102,8 +102,6 @@ watch(
     },
     {deep: true}
 );
-const dataForm = ref({});
-provide("dataForm", dataForm);
 //记录表单的属性
 const formFields = reactive<Array<any>>([]);
 provide("formFields", formFields);

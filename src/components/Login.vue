@@ -9,6 +9,8 @@ import type {ElForm, FormInstance, FormRules, TabsPaneContext} from 'element-plu
 import {warning} from "@/utils/message";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {i18n} from "@/lang";
+import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
+import piniaInstance from "@/store";
 
 interface LoginInfo {
   userName: string;
@@ -19,6 +21,7 @@ interface LoginInfo {
   uuid: string;
 }
 const loginTitle = Config.title;
+let configStore = GlobalConfig(piniaInstance);
 let validateImg = ref<string>("");
 let uuid = ref<string>("");
 let flag = ref<boolean>(false);
@@ -79,12 +82,13 @@ const handleLogin = async (elForm: FormInstance | undefined) => {
 };
 const refreshValidate = () => {
   removeToken();
+  configStore.clearAll();
   getValidateImg().then((res) => {
     let record = res.data.data;
     validateImg.value = record.img;
     uuid.value = record.uuid;
     showValid.value = record.validFlag as boolean;
-    publicKey = record.publicKey;
+    publicKey.value = record.publicKey;
   });
 };
 onMounted(() => {
@@ -240,6 +244,19 @@ watch(
   </div>
 </template>
 <style lang="scss" scoped>
+:deep(.el-input__icon),.el-icon {
+  height: 2em !important;
+  width: 2em !important;
+
+  background: var(--star-horse-shadow);
+
+  svg {
+    height: 1.5em !important;
+    width: 1.5em !important;
+    color: var(--star-horse-style);
+  }
+}
+
 .demo-tabs > .el-tabs__content {
   padding: 32px;
   color: #6b778c;

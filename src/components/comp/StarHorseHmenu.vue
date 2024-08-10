@@ -100,7 +100,11 @@ onMounted(() => {
 }
 
 :deep(.el-icon) {
-  color: var(--star-horse-white);
+  svg{
+    height: 1.5em;
+    width: 1.5em;
+    color: var(--star-horse-white) !important;
+  }
 }
 
 :deep(.el-popper.is-light) {

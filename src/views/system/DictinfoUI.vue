@@ -3,14 +3,13 @@ import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings.ts";
 import {DialogProps} from "@/components/types/DialogProps"
 import {computed, onMounted, provide, reactive, Ref, ref, watch} from "vue";
-import {SearchProps, SelectOption} from "@/components/types/SearchProps";
-import {useRoute} from "vue-router";
+import {SearchFields, SelectOption} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
-import {ElTable} from "element-plus";
 import {loadDict} from "@/api/star_horse";
 import {createCondition, getMenuId, loadPagePermission} from "@/api/sh_api";
-const route = useRoute();
-const tabListRef = ref<InstanceType<typeof ElTable>>();
+
+const tabListRef = ref();
+const dictSerchRef = ref();
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/system-config/system/dictinfoEntity/pageList",
   mergeUrl: "/system-config/system/dictinfoEntity/merge",
@@ -31,10 +30,12 @@ const props = defineProps({
   dictType: {type: String, required: true}
 });
 let dictType = computed(() => props.dictType);
-const searchFormData = reactive<SearchProps[]>([
-  {label: "字典类型", fieldName: "dictType", type: "input", defaultValue: dictType, disabled: "Y"},
-  {label: "字典名称", defaultShow: true, fieldName: "dictName", type: "input", matchType: "lk"}
-]);
+const searchFormData = reactive<SearchFields>({
+  fieldList: [
+    {label: "字典类型", fieldName: "dictType", type: "input", defaultValue: dictType, disabled: "Y"},
+    {label: "字典名称", defaultShow: true, fieldName: "dictName", type: "input", matchType: "lk"}
+  ]
+});
 const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
@@ -99,13 +100,10 @@ const tableFieldList = reactive<PageFieldInfo>({
 });
 const primaryKey = "idDictinfo";
 const rules = {};
-const searchForm = ref({}) as Ref;
-const dataForm = ref({}) as Ref;
-provide("dataForm", dataForm);
 watch(
     () => props.dictType,
     (val) => {
-      searchForm.value["dictType"] = val;
+      dictSerchRef.value?.setData({dictType: val});
       let condition = [createCondition("dictType", val)];
       tabListRef.value!.setDataInfo(condition, null);
       tabListRef.value!.createCreateParams(condition);
@@ -126,7 +124,7 @@ const dialogProps = reactive<DialogProps>({
 });
 provide("dialogProps", dialogProps);
 let permissions = ref<any>({});
-const dataFormat = (name: string, cellValue: Object): any => {
+const dataFormat = (_name: string, cellValue: Object): any => {
   return cellValue;
 }
 const initData = async () => {
@@ -141,8 +139,7 @@ onMounted(async () => {
 </style>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form v-model:data-form="dataForm" @refresh="tabListRef.loadByPage()" :compUrl="dataUrl"
-                     :fieldList="tableFieldList" :rules="rules"/>
+    <star-horse-form @refresh="tabListRef.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList" :rules="rules"/>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title=
       "'查看数据'" :is-view="true">
@@ -150,7 +147,8 @@ onMounted(async () => {
   </star-horse-dialog>
   <el-card class="inner_content">
     <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
-      <star-horse-search-comp @searchData="(data:any)=>tabListRef.createCreateParams(data)" :formData="searchFormData"
+      <star-horse-search-comp ref="dictSerchRef" @searchData="(data:any)=>tabListRef.createCreateParams(data)"
+                              :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
       <star-horse-button-list :permissions="permissions" @tableCompFunc="(fun:any)=>tabListRef.tableCompFunc(fun)"

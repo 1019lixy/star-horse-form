@@ -2,7 +2,7 @@
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {DialogProps} from "@/components/types/DialogProps"
 import {onMounted, provide, reactive, ref} from "vue";
-import {SearchProps, SelectOption} from "@/components/types/SearchProps";
+import {SearchFields, SearchProps, SelectOption} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {Config} from "@/api/settings.ts";
 import {getMenuId, loadPagePermission} from "@/api/sh_api.ts";
@@ -29,11 +29,11 @@ const categoryList = ref<SelectOption[]>([{
   name: "自定义组件", value: "3"
 }]);
 //查询属性
-const searchFormData = reactive<SearchProps[]>([
+const searchFormData = reactive<SearchFields>({fieldList:[
   {label: "名称", fieldName: "itemName", type: "input", matchType: "lk"},
   {label: "类别", fieldName: "itemType", type: "input", matchType: "lk"},
   {label: "分类", fieldName: "category", type: "select", optionList: categoryList},
-]);
+]});
 //页面属性
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
@@ -148,9 +148,6 @@ const primaryKey = "idFormItems";
 const dynamicFormItemsRef = ref();
 //校验
 const rules = {};
-const dataForm = ref({});
-//全局数据对象
-provide("dataForm", dataForm);
 //控制弹窗相关设置
 const dialogProps = reactive<DialogProps>({
   ids: 0,
@@ -190,7 +187,7 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
 </style>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form v-model:data-form="dataForm" @refresh="dynamicFormItemsRef.loadByPage()" :compUrl="dataUrl"
+    <star-horse-form  @refresh="dynamicFormItemsRef.loadByPage()" :compUrl="dataUrl"
                      :fieldList="tableFieldList"
                      :rules="rules"/>
   </star-horse-dialog>

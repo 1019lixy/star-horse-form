@@ -2,7 +2,7 @@
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {DialogProps} from "@/components/types/DialogProps"
 import {onMounted, provide, reactive, ref} from "vue";
-import {SearchProps, SelectOption} from "@/components/types/SearchProps";
+import {SearchFields, SearchProps, SelectOption} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {Config} from "@/api/settings.ts";
 import {dictData, getMenuId, loadPagePermission} from "@/api/sh_api.ts";
@@ -25,7 +25,7 @@ const dataUrl: ApiUrls = {
 let dbList = ref<SelectOption[]>([]);
 let bakePolicyList = ref<SelectOption[]>([]);
 //查询属性
-const searchFormData = reactive<SearchProps[]>([
+const searchFormData = reactive<SearchFields>({fieldList:[
   {
     label: "数据库配置",
     fieldName: "datasourcceConfigId",
@@ -40,7 +40,7 @@ const searchFormData = reactive<SearchProps[]>([
     matchType: "bt",
     type: "date",
   },
-]);
+]});
 //页面属性
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
@@ -153,9 +153,6 @@ const primaryKey = "idDbBakeup";
 const dbBakeupRef = ref();
 //校验
 const rules = {};
-const dataForm = ref({});
-//全局数据对象
-provide("dataForm", dataForm);
 //控制弹窗相关设置
 const dialogProps = reactive<DialogProps>({
   ids: 0,
@@ -181,11 +178,11 @@ onMounted(() => {
 });
 /**
  * 列表，查看数据时数据转换
- * @param name 名称
+ * @param _name 名称
  * @param cellValue 值
- * @param row 列表行数据
+ * @param _row 列表行数据
  */
-const dataFormat = (name: string, cellValue: any, row: any): any => {
+const dataFormat = (_name: string, cellValue: any, _row: any): any => {
   //转换显示信息
   return cellValue;
 }
@@ -195,7 +192,7 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
 <template>
   <star-horse-dialog :box-width="'40%'" :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible"
                      :dialogProps="dialogProps" :title="'新增备份'">
-    <star-horse-form v-model:data-form="dataForm" @refresh="dbBakeupRef.loadByPage()" :compUrl="dataUrl"
+    <star-horse-form  @refresh="dbBakeupRef.loadByPage()" :compUrl="dataUrl"
                      :fieldList="tableFieldList" :rules="rules"/>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title=

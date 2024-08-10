@@ -7,7 +7,7 @@ import {ModelRef} from "vue-demi";
 
 defineProps({
   compUrl: {type: Object as PropType<ApiUrls>},
-  item: {type: Array<any> as PropType<Array<FieldInfo>>, required: true},
+  item: {type: Array as PropType<Array<FieldInfo>>, required: true},
   objectName: {type: String},
   subCreateFlag: {type: Boolean, default: false},
   batchName: {type: String, default: "batchDataList"},
@@ -60,7 +60,7 @@ onMounted(() => {
                               :rules="rules" :subCreateFlag="cardItem.subFormFlag"
                               :primaryKey="primaryKey"/>
 
-        <star-horse-form-item v-else :isView="isView" :compUrl="compUrl"
+        <star-horse-form-item v-else :isView="isView"  :compUrl="compUrl"
                               v-model:dataForm="dataForm"
                               :compSize="compSize"
                               :objectName="cardItem.objectName"
