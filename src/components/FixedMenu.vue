@@ -180,7 +180,7 @@ watch(() => props.sysemId,
       content: '';
       top: 40%;
       right: 0;
-      border-right: 10px solid #ccc;
+      border-right: 10px solid #f9f9f9;
       border-bottom: 10px solid transparent;
       border-top: 10px solid transparent;
       z-index: 9991;
