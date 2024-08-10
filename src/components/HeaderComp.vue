@@ -334,6 +334,11 @@ let configInfo = computed(() => configStore.configFormInfo);
       <star-horse-hmenu v-if="configInfo.menusCfg=='tradition'"/>
     </div>
     <div class="header-right">
+      <div class="message">
+        <el-badge class="item" :value="6">
+          <star-horse-icon icon-class="message" style="color:var(--star-horse-white);font-size:28px"/>
+        </el-badge>
+      </div>
       <div class="user-info">
         <el-dropdown trigger="click">
           <span class="el-dropdown-link">
