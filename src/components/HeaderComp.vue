@@ -301,6 +301,11 @@ const dataFormat = (name: string, val: any, row: any) => {
 const search = ref<String>();
 const filterTableData = computed(() => filterTree(search.value, permissionMenuList.value));
 let configInfo = computed(() => configStore.configFormInfo);
+const showMessageList = (evt: Event) => {
+  evt.stopPropagation();
+  evt.preventDefault();
+  alert(3);
+}
 </script>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps"
@@ -334,6 +339,11 @@ let configInfo = computed(() => configStore.configFormInfo);
       <star-horse-hmenu v-if="configInfo.menusCfg=='tradition'"/>
     </div>
     <div class="header-right">
+      <div class="message">
+        <el-badge :value="6" @click="showMessageList">
+          <star-horse-icon icon-class="messages" color="var(--star-horse-white)"/>
+        </el-badge>
+      </div>
       <div class="user-info">
         <el-dropdown trigger="click">
           <span class="el-dropdown-link">
@@ -455,6 +465,24 @@ let configInfo = computed(() => configStore.configFormInfo);
     vertical-align: middle;
     text-align: right;
 
+    .message {
+      height: 40px;
+      width: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      vertical-align: middle;
+      cursor: pointer;
+
+      .el-badge {
+        svg {
+          width: 2em;
+          height: 2em;
+        }
+      }
+
+    }
+
     .user-info {
       width: inherit;
       height: 100%;
@@ -500,8 +528,8 @@ let configInfo = computed(() => configStore.configFormInfo);
     flex-direction: row;
     text-align: left;
     align-items: center;
-    margin-left: 0px;
-    padding-left: 0px;
+    margin-left: 0;
+    padding-left: 0;
 
     span {
       display: flex;
