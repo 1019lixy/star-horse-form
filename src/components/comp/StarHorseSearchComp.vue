@@ -43,8 +43,8 @@ const createCreateParams = (formData: any) => {
  * 解析默认值
  */
 const analysisDefaultValue = () => {
-  let defaultDatas = {};
-  props.formData?.forEach(item => {
+  let defaultDatas:any = {};
+  props.formData?.forEach((item:any) => {
     if (item.defaultValue) {
       if (isJson(item.defaultValue)) {
         for (let key in item.defaultValue) {

@@ -46,16 +46,16 @@ import {defineComponent, onMounted, shallowRef} from "vue";
 
 export default defineComponent({
   emits: ["selectItem", "selfFunc"],
-  setup(props, context) {
+  setup(_props, context) {
     const parentField = context.attrs["parentField"];
-    const formData = context.attrs["formData"];
+    // const formData = context.attrs["formData"];
     const field = context.attrs["field"] as any;
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
     let preSelect = shallowRef("");
     let appSelect = shallowRef("");
     let actionName = shallowRef("keydown.enter");
-    const dynamicFunction = (funcName: String, data: any) => {
+    const dynamicFunction = (_funcName: String, data: any) => {
       if (!data) {
         return;
       }

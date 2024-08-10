@@ -3,6 +3,7 @@ import {PropType, ref} from "vue";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import StarHorseDataView from "@/components/comp/StarHorseDataView.vue";
 import StarHorseDataViewTable from "@/components/comp/StarHorseDataViewTable.vue";
+import {ModelRef} from "vue-demi";
 
 const props = defineProps({
   // compUrl: {type: Object as PropType<ApiUrls>},
@@ -14,20 +15,16 @@ const props = defineProps({
   primaryKey: {type: String},
   commonFormat: {type: Function, required: true},
 });
-let batchDefaultValues = ref({});
-const dataForm = defineModel("dataForm");
+const dataForm:ModelRef<any> = defineModel("dataForm");
 const normalTabList = ref<any>("tab0");
 const subTabObject = ref<any>();
 const subTabList = ref<any>();
-const viewDataFormat = (row: any, column: any, cellValue: any, index: number) => {
-  //如果在这个地方遍历是否有隐藏属性，会拉低系统性能
-  return props.commonFormat(column.property, cellValue, row);
-};
+
 const dataFormat = (item: any) => {
   let name = item['hideName'] || item['fieldName'];
   try {
     // console.log(dataForm.value);
-    let objInfo = dataForm.value[props.objectName];
+    let objInfo = dataForm.value[props.objectName!];
     return objInfo ? objInfo[name] : "--";
   } catch (e) {
     console.log(e);

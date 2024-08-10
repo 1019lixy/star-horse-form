@@ -53,7 +53,7 @@ onMounted(() => {
                  class="collapse-container"
                  :accordion="field.preps['accordion']=='Y'"
     >
-      <el-collapse-item v-for="(adata,index) in field['preps']['elements']" :title="adata.title||adata.tabName"
+      <el-collapse-item v-for="adata in field['preps']['elements']" :title="adata.title||adata.tabName"
                         :name="adata.tabName">
         <el-scrollbar height="100%">
           <draggable

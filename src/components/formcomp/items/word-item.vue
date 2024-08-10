@@ -7,7 +7,7 @@
 <script lang="ts" name="excelItem">
 import {defineComponent, onMounted, shallowRef} from "vue";
 export default defineComponent({
-  setup(props, context) {
+  setup(_props, context) {
     const parentField = context.attrs["parentField"];
 
     const field = context.attrs["field"] as any;
@@ -23,7 +23,7 @@ export default defineComponent({
     onMounted(() => {
       init();
     });
-    return {parentField,  context, field, formItem, dataField, keyEnterFunrendered}
+    return {parentField,  context, field, formItem, dataField, keyEnterFun,rendered}
   }
 });
 </script>

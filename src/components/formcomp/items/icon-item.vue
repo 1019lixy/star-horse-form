@@ -39,7 +39,7 @@ import {loadElementPlusIcon} from "@/api/sh_api.ts";
 export default defineComponent({
   methods: {loadElementPlusIcon},
   emits: ["selectItem", "selfFunc"],
-  setup(props, context) {
+  setup(_props, context) {
     const parentField = context.attrs["parentField"];
 
     const field = context.attrs["field"] as any;

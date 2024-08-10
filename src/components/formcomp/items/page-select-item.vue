@@ -6,9 +6,9 @@ import {postRequest} from "@/api/star_horse";
 import {FieldMapping, OrderByInfo} from "@/components/types/PageFieldInfo";
 import {SearchParams} from "@/components/types/Params";
 export default defineComponent({
-  setup(props, context) {
+  setup(_props, context) {
     const parentField = context.attrs["parentField"];
-    let formData = context.attrs["formData"] as any;
+    // let formData = context.attrs["formData"] as any;
     const field = context.attrs["field"] as any;
     const starHorseTableCompRef = ref();
     const filterCondtion = field.preps["filterCondition"] as Array<SearchParams>;
@@ -44,16 +44,16 @@ export default defineComponent({
       if (!field.preps["dataUrl"]?.loadByPageUrl) {
         return;
       }
-      let params = {
+      let params:any = {
         currentPage: pageInfo.value.currentPage,
         pageSize: pageInfo.value.pageSize,
         fieldList: searchData.value,
         orderBy: orderByTemp
       };
-      let url = field.preps.dataUrl?.loadByPageUrl;
+      let url:string = field.preps.dataUrl?.loadByPageUrl;
       if (field.preps.dataUrl.redirect) {
         params = {
-          url: url,
+          url,
           httpMethod: field.preps?.httpMethod || "POST",
           dataType: field.preps?.dataType || "JSON",
           searchInfo: params
@@ -89,7 +89,7 @@ export default defineComponent({
       multipleSelection.value = val;
       assignVal();
     };
-    const selectRow = (row: any, column: any, evt: any) => {
+    const selectRow = (row: any, _column: any, _evt: any) => {
       const selected = multipleSelection.value.some((item: any) => item[field.preps.primaryKey] === row[field.preps.primaryKey]);
       if (!selected) {
         multipleSelection.value.push(row)
@@ -100,12 +100,12 @@ export default defineComponent({
       assignVal();
     };
     const assignVal = () => {
-      let fields = field.preps["needField"];
+      let fields:any = field.preps["needField"];
       let name = field.preps['name'];
       if (fields) {
         console.log(multipleSelection.value, fields);
         fields.forEach((temp: FieldMapping) => {
-          let value = multipleSelection.value.map(item => item[temp.sourceField]);
+          let value = multipleSelection.value.map((item:any) => item[temp.sourceField]);
           if (!field.preps['multiple'] || field.preps['multiple'] == 'N') {
             value = value[0];
           }

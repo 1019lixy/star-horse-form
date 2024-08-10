@@ -8,6 +8,8 @@ import {initDbList, tableList} from "@/views/dbsearch/utils/DbSearchUtils.ts";
 import {closeLoad, dictData, getMenuId, load, loadPagePermission} from "@/api/sh_api.ts";
 import {download} from "@/api/star_horse.ts";
 import {warning} from "@/utils/message.ts";
+import {DialogProps} from "@/components/types/DialogProps";
+
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/code-generator/generator/code/pageList",
   mergeUrl: "/code-generator/generator/code/merge",
@@ -33,7 +35,7 @@ let fileTypeList = ref<Array<SelectOption>>([]);
 //,可用值:VUE_3,VUE_3_TS,REACT,REACT_TS
 let uiTypeList = ref<Array<SelectOption>>([]);
 let packagingList = ref<Array<SelectOption>>([]);
-const loadTabInfo = async (val) => {
+const loadTabInfo = async (val:any) => {
   tableInfoList.value = await tableList(val["datasourceConfigId"]);
 };
 const tableFieldList = reactive<PageFieldInfo>({
@@ -232,7 +234,7 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
 const primaryKey = "idCodeGenerator";
 const codeGeneratorRef = ref();
 const rules = {};
-const dataForm = ref({});
+const dataForm = ref<any>({});
 provide("dataForm", dataForm);
 const dialogProps = reactive<DialogProps>({
   bakeVisible1: false, bakeVisible2: false, bakeVisible3: false,
@@ -246,9 +248,9 @@ const dialogProps = reactive<DialogProps>({
 });
 provide("dialogProps", dialogProps);
 let permissions = ref<any>({});
-const selectItemFun = (data: any) => {
+const selectItemFun = (_data: any) => {
 }
-const dataFormat = (name: string, cellValue: Object): any => {
+const dataFormat = (_name: string, cellValue: Object): any => {
   return cellValue;
 }
 const init = async () => {
@@ -264,7 +266,7 @@ onMounted(async () => {
 });
 const generateFormRef = ref();
 const generateMerge = () => {
-  generateFormRef.value.$refs.starHorseFormRef.validate(res => {
+  generateFormRef.value.$refs.starHorseFormRef.validate((res: boolean) => {
     if (res) {
       load("代码生成中...");
       if (dataForm.value["prefixesStr"]) {

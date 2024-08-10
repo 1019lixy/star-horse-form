@@ -28,7 +28,7 @@ export default defineComponent({
     if (editor == null) return;
     editor.destroy();
   },
-  setup(props, context) {
+  setup(_props, context) {
     const parentField = context.attrs["parentField"];
 
     const field = context.attrs["field"] as any;
@@ -51,12 +51,12 @@ export default defineComponent({
       //excludeKeys: ["insertLink", "insertImage", "editImage", "viewImageLink", "insertVideo", "emotion", "fullScreen"],
     }
     editorConfig.value = {placeholder: "请输入内容...", MENU_CONF: {}}
-    const handleCreated = (editor) => {
+    const handleCreated = (editor:any) => {
       editorRef.value = editor // 记录 editor 实例，重要！
     }
 // 自定义上传
     editorConfig.value.MENU_CONF["uploadImage"] = {
-      async customUpload(file, insertFn) {
+      async customUpload(file, _insertFn) {
         let data = new FormData()
         data.append("from", "article");
         data.append("image", file);

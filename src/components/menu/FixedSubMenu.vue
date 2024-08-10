@@ -6,7 +6,7 @@ const props = defineProps({
   dataList: {type: Array<any>, required: true},
   top: {type: String, default: "83px"}
 });
-let arrow = ref<string>("arrow-double-right");
+// let arrow = ref<string>("arrow-double-right");
 let htop = ref<string>(computed(() => props.top).value == "83px" ? "65px" : "35px");
 let currentItem = ref<any>({});
 const overHandler = (item: any) => {

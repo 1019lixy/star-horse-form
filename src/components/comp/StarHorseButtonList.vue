@@ -32,7 +32,7 @@ const tableCompFunc = (funcName: string) => {
   emits("tableCompFunc", funcName);
 };
 const btnOperation = (funcName: string) => {
-  let data = props.selfBtnFunc && props.selfBtnFunc.find((item) => item.btnName == funcName);
+  let data:any = props.selfBtnFunc && props.selfBtnFunc.find((item) => item.btnName == funcName);
   if (data) {
     data["exec"]();
   } else {
@@ -56,7 +56,7 @@ const btnOperation = (funcName: string) => {
  * @param fileList
  */
 const downloadTemplate = () => {
-  download(props.compUrl!.downloadTemplateUrl, {}).catch((err) => {
+  download(props.compUrl!.downloadTemplateUrl!, {}).catch((err) => {
     error("接口不存在或网络异常:" + err);
   });
 };
@@ -134,7 +134,7 @@ defineExpose({
     <template v-if="selfBtnFunc&&selfBtnFunc.length>0">
       <template v-for="item in selfBtnFunc">
         <li>
-          <template v-if="item.children?.length>0">
+          <template v-if="item.children&&item.children.length>0">
             <el-dropdown :size="compSize" split-button
                          style="background: var(--star-horse-style);color: var(--star-horse-white)"
                          placement="top-start">
@@ -143,7 +143,7 @@ defineExpose({
               <template #dropdown>
                 <el-dropdown-menu>
                   <el-dropdown-item v-for="sitem in item.children">
-                    <el-button @click="sitem['exec'](sitem.btnName)" link title=""
+                    <el-button @click="sitem.exec!(sitem.btnName)" link title=""
                                style="background: var(--star-horse-style);color: var(--star-horse-white)" :size="compSize">
                       <star-horse-icon :icon-class="sitem.icon||'small'" size="12px"/>
                       {{ sitem.labelName }}
@@ -153,7 +153,7 @@ defineExpose({
               </template>
             </el-dropdown>
           </template>
-          <el-button v-else @click="item['exec']()" title=""
+          <el-button v-else @click="item.exec!()" title=""
                      style="background: var(--star-horse-style);color: var(--star-horse-white)" :size="compSize">
             <star-horse-icon :icon-class="item.icon||'small'" color="var(--star-horse-white)" size="12px"/>
             <el-tooltip :content="item.labelName">{{ item.labelName }}</el-tooltip>
@@ -220,20 +220,20 @@ defineExpose({
       </el-menu-item>
       <template v-if="selfBtnFunc&&selfBtnFunc.length>0">
         <template v-for="(item,ain) in selfBtnFunc">
-          <template v-if="item.children?.length>0">
+          <template v-if="item.children&&item.children.length>0">
             <el-sub-menu :index="'2-'+ain">
               <template #title>
                 {{ item.labelName }}
               </template>
               <el-menu-item :index="'3-'+ain+'-'+index" v-for="(sitem,index) in item.children"
-                            @click="sitem['exec'](sitem.btnName)">
+                            @click="sitem.exec!(sitem.btnName)">
                 <star-horse-icon :icon-class="sitem.icon||'small'" style="color: var(--star-horse-style)"
                                  size="12px"/>
                 {{ sitem.labelName }}
               </el-menu-item>
             </el-sub-menu>
           </template>
-          <el-menu-item :index="'2-'+ain" v-else @click="item['exec'](item.btnName)">
+          <el-menu-item :index="'2-'+ain" v-else @click="item.exec!(item.btnName)">
             <star-horse-icon :icon-class="item.icon||'small'" style="color: var(--star-horse-style)" size="12px"/>
             {{ item.labelName }}
           </el-menu-item>

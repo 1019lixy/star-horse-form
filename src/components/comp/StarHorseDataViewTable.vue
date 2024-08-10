@@ -4,6 +4,7 @@ import {FieldInfo} from "@/components/types/PageFieldInfo";
 import {rowClassName} from "@/api/sh_api";
 import {Config} from "@/api/settings.ts";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
+import {ModelRef} from "vue-demi";
 
 const props = defineProps({
   item: {type: Array as PropType<Array<FieldInfo>>, required: true},
@@ -11,8 +12,8 @@ const props = defineProps({
   compSize: {type: String, default: "small"},
   commonFormat: {type: Function, required: true},
 });
-const dataForm = defineModel("dataForm");
-const viewDataFormat = (row: any, column: any, cellValue: any, index: number) => {
+const dataForm:ModelRef<any> = defineModel("dataForm");
+const viewDataFormat = (row: any, column: any, cellValue: any, _index: number) => {
   //如果在这个地方遍历是否有隐藏属性，会拉低系统性能
   return props.commonFormat(column.property, cellValue, row);
 };

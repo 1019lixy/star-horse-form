@@ -9,7 +9,7 @@ import en from 'element-plus/dist/locale/en.mjs'
 import {warning} from "@/utils/message.ts";
 import {LangType} from "@/theme/theme.ts";
 import {getLang} from "@/theme/localStorge.ts";
-import {i18n} from "../lang";
+import {i18n} from "@/lang";
 import piniaInstance from "@/store";
 import LeftMenu from "@/components/LeftMenu.vue";
 import HeaderComp from "@/components/HeaderComp.vue";

@@ -25,14 +25,14 @@
 import {defineComponent, onMounted, ref, shallowRef} from "vue";
 import flvjs from "flv.js";
 export default defineComponent({
-  setup(props, context) {
+  setup(_props, context) {
     const parentField = context.attrs["parentField"];
 
     const field = context.attrs["field"] as any;
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
     let seekpoint = shallowRef();
-    let videoElement = ref(null);
+    // let videoElement = ref(null);
     let player = ref();
     const keyEnterFun = () => {
       context.emit('selfFunc');
@@ -84,7 +84,7 @@ export default defineComponent({
     const seekto = () => {
       player.value.currentTime = parseFloat(seekpoint.value);
     };
-    const getCfg = (key, def) => {
+    const getCfg = (key:string, def:any) => {
       try {
         let ret = localStorage.getItem('vedio-item.' + key);
         if (ret === null) {
@@ -95,7 +95,7 @@ export default defineComponent({
       }
       return def;
     };
-    const setCfg = (key, value) => {
+    const setCfg = (key:string, value:any) => {
       try {
         localStorage.setItem('vedio-item.' + key, value);
       } catch (e) {

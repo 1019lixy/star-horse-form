@@ -14,7 +14,8 @@ let designForm = DesignForm(piniaInstance);
 // let containerList = ref([]);
 // let itemType = ref('container');
 const getComponentName = (data: any) => {
-  return (data.itemType == "tab" || data.itemType == "box" || data.itemType == "table") ? data.itemType + '-container' : data.itemType + '-item'
+  return (data.itemType == "tab" || data.itemType == "box" || data.itemType == "table") ?
+      data.itemType + '-container' : data.itemType + '-item'
 };
 /**
  * 如果没有items，动态添加

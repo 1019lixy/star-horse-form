@@ -14,6 +14,7 @@ import Help from "@/components/help.vue";
 import ConsumerDbListComp from "@/views/dbsearch/utils/ConsumerDbListComp.vue";
 import StarHorseEditor from "@/components/comp/StarHorseEditor.vue";
 import {ConsumerView} from "@/store/ConsumerViewStore.ts";
+
 const designGraph = DesignGraph(piniaInstance);
 const consumerView = ConsumerView(piniaInstance);
 const starHorseDesignRef = ref();
@@ -24,7 +25,7 @@ const connectorStyle = ref<String>("normal");
 const rightPanel = ref<boolean>(false);
 const normalRightPanel = ref<boolean>(true);
 const currentComp = ref<any>();
-const currentCellInfo = ref<Object>({});
+const currentCellInfo = ref<any>({});
 const fieldList = ref<PageFieldInfo>();
 const menuPosition = ref({
   top: "0px",
@@ -54,7 +55,7 @@ const props = defineProps({
 });
 const tabModel = computed(() => props.showCompList ? "dynamicTable" : "dbList");
 const emits = defineEmits(["config", "lineClick", "nodeClick", "save", "validation", "preview"]);
-let compAttr = ref({});
+let compAttr = ref<any>({});
 provide("dataForm", compAttr);
 const dataForm = defineModel("dataForm");
 const jsonData = ref<String>();
@@ -167,10 +168,10 @@ const alignOperation = (align: string) => {
   if (cells?.length == 0) {
     return;
   }
-  for (let index in cells) {
-    let cell = cells[index];
-    //  console.log(cell.position());
-  }
+  // for (let index in cells) {
+  //   let _cell = cells[index];
+  //   //  console.log(cell.position());
+  // }
   if (align == "alignTop") {
     let pos = cells.map((item: any) => item.position().y);
     let min = Math.min(...pos);
@@ -239,12 +240,12 @@ const init = async () => {
       }
     }
   }
-  graph.value.on('cell:mouseenter', ({cell}) => {
+  graph.value.on('cell:mouseenter', (data: any) => {
     const ports = starHorseDesignRef.value.querySelectorAll('.x6-port-body',
     ) as NodeListOf<SVGElement>;
     showPorts(ports, true);
-    if (cell.isNode()) {
-      cell.addTools([
+    if (data.cell.isNode()) {
+      data.cell.addTools([
         {
           name: 'boundary',
           args: {
@@ -257,7 +258,7 @@ const init = async () => {
           },
         }]);
     } else {
-      cell.addTools([
+      data.cell.addTools([
         {name: 'segments'},
         {
           name: 'source-arrowhead',
@@ -273,18 +274,18 @@ const init = async () => {
       ]);
     }
   });
-  graph.value.on('cell:mouseleave', ({cell}) => {
+  graph.value.on('cell:mouseleave', (data: any) => {
     const ports = starHorseDesignRef.value.querySelectorAll('.x6-port-body',
     ) as NodeListOf<SVGElement>
     showPorts(ports, false);
-    if (cell.isNode()) {
-      cell.removeTools();
+    if (data.cell.isNode()) {
+      data.cell.removeTools();
     } else {
-      cell.removeTools(["source-arrowhead", "target-arrowhead"]);
+      data.cell.removeTools(["source-arrowhead", "target-arrowhead"]);
     }
   })
 // #endregion
-  graph.value.on("cell:added", (edge: View) => {
+  graph.value.on("cell:added", (edge: any) => {
     designGraph.setCell(edge.cell, true);
     if (edge.cell.isEdge() && props.compType != "table") {
       designGraph.setLabel("OK", "#15C912");
@@ -292,22 +293,22 @@ const init = async () => {
       clickOperation(edge);
     }
   });
-  graph.value.on("edge:connected", (edge: View) => {
+  graph.value.on("edge:connected", (edge: any) => {
     clickOperation(edge.view);
   });
   //节点右键菜单
-  graph.value.on("cell:contextmenu", ({e, x, y, cell, view}) => {
-    contextMenu(e, x, y, cell, view);
+  graph.value.on("cell:contextmenu", (data: any) => {
+    contextMenu(data.e, data.x, data.y, data.cell, data.view);
   });
   // //连线右键菜单
   // //点击节点
-  graph.value.on('cell:click', ({e, x, y, cell, view}) => {
+  graph.value.on('cell:click', (data: any) => {
     // graph.value.trigger("blank:click", {e, x, y, edge, view});
     if (props.panelStyle == "normal" || props.compType == "table") {
-      clickOperation(view);
+      clickOperation(data.view);
     }
-    if (cell.isEdge()) {
-      cell.addTools([
+    if (data.cell.isEdge()) {
+      data.cell.addTools([
         {
           name: 'boundary',
           args: {
@@ -330,12 +331,12 @@ const init = async () => {
   });
   if (props.panelStyle == "drawer") {
     //点击连线
-    graph.value.on('cell:dblclick', async ({e, x, y, edge, view}) => {
-      clickOperation(view);
+    graph.value.on('cell:dblclick', async (data: any) => {
+      clickOperation(data.view);
     });
   }
 };
-const clickOperation = async (view: View) => {
+const clickOperation = async (view: any) => {
   let cell = view.cell;
   const isNode = cell.isNode();
   if (isNode || cell.isEdge()) {
@@ -397,9 +398,9 @@ const contextMenuOperation = (type: any) => {
     transform(type)
   }
 };
-const contextMenu = (e: MouseEvent, x: number, y: number, cell: Cell, view: View) => {
+const contextMenu = (e: MouseEvent, _x: number, _y: number, cell: Cell, view: View) => {
   console.log(cell, view);
-  const menuWidth = 280;
+  // const menuWidth = 280;
   currentView.value = view;
   contextMenuVisible.value = true;
   currentComp.value = cell;
@@ -495,7 +496,7 @@ const registerPort = (portName: string) => {
     effect: ['data'],
     html(cell) {
       // 获取节点传递过来的数据
-      const {label, img, desc} = cell.getData();
+      const redata= cell.getData();
       // 创建自定义的节点容器
       const container = document.createElement('div');
       container.setAttribute('class', 'cu-container');
@@ -504,11 +505,11 @@ const registerPort = (portName: string) => {
       container_img.src = '@/icons/default.svg';
       container_img.setAttribute('class', 'cu-container-img');
       const container_title = document.createElement('div');
-      container_title.innerText = label;
+      container_title.innerText = redata.label;
       container_title.setAttribute('class', 'cu-container-title');
       const container_desc = document.createElement('div');
       container_desc.setAttribute('class', 'cu-container-desc');
-      container_desc.innerText = desc || '描述信息';
+      container_desc.innerText = redata.desc || '描述信息';
       container.appendChild(container_img);
       container.appendChild(container_title);
       container.appendChild(container_desc);
@@ -661,7 +662,7 @@ const addNode = (data: any) => {
 const dragOver = (evt: DragEvent) => {
   evt.preventDefault();
 }
-const query = ref<String>("");
+const query = ref<string>("");
 const filterDatas = ref<Array<CustomerItem>>([]);
 const onQueryChanged = () => {
   let dataList = JSON.parse(JSON.stringify(props.customerItems));
@@ -692,15 +693,15 @@ const readCompAttr = async () => {
   let data = currentComp.value.getData() || {};
   let isNode = currentComp.value.isNode();
   fieldList.value = isNode ? props.nodeFieldList : props.lineFieldList;
-  let {defaultDatas, mappingFields, batchDefaultValues} = formFieldMapping(fieldList.value!);
+  let redata = formFieldMapping(fieldList.value!);
   compAttr.value = {};
   if (data) {
     compAttr.value = data;
   } else {
-    compAttr.value = {...data, ...defaultDatas};
+    compAttr.value = {...data, ...redata.defaultDatas};
   }
-  for (let key in mappingFields) {
-    let temp = mappingFields[key];
+  for (let key in redata.mappingFields) {
+    let temp = redata.mappingFields[key];
     if (!compAttr.value[temp.name]) {
       compAttr.value[temp.name] = data[temp.alias];
     }
@@ -716,7 +717,7 @@ onMounted(() => {
   filterDatas.value = props.customerItems;
 });
 watch(() => props.customerItems,
-    (val) => {
+    () => {
       filterDatas.value = props.customerItems;
     }, {
       deep: true
@@ -772,7 +773,7 @@ defineExpose({
                           class="field-item"
                           v-for="sitem in item.compItems"
                       ><span>&nbsp;&nbsp;<star-horse-icon
-                          :icon-class="sitem['icon']?sitem['icon']:'default'"/>&nbsp;{{
+                          :icon-class="sitem.icon||'default'"/>&nbsp;{{
                           sitem.label || sitem.name
                         }}</span>
                       </li>
@@ -889,12 +890,14 @@ defineExpose({
 .x6-edge-selected {
   border: 1px dotted #3a8ee6;
 }
+
 hr {
   height: 1px;
   margin: 10px 0;
   border: 0;
   clear: both;
 }
+
 .el-drawer__header {
   border-bottom: 1px solid #8F8F8F;
   padding: 10px;
@@ -903,34 +906,42 @@ hr {
   line-height: 40px;
   text-indent: .5em;
   background-color: #eee;
+
   span {
     font-weight: bold;
     font-size: 14px;
   }
 }
+
 .design-content {
   display: flex;
   height: 100%;
   width: 100%;
   flex-direction: row;
+
   .comp-list {
     min-width: 205px;
     margin-right: 5px;
     border: 1px solid #eee;
+
     .el-collapse {
       padding-left: 5px;
     }
+
     &:after, &:before {
       box-sizing: border-box;
     }
+
     ul {
       margin: 0;
       padding: 0;
+
       &:after {
         content: '';
         display: block;
         clear: both;
       }
+
       .field-item {
         display: flex;
         height: 28px;
@@ -944,19 +955,23 @@ hr {
         overflow: hidden;
         background: #f1f2f3;
         border-radius: 3px;
+
         span {
           display: flex;
           align-content: center;
           align-items: center;
         }
       }
+
       .field-item:first-child {
         margin-top: 5px;
       }
+
       .field-item:hover {
         background: #ebeef5;
         outline: 1px solid #999999;
       }
+
       .drag-handler {
         position: absolute;
         top: 0;
@@ -969,12 +984,14 @@ hr {
       }
     }
   }
+
   .design-main {
     flex: 1;
     height: 100%;
     /*min-height: 500px;*/
     display: flex;
     flex-direction: column;
+
     .inner_button {
       height: 40px;
       text-align: left;
@@ -986,6 +1003,7 @@ hr {
       -ms-user-select: none;
       user-select: none;
     }
+
     .background-grid-app {
       display: flex;
       flex: 1;
@@ -993,12 +1011,14 @@ hr {
       font-family: sans-serif;
     }
   }
+
   .right-attr-panel {
     width: 280px;
     display: flex;
     flex-direction: column;
     border: 1px solid #eee;
     margin-left: 5px;
+
     .title {
       padding-left: 5px;
       align-items: center;

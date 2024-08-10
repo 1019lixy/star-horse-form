@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const props = defineProps({
+defineProps({
   dataList: {type: Array, required: true}
 });
 </script>
@@ -16,7 +16,7 @@ const props = defineProps({
     <el-sub-menu v-else :key="item.idInformations" :index="item.idInformations">
       <template #title>
         <el-icon class="star-icon">
-          <component :is="tem.sysLogo||'document'"/>
+          <component :is="item.sysLogo||'document'"/>
         </el-icon>
         <span>{{ item.sysName }}</span>
       </template>

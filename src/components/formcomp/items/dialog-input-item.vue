@@ -52,7 +52,7 @@ import {SearchParams} from "@/components/types/Params";
 import {isJson} from "@/api/sh_api.ts";
 
 export default defineComponent({
-  setup(props, context) {
+  setup(_props, context) {
     const parentField = context.attrs["parentField"];
 
     const field = context.attrs["field"] as any;
@@ -60,7 +60,7 @@ export default defineComponent({
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
     let dialogInputVisible = shallowRef(false);
-    let multipleSelection = shallowRef<any>([]);
+    // let multipleSelection = shallowRef<any>([]);
     // let instance=getCurrentInstance();
     const dynamicFunction = (data: any) => {
       if (!data) {

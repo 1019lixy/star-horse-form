@@ -15,9 +15,8 @@
 <script lang="ts" name="pdfItem">
 import {defineComponent, ref, shallowRef} from "vue";
 export default defineComponent({
-  setup(props, context) {
+  setup(_props, context) {
     const parentField = context.attrs["parentField"];
-
     const field = context.attrs["field"] as any;
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
@@ -26,8 +25,7 @@ export default defineComponent({
       context.emit('selfFunc');
     };
     return {
-      parentField,  context, field, formItem, dataField,
-      keyEnterFun, pdfPages
+      parentField,  context, field, formItem, dataField, keyEnterFun, pdfPages
     }
   }
 });

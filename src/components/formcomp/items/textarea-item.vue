@@ -26,7 +26,7 @@
 <script lang="ts">
 import {defineComponent, onMounted, shallowRef} from "vue";
 export default defineComponent({
-  setup(props, context) {
+  setup(_props, context) {
     const parentField = context.attrs["parentField"];
 
     const field = context.attrs["field"] as any;
@@ -51,8 +51,7 @@ export default defineComponent({
       keyEnterFun(actionName.value)
     });
     return {
-      parentField,  context, field, formItem,
-      dataField, dynamicFunction, keyEnterFun, actionName
+      parentField,  context, field, formItem, dataField, dynamicFunction, keyEnterFun, actionName
     }
   }
 });

@@ -9,6 +9,7 @@ import type {ElForm, FormInstance, FormRules, TabsPaneContext} from 'element-plu
 import {warning} from "@/utils/message";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {i18n} from "@/lang";
+
 interface LoginInfo {
   userName: string;
   password: string;
@@ -45,10 +46,10 @@ const getFlag = () => {
  */
 const handleLogin = async (elForm: FormInstance | undefined) => {
   if (!elForm) return;
-  await elForm.validate(async (valid, fields) => {
+  await elForm.validate(async (valid, _fields) => {
     loading.value = !loading.value;
     let encrypt = new JSEncrypt();
-    encrypt.setPublicKey(publicKey);
+    encrypt.setPublicKey(publicKey.value);
     const user = {
       userName: loginForm?.userName,
       password: loginForm?.password,
@@ -60,7 +61,7 @@ const handleLogin = async (elForm: FormInstance | undefined) => {
     //密码加密传输，需要加密时去掉注释，单后端认证服务需支持
     user["password"] = <string>encrypt.encrypt(loginForm.password);
     if (valid) {
-      let {data, errMsg} = await userLogin(user);
+      let {errMsg} = await userLogin(user);
       if (errMsg) {
         warning(errMsg);
         refreshValidate();
@@ -90,10 +91,9 @@ onMounted(() => {
   refreshValidate();
 });
 let rtCodeimg = ref("");
-const handleClick = async (tab: TabsPaneContext, event: Event) => {
+const handleClick = async (tab: TabsPaneContext, _event: Event) => {
   if (tab.paneName == "second") {
-    let data = await rtCode("hello");
-    rtCodeimg.value = data;
+    rtCodeimg.value = await rtCode("hello");
   }
 }
 /**

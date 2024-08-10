@@ -8,7 +8,7 @@ const editor = ref();
 let tempList = ref<SelectOption[]>([]);
 let sourceCode = ref<string>("");
 let templateCode = ref<string>("");
-const transform = (val: string) => {
+const transform = (_val: string) => {
 }
 const init = async () => {
   tempList.value = await templateList();

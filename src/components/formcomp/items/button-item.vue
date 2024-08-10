@@ -30,7 +30,7 @@ import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 
 export default defineComponent({
   components: {StarHorseIcon},
-  setup(props, context) {
+  setup(_props, context) {
     const parentField = context.attrs["parentField"];
 
     const field = context.attrs["field"] as any;

@@ -1,5 +1,5 @@
 <script lang="ts" setup name="StarHorseFormList">
-import {inject, onMounted, PropType, Ref, ref} from 'vue'
+import {inject, onMounted, PropType, ref} from 'vue'
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings.ts";
 import ShTableListColumn from "@/components/comp/ShTableListColumn.vue";
@@ -11,6 +11,8 @@ import {getToken} from "@/utils/auth";
 import Sortable from "sortablejs";
 import Help from "@/components/help.vue";
 import {ShallowReactive} from "@vue/reactivity";
+import {ModelRef} from "vue-demi";
+
 let importDialogVisible = ref<boolean>(false);
 const props = defineProps({
   compUrl: {type: Object as PropType<ApiUrls>, required: true},
@@ -28,8 +30,8 @@ const props = defineProps({
   subFlag: {type: Boolean, default: false},
 });
 // const dataForm = inject('dataForm') as Ref;
-const dataForm = defineModel("dataForm") as Ref;
-const formFields = inject("formFields") as ShallowReactive<Object>;
+const dataForm: ModelRef<any> = defineModel("dataForm");
+const formFields = inject("formFields") as ShallowReactive<any>;
 const loading = ref(null);
 const starHorseFormListRef = ref(null);
 const handleAddDetails = (row: any, type: number) => {
@@ -54,7 +56,7 @@ const handleAddDetails = (row: any, type: number) => {
   }
 };
 const getRowIdentity = (row: any) => {
-  return row[props.primaryKey];
+  return row[props.primaryKey!];
 }
 //批量操作
 const excelOperation = () => {
@@ -70,17 +72,17 @@ const downloadTemplate = () => {
 };
 /**
  * 上传失败
- * @param err
- * @param file
- * @param fileList
+ * @param _err err
+ * @param _file file
+ * @param _fileList fileList
  */
-const uploadError = (err, file, fileList) => {
+const uploadError = (_err: any, _file: any, _fileList: any) => {
   warning("导入数据失败");
 };
 /**
  * 上传成功
  */
-const uploadSuccess = (response: any, file, fileList) => {
+const uploadSuccess = (response: any, _file: any, _fileList: any) => {
   if (response.code != 0) {
     warning("数据解析异常");
     return;
@@ -124,7 +126,7 @@ const moveColumn = () => {
   }
 };
 const init = async () => {
- // console.log(Object.keys(dataForm.value), props.batchName);
+  // console.log(Object.keys(dataForm.value), props.batchName);
   if (!Object.keys(dataForm.value).includes(props.batchName)) {
     dataForm.value[props.batchName] = [];
   }
@@ -301,28 +303,35 @@ onMounted(async () => {
 :deep(.el-table__cell) {
   padding: 0;
 }
+
 .form-list {
   display: flex;
   flex-direction: column;
+
   .inner_button {
     margin-bottom: 5px;
   }
+
   .el-table {
     flex: 1;
   }
 }
+
 :deep(th.el-table__cell:first-child) {
   padding: 5px 0;
 }
+
 :deep(.el-form-item) {
   font-size: 11px;
   margin-bottom: 1px;
   width: 100%;
 }
+
 :deep(.el-input__inner ), :deep(el-select) {
   height: 25px;
   font-size: 12px;
 }
+
 :deep(.el-select) {
   line-height: 25px;
 }

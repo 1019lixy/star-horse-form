@@ -10,7 +10,7 @@
 <script lang="ts">
 import {defineComponent, shallowRef} from "vue";
 export default defineComponent({
-  setup(props, context) {
+  setup(_props, context) {
     const parentField = context.attrs["parentField"];
 
     const field = context.attrs["field"] as any;

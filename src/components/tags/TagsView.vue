@@ -170,13 +170,13 @@ const isActive = (route: RouteLocationNormalizedLoaded): boolean => {
   return route.path === unref(currentRoute).path;
 };
 // 所有右键菜单组件的元素
-const itemRefs = useTemplateRefsList<InstanceType<typeof Object>>();
+const itemRefs = useTemplateRefsList<InstanceType<any>>();
 // 右键菜单装填改变的时候
 const visibleChange = (visible: boolean, tagItem: RouteLocationNormalizedLoaded) => {
   selectedTag.value = tagItem;
   viewListStore.setCurrentView(tagItem);
   if (visible) {
-    for (const v of unref(itemRefs)) {
+    for (let v of unref(itemRefs)) {
       const elDropdownMenuRef = v.elDropdownMenuRef;
       if (tagItem.fullPath !== v.tagItem.fullPath) {
         elDropdownMenuRef?.handleClose();
@@ -185,11 +185,11 @@ const visibleChange = (visible: boolean, tagItem: RouteLocationNormalizedLoaded)
   }
 };
 // elscroll 实例
-const scrollbarRef = ref(null);
+const scrollbarRef = ref<any>(null);
 // 保存滚动位置
 const scrollLeftNumber = ref(0);
-const scroll = ({scrollLeft}) => {
-  scrollLeftNumber.value = scrollLeft as number;
+const scroll = (scroll:any) => {
+  scrollLeftNumber.value = scroll.scrollLeft as number;
 };
 // 移动到某个位置
 const move = (to: number) => {
@@ -339,7 +339,7 @@ watch(
           label: '关闭页面',
           disabled: currentRoute.path=='/home',
           command: () => {
-            closeSelectedTag(selectedTag);
+            closeSelectedTag(selectedTag!);
           },
         },
         {

@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import {onMounted, PropType, ref} from "vue";
+import {onMounted, PropType} from "vue";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {FieldInfo} from "@/components/types/PageFieldInfo";
 import {validMsg} from "@/api/sh_api.ts";
 
-const props = defineProps({
+defineProps({
   compUrl: {type: Object as PropType<ApiUrls>},
   item: {type: Array as PropType<Array<FieldInfo>>, required: true},
   objectName: {type: String},

@@ -74,7 +74,7 @@ export const DesignGraph: any = defineStore("DesignGraph", {
          */
         setLabel(name: string, color: string = "#A2B1C3") {
             let _this = this;
-            let cell = _this.graph!.getCellById(_this.cell!.id);
+            let cell:any = _this.graph!.getCellById(_this.cell!.id);
             if (cell.isNode()) {
                 cell.attr("label/text", name);
             } else {
@@ -186,7 +186,7 @@ export const DesignGraph: any = defineStore("DesignGraph", {
             let graph = _this.graph;
             let nodeDatas: Array<any> = [];
             let edgeDatas: Array<any> = [];
-            let datas: Object = {};
+            let datas: any = {};
             if (!graph) {
                 warning("设计器未初始化");
                 return datas;
@@ -202,7 +202,7 @@ export const DesignGraph: any = defineStore("DesignGraph", {
             datas["nodes"] = nodeDatas;
             let edges = graph.getEdges();
             for (let index in edges) {
-                let edge = edges[index];
+                let edge:any = edges[index];
                 let data = edge.getData();
                 data["instanceId"] = edge.id;
                 data["id"] = edge.id;
@@ -240,7 +240,7 @@ export const DesignGraph: any = defineStore("DesignGraph", {
          * 添加节点
          * @param data
          */
-        addNode(data: NodeInfo): Cell {
+        addNode(data: NodeInfo): Cell | null {
             // console.log(data);
             let _this = this;
             let graph = _this.graph;
@@ -249,7 +249,7 @@ export const DesignGraph: any = defineStore("DesignGraph", {
                 return null;
             }
             let point = graph.pageToLocal(data.posX || 0, data.posY || 0);
-            let datat = {
+            let datat:any = {
                 shape: data.shape,
                 label: "\t\t" + data.label,
                 name: data.name,
@@ -270,7 +270,7 @@ export const DesignGraph: any = defineStore("DesignGraph", {
             if (items) {
                 for (let index in items) {
                     let temp = items[index];
-                    let field = {
+                    let field:any = {
                         group: "list",
                         "attrs": {}
                     };
@@ -299,8 +299,8 @@ export const DesignGraph: any = defineStore("DesignGraph", {
                 console.error("画布还未初始化完成");
                 return null;
             }
-            let sorceNode = graph.getCellById(edge.sourceId);
-            let targetNode = graph.getCellById(edge.targetId);
+            let sorceNode:any = graph.getCellById(edge.sourceId);
+            let targetNode:any = graph.getCellById(edge.targetId);
             let sourcePorts = sorceNode.getPorts();
             let targetPorts = targetNode.getPorts();
             let sourceIndex = parseInt(sorceNode.getData().index);

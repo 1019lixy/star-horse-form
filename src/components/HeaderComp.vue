@@ -91,7 +91,7 @@ const rules = {
     message: '手机格式不正确',
     trigger: "change",
     // 自定义验证手机号格式
-    validator(rule: any, value: any, callback: Function) {
+    validator(_rule: any, value: any, callback: Function) {
       const reg = new RegExp(/1\d{10}/)
       if (reg.test(value)) {
         callback()
@@ -108,8 +108,8 @@ const rules = {
     {min: 6, max: 14, message: '确认密码长度为6 - 14位'},
     {
       trigger: "blur",
-      validator(rule: any, value: any, callback: Function) {
-        if (value != dataForm['password']) {
+      validator(_rule: any, value: any, callback: Function) {
+        if (value != dataForm.value['password']) {
           callback(new Error("2次密码不一致"));
         } else {
           callback();
@@ -141,16 +141,17 @@ const modifyInfo = () => {
   resetForm();
 };
 const doModifyUserInfo = () => {
-  postRequest("/system-config/system/usersAuditEntity/refreshInvalidPassword/" + dataForm.username +
-      "/" + dataForm.password + "/" + (dataForm.oldPassword || "0") + "/" + dataForm.phone, {}).then(res => {
-    let redata = res.data;
-    if (redata.code != 0) {
-      warning(redata.cnMessage);
-      return;
-    }
-    success(redata.cnMessage);
-    dialogProps.editVisible = false;
-  });
+  postRequest("/system-config/system/usersAuditEntity/refreshInvalidPassword/" + dataForm.value.username +
+      "/" + dataForm.value.password + "/" + (dataForm.value.oldPassword || "0") + "/" + dataForm.value.phone, {})
+      .then(res => {
+        let redata = res.data;
+        if (redata.code != 0) {
+          warning(redata.cnMessage);
+          return;
+        }
+        success(redata.cnMessage);
+        dialogProps.editVisible = false;
+      });
 };
 /**
  * 重置表单
@@ -168,8 +169,7 @@ const loginOut = () => {
     }
   });
 };
-const operSearch = () => {
-}
+
 const loadShortMenu = async () => {
   let param: any = [];
   await postRequest("/system-config/system/shortcutMenu/currentUserShortcut", param).then(res => {
