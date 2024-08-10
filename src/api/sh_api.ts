@@ -155,7 +155,7 @@ export async function loadRolesInfo(param: any) {
     await postRequest("/system-config/system/rolesinfoEntity/queryUserAllRoles", {
         fieldList: param
     }).then(res => {
-        if (res.data.code != 0) {
+        if (res.data.code) {
             console.warn(res.data.cnMessage);
         } else {
             let redata = res.data.data;

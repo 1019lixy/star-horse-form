@@ -4,7 +4,7 @@ import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings.ts";
 import {DialogProps} from "@/components/types/DialogProps"
 import {onMounted, provide, reactive, ref} from "vue";
-import {SearchProps, SelectOption} from "@/components/types/SearchProps";
+import {SearchFields, SelectOption} from "@/components/types/SearchProps";
 import {getMenuId, loadCustomInfo, loadElementPlusIcon, loadPagePermission, loadSystemInfo} from "@/api/sh_api";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {postRequest} from "@/api/star_horse";
@@ -27,11 +27,13 @@ const dataUrl: ApiUrls = {
 };
 let systemIconList = ref<SelectOption[]>([]);
 let customerList = ref<SelectOption[]>([]);
-const searchFormData = reactive<SearchProps[]>([
-  {label: "归属主体", fieldName: "idCustomer", type: "select", optionList: customerList},
-  {label: "系统名称", defaultShow: true, fieldName: "sysName", type: "input", matchType: "lk"},
-  {label: "添加时间", fieldName: "createdDate", type: "daterange", matchType: "bt"}
-]);
+const searchFormData = reactive<SearchFields>({
+  fieldList: [
+    {label: "归属主体", fieldName: "idCustomer", type: "select", optionList: customerList},
+    {label: "系统名称", defaultShow: true, fieldName: "sysName", type: "input", matchType: "lk"},
+    {label: "添加时间", fieldName: "createdDate", type: "daterange", matchType: "bt"}
+  ]
+});
 const testFun = (formData: any) => {
   if (!formData['parentId']) {
     return;
@@ -120,10 +122,7 @@ const tableFieldList = reactive<PageFieldInfo>({
 });
 const primaryKey = "idInformations";
 const informationsRef = ref();
-const iconList = icon;
 const rules = {};
-const dataForm = ref({});
-provide("dataForm", dataForm);
 const dialogProps = reactive<DialogProps>({
   bakeVisible1: false, bakeVisible2: false, bakeVisible3: false,
   ids: 0,
@@ -163,7 +162,7 @@ onMounted(async () => {
 </style>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form v-model:data-form="dataForm" @refresh="informationsRef.loadByPage()" :compUrl="dataUrl"
+    <star-horse-form @refresh="informationsRef.loadByPage()" :compUrl="dataUrl"
                      :fieldList="tableFieldList"
                      :rules="rules"/>
   </star-horse-dialog>

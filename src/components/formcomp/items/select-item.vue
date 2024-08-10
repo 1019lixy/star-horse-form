@@ -38,7 +38,7 @@ import {compDynamicData, createFilter, dynamicUrlOperation} from "@/api/sh_api.t
 import {SearchParams} from "@/components/types/Params";
 
 export default defineComponent({
-  setup(props, context) {
+  setup(_props, context) {
     const parentField = context.attrs["parentField"];
     const field = context.attrs["field"] as any;
     let formItem = shallowRef({label: 'input', required: false});

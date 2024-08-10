@@ -189,6 +189,13 @@ a {
   font-weight: bold;
 }
 
+
+.el-icon {
+  svg {
+    color: var(--star-horse-style);
+  }
+}
+
 .instance-item {
   width: 100%;
   height: 220px;
@@ -356,11 +363,16 @@ a {
   width: 100px;
 }
 
+.el-space__item {
+  height: 100%;
+}
+
 .item, .audit_item {
   display: flex;
   flex-direction: row;
   border-bottom: 1px dotted var(--star-horse-style);
   line-height: 32px;
+  align-items: center;
   width: 100%;
 
   label {
@@ -384,6 +396,7 @@ a {
     text-overflow: ellipsis;
     word-break: break-all;
     white-space: nowrap;
+    flex: 1;
   }
 }
 

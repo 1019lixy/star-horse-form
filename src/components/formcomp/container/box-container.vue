@@ -13,7 +13,7 @@ const props = defineProps({
 const update = getCurrentInstance() as ComponentInternalInstance | null;
 let designForm = DesignForm(piniaInstance);
 let draggingItem = computed(() => designForm.draggingItem);
-let itemType = ref('container');
+// let itemType = ref('container');
 let isEdit = computed(() => designForm.isEdit);
 let boxCompList = computed(() => props.field);
 const getComponentName = (data: any) => {
@@ -51,12 +51,7 @@ const onDragAdd = (evt: Event, dataList: any) => {
     designForm.selectItem(dataInfo, dataInfo.itemType, "");
   }
 };
-const checkMove = () => {
-  return true
-}
-const dragUpdate = (evt) => {
-  console.log(evt);
-}
+
 watch(() => props.field,
     () => {
       update!.proxy!.$forceUpdate();
@@ -139,7 +134,7 @@ watch(() => props.field,
 <style lang="scss" scoped>
 .smain-design {
   width: 100%;
-  background: var(--star-horse-white);;
+  background: var(--star-horse-white);
   border-radius: 3px;
   min-height: 50px;
   display: flex;

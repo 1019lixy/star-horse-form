@@ -135,7 +135,7 @@ export const DesignForm: any = defineStore("DesignForm", {
             }
 
             let record = _this.historyRecord;
-            let recordData = {
+            let recordData:any = {
                 complist: _this.compList,
                 currentCompCategory: _this.currentCompCategory,
                 currentItemId: _this.currentItemId,

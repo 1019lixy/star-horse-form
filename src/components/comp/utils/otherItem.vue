@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import {onMounted, PropType, ref} from "vue";
+import {onMounted, PropType} from "vue";
 import {ApiUrls} from "@/components/types/ApiUrls";
-import {FieldInfo, PageFieldInfo} from "@/components/types/PageFieldInfo";
-import StarHorseFormTable from "@/components/comp/StarHorseFormTable.vue";
+import {FieldInfo} from "@/components/types/PageFieldInfo";
 import {validMsg} from "@/api/sh_api.ts";
+import {ModelRef} from "vue-demi";
 
-const props = defineProps({
+defineProps({
   compUrl: {type: Object as PropType<ApiUrls>},
   item: {type: Object as PropType<FieldInfo>, required: true},
   objectName: {type: String},
@@ -16,15 +16,9 @@ const props = defineProps({
   rules: {type: Object},
   compSize: {type: String, default: "small"},
   isView: {type: Boolean, default: false},
+  isEdit: {type: Boolean, default: false},
 });
-const dataForm = defineModel("dataForm");
-const normalTabList = ref<String>("tab0");
-const checkObject = (item: any) => {
-  if (item && item.objectName && !Object.keys(dataForm.value).includes(item.objectName)) {
-    dataForm.value[item.objectName] = {};
-  }
-  return 1;
-}
+const dataForm: ModelRef<any> = defineModel("dataForm");
 const init = () => {
 
 }
@@ -38,7 +32,7 @@ onMounted(() => {
                    v-model:dataForm="dataForm"
                    :item="item"
                    :compSize="compSize"
-                   :isEdit="isView"/>
+                   :isEdit="isEdit"/>
   <el-form-item
       :size="compSize"
       :label="item.label"
@@ -47,7 +41,7 @@ onMounted(() => {
       :prop="item.fieldName"
       v-else-if="item.formShow">
     <star-horse-item :primaryKey="primaryKey" :compSize="compSize" v-model:dataForm="dataForm" :item="item"
-                     :isEdit="isView"/>
+                     :isEdit="isEdit"/>
   </el-form-item>
 </template>
 

@@ -28,7 +28,7 @@ const props = defineProps({
 
   dataList: {type: Array}
 });
-const emits = defineEmits(["selectItem"]);
+// const emits = defineEmits(["selectItem"]);
 const multipleSelection = ref<any>([]);
 const shStaticTableCompRef = ref();
 let staticDataList = ref<any>([]);

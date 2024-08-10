@@ -4,9 +4,11 @@ import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 
 const props = defineProps({
   dataList: {type: Array<any>, required: true},
-  top: {type: String, default: "83px"}
+  top: {type: String, default: "83px"},
+  level: {type: Number, default: 1},
 });
-let arrow = ref<string>("arrow-double-right");
+// let arrow = ref<string>("arrow-double-right");
+let menuColor = computed(() => props.level > 1 ? "var(--star-horse-font-color)" : "var(--star-horse-white)");
 let htop = ref<string>(computed(() => props.top).value == "83px" ? "65px" : "35px");
 let currentItem = ref<any>({});
 const overHandler = (item: any) => {
@@ -40,7 +42,7 @@ const outHandler = () => {
               class="sub-arrow"/>
         </div>
         <div class="sub-list">
-          <FixedSubMenu :dataList="item.children"></FixedSubMenu>
+          <FixedSubMenu :dataList="item.children" :level="level+1"></FixedSubMenu>
         </div>
       </div>
     </template>
@@ -53,7 +55,8 @@ const outHandler = () => {
 
 .sub-menu-item, .sub-menu-list {
   width: 100%;
-  line-height: 30px;
+  line-height: 40px;
+  height: 40px;
   display: flex;
   flex-direction: column;
 
@@ -65,6 +68,7 @@ const outHandler = () => {
     width: 100%;
     flex-direction: row;
     align-items: center;
+
     .star-icon {
       height: 2rem;
       width: 2rem;
@@ -75,14 +79,17 @@ const outHandler = () => {
       margin-left: 10px;
       font-weight: bold;
       display: block;
-      line-height: 30px;
+      line-height: 40px;
+      height: 40px;
       font-size: 12px;
       color: #666;
     }
 
   }
+
   .menu-item {
     margin: 0 25px;
+
     .star-icon {
       height: 2rem;
       width: 2rem;
@@ -96,6 +103,9 @@ const outHandler = () => {
 
   }
 
+  &:hover {
+    background: v-bind(menuColor);
+  }
 }
 
 .sub-menu-list {
@@ -111,6 +121,7 @@ const outHandler = () => {
   &:hover .sub-list {
     display: block;
     opacity: 1;
+
   }
 
   .sub-list {

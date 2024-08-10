@@ -1,6 +1,6 @@
 <script setup lang="ts" name="StarHorseTableColumn">
 import StarHorseItem from "@/components/comp/StarHorseItem.vue";
-import {nextTick, ref} from "vue";
+import {nextTick, PropType, ref} from "vue";
 import {postRequest} from "@/api/star_horse";
 import {closeLoad} from "@/api/sh_api";
 import {error, success, warning} from "@/utils/message";
@@ -8,14 +8,14 @@ import {Config} from "@/api/settings.ts";
 const props = defineProps({
   compUrl: {type: Object},
   batchName: {type: String, default: ""},
-  item: {type: Object, required: true},
+  item: {type: Object as PropType<any>, required: true},
   dataFormat: {type: Function, required: true},
   cellEditable: {type: Boolean, default: true}
 });
 const emits = defineEmits(["focusEvent", "blurEvent"]);
 const currentRow = ref();
 const currentRowColumnRef = ref();
-const focusEvent = (column: any) => {
+const focusEvent = (_column: any) => {
   // currentRow.value[column["property"]] = currentRow.value[column["property"]];
 };
 const blurEvent = (column: any) => {
@@ -26,7 +26,7 @@ const blurEvent = (column: any) => {
   if ((!bakeValue && bakeValue != 0) || bakeValue == currentRow.value[column["property"]]) {
     return;
   }
-  postRequest(props.compUrl.mergeUrl, currentRow.value).then(res => {
+  postRequest(props.compUrl?.mergeUrl!, currentRow.value).then(res => {
     if (res.data.code != 0) {
       warning(res.data.cnMessage);
     } else {

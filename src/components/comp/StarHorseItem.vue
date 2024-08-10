@@ -70,14 +70,7 @@ watch(() => props.item,
       deep: true
     }
 );
-watch(() => props.isEdit,
-    () => {
-      field.value.preps["disabled"] = props.item?.disabled;
-    }, {
-      immediate: false,
-      deep: true
-    }
-);
+
 const compPreps = () => {
 
   itemType.value = props.item?.type || props.item?.fieldType;
@@ -161,6 +154,10 @@ const compPreps = () => {
   field.value.preps['multiple'] = props.item?.multiple;
   field.value.preps["actionName"] = actionName.value;
   field.value.preps["disabled"] = props.item.disabled;
+  //编辑数据时需要禁用的组件
+  if (!props.isEdit && props.item.editDisabled) {
+    field.value.preps["disabled"] = 'Y';
+  }
   //联动
   field.value.preps['actionRelation'] = props.item?.actionRelation;
   //触发事件

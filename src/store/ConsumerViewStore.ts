@@ -2,7 +2,7 @@ import {defineStore} from "pinia";
 export const ConsumerView: any = defineStore("ConsumerView", {
     state: () => {
         return {
-            tableList: {} as Object,
+            tableList: {} as any,
             dbConfigId: ""
         }
     },
@@ -24,7 +24,7 @@ export const ConsumerView: any = defineStore("ConsumerView", {
          * @param tableName 表名
          * @param data 字典列表
          */
-        addTableInfo(tableName: string, data: Object | Array<object>) {
+        addTableInfo(tableName: string, data: Object | Array<any>) {
             this.tableList[tableName] = data;
         },
         /**

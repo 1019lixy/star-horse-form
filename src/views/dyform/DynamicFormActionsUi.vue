@@ -2,7 +2,7 @@
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {DialogProps} from "@/components/types/DialogProps"
 import {onMounted, provide, reactive, ref} from "vue";
-import {SearchProps} from "@/components/types/SearchProps";
+import {SearchFields, SearchProps} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {Config} from "@/api/settings.ts";
 import {getMenuId, loadPagePermission} from "@/api/sh_api.ts";
@@ -22,7 +22,7 @@ const dataUrl: ApiUrls = {
   importUrl: ""
 };
 //查询属性
-const searchFormData = reactive<SearchProps[]>([
+const searchFormData = reactive<SearchFields>({fieldList:[
   {label: "主键", fieldName: "idFormActions", type: "long"},
   {label: "归属元素", fieldName: "idFormItems", type: "long"},
   {label: "标签名称", fieldName: "label", type: "input"},
@@ -30,7 +30,7 @@ const searchFormData = reactive<SearchProps[]>([
   {label: "属性类别", fieldName: "fieldType", type: "input"},
   {label: "备注", fieldName: "remark", type: "input"},
   {label: "元素排序", fieldName: "dataSort", type: "number"},
-]);
+]});
 //页面属性
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
@@ -146,9 +146,6 @@ const primaryKey = "idFormActions";
 const dynamicFormActionRef = ref();
 //校验
 const rules = {};
-const dataForm = ref({});
-//全局数据对象
-provide("dataForm", dataForm);
 //控制弹窗相关设置
 const dialogProps = reactive<DialogProps>({
   ids: 0,
@@ -185,7 +182,7 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
 </style>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form v-model:data-form="dataForm" @refresh="dynamicFormActionRef.loadByPage()" :compUrl="dataUrl"
+    <star-horse-form  @refresh="dynamicFormActionRef.loadByPage()" :compUrl="dataUrl"
                      :fieldList="tableFieldList"
                      :rules="rules"/>
   </star-horse-dialog>

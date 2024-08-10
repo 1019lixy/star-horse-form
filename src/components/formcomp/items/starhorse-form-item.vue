@@ -316,7 +316,7 @@ onMounted(() => {
     display: flex;
     align-items: center;
     line-height: 28px;
-    background: var(--star-horse-style);;
+    background: var(--star-horse-style);
     z-index: 99999;
     opacity: 1;
 
@@ -431,7 +431,7 @@ onMounted(() => {
 
 .el-form-item.selected,
 .static-content-item.selected {
-  outline: 2px solid var(--star-horse-style);;
+  outline: 2px solid var(--star-horse-style);
 }
 
 :deep(.label-left-align) .el-form-item__label {

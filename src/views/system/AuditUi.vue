@@ -3,7 +3,7 @@ import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings.ts";
 import {DialogProps} from "@/components/types/DialogProps"
 import {onMounted, provide, reactive, ref} from "vue";
-import {SearchProps} from "@/components/types/SearchProps";
+import {SearchFields, SearchProps} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {getMenuId, loadPagePermission} from "@/api/sh_api.ts";
 const dataUrl: ApiUrls = {
@@ -23,12 +23,12 @@ const dataUrl: ApiUrls = {
 };
 const requestMethod = [{name: "POST", value: "POST"}, {name: "GET", value: "GET"},
   {name: "PUT", value: "PUT"}, {name: "DELETE", value: "DELETE"},];
-const searchFormData = reactive<SearchProps[]>([
+const searchFormData = reactive<SearchFields>({fieldList:[
   {label: "请求方法", fieldName: "requestMethod", type: "select", optionList: requestMethod},
   {label: "操作人", defaultShow: true, fieldName: "operator", type: "input", matchType: "lk"},
   {label: "操作接口", defaultShow: true, fieldName: "signature", type: "input", matchType: "lk"},
   {label: "接口地址", fieldName: "url", type: "input", matchType: "lk"},
-]);
+]});
 const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
@@ -100,8 +100,6 @@ const tableFieldList = reactive<PageFieldInfo>({
 const primaryKey = "idAudit";
 const auditRef = ref();
 const rules = {};
-const dataForm = ref({});
-provide("dataForm", dataForm);
 const dialogProps = reactive<DialogProps>({
   ids: 0,
   batchDialogTitle: "批量编辑",
@@ -113,7 +111,7 @@ const dialogProps = reactive<DialogProps>({
 });
 provide("dialogProps", dialogProps);
 let permissions = ref<any>({});
-const dataFormat = (name: string, cellValue: Object): any => {
+const dataFormat = (_name: string, cellValue: Object): any => {
   return cellValue;
 }
 const initData = async () => {
@@ -127,7 +125,7 @@ onMounted(async () => {
 </style>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form v-model:data-form="dataForm" @refresh="auditRef.loadByPage()" :compUrl="dataUrl"
+    <star-horse-form @refresh="auditRef.loadByPage()" :compUrl="dataUrl"
                      :fieldList="tableFieldList" :rules="rules"/>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title=

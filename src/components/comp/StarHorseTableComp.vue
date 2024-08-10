@@ -1,6 +1,6 @@
 <script lang="ts" setup name="StarHorseTableComp">
 import {ApiUrls} from "@/components/types/ApiUrls";
-import {inject, onMounted, PropType, reactive, ref, unref, watch,} from "vue";
+import {inject, onMounted, PropType, reactive, ref, unref, watch} from "vue";
 import {download, postRequest} from "@/api/star_horse";
 import {PageProps} from "@/components/types/PageProps";
 import {closeLoad, commonParseCodeToName, deleteByIds, load,} from "@/api/sh_api";
@@ -13,6 +13,7 @@ import {OrderByInfo} from "@/components/types/PageFieldInfo";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {DynamicForm} from "@/store/DynamicFormStore";
 import piniaInstance from "@/store";
+
 const dynamicForm = DynamicForm(piniaInstance);
 const props = defineProps({
   //url地址
@@ -34,16 +35,16 @@ const props = defineProps({
   //弹窗模式
   dialogInput: {type: Boolean, default: false},
   //默认表格高度
-  height: {type: String, default: "100%"},
+  height: {type: String, default: "400"},
   //过滤条件
-  filterCondition: {type: Array as PropType<SearchParams[]>, default: []},
-  orderBy: {type: Array as PropType<OrderByInfo[]>, default: []},
+  filterCondition: {type: Array as PropType<SearchParams[]>},
+  orderBy: {type: Array as PropType<OrderByInfo[]>},
   //是否显示分页条
   showPageBar: {type: Boolean, default: true},
   //数据列表
-  tableDataList: {type: Array, default: []},
+  tableDataList: {type: Array},
   //回显数据列表
-  reverseDataList: {type: Array, default: []},
+  reverseDataList: {type: Array},
   //是否运行选择父级节点
   allowSelectParent: {type: Boolean, default: true},
   //默认是否展开所有子节点
@@ -98,7 +99,7 @@ const exportData = () => {
   if (defaultcond && defaultcond.length > 0) {
     params.push(...defaultcond);
   }
-  let condition = {
+  let condition: any = {
     fieldList: params,
   };
   if (props.fieldList?.orderBy) {
@@ -217,7 +218,8 @@ const moveColumn = () => {
 onMounted(() => {
   init();
 });
-const editData = (row: any, column: any, evt: any) => {
+const editData = (row: any, _column: any, evt: Event) => {
+  evt.stopPropagation();
   let id = getRowIdentity(row);
   dynamicForm.setDataId(id);
   dynamicForm.setSelectData(row);
@@ -283,15 +285,14 @@ const getRowIdentity = (row: any) => {
   }
   return row[props.primaryKey] || "";
 };
-const dataFormat = (row: any, column: any, cellValue: any, index: number) => {
+const dataFormat = (row: any, column: any, cellValue: any, _index: number) => {
   cellValue = commonParseCodeToName(column.property, cellValue);
   return null == props.dataFormat
       ? cellValue
       : props.dataFormat(column.property, cellValue, row);
 };
 const tbCommonFun = (name: string, param: any) => {
-  let data =
-      props.selfBtnFunc && props.selfBtnFunc.find((item) => item.btnName == name);
+  let data: any = props.selfBtnFunc && props.selfBtnFunc.find((item) => item.btnName == name);
   if (data) {
     data["exec"](param);
   } else {
@@ -355,16 +356,16 @@ const loadByPage = () => {
   if (!props.compUrl?.loadByPageUrl) {
     return;
   }
-  let params = {
+  let params: any = {
     currentPage: pageInfo.currentPage,
     pageSize: pageInfo.pageSize,
     fieldList: searchTemp,
     orderBy: orderByTemp,
   };
-  let url = props.compUrl?.loadByPageUrl;
+  let url: string = props.compUrl?.loadByPageUrl as string;
   if (props.compUrl.redirect) {
     params = {
-      url: url,
+      url,
       httpMethod: props.compUrl?.httpMethod || "POST",
       dataType: props.compUrl?.dataType || "JSON",
       searchInfo: params
@@ -393,8 +394,9 @@ const loadByPage = () => {
   });
 };
 const filterData = () => {
-  if (pageInfo.dataList && inputFieldName.value && inputFieldVal.value) {
-    let row = pageInfo.dataList.find((item: any) => item[inputFieldName.value] == inputFieldVal.value);
+  let name = unref(inputFieldName) as string;
+  if (pageInfo.dataList && name && inputFieldVal.value) {
+    let row = pageInfo.dataList.find((item: any) => item[name] == inputFieldVal.value);
     if (row) {
       multipleSelection.value.push(row);
       starHorseTableCompRef.value.toggleRowSelection(row, true);
@@ -413,7 +415,8 @@ const setDataInfo = (fieldName: string, val: any) => {
  * @param column
  * @param evt
  */
-const selectRow = (row: any, column: any, evt: any) => {
+const selectRow = (row: any, _column: any, evt: Event) => {
+  evt.stopPropagation();
   if (!checkParent(row)) {
     return;
   }
@@ -540,7 +543,7 @@ defineExpose({
       :stripe="true"
       :fit="true"
       :size="compSize"
-      :min-height="400"
+      :min-height="height"
       :highlight-current-row="true"
       :default-expand-all="expand"
       :row-style="{
@@ -638,7 +641,7 @@ defineExpose({
                       style="color: var(--star-horse-style)"
                       :size="compSize"
                   >
-                    {{ auth.btnName }}
+                    {{ auth["btnName"] }}
                   </el-button>
                 </el-dropdown-item>
                 <el-dropdown-item>
@@ -688,12 +691,15 @@ defineExpose({
 .warning-row {
   background: #8f8f8f;
 }
+
 :deep(.el-table__cell) {
   padding: 0;
 }
+
 :deep(th.el-table__cell:first-child) {
   padding: 5px 0;
 }
+
 .tb_title {
   flex: 1;
   color: var(--star-horse-style);

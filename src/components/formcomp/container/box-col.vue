@@ -11,7 +11,7 @@ const props = defineProps({
 });
 let designForm = DesignForm(piniaInstance);
 let draggingItem = computed(() => designForm.draggingItem);
-let itemType = ref('container');
+// let itemType = ref('container');
 let isEdit = computed(() => designForm.isEdit);
 const getComponentName = (data: any) => {
   return data?.itemType + '-item'
@@ -49,7 +49,7 @@ const onDragAdd = (evt: Event, dataList: any) => {
 const checkMove = () => {
   return true
 }
-const dragUpdate = (evt) => {
+const dragUpdate = (evt:Event) => {
   console.log(evt);
 }
 </script>
@@ -57,7 +57,7 @@ const dragUpdate = (evt) => {
   <el-col
       class="edit_col"
       :span="sdata.colspan||24"
-      v-for="(sdata,index) in adata.columns"
+      v-for="sdata in adata.columns"
       v-if="isEdit"
   >
     <draggable
@@ -113,7 +113,7 @@ const dragUpdate = (evt) => {
 <style lang="scss" scoped>
 .smain-design {
   width: 100%;
-  background: var(--star-horse-white);;
+  background: var(--star-horse-white);
   border-radius: 3px;
   min-height: 50px;
   display: flex;

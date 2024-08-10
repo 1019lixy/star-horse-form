@@ -106,6 +106,17 @@ defineExpose({
             :pageCount="pageInfo.totalPage||1"
         />
       </template>
+      <template #right-footer>
+        <el-pagination
+            :total="deptUserList.length"
+            @current-change="pageChangeClick"
+            @size-change="pageSizeClick"
+            layout="prev, pager, next"
+            :currentPage="1"
+            :pageSize="50"
+            :pageCount="1"
+        />
+      </template>
     </el-transfer>
   </div>
 </template>

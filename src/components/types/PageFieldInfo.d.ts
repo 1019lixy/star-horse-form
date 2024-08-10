@@ -132,6 +132,10 @@ export declare interface FieldInfo {
      */
     disabled?: string;
     /**
+     * 编辑时禁用，Y 禁用 N 非禁用
+     */
+    editDisabled?: string;
+    /**
      * 是否允许多选,在类型为select时有效 Y 多选
      */
     multiple?: string;

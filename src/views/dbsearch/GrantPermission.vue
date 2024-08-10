@@ -2,7 +2,7 @@
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {DialogProps} from "@/components/types/DialogProps"
 import {onMounted, provide, reactive, ref} from "vue";
-import {SearchProps, SelectOption} from "@/components/types/SearchProps";
+import {SearchFields, SearchProps, SelectOption} from "@/components/types/SearchProps";
 import {
   commonParseCodeToName,
   createDatetime,
@@ -32,12 +32,12 @@ const dataUrl: ApiUrls = {
   uploadUrl: "/dbsearch-manage/dbsearch/dbAssign/importData",
   importUrl: ""
 };
-const searchFormData = reactive<SearchProps[]>([
+const searchFormData = reactive<SearchFields>({fieldList:[
   {label: "授权数据库", fieldName: "dbinfoSingle", defaultShow: true, type: "select", optionList: dbList},
   {label: "被授权人编号", fieldName: "assignNo", defaultShow: true, type: "input", matchType: "lk"},
   {label: "授权类型 ", fieldName: "assignType", defaultShow: true, type: "select", optionList: assignType},
   {label: "经办人", fieldName: "operator", type: "input"},
-]);
+]});
 const tableFieldList = reactive({
   fieldList: [
     {

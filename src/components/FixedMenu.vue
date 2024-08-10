@@ -1,16 +1,13 @@
 <script setup lang="ts">
 import {createRouterAndMenuList, permissionMenus} from "@/api/star_horse";
-import {computed, nextTick, onMounted, reactive, ref, unref, watch} from "vue";
+import {computed, nextTick, onMounted, reactive, ref, watch} from "vue";
 import {UserInfo} from "@/store/UserInfoStore";
 import {MenusInfo} from "@/components/types/MenusInfo";
-import {filterTree} from "@/api/sh_api";
 import piniaInstance from "@/store";
-import {Position} from "@element-plus/icons-vue";
-import SubMenu from "@/components/menu/SubMenu.vue";
 import FixedSubMenu from "@/components/menu/FixedSubMenu.vue";
 
 let userInfoStore = UserInfo(piniaInstance);
-const emits = defineEmits(["collopseOperation"]);
+// const emits = defineEmits(["collopseOperation"]);
 let leftMenuDatas = ref<MenusInfo[]>([]);
 let props = defineProps({
   sysemId: {type: String},
@@ -33,16 +30,16 @@ const loadMenus = async (sysemId: string) => {
     });
   });
 };
-const search = ref<String>();
+// const search = ref<String>();
 let currentItem = ref<any>({});
 
-const filterTableData = computed(() => filterTree(search.value, leftMenuDatas.value));
+// const _filterTableData = computed(() => filterTree(search.value, leftMenuDatas.value));
 const overHandler = (item: any) => {
   currentItem.value = item;
 }
-const outHandler = (_item: any) => {
+/*const _outHandler = (_item: any) => {
   currentItem.value = {};
-}
+}*/
 onMounted(async () => {
   let menus = userInfoStore.getPermissionMenus;
   if (menus.length == 0) {
@@ -53,7 +50,7 @@ onMounted(async () => {
 });
 
 watch(() => props.sysemId,
-    (val: string) => {
+    (val: any) => {
       loadMenus(val);
     },
     {immediate: false}
@@ -114,11 +111,12 @@ watch(() => props.sysemId,
         height: 45px;
 
         .star-icon {
-          color: var(--star-horse-white);
+
           width: 100%;
           height: inherit;
 
           svg {
+            color: var(--star-horse-white) !important;
             height: 2em;
             width: 2em;
           }

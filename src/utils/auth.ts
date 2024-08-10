@@ -31,7 +31,7 @@ export function getCustomerInfo() {
 /**
  * 获取查询对象
  */
-export function getCustomerParam(propertyName = "a.dataAuth"): SearchParams {
+export function getCustomerParam(propertyName = "a.dataAuth"): SearchParams|null {
     let customerInfo = getCustomerInfo();
     if (!customerInfo) {
         return null;

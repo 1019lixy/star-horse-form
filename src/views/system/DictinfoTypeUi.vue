@@ -3,7 +3,7 @@ import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings.ts";
 import {DialogProps} from "@/components/types/DialogProps"
 import {onMounted, provide, reactive, ref} from "vue";
-import {SearchProps} from "@/components/types/SearchProps";
+import {SearchFields, SearchProps} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import DictinfoUI from "@/views/system/DictinfoUI.vue";
 import {SearchParams} from "@/components/types/Params";
@@ -23,10 +23,10 @@ const dataUrl: ApiUrls = {
   uploadUrl: "",
   condition: []
 };
-const searchFormData = reactive<SearchProps[]>([
+const searchFormData = reactive<SearchFields>({fieldList:[
   {label: "字典类型名称", defaultShow: true, fieldName: "dictTypeName", type: "input"},
   {label: "字典类型编码", defaultShow: true, fieldName: "dictTypeCode", type: "input"},
-]);
+]});
 const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
@@ -82,8 +82,6 @@ const tableFieldList = reactive<PageFieldInfo>({
 });
 const primaryKey = "idDictinfoType";
 const rules = {};
-const dataForm = ref({});
-provide("dataForm", dataForm);
 const dialogProps = reactive<DialogProps>({
   bakeVisible1: false, bakeVisible2: false, bakeVisible3: false,
   ids: 0,
@@ -96,7 +94,7 @@ const dialogProps = reactive<DialogProps>({
 });
 provide("dialogProps", dialogProps);
 let permissions = ref<any>({});
-const dataFormat = (name: string, cellValue: Object): any => {
+const dataFormat = (_name: string, cellValue: Object): any => {
   return cellValue;
 }
 let dictTypeCode = ref<String>("");
@@ -119,7 +117,7 @@ onMounted(async () => {
 </style>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form v-model:data-form="dataForm" @refresh="dictTypeRef.loadByPage()" :compUrl="dataUrl"
+    <star-horse-form  @refresh="dictTypeRef.loadByPage()" :compUrl="dataUrl"
                      :fieldList="tableFieldList" :rules="rules"/>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title=

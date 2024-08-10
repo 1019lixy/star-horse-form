@@ -14,7 +14,7 @@ const props = defineProps({
 });
 let designForm = DesignForm(piniaInstance);
 let draggingItem = computed(() => designForm.draggingItem);
-let itemType = ref('container');
+// let itemType = ref('container');
 let isEdit = computed(() => designForm.isEdit);
 const getComponentName = (data: any) => {
   return data?.itemType + '-item'
@@ -69,7 +69,7 @@ const tdOver = (evt: MouseEvent, index: number) => {
   }
   currentIndex.value = index;
 }
-const tdOut = (evt: MouseEvent, index: number) => {
+const tdOut = (evt: MouseEvent, _index: number) => {
   evt.preventDefault();
   evt.stopPropagation();
   currentIndex.value = 0;

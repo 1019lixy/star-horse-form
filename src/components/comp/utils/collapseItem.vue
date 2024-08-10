@@ -3,8 +3,9 @@ import StarHorseFormItem from "@/components/comp/StarHorseFormItem.vue";
 import {onMounted, PropType} from "vue";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {FieldInfo} from "@/components/types/PageFieldInfo";
+import {ModelRef} from "vue-demi";
 
-const props = defineProps({
+defineProps({
   compUrl: {type: Object as PropType<ApiUrls>},
   item: {type: Array as PropType<Array<FieldInfo>>, required: true},
   objectName: {type: String},
@@ -17,7 +18,7 @@ const props = defineProps({
   isView: {type: Boolean, default: false},
   isEdit: {type: Boolean, default: false},
 });
-const dataForm = defineModel("dataForm");
+const dataForm:ModelRef<any> = defineModel("dataForm");
 const checkObject = (item: any) => {
   if (item && item.objectName && !Object.keys(dataForm.value).includes(item.objectName)) {
     dataForm.value[item.objectName] = {};

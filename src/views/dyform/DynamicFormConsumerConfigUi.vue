@@ -2,7 +2,7 @@
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {DialogProps} from "@/components/types/DialogProps"
 import {onMounted, provide, reactive, ref} from "vue";
-import {SearchProps, SelectOption} from "@/components/types/SearchProps";
+import {SearchFields, SearchProps, SelectOption} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {dictData, getMenuId, loadPagePermission} from "@/api/sh_api";
 import {useRouter} from "vue-router";
@@ -33,12 +33,12 @@ let auditList = ref<SelectOption[]>([{
   name: "否", value: "N"
 }]);
 //查询属性
-const searchFormData = reactive<SearchProps[]>([
+const searchFormData = reactive<SearchFields>({fieldList:[
   {label: "视图名称", fieldName: "viewName", type: "input", matchType: "lk"},
   {label: "视图类别", fieldName: "viewType", type: "select", optionList: viewTypeList},
   {label: "消费权限", fieldName: "consumeAuthority", type: "select"},
   {label: "是否需要认证", fieldName: "isAudit", type: "select", optionList: auditList},
-]);
+]});
 const currentRow = ref({});
 const preview = (row: any, currentPage: number, pageSize: number) => {
   currentRow.value = row;
@@ -161,9 +161,6 @@ const primaryKey = "idConsumerConfig";
 const dynamicFormConsumerConfigRef = ref();
 //校验
 const rules = {};
-const dataForm = ref({});
-//全局数据对象
-provide("dataForm", dataForm);
 //控制弹窗相关设置
 const dialogProps = reactive<DialogProps>({
   ids: 0,
@@ -241,7 +238,7 @@ const changePage = (currentPage: number, pageSize: number) => {
     <ViewPage :param="currentRow.dataNo" :isPreview="true"/>
   </star-horse-dialog>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form v-model:data-form="dataForm" @refresh="dynamicFormConsumerConfigRef.loadByPage()"
+    <star-horse-form  @refresh="dynamicFormConsumerConfigRef.loadByPage()"
                      :compUrl="dataUrl" :fieldList="tableFieldList"
                      :rules="rules"/>
   </star-horse-dialog>

@@ -3,7 +3,7 @@ import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings.ts";
 import {DialogProps} from "@/components/types/DialogProps"
 import {onMounted, provide, reactive, ref} from "vue";
-import {SearchProps} from "@/components/types/SearchProps";
+import {SearchFields, SearchProps} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {getMenuId, loadPagePermission} from "@/api/sh_api.ts";
 //后端交互接口地址
@@ -23,7 +23,7 @@ const dataUrl: ApiUrls = {
   condition: []
 };
 //查询属性
-const searchFormData = reactive<SearchProps[]>([
+const searchFormData = reactive<SearchFields>({fieldList:[
   {
     label: "系统名称",
     defaultShow: true,
@@ -36,7 +36,7 @@ const searchFormData = reactive<SearchProps[]>([
     fieldName: "idMenusinfo",
     type: "input"
   },
-]);
+]});
 //页面属性
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
@@ -134,9 +134,6 @@ const primaryKey = "idRolesMenusinfo";
 const rolesMenusinfoRef = ref();
 //校验
 const rules = {};
-const dataForm = ref({});
-//全局数据对象
-provide("dataForm", dataForm);
 //控制弹窗相关设置
 const dialogProps = reactive<DialogProps>({
   ids: 0,
@@ -170,7 +167,7 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
 </script>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form v-model:data-form="dataForm" @refresh="rolesMenusinfoRef.loadByPage()" :compUrl="dataUrl"
+    <star-horse-form  @refresh="rolesMenusinfoRef.loadByPage()" :compUrl="dataUrl"
                      :fieldList="tableFieldList"
                      :rules="rules"/>
   </star-horse-dialog>

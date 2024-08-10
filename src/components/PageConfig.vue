@@ -260,7 +260,8 @@ onMounted(() => {
       <el-row :gutter="10">
         <el-col :span="8">
           <el-form-item prop="tagsView" label="开启/关闭TagsView ">
-            <el-switch v-model="configInfo.tagsView" :active-value="'Y'" :inactive-value="'N'" @change="changeOperation">
+            <el-switch v-model="configInfo.tagsView" :active-value="'Y'" :inactive-value="'N'"
+                       @change="changeOperation">
             </el-switch>
           </el-form-item>
         </el-col>

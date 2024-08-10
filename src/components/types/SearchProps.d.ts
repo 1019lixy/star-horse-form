@@ -1,4 +1,5 @@
 import {DialogInput} from "@/components/types/PageFieldInfo";
+
 export type SelectOption = {
     name?: string,
     value?: string | number,
@@ -13,7 +14,7 @@ export type SearchProps = {
     type?: string,
     matchType?: string,
     disabled?: boolean | string,
-    defaultValue?: object,
+    defaultValue?: any | null,
     defaultShow?: boolean,
     helpMsg?: string,
     /**
@@ -21,4 +22,10 @@ export type SearchProps = {
      */
     params?: DialogInput,
     optionList?: SelectOption[]
+}
+/**
+ * 查询属性
+ */
+export type SearchFields = {
+    fieldList: SearchProps[]
 }

@@ -34,7 +34,7 @@ const checkFlow = () => {
 const elementAlign = (type: any) => {
   // warning("功能开发中");
 //   // props.modeler.get("alignElements").trigger("bottom");
-//  //let modeling= props.modeler.get("modeling");;
+//  //let modeling= props.modeler.get("modeling");
 //   //props.modeler.get("elements.align").trigger("bottom");
 //   props.modeler.get("modeling").autoPlace();
 //   //alignElements.trigger(Elements, type);

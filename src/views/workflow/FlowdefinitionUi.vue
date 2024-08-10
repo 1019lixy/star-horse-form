@@ -1,9 +1,10 @@
 <script setup lang="ts" name="EnvInfo">
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {onMounted, provide, reactive, ref} from "vue";
-import {SearchProps} from "@/components/types/SearchProps.d.ts";
+import {SearchFields, SearchProps} from "@/components/types/SearchProps.d.ts";
 import {Config} from "@/api/settings.ts";
 import {DialogProps} from "@/components/types/DialogProps";
+
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/flow-engine/workflow/flowoperation/pageList",
   mergeUrl: "/flow-engine/workflow/flowoperation/merge",
@@ -18,11 +19,13 @@ const dataUrl: ApiUrls = {
   importUrl: "/flow-engine/workflow/flowoperation/importData",
   uploadUrl: ""
 };
-const searchFormData = reactive<SearchProps[]>([
-  {label: "项目名称", fieldName: "projectName", type: "input", matchType: "lk", defaultShow: true},
-  {label: "项目类型", fieldName: "projectType", type: "input", matchType: "lk", defaultShow: true},
-  {label: "程序语言", fieldName: "language", type: "input", matchType: "lk", defaultShow: true},
-]);
+const searchFormData = reactive<SearchFields>({
+  fieldList: [
+    {label: "项目名称", fieldName: "projectName", type: "input", matchType: "lk", defaultShow: true},
+    {label: "项目类型", fieldName: "projectType", type: "input", matchType: "lk", defaultShow: true},
+    {label: "程序语言", fieldName: "language", type: "input", matchType: "lk", defaultShow: true},
+  ]
+});
 const tableFieldList = reactive({
   fieldList: [
     {
@@ -86,8 +89,6 @@ const tableFieldList = reactive({
 const primaryKey = "idEnvInfo";
 const flowDefinitionRef = ref();
 const rules = {};
-const dataForm = ref({});
-provide("dataForm", dataForm);
 const dialogProps = reactive<DialogProps>({
   bakeVisible1: false, bakeVisible2: false, bakeVisible3: false,
   ids: 0,
@@ -98,8 +99,12 @@ const dialogProps = reactive<DialogProps>({
   uploadVisible: false,
   viewVisible: false,
 });
-provide("dialogProps", dialogProps);let permissions = ref<any>({});
-const dataFormat = (name: string, cellValue: Object): any => {
+provide("dialogProps", dialogProps);
+let permissions = ref<any>({});
+const selectItemFun = (_item: any) => {
+
+}
+const dataFormat = (_name: string, cellValue: any): any => {
   return cellValue;
 }
 const init = async () => {
@@ -110,7 +115,7 @@ onMounted(async () => {
 </script>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form v-model:data-form="dataForm" @refresh="flowDefinitionRef.loadByPage()" :compUrl="dataUrl"
+    <star-horse-form @refresh="flowDefinitionRef.loadByPage()" :compUrl="dataUrl"
                      :fieldList="tableFieldList"
                      :rules="rules"/>
   </star-horse-dialog>
@@ -124,10 +129,12 @@ onMounted(async () => {
                               :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
-      <star-horse-button-list :permissions="permissions"  @tableCompFunc="(fun:any)=>flowDefinitionRef.tableCompFunc(fun)" :compUrl="dataUrl"
+      <star-horse-button-list :permissions="permissions"
+                              @tableCompFunc="(fun:any)=>flowDefinitionRef.tableCompFunc(fun)" :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
-    <star-horse-table-comp :permissions="permissions"   ref="flowDefinitionRef" :fieldList="tableFieldList" :primaryKey="primaryKey"
+    <star-horse-table-comp :permissions="permissions" ref="flowDefinitionRef" :fieldList="tableFieldList"
+                           :primaryKey="primaryKey"
                            :compUrl="dataUrl"
                            :dataFormat="dataFormat" @selectItem="selectItemFun"/>
   </el-card>

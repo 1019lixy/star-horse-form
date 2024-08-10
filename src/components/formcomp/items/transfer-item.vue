@@ -34,7 +34,7 @@ import {compDynamicData} from "@/api/sh_api.ts";
 import {SelectOption} from "@/components/types/SearchProps";
 
 export default defineComponent({
-  setup(props, context) {
+  setup(_props, context) {
     const parentField = context.attrs["parentField"];
 
     const field = context.attrs["field"] as any;
@@ -53,10 +53,10 @@ export default defineComponent({
       bakeData = JSON.parse(JSON.stringify(field.preps["values"]));
     }
 
-    let bakeQueryString
-    const querySearch = async (queryString: string, item: Record<string, any>) => {
-      let temp = field.preps;
-      let dataSource = temp['dataSource'];
+    // let bakeQueryString
+    const querySearch = async (_queryString: string, _item: Record<string, any>) => {
+      // let temp = field.preps;
+      // let dataSource = temp['dataSource'];
       //虽然实现类远程搜索，但是数据没法还原为初始状态
       // if (dataSource == "url") {
       //   console.log(queryString);

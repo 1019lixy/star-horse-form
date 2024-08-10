@@ -33,7 +33,7 @@ import {dictData, loadData} from "@/api/sh_api.ts";
 import {error} from "@/utils/message.ts";
 import {SelectOption} from "@/components/types/SearchProps";
 export default defineComponent({
-  setup(props, context) {
+  setup(_props, context) {
     const parentField = context.attrs["parentField"];
 
     const field = context.attrs["field"] as any;

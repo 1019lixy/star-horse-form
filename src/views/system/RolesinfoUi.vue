@@ -3,7 +3,7 @@ import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings.ts";
 import {DialogProps} from "@/components/types/DialogProps"
 import {nextTick, onMounted, provide, reactive, ref} from "vue";
-import {SearchProps, SelectOption} from "@/components/types/SearchProps";
+import {SearchFields, SearchProps, SelectOption} from "@/components/types/SearchProps";
 import {getMenuId, loadDepartmentInfo, loadMenusInfo, loadPagePermission, loadSystemInfo} from "@/api/sh_api";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {BtnAuth} from "@/components/types/BtnAuth";
@@ -50,11 +50,11 @@ const sessionTimeOut = [
   {name: "180分钟", value: 180},
   {name: "无限制", value: 0},
 ];
-const searchFormData = reactive<SearchProps[]>([
+const searchFormData = reactive<SearchFields>({fieldList:[
   {label: "角色名称", fieldName: "roleName", defaultShow: true, type: "input", matchType: "lk"},
   /* {label: "角色编码", fieldName: "roleCode", type: "input", matchType: "lk"},*/
   {label: "角色类型", fieldName: "roleType", defaultShow: true, type: "select", optionList: roleTypes},
-]);
+]});
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     {
@@ -136,8 +136,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 });
 const primaryKey = "idRolesinfo";
 const rules = {};
-const dataForm = ref({});
-provide("dataForm", dataForm);
 const dialogProps = reactive<DialogProps>({
   bakeVisible1: false, bakeVisible2: false, bakeVisible3: false,
   ids: 0,
@@ -414,7 +412,7 @@ onMounted(async () => {
     </el-card>
   </star-horse-dialog>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form v-model:data-form="dataForm" :compUrl="dataUrl" :fieldList="tableFieldList" :rules="rules"/>
+    <star-horse-form  :compUrl="dataUrl" :fieldList="tableFieldList" :rules="rules"/>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title=
       "'查看数据'" :is-view="true">

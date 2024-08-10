@@ -52,7 +52,7 @@ onMounted(() => {
     <el-card
         class="card-container"
         :shadow="field.preps['shadow']=='Y'"
-        v-for="(adata,index) in field['preps']['elements']"
+        v-for="adata in field['preps']['elements']"
     >
       <template #header>
         <div class="card-header">
@@ -90,12 +90,15 @@ onMounted(() => {
 .dynamic-tab-wapper {
   height: 100%;
 }
+
 :deep(.el-card) {
   margin-top: 10px;
 }
+
 :deep(.el-card__body) {
   margin-top: 5px;
 }
+
 .card-design {
   height: 100%;
   overflow-y: auto;

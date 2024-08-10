@@ -1,12 +1,13 @@
 <script setup lang="ts" name="StarHorseFormItem">
 import {ref, onMounted} from "vue";
 import {batchFieldDefaultValues} from "@/api/sh_api.ts";
-const props = defineProps({
+import {ModelRef} from "vue-demi";
+defineProps({
   item: {type: Object, required: true},
   rules: {type: Object},
   size: {type: String, default: "small"}
 });
-const dataForm = defineModel("dataForm");
+const dataForm:ModelRef<any> = defineModel("dataForm");
 const currentTableRef = ref();
 onMounted(() => {
   //console.log(dataForm);

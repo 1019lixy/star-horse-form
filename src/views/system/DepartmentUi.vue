@@ -3,7 +3,7 @@ import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings.ts";
 import {DialogProps} from "@/components/types/DialogProps"
 import {onMounted, provide, reactive, ref} from "vue";
-import {SearchProps, SelectOption} from "@/components/types/SearchProps";
+import {SearchFields, SearchProps, SelectOption} from "@/components/types/SearchProps";
 import {getMenuId, loadDepartmentInfo, loadPagePermission} from "@/api/sh_api";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 const dataUrl: ApiUrls = {
@@ -22,10 +22,10 @@ const dataUrl: ApiUrls = {
   condition: []
 };
 let departmentList = ref<SelectOption[]>([]);
-const searchFormData = reactive<SearchProps[]>([
+const searchFormData = reactive<SearchFields>({fieldList:[
   {label: "部门名称", defaultShow: true, fieldName: "deptName", type: "input", matchType: "lk"},
   {label: "部门编码", fieldName: "deptCode", type: "input", matchType: "lk"},
-]);
+]});
 const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
@@ -90,8 +90,6 @@ const tableFieldList = reactive<PageFieldInfo>({
 const primaryKey = "idDepartment";
 const departmentRef = ref();
 const rules = {};
-const dataForm = ref({});
-provide("dataForm", dataForm);
 const dialogProps = reactive<DialogProps>({
   bakeVisible1: false, bakeVisible2: false, bakeVisible3: false,
   ids: 0,
@@ -104,7 +102,7 @@ const dialogProps = reactive<DialogProps>({
 });
 provide("dialogProps", dialogProps);
 let permissions = ref<any>({});
-const dataFormat = (name: string, cellValue: Object): any => {
+const dataFormat = (_name: string, cellValue: Object): any => {
   return cellValue;
 }
 const initData = async () => {
@@ -119,7 +117,7 @@ onMounted(async () => {
 </style>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form v-model:data-form="dataForm" @refresh="departmentRef.loadByPage()" :compUrl="dataUrl"
+    <star-horse-form  @refresh="departmentRef.loadByPage()" :compUrl="dataUrl"
                      :fieldList="tableFieldList"
                      :rules="rules"/>
   </star-horse-dialog>

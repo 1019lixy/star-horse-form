@@ -2,7 +2,7 @@
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {DialogProps} from "@/components/types/DialogProps"
 import {onMounted, provide, reactive, ref} from "vue";
-import {SearchProps} from "@/components/types/SearchProps";
+import {SearchFields, SearchProps} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {getMenuId, loadPagePermission} from "@/api/sh_api.ts";
 const dataUrl: ApiUrls = {
@@ -19,11 +19,11 @@ const dataUrl: ApiUrls = {
   importUrl: "/devops-continus/continus/complianceScanReport/importData",
   uploadUrl: ""
 };
-const searchFormData = reactive<SearchProps[]>([
+const searchFormData = reactive<SearchFields>({fieldList:[
   {label: "致命总数", fieldName: "blocker", type: "input"},
   {label: "严重总数", fieldName: "critical", type: "input", matchType: "lk"},
   {label: "中度总数", fieldName: "major", type: "input", matchType: "lk"},
-]);
+]});
 const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
@@ -118,8 +118,6 @@ const tableFieldList = reactive<PageFieldInfo>({
 });
 const primaryKey = "idComplianceReport";
 const rules = {};
-const dataForm = ref({});
-provide("dataForm", dataForm);
 const dialogProps = reactive<DialogProps>({
   bakeVisible1: false, bakeVisible2: false, bakeVisible3: false,
   ids: 0,
@@ -146,7 +144,7 @@ onMounted(async () => {
 </style>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form v-model:data-form="dataForm" :compUrl="dataUrl" :fieldList="tableFieldList" :rules="rules"/>
+    <star-horse-form  :compUrl="dataUrl" :fieldList="tableFieldList" :rules="rules"/>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title=
       "'查看数据'" :is-view="true">

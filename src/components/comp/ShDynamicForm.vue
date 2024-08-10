@@ -6,6 +6,7 @@ import {postRequest} from "@/api/star_horse";
 import {closeLoad, load, loadById} from "@/api/sh_api";
 import {DialogProps} from "@/components/types/DialogProps";
 import {ShallowReactive} from "@vue/reactivity";
+
 const props = defineProps({
   compUrl: {type: Object as PropType<ApiUrls>, required: true},
   fieldList: {type: Object as PropType<any>, required: true},
@@ -14,10 +15,10 @@ const props = defineProps({
   typeModel: {type: String, default: "normal"}
 });
 const emits = defineEmits(["refresh"]);
-const starHorseFormRef = ref(null);
+const starHorseFormRef = ref();
 const dataForm = inject("dataForm") as Ref;
 const closeDialog = inject("closeDialog") as Function;
-const dialogOperation = inject("dialogOperation") as ShallowReactive<Object>;
+const dialogOperation = inject("dialogOperation") as ShallowReactive<any>;
 const dialogProps = inject<DialogProps>("dialogProps", {});
 watch(
     () => dialogOperation,
@@ -49,8 +50,7 @@ const assignDefault = () => {
   dataForm.value = {};
 };
 const loadData = async () => {
-  let objData = await loadById(props.compUrl?.loadByIdUrl, dialogProps.ids, false);
-  dataForm.value = objData;
+  dataForm.value = await loadById(props.compUrl!.loadByIdUrl!, dialogProps.ids, false);
   //解决关闭并再次打开不触发watch监听
   dialogProps.ids = -2;
 };
@@ -80,7 +80,7 @@ const mergeDraft = (type: string) => {
 };
 const doMerge = () => {
   load("数据处理中");
-  postRequest(props.compUrl.mergeUrl, dataForm.value).then(res => {
+  postRequest(props.compUrl.mergeUrl!, dataForm.value).then(res => {
     closeLoad();
     if (res.data.code != 0) {
       warning(res.data.cnMessage);

@@ -8,6 +8,7 @@ import {useScrollTo} from "@/components/tags/useScrollTo";
 import ContextMenu from "@/components/tags/ContextMenu.vue";
 import {useTemplateRefsList} from "@vueuse/core";
 import piniaInstance from "@/store";
+
 const {currentRoute, push, replace} = useRouter();
 const viewListStore = navBarList(piniaInstance);
 // 初始化tag
@@ -169,13 +170,13 @@ const isActive = (route: RouteLocationNormalizedLoaded): boolean => {
   return route.path === unref(currentRoute).path;
 };
 // 所有右键菜单组件的元素
-const itemRefs = useTemplateRefsList<InstanceType<typeof Object>>();
+const itemRefs = useTemplateRefsList<InstanceType<any>>();
 // 右键菜单装填改变的时候
 const visibleChange = (visible: boolean, tagItem: RouteLocationNormalizedLoaded) => {
   selectedTag.value = tagItem;
   viewListStore.setCurrentView(tagItem);
   if (visible) {
-    for (const v of unref(itemRefs)) {
+    for (let v of unref(itemRefs)) {
       const elDropdownMenuRef = v.elDropdownMenuRef;
       if (tagItem.fullPath !== v.tagItem.fullPath) {
         elDropdownMenuRef?.handleClose();
@@ -184,11 +185,11 @@ const visibleChange = (visible: boolean, tagItem: RouteLocationNormalizedLoaded)
   }
 };
 // elscroll 实例
-const scrollbarRef = ref(null);
+const scrollbarRef = ref<any>(null);
 // 保存滚动位置
 const scrollLeftNumber = ref(0);
-const scroll = ({scrollLeft}) => {
-  scrollLeftNumber.value = scrollLeft as number;
+const scroll = (scroll: any) => {
+  scrollLeftNumber.value = scroll.scrollLeft as number;
 };
 // 移动到某个位置
 const move = (to: number) => {
@@ -338,7 +339,7 @@ watch(
           label: '关闭页面',
           disabled: currentRoute.path=='/home',
           command: () => {
-            closeSelectedTag(selectedTag);
+            closeSelectedTag(selectedTag!);
           },
         },
         {
@@ -383,19 +384,24 @@ watch(
   </div>
 </template>
 <style lang="scss" scoped>
+
+
 .prefixCls {
   display: flex;
   width: 100%;
   background: var(--star-horse-white);
   border: 1px solid #eee;
+
   :deep(.scrollbar__view) {
     height: 100%;
   }
+
   .overflow-hidden {
     position: relative;
     overflow-x: hidden;
     flex: 1;
   }
+
   .tool {
     position: relative;
     display: flex;
@@ -403,14 +409,18 @@ watch(
     height: 35px;
     align-items: center;
     vertical-align: middle;
+    border-right: 1px solid var(--star-horse-style);
+    border-left: 1px solid var(--star-horse-style);
+
     &:hover {
       :deep(span) {
         color: #000000 !important;
       }
     }
-    border-right: 1px solid var(--star-horse-style);;
-    border-left: 1px solid var(--star-horse-style);;
+
+
   }
+
   .tags-item {
     position: relative;
     top: 3px;
@@ -422,6 +432,7 @@ watch(
     height: 100%;
     border: 1px solid #d9d9d9;
     display: inline-flex;
+
     .close-icon {
       position: relative;
       top: 35%;
@@ -429,11 +440,13 @@ watch(
       display: none;
       transform: translate(0, -50%);
     }
+
     :not(.close-icon):hover {
       .close-icon {
         display: block;
       }
     }
+
     .tags {
       height: 28px;
       display: flex;
@@ -446,17 +459,25 @@ watch(
       white-space: nowrap;
     }
   }
+
   .tags-item:not(.is-active) {
     &:hover {
       color: var(--star-horse-style);
     }
   }
+
   .tags-item.is-active {
     color: var(--el-color-white);
     background-color: var(--star-horse-style);
     border: 1px solid var(--star-horse-style);
+    :deep(.el-icon) {
+      svg{
+        color: var(--star-horse-white);
+      }
+    }
     .item--close {
       :deep(span) {
+
         color: var(--el-color-white) !important;
       }
     }

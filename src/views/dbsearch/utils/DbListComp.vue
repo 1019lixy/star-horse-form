@@ -42,10 +42,7 @@ let configData = ref<any>({
   columns: 1,
   commonFieldFlag: 'N'
 });
-const dataForm = ref({});
 let currentData = ref<any>({});
-//全局数据对象
-provide("dataForm", dataForm);
 const fieldCompTypesMsg = `类型操作提示：
 1、系统默认将数字类型的字段映射为数字输入框组件；
    将字符串类型的字段映射为单行文本框组件；

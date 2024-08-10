@@ -28,7 +28,7 @@ const dataUrl = ref<ApiUrls>({
 });
 const errorMsg = ref("数据加载中");
 let searchFormData = ref<SearchProps[]>();
-const tableFieldList = ref<PageFieldInfo>({
+const tableFieldList = ref<any>({
       fieldList: [],
     })
 ;
@@ -80,8 +80,6 @@ watch(
     },
     {deep: true}
 );
-const dataForm = ref({});
-provide("dataForm", dataForm);
 //记录表单的属性
 const formFields = reactive<Array<any>>([]);
 provide("formFields", formFields);

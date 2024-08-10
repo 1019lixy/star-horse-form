@@ -22,6 +22,7 @@ import {sql, SQLConfig} from "@codemirror/lang-sql";
 import {showMinimap} from "@replit/codemirror-minimap";
 import {javaKeywords} from "../code/java.ts";
 import {amy, ayuLight, barf, bespin, birdsOfParadise, boysAndGirls, clouds, dracula} from 'thememirror';
+
 const model = defineModel("value", {default: ""});
 const editorLang = ref<any>(javascript());
 const editorTheme = ref<any>(dracula);
@@ -33,7 +34,7 @@ const props = defineProps({
   boxHeight: {type: String, default: "95%"}
 });
 const languageConf = new Compartment;
-const config = ref<SQLConfig>({
+const config = ref<any>({
   defaultSchema: "test",
   tables: [],
   defaultTable: "",
@@ -74,12 +75,12 @@ const customerTheme = (theme: string) => {
     effects: themesConf.reconfigure(editorTheme.value)
   });
 };
-const currentValFun = (val: string) => {
+const currentValFun = (_val: string) => {
   // console.log(val);
 };
 // 自定义自动完成函数
 const javaHint = (context: CompletionContext) => {
-  let word = context.matchBefore(/\w*/)
+  let word: any = context.matchBefore(/\w*/)
   if (word.from == word.to && !context.explicit)
     return null
   return {
@@ -122,7 +123,7 @@ const init = async () => {
   }
   await nextTick(() => {
   });
-  let create = (v: EditorView) => {
+  let create = (_v: EditorView) => {
     const dom = document.createElement('div');
     return {dom}
   }
@@ -142,7 +143,7 @@ const init = async () => {
           currentValFun(model.value);
         }
       }),
-      showMinimap.compute(['doc'], (state: any) => {
+      showMinimap.compute(['doc'], (_state: any) => {
         return {
           create,
           displayText: "blocks",
@@ -229,10 +230,12 @@ defineExpose({
 .inner_button {
   margin-bottom: 10px;
 }
+
 .coder {
   font-size: 17px;
   width: 100%;
   height: v-bind(boxHeight);
+
   :deep(.cm-editor) {
     height: inherit;
   }

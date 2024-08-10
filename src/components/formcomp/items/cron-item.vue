@@ -26,9 +26,9 @@ import Crontab from "@/components/cron/Crontab.vue";
 import StarHorseDialog from "@/components/comp/StarHorseDialog.vue";
 export default defineComponent({
   components: {Crontab, StarHorseDialog},
-  setup(props, context) {
+  setup(_props, context) {
     const parentField = context.attrs["parentField"];
-    const formData = context.attrs["formData"];
+  //  const formData = context.attrs["formData"];
     const field = context.attrs["field"] as any;
     const defaultExpress = "* * * * * * *";
     let formItem = shallowRef({label: 'input', required: false});

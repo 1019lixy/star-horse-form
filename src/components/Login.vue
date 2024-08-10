@@ -9,6 +9,9 @@ import type {ElForm, FormInstance, FormRules, TabsPaneContext} from 'element-plu
 import {warning} from "@/utils/message";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {i18n} from "@/lang";
+import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
+import piniaInstance from "@/store";
+
 interface LoginInfo {
   userName: string;
   password: string;
@@ -18,6 +21,7 @@ interface LoginInfo {
   uuid: string;
 }
 const loginTitle = Config.title;
+let configStore = GlobalConfig(piniaInstance);
 let validateImg = ref<string>("");
 let uuid = ref<string>("");
 let flag = ref<boolean>(false);
@@ -45,10 +49,10 @@ const getFlag = () => {
  */
 const handleLogin = async (elForm: FormInstance | undefined) => {
   if (!elForm) return;
-  await elForm.validate(async (valid, fields) => {
+  await elForm.validate(async (valid, _fields) => {
     loading.value = !loading.value;
     let encrypt = new JSEncrypt();
-    encrypt.setPublicKey(publicKey);
+    encrypt.setPublicKey(publicKey.value);
     const user = {
       userName: loginForm?.userName,
       password: loginForm?.password,
@@ -60,7 +64,7 @@ const handleLogin = async (elForm: FormInstance | undefined) => {
     //密码加密传输，需要加密时去掉注释，单后端认证服务需支持
     user["password"] = <string>encrypt.encrypt(loginForm.password);
     if (valid) {
-      let {data, errMsg} = await userLogin(user);
+      let {errMsg} = await userLogin(user);
       if (errMsg) {
         warning(errMsg);
         refreshValidate();
@@ -78,22 +82,22 @@ const handleLogin = async (elForm: FormInstance | undefined) => {
 };
 const refreshValidate = () => {
   removeToken();
+  configStore.clearAll();
   getValidateImg().then((res) => {
     let record = res.data.data;
     validateImg.value = record.img;
     uuid.value = record.uuid;
     showValid.value = record.validFlag as boolean;
-    publicKey = record.publicKey;
+    publicKey.value = record.publicKey;
   });
 };
 onMounted(() => {
   refreshValidate();
 });
 let rtCodeimg = ref("");
-const handleClick = async (tab: TabsPaneContext, event: Event) => {
+const handleClick = async (tab: TabsPaneContext, _event: Event) => {
   if (tab.paneName == "second") {
-    let data = await rtCode("hello");
-    rtCodeimg.value = data;
+    rtCodeimg.value = await rtCode("hello");
   }
 }
 /**
@@ -240,6 +244,19 @@ watch(
   </div>
 </template>
 <style lang="scss" scoped>
+:deep(.el-input__icon),.el-icon {
+  height: 2em !important;
+  width: 2em !important;
+
+  background: var(--star-horse-shadow);
+
+  svg {
+    height: 1.5em !important;
+    width: 1.5em !important;
+    color: var(--star-horse-style);
+  }
+}
+
 .demo-tabs > .el-tabs__content {
   padding: 32px;
   color: #6b778c;

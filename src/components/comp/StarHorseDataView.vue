@@ -6,7 +6,7 @@ import {commonParseCodeToName, formFieldMapping, loadById} from "@/api/sh_api";
 import StarHorseDataViewObject from "@/components/comp/StarHorseDataViewObject.vue";
 import StarHorseDataViewTable from "@/components/comp/StarHorseDataViewTable.vue";
 
-const dataForm = ref({});
+const dataForm = ref<any>({});
 const props = defineProps({
   compUrl: {type: Object as PropType<ApiUrls>},
   objectName: {type: String},
@@ -43,7 +43,7 @@ const loadData = async () => {
     return;
   }
   let params = props.globalCondition || {};
-  let objData = await loadById(props.compUrl?.loadByIdUrl, id, true, params);
+  let objData = await loadById(props.compUrl?.loadByIdUrl!, id, true, params);
   let data = formFieldMapping(props.fieldList);
   dataForm.value = objData;
   let mapping = data.mappingFields;
@@ -57,11 +57,11 @@ const loadData = async () => {
     emits("dataLoaded", objData, true);
   });
 };
-const viewDataFormat = (row: any, column: any, cellValue: any, index: number) => {
-  //如果在这个地方遍历是否有隐藏属性，会拉低系统性能
-  return commonFormat(column.property, cellValue, row);
-};
-const commonFormat = (name: string, cellValue: any, row: any) => {
+// const viewDataFormat = (row: any, column: any, cellValue: any, _index: number) => {
+//   //如果在这个地方遍历是否有隐藏属性，会拉低系统性能
+//   return commonFormat(column.property, cellValue, row);
+// };
+const commonFormat = (name: string, cellValue: any, _row: any) => {
   cellValue = commonParseCodeToName(name, cellValue);
   if (name == "isDel") {
     return cellValue == 1 ? "是" : "否";

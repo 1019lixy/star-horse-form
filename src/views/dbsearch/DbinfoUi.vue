@@ -2,7 +2,7 @@
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {DialogProps} from "@/components/types/DialogProps"
 import {onMounted, provide, reactive, ref} from "vue";
-import {SearchProps, SelectOption} from "@/components/types/SearchProps";
+import {SearchFields, SearchProps, SelectOption} from "@/components/types/SearchProps";
 import {getMenuId, loadGetData, loadPagePermission} from "@/api/sh_api";
 import {warning} from "@/utils/message";
 import {Config} from "@/api/settings.ts";
@@ -21,10 +21,10 @@ const dataUrl: ApiUrls = {
   importUrl: ""
 };
 let dbTypeList = ref<SelectOption[]>([]);
-const searchFormData = reactive<SearchProps[]>([
+const searchFormData = reactive<SearchFields>({fieldList:[
   {label: "数据库类型", fieldName: "dbType", type: "select", defaultShow:true, optionList: dbTypeList},
   {label: "数据库名称", fieldName: "dbName", type: "input", defaultShow:true, matchType: "lk"},
-]);
+]});
 const tableFieldList = reactive({
   fieldList: [
     {
@@ -106,8 +106,6 @@ const tableFieldList = reactive({
 const primaryKey = "idDbinfo";
 const dbinfoRef = ref();
 const rules = {};
-const dataForm = ref({});
-provide("dataForm", dataForm);
 const dialogProps = reactive<DialogProps>({
   bakeVisible1: false, bakeVisible2: false, bakeVisible3: false,
   ids: 0,
@@ -151,7 +149,7 @@ onMounted(() => {
 </style>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form v-model:data-form="dataForm" @refresh="dbinfoRef.loadByPage()" :compUrl="dataUrl"
+    <star-horse-form  @refresh="dbinfoRef.loadByPage()" :compUrl="dataUrl"
                      :fieldList="tableFieldList" :rules="rules"/>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title=

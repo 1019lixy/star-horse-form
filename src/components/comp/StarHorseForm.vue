@@ -37,7 +37,7 @@ computed(() => {
   return outerForm;
 }).value;
 const closeDialog = inject("closeDialog") as Function;
-let dialogOperation = inject("dialogOperation") as ShallowReactive<Object>;
+let dialogOperation = inject("dialogOperation") as ShallowReactive<any>;
 const dialogProps = inject<DialogProps>("dialogProps", {});
 const selectData = ref<any>([]);
 const formFields = inject("formFields") as ShallowReactive<any>;

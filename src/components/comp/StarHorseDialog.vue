@@ -22,7 +22,7 @@ const props = defineProps({
   userBtn: {type: Array<BtnAuth>, default: []},
   btnTextContinue: {type: String, default: "提交并继续"},
   title: {type: String, default: ""},
-  compSize:{type:String,default:"small"}
+  compSize: {type: String, default: "small"}
 });
 let windowsType = ref<boolean>(false);
 watch(
@@ -66,7 +66,7 @@ provide("closeDialog", beforeClose);
 const fullScreen = () => {
   isFullScreen.value = !isFullScreen.value;
 };
-let clickFunction = reactive({});
+let clickFunction = reactive<any>({});
 const operation = (funcName: string, type: string) => {
   if (props.selfFunc) {
     emits(`${funcName}`, type);
@@ -133,14 +133,14 @@ provide("dialogOperation", clickFunction);
             <star-horse-icon icon-class="save"/>{{ i18n("dialog.saveContinue") }}</el-button>
            <template v-if="userBtn" v-for="item in userBtn">
 
-               <el-button @click="item?.exec()" :disabled="item.disabled=='Y'"
+               <el-button @click="item?.exec!()" :disabled="item.disabled=='Y'"
                           :style="{background: item.disabled=='Y'?'var(--star-horse-disable)':'var(--star-horse-style)',
                           color: 'var(--star-horse-white)'}" :size="compSize">
             <star-horse-icon :icon-class="item.icon" style="color:var(--star-horse-white);"/>
             {{ item.labelName }}
           </el-button>
            </template>
-          <el-button @click="operation('resetForm','reset')" :size="compSize" link v-if="isShowReset" size="small">
+          <el-button @click="operation('resetForm','reset')" :size="compSize" link v-if="isShowReset" >
             <star-horse-icon icon-class="undo" style="color:var(--star-horse-style);"/>
             {{ i18n("dialog.reset") }}</el-button>
         </span>
