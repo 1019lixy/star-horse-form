@@ -39,7 +39,7 @@ const blurEvent = (column: any) => {
   });
 };
 const cellClick = (row: any, column: any) => {
-  if (!props.cellEditable || props.item["disabled"]) {
+  if (!props.cellEditable || props.item["disabled"]=='Y') {
     return;
   }
   row["isSelected"] = true;

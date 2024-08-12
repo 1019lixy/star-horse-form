@@ -178,25 +178,7 @@ const loadShortMenu = async () => {
     console.log(err);
   })
 };
-const handleSelectionChange = (val: any) => {
-  let flag = false;
-  for (let i in val) {
-    let item = val[i];
-    if (item["children"] && item["children"].length > 0) {
-      flag = true;
-      shortcutMultipleTable.value.toggleRowSelection(item, false);
-    }
-  }
-  if (flag) {
-    warning("非叶子节点不能选择");
-    return;
-  }
-  if (val.length > 10) {
-    warning("最多只能设置10个快捷菜单");
-    return;
-  }
-  multipleSelection.value = val;
-};
+
 /**
  * 递归函数，查找已设置为快捷菜单的数据
  *
@@ -301,6 +283,11 @@ const dataFormat = (name: string, val: any, row: any) => {
 const search = ref<String>();
 const filterTableData = computed(() => filterTree(search.value, permissionMenuList.value));
 let configInfo = computed(() => configStore.configFormInfo);
+const showMessageList = (evt: Event) => {
+  evt.stopPropagation();
+  evt.preventDefault();
+  alert(3);
+}
 </script>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps"
@@ -335,8 +322,8 @@ let configInfo = computed(() => configStore.configFormInfo);
     </div>
     <div class="header-right">
       <div class="message">
-        <el-badge class="item" :value="6">
-          <star-horse-icon icon-class="message" style="color:var(--star-horse-white);font-size:28px"/>
+        <el-badge :value="6" @click="showMessageList">
+          <star-horse-icon icon-class="messages" color="var(--star-horse-white)"/>
         </el-badge>
       </div>
       <div class="user-info">
@@ -460,6 +447,24 @@ let configInfo = computed(() => configStore.configFormInfo);
     vertical-align: middle;
     text-align: right;
 
+    .message {
+      height: 40px;
+      width: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      vertical-align: middle;
+      cursor: pointer;
+
+      .el-badge {
+        svg {
+          width: 2em;
+          height: 2em;
+        }
+      }
+
+    }
+
     .user-info {
       width: inherit;
       height: 100%;
@@ -505,8 +510,8 @@ let configInfo = computed(() => configStore.configFormInfo);
     flex-direction: row;
     text-align: left;
     align-items: center;
-    margin-left: 0px;
-    padding-left: 0px;
+    margin-left: 0;
+    padding-left: 0;
 
     span {
       display: flex;
