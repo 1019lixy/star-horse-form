@@ -79,7 +79,7 @@ export async function printerList(): Promise<Array<SelectOption>> {
         // let _wasClean: boolean = event.wasClean;
     };
     //
-    return await new Promise((resolve, _reject) => {
+    return await new Promise((resolve, reject) => {
         //用于指定收到服务器数据后的回调函数
         ws.onmessage = (event) => {
             let data = event.data;
@@ -90,7 +90,7 @@ export async function printerList(): Promise<Array<SelectOption>> {
                 });
                 resolve(options);
             } else {
-                inject("获取打印机失败");
+                reject("获取打印机失败");
             }
         };
     });
