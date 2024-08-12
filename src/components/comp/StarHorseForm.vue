@@ -211,7 +211,7 @@ const getFormData = () => {
  * 设置表单数据
  * @param data
  */
-const setDataForm = (data: object) => {
+const setFormData = (data: object) => {
   let defaultDatas = formFieldMapping(props.fieldList).defaultDatas;
   // console.log(defaultDatas);
   dataForm.value = {...defaultDatas, ...data};
@@ -221,7 +221,7 @@ watch(() => dialogProps.ids,
     (val) => {
       if (!val || val == -1) {
         // dataForm.value = formFieldMapping(props.fieldList).defaultDatas;
-        setDataForm(dataForm.value);
+        setFormData(dataForm.value);
       } else {
         console.log(dialogProps.ids);
         loadData();
@@ -231,7 +231,7 @@ watch(() => dialogProps.ids,
       deep: true
     });
 defineExpose({
-  merge, mergeDraft, resetForm, setDataForm, getFormData, starHorseFormRef, tableListRef
+  merge, mergeDraft, resetForm, setFormData, getFormData, starHorseFormRef, tableListRef
 });
 </script>
 <template>

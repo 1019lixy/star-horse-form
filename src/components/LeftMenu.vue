@@ -111,10 +111,10 @@ watch(() => props.sysemId,
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px dotted #eee;
+    border: 1px dotted var(--star-horse-font-color);
     margin-top: 3px;
     height: 26px;
-    background: #fff;
+    background: var(--star-horse-white);
     margin-bottom: -1px;
 
     &:hover, svg:hover {
@@ -133,11 +133,8 @@ watch(() => props.sysemId,
 }
 
 .el-menu-item {
-  background: #eee;
+  background: var(--star-horse-font-color);
   margin-top: 1px;
-}
-
-.menu-active {
 }
 
 :deep(.el-scrollbar__view) {

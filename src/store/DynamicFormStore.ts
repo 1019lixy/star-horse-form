@@ -50,7 +50,7 @@ export const DynamicForm: any = defineStore("DynamicForm", {
          * 存数据
          * @param data
          */
-        setDataForm(data: object) {
+        setFormData(data: object) {
             this.dataForm = {...data};
         },
         /**

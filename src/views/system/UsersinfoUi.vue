@@ -110,7 +110,7 @@ const editPwd = async (row: any) => {
   let data = await loadById(dataUrl.loadByIdUrl!, row[primaryKey], false, {});
   dialogProps.bakeVisible3 = true;
   await nextTick();
-  pwdFormRef.value.setDataForm(data);
+  pwdFormRef.value.setFormData(data);
 };
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [

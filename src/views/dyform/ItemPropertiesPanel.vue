@@ -58,7 +58,7 @@ const configParams = async (params: any) => {
   fieldName.value = params["fieldName"];
   paramsDialogVisible.value = true;
   await nextTick();
-  paramsConfigRef.value.setDataForm(formProps.value);
+  paramsConfigRef.value.setFormData(formProps.value);
 }
 const submitValid = async () => {
   await validInterface(formProps, dataSourceFormRef, (dataList: any, _successMsg: string, errorMsg: string) => {
@@ -123,7 +123,7 @@ const resetDataSourceForm = () => {
 const editContainerPrep = async () => {
   containerDialogVisible.value = true;
   await nextTick();
-  containerPrepRef.value.setDataForm(formProps.value);
+  containerPrepRef.value.setFormData(formProps.value);
 }
 const containerAction = () => {
   let formDdata = containerPrepRef.value.getFormData();
@@ -145,7 +145,7 @@ const closeAction = () => {
 const dataSource = async (_type: string) => {
   dataSourceDialogVisible.value = true;
   await nextTick();
-  dataSourceFormRef.value.setDataForm(formProps.value);
+  dataSourceFormRef.value.setFormData(formProps.value);
 };
 /**
  * 根据属性类别获取对应参数

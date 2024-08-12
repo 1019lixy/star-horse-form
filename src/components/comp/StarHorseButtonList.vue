@@ -95,7 +95,7 @@ const checkSelfBtn = (btn: string) => {
   }
   return true;
 }
-const setDataForm = (val: any) => {
+const setFormData = (val: any) => {
   dataForm.value = {...val};
 }
 const init = async () => {
@@ -104,7 +104,7 @@ onMounted(() => {
   init();
 });
 defineExpose({
-  setDataForm
+  setFormData
 })
 </script>
 <style lang="scss" scoped>

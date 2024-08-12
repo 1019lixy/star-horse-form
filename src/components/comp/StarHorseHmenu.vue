@@ -3,7 +3,8 @@ import {inject, onMounted, ref} from "vue";
 import {postRequest} from "@/api/star_horse";
 import {getUserInfo} from "@/utils/auth";
 import SubSystemMenu from "@/components/menu/SubSystemMenu.vue";
-
+import { useDark, useToggle } from "@vueuse/core";
+import {toggleDark} from "@/api/system.ts";
 let dataList = ref([]);
 const loadMenuFun = inject("loadMenu") as Function;
 const handleSelect = (data: any) => {
@@ -19,6 +20,10 @@ const initData = async () => {
         console.log(err);
       });
 };
+
+
+
+
 onMounted(() => {
   initData();
 });
@@ -33,6 +38,14 @@ onMounted(() => {
       @select="handleSelect"
   >
     <sub-system-menu :dataList="dataList"/>
+    <el-menu-item h="full" @click="toggleDark($event)">
+      <button
+          class="border-none w-full bg-transparent cursor-pointer"
+          style="height: var(--el-menu-item-height)"
+      >
+        <i inline-flex i="dark:ep-moon ep-sunny" />
+      </button>
+    </el-menu-item>
   </el-menu>
 </template>
 <style lang="scss" scoped>

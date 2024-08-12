@@ -100,7 +100,7 @@ const getFormData = () => {
   return buildCfgRef.value.getFormData();
 }
 const setFormData = (data: any) => {
-  buildCfgRef.value.setDataForm(data);
+  buildCfgRef.value.setFormData(data);
 }
 const addSubNode = () => {
   nodeDialog.value = true;

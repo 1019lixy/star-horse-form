@@ -10,6 +10,7 @@ import {createSvgIconsPlugin} from 'vite-plugin-svg-icons'
 import Components from 'unplugin-vue-components/vite'
 import {ElementPlusResolver} from 'unplugin-vue-components/resolvers'
 import AutoImport from 'unplugin-auto-import/vite'
+
 const codeHost = "http://localhost:8888/"
 // const systemHost = "http://192.168.20.165:8749/"
 const systemHost = "http://localhost:8749/"
@@ -104,7 +105,9 @@ export default defineConfig({
         }),
         Components({
             // 这里就是相关ui库的解析工具, 里面的选项有是否使用自动导入样式 如果需要通过 var 变量改变主题 需要注意一下
-            resolvers: [ElementPlusResolver()]
+            resolvers: [ElementPlusResolver(
+                {importStyle: 'sass',}
+            )]
         }),
         progress(),
         topLevelAwait(),
@@ -136,6 +139,13 @@ export default defineConfig({
         },
         extensions: ['.js', '.vue', '.json', '.ts', ".jsx"]
     },
+    /*   css: {
+           preprocessorOptions: {
+               scss: {
+                   additionalData: `@use "@/assets/css/element/index.scss" as *;`,
+               },
+           },
+       },*/
     build: {
         rollupOptions: {
             input: {

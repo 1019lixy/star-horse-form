@@ -1,4 +1,4 @@
-import "element-plus/theme-chalk/index.css"
+// import "element-plus/theme-chalk/index.css"
 import "@/assets/css/index.scss"
 import userComponent from "@/components/comp/selfcomp";
 import nodeComponent from "@/views/continus/nodeInfo/nodecomp";
@@ -14,6 +14,7 @@ import 'highlight.js/styles/idea.css' //这里有多个样式，自己可以根�
 import 'highlight.js/lib/common'
 import hljsVuePlugin from '@highlightjs/vue-plugin'
 import "animate.css"
+//import "uno.css"
 import ZhLocale from 'element-plus/es/locale/lang/zh-cn'; // 中文
 import router from "@/router";
 import draggable from "vuedraggable";

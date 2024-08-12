@@ -13,7 +13,7 @@ export const GlobalConfig: any = defineStore("GlobalConfig", {
          * @param state
          */
         getConfigFormInfo: (state: any) => {
-            if(Object.keys(state.configFormInfo).length==0){
+            if (Object.keys(state.configFormInfo).length == 0) {
                 state.actions.clearAll();
             }
             return state.configFormInfo;
@@ -40,12 +40,13 @@ export const GlobalConfig: any = defineStore("GlobalConfig", {
         /**
          * 清除所有Tab
          */
-        clearAll() {
+        clearAll(isDark: string = "N") {
             let _this = this;
             _this.configFormInfo = {
                 tagsView: 'Y',
                 position: "left",
                 menusCfg: "tradition",
+                isDark
             };
             let starHorseConfigInfo = localStorage.getItem("starHorseConfigInfo");
             if (starHorseConfigInfo) {

@@ -1,5 +1,5 @@
 <script lang="ts" setup name="Header">
-import {computed, nextTick, onMounted, provide, reactive, ref, unref} from "vue"
+import {computed, nextTick, onMounted, reactive, ref, unref} from "vue"
 import {Config} from "@/api/settings.ts"
 import {postRequest, trim, userLogout} from "@/api/star_horse";
 import {confirm, error, success, warning} from "@/utils/message";
@@ -26,8 +26,8 @@ let userInfo = getUserInfo();
 let permissionMenuList = ref<Array<any>>([]);
 let multipleSelection = ref<Array<any>>([]);
 const shortcutMultipleTable = ref<InstanceType<typeof ElTable>>();
-const dataForm = ref<any>({});
-provide("dataForm", dataForm);
+let currentTab = ref<string>("message");
+let editUserinfoRef = ref();
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/system-config/system/dictinfoEntity/pageList",
   mergeUrl: "/system-config/system/dictinfoEntity/merge",
@@ -141,8 +141,9 @@ const modifyInfo = () => {
   resetForm();
 };
 const doModifyUserInfo = () => {
-  postRequest("/system-config/system/usersAuditEntity/refreshInvalidPassword/" + dataForm.value.username +
-      "/" + dataForm.value.password + "/" + (dataForm.value.oldPassword || "0") + "/" + dataForm.value.phone, {})
+  let dataForm = editUserinfoRef.value.getFormData();
+  postRequest("/system-config/system/usersAuditEntity/refreshInvalidPassword/" + dataForm.username +
+      "/" + dataForm.password + "/" + (dataForm.oldPassword || "0") + "/" + dataForm.phone, {})
       .then(res => {
         let redata = res.data;
         if (redata.code != 0) {
@@ -157,9 +158,10 @@ const doModifyUserInfo = () => {
  * 重置表单
  */
 const resetForm = () => {
-  dataForm.value = {};
-  dataForm.value["username"] = userInfo?.username;
-  dataForm.value["employeeNo"] = userInfo?.employeeNo;
+  let dataForm: any = {};
+  dataForm["username"] = userInfo?.username;
+  dataForm["employeeNo"] = userInfo?.employeeNo;
+  editUserinfoRef.value.setFormData(dataForm);
 };
 const loginOut = () => {
   confirm("是否确认退出系统?").then((res: boolean) => {
@@ -178,25 +180,7 @@ const loadShortMenu = async () => {
     console.log(err);
   })
 };
-const handleSelectionChange = (val: any) => {
-  let flag = false;
-  for (let i in val) {
-    let item = val[i];
-    if (item["children"] && item["children"].length > 0) {
-      flag = true;
-      shortcutMultipleTable.value.toggleRowSelection(item, false);
-    }
-  }
-  if (flag) {
-    warning("非叶子节点不能选择");
-    return;
-  }
-  if (val.length > 10) {
-    warning("最多只能设置10个快捷菜单");
-    return;
-  }
-  multipleSelection.value = val;
-};
+
 /**
  * 递归函数，查找已设置为快捷菜单的数据
  *
@@ -311,7 +295,7 @@ const showMessageList = (evt: Event) => {
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps"
                      @merge="doModifyUserInfo"
                      @resetForm="resetForm" :self-func="true">
-    <star-horse-form v-model:data-form="dataForm" :compUrl="dataUrl" :fieldList="tableFieldList" :rules="rules"/>
+    <star-horse-form ref="editUserinfoRef" :compUrl="dataUrl" :fieldList="tableFieldList" :rules="rules"/>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.batchEditVisible" :dialogProps="dialogProps" :self-func="true">
     该功能建设中。。。。
@@ -340,9 +324,29 @@ const showMessageList = (evt: Event) => {
     </div>
     <div class="header-right">
       <div class="message">
-        <el-badge :value="6" @click="showMessageList">
-          <star-horse-icon icon-class="messages" color="var(--star-horse-white)"/>
-        </el-badge>
+        <el-popover placement="bottom-end" :width="600" trigger="hover" :show-arrow="false">
+          <template #reference>
+            <el-badge :value="6">
+              <star-horse-icon icon-class="messages" color="var(--star-horse-white)"/>
+            </el-badge>
+          </template>
+          <el-tabs v-model="currentTab">
+            <el-tab-pane label="消息" name="message">
+              <template #label>
+                <el-badge :value="4">
+                  消息
+                </el-badge>
+              </template>
+            </el-tab-pane>
+            <el-tab-pane label="待办" name="dealt">
+              <template #label>
+                <el-badge :value="2">
+                  待办
+                </el-badge>
+              </template>
+            </el-tab-pane>
+          </el-tabs>
+        </el-popover>
       </div>
       <div class="user-info">
         <el-dropdown trigger="click">

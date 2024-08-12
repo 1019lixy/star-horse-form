@@ -2,8 +2,14 @@ import {TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
 import {SearchInfo, SearchParams} from "@/components/types/Params";
 import {createCondition, loadData} from "@/api/sh_api";
 import {SelectOption} from "@/components/types/SearchProps";
+import {useDark, useToggle} from "@vueuse/core";
+import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
+import piniaInstance from "@/store";
+
 const validUrl: string = "/userdb-manage/redirect/valid";
 const redirectUrl: string = "/userdb-manage/redirect/valid";
+let configStore = GlobalConfig(piniaInstance);
+
 /**
  * 点击事件
  * @param treeComp 树组件对象
@@ -31,6 +37,7 @@ export function treeCheckChange(treeComp: any, tableComp: any, dataForm: any, da
     tableComp.setDataInfo(conditions, null);
     searchData(tableComp, conditions);
 };
+
 /**
  * 调用Table组件查询数据
  * @param tableComp
@@ -39,6 +46,7 @@ export function treeCheckChange(treeComp: any, tableComp: any, dataForm: any, da
 export function searchData(tableComp: any, data: SearchParams[]) {
     tableComp.createCreateParams(data);
 };
+
 /**
  * 解析属性
  * @param dataList
@@ -57,6 +65,7 @@ export function parseFormData(dataList: any, name: string) {
     let filterDatas = filterRecursive(dataList);
     return filterDatas.length > 0 ? filterDatas[0] : {};
 }
+
 /**
  * 获取打印机列表
  */
@@ -95,6 +104,7 @@ export async function printerList(): Promise<Array<SelectOption>> {
         };
     });
 }
+
 /**
  * 升序或者降序
  */
@@ -104,6 +114,7 @@ export function ascOrDesc(): SelectOption[] {
     options.push({name: "Desc", value: "desc"});
     return options;
 }
+
 /**
  * 请求方式
  */
@@ -119,6 +130,7 @@ export function httpMethod(): SelectOption[] {
     options.push({name: "TRACE", value: "TRACE"});
     return options;
 }
+
 /**
  * 数据格式
  */
@@ -129,6 +141,7 @@ export function dataType(): SelectOption[] {
     options.push({name: "BINARY", value: "BINARY"});
     return options;
 }
+
 /**
  * 验证接口，并取回数据
  * @param url
@@ -146,6 +159,7 @@ export async function validDataUrl(url: string, params?: any, dataType: string =
     let data = await loadData(validUrl, checkParams);
     return {...data};
 }
+
 /**
  * 通过系统重定向接口
  * @param url 接口地址
@@ -165,4 +179,27 @@ export async function redirectUrlOperation(url: string, searchInfo?: SearchInfo,
     };
     let data = await loadData(redirectUrl, checkParams);
     return data;
+}
+
+export const isDark = useDark();
+export const toggleDark = (event:Event) => {
+    // event.stopPropagation();
+    // event.preventDefault();
+    //
+    // if (isDark.value) {
+    //     configStore.clearAll("Y");
+    //     let dark = "#141414";
+    //     document.documentElement.style.setProperty('--star-horse-style', dark)
+    //     document.documentElement.style.setProperty('--el-color-primary', dark)
+    //     document.documentElement.style.setProperty('--el-select-input-color', dark)
+    //     document.documentElement.style.setProperty('--star-horse-shadow', dark)
+    //     // document.documentElement.style.setProperty('--star-horse-font-color', dark)
+    //     document.documentElement.style.setProperty('--el-pagination-button-color', dark)
+    //     document.documentElement.style.setProperty('--el-tree-expand-icon-color', dark)
+    //
+    // } else {
+    //     configStore.clearAll();
+    // }
+    useToggle(isDark);
+
 }

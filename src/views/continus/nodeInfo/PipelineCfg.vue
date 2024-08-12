@@ -111,7 +111,7 @@ const getFormData = () => {
   return pipelineCfgRef.value.getFormData();
 }
 const setFormData = (data: any) => {
-  pipelineCfgRef.value.setDataForm(data);
+  pipelineCfgRef.value.setFormData(data);
 }
 const init = async () => {
   repoList.value = (await loadData("/devops-continus/continus/baseInfo/repoTypes")).data;

@@ -359,7 +359,7 @@ const clickOperation = async (view: any) => {
       rightPanel.value = true;
     }
     await nextTick(() => {
-      rightAttrPanel.value?.setDataForm(compAttr.value);
+      rightAttrPanel.value?.setFormData(compAttr.value);
     });
   }
 }

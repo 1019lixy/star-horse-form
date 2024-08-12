@@ -2,8 +2,8 @@
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings.ts";
 import {DialogProps} from "@/components/types/DialogProps"
-import {ComponentInternalInstance, getCurrentInstance, onMounted, provide, reactive, ref, unref, watch} from "vue";
-import {SearchFields, SearchProps, SelectOption} from "@/components/types/SearchProps";
+import {onMounted, provide, reactive, ref, unref, watch} from "vue";
+import {SearchFields, SelectOption} from "@/components/types/SearchProps";
 import {
   closeLoad,
   createTree,
@@ -40,26 +40,16 @@ const dataUrl: ApiUrls = {
 let parentMenus: any = ref<any>([]);
 let searchParentMenus: any = ref<any>([]);
 let informationsList: any = ref<any>([]);
-const proxy: ComponentInternalInstance | null = getCurrentInstance();
-/**
- * 自定义属性事件
- * @param funcName
- * @param params
- const commonFunction = (funcName: string, params: any) => {
- if (proxy) {
- let funs = proxy[funcName];
- funs.call(proxy, params);
- } else {
- console.log("未获取到实例");
- }
- }
- provide('commonFunction', commonFunction);*/
-const searchFormData = reactive<SearchFields>({fieldList:[
-  /*{label: "归属系统", fieldName: "informationsSingleId", type: "select", optionList: informationsList},
-  {label: "父菜单", fieldName: "parentNo", type: "tselect", optionList: searchParentMenus},*/
-  {label: "菜单名称", defaultShow: true, fieldName: "menuName", type: "input", matchType: "lk"},
-  {label: "菜单编码", fieldName: "menuCode", type: "input", matchType: "lk"},
-]});
+const currentInformation = ref<any>(null);
+
+const searchFormData = reactive<SearchFields>({
+  fieldList: [
+    /*{label: "归属系统", fieldName: "informationsSingleId", type: "select", optionList: informationsList},
+    {label: "父菜单", fieldName: "parentNo", type: "tselect", optionList: searchParentMenus},*/
+    {label: "菜单名称", defaultShow: true, fieldName: "menuName", type: "input", matchType: "lk"},
+    {label: "菜单编码", fieldName: "menuCode", type: "input", matchType: "lk"},
+  ]
+});
 let menuIconList = ref<SelectOption[]>([]);
 const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [{
@@ -77,7 +67,7 @@ const tableFieldList = reactive<PageFieldInfo>({
       }],
     [{
       label: "归属应用名称", fieldName: "informationsSingleId", type: "select", optionList: informationsList,
-      required: true, formShow: true, disabled: "N",
+      required: true, formShow: true, disabled: "N", defaultValue: currentInformation,
       tableShow: true
     },
       {
@@ -213,7 +203,7 @@ const doMerge = () => {
   let temp = unref(menuFormRef.value.getFormData());
   // let batchData = temp["batchDataList"];
   // batchData.forEach((item: any) => item["informationsSingleId"] = temp["informationsSingleId"]);
-  postRequest(dataUrl.mergeUrl, temp).then(res => {
+  postRequest(dataUrl.mergeUrl!, temp).then(res => {
     closeLoad();
     if (res.data.code != 0) {
       warning(res.data.cnMessage);
@@ -234,7 +224,7 @@ const doMerge = () => {
 const resetForm = () => {
   dataForm.value = {};
 };
-const treeRef = ref<InstanceType<typeof ElTreeV2>>();
+const treeRef = ref<any>();
 const query = ref('');
 const onQueryChanged = (query: string) => {
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -251,6 +241,7 @@ const filterMethod = (query: string, node: TreeNode) => {
  */
 const checkChange = (data: TreeNodeData, checked: boolean) => {
   treeCheckChange(treeRef.value, menuTableListRef.value, dataForm, data, checked);
+  currentInformation.value = data.value ;
 };
 const initData = async () => {
   permissions.value = await loadPagePermission(getMenuId())
@@ -300,7 +291,7 @@ onMounted(async () => {
             </template>
           </el-input>
           <el-tree-v2 :data="informationsList" :filter-method="filterMethod"
-                      check-on-click-node="true"
+                      :check-on-click-node="true"
                       show-checkbox
                       :height="600"
                       @check-change="checkChange"

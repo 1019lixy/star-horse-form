@@ -132,11 +132,11 @@ const contextOperation = async (evt: Event, data: any, _index: number) => {
   containerTypeOperation(data);
   await nextTick();
   added.value=data["added"];
-  tableFieldInfoRef.value.setDataForm(currentData.value);
+  tableFieldInfoRef.value.setFormData(currentData.value);
 }
 const dataReset = () => {
   //dataForm.value = {...currentData.value};
-  tableFieldInfoRef.value.setDataForm(currentData.value);
+  tableFieldInfoRef.value.setFormData(currentData.value);
 }
 const tableSubmit = async (addFlag: boolean = false) => {
   let data = tableFieldInfoRef.value.getFormData();

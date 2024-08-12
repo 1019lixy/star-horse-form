@@ -3,6 +3,7 @@ import {computed, onMounted, ref} from "vue";
 import {SelectOption} from "@/components/types/SearchProps.d.ts";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import piniaInstance from "@/store";
+import {useDark, useToggle} from "@vueuse/core";
 
 let configInfo = ref<any>({});
 let configStore = GlobalConfig(piniaInstance);
@@ -170,6 +171,14 @@ const init = () => {
   //
   // }
 };
+const isDark = useDark({
+  storageKey: 'vitepress-theme-appearance',
+});
+
+const toggle = () => {
+  console.log(isDark);
+  useToggle(isDark);
+}
 const changeOperation = (_val: any) => {
   configStore.setConfigFormInfo(configInfo.value);
 };
