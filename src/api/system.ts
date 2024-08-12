@@ -88,7 +88,7 @@ export async function printerList(): Promise<Array<SelectOption>> {
         // let _wasClean: boolean = event.wasClean;
     };
     //
-    return await new Promise((resolve, _reject) => {
+    return await new Promise((resolve, reject) => {
         //用于指定收到服务器数据后的回调函数
         ws.onmessage = (event) => {
             let data = event.data;
@@ -99,7 +99,7 @@ export async function printerList(): Promise<Array<SelectOption>> {
                 });
                 resolve(options);
             } else {
-                inject("获取打印机失败");
+                reject("获取打印机失败");
             }
         };
     });
@@ -182,24 +182,26 @@ export async function redirectUrlOperation(url: string, searchInfo?: SearchInfo,
 }
 
 export const isDark = useDark();
-export const toggleDark = (event:Event) => {
+export const toggle=useToggle(isDark);
+export const toggleDark = () => {
     // event.stopPropagation();
     // event.preventDefault();
     //
-    // if (isDark.value) {
-    //     configStore.clearAll("Y");
-    //     let dark = "#141414";
-    //     document.documentElement.style.setProperty('--star-horse-style', dark)
-    //     document.documentElement.style.setProperty('--el-color-primary', dark)
-    //     document.documentElement.style.setProperty('--el-select-input-color', dark)
-    //     document.documentElement.style.setProperty('--star-horse-shadow', dark)
-    //     // document.documentElement.style.setProperty('--star-horse-font-color', dark)
-    //     document.documentElement.style.setProperty('--el-pagination-button-color', dark)
-    //     document.documentElement.style.setProperty('--el-tree-expand-icon-color', dark)
-    //
-    // } else {
-    //     configStore.clearAll();
-    // }
-    useToggle(isDark);
+    if (isDark.value) {
+        configStore.clearAll("Y");
+        let dark = "#141414";
+        document.documentElement.style.setProperty('--star-horse-style', dark)
+        document.documentElement.style.setProperty('--el-color-primary', dark)
+        document.documentElement.style.setProperty('--el-select-input-color', dark)
+        document.documentElement.style.setProperty('--star-horse-shadow', dark)
+        // document.documentElement.style.setProperty('--star-horse-font-color', dark)
+        document.documentElement.style.setProperty('--el-pagination-button-color', dark)
+        document.documentElement.style.setProperty('--el-tree-expand-icon-color', dark)
+
+    } else {
+        configStore.clearAll();
+    }
+    console.log(event,isDark);
+    toggle();
 
 }

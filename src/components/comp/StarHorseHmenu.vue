@@ -38,14 +38,6 @@ onMounted(() => {
       @select="handleSelect"
   >
     <sub-system-menu :dataList="dataList"/>
-    <el-menu-item h="full" @click="toggleDark($event)">
-      <button
-          class="border-none w-full bg-transparent cursor-pointer"
-          style="height: var(--el-menu-item-height)"
-      >
-        <i inline-flex i="dark:ep-moon ep-sunny" />
-      </button>
-    </el-menu-item>
   </el-menu>
 </template>
 <style lang="scss" scoped>

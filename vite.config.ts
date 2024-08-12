@@ -1,4 +1,4 @@
-import {defineConfig} from 'vite'
+import {defineConfig, optimizeDeps} from 'vite'
 import vue from '@vitejs/plugin-vue'
 import progress from 'vite-plugin-progress'
 import vueJsx from "@vitejs/plugin-vue-jsx"
@@ -10,6 +10,7 @@ import {createSvgIconsPlugin} from 'vite-plugin-svg-icons'
 import Components from 'unplugin-vue-components/vite'
 import {ElementPlusResolver} from 'unplugin-vue-components/resolvers'
 import AutoImport from 'unplugin-auto-import/vite'
+import monacoEditorPlugin from "vite-plugin-monaco-editor";
 
 const codeHost = "http://localhost:8888/"
 // const systemHost = "http://192.168.20.165:8749/"
@@ -21,17 +22,14 @@ const dbSearchHost = "http://localhost:7759/"
 const userDbHost = "http://localhost:7758/"
 // https://vitejs.dev/config/
 export default defineConfig({
+    base:"/",
     server: {
         port: 8880,
         host: true,
         open: true,
         hmr: true,
         proxy: {
-            "/system-config-dev": {
-                target: systemHost,
-                changeOrigin: true,
-                ws: true
-            },
+
             "/system-config": {
                 target: systemHost,
                 changeOrigin: true,
@@ -61,11 +59,7 @@ export default defineConfig({
                 rewrite: (path) => path.replace(/^\/dbsearch-manage/, '/dbsearch-manage-dev'),
                 ws: true
             },
-            "/userdb-manage-dev": {
-                target: userDbHost,
-                changeOrigin: true,
-                ws: true
-            },
+
             "/userdb-manage": {
                 target: userDbHost,
                 changeOrigin: true,
@@ -94,6 +88,8 @@ export default defineConfig({
         ]
     },
     plugins: [
+        // monacoEditorPlugin({}),
+
         vue({
             script: {
                 // 开启 defineModel
@@ -101,7 +97,8 @@ export default defineConfig({
             }
         }),
         AutoImport({
-            imports: ['vue']
+            imports: ['vue'],
+            resolvers: [ElementPlusResolver()],
         }),
         Components({
             // 这里就是相关ui库的解析工具, 里面的选项有是否使用自动导入样式 如果需要通过 var 变量改变主题 需要注意一下
@@ -123,7 +120,7 @@ export default defineConfig({
             symbolId: 'icon-[dir]-[name]',
         }),
         //开启gzip,后端nginx 需要 gzip_static设置为on
-        viteCompression({
+       /* viteCompression({
             //生成压缩包gz
             verbose: true,
             disable: false,
@@ -131,12 +128,22 @@ export default defineConfig({
             algorithm: 'gzip',
             deleteOriginFile: true,
             ext: '.gz',
-        }),
+        }),*/
     ],
+  /*  optimizeDeps: {
+        include: [
+            `monaco-editor/esm/vs/language/json/json.worker`,
+            `monaco-editor/esm/vs/language/css/css.worker`,
+            `monaco-editor/esm/vs/language/html/html.worker`,
+            `monaco-editor/esm/vs/language/typescript/ts.worker`,
+            `monaco-editor/esm/vs/editor/editor.worker`
+        ],
+    },*/
     resolve: {
         alias: {
             "@": resolve(__dirname, "./src")
         },
+
         extensions: ['.js', '.vue', '.json', '.ts', ".jsx"]
     },
     /*   css: {

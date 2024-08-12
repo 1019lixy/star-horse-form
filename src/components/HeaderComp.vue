@@ -18,6 +18,8 @@ import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import piniaInstance from "@/store";
 import {UserInfo} from "@/store/UserInfoStore.ts";
 import {configInfo} from "@/utils/sh_design.ts";
+import {toggleDark} from "@/api/system.ts";
+import {Moon, Sunny} from "@element-plus/icons-vue";
 
 const userInfoStore = UserInfo(piniaInstance);
 const shortcutMenuList = ref<Array<any>>([]);
@@ -283,6 +285,7 @@ const dataFormat = (name: string, val: any, row: any) => {
   return val;
 };
 const search = ref<String>();
+let theme = ref<string>("light");
 const filterTableData = computed(() => filterTree(search.value, permissionMenuList.value));
 let configInfo = computed(() => configStore.configFormInfo);
 const showMessageList = (evt: Event) => {
@@ -324,6 +327,13 @@ const showMessageList = (evt: Event) => {
     </div>
     <div class="header-right">
       <div class="message">
+        <el-switch @change="toggleDark()"
+                   v-model="theme"
+                   active-value="light"
+                   inactive-value="dark"
+                   :active-action-icon="Moon"
+                   :inactive-action-icon="Sunny"
+        />
         <el-popover placement="bottom-end" :width="600" trigger="hover" :show-arrow="false">
           <template #reference>
             <el-badge :value="6">

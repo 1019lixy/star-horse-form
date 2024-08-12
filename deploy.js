@@ -3,10 +3,10 @@ import ora from "ora";
 import chalk from "chalk";
 const defaultPort = '22'
 const defaultUsername = 'root'
-const defaultPassword = 'doov-2023'
-const defaultPath = '/opt/html'
+const defaultPassword = 'doov-2024'
+const defaultPath = '/opt/lowcode/html'
 const servers = [
-    {host: '192.168.20.164', isEnd: false}
+    {host: '192.168.20.204', isEnd: false}
 ]
 const spinner = ora(chalk.blue('正在部署到服务器...'));
 const debug = false;
