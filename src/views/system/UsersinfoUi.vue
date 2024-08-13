@@ -70,8 +70,8 @@ const searchFormData = reactive<SearchFields>({
 const pwdFormRef = ref();
 const resetForm = () => {
   let data = pwdFormRef.value.getFormData();
-  data.password = "";
-  data.rePassword = "";
+  data.value.password = "";
+  data.value.rePassword = "";
   // ruleForm.value = {};
 }
 const pwdMerge = () => {

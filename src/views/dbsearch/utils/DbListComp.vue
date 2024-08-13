@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {computed, nextTick, onMounted, provide, ref, unref} from "vue";
+import {computed, ComputedRef, nextTick, onMounted, ref, unref} from "vue";
 import {warning} from "@/utils/message.ts";
 import {initDbList, openDatabase, tableColumns} from "@/views/dbsearch/utils/DbSearchUtils.ts";
 import {convertToCamelCase, isJson} from "@/api/sh_api.ts";
@@ -18,7 +18,7 @@ let designForm = DesignForm(piniaInstance);
 let allFormDataList = computed(() => designForm.allFormDataList);
 let compSize = computed(() => configStore.configFormInfo?.buttonSize || "small");
 let dbIndex = ref<any>(null);
-let formData = computed(() => designForm.formData);
+let formData: ComputedRef<any> = computed(() => designForm.formData);
 let compList = computed(() => designForm.compList);
 const filterTableName = ref<String>("");
 const tbTab = ref<String>("tb1");
@@ -49,7 +49,7 @@ const fieldCompTypesMsg = `类型操作提示：
    将日期类型映射为日期选择器组件；
 2、如果字段有特色业务需要，则可以将字段配置为对应的组件类型`;
 let columnsContr = ref<String>("Y");
-let added=ref<string>("N");
+let added = ref<string>("N");
 /**
  * 判断列数是否需要禁用
  * @param val
@@ -67,7 +67,7 @@ let dataFieldInfo = ref<PageFieldInfo>({
       formShow: true,
       tableShow: true,
       actionNames: "change",
-      actions: (val) => containerTypeOperation(val)
+      actions: (val: any) => containerTypeOperation(val)
     }, {
       label: "列数",
       fieldName: "columns",
@@ -131,7 +131,7 @@ const contextOperation = async (evt: Event, data: any, _index: number) => {
   // dataForm.value = {...data};
   containerTypeOperation(data);
   await nextTick();
-  added.value=data["added"];
+  added.value = data["added"];
   tableFieldInfoRef.value.setFormData(currentData.value);
 }
 const dataReset = () => {
@@ -158,11 +158,11 @@ const tableSubmit = async (addFlag: boolean = false) => {
   }
 }
 const tableOperClose = () => {
-  dataForm.value = {};
+  // dataForm.value = {};
   currentDataVisible.value = false;
 }
 const openDb = () => {
-  if (!dbIndex.value) {
+  if (!dbIndex.value || dbIndex.value == "undefined") {
     return;
   }
   openDatabase(dbIndex.value)?.then((res: any) => {
@@ -253,7 +253,7 @@ const onDataCopy = async (data: any) => {
   data["added"] = "Y";
   for (let i in fieldList) {
     let reData = fieldList[i];
-    let fieldName = convertToCamelCase(reData.fieldName.toLowerCase());
+    let fieldName: string = convertToCamelCase(reData.fieldName.toLowerCase())!;
     let ms = formData.value["index"]++;
     if (reData.commonFieldFlag?.toLowerCase() == "y" && config.commonFieldFlag?.toLowerCase() == "n") {
       continue;
@@ -529,7 +529,7 @@ onMounted(() => {
             {{ data.tableName }}
           </el-tooltip>
           <star-horse-icon title="查看&配置" icon-class="setting" style="color:var(--star-horse-style);cursor: pointer"
-                           @click="(evt)=>contextOperation(evt,data,idx)"/>
+                           @click="(evt:Event)=>contextOperation(evt,data,idx)"/>
         </li>
       </template>
     </draggable>

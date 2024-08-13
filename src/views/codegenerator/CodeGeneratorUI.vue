@@ -24,10 +24,12 @@ const dataUrl: ApiUrls = {
   importUrl: "/code-generator/generator/code/importData",
   uploadUrl: ""
 };
-const searchFormData = reactive<SearchFields>({fieldList:[
-  {label: "应用名称", fieldName: "projectName", type: "input", matchType: "lk", defaultShow: true},
-  {label: "项目名称", fieldName: "applicationName", type: "input", matchType: "lk", defaultShow: true},
-]});
+const searchFormData = reactive<SearchFields>({
+  fieldList: [
+    {label: "应用名称", fieldName: "projectName", type: "input", matchType: "lk", defaultShow: true},
+    {label: "项目名称", fieldName: "applicationName", type: "input", matchType: "lk", defaultShow: true},
+  ]
+});
 let dbInfoList = ref<Array<SelectOption>>([]);
 let tableInfoList = ref<Array<SelectOption>>([]);
 let templateVersionList = ref<Array<SelectOption>>([]);
@@ -35,8 +37,12 @@ let fileTypeList = ref<Array<SelectOption>>([]);
 //,可用值:VUE_3,VUE_3_TS,REACT,REACT_TS
 let uiTypeList = ref<Array<SelectOption>>([]);
 let packagingList = ref<Array<SelectOption>>([]);
-const loadTabInfo = async (val:any) => {
-  tableInfoList.value = await tableList(val["datasourceConfigId"]);
+const loadTabInfo = async (val: any) => {
+  let dataId = val["datasourceConfigId"];
+  if (!dataId || dataId == "undefined") {
+    return;
+  }
+  tableInfoList.value = await tableList(dataId);
 };
 const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
@@ -109,7 +115,7 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
           {
             label: "模块名称", fieldName: "categoryName", type: "input",
             required: true, formShow: true,
-            helpMsg: "Maven 项目的模块名",
+            helpMsg: "Maven 项目的模块名会追加到报名的后面 ",
             tableShow: true
           },
           {
@@ -234,8 +240,6 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
 const primaryKey = "idCodeGenerator";
 const codeGeneratorRef = ref();
 const rules = {};
-const dataForm = ref<any>({});
-provide("dataForm", dataForm);
 const dialogProps = reactive<DialogProps>({
   bakeVisible1: false, bakeVisible2: false, bakeVisible3: false,
   ids: 0,
@@ -265,31 +269,34 @@ onMounted(async () => {
   await init();
 });
 const generateFormRef = ref();
-const generateMerge = () => {
+const generateMerge = (type: string) => {
   generateFormRef.value.$refs.starHorseFormRef.validate((res: boolean) => {
+    let dataForm: any = generateFormRef.value.getFormData()?.value;
     if (res) {
       load("代码生成中...");
-      if (dataForm.value["prefixesStr"]) {
-        dataForm.value["prefixesList"] = dataForm.value["prefixesStr"].split(";");
+      if (dataForm["prefixesStr"]) {
+        dataForm["prefixesList"] = dataForm["prefixesStr"].split(";");
       }
-      download("/code-generator/generator/code/convertToCode", dataForm.value).catch(err => {
+      download("/code-generator/generator/code/convertToCode", dataForm).catch(err => {
         warning(err);
       }).finally(() => {
         closeLoad();
+        if (type != "continue") {
+          closeAction();
+        }
       });
     }
   });
 };
 const closeAction = () => {
   dialogProps.editVisible = false;
-  dataForm.value = {};
 }
 </script>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps"
                      :selfFunc="true"
                      @merge="generateMerge" @closeAction="closeAction">
-    <star-horse-form v-model:data-form="dataForm" ref="generateFormRef" @refresh="codeGeneratorRef.loadByPage()"
+    <star-horse-form ref="generateFormRef" @refresh="codeGeneratorRef.loadByPage()"
                      :compUrl="dataUrl"
                      :fieldList="tableFieldList"
                      :rules="rules"/>

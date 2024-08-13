@@ -142,7 +142,7 @@ const modifyInfo = () => {
   resetForm();
 };
 const doModifyUserInfo = () => {
-  let dataForm = editUserinfoRef.value.getFormData();
+  let dataForm = editUserinfoRef.value.getFormData()?.value;
   postRequest("/system-config/system/usersAuditEntity/refreshInvalidPassword/" + dataForm.username +
       "/" + dataForm.password + "/" + (dataForm.oldPassword || "0") + "/" + dataForm.phone, {})
       .then(res => {
