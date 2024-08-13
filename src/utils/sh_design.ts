@@ -291,7 +291,7 @@ const configInfo = {
                         name: 'edge-editor',
                         args: {
                             attrs: {
-                                backgroundColor: '#eee',
+                                backgroundColor: 'var(--star-horse-front-color)',
                             },
                         },
                     },

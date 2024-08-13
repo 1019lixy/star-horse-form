@@ -32,7 +32,7 @@ onMounted(() => {
   <el-menu
       class="el-menu-demo"
       mode="horizontal"
-      text-color="#fff"
+      text-color="var(--star-horse-white)"
       active-text-color="#ffd04b"
       background-color="#409eff"
       @select="handleSelect"
@@ -45,7 +45,6 @@ onMounted(() => {
   .el-menu-item {
     height: inherit;
   }
-
   .el-menu-item.is-active,
   .el-menu-item:hover,
   .el-submenu__title:hover,

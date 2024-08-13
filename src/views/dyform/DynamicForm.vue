@@ -494,7 +494,7 @@ onMounted(async () => {
 .design-form-container {
   height: 100%;
   border: 2px dotted var(--star-horse-style);
-  background: var(--star-horse-white);
+  background: var(--star-horse-background);
 }
 
 :deep(.el-divider--horizontal) {
@@ -525,8 +525,8 @@ onMounted(async () => {
   .side-panel {
     width: 270px !important;
     justify-content: flex-start;
-    background: #ffffff;
-    border: 1px solid #eee;
+    background: var(--star-horse-background);
+    border: 1px solid var(--star-horse-font-color);
     overflow: hidden;
   }
 
@@ -541,8 +541,8 @@ onMounted(async () => {
       height: 40px;
       text-align: left;
       justify-content: flex-start;
-      background-color: #fafafa;
-      border: solid 1px #ccc;
+      background: var(--star-horse-background);
+      border: solid 1px var(--star-horse-font-color);
       -moz-user-select: none;
       -webkit-user-select: none;
       -ms-user-select: none;
@@ -557,9 +557,9 @@ onMounted(async () => {
 
       .main-design-outer {
         flex: 1;
-        background: #f1f2f3;
+        background: var(--star-horse-background);
         justify-content: center;
-        border: 1px dotted #eee;
+        border: 1px dotted var(--star-horse-font-color);
         margin-top: 5px;
         border-radius: 3px;
         display: flex;
@@ -576,7 +576,7 @@ onMounted(async () => {
 
       .side-panel-item {
         margin-top: 5px;
-        border: 1px solid #eee;
+        border: 1px solid var(--star-horse-font-color);
       }
     }
   }

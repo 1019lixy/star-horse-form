@@ -689,7 +689,7 @@ defineExpose({
 </template>
 <style lang="scss" scoped>
 .warning-row {
-  background: #8f8f8f;
+  background: var(--star-horse-shadow);
 }
 
 :deep(.el-table__cell) {

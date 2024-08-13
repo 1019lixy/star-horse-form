@@ -135,7 +135,7 @@ const outHandler = () => {
     position: fixed;
     top: v-bind(top);
     width: 200px;
-    background: var(--star-horse-white);
+    background: var(--star-horse-background);
     border: green;
     height: calc(100vh - v-bind(htop));
   }

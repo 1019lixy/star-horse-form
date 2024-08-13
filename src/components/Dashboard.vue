@@ -210,7 +210,7 @@ const configInfo = computed(() => configStore.configFormInfo);
 .Resizer {
   z-index: 1;
   box-sizing: border-box;
-  background: padding-box rgb(240, 240, 240);
+  background: padding-box var(--star-horse-background);
 }
 
 .moveBox {
@@ -243,7 +243,7 @@ const configInfo = computed(() => configStore.configFormInfo);
   top: 50%;
   right: 1px;
   border-radius: 3px;
-  background: #eee;
+  background: var(--star-horse-font-color);
 
   &:hover, svg:hover {
     cursor: pointer;
@@ -258,7 +258,7 @@ const configInfo = computed(() => configStore.configFormInfo);
   font-weight: bold;
   align-items: center;
   justify-content: center;
-  background: #fff;
+  background: var(--star-horse-background);
   width: 100%;
 }
 </style>

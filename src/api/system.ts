@@ -183,22 +183,24 @@ export async function redirectUrlOperation(url: string, searchInfo?: SearchInfo,
 
 export const isDark = useDark();
 export const toggle=useToggle(isDark);
-export const toggleDark = () => {
+export const toggleDark = (val:string) => {
     // event.stopPropagation();
     // event.preventDefault();
     //
-    if (isDark.value) {
+    if (val=="dark") {
         configStore.clearAll("Y");
         let dark = "#141414";
         document.documentElement.style.setProperty('--star-horse-style', dark)
         document.documentElement.style.setProperty('--el-color-primary', dark)
         document.documentElement.style.setProperty('--el-select-input-color', dark)
         document.documentElement.style.setProperty('--star-horse-shadow', dark)
-        // document.documentElement.style.setProperty('--star-horse-font-color', dark)
+        document.documentElement.style.setProperty('--star-horse-background', dark)
         document.documentElement.style.setProperty('--el-pagination-button-color', dark)
         document.documentElement.style.setProperty('--el-tree-expand-icon-color', dark)
 
     } else {
+        document.documentElement.style.setProperty('--star-horse-background', "#fff");
+        document.documentElement.style.setProperty('--star-horse-shadow', "#f7f7f9");
         configStore.clearAll();
     }
     console.log(event,isDark);

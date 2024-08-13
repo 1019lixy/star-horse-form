@@ -70,7 +70,7 @@ watch(() => props.sysemId,
                popper-class="popper-class"
                :default-openeds="defaultOpenMenu"
       >
-        <el-menu-item index="-1" style="height: 38px;background: var(--star-horse-white)">
+        <el-menu-item index="-1" style="height: 38px;background: var(--star-horse-background)">
           <el-icon class="star-icon" v-if="isCollapse">
             <component :is="'search'"/>
           </el-icon>
@@ -92,7 +92,7 @@ watch(() => props.sysemId,
 </template>
 <style lang="scss" scoped>
 .popper-class {
-  background: var(--star-horse-style);
+  background: var(--star-horse-background);
 }
 
 .starhorse-menu {
@@ -114,7 +114,7 @@ watch(() => props.sysemId,
     border: 1px dotted var(--star-horse-font-color);
     margin-top: 3px;
     height: 26px;
-    background: var(--star-horse-white);
+    background: var(--star-horse-background);
     margin-bottom: -1px;
 
     &:hover, svg:hover {

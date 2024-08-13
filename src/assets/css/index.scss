@@ -3,6 +3,7 @@
   --el-color-success: #5cb87a;
   --star-horse-style: #409EFF;
   --star-horse-white: #fff;
+  --star-horse-background:#fff;
   --star-horse-shadow: #f7f7f9;
   --star-horse-disable: gray;
   --star-horse-font-color: #eee;
@@ -23,7 +24,7 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--star-horse-white);
+  background: var(--star-horse-background);
   border: 0 #fff;
   border-radius: 50px;
 }
@@ -53,7 +54,7 @@ a {
 
 #app {
   -webkit-font-smoothing: antialiased;
-  background: var(--star-horse-white);
+  background: var(--star-horse-background);
 }
 
 .el-dialog {
@@ -137,7 +138,7 @@ a {
   height: 100%;
   width: 100%;
   z-index: 9999;
-  background-color: var(--star-horse-white);
+  background: var(--star-horse-background);
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.12);
   text-align: center;
   line-height: 40px;
@@ -164,11 +165,13 @@ a {
   }
 
   .icon-active {
-    background: var(--star-horse-white);
+    background: var(--star-horse-background);
     box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2)
   }
 }
-
+.el-menu{
+  border-bottom: unset;
+}
 .el-menu-item {
   height: 40px;
   line-height: 40px;
@@ -224,7 +227,7 @@ a {
       .node-title {
         height: 30px;
         width: 100%;
-        background: var(--star-horse-white);
+        background: var(--star-horse-background);
         font-size: 13px;
         align-items: center;
         justify-items: center;
@@ -247,7 +250,7 @@ a {
           width: 95%;
           display: flex;
           margin: 5px auto;
-          background: var(--star-horse-white);;
+          background: var(--star-horse-background);;
           font-size: 14px;
           overflow: hidden;
           justify-content: space-between;
@@ -450,7 +453,7 @@ button, button:focus, button:visited {
 }
 
 hr {
-  background: var(--star-horse-white);
+  background: var(--star-horse-background);
   height: 1px;
   margin-top: 2px;
   margin-bottom: 2px;
@@ -482,7 +485,7 @@ hr {
       height: 100%;
       width: var(--el-aside-width);
       display: flex;
-      background: var(--star-horse-white);
+      background: var(--star-horse-background);
       flex-direction: row;
     }
 

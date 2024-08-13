@@ -15,6 +15,7 @@ import UserTransfer from "@/views/system/comp/UserTransfer.vue";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {ElTreeV2} from "element-plus";
 import {TreeNode} from "element-plus/es/components/tree-v2/src/types";
+
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/system-config/system/rolesinfoEntity/pageList",
   mergeUrl: "/system-config/system/rolesinfoEntity/merge",
@@ -50,11 +51,13 @@ const sessionTimeOut = [
   {name: "180分钟", value: 180},
   {name: "无限制", value: 0},
 ];
-const searchFormData = reactive<SearchFields>({fieldList:[
-  {label: "角色名称", fieldName: "roleName", defaultShow: true, type: "input", matchType: "lk"},
-  /* {label: "角色编码", fieldName: "roleCode", type: "input", matchType: "lk"},*/
-  {label: "角色类型", fieldName: "roleType", defaultShow: true, type: "select", optionList: roleTypes},
-]});
+const searchFormData = reactive<SearchFields>({
+  fieldList: [
+    {label: "角色名称", fieldName: "roleName", defaultShow: true, type: "input", matchType: "lk"},
+    /* {label: "角色编码", fieldName: "roleCode", type: "input", matchType: "lk"},*/
+    {label: "角色类型", fieldName: "roleType", defaultShow: true, type: "select", optionList: roleTypes},
+  ]
+});
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     {
@@ -79,7 +82,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     },
     {
       label: "角色类型", fieldName: "roleType", type: "select", optionList: roleTypes,
-      required: true, formShow: true,
+      required: true, formShow: true, editDisabled: "Y",
       tableShow: true
     },
     {
@@ -412,7 +415,7 @@ onMounted(async () => {
     </el-card>
   </star-horse-dialog>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form  :compUrl="dataUrl" :fieldList="tableFieldList" :rules="rules"/>
+    <star-horse-form :compUrl="dataUrl" :fieldList="tableFieldList" :rules="rules"/>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title=
       "'查看数据'" :is-view="true">

@@ -9,7 +9,7 @@ const backFun = () => {
 body {
   margin: 0;
   padding: 0;
-  background: var(--star-horse-white);
+  background: var(--star-horse-background);
   font-family: Georgia, Times, Verdana, Geneva, Arial, Helvetica, sans-serif;
 }
 .not-found-card {

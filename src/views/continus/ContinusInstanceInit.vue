@@ -183,7 +183,7 @@ onMounted(async () => {
   }
 
   .nav-panel {
-    background-color: var(--star-horse-white);
+    background: var(--star-horse-background);
     border: 1px solid #dadada;
     border-radius: 4px;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .04);
@@ -213,10 +213,10 @@ onMounted(async () => {
   }
 
   .nav-panel.is-active {
-    background-color: var(--star-horse-style);
+    background: var(--star-horse-style);
     border: 1px solid var(--star-horse-style);
     box-shadow: none;
-    color: #ffffff !important;
+    color:var(--star-horse-white) !important;
 
     &:after {
       border: 9px solid transparent;

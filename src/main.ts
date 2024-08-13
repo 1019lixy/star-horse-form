@@ -1,4 +1,4 @@
-// import "element-plus/theme-chalk/index.css"
+import "element-plus/theme-chalk/index.css"
 import "@/assets/css/index.scss"
 import userComponent from "@/components/comp/selfcomp";
 import nodeComponent from "@/views/continus/nodeInfo/nodecomp";

@@ -905,7 +905,7 @@ hr {
   height: 40px;
   line-height: 40px;
   text-indent: .5em;
-  background-color: #eee;
+  background: var(--star-horse-font-color);
 
   span {
     font-weight: bold;
@@ -953,7 +953,7 @@ hr {
         white-space: nowrap;
         text-overflow: ellipsis;
         overflow: hidden;
-        background: #f1f2f3;
+        background: var(--star-horse-font-color);
         border-radius: 3px;
 
         span {

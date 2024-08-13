@@ -26,7 +26,6 @@ const shortcutMenuList = ref<Array<any>>([]);
 let systemName = Config.title;
 let userInfo = getUserInfo();
 let permissionMenuList = ref<Array<any>>([]);
-let multipleSelection = ref<Array<any>>([]);
 const shortcutMultipleTable = ref<InstanceType<typeof ElTable>>();
 let currentTab = ref<string>("message");
 let editUserinfoRef = ref();
@@ -288,11 +287,6 @@ const search = ref<String>();
 let theme = ref<string>("light");
 const filterTableData = computed(() => filterTree(search.value, permissionMenuList.value));
 let configInfo = computed(() => configStore.configFormInfo);
-const showMessageList = (evt: Event) => {
-  evt.stopPropagation();
-  evt.preventDefault();
-  alert(3);
-}
 </script>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps"
@@ -318,21 +312,20 @@ const showMessageList = (evt: Event) => {
   </star-horse-dialog>
   <div class="header">
     <div :title="systemName" class="logo">
-      <img :src="getCustomerInfo()?.logo" height="70"/>
-      <!-- <star-horse-icon icon-class="star" style="vertical-align:middle;color: #e3e9f2;"/>
-       <star-horse-icon icon-class="horse" style="vertical-align:middle;color: #e3e9f2;font-size: 22px"/>-->
+      <img :src="getCustomerInfo()?.logo||'/logo.svg'" :height="getCustomerInfo()?.height||45"/>
     </div>
     <div class="header-left">
       <star-horse-hmenu v-if="configInfo.menusCfg=='tradition'"/>
     </div>
     <div class="header-right">
       <div class="message">
-        <el-switch @change="toggleDark()"
+        <el-switch @change="toggleDark"
                    v-model="theme"
                    active-value="light"
                    inactive-value="dark"
-                   :active-action-icon="Moon"
-                   :inactive-action-icon="Sunny"
+                   :active-action-icon="Sunny"
+                   :inactive-action-icon="Moon"
+                   style="width: 50%"
         />
         <el-popover placement="bottom-end" :width="600" trigger="hover" :show-arrow="false">
           <template #reference>
@@ -359,6 +352,16 @@ const showMessageList = (evt: Event) => {
         </el-popover>
       </div>
       <div class="user-info">
+        <el-dropdown class="lang" @command="handleLanguageChanged">
+          <span class="el-dropdown-link">{{ curLangName }}<star-horse-icon icon-class="arrow-down"
+                                                                           style="color:var(--star-horse-white)"/></span>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item command="zh_cn">中文</el-dropdown-item>
+              <el-dropdown-item command="en_us">English</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
         <el-dropdown trigger="click">
           <span class="el-dropdown-link">
             <star-horse-icon icon-class="user-circle" size="30px" cursor="pointer"
@@ -385,16 +388,7 @@ const showMessageList = (evt: Event) => {
             </el-dropdown-menu>
           </template>
         </el-dropdown>
-        <el-dropdown class="lang" @command="handleLanguageChanged">
-          <span class="el-dropdown-link">{{ curLangName }}<star-horse-icon icon-class="arrow-down"
-                                                                           style="color:var(--star-horse-white)"/></span>
-          <template #dropdown>
-            <el-dropdown-menu>
-              <el-dropdown-item command="zh_cn">中文</el-dropdown-item>
-              <el-dropdown-item command="en_us">English</el-dropdown-item>
-            </el-dropdown-menu>
-          </template>
-        </el-dropdown>
+
       </div>
     </div>
   </div>
@@ -446,17 +440,28 @@ const showMessageList = (evt: Event) => {
   align-items: center;
   -webkit-box-pack: justify;
   justify-content: space-between;
+  vertical-align: middle;
   box-sizing: border-box;
   flex-direction: row;
+
+  .logo {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+  }
 
   .header-left {
     height: 100%;
     flex: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 
     ul {
       list-style: none;
       display: flex;
       flex-direction: row;
+      align-items: center;
       height: 100%;
       margin-left: 0;
       padding-left: 0;
@@ -470,18 +475,15 @@ const showMessageList = (evt: Event) => {
   }
 
   .header-right {
-    width: 150px;
+    width: 15%;
     height: 100%;
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
-    vertical-align: middle;
-    text-align: right;
 
     .message {
       height: 40px;
-      width: 40px;
+      width: 45%;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -498,16 +500,17 @@ const showMessageList = (evt: Event) => {
     }
 
     .user-info {
-      width: inherit;
+      flex: 1;
+      width: 30%;
       height: 100%;
-      text-align: right;
       cursor: pointer;
       display: flex;
-      flex-direction: row-reverse;
+      flex-direction: row;
       vertical-align: middle;
       align-items: center;
 
       .lang {
+        width: 50%;
         align-items: center;
         justify-content: center;
         vertical-align: middle;
@@ -515,6 +518,7 @@ const showMessageList = (evt: Event) => {
 
       .el-dropdown-link {
         color: var(--star-horse-white);
+
         display: flex;
         justify-content: center;
         align-items: center;

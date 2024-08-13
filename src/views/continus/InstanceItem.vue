@@ -33,7 +33,7 @@ const lineDetail = (instanceId: string) => {
 }
 .instance-item {
   box-shadow: rgb(232, 232, 232) 0px 0px 0px 1px;
-  background: rgb(255, 255, 255);
+  background: var(--star-horse-white);
   transition: all 0.5s linear 0s;
   .item-line {
     height: inherit;

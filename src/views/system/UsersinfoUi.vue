@@ -108,6 +108,7 @@ const pwdMerge = () => {
 }
 const editPwd = async (row: any) => {
   let data = await loadById(dataUrl.loadByIdUrl!, row[primaryKey], false, {});
+  console.log(dialogProps.bakeVisible3);
   dialogProps.bakeVisible3 = true;
   await nextTick();
   pwdFormRef.value.setFormData(data);
@@ -349,12 +350,11 @@ const pwdFieldInfo = reactive<PageFieldInfo | any>({
       :is-show-btn-continue="false"
       :self-func="true"
       :title="'修改密码'"
+      :dialogProps="dialogProps"
       @merge="pwdMerge"
       @reset="resetForm"
   >
-    <star-horse-form v-model:data-form="dataForm" :compUrl="dataUrl"
-                     :fieldList="pwdFieldInfo"
-                     :rules="rules" ref="pwdFormRef"/>
+    <star-horse-form  :compUrl="dataUrl" :fieldList="pwdFieldInfo"  ref="pwdFormRef"/>
   </star-horse-dialog>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
     <star-horse-form  @refresh="usersinfoTableListRef.loadByPage()" :compUrl="dataUrl"
