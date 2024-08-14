@@ -12,14 +12,15 @@ import {ElementPlusResolver} from 'unplugin-vue-components/resolvers'
 import AutoImport from 'unplugin-auto-import/vite'
 import monacoEditorPlugin from "vite-plugin-monaco-editor";
 
-const codeHost = "http://localhost:8888/"
-// const systemHost = "http://192.168.20.165:8749/"
+const codeHost = "http://192.168.20.165:8888/"
 const systemHost = "http://localhost:8749/"
+// const systemHost = "http://192.168.20.204:8749/"
 const workflowHost = "http://localhost:8899/"
 const continusHost = "http://localhost:8859/"
-const dbSearchHost = "http://localhost:7759/"
 // const dbSearchHost = "http://192.168.20.165:7759/"
+const dbSearchHost = "http://localhost:7759/"
 const userDbHost = "http://localhost:7758/"
+// const userDbHost = "http://192.168.20.204:7758/"
 // https://vitejs.dev/config/
 export default defineConfig({
     base:"/",

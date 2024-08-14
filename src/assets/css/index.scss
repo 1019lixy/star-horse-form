@@ -1,9 +1,10 @@
 @use "element-plus/theme-chalk/src/dark/css-vars.scss" as *;
+
 :root {
   --el-color-success: #5cb87a;
   --star-horse-style: #409EFF;
   --star-horse-white: #fff;
-  --star-horse-background:#fff;
+  --star-horse-background: #fff;
   --star-horse-shadow: #f7f7f9;
   --star-horse-disable: gray;
   --star-horse-font-color: #eee;
@@ -40,6 +41,7 @@ html, body {
   margin: 0;
   overflow: hidden;
 }
+
 * {
   scrollbar-color: var(--star-horse-white) var(--star-horse-shadow);
   scrollbar-width: thin;
@@ -72,6 +74,12 @@ a {
 
 .el-header {
   --el-header-padding: 0;
+}
+
+.el-menu--horizontal {
+  .el-menu {
+    border-bottom: unset !important;
+  }
 }
 
 .el-dialog__header span {
@@ -169,9 +177,11 @@ a {
     box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2)
   }
 }
-.el-menu{
+
+.el-menu {
   border-bottom: unset;
 }
+
 .el-menu-item {
   height: 40px;
   line-height: 40px;
@@ -631,7 +641,7 @@ hr {
   }
 }
 
-.el-tree-node__label{
+.el-tree-node__label {
   margin-left: 5px;
 }
 

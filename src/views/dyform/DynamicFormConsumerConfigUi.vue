@@ -248,7 +248,7 @@ const changePage = (currentPage: number, pageSize: number) => {
   </star-horse-dialog>
   <el-card class="inner_content">
     <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
-      <star-horse-search-comp @searchData="(data:any)=>dynamicFormConsumerConfigRef.createCreateParams(data)"
+      <star-horse-search-comp @searchData="(data:any)=>dynamicFormConsumerConfigRef.createSearchParams(data)"
                               :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>

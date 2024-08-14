@@ -19,7 +19,7 @@ const tableCompFunc = (func: any) => {
   } else if (func == "exec") {
   }
 };
-const createCreateParams = (formData: any) => {
+const createSearchParams = (formData: any) => {
   handleCurrentChange(currentPage.value, pageSize.value);
 };
 const initData = () => {
@@ -47,7 +47,7 @@ const handleCurrentChange = (cp: number, ps: number) => {
 };
 defineExpose({
   tableCompFunc,
-  createCreateParams
+  createSearchParams
 })
 </script>
 <template>

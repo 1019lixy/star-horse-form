@@ -134,7 +134,7 @@ const batchDelete = async () => {
  * 创建查询条件
  * @param formData
  */
-const createCreateParams = (formData: SearchParams[]) => {
+const createSearchParams = (formData: SearchParams[]) => {
   searchFields = formData;
   loadByPage();
 };
@@ -454,7 +454,7 @@ const setCondition = (cond: SearchParams[], orderBy: OrderByInfo[]) => {
 defineExpose({
   init,
   //查询
-  createCreateParams,
+  createSearchParams,
   loadByPage,
   getIds,
   multipleSelection,
@@ -599,7 +599,7 @@ defineExpose({
       <star-horse-table-column :data-format="dataFormat" :item="item"/>
     </template>
     <el-table-column
-        v-if="!disableAction"
+        v-if="!disableAction&&Object.keys(permissions||{}).length>0"
         fixed="right"
         label="操作"
         :width="160"

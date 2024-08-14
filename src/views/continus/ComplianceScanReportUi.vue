@@ -153,7 +153,7 @@ onMounted(async () => {
   <el-card class="inner_content">
     <star-horse-search-comp :formData="searchFormData" :compUrl="dataUrl"/>
     <hr>
-    <star-horse-button-list :compUrl="dataUrl" :dialogProps="dialogProps"/>
+    <star-horse-button-list :compUrl="dataUrl" :dialogProps="dialogProps" :permissions="permissions"/>
     <hr>
     <star-horse-table-comp :permissions="permissions" :fieldList="tableFieldList" :primaryKey="primaryKey"
                            :compUrl="dataUrl"

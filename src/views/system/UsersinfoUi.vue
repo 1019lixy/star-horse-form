@@ -308,7 +308,7 @@ const checkChange = (data: TreeNodeData, checked: boolean) => {
     conditions.push(createCondition("c.idDepartment", data.value));
   }
   // menuTableListRef.value.setDataInfo(conditions, null);
-  usersinfoTableListRef.value.createCreateParams(conditions);
+  usersinfoTableListRef.value.createSearchParams(conditions);
 };
 
 const initData = async () => {
@@ -320,7 +320,7 @@ const initData = async () => {
   //如果是从其它页面加载的该页面，则将条件加入查询
   if (props.viewRolesinfoId) {
     let params: SearchParams[] = [{propertyName: "b.idRolesinfo", value: props.viewRolesinfoId}];
-    usersinfoTableListRef.value.createCreateParams(params);
+    usersinfoTableListRef.value.createSearchParams(params);
   }
 };
 onMounted(async () => {
@@ -395,13 +395,13 @@ const pwdFieldInfo = reactive<PageFieldInfo | any>({
       <el-col :span="viewRolesinfoId?19:21" style="height: inherit">
         <el-card class="inner_content" style="height: inherit">
           <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
-            <star-horse-search-comp @searchData="(data:any)=>usersinfoTableListRef.createCreateParams(data)"
+            <star-horse-search-comp @searchData="(data:any)=>usersinfoTableListRef.createSearchParams(data)"
                                     :formData="searchFormData"
                                     :compUrl="dataUrl"/>
             <hr/>
             <star-horse-button-list v-if="!viewRolesinfoId"
                                     @tableCompFunc="(fun:any)=>usersinfoTableListRef.tableCompFunc(fun)"
-                                    :compUrl="dataUrl"
+                                    :compUrl="dataUrl" :permissions="permissions"
                                     :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
           </div>
           <hr>

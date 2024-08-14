@@ -45,6 +45,7 @@ onMounted(() => {
   .el-menu-item {
     height: inherit;
   }
+
   .el-menu-item.is-active,
   .el-menu-item:hover,
   .el-submenu__title:hover,
@@ -84,7 +85,7 @@ onMounted(() => {
 .el-menu-demo {
   max-height: 50px;
   background-color: unset;
-  border-bottom: none;
+  border-bottom: unset !important;
   color: var(--star-horse-white);
   font-weight: bold;
   font-size: 16px;

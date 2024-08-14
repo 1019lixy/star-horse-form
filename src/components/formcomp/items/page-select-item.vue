@@ -1,10 +1,11 @@
 <script lang="ts">
-import {defineComponent, onMounted, ref, shallowRef} from "vue";
+import {defineComponent, onMounted, ref, shallowRef, watch} from "vue";
 import {PageProps} from "@/components/types/PageProps";
 import {closeLoad, load} from "@/api/sh_api";
 import {postRequest} from "@/api/star_horse";
 import {FieldMapping, OrderByInfo} from "@/components/types/PageFieldInfo";
 import {SearchParams} from "@/components/types/Params";
+
 export default defineComponent({
   setup(_props, context) {
     const parentField = context.attrs["parentField"];
@@ -24,6 +25,7 @@ export default defineComponent({
       totalPage: 0,
       dataList: []
     });
+
     let searchData = shallowRef<Array<SearchParams>>([]);
     const pageSizeClick = (pageSize: number) => {
       pageInfo.value.pageSize = pageSize
@@ -33,6 +35,7 @@ export default defineComponent({
       pageInfo.value.currentPage = currentPage
       loadByPage()
     }
+
     const loadByPage = () => {
       if (filterCondtion) {
         searchData.value.push(...filterCondtion);
@@ -44,13 +47,13 @@ export default defineComponent({
       if (!field.preps["dataUrl"]?.loadByPageUrl) {
         return;
       }
-      let params:any = {
+      let params: any = {
         currentPage: pageInfo.value.currentPage,
         pageSize: pageInfo.value.pageSize,
         fieldList: searchData.value,
         orderBy: orderByTemp
       };
-      let url:string = field.preps.dataUrl?.loadByPageUrl;
+      let url: string = field.preps.dataUrl?.loadByPageUrl;
       if (field.preps.dataUrl.redirect) {
         params = {
           url,
@@ -100,12 +103,11 @@ export default defineComponent({
       assignVal();
     };
     const assignVal = () => {
-      let fields:any = field.preps["needField"];
+      let fields: any = field.preps["needField"];
       let name = field.preps['name'];
       if (fields) {
-        console.log(multipleSelection.value, fields);
         fields.forEach((temp: FieldMapping) => {
-          let value = multipleSelection.value.map((item:any) => item[temp.sourceField]);
+          let value = multipleSelection.value.map((item: any) => item[temp.sourceField]);
           if (!field.preps['multiple'] || field.preps['multiple'] == 'N') {
             value = value[0];
           }
@@ -122,6 +124,10 @@ export default defineComponent({
         field.preps["recall"](multipleSelection.value);
       }
     };
+    watch(() => field.preps["dataUrl"],
+        () => {
+          loadByPage()
+        });
     onMounted(() => {
       actionName.value = field.preps["actionName"];
       loadByPage();
@@ -130,7 +136,7 @@ export default defineComponent({
       }
     });
     return {
-      parentField,  context, field, formItem,
+      parentField, context, field, formItem,
       dataField, keyEnterFun, actionName, pageInfo, pageSizeClick, pageChangeClick
       , getRowIdentity, searchDataFun, handleSelectionChange, starHorseTableCompRef, selectRow
     }
@@ -164,8 +170,8 @@ export default defineComponent({
       <template #empty="scope">
         <el-card>
           <!--          <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">-->
-          <star-horse-search-comp :formData="field.preps['searchFieldList']"
-                                  @searchData="(data:any)=>starHorseTableCompRef.createCreateParams(data)"
+          <star-horse-search-comp :formData="context.attrs['field']!.preps['searchFieldList']"
+                                  @searchData="(data:any)=>searchDataFun(data)"
                                   :mutComp="true"
                                   :compUrl="field.preps['dataUrl']"/>
           <el-table
@@ -205,7 +211,7 @@ export default defineComponent({
       </template>
       <template #footer>
         <el-pagination
-            small
+            :size="'small'"
             :total="pageInfo.totalData"
             @current-change="pageChangeClick"
             @size-change="pageSizeClick"
@@ -222,6 +228,7 @@ export default defineComponent({
 :deep(.el-table__cell) {
   padding: 0;
 }
+
 :deep(th.el-table__cell:first-child) {
   padding: 5px 0;
 }

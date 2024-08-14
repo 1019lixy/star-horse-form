@@ -123,7 +123,7 @@ defineExpose({
 }
 </style>
 <template>
-  <ul class="inner_button" v-if="showType=='line'">
+  <ul class="inner_button" v-if="showType=='line'&&Object.keys(permissions||{}).length>0">
     <li v-if="permissions?.add&&!viewFlag&&checkSelfBtn('add')">
       <el-button @click="btnOperation('add')" title=""
                  style="background: var(--star-horse-style);color: var(--star-horse-white)" :size="compSize">
@@ -211,7 +211,7 @@ defineExpose({
       </el-button>
     </li>
   </ul>
-  <el-menu mode="horizontal" :ellipsis="false" v-if="showType=='dropdown'">
+  <el-menu mode="horizontal" :ellipsis="false" v-if="showType=='dropdown'&&Object.keys(permissions||{}).length>0">
     <el-sub-menu index="1">
       <template #title> 操作</template>
       <el-menu-item index="1-1" v-if="permissions?.add&&!viewFlag&&checkSelfBtn('add')" @click="btnOperation('add')">

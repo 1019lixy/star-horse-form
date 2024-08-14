@@ -24,12 +24,7 @@ const dataUrl: ApiUrls = {
   importUrl: "/code-generator/generator/code/importData",
   uploadUrl: ""
 };
-const searchFormData = reactive<SearchFields>({
-  fieldList: [
-    {label: "应用名称", fieldName: "projectName", type: "input", matchType: "lk", defaultShow: true},
-    {label: "项目名称", fieldName: "applicationName", type: "input", matchType: "lk", defaultShow: true},
-  ]
-});
+
 let dbInfoList = ref<Array<SelectOption>>([]);
 let tableInfoList = ref<Array<SelectOption>>([]);
 let templateVersionList = ref<Array<SelectOption>>([]);
@@ -44,6 +39,13 @@ const loadTabInfo = async (val: any) => {
   }
   tableInfoList.value = await tableList(dataId);
 };
+const searchFormData = reactive<SearchFields>({
+  fieldList: [
+    {label: "数据库信息", fieldName: "datasourceConfigId", type: "select",  optionList: dbInfoList, defaultShow: true},
+    {label: "应用名称", fieldName: "projectName", type: "input", matchType: "lk", defaultShow: true},
+    {label: "项目名称", fieldName: "applicationName", type: "input", matchType: "lk", defaultShow: true},
+  ]
+});
 const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
@@ -70,6 +72,7 @@ const tableFieldList = reactive<PageFieldInfo>({
 如果表数量太多（>100），程序自动转异步执行，
 有构建失败风险.`,
       formShow: true,
+      tableShow: true
     },
     {
       label: "需要排除的表", fieldName: "excludesList",
@@ -209,15 +212,20 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
     },
     {
       label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
-    },
-    {
-      label: "修改人", disabled: "Y", fieldName: "updatedBy", type: "input",
+      tableShow: true,
     },
     {
       label: "创建日期", disabled: "Y", fieldName: "createdDate", type: "date",
+      tableShow: true,
     },
     {
+      label: "修改人", disabled: "Y", fieldName: "updatedBy", type: "input",
+      tableShow: true,
+    },
+
+    {
       label: "修改日期", disabled: "Y", fieldName: "updatedDate", type: "date",
+      tableShow: true,
     },
     {
       label: "是否已逻辑", fieldName: "isDel", type: "number",
@@ -254,7 +262,10 @@ provide("dialogProps", dialogProps);
 let permissions = ref<any>({});
 const selectItemFun = (_data: any) => {
 }
-const dataFormat = (_name: string, cellValue: Object): any => {
+const dataFormat = (name: string, cellValue: Object): any => {
+  if (name == "datasourceConfigId") {
+    return dbInfoList.value.find(item => item.value == cellValue)?.name || cellValue;
+  }
   return cellValue;
 }
 const init = async () => {
@@ -307,7 +318,7 @@ const closeAction = () => {
   </star-horse-dialog>
   <el-card class="inner_content">
     <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
-      <star-horse-search-comp @searchData="(data:any)=>codeGeneratorRef.createCreateParams(data)"
+      <star-horse-search-comp @searchData="(data:any)=>codeGeneratorRef.createSearchParams(data)"
                               :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>

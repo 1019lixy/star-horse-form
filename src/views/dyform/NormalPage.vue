@@ -142,7 +142,7 @@ watch(() => props.param,
     </star-horse-dialog>
     <el-card class="inner_content">
       <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
-        <star-horse-search-comp @searchData="(data:any)=>normalPageRef.createCreateParams(data)"
+        <star-horse-search-comp @searchData="(data:any)=>normalPageRef.createSearchParams(data)"
                                 :formData="searchFormData"
                                 :compUrl="dataUrl"/>
         <hr/>

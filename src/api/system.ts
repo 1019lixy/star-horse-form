@@ -36,7 +36,7 @@ export function treeCheckChange(treeComp: any, tableComp: any, dataForm: any, da
     }
     tableComp.setDataInfo(conditions, null);
     searchData(tableComp, conditions);
-};
+}
 
 /**
  * 调用Table组件查询数据
@@ -44,7 +44,7 @@ export function treeCheckChange(treeComp: any, tableComp: any, dataForm: any, da
  * @param data
  */
 export function searchData(tableComp: any, data: SearchParams[]) {
-    tableComp.createCreateParams(data);
+    tableComp.createSearchParams(data);
 };
 
 /**

@@ -6,6 +6,7 @@ import {SearchFields, SearchProps, SelectOption} from "@/components/types/Search
 import {getMenuId, loadGetData, loadPagePermission} from "@/api/sh_api";
 import {warning} from "@/utils/message";
 import {Config} from "@/api/settings.ts";
+
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/dbsearch-manage/dbsearch/dbinfoEntity/pageList",
   mergeUrl: "/dbsearch-manage/dbsearch/dbinfoEntity//merge",
@@ -20,46 +21,52 @@ const dataUrl: ApiUrls = {
   uploadUrl: "/dbsearch-manage/dbsearch/dbinfoEntity/importData",
   importUrl: ""
 };
-let dbTypeList = ref<SelectOption[]>([]);
-const searchFormData = reactive<SearchFields>({fieldList:[
-  {label: "数据库类型", fieldName: "dbType", type: "select", defaultShow:true, optionList: dbTypeList},
-  {label: "数据库名称", fieldName: "dbName", type: "input", defaultShow:true, matchType: "lk"},
-]});
+let dbTypeList = ref<Array<any>>([]);
+const searchFormData = reactive<SearchFields>({
+  fieldList: [
+    {label: "数据库类型", fieldName: "dbType", type: "select", defaultShow: true, optionList: dbTypeList},
+    {label: "数据库名称", fieldName: "dbName", type: "input", defaultShow: true, matchType: "lk"},
+  ]
+});
 const tableFieldList = reactive({
   fieldList: [
     {
       label: "主键", fieldName: "idDbinfo", type: "long",
     },
-    {
+    [{
       label: "数据库类型", fieldName: "dbType", type: "select", optionList: dbTypeList,
       required: true, formShow: true,
+      actionName: "change", actions: (val: any) => {
+        val["port"] = dbTypeList.value.find(item => item.value == val["dbType"])?.port;
+      },
       tableShow: true
     },
-    {
+      {
+        label: "数据库名称", fieldName: "dbName", type: "input",
+        formShow: true, required: true,
+        tableShow: true
+      }],
+    [{
       label: "数据库地址", fieldName: "host", type: "input",
-      formShow: true,
+      formShow: true, required: true,
       tableShow: true
     },
-    {
-      label: "数据库名称", fieldName: "dbName", type: "input",
-      formShow: true,
-      tableShow: true
-    },
-    {
-      label: "数据库端口", fieldName: "port", type: "number",
-      formShow: true,
-      tableShow: true
-    },
-    {
+
+      {
+        label: "数据库端口", fieldName: "port", type: "number",
+        formShow: true, required: true,
+        tableShow: true
+      }],
+    [{
       label: "用户名", fieldName: "userName", type: "input",
-      formShow: true,
+      formShow: true, required: true,
       tableShow: true
     },
-    {
-      label: "密码", fieldName: "password", type: "password",
-      formShow: true,
-      tableShow: true
-    },
+      {
+        label: "密码", fieldName: "password", type: "password",
+        formShow: true, required: true,
+        tableShow: true
+      }],
     {
       label: "禁用操作权限", fieldName: "exclusions", type: "textarea",
       formShow: true,
@@ -116,7 +123,8 @@ const dialogProps = reactive<DialogProps>({
   uploadVisible: false,
   viewVisible: false,
 });
-provide("dialogProps", dialogProps);let permissions = ref<any>({});
+provide("dialogProps", dialogProps);
+let permissions = ref<any>({});
 const loadDbTypeList = async () => {
   let {data, error} = await loadGetData("/dbsearch-manage/dbsearch/dbinfoEntity/dbType");
   if (error) {
@@ -124,7 +132,7 @@ const loadDbTypeList = async () => {
     return;
   }
   for (let val in data) {
-    let sdata: SelectOption = {name: data[val], value: val};
+    let sdata: any = {name: data[val].dbTypeName, value: data[val].dbTypeCode, port: data[val].dbDefaultPort};
     dbTypeList.value.push(sdata);
   }
 };
@@ -149,7 +157,7 @@ onMounted(() => {
 </style>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form  @refresh="dbinfoRef.loadByPage()" :compUrl="dataUrl"
+    <star-horse-form @refresh="dbinfoRef.loadByPage()" :compUrl="dataUrl"
                      :fieldList="tableFieldList" :rules="rules"/>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title=
@@ -158,13 +166,15 @@ onMounted(() => {
   </star-horse-dialog>
   <el-card class="inner_content">
     <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
-      <star-horse-search-comp @searchData="(data:any)=>dbinfoRef.createCreateParams(data)" :formData="searchFormData"
+      <star-horse-search-comp @searchData="(data:any)=>dbinfoRef.createSearchParams(data)" :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
-      <star-horse-button-list :permissions="permissions"  @tableCompFunc="(fun:any)=>dbinfoRef.tableCompFunc(fun)" :compUrl="dataUrl"
+      <star-horse-button-list :permissions="permissions" @tableCompFunc="(fun:any)=>dbinfoRef.tableCompFunc(fun)"
+                              :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
-    <star-horse-table-comp :permissions="permissions"   ref="dbinfoRef" :fieldList="tableFieldList" :primaryKey="primaryKey" :compUrl="dataUrl"
+    <star-horse-table-comp :permissions="permissions" ref="dbinfoRef" :fieldList="tableFieldList"
+                           :primaryKey="primaryKey" :compUrl="dataUrl"
                            :dataFormat="dataFormat"/>
   </el-card>
 </template>

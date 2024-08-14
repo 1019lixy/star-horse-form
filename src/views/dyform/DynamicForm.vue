@@ -105,11 +105,14 @@ const formPropertyRef = ref();
 const codeDoSave = () => {
 };
 const doSave = async () => {
+  let formData = formPropertyRef.value.getFormData();
+  console.log(formData);
+  designForm.setFormInfo(formData.value);
   if (!isSubmit.value) {
     closeAction();
     return;
   }
-  let dynameForm = JSON.parse(JSON.stringify(formInfo.value));
+
   let flag = false;
   await nextTick();
   errMessage.value = validDynamicFormCompParams(list.value, true);
@@ -117,13 +120,14 @@ const doSave = async () => {
     warning(errMessage.value);
     return;
   }
-  await formPropertyRef.value.$refs.itemFormInfo.validate((evt: boolean) => {
+  await formPropertyRef.value.$refs.dynamicFormItemRef.$refs.starHorseFormRef.validate((evt: boolean) => {
     flag = evt;
   });
   if (!flag) {
     warning("请先填写表单信息");
     return;
   }
+  let dynameForm = JSON.parse(JSON.stringify(formInfo.value));
   //解决多次转换
   dynameForm!["relations"] = (dynameForm["relations"] && dynameForm["relations"] instanceof Array) ?
       JSON.stringify(dynameForm["relations"]) : dynameForm["relations"];
@@ -161,7 +165,7 @@ const formInfoChange = (_data: any) => {
 const getComponentName = (data: any) => {
   return data.itemType + "-item";
 };
-const onDragAdd = async (evt: Event, dataList: Array<any>) => {
+const onDragAdd = async (_evt: Event, dataList: Array<any>) => {
   // let index = evt.oldIndex;
   if (draggingItem.value.itemType == 'table') {
     let id = draggingItem.value.id;
@@ -273,7 +277,7 @@ watch(
 );
 watch(
     () => route.query["parentId"],
-    (val) => {
+    (val: any) => {
       if (val && val > 0) {
         loadFormData(val, true);
       }
@@ -324,7 +328,7 @@ onMounted(async () => {
       @merge="closeAction"
       :title="'批量修改属性'"
   >
-    <el-row style="font-width: bold;font-size:12px;margin-bottom: 5px;">
+    <el-row style="font-weight: bold;font-size:12px;margin-bottom: 5px;">
       <el-col :span="3">容器名称</el-col>
       <el-col :span="3">标签名称</el-col>
       <el-col :span="3">属性名称</el-col>

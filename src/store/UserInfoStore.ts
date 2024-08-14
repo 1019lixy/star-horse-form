@@ -1,9 +1,11 @@
 import {defineStore} from "pinia";
 import {MenusInfo} from "@/components/types/MenusInfo";
+
 export const UserInfo: any = defineStore("UserInfo", {
     state: () => {
         return {
             userInfo: {} as any,
+            pageButtonPermission: {} as any,
             permissionMenus: [] as Array<any>,
             dynamicMenus: [] as Array<MenusInfo>,
         }
@@ -53,6 +55,13 @@ export const UserInfo: any = defineStore("UserInfo", {
          */
         addPermissionMenus(data: any) {
             this.permissionMenus = data;
+        },
+        /**
+         * 添加页面按钮权限
+         * @param data
+         */
+        addPageButtonPermission(data: any) {
+            this.pageButtonPermission = data;
         },
         /**
          * 添加动态菜单
