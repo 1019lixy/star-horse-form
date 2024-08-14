@@ -312,7 +312,9 @@ let configInfo = computed(() => configStore.configFormInfo);
   </star-horse-dialog>
   <div class="header">
     <div :title="systemName" class="logo">
-      <img :src="getCustomerInfo()?.logo||'/logo.svg'" :height="getCustomerInfo()?.height||45"/>
+
+      <img v-if="getCustomerInfo()?.logo" :src="getCustomerInfo()?.logo" :height="getCustomerInfo()?.height||45"/>
+      <star-horse-icon v-else icon-class="logo"   style="color: var(--star-horse-white);height:45px;width:45px;font-weight:bold"/>
     </div>
     <div class="header-left">
       <star-horse-hmenu v-if="configInfo.menusCfg=='tradition'"/>
