@@ -35,6 +35,7 @@ const searchFormData = reactive<SearchFields>({fieldList:[
     label: "主体编码",
     fieldName: "customerCode",
     type: "input",
+    defaultShow: true,
     matchType: "lk"
   },
 ]});
@@ -129,7 +130,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "input",
     },
   ],
-  cellEditable: false,
+  cellEditable: true,
 });
 //主键
 const primaryKey = "idCustomer";

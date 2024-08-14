@@ -72,7 +72,10 @@ const tableFieldList = reactive({
     [{
       label: "授权生效日期", fieldName: "effectiveDate", type: "date",
       required: true, formShow: true,
-      tableShow: true
+      tableShow: true,
+      preps:{
+
+      }
     },
       {
         label: "授权失效日期", fieldName: "expiredDate", type: "date",

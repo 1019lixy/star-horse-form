@@ -105,7 +105,8 @@ const compPreps = () => {
   } else if (itemType.value === 'date' || itemType.value === 'daterange') {
     field.value.preps['type'] = unref(itemType);
     itemType.value = "datetime"
-    field.value.preps["valueFormat"] = "YYYY-MM-DD";
+    //日期默认以时间戳赋值
+    field.value.preps["valueFormat"] = "x";
     field.value.preps["endPlaceholder"] = "结束日期";
     field.value.preps["rangeSeparator"] = "到";
     field.value.preps["startPlaceholder"] = "开始日期";
