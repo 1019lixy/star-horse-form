@@ -38,7 +38,7 @@ let list = computed(() => designForm.compList);
 let isPreview = ref<any>(false);
 let batchEditFieldVisible = ref<any>(false);
 let activeTab = ref<any>("first");
-let errMessage = ref<String>("");
+let errMessage = ref<string>("");
 let formData = computed(() => designForm.formData);
 let formInfo = computed(() => designForm.formInfo);
 const fieldPanelRef = ref();
@@ -440,7 +440,7 @@ onMounted(async () => {
                 :validate-on-rule-change="formInfo['validateOnRuleChange']=='Y'"
             >
               <draggable
-                  @add="(evt) => onDragAdd(evt, list)"
+                  @add="(evt:Event) => onDragAdd(evt, list)"
                   class="main-design"
                   tag="div"
                   group="starHorseGroup"
