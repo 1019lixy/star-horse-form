@@ -74,7 +74,7 @@ onMounted(() => {
   <\/star-horse-dialog>
   <el-card class="inner_content">
     <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
-      <star-horse-search-comp   @searchData="(data:any)=>${convertToCamelCase(props.formInfo.tbName)}Ref.createCreateParams(data)" :formData="searchFormData"
+      <star-horse-search-comp   @searchData="(data:any)=>${convertToCamelCase(props.formInfo.tbName)}Ref.createSearchParams(data)" :formData="searchFormData"
                               :compUrl="dataUrl"\/>
       <hr>
       <star-horse-button-list :permissions="permissions"  @tableCompFunc="(fun:any)=>${convertToCamelCase(props.formInfo.tbName)}Ref.tableCompFunc(fun)" :compUrl="dataUrl"

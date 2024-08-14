@@ -9,7 +9,7 @@ import piniaInstance from "@/store";
 import {analysisSearchData} from "@/views/dyform/utils/preview.ts";
 
 let matchTypeList = ref<SelectOption[]>();
-let sarchIcon = ref<String>("search_down");
+let sarchIcon = ref<string>("search_down");
 let defaultSearch = ref<boolean>(true);
 let tips = ref<String>("高级查询");
 let showTips = ref<boolean>(true);
@@ -24,7 +24,7 @@ let configStore = GlobalConfig(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.inputSize || "small");
 let searchForm = ref<any>({});
 
-const createCreateParams = (formData: any) => {
+const createSearchParams = (formData: any) => {
   return analysisSearchData(searchForm.value, formData);
 };
 /**
@@ -49,7 +49,7 @@ const dataSearch = (val: string | null) => {
   if (val === "reset") {
     searchForm.value = {...analysisDefaultValue()};
   }
-  let searchDatas = createCreateParams(props.formData?.fieldList);
+  let searchDatas = createSearchParams(props.formData?.fieldList);
   //如果一个页面（包括引入的页面）出现多个此组件,不能走消息总线，
   // 否则只有最后一个组件能收到查询消息
   emits("searchData", searchDatas);
@@ -87,7 +87,7 @@ onMounted(() => {
   init();
 });
 defineExpose({
-  searchForm, setData, createCreateParams
+  searchForm, setData, createSearchParams
 })
 </script>
 <template>
@@ -107,7 +107,7 @@ defineExpose({
             </el-select>&nbsp;&nbsp;
           </template>
           <star-horse-item v-model:data-form="searchForm" :compSize="compSize" :item="item" :isSearch="true"
-                           @dataSearch="dataSearch" isEdit="true"/>
+                           @dataSearch="dataSearch" :isEdit="true"/>
         </el-form-item>
       </template>
       <template v-for="item in formData.fieldList" v-else>
@@ -129,18 +129,17 @@ defineExpose({
       </template>
     </el-form>
     <div class="search_btn">
-      <el-button @click="dataSearch" style="background: var(--star-horse-style);color: var(--star-horse-white)"
-                 :size="compSize">
+      <el-button @click="dataSearch" style="background: var(--star-horse-style);color: var(--star-horse-white)" :size="compSize">
         <star-horse-icon icon-class="search" color="var(--star-horse-white)"/>
-        <span style="vertical-align: middle"> 查询 </span>
+        查询
       </el-button>
       <el-button @click="dataSearch('reset')" link :size="compSize">
-        <span style="vertical-align: middle"> 重置 </span>
+        <star-horse-icon icon-class="undo" size="20px" color="var(--star-horse-disable)" /> 重置
       </el-button>
-      &nbsp;&nbsp;
       <el-tooltip :content="tips" v-if="showTips">
-        <star-horse-icon :icon-class="sarchIcon" size="20px" color="var(--star-horse-style)" cursor="pointer"
-                         @click="searchArea"/>
+        <el-button text @click="searchArea" :size="compSize">
+          <star-horse-icon :icon-class="sarchIcon" size="20px" color="var(--star-horse-style)" />
+        </el-button>
       </el-tooltip>
     </div>
   </div>

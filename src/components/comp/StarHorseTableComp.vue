@@ -134,7 +134,7 @@ const batchDelete = async () => {
  * 创建查询条件
  * @param formData
  */
-const createCreateParams = (formData: SearchParams[]) => {
+const createSearchParams = (formData: SearchParams[]) => {
   searchFields = formData;
   loadByPage();
 };
@@ -454,7 +454,7 @@ const setCondition = (cond: SearchParams[], orderBy: OrderByInfo[]) => {
 defineExpose({
   init,
   //查询
-  createCreateParams,
+  createSearchParams,
   loadByPage,
   getIds,
   multipleSelection,

@@ -53,7 +53,7 @@ const clear = () => {
 const exportData = () => {
   load("数据处理中");
   let params = {
-    fieldList: viewSearchRef.value.createCreateParams(searchFormData.value),
+    fieldList: viewSearchRef.value.createSearchParams(searchFormData.value),
     pageSize: 100,
     currentPage: 1
   }
@@ -158,7 +158,7 @@ onMounted(async () => {
       <div class="search_btn"
            :style="{'display':'flex', 'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
         <star-horse-search-comp ref="viewSearchRef"
-                                @searchData="(data:any)=>starHorseTableCompRef.createCreateParams(data)"
+                                @searchData="(data:any)=>starHorseTableCompRef.createSearchParams(data)"
                                 :formData="searchFormData"
                                 :compUrl="dataUrl"/>
         <hr v-if="Config.buttonStyle.value=='line'"/>

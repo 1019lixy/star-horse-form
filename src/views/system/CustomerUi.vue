@@ -180,7 +180,7 @@ const dataFormat = (_name: string, cellValue: any, row: any): any => {
   </star-horse-dialog>
   <el-card class="inner_content">
     <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
-      <star-horse-search-comp @searchData="(data:any)=>customerRef.createCreateParams(data)" :formData="searchFormData"
+      <star-horse-search-comp @searchData="(data:any)=>customerRef.createSearchParams(data)" :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
       <star-horse-button-list :permissions="permissions" @tableCompFunc="(fun:any)=>customerRef.tableCompFunc(fun)"

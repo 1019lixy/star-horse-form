@@ -138,7 +138,7 @@ onMounted(async () => {
   </star-horse-dialog>
   <el-card class="inner_content">
     <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
-      <star-horse-search-comp @searchData="(data:any)=>usersAuditRef.createCreateParams(data)" :formData="searchFormData"
+      <star-horse-search-comp @searchData="(data:any)=>usersAuditRef.createSearchParams(data)" :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
       <star-horse-button-list :permissions="permissions"  @tableCompFunc="(fun:any)=>usersAuditRef.tableCompFunc(fun)" :compUrl="dataUrl"

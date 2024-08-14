@@ -19,7 +19,8 @@ const workflowHost = "http://localhost:8899/"
 const continusHost = "http://localhost:8859/"
 // const dbSearchHost = "http://192.168.20.165:7759/"
 const dbSearchHost = "http://localhost:7759/"
-const userDbHost = "http://192.168.20.204:7758/"
+const userDbHost = "http://localhost:7758/"
+// const userDbHost = "http://192.168.20.204:7758/"
 // https://vitejs.dev/config/
 export default defineConfig({
     base:"/",

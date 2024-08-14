@@ -106,7 +106,7 @@ watch(
       dictSerchRef.value?.setData({dictType: val});
       let condition = [createCondition("dictType", val)];
       tabListRef.value!.setDataInfo(condition, null);
-      tabListRef.value!.createCreateParams(condition);
+      tabListRef.value!.createSearchParams(condition);
     }, {
       immediate: false,
       deep: true
@@ -147,7 +147,7 @@ onMounted(async () => {
   </star-horse-dialog>
   <el-card class="inner_content">
     <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
-      <star-horse-search-comp ref="dictSerchRef" @searchData="(data:any)=>tabListRef.createCreateParams(data)"
+      <star-horse-search-comp ref="dictSerchRef" @searchData="(data:any)=>tabListRef.createSearchParams(data)"
                               :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>

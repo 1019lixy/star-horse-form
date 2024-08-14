@@ -2,8 +2,8 @@
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings.ts";
 import {DialogProps} from "@/components/types/DialogProps"
-import {onMounted, provide, reactive, ref, watch} from "vue";
-import {SearchFields, SearchProps, SelectOption} from "@/components/types/SearchProps";
+import {onMounted, provide, reactive, ref} from "vue";
+import {SearchFields, SelectOption} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {dictData, getMenuId, loadMenusInfo, loadPagePermission, loadRolesInfo, loadSystemInfo} from "@/api/sh_api";
 import {ElTreeV2} from "element-plus";
@@ -30,11 +30,16 @@ let systemInfoList = ref<SelectOption[]>();
 let rolesList = ref<SelectOption[]>();
 let menusList = ref<SelectOption[]>();
 let authorityList = ref<SelectOption[]>();
-const searchFormData = reactive<SearchFields>({fieldList:[
-  /* {label: "所属系统", fieldName: "informationsSingleId", type: "select", optionList: systemInfoList},*/
-  {label: "角色名称", defaultShow: true, fieldName: "idRolesinfo", type: "select", optionList: rolesList},
-  {label: "创建日期", fieldName: "createdDate", type: "date", matchType: "bt"},
-]});
+let dataForm = ref<any>({});
+const searchFormData = reactive<SearchFields>({
+  fieldList: [
+/*
+     {label: "所属系统", defaultShow: true, fieldName: "informationsSingleId", type: "select", optionList: systemInfoList},
+*/
+    {label: "角色名称", defaultShow: true, fieldName: "idRolesinfo", type: "select", optionList: rolesList},
+    {label: "创建日期", fieldName: "createdDate", type: "date", matchType: "bt"},
+  ]
+});
 const loadMenuBySystemId = async (systemId: any) => {
   let params = [{
     "propertyName": "informationsSingleId",
@@ -165,6 +170,7 @@ const filterMethod = (query: string, node: TreeNode) => {
  * @param checked
  */
 const checkChange = (data: TreeNodeData, checked: boolean) => {
+
   treeCheckChange(treeRef.value, menuBtnTableRef.value, dataForm.value, data, checked);
 };
 const initData = async () => {
@@ -181,7 +187,7 @@ onMounted(async () => {
 </style>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form  @refresh="menuBtnTableRef.loadByPage()" :compUrl="dataUrl"
+    <star-horse-form :outerFormData="dataForm" @refresh="menuBtnTableRef.loadByPage()" :compUrl="dataUrl"
                      :fieldList="tableFieldList"
                      :rules="rules"/>
   </star-horse-dialog>
@@ -219,7 +225,7 @@ onMounted(async () => {
       <el-col :span="21" style="height: inherit">
         <el-card class="inner_content" style="height: inherit">
           <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
-            <star-horse-search-comp @searchData="(data:any)=>menuBtnTableRef.createCreateParams(data)"
+            <star-horse-search-comp @searchData="(data:any)=>menuBtnTableRef.createSearchParams(data)"
                                     :formData="searchFormData"
                                     :compUrl="dataUrl"/>
             <hr/>
