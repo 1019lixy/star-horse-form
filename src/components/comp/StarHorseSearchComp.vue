@@ -32,7 +32,7 @@ const createCreateParams = (formData: any) => {
  */
 const analysisDefaultValue = () => {
   let defaultDatas: any = {};
-  props.formData?.fieldList.forEach((item: any) => {
+  props.formData?.fieldList?.forEach((item: any) => {
     if (item.defaultValue) {
       if (isJson(item.defaultValue)) {
         for (let key in item.defaultValue) {
@@ -78,8 +78,8 @@ const init = async () => {
   searchForm.value = {...analysisDefaultValue()};
   await nextTick();
   //没有隐藏的查询属性，则隐藏掉展开图标
-  let fdata = props.formData?.fieldList.find(item => !item.defaultShow);
-  if (!fdata && props.formData?.fieldList.length > 0) {
+  let fdata = props.formData?.fieldList?.find(item => !item.defaultShow);
+  if (!fdata && props.formData?.fieldList?.length > 0) {
     showTips.value = false;
   }
 };

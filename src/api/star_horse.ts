@@ -152,10 +152,7 @@ export async function userLogout(data: Array<Object>) {
             userInfoStore.logout();
             navBarListStore.clearAll();
             viewListStore.clearAll();
-            router.push({
-                path: "/login",
-                query: {redirect: router.currentRoute.value.fullPath}
-            });
+            router.push({path: "/login"});
         }
     }).catch(err => error(err));
 }
@@ -171,8 +168,17 @@ export async function permissionMenus(data: any, sysId: string) {
 }
 
 export function permissionResources(data: any) {
-    let userId = data.userId || getUserId();
-    return postRequest(`/system-config/system/resourcesEntity/permissionResources/${userId}/${data.menuId}`, {})
+    // let userId = data.userId || getUserId();
+    // console.log(userInfoStore.pageButtonPermission);
+    let permissons = userInfoStore.pageButtonPermission[data.menuId];
+    // console.log(permissons);
+    if (permissons && permissons.length > 0) {
+        return permissons;
+    } else {
+        console.log("没有页面按钮操作权限,请联系系统管理员授权");
+    }
+    //不再每打开一次页面加载一次权限，减小系统请求开销
+    // return postRequest(`/system-config/system/resourcesEntity/permissionResources/${userId}/${data.menuId}`, {})
 }
 
 /**
@@ -184,7 +190,7 @@ export function restoreMenu() {
         let data = localStorage.getItem("menusInfo");
         if (data) {
             createRouterAndMenuList(JSON.parse(data));
-            userInfoStore.addPermissionMenus(menuns);
+            // userInfoStore.addPermissionMenus(menuns);
         }
     } else {
         menuns?.forEach((item: any) => {
@@ -201,6 +207,7 @@ export function restoreMenu() {
  */
 export function createRouterAndMenuList(redata: Array<Object>): MenusInfo[] {
     let leftMenuDatas: MenusInfo[] = [];
+    let pageButtonPermissions: any = {};
     if (!redata) {
         return leftMenuDatas;
     }
@@ -220,6 +227,7 @@ export function createRouterAndMenuList(redata: Array<Object>): MenusInfo[] {
             if (item.menuPath == "#" && item.children?.length == 0) {
                 continue;
             }
+            pageButtonPermissions[item.idMenusinfo] = item["pageButtonPermissions"];
             let arr = item.menuPath.split("/");
             let menuName = arr[arr.length - 1];
             menuName = menuName.endsWith(Config.fileExt) ? menuName.split(".")[0] : menuName;
@@ -253,7 +261,9 @@ export function createRouterAndMenuList(redata: Array<Object>): MenusInfo[] {
     }
 
     leftMenuDatas = loopCreateMenu(redata, 1);
+
     userInfoStore.addPermissionMenus(leftMenuDatas);
+    userInfoStore.addPageButtonPermission(pageButtonPermissions);
     localStorage.setItem("menusInfo", JSON.stringify(redata));
     localStorage.setItem("dynamicMenusLists", JSON.stringify(userInfoStore.dynamicMenus));
     return leftMenuDatas;

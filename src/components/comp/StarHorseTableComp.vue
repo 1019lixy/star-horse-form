@@ -599,7 +599,7 @@ defineExpose({
       <star-horse-table-column :data-format="dataFormat" :item="item"/>
     </template>
     <el-table-column
-        v-if="!disableAction"
+        v-if="!disableAction&&Object.keys(permissions||{}).length>0"
         fixed="right"
         label="操作"
         :width="160"

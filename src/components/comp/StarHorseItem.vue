@@ -120,7 +120,7 @@ const compPreps = () => {
       cellEditable: false,
       fieldList: inputPreps.fieldList
     };
-    field.value.preps["searchFieldList"] = [];
+    let searchFieldList = [];
     field.value.preps["filterCondition"] = inputPreps.filterCondition;
     field.value.preps["orderBy"] = inputPreps.orderBy;
     inputPreps.fieldList?.forEach((item: FieldInfo) => {
@@ -134,8 +134,9 @@ const compPreps = () => {
       if (item?.type == "input" && !item["matchType"]) {
         temp["matchType"] = "lk";
       }
-      field.value.preps["searchFieldList"].push(temp);
+      searchFieldList.push(temp);
     });
+    field.value.preps["searchFieldList"] = {fieldList: searchFieldList};
     field.value.preps["dataUrl"] = inputPreps.dataUrl;
     field.value.preps["needField"] = inputPreps.needField;
     field.value.preps["dataFormat"] = inputPreps.dataFormat;

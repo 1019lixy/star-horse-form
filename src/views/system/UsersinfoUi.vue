@@ -401,7 +401,7 @@ const pwdFieldInfo = reactive<PageFieldInfo | any>({
             <hr/>
             <star-horse-button-list v-if="!viewRolesinfoId"
                                     @tableCompFunc="(fun:any)=>usersinfoTableListRef.tableCompFunc(fun)"
-                                    :compUrl="dataUrl"
+                                    :compUrl="dataUrl" :permissions="permissions"
                                     :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
           </div>
           <hr>

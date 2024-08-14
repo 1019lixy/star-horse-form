@@ -13,6 +13,7 @@ import {
 } from "@/api/sh_api";
 import {warning} from "@/utils/message";
 import {Config} from "@/api/settings.ts";
+import {DialogInput} from "@/components/types/PageFieldInfo";
 
 const assignType = ref<SelectOption[]>([{name: "按用户授权", value: 1}, {name: "按角色授权", value: 2}]);
 const assignTypeRef = ref(null);
@@ -33,6 +34,8 @@ const dataUrl: ApiUrls = {
   uploadUrl: "/dbsearch-manage/dbsearch/dbAssign/importData",
   importUrl: ""
 };
+
+
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {label: "授权数据库", fieldName: "dbinfoSingle", defaultShow: true, type: "select", optionList: dbList},
@@ -41,27 +44,28 @@ const searchFormData = reactive<SearchFields>({
     {label: "经办人", fieldName: "operator", type: "input"},
   ]
 });
+let params = ref<DialogInput>({dataUrl: {}, fieldList: [], needField: [], primaryKey: ""});
 const tableFieldList = reactive({
   fieldList: [
     {
       label: "db授权主键", fieldName: "idDbAssign", type: "long",
     },
-    {
-      label: "授权数据库", fieldName: "dbinfoRespDto['dbComment']", type: "select", optionList: dbList,
-      required: true,
-      tableShow: true
-    },
+
     {
       label: "授权数据库", fieldName: "dbinfoSingle", type: "select", optionList: dbList,
-      required: true, formShow: true,
+      required: true, formShow: true, tableShow: true, editDisabled: "Y"
     },
     [{
       label: "授权类型", fieldName: "assignType", type: "select", optionList: assignType,
-      required: true, formShow: true,
+      required: true, formShow: true, editDisabled: "Y", actionName: "change", actions: (val: any) => {
+        searchUserOrRole(val);
+      },
       tableShow: true
     }, {
-      label: "被授权人账号", fieldName: "assignNo", type: "input",
-      required: true, formShow: true,
+      label: "被授权账号/角色", fieldName: "assignNo", type: "page-select",
+      required: true, formShow: true, editDisabled: "Y",
+      // optionList: userOrRoleList,
+      params: params,
       tableShow: true
     },
     ],
@@ -126,8 +130,6 @@ const tableFieldList = reactive({
 const primaryKey = "idDbAssign";
 const grantPermissionRef = ref();
 const rules = {};
-const dataForm = ref<any>({});
-provide("dataForm", dataForm);
 const dialogProps = reactive<DialogProps>({
   bakeVisible1: false, bakeVisible2: false, bakeVisible3: false,
   ids: 0,
@@ -141,38 +143,61 @@ const dialogProps = reactive<DialogProps>({
 provide("dialogProps", dialogProps);
 let permissions = ref<any>({});
 const searchUserOrRole = (val: any) => {
-  let type = dataForm.value.assignType;
+  let type = val["assignType"];
   if (!type) {
-    warning("请先选择授权类型");
-    dataForm.value.assignNo = "";
-    assignTypeRef.value!.focus();
+   // warning("请先选择授权类型");
     return;
   }
-  let obj = {"propertyName": type == 1 ? "name" : "roleName", "value": val, "operation": "lk"};
-  queryCondition(obj);
-};
-const queryCondition = async (obj: any) => {
-  let type = dataForm.value.assignType;
-  let cond: any = [{"propertyName": "isDel", "value": 0},
+  params.value.condition=[{"propertyName": "isDel", "value": 0},
     {"propertyName": "statusCode", "value": "1"}];
-  if (obj) {
-    cond.push(obj);
-  }
-  let {data, error} = await
-      loadData(`/system-config/dbsearch/${type == 1 ? "usersinfoEntity" : "rolesinfoEntity"}/getAllByCondition`,
-          cond);
-  if (error) {
-    warning(error);
-    return;
-  }
-  if (type == 2) {
-    data.forEach((item: any, index: number) => {
-      userOrRoleList.value.push({name: item.roleName, value: item.roleCode});
-    });
-  } else {
-    data.forEach((item: any, index: number) => {
-      userOrRoleList.value.push({name: item.name, value: item.username});
-    });
+  if(type==1){
+    params.value.fieldList = [{
+      label: "用户名",
+      fieldName: "username",
+      type:"input",
+      tableShow: true,
+    }, {
+      label: "姓名",
+      fieldName: "name",
+      type:"input",
+      tableShow: true,
+    }, {
+      label: "工号",
+      fieldName: "employeeNo",
+      type:"input",
+      tableShow: true,
+    }];
+    params.value.needField = [
+      {sourceField: "username", distField: "assignTo"}
+    ];
+    params.value.dataUrl = {
+      loadByPageUrl: "/system-config/system/usersinfoEntity/pageList"
+    };
+    params.value.primaryKey = "idUsersinfo";
+  }else{
+    params.value.fieldList = [{
+      label: "角色名称",
+      fieldName: "roleName",
+      type:"input",
+      tableShow: true,
+    }, {
+      label: "角色编码",
+      type:"input",
+      fieldName: "roleCode",
+      tableShow: true,
+    }, {
+      label: "角色类型",
+      type:"input",
+      fieldName: "roleType",
+      tableShow: true,
+    }];
+    params.value.needField = [
+      {sourceField: "roleCode", distField: "assignTo"}
+    ];
+    params.value.dataUrl = {
+      loadByPageUrl: "/system-config/system/rolesinfoEntity/pageList"
+    };
+    params.value.primaryKey = "idRolesinfo";
   }
 };
 const initDbList = async () => {
@@ -187,9 +212,12 @@ const initDbList = async () => {
     dbList.value.push({name: item.dbType + ':' + item.host + '/' + item.dbName, value: item.dataNo})
   });
 };
-const dataFormat = (name: string, cellValue: Object): any => {
+const dataFormat = (name: string, cellValue: Object, row: any): any => {
   if (name == "assignType") {
     return assignType.value.find(item => item.value == parseInt(cellValue))?.name;
+  } else if (name == "dbinfoSingle") {
+    let data = row["dbinfoRespDto"];
+    return data.host + "/" + data.dbName || cellValue;
   }
   if (name == "effectiveDate" || name == "expiredDate") {
     return createDatetime(cellValue);
@@ -208,7 +236,7 @@ onMounted(() => {
 </style>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form v-model:data-form="dataForm" @refresh="grantPermissionRef.loadByPage()" :compUrl="dataUrl"
+    <star-horse-form @refresh="grantPermissionRef.loadByPage()" :compUrl="dataUrl"
                      :fieldList="tableFieldList" :rules=
                          "rules"/>
   </star-horse-dialog>

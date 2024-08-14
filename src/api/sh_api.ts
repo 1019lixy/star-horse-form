@@ -258,12 +258,16 @@ export function getMenuId() {
 export async function loadPagePermission(menuId: string) {
     let permission: any = {};
     let data: any = {"menuId": menuId};
-    await permissionResources(data).then(res => {
-        let redata = res.data.data;
-        redata.forEach((item: any) => {
-            permission[item.resCode] = item.resCode;
-        });
+    let redata: Array<any> = permissionResources(data);
+    redata?.forEach((item: any) => {
+        permission[item.resCode] = item.resCode;
     });
+    // await permissionResources(data).then(res => {
+    //     let redata = res.data.data;
+    //     redata.forEach((item: any) => {
+    //         permission[item.resCode] = item.resCode;
+    //     });
+    // });
     return permission
 }
 
