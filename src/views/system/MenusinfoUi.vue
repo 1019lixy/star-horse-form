@@ -6,7 +6,7 @@ import {onMounted, provide, reactive, ref, unref, watch} from "vue";
 import {SearchFields, SelectOption} from "@/components/types/SearchProps";
 import {
   closeLoad,
-  createTree,
+  createTree, dictData,
   getMenuId,
   load,
   loadData,
@@ -51,6 +51,7 @@ const searchFormData = reactive<SearchFields>({
   ]
 });
 let menuIconList = ref<SelectOption[]>([]);
+let openTypeList = ref<SelectOption[]>([]);
 const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [{
     label: "主键", fieldName: "idMenusinfo", type: "long",
@@ -67,7 +68,7 @@ const tableFieldList = reactive<PageFieldInfo>({
       }],
     [{
       label: "归属应用名称", fieldName: "informationsSingleId", type: "select", optionList: informationsList,
-      required: true, formShow: true, disabled: "N", defaultValue: currentInformation,
+      required: true, formShow: true,  defaultValue: currentInformation,
       tableShow: true
     },
       {
@@ -92,10 +93,15 @@ const tableFieldList = reactive<PageFieldInfo>({
         required: true, formShow: true,
         tableShow: true
       },
-      {
+      ],
+      [{
         label: "是否缓存页面", fieldName: "keepAlive", type: "switch",
         defaultValue: "Y",
         formShow: true,
+        tableShow: true
+      },{
+        label: "页面打开方式", fieldName: "openType", type: "select", optionList: openTypeList,
+        required: true, formShow: true,  defaultValue: "self",
         tableShow: true
       }],
     {
@@ -247,6 +253,7 @@ const initData = async () => {
   permissions.value = await loadPagePermission(getMenuId())
   let params: any = [{propertyName: "statusCode", value: "1"}]
   informationsList.value = await loadSystemInfo(params);
+  openTypeList.value=await dictData("page_open_type");
   // await loadMenuBySystemId(true);
   let {data} = await loadData(dataUrl.userConditionUrl!, params);
   if (data) {

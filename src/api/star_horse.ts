@@ -247,7 +247,12 @@ export function createRouterAndMenuList(redata: Array<Object>): MenusInfo[] {
                 },
             });
             if (path.indexOf("/page/") == -1) {
-                router.addRoute("Index", data);
+                if(item.openType=="self"){
+                    router.addRoute("Index", data);
+                }else{
+                    router.addRoute( data);
+                }
+
             } else {
                 userInfoStore.addDynamicMenus(data);
             }

@@ -57,6 +57,10 @@ a {
 #app {
   -webkit-font-smoothing: antialiased;
   background: var(--star-horse-background);
+  height: 100%;
+  .el-card{
+    height: 100%;
+  }
 }
 
 .el-dialog {
@@ -517,7 +521,7 @@ hr {
         display: flex;
         flex-direction: column;
         box-sizing: border-box;
-        height: 100%;
+        height: 100% !important;
         padding: 5px;
 
         .search_btn {

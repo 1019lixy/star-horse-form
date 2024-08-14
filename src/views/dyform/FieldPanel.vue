@@ -9,7 +9,7 @@ let formDataList = computed(() => designForm.formDataList);
 let containerList = computed(() => designForm.containerList);
 let selfFormDataList = computed(() => designForm.selfFormDataList);
 let tabModel = ref<string>("component");
-let activeNames = ref(['a', 'b', 'c', 'd']);
+let activeNames = ref(['b', 'c', 'd']);
 let formData = computed(() => designForm.formData);
 const onContainerCopy = (data: any) => {
   return onDataCopy(data, 'container');

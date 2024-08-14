@@ -182,6 +182,7 @@ export async function redirectUrlOperation(url: string, searchInfo?: SearchInfo,
 }
 
 export const isDark = useDark();
+isDark.value=false;
 export const toggle=useToggle(isDark);
 export const toggleDark = (val:string) => {
     // event.stopPropagation();

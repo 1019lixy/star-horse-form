@@ -491,7 +491,7 @@ onMounted(async () => {
 </template>
 <style lang="scss" scoped>
 :deep(.el-card__body) {
-  padding: 5px;
+  padding: 0;
   height: 100%;
 }
 
@@ -538,7 +538,7 @@ onMounted(async () => {
     display: flex;
     flex: 1;
     flex-direction: column;
-    height: 100%;
+    /*height: 100%;*/
     overflow: hidden;
 
     .inner_button {
