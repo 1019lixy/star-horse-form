@@ -13,6 +13,7 @@ import {
 } from "@/api/sh_api";
 import {warning} from "@/utils/message";
 import {Config} from "@/api/settings.ts";
+
 const assignType = ref<SelectOption[]>([{name: "按用户授权", value: 1}, {name: "按角色授权", value: 2}]);
 const assignTypeRef = ref(null);
 let userOrRoleList = ref<SelectOption[]>([]);
@@ -32,20 +33,18 @@ const dataUrl: ApiUrls = {
   uploadUrl: "/dbsearch-manage/dbsearch/dbAssign/importData",
   importUrl: ""
 };
-const searchFormData = reactive<SearchFields>({fieldList:[
-  {label: "授权数据库", fieldName: "dbinfoSingle", defaultShow: true, type: "select", optionList: dbList},
-  {label: "被授权人编号", fieldName: "assignNo", defaultShow: true, type: "input", matchType: "lk"},
-  {label: "授权类型 ", fieldName: "assignType", defaultShow: true, type: "select", optionList: assignType},
-  {label: "经办人", fieldName: "operator", type: "input"},
-]});
+const searchFormData = reactive<SearchFields>({
+  fieldList: [
+    {label: "授权数据库", fieldName: "dbinfoSingle", defaultShow: true, type: "select", optionList: dbList},
+    {label: "被授权人编号", fieldName: "assignNo", defaultShow: true, type: "input", matchType: "lk"},
+    {label: "授权类型 ", fieldName: "assignType", defaultShow: true, type: "select", optionList: assignType},
+    {label: "经办人", fieldName: "operator", type: "input"},
+  ]
+});
 const tableFieldList = reactive({
   fieldList: [
     {
       label: "db授权主键", fieldName: "idDbAssign", type: "long",
-    },
-    {
-      label: "授权数据库", fieldName: "dbinfoSingle", type: "select", optionList: dbList,
-      required: true, formShow: true,
     },
     {
       label: "授权数据库", fieldName: "dbinfoRespDto['dbComment']", type: "select", optionList: dbList,
@@ -53,15 +52,29 @@ const tableFieldList = reactive({
       tableShow: true
     },
     {
+      label: "授权数据库", fieldName: "dbinfoSingle", type: "select", optionList: dbList,
+      required: true, formShow: true,
+    },
+    [{
+      label: "授权类型", fieldName: "assignType", type: "select", optionList: assignType,
+      required: true, formShow: true,
+      tableShow: true
+    }, {
       label: "被授权人账号", fieldName: "assignNo", type: "input",
       required: true, formShow: true,
       tableShow: true
     },
-    {
-      label: "授权类型", fieldName: "assignType", type: "select", optionList: assignType,
+    ],
+    [{
+      label: "授权生效日期", fieldName: "effectiveDate", type: "date",
       required: true, formShow: true,
       tableShow: true
     },
+      {
+        label: "授权失效日期", fieldName: "expiredDate", type: "date",
+        required: true, formShow: true,
+        tableShow: true
+      }],
     {
       label: "经办人", fieldName: "operator", type: "input",
       tableShow: true
@@ -76,16 +89,7 @@ const tableFieldList = reactive({
       required: true, formShow: true,
       tableShow: true
     },
-    {
-      label: "授权生效日期", fieldName: "effectiveDate", type: "date",
-      required: true, formShow: true,
-      tableShow: true
-    },
-    {
-      label: "授权失效日期", fieldName: "expiredDate", type: "date",
-      required: true, formShow: true,
-      tableShow: true
-    },
+
     {
       label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
     },
