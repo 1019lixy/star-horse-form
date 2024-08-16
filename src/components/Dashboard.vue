@@ -244,15 +244,5 @@ const configInfo = computed(() => configStore.configFormInfo);
   }
 }
 
-.main-copyright {
-  display: flex;
-  margin-top: 3px;
-  line-height: 30px;
-  border-radius: 2px;
-  font-weight: bold;
-  align-items: center;
-  justify-content: center;
-  background: var(--star-horse-background);
-  width: 100%;
-}
+
 </style>

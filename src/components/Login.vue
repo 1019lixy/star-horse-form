@@ -218,7 +218,7 @@ watch(
             </el-tab-pane>
             <el-tab-pane :label="i18n('loginType.rtCode')" name="second">
               <div class="login-form" style="margin:0 auto;height: 455px">
-                <img :src="rtCodeimg">
+                <img :src="rtCodeimg" :alt="i18n('loginType.validCode')">
               </div>
             </el-tab-pane>
           </el-tabs>
@@ -231,8 +231,7 @@ watch(
               <star-horse-icon icon-class="wechat" size="30px" cursor="pointer" @click="otherLogin('wechat')"/>
             </el-tooltip>
             <el-tooltip :content="i18n('loginType.alipay')">
-              <star-horse-icon icon-class="alipay" size="30px" cursor="pointer" @click=
-                  "otherLogin('alipay')"/>
+              <star-horse-icon icon-class="alipay" size="30px" cursor="pointer" @click="otherLogin('alipay')"/>
             </el-tooltip>
             <el-tooltip :content="i18n('loginType.weibo')">
               <star-horse-icon icon-class="weibo" size="30px" cursor="pointer" @click="otherLogin('weibo')"/>
@@ -325,7 +324,7 @@ watch(
 
       .title {
         justify-content: flex-end;
-        color: rgba(255, 255, 255, 1);
+        color: var(--star-horse-white);
         align-items: center;
         display: flex;
       }
@@ -349,7 +348,7 @@ watch(
 
 .login-form {
   border-radius: 6px;
-  background: #ffffff;
+  background: var(--star-horse-white);
   width: 500px;
   padding: 25px 25px 5px 25px;
 }

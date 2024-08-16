@@ -15,6 +15,7 @@ export default {
     "loginType.wechat": "微信",
     "loginType.alipay": "支付宝",
     "loginType.weibo": "微博",
+    "loginType.validCode": "验证码",
     "login.userName": "账  号",
     "login.password": "密  码",
     "login.validCode": "验证码",

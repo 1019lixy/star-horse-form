@@ -13,6 +13,7 @@ export default {
     "loginType.wechat": "WebChat",
     "loginType.alipay": "Alipay",
     "loginType.weibo": "Webo",
+    "loginType.validCode": "Valid Code",
     "login.userName": "UserName",
     "login.password": "Password",
     "login.validCode": "Code",
