@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import {createRouterAndMenuList, permissionMenus} from "@/api/star_horse";
 import {computed, nextTick, onMounted, reactive, ref, watch} from "vue";
-import {UserInfo} from "@/store/UserInfoStore";
+import {userInfoStore} from "@/store/UserInfoStore";
 import {MenusInfo} from "@/components/types/MenusInfo";
 import piniaInstance from "@/store";
 import FixedSubMenu from "@/components/menu/FixedSubMenu.vue";
 
-let userInfoStore = UserInfo(piniaInstance);
+let userStore = userInfoStore(piniaInstance);
 // const emits = defineEmits(["collopseOperation"]);
 let leftMenuDatas = ref<MenusInfo[]>([]);
 let props = defineProps({
@@ -41,7 +41,7 @@ const overHandler = (item: any) => {
   currentItem.value = {};
 }*/
 onMounted(async () => {
-  let menus = userInfoStore.getPermissionMenus;
+  let menus = userStore.getPermissionMenus;
   if (menus.length == 0) {
     await loadMenus("-1");
   } else {

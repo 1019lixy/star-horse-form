@@ -4,16 +4,7 @@ import {Config} from "@/api/settings.ts";
 import {DialogProps} from "@/components/types/DialogProps"
 import {onMounted, provide, reactive, ref, unref, watch} from "vue";
 import {SearchFields, SelectOption} from "@/components/types/SearchProps";
-import {
-  closeLoad,
-  createTree, dictData,
-  getMenuId,
-  load,
-  loadData,
-  loadElementPlusIcon,
-  loadPagePermission,
-  loadSystemInfo
-} from "@/api/sh_api";
+import {closeLoad, createTree, dictData, load, loadData, loadElementPlusIcon, loadSystemInfo} from "@/api/sh_api";
 import {postRequest} from "@/api/star_horse";
 import {error, success, warning} from "@/utils/message";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
@@ -180,7 +171,7 @@ const dialogProps = reactive<DialogProps>({
   viewVisible: false
 });
 provide("dialogProps", dialogProps);
-let permissions = ref<any>({});
+
 const menuFormRef = ref(null);
 const menuTableListRef = ref();
 const dataFormat = (name: string, cellValue: any, row: any): any => {
@@ -250,7 +241,7 @@ const checkChange = (data: TreeNodeData, checked: boolean) => {
   currentInformation.value = data.value ;
 };
 const initData = async () => {
-  permissions.value = await loadPagePermission(getMenuId())
+
   let params: any = [{propertyName: "statusCode", value: "1"}]
   informationsList.value = await loadSystemInfo(params);
   openTypeList.value=await dictData("page_open_type");
@@ -316,12 +307,12 @@ onMounted(async () => {
                                     :formData="searchFormData"
                                     :compUrl="dataUrl"/>
             <hr/>
-            <star-horse-button-list :permissions="permissions"
+            <star-horse-button-list
                                     @tableCompFunc="(fun:any)=>menuTableListRef.tableCompFunc(fun)" :compUrl="dataUrl"
                                     :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
           </div>
           <hr>
-          <star-horse-table-comp :permissions="permissions" :fieldList="tableFieldList" :primaryKey="primaryKey"
+          <star-horse-table-comp  :fieldList="tableFieldList" :primaryKey="primaryKey"
                                  :compUrl="dataUrl"
                                  :dataFormat="dataFormat" :show-batch-field="true" ref="menuTableListRef"/>
         </el-card>

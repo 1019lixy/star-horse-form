@@ -1,10 +1,10 @@
 <script setup lang="ts" name="ProjectMember">
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {onMounted, provide, reactive, ref, watch} from "vue";
-import {SearchFields, SearchProps} from "@/components/types/SearchProps.d.ts";
+import {SearchFields} from "@/components/types/SearchProps.d.ts";
 import {SearchParams} from "@/components/types/Params.d.ts";
 import {DialogInput} from "@/components/types/PageFieldInfo";
-import {getMenuId, loadPagePermission} from "@/api/sh_api.ts";
+
 const props = defineProps({
   projectId: {type: Number}
 });
@@ -110,12 +110,12 @@ const dialogProps = reactive<DialogInput>({
   viewVisible: false,
 });
 provide("dialogProps", dialogProps);
-let permissions = ref<any>({});
+
 const dataFormat = (name: string, cellValue: Object): any => {
   return cellValue;
 }
 const init = async () => {
-  permissions.value = await loadPagePermission(getMenuId())
+
 };
 let filterCondition = ref<SearchParams[]>([]);
 const filterFun = () => {
@@ -151,10 +151,10 @@ onMounted(async () => {
           <star-horse-search-comp   @searchData="(data:any)=>projectMemberRef.createSearchParams(data)" :formData="searchFormData"
                                   :compUrl="dataUrl"/>
           <hr/>
-          <star-horse-button-list :permissions="permissions"  @tableCompFunc="(fun:any)=>projectMemberRef.tableCompFunc(fun)" :compUrl="dataUrl"
+          <star-horse-button-list   @tableCompFunc="(fun:any)=>projectMemberRef.tableCompFunc(fun)" :compUrl="dataUrl"
                                   :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
         </div>-->
-    <star-horse-table-comp :permissions="permissions" ref="projectMemberRef" :fieldList="tableFieldList"
+    <star-horse-table-comp  ref="projectMemberRef" :fieldList="tableFieldList"
                            :primaryKey="primaryKey"
                            :compUrl="dataUrl"
                            :dataFormat="dataFormat"/>

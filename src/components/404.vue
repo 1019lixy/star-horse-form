@@ -1,5 +1,6 @@
 <script lang="ts" setup name="NotFound">
 import {useRouter} from "vue-router";
+
 const router = useRouter();
 const backFun = () => {
   router.go(-2);

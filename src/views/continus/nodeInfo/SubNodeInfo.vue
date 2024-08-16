@@ -2,7 +2,7 @@
 import {onMounted, reactive, ref} from "vue";
 import {FieldInfo, PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {SelectOption} from "@/components/types/SearchProps";
-import {loadPlugin, mavenTools} from "@/views/continus/utils/ToolsParams.ts";
+import {loadPlugin} from "@/views/continus/utils/ToolsParams.ts";
 import {loadData} from "@/api/sh_api.ts";
 
 const nodeInfoRef = ref<any>();

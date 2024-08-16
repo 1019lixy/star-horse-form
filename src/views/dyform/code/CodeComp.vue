@@ -8,6 +8,7 @@ import Vue2 from "@/views/dyform/code/Vue2.vue";
 import React from "@/views/dyform/code/React.vue";
 import {postRequest} from "@/api/star_horse.ts";
 import {warning} from "@/utils/message.ts";
+
 let configStore = GlobalConfig(piniaInstance);
 let designForm = DesignForm(piniaInstance);
 let compList = computed(() => designForm.compList);

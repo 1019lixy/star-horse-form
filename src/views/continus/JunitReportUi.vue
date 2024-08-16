@@ -2,6 +2,7 @@
 
 <script setup lang="ts" name="JunitReport">
 import {ApiUrls} from "@/components/types/ApiUrls";
+
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/devops-continus/continus/junitReport/pageList",
   mergeUrl: "/devops-continus/continus/junitReport/merge",

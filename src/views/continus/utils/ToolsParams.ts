@@ -1,12 +1,11 @@
 /**
  * 工具参数
  */
-import {onMounted, reactive, ref} from "vue";
+import {reactive, ref} from "vue";
 import {FieldInfo, PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {SelectOption} from "@/components/types/SearchProps";
 import {loadData} from "@/api/sh_api.ts";
 import {loadDict} from "@/api/star_horse.ts";
-import {warning} from "@/utils/message.ts";
 
 const compileLanguageList = ref<SelectOption[]>([]);
 const languageVersionList = ref<SelectOption[]>([]);

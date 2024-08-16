@@ -18,7 +18,7 @@ import {cpp} from "@codemirror/lang-cpp";
 import {xml} from "@codemirror/lang-xml";
 import {markdown} from "@codemirror/lang-markdown";
 import {go} from "@codemirror/lang-go";
-import {sql, SQLConfig} from "@codemirror/lang-sql";
+import {sql} from "@codemirror/lang-sql";
 import {showMinimap} from "@replit/codemirror-minimap";
 import {javaKeywords} from "../code/java.ts";
 import {amy, ayuLight, barf, bespin, birdsOfParadise, boysAndGirls, clouds, dracula} from 'thememirror';

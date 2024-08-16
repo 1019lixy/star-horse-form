@@ -1,5 +1,6 @@
 <script setup lang="ts" name="InstanceItem">
 import {useRouter} from "vue-router";
+
 const router = useRouter();
 const props = defineProps({
   isEdit: {

@@ -1,5 +1,5 @@
 <script setup lang="ts" name="FormPropertyPanel">
-import {computed, onMounted, ref, watch, reactive} from "vue";
+import {computed, onMounted, reactive, ref, watch} from "vue";
 import {loadElementPlusIcon, loadGetData, loadSystemInfo} from "@/api/sh_api";
 import {SelectOption} from "@/components/types/SearchProps";
 import {permissionMenus, postRequest} from "@/api/star_horse";

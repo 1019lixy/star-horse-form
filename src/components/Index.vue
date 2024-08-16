@@ -6,6 +6,7 @@
 <script setup lang="ts">
 import Speech from "speak-tts";
 import {ref, unref} from "vue";
+
 const speech = new Speech();
 const msg = ref("你好");
 const init = () => {

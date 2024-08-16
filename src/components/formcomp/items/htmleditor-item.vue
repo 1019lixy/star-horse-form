@@ -20,6 +20,7 @@
 import {defineComponent, getCurrentInstance, shallowRef} from "vue";
 import "@wangeditor/editor/dist/css/style.css"
 import {Editor, Toolbar} from "@wangeditor/editor-for-vue"
+
 export default defineComponent({
   components: {Editor, Toolbar},
   beforeUnmount: () => {

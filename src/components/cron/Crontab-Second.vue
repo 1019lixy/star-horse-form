@@ -40,6 +40,7 @@
 </style>
 <script setup lang="ts" name="crontab-second">
 import {computed, onMounted, ref, watch} from "vue";
+
 let radioValue = ref(1);
 let cycle01 = ref(1);
 let cycle02 = ref(2);

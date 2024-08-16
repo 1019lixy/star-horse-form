@@ -8,6 +8,7 @@ import {Clipboard} from '@antv/x6-plugin-clipboard';
 import {History} from '@antv/x6-plugin-history';
 import {Selection} from '@antv/x6-plugin-selection';
 import {EdgeInfo, NodeInfo} from "@/components/types/CompInfo";
+
 export const DesignGraph: any = defineStore("DesignGraph", {
     state: () => {
         return {

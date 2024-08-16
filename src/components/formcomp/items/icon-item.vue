@@ -36,6 +36,7 @@
 <script lang="ts">
 import {defineComponent, onMounted, shallowRef, unref} from "vue";
 import {loadElementPlusIcon} from "@/api/sh_api.ts";
+
 export default defineComponent({
   methods: {loadElementPlusIcon},
   emits: ["selectItem", "selfFunc"],

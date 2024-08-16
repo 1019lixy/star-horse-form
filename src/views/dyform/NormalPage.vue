@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import {computed, nextTick, onMounted, provide, reactive, ref, watch} from "vue";
-import {closeLoad, getMenuId, load, loadGetData, loadPagePermission} from "@/api/sh_api";
+import {nextTick, onMounted, provide, reactive, ref, watch} from "vue";
+import {closeLoad, load, loadGetData} from "@/api/sh_api";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {DialogProps} from "@/components/types/DialogProps";
 import {SearchProps} from "@/components/types/SearchProps";
 import {Config} from "@/api/settings.ts";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
+
 let designForm = DesignForm(piniaInstance);
 const normalPageRef = ref();
 let relationTables = ref<any>({});
@@ -94,13 +95,13 @@ const dialogProps = reactive<DialogProps>({
   viewVisible: false
 });
 provide("dialogProps", dialogProps);
-let permissions = ref<any>({});
+
 const dataFormat = (name: string, cellValue: Object, row: any): any => {
   // console.log(name, cellValue);
   return cellValue;
 };
 const loadPermission = async () => {
-  permissions.value = await loadPagePermission(getMenuId());
+  ;
 };
 const init = async () => {
   designForm.setIsEdit(false);
@@ -146,12 +147,12 @@ watch(() => props.param,
                                 :formData="searchFormData"
                                 :compUrl="dataUrl"/>
         <hr/>
-        <star-horse-button-list :permissions="permissions" @tableCompFunc="(fun:any)=>normalPageRef.tableCompFunc(fun)"
+        <star-horse-button-list  @tableCompFunc="(fun:any)=>normalPageRef.tableCompFunc(fun)"
                                 :compUrl="dataUrl"
                                 :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
       </div>
       <hr>
-      <star-horse-table-comp :permissions="permissions"
+      <star-horse-table-comp
                              ref="normalPageRef" :fieldList="tableFieldList" :primaryKey="primaryKey"
                              :compUrl="dataUrl" :showBatchField="true" :dataFormat="dataFormat"/>
     </el-card>

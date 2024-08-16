@@ -1,5 +1,6 @@
 <script setup lang="ts" name="NodeProperties">
 import {ApiUrls} from "@/components/types/ApiUrls";
+
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/devops-continus/continus/nodeProperties/pageList",
   mergeUrl: "/devops-continus/continus/nodeProperties/merge",

@@ -1,4 +1,5 @@
 import {assign} from "min-dash";
+
 export default function ContextPadProvider(config, injector, contextPad, modeling, elementFactory, connect, create, translate) {
     this.modeling = modeling;
     this.elementFactory = elementFactory;

@@ -3,6 +3,7 @@ import {error} from "@/utils/message";
 import {closeLoad, load} from "@/api/sh_api";
 import {SearchParams} from "@/components/types/Params";
 import {success} from "@/utils/message.ts";
+
 /**
  * 获取视图属性
  * @param param 视图Token

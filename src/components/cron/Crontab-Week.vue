@@ -51,6 +51,7 @@
 </style>
 <script setup lang="ts" name="crontab-week">
 import {computed, ref, watch} from "vue";
+
 const props = defineProps({
   check: {type: Function},
   cron: {type: Object}

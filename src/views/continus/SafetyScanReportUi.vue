@@ -663,6 +663,7 @@
 </style>
 <script setup lang="ts" name="SafetyScanReport">
 import {ApiUrls} from "@/components/types/ApiUrls";
+
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/devops-continus/continus/safetyScanReport/pageList",
   mergeUrl: "/devops-continus/continus/safetyScanReport/merge",

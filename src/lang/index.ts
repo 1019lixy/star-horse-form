@@ -2,6 +2,7 @@ import zh_CN from "@/lang/zh_CN.ts";
 import en_US from "@/lang/en_US.ts";
 import {LangType} from "@/theme/theme.ts";
 import {getLang} from "@/theme/localStorge.ts";
+
 const language = {
     "zh_cn": zh_CN,
     "en_us": en_US

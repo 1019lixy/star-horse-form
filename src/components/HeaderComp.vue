@@ -16,12 +16,12 @@ import {LangType} from "@/theme/theme.ts";
 import {i18n} from "../lang";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import piniaInstance from "@/store";
-import {UserInfo} from "@/store/UserInfoStore.ts";
-import {configInfo} from "@/utils/sh_design.ts";
+import {userInfoStore} from "@/store/UserInfoStore.ts";
+// import {configInfo} from "@/utils/sh_design.ts";
 import {toggleDark} from "@/api/system.ts";
 import {Moon, Sunny} from "@element-plus/icons-vue";
 
-const userInfoStore = UserInfo(piniaInstance);
+const userStore = userInfoStore(piniaInstance);
 const shortcutMenuList = ref<Array<any>>([]);
 let systemName = Config.title;
 let userInfo = getUserInfo();
@@ -167,7 +167,7 @@ const resetForm = () => {
 const loginOut = () => {
   confirm("是否确认退出系统?").then((res: boolean) => {
     if (res) {
-      userInfoStore.logout();
+      userStore.logout();
       userLogout(userInfo || {});
     }
   });
@@ -207,7 +207,7 @@ const recallFun = (path: string, datas: any): any => {
 };
 const reverseDataList = ref<Array<any>>([]);
 const addShortcutMenu = async () => {
-  let datas = userInfoStore.getPermissionMenus;
+  let datas = userStore.getPermissionMenus;
   reverseDataList.value = [];
   permissionMenuList.value = datas;
   dialogProps.bakeVisible1 = true;
@@ -228,7 +228,7 @@ const addShortcutMenu = async () => {
   });
 };
 const batchMerge = () => {
-  let selectedRows = shortcutMultipleTable.value!.multipleSelection;
+  let selectedRows = shortcutMultipleTable.value!.multipleSelection!.value;
   if (selectedRows.length > 10) {
     warning("快捷菜单最多只能设置10个");
     return

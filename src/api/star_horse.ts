@@ -1,4 +1,4 @@
-import axios, {AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig} from "axios";
+import axios, {AxiosResponse, InternalAxiosRequestConfig} from "axios";
 import {getToken, getUserInfo, removeToken, setCustomerInfo, setToken, setUserInfo} from "@/utils/auth";
 import router from "@/router";
 import {error, warning} from "../utils/message";
@@ -7,12 +7,15 @@ import {reactive} from "vue";
 import {MenusInfo} from "@/components/types/MenusInfo";
 import piniaInstance from "@/store";
 import {navBarList} from "@/store/NavbarListStore";
-import {UserInfo} from "@/store/UserInfoStore";
+import {userInfoStore} from "@/store/UserInfoStore";
 import {viewList} from "@/store/ViewCacheStore";
 import {SelectOption} from "@/components/types/SearchProps";
+import {RouteLocationNormalized} from "vue-router";
+import {useButtonPermission} from "@/store/ButtonPermissionStore.ts";
 
 const navBarListStore = navBarList(piniaInstance);
-const userInfoStore = UserInfo(piniaInstance);
+const userStore = userInfoStore(piniaInstance);
+const pagePermission = useButtonPermission(piniaInstance);
 const viewListStore = viewList(piniaInstance);
 const service = axios.create({
     baseURL: "/",
@@ -29,7 +32,7 @@ service.interceptors.request.use((config: InternalAxiosRequestConfig) => {
         config.headers.token = token;
     }
     return config;
-}, function (error) {
+}, (error: any) => {
     // 对请求错误做些什么
     return Promise.reject(error);
 });
@@ -42,7 +45,7 @@ service.interceptors.response.use((response: AxiosResponse) => {
         console.log("系统超时，请登录后再操出");
         removeToken();
         navBarListStore.clearAll();
-        userInfoStore.logout();
+        userStore.logout();
         router.push({path: "/login", query: {redirect: router.currentRoute.value.fullPath}});
     } else if (data?.includes("status code 500")) {
         error("服务接口异常，请联系管理员");
@@ -121,7 +124,7 @@ export async function userLogin(loginData: any) {
             let condition = {
                 "userId": userData.idUsersinfo,
             };
-            userInfoStore.login({...userData, rememberMe: loginData.rememberMe});
+            userStore.login({...userData, rememberMe: loginData.rememberMe});
             setToken(userData.dataNo, data.rememberMe);
             setUserInfo({...userData, ...loginData, rememberMe: loginData.rememberMe});
             setCustomerInfo(userData.customerInfo);
@@ -142,19 +145,45 @@ export async function userLogin(loginData: any) {
  * @param data
  * @returns {Promise<AxiosResponse<any>>}
  */
-export async function userLogout(data: Array<Object>) {
+export async function userLogout(data: Array<any>) {
     await postRequest("/system-config/system/usersAuditEntity/userLogout", data).then(res => {
         let redata = res.data;
         if (redata.code != 0) {
             warning(redata.cnMessage);
         } else {
             removeToken()
-            userInfoStore.logout();
+            userStore.logout();
             navBarListStore.clearAll();
             viewListStore.clearAll();
             router.push({path: "/login"});
         }
     }).catch(err => error(err));
+}
+
+
+export function getMenuId() {
+    let meta = router.currentRoute.value.meta;
+    console.log(router, meta);
+    let menuId = meta?.menuId as string;
+    if (!menuId) {
+        return "";
+    }
+    menuId = menuId.split("_")[1];
+    return menuId;
+}
+
+/**
+ * 加载权限
+ * @param menuId 菜单id
+ */
+export async function loadPagePermission(menuId: string) {
+    let permission: any = {};
+    let data: any = {"menuId": menuId};
+    let redata: Array<any> = await permissionResources(data);
+    redata?.forEach((item: any) => {
+        permission[item.resCode] = item.resCode;
+    });
+    return permission
 }
 
 /**
@@ -167,37 +196,45 @@ export async function permissionMenus(data: any, sysId: string) {
     return await postRequest(`/system-config/system/menusinfoEntity/permissionMenus/${userId}/${sysId}`, {});
 }
 
-export function permissionResources(data: any) {
-    // let userId = data.userId || getUserId();
-    // console.log(userInfoStore.pageButtonPermission);
-    let permissons = userInfoStore.pageButtonPermission[data.menuId];
-    // console.log(permissons);
+export async function permissionResources(data: any) {
+    let permissons = userStore.pageButtonPermission[data.menuId];
     if (permissons && permissons.length > 0) {
         return permissons;
     } else {
-        console.log("没有页面按钮操作权限,请联系系统管理员授权");
+        let userId = getUserId();
+        let redata: any = [];
+        //没拿到则到数据库中去取
+        await postRequest(`/system-config/system/resourcesEntity/permissionResources/${userId}/${data.menuId}`, {}).then(res => {
+            if (res.data.code) {
+                console.log(res.data.cnMessage);
+                return;
+            }
+            redata = res.data.data;
+        });
+        if (redata && redata.length > 0) {
+            userStore.pushPageButtonPermission(data.menuId, redata);
+        } else {
+            console.log("没有页面按钮操作权限,请联系系统管理员授权");
+        }
+        return redata;
     }
-    //不再每打开一次页面加载一次权限，减小系统请求开销
-    // return postRequest(`/system-config/system/resourcesEntity/permissionResources/${userId}/${data.menuId}`, {})
 }
 
 /**
  * 将Store里的菜单还原
  */
-export function restoreMenu() {
-    let menuns = userInfoStore.permissionMenus;
-    if (!menuns || menuns.length == 0) {
-        let data = localStorage.getItem("menusInfo");
-        if (data) {
-            createRouterAndMenuList(JSON.parse(data));
-            // userInfoStore.addPermissionMenus(menuns);
-        }
-    } else {
-        menuns?.forEach((item: any) => {
-            router.addRoute("Index", item);
-        });
+export function restoreMenu(to: RouteLocationNormalized) {
+    let data = localStorage.getItem("menusInfo");
+    if (data) {
+        createRouterAndMenuList(JSON.parse(data));
     }
-
+    let redata = router.getRoutes().find(item => item.path == to.fullPath);
+    if (redata) {
+        router.push({...redata});
+    } else {
+        console.log("重定向", to, router.getRoutes());
+        router.push("/");
+    }
 }
 
 /**
@@ -227,7 +264,10 @@ export function createRouterAndMenuList(redata: Array<Object>): MenusInfo[] {
             if (item.menuPath == "#" && item.children?.length == 0) {
                 continue;
             }
-            pageButtonPermissions[item.idMenusinfo] = item["pageButtonPermissions"];
+            let menuId = item.idMenusinfo;
+            if (menuId) {
+                pageButtonPermissions[menuId.toString()] = item["pageButtonPermissions"];
+            }
             let arr = item.menuPath.split("/");
             let menuName = arr[arr.length - 1];
             menuName = menuName.endsWith(Config.fileExt) ? menuName.split(".")[0] : menuName;
@@ -242,19 +282,19 @@ export function createRouterAndMenuList(redata: Array<Object>): MenusInfo[] {
                 meta: {
                     menuIcon: item.menuIcon,
                     title: item.menuName,
-                    menuId: item.idMenusinfo ? prefix + item.idMenusinfo : prefix + (sindex++),
+                    menuId: menuId ? prefix + menuId : prefix + (sindex++),
                     keepAlive: item.keepAlive
                 },
             });
             if (path.indexOf("/page/") == -1) {
-                if(item.openType=="self"){
+                if (item.openType == "self") {
                     router.addRoute("Index", data);
-                }else{
-                    router.addRoute( data);
+                } else {
+                    router.addRoute(data);
                 }
 
             } else {
-                userInfoStore.addDynamicMenus(data);
+                userStore.addDynamicMenus(data);
             }
             //如果有子节点
             if (item.children && item.children.length > 0) {
@@ -267,10 +307,11 @@ export function createRouterAndMenuList(redata: Array<Object>): MenusInfo[] {
 
     leftMenuDatas = loopCreateMenu(redata, 1);
 
-    userInfoStore.addPermissionMenus(leftMenuDatas);
-    userInfoStore.addPageButtonPermission(pageButtonPermissions);
+    userStore.addPermissionMenus(leftMenuDatas);
+    pagePermission.addAllPermission(pageButtonPermissions);
+    // localStorage.setItem("pageButtonPermissions", JSON.stringify(pageButtonPermissions));
     localStorage.setItem("menusInfo", JSON.stringify(redata));
-    localStorage.setItem("dynamicMenusLists", JSON.stringify(userInfoStore.dynamicMenus));
+    localStorage.setItem("dynamicMenusLists", JSON.stringify(userStore.dynamicMenus));
     return leftMenuDatas;
 }
 
@@ -358,10 +399,10 @@ export async function loadSystems(param: Array<Object>) {
 
 /**
  * 获取数据字典
- * @param param
+ * @param dictName
  * @returns {Promise<unknown>}
  */
-export async function loadDict(dictName: String) {
+export async function loadDict(dictName: string) {
     let redata: Array<SelectOption> = [];
     let param = {
         fieldList: [{propertyName: "dictType", value: dictName ? dictName : "common"}]
@@ -442,17 +483,3 @@ export function trim(data: string) {
     return data.replace(/(^\s*)|(\s*$)/g, '');
 }
 
-/**
- * PostV2 请求
- * @param url
- * @param data
- * @returns {Promise<AxiosResponse<any>>}
- */
-export async function iPostRequest(url: string, data: Array<any> | any) {
-    const res = await service.post(url, data)
-    if (res.data.code) {
-        error(res.data.cnMessage)
-        throw new Error(res.data.cnMessage)
-    }
-    return res.data.data
-}

@@ -1,7 +1,8 @@
 <script setup lang="ts" name="StarHorseFormItem">
-import {ref, onMounted} from "vue";
+import {onMounted, ref} from "vue";
 import {batchFieldDefaultValues} from "@/api/sh_api.ts";
 import {ModelRef} from "vue-demi";
+
 defineProps({
   item: {type: Object, required: true},
   rules: {type: Object},

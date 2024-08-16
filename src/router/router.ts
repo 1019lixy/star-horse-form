@@ -1,4 +1,5 @@
 import {RouteRecordRaw} from "vue-router";
+
 const routers: RouteRecordRaw[] = [];
 routers.push({
     path: "/",
@@ -46,6 +47,7 @@ routers.push({
 
         {
             path: "/tab/page/:param",
+            name: "TabPage",
             component: () => import("@/views/dyform/TabPage.vue"),
             props: true,
             meta: {
@@ -55,6 +57,7 @@ routers.push({
             }
         }, {
             path: "/general/page/:param",
+            name: "NormalPage",
             component: () => import("@/views/dyform/NormalPage.vue"),
             props: true,
             meta: {
@@ -64,6 +67,7 @@ routers.push({
             }
         }, {
             path: "/formtb/page/:param",
+            name: "FormTablePage",
             component: () => import("@/views/dyform/FormTablePage.vue"),
             props: true,
             meta: {
@@ -73,6 +77,7 @@ routers.push({
             }
         }, {
             path: "/view/page/:param",
+            name: "ViewPage",
             component: () => import("@/views/dyform/ViewPage.vue"),
             props: true,
             meta: {

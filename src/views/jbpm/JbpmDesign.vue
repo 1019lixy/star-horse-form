@@ -68,6 +68,7 @@ import "bpmn-js-bpmnlint/dist/assets/css/bpmn-js-bpmnlint.css";
 import {markRaw, onMounted, ref, unref, watch} from "vue";
 import {closeLoad, load} from "@/api/sh_api";
 import {useRoute} from "vue-router";
+
 /**
  * https://github.com/bpmn-io/bpmn-js-examples
  * 先删除再安装所需插件

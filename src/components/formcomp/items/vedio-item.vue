@@ -24,6 +24,7 @@
 <script lang="ts" name="vedioItem">
 import {defineComponent, onMounted, ref, shallowRef} from "vue";
 import flvjs from "flv.js";
+
 export default defineComponent({
   setup(_props, context) {
     const parentField = context.attrs["parentField"];

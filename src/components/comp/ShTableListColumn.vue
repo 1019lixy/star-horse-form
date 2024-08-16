@@ -1,6 +1,7 @@
 <script setup lang="ts" name="ShTableListColumn">
 import {inject} from "vue";
 import {DialogProps} from "@/components/types/DialogProps";
+
 defineProps({
   dataForm: {type: Object, required: true},
   index: {type: Object, required: true},

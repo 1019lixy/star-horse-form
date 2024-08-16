@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {nextTick, onMounted, provide, reactive, ref, watch} from "vue";
-import {closeLoad, getMenuId, load, loadGetData, loadPagePermission} from "@/api/sh_api";
+import {closeLoad, load, loadGetData} from "@/api/sh_api";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {useRoute, useRouter} from "vue-router";
 import {navBarList} from "@/store/NavbarListStore";
@@ -8,6 +8,7 @@ import {DialogProps} from "@/components/types/DialogProps";
 import {SearchProps} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {Config} from "@/api/settings.ts";
+
 const navBarListStore = navBarList();
 const router = useRouter();
 const starHorseTableCompRef = ref();
@@ -89,12 +90,12 @@ const dialogProps = reactive<DialogProps>({
   viewVisible: false
 });
 provide("dialogProps", dialogProps);
-let permissions = ref<any>({});
+
 const dataFormat = (name: string, cellValue: Object): any => {
   return cellValue;
 };
 const init = async () => {
-  permissions.value = await loadPagePermission(getMenuId())
+
   await loadFormData(props.param);
 }
 onMounted(async () => {
@@ -130,12 +131,12 @@ onMounted(async () => {
                                 :formData="searchFormData"
                                 :compUrl="dataUrl"/>
         <hr/>
-        <star-horse-button-list :permissions="permissions"
+        <star-horse-button-list
                                 @tableCompFunc="(fun:any)=>starHorseTableCompRef.tableCompFunc(fun)" :compUrl="dataUrl"
                                 :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
       </div>
       <hr>
-      <star-horse-table-comp :permissions="permissions"
+      <star-horse-table-comp
                              ref="starHorseTableCompRef"
                              :fieldList="tableFieldList"
                              :primaryKey="primaryKey"

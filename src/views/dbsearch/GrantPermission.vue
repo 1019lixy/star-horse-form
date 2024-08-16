@@ -2,15 +2,8 @@
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {DialogProps} from "@/components/types/DialogProps"
 import {onMounted, provide, reactive, ref} from "vue";
-import {SearchFields, SearchProps, SelectOption} from "@/components/types/SearchProps";
-import {
-  commonParseCodeToName,
-  createDatetime,
-  getMenuId,
-  loadData,
-  loadGetData,
-  loadPagePermission
-} from "@/api/sh_api";
+import {SearchFields, SelectOption} from "@/components/types/SearchProps";
+import {commonParseCodeToName, createDatetime, loadData} from "@/api/sh_api";
 import {warning} from "@/utils/message";
 import {Config} from "@/api/settings.ts";
 import {DialogInput} from "@/components/types/PageFieldInfo";
@@ -144,7 +137,7 @@ const dialogProps = reactive<DialogProps>({
   viewVisible: false,
 });
 provide("dialogProps", dialogProps);
-let permissions = ref<any>({});
+
 const searchUserOrRole = (val: any) => {
   let type = val["assignType"];
   if (!type) {
@@ -228,7 +221,7 @@ const dataFormat = (name: string, cellValue: Object, row: any): any => {
   return commonParseCodeToName(name, cellValue);
 }
 const initData = async () => {
-  permissions.value = await loadPagePermission(getMenuId())
+
   await initDbList();
 };
 onMounted(() => {
@@ -253,11 +246,11 @@ onMounted(() => {
                               :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
-      <star-horse-button-list :permissions="permissions"
+      <star-horse-button-list
                               @tableCompFunc="(fun:any)=>grantPermissionRef.tableCompFunc(fun)" :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
-    <star-horse-table-comp :permissions="permissions" ref="grantPermissionRef" :fieldList="tableFieldList"
+    <star-horse-table-comp  ref="grantPermissionRef" :fieldList="tableFieldList"
                            :primaryKey="primaryKey" :compUrl=
                                "dataUrl"
                            :dataFormat="dataFormat"/>

@@ -2,11 +2,11 @@
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {DialogProps} from "@/components/types/DialogProps"
 import {onMounted, provide, reactive, ref} from "vue";
-import {SearchFields, SearchProps, SelectOption} from "@/components/types/SearchProps";
+import {SearchFields, SelectOption} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {Config} from "@/api/settings.ts";
-import {dictData, getMenuId, loadPagePermission} from "@/api/sh_api.ts";
-import {initDbList, openDatabase} from "@/views/dbsearch/utils/DbSearchUtils.ts";
+import {dictData} from "@/api/sh_api.ts";
+import {initDbList} from "@/views/dbsearch/utils/DbSearchUtils.ts";
 //后端交互接口地址
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/dbsearch-manage/dbsearch/dbBakeup/pageList",
@@ -166,10 +166,10 @@ const dialogProps = reactive<DialogProps>({
   bakeVisible1: false, bakeVisible2: false, bakeVisible3: false
 });
 provide("dialogProps", dialogProps);
-let permissions = ref<any>({});
+
 //初始化方法
 const initData = async () => {
-  permissions.value = await loadPagePermission(getMenuId());
+  ;
   dbList.value = await initDbList();
   bakePolicyList.value = await dictData("BAKE_POLICY");
 };
@@ -204,12 +204,12 @@ const dataFormat = (_name: string, cellValue: any, _row: any): any => {
       <star-horse-search-comp @searchData="(data:any)=>dbBakeupRef.createSearchParams(data)" :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
-      <star-horse-button-list :permissions="permissions" @tableCompFunc="(fun:any)=>dbBakeupRef.tableCompFunc(fun)"
+      <star-horse-button-list  @tableCompFunc="(fun:any)=>dbBakeupRef.tableCompFunc(fun)"
                               :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
     <hr>
-    <star-horse-table-comp :permissions="permissions" ref="dbBakeupRef" :fieldList="tableFieldList"
+    <star-horse-table-comp  ref="dbBakeupRef" :fieldList="tableFieldList"
                            :primaryKey="primaryKey" :compUrl=
                                "dataUrl"
                            :dataFormat="dataFormat"/>

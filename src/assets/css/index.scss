@@ -81,7 +81,7 @@ a {
 }
 
 .el-menu--horizontal {
-  .el-menu {
+  .el-menu, .el-sub-menu__title  {
     border-bottom: unset !important;
   }
 }

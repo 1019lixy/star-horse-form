@@ -1,6 +1,7 @@
 <script setup lang="ts" name="DataLog">
 import {ref} from "vue";
 import StarHorseEditor from "@/components/comp/StarHorseEditor.vue";
+
 const
     value = ref("devops-continus:8859 2022-11-28 09:49:58 [Catalina-utility-2] DEBUG o.a.catalina.session.ManagerBase - End expire sessions StandardManager processingTime 1 expired sessions: 0\n" +
         "devops-continus:8859 2022-11-28 09:50:58 [Catalina-utility-2] DEBUG o.a.catalina.session.ManagerBase - Start expire sessions StandardManager at 1669600258602 sessioncount 0\n" +

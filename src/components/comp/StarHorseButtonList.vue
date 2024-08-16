@@ -9,12 +9,15 @@ import {getToken} from "@/utils/auth";
 import Help from "@/components/help.vue";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import piniaInstance from "@/store";
+import {useButtonPermission} from "@/store/ButtonPermissionStore.ts";
+import {useRoute} from "vue-router";
+
 const props = defineProps({
   dialogProps: {type: Object as PropType<DialogProps>, required: true},
   compUrl: {type: Object as PropType<ApiUrls>, required: true},
   selfBtnFunc: {type: Array as PropType<BtnAuth[]>, default: null},
   viewFlag: {type: Boolean, default: false},
-  permissions: {type: Object, required: true},
+  // permissions: {type: Object, required: true},
 });
 const emits = defineEmits([
   "upload",
@@ -24,15 +27,18 @@ const emits = defineEmits([
   "btnOperation",
   "tableCompFunc"
 ]);
+let route = useRoute();
 let configStore = GlobalConfig(piniaInstance);
+let pagePermission = useButtonPermission(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.buttonSize || "small");
 let showType = computed(() => configStore.configFormInfo?.buttonShowType || "dropdown");
+let permissions = computed(() => pagePermission.currentPermission);
 const dataForm = ref<any>({});
 const tableCompFunc = (funcName: string) => {
   emits("tableCompFunc", funcName);
 };
 const btnOperation = (funcName: string) => {
-  let data:any = props.selfBtnFunc && props.selfBtnFunc.find((item) => item.btnName == funcName);
+  let data: any = props.selfBtnFunc && props.selfBtnFunc.find((item) => item.btnName == funcName);
   if (data) {
     data["exec"]();
   } else {
@@ -63,25 +69,25 @@ const downloadTemplate = () => {
 const upload = (file: any, fileList: any) => {
   emits("upload", file, fileList);
 };
-const beforeUpload = (_file:any, _fileList:any) => {
+const beforeUpload = (_file: any, _fileList: any) => {
   //load("数据导入中");
 };
 /**
  * 上传过程
  */
-const uploadProcess = (_event:any, _file:any, _fileList:any) => {
+const uploadProcess = (_event: any, _file: any, _fileList: any) => {
 };
 /**
  * 上传失败
  */
-const uploadError = (_err:any, _file:any, _fileList:any) => {
+const uploadError = (_err: any, _file: any, _fileList: any) => {
   // closeLoad();
   tableCompFunc("refresh");
 };
 /**
  * 上传成功
  */
-const uploadSuccess = (_response:any, _file:any, _fileList:any) => {
+const uploadSuccess = (_response: any, _file: any, _fileList: any) => {
   //closeLoad();
   tableCompFunc("refresh");
 };
@@ -99,6 +105,7 @@ const setFormData = (val: any) => {
   dataForm.value = {...val};
 }
 const init = async () => {
+  pagePermission.addRoute(route);
 };
 onMounted(() => {
   init();
@@ -111,13 +118,16 @@ defineExpose({
 :deep(.el-tooltip__trigger:focus-visible) {
   outline: unset;
 }
+
 .el-menu {
   background: none;
   border-bottom: none;
 }
+
 :deep(.el-sub-menu) {
   background: none;
 }
+
 .el-menu--horizontal {
   height: 30px;
 }
@@ -144,7 +154,8 @@ defineExpose({
                 <el-dropdown-menu>
                   <el-dropdown-item v-for="sitem in item.children">
                     <el-button @click="sitem.exec!(sitem.btnName)" link title=""
-                               style="background: var(--star-horse-style);color: var(--star-horse-white)" :size="compSize">
+                               style="background: var(--star-horse-style);color: var(--star-horse-white)"
+                               :size="compSize">
                       <star-horse-icon :icon-class="sitem.icon||'small'" size="12px"/>
                       {{ sitem.labelName }}
                     </el-button>

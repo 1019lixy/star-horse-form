@@ -1,5 +1,6 @@
 import {Config} from '@/api/settings.ts'
 import {SearchParams} from "@/components/types/Params";
+
 const TokenKey = Config.TokenKey || "STAR-HORSE-TOEKN";
 export function getToken() {
     return sessionStorage.getItem(TokenKey)

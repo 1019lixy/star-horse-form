@@ -1,4 +1,5 @@
 import {Shape} from "@antv/x6";
+
 const commands = [
     {
         icon: "left_panel",
@@ -243,7 +244,7 @@ const commonConfig = {
         minScale: 0.2,
     },
 };
-const configInfo = {
+const configInfo:any = {
     ...commonConfig,
     selecting: {
         enabled: true,

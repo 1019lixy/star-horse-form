@@ -2,6 +2,7 @@
 import {onMounted, ref} from "vue";
 import NodePropertyPanel from "@/views/jbpm/panel/NodePropertyPanel.vue";
 import ProcessPropertyPanel from "@/views/jbpm/panel/ProcessPropertyPanel.vue";
+
 const props = defineProps({
   modeler: {
     type: Object,

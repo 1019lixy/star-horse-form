@@ -1,6 +1,7 @@
 <script setup lang="ts" name="ContinusInstanceConfig">
 import InstanceItem from "@/views/continus/InstanceItem.vue";
 import {useRouter} from "vue-router";
+
 const router = useRouter();
 const addDataFun = () => {
   router.push("/continus/instanceInit");

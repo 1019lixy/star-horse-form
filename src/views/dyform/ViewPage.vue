@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {onMounted, provide, reactive, ref, watch} from "vue";
-import {closeLoad, getMenuId, load, loadPagePermission} from "@/api/sh_api";
+import {closeLoad, load} from "@/api/sh_api";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {DialogProps} from "@/components/types/DialogProps";
 import {SearchProps} from "@/components/types/SearchProps";
@@ -11,6 +11,7 @@ import {error} from "@/utils/message";
 import {Config} from "@/api/settings.ts";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
+
 let designForm = DesignForm(piniaInstance);
 const props = defineProps({
   param: {type: String, required: true},
@@ -118,13 +119,13 @@ const dialogProps = reactive<DialogProps>({
   viewVisible: false
 });
 provide("dialogProps", dialogProps);
-let permissions = ref<any>({});
+
 const dataFormat = (name: string, cellValue: Object): any => {
   return cellValue;
 };
 const init = async () => {
   designForm.setIsEdit(false);
-  permissions.value = await loadPagePermission(getMenuId());
+  ;
   await loadColumnFields();
   await loadFormData(1, 20);
 }
@@ -157,12 +158,12 @@ onMounted(async () => {
     <el-card class="inner_content">
       <div class="search_btn"
            :style="{'display':'flex', 'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
-        <star-horse-search-comp ref="viewSearchRef"
+        <star-horse-search-comp  ref="viewSearchRef"
                                 @searchData="(data:any)=>starHorseTableCompRef.createSearchParams(data)"
                                 :formData="searchFormData"
                                 :compUrl="dataUrl"/>
         <hr v-if="Config.buttonStyle.value=='line'"/>
-        <star-horse-button-list :permissions="permissions"
+        <star-horse-button-list
                                 @tableCompFunc="(fun:any)=>starHorseTableCompRef.tableCompFunc(fun)" :viewFlag="true"
                                 :compUrl="dataUrl" :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
       </div>

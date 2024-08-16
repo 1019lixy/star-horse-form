@@ -1,10 +1,10 @@
 <script setup lang="ts" name="ContinusInstanceUi">
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {onMounted, provide, reactive, ref} from "vue";
-import {SearchFields, SearchProps} from "@/components/types/SearchProps.d.ts";
+import {SearchFields} from "@/components/types/SearchProps.d.ts";
 import {Config} from "@/api/settings.ts";
 import {DialogInput} from "@/components/types/PageFieldInfo";
-import {getMenuId, loadPagePermission} from "@/api/sh_api.ts";
+
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/devops-continus/continus/continusInstance/pageList",
   mergeUrl: "/devops-continus/continus/continusInstance/merge",
@@ -114,7 +114,7 @@ const dialogProps = reactive<DialogInput>({
   viewVisible: false,
 });
 provide("dialogProps", dialogProps);
-let permissions = ref<any>({});
+
 const selectItemFun=(data:any)=>{
 
 }
@@ -122,7 +122,7 @@ const dataFormat = (name: string, cellValue: Object): any => {
   return cellValue;
 }
 const init = async () => {
-  permissions.value = await loadPagePermission(getMenuId())
+
 };
 onMounted(async () => {
   await init();
@@ -144,11 +144,11 @@ onMounted(async () => {
                               :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
-      <star-horse-button-list :permissions="permissions"
+      <star-horse-button-list
                               @tableCompFunc="(fun:any)=>environmentInfoRef.tableCompFunc(fun)" :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
-    <star-horse-table-comp :permissions="permissions" ref="environmentInfoRef" :fieldList="tableFieldList"
+    <star-horse-table-comp  ref="environmentInfoRef" :fieldList="tableFieldList"
                            :primaryKey="primaryKey"
                            :compUrl="dataUrl"
                            :dataFormat="dataFormat" @selectItem="selectItemFun"/>

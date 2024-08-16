@@ -31,7 +31,7 @@
 </template>
 <script lang="ts">
 import {defineComponent, onMounted, shallowRef} from "vue";
-import {compDynamicData, dynamicUrlOperation, createFilter} from "@/api/sh_api.ts";
+import {compDynamicData, createFilter, dynamicUrlOperation} from "@/api/sh_api.ts";
 import {SearchParams} from "@/components/types/Params";
 
 export default defineComponent({

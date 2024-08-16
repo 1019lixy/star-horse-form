@@ -5,6 +5,7 @@ import {postRequest} from "@/api/star_horse";
 import {closeLoad} from "@/api/sh_api";
 import {error, success, warning} from "@/utils/message";
 import {Config} from "@/api/settings.ts";
+
 const props = defineProps({
   compUrl: {type: Object},
   batchName: {type: String, default: ""},

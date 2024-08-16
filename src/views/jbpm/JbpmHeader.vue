@@ -4,6 +4,7 @@ import {warning} from "@/utils/message";
 import {PropType, ref, unref} from "vue";
 import {buttonList} from "@/views/jbpm/utils/FlowData.ts";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
+
 const scale = ref<number>(1.0);
 const dialogTableVisible = ref<boolean>(false);
 const labelPosition = ref<string>("top");

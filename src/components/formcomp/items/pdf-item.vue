@@ -14,6 +14,7 @@
 </template>
 <script lang="ts" name="pdfItem">
 import {defineComponent, ref, shallowRef} from "vue";
+
 export default defineComponent({
   setup(_props, context) {
     const parentField = context.attrs["parentField"];

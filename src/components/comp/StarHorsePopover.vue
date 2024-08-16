@@ -1,5 +1,6 @@
 <script>
 import icon from "@/assets/icon";
+
 export default {
   name: "StarHorsePopover",
   props: {

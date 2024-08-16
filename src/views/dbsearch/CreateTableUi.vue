@@ -7,7 +7,7 @@ import StarHorseFormTable from "@/components/comp/StarHorseFormTable.vue";
 import {BatchFieldInfo} from "@/components/types/PageFieldInfo.d.ts";
 import {SelectOption} from "@/components/types/SearchProps";
 import {initDbList} from "@/views/dbsearch/utils/DbSearchUtils.ts";
-import {interceptors} from "axios";
+
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/dbsearch-manage/dbsearch/dbinfoEntity/pageList",
   mergeUrl: "/dbsearch-manage/dbsearch/dbinfoEntity//merge",

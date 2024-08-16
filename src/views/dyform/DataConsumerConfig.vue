@@ -14,6 +14,7 @@ import {consumerNodeData, relationFieldInfo, table_width, viewFieldInfo} from "@
 import {ConsumerView} from "@/store/ConsumerViewStore.ts";
 import piniaInstance from "@/store";
 import {tableColumns} from "@/views/dbsearch/utils/DbSearchUtils.ts";
+
 const route = useRoute();
 const isView = ref<boolean>(false);
 //后端交互接口地址

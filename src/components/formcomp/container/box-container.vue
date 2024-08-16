@@ -1,5 +1,5 @@
 <script setup lang="ts" name="box-container">
-import {ComponentInternalInstance, computed, getCurrentInstance, PropType, ref, watch} from 'vue'
+import {ComponentInternalInstance, computed, getCurrentInstance, PropType, watch} from 'vue'
 import {warning} from '@/utils/message'
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";

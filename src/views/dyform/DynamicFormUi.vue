@@ -2,14 +2,15 @@
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {DialogProps} from "@/components/types/DialogProps"
 import {computed, nextTick, onMounted, provide, reactive, ref} from "vue";
-import {SearchFields, SearchProps} from "@/components/types/SearchProps";
+import {SearchFields} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {BtnAuth} from "@/components/types/BtnAuth";
 import {useRouter} from "vue-router";
-import {getMenuId, loadData, loadPagePermission} from "@/api/sh_api";
+import {loadData} from "@/api/sh_api";
 import {Config} from "@/api/settings.ts";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
+
 const router = useRouter();
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/userdb-manage/userdb/dynamicForm/pageList",
@@ -176,7 +177,7 @@ const dialogProps = reactive<DialogProps>({
   bakeVisible3: false,
   viewVisible: false
 });
-provide("dialogProps", dialogProps);let permissions = ref<any>({});
+provide("dialogProps", dialogProps);
 const addSubForm = (params: any) => {
   router.push({path: "/dyform/DynamicForm", query: {parentId: params.idDynamicForm}});
 }
@@ -184,7 +185,7 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
   return cellValue == "Y" ? "是" : cellValue == "N" ? "否" : cellValue;
 }
 const initData = async () => {
-  permissions.value = await loadPagePermission(getMenuId())
+
   selfBtnFunc.value?.push({
     labelName: "新增",
     btnName: "add", exec: () => {
@@ -250,12 +251,12 @@ onMounted(async () => {
       <star-horse-search-comp @searchData="(data:any)=>dynamicFormRef.createSearchParams(data)" :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
-      <star-horse-button-list :permissions="permissions"  @tableCompFunc="(fun:any)=>dynamicFormRef.tableCompFunc(fun)" :selfBtnFunc="selfBtnFunc"
+      <star-horse-button-list   @tableCompFunc="(fun:any)=>dynamicFormRef.tableCompFunc(fun)" :selfBtnFunc="selfBtnFunc"
                               :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
     <hr>
-    <star-horse-table-comp :permissions="permissions"   ref="dynamicFormRef" :fieldList="tableFieldList" :primaryKey="primaryKey" :compUrl=
+    <star-horse-table-comp    ref="dynamicFormRef" :fieldList="tableFieldList" :primaryKey="primaryKey" :compUrl=
         "dataUrl" :dataFormat="dataFormat" :selfBtnFunc="selfBtnFunc"/>
   </el-card>
 </template>

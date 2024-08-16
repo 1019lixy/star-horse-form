@@ -5,7 +5,7 @@ import {Config} from "@/api/settings.ts";
 import {DialogProps} from "@/components/types/DialogProps"
 import {onMounted, provide, reactive, ref} from "vue";
 import {SearchFields, SelectOption} from "@/components/types/SearchProps";
-import {getMenuId, loadCustomInfo, loadElementPlusIcon, loadPagePermission, loadSystemInfo} from "@/api/sh_api";
+import {loadCustomInfo, loadElementPlusIcon, loadSystemInfo} from "@/api/sh_api";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {postRequest} from "@/api/star_horse";
 
@@ -134,7 +134,7 @@ const dialogProps = reactive<DialogProps>({
   viewVisible: false
 });
 provide("dialogProps", dialogProps);
-let permissions = ref<any>({});
+
 const dataFormat = (name: string, cellValue: Object): any => {
   if (name == "parentId") {
     let fdata: SelectOption = informationsList.value.find((item: SelectOption) => item.value == cellValue);
@@ -151,7 +151,7 @@ const initData = async () => {
   const customs = await loadCustomInfo(params);
   informationsList.value = datas;
   customerList.value = customs;
-  permissions.value = await loadPagePermission(getMenuId())
+
   systemIconList.value = loadElementPlusIcon();
 }
 onMounted(async () => {
@@ -176,12 +176,12 @@ onMounted(async () => {
                               :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
-      <star-horse-button-list :permissions="permissions" @tableCompFunc="(fun:any)=>informationsRef.tableCompFunc(fun)"
+      <star-horse-button-list  @tableCompFunc="(fun:any)=>informationsRef.tableCompFunc(fun)"
                               :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
     <hr>
-    <star-horse-table-comp :permissions="permissions" ref="informationsRef" :fieldList="tableFieldList"
+    <star-horse-table-comp  ref="informationsRef" :fieldList="tableFieldList"
                            :primaryKey="primaryKey" :compUrl="dataUrl"
                            :dataFormat="dataFormat"/>
   </el-card>

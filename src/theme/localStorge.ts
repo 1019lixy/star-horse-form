@@ -1,4 +1,5 @@
 import {LangType} from "./theme.ts";
+
 /**
  * 获取系统语言
  */

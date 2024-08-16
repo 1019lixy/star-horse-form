@@ -4,6 +4,7 @@ import {closeLoad, load, loadGetData} from "@/api/sh_api.ts";
 import {getRequest} from "@/api/star_horse.ts";
 import piniaInstance from "@/store";
 import {ConsumerView} from "@/store/ConsumerViewStore.ts";
+
 const consumerView = ConsumerView(piniaInstance);
 /**
  * 打开数据库，并返回所以表信息

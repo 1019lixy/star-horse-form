@@ -1,11 +1,11 @@
 <script setup lang="ts" name="EnvInfo">
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {onMounted, provide, reactive, ref} from "vue";
-import {SearchFields, SearchProps, SelectOption} from "@/components/types/SearchProps.d.ts";
+import {SearchFields, SelectOption} from "@/components/types/SearchProps.d.ts";
 import {Config} from "@/api/settings.ts";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo.d.ts";
 import {initDbList, tableList} from "@/views/dbsearch/utils/DbSearchUtils.ts";
-import {closeLoad, dictData, getMenuId, load, loadPagePermission} from "@/api/sh_api.ts";
+import {closeLoad, dictData, load} from "@/api/sh_api.ts";
 import {download} from "@/api/star_horse.ts";
 import {warning} from "@/utils/message.ts";
 import {DialogProps} from "@/components/types/DialogProps";
@@ -259,7 +259,7 @@ const dialogProps = reactive<DialogProps>({
   viewVisible: false,
 });
 provide("dialogProps", dialogProps);
-let permissions = ref<any>({});
+
 const selectItemFun = (_data: any) => {
 }
 const dataFormat = (name: string, cellValue: Object): any => {
@@ -269,7 +269,7 @@ const dataFormat = (name: string, cellValue: Object): any => {
   return cellValue;
 }
 const init = async () => {
-  permissions.value = await loadPagePermission(getMenuId())
+  ;
   dbInfoList.value = await initDbList();
   fileTypeList.value = await dictData("program_file_type");
   templateVersionList.value = await dictData("template_version");
@@ -322,11 +322,11 @@ const closeAction = () => {
                               :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
-      <star-horse-button-list :permissions="permissions" @tableCompFunc="(fun:any)=>codeGeneratorRef.tableCompFunc(fun)"
+      <star-horse-button-list  @tableCompFunc="(fun:any)=>codeGeneratorRef.tableCompFunc(fun)"
                               :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
-    <star-horse-table-comp :permissions="permissions" ref="codeGeneratorRef" :fieldList="tableFieldList"
+    <star-horse-table-comp  ref="codeGeneratorRef" :fieldList="tableFieldList"
                            :primaryKey="primaryKey"
                            :compUrl="dataUrl"
                            :dataFormat="dataFormat" @selectItem="selectItemFun"/>

@@ -11,6 +11,7 @@
 </template>
 <script setup lang="ts" name="crontab-result">
 import {onMounted, ref, watch} from "vue";
+
 const props = defineProps({
   ex: {type: Object}
 });

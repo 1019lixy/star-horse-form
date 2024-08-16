@@ -3,8 +3,8 @@ import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings.ts";
 import {DialogProps} from "@/components/types/DialogProps"
 import {nextTick, onMounted, provide, reactive, ref} from "vue";
-import {SearchFields, SearchProps, SelectOption} from "@/components/types/SearchProps";
-import {getMenuId, loadDepartmentInfo, loadMenusInfo, loadPagePermission, loadSystemInfo} from "@/api/sh_api";
+import {SearchFields, SelectOption} from "@/components/types/SearchProps";
+import {loadDepartmentInfo, loadMenusInfo, loadSystemInfo} from "@/api/sh_api";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {BtnAuth} from "@/components/types/BtnAuth";
 import {success, warning} from "@/utils/message";
@@ -150,7 +150,7 @@ const dialogProps = reactive<DialogProps>({
   viewVisible: false
 });
 provide("dialogProps", dialogProps);
-let permissions = ref<any>({});
+
 const dataFormat = (name: string, cellValue: any, row: any): any => {
   let data = [] as Array<any>;
   if (name == "roleType") {
@@ -333,7 +333,7 @@ const filterMethod = (query: string, node: TreeNode) => {
   return node.menuName.toLowerCase()!.includes(query?.toLowerCase());
 };
 const initData = async () => {
-  permissions.value = await loadPagePermission(getMenuId())
+
   let params: any = [{propertyName: "isDel", value: 0}, {propertyName: "statusCode", value: '1'}];
   departmentList.value = await loadDepartmentInfo(params);
   systemList.value = await loadSystemInfo(params);
@@ -430,13 +430,13 @@ onMounted(async () => {
                               :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
-      <star-horse-button-list :permissions="permissions"
+      <star-horse-button-list
                               @tableCompFunc="(fun:any)=>starHorseTableCompRef.tableCompFunc(fun)" :compUrl="dataUrl"
                               :selfBtnFunc="selfBtnFunc"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
     <hr>
-    <star-horse-table-comp :permissions="permissions" ref="starHorseTableCompRef" :fieldList="tableFieldList"
+    <star-horse-table-comp  ref="starHorseTableCompRef" :fieldList="tableFieldList"
                            :primaryKey="primaryKey"
                            :compUrl="dataUrl"
                            :dataFormat="dataFormat"/>

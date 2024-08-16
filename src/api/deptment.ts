@@ -1,5 +1,6 @@
 import {postRequest} from "@/api/star_horse";
 import {SelectOption} from "@/components/types/SearchProps";
+
 const deptAndUserTree: string = "/system-config/system/departmentEntity/deptAndUserTree";
 /**
  * 获取部门用户

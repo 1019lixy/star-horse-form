@@ -1,7 +1,7 @@
 <script setup lang="ts" name="EnvInfo">
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {onMounted, provide, reactive, ref} from "vue";
-import {SearchFields, SearchProps} from "@/components/types/SearchProps.d.ts";
+import {SearchFields} from "@/components/types/SearchProps.d.ts";
 import {Config} from "@/api/settings.ts";
 import {DialogProps} from "@/components/types/DialogProps";
 
@@ -100,7 +100,7 @@ const dialogProps = reactive<DialogProps>({
   viewVisible: false,
 });
 provide("dialogProps", dialogProps);
-let permissions = ref<any>({});
+
 const selectItemFun = (_item: any) => {
 
 }
@@ -129,11 +129,11 @@ onMounted(async () => {
                               :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
-      <star-horse-button-list :permissions="permissions"
+      <star-horse-button-list
                               @tableCompFunc="(fun:any)=>flowDefinitionRef.tableCompFunc(fun)" :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
-    <star-horse-table-comp :permissions="permissions" ref="flowDefinitionRef" :fieldList="tableFieldList"
+    <star-horse-table-comp  ref="flowDefinitionRef" :fieldList="tableFieldList"
                            :primaryKey="primaryKey"
                            :compUrl="dataUrl"
                            :dataFormat="dataFormat" @selectItem="selectItemFun"/>

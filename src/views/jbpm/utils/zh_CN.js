@@ -1,4 +1,5 @@
 import translations from './translations';
+
 export default function customTranslate(template, replacements) {
     replacements = replacements || {};
     // Translate

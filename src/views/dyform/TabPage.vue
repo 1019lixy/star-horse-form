@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {nextTick, onMounted, provide, reactive, ref, watch} from "vue";
-import {closeLoad, getMenuId, load, loadGetData, loadPagePermission} from "@/api/sh_api";
+import {closeLoad, load, loadGetData} from "@/api/sh_api";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {DialogProps} from "@/components/types/DialogProps";
 import {SearchProps} from "@/components/types/SearchProps";
@@ -96,10 +96,10 @@ const dialogProps = reactive<DialogProps>({
   viewVisible: false
 });
 provide("dialogProps", dialogProps);
-let permissions = ref<any>({});
+
 const init = async () => {
   designForm.setIsEdit(false);
-  permissions.value = await loadPagePermission(getMenuId())
+
   await loadFormData(props.param);
 }
 const dataFormat = (name: string, cellValue: Object): any => {
@@ -135,13 +135,13 @@ onMounted(async () => {
                                     :formData="searchFormData"
                                     :compUrl="dataUrl"/>
             <hr/>
-            <star-horse-button-list :permissions="permissions"
+            <star-horse-button-list
                                     @tableCompFunc="(fun:any)=>starHorseTableCompRef.tableCompFunc(fun)"
                                     :compUrl="dataUrl"
                                     :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
           </div>
           <hr>
-          <star-horse-table-comp :permissions="permissions"
+          <star-horse-table-comp
                                  ref="starHorseTableCompRef"
                                  :fieldList="tableFieldList"
                                  :primaryKey="primaryKey"

@@ -2,14 +2,14 @@
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings.ts";
 import {DialogProps} from "@/components/types/DialogProps"
-import {computed, onMounted, provide, reactive, Ref, ref, watch} from "vue";
+import {computed, onMounted, provide, reactive, ref, watch} from "vue";
 import {SearchFields, SelectOption} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {loadDict} from "@/api/star_horse";
-import {createCondition, getMenuId, loadPagePermission} from "@/api/sh_api";
+import {createCondition} from "@/api/sh_api";
 
 const tabListRef = ref();
-const dictSerchRef = ref();
+const dictSearchRef = ref();
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/system-config/system/dictinfoEntity/pageList",
   mergeUrl: "/system-config/system/dictinfoEntity/merge",
@@ -47,29 +47,37 @@ const tableFieldList = reactive<PageFieldInfo>({
       tableShow: true, disabled: "Y"
     },
     {
-      label: "字典名称", fieldName: "dictName", type: "input",
-      required: true, formShow: true,
-      tableShow: true
+      batchFieldList: [{
+        title: "字典信息",
+        batchName: "dictList",
+        sameParentTable: true,
+        fieldList: [{
+          label: "字典名称", fieldName: "dictName", type: "input",
+          required: true, formShow: true,
+          tableShow: true
+        },
+          {
+            label: "字典编码", fieldName: "dictCode", type: "input",
+            required: true, formShow: true,
+            tableShow: true
+          },
+          {
+            label: "状态名称", fieldName: "statusName", type: "input",
+            required: true,
+          },
+          {
+            label: "字典描述", fieldName: "dictDesc", type: "input",
+            formShow: true,
+            tableShow: true
+          },
+          {
+            label: "状态", fieldName: "statusCode", type: "select", optionList: commonDictList,
+            required: true,
+            tableShow: true
+          },]
+      }]
     },
-    {
-      label: "字典编码", fieldName: "dictCode", type: "input",
-      required: true, formShow: true,
-      tableShow: true
-    },
-    {
-      label: "状态名称", fieldName: "statusName", type: "input",
-      required: true,
-    },
-    {
-      label: "状态", fieldName: "statusCode", type: "select", optionList: commonDictList,
-      required: true,
-      tableShow: true
-    },
-    {
-      label: "字典描述", fieldName: "dictDesc", type: "input",
-      formShow: true,
-      tableShow: true
-    },
+
     {
       label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
     },
@@ -103,7 +111,7 @@ const rules = {};
 watch(
     () => props.dictType,
     (val) => {
-      dictSerchRef.value?.setData({dictType: val});
+      dictSearchRef.value?.setData({dictType: val});
       let condition = [createCondition("dictType", val)];
       tabListRef.value!.setDataInfo(condition, null);
       tabListRef.value!.createSearchParams(condition);
@@ -123,12 +131,12 @@ const dialogProps = reactive<DialogProps>({
   viewVisible: false
 });
 provide("dialogProps", dialogProps);
-let permissions = ref<any>({});
+
 const dataFormat = (_name: string, cellValue: Object): any => {
   return cellValue;
 }
 const initData = async () => {
-  permissions.value = await loadPagePermission(getMenuId())
+
   commonDictList.value = await loadDict("");
 };
 onMounted(async () => {
@@ -147,16 +155,16 @@ onMounted(async () => {
   </star-horse-dialog>
   <el-card class="inner_content">
     <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
-      <star-horse-search-comp ref="dictSerchRef" @searchData="(data:any)=>tabListRef.createSearchParams(data)"
+      <star-horse-search-comp ref="dictSearchRef" @searchData="(data:any)=>tabListRef.createSearchParams(data)"
                               :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
-      <star-horse-button-list :permissions="permissions" @tableCompFunc="(fun:any)=>tabListRef.tableCompFunc(fun)"
+      <star-horse-button-list  @tableCompFunc="(fun:any)=>tabListRef.tableCompFunc(fun)"
                               :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
     <hr>
-    <star-horse-table-comp :permissions="permissions" ref="tabListRef" :fieldList="tableFieldList"
+    <star-horse-table-comp  ref="tabListRef" :fieldList="tableFieldList"
                            :primaryKey="primaryKey"
                            :compUrl="dataUrl" :dataFormat="dataFormat"/>
   </el-card>

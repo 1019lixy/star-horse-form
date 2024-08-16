@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import {createRouterAndMenuList, permissionMenus} from "@/api/star_horse";
 import {computed, nextTick, onMounted, reactive, ref, unref, watch} from "vue";
-import {UserInfo} from "@/store/UserInfoStore";
+import {userInfoStore} from "@/store/UserInfoStore";
 import {MenusInfo} from "@/components/types/MenusInfo";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import SubMenu from "@/components/menu/SubMenu.vue";
 import {filterTree} from "@/api/sh_api";
 import piniaInstance from "@/store";
 
-let userInfoStore = UserInfo(piniaInstance);
+let userInfo = userInfoStore(piniaInstance);
 const emits = defineEmits(["collopseOperation"]);
 let leftMenuDatas = ref<MenusInfo[]>([]);
 let props = defineProps({
@@ -40,7 +40,7 @@ const search = ref<String>();
 const systemMenu = ref();
 const filterTableData = computed(() => filterTree(search.value, leftMenuDatas.value));
 onMounted(async () => {
-  let menus = userInfoStore.getPermissionMenus;
+  let menus = userInfo.getPermissionMenus;
   if (menus.length == 0) {
     await loadMenus("-1");
   } else {

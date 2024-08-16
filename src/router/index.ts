@@ -24,21 +24,22 @@ const assignTitle = (meta: any) => {
 };
 router.beforeEach((to: RouteLocationNormalized, _from: RouteLocationNormalized, next: NavigationGuardNext) => {
     assignTitle(to.meta);
+    console.log(to,to.name);
     start();
     if (getToken()) {
         // 已登录且要跳转的页面是登录页
         if (to.path === "/login") {
             next({path: "/"});
         } else {
-            let path = to.path;
-            //判断是不是动态菜单
-            path = path.indexOf("page/") == -1 ? path : path.substring(0, path.lastIndexOf("/")) + "/:param";
             //第一次验证路由是不是存在，不存在则重新加载
-            let toPath = router.getRoutes().find((item) => item.path === path);
-            if (!toPath) {
-                restoreMenu();
-                next({...to, replace: true});
+            if (!to.name||!router.hasRoute(to.name)) {
+                restoreMenu(to);
+                // next({...to, replace: true});
             } else {
+                let path = to.path;
+                //判断是不是动态菜单
+                path = path.indexOf("page/") == -1 ? path : path.substring(0, path.lastIndexOf("/")) + "/:param";
+                let toPath = router.getRoutes().find((item) => item.path === path);
                 if (to.path.indexOf("page/") == -1 && !toPath?.components) {
                     next("/404");
                 } else {
@@ -47,7 +48,7 @@ router.beforeEach((to: RouteLocationNormalized, _from: RouteLocationNormalized, 
             }
         }
     } else {
-        if (whiteList.find((item:string)=>to.path.includes(item))) {
+        if (whiteList.find((item: string) => to.path.includes(item))) {
             // 在免登录白名单，直接放行
             next();
         } else {

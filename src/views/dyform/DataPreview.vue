@@ -1,6 +1,7 @@
 <script setup lang="ts" name="DataPreview">
 import {onMounted, ref, watch} from "vue";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
+
 const props = defineProps({
   item: {type: Object, default: {}},
   columns: {type: Array<any>, default: []},

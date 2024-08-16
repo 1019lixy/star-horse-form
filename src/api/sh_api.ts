@@ -1,8 +1,7 @@
 import {SearchParams} from "@/components/types/Params";
 import {reactive, Ref, ShallowRef} from "vue";
 import {ElLoading} from "element-plus";
-import router from "@/router";
-import {getRequest, permissionResources, postRequest} from "@/api/star_horse";
+import {getRequest, postRequest} from "@/api/star_horse";
 import {confirm, error, success, warning} from "@/utils/message";
 import {SelectOption} from "@/components/types/SearchProps";
 import * as ElementPlusIconsVue from '@element-plus/icons-vue';
@@ -171,6 +170,7 @@ export async function loadRolesInfo(param: any) {
  * 加载菜单数据
  * @param direct
  * @param params
+ * @param needSystem
  */
 export async function loadMenusInfo(direct: boolean, params: any, needSystem: boolean) {
     let menuDatas: any = [];
@@ -241,44 +241,15 @@ export function closeLoad() {
     }
 }
 
-export function getMenuId() {
-    let meta = router.currentRoute.value?.meta;
-    let menuId = meta?.menuId as string;
-    if (!menuId) {
-        return "";
-    }
-    menuId = menuId.split("_")[1];
-    return menuId;
-}
-
-/**
- * 加载权限
- * @param menuId 菜单id
- */
-export async function loadPagePermission(menuId: string) {
-    let permission: any = {};
-    let data: any = {"menuId": menuId};
-    let redata: Array<any> = permissionResources(data);
-    redata?.forEach((item: any) => {
-        permission[item.resCode] = item.resCode;
-    });
-    // await permissionResources(data).then(res => {
-    //     let redata = res.data.data;
-    //     redata.forEach((item: any) => {
-    //         permission[item.resCode] = item.resCode;
-    //     });
-    // });
-    return permission
-}
 
 /**
  * 公共数据格式化
- * @param row
+ * @param _row
  * @param column
  * @param cellValue
- * @param index
+ * @param _index
  */
-export function commonDataFormat(row: any, column: any, cellValue: any, index: number) {
+export function commonDataFormat(_row: any, column: any, cellValue: any, _index: number) {
     return commonParseCodeToName(column.property, cellValue);
 }
 
@@ -291,7 +262,7 @@ export function convertToCamelCase(str: string) {
         return undefined;
     }
     str = str.toLowerCase();
-    return str.replace(/_(\w)/g, (match, p1) => {
+    return str.replace(/_(\w)/g, (_match, p1) => {
         return p1.toUpperCase();
     });
 }
@@ -304,7 +275,7 @@ export function camelCaseToUnderline(str: string) {
     if (!str) {
         return undefined;
     }
-    return str.replace(/[A-Z]/g, (match, p1) => {
+    return str.replace(/[A-Z]/g, (match, _p1) => {
         return "_" + match.toLowerCase();
     });
 }
@@ -821,8 +792,8 @@ export async function dynamicUrlOperation(preps: any, queryInfo?: SearchParams[]
  */
 export async function createFilter(queryString: string) {
     return (restaurant: SelectOption) => {
-        return (restaurant?.name.toLowerCase().search(queryString.toLowerCase())
-            || restaurant?.value.toString().toLowerCase().search(queryString.toLowerCase())
+        return (restaurant?.name!.toLowerCase().search(queryString.toLowerCase())
+            || restaurant?.value!.toString().toLowerCase().search(queryString.toLowerCase())
         )
     }
 }

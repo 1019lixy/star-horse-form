@@ -603,6 +603,7 @@
 </style>
 <script setup lang="ts" name="ToolsCategories">
 import {ApiUrls} from "@/components/types/ApiUrls";
+
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/devops-continus/continus/toolsCategories/pageList",
   mergeUrl: "/devops-continus/continus/toolsCategories/merge",

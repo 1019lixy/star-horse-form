@@ -4,6 +4,7 @@ import {loadTemplate, templateList} from "@/views/codegenerator/utils/IdeOperati
 import {SelectOption} from "@/components/types/SearchProps";
 import Help from "@/components/help.vue";
 import {commands} from "@/utils/sh_design.ts";
+
 const editor = ref();
 let tempList = ref<SelectOption[]>([]);
 let sourceCode = ref<string>("");

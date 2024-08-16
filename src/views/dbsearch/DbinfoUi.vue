@@ -2,8 +2,8 @@
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {DialogProps} from "@/components/types/DialogProps"
 import {onMounted, provide, reactive, ref} from "vue";
-import {SearchFields, SearchProps, SelectOption} from "@/components/types/SearchProps";
-import {getMenuId, loadGetData, loadPagePermission} from "@/api/sh_api";
+import {SearchFields} from "@/components/types/SearchProps";
+import {loadGetData} from "@/api/sh_api";
 import {warning} from "@/utils/message";
 import {Config} from "@/api/settings.ts";
 
@@ -124,7 +124,7 @@ const dialogProps = reactive<DialogProps>({
   viewVisible: false,
 });
 provide("dialogProps", dialogProps);
-let permissions = ref<any>({});
+
 const loadDbTypeList = async () => {
   let {data, error} = await loadGetData("/dbsearch-manage/dbsearch/dbinfoEntity/dbType");
   if (error) {
@@ -146,7 +146,7 @@ const dataFormat = (name: string, cellValue: Object): any => {
   return cellValue;
 }
 const initData = async () => {
-  permissions.value = await loadPagePermission(getMenuId())
+
   await loadDbTypeList();
 };
 onMounted(() => {
@@ -169,11 +169,11 @@ onMounted(() => {
       <star-horse-search-comp @searchData="(data:any)=>dbinfoRef.createSearchParams(data)" :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
-      <star-horse-button-list :permissions="permissions" @tableCompFunc="(fun:any)=>dbinfoRef.tableCompFunc(fun)"
+      <star-horse-button-list  @tableCompFunc="(fun:any)=>dbinfoRef.tableCompFunc(fun)"
                               :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
-    <star-horse-table-comp :permissions="permissions" ref="dbinfoRef" :fieldList="tableFieldList"
+    <star-horse-table-comp  ref="dbinfoRef" :fieldList="tableFieldList"
                            :primaryKey="primaryKey" :compUrl="dataUrl"
                            :dataFormat="dataFormat"/>
   </el-card>

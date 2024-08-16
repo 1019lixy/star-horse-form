@@ -1,6 +1,7 @@
 <script setup lang="ts" name="Compliance">
 import DataLog from "@/views/continus/nodeDetail/DataLog.vue";
 import {ref} from "vue";
+
 const tabCurrent = ref("second");
 </script>
 <style scoped>

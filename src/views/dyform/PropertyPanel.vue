@@ -1,6 +1,7 @@
 <script setup lang="ts" name="PropertyPanel">
 import ItemPropertiesPanel from "@/views/dyform/ItemPropertiesPanel.vue";
 import {ref, watch} from "vue";
+
 const props = defineProps({
   activeTab: {type: String, default: "first"}
 });

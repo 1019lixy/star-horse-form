@@ -1,4 +1,5 @@
 import {Shape} from "@antv/x6";
+
 const commands = [
     {
         icon: "left_panel",

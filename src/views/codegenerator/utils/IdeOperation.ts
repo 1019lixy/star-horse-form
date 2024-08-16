@@ -1,5 +1,6 @@
 import {postRequest} from "@/api/star_horse.ts";
 import {SelectOption} from "@/components/types/SearchProps";
+
 const templateListUrl: String = "/code-generator/dynamic/code/templateList";
 const loadTemplateUrl: String = "/code-generator/dynamic/code/loadTemplate";
 /**

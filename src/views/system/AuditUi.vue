@@ -3,9 +3,9 @@ import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings.ts";
 import {DialogProps} from "@/components/types/DialogProps"
 import {onMounted, provide, reactive, ref} from "vue";
-import {SearchFields, SearchProps} from "@/components/types/SearchProps";
+import {SearchFields} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
-import {getMenuId, loadPagePermission} from "@/api/sh_api.ts";
+
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/system-config/system/auditEntity/pageList",
   mergeUrl: "/system-config/system/auditEntity/merge",
@@ -110,12 +110,12 @@ const dialogProps = reactive<DialogProps>({
   viewVisible: false,
 });
 provide("dialogProps", dialogProps);
-let permissions = ref<any>({});
+
 const dataFormat = (_name: string, cellValue: Object): any => {
   return cellValue;
 }
 const initData = async () => {
-  permissions.value = await loadPagePermission(getMenuId())
+
 };
 onMounted(async () => {
   await initData()
@@ -137,12 +137,12 @@ onMounted(async () => {
       <star-horse-search-comp @searchData="(data:any)=>auditRef.createSearchParams(data)" :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr>
-      <star-horse-button-list :permissions="permissions" @tableCompFunc="(fun:any)=>auditRef.tableCompFunc(fun)"
+      <star-horse-button-list  @tableCompFunc="(fun:any)=>auditRef.tableCompFunc(fun)"
                               :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
     <hr>
-    <star-horse-table-comp :permissions="permissions" ref="auditRef" :fieldList="tableFieldList"
+    <star-horse-table-comp  ref="auditRef" :fieldList="tableFieldList"
                            :primaryKey="primaryKey" :compUrl="dataUrl"
                            :dataFormat="dataFormat"/>
   </el-card>

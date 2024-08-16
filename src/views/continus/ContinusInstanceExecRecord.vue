@@ -1,6 +1,7 @@
 <script setup lang="ts" name="ContinusInstanceExecRecord">
 import {ref} from "vue";
 import InstanceItemDetail from "@/views/continus/InstanceItemDetail.vue";
+
 const loadByPageUrl = ref("/devops-continus/continus/continusInstance/pageList");
 const mergeUrl = ref("/devops-continus/continus/continusInstance/merge");
 const mergeDraftUrl = ref("/devops-continus/continus/continusInstance/mergeDraft");

@@ -7,6 +7,7 @@ import {download, getRequest, postRequest} from "@/api/star_horse";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import Help from "@/components/help.vue";
 import {initDbList} from "@/views/dbsearch/utils/DbSearchUtils.ts";
+
 let editorRef = ref(null);
 let cacheValue = ref({});
 let dbList = ref<any>([]);

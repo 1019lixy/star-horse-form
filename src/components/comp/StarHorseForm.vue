@@ -5,7 +5,7 @@ import {error, success, warning} from "@/utils/message";
 import {postRequest} from "@/api/star_horse";
 import {closeLoad, formFieldMapping, load, loadById} from "@/api/sh_api";
 import {DialogProps} from "@/components/types/DialogProps";
-import {BatchFieldInfo, PageFieldInfo} from "@/components/types/PageFieldInfo";
+import {BatchFieldInfo, FieldInfo, PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {ShallowReactive} from "@vue/reactivity";
 import StarHorseFormItem from "@/components/comp/StarHorseFormItem.vue";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
@@ -146,26 +146,62 @@ const assignStatusName = () => {
 const mergeDraft = (type: string) => {
   doMerge(type);
 };
+
+const analysisSameToParentField = (): Array<string> => {
+  let batchName: Array<string> = [];
+  let batchFields = props.fieldList.batchFieldList || [];
+  const analysis = (batchFields: BatchFieldInfo[]) => {
+    batchFields.forEach((item: BatchFieldInfo) => {
+      if (item.sameParentTable) {
+        batchName.push(item.batchName);
+      }
+    });
+  };
+  //单独定义的批量属性
+  analysis(batchFields);
+  //嵌入fieldList里的批量属性
+  let fieldList = props.fieldList.fieldList || [];
+  const arrayFieldList = (fieldList: FieldInfo[]) => {
+    for (let index in fieldList) {
+      let temp: any = fieldList[index];
+      if (temp instanceof Array) {
+        arrayFieldList(temp);
+      } else if (temp.batchFieldList) {
+        analysis(temp.batchFieldList);
+      }
+    }
+  }
+  arrayFieldList(fieldList);
+  return batchName;
+}
+
 const doMerge = (type: string) => {
   assignStatusName();
-  let tempForm: any;
+  let tempForm: any = [];
   let tempDatas = JSON.parse(JSON.stringify(dataForm.value));
   let mergeUrl = props.compUrl?.mergeUrl;
-  let batchFields = props.fieldList.batchFieldList || [];
   let flag = true;
-  batchFields.forEach((item: BatchFieldInfo) => {
-    if (item.sameParentTable) {
-      flag = false;
-      mergeUrl = props.compUrl?.batchMergeUrl;
-      tempForm = [];
-      let batchDatas = tempDatas[item.batchName];
-      delete tempDatas[item.batchName];
+  //单独批量数据和嵌入fieldList 里的批量数据
+  //原则上只支持1个批量表格，多个存在数据对称问他
+  let sameBatchNames = analysisSameToParentField();
+  if (sameBatchNames && sameBatchNames.length > 0) {
+    flag = false;
+    mergeUrl = props.compUrl?.batchMergeUrl;
+    tempForm = [];
+    //1
+    //2,3
+    //4,5
+    //1，2，4
+    //1，3，5
+    sameBatchNames.forEach((batchName: string) => {
+      let batchDatas = tempDatas[batchName];
+      delete tempDatas[batchName];
       for (let i in batchDatas) {
         let temp = {...tempDatas, ...batchDatas[i]}
         tempForm.push(temp);
       }
-    }
-  });
+    })
+  }
   let dydata: any = {
     relationTables: props.globalCondition,
   }
@@ -175,6 +211,7 @@ const doMerge = (type: string) => {
   } else {
     dydata["dataListsMap"] = tempForm;
   }
+  console.log(sameBatchNames, tempForm, dydata);
   load("数据处理中");
   //dynamicForm 如果为true 表示动态表单，动态表单需额外封装数据对象
   postRequest(mergeUrl!, props.dynamicForm ? dydata : tempForm).then(res => {

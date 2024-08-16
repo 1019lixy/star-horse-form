@@ -5,7 +5,7 @@
   </el-card>
 </template>
 <script setup lang="ts">
-import {onMounted, ref} from "vue";
+import {onMounted} from "vue";
 /*import jsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker'
 import cssWorker from 'monaco-editor/esm/vs/language/css/css.worker?worker'
 import htmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker'

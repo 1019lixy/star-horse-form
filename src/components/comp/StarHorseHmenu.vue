@@ -3,8 +3,7 @@ import {inject, onMounted, ref} from "vue";
 import {postRequest} from "@/api/star_horse";
 import {getUserInfo} from "@/utils/auth";
 import SubSystemMenu from "@/components/menu/SubSystemMenu.vue";
-import { useDark, useToggle } from "@vueuse/core";
-import {toggleDark} from "@/api/system.ts";
+
 let dataList = ref([]);
 const loadMenuFun = inject("loadMenu") as Function;
 const handleSelect = (data: any) => {

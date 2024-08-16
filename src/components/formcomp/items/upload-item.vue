@@ -47,6 +47,7 @@
 </template>
 <script lang="ts">
 import {defineComponent, shallowRef} from "vue";
+
 export default defineComponent({
   emits: ["selectItem", "selfFunc"],
   setup(_props, context) {

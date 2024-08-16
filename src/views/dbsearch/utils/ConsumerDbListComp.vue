@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import {computed, onMounted, provide, ref, watch} from "vue";
+import {computed, onMounted, ref, watch} from "vue";
 import {initDbList, openDatabase, tableColumns} from "@/views/dbsearch/utils/DbSearchUtils.ts";
 import piniaInstance from "@/store";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import {SelectOption} from "@/components/types/SearchProps.d.ts";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {ConsumerView} from "@/store/ConsumerViewStore.ts";
+
 let configStore = GlobalConfig(piniaInstance);
 const consumerView = ConsumerView(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.buttonSize || "small");

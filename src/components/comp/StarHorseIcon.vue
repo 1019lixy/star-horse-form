@@ -1,5 +1,6 @@
 <script setup lang="ts" name="StarHorseIcon">
 import {computed} from 'vue';
+
 const props = defineProps({
   iconClass: {type: String, required: true,},
   className: {type: String,},

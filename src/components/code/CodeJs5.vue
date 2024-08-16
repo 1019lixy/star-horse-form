@@ -7,6 +7,7 @@ import {onMounted, reactive, ref, watch} from "vue";
 import {markRaw} from "@vue/reactivity";
 import CodeMirror from "codemirror";
 import {js_beautify} from "js-beautify";
+
 const codemirror = ref();
 const props = defineProps({
   value: {type: String, default: ""},

@@ -2,10 +2,9 @@
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {DialogProps} from "@/components/types/DialogProps"
 import {onMounted, provide, reactive, ref} from "vue";
-import {SearchFields, SearchProps, SelectOption} from "@/components/types/SearchProps";
+import {SearchFields, SelectOption} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {Config} from "@/api/settings.ts";
-import {getMenuId, loadPagePermission} from "@/api/sh_api.ts";
 //后端交互接口地址
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/userdb-manage/userdb/dynamicFormItems/pageList",
@@ -160,10 +159,10 @@ const dialogProps = reactive<DialogProps>({
   dialogPwdVisible: false,
   bakeVisible1: false, bakeVisible2: false, bakeVisible3: false
 });
-provide("dialogProps", dialogProps);let permissions = ref<any>({});
+provide("dialogProps", dialogProps);
 //初始化方法
 const initData = async () => {
-  permissions.value = await loadPagePermission(getMenuId())
+
 };
 onMounted(async () => {
   await initData();
@@ -201,11 +200,11 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
                               :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
-      <star-horse-button-list :permissions="permissions"  @tableCompFunc="(fun:any)=>dynamicFormItemsRef.tableCompFunc(fun)" :compUrl="dataUrl"
+      <star-horse-button-list   @tableCompFunc="(fun:any)=>dynamicFormItemsRef.tableCompFunc(fun)" :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
     <hr>
-    <star-horse-table-comp :permissions="permissions"   ref="dynamicFormItemsRef" :fieldList="tableFieldList" :primaryKey="primaryKey"
+    <star-horse-table-comp    ref="dynamicFormItemsRef" :fieldList="tableFieldList" :primaryKey="primaryKey"
                            :compUrl="dataUrl"
                            :dataFormat="dataFormat"/>
   </el-card>

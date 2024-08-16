@@ -1,5 +1,6 @@
 import {defineStore} from "pinia";
 import {warning} from "@/utils/message";
+
 export const DynamicForm: any = defineStore("DynamicForm", {
     state: () => {
         return {

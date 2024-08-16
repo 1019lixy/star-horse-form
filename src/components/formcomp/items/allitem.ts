@@ -1,4 +1,5 @@
 import {App, defineAsyncComponent} from "vue";
+
 const items = import.meta.glob('@/components/formcomp/items/*.vue')
 export default function install(app: App<Element>) {
     for (const [key, value] of Object.entries(items)) {

@@ -1,11 +1,10 @@
 <script setup lang="ts" name="ProjectInfoUi">
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {onMounted, provide, reactive, ref} from "vue";
-import {SearchFields, SearchProps, SelectOption} from "@/components/types/SearchProps.d.ts";
+import {SearchFields, SelectOption} from "@/components/types/SearchProps.d.ts";
 import {Config} from "@/api/settings.ts";
 import ProjectMemberUi from "@/views/continus/ProjectMemberUi.vue";
 import {DialogInput} from "@/components/types/PageFieldInfo";
-import {getMenuId, loadPagePermission} from "@/api/sh_api.ts";
 
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/devops-continus/continus/projectInfo/pageList",
@@ -163,12 +162,12 @@ const dialogProps = reactive<DialogInput>({
   viewVisible: false,
 });
 provide("dialogProps", dialogProps);
-let permissions = ref<any>({});
+
 const dataFormat = (name: string, cellValue: Object): any => {
   return cellValue;
 }
 const init = async () => {
-  permissions.value = await loadPagePermission(getMenuId())
+
 };
 let projectId = ref<Number>(-1);
 const selectItemFun = (row: any) => {
@@ -194,11 +193,11 @@ onMounted(async () => {
                               :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
-      <star-horse-button-list :permissions="permissions" @tableCompFunc="(fun:any)=>projectInfoRef.tableCompFunc(fun)"
+      <star-horse-button-list  @tableCompFunc="(fun:any)=>projectInfoRef.tableCompFunc(fun)"
                               :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
-    <star-horse-table-comp :permissions="permissions" ref="projectInfoRef" :fieldList="tableFieldList"
+    <star-horse-table-comp  ref="projectInfoRef" :fieldList="tableFieldList"
                            :primaryKey="primaryKey" :compUrl="dataUrl"
                            :dataFormat="dataFormat" @selectItem="selectItemFun"/>
     <project-member-ui :projectId="projectId"/>

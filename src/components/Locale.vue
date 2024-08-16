@@ -16,6 +16,7 @@
 </template>
 <script setup lang="ts">
 import {ref} from "vue";
+
 const langName = ref('');
 const language = ref('');
 const init = () => {

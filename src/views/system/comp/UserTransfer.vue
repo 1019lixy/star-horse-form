@@ -4,6 +4,7 @@ import {SelectOption} from "@/components/types/SearchProps";
 import {postRequest} from "@/api/star_horse";
 import {closeLoad} from "@/api/sh_api";
 import {analysisData} from "@/api/deptment";
+
 const deptUserList = ref<SelectOption>([]);
 const selectUsers = ref<Array<Number>>([]);
 const pageInfo = ref<any>({

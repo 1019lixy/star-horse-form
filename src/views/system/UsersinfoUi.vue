@@ -3,19 +3,12 @@ import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings.ts";
 import {DialogProps} from "@/components/types/DialogProps"
 import {nextTick, onMounted, provide, reactive, ref} from "vue";
-import {SearchFields, SearchProps, SelectOption} from "@/components/types/SearchProps";
+import {SearchFields, SelectOption} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
-import {
-  createCondition,
-  dictData,
-  getMenuId, loadById,
-  loadDepartmentInfo,
-  loadPagePermission,
-  loadRolesInfo
-} from "@/api/sh_api";
+import {createCondition, dictData, loadById, loadDepartmentInfo, loadRolesInfo} from "@/api/sh_api";
 import {analysisData} from "@/api/deptment";
 import {ElTreeV2} from "element-plus";
-import {TreeNode, TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
+import {TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
 import {SearchParams} from "@/components/types/Params";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {postRequest, trim} from "@/api/star_horse.ts";
@@ -261,7 +254,7 @@ const dialogProps = reactive<DialogProps>({
   viewVisible: false
 });
 provide("dialogProps", dialogProps);
-let permissions = ref<any>({});
+
 const dataFormat = (name: string, cellValue: any, row: any): any => {
   if (name == "sex") {
     let fdata = sexList.value.find((item: any) => parseInt(item.value) == parseInt(cellValue));
@@ -312,7 +305,7 @@ const checkChange = (data: TreeNodeData, checked: boolean) => {
 };
 
 const initData = async () => {
-  permissions.value = await loadPagePermission(getMenuId())
+
   rolesList.value = await loadRolesInfo([]);
   deptList.value = await loadDepartmentInfo([]);
   statusList.value = await dictData("common");
@@ -401,11 +394,11 @@ const pwdFieldInfo = reactive<PageFieldInfo | any>({
             <hr/>
             <star-horse-button-list v-if="!viewRolesinfoId"
                                     @tableCompFunc="(fun:any)=>usersinfoTableListRef.tableCompFunc(fun)"
-                                    :compUrl="dataUrl" :permissions="permissions"
+                                    :compUrl="dataUrl"
                                     :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
           </div>
           <hr>
-          <star-horse-table-comp :permissions="permissions" ref="usersinfoTableListRef" :fieldList="tableFieldList"
+          <star-horse-table-comp  ref="usersinfoTableListRef" :fieldList="tableFieldList"
                                  :primaryKey="primaryKey"
                                  :compUrl="dataUrl"
                                  :dataFormat="dataFormat" :disableAction="disableAction"/>

@@ -1,6 +1,6 @@
 <script lang="ts" setup name="StarHorseTableComp">
 import {ApiUrls} from "@/components/types/ApiUrls";
-import {inject, onMounted, PropType, reactive, ref, unref, watch} from "vue";
+import {computed, inject, onMounted, PropType, reactive, ref, unref, watch} from "vue";
 import {download, postRequest} from "@/api/star_horse";
 import {PageProps} from "@/components/types/PageProps";
 import {closeLoad, commonParseCodeToName, deleteByIds, load,} from "@/api/sh_api";
@@ -13,6 +13,8 @@ import {OrderByInfo} from "@/components/types/PageFieldInfo";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {DynamicForm} from "@/store/DynamicFormStore";
 import piniaInstance from "@/store";
+import {useRoute} from "vue-router";
+import {useButtonPermission} from "@/store/ButtonPermissionStore.ts";
 
 const dynamicForm = DynamicForm(piniaInstance);
 const props = defineProps({
@@ -54,8 +56,11 @@ const props = defineProps({
   //标题
   title: {type: String},
   //按钮操作权限
-  permissions: {type: Object, required: true, default: {}},
+  // permissions: {type: Object, required: true, default: {}},
 });
+let route = useRoute();
+let pagePermission = useButtonPermission(piniaInstance);
+let permissions = computed(() => pagePermission.currentPermission);
 const emits = defineEmits(["selectItem"]);
 const multipleSelection = ref<any>([]);
 const starHorseTableCompRef = ref();
@@ -139,6 +144,7 @@ const createSearchParams = (formData: SearchParams[]) => {
   loadByPage();
 };
 const init = async () => {
+  pagePermission.addRoute(route);
   //是否初始化时自动加载列表数据开关
   if (!props.fieldList?.stopAutoLoad) {
     loadByPage();
@@ -579,13 +585,27 @@ defineExpose({
         />
       </template>
       <template v-else-if="item.tabList?.length > 0">
-        <star-horse-table-column
-            :data-format="dataFormat"
-            :cellEditable="fieldList['cellEditable']"
-            :item="sitem"
-            :compUrl="compUrl"
-            v-for="sitem in item.tabList.fieldList"
-        />
+        <template v-for="tabItems in item.tabList">
+          <star-horse-table-column
+              :data-format="dataFormat"
+              :cellEditable="fieldList['cellEditable']"
+              :item="sitem"
+              :compUrl="compUrl"
+              v-for="sitem in tabItems.fieldList"
+          />
+        </template>
+      </template>
+      <template v-else-if="item.batchFieldList?.length > 0">
+        <template v-for="batchItems in item.batchFieldList">
+          <star-horse-table-column
+              :data-format="dataFormat"
+              :cellEditable="fieldList['cellEditable']"
+              :item="sitem"
+              :compUrl="compUrl"
+              v-for="sitem in batchItems.fieldList"
+          />
+        </template>
+
       </template>
       <star-horse-table-column
           v-else

@@ -1,5 +1,6 @@
 <script setup lang="ts" name="NodePropertyPanel">
 import {computed, ref, watch} from "vue";
+
 const props = defineProps({
   modeler: {
     type: Object,

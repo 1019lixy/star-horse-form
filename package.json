@@ -81,7 +81,7 @@
     "nprogress": "^0.2.0",
     "ora": "^8.0.1",
     "path-browserify": "^1.0.1",
-    "pinia": "^2.2.0",
+    "pinia": "^2.2.2",
     "pinia-plugin-persist": "^1.0.0",
     "pinia-plugin-persistedstate": "^3.2.1",
     "postcss": "8.4.40",
