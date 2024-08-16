@@ -29,10 +29,10 @@ const emits = defineEmits([
 ]);
 let route = useRoute();
 let configStore = GlobalConfig(piniaInstance);
-let pagePermission = useButtonPermission(piniaInstance);
+let pagePermission = useButtonPermission();
 let compSize = computed(() => configStore.configFormInfo?.buttonSize || "small");
 let showType = computed(() => configStore.configFormInfo?.buttonShowType || "dropdown");
-let permissions = computed(() => pagePermission.currentPermission);
+let permissions = ref<any>({});
 const dataForm = ref<any>({});
 const tableCompFunc = (funcName: string) => {
   emits("tableCompFunc", funcName);
@@ -105,7 +105,7 @@ const setFormData = (val: any) => {
   dataForm.value = {...val};
 }
 const init = async () => {
-  await pagePermission.addRoute(route);
+  permissions.value = await pagePermission.addRoute(route);
 };
 onMounted(() => {
   init();

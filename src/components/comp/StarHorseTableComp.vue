@@ -1,6 +1,6 @@
 <script lang="ts" setup name="StarHorseTableComp">
 import {ApiUrls} from "@/components/types/ApiUrls";
-import {computed, inject, onMounted, PropType, reactive, ref, unref, watch} from "vue";
+import {inject, onMounted, PropType, reactive, ref, unref, watch} from "vue";
 import {download, postRequest} from "@/api/star_horse";
 import {PageProps} from "@/components/types/PageProps";
 import {closeLoad, commonParseCodeToName, deleteByIds, load,} from "@/api/sh_api";
@@ -59,8 +59,8 @@ const props = defineProps({
   // permissions: {type: Object, required: true, default: {}},
 });
 let route = useRoute();
-let pagePermission = useButtonPermission(piniaInstance);
-let permissions = computed(() => pagePermission.currentPermission);
+let pagePermission = useButtonPermission();
+let permissions = ref<any>({});
 const emits = defineEmits(["selectItem"]);
 const multipleSelection = ref<any>([]);
 const starHorseTableCompRef = ref();
@@ -144,7 +144,7 @@ const createSearchParams = (formData: SearchParams[]) => {
   loadByPage();
 };
 const init = async () => {
-  await pagePermission.addRoute(route);
+  permissions.value = await pagePermission.addRoute(route);
   //是否初始化时自动加载列表数据开关
   if (!props.fieldList?.stopAutoLoad) {
     loadByPage();

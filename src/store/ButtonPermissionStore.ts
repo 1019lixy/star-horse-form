@@ -17,8 +17,8 @@ export const useButtonPermission = defineStore("buttonPermission", () => {
     // console.log(route, meta, router);
     const addRoute = async (route: RouteLocationNormalized) => {
         let meta: any = route.meta;
-        await getPagePermission(meta?.menuId);
-        console.log(meta);
+        return await getPagePermission(meta?.menuId);
+        //    console.log(meta);
     }
     /**
      * 添加单个权限
@@ -68,6 +68,7 @@ export const useButtonPermission = defineStore("buttonPermission", () => {
             });
             currentPermission.value = permission;
         }
+        return currentPermission.value;
     }
-    return {addPermission, addAllPermission, currentPermission, addRoute}
+    return {addPermission, addAllPermission, addRoute}
 });
