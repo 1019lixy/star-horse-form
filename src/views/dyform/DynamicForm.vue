@@ -35,7 +35,7 @@ let designForm = DesignForm(piniaInstance);
 let route = useRoute();
 let router = useRouter();
 let pagePermission = useButtonPermission(piniaInstance);
-let permissions = computed(() => pagePermission.currentPermission);
+let permissions =ref<any>({});
 let draggingItem = computed(() => designForm.draggingItem);
 let list = computed(() => designForm.compList);
 let isPreview = ref<any>(false);
@@ -47,6 +47,7 @@ let formInfo = computed(() => designForm.formInfo);
 const fieldPanelRef = ref();
 let reOrUnDoFlag = ref<boolean>(false);
 const init = async () => {
+  permissions.value=await pagePermission.addRoute(route);
   clearData();
 };
 const propertyRef = ref();
@@ -300,6 +301,7 @@ watch(() => list.value,
 );
 onMounted(async () => {
   designForm.clearAll(true);
+
   await init();
 });
 </script>

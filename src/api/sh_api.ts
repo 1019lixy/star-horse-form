@@ -581,16 +581,18 @@ export function formFieldMapping(fieldList: PageFieldInfo) {
             if (!defaultDatas[temp.batchName]) {
                 defaultDatas[temp.batchName] = [];
             }
-            // if (!batchDefaultValues[temp.batchName]) {
-            //     batchDefaultValues[temp.batchName] = {};
-            // }
+            if (!batchDefaultValues[temp.batchName]) {
+                batchDefaultValues[temp.batchName] = [];
+            }
             let fieldList = temp.fieldList as Array<FieldInfo>;
             fieldList?.forEach(item => {
                 if (item.defaultValue) {
                     if (isJson(item.defaultValue)) {
                         batchDefaultValues[temp.batchName] = {...batchDefaultValues[temp.batchName], ...item.defaultValue};
                     } else {
-                        batchDefaultValues[temp.batchName][item.fieldName] = item.defaultValue;
+                        let data:any={};
+                        data[item.fieldName]=item.defaultValue;
+                        batchDefaultValues[temp.batchName].push(data);
                     }
                 }
                 if (item.aliasName) {
