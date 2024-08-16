@@ -185,6 +185,9 @@ const backFun = () => {
   padding: 0;
   margin: 0;
 }
+:deep(.el-card__body){
+  margin: unset !important;
+}
 </style>
 <template>
   <el-card class="inner_content">

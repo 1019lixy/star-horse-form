@@ -40,12 +40,12 @@ export const useButtonPermission = defineStore("buttonPermission", () => {
         if (menuId) {
             menuId = menuId.split("_")[1];
             let permissons = pageBtnPermisson.value[menuId];
-            console.log(permissons);
+            // console.log(permissons);
             if (!permissons || permissons.length == 0) {
                 let userId = getUserInfo()?.idUsersinfo;
                 if (!userId) {
                     warning("Session 失效")
-                    userLogout([]);
+                    await userLogout([]);
                     return;
                 }
                 //没拿到则到数据库中去取
