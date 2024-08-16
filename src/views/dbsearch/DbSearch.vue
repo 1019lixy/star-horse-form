@@ -493,10 +493,6 @@ const operMsg = `
 :deep(th.el-table__cell:first-child) {
   padding: 5px 0;
 }
-.el-card {
-  height: 100%;
-  overflow: hidden;
-}
 .field-table {
   border: 1px solid var(--star-horse-style);
   tr > th, tr > td {
@@ -509,7 +505,5 @@ const operMsg = `
     }
   }
 }
-:deep(.el-tabs__content) {
-  padding-bottom: 5px;
-}
+
 </style>

@@ -127,9 +127,7 @@ const removeData = () => {
     white-space: nowrap;
     text-overflow: ellipsis;
   }
-  :deep(.el-form-item__content) {
-    //position: unset;  /* TODO: 忘了这个样式设置是为了解决什么问题？？ */
-  }
+
   span.custom-label .icon-cls {
     margin: 0 3px;
   }

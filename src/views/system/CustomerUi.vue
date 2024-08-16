@@ -152,8 +152,6 @@ provide("dialogProps", dialogProps);
 
 //初始化方法
 const initData = async () => {
-  ;
-  console.log(permissions.value);
   systemIconList.value = loadElementPlusIcon();
 };
 onMounted(async () => {

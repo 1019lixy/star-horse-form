@@ -77,17 +77,7 @@ onMounted(() => {
 </template>
 
 <style scoped lang="scss">
-.el-card {
-  margin-top: 10px;
-  height: 100% !important;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
 
-  :deep(.el-card__header) {
-    padding: 10px 20px;
-  }
-}
 
 .card-header {
   span {
@@ -96,8 +86,4 @@ onMounted(() => {
 ;
 }
 
-:deep(.el-card__body) {
-  margin-top: 5px;
-  flex: 1 !important;
-}
 </style>

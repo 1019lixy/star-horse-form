@@ -172,8 +172,5 @@ defineExpose({
 .build-cfg {
   height: 100%;
 
-  .el-card {
-    height: 100%;
-  }
 }
 </style>

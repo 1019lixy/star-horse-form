@@ -145,6 +145,9 @@ defineExpose({
   </div>
 </template>
 <style lang="scss" scoped>
+:deep(.el-form-item){
+  width: unset;
+}
 :deep(.el-form-item__label) {
   min-width: 80px;
 }
@@ -153,13 +156,6 @@ defineExpose({
   max-width: 5px;
 }
 
-:deep(.el-form-item) {
-  margin-bottom: 3px;
-}
-
-:deep(.el-form-item__label) {
-  padding: 3px 12px;
-}
 
 .search_content {
   display: flex;

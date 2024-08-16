@@ -16,6 +16,7 @@ import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
 import {validDynamicFormCompParams} from "@/views/dyform/utils/preview.ts";
 import CodeComp from "@/views/dyform/code/CodeComp.vue";
+import {useButtonPermission} from "@/store/ButtonPermissionStore.ts";
 
 const dataUrl = reactive<ApiUrls>(<ApiUrls>{
   loadByPageUrl: "/userdb-manage/userdb/dynamicForm/pageList",
@@ -33,6 +34,8 @@ const dataUrl = reactive<ApiUrls>(<ApiUrls>{
 let designForm = DesignForm(piniaInstance);
 let route = useRoute();
 let router = useRouter();
+let pagePermission = useButtonPermission(piniaInstance);
+let permissions = computed(() => pagePermission.currentPermission);
 let draggingItem = computed(() => designForm.draggingItem);
 let list = computed(() => designForm.compList);
 let isPreview = ref<any>(false);
@@ -406,7 +409,7 @@ onMounted(async () => {
         <div class="inner_button">
           <el-menu mode="horizontal" style="height: inherit;width: 100%;">
             <template v-for="(item,index) in formActions">
-              <el-menu-item v-if="list.length>0||item.defaultEdit">
+              <el-menu-item v-if="(list.length>0||item.defaultEdit)&&(item.auth=='none'||permissions[item.auth])">
                 <el-tooltip class="item" :content="item.label" :index="index"
                             effect="dark"
                             placement="bottom">
@@ -490,6 +493,7 @@ onMounted(async () => {
   </el-card>
 </template>
 <style lang="scss" scoped>
+
 :deep(.el-card__body) {
   padding: 0;
   height: 100%;

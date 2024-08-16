@@ -54,14 +54,7 @@ onMounted(async () => {
 .code-container {
   height: 100%;
   overflow: hidden;
-  :deep(.el-tabs) {
-    height: 100%;
-  }
+
 }
-:deep(.el-tabs__content), .el-tabs__content {
-  height: 100%;
-}
-:deep(.el-tab-pane), .el-tab-pane {
-  height: 100%;
-}
+
 </style>

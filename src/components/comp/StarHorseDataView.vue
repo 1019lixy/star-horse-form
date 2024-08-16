@@ -186,33 +186,9 @@ const tabList = ref<any>("tab0");
   </template>
 </template>
 <style lang="scss" scoped>
-:deep(.el-card__header){
-  padding: 10px 20px;
-}
+
 .el-card:nth-child(n+1) {
   margin-top: 10px;
-}
-:deep(.el-card__body) {
-  margin-top: 5px;
-}
-:deep(.el-tabs) {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.el-tabs {
-  height: 100%;
-}
-
-:deep(.el-tabs__content ) {
-  height: 100%;
-  flex: 1;
-}
-
-:deep(.el-tab-pane) {
-  height: 100%;
-  flex: 1;
 }
 
 :deep(.el-table__cell) {

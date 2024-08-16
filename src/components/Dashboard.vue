@@ -187,12 +187,6 @@ const configInfo = computed(() => configStore.configFormInfo);
 .operation-area {
   height: 100%;
   overflow: hidden;
-
-  :deep(.el-card__body) {
-    height: 100%;
-    overflow: hidden;
-    margin: 5px !important;
-  }
 }
 
 .Resizer.vertical {

@@ -408,12 +408,5 @@ const pwdFieldInfo = reactive<PageFieldInfo | any>({
   </el-card>
 </template>
 <style lang="scss" scoped>
-.el-card {
-  height: 100%;
 
-  :deep(.el-card__body) {
-    height: 100%;
-    padding: 0;
-  }
-}
 </style>

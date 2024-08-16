@@ -53,15 +53,4 @@ const dialogProps = inject<DialogProps>("dialogProps", {});
 </template>
 <style lang="scss" scoped>
 
-
-
-
-:deep(.el-form) {
-  display: block;
-  width: 100%;
-}
-
-.data-form {
-  height: 100%;
-}
 </style>

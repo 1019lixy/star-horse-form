@@ -285,35 +285,5 @@ defineExpose({
   </el-form>
 </template>
 <style lang="scss" scoped>
-:deep(.el-form-item__label) {
-  min-width: 100px;
-}
 
-:deep(.el-tabs) {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-:deep(.el-tabs__content ) {
-  height: 100%;
-  flex: 1;
-}
-
-:deep(.el-tab-pane) {
-  height: 100%;
-  flex: 1;
-}
-
-:deep(.el-form) {
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-}
-
-.data-form {
-  height: 100%;
-  flex: 1;
-  overflow: hidden;
-}
 </style>

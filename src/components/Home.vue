@@ -67,7 +67,5 @@ onMounted(() => {
 
 </script>
 <style lang="scss" scoped>
-:deep(.el-card__body) {
-  height: 100%;
-}
+
 </style>

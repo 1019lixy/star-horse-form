@@ -36,7 +36,7 @@ onMounted(() => {
 
 <template>
   <template v-if="item.tabList&&item.tabList.length>0">
-    <el-tabs v-model="item.fieldName" :closable="item.closable=='Y'" v-on:tab-change="item.actions">
+    <el-tabs v-model="item.fieldName"  :closable="item.closable=='Y'" v-on:tab-change="item.actions">
       <template v-for="(tabItem,key) in item.tabList">
         <el-tab-pane :label="tabItem.title" :name="tabItem.tabName||key" :disabled="tabItem.disabled"
                      :index="checkObject(tabItem)">
@@ -82,19 +82,5 @@ onMounted(() => {
 </template>
 
 <style scoped lang="scss">
-:deep(.el-tabs) {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
 
-:deep(.el-tabs__content ) {
-  height: 100%;
-  flex: 1;
-}
-
-:deep(.el-tab-pane) {
-  height: 100%;
-  flex: 1;
-}
 </style>

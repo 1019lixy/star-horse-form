@@ -324,7 +324,6 @@ onMounted(async () => {
 :deep(.el-form-item) {
   font-size: 11px;
   margin-bottom: 1px;
-  width: 100%;
 }
 
 :deep(.el-input__inner ), :deep(el-select) {
