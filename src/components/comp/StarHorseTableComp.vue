@@ -144,7 +144,7 @@ const createSearchParams = (formData: SearchParams[]) => {
   loadByPage();
 };
 const init = async () => {
-  pagePermission.addRoute(route);
+  await pagePermission.addRoute(route);
   //是否初始化时自动加载列表数据开关
   if (!props.fieldList?.stopAutoLoad) {
     loadByPage();

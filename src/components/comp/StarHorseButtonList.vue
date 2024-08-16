@@ -105,7 +105,7 @@ const setFormData = (val: any) => {
   dataForm.value = {...val};
 }
 const init = async () => {
-  pagePermission.addRoute(route);
+  await pagePermission.addRoute(route);
 };
 onMounted(() => {
   init();

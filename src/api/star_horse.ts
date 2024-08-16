@@ -250,7 +250,6 @@ export function createRouterAndMenuList(redata: Array<Object>): MenusInfo[] {
     }
     const baseDir = "/src/views";
     const compPath = import.meta.glob("@/views/**/*.vue");
-
     /**
      * 递归组装菜单
      * @param redata
