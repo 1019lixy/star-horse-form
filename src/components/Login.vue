@@ -20,6 +20,7 @@ interface LoginInfo {
   validCode: string;
   uuid: string;
 }
+
 const loginTitle = Config.title;
 let configStore = GlobalConfig(piniaInstance);
 let validateImg = ref<string>("");
@@ -244,7 +245,7 @@ watch(
   </div>
 </template>
 <style lang="scss" scoped>
-:deep(.el-input__icon),.el-icon {
+:deep(.el-input__icon), .el-icon {
   height: 2em !important;
   width: 2em !important;
 
@@ -263,29 +264,35 @@ watch(
   font-size: 32px;
   font-weight: 600;
 }
+
 :deep(#app) {
   height: 100%;
   margin: 0 auto;
 }
+
 .login {
   position: relative;
   height: 100%;
+
   .login-content {
     display: flex;
     margin-left: auto;
     margin-right: auto;
     height: 100%;
+
     .left {
       padding: 30px;
       flex: 1 1 0%;
       --tw-bg-opacity: 0.2;
       --tw-bg-opacity: 1;
       background-color: rgba(107, 114, 128, 1);
+
       .title {
         position: relative;
         display: flex;
         align-items: center;
         color: rgba(255, 255, 255, 1);
+
         img {
           margin-right: 10px;
           height: 48px;
@@ -294,12 +301,14 @@ watch(
           border-style: solid;
           max-width: 100%;
         }
+
         span {
           font-size: 20px;
           line-height: 1;
           font-weight: 700;
         }
       }
+
       .left_content {
         height: calc(100% - 60px);
         justify-content: center;
@@ -307,17 +316,20 @@ watch(
         display: flex;
       }
     }
+
     .right {
       padding: 30px;
       display: flex;
       flex-direction: row;
       flex: 1 1 0%;
+
       .title {
         justify-content: flex-end;
         color: rgba(255, 255, 255, 1);
         align-items: center;
         display: flex;
       }
+
       .right-content {
         max-width: 500px;
         margin: auto;
@@ -328,54 +340,69 @@ watch(
     }
   }
 }
+
 .__title {
   margin: 0 auto 30px auto;
   text-align: center;
   color: #707070;
 }
+
 .login-form {
   border-radius: 6px;
   background: #ffffff;
   width: 500px;
   padding: 25px 25px 5px 25px;
 }
+
 .other-login-icon {
   display: flex;
   width: 100%;
   justify-content: space-between;
 }
+
 .login-form .el-input,
 .el-button,
 .login-form.el-input input {
   height: 42px;
 }
+
 .el-button > span {
   font-size: 18px;
 }
+
 .input-icon {
   height: 39px;
   width: 14px;
   margin-left: 2px;
 }
+
 .login-tip {
   font-size: 13px;
   text-align: center;
   color: #bfbfbf;
 }
+
 .login-code {
   width: 33%;
   display: inline-block;
   height: 38px;
   float: right;
 }
+
 .login-code img {
   cursor: pointer;
   vertical-align: middle;
 }
+
 .login-footer {
   width: 100%;
   clear: both;
 }
+
+:deep(.el-form-item) {
+  margin-bottom: 18px !important;
+}
+
 .login-footer > span {
   width: 100%;
   align-items: center;
