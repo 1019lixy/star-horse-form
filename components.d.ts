@@ -10,6 +10,7 @@ declare module 'vue' {
     404: typeof import('./src/components/404.vue')['default']
     AudioItem: typeof import('./src/components/formcomp/items/audio-item.vue')['default']
     AutocompleteItem: typeof import('./src/components/formcomp/items/autocomplete-item.vue')['default']
+    Bake404: typeof import('./src/components/Bake404.vue')['default']
     BoxCol: typeof import('./src/components/formcomp/container/box-col.vue')['default']
     BoxContainer: typeof import('./src/components/formcomp/container/box-container.vue')['default']
     BoxItem: typeof import('./src/components/comp/utils/boxItem.vue')['default']
