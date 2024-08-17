@@ -28,34 +28,38 @@ onMounted(() => {
 </script>
 
 <template>
-  <template v-if="item.tabList&&item.tabList.length>0">
-    <el-tabs v-model="item.fieldName" type="border-card">
-      <template v-for="(tabItem,key )  in item.tabList">
-        <el-tab-pane :label="tabItem.title||tabItem.tabName" :name="key">
-          <template v-if="tabItem.subFormFlag">
-            <star-horse-data-view-object :objectName="tabItem.objectName"
-                                         :subCreateFlag="true"
-                                         v-model:dataForm="dataForm"
-                                         :commonFormat="commonFormat"
-                                         primaryKey="id"
-                                         :fieldList="{
-               fieldList:tabItem.fieldList,
-              batchFieldList:tabItem.batchFieldList
+  <template v-if="item.cardList&&item.cardList.length>0">
+    <template v-for="cardItem  in item.cardList">
+      <el-card shadow="hover">
+        <template #header>
+          <div class="card-header">
+            <span>{{ cardItem.title || cardItem.tabName }}</span>
+          </div>
+        </template>
+        <star-horse-data-view :objectName="cardItem.objectName"
+                              :subCreateFlag="true"
+                              v-model:data-form="dataForm"
+                              :commonFormat="commonFormat"
+                              v-if="cardItem.subFormFlag"
+                              primaryKey="id"
+                              :fieldList="{
+               fieldList:cardItem.fieldList,
+              batchFieldList:cardItem.batchFieldList
             }"/>
-          </template>
-          <template v-else>
-            <star-horse-data-view  :fieldList="{
-              fieldList:tabItem.fieldList,
-              batchFieldList:tabItem.batchFieldList
+        <star-horse-data-view v-else :fieldList="{
+              fieldList:cardItem.fieldList,
+              batchFieldList:cardItem.batchFieldList
             }"
-            />
-          </template>
-        </el-tab-pane>
-      </template>
-    </el-tabs>
+                              v-model:data-form="dataForm"
+                              :commonFormat="commonFormat"
+        />
+      </el-card>
+    </template>
   </template>
 </template>
 
 <style scoped lang="scss">
-
+.el-card:nth-child(n+1) {
+  margin-top: 10px;
+}
 </style>

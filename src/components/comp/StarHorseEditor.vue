@@ -22,6 +22,7 @@ import {sql} from "@codemirror/lang-sql";
 import {showMinimap} from "@replit/codemirror-minimap";
 import {javaKeywords} from "../code/java.ts";
 import {amy, ayuLight, barf, bespin, birdsOfParadise, boysAndGirls, clouds, dracula} from 'thememirror';
+import Help from "@/components/help.vue";
 
 const model = defineModel("value", {default: ""});
 const editorLang = ref<any>(javascript());
@@ -31,7 +32,8 @@ const props = defineProps({
   fieldName: {type: String, default: ""},
   lang: {type: String, default: null},
   theme: {type: String, default: "dracula"},
-  boxHeight: {type: String, default: "95%"}
+  boxHeight: {type: String, default: "95%"},
+  helpMsg: {type: String}
 });
 const languageConf = new Compartment;
 const config = ref<any>({
@@ -223,6 +225,7 @@ defineExpose({
         </el-dropdown-menu>
       </template>
     </el-dropdown>
+    <help :message="helpMsg" v-if="helpMsg"/>
   </div>
   <div ref="codemirror" class="coder"></div>
 </template>

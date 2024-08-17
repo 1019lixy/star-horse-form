@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import {onMounted, PropType} from "vue";
-import {FieldInfo} from "@/components/types/PageFieldInfo";
+import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {ModelRef} from "vue-demi";
-import StarHorseDataView from "@/components/comp/StarHorseDataView.vue";
-import StarHorseDataViewObject from "@/components/comp/StarHorseDataViewObject.vue";
 
 const props = defineProps({
-  item: {type: Array as PropType<Array<FieldInfo>>, required: true},
+  item: {type: Object as PropType<PageFieldInfo>, required: true},
+  batchFieldName: {type: String, default: "batchFieldList"},
   commonFormat: {type: Function, required: true},
 });
 const dataForm: ModelRef<any> = defineModel("dataForm");
@@ -28,34 +27,32 @@ onMounted(() => {
 </script>
 
 <template>
-  <template v-if="item.tabList&&item.tabList.length>0">
-    <el-tabs v-model="item.fieldName" type="border-card">
-      <template v-for="(tabItem,key )  in item.tabList">
-        <el-tab-pane :label="tabItem.title||tabItem.tabName" :name="key">
-          <template v-if="tabItem.subFormFlag">
-            <star-horse-data-view-object :objectName="tabItem.objectName"
-                                         :subCreateFlag="true"
-                                         v-model:dataForm="dataForm"
-                                         :commonFormat="commonFormat"
-                                         primaryKey="id"
-                                         :fieldList="{
-               fieldList:tabItem.fieldList,
-              batchFieldList:tabItem.batchFieldList
-            }"/>
-          </template>
-          <template v-else>
-            <star-horse-data-view  :fieldList="{
-              fieldList:tabItem.fieldList,
-              batchFieldList:tabItem.batchFieldList
-            }"
-            />
-          </template>
+  <template v-if="item[batchFieldName]?.length > 1">
+    <el-tabs v-model="item[batchFieldName].fieldName">
+      <template v-for="(sitem,key) in item.batchFieldList">
+        <el-tab-pane :label="sitem['title']" :name="'tab'+key" :disabled="sitem.disabled">
+          <star-horse-data-view-table :commonFormat="commonFormat" :item="sitem"
+                                      :batchName="sitem['batchName']"
+                                      v-model:dataForm="dataForm"/>
         </el-tab-pane>
       </template>
     </el-tabs>
   </template>
+  <template v-else-if="item[batchFieldName]?.length == 1">
+    <template v-for="temp in item[batchFieldName]">
+      <star-horse-data-view-table :item="temp" :commonFormat="commonFormat" v-model:dataForm="dataForm"
+                                  :batchName="temp"/>
+    </template>
+  </template>
+
 </template>
 
 <style scoped lang="scss">
+:deep(.el-table__cell) {
+  padding: 0;
+}
 
+:deep(th.el-table__cell:first-child) {
+  padding: 5px 0;
+}
 </style>

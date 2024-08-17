@@ -1,24 +1,18 @@
 <script setup lang="ts">
-import StarHorseFormItem from "@/components/comp/StarHorseFormItem.vue";
 import {onMounted, PropType} from "vue";
-import {ApiUrls} from "@/components/types/ApiUrls";
 import {FieldInfo} from "@/components/types/PageFieldInfo";
 import {ModelRef} from "vue-demi";
+import StarHorseDataView from "@/components/comp/StarHorseDataView.vue";
 
 defineProps({
-  compUrl: {type: Object as PropType<ApiUrls>},
   item: {type: Array as PropType<Array<FieldInfo>>, required: true},
   objectName: {type: String},
   subCreateFlag: {type: Boolean, default: false},
   batchName: {type: String, default: "batchDataList"},
   batchFieldName: {type: String, default: "batchFieldList"},
-  primaryKey: {type: String, required: true},
-  rules: {type: Object},
-  compSize: {type: String, default: "small"},
-  isView: {type: Boolean, default: false},
-  isEdit: {type: Boolean, default: false},
+
 });
-const dataForm:ModelRef<any> = defineModel("dataForm");
+const dataForm: ModelRef<any> = defineModel("dataForm");
 const checkObject = (item: any) => {
   if (item && item.objectName && !Object.keys(dataForm.value).includes(item.objectName)) {
     dataForm.value[item.objectName] = {};
@@ -35,30 +29,30 @@ onMounted(() => {
 
 <template>
   <template v-if="item.collapseList&&item.collapseList.length>0">
-    <el-collapse v-model="item.fieldName" v-on:change="item.actions">
+    <el-collapse v-model="item.fieldName">
       <template v-for="(collapseItem,key ) in item.collapseList">
         <el-collapse-item :title="collapseItem.title" :name="collapseItem.tabName||key"
                           :disabled="collapseItem.disabled"
                           :index="checkObject(collapseItem)">
           <el-scrollbar height="95%">
-            <star-horse-form-item v-if="collapseItem.subFormFlag" :isView="isView" :compUrl="compUrl"
+            <star-horse-data-view v-if="collapseItem.subFormFlag"
                                   v-model:dataForm="dataForm[collapseItem.objectName]"
                                   :objectName="collapseItem.objectName"
                                   :fieldList="{
                                   fieldList:collapseItem.fieldList,
                                   batchFieldList:collapseItem.batchFieldList
                                  }"
-                                  :rules="rules" :subCreateFlag="collapseItem.subFormFlag"
-                                  :primaryKey="primaryKey"/>
-            <star-horse-form-item v-else :isView="isView" :compUrl="compUrl"
+                                  :subCreateFlag="collapseItem.subFormFlag"
+            />
+            <star-horse-data-view v-else
                                   v-model:dataForm="dataForm"
                                   :objectName="collapseItem.objectName"
                                   :fieldList="{
                                   fieldList:collapseItem.fieldList,
                                   batchFieldList:collapseItem.batchFieldList
                                  }"
-                                  :rules="rules" :subCreateFlag="collapseItem.subFormFlag"
-                                  :primaryKey="primaryKey"/>
+                                  :subCreateFlag="collapseItem.subFormFlag"
+            />
           </el-scrollbar>
         </el-collapse-item>
       </template>

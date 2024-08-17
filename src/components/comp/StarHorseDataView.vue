@@ -3,8 +3,6 @@ import {ApiUrls} from "@/components/types/ApiUrls";
 import {inject, nextTick, onMounted, PropType, ref, watch} from "vue";
 import {DialogProps} from "@/components/types/DialogProps";
 import {commonParseCodeToName, formFieldMapping, loadById} from "@/api/sh_api";
-import StarHorseDataViewObject from "@/components/comp/StarHorseDataViewObject.vue";
-import StarHorseDataViewTable from "@/components/comp/StarHorseDataViewTable.vue";
 
 const dataForm = ref<any>({});
 const props = defineProps({
@@ -18,7 +16,6 @@ const props = defineProps({
 });
 const emits = defineEmits(["dataLoaded"]);
 const dialogProps = inject<DialogProps>("dialogProps") as any;
-const normalTabList = ref<any>("tab0");
 watch(() => dialogProps.ids,
     (val) => {
       if (val == -2) {
@@ -57,10 +54,7 @@ const loadData = async () => {
     emits("dataLoaded", objData, true);
   });
 };
-// const viewDataFormat = (row: any, column: any, cellValue: any, _index: number) => {
-//   //如果在这个地方遍历是否有隐藏属性，会拉低系统性能
-//   return commonFormat(column.property, cellValue, row);
-// };
+
 const commonFormat = (name: string, cellValue: any, _row: any) => {
   cellValue = commonParseCodeToName(name, cellValue);
   if (name == "isDel") {
@@ -68,134 +62,19 @@ const commonFormat = (name: string, cellValue: any, _row: any) => {
   }
   return null == props.dataFormat ? cellValue : props.dataFormat(name, cellValue, dataForm.value);
 };
-const dataFormat = (item: any) => {
-  let name = item['hideName'] || item['fieldName'];
-  try {
-    return commonFormat(name, dataForm.value[name], null);
-  } catch (e) {
-    console.log(e);
-  }
-  return "--";
-};
-const tabObject = ref<any>(0);
-const tabList = ref<any>("tab0");
+
+
 </script>
 <template>
   <template v-for="item in fieldList.fieldList">
-    <el-row v-if="item instanceof Array" :gutter="10">
-      <el-col :span="sitem.colSpan||sitem.preps?.colSpan||(24/item.length)" v-for="sitem in item">
-        <div class="item" v-if="sitem.formShow||sitem.tableShow||sitem.viewShow">
-          <label>{{ sitem.label }} :</label>
-          <div class="content">
-            <el-tooltip :content="dataFormat(sitem)">
-              {{ dataFormat(sitem) }}
-            </el-tooltip>
-          </div>
-        </div>
-      </el-col>
-    </el-row>
-    <template v-else-if="item.tabList&&item.tabList.length>0">
-      <el-tabs v-model="tabObject" type="border-card">
-        <template v-for="(tabItem,key )  in item.tabList">
-          <el-tab-pane :label="tabItem.title||tabItem.tabName" :name="key">
-            <template v-if="tabItem.subFormFlag">
-              <star-horse-data-view-object :objectName="tabItem.objectName"
-                                           :subCreateFlag="true"
-                                           v-bind:data-form="dataForm"
-                                           :commonFormat="commonFormat"
-                                           primaryKey="id"
-                                           :fieldList="{
-               fieldList:tabItem.fieldList,
-              batchFieldList:tabItem.batchFieldList
-            }"/>
-            </template>
-            <template v-else>
-              <star-horse-data-view :compUrl="compUrl" :fieldList="{
-              fieldList:tabItem.fieldList,
-              batchFieldList:tabItem.batchFieldList
-            }"
-              />
-            </template>
-          </el-tab-pane>
-        </template>
-      </el-tabs>
-    </template>
-    <template v-else-if="item.cardList&&item.cardList.length>0">
-      <template v-for="cardItem  in item.tabList">
-        <el-card shadow="hover">
-          <template #header>
-            <div class="card-header">
-              <span>{{ cardItem.title || cardItem.tabName }}</span>
-            </div>
-          </template>
-          <star-horse-data-view-object :objectName="cardItem.objectName"
-                                       :subCreateFlag="true"
-                                       v-bind:data-form="dataForm"
-                                       :commonFormat="commonFormat"
-                                       v-if="cardItem.subFormFlag"
-                                       primaryKey="id"
-                                       :fieldList="{
-               fieldList:cardItem.fieldList,
-              batchFieldList:cardItem.batchFieldList
-            }"/>
-          <star-horse-data-view v-else :compUrl="compUrl" :fieldList="{
-              fieldList:cardItem.fieldList,
-              batchFieldList:cardItem.batchFieldList
-            }"
-          />
-        </el-card>
-      </template>
-    </template>
-    <star-horse-item v-else-if="item.type=='comp'" :primaryKey="'id'" v-model:dataForm="dataForm" :item="item"
-                     :isView="true"/>
-    <template v-else-if="item.batchFieldList&&item.batchFieldList.length>0">
-      <template v-if="item.batchFieldList.length>1">
-        <el-tabs v-model="normalTabList">
-          <template v-for="(sitem,key) in item.batchFieldList">
-            <el-tab-pane :label="sitem['title']" :name="'tab'+key" :disabled="sitem.disabled">
-              <star-horse-data-view-table :commonFormat="commonFormat" :item="sitem"
-                                          :batchName="sitem['batchName']"
-                                          v-model:dataForm="dataForm"/>
-            </el-tab-pane>
-          </template>
-        </el-tabs>
-      </template>
-      <star-horse-data-view-table v-else :commonFormat="commonFormat" :item="item.batchFieldList[0]"
-                                  v-model:dataForm="dataForm" :batchName="item.batchFieldList[0]['batchName']"/>
-    </template>
-    <template v-else>
-      <div class="item" v-if="item.formShow||item.tableShow||item.viewShow">
-        <label>{{ item.label }} :</label>
-        <div class="content">
-          <el-tooltip :content="dataFormat(item)">
-            {{ dataFormat(item) }}
-          </el-tooltip>
-        </div>
-      </div>
-    </template>
+    <view-box-item :item="item" v-model:dataForm="dataForm" :commonFormat="commonFormat"/>
+    <view-tab-item :item="item" v-model:dataForm="dataForm" :commonFormat="commonFormat"/>
+    <view-card-item :item="item" v-model:dataForm="dataForm" :commonFormat="commonFormat"/>
+    <view-collaspe-item :item="item" v-model:dataForm="dataForm" :commonFormat="commonFormat"/>
+    <view-other-item :item="item" v-model:dataForm="dataForm" :commonFormat="commonFormat"/>
   </template>
-  <template v-if="fieldList[batchFieldName] instanceof Array&&fieldList[batchFieldName].length > 0">
-    <el-tabs v-model="tabList">
-      <template v-for="(item,key) in fieldList[batchFieldName]">
-        <el-tab-pane :label="item.title||item.tabName" :name="'tab'+key">
-          <star-horse-data-view-table v-model:data-form="dataForm" :commonFormat="commonFormat"
-                                      :batchName="item['batchName']" :item="item"/>
-        </el-tab-pane>
-      </template>
-    </el-tabs>
-  </template>
+  <view-table-item :item="fieldList" :batch-field-name="batchFieldName" v-model:dataForm="dataForm"
+                   :commonFormat="commonFormat"/>
 </template>
 <style lang="scss" scoped>
-
-.el-card:nth-child(n+1) {
-  margin-top: 10px;
-}
-
-:deep(.el-table__cell) {
-  padding: 0;
-}
-
-:deep(th.el-table__cell:first-child) {
-  padding: 5px 0;
-}
 </style>

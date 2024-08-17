@@ -4,7 +4,7 @@ import {FieldInfo} from "@/components/types/PageFieldInfo";
 import {ModelRef} from "vue-demi";
 
 const props = defineProps({
-  item: {type: Array as PropType<Array<FieldInfo>>, required: true},
+  item: {type: Object as PropType<FieldInfo>, required: true},
   commonFormat: {type: Function, required: true},
 });
 const dataForm: ModelRef<any> = defineModel("dataForm");
@@ -26,18 +26,16 @@ onMounted(() => {
 </script>
 
 <template>
-  <el-row v-if="item instanceof Array" :gutter="10">
-    <el-col :span="sitem.colSpan||sitem.preps?.colSpan||(24/item.length)" v-for="sitem in item">
-      <div class="item" v-if="sitem.formShow||sitem.tableShow||sitem.viewShow">
-        <label>{{ sitem.label }} :</label>
-        <div class="content">
-          <el-tooltip :content="dataFormat(sitem)">
-            {{ dataFormat(sitem) }}
-          </el-tooltip>
-        </div>
-      </div>
-    </el-col>
-  </el-row>
+  <star-horse-item v-if="item.type=='comp'" :primaryKey="'id'" v-model:dataForm="dataForm" :item="item"
+                   :isView="true"/>
+  <div class="item" v-if="item.formShow||item.tableShow||item.viewShow">
+    <label>{{ item.label }} :</label>
+    <div class="content">
+      <el-tooltip :content="dataFormat(item)">
+        {{ dataFormat(item) }}
+      </el-tooltip>
+    </div>
+  </div>
 </template>
 
 <style scoped lang="scss">

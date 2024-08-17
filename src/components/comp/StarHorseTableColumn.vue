@@ -2,7 +2,7 @@
 import StarHorseItem from "@/components/comp/StarHorseItem.vue";
 import {nextTick, PropType, ref} from "vue";
 import {postRequest} from "@/api/star_horse";
-import {closeLoad} from "@/api/sh_api";
+import {closeLoad, commonParseCodeToName} from "@/api/sh_api";
 import {error, success, warning} from "@/utils/message";
 import {Config} from "@/api/settings.ts";
 
@@ -40,7 +40,7 @@ const blurEvent = (column: any) => {
   });
 };
 const cellClick = (row: any, column: any) => {
-  if (!props.cellEditable || props.item["disabled"]=='Y'||props.item["editDisabled"]=="Y") {
+  if (!props.cellEditable || props.item["disabled"] == 'Y' || props.item["editDisabled"] == "Y") {
     return;
   }
   row["isSelected"] = true;
@@ -60,6 +60,24 @@ const cellClick = (row: any, column: any) => {
     }, 300);
   })
 };
+const currentDataFormat = (scope: any) => {
+  let item = props.item;
+  let name = item.hideName || item.fieldName;
+  let val: string = scope.row[name];
+  //下拉数据,checkbox,radio切换为对应的名称
+  let fname: string = "";
+  if (item.type == "select" || item.type == "checkbox" || item.type == "radio") {
+    fname = item.preps?.values?.find((temp: any) => String(temp.value) == val)?.name;
+  }
+  if (fname) {
+    return fname;
+  }
+  val = commonParseCodeToName(name, val);
+  if (props.dataFormat) {
+   return  props.dataFormat(name, val, scope.row)
+  }
+  return val;
+}
 </script>
 <template>
   <el-table-column
@@ -80,10 +98,7 @@ const cellClick = (row: any, column: any) => {
                        @blur="blurEvent"
                        v-if="scope.row.isSelected&&(scope.row.selectName==item.hideName||scope.row.selectName==item.fieldName)"/>
       <p @click="cellClick(scope.row, scope.column)" v-else>
-        {{
-          dataFormat ? dataFormat(scope.row, scope.column, scope.row[item.hideName || item.fieldName],
-              scope.$index) : scope.row[item.hideName || item.fieldName]
-        }}</p>
+        {{ currentDataFormat(scope) }}</p>
     </template>
   </el-table-column>
 </template>
@@ -92,9 +107,11 @@ tbody {
   .cell {
     display: flex;
     flex-direction: row;
+
     .el-table__expand-icon {
       margin-top: 5px;
     }
+
     p {
       display: block;
     }

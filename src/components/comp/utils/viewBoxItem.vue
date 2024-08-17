@@ -1,23 +1,22 @@
 <script setup lang="ts">
 import {onMounted, PropType} from "vue";
-import {ApiUrls} from "@/components/types/ApiUrls";
 import {FieldInfo} from "@/components/types/PageFieldInfo";
-import {validMsg} from "@/api/sh_api.ts";
+import {ModelRef} from "vue-demi";
 
-defineProps({
-  compUrl: {type: Object as PropType<ApiUrls>},
+const props = defineProps({
   item: {type: Array as PropType<Array<FieldInfo>>, required: true},
-  objectName: {type: String},
-  subCreateFlag: {type: Boolean, default: false},
-  batchName: {type: String, default: "batchDataList"},
-  batchFieldName: {type: String, default: "batchFieldList"},
-  primaryKey: {type: String, required: true},
-  rules: {type: Object},
-  compSize: {type: String, default: "small"},
-  isView: {type: Boolean, default: false},
-  isEdit: {type: Boolean, default: false},
+  commonFormat: {type: Function, required: true},
 });
-const dataForm = defineModel("dataForm");
+const dataForm: ModelRef<any> = defineModel("dataForm");
+const dataFormat = (item: any) => {
+  let name = item['hideName'] || item['fieldName'];
+  try {
+    return props.commonFormat(name, dataForm.value[name], null);
+  } catch (e) {
+    console.log(e);
+    return name;
+  }
+};
 const init = () => {
 
 }
@@ -27,28 +26,17 @@ onMounted(() => {
 </script>
 
 <template>
-
   <el-row v-if="item instanceof Array" :gutter="10">
-    <template v-for="sitem in item">
-      <el-col :span="sitem.colSpan||sitem.preps?.colSpan||(24/item.length)"
-              v-if="sitem.type!='button'&&sitem.type!='comp'">
-        <el-form-item
-            :size="compSize"
-            :label="sitem.label"
-            :required="sitem.required"
-            :prop="sitem.fieldName"
-            :rules="sitem.required?validMsg(sitem):[]"
-            v-if="sitem.formShow&&sitem.label">
-          <star-horse-item :primaryKey="primaryKey" :compSize="compSize" v-model:dataForm="dataForm"
-                           :item="sitem"
-                           :isEdit="isEdit"/>
-        </el-form-item>
-        <star-horse-item v-else-if="sitem.viewShow" :compSize="compSize" :primaryKey="primaryKey"
-                         v-model:dataForm="dataForm"
-                         :item="sitem"
-                         :isEdit="isEdit"/>
-      </el-col>
-    </template>
+    <el-col :span="sitem.colSpan||sitem.preps?.colSpan||(24/item.length)" v-for="sitem in item">
+      <div class="item" v-if="sitem.formShow||sitem.tableShow||sitem.viewShow">
+        <label>{{ sitem.label }} :</label>
+        <div class="content">
+          <el-tooltip :content="dataFormat(sitem)">
+            {{ dataFormat(sitem) }}
+          </el-tooltip>
+        </div>
+      </div>
+    </el-col>
   </el-row>
 </template>
 

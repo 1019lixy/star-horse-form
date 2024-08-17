@@ -5,6 +5,7 @@ import {rowClassName} from "@/api/sh_api";
 import {Config} from "@/api/settings.ts";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {ModelRef} from "vue-demi";
+import StarHorseTableViewColumn from "@/components/comp/StarHorseTableViewColumn.vue";
 
 const props = defineProps({
   item: {type: Array as PropType<Array<FieldInfo>>, required: true},
@@ -12,15 +13,7 @@ const props = defineProps({
   compSize: {type: String, default: "small"},
   commonFormat: {type: Function, required: true},
 });
-const dataForm:ModelRef<any> = defineModel("dataForm");
-const viewDataFormat = (row: any, column: any, cellValue: any, _index: number) => {
-  //如果在这个地方遍历是否有隐藏属性，会拉低系统性能
-  return props.commonFormat(column.property, cellValue, row);
-};
-const dataFormat = (item: any) => {
-  let name = item['hideName'] || item['fieldName'];
-  return name;
-};
+const dataForm: ModelRef<any> = defineModel("dataForm");
 </script>
 <template>
   <div
@@ -63,17 +56,24 @@ const dataFormat = (item: any) => {
         prop="xh"
         width="60"
     />
-    <template v-for="sitem in item['fieldList']">
-      <el-table-column
-          :prop="sitem.hideName||sitem.fieldName"
-          :label="sitem.label"
-          sortable
-          v-if="sitem.formShow||sitem.tableShow||sitem.viewShow"
-          :formatter="viewDataFormat"
-          :min-width="(item.minWidth||Config.defaultColumnWidth) + 'px'"
-      />
-      {{ dataFormat(sitem) }}
+    <template v-for="aitem in item?.fieldList">
+      <template v-if="aitem instanceof Array">
+        <star-horse-table-view-column :data-format="commonFormat" :item="sitem" v-for="sitem in aitem"/>
+      </template>
+      <template v-else-if="aitem.tabList?.length > 0">
+        <template v-for="tabItems in aitem.tabList">
+          <star-horse-table-view-column :data-format="commonFormat" :item="sitem" v-for="sitem in tabItems.fieldList"/>
+        </template>
+      </template>
+      <template v-else-if="aitem.batchFieldList?.length > 0">
+        <template v-for="batchItems in aitem.batchFieldList">
+          <star-horse-table-view-column :data-format="commonFormat" :item="sitem" v-for="sitem in batchItems.fieldList"/>
+        </template>
+      </template>
+      <star-horse-table-view-column :data-format="commonFormat" :item="aitem"/>
     </template>
+
+
   </el-table>
 </template>
 <style lang="scss" scoped>

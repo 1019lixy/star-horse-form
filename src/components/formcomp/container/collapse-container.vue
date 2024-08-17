@@ -36,15 +36,20 @@ const activeTabName = ref();
 onMounted(() => {
   if (!props.field['preps']["elements"]) {
     props.field['preps']["elements"] = [{
-      label: "Collapse",
-      tabName: "collapse",
-      objectName: "collapse",
+      label: "Collapse1",
+      tabName: "collapse1",
+      objectName: "collapse1",
+      subFormFlag: "Y",
+      items: []
+    }, {
+      label: "Collapse2",
+      tabName: "collapse2",
+      objectName: "collapse2",
       subFormFlag: "Y",
       items: []
     }];
-    props.field['stretch'] = "N";
   }
-  activeTabName.value = 0;// props.field?["tabList"][0]["name"] || 0;
+  activeTabName.value = "collapse1";
 });
 </script>
 <template>
