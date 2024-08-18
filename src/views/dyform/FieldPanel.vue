@@ -17,8 +17,8 @@ const onContainerCopy = (data: any) => {
 const onFormItemCopy = (data: any) => {
   return onDataCopy(data, 'formItem');
 };
-const numField: Array<string> = ["minlength", "maxLength", "step", "rows","height","width","columns","gutter",
-  "limit", "precision", "min", "max","highThreshold","lowThreshold","multipleLimit"];
+const numField: Array<string> = ["minlength", "maxLength", "step", "rows", "height", "width", "columns", "gutter",
+  "limit", "precision", "min", "max", "highThreshold", "lowThreshold", "multipleLimit"];
 const onDataCopy = (data: any, type: String) => {
   let reData = JSON.parse(JSON.stringify(data));
   let ms = formData.value["index"]++;
@@ -69,22 +69,25 @@ const getDefaultVal = (type: String) => {
 };
 </script>
 <template>
+
   <el-tabs v-model="tabModel">
+
     <el-tab-pane name="component">
       <template #label>
         <star-horse-icon icon-class="component"
                          style="color: var(--star-horse-style)"/>&nbsp;<span>组件</span>
       </template>
-      <el-collapse
-          class="widget-collapse"
-          v-model="activeNames"
-      >
-        <el-collapse-item name="a">
-          <template #title>
-            &nbsp;<star-horse-icon icon-class="container"
-                                   style="color: var(--star-horse-style)"/>&nbsp;&nbsp;<span>容器</span>
-          </template>
-          <el-scrollbar height="90%">
+      <el-scrollbar height="100%">
+        <el-collapse
+            class="widget-collapse"
+            v-model="activeNames"
+        >
+          <el-collapse-item name="a">
+            <template #title>
+              &nbsp;<star-horse-icon icon-class="container"
+                                     style="color: var(--star-horse-style)"/>&nbsp;&nbsp;<span>容器</span>
+            </template>
+
             <draggable
                 :clone="onContainerCopy"
                 :group="{name: 'starHorseGroup', pull: 'clone', put: false}"
@@ -102,14 +105,13 @@ const getDefaultVal = (type: String) => {
                 </li>
               </template>
             </draggable>
-          </el-scrollbar>
-        </el-collapse-item>
-        <el-collapse-item name="b">
-          <template #title>
-            &nbsp;<star-horse-icon icon-class="form"
-                                   style="color: var(--star-horse-style)"/>&nbsp;&nbsp;<span>表单元素</span>
-          </template>
-          <el-scrollbar height="90%">
+
+          </el-collapse-item>
+          <el-collapse-item name="b">
+            <template #title>
+              &nbsp;<star-horse-icon icon-class="form"
+                                     style="color: var(--star-horse-style)"/>&nbsp;&nbsp;<span>表单元素</span>
+            </template>
             <draggable
                 :clone="onFormItemCopy"
                 :group="{name: 'starHorseGroup', pull: 'clone', put: false}"
@@ -128,14 +130,12 @@ const getDefaultVal = (type: String) => {
                 </li>
               </template>
             </draggable>
-          </el-scrollbar>
-        </el-collapse-item>
-        <el-collapse-item name="c">
-          <template #title>
-            &nbsp;<star-horse-icon icon-class="other"
-                                   style="color: var(--star-horse-style)"/>&nbsp;&nbsp;<span>自定义组件</span>
-          </template>
-          <el-scrollbar height="90%">
+          </el-collapse-item>
+          <el-collapse-item name="c">
+            <template #title>
+              &nbsp;<star-horse-icon icon-class="other"
+                                     style="color: var(--star-horse-style)"/>&nbsp;&nbsp;<span>自定义组件</span>
+            </template>
             <draggable
                 :clone="onFormItemCopy"
                 :group="{name: 'starHorseGroup', pull: 'clone', put: false}"
@@ -156,9 +156,9 @@ const getDefaultVal = (type: String) => {
               </template>
             </draggable>
             <div style="height: 50px"></div>
-          </el-scrollbar>
-        </el-collapse-item>
-      </el-collapse>
+          </el-collapse-item>
+        </el-collapse>
+      </el-scrollbar>
     </el-tab-pane>
     <el-tab-pane name="dbinfo">
       <template #label>
@@ -167,6 +167,7 @@ const getDefaultVal = (type: String) => {
       <db-list-comp/>
     </el-tab-pane>
   </el-tabs>
+
 </template>
 <style lang="scss" scoped>
 :deep(.el-collapse-item) {
