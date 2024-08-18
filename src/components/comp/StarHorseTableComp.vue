@@ -289,12 +289,12 @@ const getRowIdentity = (row: any) => {
   }
   return row[props.primaryKey] || "";
 };
-const dataFormat = (row: any, column: any, cellValue: any, _index: number) => {
-  cellValue = commonParseCodeToName(column.property, cellValue);
-  return null == props.dataFormat
-      ? cellValue
-      : props.dataFormat(column.property, cellValue, row);
-};
+// const dataFormat = (row: any, column: any, cellValue: any, _index: number) => {
+//   cellValue = commonParseCodeToName(column.property, cellValue);
+//   return null == props.dataFormat
+//       ? cellValue
+//       : props.dataFormat(column.property, cellValue, row);
+// };
 const tbCommonFun = (name: string, param: any) => {
   let data: any = props.selfBtnFunc && props.selfBtnFunc.find((item) => item.btnName == name);
   if (data) {

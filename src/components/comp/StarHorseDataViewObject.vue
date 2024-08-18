@@ -19,7 +19,18 @@ const dataForm:ModelRef<any> = defineModel("dataForm");
 const normalTabList = ref<any>("tab0");
 const subTabObject = ref<any>();
 const subTabList = ref<any>();
-
+const currentDataFormat = (scope: any) => {
+  let item = props.fieldList;
+  let val: string = scope.row[item.hideName || item.fieldName];
+  //下拉数据,checkbox,radio切换为对应的名称
+  if (item.type == "select" || item.type == "checkbox" || item.type == "radio") {
+    return item.preps?.values?.find((temp: any) => String(temp.value) ==val)?.name || val;
+  }
+  if (props.commonFormat) {
+    props.commonFormat(scope.row, scope.column, val, scope.$index)
+  }
+  return val;
+}
 const dataFormat = (item: any) => {
   let name = item['hideName'] || item['fieldName'];
   try {

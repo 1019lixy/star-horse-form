@@ -200,9 +200,9 @@ onMounted(() => {
     <slot></slot>
   </div>
   <div v-else class="form-item-operation" :style="{width:refresh%2==0?'100%':'99%'}">
-    <div :class="[isEdit ? 'field-item design-star-horse' : '',
-  (currentItemId == formItem?.preps.id && isEdit)?'active-item':''
-  ]" v-if="isDesign">
+    <div :class="{'field-item design-star-horse' : isEdit,
+  'active-item':currentItemId == formItem?.preps.id && isEdit
+  }" v-if="isDesign" @click="selectData(formItem)">
       <el-form-item
           :size="formItem?.preps['size']||'small'"
           v-if="parentField?.itemType!='table'&&formItem?.itemType!='divider'"
@@ -210,22 +210,27 @@ onMounted(() => {
           :prop="formItem?.preps['name']"
           :required="formItem?.preps['required']=='Y'"
           :rules="formItem?.preps['required']=='Y'?[{required:true,trigger:'blur',message:'必须项不能为空'}]:[]"
-          @click="selectData(formItem)"
       >
         <slot></slot>
       </el-form-item>
-      <div v-else
-           @click="selectData(formItem)">
+      <div v-else>
         <slot></slot>
       </div>
       <div
           class="field-action"
-          v-if="isEdit&&currentItemId == formItem?.preps.id "
+          v-if="isEdit"
       >
         <el-tooltip content="选择父容器">
           <star-horse-icon
               @click.stop="selectParentContainer()"
               icon-class="select-parent"
+              style="color: var(--star-horse-white)"
+          />
+        </el-tooltip>
+        <el-tooltip content="选中组件">
+          <star-horse-icon
+              @click.stop="selectData"
+              icon-class="check"
               style="color: var(--star-horse-white)"
           />
         </el-tooltip>
@@ -251,17 +256,11 @@ onMounted(() => {
           />
         </el-tooltip>
       </div>
-      <div class="drag-handler background-opacity" v-if="isEdit&&currentItemId == formItem?.preps.id">
+      <div class="drag-handler background-opacity" v-if="isEdit">
         <el-tooltip content="拖动">
           <star-horse-icon icon-class="drag" style="cursor:move;color: var(--star-horse-white)"/>
         </el-tooltip>
-        <!--        <el-tooltip content="选中组件">
-                  <star-horse-icon
-                      @click.stop="selectData"
-                      icon-class="check"
-                      style="color: var(&#45;&#45;star-horse-white)"
-                  />
-                </el-tooltip>-->
+
         <el-tooltip :content="formItem?.preps['itemNameLabel']">
           <span style="color:var(--star-horse-white)"
                 @click="selectData(formItem)">{{ formItem?.preps['itemNameLabel'] }}</span>
@@ -286,21 +285,20 @@ onMounted(() => {
   vertical-align: middle;
   align-items: center;
   z-index: 0;
-  /*  :hover + .field-action {
-      visibility: visible;
-    }*/
 }
 
 .field-item {
   position: relative;
   width: 100%;
-
-  &:hover + .field-action {
-    opacity: 1
+  display: flex;
+  &:hover > .field-action {
+    opacity: 1;
+    display: flex;
   }
 
-  &:hover + .drag-handler {
-    opacity: 1
+  &:hover > .drag-handler {
+    opacity: 1;
+    display: flex;
   }
 
   .el-form-item {
@@ -309,17 +307,14 @@ onMounted(() => {
 
   .field-action {
     position: absolute;
-    //bottom: -24px;
+    //bottom: -25px;
     bottom: 1px;
-    right: 3px;
-    height: 28px;
-    display: flex;
-    align-items: center;
-    line-height: 28px;
-    background: var(--star-horse-style);
-    z-index: 99999;
-    opacity: 1;
+    right: 0;
 
+    align-items: center;
+    background: var(--star-horse-style);
+    z-index: 99;
+    display: none;
     .svg-icon {
       font-size: 14px;
       color: var(--star-horse-white);
@@ -335,15 +330,13 @@ onMounted(() => {
 
   .drag-handler {
     position: absolute;
-    top: 0;
+    top: -10px;
     left: -1px;
-    height: 28px;
-    display: flex;
+    display: none;
     align-items: center;
-    line-height: 28px;
     background: var(--star-horse-style);
-    z-index: 9;
-    opacity: 1;
+    z-index: 9999999;
+
 
     .svg-icon {
       font-size: 12px;
@@ -366,10 +359,6 @@ onMounted(() => {
        }*/
   }
 }
-
-/*.field-action {
-  visibility: hidden;
-}*/
 .field-action,
 .drag-handler {
   :deep(.svg-icon) {
@@ -394,9 +383,6 @@ onMounted(() => {
     text-overflow: ellipsis;
   }
 
-  :deep(.el-form-item__content) {
-    //position: unset;  /* TODO: 忘了这个样式设置是为了解决什么问题？？ */
-  }
 
   span.custom-label i {
     margin: 0 3px;

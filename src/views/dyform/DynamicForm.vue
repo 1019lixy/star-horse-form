@@ -223,6 +223,12 @@ const helpMessage =
   4、在在头部设置按钮可设置表单属性；
   5、在头部代码按钮可以生产代码（目前只能生产vue3）；
   6、在头部预览按钮可以预览表单信息；
+盲点（数据源生成的表单模型）：
+  1、须注意选择器、单选框、多选框等组件的值类型，
+     系统默认是字符串类型，如果数据库设置是数值类型
+     需要在对应字段的属性面板中修改值类型。
+  2、提交时须注意表的主键生成策略，默认时动态赋值，
+    如果是自增，需要在配置或者保存是修改主键策略。
 `;
 let leftPanelVisible = ref<boolean>(true);
 let rightPanelVisible = ref<boolean>(true);
@@ -495,9 +501,12 @@ onMounted(async () => {
   </el-card>
 </template>
 <style lang="scss" scoped>
-
+:deep(.el-card){
+  margin: 0 !important;
+}
 :deep(.el-card__body) {
-  padding: 0;
+  padding: 0 !important;
+  margin: 0 !important;
   height: 100%;
 }
 

@@ -157,7 +157,7 @@ export function createData(dataSourceRef: any, dataList: any, needDynamicData: b
 /**
  * 数据源属性配置
  */
-export function dataSourceFields(dataSourceRef: Ref<any>, recall: Function) {
+export function dataSourceFields(dataSourceRef: Ref<any>, _recall: Function) {
     let dataSourceList: Array<SelectOption> = [
         {value: "url", name: "动态接口"},
         {value: "dict", name: "数据字典"},
@@ -382,7 +382,7 @@ export function paramsFields(fieldName: string, item: any) {
             return false;
         }
     });
-    let fields: FieldInfo[] = [];
+    let fields: Array<any> = [];
     let fieldList = ref<SelectOption[]>([]);
     let urlBaseInfo: FieldInfo[] = [
         {
@@ -608,54 +608,105 @@ export function containerField(fieldName: string) {
             }]
         }]
     };
-    let boxFields = {
-        title: "栅格属性",
-        tabName: "box",
+    let collapseFields = {
+        title: "Collapse属性",
+        tabName: "collapse",
         batchFieldList: [{
             batchName: "elements",
             fieldList: [{
-                label: "列",
-                fieldName: "colIndex",
+                label: "Collapse名字",
+                fieldName: "label",
                 type: "input",
                 required: true,
                 formShow: true,
                 tableShow: true,
-                batchFieldList: [{
-                    batchName: "columns",
-                    batchDefaultData: {items: []},
-                    fieldList: [{
-                        label: "列宽",
-                        fieldName: "colspan",
-                        type: "number",
-                        defaultValue: 24,
-                        required: true,
-                        formShow: true,
-                        tableShow: true,
-                        actionName: "change",
-                        preps: {
-                            min: 1,
-                            max: 24,
-                            step: 4,
-                        },
-                        actions: (val: any, type: string) => {
-                            let obj = val.value || val;
-                            let cols = obj.columns;
-                            if (type == "oper") {
-                                let len = 24 / cols.length;
-                                cols.forEach((item: any) => {
-                                    item.colspan = len;
-                                })
-                            }
-                        }
-                    }]
-                }]
+            }, {
+                label: "主键",
+                fieldName: "tabName",
+                helpMsg: `默认作为Collapse组件的名称，
+                当设置对应关系时,系统作为表的主键`,
+                type: "input",
+                required: true,
+                formShow: true,
+                tableShow: true,
+            }, {
+                label: "对象名字",
+                fieldName: "objectName",
+                type: "input",
+                required: true,
+                formShow: true,
+                tableShow: true,
+            }, {
+                label: "是否子表",
+                fieldName: "subFormFlag",
+                type: "switch",
+                defaultValue: "Y",
+                required: true,
+                formShow: true,
+                tableShow: true,
             }]
         }]
     };
+    let batchFieldList: Array<any> = [{
+        batchName: "elements",
+        fieldList: [{
+            label: "列",
+            fieldName: "colIndex",
+            type: "input",
+            required: true,
+            formShow: true,
+            tableShow: true,
+            batchFieldList: [{
+                batchName: "columns",
+                batchDefaultData: {items: []},
+                fieldList: [{
+                    label: "列宽",
+                    fieldName: "colspan",
+                    type: "number",
+                    defaultValue: 24,
+                    required: true,
+                    formShow: true,
+                    tableShow: true,
+                    actionName: "change",
+                    preps: {
+                        min: 1,
+                        max: 24,
+                        step: 4,
+                    },
+                    actions: (val: any, type: string) => {
+                        let obj = val.value || val;
+                        let cols = obj.columns;
+                        if (type == "oper") {
+                            let len = 24 / cols.length;
+                            cols.forEach((item: any) => {
+                                item.colspan = len;
+                            })
+                        }
+                    }
+                }]
+            }]
+        }]
+    }];
+    let boxFields = {
+        title: "栅格属性",
+        tabName: "box",
+        batchFieldList: batchFieldList
+    };
+    let dyTableFields = {
+        title: "动态表格属性",
+        tabName: "dytable",
+        batchFieldList: batchFieldList
+    };
+    let fields: any = {
+        tab: tabFields,
+        collapse: collapseFields,
+        box: boxFields,
+        dytable: dyTableFields
+    }
     return reactive<PageFieldInfo | any>({
         fieldList: [{
             fieldName: fieldName,
-            tabList: [fieldName == "tab" ? tabFields : boxFields]
+            tabList: [fields[fieldName]]
         }]
     });
 }
