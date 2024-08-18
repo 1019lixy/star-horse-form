@@ -5,6 +5,7 @@ import {SelectOption} from "@/components/types/SearchProps";
 import {useDark, useToggle} from "@vueuse/core";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import piniaInstance from "@/store";
+import {v4 as uuidv4} from "uuid";
 
 const validUrl: string = "/userdb-manage/redirect/valid";
 const redirectUrl: string = "/userdb-manage/redirect/valid";
@@ -182,13 +183,13 @@ export async function redirectUrlOperation(url: string, searchInfo?: SearchInfo,
 }
 
 export const isDark = useDark();
-isDark.value=false;
-export const toggle=useToggle(isDark);
-export const toggleDark = (val:string) => {
+isDark.value = false;
+export const toggle = useToggle(isDark);
+export const toggleDark = (val: string) => {
     // event.stopPropagation();
     // event.preventDefault();
     //
-    if (val=="dark") {
+    if (val == "dark") {
         configStore.clearAll("Y");
         let dark = "#141414";
         document.documentElement.style.setProperty('--star-horse-style', dark)
@@ -204,7 +205,240 @@ export const toggleDark = (val:string) => {
         document.documentElement.style.setProperty('--star-horse-shadow', "#f7f7f9");
         configStore.clearAll();
     }
-    console.log(event,isDark);
+    console.log(event, isDark);
     toggle();
 
+}
+
+/**
+ * 定义td 数据
+ */
+export const colDataInfo = () => {
+    return {id: "dytable" + uuidv4(), colSpan: 1, rowSpan: 1, items: []}
+}
+/**
+ * 左方插入列
+ */
+const insertLeftCol = (props: any) => {
+    let rows = props.parentComp.preps.elements;
+    let position = props.isFirstCol ? 0 : props.colIndex - 1;
+    for (let index = 0; index < rows.length; index++) {
+        let cols = rows[index].columns;
+        cols.splice(position, 0, colDataInfo())
+    }
+
+};
+const insertRightCol = (props: any) => {
+    let rows = props.parentComp.preps.elements;
+    let position = props.isLastCol ? props.colIndex : props.colIndex + 1;
+    for (let index = 0; index < rows.length; index++) {
+        let cols = rows[index].columns;
+        cols.splice(position, 0, colDataInfo());
+    }
+};
+const insertAboveRow = (props: any) => {
+    let rows = props.parentComp.preps.elements;
+    let len = 1;
+    let cols: Array<any> = [];
+    for (let index = 0; index < rows.length; index++) {
+        let colLen = rows[index].columns.length;
+        if (colLen > len) {
+            len = colLen;
+        }
+    }
+    for (let i = 0; i < len; i++) {
+        cols.push(colDataInfo());
+    }
+    let position = props.isFirstRow ? 0 : props.rowIndex - 1;
+    rows.splice(position, 0, cols);
+
+};
+const insertBelowRow = (props: any) => {
+    let rows = props.parentComp.preps.elements;
+    let len = 1;
+    let cols: Array<any> = [];
+    for (let index = 0; index < rows.length; index++) {
+        let colLen = rows[index].columns.length;
+        if (colLen > len) {
+            len = colLen;
+        }
+    }
+    for (let i = 0; i < len; i++) {
+        cols.push(colDataInfo());
+    }
+    let position = props.isLastRow ? props.rowIndex : props.rowIndex + 1;
+    rows.splice(position, 0, cols);
+};
+const mergeLeftCol = (props: any) => {
+    let rows = props.parentComp.preps.elements;
+    let row = rows[props.rowIndex];
+    let col = row.columns[props.colIndex];
+    col.colSpan = col.colSpan + 1;
+    row.columns.splice(props.colIndex - 1, 1);
+};
+const mergeRightCol = (props: any) => {
+    let rows = props.parentComp.preps.elements;
+    let row = rows[props.rowIndex];
+    let col = row.columns[props.colIndex];
+    col.colSpan = col.colSpan + 1;
+    row.columns.splice(props.colIndex + 1, 1);
+};
+const mergeWholeCol = (props: any) => {
+    let rows = props.parentComp.preps.elements;
+    let currentCol: any = {};
+    for (let index in rows) {
+        let row = rows[index];
+        let cols = row.columns;
+        for (let cIndex in cols) {
+            let col = cols[cIndex];
+            if (cIndex == props.colIndex) {
+                if (index == props.rowIndex) {
+                    currentCol = col;
+                } else {
+                    cols.splice(cIndex, 1);
+                }
+            }
+        }
+    }
+    currentCol.rowSpan = rows.length;
+};
+const mergeAboveRow = (props: any) => {
+    let rows = props.parentComp.preps.elements;
+    let row = rows[props.rowIndex];
+    let col = row.columns[props.colIndex];
+    let aboveRow = rows[props.rowIndex - 1];
+    col.rowSpan = col.rowSpan + 1;
+    for (let index in aboveRow.columns) {
+        if (index == props.colIndex) {
+            aboveRow.columns.splice(index, 1, col);
+            break;
+        }
+    }
+    for (let index in row.columns) {
+        if (index == props.colIndex) {
+            row.columns.splice(index, 1);
+            break;
+        }
+    }
+
+};
+const mergeBelowRow = (props: any) => {
+    let rows = props.parentComp.preps.elements;
+    let row = rows[props.rowIndex];
+    let col = row.columns[props.colIndex];
+    col.rowSpan = col.rowSpan + 1;
+    let belowRow = rows[props.rowIndex + 1];
+    for (let index in belowRow.columns) {
+        if (index == props.colIndex) {
+            belowRow.columns.splice(index, 1);
+            break;
+        }
+    }
+};
+const mergeWholeRow = (props: any) => {
+    let rows = props.parentComp.preps.elements;
+    let row = rows[props.rowIndex];
+    let col = row.columns[props.colIndex];
+    let totalCols: number = 0;
+    for (let index in row.columns) {
+        let col = row.columns[index];
+        totalCols += col.colSpan;
+    }
+    col.colSpan = totalCols;
+    row.columns = [col];
+};
+/**
+ * 需要判断需要还原的周边数据
+ * @param props
+ */
+const undoMergeRow = (props: any) => {
+    let rows = props.parentComp.preps.elements;
+    let row = rows[props.rowIndex];
+    let col = row.columns[props.colIndex];
+
+    if (row.columns.length == 1) {
+        //说明是合并了整行
+        col.colSpan = col.colSpan - 1;
+        row.columns.push(colDataInfo());
+    } else {
+        //判断是上面行还是下面行做的合并
+    }
+};
+/**
+ * 需要判断要还原的周边数据
+ * @param props
+ */
+const undoMergeCol = (props: any) => {
+    let rows = props.parentComp.preps.elements;
+    let row = rows[props.rowIndex];
+    let col = row.columns[props.colIndex];
+
+    if (row.columns.length == 1) {
+        //说明是合并了整行
+        col.colSpan = col.colSpan - 1;
+        row.columns.push(colDataInfo());
+    } else {
+        //判断是上面行还是下面行做的合并
+    }
+};
+const deleteWholeCol = (props: any) => {
+    let rows = props.parentComp.preps.elements;
+    for (let index in rows) {
+        let cols = rows[index].columns;
+        for (let sIndex in cols) {
+            if (props.colIndex == sIndex) {
+                cols.splice(sIndex, 1);
+            }
+        }
+    }
+};
+const deleteWholeRow = (props: any) => {
+    props.parentComp.preps.elements.splice(props.rowIndex, 1);
+};
+
+export const tableCellOperation = (command: string, props: any) => {
+    switch (command) {
+        case "insertLeftCol":
+            insertLeftCol(props);
+            break;
+        case "insertRightCol":
+            insertRightCol(props);
+            break;
+        case "insertAboveRow":
+            insertAboveRow(props);
+            break;
+        case "insertBelowRow":
+            insertBelowRow(props);
+            break;
+        case "mergeLeftCol":
+            mergeLeftCol(props);
+            break;
+        case "mergeRightCol":
+            mergeRightCol(props);
+            break;
+        case "mergeWholeCol":
+            mergeWholeCol(props);
+            break;
+        case "mergeAboveRow":
+            mergeAboveRow(props);
+            break;
+        case "mergeBelowRow":
+            mergeBelowRow(props);
+            break;
+        case "mergeWholeRow":
+            mergeWholeRow(props);
+            break;
+        case "undoMergeRow":
+            undoMergeRow(props);
+            break;
+        case "undoMergeCol":
+            undoMergeCol(props);
+            break;
+        case "deleteWholeCol":
+            deleteWholeCol(props);
+            break;
+        case "deleteWholeRow":
+            deleteWholeRow(props);
+            break;
+    }
 }

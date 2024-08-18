@@ -53,7 +53,7 @@ onMounted(() => {
 });
 </script>
 <template>
-  <group-box-container class="dynamic-tab-wapper" :parentField="parentField" :form-item="field">
+  <group-box-container class="star-horse-form-container" :parentField="parentField" :form-item="field">
     <el-collapse v-model="activeTabName"
                  class="collapse-container"
                  :accordion="field.preps['accordion']=='Y'"
@@ -89,9 +89,6 @@ onMounted(() => {
   </group-box-container>
 </template>
 <style lang="scss" scoped>
-.dynamic-tab-wapper {
-  height: 100%;
-}
 
 :deep(.el-card) {
   margin-top: 10px;

@@ -9,7 +9,7 @@ let formDataList = computed(() => designForm.formDataList);
 let containerList = computed(() => designForm.containerList);
 let selfFormDataList = computed(() => designForm.selfFormDataList);
 let tabModel = ref<string>("component");
-let activeNames = ref(['b', 'c', 'd']);
+let activeNames = ref(['a','b', 'c', 'd']);
 let formData = computed(() => designForm.formData);
 const onContainerCopy = (data: any) => {
   return onDataCopy(data, 'container');
@@ -79,7 +79,7 @@ const getDefaultVal = (type: String) => {
       </template>
       <el-scrollbar height="100%">
         <el-collapse
-            class="widget-collapse"
+            class="starhorse-collapse"
             v-model="activeNames"
         >
           <el-collapse-item name="a">
@@ -189,12 +189,12 @@ const getDefaultVal = (type: String) => {
   }
 }
 
-.widget-collapse {
+.starhorse-collapse {
   border-top-width: 0;
   display: flex;
   flex-direction: column;
-  height: 100%;
-  overflow: hidden;
+/*  height: 100%;
+  overflow: hidden;*/
 
   .el-collapse-item__header {
     padding-left: 10px;

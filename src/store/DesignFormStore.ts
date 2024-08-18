@@ -51,6 +51,10 @@ export const DesignForm: any = defineStore("DesignForm", {
              */
             currentItemId: "",
             /**
+             * 当前子组件Id
+             */
+            currentSubItemId: "",
+            /**
              * 是否编辑
              */
             isEdit: false,
@@ -88,6 +92,9 @@ export const DesignForm: any = defineStore("DesignForm", {
         },
         getFormInfo(state) {
             return state.formInfo;
+        },
+        getCurrentSubItemId(state) {
+            return state.currentSubItemId;
         },
         getCompList(state) {
             return state.compList;
@@ -135,7 +142,7 @@ export const DesignForm: any = defineStore("DesignForm", {
             }
 
             let record = _this.historyRecord;
-            let recordData:any = {
+            let recordData: any = {
                 complist: _this.compList,
                 currentCompCategory: _this.currentCompCategory,
                 currentItemId: _this.currentItemId,
@@ -214,6 +221,13 @@ export const DesignForm: any = defineStore("DesignForm", {
             this.refresh++;
         },
         /**
+         * 选中子组件
+         * @param subItemId
+         */
+        setSubItemId(subItemId: string) {
+            this.currentSubItemId = subItemId;
+        },
+        /**
          * 设置表单信息
          * @param formInfo
          */
@@ -227,6 +241,7 @@ export const DesignForm: any = defineStore("DesignForm", {
         setCompList(compList: Array<any>) {
             this.compList = compList;
         },
+
         /**
          * 手动添加组件
          * @param comp

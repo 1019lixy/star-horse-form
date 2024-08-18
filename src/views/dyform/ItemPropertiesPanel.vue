@@ -275,18 +275,19 @@ watch(() => formProps,
       class="dynamic-form"
       ref="itemPropertiesRef"
       size="small"
-      label-position="top"
+      label-position="left"
   >
-    <el-collapse
-        class="widget-collapse"
-        :accordion="true"
-        v-model="activeNames">
-      <el-collapse-item name="1">
-        <template #title>
-          &nbsp;<star-horse-icon icon-class="base_preps"
-                                 style="color: var(--star-horse-style)"/>&nbsp;&nbsp;<span>常用属性</span>
-        </template>
-        <el-scrollbar height="500">
+    <el-scrollbar height="100%">
+      <el-collapse
+          class="widget-collapse"
+          :accordion="false"
+          v-model="activeNames">
+        <el-collapse-item name="1">
+          <template #title>
+            &nbsp;<star-horse-icon icon-class="base_preps"
+                                   style="color: var(--star-horse-style)"/>&nbsp;&nbsp;<span>常用属性</span>
+          </template>
+
           <template v-if="currentCompCategory==='container'&&currentItemType!='table'">
             <el-form-item
                 label=""
@@ -460,13 +461,12 @@ watch(() => formProps,
               加一行
             </div>
           </template>
-        </el-scrollbar>
-      </el-collapse-item>
-      <el-collapse-item name="2">
-        <template #title>
-          &nbsp;<star-horse-icon icon-class="advance_preps" style="color: var(--star-horse-style)"/>&nbsp;&nbsp;<span>其他属性</span>
-        </template>
-        <el-scrollbar height="500">
+
+        </el-collapse-item>
+        <el-collapse-item name="2">
+          <template #title>
+            &nbsp;<star-horse-icon icon-class="advance_preps" style="color: var(--star-horse-style)"/>&nbsp;&nbsp;<span>其他属性</span>
+          </template>
           <template v-if="currentCompCategory==='container'">
           </template>
           <template v-if="currentItemType" v-for="(item) in advancedFieldList">
@@ -504,13 +504,11 @@ watch(() => formProps,
                         :placeholder="'请输入'+item.label" type="textarea" v-model="formProps[item.fieldName]"/>
             </el-form-item>
           </template>
-        </el-scrollbar>
-      </el-collapse-item>
-      <el-collapse-item name="3">
-        <template #title>
-          &nbsp;<star-horse-icon icon-class="event-action" style="color: var(--star-horse-style)"/>&nbsp;&nbsp;<span>自定义事件</span>
-        </template>
-        <el-scrollbar height="500">
+        </el-collapse-item>
+        <el-collapse-item name="3">
+          <template #title>
+            &nbsp;<star-horse-icon icon-class="event-action" style="color: var(--star-horse-style)"/>&nbsp;&nbsp;<span>自定义事件</span>
+          </template>
           <template v-if="currentCompCategory==='container'">
           </template>
           <template
@@ -527,9 +525,9 @@ watch(() => formProps,
               </el-button>
             </el-form-item>
           </template>
-        </el-scrollbar>
-      </el-collapse-item>
-    </el-collapse>
+        </el-collapse-item>
+      </el-collapse>
+    </el-scrollbar>
   </el-form>
 </template>
 <style lang="scss" scoped>
@@ -579,7 +577,8 @@ watch(() => formProps,
 }
 
 .dynamic-form {
-  width: 200px;
+  width: 300px;
   height: 100%;
+  overflow: hidden;
 }
 </style>

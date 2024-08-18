@@ -63,6 +63,7 @@ watch(() => props.field,
 </script>
 <template>
   <group-box-container
+      class="star-horse-form-container"
       :parentField="parentField"
       :form-item="boxCompList">
     <el-row v-for="adata in boxCompList.preps?.elements"
@@ -155,7 +156,7 @@ watch(() => props.field,
 }
 
 .edit_col {
-  border: 2px dotted var(--star-horse-border—color);
+  border: 2px dashed var(--star-horse-border—color);
   min-height: 50px;
 }
 </style>

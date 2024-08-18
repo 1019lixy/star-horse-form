@@ -276,7 +276,7 @@ onMounted(() => {
 }
 
 .active-item {
-  border: 2px solid rgba(64, 158, 255, .6);
+  border: 1px dashed var(--star-horse-style);
 }
 
 .design-star-horse {
@@ -290,7 +290,8 @@ onMounted(() => {
 .field-item {
   position: relative;
   width: 100%;
-  display: flex;
+  vertical-align: middle;
+  align-items: center;
   &:hover > .field-action {
     opacity: 1;
     display: flex;
@@ -310,7 +311,6 @@ onMounted(() => {
     //bottom: -25px;
     bottom: 1px;
     right: 0;
-
     align-items: center;
     background: var(--star-horse-style);
     z-index: 99;

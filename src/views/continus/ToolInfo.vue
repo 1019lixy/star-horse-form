@@ -148,7 +148,7 @@ defineExpose({
   }
 
   .item-active {
-    border: 2px dotted var(--star-horse-style);
+    border: 2px dashed var(--star-horse-style);
     font-weight: bold;
   }
 

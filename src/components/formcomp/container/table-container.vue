@@ -83,7 +83,7 @@ const deleteCol = (index: number) => {
       for (let index in elements) {
         elements[index].colIndex = parseInt(index) + 1;
       }
-      console.log(elements);
+      // console.log(elements);
       props.field.preps.columns = props.field.preps.columns - 1;
       currentIndex.value = 0;
     }
@@ -91,7 +91,7 @@ const deleteCol = (index: number) => {
 }
 </script>
 <template>
-  <group-box-container class="dynamic-tab-wapper"
+  <group-box-container class="star-horse-form-container"
                        :parentField="parentField"
                        :form-item="field">
     <table ref="containerTableRef" class="dynamic-table">
@@ -154,9 +154,12 @@ th {
     z-index: 9999;
   }
 }
+.comp-item{
+  margin: unset;
+}
 .dynamic-table {
   width: 100%;
-  border: 1px dotted #8F8F8F;
+  border: 1px dashed #8F8F8F;
   thead {
     background: #eee;
     height: 30px;

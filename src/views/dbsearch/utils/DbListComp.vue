@@ -520,7 +520,7 @@ onMounted(() => {
     >
       <template #item="{element:data,index:idx}">
         <li :style="{
-          'border':currentData.tableName==data.tableName?'2px dotted var(--star-horse-style)':'none',
+          'border':currentData.tableName==data.tableName?'2px dashed var(--star-horse-style)':'none',
           'align-items':'center',
           'cursor':'move'
         }">

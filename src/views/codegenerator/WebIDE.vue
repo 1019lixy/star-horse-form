@@ -55,7 +55,7 @@ onMounted(() => {
 </template>
 <style lang="scss" scoped>
 .x6-edge-selected {
-  border: 1px dotted #3a8ee6;
+  border: 1px dashed #3a8ee6;
 }
 hr {
   height: 1px;

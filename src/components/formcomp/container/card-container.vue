@@ -48,7 +48,7 @@ onMounted(() => {
 });
 </script>
 <template>
-  <group-box-container class="dynamic-tab-wapper" :parentField="parentField" :form-item="field">
+  <group-box-container class="star-horse-form-container" :parentField="parentField" :form-item="field">
     <el-card
         class="card-container"
         :shadow="field.preps['shadow']=='Y'"
@@ -87,9 +87,6 @@ onMounted(() => {
   </group-box-container>
 </template>
 <style lang="scss" scoped>
-.dynamic-tab-wapper {
-  height: 100%;
-}
 
 .card-design {
   height: 100%;

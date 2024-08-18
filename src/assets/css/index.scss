@@ -369,7 +369,7 @@ a {
 .item, .audit_item {
   display: flex;
   flex-direction: row;
-  border-bottom: 1px dotted var(--star-horse-style);
+  border-bottom: 1px dashed var(--star-horse-style);
   line-height: 32px;
   align-items: center;
   width: 100%;
@@ -432,7 +432,11 @@ button, button:focus, button:visited {
   flex: 1;
   overflow: hidden;
 }
-
+.star-horse-form-container {
+  height: 100%;
+  width: 100%;
+  padding: 5px;
+}
 .el-drawer {
   height: 100%;
   overflow: hidden;
@@ -666,11 +670,11 @@ hr {
   align-items: center;
   justify-content: center;
   line-height: 30px;
-  border: 1px dotted #eee;
+  border: 1px dashed #eee;
 
   &:hover {
     cursor: pointer;
-    border: 1px dotted var(--star-horse-style);
+    border: 1px dashed var(--star-horse-style);
   }
 }
 

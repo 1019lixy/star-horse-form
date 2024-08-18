@@ -111,7 +111,7 @@ watch(() => props.sysemId,
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px dotted var(--star-horse-font-color);
+    border: 1px dashed var(--star-horse-font-color);
     margin-top: 3px;
     height: 26px;
     background: var(--star-horse-background);

@@ -63,7 +63,7 @@ const addTab = () => {
 }
 </script>
 <template>
-  <group-box-container class="dynamic-tab-wapper"
+  <group-box-container class="star-horse-form-container"
                        :parentField="parentField"
                        :form-item="field"
   >
@@ -114,9 +114,6 @@ const addTab = () => {
   </group-box-container>
 </template>
 <style lang="scss" scoped>
-.dynamic-tab-wapper {
-  height: 100%;
-}
 
 .tab-design {
   height: 100%;
