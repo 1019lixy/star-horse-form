@@ -27,6 +27,7 @@
 <script lang="ts" name="buttonItem">
 import {defineComponent, onMounted, shallowRef} from "vue";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
+import {userFunction} from "@/api/user_func.ts";
 
 export default defineComponent({
   components: {StarHorseIcon},
@@ -42,8 +43,7 @@ export default defineComponent({
     });
     const dynamicFunc = (code: any) => {
       if (code) {
-        let func = new Function(code);
-        func.call(this);
+        userFunction(code, context);
       } else {
         context.attrs['formData']["starHorseBtnName"] = field.preps['name'];
         if (field.preps["actions"]) {

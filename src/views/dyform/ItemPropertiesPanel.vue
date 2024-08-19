@@ -217,15 +217,10 @@ const handelDeleteItem = (row: any) => {
   }
 };
 const hmsg: string = `
-   由于vue 自定义生成了Id 因此不能通过直接获取Id的方式
-   拿到属性的值。
-   获取或者设置值的方式如下：
-   xx:是定义的组件的名字，
-   获取表单字段信息：如：$(input[fid='xx']).val()
-   设置表单字段信息：如：$(input[fid='xx']).val(22)
-   select 的获取值的方式
-     $("div[fid='xx']").find('span').html()
-     设置值还在研究中
+   自定义事件,提供了如下系统参数：
+   currentField:Object：当前组件的信息
+   formData:Object：表单数据
+   formFields：Array<any>：表单的所有元素
 `;
 onMounted(() => {
   matchTypeList.value = searchMatchList();

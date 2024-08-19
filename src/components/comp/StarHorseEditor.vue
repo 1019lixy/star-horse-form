@@ -82,7 +82,8 @@ const currentValFun = (_val: string) => {
 };
 // 自定义自动完成函数
 const javaHint = (context: CompletionContext) => {
-  let word: any = context.matchBefore(/\w*/)
+  let word: any = context.matchBefore(/\w*/);
+
   if (word.from == word.to && !context.explicit)
     return null
   return {
@@ -90,6 +91,25 @@ const javaHint = (context: CompletionContext) => {
     options: [
       ...javaKeywords
     ]
+  }
+}
+// 自定义自动完成函数
+const jsHint = (context: CompletionContext) => {
+  let word: any = context.matchBefore(/\w*/);
+
+  if (word.from == word.to && !context.explicit)
+    return null
+  return {
+    from: word.from,
+    // options: [
+    //   {label: "currentField", apply: "currentField"},
+    //   {label: "currentField.values", apply: "currentField.values"},
+    //   {label: "formData", apply: "formData",selection:["aa","bb"]},
+    //   {label: "formFields", apply: "formFields"},
+    // ]
+    options:[]
+
+
   }
 }
 /**
@@ -113,6 +133,9 @@ const javaCompletions = javaLanguage.data.of({
 })
 const windowCompletions = javascriptLanguage.data.of({
   autocomplete: scopeCompletionSource(window)
+});
+const jsCompletions = javascriptLanguage.data.of({
+  autocomplete: jsHint,
 });
 /**
  * 初始化
@@ -139,6 +162,7 @@ const init = async () => {
       autocompletion({activateOnTyping: true}),
       windowCompletions,
       javaCompletions,
+      jsCompletions,
       EditorView.updateListener.of((v) => {
         if (v.docChanged) {
           model.value = v.state.doc.toString();

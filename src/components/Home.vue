@@ -1,50 +1,30 @@
 <template>
   <el-card class="box-card" style="height: 100%;width: 100%">
     <h3>功能建设中。。。</h3>
-<!--    <div ref="editorContainer" style="height:100%;"></div>-->
+    <div ref="editorContainer" style="height:100%;"></div>
   </el-card>
 </template>
 <script setup lang="ts">
-import {onMounted} from "vue";
-/*import jsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker'
-import cssWorker from 'monaco-editor/esm/vs/language/css/css.worker?worker'
-import htmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker'
-import tsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker'
-import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
-import * as monaco from 'monaco-editor';*/
-
-/*const editorContainer = ref<any>(null)
-const editor = ref<any>(null)*/
+import {onMounted,ref} from "vue";
+// import  {monaco} from '@/api/customMonaco.ts';
+const editorContainer = ref<any>(null)
+const editor = ref<any>(null)
 onMounted(() => {
- /* self.MonacoEnvironment = {
-    getWorker(_: string, label: string) {
-      if (label === 'json') {
-        return new jsonWorker()
-      }
-      if (['css', 'scss', 'less'].includes(label)) {
-        return new cssWorker()
-      }
-      if (['html', 'handlebars', 'razor'].includes(label)) {
-        return new htmlWorker()
-      }
-      if (['typescript', 'javascript'].includes(label)) {
-        return new tsWorker()
-      }
-      return new EditorWorker()
-    },
-  }
-  monaco.languages.typescript.javascriptDefaults.setDiagnosticsOptions({
-    noSemanticValidation: true,
-    noSyntaxValidation: false,
-  })
-  monaco.languages.typescript.javascriptDefaults.setCompilerOptions({
-    target: monaco.languages.typescript.ScriptTarget.ES2020,
-    allowNonTsExtensions: true,
-  });
 
-  editor.value = monaco.editor.create(editorContainer.value, {
-    theme: "hc-black", // 主题
-    language: "java",
+  // monaco.languages.typescript.typescriptDefaults.setEagerModelSync(true);
+  // monaco.languages.typescript.javascriptDefaults.setDiagnosticsOptions({
+  //   noSemanticValidation: true,
+  //   noSyntaxValidation: true,
+  // })
+  // monaco.languages.typescript.javascriptDefaults.setCompilerOptions({
+  //   target: monaco.languages.typescript.ScriptTarget.ES2020,
+  //   allowNonTsExtensions: true,
+  // });
+
+  // editor.value = monaco.editor.create(editorContainer.value, {
+  //   theme: "hc-black", // 主题
+  //   language: "javascript",
+    //
     // renderLineHighlight: "gutter",
     // folding: true, // 是否折叠
     // roundedSelection: false,
@@ -62,7 +42,7 @@ onMounted(() => {
     // lineNumbers: "on", // 行号 取值： "on" | "off" | "relative" | "interval" | function
     // lineNumbersMinChars: 5, // 行号最小字符   number
     // readOnly: false, //是否只读  取值 true | false
-  })*/
+  // });
 })
 
 </script>

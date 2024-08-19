@@ -1,5 +1,5 @@
 <script setup lang="ts" name="StarHorseForm">
-import {computed, inject, nextTick, PropType, ref, watch} from "vue";
+import {computed, inject, nextTick, onMounted, PropType, ref, watch} from "vue";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {error, success, warning} from "@/utils/message";
 import {postRequest} from "@/api/star_horse";
@@ -10,6 +10,7 @@ import {ShallowReactive} from "@vue/reactivity";
 import StarHorseFormItem from "@/components/comp/StarHorseFormItem.vue";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import piniaInstance from "@/store";
+import {useUserSelfOperation} from "@/store/SelfOperationStore.ts";
 
 const props = defineProps({
   compUrl: {type: Object as PropType<ApiUrls>,},
@@ -24,6 +25,7 @@ const props = defineProps({
   isView: {type: Boolean, default: false},
 });
 let configStore = GlobalConfig(piniaInstance);
+let userOperation = useUserSelfOperation(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.inputSize || "small");
 const emits = defineEmits(["refresh", "dataLoaded"]);
 const starHorseFormRef = ref(null);
@@ -83,9 +85,9 @@ const loadData = async () => {
   if (actions && actions.length > 0) {
     for (let index in actions) {
       let temp = actions[index];
-      let data = objData;
+      // let tempFunc: any = objData;
       if (temp.actionNames == "change") {
-        temp.actions(data);
+        temp.actions(objData);
       }
     }
   }
@@ -254,6 +256,10 @@ const setFormData = (data: object) => {
   dataForm.value = {...defaultDatas, ...data};
 }
 const tableListRef = ref<any>([]);
+
+onMounted(() => {
+  userOperation.init(props.fieldList,dataForm);
+});
 watch(() => dialogProps.ids,
     (val) => {
       if (!val || val == -1) {

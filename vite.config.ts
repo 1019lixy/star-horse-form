@@ -89,8 +89,6 @@ export default defineConfig({
         ]
     },
     plugins: [
-        // monacoEditorPlugin({}),
-
         vue({
             script: {
                 // 开启 defineModel
@@ -120,6 +118,7 @@ export default defineConfig({
             iconDirs: [resolve(process.cwd(), 'src/icons')],
             symbolId: 'icon-[dir]-[name]',
         }),
+       // monacoEditorPlugin({ languageWorkers: ['editorWorkerService', 'typescript', 'json', 'html']}),
         //开启gzip,后端nginx 需要 gzip_static设置为on
        /* viteCompression({
             //生成压缩包gz

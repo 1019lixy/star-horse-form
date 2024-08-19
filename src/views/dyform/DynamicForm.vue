@@ -17,6 +17,7 @@ import piniaInstance from "@/store/index.ts";
 import {validDynamicFormCompParams} from "@/views/dyform/utils/preview.ts";
 import CodeComp from "@/views/dyform/code/CodeComp.vue";
 import {useButtonPermission} from "@/store/ButtonPermissionStore.ts";
+import {useUserSelfOperation} from "@/store/SelfOperationStore.ts";
 
 const dataUrl = reactive<ApiUrls>(<ApiUrls>{
   loadByPageUrl: "/userdb-manage/userdb/dynamicForm/pageList",
@@ -35,6 +36,7 @@ let designForm = DesignForm(piniaInstance);
 let route = useRoute();
 let router = useRouter();
 let pagePermission = useButtonPermission(piniaInstance);
+let userOperation = useUserSelfOperation(piniaInstance);
 let permissions =ref<any>({});
 let draggingItem = computed(() => designForm.draggingItem);
 let list = computed(() => designForm.compList);
@@ -295,11 +297,13 @@ watch(
     {immediate: true, deep: true}
 );
 watch(() => list.value,
-    () => {
+    (val:any) => {
       designForm.removePromise();
       designForm.setRefresh();
       designForm.addHistoryRecord(reOrUnDoFlag.value);
       reOrUnDoFlag.value = false;
+      userOperation.setFormData(formData);
+      userOperation.addFormItemList(val);
     }, {
       immediate: false,
       deep: true

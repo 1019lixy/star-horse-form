@@ -4,6 +4,8 @@ import {warning} from "@/utils/message";
 import {FieldInfo} from "@/components/types/PageFieldInfo";
 import Help from "@/components/help.vue";
 import {ModelRef} from "vue-demi";
+import {useUserSelfOperation} from "@/store/SelfOperationStore.ts";
+import piniaInstance from "@/store";
 
 const props = defineProps({
       // allItem: {type: Array, required: true},
@@ -20,6 +22,7 @@ const props = defineProps({
       isDesign: {type: Boolean, default: false},
     }
 );
+let userOperation = useUserSelfOperation(piniaInstance);
 const dataForm: ModelRef<any> = defineModel("dataForm");
 const itemType = ref<String>("input");
 const emit = defineEmits(["dataSearch", "focus", "blur"]);
@@ -121,7 +124,7 @@ const compPreps = () => {
       cellEditable: false,
       fieldList: inputPreps.fieldList
     };
-    let searchFieldList = [];
+    let searchFieldList: Array<any> = [];
     field.value.preps["filterCondition"] = inputPreps.filterCondition;
     field.value.preps["orderBy"] = inputPreps.orderBy;
     inputPreps.fieldList?.forEach((item: FieldInfo) => {
@@ -193,6 +196,10 @@ const compPreps = () => {
     } else {
       formFields[fieldName] = field;
     }
+  }
+  //将表单属性存储起来
+  if (!props.isSearch) {
+    userOperation.addFormItem(field);
   }
   // console.log(field);
 };
