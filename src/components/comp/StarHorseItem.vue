@@ -43,7 +43,7 @@ field.value.preps.size = computed(() => props.compSize);
  * @param act
  * @param params
  */
-const dataSearch = (act: String, ...params: any[]) => {
+const actionDispatcher = (act: String, ...params: any[]) => {
   // console.log(act);
   if (props.isSearch) {
     if (!act || act == "focus" || act == "blur") {
@@ -75,7 +75,6 @@ watch(() => props.item,
 );
 
 const compPreps = () => {
-
   itemType.value = props.item?.type || props.item?.fieldType;
   field.value["isDesign"] = props.isDesign;
   field.value["bareFlag"] = props.bareFlag;
@@ -225,7 +224,7 @@ onMounted(() => {
 <template>
   <div v-if="bareFlag" class="bare-comp">
     <help :message="item?.helpMsg" v-if="item?.helpMsg"/>
-    <component :id="randId" :is="itemType+'-item'" @selfFunc="dataSearch" :isDesign="isDesign"
+    <component :id="randId" :is="itemType+'-item'" @selfFunc="actionDispatcher" :isDesign="isDesign"
                ref="componentRef"
                :isSearch="isSearch"
                :bareFlag="bareFlag"
@@ -244,6 +243,7 @@ onMounted(() => {
   <div v-else class="comp-info"
        :style="{ 'width': isSearch && field.preps['type'] != 'daterange' ? '150px' : '100%','height':
        itemType != 'button' ?'100%':'inherit' }">
+
     <help :message="item?.helpMsg" v-if="item?.helpMsg"/>
     <component :id="randId" :is="itemType+'-item'" @selfFunc="dataSearch" :isDesign="isDesign"
                ref="componentRef"

@@ -101,15 +101,17 @@ const jsHint = (context: CompletionContext) => {
     return null
   return {
     from: word.from,
-    // options: [
-    //   {label: "currentField", apply: "currentField"},
-    //   {label: "currentField.values", apply: "currentField.values"},
-    //   {label: "formData", apply: "formData",selection:["aa","bb"]},
-    //   {label: "formFields", apply: "formFields"},
-    // ]
-    options:[]
-
-
+    options: [
+      {label: "currentField", detail: "当前组件的属性", apply: "currentField"},
+      {label: "formInstance", detail: "表单实例", apply: "formInstance"},
+      {label: "formData", detail: "表单数据", apply: "formData"},
+      {label: "formFields", detail: "表单所有元素", apply: "formFields"},
+      {label: "userInfo", detail: "当前登录用户信息", apply: "userInfo"},
+      {label: "postRequest", detail: "Post 请求接口 默认异步返回", apply: "postRequest(url,params)"},
+      {label: "getRequest", detail: "Get 请求接口 默认异步返回", apply: "getRequest(url)"},
+      {label: "download", detail: "下载数据接口", apply: "download(url)"},
+      {label: "upload", detail: "上传数据接口", apply: "upload(url,params)"},
+    ]
   }
 }
 /**

@@ -37,7 +37,7 @@ let route = useRoute();
 let router = useRouter();
 let pagePermission = useButtonPermission(piniaInstance);
 let userOperation = useUserSelfOperation(piniaInstance);
-let permissions =ref<any>({});
+let permissions = ref<any>({});
 let draggingItem = computed(() => designForm.draggingItem);
 let list = computed(() => designForm.compList);
 let isPreview = ref<any>(false);
@@ -47,9 +47,11 @@ let errMessage = ref<string>("");
 let formData = computed(() => designForm.formData);
 let formInfo = computed(() => designForm.formInfo);
 const fieldPanelRef = ref();
+const dynamicFormRef = ref();
+const previewDynamicFormRef = ref();
 let reOrUnDoFlag = ref<boolean>(false);
 const init = async () => {
-  permissions.value=await pagePermission.addRoute(route);
+  permissions.value = await pagePermission.addRoute(route);
   clearData();
 };
 const propertyRef = ref();
@@ -85,6 +87,7 @@ const loadFormData = async (formId: any, isParent: boolean) => {
 const closeAction = () => {
   designForm.setIsEdit(true);
   isPreview.value = false;
+  userOperation.setFormInstance(dynamicFormRef);
   batchEditFieldVisible.value = false;
   configDialogVisible.value = false;
   codeDialogVisible.value = false;
@@ -100,9 +103,11 @@ const clearData = (flag: boolean = true) => {
     designForm.clearAll(flag);
   }
 };
-const preview = () => {
+const preview = async () => {
   isPreview.value = true;
   designForm.setIsEdit(false);
+  await nextTick();
+  userOperation.setFormInstance(previewDynamicFormRef);
 };
 const formPropertyRef = ref();
 /**
@@ -297,11 +302,12 @@ watch(
     {immediate: true, deep: true}
 );
 watch(() => list.value,
-    (val:any) => {
+    (val: any) => {
       designForm.removePromise();
       designForm.setRefresh();
       designForm.addHistoryRecord(reOrUnDoFlag.value);
       reOrUnDoFlag.value = false;
+      userOperation.setFormInstance(dynamicFormRef);
       userOperation.setFormData(formData);
       userOperation.addFormItemList(val);
     }, {
@@ -377,6 +383,7 @@ onMounted(async () => {
       :is-view="true"
   >
     <el-form
+        ref="previewDynamicFormRef"
         :disabled="formInfo['disabled'] == 'Y'"
         :hide-required-asterisk="formInfo['hideRequiredAsterisk'] == 'Y'"
         :inline="formInfo.inline == 'Y'"
@@ -437,6 +444,7 @@ onMounted(async () => {
         <div class="main-design-a">
           <div class="main-design-outer">
             <el-form
+                ref="dynamicFormRef"
                 class="design-form-container"
                 :disabled="formInfo['disabled'] == 'Y'"
                 :hide-required-asterisk="formInfo['hideRequiredAsterisk'] == 'Y'"
@@ -505,9 +513,10 @@ onMounted(async () => {
   </el-card>
 </template>
 <style lang="scss" scoped>
-:deep(.el-card){
+:deep(.el-card) {
   margin: 0 !important;
 }
+
 :deep(.el-card__body) {
   padding: 0 !important;
   margin: 0 !important;

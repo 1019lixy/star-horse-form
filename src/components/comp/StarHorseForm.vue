@@ -258,7 +258,7 @@ const setFormData = (data: object) => {
 const tableListRef = ref<any>([]);
 
 onMounted(() => {
-  userOperation.init(props.fieldList,dataForm);
+  userOperation.init(props.fieldList, dataForm, starHorseFormRef);
 });
 watch(() => dialogProps.ids,
     (val) => {
@@ -278,7 +278,10 @@ defineExpose({
 });
 </script>
 <template>
-  <el-form :model="dataForm" :size="compSize" :rules="rules" class="data-form" ref="starHorseFormRef">
+  <el-form :model="dataForm" :size="compSize" :rules="rules"
+           :scroll-to-error="true"
+           :scroll-into-view-options="true"
+           class="data-form" ref="starHorseFormRef">
     <star-horse-form-item :primaryKey="primaryKey"
                           :compUrl="compUrl"
                           :fieldList="fieldList"

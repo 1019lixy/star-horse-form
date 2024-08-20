@@ -21,13 +21,14 @@ let formDataList = computed(() => designForm.formDataList);
 let containerList = computed(() => designForm.containerList);
 let selfFormDataList = computed(() => designForm.selfFormDataList);
 let formInfo = computed(() => designForm.formInfo);
+let list = computed(() => designForm.compList);
 const fieldList = ref<any>({});
 const formProps = computed(() => designForm.currentFormPreps);
 // provide("dataForm", formProps);
 let currentItemType = computed(() => designForm.currentItemType);
 let currentCompCategory = computed(() => designForm.currentCompCategory);
 let parentCompType = computed(() => designForm.parentCompType);
-let formData = computed(() => designForm.formData);
+// let formData = computed(() => designForm.formData);
 const advancedFieldList = ref<any>({});
 const actions = ref<any>({});
 let currentField = ref<any>({});
@@ -35,14 +36,16 @@ let jsEditor = ref<boolean>(false);
 let containerDialogVisible = ref<boolean>(false);
 let dataSourceDialogVisible = ref<boolean>(false);
 let paramsDialogVisible = ref<boolean>(false);
-let activeNames = ref("1");
-let formRules = ref({});
+let activeNames = ref<string>("1");
+let codeTab = ref<string>("code");
+let formRules = ref<any>({});
 let jsValue = ref<string>("console.log('hello world')");
 let fieldName = ref<string>('');
 const codeCompRef = ref<any>(null);
 const dataSourceFormRef = ref<any>(null);
 const paramsConfigRef = ref<any>(null);
 const containerPrepRef = ref<any>(null);
+
 //-----------------------数据源相关属性---------------------
 let matchTypeList = ref<SelectOption[]>();
 const jsButtonClick = (name: string) => {
@@ -218,9 +221,11 @@ const handelDeleteItem = (row: any) => {
 };
 const hmsg: string = `
    自定义事件,提供了如下系统参数：
-   currentField:Object：当前组件的信息
-   formData:Object：表单数据
-   formFields：Array<any>：表单的所有元素
+   currentField:Object 当前组件的信息
+   formData:Object 表单数据
+   formFields：Array<any>表单的所有元素
+   formInstance:Object 表单实例对象
+   具体参数或方法切换Tab查看
 `;
 onMounted(() => {
   matchTypeList.value = searchMatchList();
@@ -256,13 +261,72 @@ watch(() => formProps,
   <star-horse-dialog :dialogVisible="jsEditor" :title="'自定义信息'" :isBatch="false" @merge="closeAction"
                      @closeAction="closeAction"
                      @reset="closeAction" :selfFunc="true">
-    <star-horse-editor
-        v-model:value="formProps[fieldName]"
-        lang="javascript"
-        ref="codeCompRef"
-        :helpMsg="hmsg"
-        style="height: 100%"
-    />
+    <el-tabs v-model="codeTab">
+      <el-tab-pane label="代码" name="code">
+        <star-horse-editor
+            v-model:value="formProps[fieldName]"
+            lang="javascript"
+            ref="codeCompRef"
+            :helpMsg="hmsg"
+            style="height: 100%"
+        />
+      </el-tab-pane>
+      <el-tab-pane label="当前组件属性" name="currentField">
+        <pre>
+          {{ JSON.stringify(currentField, null, 4) }}
+        </pre>
+      </el-tab-pane>
+      <el-tab-pane label="表单实例" name="formInstance">
+        对象名字：formInstance
+        <table border="1" cellpadding="0" cellspacing="0" style="width: 100%;border: 1px dashed var(--star-horse-style)">
+          <thead style="border: 1px dashed var(--star-horse-style)">
+          <tr >
+            <th>名称</th>
+            <th>说明</th>
+            <th>类型</th>
+          </tr>
+          </thead>
+          <tbody style="border: 1px dashed var(--star-horse-style)">
+          <tr>
+            <td>validate</td>
+            <td>对整个表单的内容进行验证。 接收一个回调函数，或返回 <code>Promise</code>。</td>
+            <td><span class="inline-flex items-center">Function</span></td>
+          </tr>
+          <tr>
+            <td>validateField</td>
+            <td>验证具体的某个字段。</td>
+            <td><span class="inline-flex items-center">Function</span></td>
+          </tr>
+          <tr>
+            <td>resetFields</td>
+            <td>重置该表单项，将其值重置为初始值，并移除校验结果</td>
+            <td><span class="inline-flex items-center">Function</span></td>
+          </tr>
+          <tr>
+            <td>scrollToField</td>
+            <td>滚动到指定的字段</td>
+            <td><span class="inline-flex items-center">Function</span></td>
+          </tr>
+          <tr>
+            <td>clearValidate</td>
+            <td>清理某个字段的表单验证信息。</td>
+            <td><span class="inline-flex items-center">Function</span></td>
+          </tr>
+          <tr>
+            <td>fields </td>
+            <td>获取所有字段的 context</td>
+            <td><span class="inline-flex items-center">Array</span></td>
+          </tr>
+          </tbody>
+        </table>
+      </el-tab-pane>
+      <el-tab-pane label="表单属性" name="formDatas">
+        <pre>
+          {{ JSON.stringify(list, null, 4) }}
+        </pre>
+      </el-tab-pane>
+    </el-tabs>
+
   </star-horse-dialog>
   <el-form
       :model="formProps"

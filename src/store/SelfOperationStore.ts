@@ -1,5 +1,5 @@
 import {defineStore} from "pinia";
-import {ref} from "vue";
+import {Ref, ref} from "vue";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 
 /**
@@ -9,12 +9,17 @@ export const useUserSelfOperation = defineStore("userSelfOperation", () => {
     const formFieldList = ref<PageFieldInfo>({});
     const fieldItemList = ref<any>({});
     const formData = ref<any>({});
+    let formInstance = ref();
     /**
      * 设置表单信息
      * @param fieldList
      */
     const setFormFields = (fieldList: PageFieldInfo) => {
         formFieldList.value = fieldList;
+    }
+    const setFormInstance = (formRef: Ref) => {
+        // console.log(formRef.value);
+        formInstance.value = formRef.value;
     }
     /**
      * 设置实例数据
@@ -59,10 +64,11 @@ export const useUserSelfOperation = defineStore("userSelfOperation", () => {
      * 一个模块只能操作一个表单
      * 初始化数据
      */
-    const init = (fieldList: PageFieldInfo, data: any) => {
+    const init = (fieldList: PageFieldInfo, data: any, formRef: Ref) => {
         formFieldList.value = fieldList;
         fieldItemList.value = {};
         formData.value = data;
+        formInstance = formRef;
     }
-    return {formFieldList, fieldItemList, formData, setFormFields,setFormData, addFormItem, addFormItemList, getFormItem, init}
+    return {formFieldList, fieldItemList, formInstance, formData, setFormInstance, setFormFields, setFormData, addFormItem, addFormItemList, getFormItem, init}
 });

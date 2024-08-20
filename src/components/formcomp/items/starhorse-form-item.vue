@@ -20,6 +20,7 @@ const getParentComp = () => {
   return props.parentField &&
   (props.parentField.itemType == "box"
       || props.parentField.itemType == "tab"
+      || props.parentField.itemType == "dytable"
       || props.parentField.itemType == "table")
       ? "container"
       : "item";
@@ -206,7 +207,7 @@ onMounted(() => {
       <el-form-item
           :size="formItem?.preps['size']||'small'"
           v-if="parentField?.itemType!='table'&&formItem?.itemType!='divider'"
-          :label="formItem?.preps['label']"
+          :label="formItem?.preps['hideLabel']?'':formItem?.preps['label']"
           :prop="formItem?.preps['name']"
           :required="formItem?.preps['required']=='Y'"
           :rules="formItem?.preps['required']=='Y'?[{required:true,trigger:'blur',message:'必须项不能为空'}]:[]"
@@ -220,28 +221,28 @@ onMounted(() => {
           class="field-action"
           v-if="isEdit"
       >
-        <el-tooltip content="选择父容器">
+        <el-tooltip content="选择父容器" v-if="parentField?.itemType">
           <star-horse-icon
               @click.stop="selectParentContainer()"
               icon-class="select-parent"
               style="color: var(--star-horse-white)"
           />
         </el-tooltip>
-        <el-tooltip content="选中组件">
-          <star-horse-icon
-              @click.stop="selectData"
-              icon-class="check"
-              style="color: var(--star-horse-white)"
-          />
-        </el-tooltip>
-        <el-tooltip content="上移">
+        <!--        <el-tooltip content="选中组件">
+                  <star-horse-icon
+                      @click.stop="selectData"
+                      icon-class="check"
+                      style="color: var(&#45;&#45;star-horse-white)"
+                  />
+                </el-tooltip>-->
+        <el-tooltip content="上移" v-if="parentField?.itemType!='table'">
           <star-horse-icon
               @click.stop="moveUpItem(formItem?.preps)"
               icon-class="move-up"
               style="color: var(--star-horse-white)"
           />
         </el-tooltip>
-        <el-tooltip content="下移">
+        <el-tooltip content="下移" v-if="parentField?.itemType!='table'">
           <star-horse-icon
               @click.stop="moveDownItem(formItem?.preps)"
               icon-class="move-down"
@@ -262,7 +263,7 @@ onMounted(() => {
         </el-tooltip>
 
         <el-tooltip :content="formItem?.preps['itemNameLabel']">
-          <span style="color:var(--star-horse-white)"
+          <span style="color:var(--star-horse-white);cursor: pointer"
                 @click="selectData(formItem)">{{ formItem?.preps['itemNameLabel'] }}</span>
         </el-tooltip>
       </div>
@@ -292,6 +293,7 @@ onMounted(() => {
   width: 100%;
   vertical-align: middle;
   align-items: center;
+
   &:hover > .field-action {
     opacity: 1;
     display: flex;
@@ -315,6 +317,7 @@ onMounted(() => {
     background: var(--star-horse-style);
     z-index: 99;
     display: none;
+
     .svg-icon {
       font-size: 14px;
       color: var(--star-horse-white);
@@ -359,6 +362,7 @@ onMounted(() => {
        }*/
   }
 }
+
 .field-action,
 .drag-handler {
   :deep(.svg-icon) {
