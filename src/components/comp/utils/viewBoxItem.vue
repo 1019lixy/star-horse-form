@@ -27,7 +27,7 @@ onMounted(() => {
 
 <template>
   <el-row v-if="item instanceof Array" :gutter="10">
-    <el-col :span="sitem.colSpan||sitem.preps?.colSpan||(24/item.length)" v-for="sitem in item">
+    <el-col :span="sitem.colspan||sitem.preps?.colspan||(24/item.length)" v-for="sitem in item">
       <div class="item" v-if="sitem.formShow||sitem.tableShow||sitem.viewShow">
         <label>{{ sitem.label }} :</label>
         <div class="content">

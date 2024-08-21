@@ -58,11 +58,11 @@ const fieldList = reactive<PageFieldInfo | any>({
           required: true,
           formShow: assignSelect,
           preps: {
-            colSpan: 6
+            colspan: 6
           }
         }],
         preps: {
-          colSpan: 13
+          colspan: 13
         }
       }],
         {

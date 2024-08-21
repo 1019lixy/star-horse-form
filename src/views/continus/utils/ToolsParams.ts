@@ -68,7 +68,7 @@ const extendCommonFields: FieldInfo[] = [{
             optionList: [{name: "使用唯一镜像名称", value: "Y"}],
             fieldName: "singleImageFlag",
             preps: {
-                colSpan: 6,
+                colspan: 6,
                 border: "Y"
             }
         }, {
@@ -78,7 +78,7 @@ const extendCommonFields: FieldInfo[] = [{
             optionList: linkExecServerList,
             fieldName: "linkExecServer",
             preps: {
-                colSpan: 6
+                colspan: 6
             }
         }]]
     }, {
@@ -98,7 +98,7 @@ const extendCommonFields: FieldInfo[] = [{
                 errorFlag.value = val["errorReport"] == "Y";
             },
             preps: {
-                colSpan: 6
+                colspan: 6
             }
         }], {
             label: "通知人",
@@ -144,7 +144,7 @@ const extendCommonFields: FieldInfo[] = [{
             },
             formShow: true,
             preps: {
-                colSpan: 6
+                colspan: 6
             }
         }], {
             label: "通知人",

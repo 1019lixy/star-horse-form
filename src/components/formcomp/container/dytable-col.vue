@@ -24,14 +24,17 @@ let draggingItem = computed(() => designForm.draggingItem);
 let currentItemId = computed(() => designForm.currentItemId);
 let currentSubItemId = computed(() => designForm.currentSubItemId);
 let isEdit = computed(() => designForm.isEdit);
+let rows=computed(()=> props.parentComp.preps.elements);
 let mergeLeftColDisabled = computed(() => props.isFirstCol);
 let mergeRightColDisabled = computed(() => props.isLastCol);
 let mergeWholeRowDisabled = ref<boolean>(false);
+
 let mergeWholeColDisabled = ref<boolean>(false);
 let mergeAboveRowDisabled = computed(() => props.isFirstRow);
 let mergeBelowRowDisabled = computed(() => props.isLastRow);
-let undoMergeRowDisabled = computed(() => props.field.rowSpan == 1);
-let undoMergeColDisabled = computed(() => props.field.colSpan == 1);
+
+let undoMergeRowDisabled = computed(() => props.field.rowspan == 1);
+let undoMergeColDisabled = computed(() => props.field.colspan == 1);
 let deleteWholeColDisabled = ref<boolean>(false);
 let deleteWholeRowDisabled = ref<boolean>(false);
 const getComponentName = (data: any) => {
@@ -72,19 +75,41 @@ const onDragAdd = (evt: Event, dataList: any) => {
 };
 
 const handleTableCellCommand = (command: string) => {
-  tableCellOperation(command,props)
+  tableCellOperation(command, props)
 }
-
+const actionOperation=(command:string)=>{
+  tableAction(command,props);
+}
 const selectCurrentTd = () => {
   designForm.setSubItemId(props.field.id);
 }
+const init = () => {
+  let rows = props.parentComp.preps.elements;
+  //当前行
+  let row: any = rows[props.rowIndex];
+  //上一行
+  let aboveRow: any = !props.isFirstRow ? rows[props.rowIndex - 1] : null;
+  //下一行
+  let belowRow: any = !props.isLastRow ? rows[props.rowIndex - 1] : null;
+  //当前列
+  let col = row.columns[props.colIndex];
+  let leftCol = !props.isFirstCol ? row.columns[props.colIndex - 1] : null;
+  let rightCol = !props.isLastCol ? row.columns[props.colIndex + 1] : null;
+  if (leftCol && leftCol.colspan != col.colspan) {
+    mergeLeftColDisabled.value = true;
+  }
+  if (rightCol && rightCol.colspan != col.colspan) {
+    mergeRightColDisabled.value = true;
+  }
+
+};
 onMounted(() => {
-  console.log(props.field);
+  init();
 })
 </script>
 <template>
 
-  <td class="edit_col" :colspan="field.colSpan||1" :rowspan="field.rowSpan||1"
+  <td class="edit_col" :colspan="field.colspan||1" :rowspan="field.rowspan||1"
       :style="{width: field.cellWidth + ' !important' || '',
       height: field.cellHeight + ' !important' || '',
       'word-break': !!field.wordBreak ? 'break-all' : 'normal'}"
@@ -118,17 +143,23 @@ onMounted(() => {
             <el-dropdown-item command="insertRightCol">右边插入列</el-dropdown-item>
             <el-dropdown-item command="insertAboveRow">插入上方行</el-dropdown-item>
             <el-dropdown-item command="insertBelowRow">插入下方行</el-dropdown-item>
-            <el-dropdown-item command="mergeLeftCol" :disabled="mergeLeftColDisabled" divided>合并左边列
+
+            <el-dropdown-item command="mergeLeftCol" :disabled="mergeLeftColDisabled" divided>合并左边单元格
             </el-dropdown-item>
-            <el-dropdown-item command="mergeRightCol" :disabled="mergeRightColDisabled">合并右边列</el-dropdown-item>
-            <el-dropdown-item command="mergeWholeCol" :disabled="mergeWholeColDisabled">合并整列</el-dropdown-item>
-            <el-dropdown-item command="mergeAboveRow" :disabled="mergeAboveRowDisabled" divided>合并上面行
-            </el-dropdown-item>
-            <el-dropdown-item command="mergeBelowRow" :disabled="mergeBelowRowDisabled">合并下面行</el-dropdown-item>
+            <el-dropdown-item command="mergeRightCol" :disabled="mergeRightColDisabled">合并右单元格</el-dropdown-item>
             <el-dropdown-item command="mergeWholeRow" :disabled="mergeWholeRowDisabled">合并整行</el-dropdown-item>
+
+
+            <el-dropdown-item command="mergeAboveRow" :disabled="mergeAboveRowDisabled" divided>合并上边单元格
+            </el-dropdown-item>
+            <el-dropdown-item command="mergeBelowRow" :disabled="mergeBelowRowDisabled">合并下边单元格
+            </el-dropdown-item>
+            <el-dropdown-item command="mergeWholeCol" :disabled="mergeWholeColDisabled">合并整列</el-dropdown-item>
+
             <el-dropdown-item command="undoMergeRow" :disabled="undoMergeRowDisabled" divided>撤销行合并
             </el-dropdown-item>
             <el-dropdown-item command="undoMergeCol" :disabled="undoMergeColDisabled">撤销列合并</el-dropdown-item>
+
             <el-dropdown-item command="deleteWholeCol" :disabled="deleteWholeColDisabled" divided>删除整列
             </el-dropdown-item>
             <el-dropdown-item command="deleteWholeRow" :disabled="deleteWholeRowDisabled">删除整行</el-dropdown-item>

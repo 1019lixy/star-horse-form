@@ -30,7 +30,7 @@ onMounted(() => {
 
   <el-row v-if="item instanceof Array" :gutter="10">
     <template v-for="sitem in item">
-      <el-col :span="sitem.colSpan||sitem.preps?.colSpan||(24/item.length)"
+      <el-col :span="sitem.colspan||sitem.preps?.colspan||(24/item.length)"
               v-if="sitem.type!='button'&&sitem.type!='comp'">
         <el-form-item
             :size="compSize"

@@ -9,7 +9,7 @@ let formDataList = computed(() => designForm.formDataList);
 let containerList = computed(() => designForm.containerList);
 let selfFormDataList = computed(() => designForm.selfFormDataList);
 let tabModel = ref<string>("component");
-let activeNames = ref(['a','b', 'c', 'd']);
+let activeNames = ref(['a', 'b', 'c', 'd']);
 let formData = computed(() => designForm.formData);
 const onContainerCopy = (data: any) => {
   return onDataCopy(data, 'container');
@@ -54,6 +54,8 @@ const onDataCopy = (data: any, type: String) => {
     mvData.preps["elements"] = [{rowIndex: 1, columns: [{colIndex: 1, colspan: 24, items: []}]}];
   } else if (reData.itemType == "table") {
     mvData.preps["elements"] = [{colIndex: 1, items: []}];
+  } else if (reData.itemType == "dytable") {
+    mvData.preps["elements"] = [{colIndex: 1, columns: [{colIndex: 1, colspan: 1, rowspan: 1, items: []}]}];
   }
   designForm.setDraggingItem(mvData);
   return mvData;
@@ -193,8 +195,8 @@ const getDefaultVal = (type: String) => {
   border-top-width: 0;
   display: flex;
   flex-direction: column;
-/*  height: 100%;
-  overflow: hidden;*/
+  /*  height: 100%;
+    overflow: hidden;*/
 
   .el-collapse-item__header {
     padding-left: 10px;

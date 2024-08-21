@@ -280,7 +280,7 @@ export function dataSourceFields(dataSourceRef: Ref<any>, _recall: Function) {
                                 helpMsg: helpMsg,
                                 formShow: true,
                                 preps: {
-                                    colSpan: 16,
+                                    colspan: 16,
                                     prependList: [
                                         {name: "HTTP", value: "http://"},
                                         {name: "HTTPS", value: "https://"}]
@@ -296,7 +296,7 @@ export function dataSourceFields(dataSourceRef: Ref<any>, _recall: Function) {
                                     tableShow: true,
                                     optionList: httpMethod(),
                                     preps: {
-                                        colSpan: 8
+                                        colspan: 8
                                     }
                                 }],
                             [{
@@ -391,7 +391,7 @@ export function paramsFields(fieldName: string, item: any) {
             formShow: false,
             defaultValue: "http://",
             preps: {
-                colSpan: -1
+                colspan: -1
             }
         },
         {
@@ -402,7 +402,7 @@ export function paramsFields(fieldName: string, item: any) {
             helpMsg: helpMsg,
             formShow: true,
             preps: {
-                colSpan: 24,
+                colspan: 24,
                 prependList: [
                     {name: "HTTP", value: "http://"},
                     {name: "HTTPS", value: "https://"}]
@@ -419,7 +419,7 @@ export function paramsFields(fieldName: string, item: any) {
             optionList: httpMethod(),
             formShow: true,
             preps: {
-                colSpan: 10
+                colspan: 10
             }
         },
         {
@@ -431,7 +431,7 @@ export function paramsFields(fieldName: string, item: any) {
             required: true,
             optionList: dataType(),
             preps: {
-                colSpan: 10
+                colspan: 10
             }
         },
         {
@@ -443,7 +443,7 @@ export function paramsFields(fieldName: string, item: any) {
             required: true,
             optionList: fieldList,
             preps: {
-                colSpan: 10
+                colspan: 10
             }
         },
         {
@@ -472,7 +472,7 @@ export function paramsFields(fieldName: string, item: any) {
             required: true,
             formShow: true,
             preps: {
-                colSpan: 4,
+                colspan: 4,
             }
         }
     ];

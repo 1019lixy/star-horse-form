@@ -58,7 +58,7 @@ const fieldList = reactive<PageFieldInfo | any>({
             formShow: true,
             tableShow: true,
             preps: {
-              colSpan: 6,
+              colspan: 6,
             }
           }, {
             label: "URL",
@@ -68,7 +68,7 @@ const fieldList = reactive<PageFieldInfo | any>({
             formShow: true,
             tableShow: true,
             preps: {
-              colSpan: 12,
+              colspan: 12,
             }
           }, {
             label: "自动触发",
@@ -79,7 +79,7 @@ const fieldList = reactive<PageFieldInfo | any>({
             formShow: true,
             tableShow: true,
             preps: {
-              colSpan: 6,
+              colspan: 6,
             }
           }], [{
             label: "版本号",
@@ -89,7 +89,7 @@ const fieldList = reactive<PageFieldInfo | any>({
             formShow: true,
             tableShow: true,
             preps: {
-              colSpan: 8,
+              colspan: 8,
             }
           }, {
             label: "代码下载目标目录",
@@ -99,7 +99,7 @@ const fieldList = reactive<PageFieldInfo | any>({
             formShow: true,
             tableShow: true,
             preps: {
-              colSpan: 16,
+              colspan: 16,
             }
           }]]
         }
