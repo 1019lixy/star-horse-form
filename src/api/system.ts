@@ -367,7 +367,7 @@ const undoMergeCol = (props: any) => {
         //在当前位置插入新的单元格
         row.columns.splice(props.colIndex, 1, colDataInfo());
         //将数据移入下一行
-        rows[props.rowIndex + 1].columns.splice(props.colIndex,0,col);
+        rows[props.rowIndex + 1].columns.splice(props.colIndex, 0, col);
     } else {
         //在同一行合并了单元格
         col.colspan = col.colspan - 1;
@@ -517,15 +517,15 @@ const undoMergeRowAction = (props: any) => {
             columns = len;
         }
     }
-    if (columns == columns.colspan) {
+    if (columns == columns.colspan && columns.colspan > 1) {
         return false;
     }
     return props.field.rowspan == 1;
 }
 const undoMergeColAction = (props: any) => {
     let {rows, row, col} = tableCellInfo(props);
-    console.log(rows.length,col);
-    if (rows.length == col.rowspan) {
+    // console.log(rows.length, col);
+    if (rows.length == col.rowspan && col.rowspan > 1) {
         return false;
     }
     return props.field.colspan == 1;
