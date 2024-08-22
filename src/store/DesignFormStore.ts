@@ -396,7 +396,13 @@ export const DesignForm: any = defineStore("DesignForm", {
                     await initContainer();
                     await initItems();
                     await initSelfItems();
-                    let temp: Array<any> = [..._this.formDataList, ..._this.selfFormDataList];
+                    let temp: Array<any> = [];
+                    if (_this.formDataList) {
+                        temp.push(..._this.formDataList);
+                    }
+                    if (_this.selfFormDataList) {
+                        temp.push(..._this.selfFormDataList);
+                    }
                     temp.forEach((item: any) => {
                         _this.allFormDataList.push({
                             name: item.itemName,

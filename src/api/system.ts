@@ -269,17 +269,19 @@ const insertBelowRow = (props: any) => {
     let position = props.isLastRow ? props.rowIndex : props.rowIndex + 1;
     rows.splice(position, 0, cols);
 };
-const mergeLeftCol = (props: any) => {
+const tableCellInfo = (props: any) => {
     let rows = props.parentComp.preps.elements;
     let row = rows[props.rowIndex];
     let col = row.columns[props.colIndex];
+    return {rows, row, col};
+}
+const mergeLeftCol = (props: any) => {
+    let {rows, row, col} = tableCellInfo(props);
     col.colspan = col.colspan + 1;
     row.columns.splice(props.colIndex - 1, 1);
 };
 const mergeRightCol = (props: any) => {
-    let rows = props.parentComp.preps.elements;
-    let row = rows[props.rowIndex];
-    let col = row.columns[props.colIndex];
+    let {rows, row, col} = tableCellInfo(props);
     col.colspan = col.colspan + 1;
     row.columns.splice(props.colIndex + 1, 1);
 };
@@ -303,9 +305,7 @@ const mergeWholeCol = (props: any) => {
     currentCol.rowspan = rows.length;
 };
 const mergeAboveRow = (props: any) => {
-    let rows = props.parentComp.preps.elements;
-    let row = rows[props.rowIndex];
-    let col = row.columns[props.colIndex];
+    let {rows, row, col} = tableCellInfo(props);
     let aboveRow = rows[props.rowIndex - 1];
     col.rowspan = col.rowspan + 1;
     for (let index in aboveRow.columns) {
@@ -323,9 +323,7 @@ const mergeAboveRow = (props: any) => {
 
 };
 const mergeBelowRow = (props: any) => {
-    let rows = props.parentComp.preps.elements;
-    let row = rows[props.rowIndex];
-    let col = row.columns[props.colIndex];
+    let {rows, row, col} = tableCellInfo(props);
     col.rowspan = col.rowspan + 1;
     let belowRow = rows[props.rowIndex + 1];
     for (let index in belowRow.columns) {
@@ -336,9 +334,7 @@ const mergeBelowRow = (props: any) => {
     }
 };
 const mergeWholeRow = (props: any) => {
-    let rows = props.parentComp.preps.elements;
-    let row = rows[props.rowIndex];
-    let col = row.columns[props.colIndex];
+    let {rows, row, col} = tableCellInfo(props);
     let totalCols: number = 0;
     for (let index in row.columns) {
         let col = row.columns[index];
@@ -352,9 +348,7 @@ const mergeWholeRow = (props: any) => {
  * @param props
  */
 const undoMergeRow = (props: any) => {
-    let rows = props.parentComp.preps.elements;
-    let row = rows[props.rowIndex];
-    let col = row.columns[props.colIndex];
+    let {rows, row, col} = tableCellInfo(props);
     if (row.columns.length == 1) {
         //说明是合并了整行
         col.colspan = col.colspan - 1;
@@ -370,9 +364,7 @@ const undoMergeRow = (props: any) => {
  * @param props
  */
 const undoMergeCol = (props: any) => {
-    let rows = props.parentComp.preps.elements;
-    let row = rows[props.rowIndex];
-    let col = row.columns[props.colIndex];
+    let {rows, row, col} = tableCellInfo(props);
     //如果 列的行合并和整个表格的行相同，则表示已合并的整列
     if (col.rowspan == rows.length) {
         col.rowspan = col.rowspan - 1;
@@ -409,8 +401,9 @@ const deleteWholeRow = (props: any) => {
  * 单元格操作方法
  * @param command
  * @param props
+ * @param buttonControl
  */
-export const tableCellOperation = (command: string, props: any) => {
+export const tableCellOperation = (command: string, props: any, buttonControl: any) => {
     switch (command) {
         case "insertLeftCol":
             insertLeftCol(props);
@@ -455,76 +448,90 @@ export const tableCellOperation = (command: string, props: any) => {
             deleteWholeRow(props);
             break;
     }
+    //操作单元格后再次调用控制按钮函数
+    // tableAction(props, buttonControl);
 }
 const mergeLeftColAction = (props: any) => {
-    let rows = props.parentComp.preps.elements;
-    //当前行
-    let row: any = rows[props.rowIndex];
-    //当前列
-    let col = row.columns[props.colIndex];
-    //上一行
-    // let aboveRow: any = !props.isFirstRow ? rows[props.rowIndex - 1] : null;
-    // if (aboveRow && !props.isFirstCol) {
-    let leftLeftCol = row.columns[props.colIndex - 1];
-    console.log(leftLeftCol,col);
-    return col.rowspan>1? leftLeftCol.rowspan == col.rowspan : props.isFirstCol;
-    // }
-    //下一行
-    // let belowRow: any = !props.isLastRow ? rows[props.rowIndex - 1] : null;
-    // //当前列
-    // let col = row.columns[props.colIndex];
-    // let leftCol = !props.isFirstCol ? row.columns[props.colIndex - 1] : null;
-    // let rightCol = !props.isLastCol ? row.columns[props.colIndex + 1] : null;
-    // return props.isFirstCol;
+    let {rows, row, col} = tableCellInfo(props);
+    let leftCol = row.columns[props.colIndex - 1];
+    return col.rowspan > 1 && leftCol ? leftCol.rowspan != col.rowspan : props.isFirstCol;
 }
 const mergeRightColAction = (props: any) => {
-    let rows = props.parentComp.preps.elements;
-    //当前行
-    let row: any = rows[props.rowIndex];
-    //上一行
-    let aboveRow: any = !props.isFirstRow ? rows[props.rowIndex - 1] : null;
-    if (aboveRow && !props.isLastCol) {
-        let aboveLeftCol = aboveRow.columns[props.colIndex + 1];
-        return aboveLeftCol.rowspan > 1;
-    }
-    return props.isLastCol;
+    let {rows, row, col} = tableCellInfo(props);
+    let rightCol = row.columns[props.colIndex + 1];
+    return col.rowspan > 1 && rightCol ? rightCol.rowspan != col.rowspan : props.isLastCol;
 }
 const mergeWholeColAction = (props: any) => {
-    return true;
+    return colCommonAction(props);
 }
 const mergeAboveRowAction = (props: any) => {
+    let {rows, row, col} = tableCellInfo(props);
+    let aboveRow = rows[props.rowIndex - 1];
+    let aboveCol = aboveRow?.columns[props.colIndex];
+    if (!aboveCol || col.colspan != aboveCol.colspan) {
+        return true;
+    }
     return props.isFirstRow;
 }
 const mergeBelowRowAction = (props: any) => {
+    let {rows, row, col} = tableCellInfo(props);
+    let belowRow = rows[props.rowIndex + 1];
+    let belowCol = belowRow?.columns[props.colIndex];
+    if (!belowCol || col.colspan != belowCol.colspan) {
+        return true;
+    }
     return props.isLastRow;
 }
 const mergeWholeRowAction = (props: any) => {
-    return true;
+    return rowCommonAction(props);
+}
+const colCommonAction = (props: any) => {
+    let {rows, row, col} = tableCellInfo(props);
+    for (let index in rows) {
+        let tempCol = rows[index].columns[props.colIndex]
+        if (!tempCol || tempCol.colspan != col.colspan) {
+            console.log(tempCol,col);
+            return true;
+        }
+    }
+    return false;
+}
+const rowCommonAction = (props: any) => {
+    let {rows, row, col} = tableCellInfo(props);
+    for (let index in row.columns) {
+        let tempCol = row.columns[index];
+        if (col.rowspan != tempCol.rowspan) {
+            return true;
+        }
+    }
+    return false;
+}
+const deleteWholeColAction = (props: any) => {
+    return colCommonAction(props);
+}
+const deleteWholeRowAction = (props: any) => {
+    return rowCommonAction(props);
+}
+const undoMergeRowAction = (props: any) => {
+    return props.field.rowspan == 1;
+}
+const undoMergeColAction = (props: any) => {
+    return props.field.colspan == 1;
 }
 /**
  * 单元格按钮是否可点击控制
- * @param command
  * @param props
+ * @param buttonControl 按钮控制
  */
-export const tableAction = (command: string, props: any): boolean => {
-    switch (command) {
-        case "mergeLeftCol":
-            return mergeLeftColAction(props);
-        case "mergeRightCol":
-            return mergeRightColAction(props);
-        case "mergeWholeCol":
-            return mergeWholeColAction(props);
-        case "mergeAboveRow":
-            return mergeAboveRowAction(props);
-        case "mergeBelowRow":
-            return mergeBelowRowAction(props);
-        case "mergeWholeRow":
-            return mergeWholeRowAction(props);
-        case "undoMergeRow":
-            return props.field.rowspan == 1;
-        case "undoMergeCol":
-            return props.field.colspan == 1;
-        default:
-            return false;
-    }
+export const tableAction = (props: any, buttonControl: any): boolean => {
+    buttonControl.mergeLeftColDisabled = mergeLeftColAction(props);
+    buttonControl.mergeRightColDisabled = mergeRightColAction(props);
+    buttonControl.mergeWholeColDisabled = mergeWholeColAction(props);
+    buttonControl.mergeAboveRowDisabled = mergeAboveRowAction(props);
+    buttonControl.mergeBelowRowDisabled = mergeBelowRowAction(props);
+    buttonControl.mergeWholeRowDisabled = mergeWholeRowAction(props);
+    buttonControl.deleteWholeColDisabled = deleteWholeColAction(props);
+    buttonControl.deleteWholeRowDisabled = deleteWholeRowAction(props);
+    buttonControl.undoMergeRowDisabled = undoMergeRowAction(props);
+    buttonControl.undoMergeColDisabled = undoMergeColAction(props);
 }

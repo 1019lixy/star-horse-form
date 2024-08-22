@@ -19,7 +19,7 @@ export const userFunction = (code: string, context: any) => {
     //表单元素
     let formFields: any = userOperation.fieldItemList;
     //表单数据
-    let formData: any = userOperation.formData;
+    // let formData: any = userOperation.formData;
     //表单实例
     let formInstance: any = userOperation.formInstance;
     // console.log(formFields, formData, formInstance);

@@ -1,10 +1,10 @@
 <script setup lang="ts" name="box-container">
-import {computed, onMounted, PropType, ref} from 'vue'
+import {computed, onMounted, PropType, reactive, watch} from 'vue'
 import {warning} from '@/utils/message'
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-import {tableCellOperation} from "@/api/system.ts";
+import {tableAction, tableCellOperation} from "@/api/system.ts";
 
 const props = defineProps({
   parentField: {type: String},
@@ -21,22 +21,23 @@ const props = defineProps({
 });
 let designForm = DesignForm(piniaInstance);
 let draggingItem = computed(() => designForm.draggingItem);
-let currentItemId = computed(() => designForm.currentItemId);
+// let currentItemId = computed(() => designForm.currentItemId);
 let currentSubItemId = computed(() => designForm.currentSubItemId);
 let isEdit = computed(() => designForm.isEdit);
-let rows=computed(()=> props.parentComp.preps.elements);
-let mergeLeftColDisabled = computed(() => props.isFirstCol);
-let mergeRightColDisabled = computed(() => props.isLastCol);
-let mergeWholeRowDisabled = ref<boolean>(false);
+let rows = computed(() => props.parentComp.preps.elements);
 
-let mergeWholeColDisabled = ref<boolean>(false);
-let mergeAboveRowDisabled = computed(() => props.isFirstRow);
-let mergeBelowRowDisabled = computed(() => props.isLastRow);
-
-let undoMergeRowDisabled = computed(() => props.field.rowspan == 1);
-let undoMergeColDisabled = computed(() => props.field.colspan == 1);
-let deleteWholeColDisabled = ref<boolean>(false);
-let deleteWholeRowDisabled = ref<boolean>(false);
+let buttonControl = reactive<any>({
+  mergeLeftColDisabled: props.isFirstCol,
+  mergeRightColDisabled: props.isLastCol,
+  mergeWholeRowDisabled: false,
+  mergeWholeColDisabled: false,
+  mergeAboveRowDisabled: props.isFirstRow,
+  mergeBelowRowDisabled: props.isLastRow,
+  undoMergeRowDisabled: props.field.rowspan == 1,
+  undoMergeColDisabled: props.field.colspan == 1,
+  deleteWholeColDisabled: false,
+  deleteWholeRowDisabled: false,
+});
 const getComponentName = (data: any) => {
   return data?.itemType + '-item'
 };
@@ -77,35 +78,22 @@ const onDragAdd = (evt: Event, dataList: any) => {
 const handleTableCellCommand = (command: string) => {
   tableCellOperation(command, props)
 }
-const actionOperation=(command:string)=>{
-  tableAction(command,props);
-}
 const selectCurrentTd = () => {
   designForm.setSubItemId(props.field.id);
 }
 const init = () => {
-  let rows = props.parentComp.preps.elements;
-  //当前行
-  let row: any = rows[props.rowIndex];
-  //上一行
-  let aboveRow: any = !props.isFirstRow ? rows[props.rowIndex - 1] : null;
-  //下一行
-  let belowRow: any = !props.isLastRow ? rows[props.rowIndex - 1] : null;
-  //当前列
-  let col = row.columns[props.colIndex];
-  let leftCol = !props.isFirstCol ? row.columns[props.colIndex - 1] : null;
-  let rightCol = !props.isLastCol ? row.columns[props.colIndex + 1] : null;
-  if (leftCol && leftCol.colspan != col.colspan) {
-    mergeLeftColDisabled.value = true;
-  }
-  if (rightCol && rightCol.colspan != col.colspan) {
-    mergeRightColDisabled.value = true;
-  }
-
+  tableAction(props, buttonControl);
 };
 onMounted(() => {
   init();
-})
+});
+watch(() => props.parentComp,
+    () => tableAction(props, buttonControl),
+    {
+      immediate: true,
+      deep: true
+    }
+)
 </script>
 <template>
 
@@ -144,25 +132,30 @@ onMounted(() => {
             <el-dropdown-item command="insertAboveRow">插入上方行</el-dropdown-item>
             <el-dropdown-item command="insertBelowRow">插入下方行</el-dropdown-item>
 
-            <el-dropdown-item command="mergeLeftCol" :disabled="mergeLeftColDisabled" divided>合并左边单元格
+            <el-dropdown-item command="mergeLeftCol" :disabled="buttonControl.mergeLeftColDisabled" divided>合并左边单元格
             </el-dropdown-item>
-            <el-dropdown-item command="mergeRightCol" :disabled="mergeRightColDisabled">合并右单元格</el-dropdown-item>
-            <el-dropdown-item command="mergeWholeRow" :disabled="mergeWholeRowDisabled">合并整行</el-dropdown-item>
+            <el-dropdown-item command="mergeRightCol" :disabled="buttonControl.mergeRightColDisabled">合并右单元格
+            </el-dropdown-item>
+            <el-dropdown-item command="mergeWholeRow" :disabled="buttonControl.mergeWholeRowDisabled">合并整行
+            </el-dropdown-item>
 
 
-            <el-dropdown-item command="mergeAboveRow" :disabled="mergeAboveRowDisabled" divided>合并上边单元格
+            <el-dropdown-item command="mergeAboveRow" :disabled="buttonControl.mergeAboveRowDisabled" divided>合并上边单元格
             </el-dropdown-item>
-            <el-dropdown-item command="mergeBelowRow" :disabled="mergeBelowRowDisabled">合并下边单元格
+            <el-dropdown-item command="mergeBelowRow" :disabled="buttonControl.mergeBelowRowDisabled">合并下边单元格
             </el-dropdown-item>
-            <el-dropdown-item command="mergeWholeCol" :disabled="mergeWholeColDisabled">合并整列</el-dropdown-item>
+            <el-dropdown-item command="mergeWholeCol" :disabled="buttonControl.mergeWholeColDisabled">合并整列
+            </el-dropdown-item>
 
-            <el-dropdown-item command="undoMergeRow" :disabled="undoMergeRowDisabled" divided>撤销行合并
+            <el-dropdown-item command="undoMergeRow" :disabled="buttonControl.undoMergeRowDisabled" divided>撤销行合并
             </el-dropdown-item>
-            <el-dropdown-item command="undoMergeCol" :disabled="undoMergeColDisabled">撤销列合并</el-dropdown-item>
+            <el-dropdown-item command="undoMergeCol" :disabled="buttonControl.undoMergeColDisabled">撤销列合并
+            </el-dropdown-item>
 
-            <el-dropdown-item command="deleteWholeCol" :disabled="deleteWholeColDisabled" divided>删除整列
+            <el-dropdown-item command="deleteWholeCol" :disabled="buttonControl.deleteWholeColDisabled" divided>删除整列
             </el-dropdown-item>
-            <el-dropdown-item command="deleteWholeRow" :disabled="deleteWholeRowDisabled">删除整行</el-dropdown-item>
+            <el-dropdown-item command="deleteWholeRow" :disabled="buttonControl.deleteWholeRowDisabled">删除整行
+            </el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
