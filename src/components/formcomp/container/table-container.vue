@@ -15,16 +15,14 @@ const props = defineProps({
 });
 let designForm = DesignForm(piniaInstance);
 let draggingItem = computed(() => designForm.draggingItem);
-// let itemType = ref('container');
+let excludeContainerType: Array<string> = ["box", "tab", "table", "dytable", "collapse", "card"];
 let isEdit = computed(() => designForm.isEdit);
 const getComponentName = (data: any) => {
   return data?.itemType + '-item'
 };
 const onDragAdd = (evt: Event, dataList: any) => {
   let newIndex = evt.newIndex
-  if (draggingItem.value.itemType == 'box'
-      || draggingItem.value.itemType == 'tab'
-      || draggingItem.value.itemType == 'table') {
+  if (excludeContainerType.includes(draggingItem.value.itemType)) {
     warning('容器不能嵌套容器');
     let elements = props.field.preps.elements;
     for (let inde in elements) {
@@ -116,7 +114,7 @@ const deleteCol = (index: number) => {
                         borderTop: `1px solid  #dfe6ec`,
                         borderBottom: `1px solid #dfe6ec`,
                         borderLeft: `1px solid #dfe6ec`,
-                        borderRight: `1px solid #dfe6ec`,
+                        borderRight: `1px solid #dfe6ec`
                       }" @mouseenter="(evt)=>tdOver(evt,td)" @mouseleave="(evt)=>tdOut(evt,td)">
             <draggable @add="(evt:Event)=>onDragAdd(evt,field.preps.elements[td-1].items)"
                        class="smain-design"
@@ -133,7 +131,7 @@ const deleteCol = (index: number) => {
                              :is="getComponentName(data)"
                              :parentField="field"
                              :formData="formData"
-                             v-if="data?.compType==='formItem'"/>
+                            />
                 </div>
               </template>
             </draggable>
@@ -147,6 +145,7 @@ const deleteCol = (index: number) => {
 <style lang="scss" scoped>
 th {
   position: relative;
+
   .td-operator {
     position: absolute;
     right: 0;
@@ -154,14 +153,17 @@ th {
     z-index: 9999;
   }
 }
-.comp-item{
+
+.comp-item {
   margin: unset;
 }
+
 .dynamic-table {
   width: 100%;
   border: 1px dashed #8F8F8F;
+
   thead {
-    background: #eee;
+    background: var(--star-horse-font-color);
     height: 30px;
     font-size: 14px
   }

@@ -26,6 +26,7 @@ const menuUrl: string = "/system-config/system/menusinfoEntity/getAllTreeDataByC
  */
 const customerUrl: string = "/system-config/system/customer/getAllByCondition";
 
+
 /**
  * 加载Post 数据
  * @param url 接口地址

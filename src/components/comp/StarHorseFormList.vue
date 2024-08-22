@@ -12,6 +12,7 @@ import Sortable from "sortablejs";
 import Help from "@/components/help.vue";
 import {ShallowReactive} from "@vue/reactivity";
 import {ModelRef} from "vue-demi";
+import {uuid} from "@/api/system.ts";
 
 let importDialogVisible = ref<boolean>(false);
 const props = defineProps({
@@ -40,6 +41,7 @@ const handleAddDetails = (row: any, type: number) => {
   }
   if (type === 1) {
     let obj = JSON.parse(JSON.stringify(props.defaultValues || {}));
+    obj["_uuid"] = uuid();
     dataForm.value[props.batchName].push(obj)
   } else {
     let index = row.xh - 1;

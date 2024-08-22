@@ -2,6 +2,7 @@
 import {onMounted, PropType, ref} from "vue";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
+import {computed} from "vue/dist/vue";
 
 const props = defineProps({
   parentField: {type: String},
@@ -10,9 +11,10 @@ const props = defineProps({
   field: {type: Object as PropType<any>},
 });
 let designForm = DesignForm(piniaInstance);
+let isEdit = computed(() => designForm.isEdit);
+let containerType: Array<string> = ["tab", "box", "table", "card", "dytable", "collapse"];
 const getComponentName = (data: any) => {
-  return (data.itemType == "tab" || data.itemType == "card"
-      || data.itemType == "box" || data.itemType == "table") ? data.itemType + '-container' : data.itemType + '-item'
+  return containerType.includes(data.itemType) ? data.itemType + '-container' : data.itemType + '-item'
 };
 /**
  * 如果没有items，动态添加
@@ -68,6 +70,7 @@ onMounted(() => {
             animation="100"
             ghostClass="ghost"
             :list="adata['items']"
+            v-if="isEdit"
         >
           <template #item="{element:data}">
             <div class="comp-item">
@@ -78,10 +81,11 @@ onMounted(() => {
                   :is="getComponentName(data)"
                   :parentField="field"
                   :formData="formData"
-                  v-if="data?.compType==='formItem'||data?.itemType=='box'||data?.itemType=='table'"/>
+                  />
             </div>
           </template>
         </draggable>
+
       </el-scrollbar>
     </el-card>
   </group-box-container>

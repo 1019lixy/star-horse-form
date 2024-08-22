@@ -10,12 +10,9 @@ const props = defineProps({
   field: {type: Object as PropType<any>},
 });
 let designForm = DesignForm(piniaInstance);
-// let draggingItem = computed(() => designForm.draggingItem);
-// let containerList = ref([]);
-// let itemType = ref('container');
+let containerType: Array<string> = ["tab", "box", "table","card", "dytable", "collapse"];
 const getComponentName = (data: any) => {
-  return (data.itemType == "tab" || data.itemType == "box" || data.itemType == "table") ?
-      data.itemType + '-container' : data.itemType + '-item'
+  return containerType.includes(data.itemType) ? data.itemType + '-container' : data.itemType + '-item'
 };
 /**
  * 如果没有items，动态添加
@@ -104,7 +101,7 @@ const addTab = () => {
                     :is="getComponentName(data)"
                     :parentField="field"
                     :formData="formData"
-                    v-if="data?.compType==='formItem'||data?.itemType=='box'||data?.itemType=='table'"/>
+                   />
               </div>
             </template>
           </draggable>

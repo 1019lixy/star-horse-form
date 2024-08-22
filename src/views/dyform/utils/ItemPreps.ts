@@ -5,6 +5,7 @@ import {dictData, loadData, searchMatchList} from "@/api/sh_api.ts";
 import {ascOrDesc, dataType, httpMethod, validDataUrl} from "@/api/system.ts";
 import {error, success, warning} from "@/utils/message.ts";
 
+
 const helpMsg = `
     接口返回的数据格式必须是：
         {
@@ -647,55 +648,108 @@ export function containerField(fieldName: string) {
             }]
         }]
     };
-    let batchFieldList: Array<any> = [{
-        batchName: "elements",
-        fieldList: [{
-            label: "列",
-            fieldName: "colIndex",
-            type: "input",
-            required: true,
-            formShow: true,
-            tableShow: true,
-            batchFieldList: [{
-                batchName: "columns",
-                batchDefaultData: {items: []},
-                fieldList: [{
-                    label: "列宽",
-                    fieldName: "colspan",
-                    type: "number",
-                    defaultValue: 24,
-                    required: true,
-                    formShow: true,
-                    tableShow: true,
-                    actionName: "change",
-                    preps: {
-                        min: 1,
-                        max: 24,
-                        step: 4,
-                    },
-                    actions: (val: any, type: string) => {
-                        let obj = val.value || val;
-                        let cols = obj.columns;
-                        if (type == "oper") {
-                            let len = 24 / cols.length;
-                            cols.forEach((item: any) => {
-                                item.colspan = len;
-                            })
-                        }
-                    }
-                }]
-            }]
-        }]
-    }];
+
     let boxFields = {
         title: "栅格属性",
         tabName: "box",
-        batchFieldList: batchFieldList
+        batchFieldList: [{
+            batchName: "elements",
+            fieldList: [{
+                label: "列",
+                fieldName: "colIndex",
+                type: "input",
+                required: true,
+                formShow: true,
+                tableShow: true,
+                batchFieldList: [{
+                    batchName: "columns",
+                    batchDefaultData: {items: []},
+                    fieldList: [{
+                        label: "列宽",
+                        fieldName: "colspan",
+                        type: "number",
+                        defaultValue: 24,
+                        required: true,
+                        formShow: true,
+                        tableShow: true,
+                        actionName: "change",
+                        preps: {
+                            min: 1,
+                            max: 24,
+                            step: 4,
+                        },
+                        actions: (val: any, type: string) => {
+                            let obj = val.value || val;
+                            let cols = obj.columns;
+                            if (type == "oper") {
+                                let len = 24 / cols.length;
+                                cols.forEach((item: any) => {
+                                    item.colspan = len;
+                                })
+                            }
+                        }
+                    }]
+                }]
+            }]
+        }]
     };
     let dyTableFields = {
         title: "动态表格属性",
         tabName: "dytable",
-        batchFieldList: batchFieldList
+        batchFieldList: [{
+            batchName: "elements",
+            fieldList: [{
+                label: "列",
+                fieldName: "colIndex",
+                type: "input",
+                required: true,
+                formShow: true,
+                tableShow: true,
+                batchFieldList: [{
+                    batchName: "columns",
+                    batchDefaultData: {items: []},
+                    fieldList: [{
+                        label: "列宽",
+                        fieldName: "colWidth",
+                        type: "number",
+                        defaultValue: 100,
+                        required: true,
+                        formShow: true,
+                        tableShow: true,
+                        actionName: "change",
+                        preps: {
+                            min: 10,
+                            max: 100,
+                            step: 2,
+                        },
+                        actions: (val: any, type: string) => {
+                            let obj = val.value || val;
+                            let cols = obj.columns;
+                            if (type == "oper") {
+                                let len = 100 / cols.length;
+                                cols.forEach((item: any) => {
+                                    item.colWidth = len;
+                                })
+                            }
+                        }
+                    }, {
+                        label: "行高",
+                        fieldName: "colHeight",
+                        type: "number",
+                        defaultValue: 30,
+                        required: true,
+                        formShow: true,
+                        tableShow: true,
+                        actionName: "change",
+                        preps: {
+                            min: 30,
+                            max: 100,
+                            step: 1,
+                        }
+                    }]
+                }]
+            }]
+        }]
     };
     let fields: any = {
         tab: tabFields,

@@ -648,9 +648,9 @@ hr {
 .comp-item {
   width: 100%;
 
-  &:nth-child(n+1) {
+ /* &:nth-child(n+1) {
     margin-top: 10px;
-  }
+  }*/
 }
 
 .el-drawer__header {

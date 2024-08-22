@@ -12,6 +12,13 @@ const redirectUrl: string = "/userdb-manage/redirect/valid";
 let configStore = GlobalConfig(piniaInstance);
 
 /**
+ * UUID
+ */
+export function uuid() {
+    return uuidv4();
+}
+
+/**
  * 点击事件
  * @param treeComp 树组件对象
  * @param tableComp 表格组件对象
@@ -214,8 +221,83 @@ export const toggleDark = (val: string) => {
  * 定义td 数据
  */
 export const colDataInfo = () => {
-    return {id: "dytable" + uuidv4(), colspan: 1, rowspan: 1, items: []}
+    return {_uuid: uuid(), colspan: 1, rowspan: 1, items: []}
 }
+
+
+const complexFields = (items: Array<any>) => {
+    for (let index in items) {
+        let item = items[index];
+        if (item.compType == "container") {
+            let sitems = item.preps.elements;
+            for (let sindex in sitems) {
+                complexFields(sitems[sindex].items);
+            }
+        } else {
+            item.id = item.id + "Copy";
+        }
+    }
+}
+
+/**
+ * 批量修改公共属性
+ * @param items
+ * @param val
+ * @param fieldName
+ */
+export const batchModifyAction = (items: Array<any>, val: any, fieldName: string) => {
+    for (let index in items) {
+        let item = items[index];
+        if (item.compType == "container") {
+            let sitems = item.preps.elements;
+            for (let sindex in sitems) {
+                let col = sitems[sindex];
+                if (col.columns) {
+                    col.columns.forEach((temp: any) => {
+                        batchModifyAction(temp.items, val, fieldName);
+                    })
+                } else {
+                    batchModifyAction(col.items, val, fieldName);
+                }
+
+            }
+        } else {
+            item.preps[fieldName] = val;
+        }
+    }
+}
+/**
+ * 拷贝容器
+ * @param parentComp
+ * @param containerType
+ * @param currentContainer
+ */
+export const copyContainer = (parentComp: Array<any>, currentContainer: any) => {
+    if (!currentContainer) {
+        return;
+    }
+    let containerType = currentContainer.itemType;
+    let container = JSON.parse(JSON.stringify(currentContainer));
+    //box和dytable 有列属性
+    if (containerType == "box" || containerType == "dytable") {
+        let rows = container.preps.elements;
+        for (let index in rows) {
+            let row = rows[index];
+            for (let cIndex in row.columns) {
+                let col = row.columns[cIndex];
+                col._uuid = uuid();
+                complexFields(col.items);
+            }
+        }
+    } else {
+        let rows = container.preps.elements;
+        for (let index in rows) {
+            complexFields(rows[index].items);
+        }
+    }
+    parentComp.push(container);
+}
+
 /**
  * 左方插入列
  */
@@ -448,21 +530,29 @@ export const tableCellOperation = (command: string, props: any) => {
 }
 const mergeLeftColAction = (props: any) => {
     let {rows, row, col} = tableCellInfo(props);
+    if (!row || !row.columns?.length) {
+        return true;
+    }
     let leftCol = row.columns[props.colIndex - 1];
     return col.rowspan > 1 && leftCol ? leftCol.rowspan != col.rowspan : props.isFirstCol;
 }
 const mergeRightColAction = (props: any) => {
     let {rows, row, col} = tableCellInfo(props);
+    if (!row || !row.columns?.length) {
+        return true;
+    }
     let rightCol = row.columns[props.colIndex + 1];
     return col.rowspan > 1 && rightCol ? rightCol.rowspan != col.rowspan : props.isLastCol;
 }
 const mergeWholeColAction = (props: any) => {
-
     return colCommonAction(props);
 }
 const mergeAboveRowAction = (props: any) => {
     let {rows, row, col} = tableCellInfo(props);
     let aboveRow = rows[props.rowIndex - 1];
+    if (!aboveRow || !aboveRow.columns.length) {
+        return true;
+    }
     let aboveCol = aboveRow?.columns[props.colIndex];
     if (!aboveCol || col.colspan != aboveCol.colspan) {
         return true;
@@ -472,6 +562,9 @@ const mergeAboveRowAction = (props: any) => {
 const mergeBelowRowAction = (props: any) => {
     let {rows, row, col} = tableCellInfo(props);
     let belowRow = rows[props.rowIndex + 1];
+    if (!belowRow || !belowRow.columns?.length) {
+        return true;
+    }
     let belowCol = belowRow?.columns[props.colIndex];
     if (!belowCol || col.colspan != belowCol.colspan) {
         return true;
@@ -484,9 +577,13 @@ const mergeWholeRowAction = (props: any) => {
 const colCommonAction = (props: any) => {
     let {rows, row, col} = tableCellInfo(props);
     for (let index in rows) {
-        let tempCol = rows[index].columns[props.colIndex]
+        let tempRow = rows[index];
+        if (!tempRow || !tempRow.columns?.length) {
+            return true;
+        }
+        let tempCol = tempRow.columns[props.colIndex]
         if (!tempCol || tempCol.colspan != col.colspan) {
-            console.log(tempCol, col);
+            // console.log(tempCol, col);
             return true;
         }
     }
@@ -494,6 +591,7 @@ const colCommonAction = (props: any) => {
 }
 const rowCommonAction = (props: any) => {
     let {rows, row, col} = tableCellInfo(props);
+
     for (let index in row.columns) {
         let tempCol = row.columns[index];
         if (col.rowspan != tempCol.rowspan) {
@@ -512,12 +610,12 @@ const undoMergeRowAction = (props: any) => {
     let {rows, row, col} = tableCellInfo(props);
     let columns: number = 0;
     for (let index in rows) {
-        let len = rows[index].columns.length;
+        let len = rows[index].columns?.length;
         if (columns < len) {
             columns = len;
         }
     }
-    if (columns == columns.colspan && columns.colspan > 1) {
+    if (columns == col.colspan && col.colspan > 1) {
         return false;
     }
     return props.field.rowspan == 1;
@@ -535,7 +633,7 @@ const undoMergeColAction = (props: any) => {
  * @param props
  * @param buttonControl 按钮控制
  */
-export const tableAction = (props: any, buttonControl: any): boolean => {
+export const tableAction = (props: any, buttonControl: any) => {
     buttonControl.mergeLeftColDisabled = mergeLeftColAction(props);
     buttonControl.mergeRightColDisabled = mergeRightColAction(props);
     buttonControl.mergeWholeColDisabled = mergeWholeColAction(props);

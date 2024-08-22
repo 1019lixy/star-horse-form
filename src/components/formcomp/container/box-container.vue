@@ -16,6 +16,7 @@ let draggingItem = computed(() => designForm.draggingItem);
 // let itemType = ref('container');
 let isEdit = computed(() => designForm.isEdit);
 let boxCompList = computed(() => props.field);
+let excludeContainerType: Array<string> = ["box", "tab", "table", "dytable", "collapse", "card"];
 const getComponentName = (data: any) => {
   return data?.itemType + '-item'
 };
@@ -26,9 +27,7 @@ const checkItem = (items: any) => {
 }
 const onDragAdd = (evt: Event, dataList: any) => {
   let newIndex = evt.newIndex;
-  if (draggingItem.value.itemType == 'box'
-      || draggingItem.value.itemType == "tab"
-      || draggingItem.value.itemType == "table") {
+  if (excludeContainerType.includes(draggingItem.value.itemType)) {
     warning('栅格容器不允许嵌套其他容器');
     let elements = props.field.preps.elements;
     for (let inde in elements) {
@@ -94,10 +93,9 @@ watch(() => props.field,
                   :key="data.id"
                   :field="data"
                   :formInfo="formInfo"
-                  :is="getComponentName(data)"
+                  :is="data.itemType +(data.compType === 'container'? '-container':'-item')"
                   :parentField="boxCompList"
                   :formData="formData"
-                  v-if="data?.compType=='formItem'"
               />
             </div>
           </template>
@@ -113,22 +111,13 @@ watch(() => props.field,
         <template v-for="data in sdata.items">
           <component
               :field="data"
-              :is="data?.type+'-container'"
+              :is="data.itemType +(data.compType === 'container'? '-container':'-item')"
               :formData="formData"
               :formInfo="formInfo"
-              v-if="data?.compType==='container'"
           >
           </component>
-          <component
-              :field="data"
-              :is="getComponentName(data)"
-              :formData="formData"
-              :formInfo="formInfo"
-              v-else-if="data?.compType==='formItem'"
-          />
         </template>
       </el-col>
-      <!--      <box-col :adata="adata" :parentComp="boxCompList" :formData="formData"/>-->
     </el-row>
   </group-box-container>
 </template>
@@ -156,7 +145,7 @@ watch(() => props.field,
 }
 
 .edit_col {
-  border: 2px dashed var(--star-horse-border—color);
+  border: 1px dashed var(--star-horse-border—color);
   min-height: 50px;
 }
 </style>

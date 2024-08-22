@@ -9,7 +9,7 @@ const needLengthComp: Array<string> = ["input", "number", "text", "tselect", "te
   "autocomplete", "dialog-input", "select", "page-select"]
 </script>
 <template>
-  <template v-if="field?.compType=='container'&&(field.itemType=='box'||field.itemType=='table')">
+  <template v-if="field?.compType=='container'">
     <template v-if="field.preps['elements']?.length>0" v-for="sitem in field.preps['elements']">
       <template v-for="sitem1 in sitem['columns']">
         <template v-for="(sitem2 ,sindex) in sitem1.items">

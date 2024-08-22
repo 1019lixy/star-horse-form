@@ -3,7 +3,7 @@ import {confirm} from "@/utils/message";
 import piniaInstance from "@/store/index.ts";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import {computed} from "vue";
-import {colDataInfo} from "@/api/system.ts";
+import {colDataInfo, copyContainer} from "@/api/system.ts";
 
 const props = defineProps({
   parentField: {type: Object},
@@ -50,6 +50,7 @@ const tableOperation = (actonName: string, _preps: any) => {
   if (!preps.elements) {
     preps["elements"] = [];
   }
+  let isBox = props.formItem.itemType == 'box';
   if (actonName == "insertRow") {
     //获取最大的数字
     let rows: Array<any> = preps.elements;
@@ -57,20 +58,28 @@ const tableOperation = (actonName: string, _preps: any) => {
       let columns: Array<any> = [];
       let len: number = 1;
       for (let index in rows) {
-        let colLen = rows[index].columns.length;
+        let colLen = rows[index]?.columns?.length;
         if (colLen > len) {
           len = colLen;
         }
       }
       for (let i = 0; i < len; i++) {
-        columns.push(colDataInfo());
+        let col = colDataInfo();
+        if (isBox) {
+          col.colspan = 24 / len;
+        }
+        columns.push(col);
       }
       preps.elements.push({
         columns: columns
       });
     } else {
+      let col = colDataInfo();
+      if (isBox) {
+        col.colspan = 24;
+      }
       preps.elements.push({
-        columns: [colDataInfo()]
+        columns: []
       });
     }
   } else if (actonName == "insertCol") {
@@ -79,12 +88,19 @@ const tableOperation = (actonName: string, _preps: any) => {
       if (!row.columns) {
         row["columns"] = [];
       }
-      row.columns.push(colDataInfo());
+      let col = colDataInfo();
+      if (isBox) {
+        col.colspan = 24 / (row.columns.length + 1);
+        row.columns.forEach((item: any) => {
+          item.colspan = col.colspan;
+        });
+      }
+      row.columns.push(col);
     }
   } else if (actonName == "copy") {
 
+    copyContainer(props.parentField ? props.parentField!.preps?.elements : compList.value, props.formItem);
   }
-  compList.value[0] = props.formItem;
 }
 </script>
 <template>
@@ -105,22 +121,24 @@ const tableOperation = (actonName: string, _preps: any) => {
     </div>
     <div
         class="field-action"
-        v-if="isEdit&&formItem.itemType=='dytable'&&currentItemId==formItem.id"
+        v-if="isEdit&&currentItemId==formItem.id"
     >
-      <el-tooltip content="插入行">
-        <star-horse-icon
-            @click.stop="tableOperation('insertRow',formItem?.preps)"
-            icon-class="insert_row"
-            style="color: var(--star-horse-white)"
-        />
-      </el-tooltip>
-      <el-tooltip content="插入列">
-        <star-horse-icon
-            @click.stop="tableOperation('insertCol',formItem?.preps)"
-            icon-class="insert_col"
-            style="color: var(--star-horse-white)"
-        />
-      </el-tooltip>
+      <template v-if="formItem.itemType=='dytable'||formItem.itemType=='box'">
+        <el-tooltip content="插入行">
+          <star-horse-icon
+              @click.stop="tableOperation('insertRow',formItem?.preps)"
+              icon-class="insert_row"
+              style="color: var(--star-horse-white)"
+          />
+        </el-tooltip>
+        <el-tooltip content="插入列">
+          <star-horse-icon
+              @click.stop="tableOperation('insertCol',formItem?.preps)"
+              icon-class="insert_col"
+              style="color: var(--star-horse-white)"
+          />
+        </el-tooltip>
+      </template>
       <el-tooltip content="复制容器">
         <star-horse-icon
             @click.stop="tableOperation('copy',formItem?.preps)"

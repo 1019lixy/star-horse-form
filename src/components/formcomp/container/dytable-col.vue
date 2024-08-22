@@ -21,11 +21,9 @@ const props = defineProps({
 });
 let designForm = DesignForm(piniaInstance);
 let draggingItem = computed(() => designForm.draggingItem);
-// let currentItemId = computed(() => designForm.currentItemId);
+let excludeContainerType: Array<string> = ["box", "tab", "table", "dytable", "collapse", "card"];
 let currentSubItemId = computed(() => designForm.currentSubItemId);
 let isEdit = computed(() => designForm.isEdit);
-let rows = computed(() => props.parentComp.preps.elements);
-
 let buttonControl = reactive<any>({
   mergeLeftColDisabled: props.isFirstCol,
   mergeRightColDisabled: props.isLastCol,
@@ -49,11 +47,7 @@ const checkItem = (items: any) => {
 const onDragAdd = (evt: Event, dataList: any) => {
   selectCurrentTd();
   let newIndex = evt.newIndex;
-  if (draggingItem.value.itemType == 'box'
-      || draggingItem.value.itemType == "tab"
-      || draggingItem.value.itemType == "collapse"
-      || draggingItem.value.itemType == "card"
-      || draggingItem.value.itemType == "table") {
+  if (excludeContainerType.includes(draggingItem.value.itemType)) {
     warning('动态表格容器不允许嵌套其他容器');
     let columns = props.fields?.columns;
     for (let sind in columns) {
@@ -61,7 +55,6 @@ const onDragAdd = (evt: Event, dataList: any) => {
       for (let i in column?.items) {
         let item = column.items[i];
         if (draggingItem.value.id == item.id) {
-          console.log("find data", item);
           column.items.splice(i, 1);
         }
       }
@@ -79,7 +72,7 @@ const handleTableCellCommand = (command: string) => {
   tableCellOperation(command, props);
 }
 const selectCurrentTd = () => {
-  designForm.setSubItemId(props.field.id);
+  designForm.setSubItemId(props.field._uuid);
 }
 const init = () => {
   tableAction(props, buttonControl);
@@ -99,8 +92,8 @@ watch(() => props.parentComp,
 <template>
 
   <td class="edit_col" :colspan="field.colspan||1" :rowspan="field.rowspan||1"
-      :style="{width: field.cellWidth + ' !important' || '',
-      height: field.cellHeight + ' !important' || '',
+      :style="{width: field.colWidth + '% !important' || '',
+      height: field.colHeight + '% !important' || '',
       'word-break': !!field.wordBreak ? 'break-all' : 'normal'}"
       @click="selectCurrentTd"
   >
@@ -119,11 +112,11 @@ watch(() => props.parentComp,
                      :is="getComponentName(data)"
                      :parentField="field"
                      :formData="formData"
-                     v-if="data?.compType==='formItem'"/>
+                     />
         </div>
       </template>
     </draggable>
-    <div class="table-cell-action" v-if="isEdit&&currentSubItemId==field.id">
+    <div class="table-cell-action" v-if="isEdit&&currentSubItemId==field._uuid">
       <el-dropdown trigger="click" @command="handleTableCellCommand" size="small">
         <star-horse-icon icon-class="menu"/>
         <template #dropdown>

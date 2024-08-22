@@ -18,6 +18,8 @@ import {validDynamicFormCompParams} from "@/views/dyform/utils/preview.ts";
 import CodeComp from "@/views/dyform/code/CodeComp.vue";
 import {useButtonPermission} from "@/store/ButtonPermissionStore.ts";
 import {useUserSelfOperation} from "@/store/SelfOperationStore.ts";
+import {batchModifyAction} from "@/api/system.ts";
+import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 
 const dataUrl = reactive<ApiUrls>(<ApiUrls>{
   loadByPageUrl: "/userdb-manage/userdb/dynamicForm/pageList",
@@ -37,7 +39,9 @@ let route = useRoute();
 let router = useRouter();
 let pagePermission = useButtonPermission(piniaInstance);
 let userOperation = useUserSelfOperation(piniaInstance);
+let configStore = GlobalConfig(piniaInstance);
 let permissions = ref<any>({});
+let compSize = computed(() => configStore.configFormInfo?.buttonSize || "small");
 let draggingItem = computed(() => designForm.draggingItem);
 let list = computed(() => designForm.compList);
 let isPreview = ref<any>(false);
@@ -183,7 +187,7 @@ const onDragAdd = async (_evt: Event, dataList: Array<any>) => {
     let datas = dataList.filter(item => item.itemType == "table");
     console.log(dataList);
     if (datas.length > 1) {
-      warning("同级容器中只能添加一次Table 组件");
+      warning("同级容器中只能添加一次动态列表组件");
       for (let i = 0; i < dataList.length; i++) {
         let temp = dataList[i];
         if (temp.id == id) {
@@ -212,6 +216,14 @@ const batchEdit = () => {
 const configDialogVisible = ref(false);
 const codeDialogVisible = ref(false);
 const isSubmit = ref(false);
+let batchModifyData = reactive<any>({
+  maxLength: 100,
+  precision: 0,
+  required: "N",
+  formShow: "Y",
+  searchShow: "Y",
+  tableShow: "Y"
+});
 const tableEdit = (submit: boolean) => {
   isSubmit.value = submit;
   configDialogVisible.value = true;
@@ -282,6 +294,10 @@ const actions = (action: string) => {
       break;
   }
 };
+const batchOperation = (val: any, fieldName: string) => {
+  console.log(val, fieldName);
+  batchModifyAction(list.value, val, fieldName);
+}
 //监听参数变化
 watch(
     () => route.query["formId"],
@@ -317,7 +333,6 @@ watch(() => list.value,
 );
 onMounted(async () => {
   designForm.clearAll(true);
-
   await init();
 });
 </script>
@@ -360,19 +375,62 @@ onMounted(async () => {
       <el-col :span="2">列表显示</el-col>
       <el-col :span="3">默认值</el-col>
     </el-row>
+    <el-row style="font-weight: bold;font-size:12px;margin-bottom: 5px;">
+      <el-col :span="3">批量设置</el-col>
+      <el-col :span="2">--</el-col>
+      <el-col :span="2">--</el-col>
+      <el-col :span="5">
+        <el-row>
+          <el-col :span="12">
+            <el-input-number v-model="batchModifyData.maxLength" controls-position="right" :size="compSize"
+                             @change="(val:any)=>batchOperation(val,'maxLength')" placeholder="字段长度" clearable/>
+          </el-col>
+          <el-col :span="12">
+            <el-input-number v-model="batchModifyData.precision" controls-position="right" :size="compSize"
+                             @change="(val:any)=>batchOperation(val,'precision')" placeholder="精度" clearable/>
+          </el-col>
+        </el-row>
+      </el-col>
+      <el-col :span="3">
+        <el-switch v-model="batchModifyData.required" :size="compSize"
+                   @change="(val:any)=>batchOperation(val,'required')" active-value="Y" active-text="是"
+                   inactive-value="N"
+                   inactive-text="否"/>
+      </el-col>
+      <el-col :span="2">
+        <el-switch v-model="batchModifyData.formShow" :size="compSize"
+                   @change="(val:any)=>batchOperation(val,'formShow')" active-value="Y" active-text="是"
+                   inactive-value="N"
+                   inactive-text="否"/>
+      </el-col>
+      <el-col :span="2">
+        <el-switch v-model="batchModifyData.searchShow" :size="compSize"
+                   @change="(val:any)=>batchOperation(val,'searchShow')" active-value="Y" active-text="是"
+                   inactive-value="N"
+                   inactive-text="否"/>
+      </el-col>
+      <el-col :span="2">
+        <el-switch v-model="batchModifyData.tableShow" :size="compSize"
+                   @change="(val:any)=>batchOperation(val,'tableShow')" active-value="Y" active-text="是"
+                   inactive-value="N"
+                   inactive-text="否"/>
+      </el-col>
+      <el-col :span="3"></el-col>
+    </el-row>
     <template v-for="(item,index) in list">
-      <template v-if="item.preps['elements']?.length>0" v-for="sitem in item.preps['elements']">
+      <template v-if="item.compType=='container'" v-for="sitem in item.preps['elements']">
         <template v-for="sitem1 in sitem['columns']">
           <template v-for="(sitem2,sindex) in sitem1.items">
-            <FieldAnalysis :index="index+sindex+1" :field="sitem2" :container="item.preps.label"/>
+            <FieldAnalysis :index="index+sindex+1" :size="compSize" :field="sitem2" :container="item.preps.label"/>
           </template>
         </template>
         <template v-for="(sitem2,sindex) in sitem.items">
-          <FieldAnalysis :index="index+sindex+1" :field="sitem2" :container="sitem.label||item.preps.label"/>
+          <FieldAnalysis :index="index+sindex+1" :size="compSize" :field="sitem2"
+                         :container="sitem.label||item.preps.label"/>
         </template>
       </template>
-      <FieldAnalysis :index="index+1" :field="item"
-                     v-if="item.itemType!=='box'&&item.itemType!=='table' &&item.itemType!='tab'" :container="'--'"/>
+      <FieldAnalysis :index="index+1" :field="item" :size="compSize"
+                     v-if="item.compType=='formItem'" :container="'--'"/>
     </template>
   </star-horse-dialog>
   <star-horse-dialog
@@ -405,17 +463,9 @@ onMounted(async () => {
             :id="data.id"
             :field="data"
             :formData="formData"
-            :is="data.itemType + '-container'"
-            v-if="data.compType === 'container'"
+            :is="data.itemType +(data.compType === 'container'? '-container':'-item')"
         >
         </component>
-        <component
-            :id="data.id"
-            :field="data"
-            :formData="formData"
-            :is="getComponentName(data)"
-            v-else-if="data.compType === 'formItem'"
-        />
       </template>
     </el-form>
   </star-horse-dialog>
@@ -472,30 +522,15 @@ onMounted(async () => {
                   :list="list"
               >
                 <template #item="{element:data}">
-                  <template v-if="data.compType === 'container'">
-                    <div class="comp-item" :style="{height: data.itemType=='tab'?'100%':'none'}">
-                      <component
-                          :key="data.id"
-                          :field="data"
-                          :formInfo="formInfo"
-                          :is="data.itemType + '-container'"
-                          :formData="formData"
-                      />
-                    </div>
-                  </template>
-                  <template v-else-if="data.compType == 'formItem'">
-                    <div class="comp-item">
-                      <component
-                          :key="data.id"
-                          :field="data"
-                          :formInfo="formInfo"
-                          :is="getComponentName(data)"
-                          :parentCompType="'item'"
-                          :formData="formData"
-                      />
-                    </div>
-                  </template>
-
+                  <div class="comp-item" :style="{height: data.itemType=='tab'?'100%':'none'}">
+                    <component
+                        :key="data.id"
+                        :field="data"
+                        :formInfo="formInfo"
+                        :is="data.itemType +(data.compType === 'container'? '-container':'-item')"
+                        :formData="formData"
+                    />
+                  </div>
                 </template>
               </draggable>
             </el-form>

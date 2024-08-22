@@ -33,7 +33,7 @@ const svgClass = computed(() => {
 }
 </style>
 <template>
-  <svg :class="svgClass" aria-hidden="true">
+  <svg :class="svgClass" aria-hidden="false">
     <use :xlink:href="iconName"></use>
     <title v-if="!!title">{{ title }}</title>
   </svg>
