@@ -76,7 +76,7 @@ const onDragAdd = (evt: Event, dataList: any) => {
 };
 
 const handleTableCellCommand = (command: string) => {
-  tableCellOperation(command, props)
+  tableCellOperation(command, props);
 }
 const selectCurrentTd = () => {
   designForm.setSubItemId(props.field.id);
@@ -87,10 +87,11 @@ const init = () => {
 onMounted(() => {
   init();
 });
+//监控数据
 watch(() => props.parentComp,
     () => tableAction(props, buttonControl),
     {
-      immediate: true,
+      immediate: false,
       deep: true
     }
 )
