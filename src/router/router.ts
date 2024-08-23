@@ -96,21 +96,31 @@ routers.push({
         keepAlive: "N"
     }
 });
-routers.push({
-    path: "/login",
-    component: () => import("@/components/Login.vue"),
-    name: "登录",
-    meta: {
-        keepAlive: "N",
-        title: "系统登录"
-    }
-}, {
-    path: "/404",
-    component: () => import("@/components/404.vue"),
-    name: "404",
-    meta: {
-        keepAlive: "N",
-        title: "404页面"
-    }
-});
+routers.push(
+    /*    {
+        path: "/login",
+        component: () => import("@/components/Login.vue"),
+        name: "登录",
+        meta: {
+            keepAlive: "N",
+            title: "系统登录"
+        }
+    },*/
+    {
+        path: "/login",
+        component: () => import("@/components/Login1.vue"),
+        name: "登录",
+        meta: {
+            keepAlive: "N",
+            title: "系统登录"
+        }
+    }, {
+        path: "/404",
+        component: () => import("@/components/404.vue"),
+        name: "404",
+        meta: {
+            keepAlive: "N",
+            title: "404页面"
+        }
+    });
 export default routers;
