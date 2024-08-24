@@ -26,7 +26,6 @@ const checkObject = (item: any) => {
   return 1;
 }
 const init = () => {
-
 }
 onMounted(() => {
   init();

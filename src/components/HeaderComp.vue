@@ -17,7 +17,7 @@ import {i18n} from "../lang";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import piniaInstance from "@/store";
 import {userInfoStore} from "@/store/UserInfoStore.ts";
-// import {configInfo} from "@/utils/sh_design.ts";
+// import {configInfo} from "@/items/sh_design.ts";
 import {toggleDark} from "@/api/system.ts";
 import {Moon, Sunny} from "@element-plus/icons-vue";
 

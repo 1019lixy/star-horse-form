@@ -70,7 +70,8 @@ const commonFormat = (name: string, cellValue: any, _row: any) => {
     <view-box-item :item="item" v-model:dataForm="dataForm" :commonFormat="commonFormat"/>
     <view-tab-item :item="item" v-model:dataForm="dataForm" :commonFormat="commonFormat"/>
     <view-card-item :item="item" v-model:dataForm="dataForm" :commonFormat="commonFormat"/>
-    <view-collaspe-item :item="item" v-model:dataForm="dataForm" :commonFormat="commonFormat"/>
+    <view-collapse-item :item="item" v-model:dataForm="dataForm" :commonFormat="commonFormat"/>
+    <view-dytable-item :item="item" v-model:dataForm="dataForm" :commonFormat="commonFormat"/>
     <view-other-item :item="item" v-model:dataForm="dataForm" :commonFormat="commonFormat"/>
   </template>
   <view-table-item :item="fieldList" :batch-field-name="batchFieldName" v-model:dataForm="dataForm"

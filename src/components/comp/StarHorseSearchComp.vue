@@ -148,9 +148,9 @@ defineExpose({
 :deep(.el-form-item){
   width: unset;
 }
-:deep(.el-form-item__label) {
+/*:deep(.el-form-item__label) {
   min-width: 80px;
-}
+}*/
 
 :deep(.el-form-item__label):last-child {
   max-width: 5px;

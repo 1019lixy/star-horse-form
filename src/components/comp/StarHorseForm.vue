@@ -190,11 +190,6 @@ const doMerge = (type: string) => {
     flag = false;
     mergeUrl = props.compUrl?.batchMergeUrl;
     tempForm = [];
-    //1
-    //2,3
-    //4,5
-    //1，2，4
-    //1，3，5
     sameBatchNames.forEach((batchName: string) => {
       let batchDatas = tempDatas[batchName];
       delete tempDatas[batchName];

@@ -74,6 +74,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 {label: "是否需要公共字段", fieldName: "needCommonFields", type: "switch", defaultValue: "N", formShow: true,},
                 {
                   label: "是否创建菜单", fieldName: "createMenu", type: "switch", actionName: "change", actions: (val: any) => {
+                    console.log(val);
                     menuFlag.value = val["createMenu"] == "Y";
                   }, defaultValue: "N", formShow: true,
                 },

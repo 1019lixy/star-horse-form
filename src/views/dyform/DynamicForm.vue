@@ -5,7 +5,7 @@ import PropertyPanel from "@/views/dyform/PropertyPanel.vue";
 import {postRequest} from "@/api/star_horse";
 import {confirm, error, warning} from "@/utils/message";
 import {useRoute, useRouter} from "vue-router";
-import {loadData} from "@/api/sh_api";
+import {closeLoad, load, loadData} from "@/api/sh_api";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import FieldAnalysis from "@/views/dyform/FieldAnalysis.vue";
 import FormPropertyPanel from "@/views/dyform/FormPropertyPanel.vue";
@@ -149,6 +149,7 @@ const doSave = async () => {
   dynameForm!["details"] = {};
   dynameForm!["details"]["content"] = JSON.stringify(list.value);
   dynameForm!["details"]["fieldNames"] = JSON.stringify(formData.value);
+  load("数据提交中，请等待");
   postRequest("/userdb-manage/userdb/dynamicForm/merge", dynameForm)
       .then((res) => {
         if (res.data.code != 0) {
@@ -173,6 +174,8 @@ const doSave = async () => {
     activeTab.value = "second";
     closeAction();
     error("操作异常:" + err);
+  }).finally(() => {
+    closeLoad();
   });
 };
 const formInfoChange = (_data: any) => {
@@ -522,7 +525,7 @@ onMounted(async () => {
                   :list="list"
               >
                 <template #item="{element:data}">
-                  <div class="comp-item" :style="{height: data.itemType=='tab'?'100%':'none'}">
+                  <div class="comp-item" :style="{'height': data.itemType=='tab'?'500px':'unset'}">
                     <component
                         :key="data.id"
                         :field="data"

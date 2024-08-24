@@ -37,16 +37,5 @@ const props = defineProps({
   </group-box-container>
 </template>
 <style lang="scss" scoped>
-.dy-tr {
-  min-height: 40px;
-}
 
-.dynamic-table {
-  width: 100%;
-  text-align: center;
-  min-height: 40px;
-  border-collapse: collapse;
-  table-layout: fixed;
-
-}
 </style>

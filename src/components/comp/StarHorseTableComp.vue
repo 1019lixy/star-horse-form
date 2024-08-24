@@ -15,6 +15,7 @@ import {DynamicForm} from "@/store/DynamicFormStore";
 import piniaInstance from "@/store";
 import {useRoute} from "vue-router";
 import {useButtonPermission} from "@/store/ButtonPermissionStore.ts";
+import TableColumn from "@/components/comp/items/tableColumn.vue";
 
 const dynamicForm = DynamicForm(piniaInstance);
 const props = defineProps({
@@ -182,6 +183,13 @@ const assignData = (dataList: Array<any>) => {
         let stemp = temp.tabList[skey];
         if (stemp?.fieldList) {
           toolFields.push(...stemp.fieldList);
+        }
+      }
+    } else if (temp.dytableList?.length > 0) {
+      for (let skey in temp.dytableList) {
+        let stemp = temp.dytableList[skey];
+        if (stemp) {
+          toolFields.push(...stemp);
         }
       }
     } else {
@@ -572,50 +580,7 @@ defineExpose({
         :reserve-selection="true"
     >
     </el-table-column>
-    <template v-for="item in fieldList?.fieldList">
-      <template v-if="item instanceof Array">
-        <star-horse-table-column
-            :data-format="dataFormat"
-            :cellEditable="fieldList['cellEditable']"
-            :item="sitem"
-            :compUrl="compUrl"
-            v-for="sitem in item"
-        />
-      </template>
-      <template v-else-if="item.tabList?.length > 0">
-        <template v-for="tabItems in item.tabList">
-          <star-horse-table-column
-              :data-format="dataFormat"
-              :cellEditable="fieldList['cellEditable']"
-              :item="sitem"
-              :compUrl="compUrl"
-              v-for="sitem in tabItems.fieldList"
-          />
-        </template>
-      </template>
-      <template v-else-if="item.batchFieldList?.length > 0">
-        <template v-for="batchItems in item.batchFieldList">
-          <star-horse-table-column
-              :data-format="dataFormat"
-              :cellEditable="fieldList['cellEditable']"
-              :item="sitem"
-              :compUrl="compUrl"
-              v-for="sitem in batchItems.fieldList"
-          />
-        </template>
-
-      </template>
-      <star-horse-table-column
-          v-else
-          :compUrl="compUrl"
-          :cellEditable="fieldList['cellEditable']"
-          :data-format="dataFormat"
-          :item="item"
-      />
-    </template>
-    <template v-if="showBatchField" v-for="item in fieldList['batchFieldList']">
-      <star-horse-table-column :data-format="dataFormat" :item="item"/>
-    </template>
+    <table-column :fieldList="fieldList" :compUrl="compUrl" :dataFormat="dataFormat" :showBatchField="showBatchField"/>
     <el-table-column
         v-if="!disableAction&&Object.keys(permissions||{}).length>0"
         fixed="right"

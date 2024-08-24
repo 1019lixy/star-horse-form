@@ -3,6 +3,7 @@ import {inject, PropType} from "vue";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {DialogProps} from "@/components/types/DialogProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
+import {ModelRef} from "vue-demi";
 
 defineProps({
   compUrl: {type: Object as PropType<ApiUrls>},
@@ -16,18 +17,18 @@ defineProps({
   rules: {type: Object},
   isView: {type: Boolean, default: false},
 });
-const dataForm = defineModel("dataForm");
+const dataForm: ModelRef<any> = defineModel("dataForm");
 const dialogProps = inject<DialogProps>("dialogProps", {});
 </script>
 <template>
   <template v-for="item in fieldList.fieldList">
 
-    <box-item  :primary-key="primaryKey" :item="item" :rules="rules" :batchFieldName="batchFieldName"
+    <box-item :primary-key="primaryKey" :item="item" :rules="rules" :batchFieldName="batchFieldName"
               :batchName="batchName" :compSize="compSize" :compUrl="compUrl" :subCreateFlag="subCreateFlag"
               :isView="isView" :objectName="objectName" v-model:dataForm="dataForm"
               :isEdit="!dialogProps?.ids||dialogProps?.ids==-1"/>
 
-    <tab-item  :primary-key="primaryKey" :item="item" :rules="rules" :batchFieldName="batchFieldName"
+    <tab-item :primary-key="primaryKey" :item="item" :rules="rules" :batchFieldName="batchFieldName"
               :batchName="batchName" :compSize="compSize" :compUrl="compUrl" :subCreateFlag="subCreateFlag"
               :isView="isView" :objectName="objectName" v-model:dataForm="dataForm"
               :isEdit="!dialogProps?.ids||dialogProps?.ids==-1"/>
@@ -40,7 +41,10 @@ const dialogProps = inject<DialogProps>("dialogProps", {});
                :batchName="batchName" :compSize="compSize" :compUrl="compUrl" :subCreateFlag="subCreateFlag"
                :isView="isView" :objectName="objectName" v-model:dataForm="dataForm"
                :isEdit="!dialogProps?.ids||dialogProps?.ids==-1"/>
-
+    <dytable-item :primary-key="primaryKey" :item="item" :rules="rules" :batchFieldName="batchFieldName"
+                  :batchName="batchName" :compSize="compSize" :compUrl="compUrl" :subCreateFlag="subCreateFlag"
+                  :isView="isView" :objectName="objectName" v-model:dataForm="dataForm"
+                  :isEdit="!dialogProps?.ids||dialogProps?.ids==-1"/>
     <other-item :primary-key="primaryKey" :item="item" :rules="rules" :batchFieldName="batchFieldName"
                 :batchName="batchName" :compSize="compSize" :compUrl="compUrl" :subCreateFlag="subCreateFlag"
                 :isView="isView" :objectName="objectName" v-model:dataForm="dataForm"

@@ -245,7 +245,7 @@ onMounted(() => {
        itemType != 'button' ?'100%':'inherit' }">
 
     <help :message="item?.helpMsg" v-if="item?.helpMsg"/>
-    <component :id="randId" :is="itemType+'-item'" @selfFunc="dataSearch" :isDesign="isDesign"
+    <component :id="randId" :is="itemType+'-item'" @selfFunc="actionDispatcher" :isDesign="isDesign"
                ref="componentRef"
                :isSearch="isSearch"
                :bareFlag="bareFlag"

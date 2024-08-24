@@ -1,5 +1,5 @@
 <script setup lang="ts" name="ShDynamicForm">
-import {inject, PropType, Ref, ref, watch} from "vue";
+import {inject, PropType, ref, watch} from "vue";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {error, success, warning} from "@/utils/message";
 import {postRequest} from "@/api/star_horse";
@@ -16,7 +16,7 @@ const props = defineProps({
 });
 const emits = defineEmits(["refresh"]);
 const starHorseFormRef = ref();
-const dataForm = inject("dataForm") as Ref;
+const dataForm = ref<any>({});
 const closeDialog = inject("closeDialog") as Function;
 const dialogOperation = inject("dialogOperation") as ShallowReactive<any>;
 const dialogProps = inject<DialogProps>("dialogProps", {});
