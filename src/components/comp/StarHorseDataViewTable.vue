@@ -16,9 +16,7 @@ const props = defineProps({
 const dataForm: ModelRef<any> = defineModel("dataForm");
 </script>
 <template>
-  <div
-      style="display:flex;justify-content:space-between;width: 100%;border-bottom:  var(--star-horse-style) 1px solid"
-  >
+  <div style="display:flex;justify-content:space-between;width: 100%;border-bottom:  var(--star-horse-style) 1px solid">
     <div class="tb_title">
       <star-horse-icon icon-class="info" size="14px"/>
       {{ item.title }}
@@ -27,7 +25,7 @@ const dataForm: ModelRef<any> = defineModel("dataForm");
     </div>
   </div>
   <el-table
-      :data="dataForm[batchName]"
+      :data="dataForm?dataForm[batchName]:[]"
       fit
       border
       :stripe="true"
@@ -67,7 +65,8 @@ const dataForm: ModelRef<any> = defineModel("dataForm");
       </template>
       <template v-else-if="aitem.batchFieldList?.length > 0">
         <template v-for="batchItems in aitem.batchFieldList">
-          <star-horse-table-view-column :data-format="commonFormat" :item="sitem" v-for="sitem in batchItems.fieldList"/>
+          <star-horse-table-view-column :data-format="commonFormat" :item="sitem"
+                                        v-for="sitem in batchItems.fieldList"/>
         </template>
       </template>
       <star-horse-table-view-column :data-format="commonFormat" :item="aitem"/>

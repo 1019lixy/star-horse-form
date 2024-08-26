@@ -49,7 +49,7 @@ onMounted(() => {
       items: []
     }];
   }
-  activeTabName.value = "collapse1";
+  activeTabName.value =props.field['preps']['elements'][0].objectName;
 });
 </script>
 <template>
@@ -58,8 +58,8 @@ onMounted(() => {
                  class="collapse-container"
                  :accordion="field.preps['accordion']=='Y'"
     >
-      <el-collapse-item v-for="adata in field['preps']['elements']" :title="adata.title||adata.tabName"
-                        :name="adata.tabName">
+      <el-collapse-item v-for="adata in field['preps']['elements']" :title="adata.label||adata.objectName"
+                        :name="adata.objectName">
         <el-scrollbar height="100%">
           <draggable
               @add="(evt:Event)=>onDragAdd(evt,adata['items'])"

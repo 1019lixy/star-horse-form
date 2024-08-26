@@ -34,6 +34,7 @@ export default defineComponent({
       if (prep == actionName.value && field.preps["actionRelation"]) {
         field.preps["actionRelation"](context.attrs['formData'][field.preps['name']], context.attrs['formData']["xh"]);
       }
+      console.log("switch",prep);
       context.emit('selfFunc', prep);
     };
     onMounted(() => {

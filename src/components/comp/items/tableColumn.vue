@@ -1,0 +1,76 @@
+<script setup lang="ts">
+import {PropType} from "vue/dist/vue";
+import {ApiUrls} from "@/components/types/ApiUrls";
+
+defineProps({
+  //url地址
+  compUrl: {type: Object as PropType<ApiUrls>, required: true},
+  //列名
+  fieldList: {type: Object, required: true},
+  //格式化方法
+  dataFormat: {type: Function, default: null},
+  //是否显示批量属性
+  showBatchField: {type: Boolean, default: false},
+});
+</script>
+<template>
+  <template v-for="item in fieldList?.fieldList">
+    <template v-if="item instanceof Array">
+      <star-horse-table-column
+          :data-format="dataFormat"
+          :cellEditable="fieldList['cellEditable']"
+          :item="sitem"
+          :compUrl="compUrl"
+          v-for="sitem in item"
+      />
+    </template>
+    <template v-else-if="item.tabList?.length > 0">
+      <template v-for="tabItems in item.tabList">
+        <star-horse-table-column
+            :data-format="dataFormat"
+            :cellEditable="fieldList['cellEditable']"
+            :item="sitem"
+            :compUrl="compUrl"
+            v-for="sitem in tabItems.fieldList"
+        />
+      </template>
+    </template>
+    <template v-else-if="item.dytableList?.length > 0">
+      <template v-for="tabItems in item.dytableList">
+        <star-horse-table-column
+            :data-format="dataFormat"
+            :cellEditable="fieldList['cellEditable']"
+            :item="sitem"
+            :compUrl="compUrl"
+            v-for="sitem in tabItems"
+        />
+      </template>
+    </template>
+    <template v-else-if="item.batchFieldList?.length > 0">
+      <template v-for="batchItems in item.batchFieldList">
+        <star-horse-table-column
+            :data-format="dataFormat"
+            :cellEditable="fieldList['cellEditable']"
+            :item="sitem"
+            :compUrl="compUrl"
+            v-for="sitem in batchItems.fieldList"
+        />
+      </template>
+
+    </template>
+    <star-horse-table-column
+        v-else
+        :compUrl="compUrl"
+        :cellEditable="fieldList['cellEditable']"
+        :data-format="dataFormat"
+        :item="item"
+    />
+  </template>
+  <template v-if="showBatchField" v-for="item in fieldList['batchFieldList']">
+    <star-horse-table-column :data-format="dataFormat" :item="item"/>
+  </template>
+</template>
+
+<style scoped lang="scss">
+
+</style>

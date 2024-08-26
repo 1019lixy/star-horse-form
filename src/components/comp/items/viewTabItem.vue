@@ -1,25 +1,13 @@
 <script setup lang="ts">
-import {onMounted, PropType, ref} from "vue";
+import {onMounted, PropType} from "vue";
 import {FieldInfo} from "@/components/types/PageFieldInfo";
 import {ModelRef} from "vue-demi";
-import StarHorseDataView from "@/components/comp/StarHorseDataView.vue";
-import StarHorseDataViewTable from "@/components/comp/StarHorseDataViewTable.vue";
 
-const props = defineProps({
+defineProps({
   item: {type: Array as PropType<Array<FieldInfo>>, required: true},
   commonFormat: {type: Function, required: true},
 });
 const dataForm: ModelRef<any> = defineModel("dataForm");
-const normalTabList = ref<String>("tab0");
-const dataFormat = (item: any) => {
-  let name = item['hideName'] || item['fieldName'];
-  try {
-    return props.commonFormat(name, dataForm.value[name], null);
-  } catch (e) {
-    console.log(e);
-    return name;
-  }
-};
 const init = () => {
 
 }
@@ -30,22 +18,27 @@ onMounted(() => {
 
 <template>
   <template v-if="item.tabList&&item.tabList.length>0">
-    <el-tabs v-model="item.fieldName" type="border-card">
+    <el-tabs v-model="item.fieldName" type="border-card" class="view-tab">
       <template v-for="(tabItem,key )  in item.tabList">
         <el-tab-pane :label="tabItem.title||tabItem.tabName" :name="key">
           <template v-if="tabItem.subFormFlag">
-            <star-horse-data-view :objectName="tabItem.objectName"
-                                  :subCreateFlag="true"
-                                  v-model:dataForm="dataForm"
-                                  :commonFormat="commonFormat"
-                                  primaryKey="id"
-                                  :fieldList="{
+            <star-horse-data-view-items :objectName="tabItem.objectName"
+                                        :subCreateFlag="true"
+                                        v-model:dataForm="dataForm[tabItem.objectName]"
+                                        :commonFormat="commonFormat"
+                                        primaryKey="id"
+                                        :fieldList="{
                fieldList:tabItem.fieldList,
               batchFieldList:tabItem.batchFieldList
             }"/>
           </template>
           <template v-else>
-            <star-horse-data-view :fieldList="{
+            <star-horse-data-view-items
+                :objectName="tabItem.objectName"
+                :subCreateFlag="tabItem.subFormFlag"
+                v-model:dataForm="dataForm"
+                :commonFormat="commonFormat"
+                :fieldList="{
               fieldList:tabItem.fieldList,
               batchFieldList:tabItem.batchFieldList
             }"
@@ -57,7 +50,7 @@ onMounted(() => {
   </template>
   <template v-else-if="item.batchFieldList&&item.batchFieldList.length>0">
     <template v-if="item.batchFieldList.length>1">
-      <el-tabs v-model="normalTabList">
+      <el-tabs v-model="item.fieldName">
         <template v-for="(sitem,key) in item.batchFieldList">
           <el-tab-pane :label="sitem['title']" :name="'tab'+key" :disabled="sitem.disabled">
             <star-horse-data-view-table :batchName="sitem['batchName']" :commonFormat="commonFormat" :item="sitem"
@@ -73,5 +66,7 @@ onMounted(() => {
 </template>
 
 <style scoped lang="scss">
-
+.view-tab {
+  margin-top: 5px;
+}
 </style>

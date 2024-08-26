@@ -137,11 +137,10 @@ provide("dialogProps", dialogProps);
 
 const dataFormat = (name: string, cellValue: Object): any => {
   if (name == "parentId") {
-    let fdata: SelectOption = informationsList.value.find((item: SelectOption) => item.value == cellValue);
-    return fdata ? fdata.name : cellValue;
+    return informationsList.value.find((item: SelectOption) => item.value == cellValue)?.name || cellValue;
   } else if (name == "idCustomer") {
-    let fdata: SelectOption = customerList.value.find((item: SelectOption) => item.value == cellValue);
-    return fdata ? fdata.name : cellValue;
+    console.log("xxxxxxxxxxxx",name);
+    return customerList.value.find((item: SelectOption) => item.value == cellValue)?.name || cellValue;
   }
   return cellValue;
 };
@@ -168,7 +167,7 @@ onMounted(async () => {
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title=
       "'查看数据'" :is-view="true">
-    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+    <star-horse-data-view :data-format="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
   </star-horse-dialog>
   <el-card class="inner_content">
     <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
@@ -176,12 +175,12 @@ onMounted(async () => {
                               :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
-      <star-horse-button-list  @tableCompFunc="(fun:any)=>informationsRef.tableCompFunc(fun)"
+      <star-horse-button-list @tableCompFunc="(fun:any)=>informationsRef.tableCompFunc(fun)"
                               :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
     <hr>
-    <star-horse-table-comp  ref="informationsRef" :fieldList="tableFieldList"
+    <star-horse-table-comp ref="informationsRef" :fieldList="tableFieldList"
                            :primaryKey="primaryKey" :compUrl="dataUrl"
                            :dataFormat="dataFormat"/>
   </el-card>

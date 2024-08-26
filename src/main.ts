@@ -2,7 +2,7 @@ import "element-plus/theme-chalk/index.css"
 import "@/assets/css/index.scss"
 import userComponent from "@/components/comp/selfcomp";
 import nodeComponent from "@/views/continus/nodeInfo/nodecomp";
-import userContainerComponent from "@/components/comp/utils/callitem";
+import userContainerComponent from "@/components/comp/items/callitem";
 import itemComponent from "@/components/formcomp/items/allitem";
 import containerComponent from "@/components/formcomp/container/callitem";
 import App from "@/App.vue";
