@@ -3,22 +3,13 @@ import {onMounted, PropType} from "vue";
 import {FieldInfo} from "@/components/types/PageFieldInfo";
 import {ModelRef} from "vue-demi";
 import StarHorseDataView from "@/components/comp/StarHorseDataView.vue";
-import StarHorseDataViewObject from "@/components/comp/StarHorseDataViewObject.vue";
+import StarHorseDataViewObject from "@/components/comp/StarHorseDataViewItems.vue";
 
 const props = defineProps({
   item: {type: Array as PropType<Array<FieldInfo>>, required: true},
   commonFormat: {type: Function, required: true},
 });
 const dataForm: ModelRef<any> = defineModel("dataForm");
-const dataFormat = (item: any) => {
-  let name = item['hideName'] || item['fieldName'];
-  try {
-    return props.commonFormat(name, dataForm.value[name], null);
-  } catch (e) {
-    console.log(e);
-    return name;
-  }
-};
 const init = () => {
 
 }
@@ -36,7 +27,7 @@ onMounted(() => {
             <span>{{ cardItem.title || cardItem.tabName }}</span>
           </div>
         </template>
-        <star-horse-data-view :objectName="cardItem.objectName"
+        <star-horse-data-view-items :objectName="cardItem.objectName"
                               :subCreateFlag="true"
                               v-model:data-form="dataForm"
                               :commonFormat="commonFormat"
@@ -46,7 +37,7 @@ onMounted(() => {
                fieldList:cardItem.fieldList,
               batchFieldList:cardItem.batchFieldList
             }"/>
-        <star-horse-data-view v-else :fieldList="{
+        <star-horse-data-view-items v-else :fieldList="{
               fieldList:cardItem.fieldList,
               batchFieldList:cardItem.batchFieldList
             }"

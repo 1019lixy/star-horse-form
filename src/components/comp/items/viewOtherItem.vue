@@ -10,11 +10,11 @@ const props = defineProps({
 const dataForm: ModelRef<any> = defineModel("dataForm");
 const dataFormat = (item: any) => {
   let name = item['hideName'] || item['fieldName'];
+  let val = dataForm.value[name];
   try {
-    return props.commonFormat(name, dataForm.value[name], null);
+    return props.commonFormat(name, val, null);
   } catch (e) {
-    console.log(e);
-    return name;
+    return val || '--';
   }
 };
 const init = () => {
