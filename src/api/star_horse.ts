@@ -36,17 +36,26 @@ service.interceptors.request.use((config: InternalAxiosRequestConfig) => {
     // 对请求错误做些什么
     return Promise.reject(error);
 });
+const forceLoginOut = () => {
+    console.log("系统超时，请登录后再操出");
+    removeToken();
+    navBarListStore.clearAll();
+    userStore.logout();
+    router.push({path: "/login", query: {redirect: router.currentRoute.value.fullPath}});
+}
 // 添加响应拦截器
 service.interceptors.response.use((response: AxiosResponse) => {
-    return response;
+    let code = response.data.data?.code;
+    if (code == 401) {
+        forceLoginOut();
+    } else {
+        return response;
+    }
+
 }, (err) => {
     let data = err.toString().toLowerCase();
     if (data?.includes("status code 401")) {
-        console.log("系统超时，请登录后再操出");
-        removeToken();
-        navBarListStore.clearAll();
-        userStore.logout();
-        router.push({path: "/login", query: {redirect: router.currentRoute.value.fullPath}});
+        forceLoginOut();
     } else if (data?.includes("status code 500")) {
         error("服务接口异常，请联系管理员");
         return Promise.reject(err);
@@ -250,6 +259,7 @@ export function createRouterAndMenuList(redata: Array<Object>): MenusInfo[] {
     }
     const baseDir = "/src/views";
     const compPath = import.meta.glob("@/views/**/*.vue");
+
     /**
      * 递归组装菜单
      * @param redata

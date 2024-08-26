@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {onMounted, PropType} from "vue";
+import {onMounted, PropType, unref} from "vue";
 import {FieldInfo} from "@/components/types/PageFieldInfo";
 import {ModelRef} from "vue-demi";
 
@@ -10,7 +10,11 @@ const props = defineProps({
 const dataForm: ModelRef<any> = defineModel("dataForm");
 const dataFormat = (item: any) => {
   let name = item['hideName'] || item['fieldName'];
-  let val = dataForm.value[name];
+  let tempForm = unref(dataForm);
+  if (!tempForm) {
+    return "--";
+  }
+  let val = tempForm[name];
   try {
     return props.commonFormat(name, val, null);
   } catch (e) {

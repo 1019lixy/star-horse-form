@@ -18,13 +18,13 @@ onMounted(() => {
 
 <template>
   <template v-if="item.tabList&&item.tabList.length>0">
-    <el-tabs v-model="item.fieldName" type="border-card">
+    <el-tabs v-model="item.fieldName" type="border-card" class="view-tab">
       <template v-for="(tabItem,key )  in item.tabList">
         <el-tab-pane :label="tabItem.title||tabItem.tabName" :name="key">
           <template v-if="tabItem.subFormFlag">
             <star-horse-data-view-items :objectName="tabItem.objectName"
                                         :subCreateFlag="true"
-                                        v-model:dataForm="dataForm"
+                                        v-model:dataForm="dataForm[tabItem.objectName]"
                                         :commonFormat="commonFormat"
                                         primaryKey="id"
                                         :fieldList="{
@@ -33,7 +33,12 @@ onMounted(() => {
             }"/>
           </template>
           <template v-else>
-            <star-horse-data-view-items :fieldList="{
+            <star-horse-data-view-items
+                :objectName="tabItem.objectName"
+                :subCreateFlag="tabItem.subFormFlag"
+                v-model:dataForm="dataForm"
+                :commonFormat="commonFormat"
+                :fieldList="{
               fieldList:tabItem.fieldList,
               batchFieldList:tabItem.batchFieldList
             }"
@@ -61,5 +66,7 @@ onMounted(() => {
 </template>
 
 <style scoped lang="scss">
-
+.view-tab {
+  margin-top: 5px;
+}
 </style>

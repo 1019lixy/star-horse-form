@@ -28,7 +28,7 @@ const loadMenus = async (sysemId: string) => {
     sysemId = "-1";
   }
   await permissionMenus({}, sysemId).then(res => {
-    let redata = res.data.data;
+    let redata = res.data?.data;
     localStorage.setItem("menusInfo", JSON.stringify(redata));
     leftMenuDatas.value = reactive(createRouterAndMenuList(redata));
   });

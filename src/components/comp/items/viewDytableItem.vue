@@ -51,6 +51,7 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .instance-table {
+  margin-top: 5px;
   border: 1px solid var(--star-horse-style);
 
   td {
