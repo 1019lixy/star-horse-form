@@ -100,7 +100,6 @@ declare module 'vue' {
     LeftMenu: typeof import('./src/components/LeftMenu.vue')['default']
     Locale: typeof import('./src/components/Locale.vue')['default']
     Login: typeof import('./src/components/Login.vue')['default']
-    Login_bake: typeof import('./src/components/Login_bake.vue')['default']
     Login1: typeof import('./src/components/Login1.vue')['default']
     NumberItem: typeof import('./src/components/formcomp/items/number-item.vue')['default']
     OtherItem: typeof import('./src/components/comp/utils/otherItem.vue')['default']
