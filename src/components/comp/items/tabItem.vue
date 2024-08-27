@@ -41,19 +41,9 @@ onMounted(() => {
         <el-tab-pane :label="tabItem.title" :name="tabItem.tabName||key" :disabled="tabItem.disabled"
                      :index="checkObject(tabItem)">
           <el-scrollbar height="95%">
-            <star-horse-form-item v-if="tabItem.subFormFlag" :isView="isView" :compUrl="compUrl"
+            <star-horse-form-item  :isView="isView" :compUrl="compUrl"
                                   :compSize="compSize"
                                   v-model:dataForm="dataForm[tabItem.objectName]"
-                                  :objectName="tabItem.objectName"
-                                  :fieldList="{
-                                  fieldList:tabItem.fieldList,
-                                  batchFieldList:tabItem.batchFieldList
-                                 }"
-                                  :rules="rules" :subCreateFlag="tabItem.subFormFlag"
-                                  :primaryKey="primaryKey"/>
-            <star-horse-form-item v-else :isView="isView" :compUrl="compUrl"
-                                  :compSize="compSize"
-                                  v-model:dataForm="dataForm"
                                   :objectName="tabItem.objectName"
                                   :fieldList="{
                                   fieldList:tabItem.fieldList,

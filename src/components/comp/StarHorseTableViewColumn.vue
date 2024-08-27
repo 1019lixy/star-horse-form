@@ -12,12 +12,13 @@ const props = defineProps({
 const dataFormat = (scope: any) => {
   let item = props.item;
   let val: string = scope.row[item.hideName || item.fieldName];
-  console.log(item, val);
   if (item.type == "select" || item.type == "checkbox" || item.type == "radio") {
     return item.preps?.values?.find((temp: any) => String(temp.value) == val)?.name || val;
   }
-  if (props.commonFormat) {
-    props.commonFormat(scope.row, scope.column, val, scope.$index)
+  console.log(scope.column.property);
+  if (props.commonFormat && scope.column.property) {
+    console.log(scope.column.property);
+    return props.commonFormat(scope.column.property, val, scope.row)
   }
   return val;
 };
@@ -27,6 +28,7 @@ const dataFormat = (scope: any) => {
       :prop="item.hideName||item.fieldName"
       :label="item.label"
       sortable
+      :show-overflow-tooltip="true"
       v-if="item.formShow||item.tableShow||item.viewShow"
       :min-width="(item.minWidth||Config.defaultColumnWidth) + 'px'"
   >

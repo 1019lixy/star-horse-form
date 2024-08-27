@@ -48,7 +48,7 @@ onMounted(() => {
             </template>
           </div>
         </template>
-        <star-horse-form-item v-if="cardItem.subFormFlag" :isView="isView" :compUrl="compUrl"
+        <star-horse-form-item :isView="isView" :compUrl="compUrl"
                               v-model:dataForm="dataForm[cardItem.objectName]"
                               :compSize="compSize"
                               :objectName="cardItem.objectName"
@@ -59,16 +59,6 @@ onMounted(() => {
                               :rules="rules" :subCreateFlag="cardItem.subFormFlag"
                               :primaryKey="primaryKey"/>
 
-        <star-horse-form-item v-else :isView="isView"  :compUrl="compUrl"
-                              v-model:dataForm="dataForm"
-                              :compSize="compSize"
-                              :objectName="cardItem.objectName"
-                              :fieldList="{
-                                  fieldList:cardItem.fieldList,
-                                  batchFieldList:cardItem.batchFieldList
-                                 }"
-                              :rules="rules" :subCreateFlag="cardItem.subFormFlag"
-                              :primaryKey="primaryKey"/>
 
       </el-card>
     </template>

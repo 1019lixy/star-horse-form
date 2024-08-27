@@ -16,7 +16,7 @@ const dataFormat = (item: any) => {
   }
   let val = tempForm[name];
   try {
-    return props.commonFormat(name, val, null);
+    return props.commonFormat(name, val, tempForm);
   } catch (e) {
     return val || '--';
   }
