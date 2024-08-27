@@ -7,7 +7,7 @@ import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {ModelRef} from "vue-demi";
 import StarHorseTableViewColumn from "@/components/comp/StarHorseTableViewColumn.vue";
 
-const props = defineProps({
+defineProps({
   item: {type: Array as PropType<Array<FieldInfo>>, required: true},
   batchName: {type: String, required: true},
   compSize: {type: String, default: "small"},
@@ -56,20 +56,20 @@ const dataForm: ModelRef<any> = defineModel("dataForm");
     />
     <template v-for="aitem in item?.fieldList">
       <template v-if="aitem instanceof Array">
-        <star-horse-table-view-column :data-format="commonFormat" :item="sitem" v-for="sitem in aitem"/>
+        <star-horse-table-view-column :commonFormat="commonFormat" :item="sitem" v-for="sitem in aitem"/>
       </template>
       <template v-else-if="aitem.tabList?.length > 0">
         <template v-for="tabItems in aitem.tabList">
-          <star-horse-table-view-column :data-format="commonFormat" :item="sitem" v-for="sitem in tabItems.fieldList"/>
+          <star-horse-table-view-column :commonFormat="commonFormat" :item="sitem" v-for="sitem in tabItems.fieldList"/>
         </template>
       </template>
       <template v-else-if="aitem.batchFieldList?.length > 0">
         <template v-for="batchItems in aitem.batchFieldList">
-          <star-horse-table-view-column :data-format="commonFormat" :item="sitem"
+          <star-horse-table-view-column :commonFormat="commonFormat" :item="sitem"
                                         v-for="sitem in batchItems.fieldList"/>
         </template>
       </template>
-      <star-horse-table-view-column :data-format="commonFormat" :item="aitem"/>
+      <star-horse-table-view-column :commonFormat="commonFormat" :item="aitem"/>
     </template>
 
 

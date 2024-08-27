@@ -3,7 +3,6 @@ import {ApiUrls} from "@/components/types/ApiUrls";
 import {inject, nextTick, onMounted, PropType, ref, watch} from "vue";
 import {DialogProps} from "@/components/types/DialogProps";
 import {formFieldMapping, loadById} from "@/api/sh_api";
-import StarHorseDataViewItems from "@/components/comp/StarHorseDataViewItems.vue";
 
 const dataForm = ref<any>({});
 const props = defineProps({

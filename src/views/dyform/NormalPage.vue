@@ -97,11 +97,10 @@ const dialogProps = reactive<DialogProps>({
 provide("dialogProps", dialogProps);
 
 const dataFormat = (name: string, cellValue: Object, row: any): any => {
-  // console.log(name, cellValue);
-  return cellValue;
+  console.log("parent.........",name)
+  return "null" == cellValue ? "--" : cellValue || "--";
 };
 const loadPermission = async () => {
-  ;
 };
 const init = async () => {
   designForm.setIsEdit(false);
@@ -124,7 +123,7 @@ watch(() => props.param,
         :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible"
         :dialogProps="dialogProps"
     >
-      <star-horse-form  @refresh="normalPageRef.loadByPage()" :compUrl="dataUrl"
+      <star-horse-form @refresh="normalPageRef.loadByPage()" :compUrl="dataUrl"
                        :fieldList="tableFieldList"
                        :rules="rules" :globalCondition="relationTables" :dynamicForm="true"/>
     </star-horse-dialog>
@@ -147,14 +146,14 @@ watch(() => props.param,
                                 :formData="searchFormData"
                                 :compUrl="dataUrl"/>
         <hr/>
-        <star-horse-button-list  @tableCompFunc="(fun:any)=>normalPageRef.tableCompFunc(fun)"
+        <star-horse-button-list @tableCompFunc="(fun:any)=>normalPageRef.tableCompFunc(fun)"
                                 :compUrl="dataUrl"
                                 :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
       </div>
       <hr>
       <star-horse-table-comp
-                             ref="normalPageRef" :fieldList="tableFieldList" :primaryKey="primaryKey"
-                             :compUrl="dataUrl" :showBatchField="true" :dataFormat="dataFormat"/>
+          ref="normalPageRef" :fieldList="tableFieldList" :primaryKey="primaryKey"
+          :compUrl="dataUrl" :showBatchField="true" :dataFormat="dataFormat"/>
     </el-card>
   </template>
   <el-empty :content="errorMsg" v-else></el-empty>

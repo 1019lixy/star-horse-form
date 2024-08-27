@@ -24,17 +24,17 @@ const currentDataFormat = (scope: any) => {
   if (item.type == "select" || item.type == "checkbox" || item.type == "radio") {
     return item.preps?.values?.find((temp: any) => String(temp.value) == val)?.name || val;
   }
-  if (props.commonFormat) {
-    props.commonFormat(scope.row, scope.column, val, scope.$index)
+  if (props.commonFormat && scope.column.property) {
+    props.commonFormat(scope.column.property, val, scope.row)
   }
   return val;
 }
-const itemCommonFormat = (name: string, cellValue: any, _row: any) => {
+const itemCommonFormat = (name: string, cellValue: any, row: any) => {
   cellValue = commonParseCodeToName(name, cellValue);
   if (name == "isDel") {
     return cellValue == 1 ? "是" : "否";
   }
-  return null == props.commonFormat ? cellValue : props.commonFormat(name, cellValue, dataForm.value);
+  return null == props.commonFormat ? cellValue : props.commonFormat(name, cellValue, row);
 };
 
 const dataFormat = (item: any) => {
@@ -66,7 +66,7 @@ const dataFormat = (item: any) => {
 </template>
 <style lang="scss" scoped>
 
-.view-footer{
+.view-footer {
   height: 30px;
 
 }

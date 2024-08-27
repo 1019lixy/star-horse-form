@@ -9,15 +9,6 @@ const props = defineProps({
   commonFormat: {type: Function, required: true},
 });
 const dataForm: ModelRef<any> = defineModel("dataForm");
-const dataFormat = (item: any) => {
-  let name = item['hideName'] || item['fieldName'];
-  try {
-    return props.commonFormat(name, dataForm.value[name], null);
-  } catch (e) {
-    console.log(e);
-    return name;
-  }
-};
 const init = () => {
 
 }
@@ -41,7 +32,7 @@ onMounted(() => {
   <template v-else-if="item[batchFieldName]?.length == 1">
     <template v-for="temp in item[batchFieldName]">
       <star-horse-data-view-table :item="temp" :commonFormat="commonFormat" v-model:dataForm="dataForm"
-                                  :batchName="temp"/>
+                                  :batchName="temp['batchName']"/>
     </template>
   </template>
 

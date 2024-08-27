@@ -18,7 +18,7 @@ defineProps({
   compSize: {type: String, default: "small"},
   isView: {type: Boolean, default: false},
 });
-const dataForm:ModelRef<any> = defineModel("dataForm");
+const dataForm: ModelRef<any> = defineModel("dataForm");
 const normalTabList = ref<String>("tab0");
 const checkObject = (item: any) => {
   if (item && item.objectName && !Object.keys(dataForm.value).includes(item.objectName)) {
@@ -36,12 +36,12 @@ onMounted(() => {
 
 <template>
   <template v-if="item.tabList&&item.tabList.length>0">
-    <el-tabs v-model="item.fieldName"  :closable="item.closable=='Y'" v-on:tab-change="item.actions">
+    <el-tabs v-model="item.fieldName" :closable="item.closable=='Y'" v-on:tab-change="item.actions">
       <template v-for="(tabItem,key) in item.tabList">
         <el-tab-pane :label="tabItem.title" :name="tabItem.tabName||key" :disabled="tabItem.disabled"
                      :index="checkObject(tabItem)">
           <el-scrollbar height="95%">
-            <star-horse-form-item v-if="tabItem.subFormFlag" :isView="isView" :compUrl="compUrl"
+            <star-horse-form-item v-if="tabItem.objectName" :isView="isView" :compUrl="compUrl"
                                   :compSize="compSize"
                                   v-model:dataForm="dataForm[tabItem.objectName]"
                                   :objectName="tabItem.objectName"
@@ -61,6 +61,7 @@ onMounted(() => {
                                  }"
                                   :rules="rules" :subCreateFlag="tabItem.subFormFlag"
                                   :primaryKey="primaryKey"/>
+
           </el-scrollbar>
         </el-tab-pane>
       </template>

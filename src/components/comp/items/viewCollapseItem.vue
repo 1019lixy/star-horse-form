@@ -10,7 +10,7 @@ defineProps({
   subCreateFlag: {type: Boolean, default: false},
   batchName: {type: String, default: "batchDataList"},
   batchFieldName: {type: String, default: "batchFieldList"},
-
+  commonFormat: {type: Function, required: true},
 });
 const dataForm: ModelRef<any> = defineModel("dataForm");
 const checkObject = (item: any) => {
@@ -35,23 +35,15 @@ onMounted(() => {
         <el-collapse-item :title="collapseItem.title" :name="collapseItem.tabName||key"
                           :index="checkObject(collapseItem)">
           <el-scrollbar height="95%">
-            <star-horse-data-view-items v-if="collapseItem.subFormFlag"
-                                        v-model:dataForm="dataForm[collapseItem.objectName]"
-                                        :objectName="collapseItem.objectName"
-                                        :fieldList="{
+            <star-horse-data-view-items
+                v-model:dataForm="dataForm[collapseItem.objectName]"
+                :objectName="collapseItem.objectName"
+                :commonFormat="commonFormat"
+                :fieldList="{
                                   fieldList:collapseItem.fieldList,
                                   batchFieldList:collapseItem.batchFieldList
                                  }"
-                                        :subCreateFlag="collapseItem.subFormFlag"
-            />
-            <star-horse-data-view-items v-else
-                                        v-model:dataForm="dataForm"
-                                        :objectName="collapseItem.objectName"
-                                        :fieldList="{
-                                  fieldList:collapseItem.fieldList,
-                                  batchFieldList:collapseItem.batchFieldList
-                                 }"
-                                        :subCreateFlag="collapseItem.subFormFlag"
+                :subCreateFlag="collapseItem.subFormFlag"
             />
           </el-scrollbar>
         </el-collapse-item>
@@ -70,9 +62,10 @@ onMounted(() => {
     padding-left: 15px;
   }
 
-  :deep(.el-collapse-item__content){
+  :deep(.el-collapse-item__content) {
     padding: 5px 10px;
   }
+
   :deep(.el-collapse-item__wrap) {
     margin-top: 10px;
     border: unset;

@@ -28,22 +28,15 @@ onMounted(() => {
           </div>
         </template>
         <star-horse-data-view-items :objectName="cardItem.objectName"
-                              :subCreateFlag="true"
+                              :subCreateFlag="cardItem.subFormFlag"
                               v-model:data-form="dataForm"
                               :commonFormat="commonFormat"
-                              v-if="cardItem.subFormFlag"
                               primaryKey="id"
                               :fieldList="{
                fieldList:cardItem.fieldList,
               batchFieldList:cardItem.batchFieldList
             }"/>
-        <star-horse-data-view-items v-else :fieldList="{
-              fieldList:cardItem.fieldList,
-              batchFieldList:cardItem.batchFieldList
-            }"
-                              v-model:data-form="dataForm"
-                              :commonFormat="commonFormat"
-        />
+
       </el-card>
     </template>
   </template>

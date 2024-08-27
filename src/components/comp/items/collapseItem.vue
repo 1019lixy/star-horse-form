@@ -18,7 +18,7 @@ defineProps({
   isView: {type: Boolean, default: false},
   isEdit: {type: Boolean, default: false},
 });
-const dataForm:ModelRef<any> = defineModel("dataForm");
+const dataForm: ModelRef<any> = defineModel("dataForm");
 const checkObject = (item: any) => {
   if (item && item.objectName && !Object.keys(dataForm.value).includes(item.objectName)) {
     dataForm.value[item.objectName] = {};
@@ -41,7 +41,7 @@ onMounted(() => {
                           :disabled="collapseItem.disabled"
                           :index="checkObject(collapseItem)">
           <el-scrollbar height="95%">
-            <star-horse-form-item v-if="collapseItem.subFormFlag" :isView="isView" :compUrl="compUrl"
+            <star-horse-form-item v-if="collapseItem.objectName" :isView="isView" :compUrl="compUrl"
                                   v-model:dataForm="dataForm[collapseItem.objectName]"
                                   :objectName="collapseItem.objectName"
                                   :fieldList="{

@@ -1,8 +1,7 @@
 <script setup lang="ts" name="card-container">
-import {onMounted, PropType, ref} from "vue";
+import {onMounted, PropType, ref, computed} from "vue";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
-import {computed} from "vue/dist/vue";
 
 const props = defineProps({
   parentField: {type: String},
@@ -81,7 +80,7 @@ onMounted(() => {
                   :is="getComponentName(data)"
                   :parentField="field"
                   :formData="formData"
-                  />
+              />
             </div>
           </template>
         </draggable>
