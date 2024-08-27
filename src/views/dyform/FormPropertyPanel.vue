@@ -54,7 +54,10 @@ const tableFieldList = reactive<PageFieldInfo | any>({
           {
             label: "数据源", fieldName: "datasourceConfigId", helpMsg: dbPositionMsg, type: "select", optionList: dbList, actionName: "change",
             actions: (val: any) => {
-              loadSameDataSourceTables(val);
+              if (val["datasourceConfigId"]) {
+                console.log(val["datasourceConfigId"])
+                loadSameDataSourceTables(val);
+              }
             }, required: true, formShow: true
           },
         ], {
@@ -167,7 +170,7 @@ const initData = async () => {
 };
 
 
-//获取同数据源下的表
+//获取同数据源下的表,用来配置对应的关系
 const loadSameDataSourceTables = (formInfo: any) => {
   let params: any = [];
   formInfo['relations'] = [];

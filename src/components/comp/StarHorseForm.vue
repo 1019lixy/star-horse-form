@@ -32,12 +32,14 @@ const starHorseFormRef = ref(null);
 const dataForm = ref<any>({});
 //此方法，如果赋值给变量，变量没有用的情况下，里面得逻辑不会触发，
 //如果不赋值给其它变量，则用.value 使其触发
-computed(() => {
+const outerDatas = computed(() => {
   let outerForm = props.outerFormData;
   dataForm.value = {...dataForm.value, ...outerForm};
   // console.log(dataForm.value, outerForm)
   return outerForm;
-}).value;
+});
+//触发计算
+outerDatas.value;
 const closeDialog = inject("closeDialog") as Function;
 let dialogOperation = inject("dialogOperation") as ShallowReactive<any>;
 const dialogProps = inject<DialogProps>("dialogProps", {});
@@ -248,7 +250,7 @@ const getFormData = () => {
 const setFormData = (data: object) => {
   let defaultDatas = formFieldMapping(props.fieldList).defaultDatas;
   // console.log(defaultDatas);
-  dataForm.value = {...defaultDatas, ...data};
+   dataForm.value = {...defaultDatas, ...data};
 }
 const tableListRef = ref<any>([]);
 
@@ -258,10 +260,9 @@ onMounted(() => {
 watch(() => dialogProps.ids,
     (val) => {
       if (!val || val == -1) {
-        // dataForm.value = formFieldMapping(props.fieldList).defaultDatas;
         setFormData(dataForm.value);
       } else {
-        console.log(dialogProps.ids);
+        console.log("a_xxxxxxx",dialogProps.ids);
         loadData();
       }
     }, {

@@ -180,15 +180,11 @@ const doSave = async () => {
 };
 const formInfoChange = (_data: any) => {
 };
-const getComponentName = (data: any) => {
-  return data.itemType + "-item";
-};
 const onDragAdd = async (_evt: Event, dataList: Array<any>) => {
   // let index = evt.oldIndex;
   if (draggingItem.value.itemType == 'table') {
     let id = draggingItem.value.id;
     let datas = dataList.filter(item => item.itemType == "table");
-    console.log(dataList);
     if (datas.length > 1) {
       warning("同级容器中只能添加一次动态列表组件");
       for (let i = 0; i < dataList.length; i++) {
@@ -298,7 +294,6 @@ const actions = (action: string) => {
   }
 };
 const batchOperation = (val: any, fieldName: string) => {
-  console.log(val, fieldName);
   batchModifyAction(list.value, val, fieldName);
 }
 //监听参数变化
@@ -335,7 +330,6 @@ watch(() => list.value,
     }
 );
 onMounted(async () => {
-  designForm.clearAll(true);
   await init();
 });
 </script>

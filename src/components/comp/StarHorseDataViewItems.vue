@@ -34,7 +34,6 @@ const itemCommonFormat = (name: string, cellValue: any, row: any) => {
   if (name == "isDel") {
     return cellValue == 1 ? "是" : "否";
   }
-  console.log("xxxxxxxxxx",name,cellValue,props.commonFormat);
   return null == props.commonFormat ? cellValue : props.commonFormat(name, cellValue, row);
 };
 
