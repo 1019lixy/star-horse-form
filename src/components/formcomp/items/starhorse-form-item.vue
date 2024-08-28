@@ -197,16 +197,16 @@ onMounted(() => {
 })
 </script>
 <template>
-  <div v-if="bareFlag">
+  <div v-if="bareFlag" >
     <slot></slot>
   </div>
-  <div v-else class="form-item-operation" :style="{width:refresh%2==0?'100%':'99%'}">
+  <div v-else class="form-item-operation" >
     <div :class="{'field-item design-star-horse' : isEdit,
   'active-item':currentItemId == formItem?.preps.id && isEdit
   }" v-if="isDesign" @click="selectData(formItem)">
       <el-form-item
           :size="formItem?.preps['size']||'small'"
-          v-if="parentField?.itemType!='table'&&formItem?.itemType!='divider'"
+          v-if="parentField?.itemType!='table'&&formItem?.itemType!='divider'&&formItem?.preps['headerFlag']!='Y'"
           :label="formItem?.preps['hideLabel']?'':formItem?.preps['label']"
           :prop="formItem?.preps['name']"
           :required="formItem?.preps['required']=='Y'"
@@ -214,7 +214,7 @@ onMounted(() => {
       >
         <slot></slot>
       </el-form-item>
-      <div v-else>
+      <div v-else class="bare-item">
         <slot></slot>
       </div>
       <div
@@ -291,9 +291,13 @@ onMounted(() => {
 .field-item {
   position: relative;
   width: 100%;
+  height: 100%;
   vertical-align: middle;
   align-items: center;
-
+  .bare-item{
+    width: 100%;
+    height: 100%;
+  }
   &:hover > .field-action {
     opacity: 1;
     display: flex;

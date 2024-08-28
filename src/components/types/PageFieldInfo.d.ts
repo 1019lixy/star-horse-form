@@ -7,11 +7,11 @@ import {SearchParams} from "@/components/types/Params";
  */
 export declare interface TabFieldInfo {
     /**
-     * 标题
+     * 标题,显示名称
      */
     title: string,
     /**
-     * TabName
+     * TabName 定义每个Tab 的名字
      */
     tabName: string,
     /**
@@ -23,9 +23,15 @@ export declare interface TabFieldInfo {
      */
     subFormFlag: boolean,
     /**
-     * 子集合Key 名称
+     * 子集合Key 名称，如果配置了此名字，所有tab 下组件的数据将存入该名字下
+     * 该属性的使用场景是 1对1 或者1 对多关系时，tab里组件是另外一个表的情况
+     * eg:{
+     *  objectName:{
+     *     xx:[]
+     *     yy:{}
+     * }}
      */
-    objectName: string,
+    objectName?: string,
     /**
      * 主键
      */
@@ -35,7 +41,7 @@ export declare interface TabFieldInfo {
      */
     fieldList: Array<FieldInfo>,
     /**
-     * 批量表单属性
+     * 批量表单属性,该属性对应的数据默认是其它表的数据，
      */
     batchFieldList?: Array<BatchFieldInfo>;
 }
@@ -140,19 +146,23 @@ export declare interface FieldInfo {
      */
     multiple?: string;
     /**
-     * Tab标签
+     * Tab容器数据
      */
     tabList?: TabFieldInfo[];
     /**
-     * Card 标签
+     * Card 容器数据
      */
     cardList?: CardFieldInfo[];
     /**
-     * Collapse标签
+     * 折叠容器(collapse)数据
      */
     collapseList?: CollapseList[];
     /**
-     * 批量属性
+     * 传统table布局表单，对应动态表格(dytable)容器
+     */
+    dytableList?: FieldInfo[];
+    /**
+     * 列表属性，对应动态列表（table) 容器
      */
     batchFieldList?: BatchFieldInfo[];
     /**
@@ -174,9 +184,9 @@ export declare interface FieldInfo {
     /**
      * 弹窗数据配置
      */
-    params?: DialogInput;
+    params?: ;
     /**
-     * 事件联动
+     * 事件联动,鸡肋定义，后面会删除
      */
     actionRelation?: ActionRelation;
     /**
@@ -217,9 +227,9 @@ export declare interface FieldMapping {
 }
 
 /**
- * 弹窗文本框属性
+ * 动态组件的参数对象
  */
-export declare interface DialogInput {
+export declare interface  CompParams{
     /**
      * 选中数据时需要的字段
      */

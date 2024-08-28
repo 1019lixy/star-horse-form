@@ -65,7 +65,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
           tabList: [{
             title: "基础属性",
             tabName: "tab1",
-            fieldName: "tabName1",
             fieldList: [
               [
                 {label: "表名", fieldName: "tbName", type: "input", required: true, formShow: true, editDisabled: "Y"},
@@ -77,7 +76,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 {label: "是否需要公共字段", fieldName: "needCommonFields", type: "switch", defaultValue: "N", formShow: true,},
                 {
                   label: "是否创建菜单", fieldName: "createMenu", type: "switch", actionName: "change", actions: (val: any) => {
-                    console.log(val);
                     menuFlag.value = val["createMenu"] == "Y";
                   }, defaultValue: "N", formShow: true,
                 },
@@ -99,7 +97,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
           }, {
             title: "映射关系配置",
             tabName: "tab2",
-            fieldName: "tabName2",
             helpMsg: relationMsg,
             batchFieldList: [{
               batchName: "relations",
@@ -111,12 +108,10 @@ const tableFieldList = reactive<PageFieldInfo | any>({
           }, {
             title: "脚本绑定",
             tabName: "tab3",
-            fieldName: "tabName3",
             fieldList: []
           }, {
             title: "其它属性",
             tabName: "tab4",
-            fieldName: "tabName4",
             fieldList: [
               [
                 {label: "标签位置", fieldName: "labelPosition", defaultValue: "left", type: "select", optionList: labelPositionList, formShow: true},

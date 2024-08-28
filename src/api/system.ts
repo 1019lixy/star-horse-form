@@ -358,17 +358,17 @@ const tableCellInfo = (props: any) => {
     return {rows, row, col};
 }
 const mergeLeftCol = (props: any) => {
-    let {rows, row, col} = tableCellInfo(props);
+    let { row, col} = tableCellInfo(props);
     col.colspan = col.colspan + 1;
     row.columns.splice(props.colIndex - 1, 1);
 };
 const mergeRightCol = (props: any) => {
-    let {rows, row, col} = tableCellInfo(props);
+    let { row, col} = tableCellInfo(props);
     col.colspan = col.colspan + 1;
     row.columns.splice(props.colIndex + 1, 1);
 };
 const mergeWholeCol = (props: any) => {
-    let {rows, row, col} = tableCellInfo(props);
+    let {rows,  col} = tableCellInfo(props);
     // let currentCol: any = {};
     for (let index in rows) {
         let row1 = rows[index];
@@ -401,7 +401,7 @@ const mergeAboveRow = (props: any) => {
 
 };
 const mergeBelowRow = (props: any) => {
-    let {rows, row, col} = tableCellInfo(props);
+    let {rows,  col} = tableCellInfo(props);
     col.rowspan = col.rowspan + 1;
     let belowRow = rows[props.rowIndex + 1];
     for (let index in belowRow.columns) {
@@ -412,7 +412,7 @@ const mergeBelowRow = (props: any) => {
     }
 };
 const mergeWholeRow = (props: any) => {
-    let {rows, row, col} = tableCellInfo(props);
+    let { row, col} = tableCellInfo(props);
     let totalCols: number = 0;
     for (let index in row.columns) {
         let col = row.columns[index];
@@ -529,7 +529,7 @@ export const tableCellOperation = (command: string, props: any) => {
     // tableAction(props, buttonControl);
 }
 const mergeLeftColAction = (props: any) => {
-    let {rows, row, col} = tableCellInfo(props);
+    let { row, col} = tableCellInfo(props);
     if (!row || !row.columns?.length) {
         return true;
     }
@@ -537,7 +537,7 @@ const mergeLeftColAction = (props: any) => {
     return col.rowspan > 1 && leftCol ? leftCol.rowspan != col.rowspan : props.isFirstCol;
 }
 const mergeRightColAction = (props: any) => {
-    let {rows, row, col} = tableCellInfo(props);
+    let { row, col} = tableCellInfo(props);
     if (!row || !row.columns?.length) {
         return true;
     }
@@ -548,7 +548,7 @@ const mergeWholeColAction = (props: any) => {
     return colCommonAction(props);
 }
 const mergeAboveRowAction = (props: any) => {
-    let {rows, row, col} = tableCellInfo(props);
+    let {rows,  col} = tableCellInfo(props);
     let aboveRow = rows[props.rowIndex - 1];
     if (!aboveRow || !aboveRow.columns.length) {
         return true;
@@ -560,7 +560,7 @@ const mergeAboveRowAction = (props: any) => {
     return props.isFirstRow;
 }
 const mergeBelowRowAction = (props: any) => {
-    let {rows, row, col} = tableCellInfo(props);
+    let {rows,  col} = tableCellInfo(props);
     let belowRow = rows[props.rowIndex + 1];
     if (!belowRow || !belowRow.columns?.length) {
         return true;
@@ -575,7 +575,7 @@ const mergeWholeRowAction = (props: any) => {
     return rowCommonAction(props);
 }
 const colCommonAction = (props: any) => {
-    let {rows, row, col} = tableCellInfo(props);
+    let {rows,  col} = tableCellInfo(props);
     for (let index in rows) {
         let tempRow = rows[index];
         if (!tempRow || !tempRow.columns?.length) {
@@ -590,7 +590,7 @@ const colCommonAction = (props: any) => {
     return false;
 }
 const rowCommonAction = (props: any) => {
-    let {rows, row, col} = tableCellInfo(props);
+    let { row, col} = tableCellInfo(props);
 
     for (let index in row.columns) {
         let tempCol = row.columns[index];
@@ -607,7 +607,7 @@ const deleteWholeRowAction = (props: any) => {
     return rowCommonAction(props);
 }
 const undoMergeRowAction = (props: any) => {
-    let {rows, row, col} = tableCellInfo(props);
+    let {rows, col} = tableCellInfo(props);
     let columns: number = 0;
     for (let index in rows) {
         let len = rows[index].columns?.length;
@@ -621,7 +621,7 @@ const undoMergeRowAction = (props: any) => {
     return props.field.rowspan == 1;
 }
 const undoMergeColAction = (props: any) => {
-    let {rows, row, col} = tableCellInfo(props);
+    let {rows,  col} = tableCellInfo(props);
     // console.log(rows.length, col);
     if (rows.length == col.rowspan && col.rowspan > 1) {
         return false;

@@ -38,12 +38,12 @@ onMounted(() => {
             :required="sitem.required"
             :prop="sitem.fieldName"
             :rules="sitem.required?validMsg(sitem):[]"
-            v-if="sitem.formShow&&sitem.label">
+            v-if="sitem.formShow&&sitem.label&&sitem.preps?.headerFlag!='Y'">
           <star-horse-item :primaryKey="primaryKey" :compSize="compSize" v-model:dataForm="dataForm"
                            :item="sitem"
                            :isEdit="isEdit"/>
         </el-form-item>
-        <star-horse-item v-else-if="sitem.viewShow" :compSize="compSize" :primaryKey="primaryKey"
+        <star-horse-item v-else-if="sitem.formShow||sitem.viewShow" :compSize="compSize" :primaryKey="primaryKey"
                          v-model:dataForm="dataForm"
                          :item="sitem"
                          :isEdit="isEdit"/>
