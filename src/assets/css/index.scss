@@ -597,9 +597,6 @@ hr {
     flex: 1 !important;
     /* margin: 5px !important;*/
 
-    :deep(.el-divider--horizontal ) {
-      margin: 5px 0;
-    }
 
     .el-vl__wrapper {
       height: 100%;
@@ -621,10 +618,7 @@ hr {
       padding-bottom: 0;
     }
 
-    .el-divider--horizontal {
-      margin: 5px 0;
-      flex-shrink: 0;
-    }
+
 
     .el-pagination {
       height: 30px;
