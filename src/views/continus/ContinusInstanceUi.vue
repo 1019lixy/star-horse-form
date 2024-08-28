@@ -3,7 +3,7 @@ import {ApiUrls} from "@/components/types/ApiUrls";
 import {onMounted, provide, reactive, ref} from "vue";
 import {SearchFields} from "@/components/types/SearchProps.d.ts";
 import {Config} from "@/api/settings.ts";
-import {DialogInput} from "@/components/types/PageFieldInfo";
+import {CompParams} from "@/components/types/PageFieldInfo";
 
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/devops-continus/continus/continusInstance/pageList",
@@ -103,7 +103,7 @@ const tableFieldList = reactive({
 const primaryKey = "idContinusInst";
 const environmentInfoRef = ref();
 const rules = {};
-const dialogProps = reactive<DialogInput>({
+const dialogProps = reactive<CompParams>({
   bakeVisible1: false, bakeVisible2: false, bakeVisible3: false,
   ids: 0,
   batchDialogTitle: "批量编辑",

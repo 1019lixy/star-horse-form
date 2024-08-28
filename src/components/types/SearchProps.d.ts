@@ -1,4 +1,4 @@
-import {DialogInput} from "@/components/types/PageFieldInfo";
+import {CompParams} from "@/components/types/PageFieldInfo";
 
 export type SelectOption = {
     name?: string,
@@ -20,7 +20,7 @@ export type SearchProps = {
     /**
      * 弹窗数据配置
      */
-    params?: DialogInput,
+    params?: CompParams,
     optionList?: SelectOption[]
 }
 /**

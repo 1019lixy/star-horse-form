@@ -3,7 +3,7 @@ import {ApiUrls} from "@/components/types/ApiUrls";
 import {onMounted, provide, reactive, ref, watch} from "vue";
 import {SearchFields} from "@/components/types/SearchProps.d.ts";
 import {SearchParams} from "@/components/types/Params.d.ts";
-import {DialogInput} from "@/components/types/PageFieldInfo";
+import {CompParams} from "@/components/types/PageFieldInfo";
 
 const props = defineProps({
   projectId: {type: Number}
@@ -99,7 +99,7 @@ const tableFieldList = reactive({
 const primaryKey = "idDbinfo";
 const projectMemberRef = ref();
 const rules = {};
-const dialogProps = reactive<DialogInput>({
+const dialogProps = reactive<CompParams>({
   bakeVisible1: false, bakeVisible2: false, bakeVisible3: false,
   ids: 0,
   batchDialogTitle: "批量编辑",

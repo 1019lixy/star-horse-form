@@ -6,7 +6,7 @@ import {SearchFields, SelectOption} from "@/components/types/SearchProps";
 import {commonParseCodeToName, createDatetime, loadData} from "@/api/sh_api";
 import {warning} from "@/utils/message";
 import {Config} from "@/api/settings.ts";
-import {DialogInput} from "@/components/types/PageFieldInfo";
+import {CompParams} from "@/components/types/PageFieldInfo";
 
 const assignType = ref<SelectOption[]>([{name: "按用户授权", value: 1}, {name: "按角色授权", value: 2}]);
 const assignTypeRef = ref(null);
@@ -37,7 +37,7 @@ const searchFormData = reactive<SearchFields>({
     {label: "经办人", fieldName: "operator", type: "input"},
   ]
 });
-let params = ref<DialogInput>({dataUrl: {}, fieldList: [], needField: [], primaryKey: ""});
+let params = ref<CompParams>({dataUrl: {}, fieldList: [], needField: [], primaryKey: ""});
 const tableFieldList = reactive({
   fieldList: [
     {
