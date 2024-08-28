@@ -90,7 +90,6 @@ watch(() => props.parentComp,
 )
 </script>
 <template>
-
   <td class="edit_col" :colspan="field.colspan||1" :rowspan="field.rowspan||1"
       :style="{width: field.colWidth + '% !important' || '',
       height: field.colHeight + '% !important' || '',
@@ -105,7 +104,7 @@ watch(() => props.parentComp,
                animation="200"
                :list="field.items">
       <template #item="{element:data}">
-        <div class="comp-item">
+        <div :class="{'comp-item':data?.preps['headerFlag']!='Y','bare-item':data?.preps['headerFlag']=='Y'}">
           <component :key="data?.id"
                      :field="data"
                      :formInfo="formInfo"
@@ -161,7 +160,7 @@ watch(() => props.parentComp,
   width: 100%;
   background: var(--star-horse-background);
   border-radius: 3px;
-  min-height: 50px;
+  height: 100%;
   display: flex;
   flex-direction: column;
   vertical-align: middle;
@@ -170,6 +169,14 @@ watch(() => props.parentComp,
 
   .comp-item {
     margin: unset;
+  }
+  .bare-item{
+    width: 100%;
+    height: 100%;
+    div{
+      width: 100%;
+      height: 100%;
+    };
   }
 }
 

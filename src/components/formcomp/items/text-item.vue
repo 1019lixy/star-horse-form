@@ -2,7 +2,13 @@
   <starhorse-form-item :isDesign="context.attrs['isDesign']" :bareFlag="context.attrs['bareFlag']" :formItem="field"
                        :parentField="parentField"
   >
+    <div class="cell-header"  @click="keyEnterFun('click')" v-if="field?.preps['headerFlag']=='Y'">
+       <span>{{
+           context.attrs['formData'][field.preps['name']] || (field.preps['placeholder'] || field.preps['label'])
+         }}</span>
+    </div>
     <el-tag
+        v-else
         :type="field?.preps['type']||'primary'"
         :disable-transitions="field?.preps['disableTransitions']=='Y'"
         :hit="field?.preps['hit']=='Y'"
@@ -34,9 +40,25 @@ export default defineComponent({
       }
       context.emit('selfFunc', prep);
     };
-    return {parentField,  context, field, formItem, dataField, keyEnterFun}
+    return {parentField, context, field, formItem, dataField, keyEnterFun}
   }
 });
 </script>
-<style scoped>
+<style lang="scss" scoped>
+.cell-header{
+  width: 100%;
+  height: 100%;
+
+
+  background: var(--star-horse-font-color);
+  span{
+    display: flex;
+    vertical-align: middle;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    font-weight: 800;
+  }
+}
 </style>

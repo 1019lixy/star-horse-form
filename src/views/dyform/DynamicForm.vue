@@ -553,7 +553,7 @@ onMounted(async () => {
                   :list="list"
               >
                 <template #item="{element:data}">
-                  <div class="comp-item" :style="{'height': data.itemType=='tab'?'500px':'unset'}">
+                  <div :class="{'comp-item':data?.preps['headerFlag']!='Y'}" :style="{'height': data.itemType=='tab'?'500px':'unset'}">
                     <component
                         :key="data.id"
                         :field="data"

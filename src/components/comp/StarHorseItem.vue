@@ -223,7 +223,7 @@ onMounted(() => {
 }
 </style>
 <template>
-  <div v-if="bareFlag" class="bare-comp">
+  <div v-if="bareFlag||field.preps.headerFlag=='Y'" class="bare-comp">
     <help :message="item?.helpMsg" v-if="item?.helpMsg"/>
     <component :id="randId" :is="itemType+'-item'" @selfFunc="actionDispatcher" :isDesign="isDesign"
                ref="componentRef"
