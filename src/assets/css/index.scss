@@ -532,6 +532,33 @@ hr {
   }
 }
 
+.el-form {
+  height: 100%;
+}
+
+.main-design, .main-design-phone, .main-design-pad {
+  flex: 1;
+  padding-top: 5px;
+  height: 100% !important;
+  width: 100%;
+  overflow: auto;
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.main-design-phone {
+  width: 420px;
+  margin: 15px auto;
+  border-radius: 10px;
+  box-shadow: 0 0 1px 10px var(--star-horse-font-color);
+}
+
+.main-design-pad {
+  width: 960px;
+  margin: 15px auto;
+  border-radius: 10px;
+  box-shadow: 0 0 1px 10px var(--star-horse-font-color);
+}
+
 .el-card {
   height: 100% !important;
   display: flex;

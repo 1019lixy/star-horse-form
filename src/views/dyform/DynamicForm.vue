@@ -54,6 +54,8 @@ const fieldPanelRef = ref();
 const dynamicFormRef = ref();
 const previewDynamicFormRef = ref();
 let reOrUnDoFlag = ref<boolean>(false);
+let currentPageStyle = ref<any>({label: "电脑", key: "pc"});
+let currentPageClass = ref<string>("main-design");
 const init = async () => {
   permissions.value = await pagePermission.addRoute(route);
   clearData();
@@ -251,6 +253,18 @@ const helpMessage =
 let leftPanelVisible = ref<boolean>(true);
 let rightPanelVisible = ref<boolean>(true);
 
+//页面风格
+const actionsStyle = (item: any) => {
+  console.log(item);
+  currentPageStyle.value = item;
+  if (item.key == "pad") {
+    currentPageClass.value = "main-design-pad";
+  } else if (item.key == "phone") {
+    currentPageClass.value = "main-design-phone";
+  } else {
+    currentPageClass.value = "main-design";
+  }
+}
 const actions = (action: string) => {
   switch (action) {
     case "leftPanel":
@@ -260,6 +274,7 @@ const actions = (action: string) => {
       rightPanelVisible.value = !rightPanelVisible.value;
       break;
     case "new":
+    case "empty":
       clearData(false);
       break;
     case "eprep":
@@ -455,15 +470,17 @@ onMounted(async () => {
         :status-icon="formInfo['statusIcon'] == 'Y'"
         :validate-on-rule-change="formInfo['validateOnRuleChange']=='Y'"
     >
-      <template v-for="data in list">
-        <component
-            :id="data.id"
-            :field="data"
-            :formData="formData"
-            :is="data.itemType +(data.compType === 'container'? '-container':'-item')"
-        >
-        </component>
-      </template>
+      <div :class="currentPageClass">
+        <template v-for="data in list">
+          <component
+              :id="data.id"
+              :field="data"
+              :formData="formData"
+              :is="data.itemType +(data.compType === 'container'? '-container':'-item')"
+          >
+          </component>
+        </template>
+      </div>
     </el-form>
   </star-horse-dialog>
   <el-card class="inner_content">
@@ -475,15 +492,32 @@ onMounted(async () => {
         <div class="inner_button">
           <el-menu mode="horizontal" style="height: inherit;width: 100%;">
             <template v-for="(item,index) in formActions">
-              <el-menu-item v-if="(list.length>0||item.defaultEdit)&&(item.auth=='none'||permissions[item.auth])">
-                <el-tooltip class="item" :content="item.label" :index="index"
-                            effect="dark"
-                            placement="bottom">
-                  <star-horse-icon @click="actions(item.key)" :icon-class="item.icon" size="24px"
-                                   style="color: var(--star-horse-style)"
-                  />
+              <el-menu-item
+                  v-if="(list.length>0||item.defaultEdit)&&(item.auth=='none'||permissions[item.auth])&&!item.children"
+                  :index="'1_'+index" @click="actions(item.key)">
+                <el-tooltip class="item" :content="item.label" effect="dark" placement="bottom">
+                  <star-horse-icon :icon-class="item.icon" size="24px"
+                                   style="color: var(--star-horse-style)"/>
                 </el-tooltip>
               </el-menu-item>
+              <template v-if="item.children&&item.children.length>0">
+                <el-sub-menu :index="'1_'+index">
+                  <template #title>
+                    <el-tooltip class="item" :content="currentPageStyle.label" effect="dark" placement="bottom">
+                      <star-horse-icon :icon-class="item.icon" size="24px" style="color: var(--star-horse-style)"/>
+                    </el-tooltip>
+                  </template>
+                  <el-menu-item v-for="(sitem,sindex) in item.children" :index="'2_'+sindex"
+                                @click="actionsStyle(sitem)">
+                    <!--                    <el-tooltip class="item" :content="sitem.label" effect="dark"
+                                                    placement="bottom">  </el-tooltip>-->
+                    <star-horse-icon :icon-class="sitem.icon" size="24px"
+                                     style="color: var(--star-horse-style)"/>
+                    {{ sitem.label }}
+
+                  </el-menu-item>
+                </el-sub-menu>
+              </template>
             </template>
           </el-menu>
           <help :message="helpMessage"/>
@@ -511,7 +545,7 @@ onMounted(async () => {
             >
               <draggable
                   @add="(evt:Event) => onDragAdd(evt, list)"
-                  class="main-design"
+                  :class="currentPageClass"
                   tag="div"
                   group="starHorseGroup"
                   ghostClass="ghost"
@@ -629,13 +663,7 @@ onMounted(async () => {
         display: flex;
         flex-direction: column;
 
-        .main-design {
-          flex: 1;
-          padding: 5px;
-          height: 100%;
-          overflow: auto;
-          background: rgba(255, 255, 255, 0.8);
-        }
+
       }
 
       .side-panel-item {
