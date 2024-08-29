@@ -130,5 +130,13 @@ routers.push(
             keepAlive: "N",
             title: "钉钉流程模式"
         }
+    },{
+        path: "/workFlowForm",
+        component: () => import("@/views/workflow/WorkFlowForm.vue"),
+        name: "WorkFlowForm",
+        meta: {
+            keepAlive: "N",
+            title: "流程表单"
+        }
     });
 export default routers;

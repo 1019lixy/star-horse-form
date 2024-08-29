@@ -108,9 +108,9 @@ const zoomSize = (type: number) => {
 }
 </script>
 <template>
-  <div class="button-operation">
-    <el-button type="primary" class="btn-style" @click="saveData">保存</el-button>
-  </div>
+  <!--  <div class="button-operation">
+      <el-button type="primary" class="btn-style" @click="saveData">保存</el-button>
+    </div>-->
   <div class="approval-flow fd-nav-content">
     <div class="dingflow-design">
       <div class="zoom flex">
@@ -149,6 +149,7 @@ const zoomSize = (type: number) => {
   height: 50px;
   /*不设置此属性，在flex模式下，padding 无效果*/
   box-sizing: border-box;
+
   .btn-style {
     right: 60px;
   }
@@ -156,16 +157,20 @@ const zoomSize = (type: number) => {
 
 
 .approval-flow {
-
+  height: 100%;
+  width: 100%;
+  overflow: auto;
   .dingflow-design {
     margin: 0 auto;
     height: 100%;
     width: 100%;
+    position: relative;
+
     .zoom {
       position: fixed;
       height: 40px;
       width: 125px;
-      right: 40px;
+      right: 27%;
       z-index: 10;
       display: flex;
       align-items: center;
@@ -214,11 +219,14 @@ const zoomSize = (type: number) => {
       justify-content: center;
       box-sizing: border-box;
       transform-origin: 0 0 0;
+
       .branch-wrap {
         margin: 0 auto;
         width: 100%;
+
         .branch-box-wrap {
           margin: 0 auto;
+
           .auto-judge {
             position: relative;
             width: 280px;
@@ -299,7 +307,7 @@ const zoomSize = (type: number) => {
   }
 }
 
-.fd-nav-content {
+/*.fd-nav-content {
   position: fixed;
   top: 60px;
   left: 0;
@@ -309,7 +317,7 @@ const zoomSize = (type: number) => {
   overflow-x: hidden;
   overflow-y: auto;
   padding-bottom: 30px;
-}
+}*/
 
 .dingflow-design {
   width: 100%;
@@ -351,7 +359,7 @@ const zoomSize = (type: number) => {
 .dingflow-design .branch-wrap,
 .dingflow-design .node-wrap {
   display: inline-flex;
- width: 100%;
+  width: 100%;
 }
 
 .dingflow-design .branch-box-wrap {

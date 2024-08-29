@@ -333,7 +333,7 @@ watch(
           <div class="bpmn-content" ref="canvas"></div>
         </div>
       </div>
-      <jbpm-property-panel :modeler="bpmnModeler" :process="initData" v-if="bpmnModeler"/>
+<!--      <jbpm-property-panel :modeler="bpmnModeler" :process="initData" v-if="bpmnModeler"/>-->
     </div>
   </el-card>
 </template>

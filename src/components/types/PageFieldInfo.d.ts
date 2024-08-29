@@ -184,7 +184,7 @@ export declare interface FieldInfo {
     /**
      * 弹窗数据配置
      */
-    params?: ;
+    params?: CompParams;
     /**
      * 事件联动,鸡肋定义，后面会删除
      */
@@ -192,7 +192,7 @@ export declare interface FieldInfo {
     /**
      * 参数
      */
-    params?: Object;
+  //  params?: Object;
     /**
      * 组件个性化属性
      */
@@ -229,7 +229,7 @@ export declare interface FieldMapping {
 /**
  * 动态组件的参数对象
  */
-export declare interface  CompParams{
+export declare interface CompParams {
     /**
      * 选中数据时需要的字段
      */
@@ -352,7 +352,7 @@ export declare interface BatchFieldInfo {
     /**
      * 是否禁用
      */
-    disabled: string;
+    disabled?: string;
     /**
      * 禁止显示
      */

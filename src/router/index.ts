@@ -48,13 +48,14 @@ router.beforeEach((to: RouteLocationNormalized, _from: RouteLocationNormalized, 
             }
         }
     } else {
-        if (whiteList.find((item: string) => to.path.includes(item))) {
-            // 在免登录白名单，直接放行
-            next();
-        } else {
-            //中断当前导航执行新的导航
-            next({path: "/login", query: {redirect: to.fullPath}}); // 否则全部重定向到登录页
-        }
+        next();
+        // if (whiteList.find((item: string) => to.path.includes(item))) {
+        //     // 在免登录白名单，直接放行
+        //     next();
+        // } else {
+        //     //中断当前导航执行新的导航
+        //     next({path: "/login", query: {redirect: to.fullPath}}); // 否则全部重定向到登录页
+        // }
     }
 });
 router.beforeResolve((_to, _from, next) => {
