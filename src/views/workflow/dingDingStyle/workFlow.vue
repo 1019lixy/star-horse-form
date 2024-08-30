@@ -384,8 +384,8 @@ const zoomSize = (type: number) => {
   overflow: visible;
   min-height: 180px;
   height: auto;
-  border-bottom: 1px solid #ebebeb;
-  border-top: 1px solid #ebebeb;
+  border-bottom: 1px solid var(--star-horse-style);
+  border-top: 1px solid var(--star-horse-style);
   position: relative;
   margin-top: 15px;
 }
@@ -401,7 +401,7 @@ const zoomSize = (type: number) => {
   margin: auto;
   width: 1px;
   height: 100%;
-  background-color: #ebebeb;
+  background-color: var(--star-horse-style);
 }
 
 .dingflow-design .add-branch {
@@ -423,7 +423,7 @@ const zoomSize = (type: number) => {
   transform: translateX(-50%);
   transform-origin: center center;
   cursor: pointer;
-  z-index: 1;
+  z-index: 2;
   display: inline-flex;
   align-items: center;
   -webkit-transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
@@ -485,7 +485,7 @@ const zoomSize = (type: number) => {
   margin: auto;
   width: 1px;
   height: 100%;
-  background-color: #ebebeb;
+  background-color: var(--star-horse-style);
 }
 
 .dingflow-design .auto-judge:after {
