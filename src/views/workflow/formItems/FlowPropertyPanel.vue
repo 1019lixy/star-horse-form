@@ -192,34 +192,127 @@ const auditorFieldList = ref<FieldInfo[]>([
     formShow: true,
   }
 ]);
+const eventTypeList = ref<SelectOption[]>([
+  {name: "开始", value: "start"},
+  {name: "结束", value: "end"},
+]);
+const columnTypeList = ref<SelectOption[]>([
+  {name: "值", value: "value"},
+  {name: "表达式", value: "exp"},
+]);
+const scriptTypeList = ref<SelectOption[]>([
+  {name: "内联脚本", value: "innerScript"},
+  {name: "外部脚本", value: "outerScript"},
+]);
+const listenerTypeList = ref<SelectOption[]>([
+  {name: "Java类", value: "class"},
+  {name: "表达式", value: "exp"},
+  {name: "代理表达式", value: "proxyExp"},
+  {name: "脚本", value: "script"},
+]);
+const eventTypeList1 = ref<SelectOption[]>([
+  {name: "创建", value: "create"},
+  {name: "指派", value: "assign"},
+  {name: "完成", value: "finish"},
+  {name: "删除", value: "delete"},
+]);
+let labelName = ref<string>("");
+let formShow = ref<boolean>(false);
+let scriptTypeformShow = ref<boolean>(false);
 const otherFieldList = ref<FieldInfo[]>([
   {
     fieldName: "execListener",
+    displayStyle: "list",
     batchFieldList: [{
       batchName: "execListener",
       title: "执行监听器",
+      staticData: "Y",
       fieldList: [
         {
           label: "事件类型",
           fieldName: "eventType",
-          type: "input",
+          type: "select",
+          required: true,
+          optionList: eventTypeList,
           formShow: true,
         },
         {
           label: "监听器类型",
           fieldName: "listenerType",
-          type: "input",
+          type: "select",
+          required: true,
+          optionList: listenerTypeList,
+          actionName: "change",
+          actions: (val) => {
+            let value = val["listenerType"];
+            if (!value) {
+              return;
+            }
+            labelName.value = listenerTypeList.value.find(item => item.value == value)?.name;
+            formShow.value = true;
+            scriptTypeformShow.value = false;
+            if (value == "script") {
+              scriptTypeformShow.value = true;
+            }
+          },
           formShow: true,
+        },
+        {
+          label: labelName,
+          fieldName: "dataValue",
+          type: "input",
+          required: true,
+          formShow: formShow,
+          preps: {
+            placeholder: "请输入"
+          }
+        },
+        {
+          label: "脚本类型",
+          fieldName: "scriptType",
+          type: "select",
+          required: true,
+          optionList: scriptTypeList,
+          formShow: scriptTypeformShow,
+        },
+        {
+          batchFieldList: [{
+            title: "注入字段",
+            batchName: "injectColumns",
+            fieldList: [
+              {
+                label: "字段名称",
+                fieldName: "name",
+                type: "input",
+                formShow: true,
+              },
+              {
+                label: "字段类型",
+                fieldName: "columnType",
+                type: "select",
+                optionList: columnTypeList,
+                formShow: true,
+              },
+              {
+                label: "值/表达式",
+                fieldName: "columnValue",
+                type: "input",
+                formShow: true,
+              }
+            ]
+          }]
         }
       ]
     }, {
       batchName: "taskListener",
       title: "任务监听器",
+      staticData: "Y",
       fieldList: [
         {
           label: "事件类型",
           fieldName: "eventType",
-          type: "input",
+          type: "select",
+          optionList: eventTypeList1,
           formShow: true,
         },
         {
@@ -231,13 +324,74 @@ const otherFieldList = ref<FieldInfo[]>([
         {
           label: "监听器类型",
           fieldName: "listenerType",
-          type: "input",
+          type: "select",
+          required: true,
+          optionList: listenerTypeList,
+          actionName: "change",
+          actions: (val) => {
+            let value = val["listenerType"];
+            if (!value) {
+              return;
+            }
+            labelName.value = listenerTypeList.value.find(item => item.value == value)?.name;
+            formShow.value = true;
+            scriptTypeformShow.value = false;
+            if (value == "script") {
+              scriptTypeformShow.value = true;
+            }
+          },
           formShow: true,
+        },
+        {
+          label: labelName,
+          fieldName: "dataValue",
+          type: "input",
+          required: true,
+          formShow: formShow,
+          preps: {
+            placeholder: "请输入"
+          }
+        },
+        {
+          label: "脚本类型",
+          fieldName: "scriptType",
+          type: "select",
+          required: true,
+          optionList: scriptTypeList,
+          formShow: scriptTypeformShow,
+        },
+        {
+          batchFieldList: [{
+            title: "注入字段",
+            batchName: "injectColumns",
+            fieldList: [
+              {
+                label: "字段名称",
+                fieldName: "name",
+                type: "input",
+                formShow: true,
+              },
+              {
+                label: "字段类型",
+                fieldName: "columnType",
+                type: "select",
+                optionList: columnTypeList,
+                formShow: true,
+              },
+              {
+                label: "值/表达式",
+                fieldName: "columnValue",
+                type: "input",
+                formShow: true,
+              }
+            ]
+          }]
         }
       ]
     }, {
       batchName: "extendProperties",
       title: "扩展属性",
+      staticData: "Y",
       fieldList: [
         {
           label: "属性名",

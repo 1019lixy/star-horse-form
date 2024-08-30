@@ -18,7 +18,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <template v-if="item[batchFieldName]?.length > 1">
+  <template v-if="item[batchFieldName]?.length > 1 && (!item.displayStyle||item.displayStyle=='tab')">
     <el-tabs v-model="item[batchFieldName].fieldName">
       <template v-for="(sitem,key) in item.batchFieldList">
         <el-tab-pane :label="sitem['title']" :name="'tab'+key" :disabled="sitem.disabled">

@@ -1,5 +1,5 @@
 <script lang="ts" setup name="StarHorseFormList">
-import {inject, onMounted, PropType, ref} from 'vue'
+import {inject, nextTick, onMounted, PropType, ref} from 'vue'
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings.ts";
 import ShTableListColumn from "@/components/comp/ShTableListColumn.vue";
@@ -13,8 +13,12 @@ import Help from "@/components/help.vue";
 import {ShallowReactive} from "@vue/reactivity";
 import {ModelRef} from "vue-demi";
 import {uuid} from "@/api/system.ts";
+import UTableColumn from "@/components/comp/items/UTableColumn.vue";
+import StarHorseForm from "@/components/comp/StarHorseForm.vue";
 
 let importDialogVisible = ref<boolean>(false);
+let rowDialogVisible = ref<boolean>(false);
+const rowDataFormRef = ref();
 const props = defineProps({
   compUrl: {type: Object as PropType<ApiUrls>, required: true},
   fieldList: {type: Object, required: true},
@@ -26,6 +30,7 @@ const props = defineProps({
   title: {type: String, default: ""},
   helpMsg: {type: String, default: ""},
   rules: {type: Object},
+  staticColumn: {type: String, default: "N"},
   size: {type: String, default: "small"},
   isView: {type: Boolean, default: false},
   subFlag: {type: Boolean, default: false},
@@ -35,7 +40,45 @@ const dataForm: ModelRef<any> = defineModel("dataForm");
 const formFields = inject("formFields") as ShallowReactive<any>;
 const loading = ref(null);
 const starHorseFormListRef = ref(null);
+
 const handleAddDetails = (row: any, type: number) => {
+  if (props.staticColumn == "Y") {
+    dynamicHandleAddForm(row, "add");
+  } else {
+    dynamicHandleAddRow(row, type);
+  }
+}
+let currentRow = ref<any>({});
+/**
+ * 编辑当前行的数据
+ * @param row
+ * @param type
+ */
+const dynamicHandleAddForm = async (row: any, type: string) => {
+  currentRow.value = row;
+  console.log(currentRow.value);
+  rowDialogVisible.value = true;
+  await nextTick();
+  rowDataFormRef.value.setFormData(row);
+}
+const mergeData = () => {
+  let formData = rowDataFormRef.value.getFormData().value;
+  if (!currentRow.value) {
+    dataForm.value[props.batchName].push(formData);
+  } else {
+    currentRow.value = formData;
+  }
+  closeAction();
+}
+const closeAction = () => {
+  rowDialogVisible.value = false;
+}
+/**
+ * 动态添加行
+ * @param row
+ * @param type
+ */
+const dynamicHandleAddRow = (row: any, type: number) => {
   if (!dataForm.value[props.batchName]) {
     dataForm.value[props.batchName] = [];
   }
@@ -135,9 +178,11 @@ const init = async () => {
   /**
    * 如果列表为空得情况才初始化行数
    */
-  if (dataForm.value[props.batchName].length == 0) {
-    for (let i = 0; i < props.initRows; i++) {
-      handleAddDetails(null, 1);
+  if (props.staticColumn == 'N') {
+    if (dataForm.value[props.batchName].length == 0) {
+      for (let i = 0; i < props.initRows; i++) {
+        handleAddDetails(null, 1);
+      }
     }
   }
   moveColumn();
@@ -147,6 +192,13 @@ onMounted(async () => {
 });
 </script>
 <template>
+  <star-horse-dialog :title="'编辑数据'" :dialogVisible="rowDialogVisible"
+                     :boxWidth="'60%'"
+                     :selfFunc="true"
+                     @merge="mergeData"
+                     @closeAction="closeAction">
+    <star-horse-form :fieldList="{fieldList:fieldList}" ref="rowDataFormRef"/>
+  </star-horse-dialog>
   <star-horse-dialog v-if="!subFlag" :title="'导入文件'" :dialogVisible="importDialogVisible"
                      :boxWidth="'30%'"
                      :isView="true"
@@ -240,7 +292,7 @@ onMounted(async () => {
           prop="xh"
           width="50"
       />
-      <el-table-column prop="" label="排序" width="60">
+      <el-table-column prop="" label="排序" width="60" v-if="staticColumn=='N'">
         <template #default="scope">
           <el-tag class="move" style="cursor: move"
                   @mousedown="selectData(scope.row)">
@@ -251,40 +303,25 @@ onMounted(async () => {
         </template>
       </el-table-column>
       <template v-for="item in fieldList">
-        <el-table-column
-            :prop="item.fieldName"
-            :label="item.label"
-            sortable
-            :min-width="item.minWidth||Config.defaultColumnWidth + 'px'"
-            v-if="item.formShow">
-          <template #default="scope">
-            <template v-if="item.batchFieldList?.length>0" v-for="sitem in  item.batchFieldList">
-              <star-horse-form-list
-                  style="min-height:100px"
-                  v-model:dataForm="scope.row"
-                  :compUrl="sitem['compUrl']"
-                  :primaryKey="sitem['primaryKey']"
-                  :batchName="sitem['batchName']"
-                  :initRows="sitem['initRows']"
-                  :subFlag="true"
-                  :defaultValues="batchFieldDefaultValues(sitem)"
-                  :field-list="sitem['fieldList']"
-                  :rules="sitem['rules']||rules"
-              />
-            </template>
-            <template v-else>
-              <sh-table-list-column :primaryKey="primaryKey" :batchName="batchName"
-                                    :data-form="scope.row"
-                                    :size="size"
-                                    :rules="rules"
-                                    :item="item"
-                                    :index="scope.$index"/>
-            </template>
-          </template>
-        </el-table-column>
+        <template v-if="Array.isArray(item)">
+          <UTableColumn :item="temp" v-for="temp in item" :size="size" :rules="rules" :batchName="batchName"
+                        :primaryKey="primaryKey" :staticColumn="staticColumn"/>
+        </template>
+        <template v-else-if="item.formShow">
+          <UTableColumn :item="item" :size="size" :rules="rules" :batchName="batchName"
+                        :primaryKey="primaryKey" :staticColumn="staticColumn"/>
+        </template>
+
       </template>
       <el-table-column fixed="right" label="操作" width="80">
         <template #default="scope" v-if="!isView">
+          <el-button
+              @click="dynamicHandleAddForm(scope.row,'edit')"
+              link
+              :size="size"
+              type="info">
+            <el-tooltip content="编辑">编辑</el-tooltip>
+          </el-button>
           <el-button
               @click="handleAddDetails(scope.row, 2)"
               link
@@ -297,7 +334,7 @@ onMounted(async () => {
     </el-table>
     <div class="add-row" v-if="!isView" @click="handleAddDetails(null, 1)">
       <star-horse-icon icon-class="plus" color="var(--star-horse-style)"/>
-      加一行
+      {{ staticColumn == 'Y' ? "添加数据" : "加一行" }}
     </div>
   </div>
 </template>

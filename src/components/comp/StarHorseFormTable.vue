@@ -8,7 +8,7 @@ defineProps({
   rules: {type: Object},
   size: {type: String, default: "small"}
 });
-const dataForm:ModelRef<any> = defineModel("dataForm");
+const dataForm: ModelRef<any> = defineModel("dataForm");
 const currentTableRef = ref();
 onMounted(() => {
   //console.log(dataForm);
@@ -27,6 +27,7 @@ onMounted(() => {
       :size="size"
       v-if="!item['disVisible']"
       :helpMsg="item['helpMsg']"
+      :staticColumn="item.staticData||'N'"
       :downloadTemplateUrl="item['downloadTemplateUrl']"
       :importInfo="item['importInfo']"
       :defaultValues="batchFieldDefaultValues(item)"

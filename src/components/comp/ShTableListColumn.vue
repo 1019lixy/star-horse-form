@@ -6,6 +6,7 @@ defineProps({
   dataForm: {type: Object, required: true},
   index: {type: Object, required: true},
   item: {type: Object, required: true},
+  staticColumn: {type: String, default: "N"},
   primaryKey: {type: String},
   batchName: {type: String, default: "batchDataList"},
   rules: {type: Object},
@@ -20,7 +21,11 @@ const validMsg = (item: any) => {
 };
 </script>
 <template>
+  <template v-if="staticColumn=='Y'">
+    {{ dataForm[item.fieldName] }}
+  </template>
   <el-form-item
+      v-else
       :size="size"
       :rules="item.required?validMsg(item):[]"
       :prop="`${batchName}.${index}.${item.fieldName}`">

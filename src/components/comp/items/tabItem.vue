@@ -68,7 +68,7 @@ onMounted(() => {
     </el-tabs>
   </template>
   <template v-else-if="item.batchFieldList&&item.batchFieldList.length>0">
-    <template v-if="item.batchFieldList.length>1">
+    <template v-if="item.batchFieldList.length>1&&(!item.displayStyle||item.displayStyle=='tab')">
       <el-tabs v-model="normalTabList">
         <template v-for="(sitem,key) in item.batchFieldList">
           <el-tab-pane :label="sitem['title']" :name="'tab'+key" :disabled="sitem.disabled">
@@ -77,8 +77,11 @@ onMounted(() => {
         </template>
       </el-tabs>
     </template>
-    <star-horse-form-table v-else :rules="rules" :size="compSize" :item="item.batchFieldList[0]"
-                           v-model:dataForm="dataForm"/>
+    <template v-else>
+      <star-horse-form-table  :rules="rules" :size="compSize" :item="temp"
+                             v-model:dataForm="dataForm" v-for="temp in item.batchFieldList"/>
+    </template>
+
   </template>
 </template>
 

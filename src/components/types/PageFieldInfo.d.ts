@@ -192,7 +192,7 @@ export declare interface FieldInfo {
     /**
      * 参数
      */
-  //  params?: Object;
+    //  params?: Object;
     /**
      * 组件个性化属性
      */
@@ -205,6 +205,10 @@ export declare interface FieldInfo {
      * 默认值匹配类型
      */
     matchType?: string;
+    /**
+     *  多数据显示风格，支持tab ,list  默认tab
+     */
+    displayStyle?: string;
     /**
      * 相邻的兄弟节点
      */
@@ -389,6 +393,10 @@ export declare interface BatchFieldInfo {
      * 导入数据
      */
     importInfo?: ImportInfo;
+    /**
+     * 是否静态数据 Y 是 N 否
+     */
+    staticData?: String;
     /**
      * batchFieldList 和fieldList 是否同一个表，组件会根据这个字段校验数据是一对多关系
      * 还是单表的批量处理
