@@ -1,7 +1,7 @@
 import {defineStore, StoreDefinition} from "pinia";
 import {MenusInfo} from "@/components/types/MenusInfo";
 
-export const userInfoStore:StoreDefinition<any> = defineStore("userInfo", {
+export const userInfoStore: StoreDefinition<any> = defineStore("userInfo", {
     state: () => {
         return {
             userInfo: {} as any,
@@ -86,6 +86,10 @@ export const userInfoStore:StoreDefinition<any> = defineStore("userInfo", {
     },
     persist: {
         enabled: true, // 开启数据缓存
-        strategies: [{key: "userInfoStore", storage: localStorage}]
+        strategies: [
+            {key: "userInfo", paths: ["userInfo"]},
+            {key: "pageButtonPermission", paths: ["pageButtonPermission"]},
+            {key: "permissionMenus", paths: ["permissionMenus"]},
+        ]
     }
 });

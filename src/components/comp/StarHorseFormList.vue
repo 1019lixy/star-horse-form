@@ -316,6 +316,7 @@ onMounted(async () => {
       <el-table-column fixed="right" label="操作" width="80">
         <template #default="scope" v-if="!isView">
           <el-button
+              v-if="staticColumn=='Y'"
               @click="dynamicHandleAddForm(scope.row,'edit')"
               link
               :size="size"

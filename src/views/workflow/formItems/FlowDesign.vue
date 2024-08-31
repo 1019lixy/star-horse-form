@@ -37,6 +37,7 @@ const props = defineProps({
   }
 
   .preps-area {
+    margin-left: 10px;
     width: 25%;
   }
 

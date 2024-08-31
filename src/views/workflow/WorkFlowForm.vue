@@ -71,6 +71,10 @@ const changeDesignStyle = () => {
   font-size: unset !important;
 }
 
+:deep(.el-step__main) {
+  cursor: pointer;
+}
+
 .start-horse-workflow {
   position: relative;
   width: 100%;
@@ -84,14 +88,15 @@ const changeDesignStyle = () => {
     justify-content: center;
     align-items: center;
     vertical-align: center;
-    height: 40px;
-
+    height: 46px;
+    border-bottom: 1px solid var(--star-horse-style);
+    z-index: 100;
     .flow-step {
       flex: 1;
     }
 
     .flow-button {
-      width: 10%;
+      width: 25%;
     }
   }
 

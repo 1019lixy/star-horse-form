@@ -131,6 +131,7 @@ const zoomSize = (type: number) => {
         <div class="end-node flex">
           <p>结束</p>
         </div>
+        <div style="height: 100px;width: 100%"/>
       </div>
     </div>
   </div>
@@ -159,12 +160,20 @@ const zoomSize = (type: number) => {
 .approval-flow {
   height: 100%;
   width: 100%;
-  overflow: auto;
+  overflow: hidden;
+
   .dingflow-design {
     margin: 0 auto;
     height: 100%;
     width: 100%;
-    position: relative;
+  /*  position: relative;*/
+    background-color: #f5f8ff;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 10px;
+    border: 1px solid #e6a23c;
+    overflow: auto;
 
     .zoom {
       position: fixed;
@@ -176,8 +185,7 @@ const zoomSize = (type: number) => {
       align-items: center;
       vertical-align: middle;
 
-      .zoom-in,
-      .zoom-out {
+      .zoom-in, .zoom-out {
         width: 30px;
         height: 30px;
         color: #c1c1cd;
@@ -213,12 +221,15 @@ const zoomSize = (type: number) => {
       transform: scale(1);
       display: inline-flex;
       flex-direction: column;
-      width: 100%;
+     /*    width: 100%;
+         height: 100%;*/
       margin: 0 auto;
+      overflow: auto;
       align-items: center;
       justify-content: center;
       box-sizing: border-box;
       transform-origin: 0 0 0;
+     /* border: 1px solid red;*/
 
       .branch-wrap {
         margin: 0 auto;
@@ -307,28 +318,6 @@ const zoomSize = (type: number) => {
   }
 }
 
-/*.fd-nav-content {
-  position: fixed;
-  top: 60px;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 1;
-  overflow-x: hidden;
-  overflow-y: auto;
-  padding-bottom: 30px;
-}*/
-
-.dingflow-design {
-  width: 100%;
-  background-color: #f5f8ff;
-  overflow: auto;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  top: 0;
-}
 
 .editable-title {
   font-size: 14px;
@@ -384,8 +373,8 @@ const zoomSize = (type: number) => {
   overflow: visible;
   min-height: 180px;
   height: auto;
-  border-bottom: 1px solid #ebebeb;
-  border-top: 1px solid #ebebeb;
+  border-bottom: 1px solid var(--star-horse-style);
+  border-top: 1px solid var(--star-horse-style);
   position: relative;
   margin-top: 15px;
 }
@@ -401,7 +390,7 @@ const zoomSize = (type: number) => {
   margin: auto;
   width: 1px;
   height: 100%;
-  background-color: #ebebeb;
+  background-color: var(--star-horse-style);
 }
 
 .dingflow-design .add-branch {
@@ -423,7 +412,7 @@ const zoomSize = (type: number) => {
   transform: translateX(-50%);
   transform-origin: center center;
   cursor: pointer;
-  z-index: 1;
+  z-index: 2;
   display: inline-flex;
   align-items: center;
   -webkit-transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
@@ -485,7 +474,7 @@ const zoomSize = (type: number) => {
   margin: auto;
   width: 1px;
   height: 100%;
-  background-color: #ebebeb;
+  background-color: var(--star-horse-style);
 }
 
 .dingflow-design .auto-judge:after {

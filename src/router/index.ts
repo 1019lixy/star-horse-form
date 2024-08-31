@@ -16,7 +16,7 @@ const router = createRouter({
     routes: routers,
     scrollBehavior: () => ({left: 0, top: 0}),
 });
-const whiteList = ["/login", "/continus", "/workflowDesign","/workFlow"]; // N redirect whitelist
+const whiteList = ["/login", "/continus", "/workflowDesign", "/workFlow"]; // N redirect whitelist
 const assignTitle = (meta: any) => {
     if (meta.title) {
         document.title = meta.title + " - " + Config.title;
@@ -24,7 +24,7 @@ const assignTitle = (meta: any) => {
 };
 router.beforeEach((to: RouteLocationNormalized, _from: RouteLocationNormalized, next: NavigationGuardNext) => {
     assignTitle(to.meta);
-    console.log(to,to.name);
+    console.log(to, to.name);
     start();
     if (getToken()) {
         // 已登录且要跳转的页面是登录页
@@ -32,7 +32,7 @@ router.beforeEach((to: RouteLocationNormalized, _from: RouteLocationNormalized, 
             next({path: "/"});
         } else {
             //第一次验证路由是不是存在，不存在则重新加载
-            if (!to.name||!router.hasRoute(to.name)) {
+            if (!to.name || !router.hasRoute(to.name)) {
                 restoreMenu(to);
                 // next({...to, replace: true});
             } else {
@@ -48,14 +48,14 @@ router.beforeEach((to: RouteLocationNormalized, _from: RouteLocationNormalized, 
             }
         }
     } else {
-        next();
-        // if (whiteList.find((item: string) => to.path.includes(item))) {
-        //     // 在免登录白名单，直接放行
-        //     next();
-        // } else {
-        //     //中断当前导航执行新的导航
-        //     next({path: "/login", query: {redirect: to.fullPath}}); // 否则全部重定向到登录页
-        // }
+        // next();
+        if (whiteList.find((item: string) => to.path.includes(item))) {
+            // 在免登录白名单，直接放行
+            next();
+        } else {
+            //中断当前导航执行新的导航
+            next({path: "/login", query: {redirect: to.fullPath}}); // 否则全部重定向到登录页
+        }
     }
 });
 router.beforeResolve((_to, _from, next) => {

@@ -53,5 +53,12 @@ export const GlobalConfig: any = defineStore("GlobalConfig", {
                 _this.setConfigFormInfo(JSON.parse(starHorseConfigInfo));
             }
         },
+    },
+    persist: {
+        enabled: true,
+        strategies: [{
+            key: "configFormInfo",
+            paths: ["configFormInfo"]
+        }]
     }
 });

@@ -1,8 +1,8 @@
 import {createPinia} from "pinia";
-import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
+import piniaPersist from 'pinia-plugin-persist';
 
 const piniaInstance = createPinia();
-piniaInstance.use(piniaPluginPersistedstate);
+piniaInstance.use(piniaPersist);
 // export const installStore = (app: App<Element>) => {
 //     app.use(piniaInstance);
 // }

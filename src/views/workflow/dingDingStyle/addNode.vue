@@ -97,7 +97,7 @@ const addType = (type: number) => {
           </div>
         </div>
         <template #reference>
-          <star-horse-icon icon-class="add"/>
+          <star-horse-icon icon-class="add" color="purple"/>
         </template>
       </el-popover>
     </div>
@@ -125,7 +125,7 @@ const addType = (type: number) => {
     margin: auto;
     width: 1px;
     // height: 100%;
-    background-color: #ebebeb;
+    background-color: var(--star-horse-style);
   }
 }
 

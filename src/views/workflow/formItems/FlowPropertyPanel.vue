@@ -118,12 +118,18 @@ const btnActionList = ref<SelectOption[]>([
   {name: "会签同意", value: "e1"},
   {name: "会签拒绝", value: "f1"},
 ]);
+const autoAgreeList=ref<SelectOption[]>([
+  {name:"经办人为发起人",value:"1"},
+  {name:"经办人为上一节点经办人",value:"2"},
+  {name:"经办人为经办人审批过",value:"3"},
+]);
 const buttonFieldList = ref<FieldInfo[]>([
   {
     fieldName: "buttonList",
     batchFieldList: [{
       batchName: "butonList",
       title: "按钮",
+      staticData:"Y",
       fieldList: [{
         label: "按钮名称",
         fieldName: "btnName",
@@ -146,7 +152,14 @@ const buttonFieldList = ref<FieldInfo[]>([
         },
       ]
     }]
+  },{
+    label: "自动同意",
+    fieldName: "autoAgree",
+    type: "select",
+    optionList: autoAgreeList,
+    formShow: true,
   }
+
 ]);
 const assigneeTypeList = ref<SelectOption[]>([
   {name: "审批人", value: "assignee"},

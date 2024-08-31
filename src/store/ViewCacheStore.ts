@@ -43,5 +43,11 @@ export const viewList: any = defineStore("viewList", {
             // state.navBarList = [];
             this.viewListDatas = [];
         },
+    },
+    persist: {
+        enabled: true,
+        strategies: [
+            {key: "viewListDatas", paths: ["viewListDatas"]}
+        ]
     }
 });
