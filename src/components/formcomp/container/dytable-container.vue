@@ -23,7 +23,7 @@ const props = defineProps({
         <template v-for="(td,colIndex) in row.columns">
           <dytable-col :field="td" :formInfo="formInfo" :formData="formData"
                        :isFirstRow="rowIndex==0"
-                       :parentComp="field"
+                       :parentField="field"
                        :isLastRow="rowIndex==field.preps.elements.length-1"
                        :isFirstCol="colIndex==0"
                        :isLastCol="colIndex==row.columns.length-1"

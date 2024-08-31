@@ -155,9 +155,11 @@ const removeItem = (formItem: any) => {
   if (!isEdit) {
     return;
   }
-  // console.log(formItem, props.parentField);
+   console.log(formItem, props.parentField);
+  let parentItemType=props.parentField?.itemType;
+
   let dataList = compList.value;
-  if (props.parentField?.itemType == "tab" || props.parentField?.itemType == "table") {
+  if (parentItemType == "tab" || parentItemType == "table"||parentItemType=="card"||parentItemType=="collapse") {
     let elements = props.parentField!.preps.elements;
     for (let i = 0; i < elements.length; i++) {
       let items = elements[i].items;
@@ -168,7 +170,7 @@ const removeItem = (formItem: any) => {
         }
       }
     }
-  } else if (props.parentField?.itemType == "box") {
+  } else if (parentItemType== "box"||parentItemType=="dytable") {
     let elements = props.parentField!.preps.elements;
     for (let index in elements) {
       let sdataTemp = elements[index];

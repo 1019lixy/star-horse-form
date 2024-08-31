@@ -63,7 +63,6 @@ const onDragAdd = (evt: Event, dataList: any) => {
   }
   if (newIndex != null && newIndex != 'undefined') {
     let dataInfo = dataList[newIndex];
-    dataInfo.id = dataInfo.id + "copy";
     designForm.selectItem(dataInfo, dataInfo.itemType, "");
   }
 };
@@ -81,7 +80,7 @@ onMounted(() => {
   init();
 });
 //监控数据
-watch(() => props.parentComp,
+watch(() => props.parentField,
     () => tableAction(props, buttonControl),
     {
       immediate: false,
@@ -109,7 +108,7 @@ watch(() => props.parentComp,
                      :field="data"
                      :formInfo="formInfo"
                      :is="getComponentName(data)"
-                     :parentField="field"
+                     :parentField="parentField"
                      :formData="formData"
                      />
         </div>

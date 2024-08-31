@@ -302,7 +302,7 @@ export const copyContainer = (parentComp: Array<any>, currentContainer: any) => 
  * 左方插入列
  */
 const insertLeftCol = (props: any) => {
-    let rows = props.parentComp.preps.elements;
+    let rows = props.parentField.preps.elements;
     let position = props.isFirstCol ? 0 : props.colIndex - 1;
     for (let index = 0; index < rows.length; index++) {
         let cols = rows[index].columns;
@@ -311,7 +311,7 @@ const insertLeftCol = (props: any) => {
 
 };
 const insertRightCol = (props: any) => {
-    let rows = props.parentComp.preps.elements;
+    let rows = props.parentField.preps.elements;
     let position = props.isLastCol ? props.colIndex : props.colIndex + 1;
     for (let index = 0; index < rows.length; index++) {
         let cols = rows[index].columns;
@@ -319,7 +319,7 @@ const insertRightCol = (props: any) => {
     }
 };
 const insertAboveRow = (props: any) => {
-    let rows = props.parentComp.preps.elements;
+    let rows = props.parentField.preps.elements;
     let len = 1;
     let cols: Array<any> = [];
     for (let index = 0; index < rows.length; index++) {
@@ -336,7 +336,7 @@ const insertAboveRow = (props: any) => {
 
 };
 const insertBelowRow = (props: any) => {
-    let rows = props.parentComp.preps.elements;
+    let rows = props.parentField.preps.elements;
     let len = 1;
     let cols: Array<any> = [];
     for (let index = 0; index < rows.length; index++) {
@@ -352,7 +352,7 @@ const insertBelowRow = (props: any) => {
     rows.splice(position, 0, cols);
 };
 const tableCellInfo = (props: any) => {
-    let rows = props.parentComp.preps.elements;
+    let rows = props.parentField.preps.elements;
     let row = rows[props.rowIndex];
     let col = row.columns[props.colIndex];
     return {rows, row, col};
@@ -461,7 +461,7 @@ const undoMergeCol = (props: any) => {
  * @param props
  */
 const deleteWholeCol = (props: any) => {
-    let rows = props.parentComp.preps.elements;
+    let rows = props.parentField.preps.elements;
     for (let index in rows) {
         let cols = rows[index].columns;
         for (let sIndex in cols) {
@@ -472,7 +472,7 @@ const deleteWholeCol = (props: any) => {
     }
 };
 const deleteWholeRow = (props: any) => {
-    props.parentComp.preps.elements.splice(props.rowIndex, 1);
+    props.parentField.preps.elements.splice(props.rowIndex, 1);
 };
 
 /**
