@@ -475,6 +475,7 @@ onMounted(async () => {
           <component
               :id="data.id"
               :field="data"
+              :formInfo="formInfo"
               :formData="formData"
               :is="data.itemType +(data.compType === 'container'? '-container':'-item')"
           >

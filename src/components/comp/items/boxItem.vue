@@ -34,7 +34,7 @@ onMounted(() => {
               v-if="sitem.type!='button'&&sitem.type!='comp'">
         <el-form-item
             :size="compSize"
-            :label="sitem?.preps['hideLabel']=='Y'?'':sitem.label"
+            :label="sitem.preps?.hideLabel=='Y'?'':sitem.label"
             :required="sitem.required"
             :prop="sitem.fieldName"
             :rules="sitem.required?validMsg(sitem):[]"
