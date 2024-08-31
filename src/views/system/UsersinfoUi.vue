@@ -13,6 +13,7 @@ import {SearchParams} from "@/components/types/Params";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {postRequest, trim} from "@/api/star_horse.ts";
 import {success, warning} from "@/utils/message.ts";
+import {baseUserFields, deptList, initSelectData, rolesList, sexList} from "@/views/system/utils/UserFields.ts";
 
 const props = defineProps({
   viewRolesinfoId: {type: String},
@@ -33,15 +34,7 @@ const dataUrl: ApiUrls = {
   uploadUrl: "",
   condition: []
 };
-// const nativePlaceList = ref<any>([]);
-// const educationList = ref<SelectOption[]>([]);
-// const politicalStatusList = ref<SelectOption[]>([]);
-// const identityTypeList = ref<SelectOption[]>([]);
-const sexList = ref<SelectOption[]>([{name: "男", value: 1}, {name: "女", value: 2}, {name: "保密", value: 3}]);
-const rolesList = ref<SelectOption[]>([]);
-const deptList = ref<SelectOption[]>([]);
 const usersinfoTableListRef = ref();
-const statusList = ref<SelectOption[]>([]);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {label: "姓名", fieldName: "name", defaultShow: true, type: "input", matchType: "lk"},
@@ -107,131 +100,7 @@ const editPwd = async (row: any) => {
   pwdFormRef.value.setFormData(data);
 };
 const tableFieldList = reactive<PageFieldInfo | any>({
-  fieldList: [
-    [{
-      label: "用户名", fieldName: "username", type: "input",
-      required: true, formShow: true, editDisabled: "Y",
-      tableShow: true
-    }, {
-      label: "员工编号", fieldName: "employeeNo", type: "input",
-      required: true, formShow: true, editDisabled: "Y",
-      tableShow: true
-    }],
-    [{
-      label: "归属部门", fieldName: "deptList", type: "cascade", optionList: deptList,
-      required: true, formShow: true, multiple: "Y",
-      tableShow: true
-    }, {
-      label: "角色", fieldName: "rolesList", type: "select", optionList: rolesList,
-      required: true, formShow: true, multiple: "Y",
-      tableShow: true
-    }],
-    [
-      {
-        label: "邮箱地址", fieldName: "email", type: "input",
-        required: true, formShow: true,
-        tableShow: true
-      },
-      {
-        label: "联系电话", fieldName: "phone", type: "input",
-        required: true, formShow: true,
-        tableShow: true
-      }],
-    [
-      {
-        label: "姓名", fieldName: "name", type: "input",
-        required: true, formShow: true,
-        tableShow: true
-      },
-      {
-        label: "性别", fieldName: "sex", type: "select", optionList: sexList,
-        formShow: true,
-        tableShow: true
-      }],
-    /*
-     {
-      label: "紧急联系人电话", fieldName: "bakePhone", type: "input",
-    },
-    {
-      label: "学历", fieldName: "education", type: "select", optionList: educationList.value,
-       formShow: true,
-      tableShow: true
-    },
-    [{
-      label: "入职时间", fieldName: "entryDate", type: "date",
-    },
-      {
-        label: "离职时间", fieldName: "leaveDate", type: "date",
-      }],
-    {
-      label: "籍贯", fieldName: "nativePlace", type: "select", optionList: nativePlaceList.value,
-       formShow: true,
-      tableShow: true
-    },
-    {
-      label: "政治面貌", fieldName: "politicalStatus", type: "select", optionList: politicalStatusList.value,
-       formShow: true,
-      tableShow: true
-    },
-    {
-      label: "证件类型", fieldName: "identityType", type: "select", optionList: identityTypeList.value,
-       formShow: true,
-      tableShow: true
-    },
-    {
-      label: "证件编号", fieldName: "identityNo", type: "input",
-       formShow: true,
-      tableShow: true
-    },*/
-    [{
-      label: "状态", fieldName: "statusCode", type: "select",
-      formShow: true,
-      optionList: statusList,
-    },
-      {
-        label: "通信地址", fieldName: "address", type: "input",
-        formShow: true,
-        tableShow: true
-      }],
-    {
-      label: "备注", fieldName: "remark", type: "textarea",
-      formShow: true,
-      tableShow: true
-    },
-    {
-      label: "证件照", fieldName: "imagePath", type: "input",
-    },
-    {
-      label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
-      tableShow: true
-    },
-    {
-      label: "修改人", disabled: "Y", fieldName: "updatedBy", type: "input",
-    },
-    {
-      label: "创建日期", disabled: "Y", fieldName: "createdDate", type: "date",
-      tableShow: true
-    },
-    {
-      label: "修改日期", disabled: "Y", fieldName: "updatedDate", type: "date",
-    },
-    {
-      label: "数据版本号", fieldName: "version", type: "number",
-    },
-    {
-      label: "是否已逻辑删除", fieldName: "isDel", type: "number",
-    },
-    {
-      label: "数据编号", fieldName: "dataNo", type: "input",
-    },
-    {
-      label: "状态", fieldName: "statusName", type: "input",
-      tableShow: true
-    },
-    {
-      label: "国际码", fieldName: "local", type: "input",
-    },
-  ],
+  fieldList: baseUserFields,
   stopAutoLoad: !!props.viewRolesinfoId,
   userTableFuncs: [{
     authority: "edit",
@@ -305,10 +174,7 @@ const checkChange = (data: TreeNodeData, checked: boolean) => {
 };
 
 const initData = async () => {
-
-  rolesList.value = await loadRolesInfo([]);
-  deptList.value = await loadDepartmentInfo([]);
-  statusList.value = await dictData("common");
+  await initSelectData();
   await nextTick();
   //如果是从其它页面加载的该页面，则将条件加入查询
   if (props.viewRolesinfoId) {
@@ -347,10 +213,10 @@ const pwdFieldInfo = reactive<PageFieldInfo | any>({
       @merge="pwdMerge"
       @reset="resetForm"
   >
-    <star-horse-form  :compUrl="dataUrl" :fieldList="pwdFieldInfo"  ref="pwdFormRef"/>
+    <star-horse-form :compUrl="dataUrl" :fieldList="pwdFieldInfo" ref="pwdFormRef"/>
   </star-horse-dialog>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form  @refresh="usersinfoTableListRef.loadByPage()" :compUrl="dataUrl"
+    <star-horse-form @refresh="usersinfoTableListRef.loadByPage()" :compUrl="dataUrl"
                      :fieldList="tableFieldList"
                      :rules="rules"/>
   </star-horse-dialog>
@@ -398,7 +264,7 @@ const pwdFieldInfo = reactive<PageFieldInfo | any>({
                                     :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
           </div>
           <hr>
-          <star-horse-table-comp  ref="usersinfoTableListRef" :fieldList="tableFieldList"
+          <star-horse-table-comp ref="usersinfoTableListRef" :fieldList="tableFieldList"
                                  :primaryKey="primaryKey"
                                  :compUrl="dataUrl"
                                  :dataFormat="dataFormat" :disableAction="disableAction"/>

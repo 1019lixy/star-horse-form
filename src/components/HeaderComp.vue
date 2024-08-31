@@ -20,6 +20,8 @@ import {userInfoStore} from "@/store/UserInfoStore.ts";
 // import {configInfo} from "@/items/sh_design.ts";
 import {toggleDark} from "@/api/system.ts";
 import {Moon, Sunny} from "@element-plus/icons-vue";
+import routers from "@/router/router.ts";
+import {useRouter} from "vue-router";
 
 const userStore = userInfoStore(piniaInstance);
 const shortcutMenuList = ref<Array<any>>([]);
@@ -45,7 +47,8 @@ const dataUrl: ApiUrls = {
   condition: [getCustomerParam()]
 };
 let configStore = GlobalConfig(piniaInstance);
-const emits = defineEmits(["changeLang"]);
+let router = useRouter();
+const emits = defineEmits(["changeLang", "layoutConfig"]);
 const dialogProps = reactive<DialogProps>({
   bakeVisible1: false, bakeVisible2: false, bakeVisible3: false,
   ids: -1,
@@ -129,41 +132,19 @@ onMounted(() => {
 /**
  * 权限弹窗
  */
-const permissionEdit = () => {
-  dialogProps.dialogTitle = "个人权限";
-  dialogProps.batchEditVisible = true;
+const layoutConfig = () => {
+  emits("layoutConfig");
 };
 /**
  * 个人信息弹窗
  */
 const modifyInfo = () => {
-  dialogProps.dialogTitle = "更新个人信息";
-  dialogProps.editVisible = true;
-  resetForm();
+  // dialogProps.dialogTitle = "更新个人信息";
+  // dialogProps.editVisible = true;
+  // resetForm();
+  router.push("/userCenter");
 };
-const doModifyUserInfo = () => {
-  let dataForm = editUserinfoRef.value.getFormData()?.value;
-  postRequest("/system-config/system/usersAuditEntity/refreshInvalidPassword/" + dataForm.username +
-      "/" + dataForm.password + "/" + (dataForm.oldPassword || "0") + "/" + dataForm.phone, {})
-      .then(res => {
-        let redata = res.data;
-        if (redata.code != 0) {
-          warning(redata.cnMessage);
-          return;
-        }
-        success(redata.cnMessage);
-        dialogProps.editVisible = false;
-      });
-};
-/**
- * 重置表单
- */
-const resetForm = () => {
-  let dataForm: any = {};
-  dataForm["username"] = userInfo?.username;
-  dataForm["employeeNo"] = userInfo?.employeeNo;
-  editUserinfoRef.value.setFormData(dataForm);
-};
+
 const loginOut = () => {
   confirm("是否确认退出系统?").then((res: boolean) => {
     if (res) {
@@ -289,14 +270,6 @@ const filterTableData = computed(() => filterTree(search.value, permissionMenuLi
 let configInfo = computed(() => configStore.configFormInfo);
 </script>
 <template>
-  <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps"
-                     @merge="doModifyUserInfo"
-                     @resetForm="resetForm" :self-func="true">
-    <star-horse-form ref="editUserinfoRef" :compUrl="dataUrl" :fieldList="tableFieldList" :rules="rules"/>
-  </star-horse-dialog>
-  <star-horse-dialog :dialog-visible="dialogProps.batchEditVisible" :dialogProps="dialogProps" :self-func="true">
-    该功能建设中。。。。
-  </star-horse-dialog>
   <star-horse-dialog :title="'编辑快捷菜单'" :dialog-props="dialogProps" :dialog-visible="dialogProps.bakeVisible1"
                      :self-func="true" @merge="batchMerge" @resetForm="shortcutReset">
     <el-input style="width: 15%;" v-model="search" size="default" placeholder="请输入关键字" clearable>
@@ -312,9 +285,9 @@ let configInfo = computed(() => configStore.configFormInfo);
   </star-horse-dialog>
   <div class="header">
     <div :title="systemName" class="logo">
-
       <img v-if="getCustomerInfo()?.logo" :src="getCustomerInfo()?.logo" :height="getCustomerInfo()?.height||45"/>
-      <star-horse-icon v-else icon-class="logo"   style="color: var(--star-horse-white);height:45px;width:45px;font-weight:bold"/>
+      <star-horse-icon v-else icon-class="logo"
+                       style="color: var(--star-horse-white);height:45px;width:45px;font-weight:bold"/>
     </div>
     <div class="header-left">
       <star-horse-hmenu v-if="configInfo.menusCfg=='tradition'"/>
@@ -354,7 +327,7 @@ let configInfo = computed(() => configStore.configFormInfo);
         </el-popover>
       </div>
       <div class="user-info">
-        <el-dropdown class="lang" @command="handleLanguageChanged">
+        <el-dropdown class="lang" @command="handleLanguageChanged" :show-arrow="false">
           <span class="el-dropdown-link">{{ curLangName }}<star-horse-icon icon-class="arrow-down"
                                                                            style="color:var(--star-horse-white)"/></span>
           <template #dropdown>
@@ -364,7 +337,7 @@ let configInfo = computed(() => configStore.configFormInfo);
             </el-dropdown-menu>
           </template>
         </el-dropdown>
-        <el-dropdown trigger="click">
+        <el-dropdown trigger="click" :show-arrow="false">
           <span class="el-dropdown-link">
             <star-horse-icon icon-class="user-circle" size="30px" cursor="pointer"
                              style="vertical-align:middle;color: var(--star-horse-white);"/>
@@ -375,14 +348,15 @@ let configInfo = computed(() => configStore.configFormInfo);
                 <span>{{ userInfo.name }}</span>
                 <p>({{ userInfo.username }})</p>
               </el-dropdown-item>
-              <el-dropdown-item divided class="clearfix" @click="permissionEdit">
-                <star-horse-icon icon-class="sys-authority" color="var(--star-horse-style)"/>
+              <el-dropdown-item divided class="clearfix" @click="modifyInfo">
+                <star-horse-icon icon-class="user-circle" color="var(--star-horse-style)"/>
                 {{ i18n("main.header.authority") }}
               </el-dropdown-item>
-              <el-dropdown-item class="clearfix" @click="modifyInfo">
-                <star-horse-icon icon-class="user-edit" color="var(--star-horse-style)"/>
-                {{ i18n("main.header.userEdit") }}
+              <el-dropdown-item divided class="clearfix" @click="layoutConfig">
+                <star-horse-icon icon-class="layout" color="var(--star-horse-style)"/>
+                {{ i18n("main.header.layoutConfig") }}
               </el-dropdown-item>
+
               <el-dropdown-item divided @click="loginOut" class="clearfix">
                 <star-horse-icon icon-class="login_out" style="vertical-align: middle;color:#f56c6c;"/>
                 {{ i18n("main.header.logout") }}

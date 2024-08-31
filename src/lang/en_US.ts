@@ -22,7 +22,8 @@ export default {
     "loginButton.register": "Register",
     "loginButton.login": "Login",
     "loginButton.logging": "Logging...",
-    "main.header.authority": "Authority",
+    "main.header.authority": "User Center",
+    "main.header.layoutConfig": "Layout Config",
     "main.header.userEdit": "Modify",
     "main.header.logout": "Logout",
     /**

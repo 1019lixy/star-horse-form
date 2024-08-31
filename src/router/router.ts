@@ -18,6 +18,16 @@ routers.push({
             }
         },
         {
+            path: "/userCenter",
+            name: "UserCenter",
+            component: () => import("@/components/UserCenter.vue"),
+            meta: {
+                menuIcon: "user",
+                title: "用户中心",
+                keepAlive: "Y"
+            }
+        },
+        {
             path: "/dict_list",
             name: "DictinfoUi",
             component: () => import("@/views/system/DictinfoUI.vue"),
@@ -122,7 +132,7 @@ routers.push(
             keepAlive: "N",
             title: "404页面"
         }
-    },{
+    }, {
         path: "/workFlow",
         component: () => import("@/views/workflow/dingDingStyle/workFlow.vue"),
         name: "workFlow",
@@ -130,7 +140,7 @@ routers.push(
             keepAlive: "N",
             title: "钉钉流程模式"
         }
-    },{
+    }, {
         path: "/workFlowForm",
         component: () => import("@/views/workflow/WorkFlowForm.vue"),
         name: "WorkFlowForm",

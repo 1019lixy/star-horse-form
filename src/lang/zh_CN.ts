@@ -24,7 +24,8 @@ export default {
     "loginButton.register": "注册",
     "loginButton.login": "登 录",
     "loginButton.logging": "登 录 中...",
-    "main.header.authority": "个人权限",
+    "main.header.authority": "用户中心",
+    "main.header.layoutConfig": "布局设置",
     "main.header.userEdit": "修改个人信息",
     "main.header.logout": "退出",
     /**

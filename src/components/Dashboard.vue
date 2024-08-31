@@ -33,6 +33,9 @@ const changeLang = (lang: LangType, _isInit: boolean) => {
   locale.value = lang == LangType.ZH_CN ? zhCn : en;
   // console.log(isInit);
 };
+const layoutConfig = () => {
+  drawer.value = true;
+}
 const loadMenuFun = (data: string) => {
   sysemId.value = data;
 }
@@ -120,7 +123,7 @@ const configInfo = computed(() => configStore.configFormInfo);
   <el-config-provider :locale="locale">
     <el-container class="star-horse-container">
       <el-header class="star-horse-header">
-        <header-comp :is-collapse="!isCollapse" @changeLang="changeLang"/>
+        <header-comp :is-collapse="!isCollapse" @changeLang="changeLang" @layoutConfig="layoutConfig"/>
       </el-header>
       <el-container class="star-horse-container-main">
         <el-aside :width="(configInfo.menusCfg=='tradition'?outerIsCollapse:90)+'px'" ref="mainLeftAside"
@@ -141,7 +144,7 @@ const configInfo = computed(() => configStore.configFormInfo);
                       <header-comp :is-collapse="!isCollapse" @changeLang="changeLang"/>
                     </el-header>-->
           <tags-view v-if="configInfo.tagsView=='Y'"/>
-          <router-view v-slot="{ Component }" >
+          <router-view v-slot="{ Component }">
             <transition name="solid">
               <keep-alive :include="cachedDatas">
                 <component :is="Component"/>
@@ -159,11 +162,11 @@ const configInfo = computed(() => configStore.configFormInfo);
         </el-main>
       </el-container>
     </el-container>
-    <div class="main-config" @click="drawer=true">
+<!--    <div class="main-config" @click="drawer=true">
       <el-tooltip content="主题设置">
-        <star-horse-icon icon-class="setting" color="var(--star-horse-style)"/>
+        <star-horse-icon icon-class="setting" color="var(&#45;&#45;star-horse-style)"/>
       </el-tooltip>
-    </div>
+    </div>-->
     <el-drawer v-model="drawer" :direction="direction">
       <template #header>
         <h3>操作习惯配置</h3>
@@ -232,7 +235,7 @@ const configInfo = computed(() => configStore.configFormInfo);
   overflow: hidden;
 }*/
 
-.main-config {
+/*.main-config {
   position: absolute;
   top: 50%;
   right: 1px;
@@ -241,6 +244,12 @@ const configInfo = computed(() => configStore.configFormInfo);
 
   &:hover, svg:hover {
     cursor: pointer;
+  }
+}*/
+:deep(.el-drawer__close-btn){
+  background-color: unset;
+  svg{
+    color: unset !important;
   }
 }
 
