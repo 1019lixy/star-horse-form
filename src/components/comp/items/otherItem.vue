@@ -35,7 +35,7 @@ onMounted(() => {
                    :isEdit="isEdit"/>
   <el-form-item
       :size="compSize"
-      :label="item.label"
+      :label="item?.preps['hideLabel']=='Y'?'':item.label"
       :required="item.required"
       :rules="item.required?validMsg(item):[]"
       :prop="item.fieldName"

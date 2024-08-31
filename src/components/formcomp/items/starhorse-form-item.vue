@@ -200,14 +200,16 @@ onMounted(() => {
   <div v-if="bareFlag" >
     <slot></slot>
   </div>
+
   <div v-else class="form-item-operation" >
     <div :class="{'field-item design-star-horse' : isEdit,
   'active-item':currentItemId == formItem?.preps.id && isEdit
   }" v-if="isDesign" @click="selectData(formItem)">
+
       <el-form-item
           :size="formItem?.preps['size']||'small'"
           v-if="parentField?.itemType!='table'&&formItem?.itemType!='divider'&&formItem?.preps['headerFlag']!='Y'"
-          :label="formItem?.preps['hideLabel']?'':formItem?.preps['label']"
+          :label="formItem?.preps['hideLabel']=='Y'?'':formItem?.preps['label']"
           :prop="formItem?.preps['name']"
           :required="formItem?.preps['required']=='Y'"
           :rules="formItem?.preps['required']=='Y'?[{required:true,trigger:'blur',message:'必须项不能为空'}]:[]"
@@ -215,6 +217,7 @@ onMounted(() => {
         <slot></slot>
       </el-form-item>
       <div v-else class="bare-item">
+        ss
         <slot></slot>
       </div>
       <div
