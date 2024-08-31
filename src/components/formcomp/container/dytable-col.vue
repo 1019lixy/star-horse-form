@@ -116,7 +116,7 @@ watch(() => props.parentComp,
       </template>
     </draggable>
     <div class="table-cell-action" v-if="isEdit&&currentSubItemId==field._uuid">
-      <el-dropdown trigger="click" @command="handleTableCellCommand" size="small">
+      <el-dropdown trigger="click" @command="handleTableCellCommand" size="default">
         <star-horse-icon icon-class="menu"/>
         <template #dropdown>
           <el-dropdown-menu>

@@ -31,7 +31,7 @@ const props = defineProps({
   helpMsg: {type: String, default: ""},
   rules: {type: Object},
   staticColumn: {type: String, default: "N"},
-  size: {type: String, default: "small"},
+  size: {type: String, default: "default"},
   isView: {type: Boolean, default: false},
   subFlag: {type: Boolean, default: false},
 });

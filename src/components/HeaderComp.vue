@@ -299,7 +299,7 @@ let configInfo = computed(() => configStore.configFormInfo);
   </star-horse-dialog>
   <star-horse-dialog :title="'编辑快捷菜单'" :dialog-props="dialogProps" :dialog-visible="dialogProps.bakeVisible1"
                      :self-func="true" @merge="batchMerge" @resetForm="shortcutReset">
-    <el-input style="width: 15%;" v-model="search" size="small" placeholder="请输入关键字" clearable>
+    <el-input style="width: 15%;" v-model="search" size="default" placeholder="请输入关键字" clearable>
       <template #suffix>
         <star-horse-icon icon-class="search" color="var(--star-horse-style)"/>
       </template>

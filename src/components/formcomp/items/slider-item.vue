@@ -19,7 +19,7 @@
         :show-input-controls="field.preps['showInputControls']=='Y'"
         :show-stops="field.preps['showStops']=='Y'"
         :show-tooltip="field.preps['showTooltip']=='Y'"
-        :size="context.attrs.formInfo?.size||field?.preps['size']||'small'"
+        :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
         :step="field.preps['step']"
         @change="keyEnterFun"
         v-model="context.attrs['formData'][field.preps['name']]"

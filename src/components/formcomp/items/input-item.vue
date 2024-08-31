@@ -11,7 +11,7 @@
         :minlength="field.preps['maxlength']"
         :placeholder="field.preps['placeholder']||'请输入'+field.preps['label']"
         :readonly="field.preps['readonly']=='Y'"
-        :size="context.attrs.formInfo?.size||field?.preps['size']||'small'"
+        :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
         type="text"
         :fid="field.preps['name']"
         class="input-with-select"

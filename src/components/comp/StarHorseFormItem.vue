@@ -13,7 +13,7 @@ defineProps({
   batchName: {type: String, default: "batchDataList"},
   batchFieldName: {type: String, default: "batchFieldList"},
   primaryKey: {type: String},
-  compSize: {type: String, default: "small"},
+  compSize: {type: String, default: "default"},
   rules: {type: Object},
   isView: {type: Boolean, default: false},
 });

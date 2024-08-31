@@ -19,7 +19,7 @@
         :placeholder="field.preps['placeholder']||'请选择'+field.preps['label']"
         :range-separator="field.preps['rangeSeparator']"
         :readonly="field.preps['readonly']"
-        :size="context.attrs.formInfo?.size||field?.preps['size']||'small'"
+        :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
         :start-placeholder="field.preps['startPlaceholder']||'请选择开始'+field.preps['label']"
         v-on:[actionName]="keyEnterFun(field.preps['actionName'])"
         @keydown.enter="keyEnterFun"

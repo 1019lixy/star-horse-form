@@ -18,7 +18,7 @@
         :method="field.preps['method']||'post'"
         :multiple="field.preps['multiple']=='Y'"
         :name="field.preps['name']||'file'"
-        :size="context.attrs.formInfo?.size||field?.preps['size']||'small'"
+        :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
         :on-change="selfAction('change')"
         :on-error="selfAction('error')"
         :on-exceed="selfAction('exceed')"

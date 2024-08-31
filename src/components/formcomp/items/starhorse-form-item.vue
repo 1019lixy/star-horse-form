@@ -207,7 +207,7 @@ onMounted(() => {
   }" v-if="isDesign" @click="selectData(formItem)">
 
       <el-form-item
-          :size="formItem?.preps['size']||'small'"
+          :size="formItem?.preps['size']||'default'"
           v-if="parentField?.itemType!='table'&&formItem?.itemType!='divider'&&formItem?.preps['headerFlag']!='Y'"
           :label="formItem?.preps['hideLabel']=='Y'?'':formItem?.preps['label']"
           :prop="formItem?.preps['name']"

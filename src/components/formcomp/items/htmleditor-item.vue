@@ -3,13 +3,13 @@
   >
     <div style="border: 1px solid #ccc">
       <Toolbar style="border-bottom: 1px solid #ccc" :editor="editorRef" :defaultConfig="toolbarConfig"
-               mode="small"/>
+               mode="default"/>
       <Editor
           :style="{height: field.preps.height||'300px','overflow-y': 'hidden'}"
           @keydown.enter="keyEnterFun"
           v-model="context.attrs['formData'][field.preps['name']]"
           :defaultConfig="editorConfig"
-          mode="small"
+          mode="default"
           :fid="field.preps['name']"
           @onCreated="handleCreated"
       />

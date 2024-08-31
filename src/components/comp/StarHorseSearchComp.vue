@@ -21,7 +21,7 @@ const props = defineProps({
   formData: {type: Object as PropType<SearchFields>, required: true},
 });
 let configStore = GlobalConfig(piniaInstance);
-let compSize = computed(() => configStore.configFormInfo?.inputSize || "small");
+let compSize = computed(() => configStore.configFormInfo?.inputSize || "default");
 let searchForm = ref<any>({});
 
 const createSearchParams = (formData: any) => {

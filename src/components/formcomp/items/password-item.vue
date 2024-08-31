@@ -12,7 +12,7 @@
         :placeholder="field.preps['placeholder']||'请输入'+field.preps['label']"
         :readonly="field.preps['readonly']=='Y'"
         :show-password="field.preps['showPassword']=='Y'"
-        :size="context.attrs.formInfo?.size||field?.preps['size']||'small'"
+        :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
         type="password"
         v-on:[actionName]="keyEnterFun(field.preps['actionName'])"
         @keydown.enter="keyEnterFun"

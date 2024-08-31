@@ -28,7 +28,7 @@
         :placeholder="field.preps['placeholder'] || '请输入' + field.preps['label']"
         :prefix-icon="field.preps['prefixIcon']"
         :readonly="field.preps['readonly']=='Y'"
-        :size="context.attrs.formInfo?.size||field?.preps['size']||'small'"
+        :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
         type="text"
         :fid="field.preps['name']"
         v-on:[actionName]="keyEnterFun(field.preps['actionName'])"
@@ -38,7 +38,7 @@
         v-model="context.attrs['formData'][field.preps['name']]">
       <template #append>
         <el-button icon="Search" @click="showVisible"
-                   :size="context.attrs.formInfo?.size||field?.preps['size']||'small'"
+                   :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
                    :disabled="field.preps['disabled'] == 'Y'"/>
       </template>
     </el-input>

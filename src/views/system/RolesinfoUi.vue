@@ -392,7 +392,7 @@ onMounted(async () => {
     <el-card class="inner_content" style="height: inherit">
       <el-input
           v-model="query"
-          size="small"
+          size="default"
           clearable
           placeholder="请输入关键字"
           @input="onQueryChanged"

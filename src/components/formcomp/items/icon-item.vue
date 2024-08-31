@@ -10,7 +10,7 @@
             :clearable="field.preps['clearable']=='Y'"
             :readonly="field.preps['readonly']=='Y'"
             :disabled="field.preps['disabled']=='Y'"
-            :size="context.attrs.formInfo?.size||field?.preps['size']||'small'"
+            :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
             v-on:[actionName]="keyEnterFun(field.preps['actionName'])"
             :placeholder="field.preps['placeholder']||'请选择' + field.preps['label']"
             @keydown.enter="keyEnterFun"

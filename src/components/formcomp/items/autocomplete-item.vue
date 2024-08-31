@@ -14,7 +14,7 @@
         :aria-label="field.preps['label']"
         :name="field.preps['name']"
         :hide-loading="false"
-        :size="context.attrs.formInfo?.size||field?.preps['size']||'small'"
+        :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
         :placeholder="field.preps['placeholder']||'请输入'+field.preps['label']"
         :placement="field.preps['placement']"
         :teleported="field.preps['teleported']=='Y'"

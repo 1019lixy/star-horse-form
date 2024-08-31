@@ -16,7 +16,7 @@
         :multiple-limit="field.preps['multipleLimit']"
         :name="field.preps['name']"
         :placeholder="field.preps['placeholder']||'请选择'+field.preps['label']"
-        :size="context.attrs.formInfo?.size||field?.preps['size']||'small'"
+        :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
         :data="field.preps['values']||context.attrs['formData'][field.preps['name']+'OptionList']"
         :tag-type="field.preps['tagType']"
         v-on:[actionName]="keyEnterFun(field.preps['actionName'])"

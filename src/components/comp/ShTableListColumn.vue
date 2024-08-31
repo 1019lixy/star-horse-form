@@ -10,7 +10,7 @@ defineProps({
   primaryKey: {type: String},
   batchName: {type: String, default: "batchDataList"},
   rules: {type: Object},
-  size: {type: String, default: "small"}
+  size: {type: String, default: "default"}
 });
 const dialogProps = inject<DialogProps>("dialogProps");
 const validMsg = (item: any) => {

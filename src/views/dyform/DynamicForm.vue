@@ -41,7 +41,7 @@ let pagePermission = useButtonPermission(piniaInstance);
 let userOperation = useUserSelfOperation(piniaInstance);
 let configStore = GlobalConfig(piniaInstance);
 let permissions = ref<any>({});
-let compSize = computed(() => configStore.configFormInfo?.buttonSize || "small");
+let compSize = computed(() => configStore.configFormInfo?.buttonSize || "default");
 let draggingItem = computed(() => designForm.draggingItem);
 let list = computed(() => designForm.compList);
 let isPreview = ref<any>(false);

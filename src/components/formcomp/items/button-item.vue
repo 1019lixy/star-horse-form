@@ -14,7 +14,7 @@
         :native-type="field?.preps['nativeType']"
         :plain="field?.preps['plain']=='Y'"
         :round="field?.preps['round']=='Y'"
-        :size="context.attrs.formInfo?.size||field?.preps['size']||'small'"
+        :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
         :text="field?.preps['text']=='Y'"
         @click="dynamicFunc(field?.preps['click'])"
         :type="field?.preps['type']">

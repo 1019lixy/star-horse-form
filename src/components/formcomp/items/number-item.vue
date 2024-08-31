@@ -12,7 +12,7 @@
         :placeholder="field.preps['placeholder']||'请输入'+field.preps['label']"
         :precision="field.preps['precision']"
         :readonly="field.preps['readonly']=='Y'"
-        :size="context.attrs.formInfo?.size||field?.preps['size']||'small'"
+        :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
         :step="field.preps['step']"
         :step-strictly="field.preps['stepStrictly']=='Y'"
         v-on:[actionName]="keyEnterFun(field.preps['actionName'])"

@@ -15,7 +15,7 @@
         :show-score="field.preps['showScore']=='Y'"
         @change="keyEnterFun"
         :show-text="field.preps['showText']=='Y'"
-        :size="context.attrs.formInfo?.size||field?.preps['size']||'small'"
+        :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
         :text-color="field.preps['textColor']"
         :texts="field.preps['texts']"
         :void-color="field.preps['voidColor']"

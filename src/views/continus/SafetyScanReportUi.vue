@@ -398,7 +398,7 @@
     </el-form>
   </star-horse-dialog>
   <el-card>
-    <el-form class="search_area" size="small">
+    <el-form class="search_area" size="default">
       <el-form-item label="状态名称">
         <el-input placeholder="请输入状态名称" v-model="searchForm.statusName"/>
       </el-form-item>
@@ -416,7 +416,7 @@
           <star-horse-icon icon-class="search"/>
           <span style="vertical-align: middle;"> 查询 </span>
         </el-button>
-        <el-button @click="dataSearch(1)" link small>
+        <el-button @click="dataSearch(1)" link default>
           <span style="vertical-align: middle;"> 重置 </span>
         </el-button>
       </el-form-item>

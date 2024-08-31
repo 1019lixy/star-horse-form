@@ -752,7 +752,7 @@ defineExpose({
           </template>
           <el-input
               v-model="query"
-              size="small"
+              size="default"
               clearable
               placeholder="请输入关键字"
               @input="onQueryChanged"
@@ -764,7 +764,7 @@ defineExpose({
           <el-scrollbar>
             <el-collapse accordion v-model="activeItem">
               <template v-for="item in filterDatas">
-                <el-collapse-item :name="item.name" :title="item.title" type="small">
+                <el-collapse-item :name="item.name" :title="item.title" type="default">
                   <el-scrollbar max-height="350">
                     <ul>
                       <li

@@ -7,7 +7,7 @@
         :readonly="field.preps['readonly']=='Y'"
         :max="field.preps['max']"
         :min="field.preps['min']"
-        :size="context.attrs.formInfo?.size||field?.preps['size']||'small'"
+        :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
         :text-color="field.preps['textColor']"
         @change="keyEnterFun"
         v-model="context.attrs['formData'][field.preps['name']]"

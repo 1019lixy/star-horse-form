@@ -13,7 +13,7 @@
         :readonly="field.preps['readonly']=='Y'"
         :rows="field.preps['rows']"
         :show-word-limit="field.preps['showWordLimit']=='Y'"
-        :size="context.attrs.formInfo?.size||field?.preps['size']||'small'"
+        :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
         type="textarea"
         :resize="field?.preps['resize']||'--'"
         v-on:[actionName]="keyEnterFun(field.preps['actionName'])"

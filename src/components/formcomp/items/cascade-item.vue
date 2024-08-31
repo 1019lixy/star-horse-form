@@ -17,7 +17,7 @@
         }"
         :separator="field.preps['separator']"
         :show-all-levels="field.preps['showAllLevels']=='Y'"
-        :size="context.attrs.formInfo?.size||field?.preps['size']||'small'"
+        :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
         :tag-type="field.preps['tagType']"
         v-on:[actionName]="keyEnterFun(field.preps['actionName'])"
         @keydown.enter="keyEnterFun"

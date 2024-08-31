@@ -110,7 +110,7 @@ defineExpose({
           <template #default="scope">
             <el-switch
                 v-model="scope.row.tableShow"
-                size="small"
+                size="default"
                 :active-value="true"
                 :inactive-value="false"
             />

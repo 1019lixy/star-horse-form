@@ -22,7 +22,7 @@ const props = defineProps({
   userBtn: {type: Array<BtnAuth>, default: []},
   btnTextContinue: {type: String, default: "提交并继续"},
   title: {type: String, default: ""},
-  compSize: {type: String, default: "small"}
+  compSize: {type: String, default: "default"}
 });
 let windowsType = ref<boolean>(false);
 watch(

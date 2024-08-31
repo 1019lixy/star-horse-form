@@ -187,8 +187,8 @@ const changeOperation = (_val: any) => {
 const resetDefault = () => {
   let defaultConfig = {
     tagsView: 'Y',
-    inputSize: 'small',
-    buttonSize: 'small',
+    inputSize: 'default',
+    buttonSize: 'default',
     buttonShowType: "dropdown",
     themeColor: "#409EFF",
     position: "left",
@@ -208,7 +208,7 @@ onMounted(() => {
 <template>
   <el-card class="inner_content">
     <el-scrollbar height="100%">
-      <el-form class="page-config" :model="configInfo" size="small" label-position="top">
+      <el-form class="page-config" :model="configInfo" size="default" label-position="top">
 
         <el-divider content-position="left">
           <el-form-item prop="themeColor" label="颜色" :label-position="'left'">
@@ -218,7 +218,7 @@ onMounted(() => {
         <el-form-item prop="themeColor" label="主题颜色" style="height: 200px;width: 100%;overflow: auto">
           <template v-for="item in classicsList">
             <div class="theme-item" @click="classicsTheme(item.color)">
-              <el-tag :color="item.color" style="margin-right: 8px" size="small"/>
+              <el-tag :color="item.color" style="margin-right: 8px" size="default"/>
               <span>{{ item.name }}</span>
             </div>
           </template>
@@ -297,7 +297,7 @@ onMounted(() => {
 
       </el-form>
       <div class="reset-button">
-        <el-button size="small" @click="resetDefault">
+        <el-button size="default" @click="resetDefault">
           <star-horse-icon icon-class="reset"/>
           一键默认配置
         </el-button>

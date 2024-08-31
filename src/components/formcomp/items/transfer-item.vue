@@ -17,7 +17,7 @@
          }"
         :target-order="field.preps['targetOrder']"
         :titles="[field.preps['leftTitle'],field.preps['rightTitle']]"
-        :size="context.attrs.formInfo?.size||field?.preps['size']||'small'"
+        :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
         :left-default-checked="JSON.parse(field.preps['leftDefaultChecked'])"
         :right-default-checked="JSON.parse(field.preps['rightDefaultChecked'])"
         v-on:[actionName]="keyEnterFun(field.preps['actionName'])"

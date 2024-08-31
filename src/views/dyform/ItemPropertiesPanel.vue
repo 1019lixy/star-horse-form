@@ -333,7 +333,7 @@ watch(() => formProps,
       :rules="formRules"
       class="dynamic-form"
       ref="itemPropertiesRef"
-      size="small"
+      size="default"
       label-position="left"
   >
     <el-scrollbar height="100%">

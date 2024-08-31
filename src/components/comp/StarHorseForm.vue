@@ -26,7 +26,7 @@ const props = defineProps({
 });
 let configStore = GlobalConfig(piniaInstance);
 let userOperation = useUserSelfOperation(piniaInstance);
-let compSize = computed(() => configStore.configFormInfo?.inputSize || "small");
+let compSize = computed(() => configStore.configFormInfo?.inputSize || "default");
 const emits = defineEmits(["refresh", "dataLoaded"]);
 const starHorseFormRef = ref(null);
 const dataForm = ref<any>({});

@@ -4,7 +4,7 @@
         :fid="field.preps['name']"
         :disabled="field.preps['disabled']=='Y'"
         :readonly="field.preps['readonly']=='Y'"
-        :size="context.attrs.formInfo?.size||field?.preps['size']||'small'"
+        :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
         @change="keyEnterFun"
         v-model="context.attrs['formData'][field.preps['name']]">
       <el-checkbox :border="item['border']=='Y'"

@@ -160,7 +160,7 @@ export default defineComponent({
         :multiple-limit="field.preps['multipleLimit']"
         :name="field.preps['name']"
         :placeholder="field.preps['placeholder']||'请选择'+field.preps['label']"
-        :size="context.attrs.formInfo?.size||field?.preps['size']||'small'"
+        :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
         :tag-type="field.preps['tagType']"
         v-on:[actionName]="keyEnterFun(field.preps['actionName'])"
         @keydown.enter="keyEnterFun"
@@ -211,7 +211,7 @@ export default defineComponent({
       </template>
       <template #footer>
         <el-pagination
-            :size="'small'"
+            :size="'default'"
             :total="pageInfo.totalData"
             @current-change="pageChangeClick"
             @size-change="pageSizeClick"

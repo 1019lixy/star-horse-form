@@ -119,7 +119,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 {label: "表单验证规则名称", fieldName: "rules", defaultValue: "rules", type: "input", formShow: true},
               ],
               [
-                {label: "表单风格", fieldName: "size", defaultValue: "small", type: "select", optionList: formSizeList, formShow: true},
+                {label: "表单风格", fieldName: "size", defaultValue: "default", type: "select", optionList: formSizeList, formShow: true},
                 {label: "表单域标签的后缀", fieldName: "labelSuffix", type: "input", formShow: true},
                 {label: "是否禁用该表单内的所有组件", fieldName: "disabled", defaultValue: "N", type: "switch", formShow: true},
               ],

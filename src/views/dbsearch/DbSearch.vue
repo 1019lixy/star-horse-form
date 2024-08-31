@@ -231,7 +231,7 @@ const operMsg = `
     <el-row>
       <el-col :span="4">
         <el-select
-            size="small"
+            size="default"
             @change="openDb"
             clearable
             filterable
@@ -252,7 +252,7 @@ const operMsg = `
         <div class="inner_button">
           <el-menu mode="horizontal" style="height: inherit;width: 100%;">
             <el-menu-item index="0">
-              <el-select style="width: 130px; margin-right: 5px" v-model="pageSize" size="small">
+              <el-select style="width: 130px; margin-right: 5px" v-model="pageSize" size="default">
                 <el-option
                     :key="sitem"
                     :label="'每页' + sitem + '条'"
@@ -291,7 +291,7 @@ const operMsg = `
     </el-row>
     <div class="search-area">
       <div class="table-list" v-if="assignDataList.length>0">
-        <el-input size="small" placeholder="请输入关键字" v-model="filterTableName" @input="filterData"
+        <el-input size="default" placeholder="请输入关键字" v-model="filterTableName" @input="filterData"
                   suffix-icon="Search"/>
         <el-scrollbar height="90%">
           <ul>
@@ -380,7 +380,7 @@ const operMsg = `
               </el-table>
               <hr>
               <el-pagination
-                  small
+                  default
                   :total="item.totalDatas"
                   @current-change="handleCurrentChange(indexa,item.currentSql,item.currentPage,item.pageSize)"
                   layout="total,  prev, pager, next,jumper"

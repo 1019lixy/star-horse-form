@@ -15,7 +15,7 @@ defineProps({
   batchFieldName: {type: String, default: "batchFieldList"},
   primaryKey: {type: String, required: true},
   rules: {type: Object},
-  compSize: {type: String, default: "small"},
+  compSize: {type: String, default: "default"},
   isView: {type: Boolean, default: false},
   isEdit: {type: Boolean, default: false},
 });

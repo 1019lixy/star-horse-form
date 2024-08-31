@@ -15,7 +15,7 @@
         :color="field?.preps['color']"
         :effect="field?.preps['effect']||'light'"
         :round="field?.preps['round']=='Y'"
-        :size="context.attrs.formInfo?.size||field?.preps['size']||'small'"
+        :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
         @click="keyEnterFun('click')"
     >
       {{

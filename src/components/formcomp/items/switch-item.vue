@@ -12,7 +12,7 @@
         :inactive-text="field.preps['inactiveText']"
         :inactive-value="field.preps['inactiveValue']"
         :name="field.preps['name']"
-        :size="context.attrs.formInfo?.size||field?.preps['size']||'small'"
+        :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
         :width="field.preps['width']"
         v-on:[actionName]="keyEnterFun(field.preps['actionName'])"
         v-model="context.attrs['formData'][field.preps['name']]"

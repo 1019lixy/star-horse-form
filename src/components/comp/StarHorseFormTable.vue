@@ -6,7 +6,7 @@ import {ModelRef} from "vue-demi";
 defineProps({
   item: {type: Object, required: true},
   rules: {type: Object},
-  size: {type: String, default: "small"}
+  size: {type: String, default: "default"}
 });
 const dataForm: ModelRef<any> = defineModel("dataForm");
 const currentTableRef = ref();

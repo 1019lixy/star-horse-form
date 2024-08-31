@@ -10,7 +10,7 @@ import StarHorseTableViewColumn from "@/components/comp/StarHorseTableViewColumn
 defineProps({
   item: {type: Array as PropType<Array<FieldInfo>>, required: true},
   batchName: {type: String, required: true},
-  compSize: {type: String, default: "small"},
+  compSize: {type: String, default: "default"},
   commonFormat: {type: Function, required: true},
 });
 const dataForm: ModelRef<any> = defineModel("dataForm");

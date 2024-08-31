@@ -14,7 +14,7 @@ const props = defineProps({
       primaryKey: {type: String},
       bareFlag: {type: Boolean, default: false},
       batchName: {type: String, default: ""},
-      compSize: {type: String, default: "small"},
+      compSize: {type: String, default: "default"},
       isSearch: {type: Boolean, default: false}, //是否查询数据
       showLabel: {type: Boolean, default: true},//是否显示标签
       isEdit: {type: Boolean, default: false}, //是否编辑数据
