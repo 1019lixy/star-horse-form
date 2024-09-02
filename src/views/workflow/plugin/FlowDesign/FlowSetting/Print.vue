@@ -5,14 +5,14 @@
         <div class="flow-block-title">打印模板</div>
         <div class="flow-block-desc">通过设置推送提醒指定成员填写表单</div>
         <div class="flow-block-content">
-          <a-radio-group name="radioGroup" :size="flowMixin.size" :default-value="1">
-            <a-radio :value="1">
+          <el-radio-group name="radioGroup" :size="flowMixin.size" :default-value="1">
+            <el-radio :value="1">
               默认
-            </a-radio>
-            <a-radio :value="2">
+            </el-radio>
+            <el-radio :value="2">
               自定义打印模板
-            </a-radio>
-          </a-radio-group>
+            </el-radio>
+          </el-radio-group>
           <!-- <div class="flow-block-tabContent">
             <div class="flow-block-defaultTab">
               <div class="flow-block-defaultTpl">

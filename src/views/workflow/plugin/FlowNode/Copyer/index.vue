@@ -2,7 +2,7 @@
   <div class="flow-row">
     <div class="flow-box">
       <div class="flow-item" :class="{ 'flow-item-active': flowMixin.isActive }"
-           @click="!readable && open('flowCopyerSetting', node)">
+           @click="!readable && open(flowCopyerSettingRef, node)">
         <div class="flow-node-box" :class="{ 'has-error': node.error }">
           <div class="node-name" :class="nameClass(node, 'node-cc')">
             <EditName v-model="node.name"/>
@@ -14,19 +14,19 @@
           <div class="node-main">
             <span v-if="node.content">
               抄送人:
-              <a-tooltip placement="top">
+              <el-tooltip placement="top">
                 <template slot="title">
                   <span>{{ node.content }}</span>
                 </template>
                 {{ node.content }}
-              </a-tooltip>
+              </el-tooltip>
             </span>
             <span v-else class="hint-title">设置此节点</span>
           </div>
           <!-- 错误提示 -->
-          <a-icon v-if="node.error" type="exclamation-circle" theme="filled" class="node-error"/>
+          <star-horse-icon v-if="node.error" iconClass="exclamation-circle" theme="filled" class="node-error"/>
           <div v-if="!readable && !node.deletable" class="close-icon">
-            <a-icon type="close-circle" @click.stop="node.deletable = true"/>
+            <star-horse-icon  iconClass="close" @click.stop="node.deletable = true"/>
           </div>
           <!-- 删除提示 -->
           <DeleteConfirm :node="node"/>
@@ -34,7 +34,7 @@
       </div>
       <FlowAddNode :node.sync="node" :nodeType="2" :readable="readable"/>
     </div>
-    <FlowCopyerSetting ref="flowCopyerSetting" @close="flowMixin.isActive = false"/>
+    <FlowCopyerSetting ref="flowCopyerSettingRef" @close="flowMixin.isActive = false"/>
   </div>
 </template>
 <script setup lang="ts">
@@ -43,8 +43,8 @@ import FlowAddNode from '../Add/index.vue';
 import FlowCopyerSetting from '../../FlowDrawer/Copyer/index.vue';
 import EditName from '../../Common/EditName.vue';
 import DeleteConfirm from '../../Common/DeleteConfirm.vue';
-import {computed} from "vue";
-
+import {computed,ref} from "vue";
+const flowCopyerSettingRef=ref();
 const props = defineProps({
   node: {
     type: Object,

@@ -5,14 +5,14 @@
         <div class="flow-block-title">标题设置</div>
         <div class="flow-block-desc">通过设置数据的显示标题，快速识别一条数据</div>
         <div class="flow-block-content">
-          <a-radio-group name="radioGroup" :size="flowMixin.size" :default-value="1">
-            <a-radio :value="1">
+          <el-radio-group name="radioGroup" :size="flowMixin.size" :default-value="1">
+            <el-radio :value="1">
               默认
-            </a-radio>
-            <a-radio :value="2">
+            </el-radio>
+            <el-radio :value="2">
               自定义模式
-            </a-radio>
-          </a-radio-group>
+            </el-radio>
+          </el-radio-group>
           <div class="flow-block-tabContent">
             <div class="flow-block-defaultTab">
               <div class="flow-block-defaultTpl">
@@ -29,14 +29,14 @@
         <div class="flow-block-title">摘要设置</div>
         <div class="flow-block-desc">自定义表单摘要展示信息，灵活设置提升工作效率</div>
         <div class="flow-block-content">
-          <a-radio-group name="radioGroup" :size="flowMixin.size" :default-value="1">
-            <a-radio :value="1">
+          <el-radio-group name="radioGroup" :size="flowMixin.size" :default-value="1">
+            <el-radio :value="1">
               默认
-            </a-radio>
-            <a-radio :value="2">
+            </el-radio>
+            <el-radio :value="2">
               自定义模式
-            </a-radio>
-          </a-radio-group>
+            </el-radio>
+          </el-radio-group>
           <div class="flow-block-tabContent">
             <div class="flow-block-defaultTab">
               <div class="flow-block-defaultTpl">

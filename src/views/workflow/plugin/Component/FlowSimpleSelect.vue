@@ -1,9 +1,9 @@
 <template>
-  <a-select v-model="currentValue" :size="size" allowClear class="w-fill" :placeholder="placeholder" @change="onChange">
-    <a-select-option :value="data[valueName]" v-for="(data, i) in datas" :key="i">
+  <el-select v-model="currentValue" :size="size" allowClear class="w-fill" :placeholder="placeholder" @change="onChange">
+    <el-option :value="data[valueName]" v-for="(data, i) in datas" :key="i">
       {{ data[labelName] }}
-    </a-select-option>
-  </a-select>
+    </el-option>
+  </el-select>
 </template>
 <script setup lang="ts">
 import {onMounted, ref, watch} from "vue";

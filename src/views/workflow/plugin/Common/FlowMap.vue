@@ -1,19 +1,22 @@
 <template>
   <div id="flow-design-map" class="flow-design-map">
-    <img :src="$store.state.flow.mapImg"/>
+    <img :src="mapImg"/>
     <div id="flow-design-map-mask" class="map-mask" :style="mapMask" @mousedown="handleMouseDown"
          @mouseup="handleMouseUp" @mouseleave="handleMouseUp"></div>
   </div>
 </template>
 <script setup lang="ts">
 import {computed, nextTick, onBeforeUnmount, onMounted, ref} from "vue";
-
+import {useFlowDesign} from "@/store/FlowDesignStore.ts";
+import piniaInstance from "@/store";
 const props = defineProps({
   element: {
     type: String,
     default: '#flow-design-content',
   },
 });
+const flowDesignStore=useFlowDesign(piniaInstance);
+const mapImg = computed(() => flowDesignStore.mapImg);
 // 流程设计窗口
 let flowDesign = ref<any>(null);
 // 地图窗口
@@ -53,10 +56,10 @@ const mapMask = computed(() => {
 const initSize = (flowDesign: any) => {
   wrapHeight.value = flowDesign.scrollHeight;
 }
-const handleScroll = (e) => {
+const handleScroll = (e:MouseEvent) => {
   top.value = flowDesign.value.scrollTop * scaleOffsetHeight.value;
 }
-const handleMouseDown = (e) => {
+const handleMouseDown = (e:MouseEvent) => {
   mouseDown.value = true;
 }
 const handleMouseMove = (e: MouseEvent) => {
@@ -81,7 +84,7 @@ const init = async () => {
   flowMap.value = document.querySelector('#flow-design-map');
   flowMapMsk.value = document.querySelector('#flow-design-map-mask');
   initSize(flowDesign.value);
-  this.$store.dispatch('flow/updateMap', {element: props.element});
+  flowDesignStore.flowUpdateMap({element: props.element});
 
   // 监听滚动条
   window.addEventListener('scroll', handleScroll, true);

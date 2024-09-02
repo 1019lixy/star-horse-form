@@ -1,5 +1,6 @@
 import "element-plus/theme-chalk/index.css"
 import "@/assets/css/index.scss"
+import "@/views/workflow/plugin/css/flow.scss"
 import userComponent from "@/components/comp/selfcomp";
 import nodeComponent from "@/views/continus/nodeInfo/nodecomp";
 import userContainerComponent from "@/components/comp/items/callitem";

@@ -7,7 +7,7 @@
             <EditName v-model="node.name" style="width: 90%" />
             <img :src="flowMixin.parallelIcon" style="margin-left: 10px;" />
           </div>
-          <!--  <div class="close-icon"><a-icon type="close-circle" @click.stop="!read && delNode(node)" /></div> -->
+          <!--  <div class="close-icon"><star-horse-icon  iconClass="close" @click.stop="!read && delNode(node)" /></div> -->
         </div>
       </div>
       <!-- 如果子节点是意见分支,则只能添加一个意见分支 -->

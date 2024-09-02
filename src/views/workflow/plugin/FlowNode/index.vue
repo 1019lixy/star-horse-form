@@ -23,6 +23,7 @@ import BranchNode from './Branch/index.vue';
 import SuggestNode from './Branch/Suggest.vue';
 import PolymerizeNode from './Branch/Polymerize.vue';
 import ParallelNode from './Branch/Parallel.vue';
+import FlowNode from "./index.vue";
 
 const props = defineProps(
     {

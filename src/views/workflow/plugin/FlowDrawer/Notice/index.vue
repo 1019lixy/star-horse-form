@@ -1,11 +1,11 @@
 <template>
-  <a-drawer
+  <el-drawer
       :width="scale.isMobile() ? '100%' : '40%'"
       :headerStyle="headerStyle"
       :bodyStyle="flowMixin.bodyStyle"
       placement="right"
       :closable="true"
-      :visible="visible"
+      v-model="visible"
       :after-visible-change="afterVisibleChange"
       @close="onClose"
   >
@@ -16,22 +16,22 @@
       </span>
     </template>
     <div class="flow-setting-module">
-      <a-tabs>
-        <a-tab-pane key="1" tab="通知设置">
+      <el-tabs>
+        <el-tab-pane key="1" tab="通知设置">
           <div class="flow-setting-content">
             <div class="flow-setting-item">
               <p class="flow-setting-item-title">节点名称</p>
-              <a-input v-model="node.name" :size="flowMixin.size" class="w-full" placeholder="节点名称"/>
+              <el-input v-model="node.name" :size="flowMixin.size" class="w-full" placeholder="节点名称"/>
             </div>
             <div class="flow-setting-item">
               <p class="flow-setting-item-title">通知类型</p>
-              <a-checkbox-group v-model="noticeType">
-                <a-row :gutter="[24, 24]">
-                  <a-col :span="8" v-for="(notice, i) in notices" :key="i">
-                    <a-checkbox :value="notice.value">{{ notice.name }}</a-checkbox>
-                  </a-col>
-                </a-row>
-              </a-checkbox-group>
+              <el-checkbox-group v-model="noticeType">
+                <el-row :gutter="[24, 24]">
+                  <el-col :span="8" v-for="(notice, i) in notices" :key="i">
+                    <el-checkbox :value="notice.value">{{ notice.name }}</el-checkbox>
+                  </el-col>
+                </el-row>
+              </el-checkbox-group>
             </div>
             <div class="flow-setting-item">
               <p class="flow-setting-item-title">发送通知人</p>
@@ -39,24 +39,24 @@
             </div>
             <div v-if="noticeType.includes(2)" class="flow-setting-item">
               <p class="flow-setting-item-title">外部手机号</p>
-              <a-button type="link" icon="plus" block>
+              <el-button type="link" icon="plus" block>
                 添加手机号
-              </a-button>
+              </el-button>
             </div>
             <div v-if="noticeType.includes(3)" class="flow-setting-item">
               <p class="flow-setting-item-title">外部邮箱账号</p>
-              <a-button type="link" icon="plus" block>
+              <el-button type="link" icon="plus" block>
                 添加邮箱
-              </a-button>
+              </el-button>
             </div>
             <div v-if="noticeType.includes(3)" class="flow-setting-item">
-              <a-checkbox-group v-model="emailExt">
-                <a-row :gutter="[12, 12]">
-                  <a-col :span="12" v-for="(item, i) in emailItems" :key="i">
-                    <a-checkbox :value="item.value">{{ item.name }}</a-checkbox>
-                  </a-col>
-                </a-row>
-              </a-checkbox-group>
+              <el-checkbox-group v-model="emailExt">
+                <el-row :gutter="[12, 12]">
+                  <el-col :span="12" v-for="(item, i) in emailItems" :key="i">
+                    <el-checkbox :value="item.value">{{ item.name }}</el-checkbox>
+                  </el-col>
+                </el-row>
+              </el-checkbox-group>
             </div>
             <div v-if="noticeType.includes(3) && emailExt.includes(1)" class="flow-setting-item">
               <p class="flow-setting-item-title">抄送人</p>
@@ -67,34 +67,34 @@
               <FlowNodeApproval :groups="node.approverGroups" :node="node" title="密送人"/>
             </div>
           </div>
-        </a-tab-pane>
-        <a-tab-pane key="2" tab="内容设置">
+        </el-tab-pane>
+        <el-tab-pane key="2" tab="内容设置">
           <div class="flow-setting-content">
             <div class="flow-setting-item">
               <p class="flow-setting-item-title">选择已审核模板</p>
               <div class="tpl-flex-box">
-                <a-button type="link" icon="plus-circle">
+                <el-button type="link" icon="plus-circle">
                   创建新模板
-                </a-button>
+                </el-button>
               </div>
-              <a-select :size="flowMixin.size" style="width: 100%;margin-bottom: 20px;"
-                        placeholder="请选择模板"></a-select>
+              <el-select :size="flowMixin.size" style="width: 100%;margin-bottom: 20px;"
+                        placeholder="请选择模板"></el-select>
             </div>
             <div class="flow-setting-item">
               <p class="flow-setting-item-title">主题</p>
-              <a-input v-model="noticeTitle" :size="flowMixin.size" :rows="4" placeholder="主题"/>
+              <el-input v-model="noticeTitle" :size="flowMixin.size" :rows="4" placeholder="主题"/>
             </div>
             <div class="flow-setting-item">
               <p class="flow-setting-item-title">通知内容</p>
-              <a-textarea v-model="noticeContext" :size="flowMixin.size" :rows="4" placeholder="通知内容"/>
+              <el-input type="textarea" v-model="noticeContext" :size="flowMixin.size" :rows="4" placeholder="通知内容"/>
             </div>
           </div>
-        </a-tab-pane>
-        <a-tab-pane key="3" tab="高级设置"></a-tab-pane>
-      </a-tabs>
+        </el-tab-pane>
+        <el-tab-pane key="3" tab="高级设置"></el-tab-pane>
+      </el-tabs>
     </div>
     <FlowDrawerFooter @close="onClose"/>
-  </a-drawer>
+  </el-drawer>
 </template>
 <script setup lang="ts">
 import {flowMixin} from '../../mixins/flowMixin';
@@ -111,6 +111,7 @@ let headerStyle = ref<any>({
   'background-color': '#498ff2',
   'border-radius': '0px 0px 0 0',
 });
+let noticeTitle=ref<string>("");
 let noticeContext = ref<string>('');
 let noticeType = ref<Array<any>>([]);
 // 邮件选择项
@@ -162,4 +163,7 @@ const onClose = () => {
   visible.value = false;
   emits('close');
 }
+defineExpose({
+  showDrawer
+})
 </script>

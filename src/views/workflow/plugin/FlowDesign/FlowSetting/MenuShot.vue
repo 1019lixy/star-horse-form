@@ -6,8 +6,8 @@
         <span>{{ menu.name }}</span>
       </div>
     </div>
-    <a-button ref="screenshotBtnRef" id="screenshotBtn" @click.native.prevent.stop="showDropDown"
-              class="screenshot-btn el-dropdown-link" type="danger" icon="menu-unfold"></a-button>
+    <el-button ref="screenshotBtnRef" id="screenshotBtn" @click.native.prevent.stop="showDropDown"
+               class="screenshot-btn el-dropdown-link" type="danger" icon="menu-unfold"></el-button>
   </div>
 </template>
 <script setup lang="ts">

@@ -9,7 +9,6 @@
   </div>
 </template>
 <script setup lang="ts">
-import {flowMixin} from '../../mixins/flowMixin';
 import FlowAddNode from '../Add/index.vue';
 
 const props = defineProps({

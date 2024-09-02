@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {PropType} from "vue/dist/vue";
+import {PropType} from "vue";
 import {ApiUrls} from "@/components/types/ApiUrls";
 
 defineProps({

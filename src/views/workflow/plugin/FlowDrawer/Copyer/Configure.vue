@@ -12,7 +12,7 @@
             </div>
           </div>
           <div class="flow-setting-option-item-switch">
-            <a-switch v-model="value[operation.code]" checked-children="开" un-checked-children="关"
+            <el-switch v-model="value[operation.code]" checked-children="开" un-checked-children="关"
                       @change="changeConfigure"/>
           </div>
         </div>
@@ -21,9 +21,8 @@
   </div>
 </template>
 <script setup lang="ts">
-import {flowMixin} from '../../mixins/flowMixin';
+import {flowMixin,uuid} from '../../mixins/flowMixin';
 import {ref} from "vue";
-import {uuid} from "vue-uuid";
 
 const props = defineProps({
   value: {

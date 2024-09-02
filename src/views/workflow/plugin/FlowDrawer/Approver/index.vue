@@ -1,12 +1,12 @@
 <template>
-  <a-drawer
+  <el-drawer
       v-if="node.approverGroups"
       :width="scale.isMobile() ? '100%' : '40%'"
       :headerStyle="headerStyle"
       :bodyStyle="flowMixin.bodyStyle"
       placement="right"
       :closable="true"
-      :visible="visible"
+      v-model="visible"
       :after-visible-change="afterVisibleChange"
       @close="onClose"
   >
@@ -21,11 +21,11 @@
         <!-- 审批类型 -->
         <div class="flow-setting-item">
           <p class="flow-setting-item-title">审批类型</p>
-          <a-radio-group v-model="node.attr.approvalMethod" button-style="solid" class="w-full">
-            <a-radio :value="approvalMethod.value" v-for="(approvalMethod, i) in approvalMethods" :key="i">
+          <el-radio-group v-model="node.attr.approvalMethod" button-style="solid" class="w-full">
+            <el-radio :value="approvalMethod.value" v-for="(approvalMethod, i) in approvalMethods" :key="i">
               {{ approvalMethod.name }}
-            </a-radio>
-          </a-radio-group>
+            </el-radio>
+          </el-radio-group>
         </div>
         <div class="flow-setting-item">
           <p class="flow-setting-item-title" v-for="(approvalMethod, i) in approvalMethods" :key="i">
@@ -37,14 +37,14 @@
       <div v-if="node.type == 6" class="flow-setting-content">
         <div class="flow-setting-item">
           <p class="flow-setting-item-title">办理人设置</p>
-          <a-alert
+          <el-alert
               message="当流程中某个节点不需要审批，但需要对审批单进行业务办理时，可设置办理人节点，场景如财务打款、处理盖章等"
               type="info"/>
         </div>
       </div>
 
-      <a-tabs v-if="node.attr.approvalMethod == 1">
-        <a-tab-pane key="1" tab="审批设置">
+      <el-tabs v-if="node.attr.approvalMethod == 1">
+        <el-tab-pane key="1" tab="审批设置">
           <div class="flow-setting-content">
             <!-- 审批方式 -->
             <div v-if="node.type == 1" class="flow-setting-item">
@@ -58,12 +58,12 @@
               <p class="flow-setting-item-title">
                 <span>审批人与发起人为同一人时</span>
               </p>
-              <a-radio-group v-model="node.attr.sameMode" :size="flowMixin.size">
-                <a-radio v-for="(sameApproval, i) in sameApprovals" :key="i" :value="sameApproval.value"
-                         :style="flowMixin.radioStyle">
+              <el-radio-group v-model="node.attr.sameMode" :size="flowMixin.size">
+                <el-radio v-for="(sameApproval, i) in sameApprovals" :key="i" :value="sameApproval.value"
+                          :style="radioStyle">
                   <span>{{ sameApproval.name }}</span>
-                  <a-popover v-if="sameApproval.popovers && sameApproval.popovers.length > 0" placement="topLeft"
-                             trigger="click">
+                  <el-popover v-if="sameApproval.popovers && sameApproval.popovers.length > 0" placement="topLeft"
+                              trigger="click">
                     <template slot="content">
                       <div class="approver-tip-content">
                         <div class="approver-tip-main-content">
@@ -74,16 +74,16 @@
                         </div>
                       </div>
                     </template>
-                    <a-icon style="margin-left: 5px" type="question-circle"/>
-                  </a-popover>
-                </a-radio>
-              </a-radio-group>
+                    <el-icon style="margin-left: 5px" type="question-circle"/>
+                  </el-popover>
+                </el-radio>
+              </el-radio-group>
             </div>
             <!-- 审批人为空时 -->
             <div class="flow-setting-item">
               <p class="flow-setting-item-title">
                 <span>{{ node.type == 1 ? '审批人' : '办理人' }}为空时</span>
-                <a-popover placement="topLeft" trigger="click">
+                <el-popover placement="topLeft" trigger="click">
                   <template slot="content">
                     <div class="approver-tip-content">
                       <div class="approver-tip-main-content">
@@ -95,15 +95,15 @@
                       </div>
                     </div>
                   </template>
-                  <a-icon style="margin-left: 5px" type="question-circle"/>
-                </a-popover>
+                  <el-icon style="margin-left: 5px" type="question-circle"/>
+                </el-popover>
               </p>
-              <a-radio-group v-model="node.attr.noHander" :size="flowMixin.size">
-                <a-radio v-for="(approvalWithNull, i) in approvalWithNulls" :key="i" :value="approvalWithNull.value"
-                         :style="flowMixin.radioStyle">
+              <el-radio-group v-model="node.attr.noHander" :size="flowMixin.size">
+                <el-radio v-for="(approvalWithNull, i) in approvalWithNulls" :key="i" :value="approvalWithNull.value"
+                          :style="radioStyle">
                   <span>{{ approvalWithNull.name }}</span>
-                  <a-popover v-if="approvalWithNull.popovers && approvalWithNull.popovers.length > 0"
-                             placement="topLeft" trigger="click">
+                  <el-popover v-if="approvalWithNull.popovers && approvalWithNull.popovers.length > 0"
+                              placement="topLeft" trigger="click">
                     <template slot="content">
                       <div class="approver-tip-content">
                         <div class="approver-tip-main-content">
@@ -114,10 +114,10 @@
                         </div>
                       </div>
                     </template>
-                    <a-icon style="margin-left: 5px" type="question-circle"/>
-                  </a-popover>
-                </a-radio>
-              </a-radio-group>
+                    <el-icon style="margin-left: 5px" type="question-circle"/>
+                  </el-popover>
+                </el-radio>
+              </el-radio-group>
             </div>
             <div class="flow-setting-item">
               <p class="flow-setting-item-title">提示：</p>
@@ -128,26 +128,26 @@
               </div>
             </div>
           </div>
-        </a-tab-pane>
-        <a-tab-pane key="2" tab="表单权限">
+        </el-tab-pane>
+        <el-tab-pane key="2" tab="表单权限">
           <div class="flow-setting-content">
             <div class="flow-setting-item">
               <p class="flow-setting-item-title">表单权限</p>
               <AuthForm v-model="node.privileges" readable/>
             </div>
           </div>
-        </a-tab-pane>
-        <a-tab-pane key="3" tab="高级设置">
+        </el-tab-pane>
+        <el-tab-pane key="3" tab="高级设置">
           <FlowNodeApprovalConfigure v-model="node.configure"/>
-        </a-tab-pane>
-      </a-tabs>
+        </el-tab-pane>
+      </el-tabs>
     </div>
     <!-- <p>{{ node }}</p> -->
     <FlowDrawerFooter @close="onClose" @save="onSave"/>
-  </a-drawer>
+  </el-drawer>
 </template>
 <script setup lang="ts">
-import {flowMixin} from '../../mixins/flowMixin';
+import {flowMixin, radioStyle} from '../../mixins/flowMixin';
 import FlowDrawerFooter from '../../Common/DrawerFooter.vue';
 import FlowSimpleSelect from '../../Component/FlowSimpleSelect.vue';
 import FlowNodeApproval from './Approval.vue';
@@ -156,6 +156,8 @@ import EditName from '../../Common/EditName.vue';
 import AuthForm from '../../Common/AuthForm.vue';
 import {ref} from "vue";
 import {scale} from "../../util/deviceUtil";
+import {useFlowDesign} from "@/store/FlowDesignStore.ts";
+import piniaInstance from "@/store";
 
 let node = ref<any>({});
 let visible = ref<boolean>(false);
@@ -178,7 +180,7 @@ let approvalMethods = ref<Array<any>>([
     value: 3,
   },
 ])
-const emits=defineEmits(["close"]);
+const emits = defineEmits(["close"]);
 // 审批方式
 let approvalModes = ref<Array<any>>([
   {
@@ -289,6 +291,7 @@ let sameApprovals = ref<Array<any>>([
     ],
   },
 ]);
+const flowDesign = useFlowDesign(piniaInstance);
 const afterVisibleChange = (val) => {
   console.log('visible', val);
 }
@@ -316,12 +319,15 @@ const onSave = () => {
     }
   });
   if (content) {
-    store.dispatch('flow/updateNode', {currNode: node.value, field: 'content', value: content});
-    store.dispatch('flow/updateNode', {currNode: node.value, field: 'error', value: false});
+    flowDesign.flowUpdateNode({currNode: node.value, field: 'content', value: content});
+    flowDesign.flowUpdateNode({currNode: node.value, field: 'error', value: false});
     onClose();
   } else {
-    store.dispatch('flow/updateNode', {currNode: node.value, field: 'content', value: null});
-   store.dispatch('flow/updateNode', {currNode: node.value, field: 'error', value: true});
+    flowDesign.flowUpdateNode({currNode: node.value, field: 'content', value: null});
+    flowDesign.flowUpdateNode({currNode: node.value, field: 'error', value: true});
   }
 }
+defineExpose({
+  showDrawer
+})
 </script>

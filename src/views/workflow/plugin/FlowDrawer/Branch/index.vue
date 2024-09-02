@@ -1,12 +1,12 @@
 <template>
-  <a-drawer
+  <el-drawer
       v-if="node.attr"
       :width="scale.isMobile() ? '100%' : '40%'"
       :headerStyle="headerStyle"
       :bodyStyle="flowMixin.bodyStyle"
       placement="right"
       :closable="true"
-      :visible="visible"
+      v-model="visible"
       :after-visible-change="afterVisibleChange"
       @close="onClose"
   >
@@ -20,16 +20,16 @@
       <div class="flow-setting-content">
         <div v-if="node.attr.showPriorityLevel" class="flow-setting-item">
           <p class="flow-setting-item-title">分支等级</p>
-          <a-select v-model="node.attr.priorityLevel" :size="flowMixin.size" placeholder="请选择等级" :options="levelOptions"
-                    class="w-fill"></a-select>
+          <el-select v-model="node.attr.priorityLevel" :size="flowMixin.size" placeholder="请选择等级" :options="levelOptions"
+                    class="w-fill"></el-select>
         </div>
         <div class="flow-setting-item">
           <p class="flow-setting-item-title">分支类型</p>
-          <a-radio-group v-model="node.attr.branchType">
-            <a-radio :value="branchType.value" v-for="(branchType, i) in branchTypes" :key="i">
+          <el-radio-group v-model="node.attr.branchType">
+            <el-radio :value="branchType.value" v-for="(branchType, i) in branchTypes" :key="i">
               {{ branchType.label }}
-            </a-radio>
-          </a-radio-group>
+            </el-radio>
+          </el-radio-group>
         </div>
         <div v-if="node.attr.branchType == 1" class="flow-setting-item">
           <p class="flow-setting-item-title">条件规则</p>
@@ -37,21 +37,21 @@
             <div v-for="(group, i) in node.conditionGroup" :key="i">
               <div class="flow-setting-condition-group">
                 <div class="flow-setting-condition-item" v-for="(condition, k) in group.conditions" :key="k">
-                  <a-select v-model="condition.columnValue" :size="flowMixin.size" style="width: 40%" placeholder="字段"
+                  <el-select v-model="condition.columnValue" :size="flowMixin.size" style="width: 40%" placeholder="字段"
                             @change="handleChange">
-                    <a-select-opt-group label="基础字段">
-                      <a-select-option :value="column.value" v-for="(column, i) in columns" :key="i">{{
+                    <el-option-group label="基础字段">
+                      <el-option :value="column.value" v-for="(column, i) in columns" :key="i">{{
                           column.label
                         }}
-                      </a-select-option>
-                    </a-select-opt-group>
-                    <a-select-opt-group label="表单字段">
-                      <a-select-option :value="column.value" v-for="(column, i) in formColumns" :key="i">{{
+                      </el-option>
+                    </el-option-group>
+                    <el-option-group label="表单字段">
+                      <el-option :value="column.value" v-for="(column, i) in formColumns" :key="i">{{
                           column.label
                         }}
-                      </a-select-option>
-                    </a-select-opt-group>
-                  </a-select>
+                      </el-option>
+                    </el-option-group>
+                  </el-select>
                   <div class="flow-setting-condition-option">
                     <!-- 判断(操作)符 -->
                     <FlowSimpleSelect v-model="condition.optType" :name.sync="condition.optTypeName" :datas="optTypes"
@@ -91,11 +91,11 @@
                     </div>
                   </div>
                   <div class="flow-setting-condition-del" @click="delCondition(1, group, condition)">
-                    <a-icon type="delete" theme="filled"/>
+                    <el-icon type="delete" theme="filled"/>
                   </div>
                 </div>
                 <div class="flow-setting-condition-add" @click="addCondition(1, group)">
-                  <a-icon type="plus-circle" theme="filled"/>
+                  <el-icon type="plus-circle" theme="filled"/>
                   <span style="margin-left: 5px">且条件</span>
                 </div>
               </div>
@@ -104,7 +104,7 @@
               </div>
             </div>
             <div class="flow-setting-condition-add" @click="addGroup(1)">
-              <a-icon type="plus-circle" theme="filled"/>
+              <el-icon type="plus-circle" theme="filled"/>
               <span style="margin-left: 5px">或条件</span>
             </div>
           </div>
@@ -113,18 +113,19 @@
     </div>
     {{ node }}
     <FlowDrawerFooter @close="onClose" @save="onSave"/>
-  </a-drawer>
+  </el-drawer>
 </template>
 <script setup lang="ts">
-import {flowMixin} from '../../mixins/flowMixin';
+import {flowMixin,uuid} from '../../mixins/flowMixin';
 import EditName from '../../Common/EditName.vue';
 import FlowSelect from '../../Component/FlowSelect.vue';
 import FlowSimpleSelect from '../../Component/FlowSimpleSelect.vue';
 import FlowInput from '../../Component/FlowInput.vue';
 import FlowDrawerFooter from '../../Common/DrawerFooter.vue';
 import {ref} from "vue";
-import {uuid} from "vue-uuid";
 import {scale} from "../../util/deviceUtil";
+import {useFlowDesign} from "@/store/FlowDesignStore.ts";
+import piniaInstance from "@/store";
 
 const emits = defineEmits(["close"]);
 let node = ref<any>({});
@@ -197,6 +198,7 @@ let dataSourceOptions = ref<Array<any>>([
     ],
   },
 ]);
+const flowDesign = useFlowDesign(piniaInstance);
 const afterVisibleChange = (val) => {
   console.log('visible', val);
 }
@@ -303,13 +305,16 @@ const onSave = () => {
   } else {
     content += '任意(其他)';
   }
-  store.dispatch('flow/updateNode', {currNode: node.value, field: 'content', value: null});
-  store.dispatch('flow/updateNode', {currNode: node.value, field: 'error', value: true});
+  flowDesign.flowUpdateNode( {currNode: node.value, field: 'content', value: null});
+  flowDesign.flowUpdateNode(  {currNode: node.value, field: 'error', value: true});
   if (content) {
     console.info('content', content);
-    store.dispatch('flow/updateNode', {currNode: node.value, field: 'error', value: false});
-    store.dispatch('flow/updateNode', {currNode: node.value, field: 'content', value: content});
+    flowDesign.flowUpdateNode(  {currNode: node.value, field: 'error', value: false});
+    flowDesign.flowUpdateNode(  {currNode: node.value, field: 'content', value: content});
     onClose();
   }
 }
+defineExpose({
+  showDrawer
+})
 </script>

@@ -1,74 +1,78 @@
 <template>
-  <div>
-    <a-row type="flex" :gutter="[16, 16]">
-      <a-col v-for="(item, i) in items" :key="i" :xs="24" :sm="24" :md="6" :lg="6" :xl="6">
-        <a-card hoverable class="w-fill" @click="setSetting(item)">
-          <div class="flowSetting-card-header">
-            <div class="flowSetting-card-header-title">
-              <img :src="flowMixin.settingBaseIcon"/>
-              <span>{{ item.name }}</span>
-            </div>
-            <div @click.stop>
-              <!-- 阻止a-switch冒泡事件, 在父添加@click.stop-->
-              <a-switch v-model="item.checked"/>
-            </div>
+  <el-row type="flex" :gutter="16">
+    <el-col v-for="(item, i) in items" :key="i" :xs="24" :sm="24" :md="6" :lg="6" :xl="6" style="margin-bottom: 10px">
+      <el-card hoverable class="w-fill" @click="setSetting(item)">
+        <div class="flowSetting-card-header">
+          <div class="flowSetting-card-header-title">
+            <img :src="flowMixin.settingBaseIcon"/>
+            <span>{{ item.name }}</span>
           </div>
-          <div class="flowSetting-card-des">
-            {{ item.des }}
-          </div>
-        </a-card>
-      </a-col>
-    </a-row>
-    <!-- 自动去重设置 -->
-    <a-modal :visible="duplicateVisible" :width="scale.isMobile() ? '100%' : '40%'" class="modalClass"
-             title="自动去重设置" @cancel="duplicateVisible = false">
-      <div class="flow-setting-module">
-        <div class="flow-setting-content">
-          <div class="flow-setting-block">
-            <!-- <div class="flow-block-title">审批人设置</div>
-            <div class="flow-block-desc">审批流程中审批人重复出现时</div> -->
-            <div class="flow-block-content">
-              <a-checkbox style="margin-bottom: 20px;">审批人是流程发起人时自动通过</a-checkbox>
-              <br/>
-              <a-checkbox style="margin-bottom: 20px;">审批人为空时自动通过</a-checkbox>
-              <br/>
-              <a-checkbox style="margin-bottom: 20px;">已经审批过的审批人自动通过</a-checkbox>
-              <!-- <div class="flow-block-tabContent">
-                <div class="flow-block-defaultTab">
-                  <div class="flow-block-defaultSample">示例：陈德言的业绩上报、陆宜的请假</div>
-                </div>
-              </div> -->
-            </div>
+          <div @click.stop>
+            <!-- 阻止el-switch冒泡事件, 在父添加@click.stop-->
+            <el-switch v-model="item.checked"/>
           </div>
         </div>
-        <img class="w-fill"
-             src="https://img.alicdn.com/imgextra/i3/O1CN01aoqAoi1MwaOr3pnmz_!!6000000001499-2-tps-1344-600.png"/>
-        <img class="w-fill"
-             src="https://img.alicdn.com/imgextra/i4/O1CN01Uehnoq1eesAPq0rlm_!!6000000003897-2-tps-1360-920.png"/>
+        <div class="flowSetting-card-des">
+          {{ item.des }}
+        </div>
+      </el-card>
+    </el-col>
+  </el-row>
+  <!-- 自动去重设置 -->
+  <star-horse-dialog :dialog-visible="duplicateVisible" :box-width="scale.isMobile() ? '100%' : '40%'" class="modalClass"
+             title="自动去重设置" @closeAction="duplicateVisible = false">
+    <div class="flow-setting-module">
+      <div class="flow-setting-content">
+        <div class="flow-setting-block">
+          <!-- <div class="flow-block-title">审批人设置</div>
+          <div class="flow-block-desc">审批流程中审批人重复出现时</div> -->
+          <div class="flow-block-content">
+            <el-checkbox style="margin-bottom: 20px;">审批人是流程发起人时自动通过</el-checkbox>
+            <br/>
+            <el-checkbox style="margin-bottom: 20px;">审批人为空时自动通过</el-checkbox>
+            <br/>
+            <el-checkbox style="margin-bottom: 20px;">已经审批过的审批人自动通过</el-checkbox>
+            <!-- <div class="flow-block-tabContent">
+              <div class="flow-block-defaultTab">
+                <div class="flow-block-defaultSample">示例：陈德言的业绩上报、陆宜的请假</div>
+              </div>
+            </div> -->
+          </div>
+        </div>
       </div>
-    </a-modal>
-    <!-- 允许加签 -->
-    <a-modal :visible="appendVisible" :width="scale.isMobile() ? '100%' : '40%'" class="modalClass" title="允许加签"
-             @cancel="appendVisible = false">
-      <div class="flow-setting-module">
-        <img class="w-fill"
-             src="https://img.alicdn.com/imgextra/i2/O1CN01sONUxT1vSpDcicfBb_!!6000000006172-2-tps-1360-1090.png"/>
-      </div>
-    </a-modal>
-    <!-- 审批撤销 -->
-    <a-modal :visible="revokeVisible" :width="scale.isMobile() ? '100%' : '40%'" class="modalClass" title="审批撤销"
-             @cancel="revokeVisible = false">
-      <div class="flow-setting-module">
-        <img class="w-fill"
-             src="https://img.alicdn.com/imgextra/i4/O1CN01mfeF241w8xed2adqL_!!6000000006264-2-tps-1360-920.png"/>
-      </div>
-    </a-modal>
-  </div>
+      <img class="w-fill"
+           src="https://img.alicdn.com/imgextra/i3/O1CN01aoqAoi1MwaOr3pnmz_!!6000000001499-2-tps-1344-600.png"/>
+      <img class="w-fill"
+           src="https://img.alicdn.com/imgextra/i4/O1CN01Uehnoq1eesAPq0rlm_!!6000000003897-2-tps-1360-920.png"/>
+    </div>
+  </star-horse-dialog>
+  <!-- 允许加签 -->
+  <star-horse-dialog :dialog-visible="appendVisible" :box-width="scale.isMobile() ? '100%' : '40%'" class="modalClass" title="允许加签"
+             @closeAction="appendVisible = false">
+    <div class="flow-setting-module">
+      <img class="w-fill"
+           src="https://img.alicdn.com/imgextra/i2/O1CN01sONUxT1vSpDcicfBb_!!6000000006172-2-tps-1360-1090.png"/>
+    </div>
+  </star-horse-dialog>
+  <!-- 审批撤销 -->
+  <star-horse-dialog :dialog-visible="revokeVisible" :box-width="scale.isMobile() ? '100%' : '40%'" class="modalClass" title="审批撤销"
+             @closeAction="revokeVisible = false">
+    <div class="flow-setting-module">
+      <img class="w-fill"
+           src="https://img.alicdn.com/imgextra/i4/O1CN01mfeF241w8xed2adqL_!!6000000006264-2-tps-1360-920.png"/>
+    </div>
+  </star-horse-dialog>
 </template>
+<style lang="scss" scoped>
+:deep(.el-card__body),.el-card__body{
+  padding: 20px !important;
+}
+</style>
 <script setup lang="ts">
 import {flowMixin} from '../../mixins/flowMixin';
 import {ref} from "vue";
 import {scale} from "../../util/deviceUtil";
+import StarHorseDialog from "@/components/comp/StarHorseDialog.vue";
 
 const props = defineProps({
   read: {
@@ -243,9 +247,14 @@ let items = ref<Array<any>>([
 ]);
 const setSetting = (item) => {
   console.log('item', item);
-  if (item.code) {
-    //  this[item.code] = true;
+  if (item.code == 'duplicateVisible') {
+    duplicateVisible.value = true;
+  } else if (item.code == 'appendVisible') {
+    appendVisible.value = true;
+  } else if (item.code == 'revokeVisible') {
+    revokeVisible.value = true;
   }
+
 }
 </script>
 <style lang=“scss”></style>

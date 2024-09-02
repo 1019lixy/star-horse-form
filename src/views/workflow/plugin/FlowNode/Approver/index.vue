@@ -2,7 +2,7 @@
   <div class="flow-row">
     <div class="flow-box">
       <div class="flow-item" :class="{ 'flow-item-active': flowMixin.isActive }"
-           @click="!readable && open('flowApproverSetting', node)">
+           @click="!readable && open(flowApproverSettingRef, node)">
         <div class="flow-node-box" :class="{ 'has-error': node.error }">
           <div class="node-name" :class="nameClass(node, node.type == 1 ? 'node-sp' : 'node-transact')">
             <EditName v-model="node.name"/>
@@ -11,22 +11,22 @@
           <div class="node-main">
             <span v-if="node.content">
               {{ node.type == 1 ? '审批人' : '办理人' }}:
-              <a-tooltip placement="top">
+              <el-tooltip placement="top">
                 <template slot="title">
                   <span>{{ node.content }}</span>
                 </template>
                 {{ node.content }}
-              </a-tooltip>
+              </el-tooltip>
             </span>
             <span v-else class="hint-title">设置此节点</span>
           </div>
           <!-- 错误提示 -->
-          <a-icon v-if="node.error" type="exclamation-circle" theme="filled" class="node-error"/>
+          <star-horse-icon v-if="node.error" iconClass="exclamation-circle" theme="filled" class="node-error"/>
           <div v-if="!readable && !node.deletable" class="close-icon">
-            <a-icon type="close-circle" @click.stop="node.deletable = true"/>
+            <star-horse-icon  iconClass="close" @click.stop="node.deletable = true"/>
           </div>
           <!-- <div class="flow-node-toolbar">
-            <a-icon type="copy" @click.stop="node.deletable = true" />
+            <el-icon type="copy" @click.stop="node.deletable = true" />
           </div> -->
           <!-- 删除提示 -->
           <DeleteConfirm :node="node"/>
@@ -35,7 +35,7 @@
       <!-- 如果子节点是意见分支,则只能添加一个意见分支 -->
       <FlowAddNode :node.sync="node" :nodeType="node.type" :readable="readable"/>
     </div>
-    <FlowApproverSetting ref="flowApproverSetting" @close="isActive = false"/>
+    <FlowApproverSetting ref="flowApproverSettingRef" @close="flowMixin.isActive = false"/>
   </div>
 </template>
 <script setup lang="ts">
@@ -45,7 +45,7 @@ import FlowApproverSetting from '../../FlowDrawer/Approver/index.vue';
 import EditName from '../../Common/EditName.vue';
 import DeleteConfirm from '../../Common/DeleteConfirm.vue';
 import {computed, ref} from "vue";
-
+const flowApproverSettingRef=ref();
 const props = defineProps({
   node: {
     type: Object,

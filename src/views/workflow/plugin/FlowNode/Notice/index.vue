@@ -2,7 +2,7 @@
   <div class="flow-row">
     <div class="flow-box">
       <div class="flow-item" :class="{ 'flow-item-active': flowMixin.isActive }"
-           @click="!readable && open('flowNoticeSetting', node)">
+           @click="!readable && open(flowNoticeSettingRef, node)">
         <div class="flow-node-box" :class="{ 'has-error': node.error }">
           <div class="node-name" :class="nameClass(node, 'node-tz')">
             <EditName v-model="node.name"/>
@@ -10,9 +10,9 @@
           </div>
           <div class="node-main"><span class="hint-title">设置此节点</span></div>
           <!-- 错误提示 -->
-          <a-icon v-if="node.error" type="exclamation-circle" theme="filled" class="node-error"/>
+          <star-horse-icon v-if="node.error" iconClass="exclamation-circle" theme="filled" class="node-error"/>
           <div v-if="!readable && !node.deletable" class="close-icon">
-            <a-icon type="close-circle" @click.stop="node.deletable = true"/>
+            <star-horse-icon  iconClass="close" @click.stop="node.deletable = true"/>
           </div>
           <!-- 删除提示 -->
           <DeleteConfirm :node="node"/>
@@ -20,7 +20,7 @@
       </div>
       <FlowAddNode :node.sync="node" :nodeType="5" :readable="readable"/>
     </div>
-    <FlowNoticeSetting ref="flowNoticeSetting" @close="flowMixin.isActive = false"/>
+    <FlowNoticeSetting ref="flowNoticeSettingRef" @close="flowMixin.isActive = false"/>
   </div>
 </template>
 <script setup lang="ts">
@@ -29,8 +29,8 @@ import FlowAddNode from '../Add/index.vue';
 import FlowNoticeSetting from '../../FlowDrawer/Notice/index.vue';
 import EditName from '../../Common/EditName.vue';
 import DeleteConfirm from '../../Common/DeleteConfirm.vue';
-import {computed} from "vue";
-
+import {computed,ref} from "vue";
+const flowNoticeSettingRef=ref();
 const props = defineProps({
   node: {
     type: Object,

@@ -1,11 +1,11 @@
 <template>
-  <a-drawer
+  <el-drawer
       :width="scale.isMobile() ? '100%' : '40%'"
       :headerStyle="headerStyle"
       :bodyStyle="flowMixin.bodyStyle"
       placement="right"
       :closable="true"
-      :visible="visible"
+      v-model="visible"
       :after-visible-change="afterVisibleChange"
       @close="onClose"
   >
@@ -24,7 +24,7 @@
       </div>
     </div>
     <FlowDrawerFooter @close="onClose" @save="onSave"/>
-  </a-drawer>
+  </el-drawer>
 </template>
 <script setup lang="ts">
 import {flowMixin} from '../../mixins/flowMixin';
@@ -33,6 +33,8 @@ import EditName from '../../Common/EditName.vue';
 import AuthForm from '../../Common/AuthForm.vue';
 import {scale} from "../../util/deviceUtil";
 import {ref} from "vue";
+import {useFlowDesign} from "@/store/FlowDesignStore.ts";
+import piniaInstance from "@/store";
 
 const emits = defineEmits(["close"]);
 let node = ref<any>({});
@@ -42,35 +44,36 @@ let headerStyle = ref<any>({
   // 'background-color': '#6da4f2',
   'border-radius': '0px 0px 0 0',
 });
-const afterVisibleChange=(val)=>
-{
+const flowDesign = useFlowDesign(piniaInstance);
+const afterVisibleChange = (val) => {
   console.log('visible', val);
 }
-const showDrawer=(snode)=>
-{
+const showDrawer = (snode: any) => {
+  console.log(snode);
   visible.value = true;
   node.value = snode;
 }
 const
-onClose=()=>
-{
-  visible.value = false;
-  emits('close');
-}
+    onClose = () => {
+      visible.value = false;
+      emits('close');
+    }
 const
-/**
- * 保存配置
- */
-onSave=()=>
-{
-  // 更新节点显示信息
-  if (node.value.privileges && node.value.privileges.length > 0) {
-    store.dispatch('flow/updateNode', {currNode: node.value, field: 'content', value: '已设置'});
-    store.dispatch('flow/updateNode', {currNode: node.value, field: 'error', value: false});
-    onClose();
-  } else {
-    store.dispatch('flow/updateNode', {currNode: node.value, field: 'content', value: null});
-    store.dispatch('flow/updateNode', {currNode: node.value, field: 'error', value: false});
-  }
-}
+    /**
+     * 保存配置
+     */
+    onSave = () => {
+      // 更新节点显示信息
+      if (node.value.privileges && node.value.privileges.length > 0) {
+        flowDesign.flowUpdateNode({currNode: node.value, field: 'content', value: '已设置'});
+        flowDesign.flowUpdateNode({currNode: node.value, field: 'error', value: false});
+        onClose();
+      } else {
+        flowDesign.flowUpdateNode({currNode: node.value, field: 'content', value: null});
+        flowDesign.flowUpdateNode({currNode: node.value, field: 'error', value: false});
+      }
+    }
+defineExpose({
+  showDrawer
+})
 </script>

@@ -9,28 +9,28 @@
         <div
             :class="{ 'flow-setting-auth-table-option-column-item-50': !readable, 'flow-setting-auth-table-option-column-item-25': readable }"
             v-if="readable">
-          <a-checkbox :checked="writableChecked" @change="onAllWritableChange">
+          <el-checkbox v-model="writableChecked" @change="onAllWritableChange">
             编辑
-          </a-checkbox>
+          </el-checkbox>
         </div>
         <div
             :class="{ 'flow-setting-auth-table-option-column-item-50': !readable, 'flow-setting-auth-table-option-column-item-25': readable }">
-          <a-checkbox :checked="readableChecked" @change="onAllReadableChange">
+          <el-checkbox v-model="readableChecked" @change="onAllReadableChange">
             只读
-          </a-checkbox>
+          </el-checkbox>
         </div>
         <div
             :class="{ 'flow-setting-auth-table-option-column-item-50': !readable, 'flow-setting-auth-table-option-column-item-25': readable }">
-          <a-checkbox :checked="displayableChecked" @change="onAllDisplayableChange">
+          <el-checkbox v-model="displayableChecked" @change="onAllDisplayableChange">
             隐藏
-          </a-checkbox>
+          </el-checkbox>
         </div>
         <div
             :class="{ 'flow-setting-auth-table-option-column-item-50': !readable, 'flow-setting-auth-table-option-column-item-25': readable }"
             v-if="readable">
-          <a-checkbox :checked="requiredChecked" @change="onAllRequiredChange">
+          <el-checkbox v-model="requiredChecked" @change="onAllRequiredChange">
             必填
-          </a-checkbox>
+          </el-checkbox>
         </div>
       </div>
     </div>
@@ -44,29 +44,29 @@
           <div
               :class="{ 'flow-setting-auth-table-option-column-item-50': !readable, 'flow-setting-auth-table-option-column-item-25': readable }"
               v-if="readable">
-            <a-checkbox :checked="item.writable" :v-model="item.writable" @change="writableChange($event, item)">
+            <el-checkbox  v-model="item.writable" @change="writableChange($event, item)">
               编辑
-            </a-checkbox>
+            </el-checkbox>
           </div>
           <div
               :class="{ 'flow-setting-auth-table-option-column-item-50': !readable, 'flow-setting-auth-table-option-column-item-25': readable }">
-            <a-checkbox :checked="item.readable" :v-model="item.readable" @change="readableChange($event, item)">
+            <el-checkbox  v-model="item.readable" @change="readableChange($event, item)">
               只读
-            </a-checkbox>
+            </el-checkbox>
           </div>
           <div
               :class="{ 'flow-setting-auth-table-option-column-item-50': !readable, 'flow-setting-auth-table-option-column-item-25': readable }">
-            <a-checkbox :checked="item.displayable" :v-model="item.displayable"
+            <el-checkbox v-model="item.displayable"
                         @change="displayableChange($event, item)">
               隐藏
-            </a-checkbox>
+            </el-checkbox>
           </div>
           <div
               :class="{ 'flow-setting-auth-table-option-column-item-50': !readable, 'flow-setting-auth-table-option-column-item-25': readable }"
               v-if="readable">
-            <a-checkbox :checked="item.required" :v-model="item.required" @change="displayableRequired($event, item)">
+            <el-checkbox v-model="item.required" @change="displayableRequired($event, item)">
               必填
-            </a-checkbox>
+            </el-checkbox>
           </div>
         </div>
       </div>

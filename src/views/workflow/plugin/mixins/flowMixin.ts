@@ -1,5 +1,9 @@
-import scale from '../util/deviceUtil';
 import {getId} from '../util/nodeUtil';
+import {scale} from "@/views/workflow/plugin/util/deviceUtil.ts";
+import {useFlowDesign} from "@/store/FlowDesignStore.ts";
+import piniaInstance from "@/store";
+
+const flowDesign = useFlowDesign(piniaInstance);
 
 export function uuid() {
     return getId();
@@ -11,11 +15,11 @@ export function uuid() {
  * @param {*} node
  * @param {*} routeNode
  */
-export function open(name, node, routeNode) {
+export function open(name: any, node: any, routeNode: any) {
     // 高亮
-    this.isActive = true;
+    flowMixin.isActive = true;
     //  打开配置
-    this.$refs[name].showDrawer(node, routeNode);
+    name.showDrawer(node, routeNode);
 }
 
 /**
@@ -23,35 +27,61 @@ export function open(name, node, routeNode) {
  * @param {*} node
  * @param {*} fun
  */
-export function delNode(node, fun) {
-    const me = this;
-    me.$store.dispatch('flow/delNode', node);
+export function delNode(node: any, fun: Function) {
+    flowDesign.flowDelNode(node);
     // 回调
     if (fun) {
         fun(node);
     }
-    /* this.$confirm({
-      title: '删除提示!',
-      content: '您确定要删除当前节点吗?',
-      okText: '确认',
-      cancelText: '取消',
-      onOk() {
-        me.$store.dispatch('flow/delNode', node);
-        // 回调
-        if (fun) {
-          fun();
-        }
-      },
-      onCancel() {},
-    }); */
 }
 
 /**
  * 添加分支节点
  * @param {*} node
  */
-export function addBranch(node) {
-    this.$store.dispatch('flow/addBranch', node);
+export function addBranch(node: any) {
+    flowDesign.flowAddBranch(node);
+}
+
+/**
+ * 审批配置审批人Radio组件样式
+ * @returns
+ */
+export function radioStyle() {
+    return {
+        display: 'block',
+        height: '22px',
+        lineHeight: '22px',
+        'margin-bottom': '16px',
+    };
+}
+
+/**
+ * 审批配置审批人Radio组件样式
+ * @returns
+ */
+export function approvalRadioStyle() {
+    const width = scale.isMobile() ? '45%' : '31%';
+    return {
+        width: width,
+        lineHeight: '22px',
+        marginBottom: '16px',
+    };
+}
+
+/**
+ * 节点头部样式
+ * @returns
+ */
+export function nameClass(node: any, defaultStyle: any) {
+    if (node.status == -1) {
+        return defaultStyle;
+    }
+    return {
+        'node-status-not': node.status == 0,
+        'node-status-current': node.status == 1,
+        'node-status-complete': node.status == 2
+    };
 }
 
 export const flowMixin = {
@@ -104,84 +134,9 @@ export const flowMixin = {
     isActive: false,
     // 大小，可选值为 small large
     size: 'large',
-    // a-drawer内容滚动
+    // el-drawer内容滚动
     bodyStyle: {
         height: 'calc(100vh - 114px)',
         'overflow-y': 'auto',
     }
 };
-// computed: {
-//     /**
-//      * 是否手机
-//      * @returns
-//      */
-//     isMobile: () => {
-//         return scale.isMobile();
-//     },
-//         /**
-//          * 节点头部样式
-//          * @returns
-//          */
-//         nameClass()
-//     {
-//         return (node, defaultStyle) => {
-//             if (node.status == -1) {
-//                 return defaultStyle;
-//             }
-//             return {
-//                 'node-status-not': node.status == 0,
-//                 'node-status-current': node.status == 1,
-//                 'node-status-complete': node.status == 2
-//             };
-//         };
-//     }
-// ,
-//     /**
-//      * 侧边宽度
-//      * @returns
-//      */
-//     drawerWidth()
-//     {
-//         return (width) => {
-//             if (!width) {
-//                 width = '40%';
-//             }
-//             return scale.isMobile() ? '100%' : width;
-//         };
-//     }
-// ,
-//     /**
-//      * 审批配置审批人Radio组件样式
-//      * @returns
-//      */
-//     radioStyle: () => {
-//         return {
-//             display: 'block',
-//             height: '22px',
-//             lineHeight: '22px',
-//             'margin-bottom': '16px',
-//         };
-//     },
-//         /**
-//          * 审批配置审批人Radio组件样式
-//          * @returns
-//          */
-//         approvalRadioStyle
-// :
-//     () => {
-//         const width = scale.isMobile() ? '45%' : '31%';
-//         return {
-//             width: width,
-//             lineHeight: '22px',
-//             marginBottom: '16px',
-//         };
-//     },
-// }
-// ,
-// methods: {
-//
-//
-// }
-// ,
-// }
-// ;

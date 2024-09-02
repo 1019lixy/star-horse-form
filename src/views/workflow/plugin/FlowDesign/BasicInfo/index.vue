@@ -1,38 +1,37 @@
 <template>
   <div class="designer-wrap">
-    <FlowNav v-if="navable && !readable" :currentNav="1" :buttonName="buttonName" @click="publish" @change="change"/>
     <div class="designer-base-info">
       <div class="base-info-panel">
-        <a-form :layout="formLayout">
-          <a-form-item label="图标">
-            <a-avatar shape="square" size="large" icon="red-envelope"/>
-          </a-form-item>
-          <a-form-item label="名称">
-            <a-input v-model="flowName" placeholder="请输入名称" :size="size"/>
-          </a-form-item>
-          <a-form-item label="分组">
+        <el-form :layout="formLayout">
+          <el-form-item label="图标">
+            <el-avatar shape="square" size="large" icon="red-envelope"/>
+          </el-form-item>
+          <el-form-item label="名称">
+            <el-input v-model="flowName" placeholder="请输入名称" :size="flowMixin.size"/>
+          </el-form-item>
+          <el-form-item label="分组">
             <FlowSimpleSelect v-model="flowGroup" :datas="flowGroups" labelName="label" placeholder="请选择分组"/>
-          </a-form-item>
-          <a-form-item label="绑定表单">
+          </el-form-item>
+          <el-form-item label="绑定表单">
             <FlowSelect v-model="bindForm" :datas="forms" mode="multiple" labelName="label" placeholder="请选择表单"/>
-          </a-form-item>
-          <a-form-item v-if="bindForm.length > 1" label="多表单显示模式">
-            <a-radio-group :size="size" class="w-fill">
-              <a-radio value="1">
+          </el-form-item>
+          <el-form-item v-if="bindForm.length > 1" label="多表单显示模式">
+            <el-radio-group :size="flowMixin.size" class="w-fill">
+              <el-radio value="1">
                 <span>标签栏</span>
-              </a-radio>
-              <a-radio value="2">
+              </el-radio>
+              <el-radio value="2">
                 <span>步进式</span>
-              </a-radio>
-            </a-radio-group>
-          </a-form-item>
-          <a-form-item label="谁可以管理这个审批">
+              </el-radio>
+            </el-radio-group>
+          </el-form-item>
+          <el-form-item label="谁可以管理这个审批">
             <!-- <UserSelector type="button" /> -->
-          </a-form-item>
-          <a-form-item label="说明">
-            <a-textarea :size="size" :rows="4" placeholder="说明"/>
-          </a-form-item>
-        </a-form>
+          </el-form-item>
+          <el-form-item label="说明">
+            <el-input type="textarea" :size="flowMixin.size" :rows="4" placeholder="说明"/>
+          </el-form-item>
+        </el-form>
       </div>
     </div>
   </div>
@@ -41,7 +40,10 @@
 import FlowNav from '../../Common/FlowNav.vue';
 import FlowSelect from '../../Component/FlowSelect.vue';
 import FlowSimpleSelect from '../../Component/FlowSimpleSelect.vue';
-import {ref} from "vue";
+import {computed, ref} from "vue";
+import {flowMixin} from "@/views/workflow/plugin/mixins/flowMixin.ts";
+import {useFlowDesign} from "@/store/FlowDesignStore.ts";
+import piniaInstance from "@/store";
 
 const props = defineProps({
   navable: {
@@ -53,7 +55,9 @@ const props = defineProps({
     default: false,
   },
 });
-const emits=defineEmits(["publish"]);
+const flowDesign = useFlowDesign(piniaInstance);
+const emits = defineEmits(["publish"]);
+const nodeData = computed(() => flowDesign.node);
 let buttonName = ref<string>('保存');
 let formLayout = ref<string>('vertical');
 let flowName = ref<string>('');

@@ -11,7 +11,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import {ref} from "vue";
+import {ModelRef} from "vue-demi";
 
 const INIT_ZOOM_VALUE = 100;
 const MIN_ZOOM_VALUE = 50;
@@ -28,8 +28,7 @@ defineProps({
     default: MAX_ZOOM_VALUE,
   },
 });
-const emits = defineEmits(["input"]);
-let zoomValue = ref<number>(INIT_ZOOM_VALUE);
+const zoomValue: ModelRef<number> = defineModel("zoomValue");
 const onZoomOut = () => {
   let value = zoomValue.value;
   value -= 10;
@@ -37,7 +36,7 @@ const onZoomOut = () => {
     value = MIN_ZOOM_VALUE;
   }
   zoomValue.value = value;
-  emits('input', value);
+  // emits('update:input', value);
 }
 const onZoomIn = () => {
   let value = zoomValue.value;
@@ -46,6 +45,6 @@ const onZoomIn = () => {
     value = MAX_ZOOM_VALUE;
   }
   zoomValue.value = value;
-  emits('input', value);
+  // emits('update:input', value);
 }
 </script>

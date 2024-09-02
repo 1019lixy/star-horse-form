@@ -1,6 +1,5 @@
 <template>
   <div class="designer-wrap">
-    <FlowNav v-if="navable && !readable" :currentNav="4" :buttonName="buttonName" @change="change"/>
     <MenuShot :menus="menus" @change="changeMenu"/>
     <div class="designer-content-box">
       <div class="flowSetting-box">
@@ -26,14 +25,17 @@
 <script setup lang="ts">
 
 import {flowMixin} from '../../mixins/flowMixin';
-import FlowNav from '../../Common/FlowNav.vue';
 import MenuShot from './MenuShot.vue';
 import Advanced from './Advanced.vue';
 import Exhibition from './Exhibition.vue';
 import Remind from './Remind.vue';
 import Print from './Print.vue';
-import {ref} from "vue";
+import {computed, ref} from "vue";
+import {scale} from "@/views/workflow/plugin/util/deviceUtil.ts";
+import {useFlowDesign} from "@/store/FlowDesignStore.ts";
+import piniaInstance from "@/store";
 
+const flowDesign = useFlowDesign(piniaInstance);
 const props = defineProps({
   navable: {
     type: Boolean,
@@ -45,6 +47,7 @@ const props = defineProps({
   },
 });
 const emits = defineEmits(["save"]);
+const nodeData = computed(() => flowDesign.node);
 let currentNav = ref<number>(2);
 let currentContext = ref<number>(1);
 let buttonName = ref<string>('保存');

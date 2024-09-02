@@ -5,75 +5,75 @@
         <div class="flow-block-title">提醒填写</div>
         <div class="flow-block-desc">通过设置推送提醒指定成员填写表单</div>
         <div class="flow-block-content">
-          <a-row type="flex" :gutter="[16, 16]">
-            <a-col v-for="(item, i) in items" :key="i" :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
-              <a-card hoverable class="w-fill" @click="setSetting(item)">
+          <el-row type="flex" :gutter="[16, 16]">
+            <el-col v-for="(item, i) in items" :key="i" :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
+              <el-card hoverable class="w-fill" @click="setSetting(item)">
                 <div class="flowSetting-card-header">
                   <div class="flowSetting-card-header-title">
-                    <img :src="settingBaseIcon"/>
+                    <img :src="flowMixin.settingBaseIcon"/>
                     <span>{{ item.name }}</span>
                   </div>
                   <div @click.stop>
-                    <!-- 阻止a-switch冒泡事件, 在父添加@click.stop-->
-                    <a-icon type="delete" theme="filled"/>
+                    <!-- 阻止el-switch冒泡事件, 在父添加@click.stop-->
+                    <el-icon type="delete" theme="filled"/>
                   </div>
                 </div>
                 <div class="flowSetting-card-context">
-                  <!--  <a-form :form="form" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">
-                    <a-form-item label="Note">
+                  <!--  <el-form :form="form" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">
+                    <el-form-item label="Note">
 
-                    </a-form-item>
-                    <a-form-item label="Gender">
+                    </el-form-item>
+                    <el-form-item label="Gender">
 
-                    </a-form-item>
-                    <a-form-item :wrapper-col="{ span: 12, offset: 5 }">
+                    </el-form-item>
+                    <el-form-item :wrapper-col="{ span: 12, offset: 5 }">
 
-                    </a-form-item>
-                  </a-form> -->
+                    </el-form-item>
+                  </el-form> -->
 
-                  <!-- <a-row :gutter="16">
-                    <a-col class="gutter-row" :span="6">
+                  <!-- <el-row :gutter="16">
+                    <el-col class="gutter-row" :span="6">
                       <div class="gutter-box">
                         col-6
                       </div>
-                    </a-col>
-                    <a-col class="gutter-row" :span="18">
+                    </el-col>
+                    <el-col class="gutter-row" :span="18">
                       <div class="gutter-box">
                         col-6
                       </div>
-                    </a-col>
-                  </a-row>
-                  <a-row :gutter="16">
-                    <a-col class="gutter-row" :span="6">
+                    </el-col>
+                  </el-row>
+                  <el-row :gutter="16">
+                    <el-col class="gutter-row" :span="6">
                       <div class="gutter-box">
                         col-6
                       </div>
-                    </a-col>
-                    <a-col class="gutter-row" :span="18">
+                    </el-col>
+                    <el-col class="gutter-row" :span="18">
                       <div class="gutter-box">
                         col-6
                       </div>
-                    </a-col>
-                  </a-row>
-                  <a-row :gutter="16">
-                    <a-col class="gutter-row" :span="6">
+                    </el-col>
+                  </el-row>
+                  <el-row :gutter="16">
+                    <el-col class="gutter-row" :span="6">
                       <div class="gutter-box">
                         col-6
                       </div>
-                    </a-col>
-                    <a-col class="gutter-row" :span="18">
+                    </el-col>
+                    <el-col class="gutter-row" :span="18">
                       <div class="gutter-box">
                         col-6
                       </div>
-                    </a-col>
-                  </a-row> -->
+                    </el-col>
+                  </el-row> -->
                 </div>
-              </a-card>
-            </a-col>
-          </a-row>
-          <a-button icon="plus-circle" block style="margin-top: 20px;">
+              </el-card>
+            </el-col>
+          </el-row>
+          <el-button icon="plus-circle" block style="margin-top: 20px;">
             新增提醒
-          </a-button>
+          </el-button>
         </div>
       </div>
     </div>

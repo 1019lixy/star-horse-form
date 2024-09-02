@@ -1,8 +1,8 @@
 <template>
   <span class="node-name-title">
     <span v-if="!isInput" @click.stop="clickEvent()">{{ value }}</span>
-    <a-input v-if="isInput" type="text" @blur="blurEvent()" @focus="$event.currentTarget.select()"
-             v-focus v-model="value" :style="{ width: width }"/>
+    <el-input v-if="isInput" type="text" @blur="blurEvent()" @focus="$event.currentTarget.select()"
+              autofocus v-model="dataValue" :style="{ width: width }"/>
   </span>
 </template>
 <script setup lang="ts">
@@ -19,6 +19,7 @@ const props = defineProps({
     default: '85%',
   },
 });
+let dataValue = ref<string>(props.value);
 const emits = defineEmits(["edit", "input"]);
 let isInput = ref<boolean>(false);
 const clickEvent = () => {

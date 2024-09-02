@@ -12,51 +12,59 @@
                 <div class="node-name">
                   <span>{{ conditionNode.name }}</span>
                   <span style="margin-left: 10px;">
-                    <a-icon v-if="index == 0" type="check-circle" theme="filled" style="color: green;" />
-                    <a-icon v-if="node.conditionNodes.length - 1 == index" type="close-circle" theme="filled" style="color: red;" />
+                    <el-icon v-if="index == 0" type="check-circle" theme="filled" style="color: green;"/>
+                    <el-icon v-if="node.conditionNodes.length - 1 == index" type="close" theme="filled"
+                             style="color: red;"/>
                   </span>
                 </div>
-                <div v-if="!readable && !conditionNode.deletable" class="close-icon"><a-icon type="close-circle" @click.stop="conditionNode.deletable = true" /></div>
+                <div v-if="!readable && !conditionNode.deletable" class="close-icon">
+                  <star-horse-icon  iconClass="close" @click.stop="conditionNode.deletable = true"/>
+                </div>
                 <!-- 删除提示 -->
-                <DeleteConfirm :node="conditionNode" @callback="delCallback" />
+                <DeleteConfirm :node="conditionNode" @callback="delCallback"/>
               </div>
             </div>
-            <FlowAddNode :node.sync="node" :nodeType="3" :id="conditionNode.id" :readable="readable" />
+            <FlowAddNode :node.sync="node" :nodeType="3" :id="conditionNode.id" :readable="readable"/>
           </div>
         </div>
-        <FlowNode v-if="conditionNode.childNode && conditionNode.childNode.hasOwnProperty('name')" :node="conditionNode.childNode" :readable="readable" />
+        <FlowNode v-if="conditionNode.childNode && conditionNode.childNode.hasOwnProperty('name')"
+                  :node="conditionNode.childNode" :readable="readable"/>
       </div>
     </div>
     <div class="after-branch-btn">
-      <FlowAddNode :node.sync="node" :nodeType="4" :readable="readable" />
+      <FlowAddNode :node.sync="node" :nodeType="4" :readable="readable"/>
     </div>
-    <FlowBranchSetting ref="flowBranchSetting" @close="flowMixin.isActive = false" />
+    <FlowBranchSetting ref="flowBranchSetting" @close="flowMixin.isActive = false"/>
   </div>
 </template>
 <script setup lang="ts">
-  import { flowMixin } from '../../mixins/flowMixin';
-  import FlowNode from '../index.vue';
-  import FlowAddNode from '../Add/index.vue';
-  import FlowBranchSetting from '../../FlowDrawer/Branch/index.vue';
-  import EditName from '../../Common/EditName.vue';
-  import DeleteConfirm from '../../Common/DeleteConfirm.vue';
-  const props=defineProps({
-    node: {
-      type: Object,
-      default: function() {
-        return {};
-      },
+import {flowMixin} from '../../mixins/flowMixin';
+import FlowNode from '../index.vue';
+import FlowAddNode from '../Add/index.vue';
+import FlowBranchSetting from '../../FlowDrawer/Branch/index.vue';
+import EditName from '../../Common/EditName.vue';
+import DeleteConfirm from '../../Common/DeleteConfirm.vue';
+import {useFlowDesign} from "@/store/FlowDesignStore.ts";
+import piniaInstance from "@/store";
+
+const props = defineProps({
+  node: {
+    type: Object,
+    default: function () {
+      return {};
     },
-    readable: {
-      type: Boolean,
-      default: false,
-    },
-  });
-  const delCallback=(conditionNode)=> {
-    let currNode = {
-      id: props.node.pid,
-    };
-    // 将对应的审批节点的添加按钮开启
-    store.dispatch('flow/updateNode', { currNode, field: 'addable', value: true });
+  },
+  readable: {
+    type: Boolean,
+    default: false,
+  },
+});
+const flowDesign = useFlowDesign(piniaInstance);
+const delCallback = (_conditionNode: any) => {
+  let currNode = {
+    id: props.node.pid,
   };
+  // 将对应的审批节点的添加按钮开启
+  flowDesign.flowUpdateNode({currNode, field: 'addable', value: true});
+};
 </script>

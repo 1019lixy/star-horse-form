@@ -1,11 +1,11 @@
 <template>
-  <a-drawer
+  <el-drawer
       :width="scale.isMobile() ? '100%' : '40%'"
       :headerStyle="headerStyle"
       :bodyStyle="flowMixin.bodyStyle"
       placement="right"
       :closable="true"
-      :visible="visible"
+      v-model="visible"
       :after-visible-change="afterVisibleChange"
       @close="onClose"
   >
@@ -17,12 +17,12 @@
     </template>
     <div class="flow-setting-module">
       <div class="flow-setting-content">
-        <a-form>
+        <el-form>
           <div class="flow-setting-item">
             <p class="flow-setting-item-title">节点名称</p>
-            <a-form-item name="name">
-              <a-input v-model="node.name" :size="size" class="w-full" placeholder="节点名称"/>
-            </a-form-item>
+            <el-form-item name="name">
+              <el-input v-model="node.name" :size="flowMixin.size" class="w-full" placeholder="节点名称"/>
+            </el-form-item>
           </div>
           <div class="flow-setting-item">
             <p class="flow-setting-item-title">事件类型</p>
@@ -36,7 +36,7 @@
                   </div>
                 </div>
                 <div class="flow-setting-option-item-switch">
-                  <a-switch checked-children="开" un-checked-children="关"/>
+                  <el-switch checked-children="开" un-checked-children="关"/>
                 </div>
               </div>
             </div>
@@ -50,7 +50,7 @@
                   </div>
                 </div>
                 <div class="flow-setting-option-item-switch">
-                  <a-switch checked-children="开" un-checked-children="关"/>
+                  <el-switch checked-children="开" un-checked-children="关"/>
                 </div>
               </div>
             </div>
@@ -64,7 +64,7 @@
                   </div>
                 </div>
                 <div class="flow-setting-option-item-switch">
-                  <a-switch checked-children="开" un-checked-children="关"/>
+                  <el-switch checked-children="开" un-checked-children="关"/>
                 </div>
               </div>
             </div>
@@ -74,17 +74,17 @@
           </div>
           <div class="flow-setting-item">
             <p class="flow-setting-item-title">后置事件配置</p>
-            <!-- <a-textarea v-model="noticeContext" :size="size" class="w-full" placeholder="通知内容" /> -->
+            <!-- <el-textarea v-model="noticeContext" :size="size" class="w-full" placeholder="通知内容" /> -->
           </div>
           <div class="flow-setting-item">
             <p class="flow-setting-item-title">WebHook配置</p>
-            <!-- <a-textarea v-model="noticeContext" :size="size" class="w-full" placeholder="通知内容" /> -->
+            <!-- <el-textarea v-model="noticeContext" :size="size" class="w-full" placeholder="通知内容" /> -->
           </div>
-        </a-form>
+        </el-form>
       </div>
     </div>
     <FlowDrawerFooter @close="onClose"/>
-  </a-drawer>
+  </el-drawer>
 </template>
 <script setup lang="ts">
 import {flowMixin} from '../../mixins/flowMixin';
@@ -113,4 +113,7 @@ const onClose = () => {
   visible.value = false;
   emits('close');
 }
+defineExpose({
+  showDrawer
+})
 </script>

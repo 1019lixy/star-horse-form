@@ -5,7 +5,7 @@
         <div class="node-name" :class="nameClass(node, 'node-temmi')">
           分隔
           <div v-if="!readable" class="close-icon">
-            <a-icon type="close-circle"/>
+            <star-horse-icon  iconClass="close"/>
           </div>
         </div>
       </div>

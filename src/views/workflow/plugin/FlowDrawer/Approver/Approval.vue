@@ -1,20 +1,20 @@
 <template>
   <!-- 审批人 -->
-  <a-space direction="vertical">
-    <a-card v-for="(group, k) in groups" :key="k" :headStyle="headStyle" class="w-fill">
+  <el-space direction="vertical">
+    <el-card v-for="(group, k) in groups" :key="k" :headStyle="headStyle" class="w-fill">
       <template slot="title">
         <span class="flow-setting-approval-title">
           <span>{{ title }}</span>
-          <a-icon type="delete" class="del-icon" @click="delApproval(group)"/>
+          <el-icon type="delete" class="del-icon" @click="delApproval(group)"/>
         </span>
       </template>
       <div class="flow-setting-item">
         <!-- 审批人类型 -->
-        <a-radio-group v-model="group.approverType" class="w-fill" :size="flowMixin.size" @change="changeApproverType(group)">
-          <a-radio v-for="(approval, i) in approvals" :key="i" :style="flowMixin.approvalRadioStyle" :value="approval.value"
+        <el-radio-group v-model="group.approverType" class="w-fill" :size="flowMixin.size" @change="changeApproverType(group)">
+          <el-radio v-for="(approval, i) in approvals" :key="i" :style="approvalRadioStyle" :value="approval.value"
                    :disabled="approval.disabled && groups.length > 1">
             <span>{{ approval.name }}</span>
-            <a-popover v-if="approval.popovers && approval.popovers.length > 0" placement="topLeft" trigger="click">
+            <el-popover v-if="approval.popovers && approval.popovers.length > 0" placement="top-start" trigger="click">
               <template slot="content">
                 <div class="approver-tip-content">
                   <div class="approver-tip-main-content">
@@ -26,20 +26,20 @@
                   <a v-if="approval.href" :href="approval.href" target="_blank">{{ approval.hrefName }}</a>
                 </div>
               </template>
-              <a-icon style="margin-left: 5px;" type="question-circle"/>
-            </a-popover>
-          </a-radio>
-        </a-radio-group>
+              <el-icon style="margin-left: 5px;" type="question-circle"/>
+            </el-popover>
+          </el-radio>
+        </el-radio-group>
         <!-- 上级 -->
         <div v-if="group.approverType == 1">
           <p class="flow-setting-item-title">
             <span>指定层级</span>
           </p>
-          <a-radio-group :size="flowMixin.size" v-model="group.levelMode" class="w-fill">
-            <a-radio v-for="(higherLevel, i) in higherLevelModes" :key="i" :style="flowMixin.radioStyle"
+          <el-radio-group :size="flowMixin.size" v-model="group.levelMode" class="w-fill">
+            <el-radio v-for="(higherLevel, i) in higherLevelModes" :key="i" :style="radioStyle"
                      :value="higherLevel.value">
               <span>{{ higherLevel.name }}</span>
-              <a-popover v-if="higherLevel.popovers && higherLevel.popovers.length > 0" placement="topLeft"
+              <el-popover v-if="higherLevel.popovers && higherLevel.popovers.length > 0" placement="top-start"
                          trigger="click">
                 <template slot="content">
                   <div class="approver-tip-content">
@@ -52,10 +52,10 @@
                     <a v-if="higherLevel.href" :href="higherLevel.href" target="_blank">{{ higherLevel.hrefName }}</a>
                   </div>
                 </template>
-                <a-icon style="margin-left: 5px;" type="question-circle"/>
-              </a-popover>
-            </a-radio>
-          </a-radio-group>
+                <el-icon style="margin-left: 5px;" type="question-circle"/>
+              </el-popover>
+            </el-radio>
+          </el-radio-group>
           <FlowSelect v-model="group.approverIds" :name.sync="group.approverNames" :datas="higherLevels"/>
         </div>
         <!-- 部门负责人 -->
@@ -63,11 +63,11 @@
           <p class="flow-setting-item-title">
             <span>指定层级</span>
           </p>
-          <a-radio-group v-model="group.levelMode" :size="flowMixin.size" class="w-fill">
-            <a-radio v-for="(departmentHead, i) in departmentHeadModes" :key="i" :style="radioStyle"
+          <el-radio-group v-model="group.levelMode" :size="flowMixin.size" class="w-fill">
+            <el-radio v-for="(departmentHead, i) in departmentHeadModes" :key="i" :style="radioStyle"
                      :value="departmentHead.value">
               <span>{{ departmentHead.name }}</span>
-              <a-popover v-if="departmentHead.popovers && departmentHead.popovers.length > 0" placement="topLeft"
+              <el-popover v-if="departmentHead.popovers && departmentHead.popovers.length > 0" placement="top-start"
                          trigger="click">
                 <template slot="content">
                   <div class="approver-tip-content">
@@ -82,10 +82,10 @@
                       }}</a>
                   </div>
                 </template>
-                <a-icon style="margin-left: 5px;" type="question-circle"/>
-              </a-popover>
-            </a-radio>
-          </a-radio-group>
+                <el-icon style="margin-left: 5px;" type="question-circle"/>
+              </el-popover>
+            </el-radio>
+          </el-radio-group>
           <FlowSelect v-model="group.approverIds" :name.sync="group.approverNames" :datas="departmentHeads"/>
         </div>
         <!-- 部门审批人 -->
@@ -136,28 +136,28 @@
           <p class="flow-setting-item-title">
             <span>选择方式</span>
           </p>
-          <a-radio-group :size="flowMixin.size" class="w-fill">
-            <a-radio value="1">
+          <el-radio-group :size="flowMixin.size" class="w-fill">
+            <el-radio value="1">
               <span>多选</span>
-            </a-radio>
-            <a-radio value="2">
+            </el-radio>
+            <el-radio value="2">
               <span>单选</span>
-            </a-radio>
-          </a-radio-group>
+            </el-radio>
+          </el-radio-group>
           <p class="flow-setting-item-title margin-top-10">
             <span>选择范围</span>
           </p>
-          <a-radio-group :size="flowMixin.size" class="w-fill">
-            <a-radio value="1">
+          <el-radio-group :size="flowMixin.size" class="w-fill">
+            <el-radio value="1">
               <span>全公司</span>
-            </a-radio>
-            <a-radio value="2">
+            </el-radio>
+            <el-radio value="2">
               <span>指定成员</span>
-            </a-radio>
-            <a-radio value="3">
+            </el-radio>
+            <el-radio value="3">
               <span>角色成员</span>
-            </a-radio>
-          </a-radio-group>
+            </el-radio>
+          </el-radio-group>
           <p class="flow-setting-item-title margin-top-10">
             <span>指定成员</span>
             <span class="light-text">(不能超过 25 人)</span>
@@ -187,44 +187,44 @@
           <p class="flow-setting-item-title">
             <span>人员控件</span>
           </p>
-          <a-select :size="flowMixin.size" class="w-fill" default-value="1">
-            <a-select-option :value="higherLevel.value" v-for="(higherLevel, i) in higherLevels" :key="i">
+          <el-select :size="flowMixin.size" class="w-fill" default-value="1">
+            <el-option :value="higherLevel.value" v-for="(higherLevel, i) in higherLevels" :key="i">
               {{ higherLevel.name }}
-            </a-select-option>
-          </a-select>
+            </el-option>
+          </el-select>
           <p class="flow-setting-item-title margin-top-10">
             <span>审批类型</span>
           </p>
-          <a-radio-group :size="flowMixin.size" class="w-fill">
-            <a-radio value="1">
+          <el-radio-group :size="flowMixin.size" class="w-fill">
+            <el-radio value="1">
               <span>人员自己</span>
-            </a-radio>
-            <a-radio value="2">
+            </el-radio>
+            <el-radio value="2">
               <span>人员上级</span>
-            </a-radio>
-            <a-radio value="3">
+            </el-radio>
+            <el-radio value="3">
               <span>人员部门负责人</span>
-            </a-radio>
-          </a-radio-group>
+            </el-radio>
+          </el-radio-group>
         </div>
         <!-- 表单内部门 -->
         <div v-if="group.approverType == 14">
           <p class="flow-setting-item-title">
             <span>部门控件</span>
           </p>
-          <a-select :size="flowMixin.size" class="w-fill" default-value="1">
-            <a-select-option :value="higherLevel.value" v-for="(higherLevel, i) in higherLevels" :key="i">
+          <el-select :size="flowMixin.size" class="w-fill" default-value="1">
+            <el-option :value="higherLevel.value" v-for="(higherLevel, i) in higherLevels" :key="i">
               {{ higherLevel.name }}
-            </a-select-option>
-          </a-select>
+            </el-option>
+          </el-select>
           <p class="flow-setting-item-title margin-top-10">
             <span>指定层级</span>
           </p>
-          <a-radio-group v-model="group.levelMode" :size="flowMixin.size" class="w-fill">
-            <a-radio v-for="(departmentHead, i) in departmentHeadModes" :key="i" :style="flowMixin.radioStyle"
+          <el-radio-group v-model="group.levelMode" :size="flowMixin.size" class="w-fill">
+            <el-radio v-for="(departmentHead, i) in departmentHeadModes" :key="i" :style="radioStyle"
                      :value="departmentHead.value">
               <span>{{ departmentHead.name }}</span>
-              <a-popover v-if="departmentHead.popovers && departmentHead.popovers.length > 0" placement="topLeft"
+              <el-popover v-if="departmentHead.popovers && departmentHead.popovers.length > 0" placement="top-start"
                          trigger="click">
                 <template slot="content">
                   <div class="approver-tip-content">
@@ -239,23 +239,24 @@
                       }}</a>
                   </div>
                 </template>
-                <a-icon style="margin-left: 5px;" type="question-circle"/>
-              </a-popover>
-            </a-radio>
-          </a-radio-group>
+                <el-icon style="margin-left: 5px;" type="question-circle"/>
+              </el-popover>
+            </el-radio>
+          </el-radio-group>
           <FlowSelect v-model="group.approverIds" :name.sync="group.approverNames" :datas="departmentHeads"/>
         </div>
       </div>
-    </a-card>
-    <a-button v-if="show" type="link" icon="plus" block @click="addApproval">添加{{ title }}</a-button>
-  </a-space>
+    </el-card>
+    <el-button v-if="show" type="link" icon="plus" block @click="addApproval">添加{{ title }}</el-button>
+  </el-space>
 </template>
 <script setup lang="ts">
-import {flowMixin} from '../../mixins/flowMixin';
+import {approvalRadioStyle, flowMixin, radioStyle, uuid} from '../../mixins/flowMixin';
 import {getApproveNodes} from '../../util/nodeUtil';
 import FlowSelect from '../../Component/FlowSelect.vue';
 import {computed, ref} from "vue";
-import {uuid} from "vue-uuid";
+import {useFlowDesign} from "@/store/FlowDesignStore.ts";
+import piniaInstance from "@/store";
 
 const props = defineProps({
   groups: {
@@ -275,6 +276,7 @@ const props = defineProps({
     default: '审批人',
   },
 });
+const flowDesign=useFlowDesign(piniaInstance);
 let headStyle = ref<any>({
   background: '#f5f6f7',
   'min-height': '40px',
@@ -807,12 +809,13 @@ let userGroups = ref<Array<any>>([
     value: '3',
   },
 ]);
+const dataNode =computed(()=>flowDesign.node);
 let show = computed(() => {
   return props.groups.filter((group: any) => [9, 10].includes(group.approverType)).length == 0;
 });
 let approveNodes = computed(() => {
   const approveNodes = [];
-  getApproveNodes(store.state.flow.node, approveNodes);
+  getApproveNodes(dataNode, approveNodes);
   // 过滤自己
   return approveNodes.filter((approveNode) => approveNode.id != props.node.id);
 });

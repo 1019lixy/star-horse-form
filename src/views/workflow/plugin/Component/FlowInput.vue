@@ -1,5 +1,5 @@
 <template>
-  <a-input v-model="currentValue" :size="size" :placeholder="placeholder" class="w-fill"/>
+  <el-input v-model="currentValue" :size="size" :placeholder="placeholder" class="w-fill"/>
 </template>
 <script setup lang="ts">
 import {ref, watch} from "vue";

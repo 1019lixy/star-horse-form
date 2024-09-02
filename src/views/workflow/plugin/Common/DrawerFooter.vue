@@ -1,11 +1,11 @@
 <template>
   <div class="flow-ant-drawer-footer" :style="{ 'text-align': scale.isMobile() ? 'center' : 'left'}">
-    <a-button type="primary" :size="flowMixin.size" :style="{ marginRight: '8px' }" @click="onSave">
+    <el-button type="primary" :size="flowMixin.size" :style="{ marginRight: '8px' }" @click="onSave">
       保存
-    </a-button>
-    <a-button :size="flowMixin.size" @click="onClose">
+    </el-button>
+    <el-button :size="flowMixin.size" @click="onClose">
       取消
-    </a-button>
+    </el-button>
   </div>
 </template>
 <script setup lang="ts">
