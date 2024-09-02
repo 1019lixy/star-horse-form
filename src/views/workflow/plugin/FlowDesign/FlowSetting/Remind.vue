@@ -80,7 +80,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import {flowMixin} from '../../mixins/flowMixin';
+import {flowMixin} from '@/views/workflow/plugin/mixins/flowMixin';
 import {ref} from "vue";
 
 let bodyStyle = ref<any>({

@@ -7,7 +7,7 @@
 </template>
 <script setup lang="ts">
 
-import {delNode, flowMixin} from "../mixins/flowMixin";
+import {delNode, flowMixin} from "@/views/workflow/plugin/mixins/flowMixin";
 
 const pops = defineProps({
   node: {

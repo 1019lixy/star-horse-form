@@ -13,7 +13,7 @@
   </div>
 </template>
 <script setup lang="ts">
-  import { flowMixin,delNode,open } from '../../mixins/flowMixin';
+  import { flowMixin,delNode,open } from '@/views/workflow/plugin/mixins/flowMixin';
   import FlowAddNode from '../Add/index.vue';
   import FlowEventSetting from '../../FlowDrawer/Event/index.vue';
   import {computed,ref} from "vue";

@@ -38,7 +38,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import {flowMixin, open,} from '../../mixins/flowMixin';
+import {flowMixin, open,} from '@/views/workflow/plugin/mixins/flowMixin';
 import FlowAddNode from '../Add/index.vue';
 import FlowCopyerSetting from '../../FlowDrawer/Copyer/index.vue';
 import EditName from '../../Common/EditName.vue';

@@ -44,7 +44,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import {flowMixin,uuid} from '../../mixins/flowMixin';
+import {flowMixin,uuid} from '@/views/workflow/plugin/mixins/flowMixin';
 import {computed, ref} from "vue";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";

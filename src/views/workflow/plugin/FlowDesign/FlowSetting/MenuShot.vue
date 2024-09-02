@@ -11,7 +11,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import {flowMixin} from '../../mixins/flowMixin';
+import {flowMixin} from '@/views/workflow/plugin/mixins/flowMixin';
 import {ref, onMounted} from "vue";
 
 defineProps({

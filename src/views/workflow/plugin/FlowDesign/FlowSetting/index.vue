@@ -24,7 +24,7 @@
 </template>
 <script setup lang="ts">
 
-import {flowMixin} from '../../mixins/flowMixin';
+import {flowMixin} from '@/views/workflow/plugin/mixins/flowMixin';
 import MenuShot from './MenuShot.vue';
 import Advanced from './Advanced.vue';
 import Exhibition from './Exhibition.vue';

@@ -147,7 +147,7 @@
   </el-drawer>
 </template>
 <script setup lang="ts">
-import {flowMixin, radioStyle} from '../../mixins/flowMixin';
+import {flowMixin, radioStyle} from '@/views/workflow/plugin/mixins/flowMixin';
 import FlowDrawerFooter from '../../Common/DrawerFooter.vue';
 import FlowSimpleSelect from '../../Component/FlowSimpleSelect.vue';
 import FlowNodeApproval from './Approval.vue';
@@ -155,7 +155,7 @@ import FlowNodeApprovalConfigure from './Configure.vue';
 import EditName from '../../Common/EditName.vue';
 import AuthForm from '../../Common/AuthForm.vue';
 import {ref} from "vue";
-import {scale} from "../../util/deviceUtil";
+import {scale} from "../@/views/workflow/plugin/util/deviceUtil";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 

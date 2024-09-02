@@ -87,11 +87,11 @@
   </el-drawer>
 </template>
 <script setup lang="ts">
-import {flowMixin} from '../../mixins/flowMixin';
+import {flowMixin} from '@/views/workflow/plugin/mixins/flowMixin';
 import EditName from '../../Common/EditName.vue';
 import FlowDrawerFooter from '../../Common/DrawerFooter.vue';
 import {ref} from "vue";
-import {scale} from "../../util/deviceUtil";
+import {scale} from "../@/views/workflow/plugin/util/deviceUtil";
 
 const emits = defineEmits(["close"]);
 let node = ref<any>({});

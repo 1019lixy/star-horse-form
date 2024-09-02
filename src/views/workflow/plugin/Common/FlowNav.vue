@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import {ref} from "vue";
-import {flowMixin} from '../mixins/flowMixin';
+import {flowMixin} from '@/views/workflow/plugin/mixins/flowMixin';
 import {useRouter} from "vue-router";
-import {scale} from "../util/deviceUtil";
+import {scale} from "@/views/workflow/plugin/util/deviceUtil";
 defineProps({
   currentNav: {
     type: Number,

@@ -116,14 +116,14 @@
   </el-drawer>
 </template>
 <script setup lang="ts">
-import {flowMixin,uuid} from '../../mixins/flowMixin';
+import {flowMixin,uuid} from '@/views/workflow/plugin/mixins/flowMixin';
 import EditName from '../../Common/EditName.vue';
 import FlowSelect from '../../Component/FlowSelect.vue';
 import FlowSimpleSelect from '../../Component/FlowSimpleSelect.vue';
 import FlowInput from '../../Component/FlowInput.vue';
 import FlowDrawerFooter from '../../Common/DrawerFooter.vue';
 import {ref} from "vue";
-import {scale} from "../../util/deviceUtil";
+import {scale} from "../@/views/workflow/plugin/util/deviceUtil";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import {uuid} from '../mixins/flowMixin';
+import {uuid} from '@/views/workflow/plugin/mixins/flowMixin';
 import {computed, ref} from "vue";
-import {scale} from "../util/deviceUtil";
+import {scale} from "@/views/workflow/plugin/util/deviceUtil";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 

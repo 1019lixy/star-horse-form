@@ -251,7 +251,7 @@
   </el-space>
 </template>
 <script setup lang="ts">
-import {approvalRadioStyle, flowMixin, radioStyle, uuid} from '../../mixins/flowMixin';
+import {approvalRadioStyle, flowMixin, radioStyle, uuid} from '@/views/workflow/plugin/mixins/flowMixin';
 import {getApproveNodes} from '../../util/nodeUtil';
 import FlowSelect from '../../Component/FlowSelect.vue';
 import {computed, ref} from "vue";

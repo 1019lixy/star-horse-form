@@ -50,14 +50,14 @@
   </el-drawer>
 </template>
 <script setup lang="ts">
-import {flowMixin} from '../../mixins/flowMixin';
+import {flowMixin} from '@/views/workflow/plugin/mixins/flowMixin';
 import FlowDrawerFooter from '../../Common/DrawerFooter.vue';
 import EditName from '../../Common/EditName.vue';
 import AuthForm from '../../Common/AuthForm.vue';
 import FlowNodeApproval from '../Approver/Approval.vue';
 import FlowNodeCopyerConfigure from './Configure.vue';
 import {ref} from "vue";
-import {scale} from "../../util/deviceUtil";
+import {scale} from "../@/views/workflow/plugin/util/deviceUtil";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 

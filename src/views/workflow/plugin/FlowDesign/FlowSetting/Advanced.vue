@@ -69,9 +69,9 @@
 }
 </style>
 <script setup lang="ts">
-import {flowMixin} from '../../mixins/flowMixin';
+import {flowMixin} from '@/views/workflow/plugin/mixins/flowMixin';
 import {ref} from "vue";
-import {scale} from "../../util/deviceUtil";
+import {scale} from "@/views/workflow/plugin/util/deviceUtil";
 import StarHorseDialog from "@/components/comp/StarHorseDialog.vue";
 
 const props = defineProps({

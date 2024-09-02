@@ -21,7 +21,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import {flowMixin,uuid} from '../../mixins/flowMixin';
+import {flowMixin,uuid} from '@/views/workflow/plugin/mixins/flowMixin';
 import {ref} from "vue";
 
 const props = defineProps({

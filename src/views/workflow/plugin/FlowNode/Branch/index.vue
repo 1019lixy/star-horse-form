@@ -58,7 +58,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import {flowMixin, addBranch, open} from '../../mixins/flowMixin';
+import {flowMixin, addBranch, open} from '@/views/workflow/plugin/mixins/flowMixin';
 import FlowNode from '../../FlowNode/index.vue';
 import FlowAddNode from '../Add/index.vue';
 import FlowBranchSetting from '../../FlowDrawer/Branch/index.vue';

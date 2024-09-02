@@ -76,7 +76,7 @@
 <script setup lang="ts">
 
 import {computed, ref} from "vue";
-import {uuid} from "../mixins/flowMixin";
+import {uuid} from "@/views/workflow/plugin/mixins/flowMixin";
 
 const props = defineProps({
   readable: {

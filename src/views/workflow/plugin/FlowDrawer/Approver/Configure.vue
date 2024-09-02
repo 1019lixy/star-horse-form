@@ -62,7 +62,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import {flowMixin,uuid} from '../../mixins/flowMixin';
+import {flowMixin,uuid} from '@/views/workflow/plugin/mixins/flowMixin';
 import {ref} from "vue";
 import {scale} from "@/views/workflow/plugin/util/deviceUtil.ts";
 

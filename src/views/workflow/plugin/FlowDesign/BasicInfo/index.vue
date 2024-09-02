@@ -37,9 +37,8 @@
   </div>
 </template>
 <script setup lang="ts">
-import FlowNav from '../../Common/FlowNav.vue';
-import FlowSelect from '../../Component/FlowSelect.vue';
-import FlowSimpleSelect from '../../Component/FlowSimpleSelect.vue';
+import FlowSelect from '@/views/workflow/plugin/Component/FlowSelect.vue';
+import FlowSimpleSelect from '@/views/workflow/plugin/Component/FlowSimpleSelect.vue';
 import {computed, ref} from "vue";
 import {flowMixin} from "@/views/workflow/plugin/mixins/flowMixin.ts";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";

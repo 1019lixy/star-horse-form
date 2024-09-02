@@ -39,7 +39,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import {flowMixin, open} from '../../mixins/flowMixin';
+import {flowMixin, open} from '@/views/workflow/plugin/mixins/flowMixin';
 import FlowAddNode from '../Add/index.vue';
 import FlowApproverSetting from '../../FlowDrawer/Approver/index.vue';
 import EditName from '../../Common/EditName.vue';

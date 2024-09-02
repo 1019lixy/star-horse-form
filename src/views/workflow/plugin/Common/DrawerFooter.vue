@@ -9,8 +9,8 @@
   </div>
 </template>
 <script setup lang="ts">
-import {flowMixin} from '../mixins/flowMixin';
-import {scale} from '../util/deviceUtil';
+import {flowMixin} from '@/views/workflow/plugin/mixins/flowMixin';
+import {scale} from '@/views/workflow/plugin/util/deviceUtil';
 
 const emits = defineEmits(["save", "close"]);
 const onSave = () => {

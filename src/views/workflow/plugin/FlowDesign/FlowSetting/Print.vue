@@ -29,6 +29,6 @@
   </div>
 </template>
 <script setup lang="ts">
-import {flowMixin} from '../../mixins/flowMixin';
+import {flowMixin} from '@/views/workflow/plugin/mixins/flowMixin';
 </script>
 <style lang=“scss”></style>
