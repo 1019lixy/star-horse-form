@@ -9,11 +9,13 @@
       :after-visible-change="afterVisibleChange"
       @close="onClose"
   >
-    <template slot="title">
+    <template #title>
+      <div class="drawer-header">
       <img :src="flowMixin.ccIcon" class="anticon"/>
       <span class="flow-ant-drawer-title">
-        <EditName v-model="node.name"/>
+        <EditName v-model:nodeName="node.name"/>
       </span>
+      </div>
     </template>
     <div class="flow-setting-module">
       <div class="flow-setting-content">

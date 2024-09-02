@@ -4,6 +4,7 @@
       <div class="flow-design-wrap">
         <div id="flow-design" class="flow-design-container" :style="zoomStyle">
           <div id="flow-design-content" class="flow-design-content">
+            {{nodeData}}
             <FlowStartNode :node="nodeData"/>
             <FlowNode :node="nodeData" :readable="readable"/>
             <FlowEndNode :node="nodeData" :readable="readable"/>

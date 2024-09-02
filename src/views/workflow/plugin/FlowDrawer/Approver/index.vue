@@ -10,11 +10,13 @@
       :after-visible-change="afterVisibleChange"
       @close="onClose"
   >
-    <template slot="title">
+    <template #title>
+      <div class="drawer-header">
       <img :src="flowMixin.approverIcon" class="anticon"/>
       <span class="flow-ant-drawer-title">
-        <EditName v-model="node.name"/>
+        <EditName v-model:nodeName="node.name"/>
       </span>
+      </div>
     </template>
     <div class="flow-setting-module">
       <div v-if="node.type == 1" class="flow-setting-content">
@@ -38,13 +40,13 @@
         <div class="flow-setting-item">
           <p class="flow-setting-item-title">办理人设置</p>
           <el-alert
-              message="当流程中某个节点不需要审批，但需要对审批单进行业务办理时，可设置办理人节点，场景如财务打款、处理盖章等"
-              type="info"/>
+              title="当流程中某个节点不需要审批，但需要对审批单进行业务办理时，可设置办理人节点，场景如财务打款、处理盖章等"
+              type="success"/>
         </div>
       </div>
 
-      <el-tabs v-if="node.attr.approvalMethod == 1">
-        <el-tab-pane key="1" tab="审批设置">
+      <el-tabs v-if="node.attr.approvalMethod == 1" v-model="approvalTab">
+        <el-tab-pane key="1" name="1" label="审批设置">
           <div class="flow-setting-content">
             <!-- 审批方式 -->
             <div v-if="node.type == 1" class="flow-setting-item">
@@ -129,7 +131,7 @@
             </div>
           </div>
         </el-tab-pane>
-        <el-tab-pane key="2" tab="表单权限">
+        <el-tab-pane key="2" name="2" label="表单权限">
           <div class="flow-setting-content">
             <div class="flow-setting-item">
               <p class="flow-setting-item-title">表单权限</p>
@@ -137,7 +139,7 @@
             </div>
           </div>
         </el-tab-pane>
-        <el-tab-pane key="3" tab="高级设置">
+        <el-tab-pane key="3" name="3" label="高级设置">
           <FlowNodeApprovalConfigure v-model="node.configure"/>
         </el-tab-pane>
       </el-tabs>
@@ -161,6 +163,7 @@ import piniaInstance from "@/store";
 
 let node = ref<any>({});
 let visible = ref<boolean>(false);
+let approvalTab = ref<string>("1");
 let headerStyle = ref<any>({
   background: 'linear-gradient(89.96deg,#fa6f32 .05%,#fb9337 79.83%)',
   'border-radius': '0px 0px 0 0',

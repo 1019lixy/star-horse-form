@@ -10,15 +10,17 @@
       :after-visible-change="afterVisibleChange"
       @close="onClose"
   >
-    <template slot="title">
+    <template #title>
+      <div class="drawer-header">
       <img :src="flowMixin.ccIcon" class="anticon"/>
       <span class="flow-ant-drawer-title">
-        <EditName v-model="node.name"/>
+        <EditName v-model:nodeName="node.name"/>
       </span>
+      </div>
     </template>
     <div class="flow-setting-module">
       <el-tabs>
-        <el-tab-pane key="1" tab="抄送设置">
+        <el-tab-pane key="1" name="1" label="抄送设置">
           <div class="flow-setting-content">
             <div class="flow-setting-item">
               <p class="flow-setting-item-title">抄送人</p>
@@ -32,7 +34,7 @@
             </div>
           </div>
         </el-tab-pane>
-        <el-tab-pane key="2" tab="表单权限">
+        <el-tab-pane key="2" name="2" label="表单权限">
           <div class="flow-setting-content">
             <div class="flow-setting-item">
               <p class="flow-setting-item-title">表单权限</p>
@@ -40,7 +42,7 @@
             </div>
           </div>
         </el-tab-pane>
-        <el-tab-pane key="3" tab="高级设置">
+        <el-tab-pane key="3" name="3" label="高级设置">
           <FlowNodeCopyerConfigure v-model="node.configure"/>
         </el-tab-pane>
       </el-tabs>

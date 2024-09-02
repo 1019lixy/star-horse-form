@@ -12,7 +12,7 @@
             </div>
           </div>
           <div class="flow-setting-option-item-switch">
-            <el-switch v-model="value[operation.code]" checked-children="开" un-checked-children="关"
+            <el-switch v-model="operation.code" active-text="开" inactive-text="关"
                       @change="changeConfigure"/>
           </div>
         </div>

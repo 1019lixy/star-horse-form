@@ -1,10 +1,13 @@
 
+
 .designer-wrap {
   width: 100%;
   height: 100vh;
   overflow: hidden;
 
-
+  .el-card {
+    padding: 15px !important;
+  }
 
   .designer-base-info {
     margin: 0 auto;
@@ -126,7 +129,7 @@
                 border-radius: 60px;
                 color: #f8f8fa;
                 background-image: -webkit-gradient(linear, left top, right top, from(#ff6a00), to(#f78b3e)),
-                  -webkit-gradient(linear, left top, left bottom, from(#ff6a00), to(#ff6a00));
+                -webkit-gradient(linear, left top, left bottom, from(#ff6a00), to(#ff6a00));
                 background-image: -webkit-linear-gradient(left, #ff6a00, #f78b3e), -webkit-linear-gradient(#ff6a00, #ff6a00);
                 background-image: -o-linear-gradient(left, #ff6a00 0, #f78b3e 100%), -o-linear-gradient(#ff6a00, #ff6a00);
                 background-image: linear-gradient(90deg, #ff6a00, #f78b3e), linear-gradient(#ff6a00, #ff6a00);
@@ -139,7 +142,7 @@
               .node-temmi {
                 cursor: pointer;
                 background-image: -webkit-gradient(linear, left top, right top, from(#ff4056), to(#ff4056)),
-                  -webkit-gradient(linear, left top, left bottom, from(#ff6173), to(#ff6173));
+                -webkit-gradient(linear, left top, left bottom, from(#ff6173), to(#ff6173));
                 background-image: -webkit-linear-gradient(left, #ff4056, #ff4056), -webkit-linear-gradient(#ff6173, #ff6173);
                 background-image: -o-linear-gradient(left, #ff4056 0, #ff4056 100%), -o-linear-gradient(#ff6173, #ff6173);
                 background-image: linear-gradient(90deg, #ff4056, #ff4056), linear-gradient(#ff6173, #ff6173);
@@ -191,7 +194,7 @@
                 .node-sp,
                 .node-start-bg {
                   background-image: -webkit-gradient(linear, left top, right top, from(#ff6a00), to(#f78b3e)),
-                    -webkit-gradient(linear, left top, left bottom, from(#ff6a00), to(#ff6a00));
+                  -webkit-gradient(linear, left top, left bottom, from(#ff6a00), to(#ff6a00));
                   background-image: -webkit-linear-gradient(left, #ff6a00, #f78b3e), -webkit-linear-gradient(#ff6a00, #ff6a00);
                   background-image: -o-linear-gradient(left, #ff6a00 0, #f78b3e 100%), -o-linear-gradient(#ff6a00, #ff6a00);
                   background-image: linear-gradient(90deg, #ff6a00, #f78b3e), linear-gradient(#ff6a00, #ff6a00);
@@ -199,7 +202,7 @@
 
                 .node-launch {
                   background-image: -webkit-gradient(linear, left top, right top, from(#a9b4cd), to(#a9b4cd)),
-                    -webkit-gradient(linear, left top, left bottom, from(#a9b4cd), to(#a9b4cd));
+                  -webkit-gradient(linear, left top, left bottom, from(#a9b4cd), to(#a9b4cd));
                   background-image: -webkit-linear-gradient(left, #a9b4cd, #a9b4cd), -webkit-linear-gradient(#a9b4cd, #a9b4cd);
                   background-image: -o-linear-gradient(left, #a9b4cd 0, #a9b4cd 100%), -o-linear-gradient(#a9b4cd, #a9b4cd);
                   background-image: linear-gradient(90deg, #a9b4cd, #a9b4cd), linear-gradient(#a9b4cd, #a9b4cd);
@@ -214,7 +217,7 @@
                 } */
                 .node-cc {
                   background-image: -webkit-gradient(linear, left top, right top, from(#268bfb -16.37%), to(#33e1ae 137.34%)),
-                    -webkit-gradient(linear, left top, left bottom, from(#ff6a00), to(#ff6a00));
+                  -webkit-gradient(linear, left top, left bottom, from(#ff6a00), to(#ff6a00));
                   background-image: -webkit-linear-gradient(left, #268bfb -16.37%, #33e1ae 137.34%), -webkit-linear-gradient(#ff6a00, #ff6a00);
                   background-image: -o-linear-gradient(left, #268bfb -16.37% 0, #33e1ae 137.34%), -o-linear-gradient(#ff6a00, #ff6a00);
                   background-image: linear-gradient(90deg, #268bfb -16.37%, #33e1ae 137.34%), linear-gradient(#ff6a00, #ff6a00);
@@ -222,7 +225,7 @@
 
                 .node-tz {
                   background-image: -webkit-gradient(linear, left top, right top, from(#498ff2), to(#6da4f2)),
-                    -webkit-gradient(linear, left top, left bottom, from(#ff6a00), to(#ff6a00));
+                  -webkit-gradient(linear, left top, left bottom, from(#ff6a00), to(#ff6a00));
                   background-image: -webkit-linear-gradient(left, #498ff2, #6da4f2), -webkit-linear-gradient(#ff6a00, #ff6a00);
                   background-image: -o-linear-gradient(left, #498ff2 0, #6da4f2 100%), -o-linear-gradient(#ff6a00, #ff6a00);
                   background-image: linear-gradient(90deg, #498ff2, #6da4f2), linear-gradient(#ff6a00, #ff6a00);
@@ -230,7 +233,7 @@
 
                 .node-fill {
                   background-image: -webkit-gradient(linear, left top, right top, from(#29cc80), to(#5ccc98)),
-                    -webkit-gradient(linear, left top, left bottom, from(#29cc80), to(#29cc80));
+                  -webkit-gradient(linear, left top, left bottom, from(#29cc80), to(#29cc80));
                   background-image: -webkit-linear-gradient(left, #29cc80, #5ccc98), -webkit-linear-gradient(#29cc80, #29cc80);
                   background-image: -o-linear-gradient(left, #29cc80 0, #5ccc98 100%), -o-linear-gradient(#29cc80, #29cc80);
                   background-image: linear-gradient(90deg, #29cc80, #5ccc98), linear-gradient(#29cc80, #29cc80);
@@ -238,7 +241,7 @@
 
                 .node-transact {
                   background-image: -webkit-gradient(linear, left top, right top, from(#935af6), to(#f65ac2)),
-                    -webkit-gradient(linear, left top, left bottom, from(#935af6), to(#935af6));
+                  -webkit-gradient(linear, left top, left bottom, from(#935af6), to(#935af6));
                   background-image: -webkit-linear-gradient(left, #935af6, #f65ac2), -webkit-linear-gradient(#935af6, #935af6);
                   background-image: -o-linear-gradient(left, #935af6 0, #f65ac2 100%), -o-linear-gradient(#935af6, #935af6);
                   background-image: linear-gradient(90deg, #935af6, #f65ac2), linear-gradient(#935af6, #935af6);
@@ -246,7 +249,7 @@
 
                 .node-delete {
                   background-image: -webkit-gradient(linear, left top, right top, from(#aaaab3), to(#aaaab3)),
-                    -webkit-gradient(linear, left top, left bottom, from(#c4c4cc), to(#c4c4cc));
+                  -webkit-gradient(linear, left top, left bottom, from(#c4c4cc), to(#c4c4cc));
                   background-image: -webkit-linear-gradient(left, #aaaab3, #aaaab3), -webkit-linear-gradient(#c4c4cc, #c4c4cc);
                   background-image: -o-linear-gradient(left, #aaaab3 0, #aaaab3 100%), -o-linear-gradient(#c4c4cc, #c4c4cc);
                   background-image: linear-gradient(90deg, #aaaab3, #aaaab3), linear-gradient(#c4c4cc, #c4c4cc);
@@ -254,31 +257,34 @@
 
                 .node-zl {
                   background-image: -webkit-gradient(linear, left top, right top, from(#ff9313), to(#faab4b)),
-                    -webkit-gradient(linear, left top, left bottom, from(#ff6a00), to(#ff6a00));
+                  -webkit-gradient(linear, left top, left bottom, from(#ff6a00), to(#ff6a00));
                   background-image: -webkit-linear-gradient(left, #ff9313, #faab4b), -webkit-linear-gradient(#ff6a00, #ff6a00);
                   background-image: -o-linear-gradient(left, #ff9313 0, #faab4b 100%), -o-linear-gradient(#ff6a00, #ff6a00);
                   background-image: linear-gradient(90deg, #ff9313, #faab4b), linear-gradient(#ff6a00, #ff6a00);
                 }
+
                 //  进行中
                 .node-status-current {
                   background-image: -webkit-gradient(linear, left top, right top, from(#1890ff), to(#1890ff)),
-                    -webkit-gradient(linear, left top, left bottom, from(#1890ff), to(#1890ff));
+                  -webkit-gradient(linear, left top, left bottom, from(#1890ff), to(#1890ff));
                   background-image: -webkit-linear-gradient(left, #1890ff, #1890ff), -webkit-linear-gradient(#909399, #909399);
                   background-image: -o-linear-gradient(left, #1890ff 0, #1890ff 100%), -o-linear-gradient(#909399, #909399);
                   background-image: linear-gradient(90deg, #1890ff, #1890ff), linear-gradient(#1890ff, #1890ff);
                 }
+
                 //  未进行
                 .node-status-not {
                   background-image: -webkit-gradient(linear, left top, right top, from(#909399), to(#909399)),
-                    -webkit-gradient(linear, left top, left bottom, from(#909399), to(#909399));
+                  -webkit-gradient(linear, left top, left bottom, from(#909399), to(#909399));
                   background-image: -webkit-linear-gradient(left, #909399, #909399), -webkit-linear-gradient(#909399, #909399);
                   background-image: -o-linear-gradient(left, #909399 0, #909399 100%), -o-linear-gradient(#909399, #909399);
                   background-image: linear-gradient(90deg, #909399, #909399), linear-gradient(#909399, #909399);
                 }
+
                 //  已完成
                 .node-status-complete {
                   background-image: -webkit-gradient(linear, left top, right top, from(#20b2aa), to(#20b2aa)),
-                    -webkit-gradient(linear, left top, left bottom, from(#20b2aa), to(#20b2aa));
+                  -webkit-gradient(linear, left top, left bottom, from(#20b2aa), to(#20b2aa));
                   background-image: -webkit-linear-gradient(left, #20b2aa, #20b2aa), -webkit-linear-gradient(#20b2aa, #20b2aa);
                   background-image: -o-linear-gradient(left, #20b2aa 0, #20b2aa 100%), -o-linear-gradient(#20b2aa, #20b2aa);
                   background-image: linear-gradient(90deg, #20b2aa, #20b2aa), linear-gradient(#20b2aa, #20b2aa);

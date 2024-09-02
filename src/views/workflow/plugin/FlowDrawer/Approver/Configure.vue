@@ -5,15 +5,15 @@
       <div class="flow-setting-option" v-for="(operation, i) in operations" :key="i">
         <div class="flow-setting-option-item">
           <div class="flow-setting-option-item-left">
-            <img :src="optionIcon"/>
+            <img :src="flowMixin.optionIcon"/>
             <div class="flow-setting-option-desc">
               <p class="setting-option-title">{{ operation.name }}</p>
               <p class="setting-option-desc">{{ operation.content }}</p>
             </div>
           </div>
           <div class="flow-setting-option-item-switch">
-            <el-switch v-model="value[operation.code]" checked-children="开" un-checked-children="关"
-                      @change="changeConfigure"/>
+            <el-switch v-model="operation.code" active-text="开" inactive-text="关"
+                       @change="changeConfigure"/>
           </div>
         </div>
       </div>
@@ -30,7 +30,7 @@
             </div>
           </div>
           <div class="flow-setting-option-item-switch">
-            <el-switch v-model="value[timeout.code]" checked-children="开" un-checked-children="关"/>
+            <el-switch v-model="timeout.code" active-text="开" inactive-text="关"/>
           </div>
         </div>
       </div>
@@ -47,24 +47,26 @@
             </div>
           </div>
           <div class="flow-setting-option-item-switch">
-            <el-switch v-model="value[security.code]" checked-children="开" un-checked-children="关"/>
+            <el-switch v-model="security.code" active-text="开" inactive-text="关"/>
           </div>
         </div>
       </div>
     </div>
 
     <!-- 填写密码 -->
-    <el-dialog :visible="passwordVisible" :width="scale.isMobile()?'100%':'40%'" title="填写密码" @cancel="passwordVisible = false">
+    <star-horse-dialog :dialog-visible="passwordVisible" :box-width="scale.isMobile()?'100%':'40%'" title="填写密码"
+                       @closeAction="passwordVisible = false">
       <div class="flow-setting-module">
         <el-input type="password" placeholder="输入密码"/>
       </div>
-    </el-dialog>
+    </star-horse-dialog>
   </div>
 </template>
 <script setup lang="ts">
-import {flowMixin,uuid} from '@/views/workflow/plugin/mixins/flowMixin';
+import {flowMixin, uuid} from '@/views/workflow/plugin/mixins/flowMixin';
 import {ref} from "vue";
 import {scale} from "@/views/workflow/plugin/util/deviceUtil.ts";
+import StarHorseDialog from "@/components/comp/StarHorseDialog.vue";
 
 
 const props = defineProps({

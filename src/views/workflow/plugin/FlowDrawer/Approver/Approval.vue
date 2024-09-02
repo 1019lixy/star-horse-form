@@ -5,7 +5,7 @@
       <template slot="title">
         <span class="flow-setting-approval-title">
           <span>{{ title }}</span>
-          <el-icon type="delete" class="del-icon" @click="delApproval(group)"/>
+          <star-horse-icon iconClass="delete" class="del-icon" @click="delApproval(group)"/>
         </span>
       </template>
       <div class="flow-setting-item">

@@ -13,7 +13,7 @@
             <div class="flow-item flow-node-branch" @click="!readable && open(flowBranchSettingRef, conditionNode)">
               <div class="flow-node-box" :class="{ 'has-error': conditionNode.error }">
                 <div class="node-name">
-                  <EditName v-model="conditionNode.name"/>
+                  <EditName v-model:nodeName="conditionNode.name"/>
                   <img :src="flowMixin.parallelIcon" style="margin-left: 10px"/>
                 </div>
                 <div class="node-main">

@@ -15,7 +15,7 @@
                  @click="!readable && node.conditionNodes.length - 1 != index && open(flowBranchSettingRef, conditionNode, node)">
               <div class="flow-node-box" :class="{ 'has-error': conditionNode.error }">
                 <div class="node-name">
-                  <EditName v-model="conditionNode.name"
+                  <EditName v-model:nodeName="conditionNode.name"
                             @edit="(showPriorityLevel) => (conditionNode.attr.showPriorityLevel = showPriorityLevel)"/>
                   <div class="node-name-level" v-if="conditionNode.attr.showPriorityLevel">
                     优先{{ conditionNode.attr.priorityLevel }}

@@ -39,7 +39,6 @@
           <span>事件节点</span>
         </el-menu-item>
       </el-menu>
-
     </el-popover>
   </div>
 </template>

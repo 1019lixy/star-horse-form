@@ -15,7 +15,7 @@
                   </div>
                   <div @click.stop>
                     <!-- 阻止el-switch冒泡事件, 在父添加@click.stop-->
-                    <el-icon type="delete" theme="filled"/>
+                    <star-horse-icon iconClass="delete" theme="filled"/>
                   </div>
                 </div>
                 <div class="flowSetting-card-context">
@@ -71,7 +71,7 @@
               </el-card>
             </el-col>
           </el-row>
-          <el-button icon="plus-circle" block style="margin-top: 20px;">
+          <el-button icon="plus" block style="margin-top: 20px;">
             新增提醒
           </el-button>
         </div>

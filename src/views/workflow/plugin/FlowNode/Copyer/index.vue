@@ -5,7 +5,7 @@
            @click="!readable && open(flowCopyerSettingRef, node)">
         <div class="flow-node-box" :class="{ 'has-error': node.error }">
           <div class="node-name" :class="nameClass(node, 'node-cc')">
-            <EditName v-model="node.name"/>
+            <EditName v-model:nodeName="node.name"/>
             <div class="search-input el-input" style="display: none;">
               <input type="text" autocomplete="off" id="1460664942574174208" class="el-input__inner"/>
             </div>

@@ -5,7 +5,7 @@
            @click="!readable && open(flowApproverSettingRef, node)">
         <div class="flow-node-box" :class="{ 'has-error': node.error }">
           <div class="node-name" :class="nameClass(node, node.type == 1 ? 'node-sp' : 'node-transact')">
-            <EditName v-model="node.name"/>
+            <EditName v-model:nodeName="node.name"/>
             <img :src="flowMixin.approverIcon" style="margin-left: 10px;"/>
           </div>
           <div class="node-main">
@@ -26,7 +26,7 @@
             <star-horse-icon  iconClass="close" @click.stop="node.deletable = true"/>
           </div>
           <!-- <div class="flow-node-toolbar">
-            <el-icon type="copy" @click.stop="node.deletable = true" />
+            <star-horse-icon iconClass="copy" @click.stop="node.deletable = true" />
           </div> -->
           <!-- 删除提示 -->
           <DeleteConfirm :node="node"/>

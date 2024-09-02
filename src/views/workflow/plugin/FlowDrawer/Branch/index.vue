@@ -10,11 +10,13 @@
       :after-visible-change="afterVisibleChange"
       @close="onClose"
   >
-    <template slot="title">
+    <template #title>
+      <div class="drawer-header">
       <img :src="flowMixin.branchIcon2" class="anticon"/>
       <span class="flow-ant-drawer-title">
-        <EditName v-model="node.name"/>
+        <EditName v-model:nodeName="node.name"/>
       </span>
+      </div>
     </template>
     <div class="flow-setting-module">
       <div class="flow-setting-content">
@@ -91,11 +93,11 @@
                     </div>
                   </div>
                   <div class="flow-setting-condition-del" @click="delCondition(1, group, condition)">
-                    <el-icon type="delete" theme="filled"/>
+                    <star-horse-icon iconClass="delete" theme="filled"/>
                   </div>
                 </div>
                 <div class="flow-setting-condition-add" @click="addCondition(1, group)">
-                  <el-icon type="plus-circle" theme="filled"/>
+                  <star-horse-icon iconClass="plus" theme="filled"/>
                   <span style="margin-left: 5px">且条件</span>
                 </div>
               </div>
@@ -104,7 +106,7 @@
               </div>
             </div>
             <div class="flow-setting-condition-add" @click="addGroup(1)">
-              <el-icon type="plus-circle" theme="filled"/>
+              <star-horse-icon iconClass="plus" theme="filled"/>
               <span style="margin-left: 5px">或条件</span>
             </div>
           </div>

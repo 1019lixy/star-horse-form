@@ -5,7 +5,7 @@
            @click="!readable && open(flowWriteSettingRef, node)">
         <div class="flow-node-box" :class="{ 'has-error': node.error }">
           <div class="node-name" :class="nameClass(node, 'node-fill')">
-            <EditName v-model="node.name"/>
+            <EditName v-model:nodeName="node.name"/>
             <img :src="flowMixin.writeIcon" style="margin-left: 10px;"/>
           </div>
           <div class="node-main">

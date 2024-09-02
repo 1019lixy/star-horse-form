@@ -9,15 +9,17 @@
       :after-visible-change="afterVisibleChange"
       @close="onClose"
   >
-    <template slot="title">
+    <template #title>
+      <div class="drawer-header">
       <img :src="flowMixin.noticeIcon" class="anticon"/>
       <span class="flow-ant-drawer-title">
-        <EditName v-model="node.name"/>
+        <EditName v-model:nodeName="node.name"/>
       </span>
+      </div>
     </template>
     <div class="flow-setting-module">
       <el-tabs>
-        <el-tab-pane key="1" tab="通知设置">
+        <el-tab-pane key="1" name="1" label="通知设置">
           <div class="flow-setting-content">
             <div class="flow-setting-item">
               <p class="flow-setting-item-title">节点名称</p>
@@ -68,12 +70,12 @@
             </div>
           </div>
         </el-tab-pane>
-        <el-tab-pane key="2" tab="内容设置">
+        <el-tab-pane key="2" name="2" label="内容设置">
           <div class="flow-setting-content">
             <div class="flow-setting-item">
               <p class="flow-setting-item-title">选择已审核模板</p>
               <div class="tpl-flex-box">
-                <el-button type="link" icon="plus-circle">
+                <el-button type="link" icon="plus">
                   创建新模板
                 </el-button>
               </div>
@@ -90,7 +92,7 @@
             </div>
           </div>
         </el-tab-pane>
-        <el-tab-pane key="3" tab="高级设置"></el-tab-pane>
+        <el-tab-pane key="3" name="3" label="高级设置"></el-tab-pane>
       </el-tabs>
     </div>
     <FlowDrawerFooter @close="onClose"/>
