@@ -5,9 +5,9 @@
         <div class="flow-block-title">提醒填写</div>
         <div class="flow-block-desc">通过设置推送提醒指定成员填写表单</div>
         <div class="flow-block-content">
-          <el-row type="flex" :gutter="[16, 16]">
+          <el-row type="flex" :gutter="16">
             <el-col v-for="(item, i) in items" :key="i" :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
-              <el-card hoverable class="w-fill" @click="setSetting(item)">
+              <el-card hoverable class="w-fill card-xx" @click="setSetting(item)">
                 <div class="flowSetting-card-header">
                   <div class="flowSetting-card-header-title">
                     <img :src="flowMixin.settingBaseIcon"/>
@@ -19,7 +19,7 @@
                   </div>
                 </div>
                 <div class="flowSetting-card-context">
-                  <!--  <el-form :form="form" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">
+                    <el-form :form="form" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">
                     <el-form-item label="Note">
 
                     </el-form-item>
@@ -29,9 +29,9 @@
                     <el-form-item :wrapper-col="{ span: 12, offset: 5 }">
 
                     </el-form-item>
-                  </el-form> -->
+                  </el-form>
 
-                  <!-- <el-row :gutter="16">
+                   <el-row :gutter="16">
                     <el-col class="gutter-row" :span="6">
                       <div class="gutter-box">
                         col-6
@@ -66,7 +66,7 @@
                         col-6
                       </div>
                     </el-col>
-                  </el-row> -->
+                  </el-row>
                 </div>
               </el-card>
             </el-col>

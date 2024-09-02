@@ -5,7 +5,7 @@
         <div class="flow-block-title">标题设置</div>
         <div class="flow-block-desc">通过设置数据的显示标题，快速识别一条数据</div>
         <div class="flow-block-content">
-          <el-radio-group name="radioGroup" :size="flowMixin.size" :default-value="1">
+          <el-radio-group v-model="radioGroup" :size="flowMixin.size" :default-value="1">
             <el-radio :value="1">
               默认
             </el-radio>
@@ -29,7 +29,7 @@
         <div class="flow-block-title">摘要设置</div>
         <div class="flow-block-desc">自定义表单摘要展示信息，灵活设置提升工作效率</div>
         <div class="flow-block-content">
-          <el-radio-group name="radioGroup" :size="flowMixin.size" :default-value="1">
+          <el-radio-group v-model="radioGroup2" :size="flowMixin.size" :default-value="1">
             <el-radio :value="1">
               默认
             </el-radio>
@@ -51,5 +51,8 @@
 </template>
 <script setup lang="ts">
   import { flowMixin } from '@/views/workflow/plugin/mixins/flowMixin';
+  import {ref} from "vue";
+  let radioGroup=ref<number>(0);
+  let radioGroup2=ref<number>(0);
 </script>
 <style lang=“scss”></style>

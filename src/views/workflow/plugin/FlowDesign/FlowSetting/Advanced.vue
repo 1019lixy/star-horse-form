@@ -1,7 +1,7 @@
 <template>
-  <el-row type="flex" :gutter="16">
+  <el-row  :gutter="16">
     <el-col v-for="(item, i) in items" :key="i" :xs="24" :sm="24" :md="6" :lg="6" :xl="6" style="margin-bottom: 10px">
-      <el-card hoverable class="w-fill" @click="setSetting(item)">
+      <el-card hoverable class="w-fill card-xx" @click="setSetting(item)">
         <div class="flowSetting-card-header">
           <div class="flowSetting-card-header-title">
             <img :src="flowMixin.settingBaseIcon"/>
@@ -67,6 +67,7 @@
 :deep(.el-card__body),.el-card__body{
   padding: 20px !important;
 }
+
 </style>
 <script setup lang="ts">
 import {flowMixin} from '@/views/workflow/plugin/mixins/flowMixin';

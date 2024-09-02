@@ -5,7 +5,7 @@
         <div class="flow-block-title">打印模板</div>
         <div class="flow-block-desc">通过设置推送提醒指定成员填写表单</div>
         <div class="flow-block-content">
-          <el-radio-group name="radioGroup" :size="flowMixin.size" :default-value="1">
+          <el-radio-group v-model="radioGroup" :size="flowMixin.size" :default-value="1">
             <el-radio :value="1">
               默认
             </el-radio>
@@ -30,5 +30,7 @@
 </template>
 <script setup lang="ts">
 import {flowMixin} from '@/views/workflow/plugin/mixins/flowMixin';
+import {ref} from "vue";
+let radioGroup=ref<number>(0);
 </script>
 <style lang=“scss”></style>
