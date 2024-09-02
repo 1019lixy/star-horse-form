@@ -117,13 +117,13 @@
 </template>
 <script setup lang="ts">
 import {flowMixin,uuid} from '@/views/workflow/plugin/mixins/flowMixin';
-import EditName from '../../Common/EditName.vue';
-import FlowSelect from '../../Component/FlowSelect.vue';
-import FlowSimpleSelect from '../../Component/FlowSimpleSelect.vue';
-import FlowInput from '../../Component/FlowInput.vue';
-import FlowDrawerFooter from '../../Common/DrawerFooter.vue';
+import EditName from '@/views/workflow/plugin/Common/EditName.vue';
+import FlowSelect from '@/views/workflow/plugin/Component/FlowSelect.vue';
+import FlowSimpleSelect from '@/views/workflow/plugin/Component/FlowSimpleSelect.vue';
+import FlowInput from '@/views/workflow/plugin/Component/FlowInput.vue';
+import FlowDrawerFooter from '@/views/workflow/plugin/Common/DrawerFooter.vue';
 import {ref} from "vue";
-import {scale} from "../@/views/workflow/plugin/util/deviceUtil";
+import {scale} from "@/views/workflow/plugin/util/deviceUtil";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 

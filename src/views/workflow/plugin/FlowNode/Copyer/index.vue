@@ -41,8 +41,8 @@
 import {flowMixin, open,} from '@/views/workflow/plugin/mixins/flowMixin';
 import FlowAddNode from '../Add/index.vue';
 import FlowCopyerSetting from '../../FlowDrawer/Copyer/index.vue';
-import EditName from '../../Common/EditName.vue';
-import DeleteConfirm from '../../Common/DeleteConfirm.vue';
+import EditName from '@/views/workflow/plugin/Common/EditName.vue';
+import DeleteConfirm from '@/views/workflow/plugin/Common/DeleteConfirm.vue';
 import {computed,ref} from "vue";
 const flowCopyerSettingRef=ref();
 const props = defineProps({

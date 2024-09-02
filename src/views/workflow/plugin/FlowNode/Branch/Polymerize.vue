@@ -20,7 +20,7 @@
   import { flowMixin } from '@/views/workflow/plugin/mixins/flowMixin';
   import FlowAddNode from '../Add/index.vue';
   import FlowApproverSetting from '../../FlowDrawer/Approver/index.vue';
-  import EditName from '../../Common/EditName.vue';
+  import EditName from '@/views/workflow/plugin/Common/EditName.vue';
   const props=defineProps({
     node: {
       type: Object,

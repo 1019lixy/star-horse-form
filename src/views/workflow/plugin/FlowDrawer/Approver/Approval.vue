@@ -253,7 +253,7 @@
 <script setup lang="ts">
 import {approvalRadioStyle, flowMixin, radioStyle, uuid} from '@/views/workflow/plugin/mixins/flowMixin';
 import {getApproveNodes} from '../../util/nodeUtil';
-import FlowSelect from '../../Component/FlowSelect.vue';
+import FlowSelect from '@/views/workflow/plugin/Component/FlowSelect.vue';
 import {computed, ref} from "vue";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";

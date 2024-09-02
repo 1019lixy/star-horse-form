@@ -28,10 +28,10 @@
 </template>
 <script setup lang="ts">
 import {flowMixin} from '@/views/workflow/plugin/mixins/flowMixin';
-import FlowDrawerFooter from '../../Common/DrawerFooter.vue';
-import EditName from '../../Common/EditName.vue';
-import AuthForm from '../../Common/AuthForm.vue';
-import {scale} from "../@/views/workflow/plugin/util/deviceUtil";
+import FlowDrawerFooter from '@/views/workflow/plugin/Common/DrawerFooter.vue';
+import EditName from '@/views/workflow/plugin/Common/EditName.vue';
+import AuthForm from '@/views/workflow/plugin/Common/AuthForm.vue';
+import {scale} from "@/views/workflow/plugin/util/deviceUtil";
 import {ref} from "vue";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";

@@ -54,8 +54,8 @@ import {addBranch, flowMixin, open} from '@/views/workflow/plugin/mixins/flowMix
 import FlowNode from '../index.vue';
 import FlowAddNode from '../Add/index.vue';
 import FlowBranchSetting from '../../FlowDrawer/Branch/index.vue';
-import EditName from '../../Common/EditName.vue';
-import DeleteConfirm from '../../Common/DeleteConfirm.vue';
+import EditName from '@/views/workflow/plugin/Common/EditName.vue';
+import DeleteConfirm from '@/views/workflow/plugin/Common/DeleteConfirm.vue';
 import {ref} from "vue";
 
 const flowBranchSettingRef=ref();

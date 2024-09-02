@@ -88,10 +88,10 @@
 </template>
 <script setup lang="ts">
 import {flowMixin} from '@/views/workflow/plugin/mixins/flowMixin';
-import EditName from '../../Common/EditName.vue';
-import FlowDrawerFooter from '../../Common/DrawerFooter.vue';
+import EditName from '@/views/workflow/plugin/Common/EditName.vue';
+import FlowDrawerFooter from '@/views/workflow/plugin/Common/DrawerFooter.vue';
 import {ref} from "vue";
-import {scale} from "../@/views/workflow/plugin/util/deviceUtil";
+import {scale} from "@/views/workflow/plugin/util/deviceUtil";
 
 const emits = defineEmits(["close"]);
 let node = ref<any>({});

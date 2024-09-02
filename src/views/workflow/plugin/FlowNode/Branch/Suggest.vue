@@ -42,8 +42,8 @@ import {flowMixin} from '@/views/workflow/plugin/mixins/flowMixin';
 import FlowNode from '../index.vue';
 import FlowAddNode from '../Add/index.vue';
 import FlowBranchSetting from '../../FlowDrawer/Branch/index.vue';
-import EditName from '../../Common/EditName.vue';
-import DeleteConfirm from '../../Common/DeleteConfirm.vue';
+import EditName from '@/views/workflow/plugin/Common/EditName.vue';
+import DeleteConfirm from '@/views/workflow/plugin/Common/DeleteConfirm.vue';
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 
