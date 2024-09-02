@@ -53,11 +53,8 @@ const onClick=()=> {
 <template>
   <div class="designer-nav-box">
     <div class="designer-nav-return">
-      <img :src="flowMixin.backIcon"/>
       <div v-if="!scale.isMobile()" class="select-version-box">
-        <span class="title">test</span>
-        <span class="version">&nbsp;V1</span>
-        <i class="el-icon-caret-bottom selec-down"></i>
+        <span class="title">流程设计器</span>
       </div>
     </div>
     <div class="designer-nav-center">
@@ -125,7 +122,6 @@ const onClick=()=> {
       position: relative;
 
       .title {
-        max-width: 60%;
         overflow: hidden;
         -o-text-overflow: ellipsis;
         text-overflow: ellipsis;

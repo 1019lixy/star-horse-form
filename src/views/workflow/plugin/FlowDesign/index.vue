@@ -1,6 +1,5 @@
 <template>
   <div class="designer-wrap">
-
     <div class="designer-content-box" :style="{ height: readable ? '100vh' : 'calc(100vh - 50px)' }">
       <div class="flow-design-wrap">
         <div id="flow-design" class="flow-design-container" :style="zoomStyle">
