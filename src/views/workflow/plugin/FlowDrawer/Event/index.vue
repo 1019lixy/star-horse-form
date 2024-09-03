@@ -11,8 +11,8 @@
   >
     <template #title>
       <div class="drawer-header">
-      <img :src="flowMixin.webhookIcon2" class="anticon"/>
-      <span class="flow-ant-drawer-title">
+        <img :src="flowMixin.webhookIcon2" class="anticon"/>
+        <span class="flow-ant-drawer-title">
         <EditName v-model:nodeName="node.name"/>
       </span>
       </div>
@@ -38,7 +38,7 @@
                   </div>
                 </div>
                 <div class="flow-setting-option-item-switch">
-                  <el-switch checked-children="开" un-checked-children="关"/>
+                  <el-switch v-model="node.preDataValid" active-text="开" inactive-text="关"/>
                 </div>
               </div>
             </div>
@@ -52,7 +52,7 @@
                   </div>
                 </div>
                 <div class="flow-setting-option-item-switch">
-                  <el-switch checked-children="开" un-checked-children="关"/>
+                  <el-switch v-model="node.afterDataValid" active-text="开" inactive-text="关"/>
                 </div>
               </div>
             </div>
@@ -66,21 +66,25 @@
                   </div>
                 </div>
                 <div class="flow-setting-option-item-switch">
-                  <el-switch checked-children="开" un-checked-children="关"/>
+                  <el-switch v-model="node.apiFlag" active-text="开" inactive-text="关"/>
                 </div>
               </div>
             </div>
           </div>
-          <div class="flow-setting-item">
+          <div class="flow-setting-item" v-if="node.preDataValid">
             <p class="flow-setting-item-title">前置事件配置</p>
+            <el-input type="textarea" v-model="node.preContext" :size="flowMixin.size" class="w-full"
+                      placeholder="前置事件配置"/>
           </div>
-          <div class="flow-setting-item">
+          <div class="flow-setting-item" v-if="node.afterDataValid">
             <p class="flow-setting-item-title">后置事件配置</p>
-            <!-- <el-textarea v-model="noticeContext" :size="size" class="w-full" placeholder="通知内容" /> -->
+            <el-input type="textarea" v-model="node.afterContext" :size="flowMixin.size" class="w-full"
+                      placeholder="后置事件配置"/>
           </div>
-          <div class="flow-setting-item">
+          <div class="flow-setting-item" v-if="node.apiFlag">
             <p class="flow-setting-item-title">WebHook配置</p>
-            <!-- <el-textarea v-model="noticeContext" :size="size" class="w-full" placeholder="通知内容" /> -->
+            <el-input type="textarea" v-model="node.apiContext" :size="flowMixin.size" class="w-full"
+                      placeholder="配置回调接口"/>
           </div>
         </el-form>
       </div>

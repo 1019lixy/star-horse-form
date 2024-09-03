@@ -1,7 +1,7 @@
 <template>
   <div class="flow-row">
     <div class="flow-box">
-      <div class="flow-item" :class="{ 'flow-item-active': flowMixin.isActive }"
+      <div class="flow-item" :class="{ 'flow-item-active': currentNode.id==node.id }"
            @click="!readable && open(flowApproverSettingRef, node)">
         <div class="flow-node-box" :class="{ 'has-error': node.error }">
           <div class="node-name" :class="nameClass(node, node.type == 1 ? 'node-sp' : 'node-transact')">
@@ -23,7 +23,7 @@
           <!-- 错误提示 -->
           <star-horse-icon v-if="node.error" iconClass="exclamation-circle" theme="filled" class="node-error"/>
           <div v-if="!readable && !node.deletable" class="close-icon">
-            <star-horse-icon  iconClass="close" @click.stop="node.deletable = true"/>
+            <star-horse-icon iconClass="close" @click.stop="node.deletable = true"/>
           </div>
           <!-- <div class="flow-node-toolbar">
             <star-horse-icon iconClass="copy" @click.stop="node.deletable = true" />
@@ -33,7 +33,7 @@
         </div>
       </div>
       <!-- 如果子节点是意见分支,则只能添加一个意见分支 -->
-      <FlowAddNode :node.sync="node" :nodeType="node.type" :readable="readable"/>
+      <FlowAddNode :node="node" :nodeType="node.type" :readable="readable"/>
     </div>
     <FlowApproverSetting ref="flowApproverSettingRef" @close="flowMixin.isActive = false"/>
   </div>
@@ -45,7 +45,12 @@ import FlowApproverSetting from '../../FlowDrawer/Approver/index.vue';
 import EditName from '@/views/workflow/plugin/Common/EditName.vue';
 import DeleteConfirm from '@/views/workflow/plugin/Common/DeleteConfirm.vue';
 import {computed, ref} from "vue";
-const flowApproverSettingRef=ref();
+import {useFlowDesign} from "@/store/FlowDesignStore.ts";
+import piniaInstance from "@/store";
+
+const flowApproverSettingRef = ref();
+const flowDesign = useFlowDesign(piniaInstance);
+let currentNode = computed(() => flowDesign.currentNode);
 const props = defineProps({
   node: {
     type: Object,

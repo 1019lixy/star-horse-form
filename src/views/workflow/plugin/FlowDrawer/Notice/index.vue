@@ -11,14 +11,14 @@
   >
     <template #title>
       <div class="drawer-header">
-      <img :src="flowMixin.noticeIcon" class="anticon"/>
-      <span class="flow-ant-drawer-title">
+        <img :src="flowMixin.noticeIcon" class="anticon"/>
+        <span class="flow-ant-drawer-title">
         <EditName v-model:nodeName="node.name"/>
       </span>
       </div>
     </template>
     <div class="flow-setting-module">
-      <el-tabs>
+      <el-tabs v-model="noticeTab">
         <el-tab-pane key="1" name="1" label="通知设置">
           <div class="flow-setting-content">
             <div class="flow-setting-item">
@@ -28,7 +28,7 @@
             <div class="flow-setting-item">
               <p class="flow-setting-item-title">通知类型</p>
               <el-checkbox-group v-model="noticeType">
-                <el-row :gutter="[24, 24]">
+                <el-row :gutter="24">
                   <el-col :span="8" v-for="(notice, i) in notices" :key="i">
                     <el-checkbox :value="notice.value">{{ notice.name }}</el-checkbox>
                   </el-col>
@@ -41,19 +41,19 @@
             </div>
             <div v-if="noticeType.includes(2)" class="flow-setting-item">
               <p class="flow-setting-item-title">外部手机号</p>
-              <el-button type="link" icon="plus" block>
+              <el-button link icon="plus" block>
                 添加手机号
               </el-button>
             </div>
             <div v-if="noticeType.includes(3)" class="flow-setting-item">
               <p class="flow-setting-item-title">外部邮箱账号</p>
-              <el-button type="link" icon="plus" block>
+              <el-button link icon="plus" block>
                 添加邮箱
               </el-button>
             </div>
             <div v-if="noticeType.includes(3)" class="flow-setting-item">
               <el-checkbox-group v-model="emailExt">
-                <el-row :gutter="[12, 12]">
+                <el-row :gutter="12">
                   <el-col :span="12" v-for="(item, i) in emailItems" :key="i">
                     <el-checkbox :value="item.value">{{ item.name }}</el-checkbox>
                   </el-col>
@@ -75,20 +75,21 @@
             <div class="flow-setting-item">
               <p class="flow-setting-item-title">选择已审核模板</p>
               <div class="tpl-flex-box">
-                <el-button type="link" icon="plus">
+                <el-button link icon="plus">
                   创建新模板
                 </el-button>
               </div>
-              <el-select :size="flowMixin.size" style="width: 100%;margin-bottom: 20px;"
-                        placeholder="请选择模板"></el-select>
+              <el-select :size="flowMixin.size" v-model="node.contentTemplate" style="width: 100%;margin-bottom: 20px;"
+                         placeholder="请选择模板"></el-select>
             </div>
             <div class="flow-setting-item">
               <p class="flow-setting-item-title">主题</p>
-              <el-input v-model="noticeTitle" :size="flowMixin.size" :rows="4" placeholder="主题"/>
+              <el-input v-model="node.noticeTitle" :size="flowMixin.size" :rows="4" placeholder="主题"/>
             </div>
             <div class="flow-setting-item">
               <p class="flow-setting-item-title">通知内容</p>
-              <el-input type="textarea" v-model="noticeContext" :size="flowMixin.size" :rows="4" placeholder="通知内容"/>
+              <el-input type="textarea" v-model="node.noticeContext" :size="flowMixin.size" :rows="4"
+                        placeholder="通知内容"/>
             </div>
           </div>
         </el-tab-pane>
@@ -113,8 +114,9 @@ let headerStyle = ref<any>({
   'background-color': '#498ff2',
   'border-radius': '0px 0px 0 0',
 });
-let noticeTitle=ref<string>("");
+let noticeTitle = ref<string>("");
 let noticeContext = ref<string>('');
+let noticeTab = ref<string>('1');
 let noticeType = ref<Array<any>>([]);
 // 邮件选择项
 let emailExt = ref<Array<any>>([]);

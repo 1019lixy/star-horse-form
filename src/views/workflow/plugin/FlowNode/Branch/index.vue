@@ -12,6 +12,7 @@
           <div class="flow-box">
             <!-- 其他情况不支持配置 -->
             <div class="flow-item flow-node-branch"
+                 :class="{ 'flow-item-active': currentNode.id==conditionNode.id }"
                  @click="!readable && node.conditionNodes.length - 1 != index && open(flowBranchSettingRef, conditionNode, node)">
               <div class="flow-node-box" :class="{ 'has-error': conditionNode.error }">
                 <div class="node-name">
@@ -34,7 +35,7 @@
                   <span v-else class="hint-title">配置筛选条件</span>
                 </div>
                 <!-- 错误提示 -->
-                <el-icon v-if="conditionNode.error" type="exclamation-circle" theme="filled" class="node-error"/>
+                <star-horse-icon v-if="conditionNode.error" icon-class="exclamation-circle" theme="filled" class="node-error"/>
                 <!-- 删除按钮,其他情况不支持删除 -->
                 <div v-if="!readable && !conditionNode.deletable && node.conditionNodes.length - 1 != index"
                      class="close-icon">
@@ -44,7 +45,7 @@
                 <DeleteConfirm :node="conditionNode"/>
               </div>
             </div>
-            <FlowAddNode :node.sync="node" :nodeType="3" :id="conditionNode.id" :readable="readable"/>
+            <FlowAddNode :node="node" :nodeType="3" :id="conditionNode.id" :readable="readable"/>
           </div>
         </div>
         <FlowNode v-if="conditionNode.childNode && conditionNode.childNode.hasOwnProperty('name')"
@@ -52,20 +53,25 @@
       </div>
     </div>
     <div class="after-branch-btn">
-      <FlowAddNode :node.sync="node" :nodeType="4" :readable="readable"/>
+      <FlowAddNode :node="node" :nodeType="4" :readable="readable"/>
     </div>
-    <FlowBranchSetting ref="flowBranchSettingRef" @close="flowMixin.isActive = false"/>
+    <FlowBranchSetting ref="flowBranchSettingRef" @close="close"/>
   </div>
 </template>
 <script setup lang="ts">
-import {flowMixin, addBranch, open} from '@/views/workflow/plugin/mixins/flowMixin';
+import {flowMixin, addBranch, open, close} from '@/views/workflow/plugin/mixins/flowMixin';
 import FlowNode from '../../FlowNode/index.vue';
 import FlowAddNode from '../Add/index.vue';
 import FlowBranchSetting from '../../FlowDrawer/Branch/index.vue';
 import EditName from '@/views/workflow/plugin/Common/EditName.vue';
 import DeleteConfirm from '@/views/workflow/plugin/Common/DeleteConfirm.vue';
-import {ref} from "vue";
+import {computed, ref} from "vue";
+import {useFlowDesign} from "@/store/FlowDesignStore.ts";
+import piniaInstance from "@/store";
+import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 const flowBranchSettingRef=ref();
+const flowDesign = useFlowDesign(piniaInstance);
+let currentNode = computed(() => flowDesign.currentNode);
 const props = defineProps({
   node: {
     type: Object,

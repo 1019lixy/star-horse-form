@@ -12,8 +12,8 @@
                 <div class="node-name">
                   <span>{{ conditionNode.name }}</span>
                   <span style="margin-left: 10px;">
-                    <el-icon v-if="index == 0" type="check-circle" theme="filled" style="color: green;"/>
-                    <el-icon v-if="node.conditionNodes.length - 1 == index" type="close" theme="filled"
+                    <star-horse-icon v-if="index == 0" icon-class="check-circle" theme="filled" style="color: green;"/>
+                    <star-horse-icon v-if="node.conditionNodes.length - 1 == index" icon-class="close" theme="filled"
                              style="color: red;"/>
                   </span>
                 </div>
@@ -24,7 +24,7 @@
                 <DeleteConfirm :node="conditionNode" @callback="delCallback"/>
               </div>
             </div>
-            <FlowAddNode :node.sync="node" :nodeType="3" :id="conditionNode.id" :readable="readable"/>
+            <FlowAddNode :node="node" :nodeType="3" :id="conditionNode.id" :readable="readable"/>
           </div>
         </div>
         <FlowNode v-if="conditionNode.childNode && conditionNode.childNode.hasOwnProperty('name')"
@@ -32,13 +32,13 @@
       </div>
     </div>
     <div class="after-branch-btn">
-      <FlowAddNode :node.sync="node" :nodeType="4" :readable="readable"/>
+      <FlowAddNode :node="node" :nodeType="4" :readable="readable"/>
     </div>
-    <FlowBranchSetting ref="flowBranchSetting" @close="flowMixin.isActive = false"/>
+    <FlowBranchSetting ref="flowBranchSetting" @close="close"/>
   </div>
 </template>
 <script setup lang="ts">
-import {flowMixin} from '@/views/workflow/plugin/mixins/flowMixin';
+import {close, flowMixin} from '@/views/workflow/plugin/mixins/flowMixin';
 import FlowNode from '../index.vue';
 import FlowAddNode from '../Add/index.vue';
 import FlowBranchSetting from '../../FlowDrawer/Branch/index.vue';
@@ -46,6 +46,7 @@ import EditName from '@/views/workflow/plugin/Common/EditName.vue';
 import DeleteConfirm from '@/views/workflow/plugin/Common/DeleteConfirm.vue';
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
+import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 
 const props = defineProps({
   node: {

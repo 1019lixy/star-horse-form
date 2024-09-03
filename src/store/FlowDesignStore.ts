@@ -12,6 +12,7 @@ import {
 } from "@/views/workflow/plugin/util/nodeUtil.ts";
 
 export const useFlowDesign = defineStore("flowDesignStore", () => {
+    let currentNode = ref<any>({});
     //  节点数据
     let node = ref<any>(getStartNode());
     //  缩略图
@@ -29,6 +30,13 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
         } else {
             node.value = getStartNode();
         }
+    }
+    /**
+     * 选中
+     * @param node
+     */
+    const flowSetCurrentNode = (node: any) => {
+        currentNode.value = node;
     }
     /**
      * 添加节点
@@ -122,8 +130,10 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
         updateMap(mapImg);
     }
     return {
+        currentNode,
         node, mapImg, suggestBranchEnable,
         parallelBranchEnable,
+        flowSetCurrentNode,
         flowSetNode,
         flowAddNode,
         flowAddBranch,

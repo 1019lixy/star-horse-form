@@ -12,8 +12,8 @@
   >
     <template #title>
       <div class="drawer-header">
-      <img :src="flowMixin.approverIcon" class="anticon"/>
-      <span class="flow-ant-drawer-title">
+        <img :src="flowMixin.approverIcon" class="anticon"/>
+        <span class="flow-ant-drawer-title">
         <EditName v-model:nodeName="node.name"/>
       </span>
       </div>
@@ -64,19 +64,20 @@
                 <el-radio v-for="(sameApproval, i) in sameApprovals" :key="i" :value="sameApproval.value"
                           :style="radioStyle">
                   <span>{{ sameApproval.name }}</span>
-                  <el-popover v-if="sameApproval.popovers && sameApproval.popovers.length > 0" placement="topLeft"
+                  <el-popover v-if="sameApproval.popovers && sameApproval.popovers.length > 0" placement="top-start"
                               trigger="click">
-                    <template slot="content">
-                      <div class="approver-tip-content">
-                        <div class="approver-tip-main-content">
-                          <div v-for="(popover, k) in sameApproval.popovers" :key="k">
-                            <p class="main-title">{{ popover.title }}</p>
-                            <p class="content">{{ popover.content }}</p>
-                          </div>
+                    <template #reference>
+                      <star-horse-icon style="margin-left: 5px" icon-class="question-circle"/>
+                    </template>
+
+                    <div class="approver-tip-content">
+                      <div class="approver-tip-main-content">
+                        <div v-for="(popover, k) in sameApproval.popovers" :key="k">
+                          <p class="main-title">{{ popover.title }}</p>
+                          <p class="content">{{ popover.content }}</p>
                         </div>
                       </div>
-                    </template>
-                    <el-icon style="margin-left: 5px" type="question-circle"/>
+                    </div>
                   </el-popover>
                 </el-radio>
               </el-radio-group>
@@ -85,19 +86,19 @@
             <div class="flow-setting-item">
               <p class="flow-setting-item-title">
                 <span>{{ node.type == 1 ? '审批人' : '办理人' }}为空时</span>
-                <el-popover placement="topLeft" trigger="click">
-                  <template slot="content">
-                    <div class="approver-tip-content">
-                      <div class="approver-tip-main-content">
-                        <p class="main-title">什么情况下会出现{{ node.type == 1 ? '审批人' : '办理人' }}为空？</p>
-                        <p class="content">设置了“上级”审批，但申请人在飞书管理后台 - 组织架构中没有上级</p>
-                        <p class="content">设置了“部门负责人”审批，但申请人在飞书管理后台 - 组织架构中没有部门负责人</p>
-                        <p class="content">设置了“角色”审批，但该角色在飞书管理后台 - 组织架构中没有任何成员</p>
-                        <p class="content">设置了“用户组”审批，但该用户组在飞书管理后台 - 组织架构中没有任何成员</p>
-                      </div>
-                    </div>
+                <el-popover placement="top-start" trigger="click">
+                  <template #reference>
+                    <star-horse-icon style="margin-left: 5px" icon-class="question-circle"/>
                   </template>
-                  <el-icon style="margin-left: 5px" type="question-circle"/>
+                  <div class="approver-tip-content">
+                    <div class="approver-tip-main-content">
+                      <p class="main-title">什么情况下会出现{{ node.type == 1 ? '审批人' : '办理人' }}为空？</p>
+                      <p class="content">设置了“上级”审批，但申请人在飞书管理后台 - 组织架构中没有上级</p>
+                      <p class="content">设置了“部门负责人”审批，但申请人在飞书管理后台 - 组织架构中没有部门负责人</p>
+                      <p class="content">设置了“角色”审批，但该角色在飞书管理后台 - 组织架构中没有任何成员</p>
+                      <p class="content">设置了“用户组”审批，但该用户组在飞书管理后台 - 组织架构中没有任何成员</p>
+                    </div>
+                  </div>
                 </el-popover>
               </p>
               <el-radio-group v-model="node.attr.noHander" :size="flowMixin.size">
@@ -105,18 +106,18 @@
                           :style="radioStyle">
                   <span>{{ approvalWithNull.name }}</span>
                   <el-popover v-if="approvalWithNull.popovers && approvalWithNull.popovers.length > 0"
-                              placement="topLeft" trigger="click">
-                    <template slot="content">
-                      <div class="approver-tip-content">
-                        <div class="approver-tip-main-content">
-                          <div v-for="(popover, k) in approvalWithNull.popovers" :key="k">
-                            <p class="main-title">{{ popover.title }}</p>
-                            <p class="content">{{ popover.content }}</p>
-                          </div>
+                              placement="top-start" trigger="click">
+                    <template #reference>
+                      <star-horse-icon style="margin-left: 5px" icon-class="question-circle"/>
+                    </template>
+                    <div class="approver-tip-content">
+                      <div class="approver-tip-main-content">
+                        <div v-for="(popover, k) in approvalWithNull.popovers" :key="k">
+                          <p class="main-title">{{ popover.title }}</p>
+                          <p class="content">{{ popover.content }}</p>
                         </div>
                       </div>
-                    </template>
-                    <el-icon style="margin-left: 5px" type="question-circle"/>
+                    </div>
                   </el-popover>
                 </el-radio>
               </el-radio-group>
@@ -160,6 +161,7 @@ import {ref} from "vue";
 import {scale} from "@/views/workflow/plugin/util/deviceUtil";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
+import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 
 let node = ref<any>({});
 let visible = ref<boolean>(false);

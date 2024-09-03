@@ -20,7 +20,7 @@
                 <span>的</span>
                 <span class="flow-block-var">表单名称</span>
               </div>
-              <div class="flow-block-defaultSample">示例：陈德言的业绩上报、陆宜的请假</div>
+              <div class="flow-block-defaultSample">示例：张三的业绩上报、李四的请假</div>
             </div>
           </div>
         </div>

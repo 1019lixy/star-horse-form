@@ -1,7 +1,7 @@
 <template>
   <div class="flow-row">
     <div class="flow-box">
-      <div class="flow-item" :class="{ 'flow-item-active': flowMixin.isActive }"
+      <div class="flow-item" :class="{ 'flow-item-active': currentNode.id==node.id }"
            @click="!readable && open(flowWriteSettingRef, node)">
         <div class="flow-node-box" :class="{ 'has-error': node.error }">
           <div class="node-name" :class="nameClass(node, 'node-fill')">
@@ -12,7 +12,7 @@
             <span v-if="node.content">
               表单权限:
               <el-tooltip placement="top">
-                <template slot="title">
+                <template #content>
                   <span>{{ node.content }}</span>
                 </template>
                 {{ node.content }}
@@ -32,18 +32,21 @@
       </div>
       <FlowAddNode :node="node" :nodeType="6" :readable="readable"/>
     </div>
-    <FlowWriteSetting ref="flowWriteSettingRef" @close="flowMixin.isActive = false"/>
+    <FlowWriteSetting ref="flowWriteSettingRef" @close="close"/>
   </div>
 </template>
 <script setup lang="ts">
-import {flowMixin, open} from '@/views/workflow/plugin/mixins/flowMixin';
+import {close, flowMixin, open} from '@/views/workflow/plugin/mixins/flowMixin';
 import FlowAddNode from '../Add/index.vue';
 import FlowWriteSetting from '../../FlowDrawer/Write/index.vue';
 import EditName from '@/views/workflow/plugin/Common/EditName.vue';
 import DeleteConfirm from '@/views/workflow/plugin/Common/DeleteConfirm.vue';
 import {computed, ref} from "vue";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-
+import {useFlowDesign} from "@/store/FlowDesignStore.ts";
+import piniaInstance from "@/store";
+const flowDesign = useFlowDesign(piniaInstance);
+let currentNode = computed(() => flowDesign.currentNode);
 const props = defineProps({
   node: {
     type: Object,

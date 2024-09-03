@@ -10,12 +10,15 @@
       </template>
       <div class="flow-setting-item">
         <!-- 审批人类型 -->
-        <el-radio-group v-model="group.approverType" class="w-fill" :size="flowMixin.size" @change="changeApproverType(group)">
+        <el-radio-group v-model="group.approverType" class="w-fill" :size="flowMixin.size"
+                        @change="changeApproverType(group)">
           <el-radio v-for="(approval, i) in approvals" :key="i" :style="approvalRadioStyle" :value="approval.value"
-                   :disabled="approval.disabled && groups.length > 1">
+                    :disabled="approval.disabled && groups.length > 1">
             <span>{{ approval.name }}</span>
-            <el-popover v-if="approval.popovers && approval.popovers.length > 0" placement="top-start" trigger="click">
-              <template slot="content">
+            <el-popover v-if="approval.popovers && approval.popovers.length > 0" width="300" placement="top-start" trigger="click">
+              <template #reference>
+                <star-horse-icon style="margin-left: 5px;" size="18px" icon-class="question-circle"/>
+              </template>
                 <div class="approver-tip-content">
                   <div class="approver-tip-main-content">
                     <div v-for="(popover, k) in approval.popovers" :key="k">
@@ -25,8 +28,6 @@
                   </div>
                   <a v-if="approval.href" :href="approval.href" target="_blank">{{ approval.hrefName }}</a>
                 </div>
-              </template>
-              <el-icon style="margin-left: 5px;" type="question-circle"/>
             </el-popover>
           </el-radio>
         </el-radio-group>
@@ -37,26 +38,26 @@
           </p>
           <el-radio-group :size="flowMixin.size" v-model="group.levelMode" class="w-fill">
             <el-radio v-for="(higherLevel, i) in higherLevelModes" :key="i" :style="radioStyle"
-                     :value="higherLevel.value">
+                      :value="higherLevel.value">
               <span>{{ higherLevel.name }}</span>
-              <el-popover v-if="higherLevel.popovers && higherLevel.popovers.length > 0" placement="top-start"
-                         trigger="click">
-                <template slot="content">
-                  <div class="approver-tip-content">
-                    <div class="approver-tip-main-content">
-                      <div v-for="(popover, k) in higherLevel.popovers" :key="k">
-                        <p class="main-title">{{ popover.title }}</p>
-                        <p class="content">{{ popover.content }}</p>
-                      </div>
-                    </div>
-                    <a v-if="higherLevel.href" :href="higherLevel.href" target="_blank">{{ higherLevel.hrefName }}</a>
-                  </div>
+              <el-popover v-if="higherLevel.popovers && higherLevel.popovers.length > 0" width="300" placement="top-start"
+                          trigger="click">
+                <template #reference>
+                  <star-horse-icon style="margin-left: 5px;" size="18px" icon-class="question-circle"/>
                 </template>
-                <el-icon style="margin-left: 5px;" type="question-circle"/>
+                <div class="approver-tip-content">
+                  <div class="approver-tip-main-content">
+                    <div v-for="(popover, k) in higherLevel.popovers" :key="k">
+                      <p class="main-title">{{ popover.title }}</p>
+                      <p class="content">{{ popover.content }}</p>
+                    </div>
+                  </div>
+                  <a v-if="higherLevel.href" :href="higherLevel.href" target="_blank">{{ higherLevel.hrefName }}</a>
+                </div>
               </el-popover>
             </el-radio>
           </el-radio-group>
-          <FlowSelect v-model="group.approverIds" :name.sync="group.approverNames" :datas="higherLevels"/>
+          <FlowSelect v-model="group.approverIds" :name="group.approverNames" :datas="higherLevels"/>
         </div>
         <!-- 部门负责人 -->
         <div v-if="group.approverType == 2">
@@ -65,70 +66,71 @@
           </p>
           <el-radio-group v-model="group.levelMode" :size="flowMixin.size" class="w-fill">
             <el-radio v-for="(departmentHead, i) in departmentHeadModes" :key="i" :style="radioStyle"
-                     :value="departmentHead.value">
+                      :value="departmentHead.value">
               <span>{{ departmentHead.name }}</span>
-              <el-popover v-if="departmentHead.popovers && departmentHead.popovers.length > 0" placement="top-start"
-                         trigger="click">
-                <template slot="content">
-                  <div class="approver-tip-content">
-                    <div class="approver-tip-main-content">
-                      <div v-for="(popover, k) in departmentHead.popovers" :key="k">
-                        <p class="main-title">{{ popover.title }}</p>
-                        <p class="content">{{ popover.content }}</p>
-                      </div>
-                    </div>
-                    <a v-if="departmentHead.href" :href="departmentHead.href" target="_blank">{{
-                        departmentHead.hrefName
-                      }}</a>
-                  </div>
+              <el-popover v-if="departmentHead.popovers && departmentHead.popovers.length > 0" width="300" placement="top-start"
+                          trigger="click">
+                <template #reference>
+                  <star-horse-icon style="margin-left: 5px;" size="18px" icon-class="question-circle"/>
                 </template>
-                <el-icon style="margin-left: 5px;" type="question-circle"/>
+                <div class="approver-tip-content">
+                  <div class="approver-tip-main-content">
+                    <div v-for="(popover, k) in departmentHead.popovers" :key="k">
+                      <p class="main-title">{{ popover.title }}</p>
+                      <p class="content">{{ popover.content }}</p>
+                    </div>
+                  </div>
+                  <a v-if="departmentHead.href" :href="departmentHead.href" target="_blank">{{
+                      departmentHead.hrefName
+                    }}</a>
+                </div>
               </el-popover>
             </el-radio>
           </el-radio-group>
-          <FlowSelect v-model="group.approverIds" :name.sync="group.approverNames" :datas="departmentHeads"/>
+          <FlowSelect v-model="group.approverIds" :name="group.approverNames" :datas="departmentHeads"/>
         </div>
         <!-- 部门审批人 -->
         <div v-if="group.approverType == 3">
           <p class="flow-setting-item-title">
             <span>部门审批人</span>
           </p>
-          <FlowSelect v-model="group.approverIds" :name.sync="group.approverNames" :datas="departmentApprovals"/>
+          <FlowSelect v-model="group.approverIds" :name="group.approverNames" :datas="departmentApprovals"/>
         </div>
         <!-- 编码审批人 -->
         <div v-if="group.approverType == 4">
           <p class="flow-setting-item-title">
             <span>编码对应部门审批人</span>
           </p>
-          <FlowSelect v-model="group.approverIds" :name.sync="group.approverNames" :datas="departmentApprovals"/>
+          <FlowSelect v-model="group.approverIds" :name="group.approverNames" :datas="departmentApprovals"/>
         </div>
         <!-- 角色 -->
         <div v-if="group.approverType == 5">
           <p class="flow-setting-item-title">
             <span>选择角色</span>
           </p>
-          <FlowSelect v-model="group.approverIds" :name.sync="group.approverNames" :datas="roles"/>
+          <FlowSelect v-model="group.approverIds" :name="group.approverNames" :datas="roles"/>
         </div>
         <!-- 岗位 -->
         <div v-if="group.approverType == 6">
           <p class="flow-setting-item-title">
             <span>选择岗位</span>
           </p>
-          <FlowSelect v-model="group.approverIds" :name.sync="group.approverNames" :datas="posts"/>
+          <FlowSelect v-model="group.approverIds" :name="group.approverNames" :datas="posts"/>
         </div>
         <!-- 用户组 -->
         <div v-if="group.approverType == 7">
           <p class="flow-setting-item-title">
             <span>选择用户组</span>
           </p>
-          <FlowSelect v-model="group.approverIds" :name.sync="group.approverNames" :datas="userGroups"/>
+          <FlowSelect v-model="group.approverIds" :name="group.approverNames" :datas="userGroups"/>
         </div>
         <!-- 指定成员 -->
         <div v-if="group.approverType == 8">
           <p class="flow-setting-item-title">
             <span>指定成员</span>
             <span class="light-text">(不能超过 25 人)</span>
-            <UserSelector v-model="group.approverIds" mode="multiple" type="button"/>
+            <el-select v-model="group.approverIds" multiple type="button">
+            </el-select>
           </p>
         </div>
         <!-- 发起人自选 -->
@@ -169,7 +171,7 @@
           <p class="flow-setting-item-title">
             <span>选择节点</span>
           </p>
-          <FlowSelect v-model="group.approverIds" :name.sync="group.approverNames" :datas="approveNodes" valueName="id"
+          <FlowSelect v-model="group.approverIds" :name="group.approverNames" :datas="approveNodes" valueName="id"
                       labelName="name"/>
           <p class="flow-setting-item-title">
             <span class="light-text">你可以选择前序节点名称，如果名称重复建议先修改审批节点的节点名称</span>
@@ -180,7 +182,7 @@
           <p class="flow-setting-item-title">
             <span>审批终点</span>
           </p>
-          <FlowSelect v-model="group.approverIds" :name.sync="group.approverNames" :datas="higherLevels"/>
+          <FlowSelect v-model="group.approverIds" :name="group.approverNames" :datas="higherLevels"/>
         </div>
         <!-- 表单内人员 -->
         <div v-if="group.approverType == 13">
@@ -222,32 +224,32 @@
           </p>
           <el-radio-group v-model="group.levelMode" :size="flowMixin.size" class="w-fill">
             <el-radio v-for="(departmentHead, i) in departmentHeadModes" :key="i" :style="radioStyle"
-                     :value="departmentHead.value">
+                      :value="departmentHead.value">
               <span>{{ departmentHead.name }}</span>
-              <el-popover v-if="departmentHead.popovers && departmentHead.popovers.length > 0" placement="top-start"
-                         trigger="click">
-                <template slot="content">
-                  <div class="approver-tip-content">
-                    <div class="approver-tip-main-content">
-                      <div v-for="(popover, k) in departmentHead.popovers" :key="k">
-                        <p class="main-title">{{ popover.title }}</p>
-                        <p class="content">{{ popover.content }}</p>
-                      </div>
-                    </div>
-                    <a v-if="departmentHead.href" :href="departmentHead.href" target="_blank">{{
-                        departmentHead.hrefName
-                      }}</a>
-                  </div>
+              <el-popover v-if="departmentHead.popovers && departmentHead.popovers.length > 0" width="300" placement="top-start"
+                          trigger="click">
+                <template #reference>
+                  <star-horse-icon style="margin-left: 5px;" size="18px" icon-class="question-circle"/>
                 </template>
-                <el-icon style="margin-left: 5px;" type="question-circle"/>
+                <div class="approver-tip-content">
+                  <div class="approver-tip-main-content">
+                    <div v-for="(popover, k) in departmentHead.popovers" :key="k">
+                      <p class="main-title">{{ popover.title }}</p>
+                      <p class="content">{{ popover.content }}</p>
+                    </div>
+                  </div>
+                  <a v-if="departmentHead.href" :href="departmentHead.href" target="_blank">{{
+                      departmentHead.hrefName
+                    }}</a>
+                </div>
               </el-popover>
             </el-radio>
           </el-radio-group>
-          <FlowSelect v-model="group.approverIds" :name.sync="group.approverNames" :datas="departmentHeads"/>
+          <FlowSelect v-model="group.approverIds" :name="group.approverNames" :datas="departmentHeads"/>
         </div>
       </div>
     </el-card>
-    <el-button v-if="show" type="link" icon="plus" block @click="addApproval">添加{{ title }}</el-button>
+    <el-button v-if="show" link icon="plus" block @click="addApproval">添加{{ title }}</el-button>
   </el-space>
 </template>
 <script setup lang="ts">
@@ -257,6 +259,7 @@ import FlowSelect from '@/views/workflow/plugin/Component/FlowSelect.vue';
 import {computed, ref} from "vue";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
+import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 
 const props = defineProps({
   groups: {
@@ -276,7 +279,7 @@ const props = defineProps({
     default: '审批人',
   },
 });
-const flowDesign=useFlowDesign(piniaInstance);
+const flowDesign = useFlowDesign(piniaInstance);
 let headStyle = ref<any>({
   background: '#f5f6f7',
   'min-height': '40px',
@@ -809,7 +812,7 @@ let userGroups = ref<Array<any>>([
     value: '3',
   },
 ]);
-const dataNode =computed(()=>flowDesign.node);
+const dataNode = computed(() => flowDesign.node);
 let show = computed(() => {
   return props.groups.filter((group: any) => [9, 10].includes(group.approverType)).length == 0;
 });

@@ -56,7 +56,7 @@
                   </el-select>
                   <div class="flow-setting-condition-option">
                     <!-- 判断(操作)符 -->
-                    <FlowSimpleSelect v-model="condition.optType" :name.sync="condition.optTypeName" :datas="optTypes"
+                    <FlowSimpleSelect v-model="condition.optType" :name="condition.optTypeName" :datas="optTypes"
                                       labelName="label" style="width: 26%"/>
                     <!-- 值类型 -->
                     <FlowSimpleSelect v-model="condition.valueType" :datas="valueTypes" labelName="label"
@@ -67,7 +67,7 @@
                       <FlowSelect
                           v-if="condition.valueType == 2"
                           v-model="condition.conditionValue"
-                          :name.sync="condition.conditionValueName"
+                          :name="condition.conditionValueName"
                           :datas="dynamicValueTypes"
                           labelName="label"
                       />
@@ -75,7 +75,7 @@
                       <FlowSelect
                           v-else-if="condition.valueType == 3"
                           v-model="condition.conditionValue"
-                          :name.sync="condition.conditionValueName"
+                          :name="condition.conditionValueName"
                           :datas="flowValueTypes"
                           labelName="label"
                       />
@@ -83,12 +83,12 @@
                       <FlowSelect
                           v-else-if="condition.valueType == 4"
                           v-model="condition.conditionValue"
-                          :name.sync="condition.conditionValueName"
+                          :name="condition.conditionValueName"
                           :datas="columns"
                           labelName="label"
                       />
                       <!-- 固定 -->
-                      <FlowInput v-else v-model="condition.conditionValue" :name.sync="condition.conditionValueName"
+                      <FlowInput v-else v-model="condition.conditionValue" :name="condition.conditionValueName"
                                  :size="flowMixin.size"/>
                     </div>
                   </div>
@@ -113,7 +113,6 @@
         </div>
       </div>
     </div>
-    {{ node }}
     <FlowDrawerFooter @close="onClose" @save="onSave"/>
   </el-drawer>
 </template>

@@ -1,7 +1,7 @@
 <template>
   <div class="flow-row">
     <div class="flow-box">
-      <div class="flow-item" :class="{ 'flow-item-active': flowMixin.isActive }"
+      <div class="flow-item" :class="{ 'flow-item-active': currentNode.id==node.id }"
            @click="!readable && open(flowNoticeSettingRef, node)">
         <div class="flow-node-box" :class="{ 'has-error': node.error }">
           <div class="node-name" :class="nameClass(node, 'node-tz')">
@@ -12,25 +12,30 @@
           <!-- 错误提示 -->
           <star-horse-icon v-if="node.error" iconClass="exclamation-circle" theme="filled" class="node-error"/>
           <div v-if="!readable && !node.deletable" class="close-icon">
-            <star-horse-icon  iconClass="close" @click.stop="node.deletable = true"/>
+            <star-horse-icon iconClass="close" @click.stop="node.deletable = true"/>
           </div>
           <!-- 删除提示 -->
           <DeleteConfirm :node="node"/>
         </div>
       </div>
-      <FlowAddNode :node.sync="node" :nodeType="5" :readable="readable"/>
+      <FlowAddNode :node="node" :nodeType="5" :readable="readable"/>
     </div>
-    <FlowNoticeSetting ref="flowNoticeSettingRef" @close="flowMixin.isActive = false"/>
+    <FlowNoticeSetting ref="flowNoticeSettingRef" @close="close"/>
   </div>
 </template>
 <script setup lang="ts">
-import {flowMixin, open} from '@/views/workflow/plugin/mixins/flowMixin';
+import {close, flowMixin, open} from '@/views/workflow/plugin/mixins/flowMixin';
 import FlowAddNode from '../Add/index.vue';
 import FlowNoticeSetting from '../../FlowDrawer/Notice/index.vue';
 import EditName from '@/views/workflow/plugin/Common/EditName.vue';
 import DeleteConfirm from '@/views/workflow/plugin/Common/DeleteConfirm.vue';
-import {computed,ref} from "vue";
-const flowNoticeSettingRef=ref();
+import {computed, ref} from "vue";
+import {useFlowDesign} from "@/store/FlowDesignStore.ts";
+import piniaInstance from "@/store";
+
+const flowNoticeSettingRef = ref();
+const flowDesign = useFlowDesign(piniaInstance);
+let currentNode = computed(() => flowDesign.currentNode);
 const props = defineProps({
   node: {
     type: Object,

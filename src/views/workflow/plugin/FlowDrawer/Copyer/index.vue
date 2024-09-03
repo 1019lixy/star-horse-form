@@ -19,7 +19,7 @@
       </div>
     </template>
     <div class="flow-setting-module">
-      <el-tabs>
+      <el-tabs v-model="copyerTab">
         <el-tab-pane key="1" name="1" label="抄送设置">
           <div class="flow-setting-content">
             <div class="flow-setting-item">
@@ -66,6 +66,7 @@ import piniaInstance from "@/store";
 const emits = defineEmits(["close"]);
 let node = ref<any>({});
 let visible = ref<boolean>(false);
+let copyerTab = ref<string>("1");
 let headerStyle = ref<any>({
   background: 'linear-gradient(90.04deg,#268bfb -16.37%,#33e1ae 137.34%)',
   // 'background-color': '#6da4f2',
