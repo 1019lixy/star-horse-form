@@ -50,8 +50,6 @@ declare module 'vue' {
     ElCheckbox: typeof import('element-plus/es')['ElCheckbox']
     ElCheckboxGroup: typeof import('element-plus/es')['ElCheckboxGroup']
     ElCol: typeof import('element-plus/es')['ElCol']
-    ElCollapse: typeof import('element-plus/es')['ElCollapse']
-    ElCollapseItem: typeof import('element-plus/es')['ElCollapseItem']
     ElColorPicker: typeof import('element-plus/es')['ElColorPicker']
     ElConfigProvider: typeof import('element-plus/es')['ElConfigProvider']
     ElContainer: typeof import('element-plus/es')['ElContainer']
@@ -87,7 +85,6 @@ declare module 'vue' {
     ElTabs: typeof import('element-plus/es')['ElTabs']
     ElTag: typeof import('element-plus/es')['ElTag']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
-    ElUpload: typeof import('element-plus/es')['ElUpload']
     ExcelItem: typeof import('./src/components/formcomp/items/excel-item.vue')['default']
     FixedMenu: typeof import('./src/components/FixedMenu.vue')['default']
     FixedSubMenu: typeof import('./src/components/menu/FixedSubMenu.vue')['default']
@@ -168,8 +165,5 @@ declare module 'vue' {
     ViewTabItem: typeof import('./src/components/comp/items/viewTabItem.vue')['default']
     ViewTableItem: typeof import('./src/components/comp/items/viewTableItem.vue')['default']
     WordItem: typeof import('./src/components/formcomp/items/word-item.vue')['default']
-  }
-  export interface ComponentCustomProperties {
-    vLoading: typeof import('element-plus/es')['ElLoadingDirective']
   }
 }

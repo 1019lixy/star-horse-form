@@ -5,7 +5,7 @@
         <div class="node-name" :class="nameClass(node, 'node-temmi')">
           分隔
           <div v-if="!readable" class="close-icon">
-            <star-horse-icon  iconClass="close"/>
+            <star-horse-icon iconClass="close"/>
           </div>
         </div>
       </div>
@@ -14,7 +14,6 @@
   </div>
 </template>
 <script setup lang="ts">
-import {flowMixin} from '@/views/workflow/plugin/mixins/flowMixin';
 import FlowAddNode from '../Add/index.vue';
 import {computed} from "vue";
 

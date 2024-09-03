@@ -7,12 +7,12 @@
       </div>
     </div>
     <el-button ref="screenshotBtnRef" id="screenshotBtn" @click.native.prevent.stop="showDropDown"
-               class="screenshot-btn el-dropdown-link" type="danger" icon="menu-unfold"></el-button>
+               class="screenshot-btn el-dropdown-link" type="danger" icon="menu"></el-button>
   </div>
 </template>
 <script setup lang="ts">
 import {flowMixin} from '@/views/workflow/plugin/mixins/flowMixin';
-import {ref, onMounted} from "vue";
+import {ref, onMounted, nextTick} from "vue";
 
 defineProps({
   menus: {
@@ -142,12 +142,13 @@ const dragStart = ($event) => {
 const changeMenu = (menu) => {
   emits('change', menu);
 }
-const init = () => {
+const init = async () => {
+  await nextTick();
   screenshot.value.addEventListener('touchstart', dragStart, false);
   screenshot.value.addEventListener('mousedown', dragStart, false);
 }
-onMounted(() => {
-  init();
+onMounted(async () => {
+ await init();
 });
 
 </script>

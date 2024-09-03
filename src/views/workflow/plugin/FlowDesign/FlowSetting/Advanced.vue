@@ -32,11 +32,11 @@
             <el-checkbox style="margin-bottom: 20px;">审批人为空时自动通过</el-checkbox>
             <br/>
             <el-checkbox style="margin-bottom: 20px;">已经审批过的审批人自动通过</el-checkbox>
-            <!-- <div class="flow-block-tabContent">
+             <div class="flow-block-tabContent">
               <div class="flow-block-defaultTab">
                 <div class="flow-block-defaultSample">示例：张三的业绩上报、李四的请假</div>
               </div>
-            </div> -->
+            </div>
           </div>
         </div>
       </div>

@@ -9,7 +9,7 @@
       :after-visible-change="afterVisibleChange"
       @close="onClose"
   >
-    <template #title>
+    <template #header>
       <div class="drawer-header">
         <img :src="flowMixin.webhookIcon2" class="anticon"/>
         <span class="flow-ant-drawer-title">

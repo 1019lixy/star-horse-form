@@ -3,7 +3,7 @@
     <div class="flow-box">
       <div class="flow-item" :class="{ 'flow-item-active': currentNode.id==node.id }" @click="!readable && open(flowEventSettingRef, node)">
         <div class="node-name" :class="nameClass(node, 'node-temmi')">
-          事件
+          {{node.name}}
           <div v-if="!readable" class="close-icon"><star-horse-icon  iconClass="close" @click.stop="delNode(node)" /></div>
         </div>
       </div>
