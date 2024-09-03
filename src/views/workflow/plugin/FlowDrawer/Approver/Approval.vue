@@ -2,7 +2,7 @@
   <!-- 审批人 -->
   <el-space direction="vertical">
     <el-card v-for="(group, k) in groups" :key="k" :headStyle="headStyle" class="w-fill">
-      <template slot="title">
+      <template #header>
         <span class="flow-setting-approval-title">
           <span>{{ title }}</span>
           <star-horse-icon iconClass="delete" class="del-icon" @click="delApproval(group)"/>

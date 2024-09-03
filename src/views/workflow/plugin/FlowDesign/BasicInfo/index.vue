@@ -2,21 +2,21 @@
   <div class="designer-wrap">
     <div class="designer-base-info">
       <div class="base-info-panel">
-        <el-form :layout="formLayout">
+        <el-form :layout="formLayout" v-model="flowFormInfo">
           <el-form-item label="图标">
             <el-avatar shape="square" size="large" icon="red-envelope"/>
           </el-form-item>
           <el-form-item label="名称">
-            <el-input v-model="flowName" placeholder="请输入名称" :size="flowMixin.size"/>
+            <el-input v-model="flowFormInfo.flowName" placeholder="请输入名称" :size="flowMixin.size"/>
           </el-form-item>
           <el-form-item label="分组">
-            <FlowSimpleSelect v-model="flowGroup" :datas="flowGroups" labelName="label" placeholder="请选择分组"/>
+            <FlowSimpleSelect v-model="flowFormInfo.flowGroup" :datas="flowGroups" labelName="label" placeholder="请选择分组"/>
           </el-form-item>
           <el-form-item label="绑定表单">
-            <FlowSelect v-model="bindForm" :datas="forms" mode="multiple" labelName="label" placeholder="请选择表单"/>
+            <FlowSelect v-model="flowFormInfo.bindForm" :datas="forms" mode="multiple" labelName="label" placeholder="请选择表单"/>
           </el-form-item>
           <el-form-item v-if="bindForm.length > 1" label="多表单显示模式">
-            <el-radio-group :size="flowMixin.size" class="w-fill">
+            <el-radio-group v-model="flowFormInfo.showType" :size="flowMixin.size" class="w-fill">
               <el-radio value="1">
                 <span>标签栏</span>
               </el-radio>
@@ -26,10 +26,12 @@
             </el-radio-group>
           </el-form-item>
           <el-form-item label="谁可以管理这个审批">
-            <!-- <UserSelector type="button" /> -->
+           <el-select v-model="flowFormInfo.flowManager" multiple clearable :size="flowMixin.size">
+
+           </el-select>
           </el-form-item>
           <el-form-item label="说明">
-            <el-input type="textarea" :size="flowMixin.size" :rows="4" placeholder="说明"/>
+            <el-input type="textarea"  v-model="flowFormInfo.remark" :size="flowMixin.size" :rows="4" placeholder="说明"/>
           </el-form-item>
         </el-form>
       </div>
@@ -62,6 +64,7 @@ let formLayout = ref<string>('vertical');
 let flowName = ref<string>('');
 let flowGroup = ref<string>('');
 let bindForm = ref<Array<any>>([]);
+let flowFormInfo=ref<any>({});
 let flowGroups = ref<Array<any>>([
   {label: '人事', value: '人事'},
   {label: '考勤', value: '考勤'},
