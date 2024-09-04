@@ -49,7 +49,7 @@ const change = async (item: any) => {
       return;
     }
     let formData = basicInfoRef.value.$refs.flowFormRef.getFormData();
-    flowDesign.flowSetFormInfo(formData);
+    flowDesign.flowSetFormInfo(formData.value);
   }
   currentData.value = item.type;
   if (currentData.value == 1) {
