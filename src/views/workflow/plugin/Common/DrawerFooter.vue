@@ -1,6 +1,6 @@
 <template>
   <div :style="{height:scale.isMobile() ? '5px' : '50px'}"></div>
-  <div class="flow-ant-drawer-footer" :style="{ 'text-align': scale.isMobile() ? 'center' : 'left'}">
+  <div class="flow-drawer-footer" :style="{ 'text-align': scale.isMobile() ? 'center' : 'left'}">
     <el-button type="primary" :size="flowMixin.size" :style="{ marginRight: '8px' }" @click="onSave">
       保存
     </el-button>

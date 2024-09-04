@@ -13,6 +13,7 @@ import {
 
 export const useFlowDesign = defineStore("flowDesignStore", () => {
     let currentNode = ref<any>({});
+    let flowFormInfo = ref<any>({});
     //  节点数据
     let node = ref<any>(getStartNode());
     //  缩略图
@@ -21,6 +22,14 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
     let suggestBranchEnable = ref<boolean>(true);
     // 并行节点
     let parallelBranchEnable = ref<boolean>(true);
+    let navable = ref<boolean>(true);
+    let readable = ref<boolean>(false);
+    const setNavable = (flag: boolean) => {
+        navable.value = flag;
+    }
+    const setReadable = (flag: boolean) => {
+        readable.value = flag;
+    }
     /**
      *  初始节点
      */
@@ -37,6 +46,13 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
      */
     const flowSetCurrentNode = (node: any) => {
         currentNode.value = node;
+    }
+    /**
+     * 设置表单信息
+     * @param formInfo
+     */
+    const flowSetFormInfo = (formInfo: any) => {
+        flowFormInfo.value = formInfo;
     }
     /**
      * 添加节点
@@ -59,7 +75,7 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
             node.value = data.addNode;
         } else {
             if (data.id) {
-                data.currNode.conditionNodes.forEach((conditionNode, i) => {
+                data.currNode.conditionNodes.forEach((conditionNode: any) => {
                     if (conditionNode.id == data.id) {
                         // 获取当前操作节点
                         addNode(node.value, conditionNode, data.addNode);
@@ -132,7 +148,10 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
     return {
         currentNode,
         node, mapImg, suggestBranchEnable,
-        parallelBranchEnable,
+        parallelBranchEnable, flowFormInfo, navable, readable,
+        setNavable,
+        setReadable,
+        flowSetFormInfo,
         flowSetCurrentNode,
         flowSetNode,
         flowAddNode,

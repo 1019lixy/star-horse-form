@@ -302,7 +302,7 @@ let configInfo = computed(() => configStore.configFormInfo);
                    :inactive-action-icon="Moon"
                    style="width: 50%"
         />
-        <el-popover placement="bottom-end" :width="600" trigger="hover" :show-arrow="false">
+        <el-popover :popper-style="{width: 'unset !important'}" placement="bottom-end" :width="600" trigger="hover" :show-arrow="false">
           <template #reference>
             <el-badge :value="6">
               <star-horse-icon icon-class="messages" color="var(--star-horse-white)"/>

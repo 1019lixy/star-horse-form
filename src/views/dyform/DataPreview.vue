@@ -55,7 +55,7 @@ defineExpose({
   <div style="width: 100%;display: flex;flex-direction: row-reverse">
     <el-popover
         trigger="click"
-        :width="340"
+        :popper-style="{width: 'unset !important'}"
         placement="left-end"
     >
       <template #reference>

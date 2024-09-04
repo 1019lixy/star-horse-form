@@ -9,7 +9,7 @@ defineProps({
 <template>
   <el-popover
       trigger="hover"
-      :width="width"
+      :popper-style="{width: 'unset !important'}"
       placement="left-end"
   >
     <template #reference>

@@ -133,15 +133,7 @@ routers.push(
             title: "404页面"
         }
     }, {
-        path: "/workFlow",
-        component: () => import("@/views/workflow/dingDingStyle/workFlow.vue"),
-        name: "workFlow",
-        meta: {
-            keepAlive: "N",
-            title: "钉钉流程模式"
-        }
-    }, {
-        path: "/workFlowForm",
+        path: "/workFlowEdit",
         component: () => import("@/views/workflow/WorkFlowForm.vue"),
         name: "WorkFlowForm",
         meta: {

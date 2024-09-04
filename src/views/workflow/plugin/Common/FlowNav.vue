@@ -1,8 +1,11 @@
 <script setup lang="ts">
-import {ref} from "vue";
+import {ref, computed} from "vue";
 import {flowMixin} from '@/views/workflow/plugin/mixins/flowMixin';
-import {useRouter} from "vue-router";
 import {scale} from "@/views/workflow/plugin/util/deviceUtil";
+import {useFlowDesign} from "@/store/FlowDesignStore.ts";
+import piniaInstance from "@/store";
+import {warning} from "@/utils/message.ts";
+
 defineProps({
   currentNav: {
     type: Number,
@@ -13,41 +16,47 @@ defineProps({
     default: '发布',
   },
 });
-const emits=defineEmits(["change","click"]);
-const router=useRouter();
-const navItems=ref<Array<any>> ([
+const emits = defineEmits(["change", "click", "changeFlow"]);
+const navItems = ref<Array<any>>([
   {
     name: '基础信息',
     shortName: '基础',
-    value: 1,
+    type: 1,
     path: '/basicInfo',
   },
-  /* {
+  {
     name: '表单设计',
     shortName: '表单',
-    value: 2,
+    type: 2,
     path: '/formDesign',
-  }, */
+  },
   {
     name: '流程设计',
     shortName: '流程',
-    value: 3,
+    type: 3,
     path: '/flowDesign',
   },
   {
     name: '更多配置',
     shortName: '配置',
-    value: 4,
+    type: 4,
     path: '/flowSetting',
   },
 ]);
-
-const onChange=(item:any)=> {
-  // router.push({path: item.path});
+const flowDesign = useFlowDesign(piniaInstance);
+let navable = computed(() => flowDesign.navable);
+const onChange = (item: any) => {
+  if (!navable.value) {
+    warning("请先完成当前页面的数据填写");
+    return;
+  }
   emits('change', item);
 }
-const onClick=()=> {
+const onClick = () => {
   emits('click');
+}
+const changeFlow = () => {
+  emits("changeFlow");
 }
 </script>
 <template>
@@ -58,13 +67,18 @@ const onClick=()=> {
       </div>
     </div>
     <div class="designer-nav-center">
-      <div v-for="(item, i) in navItems" :key="i" class="designer-nav-center-wrap">
+      <div v-for="(item, i) in navItems" :key="i" :class="{'designer-nav-center-wrap':true}">
         <div class="designer-nav-center-wrap-item" @click="onChange(item)">
-          <span :class="{ 'act-item': currentNav == item.value }">{{ scale.isMobile() ? item.shortName : item.name }}</span>
+          <span :class="{ 'act-item': currentNav == item.type }">{{
+              scale.isMobile() ? item.shortName : item.name
+            }}</span>
         </div>
       </div>
     </div>
     <div class="designer-nav-button">
+      <el-button v-if="currentNav ==3" link :size="flowMixin.size" @click="changeFlow">
+        <span>切换</span>
+      </el-button>
       <el-button type="primary" :size="flowMixin.size" @click="onClick">
         <span>{{ buttonName }}</span>
       </el-button>
@@ -140,6 +154,10 @@ const onClick=()=> {
     flex: 1 0 auto;
     text-align: center;
     line-height: 50px;
+
+    .nav-disabled {
+      background: var(--star-horse-disable);
+    }
 
     .designer-nav-center-wrap {
       display: inline-block;

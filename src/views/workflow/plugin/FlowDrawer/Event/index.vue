@@ -12,7 +12,7 @@
     <template #header>
       <div class="drawer-header">
         <img :src="flowMixin.webhookIcon2" class="anticon"/>
-        <span class="flow-ant-drawer-title">
+        <span class="flow-drawer-title">
         <EditName v-model:nodeName="node.name"/>
       </span>
       </div>

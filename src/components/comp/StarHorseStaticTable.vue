@@ -214,7 +214,7 @@ defineExpose({
         {{ title }}
       </div>
       <div style="display: flex;align-items: center;flex-direction: row-reverse">
-        <el-popover trigger="click" :width="340" placement="left-end">
+        <el-popover trigger="click" :popper-style="{width: 'unset !important'}" placement="left-end">
           <template #reference>
             <el-icon class="star-page-icon" style="cursor: pointer">
               <el-tooltip content="显示/隐藏列">

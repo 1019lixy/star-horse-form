@@ -19,7 +19,7 @@
                   </div>
                 </div>
                 <div class="flowSetting-card-context">
-                    <el-form :form="form" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">
+                  <el-form :form="form" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">
                     <el-form-item label="Note">
 
                     </el-form-item>
@@ -31,7 +31,7 @@
                     </el-form-item>
                   </el-form>
 
-                   <el-row :gutter="16">
+                  <el-row :gutter="16">
                     <el-col class="gutter-row" :span="6">
                       <div class="gutter-box">
                         col-6
@@ -90,6 +90,7 @@ let bodyStyle = ref<any>({
   'box-shadow': '0 2px 8px 0 rgb(17 31 44 / 4%)',
   'border-radius': '8px',
 });
+let form = ref<any>({});
 let items = ref<Array<any>>([
   {
     id: '',
@@ -117,5 +118,8 @@ let items = ref<Array<any>>([
     icon: '',
   }, */
 ]);
+const setSetting = (item: any) => {
+  console.log(item);
+}
 </script>
 <style lang=“scss”></style>

@@ -20,7 +20,7 @@ export default {
 <style scoped>
 </style>
 <template>
-  <el-popover placement="bottom" :width="550" trigger="click">
+  <el-popover placement="bottom" :popper-style="{width: 'unset !important'}" trigger="click">
     <template #reference>
       <slot></slot>
     </template>

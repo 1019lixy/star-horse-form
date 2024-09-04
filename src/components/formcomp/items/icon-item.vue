@@ -1,33 +1,24 @@
 <template>
-  <starhorse-form-item :isDesign="context.attrs['isDesign']" :bareFlag="context.attrs['bareFlag']" :form-item="field" :parentField="parentField"
+  <starhorse-form-item :isDesign="context.attrs['isDesign']" :bareFlag="context.attrs['bareFlag']" :form-item="field"
+                       :parentField="parentField"
   >
     <el-popover
-        width="400"
+        :popper-style="{width:'unset !important'}"
         ref="popoverRef"
         trigger="click">
       <template #reference>
-        <el-input
-            :clearable="field.preps['clearable']=='Y'"
-            :readonly="field.preps['readonly']=='Y'"
-            :disabled="field.preps['disabled']=='Y'"
-            :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
-            v-on:[actionName]="keyEnterFun(field.preps['actionName'])"
-            :placeholder="field.preps['placeholder']||'请选择' + field.preps['label']"
-            @keydown.enter="keyEnterFun"
-            @focus="keyEnterFun('focus')"
-            v-model="context.attrs['formData'][field.preps['name']]"
-        />
+        <el-avatar fit="fill" shape="square" style="font-size: 24px"
+                   :icon="context.attrs['formData'][field.preps['name']]"/>
       </template>
       <ul class="system-icon">
         <li v-for="sdata in field.preps['values']||loadElementPlusIcon()"
             @click="assignIcon(sdata.value)"
-            :class="sdata.value==context.attrs['formData'][field.preps['name']]?'icon-active':''"
+            :title="sdata.name"
+            :class="{'icon-active':sdata.value==context.attrs['formData'][field.preps['name']]}"
         >
-          <el-tooltip :content="sdata.name">
-            <el-icon class="star-icon" style="font-size: 50px;color:var(--star-horse-style)">
-              <component :is="sdata.value"/>
-            </el-icon>
-          </el-tooltip>
+          <el-icon class="star-icon" style="font-size: 50px;color:var(--star-horse-style)">
+            <component :is="sdata.value"/>
+          </el-icon>
         </li>
       </ul>
     </el-popover>
@@ -66,7 +57,7 @@ export default defineComponent({
       }
     });
     return {
-      parentField,  context, field, formItem, dataField, assignIcon,
+      parentField, context, field, formItem, dataField, assignIcon,
       keyEnterFun, actionName, popoverRef
     }
   }

@@ -113,7 +113,7 @@ const resultDataFormat = (row: any, column: any, cellValue: any, index: number) 
   return cellValue;
 };
 const columnListFun = (datas: any) => {
-  return `<el-popover placement="bottom" :width="100" trigger="click"><el-checkbox v-for="data in ${datas}" :label="data"/> </el-popover>`;
+  return `<el-popover placement="bottom" :popper-style="{width: 'unset !important'}" trigger="click"><el-checkbox v-for="data in ${datas}" :label="data"/> </el-popover>`;
 };
 const handleCurrentChange = (index: number, sql: string, currentPage: number, pageSize: number) => {
   let reqData = {
@@ -296,7 +296,7 @@ const operMsg = `
         <el-scrollbar height="90%">
           <ul>
             <template v-for="(data, index) in assignDataList">
-              <el-popover :width="640" placement="right" trigger="click">
+              <el-popover :popper-style="{width: 'unset !important'}" placement="right" trigger="click">
                 <template #reference>
                   <li @click="tableField(data.tableName)" @dragstart="evt=>dratStart(data,evt)" draggable="true">
                     <star-horse-icon icon-class="table" style="margin-top: 5px;height: 18px"/>

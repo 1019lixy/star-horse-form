@@ -11,12 +11,15 @@ import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import piniaInstance from "@/store";
 import {useButtonPermission} from "@/store/ButtonPermissionStore.ts";
 import {useRoute} from "vue-router";
+import {UserFuncInfo} from "@/components/types/PageFieldInfo";
 
 const props = defineProps({
   dialogProps: {type: Object as PropType<DialogProps>, required: true},
   compUrl: {type: Object as PropType<ApiUrls>, required: true},
   selfBtnFunc: {type: Array as PropType<BtnAuth[]>, default: null},
   viewFlag: {type: Boolean, default: false},
+  //自定义按钮
+  extandBtns: {type: Array as PropType<UserFuncInfo[]>}
   // permissions: {type: Object, required: true},
 });
 const emits = defineEmits([

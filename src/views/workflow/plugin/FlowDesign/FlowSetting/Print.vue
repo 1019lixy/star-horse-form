@@ -13,7 +13,7 @@
               自定义打印模板
             </el-radio>
           </el-radio-group>
-          <!-- <div class="flow-block-tabContent">
+           <div class="flow-block-tabContent">
             <div class="flow-block-defaultTab">
               <div class="flow-block-defaultTpl">
                 <span class="flow-block-var">提交人</span>
@@ -22,7 +22,7 @@
               </div>
               <div class="flow-block-defaultSample">示例：张三的业绩上报、李四的请假</div>
             </div>
-          </div> -->
+          </div>
         </div>
       </div>
     </div>

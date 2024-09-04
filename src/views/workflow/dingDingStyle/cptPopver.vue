@@ -5,7 +5,7 @@ defineProps({
 </script>
 <template>
   <div class="approval-CptPopver">
-    <el-popover placement="top" v-if="type" popper-class="set_promoter_explain_tip" width="270" trigger="hover">
+    <el-popover placement="top" v-if="type" popper-class="set_promoter_explain_tip" :popper-style="{width: 'unset !important'}" trigger="hover">
       <div>
         <p class="explain_tip_title">以发起人的直接部门主管为第一级</p>
         <div class="explain_tip_flow flex">
@@ -32,7 +32,7 @@ defineProps({
       </div>
       <i slot="reference" class="iconfont icon-icon_explain"></i>
     </el-popover>
-    <el-popover v-else placement="top" popper-class="set_promoter_explain_tip" width="270" trigger="hover">
+    <el-popover v-else placement="top" popper-class="set_promoter_explain_tip" :popper-style="{width: 'unset !important'}" trigger="hover">
       <div>
         <p class="explain_tip_title">以公司的最高部门为第一级</p>
         <div class="explain_tip_flow flex">

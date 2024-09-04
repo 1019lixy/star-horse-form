@@ -8,6 +8,7 @@ import piniaInstance from "@/store";
 const flowDesign = useFlowDesign(piniaInstance);
 const suggestBranchEnable = computed(() => flowDesign.suggestBranchEnable);
 const parallelBranchEnable = computed(() => flowDesign.parallelBranchEnable);
+const dynamicFlow = ref<boolean>(false);
 let visibleHelper = ref<boolean>(false);
 let visibleAdvice = ref<boolean>(false);
 let placement = ref<string>('ltr');
@@ -152,7 +153,7 @@ const onClose = () => {
         <div class="flow-helper-drawer-header-content">一键启用精选流程模板，提升效率</div>
       </div>
 
-      <el-popover placement="right" trigger="click" :popper-style="{width: 'unset !important'}"
+      <el-popover placement="right" trigger="hover" :popper-style="{width: 'unset !important'}"
                   v-for="item in simpleItems" :key="item.id">
         <template #reference>
           <div class="flow-helper-drawer-item">
@@ -173,7 +174,7 @@ const onClose = () => {
         <img class="flow-helper-drawer-item-popover-img" :src="item.img"/>
       </el-popover>
       <el-divider/>
-      <el-popover placement="right" trigger="click" :popper-style="{width: 'unset !important'}"
+      <el-popover placement="right" trigger="hover" :popper-style="{width: 'unset !important'}"
                   v-for="item in integratedItems"
                   :key="item.id">
         <template #reference>
@@ -206,15 +207,15 @@ const onClose = () => {
       <el-divider/>
       <div class="flow-helper-drawer-row">
         <span class="flow-helper-drawer-row-title">动态流程</span>
-        <el-switch/>
+        <el-switch v-model="dynamicFlow"/>
       </div>
-      <el-popover placement="right" trigger="click" :popper-style="{width: 'unset !important'}"
+      <el-popover placement="right" trigger="hover" :popper-style="{width: 'unset !important'}"
                   v-for="item in dynamicItems"
                   :key="item.id">
         <template #reference>
           <div class="flow-helper-drawer-item">
             <div class="flow-helper-drawer-item-icon">
-              <star-horse-icon iconClass="item.icon" :style="item.style"/>
+              <star-horse-icon :iconClass="item.icon" :style="item.style"/>
             </div>
             <div>
               <div class="flow-helper-drawer-item-title">{{ item.name }}</div>
@@ -229,13 +230,13 @@ const onClose = () => {
         <span class="flow-helper-drawer-row-title">意见分支</span>
         <el-switch v-model="suggestBranchEnable"/>
       </div>
-      <el-popover placement="right" trigger="click" :popper-style="{width: 'unset !important'}"
+      <el-popover placement="right" trigger="hover" :popper-style="{width: 'unset !important'}"
                   v-for="item in branchItems"
                   :key="item.id">
         <template #reference>
           <div class="flow-helper-drawer-item">
             <div class="flow-helper-drawer-item-icon">
-              <star-horse-icon iconClass="item.icon" :style="item.style"/>
+              <star-horse-icon :iconClass="item.icon" :style="item.style"/>
             </div>
             <div>
               <div class="flow-helper-drawer-item-title">{{ item.name }}</div>

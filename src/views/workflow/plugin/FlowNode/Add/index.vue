@@ -1,11 +1,11 @@
 <template>
-  <div class="after-node-btn" @click="visible = true">
-    <el-popover placement="right" trigger="hover">
+  <div class="after-node-btn">
+    <el-popover placement="right" trigger="hover" :popper-style="{width: 'unset !important'}">
       <template #reference>
         <!-- 当审批节点下添加意见分支,就不允许添加其他类型的节点了 -->
         <img :src="flowMixin.plusIcon" v-if="!readable && (nodeType != 1 || (nodeType == 1 && node.addable))"/>
       </template>
-      <el-menu mode="vertical" class="flow-ant-menu-vertical">
+      <el-menu mode="vertical" class="flow-menu-vertical">
         <el-menu-item key="1" @click="addType(1)">
           <img :src="flowMixin.approverIcon2" class="anticon"/>
           <span>审批节点</span>
@@ -43,8 +43,8 @@
   </div>
 </template>
 <script setup lang="ts">
-import {flowMixin,uuid} from '@/views/workflow/plugin/mixins/flowMixin';
-import {computed, ref} from "vue";
+import {flowMixin, uuid} from '@/views/workflow/plugin/mixins/flowMixin';
+import {computed} from "vue";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 
@@ -73,7 +73,6 @@ const props = defineProps({
 const flowDesign = useFlowDesign(piniaInstance);
 const suggestBranchEnable = computed(() => flowDesign.suggestBranchEnable);
 const parallelBranchEnable = computed(() => flowDesign.parallelBranchEnable);
-let visible = ref<boolean>(false);
 const addType = (type: number) => {
   var addNode = null;
   if (type == 1 || type == 6) {
@@ -99,12 +98,11 @@ const addType = (type: number) => {
     // 当审批节点下添加意见分支,就不允许添加其他类型的节点了
     flowDesign.flowUpdateNode({currNode, field: 'addable', value: false});
   }
-  // $message.success('节点添加成功');
 }
 /**
  * 添加审批节点 ||
  */
-const addApproverNode = (type:number) => {
+const addApproverNode = (type: number) => {
   return {
     id: uuid(),
     name: type == 1 ? '审批人' : '办理人',
@@ -155,7 +153,7 @@ const addApproverNode = (type:number) => {
 /**
  * 添加抄送节点
  */
-const addCcNode = (type:number) => {
+const addCcNode = (type: number) => {
   return {
     id: uuid(),
     name: '抄送人',
@@ -195,7 +193,7 @@ const addCcNode = (type:number) => {
 /**
  * 添加通知节点
  */
-const addNoticeNode = (type:number) => {
+const addNoticeNode = (type: number) => {
   return {
     id: uuid(),
     name: '通知',
@@ -229,7 +227,7 @@ const addNoticeNode = (type:number) => {
 /**
  * 添加事件节点
  */
-const addEventNode = (type:number) => {
+const addEventNode = (type: number) => {
   return {
     id: uuid(),
     name: '事件',
@@ -247,31 +245,9 @@ const addEventNode = (type:number) => {
   };
 }
 /**
- * 添加办理节点
- */
-const addWriteNode = (type:number) => {
-  return {
-    id: uuid(),
-    name: '办理',
-    type: type,
-    // 流程节点状态(用于只读模式, 0:未进行 1:进行中  2:已完成)
-    status: -1,
-    // 子节点
-    childNode: null,
-    // 表单权限
-    privileges: [],
-    // 显示添加按钮
-    addable: true,
-    // 可删除提示
-    deletable: false,
-    // 是否有错误
-    error: false,
-  };
-}
-/**
  * 添加分支节点
  */
-const addBranchNode = (type:number) => {
+const addBranchNode = (type: number) => {
   const uid = uuid();
   return {
     id: uid,
@@ -347,7 +323,7 @@ const addBranchNode = (type:number) => {
 /**
  * 添加意见分支节点
  */
-const addSuggestNode = (type:number) => {
+const addSuggestNode = (type: number) => {
   const uid = uuid();
   return {
     id: uid,
@@ -410,7 +386,7 @@ const addSuggestNode = (type:number) => {
 /**
  * 添加并行节点
  */
-const addParallelNode = (type:number) => {
+const addParallelNode = (type: number) => {
   const uid = uuid();
   return {
     id: uid,

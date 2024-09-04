@@ -9,7 +9,7 @@ import Sortable from "sortablejs";
 import {DialogProps} from "../types/DialogProps";
 import {BtnAuth} from "@/components/types/BtnAuth";
 import {error, warning} from "@/utils/message";
-import {OrderByInfo} from "@/components/types/PageFieldInfo";
+import {OrderByInfo, UserFuncInfo} from "@/components/types/PageFieldInfo";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {DynamicForm} from "@/store/DynamicFormStore";
 import piniaInstance from "@/store";
@@ -56,6 +56,8 @@ const props = defineProps({
   needLoad: {type: Boolean, default: true},
   //标题
   title: {type: String},
+  //自定义按钮
+  extandBtns: {type: Array as PropType<UserFuncInfo[]>}
   //按钮操作权限
   // permissions: {type: Object, required: true, default: {}},
 });
@@ -452,6 +454,22 @@ const selectRow = (row: any, _column: any, evt: Event) => {
   dynamicForm.setSelectData(row);
   emits("selectItem", row);
 };
+
+/**
+ * 扩展按钮
+ */
+const extandBtnFunction = (): Array<UserFuncInfo> => {
+  let arr: Array<UserFuncInfo> = [];
+  //单独定义的按钮
+  if (props.extandBtns && props.extandBtns.length > 0) {
+    arr.push(...props.extandBtns);
+  }
+  //在定义字段时定义的按钮
+  if (props.fieldList["userTableFuncs"]) {
+    arr.push(...props.fieldList["userTableFuncs"]);
+  }
+  return arr;
+}
 /**
  * 动态改变条件并
  * @param cond
@@ -490,7 +508,7 @@ defineExpose({
         <star-horse-icon icon-class="refresh" style="color: var(--star-horse-style);" size="16px"/>
         <el-tooltip content="刷新">刷新</el-tooltip>
       </el-button>
-      <el-popover trigger="click" :width="340" placement="left-end">
+      <el-popover trigger="click" :popper-style="{width: 'unset !important'}" placement="left-end">
         <template #reference>
           <el-button @click="fieldVisible=!fieldVisible" link title="" :size="compSize">
             <star-horse-icon icon-class="setting"
@@ -608,15 +626,15 @@ defineExpose({
         >
           <el-tooltip content="查看">查看</el-tooltip>
         </el-button>
-        <template v-if="fieldList.userTableFuncs?.length > 0">
+        <template v-if="extandBtnFunction().length > 0">
           <el-dropdown>
               <span class="el-dropdown-link">
       <star-horse-icon icon-class="ellipsis" style="color: var(--star-horse-style)"/>
     </span>
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item v-for="auth in fieldList['userTableFuncs']"
-                                  :v-if="permissions[auth.authority]">
+                <el-dropdown-item v-for="auth in extandBtnFunction()"
+                                  :v-if="permissions[auth.authority!]">
                   <el-button
                       @click="auth.funcName(scope.row)"
                       link

@@ -13,7 +13,7 @@
     <template #header>
       <div class="drawer-header">
         <img :src="flowMixin.approverIcon" class="anticon"/>
-        <span class="flow-ant-drawer-title">
+        <span class="flow-drawer-title">
         <EditName v-model:nodeName="node.name"/>
       </span>
       </div>
@@ -65,7 +65,7 @@
                           :style="radioStyle">
                   <span>{{ sameApproval.name }}</span>
                   <el-popover v-if="sameApproval.popovers && sameApproval.popovers.length > 0" placement="top-start"
-                              trigger="click">
+                              trigger="hover" :popper-style="{width: 'unset !important'}">
                     <template #reference>
                       <star-horse-icon style="margin-left: 5px" icon-class="question-circle"/>
                     </template>
@@ -86,7 +86,7 @@
             <div class="flow-setting-item">
               <p class="flow-setting-item-title">
                 <span>{{ node.type == 1 ? '审批人' : '办理人' }}为空时</span>
-                <el-popover placement="top-start" trigger="click">
+                <el-popover placement="top-start" trigger="hover" :popper-style="{width: 'unset !important'}">
                   <template #reference>
                     <star-horse-icon style="margin-left: 5px" icon-class="question-circle"/>
                   </template>
@@ -106,7 +106,7 @@
                           :style="radioStyle">
                   <span>{{ approvalWithNull.name }}</span>
                   <el-popover v-if="approvalWithNull.popovers && approvalWithNull.popovers.length > 0"
-                              placement="top-start" trigger="click">
+                              placement="top-start" trigger="hover" :popper-style="{width: 'unset !important'}">
                     <template #reference>
                       <star-horse-icon style="margin-left: 5px" icon-class="question-circle"/>
                     </template>

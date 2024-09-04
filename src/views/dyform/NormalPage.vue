@@ -97,7 +97,6 @@ const dialogProps = reactive<DialogProps>({
 provide("dialogProps", dialogProps);
 
 const dataFormat = (name: string, cellValue: Object, row: any): any => {
-  console.log("parent.........",name)
   return "null" == cellValue ? "--" : cellValue || "--";
 };
 const loadPermission = async () => {

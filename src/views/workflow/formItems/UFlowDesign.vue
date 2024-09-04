@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import WorkFlow from "@/views/workflow/dingDingStyle/workFlow.vue";
 import JbpmDesign from "@/views/jbpm/JbpmDesign.vue";
-import FlowPropertyPanel from "@/views/workflow/formItems/FlowPropertyPanel.vue";
+import FlowDesign from "@/views/workflow/plugin/FlowDesign/index.vue"
 
 const props = defineProps({
   flowStyle: {type: String, default: "flowable"}
@@ -12,11 +11,11 @@ const props = defineProps({
   <div class="flow-design">
     <div class="design-area">
       <jbpm-design v-if="flowStyle=='flowable'"/>
-      <work-flow v-if="flowStyle=='dingding'"/>
+      <FlowDesign v-if="flowStyle=='dingding'"/>
     </div>
-    <div class="preps-area">
-      <flow-property-panel/>
-    </div>
+    <!--    <div class="preps-area">
+          <flow-property-panel/>
+        </div>-->
   </div>
 
 </template>

@@ -201,7 +201,7 @@ const compPreps = () => {
   if (!props.isSearch) {
     userOperation.addFormItem(field);
   }
-   console.log(field.value.preps);
+   // console.log(field.value.preps);
 };
 const defaultAction = ref("keydown.enter")
 const typeList = ["select", "tselect", "date", "daterange"];

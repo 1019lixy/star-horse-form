@@ -15,7 +15,7 @@
           <el-radio v-for="(approval, i) in approvals" :key="i" :style="approvalRadioStyle" :value="approval.value"
                     :disabled="approval.disabled && groups.length > 1">
             <span>{{ approval.name }}</span>
-            <el-popover v-if="approval.popovers && approval.popovers.length > 0" width="300" placement="top-start" trigger="click">
+            <el-popover v-if="approval.popovers && approval.popovers.length > 0" :popper-style="{width: 'unset !important'}" placement="top-start" trigger="hover">
               <template #reference>
                 <star-horse-icon style="margin-left: 5px;" size="18px" icon-class="question-circle"/>
               </template>
@@ -40,8 +40,8 @@
             <el-radio v-for="(higherLevel, i) in higherLevelModes" :key="i" :style="radioStyle"
                       :value="higherLevel.value">
               <span>{{ higherLevel.name }}</span>
-              <el-popover v-if="higherLevel.popovers && higherLevel.popovers.length > 0" width="300" placement="top-start"
-                          trigger="click">
+              <el-popover v-if="higherLevel.popovers && higherLevel.popovers.length > 0" :popper-style="{width: 'unset !important'}" placement="top-start"
+                          trigger="hover">
                 <template #reference>
                   <star-horse-icon style="margin-left: 5px;" size="18px" icon-class="question-circle"/>
                 </template>
@@ -68,8 +68,8 @@
             <el-radio v-for="(departmentHead, i) in departmentHeadModes" :key="i" :style="radioStyle"
                       :value="departmentHead.value">
               <span>{{ departmentHead.name }}</span>
-              <el-popover v-if="departmentHead.popovers && departmentHead.popovers.length > 0" width="300" placement="top-start"
-                          trigger="click">
+              <el-popover v-if="departmentHead.popovers && departmentHead.popovers.length > 0" :popper-style="{width: 'unset !important'}" placement="top-start"
+                          trigger="hover">
                 <template #reference>
                   <star-horse-icon style="margin-left: 5px;" size="18px" icon-class="question-circle"/>
                 </template>
@@ -226,8 +226,8 @@
             <el-radio v-for="(departmentHead, i) in departmentHeadModes" :key="i" :style="radioStyle"
                       :value="departmentHead.value">
               <span>{{ departmentHead.name }}</span>
-              <el-popover v-if="departmentHead.popovers && departmentHead.popovers.length > 0" width="300" placement="top-start"
-                          trigger="click">
+              <el-popover v-if="departmentHead.popovers && departmentHead.popovers.length > 0" :popper-style="{width: 'unset !important'}" placement="top-start"
+                          trigger="hover">
                 <template #reference>
                   <star-horse-icon style="margin-left: 5px;" size="18px" icon-class="question-circle"/>
                 </template>

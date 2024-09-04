@@ -114,7 +114,7 @@ const lineDetail = (instanceId: string) => {
         </div>
         <div class="node-content">
           <el-popover
-              :width="200"
+              :popper-style="{width: 'unset !important'}"
               trigger="hover">
             <el-button class="button" text>编译</el-button>
             <div class="success">成功</div>
@@ -132,7 +132,7 @@ const lineDetail = (instanceId: string) => {
         <div class="node-content">
           <div class="node-process">
             <el-popover
-                :width="200"
+                :popper-style="{width: 'unset !important'}"
                 trigger="hover">
               <el-button class="button" text>CI</el-button>
               <div class="info">
@@ -146,7 +146,7 @@ const lineDetail = (instanceId: string) => {
           </div>
           <div class="node-process">
             <el-popover
-                :width="200"
+                :popper-style="{width: 'unset !important'}"
                 trigger="hover">
               <el-button class="button" text>Test-1</el-button>
               <div class="info">
@@ -160,7 +160,7 @@ const lineDetail = (instanceId: string) => {
           </div>
           <div class="node-process">
             <el-popover
-                :width="200"
+                :popper-style="{width: 'unset !important'}"
                 trigger="hover">
               <el-button class="button" text>Test-2</el-button>
               <div class="info">

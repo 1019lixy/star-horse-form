@@ -4,7 +4,7 @@
       <div class="flow-design-wrap">
         <div id="flow-design" class="flow-design-container" :style="zoomStyle">
           <div id="flow-design-content" class="flow-design-content">
-<!--            {{nodeData}}-->
+            <!--            {{nodeData}}-->
             <FlowStartNode :node="nodeData"/>
             <FlowNode :node="nodeData" :readable="readable"/>
             <FlowEndNode :node="nodeData" :readable="readable"/>
@@ -12,7 +12,6 @@
         </div>
         <FlowHelper v-if="!readable"/>
         <FlowTips v-if="readable"/>
-
         <FlowZoom v-model:zoomValue="zoomValue"/>
         <FlowMap v-if="!scale.isMobile()"/>
       </div>
@@ -20,37 +19,19 @@
   </div>
 </template>
 <script setup lang="ts">
-import {getStartNode} from '../util/nodeUtil';
-import FlowZoom from '../Common/FlowZoom.vue';
-import FlowMap from '../Common/FlowMap.vue';
-import FlowNav from '../Common/FlowNav.vue';
-import FlowHelper from '../Common/FlowHelper.vue';
-import FlowTips from '../Common/FlowTips.vue';
-import FlowNode from '../FlowNode/index.vue';
-import FlowStartNode from '../FlowNode/Start';
-import FlowEndNode from '../FlowNode/End';
+import {getStartNode} from '@/views/workflow/plugin/util/nodeUtil';
+import FlowZoom from '@/views/workflow/plugin/Common/FlowZoom.vue';
+import FlowMap from '@/views/workflow/plugin/Common/FlowMap.vue';
+import FlowHelper from '@/views/workflow/plugin/Common/FlowHelper.vue';
+import FlowTips from '@/views/workflow/plugin/Common/FlowTips.vue';
+import FlowNode from '@/views/workflow/plugin/FlowNode/index.vue';
+import FlowStartNode from '@/views/workflow/plugin/FlowNode/Start/index.vue';
+import FlowEndNode from '@/views/workflow/plugin/FlowNode/End/index.vue';
 import {computed, onMounted, ref} from "vue";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 import {scale} from "@/views/workflow/plugin/util/deviceUtil.ts";
 
-const props = defineProps({
-  node: {
-    type: Object,
-    default: function () {
-      return getStartNode();
-    },
-  },
-  navable: {
-    type: Boolean,
-    default: true,
-  },
-  readable: {
-    type: Boolean,
-    default: false,
-  },
-});
-const emits = defineEmits(["publish"]);
 const flowDesign = useFlowDesign(piniaInstance);
 let zoomValue = ref<number>(100);
 let zoomStyle = computed(() => {
@@ -60,23 +41,14 @@ let zoomStyle = computed(() => {
   };
 });
 let nodeData = computed(() => flowDesign.node);
-const toReturn = () => {
-}
-const change = (type) => {
-}
-const handleSave = () => {
-}
-const getData = () => {
-  return nodeData;
-}
-const publish = () => {
-  emits('publish', nodeData);
-}
+let readable = computed(() => flowDesign.readable);
 const init = () => {
-  flowDesign.flowSetNode(props.node);
+  flowDesign.flowSetNode(getStartNode());
 }
 onMounted(() => {
   init();
 });
-
+defineExpose({
+  nodeData
+});
 </script>
