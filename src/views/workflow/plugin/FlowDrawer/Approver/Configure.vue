@@ -113,7 +113,7 @@ let operations = ref<Array<any>>([
     id: uuid(),
     name: '加签',
     value: '5',
-    content: '这个事情我不能完全做主，需要某些人先处理，再右我处理',
+    content: '这个事情我不能完全做主，需要某些人先处理，再由我处理',
     code: 'addSign',
   },
   {

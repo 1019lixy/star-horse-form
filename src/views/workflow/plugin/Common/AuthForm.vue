@@ -29,7 +29,7 @@ import FlowFormItem from "@/views/workflow/plugin/Common/FlowFormItem.vue";
 
 const flowDesign = useFlowDesign(piniaInstance);
 const flowFormInfo = computed(() => flowDesign.flowFormInfo);
-let flowFormTab = ref<string>("");
+let flowFormTab = ref<string>(0);
 let flowFormStep = ref<number>(1);
 const props = defineProps({
   readable: {

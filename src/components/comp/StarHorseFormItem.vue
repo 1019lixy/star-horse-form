@@ -18,7 +18,6 @@ defineProps({
   isView: {type: Boolean, default: false},
 });
 const dataForm: ModelRef<any> = defineModel("dataForm");
-console.log(dataForm);
 const dialogProps = inject<DialogProps>("dialogProps", {});
 </script>
 <template>
