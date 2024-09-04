@@ -8,15 +8,10 @@ import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 import {computed, onMounted, nextTick, ref, unref, watch} from "vue";
 import {closeLoad, loadGetData} from "@/api/sh_api.ts";
-import {ApiUrls} from "@/components/types/ApiUrls";
 import {SearchProps} from "@/components/types/SearchProps";
 
 const flowDesign = useFlowDesign(piniaInstance);
-const flowFormInfo = computed(() => {
-  let data = flowDesign.flowFormInfo;
-
-  return data;
-});
+const flowFormInfo = computed(() =>flowDesign.flowFormInfo);
 const props = defineProps({
   readable: {
     type: Boolean,
@@ -36,20 +31,7 @@ const props = defineProps({
   },
 });
 let relationTables = ref<any>({});
-const dataUrl = ref<ApiUrls>({
-  uploadUrl: "",
-  batchMergeDraftUrl: "",
-  batchMergeUrl: "",
-  deleteUrl: "",
-  downloadTemplateUrl: "",
-  exportAllUrl: "",
-  loadByIdUrl: "",
-  loadByPageUrl: "",
-  mergeDraftUrl: "",
-  mergeUrl: "",
-  importUrl: "",
-  userConditionUrl: ""
-});
+
 const errorMsg = ref("数据加载中");
 let searchFormData = ref<SearchProps[]>([]);
 const tableFieldList = ref<any>({
@@ -73,11 +55,9 @@ const loadFormData = async (formId: string) => {
     return;
   }
   hasData.value = data && Object.keys(data).length > 0;
-  dataUrl.value = data["dataUrl"] as ApiUrls;
   searchFormData.value = data["searchFormData"] as SearchProps[];
   primaryKey.value = data["primaryKey"];
   tableFieldList.value = data["tableFieldList"];
-  rules.value = data["rules"];
   formInfo.value = data["formInfo"];
   relationTables.value = data["relationTables"];
   await nextTick();
