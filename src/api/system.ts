@@ -524,6 +524,9 @@ export const tableCellOperation = (command: string, props: any) => {
         case "deleteWholeRow":
             deleteWholeRow(props);
             break;
+        case "colConfig":
+            console.log();
+
     }
     //操作单元格后再次调用控制按钮函数
     // tableAction(props, buttonControl);

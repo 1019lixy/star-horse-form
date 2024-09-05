@@ -118,8 +118,37 @@ const zoom = (val: any) => {
   props.modeler.get("canvas").zoom(newScale);
   scale.value = newScale;
 };
-const actionOperation = (actionName: string) => {
-  console.log(actionName);
+
+let active = ref<boolean>(false);
+const exec = () => {
+  console.log(props.modeler.get("toggleMode"));
+  active.value = !active.value;
+  props.modeler.get("toggleMode").toggleMode(active.value);
+  const simulationSupport = props.modeler.get('simulationSupport');
+// enable simulation
+  if (active.value) {
+    simulationSupport.toggleSimulation(active);
+    // 获取BPMN模拟器中的ElementRegistry对象
+    const elementRegistry = props.modeler.get('elementRegistry');
+// 获取所有的开始事件节点
+    const startEvents = elementRegistry.filter((element: any) => {
+      return element.type === 'bpmn:StartEvent';
+    });
+    simulationSupport.triggerElement(startEvents.id);
+
+  }
+
+}
+const actionOperation = async (actionName: string) => {
+  console.log(actionName, props.modeler.get('canvas'));
+  if (actionName == "newFile") {
+    props.modeler.get('eventBus').fire('diagram.clear');
+    // props.modeler.get('eventBus').fire('diagram.init');
+    // 新建一个空白BPMN图表
+    const newDiagram = await props.modeler.createDiagram();
+    // 渲染图表
+    props.modeler.importDiagram(newDiagram);
+  }
 };
 </script>
 <style lang="scss" scoped>
@@ -214,6 +243,11 @@ const actionOperation = (actionName: string) => {
                              style="color: var(--star-horse-style)"
             />
           </el-tooltip>
+        </el-menu-item>
+        <el-menu-item>
+          <star-horse-icon @click="exec" icon-class="run" size="24px"
+                           style="color: var(--star-horse-style)"
+          />
         </el-menu-item>
       </el-menu>
     </div>

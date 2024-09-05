@@ -51,7 +51,7 @@ import jpbmInit from "@/views/jbpm/utils/template";
 import BpmnModeler from 'bpmn-js/lib/Modeler'
 import BpmnViewer from "bpmn-js/lib/Viewer"
 import {xmlStr} from "@/views/jbpm/utils/xml";
-import customTranslate from "@/views/jbpm/utils/zh_CN";
+import customTranslate from "@/views/jbpm/utils/zh_CN.ts";
 import activitiModele from '@/views/jbpm/utils/activiti.json';
 import flowableModdle from '@/views/jbpm/utils/flowable.json';
 import JbpmHeader from "@/views/jbpm/JbpmHeader.vue";
@@ -60,14 +60,21 @@ import {error, success, warning} from "@/utils/message";
 import {getRequest, postRequest} from "@/api/star_horse";
 import lintModule from 'bpmn-js-bpmnlint';
 import * as bpmnlintConfig from '@/views/jbpm/packed-config';
+import "@/assets/css/diagram-js-minimap.css";
 import "bpmn-js/dist/assets/diagram-js.css" // 左边工具栏以及编辑节点的样式
-import "bpmn-js/dist/assets/bpmn-font/css/bpmn.css"
-import "bpmn-js/dist/assets/bpmn-font/css/bpmn-codes.css"
-import "bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css"
-import "bpmn-js-bpmnlint/dist/assets/css/bpmn-js-bpmnlint.css";
+import "bpmn-js/dist/assets/bpmn-font/css/bpmn.css";
+import "bpmn-js/dist/assets/bpmn-font/css/bpmn-codes.css";
+import "bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css";
+import 'bpmn-js-bpmnlint/dist/assets/css/bpmn-js-bpmnlint.css';
+import "bpmn-js-token-simulation/assets/css/bpmn-js-token-simulation.css";
 import {markRaw, onMounted, ref, unref, watch} from "vue";
 import {closeLoad, load} from "@/api/sh_api";
 import {useRoute} from "vue-router";
+import minimapModule from "diagram-js-minimap";
+import {CamundaPlatformPlugin} from 'bpmnlint-plugin-camunda';
+// 模拟流转流程
+import TokenSimulationModule from "bpmn-js-token-simulation";
+import SimulationSupportModule from "bpmn-js-token-simulation/lib/simulation-support";
 
 /**
  * https://github.com/bpmn-io/bpmn-js-examples
@@ -142,6 +149,25 @@ const createData = () => {
 };
 const flowCheck = () => {
 };
+// 流程校验使用
+const setUrlParam = (name, value) => {
+
+  var url = new URL(window.location.href);
+
+  if (value) {
+    url.searchParams.set(name, 1);
+  } else {
+    url.searchParams.delete(name);
+  }
+
+  window.history.replaceState({}, null, url.href);
+}
+// 流程校验使用
+const getUrlParam = (name) => {
+  var url = new URL(window.location.href);
+
+  return url.searchParams.has(name);
+}
 const init = () => {
   // canvas.value = _this.$refs.canvas;
   let _moddleExtensions = getModdleExtensions();
@@ -151,24 +177,51 @@ const init = () => {
   if (unref(isPreivew)) {
     bpmnModeler = markRaw(new BpmnViewer({
       container: unref(canvas),
+      additionalModules: [
+        TokenSimulationModule, SimulationSupportModule
+      ],
+      linting: {
+        active: getUrlParam('linting'),
+        bpmnlint: bpmnlintConfig
+      },
     }));
   } else {
     // 建模
     bpmnModeler = markRaw(new BpmnModeler({
       linting: {
-        active: true,
+        active: getUrlParam('linting'),
         bpmnlint: bpmnlintConfig
       },
       container: unref(canvas),
-      additionalModules: [translatezhCn, lintModule],
-      moddleExtensions: _moddleExtensions
+      additionalModules: [translatezhCn, lintModule, minimapModule,
+        TokenSimulationModule,
+        SimulationSupportModule,
+        {
+          bpmnlint: [
+            'bpmnlint-plugin-camunda'
+          ]
+        }
+      ],
+      moddleExtensions: _moddleExtensions,
+      exporter: {
+        name: 'bpmn-js-token-simulation',
+        version: "1"
+      },
+      keyboard: {
+        bindTo: document
+      }
     }));
+    bpmnModeler.on('linting.toggle', function (event) {
+      const active = event.active;
+      setUrlParam('linting', active);
+    });
   }
   //createNewDiagram(unref(initTemplate));
   createNewDiagram(xmlStr);
   const linting: any = bpmnModeler.get('linting')
   linting.toggle(true);
   $(".bjs-powered-by").remove();
+  $(".bts-toggle-mode").remove();
 };
 const getModdleExtensions = () => {
   let moddleExtensions = {};
@@ -187,6 +240,11 @@ const createNewDiagram = async (xml: string) => {
       init();
     }
     const result = await bpmnModeler.importXML(xml);
+    // 打开小地图
+    bpmnModeler.get("minimap").open();
+    // 屏幕自适应
+    const canvas = bpmnModeler.get("canvas");
+    canvas.zoom("fit-viewport", true);
     const {warnings} = result;
     console.log(warnings);
   } catch (err) {
@@ -333,7 +391,7 @@ watch(
           <div class="bpmn-content" ref="canvas"></div>
         </div>
       </div>
-<!--      <jbpm-property-panel :modeler="bpmnModeler" :process="initData" v-if="bpmnModeler"/>-->
+      <jbpm-property-panel :modeler="bpmnModeler" :process="initData" v-if="bpmnModeler"/>
     </div>
   </el-card>
 </template>
@@ -342,47 +400,74 @@ watch(
   display: flex;
   width: 100%;
 }
+
 .flow-design {
   display: flex;
   height: 100%;
   width: 100%;
   flex-direction: row;
 }
+
 .container {
   height: inherit;
   display: flex;
   border: 1px solid #e3e9f2;
 }
+
 .jbpm {
   display: flex;
   flex: 1;
   flex-direction: column;
 }
+
 .bpmn-container {
   padding: 10px;
   height: 100%;
   flex: 1;
+
   .bpmn-content {
     width: 100%;
     height: 100%;
     background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImEiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTTAgMTBoNDBNMTAgMHY0ME0wIDIwaDQwTTIwIDB2NDBNMCAzMGg0ME0zMCAwdjQwIiBmaWxsPSJub25lIiBzdHJva2U9IiNlMGUwZTAiIG9wYWNpdHk9Ii4yIi8+PHBhdGggZD0iTTQwIDBIMHY0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZTBlMGUwIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2EpIi8+PC9zdmc+") repeat !important;
   }
+
   .canvas {
     width: 100%;
     height: 100%;
   }
 }
+
 .panel {
   position: absolute;
   right: 0;
   top: 0;
   width: 500px;
 }
+
 :deep( .bjs-powered-by) {
   display: none;
 }
+
 .container {
   width: 100%;
   height: 100%;
+}
+
+:deep(.djs-palette) {
+  left: 0 !important;
+  top: 1px !important;
+}
+
+.djs-minimap {
+  top: unset !important;
+  bottom: 50px;
+
+  .toggle {
+    display: none;
+  }
+
+  .map {
+    display: block;
+  }
 }
 </style>

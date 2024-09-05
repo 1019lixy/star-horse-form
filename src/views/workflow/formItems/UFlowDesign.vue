@@ -13,9 +13,7 @@ const props = defineProps({
       <jbpm-design v-if="flowStyle=='flowable'"/>
       <FlowDesign v-if="flowStyle=='dingding'"/>
     </div>
-    <!--    <div class="preps-area">
-          <flow-property-panel/>
-        </div>-->
+
   </div>
 
 </template>

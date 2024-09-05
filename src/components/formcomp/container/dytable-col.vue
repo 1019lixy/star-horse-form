@@ -110,7 +110,7 @@ watch(() => props.parentField,
                      :is="getComponentName(data)"
                      :parentField="parentField"
                      :formData="formData"
-                     />
+          />
         </div>
       </template>
     </draggable>
@@ -148,6 +148,7 @@ watch(() => props.parentField,
             </el-dropdown-item>
             <el-dropdown-item command="deleteWholeRow" :disabled="buttonControl.deleteWholeRowDisabled">删除整行
             </el-dropdown-item>
+            <el-dropdown-item command="colConfig" divided>列设置</el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
@@ -169,13 +170,16 @@ watch(() => props.parentField,
   .comp-item {
     margin: unset;
   }
-  .bare-item{
+
+  .bare-item {
     width: 100%;
     height: 100%;
-    div{
+
+    div {
       width: 100%;
       height: 100%;
-    };
+    }
+  ;
   }
 }
 
