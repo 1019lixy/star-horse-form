@@ -13,9 +13,12 @@ const props = defineProps({
   formData: {
     type: Object,
     required: true
-  }
+  },
+  compSize: {type: String, default: "default"},
+  tab: {type: String, default: "node"}
 });
 const emits = defineEmits(["modifyFormData"]);
+let panelIndex = ref<number>(1);
 let localFormData = computed(() => props.formData);
 const bpmnData = ref({
   assignees: [{
@@ -66,7 +69,7 @@ watch(() => props.nodeElement,
       }
     }
 );
-const updateProperties = (properties) => {
+const updateProperties = (properties: any) => {
   let modeling = props.modeler.get('modeling');
   let shape = props.modeler.get('elementRegistry').get(props.nodeElement.id);
   modeling.updateProperties(shape, properties);
@@ -100,9 +103,9 @@ const addUser = (properties: any) => {
 <template>
   <div>
     <!-- 流程属性 -->
-    <el-collapse accordion v-if="panelIndex==1">
+    <el-collapse accordion v-if="tab=='process'">
       <el-collapse-item name="1">
-        <template v-slot:title style="color: #999999;">
+        <template #title>
           基本设置
           <i class="header-icon el-icon-info"></i>
         </template>
@@ -121,16 +124,16 @@ const addUser = (properties: any) => {
         </div>
       </el-collapse-item>
       <el-collapse-item name="2">
-        <template v-slot:title>
+        <template #title>
           执行监听器
           <i class="header-icon el-icon-info"></i>
         </template>
         <div>
           <div style="margin-bottom: 4px;">
-            <el-button link size="mini" style="background: var(--star-horse-style);color: var(--star-horse-white)">
+            <el-button link :size="compSize" style="background: var(--star-horse-style);color: var(--star-horse-white)">
               添加
             </el-button>
-            <el-button link size="mini" style="background: var(--star-horse-style);color: var(--star-horse-white)">
+            <el-button link :size="compSize" style="background: var(--star-horse-style);color: var(--star-horse-white)">
               选择
             </el-button>
           </div>
@@ -153,24 +156,30 @@ const addUser = (properties: any) => {
         </div>
       </el-collapse-item>
       <el-collapse-item name="3">
-        <template v-slot:title>
+        <template #title>
           权限设置
           <i class="header-icon el-icon-info"></i>
         </template>
         <div>
           <el-form label-position="right" label-width="70px">
             <el-form-item label="允许启动">
-              <el-radio label="1" v-model="radio">所有成员</el-radio>
-              <el-radio label="2" v-model="radio">指导成员</el-radio>
+              <el-radio-group v-model="formData.startPrivilige">
+                <el-radio label="1" value="1">所有成员</el-radio>
+                <el-radio label="2" value="2">指导成员</el-radio>
+              </el-radio-group>
             </el-form-item>
             <el-form-item label="添加用户">
-              <el-input class="input-with-select" placeholder="请选择" v-model="input3">
-                <el-button icon="el-icon-search" slot="append"></el-button>
+              <el-input class="input-with-select" placeholder="请选择" v-model="formData.user">
+                <template #append>
+                  <el-button icon="el-icon-search"/>
+                </template>
               </el-input>
             </el-form-item>
             <el-form-item label="添加角色">
-              <el-input class="input-with-select" placeholder="请选择" v-model="input3">
-                <el-button icon="el-icon-search" slot="append"></el-button>
+              <el-input class="input-with-select" placeholder="请选择" v-model="formData.role">
+                <template #append>
+                  <el-button icon="el-icon-search"/>
+                </template>
               </el-input>
             </el-form-item>
           </el-form>
@@ -178,43 +187,43 @@ const addUser = (properties: any) => {
       </el-collapse-item>
     </el-collapse>
     <!-- 开始节点 -->
-    <el-collapse accordion v-if="panelIndex==1">
+    <el-collapse accordion v-if="localFormData.type=='bpmn:StartEvent'">
       <el-collapse-item name="1">
-        <template v-slot:title>
+        <template #title>
           基本设置
           <i class="header-icon el-icon-info"></i>
         </template>
         <div>
           <el-form label-position="right" label-width="70px">
             <el-form-item label="ID">
-              <el-input></el-input>
+              <el-input v-model="formData.id"/>
             </el-form-item>
             <el-form-item label="名称">
-              <el-input></el-input>
+              <el-input v-model="formData.name"/>
             </el-form-item>
             <el-form-item label="描述信息">
-              <el-input type="textarea"></el-input>
+              <el-input type="textarea" v-model="formData.remark"/>
             </el-form-item>
             <el-form-item label="发起人">
-              <el-input></el-input>
+              <el-input v-model="formData.applyUser"/>
             </el-form-item>
           </el-form>
         </div>
       </el-collapse-item>
       <el-collapse-item name="2">
-        <template v-slot:title>
+        <template #title>
           执行监听器
           <i class="header-icon el-icon-info"></i>
         </template>
         <div>
           <div class="collapse-item-header">
-            <el-button icon="el-icon-plus" link size="mini"
+            <el-button icon="el-icon-plus" link :size="compSize"
                        style="background: var(--star-horse-style);color: var(--star-horse-white)">添加
             </el-button>
-            <el-button icon="el-icon-edit-outline" link size="mini"
+            <el-button icon="el-icon-edit-outline" link :size="compSize"
                        style="background: var(--star-horse-style);color: var(--star-horse-white)">修改
             </el-button>
-            <el-button icon="el-icon-delete" link size="mini"
+            <el-button icon="el-icon-delete" link :size="compSize"
                        style="background: var(--star-horse-style);color: var(--star-horse-white)">删除
             </el-button>
           </div>
@@ -239,16 +248,16 @@ const addUser = (properties: any) => {
         </div>
       </el-collapse-item>
       <el-collapse-item name="3">
-        <template v-slot:title>
+        <template #title>
           监听器
           <i class="header-icon el-icon-info"></i>
         </template>
         <div>
           <div style="margin-bottom: 4px;">
-            <el-button link size="mini" style="background: var(--star-horse-style);color: var(--star-horse-white)">
+            <el-button link :size="compSize" style="background: var(--star-horse-style);color: var(--star-horse-white)">
               添加
             </el-button>
-            <el-button link size="mini" style="background: var(--star-horse-style);color: var(--star-horse-white)">
+            <el-button link :size="compSize" style="background: var(--star-horse-style);color: var(--star-horse-white)">
               选择
             </el-button>
           </div>
@@ -272,6 +281,7 @@ const addUser = (properties: any) => {
       </el-collapse-item>
     </el-collapse>
     <el-form :inline="false"
+             v-else-if="tab=='node'&&localFormData.type!='bpmn:StartEvent'"
              label-position="right"
              label-width="100px">
       <el-form-item label="节点类型">

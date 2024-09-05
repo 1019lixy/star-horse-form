@@ -47,7 +47,7 @@
 交接员工所有直接参与的流程实例中对应的参与者将自动由系统修改为接管人。-->
 <!--8、回退：流程实例不按照流程模版中预定义好的节点顺序往下执行，而是回退到曾经运行过的任意节点上。-->
 <script setup lang="ts" name="JbpmDesign">
-import jpbmInit from "@/views/jbpm/utils/template";
+import {initTemplate} from "@/views/jbpm/utils/template.ts";
 import BpmnModeler from 'bpmn-js/lib/Modeler'
 import BpmnViewer from "bpmn-js/lib/Viewer"
 import {xmlStr} from "@/views/jbpm/utils/xml";
@@ -71,10 +71,10 @@ import {markRaw, onMounted, ref, unref, watch} from "vue";
 import {closeLoad, load} from "@/api/sh_api";
 import {useRoute} from "vue-router";
 import minimapModule from "diagram-js-minimap";
-import {CamundaPlatformPlugin} from 'bpmnlint-plugin-camunda';
 // 模拟流转流程
 import TokenSimulationModule from "bpmn-js-token-simulation";
 import SimulationSupportModule from "bpmn-js-token-simulation/lib/simulation-support";
+import {uuid} from "@/views/workflow/plugin/mixins/flowMixin.ts";
 
 /**
  * https://github.com/bpmn-io/bpmn-js-examples
@@ -89,11 +89,11 @@ const batchMergeDraftUrl = ref("/flow-engine/workflow/flowdefinition/mergeBatchD
 const loadByIdUrl = ref("/flow-engine/workflow/flowdefinition/getById");
 const isPreivew = ref(false);
 let bpmnModeler: any = null;
-const initData = ref({});
+const initData = ref<any>({});
 const formId = ref(null);
-const isEdit = ref(1);
-const product = ref("flowable");
-const initTemplate = ref("");
+const isEdit = ref<number>(1);
+const product = ref<string>("flowable");
+const initTemplateRef = ref<string>("");
 const container = ref(null);
 const canvas = ref(null);
 const router = useRoute();
@@ -114,7 +114,7 @@ const loadById = (id: any, isView: boolean) => {
       warning("未找到对应数据");
     }
     // let title = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
-    initTemplate.value = redata.flowXml.split("?>")[1];
+    initTemplateRef.value = redata.flowXml.split("?>")[1];
     initData.value = {
       flowName: redata.flowName,
       flowId: redata.flowId,
@@ -125,7 +125,7 @@ const loadById = (id: any, isView: boolean) => {
         {name: "聚餐", value: "003"},
       ]
     }
-    createNewDiagram(unref(initTemplate));
+    createNewDiagram(unref(initTemplateRef));
   }).catch(err => {
     error("接口错误或网络异常:" + err);
   }).finally(() => {
@@ -133,9 +133,9 @@ const loadById = (id: any, isView: boolean) => {
   })
 };
 const createData = () => {
-  let processId = new Date().getTime();
+  let processId = uuid();
   let processName = "UnSaved";
-  initTemplate.value = jpbmInit.initTemplate(processName, processId);
+  initTemplateRef.value = initTemplate(processName, processId);
   initData.value = {
     flowName: processName,
     flowId: processId,
@@ -150,7 +150,7 @@ const createData = () => {
 const flowCheck = () => {
 };
 // 流程校验使用
-const setUrlParam = (name, value) => {
+const setUrlParam = (name: string, value: any) => {
 
   var url = new URL(window.location.href);
 
@@ -163,13 +163,12 @@ const setUrlParam = (name, value) => {
   window.history.replaceState({}, null, url.href);
 }
 // 流程校验使用
-const getUrlParam = (name) => {
+const getUrlParam = (name: string) => {
   var url = new URL(window.location.href);
 
   return url.searchParams.has(name);
 }
 const init = () => {
-  // canvas.value = _this.$refs.canvas;
   let _moddleExtensions = getModdleExtensions();
   let translatezhCn = {
     translate: ['value', customTranslate]
@@ -211,15 +210,15 @@ const init = () => {
         bindTo: document
       }
     }));
-    bpmnModeler.on('linting.toggle', function (event) {
+    bpmnModeler.get('linting').toggle(true);
+    bpmnModeler.on('linting.toggle', (event: any) => {
       const active = event.active;
       setUrlParam('linting', active);
     });
   }
   //createNewDiagram(unref(initTemplate));
   createNewDiagram(xmlStr);
-  const linting: any = bpmnModeler.get('linting')
-  linting.toggle(true);
+
   $(".bjs-powered-by").remove();
   $(".bts-toggle-mode").remove();
 };
@@ -245,30 +244,29 @@ const createNewDiagram = async (xml: string) => {
     // 屏幕自适应
     const canvas = bpmnModeler.get("canvas");
     canvas.zoom("fit-viewport", true);
-    const {warnings} = result;
-    console.log(warnings);
+    console.log(result.warnings);
   } catch (err) {
-    return;
+    console.error(err);
   }
 };
 const handleExportBpmn = async () => {
   const {xml} = bpmnModeler.saveXML();
-  let {filename, href} = setEncoded('BPMN', xml);
-  if (href && filename) {
+  let data: any = setEncoded('BPMN', xml);
+  if (data.href && data.filename) {
     let a = document.createElement('a');
-    a.download = filename; //指定下载的文件名
-    a.href = href; //  URL对象
+    a.download = data.filename; //指定下载的文件名
+    a.href = data.href; //  URL对象
     a.click(); // 模拟点击
     URL.revokeObjectURL(a.href); // 释放URL 对象
   }
 };
 const handleExportSvg = async () => {
   const {svg} = await bpmnModeler.saveSVG();
-  let {filename, href} = setEncoded('SVG', svg);
-  if (href && filename) {
+  let data: any = setEncoded('SVG', svg);
+  if (data.href && data.filename) {
     let a = document.createElement('a');
-    a.download = filename;
-    a.href = href;
+    a.download = data.filename;
+    a.href = data.href;
     a.click();
     URL.revokeObjectURL(a.href);
   }
@@ -349,7 +347,7 @@ const processSave = (data: any) => {
 };
 const restart = () => {
   createData();
-  createNewDiagram(initTemplate.value);
+  createNewDiagram(initTemplateRef.value);
 };
 onMounted(() => {
   createData();
@@ -357,7 +355,7 @@ onMounted(() => {
 });
 //路由监听
 watch(() => router.query,
-    (to, from) => {
+    (to, _from) => {
       if (to.fullPath?.indexOf("workflowDesign") == -1) {
         return;
       }

@@ -117,16 +117,17 @@ const modifyFormData = (data: any) => {
       <el-header height="45px">
         <div :class="{active: configTab=='node'}" @click="handleConfigSelect('node')" class="config-tab">节点属性
         </div>
-        <div :class="{active: configTab=='process'}" @click="handleConfigSelect('process')" class="config-tab">
+<!--        <div :class="{active: configTab=='process'}" @click="handleConfigSelect('process')" class="config-tab">
           流程属性
-        </div>
+        </div>-->
       </el-header>
       <el-main>
         <node-property-panel :formData="formData" :modeler="modeler" :nodeElement="nodeElement"
+                             :tab="configTab"
                              @modifyConfigTab="modifyConfigTab" @modifyFormData="modifyFormData"
-                             v-if="configTab=='node'"/>
-        <process-property-panel :element="element" :modeler="modeler" :process-data="process"
-                                v-if="configTab=='process'"/>
+                             />
+<!--  v-if="configTab=='node'"      <process-property-panel :element="element" :modeler="modeler" :process-data="process"
+                                v-if="configTab=='process'"/>-->
       </el-main>
     </el-container>
   </div>
