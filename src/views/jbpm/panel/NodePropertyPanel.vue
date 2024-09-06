@@ -187,7 +187,7 @@ const addUser = (properties: any) => {
       </el-collapse-item>
     </el-collapse>
     <!-- 开始节点 -->
-    <el-collapse accordion v-if="localFormData.type=='bpmn:StartEvent'">
+    <el-collapse accordion v-if="localFormData.type=='bpmn:StartEvent'&&tab=='node'">
       <el-collapse-item name="1">
         <template #title>
           基本设置

@@ -117,17 +117,15 @@ const modifyFormData = (data: any) => {
       <el-header height="45px">
         <div :class="{active: configTab=='node'}" @click="handleConfigSelect('node')" class="config-tab">节点属性
         </div>
-<!--        <div :class="{active: configTab=='process'}" @click="handleConfigSelect('process')" class="config-tab">
+        <div :class="{active: configTab=='process'}" @click="handleConfigSelect('process')" class="config-tab">
           流程属性
-        </div>-->
+        </div>
       </el-header>
       <el-main>
         <node-property-panel :formData="formData" :modeler="modeler" :nodeElement="nodeElement"
                              :tab="configTab"
                              @modifyConfigTab="modifyConfigTab" @modifyFormData="modifyFormData"
-                             />
-<!--  v-if="configTab=='node'"      <process-property-panel :element="element" :modeler="modeler" :process-data="process"
-                                v-if="configTab=='process'"/>-->
+        />
       </el-main>
     </el-container>
   </div>
@@ -138,10 +136,12 @@ const modifyFormData = (data: any) => {
   border: 1px solid #eeeeee;
   padding: 0 5px;
 }
+
 .el-header {
   border-bottom: solid 2px #e4e7ed;
   padding: 0;
 }
+
 .config-tab {
   height: 43px;
   line-height: 43px;
@@ -153,25 +153,31 @@ const modifyFormData = (data: any) => {
   position: relative;
   cursor: pointer;
 }
+
 .config-tab.active {
   border-bottom: solid 2px #409EFF;
 }
+
 .bpmn-panel {
   width: 370px;
   border: 1px solid #eeeeee;
   padding: 0 5px;
 }
+
 .el-select--small {
   width: 100%;
 }
+
 .el-dialog > .el-dialog__header {
   padding: 5px 20px;
 }
+
 .el-dialog > .el-dialog__body {
   padding: 0px;
   margin: 0 20px;
   border: 1px solid #cccccc;
 }
+
 .default-undo {
   color: #c0c4cc;
 }

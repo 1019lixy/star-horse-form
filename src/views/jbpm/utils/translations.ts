@@ -39,7 +39,7 @@ const flow_zh = {
     'Start event': '开始事件',
     'StartEvent': '开始事件',
     'Intermediate throw event': '中间事件',
-    'end event': '结束事件',
+    'End event': '结束事件',
     'EndEvent': '结束事件',
     'Create gateway': '创建网关',
     'Message start event': '消息开始事件',

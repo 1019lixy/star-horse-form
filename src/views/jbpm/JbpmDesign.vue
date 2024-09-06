@@ -199,7 +199,7 @@ const init = () => {
           bpmnlint: [
             'bpmnlint-plugin-camunda'
           ]
-        }
+        },
       ],
       moddleExtensions: _moddleExtensions,
       exporter: {
@@ -211,8 +211,12 @@ const init = () => {
       }
     }));
     bpmnModeler.get('linting').toggle(true);
+    bpmnModeler.on("linting.bpmnlint", (event) => {
+      console.log("config.linting", event);
+    });
     bpmnModeler.on('linting.toggle', (event: any) => {
       const active = event.active;
+      console.log(event);
       setUrlParam('linting', active);
     });
   }
@@ -249,55 +253,7 @@ const createNewDiagram = async (xml: string) => {
     console.error(err);
   }
 };
-const handleExportBpmn = async () => {
-  const {xml} = bpmnModeler.saveXML();
-  let data: any = setEncoded('BPMN', xml);
-  if (data.href && data.filename) {
-    let a = document.createElement('a');
-    a.download = data.filename; //指定下载的文件名
-    a.href = data.href; //  URL对象
-    a.click(); // 模拟点击
-    URL.revokeObjectURL(a.href); // 释放URL 对象
-  }
-};
-const handleExportSvg = async () => {
-  const {svg} = await bpmnModeler.saveSVG();
-  let data: any = setEncoded('SVG', svg);
-  if (data.href && data.filename) {
-    let a = document.createElement('a');
-    a.download = data.filename;
-    a.href = data.href;
-    a.click();
-    URL.revokeObjectURL(a.href);
-  }
-};
-const setEncoded = (type: String, data: any) => {
-  const encodedData = encodeURIComponent(data);
-  if (data) {
-    if (type === 'XML') {
-      return {
-        filename: 'diagram.bpmn20.xml',
-        href: "data:application/bpmn20-xml;charset=UTF-8," + encodedData,
-        data: data
-      }
-    }
-    if (type === 'BPMN') {
-      return {
-        filename: 'diagram.bpmn',
-        href: "data:application/bpmn20-xml;charset=UTF-8," + encodedData,
-        data: data
-      }
-    }
-    if (type === 'SVG') {
-      initData.value.svg = data;
-      return {
-        filename: 'diagram.svg',
-        href: "data:application/text/xml;charset=UTF-8," + encodedData,
-        data: data
-      }
-    }
-  }
-};
+
 /*const bakeFunction = async () => {
   //事件备份操作
   let eventBus = bpmnModeler.get('eventBus');
@@ -383,7 +339,6 @@ watch(
     <div class="flow-design">
       <div class="jbpm">
         <jbpm-header :modeler="bpmnModeler" :process-data="initData" @flowCheck="flowCheck"
-                     @handleExportBpmn="handleExportBpmn" @handleExportSvg="handleExportSvg"
                      @processSave="processSave" @restart="restart"/>
         <div class="bpmn-container">
           <div class="bpmn-content" ref="canvas"></div>
