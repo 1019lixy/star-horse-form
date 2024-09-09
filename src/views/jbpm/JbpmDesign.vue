@@ -237,11 +237,11 @@ const init = async () => {
   // await createNewDiagram(xmlStr);
   $(".bjs-powered-by").remove();
   $(".bts-toggle-mode").remove();
-  let linting = bpmnModeler.get('linting');
-
-  console.log(linting);
-  linting.setErrors(errorsList);
-  linting.activate();
+  // let linting = bpmnModeler.get('linting');
+  //
+  // console.log(linting);
+  // linting.setErrors(errorsList);
+  // linting.activate();
 };
 const getModdleExtensions = () => {
   let moddleExtensions = {};
