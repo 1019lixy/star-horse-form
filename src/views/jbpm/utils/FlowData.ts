@@ -4,6 +4,8 @@ import {warning} from "@/utils/message.ts";
 import {ref, unref, markRaw} from "vue";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
+import {initTemplate} from "@/views/jbpm/utils/template.ts";
+import {uuid} from "@/api/system.ts";
 
 let bpmnModeler: any = null;
 let scale = ref<number>(1);
@@ -146,10 +148,42 @@ const redo = () => {
     bpmnModeler.get("commandStack").redo();
     canRedo.value = bpmnModeler.get("commandStack").canRedo();
 };
-const zoom = (val: any) => {
-    let newScale = !val ? 1.0 : unref(scale) + val <= 0.2 ? 0.2 : unref(scale) + val;
-    bpmnModeler.get("canvas").zoom(newScale);
-    scale.value = newScale;
+const zoom = (action: string) => {
+    let context: any = {};
+    if (action === 'zoomIn') {
+        action = 'stepZoom';
+
+        context = {
+            value: 1
+        };
+    }
+
+    if (action === 'zoomOut') {
+        action = 'stepZoom';
+
+        context = {
+            value: -1
+        };
+    }
+
+    if (action === 'resetZoom') {
+        action = 'zoom';
+
+        context = {
+            value: 1
+        };
+    }
+
+    if (action === 'zoomFit') {
+        action = 'zoom';
+
+        context = {
+            value: 'fit-viewport'
+        };
+    }
+    let actionEvent = bpmnModeler.get('editorActions');
+    actionEvent.trigger(action, context);
+    // scale.value = newScale;
 };
 
 let active = ref<boolean>(false);
@@ -195,12 +229,17 @@ const exec = () => {
  * 新建文件
  */
 const newFile = async () => {
-    bpmnModeler.get('eventBus').fire('diagram.clear');
+    let eventBus = bpmnModeler.get('eventBus');
+    console.log(bpmnModeler, eventBus);
+    // let define = bpmnModeler.getDefinitions();
+    bpmnModeler.clear();
+    // bpmnModeler.init(define);
+    // bpmnModeler.get('eventBus').fire('diagram.clear');
     // bpmnModeler.get('eventBus').fire('diagram.init');
     // 新建一个空白BPMN图表
-    let newDiagram = await bpmnModeler.createDiagram();
+    // let newDiagram = await bpmnModeler.createDiagram();
     // 渲染图表
-    bpmnModeler.importDiagram(newDiagram);
+    await bpmnModeler.importXML(initTemplate("新流程", uuid()));
     changeLocation();
 }
 const changeLocation = () => {
@@ -401,6 +440,21 @@ const setDiagramType = () => {
         }
     }
 };
+const valid = () => {
+    let linting = bpmnModeler.get('linting');
+    let errorDatas: Array<any> = [];
+    if (!linting.isActive()) {
+        linting.setErrors(errorDatas);
+        linting.activate();
+    }
+    let context = {
+        id: 'foo',
+        message: 'Foo'
+    };
+    bpmnModeler.get('linting').showError(context);
+    console.log(context,errorDatas,linting);
+
+};
 const buttonList = ref<Array<any>>([
     {
         icon: "left_panel",
@@ -435,7 +489,7 @@ const buttonList = ref<Array<any>>([
         key: 'zoomIn',
         disabled: false,
         action: () => {
-            zoom(0.2);
+            zoom("zoomIn");
         },
         label: '放大(0.2)',
     },
@@ -445,18 +499,27 @@ const buttonList = ref<Array<any>>([
         disabled: false,
         key: 'zoomOut',
         action: () => {
-            zoom(-0.2);
+            zoom("zoomOut");
         },
         label: '缩小(-0.2)',
     },
-
+    {
+        icon: "reset",
+        defaultEdit: true,
+        key: 'zoomTo',
+        disabled: false,
+        action: () => {
+            zoom("zoomFit");
+        },
+        label: '调整适合大小',
+    },
     {
         icon: "equal",
         defaultEdit: true,
         key: 'zoomTo',
         disabled: false,
         action: () => {
-            zoom(1);
+            zoom("resetZoom");
         },
         label: '1:1大小',
     },
@@ -548,7 +611,7 @@ const buttonList = ref<Array<any>>([
         key: 'valid',
         disabled: false,
         action: () => {
-
+            valid();
         },
         label: '校验',
     },
