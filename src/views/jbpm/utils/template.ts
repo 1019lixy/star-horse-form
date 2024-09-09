@@ -1,4 +1,4 @@
-const initTemplate = (flowName: string, processId: string) => {
+const flowTemplate = (flowName: string, processId: string) => {
     return `
       <bpmn2:definitions xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" 
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
@@ -29,4 +29,4 @@ const initTemplate = (flowName: string, processId: string) => {
     </bpmn2:definitions>`;
 }
 
-export {initTemplate};
+export {flowTemplate};

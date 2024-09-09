@@ -133,6 +133,14 @@ routers.push(
             title: "404页面"
         }
     }, {
+        path: "/jbpmDesign",
+        component: () => import("@/views/jbpm/JbpmDesign.vue"),
+        name: "JbpmDesign",
+        meta: {
+            keepAlive: "N",
+            title: "流程设计器"
+        }
+    }, {
         path: "/workFlowEdit",
         component: () => import("@/views/workflow/WorkFlowForm.vue"),
         name: "WorkFlowForm",

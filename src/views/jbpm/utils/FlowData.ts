@@ -1,11 +1,24 @@
-import BpmnModeler from "bpmn-js/lib/Modeler";
+import BpmnModeler from 'camunda-bpmn-js/lib/camunda-platform/Modeler';
+import TokenSimulationModule from "bpmn-js-token-simulation";
+import SimulationSupportModule from "bpmn-js-token-simulation/lib/simulation-support";
+
+import lintingAnnotationsModule from '@camunda/linting/modeler';
+import {BpmnJSTracking as bpmnJSTracking} from 'bpmn-js-tracking';
+import contextPadTracking from 'bpmn-js-tracking/lib/features/context-pad';
+import elementTemplatesTracking from 'bpmn-js-tracking/lib/features/element-templates';
+import modelingTracking from 'bpmn-js-tracking/lib/features/modeling';
+import popupMenuTracking from 'bpmn-js-tracking/lib/features/popup-menu';
+import paletteTracking from 'bpmn-js-tracking/lib/features/palette';
+
 import {postRequest} from "@/api/star_horse.ts";
 import {warning} from "@/utils/message.ts";
-import {ref, unref, markRaw} from "vue";
+import {markRaw, ref, unref} from "vue";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
-import {initTemplate} from "@/views/jbpm/utils/template.ts";
+import {flowTemplate} from "@/views/jbpm/utils/template.ts";
 import {uuid} from "@/api/system.ts";
+import customTranslate from "@/views/jbpm/utils/zh_CN.ts";
+
 
 let bpmnModeler: any = null;
 let scale = ref<number>(1);
@@ -13,12 +26,69 @@ let execution = ref<string>("exec1");
 let executionLabel = ref<string>('模拟运行');
 let canRedo = ref<boolean>(true);
 const flowDesign = useFlowDesign(piniaInstance);
+const createXml = (str: string) => {
+    if (document.all) {
+        var xmlDom = new ActiveXObject("Microsoft.XMLDOM")
+        xmlDom.loadXML(str);
+        return xmlDom;
+    } else {
+        return new DOMParser().parseFromString(str, "text/xml");
+    }
+};
+// 流程校验使用
+const setUrlParam = (name: string, value: any) => {
 
+    var url = new URL(window.location.href);
+
+    if (value) {
+        url.searchParams.set(name, 1);
+    } else {
+        url.searchParams.delete(name);
+    }
+
+    window.history.replaceState({}, null, url.href);
+}
+// 流程校验使用
+const getUrlParam = (name: string) => {
+    let url = new URL(window.location.href);
+
+    return url.searchParams.has(name);
+}
+const createBpmnModeler = (canvas: any) => {
+    let translatezhCn = {
+        translate: ['value', customTranslate]
+    };
+    bpmnModeler = markRaw(new BpmnModeler({
+        container: canvas,
+        additionalModules: [
+            translatezhCn,
+            TokenSimulationModule, SimulationSupportModule,
+            lintingAnnotationsModule,
+            bpmnJSTracking,
+            contextPadTracking,
+            elementTemplatesTracking,
+            modelingTracking,
+            popupMenuTracking,
+            paletteTracking
+        ],
+        // moddleExtensions: _moddleExtensions,
+        exporter: {
+            name: 'bpmn-js-token-simulation',
+            version: "1"
+        },
+        keyboard: {
+            bindTo: document
+        }
+    }));
+    $(".bjs-powered-by").remove();
+    $(".bts-toggle-mode").remove();
+    return bpmnModeler;
+}
 /**
  * 导出Bpmn文件
  */
-const handleExportBpmn = async () => {
-    const {xml} = await bpmnModeler.saveXML();
+const handleExportBpmn = async (modeler: BpmnModeler) => {
+    const {xml} = await modeler.saveXML();
     let data: any = setEncoded('BPMN', xml);
     if (data.href && data.filename) {
         let a = document.createElement('a');
@@ -31,8 +101,8 @@ const handleExportBpmn = async () => {
 /**
  * 导出SVG文件
  */
-const handleExportSvg = async () => {
-    const {svg} = await bpmnModeler.saveSVG();
+const handleExportSvg = async (modeler: BpmnModeler) => {
+    const {svg} = await modeler.saveSVG();
     let data: any = setEncoded('SVG', svg);
     if (data.href && data.filename) {
         let a = document.createElement('a');
@@ -73,15 +143,15 @@ const setEncoded = (type: String, data: any) => {
  *
  * @param type 2 垂直对齐 1 水平对齐
  */
-const elementAlign = (type: any) => {
+const elementAlign = (modeler: BpmnModeler, type: any) => {
     // warning("功能开发中");
     // bpmnModeler.get("alignElements").trigger("bottom");
     //let modeling= bpmnModeler.get("modeling");
     //bpmnModeler.get("elements.align").trigger("bottom");
     // bpmnModeler.get("modeling").autoPlace();
     //alignElements.trigger(Elements, type);
-    const AlignElements = bpmnModeler.get("alignElements");
-    const Selection = bpmnModeler.get('selection');
+    const AlignElements = modeler.get("alignElements");
+    const Selection = modeler.get('selection');
     const Elements = Selection.get();
     /**
      * Executes the alignment of a selection of elements
@@ -102,9 +172,9 @@ const setBpmnModeler = (modeler: BpmnModeler) => {
 }
 
 
-const deploy = async () => {
-    const result_xml = await bpmnModeler.saveXML();
-    const result_svg = await bpmnModeler.saveSVG();
+const deploy = async (modeler: BpmnModeler) => {
+    const result_xml = await modeler.saveXML();
+    const result_svg = await modeler.saveSVG();
     const {xml} = result_xml;
     const {svg} = result_svg;
     postRequest("jbpm/deploy", {
@@ -118,70 +188,55 @@ const deploy = async () => {
         warning(err);
     });
 };
-const save = async () => {
-    const result_xml = await bpmnModeler.saveXML();
-    const result_svg = await bpmnModeler.saveSVG();
+const save = async (modeler: BpmnModeler) => {
+    const result_xml = await modeler.saveXML();
+    const result_svg = await modeler.saveSVG();
     let dataForm = flowDesign.flowFormInfo.value;
     const {xml} = result_xml;
     const {svg} = result_svg;
     dataForm["flowXml"] = xml;
     dataForm["flowSvg"] = svg;
-    // ruleForm.validate((valid: boolean) => {
-    //     if (!valid) {
-    //         return;
-    //     }
-    //     if (type > 0) {
-    //
-    //     }
-    // });
 };
 
 
-const undo = () => {
-    bpmnModeler.get("commandStack").undo();
-    canRedo.value = bpmnModeler.get("commandStack").canRedo();
+const undo = (modeler: BpmnModeler) => {
+    modeler.get("commandStack").undo();
+    canRedo.value = modeler.get("commandStack").canRedo();
 };
-const redo = () => {
+const redo = (modeler: BpmnModeler) => {
     if (!unref(canRedo)) {
         return;
     }
-    bpmnModeler.get("commandStack").redo();
-    canRedo.value = bpmnModeler.get("commandStack").canRedo();
+    modeler.get("commandStack").redo();
+    canRedo.value = modeler.get("commandStack").canRedo();
 };
-const zoom = (action: string) => {
+const zoom = (modeler: BpmnModeler, action: string) => {
     let context: any = {};
     if (action === 'zoomIn') {
         action = 'stepZoom';
-
         context = {
             value: 1
         };
     }
-
     if (action === 'zoomOut') {
         action = 'stepZoom';
-
         context = {
             value: -1
         };
     }
-
     if (action === 'resetZoom') {
         action = 'zoom';
-
         context = {
             value: 1
         };
     }
-
     if (action === 'zoomFit') {
         action = 'zoom';
-
         context = {
             value: 'fit-viewport'
         };
     }
-    let actionEvent = bpmnModeler.get('editorActions');
+    let actionEvent = modeler.get('editorActions');
     actionEvent.trigger(action, context);
     // scale.value = newScale;
 };
@@ -190,23 +245,23 @@ let active = ref<boolean>(false);
 /**
  * 模拟执行
  */
-const exec = () => {
-    console.log(bpmnModeler.get("toggleMode"));
+const exec = (modeler: BpmnModeler) => {
+    console.log(modeler.get("toggleMode"));
     active.value = !active.value;
-    bpmnModeler.get("toggleMode").toggleMode(active.value);
-    const simulationSupport = bpmnModeler.get('simulationSupport');
+    modeler.get("toggleMode").toggleMode(active.value);
+    // const simulationSupport = bpmnModeler.get('simulationSupport');
 // enable simulation
     if (active.value) {
         execution.value = "cancel";
         executionLabel.value = "停止模拟";
-        simulationSupport.toggleSimulation(active);
-        // 获取BPMN模拟器中的ElementRegistry对象
-        const elementRegistry = bpmnModeler.get('elementRegistry');
-// 获取所有的开始事件节点
-        const startEvents = elementRegistry.filter((element: any) => {
-            return element.type === 'bpmn:StartEvent';
-        });
-        simulationSupport.triggerElement(startEvents.id);
+        // simulationSupport.toggleSimulation(active);
+//         // 获取BPMN模拟器中的ElementRegistry对象
+//         const elementRegistry = bpmnModeler.get('elementRegistry');
+// // 获取所有的开始事件节点
+//         const startEvents = elementRegistry.filter((element: any) => {
+//             return element.type === 'bpmn:StartEvent';
+//         });
+//         simulationSupport.triggerElement(startEvents.id);
     } else {
         execution.value = "exec1";
         executionLabel.value = "模拟运行";
@@ -228,25 +283,43 @@ const exec = () => {
 /**
  * 新建文件
  */
-const newFile = async () => {
-    let eventBus = bpmnModeler.get('eventBus');
-    console.log(bpmnModeler, eventBus);
+const newFile = async (modeler: BpmnModeler) => {
+    let eventBus = modeler.get('eventBus');
+    console.log(modeler, eventBus);
     // let define = bpmnModeler.getDefinitions();
-    bpmnModeler.clear();
+    // modeler.clear();
     // bpmnModeler.init(define);
     // bpmnModeler.get('eventBus').fire('diagram.clear');
     // bpmnModeler.get('eventBus').fire('diagram.init');
     // 新建一个空白BPMN图表
     // let newDiagram = await bpmnModeler.createDiagram();
     // 渲染图表
-    await bpmnModeler.importXML(initTemplate("新流程", uuid()));
-    changeLocation();
+    await modeler.importXML(flowTemplate("新流程", uuid()));
+    changeLocation(modeler);
 }
-const changeLocation = () => {
-    const canvas = bpmnModeler.get("canvas");
+/**
+ * 创建新流程
+ * @param modeler
+ * @param xml
+ */
+const createNewFlow = async (modeler: BpmnModeler, xml: string) => {
+    // 将字符串转换成图显示出来
+    try {
+        const result = await modeler.importXML(xml);
+        // 打开小地图
+        modeler.get("minimap").open();
+        // 屏幕自适应
+        changeLocation(modeler);
+        console.log(result.warnings);
+    } catch (err) {
+        console.error(err);
+    }
+};
+const changeLocation = (modeler: BpmnModeler) => {
+    const canvas = modeler.get("canvas");
     canvas.zoom("fit-viewport", true);
 }
-const importLocalFile = async () => {
+const importLocalFile = async (modeler: BpmnModeler) => {
 // 创建一个隐藏的文件输入元素
     const fileInput = document.createElement('input');
     fileInput.type = 'file';
@@ -262,12 +335,12 @@ const importLocalFile = async () => {
         reader.readAsText(files[0]);
         reader.onload = async () => {
             const xmlStr = reader.result as string;
-            if (bpmnModeler) {
-                let {warnings} = await bpmnModeler.importXML(xmlStr);
+            if (modeler) {
+                let {warnings} = await modeler.importXML(xmlStr);
                 if (warnings && warnings.length) {
                     warnings.forEach((warn: any) => console.warn(warn));
                 }
-                changeLocation();
+                changeLocation(modeler);
             }
         };
         // 清除文件输入，以便再次选择
@@ -282,7 +355,7 @@ const importLocalFile = async () => {
  * 设置BPMN的连接线
  * @param nodeConfig
  */
-const setBpmnConnect = (nodeConfig: any) => {
+const setBpmnConnect = (modeler: BpmnModeler, nodeConfig: any) => {
     console.log('>>>>>>>>>>>>> 设置BPMN的连接线 Begin');
     if (!nodeConfig || !bpmnModeler) return;
     const next = (nodeConfig: any, endElement?: any) => {
@@ -294,7 +367,7 @@ const setBpmnConnect = (nodeConfig: any) => {
         if (nodeConfig.conditionNodes) {
             console.log('nodeConfig >>>', nodeConfig);
             if (nodeConfig.endElement) {
-                bpmnModeler.get('modeling').resizeShape(nodeConfig.endElement, {
+                modeler.get('modeling').resizeShape(nodeConfig.endElement, {
                     x: nodeConfig.element.x,
                     y: nodeConfig.element.y,
                     width: nodeConfig.endElement.width,
@@ -302,14 +375,14 @@ const setBpmnConnect = (nodeConfig: any) => {
                 });
             }
             nodeConfig.conditionNodes.forEach((row: any, index: number) => {
-                if (row.childNode && bpmnModeler) {
+                if (row.childNode && modeler) {
                     const properties = {
                         id: row.element.id,
                         name: row.element.businessObject.name,
                         extensionElements: row.extensionElements,
                         conditionExpression: row.conditionExpression,
                     };
-                    bpmnModeler
+                    modeler
                         .get('modeling')
                         .removeElements([
                             row.element,
@@ -317,10 +390,10 @@ const setBpmnConnect = (nodeConfig: any) => {
                             ...row.childNode.element.incoming,
                         ]);
                     row.element = markRaw(
-                        bpmnModeler.get('modeling').connect(nodeConfig.element, row.childNode.element),
+                        modeler.get('modeling').connect(nodeConfig.element, row.childNode.element),
                     );
-                    bpmnModeler.get('modeling').updateProperties(row.element, properties);
-                    bpmnModeler.get('modeling').resizeShape(row.childNode.element, {
+                    modeler.get('modeling').updateProperties(row.element, properties);
+                    modeler.get('modeling').resizeShape(row.childNode.element, {
                         x: element.x + index * 150,
                         y: y + 80,
                         width: row.childNode.element.width,
@@ -332,43 +405,43 @@ const setBpmnConnect = (nodeConfig: any) => {
         }
 
         if (nodeConfig.childNode) {
-            bpmnModeler.get('modeling').resizeShape(nodeConfig.childNode.element, {
+            modeler.get('modeling').resizeShape(nodeConfig.childNode.element, {
                 x: element.x,
                 y: element.y + 100,
                 width: nodeConfig.childNode.element.width,
                 height: nodeConfig.childNode.element.height,
             });
             lines = lines.concat([...nodeConfig.childNode.element.incoming]);
-            bpmnModeler.get('modeling').connect(element, nodeConfig.childNode.element);
+            modeler.get('modeling').connect(element, nodeConfig.childNode.element);
             next(nodeConfig.childNode, endElement);
         } else if (endElement) {
             if (endElement.y < element.y + 100) {
-                bpmnModeler.get('modeling').resizeShape(endElement, {
+                modeler.get('modeling').resizeShape(endElement, {
                     x: endElement.x,
                     y: element.y + 120,
                     width: endElement.width,
                     height: endElement.height,
                 });
             }
-            bpmnModeler.get('modeling').connect(element, endElement);
+            modeler.get('modeling').connect(element, endElement);
         } else {
-            const EndEvent = bpmnModeler.get('elementRegistry').find(el => el.type === 'bpmn:EndEvent');
-            bpmnModeler.get('modeling').resizeShape(EndEvent, {
+            const EndEvent = modeler.get('elementRegistry').find(el => el.type === 'bpmn:EndEvent');
+            modeler.get('modeling').resizeShape(EndEvent, {
                 x: element.x,
                 y: element.y + 120,
                 width: EndEvent.width,
                 height: EndEvent.height,
             });
-            bpmnModeler.get('modeling').connect(element, EndEvent);
+            modeler.get('modeling').connect(element, EndEvent);
         }
 
-        bpmnModeler.get('modeling').removeElements(lines);
+        modeler.get('modeling').removeElements(lines);
     };
 
-    const StartEvent = bpmnModeler
+    const StartEvent = modeler
         .get('elementRegistry')
         .find((el: any) => el.type === 'bpmn:StartEvent');
-    const EndEvent = bpmnModeler
+    const EndEvent = modeler
         .get('elementRegistry')
         .find((el: any) => el.type === 'bpmn:EndEvent');
     const lines = [
@@ -377,8 +450,8 @@ const setBpmnConnect = (nodeConfig: any) => {
         ...nodeConfig.element.outgoing,
         ...nodeConfig.element.incoming,
     ];
-    bpmnModeler.get('modeling').removeElements(lines);
-    bpmnModeler.get('modeling').connect(StartEvent, nodeConfig.element);
+    modeler.get('modeling').removeElements(lines);
+    modeler.get('modeling').connect(StartEvent, nodeConfig.element);
     next(nodeConfig);
 
     console.log('>>>>>>>>>>>>> 设置BPMN的连接线 End');
@@ -387,17 +460,17 @@ const diagramType = ref<string>("dingding");
 /**
  * 设置流程类型
  */
-const setDiagramType = () => {
-    if (!bpmnModeler) return;
-    const process = bpmnModeler
+const setDiagramType = (modeler: BpmnModeler) => {
+    if (!modeler) return;
+    const process = modeler
         .get('elementRegistry')
         .find((el: any) => el.type === 'bpmn:Process');
     if (!process.businessObject.extensionElements) {
-        const ExtensionElements = bpmnModeler.get('moddle').create('bpmn:ExtensionElements', {
+        const ExtensionElements = modeler.get('moddle').create('bpmn:ExtensionElements', {
             values: [
-                bpmnModeler.get('moddle').create('flowable:Properties', {
+                modeler.get('moddle').create('flowable:Properties', {
                     values: [
-                        bpmnModeler.get('moddle').create('flowable:Property', {
+                        modeler.get('moddle').create('flowable:Property', {
                             name: '$OrangeDiagramType',
                             value: diagramType.value,
                         }),
@@ -406,7 +479,7 @@ const setDiagramType = () => {
             ],
         });
 
-        bpmnModeler.get('modeling').updateProperties(process, {
+        modeler.get('modeling').updateProperties(process, {
             extensionElements: ExtensionElements,
         });
     } else {
@@ -417,7 +490,7 @@ const setDiagramType = () => {
                 properties = row;
                 row.values.forEach((item: any) => {
                     if (item.name === '$OrangeDiagramType') {
-                        bpmnModeler?.get('modeling').updateModdleProperties(row, item, {
+                        modeler?.get('modeling').updateModdleProperties(row, item, {
                             value: diagramType.value,
                         });
                         hasDiagramType = true;
@@ -426,12 +499,12 @@ const setDiagramType = () => {
             }
         });
         if (!hasDiagramType) {
-            bpmnModeler
+            modeler
                 .get('modeling')
                 .updateModdleProperties(process.businessObject.extensionElements, properties, {
                     values: [
                         ...(properties!.values || properties!.$children),
-                        bpmnModeler.get('moddle').create('flowable:Property', {
+                        modeler.get('moddle').create('flowable:Property', {
                             name: '$OrangeDiagramType',
                             value: diagramType.value,
                         }),
@@ -440,8 +513,8 @@ const setDiagramType = () => {
         }
     }
 };
-const valid = () => {
-    let linting = bpmnModeler.get('linting');
+const valid = (modeler: BpmnModeler) => {
+    let linting = modeler.get('linting');
     let errorDatas: Array<any> = [];
     if (!linting.isActive()) {
         linting.setErrors(errorDatas);
@@ -451,211 +524,218 @@ const valid = () => {
         id: 'foo',
         message: 'Foo'
     };
-    bpmnModeler.get('linting').showError(context);
-    console.log(context,errorDatas,linting);
+    modeler.get('linting').showError(context);
+    console.log(context, errorDatas, linting);
 
 };
-const buttonList = ref<Array<any>>([
-    {
-        icon: "left_panel",
-        defaultEdit: true,
-        disabled: false,
-        key: 'leftPanel',
-        label: '左侧工具栏',
-    },
-    {
-        icon: "new-file",
-        defaultEdit: true,
-        key: 'newFile',
-        disabled: false,
-        action: async () => {
-            await newFile()
-        },
-        label: '创建新流程图',
-    },
-    {
-        icon: "open-file",
-        defaultEdit: true,
-        key: 'openFile',
-        disabled: false,
-        action: () => {
-            importLocalFile();
-        },
-        label: '打开本地文件',
-    },
-    {
-        icon: "zoom_in",
-        defaultEdit: true,
-        key: 'zoomIn',
-        disabled: false,
-        action: () => {
-            zoom("zoomIn");
-        },
-        label: '放大(0.2)',
-    },
-    {
-        icon: "zoom_out",
-        defaultEdit: true,
-        disabled: false,
-        key: 'zoomOut',
-        action: () => {
-            zoom("zoomOut");
-        },
-        label: '缩小(-0.2)',
-    },
-    {
-        icon: "reset",
-        defaultEdit: true,
-        key: 'zoomTo',
-        disabled: false,
-        action: () => {
-            zoom("zoomFit");
-        },
-        label: '调整适合大小',
-    },
-    {
-        icon: "equal",
-        defaultEdit: true,
-        key: 'zoomTo',
-        disabled: false,
-        action: () => {
-            zoom("resetZoom");
-        },
-        label: '1:1大小',
-    },
-    {
-        icon: "align_top",
-        key: 'alignTop',
-        disabled: false,
-        action: () => {
-            elementAlign("top");
-        },
-        label: '向上对齐',
-    },
-    {
-        icon: "align_bottom",
-        key: 'alignBottom',
-        disabled: false,
-        action: () => {
-            elementAlign("bottom");
-        },
-        label: '向下对齐',
-    },
-    {
-        icon: "align_left",
-        key: 'alignLeft',
-        disabled: false,
-        action: () => {
-            elementAlign("left");
-        },
-        label: '向左对齐',
-    },
-    {
-        icon: "align_right",
-        key: 'alignRight',
-        disabled: false,
-        action: () => {
-            elementAlign("right");
-        },
-        label: '向右对齐',
-    },
-    {
-        icon: "center",
-        key: 'centerContent',
-        disabled: false,
-        action: () => {
-            elementAlign("center");
-        },
-        label: '居中',
-    },
 
-    {
-        icon: "undo",
-        key: 'unDo',
-        disabled: false,
-        action: () => {
-            undo();
+const flowButtonList = (modeler: BpmnModeler) => {
+    return ref<Array<any>>([
+        {
+            icon: "left_panel",
+            defaultEdit: true,
+            disabled: false,
+            key: 'leftPanel',
+            label: '左侧工具栏',
         },
-        label: '后退一步',
-    },
-    {
-        icon: "redo",
-        key: 'reDo',
-        disabled: false,
-        action: () => {
-            redo();
+        {
+            icon: "new-file",
+            defaultEdit: true,
+            key: 'newFile',
+            disabled: false,
+            action: async () => {
+                await newFile(modeler)
+            },
+            label: '创建新流程图',
         },
-        label: '前进一步',
-    },
+        {
+            icon: "open-file",
+            defaultEdit: true,
+            key: 'openFile',
+            disabled: false,
+            action: () => {
+                importLocalFile(modeler);
+            },
+            label: '打开本地文件',
+        },
+        {
+            icon: "zoom_in",
+            defaultEdit: true,
+            key: 'zoomIn',
+            disabled: false,
+            action: () => {
+                zoom(modeler,"zoomIn");
+            },
+            label: '放大(0.2)',
+        },
+        {
+            icon: "zoom_out",
+            defaultEdit: true,
+            disabled: false,
+            key: 'zoomOut',
+            action: () => {
+                zoom(modeler,"zoomOut");
+            },
+            label: '缩小(-0.2)',
+        },
+        {
+            icon: "reset",
+            defaultEdit: true,
+            key: 'zoomTo',
+            disabled: false,
+            action: () => {
+                zoom(modeler,"zoomFit");
+            },
+            label: '调整适合大小',
+        },
+        {
+            icon: "equal",
+            defaultEdit: true,
+            key: 'zoomTo',
+            disabled: false,
+            action: () => {
+                zoom(modeler,"resetZoom");
+            },
+            label: '1:1大小',
+        },
+        {
+            icon: "align_top",
+            key: 'alignTop',
+            disabled: false,
+            action: () => {
+                elementAlign(modeler,"top");
+            },
+            label: '向上对齐',
+        },
+        {
+            icon: "align_bottom",
+            key: 'alignBottom',
+            disabled: false,
+            action: () => {
+                elementAlign(modeler,"bottom");
+            },
+            label: '向下对齐',
+        },
+        {
+            icon: "align_left",
+            key: 'alignLeft',
+            disabled: false,
+            action: () => {
+                elementAlign(modeler,"left");
+            },
+            label: '向左对齐',
+        },
+        {
+            icon: "align_right",
+            key: 'alignRight',
+            disabled: false,
+            action: () => {
+                elementAlign(modeler,"right");
+            },
+            label: '向右对齐',
+        },
+        {
+            icon: "center",
+            key: 'centerContent',
+            disabled: false,
+            action: () => {
+                elementAlign(modeler,"center");
+            },
+            label: '居中',
+        },
 
-    {
-        icon: "preview",
-        key: 'preview',
-        disabled: false,
-        action: () => {
+        {
+            icon: "undo",
+            key: 'unDo',
+            disabled: false,
+            action: () => {
+                undo(modeler);
+            },
+            label: '后退一步',
+        },
+        {
+            icon: "redo",
+            key: 'reDo',
+            disabled: false,
+            action: () => {
+                redo(modeler);
+            },
+            label: '前进一步',
+        },
 
-        },
-        label: '预览',
-    },
-    {
-        icon: "json_file",
-        key: 'json',
-        disabled: false,
-        action: () => {
+        {
+            icon: "preview",
+            key: 'preview',
+            disabled: false,
+            action: () => {
 
+            },
+            label: '预览',
         },
-        label: 'JSON数据',
-    },
-    {
-        icon: "valid",
-        key: 'valid',
-        disabled: false,
-        action: () => {
-            valid();
+        {
+            icon: "json_file",
+            key: 'json',
+            disabled: false,
+            action: () => {
+
+            },
+            label: 'JSON数据',
         },
-        label: '校验',
-    },
-    {
-        icon: "download",
-        key: 'download',
-        disabled: false,
-        action: () => {
-            handleExportBpmn();
+        {
+            icon: "valid",
+            key: 'valid',
+            disabled: false,
+            action: () => {
+                valid(modeler);
+            },
+            label: '校验',
         },
-        label: '下载Bpmn流程图',
-    },
-    {
-        icon: "download-svg",
-        key: 'downloadSvg',
-        action: () => {
-            handleExportSvg();
+        {
+            icon: "download",
+            key: 'download',
+            disabled: false,
+            action: () => {
+                handleExportBpmn(modeler);
+            },
+            label: '下载Bpmn流程图',
         },
-        label: '下载Svg流程图',
-    },
-    {
-        icon: "save",
-        key: 'save',
-        disabled: false,
-        action: () => {
-            save();
+        {
+            icon: "download-svg",
+            key: 'downloadSvg',
+            action: () => {
+                handleExportSvg(modeler);
+            },
+            label: '下载Svg流程图',
         },
-        label: '保存',
-    },
-    {
-        icon: execution,
-        key: 'exec',
-        disabled: false,
-        action: () => {
-            exec();
+        {
+            icon: "save",
+            key: 'save',
+            disabled: false,
+            action: () => {
+                save(modeler);
+            },
+            label: '保存',
         },
-        label: executionLabel,
-    },
-    {
-        icon: "right_panel",
-        defaultEdit: true,
-        disabled: false,
-        key: 'rightPanel',
-        label: '右侧属性栏',
-    },
-]);
-export {buttonList, setBpmnModeler, elementAlign, setBpmnConnect, handleExportBpmn, handleExportSvg}
+        {
+            icon: execution,
+            key: 'exec',
+            disabled: false,
+            action: () => {
+                exec(modeler);
+            },
+            label: executionLabel,
+        },
+        {
+            icon: "right_panel",
+            defaultEdit: true,
+            disabled: false,
+            key: 'rightPanel',
+            label: '右侧属性栏',
+        },
+    ]);
+}
+
+export {
+    flowButtonList, setBpmnModeler, elementAlign, setBpmnConnect, handleExportBpmn, handleExportSvg,
+    createBpmnModeler, createNewFlow
+}

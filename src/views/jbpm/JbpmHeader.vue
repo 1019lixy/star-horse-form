@@ -1,8 +1,8 @@
 <script lang="ts" setup name="JbpmHeader">
 import {nextTick, onMounted, PropType, ref} from "vue";
-import {buttonList, setBpmnModeler} from "@/views/jbpm/utils/FlowData.ts";
+import {flowButtonList, setBpmnModeler} from "@/views/jbpm/utils/FlowData.ts";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-import BpmnModeler from "bpmn-js/lib/Modeler";
+import BpmnModeler from "camunda-bpmn-js/lib/camunda-platform/Modeler";
 
 const props = defineProps({
   processData: {
@@ -13,9 +13,11 @@ const props = defineProps({
     default: null
   },
 });
+let buttonList = ref<Array<any>>([]);
 onMounted(async () => {
   await nextTick();
   setBpmnModeler(props.modeler);
+  buttonList.value = flowButtonList(props.modeler);
 })
 </script>
 <style lang="scss" scoped>
@@ -35,7 +37,7 @@ onMounted(async () => {
   <div>
     <div class="inner_button">
       <el-menu mode="horizontal" style="height: inherit;width: 100%;">
-        <el-menu-item v-for="(item,index ) in buttonList">
+        <el-menu-item v-for="(item,index ) in buttonList.value">
           <el-tooltip class="item" :content="item.label" :index="index"
                       effect="dark"
                       placement="bottom">

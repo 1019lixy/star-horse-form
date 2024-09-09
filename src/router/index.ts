@@ -16,7 +16,7 @@ const router = createRouter({
     routes: routers,
     scrollBehavior: () => ({left: 0, top: 0}),
 });
-const whiteList = ["/login", "/continus", "/workflowDesign", "/workFlow"]; // N redirect whitelist
+const whiteList = ["/login", "/continus", "/workflowDesign", "/jpbmDesign"]; // N redirect whitelist
 const assignTitle = (meta: any) => {
     if (meta.title) {
         document.title = meta.title + " - " + Config.title;
