@@ -75,6 +75,9 @@ import minimapModule from "diagram-js-minimap";
 import TokenSimulationModule from "bpmn-js-token-simulation";
 import SimulationSupportModule from "bpmn-js-token-simulation/lib/simulation-support";
 import {uuid} from "@/views/workflow/plugin/mixins/flowMixin.ts";
+import {BpmnJSTracking, BpmnJSTrackingModules} from 'bpmn-js-tracking';
+import popupMenuTracking from 'bpmn-js-tracking/lib/features/popup-menu';
+import paletteTracking from 'bpmn-js-tracking/lib/features/palette';
 
 /**
  * https://github.com/bpmn-io/bpmn-js-examples
@@ -97,6 +100,7 @@ const initTemplateRef = ref<string>("");
 const container = ref(null);
 const canvas = ref(null);
 const router = useRoute();
+let errorLogs = ref<Array<any>>([]);
 const createXml = (str: string) => {
   if (document.all) {
     var xmlDom = new ActiveXObject("Microsoft.XMLDOM")
@@ -195,6 +199,10 @@ const init = () => {
       additionalModules: [translatezhCn, lintModule, minimapModule,
         TokenSimulationModule,
         SimulationSupportModule,
+        popupMenuTracking,
+        paletteTracking,
+        BpmnJSTracking,
+        BpmnJSTrackingModules,
         {
           bpmnlint: [
             'bpmnlint-plugin-camunda'
@@ -210,7 +218,9 @@ const init = () => {
         bindTo: document
       }
     }));
-    bpmnModeler.get('linting').toggle(true);
+    let linting = bpmnModeler.get('linting');
+    linting.toggle(true);
+    console.log(linting.getLintConfig());
     bpmnModeler.on("linting.bpmnlint", (event) => {
       console.log("config.linting", event);
     });
@@ -321,6 +331,10 @@ watch(() => router.query,
       deep: true,
       immediate: true  //第一次是否要监听到
     });
+watch(() => errorLogs,
+    () => {
+      console.log(errorLogs.value)
+    }, {immediate: true, deep: true})
 watch(
     () => formId,
     (val) => {

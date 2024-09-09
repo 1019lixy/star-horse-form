@@ -42,12 +42,12 @@ const changeFlow = () => {
 const change = async (item: any) => {
   if (currentData.value == 1) {
     let flag = false;
-    await basicInfoRef.value.$refs.flowFormRef.$refs.starHorseFormRef.validate((res: boolean) => {
-      flag = res;
-    });
-    if (!flag) {
-      return;
-    }
+    // await basicInfoRef.value.$refs.flowFormRef.$refs.starHorseFormRef.validate((res: boolean) => {
+    //   flag = res;
+    // });
+    // if (!flag) {
+    //   return;
+    // }
     let formData = basicInfoRef.value.$refs.flowFormRef.getFormData();
     flowDesign.flowSetFormInfo(formData.value);
   }
