@@ -48,7 +48,8 @@
 <!--8、回退：流程实例不按照流程模版中预定义好的节点顺序往下执行，而是回退到曾经运行过的任意节点上。-->
 <script setup lang="ts" name="JbpmDesign">
 import {initTemplate} from "@/views/jbpm/utils/template.ts";
-import BpmnModeler from 'bpmn-js/lib/Modeler'
+// import BpmnModeler from 'bpmn-js/lib/Modeler'
+import BpmnModeler from 'camunda-bpmn-js/lib/camunda-platform/Modeler';
 import BpmnViewer from "bpmn-js/lib/Viewer"
 import {xmlStr} from "@/views/jbpm/utils/xml";
 import customTranslate from "@/views/jbpm/utils/zh_CN.ts";
@@ -58,14 +59,15 @@ import JbpmHeader from "@/views/jbpm/JbpmHeader.vue";
 import JbpmPropertyPanel from "@/views/jbpm/panel/JbpmPropertyPanel.vue";
 import {error, success, warning} from "@/utils/message";
 import {getRequest, postRequest} from "@/api/star_horse";
+import 'camunda-bpmn-js/dist/assets/camunda-platform-modeler.css';
 import lintModule from 'bpmn-js-bpmnlint';
 import * as bpmnlintConfig from '@/views/jbpm/packed-config';
-import "@/assets/css/diagram-js-minimap.css";
-import "bpmn-js/dist/assets/diagram-js.css" // 左边工具栏以及编辑节点的样式
-import "bpmn-js/dist/assets/bpmn-font/css/bpmn.css";
-import "bpmn-js/dist/assets/bpmn-font/css/bpmn-codes.css";
-import "bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css";
-import 'bpmn-js-bpmnlint/dist/assets/css/bpmn-js-bpmnlint.css';
+// import "@/assets/css/diagram-js-minimap.css";
+// import "bpmn-js/dist/assets/diagram-js.css" // 左边工具栏以及编辑节点的样式
+// import "bpmn-js/dist/assets/bpmn-font/css/bpmn.css";
+// import "bpmn-js/dist/assets/bpmn-font/css/bpmn-codes.css";
+// import "bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css";
+// import 'bpmn-js-bpmnlint/dist/assets/css/bpmn-js-bpmnlint.css';
 import "bpmn-js-token-simulation/assets/css/bpmn-js-token-simulation.css";
 import {markRaw, onMounted, ref, unref, watch} from "vue";
 import {closeLoad, load} from "@/api/sh_api";
@@ -74,6 +76,14 @@ import minimapModule from "diagram-js-minimap";
 // 模拟流转流程
 import TokenSimulationModule from "bpmn-js-token-simulation";
 import SimulationSupportModule from "bpmn-js-token-simulation/lib/simulation-support";
+
+import lintingAnnotationsModule from '@camunda/linting/modeler';
+import {BpmnJSTracking as bpmnJSTracking} from 'bpmn-js-tracking';
+import contextPadTracking from 'bpmn-js-tracking/lib/features/context-pad';
+import elementTemplatesTracking from 'bpmn-js-tracking/lib/features/element-templates';
+import modelingTracking from 'bpmn-js-tracking/lib/features/modeling';
+import popupMenuTracking from 'bpmn-js-tracking/lib/features/popup-menu';
+import paletteTracking from 'bpmn-js-tracking/lib/features/palette';
 import {uuid} from "@/views/workflow/plugin/mixins/flowMixin.ts";
 
 /**
@@ -96,6 +106,7 @@ const product = ref<string>("flowable");
 const initTemplateRef = ref<string>("");
 const container = ref(null);
 const canvas = ref(null);
+let errorsList = ref<Array<any>>([]);
 const router = useRoute();
 const createXml = (str: string) => {
   if (document.all) {
@@ -168,7 +179,7 @@ const getUrlParam = (name: string) => {
 
   return url.searchParams.has(name);
 }
-const init = () => {
+const init = async () => {
   let _moddleExtensions = getModdleExtensions();
   let translatezhCn = {
     translate: ['value', customTranslate]
@@ -192,16 +203,18 @@ const init = () => {
         bpmnlint: bpmnlintConfig
       },
       container: unref(canvas),
-      additionalModules: [translatezhCn, lintModule, minimapModule,
-        TokenSimulationModule,
-        SimulationSupportModule,
-        {
-          bpmnlint: [
-            'bpmnlint-plugin-camunda'
-          ]
-        },
+      additionalModules: [
+        translatezhCn,
+        TokenSimulationModule, SimulationSupportModule,
+        lintingAnnotationsModule,
+        bpmnJSTracking,
+        contextPadTracking,
+        elementTemplatesTracking,
+        modelingTracking,
+        popupMenuTracking,
+        paletteTracking
       ],
-      moddleExtensions: _moddleExtensions,
+      // moddleExtensions: _moddleExtensions,
       exporter: {
         name: 'bpmn-js-token-simulation',
         version: "1"
@@ -210,21 +223,25 @@ const init = () => {
         bindTo: document
       }
     }));
-    bpmnModeler.get('linting').toggle(true);
-    bpmnModeler.on("linting.bpmnlint", (event) => {
-      console.log("config.linting", event);
-    });
-    bpmnModeler.on('linting.toggle', (event: any) => {
-      const active = event.active;
-      console.log(event);
-      setUrlParam('linting', active);
-    });
-  }
-  //createNewDiagram(unref(initTemplate));
-  createNewDiagram(xmlStr);
 
+    // bpmnModeler.on("linting.lint", (event) => {
+    //   console.log("config.linting", event);
+    // });
+    // bpmnModeler.on('linting.toggle', (event: any) => {
+    //   const active = event.active;
+    //   console.log(event);
+    //   setUrlParam('linting', active);
+    // });
+  }
+  await createNewDiagram(unref(initTemplate("新流程", uuid())));
+  // await createNewDiagram(xmlStr);
   $(".bjs-powered-by").remove();
   $(".bts-toggle-mode").remove();
+  let linting = bpmnModeler.get('linting');
+
+  console.log(linting);
+  linting.setErrors(errorsList);
+  linting.activate();
 };
 const getModdleExtensions = () => {
   let moddleExtensions = {};

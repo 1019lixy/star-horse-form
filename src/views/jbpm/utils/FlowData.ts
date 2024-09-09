@@ -4,6 +4,8 @@ import {warning} from "@/utils/message.ts";
 import {ref, unref, markRaw} from "vue";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
+import {initTemplate} from "@/views/jbpm/utils/template.ts";
+import {uuid} from "@/api/system.ts";
 
 let bpmnModeler: any = null;
 let scale = ref<number>(1);
@@ -195,12 +197,14 @@ const exec = () => {
  * 新建文件
  */
 const newFile = async () => {
-    bpmnModeler.get('eventBus').fire('diagram.clear');
+    let eventBus= bpmnModeler.get('eventBus');
+    console.log(eventBus);
+    // bpmnModeler.get('eventBus').fire('diagram.clear');
     // bpmnModeler.get('eventBus').fire('diagram.init');
     // 新建一个空白BPMN图表
-    let newDiagram = await bpmnModeler.createDiagram();
+    // let newDiagram = await bpmnModeler.createDiagram();
     // 渲染图表
-    bpmnModeler.importDiagram(newDiagram);
+    await bpmnModeler.importXML(initTemplate("新流程", uuid()));
     changeLocation();
 }
 const changeLocation = () => {

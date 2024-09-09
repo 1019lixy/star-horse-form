@@ -6,7 +6,7 @@ const initTemplate = (flowName: string, processId: string) => {
       xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" 
       targetNamespace="http://bpmn.io/schema/bpmn" 
       xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd">
-      <bpmn2:process id="Process{str}" name="${flowName}">
+      <bpmn2:process id="Process${processId}" name="${flowName}">
         <bpmn2:startEvent id="StartEvent_01" name="开始" />
       </bpmn2:process>
       <bpmndi:BPMNDiagram id="BPMNDiagram_1">
