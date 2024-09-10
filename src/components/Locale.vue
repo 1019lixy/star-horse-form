@@ -1,9 +1,7 @@
 <template>
   <el-dropdown @command="handleSetLanguage" class="languages" trigger="click">
     <div style="font-size: 15px;color: var(--star-horse-white)">
-      　　　　
       <span>{{ langName }}</span>
-      　　　　
       <i class="el-icon-arrow-down el-icon--right"/>
     </div>
     <template #dropdown>
@@ -15,7 +13,7 @@
   </el-dropdown>
 </template>
 <script setup lang="ts">
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 
 const langName = ref('');
 const language = ref('');

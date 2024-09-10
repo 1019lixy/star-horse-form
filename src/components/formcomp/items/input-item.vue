@@ -56,7 +56,7 @@ export default defineComponent({
     let preSelect = shallowRef("");
     let appSelect = shallowRef("");
     let actionName = shallowRef("keydown.enter");
-    const dynamicFunction = (_funcName: String, data: any) => {
+    const dynamicFunction = (_funcName: string, data: any) => {
       if (!data) {
         return;
       }

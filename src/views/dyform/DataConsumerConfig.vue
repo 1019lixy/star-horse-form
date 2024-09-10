@@ -71,7 +71,7 @@ const addNode = (data: any, columns: Array<any>, index: number = 0) => {
     posX: x,
     posY: y,
   };
-  cells = containerDiagramRef.value.addNode(datat);
+  cells.value = containerDiagramRef.value.addNode(datat);
   // console.log(cells);
 };
 /**

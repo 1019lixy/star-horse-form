@@ -3,7 +3,7 @@ import {ApiUrls} from "@/components/types/ApiUrls";
 import {inject, onMounted, PropType, reactive, ref, unref, watch} from "vue";
 import {download, postRequest} from "@/api/star_horse";
 import {PageProps} from "@/components/types/PageProps";
-import {closeLoad, commonParseCodeToName, deleteByIds, load,} from "@/api/sh_api";
+import {closeLoad, deleteByIds, load,} from "@/api/sh_api";
 import {SearchParams} from "@/components/types/Params";
 import Sortable from "sortablejs";
 import {DialogProps} from "../types/DialogProps";
@@ -345,7 +345,7 @@ const pageChangeClick = (currentPage: number) => {
   loadByPage();
 };
 //弹出选择框属性名称
-const inputFieldName = ref<String>("");
+const inputFieldName = ref<string>("");
 //弹窗选择框属性值
 const inputFieldVal = ref<any>();
 /**

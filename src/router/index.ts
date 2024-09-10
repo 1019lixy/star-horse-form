@@ -39,7 +39,7 @@ router.beforeEach((to: RouteLocationNormalized, _from: RouteLocationNormalized, 
                 let path = to.path;
                 //判断是不是动态菜单
                 path = path.indexOf("page/") == -1 ? path : path.substring(0, path.lastIndexOf("/")) + "/:param";
-                let toPath = router.getRoutes().find((item) => item.path === path);
+                const toPath = router.getRoutes().find((item) => item.path === path);
                 if (to.path.indexOf("page/") == -1 && !toPath?.components) {
                     next("/404");
                 } else {
@@ -66,14 +66,14 @@ router.afterEach((to, _from) => {
     if (to.path !== "/login" && to.path !== "/404") {
         //动态表单路由，导航信息拼接
         if (to.path.indexOf("page/") != -1) {
-            let menuLists = localStorage.getItem("dynamicMenusLists");
+            const menuLists = localStorage.getItem("dynamicMenusLists");
             if (menuLists) {
-                let menus = JSON.parse(menuLists);
-                let fdata = menus.find((item: any) => item.path == to.path);
+                const menus = JSON.parse(menuLists);
+                const fdata = menus.find((item: any) => item.path == to.path);
                 to.meta = fdata?.meta || to.meta;
             }
         }
-        let keepAlive = to.meta?.keepAlive;
+        const keepAlive = to.meta?.keepAlive;
         assignTitle(to.meta);
         navBarListStore.setCurrentView(to);
         if (!to.meta.noCache) {

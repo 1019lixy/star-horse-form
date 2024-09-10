@@ -10,7 +10,7 @@ const props = defineProps({
 });
 let searchFieldList: Array<any> = [];
 let formData: Array<any> = [];
-let code = ref<String>("");
+let code = ref<string>("");
 const starHorseEditorRef = ref();
 const asssignVal = (searchFields: string, formFields: string) => {
   return `<script setup lang='ts'>

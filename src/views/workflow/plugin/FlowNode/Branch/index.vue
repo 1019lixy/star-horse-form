@@ -26,7 +26,7 @@
                 <div class="node-main">
                   <span v-if="conditionNode.content">
                     <el-tooltip placement="top">
-                      <template slot="title">
+                      <template v-slot:title>
                         <span>{{ conditionNode.content }}</span>
                       </template>
                       {{ conditionNode.content }}
@@ -59,7 +59,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import {flowMixin, addBranch, open, close} from '@/views/workflow/plugin/mixins/flowMixin';
+import {addBranch, close, flowMixin, open} from '@/views/workflow/plugin/mixins/flowMixin';
 import FlowNode from '../../FlowNode/index.vue';
 import FlowAddNode from '../Add/index.vue';
 import FlowBranchSetting from '../../FlowDrawer/Branch/index.vue';
@@ -69,10 +69,11 @@ import {computed, ref} from "vue";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
+
 const flowBranchSettingRef=ref();
 const flowDesign = useFlowDesign(piniaInstance);
 let currentNode = computed(() => flowDesign.currentNode);
-const props = defineProps({
+defineProps({
   node: {
     type: Object,
     default: function () {

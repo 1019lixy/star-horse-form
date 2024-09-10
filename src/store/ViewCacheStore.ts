@@ -4,7 +4,7 @@ import {RouteRecordNormalized} from "vue-router";
 export const viewList: any = defineStore("viewList", {
     state: () => {
         return {
-            viewListDatas: [] as Array<String>
+            viewListDatas: [] as Array<string>
         }
     },
     getters: {
@@ -22,7 +22,7 @@ export const viewList: any = defineStore("viewList", {
          * @param data
          */
         setViewCache(data: RouteRecordNormalized) {
-            let name = data.name as String;
+            const name = data.name as string;
             if (this.viewListDatas.includes(name)) {
                 return;
             }

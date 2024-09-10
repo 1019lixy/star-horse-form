@@ -262,7 +262,7 @@ provide("dialogProps", dialogProps);
 
 const selectItemFun = (_data: any) => {
 }
-const dataFormat = (name: string, cellValue: Object): any => {
+const dataFormat = (name: string, cellValue: object): any => {
   if (name == "datasourceConfigId") {
     return dbInfoList.value.find(item => item.value == cellValue)?.name || cellValue;
   }

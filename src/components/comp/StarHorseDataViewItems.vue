@@ -1,8 +1,6 @@
 <script setup lang="ts" name="StarHorseDataViewObject">
-import {PropType, ref} from "vue";
+import {PropType} from "vue";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
-import StarHorseDataView from "@/components/comp/StarHorseDataView.vue";
-import StarHorseDataViewTable from "@/components/comp/StarHorseDataViewTable.vue";
 import {ModelRef} from "vue-demi";
 import {commonParseCodeToName} from "@/api/sh_api.ts";
 

@@ -1,16 +1,15 @@
-import {defineConfig, optimizeDeps} from 'vite'
+import {defineConfig} from 'vite'
 import vue from '@vitejs/plugin-vue'
 import progress from 'vite-plugin-progress'
 import vueJsx from "@vitejs/plugin-vue-jsx"
 import inject from "@rollup/plugin-inject"
-import viteCompression from 'vite-plugin-compression'
 import topLevelAwait from 'vite-plugin-top-level-await';
 import {resolve} from "path";
 import {createSvgIconsPlugin} from 'vite-plugin-svg-icons'
 import Components from 'unplugin-vue-components/vite'
 import {ElementPlusResolver} from 'unplugin-vue-components/resolvers'
 import AutoImport from 'unplugin-auto-import/vite'
-import monacoEditorPlugin from "vite-plugin-monaco-editor";
+import eslintPlugin from "vite-plugin-eslint";
 
 const codeHost = "http://192.168.20.165:8888/"
 const systemHost = "http://localhost:8749/"
@@ -23,7 +22,7 @@ const userDbHost = "http://localhost:7758/"
 // const userDbHost = "http://192.168.20.204:7758/"
 // https://vitejs.dev/config/
 export default defineConfig({
-    base:"/",
+    base: "/",
     server: {
         port: 8880,
         host: true,
@@ -118,27 +117,33 @@ export default defineConfig({
             iconDirs: [resolve(process.cwd(), 'src/icons')],
             symbolId: 'icon-[dir]-[name]',
         }),
-       // monacoEditorPlugin({ languageWorkers: ['editorWorkerService', 'typescript', 'json', 'html']}),
+        eslintPlugin({
+            include: ["src/**/*.js", "src/**/*.vue", "src/**/*.ts", "src/**/*.tsx"],
+            exclude: ["node_modules/**", "dist/**"],
+            fix: true,
+            cache: false
+        }),
+        // monacoEditorPlugin({ languageWorkers: ['editorWorkerService', 'typescript', 'json', 'html']}),
         //开启gzip,后端nginx 需要 gzip_static设置为on
-       /* viteCompression({
-            //生成压缩包gz
-            verbose: true,
-            disable: false,
-            threshold: 10240,
-            algorithm: 'gzip',
-            deleteOriginFile: true,
-            ext: '.gz',
-        }),*/
+        /* viteCompression({
+             //生成压缩包gz
+             verbose: true,
+             disable: false,
+             threshold: 10240,
+             algorithm: 'gzip',
+             deleteOriginFile: true,
+             ext: '.gz',
+         }),*/
     ],
-  /*  optimizeDeps: {
-        include: [
-            `monaco-editor/esm/vs/language/json/json.worker`,
-            `monaco-editor/esm/vs/language/css/css.worker`,
-            `monaco-editor/esm/vs/language/html/html.worker`,
-            `monaco-editor/esm/vs/language/typescript/ts.worker`,
-            `monaco-editor/esm/vs/editor/editor.worker`
-        ],
-    },*/
+    /*  optimizeDeps: {
+          include: [
+              `monaco-editor/esm/vs/language/json/json.worker`,
+              `monaco-editor/esm/vs/language/css/css.worker`,
+              `monaco-editor/esm/vs/language/html/html.worker`,
+              `monaco-editor/esm/vs/language/typescript/ts.worker`,
+              `monaco-editor/esm/vs/editor/editor.worker`
+          ],
+      },*/
     resolve: {
         alias: {
             "@": resolve(__dirname, "./src")

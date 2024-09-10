@@ -1,12 +1,11 @@
 <script setup lang="ts" name="StarHorseForm">
-import {computed, inject, nextTick, onMounted, PropType, ref, watch} from "vue";
+import {computed, inject, nextTick, onMounted, PropType, ref, ShallowReactive, watch} from "vue";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {error, success, warning} from "@/utils/message";
 import {postRequest} from "@/api/star_horse";
 import {closeLoad, formFieldMapping, load, loadById} from "@/api/sh_api";
 import {DialogProps} from "@/components/types/DialogProps";
 import {BatchFieldInfo, FieldInfo, PageFieldInfo} from "@/components/types/PageFieldInfo";
-import {ShallowReactive} from "@vue/reactivity";
 import StarHorseFormItem from "@/components/comp/StarHorseFormItem.vue";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import piniaInstance from "@/store";

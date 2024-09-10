@@ -42,7 +42,7 @@ export async function loadData(url: string, params: SearchParams[] | any) {
         }
     }
     await postRequest(url, cond).then((res: any) => {
-        let redata = res.data;
+        const redata = res.data;
         if (redata.code != 0) {
             error = redata.cnMessage;
         } else {
@@ -66,7 +66,7 @@ export async function loadGetData(url: string) {
     let data = reactive<any>([]);
     let error: string = "";
     await getRequest(url).then(res => {
-        let redata = res.data;
+        const redata = res.data;
         if (redata.code != 0) {
             error = redata.cnMessage;
         } else {
@@ -89,9 +89,9 @@ export async function loadSystemInfo(params: any) {
     await postRequest(systemUrl, {
         fieldList: params
     }).then(res => {
-        let redata = res.data;
+        const redata = res.data;
         if (redata.code == 0) {
-            let data = redata.data;
+            const data = redata.data;
             if (redata.data) {
                 systemList = createTree(data, "", "sysName", "idInformations")
             }
@@ -107,16 +107,16 @@ export async function loadSystemInfo(params: any) {
  * @param params 查询参数
  */
 export async function loadCustomInfo(params: any) {
-    let customerList: SelectOption[] = [];
+    const customerList: SelectOption[] = [];
     await postRequest(customerUrl, {
         fieldList: params
     }).then(res => {
-        let redata = res.data;
+        const redata = res.data;
         if (redata.code == 0) {
-            let data = redata.data;
+            const data = redata.data;
             if (redata.data) {
                 data.forEach((item: any) => {
-                    let temp: SelectOption = {name: item.customerName, value: item.idCustomer};
+                    const temp: SelectOption = {name: item.customerName, value: item.idCustomer};
                     customerList.push(temp);
                 });
             }
@@ -139,7 +139,7 @@ export async function loadDepartmentInfo(param: any) {
         if (res.data.code != 0) {
             console.warn(res.data.cnMessage);
         } else {
-            let redata = res.data.data;
+            const redata = res.data.data;
             deptData = createTree(redata, "", "deptName", "idDepartment");
         }
     }).catch(err => console.error(err));
@@ -151,14 +151,14 @@ export async function loadDepartmentInfo(param: any) {
  * @param param
  */
 export async function loadRolesInfo(param: any) {
-    let roleData: SelectOption[] = [];
+    const roleData: SelectOption[] = [];
     await postRequest("/system-config/system/rolesinfoEntity/queryUserAllRoles", {
         fieldList: param
     }).then(res => {
         if (res.data.code) {
             console.warn(res.data.cnMessage);
         } else {
-            let redata = res.data.data;
+            const redata = res.data.data;
             redata.forEach((item: any) => {
                 roleData.push({name: item.roleName, value: item.idRolesinfo});
             });
@@ -179,7 +179,7 @@ export async function loadMenusInfo(direct: boolean, params: any, needSystem: bo
         fieldList: params,
         orderBy: [{fieldName: "informationsSingleId"}]
     }).then(res => {
-        let redata = res.data;
+        const redata = res.data;
         if (redata.code != 0) {
             console.warn(redata.cnMessage);
         } else {
@@ -204,9 +204,9 @@ export async function loadMenusInfo(direct: boolean, params: any, needSystem: bo
  * @param val
  */
 export function createTree(data: any, valField: string, name: string, val: string) {
-    let list: SelectOption[] = [];
+    const list: SelectOption[] = [];
     data.forEach((item: any) => {
-        let temp: any = {};
+        const temp: any = {};
         temp["value"] = valField ? item[valField] : parseInt(item[val]);
         temp["name"] = item[name];
         if (item.children && item.children.length > 0) {
@@ -296,8 +296,8 @@ export function commonParseCodeToName(name: string, cellValue: any) {
     if (name == "state") {
         return cellValue == 1 ? "正常" : "异常";
     }
-    let preps: Array<String> = ["createdTime", "updatedTime", "createdDate", "updatedDate", "createTime", "editTime"];
-    let result = preps.find(item => convertToCamelCase(name)?.toLowerCase() === item.toLowerCase());
+    const preps: Array<string> = ["createdTime", "updatedTime", "createdDate", "updatedDate", "createTime", "editTime"];
+    const result = preps.find(item => convertToCamelCase(name)?.toLowerCase() === item.toLowerCase());
     if (result) {
         return createDatetime(cellValue);
     } else {
@@ -314,7 +314,7 @@ export function createDate(val: any) {
     if (!val) {
         return "--";
     }
-    let date = new Date(val);
+    const date = new Date(val);
     return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
 }
 
@@ -326,12 +326,12 @@ export function createDatetime(val: any) {
     if (!val || val == "undefined" || val == "-") {
         return "--";
     }
-    let date = new Date(val);
-    let m = (date.getMonth() + 1);
-    let m1 = m < 10 ? "0" + m : m;
-    let day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
-    let hour = date.getHours() < 10 ? '0' + date.getHours() : date.getHours();
-    let minute = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
+    const date = new Date(val);
+    const m = (date.getMonth() + 1);
+    const m1 = m < 10 ? "0" + m : m;
+    const day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+    const hour = date.getHours() < 10 ? '0' + date.getHours() : date.getHours();
+    const minute = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
     return date.getFullYear() + "-" + m1 + "-" + day + " " + hour + ":" + minute;
 }
 
@@ -349,7 +349,7 @@ export async function loadById(url: string, id: any, isView: boolean, params: an
     }
     let objData: any = {};
     await postRequest(url + (isView ? "ForView" : "") + "/" + id, params).then(res => {
-        let redata = res.data.data;
+        const redata = res.data.data;
         if (!redata) {
             warning("未找到对应数据");
         } else {
@@ -403,14 +403,14 @@ export async function deleteByIds(url: string, ids: any) {
  * @param dictType 字典类别
  */
 export async function dictData(dictType: string) {
-    let query = [];
+    const query = [];
     query.push({
         "propertyName": "dictType",
         "value": dictType
     });
-    let dicts: SelectOption[] = [];
+    const dicts: SelectOption[] = [];
     await postRequest(dictUrl, {fieldList: query}).then(res => {
-        let redata = res.data;
+        const redata = res.data;
         if (redata.code == 0) {
             redata.data.forEach((item: any) => {
                 dicts.push({name: item.dictName, value: item.dictCode});
@@ -426,7 +426,7 @@ export async function dictData(dictType: string) {
  * 加载ElementPlus 提供的官方矢量图标
  */
 export function loadElementPlusIcon() {
-    let menuIconList = [];
+    const menuIconList = [];
     for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
         menuIconList.push({name: key, value: component.name});
     }
@@ -437,7 +437,7 @@ export function loadElementPlusIcon() {
  * 数据匹配方式
  */
 export function searchMatchList(): SelectOption[] {
-    let data: SelectOption[] = [];
+    const data: SelectOption[] = [];
     data.push({name: "等于", value: "eq"});
     data.push({name: "模糊", value: "lk"});
     data.push({name: "左模糊", value: "llk"});
@@ -520,14 +520,14 @@ export function setCssVar(name: string, val: any, dom = document.documentElement
  */
 export function relationFieldOperation(formFields: any, fieldName: string, batchName: string | null, xh: number | null): any {
     if (batchName) {
-        let tempList = formFields[batchName];
-        for (let index in tempList) {
+        const tempList = formFields[batchName];
+        for (const index in tempList) {
             const tmpIndex = +index;
-            let item = tempList[index] as Array<ShallowRef>;
+            const item = tempList[index] as Array<ShallowRef>;
             //数组
             if (tmpIndex + 1 === xh) {
-                for (let ind in item) {
-                    let temp = item[ind].value;
+                for (const ind in item) {
+                    const temp = item[ind].value;
                     if (temp.preps.name == fieldName) {
                         return temp;
                     }
@@ -545,8 +545,8 @@ export function relationFieldOperation(formFields: any, fieldName: string, batch
  */
 export function isJson(v: any) {
     if (v && typeof v === "string") {
-        let start = v.substring(0, 1);
-        let end = v.substring(v.length - 1, v.length);
+        const start = v.substring(0, 1);
+        const end = v.substring(v.length - 1, v.length);
         return (start == "{" && end == "}") || (start == "[" && end == "]");
     }
     if (typeof v === 'object' && Object.prototype.toString.call(v).toLowerCase() === '[object object]' && !v.length) {
@@ -561,13 +561,13 @@ export function isJson(v: any) {
  */
 export function formFieldMapping(fieldList: PageFieldInfo) {
     let defaultDatas: any = {};
-    let actions: Array<any> = [];
+    const actions: Array<any> = [];
     //解析出字段之间的映射关系
-    let mappingFields: Array<any> = [];
-    let tempList = fieldList?.fieldList;
-    let batchDefaultValues: any = {};
+    const mappingFields: Array<any> = [];
+    const tempList = fieldList?.fieldList;
+    const batchDefaultValues: any = {};
     const tabOperation = (data: TabFieldInfo) => {
-        let fieldList = data.fieldList as Array<FieldInfo>;
+        const fieldList = data.fieldList as Array<FieldInfo>;
         if (data.subFormFlag) {
             defaultDatas[data.tabName] = {};
             //如果是子表
@@ -577,21 +577,21 @@ export function formFieldMapping(fieldList: PageFieldInfo) {
         }
     };
     const tableOperation = (batchTempList: Array<BatchFieldInfo>) => {
-        for (let key in batchTempList) {
-            let temp = batchTempList[key];
+        for (const key in batchTempList) {
+            const temp = batchTempList[key];
             if (!defaultDatas[temp.batchName]) {
                 defaultDatas[temp.batchName] = [];
             }
             if (!batchDefaultValues[temp.batchName]) {
                 batchDefaultValues[temp.batchName] = [];
             }
-            let fieldList = temp.fieldList as Array<FieldInfo>;
+            const fieldList = temp.fieldList as Array<FieldInfo>;
             fieldList?.forEach(item => {
                 if (item.defaultValue) {
                     if (isJson(item.defaultValue)) {
                         batchDefaultValues[temp.batchName] = {...batchDefaultValues[temp.batchName], ...item.defaultValue};
                     } else {
-                        let data:any={};
+                        const data:any={};
                         data[item.fieldName]=item.defaultValue;
                         batchDefaultValues[temp.batchName].push(data);
                     }
@@ -611,14 +611,14 @@ export function formFieldMapping(fieldList: PageFieldInfo) {
         }
     };
     const fieldsOperation = (dataList: any, defaultData: any) => {
-        for (let key in dataList) {
-            let temp = dataList[key];
+        for (const key in dataList) {
+            const temp = dataList[key];
             if (temp instanceof Array) {
                 temp.forEach((item: FieldInfo) => {
                     if (item.defaultValue) {
                         // console.log(Object.keys(item.defaultValue));
                         if (isJson(item.defaultValue)) {
-                            for (let key in item.defaultValue) {
+                            for (const key in item.defaultValue) {
                                 defaultData[key] = item.defaultValue[key];
                             }
                         } else {
@@ -638,19 +638,19 @@ export function formFieldMapping(fieldList: PageFieldInfo) {
                 })
             } else if (temp['tabList']) {
                 //如果是tabList
-                let tabList = temp["tabList"] as Array<TabFieldInfo>;
-                for (let index in tabList) {
-                    let temp = tabList[index];
+                const tabList = temp["tabList"] as Array<TabFieldInfo>;
+                for (const index in tabList) {
+                    const temp = tabList[index];
                     tabOperation(temp);
                 }
             } else if (temp["batchFieldList"]) {
                 //如果是tableList
-                let tableList = temp["batchFieldList"] as Array<BatchFieldInfo>;
+                const tableList = temp["batchFieldList"] as Array<BatchFieldInfo>;
                 tableOperation(tableList);
             } else {
                 if (temp.defaultValue) {
                     if (isJson(temp.defaultValue)) {
-                        for (let key in temp.defaultValue) {
+                        for (const key in temp.defaultValue) {
                             defaultData[key] = temp.defaultValue[key];
                         }
                     } else {
@@ -671,7 +671,7 @@ export function formFieldMapping(fieldList: PageFieldInfo) {
         }
     };
     fieldsOperation(tempList, defaultDatas);
-    let batchTempList = fieldList?.batchFieldList!;
+    const batchTempList = fieldList?.batchFieldList!;
     tableOperation(batchTempList);
     defaultDatas = {...defaultDatas, ...batchDefaultValues};
     return {defaultDatas, mappingFields, batchDefaultValues, actions};
@@ -686,12 +686,12 @@ export function batchFieldDefaultValues(datas: BatchFieldInfo) {
     if (datas["batchDefaultData"]) {
         defaultValues = {...datas["batchDefaultData"]};
     }
-    let fieldList = datas['fieldList'];
-    for (let inde in fieldList) {
-        let temp = fieldList[inde];
+    const fieldList = datas['fieldList'];
+    for (const inde in fieldList) {
+        const temp = fieldList[inde];
         if (temp.defaultValue) {
             if (isJson(temp.defaultValue)) {
-                for (let key in temp.defaultValue) {
+                for (const key in temp.defaultValue) {
                     defaultValues[key] = temp.defaultValue[key];
                 }
             } else {
@@ -708,14 +708,14 @@ export function batchFieldDefaultValues(datas: BatchFieldInfo) {
  * @param prototype 数据原样返回
  */
 export async function compDynamicData(preps: any) {
-    let temp = preps;
+    const temp = preps;
     let reDataList: SelectOption[] = [];
-    let dataSource = temp['dataSource'];
-    let urlOrDictName = temp['urlOrDictName'];
+    const dataSource = temp['dataSource'];
+    const urlOrDictName = temp['urlOrDictName'];
     if (dataSource == "url") {
         reDataList = await dynamicUrlOperation(preps);
     } else if (dataSource == "dict") {
-        let dicts = await dictData(urlOrDictName);
+        const dicts = await dictData(urlOrDictName);
         if (Object.keys(dicts).length == 0) {
             error("数据字典可能未配置");
         } else {
@@ -734,10 +734,10 @@ export async function compDynamicData(preps: any) {
  * @param prototype 数据原样返回
  */
 export async function dynamicUrlOperation(preps: any, queryInfo?: SearchParams[]) {
-    let temp = preps;
-    let reDataList: SelectOption[] = [];
-    let requestParams = [] as any;
-    let queryParams = temp['queryParams'];
+    const temp = preps;
+    const reDataList: SelectOption[] = [];
+    const requestParams = [] as any;
+    const queryParams = temp['queryParams'];
     queryParams?.forEach((item: any) => {
         if (!item.name) {
             return;
@@ -753,7 +753,7 @@ export async function dynamicUrlOperation(preps: any, queryInfo?: SearchParams[]
         requestParams.push(...queryInfo);
     }
     let url = temp["preinterfaceUrl"] + temp["interfaceUrl"];
-    let params = {
+    const params = {
         url: url,
         httpMethod: temp.httpMethod || "POST",
         dataType: temp.dataType || "JSON",
@@ -762,14 +762,14 @@ export async function dynamicUrlOperation(preps: any, queryInfo?: SearchParams[]
         }
     }
     url = "/system-config/redirect/execute";
-    let validResult = await loadData(url, params);
+    const validResult = await loadData(url, params);
     if (validResult.error) {
         error(validResult.error);
     } else {
         const childrenOperation = (list: Array<any>) => {
-            let options: SelectOption[] = [];
+            const options: SelectOption[] = [];
             list?.forEach((item: any) => {
-                let option: SelectOption = {name: item[temp["selectLabel"]], value: item[temp["selectValue"]]};
+                const option: SelectOption = {name: item[temp["selectLabel"]], value: item[temp["selectValue"]]};
                 if (item.children) {
                     option.children = childrenOperation(item.children);
                 }
@@ -778,7 +778,7 @@ export async function dynamicUrlOperation(preps: any, queryInfo?: SearchParams[]
             return options;
         };
         validResult.data.forEach((item: any) => {
-            let option: SelectOption = {name: item[temp["selectLabel"]], value: item[temp["selectValue"]]};
+            const option: SelectOption = {name: item[temp["selectLabel"]], value: item[temp["selectValue"]]};
             if (item.children) {
                 option.children = childrenOperation(item.children);
             }

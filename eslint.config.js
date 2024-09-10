@@ -1,0 +1,33 @@
+import globals from "globals";
+import pluginJs from "@eslint/js";
+import tseslint from "typescript-eslint";
+import pluginVue from "eslint-plugin-vue";
+
+
+export default [
+    {files: ["**/*.{js,mjs,cjs,ts,tsx,vue}"]},
+    {
+        languageOptions: {
+            globals: globals.browser,
+            ecmaVersion: 12,
+            sourceType: "module"
+        }
+    },
+    pluginJs.configs.recommended,
+    ...tseslint.configs.recommended,
+    ...pluginVue.configs["flat/essential"],
+    {
+        files: ["**/*.vue"],
+        languageOptions: {
+            parserOptions: {
+                parser: tseslint.parser
+            }
+        }
+    },
+    {
+        ignores:[
+            "**/dist",
+            "**/node_modules"
+        ]
+    }
+];

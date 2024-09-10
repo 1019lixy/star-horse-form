@@ -136,13 +136,13 @@ export const DesignForm: any = defineStore("DesignForm", {
          * @param reOrUnDoFlag 是否点击按钮时触发
          */
         addHistoryRecord(reOrUnDoFlag: boolean) {
-            let _this = this;
+            const _this = this;
             if (reOrUnDoFlag || _this.compList.length == 0) {
                 return;
             }
 
-            let record = _this.historyRecord;
-            let recordData: any = {
+            const record = _this.historyRecord;
+            const recordData: any = {
                 complist: _this.compList,
                 currentCompCategory: _this.currentCompCategory,
                 currentItemId: _this.currentItemId,
@@ -161,7 +161,7 @@ export const DesignForm: any = defineStore("DesignForm", {
          * 下一步
          */
         redo() {
-            let record = this.historyRecord;
+            const record = this.historyRecord;
             //数据本身就是最新的
             if (record.index < 0) {
                 return;
@@ -172,9 +172,9 @@ export const DesignForm: any = defineStore("DesignForm", {
         },
 
         reAndUnDo() {
-            let _this = this;
-            let record = this.historyRecord;
-            let data = JSON.parse(record.datas[record.index]);
+            const _this = this;
+            const record = this.historyRecord;
+            const data = JSON.parse(record.datas[record.index]);
             this.setCompList(data.complist);
             _this.currentCompCategory = data.currentCompCategory;
             _this.currentItemId = data.currentItemId;
@@ -187,7 +187,7 @@ export const DesignForm: any = defineStore("DesignForm", {
          * 上一步
          */
         undo() {
-            let record = this.historyRecord;
+            const record = this.historyRecord;
             console.log(record);
             record.index = record.index < 0 ? 1 : record.index + 1;
             //上一步大于已存在的数据量
@@ -207,7 +207,7 @@ export const DesignForm: any = defineStore("DesignForm", {
          * @param parentCompType 父组件类型
          */
         selectItem(data: any, itemType: string, parentCompType: string) {
-            let _this = this;
+            const _this = this;
             _this.currentCompCategory = data.compType;
             _this.currentItemId = data?.id;
             _this.parentCompType = parentCompType;
@@ -232,7 +232,7 @@ export const DesignForm: any = defineStore("DesignForm", {
          * @param formInfo
          */
         setFormInfo(formInfo: any) {
-            let _this = this;
+            const _this = this;
             _this.formInfo = {
                 ..._this.formInfo,
                 ...formInfo
@@ -248,7 +248,7 @@ export const DesignForm: any = defineStore("DesignForm", {
          */
         addComp(comp: any) {
             //如果已存在，则要过滤掉,不能重复添加
-            let _this = this;
+            const _this = this;
             if (comp instanceof Array) {
                 _this.compList = [..._this.compList, ...comp];
             } else {
@@ -287,10 +287,10 @@ export const DesignForm: any = defineStore("DesignForm", {
          * 删除数据
          */
         removePromise() {
-            let _this = this;
-            let comps = _this.compList;
+            const _this = this;
+            const comps = _this.compList;
             for (let i = 0; i < comps.length; i++) {
-                let temp = comps[i];
+                const temp = comps[i];
                 if (temp instanceof Promise) {
                     temp.then(res => {
                         if (res instanceof Array) {
@@ -307,8 +307,8 @@ export const DesignForm: any = defineStore("DesignForm", {
          * 清除所有数据
          */
         clearAll(initComp: boolean = true) {
-            let _this = this;
-            let ms = new Date().getTime();
+            const _this = this;
+            const ms = new Date().getTime();
             _this.isEdit = true;
             _this.currentFormPreps = {};
             _this.currentItemType = "";
@@ -347,56 +347,56 @@ export const DesignForm: any = defineStore("DesignForm", {
             if (initComp) {
                 const url = "/userdb-manage/userdb/dynamicFormItems/getAllByCondition";
                 const initContainer = async () => {
-                    let params: SearchParams[] = [{
+                    const params: SearchParams[] = [{
                         propertyName: "category",
                         value: 2
                     }, {
                         propertyName: "isDel",
                         value: 0
                     }];
-                    let query = {
+                    const query = {
                         fieldList: params,
                         orderBy: [{fieldName: "dataSort", ascOrDesc: "asc"}]
                     }
-                    let result = await loadData(url, query);
+                    const result = await loadData(url, query);
                     _this.containerList = result.data;
                 };
                 const initItems = async () => {
-                    let params: SearchParams[] = [{
+                    const params: SearchParams[] = [{
                         propertyName: "category",
                         value: 1
                     }, {
                         propertyName: "isDel",
                         value: 0
                     }];
-                    let query = {
+                    const query = {
                         fieldList: params,
                         orderBy: [{fieldName: "dataSort", ascOrDesc: "asc"}]
                     }
-                    let result = await loadData(url, query);
+                    const result = await loadData(url, query);
                     _this.formDataList = result.data;
                 };
                 const initSelfItems = async () => {
-                    let params: SearchParams[] = [{
+                    const params: SearchParams[] = [{
                         propertyName: "category",
                         value: 3
                     }, {
                         propertyName: "isDel",
                         value: 0
                     }];
-                    let query = {
+                    const query = {
                         fieldList: params,
                         orderBy: [{fieldName: "dataSort", ascOrDesc: "asc"}]
                     }
-                    let result = await loadData(url, query);
+                    const result = await loadData(url, query);
                     _this.selfFormDataList = result.data;
                 };
                 const init = async () => {
-                    let _this = this;
+                    const _this = this;
                     await initContainer();
                     await initItems();
                     await initSelfItems();
-                    let temp: Array<any> = [];
+                    const temp: Array<any> = [];
                     if (_this.formDataList) {
                         temp.push(..._this.formDataList);
                     }

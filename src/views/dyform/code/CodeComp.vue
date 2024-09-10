@@ -15,7 +15,7 @@ let compList = computed(() => designForm.compList);
 let formInfo = computed(() => designForm.formInfo);
 let formData = computed(() => designForm.formData);
 let compSize = computed(() => configStore.configFormInfo?.buttonSize || "default");
-let tabName = ref<String>("vue3");
+let tabName = ref<string>("vue3");
 let pageInfo = ref<any>({});
 const init = async () => {
   let dynameForm = formInfo.value;

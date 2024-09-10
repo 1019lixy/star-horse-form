@@ -208,7 +208,7 @@ const initDbList = async () => {
     dbList.value.push({name: item.dbType + ':' + item.host + '/' + item.dbName, value: item.dataNo})
   });
 };
-const dataFormat = (name: string, cellValue: Object, row: any): any => {
+const dataFormat = (name: string, cellValue: object, row: any): any => {
   if (name == "assignType") {
     return assignType.value.find(item => item.value == parseInt(cellValue))?.name;
   } else if (name == "dbinfoSingle") {

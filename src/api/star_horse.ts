@@ -26,7 +26,7 @@ const service = axios.create({
 })
 // 添加请求拦截器
 service.interceptors.request.use((config: InternalAxiosRequestConfig) => {
-    let token = getToken();
+    const token = getToken();
     // 请求头带上token
     if (token && config.headers) {
         config.headers.token = token;
@@ -45,7 +45,7 @@ const forceLoginOut = () => {
 }
 // 添加响应拦截器
 service.interceptors.response.use((response: AxiosResponse) => {
-    let code = response.data.data?.code;
+    const code = response.data.data?.code;
     if (code == 401) {
         forceLoginOut();
     } else {
@@ -53,7 +53,7 @@ service.interceptors.response.use((response: AxiosResponse) => {
     }
 
 }, (err) => {
-    let data = err.toString().toLowerCase();
+    const data = err.toString().toLowerCase();
     if (data?.includes("status code 401")) {
         forceLoginOut();
     } else if (data?.includes("status code 500")) {
@@ -67,7 +67,7 @@ service.interceptors.response.use((response: AxiosResponse) => {
 });
 
 function getUserId() {
-    let userInfo = getUserInfo();
+    const userInfo = getUserInfo();
     return userInfo?.idUsersinfo;
 }
 
@@ -97,15 +97,15 @@ export async function rtCode(content: string) {
  * @returns {[]}
  */
 export function selectMenusTreeData(data: any) {
-    let list: any = [];
+    const list: any = [];
     data.forEach((item: any) => {
-        let temp: any = {};
+        const temp: any = {};
         temp["value"] = item.idMenusinfo;
         temp["label"] = item.menuName;
         if (item.children && item.children.length > 0) {
             temp["children"] = [];
             item.children.forEach((sitem: any) => {
-                let stemp: any = {};
+                const stemp: any = {};
                 stemp["value"] = sitem.idMenusinfo;
                 stemp["label"] = sitem.menuName;
                 temp["children"].push(stemp);
@@ -125,12 +125,12 @@ export async function userLogin(loginData: any) {
     let data: any = {};
     let errMsg = null;
     await postRequest("/system-config/system/usersAuditEntity/userLogin", loginData).then(async (res) => {
-        let redata = res.data;
-        let userData = redata.data;
+        const redata = res.data;
+        const userData = redata.data;
         if (redata.code != 0) {
             errMsg = redata.cnMessage;
         } else {
-            let condition = {
+            const condition = {
                 "userId": userData.idUsersinfo,
             };
             userStore.login({...userData, rememberMe: loginData.rememberMe});
@@ -156,7 +156,7 @@ export async function userLogin(loginData: any) {
  */
 export async function userLogout(data: Array<any>) {
     await postRequest("/system-config/system/usersAuditEntity/userLogout", data).then(res => {
-        let redata = res.data;
+        const redata = res.data;
         if (redata.code != 0) {
             warning(redata.cnMessage);
         } else {
@@ -171,7 +171,7 @@ export async function userLogout(data: Array<any>) {
 
 
 export function getMenuId() {
-    let meta = router.currentRoute.value.meta;
+    const meta = router.currentRoute.value.meta;
     console.log(router, meta);
     let menuId = meta?.menuId as string;
     if (!menuId) {
@@ -186,9 +186,9 @@ export function getMenuId() {
  * @param menuId 菜单id
  */
 export async function loadPagePermission(menuId: string) {
-    let permission: any = {};
-    let data: any = {"menuId": menuId};
-    let redata: Array<any> = await permissionResources(data);
+    const permission: any = {};
+    const data: any = {"menuId": menuId};
+    const redata: Array<any> = await permissionResources(data);
     redata?.forEach((item: any) => {
         permission[item.resCode] = item.resCode;
     });
@@ -201,16 +201,16 @@ export async function loadPagePermission(menuId: string) {
  * @returns {Promise<AxiosResponse<any>>}
  */
 export async function permissionMenus(data: any, sysId: string) {
-    let userId = data.userId || getUserId();
+    const userId = data.userId || getUserId();
     return await postRequest(`/system-config/system/menusinfoEntity/permissionMenus/${userId}/${sysId}`, {});
 }
 
 export async function permissionResources(data: any) {
-    let permissons = userStore.pageButtonPermission[data.menuId];
+    const permissons = userStore.pageButtonPermission[data.menuId];
     if (permissons && permissons.length > 0) {
         return permissons;
     } else {
-        let userId = getUserId();
+        const userId = getUserId();
         let redata: any = [];
         //没拿到则到数据库中去取
         await postRequest(`/system-config/system/resourcesEntity/permissionResources/${userId}/${data.menuId}`, {}).then(res => {
@@ -233,11 +233,11 @@ export async function permissionResources(data: any) {
  * 将Store里的菜单还原
  */
 export function restoreMenu(to: RouteLocationNormalized) {
-    let data = localStorage.getItem("menusInfo");
+    const data = localStorage.getItem("menusInfo");
     if (data) {
         createRouterAndMenuList(JSON.parse(data));
     }
-    let redata = router.getRoutes().find(item => item.path == to.fullPath);
+    const redata = router.getRoutes().find(item => item.path == to.fullPath);
     if (redata) {
         router.push({...redata});
     } else {
@@ -251,9 +251,9 @@ export function restoreMenu(to: RouteLocationNormalized) {
  * @param redata
  * @returns {[]}
  */
-export function createRouterAndMenuList(redata: Array<Object>): MenusInfo[] {
+export function createRouterAndMenuList(redata: Array<object>): MenusInfo[] {
     let leftMenuDatas: MenusInfo[] = [];
-    let pageButtonPermissions: any = {};
+    const pageButtonPermissions: any = {};
     if (!redata) {
         return leftMenuDatas;
     }
@@ -267,23 +267,23 @@ export function createRouterAndMenuList(redata: Array<Object>): MenusInfo[] {
      */
     function loopCreateMenu(redata: any, key_index: number) {
         let sindex = 1;
-        let menuDatas: MenusInfo[] = [];
+        const menuDatas: MenusInfo[] = [];
         for (let index = 0; index < redata.length; index++) {
-            let item = redata[index];
+            const item = redata[index];
             if (item.menuPath == "#" && item.children?.length == 0) {
                 continue;
             }
-            let menuId = item.idMenusinfo;
+            const menuId = item.idMenusinfo;
             if (menuId) {
                 pageButtonPermissions[menuId.toString()] = item["pageButtonPermissions"];
             }
-            let arr = item.menuPath.split("/");
+            const arr = item.menuPath.split("/");
             let menuName = arr[arr.length - 1];
             menuName = menuName.endsWith(Config.fileExt) ? menuName.split(".")[0] : menuName;
             let path = item.menuPath?.startsWith("/") ? item.menuPath : "/" + item.menuPath;
             path = path.endsWith(Config.fileExt) ? path : path + Config.fileExt;
-            let prefix = key_index + "_";
-            let data = reactive<MenusInfo>({
+            const prefix = key_index + "_";
+            const data = reactive<MenusInfo>({
                 path: item.menuPath,
                 component: compPath[`${baseDir}${path}`],
                 name: menuName,
@@ -332,9 +332,9 @@ export function createRouterAndMenuList(redata: Array<Object>): MenusInfo[] {
 export function download(url: string, param: any) {
     return new Promise((resolve, reject) => {
         service.post(url, param, {responseType: "blob"}).then(res => {
-            let blob = new Blob([res.data]);
-            let delement = document.createElement("a");
-            let href = window.URL.createObjectURL(blob);
+            const blob = new Blob([res.data]);
+            const delement = document.createElement("a");
+            const href = window.URL.createObjectURL(blob);
             delement.href = href;
             delement.download = decodeURI(res.headers["content-disposition"].split("=")[1]);
             document.body.appendChild(delement);
@@ -366,7 +366,7 @@ export async function blobData(url: string) {
  * @param param
  * @returns {Promise<AxiosResponse<*>>}
  */
-export function loadConfigedMenus(param: Array<Object>) {
+export function loadConfigedMenus(param: Array<object>) {
     return postRequest("/system-config/system/menusinfoEntity/getAllByCondition", param);
 }
 
@@ -375,7 +375,7 @@ export function loadConfigedMenus(param: Array<Object>) {
  * @param param
  * @returns {Promise<AxiosResponse<*>>}
  */
-export async function loadDepartments(param: Array<Object>) {
+export async function loadDepartments(param: Array<object>) {
     let redata: any[] = [];
     let errMsg = null;
     await postRequest("/system-config/system/departmentEntity/getAllByCondition", param).then(res => {
@@ -393,7 +393,7 @@ export async function loadDepartments(param: Array<Object>) {
  * @param param
  * @returns {Promise<AxiosResponse<*>>}
  */
-export async function loadSystems(param: Array<Object>) {
+export async function loadSystems(param: Array<object>) {
     let redata: any[] = [];
     let errMsg = null;
     await postRequest("/system-config/system/informationsEntity/getAllByCondition", param).then(res => {
@@ -412,15 +412,15 @@ export async function loadSystems(param: Array<Object>) {
  * @returns {Promise<unknown>}
  */
 export async function loadDict(dictName: string) {
-    let redata: Array<SelectOption> = [];
-    let param = {
+    const redata: Array<SelectOption> = [];
+    const param = {
         fieldList: [{propertyName: "dictType", value: dictName ? dictName : "common"}]
     };
     await postRequest("/system-config/system/dictinfoEntity/getAllByCondition", param).then(res => {
         if (res.data.code != 0) {
             console.log(res.data.cnMessage);
         } else {
-            let resdata = res.data.data;
+            const resdata = res.data.data;
             resdata.forEach((item: any) => {
                 redata.push({
                     name: item.dictName,
@@ -437,14 +437,14 @@ export async function loadDict(dictName: string) {
  * @param param
  * @returns {Promise<unknown>}
  */
-export async function loadRoleDatas(param: Array<Object>) {
+export async function loadRoleDatas(param: Array<object>) {
     let redata: any[] = [];
     let errMsg = null;
     await postRequest("/system-config/system/rolesinfoEntity/queryUserAllRoles", param).then(res => {
         if (res.data.code != 0) {
             errMsg = res.data.cnMessage;
         } else {
-            let resdata = res.data.data;
+            const resdata = res.data.data;
             redata = resdata as any;
         }
     }).catch(err => errMsg = err);
@@ -476,7 +476,7 @@ export function getRequest(url: string) {
  * @param data
  * @returns {Promise<AxiosResponse<any>>}
  */
-export function uploadRequest(url: string, data: Array<Object>) {
+export function uploadRequest(url: string, data: Array<object>) {
     return service.post(url, data, {headers: {"Content-Type": "multipart/form-data"}});
 }
 

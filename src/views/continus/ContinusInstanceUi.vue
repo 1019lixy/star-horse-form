@@ -118,7 +118,7 @@ provide("dialogProps", dialogProps);
 const selectItemFun=(data:any)=>{
 
 }
-const dataFormat = (name: string, cellValue: Object): any => {
+const dataFormat = (name: string, cellValue: object): any => {
   return cellValue;
 }
 const init = async () => {

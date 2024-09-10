@@ -20,8 +20,8 @@ let compSize = computed(() => configStore.configFormInfo?.buttonSize || "small")
 let dbIndex = ref<any>(null);
 let formData: ComputedRef<any> = computed(() => designForm.formData);
 let compList = computed(() => designForm.compList);
-const filterTableName = ref<String>("");
-const tbTab = ref<String>("tb1");
+const filterTableName = ref<string>("");
+const tbTab = ref<string>("tb1");
 let assignDataList = ref<Array<any>>([]);
 let selectFields = ref<Array<SelectOption>>([]);
 let dbList = ref<any>([]);
@@ -48,7 +48,7 @@ const fieldCompTypesMsg = `类型操作提示：
    将字符串类型的字段映射为单行文本框组件；
    将日期类型映射为日期选择器组件；
 2、如果字段有特色业务需要，则可以将字段配置为对应的组件类型`;
-let columnsContr = ref<String>("Y");
+let columnsContr = ref<string>("Y");
 let added = ref<string>("N");
 /**
  * 判断列数是否需要禁用
@@ -207,7 +207,7 @@ const filterData = () => {
 const init = async () => {
   dbList.value = await initDbList();
 };
-const getDefaultVal = (type: String) => {
+const getDefaultVal = (type: string) => {
   if (type == "number" || type == "slider" || type == "rate") {
     return undefined;
   } else if (type == "checkbox" || type == "transfer") {

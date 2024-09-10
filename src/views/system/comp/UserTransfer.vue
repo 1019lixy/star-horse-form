@@ -6,7 +6,7 @@ import {closeLoad} from "@/api/sh_api";
 import {analysisData} from "@/api/deptment";
 
 const deptUserList = ref<SelectOption>([]);
-const selectUsers = ref<Array<Number>>([]);
+const selectUsers = ref<Array<number>>([]);
 const pageInfo = ref<any>({
   currentPage: 1,
   pageSize: 100
@@ -20,11 +20,11 @@ onMounted(() => {
   init();
 });
 const pageSizeClick = (pageSize: number) => {
-  pageInfo.pageSize = pageSize
+  pageInfo.value.pageSize = pageSize
   loadByPage()
 };
 const pageChangeClick = (currentPage: number) => {
-  pageInfo.currentPage = currentPage
+  pageInfo.value.currentPage = currentPage
   loadByPage()
 };
 const searchFields = ref<Array<any>>([]);
@@ -71,7 +71,7 @@ const loadByPage = async () => {
 const getSelectedUsers = () => {
   return selectUsers.value;
 };
-const resetSelect = (val: Array<Number> | null) => {
+const resetSelect = (val: Array<number> | null) => {
   selectUsers.value = val ? val : [];
 };
 defineExpose({

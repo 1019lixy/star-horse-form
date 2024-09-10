@@ -12,18 +12,18 @@ import {
 } from "@/views/workflow/plugin/util/nodeUtil.ts";
 
 export const useFlowDesign = defineStore("flowDesignStore", () => {
-    let currentNode = ref<any>({});
-    let flowFormInfo = ref<any>({});
+    const currentNode = ref<any>({});
+    const flowFormInfo = ref<any>({});
     //  节点数据
-    let node = ref<any>(getStartNode());
+    const node = ref<any>(getStartNode());
     //  缩略图
-    let mapImg = ref<string>("");
+    const mapImg = ref<string>("");
     // 意见分支
-    let suggestBranchEnable = ref<boolean>(true);
+    const suggestBranchEnable = ref<boolean>(true);
     // 并行节点
-    let parallelBranchEnable = ref<boolean>(true);
-    let navable = ref<boolean>(true);
-    let readable = ref<boolean>(false);
+    const parallelBranchEnable = ref<boolean>(true);
+    const navable = ref<boolean>(true);
+    const readable = ref<boolean>(false);
     const setNavable = (flag: boolean) => {
         navable.value = flag;
     }
@@ -95,8 +95,8 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
      * 添加分支
      */
     const flowAddBranch = (snode: any) => {
-        let len = snode.conditionNodes.length;
-        let conditionNode = snode.conditionNodes[len - 1];
+        const len = snode.conditionNodes.length;
+        const conditionNode = snode.conditionNodes[len - 1];
         conditionNode.attr.priorityLevel = len + 1 + '';
         if (conditionNode.type == 3) {
             // 分支

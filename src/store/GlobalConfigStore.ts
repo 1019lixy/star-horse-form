@@ -41,14 +41,14 @@ export const GlobalConfig: any = defineStore("GlobalConfig", {
          * 清除所有Tab
          */
         clearAll(isDark: string = "N") {
-            let _this = this;
+            const _this = this;
             _this.configFormInfo = {
                 tagsView: 'Y',
                 position: "left",
                 menusCfg: "tradition",
                 isDark
             };
-            let starHorseConfigInfo = localStorage.getItem("starHorseConfigInfo");
+            const starHorseConfigInfo = localStorage.getItem("starHorseConfigInfo");
             if (starHorseConfigInfo) {
                 _this.setConfigFormInfo(JSON.parse(starHorseConfigInfo));
             }

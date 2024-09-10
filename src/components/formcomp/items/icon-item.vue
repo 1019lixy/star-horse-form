@@ -39,7 +39,7 @@ export default defineComponent({
     let dataField = shallowRef("");
     const popoverRef = shallowRef();
     let actionName = shallowRef("keydown.enter");
-    const assignIcon = (iconName: String) => {
+    const assignIcon = (iconName: string) => {
       context.attrs['formData'][field.preps['name']] = iconName;
       unref(popoverRef).popperRef?.delayHide?.();
       keyEnterFun("blur");

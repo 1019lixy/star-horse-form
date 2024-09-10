@@ -7,12 +7,13 @@ const deptAndUserTree: string = "/system-config/system/departmentEntity/deptAndU
  * @param direct
  * @param params
  */
+// @typescript-eslint/no-unused-vars
 export async function loadDeptUser(direct: boolean, params: any) {
     let menuDatas: Array<SelectOption> = [];
     await postRequest(deptAndUserTree, {
         fieldList: params
     }).then(res => {
-        let redata = res.data;
+        const redata = res.data;
         if (redata.code != 0) {
             console.warn(redata.cnMessage);
         } else {
@@ -30,17 +31,19 @@ export async function loadDeptUser(direct: boolean, params: any) {
 }
 /**
  * 解析部门信息
- * @param roleId
- * @param menuIds
+ * @param datas
+ * @param valField
+ * @param name
+ * @param val
  */
 export function createDeptUserTree(datas: any, valField: string, name: string, val: string) {
-    let deptUserList: Array<SelectOption> = [];
+    const deptUserList: Array<SelectOption> = [];
     datas.forEach((item: any) => {
-        let temp: any = {};
+        const temp: any = {};
         temp["value"] = valField ? item[valField] : parseInt(item[val]);
         temp["name"] = item[name];
         temp["children"] = [];
-        let userList = item["userList"];
+        const userList = item["userList"];
         if (item.children && item.children.length > 0) {
             temp["children"] = createDeptUserTree(item.children, valField, name, val);
         }
@@ -62,9 +65,9 @@ export function createDeptUserTree(datas: any, valField: string, name: string, v
  * @param val
  */
 export function analysisData(datas: any, valField: string, name: string, val: string) {
-    let listNames: Array<String> = [], listValues: Array<Number> = [];
+    const listNames: Array<string> = [], listValues: Array<number> = [];
     datas.forEach((item: any) => {
-        let temp: any = {};
+        const temp: any = {};
         temp["value"] = valField ? item[valField] : parseInt(item[val]);
         temp["name"] = item[name];
         listNames.push(temp['name']);

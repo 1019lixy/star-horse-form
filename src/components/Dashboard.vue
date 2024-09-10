@@ -13,7 +13,6 @@ import {i18n} from "@/lang";
 import piniaInstance from "@/store";
 import LeftMenu from "@/components/LeftMenu.vue";
 import HeaderComp from "@/components/HeaderComp.vue";
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import PageConfig from "@/components/PageConfig.vue";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import FixedMenu from "@/components/FixedMenu.vue";

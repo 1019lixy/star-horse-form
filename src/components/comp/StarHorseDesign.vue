@@ -21,7 +21,7 @@ const starHorseDesignRef = ref();
 const graph = ref();
 const contextmenuRef = ref();
 const leftPanelVisible = ref<boolean>(true);
-const connectorStyle = ref<String>("normal");
+const connectorStyle = ref<string>("normal");
 const rightPanel = ref<boolean>(false);
 const normalRightPanel = ref<boolean>(true);
 const currentComp = ref<any>();
@@ -58,7 +58,7 @@ const emits = defineEmits(["config", "lineClick", "nodeClick", "save", "validati
 let compAttr = ref<any>({});
 provide("dataForm", compAttr);
 const dataForm = defineModel("dataForm");
-const jsonData = ref<String>();
+const jsonData = ref<string>();
 const dataPreviewVisible = ref<boolean>(false);
 let activeItem = computed(() => props.activeCollapse);
 const hasData = ref<Array<any>>([]);
@@ -668,7 +668,7 @@ const onQueryChanged = () => {
   let dataList = JSON.parse(JSON.stringify(props.customerItems));
   filterDatas.value = [];
   activeItem.value = [];
-  if (!query) {
+  if (!query.value) {
     filterDatas.value = dataList;
   } else {
     for (let index in dataList) {

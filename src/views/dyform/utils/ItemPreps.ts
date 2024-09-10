@@ -38,11 +38,11 @@ const helpMsg = `
 export async function validInterface(formProps: any, dataSourceRef: Ref<any>, recall: Function, validForm: boolean = true) {
     let flag = false;
     let dataList: SelectOption[] = [];
-    let refName = dataSourceRef?.value || dataSourceRef;
+    const refName = dataSourceRef?.value || dataSourceRef;
     if (!refName) {
         return false;
     }
-    let temp = refName.getFormData().value;
+    const temp = refName.getFormData().value;
     if (validForm) {
         await nextTick();
         await dataSourceRef?.value?.$refs.starHorseFormRef.validate((res: boolean) => {
@@ -51,17 +51,17 @@ export async function validInterface(formProps: any, dataSourceRef: Ref<any>, re
         if (!flag) {
             return flag;
         }
-        for (let key in temp) {
+        for (const key in temp) {
             formProps.value[key] = temp[key];
         }
     }
-    let dataSource = temp['dataSource'];
-    let urlOrDictName = temp['urlOrDictName'];
-    let queryParams = temp['queryParams'];
+    const dataSource = temp['dataSource'];
+    const urlOrDictName = temp['urlOrDictName'];
+    const queryParams = temp['queryParams'];
     let validErrorMsg: string = "";
     let validSuccessMsg: string = "";
     if (dataSource == "url") {
-        let requestParams = [] as any;
+        const requestParams = [] as any;
         queryParams?.forEach((item: any) => {
             if (!item.name) {
                 return;
@@ -73,7 +73,7 @@ export async function validInterface(formProps: any, dataSourceRef: Ref<any>, re
             });
         });
         let url = temp["preinterfaceUrl"] + temp["interfaceUrl"];
-        let params = {
+        const params = {
             url: url,
             httpMethod: temp.httpMethod || "POST",
             dataType: temp.dataType || "JSON",
@@ -82,7 +82,7 @@ export async function validInterface(formProps: any, dataSourceRef: Ref<any>, re
             }
         }
         url = "/system-config/redirect/execute";
-        let validResult = await loadData(url, params);
+        const validResult = await loadData(url, params);
         if (validResult.error) {
             flag = false;
             validErrorMsg = validResult.error;
@@ -91,7 +91,7 @@ export async function validInterface(formProps: any, dataSourceRef: Ref<any>, re
             dataList = validResult.data;
         }
     } else if (dataSource == "dict") {
-        let dicts = await dictData(urlOrDictName);
+        const dicts = await dictData(urlOrDictName);
         if (Object.keys(dicts).length == 0) {
             flag = false;
             validErrorMsg = "验证失败\n数据字典可能未配置";
@@ -101,7 +101,7 @@ export async function validInterface(formProps: any, dataSourceRef: Ref<any>, re
         }
     } else {
         //静态数据
-        let datas = temp['values'] as SelectOption[];
+        const datas = temp['values'] as SelectOption[];
         if (Object.keys(datas).length == 0) {
             flag = false;
             validErrorMsg = "验证失败\n请设置数据";
@@ -123,17 +123,17 @@ export async function validInterface(formProps: any, dataSourceRef: Ref<any>, re
  * @param needDynamicData
  */
 export function createData(dataSourceRef: any, dataList: any, needDynamicData: boolean = false) {
-    let refName = dataSourceRef.value || dataSourceRef;
-    let temp = refName.getFormData().value;
+    const refName = dataSourceRef.value || dataSourceRef;
+    const temp = refName.getFormData().value;
     let reDataList: SelectOption[] = [];
-    let dataSource = temp['dataSource'];
+    const dataSource = temp['dataSource'];
     let errorMsg = "";
     if (dataSource == "data") {
         reDataList = dataList;
     } else {
         if (dataSource == "url") {
-            let element = dataList[0];
-            let keys = Object.keys(element);
+            const element = dataList[0];
+            const keys = Object.keys(element);
             if (!(keys.find(item => item == temp["selectLabel"]))) {
                 errorMsg = "验证失败\n【标签名字段】错误：" + JSON.stringify(keys);
             } else if (!(keys.find(item => item == temp["selectValue"]))) {
@@ -159,20 +159,20 @@ export function createData(dataSourceRef: any, dataList: any, needDynamicData: b
  * 数据源属性配置
  */
 export function dataSourceFields(dataSourceRef: Ref<any>, _recall: Function) {
-    let dataSourceList: Array<SelectOption> = [
+    const dataSourceList: Array<SelectOption> = [
         {value: "url", name: "动态接口"},
         {value: "dict", name: "数据字典"},
         {value: "data", name: "静态数据"},
     ];
-    let matchTypeList = searchMatchList();
-    let disableData = ref<boolean>(false);
-    let disableUrl = ref<boolean>(true);
-    let disableDict = ref<boolean>(true);
-    let dataRequired = ref<boolean>(true);
-    let urlRequired = ref<boolean>(false);
-    let dictRequired = ref<boolean>(false);
-    let currentTabName = ref<String>("data");
-    let fieldList = ref<SelectOption[]>([]);
+    const matchTypeList = searchMatchList();
+    const disableData = ref<boolean>(false);
+    const disableUrl = ref<boolean>(true);
+    const disableDict = ref<boolean>(true);
+    const dataRequired = ref<boolean>(true);
+    const urlRequired = ref<boolean>(false);
+    const dictRequired = ref<boolean>(false);
+    const currentTabName = ref<string>("data");
+    const fieldList = ref<SelectOption[]>([]);
     return reactive<PageFieldInfo | any>({
         fieldList: [
             [{
@@ -193,7 +193,7 @@ export function dataSourceFields(dataSourceRef: Ref<any>, _recall: Function) {
                     actionName: "change",
                     actions: (val: any) => {
                         console.log(val);
-                        let type = val["dataSource"];
+                        const type = val["dataSource"];
                         disableData.value = true;
                         disableUrl.value = true;
                         disableDict.value = true;
@@ -222,11 +222,11 @@ export function dataSourceFields(dataSourceRef: Ref<any>, _recall: Function) {
                 actions: async (val: any) => {
                     await validInterface(val, dataSourceRef, (dataList: any, successMsg: string, errorMsg: string) => {
                         if (dataList && !disableUrl.value) {
-                            let temp = dataList[0];
-                            let keys = Object.keys(temp);
+                            const temp = dataList[0];
+                            const keys = Object.keys(temp);
                             console.log(temp, keys);
                             fieldList.value = [];
-                            for (let ind in keys) {
+                            for (const ind in keys) {
                                 fieldList.value.push({name: keys[ind], value: keys[ind]})
                             }
                         }
@@ -375,7 +375,7 @@ export function dataSourceFields(dataSourceRef: Ref<any>, _recall: Function) {
  */
 export function paramsFields(fieldName: string, item: any) {
     console.log(fieldName, item);
-    let datas = [...item['advancedFields'], ...item['fields']];
+    const datas = [...item['advancedFields'], ...item['fields']];
     let currentData: Array<any> = [];
     datas.forEach(item => {
         if (item.fieldName == fieldName) {
@@ -383,9 +383,9 @@ export function paramsFields(fieldName: string, item: any) {
             return false;
         }
     });
-    let fields: Array<any> = [];
-    let fieldList = ref<SelectOption[]>([]);
-    let urlBaseInfo: FieldInfo[] = [
+    const fields: Array<any> = [];
+    const fieldList = ref<SelectOption[]>([]);
+    const urlBaseInfo: FieldInfo[] = [
         {
             fieldName: "preinterfaceUrl",
             type: "input",
@@ -410,7 +410,7 @@ export function paramsFields(fieldName: string, item: any) {
             }
         },
     ];
-    let dataUrls: FieldInfo[] = [
+    const dataUrls: FieldInfo[] = [
         {
             label: "请求方式",
             fieldName: "httpMethod",
@@ -455,18 +455,18 @@ export function paramsFields(fieldName: string, item: any) {
                 if (!val["interfaceUrl"]) {
                     return;
                 }
-                let url = val["preinterfaceUrl"] + val["interfaceUrl"];
-                let result = await validDataUrl(url, {});
-                let datas: any = result.data;
-                let error = result.error;
+                const url = val["preinterfaceUrl"] + val["interfaceUrl"];
+                const result = await validDataUrl(url, {});
+                const datas: any = result.data;
+                const error = result.error;
                 if (error) {
                     warning(error);
                     return;
                 }
-                let data = datas.dataList[0];
-                let keys = Object.keys(data);
+                const data = datas.dataList[0];
+                const keys = Object.keys(data);
                 fieldList.value = [];
-                for (let ind in keys) {
+                for (const ind in keys) {
                     fieldList.value.push({name: keys[ind], value: keys[ind]})
                 }
             },
@@ -477,7 +477,7 @@ export function paramsFields(fieldName: string, item: any) {
             }
         }
     ];
-    let orderBys: FieldInfo[] = [
+    const orderBys: FieldInfo[] = [
         {
             label: "列名",
             fieldName: "fieldName",
@@ -491,7 +491,7 @@ export function paramsFields(fieldName: string, item: any) {
             formShow: true,
             optionList: ascOrDesc()
         }];
-    let fieldLists: FieldInfo[] = [{
+    const fieldLists: FieldInfo[] = [{
         label: "列名",
         fieldName: "label",
         type: "input",
@@ -510,7 +510,7 @@ export function paramsFields(fieldName: string, item: any) {
         defaultValue: "Y",
         formShow: true,
     }];
-    let needFields: FieldInfo[] = [{
+    const needFields: FieldInfo[] = [{
         label: "原属性名",
         fieldName: "sourceField",
         type: "select",
@@ -522,10 +522,10 @@ export function paramsFields(fieldName: string, item: any) {
         type: "input",
         formShow: true,
     }];
-    let otherField: FieldInfo[] = [];
-    let fieldInfos: string[] = ["dataUrl", "orderby", "fieldList", "needField"];
-    for (let index in currentData) {
-        let temp = currentData[index];
+    const otherField: FieldInfo[] = [];
+    const fieldInfos: string[] = ["dataUrl", "orderby", "fieldList", "needField"];
+    for (const index in currentData) {
+        const temp = currentData[index];
         if (!fieldInfos.includes(temp.fieldName)) {
             otherField.push({
                 label: temp.label,
@@ -540,7 +540,7 @@ export function paramsFields(fieldName: string, item: any) {
     if (otherField) {
         fields.push(...otherField);
     }
-    let tabInfo = {
+    const tabInfo = {
         tabList: [{
             title: "属性配置",
             tabName: "0",
@@ -570,7 +570,7 @@ export function paramsFields(fieldName: string, item: any) {
  * 容器属性
  */
 export function containerField(fieldName: string) {
-    let tabFields = {
+    const tabFields = {
         title: "Tab属性",
         tabName: "tab",
         batchFieldList: [{
@@ -609,7 +609,7 @@ export function containerField(fieldName: string) {
             }]
         }]
     };
-    let collapseFields = {
+    const collapseFields = {
         title: "Collapse属性",
         tabName: "collapse",
         batchFieldList: [{
@@ -649,7 +649,7 @@ export function containerField(fieldName: string) {
         }]
     };
 
-    let boxFields = {
+    const boxFields = {
         title: "栅格属性",
         tabName: "box",
         batchFieldList: [{
@@ -679,10 +679,10 @@ export function containerField(fieldName: string) {
                             step: 4,
                         },
                         actions: (val: any, type: string) => {
-                            let obj = val.value || val;
-                            let cols = obj.columns;
+                            const obj = val.value || val;
+                            const cols = obj.columns;
                             if (type == "oper") {
-                                let len = 24 / cols.length;
+                                const len = 24 / cols.length;
                                 cols.forEach((item: any) => {
                                     item.colspan = len;
                                 })
@@ -693,7 +693,7 @@ export function containerField(fieldName: string) {
             }]
         }]
     };
-    let dyTableFields = {
+    const dyTableFields = {
         title: "动态表格属性",
         tabName: "dytable",
         batchFieldList: [{
@@ -723,10 +723,10 @@ export function containerField(fieldName: string) {
                             step: 2,
                         },
                         actions: (val: any, type: string) => {
-                            let obj = val.value || val;
-                            let cols = obj.columns;
+                            const obj = val.value || val;
+                            const cols = obj.columns;
                             if (type == "oper") {
-                                let len = 100 / cols.length;
+                                const len = 100 / cols.length;
                                 cols.forEach((item: any) => {
                                     item.colWidth = len;
                                 })
@@ -751,7 +751,7 @@ export function containerField(fieldName: string) {
             }]
         }]
     };
-    let fields: any = {
+    const fields: any = {
         tab: tabFields,
         collapse: collapseFields,
         box: boxFields,

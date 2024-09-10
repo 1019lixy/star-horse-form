@@ -102,7 +102,7 @@ const init = async () => {
 
   await loadFormData(props.param);
 }
-const dataFormat = (name: string, cellValue: Object): any => {
+const dataFormat = (name: string, cellValue: object): any => {
   return cellValue;
 };
 onMounted(async () => {

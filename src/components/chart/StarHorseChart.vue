@@ -8,8 +8,8 @@ const props = defineProps({
 const starHorseChartRef = ref();
 let ctx = ref();
 let isDrawing = ref(false);
-let startX = ref<Number>(0);
-let startY = ref<Number>(0);
+let startX = ref<number>(0);
+let startY = ref<number>(0);
 /**
  * @Event 方法
  * @description: canvas 绘制网格背景

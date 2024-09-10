@@ -9,7 +9,7 @@ import {v4 as uuidv4} from "uuid";
 
 const validUrl: string = "/userdb-manage/redirect/valid";
 const redirectUrl: string = "/userdb-manage/redirect/valid";
-let configStore = GlobalConfig(piniaInstance);
+const configStore = GlobalConfig(piniaInstance);
 
 /**
  * UUID
@@ -27,7 +27,7 @@ export function uuid() {
  * @param checked
  */
 export function treeCheckChange(treeComp: any, tableComp: any, dataForm: any, data: TreeNodeData, checked: any) {
-    let checkedNodes = treeComp.getCheckedNodes();
+    const checkedNodes = treeComp.getCheckedNodes();
     if (checkedNodes?.length > 0) {
         checkedNodes.forEach((item: any) => {
             treeComp.setChecked(item.value, false);
@@ -38,7 +38,7 @@ export function treeCheckChange(treeComp: any, tableComp: any, dataForm: any, da
     if (!checked) {
         return;
     }
-    let conditions: Array<SearchParams> = [];
+    const conditions: Array<SearchParams> = [];
     if (checked) {
         conditions.push(createCondition("informationsSingleId", data.value));
     }
@@ -70,7 +70,7 @@ export function parseFormData(dataList: any, name: string) {
         const containsData = node.preps.name == name;
         return containsData ? node : null;
     }
-    let filterDatas = filterRecursive(dataList);
+    const filterDatas = filterRecursive(dataList);
     return filterDatas.length > 0 ? filterDatas[0] : {};
 }
 
@@ -78,12 +78,12 @@ export function parseFormData(dataList: any, name: string) {
  * 获取打印机列表
  */
 export async function printerList(): Promise<Array<SelectOption>> {
-    let getData = {
+    const getData = {
         type: "getPrinter"
     };
-    let options: Array<SelectOption> = [];
+    const options: Array<SelectOption> = [];
     //创建一个实例
-    let ws = new WebSocket("ws://127.0.0.1:55333");
+    const ws = new WebSocket("ws://127.0.0.1:55333");
     //用于指定连接成功后的回调函数
     ws.onopen = (_evt) => {
         console.log("Connection open ...");
@@ -99,8 +99,8 @@ export async function printerList(): Promise<Array<SelectOption>> {
     return await new Promise((resolve, reject) => {
         //用于指定收到服务器数据后的回调函数
         ws.onmessage = (event) => {
-            let data = event.data;
-            let printers = JSON.parse(data)["data"];
+            const data = event.data;
+            const printers = JSON.parse(data)["data"];
             if (printers) {
                 printers.forEach((item: any) => {
                     options.push({name: item, value: item});
@@ -117,7 +117,7 @@ export async function printerList(): Promise<Array<SelectOption>> {
  * 升序或者降序
  */
 export function ascOrDesc(): SelectOption[] {
-    let options: SelectOption[] = [];
+    const options: SelectOption[] = [];
     options.push({name: "Asc", value: "asc"});
     options.push({name: "Desc", value: "desc"});
     return options;
@@ -127,7 +127,7 @@ export function ascOrDesc(): SelectOption[] {
  * 请求方式
  */
 export function httpMethod(): SelectOption[] {
-    let options: SelectOption[] = [];
+    const options: SelectOption[] = [];
     options.push({name: "GET", value: "GET"});
     options.push({name: "HEAD", value: "HEAD"});
     options.push({name: "POST", value: "POST"});
@@ -143,7 +143,7 @@ export function httpMethod(): SelectOption[] {
  * 数据格式
  */
 export function dataType(): SelectOption[] {
-    let options: SelectOption[] = [];
+    const options: SelectOption[] = [];
     options.push({name: "FORM", value: "FORM"});
     options.push({name: "JSON", value: "JSON"});
     options.push({name: "BINARY", value: "BINARY"});
@@ -158,13 +158,13 @@ export function dataType(): SelectOption[] {
  * @param requestType 接口请求方式 POST,GET,PUT,DELETE
  */
 export async function validDataUrl(url: string, params?: any, dataType: string = "JSON", requestType: string = "POST") {
-    let checkParams: any = {
+    const checkParams: any = {
         url,
         httpMethod: requestType.toUpperCase(),
         dataType,
         params: params
     };
-    let data = await loadData(validUrl, checkParams);
+    const data = await loadData(validUrl, checkParams);
     return {...data};
 }
 
@@ -178,14 +178,14 @@ export async function validDataUrl(url: string, params?: any, dataType: string =
  */
 export async function redirectUrlOperation(url: string, searchInfo?: SearchInfo, params?: any,
                                            dataType: string = "JSON", requestType: string = "POST") {
-    let checkParams: any = {
+    const checkParams: any = {
         url,
         httpMethod: requestType.toUpperCase(),
         dataType,
         params: params,
         searchInfo
     };
-    let data = await loadData(redirectUrl, checkParams);
+    const data = await loadData(redirectUrl, checkParams);
     return data;
 }
 
@@ -198,7 +198,7 @@ export const toggleDark = (val: string) => {
     //
     if (val == "dark") {
         configStore.clearAll("Y");
-        let dark = "#141414";
+        const dark = "#141414";
         document.documentElement.style.setProperty('--star-horse-style', dark)
         document.documentElement.style.setProperty('--el-color-primary', dark)
         document.documentElement.style.setProperty('--el-select-input-color', dark)
@@ -226,11 +226,11 @@ export const colDataInfo = () => {
 
 
 const complexFields = (items: Array<any>) => {
-    for (let index in items) {
-        let item = items[index];
+    for (const index in items) {
+        const item = items[index];
         if (item.compType == "container") {
-            let sitems = item.preps.elements;
-            for (let sindex in sitems) {
+            const sitems = item.preps.elements;
+            for (const sindex in sitems) {
                 complexFields(sitems[sindex].items);
             }
         } else {
@@ -246,12 +246,12 @@ const complexFields = (items: Array<any>) => {
  * @param fieldName
  */
 export const batchModifyAction = (items: Array<any>, val: any, fieldName: string) => {
-    for (let index in items) {
-        let item = items[index];
+    for (const index in items) {
+        const item = items[index];
         if (item.compType == "container") {
-            let sitems = item.preps.elements;
-            for (let sindex in sitems) {
-                let col = sitems[sindex];
+            const sitems = item.preps.elements;
+            for (const sindex in sitems) {
+                const col = sitems[sindex];
                 if (col.columns) {
                     col.columns.forEach((temp: any) => {
                         batchModifyAction(temp.items, val, fieldName);
@@ -276,22 +276,22 @@ export const copyContainer = (parentComp: Array<any>, currentContainer: any) => 
     if (!currentContainer) {
         return;
     }
-    let containerType = currentContainer.itemType;
-    let container = JSON.parse(JSON.stringify(currentContainer));
+    const containerType = currentContainer.itemType;
+    const container = JSON.parse(JSON.stringify(currentContainer));
     //box和dytable 有列属性
     if (containerType == "box" || containerType == "dytable") {
-        let rows = container.preps.elements;
-        for (let index in rows) {
-            let row = rows[index];
-            for (let cIndex in row.columns) {
-                let col = row.columns[cIndex];
+        const rows = container.preps.elements;
+        for (const index in rows) {
+            const row = rows[index];
+            for (const cIndex in row.columns) {
+                const col = row.columns[cIndex];
                 col._uuid = uuid();
                 complexFields(col.items);
             }
         }
     } else {
-        let rows = container.preps.elements;
-        for (let index in rows) {
+        const rows = container.preps.elements;
+        for (const index in rows) {
             complexFields(rows[index].items);
         }
     }
@@ -302,28 +302,28 @@ export const copyContainer = (parentComp: Array<any>, currentContainer: any) => 
  * 左方插入列
  */
 const insertLeftCol = (props: any) => {
-    let rows = props.parentField.preps.elements;
-    let position = props.isFirstCol ? 0 : props.colIndex - 1;
+    const rows = props.parentField.preps.elements;
+    const position = props.isFirstCol ? 0 : props.colIndex - 1;
     for (let index = 0; index < rows.length; index++) {
-        let cols = rows[index].columns;
+        const cols = rows[index].columns;
         cols.splice(position, 0, colDataInfo())
     }
 
 };
 const insertRightCol = (props: any) => {
-    let rows = props.parentField.preps.elements;
-    let position = props.isLastCol ? props.colIndex : props.colIndex + 1;
+    const rows = props.parentField.preps.elements;
+    const position = props.isLastCol ? props.colIndex : props.colIndex + 1;
     for (let index = 0; index < rows.length; index++) {
-        let cols = rows[index].columns;
+        const cols = rows[index].columns;
         cols.splice(position, 0, colDataInfo());
     }
 };
 const insertAboveRow = (props: any) => {
-    let rows = props.parentField.preps.elements;
+    const rows = props.parentField.preps.elements;
     let len = 1;
-    let cols: Array<any> = [];
+    const cols: Array<any> = [];
     for (let index = 0; index < rows.length; index++) {
-        let colLen = rows[index].columns.length;
+        const colLen = rows[index].columns.length;
         if (colLen > len) {
             len = colLen;
         }
@@ -331,16 +331,16 @@ const insertAboveRow = (props: any) => {
     for (let i = 0; i < len; i++) {
         cols.push(colDataInfo());
     }
-    let position = props.isFirstRow ? 0 : props.rowIndex - 1;
+    const position = props.isFirstRow ? 0 : props.rowIndex - 1;
     rows.splice(position, 0, cols);
 
 };
 const insertBelowRow = (props: any) => {
-    let rows = props.parentField.preps.elements;
+    const rows = props.parentField.preps.elements;
     let len = 1;
-    let cols: Array<any> = [];
+    const cols: Array<any> = [];
     for (let index = 0; index < rows.length; index++) {
-        let colLen = rows[index].columns.length;
+        const colLen = rows[index].columns.length;
         if (colLen > len) {
             len = colLen;
         }
@@ -348,32 +348,32 @@ const insertBelowRow = (props: any) => {
     for (let i = 0; i < len; i++) {
         cols.push(colDataInfo());
     }
-    let position = props.isLastRow ? props.rowIndex : props.rowIndex + 1;
+    const position = props.isLastRow ? props.rowIndex : props.rowIndex + 1;
     rows.splice(position, 0, cols);
 };
 const tableCellInfo = (props: any) => {
-    let rows = props.parentField.preps.elements;
-    let row = rows[props.rowIndex];
-    let col = row.columns[props.colIndex];
+    const rows = props.parentField.preps.elements;
+    const row = rows[props.rowIndex];
+    const col = row.columns[props.colIndex];
     return {rows, row, col};
 }
 const mergeLeftCol = (props: any) => {
-    let { row, col} = tableCellInfo(props);
+    const { row, col} = tableCellInfo(props);
     col.colspan = col.colspan + 1;
     row.columns.splice(props.colIndex - 1, 1);
 };
 const mergeRightCol = (props: any) => {
-    let { row, col} = tableCellInfo(props);
+    const { row, col} = tableCellInfo(props);
     col.colspan = col.colspan + 1;
     row.columns.splice(props.colIndex + 1, 1);
 };
 const mergeWholeCol = (props: any) => {
-    let {rows,  col} = tableCellInfo(props);
+    const {rows,  col} = tableCellInfo(props);
     // let currentCol: any = {};
-    for (let index in rows) {
-        let row1 = rows[index];
-        let cols = row1.columns;
-        for (let cIndex in cols) {
+    for (const index in rows) {
+        const row1 = rows[index];
+        const cols = row1.columns;
+        for (const cIndex in cols) {
             if (cIndex == props.colIndex) {
                 cols.splice(cIndex, 1);
             }
@@ -383,16 +383,16 @@ const mergeWholeCol = (props: any) => {
     rows[0].columns.splice(props.colIndex, 0, col);
 };
 const mergeAboveRow = (props: any) => {
-    let {rows, row, col} = tableCellInfo(props);
-    let aboveRow = rows[props.rowIndex - 1];
+    const {rows, row, col} = tableCellInfo(props);
+    const aboveRow = rows[props.rowIndex - 1];
     col.rowspan = col.rowspan + 1;
-    for (let index in aboveRow.columns) {
+    for (const index in aboveRow.columns) {
         if (index == props.colIndex) {
             aboveRow.columns.splice(index, 1, col);
             break;
         }
     }
-    for (let index in row.columns) {
+    for (const index in row.columns) {
         if (index == props.colIndex) {
             row.columns.splice(index, 1);
             break;
@@ -401,10 +401,10 @@ const mergeAboveRow = (props: any) => {
 
 };
 const mergeBelowRow = (props: any) => {
-    let {rows,  col} = tableCellInfo(props);
+    const {rows,  col} = tableCellInfo(props);
     col.rowspan = col.rowspan + 1;
-    let belowRow = rows[props.rowIndex + 1];
-    for (let index in belowRow.columns) {
+    const belowRow = rows[props.rowIndex + 1];
+    for (const index in belowRow.columns) {
         if (index == props.colIndex) {
             belowRow.columns.splice(index, 1);
             break;
@@ -412,10 +412,10 @@ const mergeBelowRow = (props: any) => {
     }
 };
 const mergeWholeRow = (props: any) => {
-    let { row, col} = tableCellInfo(props);
+    const { row, col} = tableCellInfo(props);
     let totalCols: number = 0;
-    for (let index in row.columns) {
-        let col = row.columns[index];
+    for (const index in row.columns) {
+        const col = row.columns[index];
         totalCols += col.colspan;
     }
     col.colspan = totalCols;
@@ -426,7 +426,7 @@ const mergeWholeRow = (props: any) => {
  * @param props
  */
 const undoMergeRow = (props: any) => {
-    let {rows, row, col} = tableCellInfo(props);
+    const {rows, row, col} = tableCellInfo(props);
     if (row.columns.length == 1) {
         //说明是合并了整行
         col.colspan = col.colspan - 1;
@@ -442,7 +442,7 @@ const undoMergeRow = (props: any) => {
  * @param props
  */
 const undoMergeCol = (props: any) => {
-    let {rows, row, col} = tableCellInfo(props);
+    const {rows, row, col} = tableCellInfo(props);
     //如果 列的行合并和整个表格的行相同，则表示已合并的整列
     if (col.rowspan == rows.length) {
         col.rowspan = col.rowspan - 1;
@@ -461,10 +461,10 @@ const undoMergeCol = (props: any) => {
  * @param props
  */
 const deleteWholeCol = (props: any) => {
-    let rows = props.parentField.preps.elements;
-    for (let index in rows) {
-        let cols = rows[index].columns;
-        for (let sIndex in cols) {
+    const rows = props.parentField.preps.elements;
+    for (const index in rows) {
+        const cols = rows[index].columns;
+        for (const sIndex in cols) {
             if (props.colIndex == sIndex) {
                 cols.splice(sIndex, 1);
             }
@@ -532,43 +532,43 @@ export const tableCellOperation = (command: string, props: any) => {
     // tableAction(props, buttonControl);
 }
 const mergeLeftColAction = (props: any) => {
-    let { row, col} = tableCellInfo(props);
+    const { row, col} = tableCellInfo(props);
     if (!row || !row.columns?.length) {
         return true;
     }
-    let leftCol = row.columns[props.colIndex - 1];
+    const leftCol = row.columns[props.colIndex - 1];
     return col.rowspan > 1 && leftCol ? leftCol.rowspan != col.rowspan : props.isFirstCol;
 }
 const mergeRightColAction = (props: any) => {
-    let { row, col} = tableCellInfo(props);
+    const { row, col} = tableCellInfo(props);
     if (!row || !row.columns?.length) {
         return true;
     }
-    let rightCol = row.columns[props.colIndex + 1];
+    const rightCol = row.columns[props.colIndex + 1];
     return col.rowspan > 1 && rightCol ? rightCol.rowspan != col.rowspan : props.isLastCol;
 }
 const mergeWholeColAction = (props: any) => {
     return colCommonAction(props);
 }
 const mergeAboveRowAction = (props: any) => {
-    let {rows,  col} = tableCellInfo(props);
-    let aboveRow = rows[props.rowIndex - 1];
+    const {rows,  col} = tableCellInfo(props);
+    const aboveRow = rows[props.rowIndex - 1];
     if (!aboveRow || !aboveRow.columns.length) {
         return true;
     }
-    let aboveCol = aboveRow?.columns[props.colIndex];
+    const aboveCol = aboveRow?.columns[props.colIndex];
     if (!aboveCol || col.colspan != aboveCol.colspan) {
         return true;
     }
     return props.isFirstRow;
 }
 const mergeBelowRowAction = (props: any) => {
-    let {rows,  col} = tableCellInfo(props);
-    let belowRow = rows[props.rowIndex + 1];
+    const {rows,  col} = tableCellInfo(props);
+    const belowRow = rows[props.rowIndex + 1];
     if (!belowRow || !belowRow.columns?.length) {
         return true;
     }
-    let belowCol = belowRow?.columns[props.colIndex];
+    const belowCol = belowRow?.columns[props.colIndex];
     if (!belowCol || col.colspan != belowCol.colspan) {
         return true;
     }
@@ -578,13 +578,13 @@ const mergeWholeRowAction = (props: any) => {
     return rowCommonAction(props);
 }
 const colCommonAction = (props: any) => {
-    let {rows,  col} = tableCellInfo(props);
-    for (let index in rows) {
-        let tempRow = rows[index];
+    const {rows,  col} = tableCellInfo(props);
+    for (const index in rows) {
+        const tempRow = rows[index];
         if (!tempRow || !tempRow.columns?.length) {
             return true;
         }
-        let tempCol = tempRow.columns[props.colIndex]
+        const tempCol = tempRow.columns[props.colIndex]
         if (!tempCol || tempCol.colspan != col.colspan) {
             // console.log(tempCol, col);
             return true;
@@ -593,10 +593,10 @@ const colCommonAction = (props: any) => {
     return false;
 }
 const rowCommonAction = (props: any) => {
-    let { row, col} = tableCellInfo(props);
+    const { row, col} = tableCellInfo(props);
 
-    for (let index in row.columns) {
-        let tempCol = row.columns[index];
+    for (const index in row.columns) {
+        const tempCol = row.columns[index];
         if (col.rowspan != tempCol.rowspan) {
             return true;
         }
@@ -610,10 +610,10 @@ const deleteWholeRowAction = (props: any) => {
     return rowCommonAction(props);
 }
 const undoMergeRowAction = (props: any) => {
-    let {rows, col} = tableCellInfo(props);
+    const {rows, col} = tableCellInfo(props);
     let columns: number = 0;
-    for (let index in rows) {
-        let len = rows[index].columns?.length;
+    for (const index in rows) {
+        const len = rows[index].columns?.length;
         if (columns < len) {
             columns = len;
         }
@@ -624,7 +624,7 @@ const undoMergeRowAction = (props: any) => {
     return props.field.rowspan == 1;
 }
 const undoMergeColAction = (props: any) => {
-    let {rows,  col} = tableCellInfo(props);
+    const {rows,  col} = tableCellInfo(props);
     // console.log(rows.length, col);
     if (rows.length == col.rowspan && col.rowspan > 1) {
         return false;

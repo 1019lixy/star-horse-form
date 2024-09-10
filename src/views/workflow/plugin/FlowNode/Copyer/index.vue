@@ -43,9 +43,10 @@ import FlowAddNode from '../Add/index.vue';
 import FlowCopyerSetting from '../../FlowDrawer/Copyer/index.vue';
 import EditName from '@/views/workflow/plugin/Common/EditName.vue';
 import DeleteConfirm from '@/views/workflow/plugin/Common/DeleteConfirm.vue';
-import {computed,ref} from "vue";
+import {computed, ref} from "vue";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
+
 const flowCopyerSettingRef=ref();
 const flowDesign = useFlowDesign(piniaInstance);
 let currentNode = computed(() => flowDesign.currentNode);

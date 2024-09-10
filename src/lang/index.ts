@@ -17,14 +17,14 @@ const langSet: Record<string, string> = language[currentLang];
  * @param args
  */
 export function i18n(key: keyof typeof zh_CN, ...args: any[]) {
-    let result = langSet[key];
-    let resultList: Array<String> = [];
+    const result = langSet[key];
+    const resultList: Array<string> = [];
     if (result === undefined) {
         return `[${key}]`;
     } else {
         resultList.push(result)
         args.forEach((arg, i) => {
-            let temp = langSet[arg];
+            const temp = langSet[arg];
             if (temp) {
                 resultList.push(temp);
             }

@@ -14,7 +14,7 @@ let props = defineProps({
   isCollapse: {type: Boolean, default: true},
   top: {type: String, default: "83px"}
 });
-let defaultOpenMenu = ref<Array<String>>([]);
+let defaultOpenMenu = ref<Array<string>>([]);
 let htop = ref<string>(computed(() => props.top).value == "83px" ? "65px" : "35px");
 const loadMenus = async (sysemId: string) => {
   if (!sysemId) {

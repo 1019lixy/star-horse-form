@@ -16,7 +16,7 @@ let props = defineProps({
   isCollapse: {type: Boolean, default: true}
 });
 let defaultOpenMenu = ref<string>("");
-let menuIcon = ref<String>("expand");
+let menuIcon = ref<string>("expand");
 const menuBarFun = () => {
   emits('collopseOperation');
 };
@@ -36,7 +36,7 @@ const loadMenus = async (sysemId: string) => {
   await nextTick();
   defaultOpenMenu.value = allId[0];
 };
-const search = ref<String>();
+const search = ref<string>();
 const systemMenu = ref();
 const filterTableData = computed(() => filterTree(search.value, leftMenuDatas.value));
 onMounted(async () => {

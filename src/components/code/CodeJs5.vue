@@ -3,8 +3,7 @@
 </template>
 <script lang="ts" setup name="CodeJs">
 import "@/api/codemirror_import";
-import {onMounted, reactive, ref, watch} from "vue";
-import {markRaw} from "@vue/reactivity";
+import {markRaw, onMounted, reactive, ref, watch} from "vue";
 import CodeMirror from "codemirror";
 import {js_beautify} from "js-beautify";
 

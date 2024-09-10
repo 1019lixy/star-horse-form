@@ -136,7 +136,7 @@ const loadDbTypeList = async () => {
     dbTypeList.value.push(sdata);
   }
 };
-const dataFormat = (name: string, cellValue: Object): any => {
+const dataFormat = (name: string, cellValue: object): any => {
   if (name == "password") {
     return "******";
   } else if (name == "dbType") {

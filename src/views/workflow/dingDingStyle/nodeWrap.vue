@@ -5,8 +5,8 @@ import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {ModelRef} from "vue-demi";
 
 const props = defineProps<{
-  isTried: { type: Object },
-  dataFields: { type: Object },
+  isTried: { type: object },
+  dataFields: { type: object },
 }>();
 const emits = defineEmits(["update:nodeConfig"]);
 let nodeConfig: ModelRef<any> = defineModel("nodeConfig");
@@ -356,7 +356,7 @@ const saveApprover = () => {
   }
   approverConfig.value.error = setApproverStr(approverConfig.value) === '';
   // 通过hasFlag区分添加节点后自动出现弹框及点击出现弹框
-  if (hasFlag) {
+  if (hasFlag.value) {
     if (nodeConfig.value.conditionNodes && nodeConfig.value.conditionNodes.length > 0 && conditionTip) {  //条件分支
       nodeConfig.value.conditionNodes.forEach(element => {
         if (element.childNode && (!element.childNode.nodeUserType.value && element.childNode.nodeName === approverConfig.value.nodeName)) {  //条件分支节点赋值
@@ -399,7 +399,7 @@ const saveCondition = () => {
         conditionStr(conditionsConfig.value.conditionNodes[i], i) == '请设置条件'
   }
   // 区分添加节点后自动出现弹框及点击出现弹框
-  if (hasFlag) {
+  if (hasFlag.value) {
     nodeConfig.value.childNode = conditionsConfig;
     // emits('update:nodeConfig', nodeConfig.value);
   } else {

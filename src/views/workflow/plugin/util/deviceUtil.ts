@@ -5,13 +5,13 @@ const scale = {
     //屏幕缩放
     sizeScale: () => {
         //固定宽高及比
-        let fixed_wh = {w: 1280, h: 609, r: 1280 / 609};
-        let ratio = w / fixed_wh.w;
+        const fixed_wh = {w: 1280, h: 609, r: 1280 / 609};
+        const ratio = w / fixed_wh.w;
         return ratio;
     },
     //是否是移动端
     isMobile: () => {
-        let flag = navigator.userAgent.match(
+        const flag = navigator.userAgent.match(
             /(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i,
         );
         return flag;
@@ -26,8 +26,8 @@ const scale = {
         return screen;
     },
     isScale: () => {
-        let ismobile = scale.isMobile();
-        let rscale = scale.sizeScale();
+        const ismobile = scale.isMobile();
+        const rscale = scale.sizeScale();
         let isclass = false;
         if (ismobile === null) {
             isclass = false;

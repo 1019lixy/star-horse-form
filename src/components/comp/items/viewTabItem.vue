@@ -8,7 +8,7 @@ defineProps({
   commonFormat: {type: Function, required: true},
 });
 const dataForm: ModelRef<any> = defineModel("dataForm");
-const normalTabList = ref<String>("tab0");
+const normalTabList = ref<string>("tab0");
 const init = () => {
 
 }

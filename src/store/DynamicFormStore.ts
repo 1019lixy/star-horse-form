@@ -37,14 +37,14 @@ export const DynamicForm: any = defineStore("DynamicForm", {
          *选中数据
          * @param data
          */
-        setSelectData(data: Object | Array<object>) {
+        setSelectData(data: object | Array<object>) {
             this.selectData = data;
         },
         /**
          * 赋值
          * @param dataId 数据Id
          */
-        setDataId(dataId: Number | String) {
+        setDataId(dataId: number | string) {
             this.dataId = dataId;
         },
         /**
@@ -60,7 +60,7 @@ export const DynamicForm: any = defineStore("DynamicForm", {
          * @param data
          */
         addBatchData(batchName: string, data: any) {
-            let _this = this;
+            const _this = this;
             let batchDatas: Array<any> = _this.dataForm[batchName] as Array<any>;
             if (!batchDatas || batchDatas.length == 0) {
                 _this.dataForm[batchName] = [];
@@ -82,7 +82,7 @@ export const DynamicForm: any = defineStore("DynamicForm", {
          * @param rowIndex 要删除属性所在的行 从1开始  -1 表示删除所有的属性
          */
         delBatchField(batchName: string, fieldName: string, rowIndex: number = -1) {
-            let batchDatas = this.dataForm[batchName];
+            const batchDatas = this.dataForm[batchName];
             if (!batchDatas || batchDatas.length == 0) {
                 return;
             }
@@ -142,7 +142,7 @@ export const DynamicForm: any = defineStore("DynamicForm", {
                 warning("新的属性名已存在，不能进行修改");
                 return;
             }
-            let bakeValue = this.dataForm[sourceField];
+            const bakeValue = this.dataForm[sourceField];
             delete this.dataForm[sourceField];
             this.dataForm[distField] = newValue ? newValue : bakeValue;
         },
@@ -155,17 +155,17 @@ export const DynamicForm: any = defineStore("DynamicForm", {
          * @param rowIndex 指定重命名集合索引 从1开始 ，-1 表示重命名所有属性
          */
         batchRenameField(batchName: string, sourceField: string, distField: string, newValue?: any, rowIndex: number = -1) {
-            let batchDatas = this.dataForm[batchName];
+            const batchDatas = this.dataForm[batchName];
             if (!batchDatas || batchDatas.length == 0) {
                 this.batchAddOrUpdateField(batchName, distField, newValue, rowIndex);
                 return;
             }
-            let dataFun = (data: any, sourceField: string, distField: string, newValue?: any) => {
+            const dataFun = (data: any, sourceField: string, distField: string, newValue?: any) => {
                 if (Object.keys(data).includes(distField)) {
                     warning("新的属性名已存在，不能进行修改");
                     return false;
                 }
-                let bakeValue: any = data[sourceField];
+                const bakeValue: any = data[sourceField];
                 delete this.dataForm[sourceField];
                 this.dataForm[distField] = newValue || bakeValue;
                 return true;
@@ -177,7 +177,7 @@ export const DynamicForm: any = defineStore("DynamicForm", {
                     dataFun(batchDatas[rowIndex - 1], sourceField, distField, newValue);
                 } else {
                     batchDatas.forEach((item: any) => {
-                        let result = dataFun(item, sourceField, distField, newValue);
+                        const result = dataFun(item, sourceField, distField, newValue);
                         if (!result) {
                             return false;
                         }
@@ -199,7 +199,7 @@ export const DynamicForm: any = defineStore("DynamicForm", {
          * @param rowIndex 指定获取集合索引数据 从1开始，-1表示获取所有
          */
         getBatchFieldValue(batchName: string, fieldName: string, rowIndex: number = -1) {
-            let batchDatas = this.dataForm[batchName];
+            const batchDatas = this.dataForm[batchName];
             if (!batchDatas) {
                 return;
             }

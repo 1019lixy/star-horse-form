@@ -12,7 +12,7 @@ import {EdgeInfo, NodeInfo} from "@/components/types/CompInfo";
 export const DesignGraph: any = defineStore("DesignGraph", {
     state: () => {
         return {
-            added: false as Boolean,
+            added: false as boolean,
             graph: null as Graph | null,
             cell: null as Cell | null,
             dataIndex: 0,
@@ -55,8 +55,8 @@ export const DesignGraph: any = defineStore("DesignGraph", {
          * @param lineWidth
          */
         setLineColor(color: string = "#A2B1C3", lineWidth: number = 1) {
-            let _this = this;
-            let cell = _this.cell!;
+            const _this = this;
+            const cell = _this.cell!;
             if (!cell) {
                 return;
             }
@@ -74,8 +74,8 @@ export const DesignGraph: any = defineStore("DesignGraph", {
          * @param color
          */
         setLabel(name: string, color: string = "#A2B1C3") {
-            let _this = this;
-            let cell:any = _this.graph!.getCellById(_this.cell!.id);
+            const _this = this;
+            const cell:any = _this.graph!.getCellById(_this.cell!.id);
             if (cell.isNode()) {
                 cell.attr("label/text", name);
             } else {
@@ -89,7 +89,7 @@ export const DesignGraph: any = defineStore("DesignGraph", {
          * @param graph
          */
         setGraph(graph: Graph, isView: boolean = false) {
-            let _this = this;
+            const _this = this;
             _this.graph = graph;
             _this.isView = isView;
             //缩放大小，或者旋转
@@ -114,7 +114,7 @@ export const DesignGraph: any = defineStore("DesignGraph", {
             );
             // #region 快捷键与事件
             graph.bindKey(['meta+c', 'ctrl+c'], () => {
-                let cells = graph.getSelectedCells()
+                const cells = graph.getSelectedCells()
                 if (cells.length) {
                     graph.copy(cells)
                 }
@@ -174,8 +174,8 @@ export const DesignGraph: any = defineStore("DesignGraph", {
          * @param data
          * @param isAdd
          */
-        setCell(data: Cell, isAdd: Boolean = false) {
-            let _this = this;
+        setCell(data: Cell, isAdd: boolean = false) {
+            const _this = this;
             _this.cell = data;
             _this.added = isAdd;
         },
@@ -183,28 +183,28 @@ export const DesignGraph: any = defineStore("DesignGraph", {
          * 获取所有节点
          */
         getAllCells() {
-            let _this = this;
-            let graph = _this.graph;
-            let nodeDatas: Array<any> = [];
-            let edgeDatas: Array<any> = [];
-            let datas: any = {};
+            const _this = this;
+            const graph = _this.graph;
+            const nodeDatas: Array<any> = [];
+            const edgeDatas: Array<any> = [];
+            const datas: any = {};
             if (!graph) {
                 warning("设计器未初始化");
                 return datas;
             }
-            let nodes = graph.getNodes();
-            for (let index in nodes) {
-                let node = nodes[index];
-                let data = node.getData();
+            const nodes = graph.getNodes();
+            for (const index in nodes) {
+                const node = nodes[index];
+                const data = node.getData();
                 data["instanceId"] = node.id;
                 data["id"] = node.id;
                 nodeDatas.push(data);
             }
             datas["nodes"] = nodeDatas;
-            let edges = graph.getEdges();
-            for (let index in edges) {
-                let edge:any = edges[index];
-                let data = edge.getData();
+            const edges = graph.getEdges();
+            for (const index in edges) {
+                const edge:any = edges[index];
+                const data = edge.getData();
                 data["instanceId"] = edge.id;
                 data["id"] = edge.id;
                 data["sourceId"] = edge.getSource().cell;
@@ -218,7 +218,7 @@ export const DesignGraph: any = defineStore("DesignGraph", {
          * 获取画布里的所有节点数据作为JSon 导出
          */
         getGraphData(): string {
-            let _this = this;
+            const _this = this;
             return JSON.stringify(_this.graph!.toJSON());
         },
         /**
@@ -226,8 +226,8 @@ export const DesignGraph: any = defineStore("DesignGraph", {
          * @param json
          */
         renderFromJson(json: string, slient: boolean = false) {
-            let _this = this;
-            let graph = _this.graph;
+            const _this = this;
+            const graph = _this.graph;
             if (!graph) {
                 console.error("画布还未初始化完成");
                 return null;
@@ -243,14 +243,14 @@ export const DesignGraph: any = defineStore("DesignGraph", {
          */
         addNode(data: NodeInfo): Cell | null {
             // console.log(data);
-            let _this = this;
-            let graph = _this.graph;
+            const _this = this;
+            const graph = _this.graph;
             if (!graph) {
                 console.error("画布还未初始化完成");
                 return null;
             }
-            let point = graph.pageToLocal(data.posX || 0, data.posY || 0);
-            let datat:any = {
+            const point = graph.pageToLocal(data.posX || 0, data.posY || 0);
+            const datat:any = {
                 shape: data.shape,
                 label: "\t\t" + data.label,
                 name: data.name,
@@ -265,17 +265,17 @@ export const DesignGraph: any = defineStore("DesignGraph", {
             if (data["id"]) {
                 datat["id"] = data["id"];
             }
-            let ports = [];
-            let items = data.items;
+            const ports = [];
+            const items = data.items;
             //处理表格逻辑
             if (items) {
-                for (let index in items) {
-                    let temp = items[index];
-                    let field:any = {
+                for (const index in items) {
+                    const temp = items[index];
+                    const field:any = {
                         group: "list",
                         "attrs": {}
                     };
-                    for (let key in temp) {
+                    for (const key in temp) {
                         field["attrs"][key] = {"text": temp[key]};
                     }
                     ports.push(field);
@@ -285,7 +285,7 @@ export const DesignGraph: any = defineStore("DesignGraph", {
                 datat["height"] = data.lineHeight || 24;
                 datat["ports"] = ports;
             }
-            let cell = graph.createNode(datat);
+            const cell = graph.createNode(datat);
             graph.addNode(cell);
             cell.setAttrByPath('use', {"xlink:href": data.icon ? `#icon-${data.icon}` : "#icon-default"});
             return cell;
@@ -294,18 +294,18 @@ export const DesignGraph: any = defineStore("DesignGraph", {
          * 添加节点间的连线
          */
         addEdge(edge: EdgeInfo) {
-            let _this = this;
-            let graph = _this.graph;
+            const _this = this;
+            const graph = _this.graph;
             if (!graph) {
                 console.error("画布还未初始化完成");
                 return null;
             }
-            let sorceNode:any = graph.getCellById(edge.sourceId);
-            let targetNode:any = graph.getCellById(edge.targetId);
-            let sourcePorts = sorceNode.getPorts();
-            let targetPorts = targetNode.getPorts();
-            let sourceIndex = parseInt(sorceNode.getData().index);
-            let targetIndex = parseInt(targetNode.getData().index);
+            const sorceNode:any = graph.getCellById(edge.sourceId);
+            const targetNode:any = graph.getCellById(edge.targetId);
+            const sourcePorts = sorceNode.getPorts();
+            const targetPorts = targetNode.getPorts();
+            const sourceIndex = parseInt(sorceNode.getData().index);
+            const targetIndex = parseInt(targetNode.getData().index);
             let group = {
                 source: "bottom",
                 target: "top"
@@ -316,13 +316,13 @@ export const DesignGraph: any = defineStore("DesignGraph", {
                     target: "right"
                 }
             }
-            let sourcePoint = edge.sourcePoint || sourcePorts.find((item: any) => item.group == group.source)?.id;
-            let targetPoint = edge.targetPoint || targetPorts.find((item: any) => item.group == group.target)?.id;
-            let datat = {
+            const sourcePoint = edge.sourcePoint || sourcePorts.find((item: any) => item.group == group.source)?.id;
+            const targetPoint = edge.targetPoint || targetPorts.find((item: any) => item.group == group.target)?.id;
+            const datat = {
                 source: {cell: sorceNode, port: sourcePoint},
                 target: {cell: targetNode, port: targetPoint}
             };
-            let cell = graph.createEdge(datat);
+            const cell = graph.createEdge(datat);
             if (edge.data) {
                 cell.setData(edge.data);
             }
@@ -336,7 +336,7 @@ export const DesignGraph: any = defineStore("DesignGraph", {
          * 清除所有Tab
          */
         clearAll() {
-            let _this = this;
+            const _this = this;
             _this.graph = null;
             _this.cell = null;
             _this.isView = false;

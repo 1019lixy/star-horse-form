@@ -28,7 +28,7 @@ export declare interface MenusInfo {
      */
     path: string;
     /* @vite-ignore */
-    component: Object;
+    component: object;
     /**
      * 菜单名称
      */

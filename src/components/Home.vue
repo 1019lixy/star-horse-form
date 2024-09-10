@@ -5,7 +5,7 @@
   </el-card>
 </template>
 <script setup lang="ts">
-import {onMounted,ref} from "vue";
+import {onMounted, ref} from "vue";
 // import  {monaco} from '@/api/customMonaco.ts';
 const editorContainer = ref<any>(null)
 const editor = ref<any>(null)

@@ -9,6 +9,7 @@
 import {computed, nextTick, onBeforeUnmount, onMounted, ref} from "vue";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
+
 const props = defineProps({
   element: {
     type: String,

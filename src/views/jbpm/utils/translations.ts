@@ -205,10 +205,10 @@ const flow_zh = {
     'Follow up date': '跟踪日期',
     'Specify more than one group as a comma separated list.': '多个用户使用逗号隔开',
     'Priority': '优先级',
-    // eslint-disable-next-line no-template-curly-in-string
+     
     'The follow up date as an EL expression (e.g. ${someDate} or an ISO date (e.g. 2015-06-26T09:54:00)':
         '跟踪日期必须符合EL表达式，如： ${someDate} ,或者一个ISO标准日期，如：2015-06-26T09:54:00',
-    // eslint-disable-next-line no-template-curly-in-string
+     
     'The due date as an EL expression (e.g. ${someDate} or an ISO date (e.g. 2015-06-26T09:54:00)':
         '跟踪日期必须符合EL表达式，如： ${someDate} ,或者一个ISO标准日期，如：2015-06-26T09:54:00',
     'Variables': '变量',
@@ -411,10 +411,10 @@ const flow_zh_new = {
     "Mail Service Task": "邮件任务",
     'Specify more than one group as a comma separated list.': '多个用户使用逗号隔开',
     'Priority': '优先级',
-    // eslint-disable-next-line no-template-curly-in-string
+     
     'The follow up date as an EL expression (e.g. ${someDate} or an ISO date (e.g. 2015-06-26T09:54:00)':
         '跟踪日期必须符合EL表达式，如： ${someDate} ,或者一个ISO标准日期，如：2015-06-26T09:54:00',
-    // eslint-disable-next-line no-template-curly-in-string
+     
     'The due date as an EL expression (e.g. ${someDate} or an ISO date (e.g. 2015-06-26T09:54:00)':
         '跟踪日期必须符合EL表达式，如： ${someDate} ,或者一个ISO标准日期，如：2015-06-26T09:54:00',
     'Variables': '变量',

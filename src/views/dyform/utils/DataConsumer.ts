@@ -3,13 +3,13 @@ import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {SelectOption} from "@/components/types/SearchProps";
 import {searchMatchList} from "@/api/sh_api.ts";
 
-let tableVisible = ref<boolean>(true);
-let relationRequired = ref<boolean>(false);
-let sortTableVisible = ref<boolean>(true);
-let limitFieldVisible = ref<boolean>(true);
+const tableVisible = ref<boolean>(true);
+const relationRequired = ref<boolean>(false);
+const sortTableVisible = ref<boolean>(true);
+const limitFieldVisible = ref<boolean>(true);
 let lineDatas: any = {};
-let tableList = ref<SelectOption[]>([]);
-let fieldList = ref<SelectOption[]>([]);
+const tableList = ref<SelectOption[]>([]);
+const fieldList = ref<SelectOption[]>([]);
 export const line_height = 24;
 export const table_width = 320;
 export const consumerNodeData: any = {
@@ -128,9 +128,9 @@ export const consumerNodeData: any = {
 export function viewFieldInfo(viewTypeList: Ref<SelectOption[]>, consumeAuthorityList: Ref<SelectOption[]>, viewConfigInfo: any) {
     lineDatas = {};
     tableList.value = [];
-    let tables = viewConfigInfo.tables;
-    for (let index in tables) {
-        let table = tables[index];
+    const tables = viewConfigInfo.tables;
+    for (const index in tables) {
+        const table = tables[index];
         lineDatas[table.from] = [];
         tableList.value.push({
             name: table.from,

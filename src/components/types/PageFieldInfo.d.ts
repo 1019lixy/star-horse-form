@@ -69,7 +69,7 @@ export declare interface ActionRelation {
     /**
      * 事件名
      */
-    eventName: String;
+    eventName: string;
     /**
      * 事件方法
      */
@@ -128,7 +128,7 @@ export declare interface FieldInfo {
     /**
      * 列表所在列最小宽度
      */
-    minWidth?: Number;
+    minWidth?: number;
     /**
      * 备选数据列表，目前仅支持下拉
      */
@@ -180,7 +180,7 @@ export declare interface FieldInfo {
     /**
      * 小数点精度
      */
-    precision?: Number;
+    precision?: number;
     /**
      * 弹窗数据配置
      */
@@ -196,7 +196,7 @@ export declare interface FieldInfo {
     /**
      * 组件个性化属性
      */
-    preps?: Object;
+    preps?: object;
     /**
      * 查询表前缀
      */
@@ -223,11 +223,11 @@ export declare interface FieldMapping {
     /**
      * 列表属性
      */
-    sourceField: String,
+    sourceField: string,
     /**
      * 需要赋值的属性
      */
-    distField: String
+    distField: string
 }
 
 /**
@@ -245,7 +245,7 @@ export declare interface CompParams {
     /**
      * 主键名称
      */
-    primaryKey: String;
+    primaryKey: string;
     /**
      * 接口地址
      */
@@ -269,7 +269,7 @@ export declare interface CompParams {
     /**
      * 是否只读
      */
-    readonly?: String;
+    readonly?: string;
 }
 
 /**
@@ -297,11 +297,11 @@ export declare interface OrderByInfo {
     /**
      * 排序属性名称，如果关联表，请带上表别名前置
      */
-    fieldName: String;
+    fieldName: string;
     /**
      * 升降序 asc 升序 desc 降序
      */
-    ascOrDesc: String;
+    ascOrDesc: string;
 }
 
 /**
@@ -311,11 +311,11 @@ export declare interface ImportInfo {
     /**
      * 下载模板地址，在新增时下载对应的模板
      */
-    downloadTemplateUrl?: String;
+    downloadTemplateUrl?: string;
     /**
      * 导入数据地址，新增或者编辑时将数据导入
      */
-    importDataUrl?: String;
+    importDataUrl?: string;
     /**
      * 默认查询条件
      */
@@ -329,11 +329,11 @@ export declare interface SubFieldInfo {
     /**
      * 对应后端dto 里的Object/Map属性名称
      */
-    objectName: String;
+    objectName: string;
     /**
      * 主键名称，对应后端dto Object/Map泛型对象的主键名称
      */
-    primaryKey?: String;
+    primaryKey?: string;
     /**
      * 字段属性
      */
@@ -364,19 +364,19 @@ export declare interface BatchFieldInfo {
     /**
      * 列表标题
      */
-    title?: String;
+    title?: string;
     /**
      * 帮助提示
      */
-    helpMsg?: String;
+    helpMsg?: string;
     /**
      * 默认初始化行数
      */
-    initRows?: Number;
+    initRows?: number;
     /**
      * 主键名称，对应后端dto List泛型对象的主键名称
      */
-    primaryKey?: String;
+    primaryKey?: string;
     /**
      * 新增行时默认添加的属性
      */
@@ -396,7 +396,7 @@ export declare interface BatchFieldInfo {
     /**
      * 是否静态数据 Y 是 N 否
      */
-    staticData?: String;
+    staticData?: string;
     /**
      * batchFieldList 和fieldList 是否同一个表，组件会根据这个字段校验数据是一对多关系
      * 还是单表的批量处理
@@ -447,7 +447,7 @@ export declare interface PageFieldInfo {
     /**
      * 表单有列表数据时,在提交后端是批量数据的Key名称
      */
-    batchName?: String;
+    batchName?: string;
     /**
      * batchFieldList 和fieldList 是否同一个表，组件会根据这个字段校验数据是一对多关系
      * 还是单表的批量处理

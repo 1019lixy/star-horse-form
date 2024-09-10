@@ -2,8 +2,6 @@
 import {onMounted, PropType} from "vue";
 import {FieldInfo} from "@/components/types/PageFieldInfo";
 import {ModelRef} from "vue-demi";
-import StarHorseDataView from "@/components/comp/StarHorseDataView.vue";
-import StarHorseDataViewObject from "@/components/comp/StarHorseDataViewItems.vue";
 
 const props = defineProps({
   item: {type: Array as PropType<Array<FieldInfo>>, required: true},

@@ -11,7 +11,7 @@ import {analysisSearchData} from "@/views/dyform/utils/preview.ts";
 let matchTypeList = ref<SelectOption[]>();
 let sarchIcon = ref<string>("search_down");
 let defaultSearch = ref<boolean>(true);
-let tips = ref<String>("高级查询");
+let tips = ref<string>("高级查询");
 let showTips = ref<boolean>(true);
 const emits = defineEmits(["searchData"]);
 const props = defineProps({

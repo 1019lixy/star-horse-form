@@ -12,7 +12,7 @@
 </template>
 <script setup lang="ts">
 import {flowMixin} from '@/views/workflow/plugin/mixins/flowMixin';
-import {ref, onMounted, nextTick} from "vue";
+import {nextTick, onMounted, ref} from "vue";
 
 defineProps({
   menus: {
@@ -49,7 +49,7 @@ const hideDropDown = () => {
 }
 //展示下拉
 const showDropDown = (e) => {
-  if (startX == endX && startY == endY) {
+  if (startX.value == endX.value && startY.value == endY.value) {
     dropDownVisible.value = !dropDownVisible.value;
     if (dropDownVisible.value == false) {
       hideDropDown();
@@ -66,7 +66,7 @@ const setTranslate = (xPos, yPos, el) => {
   el.style.transform = 'translate3d(' + xPos + 'px, ' + yPos + 'px, 0)';
 }
 const drag = ($event) => {
-  if (active) {
+  if (active.value) {
     if ($event.type === 'touchmove') {
       currentX.value = $event.touches[0].clientX - initialX.value;
       currentY.value = $event.touches[0].clientY - initialY.value;
@@ -75,24 +75,24 @@ const drag = ($event) => {
       currentY.value = $event.clientY - initialY.value;
     }
 
-    xOffset = currentX;
-    yOffset = currentY;
+    xOffset.value = currentX;
+    yOffset.value = currentY;
     setTranslate(currentX, currentY, screenshot.value);
   }
   return false;
 }
 const dragEnd = ($event) => {
-  initialX = currentX;
-  initialY = currentY;
+  initialX.value = currentX;
+  initialY.value = currentY;
   //判断是否手机touch事件
   if ($event.type === 'touchstart') {
     //记录结束的位置 当开始和结束的位置一样的时候，需要触发下拉菜单展示
-    endX = $event.touches[0].clientX;
-    endY = $event.touches[0].clientY;
+    endX.value = $event.touches[0].clientX;
+    endY.value = $event.touches[0].clientY;
   } else {
     //记录结束的位置 当开始和结束的位置一样的时候，需要触发下拉菜单展示
-    endX = $event.clientX;
-    endY = $event.clientY;
+    endX.value = $event.clientX;
+    endY.value = $event.clientY;
   }
   let screenshotBtn = screenshotBtnRef.value.$el;
   if (screenshotBtn) {
@@ -111,14 +111,14 @@ const dragStart = ($event) => {
     initialX.value = $event.touches[0].clientX - xOffset.value;
     initialY.value = $event.touches[0].clientY - yOffset.value;
     //记录开始的位置 当开始和结束的位置一样的时候，需要触发下拉菜单展示
-    startX = $event.touches[0].clientX;
-    startY = $event.touches[0].clientY;
+    startX.value = $event.touches[0].clientX;
+    startY.value = $event.touches[0].clientY;
   } else {
     initialX.value = $event.clientX - xOffset.value;
     initialY.value = $event.clientY - yOffset.value;
     //记录开始的位置 当开始和结束的位置一样的时候，需要触发下拉菜单展示
-    startX = $event.clientX;
-    startY = $event.clientY;
+    startX.value = $event.clientX;
+    startY.value = $event.clientY;
   }
   if ($event.currentTarget.id === screenshot.value.id) {
     body.removeEventListener('touchend', dragEnd, false);

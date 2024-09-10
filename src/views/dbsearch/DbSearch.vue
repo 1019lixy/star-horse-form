@@ -199,12 +199,12 @@ const dratStart = (item: any, evt: DragEvent) => {
   dt.effectAllowed = "copy";
   dt.setData("text/plain", item.tableName);
 };
-let bakeData = ref<String>("");
+let bakeData = ref<string>("");
 const dragOver = (evt: DragEvent) => {
   evt.preventDefault();
   bakeData.value = unref(sqlInfo);
 };
-const sqlInfo = ref<String>("");
+const sqlInfo = ref<string>("");
 const dragDrop = (evt: DragEvent) => {
   let dt = evt.dataTransfer!;
   let data = dt.getData("text/plain");

@@ -16,7 +16,7 @@ export const useButtonPermission = defineStore("buttonPermission", () => {
     // const meta = route?.meta;
     // console.log(route, meta, router);
     const addRoute = async (route: RouteLocationNormalized) => {
-        let meta: any = route.meta;
+        const meta: any = route.meta;
         return await getPagePermission(meta?.menuId);
         //    console.log(meta);
     }
@@ -42,7 +42,7 @@ export const useButtonPermission = defineStore("buttonPermission", () => {
             let permissons = pageBtnPermisson.value[menuId];
             // console.log(permissons);
             if (!permissons || permissons.length == 0) {
-                let userId = getUserInfo()?.idUsersinfo;
+                const userId = getUserInfo()?.idUsersinfo;
                 if (!userId) {
                     warning("Session 失效")
                     await userLogout([]);
@@ -62,7 +62,7 @@ export const useButtonPermission = defineStore("buttonPermission", () => {
                     console.log("没有页面按钮操作权限,请联系系统管理员授权");
                 }
             }
-            let permission: any = {};
+            const permission: any = {};
             permissons?.forEach((item: any) => {
                 permission[item.resCode] = item.resCode;
             });

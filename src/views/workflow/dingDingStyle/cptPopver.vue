@@ -30,7 +30,9 @@ defineProps({
           </div>
         </div>
       </div>
-      <i slot="reference" class="iconfont icon-icon_explain"></i>
+      <template v-slot:reference>
+<i  class="iconfont icon-icon_explain"></i>
+</template>
     </el-popover>
     <el-popover v-else placement="top" popper-class="set_promoter_explain_tip" :popper-style="{width: 'unset !important'}" trigger="hover">
       <div>
@@ -57,7 +59,9 @@ defineProps({
           </div>
         </div>
       </div>
-      <i slot="reference" class="iconfont icon-icon_explain"></i>
+      <template v-slot:reference>
+<i  class="iconfont icon-icon_explain"></i>
+</template>
     </el-popover>
   </div>
 </template>

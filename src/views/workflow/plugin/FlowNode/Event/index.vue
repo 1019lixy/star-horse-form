@@ -13,13 +13,14 @@
   </div>
 </template>
 <script setup lang="ts">
-import {flowMixin, delNode, open, close} from '@/views/workflow/plugin/mixins/flowMixin';
-  import FlowAddNode from '../Add/index.vue';
-  import FlowEventSetting from '../../FlowDrawer/Event/index.vue';
-  import {computed,ref} from "vue";
-  import {useFlowDesign} from "@/store/FlowDesignStore.ts";
-  import piniaInstance from "@/store";
-  const flowEventSettingRef=ref();
+import {close, delNode, open} from '@/views/workflow/plugin/mixins/flowMixin';
+import FlowAddNode from '../Add/index.vue';
+import FlowEventSetting from '../../FlowDrawer/Event/index.vue';
+import {computed, ref} from "vue";
+import {useFlowDesign} from "@/store/FlowDesignStore.ts";
+import piniaInstance from "@/store";
+
+const flowEventSettingRef=ref();
   const flowDesign = useFlowDesign(piniaInstance);
   let currentNode = computed(() => flowDesign.currentNode);
   const props=defineProps({

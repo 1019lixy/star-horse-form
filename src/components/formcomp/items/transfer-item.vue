@@ -42,7 +42,7 @@ export default defineComponent({
     let dataField = shallowRef("");
     let actionName = shallowRef("keydown.enter");
     let bakeData: SelectOption[] = [];
-    const keyEnterFun = (prep: String) => {
+    const keyEnterFun = (prep: string) => {
       if (prep == actionName.value && field.preps["actionRelation"]) {
         field.preps["actionRelation"](context.attrs['formData'][field.preps['name']], context.attrs['formData']["xh"]);
       }

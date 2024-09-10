@@ -12,7 +12,7 @@
             <span v-if="node.content">
               {{ node.type == 1 ? '审批人' : '办理人' }}:
               <el-tooltip placement="top">
-                <template slot="title">
+                <template v-slot:title>
                   <span>{{ node.content }}</span>
                 </template>
                 {{ node.content }}

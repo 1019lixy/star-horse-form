@@ -37,7 +37,7 @@ let menusList = ref([]);
 let authorityMenusList = ref([]);
 let selfBtnFunc = ref<BtnAuth[]>([]);
 const starHorseTableCompRef = ref(null);
-let currentRoleId = ref<Number>(0);
+let currentRoleId = ref<number>(0);
 // 0 普通角色 1高级角色 2普通管理员 3 超级管理员 默认 0
 const roleTypes = [{name: "普通角色", value: 0},
   {name: "高级角色", value: 1},
@@ -286,7 +286,7 @@ const addUsers = async () => {
  */
 const menuAuthorityRef = ref();
 const submit = () => {
-  let menuIds: Array<Number> = menuAuthorityRef.value!.getCheckedKeys();
+  let menuIds: Array<number> = menuAuthorityRef.value!.getCheckedKeys();
   if (menuIds.length == 0) {
     warning("请先分配菜单权限");
     return;
@@ -311,7 +311,7 @@ const userResetForm = (val: any) => {
   selectedUsersRef.value.resetSelect(val);
 };
 const userSubmit = () => {
-  let userList: Array<Number> = selectedUsersRef.value.getSelectedUsers();
+  let userList: Array<number> = selectedUsersRef.value.getSelectedUsers();
   if (userList.length == 0) {
     warning("请先为角色分配用户");
     return;

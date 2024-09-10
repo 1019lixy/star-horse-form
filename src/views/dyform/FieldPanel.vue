@@ -19,7 +19,7 @@ const onFormItemCopy = (data: any) => {
 };
 const numField: Array<string> = ["minlength", "maxLength", "step", "rows", "height", "width", "columns", "gutter",
   "limit", "precision", "min", "max", "highThreshold", "lowThreshold", "multipleLimit"];
-const onDataCopy = (data: any, type: String) => {
+const onDataCopy = (data: any, type: string) => {
   let reData = JSON.parse(JSON.stringify(data));
   let ms = formData.value["index"]++;
   let mvData: any = {};
@@ -60,7 +60,7 @@ const onDataCopy = (data: any, type: String) => {
   designForm.setDraggingItem(mvData);
   return mvData;
 };
-const getDefaultVal = (type: String) => {
+const getDefaultVal = (type: string) => {
   if (type == "number" || type == "slider" || type == "rate") {
     return undefined;
   } else if (type == "checkbox" || type == "transfer") {

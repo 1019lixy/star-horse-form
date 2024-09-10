@@ -34,12 +34,12 @@ export function openDatabase(configId: any): Promise<any> | null {
  * 初始化当前用户权限的数据库配置信息
  */
 export async function initDbList(): Promise<Array<SelectOption>> {
-    let {data, error} = await loadGetData("/dbsearch-manage/dbsearch/dbinfoEntity/getDbInfoByUser");
+    const {data, error} = await loadGetData("/dbsearch-manage/dbsearch/dbinfoEntity/getDbInfoByUser");
     if (error) {
         warning(error);
         return [];
     }
-    let redata: Array<SelectOption> = [];
+    const redata: Array<SelectOption> = [];
     data.forEach((item: any) => {
         redata.push({
             name: item.name,
@@ -53,12 +53,12 @@ export async function initDbList(): Promise<Array<SelectOption>> {
  * @param configId
  */
 export async function tableList(configId: number): Promise<Array<SelectOption>> {
-    let {data, error} = await loadGetData(`/dbsearch-manage/dbsearch/dbinfoEntity/tableList/${configId}`);
+    const {data, error} = await loadGetData(`/dbsearch-manage/dbsearch/dbinfoEntity/tableList/${configId}`);
     if (error) {
         warning(error);
         return [];
     }
-    let redata: Array<SelectOption> = [];
+    const redata: Array<SelectOption> = [];
     data.forEach((item: any) => {
         if (!item.tableName.includes("BIN$")) {
             redata.push({

@@ -3,9 +3,9 @@ import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings.ts";
 import {DialogProps} from "@/components/types/DialogProps"
 import {nextTick, onMounted, provide, reactive, ref} from "vue";
-import {SearchFields, SelectOption} from "@/components/types/SearchProps";
+import {SearchFields} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
-import {createCondition, dictData, loadById, loadDepartmentInfo, loadRolesInfo} from "@/api/sh_api";
+import {createCondition, loadById} from "@/api/sh_api";
 import {analysisData} from "@/api/deptment";
 import {ElTreeV2} from "element-plus";
 import {TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
@@ -130,7 +130,7 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
     return fdata?.name || cellValue;
   }
   if (name == "rolesList" && row["rolesList"]) {
-    let roles: Array<String> = [];
+    let roles: Array<string> = [];
     row["rolesList"].forEach((item: any) => {
       roles.push(item.roleName);
     });
@@ -145,7 +145,7 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
 const treeRef = ref<InstanceType<typeof ElTreeV2>>();
 const query = ref('');
 const onQueryChanged = (query: string) => {
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+
   treeRef.value!.filter(query)
 };
 const filterMethod = (query: string, node: any) => {

@@ -1,16 +1,13 @@
 <script lang="ts" setup name="StarHorseFormList">
-import {inject, nextTick, onMounted, PropType, ref} from 'vue'
+import {inject, nextTick, onMounted, PropType, ref, ShallowReactive} from 'vue'
 import {ApiUrls} from "@/components/types/ApiUrls";
-import {Config} from "@/api/settings.ts";
-import ShTableListColumn from "@/components/comp/ShTableListColumn.vue";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-import {batchFieldDefaultValues, rowClassName} from "@/api/sh_api";
+import {rowClassName} from "@/api/sh_api";
 import {error, success, warning} from "@/utils/message";
 import {download} from "@/api/star_horse";
 import {getToken} from "@/utils/auth";
 import Sortable from "sortablejs";
 import Help from "@/components/help.vue";
-import {ShallowReactive} from "@vue/reactivity";
 import {ModelRef} from "vue-demi";
 import {uuid} from "@/api/system.ts";
 import UTableColumn from "@/components/comp/items/UTableColumn.vue";

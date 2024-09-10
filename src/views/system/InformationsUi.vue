@@ -135,7 +135,7 @@ const dialogProps = reactive<DialogProps>({
 });
 provide("dialogProps", dialogProps);
 
-const dataFormat = (name: string, cellValue: Object): any => {
+const dataFormat = (name: string, cellValue: object): any => {
   if (name == "parentId") {
     return informationsList.value.find((item: SelectOption) => item.value == cellValue)?.name || cellValue;
   } else if (name == "idCustomer") {

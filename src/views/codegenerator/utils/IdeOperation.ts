@@ -1,19 +1,19 @@
 import {postRequest} from "@/api/star_horse.ts";
 import {SelectOption} from "@/components/types/SearchProps";
 
-const templateListUrl: String = "/code-generator/dynamic/code/templateList";
-const loadTemplateUrl: String = "/code-generator/dynamic/code/loadTemplate";
+const templateListUrl: string = "/code-generator/dynamic/code/templateList";
+const loadTemplateUrl: string = "/code-generator/dynamic/code/loadTemplate";
 /**
  * 加载模板列表
  */
 export async function templateList() {
-    let optionList: SelectOption[] = [];
+    const optionList: SelectOption[] = [];
     await postRequest(templateListUrl, {}).then((res: any) => {
         if (res.data.code) {
             console.log("加载模板列表异常:" + res.data.cnMessage);
         } else {
-            let redata = res.data.data;
-            for (let key in redata) {
+            const redata = res.data.data;
+            for (const key in redata) {
                 optionList.push({
                     name: redata[key],
                     value: key

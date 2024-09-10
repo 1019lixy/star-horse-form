@@ -20,7 +20,6 @@ import {userInfoStore} from "@/store/UserInfoStore.ts";
 // import {configInfo} from "@/items/sh_design.ts";
 import {toggleDark} from "@/api/system.ts";
 import {Moon, Sunny} from "@element-plus/icons-vue";
-import routers from "@/router/router.ts";
 import {useRouter} from "vue-router";
 
 const userStore = userInfoStore(piniaInstance);
@@ -264,7 +263,7 @@ const dataFormat = (name: string, val: any, row: any) => {
   }
   return val;
 };
-const search = ref<String>();
+const search = ref<string>();
 let theme = ref<string>("light");
 const filterTableData = computed(() => filterTree(search.value, permissionMenuList.value));
 let configInfo = computed(() => configStore.configFormInfo);

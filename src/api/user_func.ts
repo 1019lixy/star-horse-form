@@ -17,11 +17,11 @@ export const userFunction = (code: string, context: any) => {
         return;
     }
     //表单元素
-    let formFields: any = userOperation.fieldItemList;
+    const formFields: any = userOperation.fieldItemList;
     //表单数据
     // let formData: any = userOperation.formData;
     //表单实例
-    let formInstance: any = userOperation.formInstance;
+    const formInstance: any = userOperation.formInstance;
     // console.log(formFields, formData, formInstance);
     /**
      * currentField 当前组件信息
@@ -34,7 +34,7 @@ export const userFunction = (code: string, context: any) => {
      * download 下载数据接口
      * upload 上传数据接口
      */
-    let fun = new Function("currentField", "formData", "formFields", "formInstance", "userInfo", "postRequest",
+    const fun = new Function("currentField", "formData", "formFields", "formInstance", "userInfo", "postRequest",
         "getRequest", "download", "upload", code);
     fun.call(this, context.attrs["formInfo"], context.attrs["formData"], formFields, formInstance, getUserInfo(),
         postRequest, getRequest, download, uploadRequest);

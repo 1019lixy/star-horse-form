@@ -96,7 +96,7 @@ const moveUpItem = (formItem: any) => {
   }
 };
 const moveDownItem = (formItem: any) => {
-  if (!isEdit) {
+  if (!isEdit.value) {
     return;
   }
   let dataList = compList.value;
@@ -152,7 +152,7 @@ const moveDownItem = (formItem: any) => {
   }
 };
 const removeItem = (formItem: any) => {
-  if (!isEdit) {
+  if (!isEdit.value) {
     return;
   }
    console.log(formItem, props.parentField);

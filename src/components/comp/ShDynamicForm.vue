@@ -1,11 +1,10 @@
 <script setup lang="ts" name="ShDynamicForm">
-import {inject, PropType, ref, watch} from "vue";
+import {inject, PropType, ref, ShallowReactive, watch} from "vue";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {error, success, warning} from "@/utils/message";
 import {postRequest} from "@/api/star_horse";
 import {closeLoad, load, loadById} from "@/api/sh_api";
 import {DialogProps} from "@/components/types/DialogProps";
-import {ShallowReactive} from "@vue/reactivity";
 
 const props = defineProps({
   compUrl: {type: Object as PropType<ApiUrls>, required: true},

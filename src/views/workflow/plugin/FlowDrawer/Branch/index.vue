@@ -117,7 +117,7 @@
   </el-drawer>
 </template>
 <script setup lang="ts">
-import {flowMixin,uuid} from '@/views/workflow/plugin/mixins/flowMixin';
+import {flowMixin, uuid} from '@/views/workflow/plugin/mixins/flowMixin';
 import EditName from '@/views/workflow/plugin/Common/EditName.vue';
 import FlowSelect from '@/views/workflow/plugin/Component/FlowSelect.vue';
 import FlowSimpleSelect from '@/views/workflow/plugin/Component/FlowSimpleSelect.vue';

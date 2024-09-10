@@ -80,8 +80,8 @@ const doModifyUserInfo =async () => {
  */
 const resetForm = () => {
   let dataForm: any = {};
-  dataForm["username"] = userInfo?.username;
-  dataForm["employeeNo"] = userInfo?.employeeNo;
+  dataForm["username"] = userInfo.value?.username;
+  dataForm["employeeNo"] = userInfo.value?.employeeNo;
   editUserinfoRef.value.setFormData(dataForm);
 };
 const init = async () => {

@@ -11,16 +11,16 @@ import {success} from "@/utils/message.ts";
 export async function viewColumns(param: string) {
     let formDatas: any = [], columns: any = [];
     await postRequest(`/userdb-manage/consumer/api/viewColumns/${param}`, []).then(res => {
-        let redata = res.data;
+        const redata = res.data;
         if (redata.code != 0) {
             error(redata.cnMessage);
             return;
         }
         columns = redata.data;
-        for (let key in columns) {
-            let temp = columns[key];
-            for (let j in temp) {
-                let stemp = temp[j];
+        for (const key in columns) {
+            const temp = columns[key];
+            for (const j in temp) {
+                const stemp = temp[j];
                 if (stemp.primaryKey == "Y") {
                     continue;
                 }
@@ -53,7 +53,7 @@ const convertType = (type: string) => {
  * @param conditions
  */
 export async function viewDataList(viewToken: string, currentPage: number, pageSize: number, conditions: any) {
-    let dataPo = {
+    const dataPo = {
         fieldList: conditions,
         pageSize: pageSize || 20,
         currentPage: currentPage || 1
@@ -61,7 +61,7 @@ export async function viewDataList(viewToken: string, currentPage: number, pageS
     let viewDatas: any = [], error;
     load("数据加载中");
     await postRequest(`/userdb-manage/consumer/api/viewPageList/${viewToken}`, dataPo).then(res => {
-        let redata = res.data;
+        const redata = res.data;
         if (redata.code != 0) {
             error = redata.cnMessage;
         } else {
@@ -78,17 +78,17 @@ export async function viewDataList(viewToken: string, currentPage: number, pageS
  * @param searchFormData
  */
 export function analysisSearchData(searchForm: any, searchFormData: any) {
-    let searchFields = []
-    for (let key in searchForm) {
+    const searchFields = []
+    for (const key in searchForm) {
         let val = searchForm[key]
-        let temp = searchFormData.find((item: any) => item.fieldName == key)
-        if (!!val) {
+        const temp = searchFormData.find((item: any) => item.fieldName == key)
+        if (val) {
             if (temp?.type == 'datarange') {
                 val = [val[0] + ' 00:00:00', val[1] + ' 23:59:59']
             } else if (temp?.type == 'date') {
                 val = [val + ' 00:00:00', val + ' 23:59:59']
             }
-            let param: SearchParams = {
+            const param: SearchParams = {
                 propertyName: key,
                 operation: temp?.matchType || 'eq',
                 value: val
@@ -112,10 +112,10 @@ export function arrayDuplicateDatas(arr: Array<any>) {
 export function validDynamicFormCompParams(compList: Array<any>, isSubmit: boolean = false) {
     let errorMsg = "";
     // console.log("校验表单组件参数完整性", compList);
-    let {fieldList, tabNames, objectNames, batchNames} = analysisFields(compList);
-    let dupTabNames = arrayDuplicateDatas(tabNames)
-    let dupObjectNames = arrayDuplicateDatas(objectNames);
-    let dupBatchNames = arrayDuplicateDatas(batchNames);
+    const {fieldList, tabNames, objectNames, batchNames} = analysisFields(compList);
+    const dupTabNames = arrayDuplicateDatas(tabNames)
+    const dupObjectNames = arrayDuplicateDatas(objectNames);
+    const dupBatchNames = arrayDuplicateDatas(batchNames);
     if (dupTabNames.length > 0) {
         errorMsg = `Tab组件中tabName 名${dupTabNames.join(";")}重复，请在容器对应属性面板【基础属性->编辑容器属性】中检查所有Tab组件`;
     }
@@ -130,15 +130,15 @@ export function validDynamicFormCompParams(compList: Array<any>, isSubmit: boole
      */
     // console.log(fieldList);
     // let fieldNames: Array<String> = [];
-    for (let index in fieldList) {
-        let temp = fieldList[index];
+    for (const index in fieldList) {
+        const temp = fieldList[index];
         console.log(temp);
-        let preps = temp.preps;
-        let name = preps.label;
+        const preps = temp.preps;
+        const name = preps.label;
         let msg = "";
-        let itemType = temp.itemType;
+        const itemType = temp.itemType;
         if (itemType == "dialog-input" || itemType == "page-select") {
-            let temp = "\n" + name + "组件必须在【属性面板->基础属性->参数配置】中";
+            const temp = "\n" + name + "组件必须在【属性面板->基础属性->参数配置】中";
             if (!preps.dataUrl || !preps.dataUrl?.condition) {
                 msg += `,配置Url地址`;
             }
@@ -175,42 +175,42 @@ export function validDynamicFormCompParams(compList: Array<any>, isSubmit: boole
  * @param compList
  */
 export function analysisFields(compList: Array<any>) {
-    let fieldList: Array<any> = [];
-    let tabNames: Array<String> = [];
-    let objectNames: Array<String> = [];
-    let batchNames: Array<String> = [];
-    let loopAnalysis = (boxList: Array<any>) => {
-        for (let index in boxList) {
-            let columns = boxList[index].columns;
-            for (let sindex in columns) {
-                let items = columns[sindex].items;
+    const fieldList: Array<any> = [];
+    const tabNames: Array<string> = [];
+    const objectNames: Array<string> = [];
+    const batchNames: Array<string> = [];
+    const loopAnalysis = (boxList: Array<any>) => {
+        for (const index in boxList) {
+            const columns = boxList[index].columns;
+            for (const sindex in columns) {
+                const items = columns[sindex].items;
                 normalAnalysis(items)
             }
         }
     };
-    let tabListAnalysis = (tabList: Array<any>) => {
-        for (let index in tabList) {
-            let temp = tabList[index];
+    const tabListAnalysis = (tabList: Array<any>) => {
+        for (const index in tabList) {
+            const temp = tabList[index];
             tabNames.push(temp.tabName);
             objectNames.push(temp.objectName);
             normalAnalysis(temp.items);
         }
     };
-    let tableListAnalysis = (tableObject?: any) => {
+    const tableListAnalysis = (tableObject?: any) => {
         if (tableObject && Object.keys(tableObject).length > 0) {
             batchNames.push(tableObject.batchFieldName);
-            let tableList = tableObject.elements;
-            for (let index in tableList) {
-                let temp = tableList[index];
+            const tableList = tableObject.elements;
+            for (const index in tableList) {
+                const temp = tableList[index];
                 normalAnalysis(temp.items);
             }
         }
     };
-    let normalAnalysis = (dataList: any) => {
+    const normalAnalysis = (dataList: any) => {
         if (dataList?.length > 0) {
-            for (let index in dataList) {
-                let temp = dataList[index];
-                let itempType = temp.itemType;
+            for (const index in dataList) {
+                const temp = dataList[index];
+                const itempType = temp.itemType;
                 if (itempType == "box") {
                     loopAnalysis(temp.preps.elements);
                 } else if (itempType == "tab") {

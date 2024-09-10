@@ -8,7 +8,6 @@
 </template>
 <script lang="ts" setup>
 import {onMounted} from "vue";
-import {loadSlim} from "tsparticles-slim";
 //const userInfoStore = UserInfo(piniaInstance);
 const closeAction = () => {
   //关闭浏览器情况数据
@@ -21,13 +20,13 @@ const closeAction = () => {
 onMounted(() => {
   closeAction();
 });
-const particlesInit = async engine => {
-  //await loadFull(engine);
-  await loadSlim(engine);
-};
-const particlesLoaded = async container => {
-  console.log("Particles container loaded", container);
-};
+// const particlesInit = async engine => {
+//   //await loadFull(engine);
+//   await loadSlim(engine);
+// };
+// const particlesLoaded = async container => {
+//   console.log("Particles container loaded", container);
+// };
 </script>
 <style lang="scss">
 #app {

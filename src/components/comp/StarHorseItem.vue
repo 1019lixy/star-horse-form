@@ -24,7 +24,7 @@ const props = defineProps({
 );
 let userOperation = useUserSelfOperation(piniaInstance);
 const dataForm: ModelRef<any> = defineModel("dataForm");
-const itemType = ref<String>("input");
+const itemType = ref<string>("input");
 const emit = defineEmits(["dataSearch", "focus", "blur"]);
 const formFields: any = inject("formFields");
 const field = ref<any>({
@@ -43,7 +43,7 @@ field.value.preps.size = computed(() => props.compSize);
  * @param act
  * @param params
  */
-const actionDispatcher = (act: String, ...params: any[]) => {
+const actionDispatcher = (act: string, ...params: any[]) => {
   // console.log(act);
   if (props.isSearch) {
     if (!act || act == "focus" || act == "blur") {

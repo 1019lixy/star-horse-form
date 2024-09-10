@@ -9,7 +9,7 @@ export const useUserSelfOperation = defineStore("userSelfOperation", () => {
     const formFieldList = ref<PageFieldInfo>({});
     const fieldItemList = ref<any>({});
     const formData = ref<any>({});
-    let formInstance = ref();
+    const formInstance = ref();
     /**
      * 设置表单信息
      * @param fieldList
@@ -47,8 +47,8 @@ export const useUserSelfOperation = defineStore("userSelfOperation", () => {
         if (!formItems) {
             return;
         }
-        for (let index in formItems) {
-            let formItem = formItems[index];
+        for (const index in formItems) {
+            const formItem = formItems[index];
             fieldItemList.value[formItem.fieldName] = formItem;
         }
 
@@ -68,7 +68,7 @@ export const useUserSelfOperation = defineStore("userSelfOperation", () => {
         formFieldList.value = fieldList;
         fieldItemList.value = {};
         formData.value = data;
-        formInstance = formRef;
+        formInstance.value = formRef;
     }
     return {formFieldList, fieldItemList, formInstance, formData, setFormInstance, setFormFields, setFormData, addFormItem, addFormItemList, getFormItem, init}
 });

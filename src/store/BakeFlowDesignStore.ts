@@ -4,11 +4,11 @@ export const useFlowDesign = defineStore("flowDesign", () => {
     /**
      * 流程信息
      */
-    let flowForm = ref<any>({});
+    const flowForm = ref<any>({});
     /**
      * 节点属性
      */
-    let propertiesForm = ref<any>({});
+    const propertiesForm = ref<any>({});
     const setFlowForm = (data: any) => {
         flowForm.value = data;
     };

@@ -2,8 +2,8 @@ import {reactive, ref} from "vue";
 import {SelectOption} from "@/components/types/SearchProps.d.js";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo.d.js";
 
-let flowGroups = ref<SelectOption[]>([]);
-let formShowTypeList = ref<SelectOption[]>([
+const flowGroups = ref<SelectOption[]>([]);
+const formShowTypeList = ref<SelectOption[]>([
     {name: "标签栏", value: "tab"},
     {name: "步进式", value: "step"},
     {name: "顺序显示", value: "seq"},

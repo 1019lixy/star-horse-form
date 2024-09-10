@@ -114,7 +114,7 @@ const dialogProps = reactive<DialogProps>({
   dialogPwdVisible: false
 });
 provide("dialogProps", dialogProps);
-const dataFormat = (name: string, cellValue: Object): any => {
+const dataFormat = (name: string, cellValue: object): any => {
   return cellValue;
 }
 const initData = async () => {

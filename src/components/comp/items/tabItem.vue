@@ -19,7 +19,7 @@ defineProps({
   isView: {type: Boolean, default: false},
 });
 const dataForm: ModelRef<any> = defineModel("dataForm");
-const normalTabList = ref<String>("tab0");
+const normalTabList = ref<string>("tab0");
 const checkObject = (item: any) => {
   if (item && item.objectName && !Object.keys(dataForm.value).includes(item.objectName)) {
     dataForm.value[item.objectName] = {};

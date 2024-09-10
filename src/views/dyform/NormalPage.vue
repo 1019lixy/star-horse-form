@@ -96,7 +96,7 @@ const dialogProps = reactive<DialogProps>({
 });
 provide("dialogProps", dialogProps);
 
-const dataFormat = (name: string, cellValue: Object, row: any): any => {
+const dataFormat = (name: string, cellValue: object, row: any): any => {
   return "null" == cellValue ? "--" : cellValue || "--";
 };
 const loadPermission = async () => {

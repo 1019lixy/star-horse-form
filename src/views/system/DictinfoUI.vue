@@ -132,7 +132,7 @@ const dialogProps = reactive<DialogProps>({
 });
 provide("dialogProps", dialogProps);
 
-const dataFormat = (_name: string, cellValue: Object): any => {
+const dataFormat = (_name: string, cellValue: object): any => {
   return cellValue;
 }
 const initData = async () => {

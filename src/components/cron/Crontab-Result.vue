@@ -18,7 +18,7 @@ const props = defineProps({
 let dayRule = ref('');
 let dayRuleSup = ref();
 let dateArr = ref([]);
-let resultList = ref<String[]>([]);
+let resultList = ref<string[]>([]);
 let isShow = ref(false);
 // 表达式值变化时，开始去计算结果
 const expressionChange = () => {
@@ -48,12 +48,12 @@ const expressionChange = () => {
   getWeekArr(ruleArr[5]);
   getYearArr(ruleArr[6], nYear);
   // 将获取到的数组赋值-方便使用
-  let sDate = dateArr[0];
-  let mDate = dateArr[1];
-  let hDate = dateArr[2];
-  let DDate = dateArr[3];
-  let MDate = dateArr[4];
-  let YDate = dateArr[5];
+  let sDate = dateArr.value[0];
+  let mDate = dateArr.value[1];
+  let hDate = dateArr.value[2];
+  let DDate = dateArr.value[3];
+  let MDate = dateArr.value[4];
+  let YDate = dateArr.value[5];
   // 获取当前时间在数组中的索引
   let sIdx = getIndex(sDate, nSecond);
   let mIdx = getIndex(mDate, nMin);
@@ -210,10 +210,10 @@ const expressionChange = () => {
           //如果指定了是第几周的星期几
           //获取每月1号是属于星期几
           let thisWeek = formatDate(new Date(YY + '-' + MM + '-' + DD + ' 00:00:00'), 'week');
-          if (dayRuleSup[1] >= thisWeek) {
-            DD = (dayRuleSup[0] - 1) * 7 + dayRuleSup[1] - thisWeek + 1;
+          if (dayRuleSup.value[1] >= thisWeek) {
+            DD = (dayRuleSup.value[0] - 1) * 7 + dayRuleSup.value[1] - thisWeek + 1;
           } else {
-            DD = dayRuleSup[0] * 7 + dayRuleSup[1] - thisWeek + 1;
+            DD = dayRuleSup.value[0] * 7 + dayRuleSup.value[1] - thisWeek + 1;
           }
         } else if (dayRule.value == 'lastWeek') {
           //如果指定了每月最后一个星期几
@@ -227,9 +227,9 @@ const expressionChange = () => {
           //获取月末最后一天是星期几
           let thisWeek = formatDate(new Date(YY + '-' + MM + '-' + thisDD + ' 00:00:00'), 'week');
           //找到要求中最近的那个星期几
-          if (dayRuleSup < thisWeek) {
+          if (dayRuleSup.value < thisWeek) {
             DD -= thisWeek - dayRuleSup.value;
-          } else if (dayRuleSup > thisWeek) {
+          } else if (dayRuleSup.value > thisWeek) {
             DD -= 7 - (dayRuleSup.value - thisWeek)
           }
         }
@@ -280,7 +280,7 @@ const expressionChange = () => {
               continue;
             }
             // 循环"秒"数组
-            goSecond: for (let si = sIdx; si <= sDate.length - 1; si++) {
+            for (let si = sIdx; si <= sDate.length - 1; si++) {
               let ss = sDate[si] < 10 ? '0' + sDate[si] : sDate[si];
               // 添加当前时间（时间合法性在日期循环时已经判断）
               if (MM !== '00' && DD !== '00') {
@@ -342,26 +342,26 @@ const getIndex = (arr: any, value: any) => {
 };
 // 获取"年"数组
 const getYearArr = (rule: any, year: number) => {
-  dateArr[5] = getOrderArr(year, year + 100);
+  dateArr.value[5] = getOrderArr(year, year + 100);
   if (rule !== undefined) {
     if (rule.indexOf('-') >= 0) {
-      dateArr[5] = getCycleArr(rule, year + 100, false)
+      dateArr.value[5] = getCycleArr(rule, year + 100, false)
     } else if (rule.indexOf('/') >= 0) {
-      dateArr[5] = getAverageArr(rule, year + 100)
+      dateArr.value[5] = getAverageArr(rule, year + 100)
     } else if (rule !== '*') {
-      dateArr[5] = getAssignArr(rule)
+      dateArr.value[5] = getAssignArr(rule)
     }
   }
 };
 // 获取"月"数组
 const getmonthArr = (rule: any) => {
-  dateArr[4] = getOrderArr(1, 12);
+  dateArr.value[4] = getOrderArr(1, 12);
   if (rule.indexOf('-') >= 0) {
-    dateArr[4] = getCycleArr(rule, 12, false)
+    dateArr.value[4] = getCycleArr(rule, 12, false)
   } else if (rule.indexOf('/') >= 0) {
-    dateArr[4] = getAverageArr(rule, 12)
+    dateArr.value[4] = getAverageArr(rule, 12)
   } else if (rule !== '*') {
-    dateArr[4] = getAssignArr(rule)
+    dateArr.value[4] = getAssignArr(rule)
   }
 };
 // 获取"日"数组-主要为日期规则
@@ -375,14 +375,14 @@ const getWeekArr = (rule: any) => {
       dayRule.value = 'assWeek';
       let matchRule = rule.match(/[0-9]{1}/g);
       dayRuleSup.value = [Number(matchRule[0]), Number(matchRule[1])];
-      dateArr[3] = [1];
-      if (dayRuleSup[1] == 7) {
-        dayRuleSup[1] = 0;
+      dateArr.value[3] = [1];
+      if (dayRuleSup.value[1] == 7) {
+        dayRuleSup.value[1] = 0;
       }
     } else if (rule.indexOf('L') >= 0) {
       dayRule.value = 'lastWeek';
       dayRuleSup.value = Number(rule.match(/[0-9]{1,2}/g)[0]);
-      dateArr[3] = [31];
+      dateArr.value[3] = [31];
       if (dayRuleSup.value == 7) {
         dayRuleSup.value = 0;
       }
@@ -402,25 +402,25 @@ const getWeekArr = (rule: any) => {
 };
 // 获取"日"数组-少量为日期规则
 const getDayArr = (rule: any) => {
-  dateArr[3] = getOrderArr(1, 31);
+  dateArr.value[3] = getOrderArr(1, 31);
   dayRule.value = '';
   dayRuleSup.value = '';
   if (rule.indexOf('-') >= 0) {
-    dateArr[3] = getCycleArr(rule, 31, false)
+    dateArr.value[3] = getCycleArr(rule, 31, false)
     dayRuleSup.value = 'null';
   } else if (rule.indexOf('/') >= 0) {
-    dateArr[3] = getAverageArr(rule, 31)
+    dateArr.value[3] = getAverageArr(rule, 31)
     dayRuleSup.value = 'null';
   } else if (rule.indexOf('W') >= 0) {
     dayRule.value = 'workDay';
     dayRuleSup.value = Number(rule.match(/[0-9]{1,2}/g)[0]);
-    dateArr[3] = [dayRuleSup];
+    dateArr.value[3] = [dayRuleSup];
   } else if (rule.indexOf('L') >= 0) {
     dayRule.value = 'lastDay';
     dayRuleSup.value = 'null';
-    dateArr[3] = [31];
+    dateArr.value[3] = [31];
   } else if (rule !== '*' && rule !== '?') {
-    dateArr[3] = getAssignArr(rule)
+    dateArr.value[3] = getAssignArr(rule)
     dayRuleSup.value = 'null';
   } else if (rule == '*') {
     dayRuleSup.value = 'null';
@@ -428,35 +428,35 @@ const getDayArr = (rule: any) => {
 };
 // 获取"时"数组
 const getHourArr = (rule: any) => {
-  dateArr[2] = getOrderArr(0, 23);
+  dateArr.value[2] = getOrderArr(0, 23);
   if (rule.indexOf('-') >= 0) {
-    dateArr[2] = getCycleArr(rule, 24, true)
+    dateArr.value[2] = getCycleArr(rule, 24, true)
   } else if (rule.indexOf('/') >= 0) {
-    dateArr[2] = getAverageArr(rule, 23)
+    dateArr.value[2] = getAverageArr(rule, 23)
   } else if (rule !== '*') {
-    dateArr[2] = getAssignArr(rule)
+    dateArr.value[2] = getAssignArr(rule)
   }
 };
 // 获取"分"数组
 const getMinArr = (rule: any) => {
-  dateArr[1] = getOrderArr(0, 59);
+  dateArr.value[1] = getOrderArr(0, 59);
   if (rule.indexOf('-') >= 0) {
-    dateArr[1] = getCycleArr(rule, 60, true)
+    dateArr.value[1] = getCycleArr(rule, 60, true)
   } else if (rule.indexOf('/') >= 0) {
-    dateArr[1] = getAverageArr(rule, 59)
+    dateArr.value[1] = getAverageArr(rule, 59)
   } else if (rule !== '*') {
-    dateArr[1] = getAssignArr(rule)
+    dateArr.value[1] = getAssignArr(rule)
   }
 };
 // 获取"秒"数组
 const getSecondArr = (rule: any) => {
-  dateArr[0] = getOrderArr(0, 59);
+  dateArr.value[0] = getOrderArr(0, 59);
   if (rule.indexOf('-') >= 0) {
-    dateArr[0] = getCycleArr(rule, 60, true)
+    dateArr.value[0] = getCycleArr(rule, 60, true)
   } else if (rule.indexOf('/') >= 0) {
-    dateArr[0] = getAverageArr(rule, 59)
+    dateArr.value[0] = getAverageArr(rule, 59)
   } else if (rule !== '*') {
-    dateArr[0] = getAssignArr(rule)
+    dateArr.value[0] = getAssignArr(rule)
   }
 };
 // 根据传进来的min-max返回一个顺序的数组

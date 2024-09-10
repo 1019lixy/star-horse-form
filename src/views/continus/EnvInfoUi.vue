@@ -125,7 +125,7 @@ const dialogProps = reactive<CompParams>({
 });
 provide("dialogProps", dialogProps);
 
-const dataFormat = (name: string, cellValue: Object): any => {
+const dataFormat = (name: string, cellValue: object): any => {
   return cellValue;
 }
 const init = async () => {

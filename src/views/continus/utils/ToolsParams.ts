@@ -47,10 +47,10 @@ const commonFields: FieldInfo[] = [{
         formShow: true
     }]
 }];
-let errorPerson = ref<boolean>(false);
-let successPerson = ref<boolean>(false);
-let errorFlag = ref<boolean>(false);
-let successFlag = ref<boolean>(false);
+const errorPerson = ref<boolean>(false);
+const successPerson = ref<boolean>(false);
+const errorFlag = ref<boolean>(false);
+const successFlag = ref<boolean>(false);
 /**
  * 其它拓展配置
  */
@@ -108,7 +108,7 @@ const extendCommonFields: FieldInfo[] = [{
             fieldName: "errorReportPerson",
             actionName: "change",
             actions: (val: any) => {
-                let temp = val["errorReportPerson"];
+                const temp = val["errorReportPerson"];
                 errorPerson.value = temp && temp.indexOf("3") != -1;
             },
             preps: {
@@ -152,7 +152,7 @@ const extendCommonFields: FieldInfo[] = [{
             formShow: successFlag,
             actionName: "change",
             actions: (val: any) => {
-                let temp = val["successReportPerson"];
+                const temp = val["successReportPerson"];
                 successPerson.value = temp && temp.indexOf("3") != -1;
             },
             optionList: reportPersonList,

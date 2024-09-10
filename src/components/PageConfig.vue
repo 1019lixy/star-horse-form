@@ -159,7 +159,7 @@ let classicsList = ref<Array<any>>([
   {code: "navy", color: "#000080", name: "海军色"},
   {code: "black", color: "#000000", name: "黑色"}
 ]);
-configInfo = computed(() => configStore.configFormInfo);
+configInfo.value = computed(() => configStore.configFormInfo);
 const init = () => {
   configStore.clearAll();
   // for (let a in classicsList.value) {

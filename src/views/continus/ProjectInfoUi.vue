@@ -163,13 +163,13 @@ const dialogProps = reactive<CompParams>({
 });
 provide("dialogProps", dialogProps);
 
-const dataFormat = (name: string, cellValue: Object): any => {
+const dataFormat = (name: string, cellValue: object): any => {
   return cellValue;
 }
 const init = async () => {
 
 };
-let projectId = ref<Number>(-1);
+let projectId = ref<number>(-1);
 const selectItemFun = (row: any) => {
   projectId.value = row[primaryKey];
 };
