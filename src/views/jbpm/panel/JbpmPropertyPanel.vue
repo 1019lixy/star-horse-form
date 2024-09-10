@@ -33,13 +33,13 @@ const handleModeler = () => {
     }
     element.value = el;
   });
-  //
-  props.modeler.on("commandStack.changed", () => {
-    console.log("commandStack.changed");
-    props.modeler.saveXML({format: true}, function (err, xml) {
-      emits('updateXml', xml)
-    });
-  })
+  // //
+  // props.modeler.on("commandStack.changed", () => {
+  //   console.log("commandStack.changed");
+  //   props.modeler.saveXML({format: true}, function (err, xml) {
+  //     emits('updateXml', xml)
+  //   });
+  // })
   //节点选择变化
   props.modeler.on("selection.changed", e => {
     console.log("selection.changed");
@@ -50,7 +50,7 @@ const handleModeler = () => {
     modifyConfigTab(element);
     handleFormData(element);
   })
-  //节点属性变化
+  // //节点属性变化
   props.modeler.on("element.changed", e => {
     console.log("element.changed");
     const {element} = e;
@@ -59,8 +59,8 @@ const handleModeler = () => {
     }
     handleFormData(element);
   });
-  //节点点击事件
-  props.modeler.on("element.click", e => {
+  // //节点点击事件
+  props.modeler.on("element.click", (e: any) => {
     console.log("element.click");
     const {element} = e;
     if (element.type == props.modeler._definitions.rootElements[0].$type) {
@@ -172,7 +172,7 @@ const modifyFormData = (data: any) => {
 }
 
 .el-dialog > .el-dialog__body {
-  padding: 0px;
+  padding: 0;
   margin: 0 20px;
   border: 1px solid #cccccc;
 }

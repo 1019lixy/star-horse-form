@@ -118,3 +118,87 @@ const processSave = (data: any) => {
     error("接口错误或者网络异常:" + err);
   });
 };
+
+const lint = (linter: Linter, modeler: BpmnModeler) => {
+    const definitions = modeler.getDefinitions();
+    const linting: any = modeler.get<any>('linting');
+    linter.lint(definitions).then((reports: any) => {
+        linting.setErrors(reports);
+        console.log(reports);
+
+    });
+};
+const createLinter = (modeler: BpmnModeler) => {
+    const FooPlugin = {
+        config: {
+            rules: {
+                'foo/fake-join': 'warn',
+                'foo/rule-error': 'error'
+            }
+        },
+        resolver: new StaticResolver({
+            'rule:bpmnlint-plugin-foo/fake-join': aa,
+            'rule:bpmnlint-plugin-foo/rule-error': () => {
+                return {
+                    check() {
+                        throw new Error('Oh no!');
+                    }
+                };
+            }
+        })
+    };
+    return new Linter({
+        modeler: 'desktop',
+        plugins: [
+            FooPlugin
+        ]
+    });
+};
+ const linter = new Linter({
+        modeler: 'web', // `desktop` or `web` modeler, defaults to `desktop`
+        type: 'cloud' // `cloud` or `platform` diagrams, defaults to `cloud`
+    });
+    let definitions = modeler.getDefinitions();
+    const reports = await linter.lint(definitions);
+
+
+    const linting: any = modeler.get<any>('linting');
+    const errorDatas: Array<any> = [];
+    if (!linting.isActive()) {
+        linting.setErrors(reports);
+        linting.activate();
+    }
+    linting.showError(reports);
+    console.log(linter, errorDatas, linting);
+
+            // simulationSupport.toggleSimulation(active);
+    //         // 获取BPMN模拟器中的ElementRegistry对象
+    //         const elementRegistry = bpmnModeler.get('elementRegistry');
+    // // 获取所有的开始事件节点
+    //         const startEvents = elementRegistry.filter((element: any) => {
+    //             return element.type === 'bpmn:StartEvent';
+    //         });
+    //         simulationSupport.triggerElement(startEvents.id);
+
+
+// const elementsAlign = (align: string) => {
+//     if (!bpmnModeler) return;
+//     const Align = bpmnModeler.get('alignElements');
+//     const Selection = bpmnModeler.get('selection');
+//     const SelectedElements = Selection.get();
+//     if (!SelectedElements || SelectedElements.length <= 1) {
+//         warning('请按住 Ctrl 键选择多个元素对齐');
+//         return;
+//     }
+//     Align.trigger(SelectedElements, align);
+//
+// };
+const createXml = (str: string) => {
+    if (document.all) {
+        const xmlDom = new ActiveXObject("Microsoft.XMLDOM")
+        xmlDom.loadXML(str);
+        return xmlDom;
+    } else {
+        return new DOMParser().parseFromString(str, "text/xml");
+    }
+};

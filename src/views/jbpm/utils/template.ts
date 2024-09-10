@@ -1,15 +1,17 @@
 const flowTemplate = (flowName: string, processId: string) => {
     return `
-      <bpmn2:definitions xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" 
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-      xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" 
-      xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" 
-      targetNamespace="http://bpmn.io/schema/bpmn" 
-      xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd">
-      <bpmn2:process id="Process${processId}" name="${flowName}">
-        <bpmn2:startEvent id="StartEvent_01" name="开始" />
-        <bpmn2:endEvent id="EndEvent_01" name="结束" />
-      </bpmn2:process>
+      <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+ xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+ xmlns:modeler="http://camunda.org/schema/modeler/1.0" 
+  targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler"
+   exporterVersion="5.0.0" modeler:executionPlatform="Camunda Platform"
+   modeler:executionPlatformVersion="7.17.0">
+      <bpmn:process id="Process${processId}" name="${flowName}" isExecutable="true">
+        <bpmn:startEvent id="StartEvent_01" name="开始" />
+        <bpmn:endEvent id="EndEvent_01" name="结束" />
+      </bpmn:process>
       <bpmndi:BPMNDiagram id="BPMNDiagram_1">
         <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process${processId}">
           <bpmndi:BPMNShape id="StartEvent_01_1" bpmnElement="StartEvent_01">
@@ -26,7 +28,7 @@ const flowTemplate = (flowName: string, processId: string) => {
           </bpmndi:BPMNShape>
         </bpmndi:BPMNPlane>
       </bpmndi:BPMNDiagram>
-    </bpmn2:definitions>`;
+    </bpmn:definitions>`;
 }
 
 export {flowTemplate};

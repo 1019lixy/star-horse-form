@@ -1,15 +1,5 @@
-import BpmnModeler from 'camunda-bpmn-js/lib/camunda-platform/Modeler';
+import BpmnModeler from 'bpmn-js/lib/Modeler';
 import TokenSimulationModule from "bpmn-js-token-simulation";
-import SimulationSupportModule from "bpmn-js-token-simulation/lib/simulation-support";
-
-import lintingAnnotationsModule from '@camunda/linting/modeler';
-import {BpmnJSTracking as bpmnJSTracking} from 'bpmn-js-tracking';
-import contextPadTracking from 'bpmn-js-tracking/lib/features/context-pad';
-import elementTemplatesTracking from 'bpmn-js-tracking/lib/features/element-templates';
-import modelingTracking from 'bpmn-js-tracking/lib/features/modeling';
-import popupMenuTracking from 'bpmn-js-tracking/lib/features/popup-menu';
-import paletteTracking from 'bpmn-js-tracking/lib/features/palette';
-
 import {postRequest} from "@/api/star_horse.ts";
 import {warning} from "@/utils/message.ts";
 import {markRaw, ref, unref} from "vue";
@@ -18,70 +8,93 @@ import piniaInstance from "@/store";
 import {flowTemplate} from "@/views/jbpm/utils/template.ts";
 import {uuid} from "@/api/system.ts";
 import customTranslate from "@/views/jbpm/utils/zh_CN.ts";
-import {CommandStack} from "camunda-bpmn-js/lib/util/ExtensionElementsUtil";
 import BpmnEditorActions from "bpmn-js/lib/features/editor-actions/BpmnEditorActions";
 import {Canvas, EventBus} from "bpmn-js/lib/features/context-pad/ContextPadProvider";
 import Modeling from "bpmn-js/lib/features/modeling/Modeling";
 import {Moddle} from "bpmn-js/lib/model/Types";
 import {ModdleElement} from "bpmnlint/lib/types";
+import {domify} from 'min-dom';
+import modelerModdleExtension from 'modeler-moddle/resources/modeler.json';
+import lintModule from 'bpmn-js-bpmnlint';
+import bpmnlintConfig from "../packed-config.js"
+import minimapModule from "diagram-js-minimap";
 
 let bpmnModeler: any = null;
 const execution = ref<string>("exec1");
 const executionLabel = ref<string>('模拟运行');
 const canRedo = ref<boolean>(true);
 const flowDesign = useFlowDesign(piniaInstance);
-const createXml = (str: string) => {
-    if (document.all) {
-        const xmlDom = new ActiveXObject("Microsoft.XMLDOM")
-        xmlDom.loadXML(str);
-        return xmlDom;
-    } else {
-        return new DOMParser().parseFromString(str, "text/xml");
-    }
-};
 // 流程校验使用
-const setUrlParam = (name: string, value: any) => {
-    const url = new URL(window.location.href);
-    if (value) {
-        url.searchParams.set(name, 1);
-    } else {
-        url.searchParams.delete(name);
-    }
-    window.history.replaceState({}, null, url.href);
-}
-// 流程校验使用
-const getUrlParam = (name: string) => {
-    const url = new URL(window.location.href);
-    return url.searchParams.has(name);
-}
-const createBpmnModeler = (canvas: any) => {
-    const translatezhCn = {
-        translate: ['value', customTranslate]
-    };
+
+const createBpmnModeler = (canvas: any, properties: any) => {
     bpmnModeler = markRaw(new BpmnModeler({
         container: canvas,
+        propertiesPanel: {
+            parent: properties
+        },
+        linting: {
+            bpmnlint: bpmnlintConfig,
+            active: true
+        },
         additionalModules: [
-            translatezhCn,
-            TokenSimulationModule, SimulationSupportModule,
-            lintingAnnotationsModule,
-            bpmnJSTracking,
-            contextPadTracking,
-            elementTemplatesTracking,
-            modelingTracking,
-            popupMenuTracking,
-            paletteTracking
+            {
+                translate: ['value', customTranslate]
+            },
+            TokenSimulationModule,
+            lintModule,
+            minimapModule
         ],
-        // moddleExtensions: _moddleExtensions,
-        exporter: {
-            name: 'bpmn-js-token-simulation',
-            version: "1"
+        moddleExtensions: {
+            modeler: modelerModdleExtension,
+            // camunda: camundaModdleExtension,
         },
         keyboard: {
             bindTo: document
         }
     }));
+    const panel = domify(`
+      <style>
+      .panel {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 400px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  background-color: #f7f7f8;
+  padding: 5px;
+  box-sizing: border-box;
+  border-top: solid 1px #ccc;
+  font-family: sans-serif;
+}
+.panel .errorContainer {
+  resize: none;
+  flex-grow: 1;
+  background-color: #f7f7f8;
+  border: none;
+  margin-bottom: 5px;
+  font-family: sans-serif;
+  line-height: 1.5;
+  outline: none;
+}
+.panel .errorItem {
+  cursor: pointer;
+}
+.panel button,
+.panel input {
+  width: 200px;
+}
+     </style>
+      <div class="panel">
+        <div class="errorContainer"></div>
+      </div>
+    `);
+
+    bpmnModeler._container.appendChild(panel);
     $(".bjs-powered-by").remove();
     $(".bts-toggle-mode").remove();
+    $("button[class='bjsl-button']").remove();
     return bpmnModeler;
 }
 /**
@@ -145,12 +158,6 @@ const setEncoded = (type: string, data: any) => {
  * @param type 2 垂直对齐 1 水平对齐
  */
 const elementAlign = (modeler: BpmnModeler, type: any) => {
-    // warning("功能开发中");
-    // bpmnModeler.get("alignElements").trigger("bottom");
-    //let modeling= bpmnModeler.get("modeling");
-    //bpmnModeler.get("elements.align").trigger("bottom");
-    // bpmnModeler.get("modeling").autoPlace();
-    //alignElements.trigger(Elements, type);
     const alignElements = modeler.get<any>("alignElements");
     const selection = modeler.get<any>('selection');
     const elements = selection.get();
@@ -168,7 +175,6 @@ const elementAlign = (modeler: BpmnModeler, type: any) => {
  * @param modeler
  */
 const setBpmnModeler = (modeler: BpmnModeler) => {
-    console.log(modeler);
     bpmnModeler = modeler;
 }
 
@@ -250,57 +256,83 @@ const active = ref<boolean>(false);
  */
 const exec = (modeler: BpmnModeler) => {
     const toggleMode = modeler.get<any>("toggleMode");
-    console.log(toggleMode);
     active.value = !active.value;
-
     toggleMode.toggleMode(active.value);
-    // const simulationSupport = bpmnModeler.get('simulationSupport');
-// enable simulation
     if (active.value) {
         execution.value = "cancel";
         executionLabel.value = "停止模拟";
-        // simulationSupport.toggleSimulation(active);
-//         // 获取BPMN模拟器中的ElementRegistry对象
-//         const elementRegistry = bpmnModeler.get('elementRegistry');
-// // 获取所有的开始事件节点
-//         const startEvents = elementRegistry.filter((element: any) => {
-//             return element.type === 'bpmn:StartEvent';
-//         });
-//         simulationSupport.triggerElement(startEvents.id);
+
     } else {
         execution.value = "exec1";
         executionLabel.value = "模拟运行";
     }
 }
 
-// const elementsAlign = (align: string) => {
-//     if (!bpmnModeler) return;
-//     const Align = bpmnModeler.get('alignElements');
-//     const Selection = bpmnModeler.get('selection');
-//     const SelectedElements = Selection.get();
-//     if (!SelectedElements || SelectedElements.length <= 1) {
-//         warning('请按住 Ctrl 键选择多个元素对齐');
-//         return;
-//     }
-//     Align.trigger(SelectedElements, align);
-//
-// };
+
+const lint = (modeler: BpmnModeler) => {
+    const linting: any = modeler.get<any>('linting');
+    console.log(linting);
+    linting.lint().then((reports: any) => {
+        console.log(reports);
+        const container: HTMLElement = document.querySelector('.errorContainer')!;
+        container.innerHTML = '';
+        for (let key in reports) {
+            let data = reports[key];
+            data.map((report: any) => {
+                const {category, id, message, path} = report;
+                if (category === 'rule-error') {
+                    return domify(`<div class="errorItem"><strong>${category}</strong> Rule <${escapeHTML(rule)}> errored with the following message: ${escapeHTML(message)}</div>`);
+                }
+                const element = domify(`<div class="errorItem"><strong>${category}</strong> ${id}: ${escapeHTML(message)} </div>`);
+                element.addEventListener('click', () => {
+                    modeler.get('selection').select(id);
+                });
+                return element;
+            }).forEach((item: any) => {
+                container.appendChild(item);
+            });
+        }
+
+    });
+};
+const escapeHTML = (str: string) => {
+    return str.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+const createXml = (str: string) => {
+    if (document.all) {
+        const xmlDom = new ActiveXObject("Microsoft.XMLDOM")
+        xmlDom.loadXML(str);
+        return xmlDom;
+    } else {
+        return new DOMParser().parseFromString(str, "text/xml");
+    }
+};
+const lintOperation = async (modeler: BpmnModeler) => {
+    const eventBus = modeler.get<EventBus>('eventBus');
+    // const createLinter = (modeler: string) => {
+    //     // return new Linter({
+    //     //     modeler: 'web', // `desktop` or `web` modeler, defaults to `desktop`
+    //     //     type: 'cloud' // `cloud` or `platform` diagrams, defaults to `cloud`
+    //     // });
+    //     return new Linter({type: 'platform'});
+    // };
+    // let linter = createLinter("desktop");
+    // await linter.lint(modeler.getDefinitions());
+    lint(modeler);
+    eventBus.on('elements.changed', () => {
+        lint(modeler);
+    });
+    modeler.get<any>('linting').toggle(true);
+}
 /**
  * 新建文件
  */
 const newFile = async (modeler: BpmnModeler) => {
-    const eventBus = modeler.get<EventBus>('eventBus');
-    console.log(modeler, eventBus);
-    // let define = bpmnModeler.getDefinitions();
-    // modeler.clear();
-    // bpmnModeler.init(define);
-    // bpmnModeler.get('eventBus').fire('diagram.clear');
-    // bpmnModeler.get('eventBus').fire('diagram.init');
-    // 新建一个空白BPMN图表
-    // let newDiagram = await bpmnModeler.createDiagram();
+    // const eventBus = modeler.get<EventBus>('eventBus');
     // 渲染图表
     await modeler.importXML(flowTemplate("新流程", uuid()));
     changeLocation(modeler);
+    await lintOperation(modeler);
 }
 /**
  * 创建新流程
@@ -312,10 +344,11 @@ const createNewFlow = async (modeler: BpmnModeler, xml: string) => {
     try {
         const result = await modeler.importXML(xml);
         // 打开小地图
-        modeler.get<any>("minimap").open();
+        bpmnModeler.get("minimap").open();
         // 屏幕自适应
         changeLocation(modeler);
-        console.log(result.warnings);
+        await lintOperation(modeler);
+        console.log(result);
     } catch (err) {
         console.error(err);
     }
@@ -515,20 +548,13 @@ const setDiagramType = (modeler: BpmnModeler) => {
         }
     }
 };
-const valid = (modeler: BpmnModeler) => {
-    const linting: any = modeler.get<any>('linting');
-    const errorDatas: Array<any> = [];
-    if (!linting.isActive()) {
-        linting.setErrors(errorDatas);
+const valid = async (modeler: BpmnModeler) => {
+    let linting = modeler.get<any>("linting");
+    if (linting.isActive()) {
+        linting.deactivate();
+    } else {
         linting.activate();
     }
-    const context = {
-        id: 'foo',
-        message: 'Foo'
-    };
-    linting.showError(context);
-    console.log(context, errorDatas, linting);
-
 };
 
 const flowButtonList = (modeler: BpmnModeler) => {

@@ -23,7 +23,6 @@ import * as ElementPlusIconsVue from '@element-plus/icons-vue';
 import piniaInstance from "@/store";
 import Particles from "vue3-particles";
 
-// @ts-ignore
 const app = createApp(App);
 app.component("draggable", draggable);
 /**
@@ -32,7 +31,6 @@ app.component("draggable", draggable);
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(key, component)
 }
-// @ts-ignore
 app.use(Particles);
 app.use(userComponent);
 app.use(itemComponent);

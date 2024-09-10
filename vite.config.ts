@@ -9,7 +9,6 @@ import {createSvgIconsPlugin} from 'vite-plugin-svg-icons'
 import Components from 'unplugin-vue-components/vite'
 import {ElementPlusResolver} from 'unplugin-vue-components/resolvers'
 import AutoImport from 'unplugin-auto-import/vite'
-import eslintPlugin from "vite-plugin-eslint";
 
 const codeHost = "http://192.168.20.165:8888/"
 const systemHost = "http://localhost:8749/"
@@ -117,12 +116,12 @@ export default defineConfig({
             iconDirs: [resolve(process.cwd(), 'src/icons')],
             symbolId: 'icon-[dir]-[name]',
         }),
-        eslintPlugin({
-            include: ["src/**/*.js", "src/**/*.vue", "src/**/*.ts", "src/**/*.tsx"],
-            exclude: ["node_modules/**", "dist/**"],
-            fix: true,
-            cache: false
-        }),
+        /* eslintPlugin({
+             include: ["src/!**!/!*.js", "src/!**!/!*.vue", "src/!**!/!*.ts", "src/!**!/!*.tsx"],
+             exclude: ["node_modules/!**", "dist/!**","jquery.min.js"],
+             fix: true,
+             cache: false
+         }),*/
         // monacoEditorPlugin({ languageWorkers: ['editorWorkerService', 'typescript', 'json', 'html']}),
         //开启gzip,后端nginx 需要 gzip_static设置为on
         /* viteCompression({
