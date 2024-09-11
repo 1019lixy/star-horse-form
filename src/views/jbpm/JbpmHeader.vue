@@ -11,7 +11,7 @@ const props = defineProps({
   modeler: {
     type: Object as PropType<BpmnModeler>,
     default: null
-  },
+  }
 });
 let buttonList = ref<Array<any>>([]);
 onMounted(async () => {
@@ -34,7 +34,6 @@ onMounted(async () => {
 }
 </style>
 <template>
-  <div>
     <div class="inner_button">
       <el-menu mode="horizontal" style="height: inherit;width: 100%;">
         <el-menu-item v-for="(item,index ) in buttonList.value">
@@ -48,5 +47,5 @@ onMounted(async () => {
         </el-menu-item>
       </el-menu>
     </div>
-  </div>
+
 </template>

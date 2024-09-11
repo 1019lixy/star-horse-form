@@ -18,6 +18,7 @@ import modelerModdleExtension from 'modeler-moddle/resources/modeler.json';
 import lintModule from 'bpmn-js-bpmnlint';
 import bpmnlintConfig from "../packed-config.js"
 import minimapModule from "diagram-js-minimap";
+import {ElementRegistry} from "bpmn-js/lib/features/auto-place/BpmnAutoPlaceUtil";
 
 let bpmnModeler: any = null;
 const execution = ref<string>("exec1");
@@ -52,46 +53,46 @@ const createBpmnModeler = (canvas: any, properties: any) => {
             bindTo: document
         }
     }));
-    const panel = domify(`
-      <style>
-      .panel {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  width: 400px;
-  height: 200px;
-  display: flex;
-  flex-direction: column;
-  background-color: #f7f7f8;
-  padding: 5px;
-  box-sizing: border-box;
-  border-top: solid 1px #ccc;
-  font-family: sans-serif;
-}
-.panel .errorContainer {
-  resize: none;
-  flex-grow: 1;
-  background-color: #f7f7f8;
-  border: none;
-  margin-bottom: 5px;
-  font-family: sans-serif;
-  line-height: 1.5;
-  outline: none;
-}
-.panel .errorItem {
-  cursor: pointer;
-}
-.panel button,
-.panel input {
-  width: 200px;
-}
-     </style>
-      <div class="panel">
-        <div class="errorContainer"></div>
-      </div>
-    `);
-
-    bpmnModeler._container.appendChild(panel);
+//     const panel = domify(`
+//       <style>
+//       .panel {
+//   position: absolute;
+//   bottom: 0;
+//   right: 0;
+//   width: 400px;
+//   height: 200px;
+//   display: flex;
+//   flex-direction: column;
+//   background-color: #f7f7f8;
+//   padding: 5px;
+//   box-sizing: border-box;
+//   border-top: solid 1px #ccc;
+//   font-family: sans-serif;
+// }
+// .panel .errorContainer {
+//   resize: none;
+//   flex-grow: 1;
+//   background-color: #f7f7f8;
+//   border: none;
+//   margin-bottom: 5px;
+//   font-family: sans-serif;
+//   line-height: 1.5;
+//   outline: none;
+// }
+// .panel .errorItem {
+//   cursor: pointer;
+// }
+// .panel button,
+// .panel input {
+//   width: 200px;
+// }
+//      </style>
+//       <div class="panel">
+//         <div class="errorContainer"></div>
+//       </div>
+//     `);
+//
+//     bpmnModeler._container.appendChild(panel);
     $(".bjs-powered-by").remove();
     $(".bts-toggle-mode").remove();
     $("button[class='bjsl-button']").remove();
@@ -272,28 +273,32 @@ const exec = (modeler: BpmnModeler) => {
 const lint = (modeler: BpmnModeler) => {
     const linting: any = modeler.get<any>('linting');
     console.log(linting);
+    let registry = modeler.get<ElementRegistry>("elementRegistry");
     linting.lint().then((reports: any) => {
-        console.log(reports);
-        const container: HTMLElement = document.querySelector('.errorContainer')!;
-        container.innerHTML = '';
-        for (let key in reports) {
-            let data = reports[key];
-            data.map((report: any) => {
-                const {category, id, message, path} = report;
-                if (category === 'rule-error') {
-                    return domify(`<div class="errorItem"><strong>${category}</strong> Rule <${escapeHTML(rule)}> errored with the following message: ${escapeHTML(message)}</div>`);
-                }
-                const element = domify(`<div class="errorItem"><strong>${category}</strong> ${id}: ${escapeHTML(message)} </div>`);
-                element.addEventListener('click', () => {
-                    modeler.get('selection').select(id);
-                });
-                return element;
-            }).forEach((item: any) => {
-                container.appendChild(item);
-            });
-        }
-
+        flowDesign.setLintData(reports);
     });
+    // linting.lint().then((reports: any) => {
+    //     console.log(reports);
+    //     const container: HTMLElement = document.querySelector('.errorContainer')!;
+    //     container.innerHTML = '';
+    //     for (let key in reports) {
+    //         let data = reports[key];
+    //         data.map((report: any) => {
+    //             const {category, id, message, path} = report;
+    //             if (category === 'rule-error') {
+    //                 return domify(`<div class="errorItem"><strong>${category}</strong> Rule <${escapeHTML(rule)}> errored with the following message: ${escapeHTML(message)}</div>`);
+    //             }
+    //             const element = domify(`<div class="errorItem"><strong>${category}</strong> ${id}: ${escapeHTML(message)} </div>`);
+    //             element.addEventListener('click', () => {
+    //                 modeler.get('selection').select([registry.find(item => item.id == id)]);
+    //             });
+    //             return element;
+    //         }).forEach((item: any) => {
+    //             container.appendChild(item);
+    //         });
+    //     }
+    //
+    // });
 };
 const escapeHTML = (str: string) => {
     return str.replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -309,15 +314,6 @@ const createXml = (str: string) => {
 };
 const lintOperation = async (modeler: BpmnModeler) => {
     const eventBus = modeler.get<EventBus>('eventBus');
-    // const createLinter = (modeler: string) => {
-    //     // return new Linter({
-    //     //     modeler: 'web', // `desktop` or `web` modeler, defaults to `desktop`
-    //     //     type: 'cloud' // `cloud` or `platform` diagrams, defaults to `cloud`
-    //     // });
-    //     return new Linter({type: 'platform'});
-    // };
-    // let linter = createLinter("desktop");
-    // await linter.lint(modeler.getDefinitions());
     lint(modeler);
     eventBus.on('elements.changed', () => {
         lint(modeler);

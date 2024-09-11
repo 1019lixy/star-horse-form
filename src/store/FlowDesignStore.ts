@@ -24,8 +24,12 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
     const parallelBranchEnable = ref<boolean>(true);
     const navable = ref<boolean>(true);
     const readable = ref<boolean>(false);
+    const lintData = ref<any>({});
     const setNavable = (flag: boolean) => {
         navable.value = flag;
+    }
+    const setLintData = (data: any) => {
+        lintData.value = data;
     }
     const setReadable = (flag: boolean) => {
         readable.value = flag;
@@ -149,6 +153,8 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
         currentNode,
         node, mapImg, suggestBranchEnable,
         parallelBranchEnable, flowFormInfo, navable, readable,
+        lintData,
+        setLintData,
         setNavable,
         setReadable,
         flowSetFormInfo,

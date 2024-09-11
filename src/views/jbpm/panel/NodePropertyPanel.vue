@@ -106,8 +106,7 @@ const addUser = (properties: any) => {
     <el-collapse accordion v-if="tab=='process'">
       <el-collapse-item name="1">
         <template #title>
-          基本设置
-          <i class="header-icon el-icon-info"></i>
+         <div class="title">基本设置</div>
         </template>
         <div>
           <el-form label-position="right" label-width="70px">
@@ -125,8 +124,7 @@ const addUser = (properties: any) => {
       </el-collapse-item>
       <el-collapse-item name="2">
         <template #title>
-          执行监听器
-          <i class="header-icon el-icon-info"></i>
+          <div class="title"> 执行监听器</div>
         </template>
         <div>
           <div style="margin-bottom: 4px;">
@@ -157,8 +155,7 @@ const addUser = (properties: any) => {
       </el-collapse-item>
       <el-collapse-item name="3">
         <template #title>
-          权限设置
-          <i class="header-icon el-icon-info"></i>
+          <div class="title">权限设置</div>
         </template>
         <div>
           <el-form label-position="right" label-width="70px">
@@ -190,8 +187,7 @@ const addUser = (properties: any) => {
     <el-collapse accordion v-if="localFormData.type=='bpmn:StartEvent'&&tab=='node'">
       <el-collapse-item name="1">
         <template #title>
-          基本设置
-          <i class="header-icon el-icon-info"></i>
+          <div class="title">基本设置</div>
         </template>
         <div>
           <el-form label-position="right" label-width="70px">
@@ -212,8 +208,7 @@ const addUser = (properties: any) => {
       </el-collapse-item>
       <el-collapse-item name="2">
         <template #title>
-          执行监听器
-          <i class="header-icon el-icon-info"></i>
+          <div class="title">执行监听器</div>
         </template>
         <div>
           <div class="collapse-item-header">
@@ -249,8 +244,7 @@ const addUser = (properties: any) => {
       </el-collapse-item>
       <el-collapse-item name="3">
         <template #title>
-          监听器
-          <i class="header-icon el-icon-info"></i>
+          <div class="title">监听器</div>
         </template>
         <div>
           <div style="margin-bottom: 4px;">

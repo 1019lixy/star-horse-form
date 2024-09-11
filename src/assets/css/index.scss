@@ -660,7 +660,7 @@ hr {
 
   .el-form-item {
     width: 100%;
-   /* margin-bottom: 3px;*/
+    /* margin-bottom: 3px;*/
 
     .el-form-item__label {
       /*  min-width: 100px;*/
@@ -734,4 +734,27 @@ hr {
   justify-content: center;
   background: var(--star-horse-background);
   width: 100%;
+}
+
+.el-collapse-item {
+  display: flex;
+  flex-direction: column;
+}
+
+button.el-collapse-item__header {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  text-align: left;
+  float: left;
+  width: unset !important;
+
+  .title {
+    flex: 1;
+  }
+
+  .el-collapse-item__arrow {
+    width: 5% !important;
+  }
+
 }
