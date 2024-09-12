@@ -21,34 +21,39 @@ onMounted(() => {
   <template v-if="item.tabList&&item.tabList.length>0">
     <el-tabs v-model="item.fieldName" type="border-card" class="view-tab">
       <template v-for="(tabItem,key )  in item.tabList">
-        <el-tab-pane :label="tabItem.title||tabItem.tabName" :name="tabItem.tabName||key">
+        <el-tab-pane v-if="Object.keys(tabItem).length>0" :label="tabItem.title||tabItem.tabName"
+                     :name="tabItem.tabName||key">
           <star-horse-data-view-items :objectName="tabItem.objectName"
                                       :subCreateFlag="tabItem.subFormFlag"
                                       v-model:dataForm="dataForm[tabItem.objectName]"
                                       :commonFormat="commonFormat"
                                       primaryKey="id"
                                       :fieldList="{
-               fieldList:tabItem.fieldList,
-              batchFieldList:tabItem.batchFieldList
+               ...tabItem
             }"/>
         </el-tab-pane>
       </template>
     </el-tabs>
   </template>
   <template v-else-if="item.batchFieldList&&item.batchFieldList.length>0">
-    <template v-if="item.batchFieldList.length>1">
+    <template v-if="item.batchFieldList.length>1&& (!item.displayStyle||item.displayStyle=='tab')">
       <el-tabs v-model="normalTabList">
         <template v-for="(sitem,key) in item.batchFieldList">
-          <el-tab-pane :label="sitem['title']" :name="'tab'+key" :disabled="sitem.disabled">
+          <el-tab-pane v-if="Object.keys(sitem).length>0" :label="sitem['title']" :name="sitem.tabName||'tab'+key"
+                       :disabled="sitem.disabled">
             <star-horse-data-view-table :batchName="sitem['batchName']" :commonFormat="commonFormat" :item="sitem"
                                         v-model:dataForm="dataForm"/>
           </el-tab-pane>
         </template>
       </el-tabs>
     </template>
-    <star-horse-data-view-table v-else :item="item.batchFieldList[0]" :commonFormat="commonFormat"
-                                :batchName="item.batchFieldList[0]['batchName']"
-                                v-model:dataForm="dataForm"/>
+    <template v-else v-for="(sitem,key) in item.batchFieldList">
+      <star-horse-data-view-table  v-if="Object.keys(sitem).length>0"
+                                  :item="sitem" :commonFormat="commonFormat"
+                                  :batchName="sitem['batchName']"
+                                  v-model:dataForm="dataForm"/>
+    </template>
+
   </template>
 </template>
 

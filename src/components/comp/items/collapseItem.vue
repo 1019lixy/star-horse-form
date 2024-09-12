@@ -35,18 +35,23 @@ onMounted(() => {
 
 <template>
   <template v-if="item.collapseList&&item.collapseList.length>0">
-    <el-collapse v-model="item.fieldName" v-on:change="item.actions">
+    <el-collapse v-model="item.fieldName" :accordion="item.preps?.accordion" v-on:change="item.actions">
       <template v-for="(collapseItem,key ) in item.collapseList">
-        <el-collapse-item :title="collapseItem.title" :name="collapseItem.tabName||key"
+        <el-collapse-item v-if="Object.keys(collapseItem).length>0" :name="collapseItem.tabName||key"
                           :disabled="collapseItem.disabled"
                           :index="checkObject(collapseItem)">
+          <template #title>
+            <div class="title"
+                 style="justify-content: space-between;display: flex;align-items: center;vertical-align:middle;height:inherit;">
+              <div style="width: 80%">{{ collapseItem.title }}</div>
+            </div>
+          </template>
           <el-scrollbar height="95%">
             <star-horse-form-item v-if="collapseItem.objectName" :isView="isView" :compUrl="compUrl"
                                   v-model:dataForm="dataForm[collapseItem.objectName]"
                                   :objectName="collapseItem.objectName"
                                   :fieldList="{
-                                  fieldList:collapseItem.fieldList,
-                                  batchFieldList:collapseItem.batchFieldList
+                                  ...collapseItem
                                  }"
                                   :rules="rules" :subCreateFlag="collapseItem.subFormFlag"
                                   :primaryKey="primaryKey"/>
@@ -54,8 +59,7 @@ onMounted(() => {
                                   v-model:dataForm="dataForm"
                                   :objectName="collapseItem.objectName"
                                   :fieldList="{
-                                  fieldList:collapseItem.fieldList,
-                                  batchFieldList:collapseItem.batchFieldList
+                                   ...collapseItem
                                  }"
                                   :rules="rules" :subCreateFlag="collapseItem.subFormFlag"
                                   :primaryKey="primaryKey"/>
@@ -71,10 +75,8 @@ onMounted(() => {
   margin: 5px 10px;
 
   :deep(.el-collapse-item__header) {
-    border: 1px solid var(--star-horse-disable);
-    margin-top: 5px;
-    height: 40px;
-    padding-left: 15px;
+    border-bottom: 1px solid rgb(229, 230, 235);
+    height: 30px;
   }
 
   :deep(.el-collapse-item__wrap) {

@@ -35,7 +35,7 @@ onMounted(() => {
 <template>
   <template v-if="item.cardList&&item.cardList.length>0">
     <template v-for="cardItem in item.cardList">
-      <el-card shadow="hover" :index="checkObject(cardItem)">
+      <el-card shadow="hover" v-if="Object.keys(cardItem).length>0" :index="checkObject(cardItem)">
         <template #header>
           <div class="card-header">
             <span>{{ cardItem.title || cardItem.tabName }}</span>
@@ -53,8 +53,7 @@ onMounted(() => {
                               :compSize="compSize"
                               :objectName="cardItem.objectName"
                               :fieldList="{
-                                  fieldList:cardItem.fieldList,
-                                  batchFieldList:cardItem.batchFieldList
+                                 ...cardItem
                                  }"
                               :rules="rules" :subCreateFlag="cardItem.subFormFlag"
                               :primaryKey="primaryKey"/>
@@ -63,8 +62,7 @@ onMounted(() => {
                               :compSize="compSize"
                               :objectName="cardItem.objectName"
                               :fieldList="{
-                                  fieldList:cardItem.fieldList,
-                                  batchFieldList:cardItem.batchFieldList
+                                  ...cardItem
                                  }"
                               :rules="rules" :subCreateFlag="cardItem.subFormFlag"
                               :primaryKey="primaryKey"/>

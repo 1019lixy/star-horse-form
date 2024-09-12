@@ -1,6 +1,26 @@
+<template>
+  <div class="bpmn-panel">
+    <div style="height: 45px">
+      <div :class="{active: configTab=='node'}" @click="handleConfigSelect('node')" class="config-tab">节点属性
+      </div>
+      <div :class="{active: configTab=='process'}" @click="handleConfigSelect('process')" class="config-tab">
+        流程属性
+      </div>
+    </div>
+    <el-scrollbar height="100%">
+      <node-property-panel :formData="formData" :modeler="modeler" :nodeElement="nodeElement"
+                           :tab="configTab"
+                           v-if="configTab=='node'"
+                           @modifyConfigTab="modifyConfigTab" @modifyFormData="modifyFormData"
+      />
+      <process-property-panel v-if="configTab=='process'" :element="nodeElement" :modeler="modeler"/>
+    </el-scrollbar>
+  </div>
+</template>
 <script setup lang="ts" name="JbpmPropertyPanel">
 import {onMounted, ref} from "vue";
 import NodePropertyPanel from "@/views/jbpm/panel/NodePropertyPanel.vue";
+import ProcessPropertyPanel from "@/views/jbpm/panel/ProcessPropertyPanel.vue";
 
 const props = defineProps({
   modeler: {
@@ -91,17 +111,17 @@ const handleFormData = (element: any) => {
   if (!element.id) {
     return;
   }
-  let businessObject = element.businessObject;
-  formData.value = {
-    type: element.type,
-    id: businessObject.id,
-    name: businessObject.name,
-    userType: businessObject.$attrs.userType,
-    assignee: businessObject.$attrs.assignee,
-    candidateGroups: businessObject.$attrs.candidateGroups,
-    candidateUsers: businessObject.$attrs.candidateUsers ? businessObject.$attrs.candidateUsers.split(",") : [],
-    sequenceFlow: businessObject.conditionExpression ? businessObject.conditionExpression.body : ''
-  }
+  // let businessObject = element.businessObject;
+  // formData.value = {
+  //   type: element.type,
+  //   id: businessObject.id,
+  //   name: businessObject.name,
+  //   userType: businessObject.$attrs.userType,
+  //   assignee: businessObject.$attrs.assignee,
+  //   candidateGroups: businessObject.$attrs.candidateGroups,
+  //   candidateUsers: businessObject.$attrs.candidateUsers ? businessObject.$attrs.candidateUsers.split(",") : [],
+  //   sequenceFlow: businessObject.conditionExpression ? businessObject.conditionExpression.body : ''
+  // }
   console.log(element);
   nodeElement.value = element;
 };
@@ -110,30 +130,18 @@ const modifyFormData = (data: any) => {
   formData.value.userType = data.userType;
 };
 </script>
-<template>
-  <div class="bpmn-panel">
-    <el-container>
-      <el-header height="45px">
-        <div :class="{active: configTab=='node'}" @click="handleConfigSelect('node')" class="config-tab">节点属性
-        </div>
-        <div :class="{active: configTab=='process'}" @click="handleConfigSelect('process')" class="config-tab">
-          流程属性
-        </div>
-      </el-header>
-      <el-main>
-        <node-property-panel :formData="formData" :modeler="modeler" :nodeElement="nodeElement"
-                             :tab="configTab"
-                             @modifyConfigTab="modifyConfigTab" @modifyFormData="modifyFormData"
-        />
-      </el-main>
-    </el-container>
-  </div>
-</template>
+
 <style lang="scss" scoped>
 .bpmn-panel {
   width: 350px;
-  border: 1px solid #eeeeee;
+  border: 1px solid var(--star-horse-border—color);
   padding: 0 5px;
+  height: 100%;
+  overflow: hidden;
+}
+
+:deep(.el-main) {
+  padding: unset !important;
 }
 
 .el-header {

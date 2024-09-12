@@ -1,11 +1,17 @@
 <script setup lang="ts" name="ProcessProperty">
-import {onMounted, ref} from "vue";
+import {onMounted, reactive, ref} from "vue";
+import {PageFieldInfo} from "@/components/types/PageFieldInfo";
+import StarHorseForm from "@/components/comp/StarHorseForm.vue";
+import {
+  dataTypeList,
+  entityTypeList,
+  execListener,
+  extendPrep,
+  processEventTypeList
+} from "@/views/jbpm/panel/Fields.ts";
 
 const props = defineProps({
-  processData: {
-    type: Object,
-    required: true
-  },
+
   modeler: {
     type: Object,
     required: true
@@ -15,6 +21,263 @@ const props = defineProps({
     required: true
   }
 });
+
+const processField = reactive<PageFieldInfo | any>({
+      fieldList: [{
+        fileName: "normal",
+        collapseList: [{
+          title: "常规",
+          tabName: "normal",
+          fieldList: [{
+            label: "ID",
+            fieldName: "processId",
+            type: "input",
+            disabled: "Y",
+            formShow: true,
+            tableShow: true
+          }, {
+            label: "流程名称",
+            fieldName: "processName",
+            type: "input",
+            required: true,
+            formShow: true,
+            tableShow: true
+          }, {
+            label: "可执行",
+            fieldName: "executeAble",
+            type: "switch",
+            defaultValue: "Y",
+            formShow: true,
+            tableShow: true
+          }, {
+            label: "流程启动人",
+            fieldName: "executeOperator",
+            type: "dialog-input",
+            formShow: true,
+            tableShow: true,
+            params: {}
+          }, {
+            label: "流程启角色",
+            fieldName: "executeRole",
+            type: "dialog-input",
+            formShow: true,
+            tableShow: true,
+            params: {}
+          },]
+        }, {
+          title: "全局事件",
+          tabName: "globalEvent",
+          fieldList: [
+            {
+              fieldName: "message",
+              collapseList: [{
+                title: "消息列表",
+                tabName: "message",
+                batchFieldList: [{
+                  batchName: "messageList",
+                  staticData: "Y",
+                  fieldList: [{
+                    label: "ID",
+                    fieldName: "id",
+                    type: "input",
+                    formShow: true,
+                    tableShow: true,
+                  }, {
+                    label: "名称",
+                    fieldName: "name",
+                    type: "input",
+                    formShow: true,
+                    tableShow: true,
+                  }]
+                }]
+              }, {
+                title: "错误列表",
+                tabName: "error",
+                batchFieldList: [{
+                  batchName: "errorList",
+                  staticData: "Y",
+                  fieldList: [{
+                    label: "ID",
+                    fieldName: "id",
+                    type: "input",
+                    formShow: true,
+                    tableShow: true,
+                  }, {
+                    label: "名称",
+                    fieldName: "name",
+                    type: "input",
+                    formShow: true,
+                    tableShow: true,
+                  }, {
+                    label: "错误编码",
+                    fieldName: "errorCode",
+                    type: "input",
+                    formShow: true,
+                    tableShow: true,
+                  }]
+                }]
+              }, {
+                title: "信号列表",
+                tabName: "signal",
+                batchFieldList: [{
+                  batchName: "signalList",
+                  staticData: "Y",
+                  fieldList: [{
+                    label: "ID",
+                    fieldName: "id",
+                    type: "input",
+                    formShow: true,
+                    tableShow: true,
+                  }, {
+                    label: "名称",
+                    fieldName: "name",
+                    type: "input",
+                    formShow: true,
+                    tableShow: true,
+                  }, {
+                    label: "作用域",
+                    fieldName: "area",
+                    type: "switch",
+                    formShow: true,
+                    tableShow: true,
+                    preps: {
+                      inactiveText: "全局",
+                      activeText: "当前实例"
+                    }
+                  }]
+                }]
+              }, {
+                title: "升级列表",
+                tabName: "improve",
+                batchFieldList: [{
+                  batchName: "improveList",
+                  staticData: "Y",
+                  fieldList: [{
+                    label: "ID",
+                    fieldName: "id",
+                    type: "input",
+                    formShow: true,
+                    tableShow: true,
+                  }, {
+                    label: "名称",
+                    fieldName: "name",
+                    type: "input",
+                    formShow: true,
+                    tableShow: true,
+                  }, {
+                    label: "升级编码",
+                    fieldName: "code",
+                    type: "input",
+                    formShow: true,
+                    tableShow: true,
+
+                  }]
+                }]
+              }]
+            }
+          ],
+        },
+          execListener("process", "执行监听器", "execListener", "execListeners"),
+          {
+            title: "事件监听器",
+            tabName: "eventListener",
+            batchFieldList: [{
+              batchName: "eventListeners",
+              staticData: "Y",
+              fieldList: [{
+                label: "事件类型",
+                fieldName: "eventType",
+                type: "select",
+                optionList: processEventTypeList,
+                formShow: true,
+                tableShow: true,
+                preps: {
+                  multiple: "Y",
+                }
+              }, {
+                label: "监听器类型",
+                fieldName: "listenerType",
+                type: "radio",
+                optionList: [{name: "Java类", value: "java"}, {name: "代理表达式", value: "proxyExp"}],
+                formShow: true,
+                tableShow: true,
+                preps: {
+                  radioType: "button"
+                }
+              }, {
+                label: "抛出事件",
+                fieldName: "throwEvent",
+                type: "radio",
+                optionList: [{name: "是", value: "Y"}, {name: "否", value: "N"}],
+                formShow: true,
+                tableShow: true,
+                preps: {
+                  radioType: "button"
+                }
+              }, {
+                label: "监听器",
+                fieldName: "listenerName",
+                type: "input",
+                formShow: true,
+                tableShow: true,
+              },
+                {
+                  label: "实体类型",
+                  fieldName: "entityType",
+                  type: "select",
+                  optionList: entityTypeList,
+                  formShow: true,
+                  tableShow: true,
+                },]
+            }]
+          }, {
+            title: "数据对象",
+            tabName: "dataObject",
+            batchFieldList: [{
+              batchName: "dataObjects",
+              staticData: "Y",
+              fieldList: [
+                {
+                  label: "名称",
+                  fieldName: "name",
+                  type: "input",
+                  formShow: true,
+                  tableShow: true,
+                },
+                {
+                  label: "数据类型",
+                  fieldName: "dataType",
+                  type: "select",
+                  optionList: dataTypeList,
+                  formShow: true,
+                  tableShow: true,
+                },
+                {
+                  label: "默认值",
+                  fieldName: "defaultValue",
+                  type: "input",
+                  formShow: true,
+                  tableShow: true,
+                },
+              ]
+            }]
+          }, extendPrep, {
+            title: "描述文档",
+            tabName: "description",
+            fieldList: [{
+              label: "文档",
+              fieldName: "desc",
+              type: "textarea",
+              formShow: true,
+              tableShow: true
+            }]
+          },
+        ]
+      }
+      ]
+    })
+;
+
 let localProcessData = ref<any>();
 onMounted(() => {
   localProcessData.value = props.processData;
@@ -33,33 +296,5 @@ const updateDesc = (name: string) => {
 <style scoped>
 </style>
 <template>
-  <div>
-    <el-form :inline="false"
-             :model="localProcessData"
-             label-position="left"
-             label-width="100px">
-      <el-form-item label="流程类别">
-        <el-select
-            placeholder="请选择分类"
-            v-model="localProcessData.typeCode"
-        >
-          <el-option
-              :key="item.value"
-              :label="item.name"
-              :value="item.value"
-              v-for="item in localProcessData.processTypeList"
-          ></el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="流程名称">
-        <el-input @input="updateName" v-model="localProcessData.flowName"></el-input>
-      </el-form-item>
-      <el-form-item label="流程ID">
-        <el-input @input="updateId" v-model="localProcessData.flowId"></el-input>
-      </el-form-item>
-      <el-form-item label="流程描述">
-        <el-input @input="updateDesc" v-model="localProcessData.description"></el-input>
-      </el-form-item>
-    </el-form>
-  </div>
+  <star-horse-form :field-list="processField"/>
 </template>

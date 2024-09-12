@@ -1,5 +1,6 @@
 <template>
-  <starhorse-form-item :isDesign="context.attrs['isDesign']" :bareFlag="context.attrs['bareFlag']" :form-item="field" :parentField="parentField"
+  <starhorse-form-item :isDesign="context.attrs['isDesign']" :bareFlag="context.attrs['bareFlag']" :form-item="field"
+                       :parentField="parentField"
   >
     <el-radio-group
         :fid="field.preps['name']"
@@ -12,7 +13,13 @@
         @change="keyEnterFun"
         v-model="context.attrs['formData'][field.preps['name']]"
     >
-      <el-radio :border="item['border']=='Y'"
+      <el-radio-button v-if="field.preps.radioType='button'" :border="item['border']=='Y'"
+                       :checked="item['checked']"
+                       :disabled="item['disabled']=='Y'"
+                       :label="item['name']"
+                       :value="item['value']"
+                       v-for="item in field.preps['values']"/>
+      <el-radio v-else :border="item['border']=='Y'"
                 :checked="item['checked']"
                 :disabled="item['disabled']=='Y'"
                 :label="item['name']"
@@ -34,12 +41,12 @@ export default defineComponent({
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
     const keyEnterFun = () => {
-      context.emit('selfFunc',"change");
+      context.emit('selfFunc', "change");
     };
     onMounted(() => {
       keyEnterFun();
     })
-    return {parentField,  context, field, formItem, dataField, keyEnterFun}
+    return {parentField, context, field, formItem, dataField, keyEnterFun}
   }
 });
 </script>

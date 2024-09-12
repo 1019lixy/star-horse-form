@@ -19,7 +19,7 @@ onMounted(() => {
 <template>
   <template v-if="item.cardList&&item.cardList.length>0">
     <template v-for="cardItem  in item.cardList">
-      <el-card shadow="hover">
+      <el-card shadow="hover" v-if="Object.keys(cardItem).length>0">
         <template #header>
           <div class="card-header">
             <span>{{ cardItem.title || cardItem.tabName }}</span>
@@ -31,8 +31,7 @@ onMounted(() => {
                               :commonFormat="commonFormat"
                               primaryKey="id"
                               :fieldList="{
-               fieldList:cardItem.fieldList,
-              batchFieldList:cardItem.batchFieldList
+               ...cardItem
             }"/>
 
       </el-card>

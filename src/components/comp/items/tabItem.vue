@@ -46,8 +46,7 @@ onMounted(() => {
                                   v-model:dataForm="dataForm[tabItem.objectName]"
                                   :objectName="tabItem.objectName"
                                   :fieldList="{
-                                  fieldList:tabItem.fieldList,
-                                  batchFieldList:tabItem.batchFieldList
+                                 ...tabItem
                                  }"
                                   :rules="rules" :subCreateFlag="tabItem.subFormFlag"
                                   :primaryKey="primaryKey"/>
@@ -56,8 +55,7 @@ onMounted(() => {
                                   v-model:dataForm="dataForm"
                                   :objectName="tabItem.objectName"
                                   :fieldList="{
-                                  fieldList:tabItem.fieldList,
-                                  batchFieldList:tabItem.batchFieldList
+                                   ...tabItem
                                  }"
                                   :rules="rules" :subCreateFlag="tabItem.subFormFlag"
                                   :primaryKey="primaryKey"/>
@@ -71,15 +69,17 @@ onMounted(() => {
     <template v-if="item.batchFieldList.length>1&&(!item.displayStyle||item.displayStyle=='tab')">
       <el-tabs v-model="normalTabList">
         <template v-for="(sitem,key) in item.batchFieldList">
-          <el-tab-pane :label="sitem['title']" :name="'tab'+key" :disabled="sitem.disabled">
+          <el-tab-pane v-if="Object.keys(sitem).length>0" :label="sitem['title']" :name="sitem.tabName||'tab'+key"
+                       :disabled="sitem.disabled">
             <star-horse-form-table :size="compSize" :rules="rules" :item="sitem" v-model:dataForm="dataForm"/>
           </el-tab-pane>
         </template>
       </el-tabs>
     </template>
-    <template v-else>
-      <star-horse-form-table  :rules="rules" :size="compSize" :item="temp"
-                             v-model:dataForm="dataForm" v-for="temp in item.batchFieldList"/>
+    <template v-else v-for="temp in item.batchFieldList">
+      <star-horse-form-table :rules="rules" :size="compSize" :item="temp"
+                             v-if="Object.keys(temp).length>0"
+                             v-model:dataForm="dataForm"/>
     </template>
 
   </template>
