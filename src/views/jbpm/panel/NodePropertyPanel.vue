@@ -2,7 +2,7 @@
   {{ nodeElement.type }}
   <star-horse-form v-if="nodeElement.type=='bpmn:UserTask'" :field-list="userTaskNodeField"/>
   <star-horse-form v-if="nodeElement.type=='bpmn:Task'" :field-list="serviceTaskNodeField(nodeElement)"/>
-  <star-horse-form v-else-if="nodeElement.type!='bpmn:UserTask' && nodeElement.type!='bpmn:Task'"
+  <star-horse-form v-else-if="nodeElement?.type&&nodeElement.type!='bpmn:UserTask' && nodeElement.type!='bpmn:Task'"
                    :field-list="serviceTaskNodeField(nodeElement)"/>
 </template>
 <script setup lang="ts" name="NodePropertyPanel">

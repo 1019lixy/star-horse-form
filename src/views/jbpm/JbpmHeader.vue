@@ -34,18 +34,34 @@ onMounted(async () => {
 }
 </style>
 <template>
-    <div class="inner_button">
-      <el-menu mode="horizontal" style="height: inherit;width: 100%;">
-        <el-menu-item v-for="(item,index ) in buttonList.value">
+  <div class="inner_button">
+    <el-menu mode="horizontal" style="height: inherit;width: 100%;">
+      <template v-for="(item,index ) in buttonList.value">
+        <el-menu-item v-if="!item.children"  :index="'1_'+index" @click="item.action">
           <el-tooltip class="item" :content="item.label" :index="index"
                       effect="dark"
                       placement="bottom">
-            <star-horse-icon @click="item.action" :icon-class="item.icon" size="24px"
-                             style="color: var(--star-horse-style)"
+            <star-horse-icon  :icon-class="item.icon" size="24px"  style="color: var(--star-horse-style)"
             />
           </el-tooltip>
         </el-menu-item>
-      </el-menu>
-    </div>
+        <template v-if="item.children&&item.children.length>0">
+          <el-sub-menu :index="'1_'+index">
+            <template #title>
+
+                <star-horse-icon :title="item.label" :icon-class="item.icon" size="24px" style="color: var(--star-horse-style)"/>
+
+            </template>
+            <el-menu-item v-for="(sitem,sindex) in item.children" :index="'2_'+sindex"
+                          @click="sitem.action">
+              <star-horse-icon :icon-class="sitem.icon" size="24px"
+                               style="color: var(--star-horse-style)"/>
+              {{ sitem.label }}
+            </el-menu-item>
+          </el-sub-menu>
+        </template>
+      </template>
+    </el-menu>
+  </div>
 
 </template>

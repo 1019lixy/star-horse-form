@@ -13,7 +13,6 @@ import {Canvas, EventBus} from "bpmn-js/lib/features/context-pad/ContextPadProvi
 import Modeling from "bpmn-js/lib/features/modeling/Modeling";
 import {Moddle} from "bpmn-js/lib/model/Types";
 import {ModdleElement} from "bpmnlint/lib/types";
-import {domify} from 'min-dom';
 import modelerModdleExtension from 'modeler-moddle/resources/modeler.json';
 import lintModule from 'bpmn-js-bpmnlint';
 import bpmnlintConfig from "../packed-config.js"
@@ -23,6 +22,8 @@ import {ElementRegistry} from "bpmn-js/lib/features/auto-place/BpmnAutoPlaceUtil
 let bpmnModeler: any = null;
 const execution = ref<string>("exec1");
 const executionLabel = ref<string>('模拟运行');
+const miniMap = ref<string>("eye-close");
+const miniMapLabel = ref<string>('关闭小地图');
 const canRedo = ref<boolean>(true);
 const flowDesign = useFlowDesign(piniaInstance);
 // 流程校验使用
@@ -53,49 +54,10 @@ const createBpmnModeler = (canvas: any, properties: any) => {
             bindTo: document
         }
     }));
-//     const panel = domify(`
-//       <style>
-//       .panel {
-//   position: absolute;
-//   bottom: 0;
-//   right: 0;
-//   width: 400px;
-//   height: 200px;
-//   display: flex;
-//   flex-direction: column;
-//   background-color: #f7f7f8;
-//   padding: 5px;
-//   box-sizing: border-box;
-//   border-top: solid 1px #ccc;
-//   font-family: sans-serif;
-// }
-// .panel .errorContainer {
-//   resize: none;
-//   flex-grow: 1;
-//   background-color: #f7f7f8;
-//   border: none;
-//   margin-bottom: 5px;
-//   font-family: sans-serif;
-//   line-height: 1.5;
-//   outline: none;
-// }
-// .panel .errorItem {
-//   cursor: pointer;
-// }
-// .panel button,
-// .panel input {
-//   width: 200px;
-// }
-//      </style>
-//       <div class="panel">
-//         <div class="errorContainer"></div>
-//       </div>
-//     `);
-//
-//     bpmnModeler._container.appendChild(panel);
     $(".bjs-powered-by").remove();
     $(".bts-toggle-mode").remove();
     $("button[class='bjsl-button']").remove();
+    $(".toggle").remove();
     return bpmnModeler;
 }
 /**
@@ -268,7 +230,19 @@ const exec = (modeler: BpmnModeler) => {
         executionLabel.value = "模拟运行";
     }
 }
-
+const miniMapOperation = (modeler: BpmnModeler) => {
+    const map = modeler.get<any>("minimap");
+    if (map.isOpen()) {
+        map.close();
+        miniMap.value = "eye-open";
+        miniMapLabel.value = "打开小地图";
+    } else {
+        map.open();
+        miniMap.value = "eye-close";
+        miniMapLabel.value = "关闭小地图"
+    }
+    console.log(map);
+}
 
 const lint = (modeler: BpmnModeler) => {
     const linting: any = modeler.get<any>('linting');
@@ -277,28 +251,6 @@ const lint = (modeler: BpmnModeler) => {
     linting.lint().then((reports: any) => {
         flowDesign.setLintData(reports);
     });
-    // linting.lint().then((reports: any) => {
-    //     console.log(reports);
-    //     const container: HTMLElement = document.querySelector('.errorContainer')!;
-    //     container.innerHTML = '';
-    //     for (let key in reports) {
-    //         let data = reports[key];
-    //         data.map((report: any) => {
-    //             const {category, id, message, path} = report;
-    //             if (category === 'rule-error') {
-    //                 return domify(`<div class="errorItem"><strong>${category}</strong> Rule <${escapeHTML(rule)}> errored with the following message: ${escapeHTML(message)}</div>`);
-    //             }
-    //             const element = domify(`<div class="errorItem"><strong>${category}</strong> ${id}: ${escapeHTML(message)} </div>`);
-    //             element.addEventListener('click', () => {
-    //                 modeler.get('selection').select([registry.find(item => item.id == id)]);
-    //             });
-    //             return element;
-    //         }).forEach((item: any) => {
-    //             container.appendChild(item);
-    //         });
-    //     }
-    //
-    // });
 };
 const escapeHTML = (str: string) => {
     return str.replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -583,91 +535,122 @@ const flowButtonList = (modeler: BpmnModeler) => {
             label: '打开本地文件',
         },
         {
-            icon: "zoom_in",
-            defaultEdit: true,
-            key: 'zoomIn',
-            disabled: false,
-            action: () => {
-                zoom(modeler, "zoomIn");
+            label: "改变大小",
+            icon: "add",
+            children: [{
+                icon: "zoom_in",
+                defaultEdit: true,
+                key: 'zoomIn',
+                disabled: false,
+                action: () => {
+                    zoom(modeler, "zoomIn");
+                },
+                label: '放大(0.2)',
             },
-            label: '放大(0.2)',
-        },
-        {
-            icon: "zoom_out",
-            defaultEdit: true,
-            disabled: false,
-            key: 'zoomOut',
-            action: () => {
-                zoom(modeler, "zoomOut");
-            },
-            label: '缩小(-0.2)',
-        },
-        {
-            icon: "reset",
-            defaultEdit: true,
-            key: 'zoomTo',
-            disabled: false,
-            action: () => {
-                zoom(modeler, "zoomFit");
-            },
-            label: '调整适合大小',
-        },
-        {
-            icon: "equal",
-            defaultEdit: true,
-            key: 'zoomTo',
-            disabled: false,
-            action: () => {
-                zoom(modeler, "resetZoom");
-            },
-            label: '1:1大小',
-        },
-        {
-            icon: "align_top",
-            key: 'alignTop',
-            disabled: false,
-            action: () => {
-                elementAlign(modeler, "top");
-            },
-            label: '向上对齐',
-        },
-        {
-            icon: "align_bottom",
-            key: 'alignBottom',
-            disabled: false,
-            action: () => {
-                elementAlign(modeler, "bottom");
-            },
-            label: '向下对齐',
-        },
-        {
-            icon: "align_left",
-            key: 'alignLeft',
-            disabled: false,
-            action: () => {
-                elementAlign(modeler, "left");
-            },
-            label: '向左对齐',
-        },
-        {
-            icon: "align_right",
-            key: 'alignRight',
-            disabled: false,
-            action: () => {
-                elementAlign(modeler, "right");
-            },
-            label: '向右对齐',
-        },
-        {
-            icon: "center",
-            key: 'centerContent',
-            disabled: false,
-            action: () => {
-                elementAlign(modeler, "center");
-            },
-            label: '居中',
+                {
+                    icon: "zoom_out",
+                    defaultEdit: true,
+                    disabled: false,
+                    key: 'zoomOut',
+                    action: () => {
+                        zoom(modeler, "zoomOut");
+                    },
+                    label: '缩小(-0.2)',
+                },
+                {
+                    icon: "reset",
+                    defaultEdit: true,
+                    key: 'zoomTo',
+                    disabled: false,
+                    action: () => {
+                        zoom(modeler, "zoomFit");
+                    },
+                    label: '调整适合大小',
+                },
+                {
+                    icon: "equal",
+                    defaultEdit: true,
+                    key: 'zoomTo',
+                    disabled: false,
+                    action: () => {
+                        zoom(modeler, "resetZoom");
+                    },
+                    label: '1:1大小',
+                },]
         },
 
+        {
+            label: "对齐",
+            icon: "add",
+            children: [
+                {
+                    icon: "align_top",
+                    key: 'alignTop',
+                    disabled: false,
+                    action: () => {
+                        elementAlign(modeler, "top");
+                    },
+                    label: '向上对齐',
+                },
+                {
+                    icon: "align_bottom",
+                    key: 'alignBottom',
+                    disabled: false,
+                    action: () => {
+                        elementAlign(modeler, "bottom");
+                    },
+                    label: '向下对齐',
+                },
+                {
+                    icon: "align_left",
+                    key: 'alignLeft',
+                    disabled: false,
+                    action: () => {
+                        elementAlign(modeler, "left");
+                    },
+                    label: '向左对齐',
+                },
+                {
+                    icon: "align_right",
+                    key: 'alignRight',
+                    disabled: false,
+                    action: () => {
+                        elementAlign(modeler, "right");
+                    },
+                    label: '向右对齐',
+                },
+                {
+                    icon: "center",
+                    key: 'centerContent',
+                    disabled: false,
+                    action: () => {
+                        elementAlign(modeler, "center");
+                    },
+                    label: '居中',
+                },
+            ]
+        },
+        {
+            label: "下载",
+            icon: "download",
+            children: [{
+                icon: "download",
+                key: 'download',
+                disabled: false,
+                action: () => {
+                    handleExportBpmn(modeler);
+                },
+                label: '下载Bpmn流程图',
+            },
+                {
+                    icon: "download-svg",
+                    key: 'downloadSvg',
+                    action: () => {
+                        handleExportSvg(modeler);
+                    },
+                    label: '下载Svg流程图',
+                },]
+        },
         {
             icon: "undo",
             key: 'unDo',
@@ -714,23 +697,7 @@ const flowButtonList = (modeler: BpmnModeler) => {
             },
             label: '校验',
         },
-        {
-            icon: "download",
-            key: 'download',
-            disabled: false,
-            action: () => {
-                handleExportBpmn(modeler);
-            },
-            label: '下载Bpmn流程图',
-        },
-        {
-            icon: "download-svg",
-            key: 'downloadSvg',
-            action: () => {
-                handleExportSvg(modeler);
-            },
-            label: '下载Svg流程图',
-        },
+
         {
             icon: "save",
             key: 'save',
@@ -748,6 +715,15 @@ const flowButtonList = (modeler: BpmnModeler) => {
                 exec(modeler);
             },
             label: executionLabel,
+        },
+        {
+            icon: miniMap,
+            key: 'minimap',
+            disabled: false,
+            action: () => {
+                miniMapOperation(modeler);
+            },
+            label: miniMapLabel,
         },
         {
             icon: "right_panel",

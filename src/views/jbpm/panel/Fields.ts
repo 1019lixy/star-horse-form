@@ -1,4 +1,4 @@
-import {ref, reactive, unref, Ref} from "vue";
+import {reactive, ref} from "vue";
 import {SelectOption} from "@/components/types/SearchProps";
 import {FieldInfo, PageFieldInfo, TabFieldInfo} from "@/components/types/PageFieldInfo";
 import {httpMethod} from "@/api/system.ts";
@@ -75,7 +75,10 @@ const listenerTypeFields = {
     label: "监听器类型",
     fieldName: "listenerType",
     type: "radio",
-    optionList: [{name: "Java类", value: "java"}, {name: "表达式", value: "exp"}, {name: "代理表达式", value: "proxyExp"}],
+    optionList: [{name: "Java类", value: "java"}, {name: "表达式", value: "exp"}, {
+        name: "代理表达式",
+        value: "proxyExp"
+    }],
     formShow: true,
     tableShow: true,
     preps: {
@@ -133,7 +136,10 @@ const execListener = (type: string, title: string, tabName: string, batchName: s
                 label: "事务类型",
                 fieldName: "transnationalType",
                 type: "radio",
-                optionList: [{name: "提交前", value: "beforeSubmit"}, {name: "提交后", value: "afterSubmit"}, {name: "回滚", value: "rollBack"}],
+                optionList: [{name: "提交前", value: "beforeSubmit"}, {
+                    name: "提交后",
+                    value: "afterSubmit"
+                }, {name: "回滚", value: "rollBack"}],
                 formShow: true,
                 tableShow: true,
                 preps: {
@@ -729,7 +735,7 @@ const userTaskNodeField = reactive<PageFieldInfo | any>({
     }]
 });
 const serviceTaskNodeField = (node: any) => {
-    console.log(node);
+    console.log("sss", node);
     if (node.type == "bpmn:ServiceTask") {
         serviceTask.value = serviceTaskField;
     } else if (node.type == "bpmn:SendTask") {
@@ -738,7 +744,10 @@ const serviceTaskNodeField = (node: any) => {
         serviceTask.value = scriptTaskField;
     } else if (node.type == "bpmn:CallActivity") {
         serviceTask.value = callActivityField;
-        //businessRuleTaskField
+    } else if (node.type == "bpmn:BusinessRuleTask") {
+        serviceTask.value = businessRuleTaskField;
+    } else {
+        serviceTask.value = {};
     }
     return reactive<PageFieldInfo | any>({
         fieldList: [{

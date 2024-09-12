@@ -510,12 +510,9 @@ onMounted(async () => {
                   </template>
                   <el-menu-item v-for="(sitem,sindex) in item.children" :index="'2_'+sindex"
                                 @click="actionsStyle(sitem)">
-                    <!--                    <el-tooltip class="item" :content="sitem.label" effect="dark"
-                                                    placement="bottom">  </el-tooltip>-->
                     <star-horse-icon :icon-class="sitem.icon" size="24px"
                                      style="color: var(--star-horse-style)"/>
                     {{ sitem.label }}
-
                   </el-menu-item>
                 </el-sub-menu>
               </template>
