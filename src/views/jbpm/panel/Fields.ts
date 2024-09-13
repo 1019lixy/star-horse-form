@@ -216,13 +216,13 @@ let restTaskField = reactive<TabFieldInfo | any>({
     }, {
         label: "请求头",
         fieldName: "header",
-        type: "textarea",
+        type: "json",
         formShow: true,
         tableShow: true,
     }, {
         label: "请求内容",
         fieldName: "body",
-        type: "textarea",
+        type: "json",
         formShow: true,
         tableShow: true,
     }]
@@ -246,13 +246,13 @@ let httpTaskField = reactive<TabFieldInfo | any>({
     }, {
         label: "请求头",
         fieldName: "header",
-        type: "textarea",
+        type: "json",
         formShow: true,
         tableShow: true,
     }, {
         label: "请求内容",
         fieldName: "body",
-        type: "textarea",
+        type: "json",
         formShow: true,
         tableShow: true,
     }, {

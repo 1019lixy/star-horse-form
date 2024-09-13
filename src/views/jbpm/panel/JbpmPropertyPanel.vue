@@ -77,7 +77,7 @@ const handleModeler = () => {
     if (!element) {
       return;
     }
-    handleFormData(element);
+   // handleFormData(element);
   });
   // //节点点击事件
   props.modeler.on("element.click", (e: any) => {

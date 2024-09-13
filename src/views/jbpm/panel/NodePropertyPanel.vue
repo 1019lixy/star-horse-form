@@ -1,8 +1,6 @@
 <template>
   {{ nodeElement.type }}
-  {{ userFormData }}
-  {{ taskFormData }}
-  {{ otherFormData }}
+
   <star-horse-form ref="userTaskFormRef" :outerFormData="outFormData" v-if="nodeElement.type=='bpmn:UserTask'"
                    :field-list="userTaskNodeField"/>
   <star-horse-form ref="taskFormRef" :outerFormData="outFormData" v-if="nodeElement.type=='bpmn:Task'"
