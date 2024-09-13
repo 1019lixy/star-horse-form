@@ -75,26 +75,7 @@ const updateCompAttr = () => {
     updateProperties(otherFormData.value);
   }
 }
-const updateId = (name: string) => {
-  updateProperties({id: name});
-};
-const updateName = (name: string) => {
-  updateProperties({name: name});
-};
-const assignData = () => {
-  let obj = props.nodeElement.businessObject;
-  if (!obj) {
-    return;
-  }
-  let attr = obj.$attrs;
-  outFormData.value = {
-    ...attr,
-    id: obj.id,
-    name: obj.name
-  }
-};
-const changeUserType = () => {
-};
+
 const updateSequenceFlow = (val: any) => {
   let newCondition = props.modeler.get("moddle").create('bpmn:FormalExpression', {
     body: val
@@ -112,7 +93,6 @@ watch([() => userFormData, () => taskFormData, () => otherFormData],
     () => {
       updateCompAttr();
     }, {deep: true});
-
 </script>
 <style scoped>
 </style>
