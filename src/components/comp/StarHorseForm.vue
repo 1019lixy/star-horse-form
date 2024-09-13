@@ -26,7 +26,7 @@ const props = defineProps({
 let configStore = GlobalConfig(piniaInstance);
 let userOperation = useUserSelfOperation(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.inputSize || "default");
-const emits = defineEmits(["refresh", "dataLoaded"]);
+const emits = defineEmits(["refresh", "dataLoaded", "exportData"]);
 const starHorseFormRef = ref(null);
 const dataForm = ref<any>({});
 //此方法，如果赋值给变量，变量没有用的情况下，里面得逻辑不会触发，
@@ -39,6 +39,12 @@ const outerDatas = computed(() => {
 });
 //触发计算
 outerDatas.value;
+//表单更新触发对外提供数据
+computed(() => {
+  let data = dataForm.value;
+  emits("exportData", data);
+  return data;
+}).value;
 const closeDialog = inject("closeDialog") as Function;
 let dialogOperation = inject("dialogOperation") as ShallowReactive<any>;
 const dialogProps = inject<DialogProps>("dialogProps", {});
@@ -249,7 +255,7 @@ const getFormData = () => {
 const setFormData = (data: object) => {
   let defaultDatas = formFieldMapping(props.fieldList).defaultDatas;
   // console.log(defaultDatas);
-   dataForm.value = {...defaultDatas, ...data};
+  dataForm.value = {...defaultDatas, ...data};
 }
 const tableListRef = ref<any>([]);
 
@@ -261,7 +267,7 @@ watch(() => dialogProps.ids,
       if (!val || val == -1) {
         setFormData(dataForm.value);
       } else {
-        console.log("a_xxxxxxx",dialogProps.ids);
+        console.log("a_xxxxxxx", dialogProps.ids);
         loadData();
       }
     }, {

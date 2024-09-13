@@ -746,7 +746,7 @@ const serviceTaskNodeField = (node: any) => {
         serviceTask.value = callActivityField;
     } else if (node.type == "bpmn:BusinessRuleTask") {
         serviceTask.value = businessRuleTaskField;
-    } else {
+    } else if (node.type != "bpmn:Task") {
         serviceTask.value = {};
     }
     return reactive<PageFieldInfo | any>({

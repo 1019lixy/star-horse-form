@@ -61,8 +61,8 @@ const handleModeler = () => {
   //   });
   // })
   //节点选择变化
-  props.modeler.on("selection.changed", e => {
-    console.log("selection.changed");
+  props.modeler.on("selection.changed", (e: any) => {
+    console.log("selection.changed", e);
     const element = e.newSelection[0];
     if (!element) {
       return;
@@ -71,8 +71,8 @@ const handleModeler = () => {
     handleFormData(element);
   })
   // //节点属性变化
-  props.modeler.on("element.changed", e => {
-    console.log("element.changed");
+  props.modeler.on("element.changed", (e: any) => {
+    console.log("element.changed", e);
     const {element} = e;
     if (!element) {
       return;
@@ -81,7 +81,7 @@ const handleModeler = () => {
   });
   // //节点点击事件
   props.modeler.on("element.click", (e: any) => {
-    console.log("element.click");
+    console.log("element.click", e);
     const {element} = e;
     if (element.type == props.modeler._definitions.rootElements[0].$type) {
       modifyConfigTab(0)

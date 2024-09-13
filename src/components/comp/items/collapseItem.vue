@@ -76,6 +76,7 @@ onMounted(() => {
 
   :deep(.el-collapse-item__header) {
     border-bottom: 1px solid rgb(229, 230, 235);
+    border-top: 1px solid rgb(229, 230, 235);
     height: 30px;
   }
 
