@@ -231,28 +231,7 @@ const pwdFieldInfo = reactive<PageFieldInfo | any>({
   <el-card class="inner_content">
     <el-row style="height: 100%;" :gutter="10">
       <el-col :span="viewRolesinfoId?5:5" style="height: inherit">
-        <el-card class="inner_content" style="height: inherit">
-          <el-input
-              v-model="query"
-              :size="compSize"
-              clearable
-              placeholder="请输入关键字"
-              @keydown.enter="onQueryChanged"
-          >
-            <template #append>
-              <star-horse-icon @click="onQueryChanged" icon-class="search" color="var(--star-horse-style)"/>
-            </template>
-          </el-input>
-          <el-tree-v2 :data="deptList" :filter-method="filterMethod"
-                      :check-on-click-node="true"
-                      @check-change="checkChange"
-                      @node-click="checkChange"
-                      :height="600"
-                      ref="treeRef" :props="{
-            'label':'name',
-            'value':'value'
-          }"/>
-        </el-card>
+      <star-horse-tree v-model:tree-datas="deptList" @selectData="checkChange" :comp-size="compSize"/>
       </el-col>
       <el-col :span="viewRolesinfoId?19:19" style="height: inherit">
         <el-card class="inner_content" style="height: inherit">

@@ -32,8 +32,8 @@
             @blur="keyEnterFun('blur')"
             v-model="context.attrs['formData'][field.preps['name']]"/>
       </div>
-      <div class="json-btn" @click="editJsonData">
-        <star-horse-icon icon-class="edit"/>
+      <div class="json-btn" @click="editJsonData" title="编辑数据">
+        <star-horse-icon icon-class="edit" style="cursor: pointer"/>
       </div>
     </div>
   </starhorse-form-item>

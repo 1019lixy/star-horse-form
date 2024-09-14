@@ -26,22 +26,22 @@ export function uuid() {
  * @param data 树节点
  * @param checked
  */
-export function treeCheckChange(treeComp: any, tableComp: any, dataForm: any, data: TreeNodeData, checked: any) {
-    const checkedNodes = treeComp.getCheckedNodes();
-    if (checkedNodes?.length > 0) {
-        checkedNodes.forEach((item: any) => {
-            treeComp.setChecked(item.value, false);
-        });
-    }
-    dataForm["informationsSingleId"] = data.value;
-    treeComp.setChecked(data.value, (checked instanceof Boolean) ? checked : true);
-    if (!checked) {
-        return;
-    }
+export function treeCheckChange(tableComp: any,  data: TreeNodeData) {
+    // const checkedNodes = treeComp.getCheckedNodes();
+    // if (checkedNodes?.length > 0) {
+    //     checkedNodes.forEach((item: any) => {
+    //         treeComp.setChecked(item.value, false);
+    //     });
+    // }
+    // dataForm["informationsSingleId"] = data.value;
+    // treeComp.setChecked(data.value, (checked instanceof Boolean) ? checked : true);
+    // if (!checked) {
+    //     return;
+    // }
     const conditions: Array<SearchParams> = [];
-    if (checked) {
-        conditions.push(createCondition("informationsSingleId", data.value));
-    }
+    // if (checked) {
+    conditions.push(createCondition("informationsSingleId", data.value));
+    // }
     tableComp.setDataInfo(conditions, null);
     searchData(tableComp, conditions);
 }
@@ -358,17 +358,17 @@ const tableCellInfo = (props: any) => {
     return {rows, row, col};
 }
 const mergeLeftCol = (props: any) => {
-    const { row, col} = tableCellInfo(props);
+    const {row, col} = tableCellInfo(props);
     col.colspan = col.colspan + 1;
     row.columns.splice(props.colIndex - 1, 1);
 };
 const mergeRightCol = (props: any) => {
-    const { row, col} = tableCellInfo(props);
+    const {row, col} = tableCellInfo(props);
     col.colspan = col.colspan + 1;
     row.columns.splice(props.colIndex + 1, 1);
 };
 const mergeWholeCol = (props: any) => {
-    const {rows,  col} = tableCellInfo(props);
+    const {rows, col} = tableCellInfo(props);
     // let currentCol: any = {};
     for (const index in rows) {
         const row1 = rows[index];
@@ -401,7 +401,7 @@ const mergeAboveRow = (props: any) => {
 
 };
 const mergeBelowRow = (props: any) => {
-    const {rows,  col} = tableCellInfo(props);
+    const {rows, col} = tableCellInfo(props);
     col.rowspan = col.rowspan + 1;
     const belowRow = rows[props.rowIndex + 1];
     for (const index in belowRow.columns) {
@@ -412,7 +412,7 @@ const mergeBelowRow = (props: any) => {
     }
 };
 const mergeWholeRow = (props: any) => {
-    const { row, col} = tableCellInfo(props);
+    const {row, col} = tableCellInfo(props);
     let totalCols: number = 0;
     for (const index in row.columns) {
         const col = row.columns[index];
@@ -532,7 +532,7 @@ export const tableCellOperation = (command: string, props: any) => {
     // tableAction(props, buttonControl);
 }
 const mergeLeftColAction = (props: any) => {
-    const { row, col} = tableCellInfo(props);
+    const {row, col} = tableCellInfo(props);
     if (!row || !row.columns?.length) {
         return true;
     }
@@ -540,7 +540,7 @@ const mergeLeftColAction = (props: any) => {
     return col.rowspan > 1 && leftCol ? leftCol.rowspan != col.rowspan : props.isFirstCol;
 }
 const mergeRightColAction = (props: any) => {
-    const { row, col} = tableCellInfo(props);
+    const {row, col} = tableCellInfo(props);
     if (!row || !row.columns?.length) {
         return true;
     }
@@ -551,7 +551,7 @@ const mergeWholeColAction = (props: any) => {
     return colCommonAction(props);
 }
 const mergeAboveRowAction = (props: any) => {
-    const {rows,  col} = tableCellInfo(props);
+    const {rows, col} = tableCellInfo(props);
     const aboveRow = rows[props.rowIndex - 1];
     if (!aboveRow || !aboveRow.columns.length) {
         return true;
@@ -563,7 +563,7 @@ const mergeAboveRowAction = (props: any) => {
     return props.isFirstRow;
 }
 const mergeBelowRowAction = (props: any) => {
-    const {rows,  col} = tableCellInfo(props);
+    const {rows, col} = tableCellInfo(props);
     const belowRow = rows[props.rowIndex + 1];
     if (!belowRow || !belowRow.columns?.length) {
         return true;
@@ -578,7 +578,7 @@ const mergeWholeRowAction = (props: any) => {
     return rowCommonAction(props);
 }
 const colCommonAction = (props: any) => {
-    const {rows,  col} = tableCellInfo(props);
+    const {rows, col} = tableCellInfo(props);
     for (const index in rows) {
         const tempRow = rows[index];
         if (!tempRow || !tempRow.columns?.length) {
@@ -593,7 +593,7 @@ const colCommonAction = (props: any) => {
     return false;
 }
 const rowCommonAction = (props: any) => {
-    const { row, col} = tableCellInfo(props);
+    const {row, col} = tableCellInfo(props);
 
     for (const index in row.columns) {
         const tempCol = row.columns[index];
@@ -624,7 +624,7 @@ const undoMergeRowAction = (props: any) => {
     return props.field.rowspan == 1;
 }
 const undoMergeColAction = (props: any) => {
-    const {rows,  col} = tableCellInfo(props);
+    const {rows, col} = tableCellInfo(props);
     // console.log(rows.length, col);
     if (rows.length == col.rowspan && col.rowspan > 1) {
         return false;

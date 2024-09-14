@@ -198,7 +198,7 @@ onMounted(() => {
     flex-direction: column;
 
     .bpmn-container {
-      padding: 10px;
+      /*padding: 10px;*/
       position: relative;
       height: 100%;
       flex: 1;

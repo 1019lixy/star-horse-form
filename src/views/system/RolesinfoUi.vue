@@ -218,6 +218,10 @@ const recallFun = (id: number, datas: any): any => {
   }
   return reitem;
 };
+//系统赋权
+const systemAuthority = async () => {
+
+}
 const menuAuthority = async () => {
   let id = dataCheck("请先选择要分配菜单权限的角色");
   if (!id) {
@@ -285,6 +289,9 @@ const addUsers = async () => {
  *
  */
 const menuAuthorityRef = ref();
+const systemSubmit=()=>{
+
+}
 const submit = () => {
   let menuIds: Array<number> = menuAuthorityRef.value!.getCheckedKeys();
   if (menuIds.length == 0) {
@@ -343,6 +350,11 @@ const initData = async () => {
     icon: "card",
     children: [
       {
+        labelName: "系统权限",
+        btnName: "systemAuth",
+        exec: systemAuthority
+      },
+      {
         labelName: "菜单权限",
         btnName: "menuAuth",
         exec: menuAuthority
@@ -387,6 +399,33 @@ onMounted(async () => {
       "userResetForm" @merge="userSubmit" :dialogProps="dialogProps" boxHeight="90%" boxWidth="1100px">
     <UserTransfer ref="selectedUsersRef"/>
   </star-horse-dialog>
+  <star-horse-dialog self-func="true" :dialog-visible="dialogProps.batchEditVisible" :title="'系统权限'" @resetForm=
+      "resetForm" @merge="systemSubmit" :dialogProps="dialogProps" boxHeight="90%" boxWidth="40%">
+    <el-card class="inner_content" style="height: inherit">
+      <el-input
+          v-model="query"
+          size="default"
+          clearable
+          placeholder="请输入关键字"
+          @keydown.enter="systemOnQueryChanged"
+      >
+        <template #append>
+          <star-horse-icon @click="systemOnQueryChanged" icon-class="search" color="var(--star-horse-style)"/>
+        </template>
+      </el-input>
+      <el-tree-v2 :height="700"
+                  :filter-method="filterMethod"
+                  check-on-click-node="true"
+                  ref="systemAuthorityRef"
+                  :data="authorityMenusList"
+                  :props="{
+      'value':'idMenusinfo',
+      'key':'idMenusinfo',
+      'label':'menuName',
+      'children':'children'
+    }" show-checkbox/>
+    </el-card>
+  </star-horse-dialog>
   <star-horse-dialog self-func="true" :dialog-visible="dialogProps.bakeVisible1" :title="'菜单权限'" @resetForm=
       "resetForm" @merge="submit" :dialogProps="dialogProps" boxHeight="90%" boxWidth="40%">
     <el-card class="inner_content" style="height: inherit">
@@ -421,9 +460,7 @@ onMounted(async () => {
       "'查看数据'" :is-view="true">
     <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
   </star-horse-dialog>
-  <!--  <el-card class = "inner_content">
-      <el-row style = "height: 100%;">
-        <el-col :span = "12" style = "height: 100%;">-->
+
   <el-card class="inner_content" style="height: 100%;">
     <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
       <star-horse-search-comp @searchData="(data:any)=>starHorseTableCompRef.createSearchParams(data)"
@@ -431,20 +468,15 @@ onMounted(async () => {
                               :compUrl="dataUrl"/>
       <hr/>
       <star-horse-button-list
-                              @tableCompFunc="(fun:any)=>starHorseTableCompRef.tableCompFunc(fun)" :compUrl="dataUrl"
-                              :selfBtnFunc="selfBtnFunc"
-                              :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
+          @tableCompFunc="(fun:any)=>starHorseTableCompRef.tableCompFunc(fun)" :compUrl="dataUrl"
+          :selfBtnFunc="selfBtnFunc"
+          :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
     <hr>
-    <star-horse-table-comp  ref="starHorseTableCompRef" :fieldList="tableFieldList"
+    <star-horse-table-comp ref="starHorseTableCompRef" :fieldList="tableFieldList"
                            :primaryKey="primaryKey"
                            :compUrl="dataUrl"
                            :dataFormat="dataFormat"/>
   </el-card>
-  <!--     </el-col>
-     <el-col :span = "12">
-        <RolesMenusinfoUi style = "height: 100%"/>
-      </el-col>
-   </el-row>
-  </el-card>-->
+
 </template>

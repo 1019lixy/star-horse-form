@@ -2,18 +2,17 @@
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings.ts";
 import {DialogProps} from "@/components/types/DialogProps"
-import {computed, onMounted, provide, reactive, ref, unref, watch} from "vue";
+import {computed, onMounted, provide, reactive, ref, unref} from "vue";
 import {SearchFields, SelectOption} from "@/components/types/SearchProps";
 import {closeLoad, createTree, dictData, load, loadData, loadElementPlusIcon, loadSystemInfo} from "@/api/sh_api";
 import {postRequest} from "@/api/star_horse";
 import {error, success, warning} from "@/utils/message";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {TreeNode, TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
-import {ElTreeV2} from "element-plus";
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {treeCheckChange} from "@/api/system";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import piniaInstance from "@/store";
+import StarHorseTree from "@/components/comp/StarHorseTree.vue";
 
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/system-config/system/menusinfoEntity/pageList",
@@ -238,7 +237,7 @@ const filterMethod = (query: string, node: TreeNode) => {
  * @param checked
  */
 const checkChange = (data: TreeNodeData, checked: boolean) => {
-  treeCheckChange(treeRef.value, menuTableListRef.value, dataForm, data, checked);
+  treeCheckChange(menuTableListRef.value, data);
   currentInformation.value = data.value;
   loadMenuBySystemId(data.value);
 };
@@ -278,28 +277,7 @@ onMounted(async () => {
   <el-card class="inner_content">
     <el-row style="height: 100%;" :gutter="10">
       <el-col :span="5" style="height: inherit">
-        <el-card class="inner_content" style="height: inherit">
-          <el-input
-              v-model="query"
-              :size="compSize"
-              clearable
-              placeholder="请输入关键字"
-              @keydown.enter="onQueryChanged"
-          >
-            <template #append>
-              <star-horse-icon @click="onQueryChanged" icon-class="search" color="var(--star-horse-style)"/>
-            </template>
-          </el-input>
-          <el-tree-v2 :data="informationsList" :filter-method="filterMethod"
-                      :check-on-click-node="true"
-                      :height="600"
-                      @check-change="checkChange"
-                      @node-click="checkChange"
-                      ref="treeRef" :props="{
-            'label':'name',
-            'value':'value'
-          }"/>
-        </el-card>
+        <star-horse-tree v-model:treeDatas="informationsList"  @selectData="checkChange" :comp-size="compSize"/>
       </el-col>
       <el-col :span="19" style="height: inherit">
         <el-card class="inner_content" style="height: inherit">

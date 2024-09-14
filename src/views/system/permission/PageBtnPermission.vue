@@ -5,13 +5,13 @@ import {DialogProps} from "@/components/types/DialogProps"
 import {computed, onMounted, provide, reactive, ref} from "vue";
 import {SearchFields, SelectOption} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
-import {dictData, loadMenusInfo, loadRolesInfo, loadSystemInfo} from "@/api/sh_api";
+import {dictData, loadMenusInfo, loadRolesInfo, loadSystemInfo} from "@/api/sh_api.ts";
 import {ElTreeV2} from "element-plus";
 import {TreeNode, TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-import {treeCheckChange} from "@/api/system";
+import {treeCheckChange} from "@/api/system.ts";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import piniaInstance from "@/store";
+import StarHorseTree from "@/components/comp/StarHorseTree.vue";
 
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/system-config/system/resourcesSummaryEntity/pageList",
@@ -35,9 +35,9 @@ let authorityList = ref<SelectOption[]>();
 let dataForm = ref<any>({});
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-/*
-     {label: "所属系统", defaultShow: true, fieldName: "informationsSingleId", type: "select", optionList: systemInfoList},
-*/
+    /*
+         {label: "所属系统", defaultShow: true, fieldName: "informationsSingleId", type: "select", optionList: systemInfoList},
+    */
     {label: "角色名称", defaultShow: true, fieldName: "idRolesinfo", type: "select", optionList: rolesList},
     {label: "创建日期", fieldName: "createdDate", type: "date", matchType: "bt"},
   ]
@@ -136,7 +136,6 @@ const dialogProps = reactive<DialogProps>({
 provide("dialogProps", dialogProps);
 
 
-
 const dataFormat = (name: string, cellValue: any, row: any): any => {
   let names: any = [];
   if (name == "rolesList" && row["rolesList"]) {
@@ -160,25 +159,16 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
 const treeRef = ref<InstanceType<typeof ElTreeV2>>();
 const query = ref('');
 const menuBtnTableRef = ref();
-const onQueryChanged = (query: string) => {
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-expect-error
-  treeRef.value!.filter(query)
-};
-const filterMethod = (query: string, node: TreeNode) => {
-  return node.name!.toLowerCase().includes(query?.toLowerCase())
-};
+
 /**
  * 点击事件
  * @param data
  * @param checked
  */
 const checkChange = (data: TreeNodeData, checked: boolean) => {
-
-  treeCheckChange(treeRef.value, menuBtnTableRef.value, dataForm.value, data, checked);
+  treeCheckChange( menuBtnTableRef.value,  data, checked);
 };
 const initData = async () => {
-
   systemInfoList.value = await loadSystemInfo([]);
   rolesList.value = await loadRolesInfo([]);
   authorityList.value = await dictData("button_authority");
@@ -200,32 +190,14 @@ onMounted(async () => {
     <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
   </star-horse-dialog>
   <el-card class="inner_content">
-    <el-row style="height: 100%;">
-      <el-col :span="5" style="height: inherit">
-        <el-card class="inner_content" style="height: inherit">
-          <el-input
-              v-model="query"
-              :size="compSize"
-              clearable
-              placeholder="请输入关键字"
-              @input="onQueryChanged"
-          >
-            <template #suffix>
-              <star-horse-icon icon-class="search" color="var(--star-horse-style)"/>
-            </template>
-          </el-input>
-          <el-tree-v2  :data="systemInfoList" :filter-method="filterMethod" style="height:100%"
-                      check-on-click-node
-                      :height="700"
-                      @check-change="checkChange"
-                      @node-click="checkChange"
-                      ref="treeRef" :props="{
-            'label':'name',
-            'value':'value'
-          }"/>
-        </el-card>
+    <el-row gutter="5" style="height: 100%;">
+      <el-col :span="4" style="height: inherit">
+        <star-horse-tree v-model:tree-datas="rolesList" treeTitle="用户组" @selectData="checkChange" :compSize="compSize"/>
       </el-col>
-      <el-col :span="19" style="height: inherit">
+      <el-col :span="4" style="height: inherit">
+        <star-horse-tree v-model:tree-datas="systemInfoList" treeTitle="应用系统" @selectData="checkChange" :compSize="compSize"/>
+      </el-col>
+      <el-col :span="16" style="height: inherit">
         <el-card class="inner_content" style="height: inherit">
           <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
             <star-horse-search-comp @searchData="(data:any)=>menuBtnTableRef.createSearchParams(data)"
@@ -233,11 +205,11 @@ onMounted(async () => {
                                     :compUrl="dataUrl"/>
             <hr/>
             <star-horse-button-list
-                                    @tableCompFunc="(fun:any)=>menuBtnTableRef.tableCompFunc(fun)" :compUrl="dataUrl"
-                                    :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
+                @tableCompFunc="(fun:any)=>menuBtnTableRef.tableCompFunc(fun)" :compUrl="dataUrl"
+                :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
           </div>
           <hr>
-          <star-horse-table-comp  :fieldList="tableFieldList" :primaryKey="primaryKey"
+          <star-horse-table-comp :fieldList="tableFieldList" :primaryKey="primaryKey"
                                  :compUrl="dataUrl"
                                  :dataFormat="dataFormat" ref="menuBtnTableRef"/>
         </el-card>
