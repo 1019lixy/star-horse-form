@@ -18,6 +18,39 @@ let roles = ref<string>("--");
 let configStore = GlobalConfig(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.inputSize || "default");
 const userFormRef = ref();
+const rules = {
+  phone: [{
+    type: 'string',
+    message: '手机格式不正确',
+    trigger: "change",
+    // 自定义验证手机号格式
+    validator(_rule: any, value: any, callback: Function) {
+      const reg = new RegExp(/1\d{10}/)
+      if (reg.test(value)) {
+        callback()
+      } else {
+        callback(new Error())
+      }
+    }
+  },],
+  oldPassword: [{required: true, message: "必填项不能为空", trigger: "blur"}],
+  password: [{required: true, message: "必填项不能为空", trigger: "blur"},
+    {min: 6, max: 14, message: '密码长度为6 - 14位'}
+  ],
+  rePassword: [{required: true, message: "必填项不能为空", trigger: "blur"},
+    {min: 6, max: 14, message: '确认密码长度为6 - 14位'},
+    {
+      trigger: "blur",
+      validator(_rule: any, value: any, callback: Function) {
+        if (value != dataForm.value['password']) {
+          callback(new Error("2次密码不一致"));
+        } else {
+          callback();
+        }
+      }
+    }
+  ],
+};
 const baseFieldList = reactive<PageFieldInfo | any>({
   fieldList: [{
     fieldName: "basic",

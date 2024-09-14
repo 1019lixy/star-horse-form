@@ -61,7 +61,15 @@ const tableFieldList = reactive<PageFieldInfo>({
       }],
     [{
       label: "归属应用名称", fieldName: "informationsSingleId", type: "select", optionList: informationsList,
-      required: true, formShow: true,  defaultValue: currentInformation,
+      required: true, formShow: true, defaultValue: currentInformation,
+      actionName: "change",
+      actions: (val: any) => {
+        let systemId = val["informationsSingleId"];
+        if (!systemId) {
+          return;
+        }
+        loadMenuBySystemId(systemId);
+      },
       tableShow: true
     },
       {
@@ -86,17 +94,17 @@ const tableFieldList = reactive<PageFieldInfo>({
         required: true, formShow: true,
         tableShow: true
       },
-      ],
-      [{
-        label: "是否缓存页面", fieldName: "keepAlive", type: "switch",
-        defaultValue: "Y",
-        formShow: true,
-        tableShow: true
-      },{
-        label: "页面打开方式", fieldName: "openType", type: "select", optionList: openTypeList,
-        required: true, formShow: true,  defaultValue: "self",
-        tableShow: true
-      }],
+    ],
+    [{
+      label: "是否缓存页面", fieldName: "keepAlive", type: "switch",
+      defaultValue: "Y",
+      formShow: true,
+      tableShow: true
+    }, {
+      label: "页面打开方式", fieldName: "openType", type: "select", optionList: openTypeList,
+      required: true, formShow: true, defaultValue: "self",
+      tableShow: true
+    }],
     {
       label: "菜单描述", fieldName: "menuDesc", type: "textarea",
       formShow: true,
@@ -140,29 +148,19 @@ let compSize = computed(() => configStore.configFormInfo?.inputSize || "default"
 const primaryKey = "idMenusinfo";
 const rules = {};
 const dataForm = ref<any>({});
-watch(() => dataForm.value["informationsSingleId"],
-    (val) => {
-      if (val) {
-        loadMenuBySystemId(false);
-      }
-    }, {
-      deep: true,
-      immediate: true
-    }
-)
-const loadMenuBySystemId = async (_loadAll: boolean) => {
-  if (dataForm.value["batchDataList"]?.length > 0) {
-    parentMenus.value = createTree(dataForm.value["batchDataList"], "dataNo", "menuName", "idMenusinfo");
-  } else {
-    let params = [{
-      "propertyName": "informationsSingleId",
-      "value": dataForm.value["informationsSingleId"]
-    }];
-    let {data} = await loadData("/system-config/system/menusinfoEntity/getAllTreeDataByCondition/false", params);
-    if (data) {
-      parentMenus.value = createTree(data, "dataNo", "menuName", "idMenusinfo");
-    }
+const loadMenuBySystemId = async (systemId: number) => {
+  if (!systemId) {
+    return;
   }
+  let params = [{
+    "propertyName": "informationsSingleId",
+    "value": systemId
+  }];
+  let {data} = await loadData("/system-config/system/menusinfoEntity/getAllTreeDataByCondition/false", params);
+  if (data) {
+    parentMenus.value = createTree(data, "dataNo", "menuName", "idMenusinfo");
+  }
+
 };
 const dialogProps = reactive<DialogProps>({
   bakeVisible1: false, bakeVisible2: false, bakeVisible3: false,
@@ -188,22 +186,20 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
   }
   return cellValue;
 }
-const merge = () => {
+const merge = (type: string) => {
   menuFormRef.value!.$refs["starHorseFormRef"].validate((result: boolean) => {
     if (!result) {
       return;
     }
-    doMerge();
+    doMerge(type);
   });
 };
-const mergeDraft = () => {
-  doMerge();
+const mergeDraft = (type: string) => {
+  doMerge(type);
 };
-const doMerge = () => {
+const doMerge = (type: string) => {
   load("数据处理中");
   let temp = unref(menuFormRef.value.getFormData());
-  // let batchData = temp["batchDataList"];
-  // batchData.forEach((item: any) => item["informationsSingleId"] = temp["informationsSingleId"]);
   postRequest(dataUrl.mergeUrl!, temp).then(res => {
     closeLoad();
     if (res.data.code != 0) {
@@ -213,8 +209,11 @@ const doMerge = () => {
       success(res.data.cnMessage);
     }
     resetForm();
-    dialogProps.editVisible = false;
+    if (type == "close") {
+      dialogProps.editVisible = false;
+    }
     menuTableListRef.value!.loadByPage();
+    loadMenuBySystemId(currentInformation.value);
     //关闭弹窗
   }).catch(err => {
     error("接口调用异常" + err);
@@ -228,8 +227,6 @@ const resetForm = () => {
 const treeRef = ref<any>();
 const query = ref('');
 const onQueryChanged = (query: string) => {
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-expect-error
   treeRef.value!.filter(query)
 };
 const filterMethod = (query: string, node: TreeNode) => {
@@ -242,13 +239,14 @@ const filterMethod = (query: string, node: TreeNode) => {
  */
 const checkChange = (data: TreeNodeData, checked: boolean) => {
   treeCheckChange(treeRef.value, menuTableListRef.value, dataForm, data, checked);
-  currentInformation.value = data.value ;
+  currentInformation.value = data.value;
+  loadMenuBySystemId(data.value);
 };
 const initData = async () => {
 
   let params: any = [{propertyName: "statusCode", value: "1"}]
   informationsList.value = await loadSystemInfo(params);
-  openTypeList.value=await dictData("page_open_type");
+  openTypeList.value = await dictData("page_open_type");
   // await loadMenuBySystemId(true);
   let {data} = await loadData(dataUrl.userConditionUrl!, params);
   if (data) {
@@ -311,11 +309,11 @@ onMounted(async () => {
                                     :compUrl="dataUrl"/>
             <hr/>
             <star-horse-button-list
-                                    @tableCompFunc="(fun:any)=>menuTableListRef.tableCompFunc(fun)" :compUrl="dataUrl"
-                                    :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
+                @tableCompFunc="(fun:any)=>menuTableListRef.tableCompFunc(fun)" :compUrl="dataUrl"
+                :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
           </div>
           <hr>
-          <star-horse-table-comp  :fieldList="tableFieldList" :primaryKey="primaryKey"
+          <star-horse-table-comp :fieldList="tableFieldList" :primaryKey="primaryKey"
                                  :compUrl="dataUrl"
                                  :dataFormat="dataFormat" :show-batch-field="true" ref="menuTableListRef"/>
         </el-card>

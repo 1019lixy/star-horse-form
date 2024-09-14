@@ -590,7 +590,7 @@ watch(() => formProps,
                 :prop="item.actionName"
                 v-if="item.fieldType==='button'">
               <el-button
-                  @click="jsButtonClick(item.actionName)" size="small">
+                  @click="jsButtonClick(item.actionName)">
                 <star-horse-icon icon-class="code" size="16px" style="color: var(--star-horse-style)"/>
                 编辑事件代码
               </el-button>

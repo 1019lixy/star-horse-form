@@ -3,6 +3,7 @@ import {inject, onMounted, ref} from "vue";
 import {postRequest} from "@/api/star_horse";
 import {getUserInfo} from "@/utils/auth";
 import SubSystemMenu from "@/components/menu/SubSystemMenu.vue";
+import SystemSubMenu from "@/components/menu/SystemSubMenu.vue";
 
 let dataList = ref([]);
 const loadMenuFun = inject("loadMenu") as Function;
@@ -21,22 +22,20 @@ const initData = async () => {
 };
 
 
-
-
 onMounted(() => {
   initData();
 });
 </script>
 <template>
   <el-menu
-      class="el-menu-demo"
+      class="system-menu"
       mode="horizontal"
+      ellipsis
+      :popper-offset="16"
       text-color="var(--star-horse-white)"
       active-text-color="#ffd04b"
-      background-color="#409eff"
-      @select="handleSelect"
-  >
-    <sub-system-menu :dataList="dataList"/>
+      background-color="#409eff">
+    <SystemSubMenu :dataList="dataList"/>
   </el-menu>
 </template>
 <style lang="scss" scoped>
@@ -60,30 +59,16 @@ onMounted(() => {
   background-color: unset !important;
 }
 
-.sub-class {
-  background-color: var(--star-horse-style);
 
-  div:hover {
-    background-color: unset !important;
-  }
-}
-
-.el-popper,
-.el-menu--popup-container {
-  background-color: var(--star-horse-style);
-
-  ul {
-    background-color: var(--star-horse-style);
-  }
-}
 
 .sub-class:hover {
   background-color: unset !important;
 }
 
-.el-menu-demo {
+.system-menu {
   max-height: 50px;
   background-color: unset;
+  width: 100%;
   border-bottom: unset !important;
   color: var(--star-horse-white);
   font-weight: bold;
@@ -91,7 +76,7 @@ onMounted(() => {
 }
 
 :deep(.el-menu-item ) {
-  padding: 0 3px;
+  padding: 0 5px;
 }
 
 :deep(.el-sub-menu) {
@@ -104,14 +89,12 @@ onMounted(() => {
 }
 
 :deep(.el-icon) {
-  svg{
+  svg {
     height: 1.5em;
     width: 1.5em;
     color: var(--star-horse-white) !important;
   }
 }
 
-:deep(.el-popper.is-light) {
-  background-color: var(--star-horse-style);
-}
+
 </style>

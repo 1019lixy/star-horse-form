@@ -58,69 +58,7 @@ const dialogProps = reactive<DialogProps>({
   uploadVisible: false,
   viewVisible: false
 });
-const tableFieldList = reactive<PageFieldInfo | any>({
-  fieldList: [
-    [{
-      label: "工号", fieldName: "employeeNo", type: "input",
-      formShow: true, disabled: "Y",
-    },
-      {
-        label: "用户名", fieldName: "username", type: "input",
-        formShow: true, disabled: "Y",
-      }],
-    {
-      label: "联系电话", fieldName: "phone", type: "input",
-      formShow: true,
-    },
-    {
-      label: "原始密码", fieldName: "oldPassword", type: "password",
-      required: true, formShow: true,
-    },
-    {
-      label: "新密码", fieldName: "password", type: "password",
-      required: true, formShow: true,
-    },
-    {
-      label: "确认密码", fieldName: "rePassword", type: "password",
-      required: true, formShow: true,
-    }
-  ],
-  //阻止初始化时自动加载列表数据
-  stopAutoLoad: true,
-});
-const rules = {
-  phone: [{
-    type: 'string',
-    message: '手机格式不正确',
-    trigger: "change",
-    // 自定义验证手机号格式
-    validator(_rule: any, value: any, callback: Function) {
-      const reg = new RegExp(/1\d{10}/)
-      if (reg.test(value)) {
-        callback()
-      } else {
-        callback(new Error())
-      }
-    }
-  },],
-  oldPassword: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  password: [{required: true, message: "必填项不能为空", trigger: "blur"},
-    {min: 6, max: 14, message: '密码长度为6 - 14位'}
-  ],
-  rePassword: [{required: true, message: "必填项不能为空", trigger: "blur"},
-    {min: 6, max: 14, message: '确认密码长度为6 - 14位'},
-    {
-      trigger: "blur",
-      validator(_rule: any, value: any, callback: Function) {
-        if (value != dataForm.value['password']) {
-          callback(new Error("2次密码不一致"));
-        } else {
-          callback();
-        }
-      }
-    }
-  ],
-};
+
 const initData = async () => {
   await loadShortMenu();
   changeLang(getLang(), true);
@@ -271,9 +209,10 @@ let configInfo = computed(() => configStore.configFormInfo);
 <template>
   <star-horse-dialog :title="'编辑快捷菜单'" :dialog-props="dialogProps" :dialog-visible="dialogProps.bakeVisible1"
                      :self-func="true" @merge="batchMerge" @resetForm="shortcutReset">
-    <el-input style="width: 15%;" v-model="search" size="default" placeholder="请输入关键字" clearable>
+    <el-input style="width: 50%;" v-model="search" :size="configInfo.inputSize||'default'" placeholder="请输入关键字"
+              clearable>
       <template #append>
-        <star-horse-icon  icon-class="search" color="var(--star-horse-style)"/>
+        <star-horse-icon icon-class="search" color="var(--star-horse-style)"/>
       </template>
     </el-input>
     <star-horse-table-comp ref="shortcutMultipleTable" :field-list="fieldList" primaryKey="meta.title"
@@ -282,7 +221,7 @@ let configInfo = computed(() => configStore.configFormInfo);
                            :allowSelectParent="false" :expand="true" :reverseDataList="reverseDataList"
                            :tableDataList="filterTableData"/>
   </star-horse-dialog>
-  <div class="header">
+  <div class="star-horse-inner-header">
     <div :title="systemName" class="logo">
       <img v-if="getCustomerInfo()?.logo" :src="getCustomerInfo()?.logo" :height="getCustomerInfo()?.height||45"/>
       <star-horse-icon v-else icon-class="logo"
@@ -301,7 +240,8 @@ let configInfo = computed(() => configStore.configFormInfo);
                    :inactive-action-icon="Moon"
                    style="width: 50%"
         />
-        <el-popover :popper-style="{width: 'unset !important'}" placement="bottom-end" :width="600" trigger="hover" :show-arrow="false">
+        <el-popover :popper-style="{width: 'unset !important'}" placement="bottom-end" :width="600" trigger="hover"
+                    :show-arrow="false">
           <template #reference>
             <el-badge :value="6">
               <star-horse-icon icon-class="messages" color="var(--star-horse-white)"/>
@@ -405,7 +345,7 @@ let configInfo = computed(() => configStore.configFormInfo);
   }
 }
 
-.header {
+.star-horse-inner-header {
   height: 50px;
   width: 100%;
   background: var(--star-horse-style);
@@ -418,6 +358,7 @@ let configInfo = computed(() => configStore.configFormInfo);
   vertical-align: middle;
   box-sizing: border-box;
   flex-direction: row;
+  overflow: hidden;
 
   .logo {
     display: flex;
@@ -428,25 +369,12 @@ let configInfo = computed(() => configStore.configFormInfo);
   .header-left {
     height: 100%;
     flex: 1;
+    width: 100%;
     display: flex;
+    overflow: hidden;
     flex-direction: row;
     align-items: center;
 
-    ul {
-      list-style: none;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      height: 100%;
-      margin-left: 0;
-      padding-left: 0;
-
-      li {
-        span {
-          color: var(--star-horse-white);
-        }
-      }
-    }
   }
 
   .header-right {
