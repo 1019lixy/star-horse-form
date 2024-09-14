@@ -11,6 +11,7 @@ let menuColor = computed(() => props.level > 1 ? "var(--star-horse-shadow)" : "v
 <template>
   <div v-if="level>1" style="height: 2px ;background: var(--star-horse-white)"></div>
   <template v-for="item in dataList">
+
     <el-sub-menu v-if="item.children&&item.children.length>0" :index="item.idInformations"
                  @click="loadMenuFun(item.idInformations)">
       <template #title>
