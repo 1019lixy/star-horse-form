@@ -7,8 +7,11 @@ import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import SubMenu from "@/components/menu/SubMenu.vue";
 import {filterTree} from "@/api/sh_api";
 import piniaInstance from "@/store";
+import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 
 let userInfo = userInfoStore(piniaInstance);
+let configStore = GlobalConfig(piniaInstance);
+let compSize = computed(() => configStore.configFormInfo?.inputSize || "default");
 const emits = defineEmits(["collopseOperation"]);
 let leftMenuDatas = ref<MenusInfo[]>([]);
 let props = defineProps({
@@ -75,7 +78,7 @@ watch(() => props.sysemId,
             <component :is="'search'"/>
           </el-icon>
           <template #title>
-            <el-input v-model="search" size="default" placeholder="请输入关键字" clearable>
+            <el-input v-model="search" :size="compSize" placeholder="请输入关键字" clearable>
               <template #suffix>
                 <star-horse-icon icon-class="search" color="var(--star-horse-style)"/>
               </template>

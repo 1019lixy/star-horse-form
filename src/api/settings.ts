@@ -73,5 +73,5 @@ export const Config: any = {
     /**
      * 默认列表宽度
      */
-    defaultColumnWidth: '180'
+    defaultColumnWidth: '120'
 };

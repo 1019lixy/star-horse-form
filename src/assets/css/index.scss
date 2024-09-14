@@ -353,6 +353,10 @@ a {
   overflow-x: hidden;
 }
 
+.el-form-item {
+  align-items: center;
+}
+
 .el-form-item__label {
   padding: 0 12px;
 }
@@ -739,6 +743,16 @@ hr {
 .el-collapse-item {
   display: flex;
   flex-direction: column;
+
+
+}
+
+.collapse-item-title {
+  justify-content: space-between;
+  display: flex;
+  align-items: center;
+  vertical-align: middle;
+  height: inherit;
 }
 
 button.el-collapse-item__header {

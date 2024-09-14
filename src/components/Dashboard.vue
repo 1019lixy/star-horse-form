@@ -25,7 +25,7 @@ const cachedDatas = computed(() => viewListStore.viewListDatas);
 let isCollapse = ref<boolean>(true);
 let sysemId = ref<string>("-1");
 let outerIsCollapse = ref<number>(64);
-navBarListStore.addNavBar(route);
+
 let locale = ref();
 let direction = ref();
 const changeLang = (lang: LangType, _isInit: boolean) => {
@@ -89,6 +89,7 @@ onMounted(async () => {
     resizerRef.value.onmousedown = dragStart;
   }
   changeLang(getLang(), true);
+  navBarListStore.addNavBar(route);
   configStore.clearAll();
   $(".star-horse-left").addClass("animate__animated animate__bounceInLeft");
   setTimeout(() => {
@@ -161,11 +162,11 @@ const configInfo = computed(() => configStore.configFormInfo);
         </el-main>
       </el-container>
     </el-container>
-<!--    <div class="main-config" @click="drawer=true">
-      <el-tooltip content="主题设置">
-        <star-horse-icon icon-class="setting" color="var(&#45;&#45;star-horse-style)"/>
-      </el-tooltip>
-    </div>-->
+    <!--    <div class="main-config" @click="drawer=true">
+          <el-tooltip content="主题设置">
+            <star-horse-icon icon-class="setting" color="var(&#45;&#45;star-horse-style)"/>
+          </el-tooltip>
+        </div>-->
     <el-drawer v-model="drawer" :direction="direction">
       <template #header>
         <h3>操作习惯配置</h3>
@@ -245,9 +246,10 @@ const configInfo = computed(() => configStore.configFormInfo);
     cursor: pointer;
   }
 }*/
-:deep(.el-drawer__close-btn){
+:deep(.el-drawer__close-btn) {
   background-color: unset;
-  svg{
+
+  svg {
     color: unset !important;
   }
 }

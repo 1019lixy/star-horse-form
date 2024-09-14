@@ -74,7 +74,7 @@ const currentDataFormat = (scope: any) => {
   }
   val = commonParseCodeToName(name, val);
   if (props.dataFormat) {
-   return  props.dataFormat(name, val, scope.row)
+    return props.dataFormat(name, val, scope.row)
   }
   return val;
 }

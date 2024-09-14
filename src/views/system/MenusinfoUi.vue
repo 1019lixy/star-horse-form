@@ -2,7 +2,7 @@
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings.ts";
 import {DialogProps} from "@/components/types/DialogProps"
-import {onMounted, provide, reactive, ref, unref, watch} from "vue";
+import {computed, onMounted, provide, reactive, ref, unref, watch} from "vue";
 import {SearchFields, SelectOption} from "@/components/types/SearchProps";
 import {closeLoad, createTree, dictData, load, loadData, loadElementPlusIcon, loadSystemInfo} from "@/api/sh_api";
 import {postRequest} from "@/api/star_horse";
@@ -12,6 +12,8 @@ import {TreeNode, TreeNodeData} from "element-plus/es/components/tree-v2/src/typ
 import {ElTreeV2} from "element-plus";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {treeCheckChange} from "@/api/system";
+import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
+import piniaInstance from "@/store";
 
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/system-config/system/menusinfoEntity/pageList",
@@ -133,6 +135,8 @@ const tableFieldList = reactive<PageFieldInfo>({
   ],
   cellEditable: true
 });
+let configStore = GlobalConfig(piniaInstance);
+let compSize = computed(() => configStore.configFormInfo?.inputSize || "default");
 const primaryKey = "idMenusinfo";
 const rules = {};
 const dataForm = ref<any>({});
@@ -275,22 +279,21 @@ onMounted(async () => {
   </star-horse-dialog>
   <el-card class="inner_content">
     <el-row style="height: 100%;" :gutter="10">
-      <el-col :span="3" style="height: inherit">
+      <el-col :span="5" style="height: inherit">
         <el-card class="inner_content" style="height: inherit">
           <el-input
               v-model="query"
-              size="default"
+              :size="compSize"
               clearable
               placeholder="请输入关键字"
-              @input="onQueryChanged"
+              @keydown.enter="onQueryChanged"
           >
-            <template #suffix>
-              <star-horse-icon icon-class="search" color="var(--star-horse-style)"/>
+            <template #append>
+              <star-horse-icon @click="onQueryChanged" icon-class="search" color="var(--star-horse-style)"/>
             </template>
           </el-input>
           <el-tree-v2 :data="informationsList" :filter-method="filterMethod"
                       :check-on-click-node="true"
-                      show-checkbox
                       :height="600"
                       @check-change="checkChange"
                       @node-click="checkChange"
@@ -300,7 +303,7 @@ onMounted(async () => {
           }"/>
         </el-card>
       </el-col>
-      <el-col :span="21" style="height: inherit">
+      <el-col :span="19" style="height: inherit">
         <el-card class="inner_content" style="height: inherit">
           <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
             <star-horse-search-comp @searchData="(data:any)=>menuTableListRef.createSearchParams(data)"

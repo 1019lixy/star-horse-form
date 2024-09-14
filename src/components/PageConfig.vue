@@ -6,7 +6,7 @@ import piniaInstance from "@/store";
 import {useDark, useToggle} from "@vueuse/core";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 
-let configInfo = ref<any>({});
+
 let configStore = GlobalConfig(piniaInstance);
 let sizeList = ref<Array<SelectOption>>([
   {name: "大", value: "large"},
@@ -159,7 +159,7 @@ let classicsList = ref<Array<any>>([
   {code: "navy", color: "#000080", name: "海军色"},
   {code: "black", color: "#000000", name: "黑色"}
 ]);
-configInfo.value = computed(() => configStore.configFormInfo);
+let configInfo = computed(() => configStore.configFormInfo);
 const init = () => {
   configStore.clearAll();
   // for (let a in classicsList.value) {

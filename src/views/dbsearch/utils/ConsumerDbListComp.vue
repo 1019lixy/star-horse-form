@@ -162,8 +162,12 @@ onMounted(() => {
     </el-col>
   </el-row>
   <div style="margin-top:5px"></div>
-  <el-input :size="compSize" placeholder="请输入关键字" v-model="filterTableName" @input="filterData"
-            suffix-icon="Search"/>
+  <el-input :size="compSize" placeholder="请输入关键字" v-model="filterTableName" @keydown.enter="filterData"
+            >
+    <template #append>
+      <star-horse-icon @click="filterData" icon-class="search" color="var(--star-horse-style)"/>
+    </template>
+  </el-input>
   <el-scrollbar height="90%">
     <ul class="ghost">
       <template v-for="(data,idx) in assignDataList">

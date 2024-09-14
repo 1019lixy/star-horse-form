@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import {onMounted, PropType} from "vue";
+import {onMounted, PropType,ref} from "vue";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {ModelRef} from "vue-demi";
-import {ref} from "vue/dist/vue";
 
 const props = defineProps({
   item: {type: Object as PropType<PageFieldInfo>, required: true},

@@ -23,10 +23,12 @@ const dataUrl: ApiUrls = {
   uploadUrl: "",
   condition: []
 };
-const searchFormData = reactive<SearchFields>({fieldList:[
-  {label: "字典类型名称", defaultShow: true, fieldName: "dictTypeName", type: "input"},
-  {label: "字典类型编码", defaultShow: true, fieldName: "dictTypeCode", type: "input"},
-]});
+const searchFormData = reactive<SearchFields>({
+  fieldList: [
+    {label: "名称", defaultShow: false, matchType: "lk", fieldName: "dictTypeName", type: "input"},
+    {label: "编码", defaultShow: true, matchType: "eq", fieldName: "dictTypeCode", type: "input"},
+  ]
+});
 const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
@@ -45,37 +47,6 @@ const tableFieldList = reactive<PageFieldInfo>({
     {
       label: "备注", fieldName: "remark", type: "textarea",
       formShow: true,
-      tableShow: true
-    },
-    {
-      label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
-    },
-    {
-      label: "修改人", disabled: "Y", fieldName: "updatedBy", type: "input",
-    },
-    {
-      label: "创建日期", disabled: "Y", fieldName: "createdDate", type: "date",
-    },
-    {
-      label: "修改日期", disabled: "Y", fieldName: "updatedDate", type: "date",
-    },
-    {
-      label: "数据版本号", fieldName: "version", type: "number",
-    },
-    {
-      label: "是否已逻辑", fieldName: "isDel", type: "number",
-    },
-    {
-      label: "数据编号", fieldName: "dataNo", type: "input",
-    },
-    {
-      label: "国际码", fieldName: "local", type: "input",
-    },
-    {
-      label: "状态名称", fieldName: "statusName", type: "input",
-    },
-    {
-      label: "状态值", fieldName: "statusCode", type: "input",
     },
   ],
   //在表格右侧添加自定义功能
@@ -113,11 +84,9 @@ onMounted(async () => {
   await initData();
 })
 </script>
-<style lang="scss" scoped>
-</style>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form  @refresh="dictTypeRef.loadByPage()" :compUrl="dataUrl"
+    <star-horse-form @refresh="dictTypeRef.loadByPage()" :compUrl="dataUrl"
                      :fieldList="tableFieldList" :rules="rules"/>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title=
@@ -125,20 +94,52 @@ onMounted(async () => {
     <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
   </star-horse-dialog>
   <el-card class="inner_content">
-    <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
-      <star-horse-search-comp @searchData="(data:any)=>dictTypeRef.createSearchParams(data)" :formData="searchFormData"
-                              :compUrl="dataUrl"/>
-      <hr/>
-      <star-horse-button-list  @tableCompFunc="(fun:any)=>dictTypeRef.tableCompFunc(fun)"
-                              :compUrl="dataUrl"
-                              :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
+
+    <div class="dict-content">
+      <div class="dict-type">
+        <el-card class="inner_content">
+          <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
+            <star-horse-search-comp @searchData="(data:any)=>dictTypeRef.createSearchParams(data)"
+                                    :formData="searchFormData"
+                                    :compUrl="dataUrl"/>
+            <hr/>
+            <star-horse-button-list @tableCompFunc="(fun:any)=>dictTypeRef.tableCompFunc(fun)"
+                                    :compUrl="dataUrl"
+                                    :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
+          </div>
+          <hr>
+          <star-horse-table-comp ref="dictTypeRef" @selectItem="selectItemFun"
+                                 :fieldList="tableFieldList"
+                                 :primaryKey="primaryKey"
+                                 :compUrl="dataUrl"
+                                 :dataFormat="dataFormat"/>
+        </el-card>
+      </div>
+      <div class="dict-data">
+        <dictinfo-u-i :dictType="dictTypeCode"/>
+      </div>
     </div>
-    <hr>
-    <star-horse-table-comp  ref="dictTypeRef" @selectItem="selectItemFun"
-                           :fieldList="tableFieldList"
-                           :primaryKey="primaryKey"
-                           :compUrl="dataUrl"
-                           :dataFormat="dataFormat"/>
-    <dictinfo-u-i :dictType="dictTypeCode"/>
+
+
   </el-card>
 </template>
+<style lang="scss" scoped>
+.dict-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  overflow: hidden;
+
+  .dict-type {
+    width: 50%;
+    height: 100%;
+  }
+
+  .dict-data {
+    flex: 1;
+    width: 100%;
+    overflow: hidden;
+    margin-left: 8px;
+  }
+}
+</style>

@@ -288,6 +288,10 @@ export declare interface UserFuncInfo {
      * 按钮显示文字名称
      */
     btnName?: string;
+    /**
+     * 图标
+     */
+    icon?: string;
 }
 
 /**

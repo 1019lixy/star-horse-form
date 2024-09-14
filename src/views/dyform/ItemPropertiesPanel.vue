@@ -15,6 +15,7 @@ import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {error, success} from "@/utils/message.ts";
+import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 
 let designForm = DesignForm(piniaInstance);
 let formDataList = computed(() => designForm.formDataList);
@@ -28,7 +29,8 @@ const formProps = computed(() => designForm.currentFormPreps);
 let currentItemType = computed(() => designForm.currentItemType);
 let currentCompCategory = computed(() => designForm.currentCompCategory);
 let parentCompType = computed(() => designForm.parentCompType);
-// let formData = computed(() => designForm.formData);
+let configStore = GlobalConfig(piniaInstance);
+let compSize = computed(() => configStore.configFormInfo?.inputSize || "default");
 const advancedFieldList = ref<any>({});
 const actions = ref<any>({});
 let currentField = ref<any>({});
@@ -333,7 +335,7 @@ watch(() => formProps,
       :rules="formRules"
       class="dynamic-form"
       ref="itemPropertiesRef"
-      size="default"
+      :size="compSize"
       label-position="left"
   >
     <el-scrollbar height="100%">
@@ -343,8 +345,11 @@ watch(() => formProps,
           v-model="activeNames">
         <el-collapse-item name="1">
           <template #title>
-            &nbsp;<star-horse-icon icon-class="base_preps"
-                                   style="color: var(--star-horse-style)"/>&nbsp;&nbsp;<span>常用属性</span>
+            <div class="collapse-item-title title">
+              <div style="width: 80%">常用属性</div>
+              <star-horse-icon icon-class="base_preps"
+                               style="color: var(--star-horse-style)"/>
+            </div>
           </template>
 
           <template v-if="currentCompCategory==='container'&&currentItemType!='table'">
@@ -488,6 +493,7 @@ watch(() => formProps,
             <el-table
                 :data="formProps.values"
                 :fit=true
+                :size="compSize"
                 :row-class-name="rowClassName">
               <el-table-column label="显示名称" prop="name">
                 <template #default="scope">
@@ -524,7 +530,10 @@ watch(() => formProps,
         </el-collapse-item>
         <el-collapse-item name="2">
           <template #title>
-            &nbsp;<star-horse-icon icon-class="advance_preps" style="color: var(--star-horse-style)"/>&nbsp;&nbsp;<span>其他属性</span>
+            <div class="collapse-item-title title">
+              <div style="width: 80%">其他属性</div>
+              <star-horse-icon icon-class="advance_preps" style="color: var(--star-horse-style)"/>
+            </div>
           </template>
           <template v-if="currentCompCategory==='container'">
           </template>
@@ -566,7 +575,10 @@ watch(() => formProps,
         </el-collapse-item>
         <el-collapse-item name="3">
           <template #title>
-            &nbsp;<star-horse-icon icon-class="event-action" style="color: var(--star-horse-style)"/>&nbsp;&nbsp;<span>自定义事件</span>
+            <div class="collapse-item-title title">
+              <div style="width: 80%">自定义事件</div>
+              <star-horse-icon icon-class="event-action" style="color: var(--star-horse-style)"/>
+            </div>
           </template>
           <template v-if="currentCompCategory==='container'">
           </template>

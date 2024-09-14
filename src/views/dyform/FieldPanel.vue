@@ -86,8 +86,11 @@ const getDefaultVal = (type: string) => {
         >
           <el-collapse-item name="a">
             <template #title>
-              &nbsp;<star-horse-icon icon-class="container"
-                                     style="color: var(--star-horse-style)"/>&nbsp;&nbsp;<span>容器</span>
+              <div class="collapse-item-title title">
+                <div style="width: 80%">容器</div>
+                <star-horse-icon icon-class="container"
+                                 style="color: var(--star-horse-style)"/>
+              </div>
             </template>
 
             <draggable
@@ -111,8 +114,11 @@ const getDefaultVal = (type: string) => {
           </el-collapse-item>
           <el-collapse-item name="b">
             <template #title>
-              &nbsp;<star-horse-icon icon-class="form"
-                                     style="color: var(--star-horse-style)"/>&nbsp;&nbsp;<span>表单元素</span>
+              <div class="collapse-item-title title">
+                <div style="width: 80%">表单元素</div>
+                &nbsp;<star-horse-icon icon-class="form"
+                                       style="color: var(--star-horse-style)"/>
+              </div>
             </template>
             <draggable
                 :clone="onFormItemCopy"
@@ -135,8 +141,11 @@ const getDefaultVal = (type: string) => {
           </el-collapse-item>
           <el-collapse-item name="c">
             <template #title>
+              <div class="collapse-item-title title">
+                <div style="width: 80%">自定义组件</div>
               &nbsp;<star-horse-icon icon-class="other"
-                                     style="color: var(--star-horse-style)"/>&nbsp;&nbsp;<span>自定义组件</span>
+                                     style="color: var(--star-horse-style)"/>
+              </div>
             </template>
             <draggable
                 :clone="onFormItemCopy"

@@ -242,7 +242,7 @@ onMounted(() => {
     </div>
   </div>
   <div v-else class="comp-info"
-       :style="{ 'width': isSearch && field.preps['type'] != 'daterange' ? '150px' : '100%','height':
+       :style="{ 'min-width': isSearch && field.preps['type'] != 'daterange' ? '150px' : '100%','height':
        itemType != 'button' ?'100%':'inherit' }">
 
     <help :message="item?.helpMsg" v-if="item?.helpMsg"/>

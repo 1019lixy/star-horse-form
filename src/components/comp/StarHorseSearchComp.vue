@@ -127,27 +127,33 @@ defineExpose({
           </star-horse-item>
         </el-form-item>
       </template>
+      <el-form-item style="vertical-align: middle;align-items: center">
+        <div class="search_btn">
+          <el-button @click="dataSearch" style="background: var(--star-horse-style);color: var(--star-horse-white)"
+                     :size="compSize">
+            查询
+            <!--        <star-horse-icon icon-class="search" color="var(&#45;&#45;star-horse-white)"/>-->
+          </el-button>
+          <el-button @click="dataSearch('reset')" link :size="compSize">
+            <!--        <star-horse-icon icon-class="undo" size="20px" color="var(&#45;&#45;star-horse-disable)"/>-->
+            重置
+          </el-button>
+          <el-tooltip :content="tips" v-if="showTips">
+            <el-button text @click="searchArea" :size="compSize">
+              <star-horse-icon :icon-class="sarchIcon" size="20px" color="var(--star-horse-style)"/>
+            </el-button>
+          </el-tooltip>
+        </div>
+      </el-form-item>
     </el-form>
-    <div class="search_btn">
-      <el-button @click="dataSearch" style="background: var(--star-horse-style);color: var(--star-horse-white)" :size="compSize">
-        <star-horse-icon icon-class="search" color="var(--star-horse-white)"/>
-        查询
-      </el-button>
-      <el-button @click="dataSearch('reset')" link :size="compSize">
-        <star-horse-icon icon-class="undo" size="20px" color="var(--star-horse-disable)" /> 重置
-      </el-button>
-      <el-tooltip :content="tips" v-if="showTips">
-        <el-button text @click="searchArea" :size="compSize">
-          <star-horse-icon :icon-class="sarchIcon" size="20px" color="var(--star-horse-style)" />
-        </el-button>
-      </el-tooltip>
-    </div>
+
   </div>
 </template>
 <style lang="scss" scoped>
-:deep(.el-form-item){
+:deep(.el-form-item) {
   width: unset;
 }
+
 /*:deep(.el-form-item__label) {
   min-width: 80px;
 }*/
@@ -171,10 +177,11 @@ defineExpose({
   }
 
   .search_btn {
+    margin-left: 10px;
     display: flex;
-    margin-top: 5px;
     align-items: center;
     justify-content: center;
+    vertical-align: middle;
   }
 }
 </style>

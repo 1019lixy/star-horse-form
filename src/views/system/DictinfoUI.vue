@@ -62,8 +62,9 @@ const tableFieldList = reactive<PageFieldInfo>({
             tableShow: true
           },
           {
-            label: "状态名称", fieldName: "statusName", type: "input",
+            label: "状态", fieldName: "statusName", type: "input",
             required: true,
+            tableShow: true
           },
           {
             label: "字典描述", fieldName: "dictDesc", type: "input",
@@ -73,7 +74,7 @@ const tableFieldList = reactive<PageFieldInfo>({
           {
             label: "状态", fieldName: "statusCode", type: "select", optionList: commonDictList,
             required: true,
-            tableShow: true
+            tableShow: false
           },]
       }]
     },

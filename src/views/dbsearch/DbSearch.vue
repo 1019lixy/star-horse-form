@@ -291,8 +291,12 @@ const operMsg = `
     </el-row>
     <div class="search-area">
       <div class="table-list" v-if="assignDataList.length>0">
-        <el-input size="default" placeholder="请输入关键字" v-model="filterTableName" @input="filterData"
-                  suffix-icon="Search"/>
+        <el-input size="default" placeholder="请输入关键字" v-model="filterTableName" @keydown.enter="filterData"
+        >
+          <template #append>
+            <star-horse-icon @click="filterData" icon-class="search" color="var(--star-horse-style)"/>
+          </template>
+        </el-input>
         <el-scrollbar height="90%">
           <ul>
             <template v-for="(data, index) in assignDataList">

@@ -2,7 +2,7 @@
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings.ts";
 import {DialogProps} from "@/components/types/DialogProps"
-import {nextTick, onMounted, provide, reactive, ref} from "vue";
+import {computed, nextTick, onMounted, provide, reactive, ref} from "vue";
 import {SearchFields} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {createCondition, loadById} from "@/api/sh_api";
@@ -14,6 +14,8 @@ import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {postRequest, trim} from "@/api/star_horse.ts";
 import {success, warning} from "@/utils/message.ts";
 import {baseUserFields, deptList, initSelectData, rolesList, sexList} from "@/views/system/utils/UserFields.ts";
+import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
+import piniaInstance from "@/store";
 
 const props = defineProps({
   viewRolesinfoId: {type: String},
@@ -52,6 +54,8 @@ const searchFormData = reactive<SearchFields>({
     {label: "性别", fieldName: "sex", type: "select", optionList: sexList},
   ]
 });
+let configStore = GlobalConfig(piniaInstance);
+let compSize = computed(() => configStore.configFormInfo?.inputSize || "default");
 //修改密码方法
 const pwdFormRef = ref();
 const resetForm = () => {
@@ -226,17 +230,17 @@ const pwdFieldInfo = reactive<PageFieldInfo | any>({
   </star-horse-dialog>
   <el-card class="inner_content">
     <el-row style="height: 100%;" :gutter="10">
-      <el-col :span="viewRolesinfoId?5:3" style="height: inherit">
+      <el-col :span="viewRolesinfoId?5:5" style="height: inherit">
         <el-card class="inner_content" style="height: inherit">
           <el-input
               v-model="query"
-              size="default"
+              :size="compSize"
               clearable
               placeholder="请输入关键字"
-              @input="onQueryChanged"
+              @keydown.enter="onQueryChanged"
           >
-            <template #suffix>
-              <star-horse-icon icon-class="search" color="var(--star-horse-style)"/>
+            <template #append>
+              <star-horse-icon @click="onQueryChanged" icon-class="search" color="var(--star-horse-style)"/>
             </template>
           </el-input>
           <el-tree-v2 :data="deptList" :filter-method="filterMethod"
@@ -244,14 +248,13 @@ const pwdFieldInfo = reactive<PageFieldInfo | any>({
                       @check-change="checkChange"
                       @node-click="checkChange"
                       :height="600"
-                      show-checkbox
                       ref="treeRef" :props="{
             'label':'name',
             'value':'value'
           }"/>
         </el-card>
       </el-col>
-      <el-col :span="viewRolesinfoId?19:21" style="height: inherit">
+      <el-col :span="viewRolesinfoId?19:19" style="height: inherit">
         <el-card class="inner_content" style="height: inherit">
           <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
             <star-horse-search-comp @searchData="(data:any)=>usersinfoTableListRef.createSearchParams(data)"

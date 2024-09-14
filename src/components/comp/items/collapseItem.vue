@@ -41,8 +41,7 @@ onMounted(() => {
                           :disabled="collapseItem.disabled"
                           :index="checkObject(collapseItem)">
           <template #title>
-            <div class="title"
-                 style="justify-content: space-between;display: flex;align-items: center;vertical-align:middle;height:inherit;">
+            <div class="collapse-item-title title">
               <div style="width: 80%">{{ collapseItem.title }}</div>
             </div>
           </template>

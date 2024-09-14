@@ -755,10 +755,10 @@ defineExpose({
               size="default"
               clearable
               placeholder="请输入关键字"
-              @input="onQueryChanged"
+              @keydown.enter="onQueryChanged"
           >
-            <template #suffix>
-              <star-horse-icon icon-class="search" color="var(--star-horse-style)"/>
+            <template #append>
+              <star-horse-icon @click="onQueryChanged" icon-class="search" color="var(--star-horse-style)"/>
             </template>
           </el-input>
           <el-scrollbar>

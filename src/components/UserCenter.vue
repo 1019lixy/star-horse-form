@@ -2,17 +2,21 @@
 
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {getUserInfo} from "../utils/auth.ts";
-import {onMounted, reactive, ref} from "vue";
+import {computed, onMounted, reactive, ref} from "vue";
 import {copy} from "@/api/sh_api.ts";
 import StarHorseForm from "@/components/comp/StarHorseForm.vue";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {initSelectData, userEditFieldInfo} from "@/views/system/utils/UserFields.ts";
 import {postRequest} from "@/api/star_horse.ts";
 import {success, warning} from "@/utils/message.ts";
+import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
+import piniaInstance from "@/store";
 
 let userInfo = ref<any>({});
 let depts = ref<string>("--");
 let roles = ref<string>("--");
+let configStore = GlobalConfig(piniaInstance);
+let compSize = computed(() => configStore.configFormInfo?.inputSize || "default");
 const userFormRef = ref();
 const baseFieldList = reactive<PageFieldInfo | any>({
   fieldList: [{
@@ -61,7 +65,7 @@ const baseFieldList = reactive<PageFieldInfo | any>({
   }]
 });
 
-const doModifyUserInfo =async () => {
+const doModifyUserInfo = async () => {
   let dataForm = userFormRef.value.getFormData()?.value;
   postRequest("/system-config/system/usersAuditEntity/refreshInvalidPassword/" + dataForm.username +
       "/" + dataForm.password + "/" + (dataForm.oldPassword || "0") + "/" + dataForm.phone, {})
@@ -72,7 +76,7 @@ const doModifyUserInfo =async () => {
           return;
         }
         success(redata.cnMessage);
-        dialogProps.editVisible = false;
+        //  dialogProps.editVisible = false;
       });
 };
 /**
@@ -82,7 +86,7 @@ const resetForm = () => {
   let dataForm: any = {};
   dataForm["username"] = userInfo.value?.username;
   dataForm["employeeNo"] = userInfo.value?.employeeNo;
-  editUserinfoRef.value.setFormData(dataForm);
+  userFormRef.value.setFormData(dataForm);
 };
 const init = async () => {
   userInfo.value = getUserInfo();
@@ -163,7 +167,7 @@ onMounted(async () => {
           <template #header>
             <div class="card-header">
               <span>基本信息</span>
-              <el-button type="primary" @click="doModifyUserInfo">
+              <el-button :size="compSize" type="primary" @click="doModifyUserInfo">
                 <star-horse-icon icon-class="save" color="var(--star-horse-white)"/>
                 保存
               </el-button>
@@ -218,6 +222,8 @@ onMounted(async () => {
 
     .base-info-form {
       padding: 0 15px;
+      height: 100%;
+      overflow: hidden;
     }
   }
 }

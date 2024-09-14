@@ -1,6 +1,6 @@
 <script lang="ts" setup name="StarHorseTableComp">
 import {ApiUrls} from "@/components/types/ApiUrls";
-import {inject, onMounted, PropType, reactive, ref, unref, watch} from "vue";
+import {computed, inject, onMounted, PropType, reactive, ref, unref, watch} from "vue";
 import {download, postRequest} from "@/api/star_horse";
 import {PageProps} from "@/components/types/PageProps";
 import {closeLoad, deleteByIds, load,} from "@/api/sh_api";
@@ -16,6 +16,7 @@ import piniaInstance from "@/store";
 import {useRoute} from "vue-router";
 import {useButtonPermission} from "@/store/ButtonPermissionStore.ts";
 import TableColumn from "@/components/comp/items/tableColumn.vue";
+import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 
 const dynamicForm = DynamicForm(piniaInstance);
 const props = defineProps({
@@ -29,8 +30,8 @@ const props = defineProps({
   showBatchField: {type: Boolean, default: false},
   //格式化方法
   dataFormat: {type: Function, default: null},
-  //按钮大小
-  compSize: {type: String, default: "default"},
+/*  //按钮大小
+  compSize: {type: String, default: "default"},*/
   //自定义按钮事件
   selfBtnFunc: {type: Array as PropType<BtnAuth[]>, default: null},
   //禁用事件
@@ -64,6 +65,8 @@ const props = defineProps({
 let route = useRoute();
 let pagePermission = useButtonPermission();
 let permissions = ref<any>({});
+let configStore = GlobalConfig(piniaInstance);
+let compSize = computed(() => configStore.configFormInfo?.inputSize || "default");
 const emits = defineEmits(["selectItem"]);
 const multipleSelection = ref<any>([]);
 const starHorseTableCompRef = ref();
@@ -606,26 +609,13 @@ defineExpose({
         :width="160"
     >
       <template #default="scope">
-        <el-button
-            v-if="permissions?.edit"
-            @click="tbCommonFun('edit', scope.row)"
-            link
-            title=""
-            style="color: var(--star-horse-style)"
-            :size="compSize"
-        >
-          <el-tooltip content="编辑">编辑</el-tooltip>
-        </el-button>
-        <el-button
-            v-if="permissions?.view"
-            @click="tbCommonFun('view', scope.row)"
-            link
-            title=""
-            style="color: var(--star-horse-style)"
-            :size="compSize"
-        >
-          <el-tooltip content="查看">查看</el-tooltip>
-        </el-button>
+        <el-tooltip content="编辑">
+          <star-horse-icon v-if="permissions?.edit" @click="tbCommonFun('edit', scope.row)" icon-class="edit"/>
+        </el-tooltip>
+        <el-tooltip content="查看">
+          <star-horse-icon v-if="permissions?.view" @click="tbCommonFun('view', scope.row)" icon-class="data-view"/>
+        </el-tooltip>
+
         <template v-if="extandBtnFunction().length > 0">
           <el-dropdown>
               <span class="el-dropdown-link">
@@ -642,6 +632,7 @@ defineExpose({
                       style="color: var(--star-horse-style)"
                       :size="compSize"
                   >
+                    <star-horse-icon :icon-class="auth.icon||'edit'"/>
                     {{ auth["btnName"] }}
                   </el-button>
                 </el-dropdown-item>
@@ -653,6 +644,7 @@ defineExpose({
                       title=""
                       type="danger"
                       :size="compSize">
+                    <star-horse-icon color="var(--el-color-danger)" icon-class="delete"/>
                     删除
                   </el-button>
                 </el-dropdown-item>
@@ -662,16 +654,10 @@ defineExpose({
         </template>
         <template v-else>
           <slot name="extend" :rowData="scope.row"/>
-          <el-button
-              v-if="permissions?.delete"
-              @click="tbCommonFun('delete', scope.row)"
-              link
-              title=""
-              type="danger"
-              :size="compSize"
-          >
-            <el-tooltip content="删除">删除</el-tooltip>
-          </el-button>
+          <el-tooltip content="删除">
+            <star-horse-icon v-if="permissions?.delete" color="var(--el-color-danger)"
+                             @click="tbCommonFun('delete', scope.row)" icon-class="delete"/>
+          </el-tooltip>
         </template>
       </template>
     </el-table-column>
