@@ -87,7 +87,7 @@ onMounted(() => {
   font-size: 13px;
   font-weight: 800;
   padding-left: 15px;
-  background: rgb(200, 229, 235);
+  background: rgb(229, 230, 235);
   border-right: 5px;
 }
 

@@ -11,6 +11,7 @@ const props = defineProps({
   subCreateFlag: {type: Boolean, default: false},
   fieldList: {type: Object, required: true},
   globalCondition: {type: Object},
+  primaryKey:{type:String,default:"id"},
   batchFieldName: {type: String, default: "batchFieldList"},
   dataFormat: {type: Function, default: null}
 });

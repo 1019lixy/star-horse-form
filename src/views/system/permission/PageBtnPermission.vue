@@ -5,13 +5,13 @@ import {DialogProps} from "@/components/types/DialogProps"
 import {computed, onMounted, provide, reactive, ref} from "vue";
 import {SearchFields, SelectOption} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
-import {dictData, loadMenusInfo, loadRolesInfo, loadSystemInfo} from "@/api/sh_api.ts";
+import {dictData, loadData, loadMenusInfo, loadRolesInfo} from "@/api/sh_api.ts";
 import {ElTreeV2} from "element-plus";
-import {TreeNode, TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
-import {treeCheckChange} from "@/api/system.ts";
+import {TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import piniaInstance from "@/store";
 import StarHorseTree from "@/components/comp/StarHorseTree.vue";
+import {warning} from "@/utils/message.ts";
 
 const dataUrl: ApiUrls = {
   loadByPageUrl: "/system-config/system/resourcesSummaryEntity/pageList",
@@ -28,10 +28,10 @@ const dataUrl: ApiUrls = {
   uploadUrl: "",
   condition: []
 };
-let systemInfoList = ref<SelectOption[]>();
-let rolesList = ref<SelectOption[]>();
-let menusList = ref<SelectOption[]>();
-let authorityList = ref<SelectOption[]>();
+let systemInfoList = ref<SelectOption[]>([]);
+let rolesList = ref<SelectOption[]>([]);
+let menusList = ref<SelectOption[]>([]);
+let authorityList = ref<SelectOption[]>([]);
 let dataForm = ref<any>({});
 const searchFormData = reactive<SearchFields>({
   fieldList: [
@@ -159,17 +159,86 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
 const treeRef = ref<InstanceType<typeof ElTreeV2>>();
 const query = ref('');
 const menuBtnTableRef = ref();
+let currentUserGroupId = ref<number>(0);
 
 /**
  * 点击事件
  * @param data
  * @param checked
  */
-const checkChange = (data: TreeNodeData, checked: boolean) => {
-  treeCheckChange( menuBtnTableRef.value,  data, checked);
+const roleChange = async (data: TreeNodeData, checked: boolean) => {
+  systemInfoList.value = [];
+  currentUserGroupId.value = data.value;
+  let roleSystemDatas = await loadData("/system-config/system/rolesPkAppinfo/getAllByCondition", {
+    fieldList: [{
+      propertyName: "b.idRolesinfo",
+      value: data.value
+    }],
+    orderBy: [{
+      fieldName: "idInformations",
+      ascOrDesc: "asc"
+    }]
+  });
+  if (roleSystemDatas.error) {
+    warning(roleSystemDatas.error);
+    return;
+  }
+  systemInfoList.value = roleSystemDatas.data;
+  //同时加载当前角色下的所有菜单
+  loadMenus(0);
+};
+const loadMenus = async (appId: number) => {
+  let fieldList = [{
+    propertyName: "b.idRolesinfo",
+    value: currentUserGroupId.value
+  }];
+  if (appId) {
+    fieldList.push(
+        {
+          propertyName: "a.idInformations",
+          value: appId
+        }
+    );
+  }
+  let menusDatas = await loadData("/system-config/system/rolesPkMenusinfo/getAllByCondition", {
+    fieldList: [],
+    orderBy: [{
+      fieldName: "a.idRolesinfo",
+      ascOrDesc: "asc"
+    }, {
+      fieldName: "a.idInformations",
+      ascOrDesc: "asc"
+    }, {
+      fieldName: "d.dataIndex",
+      ascOrDesc: "asc"
+    }]
+  });
+  if (menusDatas.error) {
+    warning(menusDatas.error);
+    return;
+  }
+  menusList.value = menusDatas.data;
+}
+const systemChange = async (data: TreeNodeData, checked: boolean) => {
+  rolesList.value = [];
+  let roleSystemDatas = await loadData("/system-config/system/rolesPkAppinfo/getAllByCondition", {
+    fieldList: [{
+      propertyName: "b.idRolesinfo",
+      value: data.value
+    }]
+  });
+  if (roleSystemDatas.error) {
+    warning(roleSystemDatas.error);
+    return;
+  }
+  rolesList.value = roleSystemDatas.data;
+  //加载菜单
+};
+const menuChange = (data: TreeNodeData, checked: boolean) => {
+
 };
 const initData = async () => {
-  systemInfoList.value = await loadSystemInfo([]);
+  // systemInfoList.value = await loadSystemInfo([]);
   rolesList.value = await loadRolesInfo([]);
   authorityList.value = await dictData("button_authority");
 };
@@ -190,14 +259,27 @@ onMounted(async () => {
     <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
   </star-horse-dialog>
   <el-card class="inner_content">
-    <el-row gutter="5" style="height: 100%;">
+    <el-row gutter="5" style="height: 100%;overflow: hidden;">
       <el-col :span="4" style="height: inherit">
-        <star-horse-tree v-model:tree-datas="rolesList" treeTitle="用户组" @selectData="checkChange" :compSize="compSize"/>
+        <star-horse-tree v-model:tree-datas="rolesList" treeTitle="用户组" @selectData="roleChange"
+                         :compSize="compSize"/>
       </el-col>
-      <el-col :span="4" style="height: inherit">
-        <star-horse-tree v-model:tree-datas="systemInfoList" treeTitle="应用系统" @selectData="checkChange" :compSize="compSize"/>
+      <el-col v-if="systemInfoList?.length>0" :span="4" style="height: inherit">
+        <star-horse-tree v-model:tree-datas="systemInfoList" treeTitle="应用系统" :preps="{
+                         label:'sysName',
+                         value:'idInformations'
+                       }" @selectData="systemChange" :compSize="compSize"/>
       </el-col>
-      <el-col :span="16" style="height: inherit">
+      <el-col v-if="systemInfoList?.length>0" :span="4" style="height: inherit">
+        <star-horse-tree v-model:tree-datas="menusList" treeTitle="系统菜单"
+                         :preps="{
+                         label:'menuName',
+                         value:'idMenusinfo'
+                       }"
+                         @selectData="menuChange"
+                         :compSize="compSize"/>
+      </el-col>
+      <el-col :span="systemInfoList?.length>0?12:20" style="height: inherit">
         <el-card class="inner_content" style="height: inherit">
           <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
             <star-horse-search-comp @searchData="(data:any)=>menuBtnTableRef.createSearchParams(data)"

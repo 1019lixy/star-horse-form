@@ -1,23 +1,140 @@
 <script setup lang="ts">
-import {loadRolesInfo} from "@/api/sh_api.ts";
-import {computed, onMounted, ref} from "vue";
-import {SelectOption} from "@/components/types/SearchProps";
+import {createCondition, dictData, loadData, loadRolesInfo} from "@/api/sh_api.ts";
+import {computed, onMounted, provide, reactive, ref} from "vue";
+import {SearchFields, SelectOption} from "@/components/types/SearchProps";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import piniaInstance from "@/store";
 import {TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
-// let systemInfoList = ref<SelectOption[]>();
-let rolesList = ref<SelectOption[]>();
+import {warning} from "@/utils/message.ts";
+import {PageFieldInfo} from "@/components/types/PageFieldInfo";
+import {DialogProps} from "@/components/types/DialogProps";
+import {Config} from "@/api/settings.ts";
+import {ApiUrls} from "@/components/types/ApiUrls";
+
+const dataUrl: ApiUrls = {
+  loadByPageUrl: "/system-config/system/rolesPkMenusinfo/pageList",
+  mergeUrl: "/system-config/system/rolesPkMenusinfo/merge",
+  mergeDraftUrl: "/system-config/system/rolesPkMenusinfo/mergeDraft",
+  batchMergeUrl: "/system-config/system/rolesPkMenusinfo/mergeBatch",
+  batchMergeDraftUrl: "/system-config/system/rolesPkMenusinfo/mergeBatchDraft",
+  loadByIdUrl: "/system-config/system/rolesPkMenusinfo/getById",
+  deleteUrl: "/system-config/system/rolesPkMenusinfo/batchDeleteById",
+  exportAllUrl: "/system-config/system/rolesPkMenusinfo/exportData",
+  downloadTemplateUrl: "/system-config/system/rolesPkMenusinfo/downloadTemplate",
+  userConditionUrl: "/system-config/system/rolesPkMenusinfo/getAllByCondition",
+  importUrl: "/system-config/system/rolesPkMenusinfo/importData",
+  uploadUrl: "",
+  condition: []
+};
+const menuPermission = ref();
+let rolesList = ref<SelectOption[]>([]);
+let systemInfoList = ref<SelectOption[]>([]);
 // let menusList = ref<SelectOption[]>();
 let configStore = GlobalConfig(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.inputSize || "default");
-const checkChange = (data: TreeNodeData, checked: boolean) => {
+let currentUserGroupId = ref<number>(0);
+const userGroupChange = async (data: TreeNodeData, checked: boolean) => {
+  systemInfoList.value = [];
+  currentUserGroupId.value = data.value;
+  let roleSystemDatas = await loadData("/system-config/system/rolesPkAppinfo/getAllByCondition", {
+    fieldList: [{
+      propertyName: "b.idRolesinfo",
+      value: data.value
+    }]
+  });
+  if (roleSystemDatas.error) {
+    warning(roleSystemDatas.error);
+    return;
+  }
+  systemInfoList.value = roleSystemDatas.data;
+  setQueryCondition(0)
+};
+const setQueryCondition = (appId: number) => {
+  let queryCond = [];
+  console.log(appId);
+  queryCond.push(createCondition("b.idRolesinfo", currentUserGroupId.value));
+  if (appId) {
+    queryCond.push(createCondition("a.idInformations", appId));
+  }
+  menuPermission.value.createSearchParams(queryCond);
+}
+const systemChange = (data: TreeNodeData, checked: boolean) => {
+  console.log(data);
+  setQueryCondition(data.idInformations);
+};
+let menuPermissionStatus = ref<SelectOption[]>([]);
+const searchFields = reactive<SearchFields>({
+  fieldList: [
+    {
+      label: "菜单名称",
+      fieldName: "b.idInformations",
+      defaultShow: true,
+      type: "input",
+      matchType: "lk"
+    },
+    {
+      label: "状态", fieldName: "b.statusCode", type: "select", optionList: menuPermissionStatus, defaultShow: true
+    },
+  ]
+});
+const tableFieldList = reactive<PageFieldInfo>({
+  fieldList: [
+    {
+      label: "系统名称", fieldName: "idInformations", type: "tselect", optionList: [],
+      formShow: true, required: true, viewShow: false
+    },
+    {
+      label: "菜单名称", fieldName: "idMenusinfo", type: "tselect", optionList: [],
+      formShow: true, required: true, viewShow: false
+    },
+    {
+      label: "系统名称", fieldName: "sysName", type: "input", tableShow: true
+    },
+    {
+      label: "系统编码", fieldName: "sysCode", type: "input", tableShow: true
+    },
+    {
+      label: "菜单名称", fieldName: "menuName", type: "input", tableShow: true
+    },
 
-  console.log(data, checked);
+    {
+      label: "状态",
+      fieldName: "statusCode",
+      type: "select",
+      tableShow: true,
+      formShow: true,
+      optionList: menuPermissionStatus,
+    },
+
+  ],
+  orderBy: [{
+    fieldName: "b.idRolesinfo",
+    ascOrDesc: "asc"
+  }]
+});
+const primaryKey = "idInformations";
+const dialogProps = reactive<DialogProps>({
+  bakeVisible1: false, bakeVisible2: false, bakeVisible3: false,
+  ids: 0,
+  batchDialogTitle: "批量编辑",
+  dialogTitle: "编辑",
+  batchEditVisible: false,
+  editVisible: false,
+  uploadVisible: false,
+  viewVisible: false
+});
+provide("dialogProps", dialogProps);
+
+const dataFormat = (name: string, cellValue: object): any => {
+  if (name == "statusCode") {
+    return menuPermissionStatus.value.find(item => item.value == cellValue)?.name || cellValue;
+  }
+  return cellValue;
 };
 const initData = async () => {
-  // systemInfoList.value = await loadSystemInfo([]);
+
   rolesList.value = await loadRolesInfo([]);
-  // authorityList.value = await dictData("button_authority");
+  menuPermissionStatus.value = await dictData("menu_permission_status");
 };
 onMounted(async () => {
   await initData();
@@ -25,13 +142,43 @@ onMounted(async () => {
 </script>
 
 <template>
-  <el-row :gutter="10" style="height: 100%;">
-    <el-col :span="5" style="height: inherit">
-      <star-horse-tree v-model:tree-datas="rolesList" treeTitle="用户组" @selectData="checkChange" :compSize="compSize"/>
+  <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
+    <star-horse-form @refresh="menuPermission.loadByPage()" :compUrl="dataUrl"
+                     :fieldList="tableFieldList"
+    />
+  </star-horse-dialog>
+  <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title=
+      "'查看数据'" :is-view="true">
+    <star-horse-data-view :data-format="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+  </star-horse-dialog>
+  <el-row :gutter="10" style="height: 100%;overflow: hidden">
+    <el-col :span="4" style="height: inherit">
+      <star-horse-tree v-model:treeDatas="rolesList" treeTitle="用户组" @selectData="userGroupChange"
+                       :compSize="compSize"/>
     </el-col>
-    <el-col :span="19" style="height: inherit">
+    <el-col v-if="systemInfoList.length>0" :span="4" style="height: inherit">
+      <star-horse-tree v-model:treeDatas="systemInfoList" treeTitle="应用系统" @selectData="systemChange"
+                       :compSize="compSize" :preps="{
+                         label:'sysName',
+                         value:'idInformations'
+                       }"/>
+    </el-col>
+    <el-col :span="systemInfoList.length>0?16:20" style="height: 100%;overflow: hidden">
       <el-card class="inner_content" style="height: inherit">
-
+        <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
+          <star-horse-search-comp @searchData="(data:any)=>menuPermission.createSearchParams(data)"
+                                  :formData="searchFields"
+                                  :compUrl="dataUrl"/>
+          <hr/>
+          <star-horse-button-list @tableCompFunc="(fun:any)=>menuPermission.tableCompFunc(fun)"
+                                  :compUrl="dataUrl"
+                                  :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
+        </div>
+        <hr>
+        <star-horse-table-comp ref="menuPermission" :fieldList="tableFieldList"
+                               :primaryKey="primaryKey" :compUrl="dataUrl"
+                               :orderBy="tableFieldList.orderBy"
+                               :dataFormat="dataFormat"/>
       </el-card>
     </el-col>
   </el-row>
