@@ -1,10 +1,10 @@
 <script setup lang="ts">
 
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-import {ElTreeV2} from "element-plus";
 import {onMounted, ref} from "vue";
-import {TreeNode, TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
+import {TreeNode} from "element-plus/es/components/tree-v2/src/types";
 import {ModelRef} from "vue-demi";
+import SubSystemMenu from "@/components/menu/SubSystemMenu.vue";
 
 const props = defineProps({
   preps: {
@@ -20,7 +20,7 @@ const props = defineProps({
   treeTitle: {type: String, default: "树形菜单"},
   // treeDatas: {type: Array<SelectOption>, required: true},
   compSize: {type: String, default: "default"},
-  height: {type: String, default: "600"},
+  height: {type: Number, default: "600"},
   showCheckbox: {type: Boolean, default: false},
   checkOnClickNode: {type: Boolean, default: true}
 });
@@ -39,8 +39,8 @@ const filterMethod = (query: string, node: TreeNode) => {
  * @param data
  * @param checked
  */
-const checkChange = (data: TreeNodeData, checked: boolean) => {
-  emits("selectData", data, checked);
+const checkChange = (data: any) => {
+  emits("selectData", data);
 };
 onMounted(() => {
 
@@ -66,14 +66,20 @@ onMounted(() => {
       </el-input>
     </div>
     <div class="tree-content">
-      <el-tree-v2 :data="treeDatas"
-                  :filter-method="filterMethod"
-                  :check-on-click-node="checkOnClickNode"
-                  :show-checkbox="showCheckbox"
-                  :height="height"
-                  @check-change="checkChange"
-                  @node-click="checkChange"
-                  ref="treeRef" :props="preps"/>
+      <el-scrollbar height="100%">
+        <el-menu>
+          <SubSystemMenu :dataList="treeDatas" ref="treeRef" :preps="preps" @selectData="checkChange"/>
+        </el-menu>
+        <!--        <el-tree-v2 :data="treeDatas"
+                            :filter-method="filterMethod"
+                            :check-on-click-node="checkOnClickNode"
+                            :show-checkbox="showCheckbox"
+                            :height="height"
+                            @check-change="checkChange"
+                            @node-click="checkChange"
+                            ref="treeRef" :props="preps"/>-->
+      </el-scrollbar>
+
     </div>
   </el-card>
 </template>
@@ -97,5 +103,11 @@ onMounted(() => {
 
 .tree-content {
   margin-top: 5px;
+  flex: 1;
+  overflow: hidden;
+}
+:deep(.el-menu-item){
+  height: 30px;
+  line-height: 30px;
 }
 </style>

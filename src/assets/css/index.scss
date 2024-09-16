@@ -160,7 +160,8 @@ a {
 }
 
 .el-menu {
-  border-bottom: unset;
+  border-bottom: unset !important;
+  border-right: unset !important;
 }
 
 .el-menu-item {

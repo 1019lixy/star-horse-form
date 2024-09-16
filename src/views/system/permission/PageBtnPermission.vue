@@ -5,7 +5,7 @@ import {DialogProps} from "@/components/types/DialogProps"
 import {computed, onMounted, provide, reactive, ref} from "vue";
 import {SearchFields, SelectOption} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
-import {dictData, loadData, loadMenusInfo, loadRolesInfo} from "@/api/sh_api.ts";
+import {createCondition, dictData, loadData, loadMenusInfo, loadRolesInfo} from "@/api/sh_api.ts";
 import {ElTreeV2} from "element-plus";
 import {TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
@@ -188,20 +188,14 @@ const roleChange = async (data: TreeNodeData, checked: boolean) => {
   loadMenus(0);
 };
 const loadMenus = async (appId: number) => {
-  let fieldList = [{
-    propertyName: "b.idRolesinfo",
-    value: currentUserGroupId.value
-  }];
+  let fieldList = [];
+
+  fieldList.push(createCondition("b.idRolesinfo", currentUserGroupId.value));
   if (appId) {
-    fieldList.push(
-        {
-          propertyName: "a.idInformations",
-          value: appId
-        }
-    );
+    fieldList.push(createCondition("a.idInformations", appId));
   }
   let menusDatas = await loadData("/system-config/system/rolesPkMenusinfo/getAllByCondition", {
-    fieldList: [],
+    fieldList: fieldList,
     orderBy: [{
       fieldName: "a.idRolesinfo",
       ascOrDesc: "asc"
@@ -220,18 +214,7 @@ const loadMenus = async (appId: number) => {
   menusList.value = menusDatas.data;
 }
 const systemChange = async (data: TreeNodeData, checked: boolean) => {
-  rolesList.value = [];
-  let roleSystemDatas = await loadData("/system-config/system/rolesPkAppinfo/getAllByCondition", {
-    fieldList: [{
-      propertyName: "b.idRolesinfo",
-      value: data.value
-    }]
-  });
-  if (roleSystemDatas.error) {
-    warning(roleSystemDatas.error);
-    return;
-  }
-  rolesList.value = roleSystemDatas.data;
+  await loadMenus(data.idInformations);
   //加载菜单
 };
 const menuChange = (data: TreeNodeData, checked: boolean) => {

@@ -1,28 +1,34 @@
 <script setup lang="ts">
-import {inject} from "vue";
 
 defineProps({
-  dataList: {type: Array, required: true}
+  dataList: {type: Array, required: true},
+  preps: {
+    type: Object,
+    default: () => {
+      return {
+        value: 'value',
+        label: 'name',
+        children: 'children'
+      };
+    }
+  },
 });
-const loadMenuFun = inject("loadMenu") as Function;
+const emits = defineEmits(["selectData"]);
+const selectData = (item: any) => {
+  emits("selectData", item);
+}
 </script>
 <template>
   <template v-for="item in dataList">
-    <el-sub-menu v-if="item.children&&item.children.length>0" :index="item.idInformations" @click="loadMenuFun(item.idInformations)">
+    <el-sub-menu v-if="item.children&&item.children.length>0" :index="item[preps.value]" @click="selectData(item)">
       <template #title>
-        <el-icon class="star-icon">
-          <component :is="item.sysLogo||'document'"/>
-        </el-icon>
-        <span>{{ item.sysName }}</span>
+        <span>{{ item[preps.label] }}</span>
       </template>
-      <SystemSubMenu :dataList="item.children"/>
+      <SystemSubMenu :dataList="item.children" :preps="preps"/>
     </el-sub-menu>
-    <el-menu-item v-else :index="item.idInformations" @click="loadMenuFun(item.idInformations)">
-      <el-icon class="star-icon">
-        <component :is="item.sysLogo||'document'"/>
-      </el-icon>
+    <el-menu-item v-else :index="item[preps.value]" @click="selectData(item)">
       <template #title>
-        <span>{{ item.sysName }}</span>
+        <span>{{ item[preps.label] }}</span>
       </template>
     </el-menu-item>
 
