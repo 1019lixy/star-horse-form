@@ -632,22 +632,10 @@
 <style lang="scss" scoped>
 </style>
 <script setup lang="ts" name="ToolsConfigs">
+import {apiInstance} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 
-const dataUrl: ApiUrls = {
-  loadByPageUrl: "/devops-continus/continus/toolsConfigs/pageList",
-  mergeUrl: "/devops-continus/continus/toolsConfigs/merge",
-  mergeDraftUrl: "/devops-continus/continus/toolsConfigs/mergeDraft",
-  batchMergeUrl: "/devops-continus/continus/toolsConfigs/mergeBatch",
-  batchMergeDraftUrl: "/devops-continus/continus/toolsConfigs/mergeBatchDraft",
-  loadByIdUrl: "/devops-continus/continus/toolsConfigs/getById",
-  deleteUrl: "/devops-continus/continus/toolsConfigs/batchDeleteById",
-  exportAllUrl: "/devops-continus/continus/toolsConfigs/exportData",
-  downloadTemplateUrl: "/devops-continus/continus/toolsConfigs/downloadTemplate",
-  userConditionUrl: "/devops-continus/continus/toolsConfigs/getAllByCondition",
-  importUrl: "/devops-continus/continus/toolsConfigs/importData",
-  uploadUrl: ""
-};
+const dataUrl: ApiUrls =apiInstance("devops-continus","continus/toolsConfigs") ;
 const dataFormat = (row, column, cellValue, index) => {
   //cellValue = commonDataFormat(row, column, cellValue, index);
   return cellValue;

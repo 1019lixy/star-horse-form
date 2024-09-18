@@ -1,24 +1,12 @@
 <script setup lang="ts" name="EnvInfo">
+import {apiInstance} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {onMounted, provide, reactive, ref} from "vue";
 import {SearchFields} from "@/components/types/SearchProps.d.ts";
 import {Config} from "@/api/settings.ts";
 import {CompParams} from "@/components/types/PageFieldInfo";
 
-const dataUrl: ApiUrls = {
-  loadByPageUrl: "/devops-continus/continus/envInfo/pageList",
-  mergeUrl: "/devops-continus/continus/envInfo/merge",
-  mergeDraftUrl: "/devops-continus/continus/envInfo/mergeDraft",
-  batchMergeUrl: "/devops-continus/continus/envInfo/mergeBatch",
-  batchMergeDraftUrl: "/devops-continus/continus/envInfo/mergeBatchDraft",
-  loadByIdUrl: "/devops-continus/continus/envInfo/getById",
-  deleteUrl: "/devops-continus/continus/envInfo/batchDeleteById",
-  exportAllUrl: "/devops-continus/continus/envInfo/exportData",
-  downloadTemplateUrl: "/devops-continus/continus/envInfo/downloadTemplate",
-  userConditionUrl: "/devops-continus/continus/envInfo/getAllByCondition",
-  importUrl: "/devops-continus/continus/envInfo/importData",
-  uploadUrl: ""
-};
+const dataUrl: ApiUrls =apiInstance("devops-continus","continus/envInfo");
 const searchFormData = reactive<SearchFields>({fieldList:[
   {label: "项目名称", fieldName: "projectName", type: "input", matchType: "lk", defaultShow: true},
   {label: "项目类型", fieldName: "projectType", type: "input", matchType: "lk", defaultShow: true},

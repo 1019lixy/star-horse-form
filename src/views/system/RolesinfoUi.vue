@@ -1,4 +1,5 @@
 <script setup lang="ts" name="Rolesinfo">
+import {apiInstance} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings.ts";
 import {DialogProps} from "@/components/types/DialogProps"
@@ -16,21 +17,7 @@ import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {ElTreeV2} from "element-plus";
 import {TreeNode} from "element-plus/es/components/tree-v2/src/types";
 
-const dataUrl: ApiUrls = {
-  loadByPageUrl: "/system-config/system/rolesinfoEntity/pageList",
-  mergeUrl: "/system-config/system/rolesinfoEntity/merge",
-  mergeDraftUrl: "/system-config/system/rolesinfoEntity/mergeDraft",
-  batchMergeUrl: "/system-config/system/rolesinfoEntity/mergeBatch",
-  batchMergeDraftUrl: "/system-config/system/rolesinfoEntity/mergeBatchDraft",
-  loadByIdUrl: "/system-config/system/rolesinfoEntity/getById",
-  deleteUrl: "/system-config/system/rolesinfoEntity/batchDeleteById",
-  exportAllUrl: "/system-config/system/rolesinfoEntity/exportData",
-  downloadTemplateUrl: "/system-config/system/rolesinfoEntity/downloadTemplate",
-  userConditionUrl: "/system-config/system/rolesinfoEntity/getAllByCondition",
-  importUrl: "/system-config/system/rolesinfoEntity/importData",
-  uploadUrl: "",
-  condition: []
-};
+const dataUrl: ApiUrls =apiInstance("system-config","system/rolesinfoEntity");
 let departmentList = ref<SelectOption[]>([]);
 let systemList = ref<SelectOption[]>([]);
 let menusList = ref([]);

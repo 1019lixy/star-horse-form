@@ -1,4 +1,5 @@
 <script setup lang="ts" name="DbAssign">
+import {apiInstance} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {DialogProps} from "@/components/types/DialogProps"
 import {onMounted, provide, reactive, ref} from "vue";
@@ -13,20 +14,7 @@ const assignTypeRef = ref(null);
 let userOrRoleList = ref<SelectOption[]>([]);
 let dbList = ref<SelectOption[]>([]);
 let sqlLangs = ref([]);
-const dataUrl: ApiUrls = {
-  loadByPageUrl: "/dbsearch-manage/dbsearch/dbAssign/pageList",
-  mergeUrl: "/dbsearch-manage/dbsearch/dbAssign/merge",
-  mergeDraftUrl: "/dbsearch-manage/dbsearch/dbAssign/mergeDraft",
-  batchMergeUrl: "/dbsearch-manage/dbsearch/dbAssign/mergeBatch",
-  batchMergeDraftUrl: "/dbsearch-manage/dbsearch/dbAssign/mergeBatchDraft",
-  loadByIdUrl: "/dbsearch-manage/dbsearch/dbAssign/getById",
-  deleteUrl: "/dbsearch-manage/dbsearch/dbAssign/batchDeleteById",
-  exportAllUrl: "/dbsearch-manage/dbsearch/dbAssign/exportData",
-  downloadTemplateUrl: "/dbsearch-manage/dbsearch/dbAssign/downloadTemplate",
-  userConditionUrl: "/dbsearch-manage/dbsearch/dbAssign/getAllByCondition",
-  uploadUrl: "/dbsearch-manage/dbsearch/dbAssign/importData",
-  importUrl: ""
-};
+const dataUrl: ApiUrls =apiInstance("dbsearch-manage","dbsearch/dbAssign");
 
 
 const searchFormData = reactive<SearchFields>({

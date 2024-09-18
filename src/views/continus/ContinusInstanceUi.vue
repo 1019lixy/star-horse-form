@@ -1,24 +1,12 @@
 <script setup lang="ts" name="ContinusInstanceUi">
+import {apiInstance} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {onMounted, provide, reactive, ref} from "vue";
 import {SearchFields} from "@/components/types/SearchProps.d.ts";
 import {Config} from "@/api/settings.ts";
 import {CompParams} from "@/components/types/PageFieldInfo";
 
-const dataUrl: ApiUrls = {
-  loadByPageUrl: "/devops-continus/continus/continusInstance/pageList",
-  mergeUrl: "/devops-continus/continus/continusInstance/merge",
-  mergeDraftUrl: "/devops-continus/continus/continusInstance/mergeDraft",
-  batchMergeUrl: "/devops-continus/continus/continusInstance/mergeBatch",
-  batchMergeDraftUrl: "/devops-continus/continus/continusInstance/mergeBatchDraft",
-  loadByIdUrl: "/devops-continus/continus/continusInstance/getById",
-  deleteUrl: "/devops-continus/continus/continusInstance/batchDeleteById",
-  exportAllUrl: "/devops-continus/continus/continusInstance/exportData",
-  downloadTemplateUrl: "/devops-continus/continus/continusInstance/downloadTemplate",
-  userConditionUrl: "/devops-continus/continus/continusInstance/getAllByCondition",
-  importUrl: "/devops-continus/continus/continusInstance/importData",
-  uploadUrl: ""
-};
+const dataUrl: ApiUrls =apiInstance("devops-continus","continus/continusInstance") ;
 const searchFormData = reactive<SearchFields>({fieldList:[
   {label: "项目名称", fieldName: "projectName", type: "input", matchType: "lk", defaultShow: true},
   {label: "项目类型", fieldName: "projectType", type: "input", matchType: "lk", defaultShow: true},

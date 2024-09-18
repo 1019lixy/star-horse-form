@@ -1,20 +1,8 @@
 <script setup lang="ts" name="NodeProperties">
+import {apiInstance} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 
-const dataUrl: ApiUrls = {
-  loadByPageUrl: "/devops-continus/continus/nodeProperties/pageList",
-  mergeUrl: "/devops-continus/continus/nodeProperties/merge",
-  mergeDraftUrl: "/devops-continus/continus/nodeProperties/mergeDraft",
-  batchMergeUrl: "/devops-continus/continus/nodeProperties/mergeBatch",
-  batchMergeDraftUrl: "/devops-continus/continus/nodeProperties/mergeBatchDraft",
-  loadByIdUrl: "/devops-continus/continus/nodeProperties/getById",
-  deleteUrl: "/devops-continus/continus/nodeProperties/batchDeleteById",
-  exportAllUrl: "/devops-continus/continus/nodeProperties/exportData",
-  downloadTemplateUrl: "/devops-continus/continus/nodeProperties/downloadTemplate",
-  userConditionUrl: "/devops-continus/continus/nodeProperties/getAllByCondition",
-  importUrl: "/devops-continus/continus/nodeProperties/importData",
-  uploadUrl: ""
-};
+const dataUrl: ApiUrls =apiInstance("devops-continus","continus/nodeProperties") ;
 const dataFormat = (row, column, cellValue, index) => {
   //cellValue = commonDataFormat(row, column, cellValue, index);
   return cellValue;

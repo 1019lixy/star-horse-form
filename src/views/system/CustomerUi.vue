@@ -1,4 +1,5 @@
 <script setup lang="ts" name="Customer">
+import {apiInstance} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings.ts";
 import {DialogProps} from "@/components/types/DialogProps"
@@ -7,21 +8,7 @@ import {SearchFields, SelectOption} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {loadElementPlusIcon} from "@/api/sh_api";
 //后端交互接口地址
-const dataUrl: ApiUrls = {
-  loadByPageUrl: "/system-config/system/customer/pageList",
-  mergeUrl: "/system-config/system/customer/merge",
-  mergeDraftUrl: "/system-config/system/customer/mergeDraft",
-  batchMergeUrl: "/system-config/system/customer/mergeBatch",
-  batchMergeDraftUrl: "/system-config/system/customer/mergeBatchDraft",
-  loadByIdUrl: "/system-config/system/customer/getById",
-  deleteUrl: "/system-config/system/customer/batchDeleteById",
-  exportAllUrl: "/system-config/system/customer/exportData",
-  downloadTemplateUrl: "/system-config/system/customer/downloadTemplate",
-  userConditionUrl: "/system-config/system/customer/getAllByCondition",
-  importUrl: "/system-config/system/customer/importData",
-  uploadUrl: "",
-  condition: []
-};
+const dataUrl: ApiUrls =apiInstance("system-config","system/customer");
 //查询属性
 const searchFormData = reactive<SearchFields>({fieldList:[
   {

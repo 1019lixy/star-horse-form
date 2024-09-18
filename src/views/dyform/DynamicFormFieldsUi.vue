@@ -1,4 +1,5 @@
 <script setup lang="ts" name="DynamicFormFields">
+import {apiInstance} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {DialogProps} from "@/components/types/DialogProps"
 import {onMounted, provide, reactive, ref} from "vue";
@@ -6,20 +7,7 @@ import {SearchFields} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {Config} from "@/api/settings.ts";
 //后端交互接口地址
-const dataUrl: ApiUrls = {
-  loadByPageUrl: "/userdb-manage/userdb/dynamicFormFields/pageList",
-  mergeUrl: "/userdb-manage/userdb/dynamicFormFields/merge",
-  mergeDraftUrl: "/userdb-manage/userdb/dynamicFormFields/mergeDraft",
-  batchMergeUrl: "/userdb-manage/userdb/dynamicFormFields/mergeBatch",
-  batchMergeDraftUrl: "/userdb-manage/userdb/dynamicFormFields/mergeBatchDraft",
-  loadByIdUrl: "/userdb-manage/userdb/dynamicFormFields/getById",
-  deleteUrl: "/userdb-manage/userdb/dynamicFormFields/batchDeleteById",
-  exportAllUrl: "/userdb-manage/userdb/dynamicFormFields/exportData",
-  downloadTemplateUrl: "/userdb-manage/userdb/dynamicFormFields/downloadTemplate",
-  userConditionUrl: "/userdb-manage/userdb/dynamicFormFields/getAllByCondition",
-  uploadUrl: "/userdb-manage/userdb/dynamicFormFields/importData",
-  importUrl: ""
-};
+const dataUrl: ApiUrls =apiInstance("userdb-manage","userdb/dynamicFormFields");
 //查询属性
 const searchFormData = reactive<SearchFields>({fieldList:[
   {label: "主键", fieldName: "idFormFields", type: "long"},

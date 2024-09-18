@@ -7,6 +7,7 @@ import {SelectOption} from "@/components/types/SearchProps";
 import * as ElementPlusIconsVue from '@element-plus/icons-vue';
 import {MenusInfo} from "@/components/types/MenusInfo";
 import {BatchFieldInfo, FieldInfo, PageFieldInfo, TabFieldInfo} from "@/components/types/PageFieldInfo";
+import {ApiUrls} from "@/components/types/ApiUrls";
 
 let loading: any = null;
 /**
@@ -132,15 +133,15 @@ export async function loadCustomInfo(params: any) {
  * @param param 查询参数
  */
 export async function loadDepartmentInfo(param: any) {
-    let deptData: SelectOption[] = [];
+    let deptData: any = [];
     await postRequest("/system-config/system/departmentEntity/deptTree", {
         fieldList: param
     }).then(res => {
         if (res.data.code != 0) {
             console.warn(res.data.cnMessage);
         } else {
-            const redata = res.data.data;
-            deptData = createTree(redata, "", "deptName", "idDepartment");
+            deptData = res.data.data;
+            // deptData = createTree(redata, "", "deptName", "idDepartment");
         }
     }).catch(err => console.error(err));
     return deptData;
@@ -591,8 +592,8 @@ export function formFieldMapping(fieldList: PageFieldInfo) {
                     if (isJson(item.defaultValue)) {
                         batchDefaultValues[temp.batchName] = {...batchDefaultValues[temp.batchName], ...item.defaultValue};
                     } else {
-                        const data:any={};
-                        data[item.fieldName]=item.defaultValue;
+                        const data: any = {};
+                        data[item.fieldName] = item.defaultValue;
                         batchDefaultValues[temp.batchName].push(data);
                     }
                 }
@@ -822,4 +823,28 @@ export function validMsg(item: any) {
         return [{'required': true, 'message': '必填项不能为空', 'trigger': 'blur'}];
     }
     return []
-};
+}
+
+/**
+ * 公共Api接口
+ * @param appName 应用名称
+ * @param urlPrefix api接口前缀
+ * @param condition 条件
+ */
+export function apiInstance(appName: string, urlPrefix: string, condition: Array<any> = []): ApiUrls {
+    return {
+        loadByPageUrl: `/${appName}/${urlPrefix}/pageList`,
+        mergeUrl: `/${appName}/${urlPrefix}/merge`,
+        mergeDraftUrl: `/${appName}/${urlPrefix}/mergeDraft`,
+        batchMergeUrl: `/${appName}/${urlPrefix}/mergeBatch`,
+        batchMergeDraftUrl: `/${appName}/${urlPrefix}/mergeBatchDraft`,
+        loadByIdUrl: `/${appName}/${urlPrefix}/getById`,
+        deleteUrl: `/${appName}/${urlPrefix}/batchDeleteById`,
+        exportAllUrl: `/${appName}/${urlPrefix}/exportData`,
+        downloadTemplateUrl: `/${appName}/${urlPrefix}/downloadTemplate`,
+        userConditionUrl: `/${appName}/${urlPrefix}/getAllByCondition`,
+        importUrl: `/${appName}/${urlPrefix}/importData`,
+        uploadUrl: ``,
+        condition: condition
+    };
+}

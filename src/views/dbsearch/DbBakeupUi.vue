@@ -1,4 +1,5 @@
 <script setup lang="ts" name="DbBakeup">
+import {apiInstance} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {DialogProps} from "@/components/types/DialogProps"
 import {onMounted, provide, reactive, ref} from "vue";
@@ -8,20 +9,7 @@ import {Config} from "@/api/settings.ts";
 import {dictData} from "@/api/sh_api.ts";
 import {initDbList} from "@/views/dbsearch/utils/DbSearchUtils.ts";
 //后端交互接口地址
-const dataUrl: ApiUrls = {
-  loadByPageUrl: "/dbsearch-manage/dbsearch/dbBakeup/pageList",
-  mergeUrl: "/dbsearch-manage/dbsearch/dbBakeup/merge",
-  mergeDraftUrl: "/dbsearch-manage/dbsearch/dbBakeup/mergeDraft",
-  batchMergeUrl: "/dbsearch-manage/dbsearch/dbBakeup/mergeBatch",
-  batchMergeDraftUrl: "/dbsearch-manage/dbsearch/dbBakeup/mergeBatchDraft",
-  loadByIdUrl: "/dbsearch-manage/dbsearch/dbBakeup/getById",
-  deleteUrl: "/dbsearch-manage/dbsearch/dbBakeup/batchDeleteById",
-  exportAllUrl: "/dbsearch-manage/dbsearch/dbBakeup/exportData",
-  downloadTemplateUrl: "/dbsearch-manage/dbsearch/dbBakeup/downloadTemplate",
-  userConditionUrl: "/dbsearch-manage/dbsearch/dbBakeup/getAllByCondition",
-  uploadUrl: "/dbsearch-manage/dbsearch/dbBakeup/importData",
-  importUrl: ""
-};
+const dataUrl: ApiUrls =apiInstance("dbsearch-manage","dbsearch/dbBakeup");
 let dbList = ref<SelectOption[]>([]);
 let bakePolicyList = ref<SelectOption[]>([]);
 //查询属性

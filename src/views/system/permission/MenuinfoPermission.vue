@@ -9,23 +9,10 @@ import {warning} from "@/utils/message.ts";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {DialogProps} from "@/components/types/DialogProps";
 import {Config} from "@/api/settings.ts";
+import {apiInstance} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 
-const dataUrl: ApiUrls = {
-  loadByPageUrl: "/system-config/system/rolesPkMenusinfo/pageList",
-  mergeUrl: "/system-config/system/rolesPkMenusinfo/merge",
-  mergeDraftUrl: "/system-config/system/rolesPkMenusinfo/mergeDraft",
-  batchMergeUrl: "/system-config/system/rolesPkMenusinfo/mergeBatch",
-  batchMergeDraftUrl: "/system-config/system/rolesPkMenusinfo/mergeBatchDraft",
-  loadByIdUrl: "/system-config/system/rolesPkMenusinfo/getById",
-  deleteUrl: "/system-config/system/rolesPkMenusinfo/batchDeleteById",
-  exportAllUrl: "/system-config/system/rolesPkMenusinfo/exportData",
-  downloadTemplateUrl: "/system-config/system/rolesPkMenusinfo/downloadTemplate",
-  userConditionUrl: "/system-config/system/rolesPkMenusinfo/getAllByCondition",
-  importUrl: "/system-config/system/rolesPkMenusinfo/importData",
-  uploadUrl: "",
-  condition: []
-};
+const dataUrl: ApiUrls = apiInstance("system-config","system/rolesPkMenusinfo");
 const menuPermission = ref();
 let rolesList = ref<SelectOption[]>([]);
 let systemInfoList = ref<SelectOption[]>([]);

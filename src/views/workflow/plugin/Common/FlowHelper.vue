@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {uuid} from '@/views/workflow/plugin/mixins/flowMixin';
+import {uuid} from '@/api/system.ts';
 import {computed, ref} from "vue";
 import {scale} from "@/views/workflow/plugin/util/deviceUtil";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";

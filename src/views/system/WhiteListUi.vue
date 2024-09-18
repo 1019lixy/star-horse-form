@@ -1,4 +1,5 @@
 <script setup lang="ts" name="WhiteList">
+import {apiInstance} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings.ts";
 import {DialogProps} from "@/components/types/DialogProps"
@@ -7,20 +8,7 @@ import {SearchFields} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {dictData} from "@/api/sh_api";
 
-const dataUrl: ApiUrls = {
-  loadByPageUrl: "/system-config/system/whiteList/pageList",
-  mergeUrl: "/system-config/system/whiteList/merge",
-  mergeDraftUrl: "/system-config/system/whiteList/mergeDraft",
-  batchMergeUrl: "/system-config/system/whiteList/mergeBatch",
-  batchMergeDraftUrl: "/system-config/system/whiteList/mergeBatchDraft",
-  loadByIdUrl: "/system-config/system/whiteList/getById",
-  deleteUrl: "/system-config/system/whiteList/batchDeleteById",
-  exportAllUrl: "/system-config/system/whiteList/exportData",
-  downloadTemplateUrl: "/system-config/system/whiteList/downloadTemplate",
-  userConditionUrl: "/system-config/system/whiteList/getAllByCondition",
-  importUrl: "/system-config/system/whiteList/importData",
-  condition: []
-};
+const dataUrl: ApiUrls =apiInstance("system-config","system/whiteList");
 let typeList = ref({});
 const searchFormData = reactive<SearchFields>({fieldList:[
   {label: "过滤类型", fieldName: "whiteType", defaultShow: true, type: "select", optionList: typeList},

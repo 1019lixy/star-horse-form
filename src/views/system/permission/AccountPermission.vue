@@ -8,6 +8,7 @@ import {TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
 import {Config} from "@/api/settings.ts";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {DialogProps} from "@/components/types/DialogProps";
+import {apiInstance} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 
 let rolesList = ref<SelectOption[]>([]);
@@ -15,21 +16,7 @@ let accountPermissionStatus = ref<SelectOption[]>();
 let accountPermission = ref();
 let configStore = GlobalConfig(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.inputSize || "default");
-const dataUrl: ApiUrls = {
-  loadByPageUrl: "/system-config/system/rolesPkUsers/pageList",
-  mergeUrl: "/system-config/system/rolesPkUsers/merge",
-  mergeDraftUrl: "/system-config/system/rolesPkUsers/mergeDraft",
-  batchMergeUrl: "/system-config/system/rolesPkUsers/mergeBatch",
-  batchMergeDraftUrl: "/system-config/system/rolesPkUsers/mergeBatchDraft",
-  loadByIdUrl: "/system-config/system/rolesPkUsers/getById",
-  deleteUrl: "/system-config/system/rolesPkUsers/batchDeleteById",
-  exportAllUrl: "/system-config/system/rolesPkUsers/exportData",
-  downloadTemplateUrl: "/system-config/system/rolesPkUsers/downloadTemplate",
-  userConditionUrl: "/system-config/system/rolesPkUsers/getAllByCondition",
-  importUrl: "/system-config/system/rolesPkUsers/importData",
-  uploadUrl: "",
-  condition: []
-};
+const dataUrl: ApiUrls =apiInstance("system-config","system/rolesPkUsers");
 const checkChange = (data: TreeNodeData, checked: boolean) => {
   let queryCond = [];
   queryCond.push(createCondition("a.idRolesinfo", data.value));

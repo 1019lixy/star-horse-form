@@ -6,6 +6,7 @@ import {error, success, warning} from "@/utils/message";
 import {postRequest} from "@/api/star_horse";
 import {SelectOption} from "@/components/types/SearchProps";
 import {LocationQueryValue, useRoute} from "vue-router";
+import {apiInstance} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import StarHorseDialog from "@/components/comp/StarHorseDialog.vue";
 import DataPreview from "@/views/dyform/DataPreview.vue";
@@ -18,20 +19,7 @@ import {tableColumns} from "@/views/dbsearch/utils/DbSearchUtils.ts";
 const route = useRoute();
 const isView = ref<boolean>(false);
 //后端交互接口地址
-const dataUrl: ApiUrls = {
-  loadByPageUrl: "/userdb-manage/userdb/dynamicFormConsumerConfig/pageList",
-  mergeUrl: "/userdb-manage/userdb/dynamicFormConsumerConfig/merge",
-  mergeDraftUrl: "/userdb-manage/userdb/dynamicFormConsumerConfig/mergeDraft",
-  batchMergeUrl: "/userdb-manage/userdb/dynamicFormConsumerConfig/mergeBatch",
-  batchMergeDraftUrl: "/userdb-manage/userdb/dynamicFormConsumerConfig/mergeBatchDraft",
-  loadByIdUrl: "/userdb-manage/userdb/dynamicFormConsumerConfig/getById",
-  deleteUrl: "/userdb-manage/userdb/dynamicFormConsumerConfig/batchDeleteById",
-  exportAllUrl: "/userdb-manage/userdb/dynamicFormConsumerConfig/exportData",
-  downloadTemplateUrl: "/userdb-manage/userdb/dynamicFormConsumerConfig/downloadTemplate",
-  userConditionUrl: "/userdb-manage/userdb/dynamicFormConsumerConfig/getAllByCondition",
-  uploadUrl: "/userdb-manage/userdb/dynamicFormConsumerConfig/importData",
-  importUrl: ""
-};
+const dataUrl: ApiUrls = apiInstance("userdb-manage","userdb/dynamicFormConsumerConfig");
 const customerItems = ref<CustomerItem[]>([]);
 const formConditionProps = ref<any>({});
 const dataForm = ref<any>({});

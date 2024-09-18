@@ -1,4 +1,5 @@
 <script setup lang="ts" name="DynamicFormItems">
+import {apiInstance} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {DialogProps} from "@/components/types/DialogProps"
 import {onMounted, provide, reactive, ref} from "vue";
@@ -6,20 +7,7 @@ import {SearchFields, SelectOption} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {Config} from "@/api/settings.ts";
 //后端交互接口地址
-const dataUrl: ApiUrls = {
-  loadByPageUrl: "/userdb-manage/userdb/dynamicFormItems/pageList",
-  mergeUrl: "/userdb-manage/userdb/dynamicFormItems/merge",
-  mergeDraftUrl: "/userdb-manage/userdb/dynamicFormItems/mergeDraft",
-  batchMergeUrl: "/userdb-manage/userdb/dynamicFormItems/mergeBatch",
-  batchMergeDraftUrl: "/userdb-manage/userdb/dynamicFormItems/mergeBatchDraft",
-  loadByIdUrl: "/userdb-manage/userdb/dynamicFormItems/getById",
-  deleteUrl: "/userdb-manage/userdb/dynamicFormItems/batchDeleteById",
-  exportAllUrl: "/userdb-manage/userdb/dynamicFormItems/exportData",
-  downloadTemplateUrl: "/userdb-manage/userdb/dynamicFormItems/downloadTemplate",
-  userConditionUrl: "/userdb-manage/userdb/dynamicFormItems/getAllByCondition",
-  uploadUrl: "/userdb-manage/userdb/dynamicFormItems/importData",
-  importUrl: ""
-};
+const dataUrl: ApiUrls =apiInstance("userdb-manage","userdb/dynamicFormItems");
 const categoryList = ref<SelectOption[]>([{
   name: "容器", value: "2"
 }, {

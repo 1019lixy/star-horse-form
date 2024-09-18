@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import {apiInstance} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings.ts";
 import {DialogProps} from "@/components/types/DialogProps"
@@ -7,21 +8,7 @@ import {SearchFields, SelectOption} from "@/components/types/SearchProps";
 import {loadDepartmentInfo} from "@/api/sh_api";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 
-const dataUrl: ApiUrls = {
-  loadByPageUrl: "/system-config/system/departmentEntity/pageList",
-  mergeUrl: "/system-config/system/departmentEntity/merge",
-  mergeDraftUrl: "/system-config/system/departmentEntity/mergeDraft",
-  batchMergeUrl: "/system-config/system/departmentEntity/mergeBatch",
-  batchMergeDraftUrl: "/system-config/system/departmentEntity/mergeBatchDraft",
-  loadByIdUrl: "/system-config/system/departmentEntity/getById",
-  deleteUrl: "/system-config/system/departmentEntity/batchDeleteById",
-  exportAllUrl: "/system-config/system/departmentEntity/exportData",
-  downloadTemplateUrl: "/system-config/system/departmentEntity/downloadTemplate",
-  userConditionUrl: "/system-config/system/departmentEntity/getAllByCondition",
-  importUrl: "/system-config/system/departmentEntity/importData",
-  uploadUrl: "",
-  condition: []
-};
+const dataUrl: ApiUrls =apiInstance("system-config","system/departmentEntity");
 let departmentList = ref<SelectOption[]>([]);
 const searchFormData = reactive<SearchFields>({fieldList:[
   {label: "部门名称", defaultShow: true, fieldName: "deptName", type: "input", matchType: "lk"},

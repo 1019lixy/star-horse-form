@@ -1,4 +1,5 @@
 <script setup lang="ts" name="DictinfoType">
+import {apiInstance} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings.ts";
 import {DialogProps} from "@/components/types/DialogProps"
@@ -8,21 +9,7 @@ import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import DictinfoUI from "@/views/system/DictinfoUI.vue";
 import {SearchParams} from "@/components/types/Params";
 
-const dataUrl: ApiUrls = {
-  loadByPageUrl: "/system-config/system/dictinfoType/pageList",
-  mergeUrl: "/system-config/system/dictinfoType/merge",
-  mergeDraftUrl: "/system-config/system/dictinfoType/mergeDraft",
-  batchMergeUrl: "/system-config/system/dictinfoType/mergeBatch",
-  batchMergeDraftUrl: "/system-config/system/dictinfoType/mergeBatchDraft",
-  loadByIdUrl: "/system-config/system/dictinfoType/getById",
-  deleteUrl: "/system-config/system/dictinfoType/batchDeleteById",
-  exportAllUrl: "/system-config/system/dictinfoType/exportData",
-  downloadTemplateUrl: "/system-config/system/dictinfoType/downloadTemplate",
-  userConditionUrl: "/system-config/system/dictinfoType/getAllByCondition",
-  importUrl: "/system-config/system/dictinfoType/importData",
-  uploadUrl: "",
-  condition: []
-};
+const dataUrl: ApiUrls =apiInstance("system-config","system/dictinfoType");
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {label: "名称", defaultShow: false, matchType: "lk", fieldName: "dictTypeName", type: "input"},

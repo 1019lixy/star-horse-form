@@ -1,4 +1,5 @@
 <script setup lang="ts" name="Usersinfo">
+import {apiInstance} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings.ts";
 import {DialogProps} from "@/components/types/DialogProps"
@@ -21,21 +22,7 @@ const props = defineProps({
   viewRolesinfoId: {type: String},
   disableAction: {type: Boolean, default: false}
 });
-const dataUrl: ApiUrls = {
-  loadByPageUrl: "/system-config/system/usersinfoEntity/pageList",
-  mergeUrl: "/system-config/system/usersinfoEntity/merge",
-  mergeDraftUrl: "/system-config/system/usersinfoEntity/mergeDraft",
-  batchMergeUrl: "/system-config/system/usersinfoEntity/mergeBatch",
-  batchMergeDraftUrl: "/system-config/system/usersinfoEntity/mergeBatchDraft",
-  loadByIdUrl: "/system-config/system/usersinfoEntity/getById",
-  deleteUrl: "/system-config/system/usersinfoEntity/batchDeleteById",
-  exportAllUrl: "/system-config/system/usersinfoEntity/exportData",
-  downloadTemplateUrl: "/system-config/system/usersinfoEntity/downloadTemplate",
-  userConditionUrl: "/system-config/system/usersinfoEntity/getAllByCondition",
-  importUrl: "/system-config/system/usersinfoEntity/importData",
-  uploadUrl: "",
-  condition: []
-};
+const dataUrl: ApiUrls =apiInstance("system-config","system/usersinfoEntity");
 const usersinfoTableListRef = ref();
 const searchFormData = reactive<SearchFields>({
   fieldList: [
@@ -169,10 +156,9 @@ const checkChange = (data: TreeNodeData, checked: boolean) => {
   // }
   // treeRef.value.setChecked(data.value, (checked instanceof Boolean) ? checked : true);
   let conditions: Array<SearchParams> = [];
-  if (checked) {
-    console.log(data.value);
-    conditions.push(createCondition("c.idDepartment", data.value));
-  }
+  console.log(data);
+
+    conditions.push(createCondition("c.idDepartment", data.idDepartment));
   // menuTableListRef.value.setDataInfo(conditions, null);
   usersinfoTableListRef.value.createSearchParams(conditions);
 };
@@ -231,7 +217,10 @@ const pwdFieldInfo = reactive<PageFieldInfo | any>({
   <el-card class="inner_content">
     <el-row style="height: 100%;" :gutter="10">
       <el-col :span="viewRolesinfoId?5:5" style="height: inherit">
-      <star-horse-tree v-model:tree-datas="deptList" @selectData="checkChange" :comp-size="compSize"/>
+        <star-horse-tree v-model:tree-datas="deptList" :preps="{
+        label:'deptName',
+        value:'idDepartment'
+      }" @selectData="checkChange" :comp-size="compSize"/>
       </el-col>
       <el-col :span="viewRolesinfoId?19:19" style="height: inherit">
         <el-card class="inner_content" style="height: inherit">

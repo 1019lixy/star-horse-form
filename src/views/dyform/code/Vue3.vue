@@ -14,7 +14,7 @@ let code = ref<string>("");
 const starHorseEditorRef = ref();
 const asssignVal = (searchFields: string, formFields: string) => {
   return `<script setup lang='ts'>
-import {ApiUrls} from "@\/components\/types\/ApiUrls";
+import {apiInstance,ApiUrls} from "@\/components\/types\/ApiUrls";
 import {Config} from "@\/api\/settings.ts";
 import {DialogProps} from "@\/components\/types\/DialogProps"
 import {onMounted, provide, reactive, ref} from "vue";
@@ -25,22 +25,9 @@ const tableFieldList = reactive<PageFieldInfo>({
     fieldList:${formFields}
 });
 const primaryKey = "${props.formInfo.formId}";
+let appName="需要手动添加";
 let interfacePrefix="需要手动添加";
-const dataUrl: ApiUrls = {
-  loadByPageUrl: interfacePrefix+"/pageList",
-  mergeUrl: interfacePrefix+"/merge",
-  mergeDraftUrl: interfacePrefix+"/mergeDraft",
-  batchMergeUrl: interfacePrefix+"/mergeBatch",
-  batchMergeDraftUrl: interfacePrefix+"/mergeBatchDraft",
-  loadByIdUrl: interfacePrefix+"/getById",
-  deleteUrl: interfacePrefix+"/batchDeleteById",
-  exportAllUrl: interfacePrefix+"/exportData",
-  downloadTemplateUrl: interfacePrefix+"/downloadTemplate",
-  userConditionUrl: interfacePrefix+"/getAllByCondition",
-  importUrl: interfacePrefix+"/importData",
-  uploadUrl: "",
-  condition: []
-};
+const dataUrl: ApiUrls =apiInstance(appNmae,interfacePrefix);
 const initData = async () => {
 };
 const ${convertToCamelCase(props.formInfo.tbName)}Ref = ref();

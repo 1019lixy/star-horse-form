@@ -1,4 +1,5 @@
 <script setup lang="ts" name="Audit">
+import {apiInstance} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings.ts";
 import {DialogProps} from "@/components/types/DialogProps"
@@ -6,21 +7,7 @@ import {onMounted, provide, reactive, ref} from "vue";
 import {SearchFields} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 
-const dataUrl: ApiUrls = {
-  loadByPageUrl: "/system-config/system/auditEntity/pageList",
-  mergeUrl: "/system-config/system/auditEntity/merge",
-  mergeDraftUrl: "/system-config/system/auditEntity/mergeDraft",
-  batchMergeUrl: "/system-config/system/auditEntity/mergeBatch",
-  batchMergeDraftUrl: "/system-config/system/auditEntity/mergeBatchDraft",
-  loadByIdUrl: "/system-config/system/auditEntity/getById",
-  deleteUrl: "/system-config/system/auditEntity/batchDeleteById",
-  exportAllUrl: "/system-config/system/auditEntity/exportData",
-  downloadTemplateUrl: "/system-config/system/auditEntity/downloadTemplate",
-  userConditionUrl: "/system-config/system/auditEntity/getAllByCondition",
-  importUrl: "/system-config/system/auditEntity/importData",
-  uploadUrl: "",
-  condition: []
-};
+const dataUrl: ApiUrls =apiInstance("system-config","system/auditEntity");
 const requestMethod = [{name: "POST", value: "POST"}, {name: "GET", value: "GET"},
   {name: "PUT", value: "PUT"}, {name: "DELETE", value: "DELETE"},];
 const searchFormData = reactive<SearchFields>({fieldList:[

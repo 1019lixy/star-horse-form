@@ -1,4 +1,5 @@
 <script setup lang="ts" name="Dbinfo">
+import {apiInstance} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {DialogProps} from "@/components/types/DialogProps"
 import {onMounted, provide, reactive, ref} from "vue";
@@ -7,20 +8,7 @@ import {loadGetData} from "@/api/sh_api";
 import {warning} from "@/utils/message";
 import {Config} from "@/api/settings.ts";
 
-const dataUrl: ApiUrls = {
-  loadByPageUrl: "/dbsearch-manage/dbsearch/dbinfoEntity/pageList",
-  mergeUrl: "/dbsearch-manage/dbsearch/dbinfoEntity//merge",
-  mergeDraftUrl: "/dbsearch-manage/dbsearch/dbinfoEntity/mergeDraft",
-  batchMergeUrl: "/dbsearch-manage/dbsearch/dbinfoEntity/mergeBatch",
-  batchMergeDraftUrl: "/dbsearch-manage/dbsearch/dbinfoEntity/mergeBatchDraft",
-  loadByIdUrl: "/dbsearch-manage/dbsearch/dbinfoEntity/getById",
-  deleteUrl: "/dbsearch-manage/dbsearch/dbinfoEntity/batchDeleteById",
-  exportAllUrl: "/dbsearch-manage/dbsearch/dbinfoEntity/exportData",
-  downloadTemplateUrl: "/dbsearch-manage/dbsearch/dbinfoEntity/downloadTemplate",
-  userConditionUrl: "/dbsearch-manage/dbsearch/dbinfoEntity/getAllByCondition",
-  uploadUrl: "/dbsearch-manage/dbsearch/dbinfoEntity/importData",
-  importUrl: ""
-};
+const dataUrl: ApiUrls = apiInstance("dbsearch-manage","dbsearch/dbinfoEntity");
 let dbTypeList = ref<Array<any>>([]);
 const searchFormData = reactive<SearchFields>({
   fieldList: [

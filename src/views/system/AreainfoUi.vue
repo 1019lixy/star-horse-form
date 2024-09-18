@@ -1,35 +1,26 @@
 <script setup lang="ts" name="Areainfo">
 import {ApiUrls} from "@/components/types/ApiUrls";
+import {apiInstance} from "@/api/sh_api.ts";
 import {Config} from "@/api/settings.ts";
 import {DialogProps} from "@/components/types/DialogProps"
 import {onMounted, provide, reactive, ref} from "vue";
 import {SearchFields} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 
-const dataUrl: ApiUrls = {
-  loadByPageUrl: "/system-config/system/areainfo/pageList",
-  mergeUrl: "/system-config/system/areainfo/merge",
-  mergeDraftUrl: "/system-config/system/areainfo/mergeDraft",
-  batchMergeUrl: "/system-config/system/areainfo/mergeBatch",
-  batchMergeDraftUrl: "/system-config/system/areainfo/mergeBatchDraft",
-  loadByIdUrl: "/system-config/system/areainfo/getById",
-  deleteUrl: "/system-config/system/areainfo/batchDeleteById",
-  exportAllUrl: "/system-config/system/areainfo/exportData",
-  downloadTemplateUrl: "/system-config/system/areainfo/downloadTemplate",
-  userConditionUrl: "/system-config/system/areainfo/getAllByCondition",
-  importUrl: "/system-config/system/areainfo/importData",
-  uploadUrl: "",
-  condition: []
-};
-const searchFormData = reactive<SearchFields>({fieldList:[{label: "区域主键", fieldName: "idAreainfo", type: "long"},
-  {label: "区域名称", defaultShow: true, fieldName: "areaName", type: "input"},
-  {label: "区域编码", fieldName: "areaCode", type: "input"},
-  {label: "父节点编号", fieldName: "parentNo", type: "input"},
-]});
+const dataUrl: ApiUrls = apiInstance("system-config", "system/areainfo");
+const searchFormData = reactive<SearchFields>({
+  fieldList: [
+    {label: "区域名称", defaultShow: true, matchType: 'lk', fieldName: "areaName", type: "input"},
+    {label: "区域编码", defaultShow: true, matchType: 'lk', fieldName: "areaCode", type: "input"},
+  ]
+});
 const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
       label: "区域主键", fieldName: "idAreainfo", type: "long",
+    },
+    {
+      label: "父节点编号", fieldName: "parentNo", type: "select",
       formShow: true,
       tableShow: true
     },
@@ -43,11 +34,7 @@ const tableFieldList = reactive<PageFieldInfo>({
       formShow: true,
       tableShow: true
     },
-    {
-      label: "父节点编号", fieldName: "parentNo", type: "input",
-      formShow: true,
-      tableShow: true
-    },
+
     {
       label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
     },
@@ -108,7 +95,7 @@ onMounted(() => {
 </script>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form  @refresh="areainfoRef.loadByPage()" :compUrl="dataUrl"
+    <star-horse-form @refresh="areainfoRef.loadByPage()" :compUrl="dataUrl"
                      :fieldList="tableFieldList" :rules="rules"/>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title=
@@ -120,14 +107,14 @@ onMounted(() => {
       <star-horse-search-comp @searchData="(data:any)=>areainfoRef.createSearchParams(data)" :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr>
-      <star-horse-button-list  @tableCompFunc="(fun:any)=>areainfoRef.tableCompFunc(fun)"
+      <star-horse-button-list @tableCompFunc="(fun:any)=>areainfoRef.tableCompFunc(fun)"
                               :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
     <hr>
-    <star-horse-table-comp  ref="areainfoRef" :fieldList="tableFieldList"
+    <star-horse-table-comp ref="areainfoRef" :fieldList="tableFieldList"
                            :primaryKey="primaryKey" :compUrl="dataUrl"
-                           :dataFormat="dataFormat"/>
+                           :dataFormat="dataFormat" :showPageBar="false"/>
   </el-card>
 </template>
 <style lang="scss" scoped>

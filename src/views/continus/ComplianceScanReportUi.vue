@@ -1,24 +1,12 @@
 <script setup lang="ts" name="ComplianceScanReport">
+import {apiInstance} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {DialogProps} from "@/components/types/DialogProps"
 import {onMounted, provide, reactive} from "vue";
 import {SearchFields} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 
-const dataUrl: ApiUrls = {
-  loadByPageUrl: "/devops-continus/continus/complianceScanReport/pageList",
-  mergeUrl: "/devops-continus/continus/complianceScanReport/merge",
-  mergeDraftUrl: "/devops-continus/continus/complianceScanReport/mergeDraft",
-  batchMergeUrl: "/devops-continus/continus/complianceScanReport/mergeBatch",
-  batchMergeDraftUrl: "/devops-continus/continus/complianceScanReport/mergeBatchDraft",
-  loadByIdUrl: "/devops-continus/continus/complianceScanReport/getById",
-  deleteUrl: "/devops-continus/continus/complianceScanReport/batchDeleteById",
-  exportAllUrl: "/devops-continus/continus/complianceScanReport/exportData",
-  downloadTemplateUrl: "/devops-continus/continus/complianceScanReport/downloadTemplate",
-  userConditionUrl: "/devops-continus/continus/complianceScanReport/getAllByCondition",
-  importUrl: "/devops-continus/continus/complianceScanReport/importData",
-  uploadUrl: ""
-};
+const dataUrl: ApiUrls =apiInstance("devops-continus","continus/complianceScanReport");
 const searchFormData = reactive<SearchFields>({fieldList:[
   {label: "致命总数", fieldName: "blocker", type: "input"},
   {label: "严重总数", fieldName: "critical", type: "input", matchType: "lk"},

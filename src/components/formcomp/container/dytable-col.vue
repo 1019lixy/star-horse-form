@@ -4,7 +4,7 @@ import {warning} from '@/utils/message'
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-import {tableAction, tableCellOperation} from "@/api/system.ts";
+import {tableAction, tableCellOperation} from "@/components/formcomp/container/dytableUtils.ts";
 
 const props = defineProps({
   parentField: {type: String},

@@ -1,22 +1,10 @@
 
 
 <script setup lang="ts" name="JunitReport">
+import {apiInstance} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 
-const dataUrl: ApiUrls = {
-  loadByPageUrl: "/devops-continus/continus/junitReport/pageList",
-  mergeUrl: "/devops-continus/continus/junitReport/merge",
-  mergeDraftUrl: "/devops-continus/continus/junitReport/mergeDraft",
-  batchMergeUrl: "/devops-continus/continus/junitReport/mergeBatch",
-  batchMergeDraftUrl: "/devops-continus/continus/junitReport/mergeBatchDraft",
-  loadByIdUrl: "/devops-continus/continus/junitReport/getById",
-  deleteUrl: "/devops-continus/continus/junitReport/batchDeleteById",
-  exportAllUrl: "/devops-continus/continus/junitReport/exportData",
-  downloadTemplateUrl: "/devops-continus/continus/junitReport/downloadTemplate",
-  userConditionUrl: "/devops-continus/continus/junitReport/getAllByCondition",
-  importUrl: "/devops-continus/continus/junitReport/importData",
-  uploadUrl: ""
-};
+const dataUrl: ApiUrls = apiInstance("devops-continus","continus/junitReport");
 const dataFormat = (row, column, cellValue, index) => {
   //cellValue = commonDataFormat(row, column, cellValue, index);
   return cellValue;

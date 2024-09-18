@@ -5,6 +5,7 @@ import {SearchFields, SelectOption} from "@/components/types/SearchProps";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import piniaInstance from "@/store";
 import {TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
+import {apiInstance} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {DialogProps} from "@/components/types/DialogProps";
@@ -12,21 +13,7 @@ import {Config} from "@/api/settings.ts";
 
 let informationsList = ref<any>([]);
 let appPermissionStatus = ref<SelectOption[]>([]);
-const dataUrl: ApiUrls = {
-  loadByPageUrl: "/system-config/system/rolesPkAppinfo/pageList",
-  mergeUrl: "/system-config/system/rolesPkAppinfo/merge",
-  mergeDraftUrl: "/system-config/system/rolesPkAppinfo/mergeDraft",
-  batchMergeUrl: "/system-config/system/rolesPkAppinfo/mergeBatch",
-  batchMergeDraftUrl: "/system-config/system/rolesPkAppinfo/mergeBatchDraft",
-  loadByIdUrl: "/system-config/system/rolesPkAppinfo/getById",
-  deleteUrl: "/system-config/system/rolesPkAppinfo/batchDeleteById",
-  exportAllUrl: "/system-config/system/rolesPkAppinfo/exportData",
-  downloadTemplateUrl: "/system-config/system/rolesPkAppinfo/downloadTemplate",
-  userConditionUrl: "/system-config/system/rolesPkAppinfo/getAllByCondition",
-  importUrl: "/system-config/system/rolesPkAppinfo/importData",
-  uploadUrl: "",
-  condition: []
-};
+const dataUrl: ApiUrls =apiInstance("system-config","system/rolesPkAppinfo");
 const appinfoPermission = ref();
 let rolesList = ref<SelectOption[]>();
 let configStore = GlobalConfig(piniaInstance);
@@ -34,8 +21,8 @@ let compSize = computed(() => configStore.configFormInfo?.inputSize || "default"
 const checkChange = (data: TreeNodeData, checked: boolean) => {
   appinfoPermission.value.createSearchParams([
     {
-      propertyName:"b.idRolesinfo",
-      value:data.value
+      propertyName: "b.idRolesinfo",
+      value: data.value
     }
   ])
 };
@@ -58,11 +45,14 @@ const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
       label: "分组名称", fieldName: "idRolesinfo", type: "select", optionList: rolesList,
-      formShow: true, required: true,viewShow:false
+      formShow: true, required: true, viewShow: false
     },
     {
       label: "系统名称", fieldName: "idInformations", type: "tselect", optionList: informationsList,
-      formShow: true, required: true,viewShow:false
+      formShow: true, required: true, viewShow: false,
+      preps: {
+        checkStrictly: "Y"
+      }
     },
 
     {

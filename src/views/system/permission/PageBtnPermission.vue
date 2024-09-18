@@ -1,4 +1,5 @@
 <script setup lang="ts" name="ResourcesSummary">
+import {apiInstance} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings.ts";
 import {DialogProps} from "@/components/types/DialogProps"
@@ -13,21 +14,7 @@ import piniaInstance from "@/store";
 import StarHorseTree from "@/components/comp/StarHorseTree.vue";
 import {warning} from "@/utils/message.ts";
 
-const dataUrl: ApiUrls = {
-  loadByPageUrl: "/system-config/system/resourcesSummaryEntity/pageList",
-  mergeUrl: "/system-config/system/resourcesSummaryEntity/merge",
-  mergeDraftUrl: "/system-config/system/resourcesSummaryEntity/mergeDraft",
-  batchMergeUrl: "/system-config/system/resourcesSummaryEntity/mergeBatch",
-  batchMergeDraftUrl: "/system-config/system/resourcesSummaryEntity/mergeBatchDraft",
-  loadByIdUrl: "/system-config/system/resourcesSummaryEntity/getById",
-  deleteUrl: "/system-config/system/resourcesSummaryEntity/batchDeleteById",
-  exportAllUrl: "/system-config/system/resourcesSummaryEntity/exportData",
-  downloadTemplateUrl: "/system-config/system/resourcesSummaryEntity/downloadTemplate",
-  userConditionUrl: "/system-config/system/resourcesSummaryEntity/getAllByCondition",
-  importUrl: "/system-config/system/resourcesSummaryEntity/importData",
-  uploadUrl: "",
-  condition: []
-};
+const dataUrl: ApiUrls =apiInstance("system-config","system/resourcesSummaryEntity");
 let systemInfoList = ref<SelectOption[]>([]);
 let rolesList = ref<SelectOption[]>([]);
 let menusList = ref<SelectOption[]>([]);

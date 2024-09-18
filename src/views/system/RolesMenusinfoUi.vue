@@ -1,4 +1,5 @@
 <script setup lang="ts" name="RolesMenusinfo">
+import {apiInstance} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings.ts";
 import {DialogProps} from "@/components/types/DialogProps"
@@ -6,21 +7,7 @@ import {onMounted, provide, reactive, ref} from "vue";
 import {SearchFields} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 //后端交互接口地址
-const dataUrl: ApiUrls = {
-  loadByPageUrl: "/system-config/system/rolesMenusinfo/pageList",
-  mergeUrl: "/system-config/system/rolesMenusinfo/merge",
-  mergeDraftUrl: "/system-config/system/rolesMenusinfo/mergeDraft",
-  batchMergeUrl: "/system-config/system/rolesMenusinfo/mergeBatch",
-  batchMergeDraftUrl: "/system-config/system/rolesMenusinfo/mergeBatchDraft",
-  loadByIdUrl: "/system-config/system/rolesMenusinfo/getById",
-  deleteUrl: "/system-config/system/rolesMenusinfo/batchDeleteById",
-  exportAllUrl: "/system-config/system/rolesMenusinfo/exportData",
-  downloadTemplateUrl: "/system-config/system/rolesMenusinfo/downloadTemplate",
-  userConditionUrl: "/system-config/system/rolesMenusinfo/getAllByCondition",
-  importUrl: "/system-config/system/rolesMenusinfo/importData",
-  uploadUrl: "",
-  condition: []
-};
+const dataUrl: ApiUrls =apiInstance("system-config","system/rolesMenusinfo");
 //查询属性
 const searchFormData = reactive<SearchFields>({fieldList:[
   {

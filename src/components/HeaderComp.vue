@@ -4,6 +4,7 @@ import {Config} from "@/api/settings.ts"
 import {postRequest, trim, userLogout} from "@/api/star_horse";
 import {confirm, error, success, warning} from "@/utils/message";
 import {DialogProps} from "@/components/types/DialogProps";
+import {apiInstance} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {getCustomerInfo, getCustomerParam, getUserInfo} from "@/utils/auth";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
@@ -30,21 +31,7 @@ let permissionMenuList = ref<Array<any>>([]);
 const shortcutMultipleTable = ref<InstanceType<typeof ElTable>>();
 let currentTab = ref<string>("message");
 let editUserinfoRef = ref();
-const dataUrl: ApiUrls = {
-  loadByPageUrl: "/system-config/system/dictinfoEntity/pageList",
-  mergeUrl: "/system-config/system/dictinfoEntity/merge",
-  mergeDraftUrl: "/system-config/system/dictinfoEntity/mergeDraft",
-  batchMergeUrl: "/system-config/system/dictinfoEntity/mergeBatch",
-  batchMergeDraftUrl: "/system-config/system/dictinfoEntity/mergeBatchDraft",
-  loadByIdUrl: "/system-config/system/dictinfoEntity/getById",
-  deleteUrl: "/system-config/system/dictinfoEntity/batchDeleteById",
-  exportAllUrl: "/system-config/system/dictinfoEntity/exportData",
-  downloadTemplateUrl: "/system-config/system/dictinfoEntity/downloadTemplate",
-  userConditionUrl: "/system-config/system/dictinfoEntity/getAllByCondition",
-  importUrl: "/system-config/system/dictinfoEntity/importData",
-  uploadUrl: "",
-  condition: [getCustomerParam()]
-};
+const dataUrl: ApiUrls =apiInstance("system-config","system/dictinfoEntity",[getCustomerParam()]) ;
 let configStore = GlobalConfig(piniaInstance);
 let router = useRouter();
 const emits = defineEmits(["changeLang", "layoutConfig"]);

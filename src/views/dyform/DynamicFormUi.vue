@@ -1,4 +1,5 @@
 <script setup lang="ts" name="DynamicForm">
+import {apiInstance} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {DialogProps} from "@/components/types/DialogProps"
 import {computed, nextTick, onMounted, provide, reactive, ref} from "vue";
@@ -12,20 +13,7 @@ import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
 
 const router = useRouter();
-const dataUrl: ApiUrls = {
-  loadByPageUrl: "/userdb-manage/userdb/dynamicForm/pageList",
-  mergeUrl: "/userdb-manage/userdb/dynamicForm/merge",
-  mergeDraftUrl: "/userdb-manage/userdb/dynamicForm/mergeDraft",
-  batchMergeUrl: "/userdb-manage/userdb/dynamicForm/mergeBatch",
-  batchMergeDraftUrl: "/userdb-manage/userdb/dynamicForm/mergeBatchDraft",
-  loadByIdUrl: "/userdb-manage/userdb/dynamicForm/getById",
-  deleteUrl: "/userdb-manage/userdb/dynamicForm/batchDeleteById",
-  exportAllUrl: "/userdb-manage/userdb/dynamicForm/exportData",
-  downloadTemplateUrl: "/userdb-manage/userdb/dynamicForm/downloadTemplate",
-  userConditionUrl: "/userdb-manage/userdb/dynamicForm/getAllByCondition",
-  importUrl: "/userdb-manage/userdb/dynamicForm/importData",
-  uploadUrl: ""
-};
+const dataUrl: ApiUrls = apiInstance("userdb-manage","userdb/dynamicForm");
 let designForm = DesignForm(piniaInstance);
 let selfBtnFunc = ref<BtnAuth[]>([]);
 let isPreview = ref<boolean>(false);

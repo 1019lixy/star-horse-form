@@ -68,3 +68,5 @@ export  type ApiUrls = {
      */
     dataType?: string;
 }
+
+

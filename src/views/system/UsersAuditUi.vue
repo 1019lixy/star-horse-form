@@ -1,25 +1,12 @@
 <script setup lang="ts" name="UsersAudit">
+import {apiInstance} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings.ts";
 import {DialogProps} from "@/components/types/DialogProps"
 import {onMounted, provide, reactive, ref} from "vue";
 import {SearchFields} from "@/components/types/SearchProps";
 
-const dataUrl: ApiUrls = {
-  loadByPageUrl: "/system-config/system/usersAudit/pageList",
-  mergeUrl: "/system-config/system/usersAudit/merge",
-  mergeDraftUrl: "/system-config/system/usersAudit/mergeDraft",
-  batchMergeUrl: "/system-config/system/usersAudit/mergeBatch",
-  batchMergeDraftUrl: "/system-config/system/usersAudit/mergeBatchDraft",
-  loadByIdUrl: "/system-config/system/usersAudit/getById",
-  deleteUrl: "/system-config/system/usersAudit/batchDeleteById",
-  exportAllUrl: "/system-config/system/usersAudit/exportData",
-  downloadTemplateUrl: "/system-config/system/usersAudit/downloadTemplate",
-  userConditionUrl: "/system-config/system/usersAudit/getAllByCondition",
-  importUrl: "/system-config/system/usersAudit/importData",
-  uploadUrl: "",
-  condition: []
-};
+const dataUrl: ApiUrls =apiInstance("system-config","system/usersAudit");
 const searchFormData = reactive<SearchFields>({fieldList:[
     {label: "主键", fieldName: "idUsersAudit", type: "long"},
   {label: "主键", fieldName: "idUserinfo", type: "long"},

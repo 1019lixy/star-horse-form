@@ -1,4 +1,5 @@
 <script setup lang="ts" name="EnvInfo">
+import {apiInstance} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {onMounted, provide, reactive, ref} from "vue";
 import {SearchFields, SelectOption} from "@/components/types/SearchProps.d.ts";
@@ -10,20 +11,7 @@ import {download} from "@/api/star_horse.ts";
 import {warning} from "@/utils/message.ts";
 import {DialogProps} from "@/components/types/DialogProps";
 
-const dataUrl: ApiUrls = {
-  loadByPageUrl: "/code-generator/generator/code/pageList",
-  mergeUrl: "/code-generator/generator/code/merge",
-  mergeDraftUrl: "/code-generator/generator/code/mergeDraft",
-  batchMergeUrl: "/code-generator/generator/code/mergeBatch",
-  batchMergeDraftUrl: "/code-generator/generator/code/mergeBatchDraft",
-  loadByIdUrl: "/code-generator/generator/code/getById",
-  deleteUrl: "/code-generator/generator/code/batchDeleteById",
-  exportAllUrl: "/code-generator/generator/code/exportData",
-  downloadTemplateUrl: "/code-generator/generator/code/downloadTemplate",
-  userConditionUrl: "/code-generator/generator/code/getAllByCondition",
-  importUrl: "/code-generator/generator/code/importData",
-  uploadUrl: ""
-};
+const dataUrl: ApiUrls =apiInstance("code-generator","generator/code");
 
 let dbInfoList = ref<Array<SelectOption>>([]);
 let tableInfoList = ref<Array<SelectOption>>([]);

@@ -2,26 +2,13 @@
 import {onMounted, provide, reactive, ref} from "vue";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import StarHorseForm from "@/components/comp/StarHorseForm.vue";
-import {ApiUrls} from "@/components/types/ApiUrls.d.ts";
+import {apiInstance, ApiUrls} from "@/components/types/ApiUrls.d.ts";
 import StarHorseFormTable from "@/components/comp/StarHorseFormTable.vue";
 import {BatchFieldInfo} from "@/components/types/PageFieldInfo.d.ts";
 import {SelectOption} from "@/components/types/SearchProps";
 import {initDbList} from "@/views/dbsearch/utils/DbSearchUtils.ts";
 
-const dataUrl: ApiUrls = {
-  loadByPageUrl: "/dbsearch-manage/dbsearch/dbinfoEntity/pageList",
-  mergeUrl: "/dbsearch-manage/dbsearch/dbinfoEntity//merge",
-  mergeDraftUrl: "/dbsearch-manage/dbsearch/dbinfoEntity/mergeDraft",
-  batchMergeUrl: "/dbsearch-manage/dbsearch/dbinfoEntity/mergeBatch",
-  batchMergeDraftUrl: "/dbsearch-manage/dbsearch/dbinfoEntity/mergeBatchDraft",
-  loadByIdUrl: "/dbsearch-manage/dbsearch/dbinfoEntity/getById",
-  deleteUrl: "/dbsearch-manage/dbsearch/dbinfoEntity/batchDeleteById",
-  exportAllUrl: "/dbsearch-manage/dbsearch/dbinfoEntity/exportData",
-  downloadTemplateUrl: "/dbsearch-manage/dbsearch/dbinfoEntity/downloadTemplate",
-  userConditionUrl: "/dbsearch-manage/dbsearch/dbinfoEntity/getAllByCondition",
-  uploadUrl: "/dbsearch-manage/dbsearch/dbinfoEntity/importData",
-  importUrl: ""
-};
+const dataUrl: ApiUrls = apiInstance("dbsearch-manage","dbsearch/dbinfoEntity");
 let dbList = ref<SelectOption[]>([]);
 const tableFieldList = reactive({
   fieldList: [

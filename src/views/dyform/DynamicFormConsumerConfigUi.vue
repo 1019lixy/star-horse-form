@@ -1,4 +1,5 @@
 <script setup lang="ts" name="DynamicFormConsumerConfig">
+import {apiInstance} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {DialogProps} from "@/components/types/DialogProps"
 import {onMounted, provide, reactive, ref} from "vue";
@@ -13,20 +14,7 @@ import {Config} from "@/api/settings.ts";
 
 const router = useRouter();
 //后端交互接口地址
-const dataUrl: ApiUrls = {
-  loadByPageUrl: "/userdb-manage/userdb/dynamicFormConsumerConfig/pageList",
-  mergeUrl: "/userdb-manage/userdb/dynamicFormConsumerConfig/merge",
-  mergeDraftUrl: "/userdb-manage/userdb/dynamicFormConsumerConfig/mergeDraft",
-  batchMergeUrl: "/userdb-manage/userdb/dynamicFormConsumerConfig/mergeBatch",
-  batchMergeDraftUrl: "/userdb-manage/userdb/dynamicFormConsumerConfig/mergeBatchDraft",
-  loadByIdUrl: "/userdb-manage/userdb/dynamicFormConsumerConfig/getById",
-  deleteUrl: "/userdb-manage/userdb/dynamicFormConsumerConfig/batchDeleteById",
-  exportAllUrl: "/userdb-manage/userdb/dynamicFormConsumerConfig/exportData",
-  downloadTemplateUrl: "/userdb-manage/userdb/dynamicFormConsumerConfig/downloadTemplate",
-  userConditionUrl: "/userdb-manage/userdb/dynamicFormConsumerConfig/getAllByCondition",
-  uploadUrl: "/userdb-manage/userdb/dynamicFormConsumerConfig/importData",
-  importUrl: ""
-};
+const dataUrl: ApiUrls =apiInstance("userdb-manage","userdb/dynamicFormConsumerConfig") ;
 let viewTypeList = ref<SelectOption[]>();
 let auditList = ref<SelectOption[]>([{
   name: "是", value: "Y"

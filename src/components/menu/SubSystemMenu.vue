@@ -14,34 +14,49 @@ defineProps({
   },
 });
 const emits = defineEmits(["selectData"]);
-const selectData = (item: any) => {
+const selectData = (item: any, event: MouseEvent) => {
+  if (event) {
+    event.stopPropagation();
+    event.preventDefault();
+  }
   emits("selectData", item);
 }
 </script>
 <template>
   <template v-for="item in dataList">
-    <el-sub-menu v-if="item.children&&item.children.length>0" :index="item[preps.value]" @click="selectData(item)">
+    <el-sub-menu v-if="item.children&&item.children.length>0" :index="item[preps.value]">
       <template #title>
-        <span>{{ item[preps.label] }}</span>
+        <el-icon class="star-icon">
+          <component is="document"/>
+        </el-icon>
+        <span class="menu-title" @click="selectData(item,$event)">{{ item[preps.label] }}</span>
       </template>
-      <SystemSubMenu :dataList="item.children" :preps="preps"/>
+      <SubSystemMenu :dataList="item.children" :preps="preps" @selectData="selectData"/>
     </el-sub-menu>
-    <el-menu-item v-else :index="item[preps.value]" @click="selectData(item)">
+    <el-menu-item v-else :index="item[preps.value]" style="height: 40px!important;">
+      <el-icon class="star-icon">
+        <component is="document"/>
+      </el-icon>
       <template #title>
-        <span>{{ item[preps.label] }}</span>
+        <span class="menu-title" @click="selectData(item,$event)">{{ item[preps.label] }}</span>
       </template>
     </el-menu-item>
 
   </template>
 </template>
-<style lang="scss">
+<style scoped lang="scss">
 .star-icon {
   font-size: 22px;
 }
 
 :deep(.el-sub-menu__title) {
-  height: 40px;
-  line-height: 40px;
+  height: 40px !important;
+  line-height: 40px !important;
+
+  .menu-title {
+    width: 100% !important;
+    height: 100% !important;
+  }
 }
 
 :deep(.el-scrollbar__view) {

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import icon from "@/assets/icon";
+import {apiInstance} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings.ts";
 import {DialogProps} from "@/components/types/DialogProps"
@@ -10,21 +10,7 @@ import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {postRequest} from "@/api/star_horse";
 
 let informationsList = ref<any>([]);
-const dataUrl: ApiUrls = {
-  loadByPageUrl: "/system-config/system/informationsEntity/pageList",
-  mergeUrl: "/system-config/system/informationsEntity/merge",
-  mergeDraftUrl: "/system-config/system/informationsEntity/mergeDraft",
-  batchMergeUrl: "/system-config/system/informationsEntity/mergeBatch",
-  batchMergeDraftUrl: "/system-config/system/informationsEntity/mergeBatchDraft",
-  loadByIdUrl: "/system-config/system/informationsEntity/getById",
-  deleteUrl: "/system-config/system/informationsEntity/batchDeleteById",
-  exportAllUrl: "/system-config/system/informationsEntity/exportData",
-  downloadTemplateUrl: "/system-config/system/informationsEntity/downloadTemplate",
-  userConditionUrl: "/system-config/system/informationsEntity/getAllByCondition",
-  importUrl: "/system-config/system/informationsEntity/importData",
-  uploadUrl: "",
-  condition: []
-};
+const dataUrl: ApiUrls = apiInstance("system-config", "system/informationsEntity");
 let systemIconList = ref<SelectOption[]>([]);
 let customerList = ref<SelectOption[]>([]);
 const searchFormData = reactive<SearchFields>({
@@ -139,7 +125,7 @@ const dataFormat = (name: string, cellValue: object): any => {
   if (name == "parentId") {
     return informationsList.value.find((item: SelectOption) => item.value == cellValue)?.name || cellValue;
   } else if (name == "idCustomer") {
-    console.log("xxxxxxxxxxxx",name);
+    console.log("xxxxxxxxxxxx", name);
     return customerList.value.find((item: SelectOption) => item.value == cellValue)?.name || cellValue;
   }
   return cellValue;

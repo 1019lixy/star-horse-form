@@ -1,4 +1,5 @@
 <script setup lang="ts" name="ProjectInfoUi">
+import {apiInstance} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {onMounted, provide, reactive, ref} from "vue";
 import {SearchFields, SelectOption} from "@/components/types/SearchProps.d.ts";
@@ -6,20 +7,7 @@ import {Config} from "@/api/settings.ts";
 import ProjectMemberUi from "@/views/continus/ProjectMemberUi.vue";
 import {CompParams} from "@/components/types/PageFieldInfo";
 
-const dataUrl: ApiUrls = {
-  loadByPageUrl: "/devops-continus/continus/projectInfo/pageList",
-  mergeUrl: "/devops-continus/continus/projectInfo/merge",
-  mergeDraftUrl: "/devops-continus/continus/projectInfo/mergeDraft",
-  batchMergeUrl: "/devops-continus/continus/projectInfo/mergeBatch",
-  batchMergeDraftUrl: "/devops-continus/continus/projectInfo/mergeBatchDraft",
-  loadByIdUrl: "/devops-continus/continus/projectInfo/getById",
-  deleteUrl: "/devops-continus/continus/projectInfo/batchDeleteById",
-  exportAllUrl: "/devops-continus/continus/projectInfo/exportData",
-  downloadTemplateUrl: "/devops-continus/continus/projectInfo/downloadTemplate",
-  userConditionUrl: "/devops-continus/continus/projectInfo/getAllByCondition",
-  importUrl: "/devops-continus/continus/projectInfo/importData",
-  uploadUrl: ""
-};
+const dataUrl: ApiUrls =apiInstance("devops-continus","continus/projectInfo");
 let libTypeList = ref<Array<SelectOption>>([]);
 const searchFormData = reactive<SearchFields>({fieldList:[
   {label: "项目名称", fieldName: "projectName", type: "input", matchType: "lk", defaultShow: true},

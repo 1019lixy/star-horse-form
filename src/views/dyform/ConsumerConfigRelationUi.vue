@@ -1,4 +1,5 @@
 <script setup lang="ts" name="ConsumerConfigRelation">
+import {apiInstance} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {DialogProps} from "@/components/types/DialogProps"
 import {onMounted, provide, reactive, ref} from "vue";
@@ -6,20 +7,7 @@ import {SearchFields} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {Config} from "@/api/settings.ts";
 //后端交互接口地址
-const dataUrl: ApiUrls = {
-  loadByPageUrl: "/userdb-manage/userdb/consumerConfigRelation/pageList",
-  mergeUrl: "/userdb-manage/userdb/consumerConfigRelation/merge",
-  mergeDraftUrl: "/userdb-manage/userdb/consumerConfigRelation/mergeDraft",
-  batchMergeUrl: "/userdb-manage/userdb/consumerConfigRelation/mergeBatch",
-  batchMergeDraftUrl: "/userdb-manage/userdb/consumerConfigRelation/mergeBatchDraft",
-  loadByIdUrl: "/userdb-manage/userdb/consumerConfigRelation/getById",
-  deleteUrl: "/userdb-manage/userdb/consumerConfigRelation/batchDeleteById",
-  exportAllUrl: "/userdb-manage/userdb/consumerConfigRelation/exportData",
-  downloadTemplateUrl: "/userdb-manage/userdb/consumerConfigRelation/downloadTemplate",
-  userConditionUrl: "/userdb-manage/userdb/consumerConfigRelation/getAllByCondition",
-  uploadUrl: "/userdb-manage/userdb/consumerConfigRelation/importData",
-  importUrl: ""
-};
+const dataUrl: ApiUrls =apiInstance("userdb-manage","userdb/consumerConfigRelation") ;
 //查询属性
 const searchFormData = reactive<SearchFields>({fieldList:[
   {label: "主键", fieldName: "idConsumerConfigRelation", type: "long"},

@@ -1,4 +1,5 @@
 <script setup lang="ts" name="EnvInfo">
+import {apiInstance} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {onMounted, provide, reactive, ref} from "vue";
 import {SearchFields, SelectOption} from "@/components/types/SearchProps.d.ts";
@@ -10,20 +11,7 @@ import {UserFuncInfo} from "@/components/types/PageFieldInfo";
 import {BtnAuth} from "@/components/types/BtnAuth";
 import {useRouter} from "vue-router";
 
-const dataUrl: ApiUrls = {
-  loadByPageUrl: "/flow-engine/workflow/flowoperation/pageList",
-  mergeUrl: "/flow-engine/workflow/flowoperation/merge",
-  mergeDraftUrl: "/flow-engine/workflow/flowoperation/mergeDraft",
-  batchMergeUrl: "/flow-engine/workflow/flowoperation/mergeBatch",
-  batchMergeDraftUrl: "/flow-engine/workflow/flowoperation/mergeBatchDraft",
-  loadByIdUrl: "/flow-engine/workflow/flowoperation/getById",
-  deleteUrl: "/flow-engine/workflow/flowoperation/batchDeleteById",
-  exportAllUrl: "/flow-engine/workflow/flowoperation/exportData",
-  downloadTemplateUrl: "/flow-engine/workflow/flowoperation/downloadTemplate",
-  userConditionUrl: "/flow-engine/workflow/flowoperation/getAllByCondition",
-  importUrl: "/flow-engine/workflow/flowoperation/importData",
-  uploadUrl: ""
-};
+const dataUrl: ApiUrls =apiInstance("flow-engine","workflow/flowoperation");
 let flowGroupList = ref<SelectOption[]>([]);
 const searchFormData = reactive<SearchFields>({
   fieldList: [

@@ -1,4 +1,5 @@
 <script setup lang="ts" name="ProjectMember">
+import {apiInstance} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {onMounted, provide, reactive, ref, watch} from "vue";
 import {SearchFields} from "@/components/types/SearchProps.d.ts";
@@ -8,20 +9,7 @@ import {CompParams} from "@/components/types/PageFieldInfo";
 const props = defineProps({
   projectId: {type: Number}
 });
-const dataUrl: ApiUrls = {
-  loadByPageUrl: "/devops-continus/continus/projectMember/pageList",
-  mergeUrl: "/devops-continus/continus/projectMember/merge",
-  mergeDraftUrl: "/devops-continus/continus/projectMember/mergeDraft",
-  batchMergeUrl: "/devops-continus/continus/projectMember/mergeBatch",
-  batchMergeDraftUrl: "/devops-continus/continus/projectMember/mergeBatchDraft",
-  loadByIdUrl: "/devops-continus/continus/projectMember/getById",
-  deleteUrl: "/devops-continus/continus/projectMember/batchDeleteById",
-  exportAllUrl: "/devops-continus/continus/projectMember/exportData",
-  downloadTemplateUrl: "/devops-continus/continus/projectMember/downloadTemplate",
-  userConditionUrl: "/devops-continus/continus/projectMember/getAllByCondition",
-  importUrl: "/devops-continus/continus/projectMember/importData",
-  uploadUrl: ""
-};
+const dataUrl: ApiUrls =apiInstance("devops-continus","continus/projectMember");
 const searchFormData = reactive<SearchFields>({fieldList:[]});
 const tableFieldList = reactive({
   fieldList: [

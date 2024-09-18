@@ -1,4 +1,5 @@
 <script setup lang="ts" name="Menusinfo">
+import {apiInstance} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings.ts";
 import {DialogProps} from "@/components/types/DialogProps"
@@ -14,21 +15,7 @@ import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import piniaInstance from "@/store";
 import StarHorseTree from "@/components/comp/StarHorseTree.vue";
 
-const dataUrl: ApiUrls = {
-  loadByPageUrl: "/system-config/system/menusinfoEntity/pageList",
-  mergeUrl: "/system-config/system/menusinfoEntity/merge",
-  mergeDraftUrl: "/system-config/system/menusinfoEntity/mergeDraft",
-  batchMergeUrl: "/system-config/system/menusinfoEntity/mergeBatch",
-  batchMergeDraftUrl: "/system-config/system/menusinfoEntity/mergeBatchDraft",
-  loadByIdUrl: "/system-config/system/menusinfoEntity/getById",
-  deleteUrl: "/system-config/system/menusinfoEntity/batchDeleteById",
-  exportAllUrl: "/system-config/system/menusinfoEntity/exportData",
-  downloadTemplateUrl: "/system-config/system/menusinfoEntity/downloadTemplate",
-  userConditionUrl: "/system-config/system/menusinfoEntity/getAllByCondition",
-  importUrl: "/system-config/system/menusinfoEntity/importData",
-  uploadUrl: "",
-  condition: []
-};
+const dataUrl: ApiUrls = apiInstance("system-config","system/menusinfoEntity");
 let parentMenus: any = ref<any>([]);
 let searchParentMenus: any = ref<any>([]);
 let informationsList: any = ref<any>([]);

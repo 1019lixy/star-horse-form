@@ -1,4 +1,5 @@
 <script setup lang="ts" name="Statusinfo">
+import {apiInstance} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings.ts";
 import {DialogProps} from "@/components/types/DialogProps"
@@ -10,21 +11,7 @@ import {createCondition} from "@/api/sh_api";
 
 const tabListRef = ref();
 const dictSearchRef = ref();
-const dataUrl: ApiUrls = {
-  loadByPageUrl: "/system-config/system/dictinfoEntity/pageList",
-  mergeUrl: "/system-config/system/dictinfoEntity/merge",
-  mergeDraftUrl: "/system-config/system/dictinfoEntity/mergeDraft",
-  batchMergeUrl: "/system-config/system/dictinfoEntity/mergeBatch",
-  batchMergeDraftUrl: "/system-config/system/dictinfoEntity/mergeBatchDraft",
-  loadByIdUrl: "/system-config/system/dictinfoEntity/getById",
-  deleteUrl: "/system-config/system/dictinfoEntity/batchDeleteById",
-  exportAllUrl: "/system-config/system/dictinfoEntity/exportData",
-  downloadTemplateUrl: "/system-config/system/dictinfoEntity/downloadTemplate",
-  userConditionUrl: "/system-config/system/dictinfoEntity/getAllByCondition",
-  importUrl: "/system-config/system/dictinfoEntity/importData",
-  uploadUrl: "",
-  condition: []
-};
+const dataUrl: ApiUrls =apiInstance("system-config","system/dictinfoEntity");
 const commonDictList = ref<SelectOption[]>([]);
 const props = defineProps({
   dictType: {type: String, required: true}

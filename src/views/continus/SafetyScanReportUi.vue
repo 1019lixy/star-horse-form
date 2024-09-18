@@ -662,22 +662,10 @@
 <style lang="scss" scoped>
 </style>
 <script setup lang="ts" name="SafetyScanReport">
+import {apiInstance} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 
-const dataUrl: ApiUrls = {
-  loadByPageUrl: "/devops-continus/continus/safetyScanReport/pageList",
-  mergeUrl: "/devops-continus/continus/safetyScanReport/merge",
-  mergeDraftUrl: "/devops-continus/continus/safetyScanReport/mergeDraft",
-  batchMergeUrl: "/devops-continus/continus/safetyScanReport/mergeBatch",
-  batchMergeDraftUrl: "/devops-continus/continus/safetyScanReport/mergeBatchDraft",
-  loadByIdUrl: "/devops-continus/continus/safetyScanReport/getById",
-  deleteUrl: "/devops-continus/continus/safetyScanReport/batchDeleteById",
-  exportAllUrl: "/devops-continus/continus/safetyScanReport/exportData",
-  downloadTemplateUrl: "/devops-continus/continus/safetyScanReport/downloadTemplate",
-  userConditionUrl: "/devops-continus/continus/safetyScanReport/getAllByCondition",
-  importUrl: "/devops-continus/continus/safetyScanReport/importData",
-  uploadUrl: ""
-};
+const dataUrl: ApiUrls =apiInstance("devops-continus","continus/safetyScanReport");
 const dataFormat = (row, column, cellValue, index) => {
   //cellValue = commonDataFormat(row, column, cellValue, index);
   return cellValue;

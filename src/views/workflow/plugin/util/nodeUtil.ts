@@ -1,4 +1,4 @@
-import {uuid} from 'vue-uuid';
+import {uuid} from '@/api/system.ts';
 import html2canvas from 'html2canvas';
 import {Ref} from "vue";
 
@@ -6,7 +6,7 @@ import {Ref} from "vue";
  *   获取ID
  */
 export function getId() {
-    return uuid.v4();
+    return uuid();
 }
 
 /**
@@ -34,7 +34,7 @@ export function getStartNode() {
 export function addCondition(node: any, len: any) {
     return {
         pid: node.id,
-        id: uuid.v4(),
+        id: uuid(),
         name: (node.type == 4 ? '分支' : '并行') + len,
         type: node.type == 4 ? 3 : 10,
         // 显示添加按钮
