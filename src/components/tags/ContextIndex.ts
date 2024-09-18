@@ -6,4 +6,5 @@ export interface ContextMenuExpose {
     elDropdownMenuRef: InstanceType<typeof ElDropdown>
     tagItem: RouteLocationNormalizedLoaded
 }
+
 export {ContextMenu}

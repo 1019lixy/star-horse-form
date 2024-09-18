@@ -7,6 +7,7 @@ import Compliance from "@/views/continus/nodeDetail/Compliance.vue";
   .nav-bar-left {
     width: 81%;
   }
+
   .nav-bar-right {
     justify-items: right;
     align-items: center;

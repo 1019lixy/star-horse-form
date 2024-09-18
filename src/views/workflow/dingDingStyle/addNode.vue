@@ -75,7 +75,8 @@ const addType = (type: number) => {
 <template>
   <div class="add-node-btn-box">
     <div class="add-node-btn">
-      <el-popover placement="right-start" popper-class="add-node-popover" :show-arrow="false"  :popper-style="{width: 'unset !important'}" v-model="visible">
+      <el-popover placement="right-start" popper-class="add-node-popover" :show-arrow="false"
+                  :popper-style="{width: 'unset !important'}" v-model="visible">
         <div class="add-node-popover-body">
           <div class="add-node-popover-item approver" @click="addType(1)">
             <div class="item-wrapper">

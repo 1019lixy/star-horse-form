@@ -7,7 +7,7 @@
           <div class="node-name" :class="nameClass(node, 'node-cc')">
             <EditName v-model:nodeName="node.name"/>
             <div class="search-input el-input" style="display: none;">
-              <el-input type="text" autocomplete="off" />
+              <el-input type="text" autocomplete="off"/>
             </div>
             <img :src="flowMixin.ccIcon" alt="" style="margin-left: 10px;"/>
           </div>
@@ -26,7 +26,7 @@
           <!-- 错误提示 -->
           <star-horse-icon v-if="node.error" iconClass="exclamation-circle" theme="filled" class="node-error"/>
           <div v-if="!readable && !node.deletable" class="close-icon">
-            <star-horse-icon  iconClass="close" @click.stop="node.deletable = true"/>
+            <star-horse-icon iconClass="close" @click.stop="node.deletable = true"/>
           </div>
           <!-- 删除提示 -->
           <DeleteConfirm :node="node"/>
@@ -47,7 +47,7 @@ import {computed, ref} from "vue";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 
-const flowCopyerSettingRef=ref();
+const flowCopyerSettingRef = ref();
 const flowDesign = useFlowDesign(piniaInstance);
 let currentNode = computed(() => flowDesign.currentNode);
 const props = defineProps({

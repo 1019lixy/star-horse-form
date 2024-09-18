@@ -166,7 +166,7 @@ const zoomSize = (type: number) => {
     margin: 0 auto;
     height: 100%;
     width: 100%;
-  /*  position: relative;*/
+    /*  position: relative;*/
     background-color: #f5f8ff;
     bottom: 0;
     left: 0;
@@ -221,15 +221,15 @@ const zoomSize = (type: number) => {
       transform: scale(1);
       display: inline-flex;
       flex-direction: column;
-     /*    width: 100%;
-         height: 100%;*/
+      /*    width: 100%;
+          height: 100%;*/
       margin: 0 auto;
       overflow: auto;
       align-items: center;
       justify-content: center;
       box-sizing: border-box;
       transform-origin: 0 0 0;
-     /* border: 1px solid red;*/
+      /* border: 1px solid red;*/
 
       .branch-wrap {
         margin: 0 auto;

@@ -1,13 +1,12 @@
 <script setup lang="ts" name="DynamicFormItems">
-import {apiInstance} from "@/api/sh_api.ts";
+import {apiInstance, dialogPreps} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
-import {DialogProps} from "@/components/types/DialogProps"
 import {onMounted, provide, reactive, ref} from "vue";
 import {SearchFields, SelectOption} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {Config} from "@/api/settings.ts";
 //后端交互接口地址
-const dataUrl: ApiUrls =apiInstance("userdb-manage","userdb/dynamicFormItems");
+const dataUrl: ApiUrls = apiInstance("userdb-manage", "userdb/dynamicFormItems");
 const categoryList = ref<SelectOption[]>([{
   name: "容器", value: "2"
 }, {
@@ -16,11 +15,13 @@ const categoryList = ref<SelectOption[]>([{
   name: "自定义组件", value: "3"
 }]);
 //查询属性
-const searchFormData = reactive<SearchFields>({fieldList:[
-  {label: "名称", fieldName: "itemName", type: "input", matchType: "lk"},
-  {label: "类别", fieldName: "itemType", type: "input", matchType: "lk"},
-  {label: "分类", fieldName: "category", type: "select", optionList: categoryList},
-]});
+const searchFormData = reactive<SearchFields>({
+  fieldList: [
+    {label: "名称", fieldName: "itemName", type: "input", matchType: "lk"},
+    {label: "类别", fieldName: "itemType", type: "input", matchType: "lk"},
+    {label: "分类", fieldName: "category", type: "select", optionList: categoryList},
+  ]
+});
 //页面属性
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
@@ -136,17 +137,7 @@ const dynamicFormItemsRef = ref();
 //校验
 const rules = {};
 //控制弹窗相关设置
-const dialogProps = reactive<DialogProps>({
-  ids: 0,
-  batchDialogTitle: "批量编辑",
-  dialogTitle: "编辑",
-  batchEditVisible: false,
-  editVisible: false,
-  uploadVisible: false,
-  viewVisible: false,
-  dialogPwdVisible: false,
-  bakeVisible1: false, bakeVisible2: false, bakeVisible3: false
-});
+const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 //初始化方法
 const initData = async () => {
@@ -174,7 +165,7 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
 </style>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form  @refresh="dynamicFormItemsRef.loadByPage()" :compUrl="dataUrl"
+    <star-horse-form @refresh="dynamicFormItemsRef.loadByPage()" :compUrl="dataUrl"
                      :fieldList="tableFieldList"
                      :rules="rules"/>
   </star-horse-dialog>
@@ -188,11 +179,11 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
                               :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
-      <star-horse-button-list   @tableCompFunc="(fun:any)=>dynamicFormItemsRef.tableCompFunc(fun)" :compUrl="dataUrl"
+      <star-horse-button-list @tableCompFunc="(fun:any)=>dynamicFormItemsRef.tableCompFunc(fun)" :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
     <hr>
-    <star-horse-table-comp    ref="dynamicFormItemsRef" :fieldList="tableFieldList" :primaryKey="primaryKey"
+    <star-horse-table-comp ref="dynamicFormItemsRef" :fieldList="tableFieldList" :primaryKey="primaryKey"
                            :compUrl="dataUrl"
                            :dataFormat="dataFormat"/>
   </el-card>

@@ -1,17 +1,18 @@
 <script setup lang="ts" name="DynamicFormDetails">
-import {apiInstance} from "@/api/sh_api.ts";
+import {apiInstance, dialogPreps} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
-import {DialogProps} from "@/components/types/DialogProps"
 import {onMounted, provide, reactive, ref} from "vue";
 import {SearchFields} from "@/components/types/SearchProps";
 import {Config} from "@/api/settings.ts";
 
-const dataUrl: ApiUrls = apiInstance("userdb-manage","userdb/dynamicFormDetails");
-const searchFormData = reactive<SearchFields>({fieldList:[{label: "主键", fieldName: "idDynamicFormDetails", type: "long"},
-  {label: "主键", fieldName: "idDynamicForm", type: "long"},
-  {label: "表单内容", fieldName: "content", type: "input"},
-  {label: "表单属性", fieldName: "fieldNames", type: "input"},
-]});
+const dataUrl: ApiUrls = apiInstance("userdb-manage", "userdb/dynamicFormDetails");
+const searchFormData = reactive<SearchFields>({
+  fieldList: [{label: "主键", fieldName: "idDynamicFormDetails", type: "long"},
+    {label: "主键", fieldName: "idDynamicForm", type: "long"},
+    {label: "表单内容", fieldName: "content", type: "input"},
+    {label: "表单属性", fieldName: "fieldNames", type: "input"},
+  ]
+});
 const tableFieldList = reactive({
   fieldList: [
     {
@@ -70,17 +71,7 @@ const tableFieldList = reactive({
 const primaryKey = "idDynamicFormDetails";
 const dynamicFormDetailsRef = ref();
 const rules = {};
-const dialogProps = reactive<DialogProps>({
-  bakeVisible1: false, bakeVisible2: false, bakeVisible3: false,
-  ids: 0,
-  batchDialogTitle: "批量编辑",
-  dialogTitle: "编辑",
-  batchEditVisible: false,
-  editVisible: false,
-  uploadVisible: false,
-  viewVisible: false,
-  dialogPwdVisible: false
-});
+const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 
 const dataFormat = (name: string, cellValue: object): any => {
@@ -97,7 +88,7 @@ onMounted(async () => {
 </style>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form  @refresh="dynamicFormDetailsRef.loadByPage()" :compUrl="dataUrl"
+    <star-horse-form @refresh="dynamicFormDetailsRef.loadByPage()" :compUrl="dataUrl"
                      :fieldList="tableFieldList"
                      :rules="rules"/>
   </star-horse-dialog>
@@ -112,10 +103,10 @@ onMounted(async () => {
                               :compUrl="dataUrl"/>
       <hr/>
       <star-horse-button-list
-                              @tableCompFunc="(fun:any)=>dynamicFormDetailsRef.tableCompFunc(fun)" :compUrl="dataUrl"
-                              :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
+          @tableCompFunc="(fun:any)=>dynamicFormDetailsRef.tableCompFunc(fun)" :compUrl="dataUrl"
+          :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
-    <star-horse-table-comp  ref="dynamicFormDetailsRef" :fieldList="tableFieldList"
+    <star-horse-table-comp ref="dynamicFormDetailsRef" :fieldList="tableFieldList"
                            :primaryKey="primaryKey"
                            :compUrl="dataUrl"
                            :dataFormat="dataFormat"/>

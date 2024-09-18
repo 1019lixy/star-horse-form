@@ -6,6 +6,7 @@ import {LangType} from "./theme.ts";
 export function getLang(): LangType {
     return (localStorage.getItem('lang') as LangType) || LangType.ZH_CN;
 }
+
 /**
  * 设置系统语言
  * @param lang

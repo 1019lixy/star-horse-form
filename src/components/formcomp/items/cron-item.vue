@@ -5,7 +5,8 @@
     <Crontab ref="cronTabRef" :expression="context.attrs['formData'][field.preps['name']]"
     />
   </star-horse-dialog>
-  <starhorse-form-item :isDesign="context.attrs['isDesign']" :bareFlag="context.attrs['bareFlag']" :form-item="field" :parentField="parentField"
+  <starhorse-form-item :isDesign="context.attrs['isDesign']" :bareFlag="context.attrs['bareFlag']" :form-item="field"
+                       :parentField="parentField"
   >
     <el-input
         :fid="field.preps['name']"
@@ -29,7 +30,7 @@ export default defineComponent({
   components: {Crontab, StarHorseDialog},
   setup(_props, context) {
     const parentField = context.attrs["parentField"];
-  //  const formData = context.attrs["formData"];
+    //  const formData = context.attrs["formData"];
     const field = context.attrs["field"] as any;
     const defaultExpress = "* * * * * * *";
     let formItem = shallowRef({label: 'input', required: false});
@@ -68,7 +69,7 @@ export default defineComponent({
       }
     });
     return {
-      parentField,  context, field, formItem,
+      parentField, context, field, formItem,
       dataField, keyEnterFun, cronVisible
       , resetForm, close, submit, cronTabRef, actionName
     }

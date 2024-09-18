@@ -2,7 +2,7 @@
   <starhorse-form-item :isDesign="context.attrs['isDesign']" :bareFlag="context.attrs['bareFlag']" :formItem="field"
                        :parentField="parentField"
   >
-    <div class="cell-header"  @click="keyEnterFun('click')" v-if="field?.preps['headerFlag']=='Y'">
+    <div class="cell-header" @click="keyEnterFun('click')" v-if="field?.preps['headerFlag']=='Y'">
        <span>{{
            context.attrs['formData'][field.preps['name']] || (field.preps['placeholder'] || field.preps['label'])
          }}</span>
@@ -45,13 +45,14 @@ export default defineComponent({
 });
 </script>
 <style lang="scss" scoped>
-.cell-header{
+.cell-header {
   width: 100%;
   height: 100%;
 
 
   background: var(--star-horse-font-color);
-  span{
+
+  span {
     display: flex;
     vertical-align: middle;
     justify-content: center;

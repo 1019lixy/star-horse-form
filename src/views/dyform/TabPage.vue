@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import {nextTick, onMounted, provide, reactive, ref, watch} from "vue";
-import {closeLoad, load, loadGetData} from "@/api/sh_api";
+import {closeLoad, dialogPreps, load, loadGetData} from "@/api/sh_api";
 import {ApiUrls} from "@/components/types/ApiUrls";
-import {DialogProps} from "@/components/types/DialogProps";
 import {SearchProps} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {TabsPaneContext} from "element-plus";
@@ -83,18 +82,7 @@ watch(
 //记录表单的属性
 const formFields = reactive<Array<any>>([]);
 provide("formFields", formFields);
-const dialogProps = reactive<DialogProps>({
-  bakeVisible1: false,
-  bakeVisible2: false,
-  bakeVisible3: false,
-  ids: 0,
-  batchDialogTitle: "批量编辑",
-  dialogTitle: "编辑",
-  batchEditVisible: false,
-  editVisible: false,
-  uploadVisible: false,
-  viewVisible: false
-});
+const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 
 const init = async () => {
@@ -136,18 +124,18 @@ onMounted(async () => {
                                     :compUrl="dataUrl"/>
             <hr/>
             <star-horse-button-list
-                                    @tableCompFunc="(fun:any)=>starHorseTableCompRef.tableCompFunc(fun)"
-                                    :compUrl="dataUrl"
-                                    :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
+                @tableCompFunc="(fun:any)=>starHorseTableCompRef.tableCompFunc(fun)"
+                :compUrl="dataUrl"
+                :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
           </div>
           <hr>
           <star-horse-table-comp
-                                 ref="starHorseTableCompRef"
-                                 :fieldList="tableFieldList"
-                                 :primaryKey="primaryKey"
-                                 :compUrl="dataUrl"
-                                 :showBatchField="true"
-                                 :dataFormat="dataFormat"
+              ref="starHorseTableCompRef"
+              :fieldList="tableFieldList"
+              :primaryKey="primaryKey"
+              :compUrl="dataUrl"
+              :showBatchField="true"
+              :dataFormat="dataFormat"
           />
         </el-tab-pane>
       </el-tabs>

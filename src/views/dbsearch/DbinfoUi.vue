@@ -1,14 +1,13 @@
 <script setup lang="ts" name="Dbinfo">
-import {apiInstance} from "@/api/sh_api.ts";
+import {apiInstance, dialogPreps} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
-import {DialogProps} from "@/components/types/DialogProps"
 import {onMounted, provide, reactive, ref} from "vue";
 import {SearchFields} from "@/components/types/SearchProps";
 import {loadGetData} from "@/api/sh_api";
 import {warning} from "@/utils/message";
 import {Config} from "@/api/settings.ts";
 
-const dataUrl: ApiUrls = apiInstance("dbsearch-manage","dbsearch/dbinfoEntity");
+const dataUrl: ApiUrls = apiInstance("dbsearch-manage", "dbsearch/dbinfoEntity");
 let dbTypeList = ref<Array<any>>([]);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
@@ -101,16 +100,7 @@ const tableFieldList = reactive({
 const primaryKey = "idDbinfo";
 const dbinfoRef = ref();
 const rules = {};
-const dialogProps = reactive<DialogProps>({
-  bakeVisible1: false, bakeVisible2: false, bakeVisible3: false,
-  ids: 0,
-  batchDialogTitle: "批量编辑",
-  dialogTitle: "编辑",
-  batchEditVisible: false,
-  editVisible: false,
-  uploadVisible: false,
-  viewVisible: false,
-});
+const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 
 const loadDbTypeList = async () => {
@@ -157,11 +147,11 @@ onMounted(() => {
       <star-horse-search-comp @searchData="(data:any)=>dbinfoRef.createSearchParams(data)" :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
-      <star-horse-button-list  @tableCompFunc="(fun:any)=>dbinfoRef.tableCompFunc(fun)"
+      <star-horse-button-list @tableCompFunc="(fun:any)=>dbinfoRef.tableCompFunc(fun)"
                               :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
-    <star-horse-table-comp  ref="dbinfoRef" :fieldList="tableFieldList"
+    <star-horse-table-comp ref="dbinfoRef" :fieldList="tableFieldList"
                            :primaryKey="primaryKey" :compUrl="dataUrl"
                            :dataFormat="dataFormat"/>
   </el-card>

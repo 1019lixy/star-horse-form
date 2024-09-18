@@ -10,11 +10,11 @@ const props = defineProps({
 const dataForm: ModelRef<any> = defineModel("dataForm");
 const dataFormat = (item: any) => {
   let name = item['hideName'] || item['fieldName'];
-  let val=dataForm.value[name];
+  let val = dataForm.value[name];
   try {
     return props.commonFormat(name, val, null);
   } catch (e) {
-    return val||"--";
+    return val || "--";
   }
 };
 const init = () => {
@@ -59,10 +59,12 @@ onMounted(() => {
     line-height: 40px;
     height: 40px;
     padding: 0 10px 0 0;
-    .item{
+
+    .item {
       padding: 0 10px;
       border-bottom: unset;
-      label{
+
+      label {
         background: unset;
         width: unset;
       }

@@ -39,6 +39,7 @@
 .el-select {
   width: 250px;
 }
+
 .el-input-number {
   width: 150px;
 }

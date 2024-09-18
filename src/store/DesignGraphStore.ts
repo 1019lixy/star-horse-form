@@ -75,7 +75,7 @@ export const DesignGraph: any = defineStore("DesignGraph", {
          */
         setLabel(name: string, color: string = "#A2B1C3") {
             const _this = this;
-            const cell:any = _this.graph!.getCellById(_this.cell!.id);
+            const cell: any = _this.graph!.getCellById(_this.cell!.id);
             if (cell.isNode()) {
                 cell.attr("label/text", name);
             } else {
@@ -203,7 +203,7 @@ export const DesignGraph: any = defineStore("DesignGraph", {
             datas["nodes"] = nodeDatas;
             const edges = graph.getEdges();
             for (const index in edges) {
-                const edge:any = edges[index];
+                const edge: any = edges[index];
                 const data = edge.getData();
                 data["instanceId"] = edge.id;
                 data["id"] = edge.id;
@@ -250,7 +250,7 @@ export const DesignGraph: any = defineStore("DesignGraph", {
                 return null;
             }
             const point = graph.pageToLocal(data.posX || 0, data.posY || 0);
-            const datat:any = {
+            const datat: any = {
                 shape: data.shape,
                 label: "\t\t" + data.label,
                 name: data.name,
@@ -271,7 +271,7 @@ export const DesignGraph: any = defineStore("DesignGraph", {
             if (items) {
                 for (const index in items) {
                     const temp = items[index];
-                    const field:any = {
+                    const field: any = {
                         group: "list",
                         "attrs": {}
                     };
@@ -300,8 +300,8 @@ export const DesignGraph: any = defineStore("DesignGraph", {
                 console.error("画布还未初始化完成");
                 return null;
             }
-            const sorceNode:any = graph.getCellById(edge.sourceId);
-            const targetNode:any = graph.getCellById(edge.targetId);
+            const sorceNode: any = graph.getCellById(edge.sourceId);
+            const targetNode: any = graph.getCellById(edge.targetId);
             const sourcePorts = sorceNode.getPorts();
             const targetPorts = targetNode.getPorts();
             const sourceIndex = parseInt(sorceNode.getData().index);

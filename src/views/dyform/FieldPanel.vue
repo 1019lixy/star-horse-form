@@ -143,8 +143,8 @@ const getDefaultVal = (type: string) => {
             <template #title>
               <div class="collapse-item-title title">
                 <div style="width: 80%">自定义组件</div>
-              &nbsp;<star-horse-icon icon-class="other"
-                                     style="color: var(--star-horse-style)"/>
+                &nbsp;<star-horse-icon icon-class="other"
+                                       style="color: var(--star-horse-style)"/>
               </div>
             </template>
             <draggable

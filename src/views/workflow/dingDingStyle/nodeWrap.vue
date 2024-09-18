@@ -474,7 +474,7 @@ const reData = (data: any, addData: any) => {
 }
 //打开弹框
 const setPerson = (priorityLevel, item, data, tip) => {
-   console.log("setPerson click:", priorityLevel, item, data, tip);
+  console.log("setPerson click:", priorityLevel, item, data, tip);
   // approverDrawer.value = true;
   // 默认条件
   if (item && item.nodeName === '默认') {
@@ -682,6 +682,7 @@ watch(() => approverDrawer.value,
   background: none !important;
   z-index: -1 !important;
 }
+
 .error_tip {
   position: absolute;
   top: 36px;

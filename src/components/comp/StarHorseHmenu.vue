@@ -2,7 +2,6 @@
 import {inject, onMounted, ref} from "vue";
 import {postRequest} from "@/api/star_horse";
 import {getUserInfo} from "@/utils/auth";
-import SubSystemMenu from "@/components/menu/SubSystemMenu.vue";
 import SystemSubMenu from "@/components/menu/SystemSubMenu.vue";
 
 let dataList = ref([]);

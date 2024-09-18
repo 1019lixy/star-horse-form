@@ -13,6 +13,7 @@ interface CompInfo {
     //子元素
     items?: Array<any>;
 }
+
 /**
  * 定义折叠面板数据格式
  */
@@ -24,6 +25,7 @@ export interface CustomerItem {
     //面板内的数据元素
     compItems?: Array<CompInfo>;
 }
+
 /**
  * 节点信息
  */
@@ -55,6 +57,7 @@ export interface NodeInfo {
     //表格时的字段属性
     items?: Array<any>;
 }
+
 /**
  * 边构建信息
  */

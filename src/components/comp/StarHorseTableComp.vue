@@ -30,8 +30,8 @@ const props = defineProps({
   showBatchField: {type: Boolean, default: false},
   //格式化方法
   dataFormat: {type: Function, default: null},
-/*  //按钮大小
-  compSize: {type: String, default: "default"},*/
+  /*  //按钮大小
+    compSize: {type: String, default: "default"},*/
   //自定义按钮事件
   selfBtnFunc: {type: Array as PropType<BtnAuth[]>, default: null},
   //禁用事件

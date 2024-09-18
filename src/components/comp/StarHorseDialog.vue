@@ -140,7 +140,7 @@ provide("dialogOperation", clickFunction);
             {{ item.labelName }}
           </el-button>
            </template>
-          <el-button @click="operation('resetForm','reset')" :size="compSize" link v-if="isShowReset" >
+          <el-button @click="operation('resetForm','reset')" :size="compSize" link v-if="isShowReset">
             <star-horse-icon icon-class="undo" style="color:var(--star-horse-style);"/>
             {{ i18n("dialog.reset") }}</el-button>
         </span>

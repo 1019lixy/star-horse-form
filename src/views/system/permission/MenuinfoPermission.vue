@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {createCondition, dictData, loadData, loadRolesInfo} from "@/api/sh_api.ts";
+import {apiInstance, createCondition, dialogPreps, dictData, loadData, loadRolesInfo} from "@/api/sh_api.ts";
 import {computed, onMounted, provide, reactive, ref} from "vue";
 import {SearchFields, SelectOption} from "@/components/types/SearchProps";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
@@ -7,12 +7,10 @@ import piniaInstance from "@/store";
 import {TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
 import {warning} from "@/utils/message.ts";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
-import {DialogProps} from "@/components/types/DialogProps";
 import {Config} from "@/api/settings.ts";
-import {apiInstance} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 
-const dataUrl: ApiUrls = apiInstance("system-config","system/rolesPkMenusinfo");
+const dataUrl: ApiUrls = apiInstance("system-config", "system/rolesPkMenusinfo");
 const menuPermission = ref();
 let rolesList = ref<SelectOption[]>([]);
 let systemInfoList = ref<SelectOption[]>([]);
@@ -100,16 +98,7 @@ const tableFieldList = reactive<PageFieldInfo>({
   }]
 });
 const primaryKey = "idInformations";
-const dialogProps = reactive<DialogProps>({
-  bakeVisible1: false, bakeVisible2: false, bakeVisible3: false,
-  ids: 0,
-  batchDialogTitle: "批量编辑",
-  dialogTitle: "编辑",
-  batchEditVisible: false,
-  editVisible: false,
-  uploadVisible: false,
-  viewVisible: false
-});
+const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 
 const dataFormat = (name: string, cellValue: object): any => {

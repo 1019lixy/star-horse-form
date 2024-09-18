@@ -1,5 +1,6 @@
 <template>
-  <starhorse-form-item :isDesign="context.attrs['isDesign']" :bareFlag="context.attrs['bareFlag']" :form-item="field" :parentField="parentField">
+  <starhorse-form-item :isDesign="context.attrs['isDesign']" :bareFlag="context.attrs['bareFlag']" :form-item="field"
+                       :parentField="parentField">
     <el-cascader
         :fid="field.preps['name']"
         :clearable="field.preps['clearable']=='Y'"
@@ -69,7 +70,7 @@ export default defineComponent({
       }
     });
     return {
-      parentField,  context, field, formItem,
+      parentField, context, field, formItem,
       dataField, keyEnterFun, actionName, lazyLoad
     }
   }

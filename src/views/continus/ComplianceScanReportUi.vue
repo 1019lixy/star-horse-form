@@ -1,17 +1,18 @@
 <script setup lang="ts" name="ComplianceScanReport">
 import {apiInstance} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
-import {DialogProps} from "@/components/types/DialogProps"
 import {onMounted, provide, reactive} from "vue";
 import {SearchFields} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 
-const dataUrl: ApiUrls =apiInstance("devops-continus","continus/complianceScanReport");
-const searchFormData = reactive<SearchFields>({fieldList:[
-  {label: "致命总数", fieldName: "blocker", type: "input"},
-  {label: "严重总数", fieldName: "critical", type: "input", matchType: "lk"},
-  {label: "中度总数", fieldName: "major", type: "input", matchType: "lk"},
-]});
+const dataUrl: ApiUrls = apiInstance("devops-continus", "continus/complianceScanReport");
+const searchFormData = reactive<SearchFields>({
+  fieldList: [
+    {label: "致命总数", fieldName: "blocker", type: "input"},
+    {label: "严重总数", fieldName: "critical", type: "input", matchType: "lk"},
+    {label: "中度总数", fieldName: "major", type: "input", matchType: "lk"},
+  ]
+});
 const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
@@ -106,16 +107,7 @@ const tableFieldList = reactive<PageFieldInfo>({
 });
 const primaryKey = "idComplianceReport";
 const rules = {};
-const dialogProps = reactive<DialogProps>({
-  bakeVisible1: false, bakeVisible2: false, bakeVisible3: false,
-  ids: 0,
-  batchDialogTitle: "批量编辑",
-  dialogTitle: "编辑",
-  batchEditVisible: false,
-  editVisible: false,
-  uploadVisible: false,
-  viewVisible: false
-});
+const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 
 const dataFormat = (name: string, cellValue: object): any => {
@@ -125,14 +117,14 @@ const initData = async () => {
 
 };
 onMounted(async () => {
- await initData();
+  await initData();
 });
 </script>
 <style lang="scss" scoped>
 </style>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form  :compUrl="dataUrl" :fieldList="tableFieldList" :rules="rules"/>
+    <star-horse-form :compUrl="dataUrl" :fieldList="tableFieldList" :rules="rules"/>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title=
       "'查看数据'" :is-view="true">
@@ -141,9 +133,9 @@ onMounted(async () => {
   <el-card class="inner_content">
     <star-horse-search-comp :formData="searchFormData" :compUrl="dataUrl"/>
     <hr>
-    <star-horse-button-list :compUrl="dataUrl" :dialogProps="dialogProps" />
+    <star-horse-button-list :compUrl="dataUrl" :dialogProps="dialogProps"/>
     <hr>
-    <star-horse-table-comp  :fieldList="tableFieldList" :primaryKey="primaryKey"
+    <star-horse-table-comp :fieldList="tableFieldList" :primaryKey="primaryKey"
                            :compUrl="dataUrl"
                            :dataFormat="dataFormat"/>
   </el-card>

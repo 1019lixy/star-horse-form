@@ -8,6 +8,8 @@ import * as ElementPlusIconsVue from '@element-plus/icons-vue';
 import {MenusInfo} from "@/components/types/MenusInfo";
 import {BatchFieldInfo, FieldInfo, PageFieldInfo, TabFieldInfo} from "@/components/types/PageFieldInfo";
 import {ApiUrls} from "@/components/types/ApiUrls";
+import {Reactive} from "vue-demi";
+import {DialogProps} from "@/components/types/DialogProps";
 
 let loading: any = null;
 /**
@@ -847,4 +849,22 @@ export function apiInstance(appName: string, urlPrefix: string, condition: Array
         uploadUrl: ``,
         condition: condition
     };
+}
+
+/**
+ * 模态窗口相关属性
+ */
+export function dialogPreps(title: string = "编辑", batchTitle: string = "批量编辑"): Reactive<DialogProps> {
+    return reactive<DialogProps>({
+        bakeVisible1: false,
+        bakeVisible2: false,
+        bakeVisible3: false,
+        ids: 0,
+        batchDialogTitle: batchTitle,
+        dialogTitle: title,
+        batchEditVisible: false,
+        editVisible: false,
+        uploadVisible: false,
+        viewVisible: false,
+    });
 }

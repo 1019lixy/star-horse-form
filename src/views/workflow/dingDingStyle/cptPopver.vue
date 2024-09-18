@@ -1,11 +1,12 @@
 <script setup lang="ts">
 defineProps({
-  type:{type:Boolean}
+  type: {type: Boolean}
 });
 </script>
 <template>
   <div class="approval-CptPopver">
-    <el-popover placement="top" v-if="type" popper-class="set_promoter_explain_tip" :popper-style="{width: 'unset !important'}" trigger="hover">
+    <el-popover placement="top" v-if="type" popper-class="set_promoter_explain_tip"
+                :popper-style="{width: 'unset !important'}" trigger="hover">
       <div>
         <p class="explain_tip_title">以发起人的直接部门主管为第一级</p>
         <div class="explain_tip_flow flex">
@@ -31,10 +32,11 @@ defineProps({
         </div>
       </div>
       <template v-slot:reference>
-<i  class="iconfont icon-icon_explain"></i>
-</template>
+        <i class="iconfont icon-icon_explain"></i>
+      </template>
     </el-popover>
-    <el-popover v-else placement="top" popper-class="set_promoter_explain_tip" :popper-style="{width: 'unset !important'}" trigger="hover">
+    <el-popover v-else placement="top" popper-class="set_promoter_explain_tip"
+                :popper-style="{width: 'unset !important'}" trigger="hover">
       <div>
         <p class="explain_tip_title">以公司的最高部门为第一级</p>
         <div class="explain_tip_flow flex">
@@ -60,12 +62,12 @@ defineProps({
         </div>
       </div>
       <template v-slot:reference>
-<i  class="iconfont icon-icon_explain"></i>
-</template>
+        <i class="iconfont icon-icon_explain"></i>
+      </template>
     </el-popover>
   </div>
 </template>
-<style lang="scss" >
+<style lang="scss">
 .approval-CptPopver {
   display: inline-block;
 }

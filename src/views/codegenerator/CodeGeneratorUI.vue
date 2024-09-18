@@ -1,17 +1,15 @@
 <script setup lang="ts" name="EnvInfo">
-import {apiInstance} from "@/api/sh_api.ts";
+import {apiInstance, closeLoad, dialogPreps, dictData, load} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {onMounted, provide, reactive, ref} from "vue";
 import {SearchFields, SelectOption} from "@/components/types/SearchProps.d.ts";
 import {Config} from "@/api/settings.ts";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo.d.ts";
 import {initDbList, tableList} from "@/views/dbsearch/utils/DbSearchUtils.ts";
-import {closeLoad, dictData, load} from "@/api/sh_api.ts";
 import {download} from "@/api/star_horse.ts";
 import {warning} from "@/utils/message.ts";
-import {DialogProps} from "@/components/types/DialogProps";
 
-const dataUrl: ApiUrls =apiInstance("code-generator","generator/code");
+const dataUrl: ApiUrls = apiInstance("code-generator", "generator/code");
 
 let dbInfoList = ref<Array<SelectOption>>([]);
 let tableInfoList = ref<Array<SelectOption>>([]);
@@ -29,7 +27,7 @@ const loadTabInfo = async (val: any) => {
 };
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "数据库信息", fieldName: "datasourceConfigId", type: "select",  optionList: dbInfoList, defaultShow: true},
+    {label: "数据库信息", fieldName: "datasourceConfigId", type: "select", optionList: dbInfoList, defaultShow: true},
     {label: "应用名称", fieldName: "projectName", type: "input", matchType: "lk", defaultShow: true},
     {label: "项目名称", fieldName: "applicationName", type: "input", matchType: "lk", defaultShow: true},
   ]
@@ -236,16 +234,7 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
 const primaryKey = "idCodeGenerator";
 const codeGeneratorRef = ref();
 const rules = {};
-const dialogProps = reactive<DialogProps>({
-  bakeVisible1: false, bakeVisible2: false, bakeVisible3: false,
-  ids: 0,
-  batchDialogTitle: "批量编辑",
-  dialogTitle: "编辑",
-  batchEditVisible: false,
-  editVisible: false,
-  uploadVisible: false,
-  viewVisible: false,
-});
+const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 
 const selectItemFun = (_data: any) => {
@@ -310,11 +299,11 @@ const closeAction = () => {
                               :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
-      <star-horse-button-list  @tableCompFunc="(fun:any)=>codeGeneratorRef.tableCompFunc(fun)"
+      <star-horse-button-list @tableCompFunc="(fun:any)=>codeGeneratorRef.tableCompFunc(fun)"
                               :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
-    <star-horse-table-comp  ref="codeGeneratorRef" :fieldList="tableFieldList"
+    <star-horse-table-comp ref="codeGeneratorRef" :fieldList="tableFieldList"
                            :primaryKey="primaryKey"
                            :compUrl="dataUrl"
                            :dataFormat="dataFormat" @selectItem="selectItemFun"/>

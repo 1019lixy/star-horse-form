@@ -8,7 +8,7 @@ import {BatchFieldInfo} from "@/components/types/PageFieldInfo.d.ts";
 import {SelectOption} from "@/components/types/SearchProps";
 import {initDbList} from "@/views/dbsearch/utils/DbSearchUtils.ts";
 
-const dataUrl: ApiUrls = apiInstance("dbsearch-manage","dbsearch/dbinfoEntity");
+const dataUrl: ApiUrls = apiInstance("dbsearch-manage", "dbsearch/dbinfoEntity");
 let dbList = ref<SelectOption[]>([]);
 const tableFieldList = reactive({
   fieldList: [
@@ -149,6 +149,7 @@ onMounted(() => {
   gap: 2px;
   padding: 2px;
 }
+
 .table-type {
   width: 200px;
 }

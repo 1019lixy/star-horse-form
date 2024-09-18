@@ -1,5 +1,6 @@
 <template>
-  <starhorse-form-item :isDesign="context.attrs['isDesign']" :bareFlag="context.attrs['bareFlag']" :form-item="field" :parentField="parentField"
+  <starhorse-form-item :isDesign="context.attrs['isDesign']" :bareFlag="context.attrs['bareFlag']" :form-item="field"
+                       :parentField="parentField"
   >
     <div class="interviewVideo_main" id="videoContainer">
       <!--此处根据pdf的页数动态生成相应数量的canvas画布-->
@@ -26,7 +27,7 @@ export default defineComponent({
       context.emit('selfFunc');
     };
     return {
-      parentField,  context, field, formItem, dataField, keyEnterFun, pdfPages
+      parentField, context, field, formItem, dataField, keyEnterFun, pdfPages
     }
   }
 });

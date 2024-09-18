@@ -369,12 +369,14 @@ defineExpose({
   border-radius: 5px;
   font-size: 12px;
   overflow: hidden;
+
   .popup-title {
     overflow: hidden;
     line-height: 34px;
     padding-top: 6px;
     background: #f2f2f2;
   }
+
   .popup-result {
     box-sizing: border-box;
     line-height: 24px;
@@ -383,6 +385,7 @@ defineExpose({
     border: 1px solid #ccc;
     position: relative;
     font-size: 14px;
+
     .title {
       position: absolute;
       top: -28px;
@@ -394,10 +397,12 @@ defineExpose({
       line-height: 30px;
       background: #fff;
     }
+
     table {
       text-align: center;
       width: 100%;
       margin: 0 auto;
+
       span {
         display: block;
         width: 100%;
@@ -410,6 +415,7 @@ defineExpose({
         border: 1px solid #e8e8e8;
       }
     }
+
     .popup-result-scroll {
       font-size: 12px;
       line-height: 24px;

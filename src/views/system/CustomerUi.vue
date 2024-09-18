@@ -2,30 +2,31 @@
 import {apiInstance} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings.ts";
-import {DialogProps} from "@/components/types/DialogProps"
 import {onMounted, provide, reactive, ref} from "vue";
 import {SearchFields, SelectOption} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {loadElementPlusIcon} from "@/api/sh_api";
 //后端交互接口地址
-const dataUrl: ApiUrls =apiInstance("system-config","system/customer");
+const dataUrl: ApiUrls = apiInstance("system-config", "system/customer");
 //查询属性
-const searchFormData = reactive<SearchFields>({fieldList:[
-  {
-    label: "主体名称",
-    defaultShow: true,
-    fieldName: "customerName",
-    type: "input",
-    matchType: "lk"
-  },
-  {
-    label: "主体编码",
-    fieldName: "customerCode",
-    type: "input",
-    defaultShow: true,
-    matchType: "lk"
-  },
-]});
+const searchFormData = reactive<SearchFields>({
+  fieldList: [
+    {
+      label: "主体名称",
+      defaultShow: true,
+      fieldName: "customerName",
+      type: "input",
+      matchType: "lk"
+    },
+    {
+      label: "主体编码",
+      fieldName: "customerCode",
+      type: "input",
+      defaultShow: true,
+      matchType: "lk"
+    },
+  ]
+});
 let systemIconList = ref<SelectOption[]>([]);
 //页面属性
 const tableFieldList = reactive<PageFieldInfo | any>({
@@ -125,16 +126,7 @@ const customerRef = ref();
 //校验
 const rules = {};
 //控制弹窗相关设置
-const dialogProps = reactive<DialogProps>({
-  ids: 0,
-  batchDialogTitle: "批量编辑",
-  dialogTitle: "编辑",
-  batchEditVisible: false,
-  editVisible: false,
-  uploadVisible: false,
-  viewVisible: false,
-  bakeVisible1: false, bakeVisible2: false, bakeVisible3: false
-});
+const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 
 //初始化方法
@@ -157,7 +149,7 @@ const dataFormat = (_name: string, cellValue: any, row: any): any => {
 </script>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form  @refresh="customerRef.loadByPage()" :compUrl="dataUrl"
+    <star-horse-form @refresh="customerRef.loadByPage()" :compUrl="dataUrl"
                      :fieldList="tableFieldList" :rules="rules"/>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title=
@@ -169,12 +161,12 @@ const dataFormat = (_name: string, cellValue: any, row: any): any => {
       <star-horse-search-comp @searchData="(data:any)=>customerRef.createSearchParams(data)" :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
-      <star-horse-button-list  @tableCompFunc="(fun:any)=>customerRef.tableCompFunc(fun)"
+      <star-horse-button-list @tableCompFunc="(fun:any)=>customerRef.tableCompFunc(fun)"
                               :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
     <hr>
-    <star-horse-table-comp  ref="customerRef" :fieldList="tableFieldList"
+    <star-horse-table-comp ref="customerRef" :fieldList="tableFieldList"
                            :primaryKey="primaryKey" :compUrl="dataUrl"
                            :dataFormat="dataFormat"/>
   </el-card>

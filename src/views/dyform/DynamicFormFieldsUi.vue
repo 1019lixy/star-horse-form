@@ -1,27 +1,28 @@
 <script setup lang="ts" name="DynamicFormFields">
-import {apiInstance} from "@/api/sh_api.ts";
+import {apiInstance, dialogPreps} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
-import {DialogProps} from "@/components/types/DialogProps"
 import {onMounted, provide, reactive, ref} from "vue";
 import {SearchFields} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {Config} from "@/api/settings.ts";
 //后端交互接口地址
-const dataUrl: ApiUrls =apiInstance("userdb-manage","userdb/dynamicFormFields");
+const dataUrl: ApiUrls = apiInstance("userdb-manage", "userdb/dynamicFormFields");
 //查询属性
-const searchFormData = reactive<SearchFields>({fieldList:[
-  {label: "主键", fieldName: "idFormFields", type: "long"},
-  {label: "归属元素", fieldName: "idFormItems", type: "long"},
-  {label: "标签名称", fieldName: "label", type: "input"},
-  {label: "属性名称", fieldName: "fieldName", type: "input"},
-  {label: "属性类别", fieldName: "fieldType", type: "input"},
-  {label: "是否必须 Y 是 N 否 默认 Y", fieldName: "required", type: "input"},
-  {label: "备选值", fieldName: "selectValues", type: "input"},
-  {label: "默认值", fieldName: "defaultValues", type: "input"},
-  {label: "分类 1 普通属性 2 高级属性 默认 1", fieldName: "category", type: "number"},
-  {label: "备注", fieldName: "remark", type: "input"},
-  {label: "元素排序", fieldName: "dataSort", type: "number"},
-]});
+const searchFormData = reactive<SearchFields>({
+  fieldList: [
+    {label: "主键", fieldName: "idFormFields", type: "long"},
+    {label: "归属元素", fieldName: "idFormItems", type: "long"},
+    {label: "标签名称", fieldName: "label", type: "input"},
+    {label: "属性名称", fieldName: "fieldName", type: "input"},
+    {label: "属性类别", fieldName: "fieldType", type: "input"},
+    {label: "是否必须 Y 是 N 否 默认 Y", fieldName: "required", type: "input"},
+    {label: "备选值", fieldName: "selectValues", type: "input"},
+    {label: "默认值", fieldName: "defaultValues", type: "input"},
+    {label: "分类 1 普通属性 2 高级属性 默认 1", fieldName: "category", type: "number"},
+    {label: "备注", fieldName: "remark", type: "input"},
+    {label: "元素排序", fieldName: "dataSort", type: "number"},
+  ]
+});
 //页面属性
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
@@ -170,17 +171,7 @@ const dynamicFormFieldsRef = ref();
 //校验
 const rules = {};
 //控制弹窗相关设置
-const dialogProps = reactive<DialogProps>({
-  ids: 0,
-  batchDialogTitle: "批量编辑",
-  dialogTitle: "编辑",
-  batchEditVisible: false,
-  editVisible: false,
-  uploadVisible: false,
-  viewVisible: false,
-  dialogPwdVisible: false,
-  bakeVisible1: false, bakeVisible2: false, bakeVisible3: false
-});
+const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 
 //初始化方法
@@ -205,7 +196,7 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
 </style>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form  @refresh="dynamicFormFieldsRef.loadByPage()" :compUrl="dataUrl"
+    <star-horse-form @refresh="dynamicFormFieldsRef.loadByPage()" :compUrl="dataUrl"
                      :fieldList="tableFieldList"
                      :rules="rules"/>
   </star-horse-dialog>
@@ -220,10 +211,10 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
                               :compUrl="dataUrl"/>
       <hr/>
       <star-horse-button-list
-                              @tableCompFunc="(fun:any)=>dynamicFormFieldsRef.tableCompFunc(fun)" :compUrl="dataUrl"
-                              :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
+          @tableCompFunc="(fun:any)=>dynamicFormFieldsRef.tableCompFunc(fun)" :compUrl="dataUrl"
+          :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
-    <star-horse-table-comp  ref="dynamicFormFieldsRef" :fieldList="tableFieldList"
+    <star-horse-table-comp ref="dynamicFormFieldsRef" :fieldList="tableFieldList"
                            :primaryKey="primaryKey"
                            :compUrl="dataUrl"
                            :dataFormat="dataFormat"/>

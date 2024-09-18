@@ -148,7 +148,7 @@ const init = async () => {
   screenshot.value.addEventListener('mousedown', dragStart, false);
 }
 onMounted(async () => {
- await init();
+  await init();
 });
 
 </script>

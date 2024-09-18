@@ -1,16 +1,15 @@
 <script setup lang="ts" name="ProjectMember">
-import {apiInstance} from "@/api/sh_api.ts";
+import {apiInstance, dialogPreps} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {onMounted, provide, reactive, ref, watch} from "vue";
 import {SearchFields} from "@/components/types/SearchProps.d.ts";
 import {SearchParams} from "@/components/types/Params.d.ts";
-import {CompParams} from "@/components/types/PageFieldInfo";
 
 const props = defineProps({
   projectId: {type: Number}
 });
-const dataUrl: ApiUrls =apiInstance("devops-continus","continus/projectMember");
-const searchFormData = reactive<SearchFields>({fieldList:[]});
+const dataUrl: ApiUrls = apiInstance("devops-continus", "continus/projectMember");
+const searchFormData = reactive<SearchFields>({fieldList: []});
 const tableFieldList = reactive({
   fieldList: [
     {
@@ -87,16 +86,7 @@ const tableFieldList = reactive({
 const primaryKey = "idDbinfo";
 const projectMemberRef = ref();
 const rules = {};
-const dialogProps = reactive<CompParams>({
-  bakeVisible1: false, bakeVisible2: false, bakeVisible3: false,
-  ids: 0,
-  batchDialogTitle: "批量编辑",
-  dialogTitle: "编辑",
-  batchEditVisible: false,
-  editVisible: false,
-  uploadVisible: false,
-  viewVisible: false,
-});
+const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 
 const dataFormat = (name: string, cellValue: object): any => {
@@ -126,7 +116,7 @@ onMounted(async () => {
 </script>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form  @refresh="projectMemberRef.loadByPage()" :compUrl="dataUrl"
+    <star-horse-form @refresh="projectMemberRef.loadByPage()" :compUrl="dataUrl"
                      :fieldList="tableFieldList"
                      :rules="rules"/>
   </star-horse-dialog>
@@ -142,7 +132,7 @@ onMounted(async () => {
           <star-horse-button-list   @tableCompFunc="(fun:any)=>projectMemberRef.tableCompFunc(fun)" :compUrl="dataUrl"
                                   :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
         </div>-->
-    <star-horse-table-comp  ref="projectMemberRef" :fieldList="tableFieldList"
+    <star-horse-table-comp ref="projectMemberRef" :fieldList="tableFieldList"
                            :primaryKey="primaryKey"
                            :compUrl="dataUrl"
                            :dataFormat="dataFormat"/>

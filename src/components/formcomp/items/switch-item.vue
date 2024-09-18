@@ -1,5 +1,6 @@
 <template>
-  <starhorse-form-item :isDesign="context.attrs['isDesign']" :bareFlag="context.attrs['bareFlag']" :form-item="field" :parentField="parentField"
+  <starhorse-form-item :isDesign="context.attrs['isDesign']" :bareFlag="context.attrs['bareFlag']" :form-item="field"
+                       :parentField="parentField"
   >
     <el-switch
         :fid="field.preps['name']"
@@ -34,7 +35,7 @@ export default defineComponent({
       if (prep == actionName.value && field.preps["actionRelation"]) {
         field.preps["actionRelation"](context.attrs['formData'][field.preps['name']], context.attrs['formData']["xh"]);
       }
-      console.log("switch",prep);
+      console.log("switch", prep);
       context.emit('selfFunc', prep);
     };
     onMounted(() => {
@@ -44,7 +45,7 @@ export default defineComponent({
       }
     });
     return {
-      parentField,  context, field, formItem, dataField, keyEnterFun, actionName
+      parentField, context, field, formItem, dataField, keyEnterFun, actionName
     }
   }
 });

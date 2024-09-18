@@ -1,8 +1,7 @@
 <script setup lang="ts" name="Menusinfo">
-import {apiInstance} from "@/api/sh_api.ts";
+import {apiInstance, dialogPreps} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings.ts";
-import {DialogProps} from "@/components/types/DialogProps"
 import {computed, onMounted, provide, reactive, ref, unref} from "vue";
 import {SearchFields, SelectOption} from "@/components/types/SearchProps";
 import {closeLoad, createTree, dictData, load, loadData, loadElementPlusIcon, loadSystemInfo} from "@/api/sh_api";
@@ -15,7 +14,7 @@ import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import piniaInstance from "@/store";
 import StarHorseTree from "@/components/comp/StarHorseTree.vue";
 
-const dataUrl: ApiUrls = apiInstance("system-config","system/menusinfoEntity");
+const dataUrl: ApiUrls = apiInstance("system-config", "system/menusinfoEntity");
 let parentMenus: any = ref<any>([]);
 let searchParentMenus: any = ref<any>([]);
 let informationsList: any = ref<any>([]);
@@ -148,16 +147,7 @@ const loadMenuBySystemId = async (systemId: number) => {
   }
 
 };
-const dialogProps = reactive<DialogProps>({
-  bakeVisible1: false, bakeVisible2: false, bakeVisible3: false,
-  ids: 0,
-  batchDialogTitle: "批量编辑",
-  dialogTitle: "编辑",
-  batchEditVisible: false,
-  editVisible: false,
-  uploadVisible: false,
-  viewVisible: false
-});
+const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 
 const menuFormRef = ref(null);
@@ -264,7 +254,7 @@ onMounted(async () => {
   <el-card class="inner_content">
     <el-row style="height: 100%;" :gutter="10">
       <el-col :span="5" style="height: inherit">
-        <star-horse-tree v-model:treeDatas="informationsList"  @selectData="checkChange" :comp-size="compSize"/>
+        <star-horse-tree v-model:treeDatas="informationsList" @selectData="checkChange" :comp-size="compSize"/>
       </el-col>
       <el-col :span="19" style="height: inherit">
         <el-card class="inner_content" style="height: inherit">

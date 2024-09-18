@@ -14,11 +14,11 @@
                   <span style="margin-left: 10px;">
                     <star-horse-icon v-if="index == 0" icon-class="check-circle" theme="filled" style="color: green;"/>
                     <star-horse-icon v-if="node.conditionNodes.length - 1 == index" icon-class="close" theme="filled"
-                             style="color: red;"/>
+                                     style="color: red;"/>
                   </span>
                 </div>
                 <div v-if="!readable && !conditionNode.deletable" class="close-icon">
-                  <star-horse-icon  iconClass="close" @click.stop="conditionNode.deletable = true"/>
+                  <star-horse-icon iconClass="close" @click.stop="conditionNode.deletable = true"/>
                 </div>
                 <!-- 删除提示 -->
                 <DeleteConfirm :node="conditionNode" @callback="delCallback"/>

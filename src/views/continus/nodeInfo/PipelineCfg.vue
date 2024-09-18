@@ -115,8 +115,8 @@ const setFormData = (data: any) => {
 }
 const init = async () => {
   repoList.value = (await loadData("/devops-continus/continus/baseInfo/repoTypes")).data;
-  execTypeList.value.push({name:"独占模式",value:"single"});
-  execTypeList.value.push({name:"并行模式",value:"multiple"});
+  execTypeList.value.push({name: "独占模式", value: "single"});
+  execTypeList.value.push({name: "并行模式", value: "multiple"});
 };
 onMounted(async () => {
   await init();

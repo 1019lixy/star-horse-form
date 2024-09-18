@@ -19,7 +19,7 @@ import {tableColumns} from "@/views/dbsearch/utils/DbSearchUtils.ts";
 const route = useRoute();
 const isView = ref<boolean>(false);
 //后端交互接口地址
-const dataUrl: ApiUrls = apiInstance("userdb-manage","userdb/dynamicFormConsumerConfig");
+const dataUrl: ApiUrls = apiInstance("userdb-manage", "userdb/dynamicFormConsumerConfig");
 const customerItems = ref<CustomerItem[]>([]);
 const formConditionProps = ref<any>({});
 const dataForm = ref<any>({});

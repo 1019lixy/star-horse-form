@@ -10,9 +10,11 @@ const tabCurrent = ref("second");
   justify-content: space-between;
   align-items: center;
 }
+
 .el-space {
   width: 100%;
 }
+
 .el-card__header {
   padding: 5px;
 }

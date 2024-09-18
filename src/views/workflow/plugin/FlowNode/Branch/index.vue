@@ -35,11 +35,12 @@
                   <span v-else class="hint-title">配置筛选条件</span>
                 </div>
                 <!-- 错误提示 -->
-                <star-horse-icon v-if="conditionNode.error" icon-class="exclamation-circle" theme="filled" class="node-error"/>
+                <star-horse-icon v-if="conditionNode.error" icon-class="exclamation-circle" theme="filled"
+                                 class="node-error"/>
                 <!-- 删除按钮,其他情况不支持删除 -->
                 <div v-if="!readable && !conditionNode.deletable && node.conditionNodes.length - 1 != index"
                      class="close-icon">
-                  <star-horse-icon  iconClass="close" @click.stop="conditionNode.deletable = true"/>
+                  <star-horse-icon iconClass="close" @click.stop="conditionNode.deletable = true"/>
                 </div>
                 <!-- 删除提示 -->
                 <DeleteConfirm :node="conditionNode"/>
@@ -70,7 +71,7 @@ import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 
-const flowBranchSettingRef=ref();
+const flowBranchSettingRef = ref();
 const flowDesign = useFlowDesign(piniaInstance);
 let currentNode = computed(() => flowDesign.currentNode);
 defineProps({

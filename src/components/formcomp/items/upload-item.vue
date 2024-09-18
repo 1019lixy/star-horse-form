@@ -1,5 +1,6 @@
 <template>
-  <starhorse-form-item :isDesign="context.attrs['isDesign']" :bareFlag="context.attrs['bareFlag']" :form-item="field" :parentField="parentField"
+  <starhorse-form-item :isDesign="context.attrs['isDesign']" :bareFlag="context.attrs['bareFlag']" :form-item="field"
+                       :parentField="parentField"
   >
     <el-upload
         :fid="field.preps['name']"
@@ -59,7 +60,7 @@ export default defineComponent({
     const selfAction = (prep: any) => {
       context.emit('selfFunc', prep, dataField);
     };
-    return {parentField,  context, field, formItem, dataField, selfAction}
+    return {parentField, context, field, formItem, dataField, selfAction}
   }
 });
 </script>

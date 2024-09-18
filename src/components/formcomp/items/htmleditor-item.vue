@@ -1,5 +1,6 @@
 <template>
-  <starhorse-form-item :isDesign="context.attrs['isDesign']" :bareFlag="context.attrs['bareFlag']" :form-item="field" :parentField="parentField"
+  <starhorse-form-item :isDesign="context.attrs['isDesign']" :bareFlag="context.attrs['bareFlag']" :form-item="field"
+                       :parentField="parentField"
   >
     <div style="border: 1px solid #ccc">
       <Toolbar style="border-bottom: 1px solid #ccc" :editor="editorRef" :defaultConfig="toolbarConfig"
@@ -52,7 +53,7 @@ export default defineComponent({
       //excludeKeys: ["insertLink", "insertImage", "editImage", "viewImageLink", "insertVideo", "emotion", "fullScreen"],
     }
     editorConfig.value = {placeholder: "请输入内容...", MENU_CONF: {}}
-    const handleCreated = (editor:any) => {
+    const handleCreated = (editor: any) => {
       editorRef.value = editor // 记录 editor 实例，重要！
     }
 // 自定义上传
@@ -100,7 +101,7 @@ export default defineComponent({
     }
 // 组件销毁时，也及时销毁编辑器
     return {
-      parentField,  context, field, formItem, editorConfig, editorRef, toolbarConfig,
+      parentField, context, field, formItem, editorConfig, editorRef, toolbarConfig,
       dataField, dynamicFunction, keyEnterFun, handleCreated
     }
   },

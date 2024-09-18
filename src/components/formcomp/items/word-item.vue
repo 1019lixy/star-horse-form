@@ -1,5 +1,6 @@
 <template>
-  <starhorse-form-item :isDesign="context.attrs['isDesign']" :bareFlag="context.attrs['bareFlag']" :form-item="field" :parentField="parentField"
+  <starhorse-form-item :isDesign="context.attrs['isDesign']" :bareFlag="context.attrs['bareFlag']" :form-item="field"
+                       :parentField="parentField"
   >
     <VueOfficeDocx :fid="field.preps['name']" :src="field['docUrl']" @rendered="rendered"/>
   </starhorse-form-item>
@@ -24,7 +25,7 @@ export default defineComponent({
     onMounted(() => {
       init();
     });
-    return {parentField,  context, field, formItem, dataField, keyEnterFun,rendered}
+    return {parentField, context, field, formItem, dataField, keyEnterFun, rendered}
   }
 });
 </script>

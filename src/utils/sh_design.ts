@@ -244,7 +244,7 @@ const commonConfig = {
         minScale: 0.2,
     },
 };
-const configInfo:any = {
+const configInfo: any = {
     ...commonConfig,
     selecting: {
         enabled: true,

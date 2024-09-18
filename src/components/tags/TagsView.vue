@@ -470,11 +470,13 @@ watch(
     color: var(--el-color-white);
     background-color: var(--star-horse-style);
     border: 1px solid var(--star-horse-style);
+
     :deep(.el-icon) {
-      svg{
+      svg {
         color: var(--star-horse-white);
       }
     }
+
     .item--close {
       :deep(span) {
 

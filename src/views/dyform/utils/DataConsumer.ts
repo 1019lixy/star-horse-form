@@ -122,6 +122,7 @@ export const consumerNodeData: any = {
     },
     force: true
 };
+
 /**
  * 关联属性信息
  */
@@ -274,6 +275,7 @@ export function viewFieldInfo(viewTypeList: Ref<SelectOption[]>, consumeAuthorit
         ]
     });
 }
+
 export function relationFieldInfo(datas: any) {
     lineDatas = {};
     tableVisible.value = true;

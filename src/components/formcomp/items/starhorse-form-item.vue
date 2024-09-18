@@ -155,11 +155,11 @@ const removeItem = (formItem: any) => {
   if (!isEdit.value) {
     return;
   }
-   console.log(formItem, props.parentField);
-  let parentItemType=props.parentField?.itemType;
+  console.log(formItem, props.parentField);
+  let parentItemType = props.parentField?.itemType;
 
   let dataList = compList.value;
-  if (parentItemType == "tab" || parentItemType == "table"||parentItemType=="card"||parentItemType=="collapse") {
+  if (parentItemType == "tab" || parentItemType == "table" || parentItemType == "card" || parentItemType == "collapse") {
     let elements = props.parentField!.preps.elements;
     for (let i = 0; i < elements.length; i++) {
       let items = elements[i].items;
@@ -170,7 +170,7 @@ const removeItem = (formItem: any) => {
         }
       }
     }
-  } else if (parentItemType== "box"||parentItemType=="dytable") {
+  } else if (parentItemType == "box" || parentItemType == "dytable") {
     let elements = props.parentField!.preps.elements;
     for (let index in elements) {
       let sdataTemp = elements[index];
@@ -199,11 +199,11 @@ onMounted(() => {
 })
 </script>
 <template>
-  <div v-if="bareFlag" >
+  <div v-if="bareFlag">
     <slot></slot>
   </div>
 
-  <div v-else class="form-item-operation" >
+  <div v-else class="form-item-operation">
     <div :class="{'field-item design-star-horse' : isEdit,
   'active-item':currentItemId == formItem?.preps.id && isEdit
   }" v-if="isDesign" @click="selectData(formItem)">
@@ -299,10 +299,12 @@ onMounted(() => {
   height: 100%;
   vertical-align: middle;
   align-items: center;
-  .bare-item{
+
+  .bare-item {
     width: 100%;
     height: 100%;
   }
+
   &:hover > .field-action {
     opacity: 1;
     display: flex;

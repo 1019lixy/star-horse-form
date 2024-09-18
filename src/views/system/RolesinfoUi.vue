@@ -1,8 +1,7 @@
 <script setup lang="ts" name="Rolesinfo">
-import {apiInstance} from "@/api/sh_api.ts";
+import {apiInstance, dialogPreps} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings.ts";
-import {DialogProps} from "@/components/types/DialogProps"
 import {nextTick, onMounted, provide, reactive, ref} from "vue";
 import {SearchFields, SelectOption} from "@/components/types/SearchProps";
 import {loadDepartmentInfo, loadMenusInfo, loadSystemInfo} from "@/api/sh_api";
@@ -17,7 +16,7 @@ import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {ElTreeV2} from "element-plus";
 import {TreeNode} from "element-plus/es/components/tree-v2/src/types";
 
-const dataUrl: ApiUrls =apiInstance("system-config","system/rolesinfoEntity");
+const dataUrl: ApiUrls = apiInstance("system-config", "system/rolesinfoEntity");
 let departmentList = ref<SelectOption[]>([]);
 let systemList = ref<SelectOption[]>([]);
 let menusList = ref([]);
@@ -126,16 +125,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 });
 const primaryKey = "idRolesinfo";
 const rules = {};
-const dialogProps = reactive<DialogProps>({
-  bakeVisible1: false, bakeVisible2: false, bakeVisible3: false,
-  ids: 0,
-  batchDialogTitle: "批量编辑",
-  dialogTitle: "编辑",
-  batchEditVisible: false,
-  editVisible: false,
-  uploadVisible: false,
-  viewVisible: false
-});
+const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 
 const dataFormat = (name: string, cellValue: any, row: any): any => {
@@ -276,7 +266,7 @@ const addUsers = async () => {
  *
  */
 const menuAuthorityRef = ref();
-const systemSubmit=()=>{
+const systemSubmit = () => {
 
 }
 const submit = () => {

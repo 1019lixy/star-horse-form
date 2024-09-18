@@ -10,7 +10,8 @@
         <div class="clear-right-border" v-if="node.conditionNodes.length - 1 == index"></div>
         <div class="flow-row">
           <div class="flow-box">
-            <div class="flow-item flow-node-branch" :class="{ 'flow-item-active': currentNode.id==node.id }" @click="!readable && open(flowBranchSettingRef, conditionNode)">
+            <div class="flow-item flow-node-branch" :class="{ 'flow-item-active': currentNode.id==node.id }"
+                 @click="!readable && open(flowBranchSettingRef, conditionNode)">
               <div class="flow-node-box" :class="{ 'has-error': conditionNode.error }">
                 <div class="node-name">
                   <EditName v-model:nodeName="conditionNode.name"/>
@@ -28,9 +29,10 @@
                   <span v-else class="hint-title">配置筛选条件</span>
                 </div>
                 <!-- 错误提示 -->
-                <star-horse-icon v-if="conditionNode.error" icon-class="exclamation-circle" theme="filled" class="node-error"/>
+                <star-horse-icon v-if="conditionNode.error" icon-class="exclamation-circle" theme="filled"
+                                 class="node-error"/>
                 <div v-if="!readable && !conditionNode.deletable" class="close-icon">
-                  <star-horse-icon  iconClass="close" @click.stop="conditionNode.deletable = true"/>
+                  <star-horse-icon iconClass="close" @click.stop="conditionNode.deletable = true"/>
                 </div>
                 <!-- 删除提示 -->
                 <DeleteConfirm :node="conditionNode"/>
@@ -61,7 +63,7 @@ import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 
-const flowBranchSettingRef=ref();
+const flowBranchSettingRef = ref();
 const flowDesign = useFlowDesign(piniaInstance);
 let currentNode = computed(() => flowDesign.currentNode);
 const props = defineProps({

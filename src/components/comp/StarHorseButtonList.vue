@@ -140,7 +140,7 @@ defineExpose({
     <li v-if="permissions?.add&&!viewFlag&&checkSelfBtn('add')">
       <el-button @click="btnOperation('add')" title=""
                  style="background: var(--star-horse-style);color: var(--star-horse-white)" :size="compSize">
-        <star-horse-icon icon-class="plus" color="var(--star-horse-white)" />
+        <star-horse-icon icon-class="plus" color="var(--star-horse-white)"/>
         <el-tooltip content="新增">新增</el-tooltip>
       </el-button>
     </li>
@@ -159,7 +159,7 @@ defineExpose({
                     <el-button @click="sitem.exec!(sitem.btnName)" link title=""
                                style="background: var(--star-horse-style);color: var(--star-horse-white)"
                                :size="compSize">
-                      <star-horse-icon :icon-class="sitem.icon||'default'" />
+                      <star-horse-icon :icon-class="sitem.icon||'default'"/>
                       {{ sitem.labelName }}
                     </el-button>
                   </el-dropdown-item>
@@ -169,7 +169,7 @@ defineExpose({
           </template>
           <el-button v-else @click="item.exec!()" title=""
                      style="background: var(--star-horse-style);color: var(--star-horse-white)" :size="compSize">
-            <star-horse-icon :icon-class="item.icon||'default'" color="var(--star-horse-white)" />
+            <star-horse-icon :icon-class="item.icon||'default'" color="var(--star-horse-white)"/>
             <el-tooltip :content="item.labelName">{{ item.labelName }}</el-tooltip>
           </el-button>
         </li>
@@ -178,14 +178,14 @@ defineExpose({
     <li v-if="permissions?.download&&!viewFlag&&checkSelfBtn('download')">
       <el-button @click="downloadTemplate" title=""
                  style="background: var(--star-horse-style);color: var(--star-horse-white)" :size="compSize">
-        <star-horse-icon icon-class="download" color="var(--star-horse-white)" />
+        <star-horse-icon icon-class="download" color="var(--star-horse-white)"/>
         <el-tooltip content="下载模板">下载模板</el-tooltip>
       </el-button>
     </li>
     <li v-if="permissions?.execution&&checkSelfBtn('exec')">
       <el-button @click="tableCompFunc('exec')" title=""
                  style="background: var(--star-horse-style);color: var(--star-horse-white)" :size="compSize">
-        <star-horse-icon icon-class="run" color="var(--star-horse-white)" />
+        <star-horse-icon icon-class="run" color="var(--star-horse-white)"/>
         <el-tooltip content="执行">执行</el-tooltip>
       </el-button>
     </li>
@@ -205,7 +205,7 @@ defineExpose({
           name="file"
       >
         <el-button title="" style="background: var(--star-horse-style);color: var(--star-horse-white)" :size="compSize">
-          <star-horse-icon icon-class="excel-upload" color="var(--star-horse-white)" />
+          <star-horse-icon icon-class="excel-upload" color="var(--star-horse-white)"/>
           <el-tooltip content="导入">导入</el-tooltip>
         </el-button>
       </el-upload>
@@ -213,14 +213,14 @@ defineExpose({
     <li v-if="permissions?.export&&checkSelfBtn('exportData')">
       <el-button @click="tableCompFunc('exportData')" title=""
                  style="background: var(--star-horse-style);color: var(--star-horse-white)" :size="compSize">
-        <star-horse-icon icon-class="excel-export" color="var(--star-horse-white)" />
+        <star-horse-icon icon-class="excel-export" color="var(--star-horse-white)"/>
         <el-tooltip content="导出">导出</el-tooltip>
       </el-button>
       <help message="如果选择了数据，则按选择数据导出;没有选择数据，则根据查询条件导出" style="font-size: 16px"/>
     </li>
     <li v-if="permissions?.batchDelete&&!viewFlag&&checkSelfBtn('batch_delete')">
       <el-button @click="tableCompFunc('batch_delete')" title="" type="danger" :size="compSize">
-        <star-horse-icon icon-class="batch_delete1" color="var(--star-horse-white)" />
+        <star-horse-icon icon-class="batch_delete1" color="var(--star-horse-white)"/>
         <el-tooltip content="批量删除">批量删除</el-tooltip>
       </el-button>
     </li>
@@ -242,25 +242,25 @@ defineExpose({
               <el-menu-item :index="'3-'+ain+'-'+index" v-for="(sitem,index) in item.children"
                             @click="sitem.exec!(sitem.btnName)">
                 <star-horse-icon :icon-class="sitem.icon||'default'" style="color: var(--star-horse-style)"
-                                 />
+                />
                 {{ sitem.labelName }}
               </el-menu-item>
             </el-sub-menu>
           </template>
           <el-menu-item :index="'2-'+ain" v-else @click="item.exec!(item.btnName)">
-            <star-horse-icon :icon-class="item.icon||'default'" style="color: var(--star-horse-style)" />
+            <star-horse-icon :icon-class="item.icon||'default'" style="color: var(--star-horse-style)"/>
             {{ item.labelName }}
           </el-menu-item>
         </template>
       </template>
       <el-menu-item index="1-2" v-if="permissions?.download&&!viewFlag&&checkSelfBtn('download')"
                     @click="downloadTemplate">
-        <star-horse-icon icon-class="download" style="color: var(--star-horse-style)" />
+        <star-horse-icon icon-class="download" style="color: var(--star-horse-style)"/>
         下载模板
       </el-menu-item>
       <el-menu-item index="1-3" v-if="permissions?.execution&&checkSelfBtn('exec')"
                     @click="tableCompFunc('exec')">
-        <star-horse-icon icon-class="run" style="color: var(--star-horse-style)" />
+        <star-horse-icon icon-class="run" style="color: var(--star-horse-style)"/>
         执行
       </el-menu-item>
       <el-menu-item index="1-4" v-if="permissions?.upload&&!viewFlag&&checkSelfBtn('upload')">
@@ -279,13 +279,13 @@ defineExpose({
 
             name="file"
         >
-          <star-horse-icon icon-class="excel-upload" style="color: var(--star-horse-style)" />
+          <star-horse-icon icon-class="excel-upload" style="color: var(--star-horse-style)"/>
           导入
         </el-upload>
       </el-menu-item>
       <el-menu-item index="1-5" v-if="permissions?.export&&checkSelfBtn('exportData')"
                     @click="tableCompFunc('exportData')">
-        <star-horse-icon icon-class="excel-export" style="color: var(--star-horse-style)" />
+        <star-horse-icon icon-class="excel-export" style="color: var(--star-horse-style)"/>
         导出
         <help message="
         如果选择了数据，则按选择数据导出;
@@ -293,7 +293,7 @@ defineExpose({
       </el-menu-item>
       <el-menu-item index="1-6" v-if="permissions?.batchDelete&&!viewFlag&&checkSelfBtn('batch_delete')"
                     @click="tableCompFunc('batch_delete')">
-        <star-horse-icon icon-class="batch_delete1" style="color: var(--star-horse-style)" />
+        <star-horse-icon icon-class="batch_delete1" style="color: var(--star-horse-style)"/>
         批量删除
       </el-menu-item>
     </el-sub-menu>

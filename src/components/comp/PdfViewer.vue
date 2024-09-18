@@ -5,6 +5,7 @@
 <style scoped lang="scss">
 .container {
   position: relative;
+
   .operate {
     position: absolute;
     right: 0;

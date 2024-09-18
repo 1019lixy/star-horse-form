@@ -1,21 +1,22 @@
 <script setup lang="ts" name="Audit">
-import {apiInstance} from "@/api/sh_api.ts";
+import {apiInstance, dialogPreps} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings.ts";
-import {DialogProps} from "@/components/types/DialogProps"
 import {onMounted, provide, reactive, ref} from "vue";
 import {SearchFields} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 
-const dataUrl: ApiUrls =apiInstance("system-config","system/auditEntity");
+const dataUrl: ApiUrls = apiInstance("system-config", "system/auditEntity");
 const requestMethod = [{name: "POST", value: "POST"}, {name: "GET", value: "GET"},
   {name: "PUT", value: "PUT"}, {name: "DELETE", value: "DELETE"},];
-const searchFormData = reactive<SearchFields>({fieldList:[
-  {label: "请求方法", fieldName: "requestMethod", type: "select", optionList: requestMethod},
-  {label: "操作人", defaultShow: true, fieldName: "operator", type: "input", matchType: "lk"},
-  {label: "操作接口", defaultShow: true, fieldName: "signature", type: "input", matchType: "lk"},
-  {label: "接口地址", fieldName: "url", type: "input", matchType: "lk"},
-]});
+const searchFormData = reactive<SearchFields>({
+  fieldList: [
+    {label: "请求方法", fieldName: "requestMethod", type: "select", optionList: requestMethod},
+    {label: "操作人", defaultShow: true, fieldName: "operator", type: "input", matchType: "lk"},
+    {label: "操作接口", defaultShow: true, fieldName: "signature", type: "input", matchType: "lk"},
+    {label: "接口地址", fieldName: "url", type: "input", matchType: "lk"},
+  ]
+});
 const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
@@ -87,15 +88,7 @@ const tableFieldList = reactive<PageFieldInfo>({
 const primaryKey = "idAudit";
 const auditRef = ref();
 const rules = {};
-const dialogProps = reactive<DialogProps>({
-  ids: 0,
-  batchDialogTitle: "批量编辑",
-  dialogTitle: "编辑",
-  batchEditVisible: false,
-  editVisible: false,
-  uploadVisible: false,
-  viewVisible: false,
-});
+const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 
 const dataFormat = (_name: string, cellValue: object): any => {
@@ -124,12 +117,12 @@ onMounted(async () => {
       <star-horse-search-comp @searchData="(data:any)=>auditRef.createSearchParams(data)" :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr>
-      <star-horse-button-list  @tableCompFunc="(fun:any)=>auditRef.tableCompFunc(fun)"
+      <star-horse-button-list @tableCompFunc="(fun:any)=>auditRef.tableCompFunc(fun)"
                               :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
     <hr>
-    <star-horse-table-comp  ref="auditRef" :fieldList="tableFieldList"
+    <star-horse-table-comp ref="auditRef" :fieldList="tableFieldList"
                            :primaryKey="primaryKey" :compUrl="dataUrl"
                            :dataFormat="dataFormat"/>
   </el-card>

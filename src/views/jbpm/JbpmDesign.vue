@@ -1,6 +1,5 @@
 <script setup lang="ts" name="JbpmDesign">
 import {flowTemplate} from "@/views/jbpm/utils/template.ts";
-import {xmlStr} from "@/views/jbpm/utils/xml";
 import JbpmHeader from "@/views/jbpm/JbpmHeader.vue";
 import JbpmPropertyPanel from "@/views/jbpm/panel/JbpmPropertyPanel.vue";
 import 'bpmn-js/dist/assets/diagram-js.css';

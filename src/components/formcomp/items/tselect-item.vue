@@ -1,5 +1,6 @@
 <template>
-  <starhorse-form-item :isDesign="context.attrs['isDesign']" :bareFlag="context.attrs['bareFlag']" :form-item="field" :parentField="parentField"
+  <starhorse-form-item :isDesign="context.attrs['isDesign']" :bareFlag="context.attrs['bareFlag']" :form-item="field"
+                       :parentField="parentField"
   >
     <el-tree-select
         :fid="field.preps['name']"
@@ -103,7 +104,7 @@ export default defineComponent({
         keyEnterFun(actionName.value);
       }
     });
-    return {parentField,  context, field, formItem, dataField, keyEnterFun, actionName}
+    return {parentField, context, field, formItem, dataField, keyEnterFun, actionName}
   }
 });
 </script>

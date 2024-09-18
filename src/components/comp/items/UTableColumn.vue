@@ -3,7 +3,7 @@ import {Config} from "@/api/settings.ts";
 import {batchFieldDefaultValues} from "@/api/sh_api.ts";
 
 defineProps({
-  item:{type:Object,required:true},
+  item: {type: Object, required: true},
   rules: {type: Object},
   staticColumn: {type: String, default: "N"},
   size: {type: String, default: "default"},

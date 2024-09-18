@@ -1,7 +1,8 @@
 <template>
   <span class="node-name-title">
     <span v-if="!isInput" @click.stop="clickEvent()">{{ dataValue }}</span>
-    <el-input v-if="isInput" type="text" @blur="blurEvent()" @focus="$event.target.select()" autofocus v-model="dataValue" :style="{ width: width }"/>
+    <el-input v-if="isInput" type="text" @blur="blurEvent()" @focus="$event.target.select()" autofocus
+              v-model="dataValue" :style="{ width: width }"/>
   </span>
 </template>
 <script setup lang="ts">

@@ -4,7 +4,7 @@ import {PropType, ref} from "vue";
 import DytableCol from "@/components/formcomp/container/dytable-col.vue";
 
 let containerTableRef = ref(); // 强制刷新表格
-const props = defineProps({
+defineProps({
   parentField: {type: String},
   formInfo: {type: Object as PropType<any>},
   formData: {type: Object as PropType<any>},

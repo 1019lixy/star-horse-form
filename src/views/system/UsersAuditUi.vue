@@ -1,21 +1,22 @@
 <script setup lang="ts" name="UsersAudit">
-import {apiInstance} from "@/api/sh_api.ts";
+import {apiInstance, dialogPreps} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings.ts";
-import {DialogProps} from "@/components/types/DialogProps"
 import {onMounted, provide, reactive, ref} from "vue";
 import {SearchFields} from "@/components/types/SearchProps";
 
-const dataUrl: ApiUrls =apiInstance("system-config","system/usersAudit");
-const searchFormData = reactive<SearchFields>({fieldList:[
+const dataUrl: ApiUrls = apiInstance("system-config", "system/usersAudit");
+const searchFormData = reactive<SearchFields>({
+  fieldList: [
     {label: "主键", fieldName: "idUsersAudit", type: "long"},
-  {label: "主键", fieldName: "idUserinfo", type: "long"},
-  {label: "密码", fieldName: "password", type: "input"},
-  {label: "生效日期", fieldName: "effectiveDate", type: "date"},
-  {label: "失效日期", fieldName: "expiredDate", type: "date"},
-  {label: "备注", fieldName: "remark", type: "input"},
-  {label: "数据类型", fieldName: "dataType", type: "number"},
-]});
+    {label: "主键", fieldName: "idUserinfo", type: "long"},
+    {label: "密码", fieldName: "password", type: "input"},
+    {label: "生效日期", fieldName: "effectiveDate", type: "date"},
+    {label: "失效日期", fieldName: "expiredDate", type: "date"},
+    {label: "备注", fieldName: "remark", type: "input"},
+    {label: "数据类型", fieldName: "dataType", type: "number"},
+  ]
+});
 const tableFieldList = reactive({
   fieldList: [
     {
@@ -89,17 +90,7 @@ const tableFieldList = reactive({
 const primaryKey = "idUsersAudit";
 const usersAuditRef = ref();
 const rules = {};
-const dialogProps = reactive<DialogProps>({
-  bakeVisible1: false, bakeVisible2: false, bakeVisible3: false,
-  ids: 0,
-  batchDialogTitle: "批量编辑",
-  dialogTitle: "编辑",
-  batchEditVisible: false,
-  editVisible: false,
-  uploadVisible: false,
-  viewVisible: false,
-  dialogPwdVisible: false
-});
+const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 const dataFormat = (name: string, cellValue: object): any => {
   return cellValue;
@@ -108,14 +99,14 @@ const initData = async () => {
 
 };
 onMounted(async () => {
- await initData();
+  await initData();
 });
 </script>
 <style lang="scss" scoped>
 </style>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form  @refresh="usersAuditRef.loadByPage()" :compUrl="dataUrl"
+    <star-horse-form @refresh="usersAuditRef.loadByPage()" :compUrl="dataUrl"
                      :fieldList="tableFieldList"
                      :rules="rules"/>
   </star-horse-dialog>
@@ -125,14 +116,15 @@ onMounted(async () => {
   </star-horse-dialog>
   <el-card class="inner_content">
     <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
-      <star-horse-search-comp @searchData="(data:any)=>usersAuditRef.createSearchParams(data)" :formData="searchFormData"
+      <star-horse-search-comp @searchData="(data:any)=>usersAuditRef.createSearchParams(data)"
+                              :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
-      <star-horse-button-list   @tableCompFunc="(fun:any)=>usersAuditRef.tableCompFunc(fun)" :compUrl="dataUrl"
+      <star-horse-button-list @tableCompFunc="(fun:any)=>usersAuditRef.tableCompFunc(fun)" :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
     <hr>
-    <star-horse-table-comp    ref="usersAuditRef" :fieldList="tableFieldList" :primaryKey="primaryKey" :compUrl="dataUrl"
+    <star-horse-table-comp ref="usersAuditRef" :fieldList="tableFieldList" :primaryKey="primaryKey" :compUrl="dataUrl"
                            :dataFormat="dataFormat"/>
   </el-card>
 </template>

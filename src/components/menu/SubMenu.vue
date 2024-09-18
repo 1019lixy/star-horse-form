@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import {computed} from "vue";
 
-const props=defineProps({
+const props = defineProps({
   dataList: {type: Array<any>, required: true},
   level: {type: Number, default: 1}
 });
-let menuColor=computed(()=>props.level>1?"var(--star-horse-shadow)":"var(--star-horse-background)");
+let menuColor = computed(() => props.level > 1 ? "var(--star-horse-shadow)" : "var(--star-horse-background)");
 </script>
 <template>
   <div v-if="level>1" style="height: 2px ;background: var(--star-horse-white)"></div>

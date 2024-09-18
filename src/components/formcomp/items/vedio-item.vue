@@ -1,5 +1,6 @@
 <template>
-  <starhorse-form-item :isDesign="context.attrs['isDesign']" :bareFlag="context.attrs['bareFlag']" :form-item="field" :parentField="parentField"
+  <starhorse-form-item :isDesign="context.attrs['isDesign']" :bareFlag="context.attrs['bareFlag']" :form-item="field"
+                       :parentField="parentField"
   >
     <div class="mainContainer">
       <div class="video-container">
@@ -85,7 +86,7 @@ export default defineComponent({
     const seekto = () => {
       player.value.currentTime = parseFloat(seekpoint.value);
     };
-    const getCfg = (key:string, def:any) => {
+    const getCfg = (key: string, def: any) => {
       try {
         let ret = localStorage.getItem('vedio-item.' + key);
         if (ret === null) {
@@ -96,7 +97,7 @@ export default defineComponent({
       }
       return def;
     };
-    const setCfg = (key:string, value:any) => {
+    const setCfg = (key: string, value: any) => {
       try {
         localStorage.setItem('vedio-item.' + key, value);
       } catch (e) {
@@ -109,7 +110,7 @@ export default defineComponent({
       load();
     });
     return {
-      parentField,  context, field, formItem, dataField, keyEnterFun, seekpoint,
+      parentField, context, field, formItem, dataField, keyEnterFun, seekpoint,
       saveSettings, load, start, pause, destroy, seekto
     }
   }
@@ -122,16 +123,19 @@ export default defineComponent({
   margin-left: auto;
   margin-right: auto;
 }
+
 .video-container {
   position: relative;
   margin-top: 8px;
 }
+
 .video-container:before {
   display: block;
   content: "";
   width: 100%;
   padding-bottom: 56.25%;
 }
+
 .video-container > div {
   position: absolute;
   top: 0;
@@ -139,10 +143,12 @@ export default defineComponent({
   right: 0;
   bottom: 0;
 }
+
 .video-container video {
   width: 100%;
   height: 100%;
 }
+
 .urlInput {
   display: block;
   width: 100%;
@@ -151,6 +157,7 @@ export default defineComponent({
   margin-top: 8px;
   margin-bottom: 8px;
 }
+
 .centeredVideo {
   display: block;
   width: 100%;
@@ -159,6 +166,7 @@ export default defineComponent({
   margin-right: auto;
   margin-bottom: auto;
 }
+
 .controls {
   display: block;
   width: 100%;
@@ -168,6 +176,7 @@ export default defineComponent({
   margin-top: 8px;
   margin-bottom: 10px;
 }
+
 .logcatBox {
   border-color: #CCCCCC;
   font-size: 11px;
@@ -178,26 +187,33 @@ export default defineComponent({
   margin-left: auto;
   margin-right: auto;
 }
+
 .url-input, .options {
   font-size: 13px;
 }
+
 .url-input {
   display: flex;
 }
+
 .url-input label {
   flex: initial;
 }
+
 .url-input input {
   flex: auto;
   margin-left: 8px;
 }
+
 .url-input button {
   flex: initial;
   margin-left: 8px;
 }
+
 .options {
   margin-top: 5px;
 }
+
 .hidden {
   display: none;
 }

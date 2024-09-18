@@ -1,17 +1,18 @@
 <script setup lang="ts" name="ContinusInstanceUi">
-import {apiInstance} from "@/api/sh_api.ts";
+import {apiInstance, dialogPreps} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {onMounted, provide, reactive, ref} from "vue";
 import {SearchFields} from "@/components/types/SearchProps.d.ts";
 import {Config} from "@/api/settings.ts";
-import {CompParams} from "@/components/types/PageFieldInfo";
 
-const dataUrl: ApiUrls =apiInstance("devops-continus","continus/continusInstance") ;
-const searchFormData = reactive<SearchFields>({fieldList:[
-  {label: "项目名称", fieldName: "projectName", type: "input", matchType: "lk", defaultShow: true},
-  {label: "项目类型", fieldName: "projectType", type: "input", matchType: "lk", defaultShow: true},
-  {label: "程序语言", fieldName: "language", type: "input", matchType: "lk", defaultShow: true},
-]});
+const dataUrl: ApiUrls = apiInstance("devops-continus", "continus/continusInstance");
+const searchFormData = reactive<SearchFields>({
+  fieldList: [
+    {label: "项目名称", fieldName: "projectName", type: "input", matchType: "lk", defaultShow: true},
+    {label: "项目类型", fieldName: "projectType", type: "input", matchType: "lk", defaultShow: true},
+    {label: "程序语言", fieldName: "language", type: "input", matchType: "lk", defaultShow: true},
+  ]
+});
 const tableFieldList = reactive({
   fieldList: [
     {
@@ -91,19 +92,10 @@ const tableFieldList = reactive({
 const primaryKey = "idContinusInst";
 const environmentInfoRef = ref();
 const rules = {};
-const dialogProps = reactive<CompParams>({
-  bakeVisible1: false, bakeVisible2: false, bakeVisible3: false,
-  ids: 0,
-  batchDialogTitle: "批量编辑",
-  dialogTitle: "编辑",
-  batchEditVisible: false,
-  editVisible: false,
-  uploadVisible: false,
-  viewVisible: false,
-});
+const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 
-const selectItemFun=(data:any)=>{
+const selectItemFun = (data: any) => {
 
 }
 const dataFormat = (name: string, cellValue: object): any => {
@@ -118,7 +110,7 @@ onMounted(async () => {
 </script>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form  @refresh="environmentInfoRef.loadByPage()" :compUrl="dataUrl"
+    <star-horse-form @refresh="environmentInfoRef.loadByPage()" :compUrl="dataUrl"
                      :fieldList="tableFieldList"
                      :rules="rules"/>
   </star-horse-dialog>
@@ -133,10 +125,10 @@ onMounted(async () => {
                               :compUrl="dataUrl"/>
       <hr/>
       <star-horse-button-list
-                              @tableCompFunc="(fun:any)=>environmentInfoRef.tableCompFunc(fun)" :compUrl="dataUrl"
-                              :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
+          @tableCompFunc="(fun:any)=>environmentInfoRef.tableCompFunc(fun)" :compUrl="dataUrl"
+          :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
-    <star-horse-table-comp  ref="environmentInfoRef" :fieldList="tableFieldList"
+    <star-horse-table-comp ref="environmentInfoRef" :fieldList="tableFieldList"
                            :primaryKey="primaryKey"
                            :compUrl="dataUrl"
                            :dataFormat="dataFormat" @selectItem="selectItemFun"/>

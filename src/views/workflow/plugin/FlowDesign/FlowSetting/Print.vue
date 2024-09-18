@@ -13,7 +13,7 @@
               自定义打印模板
             </el-radio>
           </el-radio-group>
-           <div class="flow-block-tabContent">
+          <div class="flow-block-tabContent">
             <div class="flow-block-defaultTab">
               <div class="flow-block-defaultTpl">
                 <span class="flow-block-var">提交人</span>
@@ -32,6 +32,6 @@
 import {flowMixin} from '@/views/workflow/plugin/mixins/flowMixin';
 import {ref} from "vue";
 
-let radioGroup=ref<number>(0);
+let radioGroup = ref<number>(0);
 </script>
 <style lang=“scss”></style>

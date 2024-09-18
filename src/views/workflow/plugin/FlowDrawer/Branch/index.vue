@@ -12,8 +12,8 @@
   >
     <template #header>
       <div class="drawer-header">
-      <img :src="flowMixin.branchIcon2" class="anticon"/>
-      <span class="flow-drawer-title">
+        <img :src="flowMixin.branchIcon2" class="anticon"/>
+        <span class="flow-drawer-title">
         <EditName v-model:nodeName="node.name"/>
       </span>
       </div>
@@ -22,8 +22,9 @@
       <div class="flow-setting-content">
         <div v-if="node.attr.showPriorityLevel" class="flow-setting-item">
           <p class="flow-setting-item-title">分支等级</p>
-          <el-select v-model="node.attr.priorityLevel" :size="flowMixin.size" placeholder="请选择等级" :options="levelOptions"
-                    class="w-fill"></el-select>
+          <el-select v-model="node.attr.priorityLevel" :size="flowMixin.size" placeholder="请选择等级"
+                     :options="levelOptions"
+                     class="w-fill"></el-select>
         </div>
         <div class="flow-setting-item">
           <p class="flow-setting-item-title">分支类型</p>
@@ -39,8 +40,9 @@
             <div v-for="(group, i) in node.conditionGroup" :key="i">
               <div class="flow-setting-condition-group">
                 <div class="flow-setting-condition-item" v-for="(condition, k) in group.conditions" :key="k">
-                  <el-select v-model="condition.columnValue" :size="flowMixin.size" style="width: 40%" placeholder="字段"
-                            @change="handleChange">
+                  <el-select v-model="condition.columnValue" :size="flowMixin.size" style="width: 40%"
+                             placeholder="字段"
+                             @change="handleChange">
                     <el-option-group label="基础字段">
                       <el-option :value="column.value" v-for="(column, i) in columns" :key="i">{{
                           column.label
@@ -307,12 +309,12 @@ const onSave = () => {
   } else {
     content += '任意(其他)';
   }
-  flowDesign.flowUpdateNode( {currNode: node.value, field: 'content', value: null});
-  flowDesign.flowUpdateNode(  {currNode: node.value, field: 'error', value: true});
+  flowDesign.flowUpdateNode({currNode: node.value, field: 'content', value: null});
+  flowDesign.flowUpdateNode({currNode: node.value, field: 'error', value: true});
   if (content) {
     console.info('content', content);
-    flowDesign.flowUpdateNode(  {currNode: node.value, field: 'error', value: false});
-    flowDesign.flowUpdateNode(  {currNode: node.value, field: 'content', value: content});
+    flowDesign.flowUpdateNode({currNode: node.value, field: 'error', value: false});
+    flowDesign.flowUpdateNode({currNode: node.value, field: 'content', value: content});
     onClose();
   }
 }

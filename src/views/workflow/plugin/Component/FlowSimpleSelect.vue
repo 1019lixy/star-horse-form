@@ -1,5 +1,6 @@
 <template>
-  <el-select v-model="currentValue" :size="size" allowClear class="w-fill" :placeholder="placeholder" @change="onChange">
+  <el-select v-model="currentValue" :size="size" allowClear class="w-fill" :placeholder="placeholder"
+             @change="onChange">
     <el-option :value="data[valueName]" v-for="(data, i) in datas" :key="i">
       {{ data[labelName] }}
     </el-option>
@@ -8,7 +9,7 @@
 <script setup lang="ts">
 import {onMounted, ref, watch} from "vue";
 
-const props=defineProps({
+const props = defineProps({
   datas: {
     type: Array,
     required: false,
@@ -41,9 +42,9 @@ const props=defineProps({
   },
 });
 const emits = defineEmits(["input", "update:name", "change"]);
-let currentValue = ref<any>( null);
+let currentValue = ref<any>(null);
 const initData = (value) => {
-  if (value ) {
+  if (value) {
     currentValue.value = value;
   } else {
     currentValue.value = null;

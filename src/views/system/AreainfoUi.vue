@@ -1,11 +1,11 @@
 <script setup lang="ts" name="Areainfo">
 import {ApiUrls} from "@/components/types/ApiUrls";
-import {apiInstance} from "@/api/sh_api.ts";
+import {apiInstance, dialogPreps} from "@/api/sh_api.ts";
 import {Config} from "@/api/settings.ts";
-import {DialogProps} from "@/components/types/DialogProps"
 import {onMounted, provide, reactive, ref} from "vue";
 import {SearchFields} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
+import {commonField} from "@/api/system.ts";
 
 const dataUrl: ApiUrls = apiInstance("system-config", "system/areainfo");
 const searchFormData = reactive<SearchFields>({
@@ -34,53 +34,14 @@ const tableFieldList = reactive<PageFieldInfo>({
       formShow: true,
       tableShow: true
     },
-
-    {
-      label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
-    },
-    {
-      label: "修改人", disabled: "Y", fieldName: "updatedBy", type: "input",
-    },
-    {
-      label: "创建日期", disabled: "Y", fieldName: "createdDate", type: "date",
-    },
-    {
-      label: "修改日期", disabled: "Y", fieldName: "updatedDate", type: "date",
-    },
-    {
-      label: "数据版本号", fieldName: "version", type: "number",
-    },
-    {
-      label: "是否已逻辑", fieldName: "isDel", type: "number",
-    },
-    {
-      label: "数据编号", fieldName: "dataNo", type: "input",
-    },
-    {
-      label: "状态码", fieldName: "statusCode", type: "input",
-    },
-    {
-      label: "状态码名称", fieldName: "statusName", type: "input",
-    },
-    {
-      label: "国际码", fieldName: "local", type: "input",
-    },
+    ...commonField()
   ],
   batchFieldList: []
 });
 const primaryKey = "idAreainfo";
 const areainfoRef = ref();
 const rules = {};
-const dialogProps = reactive<DialogProps>({
-  bakeVisible1: false, bakeVisible2: false, bakeVisible3: false,
-  ids: 0,
-  batchDialogTitle: "批量编辑",
-  dialogTitle: "编辑",
-  batchEditVisible: false,
-  editVisible: false,
-  uploadVisible: false,
-  viewVisible: false,
-});
+const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 
 const dataFormat = (_name: string, cellValue: object): any => {

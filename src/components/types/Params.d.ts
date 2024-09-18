@@ -21,6 +21,7 @@ declare export interface SearchParams {
      */
     orOperList?: SearchParams[]
 }
+
 /**
  * 查询对象
  */

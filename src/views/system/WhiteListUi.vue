@@ -2,18 +2,19 @@
 import {apiInstance} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings.ts";
-import {DialogProps} from "@/components/types/DialogProps"
 import {onMounted, provide, reactive, ref} from "vue";
 import {SearchFields} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {dictData} from "@/api/sh_api";
 
-const dataUrl: ApiUrls =apiInstance("system-config","system/whiteList");
+const dataUrl: ApiUrls = apiInstance("system-config", "system/whiteList");
 let typeList = ref({});
-const searchFormData = reactive<SearchFields>({fieldList:[
-  {label: "过滤类型", fieldName: "whiteType", defaultShow: true, type: "select", optionList: typeList},
-  {label: "过滤内容", fieldName: "whiteName", defaultShow: true, type: "input", matchType: "lk"},
-]});
+const searchFormData = reactive<SearchFields>({
+  fieldList: [
+    {label: "过滤类型", fieldName: "whiteType", defaultShow: true, type: "select", optionList: typeList},
+    {label: "过滤内容", fieldName: "whiteName", defaultShow: true, type: "input", matchType: "lk"},
+  ]
+});
 const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
@@ -74,16 +75,7 @@ const tableFieldList = reactive<PageFieldInfo>({
 const primaryKey = "idWhiteList";
 const whiteListRef = ref();
 const rules = {};
-const dialogProps = reactive<DialogProps>({
-  ids: 0,
-  batchDialogTitle: "批量编辑",
-  dialogTitle: "编辑",
-  batchEditVisible: false,
-  editVisible: false,
-  uploadVisible: false,
-  viewVisible: false,
-  dialogPwdVisible: false
-});
+const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 
 const dataFormat = (name: string, cellValue: object): any => {
@@ -102,7 +94,7 @@ onMounted(async () => {
 </style>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form  @refresh="whiteListRef.loadByPage()" :compUrl="dataUrl"
+    <star-horse-form @refresh="whiteListRef.loadByPage()" :compUrl="dataUrl"
                      :fieldList="tableFieldList"
                      :rules="rules"/>
   </star-horse-dialog>
@@ -115,12 +107,12 @@ onMounted(async () => {
       <star-horse-search-comp @searchData="(data:any)=>whiteListRef.createSearchParams(data)" :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
-      <star-horse-button-list  @tableCompFunc="(fun:any)=>whiteListRef.tableCompFunc(fun)"
+      <star-horse-button-list @tableCompFunc="(fun:any)=>whiteListRef.tableCompFunc(fun)"
                               :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
     <hr>
-    <star-horse-table-comp  ref="whiteListRef" :fieldList="tableFieldList"
+    <star-horse-table-comp ref="whiteListRef" :fieldList="tableFieldList"
                            :primaryKey="primaryKey" :compUrl="dataUrl"
                            :dataFormat="dataFormat"/>
   </el-card>

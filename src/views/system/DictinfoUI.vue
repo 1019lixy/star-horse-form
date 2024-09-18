@@ -1,8 +1,7 @@
 <script setup lang="ts" name="Statusinfo">
-import {apiInstance} from "@/api/sh_api.ts";
+import {apiInstance, dialogPreps} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings.ts";
-import {DialogProps} from "@/components/types/DialogProps"
 import {computed, onMounted, provide, reactive, ref, watch} from "vue";
 import {SearchFields, SelectOption} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
@@ -11,7 +10,7 @@ import {createCondition} from "@/api/sh_api";
 
 const tabListRef = ref();
 const dictSearchRef = ref();
-const dataUrl: ApiUrls =apiInstance("system-config","system/dictinfoEntity");
+const dataUrl: ApiUrls = apiInstance("system-config", "system/dictinfoEntity");
 const commonDictList = ref<SelectOption[]>([]);
 const props = defineProps({
   dictType: {type: String, required: true}
@@ -108,16 +107,7 @@ watch(
       deep: true
     }
 );
-const dialogProps = reactive<DialogProps>({
-  bakeVisible1: false, bakeVisible2: false, bakeVisible3: false,
-  ids: 0,
-  batchDialogTitle: "批量编辑",
-  dialogTitle: "编辑",
-  batchEditVisible: false,
-  editVisible: false,
-  uploadVisible: false,
-  viewVisible: false
-});
+const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 
 const dataFormat = (_name: string, cellValue: object): any => {
@@ -147,12 +137,12 @@ onMounted(async () => {
                               :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
-      <star-horse-button-list  @tableCompFunc="(fun:any)=>tabListRef.tableCompFunc(fun)"
+      <star-horse-button-list @tableCompFunc="(fun:any)=>tabListRef.tableCompFunc(fun)"
                               :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
     <hr>
-    <star-horse-table-comp  ref="tabListRef" :fieldList="tableFieldList"
+    <star-horse-table-comp ref="tabListRef" :fieldList="tableFieldList"
                            :primaryKey="primaryKey"
                            :compUrl="dataUrl" :dataFormat="dataFormat"/>
   </el-card>

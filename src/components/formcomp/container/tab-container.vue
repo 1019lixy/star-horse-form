@@ -10,7 +10,7 @@ const props = defineProps({
   field: {type: Object as PropType<any>},
 });
 let designForm = DesignForm(piniaInstance);
-let containerType: Array<string> = ["tab", "box", "table","card", "dytable", "collapse"];
+let containerType: Array<string> = ["tab", "box", "table", "card", "dytable", "collapse"];
 const getComponentName = (data: any) => {
   return containerType.includes(data.itemType) ? data.itemType + '-container' : data.itemType + '-item'
 };
@@ -101,7 +101,7 @@ const addTab = () => {
                     :is="getComponentName(data)"
                     :parentField="field"
                     :formData="formData"
-                   />
+                />
               </div>
             </template>
           </draggable>

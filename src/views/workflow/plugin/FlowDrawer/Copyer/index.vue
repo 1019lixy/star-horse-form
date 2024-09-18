@@ -12,8 +12,8 @@
   >
     <template #header>
       <div class="drawer-header">
-      <img :src="flowMixin.ccIcon" class="anticon"/>
-      <span class="flow-drawer-title">
+        <img :src="flowMixin.ccIcon" class="anticon"/>
+        <span class="flow-drawer-title">
         <EditName v-model:nodeName="node.name"/>
       </span>
       </div>
@@ -234,10 +234,10 @@ const onSave = () => {
   }
   if (content) {
     flowDesign.flowUpdateNode({currNode: node.value, field: 'content', value: content});
-    flowDesign.flowUpdateNode( {currNode: node.value, field: 'error', value: false});
+    flowDesign.flowUpdateNode({currNode: node.value, field: 'error', value: false});
   } else {
-    flowDesign.flowUpdateNode( {currNode: node.value, field: 'content', value: null});
-    flowDesign.flowUpdateNode( {currNode: node.value, field: 'error', value: true});
+    flowDesign.flowUpdateNode({currNode: node.value, field: 'content', value: null});
+    flowDesign.flowUpdateNode({currNode: node.value, field: 'error', value: true});
   }
   onClose();
 }

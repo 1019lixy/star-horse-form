@@ -17,8 +17,8 @@ const pops = defineProps({
     },
   },
 });
-const emits=defineEmits(["callback"]);
-const callback=()=>{
+const emits = defineEmits(["callback"]);
+const callback = () => {
   emits("callback");
 }
 

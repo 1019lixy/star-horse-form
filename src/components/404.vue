@@ -165,7 +165,7 @@ const backFun = () => {
   width: 70px;
   line-height: 35px;
   height: 35px;
-   padding-left: 15px;
+  padding-left: 15px;
   font-weight: bold;
   border-radius: 3px;
   color: var(--star-horse-white);
@@ -179,19 +179,21 @@ const backFun = () => {
     content: "Go Back";
   }
 }
-.main-copyright{
+
+.main-copyright {
   position: absolute;
   bottom: 0;
   padding: 0;
   margin: 0;
 }
-:deep(.el-card__body){
+
+:deep(.el-card__body) {
   margin: unset !important;
 }
 </style>
 <template>
   <el-card class="inner_content">
-    <div class="stage" >
+    <div class="stage">
       <div class="layer"></div>
       <div class="layer"></div>
       <div class="layer"></div>

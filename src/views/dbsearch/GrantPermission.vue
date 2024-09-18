@@ -1,7 +1,6 @@
 <script setup lang="ts" name="DbAssign">
-import {apiInstance} from "@/api/sh_api.ts";
+import {apiInstance, dialogPreps} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
-import {DialogProps} from "@/components/types/DialogProps"
 import {onMounted, provide, reactive, ref} from "vue";
 import {SearchFields, SelectOption} from "@/components/types/SearchProps";
 import {commonParseCodeToName, createDatetime, loadData} from "@/api/sh_api";
@@ -14,7 +13,7 @@ const assignTypeRef = ref(null);
 let userOrRoleList = ref<SelectOption[]>([]);
 let dbList = ref<SelectOption[]>([]);
 let sqlLangs = ref([]);
-const dataUrl: ApiUrls =apiInstance("dbsearch-manage","dbsearch/dbAssign");
+const dataUrl: ApiUrls = apiInstance("dbsearch-manage", "dbsearch/dbAssign");
 
 
 const searchFormData = reactive<SearchFields>({
@@ -54,9 +53,7 @@ const tableFieldList = reactive({
       label: "授权生效日期", fieldName: "effectiveDate", type: "date",
       required: true, formShow: true,
       tableShow: true,
-      preps:{
-
-      }
+      preps: {}
     },
       {
         label: "授权失效日期", fieldName: "expiredDate", type: "date",
@@ -114,41 +111,32 @@ const tableFieldList = reactive({
 const primaryKey = "idDbAssign";
 const grantPermissionRef = ref();
 const rules = {};
-const dialogProps = reactive<DialogProps>({
-  bakeVisible1: false, bakeVisible2: false, bakeVisible3: false,
-  ids: 0,
-  batchDialogTitle: "批量编辑",
-  dialogTitle: "编辑",
-  batchEditVisible: false,
-  editVisible: false,
-  uploadVisible: false,
-  viewVisible: false,
-});
+const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 
 const searchUserOrRole = (val: any) => {
   let type = val["assignType"];
   if (!type) {
-   // warning("请先选择授权类型");
+    // warning("请先选择授权类型");
     return;
   }
-  params.value.condition=[{"propertyName": "isDel", "value": 0},
+  params.value.condition = [{"propertyName": "isDel", "value": 0},
     {"propertyName": "statusCode", "value": "1"}];
-  if(type==1){
+  if (type == 1) {
     params.value.fieldList = [{
       label: "用户名",
       fieldName: "username",
-      type:"input",
+      type: "input",
       tableShow: true,
     }, {
       label: "姓名",
       fieldName: "name",
-      type:"input",
+      type: "input",
       tableShow: true,
     }, {
       label: "工号",
       fieldName: "employeeNo",
-      type:"input",
+      type: "input",
       tableShow: true,
     }];
     params.value.needField = [
@@ -158,20 +146,20 @@ const searchUserOrRole = (val: any) => {
       loadByPageUrl: "/system-config/system/usersinfoEntity/pageList"
     };
     params.value.primaryKey = "idUsersinfo";
-  }else{
+  } else {
     params.value.fieldList = [{
       label: "角色名称",
       fieldName: "roleName",
-      type:"input",
+      type: "input",
       tableShow: true,
     }, {
       label: "角色编码",
-      type:"input",
+      type: "input",
       fieldName: "roleCode",
       tableShow: true,
     }, {
       label: "角色类型",
-      type:"input",
+      type: "input",
       fieldName: "roleType",
       tableShow: true,
     }];
@@ -235,10 +223,10 @@ onMounted(() => {
                               :compUrl="dataUrl"/>
       <hr/>
       <star-horse-button-list
-                              @tableCompFunc="(fun:any)=>grantPermissionRef.tableCompFunc(fun)" :compUrl="dataUrl"
-                              :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
+          @tableCompFunc="(fun:any)=>grantPermissionRef.tableCompFunc(fun)" :compUrl="dataUrl"
+          :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
-    <star-horse-table-comp  ref="grantPermissionRef" :fieldList="tableFieldList"
+    <star-horse-table-comp ref="grantPermissionRef" :fieldList="tableFieldList"
                            :primaryKey="primaryKey" :compUrl=
                                "dataUrl"
                            :dataFormat="dataFormat"/>

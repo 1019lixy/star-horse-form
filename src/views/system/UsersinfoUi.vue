@@ -1,8 +1,7 @@
 <script setup lang="ts" name="Usersinfo">
-import {apiInstance} from "@/api/sh_api.ts";
+import {apiInstance, dialogPreps} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings.ts";
-import {DialogProps} from "@/components/types/DialogProps"
 import {computed, nextTick, onMounted, provide, reactive, ref} from "vue";
 import {SearchFields} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
@@ -11,7 +10,6 @@ import {analysisData} from "@/api/deptment";
 import {ElTreeV2} from "element-plus";
 import {TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
 import {SearchParams} from "@/components/types/Params";
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {postRequest, trim} from "@/api/star_horse.ts";
 import {success, warning} from "@/utils/message.ts";
 import {baseUserFields, deptList, initSelectData, rolesList, sexList} from "@/views/system/utils/UserFields.ts";
@@ -22,7 +20,7 @@ const props = defineProps({
   viewRolesinfoId: {type: String},
   disableAction: {type: Boolean, default: false}
 });
-const dataUrl: ApiUrls =apiInstance("system-config","system/usersinfoEntity");
+const dataUrl: ApiUrls = apiInstance("system-config", "system/usersinfoEntity");
 const usersinfoTableListRef = ref();
 const searchFormData = reactive<SearchFields>({
   fieldList: [
@@ -103,16 +101,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 });
 const primaryKey = "idUsersinfo";
 const rules = {};
-const dialogProps = reactive<DialogProps>({
-  bakeVisible1: false, bakeVisible2: false, bakeVisible3: false,
-  ids: 0,
-  batchDialogTitle: "批量编辑",
-  dialogTitle: "编辑",
-  batchEditVisible: false,
-  editVisible: false,
-  uploadVisible: false,
-  viewVisible: false
-});
+const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 
 const dataFormat = (name: string, cellValue: any, row: any): any => {
@@ -158,7 +147,7 @@ const checkChange = (data: TreeNodeData, checked: boolean) => {
   let conditions: Array<SearchParams> = [];
   console.log(data);
 
-    conditions.push(createCondition("c.idDepartment", data.idDepartment));
+  conditions.push(createCondition("c.idDepartment", data.idDepartment));
   // menuTableListRef.value.setDataInfo(conditions, null);
   usersinfoTableListRef.value.createSearchParams(conditions);
 };

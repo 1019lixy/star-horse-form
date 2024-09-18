@@ -1,15 +1,14 @@
 <script setup lang="ts" name="DictinfoType">
-import {apiInstance} from "@/api/sh_api.ts";
+import {apiInstance, dialogPreps} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings.ts";
-import {DialogProps} from "@/components/types/DialogProps"
 import {onMounted, provide, reactive, ref} from "vue";
 import {SearchFields} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import DictinfoUI from "@/views/system/DictinfoUI.vue";
 import {SearchParams} from "@/components/types/Params";
 
-const dataUrl: ApiUrls =apiInstance("system-config","system/dictinfoType");
+const dataUrl: ApiUrls = apiInstance("system-config", "system/dictinfoType");
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {label: "名称", defaultShow: false, matchType: "lk", fieldName: "dictTypeName", type: "input"},
@@ -40,16 +39,7 @@ const tableFieldList = reactive<PageFieldInfo>({
 });
 const primaryKey = "idDictinfoType";
 const rules = {};
-const dialogProps = reactive<DialogProps>({
-  bakeVisible1: false, bakeVisible2: false, bakeVisible3: false,
-  ids: 0,
-  batchDialogTitle: "批量编辑",
-  dialogTitle: "编辑",
-  batchEditVisible: false,
-  editVisible: false,
-  uploadVisible: false,
-  viewVisible: false
-});
+const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 
 const dataFormat = (_name: string, cellValue: object): any => {

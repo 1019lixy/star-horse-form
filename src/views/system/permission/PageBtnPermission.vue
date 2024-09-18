@@ -1,12 +1,18 @@
 <script setup lang="ts" name="ResourcesSummary">
-import {apiInstance} from "@/api/sh_api.ts";
+import {
+  apiInstance,
+  createCondition,
+  dialogPreps,
+  dictData,
+  loadData,
+  loadMenusInfo,
+  loadRolesInfo
+} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings.ts";
-import {DialogProps} from "@/components/types/DialogProps"
 import {computed, onMounted, provide, reactive, ref} from "vue";
 import {SearchFields, SelectOption} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
-import {createCondition, dictData, loadData, loadMenusInfo, loadRolesInfo} from "@/api/sh_api.ts";
 import {ElTreeV2} from "element-plus";
 import {TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
@@ -14,7 +20,7 @@ import piniaInstance from "@/store";
 import StarHorseTree from "@/components/comp/StarHorseTree.vue";
 import {warning} from "@/utils/message.ts";
 
-const dataUrl: ApiUrls =apiInstance("system-config","system/resourcesSummaryEntity");
+const dataUrl: ApiUrls = apiInstance("system-config", "system/resourcesSummaryEntity");
 let systemInfoList = ref<SelectOption[]>([]);
 let rolesList = ref<SelectOption[]>([]);
 let menusList = ref<SelectOption[]>([]);
@@ -110,16 +116,7 @@ let configStore = GlobalConfig(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.inputSize || "default");
 const primaryKey = "idResourcesSummary";
 const rules = {};
-const dialogProps = reactive<DialogProps>({
-  bakeVisible1: false, bakeVisible2: false, bakeVisible3: false,
-  ids: 0,
-  batchDialogTitle: "批量编辑",
-  dialogTitle: "编辑",
-  batchEditVisible: false,
-  editVisible: false,
-  uploadVisible: false,
-  viewVisible: false
-});
+const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 
 

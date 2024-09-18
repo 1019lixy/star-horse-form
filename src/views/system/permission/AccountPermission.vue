@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {createCondition, dictData, loadRolesInfo} from "@/api/sh_api.ts";
+import {apiInstance, createCondition, dialogPreps, dictData, loadRolesInfo} from "@/api/sh_api.ts";
 import {computed, onMounted, provide, reactive, ref} from "vue";
 import {SearchFields, SelectOption} from "@/components/types/SearchProps";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
@@ -7,8 +7,6 @@ import piniaInstance from "@/store";
 import {TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
 import {Config} from "@/api/settings.ts";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
-import {DialogProps} from "@/components/types/DialogProps";
-import {apiInstance} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 
 let rolesList = ref<SelectOption[]>([]);
@@ -16,7 +14,7 @@ let accountPermissionStatus = ref<SelectOption[]>();
 let accountPermission = ref();
 let configStore = GlobalConfig(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.inputSize || "default");
-const dataUrl: ApiUrls =apiInstance("system-config","system/rolesPkUsers");
+const dataUrl: ApiUrls = apiInstance("system-config", "system/rolesPkUsers");
 const checkChange = (data: TreeNodeData, checked: boolean) => {
   let queryCond = [];
   queryCond.push(createCondition("a.idRolesinfo", data.value));
@@ -90,16 +88,7 @@ const tableFieldList = reactive<PageFieldInfo>({
   }]
 });
 const primaryKey = "idUsersinfo";
-const dialogProps = reactive<DialogProps>({
-  bakeVisible1: false, bakeVisible2: false, bakeVisible3: false,
-  ids: 0,
-  batchDialogTitle: "批量编辑",
-  dialogTitle: "编辑",
-  batchEditVisible: false,
-  editVisible: false,
-  uploadVisible: false,
-  viewVisible: false
-});
+const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 const dataFormat = (name: string, cellValue: object): any => {
   if (name == "statusCode") {
@@ -120,9 +109,10 @@ onMounted(async () => {
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
     <star-horse-form @refresh="accountPermission.loadByPage()" :compUrl="dataUrl"
-                     :fieldList="tableFieldList" />
+                     :fieldList="tableFieldList"/>
   </star-horse-dialog>
-  <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title="'查看数据'" :is-view="true">
+  <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title="'查看数据'"
+                     :is-view="true">
     <star-horse-data-view :data-format="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
   </star-horse-dialog>
   <el-row :gutter="10" style="height: 100%;">

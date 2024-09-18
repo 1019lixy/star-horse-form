@@ -1,34 +1,34 @@
 <script setup lang="ts" name="DbBakeup">
-import {apiInstance} from "@/api/sh_api.ts";
+import {apiInstance, dictData} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
-import {DialogProps} from "@/components/types/DialogProps"
 import {onMounted, provide, reactive, ref} from "vue";
 import {SearchFields, SelectOption} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {Config} from "@/api/settings.ts";
-import {dictData} from "@/api/sh_api.ts";
 import {initDbList} from "@/views/dbsearch/utils/DbSearchUtils.ts";
 //后端交互接口地址
-const dataUrl: ApiUrls =apiInstance("dbsearch-manage","dbsearch/dbBakeup");
+const dataUrl: ApiUrls = apiInstance("dbsearch-manage", "dbsearch/dbBakeup");
 let dbList = ref<SelectOption[]>([]);
 let bakePolicyList = ref<SelectOption[]>([]);
 //查询属性
-const searchFormData = reactive<SearchFields>({fieldList:[
-  {
-    label: "数据库配置",
-    fieldName: "datasourcceConfigId",
-    type: "select",
-    optionList: dbList,
-    defaultShow: true,
-  },
-  {
-    label: "备份日期",
-    fieldName: "createdDate",
-    defaultShow: true,
-    matchType: "bt",
-    type: "date",
-  },
-]});
+const searchFormData = reactive<SearchFields>({
+  fieldList: [
+    {
+      label: "数据库配置",
+      fieldName: "datasourcceConfigId",
+      type: "select",
+      optionList: dbList,
+      defaultShow: true,
+    },
+    {
+      label: "备份日期",
+      fieldName: "createdDate",
+      defaultShow: true,
+      matchType: "bt",
+      type: "date",
+    },
+  ]
+});
 //页面属性
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
@@ -142,17 +142,7 @@ const dbBakeupRef = ref();
 //校验
 const rules = {};
 //控制弹窗相关设置
-const dialogProps = reactive<DialogProps>({
-  ids: 0,
-  batchDialogTitle: "批量编辑",
-  dialogTitle: "编辑",
-  batchEditVisible: false,
-  editVisible: false,
-  uploadVisible: false,
-  viewVisible: false,
-  dialogPwdVisible: false,
-  bakeVisible1: false, bakeVisible2: false, bakeVisible3: false
-});
+const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 
 //初始化方法
@@ -180,7 +170,7 @@ const dataFormat = (_name: string, cellValue: any, _row: any): any => {
 <template>
   <star-horse-dialog :box-width="'40%'" :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible"
                      :dialogProps="dialogProps" :title="'新增备份'">
-    <star-horse-form  @refresh="dbBakeupRef.loadByPage()" :compUrl="dataUrl"
+    <star-horse-form @refresh="dbBakeupRef.loadByPage()" :compUrl="dataUrl"
                      :fieldList="tableFieldList" :rules="rules"/>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title=
@@ -192,12 +182,12 @@ const dataFormat = (_name: string, cellValue: any, _row: any): any => {
       <star-horse-search-comp @searchData="(data:any)=>dbBakeupRef.createSearchParams(data)" :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
-      <star-horse-button-list  @tableCompFunc="(fun:any)=>dbBakeupRef.tableCompFunc(fun)"
+      <star-horse-button-list @tableCompFunc="(fun:any)=>dbBakeupRef.tableCompFunc(fun)"
                               :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
     <hr>
-    <star-horse-table-comp  ref="dbBakeupRef" :fieldList="tableFieldList"
+    <star-horse-table-comp ref="dbBakeupRef" :fieldList="tableFieldList"
                            :primaryKey="primaryKey" :compUrl=
                                "dataUrl"
                            :dataFormat="dataFormat"/>

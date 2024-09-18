@@ -2,6 +2,7 @@ import {postRequest} from "@/api/star_horse";
 import {SelectOption} from "@/components/types/SearchProps";
 
 const deptAndUserTree: string = "/system-config/system/departmentEntity/deptAndUserTree";
+
 /**
  * 获取部门用户
  * @param direct
@@ -29,6 +30,7 @@ export async function loadDeptUser(direct: boolean, params: any) {
     });
     return menuDatas;
 }
+
 /**
  * 解析部门信息
  * @param datas
@@ -57,6 +59,7 @@ export function createDeptUserTree(datas: any, valField: string, name: string, v
     });
     return deptUserList;
 };
+
 /**
  * 解析部门信息
  * @param datas

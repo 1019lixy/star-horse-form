@@ -22,7 +22,7 @@ const dialogProps = inject<DialogProps>("dialogProps", {});
 </script>
 <template>
 
-<template v-for="item in fieldList.fieldList">
+  <template v-for="item in fieldList.fieldList">
 
     <box-item :primary-key="primaryKey" :item="item" :rules="rules" :batchFieldName="batchFieldName"
               :batchName="batchName" :compSize="compSize" :compUrl="compUrl" :subCreateFlag="subCreateFlag"

@@ -11,6 +11,7 @@ export const currentLang: LangType = getLang() || LangType.ZH_CN;
 export const isEn = currentLang === LangType.EN_US;
 export const isZH = currentLang === LangType.ZH_CN;
 const langSet: Record<string, string> = language[currentLang];
+
 /**
  *
  * @param key

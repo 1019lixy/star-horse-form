@@ -1,7 +1,6 @@
 <script setup lang="ts" name="DynamicFormConsumerConfig">
 import {apiInstance} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
-import {DialogProps} from "@/components/types/DialogProps"
 import {onMounted, provide, reactive, ref} from "vue";
 import {SearchFields, SelectOption} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
@@ -14,7 +13,7 @@ import {Config} from "@/api/settings.ts";
 
 const router = useRouter();
 //后端交互接口地址
-const dataUrl: ApiUrls =apiInstance("userdb-manage","userdb/dynamicFormConsumerConfig") ;
+const dataUrl: ApiUrls = apiInstance("userdb-manage", "userdb/dynamicFormConsumerConfig");
 let viewTypeList = ref<SelectOption[]>();
 let auditList = ref<SelectOption[]>([{
   name: "是", value: "Y"
@@ -22,12 +21,14 @@ let auditList = ref<SelectOption[]>([{
   name: "否", value: "N"
 }]);
 //查询属性
-const searchFormData = reactive<SearchFields>({fieldList:[
-  {label: "视图名称", fieldName: "viewName", type: "input", matchType: "lk"},
-  {label: "视图类别", fieldName: "viewType", type: "select", optionList: viewTypeList},
-  {label: "消费权限", fieldName: "consumeAuthority", type: "select"},
-  {label: "是否需要认证", fieldName: "isAudit", type: "select", optionList: auditList},
-]});
+const searchFormData = reactive<SearchFields>({
+  fieldList: [
+    {label: "视图名称", fieldName: "viewName", type: "input", matchType: "lk"},
+    {label: "视图类别", fieldName: "viewType", type: "select", optionList: viewTypeList},
+    {label: "消费权限", fieldName: "consumeAuthority", type: "select"},
+    {label: "是否需要认证", fieldName: "isAudit", type: "select", optionList: auditList},
+  ]
+});
 const currentRow = ref({});
 const preview = (row: any, currentPage: number, pageSize: number) => {
   currentRow.value = row;
@@ -151,17 +152,7 @@ const dynamicFormConsumerConfigRef = ref();
 //校验
 const rules = {};
 //控制弹窗相关设置
-const dialogProps = reactive<DialogProps>({
-  ids: 0,
-  batchDialogTitle: "批量编辑",
-  dialogTitle: "编辑",
-  batchEditVisible: false,
-  editVisible: false,
-  uploadVisible: false,
-  viewVisible: false,
-  dialogPwdVisible: false,
-  bakeVisible1: false, bakeVisible2: false, bakeVisible3: false
-});
+const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 
 const selfBtnFunc = ref<BtnAuth[]>([]);
@@ -227,7 +218,7 @@ const changePage = (currentPage: number, pageSize: number) => {
     <ViewPage :param="currentRow.dataNo" :isPreview="true"/>
   </star-horse-dialog>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form  @refresh="dynamicFormConsumerConfigRef.loadByPage()"
+    <star-horse-form @refresh="dynamicFormConsumerConfigRef.loadByPage()"
                      :compUrl="dataUrl" :fieldList="tableFieldList"
                      :rules="rules"/>
   </star-horse-dialog>
@@ -242,11 +233,11 @@ const changePage = (currentPage: number, pageSize: number) => {
                               :compUrl="dataUrl"/>
       <hr/>
       <star-horse-button-list
-                              @tableCompFunc="(fun:any)=>dynamicFormConsumerConfigRef.tableCompFunc(fun)"
-                              :selfBtnFunc="selfBtnFunc" :compUrl="dataUrl"
-                              :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
+          @tableCompFunc="(fun:any)=>dynamicFormConsumerConfigRef.tableCompFunc(fun)"
+          :selfBtnFunc="selfBtnFunc" :compUrl="dataUrl"
+          :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
-    <star-horse-table-comp  ref="dynamicFormConsumerConfigRef" :fieldList="tableFieldList"
+    <star-horse-table-comp ref="dynamicFormConsumerConfigRef" :fieldList="tableFieldList"
                            :primaryKey="primaryKey"
                            :compUrl="dataUrl"
                            :dataFormat="dataFormat" :selfBtnFunc="selfBtnFunc"/>

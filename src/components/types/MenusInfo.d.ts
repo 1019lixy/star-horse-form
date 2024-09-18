@@ -19,6 +19,7 @@ interface Meta {
      */
     menuIcon: string;
 }
+
 /**
  * 菜单信息
  */

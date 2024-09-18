@@ -48,7 +48,7 @@ onMounted(() => {
       </el-tabs>
     </template>
     <template v-else v-for="(sitem,key) in item.batchFieldList">
-      <star-horse-data-view-table  v-if="Object.keys(sitem).length>0"
+      <star-horse-data-view-table v-if="Object.keys(sitem).length>0"
                                   :item="sitem" :commonFormat="commonFormat"
                                   :batchName="sitem['batchName']"
                                   v-model:dataForm="dataForm"/>

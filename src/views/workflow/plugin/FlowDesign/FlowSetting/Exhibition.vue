@@ -53,7 +53,7 @@
 import {flowMixin} from '@/views/workflow/plugin/mixins/flowMixin';
 import {ref} from "vue";
 
-let radioGroup=ref<number>(0);
-  let radioGroup2=ref<number>(0);
+let radioGroup = ref<number>(0);
+let radioGroup2 = ref<number>(0);
 </script>
 <style lang=“scss”></style>

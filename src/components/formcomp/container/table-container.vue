@@ -131,7 +131,7 @@ const deleteCol = (index: number) => {
                              :is="getComponentName(data)"
                              :parentField="field"
                              :formData="formData"
-                            />
+                  />
                 </div>
               </template>
             </draggable>

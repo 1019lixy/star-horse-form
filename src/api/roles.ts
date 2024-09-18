@@ -15,6 +15,7 @@ export async function loadRolesMenus(idRolesinfo: number) {
     }).catch(err => console.error(err));
     return roleMenus;
 }
+
 /**
  * 分配角色菜单
  * @param roleId

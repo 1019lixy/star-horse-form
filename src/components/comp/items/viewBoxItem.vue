@@ -10,8 +10,8 @@ const props = defineProps({
 const dataForm: ModelRef<any> = defineModel("dataForm");
 const dataFormat = (item: any) => {
   let name = item['hideName'] || item['fieldName'];
-  let tempForm=unref(dataForm);
-  if(!tempForm){
+  let tempForm = unref(dataForm);
+  if (!tempForm) {
     return "--";
   }
   let val = tempForm[name];

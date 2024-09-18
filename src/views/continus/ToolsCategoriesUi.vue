@@ -605,7 +605,7 @@
 import {apiInstance} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 
-const dataUrl: ApiUrls =apiInstance("devops-continus","continus/toolsCategories") ;
+const dataUrl: ApiUrls = apiInstance("devops-continus", "continus/toolsCategories");
 const dataFormat = (row, column, cellValue, index) => {
   //cellValue = commonDataFormat(row, column, cellValue, index);
   return cellValue;

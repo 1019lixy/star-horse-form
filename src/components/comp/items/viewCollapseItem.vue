@@ -31,7 +31,8 @@ onMounted(() => {
   <template v-if="item.collapseList&&item.collapseList.length>0">
     <el-collapse v-model="item.fieldName">
       <template v-for="(collapseItem,key ) in item.collapseList">
-        <el-collapse-item v-if="Object.keys(collapseItem).length>0" :title="collapseItem.title" :name="collapseItem.tabName||key"
+        <el-collapse-item v-if="Object.keys(collapseItem).length>0" :title="collapseItem.title"
+                          :name="collapseItem.tabName||key"
                           :index="checkObject(collapseItem)">
           <el-scrollbar height="95%">
             <star-horse-data-view-items

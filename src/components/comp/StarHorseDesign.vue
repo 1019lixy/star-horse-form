@@ -496,7 +496,7 @@ const registerPort = (portName: string) => {
     effect: ['data'],
     html(cell) {
       // 获取节点传递过来的数据
-      const redata= cell.getData();
+      const redata = cell.getData();
       // 创建自定义的节点容器
       const container = document.createElement('div');
       container.setAttribute('class', 'cu-container');

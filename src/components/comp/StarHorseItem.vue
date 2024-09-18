@@ -172,7 +172,7 @@ const compPreps = () => {
     field.value.preps = {...field.value.preps, ...props.item.preps}
   }
   //编辑数据时需要禁用的组件,此处不能将代码放在上一个if 之前，否则可能被覆盖
-  if (!props.isEdit && (props.item.editDisabled||props.item.preps?.editDisabled=='Y')) {
+  if (!props.isEdit && (props.item.editDisabled || props.item.preps?.editDisabled == 'Y')) {
     field.value.preps["disabled"] = 'Y';
   }
   if (itemType.value == "upload" && !field.value.preps["action"]) {
@@ -201,7 +201,7 @@ const compPreps = () => {
   if (!props.isSearch) {
     userOperation.addFormItem(field);
   }
-   // console.log(field.value.preps);
+  // console.log(field.value.preps);
 };
 const defaultAction = ref("keydown.enter")
 const typeList = ["select", "tselect", "date", "daterange"];

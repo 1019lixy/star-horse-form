@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {onMounted, PropType,ref} from "vue";
+import {onMounted, PropType, ref} from "vue";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {ModelRef} from "vue-demi";
 

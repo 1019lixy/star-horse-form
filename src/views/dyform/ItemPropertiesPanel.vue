@@ -280,9 +280,10 @@ watch(() => formProps,
       </el-tab-pane>
       <el-tab-pane label="表单实例" name="formInstance">
         对象名字：formInstance
-        <table border="1" cellpadding="0" cellspacing="0" style="width: 100%;border: 1px dashed var(--star-horse-style)">
+        <table border="1" cellpadding="0" cellspacing="0"
+               style="width: 100%;border: 1px dashed var(--star-horse-style)">
           <thead style="border: 1px dashed var(--star-horse-style)">
-          <tr >
+          <tr>
             <th>名称</th>
             <th>说明</th>
             <th>类型</th>
@@ -315,7 +316,7 @@ watch(() => formProps,
             <td><span class="inline-flex items-center">Function</span></td>
           </tr>
           <tr>
-            <td>fields </td>
+            <td>fields</td>
             <td>获取所有字段的 context</td>
             <td><span class="inline-flex items-center">Array</span></td>
           </tr>

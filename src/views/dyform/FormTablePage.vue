@@ -4,7 +4,6 @@ import {closeLoad, load, loadGetData} from "@/api/sh_api";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {useRoute, useRouter} from "vue-router";
 import {navBarList} from "@/store/NavbarListStore";
-import {DialogProps} from "@/components/types/DialogProps";
 import {SearchProps} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {Config} from "@/api/settings.ts";
@@ -77,18 +76,7 @@ watch(
 //记录表单的属性
 const formFields = reactive<Array<any>>([]);
 provide("formFields", formFields);
-const dialogProps = reactive<DialogProps>({
-  bakeVisible1: false,
-  bakeVisible2: false,
-  bakeVisible3: false,
-  ids: 0,
-  batchDialogTitle: "批量编辑",
-  dialogTitle: "编辑",
-  batchEditVisible: false,
-  editVisible: false,
-  uploadVisible: false,
-  viewVisible: false
-});
+const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 
 const dataFormat = (name: string, cellValue: object): any => {
@@ -109,7 +97,7 @@ onMounted(async () => {
         :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible"
         :dialogProps="dialogProps"
     >
-      <star-horse-form  @refresh="starHorseTableCompRef.loadByPage()" :compUrl="dataUrl"
+      <star-horse-form @refresh="starHorseTableCompRef.loadByPage()" :compUrl="dataUrl"
                        :fieldList="tableFieldList"
                        :rules="rules"/>
     </star-horse-dialog>
@@ -132,17 +120,17 @@ onMounted(async () => {
                                 :compUrl="dataUrl"/>
         <hr/>
         <star-horse-button-list
-                                @tableCompFunc="(fun:any)=>starHorseTableCompRef.tableCompFunc(fun)" :compUrl="dataUrl"
-                                :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
+            @tableCompFunc="(fun:any)=>starHorseTableCompRef.tableCompFunc(fun)" :compUrl="dataUrl"
+            :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
       </div>
       <hr>
       <star-horse-table-comp
-                             ref="starHorseTableCompRef"
-                             :fieldList="tableFieldList"
-                             :primaryKey="primaryKey"
-                             :compUrl="dataUrl"
-                             :showBatchField="true"
-                             :dataFormat="dataFormat"
+          ref="starHorseTableCompRef"
+          :fieldList="tableFieldList"
+          :primaryKey="primaryKey"
+          :compUrl="dataUrl"
+          :showBatchField="true"
+          :dataFormat="dataFormat"
       />
     </el-card>
   </template>

@@ -16,7 +16,7 @@ const props = defineProps({
     default: '#flow-design-content',
   },
 });
-const flowDesignStore=useFlowDesign(piniaInstance);
+const flowDesignStore = useFlowDesign(piniaInstance);
 const mapImg = computed(() => flowDesignStore.mapImg);
 // 流程设计窗口
 let flowDesign = ref<any>(null);
@@ -57,10 +57,10 @@ const mapMask = computed(() => {
 const initSize = (flowDesign: any) => {
   wrapHeight.value = flowDesign.scrollHeight;
 }
-const handleScroll = (e:MouseEvent) => {
+const handleScroll = (e: MouseEvent) => {
   top.value = flowDesign.value.scrollTop * scaleOffsetHeight.value;
 }
-const handleMouseDown = (e:MouseEvent) => {
+const handleMouseDown = (e: MouseEvent) => {
   mouseDown.value = true;
 }
 const handleMouseMove = (e: MouseEvent) => {

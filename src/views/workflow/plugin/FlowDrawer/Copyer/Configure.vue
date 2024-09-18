@@ -13,7 +13,7 @@
           </div>
           <div class="flow-setting-option-item-switch">
             <el-switch v-model="operation.code" active-text="开" inactive-text="关"
-                      @change="changeConfigure"/>
+                       @change="changeConfigure"/>
           </div>
         </div>
       </div>

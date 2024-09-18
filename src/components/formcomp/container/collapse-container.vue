@@ -49,7 +49,7 @@ onMounted(() => {
       items: []
     }];
   }
-  activeTabName.value =props.field['preps']['elements'][0].objectName;
+  activeTabName.value = props.field['preps']['elements'][0].objectName;
 });
 </script>
 <template>
@@ -79,7 +79,7 @@ onMounted(() => {
                     :is="getComponentName(data)"
                     :parentField="field"
                     :formData="formData"
-                    />
+                />
               </div>
             </template>
           </draggable>

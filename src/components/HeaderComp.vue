@@ -1,10 +1,9 @@
 <script lang="ts" setup name="Header">
-import {computed, nextTick, onMounted, reactive, ref, unref} from "vue"
+import {computed, nextTick, onMounted, ref, unref} from "vue"
 import {Config} from "@/api/settings.ts"
 import {postRequest, trim, userLogout} from "@/api/star_horse";
 import {confirm, error, success, warning} from "@/utils/message";
-import {DialogProps} from "@/components/types/DialogProps";
-import {apiInstance} from "@/api/sh_api.ts";
+import {apiInstance, dialogPreps} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {getCustomerInfo, getCustomerParam, getUserInfo} from "@/utils/auth";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
@@ -31,20 +30,11 @@ let permissionMenuList = ref<Array<any>>([]);
 const shortcutMultipleTable = ref<InstanceType<typeof ElTable>>();
 let currentTab = ref<string>("message");
 let editUserinfoRef = ref();
-const dataUrl: ApiUrls =apiInstance("system-config","system/dictinfoEntity",[getCustomerParam()]) ;
+const dataUrl: ApiUrls = apiInstance("system-config", "system/dictinfoEntity", [getCustomerParam()]);
 let configStore = GlobalConfig(piniaInstance);
 let router = useRouter();
 const emits = defineEmits(["changeLang", "layoutConfig"]);
-const dialogProps = reactive<DialogProps>({
-  bakeVisible1: false, bakeVisible2: false, bakeVisible3: false,
-  ids: -1,
-  batchDialogTitle: "批量编辑",
-  dialogTitle: "编辑",
-  batchEditVisible: false,
-  editVisible: false,
-  uploadVisible: false,
-  viewVisible: false
-});
+const dialogProps = dialogPreps();
 
 const initData = async () => {
   await loadShortMenu();

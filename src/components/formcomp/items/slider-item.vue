@@ -1,5 +1,6 @@
 <template>
-  <starhorse-form-item :isDesign="context.attrs['isDesign']" :bareFlag="context.attrs['bareFlag']" :form-item="field" :parentField="parentField"
+  <starhorse-form-item :isDesign="context.attrs['isDesign']" :bareFlag="context.attrs['bareFlag']" :form-item="field"
+                       :parentField="parentField"
   >
     <el-slider
         :fid="field.preps['name']"
@@ -42,7 +43,7 @@ export default defineComponent({
     onMounted(() => {
       keyEnterFun();
     })
-    return {parentField,  context, field, formItem, dataField, keyEnterFun}
+    return {parentField, context, field, formItem, dataField, keyEnterFun}
   }
 });
 </script>

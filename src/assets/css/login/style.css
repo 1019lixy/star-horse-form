@@ -24,11 +24,11 @@ html {
     height: 100%;
     position: relative;
     background: #000a13 url(bg.jpg) no-repeat top center;
-    font-family: "PingFang SC","Lantinghei SC","Microsoft YaHei","HanHei SC","Helvetica Neue","Open Sans",Arial,"Hiragino Sans GB","微软雅黑",STHeiti,"WenQuanYi Micro Hei",SimSun,sans-serif
+    font-family: "PingFang SC", "Lantinghei SC", "Microsoft YaHei", "HanHei SC", "Helvetica Neue", "Open Sans", Arial, "Hiragino Sans GB", "微软雅黑", STHeiti, "WenQuanYi Micro Hei", SimSun, sans-serif
 }
 
 .loginbg {
-    background-image: linear-gradient(300deg,#004491,#1e88e5);
+    background-image: linear-gradient(300deg, #004491, #1e88e5);
     position: absolute;
     width: 100%;
     height: 50%;
@@ -42,7 +42,7 @@ html {
     height: 100%;
     margin: 0 auto;
     z-index: 10;
-    box-shadow: 0 0 30px rgba(0,0,0,.1);
+    box-shadow: 0 0 30px rgba(0, 0, 0, .1);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -71,7 +71,7 @@ html {
 .logininput .forminput {
     border: 1px solid #9ce7ff;
     border-radius: 5px;
-    font-family: "PingFang SC","Lantinghei SC","Microsoft YaHei","HanHei SC","Helvetica Neue","Open Sans",Arial,"Hiragino Sans GB","微软雅黑",STHeiti,"WenQuanYi Micro Hei",SimSun,sans-serif;
+    font-family: "PingFang SC", "Lantinghei SC", "Microsoft YaHei", "HanHei SC", "Helvetica Neue", "Open Sans", Arial, "Hiragino Sans GB", "微软雅黑", STHeiti, "WenQuanYi Micro Hei", SimSun, sans-serif;
     display: block;
     padding-left: 50px;
     font-size: 18px;
@@ -80,7 +80,7 @@ html {
     line-height: 52px;
     outline: 0;
     text-indent: 1px;
-    background: rgba(32,163,245,.1)
+    background: rgba(32, 163, 245, .1)
 }
 
 input::input-placeholder {
@@ -103,13 +103,13 @@ input::input-placeholder {
     align-items: center
 }
 
-.logininput>li {
+.logininput > li {
     display: block;
     padding: 12px 0;
     position: relative
 }
 
-.logininput li>i {
+.logininput li > i {
     position: absolute;
     height: 100%;
     left: 15px;
@@ -139,9 +139,9 @@ input::input-placeholder {
     left: 0;
     bottom: 10px;
     text-align: center;
-    color: rgba(0,0,0,.5);
+    color: rgba(0, 0, 0, .5);
     font-size: 12px;
-    text-shadow: 1px 1px 2px rgba(0,0,0,.5)
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, .5)
 }
 
 .yzmimg {
@@ -178,13 +178,13 @@ input::input-placeholder {
     margin-top: -60px;
     font-weight: bold;
     letter-spacing: 2px;
-    background: linear-gradient(90deg,#04a8f0,#46daff,#4177ed,#04a8f0,#46daff,#4177ed,#04a8f0,#46daff,#4177ed);
+    background: linear-gradient(90deg, #04a8f0, #46daff, #4177ed, #04a8f0, #46daff, #4177ed, #04a8f0, #46daff, #4177ed);
     background-size: cover;
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
     text-fill-color: transparent;
-    font-family: "Microsoft YaHei","HanHei SC","Helvetica Neue","Open Sans",Arial,"Hiragino Sans GB","微软雅黑",STHeiti,"WenQuanYi Micro Hei",SimSun,sans-serif
+    font-family: "Microsoft YaHei", "HanHei SC", "Helvetica Neue", "Open Sans", Arial, "Hiragino Sans GB", "微软雅黑", STHeiti, "WenQuanYi Micro Hei", SimSun, sans-serif
 }
 
 .boxall {
@@ -200,11 +200,11 @@ input::input-placeholder {
     }
 }
 
-.aui-checkbox,input[type=radio] {
+.aui-checkbox, input[type=radio] {
     width: 24px;
     height: 24px;
-    background: rgba(32,163,245,.1);
-    border: solid 2px rgba(32,163,245,.5);
+    background: rgba(32, 163, 245, .1);
+    border: solid 2px rgba(32, 163, 245, .5);
     margin: 0;
     padding: 0;
     position: relative;
@@ -218,17 +218,17 @@ input::input-placeholder {
     border-radius: 0
 }
 
-.aui-checkbox,input[type=radio] {
-    margin: 0 3px 0 0!important;
+.aui-checkbox, input[type=radio] {
+    margin: 0 3px 0 0 !important;
     position: relative
 }
 
-.aui-checkbox:checked,input[type=radio]:checked {
+.aui-checkbox:checked, input[type=radio]:checked {
     text-align: center;
     background-clip: padding-box
 }
 
-.aui-checkbox:checked:after,.aui-checkbox:checked:before,input[type=radio]:checked:after,input[type=radio]:checked:before {
+.aui-checkbox:checked:after, .aui-checkbox:checked:before, input[type=radio]:checked:after, input[type=radio]:checked:before {
     content: '';
     width: 10px;
     height: 5px;
@@ -248,12 +248,12 @@ input::input-placeholder {
     transform: rotate(-45deg)
 }
 
-.aui-checkbox:disabled,input[type=radio]:disabled {
+.aui-checkbox:disabled, input[type=radio]:disabled {
     background-color: #f5f5f;
     border: solid 1px #ddd
 }
 
-.aui-checkbox:disabled:after,.aui-checkbox:disabled:before,input[type=radio]:disabled:after,input[type=radio]:disabled:before {
+.aui-checkbox:disabled:after, .aui-checkbox:disabled:before, input[type=radio]:disabled:after, input[type=radio]:disabled:before {
     content: '';
     width: .5rem;
     height: .3rem;
@@ -278,7 +278,7 @@ input[type="radio"] {
 }
 
 input {
-    outline: none!important
+    outline: none !important
 }
 
 .forget {
@@ -287,9 +287,9 @@ input {
     margin: 0 auto
 }
 
-@media(max-width: 1200px) {
+@media (max-width: 1200px) {
     .loginbox {
-        width:100%;
+        width: 100%;
         height: auto;
         background: 0;
         padding: 0 15px

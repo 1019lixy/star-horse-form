@@ -1,5 +1,6 @@
 <template>
-  <starhorse-form-item :isDesign="context.attrs['isDesign']" :bareFlag="context.attrs['bareFlag']" :form-item="field" :parentField="parentField"
+  <starhorse-form-item :isDesign="context.attrs['isDesign']" :bareFlag="context.attrs['bareFlag']" :form-item="field"
+                       :parentField="parentField"
   >
     <el-time-picker
         :fid="field.preps['name']"
@@ -53,7 +54,7 @@ export default defineComponent({
       }
     });
     return {
-      parentField,  context, field, formItem, dataField, keyEnterFun, actionName
+      parentField, context, field, formItem, dataField, keyEnterFun, actionName
     }
   }
 });

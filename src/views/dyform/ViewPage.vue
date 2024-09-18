@@ -2,7 +2,6 @@
 import {onMounted, provide, reactive, ref, watch} from "vue";
 import {closeLoad, load} from "@/api/sh_api";
 import {ApiUrls} from "@/components/types/ApiUrls";
-import {DialogProps} from "@/components/types/DialogProps";
 import {SearchProps} from "@/components/types/SearchProps";
 import DataPreview from "@/views/dyform/DataPreview.vue";
 import {analysisSearchData, viewColumns, viewDataList} from "@/views/dyform/utils/preview";
@@ -106,18 +105,7 @@ watch(
 //记录表单的属性
 const formFields = reactive<Array<any>>([]);
 provide("formFields", formFields);
-const dialogProps = reactive<DialogProps>({
-  bakeVisible1: false,
-  bakeVisible2: false,
-  bakeVisible3: false,
-  ids: 0,
-  batchDialogTitle: "批量编辑",
-  dialogTitle: "编辑",
-  batchEditVisible: false,
-  editVisible: false,
-  uploadVisible: false,
-  viewVisible: false
-});
+const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 
 const dataFormat = (name: string, cellValue: object): any => {
@@ -158,14 +146,14 @@ onMounted(async () => {
     <el-card class="inner_content">
       <div class="search_btn"
            :style="{'display':'flex', 'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
-        <star-horse-search-comp  ref="viewSearchRef"
+        <star-horse-search-comp ref="viewSearchRef"
                                 @searchData="(data:any)=>starHorseTableCompRef.createSearchParams(data)"
                                 :formData="searchFormData"
                                 :compUrl="dataUrl"/>
         <hr v-if="Config.buttonStyle.value=='line'"/>
         <star-horse-button-list
-                                @tableCompFunc="(fun:any)=>starHorseTableCompRef.tableCompFunc(fun)" :viewFlag="true"
-                                :compUrl="dataUrl" :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
+            @tableCompFunc="(fun:any)=>starHorseTableCompRef.tableCompFunc(fun)" :viewFlag="true"
+            :compUrl="dataUrl" :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
       </div>
       <hr>
       <DataPreview ref="starHorseTableCompRef" :item="previewDatas" :columns="columnList" @exportData="exportData"

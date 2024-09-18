@@ -1,17 +1,15 @@
 <script setup lang="ts" name="EnvInfo">
-import {apiInstance} from "@/api/sh_api.ts";
+import {apiInstance, dialogPreps, dictData} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {onMounted, provide, reactive, ref} from "vue";
 import {SearchFields, SelectOption} from "@/components/types/SearchProps.d.ts";
 import {Config} from "@/api/settings.ts";
-import {DialogProps} from "@/components/types/DialogProps";
-import {dictData} from "@/api/sh_api.ts";
 import {flowFormFields, setFlowGroups} from "@/views/workflow/utils/FlowFormUtils.ts";
 import {UserFuncInfo} from "@/components/types/PageFieldInfo";
 import {BtnAuth} from "@/components/types/BtnAuth";
 import {useRouter} from "vue-router";
 
-const dataUrl: ApiUrls =apiInstance("flow-engine","workflow/flowoperation");
+const dataUrl: ApiUrls = apiInstance("flow-engine", "workflow/flowoperation");
 let flowGroupList = ref<SelectOption[]>([]);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
@@ -22,16 +20,7 @@ const searchFormData = reactive<SearchFields>({
 const router = useRouter();
 const primaryKey = "idEnvInfo";
 const flowDefinitionRef = ref();
-const dialogProps = reactive<DialogProps>({
-  bakeVisible1: false, bakeVisible2: false, bakeVisible3: false,
-  ids: 0,
-  batchDialogTitle: "批量编辑",
-  dialogTitle: "编辑",
-  batchEditVisible: false,
-  editVisible: false,
-  uploadVisible: false,
-  viewVisible: false,
-});
+const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 const extandBtns: UserFuncInfo[] = [{
   authority: "exec",

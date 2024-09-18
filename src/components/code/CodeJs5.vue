@@ -146,17 +146,21 @@ defineExpose({
   width: 100%;
   z-index: 9999;
 }
+
 .cm-editor {
   min-height: 100px;
   border: 1px solid #ddd;
 }
+
 .cm-scroller {
   overflow: auto;
 }
+
 .CodeMirror, .CodeMirror-line {
   font-size: 16px;
   font-family: 微软雅黑 Arial;
 }
+
 .CodeMirror-hints, .CodeMirror-lint-tooltip {
   font-size: 16px;
   font-family: 微软雅黑 Arial;

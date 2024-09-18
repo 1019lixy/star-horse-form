@@ -211,7 +211,7 @@ watch(
   align-items: center;
 }
 
-:deep(.el-form-item__label),:deep(.el-checkbox__label),button.is-link {
+:deep(.el-form-item__label), :deep(.el-checkbox__label), button.is-link {
   color: var(--star-horse-white) !important;
 }
 </style>

@@ -163,7 +163,7 @@ onMounted(() => {
   </el-row>
   <div style="margin-top:5px"></div>
   <el-input :size="compSize" placeholder="请输入关键字" v-model="filterTableName" @keydown.enter="filterData"
-            >
+  >
     <template #append>
       <star-horse-icon @click="filterData" icon-class="search" color="var(--star-horse-style)"/>
     </template>
@@ -194,22 +194,26 @@ onMounted(() => {
 :deep(.el-popover) {
   overflow-x: hidden;
 }
+
 .popover-header {
   display: flex;
   background: var(--star-horse-style);
   height: 30px;
   justify-content: end;
 }
+
 ul {
   margin: 5px;
   display: flex;
   flex-direction: column;
+
   li {
     height: 25px;
     border-radius: 2px;
     cursor: pointer;
     margin: 1px;
     display: flex;
+
     :deep(.el-tooltip__trigger) {
       display: inline-flex;
       align-items: center;
@@ -222,25 +226,31 @@ ul {
       height: inherit;
       flex: 1;
     }
+
     .svg-icon {
       width: 18px;
       height: 18px;
     }
   }
+
   li:nth-child(even) {
     background: #e5e5e5;
   }
+
   li:nth-child(odd) {
     background: #f1f2f3;
   }
 }
+
 .field-table {
   border: 1px solid var(--star-horse-style);
+
   tr > th, tr > td {
     border: 1px solid var(--star-horse-style);
     height: 25px;
     font-size: 12px;
     padding-left: 5px;
+
     :nth-child(2) {
       width: 120px;
     }

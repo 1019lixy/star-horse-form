@@ -21,7 +21,7 @@ export default defineComponent({
       }
       context.emit('selfFunc', prep);
     };
-    return {parentField,  context, field, formItem, dataField, keyEnterFun}
+    return {parentField, context, field, formItem, dataField, keyEnterFun}
   }
 });
 </script>

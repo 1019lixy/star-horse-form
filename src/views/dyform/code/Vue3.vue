@@ -14,7 +14,8 @@ let code = ref<string>("");
 const starHorseEditorRef = ref();
 const asssignVal = (searchFields: string, formFields: string) => {
   return `<script setup lang='ts'>
-import {apiInstance,ApiUrls} from "@\/components\/types\/ApiUrls";
+import {ApiUrls} from "@\/components\/types\/ApiUrls";
+import {apiInstance,dialogPreps} ""@\/api\/system.ts;
 import {Config} from "@\/api\/settings.ts";
 import {DialogProps} from "@\/components\/types\/DialogProps"
 import {onMounted, provide, reactive, ref} from "vue";
@@ -32,19 +33,7 @@ const initData = async () => {
 };
 const ${convertToCamelCase(props.formInfo.tbName)}Ref = ref();
 const rules = {};
-const dialogProps = reactive<DialogProps>({
-  bakeVisible1: false,
-  bakeVisible2: false,
-  bakeVisible3: false,
-  ids: 0,
-  batchDialogTitle: "批量编辑",
-  dialogTitle: "编辑",
-  batchEditVisible: false,
-  editVisible: false,
-  uploadVisible: false,
-  viewVisible: false,
-  dialogPwdVisible: false
-});
+const dialogProps =dialogPreps();
 provide("dialogProps", dialogProps);
 const dataFormat = (name: string, cellValue: Object): any => {
   return cellValue;
@@ -133,6 +122,7 @@ watch(
   display: flex;
   flex-direction: column;
   overflow: hidden;
+
   .code-editor {
     flex: 1;
     overflow: hidden;

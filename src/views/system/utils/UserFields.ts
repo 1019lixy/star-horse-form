@@ -31,7 +31,7 @@ const userEditFieldInfo: Array<any> = [
         },
         {
             label: "性别", fieldName: "sex", type: "radio", optionList: sexList,
-            defaultValue:3,
+            defaultValue: 3,
             formShow: true,
             tableShow: true
         }

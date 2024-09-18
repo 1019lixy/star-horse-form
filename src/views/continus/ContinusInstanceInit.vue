@@ -216,7 +216,7 @@ onMounted(async () => {
     background: var(--star-horse-style);
     border: 1px solid var(--star-horse-style);
     box-shadow: none;
-    color:var(--star-horse-white) !important;
+    color: var(--star-horse-white) !important;
 
     &:after {
       border: 9px solid transparent;

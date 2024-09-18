@@ -433,25 +433,30 @@ const operMsg = `
 :deep(.el-popover) {
   overflow-x: hidden;
 }
+
 .search-area {
   display: flex;
   height: inherit;
   flex-direction: row;
+
   .table-list {
     min-width: 200px;
     height: inherit;
     overflow: hidden;
     text-overflow: ellipsis;
+
     ul {
       margin: 5px;
       display: flex;
       flex-direction: column;
+
       li {
         height: 25px;
         border-radius: 2px;
         cursor: pointer;
         margin: 1px;
         display: flex;
+
         :deep(.el-tooltip__trigger) {
           display: inline-flex;
           align-items: center;
@@ -464,26 +469,32 @@ const operMsg = `
           height: inherit;
           flex: 1;
         }
+
         .svg-icon {
           width: 18px;
           height: 18px;
         }
       }
+
       li:nth-child(even) {
         background: #e5e5e5;
       }
+
       li:nth-child(odd) {
         background: #f1f2f3;
       }
     }
   }
+
   .search-editor-result {
     flex: 1;
     display: flex;
     flex-direction: column;
+
     .search-editor {
       flex: 1;
     }
+
     .search-result {
       resize: both;
       overflow: auto;
@@ -491,19 +502,24 @@ const operMsg = `
     }
   }
 }
+
 :deep(.el-table__cell) {
   padding: 0;
 }
+
 :deep(th.el-table__cell:first-child) {
   padding: 5px 0;
 }
+
 .field-table {
   border: 1px solid var(--star-horse-style);
+
   tr > th, tr > td {
     border: 1px solid var(--star-horse-style);
     height: 30px;
     font-size: 13px;
     padding-left: 5px;
+
     :nth-child(2) {
       width: 120px;
     }

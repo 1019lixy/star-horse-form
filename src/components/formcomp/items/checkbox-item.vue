@@ -1,5 +1,6 @@
 <template>
-  <starhorse-form-item :isDesign="context.attrs['isDesign']" :bareFlag="context.attrs['bareFlag']" :form-item="field" :parentField="parentField">
+  <starhorse-form-item :isDesign="context.attrs['isDesign']" :bareFlag="context.attrs['bareFlag']" :form-item="field"
+                       :parentField="parentField">
     <el-checkbox-group
         :fid="field.preps['name']"
         :disabled="field.preps['disabled']=='Y'"
@@ -27,12 +28,12 @@ export default defineComponent({
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
     const keyEnterFun = () => {
-      context.emit('selfFunc',"change");
+      context.emit('selfFunc', "change");
     };
     onMounted(() => {
       keyEnterFun();
     })
-    return {parentField, context, field, formItem, dataField,keyEnterFun}
+    return {parentField, context, field, formItem, dataField, keyEnterFun}
   }
 });
 </script>

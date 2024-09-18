@@ -1,7 +1,6 @@
 <script setup lang="ts" name="DynamicForm">
-import {apiInstance} from "@/api/sh_api.ts";
+import {apiInstance, dialogPreps} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
-import {DialogProps} from "@/components/types/DialogProps"
 import {computed, nextTick, onMounted, provide, reactive, ref} from "vue";
 import {SearchFields} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
@@ -13,7 +12,7 @@ import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
 
 const router = useRouter();
-const dataUrl: ApiUrls = apiInstance("userdb-manage","userdb/dynamicForm");
+const dataUrl: ApiUrls = apiInstance("userdb-manage", "userdb/dynamicForm");
 let designForm = DesignForm(piniaInstance);
 let selfBtnFunc = ref<BtnAuth[]>([]);
 let isPreview = ref<boolean>(false);
@@ -24,7 +23,10 @@ const closeAction = () => {
 let formData = ref<any>({});
 let list = computed(() => designForm.compList);
 const loadFormData = async (formId: any) => {
-  let {data, _error} = await loadData(dataUrl.loadByIdUrl + "/" + formId, {});
+  let {data, error} = await loadData(dataUrl.loadByIdUrl + "/" + formId, {});
+  if (error) {
+    console.log(error);
+  }
   await nextTick();
   isPreview.value = true;
   designForm.clearAll(false);
@@ -34,10 +36,12 @@ const loadFormData = async (formId: any) => {
   data["details"] = {};
   designForm.setFormInfo(data);
 }
-const searchFormData = reactive<SearchFields>({fieldList:[
-  {label: "表单名称", fieldName: "formName", defaultShow: true, type: "input", matchType: "lk"},
-  {label: "创建时间", fieldName: "createDate", defaultShow: true, type: "date", matchType: "bt"},
-]});
+const searchFormData = reactive<SearchFields>({
+  fieldList: [
+    {label: "表单名称", fieldName: "formName", defaultShow: true, type: "input", matchType: "lk"},
+    {label: "创建时间", fieldName: "createDate", defaultShow: true, type: "date", matchType: "bt"},
+  ]
+});
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     {
@@ -153,18 +157,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 const primaryKey = "idDynamicForm";
 const dynamicFormRef = ref();
 const rules = {};
-const dialogProps = reactive<DialogProps>({
-  ids: 0,
-  batchDialogTitle: "批量编辑",
-  dialogTitle: "编辑",
-  batchEditVisible: false,
-  editVisible: false,
-  uploadVisible: false,
-  bakeVisible1: false,
-  bakeVisible2: false,
-  bakeVisible3: false,
-  viewVisible: false
-});
+const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 const addSubForm = (params: any) => {
   router.push({path: "/dyform/DynamicForm", query: {parentId: params.idDynamicForm}});
@@ -198,7 +191,7 @@ const initData = async () => {
   });
 };
 onMounted(async () => {
-  await  initData();
+  await initData();
 })
 </script>
 <style lang="scss" scoped>
@@ -228,7 +221,7 @@ onMounted(async () => {
     </template>
   </star-horse-dialog>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form  :compUrl="dataUrl" :fieldList="tableFieldList" :rules="rules"/>
+    <star-horse-form :compUrl="dataUrl" :fieldList="tableFieldList" :rules="rules"/>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title=
       "'查看数据'" :is-view="true">
@@ -236,15 +229,16 @@ onMounted(async () => {
   </star-horse-dialog>
   <el-card class="inner_content">
     <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
-      <star-horse-search-comp @searchData="(data:any)=>dynamicFormRef.createSearchParams(data)" :formData="searchFormData"
+      <star-horse-search-comp @searchData="(data:any)=>dynamicFormRef.createSearchParams(data)"
+                              :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
-      <star-horse-button-list   @tableCompFunc="(fun:any)=>dynamicFormRef.tableCompFunc(fun)" :selfBtnFunc="selfBtnFunc"
+      <star-horse-button-list @tableCompFunc="(fun:any)=>dynamicFormRef.tableCompFunc(fun)" :selfBtnFunc="selfBtnFunc"
                               :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
     <hr>
-    <star-horse-table-comp    ref="dynamicFormRef" :fieldList="tableFieldList" :primaryKey="primaryKey" :compUrl=
+    <star-horse-table-comp ref="dynamicFormRef" :fieldList="tableFieldList" :primaryKey="primaryKey" :compUrl=
         "dataUrl" :dataFormat="dataFormat" :selfBtnFunc="selfBtnFunc"/>
   </el-card>
 </template>

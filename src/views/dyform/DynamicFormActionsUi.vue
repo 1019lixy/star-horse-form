@@ -1,23 +1,24 @@
 <script setup lang="ts" name="DynamicFormActions">
-import {apiInstance} from "@/api/sh_api.ts";
+import {apiInstance, dialogPreps} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
-import {DialogProps} from "@/components/types/DialogProps"
 import {onMounted, provide, reactive, ref} from "vue";
 import {SearchFields} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {Config} from "@/api/settings.ts";
 //后端交互接口地址
-const dataUrl: ApiUrls =apiInstance("userdb-manage","userdb/dynamicFormActions");
+const dataUrl: ApiUrls = apiInstance("userdb-manage", "userdb/dynamicFormActions");
 //查询属性
-const searchFormData = reactive<SearchFields>({fieldList:[
-  {label: "主键", fieldName: "idFormActions", type: "long"},
-  {label: "归属元素", fieldName: "idFormItems", type: "long"},
-  {label: "标签名称", fieldName: "label", type: "input"},
-  {label: "事件名称", fieldName: "actionName", type: "input"},
-  {label: "属性类别", fieldName: "fieldType", type: "input"},
-  {label: "备注", fieldName: "remark", type: "input"},
-  {label: "元素排序", fieldName: "dataSort", type: "number"},
-]});
+const searchFormData = reactive<SearchFields>({
+  fieldList: [
+    {label: "主键", fieldName: "idFormActions", type: "long"},
+    {label: "归属元素", fieldName: "idFormItems", type: "long"},
+    {label: "标签名称", fieldName: "label", type: "input"},
+    {label: "事件名称", fieldName: "actionName", type: "input"},
+    {label: "属性类别", fieldName: "fieldType", type: "input"},
+    {label: "备注", fieldName: "remark", type: "input"},
+    {label: "元素排序", fieldName: "dataSort", type: "number"},
+  ]
+});
 //页面属性
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
@@ -134,17 +135,7 @@ const dynamicFormActionRef = ref();
 //校验
 const rules = {};
 //控制弹窗相关设置
-const dialogProps = reactive<DialogProps>({
-  ids: 0,
-  batchDialogTitle: "批量编辑",
-  dialogTitle: "编辑",
-  batchEditVisible: false,
-  editVisible: false,
-  uploadVisible: false,
-  viewVisible: false,
-  dialogPwdVisible: false,
-  bakeVisible1: false, bakeVisible2: false, bakeVisible3: false
-});
+const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 
 //初始化方法
@@ -169,7 +160,7 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
 </style>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form  @refresh="dynamicFormActionRef.loadByPage()" :compUrl="dataUrl"
+    <star-horse-form @refresh="dynamicFormActionRef.loadByPage()" :compUrl="dataUrl"
                      :fieldList="tableFieldList"
                      :rules="rules"/>
   </star-horse-dialog>
@@ -184,10 +175,10 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
                               :compUrl="dataUrl"/>
       <hr/>
       <star-horse-button-list
-                              @tableCompFunc="(fun:any)=>dynamicFormActionRef.tableCompFunc(fun)" :compUrl="dataUrl"
-                              :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
+          @tableCompFunc="(fun:any)=>dynamicFormActionRef.tableCompFunc(fun)" :compUrl="dataUrl"
+          :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
-    <star-horse-table-comp  ref="dynamicFormActionRef" :fieldList="tableFieldList"
+    <star-horse-table-comp ref="dynamicFormActionRef" :fieldList="tableFieldList"
                            :primaryKey="primaryKey"
                            :compUrl="dataUrl"
                            :dataFormat="dataFormat"/>

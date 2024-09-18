@@ -3,6 +3,7 @@ import {SelectOption} from "@/components/types/SearchProps";
 
 const templateListUrl: string = "/code-generator/dynamic/code/templateList";
 const loadTemplateUrl: string = "/code-generator/dynamic/code/loadTemplate";
+
 /**
  * 加载模板列表
  */
@@ -23,6 +24,7 @@ export async function templateList() {
     });
     return optionList;
 }
+
 /**
  * 加载模板信息
  * @param templateCode 模板编码

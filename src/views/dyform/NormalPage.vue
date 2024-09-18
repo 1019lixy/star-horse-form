@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import {nextTick, onMounted, provide, reactive, ref, watch} from "vue";
-import {closeLoad, load, loadGetData} from "@/api/sh_api";
+import {closeLoad, dialogPreps, load, loadGetData} from "@/api/sh_api";
 import {ApiUrls} from "@/components/types/ApiUrls";
-import {DialogProps} from "@/components/types/DialogProps";
 import {SearchProps} from "@/components/types/SearchProps";
 import {Config} from "@/api/settings.ts";
 import {DesignForm} from "@/store/DesignFormStore.ts";
@@ -82,18 +81,7 @@ watch(
 //记录表单的属性
 const formFields = reactive<Array<any>>([]);
 provide("formFields", formFields);
-const dialogProps = reactive<DialogProps>({
-  bakeVisible1: false,
-  bakeVisible2: false,
-  bakeVisible3: false,
-  ids: 0,
-  batchDialogTitle: "批量编辑",
-  dialogTitle: "编辑",
-  batchEditVisible: false,
-  editVisible: false,
-  uploadVisible: false,
-  viewVisible: false
-});
+const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 
 const dataFormat = (name: string, cellValue: object, row: any): any => {

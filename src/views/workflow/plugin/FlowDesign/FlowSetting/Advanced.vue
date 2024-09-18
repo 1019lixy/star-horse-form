@@ -1,5 +1,5 @@
 <template>
-  <el-row  :gutter="16">
+  <el-row :gutter="16">
     <el-col v-for="(item, i) in items" :key="i" :xs="24" :sm="24" :md="6" :lg="6" :xl="6" style="margin-bottom: 10px">
       <el-card hoverable class="w-fill card-xx" @click="setSetting(item)">
         <div class="flowSetting-card-header">
@@ -19,8 +19,9 @@
     </el-col>
   </el-row>
   <!-- 自动去重设置 -->
-  <star-horse-dialog :dialog-visible="duplicateVisible" :box-width="scale.isMobile() ? '100%' : '40%'" class="modalClass"
-             title="自动去重设置" @closeAction="duplicateVisible = false">
+  <star-horse-dialog :dialog-visible="duplicateVisible" :box-width="scale.isMobile() ? '100%' : '40%'"
+                     class="modalClass"
+                     title="自动去重设置" @closeAction="duplicateVisible = false">
     <div class="flow-setting-module">
       <div class="flow-setting-content">
         <div class="flow-setting-block">
@@ -32,7 +33,7 @@
             <el-checkbox style="margin-bottom: 20px;">审批人为空时自动通过</el-checkbox>
             <br/>
             <el-checkbox style="margin-bottom: 20px;">已经审批过的审批人自动通过</el-checkbox>
-             <div class="flow-block-tabContent">
+            <div class="flow-block-tabContent">
               <div class="flow-block-defaultTab">
                 <div class="flow-block-defaultSample">示例：张三的业绩上报、李四的请假</div>
               </div>
@@ -47,16 +48,18 @@
     </div>
   </star-horse-dialog>
   <!-- 允许加签 -->
-  <star-horse-dialog :dialog-visible="appendVisible" :box-width="scale.isMobile() ? '100%' : '40%'" class="modalClass" title="允许加签"
-             @closeAction="appendVisible = false">
+  <star-horse-dialog :dialog-visible="appendVisible" :box-width="scale.isMobile() ? '100%' : '40%'" class="modalClass"
+                     title="允许加签"
+                     @closeAction="appendVisible = false">
     <div class="flow-setting-module">
       <img class="w-fill"
            src="https://img.alicdn.com/imgextra/i2/O1CN01sONUxT1vSpDcicfBb_!!6000000006172-2-tps-1360-1090.png"/>
     </div>
   </star-horse-dialog>
   <!-- 审批撤销 -->
-  <star-horse-dialog :dialog-visible="revokeVisible" :box-width="scale.isMobile() ? '100%' : '40%'" class="modalClass" title="审批撤销"
-             @closeAction="revokeVisible = false">
+  <star-horse-dialog :dialog-visible="revokeVisible" :box-width="scale.isMobile() ? '100%' : '40%'" class="modalClass"
+                     title="审批撤销"
+                     @closeAction="revokeVisible = false">
     <div class="flow-setting-module">
       <img class="w-fill"
            src="https://img.alicdn.com/imgextra/i4/O1CN01mfeF241w8xed2adqL_!!6000000006264-2-tps-1360-920.png"/>
@@ -64,7 +67,7 @@
   </star-horse-dialog>
 </template>
 <style lang="scss" scoped>
-:deep(.el-card__body),.el-card__body{
+:deep(.el-card__body), .el-card__body {
   padding: 20px !important;
 }
 

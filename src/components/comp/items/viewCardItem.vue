@@ -26,11 +26,11 @@ onMounted(() => {
           </div>
         </template>
         <star-horse-data-view-items :objectName="cardItem.objectName"
-                              :subCreateFlag="cardItem.subFormFlag"
-                              v-model:data-form="dataForm"
-                              :commonFormat="commonFormat"
-                              primaryKey="id"
-                              :fieldList="{
+                                    :subCreateFlag="cardItem.subFormFlag"
+                                    v-model:data-form="dataForm"
+                                    :commonFormat="commonFormat"
+                                    primaryKey="id"
+                                    :fieldList="{
                ...cardItem
             }"/>
 

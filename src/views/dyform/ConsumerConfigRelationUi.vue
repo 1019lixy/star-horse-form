@@ -1,26 +1,27 @@
 <script setup lang="ts" name="ConsumerConfigRelation">
-import {apiInstance} from "@/api/sh_api.ts";
+import {apiInstance, dialogPreps} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
-import {DialogProps} from "@/components/types/DialogProps"
 import {onMounted, provide, reactive, ref} from "vue";
 import {SearchFields} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {Config} from "@/api/settings.ts";
 //后端交互接口地址
-const dataUrl: ApiUrls =apiInstance("userdb-manage","userdb/consumerConfigRelation") ;
+const dataUrl: ApiUrls = apiInstance("userdb-manage", "userdb/consumerConfigRelation");
 //查询属性
-const searchFormData = reactive<SearchFields>({fieldList:[
-  {label: "主键", fieldName: "idConsumerConfigRelation", type: "long"},
-  {label: "消费配置ID", fieldName: "idConsumerConfig", type: "long"},
-  {label: "关联主表名", fieldName: "fromTable", type: "input"},
-  {label: "关联主表Key", fieldName: "fromKey", type: "input"},
-  {label: "关联主表字段名", fieldName: "fromField", type: "input"},
-  {label: "被关联表名", fieldName: "toTable", type: "input"},
-  {label: "被关联表Key", fieldName: "toKey", type: "input"},
-  {label: "被关联表字段", fieldName: "toField", type: "input"},
-  {label: "关联映射关系 默认 eq", fieldName: "mapper", type: "input"},
-  {label: "备注", fieldName: "remark", type: "input"},
-]});
+const searchFormData = reactive<SearchFields>({
+  fieldList: [
+    {label: "主键", fieldName: "idConsumerConfigRelation", type: "long"},
+    {label: "消费配置ID", fieldName: "idConsumerConfig", type: "long"},
+    {label: "关联主表名", fieldName: "fromTable", type: "input"},
+    {label: "关联主表Key", fieldName: "fromKey", type: "input"},
+    {label: "关联主表字段名", fieldName: "fromField", type: "input"},
+    {label: "被关联表名", fieldName: "toTable", type: "input"},
+    {label: "被关联表Key", fieldName: "toKey", type: "input"},
+    {label: "被关联表字段", fieldName: "toField", type: "input"},
+    {label: "关联映射关系 默认 eq", fieldName: "mapper", type: "input"},
+    {label: "备注", fieldName: "remark", type: "input"},
+  ]
+});
 //页面属性
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
@@ -161,17 +162,7 @@ const consumerConfigRelationRef = ref();
 //校验
 const rules = {};
 //控制弹窗相关设置
-const dialogProps = reactive<DialogProps>({
-  ids: 0,
-  batchDialogTitle: "批量编辑",
-  dialogTitle: "编辑",
-  batchEditVisible: false,
-  editVisible: false,
-  uploadVisible: false,
-  viewVisible: false,
-  dialogPwdVisible: false,
-  bakeVisible1: false, bakeVisible2: false, bakeVisible3: false
-});
+const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 
 //初始化方法
@@ -196,7 +187,7 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
 </style>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form  @refresh="consumerConfigRelationRef.loadByPage()" :compUrl="dataUrl"
+    <star-horse-form @refresh="consumerConfigRelationRef.loadByPage()" :compUrl="dataUrl"
                      :fieldList="tableFieldList"
                      :rules="rules"/>
   </star-horse-dialog>
@@ -211,11 +202,11 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
                               :compUrl="dataUrl"/>
       <hr/>
       <star-horse-button-list
-                              @tableCompFunc="(fun:any)=>consumerConfigRelationRef.tableCompFunc(fun)"
-                              :compUrl="dataUrl"
-                              :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
+          @tableCompFunc="(fun:any)=>consumerConfigRelationRef.tableCompFunc(fun)"
+          :compUrl="dataUrl"
+          :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
-    <star-horse-table-comp  ref="consumerConfigRelationRef" :fieldList="tableFieldList"
+    <star-horse-table-comp ref="consumerConfigRelationRef" :fieldList="tableFieldList"
                            :primaryKey="primaryKey"
                            :compUrl="dataUrl"
                            :dataFormat="dataFormat"/>

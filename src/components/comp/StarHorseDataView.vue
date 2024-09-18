@@ -11,13 +11,13 @@ const props = defineProps({
   subCreateFlag: {type: Boolean, default: false},
   fieldList: {type: Object, required: true},
   globalCondition: {type: Object},
-  primaryKey:{type:String,default:"id"},
+  primaryKey: {type: String, default: "id"},
   batchFieldName: {type: String, default: "batchFieldList"},
   dataFormat: {type: Function, default: null}
 });
 const emits = defineEmits(["dataLoaded"]);
-const dialogProps = inject<DialogProps>("dialogProps") as any;
-watch(() => dialogProps.ids,
+const dialogProps = inject<DialogProps>("dialogProps");
+watch(() => dialogProps?.ids,
     (val) => {
       if (val == -2) {
       } else if (!val || val == -1) {
@@ -30,13 +30,13 @@ watch(() => dialogProps.ids,
       deep: true
     });
 onMounted(() => {
-  if (dialogProps.ids) {
+  if (dialogProps?.ids) {
     loadData();
   }
 });
 const loadData = async () => {
   await nextTick();
-  let id = dialogProps.ids instanceof Array ? dialogProps.ids[0] : dialogProps.ids;
+  let id = dialogProps?.ids instanceof Array ? dialogProps.ids[0] : dialogProps?.ids;
   if (!props.compUrl) {
     return;
   }

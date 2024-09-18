@@ -11,8 +11,8 @@
   >
     <template #header>
       <div class="drawer-header">
-      <img :src="flowMixin.ccIcon" class="anticon"/>
-      <span class="flow-drawer-title">
+        <img :src="flowMixin.ccIcon" class="anticon"/>
+        <span class="flow-drawer-title">
         <EditName v-model:nodeName="node.name"/>
       </span>
       </div>

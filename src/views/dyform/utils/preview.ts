@@ -45,6 +45,7 @@ const convertType = (type: string) => {
         return "input";
     }
 };
+
 /**
  * 获取视图列表
  * @param viewToken
@@ -72,6 +73,7 @@ export async function viewDataList(viewToken: string, currentPage: number, pageS
     });
     return {viewDatas, error};
 };
+
 /**
  * 解析查询字段类型
  * @param searchForm
@@ -98,6 +100,7 @@ export function analysisSearchData(searchForm: any, searchFormData: any) {
     }
     return searchFields;
 }
+
 /**
  * 获取数组重复数据
  * @param arr
@@ -105,6 +108,7 @@ export function analysisSearchData(searchForm: any, searchFormData: any) {
 export function arrayDuplicateDatas(arr: Array<any>) {
     return [...new Set(arr)].filter(item => arr.indexOf(item) !== arr.lastIndexOf(item));
 }
+
 /**
  * 校验表单组件参数
  * @param compList
@@ -153,7 +157,7 @@ export function validDynamicFormCompParams(compList: Array<any>, isSubmit: boole
             }
         } else if (itemType == "select" || itemType == "transfer" || itemType == "autocomplete" || itemType == "cascade") {
             console.log(preps);
-            if ((!preps.values || preps.values?.length <= 0)&&!preps.interfaceUrl && !preps.urlOrDictName) {
+            if ((!preps.values || preps.values?.length <= 0) && !preps.interfaceUrl && !preps.urlOrDictName) {
                 msg = "\n" + name + "组件必须在【属性面板->基础属性->数据源】中配置数据源";
             }
         } else if (itemType == "checkbox" || itemType == "radio") {
@@ -170,6 +174,7 @@ export function validDynamicFormCompParams(compList: Array<any>, isSubmit: boole
     }
     return errorMsg;
 }
+
 /**
  * 解析组件
  * @param compList

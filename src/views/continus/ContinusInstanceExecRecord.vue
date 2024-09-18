@@ -27,12 +27,15 @@ const primaryKey = "idContinusInst";
   margin-left: -20px;
   margin-top: -12px;
   align-items: center;
+
   .nav-bar-left {
     width: 55%;
+
     span {
       margin-left: 15px;
     }
   }
+
   .nav-bar-right {
     display: flex;
     position: relative;
