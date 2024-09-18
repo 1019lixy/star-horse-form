@@ -2,6 +2,7 @@
 import {
   apiInstance,
   createCondition,
+  createTree,
   dialogPreps,
   dictData,
   loadData,
@@ -22,9 +23,12 @@ import {warning} from "@/utils/message.ts";
 import {SearchParams} from "@/components/types/Params";
 
 const dataUrl: ApiUrls = apiInstance("system-config", "system/rolesPkBtnAuthority");
+dataUrl.mergeUrl="/system-config/system/resourcesSummaryEntity/merge";
 let systemInfoList = ref<SelectOption[]>([]);
+let appinfoList = ref<SelectOption[]>([]);
 let rolesList = ref<SelectOption[]>([]);
 let menusList = ref<SelectOption[]>([]);
+let menusSelectList = ref<SelectOption[]>([]);
 let authorityList = ref<SelectOption[]>([]);
 let dataForm = ref<any>({});
 const searchFormData = reactive<SearchFields>({
@@ -45,23 +49,18 @@ const formFieldList = reactive<PageFieldInfo | any>({
     {
       label: "主键", fieldName: "idResourcesSummary", type: "long",
     },
-    [{
-      label: "所属系统", fieldName: "informationsSingleId", type: "select", optionList: systemInfoList,
-      required: true, formShow: true, editDisabled: "Y", actionName: "change", actions: (val: any) => {
-        let systemId = val["informationsSingleId"];
-        if (systemId) {
-          loadMenuBySystemId(systemId);
-        }
-      },
-      tableShow: true
-    },
+    [
       {
         label: "角色名称", fieldName: "rolesList", type: "select", optionList: rolesList,
-        required: true, formShow: true, multiple: "Y",
+        required: true, formShow: true, disabled: "Y",multiple:"Y",
         tableShow: true
-      }],
+      }, {
+      label: "所属系统", fieldName: "informationsSingleId", type: "select", optionList: appinfoList,
+      required: true, formShow: true, disabled: "Y",
+      tableShow: true
+    }],
     [{
-      label: "菜单名称", fieldName: "menusList", type: "tselect", optionList: menusList,
+      label: "菜单名称", fieldName: "menusList", type: "tselect", optionList: menusSelectList,
       required: true, formShow: true, multiple: "Y",
       tableShow: true
     },
@@ -135,6 +134,7 @@ const roleChange = async (data: TreeNodeData, checked: boolean) => {
   currentUserGroupId.value = data.value;
   currentSystemId.value = 0;
   currentMenuId.value = 0;
+  dataForm.value = {rolesList: [data.value]};
   let roleSystemDatas = await loadData("/system-config/system/rolesPkAppinfo/getAllByCondition", {
     fieldList: [{
       propertyName: "b.idRolesinfo",
@@ -150,6 +150,7 @@ const roleChange = async (data: TreeNodeData, checked: boolean) => {
     return;
   }
   systemInfoList.value = roleSystemDatas.data;
+  appinfoList.value=createTree(roleSystemDatas.data,"","sysName","idInformations")
   //同时加载当前角色下的所有菜单
   loadMenus();
   doQuery();
@@ -178,10 +179,13 @@ const loadMenus = async () => {
     return;
   }
   menusList.value = menusDatas.data;
+  menusSelectList.value = createTree(menusDatas.data, "", "menuName", "idMenusinfo");
 }
 const systemChange = async (data: TreeNodeData, checked: boolean) => {
   currentSystemId.value = data.idInformations;
   currentMenuId.value = 0;
+  dataForm.value["informationsSingleId"] =data.idInformations;
+  delete dataForm.value["menusList"];
   await loadMenus();
   doQuery();
   //加载菜单
@@ -190,6 +194,7 @@ const systemChange = async (data: TreeNodeData, checked: boolean) => {
 
 const menuChange = (data: TreeNodeData, checked: boolean) => {
   currentMenuId.value = data.idMenusinfo;
+  dataForm.value["menusList"] = [data.idMenusinfo];
   doQuery();
 };
 const doQuery = () => {

@@ -114,7 +114,10 @@ onMounted(() => {
   flex: 1;
   overflow: hidden;
 }
-
+:deep( .el-sub-menu__icon-arrow){
+  width: 20px !important;
+  right: 5px;
+}
 :deep(.el-menu-item) {
   height: 30px;
   line-height: 30px;

@@ -241,6 +241,10 @@ const doMerge = (type: string) => {
 };
 const resetForm = () => {
   dataForm.value = formFieldMapping(props.fieldList).defaultDatas;
+  let data = props.outerFormData?.value || props.outerFormData;
+  if (data && Object.keys(data).length > 0) {
+    dataForm.value = {...dataForm.value, ...data};
+  }
 };
 /**
  * 返回表单数据
