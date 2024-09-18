@@ -19,8 +19,9 @@ const props = defineProps({
   selfBtnFunc: {type: Array as PropType<BtnAuth[]>, default: null},
   viewFlag: {type: Boolean, default: false},
   //自定义按钮
-  extandBtns: {type: Array as PropType<UserFuncInfo[]>}
-  // permissions: {type: Object, required: true},
+  extandBtns: {type: Array as PropType<UserFuncInfo[]>},
+  //与检查方法
+  preValidFunc: {type: Object, default: {}}
 });
 const emits = defineEmits([
   "upload",
@@ -42,6 +43,13 @@ const tableCompFunc = (funcName: string) => {
 };
 const btnOperation = (funcName: string) => {
   let data: any = props.selfBtnFunc && props.selfBtnFunc.find((item) => item.btnName == funcName);
+  //检查前置条件
+  if (props.preValidFunc && props.preValidFunc[funcName]) {
+    let result = props.preValidFunc[funcName]();
+    if (!result) {
+      return;
+    }
+  }
   if (data) {
     data["exec"]();
   } else {

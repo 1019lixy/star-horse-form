@@ -8,6 +8,7 @@ import {TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {Config} from "@/api/settings.ts";
+import {warning} from "@/utils/message.ts";
 
 let informationsList = ref<any>([]);
 let appPermissionStatus = ref<SelectOption[]>([]);
@@ -16,7 +17,9 @@ const appinfoPermission = ref();
 let rolesList = ref<SelectOption[]>();
 let configStore = GlobalConfig(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.inputSize || "default");
+let currentUserGroupId = ref<number>(0);
 const checkChange = (data: TreeNodeData, checked: boolean) => {
+  currentUserGroupId.value = data.value;
   appinfoPermission.value.createSearchParams([
     {
       propertyName: "b.idRolesinfo",
@@ -43,7 +46,7 @@ const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
       label: "分组名称", fieldName: "idRolesinfo", type: "select", optionList: rolesList,
-      formShow: true, required: true, viewShow: false
+      formShow: true, required: true, viewShow: false, disabled: "Y"
     },
     {
       label: "系统名称", fieldName: "idInformations", type: "tselect", optionList: informationsList,
@@ -52,7 +55,6 @@ const tableFieldList = reactive<PageFieldInfo>({
         checkStrictly: "Y"
       }
     },
-
     {
       label: "分组名称", fieldName: "roleName", type: "input", tableShow: true
     },
@@ -64,6 +66,9 @@ const tableFieldList = reactive<PageFieldInfo>({
     },
     {
       label: "系统编码", fieldName: "sysCode", type: "input", tableShow: true
+    },
+    {
+      label: "权限", fieldName: "btnNames", type: "input", tableShow: true
     },
     {
       label: "状态",
@@ -83,7 +88,15 @@ const tableFieldList = reactive<PageFieldInfo>({
 const primaryKey = "idInformations";
 const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
-
+let preValid = ref<any>({
+  "add": () => {
+    if (!currentUserGroupId.value) {
+      warning("请先选择用户分组");
+      return false;
+    }
+    return true;
+  }
+});
 const dataFormat = (name: string, cellValue: object): any => {
   if (name == "statusCode") {
     return appPermissionStatus.value.find(item => item.value == cellValue)?.name || cellValue;
@@ -103,7 +116,9 @@ onMounted(async () => {
 
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form @refresh="appinfoPermission.loadByPage()" :compUrl="dataUrl"
+    <star-horse-form :outerFormData="{
+       idRolesinfo:currentUserGroupId
+    }" @refresh="appinfoPermission.loadByPage()" :compUrl="dataUrl"
                      :fieldList="tableFieldList"
     />
   </star-horse-dialog>
@@ -123,7 +138,8 @@ onMounted(async () => {
                                   :formData="searchFields"
                                   :compUrl="dataUrl"/>
           <hr/>
-          <star-horse-button-list @tableCompFunc="(fun:any)=>appinfoPermission.tableCompFunc(fun)"
+          <star-horse-button-list :preValidFunc="preValid"
+                                  @tableCompFunc="(fun:any)=>appinfoPermission.tableCompFunc(fun)"
                                   :compUrl="dataUrl"
                                   :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
         </div>

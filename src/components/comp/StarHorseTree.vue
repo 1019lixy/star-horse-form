@@ -80,7 +80,6 @@ onMounted(() => {
           <SubSystemMenu :dataList="treeDatas" ref="treeRef" :preps="preps" @selectData="checkChange"/>
         </el-menu>
       </el-scrollbar>
-
     </div>
   </el-card>
 </template>

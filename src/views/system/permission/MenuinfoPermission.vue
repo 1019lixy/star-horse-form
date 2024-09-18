@@ -1,5 +1,13 @@
 <script setup lang="ts">
-import {apiInstance, createCondition, dialogPreps, dictData, loadData, loadRolesInfo} from "@/api/sh_api.ts";
+import {
+  apiInstance,
+  createCondition,
+  createTree,
+  dialogPreps,
+  dictData,
+  loadData, loadMenusInfo,
+  loadRolesInfo
+} from "@/api/sh_api.ts";
 import {computed, onMounted, provide, reactive, ref} from "vue";
 import {SearchFields, SelectOption} from "@/components/types/SearchProps";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
@@ -14,13 +22,16 @@ const dataUrl: ApiUrls = apiInstance("system-config", "system/rolesPkMenusinfo")
 const menuPermission = ref();
 let rolesList = ref<SelectOption[]>([]);
 let systemInfoList = ref<SelectOption[]>([]);
-// let menusList = ref<SelectOption[]>();
+let appinfoList = ref<SelectOption[]>([]);
+let menusList = ref<SelectOption[]>();
 let configStore = GlobalConfig(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.inputSize || "default");
 let currentUserGroupId = ref<number>(0);
+let currentSystemId = ref<number>(0);
 const userGroupChange = async (data: TreeNodeData, checked: boolean) => {
   systemInfoList.value = [];
   currentUserGroupId.value = data.value;
+  currentSystemId.value = 0;
   let roleSystemDatas = await loadData("/system-config/system/rolesPkAppinfo/getAllByCondition", {
     fieldList: [{
       propertyName: "b.idRolesinfo",
@@ -32,20 +43,22 @@ const userGroupChange = async (data: TreeNodeData, checked: boolean) => {
     return;
   }
   systemInfoList.value = roleSystemDatas.data;
-  setQueryCondition(0)
+  appinfoList.value = createTree(roleSystemDatas.data, "", "sysName", "idInformations");
+
+  setQueryCondition();
 };
-const setQueryCondition = (appId: number) => {
+const setQueryCondition = () => {
   let queryCond = [];
-  console.log(appId);
   queryCond.push(createCondition("b.idRolesinfo", currentUserGroupId.value));
-  if (appId) {
-    queryCond.push(createCondition("a.idInformations", appId));
+  if (currentSystemId.value) {
+    queryCond.push(createCondition("a.idInformations", currentSystemId.value));
   }
   menuPermission.value.createSearchParams(queryCond);
 }
-const systemChange = (data: TreeNodeData, checked: boolean) => {
-  console.log(data);
-  setQueryCondition(data.idInformations);
+const systemChange = async (data: TreeNodeData, checked: boolean) => {
+  currentSystemId.value = data.idInformations;
+  setQueryCondition();
+  menusList.value = await loadMenusInfo(false, [createCondition("informationsSingleId", data.idInformations)], false);
 };
 let menuPermissionStatus = ref<SelectOption[]>([]);
 const searchFields = reactive<SearchFields>({
@@ -65,11 +78,11 @@ const searchFields = reactive<SearchFields>({
 const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
-      label: "系统名称", fieldName: "idInformations", type: "tselect", optionList: [],
-      formShow: true, required: true, viewShow: false
+      label: "系统名称", fieldName: "idInformations", type: "tselect", optionList: appinfoList,
+      formShow: true, required: true, viewShow: false, disabled: "Y"
     },
     {
-      label: "菜单名称", fieldName: "idMenusinfo", type: "tselect", optionList: [],
+      label: "菜单名称", fieldName: "idMenusinfo", type: "tselect", optionList: menusList,
       formShow: true, required: true, viewShow: false
     },
     {
@@ -100,6 +113,19 @@ const tableFieldList = reactive<PageFieldInfo>({
 const primaryKey = "idInformations";
 const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
+let preValid = ref<any>({
+  "add": () => {
+    if (!currentUserGroupId.value) {
+      warning("请先选择用户分组");
+      return false;
+    }
+    if (!currentSystemId.value) {
+      warning("请先选择应用");
+      return false;
+    }
+    return true;
+  }
+});
 
 const dataFormat = (name: string, cellValue: object): any => {
   if (name == "statusCode") {
@@ -107,8 +133,8 @@ const dataFormat = (name: string, cellValue: object): any => {
   }
   return cellValue;
 };
-const initData = async () => {
 
+const initData = async () => {
   rolesList.value = await loadRolesInfo([]);
   menuPermissionStatus.value = await dictData("menu_permission_status");
 };
@@ -119,7 +145,10 @@ onMounted(async () => {
 
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form @refresh="menuPermission.loadByPage()" :compUrl="dataUrl"
+    <star-horse-form :outerFormData="{
+      idInformations:currentSystemId,
+      idRolesinfo:currentUserGroupId
+    }" @refresh="menuPermission.loadByPage()" :compUrl="dataUrl"
                      :fieldList="tableFieldList"
     />
   </star-horse-dialog>
@@ -146,7 +175,7 @@ onMounted(async () => {
                                   :formData="searchFields"
                                   :compUrl="dataUrl"/>
           <hr/>
-          <star-horse-button-list @tableCompFunc="(fun:any)=>menuPermission.tableCompFunc(fun)"
+          <star-horse-button-list :preValidFunc="preValid" @tableCompFunc="(fun:any)=>menuPermission.tableCompFunc(fun)"
                                   :compUrl="dataUrl"
                                   :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
         </div>
