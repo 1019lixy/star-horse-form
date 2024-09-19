@@ -3,7 +3,7 @@ import {computed, inject, nextTick, onMounted, PropType, ref, ShallowReactive, w
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {error, success, warning} from "@/utils/message";
 import {postRequest} from "@/api/star_horse";
-import {closeLoad, formFieldMapping, load, loadById} from "@/api/sh_api";
+import {closeLoad, formFieldMapping, isJson, load, loadById} from "@/api/sh_api";
 import {DialogProps} from "@/components/types/DialogProps";
 import {BatchFieldInfo, FieldInfo, PageFieldInfo} from "@/components/types/PageFieldInfo";
 import StarHorseFormItem from "@/components/comp/StarHorseFormItem.vue";
@@ -74,8 +74,16 @@ const loadData = async () => {
     return;
   }
   await nextTick();
+  let id = dialogProps?.ids instanceof Array ? dialogProps.ids[0] : dialogProps?.ids;
+  let objData;
   let params = props.globalCondition || {};
-  let objData = await loadById(props.compUrl.loadByIdUrl!, dialogProps.ids, false, params);
+  //如果是Json 对象
+  if (isJson(id)) {
+    params = {...params, ...id};
+    objData = await loadById(props.compUrl?.loadByIdUrl!, "", false, params);
+  } else {
+    objData = await loadById(props.compUrl?.loadByIdUrl!, id, false, params);
+  }
   dataForm.value = {...objData};
   let data = formFieldMapping(props.fieldList);
   dataForm.value = objData;

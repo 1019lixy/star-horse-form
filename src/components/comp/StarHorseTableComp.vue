@@ -3,7 +3,7 @@ import {ApiUrls} from "@/components/types/ApiUrls";
 import {computed, inject, onMounted, PropType, reactive, ref, unref, watch} from "vue";
 import {download, postRequest} from "@/api/star_horse";
 import {PageProps} from "@/components/types/PageProps";
-import {closeLoad, deleteByIds, load,} from "@/api/sh_api";
+import {closeLoad, createCondition, deleteByIds, load,} from "@/api/sh_api";
 import {SearchParams} from "@/components/types/Params";
 import Sortable from "sortablejs";
 import {DialogProps} from "../types/DialogProps";
@@ -23,7 +23,7 @@ const props = defineProps({
   //url地址
   compUrl: {type: Object as PropType<ApiUrls>, required: true},
   //主键
-  primaryKey: {type: String, required: true},
+  primaryKey: {type: Object, required: true},
   //列名
   fieldList: {type: Object, required: true},
   //是否显示批量属性
@@ -95,14 +95,22 @@ const tableCompFunc = (func: any) => {
 };
 const exportData = () => {
   load("数据处理中");
-  let ids = getIds();
+  let ids: any = getIds();
   let params = [];
+  let keys: any = props.primaryKey;
   if (ids.length > 0) {
-    params.push({
-      propertyName: props.primaryKey,
-      operation: "in",
-      value: ids,
-    });
+    let isArr = Array.isArray(keys);
+    if (isArr) {
+      for (let key of keys) {
+        let temp: Array<any> = [];
+        for (let id in ids) {
+          temp.push(id[key]);
+        }
+        params.push(createCondition(key, temp, "in"))
+      }
+    } else {
+      params.push(createCondition(keys, ids, "in"))
+    }
   } else {
     params = searchFields;
   }
@@ -129,7 +137,7 @@ const getIds = () => {
   let ids: any = [];
   for (let key in selectDatas) {
     let temp = selectDatas[key];
-    ids.push(temp[props.primaryKey]);
+    ids.push(analysisPrimaryKeys(temp));
   }
   return ids;
 };
@@ -277,51 +285,94 @@ const handleSelectionChange = (val: any) => {
     if (val.length <= 1) {
       multipleSelection.value = val;
     } else {
-      let ids = multipleSelection.value.map(
-          (item: any) => item[props.primaryKey]
-      ) as Array<any>;
-      let datas = val.filter(
-          (item: any) => !ids.includes(item[props.primaryKey])
-      );
+      let keys: any = props.primaryKey;
+      if (Array.isArray(keys)) {
+        let arr: any = [];
+        for (let index in multipleSelection.value) {
+          let temp = multipleSelection.value[index];
+          let temp1: any = {};
+          for (let key of keys) {
+            temp1[key] = temp[key];
+          }
+          arr.push(temp1);
+        }
+        let filters: Array<any> = [];
+        for (let index in val) {
+          let temp = val[index];
+          for (let sindex in arr) {
+            let stemp = arr[sindex];
+            let bflag: number = 0;
+            for (let skey in stemp) {
+              if (temp.hasOwnProperty(skey) && stemp[skey] == temp[skey]) {
+                bflag++;
+              }
+            }
+            //如果不相等说明没有相同数据了
+            if (bflag != Object.keys(stemp).length) {
+              filters.push(temp);
+            }
+          }
+        }
+        multipleSelection.value = filters;
+      } else {
+        let ids = multipleSelection.value.map((item: any) => item[keys]) as Array<any>;
+        multipleSelection.value = val.filter((item: any) => !ids.includes(item[keys]));
+      }
       let data = multipleSelection.value[0];
       starHorseTableCompRef.value.toggleRowSelection(data, true);
-      multipleSelection.value = datas;
+
     }
   } else {
     multipleSelection.value = val;
   }
 };
 const getRowIdentity = (row: any) => {
-  let arr = props.primaryKey?.split(".");
+  return analysisPrimaryKeys(row) || "";
+};
+
+const tbCommonFun = (name: string, param: any) => {
+  let data: any = props.selfBtnFunc && props.selfBtnFunc.find((item) => item.btnName == name);
+  if (data) {
+    data["exec"](param);
+  } else {
+    let id = analysisPrimaryKeys(param);
+    if (name == "view") {
+      viewById(id);
+    } else if (name == "edit") {
+      editById(id);
+    } else if (name == "delete") {
+      deleteById(id);
+    }
+  }
+};
+/**
+ * 解析主键
+ * @param row
+ */
+const analysisPrimaryKeys = (row: any) => {
+  let keys: any = props.primaryKey;
+  if (Array.isArray(keys)) {
+    let obj: any = {};
+    for (let key of keys) {
+      obj[key] = splitKey(key, row);
+    }
+    return obj;
+  } else {
+    return splitKey(keys, row);
+  }
+}
+const splitKey = (key: string, row: any) => {
+  let arr = key?.split(".");
   if (arr?.length > 1) {
     let temp = row;
     for (let i in arr) {
       temp = temp[arr[i]];
     }
     return temp;
-  }
-  return row[props.primaryKey] || "";
-};
-// const dataFormat = (row: any, column: any, cellValue: any, _index: number) => {
-//   cellValue = commonParseCodeToName(column.property, cellValue);
-//   return null == props.dataFormat
-//       ? cellValue
-//       : props.dataFormat(column.property, cellValue, row);
-// };
-const tbCommonFun = (name: string, param: any) => {
-  let data: any = props.selfBtnFunc && props.selfBtnFunc.find((item) => item.btnName == name);
-  if (data) {
-    data["exec"](param);
   } else {
-    if (name == "view") {
-      viewById(param[props.primaryKey]);
-    } else if (name == "edit") {
-      editById(param[props.primaryKey]);
-    } else if (name == "delete") {
-      deleteById(param[props.primaryKey]);
-    }
+    return row[key];
   }
-};
+}
 const viewById = (id: any) => {
   dialogProps!.viewVisible = true;
   dialogProps!.ids = id;

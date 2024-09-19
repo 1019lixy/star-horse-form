@@ -23,7 +23,7 @@ import {warning} from "@/utils/message.ts";
 import {SearchParams} from "@/components/types/Params";
 
 const dataUrl: ApiUrls = apiInstance("system-config", "system/rolesPkBtnAuthority");
-dataUrl.mergeUrl="/system-config/system/resourcesSummaryEntity/merge";
+dataUrl.mergeUrl = "/system-config/system/resourcesSummaryEntity/merge";
 let systemInfoList = ref<SelectOption[]>([]);
 let appinfoList = ref<SelectOption[]>([]);
 let rolesList = ref<SelectOption[]>([]);
@@ -37,25 +37,15 @@ const searchFormData = reactive<SearchFields>({
     {label: "创建日期", fieldName: "createdDate", type: "date", matchType: "bt"},
   ]
 });
-const loadMenuBySystemId = async (systemId: any) => {
-  let params = [{
-    "propertyName": "informationsSingleId",
-    "value": systemId
-  }];
-  menusList.value = await loadMenusInfo(false, params, false);
-};
 const formFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
-    {
-      label: "主键", fieldName: "idResourcesSummary", type: "long",
-    },
     [
       {
-        label: "角色名称", fieldName: "rolesList", type: "select", optionList: rolesList,
-        required: true, formShow: true, disabled: "Y",multiple:"Y",
+        label: "角色名称", fieldName: "idRolesinfo", type: "select", optionList: rolesList,
+        required: true, formShow: true, disabled: "Y",
         tableShow: true
       }, {
-      label: "所属系统", fieldName: "informationsSingleId", type: "select", optionList: appinfoList,
+      label: "所属系统", fieldName: "idInformations", type: "select", optionList: appinfoList,
       required: true, formShow: true, disabled: "Y",
       tableShow: true
     }],
@@ -69,17 +59,15 @@ const formFieldList = reactive<PageFieldInfo | any>({
         required: true, formShow: true, multiple: "Y",
         tableShow: true
       }],
-    {
-      label: "备注", fieldName: "remark", type: "textarea",
-      formShow: true,
-      tableShow: true
-    },
 
   ],
   cellEditable: false
 });
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
+    {
+      label: "角色名称", fieldName: "roleName", type: "input", formShow: true
+    },
     {
       label: "系统名称", fieldName: "sysName", type: "input", tableShow: true
     },
@@ -97,7 +85,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 });
 let configStore = GlobalConfig(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.inputSize || "default");
-const primaryKey = "idResourcesSummary";
+const primaryKey = ["idMenusinfo", "idRolesinfo", "idInformations"];
 const rules = {};
 const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
@@ -134,7 +122,7 @@ const roleChange = async (data: TreeNodeData, checked: boolean) => {
   currentUserGroupId.value = data.value;
   currentSystemId.value = 0;
   currentMenuId.value = 0;
-  dataForm.value = {rolesList: [data.value]};
+  dataForm.value = {idRolesinfo: data.value};
   let roleSystemDatas = await loadData("/system-config/system/rolesPkAppinfo/getAllByCondition", {
     fieldList: [{
       propertyName: "b.idRolesinfo",
@@ -150,7 +138,7 @@ const roleChange = async (data: TreeNodeData, checked: boolean) => {
     return;
   }
   systemInfoList.value = roleSystemDatas.data;
-  appinfoList.value=createTree(roleSystemDatas.data,"","sysName","idInformations")
+  appinfoList.value = createTree(roleSystemDatas.data, "", "sysName", "idInformations")
   //同时加载当前角色下的所有菜单
   loadMenus();
   doQuery();
@@ -184,7 +172,7 @@ const loadMenus = async () => {
 const systemChange = async (data: TreeNodeData, checked: boolean) => {
   currentSystemId.value = data.idInformations;
   currentMenuId.value = 0;
-  dataForm.value["informationsSingleId"] =data.idInformations;
+  dataForm.value["idInformations"] = data.idInformations;
   delete dataForm.value["menusList"];
   await loadMenus();
   doQuery();
@@ -229,7 +217,7 @@ onMounted(async () => {
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title=
       "'查看数据'" :is-view="true">
-    <star-horse-data-view :dataFormat="dataFormat" :field-list="formFieldList" :compUrl="dataUrl"/>
+    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
   </star-horse-dialog>
   <el-card class="inner_content">
     <el-row gutter="5" style="height: 100%;overflow: hidden;">

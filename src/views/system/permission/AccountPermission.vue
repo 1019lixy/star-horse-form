@@ -8,6 +8,7 @@ import {TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
 import {Config} from "@/api/settings.ts";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {ApiUrls} from "@/components/types/ApiUrls";
+import {warning} from "@/utils/message.ts";
 
 let rolesList = ref<SelectOption[]>([]);
 let accountPermissionStatus = ref<SelectOption[]>();
@@ -15,8 +16,10 @@ let accountPermission = ref();
 let configStore = GlobalConfig(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.inputSize || "default");
 const dataUrl: ApiUrls = apiInstance("system-config", "system/rolesPkUsers");
+let currentUserGroupId = ref<number>(0);
 const checkChange = (data: TreeNodeData, checked: boolean) => {
   let queryCond = [];
+  currentUserGroupId.value = data.value;
   queryCond.push(createCondition("a.idRolesinfo", data.value));
   accountPermission.value.createSearchParams(queryCond);
 };
@@ -45,13 +48,27 @@ const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
       label: "分组名称", fieldName: "idRolesinfo", type: "select", optionList: rolesList,
-      formShow: true, required: true, viewShow: false
+      formShow: true, required: true, viewShow: false, disabled: "Y"
     },
     {
-      label: "账号信息", fieldName: "idInformations", type: "tselect", optionList: [],
+      label: "账号信息", fieldName: "username", aliasName: "idUsersinfo", multiple: "Y", type: "page-select", params: {
+        dataUrl: {
+          loadByPageUrl: "/system-config/system/usersinfoEntity/pageList"
+        },
+        needField: [{sourceField: "username", distField: "username"},
+          {sourceField: "idUsersinfo", distField: "idUsersinfo"}],
+        fieldList: [{
+          label: "用户名", fieldName: "username", type: "input", tableShow: true
+        }, {
+          label: "姓名", fieldName: "name", type: "input", tableShow: true
+        }, {
+          label: "联系电话", fieldName: "phone", type: "input", tableShow: true
+        }, {
+          label: "邮箱", fieldName: "email", type: "input", tableShow: true
+        }]
+      },
       formShow: true, required: true, viewShow: false
     },
-
     {
       label: "分组名称", fieldName: "roleName", type: "input", tableShow: true
     },
@@ -90,6 +107,17 @@ const tableFieldList = reactive<PageFieldInfo>({
 const primaryKey = "idUsersinfo";
 const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
+
+let preValid = ref<any>({
+  "add": () => {
+    if (!currentUserGroupId.value) {
+      warning("请先选择分组");
+      return false;
+    }
+
+    return true;
+  }
+});
 const dataFormat = (name: string, cellValue: object): any => {
   if (name == "statusCode") {
     return accountPermissionStatus.value.find(item => item.value == cellValue)?.name || cellValue;
@@ -128,7 +156,8 @@ onMounted(async () => {
                                     :formData="searchFields"
                                     :compUrl="dataUrl"/>
             <hr/>
-            <star-horse-button-list @tableCompFunc="(fun:any)=>accountPermission.tableCompFunc(fun)"
+            <star-horse-button-list :preValidFunc="preValid"
+                                    @tableCompFunc="(fun:any)=>accountPermission.tableCompFunc(fun)"
                                     :compUrl="dataUrl"
                                     :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
           </div>

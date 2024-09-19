@@ -2,7 +2,7 @@
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {inject, nextTick, onMounted, PropType, ref, watch} from "vue";
 import {DialogProps} from "@/components/types/DialogProps";
-import {formFieldMapping, loadById} from "@/api/sh_api";
+import {formFieldMapping, isJson, loadById} from "@/api/sh_api";
 
 const dataForm = ref<any>({});
 const props = defineProps({
@@ -40,8 +40,17 @@ const loadData = async () => {
   if (!props.compUrl) {
     return;
   }
+  let objData;
   let params = props.globalCondition || {};
-  let objData = await loadById(props.compUrl?.loadByIdUrl!, id, true, params);
+  //如果是Json 对象
+  if (isJson(id)) {
+    params = {...params, ...id};
+    objData = await loadById(props.compUrl?.loadByIdUrl!, "", true, params);
+  } else {
+    objData = await loadById(props.compUrl?.loadByIdUrl!, id, true, params);
+  }
+
+
   let data = formFieldMapping(props.fieldList);
   dataForm.value = objData;
   let mapping = data.mappingFields;

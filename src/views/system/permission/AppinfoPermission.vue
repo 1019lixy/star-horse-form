@@ -42,7 +42,7 @@ const searchFields = reactive<SearchFields>({
     },
   ]
 });
-const tableFieldList = reactive<PageFieldInfo>({
+const formFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
       label: "分组名称", fieldName: "idRolesinfo", type: "select", optionList: rolesList,
@@ -54,7 +54,17 @@ const tableFieldList = reactive<PageFieldInfo>({
       preps: {
         checkStrictly: "Y"
       }
-    },
+    }, {
+      label: "状态",
+      fieldName: "statusCode",
+      type: "select",
+      tableShow: true,
+      formShow: true,
+      optionList: appPermissionStatus,
+    },]
+});
+const tableFieldList = reactive<PageFieldInfo>({
+  fieldList: [
     {
       label: "分组名称", fieldName: "roleName", type: "input", tableShow: true
     },
@@ -72,11 +82,9 @@ const tableFieldList = reactive<PageFieldInfo>({
     },
     {
       label: "状态",
-      fieldName: "statusCode",
-      type: "select",
+      fieldName: "statusName",
+      type: "input",
       tableShow: true,
-      formShow: true,
-      optionList: appPermissionStatus,
     },
 
   ],
@@ -85,7 +93,7 @@ const tableFieldList = reactive<PageFieldInfo>({
     ascOrDesc: "asc"
   }]
 });
-const primaryKey = "idInformations";
+const primaryKey = ["idInformations", "idRolesinfo"];
 const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 let preValid = ref<any>({
@@ -119,7 +127,7 @@ onMounted(async () => {
     <star-horse-form :outerFormData="{
        idRolesinfo:currentUserGroupId
     }" @refresh="appinfoPermission.loadByPage()" :compUrl="dataUrl"
-                     :fieldList="tableFieldList"
+                     :fieldList="formFieldList"
     />
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title=

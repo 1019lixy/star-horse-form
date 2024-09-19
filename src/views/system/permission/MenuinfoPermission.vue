@@ -44,7 +44,6 @@ const userGroupChange = async (data: TreeNodeData, checked: boolean) => {
   }
   systemInfoList.value = roleSystemDatas.data;
   appinfoList.value = createTree(roleSystemDatas.data, "", "sysName", "idInformations");
-
   setQueryCondition();
 };
 const setQueryCondition = () => {
@@ -75,7 +74,7 @@ const searchFields = reactive<SearchFields>({
     },
   ]
 });
-const tableFieldList = reactive<PageFieldInfo>({
+const formFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
       label: "系统名称", fieldName: "idInformations", type: "tselect", optionList: appinfoList,
@@ -84,7 +83,17 @@ const tableFieldList = reactive<PageFieldInfo>({
     {
       label: "菜单名称", fieldName: "idMenusinfo", type: "tselect", optionList: menusList,
       formShow: true, required: true, viewShow: false
-    },
+    }, {
+      label: "状态",
+      fieldName: "statusCode",
+      type: "select",
+      tableShow: true,
+      formShow: true,
+      optionList: menuPermissionStatus,
+    },]
+});
+const tableFieldList = reactive<PageFieldInfo>({
+  fieldList: [
     {
       label: "系统名称", fieldName: "sysName", type: "input", tableShow: true
     },
@@ -94,14 +103,12 @@ const tableFieldList = reactive<PageFieldInfo>({
     {
       label: "菜单名称", fieldName: "menuName", type: "input", tableShow: true
     },
-
     {
       label: "状态",
-      fieldName: "statusCode",
-      type: "select",
+      fieldName: "statusName",
+      type: "input",
       tableShow: true,
-      formShow: true,
-      optionList: menuPermissionStatus,
+
     },
 
   ],
@@ -110,7 +117,7 @@ const tableFieldList = reactive<PageFieldInfo>({
     ascOrDesc: "asc"
   }]
 });
-const primaryKey = "idInformations";
+const primaryKey = ["idInformations", "idRolesinfo", "idMenusinfo"];
 const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 let preValid = ref<any>({
@@ -149,7 +156,7 @@ onMounted(async () => {
       idInformations:currentSystemId,
       idRolesinfo:currentUserGroupId
     }" @refresh="menuPermission.loadByPage()" :compUrl="dataUrl"
-                     :fieldList="tableFieldList"
+                     :fieldList="formFieldList"
     />
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title=

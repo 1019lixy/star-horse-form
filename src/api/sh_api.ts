@@ -346,12 +346,13 @@ export function createDatetime(val: any) {
  * @param params
  */
 export async function loadById(url: string, id: any, isView: boolean, params: any = {}) {
-    if (!url || !id || "undefined" == id) {
+    if (!url || "undefined" == id) {
         warning("请提供正确的数据");
         return;
     }
     let objData: any = {};
-    await postRequest(url + (isView ? "ForView" : "") + "/" + id, params).then(res => {
+    let suffix: string = id ? "/" + id : "";
+    await postRequest(url + (isView ? "ForView" : "") + suffix, params).then(res => {
         const redata = res.data.data;
         if (!redata) {
             warning("未找到对应数据");
