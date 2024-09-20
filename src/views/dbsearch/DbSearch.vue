@@ -1,12 +1,14 @@
 <script setup lang="ts" name="DbSearch">
 import StarHorseEditor from "@/components/comp/StarHorseEditor.vue";
-import {onMounted, ref, unref} from "vue";
+import {onMounted, ref, unref,computed} from "vue";
 import {closeLoad, commonParseCodeToName, load} from "@/api/sh_api";
 import {error, warning} from "@/utils/message";
 import {download, getRequest, postRequest} from "@/api/star_horse";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import Help from "@/components/help.vue";
 import {initDbList} from "@/views/dbsearch/utils/DbSearchUtils.ts";
+import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
+import piniaInstance from "@/store";
 
 let editorRef = ref(null);
 let cacheValue = ref({});
@@ -25,6 +27,8 @@ let value = ref<string>("");
 let dbIndex = ref<any>(null);
 let currentIndex = ref<any>(null);
 let readOnly = ref<boolean>(true);
+let configStore = GlobalConfig(piniaInstance);
+let compSize = computed(() => configStore.configFormInfo?.inputSize || "default");
 const init = async () => {
   dbList.value = await initDbList();
 };
@@ -135,22 +139,7 @@ const handleCurrentChange = (index: number, sql: string, currentPage: number, pa
 };
 const executeStop = () => {
 };
-const dataFormat = () => {
-  //
-  // let sData = editorRef.value!.editor.getSelection();
-  // let flag = true;
-  // if (!sData) {
-  //   flag = !flag;
-  //   sData = editorRef.value!.editor.getValue();
-  // }
-  // let fData = format(sData);
-  // if (flag) {
-  //   editorRef.value!.editor.replaceSelection(fData + "\n\t");
-  // } else {
-  //   editorRef.value!.editor.setValue(fData);
-  // }
-  // editorRef.value!.editor.refresh();
-};
+
 const exportData = (item: any) => {
   load("数据处理中");
   let params = {
@@ -228,10 +217,10 @@ const operMsg = `
 </script>
 <template>
   <el-card class="inner_content">
-    <el-row>
+    <el-row gutter="10">
       <el-col :span="4">
         <el-select
-            size="default"
+            :size="compSize"
             @change="openDb"
             clearable
             filterable
@@ -252,7 +241,7 @@ const operMsg = `
         <div class="inner_button">
           <el-menu mode="horizontal" style="height: inherit;width: 100%;">
             <el-menu-item index="0">
-              <el-select style="width: 130px; margin-right: 5px" v-model="pageSize" size="default">
+              <el-select style="width: 130px; margin-right: 5px" v-model="pageSize" :size="compSize">
                 <el-option
                     :key="sitem"
                     :label="'每页' + sitem + '条'"
@@ -265,14 +254,14 @@ const operMsg = `
               <el-tooltip class="item" content="执行" index="1"
                           effect="dark"
                           placement="bottom">
-                <star-horse-icon icon-class="run" size="24px" color="#303133"/>
+                <star-horse-icon icon-class="run" color="#303133"/>
               </el-tooltip>
             </el-menu-item>
             <el-menu-item @click="executeStop" index="2" v-if="!!dbIndex">
               <el-tooltip class="item" content="停止"
                           effect="dark"
                           placement="bottom">
-                <star-horse-icon icon-class="stop" size="24px" color="red"/>
+                <star-horse-icon icon-class="stop" color="red"/>
                 停止
               </el-tooltip>
             </el-menu-item>
@@ -280,7 +269,7 @@ const operMsg = `
               <el-tooltip class="item" content="格式化"
                           effect="dark"
                           placement="bottom">
-                <star-horse-icon icon-class="format" size="24px" color="darkorange"/>
+                <star-horse-icon icon-class="format" color="darkorange"/>
                 格式化
               </el-tooltip>
             </el-menu-item>
@@ -291,9 +280,9 @@ const operMsg = `
     </el-row>
     <div class="search-area">
       <div class="table-list" v-if="assignDataList.length>0">
-        <el-input size="default" placeholder="请输入关键字" v-model="filterTableName" @keydown.enter="filterData"
+        <el-input :size="compSize" placeholder="请输入关键字" v-model="filterTableName" @keydown.enter="filterData"
         >
-          <template #append>
+          <template #suffix>
             <star-horse-icon @click="filterData" icon-class="search" color="var(--star-horse-style)"/>
           </template>
         </el-input>
@@ -345,13 +334,12 @@ const operMsg = `
                 :name="'Result' + (indexa + 1)"
                 v-for="(item, indexa) in queryResult"
             >
-              <el-button @click="exportData(item)" link title=""
-                         style="background: var(--star-horse-style);color: var(--star-horse-white)">
-                <star-horse-icon icon-class="excel-export"/>
-                <el-tooltip content="导出">导出</el-tooltip>
+              <el-button :size="compSize" @click="exportData(item)" link title="">
+                <star-horse-icon icon-class="excel-export" />导出
               </el-button>
               <hr>
               <el-table
+                  :size="compSize"
                   :data="item.dataList"
                   :id="'queryResultId' + (indexa + 1)"
                   @row-dblclick="viewDataDetail"
@@ -384,7 +372,7 @@ const operMsg = `
               </el-table>
               <hr>
               <el-pagination
-                  default
+                  :size="compSize"
                   :total="item.totalDatas"
                   @current-change="handleCurrentChange(indexa,item.currentSql,item.currentPage,item.pageSize)"
                   layout="total,  prev, pager, next,jumper"
@@ -490,7 +478,7 @@ const operMsg = `
     flex: 1;
     display: flex;
     flex-direction: column;
-
+    margin-left: 10px;
     .search-editor {
       flex: 1;
     }
