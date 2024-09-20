@@ -31,6 +31,7 @@ let menusList = ref<SelectOption[]>([]);
 let menusSelectList = ref<SelectOption[]>([]);
 let authorityList = ref<SelectOption[]>([]);
 let dataForm = ref<any>({});
+let defaultCondition = ref<SearchParams[]>([]);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {label: "角色名称", defaultShow: true, fieldName: "idRolesinfo", type: "select", optionList: rolesList},
@@ -93,8 +94,7 @@ provide("dialogProps", dialogProps);
 const dataFormat = (name: string, cellValue: any, row: any): any => {
   return cellValue;
 };
-const treeRef = ref<InstanceType<typeof ElTreeV2>>();
-const query = ref('');
+
 const menuBtnTableRef = ref();
 let currentUserGroupId = ref<number>(0);
 let currentSystemId = ref<number>(0);
@@ -149,6 +149,7 @@ const loadMenus = async () => {
   if (currentSystemId.value) {
     fieldList.push(createCondition("a.idInformations", currentSystemId.value));
   }
+  menusList.value = [];
   let menusDatas = await loadData("/system-config/system/menusinfoEntity/rolesAppMenus", {
     fieldList: fieldList,
     orderBy: [{
@@ -193,6 +194,7 @@ const doQuery = () => {
   if (currentSystemId.value) {
     params.push(createCondition("a.idInformations", currentSystemId.value));
   }
+  defaultCondition.value = JSON.parse(JSON.stringify(params));
   if (currentMenuId.value) {
     params.push(createCondition("a.idMenusinfo", currentMenuId.value));
   }
@@ -246,6 +248,7 @@ onMounted(async () => {
           <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
             <star-horse-search-comp @searchData="(data:any)=>menuBtnTableRef.createSearchParams(data)"
                                     :formData="searchFormData"
+                                    :defaultCondition="defaultCondition"
                                     :compUrl="dataUrl"/>
             <hr/>
             <star-horse-button-list :preValidFunc="preValid"

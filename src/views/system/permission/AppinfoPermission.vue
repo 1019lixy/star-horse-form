@@ -9,6 +9,7 @@ import {ApiUrls} from "@/components/types/ApiUrls";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {Config} from "@/api/settings.ts";
 import {warning} from "@/utils/message.ts";
+import {SearchParams} from "@/components/types/Params";
 
 let informationsList = ref<any>([]);
 let appPermissionStatus = ref<SelectOption[]>([]);
@@ -18,14 +19,16 @@ let rolesList = ref<SelectOption[]>();
 let configStore = GlobalConfig(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.inputSize || "default");
 let currentUserGroupId = ref<number>(0);
+let defaultCondition = ref<SearchParams[]>([]);
 const checkChange = (data: TreeNodeData, checked: boolean) => {
   currentUserGroupId.value = data.value;
-  appinfoPermission.value.createSearchParams([
+  defaultCondition.value = [
     {
       propertyName: "b.idRolesinfo",
       value: data.value
     }
-  ])
+  ];
+  appinfoPermission.value.createSearchParams(defaultCondition.value)
 };
 const searchFields = reactive<SearchFields>({
   fieldList: [
@@ -49,8 +52,15 @@ const formFieldList = reactive<PageFieldInfo>({
       formShow: true, required: true, viewShow: false, disabled: "Y"
     },
     {
-      label: "系统名称", fieldName: "idInformations", type: "tselect", optionList: informationsList,
-      formShow: true, required: true, viewShow: false,
+      label: "应用名称",
+      fieldName: "appList",
+      type: "tselect",
+      optionList: informationsList,
+      formShow: true,
+      required: true,
+      viewShow: false,
+      multiple: "Y",
+      helpMsg: "选择子节点时，一定要先选中父节点，否则在头部应用菜单栏无法显示",
       preps: {
         checkStrictly: "Y"
       }
@@ -76,9 +86,6 @@ const tableFieldList = reactive<PageFieldInfo>({
     },
     {
       label: "系统编码", fieldName: "sysCode", type: "input", tableShow: true
-    },
-    {
-      label: "权限", fieldName: "btnNames", type: "input", tableShow: true
     },
     {
       label: "状态",
@@ -144,6 +151,7 @@ onMounted(async () => {
         <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
           <star-horse-search-comp @searchData="(data:any)=>appinfoPermission.createSearchParams(data)"
                                   :formData="searchFields"
+                                  :defaultCondition="defaultCondition"
                                   :compUrl="dataUrl"/>
           <hr/>
           <star-horse-button-list :preValidFunc="preValid"

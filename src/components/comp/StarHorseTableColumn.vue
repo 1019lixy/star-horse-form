@@ -11,7 +11,8 @@ const props = defineProps({
   batchName: {type: String, default: ""},
   item: {type: Object as PropType<any>, required: true},
   dataFormat: {type: Function, required: true},
-  cellEditable: {type: Boolean, default: true}
+  cellEditable: {type: Boolean, default: true},
+  compSize: {type: String, default: "default"}
 });
 const emits = defineEmits(["focusEvent", "blurEvent"]);
 const currentRow = ref();
@@ -94,6 +95,7 @@ const currentDataFormat = (scope: any) => {
                        :column="scope.column"
                        :batchName="batchName"
                        @focus="focusEvent"
+                       :compSize="compSize"
                        ref="currentRowColumnRef"
                        @blur="blurEvent"
                        v-if="scope.row.isSelected&&(scope.row.selectName==item.hideName||scope.row.selectName==item.fieldName)"/>

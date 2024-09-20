@@ -7,6 +7,7 @@ import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import piniaInstance from "@/store";
 import {analysisSearchData} from "@/views/dyform/utils/preview.ts";
+import {SearchParams} from "@/components/types/Params";
 
 let matchTypeList = ref<SelectOption[]>();
 let sarchIcon = ref<string>("search_down");
@@ -19,6 +20,7 @@ const props = defineProps({
   mutComp: {type: Boolean, default: false},
   compUrl: {type: Object as PropType<ApiUrls>},
   formData: {type: Object as PropType<SearchFields>, required: true},
+  defaultCondition: {type: Array<SearchParams>}
 });
 let configStore = GlobalConfig(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.inputSize || "default");
@@ -51,7 +53,10 @@ const dataSearch = (val: string | null) => {
   }
   let searchDatas = createSearchParams(props.formData?.fieldList);
   //如果一个页面（包括引入的页面）出现多个此组件,不能走消息总线，
-  // 否则只有最后一个组件能收到查询消息
+  // 默认查询条件，如果设置，在每次的查询中都会带上
+  if (props.defaultCondition) {
+    searchDatas.push(...props.defaultCondition);
+  }
   emits("searchData", searchDatas);
 };
 const searchArea = () => {

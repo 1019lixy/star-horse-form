@@ -652,7 +652,7 @@ defineExpose({
         :reserve-selection="true"
     >
     </el-table-column>
-    <table-column :fieldList="fieldList" :compUrl="compUrl" :dataFormat="dataFormat" :showBatchField="showBatchField"/>
+    <table-column :fieldList="fieldList"  :compSize="compSize" :compUrl="compUrl" :dataFormat="dataFormat" :showBatchField="showBatchField"/>
     <el-table-column
         v-if="!disableAction&&Object.keys(permissions||{}).length>0"
         fixed="right"

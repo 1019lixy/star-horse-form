@@ -10,6 +10,7 @@ import StarHorseFormItem from "@/components/comp/StarHorseFormItem.vue";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import piniaInstance from "@/store";
 import {useUserSelfOperation} from "@/store/SelfOperationStore.ts";
+import {SelectOption} from "@/components/types/SearchProps";
 
 const props = defineProps({
   compUrl: {type: Object as PropType<ApiUrls>,},
@@ -22,6 +23,11 @@ const props = defineProps({
   rules: {type: Object},
   dynamicForm: {type: Boolean, default: false},
   isView: {type: Boolean, default: false},
+  selectData: {
+    type: Array<SelectOption>, default: () => {
+      return [{name: "正常", value: "1"}, {name: "禁用", value: "2"}]
+    }
+  }
 });
 let configStore = GlobalConfig(piniaInstance);
 let userOperation = useUserSelfOperation(piniaInstance);
@@ -48,7 +54,6 @@ computed(() => {
 const closeDialog = inject("closeDialog") as Function;
 let dialogOperation = inject("dialogOperation") as ShallowReactive<any>;
 const dialogProps = inject<DialogProps>("dialogProps", {});
-const selectData = ref<any>([]);
 const formFields = inject("formFields") as ShallowReactive<any>;
 watch(
     () => dialogOperation,
@@ -142,9 +147,9 @@ const merge = (type: string) => {
  */
 const assignStatusName = () => {
   if (dataForm.value.statusCode) {
-    let sData = selectData.value.find((item: any) => item.value === dataForm.value.statusCode);
+    let sData = props.selectData.find((item: any) => item.value === dataForm.value.statusCode);
     if (sData) {
-      dataForm.value["statusName"] = sData.statusName;
+      dataForm.value["statusName"] = sData.name;
     }
   }
   let batchFields = props.fieldList.batchFieldList || [];
@@ -152,9 +157,9 @@ const assignStatusName = () => {
     if (dataForm.value[item.batchName]) {
       for (let index = 0; index < dataForm.value[item.batchName]?.length; index++) {
         let temp = dataForm.value[item.batchName][index];
-        let sData = selectData.value.find((sitem: any) => sitem.value === temp.statusCode);
-        if (sData && sData.statusName) {
-          dataForm.value[item.batchName][index]["statusName"] = sData.statusName;
+        let sData = props.selectData.find((sitem: any) => sitem.value === temp.statusCode);
+        if (sData) {
+          dataForm.value[item.batchName][index]["statusName"] = sData.name;
         }
       }
     }
@@ -279,7 +284,7 @@ watch(() => dialogProps.ids,
       if (!val || val == -1) {
         setFormData(dataForm.value);
       } else {
-        console.log("a_xxxxxxx", dialogProps.ids);
+        // console.log("a_xxxxxxx", dialogProps.ids);
         loadData();
       }
     }, {

@@ -17,6 +17,7 @@ import {warning} from "@/utils/message.ts";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {Config} from "@/api/settings.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
+import {SearchParams} from "@/components/types/Params";
 
 const dataUrl: ApiUrls = apiInstance("system-config", "system/rolesPkMenusinfo");
 const menuPermission = ref();
@@ -28,6 +29,7 @@ let configStore = GlobalConfig(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.inputSize || "default");
 let currentUserGroupId = ref<number>(0);
 let currentSystemId = ref<number>(0);
+let defaultCondition = ref<SearchParams[]>([]);
 const userGroupChange = async (data: TreeNodeData, checked: boolean) => {
   systemInfoList.value = [];
   currentUserGroupId.value = data.value;
@@ -52,12 +54,14 @@ const setQueryCondition = () => {
   if (currentSystemId.value) {
     queryCond.push(createCondition("a.idInformations", currentSystemId.value));
   }
+  defaultCondition.value = queryCond;
   menuPermission.value.createSearchParams(queryCond);
 }
 const systemChange = async (data: TreeNodeData, checked: boolean) => {
   currentSystemId.value = data.idInformations;
+  let condition: SearchParams = createCondition("informationsSingleId", data.idInformations);
   setQueryCondition();
-  menusList.value = await loadMenusInfo(false, [createCondition("informationsSingleId", data.idInformations)], false);
+  menusList.value = await loadMenusInfo(false, [condition], false);
 };
 let menuPermissionStatus = ref<SelectOption[]>([]);
 const searchFields = reactive<SearchFields>({
@@ -81,12 +85,17 @@ const formFieldList = reactive<PageFieldInfo>({
       formShow: true, required: true, viewShow: false, disabled: "Y"
     },
     {
-      label: "菜单名称", fieldName: "idMenusinfo", type: "tselect", optionList: menusList,
-      formShow: true, required: true, viewShow: false
+      label: "菜单名称", fieldName: "menuList", type: "tselect", optionList: menusList,
+      formShow: true, required: true, viewShow: false, multiple: "Y",
+      helpMsg: "选择子节点时，一定要先选中父节点，否则左侧菜单栏无法显示",
+      preps: {
+        checkStrictly: "Y"
+      }
     }, {
       label: "状态",
       fieldName: "statusCode",
       type: "select",
+      defaultValue: "1",
       tableShow: true,
       formShow: true,
       optionList: menuPermissionStatus,
@@ -180,6 +189,7 @@ onMounted(async () => {
         <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
           <star-horse-search-comp @searchData="(data:any)=>menuPermission.createSearchParams(data)"
                                   :formData="searchFields"
+                                  :defaultCondition="defaultCondition"
                                   :compUrl="dataUrl"/>
           <hr/>
           <star-horse-button-list :preValidFunc="preValid" @tableCompFunc="(fun:any)=>menuPermission.tableCompFunc(fun)"
