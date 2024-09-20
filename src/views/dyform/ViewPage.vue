@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import {onMounted, provide, reactive, ref, watch} from "vue";
-import {closeLoad, load} from "@/api/sh_api";
-import {ApiUrls} from "@/components/types/ApiUrls";
+import {computed, onMounted, provide, reactive, ref, watch} from "vue";
+import {apiInstance, closeLoad, dialogPreps, load} from "@/api/sh_api";
 import {SearchProps} from "@/components/types/SearchProps";
 import DataPreview from "@/views/dyform/DataPreview.vue";
 import {analysisSearchData, viewColumns, viewDataList} from "@/views/dyform/utils/preview";
@@ -10,32 +9,23 @@ import {error} from "@/utils/message";
 import {Config} from "@/api/settings.ts";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
+import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 
 let designForm = DesignForm(piniaInstance);
 const props = defineProps({
   param: {type: String, required: true},
   isPreview: {type: Boolean, default: false}
 });
-const dataUrl = ref<ApiUrls>({
-  uploadUrl: "",
-  batchMergeDraftUrl: "",
-  batchMergeUrl: "",
-  deleteUrl: "",
-  downloadTemplateUrl: "",
-  exportAllUrl: `/userdb-manage/consumer/api/exportData/${props.param}`,
-  loadByIdUrl: "",
-  loadByPageUrl: "",
-  mergeDraftUrl: "",
-  mergeUrl: "",
-  importUrl: "",
-  userConditionUrl: ""
-});
+let configStore = GlobalConfig(piniaInstance);
+let compSize = computed(() => configStore.configFormInfo?.inputSize || "default");
+
+const dataUrl = apiInstance("userdb-manage", "consumer/api");
+dataUrl.exportAllUrl = `/userdb-manage/consumer/api/exportData/${props.param}`;
 const errorMsg = ref("数据加载中");
 let searchFormData = ref<SearchProps[]>([]);
 const tableFieldList = ref<any>({
-      fieldList: [],
-    })
-;
+  fieldList: [],
+});
 /**
  * 表单数据直接取定义的数据preps,
  * 列表数据重新定义，方便排序和位置拖拽
@@ -57,7 +47,7 @@ const exportData = () => {
     pageSize: 100,
     currentPage: 1
   }
-  download(dataUrl.value!.exportAllUrl, params).catch(err => {
+  download(dataUrl.exportAllUrl!, params).catch(err => {
     error("接口不存在或网络异常:" + err);
   }).finally(() => {
     closeLoad();
@@ -87,7 +77,7 @@ const loadFormData = async (currentPage: number, pageSize: number) => {
 //监听数据变化
 watch(
     () => props.param,
-    (val) => {
+    () => {
       clear();
       try {
         if (props.param) {
@@ -113,7 +103,6 @@ const dataFormat = (name: string, cellValue: object): any => {
 };
 const init = async () => {
   designForm.setIsEdit(false);
-  ;
   await loadColumnFields();
   await loadFormData(1, 20);
 }
@@ -157,7 +146,7 @@ onMounted(async () => {
       </div>
       <hr>
       <DataPreview ref="starHorseTableCompRef" :item="previewDatas" :columns="columnList" @exportData="exportData"
-                   @changePage="loadFormData" :isPreview="isPreview"/>
+                   @changePage="loadFormData" :isPreview="isPreview" :compSize="compSize"/>
     </el-card>
   </template>
 </template>

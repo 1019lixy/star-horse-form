@@ -14,23 +14,22 @@ import {Config} from "@/api/settings.ts";
 const router = useRouter();
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance("userdb-manage", "userdb/dynamicFormConsumerConfig");
-let viewTypeList = ref<SelectOption[]>();
-let auditList = ref<SelectOption[]>([{
-  name: "是", value: "Y"
-}, {
-  name: "否", value: "N"
-}]);
+let viewTypeList = ref<SelectOption[]>([]);
+let auditList = ref<SelectOption[]>([
+  {name: "是", value: "Y"},
+  {name: "否", value: "N"}
+]);
 //查询属性
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "视图名称", fieldName: "viewName", type: "input", matchType: "lk"},
-    {label: "视图类别", fieldName: "viewType", type: "select", optionList: viewTypeList},
-    {label: "消费权限", fieldName: "consumeAuthority", type: "select"},
-    {label: "是否需要认证", fieldName: "isAudit", type: "select", optionList: auditList},
+    {label: "视图名称", fieldName: "viewName", defaultShow: true, type: "input", matchType: "lk"},
+    {label: "视图类别", fieldName: "viewType", defaultShow: true, type: "select", optionList: viewTypeList},
+    {label: "消费权限", fieldName: "consumeAuthority", defaultShow: true, type: "select"},
+    {label: "是否需要认证", fieldName: "isAudit", defaultShow: true, type: "select", optionList: auditList},
   ]
 });
-const currentRow = ref({});
-const preview = (row: any, currentPage: number, pageSize: number) => {
+const currentRow = ref<any>({});
+const preview = (row: any, _currentPage: number, _pageSize: number) => {
   currentRow.value = row;
   dialogProps.bakeVisible1 = true;
 };
@@ -162,7 +161,6 @@ const closeAction = () => {
 }
 //初始化方法
 const initData = async () => {
-  ;
   viewTypeList.value = await dictData("consumer_type");
   selfBtnFunc.value?.push({
     labelName: "新增",
@@ -191,9 +189,9 @@ onMounted(async () => {
  * 列表，查看数据时数据转换
  * @param name 名称
  * @param cellValue 值
- * @param row 列表行数据
+ * @param _row 列表行数据
  */
-const dataFormat = (name: string, cellValue: any, row: any): any => {
+const dataFormat = (name: string, cellValue: any, _row: any): any => {
   //转换显示信息
   if (name == "viewType") {
     let redata = viewTypeList.value?.find((item: SelectOption) => item.value == cellValue);
@@ -203,9 +201,6 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
     return redata?.name || cellValue;
   }
   return cellValue;
-}
-const changePage = (currentPage: number, pageSize: number) => {
-  preview(currentRow.value, currentPage, pageSize)
 }
 </script>
 <style lang="scss" scoped>

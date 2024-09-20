@@ -6,6 +6,7 @@ const props = defineProps({
   item: {type: Object, default: {}},
   columns: {type: Array<any>, default: []},
   isPreview: {type: Boolean, default: false},
+  compSize:{type:String,default:"default"}
 });
 const emits = defineEmits(["changePage", "exportData"]);
 const viewDataPreviewRef = ref();
@@ -69,6 +70,7 @@ defineExpose({
           :data="toolFields"
           :strip="true"
           :fit="true"
+          :size="compSize"
           :highlight-current-row="true"
           min-height="400px"
           row-key="prop"
@@ -128,6 +130,7 @@ defineExpose({
       :stripe="true"
       :fit="true"
       row-key="pop"
+      :size="compSize"
       :height="isPreview?400:'100%'"
       :highlight-current-row="true"
       :row-style="{
@@ -164,6 +167,7 @@ defineExpose({
   </el-table>
   <hr>
   <el-pagination
+      :size="compSize"
       :total="item.totalDatas"
       @current-change="handleCurrentChange(item.currentPage,item.pageSize)"
       layout="total,  prev, pager, next,jumper"

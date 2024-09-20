@@ -10,26 +10,10 @@ import piniaInstance from "@/store/index.ts";
 let designForm = DesignForm(piniaInstance);
 const normalPageRef = ref();
 let relationTables = ref<any>({});
-const dataUrl = ref<ApiUrls>({
-  uploadUrl: "",
-  batchMergeDraftUrl: "",
-  batchMergeUrl: "",
-  deleteUrl: "",
-  downloadTemplateUrl: "",
-  exportAllUrl: "",
-  loadByIdUrl: "",
-  loadByPageUrl: "",
-  mergeDraftUrl: "",
-  mergeUrl: "",
-  importUrl: "",
-  userConditionUrl: ""
-});
+const dataUrl = ref<ApiUrls>({});
 const errorMsg = ref("数据加载中");
 let searchFormData = ref<SearchProps[]>([]);
-const tableFieldList = ref<any>({
-      fieldList: [],
-    })
-;
+const tableFieldList = ref<any>({fieldList: []});
 /**
  * 表单数据直接取定义的数据preps,
  * 列表数据重新定义，方便排序和位置拖拽
@@ -45,8 +29,7 @@ const clear = () => {
   hasData.value = false;
 };
 const loadFormData = async (formId: string) => {
-  let {data, error} = await loadGetData(`/userdb-manage/userdb/dynamicForm/dynamicPageInfo/${formId}`
-  );
+  let {data, error} = await loadGetData(`/userdb-manage/userdb/dynamicForm/dynamicPageInfo/${formId}`);
   if (error) {
     errorMsg.value = error;
     clear();
@@ -84,7 +67,7 @@ provide("formFields", formFields);
 const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 
-const dataFormat = (name: string, cellValue: object, row: any): any => {
+const dataFormat = (name: string, cellValue: any, row: any): any => {
   return "null" == cellValue ? "--" : cellValue || "--";
 };
 const loadPermission = async () => {
