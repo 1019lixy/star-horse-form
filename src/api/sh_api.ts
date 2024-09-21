@@ -202,9 +202,9 @@ export async function loadMenusInfo(direct: boolean, params: any, needSystem: bo
 /**
  * 构建菜单树
  * @param data
- * @param valField
+ * @param valField 字符串值
  * @param name
- * @param val
+ * @param val 数字值
  */
 export function createTree(data: any, valField: string, name: string, val: string) {
     const list: SelectOption[] = [];

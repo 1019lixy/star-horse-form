@@ -27,7 +27,6 @@ onMounted(() => {
 </script>
 
 <template>
-
   <el-row v-if="item instanceof Array" :gutter="10">
     <template v-for="sitem in item">
       <el-col :span="sitem.colspan||sitem.preps?.colspan||(24/item.length)"
@@ -48,6 +47,13 @@ onMounted(() => {
                          :item="sitem"
                          :isEdit="isEdit"/>
       </el-col>
+      <el-col :span="sitem.colspan||sitem.preps?.colspan||(24/item.length)"
+              v-else>
+        <star-horse-item :primaryKey="primaryKey" :compSize="compSize" v-model:dataForm="dataForm"
+                         :item="sitem"
+                         :isEdit="isEdit"/>
+      </el-col>
+
     </template>
   </el-row>
 </template>

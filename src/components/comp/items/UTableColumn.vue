@@ -29,6 +29,7 @@ defineProps({
             :batchName="sitem['batchName']"
             :initRows="sitem['initRows']"
             :subFlag="true"
+            :size="size"
             :defaultValues="batchFieldDefaultValues(sitem)"
             :field-list="sitem['fieldList']"
             :rules="sitem['rules']||rules"

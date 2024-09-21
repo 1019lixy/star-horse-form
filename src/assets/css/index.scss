@@ -168,7 +168,9 @@ a {
   height: 40px;
   line-height: 40px;
 }
-
+.el-input-group__append, .el-input-group__prepend{
+  padding: 0 2px !important;
+}
 .el-menu--vertical .el-menu-item a {
   color: #000000;
 }
