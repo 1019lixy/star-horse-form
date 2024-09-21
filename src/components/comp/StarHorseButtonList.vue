@@ -1,148 +1,3 @@
-<script setup lang="ts" name="StarHorseButtonList">
-import {computed, onMounted, PropType, ref} from "vue";
-import {ApiUrls} from "@/components/types/ApiUrls";
-import {download} from "@/api/star_horse";
-import {error} from "@/utils/message";
-import {DialogProps} from "../types/DialogProps";
-import {BtnAuth} from "@/components/types/BtnAuth";
-import {getToken} from "@/utils/auth";
-import Help from "@/components/help.vue";
-import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
-import piniaInstance from "@/store";
-import {useButtonPermission} from "@/store/ButtonPermissionStore.ts";
-import {useRoute} from "vue-router";
-import {UserFuncInfo} from "@/components/types/PageFieldInfo";
-
-const props = defineProps({
-  dialogProps: {type: Object as PropType<DialogProps>, required: true},
-  compUrl: {type: Object as PropType<ApiUrls>, required: true},
-  selfBtnFunc: {type: Array as PropType<BtnAuth[]>, default: null},
-  viewFlag: {type: Boolean, default: false},
-  //自定义按钮
-  extandBtns: {type: Array as PropType<UserFuncInfo[]>},
-  //与检查方法
-  preValidFunc: {type: Object, default: {}}
-});
-const emits = defineEmits([
-  "upload",
-  "uploadProcess",
-  "uploadError",
-  "uploadSuccess",
-  "btnOperation",
-  "tableCompFunc"
-]);
-let route = useRoute();
-let configStore = GlobalConfig(piniaInstance);
-let pagePermission = useButtonPermission();
-let compSize = computed(() => configStore.configFormInfo?.buttonSize || "default");
-let showType = computed(() => configStore.configFormInfo?.buttonShowType || "dropdown");
-let permissions = ref<any>({});
-const dataForm = ref<any>({});
-const tableCompFunc = (funcName: string) => {
-  emits("tableCompFunc", funcName);
-};
-const btnOperation = (funcName: string) => {
-  let data: any = props.selfBtnFunc && props.selfBtnFunc.find((item) => item.btnName == funcName);
-  //检查前置条件
-  if (props.preValidFunc && props.preValidFunc[funcName]) {
-    let result = props.preValidFunc[funcName]();
-    if (!result) {
-      return;
-    }
-  }
-  if (data) {
-    data["exec"]();
-  } else {
-    //？表示判断是否为空 ！表示断言not null
-    if (funcName == "add") {
-      //  dataForm.value = {};
-      props.dialogProps!.ids = -1;
-      props.dialogProps!.editVisible = true;
-      props.dialogProps!.dialogTitle = "新增数据";
-    } else if (funcName == "batchAdd") {
-      props.dialogProps!.batchEditVisible = true;
-      props.dialogProps!.batchDialogTitle = "批量新增数据";
-    } else {
-      console.log("未知条件");
-    }
-  }
-};
-/**
- * 刷新数据
- * @param file
- * @param fileList
- */
-const downloadTemplate = () => {
-  download(props.compUrl!.downloadTemplateUrl!, {}).catch((err) => {
-    error("接口不存在或网络异常:" + err);
-  });
-};
-const upload = (file: any, fileList: any) => {
-  emits("upload", file, fileList);
-};
-const beforeUpload = (_file: any, _fileList: any) => {
-  //load("数据导入中");
-};
-/**
- * 上传过程
- */
-const uploadProcess = (_event: any, _file: any, _fileList: any) => {
-};
-/**
- * 上传失败
- */
-const uploadError = (_err: any, _file: any, _fileList: any) => {
-  // closeLoad();
-  tableCompFunc("refresh");
-};
-/**
- * 上传成功
- */
-const uploadSuccess = (_response: any, _file: any, _fileList: any) => {
-  //closeLoad();
-  tableCompFunc("refresh");
-};
-const checkSelfBtn = (btn: string) => {
-  if (!props.selfBtnFunc) {
-    return true;
-  }
-  let fdata = props.selfBtnFunc.find(item => item.btnName == btn);
-  if (fdata) {
-    return false;
-  }
-  return true;
-}
-const setFormData = (val: any) => {
-  dataForm.value = {...val};
-}
-const init = async () => {
-  permissions.value = await pagePermission.addRoute(route);
-};
-onMounted(() => {
-  init();
-});
-defineExpose({
-  setFormData
-})
-</script>
-<style lang="scss" scoped>
-:deep(.el-tooltip__trigger:focus-visible) {
-  outline: unset;
-}
-
-.el-menu {
-  background: none;
-  border-bottom: none;
-}
-
-:deep(.el-sub-menu) {
-  background: none;
-}
-
-.el-menu--horizontal {
-  height: 30px;
-}
-</style>
 <template>
   <ul class="inner_button" v-if="showType=='line'&&Object.keys(permissions||{}).length>0">
     <li v-if="permissions?.add&&!viewFlag&&checkSelfBtn('add')">
@@ -307,3 +162,149 @@ defineExpose({
     </el-sub-menu>
   </el-menu>
 </template>
+<script setup lang="ts" name="StarHorseButtonList">
+import {computed, onMounted, PropType, ref} from "vue";
+import {ApiUrls} from "@/components/types/ApiUrls";
+import {download} from "@/api/star_horse";
+import {error} from "@/utils/message";
+import {DialogProps} from "../types/DialogProps";
+import {BtnAuth} from "@/components/types/BtnAuth";
+import {getToken} from "@/utils/auth";
+import Help from "@/components/help.vue";
+import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
+import piniaInstance from "@/store";
+import {useButtonPermission} from "@/store/ButtonPermissionStore.ts";
+import {useRoute} from "vue-router";
+import {UserFuncInfo} from "@/components/types/PageFieldInfo";
+
+const props = defineProps({
+  dialogProps: {type: Object as PropType<DialogProps>, required: true},
+  compUrl: {type: Object as PropType<ApiUrls>, required: true},
+  selfBtnFunc: {type: Array as PropType<BtnAuth[]>, default: null},
+  viewFlag: {type: Boolean, default: false},
+  //自定义按钮
+  extandBtns: {type: Array as PropType<UserFuncInfo[]>},
+  //与检查方法
+  preValidFunc: {type: Object, default: {}}
+});
+const emits = defineEmits([
+  "upload",
+  "uploadProcess",
+  "uploadError",
+  "uploadSuccess",
+  "btnOperation",
+  "tableCompFunc"
+]);
+let route = useRoute();
+let configStore = GlobalConfig(piniaInstance);
+let pagePermission = useButtonPermission();
+let compSize = computed(() => configStore.configFormInfo?.buttonSize || "default");
+let showType = computed(() => configStore.configFormInfo?.buttonShowType || "dropdown");
+let permissions = ref<any>({});
+const dataForm = ref<any>({});
+const tableCompFunc = (funcName: string) => {
+  emits("tableCompFunc", funcName);
+};
+const btnOperation = (funcName: string) => {
+  let data: any = props.selfBtnFunc && props.selfBtnFunc.find((item) => item.btnName == funcName);
+  //检查前置条件
+  if (props.preValidFunc && props.preValidFunc[funcName]) {
+    let result = props.preValidFunc[funcName]();
+    if (!result) {
+      return;
+    }
+  }
+  if (data) {
+    data["exec"]();
+  } else {
+    //？表示判断是否为空 ！表示断言not null
+    if (funcName == "add") {
+      //  dataForm.value = {};
+      props.dialogProps!.ids = -1;
+      props.dialogProps!.editVisible = true;
+      props.dialogProps!.dialogTitle = "新增数据";
+    } else if (funcName == "batchAdd") {
+      props.dialogProps!.batchEditVisible = true;
+      props.dialogProps!.batchDialogTitle = "批量新增数据";
+    } else {
+      console.log("未知条件");
+    }
+  }
+};
+/**
+ * 刷新数据
+ * @param file
+ * @param fileList
+ */
+const downloadTemplate = () => {
+  download(props.compUrl!.downloadTemplateUrl!, {}).catch((err) => {
+    error("接口不存在或网络异常:" + err);
+  });
+};
+const upload = (file: any, fileList: any) => {
+  emits("upload", file, fileList);
+};
+const beforeUpload = (_file: any, _fileList: any) => {
+  //load("数据导入中");
+};
+/**
+ * 上传过程
+ */
+const uploadProcess = (_event: any, _file: any, _fileList: any) => {
+};
+/**
+ * 上传失败
+ */
+const uploadError = (_err: any, _file: any, _fileList: any) => {
+  // closeLoad();
+  tableCompFunc("refresh");
+};
+/**
+ * 上传成功
+ */
+const uploadSuccess = (_response: any, _file: any, _fileList: any) => {
+  //closeLoad();
+  tableCompFunc("refresh");
+};
+const checkSelfBtn = (btn: string) => {
+  if (!props.selfBtnFunc) {
+    return true;
+  }
+  let fdata = props.selfBtnFunc.find(item => item.btnName == btn);
+  if (fdata) {
+    return false;
+  }
+  return true;
+}
+const setFormData = (val: any) => {
+  dataForm.value = {...val};
+}
+const init = async () => {
+  permissions.value = await pagePermission.addRoute(route);
+};
+onMounted(() => {
+  init();
+});
+defineExpose({
+  setFormData
+})
+</script>
+<style lang="scss" scoped>
+:deep(.el-tooltip__trigger:focus-visible) {
+  outline: unset;
+}
+
+.el-menu {
+  background: none;
+  border-bottom: none;
+}
+
+:deep(.el-sub-menu) {
+  background: none;
+}
+
+.el-menu--horizontal {
+  height: 30px;
+}
+</style>
+

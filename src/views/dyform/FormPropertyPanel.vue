@@ -1,6 +1,6 @@
 <script setup lang="ts" name="FormPropertyPanel">
 import {computed, onMounted, reactive, ref, watch} from "vue";
-import {loadElementPlusIcon, loadGetData, loadSystemInfo} from "@/api/sh_api";
+import {dbConfigList, loadElementPlusIcon, loadGetData, loadSystemInfo} from "@/api/sh_api";
 import {SelectOption} from "@/components/types/SearchProps";
 import {permissionMenus, postRequest} from "@/api/star_horse";
 import {warning} from "@/utils/message";
@@ -145,18 +145,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     })
 ;
 const initDbList = async () => {
-  let {data, error} = await loadGetData("/dbsearch-manage/dbsearch/dbinfoEntity/getDbInfoByUser");
-  if (error) {
-    warning(error);
-    return
-  }
-  dbList.value = [];
-  data.forEach((item: any) => {
-    dbList.value.push({
-      name: item.name,
-      value: item.configId + ""
-    })
-  });
+  dbList.value = await dbConfigList();
 };
 const initData = async () => {
   let params = [{propertyName: "statusCode", value: "1"}];

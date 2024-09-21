@@ -222,7 +222,7 @@ const loadConfigData = async (configId: string | LocationQueryValue[]) => {
 const createMergeData = () => {
   let configInfo = viewConfigInfo.value;
   let relations = configInfo.relations;
-  // console.log(configInfo);
+  let formData: any = dataSourceFormRef.value.getFormData().value;
   let tables = configInfo.tables;
   if (!relations && tables.length > 1) {
     warning("两张表之间必须要设置关联关系");
@@ -262,6 +262,7 @@ const createMergeData = () => {
   formProps.value["sortFieldList"] = exclusionOptionList(sortFieldsTemp);
   formProps.value["limitFieldList"] = exclusionOptionList(limitFieldsTemp);
   let data = JSON.parse(JSON.stringify(formProps.value));
+  data = {...data, ...formData};
   delete data["sortFields"];
   delete data["limitFields"];
   return data;
@@ -401,7 +402,7 @@ const nodeOperation = (cell: any) => {
                      @merge="submitValid"
                      @closeAction="closeAction"
                      @reset="resetDataSourceForm" :selfFunc="true">
-    <star-horse-form ref="dataSourceFormRef" v-model:data-form="formProps" :compUrl="dataUrl"
+    <star-horse-form ref="dataSourceFormRef" :outerFormData="formProps" :compUrl="dataUrl"
                      :fieldList="viewFieldInfo(viewTypeList,consumeAuthorityList,viewConfigInfo)"
                      :rules="{}"/>
   </star-horse-dialog>

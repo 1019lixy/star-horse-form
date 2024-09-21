@@ -9,6 +9,7 @@ import {Config} from "@/api/settings.ts";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {warning} from "@/utils/message.ts";
+import {SearchParams} from "@/components/types/Params";
 
 let rolesList = ref<SelectOption[]>([]);
 let accountPermissionStatus = ref<SelectOption[]>();
@@ -17,46 +18,48 @@ let configStore = GlobalConfig(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.inputSize || "default");
 const dataUrl: ApiUrls = apiInstance("system-config", "system/rolesPkUsers");
 let currentUserGroupId = ref<number>(0);
+let defaultCondition = ref<SearchParams[]>([]);
 const checkChange = (data: TreeNodeData, checked: boolean) => {
   let queryCond = [];
   currentUserGroupId.value = data.value;
   queryCond.push(createCondition("a.idRolesinfo", data.value));
+  defaultCondition.value = queryCond;
   accountPermission.value.createSearchParams(queryCond);
 };
 const searchFields = reactive<SearchFields>({
   fieldList: [
     {
       label: "账号",
-      fieldName: "b.username",
+      fieldName: "c.username",
       defaultShow: true,
       type: "input",
       matchType: "lk"
     },
     {
       label: "姓名",
-      fieldName: "b.name",
+      fieldName: "c.name",
       defaultShow: true,
       type: "input",
       matchType: "lk"
     },
     {
-      label: "状态", fieldName: "b.statusCode", type: "select", optionList: accountPermissionStatus, defaultShow: true
+      label: "状态", fieldName: "a.statusCode", type: "select", optionList: accountPermissionStatus, defaultShow: true
     },
   ]
 });
-const tableFieldList = reactive<PageFieldInfo>({
+const formFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
       label: "分组名称", fieldName: "idRolesinfo", type: "select", optionList: rolesList,
-      formShow: true, required: true, viewShow: false, disabled: "Y"
+      formShow: true, required: true, disabled: "Y"
     },
     {
-      label: "账号信息", fieldName: "username", aliasName: "idUsersinfo", multiple: "Y", type: "page-select", params: {
+      label: "账号信息", fieldName: "userNameList", aliasName: "userList", multiple: "Y", type: "page-select", params: {
         dataUrl: {
           loadByPageUrl: "/system-config/system/usersinfoEntity/pageList"
         },
-        needField: [{sourceField: "username", distField: "username"},
-          {sourceField: "idUsersinfo", distField: "idUsersinfo"}],
+        needField: [{sourceField: "username", distField: "userNameList"},
+          {sourceField: "idUsersinfo", distField: "userList"}],
         fieldList: [{
           label: "用户名", fieldName: "username", type: "input", tableShow: true
         }, {
@@ -69,6 +72,19 @@ const tableFieldList = reactive<PageFieldInfo>({
       },
       formShow: true, required: true, viewShow: false
     },
+    {
+      label: "状态",
+      fieldName: "statusCode",
+      type: "select",
+      tableShow: true,
+      formShow: true,
+      optionList: accountPermissionStatus,
+    },
+  ],
+
+});
+const tableFieldList = reactive<PageFieldInfo>({
+  fieldList: [
     {
       label: "分组名称", fieldName: "roleName", type: "input", tableShow: true
     },
@@ -104,7 +120,7 @@ const tableFieldList = reactive<PageFieldInfo>({
     ascOrDesc: "asc"
   }]
 });
-const primaryKey = "idUsersinfo";
+const primaryKey = ["idUsersinfo", "idRolesinfo"];
 const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 
@@ -114,7 +130,6 @@ let preValid = ref<any>({
       warning("请先选择分组");
       return false;
     }
-
     return true;
   }
 });
@@ -125,7 +140,6 @@ const dataFormat = (name: string, cellValue: object): any => {
   return cellValue;
 };
 const initData = async () => {
-  // systemInfoList.value = await loadSystemInfo([]);
   rolesList.value = await loadRolesInfo([]);
   accountPermissionStatus.value = await dictData("account_permission_status");
 };
@@ -136,8 +150,10 @@ onMounted(async () => {
 
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form @refresh="accountPermission.loadByPage()" :compUrl="dataUrl"
-                     :fieldList="tableFieldList"/>
+    <star-horse-form :outerFormData="{
+      idRolesinfo:currentUserGroupId
+    }" @refresh="accountPermission.loadByPage()" :compUrl="dataUrl"
+                     :fieldList="formFieldList"/>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title="'查看数据'"
                      :is-view="true">
@@ -154,6 +170,7 @@ onMounted(async () => {
           <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
             <star-horse-search-comp @searchData="(data:any)=>accountPermission.createSearchParams(data)"
                                     :formData="searchFields"
+                                    :defaultCondition="defaultCondition"
                                     :compUrl="dataUrl"/>
             <hr/>
             <star-horse-button-list :preValidFunc="preValid"

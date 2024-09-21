@@ -204,7 +204,7 @@ const pwdFieldInfo = reactive<PageFieldInfo | any>({
     <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
   </star-horse-dialog>
   <el-card class="inner_content">
-    <el-row style="height: 100%;" :gutter="10">
+<!--    <el-row style="height: 100%;" :gutter="10">
       <el-col :span="viewRolesinfoId?5:5" style="height: inherit">
         <star-horse-tree v-model:tree-datas="deptList" :preps="{
         label:'deptName',
@@ -212,7 +212,7 @@ const pwdFieldInfo = reactive<PageFieldInfo | any>({
       }" @selectData="checkChange" :comp-size="compSize"/>
       </el-col>
       <el-col :span="viewRolesinfoId?19:19" style="height: inherit">
-        <el-card class="inner_content" style="height: inherit">
+        <el-card class="inner_content" style="height: inherit">-->
           <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
             <star-horse-search-comp @searchData="(data:any)=>usersinfoTableListRef.createSearchParams(data)"
                                     :formData="searchFormData"
@@ -228,9 +228,9 @@ const pwdFieldInfo = reactive<PageFieldInfo | any>({
                                  :primaryKey="primaryKey"
                                  :compUrl="dataUrl"
                                  :dataFormat="dataFormat" :disableAction="disableAction"/>
-        </el-card>
+<!--        </el-card>
       </el-col>
-    </el-row>
+    </el-row>-->
   </el-card>
 </template>
 <style lang="scss" scoped>

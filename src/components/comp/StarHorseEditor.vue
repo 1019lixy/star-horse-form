@@ -83,7 +83,6 @@ const currentValFun = (_val: string) => {
 // 自定义自动完成函数
 const javaHint = (context: CompletionContext) => {
   let word: any = context.matchBefore(/\w*/);
-
   if (word.from == word.to && !context.explicit)
     return null
   return {
@@ -203,7 +202,7 @@ const setAutoCompletion = (dbName: string, datas: any) => {
       label: item.comment || item.tableName,
       apply: item.tableName
     });
-    config.value["schema"][dbName + "." + item.tableName] = item.fields.map((sitem: any) => sitem.filedName);
+    config.value["schema"][dbName + "." + item.tableName] = item.fields.map((sitem: any) => sitem.fieldName);
   });
   langInfo("sql");
 };

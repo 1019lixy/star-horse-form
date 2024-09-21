@@ -3,7 +3,8 @@ import {confirm} from "@/utils/message";
 import piniaInstance from "@/store/index.ts";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import {computed} from "vue";
-import {colDataInfo, copyContainer} from "@/api/system.ts";
+import {copyContainer} from "@/api/system.ts";
+import {colDataInfo} from "@/components/formcomp/container/dytableUtils.ts";
 
 const props = defineProps({
   parentField: {type: Object},

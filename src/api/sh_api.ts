@@ -202,9 +202,9 @@ export async function loadMenusInfo(direct: boolean, params: any, needSystem: bo
 /**
  * 构建菜单树
  * @param data
- * @param valField
+ * @param valField 字符串值
  * @param name
- * @param val
+ * @param val 数字值
  */
 export function createTree(data: any, valField: string, name: string, val: string) {
     const list: SelectOption[] = [];
@@ -815,6 +815,22 @@ export function checkObject(item: any, dataForm: Ref<any>) {
         dataForm.value[item.objectName] = {};
     }
     return 1;
+}
+
+export async function dbConfigList(): Promise<SelectOption[]> {
+    let dbList: SelectOption[] = [];
+    let {data, error} = await loadGetData("/dbsearch-manage/dbsearch/dbinfoEntity/getDbInfoByUser");
+    if (error) {
+        warning(error);
+        return dbList;
+    }
+    data.forEach((item: any) => {
+        dbList.push({
+            name: item.name,
+            value: item.configId + ""
+        })
+    });
+    return dbList;
 }
 
 /**

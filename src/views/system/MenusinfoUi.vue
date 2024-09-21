@@ -19,7 +19,7 @@ let parentMenus: any = ref<any>([]);
 let searchParentMenus: any = ref<any>([]);
 let informationsList: any = ref<any>([]);
 const currentInformation = ref<any>(null);
-
+const defaultCondition = ref<any>([]);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     /*{label: "归属系统", fieldName: "informationsSingleId", type: "select", optionList: informationsList},
@@ -141,6 +141,7 @@ const loadMenuBySystemId = async (systemId: number) => {
     "propertyName": "informationsSingleId",
     "value": systemId
   }];
+  defaultCondition.value = params;
   let {data} = await loadData("/system-config/system/menusinfoEntity/getAllTreeDataByCondition/false", params);
   if (data) {
     parentMenus.value = createTree(data, "dataNo", "menuName", "idMenusinfo");
@@ -202,12 +203,7 @@ const resetForm = () => {
 };
 const treeRef = ref<any>();
 const query = ref('');
-const onQueryChanged = (query: string) => {
-  treeRef.value!.filter(query)
-};
-const filterMethod = (query: string, node: TreeNode) => {
-  return node.name!.toLowerCase().includes(query?.toLowerCase())
-};
+
 /**
  * 点击事件
  * @param data
@@ -261,6 +257,7 @@ onMounted(async () => {
           <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
             <star-horse-search-comp @searchData="(data:any)=>menuTableListRef.createSearchParams(data)"
                                     :formData="searchFormData"
+                                    :defaultCondition="defaultCondition"
                                     :compUrl="dataUrl"/>
             <hr/>
             <star-horse-button-list

@@ -1,8 +1,8 @@
 <script setup lang="ts" name="DynamicForm">
-import {apiInstance, dialogPreps} from "@/api/sh_api.ts";
+import {apiInstance, dbConfigList, dialogPreps} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {computed, nextTick, onMounted, provide, reactive, ref} from "vue";
-import {SearchFields} from "@/components/types/SearchProps";
+import {SearchFields, SelectOption} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {BtnAuth} from "@/components/types/BtnAuth";
 import {useRouter} from "vue-router";
@@ -16,6 +16,7 @@ const dataUrl: ApiUrls = apiInstance("userdb-manage", "userdb/dynamicForm");
 let designForm = DesignForm(piniaInstance);
 let selfBtnFunc = ref<BtnAuth[]>([]);
 let isPreview = ref<boolean>(false);
+let dataSource = ref<SelectOption[]>([]);
 const closeAction = () => {
   isPreview.value = false;
   designForm.setIsEdit(true);
@@ -39,10 +40,17 @@ const loadFormData = async (formId: any) => {
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {label: "表单名称", fieldName: "formName", defaultShow: true, type: "input", matchType: "lk"},
-    {label: "创建时间", fieldName: "createDate", defaultShow: true, type: "date", matchType: "bt"},
+    {label: "数据源", fieldName: "datasourceConfigId", defaultShow: true, type: "select", optionList: dataSource},
+
+    {
+      label: "创建时间", fieldName: "createdDate", defaultShow: true, type: "date", matchType: "bt", preps: {
+        valueFormat: "YYYY-MM-DD"
+      }
+    },
   ]
 });
 const tableFieldList = reactive<PageFieldInfo | any>({
+  cellEditable: false,
   fieldList: [
     {
       label: "主键", fieldName: "idDynamicForm", type: "long",
@@ -53,84 +61,60 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       tableShow: true
     },
     {
-      label: "标签长度", fieldName: "labelWidth", type: "input",
+      label: "表名", fieldName: "tbName", type: "input",
       formShow: true,
       tableShow: true
     },
     {
-      label: "标签位置", fieldName: "labelPosition", type: "input",
+      label: "主键", fieldName: "formId", type: "input",
       formShow: true,
       tableShow: true
     },
     {
-      label: "表单域标签的后缀", fieldName: "labelSuffix", type: "input",
+      label: "数据源", fieldName: "datasourceConfigId", type: "select",
       formShow: true,
       tableShow: true
     },
     {
-      label: "表单验证规则名称", fieldName: "rules", type: "input",
+      label: "是否需要公共字段", fieldName: "needCommonFields", type: "switch",
       formShow: true,
       tableShow: true
     },
     {
-      label: "行内表单模式", fieldName: "inline", type: "input",
+      label: "主键策略", fieldName: "primaryKeyPolicy", type: "select",
       formShow: true,
       tableShow: true
     },
     {
-      label: "是否禁用该表单内的所有组件", fieldName: "disabled", type: "input",
+      label: "是否创建表", fieldName: "createTable", type: "switch",
       formShow: true,
       tableShow: true
     },
     {
-      label: "是否隐藏必填字段标签旁边的红色星号", fieldName: "hideRequiredAsterisk", type: "input",
-      formShow: true,
-      tableShow: true
-    },
-    {
-      label: "当校验失败时，滚动到第一个错误表单项", fieldName: "scrolToError", type: "input",
-      formShow: true,
-      tableShow: true
-    },
-    {
-      label: "星号的位置", fieldName: "requireAsteriskPosition", type: "input",
-      formShow: true,
-      tableShow: true
-    },
-    {
-      label: "是否在输入框中显示校验结果反馈图标", fieldName: "statusIcon", type: "input",
-      formShow: true,
-      tableShow: true
-    },
-    {
-      label: "是否显示校验错误信息", fieldName: "showMessage", type: "input",
-      formShow: true,
-      tableShow: true
-    },
-    {
-      label: "是否以行内形式展示校验信息", fieldName: "inlineMessage", type: "input",
-      formShow: true,
-      tableShow: true
-    },
-    {
-      label: "是否在 rules 属性改变后立即触发一次验证", fieldName: "validateOnRuleChange", type: "input",
+      label: "是否创建菜单", fieldName: "createMenu", type: "switch",
       formShow: true,
       tableShow: true
     },
     {
       label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
+      tableShow: true
+    },
+
+    {
+      label: "创建日期", disabled: "Y", fieldName: "createdDate", type: "date",
+      tableShow: true
     },
     {
       label: "修改人", disabled: "Y", fieldName: "updatedBy", type: "input",
-    },
-    {
-      label: "创建日期", disabled: "Y", fieldName: "createdDate", type: "date",
+      tableShow: true
     },
     {
       label: "修改日期", disabled: "Y", fieldName: "updatedDate", type: "date",
+      tableShow: true
     },
     {
       label: "数据版本号", fieldName: "version", type: "number",
+      tableShow: true
     },
     {
       label: "是否已逻辑", fieldName: "isDel", type: "number",
@@ -163,10 +147,12 @@ const addSubForm = (params: any) => {
   router.push({path: "/dyform/DynamicForm", query: {parentId: params.idDynamicForm}});
 }
 const dataFormat = (name: string, cellValue: any, row: any): any => {
+  if (name == "datasourceConfigId") {
+    return dataSource.value.find(item => item.value!.toString() == cellValue)?.name || cellValue;
+  }
   return cellValue == "Y" ? "是" : cellValue == "N" ? "否" : cellValue;
 }
 const initData = async () => {
-
   selfBtnFunc.value?.push({
     labelName: "新增",
     btnName: "add", exec: () => {
@@ -189,6 +175,7 @@ const initData = async () => {
       loadFormData(params[primaryKey]);
     }
   });
+  dataSource.value = await dbConfigList();
 };
 onMounted(async () => {
   await initData();

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {nextTick, onMounted, provide, reactive, ref, watch} from "vue";
-import {closeLoad, dialogPreps, load, loadGetData} from "@/api/sh_api";
+import {apiInstance, closeLoad, dialogPreps, load, loadGetData} from "@/api/sh_api";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {SearchProps} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
@@ -11,20 +11,7 @@ import piniaInstance from "@/store/index.ts";
 
 let designForm = DesignForm(piniaInstance);
 const starHorseTableCompRef = ref();
-const dataUrl = ref<ApiUrls>({
-  uploadUrl: "",
-  batchMergeDraftUrl: "",
-  batchMergeUrl: "",
-  deleteUrl: "",
-  downloadTemplateUrl: "",
-  exportAllUrl: "",
-  loadByIdUrl: "",
-  loadByPageUrl: "",
-  mergeDraftUrl: "",
-  mergeUrl: "",
-  importUrl: "",
-  userConditionUrl: ""
-});
+let dataUrl = ref<ApiUrls>({});
 const errorMsg = ref("数据加载中");
 let searchFormData = ref<SearchProps[]>();
 const tableFieldList = ref<any>({
