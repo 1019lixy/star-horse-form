@@ -33,6 +33,10 @@
       <template #append v-if="field.preps['appendText']">
         {{ field.preps['appendText'] }}
       </template>
+      <template #append v-if="field.preps['appendAction']">
+        <star-horse-icon :icon-class="field.preps['appendAction'].icon||'document'"
+                         @click="field.preps['appendAction'].actions(context.attrs['formData'])"/>
+      </template>
       <template #append v-if="field.preps['appendList']">
         <el-select v-model="context.attrs['formData']['app'+field.preps['name']]">
           <el-option v-for="item in field.preps['appendList']" :key="item.value" :label="item.name"
@@ -44,8 +48,10 @@
 </template>
 <script lang="ts">
 import {defineComponent, onMounted, shallowRef} from "vue";
+import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 
 export default defineComponent({
+  components: {StarHorseIcon},
   emits: ["selectItem", "selfFunc"],
   setup(_props, context) {
     const parentField = context.attrs["parentField"];
