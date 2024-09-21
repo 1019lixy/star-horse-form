@@ -59,14 +59,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   //属性列表
   fieldList: [
     {
-      label: "主键",
-      fieldName: "idCompanyDefine",
-      type: "input",
-      required: true,
-      formShow: !false,
-      tableShow: !false,
-    },
-    {
       label: "公司名称",
       fieldName: "name",
       type: "input",

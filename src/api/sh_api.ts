@@ -817,6 +817,22 @@ export function checkObject(item: any, dataForm: Ref<any>) {
     return 1;
 }
 
+export async function dbConfigList(): Promise<SelectOption[]> {
+    let dbList: SelectOption[] = [];
+    let {data, error} = await loadGetData("/dbsearch-manage/dbsearch/dbinfoEntity/getDbInfoByUser");
+    if (error) {
+        warning(error);
+        return dbList;
+    }
+    data.forEach((item: any) => {
+        dbList.push({
+            name: item.name,
+            value: item.configId + ""
+        })
+    });
+    return dbList;
+}
+
 /**
  * 创建验证规则
  * @param item

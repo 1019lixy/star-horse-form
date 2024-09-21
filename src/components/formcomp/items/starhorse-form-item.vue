@@ -219,7 +219,6 @@ onMounted(() => {
         <slot></slot>
       </el-form-item>
       <div v-else class="bare-item">
-        ss
         <slot></slot>
       </div>
       <div
