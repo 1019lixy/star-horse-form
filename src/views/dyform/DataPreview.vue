@@ -1,6 +1,7 @@
 <script setup lang="ts" name="DataPreview">
 import {onMounted, ref, watch} from "vue";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
+import {commonDataFormat, createDatetime} from "@/api/sh_api.ts";
 
 const props = defineProps({
   item: {type: Object, default: {}},
@@ -40,7 +41,7 @@ watch(() => props.columns,
 const viewDataDetail = () => {
 };
 const resultDataFormat = (row: any, column: any, val: any) => {
-  return val;
+  return commonDataFormat(row,column,val,0);
 };
 const handleCurrentChange = (cp: number, ps: number) => {
   currentPage.value = cp;
@@ -132,7 +133,6 @@ defineExpose({
       row-key="pop"
       :size="compSize"
       :height="isPreview?400:'100%'"
-      :highlight-current-row="true"
       :row-style="{
       height: '30px',
     }"
@@ -144,8 +144,7 @@ defineExpose({
       background: '#f2f2f2',
       color: '#707070',
       'font-size': '13px',
-      'background-image':
-        '-webkit-gradient(linear,left 0,left 100%,from(#f8f8f8),to(#ececec))',
+      'background-image':'-webkit-gradient(linear,left 0,left 100%,from(#f8f8f8),to(#ececec))',
     }"
       border
   >

@@ -293,14 +293,14 @@ export function commonParseCodeToName(name: string, cellValue: any) {
     if (!cellValue && cellValue != 0) {
         return "-";
     }
-    if (name == "isDel") {
+    if (name == "isDel"||name.includes("&isDel")) {
         return cellValue == 1 ? "是" : "否";
     }
-    if (name == "state") {
+    if (name == "state"||name.includes("&state")) {
         return cellValue == 1 ? "正常" : "异常";
     }
     const preps: Array<string> = ["createdTime", "updatedTime", "createdDate", "updatedDate", "createTime", "editTime"];
-    const result = preps.find(item => convertToCamelCase(name)?.toLowerCase() === item.toLowerCase());
+    const result = preps.find(item => name?.includes("&"+item)||convertToCamelCase(name)?.toLowerCase() === item.toLowerCase());
     if (result) {
         return createDatetime(cellValue);
     } else {

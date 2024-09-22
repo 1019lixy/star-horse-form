@@ -10,7 +10,7 @@ import {ConsumerView} from "@/store/ConsumerViewStore.ts";
 let configStore = GlobalConfig(piniaInstance);
 const consumerView = ConsumerView(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.buttonSize || "default");
-//let dbIndex = ref<any>(null);
+let dataForm = ref<any>({});
 const filterTableName = ref<string>("");
 const tbTab = ref<string>("tb1");
 let assignDataList = ref<Array<any>>([]);
