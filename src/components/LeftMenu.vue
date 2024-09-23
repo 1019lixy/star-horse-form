@@ -35,11 +35,17 @@ const loadMenus = async (sysemId: string) => {
     localStorage.setItem("menusInfo", JSON.stringify(redata));
     leftMenuDatas.value = reactive(createRouterAndMenuList(redata));
   });
-  let allId = leftMenuDatas.value.map(item => item.meta.menuId);
   await nextTick();
-  defaultOpenMenu.value = allId[0];
+  setTimeout(() => {
+    let allId = leftMenuDatas.value.map(item => item.meta.menuId);
+    if (allId && allId.length > 0) {
+      systemMenu.value.open(allId[0]);
+    }
+  }, 500);
+
+
 };
-const search = ref<string>();
+const search = ref<string>("");
 const systemMenu = ref();
 const filterTableData = computed(() => filterTree(search.value, leftMenuDatas.value));
 onMounted(async () => {

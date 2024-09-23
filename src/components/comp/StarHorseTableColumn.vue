@@ -94,13 +94,28 @@ const currentDataFormat = (scope: any) => {
 
     <template #default="scope">
       <template v-if="item.preps?.showComp=='Y'">
+
+        <el-popover placement="left" :title="item.label" :width="'auto'" v-if="item.preps.popover=='Y'">
+          <template #reference>
+            <star-horse-item :dataForm="scope.row" :item="item"
+                             :column="scope.column"
+                             :batchName="batchName"
+                             :compSize="compSize"
+                             ref="currentRowColumnRef"
+            />
+          </template>
+          <component :is="item.preps.compName" :data="scope.row" :item="item"/>
+        </el-popover>
         <star-horse-item :dataForm="scope.row" :item="item"
                          :column="scope.column"
                          :batchName="batchName"
                          :compSize="compSize"
+                         :style="{cursor:item.preps.mouseType||'normal'}"
                          v-on:[item.preps.compAction]="item.preps.compFunc(scope.row)"
                          ref="currentRowColumnRef"
+                         v-else
         />
+
       </template>
       <template v-else>
         <star-horse-item :dataForm="scope.row" :item="item"

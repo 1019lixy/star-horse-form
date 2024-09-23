@@ -84,7 +84,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       tableShow: true,
       preps: {
         showComp: "Y",
-        compAction: "mouseover",
+        compAction: "click",
+        mouseType:"pointer",
         compFunc: (val: any) => {
           alert(val["assignCompanies"]);
         }
