@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import {onMounted, ref, unref} from "vue";
-import {TreeNode} from "element-plus/es/components/tree-v2/src/types";
+import {nextTick, onMounted, ref, unref} from "vue";
+import {TreeNode, TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
 import {ModelRef} from "vue-demi";
 import SubSystemMenu from "@/components/menu/SubSystemMenu.vue";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
@@ -20,11 +20,17 @@ const props = defineProps({
   },
   showCollapse: {type: Boolean, default: false},
   treeTitle: {type: String, default: "树形菜单"},
-  // treeDatas: {type: Array<SelectOption>, required: true},
+  expand: {type: Boolean, default: false},
   compSize: {type: String, default: "default"},
   height: {type: Number, default: "600"},
-  showCheckbox: {type: Boolean, default: false},
-  checkOnClickNode: {type: Boolean, default: true}
+  //是否显示复选框
+  showCheckBox: {type: Boolean, default: false},
+  //是否显示已选中的数据
+  showSelectData: {type: Boolean, default: false},
+  checkStrictly: {type: Boolean, default: true},
+  checkOnClickNode: {type: Boolean, default: true},
+  treeType: {type: String, default: "tree"}
+
 });
 const emits = defineEmits(["selectData", "changeCollapse"]);
 const treeRef = ref<any>();
@@ -32,12 +38,11 @@ const searchData = ref('');
 const treeDatas: ModelRef<any> = defineModel("treeDatas");
 let menuIcon = ref<string>("expand");
 let collapse = ref<boolean>(false);
-let openRecordList = ref<Array<any>>([]);
 const onQueryChanged = (query: string) => {
   treeRef.value!.filter(query);
 };
 const filterMethod = (query: string, node: TreeNode) => {
-  return node.name!.toLowerCase().includes(query?.toLowerCase())
+  return node[props.preps?.label]!.toLowerCase().includes(query?.toLowerCase())
 };
 const changeArrow = () => {
   collapse.value = !collapse;
@@ -45,40 +50,87 @@ const changeArrow = () => {
   emits("changeCollapse", collapse.value);
 };
 const treeOperation = (cmd: string) => {
-  warning("目前还没有实现动态控制菜单展开和折叠功能");
-  if (cmd == "collapse") {
-    openRecordList.value = [];
-  } else {
-    if (openRecordList.value && openRecordList.value.length > 0) {
-      return;
+  if (props.treeType == "tree") {
+    if (cmd == "collapse") {
+      Object.values(treeRef.value!.store.nodesMap).forEach((v: any) => v.collapse())
+    } else {
+      Object.values(treeRef.value!.store.nodesMap).forEach((v: any) => v.expand())
     }
+  } else {
     const getAllSubNodeIndex = (datas: any) => {
       datas.forEach((item: any) => {
         if (item.children && item.children.length > 0) {
-          openRecordList.value.push(item[props.preps.value]);
+          if (cmd == "collapse") {
+            treeRef.value.close(item[props.preps.value]);
+          } else {
+            treeRef.value!.open(item[props.preps.value]);
+          }
           getAllSubNodeIndex(item.children);
         }
       });
     }
     getAllSubNodeIndex(treeDatas.value);
-    console.log(openRecordList.value);
+
   }
+
+}
+let selectedDataList = ref<Array<any>>([]);
+const operSelectData = (data: TreeNodeData, checked: boolean) => {
+  if (checked) {
+    selectedDataList.value.push(data);
+
+  } else {
+    for (let index in selectedDataList.value) {
+      let temp = selectedDataList.value[index];
+      if (temp[props.preps?.value] == data[props.preps?.value]) {
+        selectedDataList.value.splice(Number(index), 1);
+        break;
+      }
+    }
+    treeRef.value!.setCheckedKeys([data], checked);
+  }
+}
+const setSelectData = (datas: Array<any>) => {
+  selectedDataList.value = datas;
+  treeRef.value!.setCheckedKeys(datas, true);
+}
+const getSelectData = () => {
+  return selectedDataList.value;
 }
 /**
  * 点击事件
  * @param data
  * @param checked
  */
-const checkChange = (data: any) => {
-  emits("selectData", data);
+const treeChange = (data: any, checked: boolean) => {
+  operSelectData(data, checked);
+  emits("selectData", data, checked);
 };
-onMounted(() => {
-
+const menuChange = (data: any) => {
+  emits("selectData", data);
+}
+onMounted(async () => {
+  await nextTick();
+  if (props.expand) {
+    setTimeout(() => {
+      treeOperation("expand");
+    }, 800);
+  }
 });
+defineExpose({
+  getSelectData,
+  setSelectData
+})
 </script>
 
 <template>
+
   <el-card class="inner_content" :style="{width: collapse?'60px':'unset','padding':'unset'}">
+    <div class="selected-data gap-2" v-if="showSelectData&&selectedDataList.length>0">
+      <template v-for="item in selectedDataList">
+        <el-tag closable @close="operSelectData(item,false)">{{ item[preps.label] }}</el-tag>
+      </template>
+    </div>
     <div class="tree-title">
       <div class="title">{{ treeTitle }}</div>
       <div class="btn" v-if="showCollapse">
@@ -109,8 +161,20 @@ onMounted(() => {
     <el-divider/>
     <div class="tree-content">
       <el-scrollbar height="100%">
-        <el-menu :collapse="collapse" :unique-opened="false" :default-openeds="openRecordList">
-          <SubSystemMenu :dataList="treeDatas" ref="treeRef" :preps="preps" @selectData="checkChange"/>
+        <el-tree
+            ref="treeRef"
+            :data="treeDatas"
+            :props="preps"
+            :node-key="preps.value"
+            v-if="treeType=='tree'"
+            :filter-node-method="filterMethod"
+            :check-strictly="checkStrictly"
+            :show-checkbox="showCheckBox"
+            @nodeClick="treeChange"
+            @checkChange="treeChange"
+        />
+        <el-menu v-if="treeType=='menu'" ref="treeRef" :unique-opened="false">
+          <SubSystemMenu :dataList="treeDatas" :preps="preps" @selectData="menuChange"/>
         </el-menu>
       </el-scrollbar>
     </div>
@@ -118,6 +182,18 @@ onMounted(() => {
 </template>
 
 <style scoped lang="scss">
+:deep(.el-tag) {
+  margin-left: 5px;
+}
+
+.selected-data {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  margin: 5px;
+  border: 1px dashed var(--star-horse-shadow);
+}
+
 .tree-title {
   width: 100%;
   height: 35px;

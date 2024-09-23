@@ -160,13 +160,13 @@ onMounted(async () => {
     <star-horse-data-view :data-format="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
   </star-horse-dialog>
   <el-row :gutter="10" style="height: 100%;">
-    <el-col :span="5" style="height: inherit">
+    <el-col :span="5" class="h100">
       <star-horse-tree v-model:tree-datas="rolesList" treeTitle="用户组" @selectData="checkChange"
                        :compSize="compSize"/>
     </el-col>
     <el-col :span="19" style="height: 100%;overflow: hidden">
-      <el-card class="inner_content" style="height: inherit">
-        <el-card class="inner_content" style="height: inherit">
+      <el-card class="inner_content h100">
+        <el-card class="inner_content h100">
           <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
             <star-horse-search-comp @searchData="(data:any)=>accountPermission.createSearchParams(data)"
                                     :formData="searchFields"

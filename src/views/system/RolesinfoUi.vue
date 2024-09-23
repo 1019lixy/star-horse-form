@@ -378,7 +378,7 @@ onMounted(async () => {
   </star-horse-dialog>
   <star-horse-dialog self-func="true" :dialog-visible="dialogProps.batchEditVisible" :title="'系统权限'" @resetForm=
       "resetForm" @merge="systemSubmit" :dialogProps="dialogProps" boxHeight="90%" boxWidth="40%">
-    <el-card class="inner_content" style="height: inherit">
+    <el-card class="inner_content h100">
       <el-input
           v-model="query"
           size="default"
@@ -405,7 +405,7 @@ onMounted(async () => {
   </star-horse-dialog>
   <star-horse-dialog self-func="true" :dialog-visible="dialogProps.bakeVisible1" :title="'菜单权限'" @resetForm=
       "resetForm" @merge="submit" :dialogProps="dialogProps" boxHeight="90%" boxWidth="40%">
-    <el-card class="inner_content" style="height: inherit">
+    <el-card class="inner_content h100">
       <el-input
           v-model="query"
           size="default"

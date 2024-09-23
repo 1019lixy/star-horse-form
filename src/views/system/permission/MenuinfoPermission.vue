@@ -173,11 +173,11 @@ onMounted(async () => {
     <star-horse-data-view :data-format="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
   </star-horse-dialog>
   <el-row :gutter="10" style="height: 100%;overflow: hidden">
-    <el-col :span="4" style="height: inherit">
+    <el-col :span="4" class="h100">
       <star-horse-tree v-model:treeDatas="rolesList" treeTitle="用户组" @selectData="userGroupChange"
                        :compSize="compSize"/>
     </el-col>
-    <el-col v-if="systemInfoList.length>0" :span="4" style="height: inherit">
+    <el-col v-if="systemInfoList.length>0" :span="4" class="h100">
       <star-horse-tree v-model:treeDatas="systemInfoList" treeTitle="应用系统" @selectData="systemChange"
                        :compSize="compSize" :preps="{
                          label:'sysName',
@@ -185,7 +185,7 @@ onMounted(async () => {
                        }"/>
     </el-col>
     <el-col :span="systemInfoList.length>0?16:20" style="height: 100%;overflow: hidden">
-      <el-card class="inner_content" style="height: inherit">
+      <el-card class="inner_content h100">
         <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
           <star-horse-search-comp @searchData="(data:any)=>menuPermission.createSearchParams(data)"
                                   :formData="searchFields"

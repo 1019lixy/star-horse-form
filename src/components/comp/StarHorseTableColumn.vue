@@ -81,8 +81,9 @@ const currentDataFormat = (scope: any) => {
 }
 </script>
 <template>
+
   <el-table-column
-      :prop="item.hidName||item.fieldName"
+      :prop="item.hideName||item.fieldName"
       :label="item.label"
       :min-width="(item.minWidth||Config.defaultColumnWidth) + 'px'"
       :formatter="dataFormat"
@@ -90,17 +91,29 @@ const currentDataFormat = (scope: any) => {
       sortable
       :show-overflow-tooltip="true"
   >
+
     <template #default="scope">
-      <star-horse-item :dataForm="scope.row" :item="item"
-                       :column="scope.column"
-                       :batchName="batchName"
-                       @focus="focusEvent"
-                       :compSize="compSize"
-                       ref="currentRowColumnRef"
-                       @blur="blurEvent"
-                       v-if="scope.row.isSelected&&(scope.row.selectName==item.hideName||scope.row.selectName==item.fieldName)"/>
-      <p @click="cellClick(scope.row, scope.column)" v-else>
-        {{ currentDataFormat(scope) }}</p>
+      <template v-if="item.preps?.showComp=='Y'">
+        <star-horse-item :dataForm="scope.row" :item="item"
+                         :column="scope.column"
+                         :batchName="batchName"
+                         :compSize="compSize"
+                         v-on:[item.preps.compAction]="item.preps.compFunc(scope.row)"
+                         ref="currentRowColumnRef"
+        />
+      </template>
+      <template v-else>
+        <star-horse-item :dataForm="scope.row" :item="item"
+                         :column="scope.column"
+                         :batchName="batchName"
+                         @focus="focusEvent"
+                         :compSize="compSize"
+                         ref="currentRowColumnRef"
+                         @blur="blurEvent"
+                         v-if="scope.row.isSelected&&(scope.row.selectName==item.hideName||scope.row.selectName==item.fieldName)"/>
+        <p @click="cellClick(scope.row, scope.column)" v-else>
+          {{ currentDataFormat(scope) }}</p>
+      </template>
     </template>
   </el-table-column>
 </template>

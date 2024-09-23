@@ -222,18 +222,18 @@ onMounted(async () => {
     <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
   </star-horse-dialog>
   <el-card class="inner_content">
-    <el-row gutter="5" style="height: 100%;overflow: hidden;">
-      <el-col :span="4" style="height: inherit">
+    <el-row gutter="5" class="h100-overflow-hidden ">
+      <el-col :span="4" class="h100">
         <star-horse-tree v-model:tree-datas="rolesList" treeTitle="用户组" @selectData="roleChange"
                          :compSize="compSize"/>
       </el-col>
-      <el-col v-if="systemInfoList?.length>0" :span="4" style="height: inherit">
+      <el-col v-if="systemInfoList?.length>0" :span="4" class="h100">
         <star-horse-tree v-model:tree-datas="systemInfoList" treeTitle="应用系统" :preps="{
                          label:'sysName',
                          value:'idInformations'
                        }" @selectData="systemChange" :compSize="compSize"/>
       </el-col>
-      <el-col v-if="systemInfoList?.length>0" :span="4" style="height: inherit">
+      <el-col v-if="systemInfoList?.length>0" :span="4" class="h100">
         <star-horse-tree v-model:tree-datas="menusList" treeTitle="系统菜单"
                          :preps="{
                          label:'menuName',
@@ -243,8 +243,8 @@ onMounted(async () => {
                          @selectData="menuChange"
                          :compSize="compSize"/>
       </el-col>
-      <el-col :span="systemInfoList?.length>0?12:20" style="height: inherit">
-        <el-card class="inner_content" style="height: inherit">
+      <el-col :span="systemInfoList?.length>0?12:20" class="h100">
+        <el-card class="inner_content h100">
           <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
             <star-horse-search-comp @searchData="(data:any)=>menuBtnTableRef.createSearchParams(data)"
                                     :formData="searchFormData"

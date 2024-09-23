@@ -255,11 +255,11 @@ onMounted(async () => {
   </star-horse-dialog>
   <el-card class="inner_content">
     <el-row style="height: 100%;" :gutter="10">
-      <el-col :span="5" style="height: inherit">
+      <el-col :span="5" class="h100">
         <star-horse-tree v-model:treeDatas="informationsList" @selectData="checkChange" :comp-size="compSize"/>
       </el-col>
-      <el-col :span="19" style="height: inherit">
-        <el-card class="inner_content" style="height: inherit">
+      <el-col :span="19" class="h100">
+        <el-card class="inner_content h100">
           <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
             <star-horse-search-comp @searchData="(data:any)=>menuTableListRef.createSearchParams(data)"
                                     :formData="searchFormData"
