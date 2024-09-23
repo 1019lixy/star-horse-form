@@ -299,6 +299,8 @@ defineExpose({
   <el-form :model="dataForm" :size="compSize" :rules="rules"
            :scroll-to-error="true"
            :scroll-into-view-options="true"
+           :inline-message="true"
+           :status-icon="true"
            label-position="right"
            label-width="auto"
            class="data-form" ref="starHorseFormRef">

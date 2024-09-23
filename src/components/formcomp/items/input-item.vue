@@ -34,7 +34,7 @@
         {{ field.preps['appendText'] }}
       </template>
       <template #append v-if="field.preps['appendAction']">
-        <star-horse-icon :icon-class="field.preps['appendAction'].icon||'document'"
+        <star-horse-icon :title="field.preps['appendAction'].actionTitle" style="cursor: pointer" :icon-class="field.preps['appendAction'].icon||'document'"
                          @click="field.preps['appendAction'].actions(context.attrs['formData'])"/>
       </template>
       <template #append v-if="field.preps['appendList']">

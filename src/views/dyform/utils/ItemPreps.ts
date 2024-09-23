@@ -155,6 +155,29 @@ export function createData(dataSourceRef: any, dataList: any, needDynamicData: b
     }
 }
 
+const validOperation = async (val: any, dataSourceRef: Ref<any>, fieldList: Ref<any>, disableUrl: Ref<any>) => {
+    await validInterface(val, dataSourceRef, (dataList: any, successMsg: string, errorMsg: string) => {
+        if (dataList && !disableUrl.value) {
+            const temp = dataList[0];
+            const keys = Object.keys(temp);
+            console.log(temp, keys);
+            fieldList.value = [];
+            for (const ind in keys) {
+                fieldList.value.push({name: keys[ind], value: keys[ind]})
+            }
+        }
+        if (successMsg) {
+            success(successMsg);
+        }
+        if (errorMsg) {
+            error(errorMsg);
+        }
+        // if (recall) {
+        //     recall(dataList, successMsg, errorMsg);
+        // }
+    }, false)
+};
+
 /**
  * 数据源属性配置
  */
@@ -212,36 +235,7 @@ export function dataSourceFields(dataSourceRef: Ref<any>, _recall: Function) {
                             dictRequired.value = true;
                         }
                     },
-                }, {
-                label: "验证",
-                fieldName: "validBtn",
-                type: "button",
-                formShow: true,
-                tableShow: true,
-                actionName: "click",
-                actions: async (val: any) => {
-                    await validInterface(val, dataSourceRef, (dataList: any, successMsg: string, errorMsg: string) => {
-                        if (dataList && !disableUrl.value) {
-                            const temp = dataList[0];
-                            const keys = Object.keys(temp);
-                            console.log(temp, keys);
-                            fieldList.value = [];
-                            for (const ind in keys) {
-                                fieldList.value.push({name: keys[ind], value: keys[ind]})
-                            }
-                        }
-                        if (successMsg) {
-                            success(successMsg);
-                        }
-                        if (errorMsg) {
-                            error(errorMsg);
-                        }
-                        // if (recall) {
-                        //     recall(dataList, successMsg, errorMsg);
-                        // }
-                    }, false);
-                }
-            }],
+                }],
             {
                 fieldName: currentTabName,
                 tabList:
@@ -284,7 +278,13 @@ export function dataSourceFields(dataSourceRef: Ref<any>, _recall: Function) {
                                     colspan: 16,
                                     prependList: [
                                         {name: "HTTP", value: "http://"},
-                                        {name: "HTTPS", value: "https://"}]
+                                        {name: "HTTPS", value: "https://"}],
+                                    appendAction: {
+                                        icon: "valid",
+                                        actions: async (val: any) => {
+                                            await validOperation(val, dataSourceRef, fieldList, disableUrl);
+                                        }
+                                    }
                                 }
                             },
                                 {
@@ -360,6 +360,15 @@ export function dataSourceFields(dataSourceRef: Ref<any>, _recall: Function) {
                                 required: dictRequired,
                                 formShow: true,
                                 tableShow: true,
+                                preps: {
+                                    appendAction: {
+                                        icon: "valid",
+                                        actionTitle: "验证",
+                                        actions: async (val: any) => {
+                                            await validOperation(val, dataSourceRef, fieldList, disableUrl);
+                                        }
+                                    }
+                                }
                             }]
                         },
                     ],
