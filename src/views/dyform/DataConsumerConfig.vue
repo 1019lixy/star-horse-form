@@ -15,6 +15,8 @@ import {consumerNodeData, relationFieldInfo, table_width, viewFieldInfo} from "@
 import {ConsumerView} from "@/store/ConsumerViewStore.ts";
 import piniaInstance from "@/store";
 import {tableColumns} from "@/views/dbsearch/utils/DbSearchUtils.ts";
+import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
+import {useButtonPermission} from "@/store/ButtonPermissionStore.ts";
 
 const route = useRoute();
 const isView = ref<boolean>(false);
@@ -26,6 +28,9 @@ const dataForm = ref<any>({});
 const relationConditionList = ref<Array<any>>([]);
 const consumerView = ConsumerView(piniaInstance);
 let dbConfigId = computed(() => consumerView.dbConfigId);
+let configStore = GlobalConfig(piniaInstance);
+let compSize = computed(() => configStore.configFormInfo?.buttonSize || "default");
+
 const initDiagram = () => {
 };
 let viewTypeList = ref<SelectOption[]>();
@@ -222,7 +227,7 @@ const loadConfigData = async (configId: string | LocationQueryValue[]) => {
 const createMergeData = () => {
   let configInfo = viewConfigInfo.value;
   let relations = configInfo.relations;
-  let formData: any = dataSourceFormRef.value.getFormData().value;
+  let formData: any = dataSourceFormRef.value?.getFormData().value||{};
   let tables = configInfo.tables;
   if (!relations && tables.length > 1) {
     warning("两张表之间必须要设置关联关系");
@@ -388,7 +393,7 @@ const nodeOperation = (cell: any) => {
   <star-horse-dialog :dialogVisible="dataPreviewVisible" :title="'数据预览'"
                      @closeAction="closeAction"
                      :isBatch="false" :isView="true">
-    <DataPreview :item="previewDatas" :columns="columnList" @changePage="dataList" :isPriview="true"/>
+    <DataPreview :compSize="compSize" :item="previewDatas"  :columns="columnList" @changePage="dataList" :isPriview="true"/>
   </star-horse-dialog>
   <star-horse-dialog :dialogVisible="relationDialogVisible" :title="'关系配置'" :isBatch="false"
                      @merge="conditionValid"
