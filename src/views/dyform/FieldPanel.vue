@@ -21,6 +21,9 @@ const numField: Array<string> = ["minlength", "maxLength", "step", "rows", "heig
   "limit", "precision", "min", "max", "highThreshold", "lowThreshold", "multipleLimit"];
 const onDataCopy = (data: any, type: string) => {
   let reData = JSON.parse(JSON.stringify(data));
+  if (!formData.value["index"]) {
+    formData.value["index"] = 1000;
+  }
   let ms = formData.value["index"]++;
   let mvData: any = {};
   mvData['id'] = 'Id' + ms;

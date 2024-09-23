@@ -11,6 +11,7 @@
         :collapse-tags="field.preps['collapseTags']=='Y'"
         :collapse-tags-tooltip="field.preps['collapseTagsTooltip']=='Y'"
         :default-first-option="field.preps['defaultFirstOption']=='Y'"
+        :default-expand-all="true"
         :props="field.preps['props']"
         :disabled="field.preps['disabled']=='Y'"
         :multiple="field.preps['multiple']=='Y'"

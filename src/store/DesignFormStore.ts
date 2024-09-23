@@ -333,6 +333,7 @@ export const DesignForm: any = defineStore("DesignForm", {
                 validateOnRuleChange: "Y",
                 size: "default",
                 disabled: "N",
+                index: 1,
                 scrollToError: "N",
                 formId: "id" + ms,
                 tbName: "tb" + ms

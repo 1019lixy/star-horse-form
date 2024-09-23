@@ -95,8 +95,8 @@
         <star-horse-icon icon-class="plus" style="color: var(--star-horse-style)" size="14px"/>
         新增
       </el-menu-item>
-      <template v-if="selfBtnFunc&&selfBtnFunc.length>0">
-        <template v-for="(item,ain) in selfBtnFunc">
+      <template v-if="extandBtnFunction().length>0">
+        <template v-for="(item,ain) in extandBtnFunction()">
           <template v-if="item.children&&item.children.length>0">
             <el-sub-menu :index="'2-'+ain">
               <template #title>
@@ -266,6 +266,21 @@ const uploadSuccess = (_response: any, _file: any, _fileList: any) => {
   //closeLoad();
   tableCompFunc("refresh");
 };
+/**
+ * 扩展按钮
+ */
+const extandBtnFunction = (): Array<UserFuncInfo> => {
+  let arr: Array<UserFuncInfo> = [];
+  //单独定义的按钮
+  if (props.extandBtns && props.extandBtns.length > 0) {
+    arr.push(...props.extandBtns);
+  }
+  //在定义字段时定义的按钮
+  if (props.selfBtnFunc) {
+    arr.push(...props.selfBtnFunc);
+  }
+  return arr;
+}
 const checkSelfBtn = (btn: string) => {
   if (!props.selfBtnFunc) {
     return true;

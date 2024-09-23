@@ -5,7 +5,7 @@ import PropertyPanel from "@/views/dyform/PropertyPanel.vue";
 import {postRequest} from "@/api/star_horse";
 import {confirm, error, warning} from "@/utils/message";
 import {useRoute, useRouter} from "vue-router";
-import {closeLoad, load, loadData} from "@/api/sh_api";
+import {apiInstance, closeLoad, load, loadData} from "@/api/sh_api";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import FieldAnalysis from "@/views/dyform/FieldAnalysis.vue";
 import FormPropertyPanel from "@/views/dyform/FormPropertyPanel.vue";
@@ -21,19 +21,7 @@ import {useUserSelfOperation} from "@/store/SelfOperationStore.ts";
 import {batchModifyAction} from "@/api/system.ts";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 
-const dataUrl = reactive<ApiUrls>(<ApiUrls>{
-  loadByPageUrl: "/userdb-manage/userdb/dynamicForm/pageList",
-  mergeUrl: "/userdb-manage/userdb/dynamicForm/merge",
-  mergeDraftUrl: "/userdb-manage/userdb/dynamicForm/mergeDraft",
-  batchMergeUrl: "/userdb-manage/userdb/dynamicForm/mergeBatch",
-  batchMergeDraftUrl: "/userdb-manage/userdb/dynamicForm/mergeBatchDraft",
-  loadByIdUrl: "/userdb-manage/userdb/dynamicForm/getById",
-  deleteUrl: "/userdb-manage/userdb/dynamicForm/batchDeleteById",
-  exportAllUrl: "/userdb-manage/userdb/dynamicForm/exportData",
-  downloadTemplateUrl: "/userdb-manage/userdb/dynamicForm/downloadTemplate",
-  userConditionUrl: "/userdb-manage/userdb/dynamicForm/getAllByCondition",
-  importUrl: "/userdb-manage/userdb/dynamicForm/importData",
-});
+const dataUrl =apiInstance("userdb-manage","userdb/dynamicForm");
 let designForm = DesignForm(piniaInstance);
 let route = useRoute();
 let router = useRouter();
@@ -376,7 +364,7 @@ onMounted(async () => {
       @merge="closeAction"
       :title="'批量修改属性'"
   >
-    <el-row style="font-weight: bold;font-size:12px;margin-bottom: 5px;">
+    <el-row style="font-weight: bold;font-size:12px;margin: 5px 0;">
       <el-col :span="3">容器名称</el-col>
       <el-col :span="3">标签名称</el-col>
       <el-col :span="3">属性名称</el-col>
@@ -387,7 +375,7 @@ onMounted(async () => {
       <el-col :span="2">列表显示</el-col>
       <el-col :span="3">默认值</el-col>
     </el-row>
-    <el-row style="font-weight: bold;font-size:12px;margin-bottom: 5px;">
+    <el-row style="font-weight: bold;font-size:12px;margin: 10px 0;">
       <el-col :span="3">批量设置</el-col>
       <el-col :span="2">--</el-col>
       <el-col :span="2">--</el-col>
@@ -429,6 +417,7 @@ onMounted(async () => {
       </el-col>
       <el-col :span="3"></el-col>
     </el-row>
+    <el-divider content-position="center" content="字段信息" style="margin: 5px 0 !important;"/>
     <template v-for="(item,index) in list">
       <template v-if="item.compType=='container'" v-for="sitem in item.preps['elements']">
         <template v-for="sitem1 in sitem['columns']">

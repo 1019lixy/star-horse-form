@@ -7,7 +7,7 @@ import {SearchFields, SelectOption} from "@/components/types/SearchProps";
 import {closeLoad, createTree, dictData, load, loadData, loadElementPlusIcon, loadSystemInfo} from "@/api/sh_api";
 import {postRequest} from "@/api/star_horse";
 import {error, success, warning} from "@/utils/message";
-import {PageFieldInfo} from "@/components/types/PageFieldInfo";
+import {PageFieldInfo, UserFuncInfo} from "@/components/types/PageFieldInfo";
 import {TreeNode, TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
 import {treeCheckChange} from "@/api/system";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
@@ -201,9 +201,15 @@ const doMerge = (type: string) => {
 const resetForm = () => {
   dataForm.value = {};
 };
-const treeRef = ref<any>();
-const query = ref('');
-
+let extandBtns = ref<UserFuncInfo[]>([{
+  btnName: "添加子菜单",
+  authority: "add",
+  icon: "plus",
+  funcName: (row: any) => {
+    dataForm.value["parentNo"] = row["dataNo"];
+    dialogProps.editVisible = true;
+  }
+}]);
 /**
  * 点击事件
  * @param data
@@ -267,6 +273,7 @@ onMounted(async () => {
           <hr>
           <star-horse-table-comp :fieldList="tableFieldList" :primaryKey="primaryKey"
                                  :compUrl="dataUrl"
+                                 :extandBtns="extandBtns"
                                  :dataFormat="dataFormat" :show-batch-field="true" ref="menuTableListRef"/>
         </el-card>
       </el-col>
