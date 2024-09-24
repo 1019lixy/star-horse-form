@@ -2,7 +2,7 @@
 import {apiInstance, closeLoad, dialogPreps, load, loadData} from "@/api/sh_api";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings";
-import {onActivated, onDeactivated, computed, onMounted, provide, reactive, ref} from "vue";
+import {computed, onActivated, onDeactivated, onMounted, provide, reactive, ref} from "vue";
 import {SearchFields} from "@/components/types/SearchProps";
 import {PageFieldInfo, UserFuncInfo} from "@/components/types/PageFieldInfo";
 import {getCustomerParam} from "@/utils/auth";
@@ -85,7 +85,9 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       preps: {
         showComp: "Y",
         compAction: "click",
-        mouseType:"pointer",
+        mouseType: "pointer",
+        popover: "Y",
+        compName: "RoleCompanyPanel",
         compFunc: (val: any) => {
           alert(val["assignCompanies"]);
         }

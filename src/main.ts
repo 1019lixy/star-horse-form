@@ -6,6 +6,7 @@ import nodeComponent from "@/views/continus/nodeInfo/nodecomp";
 import userContainerComponent from "@/components/comp/items/callitem";
 import itemComponent from "@/components/formcomp/items/allitem";
 import containerComponent from "@/components/formcomp/container/callitem";
+import pluginComponent from "@/views/utils/pluginItems";
 import App from "@/App.vue";
 import {createApp} from "vue"
 import ElementPlus from "element-plus"
@@ -37,6 +38,7 @@ app.use(itemComponent);
 app.use(userContainerComponent);
 app.use(containerComponent);
 app.use(nodeComponent);
+app.use(pluginComponent);
 app.use(piniaInstance);
 app.use(router);
 app.use(ElementPlus, {

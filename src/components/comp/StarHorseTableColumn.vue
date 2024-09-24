@@ -95,7 +95,8 @@ const currentDataFormat = (scope: any) => {
     <template #default="scope">
       <template v-if="item.preps?.showComp=='Y'">
 
-        <el-popover placement="left" :title="item.label" :width="'auto'" v-if="item.preps.popover=='Y'">
+        <el-popover :placement="item.preps.placement||'left'" :width="'auto'"
+                    v-if="item.preps.popover=='Y'">
           <template #reference>
             <star-horse-item :dataForm="scope.row" :item="item"
                              :column="scope.column"
