@@ -753,11 +753,10 @@ defineExpose({
 <style lang="scss" scoped>
 .expand-table {
   width: 100%;
-  margin: 5px auto;
-
-  h3 {
+  margin: 10px auto;
+  h4 {
     display: block;
-    margin: 5px;
+    margin: 10px;
   }
 }
 
