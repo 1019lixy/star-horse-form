@@ -39,9 +39,9 @@ const loadMenus = async (sysemId: string) => {
   setTimeout(() => {
     let allId = leftMenuDatas.value.map(item => item.meta.menuId);
     if (allId && allId.length > 0) {
-      systemMenu.value.open(allId[0]);
+      systemMenu.value?.open(allId[0]);
     }
-  }, 500);
+  }, 800);
 
 
 };

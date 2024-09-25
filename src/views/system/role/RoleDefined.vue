@@ -1,9 +1,9 @@
 <script setup lang="ts" name="CompanyRole">
-import {apiInstance, closeLoad, dialogPreps, load, loadData} from "@/api/sh_api";
+import {apiInstance, closeLoad, createCondition, dialogPreps, dictData, load, loadData} from "@/api/sh_api";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings";
 import {computed, nextTick, onActivated, onDeactivated, onMounted, provide, reactive, ref} from "vue";
-import {SearchFields} from "@/components/types/SearchProps";
+import {SearchFields, SelectOption} from "@/components/types/SearchProps";
 import {PageFieldInfo, UserFuncInfo} from "@/components/types/PageFieldInfo";
 import {getCustomerParam} from "@/utils/auth";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
@@ -16,11 +16,15 @@ import {postRequest} from "@/api/star_horse.ts";
 import {DyCompField} from "@/components/types/DyCompField";
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance("system-config", "system/companyRole");
+dataUrl.condition = [createCondition("a.roleType", "common_role")];
 //主键
 const primaryKey = "idCompanyRole";
 const companyRoleRef = ref();
 const assignRoleCompanyRef = ref();
 let companyList = ref<Array<any>>([]);
+let outerFormData = ref<any>({
+  roleType: "common_role"
+})
 //定义表单的所有属性
 const formFields = reactive<Object>({});
 provide("formFields", formFields);
@@ -30,12 +34,7 @@ let currentUserGroupId = ref<number>(0);
 let defaultCondition = ref<SearchParams[]>([]);
 const companyChange = (data: TreeNodeData, _checked: boolean) => {
   currentUserGroupId.value = data["idCompanyDefine"];
-  defaultCondition.value = [
-    {
-      propertyName: "b.idCompanyDefine",
-      value: currentUserGroupId.value
-    }
-  ];
+  defaultCondition.value = [createCondition("b.idCompanyDefine", currentUserGroupId.value)];
   companyRoleRef.value.createSearchParams(defaultCondition.value)
 };
 //查询属性
@@ -77,17 +76,29 @@ const viewCompField = ref<DyCompField>({
   template: `
     <el-card class="inner_content hover_content">
       <template #header>
-        {{ item.label }}
+        归属公司
       </template>
       <div class="content">
-        <el-tag v-for="temp in data.companyList" type="success" closable @close="closeAction(data,temp)">{{ temp.name }}</el-tag>
+        <el-tag v-for="temp in data.companyList" type="success" closable @close="closeAction(data,temp)">
+          {{ temp.name }}
+        </el-tag>
       </div>
     </el-card>`
 });
+let roleTypeList = ref<SelectOption[]>([]);
 //页面属性
 const tableFieldList = reactive<PageFieldInfo | any>({
   //属性列表
   fieldList: [
+    /* {
+       label: "角色类型",
+       fieldName: "roleType",
+       type: "select",
+       optionList: roleTypeList,
+       required: true,
+       formShow: !false,
+       tableShow: !false,
+     },*/
     {
       label: "角色名称",
       fieldName: "roleName",
@@ -116,6 +127,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         mouseType: "pointer",
         popover: "Y",
         compField: viewCompField,
+        placeholder: "0",
         compFunc: (val: any) => {
           alert(val["assignCompanies"]);
         }
@@ -239,6 +251,7 @@ const initData = async () => {
     return;
   }
   companyList.value = result.data;
+  roleTypeList.value = await dictData("company_role_type");
 };
 const assignCompany = () => {
   let selectedDatas = assignRoleCompanyRef.value.getSelectData();
@@ -307,7 +320,7 @@ onDeactivated(() => {
   </star-horse-dialog>
   <star-horse-dialog :isShowBtnContinue="true" :dialog-visible="dialogProps.editVisible" :dialogProps="dialogProps">
     <star-horse-form @refresh="companyRoleRef.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList"
-                     :rules="rules"/>
+                     :rules="rules" :outerFormData="outerFormData"/>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title="'查看数据'"
                      :isView="true">

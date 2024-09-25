@@ -293,14 +293,14 @@ export function commonParseCodeToName(name: string, cellValue: any) {
     if (!cellValue && cellValue != 0) {
         return "-";
     }
-    if (name == "isDel"||name.includes("&isDel")) {
+    if (name == "isDel" || name.includes("&isDel")) {
         return cellValue == 1 ? "是" : "否";
     }
-    if (name == "state"||name.includes("&state")) {
+    if (name == "state" || name.includes("&state")) {
         return cellValue == 1 ? "正常" : "异常";
     }
     const preps: Array<string> = ["createdTime", "updatedTime", "createdDate", "updatedDate", "createTime", "editTime"];
-    const result = preps.find(item => name?.includes("&"+item)||convertToCamelCase(name)?.toLowerCase() === item.toLowerCase());
+    const result = preps.find(item => name?.includes("&" + item) || convertToCamelCase(name)?.toLowerCase() === item.toLowerCase());
     if (result) {
         return createDatetime(cellValue);
     } else {
@@ -405,8 +405,9 @@ export async function deleteByIds(url: string, ids: any) {
 /**
  * 根据字典类别获取字典数据
  * @param dictType 字典类别
+ * @param exclusion 排除字典项
  */
-export async function dictData(dictType: string) {
+export async function dictData(dictType: string, exclusion: Array<string> = []) {
     const query = [];
     query.push({
         "propertyName": "dictType",
@@ -417,6 +418,9 @@ export async function dictData(dictType: string) {
         const redata = res.data;
         if (redata.code == 0) {
             redata.data.forEach((item: any) => {
+                if (exclusion && exclusion.includes(item.dictCode)) {
+                    return;
+                }
                 dicts.push({name: item.dictName, value: item.dictCode});
             });
         }

@@ -28,6 +28,8 @@ const props = defineProps({
   //是否显示已选中的数据
   showSelectData: {type: Boolean, default: false},
   checkStrictly: {type: Boolean, default: true},
+  //是否显示搜索框
+  showSearch: {type: Boolean, default: true},
   checkOnClickNode: {type: Boolean, default: true},
   treeType: {type: String, default: "tree"}
 
@@ -45,7 +47,11 @@ const onQueryChanged = (query: string) => {
 const filterMethod = (query: string, node: TreeNode) => {
   return node[props.preps?.label]!.toLowerCase().includes(query?.toLowerCase())
 };
-const changeArrow = () => {
+const changeArrow = (evt: MouseEvent) => {
+  if (evt) {
+    evt.preventDefault();
+    evt.stopPropagation();
+  }
   collapse.value = !collapse;
   menuIcon.value = unref(menuIcon) == "expand" ? "collapse" : "expand";
   emits("changeCollapse", collapse.value);
@@ -142,7 +148,7 @@ defineExpose({
         <star-horse-icon :icon-class="menuIcon" @click="changeArrow"/>
       </div>
     </div>
-    <div class="search-input">
+    <div class="search-input" v-if="showSearch">
       <el-input
           v-model="searchData"
           :size="compSize"
@@ -150,11 +156,11 @@ defineExpose({
           placeholder="请输入关键字"
           @input="onQueryChanged">
         <template #append>
-          <star-horse-icon @click="onQueryChanged" icon-class="search" color="var(--star-horse-style)"/>
+          <star-horse-icon @click="onQueryChanged" icon-class="search" color="var(--star-horse-style)" size="18px"/>
         </template>
       </el-input>
       <el-dropdown placement="bottom" @command="treeOperation">
-        <star-horse-icon icon-class="v-dot" color="var(--star-horse-style)"/>
+        <star-horse-icon icon-class="v-dot" color="var(--star-horse-style)" size="20px"/>
         <template #dropdown>
           <el-dropdown-menu>
             <el-dropdown-item command="expand">展开全部</el-dropdown-item>
@@ -163,7 +169,7 @@ defineExpose({
         </template>
       </el-dropdown>
     </div>
-    <el-divider/>
+    <el-divider v-if="showSearch"/>
     <div class="tree-content">
       <el-scrollbar height="100%">
         <el-tree

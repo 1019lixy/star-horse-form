@@ -49,11 +49,11 @@ app.use(hljsVuePlugin);
  * @param instance
  * @param info
  */
-// app.config.errorHandler = (err, instance, info) => {
-//     console.log(err);
-//     console.log(instance);
-//     console.log(info);
-// }
+app.config.errorHandler = (err, instance, info) => {
+    console.log(err);
+    console.log(instance);
+    console.log(info);
+}
 /**
  * 处理警告
  * @param err
