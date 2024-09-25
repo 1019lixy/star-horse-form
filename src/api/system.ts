@@ -7,6 +7,8 @@ import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import piniaInstance from "@/store";
 import {v4 as uuidv4} from "uuid";
 import {FieldInfo} from "@/components/types/PageFieldInfo";
+import {DyCompField} from "@/components/types/DyCompField";
+import {createApp} from "vue";
 
 const validUrl: string = "/userdb-manage/redirect/valid";
 const redirectUrl: string = "/userdb-manage/redirect/valid";
@@ -352,4 +354,21 @@ export function commonField() {
     });
 
     return fields;
+}
+
+/**
+ * 动态创建组件
+ * @param compInfo 组件信息
+ */
+export function createComponent(compInfo: DyCompField) {
+    const app = createApp({});
+    app.component(compInfo.name, {
+        template: compInfo.template,
+        data: () => compInfo.data || {},
+        props: compInfo.props || {},
+        methods: compInfo.methods,
+        onMounted: compInfo.onMounted,
+        emits:compInfo.emits,
+    });
+    return app.component(compInfo.name);
 }

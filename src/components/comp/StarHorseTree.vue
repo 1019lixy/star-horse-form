@@ -34,6 +34,7 @@ const props = defineProps({
 });
 const emits = defineEmits(["selectData", "changeCollapse"]);
 const treeRef = ref<any>();
+const menuTreeRef = ref<any>();
 const searchData = ref('');
 const treeDatas: ModelRef<any> = defineModel("treeDatas");
 let menuIcon = ref<string>("expand");
@@ -56,14 +57,15 @@ const treeOperation = (cmd: string) => {
     } else {
       Object.values(treeRef.value!.store.nodesMap).forEach((v: any) => v.expand())
     }
+
   } else {
     const getAllSubNodeIndex = (datas: any) => {
       datas.forEach((item: any) => {
         if (item.children && item.children.length > 0) {
           if (cmd == "collapse") {
-            treeRef.value.close(item[props.preps.value]);
+            menuTreeRef.value.close(item[props.preps.value]);
           } else {
-            treeRef.value!.open(item[props.preps.value]);
+            menuTreeRef.value!.open(item[props.preps.value]);
           }
           getAllSubNodeIndex(item.children);
         }
@@ -87,12 +89,15 @@ const operSelectData = (data: TreeNodeData, checked: boolean) => {
         break;
       }
     }
-    treeRef.value!.setCheckedKeys([data], checked);
+    treeRef.value!.setChecked(data, checked);
   }
 }
 const setSelectData = (datas: Array<any>) => {
   selectedDataList.value = datas;
-  treeRef.value!.setCheckedKeys(datas, true);
+  datas.forEach(item => {
+    treeRef.value!.setChecked(item, true);
+  })
+
 }
 const getSelectData = () => {
   return selectedDataList.value;
@@ -173,7 +178,7 @@ defineExpose({
             @nodeClick="treeChange"
             @checkChange="treeChange"
         />
-        <el-menu v-if="treeType=='menu'" ref="treeRef" :unique-opened="false">
+        <el-menu v-if="treeType=='menu'" ref="menuTreeRef" :unique-opened="false">
           <SubSystemMenu :dataList="treeDatas" :preps="preps" @selectData="menuChange"/>
         </el-menu>
       </el-scrollbar>

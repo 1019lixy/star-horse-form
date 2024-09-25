@@ -2,7 +2,7 @@
 import {apiInstance, closeLoad, dialogPreps, load, loadData} from "@/api/sh_api";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings";
-import {computed, onActivated, onDeactivated, onMounted, provide, reactive, ref} from "vue";
+import {computed, nextTick, onActivated, onDeactivated, onMounted, provide, reactive, ref} from "vue";
 import {SearchFields} from "@/components/types/SearchProps";
 import {PageFieldInfo, UserFuncInfo} from "@/components/types/PageFieldInfo";
 import {getCustomerParam} from "@/utils/auth";
@@ -10,9 +10,10 @@ import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import piniaInstance from "@/store";
 import {SearchParams} from "@/components/types/Params";
 import {TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
-import {error, success, warning} from "@/utils/message.ts";
+import {confirm, error, success, warning} from "@/utils/message.ts";
 import {statusList} from "@/views/system/utils/UserFields.ts";
 import {postRequest} from "@/api/star_horse.ts";
+import {DyCompField} from "@/components/types/DyCompField";
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance("system-config", "system/companyRole");
 //主键
@@ -56,6 +57,33 @@ const searchFormData = reactive<SearchFields>({
     },
   ]
 });
+const viewCompField = ref<DyCompField>({
+  name: "RoleCompanyList",
+  emits: ["closeAction"],
+  methods: {
+    closeAction: (role: any, item: any) => {
+      console.log(role, item);
+      confirm("确定要删除吗？").then(_ => {
+        postRequest(`/system-config/system/companyRolePkDefine/deleteData/${role.idCompanyRole}/${item.idCompanyDefine}`, {}).then(res => {
+          if (res.data.code) {
+            warning(res.data.cnMessage);
+            return;
+          }
+          companyRoleRef.value.loadByPage();
+        });
+      });
+    }
+  },
+  template: `
+    <el-card class="inner_content hover_content">
+      <template #header>
+        {{ item.label }}
+      </template>
+      <div class="content">
+        <el-tag v-for="temp in data.companyList" type="success" closable @close="closeAction(data,temp)">{{ temp.name }}</el-tag>
+      </div>
+    </el-card>`
+});
 //页面属性
 const tableFieldList = reactive<PageFieldInfo | any>({
   //属性列表
@@ -87,7 +115,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         compAction: "click",
         mouseType: "pointer",
         popover: "Y",
-        compName: "RoleCompanyPanel",
+        compField: viewCompField,
         compFunc: (val: any) => {
           alert(val["assignCompanies"]);
         }
@@ -196,9 +224,11 @@ let extandBtns = ref<UserFuncInfo[]>([{
   btnName: "配置归属公司",
   authority: "add",
   icon: "setting",
-  funcName: (row: any) => {
+  funcName: async (row: any) => {
     outerForm.value["idCompanyRole"] = row[primaryKey];
     dialogProps.bakeVisible1 = true;
+    await nextTick();
+    assignRoleCompanyRef.value.setSelectData(row.companyList);
   }
 }]);
 //初始化方法
@@ -311,6 +341,19 @@ onDeactivated(() => {
     </el-col>
   </el-row>
 </template>
-<style lang="scss" scoped>
-//todo
+<style lang="scss">
+.hover_content {
+  margin: 0;
+  width: 400px;
+
+  .content {
+    margin: 10px 5px;
+    display: flex;
+    justify-content: start;
+
+    .el-tag {
+      margin-left: 10px;
+    }
+  }
+}
 </style>

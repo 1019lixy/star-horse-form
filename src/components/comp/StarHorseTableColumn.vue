@@ -5,6 +5,7 @@ import {postRequest} from "@/api/star_horse";
 import {closeLoad, commonParseCodeToName} from "@/api/sh_api";
 import {error, success, warning} from "@/utils/message";
 import {Config} from "@/api/settings.ts";
+import {createComponent} from "@/api/system.ts";
 
 const props = defineProps({
   compUrl: {type: Object},
@@ -16,7 +17,6 @@ const props = defineProps({
 });
 const emits = defineEmits(["focusEvent", "blurEvent"]);
 const currentRow = ref();
-const currentRowColumnRef = ref();
 const focusEvent = (_column: any) => {
   // currentRow.value[column["property"]] = currentRow.value[column["property"]];
 };
@@ -79,6 +79,10 @@ const currentDataFormat = (scope: any) => {
   }
   return val;
 }
+const popover = ref();
+const showOperation = async () => {
+await nextTick();
+}
 </script>
 <template>
 
@@ -95,17 +99,19 @@ const currentDataFormat = (scope: any) => {
     <template #default="scope">
       <template v-if="item.preps?.showComp=='Y'">
 
-        <el-popover :placement="item.preps.placement||'left'" :width="'auto'"
-                    v-if="item.preps.popover=='Y'">
+        <el-popover ref="popover" :placement="item.preps.placement||'left'" :width="'auto'"
+                    v-if="item.preps.popover=='Y'" @show="showOperation">
           <template #reference>
             <star-horse-item :dataForm="scope.row" :item="item"
                              :column="scope.column"
                              :batchName="batchName"
                              :compSize="compSize"
-                             ref="currentRowColumnRef"
             />
           </template>
-          <component :is="item.preps.compName" :data="scope.row" :item="item"/>
+          <component :is="createComponent({...item.preps.compField,props:{
+            data:{type:Object},
+            item:{type:Object}
+          }})" :data="scope.row" :item="item" v-if="item.preps.compField"/>
         </el-popover>
         <star-horse-item :dataForm="scope.row" :item="item"
                          :column="scope.column"
@@ -113,7 +119,6 @@ const currentDataFormat = (scope: any) => {
                          :compSize="compSize"
                          :style="{cursor:item.preps.mouseType||'normal'}"
                          v-on:[item.preps.compAction]="item.preps.compFunc(scope.row)"
-                         ref="currentRowColumnRef"
                          v-else
         />
 
@@ -124,7 +129,6 @@ const currentDataFormat = (scope: any) => {
                          :batchName="batchName"
                          @focus="focusEvent"
                          :compSize="compSize"
-                         ref="currentRowColumnRef"
                          @blur="blurEvent"
                          v-if="scope.row.isSelected&&(scope.row.selectName==item.hideName||scope.row.selectName==item.fieldName)"/>
         <p @click="cellClick(scope.row, scope.column)" v-else>
