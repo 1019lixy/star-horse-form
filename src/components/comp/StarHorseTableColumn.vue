@@ -13,6 +13,8 @@ const props = defineProps({
   item: {type: Object as PropType<any>, required: true},
   dataFormat: {type: Function, required: true},
   cellEditable: {type: Boolean, default: true},
+  //是否显示排序
+  sortable: {type: Boolean, default: true},
   compSize: {type: String, default: "default"}
 });
 const emits = defineEmits(["focusEvent", "blurEvent"]);
@@ -92,7 +94,7 @@ await nextTick();
       :min-width="(item.minWidth||Config.defaultColumnWidth) + 'px'"
       :formatter="dataFormat"
       v-if="item.tableShow"
-      sortable
+      :sortable="sortable"
       :show-overflow-tooltip="true"
   >
 

@@ -9,7 +9,7 @@ import Sortable from "sortablejs";
 import {DialogProps} from "../types/DialogProps";
 import {BtnAuth} from "@/components/types/BtnAuth";
 import {error, warning} from "@/utils/message";
-import {OrderByInfo, UserFuncInfo} from "@/components/types/PageFieldInfo";
+import {ExpandTable, OrderByInfo, PageFieldInfo, UserFuncInfo} from "@/components/types/PageFieldInfo";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {DynamicForm} from "@/store/DynamicFormStore";
 import piniaInstance from "@/store";
@@ -23,9 +23,9 @@ const props = defineProps({
   //url地址
   compUrl: {type: Object as PropType<ApiUrls>, required: true},
   //主键
-  primaryKey: {type: Object, required: true},
+  primaryKey: {type: Object as PropType<any>, required: true},
   //列名
-  fieldList: {type: Object, required: true},
+  fieldList: {type: Object as PropType<PageFieldInfo>, required: true},
   //是否显示批量属性
   showBatchField: {type: Boolean, default: false},
   //格式化方法
@@ -58,9 +58,10 @@ const props = defineProps({
   //标题
   title: {type: String},
   //自定义按钮
-  extandBtns: {type: Array as PropType<UserFuncInfo[]>}
+  extandBtns: {type: Array as PropType<UserFuncInfo[]>},
   //按钮操作权限
   // permissions: {type: Object, required: true, default: {}},
+  expandTable: {type: Object as PropType<ExpandTable>}
 });
 let route = useRoute();
 let pagePermission = useButtonPermission();
@@ -488,6 +489,10 @@ const selectRow = (row: any, _column: any, evt: Event) => {
   if (!checkParent(row)) {
     return;
   }
+  //展开/折叠
+  if (props.expandTable) {
+    starHorseTableCompRef.value.toggleRowExpansion(row);
+  }
   if (multipleSelection.value.length > 0) {
     for (let valueElement of multipleSelection.value) {
       starHorseTableCompRef.value.toggleRowSelection(valueElement);
@@ -630,19 +635,9 @@ defineExpose({
       :min-height="height"
       :highlight-current-row="true"
       :default-expand-all="expand"
-      :row-style="{
-      height: '30px',
-    }"
-      :cell-style="{
-      height: '30px',
-      'font-size': '12px',
-    }"
-      :header-cell-style="{
-      background: '#f2f2f2',
-      color: '#707070',
-      'font-size': '13px',
-      'background-image':'-webkit-gradient(linear,left 0,left 100%,from(#f8f8f8),to(#ececec))',
-    }"
+      :row-style="{height: '30px'}"
+      :cell-style="{ height: '30px','font-size': '12px'}"
+      :header-cell-style="{ background: '#f2f2f2', color: '#707070', 'font-size': '13px','background-image':'-webkit-gradient(linear,left 0,left 100%,from(#f8f8f8),to(#ececec))'}"
       border
   >
     <el-table-column
@@ -652,7 +647,37 @@ defineExpose({
         :reserve-selection="true"
     >
     </el-table-column>
-    <table-column :fieldList="fieldList"  :compSize="compSize" :compUrl="compUrl" :dataFormat="dataFormat" :showBatchField="showBatchField"/>
+    <el-table-column type="expand" v-if="expandTable">
+      <template #default="scope">
+        <div class="expand-table">
+          <h4>{{ expandTable.title }}</h4>
+          <el-table :data="scope.row[expandTable.dataField]"
+                    :row-key="getRowIdentity"
+                    :stripe="true"
+                    :fit="true"
+                    :size="compSize"
+                    :highlight-current-row="true"
+                    :max-height="'400px'"
+                    :row-style="{height: '30px'}"
+                    :cell-style="{ height: '30px','font-size': '12px'}"
+                    border
+          >
+            <el-table-column
+                fixed="left"
+                label="操作"
+                :width="160"
+                v-if="expandTable.showButton"
+            >
+            </el-table-column>
+            <table-column :fieldList="expandTable" :compSize="compSize" :compUrl="compUrl"
+                          :dataFormat="dataFormat" :sortable="false"
+                          :showBatchField="showBatchField"/>
+          </el-table>
+        </div>
+      </template>
+    </el-table-column>
+    <table-column :fieldList="fieldList" :compSize="compSize" :compUrl="compUrl" :dataFormat="dataFormat"
+                  :showBatchField="showBatchField"/>
     <el-table-column
         v-if="!disableAction&&Object.keys(permissions||{}).length>0"
         fixed="right"
@@ -726,6 +751,16 @@ defineExpose({
   />
 </template>
 <style lang="scss" scoped>
+.expand-table {
+  width: 100%;
+  margin: 5px auto;
+
+  h3 {
+    display: block;
+    margin: 5px;
+  }
+}
+
 .warning-row {
   background: var(--star-horse-shadow);
 }

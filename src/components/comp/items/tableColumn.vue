@@ -9,6 +9,8 @@ defineProps({
   fieldList: {type: Object, required: true},
   //格式化方法
   dataFormat: {type: Function, default: null},
+  //是否显示排序
+  sortable: {type: Boolean, default: true},
   //是否显示批量属性
   showBatchField: {type: Boolean, default: false},
   compSize: {type: String, default: "default"}
@@ -21,6 +23,7 @@ defineProps({
           :data-format="dataFormat"
           :cellEditable="fieldList['cellEditable']"
           :item="sitem"
+          :sortable="sortable"
           :compSize="compSize"
           :compUrl="compUrl"
           v-for="sitem in item"
@@ -32,6 +35,7 @@ defineProps({
             :data-format="dataFormat"
             :cellEditable="fieldList['cellEditable']"
             :item="sitem"
+            :sortable="sortable"
             :compSize="compSize"
             :compUrl="compUrl"
             v-for="sitem in tabItems.fieldList"
@@ -44,6 +48,7 @@ defineProps({
             :data-format="dataFormat"
             :cellEditable="fieldList['cellEditable']"
             :item="sitem"
+            :sortable="sortable"
             :compSize="compSize"
             :compUrl="compUrl"
             v-for="sitem in tabItems"
@@ -56,6 +61,7 @@ defineProps({
             :data-format="dataFormat"
             :cellEditable="fieldList['cellEditable']"
             :item="sitem"
+            :sortable="sortable"
             :compSize="compSize"
             :compUrl="compUrl"
             v-for="sitem in batchItems.fieldList"
@@ -68,12 +74,13 @@ defineProps({
         :compUrl="compUrl"
         :cellEditable="fieldList['cellEditable']"
         :data-format="dataFormat"
+        :sortable="sortable"
         :compSize="compSize"
         :item="item"
     />
   </template>
   <template v-if="showBatchField" v-for="item in fieldList['batchFieldList']">
-    <star-horse-table-column :data-format="dataFormat" :compSize="compSize" :item="item"/>
+    <star-horse-table-column :data-format="dataFormat" :compSize="compSize" :sortable="sortable" :item="item"/>
   </template>
 </template>
 

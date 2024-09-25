@@ -459,4 +459,32 @@ export declare interface PageFieldInfo {
     sameTable?: boolean;
 }
 
-
+/**
+ * 嵌套表结构
+ */
+export declare interface ExpandTable {
+    /**
+     * 列表数据字段
+     */
+    dataField: string,
+    /**
+     * 列表标题
+     */
+    title?: string,
+    /**
+     * 是否显示操作按钮
+     */
+    showButton?: boolean,
+    /**
+     * 扩展表主键
+     */
+    primaryKey?: string | Array<string>,
+    /**
+     * 扩展按钮方法
+     */
+    extandFuncs?: UserFuncInfo[],
+    /**
+     * 列表字段
+     */
+    fieldList: FieldInfo[]
+}
