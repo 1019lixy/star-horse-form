@@ -254,7 +254,7 @@ provide("dialogProps", dialogProps);
 let extandBtns = ref<UserFuncInfo[]>([{
   btnName: "添加人员",
   authority: "add",
-  icon: "setting",
+  icon: "user-add",
   funcName: async (row: any) => {
     outerForm.value["idCompanyRole"] = row[primaryKey];
     dialogProps.bakeVisible1 = true;
@@ -352,13 +352,11 @@ onDeactivated(() => {
           <star-horse-search-comp @searchData="(data)=>companyRoleRef.createSearchParams(data)"
                                   :formData="searchFormData"
                                   :compUrl="dataUrl"/>
-          <hr/>
-          <star-horse-button-list @tableCompFunc="(fun)=>companyRoleRef.tableCompFunc(fun)" :compUrl="dataUrl"
-                                  :dialogProps="dialogProps" :showType="Config.buttonStyle" :extandBtns="extandBtns"/>
-        </div>
+         </div>
         <hr/>
         <star-horse-table-comp ref="companyRoleRef" :fieldList="tableFieldList" :primaryKey="primaryKey"
                                :compUrl="dataUrl"
+                               :disableAction="true"
                                :expandTable="expandTable"
                                :extandBtns="extandBtns"
                                :dataFormat="dataFormat"/>

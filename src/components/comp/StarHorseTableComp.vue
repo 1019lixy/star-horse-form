@@ -59,6 +59,7 @@ const props = defineProps({
   title: {type: String},
   //自定义按钮
   extandBtns: {type: Array as PropType<UserFuncInfo[]>},
+
   //按钮操作权限
   // permissions: {type: Object, required: true, default: {}},
   expandTable: {type: Object as PropType<ExpandTable>}
@@ -737,6 +738,18 @@ defineExpose({
         </template>
       </template>
     </el-table-column>
+    <el-table-column
+        v-else
+        fixed="right"
+        label="操作">
+      <template #default="scope">
+        <template v-for="auth in extandBtnFunction()">
+          <el-tooltip :content="auth['btnName'] " :v-if="permissions[auth.authority!]">
+            <star-horse-icon @click.stop="auth.funcName(scope.row)" :icon-class="auth.icon||'edit'"/>
+          </el-tooltip>
+        </template>
+      </template>
+    </el-table-column>
   </el-table>
   <el-pagination
       v-if="showPageBar"
@@ -754,6 +767,7 @@ defineExpose({
 .expand-table {
   width: 100%;
   margin: 10px auto;
+
   h4 {
     display: block;
     margin: 10px;
