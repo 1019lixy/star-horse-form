@@ -427,38 +427,40 @@ onMounted(() => {
                      @closeAction="tableOperClose"
                      @merge="()=>tableSubmit(false)"
   >
-    <el-tabs v-model="tbTab">
-      <el-tab-pane name="tb1">
-        <template #label><span><star-horse-icon icon-class="config" color="var(--star-horse-style)"/>风格设置
+    <div class="dialog-body">
+      <el-tabs v-model="tbTab">
+        <el-tab-pane name="tb1">
+          <template #label><span><star-horse-icon icon-class="config" color="var(--star-horse-style)"/>风格设置
           <help :width="400" :message="configMsg"/></span>
-        </template>
-        <star-horse-form ref="tableFieldInfoRef" :field-list="dataFieldInfo"/>
-      </el-tab-pane>
-      <el-tab-pane name="tb2" label="表格属性">
-        <el-scrollbar height="600px">
-          <table class="el-table field-table" style="width: 100%;overflow: auto;">
-            <thead>
-            <tr>
-              <th>名称</th>
-              <th>类型</th>
-              <th>空标识</th>
-              <th>主键</th>
-              <th>备注</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr v-for="sdata in currentData.fields">
-              <td>{{ sdata.fieldName }}</td>
-              <td>{{ sdata.type }}</td>
-              <td>{{ sdata.nullFlag }}</td>
-              <td>{{ sdata.primaryKey }}</td>
-              <td>{{ sdata.comment }}</td>
-            </tr>
-            </tbody>
-          </table>
-        </el-scrollbar>
-      </el-tab-pane>
-    </el-tabs>
+          </template>
+          <star-horse-form ref="tableFieldInfoRef" :field-list="dataFieldInfo"/>
+        </el-tab-pane>
+        <el-tab-pane name="tb2" label="表格属性">
+          <el-scrollbar height="600px">
+            <table class="el-table field-table" style="width: 100%;overflow: auto;">
+              <thead>
+              <tr>
+                <th>名称</th>
+                <th>类型</th>
+                <th>空标识</th>
+                <th>主键</th>
+                <th>备注</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr v-for="sdata in currentData.fields">
+                <td>{{ sdata.fieldName }}</td>
+                <td>{{ sdata.type }}</td>
+                <td>{{ sdata.nullFlag }}</td>
+                <td>{{ sdata.primaryKey }}</td>
+                <td>{{ sdata.comment }}</td>
+              </tr>
+              </tbody>
+            </table>
+          </el-scrollbar>
+        </el-tab-pane>
+      </el-tabs>
+    </div>
   </star-horse-dialog>
   <star-horse-dialog
       :dialogVisible="configDialogVisible"

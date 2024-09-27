@@ -250,7 +250,7 @@ const companyChange = (data: TreeNodeData, _checked: boolean) => {
 }
 //初始化方法
 const initData = async () => {
-  let result = await loadData("/system-config/system/companyDefine/getAllByCondition", {});
+  let result = await loadData("/system-config/system/companyDefine/compDeptTree", {});
   if (result.error) {
     warning(result.error);
     return;
