@@ -13,6 +13,8 @@
         :default-first-option="field.preps['defaultFirstOption']=='Y'"
         :default-expand-all="true"
         :props="field.preps['props']"
+        :filterable="field.preps['filterable']=='Y'"
+        :filter-node-method="filterNodeMethod"
         :disabled="field.preps['disabled']=='Y'"
         :multiple="field.preps['multiple']=='Y'"
         :multiple-limit="field.preps['multipleLimit']"
@@ -49,6 +51,10 @@ export default defineComponent({
       }
       context.emit('selfFunc', prep);
     };
+    const filterNodeMethod = (value: any, data: any) => {
+      let name: any = field.preps['props']?.label || "label";
+      return data[name].includes(value);
+    }
     /**
      * 动态获取数据
      */
@@ -105,7 +111,7 @@ export default defineComponent({
         keyEnterFun(actionName.value);
       }
     });
-    return {parentField, context, field, formItem, dataField, keyEnterFun, actionName}
+    return {parentField, context, field, formItem, dataField, keyEnterFun, filterNodeMethod, actionName}
   }
 });
 </script>

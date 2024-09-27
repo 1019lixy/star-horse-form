@@ -6,7 +6,6 @@ import {postRequest} from "@/api/star_horse";
 import {confirm, error, warning} from "@/utils/message";
 import {useRoute, useRouter} from "vue-router";
 import {apiInstance, closeLoad, load, loadData} from "@/api/sh_api";
-import {ApiUrls} from "@/components/types/ApiUrls";
 import FieldAnalysis from "@/views/dyform/FieldAnalysis.vue";
 import FormPropertyPanel from "@/views/dyform/FormPropertyPanel.vue";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
@@ -20,8 +19,10 @@ import {useButtonPermission} from "@/store/ButtonPermissionStore.ts";
 import {useUserSelfOperation} from "@/store/SelfOperationStore.ts";
 import {batchModifyAction} from "@/api/system.ts";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
+import {delCacheData, getCacheData, setCacheData} from "@/api/cached_utils.ts";
+import {i18n} from "@/lang";
 
-const dataUrl =apiInstance("userdb-manage","userdb/dynamicForm");
+const dataUrl = apiInstance("userdb-manage", "userdb/dynamicForm");
 let designForm = DesignForm(piniaInstance);
 let route = useRoute();
 let router = useRouter();
@@ -44,9 +45,12 @@ const previewDynamicFormRef = ref();
 let reOrUnDoFlag = ref<boolean>(false);
 let currentPageStyle = ref<any>({label: "电脑", key: "pc"});
 let currentPageClass = ref<string>("main-design");
+let cacheData = ref<any>("");
+let cacheName = "dynamicFormCache";
 const init = async () => {
   permissions.value = await pagePermission.addRoute(route);
-  clearData();
+  designForm.clearAll(true);
+  cacheData.value = getCacheData(cacheName);
 };
 const propertyRef = ref();
 const loadFormData = async (formId: any, isParent: boolean) => {
@@ -91,6 +95,7 @@ const clearData = (flag: boolean = true) => {
     confirm("新建将清空舞台上的所有元素，是否确定要清空？").then((res: boolean) => {
       if (res) {
         designForm.clearAll(flag);
+        delCacheData(cacheName);
       }
     })
   } else {
@@ -148,6 +153,7 @@ const doSave = async () => {
           return;
         }
         closeAction();
+        delCacheData(cacheName);
         //添加成功后是否还要继续添加，
         confirm(res.data.cnMessage + ",是否继续留在当前页面").then((cfm: boolean) => {
           if (cfm) {
@@ -243,7 +249,6 @@ let rightPanelVisible = ref<boolean>(true);
 
 //页面风格
 const actionsStyle = (item: any) => {
-  console.log(item);
   currentPageStyle.value = item;
   if (item.key == "pad") {
     currentPageClass.value = "main-design-pad";
@@ -251,6 +256,14 @@ const actionsStyle = (item: any) => {
     currentPageClass.value = "main-design-phone";
   } else {
     currentPageClass.value = "main-design";
+  }
+}
+const cacheDataRestore = (evt: MouseEvent) => {
+  evt.stopPropagation();
+  designForm.clearAll(true);
+  if (cacheData.value) {
+    designForm.setCompList(JSON.parse(cacheData.value));
+    cacheData.value = "";
   }
 }
 const actions = (action: string) => {
@@ -327,6 +340,7 @@ watch(() => list.value,
       userOperation.setFormInstance(dynamicFormRef);
       userOperation.setFormData(formData);
       userOperation.addFormItemList(val);
+      setCacheData(cacheName, val);
     }, {
       immediate: false,
       deep: true
@@ -507,6 +521,9 @@ onMounted(async () => {
               </template>
             </template>
           </el-menu>
+          <el-tooltip content="恢复缓存数据" v-if="cacheData&&cacheData.length>0">
+            <star-horse-icon icon-class="reset" @click="cacheDataRestore($event)"/>
+          </el-tooltip>
           <help :message="helpMessage"/>
         </div>
         <div class="main-design-a">
@@ -564,6 +581,7 @@ onMounted(async () => {
         </div>
       </div>
     </div>
+    <div class="main-copyright">{{ i18n("starhorse.copyright") }}</div>
   </el-card>
 </template>
 <style lang="scss" scoped>
@@ -601,10 +619,17 @@ onMounted(async () => {
   height: 100%;
 }
 
+.inner_content {
+  display: flex;
+  flex: 1;
+}
+
 .form_content {
   display: flex;
   width: 100%;
+  flex: 1;
   height: 100%;
+  overflow: hidden;
   flex-direction: row;
   margin-top: 0;
 

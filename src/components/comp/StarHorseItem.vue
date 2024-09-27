@@ -93,7 +93,6 @@ const compPreps = () => {
   } else if (itemType.value == "tselect") {
     field.value.preps["filterable"] = "Y";
     field.value.preps["collapseTags"] = "Y";
-    field.value.preps["showCheckbox"] = "Y";
     field.value.preps["props"] = {
       label: 'name',
       value: "value"

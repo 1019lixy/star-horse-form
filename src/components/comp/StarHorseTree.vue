@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import {nextTick, onMounted, ref, unref} from "vue";
+import {computed, nextTick, onMounted, ref, unref} from "vue";
 import {TreeNode, TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
 import {ModelRef} from "vue-demi";
 import SubSystemMenu from "@/components/menu/SubSystemMenu.vue";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-import {warning} from "@/utils/message.ts";
+import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
+import piniaInstance from "@/store";
 
 const props = defineProps({
   preps: {
@@ -21,7 +22,6 @@ const props = defineProps({
   showCollapse: {type: Boolean, default: false},
   treeTitle: {type: String, default: "树形菜单"},
   expand: {type: Boolean, default: false},
-  compSize: {type: String, default: "default"},
   height: {type: Number, default: "600"},
   //是否显示复选框
   showCheckBox: {type: Boolean, default: false},
@@ -35,6 +35,8 @@ const props = defineProps({
 
 });
 const emits = defineEmits(["selectData", "changeCollapse"]);
+let configStore = GlobalConfig(piniaInstance);
+let compSize = computed(() => configStore.configFormInfo?.inputSize || "default");
 const treeRef = ref<any>();
 const menuTreeRef = ref<any>();
 const searchData = ref('');

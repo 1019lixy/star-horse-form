@@ -105,7 +105,7 @@ const tableOperation = (actonName: string, _preps: any) => {
 }
 </script>
 <template>
-  <div :class="isEdit?'field-item':''">
+  <div :class="{'field-item':isEdit}">
     <slot></slot>
     <div class="drag-handler" v-if="isEdit">
       <el-tooltip content="拖动">
@@ -153,12 +153,11 @@ const tableOperation = (actonName: string, _preps: any) => {
 </template>
 <style lang="scss" scoped>
 .field-item {
-  width: inherit;
+  width: 99%;
   position: relative;
   padding: 3px;
-  z-index: 999;
   border: 1px dashed #e6a23c;
-  margin-top: 3px;
+  margin: 3px auto;
 
   &:hover > .field-action {
     opacity: 1;
@@ -198,7 +197,7 @@ const tableOperation = (actonName: string, _preps: any) => {
     left: 3px;
     opacity: 1;
     background: var(--star-horse-style);
-    z-index: 9999;
+    z-index: 999;
 
     text-align: right;
     display: flex;

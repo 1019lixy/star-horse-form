@@ -15,7 +15,7 @@ import {statusList} from "@/views/system/utils/UserFields.ts";
 import {postRequest} from "@/api/star_horse.ts";
 import {DyCompField} from "@/components/types/DyCompField";
 //后端交互接口地址
-const dataUrl: ApiUrls = apiInstance("system-config", "system/companyRole");
+const dataUrl: ApiUrls = apiInstance("system-config", "system/companyRolePkEmployee");
 dataUrl.condition = [createCondition("a.roleType", "common_role")];
 //主键
 const primaryKey = "idCompanyRole";
@@ -28,8 +28,6 @@ let outerFormData = ref<any>({
 //定义表单的所有属性
 const formFields = reactive<Object>({});
 provide("formFields", formFields);
-let configStore = GlobalConfig(piniaInstance);
-let compSize = computed(() => configStore.configFormInfo?.inputSize || "default");
 let currentUserGroupId = ref<number>(0);
 let defaultCondition = ref<SearchParams[]>([]);
 const companyChange = (data: TreeNodeData, _checked: boolean) => {
@@ -220,7 +218,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 });
 
 const expandTable = reactive<ExpandTable>({
-  dataField: "companyList",
+  dataField: "employeeList",
   title: "人员信息",
   fieldList: [{
     label: "姓名",
@@ -344,7 +342,7 @@ onDeactivated(() => {
                        label:'name',
                        value:'idCompanyDefine'
                        }"
-                       :compSize="compSize"/>
+                       />
     </el-col>
     <el-col :span="19" class="h100">
       <el-card class="inner_content h100">
@@ -352,7 +350,7 @@ onDeactivated(() => {
           <star-horse-search-comp @searchData="(data)=>companyRoleRef.createSearchParams(data)"
                                   :formData="searchFormData"
                                   :compUrl="dataUrl"/>
-         </div>
+        </div>
         <hr/>
         <star-horse-table-comp ref="companyRoleRef" :fieldList="tableFieldList" :primaryKey="primaryKey"
                                :compUrl="dataUrl"

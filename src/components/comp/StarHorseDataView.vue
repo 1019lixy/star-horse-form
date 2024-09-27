@@ -68,8 +68,15 @@ const loadData = async () => {
 
 </script>
 <template>
-
-  <star-horse-data-view-items :commonFormat="dataFormat" :field-list="fieldList" v-model:data-form="dataForm"/>
+  <div class="star-horse-data-view">
+    <star-horse-data-view-items :commonFormat="dataFormat" :field-list="fieldList" v-model:data-form="dataForm"/>
+  </div>
 </template>
 <style lang="scss" scoped>
+.star-horse-data-view {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  flex-direction: column;
+}
 </style>

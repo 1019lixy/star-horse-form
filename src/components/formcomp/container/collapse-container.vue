@@ -58,8 +58,13 @@ onMounted(() => {
                  class="collapse-container"
                  :accordion="field.preps['accordion']=='Y'"
     >
-      <el-collapse-item v-for="adata in field['preps']['elements']" :title="adata.label||adata.objectName"
+      <el-collapse-item v-for="adata in field['preps']['elements']"
                         :name="adata.objectName">
+        <template #title>
+          <div class="collapse-item-title title">
+            <div>{{ adata.label || adata.objectName}}</div>
+          </div>
+        </template>
         <el-scrollbar height="100%">
           <draggable
               @add="(evt:Event)=>onDragAdd(evt,adata['items'])"
@@ -89,7 +94,6 @@ onMounted(() => {
   </group-box-container>
 </template>
 <style lang="scss" scoped>
-
 :deep(.el-card) {
   margin-top: 10px;
 }

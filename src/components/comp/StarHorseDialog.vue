@@ -81,7 +81,7 @@ provide("dialogOperation", clickFunction);
   <Teleport to="body">
     <div class="di animated animate__fadeIn">
       <el-dialog :append-to-body="false" :center="false" :destroy-on-close="true" :close-on-click-modal="false"
-                 :close-on-press-escape="false" :lock-scroll="true" class="dialog-settings.ts"
+                 :close-on-press-escape="false" :lock-scroll="true" class="dialog-settings"
                  :fullscreen="isFullScreen"
                  :show-close="false" :draggable="draggable" :align-center="true" v-model="windowsType"
                  @close="beforeClose"
@@ -90,26 +90,20 @@ provide("dialogOperation", clickFunction);
           <h3>{{ title || dialogProps.dialogTitle }}</h3>
           <div class="my-header">
             <el-button style="background: var(--star-horse-style);color: var(--star-horse-white)" :size="compSize"
-                       @click="fullScreen" link v-if="!!isFullScreen && draggable">
-              <el-tooltip :content="i18n('dialog.resize')">
-                <star-horse-icon icon-class="fullscreen-shrink" color="var(--star-horse-white)"/>
-              </el-tooltip>
+                       @click="fullScreen" link v-if="!!isFullScreen && draggable" :title="i18n('dialog.resize')">
+              <star-horse-icon icon-class="fullscreen-shrink" color="var(--star-horse-white)"/>
             </el-button>
             <el-button style="background: var(--star-horse-style);color: var(--star-horse-white)" :size="compSize"
-                       @click="fullScreen" link v-if="!isFullScreen && draggable">
-              <el-tooltip :content="i18n('dialog.fullScreen')">
-                <star-horse-icon icon-class="fullscreen-expand" color="var(--star-horse-white)"/>
-              </el-tooltip>
+                       @click="fullScreen" link v-if="!isFullScreen && draggable" :title="i18n('dialog.fullScreen')">
+              <star-horse-icon icon-class="fullscreen-expand" color="var(--star-horse-white)"/>
             </el-button>
             <el-button style="background: var(--star-horse-style);color: var(--star-horse-white)" :size="compSize"
-                       @click="close" link>
-              <el-tooltip :content="i18n('dialog.close')">
-                <star-horse-icon icon-class="close" color="var(--star-horse-white)"/>
-              </el-tooltip>
+                       @click="close" link :title="i18n('dialog.close')">
+              <star-horse-icon icon-class="close" color="var(--star-horse-white)"/>
             </el-button>
           </div>
         </template>
-        <div class="eee">
+        <div class="shdialog">
           <slot></slot>
         </div>
         <slot name="extand"></slot>
@@ -189,8 +183,9 @@ provide("dialogOperation", clickFunction);
   }
 }
 
-.eee {
+.shdialog {
   flex: 1;
+  display: inline-flex;
   overflow-y: auto;
   padding: 0 10px;
   box-sizing: border-box;
