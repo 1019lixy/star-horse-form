@@ -1,7 +1,7 @@
 [
   {
     "idMenusinfo": 1,
-    "informationsSingleId": 1,
+    "idInformations": 1,
     "menuName": "菜单配置",
     "menuPath": "system/MenusinfoUi",
     "menuIcon": "pencil-alt",
@@ -19,7 +19,7 @@
   },
   {
     "idMenusinfo": 2,
-    "informationsSingleId": 1,
+    "idInformations": 1,
     "menuName": "系统配置",
     "menuPath": "/system/InformationsUi",
     "menuIcon": "university",
@@ -37,7 +37,7 @@
   },
   {
     "idMenusinfo": 3,
-    "informationsSingleId": 1,
+    "idInformations": 1,
     "menuName": "资源权限",
     "menuPath": "/config/ResourcesUi",
     "menuIcon": "record-vinyl",
@@ -54,7 +54,7 @@
   },
   {
     "idMenusinfo": 5,
-    "informationsSingleId": 1,
+    "idInformations": 1,
     "menuName": "系统角色",
     "menuPath": "/config/RolesinfoUi",
     "menuIcon": "user-circle",
@@ -71,7 +71,7 @@
   },
   {
     "idMenusinfo": 8,
-    "informationsSingleId": 1,
+    "idInformations": 1,
     "menuName": "部门信息",
     "menuPath": "/config/DepartmentUi",
     "menuIcon": "users-cog",
@@ -88,7 +88,7 @@
   },
   {
     "idMenusinfo": 9,
-    "informationsSingleId": 1,
+    "idInformations": 1,
     "menuName": "系统用户",
     "menuPath": "/config/UsersinfoUi",
     "menuIcon": "user-friends",
@@ -107,7 +107,7 @@
   {
     "dataNo": "No1641447977062",
     "idMenusinfo": 14,
-    "informationsSingleId": 1,
+    "idInformations": 1,
     "menuName": "系统审计",
     "menuPath": "/config/AuditUi",
     "menuIcon": "record-vinyl",
@@ -129,7 +129,7 @@
     "statusCode": "1",
     "statusName": "正常",
     "idMenusinfo": 27,
-    "informationsSingleId": 1,
+    "idInformations": 1,
     "menuName": "数据字典",
     "menuPath": "/system/StatusinfoUi",
     "menuIcon": "phone-slash",

@@ -1,5 +1,5 @@
 <script setup lang="ts" name="WhiteList">
-import {apiInstance} from "@/api/sh_api.ts";
+import {apiInstance, dialogPreps} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings.ts";
 import {onMounted, provide, reactive, ref} from "vue";
@@ -83,8 +83,7 @@ const dataFormat = (name: string, cellValue: object): any => {
 }
 const initData = async () => {
 
-  let reDictData = await dictData("white_name_filter_type");
-  typeList.value = reDictData;
+  typeList.value = await dictData("white_name_filter_type");
 };
 onMounted(async () => {
   await initData();

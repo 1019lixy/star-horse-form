@@ -36,14 +36,14 @@ export function treeCheckChange(tableComp: any, data: TreeNodeData) {
     //         treeComp.setChecked(item.value, false);
     //     });
     // }
-    // dataForm["informationsSingleId"] = data.value;
+    // dataForm["idInformations"] = data.value;
     // treeComp.setChecked(data.value, (checked instanceof Boolean) ? checked : true);
     // if (!checked) {
     //     return;
     // }
     const conditions: Array<SearchParams> = [];
     // if (checked) {
-    conditions.push(createCondition("informationsSingleId", data.value));
+    conditions.push(createCondition("idInformations", data.value));
     // }
     tableComp.setDataInfo(conditions, null);
     searchData(tableComp, conditions);

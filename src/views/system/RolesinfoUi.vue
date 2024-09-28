@@ -25,10 +25,10 @@ let selfBtnFunc = ref<BtnAuth[]>([]);
 const starHorseTableCompRef = ref(null);
 let currentRoleId = ref<number>(0);
 // 0 普通角色 1高级角色 2普通管理员 3 超级管理员 默认 0
-const roleTypes = [{name: "普通角色", value: 0},
-  {name: "高级角色", value: 1},
-  {name: "普通管理员", value: 2},
-  {name: "超级管理员", value: 3},
+const roleTypes = [{name: "普通用户", value: 0},
+  {name: "高级用户", value: 1},
+  {name: "普通管理用户", value: 2},
+  {name: "超级管理用户", value: 3},
 ];
 const sessionTimeOut = [
   {name: "15分钟", value: 15},
@@ -39,9 +39,9 @@ const sessionTimeOut = [
 ];
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "角色名称", fieldName: "roleName", defaultShow: true, type: "input", matchType: "lk"},
+    {label: "用户组名称", fieldName: "roleName", defaultShow: true, type: "input", matchType: "lk"},
     /* {label: "角色编码", fieldName: "roleCode", type: "input", matchType: "lk"},*/
-    {label: "角色类型", fieldName: "roleType", defaultShow: true, type: "select", optionList: roleTypes},
+    {label: "用户组类型", fieldName: "roleType", defaultShow: true, type: "select", optionList: roleTypes},
   ]
 });
 const tableFieldList = reactive<PageFieldInfo | any>({
@@ -50,7 +50,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       label: "主键", fieldName: "idRolesinfo", type: "long",
     },
     {
-      label: "角色名称", fieldName: "roleName", type: "input",
+      label: "用户组名称", fieldName: "roleName", type: "input",
       required: true, formShow: true,
       tableShow: true
     },
@@ -63,11 +63,11 @@ const tableFieldList = reactive<PageFieldInfo | any>({
           required: true,  multiple:"Y",
         },*/
     {
-      label: "角色编码", fieldName: "roleCode", type: "input",
+      label: "用户组编码", fieldName: "roleCode", type: "input",
       required: true,
     },
     {
-      label: "角色类型", fieldName: "roleType", type: "select", optionList: roleTypes,
+      label: "用户组类型", fieldName: "roleType", type: "select", optionList: roleTypes,
       required: true, formShow: true, editDisabled: "Y",
       tableShow: true
     },
@@ -85,7 +85,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         required: true, multiple: "Y",
       }],
     {
-      label: "角色描述", fieldName: "roleDesc", type: "textarea",
+      label: "用户组职责", fieldName: "roleDesc", type: "textarea",
       formShow: true,
       tableShow: true
     },

@@ -96,7 +96,7 @@ export async function loadSystemInfo(params: any) {
         if (redata.code == 0) {
             const data = redata.data;
             if (redata.data) {
-                systemList = createTree(data, "", "sysName", "idInformations")
+                systemList = createTree(data, "idInformations", "sysName", "")
             }
         }
     }).catch(err => {
@@ -180,7 +180,7 @@ export async function loadMenusInfo(direct: boolean, params: any, needSystem: bo
     let menuDatas: any = [];
     await postRequest(`${menuUrl}/${needSystem}`, {
         fieldList: params,
-        orderBy: [{fieldName: "informationsSingleId"}]
+        orderBy: [{fieldName: "idInformations"}]
     }).then(res => {
         const redata = res.data;
         if (redata.code != 0) {

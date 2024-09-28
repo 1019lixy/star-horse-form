@@ -59,7 +59,7 @@ const setQueryCondition = () => {
 }
 const systemChange = async (data: TreeNodeData, checked: boolean) => {
   currentSystemId.value = data.idInformations;
-  let condition: SearchParams = createCondition("informationsSingleId", data.idInformations);
+  let condition: SearchParams = createCondition("idInformations", data.idInformations);
   setQueryCondition();
   menusList.value = await loadMenusInfo(false, [condition], false);
 };

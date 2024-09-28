@@ -739,7 +739,7 @@ defineExpose({
       </template>
     </el-table-column>
     <el-table-column
-        v-else-if="extandBtnFunction()?.length>0"
+        v-else-if="disableAction&&extandBtnFunction()?.length>0"
         fixed="right"
         label="操作">
       <template #default="scope">

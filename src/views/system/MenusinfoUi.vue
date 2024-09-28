@@ -22,7 +22,7 @@ const currentInformation = ref<any>(null);
 const defaultCondition = ref<any>([]);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    /*{label: "归属系统", fieldName: "informationsSingleId", type: "select", optionList: informationsList},
+    /*{label: "归属系统", fieldName: "idInformations", type: "select", optionList: informationsList},
     {label: "父菜单", fieldName: "parentNo", type: "tselect", optionList: searchParentMenus},*/
     {label: "菜单名称", defaultShow: true, fieldName: "menuName", type: "input", matchType: "lk"},
     {label: "菜单编码", fieldName: "menuCode", type: "input", matchType: "lk"},
@@ -32,7 +32,7 @@ let menuIconList = ref<SelectOption[]>([]);
 let openTypeList = ref<SelectOption[]>([]);
 const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [{
-    label: "主键", fieldName: "idMenusinfo", type: "long",
+    label: "主键", fieldName: "idMenusinfo", type: "input",
   },
     [{
       label: "菜单名称", fieldName: "menuName", type: "input",
@@ -45,11 +45,11 @@ const tableFieldList = reactive<PageFieldInfo>({
         tableShow: true
       }],
     [{
-      label: "归属应用名称", fieldName: "informationsSingleId", type: "select", optionList: informationsList,
+      label: "归属应用名称", fieldName: "idInformations", type: "select", optionList: informationsList,
       required: true, formShow: true, defaultValue: currentInformation,
       actionName: "change",
       actions: (val: any) => {
-        let systemId = val["informationsSingleId"];
+        let systemId = val["idInformations"];
         if (!systemId) {
           return;
         }
@@ -133,12 +133,12 @@ let compSize = computed(() => configStore.configFormInfo?.inputSize || "default"
 const primaryKey = "idMenusinfo";
 const rules = {};
 const dataForm = ref<any>({});
-const loadMenuBySystemId = async (systemId: number) => {
+const loadMenuBySystemId = async (systemId: string) => {
   if (!systemId) {
     return;
   }
   let params = [{
-    "propertyName": "informationsSingleId",
+    "propertyName": "idInformations",
     "value": systemId
   }];
   defaultCondition.value = params;
@@ -154,9 +154,8 @@ provide("dialogProps", dialogProps);
 const menuFormRef = ref(null);
 const menuTableListRef = ref();
 const dataFormat = (name: string, cellValue: any, row: any): any => {
-  if (name == "informationsSingleId") {
-    let fdata = informationsList.value.find(item => item.value == parseInt(cellValue));
-    return fdata?.name || cellValue;
+  if (name == "idInformations") {
+    return informationsList.value.find(item => item.value == cellValue)?.name || cellValue;
   } else if (name == "parentNo") {
     //let fdata = parentMenus.value.find(item => item.value == cellValue);
     return row && row["parentData"] ? row["parentData"].menuName : cellValue;
@@ -256,7 +255,7 @@ onMounted(async () => {
   <el-card class="inner_content">
     <el-row style="height: 100%;" :gutter="10">
       <el-col :span="5" class="h100">
-        <star-horse-tree v-model:treeDatas="informationsList" @selectData="checkChange" :comp-size="compSize"/>
+        <star-horse-tree v-model:treeDatas="informationsList" :treeTitle="'应用列表'" @selectData="checkChange" :comp-size="compSize"/>
       </el-col>
       <el-col :span="19" class="h100">
         <el-card class="inner_content h100">
