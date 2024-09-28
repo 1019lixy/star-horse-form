@@ -226,6 +226,8 @@ onMounted(async () => {
     </div>
     <hr>
     <star-horse-table-comp ref="dynamicFormRef" :fieldList="tableFieldList" :primaryKey="primaryKey" :compUrl=
-        "dataUrl" :dataFormat="dataFormat" :selfBtnFunc="selfBtnFunc"/>
+        "dataUrl" :dataFormat="dataFormat" :selfBtnFunc="selfBtnFunc" :orderBy="[{
+          fieldName:'a.createdDate',ascOrDesc:'desc'
+        }]"/>
   </el-card>
 </template>

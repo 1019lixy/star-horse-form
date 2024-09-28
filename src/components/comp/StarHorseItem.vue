@@ -175,7 +175,7 @@ const compPreps = () => {
     field.value.preps["disabled"] = 'Y';
   }
   if (itemType.value == "upload" && !field.value.preps["action"]) {
-    warning("删除组件需要配置上传路径");
+    warning("上传组件需要配置上传路径");
   }
   //过滤掉查询表单的信息
   if (!props.isSearch && formFields) {

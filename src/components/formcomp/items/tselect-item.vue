@@ -23,7 +23,7 @@
         :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
         :data="field.preps['values']||context.attrs['formData'][field.preps['name']+'OptionList']"
         :tag-type="field.preps['tagType']"
-        v-on:[actionName]="keyEnterFun(field.preps['actionName'])"
+        @change="keyEnterFun(field.preps['actionName'])"
         @keydown.enter="keyEnterFun"
         @focus="keyEnterFun('focus')"
         @blur="keyEnterFun('blur')"
@@ -49,6 +49,7 @@ export default defineComponent({
       if (prep == actionName.value && field.preps["actionRelation"]) {
         field.preps["actionRelation"](context.attrs['formData'][field.preps['name']], context.attrs['formData']["xh"]);
       }
+      console.log("tselect",prep);
       context.emit('selfFunc', prep);
     };
     const filterNodeMethod = (value: any, data: any) => {

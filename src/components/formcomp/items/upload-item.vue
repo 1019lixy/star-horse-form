@@ -15,7 +15,7 @@
         :headers="field.preps['headers']||{}"
         :http-request="field.preps['httpRequest']"
         :limit="field.preps['limit']"
-        :list-type="field.preps['listType']"
+        :list-type="field.preps['listType']||'picture-card'"
         :method="field.preps['method']||'post'"
         :multiple="field.preps['multiple']=='Y'"
         :name="field.preps['name']||'file'"
@@ -65,7 +65,7 @@ export default defineComponent({
 });
 </script>
 <style lang="scss" scoped>
-.el-upload {
-  width: 100%;
+:deep(.el-upload) {
+  --el-upload-picture-card-size: 80px !important;
 }
 </style>

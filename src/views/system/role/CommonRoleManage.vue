@@ -14,6 +14,7 @@ import {confirm, error, success, warning} from "@/utils/message.ts";
 import {statusList} from "@/views/system/utils/UserFields.ts";
 import {postRequest} from "@/api/star_horse.ts";
 import {DyCompField} from "@/components/types/DyCompField";
+import UserManage from "@/views/system/UserManage.vue";
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance("system-config", "system/companyRolePkEmployee");
 dataUrl.condition = [createCondition("a.roleType", "common_role")];
@@ -236,7 +237,7 @@ const expandTable = reactive<ExpandTable>({
     tableShow: true,
   }, {
     label: "所属部门",
-    fieldName: "departmentName",
+    fieldName: "deptName",
     type: "input",
     required: true,
     formShow: true,
@@ -249,6 +250,7 @@ let outerForm = ref<any>({});
 //控制弹窗相关设置
 const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
+const userTableRef = ref();
 let extandBtns = ref<UserFuncInfo[]>([{
   btnName: "添加人员",
   authority: "add",
@@ -270,22 +272,22 @@ const initData = async () => {
   companyList.value = result.data;
   roleTypeList.value = await dictData("company_role_type");
 };
-const assignCompany = () => {
-  let selectedDatas = assignRoleCompanyRef.value.getSelectData();
+const assignRoleUser = () => {
+  let selectedDatas = userTableRef.value.$refs.employeeInfoRef.multipleSelection;
   console.log(selectedDatas);
   if (!selectedDatas || selectedDatas.length == 0) {
-    warning("请设置当前角色的归属公司");
+    warning("请选择人员信息");
     return;
   }
   let datas = [];
   for (let index in selectedDatas) {
     datas.push({
       idCompanyRole: outerForm.value["idCompanyRole"],
-      idCompanyDefine: selectedDatas[index].idCompanyDefine
+      idEmployee: selectedDatas[index].idEmployeeInfo
     });
   }
   load("数据提交中");
-  postRequest("/system-config/system/companyRolePkDefine/mergeBatch", datas).then(res => {
+  postRequest("/system-config/system/companyRolePkEmployee/mergeBatch", datas).then(res => {
     if (res.data.code) {
       error(res.data.cnMessage);
       return;
@@ -324,8 +326,10 @@ onDeactivated(() => {
 </script>
 <template>
   <star-horse-dialog :self-func="true" :title="'添加人员'" :dialog-visible="dialogProps.bakeVisible1"
-                     :dialogProps="dialogProps" @merge="assignCompany">
-
+                     :dialogProps="dialogProps" @merge="assignRoleUser">
+    <div style="width: 100%;">
+      <user-manage :cellEditable="false" :showButton="false" :dialogInput="true" ref="userTableRef"/>
+    </div>
   </star-horse-dialog>
   <star-horse-dialog :isShowBtnContinue="true" :dialog-visible="dialogProps.editVisible" :dialogProps="dialogProps">
     <star-horse-form @refresh="companyRoleRef.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList"
@@ -342,7 +346,7 @@ onDeactivated(() => {
                        label:'name',
                        value:'idCompanyDefine'
                        }"
-                       />
+      />
     </el-col>
     <el-col :span="19" class="h100">
       <el-card class="inner_content h100">

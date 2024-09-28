@@ -32,17 +32,18 @@ onMounted(() => {
     <table ref="containerTableRef" :class="{'dynamic-table':true,'instance-table':true }">
       <tbody>
       <tr v-for="(row,rowIndex) in item.dytableList" class="dy-tr">
-        <td v-for="(sitem,colIndex) in row" :colspan="sitem.preps.colspan||1" :rowspan="sitem.preps.rowspan||1"
-            :style="{width: sitem.preps.colWidth + '% !important' || '',
-                     height: sitem.preps.colHeight + '% !important' || '',
-                     'word-break': !!sitem.preps.wordBreak ? 'break-all' : 'normal'}">
+        <td v-for="(sitem,colIndex) in row" :colspan="sitem.preps?.colspan||1" :rowspan="sitem.preps?.rowspan||1"
+            :style="{width: sitem.preps?.colWidth + '% !important' || '',
+                     height: sitem.preps?.colHeight + '% !important' || '',
+                     'white-space':'nowrap',
+                     'word-break': !!sitem.preps?.wordBreak ? 'break-all' : 'keep-all'}">
           <el-form-item
               :size="compSize"
               :label="sitem.label"
               :required="sitem.required"
               :prop="sitem.fieldName"
               :rules="sitem.required?validMsg(sitem):[]"
-              v-if="sitem.formShow&&sitem.label&&sitem.preps.headerFlag!='Y'">
+              v-if="sitem.formShow&&sitem.label&&sitem.preps?.headerFlag!='Y'">
             <star-horse-item :primaryKey="primaryKey" :compSize="compSize" v-model:dataForm="dataForm"
                              :item="sitem" :isEdit="isEdit"/>
           </el-form-item>
@@ -57,10 +58,10 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .instance-table {
-  border: 1px solid var(--star-horse-style);
-
+  width: 100%;
+  height: 100%;
+  table-layout:fixed;
   td {
-    border: 1px solid var(--star-horse-style);
     line-height: 40px;
     height: 40px;
     padding: 0 10px 0 0;
