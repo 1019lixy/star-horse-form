@@ -114,6 +114,9 @@ const tableFieldList = reactive<PageFieldInfo | any>({
           required: false,
           formShow: !false,
           tableShow: !false,
+          preps: {
+            showCode: "Y",
+          }
         },
           {
             label: "岗位",
@@ -123,6 +126,9 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             required: false,
             formShow: !false,
             tableShow: !false,
+            preps: {
+              showCode: "Y",
+            }
           },],
         [{
           label: "所属公司",
@@ -161,7 +167,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
           formShow: !false,
           tableShow: !false,
           preps: {
-            colspan: 3
+            colspan: 1
           }
         }],
       ]
@@ -259,6 +265,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   ],
   //默认查询条件
   condition: [getCustomerParam()],
+  stopAutoLoad: true
 });
 //校验
 const rules = {};
@@ -340,6 +347,12 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
   }
   if (name == "idDepartmentInfo") {
     return row["deptName"] || cellValue;
+  }
+  if (name == "rank") {
+    return row["rankName"] || cellValue;
+  }
+  if (name == "station") {
+    return row["stationName"] || cellValue;
   }
   return cellValue;
 }

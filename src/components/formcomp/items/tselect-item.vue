@@ -23,6 +23,7 @@
         :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
         :data="field.preps['values']||context.attrs['formData'][field.preps['name']+'OptionList']"
         :tag-type="field.preps['tagType']"
+        :render-content="renderContent"
         @change="keyEnterFun(field.preps['actionName'])"
         @keydown.enter="keyEnterFun"
         @focus="keyEnterFun('focus')"
@@ -49,12 +50,20 @@ export default defineComponent({
       if (prep == actionName.value && field.preps["actionRelation"]) {
         field.preps["actionRelation"](context.attrs['formData'][field.preps['name']], context.attrs['formData']["xh"]);
       }
-      console.log("tselect",prep);
+      console.log("tselect", prep);
       context.emit('selfFunc', prep);
     };
     const filterNodeMethod = (value: any, data: any) => {
       let name: any = field.preps['props']?.label || "label";
       return data[name].includes(value);
+    }
+    const renderContent = (_h: Function, data: any) => {
+      let labelName = field.preps.props?.label || 'label';
+      if (field.preps["showCode"] == 'Y') {
+        let codeName = field.preps.props?.code || field.preps.props?.value || 'value';
+        return `${data.data[labelName]}(${data.data["code"] || data.data[codeName] || ''})`;
+      }
+      return data.data[labelName];
     }
     /**
      * 动态获取数据
@@ -112,7 +121,7 @@ export default defineComponent({
         keyEnterFun(actionName.value);
       }
     });
-    return {parentField, context, field, formItem, dataField, keyEnterFun, filterNodeMethod, actionName}
+    return {parentField, context, field, formItem, dataField, keyEnterFun, filterNodeMethod, actionName, renderContent}
   }
 });
 </script>

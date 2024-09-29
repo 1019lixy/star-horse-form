@@ -117,10 +117,12 @@ const getSelectData = () => {
  * @param data
  */
 const renderContent = (_h: any, data: any) => {
+  let labelName = props.preps.label || 'label';
   if (props.showCode) {
-    return `${data.data[props.preps.label]}(${data.data[props.preps.code] || ''})`;
+    let codeName = props.preps.code || props.preps.value || 'value';
+    return `${data.data[labelName]}(${data.data["code"] || data.data[codeName] || ''})`;
   }
-  return data.data[props.preps.label];
+  return data.data[labelName];
 }
 /**
  * 点击事件
