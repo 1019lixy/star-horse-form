@@ -15,6 +15,7 @@ const props = defineProps({
   showButton: {type: Boolean, default: true},
   cellEditable: {type: Boolean, default: true},
   dialogInput: {type: Boolean, default: false},
+  multipleSelect: {type: Boolean, default: false},
 });
 //主键
 const primaryKey = "idEmployeeInfo";
@@ -25,6 +26,8 @@ const formFields = reactive<Object>({});
 provide("formFields", formFields);
 let companyDataList = ref<SelectOption[]>([]);
 let departDataList = ref<SelectOption[]>([]);
+let rankList = ref<any>([]);
+let stationList = ref<any>([]);
 //查询属性
 const searchFormData = reactive<SearchFields>({
   fieldList: [
@@ -46,18 +49,16 @@ const searchFormData = reactive<SearchFields>({
       label: "职级",
       fieldName: "rank",
       defaultShow: false,
-      matchType: "lk",
-      type: "input"
+      optionList: rankList,
+      type: "tselect"
     },
     {
       label: "岗位",
       fieldName: "station",
       defaultShow: false,
-      matchType: "lk",
-      type: "input"
+      optionList: stationList,
+      type: "tselect"
     },
-
-
   ]
 });
 //页面属性
@@ -108,7 +109,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         [{
           label: "职级",
           fieldName: "rank",
-          type: "input",
+          type: "tselect",
+          optionList: rankList,
           required: false,
           formShow: !false,
           tableShow: !false,
@@ -116,7 +118,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
           {
             label: "岗位",
             fieldName: "station",
-            type: "input",
+            type: "tselect",
+            optionList: stationList,
             required: false,
             formShow: !false,
             tableShow: !false,
@@ -303,7 +306,20 @@ const initData = async () => {
   } else {
     companyDataList.value = createTree(result.data, "idCompanyDefine", "name", "");
   }
-
+  //加载职级
+  result = await loadData("/system-config/system/rankDefine/rankTree", {});
+  if (result.error) {
+    warning(result.error);
+  } else {
+    rankList.value = result.data;
+  }
+  //加载岗位
+  result = await loadData("/system-config/system/stationDefine/stationTree", {});
+  if (result.error) {
+    warning(result.error);
+  } else {
+    stationList.value = result.data;
+  }
 };
 const activated = () => {
   //initData();
@@ -372,6 +388,7 @@ const testChange = (val: any) => {
         <star-horse-table-comp ref="employeeInfoRef" :fieldList="tableFieldList" :primaryKey="primaryKey"
                                :compUrl="dataUrl"
                                :dialogInput="dialogInput"
+                               :multipleSelect="multipleSelect"
                                :disableAction="!showButton"
                                :dataFormat="dataFormat"/>
       </el-card>

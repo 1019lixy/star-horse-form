@@ -83,7 +83,7 @@ const currentDataFormat = (scope: any) => {
 }
 const popover = ref();
 const showOperation = async () => {
-await nextTick();
+  await nextTick();
 }
 </script>
 <template>
@@ -107,6 +107,7 @@ await nextTick();
             <star-horse-item :dataForm="scope.row" :item="item"
                              :column="scope.column"
                              :batchName="batchName"
+                             :bareFlag="true"
                              :compSize="compSize"
             />
           </template>

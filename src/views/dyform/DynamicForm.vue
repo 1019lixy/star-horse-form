@@ -154,10 +154,14 @@ const doSave = async () => {
         }
         closeAction();
         delCacheData(cacheName);
+        //添加成功清空缓存
+        designForm.clearAll(false);
         //添加成功后是否还要继续添加，
         confirm(res.data.cnMessage + ",是否继续留在当前页面").then((cfm: boolean) => {
           if (cfm) {
-            designForm.clearAll(false);
+            router.replace({
+              path: "/dyform/DynamicForm"
+            });
           }
         }).catch(() => {
           let sdata = {

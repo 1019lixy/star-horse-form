@@ -59,7 +59,8 @@ const props = defineProps({
   title: {type: String},
   //自定义按钮
   extandBtns: {type: Array as PropType<UserFuncInfo[]>},
-
+  //多选
+  multipleSelect: {type: Boolean, default: false},
   //按钮操作权限
   // permissions: {type: Object, required: true, default: {}},
   expandTable: {type: Object as PropType<ExpandTable>}
@@ -282,8 +283,8 @@ const handleSelectionChange = (val: any) => {
   if (!checkParent(val)) {
     return;
   }
-  //如果是弹出选择，只能选择一条数据
-  if (props.dialogInput) {
+  //如果是弹出选择，没有指定多选 只能选择一条数据
+  if (props.dialogInput && !props.multipleSelect) {
     if (val.length <= 1) {
       multipleSelection.value = val;
     } else {
@@ -325,6 +326,7 @@ const handleSelectionChange = (val: any) => {
 
     }
   } else {
+    console.log(val);
     multipleSelection.value = val;
   }
 };

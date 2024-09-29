@@ -31,8 +31,9 @@ const props = defineProps({
   //是否显示搜索框
   showSearch: {type: Boolean, default: true},
   checkOnClickNode: {type: Boolean, default: true},
-  treeType: {type: String, default: "tree"}
-
+  treeType: {type: String, default: "tree"},
+  //在标签上显示值
+  showCode: {type: Boolean, default: false}
 });
 const emits = defineEmits(["selectData", "changeCollapse"]);
 let configStore = GlobalConfig(piniaInstance);
@@ -111,6 +112,17 @@ const getSelectData = () => {
   return selectedDataList.value;
 }
 /**
+ * 根据条件重新渲染视图
+ * @param _h
+ * @param data
+ */
+const renderContent = (_h: any, data: any) => {
+  if (props.showCode) {
+    return `${data.data[props.preps.label]}(${data.data[props.preps.code] || ''})`;
+  }
+  return data.data[props.preps.label];
+}
+/**
  * 点击事件
  * @param data
  * @param checked
@@ -183,6 +195,7 @@ defineExpose({
             :filter-node-method="filterMethod"
             :check-strictly="checkStrictly"
             :show-checkbox="showCheckBox"
+            :render-content="renderContent"
             @nodeClick="treeChange"
             @checkChange="treeChange"
         />

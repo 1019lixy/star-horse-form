@@ -56,33 +56,39 @@ const searchFormData = reactive<SearchFields>({
   ]
 });
 const viewCompField = ref<DyCompField>({
-  name: "RoleCompanyList",
+  name: "UserInfoComp",
   emits: ["closeAction"],
-  methods: {
-    closeAction: (role: any, item: any) => {
-      console.log(role, item);
-      confirm("确定要删除吗？").then(_ => {
-        postRequest(`/system-config/system/companyRolePkDefine/deleteData/${role.idCompanyRole}/${item.idCompanyDefine}`, {}).then(res => {
-          if (res.data.code) {
-            warning(res.data.cnMessage);
-            return;
-          }
-          companyRoleRef.value.loadByPage();
-        });
-      });
-    }
+  methods: {},
+  onMounted: () => {
+
   },
   template: `
-    <el-card class="inner_content hover_content">
-      <template #header>
-        归属公司
-      </template>
-      <div class="content">
-        <el-tag v-for="temp in data.companyList" type="success" closable @close="closeAction(data,temp)">
-          {{ temp.name }}
-        </el-tag>
-      </div>
-    </el-card>`
+    <el-descriptions
+        title="人员信息"
+        direction="vertical"
+        border
+        style="margin-top: 10px"
+    >
+      <el-descriptions-item
+          :rowspan="2"
+          :width="140"
+          label="头像"
+          align="center"
+      >
+        <el-image
+            style="width: 100px; height: 100px"
+            :src="data.name||''"
+        />
+      </el-descriptions-item>
+      <el-descriptions-item label="姓名/工号">{{ data.name }}/{{ data.employeeNo }}</el-descriptions-item>
+      <el-descriptions-item :width="140" label="联系电话">{{ data.phone || "--" }}</el-descriptions-item>
+      <el-descriptions-item label="职级">{{ data.rank || "--" }}</el-descriptions-item>
+      <el-descriptions-item label="岗位">{{ data.station || "--" }}</el-descriptions-item>
+      <el-descriptions-item label="所属组织">
+        {{ data.companyName }}-{{ data.deptName }}
+      </el-descriptions-item>
+    </el-descriptions>
+  `
 });
 let roleTypeList = ref<SelectOption[]>([]);
 //页面属性
@@ -106,24 +112,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       formShow: !false,
       tableShow: !false,
     },
-    {
-      label: "归属公司(数量)",
-      fieldName: "assignCompanies",
-      type: "text",
-      required: false,
-      tableShow: true,
-      preps: {
-        showComp: "Y",
-        compAction: "click",
-        mouseType: "pointer",
-        popover: "Y",
-        compField: viewCompField,
-        placeholder: "0",
-        compFunc: (val: any) => {
-          alert(val["assignCompanies"]);
-        }
-      }
-    },
+
     {
       label: "版本号",
       fieldName: "version",
@@ -224,10 +213,16 @@ const expandTable = reactive<ExpandTable>({
   fieldList: [{
     label: "姓名",
     fieldName: "name",
-    type: "input",
+    type: "text",
     required: true,
     formShow: true,
     tableShow: true,
+    preps: {
+      showComp: "Y",
+      popover: "Y",
+      placement: "top",
+      compField: viewCompField
+    }
   }, {
     label: "所属公司",
     fieldName: "companyName",
@@ -328,7 +323,8 @@ onDeactivated(() => {
   <star-horse-dialog :self-func="true" :title="'添加人员'" :dialog-visible="dialogProps.bakeVisible1"
                      :dialogProps="dialogProps" @merge="assignRoleUser">
     <div style="width: 100%;">
-      <user-manage :cellEditable="false" :showButton="false" :dialogInput="true" ref="userTableRef"/>
+      <user-manage :cellEditable="false" :showButton="false" :dialogInput="true" :multipleSelect="true"
+                   ref="userTableRef"/>
     </div>
   </star-horse-dialog>
   <star-horse-dialog :isShowBtnContinue="true" :dialog-visible="dialogProps.editVisible" :dialogProps="dialogProps">

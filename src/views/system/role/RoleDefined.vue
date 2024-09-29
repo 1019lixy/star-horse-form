@@ -308,15 +308,16 @@ onDeactivated(() => {
 <template>
   <star-horse-dialog :self-func="true" :title="'设置角色归属公司'" :dialog-visible="dialogProps.bakeVisible1"
                      :dialogProps="dialogProps" @merge="assignCompany">
-
-    <star-horse-tree v-model:tree-datas="companyList" :showCheckBox="true" expand="true" treeTitle="公司列表"
-                     showSelectData="true"
-                     ref="assignRoleCompanyRef"
-                     :preps="{
+    <div class="dialog-body">
+      <star-horse-tree v-model:tree-datas="companyList" :showCheckBox="true" expand="true" treeTitle="公司列表"
+                       showSelectData="true"
+                       ref="assignRoleCompanyRef"
+                       :preps="{
                        label:'name',
                        value:'idCompanyDefine'
                        }"
-                     :compSize="compSize"/>
+                       :compSize="compSize"/>
+    </div>
   </star-horse-dialog>
   <star-horse-dialog :isShowBtnContinue="true" :dialog-visible="dialogProps.editVisible" :dialogProps="dialogProps">
     <star-horse-form @refresh="companyRoleRef.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList"
