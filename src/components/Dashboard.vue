@@ -95,6 +95,13 @@ onMounted(async () => {
   setTimeout(() => {
     $(".star-horse-left").removeClass("animate__animated animate__bounceInLeft");
   }, 1000);
+  //添加浏览器事件，当从其它地方切换过来时，检查session 是否超时
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden) {
+      // router.go(router.currentRoute.value);
+     // document.location.reload();
+    }
+  });
 })
 // 移动完成
 const compDragging = (x: number) => {
@@ -118,6 +125,7 @@ const compDragging = (x: number) => {
 };
 let drawer = ref<boolean>(false);
 const configInfo = computed(() => configStore.configFormInfo);
+
 </script>
 <template>
   <el-config-provider :locale="locale">

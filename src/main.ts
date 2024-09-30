@@ -22,6 +22,13 @@ import draggable from "vuedraggable";
 import * as ElementPlusIconsVue from '@element-plus/icons-vue';
 import piniaInstance from "@/store";
 import Particles from "vue3-particles";
+import VMEditor from "v-md-editor";
+import "v-md-editor/lib/style/base-editor.css";
+import vuepressTheme from "v-md-editor/lib/theme/vuepress.js";
+import "v-md-editor/lib/theme/style/vuepress.css";
+import Prism from "prismjs";
+import "prismjs/components/prism-json.js";
+import hljs from "highlight.js";
 
 const app = createApp(App);
 app.component("draggable", draggable);
@@ -39,6 +46,11 @@ app.use(containerComponent);
 app.use(nodeComponent);
 app.use(piniaInstance);
 app.use(router);
+VMEditor.use(vuepressTheme, {
+    Prism,
+    Hljs:hljs
+});
+app.use(VMEditor);
 app.use(ElementPlus, {
     locale: ZhLocale
 });
