@@ -24,10 +24,10 @@
         :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
         type="text"
         :fid="field.preps['name']"
-        v-on:[actionName]="keyEnterFun(field.preps['actionName'])"
-        @keydown.enter="keyEnterFun"
-        @focus="keyEnterFun('focus')"
-        @blur="keyEnterFun('blur')"
+        v-on:[actionName]="itemAction(field.preps['actionName'])"
+        @keydown.enter="itemAction"
+        @focus="itemAction('focus')"
+        @blur="itemAction('blur')"
         v-model="context.attrs['formData'][field.preps['name']]">
       <template #append>
         <star-horse-icon icon-class="search" @click="showVisible" :disabled="field.preps['disabled'] == 'Y'"/>
@@ -56,7 +56,7 @@ export default defineComponent({
     let userTableRef = shallowRef();
     let dialogInputVisible = shallowRef<boolean>(false);
     let actionName = shallowRef("keydown.enter");
-    const keyEnterFun = (prep: any) => {
+    const itemAction = (prep: any) => {
       if (prep == actionName.value && field.preps["actionRelation"]) {
         field.preps["actionRelation"](context.attrs['formData'][field.preps['name']], context.attrs['formData']["xh"]);
       }
@@ -113,7 +113,7 @@ export default defineComponent({
     };
     return {
       parentField, context, field, formItem, dataField, closeAction, dialogInputVisible,
-      actionName, keyEnterFun, showVisible,
+      actionName, itemAction, showVisible,
       userTableRef, selectItem
     }
   }

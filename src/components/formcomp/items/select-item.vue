@@ -22,10 +22,10 @@
         :placeholder="field.preps['placeholder']||'请选择'+field.preps['label']"
         :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
         :tag-type="field.preps['tagType']"
-        v-on:[actionName]="keyEnterFun(field.preps['actionName'])"
-        @keydown.enter="keyEnterFun"
-        @focus="keyEnterFun('focus')"
-        @blur="keyEnterFun('blur')"
+        v-on:[actionName]="itemAction(field.preps['actionName'])"
+        @keydown.enter="itemAction"
+        @focus="itemAction('focus')"
+        @blur="itemAction('blur')"
         v-model="context.attrs['formData'][field.preps['name']]">
       <el-option :disabled="items['disabled']" :label="items['name']" :value="items['value']"
                  v-for="items in field.preps['values']||context.attrs['formData'][field.preps['name']+'OptionList']"/>
@@ -44,10 +44,11 @@ export default defineComponent({
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
     let actionName = shallowRef("change");
-    const keyEnterFun = (prep: any) => {
+    const itemAction = (prep: any) => {
       if (prep == actionName.value && field.preps["actionRelation"]) {
         field.preps["actionRelation"](context.attrs['formData'][field.preps['name']], context.attrs['formData']["xh"]);
       }
+      // context.attrs['formData']["select2OptionList"]=[{name:"test",value:"1"}]
       try {
         context.emit('selfFunc', prep);
       } catch (e) {
@@ -79,12 +80,12 @@ export default defineComponent({
       initData();
       actionName.value = field.preps["actionName"];
       if (!context.attrs["isSearch"]) {
-        keyEnterFun(actionName.value);
+        itemAction(actionName.value);
       }
     });
     return {
       parentField, context, field, formItem,
-      dataField, keyEnterFun, actionName, remoteMethod
+      dataField, itemAction, actionName, remoteMethod
     }
   }
 });

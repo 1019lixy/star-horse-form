@@ -23,11 +23,11 @@ export default defineComponent({
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
     let pdfPages = ref(0); // pdf文件的页数
-    const keyEnterFun = () => {
+    const itemAction = () => {
       context.emit('selfFunc');
     };
     return {
-      parentField, context, field, formItem, dataField, keyEnterFun, pdfPages
+      parentField, context, field, formItem, dataField, itemAction, pdfPages
     }
   }
 });

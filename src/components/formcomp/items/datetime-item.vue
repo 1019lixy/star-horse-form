@@ -21,10 +21,10 @@
         :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
         :start-placeholder="field.preps['startPlaceholder']||'请选择开始日期'"
         :value-format="field.preps['valueFormat']||'YYYY-MM-DD'"
-        v-on:[actionName]="keyEnterFun(field.preps['actionName'])"
-        @keydown.enter="keyEnterFun"
-        @focus="keyEnterFun('focus')"
-        @blur="keyEnterFun('blur')"
+        v-on:[actionName]="itemAction(field.preps['actionName'])"
+        @keydown.enter="itemAction"
+        @focus="itemAction('focus')"
+        @blur="itemAction('blur')"
         v-model="context.attrs['formData'][field.preps['name']]"
     ></el-date-picker>
   </starhorse-form-item>
@@ -40,7 +40,7 @@ export default defineComponent({
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
     let actionName = shallowRef("keydown.enter");
-    const keyEnterFun = (prep: any) => {
+    const itemAction = (prep: any) => {
       if (prep == actionName.value && field.preps["actionRelation"]) {
         field.preps["actionRelation"](context.attrs['formData'][field.preps['name']], context.attrs['formData']["xh"]);
       }
@@ -49,12 +49,12 @@ export default defineComponent({
     onMounted(() => {
       actionName.value = field.preps["actionName"];
       if (!context.attrs["isSearch"]) {
-        keyEnterFun(actionName.value);
+        itemAction(actionName.value);
       }
     });
     return {
       parentField, context, field, formItem,
-      dataField, keyEnterFun, actionName
+      dataField, itemAction, actionName
     }
   }
 });

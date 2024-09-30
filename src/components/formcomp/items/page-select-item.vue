@@ -75,7 +75,7 @@ export default defineComponent({
         closeLoad()
       });
     };
-    const keyEnterFun = (prep: any) => {
+    const itemAction = (prep: any) => {
       if (prep == actionName.value && field.preps["actionRelation"]) {
         field.preps["actionRelation"](context.attrs['formData'][field.preps['name']], context.attrs['formData']["xh"]);
       }
@@ -132,12 +132,12 @@ export default defineComponent({
       actionName.value = field.preps["actionName"];
       loadByPage();
       if (!context.attrs["isSearch"]) {
-        keyEnterFun(actionName.value);
+        itemAction(actionName.value);
       }
     });
     return {
       parentField, context, field, formItem,
-      dataField, keyEnterFun, actionName, pageInfo, pageSizeClick, pageChangeClick
+      dataField, itemAction, actionName, pageInfo, pageSizeClick, pageChangeClick
       , getRowIdentity, searchDataFun, handleSelectionChange, starHorseTableCompRef, selectRow
     }
   }
@@ -162,10 +162,10 @@ export default defineComponent({
         :placeholder="field.preps['placeholder']||'请选择'+field.preps['label']"
         :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
         :tag-type="field.preps['tagType']"
-        v-on:[actionName]="keyEnterFun(field.preps['actionName'])"
-        @keydown.enter="keyEnterFun"
-        @focus="keyEnterFun('focus')"
-        @blur="keyEnterFun('blur')"
+        v-on:[actionName]="itemAction(field.preps['actionName'])"
+        @keydown.enter="itemAction"
+        @focus="itemAction('focus')"
+        @blur="itemAction('blur')"
         v-model="context.attrs['formData'][field.preps['name']]">
       <template #empty="scope">
         <el-card class="inner_content" style="margin: 5px">

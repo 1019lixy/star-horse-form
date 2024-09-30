@@ -17,7 +17,7 @@ export default defineComponent({
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
     let audio;
-    const keyEnterFun = () => {
+    const itemAction = () => {
       context.emit('selfFunc');
     };
     const init = async () => {

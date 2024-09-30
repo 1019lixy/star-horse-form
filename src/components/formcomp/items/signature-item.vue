@@ -33,7 +33,7 @@ export default defineComponent({
       // color: '#1890ff',
       bgColor: '#f6f6f6'
     };
-    const keyEnterFun = () => {
+    const itemAction = () => {
       context.emit('selfFunc');
     };
     const init = async () => {
@@ -77,7 +77,7 @@ export default defineComponent({
     //       context.attrs['formData'][field.preps['name']] = val;
     //     }, {deep: true, immediate: false})
     return {
-      parentField, context, field, formItem, dataField, handlePreview, keyEnterFun,
+      parentField, context, field, formItem, dataField, handlePreview, itemAction,
       clear, undo, handleColor, canvas
     }
   }

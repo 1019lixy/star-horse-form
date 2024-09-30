@@ -12,8 +12,8 @@
         :fid="field.preps['name']"
         :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
         readonly
-        v-on:[actionName]="keyEnterFun(field.preps['actionName'])"
-        @keydown.enter="keyEnterFun"
+        v-on:[actionName]="itemAction(field.preps['actionName'])"
+        @keydown.enter="itemAction"
         v-model="context.attrs['formData'][field.preps['name']]">
       <template #append>
         <el-button icon="Clock" @click="cronVisible=true"/>
@@ -42,7 +42,7 @@ export default defineComponent({
       recordNewExpress = val;
     });
     let actionName = shallowRef("change");
-    const keyEnterFun = (prep: any) => {
+    const itemAction = (prep: any) => {
       if (prep == actionName.value && field.preps["actionRelation"]) {
         field.preps["actionRelation"](context.attrs['formData'][field.preps['name']], context.attrs['formData']["xh"]);
       }
@@ -65,12 +65,12 @@ export default defineComponent({
     onMounted(() => {
       actionName.value = field.preps["actionName"];
       if (!context.attrs["isSearch"]) {
-        keyEnterFun(actionName.value);
+        itemAction(actionName.value);
       }
     });
     return {
       parentField, context, field, formItem,
-      dataField, keyEnterFun, cronVisible
+      dataField, itemAction, cronVisible
       , resetForm, close, submit, cronTabRef, actionName
     }
   }

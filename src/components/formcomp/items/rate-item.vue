@@ -14,7 +14,7 @@
         :max="field.preps['max']"
         :score-template="field.preps['scoreTemplate']"
         :show-score="field.preps['showScore']=='Y'"
-        @change="keyEnterFun"
+        @change="itemAction"
         :show-text="field.preps['showText']=='Y'"
         :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
         :text-color="field.preps['textColor']"
@@ -34,13 +34,13 @@ export default defineComponent({
     const field = context.attrs["field"] as any;
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
-    const keyEnterFun = () => {
+    const itemAction = () => {
       context.emit('selfFunc');
     };
     onMounted(() => {
-      keyEnterFun();
+      itemAction();
     });
-    return {parentField, context, field, formItem, dataField, keyEnterFun}
+    return {parentField, context, field, formItem, dataField, itemAction}
   }
 });
 </script>

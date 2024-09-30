@@ -20,11 +20,11 @@
         :teleported="field.preps['teleported']=='Y'"
         :trigger-on-focus="field.preps['triggerOnFocus']=='Y'"
         :value-key="field.preps['valueKey']||'name'"
-        v-on:[actionName]="keyEnterFun(field.preps['actionName'])"
-        @keydown.enter="keyEnterFun"
+        v-on:[actionName]="itemAction(field.preps['actionName'])"
+        @keydown.enter="itemAction"
         @select="handSelect"
-        @focus="keyEnterFun('focus')"
-        @blur="keyEnterFun('blur')"
+        @focus="itemAction('focus')"
+        @blur="itemAction('blur')"
         v-model="context.attrs['formData'][field.preps['name']]"
     />
   </starhorse-form-item>
@@ -42,7 +42,7 @@ export default defineComponent({
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
     let actionName = shallowRef("keydown.enter");
-    const keyEnterFun = (prep: any) => {
+    const itemAction = (prep: any) => {
       if (prep == actionName.value && field.preps["actionRelation"]) {
         field.preps["actionRelation"](context.attrs['formData'][field.preps['name']], context.attrs['formData']["xh"]);
       }
@@ -58,7 +58,7 @@ export default defineComponent({
       initData();
       actionName.value = field.preps["actionName"];
       if (!context.attrs["isSearch"]) {
-        keyEnterFun(actionName.value);
+        itemAction(actionName.value);
       }
     });
     const querySearch = async (queryString: string, cb: (arg: any) => void) => {
@@ -84,7 +84,7 @@ export default defineComponent({
     }
     return {
       parentField, context, field, formItem, dataField,
-      keyEnterFun, querySearch, actionName, handSelect
+      itemAction, querySearch, actionName, handSelect
     }
   }
 });

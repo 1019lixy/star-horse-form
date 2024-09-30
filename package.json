@@ -97,7 +97,7 @@
     "react-dnd-html5-backend": "^16.0.1",
     "react-dnd-touch-backend": "^16.0.1",
     "rollup-plugin-postcss": "^4.0.2",
-    "sass": "^1.79.4",
+    "sass": "^1.75.0",
     "scp2": "^0.5.0",
     "smooth-signature": "^1.0.15",
     "sortablejs": "^1.15.3",

@@ -31,10 +31,10 @@
         :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
         type="text"
         :fid="field.preps['name']"
-        v-on:[actionName]="keyEnterFun(field.preps['actionName'])"
-        @keydown.enter="keyEnterFun"
-        @focus="keyEnterFun('focus')"
-        @blur="keyEnterFun('blur')"
+        v-on:[actionName]="itemAction(field.preps['actionName'])"
+        @keydown.enter="itemAction"
+        @focus="itemAction('focus')"
+        @blur="itemAction('blur')"
         v-model="context.attrs['formData'][field.preps['name']]">
       <template #append>
         <el-button icon="Search" @click="showVisible"
@@ -74,7 +74,7 @@ export default defineComponent({
       }
     };
     let actionName = shallowRef("keydown.enter");
-    const keyEnterFun = (prep: any) => {
+    const itemAction = (prep: any) => {
       if (prep == actionName.value && field.preps["actionRelation"]) {
         field.preps["actionRelation"](context.attrs['formData'][field.preps['name']], context.attrs['formData']["xh"]);
       }
@@ -136,12 +136,12 @@ export default defineComponent({
     onMounted(() => {
       actionName.value = field.preps["actionName"];
       if (!context.attrs["isSearch"]) {
-        keyEnterFun(actionName.value);
+        itemAction(actionName.value);
       }
     });
     return {
       parentField, context, field, formItem,
-      dataField, dynamicFunction, keyEnterFun, dialogInputVisible, closeAction
+      dataField, dynamicFunction, itemAction, dialogInputVisible, closeAction
       , showVisible, actionName, dialogInputTableRef, searchData, selectItem
     }
   }

@@ -15,7 +15,7 @@ export default defineComponent({
     const field = context.attrs["field"] as any;
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
-    const keyEnterFun = () => {
+    const itemAction = () => {
       context.emit('selfFunc');
     };
     const init = async () => {
@@ -25,7 +25,7 @@ export default defineComponent({
     onMounted(() => {
       init();
     });
-    return {parentField, context, field, formItem, dataField, keyEnterFun, rendered}
+    return {parentField, context, field, formItem, dataField, itemAction, rendered}
   }
 });
 </script>

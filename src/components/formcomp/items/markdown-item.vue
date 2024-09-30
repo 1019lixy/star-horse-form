@@ -16,7 +16,7 @@ export default defineComponent({
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
     let markdownEditor = ref();
-    const keyEnterFun = () => {
+    const itemAction = () => {
       context.emit('selfFunc');
     };
     const init = async () => {
@@ -28,7 +28,7 @@ export default defineComponent({
     onUpdated(() => {
       init();
     })
-    return {parentField, context, field, formItem, dataField, markdownEditor, keyEnterFun}
+    return {parentField, context, field, formItem, dataField, markdownEditor, itemAction}
   }
 });
 </script>

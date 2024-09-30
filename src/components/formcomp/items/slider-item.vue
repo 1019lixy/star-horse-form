@@ -22,7 +22,7 @@
         :show-tooltip="field.preps['showTooltip']=='Y'"
         :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
         :step="field.preps['step']"
-        @change="keyEnterFun"
+        @change="itemAction"
         v-model="context.attrs['formData'][field.preps['name']]"
     />
   </starhorse-form-item>
@@ -37,13 +37,13 @@ export default defineComponent({
     const field = context.attrs["field"] as any;
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
-    const keyEnterFun = () => {
+    const itemAction = () => {
       context.emit('selfFunc');
     };
     onMounted(() => {
-      keyEnterFun();
+      itemAction();
     })
-    return {parentField, context, field, formItem, dataField, keyEnterFun}
+    return {parentField, context, field, formItem, dataField, itemAction}
   }
 });
 </script>

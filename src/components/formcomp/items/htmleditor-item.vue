@@ -7,7 +7,7 @@
                mode="default"/>
       <Editor
           :style="{height: field.preps.height||'300px','overflow-y': 'hidden'}"
-          @keydown.enter="keyEnterFun"
+          @keydown.enter="itemAction"
           v-model="context.attrs['formData'][field.preps['name']]"
           :defaultConfig="editorConfig"
           mode="default"
@@ -46,7 +46,7 @@ export default defineComponent({
       let fun = new Function(data);
       fun();
     };
-    const keyEnterFun = () => {
+    const itemAction = () => {
       context.emit('selfFunc');
     };
     toolbarConfig.value = {
@@ -102,7 +102,7 @@ export default defineComponent({
 // 组件销毁时，也及时销毁编辑器
     return {
       parentField, context, field, formItem, editorConfig, editorRef, toolbarConfig,
-      dataField, dynamicFunction, keyEnterFun, handleCreated
+      dataField, dynamicFunction, itemAction, handleCreated
     }
   },
 });

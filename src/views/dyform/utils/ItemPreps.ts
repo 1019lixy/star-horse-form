@@ -4,7 +4,10 @@ import {SelectOption} from "@/components/types/SearchProps";
 import {dictData, loadData, searchMatchList} from "@/api/sh_api.ts";
 import {ascOrDesc, dataType, httpMethod, validDataUrl} from "@/api/system.ts";
 import {error, success, warning} from "@/utils/message.ts";
+import {DesignForm} from "@/store/DesignFormStore.ts";
+import piniaInstance from "@/store";
 
+const designForm = DesignForm(piniaInstance);
 
 const helpMsg = `
     接口返回的数据格式必须是：
@@ -773,3 +776,70 @@ export function containerField(fieldName: string) {
         }]
     });
 }
+
+/**
+ * 关联
+ */
+export function relationDataField() {
+    let fields: SelectOption[] = designForm.loadCompNames();
+    let eventList: SelectOption[] = [
+        {name: "Change", value: "change"},
+        {name: "Input", value: "input"},
+    ];
+    let controlConditionList: SelectOption[] = [
+        {name: "作为查询条件", value: "query"},
+        {name: "等于指定值隐藏", value: "eqHide"},
+        {name: "等于指定值隐藏否则显示", value: "eqHideOrShow"},
+        {name: "等于指定值显示", value: "eqShow"},
+        {name: "等于指定值显示否则隐藏", value: "eqShowOrHide"},
+    ];
+    return reactive<PageFieldInfo | any>({
+        fieldList: [
+            {
+                label: "触发事件",
+                fieldName: "eventName",
+                type: "select",
+                optionList: eventList,
+                defaultValue: "change",
+                required: true,
+                formShow: true,
+                tableShow: true,
+            },
+            {
+                batchFieldList: [
+                    {
+                        batchName: "relationDetails",
+                        fieldList: [{
+                            label: "控制条件",
+                            fieldName: "controlCondition",
+                            type: "select",
+                            optionList: controlConditionList,
+                            required: true,
+                            formShow: true,
+                            tableShow: true,
+                        }, {
+                            label: "被控制属性",
+                            fieldName: "relationFields",
+                            type: "tselect",
+                            optionList: fields,
+                            required: true,
+                            formShow: true,
+                            tableShow: true,
+                            preps: {
+                                checkStrictly: "Y"
+                            }
+                        }, {
+                            label: "参数",
+                            fieldName: "params",
+                            type: "input",
+                            required: false,
+                            formShow: true,
+                            tableShow: true,
+                        }]
+                    }
+                ]
+            }
+        ]
+    });
+}
+

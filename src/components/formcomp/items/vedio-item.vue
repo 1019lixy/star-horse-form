@@ -36,7 +36,7 @@ export default defineComponent({
     let seekpoint = shallowRef();
     // let videoElement = ref(null);
     let player = ref();
-    const keyEnterFun = () => {
+    const itemAction = () => {
       context.emit('selfFunc');
     };
     const load = () => {
@@ -110,7 +110,7 @@ export default defineComponent({
       load();
     });
     return {
-      parentField, context, field, formItem, dataField, keyEnterFun, seekpoint,
+      parentField, context, field, formItem, dataField, itemAction, seekpoint,
       saveSettings, load, start, pause, destroy, seekto
     }
   }

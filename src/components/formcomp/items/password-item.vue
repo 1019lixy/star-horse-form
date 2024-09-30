@@ -15,10 +15,10 @@
         :show-password="field.preps['showPassword']=='Y'"
         :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
         type="password"
-        v-on:[actionName]="keyEnterFun(field.preps['actionName'])"
-        @keydown.enter="keyEnterFun"
-        @focus="keyEnterFun('focus')"
-        @blur="keyEnterFun('blur')"
+        v-on:[actionName]="itemAction(field.preps['actionName'])"
+        @keydown.enter="itemAction"
+        @focus="itemAction('focus')"
+        @blur="itemAction('blur')"
         v-model="context.attrs['formData'][field.preps['name']]"/>
   </starhorse-form-item>
 </template>
@@ -40,7 +40,7 @@ export default defineComponent({
       fun();
     };
     let actionName = shallowRef("keydown.enter");
-    const keyEnterFun = (prep: string) => {
+    const itemAction = (prep: string) => {
       if (prep == actionName.value && field.preps["actionRelation"]) {
         field.preps["actionRelation"](context.attrs['formData'][field.preps['name']], context.attrs['formData']["xh"]);
       }
@@ -49,12 +49,12 @@ export default defineComponent({
     onMounted(() => {
       actionName.value = field.preps["actionName"];
       if (!context.attrs["isSearch"]) {
-        keyEnterFun(actionName.value);
+        itemAction(actionName.value);
       }
     });
     return {
       parentField, context, field, formItem,
-      dataField, dynamicFunction, keyEnterFun, actionName
+      dataField, dynamicFunction, itemAction, actionName
     }
   }
 });

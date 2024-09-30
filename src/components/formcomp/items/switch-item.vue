@@ -15,7 +15,7 @@
         :name="field.preps['name']"
         :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
         :width="field.preps['width']"
-        v-on:[actionName]="keyEnterFun(field.preps['actionName'])"
+        v-on:[actionName]="itemAction(field.preps['actionName'])"
         v-model="context.attrs['formData'][field.preps['name']]"
     />
   </starhorse-form-item>
@@ -31,7 +31,7 @@ export default defineComponent({
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
     let actionName = shallowRef("change");
-    const keyEnterFun = (prep: any) => {
+    const itemAction = (prep: any) => {
       if (prep == actionName.value && field.preps["actionRelation"]) {
         field.preps["actionRelation"](context.attrs['formData'][field.preps['name']], context.attrs['formData']["xh"]);
       }
@@ -41,11 +41,11 @@ export default defineComponent({
     onMounted(() => {
       actionName.value = field.preps["actionName"];
       if (!context.attrs["isSearch"]) {
-        keyEnterFun(actionName.value);
+        itemAction(actionName.value);
       }
     });
     return {
-      parentField, context, field, formItem, dataField, keyEnterFun, actionName
+      parentField, context, field, formItem, dataField, itemAction, actionName
     }
   }
 });
