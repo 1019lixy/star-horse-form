@@ -22,8 +22,9 @@
         :readonly="field.preps['readonly']"
         :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
         :start-placeholder="field.preps['startPlaceholder']||'请选择开始'+field.preps['label']"
-        v-on:[actionName]="itemAction(field.preps['actionName'])"
-        @keydown.enter="itemAction"
+        @change="itemAction('change')"
+        @input="itemAction('input')"
+        @keydown.enter="itemAction('enter')"
         @focus="itemAction('focus')"
         @blur="itemAction('blur')"
         v-model="context.attrs['formData'][field.preps['name']]"
@@ -32,6 +33,7 @@
 </template>
 <script lang="ts">
 import {defineComponent, onMounted, shallowRef} from "vue";
+import {allAction} from "@/components/formcomp/utils/ItemRelationEventUtils.ts";
 
 export default defineComponent({
   setup(_props, context) {
@@ -42,10 +44,7 @@ export default defineComponent({
     let dataField = shallowRef("");
     let actionName = shallowRef("keydown.enter");
     const itemAction = (prep: string) => {
-      if (prep == actionName.value && field.preps["actionRelation"]) {
-        field.preps["actionRelation"](context.attrs['formData'][field.preps['name']], context.attrs['formData']["xh"]);
-      }
-      context.emit('selfFunc', prep);
+      allAction(context, prep);
     };
     onMounted(() => {
       actionName.value = field.preps["actionName"];

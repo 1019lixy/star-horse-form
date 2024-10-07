@@ -26,6 +26,7 @@
 </template>
 <script lang="ts">
 import {defineComponent, onMounted, shallowRef} from "vue";
+import {allAction} from "@/components/formcomp/utils/ItemRelationEventUtils.ts";
 
 export default defineComponent({
   setup(_props, context) {
@@ -35,7 +36,7 @@ export default defineComponent({
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
     const itemAction = () => {
-      context.emit('selfFunc');
+      allAction(context, "change");
     };
     onMounted(() => {
       itemAction();

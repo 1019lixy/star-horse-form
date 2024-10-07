@@ -234,6 +234,7 @@ onMounted(async () => {
       </el-upload>
     </el-card>
   </star-horse-dialog>
+  {{dataForm}}
   <div class="form-list">
     <div
         v-if="!subFlag"

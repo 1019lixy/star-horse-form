@@ -7,7 +7,11 @@
                mode="default"/>
       <Editor
           :style="{height: field.preps.height||'300px','overflow-y': 'hidden'}"
-          @keydown.enter="itemAction"
+          @change="itemAction('change')"
+          @input="itemAction('input')"
+          @keydown.enter="itemAction('enter')"
+          @focus="itemAction('focus')"
+          @blur="itemAction('blur')"
           v-model="context.attrs['formData'][field.preps['name']]"
           :defaultConfig="editorConfig"
           mode="default"
@@ -21,6 +25,7 @@
 import {defineComponent, getCurrentInstance, shallowRef} from "vue";
 import "@wangeditor/editor/dist/css/style.css"
 import {Editor, Toolbar} from "@wangeditor/editor-for-vue"
+import {allAction} from "@/components/formcomp/utils/ItemRelationEventUtils.ts";
 
 export default defineComponent({
   components: {Editor, Toolbar},
@@ -46,8 +51,8 @@ export default defineComponent({
       let fun = new Function(data);
       fun();
     };
-    const itemAction = () => {
-      context.emit('selfFunc');
+    const itemAction = (prep: any) => {
+      allAction(context, prep);
     };
     toolbarConfig.value = {
       //excludeKeys: ["insertLink", "insertImage", "editImage", "viewImageLink", "insertVideo", "emotion", "fullScreen"],

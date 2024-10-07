@@ -21,8 +21,9 @@
         :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
         :left-default-checked="JSON.parse(field.preps['leftDefaultChecked'])"
         :right-default-checked="JSON.parse(field.preps['rightDefaultChecked'])"
-        v-on:[actionName]="itemAction(field.preps['actionName'])"
-        @keydown.enter="itemAction"
+        @change="itemAction('change')"
+        @input="itemAction('input')"
+        @keydown.enter="itemAction('enter')"
         @focus="itemAction('focus')"
         @blur="itemAction('blur')"
         v-model="context.attrs['formData'][field.preps['name']]"
@@ -33,6 +34,7 @@
 import {defineComponent, onMounted, shallowRef} from "vue";
 import {compDynamicData} from "@/api/sh_api.ts";
 import {SelectOption} from "@/components/types/SearchProps";
+import {allAction} from "@/components/formcomp/utils/ItemRelationEventUtils.ts";
 
 export default defineComponent({
   setup(_props, context) {
@@ -44,10 +46,7 @@ export default defineComponent({
     let actionName = shallowRef("keydown.enter");
     let bakeData: SelectOption[] = [];
     const itemAction = (prep: string) => {
-      if (prep == actionName.value && field.preps["actionRelation"]) {
-        field.preps["actionRelation"](context.attrs['formData'][field.preps['name']], context.attrs['formData']["xh"]);
-      }
-      context.emit('selfFunc', prep);
+      allAction(context, prep);
     };
     const initData = async () => {
       field.preps["values"] = await compDynamicData(field.preps);

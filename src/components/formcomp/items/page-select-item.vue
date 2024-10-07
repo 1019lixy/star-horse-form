@@ -5,6 +5,7 @@ import {closeLoad, load} from "@/api/sh_api";
 import {postRequest} from "@/api/star_horse";
 import {FieldMapping, OrderByInfo} from "@/components/types/PageFieldInfo";
 import {SearchParams} from "@/components/types/Params";
+import {allAction} from "@/components/formcomp/utils/ItemRelationEventUtils.ts";
 
 export default defineComponent({
   setup(_props, context) {
@@ -76,10 +77,7 @@ export default defineComponent({
       });
     };
     const itemAction = (prep: any) => {
-      if (prep == actionName.value && field.preps["actionRelation"]) {
-        field.preps["actionRelation"](context.attrs['formData'][field.preps['name']], context.attrs['formData']["xh"]);
-      }
-      context.emit('selfFunc', prep);
+      allAction(context, prep);
     };
     const searchDataFun = (data: any) => {
       searchData.value = data;
@@ -162,8 +160,9 @@ export default defineComponent({
         :placeholder="field.preps['placeholder']||'请选择'+field.preps['label']"
         :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
         :tag-type="field.preps['tagType']"
-        v-on:[actionName]="itemAction(field.preps['actionName'])"
-        @keydown.enter="itemAction"
+        @change="itemAction('change')"
+        @input="itemAction('input')"
+        @keydown.enter="itemAction('enter')"
         @focus="itemAction('focus')"
         @blur="itemAction('blur')"
         v-model="context.attrs['formData'][field.preps['name']]">

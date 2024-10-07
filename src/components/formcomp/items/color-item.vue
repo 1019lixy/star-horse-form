@@ -8,8 +8,8 @@
         :disabled="field.preps['disabled']=='Y'"
         :show-alpha="field.preps['showAlpha']=='Y'"
         :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
-        v-on:[actionName]="itemAction(field.preps['actionName'])"
-        @keydown.enter="itemAction"
+        @change="itemAction('change')"
+        @keydown.enter="itemAction('enter')"
         @focus="itemAction('focus')"
         @blur="itemAction('blur')"
         v-model="context.attrs['formData'][field.preps['name']]"
@@ -18,6 +18,7 @@
 </template>
 <script lang="ts">
 import {defineComponent, onMounted, shallowRef} from "vue";
+import {allAction} from "@/components/formcomp/utils/ItemRelationEventUtils.ts";
 
 export default defineComponent({
   setup(_props, context) {
@@ -28,10 +29,7 @@ export default defineComponent({
     let dataField = shallowRef("");
     let actionName = shallowRef("change");
     const itemAction = (prep: any) => {
-      if (prep == actionName.value && field.preps["actionRelation"]) {
-        field.preps["actionRelation"](context.attrs['formData'][field.preps['name']], context.attrs['formData']["xh"]);
-      }
-      context.emit('selfFunc', prep);
+      allAction(context, prep);
     };
     onMounted(() => {
       actionName.value = field.preps["actionName"];

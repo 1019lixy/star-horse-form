@@ -24,8 +24,8 @@
         :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
         type="text"
         :fid="field.preps['name']"
-        v-on:[actionName]="itemAction(field.preps['actionName'])"
-        @keydown.enter="itemAction"
+        @change="itemAction('change')"
+        @keydown.enter="itemAction('enter')"
         @focus="itemAction('focus')"
         @blur="itemAction('blur')"
         v-model="context.attrs['formData'][field.preps['name']]">
@@ -45,6 +45,7 @@ import {FieldMapping} from "@/components/types/PageFieldInfo";
 import {isJson} from "@/api/sh_api.ts";
 import {warning} from "@/utils/message.ts";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
+import {allAction} from "@/components/formcomp/utils/ItemRelationEventUtils.ts";
 
 export default defineComponent({
   components: {StarHorseIcon, UserManage},
@@ -57,10 +58,7 @@ export default defineComponent({
     let dialogInputVisible = shallowRef<boolean>(false);
     let actionName = shallowRef("keydown.enter");
     const itemAction = (prep: any) => {
-      if (prep == actionName.value && field.preps["actionRelation"]) {
-        field.preps["actionRelation"](context.attrs['formData'][field.preps['name']], context.attrs['formData']["xh"]);
-      }
-      context.emit('selfFunc', prep);
+      allAction(context, prep);
     };
     const selectItem = (row: any) => {
       let data = "";

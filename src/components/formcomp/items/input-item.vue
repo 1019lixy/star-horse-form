@@ -14,10 +14,12 @@
         :readonly="field.preps['readonly']=='Y'"
         :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
         type="text"
+        ref="inputItemRef"
         :fid="field.preps['name']"
         class="input-with-select"
-        v-on:[actionName]="itemAction(field.preps['actionName'])"
-        @keydown.enter="itemAction"
+        @change="itemAction('change')"
+        @input="itemAction('input')"
+        @keydown.enter="itemAction('enter')"
         @focus="itemAction('focus')"
         @blur="itemAction('blur')"
         v-model="context.attrs['formData'][field.preps['name']]">
@@ -34,7 +36,8 @@
         {{ field.preps['appendText'] }}
       </template>
       <template #append v-if="field.preps['appendAction']">
-        <star-horse-icon :title="field.preps['appendAction'].actionTitle" style="cursor: pointer" :icon-class="field.preps['appendAction'].icon||'document'"
+        <star-horse-icon :title="field.preps['appendAction'].actionTitle" style="cursor: pointer"
+                         :icon-class="field.preps['appendAction'].icon||'document'"
                          @click="field.preps['appendAction'].actions(context.attrs['formData'])"/>
       </template>
       <template #append v-if="field.preps['appendList']">
@@ -47,8 +50,9 @@
   </starhorse-form-item>
 </template>
 <script lang="ts">
-import {defineComponent, onMounted, shallowRef} from "vue";
+import {defineComponent, nextTick, onMounted, shallowRef} from "vue";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
+import {allAction} from "@/components/formcomp/utils/ItemRelationEventUtils.ts";
 
 export default defineComponent({
   components: {StarHorseIcon},
@@ -61,6 +65,7 @@ export default defineComponent({
     let dataField = shallowRef("");
     let preSelect = shallowRef("");
     let appSelect = shallowRef("");
+    const inputItemRef = ref();
     let actionName = shallowRef("keydown.enter");
     const dynamicFunction = (_funcName: string, data: any) => {
       if (!data) {
@@ -73,20 +78,21 @@ export default defineComponent({
         console.error(e);
       }
     };
+    const initEvent = async () => {
+      await nextTick();
+    }
     const itemAction = (prep: any) => {
-      if (prep == actionName.value && field.preps["actionRelation"]) {
-        field.preps["actionRelation"](context.attrs['formData'][field.preps['name']], context.attrs['formData']["xh"]);
-      }
-      context.emit('selfFunc', (prep instanceof KeyboardEvent) ? prep.code.toLowerCase() : prep || actionName.value);
+      allAction(context, prep);
     };
     onMounted(() => {
       actionName.value = field.preps["actionName"];
       if (!context.attrs["isSearch"]) {
         itemAction(actionName.value);
       }
+      initEvent();
     });
     return {
-      parentField, context, field, formItem,
+      parentField, context, field, formItem, inputItemRef,
       dataField, dynamicFunction, itemAction, actionName, preSelect, appSelect
     }
   }

@@ -28,6 +28,7 @@
 import {defineComponent, onMounted, shallowRef} from "vue";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {userFunction} from "@/api/user_func.ts";
+import {buttonAction} from "@/components/formcomp/utils/ItemRelationEventUtils.ts";
 
 export default defineComponent({
   components: {StarHorseIcon},
@@ -42,15 +43,7 @@ export default defineComponent({
       actionName.value = field.preps["actionName"];
     });
     const dynamicFunc = (code: any) => {
-      if (code) {
-        userFunction(code, context);
-      } else {
-        context.attrs['formData']["starHorseBtnName"] = field.preps['name'];
-        if (field.preps["actions"]) {
-          field.preps["actions"](context.attrs['formData']);
-        }
-        context.emit('selfFunc', context.attrs['formData']);
-      }
+     buttonAction(context,code);
     };
     return {parentField, dynamicFunc, context, field, formItem, dataField}
   }

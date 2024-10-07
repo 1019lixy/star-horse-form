@@ -41,7 +41,7 @@ onMounted(() => {
       :prop="item.fieldName"
       v-else-if="item.formShow">
     <star-horse-item :primaryKey="primaryKey" :compSize="compSize" v-model:dataForm="dataForm" :item="item"
-                     :isEdit="isEdit"/>
+                     :isEdit="isEdit" />
   </el-form-item>
 </template>
 

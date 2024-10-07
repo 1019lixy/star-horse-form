@@ -36,6 +36,5 @@ export default defineComponent({
 .interviewVideo_main {
   height: 100%;
   width: 100%;
-  border: 1px solid red;
 }
 </style>

@@ -1,4 +1,4 @@
-import {nextTick, reactive, Ref, ref} from "vue";
+import {nextTick, reactive, Ref, ref, toRef} from "vue";
 import {FieldInfo, PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {SelectOption} from "@/components/types/SearchProps";
 import {dictData, loadData, searchMatchList} from "@/api/sh_api.ts";
@@ -787,17 +787,21 @@ export function relationDataField() {
         {name: "Input", value: "input"},
     ];
     let controlConditionList: SelectOption[] = [
-        {name: "作为查询条件", value: "query"},
-        {name: "等于指定值隐藏", value: "eqHide"},
-        {name: "等于指定值隐藏否则显示", value: "eqHideOrShow"},
-        {name: "等于指定值显示", value: "eqShow"},
-        {name: "等于指定值显示否则隐藏", value: "eqShowOrHide"},
+        {name: "选中/输入的值作为查询条件", value: "query"},
+        {name: "选中/输入的值等于指定值隐藏", value: "eqHide"},
+        {name: "选中/输入的值等于指定值隐藏否则显示", value: "eqHideOrShow"},
+        {name: "选中/输入的值等于指定值显示", value: "eqShow"},
+        {name: "选中/输入的值等于指定值显示否则隐藏", value: "eqShowOrHide"},
+        {name: "选中/输入的值等于指定值时赋予新值", value: "assignValue"},
+        {name: "选中/输入的值等于指定值时改变字段类型", value: "changeType"},
     ];
+    let fieldType = ref<string>("input");
+    let matchType = ref<boolean>(false);
     return reactive<PageFieldInfo | any>({
         fieldList: [
             {
                 label: "触发事件",
-                fieldName: "eventName",
+                fieldName: "actionName",
                 type: "select",
                 optionList: eventList,
                 defaultValue: "change",
@@ -808,6 +812,7 @@ export function relationDataField() {
             {
                 batchFieldList: [
                     {
+                        staticData: "Y",
                         batchName: "relationDetails",
                         fieldList: [{
                             label: "控制条件",
@@ -815,6 +820,18 @@ export function relationDataField() {
                             type: "select",
                             optionList: controlConditionList,
                             required: true,
+                            changeName: "change",
+                            actions: (val: any) => {
+                                matchType.value = false;
+                                delete val["_paramsType"];
+                                let temp = val["controlCondition"];
+                                if (temp == "assignValue") {
+                                    val["_paramsType"] = "json";
+                                } else if (temp == "query") {
+                                    matchType.value = true;
+                                }
+
+                            },
                             formShow: true,
                             tableShow: true,
                         }, {
@@ -829,10 +846,20 @@ export function relationDataField() {
                                 checkStrictly: "Y"
                             }
                         }, {
+                            label: "匹配条件",
+                            fieldName: "matchType",
+                            type: "select",
+                            optionList: searchMatchList(),
+                            defaultValue: "eq",
+                            required: false,
+                            formShow: matchType,
+                            tableShow: true,
+                        }, {
                             label: "参数",
                             fieldName: "params",
-                            type: "input",
+                            type: fieldType,
                             required: false,
+                            helpMsg:`1、如果是作为查询条件，则填写参数名称；\n2、如果是等于某个值，则填写具体的值；`,
                             formShow: true,
                             tableShow: true,
                         }]

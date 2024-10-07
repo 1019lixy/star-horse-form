@@ -24,8 +24,9 @@
         :data="field.preps['values']||context.attrs['formData'][field.preps['name']+'OptionList']"
         :tag-type="field.preps['tagType']"
         :render-content="renderContent"
-        @change="itemAction(field.preps['actionName'])"
-        @keydown.enter="itemAction"
+        @change="itemAction('change')"
+        @input="itemAction('input')"
+        @keydown.enter="itemAction('enter')"
         @focus="itemAction('focus')"
         @blur="itemAction('blur')"
         v-model="context.attrs['formData'][field.preps['name']]">
@@ -37,6 +38,7 @@ import {defineComponent, onMounted, shallowRef} from "vue";
 import {dictData, loadData} from "@/api/sh_api.ts";
 import {error} from "@/utils/message.ts";
 import {SelectOption} from "@/components/types/SearchProps";
+import {allAction} from "@/components/formcomp/utils/ItemRelationEventUtils.ts";
 
 export default defineComponent({
   setup(_props, context) {
@@ -47,11 +49,7 @@ export default defineComponent({
     let dataField = shallowRef("");
     let actionName = shallowRef("keydown.enter");
     const itemAction = (prep: any) => {
-      if (prep == actionName.value && field.preps["actionRelation"]) {
-        field.preps["actionRelation"](context.attrs['formData'][field.preps['name']], context.attrs['formData']["xh"]);
-      }
-      console.log("tselect", prep);
-      context.emit('selfFunc', prep);
+      allAction(context, prep);
     };
     const filterNodeMethod = (value: any, data: any) => {
       let name: any = field.preps['props']?.label || "label";

@@ -291,6 +291,7 @@ watch(() => dialogProps.ids,
       immediate: true,
       deep: true
     });
+
 defineExpose({
   merge, mergeDraft, resetForm, setFormData, getFormData, starHorseFormRef, tableListRef
 });

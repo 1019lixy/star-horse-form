@@ -31,8 +31,9 @@
         :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
         type="text"
         :fid="field.preps['name']"
-        v-on:[actionName]="itemAction(field.preps['actionName'])"
-        @keydown.enter="itemAction"
+        @change="itemAction('change')"
+        @input="itemAction('input')"
+        @keydown.enter="itemAction('enter')"
         @focus="itemAction('focus')"
         @blur="itemAction('blur')"
         v-model="context.attrs['formData'][field.preps['name']]">
@@ -50,6 +51,7 @@ import {warning} from "@/utils/message";
 import {FieldMapping} from "@/components/types/PageFieldInfo";
 import {SearchParams} from "@/components/types/Params";
 import {isJson} from "@/api/sh_api.ts";
+import {allAction} from "@/components/formcomp/utils/ItemRelationEventUtils.ts";
 
 export default defineComponent({
   setup(_props, context) {
@@ -75,10 +77,7 @@ export default defineComponent({
     };
     let actionName = shallowRef("keydown.enter");
     const itemAction = (prep: any) => {
-      if (prep == actionName.value && field.preps["actionRelation"]) {
-        field.preps["actionRelation"](context.attrs['formData'][field.preps['name']], context.attrs['formData']["xh"]);
-      }
-      context.emit('selfFunc', prep);
+      allAction(context, prep);
     };
     const selectItem = (row: any) => {
       let data = "";

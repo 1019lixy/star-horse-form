@@ -12,8 +12,11 @@
         :fid="field.preps['name']"
         :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
         readonly
-        v-on:[actionName]="itemAction(field.preps['actionName'])"
-        @keydown.enter="itemAction"
+        @change="itemAction('change')"
+        @input="itemAction('input')"
+        @keydown.enter="itemAction('enter')"
+        @focus="itemAction('focus')"
+        @blur="itemAction('blur')"
         v-model="context.attrs['formData'][field.preps['name']]">
       <template #append>
         <el-button icon="Clock" @click="cronVisible=true"/>
@@ -25,6 +28,7 @@
 import {defineComponent, onMounted, provide, ref, shallowRef} from "vue";
 import Crontab from "@/components/cron/Crontab.vue";
 import StarHorseDialog from "@/components/comp/StarHorseDialog.vue";
+import {allAction} from "@/components/formcomp/utils/ItemRelationEventUtils.ts";
 
 export default defineComponent({
   components: {Crontab, StarHorseDialog},
@@ -43,10 +47,7 @@ export default defineComponent({
     });
     let actionName = shallowRef("change");
     const itemAction = (prep: any) => {
-      if (prep == actionName.value && field.preps["actionRelation"]) {
-        field.preps["actionRelation"](context.attrs['formData'][field.preps['name']], context.attrs['formData']["xh"]);
-      }
-      context.emit('selfFunc');
+      allAction(context, prep);
     };
     const resetForm = () => {
       context.attrs['formData'][field.preps['name']] = defaultExpress;
