@@ -5,7 +5,7 @@
     <el-input
         :fid="field.preps['name']"
         :clearable="field.preps['clearable']=='Y'"
-        :disabled="field.preps['disabled']=='Y'"
+        :disabled="!context.attrs['formData']['_'+field.preps['name']+'Editable']&&field.preps['disabled'] == 'Y'"
         :max="field.preps['max']"
         :maxlength="field.preps['maxlength']"
         :min="field.preps['min']"
@@ -15,15 +15,17 @@
         :show-password="field.preps['showPassword']=='Y'"
         :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
         type="password"
-        v-on:[actionName]="keyEnterFun(field.preps['actionName'])"
-        @keydown.enter="keyEnterFun"
-        @focus="keyEnterFun('focus')"
-        @blur="keyEnterFun('blur')"
+        @change="itemAction('change')"
+        @input="itemAction('input')"
+        @keydown.enter="itemAction('enter')"
+        @focus="itemAction('focus')"
+        @blur="itemAction('blur')"
         v-model="context.attrs['formData'][field.preps['name']]"/>
   </starhorse-form-item>
 </template>
 <script lang="ts">
 import {defineComponent, onMounted, shallowRef} from "vue";
+import {allAction} from "@/components/formcomp/utils/ItemRelationEventUtils.ts";
 
 export default defineComponent({
   setup(_props, context) {
@@ -40,21 +42,18 @@ export default defineComponent({
       fun();
     };
     let actionName = shallowRef("keydown.enter");
-    const keyEnterFun = (prep: string) => {
-      if (prep == actionName.value && field.preps["actionRelation"]) {
-        field.preps["actionRelation"](context.attrs['formData'][field.preps['name']], context.attrs['formData']["xh"]);
-      }
-      context.emit('selfFunc', prep);
+    const itemAction = (prep: string) => {
+      allAction(context, prep);
     };
     onMounted(() => {
       actionName.value = field.preps["actionName"];
       if (!context.attrs["isSearch"]) {
-        keyEnterFun(actionName.value);
+        itemAction(actionName.value);
       }
     });
     return {
       parentField, context, field, formItem,
-      dataField, dynamicFunction, keyEnterFun, actionName
+      dataField, dynamicFunction, itemAction, actionName
     }
   }
 });

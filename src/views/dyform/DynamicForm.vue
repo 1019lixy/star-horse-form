@@ -86,6 +86,7 @@ const closeAction = () => {
   designForm.setIsEdit(true);
   isPreview.value = false;
   userOperation.setFormInstance(dynamicFormRef);
+  userOperation.clearAll();
   batchEditFieldVisible.value = false;
   configDialogVisible.value = false;
   codeDialogVisible.value = false;
@@ -107,6 +108,9 @@ const preview = async () => {
   designForm.setIsEdit(false);
   await nextTick();
   userOperation.setFormInstance(previewDynamicFormRef);
+  list.value.forEach(item => {
+    userOperation.addFormItem(item);
+  })
 };
 const formPropertyRef = ref();
 /**

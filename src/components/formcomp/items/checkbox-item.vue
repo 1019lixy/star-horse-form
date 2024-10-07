@@ -3,10 +3,10 @@
                        :parentField="parentField">
     <el-checkbox-group
         :fid="field.preps['name']"
-        :disabled="field.preps['disabled']=='Y'"
+        :disabled="!context.attrs['formData']['_'+field.preps['name']+'Editable']&&field.preps['disabled']=='Y'"
         :readonly="field.preps['readonly']=='Y'"
         :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
-        @change="keyEnterFun"
+        @change="itemAction"
         v-model="context.attrs['formData'][field.preps['name']]">
       <el-checkbox :border="item['border']=='Y'"
                    :checked="item['checked']=='Y'"
@@ -20,6 +20,7 @@
 </template>
 <script lang="ts">
 import {defineComponent, onMounted, shallowRef} from "vue";
+import {allAction} from "@/components/formcomp/utils/ItemRelationEventUtils.ts";
 
 export default defineComponent({
   setup(_props, context) {
@@ -27,13 +28,13 @@ export default defineComponent({
     const field = context.attrs["field"] as any;
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
-    const keyEnterFun = () => {
-      context.emit('selfFunc', "change");
+    const itemAction = () => {
+      allAction(context, "change");
     };
     onMounted(() => {
-      keyEnterFun();
+      itemAction();
     })
-    return {parentField, context, field, formItem, dataField, keyEnterFun}
+    return {parentField, context, field, formItem, dataField, itemAction}
   }
 });
 </script>

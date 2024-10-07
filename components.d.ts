@@ -117,6 +117,7 @@ declare module 'vue' {
     IconItem: typeof import('./src/components/formcomp/items/icon-item.vue')['default']
     Index: typeof import('./src/components/Index.vue')['default']
     InputItem: typeof import('./src/components/formcomp/items/input-item.vue')['default']
+    JsonArrayItem: typeof import('./src/components/formcomp/items/json-array-item.vue')['default']
     JsonItem: typeof import('./src/components/formcomp/items/json-item.vue')['default']
     LeftMenu: typeof import('./src/components/LeftMenu.vue')['default']
     Locale: typeof import('./src/components/Locale.vue')['default']

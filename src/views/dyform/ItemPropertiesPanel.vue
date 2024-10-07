@@ -8,7 +8,7 @@ import {
   containerField,
   createData,
   dataSourceFields,
-  paramsFields,
+  paramsFields, relationDataField,
   validInterface
 } from "@/views/dyform/utils/ItemPreps.ts";
 import {DesignForm} from "@/store/DesignFormStore.ts";
@@ -37,6 +37,7 @@ let currentField = ref<any>({});
 let jsEditor = ref<boolean>(false);
 let containerDialogVisible = ref<boolean>(false);
 let dataSourceDialogVisible = ref<boolean>(false);
+let dataRelationDialogVisible = ref<boolean>(false);
 let paramsDialogVisible = ref<boolean>(false);
 let activeNames = ref<string>("1");
 let codeTab = ref<string>("code");
@@ -45,6 +46,7 @@ let jsValue = ref<string>("console.log('hello world')");
 let fieldName = ref<string>('');
 const codeCompRef = ref<any>(null);
 const dataSourceFormRef = ref<any>(null);
+const dataRelationFormRef = ref<any>(null);
 const paramsConfigRef = ref<any>(null);
 const containerPrepRef = ref<any>(null);
 
@@ -58,7 +60,11 @@ const jsButtonClick = (name: string) => {
   fieldName.value = name;
   jsValue.value = formProps.value[name];
 };
-// let fieldName = ref<String>("");
+const condifRelationPolicy = async () => {
+  dataRelationDialogVisible.value = true;
+  await nextTick();
+  dataRelationFormRef?.value.setFormData(formProps.value["dataRelation"] || {});
+}
 const configParams = async (params: any) => {
   fieldName.value = params["fieldName"];
   paramsDialogVisible.value = true;
@@ -76,6 +82,18 @@ const submitValid = async () => {
     }
   });
 };
+const dataRelationMerge = async () => {
+  let flag: boolean = false;
+  await dataRelationFormRef?.value?.$refs.starHorseFormRef.validate((res: boolean) => {
+    flag = res;
+  });
+  if (!flag) {
+    return;
+  }
+  formProps.value["dataRelation"] = dataRelationFormRef?.value.getFormData().value;
+  console.log(formProps.value);
+  closeAction();
+}
 const paramsValid = async () => {
   let flag = false;
   await paramsConfigRef.value.$refs.starHorseFormRef.validate((res: boolean) => {
@@ -125,6 +143,9 @@ const resetDataSourceForm = () => {
   formProps.value["queryParams"] = [];
   formProps.value["values"] = [];
 };
+const dataRelationReset = () => {
+
+}
 const editContainerPrep = async () => {
   containerDialogVisible.value = true;
   await nextTick();
@@ -142,6 +163,7 @@ const closeAction = () => {
   containerDialogVisible.value = false;
   dataSourceDialogVisible.value = false;
   paramsDialogVisible.value = false;
+  dataRelationDialogVisible.value = false;
 };
 /**
  * 数据源操作框
@@ -241,12 +263,23 @@ watch(() => formProps,
     });
 </script>
 <template>
+  <star-horse-dialog :dialogVisible="dataRelationDialogVisible" :title="'数据联动策略配置'" :isBatch="false"
+                     @merge="dataRelationMerge"
+                     @closeAction="closeAction"
+                     @reset="dataRelationReset" :selfFunc="true">
+    <div class="dialog-body">
+      <star-horse-form :outerFormData="formProps" primary-key="" ref="dataRelationFormRef"
+                       :fieldList="relationDataField()"/>
+    </div>
+  </star-horse-dialog>
   <star-horse-dialog :dialogVisible="dataSourceDialogVisible" :title="'数据源配置'" :isBatch="false"
                      @merge="submitValid"
                      @closeAction="closeAction"
                      @reset="resetDataSourceForm" :selfFunc="true">
-    <star-horse-form :outerFormData="formProps" primary-key="" ref="dataSourceFormRef"
-                     :fieldList="dataSourceFields(dataSourceFormRef,recall)"/>
+    <div class="dialog-body">
+      <star-horse-form :outerFormData="formProps" primary-key="" ref="dataSourceFormRef"
+                       :fieldList="dataSourceFields(dataSourceFormRef,recall)"/>
+    </div>
   </star-horse-dialog>
   <star-horse-dialog :dialogVisible="paramsDialogVisible" :title="'参数配置'" :isBatch="false"
                      @merge="paramsValid"
@@ -263,73 +296,74 @@ watch(() => formProps,
   <star-horse-dialog :dialogVisible="jsEditor" :title="'自定义信息'" :isBatch="false" @merge="closeAction"
                      @closeAction="closeAction"
                      @reset="closeAction" :selfFunc="true">
-    <el-tabs v-model="codeTab">
-      <el-tab-pane label="代码" name="code">
-        <star-horse-editor
-            v-model:value="formProps[fieldName]"
-            lang="javascript"
-            ref="codeCompRef"
-            :helpMsg="hmsg"
-            style="height: 100%"
-        />
-      </el-tab-pane>
-      <el-tab-pane label="当前组件属性" name="currentField">
+    <div class="dialog-body">
+      <el-tabs v-model="codeTab">
+        <el-tab-pane label="代码" name="code">
+          <star-horse-editor
+              v-model:value="formProps[fieldName]"
+              lang="javascript"
+              ref="codeCompRef"
+              :helpMsg="hmsg"
+              style="height: 100%"
+          />
+        </el-tab-pane>
+        <el-tab-pane label="当前组件属性" name="currentField">
         <pre>
           {{ JSON.stringify(currentField, null, 4) }}
         </pre>
-      </el-tab-pane>
-      <el-tab-pane label="表单实例" name="formInstance">
-        对象名字：formInstance
-        <table border="1" cellpadding="0" cellspacing="0"
-               style="width: 100%;border: 1px dashed var(--star-horse-style)">
-          <thead style="border: 1px dashed var(--star-horse-style)">
-          <tr>
-            <th>名称</th>
-            <th>说明</th>
-            <th>类型</th>
-          </tr>
-          </thead>
-          <tbody style="border: 1px dashed var(--star-horse-style)">
-          <tr>
-            <td>validate</td>
-            <td>对整个表单的内容进行验证。 接收一个回调函数，或返回 <code>Promise</code>。</td>
-            <td><span class="inline-flex items-center">Function</span></td>
-          </tr>
-          <tr>
-            <td>validateField</td>
-            <td>验证具体的某个字段。</td>
-            <td><span class="inline-flex items-center">Function</span></td>
-          </tr>
-          <tr>
-            <td>resetFields</td>
-            <td>重置该表单项，将其值重置为初始值，并移除校验结果</td>
-            <td><span class="inline-flex items-center">Function</span></td>
-          </tr>
-          <tr>
-            <td>scrollToField</td>
-            <td>滚动到指定的字段</td>
-            <td><span class="inline-flex items-center">Function</span></td>
-          </tr>
-          <tr>
-            <td>clearValidate</td>
-            <td>清理某个字段的表单验证信息。</td>
-            <td><span class="inline-flex items-center">Function</span></td>
-          </tr>
-          <tr>
-            <td>fields</td>
-            <td>获取所有字段的 context</td>
-            <td><span class="inline-flex items-center">Array</span></td>
-          </tr>
-          </tbody>
-        </table>
-      </el-tab-pane>
-      <el-tab-pane label="表单属性" name="formDatas">
+        </el-tab-pane>
+        <el-tab-pane label="表单实例" name="formInstance">
+          对象名字：formInstance
+          <table border="1" cellpadding="0" cellspacing="0"
+                 style="width: 100%;border: 1px dashed var(--star-horse-style)">
+            <thead style="border: 1px dashed var(--star-horse-style)">
+            <tr>
+              <th>名称</th>
+              <th>说明</th>
+              <th>类型</th>
+            </tr>
+            </thead>
+            <tbody style="border: 1px dashed var(--star-horse-style)">
+            <tr>
+              <td>validate</td>
+              <td>对整个表单的内容进行验证。 接收一个回调函数，或返回 <code>Promise</code>。</td>
+              <td><span class="inline-flex items-center">Function</span></td>
+            </tr>
+            <tr>
+              <td>validateField</td>
+              <td>验证具体的某个字段。</td>
+              <td><span class="inline-flex items-center">Function</span></td>
+            </tr>
+            <tr>
+              <td>resetFields</td>
+              <td>重置该表单项，将其值重置为初始值，并移除校验结果</td>
+              <td><span class="inline-flex items-center">Function</span></td>
+            </tr>
+            <tr>
+              <td>scrollToField</td>
+              <td>滚动到指定的字段</td>
+              <td><span class="inline-flex items-center">Function</span></td>
+            </tr>
+            <tr>
+              <td>clearValidate</td>
+              <td>清理某个字段的表单验证信息。</td>
+              <td><span class="inline-flex items-center">Function</span></td>
+            </tr>
+            <tr>
+              <td>fields</td>
+              <td>获取所有字段的 context</td>
+              <td><span class="inline-flex items-center">Array</span></td>
+            </tr>
+            </tbody>
+          </table>
+        </el-tab-pane>
+        <el-tab-pane label="表单属性" name="formDatas">
         <pre>
           {{ JSON.stringify(list, null, 4) }}
         </pre>
-      </el-tab-pane>
-    </el-tabs>
-
+        </el-tab-pane>
+      </el-tabs>
+    </div>
   </star-horse-dialog>
   <el-form
       :model="formProps"
@@ -490,6 +524,9 @@ watch(() => formProps,
                         type="textarea" v-model="formProps[item.fieldName]"/>
             </el-form-item>
           </template>
+          <el-form-item prop="dataRelation" label="数据联动" v-if="Object.keys(currentField).length>0">
+            <el-button @click="condifRelationPolicy">配置联动策略</el-button>
+          </el-form-item>
           <template v-if="currentField?.itemType==='checkbox'||currentField?.itemType==='radio'">
             <el-table
                 :data="formProps.values"

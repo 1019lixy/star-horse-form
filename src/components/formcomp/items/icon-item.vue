@@ -5,6 +5,7 @@
     <el-popover
         :popper-style="{width:'unset !important'}"
         ref="popoverRef"
+        :disabled="!context.attrs['formData']['_'+field.preps['name']+'Editable']&&field.preps['disabled'] == 'Y'"
         trigger="click">
       <template #reference>
         <el-avatar fit="fill" shape="square" style="font-size: 24px"
@@ -42,9 +43,9 @@ export default defineComponent({
     const assignIcon = (iconName: string) => {
       context.attrs['formData'][field.preps['name']] = iconName;
       unref(popoverRef).popperRef?.delayHide?.();
-      keyEnterFun("blur");
+      itemAction("blur");
     };
-    const keyEnterFun = (prep: any) => {
+    const itemAction = (prep: any) => {
       if (prep == actionName.value && field.preps["actionRelation"]) {
         field.preps["actionRelation"](context.attrs['formData'][field.preps['name']], context.attrs['formData']["xh"]);
       }
@@ -53,12 +54,12 @@ export default defineComponent({
     onMounted(() => {
       actionName.value = field.preps["actionName"];
       if (!context.attrs["isSearch"]) {
-        keyEnterFun(actionName.value);
+        itemAction(actionName.value);
       }
     });
     return {
       parentField, context, field, formItem, dataField, assignIcon,
-      keyEnterFun, actionName, popoverRef
+      itemAction, actionName, popoverRef
     }
   }
 });

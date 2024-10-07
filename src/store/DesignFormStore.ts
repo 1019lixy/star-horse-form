@@ -1,6 +1,7 @@
 import {defineStore} from "pinia";
 import {SearchParams} from "@/components/types/Params";
 import {loadData} from "@/api/sh_api.ts";
+import {SelectOption} from "@/components/types/SearchProps";
 
 export const DesignForm: any = defineStore("DesignForm", {
     state: () => {
@@ -131,6 +132,8 @@ export const DesignForm: any = defineStore("DesignForm", {
         }
     },
     actions: {
+
+
         /**
          * 添加历史记录
          * @param reOrUnDoFlag 是否点击按钮时触发
@@ -240,6 +243,72 @@ export const DesignForm: any = defineStore("DesignForm", {
         },
         setCompList(compList: Array<any>) {
             this.compList = compList;
+        },
+        /**
+         * 获取属性列表
+         */
+        loadCompNames() {
+
+            const innerFunc = (datas: Array<any>) => {
+                let selectList: SelectOption[] = [];
+                for (let index in datas) {
+                    let temp: any = datas[index];
+                    if (temp.itemType == "box" || temp.itemType == "dytable") {
+                        let elements = temp.preps.elements;
+                        for (let sindex in elements) {
+                            let columns = elements[sindex].columns;
+                            for (let ssindex in columns) {
+                                let column = columns[ssindex];
+                                console.log(column)
+                                if (column.items && column.items.length > 0) {
+                                    selectList.push(...column.items?.map((item: any) =>
+                                        ({name: item.preps?.label, type: "item", value: item.preps?.name}))
+                                        .filter((item: SelectOption) => item.name));
+                                }
+                            }
+                        }
+                    } else if (temp.itemType == "table") {
+                        let elements = temp.preps.elements;
+                        let children: SelectOption[] = [];
+                        for (let index in elements) {
+                            let element = elements[index];
+                            if (element.items && element.items.length > 0) {
+                                children.push(...element.items?.map((item: any) =>
+                                    ({name: item.preps?.label, value: item.preps?.name}))
+                                    .filter((item: SelectOption) => item.name))
+                            }
+                        }
+                        selectList.push({
+                            name: temp.preps?.label,
+                            value: temp.preps?.batchFieldName,
+                            type: "container",
+                            children: children
+                        });
+
+                    } else if (temp.itemType == "tab" || temp.itemType == "collapse" || temp.itemType == "card") {
+                        let elements = temp.preps?.elements;
+                        for (let index in elements) {
+                            let element = elements[index];
+                            selectList.push({
+                                name: element.label,
+                                value: element.objectName,
+                                type: "container",
+                                children: innerFunc(element.items)
+                            })
+                        }
+                    } else {
+                        selectList.push({
+                            name: temp.preps?.label,
+                            value: temp.preps?.name,
+                            type: "item",
+                        });
+                    }
+
+                }
+                return selectList;
+            }
+            console.log(JSON.stringify(this.compList));
+            return innerFunc(this.compList);
         },
 
         /**

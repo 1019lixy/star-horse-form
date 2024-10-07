@@ -19,7 +19,7 @@ export default defineComponent({
     let dataField = shallowRef("");
     let markdownEditor = ref();
     let markdown = ref<MarkdownIt>(null);
-    const keyEnterFun = () => {
+    const itemAction = () => {
       context.emit('selfFunc');
     };
     const init = async () => {
@@ -35,7 +35,7 @@ export default defineComponent({
     onUpdated(() => {
       init();
     })
-    return {parentField, context, field, formItem, dataField, markdown, markdownEditor, keyEnterFun}
+    return {parentField, context, field, formItem, dataField, markdown, markdownEditor, itemAction}
   }
 });
 </script>

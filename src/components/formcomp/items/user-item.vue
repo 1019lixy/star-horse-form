@@ -13,7 +13,7 @@
                        :parentField="parentField">
     <el-input
         :clearable="field.preps['clearable'] == 'Y'"
-        :disabled="field.preps['disabled'] == 'Y'"
+        :disabled="!context.attrs['formData']['_'+field.preps['name']+'Editable']&&field.preps['disabled'] == 'Y'"
         :max="field.preps['max']"
         :maxlength="field.preps['maxlength']"
         :min="field.preps['min']"
@@ -24,10 +24,10 @@
         :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
         type="text"
         :fid="field.preps['name']"
-        v-on:[actionName]="keyEnterFun(field.preps['actionName'])"
-        @keydown.enter="keyEnterFun"
-        @focus="keyEnterFun('focus')"
-        @blur="keyEnterFun('blur')"
+        @change="itemAction('change')"
+        @keydown.enter="itemAction('enter')"
+        @focus="itemAction('focus')"
+        @blur="itemAction('blur')"
         v-model="context.attrs['formData'][field.preps['name']]">
       <template #append>
         <star-horse-icon icon-class="search" @click="showVisible" :disabled="field.preps['disabled'] == 'Y'"/>
@@ -45,6 +45,7 @@ import {FieldMapping} from "@/components/types/PageFieldInfo";
 import {isJson} from "@/api/sh_api.ts";
 import {warning} from "@/utils/message.ts";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
+import {allAction} from "@/components/formcomp/utils/ItemRelationEventUtils.ts";
 
 export default defineComponent({
   components: {StarHorseIcon, UserManage},
@@ -56,11 +57,8 @@ export default defineComponent({
     let userTableRef = shallowRef();
     let dialogInputVisible = shallowRef<boolean>(false);
     let actionName = shallowRef("keydown.enter");
-    const keyEnterFun = (prep: any) => {
-      if (prep == actionName.value && field.preps["actionRelation"]) {
-        field.preps["actionRelation"](context.attrs['formData'][field.preps['name']], context.attrs['formData']["xh"]);
-      }
-      context.emit('selfFunc', prep);
+    const itemAction = (prep: any) => {
+      allAction(context, prep);
     };
     const selectItem = (row: any) => {
       let data = "";
@@ -113,7 +111,7 @@ export default defineComponent({
     };
     return {
       parentField, context, field, formItem, dataField, closeAction, dialogInputVisible,
-      actionName, keyEnterFun, showVisible,
+      actionName, itemAction, showVisible,
       userTableRef, selectItem
     }
   }

@@ -224,14 +224,15 @@ onMounted(() => {
 <template>
   <div v-if="bareFlag||field.preps.headerFlag=='Y'" class="bare-comp">
     <help :message="item?.helpMsg" v-if="item?.helpMsg"/>
-    <component :id="randId" :is="itemType+'-item'" @selfFunc="actionDispatcher" :isDesign="isDesign"
+    <component :id="randId" :is="(dataForm['_'+field.preps.name+'Type']||itemType)+'-item'" @selfFunc="actionDispatcher"
+               :isDesign="isDesign"
                ref="componentRef"
                :isSearch="isSearch"
                :bareFlag="bareFlag"
                :field="field" :formData="dataForm"/>
     <div v-if="item.brotherNodes">
       <template v-for="temp in item.brotherNodes">
-        <star-horse-item v-if="temp.formShow" :primaryKey="primaryKey"
+        <star-horse-item v-show="temp.formShow" :primaryKey="primaryKey"
                          :compSize="compSize"
                          v-model:dataForm="dataForm"
                          :item="temp" :isDesign="isDesign"
@@ -245,14 +246,15 @@ onMounted(() => {
        itemType != 'button' ?'100%':'inherit' }">
 
     <help :message="item?.helpMsg" v-if="item?.helpMsg"/>
-    <component :id="randId" :is="itemType+'-item'" @selfFunc="actionDispatcher" :isDesign="isDesign"
+    <component :id="randId" :is="(dataForm['_'+field.preps.name+'Type']||itemType)+'-item'" @selfFunc="actionDispatcher"
+               :isDesign="isDesign"
                ref="componentRef"
                :isSearch="isSearch"
                :bareFlag="bareFlag"
                :field="field" :formData="dataForm"/>
     <div v-if="item.brotherNodes" class="brother-node">
       <template v-for="temp in item.brotherNodes">
-        <star-horse-item v-if="temp.formShow" :primaryKey="primaryKey"
+        <star-horse-item v-if="dataForm['_'+field.preps.name+'Visible']||temp.formShow" :primaryKey="primaryKey"
                          :compSize="compSize"
                          v-model:dataForm="dataForm"
                          :item="temp" :isDesign="isDesign"

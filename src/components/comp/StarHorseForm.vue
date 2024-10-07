@@ -1,5 +1,16 @@
 <script setup lang="ts" name="StarHorseForm">
-import {computed, inject, nextTick, onMounted, PropType, ref, ShallowReactive, watch} from "vue";
+import {
+  computed,
+  inject,
+  nextTick,
+  onActivated, onBeforeUnmount,
+  onDeactivated,
+  onMounted,
+  PropType,
+  ref,
+  ShallowReactive,
+  watch
+} from "vue";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {error, success, warning} from "@/utils/message";
 import {postRequest} from "@/api/star_horse";
@@ -228,7 +239,7 @@ const doMerge = (type: string) => {
   } else {
     dydata["dataListsMap"] = tempForm;
   }
-  console.log(sameBatchNames, tempForm, dydata);
+  // console.log(sameBatchNames, tempForm, dydata);
   load("数据处理中");
   //dynamicForm 如果为true 表示动态表单，动态表单需额外封装数据对象
   postRequest(mergeUrl!, props.dynamicForm ? dydata : tempForm).then(res => {
@@ -274,10 +285,25 @@ const setFormData = (data: object) => {
   // console.log(defaultDatas);
   dataForm.value = {...defaultDatas, ...data};
 }
-const tableListRef = ref<any>([]);
-
-onMounted(() => {
+/**
+ * 记录当前表单的信息
+ */
+const recordFieldInfo = async () => {
+  await nextTick();
   userOperation.init(props.fieldList, dataForm, starHorseFormRef);
+}
+const tableListRef = ref<any>([]);
+onActivated(() => {
+  recordFieldInfo();
+})
+onDeactivated(() => {
+  // userOperation.clearAll();
+});
+onBeforeUnmount(() => {
+  userOperation.clearAll();
+});
+onMounted(() => {
+  recordFieldInfo();
 });
 watch(() => dialogProps.ids,
     (val) => {
@@ -291,11 +317,13 @@ watch(() => dialogProps.ids,
       immediate: true,
       deep: true
     });
+
 defineExpose({
   merge, mergeDraft, resetForm, setFormData, getFormData, starHorseFormRef, tableListRef
 });
 </script>
 <template>
+
   <el-form :model="dataForm" :size="compSize" :rules="rules"
            :scroll-to-error="true"
            :scroll-into-view-options="true"
@@ -304,6 +332,7 @@ defineExpose({
            label-position="right"
            label-width="auto"
            class="data-form" ref="starHorseFormRef">
+    {{ dataForm }}
     <star-horse-form-item :primaryKey="primaryKey"
                           :compUrl="compUrl"
                           :fieldList="fieldList"

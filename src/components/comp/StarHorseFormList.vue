@@ -39,7 +39,7 @@ const loading = ref(null);
 const starHorseFormListRef = ref(null);
 
 const handleAddDetails = (row: any, type: number) => {
-  if (props.staticColumn == "Y") {
+  if (props.staticColumn == "Y" && type != 2) {
     dynamicHandleAddForm(row, "add");
   } else {
     dynamicHandleAddRow(row, type);
@@ -53,17 +53,21 @@ let currentRow = ref<any>({});
  */
 const dynamicHandleAddForm = async (row: any, type: string) => {
   currentRow.value = row;
-  console.log(currentRow.value);
   rowDialogVisible.value = true;
   await nextTick();
   rowDataFormRef.value.setFormData(row);
 }
-const mergeData = () => {
+const mergeData = async () => {
+  let flag = false;
+  await rowDataFormRef.value.$refs.starHorseFormRef.validate(res => flag = res);
+  if (!flag) {
+    return;
+  }
   let formData = rowDataFormRef.value.getFormData().value;
-  if (!currentRow.value) {
-    dataForm.value[props.batchName].push(formData);
+  if (formData.xh) {
+    dataForm.value[props.batchName][formData.xh - 1] = formData;
   } else {
-    currentRow.value = formData;
+    dataForm.value[props.batchName].push(formData);
   }
   closeAction();
 }
@@ -312,21 +316,11 @@ onMounted(async () => {
       </template>
       <el-table-column fixed="right" label="操作" width="80">
         <template #default="scope" v-if="!isView">
-          <el-button
-              v-if="staticColumn=='Y'"
-              @click="dynamicHandleAddForm(scope.row,'edit')"
-              link
-              :size="size"
-              type="info">
-            <el-tooltip content="编辑">编辑</el-tooltip>
-          </el-button>
-          <el-button
-              @click="handleAddDetails(scope.row, 2)"
-              link
-              :size="size"
-              type="danger">
-            <el-tooltip content="删除当前行">删除</el-tooltip>
-          </el-button>
+          <star-horse-icon icon-class="edit" v-if="staticColumn=='Y'"
+                           @click="dynamicHandleAddForm(scope.row,'edit')" title="编辑"/>
+          <star-horse-icon icon-class="delete" @click="handleAddDetails(scope.row, 2)" title="删除当前行"
+                           color="#f56c6c"/>
+
         </template>
       </el-table-column>
     </el-table>

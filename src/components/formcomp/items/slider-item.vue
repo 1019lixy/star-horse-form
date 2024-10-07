@@ -4,7 +4,7 @@
   >
     <el-slider
         :fid="field.preps['name']"
-        :disabled="field.preps['disabled']=='Y'"
+        :disabled="!context.attrs['formData']['_'+field.preps['name']+'Editable']&&field.preps['disabled'] == 'Y'"
         :format-tooltip="field.preps['formatTooltip']=='Y'"
         :format-value-text="field.preps['formatValueText']"
         :height="field.preps['height']"
@@ -22,13 +22,14 @@
         :show-tooltip="field.preps['showTooltip']=='Y'"
         :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
         :step="field.preps['step']"
-        @change="keyEnterFun"
+        @change="itemAction"
         v-model="context.attrs['formData'][field.preps['name']]"
     />
   </starhorse-form-item>
 </template>
 <script lang="ts">
 import {defineComponent, onMounted, shallowRef} from "vue";
+import {allAction} from "@/components/formcomp/utils/ItemRelationEventUtils.ts";
 
 export default defineComponent({
   setup(_props, context) {
@@ -37,13 +38,13 @@ export default defineComponent({
     const field = context.attrs["field"] as any;
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
-    const keyEnterFun = () => {
-      context.emit('selfFunc');
+    const itemAction = () => {
+      allAction(context, "change");
     };
     onMounted(() => {
-      keyEnterFun();
+      itemAction();
     })
-    return {parentField, context, field, formItem, dataField, keyEnterFun}
+    return {parentField, context, field, formItem, dataField, itemAction}
   }
 });
 </script>

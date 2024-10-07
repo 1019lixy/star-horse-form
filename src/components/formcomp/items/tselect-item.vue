@@ -15,7 +15,7 @@
         :props="field.preps['props']"
         :filterable="field.preps['filterable']=='Y'"
         :filter-node-method="filterNodeMethod"
-        :disabled="field.preps['disabled']=='Y'"
+        :disabled="!context.attrs['formData']['_'+field.preps['name']+'Editable']&&field.preps['disabled'] == 'Y'"
         :multiple="field.preps['multiple']=='Y'"
         :multiple-limit="field.preps['multipleLimit']"
         :name="field.preps['name']"
@@ -24,10 +24,11 @@
         :data="field.preps['values']||context.attrs['formData'][field.preps['name']+'OptionList']"
         :tag-type="field.preps['tagType']"
         :render-content="renderContent"
-        @change="keyEnterFun(field.preps['actionName'])"
-        @keydown.enter="keyEnterFun"
-        @focus="keyEnterFun('focus')"
-        @blur="keyEnterFun('blur')"
+        @change="itemAction('change')"
+        @input="itemAction('input')"
+        @keydown.enter="itemAction('enter')"
+        @focus="itemAction('focus')"
+        @blur="itemAction('blur')"
         v-model="context.attrs['formData'][field.preps['name']]">
     </el-tree-select>
   </starhorse-form-item>
@@ -37,6 +38,7 @@ import {defineComponent, onMounted, shallowRef} from "vue";
 import {dictData, loadData} from "@/api/sh_api.ts";
 import {error} from "@/utils/message.ts";
 import {SelectOption} from "@/components/types/SearchProps";
+import {allAction} from "@/components/formcomp/utils/ItemRelationEventUtils.ts";
 
 export default defineComponent({
   setup(_props, context) {
@@ -46,12 +48,8 @@ export default defineComponent({
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
     let actionName = shallowRef("keydown.enter");
-    const keyEnterFun = (prep: any) => {
-      if (prep == actionName.value && field.preps["actionRelation"]) {
-        field.preps["actionRelation"](context.attrs['formData'][field.preps['name']], context.attrs['formData']["xh"]);
-      }
-      console.log("tselect", prep);
-      context.emit('selfFunc', prep);
+    const itemAction = (prep: any) => {
+      allAction(context, prep);
     };
     const filterNodeMethod = (value: any, data: any) => {
       let name: any = field.preps['props']?.label || "label";
@@ -118,10 +116,10 @@ export default defineComponent({
       initData();
       actionName.value = field.preps["actionName"];
       if (!context.attrs["isSearch"]) {
-        keyEnterFun(actionName.value);
+        itemAction(actionName.value);
       }
     });
-    return {parentField, context, field, formItem, dataField, keyEnterFun, filterNodeMethod, actionName, renderContent}
+    return {parentField, context, field, formItem, dataField, itemAction, filterNodeMethod, actionName, renderContent}
   }
 });
 </script>

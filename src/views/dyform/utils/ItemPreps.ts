@@ -1,10 +1,13 @@
-import {nextTick, reactive, Ref, ref} from "vue";
+import {nextTick, reactive, Ref, ref, toRef} from "vue";
 import {FieldInfo, PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {SelectOption} from "@/components/types/SearchProps";
 import {dictData, loadData, searchMatchList} from "@/api/sh_api.ts";
 import {ascOrDesc, dataType, httpMethod, validDataUrl} from "@/api/system.ts";
 import {error, success, warning} from "@/utils/message.ts";
+import {DesignForm} from "@/store/DesignFormStore.ts";
+import piniaInstance from "@/store";
 
+const designForm = DesignForm(piniaInstance);
 
 const helpMsg = `
     接口返回的数据格式必须是：
@@ -773,3 +776,98 @@ export function containerField(fieldName: string) {
         }]
     });
 }
+
+/**
+ * 关联
+ */
+export function relationDataField() {
+    let fields: SelectOption[] = designForm.loadCompNames();
+    let eventList: SelectOption[] = [
+        {name: "Change", value: "change"},
+        {name: "Input", value: "input"},
+    ];
+    let controlConditionList: SelectOption[] = [
+        {name: "选中/输入的值作为查询条件", value: "query"},
+        {name: "选中/输入的值等于指定值禁用", value: "eqDisable"},
+        {name: "选中/输入的值等于指定值禁用否则可编辑", value: "eqDisableOrEditable"},
+        {name: "选中/输入的值等于指定值可编辑", value: "eqEditable"},
+        {name: "选中/输入的值等于指定值可编辑否则禁用", value: "eqEditableOrDisable"},
+        {name: "选中/输入的值等于指定值时赋予新值", value: "assignValue"},
+        {name: "选中/输入的值等于指定值时改变字段类型", value: "changeType"},
+    ];
+    let fieldType = ref<string>("input");
+    // let matchType = ref<boolean>(false);
+    return reactive<PageFieldInfo | any>({
+        fieldList: [
+            {
+                label: "触发事件",
+                fieldName: "actionName",
+                type: "select",
+                optionList: eventList,
+                defaultValue: "change",
+                required: true,
+                formShow: true,
+                tableShow: true,
+            },
+            {
+                batchFieldList: [
+                    {
+                        staticData: "Y",
+                        batchName: "relationDetails",
+                        fieldList: [{
+                            label: "控制条件",
+                            fieldName: "controlCondition",
+                            type: "select",
+                            optionList: controlConditionList,
+                            required: true,
+                            changeName: "change",
+                            actions: (val: any) => {
+                                matchType.value = false;
+                                val["_matchTypeEditable"] = false;
+                                delete val["_paramsType"];
+                                let temp = val["controlCondition"];
+                                if (temp == "assignValue") {
+                                    val["_paramsType"] = "json-array";
+                                } else if (temp == "query") {
+                                    val["_matchTypeEditable"] = true;
+                                }
+                            },
+                            formShow: true,
+                            tableShow: true,
+                        }, {
+                            label: "被控制属性",
+                            fieldName: "relationFields",
+                            type: "tselect",
+                            optionList: fields,
+                            required: true,
+                            formShow: true,
+                            tableShow: true,
+                            preps: {
+                                checkStrictly: "Y"
+                            }
+                        }, {
+                            label: "匹配条件",
+                            fieldName: "matchType",
+                            type: "select",
+                            optionList: searchMatchList(),
+                            defaultValue: "eq",
+                            required: false,
+                            disabled:"Y",
+                            formShow: true,
+                            tableShow: true,
+                        }, {
+                            label: "参数",
+                            fieldName: "params",
+                            type: fieldType,
+                            required: false,
+                            helpMsg: `1、如果是作为查询条件，则填写参数名称；\n2、如果是等于某个值，则填写具体的值；`,
+                            formShow: true,
+                            tableShow: true,
+                        }]
+                    }
+                ]
+            }
+        ]
+    });
+}
+

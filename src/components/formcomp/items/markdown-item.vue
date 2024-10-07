@@ -1,13 +1,14 @@
 <template>
   <starhorse-form-item :isDesign="context.attrs['isDesign']" :bareFlag="context.attrs['bareFlag']" :form-item="field"
                        :parentField="parentField">
-    <div ref="markdownEditor" class="markdown-editor"/>
+    <v-md-editor v-model="context.attrs['formData'][field.preps['name']]" class="markdown-editor"
+
+    />
   </starhorse-form-item>
 </template>
 <script lang="ts" name="markdown">
-import {defineComponent, onMounted, shallowRef, ref, nextTick, onUpdated} from "vue";
-import Vditor from "vditor";
-import "vditor/src/assets/less/index.less"
+import {defineComponent, onMounted, onUpdated, ref, shallowRef} from "vue";
+
 
 export default defineComponent({
   setup(_props, context) {
@@ -17,21 +18,11 @@ export default defineComponent({
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
     let markdownEditor = ref();
-    let vditor = ref<Vditor>(null);
-    const keyEnterFun = () => {
+    const itemAction = () => {
       context.emit('selfFunc');
     };
     const init = async () => {
-      await nextTick(() => {
-        if (!vditor.value && markdownEditor.value) {
-          vditor.value = new Vditor(markdownEditor.value, {
-            cache: {
-              enable: false
-            },
 
-          });
-        }
-      });
     };
     onMounted(() => {
       init();
@@ -39,12 +30,12 @@ export default defineComponent({
     onUpdated(() => {
       init();
     })
-    return {parentField, context, field, formItem, dataField, markdownEditor, keyEnterFun}
+    return {parentField, context, field, formItem, dataField, markdownEditor, itemAction}
   }
 });
 </script>
 <style lang="scss" scoped>
-.markdown-editor {
+.v-md-editor {
   width: 100% !important;
   min-height: 400px !important;
 
@@ -53,8 +44,5 @@ export default defineComponent({
   }
 }
 
-:deep(.vditor-reset) {
-  padding: 10px !important;
-}
 
 </style>

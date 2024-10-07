@@ -12,11 +12,15 @@
         :fid="field.preps['name']"
         :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
         readonly
-        v-on:[actionName]="keyEnterFun(field.preps['actionName'])"
-        @keydown.enter="keyEnterFun"
+        @change="itemAction('change')"
+        @input="itemAction('input')"
+        @keydown.enter="itemAction('enter')"
+        @focus="itemAction('focus')"
+        @blur="itemAction('blur')"
         v-model="context.attrs['formData'][field.preps['name']]">
       <template #append>
-        <el-button icon="Clock" @click="cronVisible=true"/>
+        <el-button icon="Clock" @click="cronVisible=true"
+        :disabled="!context.attrs['formData']['_'+field.preps['name']+'Editable']&&field.preps['disabled']=='Y'"/>
       </template>
     </el-input>
   </starhorse-form-item>
@@ -25,6 +29,7 @@
 import {defineComponent, onMounted, provide, ref, shallowRef} from "vue";
 import Crontab from "@/components/cron/Crontab.vue";
 import StarHorseDialog from "@/components/comp/StarHorseDialog.vue";
+import {allAction} from "@/components/formcomp/utils/ItemRelationEventUtils.ts";
 
 export default defineComponent({
   components: {Crontab, StarHorseDialog},
@@ -42,11 +47,8 @@ export default defineComponent({
       recordNewExpress = val;
     });
     let actionName = shallowRef("change");
-    const keyEnterFun = (prep: any) => {
-      if (prep == actionName.value && field.preps["actionRelation"]) {
-        field.preps["actionRelation"](context.attrs['formData'][field.preps['name']], context.attrs['formData']["xh"]);
-      }
-      context.emit('selfFunc');
+    const itemAction = (prep: any) => {
+      allAction(context, prep);
     };
     const resetForm = () => {
       context.attrs['formData'][field.preps['name']] = defaultExpress;
@@ -65,12 +67,12 @@ export default defineComponent({
     onMounted(() => {
       actionName.value = field.preps["actionName"];
       if (!context.attrs["isSearch"]) {
-        keyEnterFun(actionName.value);
+        itemAction(actionName.value);
       }
     });
     return {
       parentField, context, field, formItem,
-      dataField, keyEnterFun, cronVisible
+      dataField, itemAction, cronVisible
       , resetForm, close, submit, cronTabRef, actionName
     }
   }

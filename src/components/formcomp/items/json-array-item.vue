@@ -1,5 +1,5 @@
 <template>
-  <star-horse-dialog :title="field.preps['label']+'JSON对象编辑'" :self-func="true"
+  <star-horse-dialog :title="field.preps['label']+'JSON数组编辑'" :self-func="true"
                      :dialog-visible="dialogInputVisible"
                      @merge="selectItem"
                      @resetForm="resetForm"
@@ -88,15 +88,7 @@ export default defineComponent({
       let jsonStr = context.attrs['formData'][field.preps['name']];
       let formData: any = {};
       if (jsonStr) {
-        let json = JSON.parse(jsonStr);
-        let arr = [];
-        for (let key in json) {
-          arr.push({
-            name: key,
-            value: json[key]
-          });
-        }
-        formData["jsonDatas"] = arr;
+        formData["jsonDatas"] = JSON.parse(jsonStr);
       }
       dialogInputVisible.value = true;
       await nextTick();
@@ -112,11 +104,8 @@ export default defineComponent({
       }
       let formData = jsonFormRef.value.getFormData().value;
       let dataList = formData["jsonDatas"];
-      let jsonData = {};
-      dataList.forEach((item: any) => {
-        jsonData[item.name] = item.value;
-      });
-      context.attrs['formData'][field.preps['name']] = JSON.stringify(jsonData, null, 4);
+
+      context.attrs['formData'][field.preps['name']] = JSON.stringify(dataList, null, 4);
       closeAction();
     }
     const resetForm = () => {

@@ -7,7 +7,7 @@
     <el-autocomplete
         :fid="field.preps['name']"
         :clearable="field.preps['clearable']=='Y'"
-        :disabled="field.preps['disabled']=='Y'"
+        :disabled="!context.attrs['formData']['_'+field.preps['name']+'Editable']&&field.preps['disabled']=='Y'"
         :readonly="field.preps['readonly']=='Y'"
         :fetch-suggestions="querySearch"
         :fit-input-width="field.preps['fitInputWidth']=='Y'"
@@ -20,11 +20,11 @@
         :teleported="field.preps['teleported']=='Y'"
         :trigger-on-focus="field.preps['triggerOnFocus']=='Y'"
         :value-key="field.preps['valueKey']||'name'"
-        v-on:[actionName]="keyEnterFun(field.preps['actionName'])"
-        @keydown.enter="keyEnterFun"
-        @select="handSelect"
-        @focus="keyEnterFun('focus')"
-        @blur="keyEnterFun('blur')"
+        @change="itemAction('change')"
+        @input="itemAction('input')"
+        @keydown.enter="itemAction('enter')"
+        @focus="itemAction('focus')"
+        @blur="itemAction('blur')"
         v-model="context.attrs['formData'][field.preps['name']]"
     />
   </starhorse-form-item>
@@ -33,6 +33,7 @@
 import {defineComponent, onMounted, shallowRef} from "vue";
 import {compDynamicData, createFilter, dynamicUrlOperation} from "@/api/sh_api.ts";
 import {SearchParams} from "@/components/types/Params";
+import {allAction} from "@/components/formcomp/utils/ItemRelationEventUtils.ts";
 
 export default defineComponent({
   setup(_props, context) {
@@ -42,11 +43,8 @@ export default defineComponent({
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
     let actionName = shallowRef("keydown.enter");
-    const keyEnterFun = (prep: any) => {
-      if (prep == actionName.value && field.preps["actionRelation"]) {
-        field.preps["actionRelation"](context.attrs['formData'][field.preps['name']], context.attrs['formData']["xh"]);
-      }
-      context.emit('selfFunc', prep);
+    const itemAction = (prep: any) => {
+      allAction(context, prep);
     };
     /**
      * 动态获取数据
@@ -58,7 +56,7 @@ export default defineComponent({
       initData();
       actionName.value = field.preps["actionName"];
       if (!context.attrs["isSearch"]) {
-        keyEnterFun(actionName.value);
+        itemAction(actionName.value);
       }
     });
     const querySearch = async (queryString: string, cb: (arg: any) => void) => {
@@ -84,7 +82,7 @@ export default defineComponent({
     }
     return {
       parentField, context, field, formItem, dataField,
-      keyEnterFun, querySearch, actionName, handSelect
+      itemAction, querySearch, actionName, handSelect
     }
   }
 });
