@@ -10,7 +10,7 @@
         :before-remove="field.preps['beforeRemove']"
         :before-upload="field.preps['beforeUpload']"
         :data="field.preps['data']||{}"
-        :disabled="field.preps['disabled']=='Y'"
+        :disabled="!context.attrs['formData']['_'+field.preps['name']+'Editable']&&field.preps['disabled'] == 'Y'"
         :drag="field.preps['drag']=='Y'"
         :headers="field.preps['headers']||{}"
         :http-request="field.preps['httpRequest']"

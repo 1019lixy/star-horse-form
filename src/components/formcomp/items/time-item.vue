@@ -7,7 +7,7 @@
         :arrow-control="field.preps['arrowControl']"
         :clearable="field.preps['clearable']"
         :default-value="field.preps['defaultValue']"
-        :disabled="field.preps['disabled']"
+        :disabled="!context.attrs['formData']['_'+field.preps['name']+'Editable']&&field.preps['disabled'] == 'Y'"
         :disabled-hours="field.preps['disabledHours']"
         :disabled-minutes="field.preps['disabledMinutes']"
         :disabled-seconds="field.preps['disabledSeconds']"

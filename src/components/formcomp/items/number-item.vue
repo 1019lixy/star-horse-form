@@ -5,7 +5,7 @@
     <el-input-number
         :fid="field.preps['name']"
         :controls-position="field.preps['controlsPosition']"
-        :disabled="field.preps['disabled']=='Y'"
+        :disabled="!context.attrs['formData']['_'+field.preps['name']+'Editable']&&field.preps['disabled'] == 'Y'"
         :max="field.preps['max']||Infinity"
         :min="field.preps['min']||-Infinity"
         :name="field.preps['name']"

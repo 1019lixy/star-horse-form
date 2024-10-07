@@ -7,7 +7,7 @@
     <el-autocomplete
         :fid="field.preps['name']"
         :clearable="field.preps['clearable']=='Y'"
-        :disabled="field.preps['disabled']=='Y'"
+        :disabled="!context.attrs['formData']['_'+field.preps['name']+'Editable']&&field.preps['disabled']=='Y'"
         :readonly="field.preps['readonly']=='Y'"
         :fetch-suggestions="querySearch"
         :fit-input-width="field.preps['fitInputWidth']=='Y'"

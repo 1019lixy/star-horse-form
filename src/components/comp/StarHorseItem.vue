@@ -232,7 +232,7 @@ onMounted(() => {
                :field="field" :formData="dataForm"/>
     <div v-if="item.brotherNodes">
       <template v-for="temp in item.brotherNodes">
-        <star-horse-item v-if="dataForm['_'+field.preps.name+'Visible']||temp.formShow" :primaryKey="primaryKey"
+        <star-horse-item v-show="temp.formShow" :primaryKey="primaryKey"
                          :compSize="compSize"
                          v-model:dataForm="dataForm"
                          :item="temp" :isDesign="isDesign"

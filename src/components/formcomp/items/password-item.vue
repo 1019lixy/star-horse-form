@@ -5,7 +5,7 @@
     <el-input
         :fid="field.preps['name']"
         :clearable="field.preps['clearable']=='Y'"
-        :disabled="field.preps['disabled']=='Y'"
+        :disabled="!context.attrs['formData']['_'+field.preps['name']+'Editable']&&field.preps['disabled'] == 'Y'"
         :max="field.preps['max']"
         :maxlength="field.preps['maxlength']"
         :min="field.preps['min']"

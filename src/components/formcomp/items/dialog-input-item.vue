@@ -20,7 +20,7 @@
                        :parentField="parentField">
     <el-input
         :clearable="field.preps['clearable'] == 'Y'"
-        :disabled="field.preps['disabled'] == 'Y'"
+        :disabled="!context.attrs['formData']['_'+field.preps['name']+'Editable']&&field.preps['disabled'] == 'Y'"
         :max="field.preps['max']"
         :maxlength="field.preps['maxlength']"
         :min="field.preps['min']"
@@ -40,7 +40,7 @@
       <template #append>
         <el-button icon="Search" @click="showVisible"
                    :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
-                   :disabled="field.preps['disabled'] == 'Y'"/>
+                   :disabled="!context.attrs['formData']['_'+field.preps['name']+'Editable']&&field.preps['disabled'] == 'Y'"/>
       </template>
     </el-input>
   </starhorse-form-item>

@@ -15,7 +15,7 @@
         :props="field.preps['props']"
         :filterable="field.preps['filterable']=='Y'"
         :filter-node-method="filterNodeMethod"
-        :disabled="field.preps['disabled']=='Y'"
+        :disabled="!context.attrs['formData']['_'+field.preps['name']+'Editable']&&field.preps['disabled'] == 'Y'"
         :multiple="field.preps['multiple']=='Y'"
         :multiple-limit="field.preps['multipleLimit']"
         :name="field.preps['name']"

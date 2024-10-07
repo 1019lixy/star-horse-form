@@ -5,6 +5,7 @@
     <el-popover
         :popper-style="{width:'unset !important'}"
         ref="popoverRef"
+        :disabled="!context.attrs['formData']['_'+field.preps['name']+'Editable']&&field.preps['disabled'] == 'Y'"
         trigger="click">
       <template #reference>
         <el-avatar fit="fill" shape="square" style="font-size: 24px"

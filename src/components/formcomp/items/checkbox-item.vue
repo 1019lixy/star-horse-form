@@ -3,7 +3,7 @@
                        :parentField="parentField">
     <el-checkbox-group
         :fid="field.preps['name']"
-        :disabled="field.preps['disabled']=='Y'"
+        :disabled="!context.attrs['formData']['_'+field.preps['name']+'Editable']&&field.preps['disabled']=='Y'"
         :readonly="field.preps['readonly']=='Y'"
         :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
         @change="itemAction"

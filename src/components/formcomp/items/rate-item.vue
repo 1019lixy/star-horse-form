@@ -7,7 +7,7 @@
         :allow-half="field.preps['allowHalf']=='Y'"
         :clearable="field.preps['clearable']=='Y'"
         :colors="field.preps['colors']"
-        :disabled="field.preps['disabled']=='Y'"
+        :disabled="!context.attrs['formData']['_'+field.preps['name']+'Editable']&&field.preps['disabled'] == 'Y'"
         :disabled-void-color="field.preps['disabledVoidColor']"
         :high-threshold="field.preps['highThreshold']"
         :low-threshold="field.preps['lowThreshold']"

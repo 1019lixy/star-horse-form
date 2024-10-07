@@ -36,7 +36,7 @@ export const useUserSelfOperation = defineStore("userSelfOperation", () => {
         if (!formItem) {
             return;
         }
-        fieldItemList.value[formItem.fieldName] = formItem;
+        fieldItemList.value[formItem.fieldName||formItem.preps.name] = formItem;
     }
 
     /**
@@ -49,7 +49,7 @@ export const useUserSelfOperation = defineStore("userSelfOperation", () => {
         }
         for (const index in formItems) {
             const formItem = formItems[index];
-            fieldItemList.value[formItem.fieldName] = formItem;
+            fieldItemList.value[formItem.fieldName||formItem.preps.name] = formItem;
         }
 
     }
@@ -70,5 +70,17 @@ export const useUserSelfOperation = defineStore("userSelfOperation", () => {
         formData.value = data;
         formInstance.value = formRef;
     }
-    return {formFieldList, fieldItemList, formInstance, formData, setFormInstance, setFormFields, setFormData, addFormItem, addFormItemList, getFormItem, init}
+    /**
+     * 清除掉数据
+     */
+    const clearAll = () => {
+        formFieldList.value = {};
+        fieldItemList.value = {};
+        formData.value = {};
+        formInstance.value = null;
+    }
+    return {
+        formFieldList, fieldItemList, formInstance, formData, setFormInstance, setFormFields, setFormData,
+        addFormItem, addFormItemList, getFormItem, init, clearAll
+    }
 });

@@ -8,7 +8,7 @@
         :clearable="field.preps['clearable']=='Y'"
         :default-time="field.preps['defaultTime']"
         :default-value="field.preps['defaultValue']||new Date()"
-        :disabled="field.preps['disabled']=='Y'"
+        :disabled="!context.attrs['formData']['_'+field.preps['name']+'Editable']&&field.preps['disabled']=='Y'"
         :editable="field.preps['editable']=='Y'"
         :end-placeholder="field.preps['endPlaceholder']||'请选择结束日期'"
         :format="field.preps['format']||'YYYY-MM-DD HH:mm:ss'"

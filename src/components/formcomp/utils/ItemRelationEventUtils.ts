@@ -1,45 +1,122 @@
-import {error, warning} from "@/utils/message.ts";
+import {error} from "@/utils/message.ts";
 import {userFunction} from "@/api/user_func.ts";
+import {createCondition} from "@/api/sh_api.ts";
+import piniaInstance from "@/store";
+import {useUserSelfOperation} from "@/store/SelfOperationStore.ts";
 
+let userOperation = useUserSelfOperation(piniaInstance);
 /**
  * Change 事件
  * @param context
  */
 const change = (context: any) => {
-    const parentField = context.attrs["parentField"];
     const field = context.attrs["field"] as any;
+    let relation = field.preps.dataRelation;
+    operationRelation(relation, "change", context.attrs["formData"], field.preps['name']);
+
 };
 /**
  * Input 事件
  * @param context
  */
 const input = (context: any) => {
-    const parentField = context.attrs["parentField"];
     const field = context.attrs["field"] as any;
+    let relation = field.preps.dataRelation;
+    operationRelation(relation, "input", context.attrs["formData"], field.preps['name']);
+
 }
 /**
  * Focus 事件
  * @param context
  */
 const focus = (context: any) => {
-    const parentField = context.attrs["parentField"];
     const field = context.attrs["field"] as any;
+    let relation = field.preps.dataRelation;
+    operationRelation(relation, "focus", context.attrs["formData"], field.preps['name']);
+
 }
 /**
  * Blur 事件
  * @param context
  */
 const blur = (context: any) => {
-    const parentField = context.attrs["parentField"];
     const field = context.attrs["field"] as any;
+    let relation = field.preps.dataRelation;
+    operationRelation(relation, "blur", context.attrs["formData"], field.preps['name']);
+
 }
 /**
  * Enter 事件
  * @param context
  */
 const mouseEnter = (context: any) => {
-    const parentField = context.attrs["parentField"];
     const field = context.attrs["field"] as any;
+    let relation = field.preps.dataRelation;
+    operationRelation(relation, "enter", context.attrs["formData"], field.preps['name']);
+}
+
+
+/**
+ * 操作关联关系
+ * @param relation
+ * @param actionName
+ * @param formData
+ * @param currentName
+ */
+const operationRelation = (relation: any, actionName: string, formData: any, currentName: string) => {
+    console.log(relation, actionName, formData, currentName);
+    if (!relation || actionName != relation.actionName) {
+        return;
+    }
+    let relations: Array<any> = relation.relationDetails;
+    let currentVal = formData[currentName];
+    if (!relations || relations.length == 0) {
+        return
+    }
+    debugger;
+    for (let index in relations) {
+        let temp = relations[index];
+        let conditon: string = temp.controlCondition;
+        let fieldName: string = temp.relationFields;
+        if (!conditon || !fieldName) {
+            continue;
+        }
+        let field = userOperation.getFormItem(fieldName);
+        console.log(userOperation.formFieldList.value, field, conditon, fieldName);
+        let params: any = temp.params;
+        let matchType: string = temp.matchType;
+        if (conditon == "query") {
+            //输入的值作为查询条件
+            let cond = createCondition(params, currentVal, matchType);
+            //触发执行
+            let queryParams = field.preps["queryParams"];
+            if (queryParams) {
+                queryParams = field.preps["queryParams"].filter(item => item.name != params);
+            }
+            queryParams.push(cond);
+            field.preps["queryParams"] = queryParams;
+        } else if (conditon == "eqDisable" || conditon == "eqDisableOrEditable") {
+            //输入的值等于指定值隐藏否则显示
+            formData["_" + fieldName + "Editable"] = !(currentVal == params);
+        } else if (conditon == "eqEditable" || conditon == "eqEditableOrDisable") {
+            //输入的值等于指定值显示否则隐藏
+            formData["_" + fieldName + "Editable"] = currentVal == params;
+        } else if (conditon == "assignValue") {
+            //输入的值等于指定值时赋予新值
+            if (field.itemType == "select" || field.itemType == "tselect"
+                || field.itemType == "autocomplete" || field.itemType == "cascade") {
+                debugger;
+                field.preps.values = JSON.parse(params);
+            } else {
+                formData[field.name] = params;
+            }
+        } else if (conditon == "changeType") {
+            //输入的值等于指定值时改变字段类型
+            field.itemType = params;
+        }
+    }
+
+
 }
 /**
  * 所有触发的事件

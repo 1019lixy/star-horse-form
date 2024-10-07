@@ -10,7 +10,7 @@
         :collapse-tags="field.preps['collapseTags']=='Y'"
         :collapse-tags-tooltip="field.preps['collapseTagsTooltip']=='Y'"
         :default-first-option="field.preps['defaultFirstOption']=='Y'"
-        :disabled="field.preps['disabled']=='Y'"
+        :disabled="!context.attrs['formData']['_'+field.preps['name']+'Editable']&&field.preps['disabled']=='Y'"
         :filterable="field.preps['filterable']=='Y'"
         :multiple="field.preps['multiple']=='Y'"
         :remote="field.preps['remote']=='Y'||field.preps['dataSource']=='url'"

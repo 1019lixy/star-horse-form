@@ -14,7 +14,7 @@
         <el-input
             :fid="field.preps['name']"
             :clearable="field.preps['clearable']=='Y'"
-            :disabled="field.preps['disabled']=='Y'"
+            :disabled="!context.attrs['formData']['_'+field.preps['name']+'Editable']&&field.preps['disabled'] == 'Y'"
             :max="field.preps['max']"
             :maxlength="field.preps['maxlength']"
             :min="field.preps['min']"
@@ -88,15 +88,7 @@ export default defineComponent({
       let jsonStr = context.attrs['formData'][field.preps['name']];
       let formData: any = {};
       if (jsonStr) {
-        let json = JSON.parse(jsonStr);
-        let arr = [];
-        for (let key in json) {
-          arr.push({
-            key: key,
-            value: json[key]
-          });
-        }
-        formData["jsonDatas"] = arr;
+        formData["jsonDatas"] = JSON.parse(jsonStr);
       }
       dialogInputVisible.value = true;
       await nextTick();
@@ -112,11 +104,8 @@ export default defineComponent({
       }
       let formData = jsonFormRef.value.getFormData().value;
       let dataList = formData["jsonDatas"];
-      let jsonData = {};
-      dataList.forEach((item: any) => {
-        jsonData[item.key] = item.value;
-      });
-      context.attrs['formData'][field.preps['name']] = JSON.stringify(jsonData, null, 4);
+
+      context.attrs['formData'][field.preps['name']] = JSON.stringify(dataList, null, 4);
       closeAction();
     }
     const resetForm = () => {

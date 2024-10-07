@@ -19,7 +19,8 @@
         @blur="itemAction('blur')"
         v-model="context.attrs['formData'][field.preps['name']]">
       <template #append>
-        <el-button icon="Clock" @click="cronVisible=true"/>
+        <el-button icon="Clock" @click="cronVisible=true"
+        :disabled="!context.attrs['formData']['_'+field.preps['name']+'Editable']&&field.preps['disabled']=='Y'"/>
       </template>
     </el-input>
   </starhorse-form-item>

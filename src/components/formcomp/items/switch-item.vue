@@ -8,7 +8,7 @@
         :active-text="field.preps['activeText']"
         :active-value="field.preps['activeValue']"
         :before-change="field.preps['beforeChange']"
-        :disabled="field.preps['disabled']=='Y'"
+        :disabled="!context.attrs['formData']['_'+field.preps['name']+'Editable']&&field.preps['disabled'] == 'Y'"
         :inactive-color="field.preps['inactiveColor']"
         :inactive-text="field.preps['inactiveText']"
         :inactive-value="field.preps['inactiveValue']"

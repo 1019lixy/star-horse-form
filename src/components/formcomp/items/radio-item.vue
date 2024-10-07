@@ -4,7 +4,7 @@
   >
     <el-radio-group
         :fid="field.preps['name']"
-        :disabled="field.preps['disabled']=='Y'"
+        :disabled="!context.attrs['formData']['_'+field.preps['name']+'Editable']&&field.preps['disabled'] == 'Y'"
         :readonly="field.preps['readonly']=='Y'"
         :max="field.preps['max']"
         :min="field.preps['min']"

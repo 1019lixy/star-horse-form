@@ -788,15 +788,15 @@ export function relationDataField() {
     ];
     let controlConditionList: SelectOption[] = [
         {name: "选中/输入的值作为查询条件", value: "query"},
-        {name: "选中/输入的值等于指定值隐藏", value: "eqHide"},
-        {name: "选中/输入的值等于指定值隐藏否则显示", value: "eqHideOrShow"},
-        {name: "选中/输入的值等于指定值显示", value: "eqShow"},
-        {name: "选中/输入的值等于指定值显示否则隐藏", value: "eqShowOrHide"},
+        {name: "选中/输入的值等于指定值禁用", value: "eqDisable"},
+        {name: "选中/输入的值等于指定值禁用否则可编辑", value: "eqDisableOrEditable"},
+        {name: "选中/输入的值等于指定值可编辑", value: "eqEditable"},
+        {name: "选中/输入的值等于指定值可编辑否则禁用", value: "eqEditableOrDisable"},
         {name: "选中/输入的值等于指定值时赋予新值", value: "assignValue"},
         {name: "选中/输入的值等于指定值时改变字段类型", value: "changeType"},
     ];
     let fieldType = ref<string>("input");
-    let matchType = ref<boolean>(false);
+    // let matchType = ref<boolean>(false);
     return reactive<PageFieldInfo | any>({
         fieldList: [
             {
@@ -823,14 +823,14 @@ export function relationDataField() {
                             changeName: "change",
                             actions: (val: any) => {
                                 matchType.value = false;
+                                val["_matchTypeEditable"] = false;
                                 delete val["_paramsType"];
                                 let temp = val["controlCondition"];
                                 if (temp == "assignValue") {
-                                    val["_paramsType"] = "json";
+                                    val["_paramsType"] = "json-array";
                                 } else if (temp == "query") {
-                                    matchType.value = true;
+                                    val["_matchTypeEditable"] = true;
                                 }
-
                             },
                             formShow: true,
                             tableShow: true,
@@ -852,14 +852,15 @@ export function relationDataField() {
                             optionList: searchMatchList(),
                             defaultValue: "eq",
                             required: false,
-                            formShow: matchType,
+                            disabled:"Y",
+                            formShow: true,
                             tableShow: true,
                         }, {
                             label: "参数",
                             fieldName: "params",
                             type: fieldType,
                             required: false,
-                            helpMsg:`1、如果是作为查询条件，则填写参数名称；\n2、如果是等于某个值，则填写具体的值；`,
+                            helpMsg: `1、如果是作为查询条件，则填写参数名称；\n2、如果是等于某个值，则填写具体的值；`,
                             formShow: true,
                             tableShow: true,
                         }]

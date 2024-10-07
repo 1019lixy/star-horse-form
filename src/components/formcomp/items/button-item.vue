@@ -7,7 +7,7 @@
         :autofocus="field?.preps['autofocus']=='Y'"
         :bg="field?.preps['bg']=='Y'"
         :circle="field?.preps['circle']=='Y'"
-        :disabled="field?.preps['disabled']=='Y'"
+        :disabled="!context.attrs['formData']['_'+field.preps['name']+'Editable']&&field?.preps['disabled']=='Y'"
         :link="field?.preps['link']=='Y'"
         :loading="field?.preps['loading']=='Y'"
         :loading-icon="field?.preps['loadingIcon']"

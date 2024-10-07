@@ -152,7 +152,7 @@ export default defineComponent({
         :collapse-tags="true"
         :collapse-tags-tooltip="true"
         :default-first-option="field.preps['defaultFirstOption']=='Y'"
-        :disabled="field.preps['disabled']=='Y'"
+        :disabled="!context.attrs['formData']['_'+field.preps['name']+'Editable']&&field.preps['disabled'] == 'Y'"
         :filterable="true"
         :multiple="field.preps['multiple']=='Y'"
         :multiple-limit="field.preps['multipleLimit']"

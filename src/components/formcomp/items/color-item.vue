@@ -5,7 +5,7 @@
     <el-color-picker
         :fid="field.preps['name']"
         :color-format="field.preps['colorFormat']"
-        :disabled="field.preps['disabled']=='Y'"
+        :disabled="!context.attrs['formData']['_'+field.preps['name']+'Editable']&&field.preps['disabled']=='Y'"
         :show-alpha="field.preps['showAlpha']=='Y'"
         :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
         @change="itemAction('change')"

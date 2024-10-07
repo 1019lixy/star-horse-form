@@ -7,7 +7,7 @@
         :filterable="field.preps['filterable']=='Y'"
         :collapse-tags="field.preps['collapseTags']=='Y'"
         :collapse-tags-tooltip="field.preps['collapseTagsTooltip']=='Y'"
-        :disabled="field.preps['disabled']=='Y'"
+        :disabled="!context.attrs['formData']['_'+field.preps['name']+'Editable']&&field.preps['disabled']=='Y'"
         :options="field.preps['values']"
         :placeholder="'请选择'+field.preps['label']"
         :props="{

@@ -4,7 +4,7 @@
   >
     <el-slider
         :fid="field.preps['name']"
-        :disabled="field.preps['disabled']=='Y'"
+        :disabled="!context.attrs['formData']['_'+field.preps['name']+'Editable']&&field.preps['disabled'] == 'Y'"
         :format-tooltip="field.preps['formatTooltip']=='Y'"
         :format-value-text="field.preps['formatValueText']"
         :height="field.preps['height']"
