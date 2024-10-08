@@ -13,7 +13,6 @@ const change = (context: any) => {
     const field = context.attrs["field"] as any;
     let relation = field.preps.dataRelation;
     operationRelation(relation, "change", context.attrs["formData"], field.preps['name']);
-
 };
 /**
  * Input 事件
@@ -23,7 +22,6 @@ const input = (context: any) => {
     const field = context.attrs["field"] as any;
     let relation = field.preps.dataRelation;
     operationRelation(relation, "input", context.attrs["formData"], field.preps['name']);
-
 }
 /**
  * Focus 事件
@@ -33,7 +31,6 @@ const focus = (context: any) => {
     const field = context.attrs["field"] as any;
     let relation = field.preps.dataRelation;
     operationRelation(relation, "focus", context.attrs["formData"], field.preps['name']);
-
 }
 /**
  * Blur 事件
@@ -43,7 +40,6 @@ const blur = (context: any) => {
     const field = context.attrs["field"] as any;
     let relation = field.preps.dataRelation;
     operationRelation(relation, "blur", context.attrs["formData"], field.preps['name']);
-
 }
 /**
  * Enter 事件
@@ -88,13 +84,14 @@ const operationRelation = (relation: any, actionName: string, formData: any, cur
         if (conditon == "query") {
             //输入的值作为查询条件
             let cond = createCondition(params, currentVal, matchType);
-            //触发执行
+
             let queryParams = field.preps["queryParams"];
             if (queryParams) {
                 queryParams = field.preps["queryParams"].filter(item => item.name != params);
             }
             queryParams.push(cond);
             field.preps["queryParams"] = queryParams;
+            //怎么触发执行
         } else if (conditon == "eqDisable" || conditon == "eqDisableOrEditable") {
             //输入的值等于指定值隐藏否则显示
             formData["_" + fieldName + "Editable"] = !(currentVal == params);
@@ -145,6 +142,9 @@ const allAction = (context: any, actionName: string) => {
             console.log("不支持的事件：" + actionName);
     }
 
+    if (actionName == "input") {
+        return;
+    }
     const field = context.attrs["field"] as any;
     //处理自定义响应事件
     if (actionName == field.preps["actionName"] && field.preps["actionRelation"]) {

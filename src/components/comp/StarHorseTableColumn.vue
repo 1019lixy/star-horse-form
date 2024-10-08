@@ -120,7 +120,7 @@ const showOperation = async () => {
                          :column="scope.column"
                          :batchName="batchName"
                          :compSize="compSize"
-                         :style="{cursor:item.preps.mouseType||'normal'}"
+                         :style="{...item.preps.styles}"
                          v-on:[item.preps.compAction]="item.preps.compFunc(scope.row)"
                          v-else
         />

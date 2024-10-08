@@ -124,7 +124,9 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       preps: {
         showComp: "Y",
         compAction: "click",
-        mouseType: "pointer",
+        styles:{
+          cursor:"pointer",
+        },
         popover: "Y",
         compField: viewCompField,
         placeholder: "0",

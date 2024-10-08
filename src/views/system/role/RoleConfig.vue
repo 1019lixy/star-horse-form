@@ -29,8 +29,10 @@ let configStore = GlobalConfig(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.inputSize || "default");
 let currentUserGroupId = ref<number>(0);
 let defaultCondition = ref<SearchParams[]>([]);
+
 const roleTypeChange = (data: TreeNodeData, _checked: boolean) => {
   currentUserGroupId.value = data["value"];
+  outerFormData.value["roleType"]=data["value"];
   defaultCondition.value = [createCondition("a.roleType", currentUserGroupId.value)];
   companyRoleRef.value.createSearchParams(defaultCondition.value)
 };

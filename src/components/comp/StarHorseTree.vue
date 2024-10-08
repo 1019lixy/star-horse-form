@@ -81,9 +81,7 @@ const treeOperation = (cmd: string) => {
       });
     }
     getAllSubNodeIndex(treeDatas.value);
-
   }
-
 }
 let selectedDataList = ref<Array<any>>([]);
 const operSelectData = (data: TreeNodeData, checked: boolean) => {

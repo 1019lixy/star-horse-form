@@ -63,6 +63,10 @@ const props = defineProps({
   multipleSelect: {type: Boolean, default: false},
   //按钮操作权限
   // permissions: {type: Object, required: true, default: {}},
+  //行高
+  lineHeight: {type: String, default: "30px"},
+  //显示多选框
+  showSelection: {type: Boolean, default: true},
   expandTable: {type: Object as PropType<ExpandTable>}
 });
 let route = useRoute();
@@ -453,7 +457,8 @@ const loadByPage = () => {
       return;
     }
     let redata = res.data.data;
-    pageInfo.dataList = redata?.dataList;
+    //如果不是分页之间显示返回的所有数据
+    pageInfo.dataList = redata?.dataList || redata;
     if (props.dialogInput) {
       filterData();
     }
@@ -638,8 +643,8 @@ defineExpose({
       :min-height="height"
       :highlight-current-row="true"
       :default-expand-all="expand"
-      :row-style="{height: '30px'}"
-      :cell-style="{ height: '30px','font-size': '12px'}"
+      :row-style="{height: lineHeight}"
+      :cell-style="{ height: lineHeight,'font-size': '12px'}"
       :header-cell-style="{ background: '#f2f2f2', color: '#707070', 'font-size': '13px','background-image':'-webkit-gradient(linear,left 0,left 100%,from(#f8f8f8),to(#ececec))'}"
       border
   >
@@ -648,8 +653,8 @@ defineExpose({
         align="center"
         fixed="left"
         :reserve-selection="true"
-    >
-    </el-table-column>
+        v-if="showSelection"
+    />
     <el-table-column type="expand" v-if="expandTable">
       <template #default="scope">
         <div class="expand-table">
