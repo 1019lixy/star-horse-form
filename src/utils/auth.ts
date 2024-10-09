@@ -30,14 +30,13 @@ export function getCustomerInfo() {
         console.log("未找到客户编码");
         return null;
     }
-    const customerInfo = JSON.parse(str);
-    return customerInfo;
+    return JSON.parse(str);
 }
 
 /**
  * 获取查询对象
  */
-export function getCustomerParam(propertyName = "a.dataAuth"): SearchParams | null {
+export function getCustomerParam(propertyName:string): SearchParams | null {
     const customerInfo = getCustomerInfo();
     if (!customerInfo) {
         return null;

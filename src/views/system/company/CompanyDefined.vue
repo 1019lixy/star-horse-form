@@ -35,30 +35,7 @@ const searchFormData = reactive<SearchFields>({
       matchType: "lk",
       type: "input"
     },
-    {
-      label: "公司简称",
-      fieldName: "shortName",
-      defaultShow: false,
-      matchType: "lk",
-      type: "input"
-    },
-    {
-      label: "排序",
-      fieldName: "dataSort",
-      defaultShow: true,
-      matchType: "lk",
-      type: "input"
-    },
-    {
-      label: "公司类别",
-      type: "tselect",
-      optionList: companyCategoryList,
-      defaultShow: true,
-      matchType: "lk",
-      preps: {
-        checkStrictly: "Y"
-      }
-    },
+
   ]
 });
 

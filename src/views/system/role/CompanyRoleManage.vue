@@ -11,6 +11,8 @@ import {postRequest} from "@/api/star_horse.ts";
 import {SearchFields} from "@/components/types/SearchProps";
 import {Config} from "@/api/settings.ts";
 import {SearchParams} from "@/components/types/Params";
+import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
+import RoleUserList from "@/views/system/comp/RoleUserList.vue";
 
 let configStore = GlobalConfig(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.inputSize || "default");
@@ -145,12 +147,30 @@ const assignRoleUser = () => {
   }).finally(() => closeLoad());
 
 }
+let viewUserTitle = ref<string>("");
+let queryCondition = ref<SearchParams[]>([]);
+const showAllUsers = (row: any, item: any, event: MouseEvent) => {
+  event.stopPropagation();
+  viewUserTitle.value = `${row.companyName}--${item.label}人员列表`;
+  queryCondition.value = [];
+  dialogProps.bakeVisible2 = true;
+  queryCondition.value.push(createCondition("b.idCompanyDefine", row["idCompanyDefine"]));
+  queryCondition.value.push(createCondition("b.idCompanyRole", item.fieldName));
+  console.log(row, item);
+}
 onMounted(() => {
   init();
 });
 </script>
 
 <template>
+  <star-horse-dialog :self-func="true" :title="viewUserTitle" :dialog-visible="dialogProps.bakeVisible2"
+                     :dialogProps="dialogProps" @merge="assignRoleUser">
+    <div class="dialog-body">
+      <role-user-list :queryCondition="queryCondition" :showButton="false" :dialogInput="true" :multipleSelect="true"
+                      ref="companyRoleManageRef"/>
+    </div>
+  </star-horse-dialog>
   <star-horse-dialog :self-func="true" :title="'添加人员'" :dialog-visible="dialogProps.bakeVisible1"
                      :dialogProps="dialogProps" @merge="assignRoleUser">
     <div class="dialog-body">
@@ -195,10 +215,12 @@ onMounted(() => {
               <template v-if="item.fieldName=='companyName'">
                 {{ scope.row[item.fieldName] }}
               </template>
-              <template v-else v-for="temp in scope.row[item.fieldName]">
-                <el-tag type="success">{{ temp.name }}</el-tag>
+              <template v-else>
+                <el-tag type="success" v-for="temp in scope.row[item.fieldName]">{{ temp.name }}</el-tag>
+                <star-horse-icon icon-class="more" v-if="scope.row[item.fieldName].length>10" style="cursor: pointer"
+                                 title="查看所有人员信息"
+                                 @click="showAllUsers(scope.row,item,$event)"/>
               </template>
-
             </div>
           </template>
         </el-table-column>
@@ -224,6 +246,7 @@ onMounted(() => {
   font-size: 13px;
   font-weight: bold;
   cursor: pointer;
+  flex-wrap: wrap;
 
   &:hover {
     opacity: 1;
@@ -238,9 +261,10 @@ onMounted(() => {
   align-items: center;
   justify-content: left;
   margin: 0 auto;
+  flex-wrap: wrap;
 
   :deep(.el-tag) {
-    margin-left: 8px;
+    margin: 5px;
   }
 }
 </style>

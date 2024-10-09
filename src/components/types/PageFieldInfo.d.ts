@@ -35,7 +35,7 @@ export declare interface TabFieldInfo {
     /**
      * 主键
      */
-    primaryKey: string,
+    primaryKey: string | Array<any>,
     /**
      * 属性名
      */
@@ -245,7 +245,7 @@ export declare interface CompParams {
     /**
      * 主键名称
      */
-    primaryKey: string;
+    primaryKey: string | Array<any>;
     /**
      * 接口地址
      */
@@ -337,7 +337,7 @@ export declare interface SubFieldInfo {
     /**
      * 主键名称，对应后端dto Object/Map泛型对象的主键名称
      */
-    primaryKey?: string;
+    primaryKey?: string | Array<any>;
     /**
      * 字段属性
      */
@@ -457,6 +457,10 @@ export declare interface PageFieldInfo {
      * 还是单表的批量处理
      */
     sameTable?: boolean;
+    /**
+     * 主键
+     */
+    primaryKey?: string | Array<any>;
 }
 
 /**
@@ -478,11 +482,15 @@ export declare interface ExpandTable {
     /**
      * 扩展表主键
      */
-    primaryKey?: string | Array<string>,
+    primaryKey?: string | Array<any>,
     /**
      * 扩展按钮方法
      */
     extandFuncs?: UserFuncInfo[],
+    /**
+     * 扩展方法API接口
+     */
+    expandUrls?: ApiUrls,
     /**
      * 列表字段
      */

@@ -3,7 +3,7 @@ import {ApiUrls} from "@/components/types/ApiUrls";
 import {computed, inject, onMounted, PropType, reactive, ref, unref, watch} from "vue";
 import {download, postRequest} from "@/api/star_horse";
 import {PageProps} from "@/components/types/PageProps";
-import {closeLoad, createCondition, deleteByIds, load,} from "@/api/sh_api";
+import {closeLoad, createCondition, deleteByIds, isJson, load,} from "@/api/sh_api";
 import {SearchParams} from "@/components/types/Params";
 import Sortable from "sortablejs";
 import {DialogProps} from "../types/DialogProps";
@@ -144,7 +144,7 @@ const getIds = () => {
   let ids: any = [];
   for (let key in selectDatas) {
     let temp = selectDatas[key];
-    ids.push(analysisPrimaryKeys(temp));
+    ids.push(analysisPrimaryKeys(props.primaryKey, temp));
   }
   return ids;
 };
@@ -335,7 +335,7 @@ const handleSelectionChange = (val: any) => {
   }
 };
 const getRowIdentity = (row: any) => {
-  return analysisPrimaryKeys(row) || "";
+  return analysisPrimaryKeys(props.primaryKey, row) || "";
 };
 
 const tbCommonFun = (name: string, param: any) => {
@@ -343,7 +343,7 @@ const tbCommonFun = (name: string, param: any) => {
   if (data) {
     data["exec"](param);
   } else {
-    let id = analysisPrimaryKeys(param);
+    let id = analysisPrimaryKeys(props.primaryKey, param);
     if (name == "view") {
       viewById(id);
     } else if (name == "edit") {
@@ -355,14 +355,18 @@ const tbCommonFun = (name: string, param: any) => {
 };
 /**
  * 解析主键
+ * @param keys 主键
  * @param row
  */
-const analysisPrimaryKeys = (row: any) => {
-  let keys: any = props.primaryKey;
+const analysisPrimaryKeys = (keys: any, row: any) => {
   if (Array.isArray(keys)) {
     let obj: any = {};
     for (let key of keys) {
-      obj[key] = splitKey(key, row);
+      if (isJson(key)) {
+        obj[key.dist] = splitKey(key.source, row);
+      } else {
+        obj[key] = splitKey(key, row);
+      }
     }
     return obj;
   } else {
@@ -381,19 +385,38 @@ const splitKey = (key: string, row: any) => {
     return row[key];
   }
 }
-const viewById = (id: any) => {
+const viewById = (id: any, isExpand: boolean = false) => {
   dialogProps!.viewVisible = true;
   dialogProps!.ids = id;
+  if (isExpand) {
+    dialogProps.isExpand = isExpand;
+    dialogProps.expandUrl = props.expandTable?.expandUrls;
+  }
 };
-const editById = (id: any) => {
+/**
+ * 编辑数据
+ * @param id
+ * @param isExpand
+ */
+const editById = (id: any, isExpand: boolean = false) => {
   dialogProps!.editVisible = true;
   dialogProps!.ids = id;
+  if (isExpand) {
+    dialogProps.isExpand = isExpand;
+    dialogProps.expandUrl = props.expandTable?.expandUrls;
+  }
 };
-const deleteById = async (id: any) => {
-  let flag = await deleteByIds(
-      props.compUrl?.deleteUrl!,
-      id instanceof Array ? id : [id]
-  );
+/**
+ * 删除数据
+ * @param id
+ * @param isExpand
+ */
+const deleteById = async (id: any, isExpand: boolean = false) => {
+  let deleteUrl = props.compUrl?.deleteUrl!;
+  if (isExpand) {
+    deleteUrl = props.expandTable?.expandUrls?.deleteUrl!;
+  }
+  let flag = await deleteByIds(deleteUrl, id instanceof Array ? id : [id]);
   if (flag) {
     loadByPage();
   }
@@ -547,6 +570,35 @@ const setCondition = (cond: SearchParams[], orderBy: OrderByInfo[]) => {
   orderBys = orderBy || [];
   loadByPage();
 };
+/**
+ * 扩展表的操作
+ * @param name 事件条件
+ * @param row 当前节点的数据
+ * @param parentRow 父节点的数据
+ */
+const expandCommonFun = (name: string, row: any, parentRow: any) => {
+  let func = props.expandTable?.extandFuncs?.find(item => item.authority == name);
+  if (func && func.funcName) {
+    func.funcName(row, parentRow);
+  } else {
+    let id = analysisPrimaryKeys(props.expandTable?.primaryKey, row);
+    for (let key in id) {
+      if (!id[key]) {
+        id[key] = parentRow[key];
+      }
+    }
+    //如果在当前行数据没有找到对应的字段，再从父级进行查找
+    if (name == "view") {
+      viewById(id, true);
+    } else if (name == "edit") {
+      editById(id, true);
+    } else if (name == "delete") {
+      deleteById(id, true);
+      // console.log(id, row, parentRow);
+    }
+  }
+
+}
 //导出方法和变量
 defineExpose({
   init,
@@ -676,6 +728,17 @@ defineExpose({
                 :width="160"
                 v-if="expandTable.showButton"
             >
+              <template #default="innerScope">
+                <template v-for="epd in expandTable.extandFuncs">
+                  <el-tooltip :content="epd.btnName">
+                    <star-horse-icon v-if="permissions[epd.authority!]"
+                                     @click="expandCommonFun(epd.authority!, innerScope.row,scope.row)"
+                                     :icon-class="epd.icon||'edit'"
+                                     style="cursor: pointer"
+                                     :color="epd.authority=='delete'?'var(--el-color-danger)':'var(--star-horse-style)'"/>
+                  </el-tooltip>
+                </template>
+              </template>
             </el-table-column>
             <table-column :fieldList="expandTable" :compSize="compSize" :compUrl="compUrl"
                           :dataFormat="dataFormat" :sortable="false"

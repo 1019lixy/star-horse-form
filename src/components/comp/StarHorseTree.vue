@@ -86,8 +86,10 @@ const treeOperation = (cmd: string) => {
 let selectedDataList = ref<Array<any>>([]);
 const operSelectData = (data: TreeNodeData, checked: boolean) => {
   if (checked) {
-    selectedDataList.value.push(data);
-
+    let hasData = selectedDataList.value.find(item => item[props.preps.value] == data[props.preps.value]);
+    if (!hasData) {
+      selectedDataList.value.push(data);
+    }
   } else {
     for (let index in selectedDataList.value) {
       let temp = selectedDataList.value[index];
@@ -100,6 +102,7 @@ const operSelectData = (data: TreeNodeData, checked: boolean) => {
   }
 }
 const setSelectData = (datas: Array<any>) => {
+  //设置数据选中自动会再次赋值
   selectedDataList.value = datas;
   datas.forEach(item => {
     treeRef.value!.setChecked(item, true);

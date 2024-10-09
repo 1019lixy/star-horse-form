@@ -14,6 +14,8 @@ import {error, success, warning} from "@/utils/message.ts";
 import {postRequest} from "@/api/star_horse.ts";
 import {getRowIdentity} from "element-plus/es/components/table/src/util";
 import UserManage from "@/views/system/UserManage.vue";
+import RoleUserList from "@/views/system/comp/RoleUserList.vue";
+import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance("system-config", "system/companyRole");
 dataUrl.loadByPageUrl = "/system-config/system/companyRole/departRoleUserList";
@@ -142,11 +144,10 @@ const assignRoleUser = () => {
   }).finally(() => closeLoad());
 
 }
-// const activated = () => {
-//   initData();
-// }
+const activated = () => {
+  // initData();
+}
 const deactivated = () => {
-
 }
 let currentRow = ref<any>({});
 let currentItem = ref<any>({});
@@ -187,6 +188,18 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
   //转换显示信息
   return cellValue;
 }
+let viewUserTitle = ref<string>("");
+let queryCondition = ref<SearchParams[]>([]);
+const showAllUsers = (row: any, item: any, event: MouseEvent) => {
+  event.stopPropagation();
+  viewUserTitle.value = `${row.companyName}--${item.label}人员列表`;
+  queryCondition.value = [];
+  dialogProps.bakeVisible2 = true;
+  queryCondition.value.push(createCondition("b.idCompanyDefine", row["idCompanyDefine"]));
+  queryCondition.value.push(createCondition("b.idCompanyRole", item.fieldName));
+  queryCondition.value.push(createCondition("b.idDepartment", row["idDepartment"]));
+  console.log(row, item);
+}
 onMounted(async () => {
   await initData();
 });
@@ -198,6 +211,13 @@ onDeactivated(() => {
 });
 </script>
 <template>
+  <star-horse-dialog :self-func="true" :title="viewUserTitle" :dialog-visible="dialogProps.bakeVisible2"
+                     :dialogProps="dialogProps" @merge="assignRoleUser">
+    <div class="dialog-body">
+      <role-user-list :queryCondition="queryCondition" :showButton="false" :dialogInput="true" :multipleSelect="true"
+                      ref="companyRoleManageRef"/>
+    </div>
+  </star-horse-dialog>
   <star-horse-dialog :self-func="true" :title="'添加人员'" :dialog-visible="dialogProps.bakeVisible1"
                      :dialogProps="dialogProps" @merge="assignRoleUser">
     <div class="dialog-body">
@@ -253,8 +273,12 @@ onDeactivated(() => {
                   <template v-if="item.fieldName=='deptName'">
                     {{ scope.row[item.fieldName] }}
                   </template>
-                  <template v-else v-for="temp in scope.row[item.fieldName]">
-                    <el-tag type="success">{{ temp.name }}</el-tag>
+                  <template v-else>
+                    <el-tag type="success" v-for="temp in scope.row[item.fieldName]">{{ temp.name }}</el-tag>
+                    <star-horse-icon icon-class="more" v-if="scope.row[item.fieldName].length>10"
+                                     style="cursor: pointer"
+                                     title="查看所有人员信息"
+                                     @click="showAllUsers(scope.row,item,$event)"/>
                   </template>
 
                 </div>
@@ -283,6 +307,7 @@ onDeactivated(() => {
   font-size: 13px;
   font-weight: bold;
   cursor: pointer;
+  flex-wrap: wrap;
 
   &:hover {
     opacity: 1;
@@ -297,6 +322,7 @@ onDeactivated(() => {
   align-items: center;
   justify-content: left;
   margin: 0 auto;
+  flex-wrap: wrap;
 
   :deep(.el-tag) {
     margin-left: 8px;

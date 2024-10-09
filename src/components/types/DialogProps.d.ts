@@ -1,3 +1,5 @@
+import {ApiUrls} from "@/components/types/ApiUrls";
+
 /**
  * 弹窗属性
  */
@@ -41,5 +43,13 @@ export type DialogProps = {
     /**
      * 数据id
      */
-    ids?: number | string | undefined | null
+    ids?: number | string | undefined | null,
+    /**
+     * 是否扩展表
+     */
+    isExpand?: boolean,
+    /**
+     * 扩展表的接口API
+     */
+    expandUrl?: ApiUrls
 }

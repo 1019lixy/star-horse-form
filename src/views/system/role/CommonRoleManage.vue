@@ -210,6 +210,18 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 const expandTable = reactive<ExpandTable>({
   dataField: "employeeList",
   title: "人员信息",
+  primaryKey: ["idCompanyDefine", "idCompanyRole", {
+    source: "idEmployeeInfo", dist: "idEmployee"
+  }],
+  showButton: true,
+  expandUrls: {
+    deleteUrl: "/system-config/system/companyRolePkEmployee/batchDeleteById"
+  },
+  extandFuncs: [{
+    icon: "delete",
+    btnName: "删除",
+    authority: "delete",
+  }],
   fieldList: [{
     label: "姓名",
     fieldName: "name",
@@ -241,17 +253,21 @@ const expandTable = reactive<ExpandTable>({
 })
 //校验
 const rules = {};
-let outerForm = ref<any>({});
 //控制弹窗相关设置
 const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 const userTableRef = ref();
+let currentRow = ref<any>({});
 let extandBtns = ref<UserFuncInfo[]>([{
   btnName: "添加人员",
   authority: "add",
   icon: "user-add",
   funcName: async (row: any) => {
-    outerForm.value["idCompanyRole"] = row[primaryKey];
+    if (!currentUserGroupId.value) {
+      warning("请先在左侧选择公司");
+      return;
+    }
+    currentRow.value = row;
     dialogProps.bakeVisible1 = true;
     await nextTick();
     assignRoleCompanyRef.value.setSelectData(row.companyList);
@@ -277,7 +293,8 @@ const assignRoleUser = () => {
   let datas = [];
   for (let index in selectedDatas) {
     datas.push({
-      idCompanyRole: outerForm.value["idCompanyRole"],
+      idCompanyDefine: currentRow.value.idCompanyDefine,
+      idCompanyRole: currentRow.value.idCompanyRole,
       idEmployee: selectedDatas[index].idEmployeeInfo
     });
   }

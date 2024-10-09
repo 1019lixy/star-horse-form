@@ -124,8 +124,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       preps: {
         showComp: "Y",
         compAction: "click",
-        styles:{
-          cursor:"pointer",
+        styles: {
+          cursor: "pointer",
         },
         popover: "Y",
         compField: viewCompField,
@@ -242,7 +242,8 @@ let extandBtns = ref<UserFuncInfo[]>([{
     outerForm.value["idCompanyRole"] = row[primaryKey];
     dialogProps.bakeVisible1 = true;
     await nextTick();
-    assignRoleCompanyRef.value.setSelectData(row.companyList);
+    console.log(row, row.companyList);
+    assignRoleCompanyRef.value.setSelectData(JSON.parse(JSON.stringify(row.companyList)));
   }
 }]);
 //初始化方法
@@ -309,7 +310,7 @@ onDeactivated(() => {
 </script>
 <template>
   <star-horse-dialog :self-func="true" :title="'设置角色归属公司'" :dialog-visible="dialogProps.bakeVisible1"
-                     :dialogProps="dialogProps" @merge="assignCompany">
+                     :dialogProps="dialogProps" @merge="assignCompany" @closeAction="dialogPreps.bakeVisible1=false">
     <div class="dialog-body">
       <star-horse-tree v-model:tree-datas="companyList" :showCheckBox="true" expand="true" treeTitle="公司列表"
                        showSelectData="true"

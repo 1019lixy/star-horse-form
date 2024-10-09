@@ -1,31 +1,26 @@
-<script setup lang="ts" name="UserManage">
-import {apiInstance, createCondition, createTree, dialogPreps, loadData} from "@/api/sh_api";
+<script setup lang="ts" name="RoleUserList">
+import {apiInstance, dialogPreps, loadData} from "@/api/sh_api";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings";
-import {onMounted, provide, reactive, ref, onActivated, onDeactivated, computed, watch} from "vue";
+import {onActivated, onDeactivated, onMounted, PropType, provide, reactive, ref} from "vue";
 import {SearchFields, SelectOption} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {getCustomerParam} from "@/utils/auth";
 import {warning} from "@/utils/message.ts";
-import {TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
 import {SearchParams} from "@/components/types/Params";
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance("system-config", "system/employeeInfo");
+dataUrl.loadByPageUrl = "/system-config/system/employeeInfo/compRolePageList";
 const props = defineProps({
   showButton: {type: Boolean, default: true},
-  cellEditable: {type: Boolean, default: true},
   dialogInput: {type: Boolean, default: false},
   multipleSelect: {type: Boolean, default: false},
+  queryCondition: {type: Array as PropType<SearchParams[]>, default: []}
 });
 //主键
 const primaryKey = "idEmployeeInfo";
 const employeeInfoRef = ref();
-const editable = computed(() => props.cellEditable);
 //定义表单的所有属性
-const formFields = reactive<Object>({});
-provide("formFields", formFields);
-let companyDataList = ref<SelectOption[]>([]);
-let departDataList = ref<SelectOption[]>([]);
 let rankList = ref<any>([]);
 let stationList = ref<any>([]);
 //查询属性
@@ -63,7 +58,7 @@ const searchFormData = reactive<SearchFields>({
 });
 //页面属性
 const tableFieldList = reactive<PageFieldInfo | any>({
-  cellEditable: editable,
+  cellEditable: false,
   //属性列表
   fieldList: [
     {
@@ -88,7 +83,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             label: "工号",
             fieldName: "employeeNo",
             type: "input",
-            editDisabled:"Y",
+            editDisabled: "Y",
             required: true,
             formShow: !false,
             tableShow: !false,
@@ -134,15 +129,11 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         [{
           label: "所属公司",
           fieldName: "idCompanyDefine",
-          type: "tselect",
-          optionList: companyDataList,
+          type: "input",
           required: true,
           formShow: !false,
           tableShow: !false,
-          actionName: "change",
-          actions: (val: any) => {
-            loadDepartByCompId(val);
-          },
+
           preps: {
             checkStrictly: "Y"
           }
@@ -150,8 +141,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
           {
             label: "所属部门",
             fieldName: "idDepartmentInfo",
-            type: "tselect",
-            optionList: departDataList,
+            type: "input",
             required: true,
             formShow: !false,
             tableShow: !false,
@@ -173,8 +163,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         }],
       ]
     },
-
-
     {
       label: "版本号",
       fieldName: "version",
@@ -269,53 +257,20 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   stopAutoLoad: false
 });
 //校验
-const rules = {};
 //控制弹窗相关设置
 const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
-let companyList = ref<Array<any>>([]);
-const companyChange = (data: TreeNodeData, _checked: boolean) => {
-  let compOrDeptId = data.value;
-  let params: SearchParams[] = [];
-  let cond = createCondition("a.idCompanyDefine", compOrDeptId);
-  cond.orOperList = [createCondition("a.idDepartmentInfo", compOrDeptId)]
-  params.push(cond);
-  employeeInfoRef.value.createSearchParams(params);
-}
-const loadDepartByCompId = async (val: any) => {
-  let params: SearchParams[] = [];
-  let compId = val["idCompanyDefine"];
-  departDataList.value = [];
-  if (!compId) {
-    return;
-  }
-  params.push(createCondition("a.idCompanyDefine", compId));
-  let result = await loadData("/system-config/system/departmentEntity/getAllByCondition", {
-    fieldList: params
-  });
-  if (result.error) {
-    console.log(result.error);
-  } else {
-    departDataList.value = createTree(result.data, "idDepartment", "deptName", "");
-  }
-}
+
 //初始化方法
 const initData = async () => {
-  let result = await loadData("/system-config/system/companyDefine/compDeptTree", {});
-  if (result.error) {
-    warning(result.error);
-  } else {
-    companyList.value = result.data;
-  }
-
-  result = await loadData("/system-config/system/companyDefine/getAllByCondition", {});
-  if (result.error) {
-    warning(result.error);
-  } else {
-    companyDataList.value = createTree(result.data, "idCompanyDefine", "name", "");
+  console.log(props.queryCondition);
+  tableFieldList.condition = [...props.queryCondition];
+  let cond = getCustomerParam();
+  if (cond) {
+    tableFieldList.condition.push(cond);
   }
   //加载职级
-  result = await loadData("/system-config/system/rankDefine/rankTree", {});
+  let result = await loadData("/system-config/system/rankDefine/rankTree", {});
   if (result.error) {
     warning(result.error);
   } else {
@@ -367,47 +322,30 @@ onDeactivated(() => {
   deactivated();
 });
 
-let test = ref("");
-const testChange = (val: any) => {
-  console.log(val);
-}
 </script>
 <template>
-  <star-horse-dialog :isShowBtnContinue="true" :dialog-visible="dialogProps?.editVisible" :dialogProps="dialogProps">
-    <div class="dialog-body">
-      <star-horse-form @refresh="employeeInfoRef.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList"
-                       :rules="rules"/>
-    </div>
-  </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps?.viewVisible" :dialogProps="dialogProps" :title="'查看数据'"
                      :isView="true">
     <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
   </star-horse-dialog>
-  <el-row :gutter="10" class="h100-overflow-hidden">
-    <el-col :span="5" class="h100">
-      <star-horse-tree v-model:tree-datas="companyList" :expand="true" treeTitle="组织机构" @selectData="companyChange"
-      />
-    </el-col>
-    <el-col :span="19" class="h100">
-      <el-card class="inner_content h100">
-        <div class="search_btn" :style="{'flex-direction':Config?.buttonStyle=='line'?'column':'row'}">
-          <star-horse-search-comp @searchData="(data)=>employeeInfoRef.createSearchParams(data)"
-                                  :formData="searchFormData"
-                                  :compUrl="dataUrl"/>
-          <hr/>
-          <star-horse-button-list @tableCompFunc="(fun)=>employeeInfoRef.tableCompFunc(fun)" :compUrl="dataUrl"
-                                  :dialogProps="dialogProps" :showType="Config?.buttonStyle" v-if="showButton"/>
-        </div>
-        <hr/>
-        <star-horse-table-comp ref="employeeInfoRef" :fieldList="tableFieldList" :primaryKey="primaryKey"
-                               :compUrl="dataUrl"
-                               :dialogInput="dialogInput"
-                               :multipleSelect="multipleSelect"
-                               :disableAction="!showButton"
-                               :dataFormat="dataFormat"/>
-      </el-card>
-    </el-col>
-  </el-row>
+  <el-card class="inner_content ">
+    <div class="search_btn" :style="{'flex-direction':Config?.buttonStyle=='line'?'column':'row'}">
+      <star-horse-search-comp @searchData="(data)=>employeeInfoRef.createSearchParams(data)"
+                              :formData="searchFormData"
+                              :compUrl="dataUrl"/>
+      <hr/>
+      <star-horse-button-list @tableCompFunc="(fun)=>employeeInfoRef.tableCompFunc(fun)" :compUrl="dataUrl"
+                              :dialogProps="dialogProps" :showType="Config?.buttonStyle" v-if="showButton"/>
+    </div>
+    <hr/>
+    <star-horse-table-comp ref="employeeInfoRef" :fieldList="tableFieldList" :primaryKey="primaryKey"
+                           :compUrl="dataUrl"
+                           :dialogInput="dialogInput"
+                           :filterCondition="tableFieldList.condition"
+                           :multipleSelect="multipleSelect"
+                           :disableAction="!showButton"
+                           :dataFormat="dataFormat"/>
+  </el-card>
 </template>
 <style lang="scss" scoped>
 
