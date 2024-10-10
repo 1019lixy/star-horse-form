@@ -488,6 +488,15 @@ export function createCondition(name: string, val: any, matchType: string = "eq"
 }
 
 /**
+ * 解析已组装的条件
+ * @param conditions
+ * @param name
+ */
+export function analysisField(conditions: SearchParams[], name: string) {
+    return conditions.find(item => item.propertyName?.endsWith(name)) || {};
+}
+
+/**
  * 动态过滤数据
  * @param search
  * @param menusList

@@ -1,16 +1,18 @@
 <script setup lang="ts" name="RoleUserList">
-import {apiInstance, dialogPreps, loadData} from "@/api/sh_api";
+import {analysisField, apiInstance, closeLoad, createCondition, dialogPreps, load, loadData} from "@/api/sh_api";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings";
 import {onActivated, onDeactivated, onMounted, PropType, provide, reactive, ref} from "vue";
-import {SearchFields, SelectOption} from "@/components/types/SearchProps";
-import {PageFieldInfo} from "@/components/types/PageFieldInfo";
+import {SearchFields} from "@/components/types/SearchProps";
+import {PageFieldInfo, UserFuncInfo} from "@/components/types/PageFieldInfo";
 import {getCustomerParam} from "@/utils/auth";
-import {warning} from "@/utils/message.ts";
+import {confirm, success, warning} from "@/utils/message.ts";
 import {SearchParams} from "@/components/types/Params";
+import {postRequest} from "@/api/star_horse.ts";
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance("system-config", "system/employeeInfo");
 dataUrl.loadByPageUrl = "/system-config/system/employeeInfo/compRolePageList";
+dataUrl.deleteUrl = "/system-config/system/companyRolePkEmployee/batchDeleteById";
 const props = defineProps({
   showButton: {type: Boolean, default: true},
   dialogInput: {type: Boolean, default: false},
@@ -260,7 +262,33 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 //控制弹窗相关设置
 const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
-
+let extandBtns = ref<UserFuncInfo[]>([{
+  btnName: "移出",
+  authority: "delete",
+  icon: "delete",
+  funcName: async (row: any) => {
+    let flag = await confirm("确定要移出吗？");
+    if (flag) {
+      let params: Array<any> = [];
+      let idCompanyDefine = analysisField(props.queryCondition, "idCompanyDefine");
+      let idCompanyRole = analysisField(props.queryCondition, "idCompanyRole");
+      params.push({
+        idEmployee: row.idEmployeeInfo,
+        idCompanyDefine: idCompanyDefine.value,
+        idCompanyRole: idCompanyRole.value
+      });
+      load("数据处理中");
+      employeeInfoRef.value.loadByPage();
+      postRequest(dataUrl.deleteUrl!, params).then(res => {
+        if (res.data.code) {
+          warning(res.data.cnMessage);
+          return;
+        }
+        success("操作成功");
+      }).finally(() => closeLoad());
+    }
+  }
+}]);
 //初始化方法
 const initData = async () => {
   console.log(props.queryCondition);
@@ -344,6 +372,7 @@ onDeactivated(() => {
                            :filterCondition="tableFieldList.condition"
                            :multipleSelect="multipleSelect"
                            :disableAction="!showButton"
+                           :extandBtns="extandBtns"
                            :dataFormat="dataFormat"/>
   </el-card>
 </template>

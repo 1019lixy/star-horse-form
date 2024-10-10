@@ -815,7 +815,8 @@ defineExpose({
       <template #default="scope">
         <template v-for="auth in extandBtnFunction()">
           <el-tooltip :content="auth['btnName'] " :v-if="permissions[auth.authority!]">
-            <star-horse-icon @click.stop="auth.funcName(scope.row)" :icon-class="auth.icon||'edit'"/>
+            <star-horse-icon @click.stop="auth.funcName(scope.row)" :icon-class="auth.icon||'edit'"
+                             :color="auth.authority=='delete'?'var(--el-color-danger)':'var(--star-horse-style)'"/>
           </el-tooltip>
         </template>
       </template>

@@ -102,6 +102,7 @@ const loadInstanceData = async (data: SearchParams[]) => {
     return;
   }
   dataList.value = result.data;
+  dialogProps.bakeVisible2 = false;
 }
 
 const companyRoleManageRef = ref();
@@ -165,7 +166,8 @@ onMounted(() => {
 
 <template>
   <star-horse-dialog :self-func="true" :title="viewUserTitle" :dialog-visible="dialogProps.bakeVisible2"
-                     :dialogProps="dialogProps" @merge="assignRoleUser">
+                     :dialogProps="dialogProps" @merge="(data)=>loadInstanceData([])"
+                     @closeAction="(data)=>loadInstanceData([])">
     <div class="dialog-body">
       <role-user-list :queryCondition="queryCondition" :showButton="false" :dialogInput="true" :multipleSelect="true"
                       ref="companyRoleManageRef"/>
