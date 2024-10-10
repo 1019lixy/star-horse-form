@@ -98,6 +98,7 @@ export default defineConfig({
             resolvers: [ElementPlusResolver()],
         }),
         Components({
+            dirs: ["src/components", "src/views"],
             // 这里就是相关ui库的解析工具, 里面的选项有是否使用自动导入样式 如果需要通过 var 变量改变主题 需要注意一下
             resolvers: [ElementPlusResolver(
                 {importStyle: 'sass',}
@@ -134,6 +135,14 @@ export default defineConfig({
              ext: '.gz',
          }),*/
     ],
+    css: {
+        devSourcemap: true,
+        preprocessorOptions: {
+            less: {
+                math: "always"
+            }
+        }
+    },
     /*  optimizeDeps: {
           include: [
               `monaco-editor/esm/vs/language/json/json.worker`,
