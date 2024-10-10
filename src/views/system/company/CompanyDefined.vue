@@ -176,7 +176,7 @@ onDeactivated(() => {
                               :compUrl="dataUrl"/>
       <hr/>
       <star-horse-button-list @tableCompFunc="(fun)=>companyDefineRef.tableCompFunc(fun)" :compUrl="dataUrl"
-                              :dialogProps="dialogProps" :showType="Config.buttonStyle" :extandBtns="extandBtns"/>
+                              :dialogProps="dialogProps" :showType="Config.buttonStyle" />
     </div>
     <hr/>
     <star-horse-table-comp ref="companyDefineRef" :fieldList="tableFieldList" :primaryKey="primaryKey"

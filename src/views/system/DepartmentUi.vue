@@ -209,7 +209,6 @@ onDeactivated(() => {
           <hr/>
           <star-horse-button-list @tableCompFunc="(fun:any)=>departmentRef.tableCompFunc(fun)"
                                   :compUrl="dataUrl"
-                                  :extandBtns="extandBtns"
                                   :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
         </div>
         <hr>

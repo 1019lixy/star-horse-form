@@ -60,7 +60,7 @@ const baseUserFields: Array<any> = [
             tableShow: true
         },
         {
-            label: "角色", fieldName: "rolesList", type: "select", optionList: rolesList,
+            label: "所属用户组", fieldName: "rolesList", type: "select", optionList: rolesList,
             required: true, formShow: true, multiple: "Y",
             tableShow: true
         }

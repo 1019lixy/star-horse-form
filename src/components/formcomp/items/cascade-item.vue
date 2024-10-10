@@ -57,7 +57,8 @@ export default defineComponent({
       } else {
         //解决加载慢问题，导致数据没法回显
         setTimeout(() => {
-          context.attrs['formData'][field.preps['name']] = JSON.parse(context.attrs['formData'][field.preps['name']]);
+          let data = context.attrs['formData'][field.preps['name']];
+          context.attrs['formData'][field.preps['name']] = data ? JSON.parse(data) : [];
         }, 200);
       }
     }
