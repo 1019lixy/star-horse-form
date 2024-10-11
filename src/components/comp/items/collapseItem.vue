@@ -35,19 +35,22 @@ onMounted(() => {
 
 <template>
   <template v-if="item.collapseList&&item.collapseList.length>0">
-    <el-collapse v-model="item.fieldName" :accordion="item.preps?.accordion" v-on:change="item.actions">
-      <template v-for="(collapseItem,key ) in item.collapseList">
-        <el-collapse-item v-if="Object.keys(collapseItem).length>0" :name="collapseItem.tabName||key"
-                          :disabled="collapseItem.disabled"
-                          :index="checkObject(collapseItem)">
-          <template #title>
-            <div class="collapse-item-title title">
-              <div style="width: 80%">{{ collapseItem.title }}</div>
-            </div>
-          </template>
-          <el-scrollbar height="95%">
+    <el-scrollbar height="95%">
+      <el-collapse v-model="item.fieldName" :accordion="item.preps?.accordion" v-on:change="item.actions">
+        <template v-for="(collapseItem,key ) in item.collapseList">
+          <el-collapse-item v-if="Object.keys(collapseItem).length>0" :name="collapseItem.tabName||key"
+                            :disabled="collapseItem.disabled"
+                            :index="checkObject(collapseItem)">
+            <template #title>
+              <div class="collapse-item-title title">
+                <div style="width: 80%">{{ collapseItem.title }}</div>
+                <star-horse-icon v-if="collapseItem.icon" :icon-class="collapseItem.icon"/>
+              </div>
+            </template>
+
             <star-horse-form-item v-if="collapseItem.objectName" :isView="isView" :compUrl="compUrl"
                                   v-model:dataForm="dataForm[collapseItem.objectName]"
+                                  :compSize="compSize"
                                   :objectName="collapseItem.objectName"
                                   :fieldList="{
                                   ...collapseItem
@@ -56,22 +59,24 @@ onMounted(() => {
                                   :primaryKey="primaryKey"/>
             <star-horse-form-item v-else :isView="isView" :compUrl="compUrl"
                                   v-model:dataForm="dataForm"
+                                  :compSize="compSize"
                                   :objectName="collapseItem.objectName"
                                   :fieldList="{
                                    ...collapseItem
                                  }"
                                   :rules="rules" :subCreateFlag="collapseItem.subFormFlag"
                                   :primaryKey="primaryKey"/>
-          </el-scrollbar>
-        </el-collapse-item>
-      </template>
-    </el-collapse>
+
+          </el-collapse-item>
+        </template>
+      </el-collapse>
+    </el-scrollbar>
   </template>
 </template>
 
 <style scoped lang="scss">
 .el-collapse {
-  margin: 5px 10px;
+  margin: 5px 3px;
 
   :deep(.el-collapse-item__header) {
     border-bottom: 1px solid rgb(229, 230, 235);

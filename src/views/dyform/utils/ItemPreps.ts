@@ -822,12 +822,12 @@ export function relationDataField() {
                             required: true,
                             changeName: "change",
                             actions: (val: any) => {
-                                matchType.value = false;
+                               // matchType.value = false;
                                 val["_matchTypeEditable"] = false;
                                 delete val["_paramsType"];
                                 let temp = val["controlCondition"];
                                 if (temp == "assignValue") {
-                                    val["_paramsType"] = "json-array";
+                                    val["_paramsType"] = "json";
                                 } else if (temp == "query") {
                                     val["_matchTypeEditable"] = true;
                                 }

@@ -27,6 +27,7 @@
         :on-progress="selfAction('progress')"
         :on-remove="selfAction('remove')"
         :on-success="selfAction('success')"
+        style="width: 100%!important;display:flex;align-items:center;"
         :show-file-list="field.preps['showFileList']=='Y'"
         :with-credentials="field.preps['withCredentials']=='Y'"
         v-model:file-list="dataField"
@@ -66,6 +67,15 @@ export default defineComponent({
 </script>
 <style lang="scss" scoped>
 :deep(.el-upload) {
-  --el-upload-picture-card-size: 80px !important;
+  // --el-upload-picture-card-size: 80px !important;
+}
+
+:deep(.el-upload-list--picture-card) {
+  width: 100% !important;
+
+  .is-drag {
+    height: 100% !important;
+    width: 100% !important;
+  }
 }
 </style>

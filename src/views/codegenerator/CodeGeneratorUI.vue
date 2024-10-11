@@ -1,5 +1,5 @@
 <script setup lang="ts" name="EnvInfo">
-import {apiInstance, closeLoad, dialogPreps, dictData, load} from "@/api/sh_api.ts";
+import {apiInstance, closeLoad, createDatetime, dialogPreps, dictData, load} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {onMounted, provide, reactive, ref} from "vue";
 import {SearchFields, SelectOption} from "@/components/types/SearchProps.d.ts";
@@ -201,7 +201,7 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
       tableShow: true,
     },
     {
-      label: "创建日期", disabled: "Y", fieldName: "createdDate", type: "date",
+      label: "创建日期", disabled: "Y", fieldName: "createdTime", type: "date",
       tableShow: true,
     },
     {
@@ -210,7 +210,7 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
     },
 
     {
-      label: "修改日期", disabled: "Y", fieldName: "updatedDate", type: "date",
+      label: "修改日期", disabled: "Y", fieldName: "updatedTime", type: "date",
       tableShow: true,
     },
     {
@@ -242,6 +242,9 @@ const selectItemFun = (_data: any) => {
 const dataFormat = (name: string, cellValue: object): any => {
   if (name == "datasourceConfigId") {
     return dbInfoList.value.find(item => item.value == cellValue)?.name || cellValue;
+  }
+  if (name == "createdTime" || name == "updatedTime") {
+    return createDatetime(cellValue);
   }
   return cellValue;
 }

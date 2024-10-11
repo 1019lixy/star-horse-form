@@ -4,7 +4,11 @@
                      @merge="selectItem"
                      @resetForm="resetForm"
                      @closeAction="closeAction">
-    <star-horse-form :field-list="jsonTableField" ref="jsonFormRef"/>
+    <div class="dialog-body">
+      <star-horse-json-editor v-if="field.preps['devType']=='Y'" v-model:modelValue="jsonObject" style="height: 100vh"/>
+      <star-horse-form v-else :field-list="jsonTableField" ref="jsonFormRef"/>
+    </div>
+
   </star-horse-dialog>
   <starhorse-form-item :isDesign="context.attrs['isDesign']" :bareFlag="context.attrs['bareFlag']" :form-item="field"
                        :parentField="parentField"
@@ -45,9 +49,10 @@ import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import StarHorseForm from "@/components/comp/StarHorseForm.vue";
 import {allAction} from "@/components/formcomp/utils/ItemRelationEventUtils.ts";
+import StarHorseJsonEditor from "@/components/comp/StarHorseJsonEditor.vue";
 
 export default defineComponent({
-  components: {StarHorseForm, StarHorseIcon},
+  components: {StarHorseJsonEditor, StarHorseForm, StarHorseIcon},
   setup(_props, context) {
     const parentField = context.attrs["parentField"];
     const field = context.attrs["field"] as any;
@@ -55,6 +60,7 @@ export default defineComponent({
     let dataField = shallowRef("");
     let dialogInputVisible = shallowRef<boolean>(false);
     let jsonFormRef = shallowRef();
+    let jsonObject = shallowRef<any>({});
     let jsonTableField = reactive<PageFieldInfo>({
       batchFieldList: [{
         batchName: "jsonDatas",
@@ -88,35 +94,41 @@ export default defineComponent({
       let jsonStr = context.attrs['formData'][field.preps['name']];
       let formData: any = {};
       if (jsonStr) {
-        let json = JSON.parse(jsonStr);
+        jsonObject.value = JSON.parse(jsonStr);
         let arr = [];
-        for (let key in json) {
+        for (let key in jsonObject.value) {
           arr.push({
             name: key,
-            value: json[key]
+            value: jsonObject.value[key]
           });
         }
         formData["jsonDatas"] = arr;
       }
       dialogInputVisible.value = true;
       await nextTick();
-      jsonFormRef.value.setFormData(formData);
+      if (field.preps['devType'] != 'Y') {
+        jsonFormRef.value.setFormData(formData);
+      }
     }
     const selectItem = async () => {
-      let flag = false;
-      await jsonFormRef.value.$refs.starHorseFormRef.validate((res: boolean) => {
-        flag = res
-      });
-      if (!flag) {
-        return;
+      if (field.preps['devType'] == 'Y') {
+        context.attrs['formData'][field.preps['name']] = JSON.stringify(jsonObject.value, null, 4);
+      } else {
+        let flag = false;
+        await jsonFormRef.value.$refs.starHorseFormRef.validate((res: boolean) => {
+          flag = res
+        });
+        if (!flag) {
+          return;
+        }
+        let formData = jsonFormRef.value.getFormData().value;
+        let dataList = formData["jsonDatas"];
+        let jsonData: any = {};
+        dataList.forEach((item: any) => {
+          jsonData[item.name] = item.value;
+        });
+        context.attrs['formData'][field.preps['name']] = JSON.stringify(jsonData, null, 4);
       }
-      let formData = jsonFormRef.value.getFormData().value;
-      let dataList = formData["jsonDatas"];
-      let jsonData = {};
-      dataList.forEach((item: any) => {
-        jsonData[item.name] = item.value;
-      });
-      context.attrs['formData'][field.preps['name']] = JSON.stringify(jsonData, null, 4);
       closeAction();
     }
     const resetForm = () => {
@@ -130,7 +142,7 @@ export default defineComponent({
       itemAction(actionName.value)
     });
     return {
-      parentField, context, field, formItem, dataField, dynamicFunction, itemAction, actionName,
+      parentField, context, field, formItem, dataField, dynamicFunction, itemAction, actionName, jsonObject,
       dialogInputVisible, selectItem, closeAction, editJsonData, resetForm, jsonTableField, jsonFormRef
 
     }
@@ -162,5 +174,14 @@ export default defineComponent({
     justify-content: center;
     vertical-align: middle;
   }
+}
+
+:deep(.jsoneditor) {
+  border-bottom: thin solid var(--star-horse-style);
+}
+
+:deep(.jsoneditor-menu) {
+  background-color: var(--star-horse-style);
+  border-bottom: 1px solid var(--star-horse-style);
 }
 </style>

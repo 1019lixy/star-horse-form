@@ -33,6 +33,7 @@ onMounted(() => {
                    :item="item"
                    :compSize="compSize"
                    :isEdit="isEdit"/>
+
   <el-form-item
       :size="compSize"
       :label="item.preps?.hideLabel=='Y'?'':item.label"

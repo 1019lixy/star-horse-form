@@ -9,6 +9,7 @@ import {createSvgIconsPlugin} from 'vite-plugin-svg-icons'
 import Components from 'unplugin-vue-components/vite'
 import {ElementPlusResolver} from 'unplugin-vue-components/resolvers'
 import AutoImport from 'unplugin-auto-import/vite'
+import {viteCommonjs} from '@originjs/vite-plugin-commonjs'
 
 const codeHost = "http://192.168.20.165:8888/"
 const systemHost = "http://localhost:8749/"
@@ -106,6 +107,7 @@ export default defineConfig({
         }),
         progress(),
         topLevelAwait(),
+        viteCommonjs(),
         vueJsx({}),
         inject({
             $: "jquery", // 这里会自动载入 node_modules 中的 jquery

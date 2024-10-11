@@ -1,6 +1,6 @@
 <script setup lang="ts" name="ItemPropertiesPanel">
 import {computed, nextTick, onMounted, ref, unref, watch} from 'vue'
-import {rowClassName, searchMatchList} from "@/api/sh_api";
+import {searchMatchList} from "@/api/sh_api";
 import {SelectOption} from "@/components/types/SearchProps";
 import StarHorseEditor from "@/components/comp/StarHorseEditor.vue";
 import StarHorseForm from "@/components/comp/StarHorseForm.vue";
@@ -8,14 +8,16 @@ import {
   containerField,
   createData,
   dataSourceFields,
-  paramsFields, relationDataField,
+  paramsFields,
+  relationDataField,
   validInterface
 } from "@/views/dyform/utils/ItemPreps.ts";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {error, success} from "@/utils/message.ts";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
+import {PageFieldInfo} from "@/components/types/PageFieldInfo";
+import StarHorseFormItem from "@/components/comp/StarHorseFormItem.vue";
 
 let designForm = DesignForm(piniaInstance);
 let formDataList = computed(() => designForm.formDataList);
@@ -52,13 +54,14 @@ const containerPrepRef = ref<any>(null);
 
 //-----------------------数据源相关属性---------------------
 let matchTypeList = ref<SelectOption[]>();
-const jsButtonClick = (name: string) => {
+const jsButtonClick = (data: any, actionName: string) => {
+  console.log(data);
   jsEditor.value = !jsEditor.value;
-  if (!Object.keys(formProps.value).includes(name)) {
-    formProps.value[name] = "";
+  if (!Object.keys(formProps.value).includes(actionName)) {
+    data[actionName] = "";
   }
-  fieldName.value = name;
-  jsValue.value = formProps.value[name];
+  fieldName.value = actionName;
+  jsValue.value = data[actionName];
 };
 const condifRelationPolicy = async () => {
   dataRelationDialogVisible.value = true;
@@ -208,12 +211,76 @@ const assignPrep = async (itemType: string, isItem: boolean) => {
     }
   }
 };
-const assignValue = (temp: any) => {
+let formFields = ref<PageFieldInfo>({
+  fieldList: []
+});
+const parseSelectData = (item: any) => {
+  if (item["selectValues"]) {
+    item["optionList"] = [];
+    let datas = JSON.parse(item.selectValues);
+    for (let i in datas) {
+      let data: any = datas[i];
+      item["optionList"].push({
+        name: data.name || data,
+        value: data.value || data
+      })
+    }
+  }
+}
+const assignValue = (fieldInfo: any) => {
   try {
+    let temp = JSON.parse(JSON.stringify(fieldInfo))
     currentField.value = temp;
-    fieldList.value = temp.fields;
-    advancedFieldList.value = temp.advancedFields;
-    actions.value = temp.actions;
+    temp.fields.forEach(item => {
+      item["formShow"] = true;
+      item["type"] = item["fieldType"];
+      item["required"] = item["required"] == 'Y';
+      parseSelectData(item);
+    });
+    if (currentCompCategory.value == "container" && currentItemType.value != 'table') {
+      temp.fields.splice(0, 0, {
+        label: "编辑容器属性",
+        fieldName: "rows",
+        type: "button",
+        actions: (data: any) => editContainerPrep(),
+        formShow: true,
+      });
+    }
+    temp.advancedFields.forEach(item => {
+      item["formShow"] = true;
+      item["type"] = item["fieldType"];
+      item["required"] = item["required"] == 'Y';
+      parseSelectData(item);
+    });
+    temp.actions.forEach(item => {
+      item["formShow"] = true;
+      item["type"] = item["fieldType"];
+      item["actions"] = (data: any) => jsButtonClick(data, item.actionName);
+      item["required"] = item["required"] == 'Y';
+    });
+    formFields.value.fieldList = [{
+      fieldName: "base",
+      collapseList: [{
+        title: "基础属性",
+        icon: "base_preps",
+        tabName: "base",
+        fieldList: temp.fields
+      }, {
+        title: "其它属性",
+        tabName: "other",
+        icon: "advance_preps",
+        fieldList: temp.advancedFields
+      }, {
+        title: "自定义事件",
+        tabName: "action",
+        icon: "event-action",
+        fieldList: temp.actions
+      }]
+    }];
+    // console.log(temp);
+    // fieldList.value = temp.fields;
+    // advancedFieldList.value = temp.advancedFields;
+    // actions.value = temp.actions;
   } catch (e) {
     console.log(e)
   }
@@ -365,281 +432,23 @@ watch(() => formProps,
       </el-tabs>
     </div>
   </star-horse-dialog>
-  <el-form
-      :model="formProps"
-      :rules="formRules"
-      class="dynamic-form"
-      ref="itemPropertiesRef"
-      :size="compSize"
-      label-position="left"
-  >
-    <el-scrollbar height="100%">
-      <el-collapse
-          class="widget-collapse"
-          :accordion="false"
-          v-model="activeNames">
-        <el-collapse-item name="1">
-          <template #title>
-            <div class="collapse-item-title title">
-              <div style="width: 80%">常用属性</div>
-              <star-horse-icon icon-class="base_preps"
-                               style="color: var(--star-horse-style)"/>
-            </div>
-          </template>
-
-          <template v-if="currentCompCategory==='container'&&currentItemType!='table'">
-            <el-form-item
-                label=""
-                prop="rows"
-            >
-              <el-button @click="editContainerPrep">编辑容器属性</el-button>
-            </el-form-item>
-            <template v-for="(item) in fieldList">
-              <el-form-item
-                  :label="item.label"
-                  :prop="item.fieldName"
-                  v-if="item.fieldType==='input'"
-              >
-                <el-input
-                    :placeholder="'请输入'+item.label"
-                    v-model="formProps[item.fieldName]"
-                />
-              </el-form-item>
-              <el-form-item
-                  :label="item.label"
-                  :prop="item.fieldName"
-                  v-if="item.fieldType==='radio'"
-              >
-                <el-radio-group v-model="formProps[item.fieldName]">
-                  <el-radio
-                      :label="data"
-                      :value="data"
-                      v-for="data in JSON.parse(item.selectValues)"
-                  />
-                </el-radio-group>
-              </el-form-item>
-              <el-form-item
-                  :label="item.label"
-                  :prop="item.fieldName"
-                  v-if="item.fieldType==='checkbox'"
-              >
-                <el-checkbox-group v-model="formProps[item.fieldName]">
-                  <el-checkbox
-                      :label="data"
-                      :value="data"
-                      v-for="data in JSON.parse(item.selectValues)"
-                  />
-                </el-checkbox-group>
-              </el-form-item>
-              <el-form-item
-                  :label="item.label"
-                  :prop="item.fieldName"
-                  v-if="item.fieldType==='number'"
-              >
-                <el-input-number
-                    :placeholder="'请输入'+item.label"
-                    v-model="formProps[item.fieldName]"
-                />
-              </el-form-item>
-              <el-form-item
-                  :label="item.label"
-                  :prop="item.fieldName"
-                  v-if="item.fieldType==='switch'"
-              >
-                <el-switch
-                    :active-value="JSON.parse(item.selectValues)[0]"
-                    :inactive-value="JSON.parse(item.selectValues)[1]"
-                    active-text="是"
-                    inactive-text="否"
-                    v-model="formProps[item.fieldName]"
-                />
-              </el-form-item>
-              <el-form-item
-                  :label="item.label"
-                  :prop="item.fieldName"
-                  v-if="item.fieldType==='button'"
-              >
-                <el-button>Click</el-button>
-              </el-form-item>
-              <el-form-item
-                  :label="item.label"
-                  :prop="item.fieldName"
-                  v-if="item.fieldType==='select'"
-              >
-                <el-select v-model="formProps[item.fieldName]">
-                  <el-option
-                      :label="data"
-                      :value="data"
-                      v-for="data in JSON.parse(item.selectValues)"
-                  />
-                </el-select>
-              </el-form-item>
-              <el-form-item
-                  :label="item.label"
-                  :prop="item.fieldName"
-                  v-if="item.fieldType==='textarea'"
-              >
-                <el-input
-                    :placeholder="'请输入'+item.label"
-                    type="textarea"
-                    v-model="formProps[item.fieldName]"
-                />
-              </el-form-item>
-            </template>
-          </template>
-          <template v-else-if="currentItemType" v-for="(item) in fieldList">
-            <el-form-item :label="item.label" :prop="item.fieldName" :required="item.required=='Y'"
-                          :rules="[{required: item.required=='Y', message: '必填项不能为空', trigger: 'blur'}]">
-              <el-input
-                  v-if="item.fieldType==='input'"
-                  :placeholder="'请输入'+item.label"
-                  v-model="formProps[item.fieldName]"/>
-              <el-radio-group v-model="formProps[item.fieldName]" v-if="item.fieldType==='radio'">
-                <el-radio :label="data" :value="data" v-for="data in JSON.parse(item.selectValues)"/>
-              </el-radio-group>
-              <el-checkbox-group v-model="formProps[item.fieldName]" v-if="item.fieldType==='checkbox'">
-                <el-checkbox :label="data" :value="data" v-for="data in JSON.parse(item.selectValues)"/>
-              </el-checkbox-group>
-              <el-input-number v-if="item.fieldType==='number'" :placeholder="'请输入'+item.label" v-model=
-                  "formProps[item.fieldName]"/>
-              <el-switch v-if="item.fieldType==='switch'"
-                         :active-value="JSON.parse(item.selectValues)[0]"
-                         :inactive-value="JSON.parse(item.selectValues)[1]"
-                         active-text="是"
-                         inactive-text="否"
-                         v-model="formProps[item.fieldName]"
-              />
-              <el-button v-if="item.fieldType==='button'" @click="jsButtonClick(item.fieldName)">添加代码
-              </el-button>
-              <el-button v-if="item.fieldType==='config'" @click="configParams(item)">参数配置
-              </el-button>
-              <el-button v-if="item.fieldType==='data'" @click="dataSource(formProps['itemType'])">添加数据源
-              </el-button>
-              <el-select v-model="formProps[item.fieldName]" v-if="item.fieldType==='select'">
-                <el-option :label="data.name||data" :value="data.value||data"
-                           v-for="data in JSON.parse(item.selectValues)"/>
-              </el-select>
-              <el-input v-if="item.fieldType==='textarea'"
-                        :placeholder="'请输入'+item.label"
-                        type="textarea" v-model="formProps[item.fieldName]"/>
-            </el-form-item>
-          </template>
-          <el-form-item prop="dataRelation" label="数据联动" v-if="Object.keys(currentField).length>0">
-            <el-button @click="condifRelationPolicy">配置联动策略</el-button>
-          </el-form-item>
-          <template v-if="currentField?.itemType==='checkbox'||currentField?.itemType==='radio'">
-            <el-table
-                :data="formProps.values"
-                :fit=true
-                :size="compSize"
-                :row-class-name="rowClassName">
-              <el-table-column label="显示名称" prop="name">
-                <template #default="scope">
-                  <el-input v-model="scope.row.label"/>
-                </template>
-              </el-table-column>
-              <el-table-column label="值" prop="value">
-                <template #default="scope">
-                  <el-input v-model="scope.row.value"/>
-                </template>
-              </el-table-column>
-              <el-table-column
-                  align="center"
-                  prop="oper"
-                  label="操作"
-                  width="60px">
-                <template #default="scope">
-                <span
-                    @click="handelDeleteItem(scope.row)"
-                    class="oper-btn"
-                    title="删除"
-                    v-if="formProps.values?.length>1">
-											<star-horse-icon icon-class="delete" style="color:indianred"/>
-										</span>
-                </template>
-              </el-table-column>
-            </el-table>
-            <div class="add-row" @click="handelAddItem">
-              <star-horse-icon icon-class="plus" color="var(--star-horse-style)"/>
-              加一行
-            </div>
-          </template>
-
-        </el-collapse-item>
-        <el-collapse-item name="2">
-          <template #title>
-            <div class="collapse-item-title title">
-              <div style="width: 80%">其他属性</div>
-              <star-horse-icon icon-class="advance_preps" style="color: var(--star-horse-style)"/>
-            </div>
-          </template>
-          <template v-if="currentCompCategory==='container'">
-          </template>
-          <template v-if="currentItemType" v-for="(item) in advancedFieldList">
-            <el-form-item
-                :label="item.label"
-                :prop="item.fieldName"
-                :rules="[{required: item.required=='Y'||item.required, message: '必填项不能为空', trigger: 'blur'}]"
-                :required="item.required=='Y'||item.required">
-              <el-input v-if="item.fieldType==='input'"
-                        :placeholder="'请输入'+item.label" v-model="formProps[item.fieldName]"/>
-              <el-radio-group v-model="formProps[item.fieldName]" v-if="item.fieldType==='radio'">
-                <el-radio :label="data" :value="data" v-for="data in JSON.parse(item.selectValues)"/>
-              </el-radio-group>
-              <el-checkbox-group v-model="formProps[item.fieldName]" v-if="item.fieldType==='checkbox'">
-                <el-checkbox :label="data" :value="data" v-for="data in JSON.parse(item.selectValues)"/>
-              </el-checkbox-group>
-              <el-input-number v-if="item.fieldType==='number'"
-                               :placeholder="'请输入'+item.label"
-                               v-model="formProps[item.fieldName]"/>
-              <el-switch v-if="item.fieldType==='switch'"
-                         :active-value="JSON.parse(item.selectValues)[0]"
-                         :inactive-value="JSON.parse(item.selectValues)[1]"
-                         active-text="是"
-                         inactive-text="否"
-                         v-model="formProps[item.fieldName]"/>
-              <el-button v-if="item.fieldType==='button'" @click="jsButtonClick(item.fieldName)">添加代码
-              </el-button>
-              <el-button v-if="item.fieldType==='config'" @click="configParams(item)">参数配置
-              </el-button>
-              <el-select v-model="formProps[item.fieldName]" v-if="item.fieldType==='select'">
-                <el-option :label="data.name||data" :value="data||data.value"
-                           v-for="data in JSON.parse(item.selectValues)"/>
-              </el-select>
-              <el-input v-if="item.fieldType==='textarea'"
-                        :placeholder="'请输入'+item.label" type="textarea" v-model="formProps[item.fieldName]"/>
-            </el-form-item>
-          </template>
-        </el-collapse-item>
-        <el-collapse-item name="3">
-          <template #title>
-            <div class="collapse-item-title title">
-              <div style="width: 80%">自定义事件</div>
-              <star-horse-icon icon-class="event-action" style="color: var(--star-horse-style)"/>
-            </div>
-          </template>
-          <template v-if="currentCompCategory==='container'">
-          </template>
-          <template
-              v-else-if="currentItemType"
-              v-for="(item) in actions">
-            <el-form-item
-                :label="item.label"
-                :prop="item.actionName"
-                v-if="item.fieldType==='button'">
-              <el-button
-                  @click="jsButtonClick(item.actionName)">
-                <star-horse-icon icon-class="code" size="16px" style="color: var(--star-horse-style)"/>
-                编辑事件代码
-              </el-button>
-            </el-form-item>
-          </template>
-        </el-collapse-item>
-      </el-collapse>
-    </el-scrollbar>
-  </el-form>
+  <div class="dynamic-form ">
+    <el-form
+        :model="formProps"
+        :rules="formRules"
+        class="dynamic-form"
+        ref="itemPropertiesRef"
+        :size="compSize"
+        label-position="left"
+    >
+      <star-horse-form-item :fieldList="formFields"
+                            :compSize="compSize"
+                            v-model:dataForm="formProps"/>
+    </el-form>
+  </div>
 </template>
 <style lang="scss" scoped>
+
 :deep(.el-collapse-item) {
   overflow: hidden;
 

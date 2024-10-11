@@ -32,6 +32,7 @@ const props = defineProps({
   primaryKey: {type: String},
   globalCondition: {type: Object},
   rules: {type: Object},
+  formSize: {type: String},
   dynamicForm: {type: Boolean, default: false},
   isView: {type: Boolean, default: false},
   selectData: {
@@ -324,7 +325,7 @@ defineExpose({
 </script>
 <template>
 
-  <el-form :model="dataForm" :size="compSize" :rules="rules"
+  <el-form :model="dataForm" :size="formSize||compSize" :rules="rules"
            :scroll-to-error="true"
            :scroll-into-view-options="true"
            :inline-message="true"
@@ -332,12 +333,11 @@ defineExpose({
            label-position="right"
            label-width="auto"
            class="data-form" ref="starHorseFormRef">
-    {{ dataForm }}
     <star-horse-form-item :primaryKey="primaryKey"
                           :compUrl="compUrl"
                           :fieldList="fieldList"
                           :rules="rules"
-                          :compSize="compSize"
+                          :compSize="formSize||compSize"
                           v-model:dataForm="dataForm"
                           :isView="isView"
                           :batchName="batchName"

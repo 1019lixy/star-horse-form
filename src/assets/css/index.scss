@@ -138,6 +138,10 @@ a {
   width: 100%;
 }
 
+.el-form-item__label-wrap {
+  margin-left: unset !important;
+}
+
 .system-icon {
   list-style: none;
   height: 150px;
@@ -785,6 +789,7 @@ button.el-collapse-item__header {
 
   .el-collapse-item__arrow {
     width: 5% !important;
+    margin:0 8px 0 5px !important;
   }
 
 }

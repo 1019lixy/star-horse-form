@@ -289,6 +289,7 @@ declare module 'vue' {
     StarHorseHmenu: typeof import('./src/components/comp/StarHorseHmenu.vue')['default']
     StarHorseIcon: typeof import('./src/components/comp/StarHorseIcon.vue')['default']
     StarHorseItem: typeof import('./src/components/comp/StarHorseItem.vue')['default']
+    StarHorseJsonEditor: typeof import('./src/components/comp/StarHorseJsonEditor.vue')['default']
     StarHorsePopover: typeof import('./src/components/comp/StarHorsePopover.vue')['default']
     StarHorseSearchComp: typeof import('./src/components/comp/StarHorseSearchComp.vue')['default']
     StarHorseStaticTable: typeof import('./src/components/comp/StarHorseStaticTable.vue')['default']

@@ -48,7 +48,7 @@ app.use(piniaInstance);
 app.use(router);
 VMEditor.use(vuepressTheme, {
     Prism,
-    Hljs:hljs
+    Hljs: hljs
 });
 app.use(VMEditor);
 app.use(ElementPlus, {

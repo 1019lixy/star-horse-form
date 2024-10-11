@@ -4,7 +4,10 @@
                      @merge="selectItem"
                      @resetForm="resetForm"
                      @closeAction="closeAction">
-    <star-horse-form :field-list="jsonTableField" ref="jsonFormRef"/>
+    <div class="dialog-body">
+      <star-horse-json-editor v-if="field.preps['devType']=='Y'" v-model:modelValue="jsonArray" style="height: 100vh"/>
+      <star-horse-form v-else :field-list="jsonTableField" ref="jsonFormRef"/>
+    </div>
   </star-horse-dialog>
   <starhorse-form-item :isDesign="context.attrs['isDesign']" :bareFlag="context.attrs['bareFlag']" :form-item="field"
                        :parentField="parentField"
@@ -45,9 +48,10 @@ import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import StarHorseForm from "@/components/comp/StarHorseForm.vue";
 import {allAction} from "@/components/formcomp/utils/ItemRelationEventUtils.ts";
+import StarHorseJsonEditor from "@/components/comp/StarHorseJsonEditor.vue";
 
 export default defineComponent({
-  components: {StarHorseForm, StarHorseIcon},
+  components: {StarHorseJsonEditor, StarHorseForm, StarHorseIcon},
   setup(_props, context) {
     const parentField = context.attrs["parentField"];
     const field = context.attrs["field"] as any;
@@ -55,6 +59,7 @@ export default defineComponent({
     let dataField = shallowRef("");
     let dialogInputVisible = shallowRef<boolean>(false);
     let jsonFormRef = shallowRef();
+    let jsonArray = shallowRef<Array<any>>([]);
     let jsonTableField = reactive<PageFieldInfo>({
       batchFieldList: [{
         batchName: "jsonDatas",
@@ -89,23 +94,29 @@ export default defineComponent({
       let formData: any = {};
       if (jsonStr) {
         formData["jsonDatas"] = JSON.parse(jsonStr);
+        jsonArray.value = formData["jsonDatas"];
       }
       dialogInputVisible.value = true;
       await nextTick();
-      jsonFormRef.value.setFormData(formData);
+      if (field.preps["devType"] != "Y") {
+        jsonFormRef.value.setFormData(formData);
+      }
     }
     const selectItem = async () => {
-      let flag = false;
-      await jsonFormRef.value.$refs.starHorseFormRef.validate((res: boolean) => {
-        flag = res
-      });
-      if (!flag) {
-        return;
+      if (field.preps["devType"] == "Y") {
+        context.attrs['formData'][field.preps['name']] = JSON.stringify(jsonArray.value, null, 4);
+      } else {
+        let flag = false;
+        await jsonFormRef.value.$refs.starHorseFormRef.validate((res: boolean) => {
+          flag = res
+        });
+        if (!flag) {
+          return;
+        }
+        let formData = jsonFormRef.value.getFormData().value;
+        let dataList = formData["jsonDatas"];
+        context.attrs['formData'][field.preps['name']] = JSON.stringify(dataList, null, 4);
       }
-      let formData = jsonFormRef.value.getFormData().value;
-      let dataList = formData["jsonDatas"];
-
-      context.attrs['formData'][field.preps['name']] = JSON.stringify(dataList, null, 4);
       closeAction();
     }
     const resetForm = () => {
@@ -119,7 +130,7 @@ export default defineComponent({
       itemAction(actionName.value)
     });
     return {
-      parentField, context, field, formItem, dataField, dynamicFunction, itemAction, actionName,
+      parentField, context, field, formItem, dataField, dynamicFunction, itemAction, actionName, jsonArray,
       dialogInputVisible, selectItem, closeAction, editJsonData, resetForm, jsonTableField, jsonFormRef
 
     }

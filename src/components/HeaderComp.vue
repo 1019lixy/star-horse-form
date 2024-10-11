@@ -186,17 +186,19 @@ let configInfo = computed(() => configStore.configFormInfo);
 <template>
   <star-horse-dialog :title="'编辑快捷菜单'" :dialog-props="dialogProps" :dialog-visible="dialogProps.bakeVisible1"
                      :self-func="true" @merge="batchMerge" @resetForm="shortcutReset">
-    <el-input style="width: 50%;" v-model="search" :size="configInfo.inputSize||'default'" placeholder="请输入关键字"
-              clearable>
-      <template #append>
-        <star-horse-icon icon-class="search" color="var(--star-horse-style)"/>
-      </template>
-    </el-input>
-    <star-horse-table-comp ref="shortcutMultipleTable" :field-list="fieldList" primaryKey="meta.title"
-                           :compUrl="dataUrl" :disableAction="true" :showPageBar="false"
-                           :dataFormat="dataFormat"
-                           :allowSelectParent="false" :expand="true" :reverseDataList="reverseDataList"
-                           :tableDataList="filterTableData"/>
+    <div class="dialog-body">
+      <el-input style="width: 50%;" v-model="search" :size="configInfo.inputSize||'default'" placeholder="请输入关键字"
+                clearable>
+        <template #append>
+          <star-horse-icon icon-class="search" color="var(--star-horse-style)"/>
+        </template>
+      </el-input>
+      <star-horse-table-comp ref="shortcutMultipleTable" :field-list="fieldList" primaryKey="meta.title"
+                             :compUrl="dataUrl" :disableAction="true" :showPageBar="false"
+                             :dataFormat="dataFormat"
+                             :allowSelectParent="false" :expand="true" :reverseDataList="reverseDataList"
+                             :tableDataList="filterTableData"/>
+    </div>
   </star-horse-dialog>
   <div class="star-horse-inner-header">
     <div :title="systemName" class="logo">

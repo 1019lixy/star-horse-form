@@ -141,11 +141,10 @@ const allAction = (context: any, actionName: string) => {
         default:
             console.log("不支持的事件：" + actionName);
     }
-
-    if (actionName == "input") {
+    const field = context.attrs["field"] as any;
+    if (actionName == "input" && actionName != field.preps["actionName"]) {
         return;
     }
-    const field = context.attrs["field"] as any;
     //处理自定义响应事件
     if (actionName == field.preps["actionName"] && field.preps["actionRelation"]) {
         field.preps["actionRelation"](context.attrs['formData'][field.preps['name']], context.attrs['formData']["xh"]);
