@@ -432,7 +432,7 @@ watch(() => formProps,
       </el-tabs>
     </div>
   </star-horse-dialog>
-  <div class="dynamic-form ">
+  <div class="dynamic-form" v-if="currentItemType">
     <el-form
         :model="formProps"
         :rules="formRules"
