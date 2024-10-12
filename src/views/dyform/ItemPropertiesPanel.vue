@@ -1,10 +1,11 @@
 <script setup lang="ts" name="ItemPropertiesPanel">
 import {computed, nextTick, onMounted, ref, unref, watch} from 'vue'
-import {searchMatchList} from "@/api/sh_api";
+import {formFieldMapping, isJson, searchMatchList} from "@/api/sh_api";
 import {SelectOption} from "@/components/types/SearchProps";
 import StarHorseEditor from "@/components/comp/StarHorseEditor.vue";
 import StarHorseForm from "@/components/comp/StarHorseForm.vue";
 import {
+  compCommonFields,
   containerField,
   createData,
   dataSourceFields,
@@ -16,7 +17,7 @@ import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
 import {error, success} from "@/utils/message.ts";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
-import {PageFieldInfo} from "@/components/types/PageFieldInfo";
+import {FieldInfo, PageFieldInfo} from "@/components/types/PageFieldInfo";
 import StarHorseFormItem from "@/components/comp/StarHorseFormItem.vue";
 
 let designForm = DesignForm(piniaInstance);
@@ -211,53 +212,92 @@ const assignPrep = async (itemType: string, isItem: boolean) => {
     }
   }
 };
+let relationComps = ref<Array<string>>(["select", "tselect", "switch", "autocomplete",
+  "checkbox", "radio", "cascade", "page-select", "dialog-input"]);
 let formFields = ref<PageFieldInfo>({
   fieldList: []
 });
-const parseSelectData = (item: any) => {
-  if (item["selectValues"]) {
-    item["optionList"] = [];
-    let datas = JSON.parse(item.selectValues);
-    for (let i in datas) {
-      let data: any = datas[i];
-      item["optionList"].push({
-        name: data.name || data,
-        value: data.value || data
-      })
+const parseSelectData = (items: any, type: string) => {
+  items.forEach((item: any) => {
+    item["formShow"] = true;
+    item["type"] = item["fieldType"];
+    item["required"] = item["required"] == 'Y';
+    if (item["selectValues"] && isJson(item["selectValues"])) {
+      item["optionList"] = [];
+      let datas = JSON.parse(item.selectValues);
+      for (let i in datas) {
+        let data: any = datas[i];
+        item["optionList"].push({
+          name: data.name || data,
+          value: data.value || data
+        })
+      }
     }
-  }
+    if (item["type"] == "button") {
+      switch (type) {
+        case "base":
+          item["actions"] = "";
+          break;
+        case "other":
+          item["actions"] = "";
+          break;
+        default:
+          item["actions"] = (data: any) => jsButtonClick(data, item.actionName);
+      }
+    }
+    if (item["type"] == "config") {
+      item["type"] = "button";
+      item["label"] = "参数配置";
+      item["actions"] = (data: any) => configParams(item.actionName);
+    }
+  });
 }
 const assignValue = (fieldInfo: any) => {
   try {
     let temp = JSON.parse(JSON.stringify(fieldInfo))
     currentField.value = temp;
-    temp.fields.forEach(item => {
-      item["formShow"] = true;
-      item["type"] = item["fieldType"];
-      item["required"] = item["required"] == 'Y';
-      parseSelectData(item);
-    });
-    if (currentCompCategory.value == "container" && currentItemType.value != 'table') {
-      temp.fields.splice(0, 0, {
-        label: "编辑容器属性",
-        fieldName: "rows",
-        type: "button",
-        actions: (data: any) => editContainerPrep(),
+    parseSelectData(temp.fields, "base");
+    parseSelectData(temp.advancedFields, "other");
+    parseSelectData(temp.actions, "action");
+    //如果是组件动态增加公共属性，公共属性不应该维护在数据库
+    //如果是select,checkbox,radio 等，增加联动属性
+    if (currentCompCategory.value == "container") {
+      if (currentItemType.value != 'table') {
+        temp.fields.splice(0, 0, {
+          label: "编辑容器属性",
+          fieldName: "rows",
+          type: "button",
+          actions: (data: any) => editContainerPrep(),
+          formShow: true,
+        });
+      }
+    } else {
+      let alen = temp.advancedFields.length || 1;
+      temp.fields.splice(0, 0, ...compCommonFields());
+      if (relationComps.value.includes(currentItemType.value)) {
+        temp.fields.splice(2, 0, {
+          label: "配置联动策略",
+          fieldName: "dataRelation",
+          type: "button",
+          actions: (data: any) => condifRelationPolicy(),
+          formShow: true,
+        });
+        temp.fields.splice(2, 0, {
+          label: "配置数据源",
+          fieldName: "dataSource",
+          type: "button",
+          actions: (data: any) => dataSource(formProps.value['itemType']),
+          formShow: true,
+        });
+      }
+      temp.advancedFields.splice(alen - 1, 0, {
+        label: "备注",
+        fieldName: "remark",
+        type: "textarea",
         formShow: true,
       });
     }
-    temp.advancedFields.forEach(item => {
-      item["formShow"] = true;
-      item["type"] = item["fieldType"];
-      item["required"] = item["required"] == 'Y';
-      parseSelectData(item);
-    });
-    temp.actions.forEach(item => {
-      item["formShow"] = true;
-      item["type"] = item["fieldType"];
-      item["actions"] = (data: any) => jsButtonClick(data, item.actionName);
-      item["required"] = item["required"] == 'Y';
-    });
+
     formFields.value.fieldList = [{
       fieldName: "base",
       collapseList: [{
@@ -277,10 +317,10 @@ const assignValue = (fieldInfo: any) => {
         fieldList: temp.actions
       }]
     }];
-    // console.log(temp);
-    // fieldList.value = temp.fields;
-    // advancedFieldList.value = temp.advancedFields;
-    // actions.value = temp.actions;
+    let defaultValues: any = formFieldMapping(formFields.value).defaultDatas;
+    for (let key in defaultValues) {
+      formProps.value[key] = defaultValues[key];
+    }
   } catch (e) {
     console.log(e)
   }

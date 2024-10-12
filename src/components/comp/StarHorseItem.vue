@@ -269,6 +269,7 @@ onMounted(() => {
   display: flex;
   justify-content: left;
   align-items: center;
+  margin: 5px auto;
 }
 
 .bare-comp {

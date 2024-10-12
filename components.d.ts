@@ -220,6 +220,7 @@ declare module 'vue' {
     JsonItem: typeof import('./src/components/formcomp/items/json-item.vue')['default']
     Junit: typeof import('./src/views/continus/nodeDetail/Junit.vue')['default']
     JunitReportUi: typeof import('./src/views/continus/JunitReportUi.vue')['default']
+    Knowledge: typeof import('./src/views/knowledge/index.vue')['default']
     LeftMenu: typeof import('./src/components/LeftMenu.vue')['default']
     Locale: typeof import('./src/components/Locale.vue')['default']
     Login: typeof import('./src/components/Login.vue')['default']

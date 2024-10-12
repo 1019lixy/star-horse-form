@@ -120,7 +120,11 @@ const operationRelation = (relation: any, actionName: string, formData: any, cur
  * @param context
  * @param actionName
  */
-const allAction = (context: any, actionName: string) => {
+const allAction = (context: any, actionName: string, isInit: boolean = false) => {
+    //设计时的初始化不作处理
+    if (context.attrs['isDesign'] && isInit) {
+        return;
+    }
     //处理连动
     switch (actionName) {
         case "change":
@@ -140,6 +144,7 @@ const allAction = (context: any, actionName: string) => {
             break;
         default:
             console.log("不支持的事件：" + actionName);
+            return;
     }
     const field = context.attrs["field"] as any;
     if (actionName == "input" && actionName != field.preps["actionName"]) {

@@ -33,10 +33,10 @@ export const useUserSelfOperation = defineStore("userSelfOperation", () => {
      * @param formItem
      */
     const addFormItem = (formItem: any) => {
-        if (!formItem) {
+        if (!formItem || (!formItem.fieldName && !formItem.preps?.name)) {
             return;
         }
-        fieldItemList.value[formItem.fieldName||formItem.preps.name] = formItem;
+        fieldItemList.value[formItem.fieldName || formItem.preps.name] = formItem;
     }
 
     /**
@@ -49,7 +49,7 @@ export const useUserSelfOperation = defineStore("userSelfOperation", () => {
         }
         for (const index in formItems) {
             const formItem = formItems[index];
-            fieldItemList.value[formItem.fieldName||formItem.preps.name] = formItem;
+            fieldItemList.value[formItem.fieldName || formItem.preps.name] = formItem;
         }
 
     }

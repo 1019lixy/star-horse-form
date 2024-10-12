@@ -653,9 +653,9 @@ export function formFieldMapping(fieldList: PageFieldInfo) {
                         })
                     }
                 })
-            } else if (temp['tabList']) {
+            } else if (temp['tabList'] || temp["collapseList"] || temp["cardList"]) {
                 //如果是tabList
-                const tabList = temp["tabList"] as Array<TabFieldInfo>;
+                const tabList = temp['tabList'] || temp["collapseList"] || temp["cardList"];
                 for (const index in tabList) {
                     const temp = tabList[index];
                     tabOperation(temp);
