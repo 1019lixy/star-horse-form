@@ -11,7 +11,7 @@ import piniaInstance from "@/store/index.ts";
 
 let designForm = DesignForm(piniaInstance);
 const starHorseTableCompRef = ref();
-let dataUrl = ref<ApiUrls>({});
+let dataUrl = ref<ApiUrls>(apiInstance("",""));
 const errorMsg = ref("数据加载中");
 let searchFormData = ref<SearchProps[]>();
 const tableFieldList = ref<any>({
@@ -42,7 +42,7 @@ const loadFormData = async (formId: string) => {
   }
   hasData.value = data && Object.keys(data).length > 0;
   console.log(hasData);
-  dataUrl.value = data["dataUrl"] as ApiUrls;
+  dataUrl.value = data["dataUrl"];
   searchFormData.value = data["searchFormData"] as SearchProps[];
   primaryKey.value = data["primaryKey"];
   tableFieldList.value = data["tableFieldList"] as PageFieldInfo;

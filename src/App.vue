@@ -4,7 +4,10 @@
         :particlesInit="particlesInit"
         :particlesLoaded="particlesLoaded"
         :options="particles"/>-->
-  <RouterView/>
+<!--  <el-watermark content="Star Horse Devops"></el-watermark>-->
+    <RouterView/>
+
+
 </template>
 <script lang="ts" setup>
 import {onMounted} from "vue";

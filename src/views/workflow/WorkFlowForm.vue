@@ -1,12 +1,3 @@
-<template>
-  <el-card class="inner_content">
-    <FlowNav :currentNav="currentData" @changeFlow="changeFlow" @click="publish" @change="change"/>
-    <BasicInfo ref="basicInfoRef" v-if="currentData==1"/>
-    <DynamicForm ref="basicInfoRef" v-if="currentData==2"/>
-    <UFlowDesign ref="flowDesignRef" :flowStyle="flowStyle" v-if="currentData==3"/>
-    <FlowSetting ref="flowSettingRef" v-if="currentData==4"/>
-  </el-card>
-</template>
 <script setup lang="ts">
 import {nextTick, onMounted, ref} from "vue";
 import FlowSetting from "@/views/workflow/plugin/FlowDesign/FlowSetting/index.vue"
@@ -70,7 +61,15 @@ onMounted(() => {
   init();
 });
 </script>
-
+<template>
+  <el-card class="inner_content">
+    <FlowNav :currentNav="currentData" @changeFlow="changeFlow" @click="publish" @change="change"/>
+    <BasicInfo ref="basicInfoRef" v-if="currentData==1"/>
+    <DynamicForm ref="basicInfoRef" v-if="currentData==2"/>
+    <UFlowDesign ref="flowDesignRef" :flowStyle="flowStyle" v-if="currentData==3"/>
+    <FlowSetting ref="flowSettingRef" v-if="currentData==4"/>
+  </el-card>
+</template>
 
 <style scoped lang="scss">
 

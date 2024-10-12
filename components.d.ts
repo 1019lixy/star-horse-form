@@ -169,6 +169,7 @@ declare module 'vue' {
     ElTree: typeof import('element-plus/es')['ElTree']
     ElTreeSelect: typeof import('element-plus/es')['ElTreeSelect']
     ElUpload: typeof import('element-plus/es')['ElUpload']
+    ElWatermark: typeof import('element-plus/es')['ElWatermark']
     End: typeof import('./src/views/workflow/plugin/FlowNode/End/index.vue')['default']
     EnvInfo: typeof import('./src/views/continus/nodeDetail/EnvInfo.vue')['default']
     EnvInfoUi: typeof import('./src/views/continus/EnvInfoUi.vue')['default']

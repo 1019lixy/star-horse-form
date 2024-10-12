@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {nextTick, onMounted, provide, reactive, ref, watch} from "vue";
-import {closeLoad, dialogPreps, load, loadGetData} from "@/api/sh_api";
+import {apiInstance, closeLoad, dialogPreps, load, loadGetData} from "@/api/sh_api";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {SearchProps} from "@/components/types/SearchProps";
 import {Config} from "@/api/settings.ts";
@@ -10,7 +10,7 @@ import piniaInstance from "@/store/index.ts";
 let designForm = DesignForm(piniaInstance);
 const normalPageRef = ref();
 let relationTables = ref<any>({});
-const dataUrl = ref<ApiUrls>({});
+let dataUrl = ref<ApiUrls>(apiInstance("userdb-manage", "consumer/api"));
 const errorMsg = ref("数据加载中");
 let searchFormData = ref<SearchProps[]>([]);
 const tableFieldList = ref<any>({fieldList: []});
@@ -37,7 +37,7 @@ const loadFormData = async (formId: string) => {
     return;
   }
   hasData.value = data && Object.keys(data).length > 0;
-  dataUrl.value = data["dataUrl"] as ApiUrls;
+  dataUrl.value = data["dataUrl"];
   searchFormData.value = data["searchFormData"] as SearchProps[];
   primaryKey.value = data["primaryKey"];
   tableFieldList.value = data["tableFieldList"];

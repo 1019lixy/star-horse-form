@@ -17,7 +17,7 @@ import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
 import {error, success} from "@/utils/message.ts";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
-import {FieldInfo, PageFieldInfo} from "@/components/types/PageFieldInfo";
+import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import StarHorseFormItem from "@/components/comp/StarHorseFormItem.vue";
 
 let designForm = DesignForm(piniaInstance);

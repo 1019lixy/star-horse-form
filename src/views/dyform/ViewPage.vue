@@ -10,6 +10,7 @@ import {Config} from "@/api/settings.ts";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
+import {ApiUrls} from "@/components/types/ApiUrls";
 
 let designForm = DesignForm(piniaInstance);
 const props = defineProps({
@@ -19,7 +20,7 @@ const props = defineProps({
 let configStore = GlobalConfig(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.inputSize || "default");
 
-const dataUrl = apiInstance("userdb-manage", "consumer/api");
+const dataUrl = ref<ApiUrls>(apiInstance("userdb-manage", "consumer/api"));
 dataUrl.exportAllUrl = `/userdb-manage/consumer/api/exportData/${props.param}`;
 const errorMsg = ref("数据加载中");
 let searchFormData = ref<SearchProps[]>([]);
@@ -116,9 +117,11 @@ onMounted(async () => {
         :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible"
         :dialogProps="dialogProps"
     >
-      <sh-dynamic-form @refresh="starHorseTableCompRef?.loadByPage()" :compUrl="dataUrl" :formInfo="formInfo"
-                       :fieldList=
-                           "tableFieldList.dynamicFormas" :rules="rules"/>
+      <div class="dialog-body">
+        <sh-dynamic-form @refresh="starHorseTableCompRef?.loadByPage()" :compUrl="dataUrl" :formInfo="formInfo"
+                         :fieldList=
+                             "tableFieldList.dynamicFormas" :rules="rules"/>
+      </div>
     </star-horse-dialog>
     <star-horse-dialog
         :dialog-visible="dialogProps.viewVisible"
