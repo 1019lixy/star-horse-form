@@ -370,65 +370,73 @@ onMounted(async () => {
 <template>
   <star-horse-dialog selfFunc="true" :dialogVisible="dialogProps.bakeVisible2" :title="'查看用户'" @resetForm=
       "resetForm" @merge="submit" :dialogProps="dialogProps" boxHeight="90%">
-    <UsersinfoUi :disableAction="true" :viewRolesinfoId="currentRoleId"/>
+    <div class="dialog-body">
+      <UsersinfoUi :disableAction="true" :viewRolesinfoId="currentRoleId"/>
+    </div>
   </star-horse-dialog>
   <star-horse-dialog selfFunc="true" :dialogVisible="dialogProps.bakeVisible3" title="分配用户" @resetForm=
       "userResetForm" @merge="userSubmit" :dialogProps="dialogProps" boxHeight="90%" boxWidth="1100px">
-    <UserTransfer ref="selectedUsersRef"/>
+    <div class="dialog-body">
+      <UserTransfer ref="selectedUsersRef"/>
+    </div>
   </star-horse-dialog>
   <star-horse-dialog self-func="true" :dialog-visible="dialogProps.batchEditVisible" :title="'系统权限'" @resetForm=
       "resetForm" @merge="systemSubmit" :dialogProps="dialogProps" boxHeight="90%" boxWidth="40%">
-    <el-card class="inner_content h100">
-      <el-input
-          v-model="query"
-          size="default"
-          clearable
-          placeholder="请输入关键字"
-          @keydown.enter="systemOnQueryChanged"
-      >
-        <template #append>
-          <star-horse-icon @click="systemOnQueryChanged" icon-class="search" color="var(--star-horse-style)"/>
-        </template>
-      </el-input>
-      <el-tree-v2 :height="700"
-                  :filter-method="filterMethod"
-                  check-on-click-node
-                  ref="systemAuthorityRef"
-                  :data="authorityMenusList"
-                  :props="{
+    <div class="dialog-body">
+      <el-card class="inner_content h100">
+        <el-input
+            v-model="query"
+            size="default"
+            clearable
+            placeholder="请输入关键字"
+            @keydown.enter="systemOnQueryChanged"
+        >
+          <template #append>
+            <star-horse-icon @click="systemOnQueryChanged" icon-class="search" color="var(--star-horse-style)"/>
+          </template>
+        </el-input>
+        <el-tree-v2 :height="700"
+                    :filter-method="filterMethod"
+                    check-on-click-node
+                    ref="systemAuthorityRef"
+                    :data="authorityMenusList"
+                    :props="{
       'value':'idMenusinfo',
       'key':'idMenusinfo',
       'label':'menuName',
       'children':'children'
     }" show-checkbox/>
-    </el-card>
+      </el-card>
+    </div>
   </star-horse-dialog>
   <star-horse-dialog self-func="true" :dialog-visible="dialogProps.bakeVisible1" :title="'菜单权限'" @resetForm=
       "resetForm" @merge="submit" :dialogProps="dialogProps" boxHeight="90%" boxWidth="40%">
-    <el-card class="inner_content h100">
-      <el-input
-          v-model="query"
-          size="default"
-          clearable
-          placeholder="请输入关键字"
-          @keydown.enter="onQueryChanged"
-      >
-        <template #append>
-          <star-horse-icon @click="onQueryChanged" icon-class="search" color="var(--star-horse-style)"/>
-        </template>
-      </el-input>
-      <el-tree-v2 :height="700"
-                  :filter-method="filterMethod"
-                  check-on-click-node
-                  ref="menuAuthorityRef"
-                  :data="authorityMenusList"
-                  :props="{
+    <div class="dialog-body">
+      <el-card class="inner_content h100">
+        <el-input
+            v-model="query"
+            size="default"
+            clearable
+            placeholder="请输入关键字"
+            @keydown.enter="onQueryChanged"
+        >
+          <template #append>
+            <star-horse-icon @click="onQueryChanged" icon-class="search" color="var(--star-horse-style)"/>
+          </template>
+        </el-input>
+        <el-tree-v2 :height="700"
+                    :filter-method="filterMethod"
+                    check-on-click-node
+                    ref="menuAuthorityRef"
+                    :data="authorityMenusList"
+                    :props="{
       'value':'idMenusinfo',
       'key':'idMenusinfo',
       'label':'menuName',
       'children':'children'
     }" show-checkbox/>
-    </el-card>
+      </el-card>
+    </div>
   </star-horse-dialog>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
     <star-horse-form :compUrl="dataUrl" :fieldList="tableFieldList" :rules="rules"/>
@@ -455,5 +463,4 @@ onMounted(async () => {
                            :compUrl="dataUrl"
                            :dataFormat="dataFormat"/>
   </el-card>
-
 </template>
