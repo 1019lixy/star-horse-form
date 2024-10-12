@@ -32,9 +32,7 @@ onMounted(() => {
       mode="horizontal"
       ellipsis
       :popper-offset="16"
-      text-color="var(--star-horse-white)"
-      active-text-color="#ffd04b"
-      background-color="#409eff">
+      >
     <SystemSubMenu :dataList="dataList"/>
   </el-menu>
 </template>
@@ -65,8 +63,11 @@ onMounted(() => {
 }
 
 .system-menu {
+  --el-menu-bg-color:#fff;
+  --el-menu-text-color:#eee;
+  --el-menu-active-color:#000;
   max-height: 50px;
-  background-color: unset;
+  background-color: unset !important;
   width: 100%;
   border-bottom: unset !important;
   color: var(--star-horse-white);
