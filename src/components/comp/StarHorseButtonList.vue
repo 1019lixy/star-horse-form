@@ -18,7 +18,7 @@ const props = defineProps({
   viewFlag: {type: Boolean, default: false},
   //自定义按钮
   extandBtns: {type: Array as PropType<UserFuncInfo[]>},
-  //与检查方法
+  //预检查方法,如果设置了预检查方法，必须要检查通过后，按钮事件才能继续往下执行
   preValidFunc: {type: Object, default: {}}
 });
 const emits = defineEmits([
@@ -195,22 +195,25 @@ defineExpose({
       <template v-if="item.children&&item.children.length>0">
         <el-dropdown :size="compSize" split-button
                      style="background: var(--star-horse-style);color: var(--star-horse-white)"
-                     placement="top-start">
+                     placement="top-start" v-if="permissions[item.authority]">
           <star-horse-icon :icon-class="item.icon" color="var(--star-horse-white)"/>
           {{ item.btnName }}
           <template #dropdown>
             <el-dropdown-menu>
-              <el-dropdown-item v-for="sitem in item.children">
-                <el-button @click="sitem.funcName(sitem.btnName)" link title=""
-                           style="background: var(--star-horse-style);color: var(--star-horse-white)"
-                           :size="compSize">
-                  <star-horse-icon :icon-class="item.icon||'edit'"
-                                   :color="item.authority=='delete'||item.authority=='batchDelete'?'var(--el-style-danger)': 'var(--star-horse-style)'"
-                  />
-                  {{ sitem.btnName }}
-                </el-button>
-                <help :message="sitem.helpMsg" v-if="sitem.helpMsg"/>
-              </el-dropdown-item>
+              <template v-for="sitem in item.children">
+                <el-dropdown-item v-if="permissions[sitem.authority]">
+                  <el-button @click="sitem.funcName(sitem.btnName)" link title=""
+                             style="background: var(--star-horse-style);color: var(--star-horse-white)"
+                             :size="compSize">
+                    <star-horse-icon :icon-class="item.icon||'edit'"
+                                     :color="item.authority=='delete'||item.authority=='batchDelete'?'var(--el-style-danger)'
+                                     : 'var(--star-horse-style)'"
+                    />
+                    {{ sitem.btnName }}
+                  </el-button>
+                  <help :message="sitem.helpMsg" v-if="sitem.helpMsg"/>
+                </el-dropdown-item>
+              </template>
             </el-dropdown-menu>
           </template>
         </el-dropdown>
@@ -241,7 +244,8 @@ defineExpose({
           <el-button v-else @click="item.funcName(item.authority)" title=""
                      style="background: var(--star-horse-style);color: var(--star-horse-white)" :size="compSize">
             <star-horse-icon :icon-class="item.icon||'edit'"
-                             :color="item.authority=='delete'||item.authority=='batchDelete'?'var(--el-style-danger)': 'var(--star-horse-style)'"
+                             :color="item.authority=='delete'||item.authority=='batchDelete'?'var(--el-style-danger)'
+                             : 'var(--star-horse-style)'"
             />
             <el-tooltip content="新增">新增</el-tooltip>
           </el-button>
@@ -255,18 +259,21 @@ defineExpose({
       <template #title> 操作</template>
       <template v-for="(item,index) in buttonList">
         <template v-if="item.children&&item.children.length>0">
-          <el-sub-menu :index="'2-'+index">
+          <el-sub-menu :index="'2-'+index" v-if="permissions[item.authority]">
             <template #title>
               {{ item.btnName }}
             </template>
-            <el-menu-item :index="'3-'+index+'-'+sindex" v-for="(sitem,sindex) in item.children"
-                          @click="sitem.funcName(sitem.authority)">
-              <star-horse-icon :icon-class="item.icon||'edit'"
-                               :color="item.authority=='delete'||item.authority=='batchDelete'?'var(--el-style-danger)': 'var(--star-horse-style)'"
-                               size="14px"/>
-              {{ sitem.btnName }}
-              <help :message="sitem.helpMsg" v-if="sitem.helpMsg"/>
-            </el-menu-item>
+            <template v-for="(sitem,sindex) in item.children">
+              <el-menu-item :index="'3-'+index+'-'+sindex"
+                            @click="sitem.funcName(sitem.authority)" v-if="permissions[sitem.authority]">
+                <star-horse-icon :icon-class="item.icon||'edit'"
+                                 :color="item.authority=='delete'||item.authority=='batchDelete'?'var(--el-style-danger)'
+                                 : 'var(--star-horse-style)'"
+                                 size="14px"/>
+                {{ sitem.btnName }}
+                <help :message="sitem.helpMsg" v-if="sitem.helpMsg"/>
+              </el-menu-item>
+            </template>
           </el-sub-menu>
         </template>
         <template v-else>
