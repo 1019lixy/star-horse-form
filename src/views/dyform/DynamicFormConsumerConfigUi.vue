@@ -3,7 +3,7 @@ import {apiInstance, dialogPreps} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {onMounted, provide, reactive, ref} from "vue";
 import {SearchFields, SelectOption} from "@/components/types/SearchProps";
-import {PageFieldInfo} from "@/components/types/PageFieldInfo";
+import {PageFieldInfo, UserFuncInfo} from "@/components/types/PageFieldInfo";
 import {dictData} from "@/api/sh_api";
 import {useRouter} from "vue-router";
 import {BtnAuth} from "@/components/types/BtnAuth";
@@ -154,7 +154,8 @@ const rules = {};
 const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 
-const selfBtnFunc = ref<BtnAuth[]>([]);
+const selfBtnFunc = ref<UserFuncInfo[]>([]);
+const expandBtns = ref<UserFuncInfo[]>([]);
 const closeAction = () => {
   dialogProps.bakeVisible1 = false;
   currentRow.value = {};
@@ -163,21 +164,27 @@ const closeAction = () => {
 const initData = async () => {
   viewTypeList.value = await dictData("consumer_type");
   selfBtnFunc.value?.push({
-    labelName: "新增",
-    btnName: "add", exec: () => {
+    btnName: "新增",
+    icon: "add",
+    authority:"add",
+    funcName: () => {
       router.push("/dyform/DataConsumerConfig");
     }
   });
-  selfBtnFunc.value?.push({
-    labelName: "编辑",
-    btnName: "edit", exec: (params: any) => {
+  expandBtns.value?.push({
+    btnName: "编辑",
+    icon: "edit",
+    authority:"edit",
+    funcName: (params: any) => {
       //params 页面刷新后 参数丢失，query 页面刷新后参数不会丢失
       router.push({path: "/dyform/DataConsumerConfig", query: {configId: params[primaryKey]}});
     }
   });
-  selfBtnFunc.value?.push({
-    labelName: "查看详情",
-    btnName: "view", exec: (params: any) => {
+  expandBtns.value?.push({
+    btnName: "查看详情",
+    icon: "view",
+    authority:"view",
+    funcName: (params: any) => {
       router.push({path: "/dyform/DataConsumerConfig", query: {configId: params[primaryKey], isView: "Y"}});
     }
   });
@@ -231,12 +238,12 @@ const dataFormat = (name: string, cellValue: any, _row: any): any => {
       <hr/>
       <star-horse-button-list
           @tableCompFunc="(fun:any)=>dynamicFormConsumerConfigRef.tableCompFunc(fun)"
-          :selfBtnFunc="selfBtnFunc" :compUrl="dataUrl"
+          :extandBtns="selfBtnFunc" :compUrl="dataUrl"
           :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
     <star-horse-table-comp ref="dynamicFormConsumerConfigRef" :fieldList="tableFieldList"
                            :primaryKey="primaryKey"
                            :compUrl="dataUrl"
-                           :dataFormat="dataFormat" :selfBtnFunc="selfBtnFunc"/>
+                           :dataFormat="dataFormat" :extandBtns="expandBtns"/>
   </el-card>
 </template>

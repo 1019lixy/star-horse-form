@@ -292,6 +292,18 @@ export declare interface UserFuncInfo {
      * 图标
      */
     icon?: string;
+    /**
+     * 优先级
+     */
+    priority?: number;
+    /**
+     * 帮助提示
+     */
+    helpMsg?: string;
+    /**
+     * 子节点
+     */
+    children?: UserFuncInfo[]
 }
 
 /**

@@ -5,7 +5,7 @@ import {Config} from "@/api/settings.ts";
 import {nextTick, onMounted, provide, reactive, ref} from "vue";
 import {SearchFields, SelectOption} from "@/components/types/SearchProps";
 import {loadDepartmentInfo, loadMenusInfo, loadSystemInfo} from "@/api/sh_api";
-import {PageFieldInfo} from "@/components/types/PageFieldInfo";
+import {PageFieldInfo, UserFuncInfo} from "@/components/types/PageFieldInfo";
 import {BtnAuth} from "@/components/types/BtnAuth";
 import {success, warning} from "@/utils/message";
 import {loadRolesMenus} from "@/api/roles";
@@ -21,7 +21,7 @@ let departmentList = ref<SelectOption[]>([]);
 let systemList = ref<SelectOption[]>([]);
 let menusList = ref([]);
 let authorityMenusList = ref([]);
-let selfBtnFunc = ref<BtnAuth[]>([]);
+let selfBtnFunc = ref<UserFuncInfo[]>([]);
 const starHorseTableCompRef = ref(null);
 let currentRoleId = ref<number>(0);
 // 0 普通角色 1高级角色 2普通管理员 3 超级管理员 默认 0
@@ -322,41 +322,41 @@ const initData = async () => {
   departmentList.value = await loadDepartmentInfo(params);
   systemList.value = await loadSystemInfo(params);
   selfBtnFunc.value.push({
-    btnName: "auth",
-    labelName: "授权",
+    authority: "auth",
+    btnName: "授权",
     icon: "card",
     children: [
       {
-        labelName: "系统权限",
-        btnName: "systemAuth",
-        exec: systemAuthority
+        btnName: "系统权限",
+        authority: "systemAuth",
+        funcName: systemAuthority
       },
       {
-        labelName: "菜单权限",
-        btnName: "menuAuth",
-        exec: menuAuthority
+        btnName: "菜单权限",
+        authority: "menuAuth",
+        funcName: menuAuthority
       },
       {
-        labelName: "按钮权限",
-        btnName: "buttonAuth",
-        exec: btnAuthority
+        btnName: "按钮权限",
+        authority: "buttonAuth",
+        funcName: btnAuthority
       },
     ]
   });
   selfBtnFunc.value.push({
-    btnName: "user",
+    authority: "user",
     icon: "user-edit",
-    labelName: "用户",
+    btnName: "用户",
     children: [
       {
-        labelName: "查看用户",
-        btnName: "viewUser",
-        exec: viewUsers
+        btnName: "查看用户",
+        authority: "viewUser",
+        funcName: viewUsers
       },
       {
-        labelName: "分配用户",
-        btnName: "grantRowToUser",
-        exec: addUsers
+        btnName: "分配用户",
+        authority: "grantRowToUser",
+        funcName: addUsers
       }
     ]
   });
@@ -392,7 +392,7 @@ onMounted(async () => {
       </el-input>
       <el-tree-v2 :height="700"
                   :filter-method="filterMethod"
-                  check-on-click-node="true"
+                  check-on-click-node
                   ref="systemAuthorityRef"
                   :data="authorityMenusList"
                   :props="{
@@ -419,7 +419,7 @@ onMounted(async () => {
       </el-input>
       <el-tree-v2 :height="700"
                   :filter-method="filterMethod"
-                  check-on-click-node="true"
+                  check-on-click-node
                   ref="menuAuthorityRef"
                   :data="authorityMenusList"
                   :props="{
@@ -446,7 +446,7 @@ onMounted(async () => {
       <hr/>
       <star-horse-button-list
           @tableCompFunc="(fun:any)=>starHorseTableCompRef.tableCompFunc(fun)" :compUrl="dataUrl"
-          :selfBtnFunc="selfBtnFunc"
+          :extandBtns="selfBtnFunc"
           :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
     <hr>

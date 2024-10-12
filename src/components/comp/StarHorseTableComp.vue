@@ -1,6 +1,6 @@
 <script lang="ts" setup name="StarHorseTableComp">
 import {ApiUrls} from "@/components/types/ApiUrls";
-import {computed, inject, onMounted, PropType, reactive, ref, unref, watch} from "vue";
+import {computed, inject, onMounted, onUpdated, PropType, reactive, ref, unref, watch} from "vue";
 import {download, postRequest} from "@/api/star_horse";
 import {PageProps} from "@/components/types/PageProps";
 import {closeLoad, createCondition, deleteByIds, isJson, load,} from "@/api/sh_api";
@@ -32,8 +32,6 @@ const props = defineProps({
   dataFormat: {type: Function, default: null},
   /*  //按钮大小
     compSize: {type: String, default: "default"},*/
-  //自定义按钮事件
-  selfBtnFunc: {type: Array as PropType<BtnAuth[]>, default: null},
   //禁用事件
   disableAction: {type: Boolean, default: false},
   //弹窗模式
@@ -90,14 +88,19 @@ let orderBys = reactive<Array<OrderByInfo>>([]);
 let fieldVisible = ref<boolean>(false);
 let dialogProps = inject("dialogProps") as DialogProps;
 let toolFields = reactive<Array<any>>([]);
-const tableCompFunc = (func: any) => {
-  if (func == "refresh") {
+/**
+ * 按钮区域派发过来的事件
+ * @param authority 权限编码
+ */
+const tableCompFunc = (authority: any) => {
+  if (authority == "refresh") {
     loadByPage();
-  } else if (func == "batch_delete") {
+  } else if (authority == "batchDelete") {
     batchDelete();
-  } else if (func == "exportData") {
+  } else if (authority == "export") {
     exportData();
-  } else if (func == "exec") {
+  } else if (authority == "execution") {
+    console.log("你点击了执行按钮")
   }
 };
 const exportData = () => {
@@ -152,9 +155,7 @@ const getIds = () => {
  * 批量删除
  */
 const batchDelete = async () => {
-  load("数据处理中");
   await deleteById(getIds());
-  closeLoad();
 };
 /**
  * 创建查询条件
@@ -247,9 +248,7 @@ const moveColumn = () => {
     });
   }
 };
-onMounted(() => {
-  init();
-});
+
 const editData = (row: any, _column: any, evt: Event) => {
   evt.stopPropagation();
   let id = getRowIdentity(row);
@@ -339,18 +338,13 @@ const getRowIdentity = (row: any) => {
 };
 
 const tbCommonFun = (name: string, param: any) => {
-  let data: any = props.selfBtnFunc && props.selfBtnFunc.find((item) => item.btnName == name);
-  if (data) {
-    data["exec"](param);
-  } else {
-    let id = analysisPrimaryKeys(props.primaryKey, param);
-    if (name == "view") {
-      viewById(id);
-    } else if (name == "edit") {
-      editById(id);
-    } else if (name == "delete") {
-      deleteById(id);
-    }
+  let id = analysisPrimaryKeys(props.primaryKey, param);
+  if (name == "view") {
+    viewById(id);
+  } else if (name == "edit") {
+    editById(id);
+  } else if (name == "delete" || name == "batchDelete") {
+    deleteById(id);
   }
 };
 /**
@@ -545,6 +539,7 @@ const selectRow = (row: any, _column: any, evt: Event) => {
   emits("selectItem", row);
 };
 
+let buttonList = ref<UserFuncInfo[]>([]);
 /**
  * 扩展按钮
  */
@@ -558,6 +553,40 @@ const extandBtnFunction = (): Array<UserFuncInfo> => {
   if (props.fieldList["userTableFuncs"]) {
     arr.push(...props.fieldList["userTableFuncs"]);
   }
+  if (!props.disableAction) {
+    let edit = arr.filter(item => item.authority == "edit")?.length;
+    if (!edit) {
+      arr.push({
+        authority: "edit",
+        btnName: "编辑",
+        icon: "edit",
+        priority: 10,
+        funcName: (row: any) => tbCommonFun("edit", row)
+      });
+    }
+    let view = arr.filter(item => item.authority == "view")?.length;
+    if (!view) {
+      arr.push({
+        authority: "view",
+        btnName: "查看",
+        priority: 20,
+        icon: "data-view",
+        funcName: (row: any) => tbCommonFun("view", row)
+      });
+    }
+    let del = arr.filter(item => item.authority == "delete")?.length;
+    if (!del) {
+      arr.push({
+        authority: "delete",
+        btnName: "删除",
+        priority: 30,
+        icon: "delete",
+        funcName: (row: any) => tbCommonFun("delete", row)
+      });
+    }
+  }
+  //如果没有指定优先级，排序时就按照默认累加方式处理
+  arr.sort((a: UserFuncInfo, b: UserFuncInfo) => (a.priority || 40) - (b.priority || 40));
   return arr;
 }
 /**
@@ -579,7 +608,7 @@ const setCondition = (cond: SearchParams[], orderBy: OrderByInfo[]) => {
 const expandCommonFun = (name: string, row: any, parentRow: any) => {
   let func = props.expandTable?.extandFuncs?.find(item => item.authority == name);
   if (func && func.funcName) {
-    func.funcName(row, parentRow);
+    func.funcName!(row, parentRow);
   } else {
     let id = analysisPrimaryKeys(props.expandTable?.primaryKey, row);
     for (let key in id) {
@@ -597,8 +626,13 @@ const expandCommonFun = (name: string, row: any, parentRow: any) => {
       // console.log(id, row, parentRow);
     }
   }
-
 }
+onMounted(() => {
+  init();
+});
+onUpdated(() => {
+  buttonList.value = extandBtnFunction();
+})
 //导出方法和变量
 defineExpose({
   init,
@@ -756,21 +790,19 @@ defineExpose({
         :width="160"
     >
       <template #default="scope">
-        <el-tooltip content="编辑">
-          <star-horse-icon v-if="permissions?.edit" @click="tbCommonFun('edit', scope.row)" icon-class="edit"/>
-        </el-tooltip>
-        <el-tooltip content="查看">
-          <star-horse-icon v-if="permissions?.view" @click="tbCommonFun('view', scope.row)" icon-class="data-view"/>
-        </el-tooltip>
-
-        <template v-if="extandBtnFunction().length > 0">
+        <template v-if="buttonList.length > 3">
+          <el-tooltip :content="item.btnName" v-for="item in buttonList.slice(0,3)">
+            <star-horse-icon v-if="permissions[item.authority!]" @click="item.funcName!(scope.row)"
+                             :icon-class="item.icon||'edit'"
+                             :color="item.authority=='delete'?'var(--el-color-danger)':'var(--star-horse-style)'"/>
+          </el-tooltip>
           <el-dropdown>
               <span class="el-dropdown-link">
       <star-horse-icon icon-class="ellipsis" style="color: var(--star-horse-style)"/>
     </span>
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item v-for="auth in extandBtnFunction()"
+                <el-dropdown-item v-for="auth in buttonList.slice(3,buttonList.length)"
                                   :v-if="permissions[auth.authority!]">
                   <el-button
                       @click="auth.funcName(scope.row)"
@@ -779,20 +811,9 @@ defineExpose({
                       style="color: var(--star-horse-style)"
                       :size="compSize"
                   >
-                    <star-horse-icon :icon-class="auth.icon||'edit'"/>
+                    <star-horse-icon :icon-class="auth.icon||'edit'"
+                                     :color="auth.authority=='delete'?'var(--el-color-danger)':'var(--star-horse-style)'"/>
                     {{ auth["btnName"] }}
-                  </el-button>
-                </el-dropdown-item>
-                <el-dropdown-item>
-                  <el-button
-                      v-if="permissions?.delete"
-                      @click="tbCommonFun('delete', scope.row)"
-                      link
-                      title=""
-                      type="danger"
-                      :size="compSize">
-                    <star-horse-icon color="var(--el-color-danger)" icon-class="delete"/>
-                    删除
                   </el-button>
                 </el-dropdown-item>
               </el-dropdown-menu>
@@ -800,10 +821,10 @@ defineExpose({
           </el-dropdown>
         </template>
         <template v-else>
-          <slot name="extend" :rowData="scope.row"/>
-          <el-tooltip content="删除">
-            <star-horse-icon v-if="permissions?.delete" color="var(--el-color-danger)"
-                             @click="tbCommonFun('delete', scope.row)" icon-class="delete"/>
+          <el-tooltip :content="item.btnName" v-for="item in buttonList">
+            <star-horse-icon v-if="permissions[item.authority]" @click="item.funcName(scope.row)"
+                             :icon-class="item.icon||'edit'"
+                             :color="item.authority=='delete'?'var(--el-color-danger)':'var(--star-horse-style)'"/>
           </el-tooltip>
         </template>
       </template>
@@ -815,7 +836,7 @@ defineExpose({
       <template #default="scope">
         <template v-for="auth in extandBtnFunction()">
           <el-tooltip :content="auth['btnName'] " :v-if="permissions[auth.authority!]">
-            <star-horse-icon @click.stop="auth.funcName(scope.row)" :icon-class="auth.icon||'edit'"
+            <star-horse-icon @click.stop="auth.funcName!(scope.row)" :icon-class="auth.icon||'edit'"
                              :color="auth.authority=='delete'?'var(--el-color-danger)':'var(--star-horse-style)'"/>
           </el-tooltip>
         </template>

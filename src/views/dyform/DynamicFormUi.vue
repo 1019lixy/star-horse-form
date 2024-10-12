@@ -3,7 +3,7 @@ import {apiInstance, dbConfigList, dialogPreps} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {computed, nextTick, onMounted, provide, reactive, ref} from "vue";
 import {SearchFields, SelectOption} from "@/components/types/SearchProps";
-import {PageFieldInfo} from "@/components/types/PageFieldInfo";
+import {PageFieldInfo, UserFuncInfo} from "@/components/types/PageFieldInfo";
 import {BtnAuth} from "@/components/types/BtnAuth";
 import {useRouter} from "vue-router";
 import {loadData} from "@/api/sh_api";
@@ -14,7 +14,7 @@ import piniaInstance from "@/store/index.ts";
 const router = useRouter();
 const dataUrl: ApiUrls = apiInstance("userdb-manage", "userdb/dynamicForm");
 let designForm = DesignForm(piniaInstance);
-let selfBtnFunc = ref<BtnAuth[]>([]);
+let selfBtnFunc = ref<UserFuncInfo[]>([]);
 let isPreview = ref<boolean>(false);
 let dataSource = ref<SelectOption[]>([]);
 const closeAction = () => {
@@ -133,7 +133,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     },
   ],
   userTableFuncs: [{
-    authority: "add", funcName: "addSubForm", btnName: "添加子表", funcName: (row) => {
+    authority: "add", funcName: "addSubForm", btnName: "添加子表", icon: "plus", priority: 1, funcName: (row) => {
       addSubForm(row);
     }
   }],
@@ -152,16 +152,20 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
   }
   return cellValue == "Y" ? "是" : cellValue == "N" ? "否" : cellValue;
 }
+let extandBtnList = ref<UserFuncInfo[]>([]);
 const initData = async () => {
   selfBtnFunc.value?.push({
-    labelName: "新增",
-    btnName: "add", exec: () => {
+    btnName: "新增",
+    icon: "add",
+    priority: 2,
+    authority: "add", funcName: () => {
       router.push("/dyform/DynamicForm");
     }
   });
   selfBtnFunc.value?.push({
-    labelName: "编辑",
-    btnName: "edit", exec: (params: any) => {
+    btnName: "编辑",
+    priority: 3,
+    authority: "edit", funcName: (params: any) => {
       //params 页面刷新后 参数丢失，query 页面刷新后参数不会丢失
       router.push({
         path: "/dyform/DynamicForm",
@@ -170,11 +174,13 @@ const initData = async () => {
     }
   });
   selfBtnFunc.value?.push({
-    labelName: "查看详情",
-    btnName: "view", exec: (params: any) => {
+    btnName: "查看详情",
+    priority: 4,
+    authority: "view", icon: "data-view", funcName: (params: any) => {
       loadFormData(params[primaryKey]);
     }
   });
+  extandBtnList.value = selfBtnFunc.value.slice(1, selfBtnFunc.value.length);
   dataSource.value = await dbConfigList();
 };
 onMounted(async () => {
@@ -220,13 +226,13 @@ onMounted(async () => {
                               :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
-      <star-horse-button-list @tableCompFunc="(fun:any)=>dynamicFormRef.tableCompFunc(fun)" :selfBtnFunc="selfBtnFunc"
+      <star-horse-button-list @tableCompFunc="(fun:any)=>dynamicFormRef.tableCompFunc(fun)" :extandBtns="selfBtnFunc"
                               :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
     <hr>
     <star-horse-table-comp ref="dynamicFormRef" :fieldList="tableFieldList" :primaryKey="primaryKey" :compUrl=
-        "dataUrl" :dataFormat="dataFormat" :selfBtnFunc="selfBtnFunc" :orderBy="[{
+        "dataUrl" :dataFormat="dataFormat" :extandBtns="extandBtnList" :orderBy="[{
           fieldName:'a.createdDate',ascOrDesc:'desc'
         }]"/>
   </el-card>

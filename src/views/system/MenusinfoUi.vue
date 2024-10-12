@@ -204,6 +204,7 @@ let extandBtns = ref<UserFuncInfo[]>([{
   btnName: "添加子菜单",
   authority: "add",
   icon: "plus",
+  priority:1,
   funcName: (row: any) => {
     dataForm.value["parentNo"] = row["dataNo"];
     dialogProps.editVisible = true;

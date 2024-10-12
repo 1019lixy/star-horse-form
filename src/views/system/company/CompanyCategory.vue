@@ -80,6 +80,7 @@ let extandBtns = ref<UserFuncInfo[]>([{
   btnName: "添加子节点",
   authority: "add",
   icon: "plus",
+  priority:1,
   funcName: (row: any) => {
     outerForm.value["parentId"] = row[primaryKey];
     dialogProps.editVisible = true;

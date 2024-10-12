@@ -78,7 +78,7 @@ const operationRelation = (relation: any, actionName: string, formData: any, cur
             continue;
         }
         let field = userOperation.getFormItem(fieldName);
-        console.log(userOperation.formFieldList.value, field, conditon, fieldName);
+        console.log(userOperation.formFieldList, field, conditon, fieldName);
         let params: any = temp.params;
         let matchType: string = temp.matchType;
         if (conditon == "query") {
@@ -87,7 +87,7 @@ const operationRelation = (relation: any, actionName: string, formData: any, cur
 
             let queryParams = field.preps["queryParams"];
             if (queryParams) {
-                queryParams = field.preps["queryParams"].filter(item => item.name != params);
+                queryParams = field.preps["queryParams"].filter((item:any) => item.name != params);
             }
             queryParams.push(cond);
             field.preps["queryParams"] = queryParams;
