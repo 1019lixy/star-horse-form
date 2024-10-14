@@ -28,6 +28,7 @@
 <script lang="ts">
 import {defineComponent, onMounted, shallowRef, unref} from "vue";
 import {loadElementPlusIcon} from "@/api/sh_api.ts";
+import {allAction} from "@/components/formcomp/utils/ItemRelationEventUtils.ts";
 
 export default defineComponent({
   methods: {loadElementPlusIcon},
@@ -54,7 +55,7 @@ export default defineComponent({
     onMounted(() => {
       actionName.value = field.preps["actionName"];
       if (!context.attrs["isSearch"]) {
-        itemAction(actionName.value);
+        allAction(context, actionName.value, true);
       }
     });
     return {

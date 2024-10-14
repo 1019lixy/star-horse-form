@@ -66,7 +66,7 @@ export default defineComponent({
       initData();
       actionName.value = field.preps["actionName"];
       if (!context.attrs["isSearch"]) {
-        itemAction(actionName.value);
+        allAction(context, actionName.value, true);
       }
     });
     return {

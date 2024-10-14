@@ -22,48 +22,48 @@ const primaryKey = "idEnvInfo";
 const flowDefinitionRef = ref();
 const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
-const extandBtns: UserFuncInfo[] = [{
-  authority: "exec",
-  funcName: (row: any) => {
-    console.log(row)
+const extandBtns: UserFuncInfo[] = [
+  {
+    icon: "edit",
+    btnName: "编辑",
+    authority: "edit",
+    funcName: (row: any) => {
+      router.push({path: "/workFlowEdit", query: {data: row}})
+    }
   },
-  btnName: "启动"
-}, {
-  authority: "edit",
-  funcName: (row: any) => {
-    console.log(row)
-  },
-  btnName: "发布"
-}, {
-  authority: "edit",
-  funcName: (row: any) => {
-    console.log(row)
-  },
-  btnName: "版本管理"
-}];
+  {
+    authority: "exec",
+    funcName: (row: any) => {
+      console.log(row)
+    },
+    btnName: "启动"
+  }, {
+    authority: "edit",
+    funcName: (row: any) => {
+      console.log(row)
+    },
+    btnName: "发布"
+  }, {
+    authority: "edit",
+    funcName: (row: any) => {
+      console.log(row)
+    },
+    btnName: "版本管理"
+  }];
 const selectItemFun = (_item: any) => {
 
 }
-const addBtnFunc: BtnAuth[] = [
+const addBtnFunc: UserFuncInfo[] = [
   {
     icon: "add",
-    labelName: "新建",
-    btnName: "add",
-    exec: () => {
+    btnName: "新建",
+    authority: "add",
+    funcName: () => {
       router.push({path: "/workFlowEdit"})
     }
   }
 ];
-const editBtnFunc: BtnAuth[] = [
-  {
-    icon: "edit",
-    labelName: "编辑",
-    btnName: "edit",
-    exec: (row: any) => {
-      router.push({path: "/workFlowEdit", query: {data: row}})
-    }
-  }
-];
+
 const dataFormat = (_name: string, cellValue: any): any => {
   return cellValue;
 }
@@ -90,13 +90,12 @@ onMounted(async () => {
       <hr/>
       <star-horse-button-list
           @tableCompFunc="(fun:any)=>flowDefinitionRef.tableCompFunc(fun)" :compUrl="dataUrl"
-          :selfBtnFunc="addBtnFunc"
+          :extandBtns="addBtnFunc"
           :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
     <star-horse-table-comp ref="flowDefinitionRef" :fieldList="flowFormFields"
                            :primaryKey="primaryKey"
                            :compUrl="dataUrl"
-                           :selfBtnFunc="editBtnFunc"
                            :extandBtns="extandBtns"
                            :dataFormat="dataFormat" @selectItem="selectItemFun"/>
   </el-card>

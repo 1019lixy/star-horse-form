@@ -215,6 +215,7 @@ export function dataSourceFields(dataSourceRef: Ref<any>, _recall: Function) {
                     required: true,
                     formShow: true,
                     tableShow: true,
+                    defaultValue: "data",
                     optionList: dataSourceList,
                     actionName: "change",
                     actions: (val: any) => {
@@ -822,7 +823,7 @@ export function relationDataField() {
                             required: true,
                             changeName: "change",
                             actions: (val: any) => {
-                               // matchType.value = false;
+                                // matchType.value = false;
                                 val["_matchTypeEditable"] = false;
                                 delete val["_paramsType"];
                                 let temp = val["controlCondition"];
@@ -852,7 +853,7 @@ export function relationDataField() {
                             optionList: searchMatchList(),
                             defaultValue: "eq",
                             required: false,
-                            disabled:"Y",
+                            disabled: "Y",
                             formShow: true,
                             tableShow: true,
                         }, {
@@ -869,5 +870,83 @@ export function relationDataField() {
             }
         ]
     });
+}
+
+/**
+ * 定义所有组件的公共属性
+ */
+export function compCommonFields(): FieldInfo[] {
+    return [
+        {
+            label: "标签名称",
+            fieldName: "label",
+            type: "input",
+            required: true,
+            formShow: true
+        },
+        {
+            label: "属性名称",
+            fieldName: "name",
+            required: true,
+            type: "input",
+            formShow: true
+        },
+        {
+            label: "表单显示",
+            fieldName: "formShow",
+            type: "switch",
+            defaultValue: "Y",
+            formShow: true
+        },
+        {
+            label: "查询显示",
+            fieldName: "searchShow",
+            type: "switch",
+            defaultValue: "N",
+            formShow: true
+        },
+        {
+            label: "列表显示",
+            fieldName: "tableShow",
+            type: "switch",
+            defaultValue: "Y",
+            formShow: true
+        },
+        {
+            label: "查看显示",
+            fieldName: "viewShow",
+            type: "switch",
+            defaultValue: "Y",
+            formShow: true
+        },
+        {
+            label: "隐藏标签",
+            fieldName: "hideLabel",
+            type: "switch",
+            defaultValue: "N",
+            formShow: true
+        },
+        {
+            label: "是否必须",
+            fieldName: "required",
+            type: "switch",
+            defaultValue: "N",
+            formShow: true
+        },
+        {
+            label: "全局禁用",
+            fieldName: "disabled",
+            type: "switch",
+            defaultValue: "N",
+            formShow: true
+        },
+        {
+            label: "修改禁用",
+            fieldName: "editDisabled",
+            type: "switch",
+            defaultValue: "N",
+            formShow: true
+        }
+    ];
 }
 

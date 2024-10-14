@@ -130,7 +130,7 @@ export default defineComponent({
       actionName.value = field.preps["actionName"];
       loadByPage();
       if (!context.attrs["isSearch"]) {
-        itemAction(actionName.value);
+        allAction(context, actionName.value, true);
       }
     });
     return {

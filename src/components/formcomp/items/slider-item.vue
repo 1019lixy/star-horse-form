@@ -42,7 +42,7 @@ export default defineComponent({
       allAction(context, "change");
     };
     onMounted(() => {
-      itemAction();
+      allAction(context, "change", true);
     })
     return {parentField, context, field, formItem, dataField, itemAction}
   }

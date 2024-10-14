@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {nextTick, onMounted, provide, reactive, ref, watch} from "vue";
-import {closeLoad, load, loadGetData} from "@/api/sh_api";
+import {apiInstance, closeLoad, load, loadGetData} from "@/api/sh_api";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {useRoute, useRouter} from "vue-router";
 import {navBarList} from "@/store/NavbarListStore";
@@ -12,20 +12,7 @@ const navBarListStore = navBarList();
 const router = useRouter();
 const starHorseTableCompRef = ref();
 const currentRoute = useRoute();
-const dataUrl = ref<ApiUrls>({
-  uploadUrl: "",
-  batchMergeDraftUrl: "",
-  batchMergeUrl: "",
-  deleteUrl: "",
-  downloadTemplateUrl: "",
-  exportAllUrl: "",
-  loadByIdUrl: "",
-  loadByPageUrl: "",
-  mergeDraftUrl: "",
-  mergeUrl: "",
-  importUrl: "",
-  userConditionUrl: ""
-});
+const dataUrl = ref<ApiUrls>(apiInstance("",""));
 const errorMsg = ref("数据加载中");
 let searchFormData = ref<SearchProps[]>();
 const tableFieldList = ref<PageFieldInfo>({
@@ -50,7 +37,7 @@ const loadFormData = async (formId: string) => {
     return;
   }
   hasData.value = data && Object.keys(data).length > 0;
-  dataUrl.value = data["dataUrl"] as ApiUrls;
+  dataUrl.value = data["dataUrl"];
   searchFormData.value = data["searchFormData"] as SearchProps[];
   primaryKey.value = data["primaryKey"];
   tableFieldList.value = data["tableFieldList"] as PageFieldInfo;

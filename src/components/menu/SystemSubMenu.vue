@@ -12,7 +12,7 @@ let menuColor = computed(() => props.level > 1 ? "var(--star-horse-shadow)" : "v
   <div v-if="level>1" style="height: 2px ;background: var(--star-horse-white)"></div>
   <template v-for="item in dataList">
 
-    <el-sub-menu v-if="item.children&&item.children.length>0" :index="item.idInformations"
+    <el-sub-menu popper-class="popper-class"  v-if="item.children&&item.children.length>0" :index="item.idInformations"
                  @click="loadMenuFun(item.idInformations)">
       <template #title>
         <el-icon class="star-icon">
@@ -39,7 +39,7 @@ let menuColor = computed(() => props.level > 1 ? "var(--star-horse-shadow)" : "v
 }
 
 .popper-class {
-  background: var(--star-horse-white);
+  background: var(--star-horse-white) !important;
 }
 
 .el-sub-menu {

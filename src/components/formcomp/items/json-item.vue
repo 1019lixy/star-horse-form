@@ -139,7 +139,9 @@ export default defineComponent({
     }
     onMounted(() => {
       actionName.value = field.preps["actionName"];
-      itemAction(actionName.value)
+      if (!context.attrs["isSearch"]) {
+        allAction(context, actionName.value, true);
+      }
     });
     return {
       parentField, context, field, formItem, dataField, dynamicFunction, itemAction, actionName, jsonObject,

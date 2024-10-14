@@ -8,6 +8,7 @@
 </template>
 <script lang="ts" name="markdown">
 import {defineComponent, onMounted, onUpdated, ref, shallowRef} from "vue";
+import {allAction} from "@/components/formcomp/utils/ItemRelationEventUtils.ts";
 
 
 export default defineComponent({
@@ -19,7 +20,7 @@ export default defineComponent({
     let dataField = shallowRef("");
     let markdownEditor = ref();
     const itemAction = () => {
-      context.emit('selfFunc');
+     allAction(context,"change")
     };
     const init = async () => {
 

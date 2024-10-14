@@ -134,7 +134,8 @@ provide("dialogProps", dialogProps);
 let extandBtns = ref<UserFuncInfo[]>([{
   btnName: "添加子部门",
   authority: "add",
-  icon: "user-add",
+  icon: "add-dept",
+  priority: 1,
   funcName: async (row: any) => {
     outerForm.value["parentDept"] = row[primaryKey];
     dialogProps.editVisible = true;

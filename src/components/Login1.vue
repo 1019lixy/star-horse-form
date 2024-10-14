@@ -184,14 +184,17 @@ watch(
               <el-button link size="default"> {{ i18n("login.forget") }}</el-button>
             </el-col>
           </el-row>
-          <button
+          <el-form-item style="width: 100%;height: 50px">
+          <el-button
               :loading="loading"
               @click.stop="handleLogin(loginFormRef,$event)"
-              class="btn btnblock btn-lg btn-block btn-primary"
+              style="width: 100%;height:50px;font-size:16px;border:none;background: var(--star-horse-style);color: var(--star-horse-white)"
           >
             <span v-if="!loading">{{ i18n("loginButton.login") }}</span>
             <span v-else>{{ i18n("loginButton.logging") }}</span>
-          </button>
+          </el-button>
+          </el-form-item>
+
         </el-form>
 
 

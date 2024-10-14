@@ -278,6 +278,7 @@ onMounted(() => {
 <style lang="scss" scoped>
 .form-item-operation {
   width: 100%;
+
 }
 
 .active-item {
