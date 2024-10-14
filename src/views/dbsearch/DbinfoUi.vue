@@ -24,7 +24,7 @@ const tableFieldList = reactive({
       label: "数据库类型", fieldName: "dbType", type: "select", optionList: dbTypeList,
       required: true, formShow: true,
       actionName: "change", actions: (val: any) => {
-        val["port"] = dbTypeList.value.find(item => item.value == val["dbType"])?.port;
+        val["port"] = dbTypeList.value.find(item => item.value == val["dbType"])?.port || val["port"];
       },
       tableShow: true
     },

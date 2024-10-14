@@ -16,6 +16,7 @@ import HeaderComp from "@/components/HeaderComp.vue";
 import PageConfig from "@/components/PageConfig.vue";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import FixedMenu from "@/components/FixedMenu.vue";
+import ExtandMenu from "@/components/ExtandMenu.vue";
 
 let configStore = GlobalConfig(piniaInstance);
 const route = router.getRoutes().find(item => item.path == "/home");
@@ -67,10 +68,11 @@ let mainLeftAside = ref();
 let resizerRef = ref();
 const dragStart = (event: MouseEvent) => {
   // event.preventDefault();
+  event.stopPropagation();
   if (configInfo.value.menusCfg != 'tradition') {
     return;
   }
-  currentX.value = event.x;
+  currentX.value = event.clientX;
   dragging.value = true;
   document.onmousemove = (_e) => {
     if (_e.clientX % 2 == 0) {
@@ -113,7 +115,7 @@ const compDragging = (x: number) => {
     warning("隐藏状态不能拖动");
     return;
   }
-  let move = (currentX.value - x) / 50;
+  let move = (currentX.value - x)/50;
   outerIsCollapse.value = outerIsCollapse.value - move;
   //设置最小和最大宽带
   if (outerIsCollapse.value <= 64) {
@@ -146,6 +148,8 @@ const configInfo = computed(() => configStore.configFormInfo);
           </span>
           <FixedMenu :sysem-id="sysemId" :top="configInfo.shortCutMenus=='N'?'53px':'83px'"
                      v-if="configInfo.menusCfg=='fixed'"/>
+<!--          <extand-menu :sysem-id="sysemId" :is-collapse="!isCollapse"
+                     @collopseOperation="collopseOperation"/>-->
         </el-aside>
         <el-main class="star-horse-main animate__animated animate__bounceInUp">
           <!--          <el-header class="star-horse-header" v-if="configInfo.menusCfg=='fixed'">
@@ -190,6 +194,8 @@ const configInfo = computed(() => configStore.configFormInfo);
   </el-config-provider>
 </template>
 <style lang="scss" scoped>
+
+
 :deep(.el-header) {
   height: unset;
   padding: unset;

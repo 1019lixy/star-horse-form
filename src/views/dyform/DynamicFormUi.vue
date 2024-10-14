@@ -4,12 +4,13 @@ import {ApiUrls} from "@/components/types/ApiUrls";
 import {computed, nextTick, onMounted, provide, reactive, ref} from "vue";
 import {SearchFields, SelectOption} from "@/components/types/SearchProps";
 import {PageFieldInfo, UserFuncInfo} from "@/components/types/PageFieldInfo";
-import {BtnAuth} from "@/components/types/BtnAuth";
 import {useRouter} from "vue-router";
 import {loadData} from "@/api/sh_api";
 import {Config} from "@/api/settings.ts";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
+import StarHorseTree from "@/components/comp/StarHorseTree.vue";
+import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 
 const router = useRouter();
 const dataUrl: ApiUrls = apiInstance("userdb-manage", "userdb/dynamicForm");
@@ -17,6 +18,9 @@ let designForm = DesignForm(piniaInstance);
 let selfBtnFunc = ref<UserFuncInfo[]>([]);
 let isPreview = ref<boolean>(false);
 let dataSource = ref<SelectOption[]>([]);
+let dynamicFormList = ref<Array<any>>([]);
+let configStore = GlobalConfig(piniaInstance);
+let compSize = computed(() => configStore.configFormInfo?.inputSize || "default");
 const closeAction = () => {
   isPreview.value = false;
   designForm.setIsEdit(true);
@@ -182,13 +186,21 @@ const initData = async () => {
   });
   extandBtnList.value = selfBtnFunc.value.slice(1, selfBtnFunc.value.length);
   dataSource.value = await dbConfigList();
+
 };
+const tabChange = (name: string) => {
+  if (name == "preview") {
+    dynamicFormList.value = dynamicFormRef.value.getDatas();
+  }
+}
+const dataChange = (data: any) => {
+  console.log(data);
+}
 onMounted(async () => {
   await initData();
 })
 </script>
-<style lang="scss" scoped>
-</style>
+
 <template>
   <star-horse-dialog
       :dialogVisible="isPreview"
@@ -220,6 +232,7 @@ onMounted(async () => {
       "'查看数据'" :is-view="true">
     <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
   </star-horse-dialog>
+
   <el-card class="inner_content">
     <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
       <star-horse-search-comp @searchData="(data:any)=>dynamicFormRef.createSearchParams(data)"
@@ -231,9 +244,52 @@ onMounted(async () => {
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
     <hr>
-    <star-horse-table-comp ref="dynamicFormRef" :fieldList="tableFieldList" :primaryKey="primaryKey" :compUrl=
-        "dataUrl" :dataFormat="dataFormat" :extandBtns="extandBtnList" :orderBy="[{
+    <el-tabs model-value="list" class="dyform-tabs" @tab-change="tabChange">
+      <el-tab-pane label="列表视图" name="list">
+        <star-horse-table-comp ref="dynamicFormRef" :fieldList="tableFieldList" :primaryKey="primaryKey" :compUrl=
+            "dataUrl" :dataFormat="dataFormat" :extandBtns="extandBtnList" :orderBy="[{
           fieldName:'a.createdDate',ascOrDesc:'desc'
         }]"/>
+      </el-tab-pane>
+      <el-tab-pane label="预览视图" name="preview">
+        <el-row :gutter="10" class="h100-overflow-hidden ">
+          <el-col :span="5" class="h100">
+            <star-horse-tree v-model:tree-datas="dynamicFormList" :expand="true" treeTitle="表单列表"
+                             @selectData="dataChange"
+                             :preps="{
+                       label:'formName',
+                       value:primaryKey
+                       }"
+                             :compSize="compSize"/>
+          </el-col>
+          <el-col :span="19" class="h100">
+            <el-card class="inner_content h100">
+            </el-card>
+          </el-col>
+        </el-row>
+      </el-tab-pane>
+    </el-tabs>
+
   </el-card>
 </template>
+<style lang="scss" scoped>
+.dyform-tabs {
+  height: 100%;
+  display: flex;
+  overflow: hidden;
+
+  :deep(.el-tabs__content) {
+    height: 100% !important;
+    overflow: hidden !important;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+
+    :deep(.el-tab-pane) {
+      height: inherit;
+      flex: 1;
+      overflow: hidden;
+    }
+  }
+}
+</style>

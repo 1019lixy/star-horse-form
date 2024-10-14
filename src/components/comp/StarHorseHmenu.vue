@@ -31,7 +31,6 @@ onMounted(() => {
       class="system-menu"
       mode="horizontal"
       ellipsis
-      :popper-offset="16"
       >
     <SystemSubMenu :dataList="dataList"/>
   </el-menu>
@@ -65,7 +64,8 @@ onMounted(() => {
 .system-menu {
   --el-menu-bg-color:#fff;
   --el-menu-text-color:#eee;
-  --el-menu-active-color:#000;
+  --el-menu-active-color:#ffd04b;
+  --el-menu-hover-bg-color: rgb(245,235,255,0.5);
   max-height: 50px;
   background-color: unset !important;
   width: 100%;
@@ -75,9 +75,6 @@ onMounted(() => {
   font-size: 16px;
 }
 
-:deep(.el-menu-item ) {
-  padding: 0 5px;
-}
 
 :deep(.el-sub-menu) {
   background-color: unset !important;

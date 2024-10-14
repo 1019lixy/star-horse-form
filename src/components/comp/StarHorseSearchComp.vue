@@ -2,7 +2,7 @@
 import {computed, nextTick, onMounted, PropType, ref} from "vue";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {SearchFields, SelectOption} from "@/components/types/SearchProps";
-import {isJson, searchMatchList} from "@/api/sh_api";
+import {isJson, loadData, searchMatchList} from "@/api/sh_api";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import piniaInstance from "@/store";
@@ -88,6 +88,7 @@ const init = async () => {
     showTips.value = false;
   }
 };
+
 onMounted(() => {
   init();
 });

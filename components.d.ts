@@ -176,6 +176,7 @@ declare module 'vue' {
     Event: typeof import('./src/views/workflow/plugin/FlowDrawer/Event/index.vue')['default']
     ExcelItem: typeof import('./src/components/formcomp/items/excel-item.vue')['default']
     Exhibition: typeof import('./src/views/workflow/plugin/FlowDesign/FlowSetting/Exhibition.vue')['default']
+    ExtandMenu: typeof import('./src/components/ExtandMenu.vue')['default']
     FieldAnalysis: typeof import('./src/views/dyform/FieldAnalysis.vue')['default']
     FieldPanel: typeof import('./src/views/dyform/FieldPanel.vue')['default']
     FixedMenu: typeof import('./src/components/FixedMenu.vue')['default']
