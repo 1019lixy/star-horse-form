@@ -17,6 +17,10 @@ let showTypeList = ref<Array<SelectOption>>([
   {name: "排列展示", value: "line"},
   {name: "下拉展示", value: "dropdown"},
 ]);
+let tableTypeList = ref<Array<SelectOption>>([
+  {name: "列表展示", value: "list"},
+  {name: "卡片展示", value: "card"},
+]);
 let classicsList = ref<Array<any>>([
   {code: "white", color: "#ffffff", name: "白色"},
   {code: "snow", color: "#fffafa", name: "雪白色"},
@@ -209,7 +213,6 @@ onMounted(() => {
   <el-card class="inner_content">
     <el-scrollbar height="100%">
       <el-form class="page-config" :model="configInfo" size="default" label-position="top">
-
         <el-divider content-position="left">
           <el-form-item prop="themeColor" label="颜色" :label-position="'left'">
             <el-color-picker v-model="configInfo.themeColor" @change="changeOperation"/>
@@ -223,22 +226,28 @@ onMounted(() => {
             </div>
           </template>
         </el-form-item>
-
         <el-divider content-position="left">
-          <h4>尺寸</h4>
+          <h4>尺寸和列表</h4>
         </el-divider>
         <el-row gutter="10">
-          <el-col :span="12">
+          <el-col :span="8">
             <el-form-item prop="inputSize" label="组件尺寸">
               <el-select v-model="configInfo.inputSize" @change="changeOperation">
                 <el-option v-for="item in sizeList" :value="item.value" :label="item.name" :key="item.value"/>
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
+          <el-col :span="8">
             <el-form-item prop="buttonSize" label="按钮尺寸 ">
               <el-select v-model="configInfo.buttonSize" @change="changeOperation">
                 <el-option v-for="item in sizeList" :value="item.value" :label="item.name" :key="item.value"/>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="tableType" label="数据展示 ">
+              <el-select v-model="configInfo.tableType" @change="changeOperation">
+                <el-option v-for="item in tableTypeList" :value="item.value" :label="item.name" :key="item.value"/>
               </el-select>
             </el-form-item>
           </el-col>

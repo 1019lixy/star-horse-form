@@ -32,7 +32,7 @@ const props = defineProps({
   //格式化方法
   dataFormat: {type: Function, default: null},
   /*  //按钮大小
-    compSize: {type: String, default: "default"},*/
+    configInfo.inputSize: {type: String, default: "default"},*/
   //禁用事件
   disableAction: {type: Boolean, default: false},
   //弹窗模式
@@ -72,7 +72,8 @@ let route = useRoute();
 let pagePermission = useButtonPermission();
 let permissions = ref<any>({});
 let configStore = GlobalConfig(piniaInstance);
-let compSize = computed(() => configStore.configFormInfo?.inputSize || "default");
+const configInfo = computed(() => configStore.configFormInfo);
+//let configInfo.inputSize = computed(() => configStore.configFormInfo?.inputSize || "default");
 const emits = defineEmits(["selectItem"]);
 const multipleSelection = ref<any>([]);
 const starHorseTableCompRef = ref();
@@ -175,6 +176,8 @@ const permissionList = () => {
 }
 const init = async () => {
   permissions.value = await pagePermission.addRoute(route);
+  dataShowType.value = configInfo.value.tableType || "list";
+  showType(dataShowType.value)
   //是否初始化时自动加载列表数据开关
   if (!props.fieldList?.stopAutoLoad) {
     loadByPage();
@@ -740,7 +743,7 @@ defineExpose({
               max-height="400px"
               row-key="prop"
               style="width: 100%"
-              :size="compSize"
+              :size="configInfo.inputSize"
               border
           >
             <el-table-column prop="" label="排序" width="60">
@@ -765,7 +768,7 @@ defineExpose({
               <template #default="scope">
                 <el-switch
                     v-model="scope.row.tableShow"
-                    :size="compSize"
+                    :size="configInfo.inputSize"
                     :active-value="true"
                     :inactive-value="false"
                 />
@@ -789,7 +792,7 @@ defineExpose({
           :row-key="getRowIdentity"
           :stripe="true"
           :fit="true"
-          :size="compSize"
+          :size="configInfo.inputSize"
           :min-height="height"
           :highlight-current-row="true"
           :default-expand-all="expand"
@@ -813,7 +816,7 @@ defineExpose({
                         :row-key="getRowIdentity"
                         :stripe="true"
                         :fit="true"
-                        :size="compSize"
+                        :size="configInfo.inputSize"
                         :highlight-current-row="true"
                         :max-height="'400px'"
                         :row-style="{height: '30px'}"
@@ -838,14 +841,15 @@ defineExpose({
                     </template>
                   </template>
                 </el-table-column>
-                <table-column :fieldList="expandTable" :compSize="compSize" :compUrl="compUrl"
+                <table-column :fieldList="expandTable" :compSize="configInfo.inputSize" :compUrl="compUrl"
                               :dataFormat="dataFormat" :sortable="false"
                               :showBatchField="showBatchField"/>
               </el-table>
             </div>
           </template>
         </el-table-column>
-        <table-column :fieldList="fieldList" :compSize="compSize" :compUrl="compUrl" :dataFormat="dataFormat"
+        <table-column :fieldList="fieldList" :compSize="configInfo.inputSize" :compUrl="compUrl"
+                      :dataFormat="dataFormat"
                       :showBatchField="showBatchField"/>
         <el-table-column
             v-if="!disableAction&&Object.keys(permissions||{}).length>0"
@@ -873,7 +877,7 @@ defineExpose({
                           link
                           title=""
                           style="color: var(--star-horse-style)"
-                          :size="compSize"
+                          :size="configInfo.inputSize"
                       >
                         <star-horse-icon :icon-class="auth.icon||'edit'"
                                          :color="auth.authority=='delete'?'var(--el-color-danger)':'var(--star-horse-style)'"/>
@@ -902,11 +906,11 @@ defineExpose({
                    style="width: 250px !important;height: 180px !important;" shadow="hover">
             <template #header>
               <div class="card-header">
-                <span>{{data[cardFieldList[0].fieldName]}}</span>
+                <span>{{ data[cardFieldList[0]?.fieldName] }}</span>
               </div>
             </template>
 
-            <div class="card-item item " v-for="item in cardFieldList.slice(1,3)">
+            <div class="card-item item " v-for="item in cardFieldList?.slice(1,3)">
               <label>{{ item.label }} :</label>
               <div class="content">
                 <el-tooltip :content="dataFormat(item.fieldName, data[item.fieldName], data) ">
@@ -935,7 +939,7 @@ defineExpose({
                             link
                             title=""
                             style="color: var(--star-horse-style)"
-                            :size="compSize"
+                            :size="configInfo.inputSize"
                         >
                           <star-horse-icon :icon-class="auth.icon||'edit'"
                                            :color="auth.authority=='delete'?'var(--el-color-danger)':'var(--star-horse-style)'"/>
@@ -964,7 +968,7 @@ defineExpose({
         :total="pageInfo.totalData"
         @current-change="pageChangeClick"
         @size-change="pageSizeClick"
-        :size="compSize"
+        :size="configInfo.inputSize"
         layout="total, sizes, prev, pager, next, jumper"
         v-model:currentPage="pageInfo.currentPage"
         v-model:page-size="pageInfo.pageSize"
@@ -1019,7 +1023,8 @@ defineExpose({
   flex: 1;
   color: var(--star-horse-style);
 }
-:deep(.el-card__footer){
+
+:deep(.el-card__footer) {
   padding: 5px 20px;
 }
 </style>
