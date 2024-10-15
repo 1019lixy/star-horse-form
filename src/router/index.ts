@@ -24,7 +24,7 @@ const assignTitle = (meta: any) => {
 };
 router.beforeEach((to: RouteLocationNormalized, _from: RouteLocationNormalized, next: NavigationGuardNext) => {
     assignTitle(to.meta);
-    console.log(to, to.name);
+    // console.log(to, to.name);
     start();
     if (getToken()) {
         // 已登录且要跳转的页面是登录页

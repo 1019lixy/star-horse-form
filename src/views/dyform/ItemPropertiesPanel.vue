@@ -26,24 +26,18 @@ let containerList = computed(() => designForm.containerList);
 let selfFormDataList = computed(() => designForm.selfFormDataList);
 let formInfo = computed(() => designForm.formInfo);
 let list = computed(() => designForm.compList);
-const fieldList = ref<any>({});
 const formProps = computed(() => designForm.currentFormPreps);
-const currentComp = computed(() => designForm.currentComp);
-// provide("dataForm", formProps);
 let currentItemType = computed(() => designForm.currentItemType);
 let currentCompCategory = computed(() => designForm.currentCompCategory);
 let parentCompType = computed(() => designForm.parentCompType);
 let configStore = GlobalConfig(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.inputSize || "default");
-const advancedFieldList = ref<any>({});
-const actions = ref<any>({});
 let currentField = ref<any>({});
 let jsEditor = ref<boolean>(false);
 let containerDialogVisible = ref<boolean>(false);
 let dataSourceDialogVisible = ref<boolean>(false);
 let dataRelationDialogVisible = ref<boolean>(false);
 let paramsDialogVisible = ref<boolean>(false);
-let activeNames = ref<string>("1");
 let codeTab = ref<string>("code");
 let formRules = ref<any>({});
 let jsValue = ref<string>("console.log('hello world')");
@@ -249,7 +243,7 @@ const parseSelectData = (items: any, type: string) => {
     if (item["type"] == "config") {
       item["type"] = "button";
       item["label"] = "参数配置";
-      item["actions"] = (data: any) => configParams(item.actionName);
+      item["actions"] = (_data: any) => configParams(item.actionName);
     }
   });
 }
@@ -268,29 +262,35 @@ const assignValue = (fieldInfo: any) => {
           label: "编辑容器属性",
           fieldName: "rows",
           type: "button",
-          actions: (data: any) => editContainerPrep(),
+          actions: (_data: any) => editContainerPrep(),
           formShow: true,
         });
       }
     } else {
       let alen = temp.advancedFields.length || 1;
-      temp.fields.splice(0, 0, ...compCommonFields());
+      let commonFields = compCommonFields();
       if (relationComps.value.includes(currentItemType.value)) {
-        temp.fields.splice(2, 0, {
+        console.log(currentItemType.value);
+        commonFields.push({
           label: "配置联动策略",
           fieldName: "dataRelation",
           type: "button",
-          actions: (data: any) => condifRelationPolicy(),
+          actions: (_data: any) => condifRelationPolicy(),
           formShow: true,
         });
-        temp.fields.splice(2, 0, {
+        commonFields.push({
           label: "配置数据源",
           fieldName: "dataSource",
           type: "button",
-          actions: (data: any) => dataSource(formProps.value['itemType']),
+          actions: (_data: any) => dataSource(formProps.value['itemType']),
           formShow: true,
         });
       }
+      for (let i in commonFields) {
+        temp.fields.splice(i, 0, commonFields[i]);
+      }
+      console.log(temp.fields);
+
       temp.advancedFields.splice(alen - 1, 0, {
         label: "备注",
         fieldName: "remark",
@@ -351,7 +351,6 @@ onMounted(() => {
 });
 watch(() => formProps,
     (_val: any) => {
-  console.log(_val);
       assignPrep(currentItemType.value, parentCompType.value == "item");
     }, {
       immediate: true,

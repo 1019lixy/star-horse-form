@@ -55,13 +55,13 @@ const init = async () => {
 const propertyRef = ref();
 const loadFormData = async (formId: any, isParent: boolean) => {
   await nextTick();
-  // clearData();
-  let {data, error} = await loadData(dataUrl.loadByIdUrl + "/" + formId, {});
-  if (error) {
-    warning(error);
+  designForm.clearAll(false);
+  let resultData: any = await loadData(dataUrl.loadByIdUrl! + "/" + formId, {});
+  if (resultData.error) {
+    warning(resultData.error);
     return;
   }
-  data["datasourceConfigId"] = data["datasourceConfigId"] + "";
+  let data = resultData.data;
   designForm.setFormInfo(data);
   if (isParent) {
     data["idDynamicForm"] = null;
@@ -321,38 +321,32 @@ const actions = (action: string) => {
 const batchOperation = (val: any, fieldName: string) => {
   batchModifyAction(list.value, val, fieldName);
 }
-const loadData = () => {
+const analysisQueryParams = () => {
   let formId = route.query["formId"];
   if (formId) {
+    console.log(formId);
     loadFormData(formId, false);
     return;
   }
   let parentId = route.query["parentId"];
   if (parentId) {
-    loadFormData(formId, true);
+    console.log(parentId);
+    loadFormData(parentId, true);
   }
 }
 onActivated(() => {
-  // loadData();
+  analysisQueryParams();
 });
 watch(
-    () => route.query["formId"],
+    () => route.query,
     (val) => {
       if (val) {
-        loadFormData(val, false);
+        analysisQueryParams()
       }
     },
     {immediate: true, deep: true}
 );
-watch(
-    () => route.query["parentId"],
-    (val: any) => {
-      if (val && val > 0) {
-        loadFormData(val, true);
-      }
-    },
-    {immediate: true, deep: true}
-);
+
 watch(() => list.value,
     (val: any) => {
       designForm.removePromise();
@@ -370,7 +364,6 @@ watch(() => list.value,
 );
 onMounted(async () => {
   await init();
-  // loadData();
 });
 </script>
 <template>

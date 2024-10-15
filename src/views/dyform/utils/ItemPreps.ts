@@ -880,7 +880,6 @@ export function compCommonFields(): FieldInfo[] {
         {
             label: "标签名称",
             fieldName: "label",
-            defaultValue:"xxxxx",
             type: "input",
             required: true,
             formShow: true
