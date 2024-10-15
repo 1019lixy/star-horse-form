@@ -28,6 +28,7 @@ let formInfo = computed(() => designForm.formInfo);
 let list = computed(() => designForm.compList);
 const fieldList = ref<any>({});
 const formProps = computed(() => designForm.currentFormPreps);
+const currentComp = computed(() => designForm.currentComp);
 // provide("dataForm", formProps);
 let currentItemType = computed(() => designForm.currentItemType);
 let currentCompCategory = computed(() => designForm.currentCompCategory);
@@ -319,7 +320,9 @@ const assignValue = (fieldInfo: any) => {
     }];
     let defaultValues: any = formFieldMapping(formFields.value).defaultDatas;
     for (let key in defaultValues) {
-      formProps.value[key] = defaultValues[key];
+      if (!Object.keys(formProps.value).includes(key)) {
+        formProps.value[key] = defaultValues[key];
+      }
     }
   } catch (e) {
     console.log(e)
@@ -335,21 +338,6 @@ const recall = (options: SelectOption[], successMsg: string, errorMsg: string) =
     error(errorMsg);
   }
 }
-const handelAddItem = (_row: any) => {
-  if (!formProps.value.values) {
-    formProps.value["values"] = [];
-  }
-  formProps.value.values.push({});
-};
-const handelDeleteItem = (row: any) => {
-  let data = formProps.value.values;
-  for (let item in data) {
-    let temp = data[item];
-    if (temp.label == row.label) {
-      data.splice(item, 1)
-    }
-  }
-};
 const hmsg: string = `
    自定义事件,提供了如下系统参数：
    currentField:Object 当前组件的信息
@@ -363,6 +351,7 @@ onMounted(() => {
 });
 watch(() => formProps,
     (_val: any) => {
+  console.log(_val);
       assignPrep(currentItemType.value, parentCompType.value == "item");
     }, {
       immediate: true,

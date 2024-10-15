@@ -301,6 +301,10 @@ export declare interface UserFuncInfo {
      */
     helpMsg?: string;
     /**
+     * 是否禁用 Y 是 N 否
+     */
+    disabled?: string;
+    /**
      * 子节点
      */
     children?: UserFuncInfo[]
@@ -473,6 +477,10 @@ export declare interface PageFieldInfo {
      * 主键
      */
     primaryKey?: string | Array<any>;
+    /**
+     * 优先级
+     */
+    priority?: number;
 }
 
 /**

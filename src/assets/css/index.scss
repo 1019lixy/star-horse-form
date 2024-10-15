@@ -178,12 +178,13 @@ a {
 }
 
 /* 水平样式 */
-.el-menu--horizontal>div>.el-submenu {
+.el-menu--horizontal > div > .el-submenu {
 
   float: left;
 }
+
 /* 一级菜单的样式 */
-.el-menu--horizontal>.el-menu-item {
+.el-menu--horizontal > .el-menu-item {
   float: left;
   height: 60px;
   line-height: 60px;
@@ -191,22 +192,25 @@ a {
   border-bottom: 2px solid transparent;
   color: #909399;
 }
+
 /* 解决下图1 下拉三角图标 */
-.el-menu--horizontal>.el-submenu .el-submenu__icon-arrow {
+.el-menu--horizontal > .el-submenu .el-submenu__icon-arrow {
 
   position: static;
   vertical-align: middle;
   margin-left: 8px;
   margin-top: -3px;
 }
+
 /* 解决下图2 无下拉菜单时 不对齐问题 */
-.el-menu--horizontal>.el-submenu .el-submenu__title {
+.el-menu--horizontal > .el-submenu .el-submenu__title {
 
   height: 60px;
   line-height: 60px;
   border-bottom: 2px solid transparent;
   color: #909399;
 }
+
 .el-input-group__append, .el-input-group__prepend {
   padding: 0 2px !important;
 }
@@ -456,6 +460,13 @@ a {
     text-align: left;
     width: 100%;
     flex: 1;
+  }
+}
+
+.card-item {
+  margin-top: 5px;
+  label {
+    min-width: unset !important;
   }
 }
 
@@ -729,6 +740,29 @@ hr {
 
 }
 
+.inner_button {
+  height: 40px;
+  text-align: left;
+  justify-content: flex-start;
+  background: var(--star-horse-background);
+  border: dashed 1px var(--star-horse-font-color);
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.custom-tabs-label {
+  display: flex;
+  align-items: center;
+  vertical-align: middle;
+
+  span {
+    vertical-align: middle;
+    margin-left: 4px;
+  }
+}
+
 .pointer {
   cursor: pointer;
 }
@@ -822,7 +856,7 @@ button.el-collapse-item__header {
 
   .el-collapse-item__arrow {
     width: 5% !important;
-    margin:0 8px 0 5px !important;
+    margin: 0 8px 0 5px !important;
   }
 
 }

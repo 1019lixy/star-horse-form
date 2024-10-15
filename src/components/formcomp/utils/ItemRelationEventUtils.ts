@@ -60,11 +60,11 @@ const mouseEnter = (context: any) => {
  * @param currentName
  */
 const operationRelation = (relation: any, actionName: string, formData: any, currentName: string) => {
-    console.log(relation, actionName, formData, currentName);
+    // console.log(relation, actionName, formData, currentName);
     if (!relation || actionName != relation.actionName) {
         return;
     }
-    let relations: Array<any> = relation.relationDetails;
+    let relations: Array<any> = relation?.relationDetails;
     let currentVal = formData[currentName];
     if (!relations || relations.length == 0) {
         return

@@ -92,7 +92,7 @@ const deleteCol = (index: number) => {
   <group-box-container class="star-horse-form-container"
                        :parentField="parentField"
                        :form-item="field">
-    <table ref="containerTableRef" class="dynamic-table">
+    <table ref="containerTableRef" :class="{dynamicTable:isEdit}">
       <thead>
       <tr>
         <th v-for="td of parseInt(field.preps.columns)" @mouseenter="(evt)=>tdOver(evt,td)"
@@ -109,13 +109,8 @@ const deleteCol = (index: number) => {
       <tbody>
       <tr>
         <template v-for="td of parseInt(field.preps.columns)">
-          <td :style="{ 'height':'35px',
-                        width:(100/parseInt(field.preps.columns))+'%',
-                        borderTop: `1px solid  #dfe6ec`,
-                        borderBottom: `1px solid #dfe6ec`,
-                        borderLeft: `1px solid #dfe6ec`,
-                        borderRight: `1px solid #dfe6ec`
-                      }" @mouseenter="(evt)=>tdOver(evt,td)" @mouseleave="(evt)=>tdOut(evt,td)">
+          <td :style="{ width:(100/parseInt(field.preps.columns))+'%'
+                      }" class="td-clz" @mouseenter="(evt)=>tdOver(evt,td)" @mouseleave="(evt)=>tdOut(evt,td)">
             <draggable @add="(evt:Event)=>onDragAdd(evt,field.preps.elements[td-1].items)"
                        class="smain-design"
                        tag="div"
@@ -152,6 +147,11 @@ th {
     top: 0;
     z-index: 9999;
   }
+}
+
+.td-clz {
+  border: 1px solid #dfe6ec;
+  height: 35px;
 }
 
 .comp-item {

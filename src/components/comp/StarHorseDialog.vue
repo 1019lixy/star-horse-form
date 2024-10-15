@@ -3,6 +3,7 @@ import {computed, onMounted, PropType, provide, reactive, ref, watch} from "vue"
 import {DialogProps} from "@/components/types/DialogProps";
 import {i18n} from "@/lang";
 import {BtnAuth} from "@/components/types/BtnAuth";
+import {UserFuncInfo} from "@/components/types/PageFieldInfo";
 
 const emits = defineEmits(["merge", "mergeDraft", "resetForm", "closeAction"]);
 const props = defineProps({
@@ -19,7 +20,7 @@ const props = defineProps({
   fullScreen: {type: Boolean, default: false},
   selfFunc: {type: Boolean, default: false},
   btnText: {type: String, default: "提交"},
-  userBtn: {type: Array<BtnAuth>, default: []},
+  userBtn: {type: Array<UserFuncInfo>, default: []},
   btnTextContinue: {type: String, default: "提交并继续"},
   title: {type: String, default: ""},
   compSize: {type: String, default: "default"}
@@ -106,8 +107,8 @@ provide("dialogOperation", clickFunction);
         <div class="shdialog">
           <slot></slot>
         </div>
-        <slot name="extand"></slot>
         <span class="dialog-footer" v-if="!isView">
+            <slot name="extand"></slot>
           <el-button @click="operation('merge','close')"
                      style="background: var(--star-horse-style);color: var(--star-horse-white)" :size="compSize">
             <star-horse-icon icon-class="save" style="color:var(--star-horse-white);"/>
@@ -125,13 +126,12 @@ provide("dialogOperation", clickFunction);
                         style="background: var(--star-horse-style);color: var(--star-horse-white)"
                         v-if="isShowSave&&isShowBtnContinue">
             <star-horse-icon icon-class="save"/>{{ i18n("dialog.saveContinue") }}</el-button>
-           <template v-if="userBtn" v-for="item in userBtn">
-
-               <el-button @click="item?.exec!()" :disabled="item.disabled=='Y'"
+           <template v-for="item in userBtn">
+               <el-button @click="item?.funcName()" :disabled="item.disabled=='Y'"
                           :style="{background: item.disabled=='Y'?'var(--star-horse-disable)':'var(--star-horse-style)',
                           color: 'var(--star-horse-white)'}" :size="compSize">
             <star-horse-icon :icon-class="item.icon" style="color:var(--star-horse-white);"/>
-            {{ item.labelName }}
+            {{ item.btnName }}
           </el-button>
            </template>
           <el-button @click="operation('resetForm','reset')" :size="compSize" link v-if="isShowReset">

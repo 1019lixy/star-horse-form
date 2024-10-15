@@ -1,6 +1,6 @@
 <script lang="ts" setup name="StarHorseTableComp">
 import {ApiUrls} from "@/components/types/ApiUrls";
-import {computed, inject, onMounted, onUpdated, PropType, reactive, ref, unref, watch} from "vue";
+import {computed, inject, nextTick, onMounted, onUpdated, PropType, reactive, ref, unref, watch} from "vue";
 import {download, postRequest} from "@/api/star_horse";
 import {PageProps} from "@/components/types/PageProps";
 import {closeLoad, createCondition, deleteByIds, isJson, load, loadData,} from "@/api/sh_api";
@@ -9,7 +9,7 @@ import Sortable from "sortablejs";
 import {DialogProps} from "../types/DialogProps";
 import {BtnAuth} from "@/components/types/BtnAuth";
 import {error, warning} from "@/utils/message";
-import {ExpandTable, OrderByInfo, PageFieldInfo, UserFuncInfo} from "@/components/types/PageFieldInfo";
+import {ExpandTable, FieldInfo, OrderByInfo, PageFieldInfo, UserFuncInfo} from "@/components/types/PageFieldInfo";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {DynamicForm} from "@/store/DynamicFormStore";
 import piniaInstance from "@/store";
@@ -17,6 +17,7 @@ import {useRoute} from "vue-router";
 import {useButtonPermission} from "@/store/ButtonPermissionStore.ts";
 import TableColumn from "@/components/comp/items/tableColumn.vue";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
+import {analysisFields} from "@/views/dyform/utils/preview.ts";
 
 const dynamicForm = DynamicForm(piniaInstance);
 const props = defineProps({
@@ -31,7 +32,7 @@ const props = defineProps({
   //格式化方法
   dataFormat: {type: Function, default: null},
   /*  //按钮大小
-    compSize: {type: String, default: "default"},*/
+    configInfo.inputSize: {type: String, default: "default"},*/
   //禁用事件
   disableAction: {type: Boolean, default: false},
   //弹窗模式
@@ -71,7 +72,12 @@ let route = useRoute();
 let pagePermission = useButtonPermission();
 let permissions = ref<any>({});
 let configStore = GlobalConfig(piniaInstance);
-let compSize = computed(() => configStore.configFormInfo?.inputSize || "default");
+const configInfo = computed(() => {
+  let data = configStore.configFormInfo;
+  showType(data.tableType == "card" ? "list" : "card");
+  return data;
+});
+//let configInfo.inputSize = computed(() => configStore.configFormInfo?.inputSize || "default");
 const emits = defineEmits(["selectItem"]);
 const multipleSelection = ref<any>([]);
 const starHorseTableCompRef = ref();
@@ -160,13 +166,21 @@ const batchDelete = async () => {
 /**
  * 创建查询条件
  * @param formData
+ * @param orderBy 排序
  */
-const createSearchParams = (formData: SearchParams[]) => {
+const createSearchParams = (formData: SearchParams[], orderBy: OrderByInfo[] = []) => {
   searchFields = formData;
   loadByPage();
 };
+/**
+ * 对外导出权限
+ */
+const permissionList = () => {
+  return permissions.value;
+}
 const init = async () => {
   permissions.value = await pagePermission.addRoute(route);
+
   //是否初始化时自动加载列表数据开关
   if (!props.fieldList?.stopAutoLoad) {
     loadByPage();
@@ -183,6 +197,8 @@ const init = async () => {
   }
   moveColumn();
   reCreateData();
+  // await nextTick();
+  // showType("list");
 };
 //监听外面传入数据的变化
 watch(
@@ -250,7 +266,9 @@ const moveColumn = () => {
 };
 
 const editData = (row: any, _column: any, evt: Event) => {
-  evt.stopPropagation();
+  if (evt) {
+    evt.stopPropagation();
+  }
   let id = getRowIdentity(row);
   dynamicForm.setDataId(id);
   dynamicForm.setSelectData(row);
@@ -515,6 +533,11 @@ const setDataInfo = (fieldName: string, val: any) => {
  * @param evt
  */
 const selectRow = (row: any, _column: any, evt: Event) => {
+  if (!evt) {
+    dynamicForm.setSelectData(row);
+    emits("selectItem", row);
+    return;
+  }
   evt.stopPropagation();
   if (!checkParent(row)) {
     return;
@@ -640,14 +663,14 @@ const expandCommonFun = (name: string, row: any, parentRow: any) => {
  * @param params 查询参数
  * @param orderBys 排序
  */
-const getDatas = async (limitSize: number = 0, url: string = '', usePageCondition: boolean = true,
-                        params: SearchParams[] = [], orderBys: OrderByInfo[] = []) => {
+const getDatas = async (limitSize: number = 0, params: SearchParams[] = [], orderBys: OrderByInfo[] = [],
+                        url: string = '', usePageCondition: boolean = true
+) => {
   let tempSearchParams: SearchParams[] = [];
   if (usePageCondition) {
     let temp = createParams();
-    if (temp && temp.length > 0) {
-      tempSearchParams.push(...temp);
-    }
+    tempSearchParams.push(...temp.fieldList);
+    orderBys.push(...temp.orderBy);
   }
   if (params && params.length > 0) {
     tempSearchParams.push(...params);
@@ -657,8 +680,38 @@ const getDatas = async (limitSize: number = 0, url: string = '', usePageConditio
     fieldList: tempSearchParams,
     orderBy: orderBys
   });
-  if (!result.error) {
-    return result.data;
+  if (result.error) {
+    warning("数据加载异常：" + result.error);
+  }
+  return result.data;
+}
+let dataShowType = ref<string>("list");
+let cardFieldList = ref<FieldInfo[]>([]);
+const loadField = (): FieldInfo[] => {
+  let {fieldList} = analysisFields(props.fieldList?.fieldList);
+  if (fieldList) {
+    fieldList.sort((a: FieldInfo, b: FieldInfo) => (a.priority || 100) - (b.priority || 100));
+    return fieldList.filter(item => item.tableShow)?.slice(0, 3);
+  }
+}
+let typeTitle = ref<string>("切换为卡片模式");
+let typeIcon = ref<string>("card1");
+/**
+ * 数据展示风格
+ * @param type
+ */
+const showType = (type: string) => {
+  type = type == "card" ? "list" : "card";
+  dataShowType.value = type;
+  if (type == "card" && cardFieldList.value.length == 0) {
+    cardFieldList.value = loadField();
+  }
+  if (type == "card") {
+    typeTitle.value = "切换为列表模式";
+    typeIcon.value = "list";
+  } else {
+    typeTitle.value = "切换为卡片模式";
+    typeIcon.value = "card1";
   }
 }
 onMounted(() => {
@@ -679,7 +732,8 @@ defineExpose({
   setCondition,
   //按钮事件
   tableCompFunc,
-  getDatas
+  getDatas,
+  permissionList
 });
 </script>
 <template>
@@ -693,19 +747,14 @@ defineExpose({
         {{ title }}
       </div>
       <div style="display: flex;align-items: center;flex-direction: row-reverse">
-        <el-button @click="loadByPage" link title="" :size="compSize">
-          <star-horse-icon icon-class="refresh" style="color: var(--star-horse-style);" size="16px"/>
-          <el-tooltip content="刷新">刷新</el-tooltip>
-        </el-button>
-        <el-popover trigger="click" :popper-style="{width: 'unset !important'}" placement="left-end">
+        <star-horse-icon title="刷新" @click="loadByPage" icon-class="refresh"
+                         style="cursor: pointer; color: var(--star-horse-style);"
+        />
+        <el-popover v-if="dataShowType=='list'" trigger="click" :popper-style="{width: 'unset !important'}"
+                    placement="left-end">
           <template #reference>
-            <el-button @click="fieldVisible=!fieldVisible" link title="" :size="compSize">
-              <star-horse-icon icon-class="setting"
-                               style="color: var(--star-horse-style); cursor: pointer" size="16px"/>
-              <el-tooltip content="显示/隐藏列">
-                显示/隐藏列
-              </el-tooltip>
-            </el-button>
+            <star-horse-icon @click="fieldVisible=!fieldVisible" title="显示/隐藏列" icon-class="setting"
+                             style="color: var(--star-horse-style); cursor: pointer"/>
           </template>
           <el-table
               class="sh-columns"
@@ -717,7 +766,7 @@ defineExpose({
               max-height="400px"
               row-key="prop"
               style="width: 100%"
-              :size="compSize"
+              :size="configInfo.inputSize"
               border
           >
             <el-table-column prop="" label="排序" width="60">
@@ -742,7 +791,7 @@ defineExpose({
               <template #default="scope">
                 <el-switch
                     v-model="scope.row.tableShow"
-                    :size="compSize"
+                    :size="configInfo.inputSize"
                     :active-value="true"
                     :inactive-value="false"
                 />
@@ -750,142 +799,201 @@ defineExpose({
             </el-table-column>
           </el-table>
         </el-popover>
+        <!--        <star-horse-icon @click="showType('list')" title="列表模式" icon-class="list"-->
+        <!--                         style="cursor: pointer;color: var(&#45;&#45;star-horse-style);"/>-->
+        <star-horse-icon @click="showType(dataShowType)" :title="typeTitle" :icon-class="typeIcon"
+                         style="cursor: pointer;color: var(--star-horse-style);"/>
       </div>
     </div>
-
-    <el-table
-        ref="starHorseTableCompRef"
-        :data="pageInfo.dataList"
-        @selection-change="handleSelectionChange"
-        @row-click="selectRow"
-        @row-dblclick="editData"
-        :row-key="getRowIdentity"
-        :stripe="true"
-        :fit="true"
-        :size="compSize"
-        :min-height="height"
-        :highlight-current-row="true"
-        :default-expand-all="expand"
-        :row-style="{height: lineHeight}"
-        :cell-style="{ height: lineHeight,'font-size': '12px'}"
-        :header-cell-style="{ background: '#f2f2f2', color: '#707070', 'font-size': '13px','background-image':'-webkit-gradient(linear,left 0,left 100%,from(#f8f8f8),to(#ececec))'}"
-        border
-    >
-      <el-table-column
-          type="selection"
-          align="center"
-          fixed="left"
-          :reserve-selection="true"
-          v-if="showSelection"
-      />
-      <el-table-column type="expand" v-if="expandTable">
-        <template #default="scope">
-          <div class="expand-table">
-            <h4>{{ expandTable.title }}</h4>
-            <el-table :data="scope.row[expandTable.dataField]"
-                      :row-key="getRowIdentity"
-                      :stripe="true"
-                      :fit="true"
-                      :size="compSize"
-                      :highlight-current-row="true"
-                      :max-height="'400px'"
-                      :row-style="{height: '30px'}"
-                      :cell-style="{ height: '30px','font-size': '12px'}"
-                      border
-            >
-              <el-table-column
-                  fixed="left"
-                  label="操作"
-                  :width="160"
-                  v-if="expandTable.showButton"
-              >
-                <template #default="innerScope">
-                  <template v-for="epd in expandTable.extandFuncs">
-                    <el-tooltip :content="epd.btnName">
-                      <star-horse-icon v-if="permissions[epd.authority!]"
-                                       @click="expandCommonFun(epd.authority!, innerScope.row,scope.row)"
-                                       :icon-class="epd.icon||'edit'"
-                                       style="cursor: pointer"
-                                       :color="epd.authority=='delete'?'var(--el-color-danger)':'var(--star-horse-style)'"/>
-                    </el-tooltip>
-                  </template>
-                </template>
-              </el-table-column>
-              <table-column :fieldList="expandTable" :compSize="compSize" :compUrl="compUrl"
-                            :dataFormat="dataFormat" :sortable="false"
-                            :showBatchField="showBatchField"/>
-            </el-table>
-          </div>
-        </template>
-      </el-table-column>
-      <table-column :fieldList="fieldList" :compSize="compSize" :compUrl="compUrl" :dataFormat="dataFormat"
-                    :showBatchField="showBatchField"/>
-      <el-table-column
-          v-if="!disableAction&&Object.keys(permissions||{}).length>0"
-          fixed="right"
-          label="操作"
-          :width="buttonList.length > 3?160:110"
+    <div class="data-list-area" v-if="dataShowType=='list'">
+      <el-table
+          ref="starHorseTableCompRef"
+          :data="pageInfo.dataList"
+          @selection-change="handleSelectionChange"
+          @row-click="selectRow"
+          @row-dblclick="editData"
+          :row-key="getRowIdentity"
+          :stripe="true"
+          :fit="true"
+          :size="configInfo.inputSize"
+          :min-height="height"
+          :highlight-current-row="true"
+          :default-expand-all="expand"
+          :row-style="{height: lineHeight}"
+          :cell-style="{ height: lineHeight,'font-size': '12px'}"
+          :header-cell-style="{ background: '#f2f2f2', color: '#707070', 'font-size': '13px','background-image':'-webkit-gradient(linear,left 0,left 100%,from(#f8f8f8),to(#ececec))'}"
+          border
       >
-        <template #default="scope">
-          <template v-if="buttonList.length > 3">
-            <el-tooltip :content="item.btnName" v-for="item in buttonList.slice(0,3)">
-              <star-horse-icon v-if="permissions[item.authority!]" @click="item.funcName!(scope.row)"
-                               :icon-class="item.icon||'edit'"
-                               :color="item.authority=='delete'?'var(--el-color-danger)':'var(--star-horse-style)'"/>
-            </el-tooltip>
-            <el-dropdown>
+        <el-table-column
+            type="selection"
+            align="center"
+            fixed="left"
+            :reserve-selection="true"
+            v-if="showSelection"
+        />
+        <el-table-column type="expand" v-if="expandTable">
+          <template #default="scope">
+            <div class="expand-table">
+              <h4>{{ expandTable.title }}</h4>
+              <el-table :data="scope.row[expandTable.dataField]"
+                        :row-key="getRowIdentity"
+                        :stripe="true"
+                        :fit="true"
+                        :size="configInfo.inputSize"
+                        :highlight-current-row="true"
+                        :max-height="'400px'"
+                        :row-style="{height: '30px'}"
+                        :cell-style="{ height: '30px','font-size': '12px'}"
+                        border
+              >
+                <el-table-column
+                    fixed="left"
+                    label="操作"
+                    :width="160"
+                    v-if="expandTable.showButton"
+                >
+                  <template #default="innerScope">
+                    <template v-for="epd in expandTable.extandFuncs">
+                      <el-tooltip :content="epd.btnName">
+                        <star-horse-icon v-if="permissions[epd.authority!]"
+                                         @click="expandCommonFun(epd.authority!, innerScope.row,scope.row)"
+                                         :icon-class="epd.icon||'edit'"
+                                         style="cursor: pointer"
+                                         :color="epd.authority=='delete'?'var(--el-color-danger)':'var(--star-horse-style)'"/>
+                      </el-tooltip>
+                    </template>
+                  </template>
+                </el-table-column>
+                <table-column :fieldList="expandTable" :compSize="configInfo.inputSize" :compUrl="compUrl"
+                              :dataFormat="dataFormat" :sortable="false"
+                              :showBatchField="showBatchField"/>
+              </el-table>
+            </div>
+          </template>
+        </el-table-column>
+        <table-column :fieldList="fieldList" :compSize="configInfo.inputSize" :compUrl="compUrl"
+                      :dataFormat="dataFormat"
+                      :showBatchField="showBatchField"/>
+        <el-table-column
+            v-if="!disableAction&&Object.keys(permissions||{}).length>0"
+            fixed="right"
+            label="操作"
+            :width="buttonList.length > 3?160:110"
+        >
+          <template #default="scope">
+            <template v-if="buttonList.length > 3">
+              <el-tooltip :content="item.btnName" v-for="item in buttonList.slice(0,3)">
+                <star-horse-icon v-if="permissions[item.authority!]" @click="item.funcName!(scope.row)"
+                                 :icon-class="item.icon||'edit'"
+                                 :color="item.authority=='delete'?'var(--el-color-danger)':'var(--star-horse-style)'"/>
+              </el-tooltip>
+              <el-dropdown>
               <span class="el-dropdown-link">
       <star-horse-icon icon-class="ellipsis" style="color: var(--star-horse-style)"/>
     </span>
-              <template #dropdown>
-                <el-dropdown-menu>
-                  <el-dropdown-item v-for="auth in buttonList.slice(3,buttonList.length)"
-                                    :v-if="permissions[auth.authority!]">
-                    <el-button
-                        @click="auth.funcName(scope.row)"
-                        link
-                        title=""
-                        style="color: var(--star-horse-style)"
-                        :size="compSize"
-                    >
-                      <star-horse-icon :icon-class="auth.icon||'edit'"
-                                       :color="auth.authority=='delete'?'var(--el-color-danger)':'var(--star-horse-style)'"/>
-                      {{ auth["btnName"] }}
-                    </el-button>
-                  </el-dropdown-item>
-                </el-dropdown-menu>
+                <template #dropdown>
+                  <el-dropdown-menu>
+                    <el-dropdown-item v-for="auth in buttonList.slice(3,buttonList.length)"
+                                      :v-if="permissions[auth.authority!]">
+                      <el-button
+                          @click="auth.funcName(scope.row)"
+                          link
+                          title=""
+                          style="color: var(--star-horse-style)"
+                          :size="configInfo.inputSize"
+                      >
+                        <star-horse-icon :icon-class="auth.icon||'edit'"
+                                         :color="auth.authority=='delete'?'var(--el-color-danger)':'var(--star-horse-style)'"/>
+                        {{ auth["btnName"] }}
+                      </el-button>
+                    </el-dropdown-item>
+                  </el-dropdown-menu>
+                </template>
+              </el-dropdown>
+            </template>
+            <template v-else>
+              <el-tooltip :content="item.btnName" v-for="item in buttonList">
+                <star-horse-icon v-if="permissions[item.authority]" @click="item.funcName(scope.row)"
+                                 :icon-class="item.icon||'edit'"
+                                 :color="item.authority=='delete'?'var(--el-color-danger)':'var(--star-horse-style)'"/>
+              </el-tooltip>
+            </template>
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
+    <div class="data-card-area" v-else>
+      <el-scrollbar height="100%">
+        <el-space wrap>
+          <el-card v-for="data in pageInfo.dataList" :key="data[primaryKey]" class="box-card"
+                   style="width: 250px !important;height: 180px !important;" shadow="hover">
+            <template #header>
+              <div class="card-header" @click="selectRow(data)"
+                   @dblclick="editData(data)">
+                <span>{{ dataFormat(cardFieldList[0]?.fieldName, data[cardFieldList[0]?.fieldName], data) }}</span>
+              </div>
+            </template>
+
+            <div class="card-item item " style="width: 99%;margin: 1px auto" v-for="item in cardFieldList?.slice(1,3)">
+              <label>{{ item.label }} :</label>
+              <div class="content" @click="selectRow(data)"
+                   @dblclick="editData(data)">
+                <el-tooltip :content="dataFormat(item.fieldName, data[item.fieldName], data) ">
+                  {{ dataFormat(item.fieldName, data[item.fieldName], data) }}
+                </el-tooltip>
+              </div>
+            </div>
+
+            <template #footer>
+              <template v-if="buttonList.length > 6">
+                <el-tooltip :content="item.btnName" v-for="item in buttonList.slice(0,3)">
+                  <star-horse-icon v-if="permissions[item.authority!]" @click="item.funcName!(data)"
+                                   :icon-class="item.icon||'edit'"
+                                   :color="item.authority=='delete'?'var(--el-color-danger)':'var(--star-horse-style)'"/>
+                </el-tooltip>
+                <el-dropdown>
+              <span class="el-dropdown-link">
+      <star-horse-icon icon-class="ellipsis" style="color: var(--star-horse-style)"/>
+    </span>
+                  <template #dropdown>
+                    <el-dropdown-menu>
+                      <el-dropdown-item v-for="auth in buttonList.slice(6,buttonList.length)"
+                                        :v-if="permissions[auth.authority!]">
+                        <el-button
+                            @click="auth.funcName(data)"
+                            link
+                            title=""
+                            style="color: var(--star-horse-style)"
+                            :size="configInfo.inputSize"
+                        >
+                          <star-horse-icon :icon-class="auth.icon||'edit'"
+                                           :color="auth.authority=='delete'?'var(--el-color-danger)':'var(--star-horse-style)'"/>
+                          {{ auth["btnName"] }}
+                        </el-button>
+                      </el-dropdown-item>
+                    </el-dropdown-menu>
+                  </template>
+                </el-dropdown>
               </template>
-            </el-dropdown>
-          </template>
-          <template v-else>
-            <el-tooltip :content="item.btnName" v-for="item in buttonList">
-              <star-horse-icon v-if="permissions[item.authority]" @click="item.funcName(scope.row)"
-                               :icon-class="item.icon||'edit'"
-                               :color="item.authority=='delete'?'var(--el-color-danger)':'var(--star-horse-style)'"/>
-            </el-tooltip>
-          </template>
-        </template>
-      </el-table-column>
-      <el-table-column
-          v-else-if="disableAction&&extandBtnFunction()?.length>0"
-          fixed="right"
-          label="操作">
-        <template #default="scope">
-          <template v-for="auth in extandBtnFunction()">
-            <el-tooltip :content="auth['btnName'] " :v-if="permissions[auth.authority!]">
-              <star-horse-icon @click.stop="auth.funcName!(scope.row)" :icon-class="auth.icon||'edit'"
-                               :color="auth.authority=='delete'?'var(--el-color-danger)':'var(--star-horse-style)'"/>
-            </el-tooltip>
-          </template>
-        </template>
-      </el-table-column>
-    </el-table>
+              <template v-else>
+                <el-tooltip :content="item.btnName" v-for="item in buttonList">
+                  <star-horse-icon v-if="permissions[item.authority]" @click="item.funcName(data)"
+                                   :icon-class="item.icon||'edit'"
+                                   :color="item.authority=='delete'?'var(--el-color-danger)':'var(--star-horse-style)'"/>
+                </el-tooltip>
+              </template>
+            </template>
+
+          </el-card>
+        </el-space>
+      </el-scrollbar>
+    </div>
     <el-pagination
         v-if="showPageBar"
         :total="pageInfo.totalData"
         @current-change="pageChangeClick"
         @size-change="pageSizeClick"
-        :size="compSize"
+        :size="configInfo.inputSize"
         layout="total, sizes, prev, pager, next, jumper"
         v-model:currentPage="pageInfo.currentPage"
         v-model:page-size="pageInfo.pageSize"
@@ -899,6 +1007,19 @@ defineExpose({
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  width: 100%;
+
+  .data-list-area, .data-card-area {
+    display: flex;
+    overflow: hidden;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .data-card-area {
+    margin: 5px;
+    width: 99%;
+  }
 }
 
 .expand-table {
@@ -926,5 +1047,9 @@ defineExpose({
 .tb_title {
   flex: 1;
   color: var(--star-horse-style);
+}
+
+:deep(.el-card__footer) {
+  padding: 5px 20px;
 }
 </style>

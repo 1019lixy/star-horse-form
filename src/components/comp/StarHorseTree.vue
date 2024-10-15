@@ -1,11 +1,19 @@
 <script setup lang="ts">
-import {computed, nextTick, onMounted, ref, unref} from "vue";
+import {computed, nextTick, onMounted, ref, unref, reactive} from "vue";
 import {TreeNode, TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
 import {ModelRef} from "vue-demi";
 import SubSystemMenu from "@/components/menu/SubSystemMenu.vue";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import piniaInstance from "@/store";
+import {PageProps} from "@/components/types/PageProps";
+import {PropType} from "vue/dist/vue";
+import {ApiUrls} from "@/components/types/ApiUrls";
+import {warning} from "@/utils/message.ts";
+import {SearchParams} from "@/components/types/Params";
+import {OrderByInfo} from "@/components/types/PageFieldInfo";
+import {postRequest} from "@/api/star_horse.ts";
+import {closeLoad} from "@/api/sh_api.ts";
 
 const props = defineProps({
   preps: {
@@ -17,7 +25,6 @@ const props = defineProps({
         children: 'children'
       };
     }
-
   },
   showCollapse: {type: Boolean, default: false},
   treeTitle: {type: String, default: "树形菜单"},
@@ -33,7 +40,11 @@ const props = defineProps({
   checkOnClickNode: {type: Boolean, default: true},
   treeType: {type: String, default: "tree"},
   //在标签上显示值
-  showCode: {type: Boolean, default: false}
+  showCode: {type: Boolean, default: false},
+  showPageBar: {type: Boolean, default: false},
+  isDynamicData: {type: Boolean, default: false},
+  autoLoad: {type: Boolean, default: true},
+  compUrl: {type: Object as PropType<ApiUrls>}
 });
 const emits = defineEmits(["selectData", "changeCollapse"]);
 let configStore = GlobalConfig(piniaInstance);
@@ -44,6 +55,13 @@ const searchData = ref('');
 const treeDatas: ModelRef<any> = defineModel("treeDatas");
 let menuIcon = ref<string>("expand");
 let collapse = ref<boolean>(false);
+let pageInfo = reactive<PageProps>({
+  pageSize: 100,
+  currentPage: 1,
+  totalData: 0,
+  totalPage: 0,
+  dataList: [],
+});
 const onQueryChanged = (query: string) => {
   treeRef.value!.filter(query);
 };
@@ -137,17 +155,76 @@ const treeChange = (data: any, checked: boolean) => {
 const menuChange = (data: any) => {
   emits("selectData", data);
 }
-onMounted(async () => {
-  await nextTick();
+const pageSizeClick = (pageSize: number) => {
+  pageInfo.pageSize = pageSize;
+  loadByPage();
+};
+const pageChangeClick = (currentPage: number) => {
+  pageInfo.currentPage = currentPage;
+  loadByPage();
+};
+let searchParams: SearchParams[] = [];
+let orderBys: OrderByInfo[] = [];
+const createSearchParams = (params: SearchParams[] = [], orderBy: OrderByInfo[] = []) => {
+  searchParams = params;
+  orderBys = orderBy;
+  loadByPage();
+}
+const expandData = () => {
   if (props.expand) {
     setTimeout(() => {
       treeOperation("expand");
     }, 800);
   }
+}
+const loadByPage = () => {
+  let params: any = {
+    currentPage: pageInfo.currentPage,
+    pageSize: pageInfo.pageSize,
+    fieldList: searchParams,
+    orderBy: orderBys,
+  };
+  postRequest(props.compUrl?.loadByPageUrl!, params).then((res: any) => {
+    if (res.data.code != 0) {
+      console.error(res.data.cnMessage);
+      return;
+    }
+    let redata = res.data.data;
+    //如果不是分页之间显示返回的所有数据
+    treeDatas.value = redata?.dataList || redata;
+    pageInfo.totalPage = redata.totalPages;
+    pageInfo.totalData = redata.totalDatas;
+    expandData();
+  }).catch((err: any) => {
+    console.log(err);
+  }).finally(() => {
+    closeLoad();
+  });
+}
+
+const init = async () => {
+  if (props.isDynamicData) {
+    if (!props.compUrl) {
+      warning("动态数据须配置数据获取接口");
+      return;
+    }
+    if (props.autoLoad) {
+      loadByPage();
+    }
+  } else {
+    await nextTick();
+    expandData();
+  }
+}
+
+onMounted(() => {
+  init();
+
 });
 defineExpose({
   getSelectData,
-  setSelectData
+  setSelectData,
+  createSearchParams
 })
 </script>
 
@@ -199,6 +276,7 @@ defineExpose({
             :check-strictly="checkStrictly"
             :show-checkbox="showCheckBox"
             :render-content="renderContent"
+            highlight-current
             @nodeClick="treeChange"
             @checkChange="treeChange"
         />
@@ -206,6 +284,18 @@ defineExpose({
           <SubSystemMenu :dataList="treeDatas" :preps="preps" @selectData="menuChange"/>
         </el-menu>
       </el-scrollbar>
+    </div>
+    <div class="tree-footer" v-if="showPageBar">
+      <el-pagination
+          :total="pageInfo.totalData"
+          @current-change="pageChangeClick"
+          @size-change="pageSizeClick"
+          :size="compSize"
+          layout="prev, pager, next"
+          v-model:currentPage="pageInfo.currentPage"
+          v-model:page-size="pageInfo.pageSize"
+          v-model:pageCount="pageInfo.totalPage"
+      />
     </div>
   </el-card>
 </template>
