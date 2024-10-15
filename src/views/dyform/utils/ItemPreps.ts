@@ -876,10 +876,11 @@ export function relationDataField() {
  * 定义所有组件的公共属性
  */
 export function compCommonFields(): FieldInfo[] {
-    return [
+    return reactive<FieldInfo[]>([
         {
             label: "标签名称",
             fieldName: "label",
+            defaultValue:"xxxxx",
             type: "input",
             required: true,
             formShow: true
@@ -947,6 +948,6 @@ export function compCommonFields(): FieldInfo[] {
             defaultValue: "N",
             formShow: true
         }
-    ];
+    ]);
 }
 

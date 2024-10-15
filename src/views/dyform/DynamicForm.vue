@@ -1,6 +1,6 @@
 <script lang="ts" setup name="DynamicForm">
 import FieldPanel from "@/views/dyform/FieldPanel.vue";
-import {computed, nextTick, onMounted, reactive, ref, watch} from "vue";
+import {computed, nextTick, onActivated, onMounted, reactive, ref, watch} from "vue";
 import PropertyPanel from "@/views/dyform/PropertyPanel.vue";
 import {postRequest} from "@/api/star_horse";
 import {confirm, error, warning} from "@/utils/message";
@@ -55,7 +55,7 @@ const init = async () => {
 const propertyRef = ref();
 const loadFormData = async (formId: any, isParent: boolean) => {
   await nextTick();
-  clearData();
+  // clearData();
   let {data, error} = await loadData(dataUrl.loadByIdUrl + "/" + formId, {});
   if (error) {
     warning(error);
@@ -148,6 +148,7 @@ const doSave = async () => {
   dynameForm!["details"] = {};
   dynameForm!["details"]["content"] = JSON.stringify(list.value);
   dynameForm!["details"]["fieldNames"] = JSON.stringify(formData.value);
+
   load("数据提交中，请等待");
   postRequest("/userdb-manage/userdb/dynamicForm/merge", dynameForm)
       .then((res) => {
@@ -320,7 +321,20 @@ const actions = (action: string) => {
 const batchOperation = (val: any, fieldName: string) => {
   batchModifyAction(list.value, val, fieldName);
 }
-//监听参数变化
+const loadData = () => {
+  let formId = route.query["formId"];
+  if (formId) {
+    loadFormData(formId, false);
+    return;
+  }
+  let parentId = route.query["parentId"];
+  if (parentId) {
+    loadFormData(formId, true);
+  }
+}
+onActivated(() => {
+  // loadData();
+});
 watch(
     () => route.query["formId"],
     (val) => {
@@ -356,6 +370,7 @@ watch(() => list.value,
 );
 onMounted(async () => {
   await init();
+  // loadData();
 });
 </script>
 <template>
@@ -387,6 +402,7 @@ onMounted(async () => {
       :title="'批量修改属性'"
   >
     <div style="display:flex; flex-direction: column">
+
       <el-row style="font-weight: bold;font-size:12px;margin: 5px 0;">
         <el-col :span="3">容器名称</el-col>
         <el-col :span="3">标签名称</el-col>
@@ -657,8 +673,6 @@ onMounted(async () => {
     flex-direction: column;
     /*height: 100%;*/
     overflow: hidden;
-
-
 
     .main-design-a {
       display: flex;
