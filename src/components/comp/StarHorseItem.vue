@@ -230,16 +230,15 @@ onMounted(() => {
                :isSearch="isSearch"
                :bareFlag="bareFlag"
                :field="field" :formData="dataForm"/>
-    <div v-if="item.brotherNodes">
-      <template v-for="temp in item.brotherNodes">
-        <star-horse-item v-show="temp.formShow" :primaryKey="primaryKey"
-                         :compSize="compSize"
-                         v-model:dataForm="dataForm"
-                         :item="temp" :isDesign="isDesign"
-                         :bareFlag="true"
-                         :isEdit="isEdit"/>
-      </template>
-    </div>
+    <div v-if="item.brotherNodes" style="width: 15px"/>
+    <template v-for="temp in item.brotherNodes">
+      <star-horse-item v-show="temp.formShow" :primaryKey="primaryKey"
+                       :compSize="compSize"
+                       v-model:dataForm="dataForm"
+                       :item="temp" :isDesign="isDesign"
+                       :bareFlag="true"
+                       :isEdit="isEdit"/>
+    </template>
   </div>
   <div v-else class="comp-info"
        :style="{ 'min-width': isSearch && field.preps['type'] != 'daterange' ? '150px' : '100%','height':
@@ -252,6 +251,7 @@ onMounted(() => {
                :isSearch="isSearch"
                :bareFlag="bareFlag"
                :field="field" :formData="dataForm"/>
+    <div v-if="item.brotherNodes" style="width: 15px"/>
     <div v-if="item.brotherNodes" class="brother-node">
       <template v-for="temp in item.brotherNodes">
         <star-horse-item v-if="dataForm['_'+field.preps.name+'Visible']||temp.formShow" :primaryKey="primaryKey"

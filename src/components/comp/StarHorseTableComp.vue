@@ -1,6 +1,6 @@
 <script lang="ts" setup name="StarHorseTableComp">
 import {ApiUrls} from "@/components/types/ApiUrls";
-import {computed, inject, onMounted, onUpdated, PropType, reactive, ref, unref, watch} from "vue";
+import {computed, inject, nextTick, onMounted, onUpdated, PropType, reactive, ref, unref, watch} from "vue";
 import {download, postRequest} from "@/api/star_horse";
 import {PageProps} from "@/components/types/PageProps";
 import {closeLoad, createCondition, deleteByIds, isJson, load, loadData,} from "@/api/sh_api";
@@ -74,7 +74,7 @@ let permissions = ref<any>({});
 let configStore = GlobalConfig(piniaInstance);
 const configInfo = computed(() => {
   let data = configStore.configFormInfo;
-  showType(data.tableType);
+  showType(data.tableType == "card" ? "list" : "card");
   return data;
 });
 //let configInfo.inputSize = computed(() => configStore.configFormInfo?.inputSize || "default");
@@ -180,8 +180,7 @@ const permissionList = () => {
 }
 const init = async () => {
   permissions.value = await pagePermission.addRoute(route);
-  dataShowType.value = configInfo.value.tableType || "list";
-  showType(dataShowType.value)
+
   //是否初始化时自动加载列表数据开关
   if (!props.fieldList?.stopAutoLoad) {
     loadByPage();
@@ -198,6 +197,8 @@ const init = async () => {
   }
   moveColumn();
   reCreateData();
+  // await nextTick();
+  // showType("list");
 };
 //监听外面传入数据的变化
 watch(
@@ -689,19 +690,28 @@ let cardFieldList = ref<FieldInfo[]>([]);
 const loadField = (): FieldInfo[] => {
   let {fieldList} = analysisFields(props.fieldList?.fieldList);
   if (fieldList) {
-    console.log(fieldList);
     fieldList.sort((a: FieldInfo, b: FieldInfo) => (a.priority || 100) - (b.priority || 100));
     return fieldList.filter(item => item.tableShow)?.slice(0, 3);
   }
 }
+let typeTitle = ref<string>("切换为卡片模式");
+let typeIcon = ref<string>("card1");
 /**
  * 数据展示风格
  * @param type
  */
 const showType = (type: string) => {
+  type = type == "card" ? "list" : "card";
   dataShowType.value = type;
   if (type == "card" && cardFieldList.value.length == 0) {
     cardFieldList.value = loadField();
+  }
+  if (type == "card") {
+    typeTitle.value = "切换为列表模式";
+    typeIcon.value = "list";
+  } else {
+    typeTitle.value = "切换为卡片模式";
+    typeIcon.value = "card1";
   }
 }
 onMounted(() => {
@@ -789,13 +799,13 @@ defineExpose({
             </el-table-column>
           </el-table>
         </el-popover>
-        <star-horse-icon @click="showType('list')" title="列表模式" icon-class="list"
+        <!--        <star-horse-icon @click="showType('list')" title="列表模式" icon-class="list"-->
+        <!--                         style="cursor: pointer;color: var(&#45;&#45;star-horse-style);"/>-->
+        <star-horse-icon @click="showType(dataShowType)" :title="typeTitle" :icon-class="typeIcon"
                          style="cursor: pointer;color: var(--star-horse-style);"/>
-        <star-horse-icon @click="showType('card')" title="卡片模式" icon-class="data-card"
-                         style="cursor: pointer;color: var(--star-horse-style);" size="16px"/>
       </div>
     </div>
-    <div class="data-list-area" v-if="configInfo.tableType=='list'">
+    <div class="data-list-area" v-if="dataShowType=='list'">
       <el-table
           ref="starHorseTableCompRef"
           :data="pageInfo.dataList"
@@ -924,7 +934,7 @@ defineExpose({
               </div>
             </template>
 
-            <div class="card-item item " style="width: 99%;margin: 0 auto" v-for="item in cardFieldList?.slice(1,3)">
+            <div class="card-item item " style="width: 99%;margin: 1px auto" v-for="item in cardFieldList?.slice(1,3)">
               <label>{{ item.label }} :</label>
               <div class="content" @click="selectRow(data)"
                    @dblclick="editData(data)">

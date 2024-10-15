@@ -1,13 +1,18 @@
 <script setup lang="ts" name="Dbinfo">
-import {apiInstance, dialogPreps} from "@/api/sh_api.ts";
+import {apiInstance, dialogPreps, loadData} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
-import {onMounted, provide, reactive, ref} from "vue";
+import {computed, onMounted, provide, reactive, ref} from "vue";
 import {SearchFields} from "@/components/types/SearchProps";
 import {loadGetData} from "@/api/sh_api";
-import {warning} from "@/utils/message";
+import {success, warning} from "@/utils/message";
 import {Config} from "@/api/settings.ts";
+import {PageFieldInfo} from "@/components/types/PageFieldInfo";
+import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
+import piniaInstance from "@/store";
 
 const dataUrl: ApiUrls = apiInstance("dbsearch-manage", "dbsearch/dbinfoEntity");
+let configStore = GlobalConfig(piniaInstance);
+let compSize = computed(() => configStore.configFormInfo?.inputSize || "default");
 let dbTypeList = ref<Array<any>>([]);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
@@ -15,7 +20,7 @@ const searchFormData = reactive<SearchFields>({
     {label: "数据库名称", fieldName: "dbName", type: "input", defaultShow: true, matchType: "lk"},
   ]
 });
-const tableFieldList = reactive({
+const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
       label: "主键", fieldName: "idDbinfo", type: "long",
@@ -29,16 +34,22 @@ const tableFieldList = reactive({
       tableShow: true
     },
       {
-        label: "数据库名称", fieldName: "dbName", type: "input",
+        label: "数据库名称/实例", fieldName: "dbName", type: "input",
         formShow: true, required: true,
-        tableShow: true
+        tableShow: true,
+        brotherNodes: [{
+          fieldName: "createDb",
+          type: "radio",
+          defaultValue: "N",
+          formShow: true,
+          optionList: [{name: "不存在创建", value: "Y"}]
+        }]
       }],
     [{
       label: "数据库地址", fieldName: "host", type: "input",
       formShow: true, required: true,
       tableShow: true
     },
-
       {
         label: "数据库端口", fieldName: "port", type: "number",
         formShow: true, required: true,
@@ -99,6 +110,7 @@ const tableFieldList = reactive({
 });
 const primaryKey = "idDbinfo";
 const dbinfoRef = ref();
+const dbinfoFormRef = ref();
 const rules = {};
 const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
@@ -123,6 +135,23 @@ const dataFormat = (name: string, cellValue: object): any => {
   }
   return cellValue;
 }
+/**
+ * 验证
+ */
+const validDb = async () => {
+  let valid = await dbinfoFormRef.value.$refs.starHorseFormRef.validate();
+  if (!valid) {
+    return;
+  }
+  let data = dbinfoFormRef.value.getFormData().value;
+  let resultData = await loadData("/dbsearch-manage/dbsearch/dbinfoEntity/validDbInfo", data);
+  if (resultData.error) {
+    warning(resultData.error);
+    return;
+  } else {
+    success("验证通过");
+  }
+}
 const initData = async () => {
 
   await loadDbTypeList();
@@ -134,9 +163,17 @@ onMounted(() => {
 <style lang="scss" scoped>
 </style>
 <template>
-  <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
+  <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible"
+                     :compSize="compSize"
+                     :dialogProps="dialogProps">
     <star-horse-form @refresh="dbinfoRef.loadByPage()" :compUrl="dataUrl"
-                     :fieldList="tableFieldList" :rules="rules"/>
+                     :fieldList="tableFieldList" :rules="rules" ref="dbinfoFormRef"/>
+    <template #extand>
+      <el-button @click="validDb" type="primary" :size="compSize">
+        <star-horse-icon icon-class="valid" color="var(--star-horse-white)"/>
+        验证
+      </el-button>
+    </template>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title=
       "'查看数据'" :is-view="true">
