@@ -72,7 +72,11 @@ let route = useRoute();
 let pagePermission = useButtonPermission();
 let permissions = ref<any>({});
 let configStore = GlobalConfig(piniaInstance);
-const configInfo = computed(() => configStore.configFormInfo);
+const configInfo = computed(() => {
+  let data = configStore.configFormInfo;
+  showType(data.tableType);
+  return data;
+});
 //let configInfo.inputSize = computed(() => configStore.configFormInfo?.inputSize || "default");
 const emits = defineEmits(["selectItem"]);
 const multipleSelection = ref<any>([]);
@@ -261,7 +265,9 @@ const moveColumn = () => {
 };
 
 const editData = (row: any, _column: any, evt: Event) => {
-  evt.stopPropagation();
+  if (evt) {
+    evt.stopPropagation();
+  }
   let id = getRowIdentity(row);
   dynamicForm.setDataId(id);
   dynamicForm.setSelectData(row);
@@ -526,6 +532,11 @@ const setDataInfo = (fieldName: string, val: any) => {
  * @param evt
  */
 const selectRow = (row: any, _column: any, evt: Event) => {
+  if (!evt) {
+    dynamicForm.setSelectData(row);
+    emits("selectItem", row);
+    return;
+  }
   evt.stopPropagation();
   if (!checkParent(row)) {
     return;
@@ -678,6 +689,8 @@ let cardFieldList = ref<FieldInfo[]>([]);
 const loadField = (): FieldInfo[] => {
   let {fieldList} = analysisFields(props.fieldList?.fieldList);
   if (fieldList) {
+    console.log(fieldList);
+    fieldList.sort((a: FieldInfo, b: FieldInfo) => (a.priority || 100) - (b.priority || 100));
     return fieldList.filter(item => item.tableShow)?.slice(0, 3);
   }
 }
@@ -782,7 +795,7 @@ defineExpose({
                          style="cursor: pointer;color: var(--star-horse-style);" size="16px"/>
       </div>
     </div>
-    <div class="data-list-area" v-if="dataShowType=='list'">
+    <div class="data-list-area" v-if="configInfo.tableType=='list'">
       <el-table
           ref="starHorseTableCompRef"
           :data="pageInfo.dataList"
@@ -905,14 +918,16 @@ defineExpose({
           <el-card v-for="data in pageInfo.dataList" :key="data[primaryKey]" class="box-card"
                    style="width: 250px !important;height: 180px !important;" shadow="hover">
             <template #header>
-              <div class="card-header">
-                <span>{{ data[cardFieldList[0]?.fieldName] }}</span>
+              <div class="card-header" @click="selectRow(data)"
+                   @dblclick="editData(data)">
+                <span>{{ dataFormat(cardFieldList[0]?.fieldName, data[cardFieldList[0]?.fieldName], data) }}</span>
               </div>
             </template>
 
-            <div class="card-item item " v-for="item in cardFieldList?.slice(1,3)">
+            <div class="card-item item " style="width: 99%;margin: 0 auto" v-for="item in cardFieldList?.slice(1,3)">
               <label>{{ item.label }} :</label>
-              <div class="content">
+              <div class="content" @click="selectRow(data)"
+                   @dblclick="editData(data)">
                 <el-tooltip :content="dataFormat(item.fieldName, data[item.fieldName], data) ">
                   {{ dataFormat(item.fieldName, data[item.fieldName], data) }}
                 </el-tooltip>
@@ -920,7 +935,7 @@ defineExpose({
             </div>
 
             <template #footer>
-              <template v-if="buttonList.length > 3">
+              <template v-if="buttonList.length > 6">
                 <el-tooltip :content="item.btnName" v-for="item in buttonList.slice(0,3)">
                   <star-horse-icon v-if="permissions[item.authority!]" @click="item.funcName!(data)"
                                    :icon-class="item.icon||'edit'"
@@ -932,7 +947,7 @@ defineExpose({
     </span>
                   <template #dropdown>
                     <el-dropdown-menu>
-                      <el-dropdown-item v-for="auth in buttonList.slice(3,buttonList.length)"
+                      <el-dropdown-item v-for="auth in buttonList.slice(6,buttonList.length)"
                                         :v-if="permissions[auth.authority!]">
                         <el-button
                             @click="auth.funcName(data)"

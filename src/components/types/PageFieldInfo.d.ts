@@ -473,6 +473,10 @@ export declare interface PageFieldInfo {
      * 主键
      */
     primaryKey?: string | Array<any>;
+    /**
+     * 优先级
+     */
+    priority?: number;
 }
 
 /**

@@ -184,6 +184,7 @@ export function analysisFields(compList: Array<any>) {
     const tabNames: Array<string> = [];
     const objectNames: Array<string> = [];
     const batchNames: Array<string> = [];
+    let priority = 1;
     const loopAnalysis = (boxList: Array<any>) => {
         for (const index in boxList) {
             const columns = boxList[index].columns;
@@ -216,15 +217,31 @@ export function analysisFields(compList: Array<any>) {
             for (const index in dataList) {
                 const temp = dataList[index];
                 const itempType = temp.itemType;
-                if (itempType == "box"||itempType=="dytable") {
+                if (itempType == "box" || itempType == "dytable") {
                     loopAnalysis(temp.preps.elements);
-                } else if (itempType == "tab"||itempType=="card"||itempType=="collapse") {
+                } else if (itempType == "tab" || itempType == "card" || itempType == "collapse") {
                     tabListAnalysis(temp.preps.elements);
                 } else if (itempType == "table") {
                     tableListAnalysis(temp.preps);
                 } else {
                     if (Object.keys(temp).length > 0) {
-                        fieldList.push(temp);
+                        if (Array.isArray(temp)) {
+                            temp.forEach(item => {
+                                item.priority = priority++;
+                                fieldList.push(item);
+                            });
+                        } else if (temp.batchFieldList) {
+                            temp.batchFieldList.forEach(item => {
+                                item.fieldList.forEach(sitem => {
+                                    sitem.priority = priority++;
+                                    fieldList.push(sitem);
+                                })
+                            });
+                        } else {
+                            temp.priority = priority++;
+                            fieldList.push(temp);
+                        }
+
                     }
                 }
             }
