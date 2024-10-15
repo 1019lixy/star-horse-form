@@ -216,9 +216,9 @@ export function analysisFields(compList: Array<any>) {
             for (const index in dataList) {
                 const temp = dataList[index];
                 const itempType = temp.itemType;
-                if (itempType == "box") {
+                if (itempType == "box"||itempType=="dytable") {
                     loopAnalysis(temp.preps.elements);
-                } else if (itempType == "tab") {
+                } else if (itempType == "tab"||itempType=="card"||itempType=="collapse") {
                     tabListAnalysis(temp.preps.elements);
                 } else if (itempType == "table") {
                     tableListAnalysis(temp.preps);

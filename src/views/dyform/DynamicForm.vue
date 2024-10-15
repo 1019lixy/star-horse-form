@@ -658,17 +658,7 @@ onMounted(async () => {
     /*height: 100%;*/
     overflow: hidden;
 
-    .inner_button {
-      height: 40px;
-      text-align: left;
-      justify-content: flex-start;
-      background: var(--star-horse-background);
-      border: dashed 1px var(--star-horse-font-color);
-      -moz-user-select: none;
-      -webkit-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-    }
+
 
     .main-design-a {
       display: flex;

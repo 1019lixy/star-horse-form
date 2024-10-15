@@ -11,6 +11,12 @@ import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
 import StarHorseTree from "@/components/comp/StarHorseTree.vue";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
+import FormPreview from "@/views/dyform/FormPreview.vue";
+import {warning} from "@/utils/message.ts";
+import {formActions} from "@/views/dyform/utils/DynamicForm.ts";
+import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
+import Help from "@/components/help.vue";
+import {SearchParams} from "@/components/types/Params";
 
 const router = useRouter();
 const dataUrl: ApiUrls = apiInstance("userdb-manage", "userdb/dynamicForm");
@@ -144,6 +150,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 });
 const primaryKey = "idDynamicForm";
 const dynamicFormRef = ref();
+const starHorseTreeRef = ref();
 const rules = {};
 const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
@@ -157,6 +164,8 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
   return cellValue == "Y" ? "是" : cellValue == "N" ? "否" : cellValue;
 }
 let extandBtnList = ref<UserFuncInfo[]>([]);
+let viewBtnList = ref<UserFuncInfo[]>([]);
+
 const initData = async () => {
   selfBtnFunc.value?.push({
     btnName: "新增",
@@ -169,6 +178,7 @@ const initData = async () => {
   selfBtnFunc.value?.push({
     btnName: "编辑",
     priority: 3,
+    icon: "edit",
     authority: "edit", funcName: (params: any) => {
       //params 页面刷新后 参数丢失，query 页面刷新后参数不会丢失
       router.push({
@@ -178,7 +188,7 @@ const initData = async () => {
     }
   });
   selfBtnFunc.value?.push({
-    btnName: "查看详情",
+    btnName: "预览",
     priority: 4,
     authority: "view", icon: "data-view", funcName: (params: any) => {
       loadFormData(params[primaryKey]);
@@ -186,15 +196,34 @@ const initData = async () => {
   });
   extandBtnList.value = selfBtnFunc.value.slice(1, selfBtnFunc.value.length);
   dataSource.value = await dbConfigList();
-
+  viewBtnList.value.push(...tableFieldList.userTableFuncs);
+  viewBtnList.value.push(selfBtnFunc.value[1]);
 };
-const tabChange = (name: string) => {
-  if (name == "preview") {
-    dynamicFormList.value = dynamicFormRef.value.getDatas();
+let currentTab = ref<string>("list");
+const createSearch = (data: SearchParams[]) => {
+  if (currentTab.value == "preview") {
+    starHorseTreeRef.value.createSearchParams(data);
+  } else {
+    dynamicFormRef.value.createSearchParams(data);
   }
 }
-const dataChange = (data: any) => {
-  console.log(data);
+const tabChange = async (name: string) => {
+  currentTab.value = name;
+  if (name == "preview") {
+    starHorseTreeRef.value.createSearchParams([]);
+  }
+}
+let dataList = ref<Array<any>>([]);
+let currentData = ref<any>({});
+const dataChange = async (param: any) => {
+  console.log(param);
+  let {data, error} = await loadData(dataUrl.loadByIdUrl + "/" + param[primaryKey], {});
+  if (error) {
+    warning(error);
+    return;
+  }
+  currentData.value = data;
+  dataList.value = JSON.parse(data["details"].content);
 }
 onMounted(async () => {
   await initData();
@@ -209,21 +238,9 @@ onMounted(async () => {
       :title="'表单预览'"
       :is-view="true"
   >
-    <template v-for="data in list">
-      <component
-          :field="data"
-          :formData="formData"
-          :is="data?.itemType+'-container'"
-          v-if="data?.compType==='container'"
-      >
-      </component>
-      <component
-          :field="data"
-          :formData="formData"
-          :is="data?.itemType + '-item'"
-          v-else-if="data?.compType=='formItem'"
-      />
-    </template>
+    <div class="dialog-body">
+      <form-preview :list="list"/>
+    </div>
   </star-horse-dialog>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
     <star-horse-form :compUrl="dataUrl" :fieldList="tableFieldList" :rules="rules"/>
@@ -235,7 +252,7 @@ onMounted(async () => {
 
   <el-card class="inner_content">
     <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
-      <star-horse-search-comp @searchData="(data:any)=>dynamicFormRef.createSearchParams(data)"
+      <star-horse-search-comp @searchData="createSearch"
                               :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
@@ -246,24 +263,57 @@ onMounted(async () => {
     <hr>
     <el-tabs model-value="list" class="dyform-tabs" @tab-change="tabChange">
       <el-tab-pane label="列表视图" name="list">
+        <template #label>
+          <div class="custom-tabs-label">
+            <star-horse-icon icon-class="list"/>
+            <span>列表视图</span>
+          </div>
+        </template>
         <star-horse-table-comp ref="dynamicFormRef" :fieldList="tableFieldList" :primaryKey="primaryKey" :compUrl=
             "dataUrl" :dataFormat="dataFormat" :extandBtns="extandBtnList" :orderBy="[{
           fieldName:'a.createdDate',ascOrDesc:'desc'
         }]"/>
       </el-tab-pane>
       <el-tab-pane label="预览视图" name="preview">
+        <template #label>
+          <div class="custom-tabs-label">
+            <star-horse-icon icon-class="preview"/>
+            <span>预览视图</span>
+          </div>
+        </template>
         <el-row :gutter="10" class="h100-overflow-hidden ">
           <el-col :span="5" class="h100">
-            <star-horse-tree v-model:tree-datas="dynamicFormList" :expand="true" treeTitle="表单列表"
+            <star-horse-tree v-model:tree-datas="dynamicFormList" ref="starHorseTreeRef" :expand="true"
+                             treeTitle="表单列表"
                              @selectData="dataChange"
                              :preps="{
                        label:'formName',
                        value:primaryKey
                        }"
+                             :showPageBar="true"
+                             :isDynamicData="true"
+                             :autoLoad="false"
+                             :compUrl="dataUrl"
                              :compSize="compSize"/>
           </el-col>
           <el-col :span="19" class="h100">
             <el-card class="inner_content h100">
+              <div class="inner_button" v-if="dataList&&dataList.length>0">
+                <el-menu mode="horizontal" style="height: inherit;width: 100%;">
+                  <template v-for="(item,index) in viewBtnList">
+                    <el-menu-item
+                        v-if="item.authority=='none'||dynamicFormRef.permissionList()[item.authority]"
+                        :index="'1_'+index" @click="item.funcName(currentData)">
+                      <el-tooltip class="item" :content="item.btnName" effect="dark" placement="bottom">
+                        <star-horse-icon :icon-class="item.icon" size="24px"
+                                         style="color: var(--star-horse-style)"/>
+                      </el-tooltip>
+                    </el-menu-item>
+                  </template>
+                </el-menu>
+              </div>
+              <form-preview :list="dataList" v-if="dataList&&dataList.length>0"/>
+              <el-empty description="请在左侧选择表单" v-else/>
             </el-card>
           </el-col>
         </el-row>
@@ -292,4 +342,7 @@ onMounted(async () => {
     }
   }
 }
+
+
+
 </style>

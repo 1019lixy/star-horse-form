@@ -5,6 +5,7 @@ import {ApiUrls} from "@/components/types/ApiUrls";
 import {FieldInfo} from "@/components/types/PageFieldInfo";
 import StarHorseFormTable from "@/components/comp/StarHorseFormTable.vue";
 import {ModelRef} from "vue-demi";
+import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 
 defineProps({
   compUrl: {type: Object as PropType<ApiUrls>},
@@ -40,6 +41,12 @@ onMounted(() => {
       <template v-for="(tabItem,key) in item.tabList">
         <el-tab-pane :label="tabItem.title" :name="tabItem.tabName||key" :disabled="tabItem.disabled"
                      :index="checkObject(tabItem)">
+          <template #label>
+            <div class="custom-tabs-label">
+              <star-horse-icon :icon-class="tabItem.icon" v-if="tabItem.icon"/>
+              <span>{{ tabItem.title}}</span>
+            </div>
+          </template>
           <el-scrollbar height="95%">
             <star-horse-form-item v-if="tabItem.objectName" :isView="isView" :compUrl="compUrl"
                                   :compSize="compSize"
@@ -71,6 +78,12 @@ onMounted(() => {
         <template v-for="(sitem,key) in item.batchFieldList">
           <el-tab-pane v-if="Object.keys(sitem).length>0" :label="sitem['title']" :name="sitem.tabName||'tab'+key"
                        :disabled="sitem.disabled">
+            <template #label>
+              <div class="custom-tabs-label">
+                <star-horse-icon :icon-class="sitem.icon" v-if="sitem.icon"/>
+                <span>{{ sitem.title}}</span>
+              </div>
+            </template>
             <star-horse-form-table :size="compSize" :rules="rules" :item="sitem" v-model:dataForm="dataForm"/>
           </el-tab-pane>
         </template>
