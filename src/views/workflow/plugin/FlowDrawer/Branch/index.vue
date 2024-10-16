@@ -118,7 +118,7 @@
     <FlowDrawerFooter @close="onClose" @save="onSave"/>
   </el-drawer>
 </template>
-<script setup lang="ts">
+<script setup lang="ts" name="Branch">
 import {flowMixin} from '@/views/workflow/plugin/mixins/flowMixin';
 import {uuid} from "@/api/system.ts";
 import EditName from '@/views/workflow/plugin/Common/EditName.vue';

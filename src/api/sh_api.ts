@@ -849,12 +849,45 @@ export async function dbConfigList(): Promise<SelectOption[]> {
 /**
  * 创建验证规则
  * @param item
+ * @param dataForm
  */
-export function validMsg(item: any) {
+export function validMsg(item: any, dataForm: any) {
+    let rules = [];
+
     if (item.required && item.disabled != 'Y') {
-        return [{'required': true, 'message': '必填项不能为空', 'trigger': 'blur'}];
+        rules.push({'required': true, 'message': '必填项不能为空', 'trigger': 'blur'});
+        if (item.type == "number-range") {
+            rules.push({
+                validator: (rule: any, value: any, callback: any) => {
+                    let fieldName = item.fieldName;
+                    console.log(dataForm)
+                    if (dataForm[fieldName + 'Min'] + '' === '') {
+                        callback(new Error("必填项小值不能为空"));
+                    }
+                    if (dataForm[fieldName + 'Max'] + '' === '') {
+                        callback(new Error("必填项大值不能为空"));
+                    }
+                    if (dataForm[fieldName + 'Min'] > dataForm[fieldName + 'Max']) {
+                        callback(new Error("小值不能大于大值"));
+                    }
+                },
+                trigger: "blur"
+            })
+        }
+    } else {
+        if (item.type == "number-range") {
+            rules.push({
+                validator: (rule: any, value: any, callback: any) => {
+                    let fieldName = item.fieldName;
+                    if (parseFloat(dataForm[fieldName + 'Min']) > parseFloat(dataForm[fieldName + 'Max'])) {
+                        callback(new Error("小值不能大于大值"));
+                    }
+                },
+                trigger: "blur"
+            });
+        }
     }
-    return []
+    return rules;
 }
 
 /**

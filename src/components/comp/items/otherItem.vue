@@ -38,7 +38,7 @@ onMounted(() => {
       :size="compSize"
       :label="item.preps?.hideLabel=='Y'?'':item.label"
       :required="item.required"
-      :rules="item.required?validMsg(item):[]"
+      :rules="item.required?validMsg(item,dataForm):[]"
       :prop="item.fieldName"
       v-else-if="item.formShow">
     <star-horse-item :primaryKey="primaryKey" :compSize="compSize" v-model:dataForm="dataForm" :item="item"

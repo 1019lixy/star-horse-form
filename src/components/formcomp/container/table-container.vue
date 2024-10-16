@@ -92,9 +92,11 @@ const deleteCol = (index: number) => {
   <group-box-container class="star-horse-form-container"
                        :parentField="parentField"
                        :form-item="field">
-    <table ref="containerTableRef" :class="{dynamicTable:isEdit}">
+    <table ref="containerTableRef" class="dynamic-table" :style="{
+      border: isEdit?'1px solid #dfe6ec':'none'
+    }">
       <thead>
-      <tr>
+      <tr >
         <th v-for="td of parseInt(field.preps.columns)" @mouseenter="(evt)=>tdOver(evt,td)"
             @mouseleave="(evt)=>tdOut(evt,td)">
           <div class="td-operator" v-if="currentIndex==td&&isEdit">
@@ -160,8 +162,6 @@ th {
 
 .dynamic-table {
   width: 100%;
-  border: 1px dashed #8F8F8F;
-
   thead {
     background: var(--star-horse-font-color);
     height: 30px;

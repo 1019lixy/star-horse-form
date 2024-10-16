@@ -22,7 +22,7 @@ defineProps({
     <template #default="scope">
       <template v-if="item.batchFieldList?.length>0" v-for="sitem in  item.batchFieldList">
         <star-horse-form-list
-            style="min-height:100px"
+            style="min-height:100px;width: 100%!important;"
             v-model:dataForm="scope.row"
             :compUrl="sitem['compUrl']"
             :primaryKey="sitem['primaryKey']"

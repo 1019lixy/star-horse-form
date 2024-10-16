@@ -149,12 +149,12 @@
     <FlowDrawerFooter @close="onClose" @save="onSave"/>
   </el-drawer>
 </template>
-<script setup lang="ts">
+<script setup lang="ts" name="Approver">
 import {flowMixin, radioStyle} from '@/views/workflow/plugin/mixins/flowMixin';
 import FlowDrawerFooter from '@/views/workflow/plugin/Common/DrawerFooter.vue';
 import FlowSimpleSelect from '@/views/workflow/plugin/Component/FlowSimpleSelect.vue';
 import FlowNodeApproval from './Approval.vue';
-import FlowNodeApprovalConfigure from './Configure.vue';
+import FlowNodeApprovalConfigure from './ApproverConfigure.vue';
 import EditName from '@/views/workflow/plugin/Common/EditName.vue';
 import AuthForm from '@/views/workflow/plugin/Common/AuthForm.vue';
 import {ref} from "vue";

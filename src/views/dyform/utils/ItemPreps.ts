@@ -946,6 +946,14 @@ export function compCommonFields(): FieldInfo[] {
             type: "switch",
             defaultValue: "N",
             formShow: true
+        },
+        {
+            label: "唯一性校验",
+            fieldName: "uniqueValid",
+            type: "switch",
+            helpMsg:`如果开启此功能，\n在新增数据时系统对数据进行唯一性校验。`,
+            defaultValue: "N",
+            formShow: true
         }
     ]);
 }

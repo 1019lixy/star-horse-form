@@ -3,6 +3,7 @@ import {computed, ref} from 'vue'
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
 import DbListComp from "@/views/dbsearch/utils/DbListComp.vue";
+import {uuid} from "@/api/system.ts";
 
 let designForm = DesignForm(piniaInstance);
 let formDataList = computed(() => designForm.formDataList);
@@ -26,7 +27,7 @@ const onDataCopy = (data: any, type: string) => {
   }
   let ms = formData.value["index"]++;
   let mvData: any = {};
-  mvData['id'] = 'Id' + ms;
+  mvData['id'] = 'Id' + uuid();
   // console.log(reData);
   /**
    * 处理preps

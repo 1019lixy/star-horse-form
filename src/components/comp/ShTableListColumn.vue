@@ -27,7 +27,7 @@ const validMsg = (item: any) => {
   <el-form-item
       v-else
       :size="size"
-      :rules="item.required?validMsg(item):[]"
+      :rules="item.required?validMsg(item,dataForm):[]"
       :prop="`${batchName}.${index}.${item.fieldName}`">
     <star-horse-item :primaryKey="primaryKey" :compSize="size" :batchName="batchName" :item="item" :data-form="dataForm"
                      :isEdit="dialogProps?.ids&&dialogProps?.ids!=-1"/>

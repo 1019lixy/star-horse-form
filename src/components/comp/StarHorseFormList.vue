@@ -241,7 +241,7 @@ onMounted(async () => {
   <div class="form-list">
     <div
         v-if="!subFlag"
-        style="display:flex;justify-content:space-between;width: 100%;border-bottom:  var(--star-horse-style) 1px solid"
+        class="dynamic-tools"
     >
       <div class="tb_title">
         <star-horse-icon icon-class="info" size="14px"/>
@@ -335,9 +335,20 @@ onMounted(async () => {
   padding: 0;
 }
 
+.dynamic-tools {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+  height: 20px;
+  border-bottom: var(--star-horse-style) 1px solid;
+}
+
 .form-list {
   display: flex;
   flex-direction: column;
+  width: 99%;
+  margin: 0 auto;
 
   .inner_button {
     margin-bottom: 5px;

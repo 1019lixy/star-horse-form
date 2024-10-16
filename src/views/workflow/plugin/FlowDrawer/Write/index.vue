@@ -28,7 +28,7 @@
     <FlowDrawerFooter @close="onClose" @save="onSave"/>
   </el-drawer>
 </template>
-<script setup lang="ts">
+<script setup lang="ts" name="Write">
 import {flowMixin} from '@/views/workflow/plugin/mixins/flowMixin';
 import FlowDrawerFooter from '@/views/workflow/plugin/Common/DrawerFooter.vue';
 import EditName from '@/views/workflow/plugin/Common/EditName.vue';

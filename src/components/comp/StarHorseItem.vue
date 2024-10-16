@@ -6,6 +6,7 @@ import Help from "@/components/help.vue";
 import {ModelRef} from "vue-demi";
 import {useUserSelfOperation} from "@/store/SelfOperationStore.ts";
 import piniaInstance from "@/store";
+import {uuid} from "@/api/system.ts";
 
 const props = defineProps({
       // allItem: {type: Array, required: true},
@@ -28,14 +29,7 @@ const itemType = ref<string>("input");
 const emit = defineEmits(["dataSearch", "focus", "blur"]);
 const formFields: any = inject("formFields");
 const field = ref<any>({
-  preps: {
-    clearable: "Y",
-    label: props.item?.label,
-    name: props.item?.fieldName,
-    required: props.item?.required,
-    size: props.compSize,
-    readonly: props.item?.readonly || props.isView ? 'Y' : 'N',
-  }
+  preps: {}
 });
 field.value.preps.size = computed(() => props.compSize);
 /**
@@ -75,6 +69,14 @@ watch(() => props.item,
 );
 
 const compPreps = () => {
+  field.value["preps"] = {
+    clearable: "Y",
+    label: props.item?.label,
+    name: props.item?.fieldName,
+    required: props.item?.required,
+    size: props.compSize,
+    readonly: props.item?.readonly || props.isView ? 'Y' : 'N',
+  }
   itemType.value = props.item?.type || props.item?.fieldType;
   field.value["isDesign"] = props.isDesign;
   field.value["bareFlag"] = props.bareFlag;
@@ -211,7 +213,7 @@ onMounted(() => {
   if (typeList.includes(props.item?.type) || typeList.includes(props.item?.fieldType)) {
     defaultAction.value = "change";
   }
-  randId.value = "Id" + new Date().getTime();
+  randId.value = "Id" + uuid();
   actionName.value = props.item?.actionName ? props.item?.actionName : defaultAction.value;
   compPreps();
 });
@@ -243,7 +245,6 @@ onMounted(() => {
   <div v-else class="comp-info"
        :style="{ 'min-width': isSearch && field.preps['type'] != 'daterange' ? '150px' : '100%','height':
        itemType != 'button' ?'100%':'inherit' }">
-
     <help :message="item?.helpMsg" v-if="item?.helpMsg"/>
     <component :id="randId" :is="(dataForm['_'+field.preps.name+'Type']||itemType)+'-item'" @selfFunc="actionDispatcher"
                :isDesign="isDesign"

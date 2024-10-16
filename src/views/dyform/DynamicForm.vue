@@ -62,23 +62,23 @@ const loadFormData = async (formId: any, isParent: boolean) => {
     return;
   }
   let data = resultData.data;
-  designForm.setFormInfo(data);
   if (isParent) {
     data["idDynamicForm"] = null;
     data["parentId"] = formId;
     //数据编号一定要清空，否则数据会跳过重复验证
     data["dataNo"] = null;
-    formInfo.value["formId"] = formInfo.value["formId"] + "Sub";
-    formInfo.value["tbName"] = formInfo.value["tbName"] + "Sub";
+    data["formId"] = data["formId"] + "Sub";
+    data["tbName"] = data["tbName"] + "Sub";
   }
   if (data["relations"]) {
-    formInfo.value["relations"] = JSON.parse(data["relations"]);
+    data["relations"] = JSON.parse(data["relations"]);
   }
   designForm.setCompList(JSON.parse(data["details"].content));
   designForm.setFormData(JSON.parse(data["details"].fieldNames));
   data["details"] = {};
   designForm.setIsEdit(true);
   let activeItem = list.value[0];
+  designForm.setFormInfo(data);
   designForm.selectItem(activeItem, activeItem.itemType, "item");
 };
 
@@ -118,7 +118,7 @@ const formPropertyRef = ref();
  */
 const codeDoSave = () => {
 };
-const doSave = async () => {
+const doSave = async (isDraft: boolean = false) => {
   let formData = formPropertyRef.value.getFormData();
   console.log(formData);
   designForm.setFormInfo(formData.value);
@@ -129,10 +129,12 @@ const doSave = async () => {
 
   let flag = false;
   await nextTick();
-  errMessage.value = validDynamicFormCompParams(list.value, true);
-  if (errMessage.value) {
-    warning(errMessage.value);
-    return;
+  if (!isDraft) {
+    errMessage.value = validDynamicFormCompParams(list.value, true);
+    if (errMessage.value) {
+      warning(errMessage.value);
+      return;
+    }
   }
   await formPropertyRef.value.$refs.dynamicFormItemRef.$refs.starHorseFormRef.validate((evt: boolean) => {
     flag = evt;
@@ -150,7 +152,7 @@ const doSave = async () => {
   dynameForm!["details"]["fieldNames"] = JSON.stringify(formData.value);
 
   load("数据提交中，请等待");
-  postRequest("/userdb-manage/userdb/dynamicForm/merge", dynameForm)
+  postRequest(`/userdb-manage/userdb/dynamicForm/${isDraft ? "mergeDraft" : "merge"}`, dynameForm)
       .then((res) => {
         if (res.data.code != 0) {
           activeTab.value = "second";
@@ -324,13 +326,13 @@ const batchOperation = (val: any, fieldName: string) => {
 const analysisQueryParams = () => {
   let formId = route.query["formId"];
   if (formId) {
-    console.log(formId);
+    // console.log(formId);
     loadFormData(formId, false);
     return;
   }
   let parentId = route.query["parentId"];
   if (parentId) {
-    console.log(parentId);
+    // console.log(parentId);
     loadFormData(parentId, true);
   }
 }
@@ -373,6 +375,7 @@ onMounted(async () => {
       :selfFunc="true"
       :isView="true"
       :full-screen="true"
+      :compSize="compSize"
       @merge="codeDoSave"
       :title="'代码'"
   >
@@ -382,15 +385,24 @@ onMounted(async () => {
       :dialogVisible="configDialogVisible"
       @closeAction="closeAction"
       :selfFunc="true"
-      @merge="doSave"
+      :compSize="compSize"
+      @merge="doSave(false)"
       :title="'表单配置'"
   >
     <FormPropertyPanel ref="formPropertyRef"/>
+    <template #extand>
+      <el-button @click="doSave(true)"
+                 style="background: var(--star-horse-style);color: var(--star-horse-white)" :size="compSize">
+        <star-horse-icon icon-class="short_save" style="color:var(--star-horse-white);"/>
+        暂存
+      </el-button>
+    </template>
   </star-horse-dialog>
   <star-horse-dialog
       :dialogVisible="batchEditFieldVisible"
       @closeAction="closeAction"
       :selfFunc="true"
+      :compSize="compSize"
       @merge="closeAction"
       :title="'批量修改属性'"
   >
@@ -471,6 +483,7 @@ onMounted(async () => {
       :dialogVisible="isPreview"
       @closeAction="closeAction"
       :selfFunc="true"
+      :compSize="compSize"
       :title="'表单预览'"
       :is-view="true"
   >
@@ -489,6 +502,7 @@ onMounted(async () => {
         :scroll-to-error="formInfo['scrollToError'] == 'Y'"
         :show-message="formInfo['showMessage'] == 'Y'"
         :size="formInfo['size']"
+        style="width: 99%;margin: 0 auto;"
         :status-icon="formInfo['statusIcon'] == 'Y'"
         :validate-on-rule-change="formInfo['validateOnRuleChange']=='Y'"
     >

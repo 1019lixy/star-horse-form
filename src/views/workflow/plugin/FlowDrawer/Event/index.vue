@@ -92,7 +92,7 @@
     <FlowDrawerFooter @close="onClose"/>
   </el-drawer>
 </template>
-<script setup lang="ts">
+<script setup lang="ts" name="Event">
 import {flowMixin} from '@/views/workflow/plugin/mixins/flowMixin';
 import EditName from '@/views/workflow/plugin/Common/EditName.vue';
 import FlowDrawerFooter from '@/views/workflow/plugin/Common/DrawerFooter.vue';

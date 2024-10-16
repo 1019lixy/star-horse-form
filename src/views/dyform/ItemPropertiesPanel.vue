@@ -27,6 +27,7 @@ let selfFormDataList = computed(() => designForm.selfFormDataList);
 let formInfo = computed(() => designForm.formInfo);
 let list = computed(() => designForm.compList);
 const formProps = computed(() => designForm.currentFormPreps);
+const currentItemId = computed(() => designForm.currentItemId);
 let currentItemType = computed(() => designForm.currentItemType);
 let currentCompCategory = computed(() => designForm.currentCompCategory);
 let parentCompType = computed(() => designForm.parentCompType);
@@ -256,6 +257,7 @@ const assignValue = (fieldInfo: any) => {
     parseSelectData(temp.actions, "action");
     //如果是组件动态增加公共属性，公共属性不应该维护在数据库
     //如果是select,checkbox,radio 等，增加联动属性
+    console.log(currentCompCategory.value);
     if (currentCompCategory.value == "container") {
       if (currentItemType.value != 'table') {
         temp.fields.splice(0, 0, {
@@ -267,7 +269,6 @@ const assignValue = (fieldInfo: any) => {
         });
       }
     } else {
-      let alen = temp.advancedFields.length || 1;
       let commonFields = compCommonFields();
       if (relationComps.value.includes(currentItemType.value)) {
         console.log(currentItemType.value);
@@ -289,9 +290,8 @@ const assignValue = (fieldInfo: any) => {
       for (let i in commonFields) {
         temp.fields.splice(i, 0, commonFields[i]);
       }
-      console.log(temp.fields);
-
-      temp.advancedFields.splice(alen - 1, 0, {
+      // console.log(temp.fields);
+      temp.advancedFields.push({
         label: "备注",
         fieldName: "remark",
         type: "textarea",
@@ -349,7 +349,7 @@ const hmsg: string = `
 onMounted(() => {
   matchTypeList.value = searchMatchList();
 });
-watch(() => formProps,
+watch(() => currentItemId,
     (_val: any) => {
       assignPrep(currentItemType.value, parentCompType.value == "item");
     }, {

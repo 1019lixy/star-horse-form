@@ -51,13 +51,13 @@
     <FlowDrawerFooter @close="onClose" @save="onSave"/>
   </el-drawer>
 </template>
-<script setup lang="ts">
+<script setup lang="ts" name="Copyer">
 import {flowMixin} from '@/views/workflow/plugin/mixins/flowMixin';
 import FlowDrawerFooter from '@/views/workflow/plugin/Common/DrawerFooter.vue';
 import EditName from '@/views/workflow/plugin/Common/EditName.vue';
 import AuthForm from '@/views/workflow/plugin/Common/AuthForm.vue';
 import FlowNodeApproval from '../Approver/Approval.vue';
-import FlowNodeCopyerConfigure from './Configure.vue';
+import FlowNodeCopyerConfigure from './CopyerConfigure.vue';
 import {ref} from "vue";
 import {scale} from "@/views/workflow/plugin/util/deviceUtil";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
