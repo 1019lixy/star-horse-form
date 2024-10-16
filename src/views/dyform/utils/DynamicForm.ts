@@ -7,6 +7,13 @@ const formActions = [
         label: '左侧工具栏',
     },
     {
+        icon: "return",
+        defaultEdit: true,
+        key: 'goBack',
+        auth: "none",
+        label: '返回列表',
+    },
+    {
         icon: "style",
         defaultEdit: true,
         key: 'style',

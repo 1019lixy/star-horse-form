@@ -166,16 +166,15 @@ const doSave = async (isDraft: boolean = false) => {
         //添加成功后是否还要继续添加，
         confirm(res.data.cnMessage + ",是否继续留在当前页面").then((cfm: boolean) => {
           if (cfm) {
-            router.replace({
-              path: "/dyform/DynamicForm"
-            });
+            let parentId = route.query["parentId"];
+            let path = "/dyform/DynamicForm";
+            if (parentId) {
+              path += "?parentId=" + parentId;
+            }
+            router.replace({path: path});
           }
         }).catch(() => {
-          let sdata = {
-            path: "/dyform/DynamicFormUi",
-            componentName: "DynamicFormUi",
-          };
-          router.push(sdata);
+          goBack();
         });
       }).catch((err) => {
     activeTab.value = "second";
@@ -185,6 +184,13 @@ const doSave = async (isDraft: boolean = false) => {
     closeLoad();
   });
 };
+const goBack = () => {
+  let sdata = {
+    path: "/dyform/DynamicFormUi",
+    componentName: "DynamicFormUi",
+  };
+  router.push(sdata);
+}
 const formInfoChange = (_data: any) => {
 };
 const onDragAdd = async (_evt: Event, dataList: Array<any>) => {
@@ -318,6 +324,9 @@ const actions = (action: string) => {
       reOrUnDoFlag.value = true;
       designForm.redo();
       break;
+    case "goBack":
+      goBack();
+      break;
   }
 };
 const batchOperation = (val: any, fieldName: string) => {
@@ -336,6 +345,7 @@ const analysisQueryParams = () => {
     loadFormData(parentId, true);
   }
 }
+
 onActivated(() => {
   analysisQueryParams();
 });
