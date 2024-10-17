@@ -200,6 +200,7 @@ onMounted(() => {
 </script>
 <template>
   <div v-if="bareFlag">
+    <help :message="formItem.preps?.helpMsg" v-if="formItem.preps?.helpMsg"/>
     <slot></slot>
   </div>
 
@@ -216,9 +217,11 @@ onMounted(() => {
           :required="formItem?.preps['required']=='Y'"
           :rules="formItem?.preps['required']=='Y'?[{required:true,trigger:'blur',message:'必须项不能为空'}]:[]"
       >
+        <help :message="formItem.preps?.helpMsg" v-if="formItem.preps?.helpMsg"/>
         <slot></slot>
       </el-form-item>
       <div v-else class="bare-item">
+        <help :message="formItem.preps?.helpMsg" v-if="formItem.preps?.helpMsg"/>
         <slot></slot>
       </div>
       <div

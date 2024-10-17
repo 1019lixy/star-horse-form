@@ -8,8 +8,10 @@
 <script lang="ts" name="audioItem">
 import {defineComponent, onMounted, shallowRef} from "vue";
 import {blobData} from "@/api/star_horse";
+import Help from "@/components/help.vue";
 
 export default defineComponent({
+  components: {Help},
   setup(props, context) {
     const parentField = context.attrs["parentField"];
 

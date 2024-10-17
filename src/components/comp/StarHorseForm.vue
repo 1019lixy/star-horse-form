@@ -330,7 +330,8 @@ defineExpose({
            :scroll-into-view-options="true"
            :inline-message="true"
            :status-icon="true"
-           label-position="right"
+           label-position="left"
+           require-asterisk-position="right"
            label-width="auto"
            class="data-form" ref="starHorseFormRef">
     <star-horse-form-item :primaryKey="primaryKey"

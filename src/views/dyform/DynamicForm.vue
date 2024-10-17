@@ -1,6 +1,6 @@
 <script lang="ts" setup name="DynamicForm">
 import FieldPanel from "@/views/dyform/FieldPanel.vue";
-import {computed, nextTick, onActivated, onMounted, reactive, ref, watch} from "vue";
+import {computed, nextTick, onActivated, onBeforeUnmount, onDeactivated, onMounted, reactive, ref, watch} from "vue";
 import PropertyPanel from "@/views/dyform/PropertyPanel.vue";
 import {postRequest} from "@/api/star_horse";
 import {confirm, error, warning} from "@/utils/message";
@@ -73,13 +73,16 @@ const loadFormData = async (formId: any, isParent: boolean) => {
   if (data["relations"]) {
     data["relations"] = JSON.parse(data["relations"]);
   }
-  designForm.setCompList(JSON.parse(data["details"].content));
-  designForm.setFormData(JSON.parse(data["details"].fieldNames));
+  designForm.setCompList(JSON.parse(data["details"]?.content || "[]"));
+  designForm.setFormData(JSON.parse(data["details"]?.fieldNames || "{}"));
   data["details"] = {};
   designForm.setIsEdit(true);
   let activeItem = list.value[0];
+  console.log(activeItem);
   designForm.setFormInfo(data);
-  designForm.selectItem(activeItem, activeItem.itemType, "item");
+  if (activeItem) {
+    designForm.selectItem(activeItem, activeItem.itemType, activeItem.compType);
+  }
 };
 
 const closeAction = () => {
@@ -348,7 +351,14 @@ const analysisQueryParams = () => {
 
 onActivated(() => {
   analysisQueryParams();
+  designForm.setIsEdit(true);
 });
+onDeactivated(() => {
+  designForm.setIsEdit(false);
+})
+onBeforeUnmount(() => {
+  designForm.setIsEdit(false);
+})
 watch(
     () => route.query,
     (val) => {
@@ -503,11 +513,11 @@ onMounted(async () => {
         :hide-required-asterisk="formInfo['hideRequiredAsterisk'] == 'Y'"
         :inline="formInfo.inline == 'Y'"
         :inline-message="formInfo['inlineMessage'] == 'Y'"
-        :label-position="formInfo['labelPosition']"
+        :label-position="formInfo['labelPosition']||'left'"
         :label-suffix="formInfo['labelSuffix']"
-        :label-width="formInfo['labelWidth']"
+        :label-width="formInfo['labelWidth']||'auto'"
         :model="formData"
-        :require-asterisk-position="formInfo['requireAsteriskPosition']"
+        :require-asterisk-position="formInfo['requireAsteriskPosition']||'right'"
         :rules="formInfo.rules"
         :scroll-to-error="formInfo['scrollToError'] == 'Y'"
         :show-message="formInfo['showMessage'] == 'Y'"

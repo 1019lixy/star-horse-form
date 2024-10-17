@@ -190,7 +190,7 @@ export async function loadMenusInfo(direct: boolean, params: any, needSystem: bo
                 menuDatas = redata.data;
             } else {
                 //构建菜单树
-                menuDatas = createTree(redata.data, "", "menuName", "idMenusinfo");
+                menuDatas = createTree(redata.data, "idMenusinfo", "menuName", "");
             }
         }
     }).catch(err => {

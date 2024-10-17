@@ -24,7 +24,7 @@ const menuPermission = ref();
 let rolesList = ref<SelectOption[]>([]);
 let systemInfoList = ref<SelectOption[]>([]);
 let appinfoList = ref<SelectOption[]>([]);
-let menusList = ref<SelectOption[]>();
+let menusList = ref<Array[]>();
 let configStore = GlobalConfig(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.inputSize || "default");
 let currentUserGroupId = ref<number>(0);
@@ -45,7 +45,7 @@ const userGroupChange = async (data: TreeNodeData, checked: boolean) => {
     return;
   }
   systemInfoList.value = roleSystemDatas.data;
-  appinfoList.value = createTree(roleSystemDatas.data, "", "sysName", "idInformations");
+  appinfoList.value = createTree(roleSystemDatas.data, "idInformations", "sysName", "");
   setQueryCondition();
 };
 const setQueryCondition = () => {
@@ -61,14 +61,14 @@ const systemChange = async (data: TreeNodeData, checked: boolean) => {
   currentSystemId.value = data.idInformations;
   let condition: SearchParams = createCondition("idInformations", data.idInformations);
   setQueryCondition();
-  menusList.value = await loadMenusInfo(false, [condition], false);
+  menusList.value = await loadMenusInfo(true, [condition], false);
 };
 let menuPermissionStatus = ref<SelectOption[]>([]);
 const searchFields = reactive<SearchFields>({
   fieldList: [
     {
       label: "菜单名称",
-      fieldName: "b.idInformations",
+      fieldName: "d.menuName",
       defaultShow: true,
       type: "input",
       matchType: "lk"
@@ -89,7 +89,11 @@ const formFieldList = reactive<PageFieldInfo>({
       formShow: true, required: true, viewShow: false, multiple: "Y",
       helpMsg: "选择子节点时，一定要先选中父节点，否则左侧菜单栏无法显示",
       preps: {
-        checkStrictly: "Y"
+        checkStrictly: "Y",
+        props:{
+          label:"menuName",
+          value:"idMenusinfo"
+        }
       }
     }, {
       label: "状态",

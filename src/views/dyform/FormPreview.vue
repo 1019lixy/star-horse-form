@@ -1,6 +1,7 @@
 <script setup lang="ts">
 defineProps({
-  list: {type: Array, required: true}
+  list: {type: Array, required: true},
+  compSize: {type: String, default: "default"}
 });
 let formData = ref<any>({});
 defineExpose({
@@ -11,21 +12,35 @@ defineExpose({
 <template>
   <div class="form-preview">
     <el-scrollbar height="100%" style="width: inherit">
-      <template v-for="data in list">
-        <component
-            :field="data"
-            :formData="formData"
-            :is="data?.itemType+'-container'"
-            v-if="data?.compType==='container'"
-        >
-        </component>
-        <component
-            :field="data"
-            :formData="formData"
-            :is="data?.itemType + '-item'"
-            v-else-if="data?.compType=='formItem'"
-        />
-      </template>
+      <el-form
+          label-width="auto"
+          label-position="left"
+          require-asterisk-position="right"
+
+          :model="formData"
+          :size="compSize"
+      >
+        <template v-for="data in list">
+          <component
+              :field="data"
+              :formData="formData"
+              :isDesign="false"
+              :is="data?.itemType+'-container'"
+              v-if="data?.compType==='container'"
+          >
+          </component>
+          <el-form-item :label="data.preps.label" :prop="data.preps.fieldName" :required="data.preps.required=='Y'"
+                        v-else-if="data?.compType=='formItem'">
+            <component
+                :field="data"
+                :formData="formData"
+                :isDesign="false"
+                :is="data?.itemType + '-item'"
+
+            />
+          </el-form-item>
+        </template>
+      </el-form>
     </el-scrollbar>
   </div>
 </template>

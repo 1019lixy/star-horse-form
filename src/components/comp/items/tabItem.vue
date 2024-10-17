@@ -11,6 +11,7 @@ defineProps({
   compUrl: {type: Object as PropType<ApiUrls>},
   item: {type: Array as PropType<Array<FieldInfo>>, required: true},
   objectName: {type: String},
+  parentPreps: {type: Object, default: {}},
   subCreateFlag: {type: Boolean, default: false},
   batchName: {type: String, default: "batchDataList"},
   batchFieldName: {type: String, default: "batchFieldList"},
@@ -44,7 +45,7 @@ onMounted(() => {
           <template #label>
             <div class="custom-tabs-label">
               <star-horse-icon :icon-class="tabItem.icon" v-if="tabItem.icon"/>
-              <span>{{ tabItem.title}}</span>
+              <span>{{ tabItem.title }}</span>
             </div>
           </template>
           <el-scrollbar height="95%">
@@ -66,7 +67,6 @@ onMounted(() => {
                                  }"
                                   :rules="rules" :subCreateFlag="tabItem.subFormFlag"
                                   :primaryKey="primaryKey"/>
-
           </el-scrollbar>
         </el-tab-pane>
       </template>
@@ -81,7 +81,7 @@ onMounted(() => {
             <template #label>
               <div class="custom-tabs-label">
                 <star-horse-icon :icon-class="sitem.icon" v-if="sitem.icon"/>
-                <span>{{ sitem.title}}</span>
+                <span>{{ sitem.title }}</span>
               </div>
             </template>
             <star-horse-form-table :size="compSize" :rules="rules" :item="sitem" v-model:dataForm="dataForm"/>

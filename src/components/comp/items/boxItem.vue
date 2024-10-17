@@ -8,6 +8,7 @@ defineProps({
   compUrl: {type: Object as PropType<ApiUrls>},
   item: {type: Array as PropType<Array<FieldInfo>>, required: true},
   objectName: {type: String},
+  parentPreps:{type:Object,default:{}},
   subCreateFlag: {type: Boolean, default: false},
   batchName: {type: String, default: "batchDataList"},
   batchFieldName: {type: String, default: "batchFieldList"},
@@ -36,6 +37,7 @@ onMounted(() => {
             :label="sitem.preps?.hideLabel=='Y'?'':sitem.label"
             :required="sitem.required"
             :prop="sitem.fieldName"
+            :label-position="parentPreps?.labelPosition"
             :rules="sitem.required?validMsg(sitem,dataForm):[]"
             v-if="sitem.formShow&&sitem.label&&sitem.preps?.headerFlag!='Y'">
           <star-horse-item :primaryKey="primaryKey" :compSize="compSize" v-model:dataForm="dataForm"

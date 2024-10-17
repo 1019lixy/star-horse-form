@@ -2,14 +2,13 @@
 import {nextTick, onMounted, PropType, ref} from "vue";
 import {flowButtonList, setBpmnModeler} from "@/views/jbpm/utils/FlowData.ts";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-import BpmnModeler from "camunda-bpmn-js/lib/camunda-platform/Modeler";
 
 const props = defineProps({
   processData: {
     type: Object as PropType<any>,
   },
   modeler: {
-    type: Object as PropType<BpmnModeler>,
+    type: Object as PropType<any>,
     default: null
   }
 });

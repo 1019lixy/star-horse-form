@@ -18,6 +18,7 @@ import {useButtonPermission} from "@/store/ButtonPermissionStore.ts";
 import TableColumn from "@/components/comp/items/tableColumn.vue";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import {analysisFields} from "@/views/dyform/utils/preview.ts";
+import {isSystemManage} from "@/utils/auth.ts";
 
 const dynamicForm = DynamicForm(piniaInstance);
 const props = defineProps({
@@ -180,7 +181,9 @@ const permissionList = () => {
 }
 const init = async () => {
   permissions.value = await pagePermission.addRoute(route);
-
+  //拿到别人共享的信息
+  let resultData = await loadData("/system-config/system/dataPermission/currentMenuPermissionPerson", {});
+  commonPersons.value = resultData.data;
   //是否初始化时自动加载列表数据开关
   if (!props.fieldList?.stopAutoLoad) {
     loadByPage();
@@ -443,6 +446,7 @@ const pageChangeClick = (currentPage: number) => {
 };
 //弹出选择框属性名称
 const inputFieldName = ref<string>("");
+const commonPersons = ref<Array<string>>([]);
 //弹窗选择框属性值
 const inputFieldVal = ref<any>();
 const createParams = () => {
@@ -460,6 +464,10 @@ const createParams = () => {
   let condition = props.compUrl?.condition;
   if (condition && condition.length > 0) {
     searchTemp.push(...condition);
+  }
+  //加入共享人的信息
+  if (commonPersons.value && commonPersons.value.length && !isSystemManage()) {
+    searchTemp.push(createCondition("a.createdBy", commonPersons.value, "in"));
   }
   if (!props.compUrl?.loadByPageUrl) {
     return;
@@ -492,11 +500,11 @@ const loadByPage = () => {
     load("数据加载中");
   }
   postRequest(url, params).then((res: any) => {
-    if (res.data.code != 0) {
+    if (res.data?.code != 0) {
       console.error(res.data.cnMessage);
       return;
     }
-    let redata = res.data.data;
+    let redata = res?.data.data;
     //如果不是分页之间显示返回的所有数据
     pageInfo.dataList = redata?.dataList || redata;
     if (props.dialogInput) {

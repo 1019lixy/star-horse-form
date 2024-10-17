@@ -171,6 +171,7 @@ const extandBtnFunction = (): Array<UserFuncInfo> => {
     }
     arr.push(...props.extandBtns);
   }
+  arr.sort((a: UserFuncInfo, b: UserFuncInfo) => (a.priority || 100) - (b.priority || 100));
   return arr;
 }
 const setFormData = (val: any) => {

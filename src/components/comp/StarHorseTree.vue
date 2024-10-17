@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {computed, nextTick, onMounted, ref, unref, reactive} from "vue";
+import {computed, nextTick, onMounted, reactive, ref, unref, PropType} from "vue";
 import {TreeNode, TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
 import {ModelRef} from "vue-demi";
 import SubSystemMenu from "@/components/menu/SubSystemMenu.vue";
@@ -7,7 +7,6 @@ import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import piniaInstance from "@/store";
 import {PageProps} from "@/components/types/PageProps";
-import {PropType} from "vue/dist/vue";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {warning} from "@/utils/message.ts";
 import {SearchParams} from "@/components/types/Params";

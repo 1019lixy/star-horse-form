@@ -225,7 +225,6 @@ onMounted(() => {
 </style>
 <template>
   <div v-if="bareFlag||field.preps.headerFlag=='Y'" class="bare-comp">
-    <help :message="item?.helpMsg" v-if="item?.helpMsg"/>
     <component :id="randId" :is="(dataForm['_'+field.preps.name+'Type']||itemType)+'-item'" @selfFunc="actionDispatcher"
                :isDesign="isDesign"
                ref="componentRef"
@@ -245,7 +244,6 @@ onMounted(() => {
   <div v-else class="comp-info"
        :style="{ 'min-width': isSearch && field.preps['type'] != 'daterange' ? '150px' : '100%','height':
        itemType != 'button' ?'100%':'inherit' }">
-    <help :message="item?.helpMsg" v-if="item?.helpMsg"/>
     <component :id="randId" :is="(dataForm['_'+field.preps.name+'Type']||itemType)+'-item'" @selfFunc="actionDispatcher"
                :isDesign="isDesign"
                ref="componentRef"

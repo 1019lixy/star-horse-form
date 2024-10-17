@@ -12,8 +12,7 @@
           :class="{
 				'is-disabled': !context.attrs['formData']['_'+field.preps['name']+'Editable']&&field.preps['disabled'] == 'Y',
 				'is-focus': isFocus,
-				'number-range-left-border-radius-0': true,
-				'number-range-right-border-radius-0': true,
+				'number-range-border-radius': true,
 			}"
       >
         <el-input-number
@@ -123,7 +122,7 @@ export default defineComponent({
     });
     return {
       parentField, context, field, formItem, dataField, actionName,
-      itemAction, handleBlur, handleFocus,isFocus
+      itemAction, handleBlur, handleFocus, isFocus
     }
   }
 });
@@ -165,15 +164,11 @@ export default defineComponent({
     background-color: var(--el-fill-color-light);
   }
 
-  .number-range-left-border-radius-0 {
-    border-top-left-radius: 0 !important;
-    border-bottom-left-radius: 0 !important;
+  .number-range-border-radius {
+    border-radius: 5px !important;
+
   }
 
-  .number-range-right-border-radius-0 {
-    border-top-right-radius: 0 !important;
-    border-bottom-right-radius: 0 !important;
-  }
 
   .number-range {
     background-color: var(--el-bg-color) !important;

@@ -3,7 +3,7 @@ import {getToken, getUserInfo, removeToken, setCustomerInfo, setToken, setUserIn
 import router from "@/router";
 import {error, warning} from "../utils/message";
 import {Config} from "@/api/settings.ts";
-import {reactive} from "vue";
+import {getCurrentInstance, reactive} from "vue";
 import {MenusInfo} from "@/components/types/MenusInfo";
 import piniaInstance from "@/store";
 import {navBarList} from "@/store/NavbarListStore";
@@ -12,6 +12,7 @@ import {viewList} from "@/store/ViewCacheStore";
 import {SelectOption} from "@/components/types/SearchProps";
 import {RouteLocationNormalized} from "vue-router";
 import {useButtonPermission} from "@/store/ButtonPermissionStore.ts";
+import {loadData} from "@/api/sh_api.ts";
 
 const navBarListStore = navBarList(piniaInstance);
 const userStore = userInfoStore(piniaInstance);
@@ -30,6 +31,7 @@ service.interceptors.request.use((config: InternalAxiosRequestConfig) => {
     // 请求头带上token
     if (token && config.headers) {
         config.headers.token = token;
+        config.headers.menuPosition = getMenuId();
     }
     return config;
 }, (error: any) => {
@@ -124,28 +126,24 @@ export function selectMenusTreeData(data: any) {
 export async function userLogin(loginData: any) {
     let data: any = {};
     let errMsg = null;
-    await postRequest("/system-config/system/usersAuditEntity/userLogin", loginData).then(async (res) => {
-        const redata = res.data;
-        const userData = redata.data;
-        if (redata.code != 0) {
-            errMsg = redata.cnMessage;
-        } else {
-            const condition = {
-                "userId": userData.idUsersinfo,
-            };
-            userStore.login({...userData, rememberMe: loginData.rememberMe});
-            setToken(userData.dataNo, data.rememberMe);
-            setUserInfo({...userData, ...loginData, rememberMe: loginData.rememberMe});
-            setCustomerInfo(userData.customerInfo);
-            //登录成功，获取当前用户的权限菜单
-            await permissionMenus(condition, "-1").then(res2 => {
-                createRouterAndMenuList(res2.data.data);
-                data = userData;
-            });
-        }
-    }).catch(error => {
-        errMsg = error;
-    });
+    let resultData = await loadData("/system-config/system/usersAuditEntity/userLogin", loginData);
+    if (resultData.error) {
+        errMsg = resultData.error;
+    } else {
+        let userData = resultData.data;
+        let condition = {
+            "userId": userData.idUsersinfo,
+        };
+        userStore.login({...userData, rememberMe: loginData.rememberMe});
+        setToken(userData.dataNo, data.rememberMe);
+        setUserInfo({...userData, ...loginData, rememberMe: loginData.rememberMe});
+        setCustomerInfo(userData.customerInfo);
+        //登录成功，获取当前用户的权限菜单
+        await permissionMenus(condition, "-1").then(res2 => {
+            createRouterAndMenuList(res2.data.data);
+            data = userData;
+        });
+    }
     return {data, errMsg};
 }
 
@@ -155,24 +153,21 @@ export async function userLogin(loginData: any) {
  * @returns {Promise<AxiosResponse<any>>}
  */
 export async function userLogout(data: Array<any>) {
-    await postRequest("/system-config/system/usersAuditEntity/userLogout", data).then(res => {
-        const redata = res.data;
-        if (redata.code != 0) {
-            warning(redata.cnMessage);
-        } else {
-            removeToken()
-            userStore.logout();
-            navBarListStore.clearAll();
-            viewListStore.clearAll();
-            router.push({path: "/login"});
-        }
-    }).catch(err => error(err));
+    let resultDdata = await loadData("/system-config/system/usersAuditEntity/userLogout", data);
+    if (resultDdata.error) {
+        warning(resultDdata.error);
+        return;
+    }
+    removeToken()
+    userStore.logout();
+    navBarListStore.clearAll();
+    viewListStore.clearAll();
+    router.push({path: "/login"});
 }
 
 
 export function getMenuId() {
     const meta = router.currentRoute.value.meta;
-    console.log(router, meta);
     let menuId = meta?.menuId as string;
     if (!menuId) {
         return "";

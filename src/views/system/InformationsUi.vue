@@ -115,7 +115,6 @@ const dataFormat = (name: string, cellValue: object): any => {
   if (name == "parentId") {
     return informationsList.value.find((item: SelectOption) => item.value == cellValue)?.name || cellValue;
   } else if (name == "idCustomer") {
-    console.log("xxxxxxxxxxxx", name);
     return customerList.value.find((item: SelectOption) => item.value == cellValue)?.name || cellValue;
   }
   return cellValue;
