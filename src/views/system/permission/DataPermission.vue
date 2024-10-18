@@ -22,6 +22,7 @@ import StarHorseTree from "@/components/comp/StarHorseTree.vue";
 import {warning} from "@/utils/message.ts";
 import {SearchParams} from "@/components/types/Params";
 import {getUserInfo} from "@/utils/auth.ts";
+import {baseUserFields, userFormat} from "@/views/system/utils/UserFields.ts";
 
 const dataUrl: ApiUrls = apiInstance("system-config", "system/dataPermission");
 let systemInfoList = ref<SelectOption[]>([]);
@@ -46,66 +47,88 @@ const searchFormData = reactive<SearchFields>({
 let groupVisible = ref<boolean>("false");
 let userVisible = ref<boolean>("true");
 const formFieldList = reactive<PageFieldInfo | any>({
-  fieldList: [
-    [
-      {
-        label: "权限类型",
-        fieldName: "permissionType",
-        type: "select",
-        optionList: permissionType,
-        defaultValue: "sharePerson",
-        actionName: "change",
-        helpMsg: `数据共享：被授权人如果能访问对应模块，则可看到被共享的数据；\n 临时赋权：被授权人可以访问被赋权的模块及数据。`,
-        actions: (val: any) => {
-          groupVisible.value = val["permissionType"] == 'shareGroup';
-          val["userGroup"] = "";
-          userVisible.value = val["permissionType"] == 'sharePerson' || val["permissionType"] == 'empowerment';
+      fieldList: [
+        [
+          {
+            label: "权限类型",
+            fieldName: "permissionType",
+            type: "select",
+            optionList: permissionType,
+            defaultValue: "sharePerson",
+            actionName: "change",
+            helpMsg: `数据共享：被授权人如果能访问对应模块，则可看到被共享的数据；\n 临时赋权：被授权人可以访问被赋权的模块及数据。`,
+            actions: (val: any) => {
+              groupVisible.value = val["permissionType"] == 'shareGroup';
+              val["userGroup"] = "";
+              userVisible.value = val["permissionType"] == 'sharePerson' || val["permissionType"] == 'empowerment';
+            },
+            required: true,
+            formShow: true,
+            tableShow: true
+          }, {
+          label: "授权菜单", fieldName: "menuList", type: "tselect", optionList: menusList,
+          required: true, formShow: true, multiple: "Y",
+          tableShow: true,
+          preps: {
+            props: {
+              label: "menuName",
+              value: "idMenusinfo"
+            }
+          }
+        }],
+        {
+          label: "用户组", fieldName: "userGroup", type: "tselect", optionList: rolesList,
+          required: true, formShow: groupVisible, multiple: "Y",
+          tableShow: true
         },
-        required: true,
-        formShow: true,
-        tableShow: true
-      }, {
-      label: "授权菜单", fieldName: "menuList", type: "tselect", optionList: menusList,
-      required: true, formShow: true, multiple: "Y",
-      tableShow: true,
-      preps: {
-        props: {
-          label: "menuName",
-          value: "idMenusinfo"
-        }
-      }
-    }],
-    {
-      label: "用户组", fieldName: "userGroup", type: "tselect", optionList: rolesList,
-      required: true, formShow: groupVisible, multiple: "Y",
-      tableShow: true
-    },
-    {
-      label: "被授权人", fieldName: "userGroupName", aliasName: "userGroup", type: "user", optionList: appinfoList,
-      required: true, formShow: userVisible, multiple: "Y",
-      tableShow: true
-    },
-    {
-      label: "权限", fieldName: "permissionList", type: "select", optionList: authorityList,
-      required: true, formShow: true, multiple: "Y",
-      defaultValue: ["view"],
-      tableShow: true
-    },
-    {
-      label: "有效期", fieldName: "validTime", type: "daterange",
-      required: true, formShow: true,
-      tableShow: true,
-    },
-  ],
-  cellEditable: false
-});
+        {
+          label: "被授权账号", fieldName: "userGroupName", aliasName: "userGroup", type: "page-select",
+          required: true, formShow: userVisible, multiple: "N",
+          tableShow: true,
+          params: {
+            primaryKey: "idUsersinfo",
+            dataUrl: {
+              loadByPageUrl: "/system-config/system/usersinfoEntity/pageList",
+            },
+            searchFieldList: {
+              fieldList: [
+                {label: "用户名", defaultShow: true, fieldName: "username", type: "input", matchType: "lk"},
+                {label: "姓名", defaultShow: true, fieldName: "name", type: "input", matchType: "lk"},
+                {label: "工号", defaultShow: true, fieldName: "employeeNo", type: "input", matchType: "lk"},
+              ]
+            },
+            dataFormat: (name: string, val: any, row: any) => {
+              return userFormat(name, val, row);
+            },
+            needField: [
+              {sourceField: "idUsersinfo", distField: "userGroup"},
+              {sourceField: "name", distField: "userGroupName"},
+            ],
+            fieldList: baseUserFields
+          }
+        },
+        {
+          label: "权限", fieldName: "permissionList", type: "select", optionList: authorityList,
+          required: true, formShow: true, multiple: "Y",
+          defaultValue: ["view"],
+          tableShow: true
+        },
+        {
+          label: "有效期", fieldName: "validTime", type: "daterange",
+          required: true, formShow: true,
+          tableShow: true,
+        },
+      ],
+      cellEditable: false
+    })
+;
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     {
       label: "权限类型", fieldName: "permissionType", type: "input", tableShow: true
     },
     {
-      label: "被授权用户组/人", fieldName: "userGroup", type: "input", tableShow: true
+      label: "被授权用户组/账号", fieldName: "userGroup", type: "input", tableShow: true
     },
     {
       label: "有效期", fieldName: "validTime", type: "input", tableShow: true
@@ -204,13 +227,12 @@ const menuChange = (data: TreeNodeData, checked: boolean) => {
 const doQuery = () => {
   let params: SearchParams[] = [];
   //  let roleList = getUserInfo()?.rolesList?.map(item => item.idRolesinfo);
-  if (currentUserGroupId.value) {
-    params.push(createCondition("a.idRolesinfo", currentUserGroupId.value));
+  if (currentSystemId.value) {
+    params.push(createCondition("c.idInformations", currentSystemId.value));
   }
-
   defaultCondition.value = JSON.parse(JSON.stringify(params));
   if (currentMenuId.value) {
-    params.push(createCondition("a.idMenusinfo", currentMenuId.value));
+    params.push(createCondition("b.idMenusinfo", currentMenuId.value));
   }
   dataPermissionRef.value.createSearchParams(params);
 }

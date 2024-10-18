@@ -1,6 +1,7 @@
 import {SelectOption} from "@/components/types/SearchProps";
 import {dictData, loadDepartmentInfo, loadRolesInfo} from "@/api/sh_api.ts";
 import {ref} from "vue";
+import {analysisData} from "@/api/deptment.ts";
 
 const deptList = ref<SelectOption[]>([]);
 const rolesList = ref<SelectOption[]>([]);
@@ -40,6 +41,20 @@ const userEditFieldInfo: Array<any> = [
         label: "紧急联系人电话", fieldName: "bakePhone", type: "input", formShow: true,
     },
 ];
+const userFormat = (name: string, val: any, row: any) => {
+    if (name == "rolesList" && row["rolesList"]) {
+        let roles: Array<string> = [];
+        row["rolesList"].forEach((item: any) => {
+            roles.push(item.roleName);
+        });
+        return roles.join(";");
+    }
+    if (name == "deptList" && row['deptList']) {
+        let data = analysisData(row['deptList'], "", "deptName", "idDepartment")
+        return data.listNames.join("/");
+    }
+    return val;
+}
 const baseUserFields: Array<any> = [
     [
         {
@@ -160,6 +175,7 @@ const initSelectData = async () => {
 
 }
 export {
+    userFormat,
     initSelectData,
     userEditFieldInfo,
     baseUserFields,

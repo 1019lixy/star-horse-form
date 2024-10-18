@@ -124,23 +124,27 @@ const compPreps = () => {
       cellEditable: false,
       fieldList: inputPreps.fieldList
     };
-    let searchFieldList: Array<any> = [];
-    field.value.preps["filterCondition"] = inputPreps.filterCondition;
-    field.value.preps["orderBy"] = inputPreps.orderBy;
-    inputPreps.fieldList?.forEach((item: FieldInfo) => {
-      let temp: any = {
-        ...item
-      };
-      if (item.prefix) {
-        temp["fieldName"] = item.prefix + "." + temp["fieldName"];
-      }
-      temp["defaultShow"] = true;
-      if (item?.type == "input" && !item["matchType"]) {
-        temp["matchType"] = "lk";
-      }
-      searchFieldList.push(temp);
-    });
-    field.value.preps["searchFieldList"] = {fieldList: searchFieldList};
+    if (!inputPreps.searchFieldList || inputPreps.searchFieldList.length === 0) {
+      let searchFieldList: Array<SearchFields> = [];
+      field.value.preps["filterCondition"] = inputPreps.filterCondition;
+      field.value.preps["orderBy"] = inputPreps.orderBy;
+      inputPreps.fieldList?.forEach((item: FieldInfo) => {
+        let temp: any = {
+          ...item
+        };
+        if (item.prefix) {
+          temp["fieldName"] = item.prefix + "." + temp["fieldName"];
+        }
+        temp["defaultShow"] = true;
+        if (item?.type == "input" && !item["matchType"]) {
+          temp["matchType"] = "lk";
+        }
+        searchFieldList.push(temp);
+      });
+      field.value.preps["searchFieldList"] = {fieldList: searchFieldList};
+    } else {
+      field.value.preps["searchFieldList"] = inputPreps.searchFieldList;
+    }
     field.value.preps["dataUrl"] = inputPreps.dataUrl;
     field.value.preps["needField"] = inputPreps.needField;
     field.value.preps["dataFormat"] = inputPreps.dataFormat;

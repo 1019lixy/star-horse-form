@@ -6,8 +6,10 @@ import {postRequest} from "@/api/star_horse";
 import {FieldMapping, OrderByInfo} from "@/components/types/PageFieldInfo";
 import {SearchParams} from "@/components/types/Params";
 import {allAction} from "@/components/formcomp/utils/ItemRelationEventUtils.ts";
+import StarHorseTableComp from "@/components/comp/StarHorseTableComp.vue";
 
 export default defineComponent({
+  components: {StarHorseTableComp},
   setup(_props, context) {
     const parentField = context.attrs["parentField"];
     // let formData = context.attrs["formData"] as any;
@@ -198,7 +200,17 @@ export default defineComponent({
                 :reserve-selection="true"
             />
             <template v-for="item in field.preps?.fieldList?.fieldList">
+              <template v-if="Array.isArray(item)">
+                <star-horse-table-column
+                    v-for="sitem in item"
+                    :compUrl="field.preps['dataUrl']"
+                    :cellEditable="false"
+                    :data-format="field.preps['dataFormat']"
+                    :item="sitem"
+                />
+              </template>
               <star-horse-table-column
+                  v-else
                   :compUrl="field.preps['dataUrl']"
                   :cellEditable="false"
                   :data-format="field.preps['dataFormat']"
