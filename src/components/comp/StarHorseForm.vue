@@ -33,6 +33,7 @@ const props = defineProps({
   globalCondition: {type: Object},
   rules: {type: Object},
   formSize: {type: String},
+  labelPosition: {type: String, default: "left"},
   dynamicForm: {type: Boolean, default: false},
   isView: {type: Boolean, default: false},
   selectData: {
@@ -330,7 +331,7 @@ defineExpose({
            :scroll-into-view-options="true"
            :inline-message="true"
            :status-icon="true"
-           label-position="left"
+           :label-position="labelPosition"
            require-asterisk-position="right"
            label-width="auto"
            class="data-form" ref="starHorseFormRef">

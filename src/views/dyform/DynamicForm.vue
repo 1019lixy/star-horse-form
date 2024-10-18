@@ -73,13 +73,15 @@ const loadFormData = async (formId: any, isParent: boolean) => {
   if (data["relations"]) {
     data["relations"] = JSON.parse(data["relations"]);
   }
-  designForm.setCompList(JSON.parse(data["details"]?.content || "[]"));
-  designForm.setFormData(JSON.parse(data["details"]?.fieldNames || "{}"));
+  let details=data["details"];
   data["details"] = {};
+  designForm.setFormInfo(data);
+  designForm.setCompList(JSON.parse(details?.content || "[]"));
+  designForm.setFormData(JSON.parse(details?.fieldNames || "{}"));
   designForm.setIsEdit(true);
   let activeItem = list.value[0];
   console.log(activeItem);
-  designForm.setFormInfo(data);
+
   if (activeItem) {
     designForm.selectItem(activeItem, activeItem.itemType, activeItem.compType);
   }
@@ -147,12 +149,13 @@ const doSave = async (isDraft: boolean = false) => {
     return;
   }
   let dynameForm = JSON.parse(JSON.stringify(formInfo.value));
+  console.log(dynameForm);
   //解决多次转换
   dynameForm!["relations"] = (dynameForm["relations"] && dynameForm["relations"] instanceof Array) ?
       JSON.stringify(dynameForm["relations"]) : dynameForm["relations"];
   dynameForm!["details"] = {};
   dynameForm!["details"]["content"] = JSON.stringify(list.value);
-  dynameForm!["details"]["fieldNames"] = JSON.stringify(formData.value);
+  dynameForm!["details"]["fieldNames"] = "{}";//JSON.stringify(formData.value);
 
   load("数据提交中，请等待");
   postRequest(`/userdb-manage/userdb/dynamicForm/${isDraft ? "mergeDraft" : "merge"}`, dynameForm)
@@ -169,12 +172,7 @@ const doSave = async (isDraft: boolean = false) => {
         //添加成功后是否还要继续添加，
         confirm(res.data.cnMessage + ",是否继续留在当前页面").then((cfm: boolean) => {
           if (cfm) {
-            let parentId = route.query["parentId"];
-            let path = "/dyform/DynamicForm";
-            if (parentId) {
-              path += "?parentId=" + parentId;
-            }
-            router.replace({path: path});
+            analysisParentParam();
           }
         }).catch(() => {
           goBack();
@@ -335,6 +333,13 @@ const actions = (action: string) => {
 const batchOperation = (val: any, fieldName: string) => {
   batchModifyAction(list.value, val, fieldName);
 }
+const analysisParentParam = () => {
+  let parentId = route.query["parentId"];
+  if (parentId) {
+    // console.log(parentId);
+    loadFormData(parentId, true);
+  }
+}
 const analysisQueryParams = () => {
   let formId = route.query["formId"];
   if (formId) {
@@ -342,11 +347,7 @@ const analysisQueryParams = () => {
     loadFormData(formId, false);
     return;
   }
-  let parentId = route.query["parentId"];
-  if (parentId) {
-    // console.log(parentId);
-    loadFormData(parentId, true);
-  }
+  analysisParentParam();
 }
 
 onActivated(() => {

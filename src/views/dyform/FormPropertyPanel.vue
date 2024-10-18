@@ -121,10 +121,10 @@ const tableFieldList = reactive<PageFieldInfo | any>({
               [
                 {label: "表单风格", fieldName: "size", defaultValue: "default", type: "select", optionList: formSizeList, formShow: true},
                 {label: "表单域标签的后缀", fieldName: "labelSuffix", type: "input", formShow: true},
-                {label: "是否禁用该表单内的所有组件", fieldName: "disabled", defaultValue: "N", type: "switch", formShow: true},
+                {label: "禁用所有组件", fieldName: "disabled", defaultValue: "N", type: "switch", formShow: true},
               ],
               [
-                {label: "是否隐藏必填字段标签旁边的红色星号", fieldName: "hideRequiredAsterisk", defaultValue: "N", type: "switch", formShow: true},
+                {label: "隐藏必填字段的红色星号", fieldName: "hideRequiredAsterisk", defaultValue: "N", type: "switch", formShow: true},
                 {label: "校验失败时，滚动到第一个错误表单项", fieldName: "scrollToError", defaultValue: "Y", type: "switch", formShow: true},
                 {label: "星号的位置", fieldName: "requireAsteriskPosition", defaultValue: "right", type: "radio", optionList: requireAsteriskPositionList, formShow: true},
               ],
@@ -221,5 +221,5 @@ defineExpose({
 
 </style>
 <template>
-  <star-horse-form :outerFormData="formInfo" :fieldList="tableFieldList" ref="dynamicFormItemRef"/>
+  <star-horse-form label-position="right" :outerFormData="formInfo" :fieldList="tableFieldList" ref="dynamicFormItemRef"/>
 </template>
