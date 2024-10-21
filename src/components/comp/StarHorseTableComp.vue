@@ -19,6 +19,7 @@ import TableColumn from "@/components/comp/items/tableColumn.vue";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import {analysisFields} from "@/views/dyform/utils/preview.ts";
 import {isSystemManage} from "@/utils/auth.ts";
+import {removeEmptyCondition} from "@/api/system.ts";
 
 const dynamicForm = DynamicForm(piniaInstance);
 const props = defineProps({
@@ -131,7 +132,7 @@ const exportData = () => {
   } else {
     params = searchFields;
   }
-  let defaultcond = props.compUrl?.condition;
+  let defaultcond = removeEmptyCondition(props.compUrl?.condition);
   if (defaultcond && defaultcond.length > 0) {
     params.push(...defaultcond);
   }
@@ -461,11 +462,11 @@ const createParams = () => {
   if (defaultSearchFields.length > 0) {
     searchTemp.push(...defaultSearchFields);
   }
-  let condition = props.compUrl?.condition;
+  let condition = removeEmptyCondition(props.compUrl?.condition);
   if (condition && condition.length > 0) {
     searchTemp.push(...condition);
   }
-  //加入共享人的信息
+//加入共享人的信息
   if (commonPersons.value && commonPersons.value.length && !isSystemManage()) {
     searchTemp.push(createCondition("a.createdBy", commonPersons.value, "in"));
   }

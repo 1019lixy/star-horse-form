@@ -63,7 +63,7 @@
   </starhorse-form-item>
 </template>
 <script lang="ts">
-import {defineComponent, onMounted, shallowRef} from "vue";
+import {defineComponent, onMounted, shallowRef,watch} from "vue";
 import {allAction} from "@/components/formcomp/utils/ItemRelationEventUtils.ts";
 import {warning} from "@/utils/message.ts";
 
@@ -120,6 +120,10 @@ export default defineComponent({
         allAction(context, actionName.value, true);
       }
     });
+    watch(() => context.attrs['formFieldList'],
+        () => {
+          itemAction("init")
+        }, {immediate: true, deep: true});
     return {
       parentField, context, field, formItem, dataField, actionName,
       itemAction, handleBlur, handleFocus, isFocus

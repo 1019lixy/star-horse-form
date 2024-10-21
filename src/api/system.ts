@@ -368,7 +368,25 @@ export function createComponent(compInfo: DyCompField) {
         props: compInfo.props || {},
         methods: compInfo.methods,
         onMounted: compInfo.onMounted,
-        emits:compInfo.emits,
+        emits: compInfo.emits,
     });
     return app.component(compInfo.name);
+}
+
+/**
+ * 删除查询条件中出现的空值和空对象
+ * @param condition
+ */
+export function removeEmptyCondition(condition: SearchParams[]): SearchParams {
+    if (!condition || condition.length == 0) {
+        return [];
+    }
+    let params: SearchParams[] = [];
+    for (let a in condition) {
+        let temp = condition[a];
+        if (temp && Object.keys(temp).length > 0) {
+            params.push(temp);
+        }
+    }
+    return params;
 }
