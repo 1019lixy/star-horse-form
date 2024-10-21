@@ -4,7 +4,7 @@ import {ApiUrls} from "@/components/types/ApiUrls";
 import {onMounted, provide, reactive, ref} from "vue";
 import {SearchFields, SelectOption} from "@/components/types/SearchProps.d.ts";
 import {Config} from "@/api/settings.ts";
-import {PageFieldInfo} from "@/components/types/PageFieldInfo.d.ts";
+import {PageFieldInfo, UserFuncInfo} from "@/components/types/PageFieldInfo.d.ts";
 import {initDbList, tableList} from "@/views/dbsearch/utils/DbSearchUtils.ts";
 import {download} from "@/api/star_horse.ts";
 import {warning} from "@/utils/message.ts";
@@ -14,6 +14,7 @@ const dataUrl: ApiUrls = apiInstance("code-generator", "generator/code");
 let dbInfoList = ref<Array<SelectOption>>([]);
 let tableInfoList = ref<Array<SelectOption>>([]);
 let templateVersionList = ref<Array<SelectOption>>([]);
+let languageList = ref<Array<SelectOption>>([]);
 let fileTypeList = ref<Array<SelectOption>>([]);
 //,可用值:VUE_3,VUE_3_TS,REACT,REACT_TS
 let uiTypeList = ref<Array<SelectOption>>([]);
@@ -45,8 +46,23 @@ const tableFieldList = reactive<PageFieldInfo>({
       actions: loadTabInfo,
       tableShow: true
     }, {
-      label: "模版版本", fieldName: "templateVersion", type: "select",
+      label: "后端程序语言", fieldName: "language", type: "select",
       formShow: true,
+      defaultValue: "java",
+      helpMsg: "目前只支持Java,选择其它语言会构建失败",
+      optionList: languageList,
+      tableShow: true
+    },],
+    [{
+      label: "后端模版版本", fieldName: "backendTemplateVersion", type: "select",
+      formShow: true,
+      defaultValue: "2_0",
+      optionList: templateVersionList,
+      tableShow: true
+    }, {
+      label: "前端模版版本", fieldName: "frontTemplateVersion", type: "select",
+      formShow: true,
+      defaultValue: "2_0",
       optionList: templateVersionList,
       tableShow: true
     },],
@@ -249,22 +265,36 @@ const dataFormat = (name: string, cellValue: object): any => {
   return cellValue;
 }
 const init = async () => {
-  ;
   dbInfoList.value = await initDbList();
   fileTypeList.value = await dictData("program_file_type");
   templateVersionList.value = await dictData("template_version");
+  languageList.value = await dictData("program_language");
   uiTypeList.value = await dictData("ui_type");
   packagingList.value = await dictData("packaging_type");
 };
 onMounted(async () => {
   await init();
 });
+let extandBtns = ref<UserFuncInfo[]>([{
+  btnName: "重新生成代码",
+  authority: "add",
+  icon: "code",
+  priority: 1,
+  funcName: (row: any) => {
+    load("代码生成中，请稍后");
+    download(`/code-generator/generator/code/convertToCodeById/${row[primaryKey]}`,).catch(err => {
+      warning(err);
+    }).finally(() => {
+      closeLoad();
+    })
+  }
+}]);
 const generateFormRef = ref();
 const generateMerge = (type: string) => {
   generateFormRef.value.$refs.starHorseFormRef.validate((res: boolean) => {
     let dataForm: any = generateFormRef.value.getFormData()?.value;
     if (res) {
-      load("代码生成中...");
+      load("代码生成中,请稍后...");
       if (dataForm["prefixesStr"]) {
         dataForm["prefixesList"] = dataForm["prefixesStr"].split(";");
       }
@@ -309,6 +339,7 @@ const closeAction = () => {
     <star-horse-table-comp ref="codeGeneratorRef" :fieldList="tableFieldList"
                            :primaryKey="primaryKey"
                            :compUrl="dataUrl"
+                           :extandBtns="extandBtns"
                            :dataFormat="dataFormat" @selectItem="selectItemFun"/>
   </el-card>
 </template>

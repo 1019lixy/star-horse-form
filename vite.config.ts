@@ -12,7 +12,8 @@ import AutoImport from 'unplugin-auto-import/vite'
 import {viteCommonjs} from '@originjs/vite-plugin-commonjs'
 import fs from "fs";
 
-const codeHost = "http://192.168.20.165:8888/"
+// const codeHost = "http://192.168.20.165:8888/"
+const codeHost = "http://localhost:8888/"
 const systemHost = "http://localhost:8749/"
 // const systemHost = "http://192.168.20.204:8749/"
 const workflowHost = "http://localhost:8899/"
