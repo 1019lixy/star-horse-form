@@ -9,7 +9,7 @@ defineProps({
   compUrl: {type: Object as PropType<ApiUrls>},
   item: {type: Array as PropType<Array<FieldInfo>>, required: true},
   objectName: {type: String},
-  parentPreps:{type:Object,default:{}},
+  parentPreps: {type: Object, default: {}},
   subCreateFlag: {type: Boolean, default: false},
   batchName: {type: String, default: "batchDataList"},
   batchFieldName: {type: String, default: "batchFieldList"},
@@ -36,7 +36,7 @@ onMounted(() => {
 
 <template>
   <template v-if="item.collapseList&&item.collapseList.length>0">
-    <el-scrollbar height="95%">
+    <el-scrollbar>
       <el-collapse v-model="item.fieldName" :accordion="item.preps?.accordion" v-on:change="item.actions">
         <template v-for="(collapseItem,key ) in item.collapseList">
           <el-collapse-item v-if="Object.keys(collapseItem).length>0" :name="collapseItem.tabName||key"
@@ -44,7 +44,7 @@ onMounted(() => {
                             :index="checkObject(collapseItem)">
             <template #title>
               <div class="collapse-item-title title">
-                <div style="width: 80%">{{ collapseItem.title }}</div>
+                <div style="width: 80%">{{ collapseItem.title }}  <help v-if="collapseItem.helpMsg" :message="collapseItem.helpMsg"/></div>
                 <star-horse-icon v-if="collapseItem.icon" :icon-class="collapseItem.icon"/>
               </div>
             </template>

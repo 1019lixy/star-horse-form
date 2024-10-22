@@ -46,6 +46,7 @@ onMounted(() => {
             <div class="custom-tabs-label">
               <star-horse-icon :icon-class="tabItem.icon" v-if="tabItem.icon"/>
               <span>{{ tabItem.title }}</span>
+              <help v-if="tabItem.helpMsg" :message="tabItem.helpMsg"/>
             </div>
           </template>
           <el-scrollbar height="95%">

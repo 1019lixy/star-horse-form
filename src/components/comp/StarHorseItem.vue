@@ -75,6 +75,7 @@ const compPreps = () => {
     name: props.item?.fieldName,
     required: props.item?.required,
     size: props.compSize,
+    helpMsg: props.item?.helpMsg,
     readonly: props.item?.readonly || props.isView ? 'Y' : 'N',
   }
   itemType.value = props.item?.type || props.item?.fieldType;

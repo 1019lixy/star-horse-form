@@ -72,10 +72,10 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 {label: "主键策略", fieldName: "primaryKeyPolicy", type: "select", optionList: primaryKeyPolicyList, formShow: true, editDisabled: "Y"},
               ],
               [
-                {label: "是否创建表", fieldName: "createTable", type: "switch", defaultValue: "N", formShow: true,},
-                {label: "是否需要公共字段", fieldName: "needCommonFields", type: "switch", defaultValue: "N", formShow: true,},
+                {label: "创建表", fieldName: "createTable", type: "switch", defaultValue: "N", formShow: true,},
+                {label: "需要公共字段", fieldName: "needCommonFields", type: "switch", defaultValue: "N", formShow: true,},
                 {
-                  label: "是否创建菜单", fieldName: "createMenu", type: "switch", actionName: "change", actions: (val: any) => {
+                  label: "创建菜单", fieldName: "createMenu", type: "switch", actionName: "change", actions: (val: any) => {
                     menuFlag.value = val["createMenu"] == "Y";
                   }, defaultValue: "N", formShow: true,
                 },
@@ -88,8 +88,10 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                   }, formShow: menuFlag, required: true
                 },
                 {label: "父级菜单", fieldName: "parentMenuId", type: "select", optionList: menusInfoList, formShow: menuFlag},
+
               ],
               [
+                {label: "级联删除", helpMsg:`页面字段删除时同步删除数据库对应表字段`, fieldName: "deleteCascade", type: "switch",defaultValue:"Y" , formShow: true},
                 {label: "表单图标", fieldName: "formIcon", type: "icon", formShow: true,},
                 {label: "页面版式", fieldName: "pageStyle", type: "select", optionList: pageStyleList, formShow: true},
               ],

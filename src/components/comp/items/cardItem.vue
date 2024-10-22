@@ -39,7 +39,7 @@ onMounted(() => {
       <el-card shadow="hover" v-if="Object.keys(cardItem).length>0" :index="checkObject(cardItem)">
         <template #header>
           <div class="card-header">
-            <span>{{ cardItem.title || cardItem.tabName }}</span>
+            <span>{{ cardItem.title || cardItem.tabName }}  <help v-if="cardItem.helpMsg" :message="cardItem.helpMsg"/></span>
             <template v-for="headerItem in cardItem.headerFieldList">
               <star-horse-item style="flex:1" :compSize="compSize" :bareFlag="true" :isView="isView"
                                :primaryKey="primaryKey"

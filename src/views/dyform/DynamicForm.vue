@@ -80,8 +80,6 @@ const loadFormData = async (formId: any, isParent: boolean) => {
   designForm.setFormData(JSON.parse(details?.fieldNames || "{}"));
   designForm.setIsEdit(true);
   let activeItem = list.value[0];
-  console.log(activeItem);
-
   if (activeItem) {
     designForm.selectItem(activeItem, activeItem.itemType, activeItem.compType);
   }
