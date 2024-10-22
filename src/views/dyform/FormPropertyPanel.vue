@@ -72,10 +72,10 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 {label: "主键策略", fieldName: "primaryKeyPolicy", type: "select", optionList: primaryKeyPolicyList, formShow: true, editDisabled: "Y"},
               ],
               [
-                {label: "是否创建表", fieldName: "createTable", type: "switch", defaultValue: "N", formShow: true,},
-                {label: "是否需要公共字段", fieldName: "needCommonFields", type: "switch", defaultValue: "N", formShow: true,},
+                {label: "创建表", fieldName: "createTable", type: "switch", defaultValue: "N", formShow: true,},
+                {label: "需要公共字段", fieldName: "needCommonFields", type: "switch", defaultValue: "N", formShow: true,},
                 {
-                  label: "是否创建菜单", fieldName: "createMenu", type: "switch", actionName: "change", actions: (val: any) => {
+                  label: "创建菜单", fieldName: "createMenu", type: "switch", actionName: "change", actions: (val: any) => {
                     menuFlag.value = val["createMenu"] == "Y";
                   }, defaultValue: "N", formShow: true,
                 },
@@ -88,8 +88,10 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                   }, formShow: menuFlag, required: true
                 },
                 {label: "父级菜单", fieldName: "parentMenuId", type: "select", optionList: menusInfoList, formShow: menuFlag},
+
               ],
               [
+                {label: "级联删除", helpMsg:`页面字段删除时同步删除数据库对应表字段`, fieldName: "deleteCascade", type: "switch",defaultValue:"Y" , formShow: true},
                 {label: "表单图标", fieldName: "formIcon", type: "icon", formShow: true,},
                 {label: "页面版式", fieldName: "pageStyle", type: "select", optionList: pageStyleList, formShow: true},
               ],
@@ -121,10 +123,10 @@ const tableFieldList = reactive<PageFieldInfo | any>({
               [
                 {label: "表单风格", fieldName: "size", defaultValue: "default", type: "select", optionList: formSizeList, formShow: true},
                 {label: "表单域标签的后缀", fieldName: "labelSuffix", type: "input", formShow: true},
-                {label: "是否禁用该表单内的所有组件", fieldName: "disabled", defaultValue: "N", type: "switch", formShow: true},
+                {label: "禁用所有组件", fieldName: "disabled", defaultValue: "N", type: "switch", formShow: true},
               ],
               [
-                {label: "是否隐藏必填字段标签旁边的红色星号", fieldName: "hideRequiredAsterisk", defaultValue: "N", type: "switch", formShow: true},
+                {label: "隐藏必填字段的红色星号", fieldName: "hideRequiredAsterisk", defaultValue: "N", type: "switch", formShow: true},
                 {label: "校验失败时，滚动到第一个错误表单项", fieldName: "scrollToError", defaultValue: "Y", type: "switch", formShow: true},
                 {label: "星号的位置", fieldName: "requireAsteriskPosition", defaultValue: "right", type: "radio", optionList: requireAsteriskPositionList, formShow: true},
               ],
@@ -221,5 +223,5 @@ defineExpose({
 
 </style>
 <template>
-  <star-horse-form :outerFormData="formInfo" :fieldList="tableFieldList" ref="dynamicFormItemRef"/>
+  <star-horse-form label-position="right" :outerFormData="formInfo" :fieldList="tableFieldList" ref="dynamicFormItemRef"/>
 </template>

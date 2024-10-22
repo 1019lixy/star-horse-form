@@ -48,19 +48,25 @@
   </starhorse-form-item>
 </template>
 <script lang="ts">
-import {defineComponent, shallowRef} from "vue";
+import {defineComponent, shallowRef, onMounted} from "vue";
 
 export default defineComponent({
   emits: ["selectItem", "selfFunc"],
   setup(_props, context) {
     const parentField = context.attrs["parentField"];
-
     const field = context.attrs["field"] as any;
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef([]);
     const selfAction = (prep: any) => {
       context.emit('selfFunc', prep, dataField);
     };
+    onMounted(async () => {
+      await nextTick();
+      let datas = context.attrs['formData'][field.preps['name']];
+      if (datas) {
+        dataField.value.push({url: field.preps["context"] + datas});
+      }
+    });
     return {parentField, context, field, formItem, dataField, selfAction}
   }
 });

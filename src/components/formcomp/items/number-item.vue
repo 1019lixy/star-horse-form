@@ -62,7 +62,5 @@ export default defineComponent({
 });
 </script>
 <style lang="scss" scoped>
-.el-input-number {
-  width: 50%;
-}
+
 </style>

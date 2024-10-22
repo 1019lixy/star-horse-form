@@ -199,7 +199,8 @@ onMounted(() => {
 })
 </script>
 <template>
-  <div v-if="bareFlag">
+  <div class="item-info" v-if="bareFlag">
+    <help :message="formItem.preps?.helpMsg" v-if="formItem.preps?.helpMsg"/>
     <slot></slot>
   </div>
 
@@ -207,7 +208,6 @@ onMounted(() => {
     <div :class="{'field-item design-star-horse' : isEdit,
   'active-item':currentItemId == formItem?.preps.id && isEdit
   }" v-if="isDesign" @click="selectData(formItem)">
-
       <el-form-item
           :size="formItem?.preps['size']||'default'"
           v-if="parentField?.itemType!='table'&&formItem?.itemType!='divider'&&formItem?.preps['headerFlag']!='Y'"
@@ -216,9 +216,11 @@ onMounted(() => {
           :required="formItem?.preps['required']=='Y'"
           :rules="formItem?.preps['required']=='Y'?[{required:true,trigger:'blur',message:'必须项不能为空'}]:[]"
       >
+        <help :message="formItem.preps?.helpMsg" v-if="formItem.preps?.helpMsg"/>
         <slot></slot>
       </el-form-item>
-      <div v-else class="bare-item">
+      <div v-else class="bare-item item-info">
+        <help :message="formItem.preps?.helpMsg" v-if="formItem.preps?.helpMsg"/>
         <slot></slot>
       </div>
       <div
@@ -272,7 +274,11 @@ onMounted(() => {
         </el-tooltip>
       </div>
     </div>
-    <slot v-else></slot>
+    <div class="item-info" v-else>
+      <help :message="formItem.preps?.helpMsg" v-if="formItem.preps?.helpMsg"/>
+      <slot></slot>
+    </div>
+
   </div>
 </template>
 <style lang="scss" scoped>
@@ -280,7 +286,11 @@ onMounted(() => {
   width: 100%;
 
 }
-
+.item-info{
+  display: inline-flex;
+  width: 100%;
+  align-items: center;
+}
 .active-item {
   border: 1px dashed var(--star-horse-style);
 }

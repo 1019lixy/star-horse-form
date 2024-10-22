@@ -256,7 +256,7 @@ onMounted(async () => {
                               :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
-      <star-horse-button-list @tableCompFunc="(fun:any)=>dynamicFormRef.tableCompFunc(fun)" :extandBtns="selfBtnFunc"
+      <star-horse-button-list @tableCompFunc="(fun:any)=>dynamicFormRef.tableCompFunc(fun)" :extandBtns="[selfBtnFunc[0]]"
                               :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
@@ -312,7 +312,7 @@ onMounted(async () => {
                   </template>
                 </el-menu>
               </div>
-              <form-preview :list="dataList" v-if="dataList&&dataList.length>0"/>
+              <form-preview :compSize="compSize" :list="dataList" v-if="dataList&&dataList.length>0"/>
               <el-empty description="请在左侧选择表单" v-else/>
             </el-card>
           </el-col>
@@ -342,7 +342,6 @@ onMounted(async () => {
     }
   }
 }
-
 
 
 </style>

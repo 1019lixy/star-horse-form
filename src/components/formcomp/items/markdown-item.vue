@@ -1,9 +1,7 @@
 <template>
   <starhorse-form-item :isDesign="context.attrs['isDesign']" :bareFlag="context.attrs['bareFlag']" :form-item="field"
                        :parentField="parentField">
-    <v-md-editor v-model="context.attrs['formData'][field.preps['name']]" class="markdown-editor"
-
-    />
+    <v-md-editor v-model="context.attrs['formData'][field.preps['name']]" class="markdown-editor"/>
   </starhorse-form-item>
 </template>
 <script lang="ts" name="markdown">

@@ -9,6 +9,7 @@ defineProps({
   compUrl: {type: Object as PropType<ApiUrls>},
   item: {type: Object as PropType<FieldInfo>, required: true},
   objectName: {type: String},
+  parentPreps:{type:Object,default:{}},
   subCreateFlag: {type: Boolean, default: false},
   batchName: {type: String, default: "batchDataList"},
   batchFieldName: {type: String, default: "batchFieldList"},
@@ -40,9 +41,10 @@ onMounted(() => {
       :required="item.required"
       :rules="item.required?validMsg(item,dataForm):[]"
       :prop="item.fieldName"
+      :label-position="parentPreps?.labelPosition"
       v-else-if="item.formShow">
     <star-horse-item :primaryKey="primaryKey" :compSize="compSize" v-model:dataForm="dataForm" :item="item"
-                     :isEdit="isEdit" />
+                     :isEdit="isEdit"/>
   </el-form-item>
 </template>
 

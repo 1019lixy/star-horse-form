@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {computed, nextTick, onMounted, ref, unref, reactive} from "vue";
+import {computed, nextTick, onMounted, reactive, ref, unref, PropType} from "vue";
 import {TreeNode, TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
 import {ModelRef} from "vue-demi";
 import SubSystemMenu from "@/components/menu/SubSystemMenu.vue";
@@ -7,13 +7,13 @@ import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import piniaInstance from "@/store";
 import {PageProps} from "@/components/types/PageProps";
-import {PropType} from "vue/dist/vue";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {warning} from "@/utils/message.ts";
 import {SearchParams} from "@/components/types/Params";
 import {OrderByInfo} from "@/components/types/PageFieldInfo";
 import {postRequest} from "@/api/star_horse.ts";
-import {closeLoad} from "@/api/sh_api.ts";
+import {closeLoad, createCondition, loadData} from "@/api/sh_api.ts";
+import {isSystemManage} from "@/utils/auth.ts";
 
 const props = defineProps({
   preps: {
@@ -177,7 +177,12 @@ const expandData = () => {
     }, 800);
   }
 }
+let commonPersons = ref<Array<string>>([]);
 const loadByPage = () => {
+  //加入共享人的信息
+  if (commonPersons.value && commonPersons.value.length && !isSystemManage()) {
+    searchParams.push(createCondition("a.createdBy", commonPersons.value, "in"));
+  }
   let params: any = {
     currentPage: pageInfo.currentPage,
     pageSize: pageInfo.pageSize,
@@ -208,6 +213,9 @@ const init = async () => {
       warning("动态数据须配置数据获取接口");
       return;
     }
+    //拿到别人共享的信息
+    let resultData = await loadData("/system-config/system/dataPermission/currentMenuPermissionPerson", {});
+    commonPersons.value = resultData.data;
     if (props.autoLoad) {
       loadByPage();
     }

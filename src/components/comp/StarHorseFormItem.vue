@@ -25,34 +25,34 @@ const dialogProps = inject<DialogProps>("dialogProps", {});
   <template v-for="item in fieldList.fieldList">
     <box-item :primary-key="primaryKey" :item="item" :rules="rules" :batchFieldName="batchFieldName"
               :batchName="batchName" :compSize="compSize" :compUrl="compUrl" :subCreateFlag="subCreateFlag"
-              :isView="isView" :objectName="objectName" v-model:dataForm="dataForm"
+              :isView="isView" :objectName="objectName" v-model:dataForm="dataForm" :parentPreps="fieldList.preps"
               :isEdit="!dialogProps?.ids||dialogProps?.ids==-1"/>
 
     <tab-item :primary-key="primaryKey" :item="item" :rules="rules" :batchFieldName="batchFieldName"
               :batchName="batchName" :compSize="compSize" :compUrl="compUrl" :subCreateFlag="subCreateFlag"
-              :isView="isView" :objectName="objectName" v-model:dataForm="dataForm"
+              :isView="isView" :objectName="objectName" v-model:dataForm="dataForm" :parentPreps="fieldList.preps"
               :isEdit="!dialogProps?.ids||dialogProps?.ids==-1"/>
 
     <collapse-item :primary-key="primaryKey" :item="item" :rules="rules" :batchFieldName="batchFieldName"
                    :batchName="batchName" :compSize="compSize" :compUrl="compUrl" :subCreateFlag="subCreateFlag"
-                   :isView="isView" :objectName="objectName" v-model:dataForm="dataForm"
+                   :isView="isView" :objectName="objectName" v-model:dataForm="dataForm" :parentPreps="fieldList.preps"
                    :isEdit="!dialogProps?.ids||dialogProps?.ids==-1"/>
     <card-item :primary-key="primaryKey" :item="item" :rules="rules" :batchFieldName="batchFieldName"
                :batchName="batchName" :compSize="compSize" :compUrl="compUrl" :subCreateFlag="subCreateFlag"
-               :isView="isView" :objectName="objectName" v-model:dataForm="dataForm"
+               :isView="isView" :objectName="objectName" v-model:dataForm="dataForm" :parentPreps="fieldList.preps"
                :isEdit="!dialogProps?.ids||dialogProps?.ids==-1"/>
     <dytable-item :primary-key="primaryKey" :item="item" :rules="rules" :batchFieldName="batchFieldName"
                   :batchName="batchName" :compSize="compSize" :compUrl="compUrl" :subCreateFlag="subCreateFlag"
-                  :isView="isView" :objectName="objectName" v-model:dataForm="dataForm"
+                  :isView="isView" :objectName="objectName" v-model:dataForm="dataForm" :parentPreps="fieldList.preps"
                   :isEdit="!dialogProps?.ids||dialogProps?.ids==-1"/>
     <other-item :primary-key="primaryKey" :item="item" :rules="rules" :batchFieldName="batchFieldName"
                 :batchName="batchName" :compSize="compSize" :compUrl="compUrl" :subCreateFlag="subCreateFlag"
-                :isView="isView" :objectName="objectName" v-model:dataForm="dataForm"
+                :isView="isView" :objectName="objectName" v-model:dataForm="dataForm" :parentPreps="fieldList.preps"
                 :isEdit="!dialogProps?.ids||dialogProps?.ids==-1"/>
   </template>
   <table-item :primary-key="primaryKey" :item="fieldList" :rules="rules" :batchFieldName="batchFieldName"
               :batchName="batchName" :compSize="compSize" :compUrl="compUrl" :subCreateFlag="subCreateFlag"
-              :isView="isView" :objectName="objectName" v-model:dataForm="dataForm"
+              :isView="isView" :objectName="objectName" v-model:dataForm="dataForm" :parentPreps="fieldList.preps"
               :isEdit="!dialogProps?.ids||dialogProps?.ids==-1"/>
 </template>
 <style lang="scss" scoped>

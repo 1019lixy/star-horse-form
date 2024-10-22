@@ -20,7 +20,7 @@
         :readonly="field.preps['readonly']=='Y'"
         :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
         :start-placeholder="field.preps['startPlaceholder']||'请选择开始日期'"
-        :value-format="field.preps['valueFormat']||'YYYY-MM-DD'"
+        :value-format="field.preps['valueFormat']"
         @change="itemAction('change')"
         @input="itemAction('input')"
         @keydown.enter="itemAction('enter')"
@@ -43,6 +43,12 @@ export default defineComponent({
     let dataField = shallowRef("");
     let actionName = shallowRef("keydown.enter");
     const itemAction = (prep: any) => {
+      if (prep == "change" && field.preps['type'].includes("range")) {
+        let val = context.attrs['formData'][field.preps['name']]
+        context.attrs['formData'][field.preps['name'] + "Start"] = val[0];
+        context.attrs['formData'][field.preps['name'] + "End"] = val[1];
+      }
+      console.log(context.attrs['formData']);
       allAction(context, prep);
     };
     onMounted(() => {

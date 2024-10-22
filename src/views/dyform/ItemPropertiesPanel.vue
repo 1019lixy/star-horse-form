@@ -310,11 +310,17 @@ const assignValue = (fieldInfo: any) => {
         title: "其它属性",
         tabName: "other",
         icon: "advance_preps",
+        preps: {
+          labelPosition: "top",
+        },
         fieldList: temp.advancedFields
       }, {
         title: "自定义事件",
         tabName: "action",
         icon: "event-action",
+        preps: {
+          labelPosition: "top",
+        },
         fieldList: temp.actions
       }]
     }];
@@ -467,7 +473,9 @@ watch(() => currentItemId,
         class="dynamic-form"
         ref="itemPropertiesRef"
         :size="compSize"
+        label-width="auto"
         label-position="left"
+        require-asterisk-position="right"
     >
       <star-horse-form-item :fieldList="formFields"
                             :compSize="compSize"

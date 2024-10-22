@@ -75,6 +75,7 @@ const compPreps = () => {
     name: props.item?.fieldName,
     required: props.item?.required,
     size: props.compSize,
+    helpMsg: props.item?.helpMsg,
     readonly: props.item?.readonly || props.isView ? 'Y' : 'N',
   }
   itemType.value = props.item?.type || props.item?.fieldType;
@@ -124,23 +125,27 @@ const compPreps = () => {
       cellEditable: false,
       fieldList: inputPreps.fieldList
     };
-    let searchFieldList: Array<any> = [];
-    field.value.preps["filterCondition"] = inputPreps.filterCondition;
-    field.value.preps["orderBy"] = inputPreps.orderBy;
-    inputPreps.fieldList?.forEach((item: FieldInfo) => {
-      let temp: any = {
-        ...item
-      };
-      if (item.prefix) {
-        temp["fieldName"] = item.prefix + "." + temp["fieldName"];
-      }
-      temp["defaultShow"] = true;
-      if (item?.type == "input" && !item["matchType"]) {
-        temp["matchType"] = "lk";
-      }
-      searchFieldList.push(temp);
-    });
-    field.value.preps["searchFieldList"] = {fieldList: searchFieldList};
+    if (!inputPreps.searchFieldList || inputPreps.searchFieldList.length === 0) {
+      let searchFieldList: Array<SearchFields> = [];
+      field.value.preps["filterCondition"] = inputPreps.filterCondition;
+      field.value.preps["orderBy"] = inputPreps.orderBy;
+      inputPreps.fieldList?.forEach((item: FieldInfo) => {
+        let temp: any = {
+          ...item
+        };
+        if (item.prefix) {
+          temp["fieldName"] = item.prefix + "." + temp["fieldName"];
+        }
+        temp["defaultShow"] = true;
+        if (item?.type == "input" && !item["matchType"]) {
+          temp["matchType"] = "lk";
+        }
+        searchFieldList.push(temp);
+      });
+      field.value.preps["searchFieldList"] = {fieldList: searchFieldList};
+    } else {
+      field.value.preps["searchFieldList"] = inputPreps.searchFieldList;
+    }
     field.value.preps["dataUrl"] = inputPreps.dataUrl;
     field.value.preps["needField"] = inputPreps.needField;
     field.value.preps["dataFormat"] = inputPreps.dataFormat;
@@ -225,7 +230,6 @@ onMounted(() => {
 </style>
 <template>
   <div v-if="bareFlag||field.preps.headerFlag=='Y'" class="bare-comp">
-    <help :message="item?.helpMsg" v-if="item?.helpMsg"/>
     <component :id="randId" :is="(dataForm['_'+field.preps.name+'Type']||itemType)+'-item'" @selfFunc="actionDispatcher"
                :isDesign="isDesign"
                ref="componentRef"
@@ -245,7 +249,6 @@ onMounted(() => {
   <div v-else class="comp-info"
        :style="{ 'min-width': isSearch && field.preps['type'] != 'daterange' ? '150px' : '100%','height':
        itemType != 'button' ?'100%':'inherit' }">
-    <help :message="item?.helpMsg" v-if="item?.helpMsg"/>
     <component :id="randId" :is="(dataForm['_'+field.preps.name+'Type']||itemType)+'-item'" @selfFunc="actionDispatcher"
                :isDesign="isDesign"
                ref="componentRef"

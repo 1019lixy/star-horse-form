@@ -1,4 +1,4 @@
-import {SelectOption} from "@/components/types/SearchProps";
+import {SearchFields, SelectOption} from "@/components/types/SearchProps";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {SearchParams} from "@/components/types/Params";
 
@@ -266,6 +266,10 @@ export declare interface CompParams {
      * 格式化方法
      */
     dataFormat?: Function;
+    /**
+     * 查询字段
+     */
+    searchFieldList?: Array<SearchFields>;
     /**
      * 是否只读
      */

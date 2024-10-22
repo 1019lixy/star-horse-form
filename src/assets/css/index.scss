@@ -414,7 +414,11 @@ a {
 }
 
 .el-form-item__label {
-  padding: 0 12px;
+  text-align: right;
+  padding: 0 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .el-cascader-menu {
@@ -734,7 +738,7 @@ hr {
 
     .el-form-item__label {
       /*  min-width: 100px;*/
-      padding: 3px 12px;
+      padding: 0 12px;
     }
   }
 

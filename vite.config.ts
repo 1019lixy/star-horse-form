@@ -12,7 +12,8 @@ import AutoImport from 'unplugin-auto-import/vite'
 import {viteCommonjs} from '@originjs/vite-plugin-commonjs'
 import fs from "fs";
 
-const codeHost = "http://192.168.20.165:8888/"
+// const codeHost = "http://192.168.20.165:8888/"
+const codeHost = "http://localhost:8888/"
 const systemHost = "http://localhost:8749/"
 // const systemHost = "http://192.168.20.204:8749/"
 const workflowHost = "http://localhost:8899/"
@@ -30,6 +31,11 @@ export default defineConfig((mode, command) => {
         'axios',
         'qs',
         'jsoneditor',
+        'bpmn-js/lib/Modeler',
+        'bpmn-js-token-simulation',
+        'bpmn-js-bpmnlint',
+        'diagram-js-minimap',
+        'html2canvas',
         'echarts',
         'codemirror',
         '@codemirror/view',
@@ -50,8 +56,6 @@ export default defineConfig((mode, command) => {
         '@codemirror/lang-markdown',
         '@codemirror/lang-go',
         '@codemirror/lang-sql',
-        '@replit/code',
-        'mirror-minimap',
         'thememirror',
         'sortablejs',
         'jsencrypt',
@@ -66,7 +70,6 @@ export default defineConfig((mode, command) => {
         '@element-plus/icons-vue',
         'pinia',
         'axios',
-        'vue-request',
         'vue-router',
         '@vueuse/core',
         'flv.js',

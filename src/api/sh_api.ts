@@ -190,7 +190,7 @@ export async function loadMenusInfo(direct: boolean, params: any, needSystem: bo
                 menuDatas = redata.data;
             } else {
                 //构建菜单树
-                menuDatas = createTree(redata.data, "", "menuName", "idMenusinfo");
+                menuDatas = createTree(redata.data, "idMenusinfo", "menuName", "");
             }
         }
     }).catch(err => {
@@ -914,20 +914,20 @@ export function apiInstance(appName: string, urlPrefix: string, condition: Array
     };
 }
 
-/**
- * 模态窗口相关属性
- */
-export function dialogPreps(title: string = "编辑", batchTitle: string = "批量编辑"): Reactive<DialogProps> {
-    return reactive<DialogProps>({
-        bakeVisible1: false,
-        bakeVisible2: false,
-        bakeVisible3: false,
-        ids: 0,
-        batchDialogTitle: batchTitle,
-        dialogTitle: title,
-        batchEditVisible: false,
-        editVisible: false,
-        uploadVisible: false,
-        viewVisible: false,
-    });
-}
+    /**
+     * 模态窗口相关属性
+     */
+    export function dialogPreps(title: string = "编辑", batchTitle: string = "批量编辑"): Reactive<DialogProps> {
+        return reactive<DialogProps>({
+            bakeVisible1: false,
+            bakeVisible2: false,
+            bakeVisible3: false,
+            ids: 0,
+            batchDialogTitle: batchTitle,
+            dialogTitle: title,
+            batchEditVisible: false,
+            editVisible: false,
+            uploadVisible: false,
+            viewVisible: false,
+        });
+    }

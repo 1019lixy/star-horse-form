@@ -75,8 +75,11 @@ export default defineComponent({
       }
       //如果没有指定属性，则默认取相同的属性
       let name = field.preps['name'];
+      let aliasName = field.preps['aliasName'];
       if (!needField) {
-        context.attrs["formData"][name] = data[name];
+        context.attrs["formData"][name] = data["name"];
+        context.attrs["formData"][aliasName] = data["idEmployeeInfo"];
+        console.log(context.attrs["formData"]);
       } else {
         needField.forEach((item: FieldMapping) => {
           if (needField.length == 1) {

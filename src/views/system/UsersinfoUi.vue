@@ -12,7 +12,14 @@ import {TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
 import {SearchParams} from "@/components/types/Params";
 import {postRequest, trim} from "@/api/star_horse.ts";
 import {success, warning} from "@/utils/message.ts";
-import {baseUserFields, deptList, initSelectData, rolesList, sexList} from "@/views/system/utils/UserFields.ts";
+import {
+  baseUserFields,
+  deptList,
+  initSelectData,
+  rolesList,
+  sexList,
+  userFormat
+} from "@/views/system/utils/UserFields.ts";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import piniaInstance from "@/store";
 
@@ -108,18 +115,8 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
     let fdata = sexList.value.find((item: any) => parseInt(item.value) == parseInt(cellValue));
     return fdata?.name || cellValue;
   }
-  if (name == "rolesList" && row["rolesList"]) {
-    let roles: Array<string> = [];
-    row["rolesList"].forEach((item: any) => {
-      roles.push(item.roleName);
-    });
-    return roles.join(";");
-  }
-  if (name == "deptList" && row['deptList']) {
-    let data = analysisData(row['deptList'], "", "deptName", "idDepartment")
-    return data.listNames.join("/");
-  }
-  return cellValue;
+
+  return userFormat(name, cellValue, row);
 };
 const treeRef = ref<InstanceType<typeof ElTreeV2>>();
 const query = ref('');
