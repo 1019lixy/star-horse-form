@@ -894,6 +894,7 @@ defineExpose({
               <el-tooltip :content="item.btnName" v-for="item in buttonList.slice(0,3)">
                 <star-horse-icon v-if="permissions[item.authority!]" @click="item.funcName!(scope.row)"
                                  :icon-class="item.icon||'edit'"
+                                 style="cursor: pointer"
                                  :color="item.authority=='delete'?'var(--el-color-danger)':'var(--star-horse-style)'"/>
               </el-tooltip>
               <el-dropdown>
@@ -908,7 +909,7 @@ defineExpose({
                           @click="auth.funcName(scope.row)"
                           link
                           title=""
-                          style="color: var(--star-horse-style)"
+                          style="cursor: pointer;color: var(--star-horse-style)"
                           :size="configInfo.inputSize"
                       >
                         <star-horse-icon :icon-class="auth.icon||'edit'"
@@ -924,6 +925,7 @@ defineExpose({
               <el-tooltip :content="item.btnName" v-for="item in buttonList">
                 <star-horse-icon v-if="permissions[item.authority]" @click="item.funcName(scope.row)"
                                  :icon-class="item.icon||'edit'"
+                                 style="cursor: pointer"
                                  :color="item.authority=='delete'?'var(--el-color-danger)':'var(--star-horse-style)'"/>
               </el-tooltip>
             </template>
@@ -958,6 +960,7 @@ defineExpose({
                 <el-tooltip :content="item.btnName" v-for="item in buttonList.slice(0,3)">
                   <star-horse-icon v-if="permissions[item.authority!]" @click="item.funcName!(data)"
                                    :icon-class="item.icon||'edit'"
+                                   style="cursor: pointer"
                                    :color="item.authority=='delete'?'var(--el-color-danger)':'var(--star-horse-style)'"/>
                 </el-tooltip>
                 <el-dropdown>
@@ -972,7 +975,7 @@ defineExpose({
                             @click="auth.funcName(data)"
                             link
                             title=""
-                            style="color: var(--star-horse-style)"
+                            style="color: var(--star-horse-style);cursor: pointer"
                             :size="configInfo.inputSize"
                         >
                           <star-horse-icon :icon-class="auth.icon||'edit'"
@@ -988,6 +991,7 @@ defineExpose({
                 <el-tooltip :content="item.btnName" v-for="item in buttonList">
                   <star-horse-icon v-if="permissions[item.authority]" @click="item.funcName(data)"
                                    :icon-class="item.icon||'edit'"
+                                   style="cursor: pointer"
                                    :color="item.authority=='delete'?'var(--el-color-danger)':'var(--star-horse-style)'"/>
                 </el-tooltip>
               </template>
