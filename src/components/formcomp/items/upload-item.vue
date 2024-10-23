@@ -12,21 +12,21 @@
         :data="field.preps['data']||{}"
         :disabled="!context.attrs['formData']['_'+field.preps['name']+'Editable']&&field.preps['disabled'] == 'Y'"
         :drag="field.preps['drag']=='Y'"
-        :headers="field.preps['headers']||{}"
+        :headers="headers"
         :http-request="field.preps['httpRequest']"
         :limit="field.preps['limit']"
         :list-type="field.preps['listType']||'picture-card'"
         :method="field.preps['method']||'post'"
         :multiple="field.preps['multiple']=='Y'"
-        :name="field.preps['name']||'file'"
+        :name="field.preps['aliasName']||'file'"
         :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
-        :on-change="selfAction('change')"
-        :on-error="selfAction('error')"
-        :on-exceed="selfAction('exceed')"
-        :on-preview="selfAction('preview')"
-        :on-progress="selfAction('progress')"
-        :on-remove="selfAction('remove')"
-        :on-success="selfAction('success')"
+        :on-change="(uploadFile: any, uploadFiles: any)=>selfAction('change',uploadFile,uploadFiles)"
+        :on-error="(error: any, uploadFile: any, uploadFiles: any)=>selfAction('error',uploadFile,uploadFiles,error)"
+        :on-exceed="(files: any, uploadFiles: any)=>selfAction('exceed',files,uploadFiles)"
+        :on-preview="(uploadFile: any)=>selfAction('preview',uploadFile)"
+        :on-progress="(evt: any, uploadFile: any, uploadFiles: any)=>selfAction('progress',uploadFile,uploadFiles,evt)"
+        :on-remove="(uploadFile: any, uploadFiles: any)=>selfAction('remove',uploadFile,uploadFiles)"
+        :on-success="(response: any, uploadFile: any, uploadFiles: any)=>selfAction('success',uploadFile,uploadFiles,response)"
         style="width: 100%!important;display:flex;align-items:center;"
         :show-file-list="field.preps['showFileList']=='Y'"
         :with-credentials="field.preps['withCredentials']=='Y'"
@@ -48,7 +48,8 @@
   </starhorse-form-item>
 </template>
 <script lang="ts">
-import {defineComponent, shallowRef, onMounted} from "vue";
+import {defineComponent, shallowRef, onMounted, nextTick, ref} from "vue";
+import {getToken} from "@/utils/auth.ts";
 
 export default defineComponent({
   emits: ["selectItem", "selfFunc"],
@@ -57,8 +58,13 @@ export default defineComponent({
     const field = context.attrs["field"] as any;
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef([]);
-    const selfAction = (prep: any) => {
-      context.emit('selfFunc', prep, dataField);
+    let headers = ref<any>({});
+    const selfAction = (prep: any, uploadFile: any, uploadFiles: any = [], param: any = {}) => {
+      if (prep == "success") {
+        context.attrs['formData'][field.preps['name']] = param.data.path;
+        //console.log(param.data.path);
+      }
+      context.emit('selfFunc', prep, uploadFile, uploadFiles, param);
     };
     onMounted(async () => {
       await nextTick();
@@ -66,8 +72,13 @@ export default defineComponent({
       if (datas) {
         dataField.value.push({url: field.preps["context"] + datas});
       }
+      let temp = field.preps?.headers;
+      if (temp && Object.keys(temp).length > 0) {
+        headers.value = JSON.parse(temp);
+      }
+      headers.value["token"] = getToken();
     });
-    return {parentField, context, field, formItem, dataField, selfAction}
+    return {parentField, context, field, formItem, dataField, selfAction, headers}
   }
 });
 </script>
