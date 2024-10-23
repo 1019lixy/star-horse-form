@@ -251,7 +251,7 @@ export const DesignForm: any = defineStore("DesignForm", {
         loadCompNames() {
 
             const innerFunc = (datas: Array<any>) => {
-                let selectList: SelectOption[] = [];
+                let selectList: Array<any>= [];
                 for (let index in datas) {
                     let temp: any = datas[index];
                     if (temp.itemType == "box" || temp.itemType == "dytable") {
