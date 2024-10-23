@@ -70,7 +70,7 @@ export default defineComponent({
       await nextTick();
       let datas = context.attrs['formData'][field.preps['name']];
       if (datas) {
-        dataField.value.push({url: field.preps["context"] + datas});
+        dataField.value.push({url: (field.preps["context"]||'/system-config') + datas});
       }
       let temp = field.preps?.headers;
       if (temp && Object.keys(temp).length > 0) {
