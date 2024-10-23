@@ -14,6 +14,7 @@ import {OrderByInfo} from "@/components/types/PageFieldInfo";
 import {postRequest} from "@/api/star_horse.ts";
 import {closeLoad, createCondition, loadData} from "@/api/sh_api.ts";
 import {isSystemManage} from "@/utils/auth.ts";
+import {Config} from "@/api/settings.ts";
 
 const props = defineProps({
   preps: {
@@ -48,7 +49,7 @@ const props = defineProps({
 });
 const emits = defineEmits(["selectData", "changeCollapse"]);
 let configStore = GlobalConfig(piniaInstance);
-let compSize = computed(() => configStore.configFormInfo?.inputSize || "default");
+let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
 const treeRef = ref<any>();
 const menuTreeRef = ref<any>();
 const searchData = ref('');

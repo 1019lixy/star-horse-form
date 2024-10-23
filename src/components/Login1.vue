@@ -181,7 +181,7 @@ watch(
               </el-checkbox>
             </el-col>
             <el-col :span="6">
-              <el-button link size="default"> {{ i18n("login.forget") }}</el-button>
+              <el-button link :size="Config.compSize"> {{ i18n("login.forget") }}</el-button>
             </el-col>
           </el-row>
           <el-form-item style="width: 100%;height: 50px">

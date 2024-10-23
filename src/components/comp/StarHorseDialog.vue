@@ -4,6 +4,7 @@ import {DialogProps} from "@/components/types/DialogProps";
 import {i18n} from "@/lang";
 import {BtnAuth} from "@/components/types/BtnAuth";
 import {UserFuncInfo} from "@/components/types/PageFieldInfo";
+import {Config} from "@/api/settings.ts";
 
 const emits = defineEmits(["merge", "mergeDraft", "resetForm", "closeAction"]);
 const props = defineProps({
@@ -23,7 +24,7 @@ const props = defineProps({
   userBtn: {type: Array<UserFuncInfo>, default: []},
   btnTextContinue: {type: String, default: "提交并继续"},
   title: {type: String, default: ""},
-  compSize: {type: String, default: "default"}
+  compSize: {type: String, default:Config.compSize}
 });
 let windowsType = ref<boolean>(false);
 watch(

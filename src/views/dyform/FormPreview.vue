@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import {Config} from "@/api/settings.ts";
+
 defineProps({
   list: {type: Array, required: true},
-  compSize: {type: String, default: "default"}
+  compSize: {type: String, default: Config.compSize}
 });
 let formData = ref<any>({});
 defineExpose({

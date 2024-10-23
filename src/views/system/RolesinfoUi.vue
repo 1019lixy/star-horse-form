@@ -386,7 +386,7 @@ onMounted(async () => {
       <el-card class="inner_content h100">
         <el-input
             v-model="query"
-            size="default"
+            :size="Config.compSize"
             clearable
             placeholder="请输入关键字"
             @keydown.enter="systemOnQueryChanged"
@@ -415,7 +415,7 @@ onMounted(async () => {
       <el-card class="inner_content h100">
         <el-input
             v-model="query"
-            size="default"
+            :size="Config.compSize"
             clearable
             placeholder="请输入关键字"
             @keydown.enter="onQueryChanged"

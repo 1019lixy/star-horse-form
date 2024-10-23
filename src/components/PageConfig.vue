@@ -5,6 +5,7 @@ import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import piniaInstance from "@/store";
 import {useDark, useToggle} from "@vueuse/core";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
+import {Config} from "@/api/settings.ts";
 
 
 let configStore = GlobalConfig(piniaInstance);
@@ -212,7 +213,7 @@ onMounted(() => {
 <template>
   <el-card class="inner_content">
     <el-scrollbar height="100%">
-      <el-form class="page-config" :model="configInfo" size="default" label-position="top">
+      <el-form class="page-config" :model="configInfo" :size="Config.compSize" label-position="top">
         <el-divider content-position="left">
           <el-form-item prop="themeColor" label="颜色" :label-position="'left'">
             <el-color-picker v-model="configInfo.themeColor" @change="changeOperation"/>
@@ -221,7 +222,7 @@ onMounted(() => {
         <el-form-item prop="themeColor" label="主题颜色" style="height: 200px;width: 100%;overflow: auto">
           <template v-for="item in classicsList">
             <div class="theme-item" @click="classicsTheme(item.color)">
-              <el-tag :color="item.color" style="margin-right: 8px" size="default"/>
+              <el-tag :color="item.color" style="margin-right: 8px" :size="Config.compSize"/>
               <span>{{ item.name }}</span>
             </div>
           </template>
@@ -306,7 +307,7 @@ onMounted(() => {
 
       </el-form>
       <div class="reset-button">
-        <el-button size="default" @click="resetDefault">
+        <el-button :size="Config.compSize" @click="resetDefault">
           <star-horse-icon icon-class="reset"/>
           一键默认配置
         </el-button>

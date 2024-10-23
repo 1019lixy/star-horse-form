@@ -26,7 +26,7 @@ let systemInfoList = ref<SelectOption[]>([]);
 let appinfoList = ref<SelectOption[]>([]);
 let menusList = ref<Array[]>();
 let configStore = GlobalConfig(piniaInstance);
-let compSize = computed(() => configStore.configFormInfo?.inputSize || "default");
+let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
 let currentUserGroupId = ref<number>(0);
 let currentSystemId = ref<number>(0);
 let defaultCondition = ref<SearchParams[]>([]);

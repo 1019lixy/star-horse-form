@@ -22,6 +22,7 @@ import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import piniaInstance from "@/store";
 import {useUserSelfOperation} from "@/store/SelfOperationStore.ts";
 import {SelectOption} from "@/components/types/SearchProps";
+import {Config} from "@/api/settings.ts";
 
 const props = defineProps({
   compUrl: {type: Object as PropType<ApiUrls>,},
@@ -44,7 +45,7 @@ const props = defineProps({
 });
 let configStore = GlobalConfig(piniaInstance);
 let userOperation = useUserSelfOperation(piniaInstance);
-let compSize = computed(() => configStore.configFormInfo?.inputSize || "default");
+let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
 const emits = defineEmits(["refresh", "dataLoaded", "exportData"]);
 const starHorseFormRef = ref(null);
 const dataForm = ref<any>({});

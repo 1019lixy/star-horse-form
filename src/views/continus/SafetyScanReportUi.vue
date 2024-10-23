@@ -398,7 +398,7 @@
     </el-form>
   </star-horse-dialog>
   <el-card>
-    <el-form class="search_area" size="default">
+    <el-form class="search_area" :size="Config.compSize">
       <el-form-item label="状态名称">
         <el-input placeholder="请输入状态名称" v-model="searchForm.statusName"/>
       </el-form-item>
@@ -664,6 +664,7 @@
 <script setup lang="ts" name="SafetyScanReport">
 import {apiInstance} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
+import {Config} from "@/api/settings.ts";
 
 const dataUrl: ApiUrls = apiInstance("devops-continus", "continus/safetyScanReport");
 const dataFormat = (row, column, cellValue, index) => {

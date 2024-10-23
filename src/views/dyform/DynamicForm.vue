@@ -21,6 +21,7 @@ import {batchModifyAction} from "@/api/system.ts";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import {delCacheData, getCacheData, setCacheData} from "@/api/cached_utils.ts";
 import {i18n} from "@/lang";
+import {Config} from "@/api/settings.ts";
 
 const dataUrl = apiInstance("userdb-manage", "userdb/dynamicForm");
 let designForm = DesignForm(piniaInstance);
@@ -30,7 +31,7 @@ let pagePermission = useButtonPermission(piniaInstance);
 let userOperation = useUserSelfOperation(piniaInstance);
 let configStore = GlobalConfig(piniaInstance);
 let permissions = ref<any>({});
-let compSize = computed(() => configStore.configFormInfo?.buttonSize || "default");
+let compSize = computed(() => configStore.configFormInfo?.buttonSize || Config.compSize);
 let draggingItem = computed(() => designForm.draggingItem);
 let list = computed(() => designForm.compList);
 let isPreview = ref<any>(false);

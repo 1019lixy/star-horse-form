@@ -12,6 +12,7 @@ import {ModelRef} from "vue-demi";
 import {uuid} from "@/api/system.ts";
 import UTableColumn from "@/components/comp/items/UTableColumn.vue";
 import StarHorseForm from "@/components/comp/StarHorseForm.vue";
+import {Config} from "@/api/settings.ts";
 
 let importDialogVisible = ref<boolean>(false);
 let rowDialogVisible = ref<boolean>(false);
@@ -28,7 +29,7 @@ const props = defineProps({
   helpMsg: {type: String, default: ""},
   rules: {type: Object},
   staticColumn: {type: String, default: "N"},
-  size: {type: String, default: "default"},
+  size: {type: String, default: Config.compSize},
   isView: {type: Boolean, default: false},
   subFlag: {type: Boolean, default: false},
 });

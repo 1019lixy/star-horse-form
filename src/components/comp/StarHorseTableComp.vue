@@ -20,6 +20,7 @@ import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import {analysisFields} from "@/views/dyform/utils/preview.ts";
 import {isSystemManage} from "@/utils/auth.ts";
 import {removeEmptyCondition} from "@/api/system.ts";
+import {Config} from "@/api/settings.ts";
 
 const dynamicForm = DynamicForm(piniaInstance);
 const props = defineProps({
@@ -79,7 +80,7 @@ const configInfo = computed(() => {
   showType(data.tableType == "card" ? "list" : "card");
   return data;
 });
-//let configInfo.inputSize = computed(() => configStore.configFormInfo?.inputSize || "default");
+let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
 const emits = defineEmits(["selectItem"]);
 const multipleSelection = ref<any>([]);
 const starHorseTableCompRef = ref();
@@ -775,7 +776,7 @@ defineExpose({
               max-height="400px"
               row-key="prop"
               style="width: 100%"
-              :size="configInfo.inputSize"
+              :size="compSize"
               border
           >
             <el-table-column prop="" label="排序" width="60">
@@ -791,7 +792,7 @@ defineExpose({
                 :show-overflow-tooltip="true"
             >
               <template #default="scope">
-                <el-tag round :effect="scope.row.tableShow ? 'dark' : 'light'">
+                <el-tag round :effect="scope.row.tableShow ? 'dark' : 'light'" :size="compSize">
                   {{ scope.row.label }}
                 </el-tag>
               </template>
@@ -800,7 +801,7 @@ defineExpose({
               <template #default="scope">
                 <el-switch
                     v-model="scope.row.tableShow"
-                    :size="configInfo.inputSize"
+                    :size="compSize"
                     :active-value="true"
                     :inactive-value="false"
                 />
@@ -824,7 +825,7 @@ defineExpose({
           :row-key="getRowIdentity"
           :stripe="true"
           :fit="true"
-          :size="configInfo.inputSize"
+          :size="compSize"
           :min-height="height"
           :highlight-current-row="true"
           :default-expand-all="expand"
@@ -848,7 +849,7 @@ defineExpose({
                         :row-key="getRowIdentity"
                         :stripe="true"
                         :fit="true"
-                        :size="configInfo.inputSize"
+                        :size="compSize"
                         :highlight-current-row="true"
                         :max-height="'400px'"
                         :row-style="{height: '30px'}"
@@ -910,7 +911,7 @@ defineExpose({
                           link
                           title=""
                           style="cursor: pointer;color: var(--star-horse-style)"
-                          :size="configInfo.inputSize"
+                          :size="compSize"
                       >
                         <star-horse-icon :icon-class="auth.icon||'edit'"
                                          :color="auth.authority=='delete'?'var(--el-color-danger)':'var(--star-horse-style)'"/>
@@ -963,7 +964,7 @@ defineExpose({
                                    style="cursor: pointer"
                                    :color="item.authority=='delete'?'var(--el-color-danger)':'var(--star-horse-style)'"/>
                 </el-tooltip>
-                <el-dropdown>
+                <el-dropdown :size="compSize">
               <span class="el-dropdown-link">
       <star-horse-icon icon-class="ellipsis" style="color: var(--star-horse-style)"/>
     </span>
@@ -976,7 +977,7 @@ defineExpose({
                             link
                             title=""
                             style="color: var(--star-horse-style);cursor: pointer"
-                            :size="configInfo.inputSize"
+                            :size="compSize"
                         >
                           <star-horse-icon :icon-class="auth.icon||'edit'"
                                            :color="auth.authority=='delete'?'var(--el-color-danger)':'var(--star-horse-style)'"/>
@@ -1006,7 +1007,7 @@ defineExpose({
         :total="pageInfo.totalData"
         @current-change="pageChangeClick"
         @size-change="pageSizeClick"
-        :size="configInfo.inputSize"
+        :size="compSize"
         layout="total, sizes, prev, pager, next, jumper"
         v-model:currentPage="pageInfo.currentPage"
         v-model:page-size="pageInfo.pageSize"

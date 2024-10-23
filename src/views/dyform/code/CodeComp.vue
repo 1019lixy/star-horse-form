@@ -8,13 +8,14 @@ import Vue2 from "@/views/dyform/code/Vue2.vue";
 import React from "@/views/dyform/code/React.vue";
 import {postRequest} from "@/api/star_horse.ts";
 import {warning} from "@/utils/message.ts";
+import {Config} from "@/api/settings.ts";
 
 let configStore = GlobalConfig(piniaInstance);
 let designForm = DesignForm(piniaInstance);
 let compList = computed(() => designForm.compList);
 let formInfo = computed(() => designForm.formInfo);
 let formData = computed(() => designForm.formData);
-let compSize = computed(() => configStore.configFormInfo?.buttonSize || "default");
+let compSize = computed(() => configStore.configFormInfo?.buttonSize || Config.compSize);
 let tabName = ref<string>("vue3");
 let pageInfo = ref<any>({});
 const init = async () => {

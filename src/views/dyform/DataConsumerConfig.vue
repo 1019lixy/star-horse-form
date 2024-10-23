@@ -17,6 +17,7 @@ import piniaInstance from "@/store";
 import {tableColumns} from "@/views/dbsearch/utils/DbSearchUtils.ts";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import {useButtonPermission} from "@/store/ButtonPermissionStore.ts";
+import {Config} from "@/api/settings.ts";
 
 const route = useRoute();
 const isView = ref<boolean>(false);
@@ -29,7 +30,7 @@ const relationConditionList = ref<Array<any>>([]);
 const consumerView = ConsumerView(piniaInstance);
 let dbConfigId = computed(() => consumerView.dbConfigId);
 let configStore = GlobalConfig(piniaInstance);
-let compSize = computed(() => configStore.configFormInfo?.buttonSize || "default");
+let compSize = computed(() => configStore.configFormInfo?.buttonSize || Config.compSize);
 
 const initDiagram = () => {
 };

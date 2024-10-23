@@ -11,6 +11,7 @@ import {useButtonPermission} from "@/store/ButtonPermissionStore.ts";
 import {useRoute} from "vue-router";
 import {UserFuncInfo} from "@/components/types/PageFieldInfo";
 import Help from "@/components/help.vue";
+import {Config} from "@/api/settings.ts";
 
 const props = defineProps({
   dialogProps: {type: Object as PropType<DialogProps>, required: true},
@@ -32,7 +33,7 @@ const emits = defineEmits([
 let route = useRoute();
 let configStore = GlobalConfig(piniaInstance);
 let pagePermission = useButtonPermission();
-let compSize = computed(() => configStore.configFormInfo?.buttonSize || "default");
+let compSize = computed(() => configStore.configFormInfo?.buttonSize || Config.compSize);
 let showType = computed(() => configStore.configFormInfo?.buttonShowType || "dropdown");
 let permissions = ref<any>({});
 const dataForm = ref<any>({});

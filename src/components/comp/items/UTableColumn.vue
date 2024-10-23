@@ -6,7 +6,7 @@ defineProps({
   item: {type: Object, required: true},
   rules: {type: Object},
   staticColumn: {type: String, default: "N"},
-  size: {type: String, default: "default"},
+  size: {type: String, default: Config.compSize},
   batchName: {type: String, default: "batchDataList"},
   primaryKey: {type: String},
 });

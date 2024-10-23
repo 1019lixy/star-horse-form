@@ -129,7 +129,7 @@ const tableFieldList = reactive<PageFieldInfo>({
   cellEditable: true
 });
 let configStore = GlobalConfig(piniaInstance);
-let compSize = computed(() => configStore.configFormInfo?.inputSize || "default");
+let compSize = computed(() => configStore.configFormInfo?.inputSize ||Config.compSize);
 const primaryKey = "idMenusinfo";
 const rules = {};
 const dataForm = ref<any>({});

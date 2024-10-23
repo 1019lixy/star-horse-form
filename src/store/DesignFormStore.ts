@@ -2,6 +2,7 @@ import {defineStore} from "pinia";
 import {SearchParams} from "@/components/types/Params";
 import {loadData} from "@/api/sh_api.ts";
 import {SelectOption} from "@/components/types/SearchProps";
+import {Config} from "@/api/settings.ts";
 
 export const DesignForm: any = defineStore("DesignForm", {
     state: () => {
@@ -400,7 +401,7 @@ export const DesignForm: any = defineStore("DesignForm", {
                 primaryKeyPolicy: "manual",
                 createTable: "Y",
                 validateOnRuleChange: "Y",
-                size: "default",
+                size: Config.compSize,
                 disabled: "N",
                 index: 1,
                 scrollToError: "N",

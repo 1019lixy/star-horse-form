@@ -4,6 +4,7 @@ import {onMounted, PropType} from "vue";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {FieldInfo} from "@/components/types/PageFieldInfo";
 import {ModelRef} from "vue-demi";
+import {Config} from "@/api/settings.ts";
 
 defineProps({
   compUrl: {type: Object as PropType<ApiUrls>},
@@ -15,7 +16,7 @@ defineProps({
   batchFieldName: {type: String, default: "batchFieldList"},
   primaryKey: {type: String, required: true},
   rules: {type: Object},
-  compSize: {type: String, default: "default"},
+  compSize: {type: String, default: Config.compSize},
   isView: {type: Boolean, default: false},
   isEdit: {type: Boolean, default: false},
 });

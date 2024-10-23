@@ -8,6 +8,7 @@ import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import StarHorseForm from "@/components/comp/StarHorseForm.vue";
+import {Config} from "@/api/settings.ts";
 
 let designForm = DesignForm(piniaInstance);
 let formInfo = computed(() => designForm.formInfo);
@@ -121,7 +122,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 {label: "表单验证规则名称", fieldName: "rules", defaultValue: "rules", type: "input", formShow: true},
               ],
               [
-                {label: "表单风格", fieldName: "size", defaultValue: "default", type: "select", optionList: formSizeList, formShow: true},
+                {label: "表单风格", fieldName: "size", defaultValue: Config.compSize, type: "select", optionList: formSizeList, formShow: true},
                 {label: "表单域标签的后缀", fieldName: "labelSuffix", type: "input", formShow: true},
                 {label: "禁用所有组件", fieldName: "disabled", defaultValue: "N", type: "switch", formShow: true},
               ],

@@ -1,6 +1,7 @@
 <script setup lang="ts" name="ShTableListColumn">
 import {inject} from "vue";
 import {DialogProps} from "@/components/types/DialogProps";
+import {Config} from "@/api/settings.ts";
 
 defineProps({
   dataForm: {type: Object, required: true},
@@ -10,7 +11,7 @@ defineProps({
   primaryKey: {type: String},
   batchName: {type: String, default: "batchDataList"},
   rules: {type: Object},
-  size: {type: String, default: "default"}
+  size: {type: String, default: Config.compSize}
 });
 const dialogProps = inject<DialogProps>("dialogProps");
 const validMsg = (item: any) => {
