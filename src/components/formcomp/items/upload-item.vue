@@ -27,7 +27,7 @@
         :on-progress="(evt: any, uploadFile: any, uploadFiles: any)=>selfAction('progress',uploadFile,uploadFiles,evt)"
         :on-remove="(uploadFile: any, uploadFiles: any)=>selfAction('remove',uploadFile,uploadFiles)"
         :on-success="(response: any, uploadFile: any, uploadFiles: any)=>selfAction('success',uploadFile,uploadFiles,response)"
-        style="width: 100%!important;display:flex;align-items:center;"
+        style="width: 100%!important;display:flex;align-items:center;position: relative"
         :show-file-list="field.preps['showFileList']=='Y'"
         :with-credentials="field.preps['withCredentials']=='Y'"
         v-model:file-list="dataField"
@@ -48,7 +48,7 @@
   </starhorse-form-item>
 </template>
 <script lang="ts">
-import {defineComponent, shallowRef, onMounted, nextTick, ref} from "vue";
+import {defineComponent, shallowRef, onMounted, nextTick, ref, watch} from "vue";
 import {getToken} from "@/utils/auth.ts";
 
 export default defineComponent({
@@ -61,7 +61,14 @@ export default defineComponent({
     let headers = ref<any>({});
     const selfAction = (prep: any, uploadFile: any, uploadFiles: any = [], param: any = {}) => {
       if (prep == "success") {
-        context.attrs['formData'][field.preps['name']] = param.data.path;
+        let result = param.data;
+        context.attrs['formData'][field.preps['name']] = result.path;
+        //默认将上传成功的属性存入数据对象
+        if (!field.preps['keepResult'] || field.preps['keepResult'] == 'Y') {
+          for (let key of result) {
+            context.attrs['formData'][key] = result[key];
+          }
+        }
         //console.log(param.data.path);
       }
       context.emit('selfFunc', prep, uploadFile, uploadFiles, param);
@@ -70,7 +77,7 @@ export default defineComponent({
       await nextTick();
       let datas = context.attrs['formData'][field.preps['name']];
       if (datas) {
-        dataField.value.push({url: (field.preps["context"]||'/system-config') + datas});
+        dataField.value.push({url: (field.preps["context"] || '/system-config') + datas});
       }
       let temp = field.preps?.headers;
       if (temp && Object.keys(temp).length > 0) {
@@ -78,13 +85,20 @@ export default defineComponent({
       }
       headers.value["token"] = getToken();
     });
+    watch(() => context.attrs['formFieldList'][field.preps['name']],
+        (val: string) => {
+          if (val) {
+            dataField.value = [{url: (field.preps["context"] || '/system-config') + val}];
+          }
+        },
+        {immediate: true, deep: true})
     return {parentField, context, field, formItem, dataField, selfAction, headers}
   }
 });
 </script>
 <style lang="scss" scoped>
 :deep(.el-upload) {
-  // --el-upload-picture-card-size: 80px !important;
+  width: 100% !important;
 }
 
 :deep(.el-upload-list--picture-card) {
@@ -94,5 +108,11 @@ export default defineComponent({
     height: 100% !important;
     width: 100% !important;
   }
+}
+
+:deep(.el-upload-list) {
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 </style>

@@ -24,7 +24,7 @@ const props = defineProps({
   userBtn: {type: Array<UserFuncInfo>, default: []},
   btnTextContinue: {type: String, default: "提交并继续"},
   title: {type: String, default: ""},
-  compSize: {type: String, default:Config.compSize}
+  compSize: {type: String, default: Config.compSize}
 });
 let windowsType = ref<boolean>(false);
 watch(
@@ -106,7 +106,7 @@ provide("dialogOperation", clickFunction);
           </div>
         </template>
         <div class="shdialog">
-          <slot></slot>
+            <slot></slot>
         </div>
         <span class="dialog-footer" v-if="!isView">
             <slot name="extand"></slot>

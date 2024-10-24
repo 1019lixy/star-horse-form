@@ -129,11 +129,13 @@ onMounted(async () => {
         :title="'查看数据'"
         :is-view="true"
     >
-      <star-horse-data-view
-          :dataFormat="dataFormat"
-          :field-list="tableFieldList"
-          :compUrl="dataUrl"
-      />
+      <div class="dialog-body">
+        <star-horse-data-view
+            :dataFormat="dataFormat"
+            :field-list="tableFieldList"
+            :compUrl="dataUrl"
+        />
+      </div>
     </star-horse-dialog>
     <el-card class="inner_content">
       <div class="search_btn"

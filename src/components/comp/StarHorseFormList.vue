@@ -350,6 +350,9 @@ onMounted(async () => {
   flex-direction: column;
   width: 99%;
   margin: 0 auto;
+  flex: 1;
+  height: 100%;
+  overflow: hidden;
 
   .inner_button {
     margin-bottom: 5px;

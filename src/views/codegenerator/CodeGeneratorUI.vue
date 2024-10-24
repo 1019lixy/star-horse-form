@@ -4,7 +4,7 @@ import {ApiUrls} from "@/components/types/ApiUrls";
 import {onMounted, provide, reactive, ref} from "vue";
 import {SearchFields, SelectOption} from "@/components/types/SearchProps.d.ts";
 import {Config} from "@/api/settings.ts";
-import {PageFieldInfo, UserFuncInfo} from "@/components/types/PageFieldInfo.d.ts";
+import {OrderByInfo, PageFieldInfo, UserFuncInfo} from "@/components/types/PageFieldInfo.d.ts";
 import {initDbList, tableList} from "@/views/dbsearch/utils/DbSearchUtils.ts";
 import {download} from "@/api/star_horse.ts";
 import {warning} from "@/utils/message.ts";
@@ -120,7 +120,7 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
           {
             label: "模块名称", fieldName: "categoryName", type: "input",
             required: true, formShow: true,
-            helpMsg: "Maven 项目的模块名会追加到报名的后面 ",
+            helpMsg: "Maven 项目的模块名会追加到包名的后面",
             tableShow: true
           },
           {
@@ -252,6 +252,12 @@ const codeGeneratorRef = ref();
 const rules = {};
 const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
+const orderBy = ref<OrderByInfo[]>([
+  {
+    fieldName: "updatedTime",
+    ascOrDesc: "desc"
+  }
+])
 
 const selectItemFun = (_data: any) => {
 }
@@ -339,6 +345,7 @@ const closeAction = () => {
     <star-horse-table-comp ref="codeGeneratorRef" :fieldList="tableFieldList"
                            :primaryKey="primaryKey"
                            :compUrl="dataUrl"
+                           :orderBy="orderBy"
                            :extandBtns="extandBtns"
                            :dataFormat="dataFormat" @selectItem="selectItemFun"/>
   </el-card>
