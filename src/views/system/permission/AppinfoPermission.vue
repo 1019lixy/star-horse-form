@@ -17,7 +17,7 @@ const dataUrl: ApiUrls = apiInstance("system-config", "system/rolesPkAppinfo");
 const appinfoPermission = ref();
 let rolesList = ref<SelectOption[]>();
 let configStore = GlobalConfig(piniaInstance);
-let compSize = computed(() => configStore.configFormInfo?.inputSize || "default");
+let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
 let currentUserGroupId = ref<number>(0);
 let defaultCondition = ref<SearchParams[]>([]);
 const checkChange = (data: TreeNodeData, checked: boolean) => {

@@ -2,12 +2,13 @@
 import {onMounted, ref, watch} from "vue";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {commonDataFormat, createDatetime} from "@/api/sh_api.ts";
+import {Config} from "@/api/settings.ts";
 
 const props = defineProps({
   item: {type: Object, default: {}},
   columns: {type: Array<any>, default: []},
   isPreview: {type: Boolean, default: false},
-  compSize:{type:String,default:"default"}
+  compSize:{type:String,default:Config.compSize}
 });
 const emits = defineEmits(["changePage", "exportData"]);
 const viewDataPreviewRef = ref();
@@ -113,7 +114,7 @@ defineExpose({
           <template #default="scope">
             <el-switch
                 v-model="scope.row.tableShow"
-                size="default"
+                :size="Config.compSize"
                 :active-value="true"
                 :inactive-value="false"
             />

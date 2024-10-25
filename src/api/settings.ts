@@ -73,5 +73,9 @@ export const Config: any = {
     /**
      * 默认列表宽度
      */
-    defaultColumnWidth: '120'
+    defaultColumnWidth: '120',
+    /**
+     * 组件大小
+     */
+    compSize: "small"
 };

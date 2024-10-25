@@ -1,9 +1,11 @@
 <script setup lang="ts" name="FieldAnalysis">
+import {Config} from "@/api/settings.ts";
+
 const props = defineProps({
   container: {type: String, default: ""},
   field: {type: Object, required: true},
   index: {type: Number, required: true, default: 1},
-  size: {type: String, default: "default"}
+  size: {type: String, default: Config.compSize}
 });
 const needLengthComp: Array<string> = ["input", "number", "text", "tselect", "textarea", "htmleditor", "cascade",
   "autocomplete", "dialog-input", "select", "page-select"]

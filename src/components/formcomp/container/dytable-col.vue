@@ -5,6 +5,7 @@ import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {tableAction, tableCellOperation} from "@/components/formcomp/container/dytableUtils.ts";
+import {Config} from "@/api/settings.ts";
 
 const props = defineProps({
   parentField: {type: String},
@@ -115,7 +116,7 @@ watch(() => props.parentField,
       </template>
     </draggable>
     <div class="table-cell-action" v-if="isEdit&&currentSubItemId==field._uuid">
-      <el-dropdown trigger="click" @command="handleTableCellCommand" size="default">
+      <el-dropdown trigger="click" @command="handleTableCellCommand" :size="Config.compSize">
         <star-horse-icon icon-class="menu"/>
         <template #dropdown>
           <el-dropdown-menu>

@@ -18,7 +18,7 @@ const props = defineProps({
   isPreview: {type: Boolean, default: false}
 });
 let configStore = GlobalConfig(piniaInstance);
-let compSize = computed(() => configStore.configFormInfo?.inputSize || "default");
+let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
 
 const dataUrl = ref<ApiUrls>(apiInstance("userdb-manage", "consumer/api"));
 dataUrl.exportAllUrl = `/userdb-manage/consumer/api/exportData/${props.param}`;
@@ -129,11 +129,13 @@ onMounted(async () => {
         :title="'查看数据'"
         :is-view="true"
     >
-      <star-horse-data-view
-          :dataFormat="dataFormat"
-          :field-list="tableFieldList"
-          :compUrl="dataUrl"
-      />
+      <div class="dialog-body">
+        <star-horse-data-view
+            :dataFormat="dataFormat"
+            :field-list="tableFieldList"
+            :compUrl="dataUrl"
+        />
+      </div>
     </star-horse-dialog>
     <el-card class="inner_content">
       <div class="search_btn"

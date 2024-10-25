@@ -14,6 +14,7 @@ import Help from "@/components/help.vue";
 import ConsumerDbListComp from "@/views/dbsearch/utils/ConsumerDbListComp.vue";
 import StarHorseEditor from "@/components/comp/StarHorseEditor.vue";
 import {ConsumerView} from "@/store/ConsumerViewStore.ts";
+import {Config} from "@/api/settings.ts";
 
 const designGraph = DesignGraph(piniaInstance);
 const consumerView = ConsumerView(piniaInstance);
@@ -752,7 +753,7 @@ defineExpose({
           </template>
           <el-input
               v-model="query"
-              size="default"
+              :size="Config.compSize"
               clearable
               placeholder="请输入关键字"
               @keydown.enter="onQueryChanged"
@@ -764,7 +765,7 @@ defineExpose({
           <el-scrollbar>
             <el-collapse accordion v-model="activeItem">
               <template v-for="item in filterDatas">
-                <el-collapse-item :name="item.name" :title="item.title" type="default">
+                <el-collapse-item :name="item.name" :title="item.title"  type="default">
                   <el-scrollbar max-height="350">
                     <ul>
                       <li

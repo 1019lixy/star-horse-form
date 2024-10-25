@@ -26,7 +26,7 @@ let isPreview = ref<boolean>(false);
 let dataSource = ref<SelectOption[]>([]);
 let dynamicFormList = ref<Array<any>>([]);
 let configStore = GlobalConfig(piniaInstance);
-let compSize = computed(() => configStore.configFormInfo?.inputSize || "default");
+let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
 const closeAction = () => {
   isPreview.value = false;
   designForm.setIsEdit(true);

@@ -11,7 +11,7 @@ import piniaInstance from "@/store/index.ts";
 
 let designForm = DesignForm(piniaInstance);
 const starHorseTableCompRef = ref();
-let dataUrl = ref<ApiUrls>(apiInstance("",""));
+let dataUrl = ref<ApiUrls>(apiInstance("", ""));
 const errorMsg = ref("数据加载中");
 let searchFormData = ref<SearchProps[]>();
 const tableFieldList = ref<any>({
@@ -92,11 +92,13 @@ onMounted(async () => {
         :title="'查看数据'"
         :is-view="true"
     >
-      <star-horse-data-view
-          :dataFormat="dataFormat"
-          :field-list="tableFieldList"
-          :compUrl="dataUrl"
-      />
+      <div class="dialog-body">
+        <star-horse-data-view
+            :dataFormat="dataFormat"
+            :field-list="tableFieldList"
+            :compUrl="dataUrl"
+        />
+      </div>
     </star-horse-dialog>
     <el-card class="inner_content">
       <el-tabs v-model="activeName" type="border-card" @tab-click="handleClick">

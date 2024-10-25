@@ -4,6 +4,7 @@ import {commonParseCodeToName,} from "@/api/sh_api";
 import Sortable from "sortablejs";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {warning} from "@/utils/message";
+import {Config} from "@/api/settings.ts";
 
 const props = defineProps({
   //主键
@@ -13,7 +14,7 @@ const props = defineProps({
   //格式化方法
   dataFormat: {type: Function, default: null},
   //按钮大小
-  compSize: {type: String, default: "default"},
+  compSize: {type: String, default: Config.compSize},
   //弹窗模式
   dialogInput: {type: Boolean, default: false},
   //默认表格高度

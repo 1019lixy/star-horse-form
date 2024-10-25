@@ -2,11 +2,12 @@
 import {onMounted, ref} from "vue";
 import {batchFieldDefaultValues} from "@/api/sh_api.ts";
 import {ModelRef} from "vue-demi";
+import {Config} from "@/api/settings.ts";
 
 defineProps({
   item: {type: Object, required: true},
   rules: {type: Object},
-  size: {type: String, default: "default"}
+  size: {type: String, default: Config.compSize}
 });
 const dataForm: ModelRef<any> = defineModel("dataForm");
 const currentTableRef = ref();

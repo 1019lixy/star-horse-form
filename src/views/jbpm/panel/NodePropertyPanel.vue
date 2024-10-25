@@ -13,6 +13,7 @@
 import StarHorseForm from "@/components/comp/StarHorseForm.vue";
 import {serviceTaskNodeField, userTaskNodeField} from "@/views/jbpm/panel/Fields.ts";
 import {computed, ref, watch} from "vue";
+import {Config} from "@/api/settings.ts";
 
 const props = defineProps({
   modeler: {
@@ -27,7 +28,7 @@ const props = defineProps({
     type: Object,
     required: true
   },
-  compSize: {type: String, default: "default"},
+  compSize: {type: String, default:Config.compSize},
   tab: {type: String, default: "node"}
 });
 const userTaskFormRef = ref();

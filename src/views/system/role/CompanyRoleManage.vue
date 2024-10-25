@@ -15,7 +15,7 @@ import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import RoleUserList from "@/views/system/comp/RoleUserList.vue";
 
 let configStore = GlobalConfig(piniaInstance);
-let compSize = computed(() => configStore.configFormInfo?.inputSize || "default");
+let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
 const dataUrl = apiInstance("system-config", "system/companyRole");
 dataUrl.loadByPageUrl = "/system-config/system/companyRole/companyRoleUserList";
 //查询属性

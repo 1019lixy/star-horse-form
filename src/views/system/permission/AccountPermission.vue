@@ -15,7 +15,7 @@ let rolesList = ref<SelectOption[]>([]);
 let accountPermissionStatus = ref<SelectOption[]>();
 let accountPermission = ref();
 let configStore = GlobalConfig(piniaInstance);
-let compSize = computed(() => configStore.configFormInfo?.inputSize || "default");
+let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
 const dataUrl: ApiUrls = apiInstance("system-config", "system/rolesPkUsers");
 let currentUserGroupId = ref<number>(0);
 let defaultCondition = ref<SearchParams[]>([]);

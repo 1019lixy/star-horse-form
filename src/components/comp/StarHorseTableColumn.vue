@@ -15,7 +15,7 @@ const props = defineProps({
   cellEditable: {type: Boolean, default: true},
   //是否显示排序
   sortable: {type: Boolean, default: true},
-  compSize: {type: String, default: "default"}
+  compSize: {type: String, default: Config.compSize}
 });
 const emits = defineEmits(["focusEvent", "blurEvent"]);
 const currentRow = ref();

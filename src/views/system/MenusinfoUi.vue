@@ -129,7 +129,7 @@ const tableFieldList = reactive<PageFieldInfo>({
   cellEditable: true
 });
 let configStore = GlobalConfig(piniaInstance);
-let compSize = computed(() => configStore.configFormInfo?.inputSize || "default");
+let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
 const primaryKey = "idMenusinfo";
 const rules = {};
 const dataForm = ref<any>({});
@@ -204,7 +204,7 @@ let extandBtns = ref<UserFuncInfo[]>([{
   btnName: "添加子菜单",
   authority: "add",
   icon: "plus",
-  priority:1,
+  priority: 1,
   funcName: (row: any) => {
     dataForm.value["parentNo"] = row["dataNo"];
     dialogProps.editVisible = true;
@@ -256,7 +256,8 @@ onMounted(async () => {
   <el-card class="inner_content">
     <el-row style="height: 100%;" :gutter="10">
       <el-col :span="5" class="h100">
-        <star-horse-tree v-model:treeDatas="informationsList" :treeTitle="'应用列表'" @selectData="checkChange" :comp-size="compSize"/>
+        <star-horse-tree v-model:treeDatas="informationsList" :treeTitle="'应用列表'" @selectData="checkChange"
+                         :comp-size="compSize"/>
       </el-col>
       <el-col :span="19" class="h100">
         <el-card class="inner_content h100">

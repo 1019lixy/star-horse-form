@@ -143,7 +143,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   cellEditable: false
 });
 let configStore = GlobalConfig(piniaInstance);
-let compSize = computed(() => configStore.configFormInfo?.inputSize || "default");
+let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
 //主键
 const primaryKey = "idDataPermission";
 const dataPermissionRef = ref();

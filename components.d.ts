@@ -311,6 +311,7 @@ declare module 'vue' {
     SystemSubMenu: typeof import('./src/components/menu/SystemSubMenu.vue')['default']
     TabContainer: typeof import('./src/components/formcomp/container/tab-container.vue')['default']
     TabItem: typeof import('./src/components/comp/items/tabItem.vue')['default']
+    Tablebtn: typeof import('./src/components/comp/items/tablebtn.vue')['default']
     TableColumn: typeof import('./src/components/comp/items/tableColumn.vue')['default']
     TableContainer: typeof import('./src/components/formcomp/container/table-container.vue')['default']
     TableItem: typeof import('./src/components/comp/items/tableItem.vue')['default']

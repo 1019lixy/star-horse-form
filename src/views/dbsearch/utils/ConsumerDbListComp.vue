@@ -6,10 +6,11 @@ import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import {SelectOption} from "@/components/types/SearchProps.d.ts";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {ConsumerView} from "@/store/ConsumerViewStore.ts";
+import {Config} from "@/api/settings.ts";
 
 let configStore = GlobalConfig(piniaInstance);
 const consumerView = ConsumerView(piniaInstance);
-let compSize = computed(() => configStore.configFormInfo?.buttonSize || "default");
+let compSize = computed(() => configStore.configFormInfo?.buttonSize || Config.compSize);
 let dataForm = ref<any>({});
 const filterTableName = ref<string>("");
 const tbTab = ref<string>("tb1");

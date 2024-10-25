@@ -7,6 +7,7 @@ import {ModelRef} from "vue-demi";
 import {useUserSelfOperation} from "@/store/SelfOperationStore.ts";
 import piniaInstance from "@/store";
 import {uuid} from "@/api/system.ts";
+import {Config} from "@/api/settings.ts";
 
 const props = defineProps({
       // allItem: {type: Array, required: true},
@@ -15,7 +16,7 @@ const props = defineProps({
       primaryKey: {type: String},
       bareFlag: {type: Boolean, default: false},
       batchName: {type: String, default: ""},
-      compSize: {type: String, default: "default"},
+      compSize: {type: String, default: Config.compSize},
       isSearch: {type: Boolean, default: false}, //是否查询数据
       showLabel: {type: Boolean, default: true},//是否显示标签
       isEdit: {type: Boolean, default: false}, //是否编辑数据

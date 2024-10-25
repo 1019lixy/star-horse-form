@@ -4,6 +4,7 @@ import {ApiUrls} from "@/components/types/ApiUrls";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import StarHorseFormTable from "@/components/comp/StarHorseFormTable.vue";
 import {ModelRef} from "vue-demi";
+import {Config} from "@/api/settings.ts";
 
 const props = defineProps({
   compUrl: {type: Object as PropType<ApiUrls>},
@@ -14,7 +15,7 @@ const props = defineProps({
   batchFieldName: {type: String, default: "batchFieldList"},
   primaryKey: {type: String, required: true},
   rules: {type: Object},
-  compSize: {type: String, default: "default"},
+  compSize: {type: String, default: Config.compSize},
   isView: {type: Boolean, default: false},
 });
 const dataForm: ModelRef<any> = defineModel("dataForm");

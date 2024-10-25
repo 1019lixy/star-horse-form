@@ -8,10 +8,11 @@ import SubMenu from "@/components/menu/SubMenu.vue";
 import {filterTree} from "@/api/sh_api";
 import piniaInstance from "@/store";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
+import {Config} from "@/api/settings.ts";
 
 let userInfo = userInfoStore(piniaInstance);
 let configStore = GlobalConfig(piniaInstance);
-let compSize = computed(() => configStore.configFormInfo?.inputSize || "default");
+let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
 const emits = defineEmits(["collopseOperation"]);
 let leftMenuDatas = ref<MenusInfo[]>([]);
 let props = defineProps({

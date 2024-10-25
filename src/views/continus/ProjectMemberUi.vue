@@ -102,7 +102,7 @@ const filterFun = () => {
     propertyName: "idProjectInfo",
     value: props.projectId
   });
-  projectMemberRef.value.setCondition(filterCondition.value, []);
+  projectMemberRef.value.createSearchParams(filterCondition.value, []);
 };
 watch(() => props.mainId,
     () => {

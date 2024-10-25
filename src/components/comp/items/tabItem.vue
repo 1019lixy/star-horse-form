@@ -6,6 +6,7 @@ import {FieldInfo} from "@/components/types/PageFieldInfo";
 import StarHorseFormTable from "@/components/comp/StarHorseFormTable.vue";
 import {ModelRef} from "vue-demi";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
+import {Config} from "@/api/settings.ts";
 
 defineProps({
   compUrl: {type: Object as PropType<ApiUrls>},
@@ -17,7 +18,7 @@ defineProps({
   batchFieldName: {type: String, default: "batchFieldList"},
   primaryKey: {type: String, required: true},
   rules: {type: Object},
-  compSize: {type: String, default: "default"},
+  compSize: {type: String, default: Config.compSize},
   isView: {type: Boolean, default: false},
 });
 const dataForm: ModelRef<any> = defineModel("dataForm");

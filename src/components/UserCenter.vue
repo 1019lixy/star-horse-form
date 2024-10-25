@@ -11,12 +11,13 @@ import {postRequest} from "@/api/star_horse.ts";
 import {success, warning} from "@/utils/message.ts";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import piniaInstance from "@/store";
+import {Config} from "@/api/settings.ts";
 
 let userInfo = ref<any>({});
 let depts = ref<string>("--");
 let roles = ref<string>("--");
 let configStore = GlobalConfig(piniaInstance);
-let compSize = computed(() => configStore.configFormInfo?.inputSize || "default");
+let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
 const userFormRef = ref();
 const rules = {
   phone: [{

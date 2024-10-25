@@ -27,7 +27,7 @@ let companyList = ref<Array<any>>([]);
 const formFields = reactive<Object>({});
 provide("formFields", formFields);
 let configStore = GlobalConfig(piniaInstance);
-let compSize = computed(() => configStore.configFormInfo?.inputSize || "default");
+let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
 let currentUserGroupId = ref<number>(0);
 let defaultCondition = ref<SearchParams[]>([]);
 

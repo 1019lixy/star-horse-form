@@ -9,6 +9,7 @@ import Help from "@/components/help.vue";
 import {initDbList} from "@/views/dbsearch/utils/DbSearchUtils.ts";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import piniaInstance from "@/store";
+import {Config} from "@/api/settings.ts";
 
 let editorRef = ref(null);
 let cacheValue = ref({});
@@ -28,7 +29,7 @@ let dbIndex = ref<any>(null);
 let currentIndex = ref<any>(null);
 let readOnly = ref<boolean>(true);
 let configStore = GlobalConfig(piniaInstance);
-let compSize = computed(() => configStore.configFormInfo?.inputSize || "default");
+let compSize = computed(() => configStore.configFormInfo?.inputSize ||Config.compSize);
 const init = async () => {
   dbList.value = await initDbList();
 };

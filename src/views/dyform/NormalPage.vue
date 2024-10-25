@@ -93,9 +93,11 @@ watch(() => props.param,
         :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible"
         :dialogProps="dialogProps"
     >
-      <star-horse-form @refresh="normalPageRef.loadByPage()" :compUrl="dataUrl"
-                       :fieldList="tableFieldList"
-                       :rules="rules" :globalCondition="relationTables" :dynamicForm="true"/>
+      <div class="dialog-body">
+        <star-horse-form @refresh="normalPageRef.loadByPage()" :compUrl="dataUrl"
+                         :fieldList="tableFieldList"
+                         :rules="rules" :globalCondition="relationTables" :dynamicForm="true"/>
+      </div>
     </star-horse-dialog>
     <star-horse-dialog
         :dialog-visible="dialogProps.viewVisible"

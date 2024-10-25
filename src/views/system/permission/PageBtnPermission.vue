@@ -85,7 +85,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   cellEditable: false
 });
 let configStore = GlobalConfig(piniaInstance);
-let compSize = computed(() => configStore.configFormInfo?.inputSize || "default");
+let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
 const primaryKey = ["idMenusinfo", "idRolesinfo", "idInformations"];
 const rules = {};
 const dialogProps = dialogPreps();

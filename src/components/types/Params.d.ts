@@ -51,3 +51,21 @@ declare export interface SearchInfo {
      */
     orderBy: OrderByInfo[]
 }
+
+/**
+ * 列表按钮隐藏条件
+ */
+declare export interface BtnHideCondition {
+    /**
+     * 属性名
+     */
+    fieldName: string,
+    /**
+     * 按钮
+     */
+    btnName: Array[string] | string,
+    /**
+     * 值
+     */
+    value: any
+}

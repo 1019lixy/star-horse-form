@@ -213,6 +213,10 @@ export declare interface FieldInfo {
      * 相邻的兄弟节点
      */
     brotherNodes?: FieldInfo[];
+    /**
+     * 优先级，数字越小，组件越靠前
+     */
+    priority?: number;
 }
 
 /**

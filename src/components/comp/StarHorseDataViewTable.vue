@@ -5,11 +5,12 @@ import {rowClassName} from "@/api/sh_api";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {ModelRef} from "vue-demi";
 import StarHorseTableViewColumn from "@/components/comp/StarHorseTableViewColumn.vue";
+import {Config} from "@/api/settings.ts";
 
 defineProps({
   item: {type: Array as PropType<Array<FieldInfo>>, required: true},
   batchName: {type: String, required: true},
-  compSize: {type: String, default: "default"},
+  compSize: {type: String, default: Config.compSize},
   commonFormat: {type: Function, required: true},
 });
 const dataForm: ModelRef<any> = defineModel("dataForm");

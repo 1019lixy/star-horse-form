@@ -8,6 +8,7 @@ import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import piniaInstance from "@/store";
 import {analysisSearchData} from "@/views/dyform/utils/preview.ts";
 import {SearchParams} from "@/components/types/Params";
+import {Config} from "@/api/settings.ts";
 
 let matchTypeList = ref<SelectOption[]>();
 let sarchIcon = ref<string>("search_down");
@@ -23,7 +24,7 @@ const props = defineProps({
   defaultCondition: {type: Array<SearchParams>}
 });
 let configStore = GlobalConfig(piniaInstance);
-let compSize = computed(() => configStore.configFormInfo?.inputSize || "default");
+let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
 let searchForm = ref<any>({});
 
 const createSearchParams = (formData: any) => {

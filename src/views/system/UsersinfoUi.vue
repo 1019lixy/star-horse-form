@@ -46,7 +46,7 @@ const searchFormData = reactive<SearchFields>({
   ]
 });
 let configStore = GlobalConfig(piniaInstance);
-let compSize = computed(() => configStore.configFormInfo?.inputSize || "default");
+let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
 //修改密码方法
 const pwdFormRef = ref();
 const resetForm = () => {

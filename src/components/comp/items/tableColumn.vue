@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {PropType} from "vue";
 import {ApiUrls} from "@/components/types/ApiUrls";
+import {Config} from "@/api/settings.ts";
 
 defineProps({
   //url地址
@@ -13,7 +14,7 @@ defineProps({
   sortable: {type: Boolean, default: true},
   //是否显示批量属性
   showBatchField: {type: Boolean, default: false},
-  compSize: {type: String, default: "default"}
+  compSize: {type: String, default: Config.compSize}
 });
 </script>
 <template>
