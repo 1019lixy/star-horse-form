@@ -4,7 +4,7 @@ import {computed, inject, nextTick, onMounted, onUpdated, PropType, reactive, re
 import {download, postRequest} from "@/api/star_horse";
 import {PageProps} from "@/components/types/PageProps";
 import {closeLoad, createCondition, deleteByIds, isJson, load, loadData,} from "@/api/sh_api";
-import {SearchParams} from "@/components/types/Params";
+import {BtnHideCondition, SearchParams} from "@/components/types/Params";
 import Sortable from "sortablejs";
 import {DialogProps} from "../types/DialogProps";
 import {BtnAuth} from "@/components/types/BtnAuth";
@@ -30,6 +30,8 @@ const props = defineProps({
   primaryKey: {type: Object as PropType<any>, required: true},
   //列名
   fieldList: {type: Object as PropType<PageFieldInfo>, required: true},
+  //按钮隐藏条件
+  hideBtnCondition: {type: Array as PropType<BtnHideCondition[]>, default: []},
   //是否显示批量属性
   showBatchField: {type: Boolean, default: false},
   //格式化方法
@@ -92,7 +94,6 @@ let pageInfo = reactive<PageProps>({
   dataList: [],
 });
 let searchFields = reactive<Array<SearchParams>>([]);
-let defaultSearchFields = reactive<Array<SearchParams>>([]);
 let orderBys = reactive<Array<OrderByInfo>>([]);
 let fieldVisible = ref<boolean>(false);
 let dialogProps = inject("dialogProps") as DialogProps;
@@ -133,7 +134,7 @@ const exportData = () => {
   } else {
     params = searchFields;
   }
-  let defaultcond = removeEmptyCondition(props.compUrl?.condition);
+  let defaultcond: any = removeEmptyCondition(props.compUrl?.condition!);
   if (defaultcond && defaultcond.length > 0) {
     params.push(...defaultcond);
   }
@@ -173,6 +174,7 @@ const batchDelete = async () => {
  */
 const createSearchParams = (formData: SearchParams[], orderBy: OrderByInfo[] = []) => {
   searchFields = formData;
+  orderBys = orderBy;
   loadByPage();
 };
 /**
@@ -452,7 +454,7 @@ const commonPersons = ref<Array<string>>([]);
 //弹窗选择框属性值
 const inputFieldVal = ref<any>();
 const createParams = () => {
-  let searchTemp = JSON.parse(JSON.stringify(searchFields)) || [];
+  let searchTemp = [];
   let orderByTemp = JSON.parse(JSON.stringify(orderBys)) || [];
   if (props.filterCondition) {
     searchTemp.push(...props.filterCondition);
@@ -460,10 +462,10 @@ const createParams = () => {
   if (props.orderBy) {
     orderByTemp.push(...props.orderBy);
   }
-  if (defaultSearchFields.length > 0) {
-    searchTemp.push(...defaultSearchFields);
+  if (searchFields.length > 0) {
+    searchTemp.push(...searchFields);
   }
-  let condition = removeEmptyCondition(props.compUrl?.condition);
+  let condition: any = removeEmptyCondition(props.compUrl?.condition!);
   if (condition && condition.length > 0) {
     searchTemp.push(...condition);
   }
@@ -627,16 +629,7 @@ const extandBtnFunction = (): Array<UserFuncInfo> => {
   arr.sort((a: UserFuncInfo, b: UserFuncInfo) => (a.priority || 40) - (b.priority || 40));
   return arr;
 }
-/**
- * 动态改变条件并
- * @param cond
- * @param orderBy
- */
-const setCondition = (cond: SearchParams[], orderBy: OrderByInfo[]) => {
-  defaultSearchFields = cond;
-  orderBys = orderBy || [];
-  loadByPage();
-};
+
 /**
  * 扩展表的操作
  * @param name 事件条件
@@ -644,26 +637,26 @@ const setCondition = (cond: SearchParams[], orderBy: OrderByInfo[]) => {
  * @param parentRow 父节点的数据
  */
 const expandCommonFun = (name: string, row: any, parentRow: any) => {
-  let func = props.expandTable?.extandFuncs?.find(item => item.authority == name);
-  if (func && func.funcName) {
-    func.funcName!(row, parentRow);
-  } else {
-    let id = analysisPrimaryKeys(props.expandTable?.primaryKey, row);
-    for (let key in id) {
-      if (!id[key]) {
-        id[key] = parentRow[key];
-      }
-    }
-    //如果在当前行数据没有找到对应的字段，再从父级进行查找
-    if (name == "view") {
-      viewById(id, true);
-    } else if (name == "edit") {
-      editById(id, true);
-    } else if (name == "delete") {
-      deleteById(id, true);
-      // console.log(id, row, parentRow);
+  // let func = props.expandTable?.extandFuncs?.find(item => item.authority == name);
+  // if (func && func.funcName) {
+  //   func.funcName!(row, parentRow);
+  // } else {
+  let id = analysisPrimaryKeys(props.expandTable?.primaryKey, row);
+  for (let key in id) {
+    if (!id[key]) {
+      id[key] = parentRow[key];
     }
   }
+  //如果在当前行数据没有找到对应的字段，再从父级进行查找
+  if (name == "view") {
+    viewById(id, true);
+  } else if (name == "edit") {
+    editById(id, true);
+  } else if (name == "delete") {
+    deleteById(id, true);
+    // console.log(id, row, parentRow);
+  }
+  // }
 }
 /**
  * 借助列表组件获取需要的数据
@@ -674,8 +667,7 @@ const expandCommonFun = (name: string, row: any, parentRow: any) => {
  * @param orderBys 排序
  */
 const getDatas = async (limitSize: number = 0, params: SearchParams[] = [], orderBys: OrderByInfo[] = [],
-                        url: string = '', usePageCondition: boolean = true
-) => {
+                        url: string = '', usePageCondition: boolean = true) => {
   let tempSearchParams: SearchParams[] = [];
   if (usePageCondition) {
     let temp = createParams();
@@ -695,6 +687,29 @@ const getDatas = async (limitSize: number = 0, params: SearchParams[] = [], orde
   }
   return result.data;
 }
+/**
+ * 判断按钮是否需要隐藏
+ * @param btn
+ * @param row
+ */
+const btnHideCheck = (btn: string, row: any) => {
+  let cond = props.hideBtnCondition;
+  if (!cond || cond.length == 0) {
+    return true;
+  }
+  let flag = false, hasBtn = false;
+  for (let i in cond) {
+    let temp = cond[i];
+    if (temp.btnName.includes(btn)) {
+      hasBtn = true;
+      if (row[temp.fieldName] != temp.value) {
+        flag = true;
+        break;
+      }
+    }
+  }
+  return hasBtn ? flag : true;
+}
 let dataShowType = ref<string>("list");
 let cardFieldList = ref<FieldInfo[]>([]);
 const loadField = (): FieldInfo[] => {
@@ -703,6 +718,7 @@ const loadField = (): FieldInfo[] => {
     fieldList.sort((a: FieldInfo, b: FieldInfo) => (a.priority || 100) - (b.priority || 100));
     return fieldList.filter(item => item.tableShow)?.slice(0, 3);
   }
+  return [];
 }
 let typeTitle = ref<string>("切换为卡片模式");
 let typeIcon = ref<string>("card1");
@@ -739,7 +755,6 @@ defineExpose({
   getIds,
   multipleSelection,
   setDataInfo,
-  setCondition,
   //按钮事件
   tableCompFunc,
   getDatas,
@@ -893,7 +908,7 @@ defineExpose({
           <template #default="scope">
             <template v-if="buttonList.length > 3">
               <el-tooltip :content="item.btnName" v-for="item in buttonList.slice(0,3)">
-                <star-horse-icon v-if="permissions[item.authority!]" @click="item.funcName!(scope.row)"
+                <star-horse-icon v-if="permissions[item.authority!]&&btnHideCheck(item.authority!,scope.row)" @click="item.funcName!(scope.row)"
                                  :icon-class="item.icon||'edit'"
                                  style="cursor: pointer"
                                  :color="item.authority=='delete'?'var(--el-color-danger)':'var(--star-horse-style)'"/>
@@ -905,7 +920,7 @@ defineExpose({
                 <template #dropdown>
                   <el-dropdown-menu>
                     <el-dropdown-item v-for="auth in buttonList.slice(3,buttonList.length)"
-                                      :v-if="permissions[auth.authority!]">
+                                      :v-if="permissions[auth.authority!]&&btnHideCheck(auth.authority!,scope.row)">
                       <el-button
                           @click="auth.funcName(scope.row)"
                           link
@@ -924,7 +939,7 @@ defineExpose({
             </template>
             <template v-else>
               <el-tooltip :content="item.btnName" v-for="item in buttonList">
-                <star-horse-icon v-if="permissions[item.authority]" @click="item.funcName(scope.row)"
+                <star-horse-icon v-if="permissions[item.authority]&&btnHideCheck(item.authority!,scope.row)" @click="item.funcName(scope.row)"
                                  :icon-class="item.icon||'edit'"
                                  style="cursor: pointer"
                                  :color="item.authority=='delete'?'var(--el-color-danger)':'var(--star-horse-style)'"/>
@@ -959,7 +974,7 @@ defineExpose({
             <template #footer>
               <template v-if="buttonList.length > 6">
                 <el-tooltip :content="item.btnName" v-for="item in buttonList.slice(0,3)">
-                  <star-horse-icon v-if="permissions[item.authority!]" @click="item.funcName!(data)"
+                  <star-horse-icon v-if="permissions[item.authority!]&&btnHideCheck(item.authority!,scope.row)" @click="item.funcName!(data)"
                                    :icon-class="item.icon||'edit'"
                                    style="cursor: pointer"
                                    :color="item.authority=='delete'?'var(--el-color-danger)':'var(--star-horse-style)'"/>
@@ -971,7 +986,7 @@ defineExpose({
                   <template #dropdown>
                     <el-dropdown-menu>
                       <el-dropdown-item v-for="auth in buttonList.slice(6,buttonList.length)"
-                                        :v-if="permissions[auth.authority!]">
+                                        :v-if="permissions[auth.authority!]&&btnHideCheck(auth.authority!,scope.row)">
                         <el-button
                             @click="auth.funcName(data)"
                             link
@@ -990,7 +1005,7 @@ defineExpose({
               </template>
               <template v-else>
                 <el-tooltip :content="item.btnName" v-for="item in buttonList">
-                  <star-horse-icon v-if="permissions[item.authority]" @click="item.funcName(data)"
+                  <star-horse-icon v-if="permissions[item.authority]&&btnHideCheck(item.authority!,scope.row)" @click="item.funcName(data)"
                                    :icon-class="item.icon||'edit'"
                                    style="cursor: pointer"
                                    :color="item.authority=='delete'?'var(--el-color-danger)':'var(--star-horse-style)'"/>
