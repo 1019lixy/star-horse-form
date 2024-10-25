@@ -21,6 +21,7 @@ import {analysisFields} from "@/views/dyform/utils/preview.ts";
 import {isSystemManage} from "@/utils/auth.ts";
 import {removeEmptyCondition} from "@/api/system.ts";
 import {Config} from "@/api/settings.ts";
+import Tablebtn from "@/components/comp/items/tablebtn.vue";
 
 const dynamicForm = DynamicForm(piniaInstance);
 const props = defineProps({
@@ -906,45 +907,8 @@ defineExpose({
             :width="buttonList.length > 3?160:110"
         >
           <template #default="scope">
-            <template v-if="buttonList.length > 3">
-              <el-tooltip :content="item.btnName" v-for="item in buttonList.slice(0,3)">
-                <star-horse-icon v-if="permissions[item.authority!]&&btnHideCheck(item.authority!,scope.row)" @click="item.funcName!(scope.row)"
-                                 :icon-class="item.icon||'edit'"
-                                 style="cursor: pointer"
-                                 :color="item.authority=='delete'?'var(--el-color-danger)':'var(--star-horse-style)'"/>
-              </el-tooltip>
-              <el-dropdown>
-              <span class="el-dropdown-link">
-      <star-horse-icon icon-class="ellipsis" style="color: var(--star-horse-style)"/>
-    </span>
-                <template #dropdown>
-                  <el-dropdown-menu>
-                    <el-dropdown-item v-for="auth in buttonList.slice(3,buttonList.length)"
-                                      :v-if="permissions[auth.authority!]&&btnHideCheck(auth.authority!,scope.row)">
-                      <el-button
-                          @click="auth.funcName(scope.row)"
-                          link
-                          title=""
-                          style="cursor: pointer;color: var(--star-horse-style)"
-                          :size="compSize"
-                      >
-                        <star-horse-icon :icon-class="auth.icon||'edit'"
-                                         :color="auth.authority=='delete'?'var(--el-color-danger)':'var(--star-horse-style)'"/>
-                        {{ auth["btnName"] }}
-                      </el-button>
-                    </el-dropdown-item>
-                  </el-dropdown-menu>
-                </template>
-              </el-dropdown>
-            </template>
-            <template v-else>
-              <el-tooltip :content="item.btnName" v-for="item in buttonList">
-                <star-horse-icon v-if="permissions[item.authority]&&btnHideCheck(item.authority!,scope.row)" @click="item.funcName(scope.row)"
-                                 :icon-class="item.icon||'edit'"
-                                 style="cursor: pointer"
-                                 :color="item.authority=='delete'?'var(--el-color-danger)':'var(--star-horse-style)'"/>
-              </el-tooltip>
-            </template>
+            <tablebtn :row="scope.row" :permissions="permissions" :buttonList="buttonList"
+                      :hideBtnCondition="hideBtnCondition" :compSize="compSize"/>
           </template>
         </el-table-column>
       </el-table>
@@ -970,47 +934,9 @@ defineExpose({
                 </el-tooltip>
               </div>
             </div>
-
             <template #footer>
-              <template v-if="buttonList.length > 6">
-                <el-tooltip :content="item.btnName" v-for="item in buttonList.slice(0,3)">
-                  <star-horse-icon v-if="permissions[item.authority!]&&btnHideCheck(item.authority!,scope.row)" @click="item.funcName!(data)"
-                                   :icon-class="item.icon||'edit'"
-                                   style="cursor: pointer"
-                                   :color="item.authority=='delete'?'var(--el-color-danger)':'var(--star-horse-style)'"/>
-                </el-tooltip>
-                <el-dropdown :size="compSize">
-              <span class="el-dropdown-link">
-      <star-horse-icon icon-class="ellipsis" style="color: var(--star-horse-style)"/>
-    </span>
-                  <template #dropdown>
-                    <el-dropdown-menu>
-                      <el-dropdown-item v-for="auth in buttonList.slice(6,buttonList.length)"
-                                        :v-if="permissions[auth.authority!]&&btnHideCheck(auth.authority!,scope.row)">
-                        <el-button
-                            @click="auth.funcName(data)"
-                            link
-                            title=""
-                            style="color: var(--star-horse-style);cursor: pointer"
-                            :size="compSize"
-                        >
-                          <star-horse-icon :icon-class="auth.icon||'edit'"
-                                           :color="auth.authority=='delete'?'var(--el-color-danger)':'var(--star-horse-style)'"/>
-                          {{ auth["btnName"] }}
-                        </el-button>
-                      </el-dropdown-item>
-                    </el-dropdown-menu>
-                  </template>
-                </el-dropdown>
-              </template>
-              <template v-else>
-                <el-tooltip :content="item.btnName" v-for="item in buttonList">
-                  <star-horse-icon v-if="permissions[item.authority]&&btnHideCheck(item.authority!,scope.row)" @click="item.funcName(data)"
-                                   :icon-class="item.icon||'edit'"
-                                   style="cursor: pointer"
-                                   :color="item.authority=='delete'?'var(--el-color-danger)':'var(--star-horse-style)'"/>
-                </el-tooltip>
-              </template>
+              <tablebtn :row="data" :permissions="permissions" :buttonList="buttonList" :showLimit="6"
+                        :hideBtnCondition="hideBtnCondition" :compSize="compSize"/>
             </template>
 
           </el-card>
