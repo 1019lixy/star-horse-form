@@ -89,7 +89,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             fieldName: "employeeNo",
             type: "input",
             editDisabled: "Y",
-            required: true,
+            helpMsg: "如不填写系统自动生成",
+            required: false,
             formShow: !false,
             tableShow: !false,
           },
@@ -104,7 +105,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
               autoUpload: "N",
               action: "xx",
               wordBreak: true,
-              rowspan: 2,
+              rowspan: 4,
             }
           },],
         [{
