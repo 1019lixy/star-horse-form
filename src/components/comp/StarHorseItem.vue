@@ -8,6 +8,7 @@ import {useUserSelfOperation} from "@/store/SelfOperationStore.ts";
 import piniaInstance from "@/store";
 import {uuid} from "@/api/system.ts";
 import {Config} from "@/api/settings.ts";
+import {SearchFields} from "@/components/types/SearchProps";
 
 const props = defineProps({
       // allItem: {type: Array, required: true},

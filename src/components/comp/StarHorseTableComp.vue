@@ -22,6 +22,7 @@ import {isSystemManage} from "@/utils/auth.ts";
 import {removeEmptyCondition} from "@/api/system.ts";
 import {Config} from "@/api/settings.ts";
 import Tablebtn from "@/components/comp/items/tablebtn.vue";
+import Help from "@/components/help.vue";
 
 const dynamicForm = DynamicForm(piniaInstance);
 const props = defineProps({
@@ -72,7 +73,9 @@ const props = defineProps({
   lineHeight: {type: String, default: "30px"},
   //显示多选框
   showSelection: {type: Boolean, default: true},
-  expandTable: {type: Object as PropType<ExpandTable>}
+  expandTable: {type: Object as PropType<ExpandTable>},
+  //帮助提示
+  helpMsg: {type: String}
 });
 let route = useRoute();
 let pagePermission = useButtonPermission();
@@ -769,7 +772,8 @@ defineExpose({
         v-if="!dialogInput"
     >
       <div class="tb_title">
-        <star-horse-icon icon-class="info" size="14px" style="font-weight:bold;color: var(--star-horse-style)"/>
+        <help :message="helpMsg" v-if="helpMsg"/>
+        <star-horse-icon icon-class="info" v-else size="14px" style="font-weight:bold;color: var(--star-horse-style)"/>
         {{ title }}
       </div>
       <div style="display: flex;align-items: center;flex-direction: row-reverse">

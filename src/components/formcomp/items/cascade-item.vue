@@ -11,13 +11,13 @@
         :options="field.preps['values']"
         :placeholder="'请选择'+field.preps['label']"
         :props="{
-          'multiple':field.preps['prop']?.multiple=='Y',
-          'checkStrictly':field.preps['prop']?.checkStrictly=='Y',
-          'expandTrigger':field.preps['prop']?.expandTrigger||'click',
-          'label':field.preps['prop']?.label||'name',
-          'value':field.preps['prop']?.value||'value',
-          'children':field.preps['prop']?.children||'children',
-          'emitPath':field.preps['prop']?.emitPath=='Y'
+          'multiple':field.preps['props']?.multiple=='Y',
+          'checkStrictly':field.preps['props']?.checkStrictly=='Y',
+          'expandTrigger':field.preps['props']?.expandTrigger||'click',
+          'label':field.preps['props']?.label||'name',
+          'value':field.preps['props']?.value||'value',
+          'children':field.preps['props']?.children||'children',
+          'emitPath':field.preps['props']?.emitPath=='Y'
         }"
         :separator="field.preps['separator']"
         :show-all-levels="field.preps['showAllLevels']=='Y'"

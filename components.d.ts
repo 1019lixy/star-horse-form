@@ -311,6 +311,7 @@ declare module 'vue' {
     SubSystemMenu: typeof import('./src/components/menu/SubSystemMenu.vue')['default']
     Suggest: typeof import('./src/views/workflow/plugin/FlowNode/Branch/Suggest.vue')['default']
     SwitchItem: typeof import('./src/components/formcomp/items/switch-item.vue')['default']
+    SystemParamsUi: typeof import('./src/views/system/SystemParamsUi.vue')['default']
     SystemSubMenu: typeof import('./src/components/menu/SystemSubMenu.vue')['default']
     TabContainer: typeof import('./src/components/formcomp/container/tab-container.vue')['default']
     TabItem: typeof import('./src/components/comp/items/tabItem.vue')['default']

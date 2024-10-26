@@ -13,11 +13,12 @@
         :default-first-option="field.preps['defaultFirstOption']=='Y'"
         :default-expand-all="true"
         :props="{
-          label:field.preps['prop']?.label||'name',
-          children:field.preps['prop']?.children||'children',
-          disabled:field.preps['prop']?.disabled||'disabled',
-          isLeaf:field.preps['prop']?.isLeaf||'isLeaf',
-          'class':field.preps['prop']?.class||'class',
+          label:field.preps['props']?.label||'name',
+          value:field.preps['props']?.value||'value',
+          children:field.preps['props']?.children||'children',
+          disabled:field.preps['props']?.disabled||'disabled',
+          isLeaf:field.preps['props']?.isLeaf||'isLeaf',
+          'class':field.preps['props']?.class||'class',
         }"
         :filterable="field.preps['filterable']=='Y'"
         :filter-node-method="filterNodeMethod"

@@ -58,23 +58,18 @@ const userFormat = (name: string, val: any, row: any) => {
 const baseUserFields: Array<any> = [
     [
         {
-            label: "用户名", fieldName: "username", type: "input",
+            label: "用户名", fieldName: "username", aliasName: "employeeNo", type: "user",
             required: true, formShow: true, editDisabled: "Y",
-            tableShow: true
-        },
-        {
-            label: "员工编号", fieldName: "employeeNo", type: "input",
-            required: true, formShow: true, editDisabled: "Y",
-            tableShow: true
-        }
-    ],
-    [
-        {
-            label: "归属部门", fieldName: "deptList", type: "cascade", optionList: deptList,
-            required: true, formShow: true, multiple: "Y",
             tableShow: true,
-            preps:{
-
+            preps: {
+                needField: [
+                    {sourceField: "name", distField: "name"},
+                    {sourceField: "employeeNo", distField: "employeeNo"},
+                    {sourceField: "employeeNo", distField: "username"},
+                    {sourceField: "phone", distField: "phone"},
+                    {sourceField: "sex", distField: "sex"},
+                    {sourceField: "bakePhone", distField: "bakePhone"},
+                ]
             }
         },
         {

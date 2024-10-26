@@ -28,8 +28,8 @@
         @focus="itemAction('focus')"
         @blur="itemAction('blur')"
         v-model="context.attrs['formData'][field.preps['name']]">
-      <el-option :disabled="items['disabled']" :label="items[field.preps['prop']?.label||'name']"
-                 :value="items[field.preps['prop']?.value||'value']"
+      <el-option :disabled="items['disabled']" :label="items[field.preps['props']?.label||'name']"
+                 :value="items[field.preps['props']?.value||'value']"
                  v-for="items in field.preps['values']||context.attrs['formData'][field.preps['name']+'OptionList']"/>
     </el-select>
   </starhorse-form-item>
