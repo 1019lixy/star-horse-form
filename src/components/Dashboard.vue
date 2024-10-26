@@ -74,6 +74,7 @@ const dragStart = (event: MouseEvent) => {
   }
   currentX.value = event.clientX;
   dragging.value = true;
+  resizerRef.value.left=resizerRef.value.offsetLeft
   document.onmousemove = (_e) => {
     if (_e.clientX % 2 == 0) {
       compDragging(_e.clientX);
@@ -115,7 +116,7 @@ const compDragging = (x: number) => {
     warning("隐藏状态不能拖动");
     return;
   }
-  let move = (currentX.value - x)/50;
+  let move = (currentX.value-x)/80;
   outerIsCollapse.value = outerIsCollapse.value - move;
   //设置最小和最大宽带
   if (outerIsCollapse.value <= 64) {

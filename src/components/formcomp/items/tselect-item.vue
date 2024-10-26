@@ -12,7 +12,13 @@
         :collapse-tags-tooltip="field.preps['collapseTagsTooltip']=='Y'"
         :default-first-option="field.preps['defaultFirstOption']=='Y'"
         :default-expand-all="true"
-        :props="field.preps['props']"
+        :props="{
+          label:field.preps['prop']?.label||'name',
+          children:field.preps['prop']?.children||'children',
+          disabled:field.preps['prop']?.disabled||'disabled',
+          isLeaf:field.preps['prop']?.isLeaf||'isLeaf',
+          'class':field.preps['prop']?.class||'class',
+        }"
         :filterable="field.preps['filterable']=='Y'"
         :filter-node-method="filterNodeMethod"
         :disabled="!context.attrs['formData']['_'+field.preps['name']+'Editable']&&field.preps['disabled'] == 'Y'"

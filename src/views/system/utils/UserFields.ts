@@ -72,7 +72,10 @@ const baseUserFields: Array<any> = [
         {
             label: "归属部门", fieldName: "deptList", type: "cascade", optionList: deptList,
             required: true, formShow: true, multiple: "Y",
-            tableShow: true
+            tableShow: true,
+            preps:{
+
+            }
         },
         {
             label: "所属用户组", fieldName: "rolesList", type: "select", optionList: rolesList,

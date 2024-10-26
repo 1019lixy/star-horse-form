@@ -204,7 +204,7 @@ watch(
         <div class="boxfoot"></div>
       </div>
     </div>
-    <div class="copyright">{{ i18n("starhorse.copyright") }}</div>
+    <div class="copyright" style="color: var(--star-horse-white)">{{ i18n("starhorse.copyright") }}</div>
   </div>
 </template>
 <style lang="scss" scoped>
