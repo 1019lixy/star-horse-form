@@ -377,11 +377,11 @@ export function createComponent(compInfo: DyCompField) {
  * 删除查询条件中出现的空值和空对象
  * @param condition
  */
-export function removeEmptyCondition(condition: SearchParams[]): SearchParams {
-    if (!condition || condition.length == 0) {
-        return [];
-    }
+export function removeEmptyCondition(condition: SearchParams[]): SearchParams[] {
     let params: SearchParams[] = [];
+    if (!condition || condition.length == 0) {
+        return params;
+    }
     for (let a in condition) {
         let temp = condition[a];
         if (temp && Object.keys(temp).length > 0) {
@@ -389,4 +389,27 @@ export function removeEmptyCondition(condition: SearchParams[]): SearchParams {
         }
     }
     return params;
+}
+
+/**
+ * 根据值，遍历树，找到满足条件的数据
+ * @param nodes
+ * @param valueFieldName
+ * @param value
+ */
+export function findNodesWithValue(nodes: Array<any>, valueFieldName: string, value: any) {
+    let findDdatas: Array<any> = [];
+    const traverse = (children: Array<any>) => {
+        for (let i in children) {
+            let node = children[i];
+            if (node[valueFieldName] == value) {
+                findDdatas.push(node);
+            }
+            if (node.children && node.children.length > 0) {
+                traverse(node.children);
+            }
+        }
+    }
+    traverse(nodes);
+    return findDdatas;
 }
