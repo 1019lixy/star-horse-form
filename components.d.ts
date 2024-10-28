@@ -17,6 +17,7 @@ declare module 'vue' {
     Approver: typeof import('./src/views/workflow/plugin/FlowDrawer/Approver/index.vue')['default']
     ApproverConfigure: typeof import('./src/views/workflow/plugin/FlowDrawer/Approver/ApproverConfigure.vue')['default']
     AreainfoUi: typeof import('./src/views/system/AreainfoUi.vue')['default']
+    AreaItem: typeof import('./src/components/formcomp/items/area-item.vue')['default']
     AudioItem: typeof import('./src/components/formcomp/items/audio-item.vue')['default']
     AuditCfg: typeof import('./src/views/continus/nodeInfo/AuditCfg.vue')['default']
     AuditUi: typeof import('./src/views/system/AuditUi.vue')['default']
