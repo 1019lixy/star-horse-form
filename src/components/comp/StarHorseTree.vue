@@ -179,7 +179,7 @@ const expandData = () => {
   }
 }
 let commonPersons = ref<Array<string>>([]);
-const loadByPage = () => {
+const loadByPage = async () => {
   //加入共享人的信息
   if (commonPersons.value && commonPersons.value.length && !isSystemManage()) {
     searchParams.push(createCondition("a.createdBy", commonPersons.value, "in"));
@@ -200,12 +200,14 @@ const loadByPage = () => {
     treeDatas.value = redata?.dataList || redata;
     pageInfo.totalPage = redata.totalPages;
     pageInfo.totalData = redata.totalDatas;
-    expandData();
+
   }).catch((err: any) => {
     console.log(err);
   }).finally(() => {
     closeLoad();
   });
+  await nextTick();
+  expandData();
 }
 
 const init = async () => {

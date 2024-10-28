@@ -40,7 +40,6 @@ const init = () => {
  */
 const btnHideCheck = (btn: string, row: any) => {
   let cond = props.hideBtnCondition;
-  console.log(btn, cond);
   if (!cond || cond.length == 0) {
     return true;
   }

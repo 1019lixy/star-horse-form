@@ -7,8 +7,8 @@
         :button-texts="field.preps['buttonTexts']"
         :data="field.preps['values']"
         :props="{
-          key:'value',
-          label:'name'
+          key:field.preps['props']?.key||'value',
+          label:field.preps['props']?.label||'name'
         }"
         :filter-placeholder="field.preps['filterPlaceholder']||'请输入'+field.preps['label']"
         :filterable="field.preps['filterable']=='Y'"

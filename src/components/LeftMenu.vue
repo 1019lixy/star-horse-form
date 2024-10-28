@@ -37,14 +37,10 @@ const loadMenus = async (sysemId: string) => {
     leftMenuDatas.value = reactive(createRouterAndMenuList(redata));
   });
   await nextTick();
-  setTimeout(() => {
-    let allId = leftMenuDatas.value.map(item => item.meta.menuId);
-    if (allId && allId.length > 0) {
-      systemMenu.value?.open(allId[0]);
-    }
-  }, 800);
-
-
+  let allId = leftMenuDatas.value.map(item => item.meta.menuId);
+  if (allId && allId.length > 0) {
+    systemMenu.value?.open(allId[0]);
+  }
 };
 // let menuIcon = ref<string>("expand");
 // let collapse = ref<boolean>(false);

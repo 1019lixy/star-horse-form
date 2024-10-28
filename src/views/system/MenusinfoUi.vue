@@ -8,8 +8,8 @@ import {closeLoad, createTree, dictData, load, loadData, loadElementPlusIcon, lo
 import {postRequest} from "@/api/star_horse";
 import {error, success, warning} from "@/utils/message";
 import {PageFieldInfo, UserFuncInfo} from "@/components/types/PageFieldInfo";
-import {TreeNode, TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
-import {treeCheckChange} from "@/api/system";
+import {TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
+import {findNodesWithValue, treeCheckChange} from "@/api/system";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import piniaInstance from "@/store";
 import StarHorseTree from "@/components/comp/StarHorseTree.vue";
@@ -45,7 +45,7 @@ const tableFieldList = reactive<PageFieldInfo>({
         tableShow: true
       }],
     [{
-      label: "归属应用名称", fieldName: "idInformations", type: "select", optionList: informationsList,
+      label: "归属应用名称", fieldName: "idInformations", type: "tselect", optionList: informationsList,
       required: true, formShow: true, defaultValue: currentInformation,
       actionName: "change",
       actions: (val: any) => {
@@ -55,7 +55,10 @@ const tableFieldList = reactive<PageFieldInfo>({
         }
         loadMenuBySystemId(systemId);
       },
-      tableShow: true
+      tableShow: true,
+      preps: {
+        checkStrictly: "Y"
+      }
     },
       {
         label: "父菜单", fieldName: "parentNo", type: "tselect", optionList: parentMenus,
@@ -155,7 +158,7 @@ const menuFormRef = ref(null);
 const menuTableListRef = ref();
 const dataFormat = (name: string, cellValue: any, row: any): any => {
   if (name == "idInformations") {
-    return informationsList.value.find(item => item.value == cellValue)?.name || cellValue;
+    return findNodesWithValue(informationsList.value, "value", cellValue)?.find(item => item.value == cellValue)?.name || cellValue;
   } else if (name == "parentNo") {
     //let fdata = parentMenus.value.find(item => item.value == cellValue);
     return row && row["parentData"] ? row["parentData"].menuName : cellValue;

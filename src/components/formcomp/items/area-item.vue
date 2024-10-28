@@ -8,15 +8,14 @@
         :collapse-tags="field.preps['collapseTags']=='Y'"
         :collapse-tags-tooltip="field.preps['collapseTagsTooltip']=='Y'"
         :disabled="!context.attrs['formData']['_'+field.preps['name']+'Editable']&&field.preps['disabled']=='Y'"
-        :options="field.preps['values']"
+        :options="areaData"
         :placeholder="'请选择'+field.preps['label']"
         :props="{
           'multiple':field.preps['props']?.multiple=='Y',
           'checkStrictly':field.preps['props']?.checkStrictly=='Y',
           'expandTrigger':field.preps['props']?.expandTrigger||'click',
-          'label':field.preps['props']?.label||'name',
-          'value':field.preps['props']?.value||'value',
-          'children':field.preps['props']?.children||'children',
+          'label':'name',
+          'value':'code',
           'emitPath':field.preps['props']?.emitPath=='Y'
         }"
         :separator="field.preps['separator']"
@@ -35,6 +34,7 @@
 <script lang="ts">
 import {defineComponent, nextTick, onMounted, shallowRef} from "vue";
 import {compDynamicData} from "@/api/sh_api.ts";
+import areaData from "@/api/pcas-code.json";
 import {allAction} from "@/components/formcomp/utils/ItemRelationEventUtils.ts";
 
 export default defineComponent({
@@ -74,7 +74,7 @@ export default defineComponent({
     });
     return {
       parentField, context, field, formItem,
-      dataField, itemAction, actionName, lazyLoad
+      dataField, itemAction, actionName, lazyLoad,areaData
     }
   }
 });

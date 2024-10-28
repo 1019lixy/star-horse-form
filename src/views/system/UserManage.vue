@@ -33,28 +33,28 @@ const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
       label: "姓名",
-      fieldName: "name",
+      fieldName: "a.name",
       defaultShow: true,
       matchType: "lk",
       type: "input"
     },
     {
       label: "工号",
-      fieldName: "employeeNo",
+      fieldName: "a.employeeNo",
       defaultShow: true,
       matchType: "lk",
       type: "input"
     },
     {
       label: "职级",
-      fieldName: "rank",
+      fieldName: "a.rank",
       defaultShow: false,
       optionList: rankList,
       type: "tselect"
     },
     {
       label: "岗位",
-      fieldName: "station",
+      fieldName: "a.station",
       defaultShow: false,
       optionList: stationList,
       type: "tselect"
@@ -88,8 +88,9 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             label: "工号",
             fieldName: "employeeNo",
             type: "input",
-            editDisabled:"Y",
-            required: true,
+            editDisabled: "Y",
+            helpMsg: "如不填写系统自动生成",
+            required: false,
             formShow: !false,
             tableShow: !false,
           },
@@ -104,7 +105,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
               autoUpload: "N",
               action: "xx",
               wordBreak: true,
-              rowspan: 2,
+              rowspan: 4,
             }
           },],
         [{
@@ -164,17 +165,40 @@ const tableFieldList = reactive<PageFieldInfo | any>({
           label: "联系电话",
           fieldName: "phone",
           type: "input",
+          required: true,
+          formShow: !false,
+          tableShow: !false,
+        }, {
+          label: "紧急联系电话",
+          fieldName: "bakePhone",
+          type: "input",
+          helpMsg: '方便特殊情况联系家属',
+          required: true,
+          formShow: !false,
+          tableShow: !false,
+        },],
+        [{
+          label: "赋予系统登录权限",
+          fieldName: "loginAuthority",
+          type: "switch",
+          defaultValue: "N",
           required: false,
           formShow: !false,
           tableShow: !false,
           preps: {
             colspan: 1
           }
-        }],
+        },]
       ]
     },
-
-
+    {
+      label: "邮箱",
+      fieldName: "email",
+      type: "input",
+      required: false,
+      formShow: !true,
+      tableShow: true,
+    },
     {
       label: "版本号",
       fieldName: "version",

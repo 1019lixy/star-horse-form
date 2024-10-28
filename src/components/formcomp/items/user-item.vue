@@ -63,6 +63,7 @@ export default defineComponent({
     const selectItem = (row: any) => {
       let data = "";
       let needField = field.preps["needField"];
+      console.log(needField)
       if (!row || !isJson(row)) {
         let selectDatas = userTableRef.value.$refs.employeeInfoRef.multipleSelection;
         if (!selectDatas) {
@@ -81,6 +82,7 @@ export default defineComponent({
         context.attrs["formData"][aliasName] = data["idEmployeeInfo"];
         console.log(context.attrs["formData"]);
       } else {
+        console.log(needField);
         needField.forEach((item: FieldMapping) => {
           if (needField.length == 1) {
             context.attrs["formData"][name] = data[item.sourceField];
