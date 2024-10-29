@@ -8,7 +8,7 @@ import itemComponent from "@/components/formcomp/items/allitem";
 import containerComponent from "@/components/formcomp/container/callitem";
 import App from "@/App.vue";
 import {createApp} from "vue"
-import ElementPlus from "element-plus"
+import ElementPlus from "element-plus";
 // 导入svg图标
 import 'virtual:svg-icons-register'
 import 'highlight.js/styles/idea.css' //这里有多个样式，自己可以根据需要切换

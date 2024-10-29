@@ -28,13 +28,20 @@ export const GlobalConfig: any = defineStore("GlobalConfig", {
             this.configFormInfo = data;
             localStorage.setItem("starHorseConfigInfo", JSON.stringify(data));
             Config.buttonStyle.value = data.buttonShowType || "dropdown";
-            console.log(data, Config.buttonStyle.value);
+           // console.log(data, Config.buttonStyle.value);
             if (data.themeColor) {
                 document.documentElement.style.setProperty('--star-horse-style', data.themeColor)
                 document.documentElement.style.setProperty('--el-color-primary', data.themeColor)
                 document.documentElement.style.setProperty('--el-select-input-color', data.themeColor)
                 document.documentElement.style.setProperty('--el-pagination-button-color', data.themeColor)
                 document.documentElement.style.setProperty('--el-tree-expand-icon-color', data.themeColor)
+                document.documentElement.style.setProperty('--fc-button-bg-color', data.themeColor)
+                document.documentElement.style.setProperty('--fc-button-border-color', data.themeColor)
+                document.documentElement.style.setProperty('--fc-button-active-bg-color', data.themeColor)
+                document.documentElement.style.setProperty('--fc-button-active-border-color', data.themeColor)
+                document.documentElement.style.setProperty('--fc-button-hover-bg-color', data.themeColor)
+                document.documentElement.style.setProperty('--fc-button-hover-border-color', data.themeColor)
+                // document.documentElement.style.setProperty('--fc-button-text-color', "#000");
             }
         },
         /**
