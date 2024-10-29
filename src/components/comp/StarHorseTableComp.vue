@@ -691,29 +691,7 @@ const getDatas = async (limitSize: number = 0, params: SearchParams[] = [], orde
   }
   return result.data;
 }
-/**
- * 判断按钮是否需要隐藏
- * @param btn
- * @param row
- */
-const btnHideCheck = (btn: string, row: any) => {
-  let cond = props.hideBtnCondition;
-  if (!cond || cond.length == 0) {
-    return true;
-  }
-  let flag = false, hasBtn = false;
-  for (let i in cond) {
-    let temp = cond[i];
-    if (temp.btnName.includes(btn)) {
-      hasBtn = true;
-      if (row[temp.fieldName] != temp.value) {
-        flag = true;
-        break;
-      }
-    }
-  }
-  return hasBtn ? flag : true;
-}
+
 let dataShowType = ref<string>("list");
 let cardFieldList = ref<FieldInfo[]>([]);
 const loadField = (): FieldInfo[] => {

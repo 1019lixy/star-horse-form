@@ -69,7 +69,8 @@ watch(() => props.item,
       deep: true
     }
 );
-
+//'year' | 'month' | 'date' | 'datetime' | 'week' | 'datetimerange' | 'daterange'
+const dateType: Array<string> = ["year", "month", "date", "datetime", "week", "datetimerange", "daterange"]
 const compPreps = () => {
   field.value["preps"] = {
     clearable: "Y",
@@ -108,7 +109,7 @@ const compPreps = () => {
       multiple: props.item?.multiple,
       checkStrictly: true
     };
-  } else if (itemType.value === 'date' || itemType.value === 'daterange') {
+  } else if (dateType.includes(itemType.value)) {
     field.value.preps['type'] = unref(itemType);
     itemType.value = "datetime"
     //日期默认以时间戳赋值

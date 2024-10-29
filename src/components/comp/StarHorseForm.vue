@@ -54,7 +54,7 @@ const dataForm = ref<any>({});
 const outerDatas = computed(() => {
   let outerForm = props.outerFormData;
   dataForm.value = {...dataForm.value, ...outerForm};
-  // console.log(dataForm.value, outerForm)
+  console.log(dataForm.value, outerForm)
   return outerForm;
 });
 //触发计算
@@ -326,7 +326,6 @@ defineExpose({
 });
 </script>
 <template>
-
   <el-form :model="dataForm" :size="formSize||compSize" :rules="rules"
            :scroll-to-error="true"
            :scroll-into-view-options="true"

@@ -33,6 +33,7 @@ const init = () => {
     }
   }
 }
+
 /**
  * 判断按钮是否需要隐藏
  * @param btn
@@ -48,7 +49,12 @@ const btnHideCheck = (btn: string, row: any) => {
     let temp = cond[i];
     if (temp.btnName.includes(btn)) {
       hasBtn = true;
-      if (row[temp.fieldName] != temp.value) {
+      if (Array.isArray(temp.value)) {
+        if (!temp.value.includes(row[temp.fieldName])) {
+          flag = true;
+          break;
+        }
+      } else if (row[temp.fieldName] != temp.value) {
         flag = true;
         break;
       }
@@ -56,7 +62,7 @@ const btnHideCheck = (btn: string, row: any) => {
   }
   return hasBtn ? flag : true;
 }
-onMounted(async ()=>{
+onMounted(async () => {
   await nextTick();
   init();
 })

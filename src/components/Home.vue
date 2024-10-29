@@ -1,14 +1,21 @@
 <template>
   <el-card class="box-card" style="height: 100%;width: 100%">
-    <h3>功能建设中。。。</h3>
-    <div ref="editorContainer" style="height:100%;"></div>
+    <star-horse-calendar :eventList="matchList"/>
   </el-card>
 </template>
 <script setup lang="ts">
 import {onMounted, ref} from "vue";
-// import  {monaco} from '@/api/customMonaco.ts';
-const editorContainer = ref<any>(null)
-const editor = ref<any>(null)
+
+let matchList = ref<Array<any>>([
+  {
+    id: "001",
+    title: "验证。。。",
+    start: "2024-10-29 00:00:00",
+    end: "2024-10-30 18:59:59",
+    backgroundColor: "#d8377a",
+    borderColor: "#d8377a",
+  }
+]);
 onMounted(() => {
 
   // monaco.languages.typescript.typescriptDefaults.setEagerModelSync(true);
@@ -47,5 +54,6 @@ onMounted(() => {
 
 </script>
 <style lang="scss" scoped>
+
 
 </style>
