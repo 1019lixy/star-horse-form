@@ -1,12 +1,19 @@
 <script setup lang="ts">
-import {nextTick, onBeforeUnmount, onMounted, ref, watch} from "vue";
+import {nextTick, onBeforeUnmount, onMounted, reactive, ref, watch} from "vue";
 import {ArrowLeftBold, ArrowRightBold, InfoFilled} from "@element-plus/icons-vue";
 import FullCalendar from "@fullcalendar/vue3";
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
+import multiMonthPlugin from '@fullcalendar/multimonth'
 import interactionPlugin from '@fullcalendar/interaction'
 import zhCnLocale from '@fullcalendar/core/locales/zh-cn'
+import listPlugin from '@fullcalendar/list'
 import {CalendarOptions} from "@fullcalendar/core";
+import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
+import StarHorseDialog from "@/components/comp/StarHorseDialog.vue";
+import {PageFieldInfo} from "@/components/types/PageFieldInfo";
+import StarHorseForm from "@/components/comp/StarHorseForm.vue";
+import {uuid} from "@/api/system.ts";
 
 const props = defineProps({
   eventList: {type: Array, default: []},
@@ -16,50 +23,91 @@ const starHorseDateRef = ref();
 let dateValue = ref<any>(null);
 let selectedItem = ref<number>(0);
 let selectedWeekRange = ref<Array<any>>([]);
+let outerData = ref<any>({});
 let subscriptionList = ref<Array<any>>([
   {
-    isChecked:false,
-    followName:"Test",
-    id:"0002",
+    isChecked: false,
+    followName: "Test",
+    id: "0002",
   }
 ]);
 const collapseModel = ref<string>("first");
 let predefineColors = ref<Array<any>>([]);
-
-const calendarOptions: CalendarOptions = {
+let editTitle = ref<string>("开启编辑模式");
+let calenderModel = ref<string>("view");
+const calendarOptions = ref<CalendarOptions>({
   plugins: [
     // 加载插件，V5采用插件模块方式加入
+    multiMonthPlugin,
     dayGridPlugin,
     timeGridPlugin,
     interactionPlugin, // needed for dateClick
+    listPlugin
   ],
   // height: 800, //日历高度
+  // themeSystem: 'bootstrap5',
   events: [],
   headerToolbar: {
     // 头部toolba
-    left: 'prev,next today',
+    left: 'prevYear,prev,next,nextYear,today,btn',
     center: 'title',
-    right: 'btn,timeGridDay,timeGridWeek,dayGridMonth',
+    right: 'multiMonthYear,dayGridMonth,timeGridWeek,timeGridDay,editBtn',
   },
   handleWindowResize: true, //随浏览器窗口变化
   // initialView: 'dayGridMonth', // 初始化插件显示
-  editable: true, //是否可编辑
   droppable: true,//可拖拽的
   timeZone: 'local',//采用时区
   selectable: true,
   firstDay: 0,
+  slotLabelFormat: {
+    hour: '2-digit',
+    minute: '2-digit',
+    meridiem: false,
+    hour12: false // 设置时间为24小时
+  },
   weekNumbers: true,
   dayMaxEvents: true,
   weekends: true,
-  fixedWeekCount: 6,
-  // selectMirror: true,
-  // initialDate:""//初始化日期
+  aspectRatio: 1,
+  fixedWeekCount: false,
+  editable: true, // 是否可以进行（拖动、缩放）修改
+  eventStartEditable: true, // Event日程开始时间可以改变，默认true，如果是false其实就是指日程块不能随意拖动，只能上下拉伸改变他的endTime
+  eventDurationEditable: true, // Event日程的开始结束时间距离是否可以改变，默认true，如果是false则表示开始结束时间范围不能拉伸，只能拖拽
+  selectMirror: true,
+  selectMinDistance: 0, // 选中日历格的最小距离
+  navLinks: true, // 天链接
+  slotEventOverlap: false, // 相同时间段的多个日程视觉上是否允许重叠，默认true允许
+  initialDate: new Date(),//初始化日期
   // initialEvents: INITIAL_EVENTS, // alternatively, use the `events` setting to fetch from a feed
-  // weekends: true, // 是否显示一周七天
   select: (item: any) => {
+    let date = new Date();
+    let ss = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+    outerData.value = {
+      startStr: item.startStr,
+      sTime: ss,
+      endStr: item.endStr,
+      eTime: ss
+    }
+    if (calenderModel.value != "edit") {
+      return;
+    }
+    visible.value = true;
     console.log("select", item);
   },
-  eventClick: (item: any) => {
+  eventClick: async (item: any) => {
+    outerData.value = {
+      title: item.event.title,
+      id: item.event.id,
+      backgroundColor: item.event.backgroundColor,
+      borderColor: item.event.borderColor,
+      ...item.event.extendedProps
+    }
+    if (calenderModel.value != "edit") {
+      return;
+    }
+    visible.value = true;
+    // await nextTick();
+    // calendarFieldRef.value.setF
     // 日程点击事件
     console.log("eventClick", item);
   },
@@ -71,8 +119,18 @@ const calendarOptions: CalendarOptions = {
     console.log("eventsSet", item);
   },
   dateClick: (item: any) => {
+    let date = new Date();
+    outerData.value = {
+      startStr: item.dateStr,
+      sTime: date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds()
+    };
+
+    if (calenderModel.value != "edit") {
+      return;
+    }
+    visible.value = true;
     //日期方格点击事件
-    console.log("dateClick", item);
+    console.log("dateClick", item, outerData);
   },
   eventAdd: (item: any) => {
     //添加
@@ -92,11 +150,18 @@ const calendarOptions: CalendarOptions = {
     btn: {
       text: "看板",
       click: () => {
-        console.log("xx");
+
+      }
+    },
+    editBtn: {
+      text: editTitle,
+      click: () => {
+        calenderModel.value = calenderModel.value == "view" ? "edit" : "view";
+        editTitle.value = calenderModel.value == "view" ? "开启编辑模式" : "关闭编辑模式";
       }
     }
   },
-};
+});
 const changeDate = (date: any) => {
   console.log(date);
   let api = fullCalendar.value.getApi();
@@ -132,12 +197,15 @@ onBeforeUnmount(() => {
 })
 onMounted(async () => {
   await nextTick();
-  fullCalendar.value.getApi().view.calendar.addEvent(...props.eventList);
-  // fullCalendar.value.getApi().changeView("timeGridDay");
+  // calendarOptions.events=props.eventList;
+  // fullCalendar.value.getApi().view.calendar.refetchEvents();
+  props.eventList?.forEach((item: any) => {
+    fullCalendar.value.getApi().view.calendar.addEvent(item);
+  });
+  fullCalendar.value.getApi().changeView("dayGridMonth");
   setTimeout(() => {
     fullCalendar.value.getApi().changeView("dayGridMonth");
   }, 500);
-
 });
 // 周背景色
 watch(dateValue,
@@ -155,6 +223,8 @@ watch(dateValue,
       selectedWeekRange.value = [monday, sunday];
     }, {immediate: true}
 );
+let calendarTitle = ref<string>("新建日程");
+let visible = ref<boolean>(false);
 /**
  * // 切换到下一月/周/日
  * fullCalendar.getApi().next()
@@ -181,7 +251,7 @@ watch(dateValue,
  * // 向日历中添加事项
  * fullCalendar.getApi().view.calendar.addEvent({
  *   id: '001',
- *   title: `青兔_test01`,
+ *   title: `test01`,
  *   start: '2024-04-25' + ' 13:00:00',
  *   end: '2024-04-25' + ' 17:00:00',
  *   // 修改背景颜色
@@ -191,11 +261,115 @@ watch(dateValue,
  * })
  *
  */
+const calendarField = reactive<PageFieldInfo | any>({
+  fieldList: [{
+    label: "日程名称",
+    fieldName: "title",
+    type: "input",
+    required: true,
+    formShow: true
+  }, [
+    {
+      label: "开始时间",
+      fieldName: "startStr",
+      type: "date",
+      required: true,
+      formShow: true,
+      preps: {
+        placeholder: "请选择开始日期",
+        valueFormat: "YYYY-MM-DD"
+      },
+      brotherNodes: [{
+        label: "请选择开始时间",
+        fieldName: "sTime",
+        type: "time",
+        formShow: true,
+      }]
+    },
+    {
+      label: "结束时间",
+      fieldName: "endStr",
+      type: "date",
+      formShow: true,
+      preps: {
+        placeholder: "请选择结束日期",
+        valueFormat: "YYYY-MM-DD"
+      },
+      brotherNodes: [{
+        label: "结束时间",
+        fieldName: "eTime",
+        type: "time",
+
+        formShow: true,
+      }]
+    }
+  ], [
+    {
+      label: "背景色",
+      fieldName: "backgroundColor",
+      type: "color",
+      formShow: true
+    },
+    {
+      label: "边框颜色",
+      fieldName: "borderColor",
+      type: "color",
+      formShow: true
+    }
+  ]]
+});
+const calendarFieldRef = ref();
+const addCalendar = () => {
+  visible.value = true;
+}
+const close = () => {
+  visible.value = false;
+}
+const submit = async (action: string) => {
+  let result = await calendarFieldRef.value.$refs.starHorseFormRef.validate();
+  if (!result) {
+    return;
+  }
+  let data = calendarFieldRef.value.getFormData().value;
+  console.log(data);
+  if (data.id) {
+    let event: any = fullCalendar.value.getApi().view.calendar.getEventById(data.id);
+    if (event) {
+      event.remove();
+    }
+  } else {
+    data["id"] = uuid();
+  }
+  let temp = {
+    ...data,
+    start: data["startStr"] + " " + data["sTime"],
+    end: data["endStr"] + " " + data["eTime"],
+  }
+  fullCalendar.value.getApi().view.calendar.addEvent(temp);
+  if (action == "close") {
+    close();
+  }
+}
+const handleMore = () => {
+
+}
 </script>
 
 <template>
+  <star-horse-dialog :title="calendarTitle" :is-show-btn-continue="true" @closeAction="close" @merge="submit"
+                     :dialog-visible="visible"
+                     :draggable="true"
+                     :self-func="true">
+    <star-horse-form :outer-form-data="outerData" :field-list="calendarField" ref="calendarFieldRef"/>
+  </star-horse-dialog>
   <div class="star-horse-calendar">
     <div class="calendar-left">
+      <div class="create-calender">
+        <el-button text @click="addCalendar">
+          <star-horse-icon icon-class="add"/>
+          新建日程
+        </el-button>
+      </div>
       <el-calendar v-model="dateValue" ref="starHorseDateRef" class="custom-calendar">
         <template #header="{date}">
           <div class="date-header">
@@ -276,17 +450,36 @@ watch(dateValue,
       </el-collapse>
     </div>
     <div class="calendar-right">
-      <FullCalendar ref="fullCalendar" :options="calendarOptions" class="app-calendar">
-        <template v-slot:eventContent='arg'>
-          <b>{{ arg.timeText }}</b>
-          <i>{{ arg.event.title }}</i>
-        </template>
+      <FullCalendar ref="fullCalendar" height="parent"
+                    :eventLimit="true"
+                    allDayText="全天"
+                    :editable="true"
+                    :options="calendarOptions" class="app-calendar">
+        <!--        <template v-slot:eventContent="arg">
+                  <span>{{ arg.timeText }}</span>
+                  <i>{{ arg.event.title }}</i>
+                  <i>{{ arg.event.title }}</i>
+
+                </template>-->
       </FullCalendar>
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
+.create-calender {
+  width: 98%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 53px;
+  margin: 5px auto;
+  border-bottom: var(--star-horse-style) 1px solid;
+}
+
+:deep(.fc-view) {
+  inset: unset;
+}
 
 :deep(.fc-header-toolbar) {
   margin: 10px 5px;
@@ -342,11 +535,5 @@ watch(dateValue,
   height: 100%;
   width: 100%;
   overflow: hidden;
-}
-
-:deep(.fc-daygrid-body) {
-  height: 100% !important;
-  width: 100% !important;
-
 }
 </style>
