@@ -1,6 +1,6 @@
 import {TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
 import {SearchInfo, SearchParams} from "@/components/types/Params";
-import {createCondition, loadData} from "@/api/sh_api";
+import {createCondition, isJson, loadData} from "@/api/sh_api";
 import {SelectOption} from "@/components/types/SearchProps";
 import {useDark, useToggle} from "@vueuse/core";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
@@ -384,7 +384,8 @@ export function removeEmptyCondition(condition: SearchParams[]): SearchParams[] 
     }
     for (let a in condition) {
         let temp = condition[a];
-        if (temp && Object.keys(temp).length > 0) {
+        console.log(temp);
+        if (temp && isJson(temp) && Object.keys(temp).length > 0) {
             params.push(temp);
         }
     }

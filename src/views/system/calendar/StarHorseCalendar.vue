@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {nextTick, onBeforeUnmount, onMounted, reactive, ref, watch} from "vue";
-import {ArrowLeftBold, ArrowRightBold, InfoFilled} from "@element-plus/icons-vue";
+import {ArrowLeftBold, ArrowRightBold, InfoFilled, Search} from "@element-plus/icons-vue";
 import FullCalendar from "@fullcalendar/vue3";
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
@@ -14,9 +14,14 @@ import StarHorseDialog from "@/components/comp/StarHorseDialog.vue";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import StarHorseForm from "@/components/comp/StarHorseForm.vue";
 import {uuid} from "@/api/system.ts";
+import {getUserInfo} from "../../../utils/auth.ts";
+import {calendarManage, defineType} from "@/views/system/calendar/CalendarProps.ts";
+import {createCondition, deleteByIds, loadData} from "@/api/sh_api.ts";
+import {success, warning, confirm} from "@/utils/message.ts";
 
 const props = defineProps({
   eventList: {type: Array, default: []},
+  compSize: {type: String, default: "small"}
 });
 const fullCalendar = ref();
 const starHorseDateRef = ref();
@@ -29,6 +34,11 @@ let subscriptionList = ref<Array<any>>([
     isChecked: false,
     followName: "Test",
     id: "0002",
+  },
+  {
+    isChecked: false,
+    followName: "Test1",
+    id: "0003",
   }
 ]);
 const collapseModel = ref<string>("first");
@@ -191,14 +201,10 @@ const selectDate = (val: string) => {
   changeDate(dateValue.value);
 }
 onBeforeUnmount(() => {
-  // $(".calendar").fullCalendar('destroy');
-  // fullCalendar.value.destroy();
   fullCalendar.value.getApi().destroy();
 })
 onMounted(async () => {
   await nextTick();
-  // calendarOptions.events=props.eventList;
-  // fullCalendar.value.getApi().view.calendar.refetchEvents();
   props.eventList?.forEach((item: any) => {
     fullCalendar.value.getApi().view.calendar.addEvent(item);
   });
@@ -319,11 +325,16 @@ const calendarField = reactive<PageFieldInfo | any>({
   ]]
 });
 const calendarFieldRef = ref();
-const addCalendar = () => {
+const addCalendar = (type: string, evt: MouseEvent) => {
+  evt.stopPropagation();
+  evt.preventDefault();
+  outerData.value["type"] = type;
   visible.value = true;
 }
 const close = () => {
   visible.value = false;
+  calendarTypeVisible.value = false;
+  calendarManageVisible.value = false;
 }
 const submit = async (action: string) => {
   let result = await calendarFieldRef.value.$refs.starHorseFormRef.validate();
@@ -350,25 +361,110 @@ const submit = async (action: string) => {
     close();
   }
 }
-const handleMore = () => {
+let searchText = ref<string>("");
+let calendarTypeTitle = ref<string>("");
+let calendarTypeVisible = ref<boolean>(false);
+let calendarManageVisible = ref<boolean>(false);
+let calendarTypeRef = ref();
+let calendarMangeRef = ref();
+const addCalendarType = (evt: MouseEvent) => {
+  evt.stopPropagation();
+  evt.preventDefault();
+  calendarTypeVisible.value = true;
+}
+const calendarOperation = async (cmd: string, item: any) => {
+  console.log(cmd,item);
+  if (cmd == "delete") {
+    let resultData = await deleteByIds(`system-config/system/calendarDefine/batchDeleteById`, [item['idCalendarDefine']],
+        "删除日历后，所有日程都蒋被删除，确认要删除吗？");
+    if (resultData) {
+      initData();
+    }
+  } else {
+    calendarManageVisible.value = true;
+  }
 
 }
+const calendarTypeSubmit = async () => {
+  let valid = await calendarTypeRef.value.$refs.starHorseFormRef.validate();
+  if (!valid) {
+    return;
+  }
+  let formData = calendarTypeRef.value.getFormData().value;
+  let resultData = await loadData("system-config/system/calendarDefine/merge", formData);
+  if (resultData.error) {
+    warning(resultData.error);
+    return;
+  }
+  success("操作成功");
+  initData();
+  close();
+}
+let myCalendarList = ref<Array<any>>([]);
+const initData = async () => {
+  let userInfo = getUserInfo();
+  let resultData = await loadData("system-config/system/calendarDefine/getAllByCondition", {
+    fieldList: [createCondition("createdBy", userInfo.name + "(" + userInfo.username + ")")],
+    orderBy: [{
+      fieldName: "createdTime",
+      ascOrDesc: "asc"
+    }]
+  });
+  if (resultData.error) {
+    warning(resultData.error);
+    return;
+  }
+  myCalendarList.value = resultData.data;
+}
+onMounted(() => {
+  initData();
+})
 </script>
 
 <template>
+  <star-horse-dialog :title="'添加日程'" @closeAction="close" @merge="calendarTypeSubmit"
+                     :dialog-visible="calendarManageVisible"
+                     :draggable="true"
+                     :self-func="true">
+    <star-horse-form :formSize="compSize" :outer-form-data="outerData" :field-list="calendarManage()"
+                     ref="calendarMangeRef"/>
+  </star-horse-dialog>
+  <star-horse-dialog :title="'添加日历'" @closeAction="close" @merge="calendarTypeSubmit"
+                     :dialog-visible="calendarTypeVisible"
+                     :draggable="true"
+                     :self-func="true">
+    <star-horse-form :formSize="compSize" :outer-form-data="outerData" :field-list="{
+      fieldList:defineType('calendar')
+    }"
+                     ref="calendarTypeRef"/>
+  </star-horse-dialog>
   <star-horse-dialog :title="calendarTitle" :is-show-btn-continue="true" @closeAction="close" @merge="submit"
                      :dialog-visible="visible"
                      :draggable="true"
                      :self-func="true">
-    <star-horse-form :outer-form-data="outerData" :field-list="calendarField" ref="calendarFieldRef"/>
+    <star-horse-form :formSize="compSize" :outer-form-data="outerData" :field-list="calendarField"
+                     ref="calendarFieldRef"/>
   </star-horse-dialog>
   <div class="star-horse-calendar">
     <div class="calendar-left">
       <div class="create-calender">
-        <el-button text @click="addCalendar">
-          <star-horse-icon icon-class="add"/>
+        <el-button text @click="addCalendar('meeting',$event)" :size="compSize">
+          <star-horse-icon icon-class="meeting"/>
+          预定会议
+        </el-button>
+        <el-button text @click="addCalendar('calendar',$event)" :size="compSize">
+          <star-horse-icon icon-class="calendar"/>
           新建日程
         </el-button>
+      </div>
+      <div class="create-calender">
+        <el-input v-model="searchText" :size="compSize" placeholder="请输入日程">
+          <template #prefix>
+            <el-icon>
+              <Search/>
+            </el-icon>
+          </template>
+        </el-input>
       </div>
       <el-calendar v-model="dateValue" ref="starHorseDateRef" class="custom-calendar">
         <template #header="{date}">
@@ -394,59 +490,40 @@ const handleMore = () => {
         </template>
       </el-calendar>
       <el-collapse v-model="collapseModel">
-        <el-collapse-item name="first" class="relative z-50 collapseBox" style="height: auto;">
+        <el-collapse-item name="first" style="height: auto;">
           <template #title>
             <div class="collapse-item-title title">
-              <div style="width: 80%">我的日程</div>
+              <div style="width: 80%">我的日历</div>
+              <star-horse-icon icon-class="add" title="添加日历" @click="addCalendarType"/>
             </div>
           </template>
-        </el-collapse-item>
-        <el-collapse-item name="second" class="relative z-50 collapseBox" style="height: auto;">
-          <template #title>
-            <div class="collapse-item-title title">
-              <div style="width: 80%">订阅日程</div>
-            </div>
-          </template>
-          <div class="w-full h-44 overflow-y-scroll overflow-x-hidden z-50">
-            <div v-for="(item,index) in subscriptionList" :key="item.id">
-              <div class="flex justify-between items-center mx-4 mb-2" :class="`itemBox_${index}`" v-if="index != 0">
-                <div class="flex items-center ">
-                  <input type="checkbox" v-model="item.isChecked" class="mr-2" :class="`checked_${item.id}`"
-                         @change="filterEvent(item)">
-                  <p class=" text-base">{{ item.followName }}</p>
-                </div>
-                <el-icon size="20" color="#54575D" class="cursor-pointer" @click.stop="getSubscriberLoaction(index)">
-                  <MoreFilled/>
-                </el-icon>
-                <aside v-show="selectedItem == index"
-                       class="absolute shadow-deeper rounded-lg rounded-tr-none overflow-hidden"
-                       :class="`asideBox_${index}`" style="width: 140px; max-height: 110px; z-index:999999;"
-                       @click.stop="null">
-                  <div class="w-full h-full p-4 pt-5 bg-mainWhite">
-                    <div class="mb-4">
-                      <div class="flex justify-between items-center">
-                        <p class="text-test text-base mb-1 cursor-pointer">修改颜色</p>
-                        <el-color-picker v-model="item.color" show-alpha :predefine="predefineColors"
-                                         @change="changeColor($event,item)"/>
-                      </div>
-                      <p class="text-test text-base mb-1 cursor-pointer" @click="setPermission(item)"
-                         v-if="item.editable == 1">设置权限</p>
-                      <div class="relative">
-                        <el-popconfirm title="确认取消订阅?" confirm-button-text="是" cancel-button-text="否"
-                                       :icon="InfoFilled" icon-color="#626AEF" placement="right"
-                                       @confirm="handleCancleSubscription(item.id)">
-                          <template #reference>
-                            <p class="text-test text-base mb-1 cursor-pointer">取消订阅</p>
-                          </template>
-                        </el-popconfirm>
-                      </div>
-                    </div>
-                  </div>
-                </aside>
+          <template v-for="item in myCalendarList">
+            <div class="my-calendar">
+              <div class="title">
+                <star-horse-icon :icon-class="item.category||'user-cycle'"/>
+                {{ item.calendarName }}
               </div>
+              <el-dropdown placement="bottom" @command="(cmd)=>calendarOperation(cmd,item)">
+                <star-horse-icon icon-class="more" cursor="pointer" color="var(--star-horse-style)" size="20px"/>
+                <template #dropdown>
+                  <el-dropdown-menu>
+                    <el-dropdown-item command="add">
+                      <star-horse-icon icon-class="add"/>
+                      添加日程
+                    </el-dropdown-item>
+                    <el-dropdown-item command="delete">
+                      <star-horse-icon icon-class="delete" color="var(--el-color-danger)"/>
+                      删除日历
+                    </el-dropdown-item>
+                  </el-dropdown-menu>
+                </template>
+              </el-dropdown>
+
             </div>
-          </div>
+          </template>
+
         </el-collapse-item>
+
       </el-collapse>
     </div>
     <div class="calendar-right">
@@ -467,6 +544,25 @@ const handleMore = () => {
 </template>
 
 <style scoped lang="scss">
+.my-calendar {
+  height: 30px;
+  display: flex;
+  align-items: center;
+  vertical-align: middle;
+  justify-content: space-between;
+  padding-left: 15px;
+
+  .title {
+    display: flex;
+    align-items: center;
+    vertical-align: middle;
+  }
+
+  &:hover {
+    background: #fafafa;
+  }
+}
+
 .create-calender {
   width: 98%;
   display: flex;
