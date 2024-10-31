@@ -476,7 +476,8 @@ export function paramsFields(fieldName: string, item: any) {
                     warning(error);
                     return;
                 }
-                const data = datas.dataList[0];
+                console.log(datas);
+                const data = datas[0];
                 const keys = Object.keys(data);
                 fieldList.value = [];
                 for (const ind in keys) {

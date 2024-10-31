@@ -614,8 +614,10 @@ hr {
   flex: 1;
   padding-top: 5px;
   height: 100% !important;
-  width: 100%;
-  overflow: auto;
+  width: 98%;
+  margin: 0 auto;
+  overflow-y: auto;
+  overflow-x: hidden;
   background: rgba(255, 255, 255, 0.8);
 }
 

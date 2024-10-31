@@ -100,7 +100,9 @@ export default defineComponent({
 :deep(.el-upload) {
   width: 100% !important;
 }
-
+:deep(.el-upload--text){
+  justify-content: left !important;
+}
 :deep(.el-upload-list--picture-card) {
   width: 100% !important;
 

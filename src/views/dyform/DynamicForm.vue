@@ -334,7 +334,7 @@ const batchOperation = (val: any, fieldName: string) => {
 }
 const analysisParentParam = () => {
   let parentId = route.query["parentId"];
-  if (parentId) {
+  if (parentId&&"0"!=parentId) {
     // console.log(parentId);
     loadFormData(parentId, true);
   }

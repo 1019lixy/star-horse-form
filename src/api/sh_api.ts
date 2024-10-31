@@ -367,8 +367,9 @@ export async function loadById(url: string, id: any, isView: boolean, params: an
  * 根据Id删除数据
  * @param url
  * @param ids
+ * @param msg 删除提示
  */
-export async function deleteByIds(url: string, ids: any) {
+export async function deleteByIds(url: string, ids: any, msg: string = "确认需要删除选择的数据吗？") {
     if (!url) {
         warning("请提供正确的数据");
         return;
@@ -378,10 +379,7 @@ export async function deleteByIds(url: string, ids: any) {
         return;
     }
     let objData: boolean = false;
-    let confirmFlag: boolean = false;
-    await confirm("确认需要删除选择的数据吗？").then((res: boolean) => {
-        confirmFlag = res;
-    });
+    let confirmFlag: boolean = await confirm(msg);
     if (!confirmFlag) {
         return;
     }
@@ -914,20 +912,20 @@ export function apiInstance(appName: string, urlPrefix: string, condition: Array
     };
 }
 
-    /**
-     * 模态窗口相关属性
-     */
-    export function dialogPreps(title: string = "编辑", batchTitle: string = "批量编辑"): Reactive<DialogProps> {
-        return reactive<DialogProps>({
-            bakeVisible1: false,
-            bakeVisible2: false,
-            bakeVisible3: false,
-            ids: 0,
-            batchDialogTitle: batchTitle,
-            dialogTitle: title,
-            batchEditVisible: false,
-            editVisible: false,
-            uploadVisible: false,
-            viewVisible: false,
-        });
-    }
+/**
+ * 模态窗口相关属性
+ */
+export function dialogPreps(title: string = "编辑", batchTitle: string = "批量编辑"): Reactive<DialogProps> {
+    return reactive<DialogProps>({
+        bakeVisible1: false,
+        bakeVisible2: false,
+        bakeVisible3: false,
+        ids: 0,
+        batchDialogTitle: batchTitle,
+        dialogTitle: title,
+        batchEditVisible: false,
+        editVisible: false,
+        uploadVisible: false,
+        viewVisible: false,
+    });
+}

@@ -67,7 +67,7 @@ const condifRelationPolicy = async () => {
   dataRelationFormRef?.value.setFormData(formProps.value["dataRelation"] || {});
 }
 const configParams = async (params: any) => {
-  fieldName.value = params["fieldName"];
+  fieldName.value = params;
   paramsDialogVisible.value = true;
   await nextTick();
   paramsConfigRef.value.setFormData(formProps.value);
@@ -211,6 +211,7 @@ const assignPrep = async (itemType: string, isItem: boolean) => {
 };
 let relationComps = ref<Array<string>>(["select", "tselect", "switch", "autocomplete",
   "checkbox", "radio", "cascade", "page-select", "dialog-input"]);
+let exclusionDataSource = ref<Array<string>>(["page-select", "dialog-input"]);
 let formFields = ref<PageFieldInfo>({
   fieldList: []
 });
@@ -280,13 +281,15 @@ const assignValue = (fieldInfo: any) => {
           actions: (_data: any) => condifRelationPolicy(),
           formShow: true,
         });
-        commonFields.push({
-          label: "配置数据源",
-          fieldName: "dataSource",
-          type: "button",
-          actions: (_data: any) => dataSource(formProps.value['itemType']),
-          formShow: true,
-        });
+        if (!exclusionDataSource.value.includes(currentItemType.value)) {
+          commonFields.push({
+            label: "配置数据源",
+            fieldName: "dataSource",
+            type: "button",
+            actions: (_data: any) => dataSource(formProps.value['itemType']),
+            formShow: true,
+          });
+        }
       }
       for (let i in commonFields) {
         temp.fields.splice(i, 0, commonFields[i]);

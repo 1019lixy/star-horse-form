@@ -469,6 +469,7 @@ const createParams = () => {
   if (searchFields.length > 0) {
     searchTemp.push(...searchFields);
   }
+  console.log(searchTemp);
   let condition: any = removeEmptyCondition(props.compUrl?.condition!);
   if (condition && condition.length > 0) {
     searchTemp.push(...condition);

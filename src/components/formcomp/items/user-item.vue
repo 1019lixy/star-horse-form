@@ -5,18 +5,21 @@
                      :box-height="'500px'"
                      @closeAction="closeAction">
     <div style="width: 100%;">
-      <user-manage :showButton="false" :cellEditable="false" :dialogInput="true" ref="userTableRef" style="flex:1;"/>
+      <user-manage :showButton="false" :cellEditable="false" :multipleSelect="field.preps['multiple']=='Y'"
+                   :dialogInput="true" ref="userTableRef" style="flex:1;"/>
     </div>
 
   </star-horse-dialog>
   <starhorse-form-item :isDesign="context.attrs['isDesign']" :bareFlag="context.attrs['bareFlag']" :form-item="field"
                        :parentField="parentField">
-    <el-input
+    <el-mention
         :clearable="field.preps['clearable'] == 'Y'"
         :disabled="!context.attrs['formData']['_'+field.preps['name']+'Editable']&&field.preps['disabled'] == 'Y'"
         :max="field.preps['max']"
         :maxlength="field.preps['maxlength']"
         :min="field.preps['min']"
+        :options="userOptionList"
+        :whole="true"
         :minlength="field.preps['maxlength']"
         :placeholder="field.preps['placeholder'] || '请输入' + field.preps['label']"
         :prefix-icon="field.preps['prefixIcon']"
@@ -30,12 +33,9 @@
         @blur="itemAction('blur')"
         v-model="context.attrs['formData'][field.preps['name']]">
       <template #append>
-        <star-horse-icon icon-class="search" @click="showVisible" :disabled="field.preps['disabled'] == 'Y'"/>
-        <!--        <el-button icon="Search" @click="showVisible"
-                           :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
-                           :disabled="field.preps['disabled'] == 'Y'"/>-->
+        <star-horse-icon icon-class="user-add" @click="showVisible" :disabled="field.preps['disabled'] == 'Y'"/>
       </template>
-    </el-input>
+    </el-mention>
   </starhorse-form-item>
 </template>
 <script lang="ts">
@@ -46,6 +46,7 @@ import {isJson} from "@/api/sh_api.ts";
 import {warning} from "@/utils/message.ts";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {allAction} from "@/components/formcomp/utils/ItemRelationEventUtils.ts";
+import {SelectOption} from "@/components/types/SearchProps";
 
 export default defineComponent({
   components: {StarHorseIcon, UserManage},
@@ -57,42 +58,67 @@ export default defineComponent({
     let userTableRef = shallowRef();
     let dialogInputVisible = shallowRef<boolean>(false);
     let actionName = shallowRef("keydown.enter");
+    let userOptionList = shallowRef<Array<any>>([]);
     const itemAction = (prep: any) => {
       allAction(context, prep);
     };
-    const selectItem = (row: any) => {
-      let data = "";
+    const selectItem = (_row: any) => {
+      userOptionList.value = [];
       let needField = field.preps["needField"];
-      console.log(needField)
-      if (!row || !isJson(row)) {
-        let selectDatas = userTableRef.value.$refs.employeeInfoRef.multipleSelection;
-        if (!selectDatas) {
-          warning("请选择数据");
-          return;
-        }
-        data = selectDatas[0];
-      } else {
-        data = row;
+      let selectDatas = userTableRef.value.$refs.employeeInfoRef.multipleSelection;
+      if (!selectDatas) {
+        warning("请选择数据");
+        return;
       }
+      console.log(selectDatas);
       //如果没有指定属性，则默认取相同的属性
       let name = field.preps['name'];
       let aliasName = field.preps['aliasName'];
+      let temp: any = {};
+      for (let i in selectDatas) {
+        let data = selectDatas[i];
+        if (!needField) {
+          if (!Object.keys(temp).includes(name)) {
+            temp[name] = [];
+            temp[aliasName] = [];
+          }
+          userOptionList.value.push({
+            label: data["name"],
+            value: data["employeeNo"]
+          })
+          temp[name].push(data["name"]);
+          temp[aliasName].push(data["employeeNo"]);
+        } else {
+          needField.forEach((item: FieldMapping) => {
+            if (needField.length == 1) {
+              if (!Object.keys(temp).includes(item.sourceField)) {
+                temp[item.sourceField] = [];
+              }
+              temp[name].push(data[item.sourceField]);
+            } else {
+              if (!Object.keys(temp).includes(item.distField)) {
+                temp[item.distField] = [];
+              }
+              temp[item.distField] = data[item.sourceField];
+            }
+          });
+        }
+      }
+
       if (!needField) {
-        context.attrs["formData"][name] = data["name"];
-        context.attrs["formData"][aliasName] = data["idEmployeeInfo"];
-        console.log(context.attrs["formData"]);
+        context.attrs["formData"][name] = temp[name].join(" ");
+        context.attrs["formData"][aliasName] = temp[aliasName].join(" ");
       } else {
-        console.log(needField);
         needField.forEach((item: FieldMapping) => {
           if (needField.length == 1) {
-            context.attrs["formData"][name] = data[item.sourceField];
+            context.attrs["formData"][name] = temp[item.sourceField].join(" ");
           } else {
-            context.attrs["formData"][item.distField] = data[item.sourceField];
+            context.attrs["formData"][item.distField] = temp[item.distField].join(" ");
           }
         });
       }
       if (field.preps["recall"]) {
-        field.preps["recall"](row);
+        field.preps["recall"](selectDatas);
       }
       closeAction();
     };
@@ -117,7 +143,7 @@ export default defineComponent({
     return {
       parentField, context, field, formItem, dataField, closeAction, dialogInputVisible,
       actionName, itemAction, showVisible,
-      userTableRef, selectItem
+      userTableRef, selectItem, userOptionList
     }
   }
 });
