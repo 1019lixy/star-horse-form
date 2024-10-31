@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {nextTick, onBeforeUnmount, onMounted, reactive, ref, watch} from "vue";
-import {ArrowLeftBold, ArrowRightBold, InfoFilled, Search} from "@element-plus/icons-vue";
+import {ArrowLeftBold, ArrowRightBold, Search} from "@element-plus/icons-vue";
 import FullCalendar from "@fullcalendar/vue3";
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
@@ -14,37 +14,53 @@ import StarHorseDialog from "@/components/comp/StarHorseDialog.vue";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import StarHorseForm from "@/components/comp/StarHorseForm.vue";
 import {uuid} from "@/api/system.ts";
-import {getUserInfo} from "../../../utils/auth.ts";
+import {getUserInfo} from "@/utils/auth.ts";
 import {calendarManage, defineType} from "@/views/system/calendar/CalendarProps.ts";
 import {createCondition, deleteByIds, loadData} from "@/api/sh_api.ts";
-import {success, warning, confirm} from "@/utils/message.ts";
+import {success, warning} from "@/utils/message.ts";
 
 const props = defineProps({
   eventList: {type: Array, default: []},
   compSize: {type: String, default: "small"}
 });
 const fullCalendar = ref();
+const dialogFullCalendar = ref();
 const starHorseDateRef = ref();
 let dateValue = ref<any>(null);
-let selectedItem = ref<number>(0);
 let selectedWeekRange = ref<Array<any>>([]);
 let outerData = ref<any>({});
-let subscriptionList = ref<Array<any>>([
-  {
-    isChecked: false,
-    followName: "Test",
-    id: "0002",
-  },
-  {
-    isChecked: false,
-    followName: "Test1",
-    id: "0003",
-  }
-]);
+
 const collapseModel = ref<string>("first");
-let predefineColors = ref<Array<any>>([]);
 let editTitle = ref<string>("开启编辑模式");
 let calenderModel = ref<string>("view");
+const formCalendarOptions = ref<CalendarOptions>({
+  plugins: [
+    timeGridPlugin,
+  ],
+  headerToolbar: {
+    left: "",
+    center: "",
+    right: ""
+  },
+  handleWindowResize: true, //随浏览器窗口变化
+  initialView: 'timeGridDay', // 初始化插件显示
+  droppable: true,//可拖拽的
+  timeZone: 'local',//采用时区
+  selectable: true,
+  weekNumbers: true,
+  dayMaxEvents: true,
+  weekends: true,
+  aspectRatio: 1,
+  fixedWeekCount: false,
+  editable: true, // 是否可以进行（拖动、缩放）修改
+  eventStartEditable: true, // Event日程开始时间可以改变，默认true，如果是false其实就是指日程块不能随意拖动，只能上下拉伸改变他的endTime
+  eventDurationEditable: true, // Event日程的开始结束时间距离是否可以改变，默认true，如果是false则表示开始结束时间范围不能拉伸，只能拖拽
+  selectMirror: true,
+  selectMinDistance: 0, // 选中日历格的最小距离
+  navLinks: true, // 天链接
+  slotEventOverlap: false, // 相同时间段的多个日程视觉上是否允许重叠，默认true允许
+  initialDate: new Date(),//初始化日期
+});
 const calendarOptions = ref<CalendarOptions>({
   plugins: [
     // 加载插件，V5采用插件模块方式加入
@@ -177,21 +193,6 @@ const changeDate = (date: any) => {
   let api = fullCalendar.value.getApi();
   api.gotoDate(date);
   api.select(date)
-}
-const filterEvent = (date: any) => {
-
-}
-const changeColor = (evt: MouseEvent, item: any) => {
-
-}
-const setPermission = (item: any) => {
-
-}
-const handleCancleSubscription = (id: string) => {
-
-}
-const getSubscriberLoaction = (index: number) => {
-  selectedItem.value = index;
 }
 const selectDate = (val: string) => {
   if (!starHorseDateRef.value) {
@@ -373,7 +374,7 @@ const addCalendarType = (evt: MouseEvent) => {
   calendarTypeVisible.value = true;
 }
 const calendarOperation = async (cmd: string, item: any) => {
-  console.log(cmd,item);
+  console.log(cmd, item);
   if (cmd == "delete") {
     let resultData = await deleteByIds(`system-config/system/calendarDefine/batchDeleteById`, [item['idCalendarDefine']],
         "删除日历后，所有日程都蒋被删除，确认要删除吗？");
@@ -426,8 +427,21 @@ onMounted(() => {
                      :dialog-visible="calendarManageVisible"
                      :draggable="true"
                      :self-func="true">
-    <star-horse-form :formSize="compSize" :outer-form-data="outerData" :field-list="calendarManage()"
-                     ref="calendarMangeRef"/>
+    <div class="dialog-body2">
+      <div class="dialog-form">
+        <star-horse-form :formSize="compSize" :outer-form-data="outerData" :field-list="calendarManage()"
+                         ref="calendarMangeRef"/>
+      </div>
+      <div class="dialog-calendar">
+        <FullCalendar ref="dialogFullCalendar"
+                      :eventLimit="true"
+                      allDayText="全天"
+                      :editable="true"
+                      :options="formCalendarOptions" >
+        </FullCalendar>
+      </div>
+    </div>
+
   </star-horse-dialog>
   <star-horse-dialog :title="'添加日历'" @closeAction="close" @merge="calendarTypeSubmit"
                      :dialog-visible="calendarTypeVisible"
@@ -544,6 +558,23 @@ onMounted(() => {
 </template>
 
 <style scoped lang="scss">
+.dialog-body2 {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+
+  .dialog-form {
+    height: 100%;
+    flex: 1;
+  }
+  .dialog-calendar {
+    height: 100%;
+    width: 100%;
+    flex: 1;
+  }
+}
+
 .my-calendar {
   height: 30px;
   display: flex;
