@@ -5,14 +5,14 @@
         :fid="field.preps['name']"
         :disabled="!context.attrs['formData']['_'+field.preps['name']+'Editable']&&field.preps['disabled']=='Y'"
         :readonly="field.preps['readonly']=='Y'"
-        :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
+        :size="context.attrs.formInfo?.size||field?.preps['size']||'small'"
         @change="itemAction"
         v-model="context.attrs['formData'][field.preps['name']]">
       <el-checkbox :border="item['border']=='Y'"
                    :checked="item['checked']=='Y'"
                    :disabled="item['disabled']=='Y'"
-                   :label="item['name']"
-                   :value="item['value']"
+                   :label="item[field.preps['props']?.label||'name']"
+                   :value="item[field.preps['props']?.value||'value']"
                    v-for="item in field.preps['values']">
       </el-checkbox>
     </el-checkbox-group>

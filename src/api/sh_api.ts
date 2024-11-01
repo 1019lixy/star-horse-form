@@ -321,6 +321,14 @@ export function createDate(val: any) {
     return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
 }
 
+export function currentDate(split: string = "-") {
+    const date = new Date();
+    const m = (date.getMonth() + 1);
+    const m1 = m < 10 ? "0" + m : m;
+    const day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+    return date.getFullYear() + split + m1 + split + day;
+}
+
 /**
  * 创建年月日时分秒
  * @param val

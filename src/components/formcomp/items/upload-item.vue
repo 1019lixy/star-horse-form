@@ -85,10 +85,10 @@ export default defineComponent({
       }
       headers.value["token"] = getToken();
     });
-    watch(() => context.attrs['formFieldList'][field.preps['name']],
-        (val: string) => {
-          if (val) {
-            dataField.value = [{url: (field.preps["context"] || '/system-config') + val}];
+    watch(() => context.attrs['formFieldList'],
+        (val: any) => {
+          if (val && Object.keys(val).includes(field.preps['name'])) {
+            dataField.value = [{url: (field.preps["context"] || '/system-config') + val[field.preps['name']]}];
           }
         },
         {immediate: true, deep: true})
@@ -100,9 +100,11 @@ export default defineComponent({
 :deep(.el-upload) {
   width: 100% !important;
 }
-:deep(.el-upload--text){
+
+:deep(.el-upload--text) {
   justify-content: left !important;
 }
+
 :deep(.el-upload-list--picture-card) {
   width: 100% !important;
 

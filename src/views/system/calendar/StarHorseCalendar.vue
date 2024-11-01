@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {nextTick, onBeforeUnmount, onMounted, reactive, ref, watch} from "vue";
+import {nextTick, onBeforeUnmount, onMounted,  ref, watch} from "vue";
 import {ArrowLeftBold, ArrowRightBold, Search} from "@element-plus/icons-vue";
 import FullCalendar from "@fullcalendar/vue3";
 import dayGridPlugin from '@fullcalendar/daygrid'
@@ -11,12 +11,11 @@ import listPlugin from '@fullcalendar/list'
 import {CalendarOptions} from "@fullcalendar/core";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import StarHorseDialog from "@/components/comp/StarHorseDialog.vue";
-import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import StarHorseForm from "@/components/comp/StarHorseForm.vue";
 import {uuid} from "@/api/system.ts";
 import {getUserInfo} from "@/utils/auth.ts";
 import {calendarManage, defineType} from "@/views/system/calendar/CalendarProps.ts";
-import {createCondition, deleteByIds, loadData} from "@/api/sh_api.ts";
+import {createCondition, currentDate, deleteByIds, loadData} from "@/api/sh_api.ts";
 import {success, warning} from "@/utils/message.ts";
 
 const props = defineProps({
@@ -129,7 +128,7 @@ const calendarOptions = ref<CalendarOptions>({
     if (calenderModel.value != "edit") {
       return;
     }
-    visible.value = true;
+    calendarManageVisible.value = true;
     console.log("select", item);
   },
   eventClick: async (item: any) => {
@@ -143,7 +142,7 @@ const calendarOptions = ref<CalendarOptions>({
     if (calenderModel.value != "edit") {
       return;
     }
-    visible.value = true;
+    calendarManageVisible.value = true;
     // await nextTick();
     // calendarFieldRef.value.setF
     // 日程点击事件
@@ -241,75 +240,33 @@ watch(dateValue,
     }, {immediate: true}
 );
 let calendarTitle = ref<string>("新建日程");
-let visible = ref<boolean>(false);
-const calendarField = reactive<PageFieldInfo | any>({
-  fieldList: [{
-    label: "日程名称",
-    fieldName: "title",
-    type: "input",
-    required: true,
-    formShow: true
-  }, [
-    {
-      label: "开始时间",
-      fieldName: "startStr",
-      type: "date",
-      required: true,
-      formShow: true,
-      preps: {
-        placeholder: "请选择开始日期",
-        valueFormat: "YYYY-MM-DD"
-      },
-      brotherNodes: [{
-        label: "请选择开始时间",
-        fieldName: "sTime",
-        type: "time",
-        formShow: true,
-      }]
-    },
-    {
-      label: "结束时间",
-      fieldName: "endStr",
-      type: "date",
-      formShow: true,
-      preps: {
-        placeholder: "请选择结束日期",
-        valueFormat: "YYYY-MM-DD"
-      },
-      brotherNodes: [{
-        label: "结束时间",
-        fieldName: "eTime",
-        type: "time",
 
-        formShow: true,
-      }]
-    }
-  ], [
-    {
-      label: "背景色",
-      fieldName: "backgroundColor",
-      type: "color",
-      formShow: true
-    },
-    {
-      label: "边框颜色",
-      fieldName: "borderColor",
-      type: "color",
-      formShow: true
-    }
-  ]]
-});
 const calendarFieldRef = ref();
 const addCalendar = (type: string, evt: MouseEvent) => {
   evt.stopPropagation();
   evt.preventDefault();
-  outerData.value["type"] = type;
-  visible.value = true;
+  // outerData.value["type"] = type;
+  //  calendarManageVisible.value = true;
+  calendarOperation(type, {});
 }
 const close = () => {
-  visible.value = false;
+
   calendarTypeVisible.value = false;
   calendarManageVisible.value = false;
+}
+const calendarManageSubmit = async () => {
+  let result = await calendarMangeRef.value.$refs.starHorseFormRef.validate();
+  if (!result) {
+    return;
+  }
+  let data = calendarMangeRef.value.getFormData().value;
+  let mergeResult = await loadData("system-config/system/calendarManage/merge", data);
+  if (mergeResult.error) {
+    warning(mergeResult.error);
+    return;
+  }
+  success("操作成功");
+  close();
 }
 const submit = async (action: string) => {
   let result = await calendarFieldRef.value.$refs.starHorseFormRef.validate();
@@ -342,7 +299,8 @@ let calendarTypeVisible = ref<boolean>(false);
 let calendarManageVisible = ref<boolean>(false);
 let calendarTypeRef = ref();
 let calendarMangeRef = ref();
-const exportData = (data: any) => {
+const exportData = async (data: any) => {
+  await nextTick();
   if (data.id) {
     let event: any = dialogFullCalendar.value.getApi().view.calendar.getEventById(data.id);
     if (event) {
@@ -352,15 +310,23 @@ const exportData = (data: any) => {
     data["id"] = uuid();
   }
   let flag = false;
-  if (data.sTime) {
+  if (data.allDay?.includes("all")) {
     flag = true;
-    data["start"] = (data["startStr"] || "") + " " + (data["sTime"] || "");
-  }
-  if (data.eTime) {
-    data["end"] = (data["endStr"] || "") + " " + (data["eTime"] || "");
+    let str = currentDate();
+    data["startStr"] = str;
+    data["start"] = str + " 00:00";
+    data["endStr"] = str;
+    data["end"] = str + " 23:59";
+  } else {
+    if (data.sTime) {
+      flag = true;
+      data["start"] = (data["startStr"] || "") + " " + (data["sTime"] || "");
+    }
+    if (data.eTime) {
+      data["end"] = (data["endStr"] || "") + " " + (data["eTime"] || "");
+    }
   }
   if (dialogFullCalendar.value && flag) {
-    console.log("xxxx", data);
     dialogFullCalendar.value.getApi().view.calendar.addEvent(data);
   }
 }
@@ -372,7 +338,7 @@ const addCalendarType = (evt: MouseEvent) => {
 const calendarOperation = async (cmd: string, item: any) => {
   console.log(cmd, item);
   if (cmd == "delete") {
-    let resultData = await deleteByIds(`system-config/system/calendarDefine/batchDeleteById`, [item['idCalendarDefine']],
+    let resultData = await deleteByIds(`/system-config/system/calendarDefine/batchDeleteById`, [item['idCalendarDefine']],
         "删除日历后，所有日程都蒋被删除，确认要删除吗？");
     if (resultData) {
       initData();
@@ -413,6 +379,29 @@ const initData = async () => {
     return;
   }
   myCalendarList.value = resultData.data;
+  loadAllCalendar(resultData.data.map(item => item.idCalendarDefine));
+}
+const loadAllCalendar = async (ids: any) => {
+  let resultData = await loadData("system-config/system/calendarManage/getAllByCondition", {
+    fieldList: [createCondition("idCalendarDefine", ids, Array.isArray(ids) ? "in" : "eq")],
+    orderBy: [{
+      fieldName: "createdTime",
+      ascOrDesc: "asc"
+    }]
+  });
+  if (resultData.error) {
+    warning(resultData.error);
+    return;
+  }
+  fullCalendar.value.getApi().removeAllEvents();
+  let datas = resultData.data;
+  for (let i in datas) {
+    let data = datas[i];
+    data["id"] = data["idCalendarManage"];
+    data["start"] = data["startStr"] + (data.stime ? " " + data.stime : " 00:00");
+    data["end"] = data["endStr"] + (data.etime ? " " + data.etime : " 23:59");
+    fullCalendar.value.getApi().view.calendar.addEvent(data);
+  }
 }
 onMounted(() => {
   initData();
@@ -420,14 +409,14 @@ onMounted(() => {
 </script>
 
 <template>
-  <star-horse-dialog :title="'添加日程'" @closeAction="close" @merge="calendarTypeSubmit"
+  <star-horse-dialog :title="'添加日程'" @closeAction="close" @merge="calendarManageSubmit"
                      :dialog-visible="calendarManageVisible"
                      :draggable="true"
                      :self-func="true">
     <div class="dialog-body2">
       <div class="dialog-form">
 
-        <star-horse-form :formSize="compSize" :outer-form-data="outerData" :field-list="calendarManage()"
+        <star-horse-form :formSize="compSize" :outer-form-data="outerData" :field-list="calendarManage(myCalendarList)"
                          @exportData="exportData"
                          ref="calendarMangeRef"/>
       </div>
@@ -450,13 +439,6 @@ onMounted(() => {
       fieldList:defineType('calendar')
     }"
                      ref="calendarTypeRef"/>
-  </star-horse-dialog>
-  <star-horse-dialog :title="calendarTitle" :is-show-btn-continue="true" @closeAction="close" @merge="submit"
-                     :dialog-visible="visible"
-                     :draggable="true"
-                     :self-func="true">
-    <star-horse-form :formSize="compSize" :outer-form-data="outerData" :field-list="calendarField"
-                     ref="calendarFieldRef"/>
   </star-horse-dialog>
   <div class="star-horse-calendar">
     <div class="calendar-left">

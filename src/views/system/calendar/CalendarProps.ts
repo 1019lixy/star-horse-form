@@ -1,6 +1,7 @@
 import {reactive} from "vue";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {getCustomerParam} from "@/utils/auth.ts";
+import {dictData} from "@/api/sh_api.ts";
 
 /**
  * 日历表单参数
@@ -41,7 +42,10 @@ export function defineType(type: string) {
 /**
  * 日程表单参数
  */
-export function calendarManage() {
+let remindTime = await dictData("remind_time");
+let repeatRemindType = await dictData("remind_type");
+export  function calendarManage(calendarList: Array<any>) {
+
     return reactive<PageFieldInfo | any>({
         //属性列表
         fieldList: [
@@ -85,12 +89,12 @@ export function calendarManage() {
                 }, {
                     label: "全天",
                     fieldName: "allDay",
-                    type: "checkBox",
+                    type: "checkbox",
                     optionList: [{name: "全天", value: "all"}],
                     required: false,
                     formShow: !false,
                     tableShow: !false,
-                },]
+                }]
             },
             {
                 label: "结束日期",
@@ -139,28 +143,40 @@ export function calendarManage() {
                 required: false,
                 formShow: !false,
                 tableShow: !false,
+                preps:{
+                    leftToolbar:"clear | bold ul ol",
+                    rightToolbar:"preview fullscreen"
+                }
             },
             {
                 label: "日历",
                 fieldName: "idCalendarDefine",
                 type: "select",
-                optionList: [],
+                optionList: calendarList,
                 required: false,
                 formShow: !false,
                 tableShow: !false,
+                preps: {
+                    props: {
+                        label: "calendarName",
+                        value: "idCalendarDefine"
+                    }
+                }
             },
             {
                 label: "提醒",
-                fieldName: "publicFlag",
+                fieldName: "remindTime",
                 type: "select",
                 required: false,
+                optionList: remindTime,
                 formShow: !false,
                 tableShow: !false,
             },
             {
                 label: "重复",
-                fieldName: "publicFlag",
+                fieldName: "repeatRemind",
                 type: "select",
+                optionList: repeatRemindType,
                 required: false,
                 formShow: !false,
                 tableShow: !false,
@@ -169,6 +185,7 @@ export function calendarManage() {
                 label: "设置",
                 fieldName: "messageFlag",
                 type: "checkbox",
+                defaultValue: "1",
                 optionList: [{name: "允许成员主动加入", value: "1"}, {name: "同时邮件通知参与人", value: "2"}],
                 required: false,
                 formShow: !false,

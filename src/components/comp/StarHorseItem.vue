@@ -250,7 +250,7 @@ onMounted(() => {
     </template>
   </div>
   <div v-else class="comp-info"
-       :style="{ 'min-width': isSearch && field.preps['type'] != 'daterange' ? '150px' : '100%','height':
+       :style="{ 'height':
        itemType != 'button' ?'100%':'inherit' }">
     <component :id="randId" :is="(dataForm['_'+field.preps.name+'Type']||itemType)+'-item'" @selfFunc="actionDispatcher"
                :isDesign="isDesign"
@@ -258,7 +258,6 @@ onMounted(() => {
                :isSearch="isSearch"
                :bareFlag="bareFlag"
                :field="field" :formData="dataForm"/>
-    <div v-if="item.brotherNodes" style="width: 15px"/>
     <div v-if="item.brotherNodes" class="brother-node">
       <template v-for="temp in item.brotherNodes">
         <star-horse-item v-if="dataForm['_'+field.preps.name+'Visible']||temp.formShow" :primaryKey="primaryKey"
@@ -275,14 +274,21 @@ onMounted(() => {
 .comp-info {
   display: flex;
   justify-content: left;
+  flex: 1;
   align-items: center;
   margin: 5px auto;
 }
 
 .bare-comp {
+  flex: 1;
+  width: 100%;
+  margin-right: 5px;
 }
 
 .brother-node {
-  min-width: 30%;
+  margin-left: 5px;
+  display: flex;
+  align-items: center;
+  flex: 1;
 }
 </style>

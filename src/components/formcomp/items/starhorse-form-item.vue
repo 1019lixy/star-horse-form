@@ -283,7 +283,8 @@ onMounted(() => {
 </template>
 <style lang="scss" scoped>
 .form-item-operation {
-  width: 100%;
+  display: flex;
+  flex:1;
 
 }
 .item-info{

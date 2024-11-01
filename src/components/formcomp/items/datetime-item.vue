@@ -64,5 +64,8 @@ export default defineComponent({
   }
 });
 </script>
-<style scoped>
+<style lang="scss" scoped>
+:deep(.el-input){
+  width: unset !important;
+}
 </style>
