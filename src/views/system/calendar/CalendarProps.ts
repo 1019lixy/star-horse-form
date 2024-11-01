@@ -71,6 +71,10 @@ export function calendarManage() {
                 required: false,
                 formShow: !false,
                 tableShow: !false,
+                preps: {
+                    valueFormat: "YYYY-MM-DD",
+                    format: "YYYY-MM-DD"
+                },
                 brotherNodes: [{
                     label: "开始时间",
                     fieldName: "sTime",
@@ -95,6 +99,10 @@ export function calendarManage() {
                 required: false,
                 formShow: !false,
                 tableShow: !false,
+                preps: {
+                    valueFormat: "YYYY-MM-DD",
+                    format: "YYYY-MM-DD"
+                },
                 brotherNodes: [{
                     label: "结束时间",
                     fieldName: "eTime",

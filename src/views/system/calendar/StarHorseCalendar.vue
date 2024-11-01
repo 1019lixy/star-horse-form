@@ -32,36 +32,7 @@ let outerData = ref<any>({});
 
 const collapseModel = ref<string>("first");
 let editTitle = ref<string>("开启编辑模式");
-let calenderModel = ref<string>("view");
-const formCalendarOptions = ref<CalendarOptions>({
-  plugins: [
-    timeGridPlugin,
-  ],
-  headerToolbar: {
-    left: "",
-    center: "",
-    right: ""
-  },
-  handleWindowResize: true, //随浏览器窗口变化
-  initialView: 'timeGridDay', // 初始化插件显示
-  droppable: true,//可拖拽的
-  timeZone: 'local',//采用时区
-  selectable: true,
-  weekNumbers: true,
-  dayMaxEvents: true,
-  weekends: true,
-  aspectRatio: 1,
-  fixedWeekCount: false,
-  editable: true, // 是否可以进行（拖动、缩放）修改
-  eventStartEditable: true, // Event日程开始时间可以改变，默认true，如果是false其实就是指日程块不能随意拖动，只能上下拉伸改变他的endTime
-  eventDurationEditable: true, // Event日程的开始结束时间距离是否可以改变，默认true，如果是false则表示开始结束时间范围不能拉伸，只能拖拽
-  selectMirror: true,
-  selectMinDistance: 0, // 选中日历格的最小距离
-  navLinks: true, // 天链接
-  slotEventOverlap: false, // 相同时间段的多个日程视觉上是否允许重叠，默认true允许
-  initialDate: new Date(),//初始化日期
-});
-const calendarOptions = ref<CalendarOptions>({
+const commonOptions = {
   plugins: [
     // 加载插件，V5采用插件模块方式加入
     multiMonthPlugin,
@@ -70,15 +41,8 @@ const calendarOptions = ref<CalendarOptions>({
     interactionPlugin, // needed for dateClick
     listPlugin
   ],
-  // height: 800, //日历高度
-  // themeSystem: 'bootstrap5',
   events: [],
-  headerToolbar: {
-    // 头部toolba
-    left: 'prevYear,prev,next,nextYear,today,btn',
-    center: 'title',
-    right: 'multiMonthYear,dayGridMonth,timeGridWeek,timeGridDay,editBtn',
-  },
+  height: "100%",
   handleWindowResize: true, //随浏览器窗口变化
   // initialView: 'dayGridMonth', // 初始化插件显示
   droppable: true,//可拖拽的
@@ -105,6 +69,54 @@ const calendarOptions = ref<CalendarOptions>({
   slotEventOverlap: false, // 相同时间段的多个日程视觉上是否允许重叠，默认true允许
   initialDate: new Date(),//初始化日期
   // initialEvents: INITIAL_EVENTS, // alternatively, use the `events` setting to fetch from a feed
+  locale: zhCnLocale,
+  nextDayThreshold: '01:00:00',
+}
+let calenderModel = ref<string>("view");
+const formCalendarOptions = ref<any>({
+  ...commonOptions,
+  initialView: "timeGridDay", // 初始化插件显示
+  select: (item: any) => {
+    console.log("select", item);
+    let date = new Date();
+    outerData.value = {};
+    if (item.allDay) {
+      outerData.value = {
+        startStr: item.startStr,
+        sTime: "00:00",
+        endStr: item.startStr,
+        eTime: "24:00"
+      }
+    } else {
+      let st = (item.start.getHours() < 10 ? "0" + item.start.getHours() : item.start.getHours()) + ":"
+          + (item.start.getMinutes() < 10 ? "0" + item.start.getMinutes() : item.start.getMinutes());
+      let se = (item.end.getHours() < 10 ? "0" + item.end.getHours() : item.end.getHours()) + ":"
+          + (item.end.getMinutes() < 10 ? "0" + item.end.getMinutes() : item.end.getMinutes());
+      outerData.value = {
+        startStr: item.startStr.split("T")[0],
+        sTime: st,
+        endStr: item.endStr.split("T")[0],
+        eTime: se
+      }
+    }
+    // calendarMangeRef.value.updateFormData(outerData.value);
+
+  },
+  eventClick: async (item: any) => {
+    outerData.value = {}
+    // 日程点击事件
+    console.log("eventClick", item);
+  },
+});
+
+const calendarOptions = ref<CalendarOptions>({
+  ...commonOptions,
+  headerToolbar: {
+    // 头部toolba
+    left: 'prevYear,prev,next,nextYear,today,btn',
+    center: 'title',
+    right: 'multiMonthYear,dayGridMonth,timeGridWeek,timeGridDay,editBtn',
+  },
   select: (item: any) => {
     let date = new Date();
     let ss = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
@@ -170,8 +182,6 @@ const calendarOptions = ref<CalendarOptions>({
     //删除
     console.log("eventRemove", item);
   },
-  locale: zhCnLocale,
-  nextDayThreshold: '01:00:00',
   customButtons: {
     btn: {
       text: "看板",
@@ -232,42 +242,6 @@ watch(dateValue,
 );
 let calendarTitle = ref<string>("新建日程");
 let visible = ref<boolean>(false);
-/**
- * // 切换到下一月/周/日
- * fullCalendar.getApi().next()
- * // 切换到上一月/周/日
- * fullCalendar.getApi().prev()
- * // 跳转到今天
- * fullCalendar.getApi().today()
- * // 跳转到指定日期  formatData是日期 格式为 yyyy-MM-dd
- * fullCalendar.getApi().gotoDate(formatData)
- * // 获得当前视图起始位置的日期
- * fullCalendar.getApi().getDate()
- * // 获得当前视图  里面有一些参数
- * fullCalendar.getApi().view
- * // 当前视图的类型
- * fullCalendar.getApi().view.type
- * // 当前显示的事件(日程)的开始时
- * fullCalendar.getApi().view.activeStart
- * // 当前显示的事件(日程)的结束时
- * fullCalendar.getApi().view.activeEnd
- * //访问当前视图所涉及的日历对象或者日历配置信息。
- * fullCalendar.getApi().view.calendar
- * // 获得当前所显示的所有事件(日程)
- * fullCalendar.getApi().view.calendar.getEvents()
- * // 向日历中添加事项
- * fullCalendar.getApi().view.calendar.addEvent({
- *   id: '001',
- *   title: `test01`,
- *   start: '2024-04-25' + ' 13:00:00',
- *   end: '2024-04-25' + ' 17:00:00',
- *   // 修改背景颜色
- *   backgroundColor:'#d8377a',
- *   // 修改边框颜色
- *   borderColor:'#d8377a',
- * })
- *
- */
 const calendarField = reactive<PageFieldInfo | any>({
   fieldList: [{
     label: "日程名称",
@@ -368,6 +342,28 @@ let calendarTypeVisible = ref<boolean>(false);
 let calendarManageVisible = ref<boolean>(false);
 let calendarTypeRef = ref();
 let calendarMangeRef = ref();
+const exportData = (data: any) => {
+  if (data.id) {
+    let event: any = dialogFullCalendar.value.getApi().view.calendar.getEventById(data.id);
+    if (event) {
+      event.remove();
+    }
+  } else {
+    data["id"] = uuid();
+  }
+  let flag = false;
+  if (data.sTime) {
+    flag = true;
+    data["start"] = (data["startStr"] || "") + " " + (data["sTime"] || "");
+  }
+  if (data.eTime) {
+    data["end"] = (data["endStr"] || "") + " " + (data["eTime"] || "");
+  }
+  if (dialogFullCalendar.value && flag) {
+    console.log("xxxx", data);
+    dialogFullCalendar.value.getApi().view.calendar.addEvent(data);
+  }
+}
 const addCalendarType = (evt: MouseEvent) => {
   evt.stopPropagation();
   evt.preventDefault();
@@ -383,8 +379,9 @@ const calendarOperation = async (cmd: string, item: any) => {
     }
   } else {
     calendarManageVisible.value = true;
+    await nextTick();
+    dialogFullCalendar.value.getApi().changeView("timeGridDay");
   }
-
 }
 const calendarTypeSubmit = async () => {
   let valid = await calendarTypeRef.value.$refs.starHorseFormRef.validate();
@@ -429,7 +426,9 @@ onMounted(() => {
                      :self-func="true">
     <div class="dialog-body2">
       <div class="dialog-form">
+
         <star-horse-form :formSize="compSize" :outer-form-data="outerData" :field-list="calendarManage()"
+                         @exportData="exportData"
                          ref="calendarMangeRef"/>
       </div>
       <div class="dialog-calendar">
@@ -437,7 +436,7 @@ onMounted(() => {
                       :eventLimit="true"
                       allDayText="全天"
                       :editable="true"
-                      :options="formCalendarOptions" >
+                      :options="formCalendarOptions">
         </FullCalendar>
       </div>
     </div>
@@ -560,14 +559,16 @@ onMounted(() => {
 <style scoped lang="scss">
 .dialog-body2 {
   display: flex;
-  height: 100%;
+  height: inherit;
   width: 100%;
   overflow: hidden;
 
   .dialog-form {
     height: 100%;
     flex: 1;
+    margin-right: 5px;
   }
+
   .dialog-calendar {
     height: 100%;
     width: 100%;

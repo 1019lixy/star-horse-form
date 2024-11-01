@@ -46,25 +46,26 @@ const props = defineProps({
 let configStore = GlobalConfig(piniaInstance);
 let userOperation = useUserSelfOperation(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
+//刷新事件，数据已加载事件，导出数据更新数据
 const emits = defineEmits(["refresh", "dataLoaded", "exportData"]);
 const starHorseFormRef = ref(null);
 const dataForm = ref<any>({});
-//此方法，如果赋值给变量，变量没有用的情况下，里面得逻辑不会触发，
-//如果不赋值给其它变量，则用.value 使其触发
-const outerDatas = computed(() => {
-  let outerForm = props.outerFormData;
-  dataForm.value = {...dataForm.value, ...outerForm};
-  console.log(dataForm.value, outerForm)
-  return outerForm;
-});
-//触发计算
-outerDatas.value;
-//表单更新触发对外提供数据
-computed(() => {
-  let data = dataForm.value;
-  emits("exportData", data);
-  return data;
-}).value;
+//更新外面传进来的数据
+watch(() => props.outerFormData,
+    (val: any) => {
+      if (val) {
+        dataForm.value = {...dataForm.value, ...val};
+      }
+    }, {immediate: true, deep: true});
+const exportData = () => {
+  emits("exportData", dataForm.value);
+}
+//向外实时导出数据
+watch(() => dataForm.value,
+    () => {
+      exportData();
+    },
+    {immediate: false, deep: true});
 const closeDialog = inject("closeDialog") as Function;
 let dialogOperation = inject("dialogOperation") as ShallowReactive<any>;
 const dialogProps = inject<DialogProps>("dialogProps", {});
@@ -283,10 +284,16 @@ const getFormData = () => {
  * 设置表单数据
  * @param data
  */
-const setFormData = (data: object) => {
+const setFormData = (data: any) => {
   let defaultDatas = formFieldMapping(props.fieldList).defaultDatas;
-  // console.log(defaultDatas);
   dataForm.value = {...defaultDatas, ...data};
+}
+/**
+ * 更新数据
+ * @param data
+ */
+const updateFormData = (data: any) => {
+  dataForm.value = {...dataForm.value, ...data};
 }
 /**
  * 记录当前表单的信息
@@ -322,7 +329,7 @@ watch(() => dialogProps.ids,
     });
 
 defineExpose({
-  merge, mergeDraft, resetForm, setFormData, getFormData, starHorseFormRef, tableListRef
+  merge, mergeDraft, resetForm, setFormData, getFormData, updateFormData, starHorseFormRef, tableListRef
 });
 </script>
 <template>
@@ -335,15 +342,17 @@ defineExpose({
            require-asterisk-position="right"
            label-width="auto"
            class="data-form" ref="starHorseFormRef">
-    <star-horse-form-item :primaryKey="primaryKey"
-                          :compUrl="compUrl"
-                          :fieldList="fieldList"
-                          :rules="rules"
-                          :compSize="formSize||compSize"
-                          v-model:dataForm="dataForm"
-                          :isView="isView"
-                          :batchName="batchName"
-                          :batchFieldName="batchFieldName"/>
+    <el-scrollbar>
+      <star-horse-form-item :primaryKey="primaryKey"
+                            :compUrl="compUrl"
+                            :fieldList="fieldList"
+                            :rules="rules"
+                            :compSize="formSize||compSize"
+                            v-model:dataForm="dataForm"
+                            :isView="isView"
+                            :batchName="batchName"
+                            :batchFieldName="batchFieldName"/>
+    </el-scrollbar>
   </el-form>
 </template>
 <style lang="scss" scoped>

@@ -106,13 +106,13 @@ export default defineConfig((mode, command) => {
                 "/system-config": {
                     target: systemHost,
                     changeOrigin: true,
-                    rewrite: (path) => path.replace(/^\/system-config/, '/system-config-dev'),
+                    rewrite: (path:string) => path.replace(/^\/system-config/, '/system-config-dev'),
                     ws: true
                 },
                 "/code-generator": {
                     target: codeHost,
                     changeOrigin: true,
-                    rewrite: (path) => path.replace(/^\/code-generator/, '/code-generator-dev'),
+                    rewrite: (path:string) => path.replace(/^\/code-generator/, '/code-generator-dev'),
                     ws: true
                 },
                 "/flow-engine": {
@@ -123,20 +123,20 @@ export default defineConfig((mode, command) => {
                 "/devops-continus": {
                     target: continusHost,
                     changeOrigin: true,
-                    rewrite: (path) => path.replace(/^\/devops-continus/, '/devops-continus-dev'),
+                    rewrite: (path:string) => path.replace(/^\/devops-continus/, '/devops-continus-dev'),
                     ws: true
                 },
                 "/dbsearch-manage": {
                     target: dbSearchHost,
                     changeOrigin: true,
-                    rewrite: (path) => path.replace(/^\/dbsearch-manage/, '/dbsearch-manage-dev'),
+                    rewrite: (path:string) => path.replace(/^\/dbsearch-manage/, '/dbsearch-manage-dev'),
                     ws: true
                 },
 
                 "/userdb-manage": {
                     target: userDbHost,
                     changeOrigin: true,
-                    rewrite: (path) => path.replace(/^\/userdb-manage/, '/userdb-manage-dev'),
+                    rewrite: (path:string) => path.replace(/^\/userdb-manage/, '/userdb-manage-dev'),
                     ws: true
                 },
             }
