@@ -8,14 +8,14 @@ import {onMounted, ref} from "vue";
 import StarHorseCalendar from "@/views/system/calendar/StarHorseCalendar.vue";
 
 let matchList = ref<Array<any>>([
-  {
-    id: "001",
-    title: "验证。。。",
-    start: "2024-10-29 00:00:00",
-    end: "2024-10-30 18:59:59",
-    backgroundColor: "#d8377a",
-    borderColor: "#d8377a",
-  }
+  // {
+  //   id: "001",
+  //   title: "验证。。。",
+  //   start: "2024-10-29 00:00:00",
+  //   end: "2024-10-30 18:59:59",
+  //   backgroundColor: "#d8377a",
+  //   borderColor: "#d8377a",
+  // }
 ]);
 onMounted(() => {
 

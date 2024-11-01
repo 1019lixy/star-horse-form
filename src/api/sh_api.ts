@@ -318,15 +318,41 @@ export function createDate(val: any) {
         return "--";
     }
     const date = new Date(val);
-    return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+    return dateParse(val, false)
 }
 
 export function currentDate(split: string = "-") {
     const date = new Date();
+    return dateParse(date, false, split);
+}
+
+/**
+ * 将日期解析为字符串
+ * @param date
+ * @param needTime
+ * @param split
+ * @param needSecond
+ */
+export function dateParse(date: Date, needTime: boolean = true, split: string = "-", needSecond: boolean = false) {
+    if (!date) {
+        return "";
+    }
     const m = (date.getMonth() + 1);
     const m1 = m < 10 ? "0" + m : m;
     const day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
-    return date.getFullYear() + split + m1 + split + day;
+    const hour = date.getHours() < 10 ? '0' + date.getHours() : date.getHours();
+    const minute = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
+    const second = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds();
+    let restr = date.getFullYear() + split + m1 + split + day;
+    let tm = hour + ":" + minute;
+    if (needTime) {
+        restr += " " + tm;
+    }
+    if (needSecond) {
+        restr += ":" + second;
+    }
+    return restr;
+
 }
 
 /**
@@ -338,12 +364,7 @@ export function createDatetime(val: any) {
         return "--";
     }
     const date = new Date(val);
-    const m = (date.getMonth() + 1);
-    const m1 = m < 10 ? "0" + m : m;
-    const day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
-    const hour = date.getHours() < 10 ? '0' + date.getHours() : date.getHours();
-    const minute = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
-    return date.getFullYear() + "-" + m1 + "-" + day + " " + hour + ":" + minute;
+    return dateParse(date);
 }
 
 /**

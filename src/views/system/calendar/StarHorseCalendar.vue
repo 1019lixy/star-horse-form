@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {nextTick, onBeforeUnmount, onMounted,  ref, watch} from "vue";
+import {nextTick, onBeforeUnmount, onMounted, ref, watch} from "vue";
 import {ArrowLeftBold, ArrowRightBold, Search} from "@element-plus/icons-vue";
 import FullCalendar from "@fullcalendar/vue3";
 import dayGridPlugin from '@fullcalendar/daygrid'
@@ -15,8 +15,9 @@ import StarHorseForm from "@/components/comp/StarHorseForm.vue";
 import {uuid} from "@/api/system.ts";
 import {getUserInfo} from "@/utils/auth.ts";
 import {calendarManage, defineType} from "@/views/system/calendar/CalendarProps.ts";
-import {createCondition, currentDate, deleteByIds, loadData} from "@/api/sh_api.ts";
+import {createCondition, currentDate, dateParse, deleteByIds, loadData} from "@/api/sh_api.ts";
 import {success, warning} from "@/utils/message.ts";
+import {SearchParams} from "@/components/types/Params";
 
 const props = defineProps({
   eventList: {type: Array, default: []},
@@ -107,7 +108,8 @@ const formCalendarOptions = ref<any>({
     console.log("eventClick", item);
   },
 });
-
+let currentDate = ref<Date>(null);
+let initFlag = ref<boolean>(true);
 const calendarOptions = ref<CalendarOptions>({
   ...commonOptions,
   headerToolbar: {
@@ -152,8 +154,17 @@ const calendarOptions = ref<CalendarOptions>({
     // 用户将鼠标悬停在事件上时触发
     console.log("eventMouseEnter", item);
   },
+  eventSources: (item) => {
+    currentDate = item.start;
+    loadAllCalendar();
+    console.log("eventSources", item);
+  },
   eventsSet: (item: any) => {
-    console.log("eventsSet", item);
+    // let dateProfile = item[0]?._context?.dateProfile;
+    // if (dateProfile) {
+    //
+    // }
+    // console.log("eventsSet", item[0], item[0]?._context, dateProfile);
   },
   dateClick: (item: any) => {
     let date = new Date();
@@ -165,7 +176,7 @@ const calendarOptions = ref<CalendarOptions>({
     if (calenderModel.value != "edit") {
       return;
     }
-    visible.value = true;
+    calendarManageVisible.value = true;
     //日期方格点击事件
     console.log("dateClick", item, outerData);
   },
@@ -250,7 +261,6 @@ const addCalendar = (type: string, evt: MouseEvent) => {
   calendarOperation(type, {});
 }
 const close = () => {
-
   calendarTypeVisible.value = false;
   calendarManageVisible.value = false;
 }
@@ -382,8 +392,22 @@ const initData = async () => {
   loadAllCalendar(resultData.data.map(item => item.idCalendarDefine));
 }
 const loadAllCalendar = async (ids: any) => {
+  let params: SearchParams[] = [];
+  if (!ids) {
+    ids = myCalendarList.value.map(item => item.idCalendarDefine);
+  }
+  if (!ids || ids.length == 0) {
+    return;
+  }
+  params.push(createCondition("idCalendarDefine", ids, Array.isArray(ids) ? "in" : "eq"));
+  let temp: Date = currentDate.value;
+  if (!temp) {
+    temp = new Date();
+  }
+  let ymd = dateParse(temp, false);
+  params.push(createCondition("createdTime", [ymd + " 00:00:00", ymd + " 23:59:59"], "bt"));
   let resultData = await loadData("system-config/system/calendarManage/getAllByCondition", {
-    fieldList: [createCondition("idCalendarDefine", ids, Array.isArray(ids) ? "in" : "eq")],
+    fieldList: params,
     orderBy: [{
       fieldName: "createdTime",
       ascOrDesc: "asc"
@@ -393,15 +417,23 @@ const loadAllCalendar = async (ids: any) => {
     warning(resultData.error);
     return;
   }
-  fullCalendar.value.getApi().removeAllEvents();
+  await nextTick();
+  // fullCalendar.value.getApi().removeAllEvents();
   let datas = resultData.data;
-  for (let i in datas) {
-    let data = datas[i];
-    data["id"] = data["idCalendarManage"];
-    data["start"] = data["startStr"] + (data.stime ? " " + data.stime : " 00:00");
-    data["end"] = data["endStr"] + (data.etime ? " " + data.etime : " 23:59");
-    fullCalendar.value.getApi().view.calendar.addEvent(data);
-  }
+  // for (let i in datas) {
+  //   let data = datas[i];
+  //   data["id"] = data["idCalendarManage"];
+  //   data["start"] = data["startStr"] + (data.stime ? " " + data.stime : " 00:00");
+  //   data["end"] = data["endStr"] + (data.etime ? " " + data.etime : " 23:59");
+  //   console.log(data);
+  //   fullCalendar.value.getApi().view.calendar.addEvent(data);
+  // }
+  fullCalendar.value.getApi().view.calendar.addEvent({
+    id:"a333294109324215292",
+    end:"2024-11-01 23:59",
+    start:"2024-11-01 00:00",
+    title:"hello"
+  })
 }
 onMounted(() => {
   initData();
@@ -494,7 +526,7 @@ onMounted(() => {
           </template>
           <template v-for="item in myCalendarList">
             <div class="my-calendar">
-              <div class="title">
+              <div class="title" @click="loadAllCalendar(item.idCalendarDefine)">
                 <star-horse-icon :icon-class="item.category||'user-cycle'"/>
                 {{ item.calendarName }}
               </div>
@@ -568,6 +600,7 @@ onMounted(() => {
 
   .title {
     display: flex;
+    cursor: pointer;
     align-items: center;
     vertical-align: middle;
   }
