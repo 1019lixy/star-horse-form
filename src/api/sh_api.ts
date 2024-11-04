@@ -308,64 +308,7 @@ export function commonParseCodeToName(name: string, cellValue: any) {
     }
 }
 
-/**
- * 创建日期
- * @param val
- * @returns {string}
- */
-export function createDate(val: any) {
-    if (!val) {
-        return "--";
-    }
-    const date = new Date(val);
-    return dateParse(val, false)
-}
 
-export function currentDate(split: string = "-") {
-    const date = new Date();
-    return dateParse(date, false, split);
-}
-
-/**
- * 将日期解析为字符串
- * @param date
- * @param needTime
- * @param split
- * @param needSecond
- */
-export function dateParse(date: Date, needTime: boolean = true, split: string = "-", needSecond: boolean = false) {
-    if (!date) {
-        return "";
-    }
-    const m = (date.getMonth() + 1);
-    const m1 = m < 10 ? "0" + m : m;
-    const day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
-    const hour = date.getHours() < 10 ? '0' + date.getHours() : date.getHours();
-    const minute = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
-    const second = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds();
-    let restr = date.getFullYear() + split + m1 + split + day;
-    let tm = hour + ":" + minute;
-    if (needTime) {
-        restr += " " + tm;
-    }
-    if (needSecond) {
-        restr += ":" + second;
-    }
-    return restr;
-
-}
-
-/**
- * 创建年月日时分秒
- * @param val
- */
-export function createDatetime(val: any) {
-    if (!val || val == "undefined" || val == "-") {
-        return "--";
-    }
-    const date = new Date(val);
-    return dateParse(date);
-}
 
 /**
  * 加载Id数据

@@ -1,7 +1,7 @@
 <script setup lang="ts" name="ResourcesSummary">
 import {
   apiInstance,
-  createCondition, createDatetime,
+  createCondition,
   createTree,
   dialogPreps,
   dictData,
@@ -9,6 +9,7 @@ import {
   loadMenusInfo,
   loadRolesInfo, loadSystemInfo
 } from "@/api/sh_api.ts";
+import {createDatetime} from "@/api/date_utils.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings.ts";
 import {computed, onMounted, provide, reactive, ref} from "vue";
