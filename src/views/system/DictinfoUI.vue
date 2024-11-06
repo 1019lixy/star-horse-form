@@ -139,8 +139,6 @@ onMounted(async () => {
   await initData();
 });
 </script>
-<style lang="scss" scoped>
-</style>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
     <star-horse-form @refresh="tabListRef.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList" :rules="rules"/>
@@ -169,3 +167,5 @@ onMounted(async () => {
                            :compUrl="dataUrl" :dataFormat="dataFormat"/>
   </el-card>
 </template>
+<style lang="scss" scoped>
+</style>
