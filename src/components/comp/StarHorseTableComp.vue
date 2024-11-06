@@ -358,7 +358,7 @@ const handleSelectionChange = (val: any) => {
 
     }
   } else {
-    console.log(val);
+    // console.log(val);
     multipleSelection.value = val;
   }
 };
@@ -366,7 +366,7 @@ const getRowIdentity = (row: any) => {
   return analysisPrimaryKeys(props.primaryKey, row) || "";
 };
 
-const tbCommonFun = (name: string, param: any) => {
+const tbCommonFun = (name: string | undefined, param: any) => {
   let id = analysisPrimaryKeys(props.primaryKey, param);
   if (name == "view") {
     viewById(id);
@@ -374,6 +374,8 @@ const tbCommonFun = (name: string, param: any) => {
     editById(id);
   } else if (name == "delete" || name == "batchDelete") {
     deleteById(id);
+  } else {
+    console.log("未定义的功能", name);
   }
 };
 /**
@@ -469,7 +471,7 @@ const createParams = () => {
   if (searchFields.length > 0) {
     searchTemp.push(...searchFields);
   }
-  console.log(searchTemp);
+  // console.log(searchTemp);
   let condition: any = removeEmptyCondition(props.compUrl?.condition!);
   if (condition && condition.length > 0) {
     searchTemp.push(...condition);
@@ -592,11 +594,21 @@ const extandBtnFunction = (): Array<UserFuncInfo> => {
   let arr: Array<UserFuncInfo> = [];
   //单独定义的按钮
   if (props.extandBtns && props.extandBtns.length > 0) {
-    arr.push(...props.extandBtns);
+    props.extandBtns.forEach(item => {
+      if (!item.funcName) {
+        item.funcName = (row: any) => tbCommonFun(item.authority, row);
+      }
+      arr.push(item);
+    });
   }
   //在定义字段时定义的按钮
   if (props.fieldList["userTableFuncs"]) {
-    arr.push(...props.fieldList["userTableFuncs"]);
+    props.fieldList["userTableFuncs"].forEach(item => {
+      if (!item.funcName) {
+        item.funcName = (row: any) => tbCommonFun(item.authority, row);
+      }
+      arr.push(item);
+    });
   }
   if (!props.disableAction) {
     let edit = arr.filter(item => item.authority == "edit")?.length;
@@ -884,7 +896,7 @@ defineExpose({
                       :dataFormat="dataFormat"
                       :showBatchField="showBatchField"/>
         <el-table-column
-            v-if="!disableAction&&Object.keys(permissions||{}).length>0"
+            v-if="(!disableAction||(disableAction&&extandBtns?.length>0))&&Object.keys(permissions||{}).length>0"
             fixed="right"
             label="操作"
             :width="buttonList.length > 3?160:110"

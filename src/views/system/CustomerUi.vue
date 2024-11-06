@@ -12,14 +12,14 @@ const dataUrl: ApiUrls = apiInstance("system-config", "system/customer");
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: "主体名称",
+      label: "客户名称",
       defaultShow: true,
       fieldName: "customerName",
       type: "input",
       matchType: "lk"
     },
     {
-      label: "主体编码",
+      label: "客户编码",
       fieldName: "customerCode",
       type: "input",
       defaultShow: true,
@@ -38,7 +38,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       required: true,
     },
     {
-      label: "主体名称",
+      label: "客户名称",
       fieldName: "customerName",
       type: "input",
       required: true,
@@ -46,7 +46,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       tableShow: true,
     },
     {
-      label: "主体编码",
+      label: "客户编码",
       fieldName: "customerCode",
       type: "input",
       disabled: "Y",
@@ -61,7 +61,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       optionList: systemIconList,
     },
     {
-      label: "主体描述",
+      label: "描述",
       fieldName: "customerDesc",
       type: "textarea",
       formShow: true,

@@ -13,7 +13,7 @@ import {uuid} from "@/api/system.ts";
 import {getUserInfo} from "@/utils/auth.ts";
 import {calendarManage, defineType} from "@/views/system/calendar/CalendarProps.ts";
 import {createCondition, deleteByIds, loadData} from "@/api/sh_api.ts";
-import {currentMonthRange, monthRange} from "@/api/date_utils.ts";
+import {currentMonthRange, monthRange,currentDate} from "@/api/date_utils.ts";
 import {success, warning} from "@/utils/message.ts";
 import {SearchParams} from "@/components/types/Params";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
@@ -104,7 +104,7 @@ const formCalendarOptions = ref<any>({
     console.log("eventClick", item);
   },
 });
-let currentDate = ref<Date>(null);
+let currentDateParam = ref<Date>(null);
 let initFlag = ref<boolean>(true);
 const calendarOptions = ref<CalendarOptions>({
   ...commonOptions,
@@ -262,6 +262,7 @@ const calendarManageSubmit = async () => {
     return;
   }
   success("操作成功");
+  loadAllCalendar();
   close();
 }
 const submit = async (action: string) => {
@@ -389,8 +390,8 @@ const loadAllCalendar = async (ids: any) => {
   }
   params.push(createCondition("idCalendarDefine", ids, Array.isArray(ids) ? "in" : "eq"));
   let ymd = currentMonthRange();
-  if (currentDate.value) {
-    ymd = monthRange(currentDate.value)
+  if (currentDateParam.value) {
+    ymd = monthRange(currentDateParam.value)
   }
   params.push(createCondition("createdTime", [ymd.starDateStr + " 00:00:00", ymd.lastDateStr + " 23:59:59"], "bt"));
   let resultData = await loadData("system-config/system/calendarManage/getAllByCondition", {
@@ -437,7 +438,7 @@ const changeDateRange = (type: string) => {
   }
   let view = api.view;
   console.log(view);
-  currentDate.value = view.currentStart;
+  currentDateParam.value = view.currentStart;
   loadAllCalendar();
 }
 const changeModel = (type: string) => {
@@ -466,7 +467,6 @@ onMounted(async () => {
                      :self-func="true">
     <div class="dialog-body2">
       <div class="dialog-form">
-
         <star-horse-form :formSize="compSize" :outer-form-data="outerData" :field-list="calendarManage(myCalendarList)"
                          @exportData="exportData"
                          ref="calendarMangeRef"/>
@@ -567,13 +567,10 @@ onMounted(async () => {
 
             </div>
           </template>
-
         </el-collapse-item>
-
       </el-collapse>
     </div>
     <div class="calendar-right">
-
       <div class="calendar-tool-bar">
         <div class="tool-bar-left">
           <star-horse-icon title="上一年" @click="changeDateRange('preYear')" cursor="pointer"
@@ -606,8 +603,6 @@ onMounted(async () => {
             <star-horse-icon cursor="pointer" icon-class="edit"/>
             {{ editTitle }}
           </el-button>
-
-
         </div>
 
       </div>

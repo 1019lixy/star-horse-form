@@ -4,7 +4,7 @@ import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings.ts";
 import {computed, onMounted, provide, reactive, ref, watch} from "vue";
 import {SearchFields, SelectOption} from "@/components/types/SearchProps";
-import {PageFieldInfo} from "@/components/types/PageFieldInfo";
+import {PageFieldInfo, UserFuncInfo} from "@/components/types/PageFieldInfo";
 import {loadDict} from "@/api/star_horse";
 import {createCondition} from "@/api/sh_api";
 
@@ -22,6 +22,36 @@ const searchFormData = reactive<SearchFields>({
     {label: "字典名称", defaultShow: true, fieldName: "dictName", type: "input", matchType: "lk"}
   ]
 });
+const editFormField = reactive<PageFieldInfo>({
+  fieldList: [{
+    label: "字典名称", fieldName: "dictName", type: "input",
+    required: true, formShow: true,
+    tableShow: true
+  },
+    {
+      label: "字典编码", fieldName: "dictCode", type: "input",
+      required: true, formShow: true,
+      tableShow: true
+    },
+    {
+      label: "状态", fieldName: "statusName", type: "input",
+      required: true,
+      tableShow: true
+    },
+    {
+      label: "状态", fieldName: "statusCode", type: "select", optionList: commonDictList,
+      required: true,
+      formShow: true,
+      defaultValue: "1",
+      tableShow: false
+    },
+    {
+      label: "字典描述", fieldName: "dictDesc", type: "textarea",
+      formShow: true,
+      tableShow: true
+    },
+  ]
+});
 const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
@@ -37,34 +67,9 @@ const tableFieldList = reactive<PageFieldInfo>({
         title: "字典信息",
         batchName: "dictList",
         sameParentTable: true,
-        fieldList: [{
-          label: "字典名称", fieldName: "dictName", type: "input",
-          required: true, formShow: true,
-          tableShow: true
-        },
-          {
-            label: "字典编码", fieldName: "dictCode", type: "input",
-            required: true, formShow: true,
-            tableShow: true
-          },
-          {
-            label: "状态", fieldName: "statusName", type: "input",
-            required: true,
-            tableShow: true
-          },
-          {
-            label: "字典描述", fieldName: "dictDesc", type: "input",
-            formShow: true,
-            tableShow: true
-          },
-          {
-            label: "状态", fieldName: "statusCode", type: "select", optionList: commonDictList,
-            required: true,
-            tableShow: false
-          },]
+        fieldList: editFormField.fieldList
       }]
     },
-
     {
       label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
     },
@@ -109,12 +114,25 @@ watch(
 );
 const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
-
-const dataFormat = (_name: string, cellValue: object): any => {
+const extendBtns = ref<UserFuncInfo[]>([
+  {
+    btnName: "编辑",
+    authority: "edit",
+    icon: "edit",
+    priority: 1,
+    funcName: (data: any) => {
+      dialogProps.ids = data[primaryKey];
+      dialogProps.bakeVisible1 = true;
+    }
+  }
+]);
+const dataFormat = (name: string, cellValue: any): any => {
+  if (name == "statusCode"||name == "statusName") {
+    return cellValue === "1" ? "启用" : cellValue == "0" ? "禁用" : cellValue;
+  }
   return cellValue;
 }
 const initData = async () => {
-
   commonDictList.value = await loadDict("");
 };
 onMounted(async () => {
@@ -127,9 +145,12 @@ onMounted(async () => {
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
     <star-horse-form @refresh="tabListRef.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList" :rules="rules"/>
   </star-horse-dialog>
+  <star-horse-dialog :dialogVisible="dialogProps.bakeVisible1" :dialogProps="dialogProps">
+    <star-horse-form @refresh="tabListRef.loadByPage()" :compUrl="dataUrl" :fieldList="editFormField" :rules="rules"/>
+  </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title=
       "'查看数据'" :is-view="true">
-    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+    <star-horse-data-view :dataFormat="dataFormat" :field-list="editFormField" :compUrl="dataUrl"/>
   </star-horse-dialog>
   <el-card class="inner_content">
     <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
@@ -144,6 +165,7 @@ onMounted(async () => {
     <hr>
     <star-horse-table-comp ref="tabListRef" :fieldList="tableFieldList"
                            :primaryKey="primaryKey"
+                           :extand-btns="extendBtns"
                            :compUrl="dataUrl" :dataFormat="dataFormat"/>
   </el-card>
 </template>

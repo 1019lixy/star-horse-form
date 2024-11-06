@@ -53,7 +53,7 @@ export  function calendarManage(calendarList: Array<any>) {
                 label: "日程名称",
                 fieldName: "title",
                 type: "input",
-                required: false,
+                required: true,
                 formShow: !false,
                 tableShow: !false,
             },
@@ -196,7 +196,7 @@ export  function calendarManage(calendarList: Array<any>) {
                 fieldName: "subscribeFlag",
                 type: "switch",
                 required: false,
-                formShow: !false,
+                formShow: false,
                 tableShow: !false,
             },
             {
