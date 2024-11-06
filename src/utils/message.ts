@@ -14,7 +14,7 @@ export const confirm = (msg: string): Promise<boolean> => {
     });
 }
 export const message = (msg: string) => {
-    ElMessage(msg)
+    ElMessage(msg);
 }
 export const success = (msg: string) => {
     ElMessage({

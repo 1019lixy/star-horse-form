@@ -6,6 +6,7 @@ import {createDatetime} from "../../../api/date_utils.ts";
 import {OrderByInfo, PageFieldInfo} from "@/components/types/PageFieldInfo";
 import websocket from "@/api/websocket.ts";
 import {getUserInfo} from "@/utils/auth.ts";
+import {message, warning} from "@/utils/message.ts";
 
 let currentTab = ref<string>("message");
 let messageList = ref<any[]>([]);
@@ -53,7 +54,8 @@ const webSocketOperation = () => {
       }
       auditList.value.splice(0, 0, reData);
     }
-    console.log(messageList.value,auditList.value);
+    // console.log(messageList.value,auditList.value);
+    message("你有新消息");
     reCount();
   });
 }
