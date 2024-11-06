@@ -6,7 +6,7 @@ import {confirm, error, success, warning} from "@/utils/message";
 import {SelectOption} from "@/components/types/SearchProps";
 import * as ElementPlusIconsVue from '@element-plus/icons-vue';
 import {MenusInfo} from "@/components/types/MenusInfo";
-import {BatchFieldInfo, FieldInfo, PageFieldInfo, TabFieldInfo} from "@/components/types/PageFieldInfo";
+import {BatchFieldInfo, FieldInfo, OrderByInfo, PageFieldInfo, TabFieldInfo} from "@/components/types/PageFieldInfo";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {Reactive} from "vue-demi";
 import {DialogProps} from "@/components/types/DialogProps";
@@ -35,14 +35,16 @@ const customerUrl: string = "/system-config/system/customer/getAllByCondition";
  * 加载Post 数据
  * @param url 接口地址
  * @param params 参数
+ * @param orderBy 排序
  */
-export async function loadData(url: string, params: SearchParams[] | any) {
+export async function loadData(url: string, params: SearchParams[] | any, orderBy: OrderByInfo[] = []) {
     let data: any = null;
     let error = "";
     let cond = params;
     if (params instanceof Array) {
         cond = {
-            fieldList: params
+            fieldList: params,
+            orderBy: orderBy
         }
     }
     await postRequest(url, cond).then((res: any) => {
@@ -308,7 +310,6 @@ export function commonParseCodeToName(name: string, cellValue: any) {
         return cellValue;
     }
 }
-
 
 
 /**

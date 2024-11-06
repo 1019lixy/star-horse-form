@@ -231,6 +231,8 @@ declare module 'vue' {
     MenuinfoPermission: typeof import('./src/views/system/permission/MenuinfoPermission.vue')['default']
     MenuShot: typeof import('./src/views/workflow/plugin/FlowDesign/FlowSetting/MenuShot.vue')['default']
     MenusinfoUi: typeof import('./src/views/system/MenusinfoUi.vue')['default']
+    MessageItem: typeof import('./src/components/comp/items/messageItem.vue')['default']
+    MessageRecordUi: typeof import('./src/views/system/MessageRecordUi.vue')['default']
     NodeProperties: typeof import('./src/views/continus/NodeProperties.vue')['default']
     NodePropertyPanel: typeof import('./src/views/jbpm/panel/NodePropertyPanel.vue')['default']
     NodeWrap: typeof import('./src/views/workflow/dingDingStyle/nodeWrap.vue')['default']

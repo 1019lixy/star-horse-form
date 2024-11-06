@@ -21,6 +21,7 @@ import {userInfoStore} from "@/store/UserInfoStore.ts";
 import {toggleDark} from "@/api/system.ts";
 import {Moon, Sunny} from "@element-plus/icons-vue";
 import {useRouter} from "vue-router";
+import MessageItem from "@/components/comp/items/messageItem.vue";
 
 const userStore = userInfoStore(piniaInstance);
 const shortcutMenuList = ref<Array<any>>([]);
@@ -28,7 +29,6 @@ let systemName = Config.title;
 let userInfo = getUserInfo();
 let permissionMenuList = ref<Array<any>>([]);
 const shortcutMultipleTable = ref<InstanceType<typeof ElTable>>();
-let currentTab = ref<string>("message");
 let editUserinfoRef = ref();
 const dataUrl: ApiUrls = apiInstance("system-config", "system/dictinfoEntity", [getCustomerParam()]);
 let configStore = GlobalConfig(piniaInstance);
@@ -219,30 +219,7 @@ let configInfo = computed(() => configStore.configFormInfo);
                    :inactive-action-icon="Moon"
                    style="width: 50%"
         />
-        <el-popover :popper-style="{width: 'unset !important'}" placement="bottom-end" :width="600" trigger="hover"
-                    :show-arrow="false">
-          <template #reference>
-            <el-badge :value="6">
-              <star-horse-icon icon-class="messages" color="var(--star-horse-white)"/>
-            </el-badge>
-          </template>
-          <el-tabs v-model="currentTab">
-            <el-tab-pane label="消息" name="message">
-              <template #label>
-                <el-badge :value="4">
-                  消息
-                </el-badge>
-              </template>
-            </el-tab-pane>
-            <el-tab-pane label="待办" name="dealt">
-              <template #label>
-                <el-badge :value="2">
-                  待办
-                </el-badge>
-              </template>
-            </el-tab-pane>
-          </el-tabs>
-        </el-popover>
+        <message-item/>
       </div>
       <div class="user-info">
         <el-dropdown class="lang" @command="handleLanguageChanged" :show-arrow="false">

@@ -11,6 +11,7 @@ const props = defineProps({
   subCreateFlag: {type: Boolean, default: false},
   fieldList: {type: Object, required: true},
   globalCondition: {type: Object},
+  outerData: {type: Object},
   primaryKey: {type: String, default: "id"},
   batchFieldName: {type: String, default: "batchFieldList"},
   dataFormat: {type: Function, default: null}
@@ -49,8 +50,6 @@ const loadData = async () => {
   } else {
     objData = await loadById(props.compUrl?.loadByIdUrl!, id, true, params);
   }
-
-
   let data = formFieldMapping(props.fieldList);
   dataForm.value = objData;
   let mapping = data.mappingFields;
@@ -64,8 +63,19 @@ const loadData = async () => {
     emits("dataLoaded", objData, true);
   });
 };
-
-
+const setData = (data: any) => {
+  dataForm.value = data;
+}
+//更新外面传进来的数据
+watch(() => props.outerData,
+    (val: any) => {
+      if (val) {
+        dataForm.value = {...dataForm.value, ...val};
+      }
+    }, {immediate: true, deep: true});
+defineExpose({
+  setData
+});
 </script>
 <template>
   <div class="star-horse-data-view">

@@ -13,7 +13,7 @@ import {uuid} from "@/api/system.ts";
 import {getUserInfo} from "@/utils/auth.ts";
 import {calendarManage, defineType} from "@/views/system/calendar/CalendarProps.ts";
 import {createCondition, deleteByIds, loadData} from "@/api/sh_api.ts";
-import {currentMonthRange, monthRange,currentDate} from "@/api/date_utils.ts";
+import {currentMonthRange, monthRange, currentDate} from "@/api/date_utils.ts";
 import {success, warning} from "@/utils/message.ts";
 import {SearchParams} from "@/components/types/Params";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
@@ -408,13 +408,11 @@ const loadAllCalendar = async (ids: any) => {
   await nextTick();
   fullCalendar.value.getApi().removeAllEvents();
   let datas = resultData.data;
-  console.log(datas);
   for (let i in datas) {
     let data = datas[i];
     data["id"] = data["idCalendarManage"];
-    data["start"] = data["startStr"] + (data.stime ? " " + data.stime : " 00:00");
-    data["end"] = data["endStr"] + (data.etime ? " " + data.etime : " 23:59");
-    console.log(data);
+    data["start"] = data["startStr"] + (data.sTime ? " " + data.sTime : " 00:00");
+    data["end"] = data["endStr"] + (data.eTime ? " " + data.eTime : " 23:59");
     fullCalendar.value.getApi().view.calendar.addEvent(data);
   }
 }
@@ -575,10 +573,12 @@ onMounted(async () => {
         <div class="tool-bar-left">
           <star-horse-icon title="上一年" @click="changeDateRange('preYear')" cursor="pointer"
                            icon-class="arrow-double-left" size="14px"/>
-          <star-horse-icon title="上一月" @click="changeDateRange('pre')" cursor="pointer" icon-class="arrow-left"  size="14px"/>
-          <star-horse-icon title="下一月" @click="changeDateRange('next')" cursor="pointer" icon-class="arrow-right"  size="14px"/>
+          <star-horse-icon title="上一月" @click="changeDateRange('pre')" cursor="pointer" icon-class="arrow-left"
+                           size="14px"/>
+          <star-horse-icon title="下一月" @click="changeDateRange('next')" cursor="pointer" icon-class="arrow-right"
+                           size="14px"/>
           <star-horse-icon title="下一年" @click="changeDateRange('nextYear')" cursor="pointer"
-                           icon-class="arrow-double-right"  size="14px"/>
+                           icon-class="arrow-double-right" size="14px"/>
           <star-horse-icon title="当前日期" @click="changeDateRange('today')" cursor="pointer" icon-class="today"/>
         </div>
         <div class="tool-bar-center">{{ calendarTitle }}</div>

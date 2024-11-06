@@ -33,6 +33,7 @@ const tableFieldList = reactive<PageFieldInfo>({
     {
       label: "备注", fieldName: "remark", type: "textarea",
       formShow: true,
+      tableShow: true
     },
   ],
   //在表格右侧添加自定义功能

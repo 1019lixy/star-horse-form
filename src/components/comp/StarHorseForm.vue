@@ -356,5 +356,7 @@ defineExpose({
   </el-form>
 </template>
 <style lang="scss" scoped>
-
+/*:deep(.el-form-item__content) {
+  flex-direction: column;
+}*/
 </style>
