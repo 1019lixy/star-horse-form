@@ -43,14 +43,15 @@ export function defineType(type: string) {
  * 日程表单参数
  */
 let remindTime = await dictData("remind_time");
-let repeatRemindType = await dictData("remind_type");
-export  function calendarManage(calendarList: Array<any>) {
+let repeatRemindType = await dictData("repeat_policy");
+
+export function calendarManage(calendarList: Array<any>) {
 
     return reactive<PageFieldInfo | any>({
         //属性列表
         fieldList: [
             {
-                label: "日程名称",
+                label: "日程/会议名称",
                 fieldName: "title",
                 type: "input",
                 required: true,
@@ -59,7 +60,8 @@ export  function calendarManage(calendarList: Array<any>) {
             },
             {
                 label: "参与人",
-                fieldName: "invitePersons",
+                fieldName: "invitePersonsName",
+                aliasName: "invitePersons",
                 type: "user",
                 required: false,
                 formShow: !false,
@@ -143,9 +145,9 @@ export  function calendarManage(calendarList: Array<any>) {
                 required: false,
                 formShow: !false,
                 tableShow: !false,
-                preps:{
-                    leftToolbar:"clear | bold ul ol",
-                    rightToolbar:"preview fullscreen"
+                preps: {
+                    leftToolbar: "clear | bold ul ol",
+                    rightToolbar: "preview fullscreen"
                 }
             },
             {
@@ -168,6 +170,7 @@ export  function calendarManage(calendarList: Array<any>) {
                 fieldName: "remindTime",
                 type: "select",
                 required: false,
+                defaultValue: "2",
                 optionList: remindTime,
                 formShow: !false,
                 tableShow: !false,
@@ -176,6 +179,7 @@ export  function calendarManage(calendarList: Array<any>) {
                 label: "重复",
                 fieldName: "repeatRemind",
                 type: "select",
+                defaultValue: "A",
                 optionList: repeatRemindType,
                 required: false,
                 formShow: !false,
@@ -183,9 +187,9 @@ export  function calendarManage(calendarList: Array<any>) {
             },
             {
                 label: "设置",
-                fieldName: "messageFlag",
+                fieldName: "messageFlagList",
                 type: "checkbox",
-                defaultValue: "1",
+                defaultValue: ["1"],
                 optionList: [{name: "允许成员主动加入", value: "1"}, {name: "同时邮件通知参与人", value: "2"}],
                 required: false,
                 formShow: !false,

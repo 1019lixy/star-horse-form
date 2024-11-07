@@ -333,16 +333,17 @@ defineExpose({
 });
 </script>
 <template>
-  <el-form :model="dataForm" :size="formSize||compSize" :rules="rules"
-           :scroll-to-error="true"
-           :scroll-into-view-options="true"
-           :inline-message="true"
-           :status-icon="true"
-           :label-position="labelPosition"
-           require-asterisk-position="right"
-           label-width="auto"
-           class="data-form" ref="starHorseFormRef">
-    <el-scrollbar>
+  <el-scrollbar>
+    <el-form :model="dataForm" :size="formSize||compSize" :rules="rules"
+             :scroll-to-error="true"
+             :scroll-into-view-options="true"
+             :inline-message="true"
+             :status-icon="true"
+             :label-position="labelPosition"
+             require-asterisk-position="right"
+             label-width="auto"
+             class="data-form" ref="starHorseFormRef">
+
       <star-horse-form-item :primaryKey="primaryKey"
                             :compUrl="compUrl"
                             :fieldList="fieldList"
@@ -352,8 +353,9 @@ defineExpose({
                             :isView="isView"
                             :batchName="batchName"
                             :batchFieldName="batchFieldName"/>
-    </el-scrollbar>
-  </el-form>
+
+    </el-form>
+  </el-scrollbar>
 </template>
 <style lang="scss" scoped>
 /*:deep(.el-form-item__content) {

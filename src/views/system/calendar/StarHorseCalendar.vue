@@ -380,7 +380,7 @@ const initData = async () => {
   await loadAllCalendar(resultData.data.map(item => item.idCalendarDefine));
   isInit.value = false;
 }
-const loadAllCalendar = async (ids: any) => {
+const loadAllCalendar = async (ids: any, searchParam: SearchParams[] = []) => {
   let params: SearchParams[] = [];
   if (!ids) {
     ids = myCalendarList.value.map(item => item.idCalendarDefine);
@@ -389,6 +389,9 @@ const loadAllCalendar = async (ids: any) => {
     return;
   }
   params.push(createCondition("idCalendarDefine", ids, Array.isArray(ids) ? "in" : "eq"));
+  if (searchParam?.length > 0) {
+    params = params.concat(searchParam);
+  }
   let ymd = currentMonthRange();
   if (currentDateParam.value) {
     ymd = monthRange(currentDateParam.value)
@@ -415,6 +418,13 @@ const loadAllCalendar = async (ids: any) => {
     data["end"] = data["endStr"] + (data.eTime ? " " + data.eTime : " 23:59");
     fullCalendar.value.getApi().view.calendar.addEvent(data);
   }
+}
+const searchCalendar = () => {
+  let params: SearchParams[] = [];
+  if (searchText.value) {
+    params.push(createCondition("title", searchText.value, "lk"));
+  }
+  loadAllCalendar(null, params);
 }
 const changeDateRange = (type: string) => {
   let api = fullCalendar.value.getApi();
@@ -502,7 +512,7 @@ onMounted(async () => {
         </el-button>
       </div>
       <div class="create-calender">
-        <el-input v-model="searchText" :size="compSize" placeholder="请输入日程">
+        <el-input v-model="searchText" :size="compSize" @keydown.enter="searchCalendar" placeholder="请输入日程">
           <template #prefix>
             <el-icon>
               <Search/>

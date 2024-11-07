@@ -30,7 +30,11 @@ export const message = (msg: string, type: string = "info", duration: number = 2
         duration: duration,
         title: title,
         position: position,
+        closable: true,
+        collapsable: true,
+        isCollapsed: false,
         supportHTML: true,
+        width: "350px",
         stopTimerOnHover: true,
     });
 }
@@ -39,34 +43,21 @@ export const message = (msg: string, type: string = "info", duration: number = 2
  * @param msg 消息内容
  */
 export const success = (msg: string) => {
-    Message.success(msg, {
-        title: "成功",
-        supportHTML: true,
-        stopTimerOnHover: true,
-        position: "bottom-right"
-    });
+    message(msg, "success", 3000, "成功", "bottom-right")
+
 }
 /**
  * 警告提示
  * @param msg 消息内容
  */
 export const warning = (msg: string) => {
-    Message.warning(msg, {
-        title: "警告",
-        supportHTML: true,
-        stopTimerOnHover: true,
-        position: "bottom-right"
-    });
+    message(msg, "warning", 3000, "警告", "bottom-right");
+
 }
 /**
  * 错误提示
  * @param msg 消息内容
  */
 export const error = (msg: string) => {
-    Message.error(msg, {
-        title: "错误",
-        supportHTML: true,
-        stopTimerOnHover: true,
-        position: "bottom-right"
-    });
+    message(msg, "error", 3000, "错误", "bottom-right");
 }
