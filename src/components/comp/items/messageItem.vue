@@ -176,7 +176,7 @@ const loadByPage = () => {
   });
 }
 const auditMessage = (item: any) => {
-  message("功能开发中...");
+  message("功能开发中...", "info", 2500, "提示", "bottom-right");
 }
 onMounted(() => {
   init();
