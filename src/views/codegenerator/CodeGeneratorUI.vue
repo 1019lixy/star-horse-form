@@ -1,5 +1,6 @@
 <script setup lang="ts" name="EnvInfo">
-import {apiInstance, closeLoad, createDatetime, dialogPreps, dictData, load} from "@/api/sh_api.ts";
+import {apiInstance, closeLoad, dialogPreps, dictData, load} from "@/api/sh_api.ts";
+import {createDatetime} from "@/api/date_utils.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {onMounted, provide, reactive, ref} from "vue";
 import {SearchFields, SelectOption} from "@/components/types/SearchProps.d.ts";

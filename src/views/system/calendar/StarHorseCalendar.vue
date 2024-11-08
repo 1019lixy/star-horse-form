@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {nextTick, onBeforeUnmount, onMounted, ref, watch} from "vue";
+import {computed, nextTick, onBeforeUnmount, onMounted, ref, watch} from "vue";
 import {ArrowLeftBold, ArrowRightBold, Search} from "@element-plus/icons-vue";
 import FullCalendar from "@fullcalendar/vue3";
 import dayGridPlugin from '@fullcalendar/daygrid'
@@ -9,15 +9,14 @@ import interactionPlugin from '@fullcalendar/interaction'
 import zhCnLocale from '@fullcalendar/core/locales/zh-cn'
 import listPlugin from '@fullcalendar/list'
 import {CalendarOptions} from "@fullcalendar/core";
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-import StarHorseDialog from "@/components/comp/StarHorseDialog.vue";
-import StarHorseForm from "@/components/comp/StarHorseForm.vue";
 import {uuid} from "@/api/system.ts";
 import {getUserInfo} from "@/utils/auth.ts";
 import {calendarManage, defineType} from "@/views/system/calendar/CalendarProps.ts";
-import {createCondition, currentDate, dateParse, deleteByIds, loadData} from "@/api/sh_api.ts";
+import {createCondition, deleteByIds, loadData} from "@/api/sh_api.ts";
+import {currentMonthRange, monthRange, currentDate} from "@/api/date_utils.ts";
 import {success, warning} from "@/utils/message.ts";
 import {SearchParams} from "@/components/types/Params";
+import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 
 const props = defineProps({
   eventList: {type: Array, default: []},
@@ -29,7 +28,7 @@ const starHorseDateRef = ref();
 let dateValue = ref<any>(null);
 let selectedWeekRange = ref<Array<any>>([]);
 let outerData = ref<any>({});
-
+const calendarTitle = ref<string>("");
 const collapseModel = ref<string>("first");
 let editTitle = ref<string>("开启编辑模式");
 const commonOptions = {
@@ -78,7 +77,6 @@ const formCalendarOptions = ref<any>({
   initialView: "timeGridDay", // 初始化插件显示
   select: (item: any) => {
     console.log("select", item);
-    let date = new Date();
     outerData.value = {};
     if (item.allDay) {
       outerData.value = {
@@ -99,8 +97,6 @@ const formCalendarOptions = ref<any>({
         eTime: se
       }
     }
-    // calendarMangeRef.value.updateFormData(outerData.value);
-
   },
   eventClick: async (item: any) => {
     outerData.value = {}
@@ -108,16 +104,11 @@ const formCalendarOptions = ref<any>({
     console.log("eventClick", item);
   },
 });
-let currentDate = ref<Date>(null);
+let currentDateParam = ref<Date>(null);
 let initFlag = ref<boolean>(true);
 const calendarOptions = ref<CalendarOptions>({
   ...commonOptions,
-  headerToolbar: {
-    // 头部toolba
-    left: 'prevYear,prev,next,nextYear,today,btn',
-    center: 'title',
-    right: 'multiMonthYear,dayGridMonth,timeGridWeek,timeGridDay,editBtn',
-  },
+  headerToolbar: false,
   select: (item: any) => {
     let date = new Date();
     let ss = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
@@ -145,8 +136,8 @@ const calendarOptions = ref<CalendarOptions>({
       return;
     }
     calendarManageVisible.value = true;
-    // await nextTick();
-    // calendarFieldRef.value.setF
+    await nextTick();
+    dialogFullCalendar.value.getApi().changeView("timeGridDay");
     // 日程点击事件
     console.log("eventClick", item);
   },
@@ -154,11 +145,17 @@ const calendarOptions = ref<CalendarOptions>({
     // 用户将鼠标悬停在事件上时触发
     console.log("eventMouseEnter", item);
   },
-  eventSources: (item) => {
-    currentDate = item.start;
-    loadAllCalendar();
-    console.log("eventSources", item);
+  datesSet: (item: CalendarOptions) => {
+    console.log("datesSet", item);
+    calendarTitle.value = item.view.title;
   },
+  // eventSources: (item) => {
+  //   currentDate = item?.start;
+  //   console.log("eventSources", currentDate, item);
+  //   if (!isInit.value) {
+  //     loadAllCalendar();
+  //   }
+  // },
   eventsSet: (item: any) => {
     // let dateProfile = item[0]?._context?.dateProfile;
     // if (dateProfile) {
@@ -166,7 +163,7 @@ const calendarOptions = ref<CalendarOptions>({
     // }
     // console.log("eventsSet", item[0], item[0]?._context, dateProfile);
   },
-  dateClick: (item: any) => {
+  dateClick: async (item: any) => {
     let date = new Date();
     outerData.value = {
       startStr: item.dateStr,
@@ -177,6 +174,8 @@ const calendarOptions = ref<CalendarOptions>({
       return;
     }
     calendarManageVisible.value = true;
+    await nextTick();
+    dialogFullCalendar.value.getApi().changeView("timeGridDay");
     //日期方格点击事件
     console.log("dateClick", item, outerData);
   },
@@ -202,8 +201,7 @@ const calendarOptions = ref<CalendarOptions>({
     editBtn: {
       text: editTitle,
       click: () => {
-        calenderModel.value = calenderModel.value == "view" ? "edit" : "view";
-        editTitle.value = calenderModel.value == "view" ? "开启编辑模式" : "关闭编辑模式";
+
       }
     }
   },
@@ -224,16 +222,7 @@ const selectDate = (val: string) => {
 onBeforeUnmount(() => {
   fullCalendar.value.getApi().destroy();
 })
-onMounted(async () => {
-  await nextTick();
-  props.eventList?.forEach((item: any) => {
-    fullCalendar.value.getApi().view.calendar.addEvent(item);
-  });
-  fullCalendar.value.getApi().changeView("dayGridMonth");
-  setTimeout(() => {
-    fullCalendar.value.getApi().changeView("dayGridMonth");
-  }, 500);
-});
+
 // 周背景色
 watch(dateValue,
     (newValue) => {
@@ -250,14 +239,11 @@ watch(dateValue,
       selectedWeekRange.value = [monday, sunday];
     }, {immediate: true}
 );
-let calendarTitle = ref<string>("新建日程");
 
 const calendarFieldRef = ref();
 const addCalendar = (type: string, evt: MouseEvent) => {
   evt.stopPropagation();
   evt.preventDefault();
-  // outerData.value["type"] = type;
-  //  calendarManageVisible.value = true;
   calendarOperation(type, {});
 }
 const close = () => {
@@ -276,6 +262,7 @@ const calendarManageSubmit = async () => {
     return;
   }
   success("操作成功");
+  loadAllCalendar();
   close();
 }
 const submit = async (action: string) => {
@@ -304,7 +291,6 @@ const submit = async (action: string) => {
   }
 }
 let searchText = ref<string>("");
-let calendarTypeTitle = ref<string>("");
 let calendarTypeVisible = ref<boolean>(false);
 let calendarManageVisible = ref<boolean>(false);
 let calendarTypeRef = ref();
@@ -375,7 +361,9 @@ const calendarTypeSubmit = async () => {
   close();
 }
 let myCalendarList = ref<Array<any>>([]);
+let isInit = ref<boolean>(false);
 const initData = async () => {
+  isInit.value = true;
   let userInfo = getUserInfo();
   let resultData = await loadData("system-config/system/calendarDefine/getAllByCondition", {
     fieldList: [createCondition("createdBy", userInfo.name + "(" + userInfo.username + ")")],
@@ -389,9 +377,10 @@ const initData = async () => {
     return;
   }
   myCalendarList.value = resultData.data;
-  loadAllCalendar(resultData.data.map(item => item.idCalendarDefine));
+  await loadAllCalendar(resultData.data.map(item => item.idCalendarDefine));
+  isInit.value = false;
 }
-const loadAllCalendar = async (ids: any) => {
+const loadAllCalendar = async (ids: any, searchParam: SearchParams[] = []) => {
   let params: SearchParams[] = [];
   if (!ids) {
     ids = myCalendarList.value.map(item => item.idCalendarDefine);
@@ -400,12 +389,14 @@ const loadAllCalendar = async (ids: any) => {
     return;
   }
   params.push(createCondition("idCalendarDefine", ids, Array.isArray(ids) ? "in" : "eq"));
-  let temp: Date = currentDate.value;
-  if (!temp) {
-    temp = new Date();
+  if (searchParam?.length > 0) {
+    params = params.concat(searchParam);
   }
-  let ymd = dateParse(temp, false);
-  params.push(createCondition("createdTime", [ymd + " 00:00:00", ymd + " 23:59:59"], "bt"));
+  let ymd = currentMonthRange();
+  if (currentDateParam.value) {
+    ymd = monthRange(currentDateParam.value)
+  }
+  params.push(createCondition("createdTime", [ymd.starDateStr + " 00:00:00", ymd.lastDateStr + " 23:59:59"], "bt"));
   let resultData = await loadData("system-config/system/calendarManage/getAllByCondition", {
     fieldList: params,
     orderBy: [{
@@ -414,30 +405,67 @@ const loadAllCalendar = async (ids: any) => {
     }]
   });
   if (resultData.error) {
-    warning(resultData.error);
+    console.log(resultData.error);
     return;
   }
   await nextTick();
-  // fullCalendar.value.getApi().removeAllEvents();
+  fullCalendar.value.getApi().removeAllEvents();
   let datas = resultData.data;
-  // for (let i in datas) {
-  //   let data = datas[i];
-  //   data["id"] = data["idCalendarManage"];
-  //   data["start"] = data["startStr"] + (data.stime ? " " + data.stime : " 00:00");
-  //   data["end"] = data["endStr"] + (data.etime ? " " + data.etime : " 23:59");
-  //   console.log(data);
-  //   fullCalendar.value.getApi().view.calendar.addEvent(data);
-  // }
-  fullCalendar.value.getApi().view.calendar.addEvent({
-    id:"a333294109324215292",
-    end:"2024-11-01 23:59",
-    start:"2024-11-01 00:00",
-    title:"hello"
-  })
+  for (let i in datas) {
+    let data = datas[i];
+    data["id"] = data["idCalendarManage"];
+    data["start"] = data["startStr"] + (data.sTime ? " " + data.sTime : " 00:00");
+    data["end"] = data["endStr"] + (data.eTime ? " " + data.eTime : " 23:59");
+    fullCalendar.value.getApi().view.calendar.addEvent(data);
+  }
 }
-onMounted(() => {
-  initData();
-})
+const searchCalendar = () => {
+  let params: SearchParams[] = [];
+  if (searchText.value) {
+    params.push(createCondition("title", searchText.value, "lk"));
+  }
+  loadAllCalendar(null, params);
+}
+const changeDateRange = (type: string) => {
+  let api = fullCalendar.value.getApi();
+  switch (type) {
+    case "preYear":
+      api.prevYear();
+      break;
+    case "pre":
+      api.prev();
+      break;
+    case "nextYear":
+      api.nextYear();
+      break;
+    case "next":
+      api.next();
+      break;
+    default:
+      api.today();
+  }
+  let view = api.view;
+  console.log(view);
+  currentDateParam.value = view.currentStart;
+  loadAllCalendar();
+}
+const changeModel = (type: string) => {
+  if (type == "editBtn") {
+    calenderModel.value = calenderModel.value == "view" ? "edit" : "view";
+    editTitle.value = calenderModel.value == "view" ? "开启编辑模式" : "关闭编辑模式";
+  } else {
+    fullCalendar.value.getApi().changeView(type);
+  }
+}
+onMounted(async () => {
+  await initData();
+  await nextTick();
+  fullCalendar.value.getApi().changeView("dayGridMonth");
+  setTimeout(() => {
+    fullCalendar.value.getApi().changeView("dayGridMonth");
+    // calendarTitle.value=fullCalendar.value.title;
+  }, 500);
+});
 </script>
 
 <template>
@@ -447,7 +475,6 @@ onMounted(() => {
                      :self-func="true">
     <div class="dialog-body2">
       <div class="dialog-form">
-
         <star-horse-form :formSize="compSize" :outer-form-data="outerData" :field-list="calendarManage(myCalendarList)"
                          @exportData="exportData"
                          ref="calendarMangeRef"/>
@@ -485,7 +512,7 @@ onMounted(() => {
         </el-button>
       </div>
       <div class="create-calender">
-        <el-input v-model="searchText" :size="compSize" placeholder="请输入日程">
+        <el-input v-model="searchText" :size="compSize" @keydown.enter="searchCalendar" placeholder="请输入日程">
           <template #prefix>
             <el-icon>
               <Search/>
@@ -548,12 +575,47 @@ onMounted(() => {
 
             </div>
           </template>
-
         </el-collapse-item>
-
       </el-collapse>
     </div>
     <div class="calendar-right">
+      <div class="calendar-tool-bar">
+        <div class="tool-bar-left">
+          <star-horse-icon title="上一年" @click="changeDateRange('preYear')" cursor="pointer"
+                           icon-class="arrow-double-left" size="14px"/>
+          <star-horse-icon title="上一月" @click="changeDateRange('pre')" cursor="pointer" icon-class="arrow-left"
+                           size="14px"/>
+          <star-horse-icon title="下一月" @click="changeDateRange('next')" cursor="pointer" icon-class="arrow-right"
+                           size="14px"/>
+          <star-horse-icon title="下一年" @click="changeDateRange('nextYear')" cursor="pointer"
+                           icon-class="arrow-double-right" size="14px"/>
+          <star-horse-icon title="当前日期" @click="changeDateRange('today')" cursor="pointer" icon-class="today"/>
+        </div>
+        <div class="tool-bar-center">{{ calendarTitle }}</div>
+        <div class="tool-bar-right">
+          <el-button link :size="compSize" @click="changeModel('multiMonthYear')">
+            <star-horse-icon cursor="pointer" icon-class="calendar"/>
+            年
+          </el-button>
+          <el-button link :size="compSize" @click="changeModel('dayGridMonth')">
+            <star-horse-icon cursor="pointer" icon-class="calendar"/>
+            月
+          </el-button>
+          <el-button link :size="compSize" @click="changeModel('timeGridWeek')">
+            <star-horse-icon cursor="pointer" icon-class="calendar"/>
+            周
+          </el-button>
+          <el-button link :size="compSize" @click="changeModel('timeGridDay')">
+            <star-horse-icon cursor="pointer" icon-class="calendar"/>
+            日
+          </el-button>
+          <el-button link :size="compSize" @click="changeModel('editBtn')">
+            <star-horse-icon cursor="pointer" icon-class="edit"/>
+            {{ editTitle }}
+          </el-button>
+        </div>
+
+      </div>
       <FullCalendar ref="fullCalendar" height="parent"
                     :eventLimit="true"
                     allDayText="全天"
@@ -571,6 +633,42 @@ onMounted(() => {
 </template>
 
 <style scoped lang="scss">
+.calendar-tool-bar {
+  height: 35px;
+  display: flex;
+  align-items: center;
+  vertical-align: middle;
+  width: 99%;
+  margin: 0 auto;
+
+  .tool-bar-left {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    vertical-align: middle;
+    height: inherit;
+  }
+
+  .tool-bar-center {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    vertical-align: middle;
+    justify-content: center;
+    font-weight: 800;
+    height: inherit;
+  }
+
+  .tool-bar-right {
+    flex: 1;
+    display: flex;
+    height: inherit;
+    align-items: center;
+    vertical-align: middle;
+  }
+}
+
 .dialog-body2 {
   display: flex;
   height: inherit;

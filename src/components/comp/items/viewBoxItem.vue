@@ -35,7 +35,8 @@ onMounted(() => {
       <div class="item" v-if="sitem.formShow||sitem.tableShow||sitem.viewShow">
         <label>{{ sitem.label }} :</label>
         <div class="content">
-          <el-tooltip :content="dataFormat(sitem)">
+          <pre v-if="sitem.type=='textarea'||sitem.type=='markdown'">{{ dataFormat(sitem) }}</pre>
+          <el-tooltip :content="dataFormat(sitem)" v-else>
             {{ dataFormat(sitem) }}
           </el-tooltip>
         </div>
