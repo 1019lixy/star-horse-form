@@ -650,6 +650,7 @@ onMounted(async () => {
 
 .design-form-container {
   height: 100%;
+  width:100% !important;
   border: 1px dashed var(--star-horse-style);
   background: var(--star-horse-background);
 }

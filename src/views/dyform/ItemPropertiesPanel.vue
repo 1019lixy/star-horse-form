@@ -471,6 +471,7 @@ watch(() => currentItemId,
     </div>
   </star-horse-dialog>
   <div class="dynamic-form" v-if="currentItemType">
+    <el-scrollbar>
     <el-form
         :model="formProps"
         :rules="formRules"
@@ -485,6 +486,7 @@ watch(() => currentItemId,
                             :compSize="compSize"
                             v-model:dataForm="formProps"/>
     </el-form>
+    </el-scrollbar>
   </div>
 </template>
 <style lang="scss" scoped>
