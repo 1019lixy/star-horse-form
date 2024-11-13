@@ -27,6 +27,7 @@ export default defineConfig((mode, command) => {
     const optimizeDepsElementPlusIncludes = [
         "element-plus/es", 'vue',
         'vue-router',
+        'vue3-guides',
         '@vueuse/core',
         '@fullcalendar/vue3',
         '@fullcalendar/daygrid',

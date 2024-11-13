@@ -36,9 +36,9 @@ export function getCustomerInfo() {
 /**
  * 获取查询对象
  */
-export function getCustomerParam(propertyName: string): SearchParams | null {
+export function getCustomerParam(propertyName: string = ""): SearchParams | null {
     const customerInfo = getCustomerInfo();
-    if (!customerInfo) {
+    if (!customerInfo || !propertyName) {
         return null;
     }
     return {propertyName: propertyName, value: customerInfo.dataNo};
@@ -57,8 +57,8 @@ export function getUserInfo() {
  * 检测是否系统管理员
  */
 export function isSystemManage(): boolean {
-    console.log( getUserInfo()?.rolesList);
-    let roleList = getUserInfo()?.rolesList?.filter(item => item.roleType == 3);
+    console.log(getUserInfo()?.rolesList);
+    let roleList = getUserInfo()?.rolesList?.filter((item: any) => item.roleType == 3);
 
     return roleList && roleList.length > 0;
 }
