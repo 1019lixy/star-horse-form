@@ -28,6 +28,7 @@ export default defineConfig((mode, command) => {
         "element-plus/es", 'vue',
         'vue-router',
         'vue3-guides',
+        'vue3-infinite-viewer',
         '@vueuse/core',
         '@fullcalendar/vue3',
         '@fullcalendar/daygrid',

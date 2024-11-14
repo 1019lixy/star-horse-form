@@ -107,6 +107,15 @@ routers.push({
     }
 });
 routers.push(
+    {
+        path: "/test",
+        component: () => import("@/components/Test.vue"),
+        name: "测试",
+        meta: {
+            keepAlive: "N",
+            title: "测试"
+        }
+    },
     /*    {
         path: "/login",
         component: () => import("@/components/Login.vue"),

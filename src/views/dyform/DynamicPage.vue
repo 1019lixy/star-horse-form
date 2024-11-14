@@ -2,30 +2,33 @@
 import {nextTick, onMounted, ref} from "vue";
 import {apiInstance} from "@/api/sh_api";
 import Guides from "vue3-guides";
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
+import {VueInfiniteViewer} from "vue3-infinite-viewer"
 import {i18n} from "@/lang";
+import PageHeader from "@/views/dyform/page/PageHeader.vue";
 
 const dataUrl = apiInstance("userdb-manage", "userdb/dynamicPage");
 const horizontalGuides = ref();
 const verticalGuides = ref();
+const vueInfiniteViewerRef = ref();
 let panelModel = ref<string>("first");
 let scrollX = ref<number>(0);
 let scrollY = ref<number>(0);
 const initGuides = async () => {
 
   await nextTick(() => {
-    horizontalGuides.value.resize();
+    horizontalGuides.value?.resize();
+    verticalGuides.value?.resize();
     window.addEventListener("resize", () => {
-      horizontalGuides.value.resize();
-      verticalGuides.value.resize();
+      horizontalGuides.value?.resize();
+      verticalGuides.value?.resize();
     });
     window.addEventListener("wheel", e => {
       scrollX.value += e.deltaX;
       scrollY.value += e.deltaY;
-      horizontalGuides.value.scroll(scrollX);
-      horizontalGuides.value.scrollGuides(scrollY);
-      verticalGuides.value.scroll(scrollY);
-      verticalGuides.value.scrollGuides(scrollX);
+      horizontalGuides.value?.scroll(scrollX.value);
+      horizontalGuides.value?.scrollGuides(scrollY.value);
+      verticalGuides.value?.scroll(scrollY.value);
+      verticalGuides.value?.scrollGuides(scrollX.value);
     });
   });
 
@@ -36,13 +39,24 @@ const init = async () => {
 const onChange = (e: any) => {
   console.log(e);
 }
+const viewScroller = (e: any) => {
+  let type = e.currentTarget.horizontalScrollbar.type;
+  if (type == "horizontal") {
+    horizontalGuides.value?.scroll(e.scrollLeft);
+    horizontalGuides.value?.scrollGuides(e.scrollTop);
+  } else {
+    verticalGuides.value?.scroll(e.scrollTop);
+    verticalGuides.value?.scrollGuides(e.scrollLeft);
+  }
+}
 const onRestore = () => {
   scrollX.value = 0;
   scrollY.value = 0;
-  horizontalGuides.value.scroll(0);
-  horizontalGuides.value.scrollGuides(0);
-  verticalGuides.value.scroll(0);
-  verticalGuides.value.scrollGuides(0);
+  horizontalGuides.value?.scroll(0);
+  horizontalGuides.value?.scrollGuides(0);
+  verticalGuides.value?.scroll(0);
+  verticalGuides.value?.scrollGuides(0);
+  vueInfiniteViewerRef.value?.scrollCenter();
 }
 onMounted(async () => {
   await init();
@@ -50,11 +64,11 @@ onMounted(async () => {
 </script>
 <template>
   <el-card class="inner_content">
-    <div class="page-header">
-    </div>
+    <page-header/>
     <div class="page-content">
       <div class="panel">
-        <el-tabs style="width: 100%;height: 100%;background: #1d2129;border: none" tab-position="left" type="border-card" v-model="panelModel">
+        <el-tabs style="width: 100%;height: 100%;background: #1d2129;border: none" tab-position="left"
+                 type="border-card" v-model="panelModel">
           <el-tab-pane label="基础信息" name="first">
           </el-tab-pane>
           <el-tab-pane label="高级信息" name="second">
@@ -69,7 +83,7 @@ onMounted(async () => {
         </div>
         <div class="ruler horizontal">
           <Guides
-              ref="guides1"
+              ref="horizontalGuides"
               type="horizontal"
               v-bind:rulerStyle="{
                 left: '30px',
@@ -80,7 +94,7 @@ onMounted(async () => {
         </div>
         <div class="ruler vertical">
           <Guides
-              ref="guides2"
+              ref="verticalGuides"
               type="vertical"
               displayDragPos="true"
               v-bind:rulerStyle="{
@@ -91,15 +105,23 @@ onMounted(async () => {
               v-on:changeGuides="onChange"
           />
         </div>
-
-        <div class="container">
-          <el-scrollbar>
-            功能开发中
-          </el-scrollbar>
-        </div>
+        <VueInfiniteViewer
+            ref="vueInfiniteViewerRef"
+            :usePinch="true"
+            :useWheelScroll="()=>{
+              return true;
+            }"
+            :maxPinchWheel="3"
+            :zoom="1"
+            @scroll="viewScroller"
+            class="viewer">
+          <div class="viewport">AA</div>
+        </VueInfiniteViewer>
 
       </div>
-      <div class="property"></div>
+      <div class="property">
+
+      </div>
     </div>
     <div class="main-copyright">{{ i18n("starhorse.copyright") }}</div>
   </el-card>
@@ -107,19 +129,32 @@ onMounted(async () => {
 
 
 <style lang="scss" scoped>
-:deep(.el-tabs__content){
+:deep(.el-tabs__content) {
   padding: 5px;
 }
-:deep(.el-tabs__header){
-  background:  #1d2129;
+
+.viewer {
+  display: flex;
+  flex: 1;
+  position: absolute !important;
+  left: calc(30px);
+  top: 30px;
+  height: 100%;
+  width: calc(100% - 30px);
+  height: calc(100% - 30px);
+
+}
+
+:deep(.el-tabs__header) {
+  background: #1d2129;
   border: none;
 }
+
 :deep(.el-tabs__item) {
   height: 80px !important;
   display: flex;
   padding: 0 5px;
   align-items: center;
-
   justify-content: center !important;
   vertical-align: middle !important;
   writing-mode: vertical-lr;
@@ -138,6 +173,7 @@ onMounted(async () => {
 
 .page-content {
   display: flex;
+  flex: 1;
   width: 100%;
   height: 100%;
   overflow: hidden;
@@ -159,6 +195,7 @@ onMounted(async () => {
     height: 100%;
     overflow: hidden;
     background: #86909c;
+
     .container {
       display: flex;
       align-items: center;

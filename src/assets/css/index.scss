@@ -417,6 +417,14 @@ a {
   overflow-x: hidden;
 }
 
+.split-line {
+  height: 60%;
+  width: 1px !important;
+  display: flex;
+  align-items: center;
+  background-color: var(--star-horse-style);
+  margin: 0 10px;
+}
 
 .el-cascader-menu {
   width: 100px !important;
