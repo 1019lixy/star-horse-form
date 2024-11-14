@@ -55,17 +55,18 @@ const rules = {
 const baseFieldList = reactive<PageFieldInfo | any>({
   fieldList: [{
     fieldName: "basic",
+
     tabList: [
       {
         title: "基本资料",
         tabName: "basic",
-        objectName: "basicUserInfo",
+       // objectName: "basicUserInfo",
         fieldList: userEditFieldInfo
       },
       {
         title: "修改密码",
         tabName: "password",
-        objectName: "passwordInfo",
+      //  objectName: "passwordInfo",
         fieldList: [
           {
             label: "原始密码", fieldName: "oldPassword", type: "password",
@@ -81,7 +82,7 @@ const baseFieldList = reactive<PageFieldInfo | any>({
           }
         ]
       },
-      {
+  /*    {
         title: "个人权限",
         tabName: "authority",
         objectName: "authorityInfo",
@@ -94,7 +95,7 @@ const baseFieldList = reactive<PageFieldInfo | any>({
             formShow: true,
           }
         ]
-      }
+      }*/
     ]
   }]
 });
@@ -208,7 +209,7 @@ onMounted(async () => {
             </div>
           </template>
           <div class="base-info-form">
-            <star-horse-form :fieldList="baseFieldList" ref="userFormRef"/>
+            <star-horse-form :outer-form-data="userInfo" :fieldList="baseFieldList" ref="userFormRef" style="width:95%;margin:0 auto;"/>
           </div>
         </el-card>
       </div>
