@@ -5,12 +5,16 @@ import Guides from "vue3-guides";
 import {VueInfiniteViewer} from "vue3-infinite-viewer"
 import {i18n} from "@/lang";
 import PageHeader from "@/views/dyform/page/PageHeader.vue";
+import PagePosition from "@/views/dyform/page/PagePosition.vue";
+import PageBackground from "@/views/dyform/page/PageBackground.vue";
+import PageFont from "@/views/dyform/page/PageFont.vue";
 
 const dataUrl = apiInstance("userdb-manage", "userdb/dynamicPage");
 const horizontalGuides = ref();
 const verticalGuides = ref();
 const vueInfiniteViewerRef = ref();
 let panelModel = ref<string>("first");
+let propertyItem = ref<string>("1");
 let scrollX = ref<number>(0);
 let scrollY = ref<number>(0);
 const initGuides = async () => {
@@ -120,7 +124,38 @@ onMounted(async () => {
 
       </div>
       <div class="property">
-
+        <el-scrollbar>
+          <el-collapse v-model="propertyItem" style="background: #1d2129!important;">
+            <el-collapse-item name="1">
+              <template #title>
+                <div class="collapse-item-title title">
+                  <div>位置大小</div>
+                </div>
+              </template>
+              <page-position/>
+            </el-collapse-item>
+          </el-collapse>
+          <el-collapse v-model="propertyItem">
+            <el-collapse-item name="2">
+              <template #title>
+                <div class="collapse-item-title title">
+                  <div>背景</div>
+                </div>
+              </template>
+              <page-background/>
+            </el-collapse-item>
+          </el-collapse>
+          <el-collapse v-model="propertyItem">
+            <el-collapse-item name="3">
+              <template #title>
+                <div class="collapse-item-title title">
+                  <div>文字</div>
+                </div>
+              </template>
+              <page-font/>
+            </el-collapse-item>
+          </el-collapse>
+        </el-scrollbar>
       </div>
     </div>
     <div class="main-copyright">{{ i18n("starhorse.copyright") }}</div>
@@ -129,6 +164,23 @@ onMounted(async () => {
 
 
 <style lang="scss" scoped>
+.title {
+  color: var(--star-horse-white);
+}
+
+:deep(.el-collapse-item), :deep(.el-collapse-item__content) {
+  background: #1d2129 !important;
+}
+
+:deep(.el-collapse-item__header) {
+  background: #1d2129 !important;
+  border: none !important;
+}
+
+:deep(el-collapse-item__wrapper) {
+  background: #1d2129 !important;
+}
+
 :deep(.el-tabs__content) {
   padding: 5px;
 }
@@ -213,6 +265,7 @@ onMounted(async () => {
     background-color: #272e3b;
     color: #fff;
     display: flex;
+    flex-direction: column;
     min-height: 35px;
     min-width: 35px;
   }

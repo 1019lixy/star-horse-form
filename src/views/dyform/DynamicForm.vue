@@ -74,7 +74,7 @@ const loadFormData = async (formId: any, isParent: boolean) => {
   if (data["relations"]) {
     data["relations"] = JSON.parse(data["relations"]);
   }
-  let details=data["details"];
+  let details = data["details"];
   data["details"] = {};
   designForm.setFormInfo(data);
   designForm.setCompList(JSON.parse(details?.content || "[]"));
@@ -334,7 +334,7 @@ const batchOperation = (val: any, fieldName: string) => {
 }
 const analysisParentParam = () => {
   let parentId = route.query["parentId"];
-  if (parentId&&"0"!=parentId) {
+  if (parentId && "0" != parentId) {
     // console.log(parentId);
     loadFormData(parentId, true);
   }
@@ -399,7 +399,9 @@ onMounted(async () => {
       @merge="codeDoSave"
       :title="'代码'"
   >
-    <code-comp/>
+    <div class="dialog-body">
+      <code-comp/>
+    </div>
   </star-horse-dialog>
   <star-horse-dialog
       :dialogVisible="configDialogVisible"
@@ -409,7 +411,9 @@ onMounted(async () => {
       @merge="doSave(false)"
       :title="'表单配置'"
   >
-    <FormPropertyPanel ref="formPropertyRef"/>
+    <div class="dialog-body">
+      <FormPropertyPanel ref="formPropertyRef"/>
+    </div>
     <template #extand>
       <el-button @click="doSave(true)"
                  style="background: var(--star-horse-style);color: var(--star-horse-white)" :size="compSize">
@@ -426,7 +430,7 @@ onMounted(async () => {
       @merge="closeAction"
       :title="'批量修改属性'"
   >
-    <div style="display:flex; flex-direction: column">
+    <div class="dialog-body">
 
       <el-row style="font-weight: bold;font-size:12px;margin: 5px 0;">
         <el-col :span="3">容器名称</el-col>
@@ -507,38 +511,40 @@ onMounted(async () => {
       :title="'表单预览'"
       :is-view="true"
   >
-    <el-form
-        ref="previewDynamicFormRef"
-        :disabled="formInfo['disabled'] == 'Y'"
-        :hide-required-asterisk="formInfo['hideRequiredAsterisk'] == 'Y'"
-        :inline="formInfo.inline == 'Y'"
-        :inline-message="formInfo['inlineMessage'] == 'Y'"
-        :label-position="formInfo['labelPosition']||'left'"
-        :label-suffix="formInfo['labelSuffix']"
-        :label-width="formInfo['labelWidth']||'auto'"
-        :model="formData"
-        :require-asterisk-position="formInfo['requireAsteriskPosition']||'right'"
-        :rules="formInfo.rules"
-        :scroll-to-error="formInfo['scrollToError'] == 'Y'"
-        :show-message="formInfo['showMessage'] == 'Y'"
-        :size="formInfo['size']"
-        style="width: 99%;margin: 0 auto;"
-        :status-icon="formInfo['statusIcon'] == 'Y'"
-        :validate-on-rule-change="formInfo['validateOnRuleChange']=='Y'"
-    >
-      <div :class="currentPageClass">
-        <template v-for="data in list">
-          <component
-              :id="data.id"
-              :field="data"
-              :formInfo="formInfo"
-              :formData="formData"
-              :is="data.itemType +(data.compType === 'container'? '-container':'-item')"
-          >
-          </component>
-        </template>
-      </div>
-    </el-form>
+    <div class="dialog-body">
+      <el-form
+          ref="previewDynamicFormRef"
+          :disabled="formInfo['disabled'] == 'Y'"
+          :hide-required-asterisk="formInfo['hideRequiredAsterisk'] == 'Y'"
+          :inline="formInfo.inline == 'Y'"
+          :inline-message="formInfo['inlineMessage'] == 'Y'"
+          :label-position="formInfo['labelPosition']||'left'"
+          :label-suffix="formInfo['labelSuffix']"
+          :label-width="formInfo['labelWidth']||'auto'"
+          :model="formData"
+          :require-asterisk-position="formInfo['requireAsteriskPosition']||'right'"
+          :rules="formInfo.rules"
+          :scroll-to-error="formInfo['scrollToError'] == 'Y'"
+          :show-message="formInfo['showMessage'] == 'Y'"
+          :size="formInfo['size']"
+          style="width: 99%;margin: 0 auto;"
+          :status-icon="formInfo['statusIcon'] == 'Y'"
+          :validate-on-rule-change="formInfo['validateOnRuleChange']=='Y'"
+      >
+        <div :class="currentPageClass">
+          <template v-for="data in list">
+            <component
+                :id="data.id"
+                :field="data"
+                :formInfo="formInfo"
+                :formData="formData"
+                :is="data.itemType +(data.compType === 'container'? '-container':'-item')"
+            >
+            </component>
+          </template>
+        </div>
+      </el-form>
+    </div>
   </star-horse-dialog>
   <el-card class="inner_content">
     <div class="form_content">
@@ -650,7 +656,7 @@ onMounted(async () => {
 
 .design-form-container {
   height: 100%;
-  width:100% !important;
+  width: 100% !important;
   border: 1px dashed var(--star-horse-style);
   background: var(--star-horse-background);
 }
