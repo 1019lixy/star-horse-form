@@ -119,6 +119,7 @@ const operationRelation = (relation: any, actionName: string, formData: any, cur
  * 所有触发的事件
  * @param context
  * @param actionName
+ * @param isInit
  */
 const allAction = (context: any, actionName: string, isInit: boolean = false) => {
     //设计时的初始化不作处理
@@ -155,7 +156,8 @@ const allAction = (context: any, actionName: string, isInit: boolean = false) =>
         field.preps["actionRelation"](context.attrs['formData'][field.preps['name']], context.attrs['formData']["xh"]);
     }
     try {
-        context.emit('selfFunc', actionName);
+        console.log(field.preps["actionName"], context.attrs['formData']);
+        context.emit('selfFunc', actionName,context.attrs['formData']);
     } catch (e) {
         error("事件触发异常：" + e);
     }

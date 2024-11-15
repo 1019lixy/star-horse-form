@@ -205,9 +205,10 @@ onMounted(() => {
   </div>
 
   <div v-else class="form-item-operation">
-    <div :class="{'field-item design-star-horse' : isEdit,
+    <div :class="{'design-star-horse' : isEdit,
+    'field-item':true,
   'active-item':currentItemId == formItem?.preps.id && isEdit
-  }" v-if="isDesign" @click="selectData(formItem)">
+  }" v-if="isDesign" @click="selectData(formItem)" >
       <el-form-item
           :size="formItem?.preps['size']||'default'"
           v-if="parentField?.itemType!='table'&&formItem?.itemType!='divider'&&formItem?.preps['headerFlag']!='Y'"

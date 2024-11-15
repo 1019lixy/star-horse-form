@@ -75,7 +75,7 @@ export default defineComponent({
       initData();
       actionName.value = field.preps["actionName"];
       if (!context.attrs["isSearch"]) {
-        allAction(context, actionName.value, true);
+        allAction(context, actionName.value, !field.preps["needInitLink"]);
       }
     });
     return {

@@ -45,7 +45,10 @@ const tableFieldList = reactive<PageFieldInfo>({
       optionList: dbInfoList,
       actionNames: "change",
       actions: loadTabInfo,
-      tableShow: true
+      tableShow: true,
+      preps: {
+        needInitLink: true
+      }
     }, {
       label: "后端程序语言", fieldName: "language", type: "select",
       formShow: true,
@@ -324,10 +327,12 @@ const closeAction = () => {
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps"
                      :selfFunc="true"
                      @merge="generateMerge" @closeAction="closeAction">
-    <star-horse-form ref="generateFormRef" @refresh="codeGeneratorRef.loadByPage()"
-                     :compUrl="dataUrl"
-                     :fieldList="tableFieldList"
-                     :rules="rules"/>
+    <div class="dialog-body">
+      <star-horse-form ref="generateFormRef" @refresh="codeGeneratorRef.loadByPage()"
+                       :compUrl="dataUrl"
+                       :fieldList="tableFieldList"
+                       :rules="rules"/>
+    </div>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title=
       "'查看数据'" :is-view="true">
