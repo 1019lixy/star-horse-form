@@ -95,8 +95,8 @@ const deleteCol = (index: number) => {
     <table ref="containerTableRef" class="dynamic-table" :style="{
       border: isEdit?'1px solid #dfe6ec':'none'
     }">
-      <thead>
-      <tr >
+      <thead class="container-thead">
+      <tr>
         <th v-for="td of parseInt(field.preps.columns)" @mouseenter="(evt)=>tdOver(evt,td)"
             @mouseleave="(evt)=>tdOut(evt,td)">
           <div class="td-operator" v-if="currentIndex==td&&isEdit">
@@ -111,7 +111,8 @@ const deleteCol = (index: number) => {
       <tbody>
       <tr>
         <template v-for="td of parseInt(field.preps.columns)">
-          <td :style="{ width:(100/parseInt(field.preps.columns))+'%'
+          <td :style="{ width:(100/parseInt(field.preps.columns))+'%',
+          'margin-top':'5px',
                       }" class="td-clz" @mouseenter="(evt)=>tdOver(evt,td)" @mouseleave="(evt)=>tdOut(evt,td)">
             <draggable @add="(evt:Event)=>onDragAdd(evt,field.preps.elements[td-1].items)"
                        class="smain-design"
@@ -140,9 +141,17 @@ const deleteCol = (index: number) => {
   </group-box-container>
 </template>
 <style lang="scss" scoped>
+.container-thead tr {
+  background: var(--star-horse-shadow);
+  height: 35px;
+  border-radius: 3px;
+  margin-bottom: 5px;
+  border: 1px solid #dfe6ec;
+}
+
 th {
   position: relative;
-
+  border: 1px solid #dfe6ec;
   .td-operator {
     position: absolute;
     right: 0;
@@ -150,9 +159,14 @@ th {
     z-index: 9999;
   }
 }
-
+tr{
+  width: 100%;
+}
 .td-clz {
+  flex-direction: row;
+  padding: 5px;
   border: 1px solid #dfe6ec;
+  border-top: none;
   height: 35px;
 }
 
@@ -162,6 +176,7 @@ th {
 
 .dynamic-table {
   width: 100%;
+
   thead {
     background: var(--star-horse-font-color);
     height: 30px;

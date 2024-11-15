@@ -22,6 +22,7 @@ import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import {delCacheData, getCacheData, setCacheData} from "@/api/cached_utils.ts";
 import {i18n} from "@/lang";
 import {Config} from "@/api/settings.ts";
+import FormPreview from "@/views/dyform/FormPreview.vue";
 
 const dataUrl = apiInstance("userdb-manage", "userdb/dynamicForm");
 let designForm = DesignForm(piniaInstance);
@@ -504,46 +505,10 @@ onMounted(async () => {
     </div>
   </star-horse-dialog>
   <star-horse-dialog
-      :dialogVisible="isPreview"
-      @closeAction="closeAction"
-      :selfFunc="true"
-      :compSize="compSize"
-      :title="'表单预览'"
-      :is-view="true"
-  >
+      :dialogVisible="isPreview" @closeAction="closeAction" :selfFunc="true" :compSize="compSize" :title="'表单预览'"
+      :is-view="true">
     <div class="dialog-body">
-      <el-form
-          ref="previewDynamicFormRef"
-          :disabled="formInfo['disabled'] == 'Y'"
-          :hide-required-asterisk="formInfo['hideRequiredAsterisk'] == 'Y'"
-          :inline="formInfo.inline == 'Y'"
-          :inline-message="formInfo['inlineMessage'] == 'Y'"
-          :label-position="formInfo['labelPosition']||'left'"
-          :label-suffix="formInfo['labelSuffix']"
-          :label-width="formInfo['labelWidth']||'auto'"
-          :model="formData"
-          :require-asterisk-position="formInfo['requireAsteriskPosition']||'right'"
-          :rules="formInfo.rules"
-          :scroll-to-error="formInfo['scrollToError'] == 'Y'"
-          :show-message="formInfo['showMessage'] == 'Y'"
-          :size="formInfo['size']"
-          style="width: 99%;margin: 0 auto;"
-          :status-icon="formInfo['statusIcon'] == 'Y'"
-          :validate-on-rule-change="formInfo['validateOnRuleChange']=='Y'"
-      >
-        <div :class="currentPageClass">
-          <template v-for="data in list">
-            <component
-                :id="data.id"
-                :field="data"
-                :formInfo="formInfo"
-                :formData="formData"
-                :is="data.itemType +(data.compType === 'container'? '-container':'-item')"
-            >
-            </component>
-          </template>
-        </div>
-      </el-form>
+      <form-preview :list="list"/>
     </div>
   </star-horse-dialog>
   <el-card class="inner_content">

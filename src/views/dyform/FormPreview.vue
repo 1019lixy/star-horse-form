@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import {Config} from "@/api/settings.ts";
+import {ref} from "vue";
 
 defineProps({
-  list: {type: Array, required: true},
+  list: {type: Array<any>, required: true},
   compSize: {type: String, default: Config.compSize}
 });
 let formData = ref<any>({});
@@ -12,13 +13,12 @@ defineExpose({
 </script>
 
 <template>
-  <div class="form-preview">
+  <div class="form-previewa">
     <el-scrollbar height="100%" style="width: inherit">
       <el-form
           label-width="auto"
           label-position="left"
           require-asterisk-position="right"
-
           :model="formData"
           :size="compSize"
       >
@@ -49,7 +49,6 @@ defineExpose({
 
 <style scoped lang="scss">
 .form-preview {
-  border: 1px solid #e3e9f2;
   display: flex;
   flex-direction: column;
   align-items: center;
