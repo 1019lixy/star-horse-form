@@ -4,7 +4,7 @@
   >
     <el-input-number
         :fid="field.preps['name']"
-        :controls-position="field.preps['controlsPosition']"
+        :controls-position="field.preps['controlsPosition']||''"
         :controls="field.preps['controls']=='Y'"
         :disabled="!context.attrs['formData']['_'+field.preps['name']+'Editable']&&field.preps['disabled'] == 'Y'"
         :max="field.preps['max']||Infinity"
@@ -24,11 +24,11 @@
         @blur="itemAction('blur')"
         v-model="context.attrs['formData'][field.preps['name']]"
     >
-      <template  #prefix>
-        <span v-if="field.preps['prefix']">{{field.preps['prefix']}}</span>
+      <template #prefix>
+        <span v-if="field.preps['prefix']">{{ field.preps['prefix'] }}</span>
       </template>
-      <template  #suffix>
-        <span v-if="field.preps['suffix']">{{ field.preps['suffix']}}</span>
+      <template #suffix>
+        <span v-if="field.preps['suffix']">{{ field.preps['suffix'] }}</span>
       </template>
     </el-input-number>
   </starhorse-form-item>
@@ -62,5 +62,7 @@ export default defineComponent({
 });
 </script>
 <style lang="scss" scoped>
-
+:deep(.el-input-number--small) {
+  width: 100% !important;
+}
 </style>

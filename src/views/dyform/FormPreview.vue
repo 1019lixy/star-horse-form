@@ -13,7 +13,7 @@ defineExpose({
 </script>
 
 <template>
-  <div class="form-previewa">
+  <div class="form-preview">
     <el-scrollbar height="100%" style="width: inherit">
       <el-form
           label-width="auto"
@@ -56,5 +56,7 @@ defineExpose({
   height: 100%;
   margin: 0 auto;
   padding: 5px;
+  flex: 1;
+  overflow: hidden;
 }
 </style>
