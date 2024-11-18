@@ -156,18 +156,18 @@ const moveColumn = () => {
         if (oldIndex === newIndex) {
           return
         }
-        let list = JSON.parse(JSON.stringify(dataForm.value[props.batchName]));
-        //   console.log(oldIndex, newIndex, event, dataForm.value[props.batchName]);
+        // let list = JSON.parse(JSON.stringify(dataForm.value[props.batchName]));
+        // console.log(oldIndex, newIndex, event, list);
         // let oitem = dataForm.value[props.batchName][oldIndex];
         // let nitem = dataForm.value[props.batchName][newIndex];
         // dataForm.value[props.batchName][newIndex] = oitem;
         // dataForm.value[props.batchName][oldIndex] = nitem;
         //获取原始数据
-        const data = list[oldIndex];
+        // const data = list[oldIndex];
         //删除元素数据
-        list.splice(oldIndex, 1);
-        list.splice(newIndex, 0, data);
-        dataForm.value[props.batchName] = [...list];
+        // list.splice(oldIndex, 1);
+        // list.splice(newIndex, 0, data);
+        // dataForm.value[props.batchName] = [...list];
       },
     });
   }
@@ -181,7 +181,7 @@ const init = async () => {
    * 如果列表为空得情况才初始化行数
    */
   if (props.staticColumn == 'N') {
-    if (dataForm.value[props.batchName].length == 0) {
+    if (dataForm.value[props.batchName]?.length == 0) {
       for (let i = 0; i < props.initRows; i++) {
         handleAddDetails(null, 1);
       }

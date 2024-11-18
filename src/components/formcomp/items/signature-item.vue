@@ -1,28 +1,19 @@
-<template>
-  <starhorse-form-item :isDesign="context.attrs['isDesign']" :bareFlag="context.attrs['bareFlag']" :form-item="field"
-                       :parentField="parentField">
-    <div class="pcDemo">
-      <div class="actions">
-        <button @click="clear">清除</button>
-        <button @click="undo">后退</button>
-        <button @click="handleColor">修改颜色</button>
-        <button @click="handlePreview">预览</button>
-      </div>
-      <canvas ref="canvas" id="singatureCanvas"/>
-    </div>
-  </starhorse-form-item>
-</template>
 <script lang="ts" name="signature-item">
-import {defineComponent, onMounted, shallowRef, ref, nextTick, watch, onUpdated} from "vue";
+import {defineComponent, nextTick, onMounted, onUpdated, ref, shallowRef} from "vue";
 import SmoothSignature from "smooth-signature";
 import {warning} from "@/utils/message.ts";
+import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
+import {imagesPreview} from "@/api/system.ts";
+import StarHorseDialog from "@/components/comp/StarHorseDialog.vue";
 
 export default defineComponent({
+  components: {StarHorseDialog, StarHorseIcon},
   setup(_props, context) {
     const parentField = context.attrs["parentField"];
     const field = context.attrs["field"] as any;
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
+    let previewDialog = shallowRef<boolean>(false);
     let signature = ref<SmoothSignature>(null);
     let canvas = ref();
     const options = {
@@ -38,32 +29,38 @@ export default defineComponent({
     };
     const init = async () => {
       await nextTick(() => {
-        let singatureCanvas = document.querySelector("#singatureCanvas");
-        if (!signature.value && canvas.value) {
+        let singatureCanvas = document.getElementById("singatureCanvas");
+        if (!signature.value && canvas.value && singatureCanvas) {
           signature.value = new SmoothSignature(singatureCanvas, options);
         }
       });
 
 
     };
-    const clear = () => {
+    const clear = (evt: MouseEvent) => {
+      evt && evt.defaultPrevented;
       signature.value && signature.value.clear();
     }
-    const undo = () => {
+    const undo = (evt: MouseEvent) => {
+      evt && evt.defaultPrevented;
       signature.value && signature.value.undo();
     }
 
-    const handleColor = () => {
+    const handleColor = (evt: MouseEvent) => {
+      evt && evt.defaultPrevented;
       signature.value.color = '#' + Math.random().toString(16).slice(-6);
     };
-    const handlePreview = () => {
+    const handlePreview = (evt: MouseEvent) => {
+      evt && evt.defaultPrevented;
       const isEmpty = signature.value.isEmpty();
       if (isEmpty) {
         warning("请先签名");
         return;
       }
+      previewDialog.value = true;
       const pngUrl = signature.value.getPNG();
-      window.previewImage(pngUrl);
+      // imagesPreview(pngUrl);
+      // window.previewImage(pngUrl);
     }
     onMounted(() => {
       init();
@@ -71,35 +68,69 @@ export default defineComponent({
     onUpdated(() => {
       init();
     })
-
-    // watch(signature.value?.getPNG(),
-    //     (val: any) => {
-    //       context.attrs['formData'][field.preps['name']] = val;
-    //     }, {deep: true, immediate: false})
     return {
       parentField, context, field, formItem, dataField, handlePreview, itemAction,
-      clear, undo, handleColor, canvas
+      clear, undo, handleColor, canvas, signature, previewDialog
     }
   }
 });
 </script>
+<template>
+  <star-horse-dialog :dialog-visible="previewDialog" :is-view="true" :self-func="true" @closeAction="previewDialog=false">
+    <el-image :src="signature.getPNG()"/>
+  </star-horse-dialog>
+  <starhorse-form-item :isDesign="context.attrs['isDesign']" :bareFlag="context.attrs['bareFlag']" :form-item="field"
+                       :parentField="parentField">
+    <div class="pcDemo">
+      <div class="inner_button">
+        <el-menu mode="horizontal" style="height: inherit;width: 100%;">
+          <el-menu-item @click="clear">
+            <el-tooltip content="清除">
+              <star-horse-icon icon-class="reset"/>
+            </el-tooltip>
+          </el-menu-item>
+          <el-menu-item @click="undo">
+            <el-tooltip content="后退">
+              <star-horse-icon icon-class="undo"/>
+            </el-tooltip>
+          </el-menu-item>
+          <el-menu-item @click="handleColor">
+            <el-tooltip content="修改颜色">
+              <star-horse-icon icon-class="color"/>
+            </el-tooltip>
+          </el-menu-item>
+          <el-menu-item @click="handlePreview">
+            <el-tooltip content="预览">
+              <star-horse-icon icon-class="preview"/>
+            </el-tooltip>
+          </el-menu-item>
+        </el-menu>
+      </div>
+      <canvas ref="canvas" id="singatureCanvas"/>
+    </div>
+  </starhorse-form-item>
+</template>
 <style lang="scss" scoped>
 .pcDemo {
   button {
     margin-right: 10px;
     font-size: 18px;
   }
+
   canvas {
     border: 2px dashed #ccc;
     cursor: crosshair;
   }
+
   .actions {
     margin: 30px 0;
   }
+
   .tip {
     color: #108eff;
   }
 }
+
 .mbDemo {
   position: fixed;
   left: 0;
