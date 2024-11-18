@@ -32,7 +32,7 @@ let defaultCondition = ref<SearchParams[]>([]);
 
 const roleTypeChange = (data: TreeNodeData, _checked: boolean) => {
   currentUserGroupId.value = data["value"];
-  outerFormData.value["roleType"]=data["value"];
+  outerFormData.value["roleType"] = data["value"];
   defaultCondition.value = [createCondition("a.roleType", currentUserGroupId.value)];
   companyRoleRef.value.createSearchParams(defaultCondition.value)
 };
@@ -249,23 +249,28 @@ onDeactivated(() => {
 <template>
   <star-horse-dialog :self-func="true" :title="'设置角色归属公司'" :dialog-visible="dialogProps.bakeVisible1"
                      :dialogProps="dialogProps" @merge="assignCompany">
-
-    <star-horse-tree v-model:tree-datas="companyList" :showCheckBox="true" expand="true" treeTitle="公司列表"
-                     showSelectData="true"
-                     ref="assignRoleCompanyRef"
-                     :preps="{
+    <div class="dialog-body">
+      <star-horse-tree v-model:tree-datas="companyList" :showCheckBox="true" expand="true" treeTitle="公司列表"
+                       showSelectData="true"
+                       ref="assignRoleCompanyRef"
+                       :preps="{
                        label:'name',
                        value:'idCompanyDefine'
                        }"
-                     :compSize="compSize"/>
+                       :compSize="compSize"/>
+    </div>
   </star-horse-dialog>
   <star-horse-dialog :isShowBtnContinue="true" :dialog-visible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form @refresh="companyRoleRef.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList"
-                     :rules="rules" :outerFormData="outerFormData"/>
+    <div class="dialog-body">
+      <star-horse-form @refresh="companyRoleRef.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList"
+                       :rules="rules" :outerFormData="outerFormData"/>
+    </div>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title="'查看数据'"
                      :isView="true">
-    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+    <div class="dialog-body">
+      <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+    </div>
   </star-horse-dialog>
   <el-row :gutter="10" class="h100-overflow-hidden ">
     <el-col :span="4" class="h100">

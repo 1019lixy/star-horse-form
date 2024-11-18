@@ -73,15 +73,15 @@ const tableFieldList = reactive<PageFieldInfo>({
       tableShow: true
     },
     [{
-      label: "菜单图标", fieldName: "menuIcon", type: "icon", optionList: menuIconList,
+      label: "排序", fieldName: "dataIndex", type: "number",
       required: true, formShow: true,
       tableShow: true
+    },{
+      label: "菜单图标", fieldName: "menuIcon", type: "icon", optionList: menuIconList,
+      required: false, formShow: true,
+      tableShow: true
     },
-      {
-        label: "排序", fieldName: "dataIndex", type: "number",
-        required: true, formShow: true,
-        tableShow: true
-      },
+
     ],
     [{
       label: "是否缓存页面", fieldName: "keepAlive", type: "switch",
@@ -248,13 +248,17 @@ onMounted(async () => {
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps"
                      :self-func="true"
                      @merge="merge" @mergeDraft="mergeDraft" @resetForm="resetForm">
-    <star-horse-form :outerFormData="dataForm" :compUrl="dataUrl" :fieldList="tableFieldList"
-                     :primaryKey="primaryKey" :rules="rules"
-                     ref="menuFormRef"/>
+    <div class="dialog-body">
+      <star-horse-form :outerFormData="dataForm" :compUrl="dataUrl" :fieldList="tableFieldList"
+                       :primaryKey="primaryKey" :rules="rules"
+                       ref="menuFormRef"/>
+    </div>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title="'查看数据'"
                      :is-view="true">
-    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+    <div class="dialog-body">
+      <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+    </div>
   </star-horse-dialog>
   <el-card class="inner_content">
     <el-row style="height: 100%;" :gutter="10">

@@ -63,10 +63,9 @@
   </starhorse-form-item>
 </template>
 <script lang="ts">
-import {defineComponent, onMounted, shallowRef,watch} from "vue";
+import {defineComponent, onMounted, shallowRef,watch,ref,useSlots} from "vue";
 import {allAction} from "@/components/formcomp/utils/ItemRelationEventUtils.ts";
 import {warning} from "@/utils/message.ts";
-
 export default defineComponent({
   setup(_props, context) {
     const parentField = context.attrs["parentField"];
@@ -74,28 +73,22 @@ export default defineComponent({
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
     let actionName = shallowRef("keydown.enter");
-
 // input焦点事件
     const isFocus = ref();
-
     const handleFocus = () => {
       isFocus.value = true;
     };
-
     const handleBlur = () => {
       isFocus.value = false;
     };
 
 // 处理数字精度
-
-
 // 判断插槽是否被使用
 // 组件外部使用时插入了
 // <template #插槽名 >
 // </template>
 // 无论template标签内是否插入了内容，均视为已使用该插槽
     const slots = useSlots();
-
     const itemAction = (prep: string) => {
       let min = context.attrs['formData'][field.preps['minName']];
       let max = context.attrs['formData'][field.preps['maxName']];

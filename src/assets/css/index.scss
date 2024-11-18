@@ -109,21 +109,7 @@ a {
   }
 }
 
-.inner_button {
-  display: flex;
-  flex-direction: row;
-  list-style: none;
-  flex: none;
-  align-items: center;
-  justify-content: flex-end;
-  text-align: right;
 
-  li {
-    text-wrap: none;
-    padding: 0 10px;
-    font-weight: 800;
-  }
-}
 
 .page-up {
   height: 100%;
@@ -148,8 +134,9 @@ a {
 
 .system-icon {
   list-style: none;
-  height: 150px;
+  max-height: 350px;
   display: flex;
+  max-width: 500px;
   flex: 1;
   flex-direction: row;
   flex-flow: row wrap;
@@ -755,17 +742,29 @@ hr {
   }
 
 }
-
 .inner_button {
+  display: flex;
+  flex-direction: row;
+  list-style: none;
+  flex: none;
+  align-items: center;
+  justify-content: flex-end;
+  text-align: right;
   height: 40px;
-  text-align: left;
-  justify-content: flex-start;
   background: var(--star-horse-background);
   border: dashed 1px var(--star-horse-font-color);
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  li {
+    text-wrap: none;
+  /*  padding: 0 10px;*/
+    font-weight: 800;
+  }
+}
+.inner_button {
+
 }
 
 .custom-tabs-label {
