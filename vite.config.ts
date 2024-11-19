@@ -10,18 +10,17 @@ import Components from 'unplugin-vue-components/vite'
 import {ElementPlusResolver} from 'unplugin-vue-components/resolvers'
 import AutoImport from 'unplugin-auto-import/vite'
 import {viteCommonjs} from '@originjs/vite-plugin-commonjs'
-import fs from "fs";
 
-const codeHost = "http://192.168.20.165:8888/"
-// const codeHost = "http://localhost:8888/"
-const systemHost = "http://localhost:8749/"
-// const systemHost = "http://192.168.20.204:8749/"
-const workflowHost = "http://localhost:8899/"
-const continusHost = "http://localhost:8859/"
-// const dbSearchHost = "http://192.168.20.165:7759/"
-const dbSearchHost = "http://localhost:7759/"
-const userDbHost = "http://localhost:7758/"
-// const userDbHost = "http://192.168.20.204:7758/"
+const codeHost:string = "http://192.168.20.165:8888/"
+// const codeHost:string = "http://localhost:8888/"
+const systemHost:string = "http://localhost:8749/"
+// const systemHost:string = "http://192.168.20.204:8749/"
+const workflowHost:string = "http://localhost:8899/"
+const continusHost:string = "http://localhost:8859/"
+// const dbSearchHost:string = "http://192.168.20.165:7759/"
+const dbSearchHost:string = "http://localhost:7759/"
+const userDbHost:string = "http://localhost:7758/"
+// const userDbHost:string = "http://192.168.20.204:7758/"
 // https://vitejs.dev/config/
 export default defineConfig((mode, command) => {
     const optimizeDepsElementPlusIncludes = [
@@ -31,6 +30,7 @@ export default defineConfig((mode, command) => {
         'vue3-infinite-viewer',
         'smooth-signature',
         '@vueuse/core',
+        'jsoneditor',
         '@fullcalendar/vue3',
         '@fullcalendar/daygrid',
         '@fullcalendar/timegrid',
@@ -41,7 +41,9 @@ export default defineConfig((mode, command) => {
         '@fullcalendar/interaction',
         'axios',
         'qs',
-        'jsoneditor',
+        'vue-pdf-embed',
+        'preview-image-js/icon.js',
+        'preview-image-js',
         'bpmn-js/lib/Modeler',
         'bpmn-js-token-simulation',
         'bpmn-js-bpmnlint',
@@ -109,13 +111,13 @@ export default defineConfig((mode, command) => {
                 "/system-config": {
                     target: systemHost,
                     changeOrigin: true,
-                    rewrite: (path:string) => path.replace(/^\/system-config/, '/system-config-dev'),
+                    rewrite: (path: string) => path.replace(/^\/system-config/, '/system-config-dev'),
                     ws: true
                 },
                 "/code-generator": {
                     target: codeHost,
                     changeOrigin: true,
-                    rewrite: (path:string) => path.replace(/^\/code-generator/, '/code-generator-dev'),
+                    rewrite: (path: string) => path.replace(/^\/code-generator/, '/code-generator-dev'),
                     ws: true
                 },
                 "/flow-engine": {
@@ -126,20 +128,20 @@ export default defineConfig((mode, command) => {
                 "/devops-continus": {
                     target: continusHost,
                     changeOrigin: true,
-                    rewrite: (path:string) => path.replace(/^\/devops-continus/, '/devops-continus-dev'),
+                    rewrite: (path: string) => path.replace(/^\/devops-continus/, '/devops-continus-dev'),
                     ws: true
                 },
                 "/dbsearch-manage": {
                     target: dbSearchHost,
                     changeOrigin: true,
-                    rewrite: (path:string) => path.replace(/^\/dbsearch-manage/, '/dbsearch-manage-dev'),
+                    rewrite: (path: string) => path.replace(/^\/dbsearch-manage/, '/dbsearch-manage-dev'),
                     ws: true
                 },
 
                 "/userdb-manage": {
                     target: userDbHost,
                     changeOrigin: true,
-                    rewrite: (path:string) => path.replace(/^\/userdb-manage/, '/userdb-manage-dev'),
+                    rewrite: (path: string) => path.replace(/^\/userdb-manage/, '/userdb-manage-dev'),
                     ws: true
                 },
             }
