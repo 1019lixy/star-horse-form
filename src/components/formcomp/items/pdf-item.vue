@@ -2,33 +2,49 @@
   <starhorse-form-item :isDesign="context.attrs['isDesign']" :bareFlag="context.attrs['bareFlag']" :form-item="field"
                        :parentField="parentField"
   >
-    <div class="interviewVideo_main" id="videoContainer">
-      <!--此处根据pdf的页数动态生成相应数量的canvas画布-->
-      <VuePdfEmbed annotation-layer text-layer :source="pdfSource" />
-    </div>
+    <iframe v-if="field.preps?.viewType=='view'" :src="filePath" width="100%"
+            :web.xmlHeight="field.preps?.height||100"/>
+    <el-button v-else type="primary" @click="pdfView" text>
+      <star-horse-icon icon-class="pdf" color="var(--star-horse-style)"/>
+      预览
+    </el-button>
   </starhorse-form-item>
 </template>
 <script lang="ts" name="pdfItem">
-import {defineComponent, ref, shallowRef} from "vue";
-import VuePdfEmbed from 'vue-pdf-embed'
-import 'vue-pdf-embed/dist/styles/annotationLayer.css'
-import 'vue-pdf-embed/dist/styles/textLayer.css'
+import {computed, defineComponent, onMounted, ref, shallowRef} from "vue";
+import {warning} from "@/utils/message.ts";
+
 export default defineComponent({
-  components: {
-    VuePdfEmbed
-  },
   setup(_props, context) {
     const parentField = context.attrs["parentField"];
     const field = context.attrs["field"] as any;
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
-    let pdfSource = ref('e:/test.pdf'); // pdf文件的路径
+    let filePath = computed(() => {
+      let path = context.attrs['formData'][field.preps['name']];
+      if (path) {
+        path = `?file=${path}`;
+      } else {
+        path = "";
+      }
+      return `/lib/pdfjs/web/viewer.html${encodeURIComponent(path)}`;
+    })
     let pdfPages = ref(0); // pdf文件的页数
     const itemAction = () => {
       context.emit('selfFunc');
     };
+    const pdfView = () => {
+      if (!filePath.value.includes("file=")) {
+        warning("请先上传文件");
+        return;
+      }
+      window.open(`${filePath.value}`, "_blank")
+    }
+    onMounted(() => {
+
+    })
     return {
-      parentField, context, field, formItem, dataField, itemAction, pdfPages,pdfSource
+      parentField, context, field, formItem, dataField, itemAction, pdfPages, filePath, pdfView
     }
   }
 });

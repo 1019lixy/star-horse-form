@@ -3,7 +3,6 @@ import {defineComponent, nextTick, onMounted, onUpdated, ref, shallowRef} from "
 import SmoothSignature from "smooth-signature";
 import {warning} from "@/utils/message.ts";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-import {imagesPreview} from "@/api/system.ts";
 import StarHorseDialog from "@/components/comp/StarHorseDialog.vue";
 
 export default defineComponent({
@@ -76,7 +75,8 @@ export default defineComponent({
 });
 </script>
 <template>
-  <star-horse-dialog :dialog-visible="previewDialog" :is-view="true" :self-func="true" @closeAction="previewDialog=false">
+  <star-horse-dialog :dialog-visible="previewDialog" :is-view="true" :self-func="true"
+                     @closeAction="previewDialog=false">
     <el-image :src="signature.getPNG()"/>
   </star-horse-dialog>
   <starhorse-form-item :isDesign="context.attrs['isDesign']" :bareFlag="context.attrs['bareFlag']" :form-item="field"

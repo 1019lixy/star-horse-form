@@ -41,8 +41,6 @@ export default defineConfig((mode, command) => {
         '@fullcalendar/interaction',
         'axios',
         'qs',
-        'vue-pdf-embed',
-        'preview-image-js/icon.js',
         'preview-image-js',
         'bpmn-js/lib/Modeler',
         'bpmn-js-token-simulation',
@@ -107,7 +105,6 @@ export default defineConfig((mode, command) => {
             open: true,
             hmr: true,
             proxy: {
-
                 "/system-config": {
                     target: systemHost,
                     changeOrigin: true,
