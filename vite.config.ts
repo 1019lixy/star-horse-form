@@ -176,7 +176,7 @@ export default defineConfig((mode, command) => {
                 "windows.$": "jquery",
             }),
             createSvgIconsPlugin({
-                iconDirs: [resolve(process.cwd(), 'src/icons')],
+                iconDirs: [resolve(process.cwd(), 'src/icons'),resolve(process.cwd(), 'src/assets/icons/svg')],
                 symbolId: 'icon-[dir]-[name]',
             }),
             /* eslintPlugin({

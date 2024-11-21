@@ -45,15 +45,7 @@ routers.push({
                 keepAlive: "N"
             }
         },
-        {
-            path: "/continus/instanceItem",
-            name: "InstanceItem",
-            component: () => import("@/views/continus/InstanceItem.vue"),
-            meta: {
-                title: "实例项目",
-                keepAlive: "N"
-            }
-        },
+
 
         {
             path: "/tab/page/:param",
@@ -114,6 +106,15 @@ routers.push(
         meta: {
             keepAlive: "N",
             title: "测试"
+        }
+    },
+    {
+        path: "/mindMap",
+        name: "MindMap",
+        component: () => import("@/views/tools/MindMap.vue"),
+        meta: {
+            title: "思维导图",
+            keepAlive: "N"
         }
     },
     /*    {

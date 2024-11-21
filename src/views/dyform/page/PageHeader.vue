@@ -1,8 +1,17 @@
 <script setup lang="ts">
+import {ref} from "vue";
 import {CHART_LIST, SHAPE_LIST} from "@/views/dyform/page/shapes.ts";
+import icons from "./icon.ts";
+import images from "@/assets/image.ts";
 
+let activeName = ref<string>('first')
 const goBack = () => {
   window.history.back();
+}
+const strToObj = (str: string) => {
+  // 使用DOMParser来解析字符串
+  const parser = new DOMParser();
+  return parser.parseFromString(str, 'image/svg+xml');
 }
 </script>
 
@@ -51,6 +60,47 @@ const goBack = () => {
           </el-scrollbar>
         </template>
       </el-popover>
+      <el-popover trigger="click" :width="450" :popper-style="{'max-height':'500px','overflow':'hidden'}">
+        <template #reference>
+          <star-horse-icon icon-class="icon" cursor="pointer" title="插入图标/贴纸"/>
+        </template>
+        <template #default>
+          <el-tabs v-model="activeName" style="height: 460px;overflow: hidden;position: relative">
+            <el-tab-pane label="图标" name="first">
+              <el-scrollbar height="100%">
+                <template v-for="item in icons">
+                  <div class="shape-info">
+                    <div class="shape-title">{{ item.name }}</div>
+                    <div class="shape-content">
+                      <template v-for="sitem in item.list">
+                        <template v-if="sitem.icon.startsWith('data')">
+                          <img :src="sitem.icon" cursor="pointer" width="28" height="28" size="28px"/>
+                        </template>
+                        <span v-else v-html="sitem.icon"/>
+                      </template>
+                    </div>
+                  </div>
+                </template>
+              </el-scrollbar>
+            </el-tab-pane>
+            <el-tab-pane label="贴纸" name="second">
+              <el-scrollbar height="100%">
+                <template v-for="item in images">
+                  <div class="shape-info">
+                    <div class="shape-title">{{ item.name }}</div>
+                    <div class="shape-content">
+                      <template v-for="sitem in item.list">
+                        <span v-if="sitem.name.includes('viewBox')" v-html="sitem.name" style="display: block;width: 28px;height: 28px;margin: 5px;"/>
+                        <star-horse-icon v-else :icon-class="sitem.name" cursor="pointer" size="30px"/>
+                      </template>
+                    </div>
+                  </div>
+                </template>
+              </el-scrollbar>
+            </el-tab-pane>
+          </el-tabs>
+        </template>
+      </el-popover>
       <el-popover trigger="click" :width="450">
         <template #reference>
           <star-horse-icon icon-class="shapes" cursor="pointer" title="插入图形"/>
@@ -92,15 +142,29 @@ const goBack = () => {
         <star-horse-icon icon-class="fullscreen-expand" @click="goBack" cursor="pointer"/>
       </el-tooltip>
     </div>
+
   </div>
 </template>
 
 <style scoped lang="scss">
-.svg-icon{
-  margin:0 10px;
+:deep(.el-tabs) {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
 }
+
+.svg-icon, .icon {
+  margin: 0 10px;
+}
+
 :deep(.el-popper) {
   padding: unset;
+
+}
+
+:deep(.el-popover) {
+  max-height: 500px !important;
+  overflow: hidden;
 }
 
 .shape-info {
@@ -139,6 +203,7 @@ const goBack = () => {
     align-items: center;
     justify-content: center;
   }
+
   .header-right {
     display: flex;
     align-items: center;

@@ -32,8 +32,8 @@ const init = async () => {
   loadByPage();
 }
 const reCount = (msgList: Array<any>, auditList: Array<any>) => {
-  totalMessages.value = msgList.filter(item => item.statusCode == "1")?.length || 0;
-  totalAudit.value = auditList.filter(item => item.statusCode == "1")?.length || 0;
+  totalMessages.value = msgList?.filter(item => item.statusCode == "1")?.length || 0;
+  totalAudit.value = auditList?.filter(item => item.statusCode == "1")?.length || 0;
   totals.value = totalMessages.value + totalAudit.value;
 }
 const webSocketOperation = () => {
