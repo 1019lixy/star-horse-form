@@ -41,7 +41,7 @@ const strToObj = (str: string) => {
       <el-tooltip content="插入容器">
         <star-horse-icon icon-class="container" @click="goBack" cursor="pointer"/>
       </el-tooltip>
-      <el-popover trigger="click" :width="450">
+<!--      <el-popover trigger="click" :width="450">
         <template #reference>
           <star-horse-icon icon-class="charts" cursor="pointer" title="插入图表"/>
         </template>
@@ -59,7 +59,7 @@ const strToObj = (str: string) => {
             </template>
           </el-scrollbar>
         </template>
-      </el-popover>
+      </el-popover>-->
       <el-popover trigger="click" :width="450" :popper-style="{'max-height':'500px','overflow':'hidden'}">
         <template #reference>
           <star-horse-icon icon-class="icon" cursor="pointer" title="插入图标/贴纸"/>
@@ -153,7 +153,7 @@ const strToObj = (str: string) => {
   overflow: hidden;
 }
 
-.svg-icon, .icon {
+.svg-icon, .icon,img {
   margin: 0 10px;
 }
 
