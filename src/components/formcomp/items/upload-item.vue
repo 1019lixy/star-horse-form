@@ -15,7 +15,7 @@
         :headers="headers"
         :http-request="field.preps['httpRequest']"
         :limit="field.preps['limit']"
-        :list-type="field.preps['listType']||'picture-card'"
+        :list-type="field.preps['listType']||'text'"
         :method="field.preps['method']||'post'"
         :multiple="field.preps['multiple']=='Y'"
         :name="field.preps['aliasName']||'file'"
@@ -65,9 +65,9 @@ export default defineComponent({
         context.attrs['formData'][field.preps['name']] = result.path;
         //默认将上传成功的属性存入数据对象
         if (!field.preps['keepResult'] || field.preps['keepResult'] == 'Y') {
-          for (let key of result) {
-            context.attrs['formData'][key] = result[key];
-          }
+          Object.entries(result).forEach(([key, value]) => {
+            context.attrs['formData'][key] = value;
+          });
         }
         //console.log(param.data.path);
       }
@@ -81,7 +81,7 @@ export default defineComponent({
       }
       let temp = field.preps?.headers;
       if (temp && Object.keys(temp).length > 0) {
-        headers.value = JSON.parse(temp);
+        headers.value = temp;
       }
       headers.value["token"] = getToken();
     });

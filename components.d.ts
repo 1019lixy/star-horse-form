@@ -49,6 +49,7 @@ declare module 'vue' {
     CollapseContainer: typeof import('./src/components/formcomp/container/collapse-container.vue')['default']
     CollapseItem: typeof import('./src/components/comp/items/collapseItem.vue')['default']
     ColorItem: typeof import('./src/components/formcomp/items/color-item.vue')['default']
+    CommonFilesUi: typeof import('./src/views/system/CommonFilesUi.vue')['default']
     CommonRoleManage: typeof import('./src/views/system/role/CommonRoleManage.vue')['default']
     CompanyCategory: typeof import('./src/views/system/company/CompanyCategory.vue')['default']
     CompanyDefined: typeof import('./src/views/system/company/CompanyDefined.vue')['default']
