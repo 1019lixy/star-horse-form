@@ -192,8 +192,8 @@ const changeOperation = (_val: any) => {
 const resetDefault = () => {
   let defaultConfig = {
     tagsView: 'Y',
-    inputSize: 'default',
-    buttonSize: 'default',
+    inputSize: 'small',
+    buttonSize: 'small',
     buttonShowType: "dropdown",
     themeColor: "#409EFF",
     position: "left",
