@@ -81,6 +81,7 @@
     "file-drops": "^0.5.0",
     "flv.js": "^1.6.2",
     "glob": "^11.0.0",
+    "gridstack": "^11.1.1",
     "highlight.js": "^11.10.0",
     "html2canvas": "^1.4.1",
     "i18n": "^0.15.1",

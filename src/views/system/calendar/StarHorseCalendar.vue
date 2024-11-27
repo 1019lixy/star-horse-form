@@ -609,6 +609,10 @@ onMounted(async () => {
             <star-horse-icon cursor="pointer" icon-class="calendar"/>
             日
           </el-button>
+          <el-button link :size="compSize" @click="changeModel('listMonth')">
+            <star-horse-icon cursor="pointer" icon-class="calendar"/>
+            列表
+          </el-button>
           <el-button link :size="compSize" @click="changeModel('editBtn')">
             <star-horse-icon cursor="pointer" icon-class="edit"/>
             {{ editTitle }}

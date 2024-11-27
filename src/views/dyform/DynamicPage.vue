@@ -8,11 +8,14 @@ import PageHeader from "@/views/dyform/page/PageHeader.vue";
 import PagePosition from "@/views/dyform/page/PagePosition.vue";
 import PageBackground from "@/views/dyform/page/PageBackground.vue";
 import PageFont from "@/views/dyform/page/PageFont.vue";
+import 'gridstack/dist/gridstack.min.css';
+import {GridStack} from 'gridstack';
 
 const dataUrl = apiInstance("userdb-manage", "userdb/dynamicPage");
 const horizontalGuides = ref();
 const verticalGuides = ref();
 const vueInfiniteViewerRef = ref();
+const gridStackInstance = ref<GridStack>(null);
 let panelModel = ref<string>("first");
 let propertyItem = ref<string>("1");
 let scrollX = ref<number>(0);
@@ -35,13 +38,33 @@ const initGuides = async () => {
       verticalGuides.value?.scrollGuides(scrollX.value);
     });
   });
-
+  gridStackInstance.value = GridStack.init({
+    acceptWidgets:true,
+    margin: 5,
+    resizable: {
+      handles: 'e,se,s,sw,w'
+    }
+  });
 }
 const init = async () => {
   await initGuides();
 };
 const onChange = (e: any) => {
   console.log(e);
+}
+const count = ref<number>(0);
+let items: Array<any> = [];
+const addNewWidget = () => {
+  const node = items[count.value] || {
+    x: Math.round(12 * Math.random()),
+    y: Math.round(5 * Math.random()),
+    w: Math.round(1 + 3 * Math.random()),
+    h: Math.round(1 + 3 * Math.random()),
+  };
+  node.id =  String(count.value++);
+  node.content ="<div>xxxxxxxxxxxxxxxxx</div>";
+  gridStackInstance.value?.addWidget(node);
+
 }
 const viewScroller = (e: any) => {
   let type = e.currentTarget.horizontalScrollbar.type;
@@ -74,6 +97,9 @@ onMounted(async () => {
         <el-tabs style="width: 100%;height: 100%;background: #1d2129;border: none" tab-position="left"
                  type="border-card" v-model="panelModel">
           <el-tab-pane label="基础信息" name="first">
+            <div class="add-weidget" @click="addNewWidget">
+              <star-horse-icon icon-class="plus" color="#fefefe"/>
+            </div>
           </el-tab-pane>
           <el-tab-pane label="高级信息" name="second">
           </el-tab-pane>
@@ -119,7 +145,7 @@ onMounted(async () => {
             :zoom="1"
             @scroll="viewScroller"
             class="viewer">
-          <div class="viewport">AA</div>
+          <div class="  grid-stack">jfidjsfisj</div>
         </VueInfiniteViewer>
 
       </div>
@@ -164,6 +190,15 @@ onMounted(async () => {
 
 
 <style lang="scss" scoped>
+.grid-stack {
+  background: var(--star-horse-white);
+}
+
+:deep(.grid-stack-item-content) {
+  background-color: var(--star-horse-style);
+}
+
+
 .title {
   color: var(--star-horse-white);
 }

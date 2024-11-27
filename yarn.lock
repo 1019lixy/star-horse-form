@@ -7938,6 +7938,11 @@ gray-matter@^4.0.1:
     section-matter "^1.0.0"
     strip-bom-string "^1.0.0"
 
+gridstack@^11.1.1:
+  version "11.1.1"
+  resolved "https://registry.npmmirror.com/gridstack/-/gridstack-11.1.1.tgz#50f6c7a46f703a5c92a9819a607b22a6e8bd9703"
+  integrity sha512-St50Ra3FlxxERrMcnRAmxQKE8paXOIwQ88zpafUkzdOYg9Sn/3/Vf4EqCWv8P/hkNIlfW/8VYsk8fk+3DQPVxQ==
+
 gzip-size@^6.0.0:
   version "6.0.0"
   resolved "https://registry.npmmirror.com/gzip-size/-/gzip-size-6.0.0.tgz"
