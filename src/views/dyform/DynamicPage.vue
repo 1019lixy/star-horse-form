@@ -1,5 +1,5 @@
 <script lang="ts" setup name="DynamicPage">
-import {nextTick, onMounted, ref} from "vue";
+import {h, nextTick, onBeforeUnmount, onMounted, ref, render, toRefs} from "vue";
 import {apiInstance} from "@/api/sh_api";
 import Guides from "vue3-guides";
 import {VueInfiniteViewer} from "vue3-infinite-viewer"
@@ -10,6 +10,9 @@ import PageBackground from "@/views/dyform/page/PageBackground.vue";
 import PageFont from "@/views/dyform/page/PageFont.vue";
 import 'gridstack/dist/gridstack.min.css';
 import {GridStack} from 'gridstack';
+import {uuid} from "@/api/system.ts";
+import UsersinfoUi from "@/views/system/UsersinfoUi.vue";
+import {GridStackWidget} from "gridstack/dist/types";
 
 const dataUrl = apiInstance("userdb-manage", "userdb/dynamicPage");
 const horizontalGuides = ref();
@@ -20,6 +23,12 @@ let panelModel = ref<string>("first");
 let propertyItem = ref<string>("1");
 let scrollX = ref<number>(0);
 let scrollY = ref<number>(0);
+let dyPageInfo = ref<any>({
+  position: {},
+  background: {},
+  pageFont: {},
+
+})
 const initGuides = async () => {
 
   await nextTick(() => {
@@ -39,32 +48,104 @@ const initGuides = async () => {
     });
   });
   gridStackInstance.value = GridStack.init({
-    acceptWidgets:true,
+    acceptWidgets: true,
     margin: 5,
     resizable: {
       handles: 'e,se,s,sw,w'
     }
   });
+  //添加删除子节点的回调函数
+  GridStack.addRemoveCB = listenCompChange;
 }
 const init = async () => {
   await initGuides();
+  onRestore();
 };
 const onChange = (e: any) => {
   console.log(e);
 }
 const count = ref<number>(0);
-let items: Array<any> = [];
+let items = ref<Array<any>>([]);
+const ItemComponent = {
+  components: {UsersinfoUi},
+  props: {
+    itemName: {
+      type: String,
+      required: true,
+    },
+    itemId: {
+      type: [String, Number],
+      required: true,
+    },
+  },
+  emits: ['remove'],
+  setup(props, {emit}) {
+    const root = ref(null)
+    const {itemId} = toRefs(props)
+
+    onBeforeUnmount(() => {
+      console.log(`In vue onBeforeUnmount for item ${itemId.value}`)
+    });
+
+    function handleRemove() {
+      emit('remove', root.value)
+    }
+
+    return {
+      root,
+      itemId,
+      handleRemove,
+    }
+  },
+  template: `
+    <div ref="root" class="grid-stack-item my-custom-grid-item-component">
+      <div class="grid-stack-item-content">
+        <component :is="itemName"/>
+      </div>
+    </div>
+  `
+}
+let shadowDom: any = {};
+const listenCompChange = (parent: HTMLElement, item: GridStackWidget, add: boolean, grid: boolean) => {
+  if (!parent) {
+    return
+  }
+  // Not supported yet
+  if (grid) {
+    return;
+  }
+  if (add) {
+    const itemId: string = item.id!;
+    const itemVNode = h(
+        ItemComponent,
+        {
+          itemId: itemId,
+          itemName: "UsersinfoUi",
+          onRemove: (itemEl: any) => {
+            gridStackInstance.value?.removeWidget(itemEl);
+          }
+        }
+    );
+    shadowDom[itemId] = document.createElement('div')
+    render(itemVNode, shadowDom[itemId])
+    return itemVNode.el
+  } else {
+    const itemId = item.id
+    render(null, shadowDom[itemId])
+    return;
+  }
+}
 const addNewWidget = () => {
-  const node = items[count.value] || {
+  // let itemId = uuid();
+  const node = items.value[count.value] || {
     x: Math.round(12 * Math.random()),
     y: Math.round(5 * Math.random()),
     w: Math.round(1 + 3 * Math.random()),
     h: Math.round(1 + 3 * Math.random()),
   };
-  node.id =  String(count.value++);
-  node.content ="<div>xxxxxxxxxxxxxxxxx</div>";
+  node.id = String(count.value++);
+  // items.value.push(node);
   gridStackInstance.value?.addWidget(node);
-
 }
 const viewScroller = (e: any) => {
   let type = e.currentTarget.horizontalScrollbar.type;
@@ -83,7 +164,7 @@ const onRestore = () => {
   horizontalGuides.value?.scrollGuides(0);
   verticalGuides.value?.scroll(0);
   verticalGuides.value?.scrollGuides(0);
-  vueInfiniteViewerRef.value?.scrollCenter();
+  // vueInfiniteViewerRef.value?.scrollCenter();
 }
 onMounted(async () => {
   await init();
@@ -145,7 +226,36 @@ onMounted(async () => {
             :zoom="1"
             @scroll="viewScroller"
             class="viewer">
-          <div class="  grid-stack">jfidjsfisj</div>
+          <div class="grid-stack"
+               :style="{
+            ...dyPageInfo.position,
+            height: dyPageInfo.position.height||'100%',
+            width: dyPageInfo.position.width||'100%',
+            overflow: dyPageInfo.position.overflow||'auto',
+            paddingLeft: dyPageInfo.position.paddingLeft||'0',
+            paddingRight: dyPageInfo.position.paddingRight||'0',
+            paddingTop: dyPageInfo.position.paddingTop||'0',
+            paddingBottom: dyPageInfo.position.paddingBottom||'0',
+            marginLeft: dyPageInfo.position.marginLeft||'0',
+            marginRight:dyPageInfo.position.marginRight||'0',
+            marginTop: dyPageInfo.position.marginTop||'0',
+            marginBottom: dyPageInfo.position.marginBottom||'0',
+          }"
+          >
+            <template v-for="(item, index) in items" :key="item.id">
+              <div class="grid-stack-item ui-resizable-autohide" :gs-x="item.x" :gs-y="item.y" :gs-w="item.w"
+                   :gs-h="item.h" :gs-id="index">
+                <div class="grid-stack-item-content">
+                  {{ item.content }}
+                </div>
+                <div class="ui-resizable-handle ui-resizable-e" style="z-index: 100; user-select: none;"></div>
+                <div class="ui-resizable-handle ui-resizable-se" style="z-index: 100; user-select: none;"></div>
+                <div class="ui-resizable-handle ui-resizable-s" style="z-index: 100; user-select: none;"></div>
+                <div class="ui-resizable-handle ui-resizable-sw" style="z-index: 100; user-select: none;"></div>
+                <div class="ui-resizable-handle ui-resizable-w" style="z-index: 100; user-select: none;"></div>
+              </div>
+            </template>
+          </div>
         </VueInfiniteViewer>
 
       </div>
@@ -158,10 +268,8 @@ onMounted(async () => {
                   <div>位置大小</div>
                 </div>
               </template>
-              <page-position/>
+              <page-position v-model:position="dyPageInfo.position"/>
             </el-collapse-item>
-          </el-collapse>
-          <el-collapse v-model="propertyItem">
             <el-collapse-item name="2">
               <template #title>
                 <div class="collapse-item-title title">
@@ -170,8 +278,7 @@ onMounted(async () => {
               </template>
               <page-background/>
             </el-collapse-item>
-          </el-collapse>
-          <el-collapse v-model="propertyItem">
+
             <el-collapse-item name="3">
               <template #title>
                 <div class="collapse-item-title title">

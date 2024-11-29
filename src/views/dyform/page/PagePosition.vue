@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import {ref} from "vue";
-
-let data = ref<any>({});
+import {ModelRef} from "vue-demi";
+const data: ModelRef<any> = defineModel("position");
 </script>
 
 <template>
@@ -9,19 +8,19 @@ let data = ref<any>({});
            style="width: 98%;margin:0 auto; overflow-x:hidden;">
     <div class="row">
       <el-form-item label="X" prop="xPoint">
-        <el-input v-model="data.xPoint" size="small" placeholder="X"></el-input>
+        <el-input v-model="data.xPoint" size="small" placeholder="X"/>
       </el-form-item>
       <el-form-item label="Y" prop="yPoint">
-        <el-input v-model="data.yPoint" size="small" placeholder="Y"></el-input>
+        <el-input v-model="data.yPoint" size="small" placeholder="Y"/>
       </el-form-item>
     </div>
     <div class="row">
       <el-form-item label="宽度" prop="width">
-        <el-input v-model="data.width" size="small" placeholder="宽度"></el-input>
+        <el-input v-model="data.width" size="small" placeholder="宽度"/>
       </el-form-item>
 
       <el-form-item label="高度" prop="height">
-        <el-input v-model="data.height" size="small" placeholder="高度"></el-input>
+        <el-input v-model="data.height" size="small" placeholder="高度"/>
       </el-form-item>
     </div>
     <div class="marginContainer">
