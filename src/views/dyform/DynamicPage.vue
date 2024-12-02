@@ -59,7 +59,13 @@ const initGuides = async () => {
   //添加删除子节点的回调函数
   GridStack.addRemoveCB = listenCompChange;
   //todo 拖拽
- // GridStack.setupDragIn('.sidebar-item', undefined, sidebarContent);
+}
+const dragItem = (item: any) => {
+  console.log(item);
+  let sidebarContent = [
+    {w: 2, h: 2, subGridOpts: {children: [{content: 'nest '+item}]}}
+  ];
+  GridStack.setupDragIn('.star-horse-page', undefined, sidebarContent);
 }
 const init = async () => {
   await initGuides();
@@ -180,6 +186,10 @@ onMounted(async () => {
             <div class="add-weidget" @click="addNewWidget">
               <star-horse-icon icon-class="plus" color="#fefefe"/>
             </div>
+            <div class="star-horse-page grid-stack-item" @click="dragItem('1')">拖拽1
+            </div>
+            <div class="star-horse-page grid-stack-item" @click="dragItem('2')">拖拽2
+            </div>
           </el-tab-pane>
           <el-tab-pane label="高级信息" name="second">
           </el-tab-pane>
@@ -296,6 +306,9 @@ onMounted(async () => {
 
 
 <style lang="scss" scoped>
+.star-horse-page{
+  cursor: move;
+}
 .grid-stack {
   background: var(--star-horse-white);
 }
