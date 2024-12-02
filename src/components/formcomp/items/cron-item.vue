@@ -2,8 +2,10 @@
   <star-horse-dialog :title="'Crontab 配置器'" :self-func="true " @resetForm="resetForm" @closeAction="close"
                      @merge="submit"
                      :dialog-visible="cronVisible">
-    <Crontab ref="cronTabRef" :expression="context.attrs['formData'][field.preps['name']]"
-    />
+    <div class="dialog-body">
+      <Crontab ref="cronTabRef" :expression="context.attrs['formData'][field.preps['name']]"
+      />
+    </div>
   </star-horse-dialog>
   <starhorse-form-item :isDesign="context.attrs['isDesign']" :bareFlag="context.attrs['bareFlag']" :form-item="field"
                        :parentField="parentField"
@@ -20,7 +22,7 @@
         v-model="context.attrs['formData'][field.preps['name']]">
       <template #append>
         <el-button icon="Clock" @click="cronVisible=true"
-        :disabled="!context.attrs['formData']['_'+field.preps['name']+'Editable']&&field.preps['disabled']=='Y'"/>
+                   :disabled="!context.attrs['formData']['_'+field.preps['name']+'Editable']&&field.preps['disabled']=='Y'"/>
       </template>
     </el-input>
   </starhorse-form-item>
@@ -79,7 +81,7 @@ export default defineComponent({
 });
 </script>
 <style lang="scss" scoped>
-:deep(.el-input-group__append){
+:deep(.el-input-group__append) {
   padding: 0 20px !important;
 }
 </style>

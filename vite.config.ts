@@ -41,6 +41,7 @@ export default defineConfig((mode, command) => {
         '@fullcalendar/interaction',
         'axios',
         'qs',
+        'gridstack',
         'preview-image-js',
         'bpmn-js/lib/Modeler',
         'bpmn-js-token-simulation',

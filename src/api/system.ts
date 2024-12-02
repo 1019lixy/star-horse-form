@@ -11,6 +11,7 @@ import {DyCompField} from "@/components/types/DyCompField";
 import {createApp} from "vue";
 import previewImage from 'preview-image-js'
 import 'preview-image-js/icon.js';
+import App from "@/App.vue";
 
 const validUrl: string = "/userdb-manage/redirect/valid";
 const redirectUrl: string = "/userdb-manage/redirect/valid";
@@ -363,14 +364,19 @@ export function commonField() {
  * @param compInfo 组件信息
  */
 export function createComponent(compInfo: DyCompField) {
-    const app = createApp({});
+    const app = createApp(App);
     app.component(compInfo.name, {
+        components: compInfo.components || {},
         template: compInfo.template,
         data: () => compInfo.data || {},
         props: compInfo.props || {},
         methods: compInfo.methods,
         onMounted: compInfo.onMounted,
         emits: compInfo.emits,
+        computed: compInfo.computed,
+        watch: compInfo.watch,
+        onActivated: compInfo.onActivated,
+        onDeactivated: compInfo.onDeactivated,
     });
     return app.component(compInfo.name);
 }

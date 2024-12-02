@@ -1,5 +1,5 @@
 <script lang="ts" setup name="DynamicPage">
-import {h, nextTick, onBeforeUnmount, onMounted, ref, render, toRefs} from "vue";
+import {defineAsyncComponent, h, nextTick, onMounted, ref, render} from "vue";
 import {apiInstance} from "@/api/sh_api";
 import Guides from "vue3-guides";
 import {VueInfiniteViewer} from "vue3-infinite-viewer"
@@ -10,9 +10,10 @@ import PageBackground from "@/views/dyform/page/PageBackground.vue";
 import PageFont from "@/views/dyform/page/PageFont.vue";
 import 'gridstack/dist/gridstack.min.css';
 import {GridStack} from 'gridstack';
-import {uuid} from "@/api/system.ts";
-import UsersinfoUi from "@/views/system/UsersinfoUi.vue";
 import {GridStackWidget} from "gridstack/dist/types";
+// import cronItem from "@/components/formcomp/items/cron-item.vue";
+import {createComponent} from "@/api/system.ts";
+import {ElButton} from "element-plus";
 
 const dataUrl = apiInstance("userdb-manage", "userdb/dynamicPage");
 const horizontalGuides = ref();
@@ -66,45 +67,40 @@ const onChange = (e: any) => {
 }
 const count = ref<number>(0);
 let items = ref<Array<any>>([]);
-const ItemComponent = {
-  components: {UsersinfoUi},
-  props: {
-    itemName: {
-      type: String,
-      required: true,
+const dynamicComponent = (itemName: string) => {
+  const AsyncComp = defineAsyncComponent({
+    // 加载函数
+    loader: () => import(`@/components/formcomp/items/${itemName}.vue`),
+    // 加载失败的回调
+    onError: (err) => {
+      console.error(err);
     },
-    itemId: {
-      type: [String, Number],
-      required: true,
+  });
+  let components: any = {};
+  components[itemName] = AsyncComp;
+  components["el-button"] = ElButton;
+  return createComponent({
+    components: components,
+    name: "dynamicComponent",
+    template: `
+      <div ref="root" class="grid-stack-item my-custom-grid-item-component">
+        <div class="grid-stack-item-content">
+          <el-button>test</el-button>
+          <component :is="itemName" :field="{preps:{}}" :formData="{}"/>
+        </div>
+      </div>`,
+    props: {
+      itemName: {
+        type: String,
+        required: true
+      },
+      itemId: {type: String || Number},
     },
-  },
-  emits: ['remove'],
-  setup(props, {emit}) {
-    const root = ref(null)
-    const {itemId} = toRefs(props)
-
-    onBeforeUnmount(() => {
-      console.log(`In vue onBeforeUnmount for item ${itemId.value}`)
-    });
-
-    function handleRemove() {
-      emit('remove', root.value)
-    }
-
-    return {
-      root,
-      itemId,
-      handleRemove,
-    }
-  },
-  template: `
-    <div ref="root" class="grid-stack-item my-custom-grid-item-component">
-      <div class="grid-stack-item-content">
-        <component :is="itemName"/>
-      </div>
-    </div>
-  `
+    methods: {},
+    emits: ["remove"],
+  });
 }
+
 let shadowDom: any = {};
 const listenCompChange = (parent: HTMLElement, item: GridStackWidget, add: boolean, grid: boolean) => {
   if (!parent) {
@@ -117,10 +113,10 @@ const listenCompChange = (parent: HTMLElement, item: GridStackWidget, add: boole
   if (add) {
     const itemId: string = item.id!;
     const itemVNode = h(
-        ItemComponent,
+        dynamicComponent("cron-item")!,
         {
           itemId: itemId,
-          itemName: "UsersinfoUi",
+          itemName: "cron-item",
           onRemove: (itemEl: any) => {
             gridStackInstance.value?.removeWidget(itemEl);
           }
