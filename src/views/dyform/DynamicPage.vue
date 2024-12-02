@@ -55,8 +55,11 @@ const initGuides = async () => {
       handles: 'e,se,s,sw,w'
     }
   });
+  //https://gridstackjs.com/demo/nested.html#
   //添加删除子节点的回调函数
   GridStack.addRemoveCB = listenCompChange;
+  //todo 拖拽
+ // GridStack.setupDragIn('.sidebar-item', undefined, sidebarContent);
 }
 const init = async () => {
   await initGuides();
