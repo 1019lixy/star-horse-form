@@ -11,9 +11,7 @@ import PageFont from "@/views/dyform/page/PageFont.vue";
 import 'gridstack/dist/gridstack.min.css';
 import {GridStack} from 'gridstack';
 import {GridStackWidget} from "gridstack/dist/types";
-// import cronItem from "@/components/formcomp/items/cron-item.vue";
 import {createComponent} from "@/api/system.ts";
-import {ElButton} from "element-plus";
 
 const dataUrl = apiInstance("userdb-manage", "userdb/dynamicPage");
 const horizontalGuides = ref();
@@ -59,13 +57,15 @@ const initGuides = async () => {
   //添加删除子节点的回调函数
   GridStack.addRemoveCB = listenCompChange;
   //todo 拖拽
-}
-const dragItem = (item: any) => {
-  console.log(item);
   let sidebarContent = [
-    {w: 2, h: 2, subGridOpts: {children: [{content: 'nest '+item}]}}
+    {w: 2, h: 2, subGridOpts: {children: [{content: 'nest'}]}}
   ];
   GridStack.setupDragIn('.star-horse-page', undefined, sidebarContent);
+}
+let currentItem = ref<string>("");
+const dragItem = (item: any) => {
+  currentItem.value = item;
+  console.log(item);
 }
 const init = async () => {
   await initGuides();
@@ -87,14 +87,12 @@ const dynamicComponent = (itemName: string) => {
   });
   let components: any = {};
   components[itemName] = AsyncComp;
-  components["el-button"] = ElButton;
   return createComponent({
     components: components,
     name: "dynamicComponent",
     template: `
       <div ref="root" class="grid-stack-item my-custom-grid-item-component">
         <div class="grid-stack-item-content">
-          <el-button>test</el-button>
           <component :is="itemName" :field="{preps:{}}" :formData="{}"/>
         </div>
       </div>`,
@@ -115,17 +113,22 @@ const listenCompChange = (parent: HTMLElement, item: GridStackWidget, add: boole
   if (!parent) {
     return
   }
+  if (!currentItem.value) {
+    console.log("currentItem 没有赋值", currentItem.value)
+    return;
+  }
   // Not supported yet
   if (grid) {
     return;
   }
   if (add) {
-    const itemId: string = item.id!;
-    const itemVNode = h(
-        dynamicComponent("cron-item")!,
+    let itemName = currentItem.value + "-item";
+    let itemId: string = item.id!;
+    let itemVNode = h(
+        dynamicComponent(itemName)!,
         {
           itemId: itemId,
-          itemName: "cron-item",
+          itemName: itemName,
           onRemove: (itemEl: any) => {
             gridStackInstance.value?.removeWidget(itemEl);
           }
@@ -135,13 +138,13 @@ const listenCompChange = (parent: HTMLElement, item: GridStackWidget, add: boole
     render(itemVNode, shadowDom[itemId])
     return itemVNode.el
   } else {
-    const itemId = item.id
+    let itemId = item.id!;
     render(null, shadowDom[itemId])
     return;
   }
 }
 const addNewWidget = () => {
-  // let itemId = uuid();
+  currentItem.value = "cron";
   const node = items.value[count.value] || {
     x: Math.round(12 * Math.random()),
     y: Math.round(5 * Math.random()),
@@ -186,9 +189,9 @@ onMounted(async () => {
             <div class="add-weidget" @click="addNewWidget">
               <star-horse-icon icon-class="plus" color="#fefefe"/>
             </div>
-            <div class="star-horse-page grid-stack-item" @click="dragItem('1')">拖拽1
+            <div class="star-horse-page grid-stack-item" @mousedown="dragItem('input')">拖拽1
             </div>
-            <div class="star-horse-page grid-stack-item" @click="dragItem('2')">拖拽2
+            <div class="star-horse-page grid-stack-item" @mousedown="dragItem('switch')">拖拽2
             </div>
           </el-tab-pane>
           <el-tab-pane label="高级信息" name="second">
@@ -306,11 +309,13 @@ onMounted(async () => {
 
 
 <style lang="scss" scoped>
-.star-horse-page{
+.star-horse-page {
   cursor: move;
 }
+
 .grid-stack {
   background: var(--star-horse-white);
+  height: 100%;
 }
 
 :deep(.grid-stack-item-content) {

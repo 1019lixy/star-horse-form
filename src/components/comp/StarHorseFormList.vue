@@ -33,7 +33,7 @@ const props = defineProps({
   isView: {type: Boolean, default: false},
   subFlag: {type: Boolean, default: false},
 });
-// const dataForm = inject('dataForm') as Ref;
+const emits = defineEmits(["addRow", "removeRow"]);
 const dataForm: ModelRef<any> = defineModel("dataForm");
 const formFields = inject("formFields") as ShallowReactive<any>;
 const loading = ref(null);
@@ -87,11 +87,13 @@ const dynamicHandleAddRow = (row: any, type: number) => {
   if (type === 1) {
     let obj = JSON.parse(JSON.stringify(props.defaultValues || {}));
     obj["_uuid"] = uuid();
-    dataForm.value[props.batchName].push(obj)
+    dataForm.value[props.batchName].push(obj);
+    emits("addRow", row);
   } else {
     let index = row.xh - 1;
     formFields && formFields[props.batchName].splice(index, 1);
-    dataForm.value[props.batchName].splice(index, 1)
+    dataForm.value[props.batchName].splice(index, 1);
+    emits("removeRow", row);
   }
   //将事件传出去
   let fieldList = props.fieldList;
@@ -156,18 +158,6 @@ const moveColumn = () => {
         if (oldIndex === newIndex) {
           return
         }
-        // let list = JSON.parse(JSON.stringify(dataForm.value[props.batchName]));
-        // console.log(oldIndex, newIndex, event, list);
-        // let oitem = dataForm.value[props.batchName][oldIndex];
-        // let nitem = dataForm.value[props.batchName][newIndex];
-        // dataForm.value[props.batchName][newIndex] = oitem;
-        // dataForm.value[props.batchName][oldIndex] = nitem;
-        //获取原始数据
-        // const data = list[oldIndex];
-        //删除元素数据
-        // list.splice(oldIndex, 1);
-        // list.splice(newIndex, 0, data);
-        // dataForm.value[props.batchName] = [...list];
       },
     });
   }

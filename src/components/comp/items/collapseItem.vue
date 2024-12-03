@@ -20,12 +20,27 @@ defineProps({
   isView: {type: Boolean, default: false},
   isEdit: {type: Boolean, default: false},
 });
+const emits = defineEmits(["addRow", "removeRow"]);
 const dataForm: ModelRef<any> = defineModel("dataForm");
 const checkObject = (item: any) => {
   if (item && item.objectName && !Object.keys(dataForm.value).includes(item.objectName)) {
     dataForm.value[item.objectName] = {};
   }
   return 1;
+}
+/**
+ * 列表添加行数据
+ * @param row
+ */
+const addRow = (row: any) => {
+  emits("addRow", row);
+}
+/**
+ * 列表删除行数据
+ * @param row
+ */
+const removeRow = (row: any) => {
+  emits("removeRow", row);
 }
 const init = () => {
 
@@ -53,6 +68,8 @@ onMounted(() => {
             <star-horse-form-item v-if="collapseItem.objectName" :isView="isView" :compUrl="compUrl"
                                   v-model:dataForm="dataForm[collapseItem.objectName]"
                                   :compSize="compSize"
+                                  @addRow="addRow"
+                                  @removeRow="removeRow"
                                   :objectName="collapseItem.objectName"
                                   :fieldList="{
                                   ...collapseItem
@@ -62,6 +79,8 @@ onMounted(() => {
             <star-horse-form-item v-else :isView="isView" :compUrl="compUrl"
                                   v-model:dataForm="dataForm"
                                   :compSize="compSize"
+                                  @addRow="addRow"
+                                  @removeRow="removeRow"
                                   :objectName="collapseItem.objectName"
                                   :fieldList="{
                                    ...collapseItem

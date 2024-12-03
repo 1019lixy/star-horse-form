@@ -3,14 +3,30 @@ import {onMounted, ref} from "vue";
 import {batchFieldDefaultValues} from "@/api/sh_api.ts";
 import {ModelRef} from "vue-demi";
 import {Config} from "@/api/settings.ts";
+import StarHorseFormItem from "@/components/comp/StarHorseFormItem.vue";
 
 defineProps({
   item: {type: Object, required: true},
   rules: {type: Object},
   size: {type: String, default: Config.compSize}
 });
+const emits = defineEmits(["addRow", "removeRow"]);
 const dataForm: ModelRef<any> = defineModel("dataForm");
 const currentTableRef = ref();
+/**
+ * 列表添加行数据
+ * @param row
+ */
+const addRow = (row: any) => {
+  emits("addRow", row);
+}
+/**
+ * 列表删除行数据
+ * @param row
+ */
+const removeRow = (row: any) => {
+  emits("removeRow", row);
+}
 onMounted(() => {
   //console.log(dataForm);
 });
@@ -26,6 +42,8 @@ onMounted(() => {
       :batchUrl="item['batchUrl']"
       :title="item['title']"
       :size="size"
+      @addRow="addRow"
+      @removeRow="removeRow"
       v-if="!item['disVisible']"
       :helpMsg="item['helpMsg']"
       :staticColumn="item.staticData||'N'"
