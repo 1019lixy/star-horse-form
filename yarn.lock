@@ -2590,7 +2590,7 @@
     croact "^1.0.3"
     croact-guides "~0.26.2"
 
-"@scena/matrix@^1.0.0":
+"@scena/matrix@^1.0.0", "@scena/matrix@^1.1.1":
   version "1.1.1"
   resolved "https://registry.npmmirror.com/@scena/matrix/-/matrix-1.1.1.tgz#5297f71825c72e2c2c8f802f924f482ed200c43c"
   integrity sha512-JVKBhN0tm2Srl+Yt+Ywqu0oLgLcdemDQlD1OxmN9jaCTwaFPZ7tY8n6dhVgMEaR9qcR7r+kAlMXnSfNyYdE+Vg==
@@ -5288,7 +5288,7 @@ crelt@^1.0.5:
   resolved "https://registry.npmmirror.com/crelt/-/crelt-1.0.6.tgz"
   integrity sha512-VQ2MBenTq1fWZUH9DJNGti7kKv6EeAuYr3cLwxUWhIu1baTaXh4Ib5W2CqHVqib4/MqbYGJqiL3Zb8GJZr3l4g==
 
-croact-css-styled@^1.1.8:
+croact-css-styled@^1.1.8, croact-css-styled@^1.1.9:
   version "1.1.9"
   resolved "https://registry.npmmirror.com/croact-css-styled/-/croact-css-styled-1.1.9.tgz#05ec164ebb8a6d61ae7b26ac27af5e83fac47f48"
   integrity sha512-G7yvRiVJ3Eoj0ov2h2xR4312hpOzATay2dGS9clK8yJQothjH1sBXIyvOeRP5wBKD9mPcKcoUXPCPsl0tQog4w==
@@ -5312,6 +5312,26 @@ croact-guides@~0.26.2:
     gesto "^1.18.1"
     react-css-styled "^1.1.8"
 
+croact-moveable@~0.9.0:
+  version "0.9.0"
+  resolved "https://registry.npmmirror.com/croact-moveable/-/croact-moveable-0.9.0.tgz#4df2cab58c7e0427727b6613fd770a390fddc4ca"
+  integrity sha512-fc3bieV6CdqqZFtzsSLi9KmvUMFW3oakUfhPCls1BxKjOfUfn8rktteGED2341A/Qghy8tI3Hm6SdocIc68IKg==
+  dependencies:
+    "@daybrush/utils" "^1.13.0"
+    "@egjs/agent" "^2.2.1"
+    "@egjs/children-differ" "^1.0.1"
+    "@egjs/list-differ" "^1.0.0"
+    "@scena/dragscroll" "^1.4.0"
+    "@scena/event-emitter" "^1.0.5"
+    "@scena/matrix" "^1.1.1"
+    croact-css-styled "^1.1.9"
+    css-to-mat "^1.1.1"
+    framework-utils "^1.1.0"
+    gesto "^1.19.3"
+    overlap-area "^1.1.0"
+    react-css-styled "^1.1.9"
+    react-moveable "~0.56.0"
+
 croact-ruler@^0.18.0:
   version "0.18.0"
   resolved "https://registry.npmmirror.com/croact-ruler/-/croact-ruler-0.18.0.tgz#50850341f6574fe24b26cc32db34fc1c19f5cdc8"
@@ -5319,7 +5339,7 @@ croact-ruler@^0.18.0:
   dependencies:
     "@scena/react-ruler" "~0.19.0"
 
-croact@^1.0.3:
+croact@^1.0.3, croact@^1.0.4:
   version "1.0.4"
   resolved "https://registry.npmmirror.com/croact/-/croact-1.0.4.tgz#9bce583e13ee61dbbfc70781318c1421210e28b0"
   integrity sha512-9GhvyzTY/IVUrMQ2iz/mzgZ8+NcjczmIo/t4FkC1CU0CEcau6v6VsEih4jkTa4ZmRgYTF0qXEZLObCzdDFplpw==
@@ -7646,7 +7666,7 @@ gensync@^1.0.0-beta.2:
   resolved "https://registry.npmmirror.com/gensync/-/gensync-1.0.0-beta.2.tgz"
   integrity sha512-3hN7NaskYvMDLQY55gnW3NQ+mesEAepTqlg+VEbj7zzqEMBVNhzcGYYeqFo/TlYz6eQiFcp1HcsCZO+nGgS8zg==
 
-gesto@^1.18.1, gesto@^1.19.1, gesto@^1.19.4:
+gesto@^1.18.1, gesto@^1.19.1, gesto@^1.19.3, gesto@^1.19.4:
   version "1.19.4"
   resolved "https://registry.npmmirror.com/gesto/-/gesto-1.19.4.tgz#14921ca89e4e70c14307c4d942df04f59eb00749"
   integrity sha512-hfr/0dWwh0Bnbb88s3QVJd1ZRJeOWcgHPPwmiH6NnafDYvhTsxg+SLYu+q/oPNh9JS3V+nlr6fNs8kvPAtcRDQ==
@@ -10040,6 +10060,17 @@ mousetrap@^1.6.5:
   resolved "https://registry.npmmirror.com/mousetrap/-/mousetrap-1.6.5.tgz"
   integrity sha512-QNo4kEepaIBwiT8CDhP98umTetp+JNfQYBWvC1pc6/OAibuXtRcxZ58Qz8skvEHYvURne/7R8T5VoOI7rDsEUA==
 
+moveable@~0.53.0:
+  version "0.53.0"
+  resolved "https://registry.npmmirror.com/moveable/-/moveable-0.53.0.tgz#5574b910d58ce4b71e260c17661b6c78c4909b13"
+  integrity sha512-71jS9zIoQzMhnNvduhg4tUEdm23+fO/40FN7muVMbZvVwbTku2MIxxLhnU4qFvxI4oVxn75l79SbtgjuA+s7Pw==
+  dependencies:
+    "@daybrush/utils" "^1.13.0"
+    "@scena/event-emitter" "^1.0.5"
+    croact "^1.0.4"
+    croact-moveable "~0.9.0"
+    react-moveable "~0.56.0"
+
 mpd-parser@^1.3.1:
   version "1.3.1"
   resolved "https://registry.npmmirror.com/mpd-parser/-/mpd-parser-1.3.1.tgz#557b6ac27411c2c177bb01e46e14440703a414a3"
@@ -11468,7 +11499,7 @@ rd@^2.0.1:
   dependencies:
     "@types/node" "^10.3.6"
 
-react-css-styled@^1.1.8:
+react-css-styled@^1.1.8, react-css-styled@^1.1.9:
   version "1.1.9"
   resolved "https://registry.npmmirror.com/react-css-styled/-/react-css-styled-1.1.9.tgz#a7cc948e49f72b2f7fb1393bd85416a8293afab3"
   integrity sha512-M7fJZ3IWFaIHcZEkoFOnkjdiUFmwd8d+gTh2bpqMOcnxy/0Gsykw4dsL4QBiKsxcGow6tETUa4NAUcmJF+/nfw==
@@ -11490,6 +11521,32 @@ react-dnd-touch-backend@^16.0.1:
   dependencies:
     "@react-dnd/invariant" "^4.0.1"
     dnd-core "^16.0.1"
+
+react-moveable@~0.56.0:
+  version "0.56.0"
+  resolved "https://registry.npmmirror.com/react-moveable/-/react-moveable-0.56.0.tgz#3537565079468aa9d241c17d0a5e78c56a562843"
+  integrity sha512-FmJNmIOsOA36mdxbrc/huiE4wuXSRlmon/o+/OrfNhSiYYYL0AV5oObtPluEhb2Yr/7EfYWBHTxF5aWAvjg1SA==
+  dependencies:
+    "@daybrush/utils" "^1.13.0"
+    "@egjs/agent" "^2.2.1"
+    "@egjs/children-differ" "^1.0.1"
+    "@egjs/list-differ" "^1.0.0"
+    "@scena/dragscroll" "^1.4.0"
+    "@scena/event-emitter" "^1.0.5"
+    "@scena/matrix" "^1.1.1"
+    css-to-mat "^1.1.1"
+    framework-utils "^1.1.0"
+    gesto "^1.19.3"
+    overlap-area "^1.1.0"
+    react-css-styled "^1.1.9"
+    react-selecto "^1.25.0"
+
+react-selecto@^1.25.0:
+  version "1.26.3"
+  resolved "https://registry.npmmirror.com/react-selecto/-/react-selecto-1.26.3.tgz#f9081c006cee2e2fed85ac1811cfe17136cf81a5"
+  integrity sha512-Ubik7kWSnZyQEBNro+1k38hZaI1tJarE+5aD/qsqCOA1uUBSjgKVBy3EWRzGIbdmVex7DcxznFZLec/6KZNvwQ==
+  dependencies:
+    selecto "~1.26.3"
 
 read-pkg-up@^7.0.1:
   version "7.0.1"
@@ -14095,6 +14152,14 @@ vue3-infinite-viewer@^0.17.1:
   integrity sha512-KghbYFXpZhrRT0aia12Xvl93TRrrQ2Fa/R1f4HkUm/MbgkXl6r45RT70HnRRC8R3pOD7oz99dwHjY8P5/SFJDA==
   dependencies:
     infinite-viewer "~0.29.1"
+
+vue3-moveable@^0.28.0:
+  version "0.28.0"
+  resolved "https://registry.npmmirror.com/vue3-moveable/-/vue3-moveable-0.28.0.tgz#d6684929d4e0d4546deef9e2a2ea904ce183a11a"
+  integrity sha512-vplQO0XkxVEtXMDh2/lZE+c5kMycGXAfYFMvbwFKi8UVYzVk8MTgVHr4fxO9Z+4i4Rb+U/IEIgkhHRMAbx8FJg==
+  dependencies:
+    framework-utils "^1.1.0"
+    moveable "~0.53.0"
 
 vue3-particles@^2.12.0:
   version "2.12.0"

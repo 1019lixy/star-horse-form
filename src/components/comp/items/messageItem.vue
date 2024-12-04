@@ -13,8 +13,8 @@ defineProps({
   compSize: {type: String, default: "small"}
 });
 let currentTab = ref<string>("notice");
-let messageList = ref<any[]>([]);
-let auditList = ref<any[]>([]);
+let messageList = ref<Array<any>>([]);
+let auditList = ref<Array<any>>([]);
 let totals = ref<number>(0);
 let totalMessages = ref<number>(0);
 let totalAudit = ref<number>(0);

@@ -12,6 +12,10 @@ import 'gridstack/dist/gridstack.min.css';
 import {GridStack} from 'gridstack';
 import {GridStackWidget} from "gridstack/dist/types";
 import {createComponent} from "@/api/system.ts";
+import Moveable from "vue3-moveable";
+import ContentMenu from "@/views/dyform/page/ContentMenu.vue";
+import {contentMenuData, Editable} from "@/views/dyform/page/AblesPlugin.ts";
+import DragComp from "@/views/dyform/page/DragComp.vue";
 
 const dataUrl = apiInstance("userdb-manage", "userdb/dynamicPage");
 const horizontalGuides = ref();
@@ -46,25 +50,26 @@ const initGuides = async () => {
       verticalGuides.value?.scrollGuides(scrollX.value);
     });
   });
-  gridStackInstance.value = GridStack.init({
-    acceptWidgets: true,
-    margin: 5,
-    resizable: {
-      handles: 'e,se,s,sw,w'
-    }
-  });
-  //https://gridstackjs.com/demo/nested.html#
-  //添加删除子节点的回调函数
-  GridStack.addRemoveCB = listenCompChange;
-  //todo 拖拽
-  let sidebarContent = [
-    {w: 2, h: 2, subGridOpts: {children: [{content: 'nest'}]}}
-  ];
-  GridStack.setupDragIn('.star-horse-page', undefined, sidebarContent);
+  // gridStackInstance.value = GridStack.init({
+  //   acceptWidgets: true,
+  //   margin: 5,
+  //   resizable: {
+  //     handles: 'e,se,s,sw,w'
+  //   }
+  // });
+  // //https://gridstackjs.com/demo/nested.html#
+  // //添加删除子节点的回调函数
+  // GridStack.addRemoveCB = listenCompChange;
+  // //todo 拖拽
+  // let sidebarContent = [
+  //   {w: 2, h: 2, subGridOpts: {children: [{content: 'nest'}]}}
+  // ];
+  // GridStack.setupDragIn('.star-horse-page', undefined, sidebarContent);
 }
 let currentItem = ref<string>("");
 const dragItem = (item: any) => {
   currentItem.value = item;
+  items.value.push(item);
   console.log(item);
 }
 const init = async () => {
@@ -143,6 +148,7 @@ const listenCompChange = (parent: HTMLElement, item: GridStackWidget, add: boole
     return;
   }
 }
+const target = ref();
 const addNewWidget = () => {
   currentItem.value = "cron";
   const node = items.value[count.value] || {
@@ -165,6 +171,7 @@ const viewScroller = (e: any) => {
     verticalGuides.value?.scrollGuides(e.scrollLeft);
   }
 }
+let testFormData=ref<any>({});
 const onRestore = () => {
   scrollX.value = 0;
   scrollY.value = 0;
@@ -189,9 +196,9 @@ onMounted(async () => {
             <div class="add-weidget" @click="addNewWidget">
               <star-horse-icon icon-class="plus" color="#fefefe"/>
             </div>
-            <div class="star-horse-page grid-stack-item" @mousedown="dragItem('input')">拖拽1
+            <div class="star-horse-page " @click="dragItem('input-item')">拖拽1
             </div>
-            <div class="star-horse-page grid-stack-item" @mousedown="dragItem('switch')">拖拽2
+            <div class="star-horse-page " @click="dragItem('switch-item')">拖拽2
             </div>
           </el-tab-pane>
           <el-tab-pane label="高级信息" name="second">
@@ -238,7 +245,7 @@ onMounted(async () => {
             :zoom="1"
             @scroll="viewScroller"
             class="viewer">
-          <div class="grid-stack"
+          <div class="agrid-stack"
                :style="{
             ...dyPageInfo.position,
             height: dyPageInfo.position.height||'100%',
@@ -252,20 +259,13 @@ onMounted(async () => {
             marginRight:dyPageInfo.position.marginRight||'0',
             marginTop: dyPageInfo.position.marginTop||'0',
             marginBottom: dyPageInfo.position.marginBottom||'0',
-          }"
-          >
-            <template v-for="(item, index) in items" :key="item.id">
-              <div class="grid-stack-item ui-resizable-autohide" :gs-x="item.x" :gs-y="item.y" :gs-w="item.w"
-                   :gs-h="item.h" :gs-id="index">
-                <div class="grid-stack-item-content">
-                  {{ item.content }}
-                </div>
-                <div class="ui-resizable-handle ui-resizable-e" style="z-index: 100; user-select: none;"></div>
-                <div class="ui-resizable-handle ui-resizable-se" style="z-index: 100; user-select: none;"></div>
-                <div class="ui-resizable-handle ui-resizable-s" style="z-index: 100; user-select: none;"></div>
-                <div class="ui-resizable-handle ui-resizable-sw" style="z-index: 100; user-select: none;"></div>
-                <div class="ui-resizable-handle ui-resizable-w" style="z-index: 100; user-select: none;"></div>
-              </div>
+          }">
+            <template v-for="(item,ind) in items">
+              <DragComp :itemName="item" :form-data="testFormData" :field="{
+                preps:{
+                  name:'Field'+ind
+                }
+              }"/>
             </template>
           </div>
         </VueInfiniteViewer>
@@ -313,7 +313,7 @@ onMounted(async () => {
   cursor: move;
 }
 
-.grid-stack {
+.agrid-stack {
   background: var(--star-horse-white);
   height: 100%;
 }
@@ -321,7 +321,6 @@ onMounted(async () => {
 :deep(.grid-stack-item-content) {
   background-color: var(--star-horse-style);
 }
-
 
 .title {
   color: var(--star-horse-white);

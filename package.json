@@ -146,6 +146,7 @@
     "vue3-dnd": "^2.1.0",
     "vue3-guides": "^0.12.2",
     "vue3-infinite-viewer": "^0.17.1",
+    "vue3-moveable": "^0.28.0",
     "vue3-particles": "^2.12.0",
     "vue3-pdfjs": "^0.1.6",
     "vue3-selecto": "^1.12.3",

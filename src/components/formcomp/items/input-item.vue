@@ -2,6 +2,7 @@
   <starhorse-form-item :isDesign="context.attrs['isDesign']" :bareFlag="context.attrs['bareFlag']" :formItem="field"
                        :parentField="parentField"
   >
+    {{field}}
     <el-input
         :clearable="field.preps['clearable']=='Y'"
         :disabled="!context.attrs['formData']['_'+field.preps['name']+'Editable']&&field.preps['disabled'] == 'Y'"
@@ -10,7 +11,7 @@
         :min="field.preps['min']"
         :autofocus="field.preps['autofocus']=='Y'"
         :minlength="field.preps['maxlength']"
-        :placeholder="field.preps['placeholder']||'请输入'+field.preps['label']"
+        :placeholder="field.preps['placeholder']||'请输入'+(field.preps['label']||'')"
         :readonly="field.preps['readonly']=='Y'"
         :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
         type="text"

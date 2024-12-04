@@ -11,15 +11,15 @@ import {ElementPlusResolver} from 'unplugin-vue-components/resolvers'
 import AutoImport from 'unplugin-auto-import/vite'
 import {viteCommonjs} from '@originjs/vite-plugin-commonjs'
 
-const codeHost:string = "http://192.168.20.165:8888/"
+const codeHost: string = "http://192.168.20.165:8888/"
 // const codeHost:string = "http://localhost:8888/"
-const systemHost:string = "http://localhost:8749/"
+const systemHost: string = "http://localhost:8749/"
 // const systemHost:string = "http://192.168.20.204:8749/"
-const workflowHost:string = "http://localhost:8899/"
-const continusHost:string = "http://localhost:8859/"
+const workflowHost: string = "http://localhost:8899/"
+const continusHost: string = "http://localhost:8859/"
 // const dbSearchHost:string = "http://192.168.20.165:7759/"
-const dbSearchHost:string = "http://localhost:7759/"
-const userDbHost:string = "http://localhost:7758/"
+const dbSearchHost: string = "http://localhost:7759/"
+const userDbHost: string = "http://localhost:7758/"
 // const userDbHost:string = "http://192.168.20.204:7758/"
 // https://vitejs.dev/config/
 export default defineConfig((mode, command) => {
@@ -28,9 +28,11 @@ export default defineConfig((mode, command) => {
         'vue-router',
         'vue3-guides',
         'vue3-infinite-viewer',
+        'vue3-moveable',
         'smooth-signature',
         '@vueuse/core',
         'jsoneditor',
+        'preview-image-js/icon.js',
         '@fullcalendar/vue3',
         '@fullcalendar/daygrid',
         '@fullcalendar/timegrid',
@@ -177,7 +179,7 @@ export default defineConfig((mode, command) => {
                 "windows.$": "jquery",
             }),
             createSvgIconsPlugin({
-                iconDirs: [resolve(process.cwd(), 'src/icons'),resolve(process.cwd(), 'src/assets/icons/svg')],
+                iconDirs: [resolve(process.cwd(), 'src/icons'), resolve(process.cwd(), 'src/assets/icons/svg')],
                 symbolId: 'icon-[dir]-[name]',
             }),
             /* eslintPlugin({
