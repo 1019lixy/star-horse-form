@@ -87,12 +87,6 @@
       &:hover {
         background-color: #6b778c;
 
-        .tmagic-design-button,
-        .tmagic-design-button:active,
-        .tmagic-design-button:focus {
-          color: var(--star-horse-style);
-        }
-
         &.menu-item i {
           color: var(--star-horse-style);
         }
@@ -101,12 +95,6 @@
       &.active {
         background-color: #6b778c;
 
-        .tmagic-design-button,
-        .tmagic-design-button:active,
-        .tmagic-design-button:focus {
-          color: #fff;
-          background-color: transparent;
-        }
 
         &.menu-item i {
           color: #fff;
@@ -188,14 +176,14 @@ const outsideClickHideHandler = (e: MouseEvent) => {
 const setPosition = (e: { clientY: number; clientX: number }) => {
   const menuHeight = menu.value?.clientHeight || 0;
 
-  let top = e.clientY - 80;
+  let top = e.clientY - 215;
   if (menuHeight + e.clientY > document.body.clientHeight) {
     top = document.body.clientHeight - menuHeight;
   }
 
   menuPosition.value = {
     top,
-    left: e.clientX - 220,
+    left: e.clientX - 360,
   };
 };
 

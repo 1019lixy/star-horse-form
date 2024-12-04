@@ -171,7 +171,7 @@ const viewScroller = (e: any) => {
     verticalGuides.value?.scrollGuides(e.scrollLeft);
   }
 }
-let testFormData=ref<any>({});
+let testFormData = ref<any>({});
 const onRestore = () => {
   scrollX.value = 0;
   scrollY.value = 0;
@@ -316,6 +316,7 @@ onMounted(async () => {
 .agrid-stack {
   background: var(--star-horse-white);
   height: 100%;
+  position: relative;
 }
 
 :deep(.grid-stack-item-content) {
