@@ -48,7 +48,9 @@ onMounted(() => {
       @scale="onScale"
       @rotate="onRotate"
   />
-  <ContentMenu ref="contentMenuRef" :menu-data="contentMenuData"/>
+  <Teleport to="body">
+    <ContentMenu ref="contentMenuRef" :menu-data="contentMenuData"/>
+  </Teleport>
 </template>
 
 <style scoped lang="scss">

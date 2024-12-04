@@ -1,109 +1,3 @@
-<template>
-  <transition name="fade">
-    <div
-        v-show="visible"
-        class="content-menu"
-        ref="menu"
-        :style="menuStyle"
-        @mouseenter="mouseenterHandler()"
-    >
-      <slot name="title"></slot>
-      <div class="menu-item">
-        <el-button
-            v-for="(item, index) in menuData"
-            event-type="mouseup"
-            ref="buttons"
-            :class="{ active: active && item.id === active }"
-            :data="item"
-            :key="index"
-            @mouseup="clickHandler"
-            @mouseenter="showSubMenu(item, index)"
-        >{{ item.text }}
-        </el-button>
-      </div>
-      <teleport to="body">
-        <content-menu
-            v-if="subMenuData.length"
-            class="sub-menu"
-            ref="subMenu"
-            :active="active"
-            :menu-data="subMenuData"
-            :is-sub-menu="true"
-            @hide="hide"
-        ></content-menu>
-      </teleport>
-    </div>
-  </transition>
-</template>
-<style lang="scss" scoped>
-.content-menu {
-  position: fixed;
-  font-size: 12px;
-  background: #fff;
-  box-shadow: 0 2px 8px 2px rgba(68, 73, 77, 0.16);
-  z-index: 1000;
-  transform-origin: 0% 0%;
-  font-weight: 600;
-  padding: 4px 0px;
-  overflow: auto;
-  max-height: 80%;
-  min-width: 180px;
-
-  .menu-item {
-    color: #333;
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    flex-direction: column;
-    cursor: pointer;
-    min-width: 140px;
-    transition: all 0.2s ease 0s;
-    padding: 5px 14px;
-    border-left: 2px solid transparent;
-
-    .el-button {
-      width: 100%;
-      justify-content: flex-start;
-    }
-
-    .el-button--text,
-    i {
-      color: var(--star-horse-style);
-    }
-
-    .magic-editor-icon {
-      margin-right: 5px;
-    }
-
-    &.divider {
-      padding: 0 14px;
-
-      .el-divider {
-        margin: 0;
-      }
-    }
-
-    &.button {
-      &:hover {
-        background-color: #6b778c;
-
-        &.menu-item i {
-          color: var(--star-horse-style);
-        }
-      }
-
-      &.active {
-        background-color: #6b778c;
-
-
-        &.menu-item i {
-          color: #fff;
-        }
-      }
-    }
-  }
-}
-</style>
 <script lang="ts" setup>
 import {computed, nextTick, onBeforeUnmount, onMounted, ref} from 'vue';
 import {useZIndex} from "@/api/system.ts";
@@ -173,41 +67,37 @@ const outsideClickHideHandler = (e: MouseEvent) => {
   hide();
 };
 
-const setPosition = (e: { clientY: number; clientX: number }) => {
-  const menuHeight = menu.value?.clientHeight || 0;
+const setPosition = (e: MouseEvent) => {
 
-  let top = e.clientY - 215;
+  const menuHeight = menu.value?.clientHeight || 0;
+  console.log(menuHeight, e, document.body);
+  let top = e.clientY;
   if (menuHeight + e.clientY > document.body.clientHeight) {
     top = document.body.clientHeight - menuHeight;
   }
-
+  let left = e.clientX;
   menuPosition.value = {
     top,
-    left: e.clientX - 360,
+    left
   };
 };
 
-const show = (e?: { clientY: number; clientX: number }) => {
+const show = (e?: MouseEvent) => {
   // 加setTimeout是以为，如果菜单中的按钮监听的是mouseup，那么菜单显示出来时鼠标如果正好在菜单上就会马上触发按钮的mouseup
   setTimeout(() => {
     visible.value = true;
-
     nextTick(() => {
       e && setPosition(e);
-
       curZIndex.value = zIndex.nextZIndex();
-
       emit('show');
     });
   }, 300);
 };
-
 const showSubMenu = (item: any, index: number) => {
   const menuItem = item;
   if (typeof item !== 'object') {
     return;
   }
-
   subMenuData.value = menuItem.items || [];
   setTimeout(() => {
     if (!visible.value) {
@@ -252,3 +142,108 @@ defineExpose({
   setPosition,
 });
 </script>
+<template>
+  <transition name="fade">
+    <div
+        v-show="visible"
+        class="content-menu"
+        ref="menu"
+        :style="menuStyle"
+        @mouseenter="mouseenterHandler()"
+    >
+      <slot name="title"></slot>
+      <div class="menu-item">
+        <el-button
+            v-for="(item, index) in menuData"
+            event-type="mouseup"
+            ref="buttons"
+            :class="{ active: active && item.id === active }"
+            :data="item"
+            :key="index"
+            @mouseup="clickHandler"
+            @mouseenter="showSubMenu(item, index)"
+        >{{ item.text }}
+        </el-button>
+      </div>
+      <teleport to="body">
+        <content-menu
+            v-if="subMenuData.length"
+            class="sub-menu"
+            ref="subMenu"
+            :active="active"
+            :menu-data="subMenuData"
+            :is-sub-menu="true"
+            @hide="hide"
+        ></content-menu>
+      </teleport>
+    </div>
+  </transition>
+</template>
+<style lang="scss" scoped>
+.content-menu {
+  position: fixed;
+  font-size: 12px;
+  background: #fff;
+  box-shadow: 0 2px 8px 2px rgba(68, 73, 77, 0.16);
+  z-index: 1000;
+  transform-origin: 0 0;
+  font-weight: 600;
+  padding: 4px 0;
+  overflow: auto;
+  max-height: 80%;
+  min-width: 180px;
+
+  .menu-item {
+    color: #333;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    flex-direction: column;
+    cursor: pointer;
+    min-width: 140px;
+    transition: all 0.2s ease 0s;
+    padding: 5px 14px;
+    border-left: 2px solid transparent;
+
+    .el-button {
+      width: 100%;
+      justify-content: flex-start;
+    }
+
+    .el-button--text, i {
+      color: var(--star-horse-style);
+    }
+
+    .magic-editor-icon {
+      margin-right: 5px;
+    }
+
+    &.divider {
+      padding: 0 14px;
+
+      .el-divider {
+        margin: 0;
+      }
+    }
+
+    &.button {
+      &:hover {
+        background-color: #6b778c;
+
+        &.menu-item i {
+          color: var(--star-horse-style);
+        }
+      }
+
+      &.active {
+        background-color: #6b778c;
+
+
+        &.menu-item i {
+          color: #fff;
+        }
+      }
+    }
+  }
+}
+</style>
