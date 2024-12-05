@@ -263,7 +263,6 @@ onMounted(async () => {
              ...dyPageInfo.background,
             ...dyPageInfo.pageFont,
           }">
-            {{dyPageInfo}}
             <template v-for="(item,ind) in items">
               <DragComp :itemName="item" :form-data="testFormData" :field="{
                 preps:{
@@ -320,6 +319,9 @@ onMounted(async () => {
 .agrid-stack {
   height: 100%;
   position: relative;
+  top: 0;
+  left: 0;
+  transform: translate(0, 0);
 }
 
 :deep(.grid-stack-item-content) {
