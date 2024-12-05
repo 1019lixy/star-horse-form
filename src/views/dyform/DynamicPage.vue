@@ -248,6 +248,7 @@ onMounted(async () => {
           <div class="agrid-stack"
                :style="{
             ...dyPageInfo.position,
+
             height: dyPageInfo.position.height||'100%',
             width: dyPageInfo.position.width||'100%',
             overflow: dyPageInfo.position.overflow||'auto',
@@ -259,7 +260,10 @@ onMounted(async () => {
             marginRight:dyPageInfo.position.marginRight||'0',
             marginTop: dyPageInfo.position.marginTop||'0',
             marginBottom: dyPageInfo.position.marginBottom||'0',
+             ...dyPageInfo.background,
+            ...dyPageInfo.pageFont,
           }">
+            {{dyPageInfo}}
             <template v-for="(item,ind) in items">
               <DragComp :itemName="item" :form-data="testFormData" :field="{
                 preps:{
@@ -288,7 +292,7 @@ onMounted(async () => {
                   <div>背景</div>
                 </div>
               </template>
-              <page-background/>
+              <page-background :background="dyPageInfo.background"/>
             </el-collapse-item>
 
             <el-collapse-item name="3">
@@ -297,7 +301,7 @@ onMounted(async () => {
                   <div>文字</div>
                 </div>
               </template>
-              <page-font/>
+              <page-font :pageFont="dyPageInfo.pageFont"/>
             </el-collapse-item>
           </el-collapse>
         </el-scrollbar>
@@ -314,7 +318,6 @@ onMounted(async () => {
 }
 
 .agrid-stack {
-  background: var(--star-horse-white);
   height: 100%;
   position: relative;
 }

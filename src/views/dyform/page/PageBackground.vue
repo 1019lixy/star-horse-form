@@ -1,7 +1,8 @@
 <script setup lang="ts" name="PageBackground">
-import {ref} from "vue";
 
-let backgroundData = ref<any>({});
+import {ModelRef} from "vue-demi";
+
+let backgroundData:ModelRef<any> =defineModel("background");
 </script>
 
 <template>

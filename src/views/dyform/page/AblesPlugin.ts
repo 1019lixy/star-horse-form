@@ -1,3 +1,5 @@
+import {MoveableManagerInterface} from "vue3-moveable";
+
 const customizedButton = [];
 import ableCss from './moveable-able.css?raw';
 
@@ -11,7 +13,15 @@ export let contentMenuData = [
 
         },
     },
+    {
+        type: 'button',
+        text: '复制',
+        icon: 'copy',
+        display: () => true,
+        handler: () => {
 
+        },
+    },
     {
         type: 'divider',
         direction: 'horizontal',
@@ -22,7 +32,7 @@ export let contentMenuData = [
     {
         type: 'button',
         text: '上移一层',
-        icon: 'top',
+        icon: 'up-layer',
         display: () => true,
         handler: () => {
 
@@ -31,7 +41,7 @@ export let contentMenuData = [
     {
         type: 'button',
         text: '下移一层',
-        icon: 'bottom',
+        icon: 'down-layer',
         display: () => true,
         handler: () => {
 
@@ -40,7 +50,7 @@ export let contentMenuData = [
     {
         type: 'button',
         text: '置顶',
-        icon: 'top',
+        icon: 'to-top',
         display: () => true,
         handler: () => {
 
@@ -49,7 +59,7 @@ export let contentMenuData = [
     {
         type: 'button',
         text: '置底',
-        icon: 'bottom',
+        icon: 'to-bottom',
         display: () => true,
         handler: () => {
 
@@ -62,11 +72,21 @@ export let contentMenuData = [
         display: () => true,
     },
     {
+        type: 'button',
+        text: '删除',
+        icon: 'delete',
+        display: () => true,
+        handler: () => {
+
+        },
+    },
+    {
         type: 'divider',
         direction: 'horizontal',
     },
     {
         type: 'button',
+        icon: 'empty_setting',
         text: '清空参考线',
         handler: () => {
 

@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import {computed, nextTick, onBeforeUnmount, onMounted, ref} from 'vue';
 import {useZIndex} from "@/api/system.ts";
+import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 
 defineOptions({
   name: 'PageEditorContentMenu',
@@ -68,7 +69,6 @@ const outsideClickHideHandler = (e: MouseEvent) => {
 };
 
 const setPosition = (e: MouseEvent) => {
-
   const menuHeight = menu.value?.clientHeight || 0;
   console.log(menuHeight, e, document.body);
   let top = e.clientY;
@@ -152,19 +152,23 @@ defineExpose({
         @mouseenter="mouseenterHandler()"
     >
       <slot name="title"></slot>
-      <div class="menu-item">
-        <el-button
-            v-for="(item, index) in menuData"
-            event-type="mouseup"
+
+      <template v-for="(item, index) in menuData">
+        <el-divider  v-if="item.type=='divider'" :direction="item.direction"/>
+        <div
+            v-if="item.type=='button'"
             ref="buttons"
+            class="menu-item button"
             :class="{ active: active && item.id === active }"
             :data="item"
             :key="index"
             @mouseup="clickHandler"
             @mouseenter="showSubMenu(item, index)"
-        >{{ item.text }}
-        </el-button>
-      </div>
+        >
+          <star-horse-icon :icon-class="item.icon"/>
+          {{ item.text }}
+        </div>
+      </template>
       <teleport to="body">
         <content-menu
             v-if="subMenuData.length"
@@ -180,6 +184,9 @@ defineExpose({
   </transition>
 </template>
 <style lang="scss" scoped>
+:deep(.el-divider){
+  margin: 5px auto;
+}
 .content-menu {
   position: fixed;
   font-size: 12px;
@@ -198,14 +205,16 @@ defineExpose({
     display: flex;
     -webkit-box-align: center;
     align-items: center;
-    flex-direction: column;
+    flex-direction: row;
+    vertical-align: middle;
     cursor: pointer;
+    line-height: 35px;
     min-width: 140px;
     transition: all 0.2s ease 0s;
     padding: 5px 14px;
     border-left: 2px solid transparent;
 
-    .el-button {
+    .button {
       width: 100%;
       justify-content: flex-start;
     }
@@ -214,7 +223,7 @@ defineExpose({
       color: var(--star-horse-style);
     }
 
-    .magic-editor-icon {
+    svg {
       margin-right: 5px;
     }
 
