@@ -89,6 +89,7 @@
     "jquery": "^3.7.1",
     "js-cookie": "^3.0.5",
     "jsencrypt": "^3.3.2",
+    "jsoneditor": "^10.1.1",
     "less": "^4.2.0",
     "less-loader": "^12.2.0",
     "modeler-moddle": "^0.2.0",

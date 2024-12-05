@@ -211,7 +211,7 @@ const assignPrep = async (itemType: string, isItem: boolean) => {
 };
 let relationComps = ref<Array<string>>(["select", "tselect", "switch", "autocomplete",
   "checkbox", "radio", "cascade", "page-select", "dialog-input"]);
-let exclusionDataSource = ref<Array<string>>(["page-select", "dialog-input"]);
+let exclusionDataSource = ref<Array<string>>(["page-select","switch", "dialog-input"]);
 let formFields = ref<PageFieldInfo>({
   fieldList: []
 });

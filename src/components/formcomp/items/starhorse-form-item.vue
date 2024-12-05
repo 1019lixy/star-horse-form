@@ -4,6 +4,7 @@ import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
 import StarHorseDialog from "@/components/comp/StarHorseDialog.vue";
 import FieldList from "@/components/formcomp/utils/FieldList.vue";
+import {uuid} from "@/api/system.ts";
 
 const props = defineProps({
   parentField: {type: Object},
@@ -154,18 +155,34 @@ const moveDownItem = (formItem: any) => {
   }
 };
 let componentVisible = ref<boolean>(false);
-const operation = (cmd: string, formItem: any) => {
-  if (cmd == 'cup') {
-    moveUpItem(formItem);
+let currentChangeItem = ref<any>({});
+const operation = (cmd: string) => {
+  if (cmd == 'cut') {
+    currentChangeItem.value = JSON.parse(JSON.stringify(props.formItem));
+    for (let i in compList.value) {
+      let dataTemp = compList.value[i];
+      if (dataTemp.id == props.formItem.id) {
+        compList.value.splice(i, 1);
+        break;
+      }
+    }
   } else if (cmd == 'copy') {
-    moveDownItem(formItem);
+    let temp: any = JSON.parse(JSON.stringify(props.formItem));
+    temp.id = uuid();
+    temp.preps["id"] = temp.id;
+    temp.preps["name"] = temp.preps["name"] + "Copy";
+    temp.preps["label"] = temp.preps["label"] + "Copy";
+    currentChangeItem.value = temp;
   } else if (cmd == 'paste') {
-    removeItem(formItem);
+    if (currentChangeItem.value) {
+      compList.value.push(currentChangeItem.value);
+      currentChangeItem.value = {};
+    }
+
   } else if (cmd == 'exchange') {
     exchangeItem();
   }
 }
-// let currentChangeItem = ref<any>({});
 const exchangeItem = () => {
   // if (!isEdit.value) {
   //   return;
@@ -183,22 +200,23 @@ const changeItem = (item: any) => {
     props.formItem["compType"] = "container";
   }
   props.formItem["preps"] = {
-    disabled: props.formItem["preps"]?.disabled || 'N',
-    editDisabled: props.formItem["preps"]?.editDisabled || 'N',
-    formShow: props.formItem["preps"]?.formShow || 'Y',
-    hideLabel: props.formItem["preps"]?.hideLabel || 'N',
-    id: props.formItem["preps"]?.id || props.formItem.id,
-    itemNameLabel: props.formItem["preps"]?.itemNameLabel || item.itemName,
-    label: props.formItem["preps"]?.label || item.itemName,
-    maxLength: props.formItem["preps"]?.maxLength || 100,
-    name: props.formItem["preps"]?.name || item.itemType + "1",
-    placeholder: props.formItem["preps"]?.placeholder || "请输入" + item.itemName,
-    readonly: props.formItem["preps"]?.readonly || "N",
-    required: props.formItem["preps"]?.required || "N",
-    searchShow: props.formItem["preps"]?.searchShow || "N",
-    tableShow: props.formItem["preps"]?.tableShow || "N",
-    values: props.formItem["preps"]?.values || [],
-    viewShow: props.formItem["preps"]?.viewShow || [],
+    ...props.formItem["preps"],
+    itemNameLabel: item.itemName,
+    /* disabled: props.formItem["preps"]?.disabled || 'N',
+     editDisabled: props.formItem["preps"]?.editDisabled || 'N',
+     formShow: props.formItem["preps"]?.formShow || 'Y',
+     hideLabel: props.formItem["preps"]?.hideLabel || 'N',
+     id: props.formItem["preps"]?.id || props.formItem.id,
+     label: props.formItem["preps"]?.label || item.itemName,
+     maxLength: props.formItem["preps"]?.maxLength || 100,
+     name: props.formItem["preps"]?.name || item.itemType + "1",
+     placeholder: props.formItem["preps"]?.placeholder || "请输入" + item.itemName,
+     readonly: props.formItem["preps"]?.readonly || "N",
+     required: props.formItem["preps"]?.required || "N",
+     searchShow: props.formItem["preps"]?.searchShow || "N",
+     tableShow: props.formItem["preps"]?.tableShow || "N",
+     values: props.formItem["preps"]?.values || [],
+     viewShow: props.formItem["preps"]?.viewShow || [],*/
   };
   console.log(item, props.formItem);
   selectData(props.formItem);
@@ -293,7 +311,7 @@ onMounted(() => {
               style="color: var(--star-horse-white)"
           />
         </el-tooltip>
-        <el-dropdown @command="(cmd:string)=>operation(cmd,formItem)">
+        <el-dropdown @command="operation">
           <star-horse-icon
               icon-class="v-dot"
               style="color: var(--star-horse-white)"
@@ -308,8 +326,8 @@ onMounted(() => {
                 <star-horse-icon icon-class="copy"/>
                 复制
               </el-dropdown-item>
-              <el-dropdown-item command="paste">
-                <star-horse-icon icon-class="copy"/>
+              <el-dropdown-item command="paste" :disabled="Object.keys(currentChangeItem).length==0">
+                <star-horse-icon icon-class="paste"/>
                 粘贴
               </el-dropdown-item>
               <el-dropdown-item command="exchange" divided>
