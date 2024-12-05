@@ -1,7 +1,9 @@
 <script setup lang="ts" name="starhorse-form-item">
-import {computed, onMounted} from "vue";
+import {computed, onMounted, ref} from "vue";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
+import StarHorseDialog from "@/components/comp/StarHorseDialog.vue";
+import FieldList from "@/components/formcomp/utils/FieldList.vue";
 
 const props = defineProps({
   parentField: {type: Object},
@@ -151,6 +153,56 @@ const moveDownItem = (formItem: any) => {
     }
   }
 };
+let componentVisible = ref<boolean>(false);
+const operation = (cmd: string, formItem: any) => {
+  if (cmd == 'cup') {
+    moveUpItem(formItem);
+  } else if (cmd == 'copy') {
+    moveDownItem(formItem);
+  } else if (cmd == 'paste') {
+    removeItem(formItem);
+  } else if (cmd == 'exchange') {
+    exchangeItem();
+  }
+}
+// let currentChangeItem = ref<any>({});
+const exchangeItem = () => {
+  // if (!isEdit.value) {
+  //   return;
+  // }
+  // currentChangeItem.value = formItem;
+  // console.log(formItem);
+  componentVisible.value = true;
+}
+const close = () => {
+  componentVisible.value = false;
+}
+const changeItem = (item: any) => {
+  props.formItem["itemType"] = item["itemType"];
+  if (item.category == 2) {
+    props.formItem["compType"] = "container";
+  }
+  props.formItem["preps"] = {
+    disabled: props.formItem["preps"]?.disabled || 'N',
+    editDisabled: props.formItem["preps"]?.editDisabled || 'N',
+    formShow: props.formItem["preps"]?.formShow || 'Y',
+    hideLabel: props.formItem["preps"]?.hideLabel || 'N',
+    id: props.formItem["preps"]?.id || props.formItem.id,
+    itemNameLabel: props.formItem["preps"]?.itemNameLabel || item.itemName,
+    label: props.formItem["preps"]?.label || item.itemName,
+    maxLength: props.formItem["preps"]?.maxLength || 100,
+    name: props.formItem["preps"]?.name || item.itemType + "1",
+    placeholder: props.formItem["preps"]?.placeholder || "请输入" + item.itemName,
+    readonly: props.formItem["preps"]?.readonly || "N",
+    required: props.formItem["preps"]?.required || "N",
+    searchShow: props.formItem["preps"]?.searchShow || "N",
+    tableShow: props.formItem["preps"]?.tableShow || "N",
+    values: props.formItem["preps"]?.values || [],
+    viewShow: props.formItem["preps"]?.viewShow || [],
+  };
+  console.log(item, props.formItem);
+  selectData(props.formItem);
+}
 const removeItem = (formItem: any) => {
   if (!isEdit.value) {
     return;
@@ -199,11 +251,17 @@ onMounted(() => {
 })
 </script>
 <template>
+  <star-horse-dialog box-width="450px" :is-view="true" :self-func="true" :dialog-visible="componentVisible"
+                     @closeAction="close">
+    <template #footer>
+      <el-button type="primary" size="default" @click="close">确定</el-button>
+    </template>
+    <field-list @selectData="changeItem"/>
+  </star-horse-dialog>
   <div class="item-info" v-if="bareFlag">
     <help :message="formItem.preps?.helpMsg" v-if="formItem.preps?.helpMsg"/>
     <slot></slot>
   </div>
-
   <div v-else class="form-item-operation">
     <div :class="{'design-star-horse' : isEdit,
     'field-item':true,
@@ -235,32 +293,27 @@ onMounted(() => {
               style="color: var(--star-horse-white)"
           />
         </el-tooltip>
-        <el-dropdown trigger="click">
+        <el-dropdown @command="(cmd:string)=>operation(cmd,formItem)">
           <star-horse-icon
-              @click.stop="moveUpItem(formItem?.preps)"
               icon-class="v-dot"
               style="color: var(--star-horse-white)"
           />
           <template #dropdown>
             <el-dropdown-menu>
-              <el-dropdown-item command="expand">
-                <star-horse-icon @click.stop="moveDownItem(formItem?.preps)"
-                                 icon-class="cut"/>
+              <el-dropdown-item command="cut">
+                <star-horse-icon icon-class="cut"/>
                 剪切
               </el-dropdown-item>
-              <el-dropdown-item command="collapse">
-                <star-horse-icon @click.stop="moveDownItem(formItem?.preps)"
-                                 icon-class="copy"/>
+              <el-dropdown-item command="copy">
+                <star-horse-icon icon-class="copy"/>
                 复制
               </el-dropdown-item>
-              <el-dropdown-item command="collapse">
-                <star-horse-icon @click.stop="moveDownItem(formItem?.preps)"
-                                 icon-class="copy"/>
+              <el-dropdown-item command="paste">
+                <star-horse-icon icon-class="copy"/>
                 粘贴
               </el-dropdown-item>
-              <el-dropdown-item command="collapse" divided>
-                <star-horse-icon @click.stop="moveDownItem(formItem?.preps)"
-                                 icon-class="exchange"/>
+              <el-dropdown-item command="exchange" divided>
+                <star-horse-icon icon-class="exchange"/>
                 更换组件
               </el-dropdown-item>
             </el-dropdown-menu>
@@ -324,7 +377,7 @@ onMounted(() => {
 }
 
 .design-star-horse {
-   width: 100%;
+  width: 100%;
   margin-top: 15px;
   display: flex;
   justify-content: center;
@@ -336,13 +389,13 @@ onMounted(() => {
 
 .field-item {
   position: relative;
-   width: 100%;
+  width: 100%;
   height: 100%;
   vertical-align: middle;
   align-items: center;
 
   .bare-item {
-      width: 100%;
+    width: 100%;
     height: 100%;
   }
 
