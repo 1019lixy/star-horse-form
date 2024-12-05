@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {contentMenuData, Editable} from "@/views/dyform/page/AblesPlugin.ts";
-import Moveable from "vue3-moveable";
+import VueMoveable from "vue3-moveable";
 import {onMounted, ref} from "vue";
 import {uuid} from "@/api/system.ts";
 
@@ -68,7 +68,7 @@ onMounted(() => {
   }" @contextmenu="contextmenu" ref="target">
     <component :is="itemName" :field="field" :formData="formData"/>
   </div>
-  <Moveable
+  <VueMoveable
       class="moveable"
       :target="['.'+clazz]"
       :props="({ editable: true })"
@@ -79,9 +79,7 @@ onMounted(() => {
       @scale="handleScale"
       @rotate="handleRotate"
       @warp="handleWarp"
-  >
-
-  </Moveable>
+  />
   <Teleport to="body">
     <ContentMenu ref="contentMenuRef" :menu-data="contentMenuData"/>
   </Teleport>
@@ -93,7 +91,7 @@ onMounted(() => {
   position: relative;
   width: 300px;
   height: 200px;
-  text-align: center;
+  /*text-align: center;*/
   font-size: 40px;
   margin: 0 auto;
   font-weight: 100;

@@ -208,7 +208,7 @@ onMounted(() => {
     <div :class="{'design-star-horse' : isEdit,
     'field-item':true,
   'active-item':currentItemId == formItem?.preps.id && isEdit
-  }" v-if="isDesign" @click="selectData(formItem)" >
+  }" v-if="isDesign" @click="selectData(formItem)">
       <el-form-item
           :size="formItem?.preps['size']||'default'"
           v-if="parentField?.itemType!='table'&&formItem?.itemType!='divider'&&formItem?.preps['headerFlag']!='Y'"
@@ -226,7 +226,7 @@ onMounted(() => {
       </div>
       <div
           class="field-action"
-          v-if="isEdit"
+          v-if="isEdit&&currentItemId == formItem?.preps.id"
       >
         <el-tooltip content="选择父容器" v-if="parentField?.itemType">
           <star-horse-icon
@@ -235,13 +235,39 @@ onMounted(() => {
               style="color: var(--star-horse-white)"
           />
         </el-tooltip>
-        <!--        <el-tooltip content="选中组件">
-                  <star-horse-icon
-                      @click.stop="selectData"
-                      icon-class="check"
-                      style="color: var(&#45;&#45;star-horse-white)"
-                  />
-                </el-tooltip>-->
+        <el-dropdown trigger="click">
+          <star-horse-icon
+              @click.stop="moveUpItem(formItem?.preps)"
+              icon-class="v-dot"
+              style="color: var(--star-horse-white)"
+          />
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item command="expand">
+                <star-horse-icon @click.stop="moveDownItem(formItem?.preps)"
+                                 icon-class="cut"/>
+                剪切
+              </el-dropdown-item>
+              <el-dropdown-item command="collapse">
+                <star-horse-icon @click.stop="moveDownItem(formItem?.preps)"
+                                 icon-class="copy"/>
+                复制
+              </el-dropdown-item>
+              <el-dropdown-item command="collapse">
+                <star-horse-icon @click.stop="moveDownItem(formItem?.preps)"
+                                 icon-class="copy"/>
+                粘贴
+              </el-dropdown-item>
+              <el-dropdown-item command="collapse" divided>
+                <star-horse-icon @click.stop="moveDownItem(formItem?.preps)"
+                                 icon-class="exchange"/>
+                更换组件
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+
+
         <el-tooltip content="上移" v-if="parentField?.itemType!='table'">
           <star-horse-icon
               @click.stop="moveUpItem(formItem?.preps)"
@@ -264,7 +290,7 @@ onMounted(() => {
           />
         </el-tooltip>
       </div>
-      <div class="drag-handler background-opacity" v-if="isEdit">
+      <div class="drag-handler" v-if="isEdit&&currentItemId == formItem?.preps.id">
         <el-tooltip content="拖动">
           <star-horse-icon icon-class="drag" style="cursor:move;color: var(--star-horse-white)"/>
         </el-tooltip>
@@ -279,53 +305,47 @@ onMounted(() => {
       <help :message="formItem.preps?.helpMsg" v-if="formItem.preps?.helpMsg"/>
       <slot></slot>
     </div>
-
   </div>
 </template>
 <style lang="scss" scoped>
 .form-item-operation {
   display: flex;
-  flex:1;
-
+  flex: 1;
 }
-.item-info{
+
+.item-info {
   display: inline-flex;
   width: 100%;
   align-items: center;
 }
+
 .active-item {
   border: 1px dashed var(--star-horse-style);
 }
 
 .design-star-horse {
-  width: 100%;
+   width: 100%;
+  margin-top: 15px;
+  display: flex;
   justify-content: center;
   vertical-align: middle;
   align-items: center;
+  min-height: 50px;
   z-index: 0;
 }
 
 .field-item {
   position: relative;
-  width: 100%;
+   width: 100%;
   height: 100%;
   vertical-align: middle;
   align-items: center;
 
   .bare-item {
-    width: 100%;
+      width: 100%;
     height: 100%;
   }
 
-  &:hover > .field-action {
-    opacity: 1;
-    display: flex;
-  }
-
-  &:hover > .drag-handler {
-    opacity: 1;
-    display: flex;
-  }
 
   .el-form-item {
     margin-bottom: 1px;
@@ -334,35 +354,31 @@ onMounted(() => {
   .field-action {
     position: absolute;
     //bottom: -25px;
-    bottom: 1px;
+    top: 0;
+    transform: translate(0, -100%);
     right: 0;
     align-items: center;
     background: var(--star-horse-style);
     z-index: 99;
-    display: none;
+    display: flex;
 
     .svg-icon {
       font-size: 14px;
       color: var(--star-horse-white);
-      margin: 0 3px;
+      margin: 4px;
       cursor: pointer;
     }
-
-    /* &:hover {
-       opacity: 1;
-       background: var(--star-horse-style);
-     }*/
   }
 
   .drag-handler {
     position: absolute;
-    top: -10px;
-    left: -1px;
-    display: none;
+    top: 0;
+    left: 0;
+    display: flex;
     align-items: center;
     background: var(--star-horse-style);
     z-index: 9999999;
-
+    transform: translate(0, -100%);
 
     .svg-icon {
       font-size: 12px;

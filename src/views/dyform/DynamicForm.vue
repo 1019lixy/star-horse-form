@@ -280,7 +280,11 @@ const cacheDataRestore = (evt: MouseEvent) => {
   evt.stopPropagation();
   designForm.clearAll(true);
   if (cacheData.value) {
-    designForm.setCompList(JSON.parse(cacheData.value));
+    try {
+      designForm.setFormInfo(JSON.parse(cacheData.value));
+    } catch (e) {
+      designForm.setCompList(cacheData.value);
+    }
     cacheData.value = "";
   }
 }

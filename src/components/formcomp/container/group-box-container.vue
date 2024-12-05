@@ -107,7 +107,7 @@ const tableOperation = (actonName: string, _preps: any) => {
 <template>
   <div :class="{'field-item':isEdit}">
     <slot></slot>
-    <div class="drag-handler" v-if="isEdit">
+    <div class="drag-handler" v-if="isEdit&&currentItemId==formItem.id">
       <el-tooltip content="拖动">
         <star-horse-icon icon-class="drag" style="color: var(--star-horse-white)"/>
       </el-tooltip>
@@ -158,25 +158,15 @@ const tableOperation = (actonName: string, _preps: any) => {
   padding: 3px;
   border: 1px dashed #e6a23c;
   margin: 3px auto;
-
-  &:hover > .field-action {
-    opacity: 1;
-    display: flex;
-  }
-
-  &:hover .drag-handler {
-    opacity: 1;
-  }
-
   .field-action {
     position: absolute;
-    bottom: -20px;
-    //bottom: 1px;
+    top: 0;
+    transform: translate(0, -100%);
     right: 0;
     align-items: center;
     background: var(--star-horse-style);
     z-index: 99;
-    display: none;
+    display: flex;
 
     .svg-icon {
       font-size: 14px;
@@ -184,22 +174,17 @@ const tableOperation = (actonName: string, _preps: any) => {
       margin: 0 3px;
       cursor: pointer;
     }
-
-    /* &:hover {
-       opacity: 1;
-       background: var(--star-horse-style);
-     }*/
   }
 
   .drag-handler {
     position: absolute;
     top: 0;
     left: 3px;
-    opacity: 1;
+    transform: translate(0, -100%);
     background: var(--star-horse-style);
     z-index: 999;
-
     text-align: right;
+    align-items: center;
     display: flex;
     flex-direction: row;
 
