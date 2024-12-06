@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {nextTick, onMounted, ref, unref, watch} from "vue";
+import {computed, nextTick, onMounted, ref, unref, watch} from "vue";
 import type {RouteLocationNormalizedLoaded, RouterLinkProps,} from "vue-router";
 import {useRouter} from "vue-router";
 import {ElScrollbar} from "element-plus";
@@ -11,6 +11,7 @@ import piniaInstance from "@/store";
 
 const {currentRoute, push, replace} = useRouter();
 const viewListStore = navBarList(piniaInstance);
+const navTagsList = computed(() => viewListStore.navTagsList);
 // 初始化tag
 const initTags = () => {
 };
@@ -226,7 +227,7 @@ watch(
         <div style="display: flex; height: 100%;position: relative;z-index: 999999">
           <ContextMenu
               :ref="itemRefs.set"
-              v-for="item in viewListStore.getNavBarList"
+              v-for="item in navTagsList"
               :schema="[
               {
                 icon: 'refresh',

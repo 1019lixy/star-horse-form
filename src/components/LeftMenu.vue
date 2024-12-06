@@ -48,7 +48,7 @@ const search = ref<string>("");
 const systemMenu = ref();
 const filterTableData = computed(() => filterTree(search.value, leftMenuDatas.value));
 onMounted(async () => {
-  let menus = userInfo.getPermissionMenus;
+  let menus = userInfo.permissionMenus;
   if (menus.length == 0) {
     await loadMenus("-1");
   } else {

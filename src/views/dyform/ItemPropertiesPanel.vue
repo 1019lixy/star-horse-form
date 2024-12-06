@@ -211,7 +211,7 @@ const assignPrep = async (itemType: string, isItem: boolean) => {
 };
 let relationComps = ref<Array<string>>(["select", "tselect", "switch", "autocomplete",
   "checkbox", "radio", "cascade", "page-select", "dialog-input"]);
-let exclusionDataSource = ref<Array<string>>(["page-select", "dialog-input"]);
+let exclusionDataSource = ref<Array<string>>(["page-select","switch", "dialog-input"]);
 let formFields = ref<PageFieldInfo>({
   fieldList: []
 });
@@ -359,8 +359,8 @@ const hmsg: string = `
 onMounted(() => {
   matchTypeList.value = searchMatchList();
 });
-watch(() => currentItemId,
-    (_val: any) => {
+watch(() => [currentItemId, currentItemType],
+    () => {
       assignPrep(currentItemType.value, parentCompType.value == "item");
     }, {
       immediate: true,
@@ -472,20 +472,20 @@ watch(() => currentItemId,
   </star-horse-dialog>
   <div class="dynamic-form" v-if="currentItemType">
     <el-scrollbar>
-    <el-form
-        :model="formProps"
-        :rules="formRules"
-        class="dynamic-form"
-        ref="itemPropertiesRef"
-        :size="compSize"
-        label-width="auto"
-        label-position="left"
-        require-asterisk-position="right"
-    >
-      <star-horse-form-item :fieldList="formFields"
-                            :compSize="compSize"
-                            v-model:dataForm="formProps"/>
-    </el-form>
+      <el-form
+          :model="formProps"
+          :rules="formRules"
+          class="dynamic-form"
+          ref="itemPropertiesRef"
+          :size="compSize"
+          label-width="auto"
+          label-position="left"
+          require-asterisk-position="right"
+      >
+        <star-horse-form-item :fieldList="formFields"
+                              :compSize="compSize"
+                              v-model:dataForm="formProps"/>
+      </el-form>
     </el-scrollbar>
   </div>
 </template>

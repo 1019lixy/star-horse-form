@@ -10,7 +10,7 @@ defineProps({
   compUrl: {type: Object as PropType<ApiUrls>},
   item: {type: Array as PropType<Array<FieldInfo>>, required: true},
   objectName: {type: String},
-  parentPreps:{type:Object,default:{}},
+  parentPreps: {type: Object, default: {}},
   subCreateFlag: {type: Boolean, default: false},
   batchName: {type: String, default: "batchDataList"},
   batchFieldName: {type: String, default: "batchFieldList"},
@@ -20,12 +20,27 @@ defineProps({
   isView: {type: Boolean, default: false},
   isEdit: {type: Boolean, default: false},
 });
+const emits = defineEmits(["addRow", "removeRow"]);
 const dataForm: ModelRef<any> = defineModel("dataForm");
 const checkObject = (item: any) => {
   if (item && item.objectName && !Object.keys(dataForm.value).includes(item.objectName)) {
     dataForm.value[item.objectName] = {};
   }
   return 1;
+}
+/**
+ * 列表添加行数据
+ * @param row
+ */
+const addRow = (row: any) => {
+  emits("addRow", row);
+}
+/**
+ * 列表删除行数据
+ * @param row
+ */
+const removeRow = (row: any) => {
+  emits("removeRow", row);
 }
 const init = () => {
 }
@@ -54,6 +69,8 @@ onMounted(() => {
                               v-model:dataForm="dataForm[cardItem.objectName]"
                               :compSize="compSize"
                               :objectName="cardItem.objectName"
+                              @addRow="addRow"
+                              @removeRow="removeRow"
                               :fieldList="{
                                  ...cardItem
                                  }"
@@ -62,6 +79,8 @@ onMounted(() => {
         <star-horse-form-item v-else :isView="isView" :compUrl="compUrl"
                               v-model:dataForm="dataForm"
                               :compSize="compSize"
+                              @addRow="addRow"
+                              @removeRow="removeRow"
                               :objectName="cardItem.objectName"
                               :fieldList="{
                                   ...cardItem
@@ -75,13 +94,9 @@ onMounted(() => {
 </template>
 
 <style scoped lang="scss">
-
-
 .card-header {
   span {
     width: 90%;
   }
-;
 }
-
 </style>

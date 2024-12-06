@@ -13,5 +13,11 @@ export interface DyCompField {
     emits?: Array<string>;
     //挂着方法
     onMounted?: Function;
-
+    computed?: any;
+    //组件
+    components?: any;
+    //
+    onActivated?: Function;
+    onDeactivated?: Function;
+    watch?: any;
 }

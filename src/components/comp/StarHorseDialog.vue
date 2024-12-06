@@ -106,8 +106,9 @@ provide("dialogOperation", clickFunction);
           </div>
         </template>
         <div class="shdialog">
-            <slot></slot>
+          <slot></slot>
         </div>
+        <template #footer>
         <span class="dialog-footer" v-if="!isView">
             <slot name="extand"></slot>
           <el-button @click="operation('merge','close')"
@@ -139,12 +140,18 @@ provide("dialogOperation", clickFunction);
             <star-horse-icon icon-class="undo" style="color:var(--star-horse-style);"/>
             {{ i18n("dialog.reset") }}</el-button>
         </span>
-        <slot name="footer"></slot>
+
+          <slot name="footer"></slot>
+        </template>
       </el-dialog>
     </div>
   </Teleport>
 </template>
 <style lang="scss" scoped>
+:deep(.el-dialog__footer) {
+  text-align: center;
+}
+
 .di {
   :deep(.el-dialog) {
     display: flex;

@@ -18,8 +18,23 @@ defineProps({
   rules: {type: Object},
   isView: {type: Boolean, default: false},
 });
+const emits = defineEmits(["addRow", "removeRow"]);
 const dataForm: ModelRef<any> = defineModel("dataForm");
 const dialogProps = inject<DialogProps>("dialogProps", {});
+/**
+ * 列表添加行数据
+ * @param row
+ */
+const addRow = (row: any) => {
+  emits("addRow", row);
+}
+/**
+ * 列表删除行数据
+ * @param row
+ */
+const removeRow = (row: any) => {
+  emits("removeRow", row);
+}
 </script>
 <template>
   <template v-for="item in fieldList.fieldList">

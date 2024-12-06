@@ -247,6 +247,10 @@ let configInfo = computed(() => configStore.configFormInfo);
                 <star-horse-icon icon-class="user-circle" color="var(--star-horse-style)"/>
                 {{ i18n("main.header.authority") }}
               </el-dropdown-item>
+              <el-dropdown-item divided class="clearfix" @click="router.push('/shcalendar')">
+                <star-horse-icon icon-class="calendar" color="var(--star-horse-style)"/>
+                {{ i18n("main.header.calendar") }}
+              </el-dropdown-item>
               <el-dropdown-item divided class="clearfix" @click="layoutConfig">
                 <star-horse-icon icon-class="layout" color="var(--star-horse-style)"/>
                 {{ i18n("main.header.layoutConfig") }}
@@ -339,7 +343,6 @@ let configInfo = computed(() => configStore.configFormInfo);
     display: flex;
     flex-direction: row;
     align-items: center;
-
     .message {
       height: 40px;
       width: 45%;
@@ -348,16 +351,13 @@ let configInfo = computed(() => configStore.configFormInfo);
       justify-content: center;
       vertical-align: middle;
       cursor: pointer;
-
       .el-badge {
         svg {
           width: 2em;
           height: 2em;
         }
       }
-
     }
-
     .user-info {
       flex: 1;
       width: 30%;
@@ -367,17 +367,14 @@ let configInfo = computed(() => configStore.configFormInfo);
       flex-direction: row;
       vertical-align: middle;
       align-items: center;
-
       .lang {
         width: 50%;
         align-items: center;
         justify-content: center;
         vertical-align: middle;
       }
-
       .el-dropdown-link {
         color: var(--star-horse-white);
-
         display: flex;
         justify-content: center;
         align-items: center;
@@ -419,7 +416,6 @@ let configInfo = computed(() => configStore.configFormInfo);
       margin-left: 15px;
       text-align: center;
       height: 100%;
-
       a {
         display: inline-flex;
         justify-content: center;

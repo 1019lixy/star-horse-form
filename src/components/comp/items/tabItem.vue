@@ -21,6 +21,7 @@ defineProps({
   compSize: {type: String, default: Config.compSize},
   isView: {type: Boolean, default: false},
 });
+const emits = defineEmits(["addRow", "removeRow"]);
 const dataForm: ModelRef<any> = defineModel("dataForm");
 const normalTabList = ref<string>("tab0");
 const checkObject = (item: any) => {
@@ -28,6 +29,20 @@ const checkObject = (item: any) => {
     dataForm.value[item.objectName] = {};
   }
   return 1;
+}
+/**
+ * 列表添加行数据
+ * @param row
+ */
+const addRow = (row: any) => {
+  emits("addRow", row);
+}
+/**
+ * 列表删除行数据
+ * @param row
+ */
+const removeRow = (row: any) => {
+  emits("removeRow", row);
 }
 const init = () => {
 
@@ -53,6 +68,8 @@ onMounted(() => {
           <el-scrollbar height="95%">
             <star-horse-form-item v-if="tabItem.objectName" :isView="isView" :compUrl="compUrl"
                                   :compSize="compSize"
+                                  @addRow="addRow"
+                                  @removeRow="removeRow"
                                   v-model:dataForm="dataForm[tabItem.objectName]"
                                   :objectName="tabItem.objectName"
                                   :fieldList="{
@@ -62,6 +79,8 @@ onMounted(() => {
                                   :primaryKey="primaryKey"/>
             <star-horse-form-item v-else :isView="isView" :compUrl="compUrl"
                                   :compSize="compSize"
+                                  @addRow="addRow"
+                                  @removeRow="removeRow"
                                   v-model:dataForm="dataForm"
                                   :objectName="tabItem.objectName"
                                   :fieldList="{
@@ -86,13 +105,16 @@ onMounted(() => {
                 <span>{{ sitem.title }}</span>
               </div>
             </template>
-            <star-horse-form-table :size="compSize" :rules="rules" :item="sitem" v-model:dataForm="dataForm"/>
+            <star-horse-form-table :size="compSize" @addRow="addRow"
+                                   @removeRow="removeRow" :rules="rules" :item="sitem" v-model:dataForm="dataForm"/>
           </el-tab-pane>
         </template>
       </el-tabs>
     </template>
     <template v-else v-for="temp in item.batchFieldList">
       <star-horse-form-table :rules="rules" :size="compSize" :item="temp"
+                             @addRow="addRow"
+                             @removeRow="removeRow"
                              v-if="Object.keys(temp).length>0"
                              v-model:dataForm="dataForm"/>
     </template>

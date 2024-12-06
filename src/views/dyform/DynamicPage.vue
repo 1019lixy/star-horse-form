@@ -1,5 +1,5 @@
 <script lang="ts" setup name="DynamicPage">
-import {nextTick, onMounted, ref} from "vue";
+import {defineAsyncComponent, h, nextTick, onMounted, ref, render} from "vue";
 import {apiInstance} from "@/api/sh_api";
 import Guides from "vue3-guides";
 import {VueInfiniteViewer} from "vue3-infinite-viewer"
@@ -8,15 +8,30 @@ import PageHeader from "@/views/dyform/page/PageHeader.vue";
 import PagePosition from "@/views/dyform/page/PagePosition.vue";
 import PageBackground from "@/views/dyform/page/PageBackground.vue";
 import PageFont from "@/views/dyform/page/PageFont.vue";
+import 'gridstack/dist/gridstack.min.css';
+import {GridStack} from 'gridstack';
+import {GridStackWidget} from "gridstack/dist/types";
+import {createComponent} from "@/api/system.ts";
+import Moveable from "vue3-moveable";
+import ContentMenu from "@/views/dyform/page/ContentMenu.vue";
+import {contentMenuData, Editable} from "@/views/dyform/page/AblesPlugin.ts";
+import DragComp from "@/views/dyform/page/DragComp.vue";
 
 const dataUrl = apiInstance("userdb-manage", "userdb/dynamicPage");
 const horizontalGuides = ref();
 const verticalGuides = ref();
 const vueInfiniteViewerRef = ref();
+const gridStackInstance = ref<GridStack>(null);
 let panelModel = ref<string>("first");
 let propertyItem = ref<string>("1");
 let scrollX = ref<number>(0);
 let scrollY = ref<number>(0);
+let dyPageInfo = ref<any>({
+  position: {},
+  background: {},
+  pageFont: {},
+
+})
 const initGuides = async () => {
 
   await nextTick(() => {
@@ -35,13 +50,116 @@ const initGuides = async () => {
       verticalGuides.value?.scrollGuides(scrollX.value);
     });
   });
-
+  // gridStackInstance.value = GridStack.init({
+  //   acceptWidgets: true,
+  //   margin: 5,
+  //   resizable: {
+  //     handles: 'e,se,s,sw,w'
+  //   }
+  // });
+  // //https://gridstackjs.com/demo/nested.html#
+  // //添加删除子节点的回调函数
+  // GridStack.addRemoveCB = listenCompChange;
+  // //todo 拖拽
+  // let sidebarContent = [
+  //   {w: 2, h: 2, subGridOpts: {children: [{content: 'nest'}]}}
+  // ];
+  // GridStack.setupDragIn('.star-horse-page', undefined, sidebarContent);
+}
+let currentItem = ref<string>("");
+const dragItem = (item: any) => {
+  currentItem.value = item;
+  items.value.push(item);
+  console.log(item);
 }
 const init = async () => {
   await initGuides();
+  onRestore();
 };
 const onChange = (e: any) => {
   console.log(e);
+}
+const count = ref<number>(0);
+let items = ref<Array<any>>([]);
+const dynamicComponent = (itemName: string) => {
+  const AsyncComp = defineAsyncComponent({
+    // 加载函数
+    loader: () => import(`@/components/formcomp/items/${itemName}.vue`),
+    // 加载失败的回调
+    onError: (err) => {
+      console.error(err);
+    },
+  });
+  let components: any = {};
+  components[itemName] = AsyncComp;
+  return createComponent({
+    components: components,
+    name: "dynamicComponent",
+    template: `
+      <div ref="root" class="grid-stack-item my-custom-grid-item-component">
+        <div class="grid-stack-item-content">
+          <component :is="itemName" :field="{preps:{}}" :formData="{}"/>
+        </div>
+      </div>`,
+    props: {
+      itemName: {
+        type: String,
+        required: true
+      },
+      itemId: {type: String || Number},
+    },
+    methods: {},
+    emits: ["remove"],
+  });
+}
+
+let shadowDom: any = {};
+const listenCompChange = (parent: HTMLElement, item: GridStackWidget, add: boolean, grid: boolean) => {
+  if (!parent) {
+    return
+  }
+  if (!currentItem.value) {
+    console.log("currentItem 没有赋值", currentItem.value)
+    return;
+  }
+  // Not supported yet
+  if (grid) {
+    return;
+  }
+  if (add) {
+    let itemName = currentItem.value + "-item";
+    let itemId: string = item.id!;
+    let itemVNode = h(
+        dynamicComponent(itemName)!,
+        {
+          itemId: itemId,
+          itemName: itemName,
+          onRemove: (itemEl: any) => {
+            gridStackInstance.value?.removeWidget(itemEl);
+          }
+        }
+    );
+    shadowDom[itemId] = document.createElement('div')
+    render(itemVNode, shadowDom[itemId])
+    return itemVNode.el
+  } else {
+    let itemId = item.id!;
+    render(null, shadowDom[itemId])
+    return;
+  }
+}
+const target = ref();
+const addNewWidget = () => {
+  currentItem.value = "cron";
+  const node = items.value[count.value] || {
+    x: Math.round(12 * Math.random()),
+    y: Math.round(5 * Math.random()),
+    w: Math.round(1 + 3 * Math.random()),
+    h: Math.round(1 + 3 * Math.random()),
+  };
+  node.id = String(count.value++);
+  // items.value.push(node);
+  gridStackInstance.value?.addWidget(node);
 }
 const viewScroller = (e: any) => {
   let type = e.currentTarget.horizontalScrollbar.type;
@@ -53,6 +171,7 @@ const viewScroller = (e: any) => {
     verticalGuides.value?.scrollGuides(e.scrollLeft);
   }
 }
+let testFormData = ref<any>({});
 const onRestore = () => {
   scrollX.value = 0;
   scrollY.value = 0;
@@ -60,7 +179,7 @@ const onRestore = () => {
   horizontalGuides.value?.scrollGuides(0);
   verticalGuides.value?.scroll(0);
   verticalGuides.value?.scrollGuides(0);
-  vueInfiniteViewerRef.value?.scrollCenter();
+  // vueInfiniteViewerRef.value?.scrollCenter();
 }
 onMounted(async () => {
   await init();
@@ -74,6 +193,13 @@ onMounted(async () => {
         <el-tabs style="width: 100%;height: 100%;background: #1d2129;border: none" tab-position="left"
                  type="border-card" v-model="panelModel">
           <el-tab-pane label="基础信息" name="first">
+            <div class="add-weidget" @click="addNewWidget">
+              <star-horse-icon icon-class="plus" color="#fefefe"/>
+            </div>
+            <div class="star-horse-page " @click="dragItem('input-item')">拖拽1
+            </div>
+            <div class="star-horse-page " @click="dragItem('switch-item')">拖拽2
+            </div>
           </el-tab-pane>
           <el-tab-pane label="高级信息" name="second">
           </el-tab-pane>
@@ -119,7 +245,32 @@ onMounted(async () => {
             :zoom="1"
             @scroll="viewScroller"
             class="viewer">
-          <div class="viewport">AA</div>
+          <div class="agrid-stack"
+               :style="{
+            ...dyPageInfo.position,
+
+            height: dyPageInfo.position.height||'100%',
+            width: dyPageInfo.position.width||'100%',
+            overflow: dyPageInfo.position.overflow||'auto',
+            paddingLeft: dyPageInfo.position.paddingLeft||'0',
+            paddingRight: dyPageInfo.position.paddingRight||'0',
+            paddingTop: dyPageInfo.position.paddingTop||'0',
+            paddingBottom: dyPageInfo.position.paddingBottom||'0',
+            marginLeft: dyPageInfo.position.marginLeft||'0',
+            marginRight:dyPageInfo.position.marginRight||'0',
+            marginTop: dyPageInfo.position.marginTop||'0',
+            marginBottom: dyPageInfo.position.marginBottom||'0',
+             ...dyPageInfo.background,
+            ...dyPageInfo.pageFont,
+          }">
+            <template v-for="(item,ind) in items">
+              <DragComp :itemName="item" :form-data="testFormData" :field="{
+                preps:{
+                  name:'Field'+ind
+                }
+              }"/>
+            </template>
+          </div>
         </VueInfiniteViewer>
 
       </div>
@@ -132,27 +283,24 @@ onMounted(async () => {
                   <div>位置大小</div>
                 </div>
               </template>
-              <page-position/>
+              <page-position v-model:position="dyPageInfo.position"/>
             </el-collapse-item>
-          </el-collapse>
-          <el-collapse v-model="propertyItem">
             <el-collapse-item name="2">
               <template #title>
                 <div class="collapse-item-title title">
                   <div>背景</div>
                 </div>
               </template>
-              <page-background/>
+              <page-background :background="dyPageInfo.background"/>
             </el-collapse-item>
-          </el-collapse>
-          <el-collapse v-model="propertyItem">
+
             <el-collapse-item name="3">
               <template #title>
                 <div class="collapse-item-title title">
                   <div>文字</div>
                 </div>
               </template>
-              <page-font/>
+              <page-font :pageFont="dyPageInfo.pageFont"/>
             </el-collapse-item>
           </el-collapse>
         </el-scrollbar>
@@ -164,6 +312,22 @@ onMounted(async () => {
 
 
 <style lang="scss" scoped>
+.star-horse-page {
+  cursor: move;
+}
+
+.agrid-stack {
+  height: 100%;
+  position: relative;
+  top: 0;
+  left: 0;
+  transform: translate(0, 0);
+}
+
+:deep(.grid-stack-item-content) {
+  background-color: var(--star-horse-style);
+}
+
 .title {
   color: var(--star-horse-white);
 }

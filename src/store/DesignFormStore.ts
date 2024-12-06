@@ -3,486 +3,424 @@ import {SearchParams} from "@/components/types/Params";
 import {loadData} from "@/api/sh_api.ts";
 import {SelectOption} from "@/components/types/SearchProps";
 import {Config} from "@/api/settings.ts";
+import {ref, unref} from "vue";
 
-export const DesignForm: any = defineStore("DesignForm", {
-    state: () => {
-        return {
-            /**
-             * 容器组件列表
-             */
-            containerList: [],
-            /**
-             * 表单组件列表
-             */
-            formDataList: [],
-            /**
-             * 自定义组件列表
-             */
-            selfFormDataList: [],
-            allFormDataList: [] as Array<any>,
-            /**
-             * 表单信息
-             */
-            formInfo: {},
-            /**
-             * 设计器里的组件列表
-             */
-            compList: [] as Array<any>,
-            /**
-             * 表单属性列表
-             */
-            formData: {},
-            /**
-             * 当前组件
-             */
-            currentComp: {} || [],
-            /**
-             * 当前组件的类型
-             */
-            currentItemType: "",
-            /**
-             * 当前组件类别
-             */
-            currentCompCategory: "",
-            /**
-             * 父组件类型
-             */
-            parentCompType: "",
-            /**
-             * 当前组件Id
-             */
-            currentItemId: "",
-            /**
-             * 当前子组件Id
-             */
-            currentSubItemId: "",
-            /**
-             * 是否编辑
-             */
-            isEdit: false,
-            refresh: 0,
-            /**
-             * 当前选中元素的属性
-             */
-            currentFormPreps: {},
-            /**
-             * 当前拖动中的元素
-             */
-            draggingItem: {},
-            /**
-             *历史记录
-             */
-            historyRecord: {
-                index: -1,
-                maxStep: 20,
-                datas: [],
-            },
+export const DesignForm = defineStore("DesignForm", () => {
+    const containerList = ref<Array<any>>([]);
+    const formDataList = ref<Array<any>>([]);
+    const selfFormDataList = ref<Array<any>>([]);
+    const allFormDataList = ref<Array<any>>([]);
+    const formInfo = ref<any>({});
+    const compList = ref<any>([]);
+    const formData = ref<any>({});
+    const currentComp = ref<Array<any> | any>();
+    const currentItemType = ref<string>("");
+    const currentCompCategory = ref<string>("");
+    const parentCompType = ref<string>("");
+    const currentItemId = ref<string>("");
+    const currentSubItemId = ref<string>("");
+    const isEdit = ref<boolean>(false);
+    const refresh = ref<number>(0);
+    const currentFormPreps = ref<any>({});
+    const draggingItem = ref<any>({});
+    const historyRecord = ref<any>({
+        index: -1,
+        maxStep: 20,
+        datas: [],
+    });
+
+
+    /**
+     * 添加历史记录
+     * @param reOrUnDoFlag 是否点击按钮时触发
+     */
+    const addHistoryRecord = (reOrUnDoFlag: boolean) => {
+        if (reOrUnDoFlag || compList.value.length == 0) {
+            console.log("不需要添加历史记录");
+            return;
         }
-    },
-    getters: {
-        getContainerList(state) {
-            return state.containerList;
-        },
-        getFormDataList(state) {
-            return state.formDataList;
-        },
-        getSelfFormDataList(state) {
-            return state.selfFormDataList;
-        },
-        getAllFormDataList(state) {
-            return state.allFormDataList;
-        },
-        getFormInfo(state) {
-            return state.formInfo;
-        },
-        getCurrentSubItemId(state) {
-            return state.currentSubItemId;
-        },
-        getCompList(state) {
-            return state.compList;
-        },
-        getFormData(state) {
-            return state.formData;
-        },
-        getCurrentComp(state) {
-            return state.currentComp;
-        },
-        getCurrentItemType(state) {
-            return state.currentItemType;
-        },
-        getParentCompType(state) {
-            return state.parentCompType;
-        },
-        getCurrentItemId(state) {
-            return state.currentItemId;
-        },
-        getIsEdit(state) {
-            return state.isEdit;
-        },
-        getCurrentFormPreps(state) {
-            return state.currentFormPreps;
-        },
-        getDraggingItem(state) {
-            return state.draggingItem;
-        },
-        getCurrentCompCategory(state) {
-            return state.currentCompCategory;
-        },
-        getRefresh(state) {
-            return state.refresh;
+        const record = historyRecord;
+        const recordData: any = {
+            complist: unref(compList),
+            currentCompCategory: unref(currentCompCategory),
+            currentItemId: unref(currentItemId),
+            parentCompType: unref(parentCompType),
+            currentItemType: unref(currentItemType),
+            currentFormPreps: unref(currentFormPreps),
         }
-    },
-    actions: {
+        record.value.index = -1;
+        record.value.datas.splice(0, 0, JSON.stringify(recordData));
+        //数据只存20条，当大于20条时，删除最旧的一条
+        if (record.value.datas.length > record.value.maxStep) {
+            record.value.datas.splice(record.value.datas.length - 1, 1);
+        }
+        console.log(record);
+    }
+    /**
+     * 下一步
+     */
+    const redo = () => {
+        //数据本身就是最新的
+        if (historyRecord.value.index < 0) {
+            return;
+        }
+        historyRecord.value.index = historyRecord.value.index - 1;
+        reAndUnDo();
 
+    }
 
-        /**
-         * 添加历史记录
-         * @param reOrUnDoFlag 是否点击按钮时触发
-         */
-        addHistoryRecord(reOrUnDoFlag: boolean) {
-            const _this = this;
-            if (reOrUnDoFlag || _this.compList.length == 0) {
-                return;
-            }
-
-            const record = _this.historyRecord;
-            const recordData: any = {
-                complist: _this.compList,
-                currentCompCategory: _this.currentCompCategory,
-                currentItemId: _this.currentItemId,
-                parentCompType: _this.parentCompType,
-                currentItemType: _this.currentItemType,
-                currentFormPreps: _this.currentFormPreps,
-            }
-            record.index = -1;
-            record.datas.splice(0, 0, JSON.stringify(recordData));
-            //数据只存20条，当大于20条时，删除最旧的一条
-            if (record.datas.length > record.maxStep) {
-                record.datas.splice(record.datas.length - 1, 1);
-            }
-        },
-        /**
-         * 下一步
-         */
-        redo() {
-            const record = this.historyRecord;
-            //数据本身就是最新的
-            if (record.index < 0) {
-                return;
-            }
-            record.index = record.index - 1;
-            this.reAndUnDo();
-
-        },
-
-        reAndUnDo() {
-            const _this = this;
-            const record = this.historyRecord;
+    const reAndUnDo = () => {
+        const record = unref(historyRecord);
+        if (!record.datas[record.index]) {
+            currentFormPreps.value = {};
+            currentItemType.value = "";
+            currentComp.value = {};
+            currentItemId.value = "";
+            parentCompType.value = "";
+            currentCompCategory.value = "";
+            compList.value = [];
+        } else {
             const data = JSON.parse(record.datas[record.index]);
-            this.setCompList(data.complist);
-            _this.currentCompCategory = data.currentCompCategory;
-            _this.currentItemId = data.currentItemId;
-            _this.parentCompType = data.parentCompType;
-            _this.currentItemType = data.currentItemType;
-            _this.currentFormPreps = data.currentFormPreps;
-        },
+            setCompList(data.complist);
+            currentCompCategory.value = data.currentCompCategory;
+            currentItemId.value = data.currentItemId;
+            parentCompType.value = data.parentCompType;
+            currentItemType.value = data.currentItemType;
+            currentFormPreps.value = data.currentFormPreps;
+        }
+    }
 
-        /**
-         * 上一步
-         */
-        undo() {
-            const record = this.historyRecord;
-            console.log(record);
-            record.index = record.index < 0 ? 1 : record.index + 1;
-            //上一步大于已存在的数据量
-            if (record.index > record.datas.length) {
-                record.index = record.datas.length - 1;
-            }
-            //达到最大步骤，取允许的最大数据
-            if (record.index > record.maxStep) {
-                record.index = record.maxStep;
-            }
-            this.reAndUnDo();
-        },
-        /**
-         * 激活组件的数下
-         * @param data 数据
-         * @param itemType 数据类型
-         * @param parentCompType 父组件类型
-         */
-        selectItem(data: any, itemType: string, parentCompType: string) {
-            const _this = this;
-            _this.currentCompCategory = data.compType;
-            _this.currentItemId = data?.id;
-            _this.parentCompType = parentCompType;
-            _this.currentItemType = itemType || data.itemType;
-            _this.currentFormPreps = data.preps || data;
-        },
-        /**
-         * 刷新页面
-         */
-        setRefresh() {
-            this.refresh++;
-        },
-        /**
-         * 选中子组件
-         * @param subItemId
-         */
-        setSubItemId(subItemId: string) {
-            this.currentSubItemId = subItemId;
-        },
-        /**
-         * 设置表单信息
-         * @param formInfo
-         */
-        setFormInfo(formInfo: any) {
-            const _this = this;
-            _this.formInfo = {
-                ..._this.formInfo,
-                ...formInfo
-            };
-        },
-        setCompList(compList: Array<any>) {
-            this.compList = compList;
-        },
-        /**
-         * 获取属性列表
-         */
-        loadCompNames() {
+    /**
+     * 上一步
+     */
+    const undo = () => {
+        const record = unref(historyRecord);
+        console.log(record);
+        historyRecord.value.index = record.index < 0 ? 1 : record.index + 1;
+        //上一步大于已存在的数据量
+        if (historyRecord.value.index > record.datas.length) {
+            historyRecord.value.index = record.datas.length - 1;
+        }
+        //达到最大步骤，取允许的最大数据
+        if (historyRecord.value.index > record.maxStep) {
+            historyRecord.value.index = record.maxStep;
+        }
+        reAndUnDo();
+    }
+    /**
+     * 激活组件的数下
+     * @param data 数据
+     * @param itemType 数据类型
+     * @param parentType 父组件类型
+     */
+    const selectItem = (data: any, itemType: string, parentType: string) => {
 
-            const innerFunc = (datas: Array<any>) => {
-                let selectList: Array<any>= [];
-                for (let index in datas) {
-                    let temp: any = datas[index];
-                    if (temp.itemType == "box" || temp.itemType == "dytable") {
-                        let elements = temp.preps.elements;
-                        for (let sindex in elements) {
-                            let columns = elements[sindex].columns;
-                            for (let ssindex in columns) {
-                                let column = columns[ssindex];
-                                console.log(column)
-                                if (column.items && column.items.length > 0) {
-                                    selectList.push(...column.items?.map((item: any) =>
-                                        ({name: item.preps?.label, type: "item", value: item.preps?.name}))
-                                        .filter((item: SelectOption) => item.name));
-                                }
+        currentCompCategory.value = data.compType;
+        currentItemId.value = data?.id;
+        parentCompType.value = parentType;
+        currentItemType.value = itemType || data.itemType;
+        currentFormPreps.value = data.preps || data;
+    }
+    /**
+     * 刷新页面
+     */
+    const setRefresh = () => {
+        refresh.value++;
+    }
+    /**
+     * 选中子组件
+     * @param subItemId
+     */
+    const setSubItemId = (subItemId: string) => {
+        currentSubItemId.value = subItemId;
+    }
+    /**
+     * 设置表单信息
+     * @param formData
+     */
+    const setFormInfo = (formData: any) => {
+        formInfo.value = {
+            ...unref(formInfo),
+            ...formData
+        };
+    }
+    const setCompList = (comps: Array<any>) => {
+        compList.value = comps;
+    }
+    /**
+     * 获取属性列表
+     */
+    const loadCompNames = () => {
+        const innerFunc = (datas: Array<any>) => {
+            let selectList: Array<any> = [];
+            for (let index in datas) {
+                let temp: any = datas[index];
+                if (temp.itemType == "box" || temp.itemType == "dytable") {
+                    let elements = temp.preps.elements;
+                    for (let sindex in elements) {
+                        let columns = elements[sindex].columns;
+                        for (let ssindex in columns) {
+                            let column = columns[ssindex];
+                            console.log(column)
+                            if (column.items && column.items.length > 0) {
+                                selectList.push(...column.items?.map((item: any) =>
+                                    ({name: item.preps?.label, type: "item", value: item.preps?.name}))
+                                    .filter((item: SelectOption) => item.name));
                             }
                         }
-                    } else if (temp.itemType == "table") {
-                        let elements = temp.preps.elements;
-                        let children: SelectOption[] = [];
-                        for (let index in elements) {
-                            let element = elements[index];
-                            if (element.items && element.items.length > 0) {
-                                children.push(...element.items?.map((item: any) =>
-                                    ({name: item.preps?.label, value: item.preps?.name}))
-                                    .filter((item: SelectOption) => item.name))
-                            }
+                    }
+                } else if (temp.itemType == "table") {
+                    let elements = temp.preps.elements;
+                    let children: SelectOption[] = [];
+                    for (let index in elements) {
+                        let element = elements[index];
+                        if (element.items && element.items.length > 0) {
+                            children.push(...element.items?.map((item: any) =>
+                                ({name: item.preps?.label, value: item.preps?.name}))
+                                .filter((item: SelectOption) => item.name))
                         }
-                        selectList.push({
-                            name: temp.preps?.label,
-                            value: temp.preps?.batchFieldName,
-                            type: "container",
-                            children: children
-                        });
-
-                    } else if (temp.itemType == "tab" || temp.itemType == "collapse" || temp.itemType == "card") {
-                        let elements = temp.preps?.elements;
-                        for (let index in elements) {
-                            let element = elements[index];
-                            selectList.push({
-                                name: element.label,
-                                value: element.objectName,
-                                type: "container",
-                                children: innerFunc(element.items)
-                            })
-                        }
-                    } else {
-                        selectList.push({
-                            name: temp.preps?.label,
-                            value: temp.preps?.name,
-                            type: "item",
-                        });
                     }
-
-                }
-                return selectList;
-            }
-            console.log(JSON.stringify(this.compList));
-            return innerFunc(this.compList);
-        },
-
-        /**
-         * 手动添加组件
-         * @param comp
-         */
-        addComp(comp: any) {
-            //如果已存在，则要过滤掉,不能重复添加
-            const _this = this;
-            if (comp instanceof Array) {
-                _this.compList = [..._this.compList, ...comp];
-            } else {
-                _this.compList.push(comp);
-            }
-        },
-        setFormData(formData: any) {
-            this.formData = formData
-        },
-        setIsEdit(isEdit: boolean) {
-            this.isEdit = isEdit;
-        },
-        setCurrentComp(currentComp: object) {
-            this.currentComp = currentComp;
-        },
-        setCurrentItemType(currentItemType: string) {
-            this.currentItemType = currentItemType;
-        },
-        setParentCompType(parentCompType: string) {
-            this.parentCompType = parentCompType;
-        },
-        setCurrentItemId(currentItemId: string) {
-            this.currentItemId = currentItemId;
-        },
-        setCurrentFormPreps(currentFormPreps: any) {
-            this.currentFormPreps = currentFormPreps["preps"] || currentFormPreps;
-        },
-        /**
-         * 正在拖动中的组件
-         * @param draggingItem
-         */
-        setDraggingItem(draggingItem: any) {
-            this.draggingItem = draggingItem;
-        },
-        /**
-         * 删除数据
-         */
-        removePromise() {
-            const _this = this;
-            const comps = _this.compList;
-            for (let i = 0; i < comps.length; i++) {
-                const temp = comps[i];
-                if (temp instanceof Promise) {
-                    temp.then(res => {
-                        if (res instanceof Array) {
-                            comps.splice(i, 1, ...res);
-                        } else {
-                            comps.splice(i, 1, res);
-                        }
-                    })
-                }
-            }
-            // _this.compList = [...JSON.parse(JSON.stringify(comps))];
-        },
-        /**
-         * 清除所有数据
-         */
-        clearAll(initComp: boolean = true) {
-            const _this = this;
-            const ms = new Date().getTime();
-            _this.isEdit = true;
-            _this.currentFormPreps = {};
-            _this.currentItemType = "";
-            _this.currentComp = {};
-            _this.currentItemId = "";
-            _this.currentItemType = "";
-            _this.parentCompType = "";
-            _this.currentCompCategory = "";
-            _this.formInfo = {
-                rules: "",
-                inline: "N",
-                labelPosition: "left",
-                labelWidth: "",
-                labelSuffix: "",
-                hideRequiredAsterisk: "N",
-                requireAsteriskPosition: "left",
-                showMessage: "Y",
-                inlineMessage: "N",
-                statusIcon: "N",
-                primaryKeyPolicy: "manual",
-                createTable: "Y",
-                validateOnRuleChange: "Y",
-                size: Config.compSize,
-                disabled: "N",
-                index: 1,
-                scrollToError: "N",
-                formId: "id" + ms,
-                tbName: "tb" + ms
-            };
-            _this.compList = [];
-            _this.formData = {index: 1};
-            _this.historyRecord = {
-                index: -1,
-                maxStep: 20,
-                datas: []
-            };
-            if (initComp) {
-                const url = "/userdb-manage/userdb/dynamicFormItems/getAllByCondition";
-                const initContainer = async () => {
-                    const params: SearchParams[] = [{
-                        propertyName: "category",
-                        value: 2
-                    }, {
-                        propertyName: "isDel",
-                        value: 0
-                    }];
-                    const query = {
-                        fieldList: params,
-                        orderBy: [{fieldName: "dataSort", ascOrDesc: "asc"}]
-                    }
-                    const result = await loadData(url, query);
-                    _this.containerList = result.data;
-                };
-                const initItems = async () => {
-                    const params: SearchParams[] = [{
-                        propertyName: "category",
-                        value: 1
-                    }, {
-                        propertyName: "isDel",
-                        value: 0
-                    }];
-                    const query = {
-                        fieldList: params,
-                        orderBy: [{fieldName: "dataSort", ascOrDesc: "asc"}]
-                    }
-                    const result = await loadData(url, query);
-                    _this.formDataList = result.data;
-                };
-                const initSelfItems = async () => {
-                    const params: SearchParams[] = [{
-                        propertyName: "category",
-                        value: 3
-                    }, {
-                        propertyName: "isDel",
-                        value: 0
-                    }];
-                    const query = {
-                        fieldList: params,
-                        orderBy: [{fieldName: "dataSort", ascOrDesc: "asc"}]
-                    }
-                    const result = await loadData(url, query);
-                    _this.selfFormDataList = result.data;
-                };
-                const init = async () => {
-                    const _this = this;
-                    await initContainer();
-                    await initItems();
-                    await initSelfItems();
-                    const temp: Array<any> = [];
-                    if (_this.formDataList) {
-                        temp.push(..._this.formDataList);
-                    }
-                    if (_this.selfFormDataList) {
-                        temp.push(..._this.selfFormDataList);
-                    }
-                    temp.forEach((item: any) => {
-                        _this.allFormDataList.push({
-                            name: item.itemName,
-                            value: item.itemType
-                        })
+                    selectList.push({
+                        name: temp.preps?.label,
+                        value: temp.preps?.batchFieldName,
+                        type: "container",
+                        children: children
                     });
-                };
-                init();
+
+                } else if (temp.itemType == "tab" || temp.itemType == "collapse" || temp.itemType == "card") {
+                    let elements = temp.preps?.elements;
+                    for (let index in elements) {
+                        let element = elements[index];
+                        selectList.push({
+                            name: element.label,
+                            value: element.objectName,
+                            type: "container",
+                            children: innerFunc(element.items)
+                        })
+                    }
+                } else {
+                    selectList.push({
+                        name: temp.preps?.label,
+                        value: temp.preps?.name,
+                        type: "item",
+                    });
+                }
+
             }
-        },
+            return selectList;
+        }
+        console.log(JSON.stringify(compList.value));
+        return innerFunc(compList.value);
+    }
+
+    /**
+     * 手动添加组件
+     * @param comp
+     */
+    const addComp = (comp: any) => {
+        //如果已存在，则要过滤掉,不能重复添加
+        if (comp instanceof Array) {
+            compList.value = [...compList.value, ...comp];
+        } else {
+            compList.value.push(comp);
+        }
+    }
+    const setFormData = (data: any) => {
+        formData.value = data;
+    }
+    const setIsEdit = (editFlag: boolean) => {
+        isEdit.value = editFlag;
+    }
+    const setCurrentComp = (currComp: object) => {
+        currentComp.value = currComp;
+    }
+    const setCurrentItemType = (currItemType: string) => {
+        currentItemType.value = currItemType;
+    }
+    const setParentCompType = (parentType: string) => {
+        parentCompType.value = parentType;
+    }
+    const setCurrentItemId = (currItemId: string) => {
+        currentItemId.value = currItemId;
+    }
+    const setCurrentFormPreps = (currFormPreps: any) => {
+        currentFormPreps.value = currFormPreps["preps"] || currFormPreps;
+    }
+    /**
+     * 正在拖动中的组件
+     * @param dragItem
+     */
+    const setDraggingItem = (dragItem: any) => {
+        draggingItem.value = dragItem;
+    }
+    /**
+     * 删除数据
+     */
+    const removePromise = () => {
+        const comps = unref(compList);
+        for (let i = 0; i < comps.length; i++) {
+            const temp = comps[i];
+            if (temp instanceof Promise) {
+                temp.then(res => {
+                    if (res instanceof Array) {
+                        comps.splice(i, 1, ...res);
+                    } else {
+                        comps.splice(i, 1, res);
+                    }
+                })
+            }
+        }
+        // compList = [...JSON.parse(JSON.stringify(comps))];
+    }
+    /**
+     * 清除所有数据
+     */
+    const clearAll = (initComp: boolean = true) => {
+        const ms = new Date().getTime();
+        isEdit.value = true;
+        currentFormPreps.value = {};
+        currentItemType.value = "";
+        currentComp.value = {};
+        currentItemId.value = "";
+        currentItemType.value = "";
+        parentCompType.value = "";
+        currentCompCategory.value = "";
+        formInfo.value = {
+            rules: "",
+            inline: "N",
+            labelPosition: "left",
+            labelWidth: "",
+            labelSuffix: "",
+            hideRequiredAsterisk: "N",
+            requireAsteriskPosition: "left",
+            showMessage: "Y",
+            inlineMessage: "N",
+            statusIcon: "N",
+            primaryKeyPolicy: "manual",
+            createTable: "Y",
+            validateOnRuleChange: "Y",
+            size: Config.compSize,
+            disabled: "N",
+            index: 1,
+            scrollToError: "N",
+            formId: "id" + ms,
+            tbName: "tb" + ms
+        };
+        compList.value = [];
+        formData.value = {index: 1};
+        historyRecord.value = {
+            index: -1,
+            maxStep: 20,
+            datas: []
+        };
+        if (initComp) {
+            const url = "/userdb-manage/userdb/dynamicFormItems/getAllByCondition";
+            const initContainer = async () => {
+                const params: SearchParams[] = [{
+                    propertyName: "category",
+                    value: 2
+                }, {
+                    propertyName: "isDel",
+                    value: 0
+                }];
+                const query = {
+                    fieldList: params,
+                    orderBy: [{fieldName: "dataSort", ascOrDesc: "asc"}]
+                }
+                const result = await loadData(url, query);
+                containerList.value = result.data;
+            };
+            const initItems = async () => {
+                const params: SearchParams[] = [{
+                    propertyName: "category",
+                    value: 1
+                }, {
+                    propertyName: "isDel",
+                    value: 0
+                }];
+                const query = {
+                    fieldList: params,
+                    orderBy: [{fieldName: "dataSort", ascOrDesc: "asc"}]
+                }
+                const result = await loadData(url, query);
+                formDataList.value = result.data;
+            };
+            const initSelfItems = async () => {
+                const params: SearchParams[] = [{
+                    propertyName: "category",
+                    value: 3
+                }, {
+                    propertyName: "isDel",
+                    value: 0
+                }];
+                const query = {
+                    fieldList: params,
+                    orderBy: [{fieldName: "dataSort", ascOrDesc: "asc"}]
+                }
+                const result = await loadData(url, query);
+                selfFormDataList.value = result.data;
+            };
+            const init = async () => {
+
+                await initContainer();
+                await initItems();
+                await initSelfItems();
+                const temp: Array<any> = [];
+                if (formDataList.value) {
+                    temp.push(...formDataList.value);
+                }
+                if (selfFormDataList) {
+                    temp.push(...selfFormDataList.value);
+                }
+                temp.forEach((item: any) => {
+                    allFormDataList.value.push({
+                        name: item.itemName,
+                        value: item.itemType
+                    })
+                });
+            };
+            init();
+        }
+    }
+
+    return {
+        formData,
+        formInfo,
+        compList,
+        containerList,
+        formDataList,
+        selfFormDataList,
+        allFormDataList,
+        currentCompCategory,
+        currentItemId,
+        parentCompType,
+        currentItemType,
+        currentFormPreps,
+        currentSubItemId,
+        isEdit,
+        currentComp,
+        draggingItem,
+        refresh,
+        historyRecord,
+        addHistoryRecord,
+        redo,
+        undo,
+        selectItem,
+        setRefresh,
+        setSubItemId,
+        setFormInfo,
+        setCompList,
+        loadCompNames,
+        addComp,
+        setFormData,
+        setIsEdit,
+        setCurrentComp,
+        setCurrentItemType,
+        setParentCompType,
+        setCurrentItemId,
+        setCurrentFormPreps,
+        setDraggingItem,
+        removePromise,
+        clearAll
     }
 });

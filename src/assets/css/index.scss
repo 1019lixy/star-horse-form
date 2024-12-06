@@ -110,7 +110,6 @@ a {
 }
 
 
-
 .page-up {
   height: 100%;
   width: 100%;
@@ -125,11 +124,18 @@ a {
 .dialog-body {
   display: flex;
   flex-direction: column;
+  height: 100%;
   width: 100%;
 }
 
 .el-form-item__label-wrap {
   margin-left: unset !important;
+}
+
+.icon {
+  height: 28px !important;
+  width: 28px !important;
+  margin: 5px;
 }
 
 .system-icon {
@@ -642,6 +648,8 @@ hr {
     overflow: auto;
   }
 
+
+
   .dialog-footer {
     display: flex;
     flex: 1;
@@ -742,6 +750,7 @@ hr {
   }
 
 }
+
 .inner_button {
   display: flex;
   flex-direction: row;
@@ -757,12 +766,14 @@ hr {
   -webkit-user-select: none;
   -ms-user-select: none;
   user-select: none;
+
   li {
     text-wrap: none;
-  /*  padding: 0 10px;*/
+    /*  padding: 0 10px;*/
     font-weight: 800;
   }
 }
+
 .inner_button {
 
 }

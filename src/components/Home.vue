@@ -1,11 +1,11 @@
 <template>
   <el-card class="box-card" style="height: 100%;width: 100%">
-    <star-horse-calendar :eventList="matchList"/>
+
   </el-card>
 </template>
 <script setup lang="ts">
 import {onMounted, ref} from "vue";
-import StarHorseCalendar from "@/views/system/calendar/StarHorseCalendar.vue";
+
 
 let matchList = ref<Array<any>>([
   // {

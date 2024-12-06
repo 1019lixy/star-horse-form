@@ -74,7 +74,7 @@ const dragStart = (event: MouseEvent) => {
   }
   currentX.value = event.clientX;
   dragging.value = true;
-  resizerRef.value.left=resizerRef.value.offsetLeft
+  resizerRef.value.left = resizerRef.value.offsetLeft
   document.onmousemove = (_e) => {
     if (_e.clientX % 2 == 0) {
       compDragging(_e.clientX);
@@ -102,7 +102,7 @@ onMounted(async () => {
   document.addEventListener("visibilitychange", () => {
     if (!document.hidden) {
       // router.go(router.currentRoute.value);
-     // document.location.reload();
+      // document.location.reload();
     }
   });
 })
@@ -116,7 +116,7 @@ const compDragging = (x: number) => {
     warning("隐藏状态不能拖动");
     return;
   }
-  let move = (currentX.value-x)/80;
+  let move = (currentX.value - x) / 80;
   outerIsCollapse.value = outerIsCollapse.value - move;
   //设置最小和最大宽带
   if (outerIsCollapse.value <= 64) {
@@ -144,18 +144,11 @@ const configInfo = computed(() => configStore.configFormInfo);
           <span v-if="configInfo.menusCfg=='tradition'"
                 ref="resizerRef"
                 class="Resizer vertical"
-                @mousedown="dragStart">
-            ⁝
-          </span>
+                @mousedown="dragStart">⁝</span>
           <FixedMenu :sysem-id="sysemId" :top="configInfo.shortCutMenus=='N'?'53px':'83px'"
                      v-if="configInfo.menusCfg=='fixed'"/>
-<!--          <extand-menu :sysem-id="sysemId" :is-collapse="!isCollapse"
-                     @collopseOperation="collopseOperation"/>-->
         </el-aside>
         <el-main class="star-horse-main animate__animated animate__bounceInUp">
-          <!--          <el-header class="star-horse-header" v-if="configInfo.menusCfg=='fixed'">
-                      <header-comp :is-collapse="!isCollapse" @changeLang="changeLang"/>
-                    </el-header>-->
           <tags-view v-if="configInfo.tagsView=='Y'"/>
           <router-view v-slot="{ Component }">
             <transition name="solid">
@@ -164,22 +157,10 @@ const configInfo = computed(() => configStore.configFormInfo);
               </keep-alive>
             </transition>
           </router-view>
-          <!--          <router-view v-slot="{ Component, route }">
-                      <transition name="router-fade" mode="out-in">
-                        <keep-alive :include="cachedDatas">
-                          <component :is="Component" :key="route.fullPath"/>
-                        </keep-alive>
-                      </transition>
-                    </router-view>-->
           <div class="main-copyright">{{ i18n("starhorse.copyright") }}</div>
         </el-main>
       </el-container>
     </el-container>
-    <!--    <div class="main-config" @click="drawer=true">
-          <el-tooltip content="主题设置">
-            <star-horse-icon icon-class="setting" color="var(&#45;&#45;star-horse-style)"/>
-          </el-tooltip>
-        </div>-->
     <el-drawer v-model="drawer" :direction="direction">
       <template #header>
         <h3>操作习惯配置</h3>
@@ -195,8 +176,6 @@ const configInfo = computed(() => configStore.configFormInfo);
   </el-config-provider>
 </template>
 <style lang="scss" scoped>
-
-
 :deep(.el-header) {
   height: unset;
   padding: unset;
@@ -208,8 +187,12 @@ const configInfo = computed(() => configStore.configFormInfo);
 }
 
 .Resizer.vertical {
-  width: 5px;
-  margin: 0px -2px;
+  width: 6px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  vertical-align: middle;
+  align-items: center;
   border-left: 2px solid transparent;
   border-right: 2px solid transparent;
 

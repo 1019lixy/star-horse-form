@@ -39,8 +39,8 @@
 </template>
 <script setup lang="ts">
 import {close} from '@/views/workflow/plugin/mixins/flowMixin';
-import FlowNode from '../index.vue';
-import FlowAddNode from '../Add/index.vue';
+import FlowNode from '../flownode.vue';
+import FlowAddNode from '../Add/add.vue';
 import FlowBranchSetting from '../../FlowDrawer/Branch/index.vue';
 import DeleteConfirm from '@/views/workflow/plugin/Common/DeleteConfirm.vue';
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";

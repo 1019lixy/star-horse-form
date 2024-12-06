@@ -1,89 +1,74 @@
-import {defineStore, StoreDefinition} from "pinia";
+import {defineStore} from "pinia";
 import {MenusInfo} from "@/components/types/MenusInfo";
+import {ref} from "vue";
 
-export const userInfoStore: StoreDefinition<any> = defineStore("userInfo", {
-    state: () => {
-        return {
-            userInfo: {} as any,
-            pageButtonPermission: {} as any,
-            permissionMenus: [] as Array<any>,
-            dynamicMenus: [] as Array<MenusInfo>,
+export const userInfoStore = defineStore("userInfo", () => {
+    const userInfo = ref<any>({});
+    const pageButtonPermission = ref<any>({});
+    const permissionMenus = ref<any>([]);
+    const dynamicMenus = ref<any>([]);
+    /**
+     * 用户登录
+     * @param data
+     */
+    const login = (data: any) => {
+        userInfo.value = data;
+    }
+    /**
+     * 用户登出
+     */
+    const logout = () => {
+        // this.userInfo = {};
+        permissionMenus.value = [];
+        dynamicMenus.value = [];
+    }
+    /**
+     * 权限菜单
+     * @param data
+     */
+    const addPermissionMenus = (data: any) => {
+        permissionMenus.value = data;
+    }
+    /**
+     * 添加页面按钮权限
+     * @param data
+     */
+    const addPageButtonPermission = (data: any) => {
+        pageButtonPermission.value = data;
+    }
+    /**
+     * 记录菜单权限
+     * @param menuId
+     * @param data
+     */
+    const pushPageButtonPermission = (menuId: string, data: any) => {
+        pageButtonPermission.value[menuId] = data;
+    }
+    /**
+     * 添加动态菜单
+     * @param data
+     */
+    const addDynamicMenus = (data: MenusInfo) => {
+        if (!dynamicMenus.value) {
+            dynamicMenus.value = [];
         }
-    },
-    getters: {
-        /**
-         * 获取用户信息
-         * @param state
-         */
-        getUserInfo: (state: any) => {
-            return state.userInfo;
-        },
-        /**
-         * 获取权限菜单
-         * @param state
-         */
-        getPermissionMenus: (state: any) => {
-            return state.permissionMenus;
-        },
-        /**
-         * 获取动态菜单数据
-         * @param state
-         */
-        getDynamicMenus: (state: any) => {
-            return state.dynamicMenus;
+        if (data) {
+            dynamicMenus.value.push(data);
         }
-    },
-    actions: {
-        /**
-         * 用户登录
-         * @param data
-         */
-        login(data: any) {
-            this.userInfo = data;
-        },
-        /**
-         * 用户登出
-         */
-        logout() {
-            // this.userInfo = {};
-            this.permissionMenus = [];
-            this.dynamicMenus = [];
-        },
-        /**
-         * 权限菜单
-         * @param data
-         */
-        addPermissionMenus(data: any) {
-            this.permissionMenus = data;
-        },
-        /**
-         * 添加页面按钮权限
-         * @param data
-         */
-        addPageButtonPermission(data: any) {
-            this.pageButtonPermission = data;
-        },
-        /**
-         * 记录菜单权限
-         * @param menuId
-         * @param data
-         */
-        pushPageButtonPermission(menuId: string, data: any) {
-            this.pageButtonPermission[menuId] = data;
-        },
-        /**
-         * 添加动态菜单
-         * @param data
-         */
-        addDynamicMenus(data: MenusInfo) {
-            if (!this.dynamicMenus) {
-                this.dynamicMenus = [];
-            }
-            if (data) {
-                this.dynamicMenus.push(data);
-            }
-        }
-    },
+    }
+    return {
+        userInfo,
+        pageButtonPermission,
+        permissionMenus,
+        dynamicMenus,
+        login,
+        logout,
+        addPermissionMenus,
+        addPageButtonPermission,
+        pushPageButtonPermission,
+        addDynamicMenus
+    }
+}, {
     persist: {
         enabled: true, // 开启数据缓存
         strategies: [

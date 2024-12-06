@@ -13,8 +13,8 @@ defineProps({
   compSize: {type: String, default: "small"}
 });
 let currentTab = ref<string>("notice");
-let messageList = ref<any[]>([]);
-let auditList = ref<any[]>([]);
+let messageList = ref<Array<any>>([]);
+let auditList = ref<Array<any>>([]);
 let totals = ref<number>(0);
 let totalMessages = ref<number>(0);
 let totalAudit = ref<number>(0);
@@ -32,8 +32,8 @@ const init = async () => {
   loadByPage();
 }
 const reCount = (msgList: Array<any>, auditList: Array<any>) => {
-  totalMessages.value = msgList.filter(item => item.statusCode == "1")?.length || 0;
-  totalAudit.value = auditList.filter(item => item.statusCode == "1")?.length || 0;
+  totalMessages.value = msgList?.filter(item => item.statusCode == "1")?.length || 0;
+  totalAudit.value = auditList?.filter(item => item.statusCode == "1")?.length || 0;
   totals.value = totalMessages.value + totalAudit.value;
 }
 const webSocketOperation = () => {

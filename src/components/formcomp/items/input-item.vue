@@ -10,7 +10,7 @@
         :min="field.preps['min']"
         :autofocus="field.preps['autofocus']=='Y'"
         :minlength="field.preps['maxlength']"
-        :placeholder="field.preps['placeholder']||'请输入'+field.preps['label']"
+        :placeholder="field.preps['placeholder']||'请输入'+(field.preps['label']||'')"
         :readonly="field.preps['readonly']=='Y'"
         :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
         type="text"

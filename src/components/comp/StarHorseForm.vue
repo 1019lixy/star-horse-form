@@ -47,7 +47,7 @@ let configStore = GlobalConfig(piniaInstance);
 let userOperation = useUserSelfOperation(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
 //刷新事件，数据已加载事件，导出数据更新数据
-const emits = defineEmits(["refresh", "dataLoaded", "exportData"]);
+const emits = defineEmits(["refresh", "dataLoaded", "exportData", "removeRow", "addRow"]);
 const starHorseFormRef = ref(null);
 const dataForm = ref<any>({});
 //更新外面传进来的数据
@@ -296,6 +296,20 @@ const updateFormData = (data: any) => {
   dataForm.value = {...dataForm.value, ...data};
 }
 /**
+ * 列表添加行数据
+ * @param row
+ */
+const addRow = (row: any) => {
+  emits("addRow", row);
+}
+/**
+ * 列表删除行数据
+ * @param row
+ */
+const removeRow = (row: any) => {
+  emits("removeRow", row);
+}
+/**
  * 记录当前表单的信息
  */
 const recordFieldInfo = async () => {
@@ -351,6 +365,8 @@ defineExpose({
                             :compSize="formSize||compSize"
                             v-model:dataForm="dataForm"
                             :isView="isView"
+                            @addRow="addRow"
+                            @removeRow="removeRow"
                             :batchName="batchName"
                             :batchFieldName="batchFieldName"/>
 

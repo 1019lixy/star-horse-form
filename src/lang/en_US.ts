@@ -23,6 +23,7 @@ export default {
     "loginButton.login": "Login",
     "loginButton.logging": "Logging...",
     "main.header.authority": "User Center",
+    "main.header.calendar": "Calendar",
     "main.header.layoutConfig": "Layout Config",
     "main.header.userEdit": "Modify",
     "main.header.logout": "Logout",

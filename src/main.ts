@@ -55,6 +55,7 @@ app.use(ElementPlus, {
     locale: ZhLocale
 });
 app.use(hljsVuePlugin);
+app.config.performance = true;
 /**
  * 处理未捕获异常
  * @param err

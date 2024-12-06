@@ -1,7 +1,10 @@
 <script setup lang="ts" name="starhorse-form-item">
-import {computed, onMounted} from "vue";
+import {computed, onMounted, ref} from "vue";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
+import StarHorseDialog from "@/components/comp/StarHorseDialog.vue";
+import FieldList from "@/components/formcomp/utils/FieldList.vue";
+import {uuid} from "@/api/system.ts";
 
 const props = defineProps({
   parentField: {type: Object},
@@ -151,6 +154,61 @@ const moveDownItem = (formItem: any) => {
     }
   }
 };
+let componentVisible = ref<boolean>(false);
+let currentChangeItem = ref<any>({});
+const operation = (cmd: string) => {
+  if (cmd == 'cut') {
+    currentChangeItem.value = JSON.parse(JSON.stringify(props.formItem));
+    removeItem(props.formItem);
+  } else if (cmd == 'copy') {
+    let temp: any = JSON.parse(JSON.stringify(props.formItem));
+    temp.id = uuid();
+    temp.preps["id"] = temp.id;
+    temp.preps["name"] = temp.preps["name"] + "Copy";
+    temp.preps["label"] = temp.preps["label"] + "Copy";
+    currentChangeItem.value = temp;
+  } else if (cmd == 'paste') {
+    if (currentChangeItem.value) {
+      compList.value.push(currentChangeItem.value);
+      currentChangeItem.value = {};
+    }
+  } else if (cmd == 'exchange') {
+    exchangeItem();
+  }
+}
+const exchangeItem = () => {
+  componentVisible.value = true;
+}
+const close = () => {
+  componentVisible.value = false;
+}
+const changeItem = (item: any) => {
+  props.formItem["itemType"] = item["itemType"];
+  if (item.category == 2) {
+    props.formItem["compType"] = "container";
+  }
+  props.formItem["preps"] = {
+    ...props.formItem["preps"],
+    itemNameLabel: item.itemName,
+    /* disabled: props.formItem["preps"]?.disabled || 'N',
+     editDisabled: props.formItem["preps"]?.editDisabled || 'N',
+     formShow: props.formItem["preps"]?.formShow || 'Y',
+     hideLabel: props.formItem["preps"]?.hideLabel || 'N',
+     id: props.formItem["preps"]?.id || props.formItem.id,
+     label: props.formItem["preps"]?.label || item.itemName,
+     maxLength: props.formItem["preps"]?.maxLength || 100,
+     name: props.formItem["preps"]?.name || item.itemType + "1",
+     placeholder: props.formItem["preps"]?.placeholder || "请输入" + item.itemName,
+     readonly: props.formItem["preps"]?.readonly || "N",
+     required: props.formItem["preps"]?.required || "N",
+     searchShow: props.formItem["preps"]?.searchShow || "N",
+     tableShow: props.formItem["preps"]?.tableShow || "N",
+     values: props.formItem["preps"]?.values || [],
+     viewShow: props.formItem["preps"]?.viewShow || [],*/
+  };
+  //console.log(item, props.formItem);
+  selectData(props.formItem);
+}
 const removeItem = (formItem: any) => {
   if (!isEdit.value) {
     return;
@@ -199,16 +257,22 @@ onMounted(() => {
 })
 </script>
 <template>
+  <star-horse-dialog box-width="450px" :is-view="true" :self-func="true" :dialog-visible="componentVisible"
+                     @closeAction="close">
+    <template #footer>
+      <el-button type="primary" size="default" @click="close">确定</el-button>
+    </template>
+    <field-list @selectData="changeItem"/>
+  </star-horse-dialog>
   <div class="item-info" v-if="bareFlag">
     <help :message="formItem.preps?.helpMsg" v-if="formItem.preps?.helpMsg"/>
     <slot></slot>
   </div>
-
   <div v-else class="form-item-operation">
     <div :class="{'design-star-horse' : isEdit,
     'field-item':true,
   'active-item':currentItemId == formItem?.preps.id && isEdit
-  }" v-if="isDesign" @click="selectData(formItem)" >
+  }" v-if="isDesign" @click="selectData(formItem)">
       <el-form-item
           :size="formItem?.preps['size']||'default'"
           v-if="parentField?.itemType!='table'&&formItem?.itemType!='divider'&&formItem?.preps['headerFlag']!='Y'"
@@ -226,7 +290,7 @@ onMounted(() => {
       </div>
       <div
           class="field-action"
-          v-if="isEdit"
+          v-if="isEdit&&currentItemId == formItem?.preps.id"
       >
         <el-tooltip content="选择父容器" v-if="parentField?.itemType">
           <star-horse-icon
@@ -235,13 +299,34 @@ onMounted(() => {
               style="color: var(--star-horse-white)"
           />
         </el-tooltip>
-        <!--        <el-tooltip content="选中组件">
-                  <star-horse-icon
-                      @click.stop="selectData"
-                      icon-class="check"
-                      style="color: var(&#45;&#45;star-horse-white)"
-                  />
-                </el-tooltip>-->
+        <el-dropdown @command="operation">
+          <star-horse-icon
+              icon-class="v-dot"
+              style="color: var(--star-horse-white)"
+          />
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item command="cut">
+                <star-horse-icon icon-class="cut"/>
+                剪切
+              </el-dropdown-item>
+              <el-dropdown-item command="copy">
+                <star-horse-icon icon-class="copy"/>
+                复制
+              </el-dropdown-item>
+              <el-dropdown-item command="paste" :disabled="Object.keys(currentChangeItem).length==0">
+                <star-horse-icon icon-class="paste"/>
+                粘贴
+              </el-dropdown-item>
+              <el-dropdown-item command="exchange" divided>
+                <star-horse-icon icon-class="exchange"/>
+                更换组件
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+
+
         <el-tooltip content="上移" v-if="parentField?.itemType!='table'">
           <star-horse-icon
               @click.stop="moveUpItem(formItem?.preps)"
@@ -264,7 +349,7 @@ onMounted(() => {
           />
         </el-tooltip>
       </div>
-      <div class="drag-handler background-opacity" v-if="isEdit">
+      <div class="drag-handler" v-if="isEdit&&currentItemId == formItem?.preps.id">
         <el-tooltip content="拖动">
           <star-horse-icon icon-class="drag" style="cursor:move;color: var(--star-horse-white)"/>
         </el-tooltip>
@@ -279,29 +364,32 @@ onMounted(() => {
       <help :message="formItem.preps?.helpMsg" v-if="formItem.preps?.helpMsg"/>
       <slot></slot>
     </div>
-
   </div>
 </template>
 <style lang="scss" scoped>
 .form-item-operation {
   display: flex;
-  flex:1;
-
+  flex: 1;
 }
-.item-info{
+
+.item-info {
   display: inline-flex;
   width: 100%;
   align-items: center;
 }
+
 .active-item {
   border: 1px dashed var(--star-horse-style);
 }
 
 .design-star-horse {
   width: 100%;
+  margin-top: 15px;
+  display: flex;
   justify-content: center;
   vertical-align: middle;
   align-items: center;
+  min-height: 50px;
   z-index: 0;
 }
 
@@ -317,15 +405,6 @@ onMounted(() => {
     height: 100%;
   }
 
-  &:hover > .field-action {
-    opacity: 1;
-    display: flex;
-  }
-
-  &:hover > .drag-handler {
-    opacity: 1;
-    display: flex;
-  }
 
   .el-form-item {
     margin-bottom: 1px;
@@ -334,35 +413,31 @@ onMounted(() => {
   .field-action {
     position: absolute;
     //bottom: -25px;
-    bottom: 1px;
+    top: 0;
+    transform: translate(0, -100%);
     right: 0;
     align-items: center;
     background: var(--star-horse-style);
     z-index: 99;
-    display: none;
+    display: flex;
 
     .svg-icon {
       font-size: 14px;
       color: var(--star-horse-white);
-      margin: 0 3px;
+      margin: 4px;
       cursor: pointer;
     }
-
-    /* &:hover {
-       opacity: 1;
-       background: var(--star-horse-style);
-     }*/
   }
 
   .drag-handler {
     position: absolute;
-    top: -10px;
-    left: -1px;
-    display: none;
+    top: 0;
+    left: 0;
+    display: flex;
     align-items: center;
     background: var(--star-horse-style);
     z-index: 9999999;
-
+    transform: translate(0, -100%);
 
     .svg-icon {
       font-size: 12px;

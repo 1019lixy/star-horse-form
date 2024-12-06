@@ -8,9 +8,10 @@ import piniaInstance from "@/store";
 import {v4 as uuidv4} from "uuid";
 import {FieldInfo} from "@/components/types/PageFieldInfo";
 import {DyCompField} from "@/components/types/DyCompField";
-import {createApp} from "vue";
+import {computed, createApp, Ref, unref,ref} from "vue";
 import previewImage from 'preview-image-js'
 import 'preview-image-js/icon.js';
+import App from "@/App.vue";
 
 const validUrl: string = "/userdb-manage/redirect/valid";
 const redirectUrl: string = "/userdb-manage/redirect/valid";
@@ -363,14 +364,19 @@ export function commonField() {
  * @param compInfo 组件信息
  */
 export function createComponent(compInfo: DyCompField) {
-    const app = createApp({});
+    const app = createApp(App);
     app.component(compInfo.name, {
+        components: compInfo.components || {},
         template: compInfo.template,
         data: () => compInfo.data || {},
         props: compInfo.props || {},
         methods: compInfo.methods,
         onMounted: compInfo.onMounted,
         emits: compInfo.emits,
+        computed: compInfo.computed,
+        watch: compInfo.watch,
+        onActivated: compInfo.onActivated,
+        onDeactivated: compInfo.onDeactivated,
     });
     return app.component(compInfo.name);
 }
@@ -470,3 +476,24 @@ export function imagesPreview(images: Array<string> | string) {
 
     // closeDialog() // 该方法可以关闭预览窗口，比如在移动端监听返回键，在返回键拦截的情况下，点击返回键可以调用该方法关闭预览窗口
 }
+
+const zIndex = ref(0);
+export const DEFAULT_INITIAL_Z_INDEX = 2000;
+export let useZIndex = (zIndexOverrides?: Ref<number>) => {
+    const zIndexInjection = zIndexOverrides;
+    const initialZIndex = computed(() => {
+        const zIndexFromInjection = unref(zIndexInjection);
+        return zIndexFromInjection ?? DEFAULT_INITIAL_Z_INDEX;
+    });
+    const currentZIndex = computed(() => initialZIndex.value + zIndex.value);
+    const nextZIndex = () => {
+        zIndex.value += 1;
+        return currentZIndex.value;
+    };
+
+    return {
+        initialZIndex,
+        currentZIndex,
+        nextZIndex,
+    };
+};
