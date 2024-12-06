@@ -875,3 +875,9 @@ button.el-collapse-item__header {
   }
 
 }
+.el-table th>.cell{
+  display: inline-block;
+  white-space: nowrap;
+  word-break: keep-all;
+  text-overflow: unset;
+}

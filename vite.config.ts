@@ -30,6 +30,7 @@ export default defineConfig((mode, command) => {
         'vue3-guides',
         'vue3-infinite-viewer',
         'smooth-signature',
+        'jsoneditor',
         '@vueuse/core',
         '@fullcalendar/vue3',
         '@fullcalendar/daygrid',
