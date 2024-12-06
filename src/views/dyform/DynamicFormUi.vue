@@ -31,7 +31,6 @@ const closeAction = () => {
   isPreview.value = false;
   designForm.setIsEdit(true);
 };
-let formData = ref<any>({});
 let list = computed(() => designForm.compList);
 const loadFormData = async (formId: any) => {
   let {data, error} = await loadData(dataUrl.loadByIdUrl + "/" + formId, {});

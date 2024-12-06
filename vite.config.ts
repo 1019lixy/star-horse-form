@@ -151,7 +151,7 @@ export default defineConfig((mode, command) => {
             // exclude:[]
         },
         plugins: [
-            vueDevTools(),
+          /*  vueDevTools(),*/
             vue({
                 script: {
                     // 开启 defineModel
