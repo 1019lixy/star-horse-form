@@ -1,54 +1,50 @@
 import {defineStore} from "pinia";
+import {ref} from "vue";
 
-export const ConsumerView: any = defineStore("ConsumerView", {
-    state: () => {
-        return {
-            tableList: {} as any,
-            dbConfigId: ""
-        }
-    },
-    getters: {
-        /**
-         * 获取表数据
-         * @param state
-         */
-        getTableList: (state: any) => {
-            return state.tableList;
-        },
-        getDbConfigId: (state: any) => {
-            return state.dbConfigId;
-        }
-    },
-    actions: {
-        /**
-         *赋值
-         * @param tableName 表名
-         * @param data 字典列表
-         */
-        addTableInfo(tableName: string, data: object | Array<any>) {
-            this.tableList[tableName] = data;
-        },
-        /**
-         * 设置数据库配置id
-         *
-         * @param dbConfigId
-         */
-        setDbConfigId(dbConfigId: string) {
-            this.dbConfigId = dbConfigId;
-        },
-        /**
-         * 根据表名获取字段信息
-         * @param tableName 表名
-         */
-        getTableInfo(tableName: string) {
-            return this.tableList[tableName];
-        },
-        /**
-         * 清除所有Tab
-         */
-        clearAll() {
-            this.tableList = {};
-        },
-    },
-    persist: true
+export const ConsumerView: any = defineStore("ConsumerView", () => {
+    const tableList = ref<any>({});
+    const dbConfigId = ref<string>("");
+
+    /**
+     *赋值
+     * @param tableName 表名
+     * @param data 字典列表
+     */
+    const addTableInfo = (tableName: string, data: object | Array<any>) => {
+        tableList.value[tableName] = data;
+    }
+    /**
+     * 设置数据库配置id
+     *
+     * @param configId
+     */
+    const setDbConfigId = (configId: string) => {
+        dbConfigId.value = configId;
+    }
+    /**
+     * 根据表名获取字段信息
+     * @param tableName 表名
+     */
+    const getTableInfo = (tableName: string) => {
+        return tableList.value[tableName];
+    }
+    /**
+     * 清除所有Tab
+     */
+    const clearAll = () => {
+        tableList.value = {};
+    }
+
+    return {
+        tableList,
+        dbConfigId,
+        addTableInfo,
+        setDbConfigId,
+        getTableInfo,
+        clearAll
+    }
+}, {
+    persist: {
+        enabled: false
+    }
 });

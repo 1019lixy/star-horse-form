@@ -40,14 +40,16 @@
 </template>
 <script setup lang="ts">
 import {flowMixin, open} from '@/views/workflow/plugin/mixins/flowMixin';
-import FlowAddNode from '../Add/index.vue';
+import FlowAddNode from '../Add/add.vue';
 import FlowApproverSetting from '../../FlowDrawer/Approver/index.vue';
 import EditName from '@/views/workflow/plugin/Common/EditName.vue';
 import DeleteConfirm from '@/views/workflow/plugin/Common/DeleteConfirm.vue';
 import {computed, ref} from "vue";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
-
+defineOptions({
+  name: 'FlowNodeApprover',
+});
 const flowApproverSettingRef = ref();
 const flowDesign = useFlowDesign(piniaInstance);
 let currentNode = computed(() => flowDesign.currentNode);

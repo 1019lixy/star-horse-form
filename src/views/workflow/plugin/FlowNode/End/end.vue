@@ -8,5 +8,7 @@
   </div>
 </template>
 <script setup lang="ts">
-
+defineOptions({
+  name: 'FlowNodeEnd',
+});
 </script>

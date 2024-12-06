@@ -14,16 +14,16 @@
   </div>
 </template>
 <script setup lang="ts">
-import FlowApproverNode from './Approver/index.vue';
-import FlowCopyerNode from './Copyer/index.vue';
-import NoticeNode from './Notice/index.vue';
-import WriteNode from './Write/index.vue';
-import EventNode from './Event/index.vue';
-import BranchNode from './Branch/index.vue';
+import FlowApproverNode from './Approver/approver.vue';
+import FlowCopyerNode from './Copyer/copyer.vue';
+import NoticeNode from './Notice/notice.vue';
+import WriteNode from './Write/write.vue';
+import EventNode from './Event/event.vue';
+import BranchNode from './Branch/branch.vue';
 import SuggestNode from './Branch/Suggest.vue';
 import PolymerizeNode from './Branch/Polymerize.vue';
 import ParallelNode from './Branch/Parallel.vue';
-import FlowNode from "./index.vue";
+import FlowNode from "./flownode.vue";
 
 const props = defineProps(
     {

@@ -1,9 +1,11 @@
 <script setup lang="ts">
-
+defineOptions({
+  name: 'PageCardItem',
+});
 </script>
 
 <template>
-水平菜单
+  卡片内容
 </template>
 
 <style scoped lang="scss">

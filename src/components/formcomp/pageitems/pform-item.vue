@@ -1,9 +1,11 @@
 <script setup lang="ts">
-
+defineOptions({
+  name: 'PageFormItem',
+});
 </script>
 
 <template>
-  友情链接
+  表单内容
 </template>
 
 <style scoped lang="scss">

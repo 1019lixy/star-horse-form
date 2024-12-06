@@ -1,9 +1,11 @@
 <script setup lang="ts">
-
+defineOptions({
+  name: 'PageHMenuItem',
+});
 </script>
 
 <template>
-消息内容
+水平菜单
 </template>
 
 <style scoped lang="scss">

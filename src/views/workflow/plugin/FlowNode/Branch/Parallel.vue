@@ -53,8 +53,8 @@
 </template>
 <script setup lang="ts">
 import {addBranch, close, flowMixin, open} from '@/views/workflow/plugin/mixins/flowMixin';
-import FlowNode from '../index.vue';
-import FlowAddNode from '../Add/index.vue';
+import FlowNode from '../flownode.vue';
+import FlowAddNode from '../Add/add.vue';
 import FlowBranchSetting from '../../FlowDrawer/Branch/index.vue';
 import EditName from '@/views/workflow/plugin/Common/EditName.vue';
 import DeleteConfirm from '@/views/workflow/plugin/Common/DeleteConfirm.vue';

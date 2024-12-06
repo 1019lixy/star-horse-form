@@ -1,9 +1,11 @@
 <script setup lang="ts">
-
+defineOptions({
+  name: 'PageNavbarItem',
+});
 </script>
 
 <template>
-  列表内容
+导航条
 </template>
 
 <style scoped lang="scss">

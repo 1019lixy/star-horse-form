@@ -1,9 +1,11 @@
 <script setup lang="ts">
-
+defineOptions({
+  name: 'PagePagebarItem',
+});
 </script>
 
 <template>
-导航条
+分页条
 </template>
 
 <style scoped lang="scss">

@@ -1,9 +1,11 @@
 <script setup lang="ts">
-
+defineOptions({
+  name: 'PageCopyrightItem',
+});
 </script>
 
 <template>
-logo内容
+版权
 </template>
 
 <style scoped lang="scss">

@@ -9,8 +9,10 @@
   </div>
 </template>
 <script setup lang="ts">
-import FlowAddNode from '../Add/index.vue';
-
+import FlowAddNode from '../Add/add.vue';
+defineOptions({
+  name: 'FlowNodeStart',
+});
 const props = defineProps({
   node: {
     type: Object,

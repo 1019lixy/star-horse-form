@@ -1,9 +1,11 @@
 <script setup lang="ts">
-
+defineOptions({
+  name: 'PageContentItem',
+});
 </script>
 
 <template>
-  表单内容
+消息内容
 </template>
 
 <style scoped lang="scss">

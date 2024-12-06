@@ -6,14 +6,14 @@
       </div>
       <div class="meet-node"></div>
       <div class="flow-col" v-for="(conditionNode, index) in node.conditionNodes" :key="conditionNode.id">
-        <div class="clear-left-border" v-if="index == 0"></div>
-        <div class="clear-right-border" v-if="node.conditionNodes.length - 1 == index"></div>
+        <div class="clear-left-border" v-if="branch == 0"></div>
+        <div class="clear-right-border" v-if="node.conditionNodes.length - 1 == branch"></div>
         <div class="flow-row">
           <div class="flow-box">
             <!-- 其他情况不支持配置 -->
             <div class="flow-item flow-node-branch"
                  :class="{ 'flow-item-active': currentNode.id==conditionNode.id }"
-                 @click="!readable && node.conditionNodes.length - 1 != index && open(flowBranchSettingRef, conditionNode, node)">
+                 @click="!readable && node.conditionNodes.length - 1 != branch && open(flowBranchSettingRef, conditionNode, node)">
               <div class="flow-node-box" :class="{ 'has-error': conditionNode.error }">
                 <div class="node-name">
                   <EditName v-model:nodeName="conditionNode.name"
@@ -38,7 +38,7 @@
                 <star-horse-icon v-if="conditionNode.error" icon-class="exclamation-circle" theme="filled"
                                  class="node-error"/>
                 <!-- 删除按钮,其他情况不支持删除 -->
-                <div v-if="!readable && !conditionNode.deletable && node.conditionNodes.length - 1 != index"
+                <div v-if="!readable && !conditionNode.deletable && node.conditionNodes.length - 1 != branch"
                      class="close-icon">
                   <star-horse-icon iconClass="close" @click.stop="conditionNode.deletable = true"/>
                 </div>
@@ -61,8 +61,8 @@
 </template>
 <script setup lang="ts">
 import {addBranch, close, flowMixin, open} from '@/views/workflow/plugin/mixins/flowMixin';
-import FlowNode from '../../FlowNode/index.vue';
-import FlowAddNode from '../Add/index.vue';
+import FlowNode from '../flownode.vue';
+import FlowAddNode from '../Add/add.vue';
 import FlowBranchSetting from '../../FlowDrawer/Branch/index.vue';
 import EditName from '@/views/workflow/plugin/Common/EditName.vue';
 import DeleteConfirm from '@/views/workflow/plugin/Common/DeleteConfirm.vue';
@@ -70,7 +70,9 @@ import {computed, ref} from "vue";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-
+defineOptions({
+  name: 'FlowNodeBranch',
+});
 const flowBranchSettingRef = ref();
 const flowDesign = useFlowDesign(piniaInstance);
 let currentNode = computed(() => flowDesign.currentNode);

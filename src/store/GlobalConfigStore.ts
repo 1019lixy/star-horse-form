@@ -1,34 +1,18 @@
 import {defineStore} from "pinia";
 import {Config} from "@/api/settings.ts";
+import {ref} from "vue";
 
-export const GlobalConfig: any = defineStore("GlobalConfig", {
-    state: () => {
-        return {
-            configFormInfo: {} as any,
-        }
-    },
-    getters: {
-        /**
-         * 获取数据
-         * @param state
-         */
-        getConfigFormInfo: (state: any) => {
-            if (Object.keys(state.configFormInfo).length == 0) {
-                state.actions.clearAll();
-            }
-            return state.configFormInfo;
-        },
-    },
-    actions: {
+export const GlobalConfig: any = defineStore("GlobalConfig", () => {
+        const configFormInfo = ref<any>({});
         /**
          *设置数据
          * @param data
          */
-        setConfigFormInfo(data: any) {
-            this.configFormInfo = data;
+        const setConfigFormInfo = (data: any) => {
+            configFormInfo.value = data;
             localStorage.setItem("starHorseConfigInfo", JSON.stringify(data));
             Config.buttonStyle.value = data.buttonShowType || "dropdown";
-           // console.log(data, Config.buttonStyle.value);
+            // console.log(data, Config.buttonStyle.value);
             if (data.themeColor) {
                 document.documentElement.style.setProperty('--star-horse-style', data.themeColor)
                 document.documentElement.style.setProperty('--el-color-primary', data.themeColor)
@@ -43,13 +27,12 @@ export const GlobalConfig: any = defineStore("GlobalConfig", {
                 document.documentElement.style.setProperty('--fc-button-hover-border-color', data.themeColor)
                 // document.documentElement.style.setProperty('--fc-button-text-color', "#000");
             }
-        },
+        }
         /**
          * 清除所有Tab
          */
-        clearAll(isDark: string = "N") {
-            const _this = this;
-            _this.configFormInfo = {
+        const clearAll = (isDark: string = "N") => {
+            configFormInfo.value = {
                 tagsView: 'Y',
                 position: "left",
                 menusCfg: "tradition",
@@ -57,15 +40,23 @@ export const GlobalConfig: any = defineStore("GlobalConfig", {
             };
             const starHorseConfigInfo = localStorage.getItem("starHorseConfigInfo");
             if (starHorseConfigInfo) {
-                _this.setConfigFormInfo(JSON.parse(starHorseConfigInfo));
+                setConfigFormInfo(JSON.parse(starHorseConfigInfo));
             }
-        },
+        }
+
+        return {
+            configFormInfo,
+            setConfigFormInfo,
+            clearAll
+        }
     },
-    persist: {
-        enabled: true,
-        strategies: [{
-            key: "configFormInfo",
-            paths: ["configFormInfo"]
-        }]
+    {
+        persist: {
+            enabled: false,
+            strategies: [{
+                key: "configFormInfo",
+                paths: ["configFormInfo"]
+            }]
+        },
     }
-});
+);

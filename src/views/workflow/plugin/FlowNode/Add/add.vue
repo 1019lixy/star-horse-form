@@ -48,7 +48,9 @@ import {uuid} from "@/api/system.ts";
 import {computed} from "vue";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
-
+defineOptions({
+  name: 'FlowNodeAdd',
+});
 const props = defineProps({
   node: {
     type: Object,

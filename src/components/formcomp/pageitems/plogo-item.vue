@@ -1,9 +1,11 @@
 <script setup lang="ts">
-
+defineOptions({
+  name: 'PageLogoItem',
+});
 </script>
 
 <template>
-图片内容
+logo内容
 </template>
 
 <style scoped lang="scss">
