@@ -142,6 +142,7 @@ export const DesignForm: any = defineStore("DesignForm", {
         addHistoryRecord(reOrUnDoFlag: boolean) {
             const _this = this;
             if (reOrUnDoFlag || _this.compList.length == 0) {
+                console.log("不需要添加历史记录");
                 return;
             }
 
@@ -160,6 +161,7 @@ export const DesignForm: any = defineStore("DesignForm", {
             if (record.datas.length > record.maxStep) {
                 record.datas.splice(record.datas.length - 1, 1);
             }
+            console.log(record);
         },
         /**
          * 下一步
@@ -178,13 +180,24 @@ export const DesignForm: any = defineStore("DesignForm", {
         reAndUnDo() {
             const _this = this;
             const record = this.historyRecord;
-            const data = JSON.parse(record.datas[record.index]);
-            this.setCompList(data.complist);
-            _this.currentCompCategory = data.currentCompCategory;
-            _this.currentItemId = data.currentItemId;
-            _this.parentCompType = data.parentCompType;
-            _this.currentItemType = data.currentItemType;
-            _this.currentFormPreps = data.currentFormPreps;
+            if (!record.datas[record.index]) {
+                _this.currentFormPreps = {};
+                _this.currentItemType = "";
+                _this.currentComp = {};
+                _this.currentItemId = "";
+                _this.parentCompType = "";
+                _this.currentCompCategory = "";
+                _this.compList = [];
+            } else {
+                const data = JSON.parse(record.datas[record.index]);
+                this.setCompList(data.complist);
+                _this.currentCompCategory = data.currentCompCategory;
+                _this.currentItemId = data.currentItemId;
+                _this.parentCompType = data.parentCompType;
+                _this.currentItemType = data.currentItemType;
+                _this.currentFormPreps = data.currentFormPreps;
+            }
+
         },
 
         /**
@@ -251,7 +264,7 @@ export const DesignForm: any = defineStore("DesignForm", {
         loadCompNames() {
 
             const innerFunc = (datas: Array<any>) => {
-                let selectList: Array<any>= [];
+                let selectList: Array<any> = [];
                 for (let index in datas) {
                     let temp: any = datas[index];
                     if (temp.itemType == "box" || temp.itemType == "dytable") {

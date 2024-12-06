@@ -10,7 +10,7 @@ import Components from 'unplugin-vue-components/vite'
 import {ElementPlusResolver} from 'unplugin-vue-components/resolvers'
 import AutoImport from 'unplugin-auto-import/vite'
 import {viteCommonjs} from '@originjs/vite-plugin-commonjs'
-
+import vueDevTools from 'vite-plugin-vue-devtools'
 const codeHost: string = "http://192.168.20.165:8888/"
 // const codeHost:string = "http://localhost:8888/"
 const systemHost: string = "http://localhost:8749/"
@@ -151,6 +151,7 @@ export default defineConfig((mode, command) => {
             // exclude:[]
         },
         plugins: [
+            vueDevTools(),
             vue({
                 script: {
                     // 开启 defineModel

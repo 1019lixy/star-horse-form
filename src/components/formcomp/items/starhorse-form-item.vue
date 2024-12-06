@@ -159,13 +159,7 @@ let currentChangeItem = ref<any>({});
 const operation = (cmd: string) => {
   if (cmd == 'cut') {
     currentChangeItem.value = JSON.parse(JSON.stringify(props.formItem));
-    for (let i in compList.value) {
-      let dataTemp = compList.value[i];
-      if (dataTemp.id == props.formItem.id) {
-        compList.value.splice(i, 1);
-        break;
-      }
-    }
+    removeItem(props.formItem);
   } else if (cmd == 'copy') {
     let temp: any = JSON.parse(JSON.stringify(props.formItem));
     temp.id = uuid();
@@ -178,17 +172,11 @@ const operation = (cmd: string) => {
       compList.value.push(currentChangeItem.value);
       currentChangeItem.value = {};
     }
-
   } else if (cmd == 'exchange') {
     exchangeItem();
   }
 }
 const exchangeItem = () => {
-  // if (!isEdit.value) {
-  //   return;
-  // }
-  // currentChangeItem.value = formItem;
-  // console.log(formItem);
   componentVisible.value = true;
 }
 const close = () => {
@@ -218,7 +206,7 @@ const changeItem = (item: any) => {
      values: props.formItem["preps"]?.values || [],
      viewShow: props.formItem["preps"]?.viewShow || [],*/
   };
-  console.log(item, props.formItem);
+  //console.log(item, props.formItem);
   selectData(props.formItem);
 }
 const removeItem = (formItem: any) => {

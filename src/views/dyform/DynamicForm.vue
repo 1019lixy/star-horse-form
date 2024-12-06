@@ -23,6 +23,7 @@ import {delCacheData, getCacheData, setCacheData} from "@/api/cached_utils.ts";
 import {i18n} from "@/lang";
 import {Config} from "@/api/settings.ts";
 import FormPreview from "@/views/dyform/FormPreview.vue";
+import {initKeyboardEvent, removeKeyboardEvent} from "@/api/keyboard-event-utils.ts";
 
 const dataUrl = apiInstance("userdb-manage", "userdb/dynamicForm");
 let designForm = DesignForm(piniaInstance);
@@ -353,14 +354,20 @@ const analysisQueryParams = () => {
   }
   analysisParentParam();
 }
+/**
+ * 键盘事件
+ * @param evt
+ */
 
 onActivated(() => {
   analysisQueryParams();
   designForm.setIsEdit(true);
+  initKeyboardEvent(actions);
 });
 onDeactivated(() => {
   designForm.setIsEdit(false);
-})
+  removeKeyboardEvent(actions);
+});
 onBeforeUnmount(() => {
   designForm.setIsEdit(false);
 })
@@ -391,6 +398,7 @@ watch(() => list.value,
 );
 onMounted(async () => {
   await init();
+  initKeyboardEvent(actions);
 });
 let prepsModel = ref("one");
 </script>
