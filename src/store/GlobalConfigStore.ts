@@ -2,7 +2,7 @@ import {defineStore} from "pinia";
 import {Config} from "@/api/settings.ts";
 import {ref} from "vue";
 
-export const GlobalConfig: any = defineStore("GlobalConfig", () => {
+export const GlobalConfig = defineStore("GlobalConfig", () => {
         const configFormInfo = ref<any>({});
         /**
          *设置数据

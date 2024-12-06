@@ -2,7 +2,7 @@ import {defineStore} from "pinia";
 import {RouteRecordNormalized} from "vue-router";
 import {ref} from "vue";
 
-export const viewList: any = defineStore("viewList", () => {
+export const viewList = defineStore("viewList", () => {
         const viewListDatas = ref<Array<string>>([]);
 
         /**

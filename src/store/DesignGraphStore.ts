@@ -10,7 +10,7 @@ import {Selection} from '@antv/x6-plugin-selection';
 import {EdgeInfo, NodeInfo} from "@/components/types/CompInfo";
 import {ref, unref} from "vue";
 
-export const DesignGraph: any = defineStore("DesignGraph", () => {
+export const DesignGraph = defineStore("DesignGraph", () => {
     const added = ref<boolean>(false);
     const graph = ref<Graph | null>(null);
     const cell = ref<Cell | null>(null);

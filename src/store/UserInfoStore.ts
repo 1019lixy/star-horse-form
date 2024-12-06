@@ -1,8 +1,8 @@
-import {defineStore, StoreDefinition} from "pinia";
+import {defineStore} from "pinia";
 import {MenusInfo} from "@/components/types/MenusInfo";
 import {ref} from "vue";
 
-export const userInfoStore: StoreDefinition<any> = defineStore("userInfo", () => {
+export const userInfoStore = defineStore("userInfo", () => {
     const userInfo = ref<any>({});
     const pageButtonPermission = ref<any>({});
     const permissionMenus = ref<any>([]);
