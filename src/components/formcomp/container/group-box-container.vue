@@ -2,9 +2,10 @@
 import {confirm} from "@/utils/message";
 import piniaInstance from "@/store/index.ts";
 import {DesignForm} from "@/store/DesignFormStore.ts";
-import {computed} from "vue";
+import {computed, ref} from "vue";
 import {copyContainer} from "@/api/system.ts";
 import {colDataInfo} from "@/components/formcomp/container/dytableUtils.ts";
+import {dynamicFormContextMenuData} from "@/views/dyform/page/AblesPlugin.ts";
 
 const props = defineProps({
   parentField: {type: Object},
@@ -46,6 +47,13 @@ const removeData = () => {
     }
   });
 };
+const containerContextMenuRef = ref();
+const containerContextMenu = (evt: MouseEvent) => {
+  evt.stopPropagation();
+  evt.preventDefault();
+  evt.props = props;
+  containerContextMenuRef.value?.show(evt);
+}
 const tableOperation = (actonName: string, _preps: any) => {
   let preps = props.formItem.preps;
   if (!preps.elements) {
@@ -98,14 +106,11 @@ const tableOperation = (actonName: string, _preps: any) => {
       }
       row.columns.push(col);
     }
-  } else if (actonName == "copy") {
-
-    copyContainer(props.parentField ? props.parentField!.preps?.elements : compList.value, props.formItem);
   }
 }
 </script>
 <template>
-  <div :class="{'field-item':isEdit}">
+  <div class="field-item" v-if="isEdit" @contextmenu="containerContextMenu">
     <slot></slot>
     <div class="drag-handler" v-if="isEdit&&currentItemId==formItem.id">
       <el-tooltip content="拖动">
@@ -147,8 +152,14 @@ const tableOperation = (actonName: string, _preps: any) => {
             style="color: var(--star-horse-white)"
         />
       </el-tooltip>
-
     </div>
+    <Teleport to="body">
+      <ContentMenu ref="containerContextMenuRef"
+                   :menu-data="dynamicFormContextMenuData(formItem,parentField,'container')"/>
+    </Teleport>
+  </div>
+  <div class="field-item" v-else>
+    <slot></slot>
   </div>
 </template>
 <style lang="scss" scoped>
@@ -158,6 +169,7 @@ const tableOperation = (actonName: string, _preps: any) => {
   padding: 3px;
   border: 1px dashed #e6a23c;
   margin: 3px auto;
+
   .field-action {
     position: absolute;
     top: 0;

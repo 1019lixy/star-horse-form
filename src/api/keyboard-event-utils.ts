@@ -1,5 +1,9 @@
 import {ref} from "vue";
+import {ShortKey} from "@/components/types/ShortKey";
+import piniaInstance from "@/store";
+import {copyerOperation} from "@/store/CopyerOperationStore.ts";
 
+const copyerAction = copyerOperation(piniaInstance)
 let ctrlKey = ref<boolean>(false);
 let altKey = ref<boolean>(false);
 /**
@@ -13,6 +17,172 @@ export const resetCtrlKey = (evt: KeyboardEvent) => {
         altKey.value = false;
     }
 }
+
+const keyboardEventMap: ShortKey[] = [
+    {
+        key: "Enter",
+        action: "enter",
+    },
+    {
+        key: "Escape",
+        action: "escape",
+    },
+    {
+        key: "Tab",
+        action: "tab",
+    },
+    {
+        key: "Backspace",
+        action: "backspace",
+    },
+    {
+        key: "Delete",
+        action: "delete",
+    },
+    {
+        key: "z",
+        action: "undo",
+        ctrl: true,
+    },
+    {
+        key: "y",
+        action: "redo",
+        ctrl: true,
+    },
+    {
+        key: "c",
+        action: "copy",
+        ctrl: true,
+    },
+    {
+        key: "x",
+        action: "cut",
+        ctrl: true,
+    },
+    {
+        key: "v",
+        action: "paste",
+        ctrl: true,
+    },
+    {
+        key: "n",
+        action: "new",
+        ctrl: true,
+    },
+    {
+        key: "s",
+        action: "save",
+        ctrl: true,
+    },
+    {
+        key: "o",
+        action: "open",
+        ctrl: true,
+    },
+    {
+        key: "d",
+        action: "delete",
+        ctrl: true,
+    },
+    {
+        key: "a",
+        action: "selectAll",
+        ctrl: true,
+    },
+    {
+        key: "d",
+        action: "deleteAll",
+        ctrl: true,
+        alt: true,
+    },
+    {
+        key: "f",
+        action: "find",
+        ctrl: true,
+    },
+    {
+        key: "r",
+        action: "exchange",
+        ctrl: true,
+    },
+    {
+        key: "g",
+        action: "group",
+        ctrl: true,
+    },
+    {
+        key: "g",
+        action: "ungroup",
+        ctrl: true,
+        alt: true,
+    },
+    {
+        key: "p",
+        action: "print",
+        ctrl: true,
+    },
+    {
+        key: "r",
+        action: "return",
+        ctrl: true,
+    },
+    {
+        key: "ArrowUp",
+        action: "up",
+    },
+    {
+        key: "ArrowDown",
+        action: "down",
+    },
+    {
+        key: "ArrowLeft",
+        action: "left",
+    },
+    {
+        key: "ArrowRight",
+        action: "right",
+    },
+    {
+        key: "ArrowUp",
+        action: "up",
+        alt: true,
+    },
+    {
+        key: "ArrowDown",
+        action: "altDown",
+        alt: true,
+    },
+    {
+        key: "ArrowLeft",
+        action: "altLeft",
+        alt: true,
+    },
+    {
+        key: "ArrowRight",
+        action: "altRight",
+        alt: true,
+    },
+    {
+        key: "ArrowUp",
+        action: "ctrlUp",
+        ctrl: true,
+    },
+    {
+        key: "ArrowDown",
+        action: "ctrlDown",
+        ctrl: true,
+    },
+    {
+        key: "ArrowLeft",
+        action: "ctrlLeft",
+        ctrl: true,
+    },
+    {
+        key: "ArrowRight",
+        action: "ctrRight",
+        ctrl: true,
+    },
+];
 /**
  * 键盘事件
  * @param evt
@@ -20,7 +190,7 @@ export const resetCtrlKey = (evt: KeyboardEvent) => {
  * @param params 参数
  */
 export const keyboardEvent = (evt: KeyboardEvent, actions: Function, ...params: any) => {
-    console.log(evt.key);
+    console.log(evt, evt.key);
     //ctrlKey
     if (evt.key == "Control") {
         ctrlKey.value = true;
@@ -29,74 +199,22 @@ export const keyboardEvent = (evt: KeyboardEvent, actions: Function, ...params: 
     if (evt.key == "Alt") {
         altKey.value = true;
     }
-    // 撤销
-    if (evt.key == "z" && ctrlKey.value) {
-        actions("undo", params);
-    }
-    //重做
-    if (evt.key == "y" && ctrlKey.value) {
-        actions("redo", params);
-    }
-    // 复制
-    if (evt.key == "c" && ctrlKey.value) {
-        actions("copy", params);
-    }
-    // 剪切
-    if (evt.key == "x" && ctrlKey.value) {
-        actions("cut", params);
-    }
-    // 粘贴
-    if (evt.key == "v" && ctrlKey.value) {
-        actions("paste", params);
-    }
-    // 新建
-    if (evt.key == "n" && ctrlKey.value) {
-        actions("new", params);
-    }
-    // 保存
-    if (evt.key == "s" && ctrlKey.value) {
-        actions("save", params);
-    }
-    // 打开
-    if (evt.key == "o" && ctrlKey.value) {
-        actions("open", params);
-    }
-    //删除
-    if (evt.key == "d" && ctrlKey.value) {
-        actions("delete", params);
-    }
-    //删除所有
-    if (evt.key == "d" && ctrlKey.value && altKey.value) {
-        actions("deleteAll", params);
-    }
-    //全选
-    if (evt.key == "a" && ctrlKey.value) {
-        actions("selectAll", params);
-    }
-    //查找
-    if (evt.key == "f" && ctrlKey.value) {
-        actions("find", params);
-    }
-    // 替换
-    if (evt.key == "r" && ctrlKey.value) {
-        actions("exchange", params);
-    }
-    // 分组
-    if (evt.key == "g" && ctrlKey.value) {
-        actions("group", params);
-    }
-    // 取消分组
-    if (evt.key == "g" && ctrlKey.value && altKey.value) {
-        actions("ungroup", params);
-    }
-    // 打印
-    if (evt.key == "p" && ctrlKey.value) {
-        window.print();
-        actions("print", params);
-    }
-    //返回
-    if (evt.key == "r" && ctrlKey.value) {
-        actions("return", params);
+    let keyInfo = keyboardEventMap.find(item => item.key == evt.key);
+    if (keyInfo) {
+        if (keyInfo.ctrl && !ctrlKey.value) {
+            return;
+        }
+        if (keyInfo.alt && !altKey.value) {
+            return;
+        }
+        copyerAction.operation(keyInfo.action, {}, {})
+        // if(keyInfo.other&&!keyInfo.other.includes(evt.key)){
+        //     return;
+        // }
+        if (actions) {
+            actions(keyInfo.action, ...params);
+        }
+
     }
 }
 //初始化键盘事件

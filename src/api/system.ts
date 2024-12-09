@@ -265,37 +265,7 @@ export const batchModifyAction = (items: Array<any>, val: any, fieldName: string
         }
     }
 }
-/**
- * 拷贝容器
- * @param parentComp
- * @param containerType
- * @param currentContainer
- */
-export const copyContainer = (parentComp: Array<any>, currentContainer: any) => {
-    if (!currentContainer) {
-        return;
-    }
-    const containerType = currentContainer.itemType;
-    const container = JSON.parse(JSON.stringify(currentContainer));
-    //box和dytable 有列属性
-    if (containerType == "box" || containerType == "dytable") {
-        const rows = container.preps.elements;
-        for (const index in rows) {
-            const row = rows[index];
-            for (const cIndex in row.columns) {
-                const col = row.columns[cIndex];
-                col._uuid = uuid();
-                complexFields(col.items);
-            }
-        }
-    } else {
-        const rows = container.preps.elements;
-        for (const index in rows) {
-            complexFields(rows[index].items);
-        }
-    }
-    parentComp.push(container);
-}
+
 
 /**
  * 公共字段

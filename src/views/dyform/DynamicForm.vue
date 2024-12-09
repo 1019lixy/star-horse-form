@@ -24,6 +24,7 @@ import {i18n} from "@/lang";
 import {Config} from "@/api/settings.ts";
 import FormPreview from "@/views/dyform/FormPreview.vue";
 import {initKeyboardEvent, removeKeyboardEvent} from "@/api/keyboard-event-utils.ts";
+import {dynamicFormContextMenuData} from "@/views/dyform/page/AblesPlugin.ts";
 
 const dataUrl = apiInstance("userdb-manage", "userdb/dynamicForm");
 let designForm = DesignForm(piniaInstance);
@@ -197,6 +198,7 @@ const formInfoChange = (_data: any) => {
 };
 const onDragAdd = async (_evt: Event, dataList: Array<any>) => {
   // let index = evt.oldIndex;
+  console.log(_evt, dataList);
   if (draggingItem.value.itemType == 'table') {
     let id = draggingItem.value.id;
     let datas = dataList.filter(item => item.itemType == "table");
@@ -353,6 +355,13 @@ const analysisQueryParams = () => {
     return;
   }
   analysisParentParam();
+}
+const contentMenuRef = ref();
+const contextMenu = async (evt: MouseEvent) => {
+  evt.preventDefault();
+  evt.stopPropagation();
+  await nextTick();
+  contentMenuRef.value.show(evt);
 }
 /**
  * 键盘事件
@@ -573,7 +582,7 @@ let prepsModel = ref("one");
           <help :message="helpMessage"/>
         </div>
         <div class="main-design-a">
-          <div class="main-design-outer">
+          <div class="main-design-outer" @contextmenu="contextMenu">
             <el-form
                 ref="dynamicFormRef"
                 class="design-form-container"
@@ -616,6 +625,9 @@ let prepsModel = ref("one");
                 </template>
               </draggable>
             </el-form>
+            <Teleport to="body">
+              <ContentMenu ref="contentMenuRef" :menu-data="dynamicFormContextMenuData()"/>
+            </Teleport>
           </div>
           <div class="side-panel-item" v-show="rightPanelVisible">
             <property-panel
@@ -703,6 +715,7 @@ let prepsModel = ref("one");
 
       .main-design-outer {
         flex: 1;
+        position: relative;
         background: var(--star-horse-background);
         justify-content: center;
         border: 1px dashed var(--star-horse-shadow);
@@ -710,7 +723,9 @@ let prepsModel = ref("one");
         border-radius: 3px;
         display: flex;
         flex-direction: column;
-
+        top: 0;
+        left: 0;
+        transform: translate(0, 0);
 
       }
 
