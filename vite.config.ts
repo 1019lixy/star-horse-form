@@ -30,6 +30,7 @@ export default defineConfig((mode, command) => {
         'vue3-infinite-viewer',
         'vue3-moveable',
         'smooth-signature',
+        'jsoneditor',
         '@vueuse/core',
         'jsoneditor',
         'preview-image-js/icon.js',

@@ -39,7 +39,7 @@ const loadMenus = async (sysemId: string) => {
   await nextTick();
   let allId = leftMenuDatas.value.map(item => item.meta.menuId);
   if (allId && allId.length > 0) {
-    systemMenu.value?.open(allId[0]);
+    systemMenu?.value?.open(allId[0]);
   }
 };
 // let menuIcon = ref<string>("expand");
@@ -90,7 +90,7 @@ watch(() => props.sysemId,
             </el-input>
           </template>
         </el-menu-item>
-        <SubMenu :dataList="filterTableData"></SubMenu>
+        <SubMenu :dataList="filterTableData"/>
       </el-menu>
     </el-scrollbar>
     <div @click="menuBarFun" class="menu-button">
