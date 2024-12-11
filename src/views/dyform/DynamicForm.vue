@@ -25,6 +25,7 @@ import {Config} from "@/api/settings.ts";
 import FormPreview from "@/views/dyform/FormPreview.vue";
 import {initKeyboardEvent, removeKeyboardEvent} from "@/api/keyboard-event-utils.ts";
 import {dynamicFormContextMenuData} from "@/views/dyform/page/AblesPlugin.ts";
+import {ModuleEnums} from "@/components/enums/ModuleEnums.ts";
 
 const dataUrl = apiInstance("userdb-manage", "userdb/dynamicForm");
 let designForm = DesignForm(piniaInstance);
@@ -37,8 +38,8 @@ let permissions = ref<any>({});
 let compSize = computed(() => configStore.configFormInfo?.buttonSize || Config.compSize);
 let draggingItem = computed(() => designForm.draggingItem);
 let list = computed(() => designForm.compList);
-let isPreview = ref<any>(false);
-let batchEditFieldVisible = ref<any>(false);
+let isPreview = computed(() => designForm.previewVisible);
+let batchEditFieldVisible = computed(() => designForm.batchEditFieldVisible);
 let activeTab = ref<any>("first");
 let errMessage = ref<string>("");
 let formData = computed(() => designForm.formData);
@@ -91,10 +92,10 @@ const loadFormData = async (formId: any, isParent: boolean) => {
 
 const closeAction = () => {
   designForm.setIsEdit(true);
-  isPreview.value = false;
+  designForm.setPreviewVisible(false);
   userOperation.setFormInstance(dynamicFormRef);
   userOperation.clearAll();
-  batchEditFieldVisible.value = false;
+  designForm.setBatchEditFieldVisible(false);
   configDialogVisible.value = false;
   codeDialogVisible.value = false;
 };
@@ -111,11 +112,11 @@ const clearData = (flag: boolean = true) => {
   }
 };
 const preview = async () => {
-  isPreview.value = true;
+  designForm.setPreviewVisible(true);
   designForm.setIsEdit(false);
   await nextTick();
   userOperation.setFormInstance(previewDynamicFormRef);
-  list.value.forEach(item => {
+  list.value.forEach((item: any) => {
     userOperation.addFormItem(item);
   })
 };
@@ -227,7 +228,7 @@ const createCode = () => {
   codeDialogVisible.value = true;
 };
 const batchEdit = () => {
-  batchEditFieldVisible.value = true;
+  designForm.setBatchEditFieldVisible(true);
 };
 const configDialogVisible = ref(false);
 const codeDialogVisible = ref(false);
@@ -371,11 +372,11 @@ const contextMenu = async (evt: MouseEvent) => {
 onActivated(() => {
   analysisQueryParams();
   designForm.setIsEdit(true);
-  initKeyboardEvent(actions);
+  initKeyboardEvent(actions, ModuleEnums.DYNAMIC_FORM);
 });
 onDeactivated(() => {
   designForm.setIsEdit(false);
-  removeKeyboardEvent(actions);
+  removeKeyboardEvent(actions, ModuleEnums.DYNAMIC_FORM);
 });
 onBeforeUnmount(() => {
   designForm.setIsEdit(false);
@@ -407,7 +408,7 @@ watch(() => list.value,
 );
 onMounted(async () => {
   await init();
-  initKeyboardEvent(actions);
+  initKeyboardEvent(actions, ModuleEnums.DYNAMIC_FORM);
 });
 let prepsModel = ref("one");
 </script>

@@ -1,17 +1,25 @@
 import {defineStore} from "pinia";
-import {Ref, ref} from "vue";
-import {PageFieldInfo} from "@/components/types/PageFieldInfo";
+import {ref} from "vue";
+import {ModuleEnums} from "@/components/enums/ModuleEnums.ts";
+import {message} from "@/utils/message.ts";
 
 /**
  * 用户自定义方法处理逻辑
  */
-export const copyerOperation = defineStore("copyerOperation", () => {
+export const CopyerOperation = defineStore("CopyerOperation", () => {
     //执行的动作
     const action = ref<string>("");
+    //模块
+    const module = ref<ModuleEnums>();
     //父级容器
     const parentContainer = ref<any>({});
     //拷贝数据
     const copyerData = ref<any>({});
+
+    const keyboardOperation = (act: string, m: ModuleEnums, container: any, data: any) => {
+        operation(act, container, data);
+        module.value = m;
+    }
     /**
      * 执行操作
      * @param act 操作动作
@@ -22,6 +30,11 @@ export const copyerOperation = defineStore("copyerOperation", () => {
         action.value = act;
         parentContainer.value = container;
         copyerData.value = data;
+        if (act == "copy") {
+            message("复制成功");
+        } else if (act == "cut") {
+            message("剪切成功");
+        }
     }
     //设置动作
     const setAction = (act: string) => {
@@ -43,7 +56,7 @@ export const copyerOperation = defineStore("copyerOperation", () => {
     }
 
     return {
-        action, parentContainer, copyerData,
+        action, parentContainer, copyerData, keyboardOperation,
         operation, setAction, setParentContainer,
         setCopyerData, clearAll
     }

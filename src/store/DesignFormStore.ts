@@ -20,6 +20,9 @@ export const DesignForm = defineStore("DesignForm", () => {
     const currentItemId = ref<string>("");
     const currentSubItemId = ref<string>("");
     const isEdit = ref<boolean>(false);
+    const componentVisible = ref<boolean>(false);
+    const batchEditFieldVisible = ref<boolean>(false);
+    const previewVisible = ref<boolean>(false);
     const refresh = ref<number>(0);
     const currentFormPreps = ref<any>({});
     const draggingItem = ref<any>({});
@@ -28,7 +31,6 @@ export const DesignForm = defineStore("DesignForm", () => {
         maxStep: 20,
         datas: [],
     });
-
 
     /**
      * 添加历史记录
@@ -114,10 +116,10 @@ export const DesignForm = defineStore("DesignForm", () => {
      * @param parentType 父组件类型
      */
     const selectItem = (data: any, itemType: string, parentType: string) => {
-
         currentCompCategory.value = data.compType;
         currentItemId.value = data?.id;
         parentCompType.value = parentType;
+        currentComp.value = data;
         currentItemType.value = itemType || data.itemType;
         currentFormPreps.value = data.preps || data;
     }
@@ -382,7 +384,15 @@ export const DesignForm = defineStore("DesignForm", () => {
             init();
         }
     }
-
+    const setComponentVisible = (visible: boolean) => {
+        componentVisible.value = visible;
+    }
+    const setBatchEditFieldVisible = (visible: boolean) => {
+        batchEditFieldVisible.value = visible;
+    }
+    const setPreviewVisible = (visible: boolean) => {
+        previewVisible.value = visible;
+    }
     return {
         formData,
         formInfo,
@@ -402,6 +412,9 @@ export const DesignForm = defineStore("DesignForm", () => {
         draggingItem,
         refresh,
         historyRecord,
+        componentVisible,
+        batchEditFieldVisible,
+        previewVisible,
         addHistoryRecord,
         redo,
         undo,
@@ -421,6 +434,9 @@ export const DesignForm = defineStore("DesignForm", () => {
         setCurrentFormPreps,
         setDraggingItem,
         removePromise,
-        clearAll
+        clearAll,
+        setComponentVisible,
+        setBatchEditFieldVisible,
+        setPreviewVisible
     }
 });

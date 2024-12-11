@@ -22,10 +22,12 @@ const props = defineProps({
 });
 let designForm = DesignForm(piniaInstance);
 let isEdit = computed(() => designForm.isEdit);
-let refresh = computed(() => designForm.refresh);
-let compList = computed(() => designForm.compList);
+// let refresh = computed(() => designForm.refresh);
+// let compList = computed(() => designForm.compList);
 let currentItemId = computed(() => designForm.currentItemId);
-
+let componentVisible = computed(() => {
+  return designForm.componentVisible && currentItemId.value == props.formItem?.preps.id;
+});
 const selectParentContainer = () => {
   if (!isEdit.value) {
     return;
@@ -39,12 +41,11 @@ const selectData = (data: any) => {
   designForm.selectItem(props.formItem, data.itemType, getParentComp(props.parentField));
 };
 
-let componentVisible = ref<boolean>(false);
 const exchangeItem = () => {
-  componentVisible.value = true;
+  designForm.setComponentVisible(true);
 }
 const close = () => {
-  componentVisible.value = false;
+  designForm.setComponentVisible(false);
 }
 const changeItem = (item: any) => {
   props.formItem["itemType"] = item["itemType"];
@@ -55,6 +56,7 @@ const changeItem = (item: any) => {
     ...props.formItem["preps"],
     itemNameLabel: item.itemName
   };
+  close();
   selectData(props.formItem);
 }
 const itemContextMenuRef = ref();
@@ -68,7 +70,8 @@ onMounted(() => {
 })
 </script>
 <template>
-  <star-horse-dialog box-width="450px" :is-view="true" :self-func="true" :dialog-visible="componentVisible"
+  <star-horse-dialog box-width="450px" :is-view="true" :full-screen="false" title="更换组件" :self-func="true"
+                     :dialog-visible="componentVisible"
                      @closeAction="close">
     <template #footer>
       <el-button type="primary" size="default" @click="close">确定</el-button>

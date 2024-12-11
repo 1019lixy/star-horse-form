@@ -36,11 +36,13 @@ const loadMenus = async (sysemId: string) => {
     localStorage.setItem("menusInfo", JSON.stringify(redata));
     leftMenuDatas.value = reactive(createRouterAndMenuList(redata));
   });
-  await nextTick();
-  let allId = leftMenuDatas.value.map(item => item.meta.menuId);
-  if (allId && allId.length > 0) {
-    systemMenu?.value?.open(allId[0]);
-  }
+  await nextTick(() => {
+    let allId = leftMenuDatas.value.map(item => item.meta?.menuId);
+    if (allId && allId.length > 0) {
+      systemMenu?.value?.open(allId[0]);
+    }
+  });
+
 };
 // let menuIcon = ref<string>("expand");
 // let collapse = ref<boolean>(false);

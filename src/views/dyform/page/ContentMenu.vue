@@ -42,7 +42,7 @@ const contains = (el: HTMLElement) => menu.value?.contains(el) || subMenu.value?
 
 const hide = () => {
   if (!visible.value) return;
-  console.log('hide');
+  // console.log('hide');
   visible.value = false;
   subMenu.value?.hide();
 
@@ -52,7 +52,7 @@ const hide = () => {
 const clickHandler = (item: any) => {
   // e.stopPropagation();
   // e.preventDefault();
-  console.log('clickHandler', item);
+  // console.log('clickHandler', item);
   if (!props.autoHide) return;
   item.handler();
   hide();
@@ -61,7 +61,7 @@ const clickHandler = (item: any) => {
 const outsideClickHideHandler = (e: MouseEvent) => {
   // e.stopPropagation();
   // e.preventDefault();
-  console.log('outsideClickHideHandler', e);
+  // console.log('outsideClickHideHandler', e);
   if (!props.autoHide) return;
   const target = e.target as HTMLElement | undefined;
   if (!visible.value || !target) {
@@ -75,7 +75,7 @@ const outsideClickHideHandler = (e: MouseEvent) => {
 
 const setPosition = (e: MouseEvent) => {
   const menuHeight = menu.value?.clientHeight || 0;
-  console.log(menuHeight, e.target.classList, e.target, e);
+  // console.log(menuHeight, e.target.classList, e.target, e);
   let top = e.clientY;
   if (menuHeight + e.clientY > document.body.clientHeight) {
     top = document.body.clientHeight - menuHeight;

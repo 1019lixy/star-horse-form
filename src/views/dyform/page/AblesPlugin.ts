@@ -1,12 +1,13 @@
 import {MoveableManagerInterface} from "vue3-moveable";
 import ableCss from './moveable-able.css?raw';
-import {copyerOperation} from "@/store/CopyerOperationStore.ts";
+import {CopyerOperation} from "@/store/CopyerOperationStore.ts";
 import piniaInstance from "@/store";
 import {computed, reactive} from "vue";
 import {DesignForm} from "@/store/DesignFormStore.ts";
+import {uuid} from "@/api/system.ts";
 
 const customizedButton: Array<any> = [];
-const copyerAction = copyerOperation(piniaInstance);
+const copyerAction = CopyerOperation(piniaInstance);
 const designForm = DesignForm(piniaInstance);
 let compList = computed(() => designForm.compList);
 const pasteDisplay = computed(() => {
@@ -481,6 +482,7 @@ export function dynamicPageContextMenuData() {
             },
         },
     ];
+    return contentMenuData;
 }
 
 

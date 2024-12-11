@@ -22,5 +22,9 @@ export type ShortKey = {
     /**
      * 其他键
      */
-    other?: Array<string> | string
+    other?: Array<string> | string,
+    /**
+     * 处理函数
+     */
+    handler?: Function
 };
