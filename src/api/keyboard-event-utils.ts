@@ -24,7 +24,8 @@ import {
     leftFun,
     newFun,
     openFun,
-    pasteFun, previewFun,
+    pasteFun,
+    previewFun,
     printFun,
     redoFun,
     returnFun,
@@ -81,6 +82,17 @@ const shortKeyList = (model: ModuleEnums) => {
             action: "delete",
             handler: () => deleteFun(model),
         },
+
+        {
+            key: "1",
+            alt: true,
+            action: "leftPanel"
+        },
+        {
+            key: "2",
+            alt: true,
+            action: "rightPanel"
+        },
         {
             key: "z",
             action: "undo",
@@ -112,15 +124,22 @@ const shortKeyList = (model: ModuleEnums) => {
             handler: () => pasteFun(model),
         },
         {
+            key: "v",
+            action: "valid",
+            alt: true,
+        },
+        {
             key: "n",
             action: "new",
             ctrl: true,
+            alt: true,
             handler: () => newFun(model),
         },
         {
             key: "s",
             action: "save",
             ctrl: true,
+            alt: true,
             handler: () => saveFun(model),
         },
         {
@@ -188,7 +207,7 @@ const shortKeyList = (model: ModuleEnums) => {
         },
         {
             key: "r",
-            action: "return",
+            action: "goBack",
             ctrl: true,
             handler: () => returnFun(model),
         },
@@ -256,7 +275,7 @@ const shortKeyList = (model: ModuleEnums) => {
         },
         {
             key: "ArrowRight",
-            action: "ctrRight",
+            action: "ctrlRight",
             ctrl: true,
             handler: () => ctrlRightFun(model),
         },
@@ -280,33 +299,32 @@ export const keyboardEvent = (evt: KeyboardEvent, actions: Function, module: Mod
     if (evt.key == "Alt") {
         altKey.value = true;
     }
+    //shiftKey
     if (evt.key == "Shift") {
         shiftKey.value = true;
     }
     let keyInfo;
-    if (ctrlKey.value && altKey.value) {
+    if (ctrlKey.value && altKey.value && shiftKey.value) {
+        keyInfo = shortKeyList(module).find(item => item.key == evt.key && item.ctrl && item.alt && item.shift);
+    } else if (ctrlKey.value && altKey.value) {
         keyInfo = shortKeyList(module).find(item => item.key == evt.key && item.ctrl && item.alt);
+    } else if (ctrlKey.value && shiftKey.value) {
+        keyInfo = shortKeyList(module).find(item => item.key == evt.key && item.ctrl && item.shift);
+    } else if (altKey.value && shiftKey.value) {
+        keyInfo = shortKeyList(module).find(item => item.key == evt.key && item.alt && item.shift);
     } else if (ctrlKey.value) {
         keyInfo = shortKeyList(module).find(item => item.key == evt.key && item.ctrl);
     } else if (altKey.value) {
         keyInfo = shortKeyList(module).find(item => item.key == evt.key && item.alt);
+    } else if (shiftKey.value) {
+        keyInfo = shortKeyList(module).find(item => item.key == evt.key && item.shift);
     } else {
-        keyInfo = shortKeyList(module).find(item => item.key == evt.key && !item.ctrl && !item.alt);
+        keyInfo = shortKeyList(module).find(item => item.key == evt.key && !item.ctrl && !item.alt && !item.shift);
     }
     if (keyInfo) {
-        if (keyInfo.ctrl && !ctrlKey.value) {
-            return;
-        }
-        if (keyInfo.alt && !altKey.value) {
-            return;
-        }
         //执行方法
         keyInfo.handler && keyInfo.handler();
-
-        if (actions) {
-            actions(keyInfo.action, ...params);
-        }
-
+        actions && actions(keyInfo.action, ...params);
     }
 }
 const windowBlur = () => {

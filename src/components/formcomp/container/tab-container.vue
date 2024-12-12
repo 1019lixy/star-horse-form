@@ -1,5 +1,5 @@
 <script setup lang="ts" name="tab-container">
-import {onMounted, PropType, ref} from "vue";
+import {onMounted, PropType, ref, watch} from "vue";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
 
@@ -50,8 +50,12 @@ onMounted(() => {
     }];
     props.field['stretch'] = "N";
   }
-  activeTabName.value = 0;// props.field?["tabList"][0]["name"] || 0;
+  activeTabName.value = props.field.preps.elements[0].tabName;
 });
+watch(() => activeTabName.value,
+    (val) => {
+      props.field["activeItemName"] = val;
+    }, {immediate: true, deep: true});
 const dynamicFunc = (funcType: string, funcCode: any) => {
   let func = new Function(funcCode);
   func.call(this);
@@ -80,7 +84,7 @@ const addTab = () => {
     >
       <el-tab-pane v-for="(adata,index) in field['preps']['elements']"
                    :label="adata['label']"
-                   :name="adata['name']||index"
+                   :name="adata['tabName']"
       >
         <el-scrollbar height="100%">
           <draggable

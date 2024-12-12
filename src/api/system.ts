@@ -8,7 +8,7 @@ import piniaInstance from "@/store";
 import {v4 as uuidv4} from "uuid";
 import {FieldInfo} from "@/components/types/PageFieldInfo";
 import {DyCompField} from "@/components/types/DyCompField";
-import {computed, createApp, Ref, unref,ref} from "vue";
+import {computed, createApp, Ref, unref, ref} from "vue";
 import previewImage from 'preview-image-js'
 import 'preview-image-js/icon.js';
 import App from "@/App.vue";
@@ -224,19 +224,6 @@ export const toggleDark = (val: string) => {
 }
 
 
-const complexFields = (items: Array<any>) => {
-    for (const index in items) {
-        const item = items[index];
-        if (item.compType == "container") {
-            const sitems = item.preps.elements;
-            for (const sindex in sitems) {
-                complexFields(sitems[sindex].items);
-            }
-        } else {
-            item.id = item.id + "Copy";
-        }
-    }
-}
 
 /**
  * 批量修改公共属性

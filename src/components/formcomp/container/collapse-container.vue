@@ -1,5 +1,5 @@
 <script setup lang="ts" name="collapse-container">
-import {onMounted, PropType, ref} from "vue";
+import {onMounted, PropType, ref, watch} from "vue";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
 
@@ -49,8 +49,12 @@ onMounted(() => {
       items: []
     }];
   }
-  activeTabName.value = props.field['preps']['elements'][0].objectName;
+  activeTabName.value = props.field['preps']['elements'][0].tabName;
 });
+watch(() => activeTabName.value,
+    (val) => {
+      props.field["activeItemName"] = val;
+    }, {immediate: true, deep: true});
 </script>
 <template>
   <group-box-container class="star-horse-form-container" :parentField="parentField" :form-item="field">
@@ -59,10 +63,10 @@ onMounted(() => {
                  :accordion="field.preps['accordion']=='Y'"
     >
       <el-collapse-item v-for="adata in field['preps']['elements']"
-                        :name="adata.objectName">
+                        :name="adata.tabName">
         <template #title>
           <div class="collapse-item-title title">
-            <div>{{ adata.label || adata.objectName}}</div>
+            <div>{{ adata.label || adata.objectName }}</div>
           </div>
         </template>
         <el-scrollbar height="100%">

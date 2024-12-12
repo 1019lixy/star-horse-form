@@ -2,7 +2,7 @@ import {MoveableManagerInterface} from "vue3-moveable";
 import ableCss from './moveable-able.css?raw';
 import {CopyerOperation} from "@/store/CopyerOperationStore.ts";
 import piniaInstance from "@/store";
-import {computed, reactive} from "vue";
+import {computed, reactive, ref} from "vue";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import {uuid} from "@/api/system.ts";
 
@@ -10,9 +10,9 @@ const customizedButton: Array<any> = [];
 const copyerAction = CopyerOperation(piniaInstance);
 const designForm = DesignForm(piniaInstance);
 let compList = computed(() => designForm.compList);
+let currentItemId = computed(() => designForm.currentItemId);
 const pasteDisplay = computed(() => {
     const action = copyerAction.action;
-    console.log("xxxxxxxxxxx", action);
     return !!action;
 });
 
@@ -147,7 +147,7 @@ export function moveDownItem(isEdit: boolean, formItem: any, parentField: any) {
     }
     let dataList = compList.value;
     if (parentField?.itemType == "tab") {
-        let elements = props.parentField!.preps.elements;
+        let elements = parentField!.preps.elements;
         for (let i = 0; i < elements.length; i++) {
             let items = elements[i].items;
             for (let j = 0; j < items.length; j++) {
@@ -199,13 +199,33 @@ export function moveDownItem(isEdit: boolean, formItem: any, parentField: any) {
     }
 }
 
+let fieldIndex = ref<number>(200);
+const complexFields = (items: Array<any>, isCut: boolean = false) => {
+    for (const index in items) {
+        const item = items[index];
+        if (item.compType == "container") {
+            const sitems = item.preps.elements;
+            for (const sindex in sitems) {
+                complexFields(sitems[sindex].items);
+            }
+        } else {
+            item.id = uuid();
+            item["preps"]["id"] = item.id;
+            if (!isCut) {
+                fieldIndex.value++;
+                item.preps.name = item.preps.name + (fieldIndex.value);
+                item.preps.label = item.preps.label + "(复制)";
+            }
+        }
+    }
+}
 /**
  * 拷贝容器
  * @param parentComp
- * @param containerType
  * @param currentContainer
+ * @param isCut
  */
-export const copyContainer = (parentComp: Array<any>, currentContainer: any) => {
+export const copyContainer = (parentComp: Array<any>, currentContainer: any, isCut: boolean = false) => {
     if (!currentContainer) {
         return;
     }
@@ -219,13 +239,13 @@ export const copyContainer = (parentComp: Array<any>, currentContainer: any) => 
             for (const cIndex in row.columns) {
                 const col = row.columns[cIndex];
                 col._uuid = uuid();
-                complexFields(col.items);
+                complexFields(col.items, isCut);
             }
         }
     } else {
         const rows = container.preps.elements;
         for (const index in rows) {
-            complexFields(rows[index].items);
+            complexFields(rows[index].items, isCut);
         }
     }
     parentComp.push(container);
@@ -265,7 +285,6 @@ export function paste(parentItem: any) {
             compList.value.push(copyerData);
         }
     }
-    console.log(copyerData, parentContainer, action);
 }
 
 /**
@@ -348,6 +367,16 @@ export function dynamicFormContextMenuData(item: any, parentItem: any, flag: str
                 icon: 'new',
                 display: true,
                 handler: () => {
+                    designForm.setComponentVisible(true);
+                },
+            },);
+            menus.push({
+                type: 'button',
+                text: '选中容器',
+                icon: 'select-parent',
+                display: currentItemId.value != item.id,
+                handler: () => {
+                    designForm.selectItem(item, item?.itemType, "");
                 },
             },);
         }

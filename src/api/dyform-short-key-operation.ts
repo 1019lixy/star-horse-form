@@ -4,9 +4,8 @@ import piniaInstance from "@/store";
 import {computed} from "vue";
 import {confirm, warning} from "@/utils/message.ts";
 import {ModuleEnums} from "@/components/enums/ModuleEnums.ts";
-import {moveDownItem, moveUpItem, removeItem} from "@/views/dyform/page/AblesPlugin.ts";
+import {copyContainer, moveDownItem, moveUpItem, removeItem} from "@/views/dyform/page/AblesPlugin.ts";
 import {uuid} from "@/api/system.ts";
-import router from "@/router";
 
 const designForm = DesignForm(piniaInstance);
 const copyerOperation = CopyerOperation(piniaInstance);
@@ -47,17 +46,23 @@ const dyCut = () => {
  */
 const dyPaste = () => {
     let copyItem: any = JSON.parse(JSON.stringify(copyerData.value));
+    let compType = copyItem.compType;
+    let itemType = copyItem.itemType;
+    console.log(compType, itemType, copyItem);
     if (action.value === "cut") {
         removeItem(list.value, currentComp.value, parentContainer.value);
+    }
+    if (compType == "container") {
+        copyContainer(list.value, copyItem, action.value === "cut");
     } else {
         copyItem.id = uuid();
         copyItem.preps.id = copyItem.id;
         copyItem.preps.label = copyItem.preps.label + "(复制)";
         copyItem.preps.name = copyItem.preps.name + (list.value.length + 1);
+        list.value.push(copyItem);
     }
-    list.value.push(copyItem);
     designForm.selectItem(copyItem, copyItem.itemType, "");
-    console.log("paste")
+    // console.log("paste")
 }
 const dyEnter = () => {
 
@@ -81,19 +86,28 @@ const dyBackspace = () => {
 }
 
 const dyRedo = () => {
-    designForm.redo();
+    //已有实现接口
+    // designForm.redo();
     // console.log("redo")
 }
 const dyUndo = () => {
-    designForm.undo();
+    //已有实现接口
+    // designForm.undo();
     console.log("undo")
 }
 const dyNew = () => {
-
-    console.log("new")
+    //已有实现接口
+    // if (list.value.length > 0) {
+    //     confirm("新建后表单，已设置的数据会丢失，是否需要保存").then(() => {
+    //         dySave();
+    //     }).catch(() => {
+    //         designForm.clearAll();
+    //     });
+    // }
 }
 const dySave = () => {
-
+    //已有实现接口
+    // designForm.setBatchEditFieldVisible(true);
     console.log("save")
 }
 const dyOpen = () => {
@@ -137,16 +151,18 @@ const dyPrint = () => {
     console.log("print")
 }
 const dyPreview = () => {
-    designForm.setPreviewVisible(true);
-    designForm.setIsEdit(false);
-    console.log("preview")
+    //已有实现接口
+    // designForm.setPreviewVisible(true);
+    // designForm.setIsEdit(false);
+    // console.log("preview")
 }
 const dyReturn = () => {
-    router.push({
-        path: "/dyform/DynamicFormUi",
-        componentName: "DynamicFormUi",
-    });
-    console.log("return")
+    //已有实现接口
+    // router.push({
+    //     path: "/dyform/DynamicFormUi",
+    //     componentName: "DynamicFormUi",
+    // });
+    // console.log("return")
 }
 const dyUp = () => {
     moveUpItem(true, currentComp.value, {});
