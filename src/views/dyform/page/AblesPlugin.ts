@@ -251,10 +251,17 @@ export const copyContainer = (parentComp: Array<any>, currentContainer: any, isC
         }
     }
     parentComp.push(container);
-    designForm.selectItem(container,containerType,"");
+    designForm.selectItem(container, containerType, "");
 }
 
+/**
+ * 操作接口
+ * @param act
+ * @param item
+ * @param parentItem
+ */
 export function contextOperation(act: string, item: any, parentItem: any) {
+    console.log(act, item, parentItem);
 
 }
 
@@ -274,7 +281,7 @@ export function paste(parentItem: any) {
         return;
     }
     if (parentItem && Object.keys(parentItem).length > 0) {
-        let action = copyerAction.action;
+        // let action = copyerAction.action;
         copyContainer(parentItem!.preps?.elements, copyerData);
     } else {
         //拷贝容器
@@ -571,7 +578,7 @@ export let Editable = {
                         className: 'moveable-button moveable-rerender-button',
                         title: '重新收集依赖后渲染',
                         onClick: () => {
-                            handler(AbleActionEventType.RERENDER);
+                            //   handler(AbleActionEventType.RERENDER);
                         },
                     },
                     React.createElement('img', {
@@ -586,7 +593,7 @@ export let Editable = {
                         className: 'moveable-button',
                         title: '选中父组件',
                         onClick: () => {
-                            handler(AbleActionEventType.SELECT_PARENT);
+                            //  handler(AbleActionEventType.SELECT_PARENT);
                         },
                     },
                     React.createElement('div', {
@@ -600,7 +607,7 @@ export let Editable = {
                     className: 'moveable-button moveable-remove-button',
                     title: '删除',
                     onClick: () => {
-                        handler(AbleActionEventType.REMOVE);
+                        //  handler(AbleActionEventType.REMOVE);
                     },
                 }),
                 React.createElement(

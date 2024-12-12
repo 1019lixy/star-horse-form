@@ -50,11 +50,11 @@ const handleWarp = ({target, transform}) => {
   console.log("onWarp", transform);
   target.style.transform = transform;
 }
-const clearAllStates = () => {
-  Object.keys(states).forEach(key => {
-    moveable[key] = false;
-  });
-}
+// const clearAllStates = () => {
+//   Object.keys(states).forEach(key => {
+//     moveable[key] = false;
+//   });
+// }
 let clazz = ref<string>("clz");
 onMounted(() => {
   clazz.value = "clz" + uuid();
