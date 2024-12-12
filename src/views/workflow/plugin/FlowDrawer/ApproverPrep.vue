@@ -150,15 +150,15 @@
   </el-drawer>
 </template>
 <script setup lang="ts" name="Approver">
-import {flowMixin, radioStyle} from '@/views/workflow/plugin/mixins/flowMixin';
+import {flowMixin, radioStyle} from '@/views/workflow/plugin/mixins/flowMixin.ts';
 import FlowDrawerFooter from '@/views/workflow/plugin/Common/DrawerFooter.vue';
 import FlowSimpleSelect from '@/views/workflow/plugin/Component/FlowSimpleSelect.vue';
-import FlowNodeApproval from './Approval.vue';
-import FlowNodeApprovalConfigure from './ApproverConfigure.vue';
+import FlowNodeApproval from './Approver/Approval.vue';
+import FlowNodeApprovalConfigure from './Approver/ApproverConfigure.vue';
 import EditName from '@/views/workflow/plugin/Common/EditName.vue';
 import AuthForm from '@/views/workflow/plugin/Common/AuthForm.vue';
 import {ref} from "vue";
-import {scale} from "@/views/workflow/plugin/util/deviceUtil";
+import {scale} from "@/views/workflow/plugin/util/deviceUtil.ts";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";

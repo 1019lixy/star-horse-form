@@ -14,16 +14,16 @@
   </div>
 </template>
 <script setup lang="ts">
-import FlowApproverNode from './Approver/approver.vue';
-import FlowCopyerNode from './Copyer/copyer.vue';
-import NoticeNode from './Notice/notice.vue';
-import WriteNode from './Write/write.vue';
-import EventNode from './Event/event.vue';
-import BranchNode from './Branch/branch.vue';
-import SuggestNode from './Branch/Suggest.vue';
-import PolymerizeNode from './Branch/Polymerize.vue';
-import ParallelNode from './Branch/Parallel.vue';
-import FlowNode from "./flownode.vue";
+import FlowApproverNode from '@/views/workflow/plugin/FlowNode/ApproverNode.vue';
+import FlowCopyerNode from '@/views/workflow/plugin/FlowNode/CopyerNode.vue';
+import NoticeNode from '@/views/workflow/plugin/FlowNode/NoticeNode.vue';
+import WriteNode from '@/views/workflow/plugin/FlowNode/WriteNode.vue';
+import EventNode from '@/views/workflow/plugin/FlowNode/EventNode.vue';
+import BranchNode from '@/views/workflow/plugin/FlowNode/BranchNode.vue';
+import SuggestNode from '@/views/workflow/plugin/FlowNode/Branch/Suggest.vue';
+import PolymerizeNode from '@/views/workflow/plugin/FlowNode/Branch/Polymerize.vue';
+import ParallelNode from '@/views/workflow/plugin/FlowNode/Branch/Parallel.vue';
+import FlowNode from "@/views/workflow/plugin/FlowNode/FlowNode.vue";
 
 const props = defineProps(
     {

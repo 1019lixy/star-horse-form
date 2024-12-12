@@ -16,9 +16,9 @@
   </div>
 </template>
 <script setup lang="ts">
-import {close, delNode, open} from '@/views/workflow/plugin/mixins/flowMixin';
-import FlowAddNode from '../Add/add.vue';
-import FlowEventSetting from '../../FlowDrawer/Event/index.vue';
+import {close, delNode, open} from '@/views/workflow/plugin/mixins/flowMixin.ts';
+import FlowAddNode from '@/views/workflow/plugin/FlowNode/AddNode.vue';
+import FlowEventSetting from '@/views/workflow/plugin/FlowDrawer/EventPrep.vue';
 import {computed, ref} from "vue";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";

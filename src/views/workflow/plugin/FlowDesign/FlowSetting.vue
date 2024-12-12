@@ -24,12 +24,12 @@
 </template>
 <script setup lang="ts">
 
-import {flowMixin} from '@/views/workflow/plugin/mixins/flowMixin';
-import MenuShot from './MenuShot.vue';
-import Advanced from './Advanced.vue';
-import Exhibition from './Exhibition.vue';
-import Remind from './Remind.vue';
-import Print from './Print.vue';
+import {flowMixin} from '@/views/workflow/plugin/mixins/flowMixin.ts';
+import MenuShot from './FlowSetting/MenuShot.vue';
+import Advanced from './FlowSetting/Advanced.vue';
+import Exhibition from './FlowSetting/Exhibition.vue';
+import Remind from './FlowSetting/Remind.vue';
+import Print from './FlowSetting/Print.vue';
 import {computed, ref} from "vue";
 import {scale} from "@/views/workflow/plugin/util/deviceUtil.ts";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";

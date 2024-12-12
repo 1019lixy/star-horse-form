@@ -189,45 +189,49 @@ onMounted(async () => {
                      :selfFunc="true"
                      @merge="mergeData"
                      @closeAction="closeAction">
-    <star-horse-form :fieldList="{fieldList:fieldList}" ref="rowDataFormRef"/>
+    <div class="dialog-body">
+      <star-horse-form :fieldList="{fieldList:fieldList}" ref="rowDataFormRef"/>
+    </div>
   </star-horse-dialog>
   <star-horse-dialog v-if="!subFlag" :title="'导入文件'" :dialogVisible="importDialogVisible"
                      :boxWidth="'30%'"
                      :isView="true"
                      :draggable="false"
                      @closeAction="importDialogVisible=false">
-    <el-card>
-      <el-upload
-          :auto-upload="true"
-          :on-error="uploadError"
-          :on-success="uploadSuccess"
-          :show-file-list="false"
-          accept=".xls,.xlsx"
-          :action="importInfo!.importDataUrl"
-          :headers="{ token: getToken() }"
-          class="upload"
-          name="file"
-          drag
-      >
-        <el-icon class="el-icon--upload">
-          <upload-filled/>
-        </el-icon>
-        <div class="el-upload__text">
-          拖拽文件到这里 or
-          <em>点击上传</em>
-        </div>
-        <template #tip>
-          <div class="el-upload__tip">
-            只能上传 xls/xlsx 文件类型
-            <el-button @click="downloadTemplate" title="" :size="size" link v-if=
-                "importInfo?.downloadTemplateUrl">
-              <star-horse-icon icon-class="download" color="var(--star-horse-white)" size="12px"/>
-              <el-tooltip content="下载模板">下载模板</el-tooltip>
-            </el-button>
+    <div class="dialog-body">
+      <el-card>
+        <el-upload
+            :auto-upload="true"
+            :on-error="uploadError"
+            :on-success="uploadSuccess"
+            :show-file-list="false"
+            accept=".xls,.xlsx"
+            :action="importInfo!.importDataUrl"
+            :headers="{ token: getToken() }"
+            class="upload"
+            name="file"
+            drag
+        >
+          <el-icon class="el-icon--upload">
+            <upload-filled/>
+          </el-icon>
+          <div class="el-upload__text">
+            拖拽文件到这里 or
+            <em>点击上传</em>
           </div>
-        </template>
-      </el-upload>
-    </el-card>
+          <template #tip>
+            <div class="el-upload__tip">
+              只能上传 xls/xlsx 文件类型
+              <el-button @click="downloadTemplate" title="" :size="size" link v-if=
+                  "importInfo?.downloadTemplateUrl">
+                <star-horse-icon icon-class="download" color="var(--star-horse-white)" size="12px"/>
+                <el-tooltip content="下载模板">下载模板</el-tooltip>
+              </el-button>
+            </div>
+          </template>
+        </el-upload>
+      </el-card>
+    </div>
   </star-horse-dialog>
   <div class="form-list">
     <div

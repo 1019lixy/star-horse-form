@@ -24,9 +24,9 @@
   </div>
 </template>
 <script setup lang="ts">
-import {close, flowMixin, open} from '@/views/workflow/plugin/mixins/flowMixin';
-import FlowAddNode from '../Add/add.vue';
-import FlowNoticeSetting from '../../FlowDrawer/Notice/index.vue';
+import {close, flowMixin, open} from '@/views/workflow/plugin/mixins/flowMixin.ts';
+import FlowAddNode from '@/views/workflow/plugin/FlowNode/AddNode.vue';
+import FlowNoticeSetting from '@/views/workflow/plugin/FlowDrawer/NoticePrep.vue';
 import EditName from '@/views/workflow/plugin/Common/EditName.vue';
 import DeleteConfirm from '@/views/workflow/plugin/Common/DeleteConfirm.vue';
 import {computed, ref} from "vue";

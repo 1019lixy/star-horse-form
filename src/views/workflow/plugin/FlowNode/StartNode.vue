@@ -9,7 +9,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import FlowAddNode from '../Add/add.vue';
+import FlowAddNode from '@/views/workflow/plugin/FlowNode/AddNode.vue';
 defineOptions({
   name: 'FlowNodeStart',
 });

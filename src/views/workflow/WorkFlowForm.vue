@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {nextTick, onMounted, ref} from "vue";
-import FlowSetting from "@/views/workflow/plugin/FlowDesign/FlowSetting/index.vue"
-import BasicInfo from "@/views/workflow/plugin/FlowDesign/BasicInfo/index.vue"
+import FlowSetting from "@/views/workflow/plugin/FlowDesign/FlowSetting.vue"
+import BasicInfo from "@/views/workflow/plugin/FlowDesign/BasicInfo.vue"
 import FlowNav from "@/views/workflow/plugin/Common/FlowNav.vue";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";

@@ -14,7 +14,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import FlowAddNode from '../Add/add.vue';
+import FlowAddNode from '@/views/workflow/plugin/FlowNode/AddNode.vue';
 import {computed} from "vue";
 defineOptions({
   name: 'FlowNodeDivide',

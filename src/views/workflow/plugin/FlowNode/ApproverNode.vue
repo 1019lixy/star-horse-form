@@ -2,20 +2,17 @@
   <div class="flow-row">
     <div class="flow-box">
       <div class="flow-item" :class="{ 'flow-item-active': currentNode.id==node.id }"
-           @click="!readable && open(flowCopyerSettingRef, node)">
+           @click="!readable && open(flowApproverSettingRef, node)">
         <div class="flow-node-box" :class="{ 'has-error': node.error }">
-          <div class="node-name" :class="nameClass(node, 'node-cc')">
+          <div class="node-name" :class="nameClass(node, node.type == 1 ? 'node-sp' : 'node-transact')">
             <EditName v-model:nodeName="node.name"/>
-            <div class="search-input el-input" style="display: none;">
-              <el-input type="text" autocomplete="off"/>
-            </div>
-            <img :src="flowMixin.ccIcon" alt="" style="margin-left: 10px;"/>
+            <img :src="flowMixin.approverIcon" style="margin-left: 10px;"/>
           </div>
           <div class="node-main">
             <span v-if="node.content">
-              抄送人:
+              {{ node.type == 1 ? '审批人' : '办理人' }}:
               <el-tooltip placement="top">
-                <template #content>
+                <template v-slot:title>
                   <span>{{ node.content }}</span>
                 </template>
                 {{ node.content }}
@@ -28,28 +25,32 @@
           <div v-if="!readable && !node.deletable" class="close-icon">
             <star-horse-icon iconClass="close" @click.stop="node.deletable = true"/>
           </div>
+          <!-- <div class="flow-node-toolbar">
+            <star-horse-icon iconClass="copy" @click.stop="node.deletable = true" />
+          </div> -->
           <!-- 删除提示 -->
           <DeleteConfirm :node="node"/>
         </div>
       </div>
-      <FlowAddNode :node="node" :nodeType="2" :readable="readable"/>
+      <!-- 如果子节点是意见分支,则只能添加一个意见分支 -->
+      <FlowAddNode :node="node" :nodeType="node.type" :readable="readable"/>
     </div>
-    <FlowCopyerSetting ref="flowCopyerSettingRef" @close="close"/>
+    <FlowApproverSetting ref="flowApproverSettingRef" @close="flowMixin.isActive = false"/>
   </div>
 </template>
 <script setup lang="ts">
-import {close, flowMixin, open,} from '@/views/workflow/plugin/mixins/flowMixin';
-import FlowAddNode from '../Add/add.vue';
-import FlowCopyerSetting from '../../FlowDrawer/Copyer/index.vue';
+import {flowMixin, open} from '@/views/workflow/plugin/mixins/flowMixin.ts';
+import FlowAddNode from '@/views/workflow/plugin/FlowNode/AddNode.vue';
+import FlowApproverSetting from '@/views/workflow/plugin/FlowDrawer/ApproverPrep.vue';
 import EditName from '@/views/workflow/plugin/Common/EditName.vue';
 import DeleteConfirm from '@/views/workflow/plugin/Common/DeleteConfirm.vue';
 import {computed, ref} from "vue";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 defineOptions({
-  name: 'FlowNodeCopyer',
+  name: 'FlowNodeApprover',
 });
-const flowCopyerSettingRef = ref();
+const flowApproverSettingRef = ref();
 const flowDesign = useFlowDesign(piniaInstance);
 let currentNode = computed(() => flowDesign.currentNode);
 const props = defineProps({
@@ -62,7 +63,7 @@ const props = defineProps({
   readable: {
     type: Boolean,
     default: false,
-  }
+  },
 });
 let nameClass = computed(() => {
   return (node, defaultStyle) => {
@@ -76,4 +77,5 @@ let nameClass = computed(() => {
     };
   };
 });
+let deleteable = ref<boolean>(false);
 </script>

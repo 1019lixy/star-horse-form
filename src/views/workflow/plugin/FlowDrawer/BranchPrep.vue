@@ -119,7 +119,7 @@
   </el-drawer>
 </template>
 <script setup lang="ts" name="Branch">
-import {flowMixin} from '@/views/workflow/plugin/mixins/flowMixin';
+import {flowMixin} from '@/views/workflow/plugin/mixins/flowMixin.ts';
 import {uuid} from "@/api/system.ts";
 import EditName from '@/views/workflow/plugin/Common/EditName.vue';
 import FlowSelect from '@/views/workflow/plugin/Component/FlowSelect.vue';
@@ -127,7 +127,7 @@ import FlowSimpleSelect from '@/views/workflow/plugin/Component/FlowSimpleSelect
 import FlowInput from '@/views/workflow/plugin/Component/FlowInput.vue';
 import FlowDrawerFooter from '@/views/workflow/plugin/Common/DrawerFooter.vue';
 import {ref} from "vue";
-import {scale} from "@/views/workflow/plugin/util/deviceUtil";
+import {scale} from "@/views/workflow/plugin/util/deviceUtil.ts";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 
@@ -213,7 +213,7 @@ const showDrawer = (snode, routeNode) => {
   if (snode.attr.showPriorityLevel) {
     levelOptions.value = [];
     routeNode.conditionNodes.forEach((item, index) => {
-      let priorityLevel = index + 1;
+      let priorityLevel = BranchPrep + 1;
       levelOptions.value.push({label: '优先' + priorityLevel, value: priorityLevel});
     });
   }
@@ -272,7 +272,7 @@ const delCondition = (type, currGroup, CurrCondition) => {
       if (currGroup.id == group.id) {
         group.conditions.forEach((condition, index) => {
           if (CurrCondition.id == condition.id) {
-            group.conditions.splice(index, 1);
+            group.conditions.splice(BranchPrep, 1);
             // 当前组没有条件了，当前组也需要删除
             if (group.conditions.length == 0) {
               node.value.conditionGroup.splice(k, 1);
