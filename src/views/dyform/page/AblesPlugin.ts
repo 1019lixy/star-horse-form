@@ -231,6 +231,7 @@ export const copyContainer = (parentComp: Array<any>, currentContainer: any, isC
     }
     const containerType = currentContainer.itemType;
     const container = JSON.parse(JSON.stringify(currentContainer));
+    container.id = uuid();
     //box和dytable 有列属性
     if (containerType == "box" || containerType == "dytable") {
         const rows = container.preps.elements;
@@ -239,6 +240,7 @@ export const copyContainer = (parentComp: Array<any>, currentContainer: any, isC
             for (const cIndex in row.columns) {
                 const col = row.columns[cIndex];
                 col._uuid = uuid();
+                col.id = col._uuid;
                 complexFields(col.items, isCut);
             }
         }
@@ -249,6 +251,7 @@ export const copyContainer = (parentComp: Array<any>, currentContainer: any, isC
         }
     }
     parentComp.push(container);
+    designForm.selectItem(container,containerType,"");
 }
 
 export function contextOperation(act: string, item: any, parentItem: any) {
@@ -267,10 +270,10 @@ export function copy(item: any, parentItem: any) {
 export function paste(parentItem: any) {
     console.log("粘贴");
     let copyerData = copyerAction.copyerData;
-    if (copyerData) {
+    if (!copyerData || Object.keys(copyerData).length == 0) {
         return;
     }
-    if (parentItem) {
+    if (parentItem && Object.keys(parentItem).length > 0) {
         let action = copyerAction.action;
         copyContainer(parentItem!.preps?.elements, copyerData);
     } else {
@@ -281,14 +284,17 @@ export function paste(parentItem: any) {
         } else {
             copyerData = JSON.parse(JSON.stringify(copyerData));
             copyerData.id = uuid();
-            copyerData.preps.id = parentItem.id;
+            copyerData.preps.id = copyerData.id;
             compList.value.push(copyerData);
         }
     }
+    console.log(compList.value);
 }
 
 /**
  *
+ * @param item
+ * @param parentItem
  * @param flag scene 场景 container 容器 item 组件
  */
 export function dynamicFormContextMenuData(item: any, parentItem: any, flag: string = 'scene') {
@@ -332,6 +338,15 @@ export function dynamicFormContextMenuData(item: any, parentItem: any, flag: str
             icon: 'new',
             display: true,
             handler: () => {
+            },
+        }, {
+            type: 'button',
+            text: '粘贴',
+            icon: 'paste',
+            display: pasteDisplay,
+            handler: () => {
+                console.log("scene....粘贴");
+                paste(parentItem)
             },
         }, {
             type: 'button',

@@ -56,6 +56,7 @@ const containerContextMenuRef = ref();
 const containerContextMenu = (evt: MouseEvent) => {
   evt.stopPropagation();
   evt.preventDefault();
+  console.log("容器触发。。。");
   evt.props = props;
   containerContextMenuRef.value?.show(evt);
 }

@@ -167,7 +167,6 @@ defineExpose({
             :class="{ active: active && item.id === active }"
             :data="item"
             :key="index"
-            @click="clickHandler(item)"
             @mouseup="clickHandler(item)"
             @mouseenter="showSubMenu(item, index)"
         >
