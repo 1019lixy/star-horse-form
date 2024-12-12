@@ -151,8 +151,13 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
     }
     return {
         currentNode,
-        node, mapImg, suggestBranchEnable,
-        parallelBranchEnable, flowFormInfo, navable, readable,
+        node,
+        mapImg,
+        suggestBranchEnable,
+        parallelBranchEnable,
+        flowFormInfo,
+        navable,
+        readable,
         lintData,
         setLintData,
         setNavable,

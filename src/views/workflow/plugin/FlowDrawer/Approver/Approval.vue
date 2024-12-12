@@ -1,37 +1,40 @@
 <template>
   <!-- 审批人 -->
-  <el-space direction="vertical">
-    <el-card v-for="(group, k) in groups" :key="k" :headStyle="headStyle" class="w-fill">
+  <el-space direction="vertical" :fill="true">
+    <el-card v-for="(group, k) in groups" :key="k" :headStyle="headStyle" class="card-container">
       <template #header>
-        <span class="flow-setting-approval-title">
+        <div class="card-header">
           <span>{{ title }}</span>
           <star-horse-icon iconClass="delete" class="del-icon" @click="delApproval(group)"/>
-        </span>
+        </div>
       </template>
       <div class="flow-setting-item">
-        <!-- 审批人类型 -->
-        <el-radio-group v-model="group.approverType" class="w-fill" :size="flowMixin.size"
-                        @change="changeApproverType(group)">
-          <el-radio v-for="(approval, i) in approvals" :key="i" :style="approvalRadioStyle" :value="approval.value"
-                    :disabled="approval.disabled && groups.length > 1">
-            <span>{{ approval.name }}</span>
-            <el-popover v-if="approval.popovers && approval.popovers.length > 0"
-                        :popper-style="{width: 'unset !important'}" placement="top-start" trigger="hover">
-              <template #reference>
-                <star-horse-icon style="margin-left: 5px;" size="18px" icon-class="question-circle"/>
-              </template>
-              <div class="approver-tip-content">
-                <div class="approver-tip-main-content">
-                  <div v-for="(popover, k) in approval.popovers" :key="k">
-                    <p class="main-title">{{ popover.title }}</p>
-                    <p class="content">{{ popover.content }}</p>
+        <el-select v-model="group.approverType" filterable clearable @change="changeApproverType(group)">
+          <el-option v-for="item in approvals" :key="item.value" :value="item.value" :label="item.name"
+                     :disabled="item.disabled && groups.length > 1"
+          >
+            <div style="float: left">{{ item.name }}</div>
+            <div style="
+          float: right;
+          color: var(--el-text-color-secondary);
+        ">
+              <el-popover v-if="item.popovers && item.popovers.length > 0"
+                          :popper-style="{width: 'unset !important'}" placement="top-start" trigger="hover">
+                <template #reference>
+                  <star-horse-icon style="margin-left: 5px;" size="18px" icon-class="question-circle"/>
+                </template>
+                <div class="approver-tip-content">
+                  <div class="approver-tip-main-content">
+                    <div v-for="(popover, k) in item.popovers" :key="k">
+                      <p class="main-title">{{ popover.title }}</p>
+                      <p class="content">{{ popover.content }}</p>
+                    </div>
                   </div>
                 </div>
-                <a v-if="approval.href" :href="approval.href" target="_blank">{{ approval.hrefName }}</a>
-              </div>
-            </el-popover>
-          </el-radio>
-        </el-radio-group>
+              </el-popover>
+            </div>
+          </el-option>
+        </el-select>
         <!-- 上级 -->
         <div v-if="group.approverType == 1">
           <p class="flow-setting-item-title">
@@ -119,7 +122,10 @@
           <p class="flow-setting-item-title">
             <span>选择角色</span>
           </p>
-          <FlowSelect v-model="group.approverIds" :name="group.approverNames" :datas="roles"/>
+          <el-select v-model="group.approverIds" filterable clearable>
+            <el-option v-for="item in roleList" :key="item.idCompanyRole" :value="item.idCompanyRole"
+                       :label="item.roleName"/>
+          </el-select>
         </div>
         <!-- 岗位 -->
         <div v-if="group.approverType == 6">
@@ -306,7 +312,7 @@ import {computed, onMounted, ref} from "vue";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-import {loadData} from "@/api/sh_api.ts";
+import {createCondition, loadData} from "@/api/sh_api.ts";
 import {warning} from "@/utils/message.ts";
 import TselectItem from "@/components/formcomp/items/tselect-item.vue";
 import UserItem from "@/components/formcomp/items/user-item.vue";
@@ -774,32 +780,7 @@ let departmentApprovals = ref<Array<any>>([
   },
 ]);
 // 角色
-let roles = ref<Array<any>>([
-  {
-    name: '人事',
-    value: '1',
-  },
-  {
-    name: '行政',
-    value: '2',
-  },
-  {
-    name: '招聘',
-    value: '3',
-  },
-  {
-    name: '财务',
-    value: '4',
-  },
-  {
-    name: '法务',
-    value: '5',
-  },
-  {
-    name: '经理',
-    value: '6',
-  },
-]);
+let roleList = ref<Array<any>>([]);
 //职级
 let rankList = ref<any>([]);
 //岗位
@@ -809,15 +790,16 @@ let show = computed(() => {
   return props.groups.filter((group: any) => [9, 10].includes(group.approverType)).length == 0;
 });
 let approveNodes = computed(() => {
-  const approveNodes = [];
+  let approveNodes: Array<any> = [];
   getApproveNodes(dataNode, approveNodes);
+  console.log(approveNodes);
   // 过滤自己
   return approveNodes.filter((approveNode) => approveNode.id != props.node.id);
 });
 /**
  * 改变审批人类型
  */
-const changeApproverType = (group) => {
+const changeApproverType = (group: any) => {
   group.approverIds = [];
   group.approverNames = [];
 }
@@ -836,7 +818,7 @@ const addApproval = () => {
   });
 }
 // 删除审批人
-const delApproval = (group) => {
+const delApproval = (group: any) => {
   props.groups.forEach((element: any, i) => {
     if (element.id == group.id) {
       props.groups.splice(i, 1);
@@ -857,6 +839,15 @@ const init = async () => {
     warning(result.error);
   } else {
     stationList.value = result.data;
+  }
+  //加载角色
+  result = await loadData("/system-config/system/companyRole/getAllByCondition", {
+    fieldList: [createCondition("a.roleType", "common_role")]
+  });
+  if (result.error) {
+    warning(result.error);
+  } else {
+    roleList.value = result.data;
   }
 }
 onMounted(() => {

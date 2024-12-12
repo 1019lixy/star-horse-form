@@ -1,6 +1,7 @@
 import {uuid} from '@/api/system.ts';
 import html2canvas from 'html2canvas';
 import {Ref} from "vue";
+import {isRef} from "vue-demi";
 
 /**
  *   获取ID
@@ -192,6 +193,8 @@ export function updateNode(node: any, currNode: any, field: any, value: any) {
  * @param {*} approveNodes
  */
 export function getApproveNodes(node: any, approveNodes: Array<any>) {
+    // console.log("getApproveNodes",node);
+    isRef(node) && (node = node.value)
     if (node.type == 1) {
         approveNodes.push(node);
     }
