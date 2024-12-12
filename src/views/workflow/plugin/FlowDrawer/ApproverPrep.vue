@@ -51,7 +51,9 @@
             <!-- 审批方式 -->
             <div v-if="node.type == 1" class="flow-setting-item">
               <p class="flow-setting-item-title">审批方式</p>
-              <FlowSimpleSelect v-model="node.attr.approvalMode" :datas="approvalModes" placeholder="请选择审批方式"/>
+              <el-select v-model="node.attr.approvalMode" clearable filterable placeholder="请选择审批方式">
+                <el-option v-for="item in approvalModes" :value="item.value" :key="item.value" :label="item.name"/>
+              </el-select>
             </div>
             <!-- 审批人 -->
             <FlowNodeApproval :groups="node.approverGroups" :node="node" :title="node.type == 1 ? '审批人' : '办理人'"/>
@@ -152,7 +154,6 @@
 <script setup lang="ts" name="Approver">
 import {flowMixin, radioStyle} from '@/views/workflow/plugin/mixins/flowMixin.ts';
 import FlowDrawerFooter from '@/views/workflow/plugin/Common/DrawerFooter.vue';
-import FlowSimpleSelect from '@/views/workflow/plugin/Component/FlowSimpleSelect.vue';
 import FlowNodeApproval from './Approver/Approval.vue';
 import FlowNodeApprovalConfigure from './Approver/ApproverConfigure.vue';
 import EditName from '@/views/workflow/plugin/Common/EditName.vue';
@@ -190,25 +191,25 @@ const emits = defineEmits(["close"]);
 let approvalModes = ref<Array<any>>([
   {
     name: '依次审批(一人通过再到下一个人处理)',
-    value: 1,
+    value: "1",
   },
   {
     name: '多人会签(所有人都通过才到下一个环节)',
-    value: 2,
+    value: "2",
   },
   {
     name: '多人会签(通过只需一人,否决需全员)',
-    value: 3,
+    value: "3",
   },
   {
     name: '多人或签(一人通过或否决)',
-    value: 4,
+    value: "4",
   },
 ]);
 let approvalWithNulls = ref<Array<any>>([
   {
     name: '自动通过',
-    value: 1,
+    value: "1",
     popovers: [
       {
         title: '什么是自动通过？',
@@ -218,11 +219,11 @@ let approvalWithNulls = ref<Array<any>>([
   },
   {
     name: '指定人员审批',
-    value: 2,
+    value: "2",
   },
   {
     name: '找不到主管时，由上级主管代审批',
-    value: 3,
+    value: "3",
     popovers: [
       {
         title: '什么是由上级主管代审批？',
@@ -232,7 +233,7 @@ let approvalWithNulls = ref<Array<any>>([
   },
   {
     name: '转交给审批管理员',
-    value: 4,
+    value: "4",
     popovers: [
       {
         title: '什么是转交给审批管理员？',
@@ -245,7 +246,7 @@ let approvalWithNulls = ref<Array<any>>([
   },
   {
     name: '给出异常提示,待管理员指定',
-    value: 5,
+    value: "5",
     popovers: [
       {
         title: '什么是给出异常提示,待管理员指定？',
@@ -260,11 +261,11 @@ let approvalWithNulls = ref<Array<any>>([
 let sameApprovals = ref<Array<any>>([
   {
     name: '由发起人对自己审批',
-    value: 1,
+    value: "1",
   },
   {
     name: '自动跳过',
-    value: 2,
+    value: "2",
     popovers: [
       {
         title: '什么是自动跳过？',
@@ -277,7 +278,7 @@ let sameApprovals = ref<Array<any>>([
   },
   {
     name: '转交给直属上级审批',
-    value: 3,
+    value: "3",
     popovers: [
       {
         title: '什么是转交给直属上级审批？',
@@ -287,7 +288,7 @@ let sameApprovals = ref<Array<any>>([
   },
   {
     name: '转交给部门负责人审批',
-    value: 4,
+    value: "4",
     popovers: [
       {
         title: '什么是转交给部门负责人审批？',

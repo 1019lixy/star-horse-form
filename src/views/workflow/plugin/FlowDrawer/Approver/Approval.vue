@@ -59,7 +59,9 @@
               </el-popover>
             </el-radio>
           </el-radio-group>
-          <FlowSelect v-model="group.approverIds" :name="group.approverNames" :datas="higherLevels"/>
+          <el-select v-model="group.approverIds" filterable clearable>
+            <el-option v-for="item in higherLevels" :key="item.value" :value="item.value" :label="item.name"/>
+          </el-select>
         </div>
         <!-- 部门负责人 -->
         <div v-if="group.approverType == 2">
@@ -90,21 +92,27 @@
               </el-popover>
             </el-radio>
           </el-radio-group>
-          <FlowSelect v-model="group.approverIds" :name="group.approverNames" :datas="departmentHeads"/>
+          <el-select v-model="group.approverIds" filterable clearable>
+            <el-option v-for="item in departmentHeads" :key="item.value" :value="item.value" :label="item.name"/>
+          </el-select>
         </div>
         <!-- 部门审批人 -->
         <div v-if="group.approverType == 3">
           <p class="flow-setting-item-title">
             <span>部门审批人</span>
           </p>
-          <FlowSelect v-model="group.approverIds" :name="group.approverNames" :datas="departmentApprovals"/>
+          <el-select v-model="group.approverIds" filterable clearable>
+            <el-option v-for="item in departmentApprovals" :key="item.value" :value="item.value" :label="item.name"/>
+          </el-select>
         </div>
         <!-- 编码审批人 -->
         <div v-if="group.approverType == 4">
           <p class="flow-setting-item-title">
             <span>编码对应部门审批人</span>
           </p>
-          <FlowSelect v-model="group.approverIds" :name="group.approverNames" :datas="departmentApprovals"/>
+          <el-select v-model="group.approverIds" filterable clearable>
+            <el-option v-for="item in departmentApprovals" :key="item.value" :value="item.value" :label="item.name"/>
+          </el-select>
         </div>
         <!-- 角色 -->
         <div v-if="group.approverType == 5">
@@ -118,22 +126,48 @@
           <p class="flow-setting-item-title">
             <span>选择岗位</span>
           </p>
-          <FlowSelect v-model="group.approverIds" :name="group.approverNames" :datas="posts"/>
+          <tselect-item :formData="group" :field="{
+            preps:{
+              name:'approverIds',
+              showCode:'Y',
+              values:rankList,
+               label:'岗位',
+              props:{
+                label:'name',
+                value:'value'
+              }
+            }}"/>
         </div>
         <!-- 用户组 -->
         <div v-if="group.approverType == 7">
           <p class="flow-setting-item-title">
             <span>选择用户组</span>
           </p>
-          <FlowSelect v-model="group.approverIds" :name="group.approverNames" :datas="userGroups"/>
+          <tselect-item :formData="group" :field="{
+            preps:{
+              name:'approverIds',
+              showCode:'Y',
+              values:stationList,
+              label:'用户组',
+              props:{
+                label:'name',
+                value:'value'
+              }
+            }}"/>
         </div>
         <!-- 指定成员 -->
         <div v-if="group.approverType == 8">
           <p class="flow-setting-item-title">
             <span>指定成员</span>
             <span class="light-text">(不能超过 25 人)</span>
-            <el-select v-model="group.approverIds" multiple type="button">
-            </el-select>
+            <user-item :formData="group" :field="{
+              preps:{
+                multiple:'Y',
+                name:'approverNames',
+                aliasName:'approverIds',
+                label:'成员',
+              }
+            }"/>
           </p>
         </div>
         <!-- 发起人自选 -->
@@ -141,7 +175,7 @@
           <p class="flow-setting-item-title">
             <span>选择方式</span>
           </p>
-          <el-radio-group :size="flowMixin.size" class="w-fill">
+          <el-radio-group v-model="group.selectType" :size="flowMixin.size" class="w-fill">
             <el-radio value="1">
               <span>多选</span>
             </el-radio>
@@ -152,7 +186,7 @@
           <p class="flow-setting-item-title margin-top-10">
             <span>选择范围</span>
           </p>
-          <el-radio-group :size="flowMixin.size" class="w-fill">
+          <el-radio-group v-model="group.selectRange" :size="flowMixin.size" class="w-fill">
             <el-radio value="1">
               <span>全公司</span>
             </el-radio>
@@ -166,7 +200,14 @@
           <p class="flow-setting-item-title margin-top-10">
             <span>指定成员</span>
             <span class="light-text">(不能超过 25 人)</span>
-            <UserSelector type="button"/>
+            <user-item :formData="group" :field="{
+              preps:{
+                 multiple:'Y',
+                 name:'approverNames',
+                aliasName:'approverIds',
+                label:'成员',
+              }
+            }"/>
           </p>
         </div>
         <!-- 节点审批人 -->
@@ -261,10 +302,14 @@ import {approvalRadioStyle, flowMixin, radioStyle} from '@/views/workflow/plugin
 import {uuid} from "@/api/system.ts";
 import {getApproveNodes} from '../../util/nodeUtil';
 import FlowSelect from '@/views/workflow/plugin/Component/FlowSelect.vue';
-import {computed, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
+import {loadData} from "@/api/sh_api.ts";
+import {warning} from "@/utils/message.ts";
+import TselectItem from "@/components/formcomp/items/tselect-item.vue";
+import UserItem from "@/components/formcomp/items/user-item.vue";
 
 const props = defineProps({
   groups: {
@@ -755,68 +800,10 @@ let roles = ref<Array<any>>([
     value: '6',
   },
 ]);
-// 岗位
-let posts = ref<Array<any>>([
-  {
-    name: '技术顾问',
-    value: '1',
-  },
-  {
-    name: 'HRBP',
-    value: '2',
-  },
-  {
-    name: '部门助理',
-    value: '3',
-  },
-  {
-    name: '行政专员',
-    value: '4',
-  },
-  {
-    name: '商务专员',
-    value: '5',
-  },
-  {
-    name: '现场助理',
-    value: '6',
-  },
-  {
-    name: '项目经理',
-    value: '7',
-  },
-  {
-    name: '薪酬专员',
-    value: '8',
-  },
-  {
-    name: '招聘专员',
-    value: '9',
-  },
-  {
-    name: '考勤专员',
-    value: '10',
-  },
-  {
-    name: '副总经理',
-    value: '11',
-  },
-]);
-// 用户组
-let userGroups = ref<Array<any>>([
-  {
-    name: '采购组',
-    value: '1',
-  },
-  {
-    name: '报销组',
-    value: '2',
-  },
-  {
-    name: '资产组',
-    value: '3',
-  },
-]);
+//职级
+let rankList = ref<any>([]);
+//岗位
+let stationList = ref<any>([]);
 const dataNode = computed(() => flowDesign.node);
 let show = computed(() => {
   return props.groups.filter((group: any) => [9, 10].includes(group.approverType)).length == 0;
@@ -856,4 +843,23 @@ const delApproval = (group) => {
     }
   });
 }
+const init = async () => {
+//加载职级
+  let result = await loadData("/system-config/system/rankDefine/rankTree", {});
+  if (result.error) {
+    warning(result.error);
+  } else {
+    rankList.value = result.data;
+  }
+  //加载岗位
+  result = await loadData("/system-config/system/stationDefine/stationTree", {});
+  if (result.error) {
+    warning(result.error);
+  } else {
+    stationList.value = result.data;
+  }
+}
+onMounted(() => {
+  init();
+});
 </script>

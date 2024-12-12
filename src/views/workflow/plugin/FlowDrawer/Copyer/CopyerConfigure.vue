@@ -5,7 +5,7 @@
       <div class="flow-setting-option" v-for="(operation, i) in operations" :key="i">
         <div class="flow-setting-option-item">
           <div class="flow-setting-option-item-left">
-            <img :src="flowMixin.optionIcon"/>
+             <star-horse-icon icon-class="config1" size="36px"/>
             <div class="flow-setting-option-desc">
               <p class="setting-option-title">{{ operation.name }}</p>
               <p class="setting-option-desc">{{ operation.content }}</p>
