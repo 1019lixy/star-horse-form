@@ -58,40 +58,47 @@
                   </el-select>
                   <div class="flow-setting-condition-option">
                     <!-- 判断(操作)符 -->
-                    <FlowSimpleSelect v-model="condition.optType" :name="condition.optTypeName" :datas="optTypes"
-                                      labelName="label" style="width: 26%"/>
+                    <el-select v-model="condition.optType" :size="flowMixin.size" style="width: 26%"
+                               placeholder="操作符"
+                               @change="handleChange">
+                      <el-option :value="optType.value" :label="optType.name" v-for="(optType, i) in searchMatchList()"
+                                 :key="optType.value"/>
+                    </el-select>
                     <!-- 值类型 -->
-                    <FlowSimpleSelect v-model="condition.valueType" :datas="valueTypes" labelName="label"
-                                      style="width: 26%" @change="condition.conditionValue = []"/>
+                    <el-select v-model="condition.valueType" :size="flowMixin.size"
+                               @change="condition.conditionValue = []" style="width: 26%"
+                               placeholder="值类型"
+                    >
+                      <el-option :value="valueType.value" :label="valueType.label" v-for="(valueType, i) in valueTypes"
+                                 :key="valueType.value"/>
+                    </el-select>
                     <!-- 值 -->
                     <div class="flow-setting-condition-value">
                       <!-- 动态值 -->
-                      <FlowSelect
+                      <el-select
                           v-if="condition.valueType == 2"
-                          v-model="condition.conditionValue"
-                          :name="condition.conditionValueName"
-                          :datas="dynamicValueTypes"
-                          labelName="label"
-                      />
+                          v-model="condition.conditionValue">
+                        <el-option :value="valueType.value" :label="valueType.label"
+                                   v-for="(valueType, i) in dynamicValueTypes" :key="valueType.value"/>
+                      </el-select>
+
                       <!-- 流程值 -->
-                      <FlowSelect
+                      <el-select
                           v-else-if="condition.valueType == 3"
-                          v-model="condition.conditionValue"
-                          :name="condition.conditionValueName"
-                          :datas="flowValueTypes"
-                          labelName="label"
-                      />
+                          v-model="condition.conditionValue">
+                        <el-option :value="valueType.value" :label="valueType.label"
+                                   v-for="(valueType, i) in flowValueTypes" :key="valueType.value"/>
+                      </el-select>
+
                       <!-- 数据源 -->
-                      <FlowSelect
+                      <el-select
                           v-else-if="condition.valueType == 4"
-                          v-model="condition.conditionValue"
-                          :name="condition.conditionValueName"
-                          :datas="columns"
-                          labelName="label"
-                      />
+                          v-model="condition.conditionValue">
+                        <el-option :value="valueType.value" :label="valueType.label" v-for="(valueType, i) in columns"
+                                   :key="valueType.value"/>
+                      </el-select>
                       <!-- 固定 -->
-                      <FlowInput v-else v-model="condition.conditionValue" :name="condition.conditionValueName"
-                                 :size="flowMixin.size"/>
+                      <el-input v-else v-model="condition.conditionValue" :size="flowMixin.size"/>
                     </div>
                   </div>
                   <div class="flow-setting-condition-del" @click="delCondition(1, group, condition)">
@@ -130,6 +137,7 @@ import {ref} from "vue";
 import {scale} from "@/views/workflow/plugin/util/deviceUtil.ts";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
+import {searchMatchList} from "@/api/sh_api.ts";
 
 const emits = defineEmits(["close"]);
 let node = ref<any>({});

@@ -6,7 +6,7 @@
         <div class="flow-node-box" :class="{ 'has-error': node.error }">
           <div class="node-name" :class="nameClass(node, 'node-tz')">
             <EditName v-model:nodeName="node.name"/>
-            <img :src="flowMixin.noticeIcon" alt="" style="margin-left: 10px;"/>
+            <star-horse-icon icon-class="notice_node" style="margin-left: 10px"/>
           </div>
           <div class="node-main"><span class="hint-title">设置此节点</span></div>
           <!-- 错误提示 -->
@@ -32,6 +32,7 @@ import DeleteConfirm from '@/views/workflow/plugin/Common/DeleteConfirm.vue';
 import {computed, ref} from "vue";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
+import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 defineOptions({
   name: 'FlowNodeNotice',
 });

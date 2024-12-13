@@ -9,7 +9,7 @@
             <div class="search-input el-input" style="display: none;">
               <el-input type="text" autocomplete="off"/>
             </div>
-            <img :src="flowMixin.ccIcon" alt="" style="margin-left: 10px;"/>
+            <star-horse-icon icon-class="copy_node" style="margin-left: 10px"/>
           </div>
           <div class="node-main">
             <span v-if="node.content">

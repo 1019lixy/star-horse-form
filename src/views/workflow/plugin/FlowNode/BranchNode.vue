@@ -2,7 +2,7 @@
   <div class="flow-row">
     <div class="flow-branch">
       <div class="branch-node" @click="!readable && addBranch(node)">
-        <img :src="flowMixin.branchPlusIcon"/>
+        <star-horse-icon icon-class="plus_diamond"/>
       </div>
       <div class="meet-node"></div>
       <div class="flow-col" v-for="(conditionNode, index) in node.conditionNodes" :key="conditionNode.id">
@@ -21,7 +21,7 @@
                   <div class="node-name-level" v-if="conditionNode.attr.showPriorityLevel">
                     优先{{ conditionNode.attr.priorityLevel }}
                   </div>
-                  <img :src="flowMixin.branchIcon" style="margin-left: 10px"/>
+                  <star-horse-icon icon-class="branch_node" style="margin-left: 5px"/>
                 </div>
                 <div class="node-main">
                   <span v-if="conditionNode.content">
@@ -70,13 +70,14 @@ import {computed, ref} from "vue";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
+
 defineOptions({
   name: 'FlowNodeBranch',
 });
 const flowBranchSettingRef = ref();
 const flowDesign = useFlowDesign(piniaInstance);
 let currentNode = computed(() => flowDesign.currentNode);
-defineProps({
+const props = defineProps({
   node: {
     type: Object,
     default: function () {
@@ -88,4 +89,7 @@ defineProps({
     default: false,
   },
 });
+const deleteNode = () => {
+  flowDesign.flowDelNode(props.node);
+}
 </script>

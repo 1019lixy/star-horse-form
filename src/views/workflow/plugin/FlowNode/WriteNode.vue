@@ -6,7 +6,7 @@
         <div class="flow-node-box" :class="{ 'has-error': node.error }">
           <div class="node-name" :class="nameClass(node, 'node-fill')">
             <EditName v-model:nodeName="node.name"/>
-            <img :src="flowMixin.writeIcon" style="margin-left: 10px;"/>
+            <star-horse-icon icon-class="edit_node" style="margin-left: 10px"/>
           </div>
           <div class="node-main">
             <span v-if="node.content">

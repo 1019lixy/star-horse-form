@@ -1,7 +1,6 @@
 import {uuid} from '@/api/system.ts';
 import html2canvas from 'html2canvas';
-import {Ref} from "vue";
-import {isRef} from "vue-demi";
+import {isRef, Ref} from "vue";
 
 /**
  *   获取ID
@@ -149,14 +148,14 @@ export function delBranchNode(node: any, snode: any, currNode: any) {
             if (snode.id == node.id) {
                 node = {};
             } else {
-                // 需要讲路由节点删除
-                delNode(node, node);
+                // 需要将路由节点删除
+                delNode(node, snode);
             }
         } else {
             // 执行删除当前分支
             snode.conditionNodes.forEach((conditionNode: any, index: number) => {
                 if (conditionNode.id == currNode.id) {
-                    node.conditionNodes.splice(index, 1);
+                    snode.conditionNodes.splice(index, 1);
                 }
             });
         }
@@ -193,8 +192,8 @@ export function updateNode(node: any, currNode: any, field: any, value: any) {
  * @param {*} approveNodes
  */
 export function getApproveNodes(node: any, approveNodes: Array<any>) {
-    // console.log("getApproveNodes",node);
-    isRef(node) && (node = node.value)
+    console.log("getApproveNodes",node);
+    isRef(node) && (node = node.value);
     if (node.type == 1) {
         approveNodes.push(node);
     }

@@ -47,7 +47,7 @@
             </div>
           </div>
           <div class="flow-setting-option-item-switch">
-            <el-switch v-model="security.code" active-text="开" inactive-text="关"/>
+            <el-switch v-model="security.code" active-text="开" inactive-text="关" @change="openPasswordModal"/>
           </div>
         </div>
       </div>
@@ -57,7 +57,7 @@
     <star-horse-dialog :dialog-visible="passwordVisible" :box-width="scale.isMobile()?'100%':'40%'" title="填写密码"
                        @closeAction="passwordVisible = false">
       <div class="flow-setting-module">
-        <el-input type="password" placeholder="输入密码"/>
+        <el-input type="password" v-model="password" placeholder="输入密码"/>
       </div>
     </star-horse-dialog>
   </div>
@@ -78,6 +78,7 @@ const props = defineProps({
   },
 });
 const emits = defineEmits(["input"]);
+let password=ref<string>('');
 let passwordVisible = ref<boolean>(false);
 // 操作配置
 let operations = ref<Array<any>>([

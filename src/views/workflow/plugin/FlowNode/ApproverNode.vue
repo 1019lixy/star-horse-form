@@ -6,7 +6,7 @@
         <div class="flow-node-box" :class="{ 'has-error': node.error }">
           <div class="node-name" :class="nameClass(node, node.type == 1 ? 'node-sp' : 'node-transact')">
             <EditName v-model:nodeName="node.name"/>
-            <img :src="flowMixin.approverIcon" style="margin-left: 10px;"/>
+            <star-horse-icon icon-class="audit_node" style="margin-left: 10px"/>
           </div>
           <div class="node-main">
             <span v-if="node.content">
@@ -47,6 +47,7 @@ import DeleteConfirm from '@/views/workflow/plugin/Common/DeleteConfirm.vue';
 import {computed, ref} from "vue";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
+import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 defineOptions({
   name: 'FlowNodeApprover',
 });

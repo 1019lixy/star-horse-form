@@ -5,11 +5,11 @@
       <template #header>
         <div class="card-header">
           <span>{{ title }}</span>
-          <star-horse-icon iconClass="delete" class="del-icon" @click="delApproval(group)"/>
+          <star-horse-icon iconClass="delete"  @click="delApproval(group)"/>
         </div>
       </template>
       <div class="flow-setting-item">
-        <el-select v-model="group.approverType" filterable clearable @change="changeApproverType(group)">
+        <el-select v-model="group.approverType" filterable clearable default-first-option @change="changeApproverType(group)">
           <el-option v-for="item in approvals" :key="item.value" :value="item.value" :label="item.name"
                      :disabled="item.disabled && groups.length > 1"
           >
@@ -57,12 +57,12 @@
                       <p class="content">{{ popover.content }}</p>
                     </div>
                   </div>
-                  <a v-if="higherLevel.href" :href="higherLevel.href" target="_blank">{{ higherLevel.hrefName }}</a>
+
                 </div>
               </el-popover>
             </el-radio>
           </el-radio-group>
-          <el-select v-model="group.approverIds" filterable clearable>
+          <el-select v-model="group.approverIds" filterable clearable default-first-option>
             <el-option v-for="item in higherLevels" :key="item.value" :value="item.value" :label="item.name"/>
           </el-select>
         </div>
@@ -88,14 +88,11 @@
                       <p class="content">{{ popover.content }}</p>
                     </div>
                   </div>
-                  <a v-if="departmentHead.href" :href="departmentHead.href" target="_blank">{{
-                      departmentHead.hrefName
-                    }}</a>
                 </div>
               </el-popover>
             </el-radio>
           </el-radio-group>
-          <el-select v-model="group.approverIds" filterable clearable>
+          <el-select v-model="group.approverIds" filterable clearable default-first-option>
             <el-option v-for="item in departmentHeads" :key="item.value" :value="item.value" :label="item.name"/>
           </el-select>
         </div>
@@ -104,7 +101,7 @@
           <p class="flow-setting-item-title">
             <span>部门审批人</span>
           </p>
-          <el-select v-model="group.approverIds" filterable clearable>
+          <el-select v-model="group.approverIds" filterable clearable default-first-option>
             <el-option v-for="item in departmentApprovals" :key="item.value" :value="item.value" :label="item.name"/>
           </el-select>
         </div>
@@ -113,7 +110,7 @@
           <p class="flow-setting-item-title">
             <span>编码对应部门审批人</span>
           </p>
-          <el-select v-model="group.approverIds" filterable clearable>
+          <el-select v-model="group.approverIds" filterable clearable default-first-option>
             <el-option v-for="item in departmentApprovals" :key="item.value" :value="item.value" :label="item.name"/>
           </el-select>
         </div>
@@ -122,7 +119,7 @@
           <p class="flow-setting-item-title">
             <span>选择角色</span>
           </p>
-          <el-select v-model="group.approverIds" filterable clearable>
+          <el-select v-model="group.approverIds" filterable clearable default-first-option>
             <el-option v-for="item in roleList" :key="item.idCompanyRole" :value="item.idCompanyRole"
                        :label="item.roleName"/>
           </el-select>
@@ -221,8 +218,9 @@
           <p class="flow-setting-item-title">
             <span>选择节点</span>
           </p>
-          <FlowSelect v-model="group.approverIds" :name="group.approverNames" :datas="approveNodes" valueName="id"
-                      labelName="name"/>
+          <el-select v-model="group.approverIds" filterable clearable default-first-option>
+            <el-option v-for="item in approveNodes" :key="item.id" :value="item.id" :label="item.name"/>
+          </el-select>
           <p class="flow-setting-item-title">
             <span class="light-text">你可以选择前序节点名称，如果名称重复建议先修改审批节点的节点名称</span>
           </p>
@@ -232,14 +230,19 @@
           <p class="flow-setting-item-title">
             <span>审批终点</span>
           </p>
-          <FlowSelect v-model="group.approverIds" :name="group.approverNames" :datas="higherLevels"/>
+          <el-select  v-model="group.approverIds"  filterable clearable :size="flowMixin.size" default-first-option>
+            <el-option :value="higherLevel.value" v-for="(higherLevel, i) in higherLevels" :key="i">
+              {{ higherLevel.name }}
+            </el-option>
+          </el-select>
+
         </div>
         <!-- 表单内人员 -->
         <div v-if="group.approverType == 13">
           <p class="flow-setting-item-title">
             <span>人员控件</span>
           </p>
-          <el-select :size="flowMixin.size" class="w-fill" default-value="1">
+          <el-select  v-model="group.approverIds"  filterable clearable :size="flowMixin.size" default-first-option>
             <el-option :value="higherLevel.value" v-for="(higherLevel, i) in higherLevels" :key="i">
               {{ higherLevel.name }}
             </el-option>
@@ -264,8 +267,8 @@
           <p class="flow-setting-item-title">
             <span>部门控件</span>
           </p>
-          <el-select :size="flowMixin.size" class="w-fill" default-value="1">
-            <el-option :value="higherLevel.value" v-for="(higherLevel, i) in higherLevels" :key="i">
+          <el-select v-model="group.approverIds" filterable clearable :size="flowMixin.size" default-first-option>
+            <el-option :value="higherLevel.value" v-for="(higherLevel, i) in higherLevels" :key="higherLevel.value">
               {{ higherLevel.name }}
             </el-option>
           </el-select>
@@ -289,14 +292,13 @@
                       <p class="content">{{ popover.content }}</p>
                     </div>
                   </div>
-                  <a v-if="departmentHead.href" :href="departmentHead.href" target="_blank">{{
-                      departmentHead.hrefName
-                    }}</a>
                 </div>
               </el-popover>
             </el-radio>
           </el-radio-group>
-          <FlowSelect v-model="group.approverIds" :name="group.approverNames" :datas="departmentHeads"/>
+          <el-select v-model="group.approverIds" filterable clearable default-first-option>
+            <el-option v-for="item in departmentHeads" :key="item.value" :value="item.value" :label="item.name"/>
+          </el-select>
         </div>
       </div>
     </el-card>

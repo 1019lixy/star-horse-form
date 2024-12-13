@@ -117,6 +117,7 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
      * 删除节点
      */
     const flowDelNode = (snode: any) => {
+        console.log("flowDelNode", snode,node.value);
         if (snode.id == node.value.id) {
             if (snode.childNode) {
                 node.value = snode.childNode;
@@ -125,7 +126,7 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
             }
         } else if (snode.type == 3 || snode.type == 8 || snode.type == 10) {
             // 条件(意见)分支节点和并行节点
-            delBranchNode(node.value, node.value, snode);
+            delBranchNode(node.value, node.value.childNode, snode);
         } else {
             delNode(node.value, snode);
         }

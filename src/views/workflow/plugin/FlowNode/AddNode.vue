@@ -3,39 +3,40 @@
     <el-popover placement="right" trigger="hover" :popper-style="{width: 'unset !important'}">
       <template #reference>
         <!-- 当审批节点下添加意见分支,就不允许添加其他类型的节点了 -->
-        <img :src="flowMixin.plusIcon" v-if="!readable && (nodeType != 1 || (nodeType == 1 && node.addable))"/>
+        <star-horse-icon icon-class="plus_circle" cursor="pointer"
+                         v-if="!readable && (nodeType != 1 || (nodeType == 1 && node.addable))"/>
       </template>
       <el-menu mode="vertical" class="flow-menu-vertical">
         <el-menu-item key="1" @click="addType(1)">
-          <img :src="flowMixin.approverIcon2" class="anticon"/>
+          <star-horse-icon icon-class="audit_node"/>
           <span>审批节点</span>
         </el-menu-item>
         <el-menu-item key="4" @click="addType(4)">
-          <img :src="flowMixin.branchIcon2" class="anticon"/>
+          <star-horse-icon icon-class="branch_node"/>
           <span>分支节点</span>
         </el-menu-item>
         <el-menu-item v-if="nodeType == 1 && suggestBranchEnable" key="7" @click="addType(7)">
-          <img :src="flowMixin.branchIcon2" class="anticon"/>
+          <star-horse-icon icon-class="branch_node"/>
           <span>意见分支</span>
         </el-menu-item>
         <el-menu-item v-if="nodeType != 10 && parallelBranchEnable" key="9" @click="addType(9)">
-          <img :src="flowMixin.parallelIcon" class="anticon"/>
+          <star-horse-icon icon-class="parallel_node"/>
           <span>并行分支</span>
         </el-menu-item>
         <el-menu-item key="2" @click="addType(2)">
-          <img :src="flowMixin.ccIcon2" class="anticon"/>
+          <star-horse-icon icon-class="copy_node"/>
           <span>抄送节点</span>
         </el-menu-item>
         <el-menu-item key="6" @click="addType(6)">
-          <img :src="flowMixin.writeIcon2" class="anticon"/>
+          <star-horse-icon icon-class="handle_node"/>
           <span>办理节点</span>
         </el-menu-item>
         <el-menu-item key="20" @click="addType(20)">
-          <img :src="flowMixin.noticeIcon2" class="anticon"/>
+          <star-horse-icon icon-class="notice_node"/>
           <span>通知节点</span>
         </el-menu-item>
         <el-menu-item key="5" @click="addType(5)">
-          <img :src="flowMixin.webhookIcon2" class="anticon"/>
+          <star-horse-icon icon-class="event_node"/>
           <span>事件节点</span>
         </el-menu-item>
       </el-menu>
@@ -43,11 +44,12 @@
   </div>
 </template>
 <script setup lang="ts">
-import {flowMixin} from '@/views/workflow/plugin/mixins/flowMixin.ts';
 import {uuid} from "@/api/system.ts";
 import {computed} from "vue";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
+import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
+
 defineOptions({
   name: 'FlowNodeAdd',
 });

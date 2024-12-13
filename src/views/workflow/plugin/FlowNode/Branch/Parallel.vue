@@ -2,7 +2,7 @@
   <div class="flow-row">
     <div class="flow-branch">
       <div class="branch-node" @click="!readable && addBranch(node)">
-        <img :src="flowMixin.branchPlusIcon"/>
+        <star-horse-icon icon-class="plus_diamond"/>
       </div>
       <div class="meet-node"></div>
       <div class="flow-col" v-for="(conditionNode, index) in node.conditionNodes" :key="conditionNode.id">
@@ -15,7 +15,7 @@
               <div class="flow-node-box" :class="{ 'has-error': conditionNode.error }">
                 <div class="node-name">
                   <EditName v-model:nodeName="conditionNode.name"/>
-                  <img :src="flowMixin.parallelIcon" style="margin-left: 10px"/>
+                  <star-horse-icon icon-class="parallel_node" style="margin-left: 10px"/>
                 </div>
                 <div class="node-main">
                   <span v-if="conditionNode.content">

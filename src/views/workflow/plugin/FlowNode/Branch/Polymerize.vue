@@ -5,7 +5,7 @@
         <div class="flow-branch-suggest">
           <div class="node-name">
             <EditName v-model:nodeName="node.name" style="width: 90%"/>
-            <img :src="flowMixin.parallelIcon" style="margin-left: 10px;"/>
+            <star-horse-icon icon-class="parallel_node" style="margin-left: 10px"/>
           </div>
           <!--  <div class="close-icon"><star-horse-icon  iconClass="close" @click.stop="!read && delNode(node)" /></div> -->
         </div>
@@ -17,10 +17,11 @@
   </div>
 </template>
 <script setup lang="ts">
-import {close, flowMixin} from '@/views/workflow/plugin/mixins/flowMixin';
+import {close} from '@/views/workflow/plugin/mixins/flowMixin';
 import FlowAddNode from '@/views/workflow/plugin/FlowNode/AddNode.vue';
 import EditName from '@/views/workflow/plugin/Common/EditName.vue';
 import {ref} from "vue";
+import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 
 const flowApproverSetting = ref();
 const props = defineProps({
