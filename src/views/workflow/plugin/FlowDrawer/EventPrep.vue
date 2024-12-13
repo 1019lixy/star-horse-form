@@ -11,7 +11,7 @@
   >
     <template #header>
       <div class="drawer-header">
-        <img :src="flowMixin.webhookIcon2" class="anticon"/>
+        <star-horse-icon icon-class="event_node" color="#fff" style="margin-left: 10px"/>
         <span class="flow-drawer-title">
         <EditName v-model:nodeName="node.name"/>
       </span>

@@ -913,7 +913,11 @@
   // font-weight: 700;
   margin-left: 10px;
 }
-
+.drawer-header{
+  display: flex;
+  align-items: center;
+  vertical-align: middle;
+}
 .flow-setting-module {
   // height: calc(100% - 114px);
   .flow-setting-content {

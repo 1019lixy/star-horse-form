@@ -12,7 +12,7 @@
   >
     <template #header>
       <div class="drawer-header">
-        <img :src="flowMixin.branchIcon2" class="anticon"/>
+        <star-horse-icon icon-class="branch_node" color="#fff" style="margin-left: 10px"/>
         <span class="flow-drawer-title">
         <EditName v-model:nodeName="node.name"/>
       </span>
@@ -138,6 +138,7 @@ import {scale} from "@/views/workflow/plugin/util/deviceUtil.ts";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 import {searchMatchList} from "@/api/sh_api.ts";
+import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 
 const emits = defineEmits(["close"]);
 let node = ref<any>({});

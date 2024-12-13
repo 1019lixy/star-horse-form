@@ -11,7 +11,7 @@
   >
     <template #header>
       <div class="drawer-header">
-        <img :src="flowMixin.noticeIcon" class="anticon"/>
+        <star-horse-icon icon-class="notice_node" color="#fff" style="margin-left: 10px"/>
         <span class="flow-drawer-title">
         <EditName v-model:nodeName="node.name"/>
       </span>
@@ -106,6 +106,7 @@ import FlowNodeApproval from './Approver/Approval.vue';
 import FlowDrawerFooter from '@/views/workflow/plugin/Common/DrawerFooter.vue';
 import {scale} from "@/views/workflow/plugin/util/deviceUtil.ts";
 import {ref} from "vue";
+import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 
 const emits = defineEmits(["close"]);
 let node = ref<any>({});
