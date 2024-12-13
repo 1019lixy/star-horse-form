@@ -125,13 +125,10 @@
     <FlowDrawerFooter @close="onClose" @save="onSave"/>
   </el-drawer>
 </template>
-<script setup lang="ts" name="Branch">
+<script setup lang="ts">
 import {flowMixin} from '@/views/workflow/plugin/mixins/flowMixin.ts';
 import {uuid} from "@/api/system.ts";
 import EditName from '@/views/workflow/plugin/Common/EditName.vue';
-import FlowSelect from '@/views/workflow/plugin/Component/FlowSelect.vue';
-import FlowSimpleSelect from '@/views/workflow/plugin/Component/FlowSimpleSelect.vue';
-import FlowInput from '@/views/workflow/plugin/Component/FlowInput.vue';
 import FlowDrawerFooter from '@/views/workflow/plugin/Common/DrawerFooter.vue';
 import {ref} from "vue";
 import {scale} from "@/views/workflow/plugin/util/deviceUtil.ts";
@@ -140,6 +137,9 @@ import piniaInstance from "@/store";
 import {searchMatchList} from "@/api/sh_api.ts";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 
+defineOptions({
+  name: "BranchPrep",
+})
 const emits = defineEmits(["close"]);
 let node = ref<any>({});
 let visible = ref<boolean>(false);

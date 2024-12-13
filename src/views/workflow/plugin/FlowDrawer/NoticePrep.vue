@@ -99,7 +99,7 @@
     <FlowDrawerFooter @close="onClose"/>
   </el-drawer>
 </template>
-<script setup lang="ts" name="Notice">
+<script setup lang="ts" >
 import {flowMixin} from '@/views/workflow/plugin/mixins/flowMixin.ts';
 import EditName from '@/views/workflow/plugin/Common/EditName.vue';
 import FlowNodeApproval from './Approver/Approval.vue';
@@ -107,7 +107,9 @@ import FlowDrawerFooter from '@/views/workflow/plugin/Common/DrawerFooter.vue';
 import {scale} from "@/views/workflow/plugin/util/deviceUtil.ts";
 import {ref} from "vue";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-
+defineOptions({
+  name: 'NoticePrep',
+})
 const emits = defineEmits(["close"]);
 let node = ref<any>({});
 let visible = ref<boolean>(false);

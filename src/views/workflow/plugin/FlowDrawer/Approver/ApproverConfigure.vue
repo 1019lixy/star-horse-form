@@ -67,7 +67,9 @@ import {uuid} from "@/api/system.ts";
 import {ref} from "vue";
 import {scale} from "@/views/workflow/plugin/util/deviceUtil.ts";
 import StarHorseDialog from "@/components/comp/StarHorseDialog.vue";
-
+defineOptions({
+  name: 'ApproverConfigure',
+})
 
 const props = defineProps({
   value: {

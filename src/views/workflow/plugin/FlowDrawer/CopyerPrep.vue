@@ -47,11 +47,10 @@
         </el-tab-pane>
       </el-tabs>
     </div>
-    <p>{{ node }}</p>
     <FlowDrawerFooter @close="onClose" @save="onSave"/>
   </el-drawer>
 </template>
-<script setup lang="ts" name="Copyer">
+<script setup lang="ts">
 import {flowMixin} from '@/views/workflow/plugin/mixins/flowMixin.ts';
 import FlowDrawerFooter from '@/views/workflow/plugin/Common/DrawerFooter.vue';
 import EditName from '@/views/workflow/plugin/Common/EditName.vue';
@@ -64,6 +63,9 @@ import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 
+defineOptions({
+  name: 'CopyerPrep',
+})
 const emits = defineEmits(["close"]);
 let node = ref<any>({});
 let visible = ref<boolean>(false);

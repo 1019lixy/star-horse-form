@@ -151,7 +151,7 @@
     <FlowDrawerFooter @close="onClose" @save="onSave"/>
   </el-drawer>
 </template>
-<script setup lang="ts" name="Approver">
+<script setup lang="ts">
 import {flowMixin, radioStyle} from '@/views/workflow/plugin/mixins/flowMixin.ts';
 import FlowDrawerFooter from '@/views/workflow/plugin/Common/DrawerFooter.vue';
 import FlowNodeApproval from './Approver/Approval.vue';
@@ -164,6 +164,9 @@ import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 
+defineOptions({
+  name: 'ApproverPrep',
+})
 let node = ref<any>({});
 let visible = ref<boolean>(false);
 let approvalTab = ref<string>("1");

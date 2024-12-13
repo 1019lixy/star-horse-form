@@ -5,7 +5,7 @@
       <div class="flow-setting-option" v-for="(operation, i) in operations" :key="i">
         <div class="flow-setting-option-item">
           <div class="flow-setting-option-item-left">
-             <star-horse-icon icon-class="config1" size="36px"/>
+            <star-horse-icon icon-class="config1" size="36px"/>
             <div class="flow-setting-option-desc">
               <p class="setting-option-title">{{ operation.name }}</p>
               <p class="setting-option-desc">{{ operation.content }}</p>
@@ -21,10 +21,12 @@
   </div>
 </template>
 <script setup lang="ts">
-import {flowMixin} from '@/views/workflow/plugin/mixins/flowMixin';
 import {uuid} from "@/api/system.ts";
 import {ref} from "vue";
 
+defineOptions({
+  name: 'FlowNodeCopyerConfigure',
+})
 const props = defineProps({
   value: {
     type: Object,

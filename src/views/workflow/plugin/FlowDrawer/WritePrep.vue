@@ -28,7 +28,7 @@
     <FlowDrawerFooter @close="onClose" @save="onSave"/>
   </el-drawer>
 </template>
-<script setup lang="ts" name="Write">
+<script setup lang="ts">
 import {flowMixin} from '@/views/workflow/plugin/mixins/flowMixin.ts';
 import FlowDrawerFooter from '@/views/workflow/plugin/Common/DrawerFooter.vue';
 import EditName from '@/views/workflow/plugin/Common/EditName.vue';
@@ -39,6 +39,9 @@ import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 
+defineOptions({
+  name: 'WritePrep',
+})
 const emits = defineEmits(["close"]);
 let node = ref<any>({});
 let visible = ref<boolean>(false);
@@ -56,26 +59,24 @@ const showDrawer = (snode: any) => {
   visible.value = true;
   node.value = snode;
 }
-const
-    onClose = () => {
-      visible.value = false;
-      emits('close');
-    }
-const
-    /**
-     * 保存配置
-     */
-    onSave = () => {
-      // 更新节点显示信息
-      if (node.value.privileges && node.value.privileges.length > 0) {
-        flowDesign.flowUpdateNode({currNode: node.value, field: 'content', value: '已设置'});
-        flowDesign.flowUpdateNode({currNode: node.value, field: 'error', value: false});
-        onClose();
-      } else {
-        flowDesign.flowUpdateNode({currNode: node.value, field: 'content', value: null});
-        flowDesign.flowUpdateNode({currNode: node.value, field: 'error', value: false});
-      }
-    }
+const onClose = () => {
+  visible.value = false;
+  emits('close');
+}
+/**
+ * 保存配置
+ */
+const onSave = () => {
+  // 更新节点显示信息
+  if (node.value.privileges && node.value.privileges.length > 0) {
+    flowDesign.flowUpdateNode({currNode: node.value, field: 'content', value: '已设置'});
+    flowDesign.flowUpdateNode({currNode: node.value, field: 'error', value: false});
+    onClose();
+  } else {
+    flowDesign.flowUpdateNode({currNode: node.value, field: 'content', value: null});
+    flowDesign.flowUpdateNode({currNode: node.value, field: 'error', value: false});
+  }
+}
 defineExpose({
   showDrawer
 })
