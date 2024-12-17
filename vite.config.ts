@@ -124,6 +124,7 @@ export default defineConfig((mode, command) => {
                 "/flow-engine": {
                     target: workflowHost,
                     changeOrigin: true,
+                    rewrite: (path: string) => path.replace(/^\/flow-engine/, '/flow-engine-dev'),
                     ws: true
                 },
                 "/devops-continus": {

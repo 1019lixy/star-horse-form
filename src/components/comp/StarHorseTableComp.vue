@@ -1,13 +1,12 @@
 <script lang="ts" setup name="StarHorseTableComp">
 import {ApiUrls} from "@/components/types/ApiUrls";
-import {computed, inject, nextTick, onMounted, onUpdated, PropType, reactive, ref, unref, watch} from "vue";
+import {computed, inject, onMounted, onUpdated, PropType, reactive, ref, unref, watch} from "vue";
 import {download, postRequest} from "@/api/star_horse";
 import {PageProps} from "@/components/types/PageProps";
 import {closeLoad, createCondition, deleteByIds, isJson, load, loadData,} from "@/api/sh_api";
 import {BtnHideCondition, SearchParams} from "@/components/types/Params";
 import Sortable from "sortablejs";
 import {DialogProps} from "../types/DialogProps";
-import {BtnAuth} from "@/components/types/BtnAuth";
 import {error, warning} from "@/utils/message";
 import {ExpandTable, FieldInfo, OrderByInfo, PageFieldInfo, UserFuncInfo} from "@/components/types/PageFieldInfo";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";

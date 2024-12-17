@@ -5,11 +5,12 @@
       <template #header>
         <div class="card-header">
           <span>{{ title }}</span>
-          <star-horse-icon iconClass="delete"  @click="delApproval(group)"/>
+          <star-horse-icon iconClass="delete" @click="delApproval(group)"/>
         </div>
       </template>
       <div class="flow-setting-item">
-        <el-select v-model="group.approverType" filterable clearable default-first-option @change="changeApproverType(group)">
+        <el-select v-model="group.approverType" filterable clearable default-first-option
+                   @change="changeApproverType(group)">
           <el-option v-for="item in approvals" :key="item.value" :value="item.value" :label="item.name"
                      :disabled="item.disabled && groups.length > 1"
           >
@@ -230,7 +231,7 @@
           <p class="flow-setting-item-title">
             <span>审批终点</span>
           </p>
-          <el-select  v-model="group.approverIds"  filterable clearable :size="flowMixin.size" default-first-option>
+          <el-select v-model="group.approverIds" filterable clearable :size="flowMixin.size" default-first-option>
             <el-option :value="higherLevel.value" v-for="(higherLevel, i) in higherLevels" :key="i">
               {{ higherLevel.name }}
             </el-option>
@@ -242,7 +243,7 @@
           <p class="flow-setting-item-title">
             <span>人员控件</span>
           </p>
-          <el-select  v-model="group.approverIds"  filterable clearable :size="flowMixin.size" default-first-option>
+          <el-select v-model="group.approverIds" filterable clearable :size="flowMixin.size" default-first-option>
             <el-option :value="higherLevel.value" v-for="(higherLevel, i) in higherLevels" :key="i">
               {{ higherLevel.name }}
             </el-option>
@@ -268,7 +269,7 @@
             <span>部门控件</span>
           </p>
           <el-select v-model="group.approverIds" filterable clearable :size="flowMixin.size" default-first-option>
-            <el-option :value="higherLevel.value" v-for="(higherLevel, i) in higherLevels" :key="higherLevel.value">
+            <el-option :value="higherLevel.value" v-for="higherLevel in higherLevels" :key="higherLevel.value">
               {{ higherLevel.name }}
             </el-option>
           </el-select>
@@ -306,10 +307,9 @@
   </el-space>
 </template>
 <script setup lang="ts">
-import {approvalRadioStyle, flowMixin, radioStyle} from '@/views/workflow/plugin/mixins/flowMixin';
+import {flowMixin, radioStyle} from '@/views/workflow/plugin/mixins/flowMixin';
 import {uuid} from "@/api/system.ts";
 import {getApproveNodes} from '../../util/nodeUtil';
-import FlowSelect from '@/views/workflow/plugin/Component/FlowSelect.vue';
 import {computed, onMounted, ref} from "vue";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
@@ -321,7 +321,7 @@ import UserItem from "@/components/formcomp/items/user-item.vue";
 
 const props = defineProps({
   groups: {
-    type: Array,
+    type: Array<any>,
     default: function () {
       return [];
     },
@@ -369,7 +369,7 @@ let approvals = ref<Array<any>>([
             '部门负责人审批与上级审批的区别？一个部门内可能存在多层的上下级关系，但通常有指定的部门负责人。由部门负责人审批 ，则不涉及上下级关系，直接由该固定人员进行审批',
       },
     ],
-    href: 'https://www.feishu.cn/hc/zh-CN/articles/360044810913',
+    href: '#',
     hrefName: '如何配置部门负责人？',
   },
   {
@@ -389,7 +389,7 @@ let approvals = ref<Array<any>>([
             '部门负责人审批与上级审批的区别？一个部门内可能存在多层的上下级关系，但通常有指定的部门负责人。由部门负责人审批 ，则不涉及上下级关系，直接由该固定人员进行审批',
       },
     ],
-    href: 'https://www.feishu.cn/hc/zh-CN/articles/360044810913',
+    href: '#',
     hrefName: '如何配置部门负责人？',
   },
   {
@@ -406,7 +406,7 @@ let approvals = ref<Array<any>>([
             '部门负责人审批与上级审批的区别？一个部门内可能存在多层的上下级关系，但通常有指定的部门负责人。由部门负责人审批 ，则不涉及上下级关系，直接由该固定人员进行审批',
       },
     ],
-    href: 'https://www.feishu.cn/hc/zh-CN/articles/360044810913',
+    href: '#',
     hrefName: '如何配置部门负责人？',
   },
   {
@@ -428,7 +428,7 @@ let approvals = ref<Array<any>>([
         content: '提示：若选择的角色中包含多名成员，则按照设置“多人审批时采用的审批方式”来处理',
       },
     ],
-    href: 'https://www.feishu.cn/hc/zh-CN/articles/360044810913',
+    href: '#',
     hrefName: '如何配置角色？',
   },
   {
@@ -450,7 +450,7 @@ let approvals = ref<Array<any>>([
         content: '提示：若选择的岗位中包含多名成员，则按照设置“多人审批时采用的审批方式”来处理',
       },
     ],
-    href: 'https://www.feishu.cn/hc/zh-CN/articles/360044810913',
+    href: '#',
     hrefName: '如何配置岗位？',
   },
   {
@@ -472,7 +472,7 @@ let approvals = ref<Array<any>>([
         content: '提示：若选择的用户组中包含多名成员，则按照设置“多人审批时采用的审批方式”来处理',
       },
     ],
-    href: 'https://www.feishu.cn/hc/zh-CN/articles/360044810913',
+    href: '#',
     hrefName: '如何配置用户组？',
   },
   {
@@ -538,7 +538,7 @@ let approvals = ref<Array<any>>([
         content: '从发起人的直属上级开始，依次逐级向上审批，直到所设置的审批终点为止。是手动逐个添加多级上级审批的一种便捷设置',
       },
     ],
-    href: 'https://www.feishu.cn/hc/zh-CN/articles/360044810913',
+    href: '#',
     hrefName: '查看和设置上级信息',
   },
   {
@@ -582,7 +582,7 @@ let higherLevelModes = ref<Array<any>>([
         content: '图示：若小王为发起人，则小张是小王的“直属上级”，小李是小王的“第二级上级”',
       },
     ],
-    href: 'https://www.feishu.cn/hc/zh-CN/articles/360044810913',
+    href: '#',
     hrefName: '查看和设置上级信息',
   },
   {
@@ -598,7 +598,7 @@ let higherLevelModes = ref<Array<any>>([
         content: '图示：若小王为发起人，则小赵是小王的“最高上级”，小周是小王的“第二级上级”',
       },
     ],
-    href: 'https://www.feishu.cn/hc/zh-CN/articles/360044810913',
+    href: '#',
     hrefName: '查看和设置上级信息',
   },
 ]);
@@ -667,7 +667,7 @@ let departmentHeadModes = ref<Array<any>>([
         content: '图示：若小王为发起人，则小张是小王的“直接部门负责人”，小李是小王的“第二级部门负责人”',
       },
     ],
-    href: 'https://www.feishu.cn/hc/zh-CN/articles/360044810913',
+    href: '#',
     hrefName: '如何配置部门负责人？',
   },
   {
@@ -683,7 +683,7 @@ let departmentHeadModes = ref<Array<any>>([
         content: '图示：若小王为发起人，则小赵是小王的“最高部门负责人”，小周是小王的“第二级部门负责人”',
       },
     ],
-    href: 'https://www.feishu.cn/hc/zh-CN/articles/360044810913',
+    href: '#',
     hrefName: '查看和设置上级信息',
   },
 ]);

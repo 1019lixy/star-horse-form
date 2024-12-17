@@ -1,8 +1,8 @@
 <script setup lang="ts" name="DbAssign">
 import {ApiUrls} from "@/components/types/ApiUrls";
-import {onMounted, provide, reactive, ref} from "vue";
+import {onMounted, provide, reactive, ref,nextTick} from "vue";
 import {SearchFields, SelectOption} from "@/components/types/SearchProps";
-import {commonParseCodeToName,  loadData,apiInstance, dialogPreps} from "@/api/sh_api";
+import {commonParseCodeToName, loadData, apiInstance, dialogPreps} from "@/api/sh_api";
 import {createDatetime} from "@/api/date_utils.ts";
 import {warning} from "@/utils/message";
 import {Config} from "@/api/settings.ts";
@@ -208,13 +208,18 @@ onMounted(() => {
 </style>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form @refresh="grantPermissionRef.loadByPage()" :compUrl="dataUrl"
-                     :fieldList="tableFieldList" :rules=
-                         "rules"/>
+    <div class="dialog-body">
+
+      <star-horse-form @refresh="grantPermissionRef.loadByPage()" :compUrl="dataUrl"
+                       :fieldList="tableFieldList" :rules=
+                           "rules"/>
+    </div>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title=
       "'查看数据'" :is-view="true">
-    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+    <div class="dialog-body">
+      <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+    </div>
   </star-horse-dialog>
   <el-card class="inner_content">
     <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">

@@ -166,8 +166,10 @@ onMounted(() => {
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible"
                      :compSize="compSize"
                      :dialogProps="dialogProps">
-    <star-horse-form @refresh="dbinfoRef.loadByPage()" :compUrl="dataUrl"
-                     :fieldList="tableFieldList" :rules="rules" ref="dbinfoFormRef"/>
+    <div class="dialog-body">
+      <star-horse-form @refresh="dbinfoRef.loadByPage()" :compUrl="dataUrl"
+                       :fieldList="tableFieldList" :rules="rules" ref="dbinfoFormRef"/>
+    </div>
     <template #extand>
       <el-button @click="validDb" type="primary" :size="compSize">
         <star-horse-icon icon-class="valid" color="var(--star-horse-white)"/>
@@ -177,7 +179,9 @@ onMounted(() => {
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title=
       "'查看数据'" :is-view="true">
-    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+    <div class="dialog-body">
+      <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+    </div>
   </star-horse-dialog>
   <el-card class="inner_content">
     <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
@@ -190,6 +194,10 @@ onMounted(() => {
     </div>
     <star-horse-table-comp ref="dbinfoRef" :fieldList="tableFieldList"
                            :primaryKey="primaryKey" :compUrl="dataUrl"
+                           :order-by="[{
+                             fieldName:'createdDate',
+                             ascOrDesc:'desc'
+                           }]"
                            :dataFormat="dataFormat"/>
   </el-card>
 </template>

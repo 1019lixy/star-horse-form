@@ -45,6 +45,7 @@ declare module 'vue' {
     CardContainer: typeof import('./src/components/formcomp/container/card-container.vue')['default']
     CardItem: typeof import('./src/components/comp/items/cardItem.vue')['default']
     CascadeItem: typeof import('./src/components/formcomp/items/cascade-item.vue')['default']
+    CategoryItemConfigUi: typeof import('./src/views/workflow/CategoryItemConfigUi.vue')['default']
     CheckboxItem: typeof import('./src/components/formcomp/items/checkbox-item.vue')['default']
     CodeComp: typeof import('./src/views/dyform/code/CodeComp.vue')['default']
     CodeGeneratorUI: typeof import('./src/views/codegenerator/CodeGeneratorUI.vue')['default']

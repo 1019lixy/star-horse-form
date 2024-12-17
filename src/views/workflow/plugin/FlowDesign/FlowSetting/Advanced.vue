@@ -249,7 +249,7 @@ let items = ref<Array<any>>([
     icon: '',
   },
 ]);
-const setSetting = (item) => {
+const setSetting = (item:any) => {
   console.log('item', item);
   if (item.code == 'duplicateVisible') {
     duplicateVisible.value = true;

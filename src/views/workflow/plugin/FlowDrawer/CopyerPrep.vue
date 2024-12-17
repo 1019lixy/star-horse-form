@@ -94,7 +94,7 @@ let approvals = ref<Array<any>>([
             '部门负责人审批与上级审批的区别？一个部门内可能存在多层的上下级关系，但通常有指定的部门负责人。由部门负责人审批 ，则不涉及上下级关系，直接由该固定人员进行审批',
       },
     ],
-    href: 'https://www.feishu.cn/hc/zh-CN/articles/360044810913',
+    href: '#',
     hrefName: '如何配置部门负责人？',
   },
   {
@@ -113,7 +113,7 @@ let approvals = ref<Array<any>>([
         content: '提示：若选择的角色中包含多名成员，则按照设置“多人审批时采用的审批方式”来处理',
       },
     ],
-    href: 'https://www.feishu.cn/hc/zh-CN/articles/360044810913',
+    href: '#',
     hrefName: '如何配置角色？',
   },
   {
@@ -132,7 +132,7 @@ let approvals = ref<Array<any>>([
         content: '提示：若选择的角色中包含多名成员，则按照设置“多人审批时采用的审批方式”来处理',
       },
     ],
-    href: 'https://www.feishu.cn/hc/zh-CN/articles/360044810913',
+    href: '#',
     hrefName: '如何配置角色？',
   },
   {
@@ -151,7 +151,7 @@ let approvals = ref<Array<any>>([
         content: '提示：若选择的用户组中包含多名成员，则按照设置“多人审批时采用的审批方式”来处理',
       },
     ],
-    href: 'https://www.feishu.cn/hc/zh-CN/articles/360044810913',
+    href: '#',
     hrefName: '如何配置用户组？',
   },
   {
@@ -181,7 +181,7 @@ let approvals = ref<Array<any>>([
         content: '从发起人的直属上级开始，依次逐级向上审批，直到所设置的审批终点为止。是手动逐个添加多级上级审批的一种便捷设置',
       },
     ],
-    href: 'https://www.feishu.cn/hc/zh-CN/articles/360044810913',
+    href: '#',
     hrefName: '查看和设置上级信息',
   },
   {
@@ -206,10 +206,10 @@ let approvals = ref<Array<any>>([
   },
 ]);
 const flowDesign = useFlowDesign(piniaInstance);
-const afterVisibleChange = (val) => {
+const afterVisibleChange = (val:any) => {
   console.log('visible', val);
 }
-const showDrawer = (snode) => {
+const showDrawer = (snode:any) => {
   visible.value = true;
   node.value = snode;
 }
@@ -223,7 +223,7 @@ const onClose = () => {
 const onSave = () => {
   // 更新节点显示信息
   let content = '';
-  node.value.approverGroups.forEach((group) => {
+  node.value.approverGroups.forEach((group:any) => {
     if (group.approverNames.length > 0) {
       content += group.approverNames.join(',');
     }

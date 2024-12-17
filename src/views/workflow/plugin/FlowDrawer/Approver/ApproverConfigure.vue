@@ -161,7 +161,7 @@ let securities = ref<Array<any>>([
     code: 'password',
   },
 ]);
-const openPasswordModal = (checked) => {
+const openPasswordModal = (checked:any) => {
   if (checked) {
     passwordVisible.value = true;
   }

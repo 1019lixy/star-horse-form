@@ -301,7 +301,7 @@ let sameApprovals = ref<Array<any>>([
   },
 ]);
 const flowDesign = useFlowDesign(piniaInstance);
-const afterVisibleChange = (val) => {
+const afterVisibleChange = (val:any) => {
   console.log('visible', val);
 }
 const showDrawer = (snode) => {
@@ -319,7 +319,7 @@ const onSave = () => {
   // 更新节点显示信息
   let content = '';
   debugger;
-  node.value.approverGroups.forEach((group) => {
+  node.value.approverGroups.forEach((group:any) => {
     if (group.approverNames.length > 0) {
       content += group.approverNames.join(',');
     }

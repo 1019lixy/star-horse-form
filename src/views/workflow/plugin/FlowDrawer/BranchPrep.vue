@@ -163,16 +163,7 @@ let columns = ref<Array<any>>([
   {label: '归属地', value: '归属地'},
 ]);
 let formColumns = ref<Array<any>>([{label: '加班类型', value: '加班类型'}]);
-let optTypes = ref<Array<any>>([
-  {label: '等于', value: 'eq'},
-  {label: '不等于', value: 'ne'},
-  {label: '大于', value: 'gt'},
-  {label: '大于等于', value: 'ge'},
-  {label: '小于', value: 'lt'},
-  {label: '小于等于', value: 'le'},
-  /*  { label: '为空', value: '7' },
-  { label: '不为空', value: '8' }, */
-]);
+
 // 值类型
 let valueTypes = ref<Array<any>>([
   {label: '固定', value: '1'},
@@ -212,17 +203,17 @@ let dataSourceOptions = ref<Array<any>>([
   },
 ]);
 const flowDesign = useFlowDesign(piniaInstance);
-const afterVisibleChange = (val) => {
+const afterVisibleChange = (val:any) => {
   console.log('visible', val);
 }
-const showDrawer = (snode, routeNode) => {
+const showDrawer = (snode:any, routeNode:any) => {
   visible.value = true;
   node.value = snode;
   // 等级
   if (snode.attr.showPriorityLevel) {
     levelOptions.value = [];
-    routeNode.conditionNodes.forEach((item, index) => {
-      let priorityLevel = BranchPrep + 1;
+    routeNode.conditionNodes.forEach((_item:any, index:number) => {
+      let priorityLevel = index + 1;
       levelOptions.value.push({label: '优先' + priorityLevel, value: priorityLevel});
     });
   }
@@ -233,7 +224,7 @@ const onClose = () => {
 }
 const handleChange = () => {
 }
-const addGroup = (type) => {
+const addGroup = (type:number) => {
   if (type == 1) {
     node.value.conditionGroup.push({
       id: uuid(),
@@ -255,9 +246,9 @@ const addGroup = (type) => {
     });
   }
 }
-const addCondition = (type, currGroup) => {
+const addCondition = (type:number, currGroup:any) => {
   if (type == 1) {
-    node.value.conditionGroup.forEach((group) => {
+    node.value.conditionGroup.forEach((group:any) => {
       if (currGroup.id == group.id) {
         group.conditions.push({
           id: uuid(),
@@ -275,13 +266,13 @@ const addCondition = (type, currGroup) => {
     });
   }
 }
-const delCondition = (type, currGroup, CurrCondition) => {
+const delCondition = (type:number, currGroup:any, CurrCondition:any) => {
   if (type == 1) {
-    node.value.conditionGroup.forEach((group, k) => {
+    node.value.conditionGroup.forEach((group:any, k:number) => {
       if (currGroup.id == group.id) {
-        group.conditions.forEach((condition, index) => {
+        group.conditions.forEach((condition:any, index:number) => {
           if (CurrCondition.id == condition.id) {
-            group.conditions.splice(BranchPrep, 1);
+            group.conditions.splice(index, 1);
             // 当前组没有条件了，当前组也需要删除
             if (group.conditions.length == 0) {
               node.value.conditionGroup.splice(k, 1);
@@ -299,12 +290,12 @@ const onSave = () => {
   // 更新节点显示信息
   let content = '';
   if (node.value.attr.branchType == 1) {
-    node.value.conditionGroup.forEach((group, j) => {
+    node.value.conditionGroup.forEach((group:any, j:number) => {
       if (j != 0) {
         content += ' 或 ';
       }
       if (group.conditions.length > 0) {
-        group.conditions.forEach((condition, i) => {
+        group.conditions.forEach((condition:any, i:number) => {
           const conditionValueName = condition.conditionValueName[0];
           if (conditionValueName) {
             if (i != 0) {
