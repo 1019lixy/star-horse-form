@@ -600,6 +600,7 @@ let prepsModel = ref("one");
                     <component
                         :key="data.id"
                         :field="data"
+                        :isDesign="true"
                         :formInfo="formInfo"
                         :is="data.itemType +(data.compType === 'container'? '-container':'-item')"
                         :formData="formData"

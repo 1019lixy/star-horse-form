@@ -141,10 +141,14 @@ onMounted(async () => {
 </script>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
+    <div class="dialog-body">
     <star-horse-form @refresh="tabListRef.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList" :rules="rules"/>
+    </div>
   </star-horse-dialog>
   <star-horse-dialog :dialogVisible="dialogProps.bakeVisible1" :dialogProps="dialogProps">
-    <star-horse-form @refresh="tabListRef.loadByPage()" :compUrl="dataUrl" :fieldList="editFormField" :rules="rules"/>
+    <div class="dialog-body">
+      <star-horse-form @refresh="tabListRef.loadByPage()" :compUrl="dataUrl" :fieldList="editFormField" :rules="rules"/>
+    </div>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title=
       "'查看数据'" :is-view="true">

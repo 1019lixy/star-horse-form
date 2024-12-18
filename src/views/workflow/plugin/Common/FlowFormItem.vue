@@ -1,6 +1,5 @@
 <template>
-  <star-horse-form
-      :fieldList="tableFieldList" :globalCondition="relationTables" :dynamicForm="true"/>
+  <star-horse-form :fieldList="tableFieldList" :globalCondition="relationTables" :dynamicForm="true"/>
 </template>
 <script setup lang="ts">
 import {onMounted, ref} from "vue";

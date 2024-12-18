@@ -1,13 +1,23 @@
 <template>
   <div v-if="node.deletable" class="node-delete-layer">
-    <el-button :size="flowMixin.size" class="ant-btn-ghost node-delete-cancel" @click.stop="delNode(node, callback)">删除
+    <el-button :size="flowMixin.size" class="node-delete-cancel" text @click.stop="delNode(node, callback)">
+      <star-horse-icon icon-class="delete"/>
+      删除
     </el-button>
-    <el-button :size="flowMixin.size" @click.stop="node.deletable = false">取消</el-button>
+    <el-button :size="flowMixin.size" @click.stop="node.deletable = false" text>
+      <star-horse-icon icon-class="cancel"/>
+      取消
+    </el-button>
   </div>
 </template>
 <script setup lang="ts">
 import {delNode, flowMixin} from "@/views/workflow/plugin/mixins/flowMixin";
-const pops = defineProps({
+import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
+
+defineOptions({
+  name: "DeleteConfirm",
+})
+defineProps({
   node: {
     type: Object,
     default: function () {

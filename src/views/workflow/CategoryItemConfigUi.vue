@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import {apiInstance, dialogPreps} from "@/api/sh_api";
+import {apiInstance, dialogPreps, dictData} from "@/api/sh_api";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings";
 import {nextTick, onActivated, onDeactivated, onMounted, provide, reactive, ref} from "vue";
-import {SearchFields} from "@/components/types/SearchProps";
+import {SearchFields, SelectOption} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 
 defineOptions({
@@ -17,6 +17,7 @@ const categoryItemConfigRef = ref();
 //定义表单的所有属性
 const formFields = reactive<Object>({});
 provide("formFields", formFields);
+let cfgCategoryList = ref<SelectOption[]>([]);
 //查询属性
 const searchFormData = reactive<SearchFields>({
   "fieldList": [{
@@ -25,7 +26,7 @@ const searchFormData = reactive<SearchFields>({
     "type": "select",
     "matchType": "eq",
     "defaultShow": true,
-    "preps": {"values": [{"name": "a", "value": "1"}], "dataSource": "data", "preinterfaceUrl": "http://"}
+    optionList: cfgCategoryList,
   }, {
     "label": "名称",
     "fieldName": "name",
@@ -57,7 +58,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     "required": true,
     "formShow": true,
     "tableShow": true,
-    "preps": {"values": [{"name": "a", "value": "1"}], "dataSource": "data", "preinterfaceUrl": "http://"}
+    optionList: cfgCategoryList,
   }, {
     "label": "名称",
     "fieldName": "name",
@@ -66,11 +67,11 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     "formShow": true,
     "tableShow": true,
     "preps": {}
-  }, {
+  }, [{
     "label": "编码",
     "fieldName": "code",
     "type": "input",
-    "required": true,
+    "required": false,
     "formShow": true,
     "tableShow": true,
     "preps": {}
@@ -78,10 +79,21 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     "label": "是否选中",
     "fieldName": "checkedFlag",
     "type": "switch",
-    "required": true,
+    defaultValue: "N",
+    "required": false,
     "formShow": true,
     "tableShow": true,
     "preps": {}
+  }], [{
+    "label": "图片地址",
+    "fieldName": "imageUrl",
+    "type": "image",
+    "required": false,
+    "formShow": true,
+    "tableShow": true,
+    "preps": {
+      assignType:"url"
+    }
   }, {
     "label": "图标",
     "fieldName": "icon",
@@ -90,7 +102,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     "formShow": true,
     "tableShow": true,
     "preps": {}
-  }, {
+  }], {
     "label": "描述",
     "fieldName": "description",
     "type": "textarea",
@@ -210,6 +222,7 @@ const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 //初始化方法
 const initData = async () => {
+  cfgCategoryList.value = await dictData("flow_helper_category");
 };
 const activated = async () => {
   await nextTick(() => {
@@ -241,12 +254,16 @@ onDeactivated(() => {
 </script>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialog-visible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form @refresh="categoryItemConfigRef.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList"
-                     :rules="rules"/>
+    <div class="dialog-body">
+      <star-horse-form @refresh="categoryItemConfigRef.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList"
+                       :rules="rules"/>
+    </div>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title="'查看数据'"
                      :isView="true">
-    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+    <div class="dialog-body">
+      <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+    </div>
   </star-horse-dialog>
   <el-card class="inner_content">
     <div class="search_btn" :style="{'flex-direction':Config.buttonStyle=='line'?'column':'row'}">
