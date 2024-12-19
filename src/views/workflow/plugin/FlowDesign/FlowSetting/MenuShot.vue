@@ -139,7 +139,7 @@ const dragStart = ($event) => {
 
   return false;
 }
-const changeMenu = (menu) => {
+const changeMenu = (menu:any) => {
   emits('change', menu);
 }
 const init = async () => {

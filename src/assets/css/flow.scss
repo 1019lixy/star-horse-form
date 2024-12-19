@@ -1287,7 +1287,8 @@
 
 .flow-helper {
   .flow-helper-template,
-  .flow-helper-strengthen {
+  .flow-helper-strengthen,
+  .flow-helper-self{
     position: absolute;
     color: #171a1d;
     z-index: 90;
@@ -1318,12 +1319,22 @@
       font-size: 14px;
     }
   }
+  .flow-helper-self {
+    left: 0;
+    top: 179px;
+
+    .process-icon {
+      color: #0089ff;
+      width: 16px;
+      font-size: 14px;
+    }
+  }
 
   .flow-helper-title {
     font-family: PingFangSC, PingFangSC-Medium;
     font-weight: 500;
     height: 20px;
-    margin: 0 32px 0 6px;
+    margin: 0 5px;
   }
 
   .flow-helper-icon {

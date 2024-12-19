@@ -51,6 +51,10 @@ export  type ApiUrls = {
      */
     importUrl?: string,
     /**
+     * 执行接口
+     */
+    executeUrl?: string,
+    /**
      * 权限隔离属性字段，如果提供则所有Post请求都会带上该字段
      * 接口过滤条件
      */
@@ -67,6 +71,58 @@ export  type ApiUrls = {
      * 数据请求方式
      */
     dataType?: string;
+    /**
+     * 分页接口
+     */
+    pageAction?: Function;
+    /**
+     * 编辑接口
+     */
+    mergeAction?: Function;
+    /**
+     * 编辑暂存接口
+     */
+    mergeDraftAction?: Function;
+    /**
+     * 批量编辑接口
+     */
+    batchMergeAction?: Function;
+    /**
+     * 批量编辑暂存接口
+     */
+    batchMergeDraftAction?: Function;
+    /**
+     * 根据Id获取数据接口
+     */
+    loadByIdAction?: Function;
+    /**
+     * 删除数据接口
+     */
+    deleteAction?: Function;
+    /**
+     * 导出数据接口
+     */
+    exportDataAction?: Function;
+    /**
+     * 下载模板接口
+     */
+    downloadTemplateAction?: Function;
+    /**
+     * 自定义查询接口
+     */
+    queryConditionAction?: Function;
+    /**
+     * 上载接口
+     */
+    uploadAction?: Function;
+    /**
+     * 导入数据接口
+     */
+    importAction?: Function;
+    /**
+     * 执行接口
+     */
+    executeAction?: Function;
 }
 
 

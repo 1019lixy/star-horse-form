@@ -1,7 +1,7 @@
-import {SearchParams} from "@/components/types/Params";
+import {SearchInfo, SearchParams} from "@/components/types/Params";
 import {reactive, Ref, ShallowRef} from "vue";
 import {ElLoading} from "element-plus";
-import {getRequest, postRequest} from "@/api/star_horse";
+import {download, getRequest, postRequest, uploadRequest} from "@/api/star_horse";
 import {confirm, error, success, warning} from "@/utils/message";
 import {SelectOption} from "@/components/types/SearchProps";
 import * as ElementPlusIconsVue from '@element-plus/icons-vue';
@@ -869,7 +869,7 @@ export function validMsg(item: any, dataForm: any) {
  * @param condition 条件
  */
 export function apiInstance(appName: string, urlPrefix: string, condition: Array<any> = []): ApiUrls {
-    return {
+    let apiUrls: ApiUrls = {
         loadByPageUrl: `/${appName}/${urlPrefix}/pageList`,
         mergeUrl: `/${appName}/${urlPrefix}/merge`,
         mergeDraftUrl: `/${appName}/${urlPrefix}/mergeDraft`,
@@ -881,9 +881,49 @@ export function apiInstance(appName: string, urlPrefix: string, condition: Array
         downloadTemplateUrl: `/${appName}/${urlPrefix}/downloadTemplate`,
         userConditionUrl: `/${appName}/${urlPrefix}/getAllByCondition`,
         importUrl: `/${appName}/${urlPrefix}/importData`,
-        uploadUrl: ``,
+        uploadUrl: `/${appName}/annex/upload/common`,
         condition: condition
     };
+    apiUrls.pageAction = (params: SearchInfo) => {
+        return postRequest(apiUrls.loadByPageUrl!, params);
+    };
+    apiUrls.mergeAction = (param: any) => {
+        return postRequest(apiUrls.mergeUrl!, param);
+    };
+    apiUrls.mergeDraftAction = (param: any) => {
+        return postRequest(apiUrls.mergeDraftUrl!, param);
+    };
+    apiUrls.batchMergeAction = (param: any) => {
+        return postRequest(apiUrls.batchMergeUrl!, param);
+    };
+    apiUrls.batchMergeDraftAction = (param: any) => {
+        return postRequest(apiUrls.batchMergeDraftUrl!, param);
+    };
+    apiUrls.loadByIdAction = async (id: any, isView: boolean, params: any = {}) => {
+        return await loadById(apiUrls.loadByIdUrl!, id, isView, params);
+    };
+    apiUrls.deleteAction = async (params: any) => {
+        return await deleteByIds(apiUrls.deleteUrl!, params)
+    };
+    apiUrls.exportDataAction = async (param: any) => {
+        return await download(apiUrls.exportAllUrl!, param);
+    };
+    apiUrls.downloadTemplateAction = async (param: any) => {
+        return await download(apiUrls.downloadTemplateUrl!, param || {});
+    };
+    apiUrls.queryConditionAction = async (params: SearchParams[] | any, orderBy: OrderByInfo[] = []) => {
+        return await loadData(apiUrls.userConditionUrl!, params, orderBy);
+    };
+    apiUrls.importAction = (param: any) => {
+        return uploadRequest(apiUrls.importUrl!, param);
+    };
+    apiUrls.uploadAction = (param: any) => {
+        return uploadRequest(apiUrls.uploadUrl!, param);
+    };
+    apiUrls.executeAction = async (param: any) => {
+        return await postRequest(apiUrls.executeUrl!, param);
+    };
+    return apiUrls;
 }
 
 /**

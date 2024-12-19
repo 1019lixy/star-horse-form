@@ -471,7 +471,7 @@ export function getRequest(url: string) {
  * @param data
  * @returns {Promise<AxiosResponse<any>>}
  */
-export function uploadRequest(url: string, data: Array<object>) {
+export function uploadRequest(url: string, data: Array<any>) {
     return service.post(url, data, {headers: {"Content-Type": "multipart/form-data"}});
 }
 

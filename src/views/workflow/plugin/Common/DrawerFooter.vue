@@ -2,7 +2,7 @@
   <div :style="{height:scale.isMobile() ? '5px' : '50px'}"></div>
   <div class="flow-drawer-footer" :style="{ 'text-align': scale.isMobile() ? 'center' : 'left'}">
     <el-button type="primary" :size="flowMixin.size" :style="{ marginRight: '8px' }" @click="onSave">
-      <star-horse-icon icon-class="save"/>
+      <star-horse-icon icon-class="save" color="var(--star-horse-white)"/>
       保存
     </el-button>
     <el-button :size="flowMixin.size" @click="onClose">

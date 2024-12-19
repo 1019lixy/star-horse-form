@@ -239,6 +239,9 @@ const deactivated = () => {
  * @param row 列表行数据
  */
 const dataFormat = (name: string, cellValue: any, row: any): any => {
+  if(name==='cfgCategory'){
+    return cfgCategoryList.value.find(item=>item.value==cellValue)?.name||cellValue;
+  }
   //转换显示信息
   return cellValue;
 }
