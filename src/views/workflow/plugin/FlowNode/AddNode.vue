@@ -9,36 +9,36 @@
       <el-menu mode="vertical" class="flow-menu-vertical">
         <el-menu-item :key="item.idFlowNode" @click="addType(item)" v-for="item in nodeList">
           <star-horse-icon :icon-class="item.nodeIcon"/>
-          <span>{{item.nodeName}}</span>
+          <span>{{ item.nodeName }}</span>
         </el-menu-item>
-<!--        <el-menu-item key="4" @click="addType(4)">
-          <star-horse-icon icon-class="branch_node"/>
-          <span>分支节点</span>
-        </el-menu-item>
-        <el-menu-item v-if="nodeType == 1 && suggestBranchEnable" key="7" @click="addType(7)">
-          <star-horse-icon icon-class="branch_node"/>
-          <span>意见分支</span>
-        </el-menu-item>
-        <el-menu-item v-if="nodeType != 10 && parallelBranchEnable" key="9" @click="addType(9)">
-          <star-horse-icon icon-class="parallel_node"/>
-          <span>并行分支</span>
-        </el-menu-item>
-        <el-menu-item key="2" @click="addType(2)">
-          <star-horse-icon icon-class="copy_node"/>
-          <span>抄送节点</span>
-        </el-menu-item>
-        <el-menu-item key="6" @click="addType(6)">
-          <star-horse-icon icon-class="handle_node"/>
-          <span>办理节点</span>
-        </el-menu-item>
-        <el-menu-item key="20" @click="addType(20)">
-          <star-horse-icon icon-class="notice_node"/>
-          <span>通知节点</span>
-        </el-menu-item>
-        <el-menu-item key="5" @click="addType(5)">
-          <star-horse-icon icon-class="event_node"/>
-          <span>事件节点</span>
-        </el-menu-item>-->
+        <!--        <el-menu-item key="4" @click="addType(4)">
+                  <star-horse-icon icon-class="branch_node"/>
+                  <span>分支节点</span>
+                </el-menu-item>
+                <el-menu-item v-if="nodeType == 1 && suggestBranchEnable" key="7" @click="addType(7)">
+                  <star-horse-icon icon-class="branch_node"/>
+                  <span>意见分支</span>
+                </el-menu-item>
+                <el-menu-item v-if="nodeType != 10 && parallelBranchEnable" key="9" @click="addType(9)">
+                  <star-horse-icon icon-class="parallel_node"/>
+                  <span>并行分支</span>
+                </el-menu-item>
+                <el-menu-item key="2" @click="addType(2)">
+                  <star-horse-icon icon-class="copy_node"/>
+                  <span>抄送节点</span>
+                </el-menu-item>
+                <el-menu-item key="6" @click="addType(6)">
+                  <star-horse-icon icon-class="handle_node"/>
+                  <span>办理节点</span>
+                </el-menu-item>
+                <el-menu-item key="20" @click="addType(20)">
+                  <star-horse-icon icon-class="notice_node"/>
+                  <span>通知节点</span>
+                </el-menu-item>
+                <el-menu-item key="5" @click="addType(5)">
+                  <star-horse-icon icon-class="event_node"/>
+                  <span>事件节点</span>
+                </el-menu-item>-->
       </el-menu>
     </el-popover>
   </div>
@@ -50,9 +50,11 @@ import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {ApiUrls} from "@/components/types/ApiUrls";
-import {apiInstance} from "@/api/sh_api.ts";
+import {apiInstance, createCondition} from "@/api/sh_api.ts";
+import {SearchParams} from "@/components/types/Params";
 
 const dataUrl: ApiUrls = apiInstance("userdb-manage", "userdb/formInstance/shFlowNode/idFlowNode/337537414606095357");
+const prepUrl: ApiUrls = apiInstance("userdb-manage", "userdb/formInstance/shNodeMappingPreps/idNodeMappingPrep/337537414606095357");
 defineOptions({
   name: 'FlowNodeAdd',
 });
@@ -472,9 +474,15 @@ const addParallelNode = (type: number) => {
   };
 }
 let nodeList = ref<any>([]);
+let commonPreps = ref<any>([]);
 const init = async () => {
-  const res = await dataUrl.queryConditionAction!([]);
+  let res = await dataUrl.queryConditionAction!([]);
   nodeList.value = res.data;
+  let params: SearchParams[] = [
+    createCondition("attrType", "common")
+  ];
+  res = await prepUrl.queryConditionAction!(params);
+  console.log(res.data);
 }
 onMounted(() => {
   init();
