@@ -414,6 +414,19 @@ export function loadElementPlusIcon() {
 }
 
 /**
+ * 自定义的svg图标
+ */
+export function loadSvgIcons() {
+    const items = import.meta.glob('@/icons/*.svg');
+    const menuIconList = [];
+    for (const [key, value] of Object.entries(items)) {
+        const name = key.slice(key.lastIndexOf("/") + 1, key.lastIndexOf("."))
+        menuIconList.push({name: name, value: name});
+    }
+    return menuIconList;
+}
+
+/**
  * 数据匹配方式
  */
 export function searchMatchList(): SelectOption[] {
@@ -725,7 +738,7 @@ export async function compDynamicData(preps: any) {
 export async function dynamicUrlOperation(preps: any, queryInfo?: SearchParams[]) {
     const temp = preps;
     const reDataList: SelectOption[] = [];
-    const requestParams = [] as any;
+    const requestParams:any = [] ;
     const queryParams = temp['queryParams'];
     queryParams?.forEach((item: any) => {
         if (!item.name) {
@@ -759,16 +772,17 @@ export async function dynamicUrlOperation(preps: any, queryInfo?: SearchParams[]
             const options: SelectOption[] = [];
             list?.forEach((item: any) => {
                 const option: SelectOption = {name: item[temp["selectLabel"]], value: item[temp["selectValue"]]};
-                if (item.children) {
+                if (item.children&& item.children.length > 0) {
                     option.children = childrenOperation(item.children);
                 }
                 options.push(option);
             });
+            console.log(options);
             return options;
         };
         validResult.data.forEach((item: any) => {
             const option: SelectOption = {name: item[temp["selectLabel"]], value: item[temp["selectValue"]]};
-            if (item.children) {
+            if (item.children&& item.children.length > 0) {
                 option.children = childrenOperation(item.children);
             }
             reDataList.push(option);

@@ -7,7 +7,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="flow-design">
+  <div class="sh-flow-editor">
     <div class="design-area">
       <jbpm-design v-if="flowStyle=='flowable'"/>
       <FlowDesign v-if="flowStyle=='dingding'"/>
@@ -18,7 +18,7 @@ const props = defineProps({
 </template>
 
 <style scoped lang="scss">
-.flow-design {
+.sh-flow-editor {
   height: 100%;
   display: flex;
   width: 100%;

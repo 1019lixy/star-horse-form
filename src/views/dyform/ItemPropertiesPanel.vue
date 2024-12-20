@@ -390,13 +390,17 @@ watch(() => [currentItemId, currentItemType],
                      @merge="paramsValid"
                      @closeAction="closeAction"
                      @reset="resetDataSourceForm" :selfFunc="true">
+    <div class="dialog-body">
     <star-horse-form :outerFormData="formInfo" ref="paramsConfigRef" :fieldList="paramsFields(fieldName,currentField)"/>
+    </div>
   </star-horse-dialog>
   <star-horse-dialog :dialogVisible="containerDialogVisible"
-                     :title="'设置容器'" :isBatch="false" @merge="containerAction"
+                     :title="'容器设置'" :isBatch="false" @merge="containerAction"
                      @closeAction="closeAction"
                      @reset="resetForm" :selfFunc="true">
+    <div class="dialog-body">
     <star-horse-form ref="containerPrepRef" :outerFormData="formInfo" :fieldList="containerField(currentItemType)"/>
+    </div>
   </star-horse-dialog>
   <star-horse-dialog :dialogVisible="jsEditor" :title="'自定义信息'" :isBatch="false" @merge="closeAction"
                      @closeAction="closeAction"

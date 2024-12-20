@@ -47,7 +47,7 @@ export function addCondition(node: any, len: any) {
             // 优先级
             priorityLevel: len,
             // 分支类型
-            branchType: node.type == 4 ? 1 : 3,
+            branchType: node.type == 4 ? "rule" : "other",
         },
         // 是否有错误
         error: false,
@@ -216,7 +216,7 @@ export function getApproveNodes(node: any, approveNodes: Array<any>) {
  */
 export function updateMap(mapImg: Ref<string>) {
     setTimeout(() => {
-        const content: any = document.querySelector('#flow-design-content');
+        const content: any = document.querySelector('#sh-flow-editor-content');
         html2canvas(content, {
             backgroundColor: '#aaa',
             scale: 1,

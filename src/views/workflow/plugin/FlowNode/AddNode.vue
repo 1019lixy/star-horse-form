@@ -7,11 +7,11 @@
                          v-if="!readable && (nodeType != 1 || (nodeType == 1 && node.addable))"/>
       </template>
       <el-menu mode="vertical" class="flow-menu-vertical">
-        <el-menu-item key="1" @click="addType(1)">
-          <star-horse-icon icon-class="audit_node"/>
-          <span>审批节点</span>
+        <el-menu-item :key="item.idFlowNode" @click="addType(item)" v-for="item in nodeList">
+          <star-horse-icon :icon-class="item.nodeIcon"/>
+          <span>{{item.nodeName}}</span>
         </el-menu-item>
-        <el-menu-item key="4" @click="addType(4)">
+<!--        <el-menu-item key="4" @click="addType(4)">
           <star-horse-icon icon-class="branch_node"/>
           <span>分支节点</span>
         </el-menu-item>
@@ -38,18 +38,21 @@
         <el-menu-item key="5" @click="addType(5)">
           <star-horse-icon icon-class="event_node"/>
           <span>事件节点</span>
-        </el-menu-item>
+        </el-menu-item>-->
       </el-menu>
     </el-popover>
   </div>
 </template>
 <script setup lang="ts">
 import {uuid} from "@/api/system.ts";
-import {computed} from "vue";
+import {computed, onMounted, ref} from "vue";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
+import {ApiUrls} from "@/components/types/ApiUrls";
+import {apiInstance} from "@/api/sh_api.ts";
 
+const dataUrl: ApiUrls = apiInstance("userdb-manage", "userdb/formInstance/shFlowNode/idFlowNode/337537414606095357");
 defineOptions({
   name: 'FlowNodeAdd',
 });
@@ -79,7 +82,7 @@ const flowDesign = useFlowDesign(piniaInstance);
 const suggestBranchEnable = computed(() => flowDesign.suggestBranchEnable);
 const parallelBranchEnable = computed(() => flowDesign.parallelBranchEnable);
 const addType = (type: number) => {
-  var addNode = null;
+  let addNode = null;
   if (type == 1 || type == 6) {
     addNode = addApproverNode(type);
   } else if (type == 2) {
@@ -286,7 +289,7 @@ const addBranchNode = (type: number) => {
         // 流程基础配置属性
         attr: {
           // 分支类型
-          branchType: 1,
+          branchType: "rule",
           // 优先级
           priorityLevel: 1,
           // 显示优先级
@@ -311,7 +314,7 @@ const addBranchNode = (type: number) => {
         // 流程基础配置属性
         attr: {
           // 分支类型
-          branchType: 1,
+          branchType: "rule",
           // 优先级
           priorityLevel: 2,
           // 显示优先级
@@ -435,7 +438,7 @@ const addParallelNode = (type: number) => {
         // 流程基础配置属性
         attr: {
           // 分支类型
-          branchType: 3,
+          branchType: "other",
         },
         // 条件组
         conditionGroup: [],
@@ -460,7 +463,7 @@ const addParallelNode = (type: number) => {
         // 流程基础配置属性
         attr: {
           // 分支类型
-          branchType: 3,
+          branchType: "other",
         },
         // 条件组
         conditionGroup: [],
@@ -468,4 +471,12 @@ const addParallelNode = (type: number) => {
     ],
   };
 }
+let nodeList = ref<any>([]);
+const init = async () => {
+  const res = await dataUrl.queryConditionAction!([]);
+  nodeList.value = res.data;
+}
+onMounted(() => {
+  init();
+})
 </script>

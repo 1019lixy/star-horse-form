@@ -58,12 +58,8 @@ watch(() => activeTabName.value,
 </script>
 <template>
   <group-box-container class="star-horse-form-container" :parentField="parentField" :form-item="field">
-    <el-collapse v-model="activeTabName"
-                 class="collapse-container"
-                 :accordion="field.preps['accordion']=='Y'"
-    >
-      <el-collapse-item v-for="adata in field['preps']['elements']"
-                        :name="adata.tabName">
+    <el-collapse v-model="activeTabName" class="collapse-container" :accordion="field.preps['accordion']=='Y'">
+      <el-collapse-item v-for="adata in field['preps']['elements']" :name="adata.tabName">
         <template #title>
           <div class="collapse-item-title title">
             <div>{{ adata.label || adata.objectName }}</div>

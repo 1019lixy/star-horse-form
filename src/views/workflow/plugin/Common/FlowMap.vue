@@ -1,7 +1,7 @@
 <template>
-  <div id="flow-design-map" class="flow-design-map">
+  <div id="sh-flow-editor-map" class="sh-flow-editor-map">
     <img :src="mapImg"/>
-    <div id="flow-design-map-mask" class="map-mask" :style="mapMask" @mousedown="handleMouseDown"
+    <div id="sh-flow-editor-map-mask" class="map-mask" :style="mapMask" @mousedown="handleMouseDown"
          @mouseup="handleMouseUp" @mouseleave="handleMouseUp"></div>
   </div>
 </template>
@@ -13,7 +13,7 @@ import piniaInstance from "@/store";
 const props = defineProps({
   element: {
     type: String,
-    default: '#flow-design-content',
+    default: '#sh-flow-editor-content',
   },
 });
 const flowDesignStore = useFlowDesign(piniaInstance);
@@ -78,15 +78,14 @@ const handleMouseUp = (e: MouseEvent) => {
   mouseDown.value = false;
   document.onmousemove = document.onmouseup = null;
 }
-let timer;
+let timer: any = null;
 const init = async () => {
   await nextTick();
-  flowDesign.value = document.querySelector('#flow-design');
-  flowMap.value = document.querySelector('#flow-design-map');
-  flowMapMsk.value = document.querySelector('#flow-design-map-mask');
+  flowDesign.value = document.querySelector('#sh-flow-editor');
+  flowMap.value = document.querySelector('#sh-flow-editor-map');
+  flowMapMsk.value = document.querySelector('#sh-flow-editor-map-mask');
   initSize(flowDesign.value);
-  flowDesignStore.flowUpdateMap({element: props.element});
-
+  flowDesignStore.flowUpdateMap();
   // 监听滚动条
   window.addEventListener('scroll', handleScroll, true);
   // 监听出现滚动条

@@ -133,7 +133,7 @@ onMounted(() => {
 </script>
 <template>
   <el-card class="inner_content">
-    <div class="flow-design">
+    <div class="sh-flow-editor">
       <div class="jbpm">
         <jbpm-header :modeler="bpmnModeler" :process-data="initData" @flowCheck="flowCheck"
                      @restart="restart"/>
@@ -185,7 +185,7 @@ onMounted(() => {
 }
 
 
-.flow-design {
+.sh-flow-editor {
   display: flex;
   height: 100%;
   width: 100%;

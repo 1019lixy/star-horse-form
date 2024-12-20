@@ -4,11 +4,14 @@
     <el-popover
         :popper-style="{'width':'inherit !important'}"
         ref="popoverRef"
+        placement="bottom-end"
         :disabled="!context.attrs['formData']['_'+field.preps['name']+'Editable']&&field.preps['disabled'] == 'Y'"
         trigger="click">
       <template #reference>
-        <el-avatar fit="fill" shape="square" style="font-size: 24px"
+        <el-avatar v-if="iconType=='system'" fit="fill" shape="square" style="font-size: 24px"
                    :icon="context.attrs['formData'][field.preps['name']]"/>
+        <star-horse-icon :icon-class="context.attrs['formData'][field.preps['name']]" v-else size="40px"
+                         style="font-size: 50px;color:var(--star-horse-style)" cursor="pointer"/>
       </template>
       <div class="search-box">
         <el-input :size="context.attrs.formInfo?.size||field?.preps['size']||'default'" v-model="searchName"
@@ -25,9 +28,11 @@
             :title="sdata.name"
             :class="{'icon-active':sdata.value==context.attrs['formData'][field.preps['name']]}"
         >
-          <el-icon class="star-icon" style="font-size: 50px;color:var(--star-horse-style)">
+          <el-icon class="star-icon" style="font-size: 50px;color:var(--star-horse-style)" v-if="iconType=='system'">
             <component :is="sdata.value"/>
           </el-icon>
+          <star-horse-icon :icon-class="sdata.value" v-else size="40px"
+                           style="font-size: 50px;color:var(--star-horse-style)" cursor="pointer"/>
         </li>
       </ul>
     </el-popover>
@@ -35,7 +40,7 @@
 </template>
 <script lang="ts">
 import {defineComponent, onMounted, shallowRef, unref, ref} from "vue";
-import {loadElementPlusIcon} from "@/api/sh_api.ts";
+import {loadElementPlusIcon, loadSvgIcons} from "@/api/sh_api.ts";
 import {allAction} from "@/components/formcomp/utils/ItemRelationEventUtils.ts";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 
@@ -51,8 +56,10 @@ export default defineComponent({
     let searchName = ref<string>("");
     let iconList = ref<any>([]);
     let allIconList = ref<any>([]);
+    let iconType = ref<string>("system");
     const popoverRef = shallowRef();
     let actionName = shallowRef("keydown.enter");
+
     const assignIcon = (iconName: string) => {
       context.attrs['formData'][field.preps['name']] = iconName;
       unref(popoverRef).popperRef?.delayHide?.();
@@ -75,7 +82,17 @@ export default defineComponent({
     };
     onMounted(() => {
       actionName.value = field.preps["actionName"];
-      allIconList.value = field.preps['values'] || loadElementPlusIcon()
+      console.log(field.preps);
+      if (field.preps['values']?.length > 0) {
+        allIconList.value = field.preps['values'];
+        iconType.value = "user";
+      } else if (field.preps['iconType'] == 'user') {
+        allIconList.value = loadSvgIcons();
+        iconType.value = field.preps['iconType'];
+      } else {
+        allIconList.value = loadElementPlusIcon();
+        iconType.value = "system";
+      }
       iconList.value = allIconList.value;
       if (!context.attrs["isSearch"]) {
         allAction(context, actionName.value, true);
@@ -83,7 +100,7 @@ export default defineComponent({
     });
     return {
       parentField, context, field, formItem, dataField, assignIcon,
-      itemAction, actionName, popoverRef, searchName, dataSearch, iconList
+      itemAction, actionName, popoverRef, searchName, dataSearch, iconList, iconType
     }
   }
 });

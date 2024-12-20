@@ -32,7 +32,7 @@ const selectParentContainer = () => {
   if (!isEdit.value) {
     return;
   }
-  designForm.selectItem(props.parentField, "", "item");
+  designForm.selectItem(props.parentField, "", "container");
 };
 const selectData = (data: any) => {
   if (!isEdit.value) {

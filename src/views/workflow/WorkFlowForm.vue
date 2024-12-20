@@ -28,7 +28,7 @@ const changeFlow = () => {
 }
 /**
  * 可以使用此成熟的框架，进行更改,对于bpmn-js 可以考虑去除，太技术化不太实用
- * git clone https://gitee.com/crowncloud/smart-flow-design.git
+ * git clone https://gitee.com/crowncloud/smart-sh-flow-editor.git
  */
 const change = async (item: any) => {
   if (currentData.value == 1) {

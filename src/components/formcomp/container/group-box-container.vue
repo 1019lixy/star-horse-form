@@ -137,7 +137,7 @@ const tableOperation = (actonName: string, _preps: any) => {
     }
   } else if (actonName == "insertCol") {
     if (props.formItem.itemType == "table") {
-      preps.columns = preps.columns + 1;
+      preps.columns = (preps.columns || 1) + 1;
       return;
     }
     for (let index in preps.elements) {

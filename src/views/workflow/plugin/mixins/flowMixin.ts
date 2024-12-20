@@ -141,7 +141,7 @@ export const flowMixin = {
         'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABgklEQVQ4jZXTvWuUQRAG8N/7ojYW+hekORvFgETlEC2EawwImg9CFFFzjXAIip2NHEREBFFIYZEmGvIdUItrrNRGCCIWURQ/CkFJFQUVCcE7i50rPF6ITrO7M88zOzvPTtaqKbItqOIyfmAU82h2AvOC8xm8xh10YRdmsIxBZEUJMgwEaAKlgqp2YgEvcLydKEclnIsB2sj24D6WUMlaNV+x/R+IRfYtx17cxe//IDaDsy/HR5yVmjWH1gbkBXQH50MuvWcRmzAcwYcFxAZ6MBTnB7jXVqGtwDTWpC73RPIGDuAovmMqsMdIKvQF4DFO4I0k5Sr6g/gF4xE7iUfYj9NZq6aEdXzCYVzFwfBNxlrFZjzBFTyVPplc+gPvcRtvcQi9eBnEc7HvjQveYSw4z/JoyitckBS5geco40gQy+G7HpjzcfGpLIYpi6Zck37jT9zCTUnzS7iIbVFNXSiVdUxju6JR7MCvSLA1nlfXMZWd09jEbFQxgs9Yif3uiP010n8AqlVkrMXSsDYAAAAASUVORK5CYII=',
     isActive: false,
     // 大小，可选值为 small large
-    size: 'large',
+    size: 'default',
     // el-drawer内容滚动
     bodyStyle: {
         height: 'calc(100vh - 114px)',

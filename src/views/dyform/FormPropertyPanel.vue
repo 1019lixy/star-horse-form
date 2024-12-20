@@ -42,10 +42,10 @@ const loadMenus = (val: any) => {
   }
   permissionMenus({}, val).then((res) => {
     let redata = res.data.data;
-    menusInfoList.value = [];
-    redata.forEach((item: any) => {
-      menusInfoList.value.push({name: item.menuName, value: item.dataNo});
-    });
+    menusInfoList.value = redata;
+    // redata.forEach((item: any) => {
+    //   menusInfoList.value.push({name: item.menuName, value: item.dataNo});
+    // });
   });
 };
 const tableFieldList = reactive<PageFieldInfo | any>({
@@ -83,16 +83,27 @@ const tableFieldList = reactive<PageFieldInfo | any>({
               ],
               [
                 {
-                  label: "所属系统", fieldName: "sysId", type: "select", optionList: informationsList, actionName: "change", actions: (val: any) => {
+                  label: "所属系统", fieldName: "sysId", type: "select", optionList: informationsList,
+                  actionName: "change", actions: (val: any) => {
                     console.log(val);
                     loadMenus(val["sysId"]);
                   }, formShow: menuFlag, required: true
                 },
-                {label: "父级菜单", fieldName: "parentMenuId", type: "select", optionList: menusInfoList, formShow: menuFlag},
+                {
+                  label: "父级菜单", fieldName: "parentMenuId", type: "tselect", optionList: menusInfoList,
+                  formShow: menuFlag,
+                  preps: {
+                    checkStrictly: "Y",
+                    props: {
+                      label: "menuName",
+                      value: "dataNo",
+                    }
+                  }
+                },
 
               ],
               [
-                {label: "级联删除", helpMsg:`页面字段删除时同步删除数据库对应表字段`, fieldName: "deleteCascade", type: "switch",defaultValue:"Y" , formShow: true},
+                {label: "级联删除", helpMsg: `页面字段删除时同步删除数据库对应表字段`, fieldName: "deleteCascade", type: "switch", defaultValue: "Y", formShow: true},
                 {label: "表单图标", fieldName: "formIcon", type: "icon", formShow: true,},
                 {label: "页面版式", fieldName: "pageStyle", type: "select", optionList: pageStyleList, formShow: true},
               ],
@@ -224,5 +235,6 @@ defineExpose({
 
 </style>
 <template>
-  <star-horse-form label-position="right" :outerFormData="formInfo" :fieldList="tableFieldList" ref="dynamicFormItemRef"/>
+  <star-horse-form label-position="right" :outerFormData="formInfo" :fieldList="tableFieldList"
+                   ref="dynamicFormItemRef"/>
 </template>

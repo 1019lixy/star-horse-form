@@ -2,7 +2,7 @@
   <div class="flow-row">
     <div class="flow-branch">
       <div class="branch-node" @click="!readable && addBranch(node)">
-        <star-horse-icon icon-class="plus_diamond"/>
+        <el-button icon="plus">添加条件</el-button>
       </div>
       <div class="meet-node"></div>
       <div class="flow-col" v-for="(conditionNode, index) in node.conditionNodes" :key="conditionNode.id">
@@ -19,10 +19,7 @@
                 </div>
                 <div class="node-main">
                   <span v-if="conditionNode.content">
-                    <el-tooltip placement="top">
-                      <template #content>
-                        <span>{{ conditionNode.content }}</span>
-                      </template>
+                    <el-tooltip placement="top" :content="conditionNode.content">
                       {{ conditionNode.content }}
                     </el-tooltip>
                   </span>

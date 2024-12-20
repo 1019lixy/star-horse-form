@@ -70,8 +70,8 @@ const addTab = () => {
   >
     <el-tabs
         class="tab-container"
-        :tab-position="field.preps['tablePosition']"
-        :type="field.preps['type']"
+        :tab-position="field.preps['tablePosition']||'top'"
+        :type="field.preps['type']||''"
         :closable="field.preps['closable']=='Y'"
         :addable="field.preps['addable']=='Y'"
         :editable="field.preps['editable']=='Y'"
