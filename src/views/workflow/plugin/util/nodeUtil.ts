@@ -16,7 +16,7 @@ export function getStartNode() {
     return {
         id: getId(),
         name: '发起人',
-        type: 0,
+        type: "start_node",
         // 流程节点状态(用于只读模式, 0:未进行 1:进行中  2:已完成)
         status: -1,
         // 是否有错误

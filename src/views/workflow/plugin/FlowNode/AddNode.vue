@@ -7,7 +7,7 @@
                          v-if="!readable && (nodeType != 1 || (nodeType == 1 && node.addable))"/>
       </template>
       <el-menu mode="vertical" class="flow-menu-vertical">
-        <el-menu-item :key="item.idFlowNode" @click="addType(item)" v-for="item in nodeList">
+        <el-menu-item :key="item.idFlowNode" @click="addNode(item)" v-for="item in nodeList">
           <star-horse-icon :icon-class="item.nodeIcon"/>
           <span>{{ item.nodeName }}</span>
         </el-menu-item>
@@ -105,6 +105,32 @@ const addType = (type: number) => {
   let id = props.id;
   flowDesign.flowAddNode({addNode, currNode, nodeType, id});
   if (nodeType == 1 && type == 7) {
+    // 当审批节点下添加意见分支,就不允许添加其他类型的节点了
+    flowDesign.flowUpdateNode({currNode, field: 'addable', value: false});
+  }
+}
+let commonPreps = ref<any>([]);
+const loadNodePrep = async (item: any) => {
+  let params: SearchParams[] = [
+    createCondition("idFlowNode", item.idFlowNode)
+  ];
+  let res = await prepUrl.queryConditionAction!(params);
+  let temp: any = {};
+  res?.data?.forEach((item: any) => {
+    temp[item.attrName] = temp[item.defaultValue];
+  });
+  return temp;
+}
+const addNode = async (item: any) => {
+  let nodePrep = JSON.parse(JSON.stringify(commonPreps));
+  nodePrep = {...nodePrep, ...await loadNodePrep(item)};
+  nodePrep["nodeType"] = item.nodeType;
+  nodePrep["nodeId"] = item.idFlowNode;
+  let nodeType = props.nodeType;
+  let currNode = props.node;
+  let id = props.id;
+  flowDesign.flowAddNode({nodePrep, currNode, nodeType, id});
+  if (nodeType == 1 && item.type == "") {
     // 当审批节点下添加意见分支,就不允许添加其他类型的节点了
     flowDesign.flowUpdateNode({currNode, field: 'addable', value: false});
   }
@@ -474,7 +500,7 @@ const addParallelNode = (type: number) => {
   };
 }
 let nodeList = ref<any>([]);
-let commonPreps = ref<any>([]);
+
 const init = async () => {
   let res = await dataUrl.queryConditionAction!([]);
   nodeList.value = res.data;
@@ -482,7 +508,12 @@ const init = async () => {
     createCondition("attrType", "common")
   ];
   res = await prepUrl.queryConditionAction!(params);
-  console.log(res.data);
+  let temp: any = {};
+  res.data.forEach((item: any) => {
+    temp[item.attrName] = temp[item.defaultValue];
+  });
+  temp["id"] = uuid();
+  commonPreps.value = temp;
 }
 onMounted(() => {
   init();
