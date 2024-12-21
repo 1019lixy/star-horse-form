@@ -68,7 +68,7 @@ const fieldList = reactive<PageFieldInfo | any>({
         {
           cardList: [{
             title: "子节点配置",
-            subFormFlag: true,
+            subFormFlag: "Y",
             tabName: "subNodeInfo",
             objectName: "subNodeInfo",
             headerFieldList: [{
@@ -118,7 +118,7 @@ const dataSubmit = () => {
   subNodeFieldList.value.push({
     title: "节点" + len,
     tabName: "tab" + len,
-    subFormFlag: true,
+    subFormFlag: "Y",
     objectName: "sub" + len,
     fieldList: [{
       label: "",
@@ -134,7 +134,7 @@ const init = async () => {
       subNodeFieldList.value.push({
         title: "节点一",
         tabName: "tab1",
-        subFormFlag: true,
+        subFormFlag: "Y",
         objectName: "sub",
         fieldList: [{
           label: "",

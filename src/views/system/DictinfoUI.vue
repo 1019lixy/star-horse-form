@@ -66,7 +66,7 @@ const tableFieldList = reactive<PageFieldInfo>({
       batchFieldList: [{
         title: "字典信息",
         batchName: "dictList",
-        sameParentTable: true,
+        subFormFlag: "N",
         fieldList: editFormField.fieldList
       }]
     },

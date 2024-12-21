@@ -893,6 +893,14 @@ export function compCommonFields(): FieldInfo[] {
             formShow: true
         },
         {
+            label: "数据长度",
+            fieldName: "maxLength",
+            required: true,
+            defaultValue: 100,
+            type: "number",
+            formShow: true
+        },
+        {
             label: "表单显示",
             fieldName: "formShow",
             type: "switch",
@@ -949,10 +957,24 @@ export function compCommonFields(): FieldInfo[] {
             formShow: true
         },
         {
+            label: "可清除",
+            fieldName: "clearable",
+            type: "switch",
+            defaultValue: "Y",
+            formShow: true
+        },
+        {
+            label: "只读",
+            fieldName: "readonly",
+            type: "switch",
+            defaultValue: "N",
+            formShow: true
+        },
+        {
             label: "唯一性校验",
             fieldName: "uniqueValid",
             type: "switch",
-            helpMsg:`如果开启此功能，\n在新增数据时系统对数据进行唯一性校验。`,
+            helpMsg: `如果开启此功能，\n在新增数据时系统对数据进行唯一性校验。`,
             defaultValue: "N",
             formShow: true
         }

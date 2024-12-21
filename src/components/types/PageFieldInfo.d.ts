@@ -21,7 +21,7 @@ export declare interface TabFieldInfo {
     /**
      * fieldList 是否是子表单
      */
-    subFormFlag: boolean,
+    subFormFlag: string,
     /**
      * 子集合Key 名称，如果配置了此名字，所有tab 下组件的数据将存入该名字下
      * 该属性的使用场景是 1对1 或者1 对多关系时，tab里组件是另外一个表的情况
@@ -370,7 +370,7 @@ export declare interface SubFieldInfo {
      * fieldName和fieldList 是否同一个表，组件会根据这个字段校验数据是一对多关系
      * 还是单表的批量处理
      */
-    sameParentTable?: boolean;
+    subFormFlag?: string;
 }
 
 /**
@@ -429,7 +429,7 @@ export declare interface BatchFieldInfo {
      * batchFieldList 和fieldList 是否同一个表，组件会根据这个字段校验数据是一对多关系
      * 还是单表的批量处理
      */
-    sameParentTable?: boolean;
+    subFormFlag?: string;
 }
 
 /**

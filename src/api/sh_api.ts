@@ -570,7 +570,7 @@ export function formFieldMapping(fieldList: PageFieldInfo) {
     const batchDefaultValues: any = {};
     const tabOperation = (data: TabFieldInfo) => {
         const fieldList = data.fieldList as Array<FieldInfo>;
-        if (data.subFormFlag) {
+        if ("Y"==data.subFormFlag) {
             defaultDatas[data.tabName] = {};
             //如果是子表
             fieldsOperation(fieldList, defaultDatas[data.tabName]);

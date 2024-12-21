@@ -119,6 +119,7 @@ onMounted(async () => {
     >
       <div class="dialog-body">
         <sh-dynamic-form @refresh="starHorseTableCompRef?.loadByPage()" :compUrl="dataUrl" :formInfo="formInfo"
+
                          :fieldList=
                              "tableFieldList.dynamicFormas" :rules="rules"/>
       </div>
@@ -132,6 +133,7 @@ onMounted(async () => {
       <div class="dialog-body">
         <star-horse-data-view
             :dataFormat="dataFormat"
+            :data-list="primaryKey"
             :field-list="tableFieldList"
             :compUrl="dataUrl"
         />
@@ -143,9 +145,11 @@ onMounted(async () => {
         <star-horse-search-comp ref="viewSearchRef"
                                 @searchData="(data:any)=>starHorseTableCompRef.createSearchParams(data)"
                                 :formData="searchFormData"
+
                                 :compUrl="dataUrl"/>
         <hr v-if="Config.buttonStyle.value=='line'"/>
         <star-horse-button-list
+
             @tableCompFunc="(fun:any)=>starHorseTableCompRef.tableCompFunc(fun)" :viewFlag="true"
             :compUrl="dataUrl" :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
       </div>

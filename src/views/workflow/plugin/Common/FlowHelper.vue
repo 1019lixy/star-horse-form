@@ -38,8 +38,8 @@ const onClose = () => {
 const init = async () => {
   let params = [createCondition("a.cfgCategory", ["help", "advanced"], "in")];
   let res = await loadData(dataUrl.userConditionUrl!, params);
-  helpItemList.value = res.data.filter((item: any) => item.cfgCategory == 'help');
-  advancedItemList.value = res.data.filter((item: any) => item.cfgCategory == 'advanced');
+  helpItemList.value = res?.data?.filter((item: any) => item.cfgCategory == 'help');
+  advancedItemList.value = res?.data?.filter((item: any) => item.cfgCategory == 'advanced');
 
 }
 onMounted(() => {

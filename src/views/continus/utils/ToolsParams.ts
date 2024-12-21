@@ -59,7 +59,7 @@ const extendCommonFields: FieldInfo[] = [{
     collapseList: [{
         title: "高级设置",
         tabName: "row1",
-        subFormFlag: false,
+        subFormFlag: "N",
         objectName: "advancedSetting",
         fieldList: [[{
             label: "  ",
@@ -84,7 +84,7 @@ const extendCommonFields: FieldInfo[] = [{
     }, {
         title: "运行结果通知",
         tabName: "result",
-        subFormFlag: false,
+        subFormFlag: "N",
         objectName: "resultReport",
         fieldList: [[{
             label: "失败时通知",

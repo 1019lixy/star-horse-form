@@ -8,7 +8,7 @@ const dataForm = ref<any>({});
 const props = defineProps({
   compUrl: {type: Object as PropType<ApiUrls>},
   objectName: {type: String},
-  subCreateFlag: {type: Boolean, default: false},
+  subFormFlag: {type: String, default: "N"},
   fieldList: {type: Object, required: true},
   globalCondition: {type: Object},
   outerData: {type: Object},

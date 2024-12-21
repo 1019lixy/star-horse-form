@@ -10,7 +10,7 @@ defineProps({
   item: {type: Array as PropType<Array<FieldInfo>>, required: true},
   objectName: {type: String},
   parentPreps:{type:Object,default:{}},
-  subCreateFlag: {type: Boolean, default: false},
+  subFormFlag: {type: String, default: "N"},
   batchName: {type: String, default: "batchDataList"},
   batchFieldName: {type: String, default: "batchFieldList"},
   primaryKey: {type: String, required: true},

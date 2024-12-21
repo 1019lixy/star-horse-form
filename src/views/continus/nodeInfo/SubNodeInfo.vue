@@ -14,7 +14,7 @@ const fieldList = reactive<PageFieldInfo | any>({
   fieldList: [{
     cardList: [{
       title: "节点信息",
-      subFormFlag: true,
+      subFormFlag: "Y",
       tabName: "subNodeInfo2",
       objectName: "subNodeInfo2",
       headerFieldList: [{
@@ -91,7 +91,7 @@ const fieldList = reactive<PageFieldInfo | any>({
       ]
     }, {
       title: "节点参数",
-      subFormFlag: true,
+      subFormFlag: "Y",
       tabName: "subNodeInfoParams",
       objectName: "subNodeInfoParams",
       headerFieldList: [{

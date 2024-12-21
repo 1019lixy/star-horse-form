@@ -13,7 +13,7 @@ defineProps({
   item: {type: Array as PropType<Array<FieldInfo>>, required: true},
   objectName: {type: String},
   parentPreps: {type: Object, default: {}},
-  subCreateFlag: {type: Boolean, default: false},
+  subFormFlag: {type: String, default: "N"},
   batchName: {type: String, default: "batchDataList"},
   batchFieldName: {type: String, default: "batchFieldList"},
   primaryKey: {type: String, required: true},
@@ -75,7 +75,7 @@ onMounted(() => {
                                   :fieldList="{
                                  ...tabItem
                                  }"
-                                  :rules="rules" :subCreateFlag="tabItem.subFormFlag"
+                                  :rules="rules" :subFormFlag="tabItem.subFormFlag"
                                   :primaryKey="primaryKey"/>
             <star-horse-form-item v-else :isView="isView" :compUrl="compUrl"
                                   :compSize="compSize"
@@ -86,7 +86,7 @@ onMounted(() => {
                                   :fieldList="{
                                    ...tabItem
                                  }"
-                                  :rules="rules" :subCreateFlag="tabItem.subFormFlag"
+                                  :rules="rules" :subFormFlag="tabItem.subFormFlag"
                                   :primaryKey="primaryKey"/>
           </el-scrollbar>
         </el-tab-pane>

@@ -23,7 +23,7 @@
             :min="field.preps['min']"
             :minlength="field.preps['minlength']"
             :placeholder="field.preps['placeholder']||'请输入'+field.preps['label']"
-            :readonly="true"
+            :readonly="field.preps['readonly']=='Y'"
             :rows="field.preps['rows']|3"
             :show-word-limit="field.preps['showWordLimit']=='Y'"
             :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"

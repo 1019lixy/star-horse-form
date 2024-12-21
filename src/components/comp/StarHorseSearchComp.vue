@@ -13,7 +13,7 @@ import {Config} from "@/api/settings.ts";
 let matchTypeList = ref<SelectOption[]>();
 let sarchIcon = ref<string>("search_down");
 let defaultSearch = ref<boolean>(true);
-let tips = ref<string>("高级查询");
+let tips = ref<string>("更多查询");
 let showTips = ref<boolean>(true);
 const emits = defineEmits(["searchData"]);
 const props = defineProps({
@@ -62,10 +62,10 @@ const dataSearch = (val: string | null) => {
 };
 const searchArea = () => {
   if (defaultSearch.value) {
-    tips.value = "日常查询";
+    tips.value = "更多查询";
     sarchIcon.value = "search_up";
   } else {
-    tips.value = "更多查询";
+    tips.value = "收起";
     sarchIcon.value = "search_down";
   }
   defaultSearch.value = !defaultSearch.value;
@@ -136,13 +136,13 @@ defineExpose({
       </template>
       <el-form-item style="vertical-align: middle;align-items: center">
         <div class="search_btn">
-          <el-button @click="dataSearch" style="background: var(--star-horse-style);color: var(--star-horse-white)"
+          <el-button @click="dataSearch"  style="background: var(--star-horse-style);color: var(--star-horse-white)"
                      :size="compSize">
+            <star-horse-icon icon-class="search" size="16px" color="var(--star-horse-white)"/>
             查询
-            <!--        <star-horse-icon icon-class="search" color="var(&#45;&#45;star-horse-white)"/>-->
           </el-button>
-          <el-button @click="dataSearch('reset')" link :size="compSize">
-            <!--        <star-horse-icon icon-class="undo" size="20px" color="var(&#45;&#45;star-horse-disable)"/>-->
+          <el-button @click="dataSearch('reset')"  link :size="compSize">
+                    <star-horse-icon icon-class="reset" size="16px" color="var(--star-horse-disable)"/>
             重置
           </el-button>
           <el-tooltip :content="tips" v-if="showTips">

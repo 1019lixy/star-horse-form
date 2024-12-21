@@ -95,6 +95,7 @@ onMounted(async () => {
       <div class="dialog-body">
         <star-horse-data-view
             :dataFormat="dataFormat"
+            :primary-key="primaryKey"
             :field-list="tableFieldList"
             :compUrl="dataUrl"
         />
