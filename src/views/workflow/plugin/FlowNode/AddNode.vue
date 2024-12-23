@@ -10,6 +10,7 @@
         <el-menu-item :key="item.idFlowNode" @click="addNode(item)" v-for="item in nodeList">
           <star-horse-icon :icon-class="item.nodeIcon"/>
           <span>{{ item.nodeName }}</span>
+          <help v-if="item.remark" :message="item.remark"/>
         </el-menu-item>
         <!--        <el-menu-item key="4" @click="addType(4)">
                   <star-horse-icon icon-class="branch_node"/>
@@ -124,7 +125,7 @@ const loadNodePrep = async (item: any) => {
 const addNode = async (item: any) => {
   let nodePrep = JSON.parse(JSON.stringify(commonPreps));
   nodePrep = {...nodePrep, ...await loadNodePrep(item)};
-  nodePrep["nodeType"] = item.nodeType;
+  nodePrep["type"] = item.nodeType;
   nodePrep["nodeId"] = item.idFlowNode;
   let nodeType = props.nodeType;
   let currNode = props.node;

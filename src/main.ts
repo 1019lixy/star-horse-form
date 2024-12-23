@@ -6,6 +6,7 @@ import nodeComponent from "@/views/continus/nodeInfo/nodecomp";
 import userContainerComponent from "@/components/comp/items/callitem";
 import itemComponent from "@/components/formcomp/items/allitem";
 import containerComponent from "@/components/formcomp/container/callitem";
+import flowNodeComponent from "@/views/workflow/plugin/FlowNode/nodes.ts";
 import App from "@/App.vue";
 import {createApp} from "vue"
 import ElementPlus from "element-plus";
@@ -31,6 +32,7 @@ import "prismjs/components/prism-json.js";
 import hljs from "highlight.js";
 
 const app = createApp(App);
+// window.app = app;
 app.component("draggable", draggable);
 /**
  * 加载elementplus 自己提供的图标
@@ -44,6 +46,7 @@ app.use(itemComponent);
 app.use(userContainerComponent);
 app.use(containerComponent);
 app.use(nodeComponent);
+app.use(flowNodeComponent);
 app.use(piniaInstance);
 app.use(router);
 VMEditor.use(vuepressTheme, {

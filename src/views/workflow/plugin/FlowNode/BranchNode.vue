@@ -43,7 +43,7 @@
                 <DeleteConfirm :node="conditionNode"/>
               </div>
             </div>
-            <FlowAddNode :node="node" :nodeType="3" :id="conditionNode.id" :readable="readable"/>
+            <FlowAddNode :node="node" :nodeType="node.type" :id="conditionNode.id" :readable="readable"/>
           </div>
         </div>
         <FlowNode v-if="conditionNode.childNode && conditionNode.childNode.hasOwnProperty('name')"
@@ -51,7 +51,7 @@
       </div>
     </div>
     <div class="after-branch-btn">
-      <FlowAddNode :node="node" :nodeType="4" :readable="readable"/>
+      <FlowAddNode :node="node" :nodeType="node.type" :readable="readable"/>
     </div>
     <FlowBranchSetting ref="flowBranchSettingRef" @close="close"/>
   </div>

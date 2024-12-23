@@ -4,7 +4,7 @@
       <div class="flow-item">
         <div class="node-name node-start">开始</div>
       </div>
-      <FlowAddNode :node="node" :nodeType="0" :readable="readable"/>
+      <FlowAddNode :node="node" :nodeType="node.type" :readable="readable"/>
     </div>
   </div>
 </template>

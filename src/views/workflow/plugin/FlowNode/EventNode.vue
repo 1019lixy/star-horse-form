@@ -10,7 +10,7 @@
           </div>
         </div>
       </div>
-      <FlowAddNode :node="node" :nodeType="5" :readable="readable"/>
+      <FlowAddNode :node="node" :nodeType="node.type" :readable="readable"/>
     </div>
     <FlowEventSetting ref="flowEventSettingRef" @close="close"/>
   </div>

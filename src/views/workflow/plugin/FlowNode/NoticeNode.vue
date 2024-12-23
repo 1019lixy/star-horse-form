@@ -18,7 +18,7 @@
           <DeleteConfirm :node="node"/>
         </div>
       </div>
-      <FlowAddNode :node="node" :nodeType="5" :readable="readable"/>
+      <FlowAddNode :node="node" :nodeType="node.type" :readable="readable"/>
     </div>
     <FlowNoticeSetting ref="flowNoticeSettingRef" @close="close"/>
   </div>

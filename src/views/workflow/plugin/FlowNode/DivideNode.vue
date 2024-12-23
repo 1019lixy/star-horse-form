@@ -9,7 +9,7 @@
           </div>
         </div>
       </div>
-      <FlowAddNode :node="node" :nodeType="7" :readable="readable"/>
+      <FlowAddNode :node="node" :nodeType="node.type" :readable="readable"/>
     </div>
   </div>
 </template>

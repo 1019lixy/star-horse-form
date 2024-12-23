@@ -32,7 +32,7 @@
           <DeleteConfirm :node="node"/>
         </div>
       </div>
-      <FlowAddNode :node="node" :nodeType="2" :readable="readable"/>
+      <FlowAddNode :node="node" :nodeType="node.type" :readable="readable"/>
     </div>
     <FlowCopyerSetting ref="flowCopyerSettingRef" @close="close"/>
   </div>

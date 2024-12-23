@@ -17,7 +17,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import {close} from '@/views/workflow/plugin/mixins/flowMixin';
+import {close} from '@/views/workflow/plugin/mixins/flowMixin.ts';
 import FlowAddNode from '@/views/workflow/plugin/FlowNode/AddNode.vue';
 import EditName from '@/views/workflow/plugin/Common/EditName.vue';
 import {ref} from "vue";

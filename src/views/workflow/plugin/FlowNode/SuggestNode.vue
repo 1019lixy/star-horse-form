@@ -38,7 +38,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import {close} from '@/views/workflow/plugin/mixins/flowMixin';
+import {close} from '@/views/workflow/plugin/mixins/flowMixin.ts';
 import FlowNode from '@/views/workflow/plugin/FlowNode/FlowNode.vue';
 import FlowAddNode from '@/views/workflow/plugin/FlowNode/AddNode.vue';
 import FlowBranchSetting from '@/views/workflow/plugin/FlowDrawer/BranchPrep.vue';
