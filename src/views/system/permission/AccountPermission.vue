@@ -31,19 +31,19 @@ const searchFields = reactive<SearchFields>({
     {
       label: "账号",
       fieldName: "c.username",
-      defaultShow: true,
+      defaultVisible: true,
       type: "input",
       matchType: "lk"
     },
     {
       label: "姓名",
       fieldName: "c.name",
-      defaultShow: true,
+      defaultVisible: true,
       type: "input",
       matchType: "lk"
     },
     {
-      label: "状态", fieldName: "a.statusCode", type: "select", optionList: accountPermissionStatus, defaultShow: true
+      label: "状态", fieldName: "a.statusCode", type: "select", optionList: accountPermissionStatus, defaultVisible: true
     },
   ]
 });
@@ -51,7 +51,7 @@ const formFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
       label: "分组名称", fieldName: "idRolesinfo", type: "select", optionList: rolesList,
-      formShow: true, required: true, disabled: "Y"
+      formVisible: true, required: true, disabled: "Y"
     },
     {
       label: "账号信息", fieldName: "userNameList", aliasName: "userList", multiple: "Y", type: "page-select", params: {
@@ -61,23 +61,23 @@ const formFieldList = reactive<PageFieldInfo>({
         needField: [{sourceField: "username", distField: "userNameList"},
           {sourceField: "idUsersinfo", distField: "userList"}],
         fieldList: [{
-          label: "用户名", fieldName: "username", type: "input", tableShow: true
+          label: "用户名", fieldName: "username", type: "input", listVisible: true
         }, {
-          label: "姓名", fieldName: "name", type: "input", tableShow: true
+          label: "姓名", fieldName: "name", type: "input", listVisible: true
         }, {
-          label: "联系电话", fieldName: "phone", type: "input", tableShow: true
+          label: "联系电话", fieldName: "phone", type: "input", listVisible: true
         }, {
-          label: "邮箱", fieldName: "email", type: "input", tableShow: true
+          label: "邮箱", fieldName: "email", type: "input", listVisible: true
         }]
       },
-      formShow: true, required: true, viewShow: false
+      formVisible: true, required: true, viewVisible: false
     },
     {
       label: "状态",
       fieldName: "statusCode",
       type: "select",
-      tableShow: true,
-      formShow: true,
+      listVisible: true,
+      formVisible: true,
       optionList: accountPermissionStatus,
     },
   ],
@@ -86,29 +86,29 @@ const formFieldList = reactive<PageFieldInfo>({
 const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
-      label: "分组名称", fieldName: "roleName", type: "input", tableShow: true
+      label: "分组名称", fieldName: "roleName", type: "input", listVisible: true
     },
     {
-      label: "分组编码", fieldName: "roleCode", type: "input", tableShow: true
+      label: "分组编码", fieldName: "roleCode", type: "input", listVisible: true
     },
     {
-      label: "用户名", fieldName: "username", type: "input", tableShow: true
+      label: "用户名", fieldName: "username", type: "input", listVisible: true
     },
     {
-      label: "姓名", fieldName: "name", type: "input", tableShow: true
+      label: "姓名", fieldName: "name", type: "input", listVisible: true
     },
     {
-      label: "联系电话", fieldName: "phone", type: "input", tableShow: true
+      label: "联系电话", fieldName: "phone", type: "input", listVisible: true
     },
     {
-      label: "邮箱地址", fieldName: "email", type: "input", tableShow: true
+      label: "邮箱地址", fieldName: "email", type: "input", listVisible: true
     },
     {
       label: "状态",
       fieldName: "statusCode",
       type: "select",
-      tableShow: true,
-      formShow: true,
+      listVisible: true,
+      formVisible: true,
       optionList: accountPermissionStatus,
     },
   ],

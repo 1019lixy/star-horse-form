@@ -21,38 +21,38 @@ const tableFieldList = reactive({
   fieldList: [
     {
       label: "主键", fieldName: "idUsersAudit", type: "long",
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     },
     {
       label: "主键", fieldName: "idUserinfo", type: "long",
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     },
     {
       label: "密码", fieldName: "password", type: "input",
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     },
     {
       label: "生效日期", fieldName: "effectiveDate", type: "date",
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     },
     {
       label: "失效日期", fieldName: "expiredDate", type: "date",
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     },
     {
       label: "备注", fieldName: "remark", type: "input",
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     },
     {
       label: "数据类型", fieldName: "dataType", type: "number",
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     },
     {
       label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",

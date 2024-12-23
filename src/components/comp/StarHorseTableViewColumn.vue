@@ -29,7 +29,7 @@ const dataFormat = (scope: any) => {
       :label="item.label"
       sortable
       :show-overflow-tooltip="true"
-      v-if="item.formShow||item.tableShow||item.viewShow"
+      v-if="item.formVisible||item.listVisible||item.viewVisible"
       :min-width="(item.minWidth||Config.defaultColumnWidth) + 'px'"
   >
     <template #default="scope">

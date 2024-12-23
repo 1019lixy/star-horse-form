@@ -29,9 +29,9 @@ const loadTabInfo = async (val: any) => {
 };
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "数据库信息", fieldName: "datasourceConfigId", type: "select", optionList: dbInfoList, defaultShow: true},
-    {label: "应用名称", fieldName: "projectName", type: "input", matchType: "lk", defaultShow: true},
-    {label: "项目名称", fieldName: "applicationName", type: "input", matchType: "lk", defaultShow: true},
+    {label: "数据库信息", fieldName: "datasourceConfigId", type: "select", optionList: dbInfoList, defaultVisible: true},
+    {label: "应用名称", fieldName: "projectName", type: "input", matchType: "lk", defaultVisible: true},
+    {label: "项目名称", fieldName: "applicationName", type: "input", matchType: "lk", defaultVisible: true},
   ]
 });
 const tableFieldList = reactive<PageFieldInfo>({
@@ -41,34 +41,34 @@ const tableFieldList = reactive<PageFieldInfo>({
     },
     [{
       label: "数据库信息", fieldName: "datasourceConfigId", type: "select",
-      required: true, formShow: true,
+      required: true, formVisible: true,
       optionList: dbInfoList,
       actionNames: "change",
       actions: loadTabInfo,
-      tableShow: true,
+      listVisible: true,
       preps: {
         needInitLink: true
       }
     }, {
       label: "后端程序语言", fieldName: "language", type: "select",
-      formShow: true,
+      formVisible: true,
       defaultValue: "java",
       helpMsg: "目前只支持Java,选择其它语言会构建失败",
       optionList: languageList,
-      tableShow: true
+      listVisible: true
     },],
     [{
       label: "后端模版版本", fieldName: "backendTemplateVersion", type: "select",
-      formShow: true,
+      formVisible: true,
       defaultValue: "2_0",
       optionList: templateVersionList,
-      tableShow: true
+      listVisible: true
     }, {
       label: "前端模版版本", fieldName: "frontTemplateVersion", type: "select",
-      formShow: true,
+      formVisible: true,
       defaultValue: "2_0",
       optionList: templateVersionList,
-      tableShow: true
+      listVisible: true
     },],
     {
       label: "需要生成的表名", fieldName: "tablesList", type: "select",
@@ -77,39 +77,39 @@ const tableFieldList = reactive<PageFieldInfo>({
       helpMsg: `该属性为空表示生成所有数据库表的代码,
 如果表数量太多（>100），程序自动转异步执行，
 有构建失败风险.`,
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     },
     {
       label: "需要排除的表", fieldName: "excludesList",
       type: "select",
       multiple: "Y",
       optionList: tableInfoList,
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     },
     [{
       label: "去除表前缀", fieldName: "prefixesStr", type: "input",
       aliasName: "prefixes",
-      formShow: true,
+      formVisible: true,
       helpMsg: `如果该属性为空，所生成的文件会带上表前缀，
 eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
 多个前缀请用英文分号（;）隔开。`,
-      tableShow: true
+      listVisible: true
     },
       {
         label: "包名", fieldName: "packageName", type: "input",
-        required: true, formShow: true,
+        required: true, formVisible: true,
         helpMsg: `eg: com.starhorse.test`,
-        tableShow: true
+        listVisible: true
       }],
     {
       label: "要生成的文件", fieldName: "fileTypesList", type: "select",
-      formShow: true,
+      formVisible: true,
       multiple: "Y",
       optionList: fileTypeList,
       helpMsg: `为空生成所有类型文件`,
-      tableShow: true
+      listVisible: true
     },
     {
       fieldName: "tab2",
@@ -118,37 +118,37 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
         tabName: "tab2",
         fieldList: [{
           label: "项目名称", fieldName: "projectName", type: "input",
-          formShow: true,
+          formVisible: true,
           helpMsg: "生成代码归属项目",
         },
           {
             label: "模块名称", fieldName: "categoryName", type: "input",
-            required: true, formShow: true,
+            required: true, formVisible: true,
             helpMsg: "Maven 项目的模块名会追加到包名的后面",
-            tableShow: true
+            listVisible: true
           },
           {
             label: "应用名称", fieldName: "applicationName", type: "input",
-            required: true, formShow: true,
+            required: true, formVisible: true,
             helpMsg: "在配置文件application.yml中对应spring.application.name",
-            tableShow: true
+            listVisible: true
           },
           {
             label: "应用端口", fieldName: "port", type: "number",
-            formShow: true,
+            formVisible: true,
             helpMsg: "在配置文件application.yml中对应server.port",
           }, {
             label: "发布目录", fieldName: "targetDir", type: "input",
-            formShow: true,
+            formVisible: true,
             helpMsg: "文件部署到服务器上的目录",
           }, {
             label: "RestFul风格接口", fieldName: "restFul", type: "switch",
-            formShow: true,
+            formVisible: true,
             defaultValue: "Y",
           },
           {
             label: "包构建类型", fieldName: "war", type: "select",
-            formShow: true,
+            formVisible: true,
             defaultValue: "jar",
             optionList: packagingList,
             helpMsg: "对应pom.xml文件中的packaging",
@@ -156,22 +156,22 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
           {
             label: "代码版本", fieldName: "version", type: "input",
             helpMsg: "对应pom.xml文件中version",
-            formShow: true,
+            formVisible: true,
           },],
       }, {
         title: "注释相关",
         tabName: "tab1",
         fieldList: [{
           label: "开发人员", fieldName: "author", type: "input",
-          formShow: true,
+          formVisible: true,
         },
           {
             label: "邮箱地址", fieldName: "email", type: "input",
-            formShow: true,
+            formVisible: true,
           },
           {
             label: "是否需要版权", fieldName: "needCopyright", type: "switch",
-            formShow: true,
+            formVisible: true,
           }],
       },
         {
@@ -180,23 +180,23 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
           fieldList: [
             {
               label: "是否生成UI页面", fieldName: "needUi", type: "switch",
-              formShow: true,
+              formVisible: true,
               defaultValue: "Y",
             },
             {
               label: "是否分离UI", fieldName: "needSplitUI", type: "switch",
-              formShow: true,
+              formVisible: true,
               helpMsg: "UI文件和业务文件是否放在同一个module里面",
               defaultValue: "N",
             },
             {
               label: "Ui 文件后缀", fieldName: "uiSuffix", type: "input",
-              formShow: true,
+              formVisible: true,
               defaultValue: ".vue",
             },
             {
               label: "UI 类型", fieldName: "uiType", type: "select",
-              formShow: true,
+              formVisible: true,
               optionList: uiTypeList,
               defaultValue: "VUE_3_TS",
             },
@@ -208,7 +208,7 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
           fieldList: [
             {
               label: "是否分离DTO", fieldName: "needSplitDto", type: "switch",
-              formShow: true,
+              formVisible: true,
               helpMsg: "DTO文件和业务文件是否放在同一个module里面",
               defaultValue: "N",
             },
@@ -218,20 +218,20 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
     },
     {
       label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
-      tableShow: true,
+      listVisible: true,
     },
     {
       label: "创建日期", disabled: "Y", fieldName: "createdTime", type: "date",
-      tableShow: true,
+      listVisible: true,
     },
     {
       label: "修改人", disabled: "Y", fieldName: "updatedBy", type: "input",
-      tableShow: true,
+      listVisible: true,
     },
 
     {
       label: "修改日期", disabled: "Y", fieldName: "updatedTime", type: "date",
-      tableShow: true,
+      listVisible: true,
     },
     {
       label: "是否已逻辑", fieldName: "isDel", type: "number",

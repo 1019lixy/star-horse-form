@@ -70,15 +70,15 @@ const baseFieldList = reactive<PageFieldInfo | any>({
         fieldList: [
           {
             label: "原始密码", fieldName: "oldPassword", type: "password",
-            required: true, formShow: true,
+            required: true, formVisible: true,
           },
           {
             label: "新密码", fieldName: "password", type: "password",
-            required: true, formShow: true,
+            required: true, formVisible: true,
           },
           {
             label: "确认密码", fieldName: "rePassword", type: "password",
-            required: true, formShow: true,
+            required: true, formVisible: true,
           }
         ]
       },
@@ -92,7 +92,7 @@ const baseFieldList = reactive<PageFieldInfo | any>({
             fieldName: "username",
             type: "input",
             required: true,
-            formShow: true,
+            formVisible: true,
           }
         ]
       }*/

@@ -96,6 +96,7 @@ onMounted(async () => {
         <star-horse-data-view
             :dataFormat="dataFormat"
             :primary-key="primaryKey"
+            :dynamicForm="true"
             :field-list="tableFieldList"
             :compUrl="dataUrl"
         />

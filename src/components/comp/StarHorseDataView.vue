@@ -12,6 +12,7 @@ const props = defineProps({
   fieldList: {type: Object, required: true},
   globalCondition: {type: Object},
   outerData: {type: Object},
+  dynamicForm: {type: Boolean, default: false},
   primaryKey: {type: String, default: "id"},
   batchFieldName: {type: String, default: "batchFieldList"},
   dataFormat: {type: Function, default: null}
@@ -52,6 +53,15 @@ const loadData = async () => {
   }
   let data = formFieldMapping(props.fieldList);
   dataForm.value = objData;
+  //如果是动态表单
+  if (props.dynamicForm) {
+    for (let i in params) {
+      let temp = params[i];
+      if (!temp.subTabFlag) {
+        dataForm.value[temp.tableName] = [objData];
+      }
+    }
+  }
   let mapping = data.mappingFields;
   if (mapping) {
     for (let index in mapping) {

@@ -24,14 +24,14 @@ const searchFormData = reactive<SearchFields>({
     {
       label: "公司名称/编码",
       fieldName: "companyName",
-      defaultShow: true,
+      defaultVisible: true,
       matchType: "lk",
       type: "input"
     },
     {
       label: "角色名称/编码",
       fieldName: "roleName",
-      defaultShow: true,
+      defaultVisible: true,
       matchType: "lk",
       type: "input"
     },
@@ -42,7 +42,7 @@ let pageField = reactive<PageFieldInfo>({
     label: "公司名称",
     fieldName: "companyName",
     type: "input",
-    tableShow: true,
+    listVisible: true,
   }]
 });
 let dataList = ref<Array<any>>([]);
@@ -74,7 +74,7 @@ const init = async () => {
       label: temp.roleName,
       fieldName: temp.idCompanyRole,
       type: "button",
-      tableShow: true,
+      listVisible: true,
       preps: {
         showComp: "Y",
         styles: {

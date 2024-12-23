@@ -676,6 +676,7 @@ export function formFieldMapping(fieldList: PageFieldInfo) {
     const batchTempList = fieldList?.batchFieldList!;
     tableOperation(batchTempList);
     defaultDatas = {...defaultDatas, ...batchDefaultValues};
+    // debugger;
     return {defaultDatas, mappingFields, batchDefaultValues, actions};
 }
 

@@ -238,9 +238,9 @@ let batchModifyData = reactive<any>({
   maxLength: 100,
   precision: 0,
   required: "N",
-  formShow: "Y",
-  searchShow: "Y",
-  tableShow: "Y"
+  formVisible: "Y",
+  searchVisible: "Y",
+  listVisible: "Y"
 });
 const tableEdit = (submit: boolean) => {
   isSubmit.value = submit;
@@ -474,20 +474,20 @@ let prepsModel = ref("one");
                          inactive-text="否"/>
             </el-col>
             <el-col :span="2">
-              <el-switch v-model="batchModifyData.formShow" :size="compSize"
-                         @change="(val:any)=>batchOperation(val,'formShow')" active-value="Y" active-text="是"
+              <el-switch v-model="batchModifyData.formVisible" :size="compSize"
+                         @change="(val:any)=>batchOperation(val,'formVisible')" active-value="Y" active-text="是"
                          inactive-value="N"
                          inactive-text="否"/>
             </el-col>
             <el-col :span="2">
-              <el-switch v-model="batchModifyData.searchShow" :size="compSize"
-                         @change="(val:any)=>batchOperation(val,'searchShow')" active-value="Y" active-text="是"
+              <el-switch v-model="batchModifyData.searchVisible" :size="compSize"
+                         @change="(val:any)=>batchOperation(val,'searchVisible')" active-value="Y" active-text="是"
                          inactive-value="N"
                          inactive-text="否"/>
             </el-col>
             <el-col :span="2">
-              <el-switch v-model="batchModifyData.tableShow" :size="compSize"
-                         @change="(val:any)=>batchOperation(val,'tableShow')" active-value="Y" active-text="是"
+              <el-switch v-model="batchModifyData.listVisible" :size="compSize"
+                         @change="(val:any)=>batchOperation(val,'listVisible')" active-value="Y" active-text="是"
                          inactive-value="N"
                          inactive-text="否"/>
             </el-col>

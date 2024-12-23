@@ -11,8 +11,8 @@ import {SearchParams} from "@/components/types/Params";
 const dataUrl: ApiUrls = apiInstance("system-config", "system/dictinfoType");
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "名称", defaultShow: false, matchType: "lk", fieldName: "dictTypeName", type: "input"},
-    {label: "编码", defaultShow: true, matchType: "eq", fieldName: "dictTypeCode", type: "input"},
+    {label: "名称", defaultVisible: false, matchType: "lk", fieldName: "dictTypeName", type: "input"},
+    {label: "编码", defaultVisible: true, matchType: "eq", fieldName: "dictTypeCode", type: "input"},
   ]
 });
 const tableFieldList = reactive<PageFieldInfo>({
@@ -22,18 +22,18 @@ const tableFieldList = reactive<PageFieldInfo>({
     },
     {
       label: "字典类型名称", fieldName: "dictTypeName", type: "input",
-      required: true, formShow: true,
-      tableShow: true
+      required: true, formVisible: true,
+      listVisible: true
     },
     {
       label: "字典类型编码", fieldName: "dictTypeCode", type: "input",
-      required: true, formShow: true,
-      tableShow: true
+      required: true, formVisible: true,
+      listVisible: true
     },
     {
       label: "备注", fieldName: "remark", type: "textarea",
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     },
   ],
   //在表格右侧添加自定义功能

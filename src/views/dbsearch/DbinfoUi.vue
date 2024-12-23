@@ -16,8 +16,8 @@ let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.co
 let dbTypeList = ref<Array<any>>([]);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "数据库类型", fieldName: "dbType", type: "select", defaultShow: true, optionList: dbTypeList},
-    {label: "数据库名称", fieldName: "dbName", type: "input", defaultShow: true, matchType: "lk"},
+    {label: "数据库类型", fieldName: "dbType", type: "select", defaultVisible: true, optionList: dbTypeList},
+    {label: "数据库名称", fieldName: "dbName", type: "input", defaultVisible: true, matchType: "lk"},
   ]
 });
 const tableFieldList = reactive<PageFieldInfo>({
@@ -27,53 +27,53 @@ const tableFieldList = reactive<PageFieldInfo>({
     },
     [{
       label: "数据库类型", fieldName: "dbType", type: "select", optionList: dbTypeList,
-      required: true, formShow: true,
+      required: true, formVisible: true,
       actionName: "change", actions: (val: any) => {
         val["port"] = dbTypeList.value.find(item => item.value == val["dbType"])?.port || val["port"];
       },
-      tableShow: true
+      listVisible: true
     },
       {
         label: "数据库名称/实例", fieldName: "dbName", type: "input",
-        formShow: true, required: true,
-        tableShow: true,
+        formVisible: true, required: true,
+        listVisible: true,
         brotherNodes: [{
           fieldName: "createDb",
           type: "radio",
           defaultValue: "N",
-          formShow: true,
+          formVisible: true,
           optionList: [{name: "不存在创建", value: "Y"}]
         }]
       }],
     [{
       label: "数据库地址", fieldName: "host", type: "input",
-      formShow: true, required: true,
-      tableShow: true
+      formVisible: true, required: true,
+      listVisible: true
     },
       {
         label: "数据库端口", fieldName: "port", type: "number",
-        formShow: true, required: true,
-        tableShow: true
+        formVisible: true, required: true,
+        listVisible: true
       }],
     [{
       label: "用户名", fieldName: "userName", type: "input",
-      formShow: true, required: true,
-      tableShow: true
+      formVisible: true, required: true,
+      listVisible: true
     },
       {
         label: "密码", fieldName: "password", type: "password",
-        formShow: true, required: true,
-        tableShow: true
+        formVisible: true, required: true,
+        listVisible: true
       }],
     {
       label: "禁用操作权限", fieldName: "exclusions", type: "textarea",
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     },
     {
       label: "数据库描述", fieldName: "dbComment", type: "textarea",
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     },
     {
       label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",

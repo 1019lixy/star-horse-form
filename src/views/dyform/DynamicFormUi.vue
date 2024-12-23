@@ -48,11 +48,11 @@ const loadFormData = async (formId: any) => {
 }
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "表单名称", fieldName: "formName", defaultShow: true, type: "input", matchType: "lk"},
-    {label: "数据源", fieldName: "datasourceConfigId", defaultShow: true, type: "select", optionList: dataSource},
+    {label: "表单名称", fieldName: "formName", defaultVisible: true, type: "input", matchType: "lk"},
+    {label: "数据源", fieldName: "datasourceConfigId", defaultVisible: true, type: "select", optionList: dataSource},
 
     {
-      label: "创建时间", fieldName: "createdDate", defaultShow: true, type: "date", matchType: "bt", preps: {
+      label: "创建时间", fieldName: "createdDate", defaultVisible: true, type: "date", matchType: "bt", preps: {
         valueFormat: "YYYY-MM-DD"
       }
     },
@@ -66,64 +66,64 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     },
     {
       label: "表单名称", fieldName: "formName", type: "input",
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     },
     {
       label: "表名", fieldName: "tbName", type: "input",
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     },
     {
       label: "主键", fieldName: "formId", type: "input",
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     },
     {
       label: "数据源", fieldName: "datasourceConfigId", type: "select",
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     },
     {
       label: "是否需要公共字段", fieldName: "needCommonFields", type: "switch",
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     },
     {
       label: "主键策略", fieldName: "primaryKeyPolicy", type: "select",
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     },
     {
       label: "是否创建表", fieldName: "createTable", type: "switch",
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     },
     {
       label: "是否创建菜单", fieldName: "createMenu", type: "switch",
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     },
     {
       label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
-      tableShow: true
+      listVisible: true
     },
 
     {
       label: "创建日期", disabled: "Y", fieldName: "createdDate", type: "date",
-      tableShow: true
+      listVisible: true
     },
     {
       label: "修改人", disabled: "Y", fieldName: "updatedBy", type: "input",
-      tableShow: true
+      listVisible: true
     },
     {
       label: "修改日期", disabled: "Y", fieldName: "updatedDate", type: "date",
-      tableShow: true
+      listVisible: true
     },
     {
       label: "数据版本号", fieldName: "version", type: "number",
-      tableShow: true
+      listVisible: true
     },
     {
       label: "是否已逻辑", fieldName: "isDel", type: "number",
@@ -214,6 +214,7 @@ const tabChange = async (name: string) => {
 }
 let dataList = ref<Array<any>>([]);
 let currentData = ref<any>({});
+let commonFieldList = ref<Array<any>>([]);
 const dataChange = async (param: any) => {
   console.log(param);
   let {data, error} = await loadData(dataUrl.loadByIdUrl + "/" + param[primaryKey], {});
@@ -223,6 +224,7 @@ const dataChange = async (param: any) => {
   }
   currentData.value = data;
   dataList.value = JSON.parse(data["details"].content);
+  commonFieldList.value = data.commonFieldControllers;
 }
 onMounted(async () => {
   await initData();
@@ -311,7 +313,8 @@ onMounted(async () => {
                   </template>
                 </el-menu>
               </div>
-              <form-preview :compSize="compSize" :list="dataList" v-if="dataList&&dataList.length>0"/>
+              <el-divider style="margin: 0 10px"/>
+              <form-preview :commonFieldList="commonFieldList" :compSize="compSize" :list="dataList" v-if="dataList&&dataList.length>0"/>
               <el-empty description="请在左侧选择表单" v-else/>
             </el-card>
           </el-col>

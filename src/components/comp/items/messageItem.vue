@@ -81,15 +81,15 @@ const formField = reactive<PageFieldInfo>({
     fieldName: "title",
     type: "input",
     required: true,
-    formShow: !false,
-    tableShow: !false,
+    formVisible: !false,
+    listVisible: !false,
   }, {
     label: "内容",
     fieldName: "content",
     type: "markdown",
     required: true,
-    formShow: !false,
-    tableShow: !false,
+    formVisible: !false,
+    listVisible: !false,
   },]
 })
 const readMessage = (item: any) => {

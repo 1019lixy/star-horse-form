@@ -249,15 +249,15 @@ defineExpose({
                 :show-overflow-tooltip="true"
             >
               <template #default="scope">
-                <el-tag round :effect="scope.row.tableShow ? 'dark' : 'light'">
+                <el-tag round :effect="scope.row.listVisible ? 'dark' : 'light'">
                   {{ scope.row.label }}
                 </el-tag>
               </template>
             </el-table-column>
-            <el-table-column prop="tableShow" label="显示/隐藏" width="100">
+            <el-table-column prop="listVisible" label="显示/隐藏" width="100">
               <template #default="scope">
                 <el-switch
-                    v-model="scope.row.tableShow"
+                    v-model="scope.row.listVisible"
                     :size="compSize"
                     :active-value="true"
                     :inactive-value="false"

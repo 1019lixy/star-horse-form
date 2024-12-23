@@ -27,16 +27,16 @@ const fieldList = reactive<PageFieldInfo | any>({
         fieldName: "nodeName",
         type: "input",
         required: true,
-        formShow: true,
-        tableShow: true,
+        formVisible: true,
+        listVisible: true,
       }, {
         label: "执行方式",
         fieldName: "nodeExecType",
         type: "select",
         optionList: execTypeList,
         required: true,
-        formShow: true,
-        tableShow: true,
+        formVisible: true,
+        listVisible: true,
       }], [{
         label: "节点成功条件",
         fieldName: "nodeSuccessCondition",
@@ -48,15 +48,15 @@ const fieldList = reactive<PageFieldInfo | any>({
           assignSelect.value = val["nodeSuccessCondition"] == "assign";
         },
         required: true,
-        formShow: true,
-        tableShow: true,
+        formVisible: true,
+        listVisible: true,
         brotherNodes: [{
           label: "  ",
           fieldName: "assignNode",
           type: "select",
           optionList: subNodeList,
           required: true,
-          formShow: assignSelect,
+          formVisible: assignSelect,
           preps: {
             colspan: 6
           }
@@ -123,7 +123,7 @@ const dataSubmit = () => {
     fieldList: [{
       label: "",
       type: "comp",
-      formShow: true,
+      formVisible: true,
       fieldName: "SubNodeInfo"
     }]
   });
@@ -139,7 +139,7 @@ const init = async () => {
         fieldList: [{
           label: "",
           type: "comp",
-          formShow: true,
+          formVisible: true,
           fieldName: "SubNodeInfo"
         }]
       });

@@ -303,7 +303,7 @@ onMounted(async () => {
           <UTableColumn :item="temp" v-for="temp in item" :size="size" :rules="rules" :batchName="batchName"
                         :primaryKey="primaryKey" :staticColumn="staticColumn"/>
         </template>
-        <template v-else-if="item.formShow">
+        <template v-else-if="item.formVisible">
           <UTableColumn :item="item" :size="size" :rules="rules" :batchName="batchName"
                         :primaryKey="primaryKey" :staticColumn="staticColumn"/>
         </template>

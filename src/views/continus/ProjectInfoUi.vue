@@ -10,9 +10,9 @@ const dataUrl: ApiUrls = apiInstance("devops-continus", "continus/projectInfo");
 let libTypeList = ref<Array<SelectOption>>([]);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "项目名称", fieldName: "projectName", type: "input", matchType: "lk", defaultShow: true},
-    {label: "项目类型", fieldName: "projectType", type: "input", matchType: "lk", defaultShow: true},
-    {label: "程序语言", fieldName: "language", type: "input", matchType: "lk", defaultShow: true},
+    {label: "项目名称", fieldName: "projectName", type: "input", matchType: "lk", defaultVisible: true},
+    {label: "项目类型", fieldName: "projectType", type: "input", matchType: "lk", defaultVisible: true},
+    {label: "程序语言", fieldName: "language", type: "input", matchType: "lk", defaultVisible: true},
   ]
 });
 const tableFieldList = reactive({
@@ -21,52 +21,52 @@ const tableFieldList = reactive({
       label: "主键", fieldName: "idProjectInfo", type: "long",
     }, {
       label: "代码库类型", fieldName: "type", type: "select", optionList: libTypeList,
-      required: true, formShow: true,
-      tableShow: true
+      required: true, formVisible: true,
+      listVisible: true
     },
     [{
       label: "代码库地址", fieldName: "host", type: "input",
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     },
       {
         label: "代码库端口", fieldName: "port", type: "number",
-        formShow: true,
-        tableShow: true
+        formVisible: true,
+        listVisible: true
       }],
     [{
       label: "项目名称", fieldName: "projectName", type: "input",
-      required: true, formShow: true,
-      tableShow: true
+      required: true, formVisible: true,
+      listVisible: true
     },
       {
         label: "项目编码", fieldName: "projectCharset", type: "input",
-        required: true, formShow: true,
-        tableShow: true
+        required: true, formVisible: true,
+        listVisible: true
       }],
     [{
       label: "项目类型", fieldName: "projectType", type: "input",
-      required: true, formShow: true,
-      tableShow: true
+      required: true, formVisible: true,
+      listVisible: true
     },
       {
         label: "程序语言", fieldName: "language", type: "input",
-        required: true, formShow: true,
-        tableShow: true
+        required: true, formVisible: true,
+        listVisible: true
       }],
     [{
       label: "流水线账号", fieldName: "account", type: "input",
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     },
       {
         label: "流水线密码", fieldName: "security", type: "input",
-        formShow: true,
-        tableShow: true
+        formVisible: true,
+        listVisible: true
       }],
     {
       label: "备注", fieldName: "remark", type: "textarea",
-      formShow: true,
+      formVisible: true,
     },
     {
       batchFieldList: [{
@@ -74,33 +74,33 @@ const tableFieldList = reactive({
         title: "项目成员",
         fieldList: [{
           label: "用户名", fieldName: "username", type: "input",
-          formShow: true,
-          tableShow: true
+          formVisible: true,
+          listVisible: true
         },
           {
             label: "姓名", fieldName: "name", type: "input",
-            formShow: true,
-            tableShow: true
+            formVisible: true,
+            listVisible: true
           },
           {
             label: "角色名称", fieldName: "roleName", type: "input",
-            formShow: true,
-            tableShow: true
+            formVisible: true,
+            listVisible: true
           },
           {
             label: "生效时间", fieldName: "effectiveDate", type: "input",
-            formShow: true,
-            tableShow: true
+            formVisible: true,
+            listVisible: true
           },
           {
             label: "失效日期", fieldName: "expirationDate", type: "input",
-            formShow: true,
-            tableShow: true
+            formVisible: true,
+            listVisible: true
           },
           {
             label: "是否管理员 1是 2否", fieldName: "isManager", type: "input",
-            formShow: true,
-            tableShow: true
+            formVisible: true,
+            listVisible: true
           },]
       }]
     },

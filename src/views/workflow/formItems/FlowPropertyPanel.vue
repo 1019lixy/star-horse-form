@@ -25,14 +25,14 @@ const basicFieldList = ref<FieldInfo[]>([
     required: true,
     type: "input",
     disabled: "Y",
-    formShow: true,
+    formVisible: true,
   },
   {
     label: "任务名称",
     fieldName: "taskName",
     required: true,
     type: "input",
-    formShow: true,
+    formVisible: true,
   },
   {
     label: "关联表单",
@@ -40,55 +40,55 @@ const basicFieldList = ref<FieldInfo[]>([
     required: true,
     type: "select",
     optionList: relationFormList,
-    formShow: true,
+    formVisible: true,
   },
   {
     label: "允许编辑",
     fieldName: "allowEdit",
     type: "switch",
     defaultValue: "N",
-    formShow: true,
+    formVisible: true,
   },
   {
     label: "任务变量",
     fieldName: "taskParams",
     type: "select",
     optionList: taskParamsList,
-    formShow: true,
+    formVisible: true,
   },
   {
     label: "是否会签",
     fieldName: "signFlag",
     type: "switch",
     defaultValue: "N",
-    formShow: true,
+    formVisible: true,
   },
   {
     label: "任务通知",
     fieldName: "taskNotice",
     type: "select",
     optionList: taskNoticeList,
-    formShow: true,
+    formVisible: true,
   },
   {
     label: "超时设置",
     fieldName: "timeOutSetting",
     type: "input",
-    formShow: true,
+    formVisible: true,
   },
   {
     label: "经办人为空策略",
     fieldName: "auditorEmptyPolicy",
     type: "radio",
     optionList: auditorEmptyPolicyList,
-    formShow: true,
+    formVisible: true,
   },
   {
     label: "退回策略",
     fieldName: "returnPolicy",
     type: "radio",
     optionList: returnPolicyList,
-    formShow: true,
+    formVisible: true,
   },
 ]);
 const btnTypeList = ref<SelectOption[]>([
@@ -134,21 +134,21 @@ const buttonFieldList = ref<FieldInfo[]>([
         label: "按钮名称",
         fieldName: "btnName",
         type: "input",
-        formShow: true,
+        formVisible: true,
       },
         {
           label: "按钮类型",
           fieldName: "btnType",
           type: "select",
           optionList: btnTypeList,
-          formShow: true,
+          formVisible: true,
         },
         {
           label: "按钮行为",
           fieldName: "btnAction",
           type: "select",
           optionList: btnActionList,
-          formShow: true,
+          formVisible: true,
         },
       ]
     }]
@@ -157,7 +157,7 @@ const buttonFieldList = ref<FieldInfo[]>([
     fieldName: "autoAgree",
     type: "select",
     optionList: autoAgreeList,
-    formShow: true,
+    formVisible: true,
   }
 
 ]);
@@ -176,7 +176,7 @@ const auditorFieldList = ref<FieldInfo[]>([
     fieldName: "assigneeType",
     type: "radio",
     optionList: assigneeTypeList,
-    formShow: true,
+    formVisible: true,
   },
   {
     label: "添加经办人",
@@ -189,7 +189,7 @@ const auditorFieldList = ref<FieldInfo[]>([
       needField: [],
       fieldList: []
     },
-    formShow: true,
+    formVisible: true,
   },
   {
     label: "添加抄送人",
@@ -202,7 +202,7 @@ const auditorFieldList = ref<FieldInfo[]>([
       needField: [],
       fieldList: []
     },
-    formShow: true,
+    formVisible: true,
   }
 ]);
 const eventTypeList = ref<SelectOption[]>([
@@ -230,8 +230,8 @@ const eventTypeList1 = ref<SelectOption[]>([
   {name: "删除", value: "delete"},
 ]);
 let labelName = ref<string>("");
-let formShow = ref<boolean>(false);
-let scriptTypeformShow = ref<boolean>(false);
+let formVisible = ref<boolean>(false);
+let scriptTypeformVisible = ref<boolean>(false);
 const otherFieldList = ref<FieldInfo[]>([
   {
     fieldName: "execListener",
@@ -247,7 +247,7 @@ const otherFieldList = ref<FieldInfo[]>([
           type: "select",
           required: true,
           optionList: eventTypeList,
-          formShow: true,
+          formVisible: true,
         },
         {
           label: "监听器类型",
@@ -262,20 +262,20 @@ const otherFieldList = ref<FieldInfo[]>([
               return;
             }
             labelName.value = listenerTypeList.value.find(item => item.value == value)?.name;
-            formShow.value = true;
-            scriptTypeformShow.value = false;
+            formVisible.value = true;
+            scriptTypeformVisible.value = false;
             if (value == "script") {
-              scriptTypeformShow.value = true;
+              scriptTypeformVisible.value = true;
             }
           },
-          formShow: true,
+          formVisible: true,
         },
         {
           label: labelName,
           fieldName: "dataValue",
           type: "input",
           required: true,
-          formShow: formShow,
+          formVisible: formVisible,
           preps: {
             placeholder: "请输入"
           }
@@ -286,7 +286,7 @@ const otherFieldList = ref<FieldInfo[]>([
           type: "select",
           required: true,
           optionList: scriptTypeList,
-          formShow: scriptTypeformShow,
+          formVisible: scriptTypeformVisible,
         },
         {
           batchFieldList: [{
@@ -297,20 +297,20 @@ const otherFieldList = ref<FieldInfo[]>([
                 label: "字段名称",
                 fieldName: "name",
                 type: "input",
-                formShow: true,
+                formVisible: true,
               },
               {
                 label: "字段类型",
                 fieldName: "columnType",
                 type: "select",
                 optionList: columnTypeList,
-                formShow: true,
+                formVisible: true,
               },
               {
                 label: "值/表达式",
                 fieldName: "columnValue",
                 type: "input",
-                formShow: true,
+                formVisible: true,
               }
             ]
           }]
@@ -326,13 +326,13 @@ const otherFieldList = ref<FieldInfo[]>([
           fieldName: "eventType",
           type: "select",
           optionList: eventTypeList1,
-          formShow: true,
+          formVisible: true,
         },
         {
           label: "监听器Id",
           fieldName: "listenerId",
           type: "input",
-          formShow: true,
+          formVisible: true,
         },
         {
           label: "监听器类型",
@@ -347,20 +347,20 @@ const otherFieldList = ref<FieldInfo[]>([
               return;
             }
             labelName.value = listenerTypeList.value.find(item => item.value == value)?.name;
-            formShow.value = true;
-            scriptTypeformShow.value = false;
+            formVisible.value = true;
+            scriptTypeformVisible.value = false;
             if (value == "script") {
-              scriptTypeformShow.value = true;
+              scriptTypeformVisible.value = true;
             }
           },
-          formShow: true,
+          formVisible: true,
         },
         {
           label: labelName,
           fieldName: "dataValue",
           type: "input",
           required: true,
-          formShow: formShow,
+          formVisible: formVisible,
           preps: {
             placeholder: "请输入"
           }
@@ -371,7 +371,7 @@ const otherFieldList = ref<FieldInfo[]>([
           type: "select",
           required: true,
           optionList: scriptTypeList,
-          formShow: scriptTypeformShow,
+          formVisible: scriptTypeformVisible,
         },
         {
           batchFieldList: [{
@@ -382,20 +382,20 @@ const otherFieldList = ref<FieldInfo[]>([
                 label: "字段名称",
                 fieldName: "name",
                 type: "input",
-                formShow: true,
+                formVisible: true,
               },
               {
                 label: "字段类型",
                 fieldName: "columnType",
                 type: "select",
                 optionList: columnTypeList,
-                formShow: true,
+                formVisible: true,
               },
               {
                 label: "值/表达式",
                 fieldName: "columnValue",
                 type: "input",
-                formShow: true,
+                formVisible: true,
               }
             ]
           }]
@@ -410,13 +410,13 @@ const otherFieldList = ref<FieldInfo[]>([
           label: "属性名",
           fieldName: "propName",
           type: "input",
-          formShow: true,
+          formVisible: true,
         },
         {
           label: "属性值",
           fieldName: "propValue",
           type: "input",
-          formShow: true,
+          formVisible: true,
         }
       ]
     }]

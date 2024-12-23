@@ -18,7 +18,7 @@ defineProps({
       :label="item.label"
       sortable
       :min-width="item.minWidth||Config.defaultColumnWidth + 'px'"
-      v-if="item.formShow">
+      v-if="item.formVisible">
     <template #default="scope">
       <template v-if="item.batchFieldList?.length>0" v-for="sitem in  item.batchFieldList">
         <star-horse-form-list

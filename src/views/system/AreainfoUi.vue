@@ -10,8 +10,8 @@ import {commonField} from "@/api/system.ts";
 const dataUrl: ApiUrls = apiInstance("system-config", "system/areainfo");
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "区域名称", defaultShow: true, matchType: 'lk', fieldName: "areaName", type: "input"},
-    {label: "区域编码", defaultShow: true, matchType: 'lk', fieldName: "areaCode", type: "input"},
+    {label: "区域名称", defaultVisible: true, matchType: 'lk', fieldName: "areaName", type: "input"},
+    {label: "区域编码", defaultVisible: true, matchType: 'lk', fieldName: "areaCode", type: "input"},
   ]
 });
 const tableFieldList = reactive<PageFieldInfo>({
@@ -21,18 +21,18 @@ const tableFieldList = reactive<PageFieldInfo>({
     },
     {
       label: "父节点编号", fieldName: "parentNo", type: "select",
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     },
     {
       label: "区域名称", fieldName: "areaName", type: "input",
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     },
     {
       label: "区域编码", fieldName: "areaCode", type: "input",
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     },
     ...commonField()
   ],

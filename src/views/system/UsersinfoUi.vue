@@ -31,9 +31,9 @@ const dataUrl: ApiUrls = apiInstance("system-config", "system/usersinfoEntity");
 const usersinfoTableListRef = ref();
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "姓名", fieldName: "name", defaultShow: true, type: "input", matchType: "lk"},
-    {label: "用户名", fieldName: "username", defaultShow: true, type: "input", matchType: "lk"},
-    {label: "员工编号", fieldName: "employeeNo", defaultShow: true, type: "input", matchType: "lk"},
+    {label: "姓名", fieldName: "name", defaultVisible: true, type: "input", matchType: "lk"},
+    {label: "用户名", fieldName: "username", defaultVisible: true, type: "input", matchType: "lk"},
+    {label: "员工编号", fieldName: "employeeNo", defaultVisible: true, type: "input", matchType: "lk"},
     {
       label: "所属用户组",
       fieldName: "idRolesinfo",
@@ -163,16 +163,16 @@ onMounted(async () => {
 const pwdFieldInfo = reactive<PageFieldInfo | any>({
   fieldList: [[{
     label: "工号", fieldName: "employeeNo", type: "text",
-    formShow: true
+    formVisible: true
   }, {
     label: "用户名", fieldName: "username", type: "text",
-    formShow: true
+    formVisible: true
   }], [{
     label: "密码", fieldName: "password", type: "password",
-    formShow: true
+    formVisible: true
   }, {
     label: "确认密码", fieldName: "rePassword", type: "password",
-    formShow: true
+    formVisible: true
   }]]
 });
 </script>

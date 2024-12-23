@@ -43,7 +43,7 @@ onMounted(() => {
       :rules="item.required?validMsg(item,dataForm):[]"
       :prop="item.fieldName"
       :label-position="parentPreps?.labelPosition"
-      v-else-if="item.formShow">
+      v-else-if="item.formVisible">
     <star-horse-item :primaryKey="primaryKey" :compSize="compSize" v-model:dataForm="dataForm" :item="item"
                      :isEdit="isEdit"/>
   </el-form-item>

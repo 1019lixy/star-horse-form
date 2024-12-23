@@ -139,7 +139,7 @@ const compPreps = () => {
         if (item.prefix) {
           temp["fieldName"] = item.prefix + "." + temp["fieldName"];
         }
-        temp["defaultShow"] = true;
+        temp["defaultVisible"] = true;
         if (item?.type == "input" && !item["matchType"]) {
           temp["matchType"] = "lk";
         }
@@ -241,7 +241,7 @@ onMounted(() => {
                :field="field" :formData="dataForm"/>
     <div v-if="item.brotherNodes" style="width: 15px"/>
     <template v-for="temp in item.brotherNodes">
-      <star-horse-item v-show="temp.formShow" :primaryKey="primaryKey"
+      <star-horse-item v-show="temp.formVisible" :primaryKey="primaryKey"
                        :compSize="compSize"
                        v-model:dataForm="dataForm"
                        :item="temp" :isDesign="isDesign"
@@ -260,7 +260,7 @@ onMounted(() => {
                :field="field" :formData="dataForm"/>
     <div v-if="item.brotherNodes" class="brother-node">
       <template v-for="temp in item.brotherNodes">
-        <star-horse-item v-if="dataForm['_'+field.preps.name+'Visible']||temp.formShow" :primaryKey="primaryKey"
+        <star-horse-item v-if="dataForm['_'+field.preps.name+'Visible']||temp.formVisible" :primaryKey="primaryKey"
                          :compSize="compSize"
                          v-model:dataForm="dataForm"
                          :item="temp" :isDesign="isDesign"

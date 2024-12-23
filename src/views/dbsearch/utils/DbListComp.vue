@@ -64,8 +64,8 @@ let dataFieldInfo = ref<PageFieldInfo>({
       fieldName: "containerType",
       type: "select",
       optionList: containerTypeList,
-      formShow: true,
-      tableShow: true,
+      formVisible: true,
+      listVisible: true,
       actionNames: "change",
       actions: (val: any) => containerTypeOperation(val)
     }, {
@@ -73,8 +73,8 @@ let dataFieldInfo = ref<PageFieldInfo>({
       fieldName: "columns",
       type: "number",
       helpMsg: "一行展示几列,展示方式为栅格时有效",
-      formShow: true,
-      tableShow: true,
+      formVisible: true,
+      listVisible: true,
       disabled: columnsContr,
       defaultValue: configData.value.columns,
       preps: {
@@ -90,8 +90,8 @@ let dataFieldInfo = ref<PageFieldInfo>({
       type: "select",
       multiple: "Y",
       optionList: selectFields,
-      formShow: true,
-      tableShow: true,
+      formVisible: true,
+      listVisible: true,
     },
     {
       batchFieldList: [
@@ -104,15 +104,15 @@ let dataFieldInfo = ref<PageFieldInfo>({
             fieldName: "fieldName",
             type: "select",
             optionList: selectFields,
-            formShow: true,
-            tableShow: true,
+            formVisible: true,
+            listVisible: true,
           }, {
             label: "组件类型",
             fieldName: "fieldType",
             type: "select",
             optionList: allFormDataList,
-            formShow: true,
-            tableShow: true,
+            formVisible: true,
+            listVisible: true,
           }]
         }
       ]
@@ -279,7 +279,7 @@ const onDataCopy = async (data: any) => {
       required: reData["nullFlag"] == "n" ? "Y" : "N",
       controlsPosition: "",
       disabled: "N",
-      formShow: "Y",
+      formVisible: "Y",
       placeholder: "",
     };
     mvData['itemType'] = getFieldType(reData, data.fieldCompTypes);
@@ -315,14 +315,14 @@ const onDataCopy = async (data: any) => {
       itemType: "box",
       preps: {
         id: boxId,
-        "formShow": "N",
+        "formVisible": "N",
         "gutter": 0,
         "justify": "start",
         "readonly": "N",
         "required": "N",
-        "searchShow": "N",
+        "searchVisible": "N",
         "size": "small",
-        "tableShow": "N",
+        "listVisible": "N",
         "tag": "div",
         label: "栅格",
         name: "box",
@@ -363,12 +363,12 @@ const onDataCopy = async (data: any) => {
         "primaryKeyName": formInfo.formId,
         "columns": mvDataList.length,
         "comment": "",
-        "formShow": "N",
+        "formVisible": "N",
         "readonly": "N",
         "required": "N",
-        "searchShow": "N",
+        "searchVisible": "N",
         "size": "small",
-        "tableShow": "N",
+        "listVisible": "N",
         label: "动态列表",
         templateDownFlag: "N",
         importFlag: "N",

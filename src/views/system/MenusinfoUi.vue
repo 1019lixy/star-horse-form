@@ -24,7 +24,7 @@ const searchFormData = reactive<SearchFields>({
   fieldList: [
     /*{label: "归属系统", fieldName: "idInformations", type: "select", optionList: informationsList},
     {label: "父菜单", fieldName: "parentNo", type: "tselect", optionList: searchParentMenus},*/
-    {label: "菜单名称", defaultShow: true, fieldName: "menuName", type: "input", matchType: "lk"},
+    {label: "菜单名称", defaultVisible: true, fieldName: "menuName", type: "input", matchType: "lk"},
     {label: "菜单编码", fieldName: "menuCode", type: "input", matchType: "lk"},
   ]
 });
@@ -36,17 +36,17 @@ const tableFieldList = reactive<PageFieldInfo>({
   },
     [{
       label: "菜单名称", fieldName: "menuName", type: "input",
-      required: true, formShow: true,
-      tableShow: true
+      required: true, formVisible: true,
+      listVisible: true
     },
       {
         label: "菜单路径", fieldName: "menuPath", type: "input",
-        required: true, formShow: true,
-        tableShow: true
+        required: true, formVisible: true,
+        listVisible: true
       }],
     [{
       label: "归属应用名称", fieldName: "idInformations", type: "tselect", optionList: informationsList,
-      required: true, formShow: true, defaultValue: currentInformation,
+      required: true, formVisible: true, defaultValue: currentInformation,
       actionName: "change",
       actions: (val: any) => {
         let systemId = val["idInformations"];
@@ -55,14 +55,14 @@ const tableFieldList = reactive<PageFieldInfo>({
         }
         loadMenuBySystemId(systemId);
       },
-      tableShow: true,
+      listVisible: true,
       preps: {
         checkStrictly: "Y"
       }
     },
       {
         label: "父菜单", fieldName: "parentNo", type: "tselect", optionList: parentMenus,
-        formShow: true,
+        formVisible: true,
         preps: {
           checkStrictly: "Y"
         }
@@ -70,33 +70,33 @@ const tableFieldList = reactive<PageFieldInfo>({
     {
       label: "菜单编码", fieldName: "menuCode", type: "input",
       required: true, disabled: "Y",
-      tableShow: true
+      listVisible: true
     },
     [{
       label: "排序", fieldName: "dataIndex", type: "number",
-      required: true, formShow: true,
-      tableShow: true
+      required: true, formVisible: true,
+      listVisible: true
     },{
       label: "菜单图标", fieldName: "menuIcon", type: "icon", optionList: menuIconList,
-      required: false, formShow: true,
-      tableShow: true
+      required: false, formVisible: true,
+      listVisible: true
     },
 
     ],
     [{
       label: "是否缓存页面", fieldName: "keepAlive", type: "switch",
       defaultValue: "Y",
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     }, {
       label: "页面打开方式", fieldName: "openType", type: "select", optionList: openTypeList,
-      required: true, formShow: true, defaultValue: "self",
-      tableShow: true
+      required: true, formVisible: true, defaultValue: "self",
+      listVisible: true
     }],
     {
       label: "菜单描述", fieldName: "menuDesc", type: "textarea",
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     },
     {
       label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",

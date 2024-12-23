@@ -34,7 +34,7 @@ onMounted(() => {
             :style="{width: sitem.preps?.colWidth + '% !important' || '',
                      height: sitem.preps?.colHeight + '% !important' || '',
                      'word-break': !!sitem.preps?.wordBreak ? 'break-all' : 'normal'}">
-          <div class="item" v-if="sitem.formShow||sitem.tableShow||sitem.viewShow">
+          <div class="item" v-if="sitem.formVisible||sitem.listVisible||sitem.viewVisible">
             <label>{{ sitem.label }} :</label>
             <div class="content">
               <el-tooltip :content="dataFormat(sitem)">

@@ -20,7 +20,7 @@ const props = defineProps({
 let configStore = GlobalConfig(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
 
-const dataUrl = ref<ApiUrls>(apiInstance("userdb-manage", "consumer/api"));
+const dataUrl = apiInstance("userdb-manage", "consumer/api");
 dataUrl.exportAllUrl = `/userdb-manage/consumer/api/exportData/${props.param}`;
 const errorMsg = ref("数据加载中");
 let searchFormData = ref<SearchProps[]>([]);

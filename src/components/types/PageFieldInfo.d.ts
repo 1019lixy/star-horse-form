@@ -116,15 +116,15 @@ export declare interface FieldInfo {
     /**
      * 表单是否显示该属性
      */
-    formShow?: boolean;
+    formVisible?: boolean;
     /**
      * 列表是否显示该属性
      */
-    tableShow?: boolean;
+    listVisible?: boolean;
     /**
      * 查看页面是否显示该属性
      */
-    viewShow?: boolean;
+    viewVisible?: boolean;
     /**
      * 列表所在列最小宽度
      */

@@ -17,23 +17,23 @@ const tableFieldList = reactive({
   fieldList: [
     {
       label: "主键", fieldName: "idDynamicFormDetails", type: "long",
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     },
     {
       label: "主键", fieldName: "idDynamicForm", type: "long",
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     },
     {
       label: "表单内容", fieldName: "content", type: "input",
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     },
     {
       label: "表单属性", fieldName: "fieldNames", type: "input",
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     },
     {
       label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",

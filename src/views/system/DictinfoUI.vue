@@ -19,36 +19,36 @@ let dictType = computed(() => props.dictType);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {label: "字典类型", fieldName: "dictType", type: "input", defaultValue: dictType, disabled: "Y"},
-    {label: "字典名称", defaultShow: true, fieldName: "dictName", type: "input", matchType: "lk"}
+    {label: "字典名称", defaultVisible: true, fieldName: "dictName", type: "input", matchType: "lk"}
   ]
 });
 const editFormField = reactive<PageFieldInfo>({
   fieldList: [{
     label: "字典名称", fieldName: "dictName", type: "input",
-    required: true, formShow: true,
-    tableShow: true
+    required: true, formVisible: true,
+    listVisible: true
   },
     {
       label: "字典编码", fieldName: "dictCode", type: "input",
-      required: true, formShow: true,
-      tableShow: true
+      required: true, formVisible: true,
+      listVisible: true
     },
     {
       label: "状态", fieldName: "statusName", type: "input",
       required: true,
-      tableShow: true
+      listVisible: true
     },
     {
       label: "状态", fieldName: "statusCode", type: "select", optionList: commonDictList,
       required: true,
-      formShow: true,
+      formVisible: true,
       defaultValue: "1",
-      tableShow: false
+      listVisible: false
     },
     {
       label: "字典描述", fieldName: "dictDesc", type: "textarea",
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     },
   ]
 });
@@ -59,8 +59,8 @@ const tableFieldList = reactive<PageFieldInfo>({
     },
     {
       label: "字典类型", fieldName: "dictType", type: "input",
-      required: true, formShow: true, defaultValue: dictType,
-      tableShow: true, disabled: "Y"
+      required: true, formVisible: true, defaultValue: dictType,
+      listVisible: true, disabled: "Y"
     },
     {
       batchFieldList: [{

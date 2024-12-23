@@ -11,7 +11,10 @@
         <el-avatar v-if="iconType=='system'" fit="fill" shape="square" style="font-size: 24px"
                    :icon="context.attrs['formData'][field.preps['name']]"/>
         <star-horse-icon :icon-class="context.attrs['formData'][field.preps['name']]" v-else size="40px"
-                         style="font-size: 50px;color:var(--star-horse-style)" cursor="pointer"/>
+                         style="font-size: 50px;
+                         color:var(--star-horse-style);
+                         border-radius: 3px;
+                         border: 1px solid var(--star-horse-light-gray)" cursor="pointer"/>
       </template>
       <div class="search-box">
         <el-input :size="context.attrs.formInfo?.size||field?.preps['size']||'default'" v-model="searchName"

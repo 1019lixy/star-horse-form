@@ -8,9 +8,9 @@ import {Config} from "@/api/settings.ts";
 const dataUrl: ApiUrls = apiInstance("devops-continus", "continus/continusInstance");
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "项目名称", fieldName: "projectName", type: "input", matchType: "lk", defaultShow: true},
-    {label: "项目类型", fieldName: "projectType", type: "input", matchType: "lk", defaultShow: true},
-    {label: "程序语言", fieldName: "language", type: "input", matchType: "lk", defaultShow: true},
+    {label: "项目名称", fieldName: "projectName", type: "input", matchType: "lk", defaultVisible: true},
+    {label: "项目类型", fieldName: "projectType", type: "input", matchType: "lk", defaultVisible: true},
+    {label: "程序语言", fieldName: "language", type: "input", matchType: "lk", defaultVisible: true},
   ]
 });
 const tableFieldList = reactive({
@@ -19,42 +19,42 @@ const tableFieldList = reactive({
       label: "主键", fieldName: "idContinusInst", type: "long",
     }, {
       label: "实例名称", fieldName: "instanceName", type: "input",
-      required: true, formShow: true,
-      tableShow: true
+      required: true, formVisible: true,
+      listVisible: true
     },
     [{
       label: "模板", fieldName: "template", type: "input",
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     },
       {
         label: "是否独占 1是 2否 默认2", fieldName: "isAlone", type: "number",
-        formShow: true,
-        tableShow: true
+        formVisible: true,
+        listVisible: true
       }],
     [{
       label: "关联计划", fieldName: "linkDataPlan", type: "input",
-      required: true, formShow: true,
-      tableShow: true
+      required: true, formVisible: true,
+      listVisible: true
     },
       {
         label: "Cron定时触发执行", fieldName: "cron", type: "cron",
-        required: true, formShow: true,
-        tableShow: true
+        required: true, formVisible: true,
+        listVisible: true
       }],
     [{
       label: "代码下载后存放目录", fieldName: "targetDir", type: "input",
-      required: true, formShow: true,
-      tableShow: true
+      required: true, formVisible: true,
+      listVisible: true
     },
       {
         label: "是否自动触发构建 1是 2否 默认2", fieldName: "autoBuild", type: "input",
-        required: true, formShow: true,
-        tableShow: true
+        required: true, formVisible: true,
+        listVisible: true
       }],
     {
       label: "备注", fieldName: "remark", type: "textarea",
-      formShow: true,
+      formVisible: true,
     },
     {
       label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",

@@ -12,8 +12,8 @@ const requestMethod = [{name: "POST", value: "POST"}, {name: "GET", value: "GET"
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {label: "请求方法", fieldName: "requestMethod", type: "select", optionList: requestMethod},
-    {label: "操作人", defaultShow: true, fieldName: "operator", type: "input", matchType: "lk"},
-    {label: "操作接口", defaultShow: true, fieldName: "signature", type: "input", matchType: "lk"},
+    {label: "操作人", defaultVisible: true, fieldName: "operator", type: "input", matchType: "lk"},
+    {label: "操作接口", defaultVisible: true, fieldName: "signature", type: "input", matchType: "lk"},
     {label: "接口地址", fieldName: "url", type: "input", matchType: "lk"},
   ]
 });
@@ -24,18 +24,18 @@ const tableFieldList = reactive<PageFieldInfo>({
     },
     {
       label: "操作人", fieldName: "operator", type: "input",
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     },
     {
       label: "操作接口", fieldName: "signature", type: "input",
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     },
     {
       label: "操作内容", fieldName: "operContent", type: "input",
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     },
     {
       label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
@@ -69,18 +69,18 @@ const tableFieldList = reactive<PageFieldInfo>({
     },
     {
       label: "接口地址", fieldName: "url", type: "input",
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     },
     {
       label: "备注", fieldName: "remark", type: "input",
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     },
     {
       label: "请求方法", fieldName: "requestMethod", type: "input",
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     },
   ],
   cellEditable: false

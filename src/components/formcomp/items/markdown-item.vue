@@ -6,7 +6,7 @@
                  :height="field.preps['height']||''"
                  :tab-size="field.preps['tabSize']||2"
                  :toc-nav-position-right="field.preps['tocNavPositionRight']=='Y'"
-                 :default-show-toc="field.preps['defaultShowToc']=='Y'"
+                 :default-show-toc="field.preps['defaultVisibleToc']=='Y'"
                  :placeholder="field.preps['placeholder']||'请输入'+field.preps['label']"
                  :autofocus="field.preps['autofocus']=='Y'"
                  :default-fullscreen="field.preps['defaultFullscreen']=='Y'"

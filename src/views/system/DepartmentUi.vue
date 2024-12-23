@@ -15,7 +15,7 @@ let departmentList = ref<SelectOption[]>([]);
 let companyList = ref<Array<any>>([]);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "部门名称", defaultShow: true, fieldName: "deptName", type: "input", matchType: "lk"},
+    {label: "部门名称", defaultVisible: true, fieldName: "deptName", type: "input", matchType: "lk"},
     {label: "部门编码", fieldName: "deptCode", type: "input", matchType: "lk"},
   ]
 });
@@ -26,7 +26,7 @@ const tableFieldList = reactive<PageFieldInfo>({
     },
     {
       label: "上级部门", fieldName: "parentDept", type: "tselect", optionList: departmentList,
-      formShow: true,
+      formVisible: true,
       preps: {
         checkStrictly: "Y",
         filterable: "Y",
@@ -38,18 +38,18 @@ const tableFieldList = reactive<PageFieldInfo>({
     },
     [{
       label: "部门名称", fieldName: "deptName", type: "input",
-      required: true, formShow: true,
-      tableShow: true
+      required: true, formVisible: true,
+      listVisible: true
     },
       {
         label: "部门编码", fieldName: "deptCode", type: "input",
-        required: true, editDisabled: "Y", formShow: true,
-        tableShow: true,
+        required: true, editDisabled: "Y", formVisible: true,
+        listVisible: true,
       }],
     [{
       label: "部门领导", fieldName: "deptMasterName", aliasName: "deptMaster", type: "user",
-      required: true, formShow: true,
-      tableShow: true,
+      required: true, formVisible: true,
+      listVisible: true,
       preps: {
         needField: [
           {sourceField: "name", distField: "deptMasterName"},
@@ -59,8 +59,8 @@ const tableFieldList = reactive<PageFieldInfo>({
     },
       {
         label: "分管领导", fieldName: "manageMasterName", aliasName: "manageMaster", type: "user",
-        required: true, formShow: true,
-        tableShow: true,
+        required: true, formVisible: true,
+        listVisible: true,
         preps: {
           needField: [
             {sourceField: "name", distField: "manageMasterName"},
@@ -69,11 +69,11 @@ const tableFieldList = reactive<PageFieldInfo>({
         }
       }],
     {
-      label: "所属公司", disabled: "Y", fieldName: "companyName", type: "input", tableShow: true
+      label: "所属公司", disabled: "Y", fieldName: "companyName", type: "input", listVisible: true
     },
     [{
       label: "所属公司", fieldName: "idCompanyDefine", type: "tselect",
-      required: true, formShow: true, optionList: companyList,
+      required: true, formVisible: true, optionList: companyList,
       preps: {
         checkStrictly: "Y",
         props: {
@@ -84,13 +84,13 @@ const tableFieldList = reactive<PageFieldInfo>({
     },
       {
         label: "部门电话", fieldName: "deptPhone", type: "input",
-        formShow: true,
-        tableShow: true
+        formVisible: true,
+        listVisible: true
       }],
     {
       label: "部门职责", fieldName: "deptDesc", type: "textarea",
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     },
     {
       label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
@@ -99,7 +99,7 @@ const tableFieldList = reactive<PageFieldInfo>({
       label: "修改人", disabled: "Y", fieldName: "updatedBy", type: "input",
     },
     {
-      label: "创建日期", disabled: "Y", fieldName: "createdDate", type: "date", tableShow: true
+      label: "创建日期", disabled: "Y", fieldName: "createdDate", type: "date", listVisible: true
     },
     {
       label: "修改日期", disabled: "Y", fieldName: "updatedDate", type: "date",

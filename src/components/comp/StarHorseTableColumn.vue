@@ -93,7 +93,7 @@ const showOperation = async () => {
       :label="item.label"
       :min-width="(item.minWidth||Config.defaultColumnWidth) + 'px'"
       :formatter="dataFormat"
-      v-if="item.tableShow"
+      v-if="item.listVisible"
       :sortable="sortable"
       :show-overflow-tooltip="true"
   >

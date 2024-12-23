@@ -15,7 +15,7 @@ let customerList = ref<SelectOption[]>([]);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {label: "归属主体", fieldName: "idCustomer", type: "select", optionList: customerList},
-    {label: "系统名称", defaultShow: true, fieldName: "sysName", type: "input", matchType: "lk"},
+    {label: "系统名称", defaultVisible: true, fieldName: "sysName", type: "input", matchType: "lk"},
     {label: "添加时间", fieldName: "createdDate", type: "daterange", matchType: "bt"}
   ]
 });
@@ -35,43 +35,43 @@ const tableFieldList = reactive<PageFieldInfo>({
     },
     {
       label: "上级系统", fieldName: "parentId", type: "select", optionList: informationsList,
-      formShow: true,
+      formVisible: true,
       actionName: "change",
       actions: testFun
     },
     [{
       label: "系统名称", fieldName: "sysName", type: "input",
-      required: true, formShow: true,
-      tableShow: true
+      required: true, formVisible: true,
+      listVisible: true
     },
       {
         label: "归属主体", fieldName: "idCustomer", type: "select", optionList: customerList,
-        required: true, formShow: true,
-        tableShow: true
+        required: true, formVisible: true,
+        listVisible: true
       }],
     /* {
        label: "归属主体", fieldName: "customer['customerName']", type: "select",
        required: true,
-       tableShow: true
+       listVisible: true
      },*/
     {
       label: "系统编码", fieldName: "sysCode", type: "input",
       required: true, disabled: "Y",
-      tableShow: true
+      listVisible: true
     },
     [{
       label: "系统Logo", fieldName: "sysLogo", type: "icon", optionList: systemIconList,
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     }, {
       label: "数据排序", fieldName: "dataSort", type: "number",
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     },],
     {
       label: "系统描述", fieldName: "sysDesc", type: "textarea",
-      formShow: true,
-      tableShow: true, actionName: "input", actions: testFun
+      formVisible: true,
+      listVisible: true, actionName: "input", actions: testFun
     },
     {
       label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",

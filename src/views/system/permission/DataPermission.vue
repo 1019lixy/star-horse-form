@@ -41,8 +41,8 @@ let dataForm = ref<any>({});
 let defaultCondition = ref<SearchParams[]>([]);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "权限类型", defaultShow: true, fieldName: "permissionType", type: "select", optionList: permissionType},
-    {label: "被授权用户组/人", defaultShow: true, fieldName: "userGroup", type: "input", matchType: "lk"},
+    {label: "权限类型", defaultVisible: true, fieldName: "permissionType", type: "select", optionList: permissionType},
+    {label: "被授权用户组/人", defaultVisible: true, fieldName: "userGroup", type: "input", matchType: "lk"},
   ]
 });
 let groupVisible = ref<boolean>("false");
@@ -64,12 +64,12 @@ const formFieldList = reactive<PageFieldInfo | any>({
               userVisible.value = val["permissionType"] == 'sharePerson' || val["permissionType"] == 'empowerment';
             },
             required: true,
-            formShow: true,
-            tableShow: true
+            formVisible: true,
+            listVisible: true
           }, {
           label: "授权菜单", fieldName: "menuList", type: "tselect", optionList: menusList,
-          required: true, formShow: true, multiple: "Y",
-          tableShow: true,
+          required: true, formVisible: true, multiple: "Y",
+          listVisible: true,
           preps: {
             props: {
               label: "menuName",
@@ -79,13 +79,13 @@ const formFieldList = reactive<PageFieldInfo | any>({
         }],
         {
           label: "用户组", fieldName: "userGroup", type: "tselect", optionList: rolesList,
-          required: true, formShow: groupVisible, multiple: "Y",
-          tableShow: true
+          required: true, formVisible: groupVisible, multiple: "Y",
+          listVisible: true
         },
         {
           label: "被授权账号", fieldName: "userGroupName", aliasName: "userGroup", type: "page-select",
-          required: true, formShow: userVisible, multiple: "N",
-          tableShow: true,
+          required: true, formVisible: userVisible, multiple: "N",
+          listVisible: true,
           params: {
             primaryKey: "idUsersinfo",
             dataUrl: {
@@ -93,9 +93,9 @@ const formFieldList = reactive<PageFieldInfo | any>({
             },
             searchFieldList: {
               fieldList: [
-                {label: "用户名", defaultShow: true, fieldName: "username", type: "input", matchType: "lk"},
-                {label: "姓名", defaultShow: true, fieldName: "name", type: "input", matchType: "lk"},
-                {label: "工号", defaultShow: true, fieldName: "employeeNo", type: "input", matchType: "lk"},
+                {label: "用户名", defaultVisible: true, fieldName: "username", type: "input", matchType: "lk"},
+                {label: "姓名", defaultVisible: true, fieldName: "name", type: "input", matchType: "lk"},
+                {label: "工号", defaultVisible: true, fieldName: "employeeNo", type: "input", matchType: "lk"},
               ]
             },
             dataFormat: (name: string, val: any, row: any) => {
@@ -110,14 +110,14 @@ const formFieldList = reactive<PageFieldInfo | any>({
         },
         {
           label: "权限", fieldName: "permissionList", type: "select", optionList: authorityList,
-          required: true, formShow: true, multiple: "Y",
+          required: true, formVisible: true, multiple: "Y",
           defaultValue: ["view"],
-          tableShow: true
+          listVisible: true
         },
         {
           label: "有效期", fieldName: "validTime", type: "daterange",
-          required: true, formShow: true,
-          tableShow: true,
+          required: true, formVisible: true,
+          listVisible: true,
         },
       ],
       cellEditable: false
@@ -126,19 +126,19 @@ const formFieldList = reactive<PageFieldInfo | any>({
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     {
-      label: "权限类型", fieldName: "permissionType", type: "input", tableShow: true
+      label: "权限类型", fieldName: "permissionType", type: "input", listVisible: true
     },
     {
-      label: "被授权用户组/账号", fieldName: "userGroup", type: "input", tableShow: true
+      label: "被授权用户组/账号", fieldName: "userGroup", type: "input", listVisible: true
     },
     {
-      label: "有效期", fieldName: "validTime", type: "input", tableShow: true
+      label: "有效期", fieldName: "validTime", type: "input", listVisible: true
     },
     {
-      label: "授权菜单", fieldName: "menuList", type: "input", tableShow: true
+      label: "授权菜单", fieldName: "menuList", type: "input", listVisible: true
     },
     {
-      label: "权限", fieldName: "permissionList", tableShow: true
+      label: "权限", fieldName: "permissionList", listVisible: true
     },
   ],
   cellEditable: false

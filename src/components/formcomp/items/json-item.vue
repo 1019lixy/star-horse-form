@@ -69,13 +69,13 @@ export default defineComponent({
           fieldName: "name",
           type: "input",
           required: true,
-          formShow: true,
+          formVisible: true,
         }, {
           label: "Value/值",
           fieldName: "value",
           type: "input",
           required: true,
-          formShow: true,
+          formVisible: true,
         }]
       }]
     })

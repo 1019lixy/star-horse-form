@@ -373,7 +373,6 @@ defineExpose({
              require-asterisk-position="right"
              label-width="auto"
              class="data-form" ref="starHorseFormRef">
-
       <star-horse-form-item :primaryKey="primaryKey"
                             :compUrl="compUrl"
                             :fieldList="fieldList"

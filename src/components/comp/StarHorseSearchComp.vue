@@ -84,7 +84,7 @@ const init = async () => {
   searchForm.value = {...analysisDefaultValue()};
   await nextTick();
   //没有隐藏的查询属性，则隐藏掉展开图标
-  let fdata = props.formData?.fieldList?.find(item => !item.defaultShow);
+  let fdata = props.formData?.fieldList?.find(item => !item.defaultVisible);
   if (!fdata && props.formData?.fieldList?.length > 0) {
     showTips.value = false;
   }
@@ -104,7 +104,7 @@ defineExpose({
         <el-form-item
             :size="compSize"
             :label="item.label"
-            v-if="item.defaultShow"
+            v-if="item.defaultVisible"
             :prop="item.fieldName">
           <template v-if="item.type=='input'&&(!item.disabled||item.disabled=='N')" :span="6">
             <el-select :size="compSize" style="width: 90px;height:100%;padding-top:2px;" v-model="item['matchType']"

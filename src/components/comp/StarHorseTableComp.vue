@@ -713,7 +713,7 @@ const loadField = (): FieldInfo[] => {
   let {fieldList} = analysisFields(props.fieldList?.fieldList);
   if (fieldList) {
     fieldList.sort((a: FieldInfo, b: FieldInfo) => (a.priority || 100) - (b.priority || 100));
-    return fieldList.filter(item => item.tableShow)?.slice(0, 3);
+    return fieldList.filter(item => item.listVisible)?.slice(0, 3);
   }
   return [];
 }
@@ -805,15 +805,15 @@ defineExpose({
                 :show-overflow-tooltip="true"
             >
               <template #default="scope">
-                <el-tag round :effect="scope.row.tableShow ? 'dark' : 'light'" :size="compSize">
+                <el-tag round :effect="scope.row.listVisible ? 'dark' : 'light'" :size="compSize">
                   {{ scope.row.label }}
                 </el-tag>
               </template>
             </el-table-column>
-            <el-table-column prop="tableShow" label="显示/隐藏" width="100">
+            <el-table-column prop="listVisible" label="显示/隐藏" width="100">
               <template #default="scope">
                 <el-switch
-                    v-model="scope.row.tableShow"
+                    v-model="scope.row.listVisible"
                     :size="compSize"
                     :active-value="true"
                     :inactive-value="false"

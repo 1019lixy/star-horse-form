@@ -25,28 +25,28 @@ const searchFormData = reactive<SearchFields>({
     "fieldName": "cfgCategory",
     "type": "select",
     "matchType": "eq",
-    "defaultShow": true,
+    "defaultVisible": true,
     optionList: cfgCategoryList,
   }, {
     "label": "名称",
     "fieldName": "name",
     "type": "input",
     "matchType": "lk",
-    "defaultShow": true,
+    "defaultVisible": true,
     "preps": {}
   }, {
     "label": "编码",
     "fieldName": "code",
     "type": "input",
     "matchType": "lk",
-    "defaultShow": true,
+    "defaultVisible": true,
     "preps": {}
   }, {
     "label": "是否选中",
     "fieldName": "checkedFlag",
     "type": "select",
     "matchType": "eq",
-    "defaultShow": true,
+    "defaultVisible": true,
     "preps": {"values": [{"name": "是", "value": "Y"}, {"name": "否", "value": "N"}],}
   }]
 });
@@ -56,24 +56,24 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     "fieldName": "cfgCategory",
     "type": "select",
     "required": true,
-    "formShow": true,
-    "tableShow": true,
+    "formVisible": true,
+    "listVisible": true,
     optionList: cfgCategoryList,
   }, {
     "label": "名称",
     "fieldName": "name",
     "type": "input",
     "required": true,
-    "formShow": true,
-    "tableShow": true,
+    "formVisible": true,
+    "listVisible": true,
     "preps": {}
   }, [{
     "label": "编码",
     "fieldName": "code",
     "type": "input",
     "required": false,
-    "formShow": true,
-    "tableShow": true,
+    "formVisible": true,
+    "listVisible": true,
     "preps": {}
   }, {
     "label": "是否选中",
@@ -81,16 +81,16 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     "type": "switch",
     defaultValue: "N",
     "required": false,
-    "formShow": true,
-    "tableShow": true,
+    "formVisible": true,
+    "listVisible": true,
     "preps": {}
   }], [{
     "label": "图片地址",
     "fieldName": "imageUrl",
     "type": "image",
     "required": false,
-    "formShow": true,
-    "tableShow": true,
+    "formVisible": true,
+    "listVisible": true,
     "preps": {
       assignType:"url"
     }
@@ -99,111 +99,111 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     "fieldName": "icon",
     "type": "icon",
     "required": false,
-    "formShow": true,
-    "tableShow": true,
+    "formVisible": true,
+    "listVisible": true,
     "preps": {}
   }], {
     "label": "描述",
     "fieldName": "description",
     "type": "textarea",
     "required": true,
-    "formShow": true,
-    "tableShow": true,
+    "formVisible": true,
+    "listVisible": true,
     "preps": {}
   }, {
     "label": "创建人",
     "fieldName": "createdBy",
     "type": "input",
-    "formShow": false,
-    "tableShow": true,
+    "formVisible": false,
+    "listVisible": true,
     "preps": {},
     "commonFlag": "Y"
   }, {
     "label": "修改人",
     "fieldName": "updatedBy",
     "type": "input",
-    "formShow": false,
-    "tableShow": false,
+    "formVisible": false,
+    "listVisible": false,
     "preps": {},
     "commonFlag": "Y"
   }, {
     "label": "创建时间",
     "fieldName": "createdTime",
     "type": "datetime",
-    "formShow": false,
-    "tableShow": true,
+    "formVisible": false,
+    "listVisible": true,
     "preps": {},
     "commonFlag": "Y"
   }, {
     "label": "创建日期",
     "fieldName": "createdDate",
     "type": "datetime",
-    "formShow": false,
-    "tableShow": true,
+    "formVisible": false,
+    "listVisible": true,
     "preps": {},
     "commonFlag": "N"
   }, {
     "label": "修改时间",
     "fieldName": "updatedTime",
     "type": "datetime",
-    "formShow": false,
-    "tableShow": false,
+    "formVisible": false,
+    "listVisible": false,
     "preps": {},
     "commonFlag": "Y"
   }, {
     "label": "版本号",
     "fieldName": "version",
     "type": "number",
-    "formShow": false,
-    "tableShow": true,
+    "formVisible": false,
+    "listVisible": true,
     "preps": {},
     "commonFlag": "Y"
   }, {
     "label": "是否删除",
     "fieldName": "isDel",
     "type": "number",
-    "formShow": false,
-    "tableShow": false,
+    "formVisible": false,
+    "listVisible": false,
     "preps": {},
     "commonFlag": "Y"
   }, {
     "label": "数据编号",
     "fieldName": "dataNo",
     "type": "input",
-    "formShow": false,
-    "tableShow": false,
+    "formVisible": false,
+    "listVisible": false,
     "preps": {},
     "commonFlag": "Y"
   }, {
     "label": "状态码",
     "fieldName": "statusCode",
     "type": "input",
-    "formShow": false,
-    "tableShow": false,
+    "formVisible": false,
+    "listVisible": false,
     "preps": {},
     "commonFlag": "Y"
   }, {
     "label": "状态名称",
     "fieldName": "statusName",
     "type": "string",
-    "formShow": false,
-    "tableShow": false,
+    "formVisible": false,
+    "listVisible": false,
     "preps": {},
     "commonFlag": "Y"
   }, {
     "label": "国际编码",
     "fieldName": "local",
     "type": "input",
-    "formShow": false,
-    "tableShow": false,
+    "formVisible": false,
+    "listVisible": false,
     "preps": {},
     "commonFlag": "Y"
   }, {
     "label": "备注",
     "fieldName": "remark",
     "type": "input",
-    "formShow": false,
-    "tableShow": false,
+    "formVisible": false,
+    "listVisible": false,
     "preps": {},
     "commonFlag": "Y"
   }],

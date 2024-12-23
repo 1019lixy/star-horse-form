@@ -224,7 +224,6 @@ export const toggleDark = (val: string) => {
 }
 
 
-
 /**
  * 批量修改公共属性
  * @param items
@@ -261,56 +260,60 @@ export function commonField() {
     let fields: FieldInfo[] = [];
     fields.push({
         label: "创建人", fieldName: "createdBy", type: "input",
-        formShow: false,
-        tableShow: false
+        formVisible: false,
+        listVisible: false
     });
     fields.push({
         label: "创建日期", fieldName: "createdDate", type: "date",
-        formShow: false,
-        tableShow: false
+        formVisible: false,
+        listVisible: false
     });
     fields.push({
         label: "修改人", fieldName: "updatedBy", type: "input",
-        formShow: false,
-        tableShow: false
+        formVisible: false,
+        listVisible: false
     });
     fields.push({
         label: "修改日期", fieldName: "updatedDate", type: "date",
-        formShow: false,
-        tableShow: false
+        formVisible: false,
+        listVisible: false
     });
-
+    fields.push({
+        label: "备注", fieldName: "remark", type: "textarea",
+        formVisible: false,
+        listVisible: false
+    });
     fields.push({
         label: "数据编号", fieldName: "dataNo", type: "input",
-        formShow: false,
-        tableShow: false
+        formVisible: false,
+        listVisible: false
     });
     fields.push({
         label: "数据版本号", fieldName: "version", type: "number",
-        formShow: false,
-        tableShow: false
+        formVisible: false,
+        listVisible: false
     });
 
     fields.push({
         label: "状态", fieldName: "statusName", type: "input",
-        formShow: false,
-        tableShow: false
+        formVisible: false,
+        listVisible: false
     });
     fields.push({
         label: "状态码", fieldName: "statusCode", type: "input",
-        formShow: false,
-        tableShow: false
+        formVisible: false,
+        listVisible: false
     });
 
     fields.push({
         label: "国际码", fieldName: "local", type: "input",
-        formShow: false,
-        tableShow: false
+        formVisible: false,
+        listVisible: false
     });
     fields.push({
         label: "是否已逻辑", fieldName: "isDel", type: "number",
-        formShow: false,
-        tableShow: false
+        formVisible: false,
+        listVisible: false
     });
 
     return fields;

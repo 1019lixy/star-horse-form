@@ -22,56 +22,56 @@ const tableFieldList = reactive<PageFieldInfo>({
     },
     {
       label: "致命总数", fieldName: "blocker", type: "number",
-      required: true, formShow: true,
-      tableShow: true
+      required: true, formVisible: true,
+      listVisible: true
     },
     {
       label: "严重总数", fieldName: "critical", type: "number",
-      required: true, formShow: true,
-      tableShow: true
+      required: true, formVisible: true,
+      listVisible: true
     },
     {
       label: "中度总数", fieldName: "major", type: "",
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     },
     {
       label: "轻微总数", fieldName: "minor", type: "number",
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     },
     {
       label: "Info总数", fieldName: "infos", type: "number",
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     }, {
       label: "重复率", fieldName: "repeatRate", type: "number",
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     }, {
       label: "重复代码行", fieldName: "repeatCodeLines", type: "number",
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     }, {
       label: "重复代码块", fieldName: "repeatCodeBlock", type: "number",
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     }, {
       label: "重复文件", fieldName: "repeatFiles", type: "number",
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     }, {
       label: "总复杂度", fieldName: "totalComplex", type: "number",
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     }, {
       label: "文件平均复杂度", fieldName: "fileAvgComplex", type: "number",
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     }, {
       label: "详情地址", fieldName: "detailUrls", type: "number",
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     },
     {
       label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",

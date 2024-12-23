@@ -216,7 +216,7 @@ const tableOperation = (actonName: string, _preps: any) => {
                    :menu-data="dynamicFormContextMenuData(formItem,parentField,'container')"/>
     </Teleport>
   </div>
-  <div class="field-item" v-else>
+  <div class="field-item" style="border: unset" v-else>
     <slot></slot>
   </div>
 </template>
