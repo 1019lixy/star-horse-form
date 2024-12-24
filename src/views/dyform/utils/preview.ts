@@ -28,7 +28,7 @@ export async function viewColumns(param: string) {
                     label: stemp.comment,
                     fieldName: key + "&" + stemp.fieldName,
                     type: convertType(stemp.type),
-                    defaultShow: stemp.tableShow,
+                    defaultVisible: stemp.listVisible,
                     matchType: "lk"
                 })
             }

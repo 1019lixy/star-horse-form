@@ -43,11 +43,15 @@ const forceLoginOut = () => {
     removeToken();
     navBarListStore.clearAll();
     userStore.logout();
-    router.push({path: "/login", query: {redirect: router.currentRoute.value.fullPath}});
+    router.push({path: "/login", query: {redirect: router.currentRoute.value.fullPath}}).then(r => {
+        console.log(r);
+    });
 }
 // 添加响应拦截器
 service.interceptors.response.use((response: AxiosResponse) => {
-    const code = response.data.data?.code;
+    const code = response.data?.code;
+   // console.log(code);
+    // 401 未登录
     if (code == 401) {
         forceLoginOut();
     } else {
@@ -471,7 +475,7 @@ export function getRequest(url: string) {
  * @param data
  * @returns {Promise<AxiosResponse<any>>}
  */
-export function uploadRequest(url: string, data: Array<object>) {
+export function uploadRequest(url: string, data: Array<any>) {
     return service.post(url, data, {headers: {"Content-Type": "multipart/form-data"}});
 }
 

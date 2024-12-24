@@ -1,8 +1,8 @@
 <script setup lang="ts" name="DbAssign">
 import {ApiUrls} from "@/components/types/ApiUrls";
-import {onMounted, provide, reactive, ref} from "vue";
+import {onMounted, provide, reactive, ref,nextTick} from "vue";
 import {SearchFields, SelectOption} from "@/components/types/SearchProps";
-import {commonParseCodeToName,  loadData,apiInstance, dialogPreps} from "@/api/sh_api";
+import {commonParseCodeToName, loadData, apiInstance, dialogPreps} from "@/api/sh_api";
 import {createDatetime} from "@/api/date_utils.ts";
 import {warning} from "@/utils/message";
 import {Config} from "@/api/settings.ts";
@@ -18,9 +18,9 @@ const dataUrl: ApiUrls = apiInstance("dbsearch-manage", "dbsearch/dbAssign");
 
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "授权数据库", fieldName: "dbinfoSingle", defaultShow: true, type: "select", optionList: dbList},
-    {label: "被授权人编号", fieldName: "assignNo", defaultShow: true, type: "input", matchType: "lk"},
-    {label: "授权类型 ", fieldName: "assignType", defaultShow: true, type: "select", optionList: assignType},
+    {label: "授权数据库", fieldName: "dbinfoSingle", defaultVisible: true, type: "select", optionList: dbList},
+    {label: "被授权人编号", fieldName: "assignNo", defaultVisible: true, type: "input", matchType: "lk"},
+    {label: "授权类型 ", fieldName: "assignType", defaultVisible: true, type: "select", optionList: assignType},
     {label: "经办人", fieldName: "operator", type: "input"},
   ]
 });
@@ -33,46 +33,46 @@ const tableFieldList = reactive({
 
     {
       label: "授权数据库", fieldName: "dbinfoSingle", type: "select", optionList: dbList,
-      required: true, formShow: true, tableShow: true, editDisabled: "Y"
+      required: true, formVisible: true, listVisible: true, editDisabled: "Y"
     },
     [{
       label: "授权类型", fieldName: "assignType", type: "select", optionList: assignType,
-      required: true, formShow: true, editDisabled: "Y", actionName: "change", actions: (val: any) => {
+      required: true, formVisible: true, editDisabled: "Y", actionName: "change", actions: (val: any) => {
         searchUserOrRole(val);
       },
-      tableShow: true
+      listVisible: true
     }, {
       label: "被授权账号/角色", fieldName: "assignNo", type: "page-select",
-      required: true, formShow: true, editDisabled: "Y",
+      required: true, formVisible: true, editDisabled: "Y",
       // optionList: userOrRoleList,
       params: params,
-      tableShow: true
+      listVisible: true
     },
     ],
     [{
       label: "授权生效日期", fieldName: "effectiveDate", type: "date",
-      required: true, formShow: true,
-      tableShow: true,
+      required: true, formVisible: true,
+      listVisible: true,
       preps: {}
     },
       {
         label: "授权失效日期", fieldName: "expiredDate", type: "date",
-        required: true, formShow: true,
-        tableShow: true
+        required: true, formVisible: true,
+        listVisible: true
       }],
     {
       label: "经办人", fieldName: "operator", type: "input",
-      tableShow: true
+      listVisible: true
     },
     {
       label: "被授权人操作范围", fieldName: "operatorRange", type: "textarea",
-      required: true, formShow: true,
-      tableShow: true
+      required: true, formVisible: true,
+      listVisible: true
     },
     {
       label: "授权描述", fieldName: "assginDesc", type: "textarea",
-      required: true, formShow: true,
-      tableShow: true
+      required: true, formVisible: true,
+      listVisible: true
     },
 
     {
@@ -127,17 +127,17 @@ const searchUserOrRole = (val: any) => {
       label: "用户名",
       fieldName: "username",
       type: "input",
-      tableShow: true,
+      listVisible: true,
     }, {
       label: "姓名",
       fieldName: "name",
       type: "input",
-      tableShow: true,
+      listVisible: true,
     }, {
       label: "工号",
       fieldName: "employeeNo",
       type: "input",
-      tableShow: true,
+      listVisible: true,
     }];
     params.value.needField = [
       {sourceField: "username", distField: "assignTo"}
@@ -151,17 +151,17 @@ const searchUserOrRole = (val: any) => {
       label: "角色名称",
       fieldName: "roleName",
       type: "input",
-      tableShow: true,
+      listVisible: true,
     }, {
       label: "角色编码",
       type: "input",
       fieldName: "roleCode",
-      tableShow: true,
+      listVisible: true,
     }, {
       label: "角色类型",
       type: "input",
       fieldName: "roleType",
-      tableShow: true,
+      listVisible: true,
     }];
     params.value.needField = [
       {sourceField: "roleCode", distField: "assignTo"}
@@ -208,13 +208,18 @@ onMounted(() => {
 </style>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form @refresh="grantPermissionRef.loadByPage()" :compUrl="dataUrl"
-                     :fieldList="tableFieldList" :rules=
-                         "rules"/>
+    <div class="dialog-body">
+
+      <star-horse-form @refresh="grantPermissionRef.loadByPage()" :compUrl="dataUrl"
+                       :fieldList="tableFieldList" :rules=
+                           "rules"/>
+    </div>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title=
       "'查看数据'" :is-view="true">
-    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+    <div class="dialog-body">
+      <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+    </div>
   </star-horse-dialog>
   <el-card class="inner_content">
     <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">

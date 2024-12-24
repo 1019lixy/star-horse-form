@@ -191,8 +191,8 @@ const loadByPage = async () => {
     orderBy: orderBys,
   };
   postRequest(props.compUrl?.loadByPageUrl!, params).then((res: any) => {
-    if (res.data.code != 0) {
-      console.error(res.data.cnMessage);
+    if (!res || res.data.code != 0) {
+      console.error(res?.data?.cnMessage || "接口异常");
       return;
     }
     let redata = res.data.data;

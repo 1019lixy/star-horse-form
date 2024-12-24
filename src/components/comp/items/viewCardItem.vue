@@ -26,7 +26,7 @@ onMounted(() => {
           </div>
         </template>
         <star-horse-data-view-items :objectName="cardItem.objectName"
-                                    :subCreateFlag="cardItem.subFormFlag"
+                                    :subFormFlag="cardItem.subFormFlag"
                                     v-model:data-form="dataForm"
                                     :commonFormat="commonFormat"
                                     primaryKey="id"

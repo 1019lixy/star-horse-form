@@ -1,37 +1,41 @@
 <template>
   <!-- 审批人 -->
-  <el-space direction="vertical">
-    <el-card v-for="(group, k) in groups" :key="k" :headStyle="headStyle" class="w-fill">
+  <el-space direction="vertical" :fill="true">
+    <el-card v-for="(group, k) in groups" :key="k" :headStyle="headStyle" class="card-container">
       <template #header>
-        <span class="flow-setting-approval-title">
+        <div class="card-header">
           <span>{{ title }}</span>
-          <star-horse-icon iconClass="delete" class="del-icon" @click="delApproval(group)"/>
-        </span>
+          <star-horse-icon iconClass="delete" @click="delApproval(group)"/>
+        </div>
       </template>
       <div class="flow-setting-item">
-        <!-- 审批人类型 -->
-        <el-radio-group v-model="group.approverType" class="w-fill" :size="flowMixin.size"
-                        @change="changeApproverType(group)">
-          <el-radio v-for="(approval, i) in approvals" :key="i" :style="approvalRadioStyle" :value="approval.value"
-                    :disabled="approval.disabled && groups.length > 1">
-            <span>{{ approval.name }}</span>
-            <el-popover v-if="approval.popovers && approval.popovers.length > 0"
-                        :popper-style="{width: 'unset !important'}" placement="top-start" trigger="hover">
-              <template #reference>
-                <star-horse-icon style="margin-left: 5px;" size="18px" icon-class="question-circle"/>
-              </template>
-              <div class="approver-tip-content">
-                <div class="approver-tip-main-content">
-                  <div v-for="(popover, k) in approval.popovers" :key="k">
-                    <p class="main-title">{{ popover.title }}</p>
-                    <p class="content">{{ popover.content }}</p>
+        <el-select v-model="group.approverType" filterable clearable default-first-option
+                   @change="changeApproverType(group)">
+          <el-option v-for="item in approvals" :key="item.value" :value="item.value" :label="item.name"
+                     :disabled="item.disabled && groups.length > 1"
+          >
+            <div style="float: left">{{ item.name }}</div>
+            <div style="
+          float: right;
+          color: var(--el-text-color-secondary);
+        ">
+              <el-popover v-if="item.popovers && item.popovers.length > 0"
+                          :popper-style="{width: 'unset !important'}" placement="top-start" trigger="hover">
+                <template #reference>
+                  <star-horse-icon style="margin-left: 5px;" size="18px" icon-class="question-circle"/>
+                </template>
+                <div class="approver-tip-content">
+                  <div class="approver-tip-main-content">
+                    <div v-for="(popover, k) in item.popovers" :key="k">
+                      <p class="main-title">{{ popover.title }}</p>
+                      <p class="content">{{ popover.content }}</p>
+                    </div>
                   </div>
                 </div>
-                <a v-if="approval.href" :href="approval.href" target="_blank">{{ approval.hrefName }}</a>
-              </div>
-            </el-popover>
-          </el-radio>
-        </el-radio-group>
+              </el-popover>
+            </div>
+          </el-option>
+        </el-select>
         <!-- 上级 -->
         <div v-if="group.approverType == 1">
           <p class="flow-setting-item-title">
@@ -54,12 +58,14 @@
                       <p class="content">{{ popover.content }}</p>
                     </div>
                   </div>
-                  <a v-if="higherLevel.href" :href="higherLevel.href" target="_blank">{{ higherLevel.hrefName }}</a>
+
                 </div>
               </el-popover>
             </el-radio>
           </el-radio-group>
-          <FlowSelect v-model="group.approverIds" :name="group.approverNames" :datas="higherLevels"/>
+          <el-select v-model="group.approverIds" filterable clearable default-first-option>
+            <el-option v-for="item in higherLevels" :key="item.value" :value="item.value" :label="item.name"/>
+          </el-select>
         </div>
         <!-- 部门负责人 -->
         <div v-if="group.approverType == 2">
@@ -83,57 +89,89 @@
                       <p class="content">{{ popover.content }}</p>
                     </div>
                   </div>
-                  <a v-if="departmentHead.href" :href="departmentHead.href" target="_blank">{{
-                      departmentHead.hrefName
-                    }}</a>
                 </div>
               </el-popover>
             </el-radio>
           </el-radio-group>
-          <FlowSelect v-model="group.approverIds" :name="group.approverNames" :datas="departmentHeads"/>
+          <el-select v-model="group.approverIds" filterable clearable default-first-option>
+            <el-option v-for="item in departmentHeads" :key="item.value" :value="item.value" :label="item.name"/>
+          </el-select>
         </div>
         <!-- 部门审批人 -->
         <div v-if="group.approverType == 3">
           <p class="flow-setting-item-title">
             <span>部门审批人</span>
           </p>
-          <FlowSelect v-model="group.approverIds" :name="group.approverNames" :datas="departmentApprovals"/>
+          <el-select v-model="group.approverIds" filterable clearable default-first-option>
+            <el-option v-for="item in departmentApprovals" :key="item.value" :value="item.value" :label="item.name"/>
+          </el-select>
         </div>
         <!-- 编码审批人 -->
         <div v-if="group.approverType == 4">
           <p class="flow-setting-item-title">
             <span>编码对应部门审批人</span>
           </p>
-          <FlowSelect v-model="group.approverIds" :name="group.approverNames" :datas="departmentApprovals"/>
+          <el-select v-model="group.approverIds" filterable clearable default-first-option>
+            <el-option v-for="item in departmentApprovals" :key="item.value" :value="item.value" :label="item.name"/>
+          </el-select>
         </div>
         <!-- 角色 -->
         <div v-if="group.approverType == 5">
           <p class="flow-setting-item-title">
             <span>选择角色</span>
           </p>
-          <FlowSelect v-model="group.approverIds" :name="group.approverNames" :datas="roles"/>
+          <el-select v-model="group.approverIds" filterable clearable default-first-option>
+            <el-option v-for="item in roleList" :key="item.idCompanyRole" :value="item.idCompanyRole"
+                       :label="item.roleName"/>
+          </el-select>
         </div>
         <!-- 岗位 -->
         <div v-if="group.approverType == 6">
           <p class="flow-setting-item-title">
             <span>选择岗位</span>
           </p>
-          <FlowSelect v-model="group.approverIds" :name="group.approverNames" :datas="posts"/>
+          <tselect-item :formData="group" :field="{
+            preps:{
+              name:'approverIds',
+              showCode:'Y',
+              values:rankList,
+               label:'岗位',
+              props:{
+                label:'name',
+                value:'value'
+              }
+            }}"/>
         </div>
         <!-- 用户组 -->
         <div v-if="group.approverType == 7">
           <p class="flow-setting-item-title">
             <span>选择用户组</span>
           </p>
-          <FlowSelect v-model="group.approverIds" :name="group.approverNames" :datas="userGroups"/>
+          <tselect-item :formData="group" :field="{
+            preps:{
+              name:'approverIds',
+              showCode:'Y',
+              values:stationList,
+              label:'用户组',
+              props:{
+                label:'name',
+                value:'value'
+              }
+            }}"/>
         </div>
         <!-- 指定成员 -->
         <div v-if="group.approverType == 8">
           <p class="flow-setting-item-title">
             <span>指定成员</span>
             <span class="light-text">(不能超过 25 人)</span>
-            <el-select v-model="group.approverIds" multiple type="button">
-            </el-select>
+            <user-item :formData="group" :field="{
+              preps:{
+                multiple:'Y',
+                name:'approverNames',
+                aliasName:'approverIds',
+                label:'成员',
+              }
+            }"/>
           </p>
         </div>
         <!-- 发起人自选 -->
@@ -141,7 +179,7 @@
           <p class="flow-setting-item-title">
             <span>选择方式</span>
           </p>
-          <el-radio-group :size="flowMixin.size" class="w-fill">
+          <el-radio-group v-model="group.selectType" :size="flowMixin.size" class="w-fill">
             <el-radio value="1">
               <span>多选</span>
             </el-radio>
@@ -152,7 +190,7 @@
           <p class="flow-setting-item-title margin-top-10">
             <span>选择范围</span>
           </p>
-          <el-radio-group :size="flowMixin.size" class="w-fill">
+          <el-radio-group v-model="group.selectRange" :size="flowMixin.size" class="w-fill">
             <el-radio value="1">
               <span>全公司</span>
             </el-radio>
@@ -166,7 +204,14 @@
           <p class="flow-setting-item-title margin-top-10">
             <span>指定成员</span>
             <span class="light-text">(不能超过 25 人)</span>
-            <UserSelector type="button"/>
+            <user-item :formData="group" :field="{
+              preps:{
+                 multiple:'Y',
+                 name:'approverNames',
+                aliasName:'approverIds',
+                label:'成员',
+              }
+            }"/>
           </p>
         </div>
         <!-- 节点审批人 -->
@@ -174,8 +219,9 @@
           <p class="flow-setting-item-title">
             <span>选择节点</span>
           </p>
-          <FlowSelect v-model="group.approverIds" :name="group.approverNames" :datas="approveNodes" valueName="id"
-                      labelName="name"/>
+          <el-select v-model="group.approverIds" filterable clearable default-first-option>
+            <el-option v-for="item in approveNodes" :key="item.id" :value="item.id" :label="item.name"/>
+          </el-select>
           <p class="flow-setting-item-title">
             <span class="light-text">你可以选择前序节点名称，如果名称重复建议先修改审批节点的节点名称</span>
           </p>
@@ -185,14 +231,19 @@
           <p class="flow-setting-item-title">
             <span>审批终点</span>
           </p>
-          <FlowSelect v-model="group.approverIds" :name="group.approverNames" :datas="higherLevels"/>
+          <el-select v-model="group.approverIds" filterable clearable :size="flowMixin.size" default-first-option>
+            <el-option :value="higherLevel.value" v-for="(higherLevel, i) in higherLevels" :key="i">
+              {{ higherLevel.name }}
+            </el-option>
+          </el-select>
+
         </div>
         <!-- 表单内人员 -->
         <div v-if="group.approverType == 13">
           <p class="flow-setting-item-title">
             <span>人员控件</span>
           </p>
-          <el-select :size="flowMixin.size" class="w-fill" default-value="1">
+          <el-select v-model="group.approverIds" filterable clearable :size="flowMixin.size" default-first-option>
             <el-option :value="higherLevel.value" v-for="(higherLevel, i) in higherLevels" :key="i">
               {{ higherLevel.name }}
             </el-option>
@@ -217,8 +268,8 @@
           <p class="flow-setting-item-title">
             <span>部门控件</span>
           </p>
-          <el-select :size="flowMixin.size" class="w-fill" default-value="1">
-            <el-option :value="higherLevel.value" v-for="(higherLevel, i) in higherLevels" :key="i">
+          <el-select v-model="group.approverIds" filterable clearable :size="flowMixin.size" default-first-option>
+            <el-option :value="higherLevel.value" v-for="higherLevel in higherLevels" :key="higherLevel.value">
               {{ higherLevel.name }}
             </el-option>
           </el-select>
@@ -242,14 +293,13 @@
                       <p class="content">{{ popover.content }}</p>
                     </div>
                   </div>
-                  <a v-if="departmentHead.href" :href="departmentHead.href" target="_blank">{{
-                      departmentHead.hrefName
-                    }}</a>
                 </div>
               </el-popover>
             </el-radio>
           </el-radio-group>
-          <FlowSelect v-model="group.approverIds" :name="group.approverNames" :datas="departmentHeads"/>
+          <el-select v-model="group.approverIds" filterable clearable default-first-option>
+            <el-option v-for="item in departmentHeads" :key="item.value" :value="item.value" :label="item.name"/>
+          </el-select>
         </div>
       </div>
     </el-card>
@@ -257,18 +307,21 @@
   </el-space>
 </template>
 <script setup lang="ts">
-import {approvalRadioStyle, flowMixin, radioStyle} from '@/views/workflow/plugin/mixins/flowMixin';
+import {flowMixin, radioStyle} from '@/views/workflow/plugin/mixins/flowMixin';
 import {uuid} from "@/api/system.ts";
 import {getApproveNodes} from '../../util/nodeUtil';
-import FlowSelect from '@/views/workflow/plugin/Component/FlowSelect.vue';
-import {computed, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
+import {createCondition, loadData} from "@/api/sh_api.ts";
+import {warning} from "@/utils/message.ts";
+import TselectItem from "@/components/formcomp/items/tselect-item.vue";
+import UserItem from "@/components/formcomp/items/user-item.vue";
 
 const props = defineProps({
   groups: {
-    type: Array,
+    type: Array<any>,
     default: function () {
       return [];
     },
@@ -316,7 +369,7 @@ let approvals = ref<Array<any>>([
             '部门负责人审批与上级审批的区别？一个部门内可能存在多层的上下级关系，但通常有指定的部门负责人。由部门负责人审批 ，则不涉及上下级关系，直接由该固定人员进行审批',
       },
     ],
-    href: 'https://www.feishu.cn/hc/zh-CN/articles/360044810913',
+    href: '#',
     hrefName: '如何配置部门负责人？',
   },
   {
@@ -336,7 +389,7 @@ let approvals = ref<Array<any>>([
             '部门负责人审批与上级审批的区别？一个部门内可能存在多层的上下级关系，但通常有指定的部门负责人。由部门负责人审批 ，则不涉及上下级关系，直接由该固定人员进行审批',
       },
     ],
-    href: 'https://www.feishu.cn/hc/zh-CN/articles/360044810913',
+    href: '#',
     hrefName: '如何配置部门负责人？',
   },
   {
@@ -353,7 +406,7 @@ let approvals = ref<Array<any>>([
             '部门负责人审批与上级审批的区别？一个部门内可能存在多层的上下级关系，但通常有指定的部门负责人。由部门负责人审批 ，则不涉及上下级关系，直接由该固定人员进行审批',
       },
     ],
-    href: 'https://www.feishu.cn/hc/zh-CN/articles/360044810913',
+    href: '#',
     hrefName: '如何配置部门负责人？',
   },
   {
@@ -375,7 +428,7 @@ let approvals = ref<Array<any>>([
         content: '提示：若选择的角色中包含多名成员，则按照设置“多人审批时采用的审批方式”来处理',
       },
     ],
-    href: 'https://www.feishu.cn/hc/zh-CN/articles/360044810913',
+    href: '#',
     hrefName: '如何配置角色？',
   },
   {
@@ -397,7 +450,7 @@ let approvals = ref<Array<any>>([
         content: '提示：若选择的岗位中包含多名成员，则按照设置“多人审批时采用的审批方式”来处理',
       },
     ],
-    href: 'https://www.feishu.cn/hc/zh-CN/articles/360044810913',
+    href: '#',
     hrefName: '如何配置岗位？',
   },
   {
@@ -419,7 +472,7 @@ let approvals = ref<Array<any>>([
         content: '提示：若选择的用户组中包含多名成员，则按照设置“多人审批时采用的审批方式”来处理',
       },
     ],
-    href: 'https://www.feishu.cn/hc/zh-CN/articles/360044810913',
+    href: '#',
     hrefName: '如何配置用户组？',
   },
   {
@@ -485,7 +538,7 @@ let approvals = ref<Array<any>>([
         content: '从发起人的直属上级开始，依次逐级向上审批，直到所设置的审批终点为止。是手动逐个添加多级上级审批的一种便捷设置',
       },
     ],
-    href: 'https://www.feishu.cn/hc/zh-CN/articles/360044810913',
+    href: '#',
     hrefName: '查看和设置上级信息',
   },
   {
@@ -529,7 +582,7 @@ let higherLevelModes = ref<Array<any>>([
         content: '图示：若小王为发起人，则小张是小王的“直属上级”，小李是小王的“第二级上级”',
       },
     ],
-    href: 'https://www.feishu.cn/hc/zh-CN/articles/360044810913',
+    href: '#',
     hrefName: '查看和设置上级信息',
   },
   {
@@ -545,7 +598,7 @@ let higherLevelModes = ref<Array<any>>([
         content: '图示：若小王为发起人，则小赵是小王的“最高上级”，小周是小王的“第二级上级”',
       },
     ],
-    href: 'https://www.feishu.cn/hc/zh-CN/articles/360044810913',
+    href: '#',
     hrefName: '查看和设置上级信息',
   },
 ]);
@@ -614,7 +667,7 @@ let departmentHeadModes = ref<Array<any>>([
         content: '图示：若小王为发起人，则小张是小王的“直接部门负责人”，小李是小王的“第二级部门负责人”',
       },
     ],
-    href: 'https://www.feishu.cn/hc/zh-CN/articles/360044810913',
+    href: '#',
     hrefName: '如何配置部门负责人？',
   },
   {
@@ -630,7 +683,7 @@ let departmentHeadModes = ref<Array<any>>([
         content: '图示：若小王为发起人，则小赵是小王的“最高部门负责人”，小周是小王的“第二级部门负责人”',
       },
     ],
-    href: 'https://www.feishu.cn/hc/zh-CN/articles/360044810913',
+    href: '#',
     hrefName: '查看和设置上级信息',
   },
 ]);
@@ -729,108 +782,26 @@ let departmentApprovals = ref<Array<any>>([
   },
 ]);
 // 角色
-let roles = ref<Array<any>>([
-  {
-    name: '人事',
-    value: '1',
-  },
-  {
-    name: '行政',
-    value: '2',
-  },
-  {
-    name: '招聘',
-    value: '3',
-  },
-  {
-    name: '财务',
-    value: '4',
-  },
-  {
-    name: '法务',
-    value: '5',
-  },
-  {
-    name: '经理',
-    value: '6',
-  },
-]);
-// 岗位
-let posts = ref<Array<any>>([
-  {
-    name: '技术顾问',
-    value: '1',
-  },
-  {
-    name: 'HRBP',
-    value: '2',
-  },
-  {
-    name: '部门助理',
-    value: '3',
-  },
-  {
-    name: '行政专员',
-    value: '4',
-  },
-  {
-    name: '商务专员',
-    value: '5',
-  },
-  {
-    name: '现场助理',
-    value: '6',
-  },
-  {
-    name: '项目经理',
-    value: '7',
-  },
-  {
-    name: '薪酬专员',
-    value: '8',
-  },
-  {
-    name: '招聘专员',
-    value: '9',
-  },
-  {
-    name: '考勤专员',
-    value: '10',
-  },
-  {
-    name: '副总经理',
-    value: '11',
-  },
-]);
-// 用户组
-let userGroups = ref<Array<any>>([
-  {
-    name: '采购组',
-    value: '1',
-  },
-  {
-    name: '报销组',
-    value: '2',
-  },
-  {
-    name: '资产组',
-    value: '3',
-  },
-]);
+let roleList = ref<Array<any>>([]);
+//职级
+let rankList = ref<any>([]);
+//岗位
+let stationList = ref<any>([]);
 const dataNode = computed(() => flowDesign.node);
 let show = computed(() => {
   return props.groups.filter((group: any) => [9, 10].includes(group.approverType)).length == 0;
 });
 let approveNodes = computed(() => {
-  const approveNodes = [];
+  let approveNodes: Array<any> = [];
   getApproveNodes(dataNode, approveNodes);
+  console.log(approveNodes);
   // 过滤自己
   return approveNodes.filter((approveNode) => approveNode.id != props.node.id);
 });
 /**
  * 改变审批人类型
  */
-const changeApproverType = (group) => {
+const changeApproverType = (group: any) => {
   group.approverIds = [];
   group.approverNames = [];
 }
@@ -849,11 +820,39 @@ const addApproval = () => {
   });
 }
 // 删除审批人
-const delApproval = (group) => {
+const delApproval = (group: any) => {
   props.groups.forEach((element: any, i) => {
     if (element.id == group.id) {
       props.groups.splice(i, 1);
     }
   });
 }
+const init = async () => {
+//加载职级
+  let result = await loadData("/system-config/system/rankDefine/rankTree", {});
+  if (result.error) {
+    warning(result.error);
+  } else {
+    rankList.value = result.data;
+  }
+  //加载岗位
+  result = await loadData("/system-config/system/stationDefine/stationTree", {});
+  if (result.error) {
+    warning(result.error);
+  } else {
+    stationList.value = result.data;
+  }
+  //加载角色
+  result = await loadData("/system-config/system/companyRole/getAllByCondition", {
+    fieldList: [createCondition("a.roleType", "common_role")]
+  });
+  if (result.error) {
+    warning(result.error);
+  } else {
+    roleList.value = result.data;
+  }
+}
+onMounted(() => {
+  init();
+});
 </script>

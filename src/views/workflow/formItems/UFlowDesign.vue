@@ -1,14 +1,13 @@
 <script setup lang="ts">
 import JbpmDesign from "@/views/jbpm/JbpmDesign.vue";
-import FlowDesign from "@/views/workflow/plugin/FlowDesign/index.vue"
-
+import FlowDesign from "@/views/workflow/plugin/FlowDesign/FlowDesign.vue"
 const props = defineProps({
-  flowStyle: {type: String, default: "flowable"}
+  flowStyle: {type: String, default: "dingding"}
 });
 </script>
 
 <template>
-  <div class="flow-design">
+  <div class="sh-flow-editor">
     <div class="design-area">
       <jbpm-design v-if="flowStyle=='flowable'"/>
       <FlowDesign v-if="flowStyle=='dingding'"/>
@@ -19,7 +18,7 @@ const props = defineProps({
 </template>
 
 <style scoped lang="scss">
-.flow-design {
+.sh-flow-editor {
   height: 100%;
   display: flex;
   width: 100%;

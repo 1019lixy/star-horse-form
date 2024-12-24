@@ -16,18 +16,18 @@ const tableFieldList = reactive({
     {
       label: "数据库信息", fieldName: "dbconfigId", type: "select",
       optionList: dbList,
-      required: true, formShow: true,
-      tableShow: true
+      required: true, formVisible: true,
+      listVisible: true
     },
     {
       label: "表名", fieldName: "tableName", type: "input",
-      required: true, formShow: true,
-      tableShow: true
+      required: true, formVisible: true,
+      listVisible: true
     },
     {
       label: "描述", fieldName: "comment", type: "textarea",
-      required: true, formShow: true,
-      tableShow: true
+      required: true, formVisible: true,
+      listVisible: true
     },
   ]
 });
@@ -36,34 +36,34 @@ const columnFieldList = reactive<BatchFieldInfo>({
   fieldList: [
     {
       label: "名称", fieldName: "name", type: "input",
-      required: true, formShow: true,
-      tableShow: true
+      required: true, formVisible: true,
+      listVisible: true
     },
     {
       label: "类型", fieldName: "type", type: "input",
-      required: true, formShow: true,
-      tableShow: true
+      required: true, formVisible: true,
+      listVisible: true
     },
     {
       label: "长度", fieldName: "length", type: "input",
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     },
     {
       label: "允许为空", fieldName: "allowNull", type: "switch",
       defaultValue: "Y",
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     },
     {
       label: "是否主键", fieldName: "isPrimaryKey", type: "switch",
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     },
     {
       label: "备注", fieldName: "comment", type: "input",
-      required: true, formShow: true,
-      tableShow: true
+      required: true, formVisible: true,
+      listVisible: true
     },
   ]
 });
@@ -72,13 +72,13 @@ const indexFieldList = reactive<BatchFieldInfo>({
   fieldList: [
     {
       label: "表名", fieldName: "tableName", type: "input",
-      required: true, formShow: true,
-      tableShow: true
+      required: true, formVisible: true,
+      listVisible: true
     },
     {
       label: "描述", fieldName: "comment", type: "input",
-      required: true, formShow: true,
-      tableShow: true
+      required: true, formVisible: true,
+      listVisible: true
     },
   ]
 });

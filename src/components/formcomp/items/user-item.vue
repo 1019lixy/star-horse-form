@@ -25,7 +25,6 @@
         :prefix-icon="field.preps['prefixIcon']"
         :readonly="field.preps['readonly']=='Y'"
         :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
-        type="text"
         :fid="field.preps['name']"
         @change="itemAction('change')"
         @keydown.enter="itemAction('enter')"

@@ -7,7 +7,7 @@ const props = defineProps({
   index: {type: Number, required: true, default: 1},
   size: {type: String, default: Config.compSize}
 });
-const needLengthComp: Array<string> = ["input", "number", "text", "tselect", "textarea", "htmleditor", "cascade",
+const needLengthComp: Array<string> = ["input", "number","image", "text", "tselect", "textarea", "htmleditor", "cascade",
   "autocomplete", "dialog-input", "select", "page-select"]
 </script>
 <template>
@@ -54,17 +54,17 @@ const needLengthComp: Array<string> = ["input", "number", "text", "tselect", "te
                    inactive-text="否"/>
       </el-col>
       <el-col :span="2">
-        <el-switch v-model="field.preps['formShow']" :size="size" active-value="Y" active-text="是"
+        <el-switch v-model="field.preps['formVisible']" :size="size" active-value="Y" active-text="是"
                    inactive-value="N"
                    inactive-text="否"/>
       </el-col>
       <el-col :span="2">
-        <el-switch v-model="field.preps['searchShow']" :size="size" active-value="Y" active-text="是"
+        <el-switch v-model="field.preps['searchVisible']" :size="size" active-value="Y" active-text="是"
                    inactive-value="N"
                    inactive-text="否"/>
       </el-col>
       <el-col :span="2">
-        <el-switch v-model="field.preps['tableShow']" :size="size" active-value="Y" active-text="是"
+        <el-switch v-model="field.preps['listVisible']" :size="size" active-value="Y" active-text="是"
                    inactive-value="N"
                    inactive-text="否"/>
       </el-col>

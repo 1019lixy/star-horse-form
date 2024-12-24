@@ -2,9 +2,12 @@
 import {confirm} from "@/utils/message";
 import piniaInstance from "@/store/index.ts";
 import {DesignForm} from "@/store/DesignFormStore.ts";
-import {computed} from "vue";
-import {copyContainer} from "@/api/system.ts";
+import {computed, ref} from "vue";
 import {colDataInfo} from "@/components/formcomp/container/dytableUtils.ts";
+import {dynamicFormContextMenuData} from "@/views/dyform/page/AblesPlugin.ts";
+import FieldList from "@/components/formcomp/utils/FieldList.vue";
+import StarHorseDialog from "@/components/comp/StarHorseDialog.vue";
+import {fieldCopy} from "@/views/dyform/utils/FieldOperationUtils.ts";
 
 const props = defineProps({
   parentField: {type: Object},
@@ -13,6 +16,9 @@ const props = defineProps({
 let designForm = DesignForm(piniaInstance);
 let compList = computed(() => designForm.compList);
 let currentItemId = computed(() => designForm.currentItemId);
+let componentVisible = computed(() => {
+  return designForm.componentVisible && currentItemId.value == props.formItem?.preps.id;
+});
 let isEdit = computed(() => designForm.isEdit);
 const selectData = () => {
   let container = props.formItem;
@@ -46,6 +52,52 @@ const removeData = () => {
     }
   });
 };
+const containerContextMenuRef = ref();
+const containerContextMenu = (evt: MouseEvent) => {
+  evt.stopPropagation();
+  evt.preventDefault();
+  console.log("容器触发。。。");
+  evt.props = props;
+  containerContextMenuRef.value?.show(evt);
+}
+const close = () => {
+  designForm.setComponentVisible(false);
+}
+const addItem = (item: any) => {
+  let type = item.category == 2 ? "container" : "formItem";
+  let data = fieldCopy(item, type);
+  let itemType = props.formItem.itemType;
+  console.log(data, props.formItem);
+  let activeItemName = props.formItem.activeItemName;
+  let elements = props.formItem.preps.elements;
+  for (let index in elements) {
+    let element = elements[index];
+    if (activeItemName && activeItemName != element.tabName) {
+      continue;
+    }
+    let columns = element.columns;
+    if (!columns) {
+      let items = element.items;
+      if (itemType == "table") {
+        if (items.length == 0) {
+          items.push(data);
+          return;
+        }
+      } else {
+        items.push(data);
+        return;
+      }
+    }
+    for (let colIndex in columns) {
+      let col = columns[colIndex];
+      if (col.items.length == 0) {
+        col.items.push(data);
+        // designForm.selectItem(data, data.itemType, type);
+        return;
+      }
+    }
+  }
+}
 const tableOperation = (actonName: string, _preps: any) => {
   let preps = props.formItem.preps;
   if (!preps.elements) {
@@ -84,6 +136,10 @@ const tableOperation = (actonName: string, _preps: any) => {
       });
     }
   } else if (actonName == "insertCol") {
+    if (props.formItem.itemType == "table") {
+      preps.columns = (preps.columns || 1) + 1;
+      return;
+    }
     for (let index in preps.elements) {
       let row: any = preps.elements[index];
       if (!row.columns) {
@@ -98,14 +154,19 @@ const tableOperation = (actonName: string, _preps: any) => {
       }
       row.columns.push(col);
     }
-  } else if (actonName == "copy") {
-
-    copyContainer(props.parentField ? props.parentField!.preps?.elements : compList.value, props.formItem);
   }
 }
 </script>
 <template>
-  <div :class="{'field-item':isEdit}">
+  <star-horse-dialog box-width="450px" :is-view="true" :full-screen="false" title="添加组件" :self-func="true"
+                     :dialog-visible="componentVisible"
+                     @closeAction="close">
+    <template #footer>
+      <el-button type="primary" size="default" @click="close">确定</el-button>
+    </template>
+    <field-list @selectData="addItem"/>
+  </star-horse-dialog>
+  <div class="field-item" v-if="isEdit" @contextmenu="containerContextMenu">
     <slot></slot>
     <div class="drag-handler" v-if="isEdit&&currentItemId==formItem.id">
       <el-tooltip content="拖动">
@@ -132,6 +193,8 @@ const tableOperation = (actonName: string, _preps: any) => {
               style="color: var(--star-horse-white)"
           />
         </el-tooltip>
+      </template>
+      <template v-if="formItem.itemType=='dytable'||formItem.itemType=='box'||formItem.itemType=='table'">
         <el-tooltip content="插入列">
           <star-horse-icon
               @click.stop="tableOperation('insertCol',formItem?.preps)"
@@ -140,15 +203,21 @@ const tableOperation = (actonName: string, _preps: any) => {
           />
         </el-tooltip>
       </template>
-      <el-tooltip content="复制容器">
-        <star-horse-icon
-            @click.stop="tableOperation('copy',formItem?.preps)"
-            icon-class="copy"
-            style="color: var(--star-horse-white)"
-        />
-      </el-tooltip>
-
+      <!--      <el-tooltip content="复制容器">
+              <star-horse-icon
+                  @click.stop="tableOperation('copy',formItem?.preps)"
+                  icon-class="copy"
+                  style="color: var(&#45;&#45;star-horse-white)"
+              />
+            </el-tooltip>-->
     </div>
+    <Teleport to="body">
+      <ContentMenu ref="containerContextMenuRef"
+                   :menu-data="dynamicFormContextMenuData(formItem,parentField,'container')"/>
+    </Teleport>
+  </div>
+  <div class="field-item" style="border: unset" v-else>
+    <slot></slot>
   </div>
 </template>
 <style lang="scss" scoped>
@@ -158,6 +227,7 @@ const tableOperation = (actonName: string, _preps: any) => {
   padding: 3px;
   border: 1px dashed #e6a23c;
   margin: 3px auto;
+
   .field-action {
     position: absolute;
     top: 0;

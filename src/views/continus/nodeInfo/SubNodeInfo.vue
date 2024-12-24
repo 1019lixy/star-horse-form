@@ -14,7 +14,7 @@ const fieldList = reactive<PageFieldInfo | any>({
   fieldList: [{
     cardList: [{
       title: "节点信息",
-      subFormFlag: true,
+      subFormFlag: "Y",
       tabName: "subNodeInfo2",
       objectName: "subNodeInfo2",
       headerFieldList: [{
@@ -39,33 +39,33 @@ const fieldList = reactive<PageFieldInfo | any>({
           type: "select",
           optionList: nodeTypeList,
           required: true,
-          formShow: true,
+          formVisible: true,
 
         }, {
           label: "节点名称",
           fieldName: "nodeName",
           type: "input",
           required: true,
-          formShow: true
+          formVisible: true
         }, {
           label: "执行方式",
           fieldName: "execType",
           type: "select",
           optionList: execTypeList,
           required: true,
-          formShow: true
+          formVisible: true
         }],
         [{
           label: "归档制品",
           fieldName: "uploadProduct",
           type: "input",
           required: true,
-          formShow: true,
+          formVisible: true,
           brotherNodes: [{
             label: "添加目录",
             fieldName: "uploadProductBtn",
             type: "button",
-            formShow: true,
+            formVisible: true,
             preps: {
               text: "Y",
               icon: "plus"
@@ -76,12 +76,12 @@ const fieldList = reactive<PageFieldInfo | any>({
           fieldName: "downloadProduct",
           type: "input",
           required: true,
-          formShow: true,
+          formVisible: true,
           brotherNodes: [{
             label: "添加制品来源",
             fieldName: "downloadProductBtn",
             type: "button",
-            formShow: true,
+            formVisible: true,
             preps: {
               text: "Y",
               icon: "plus"
@@ -91,7 +91,7 @@ const fieldList = reactive<PageFieldInfo | any>({
       ]
     }, {
       title: "节点参数",
-      subFormFlag: true,
+      subFormFlag: "Y",
       tabName: "subNodeInfoParams",
       objectName: "subNodeInfoParams",
       headerFieldList: [{
@@ -104,7 +104,7 @@ const fieldList = reactive<PageFieldInfo | any>({
         },
         optionList: compileTypeList,
         required: true,
-        formShow: true
+        formVisible: true
       }],
       fieldList: nodeParams
     }]

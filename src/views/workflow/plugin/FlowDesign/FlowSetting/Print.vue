@@ -1,3 +1,9 @@
+<script setup lang="ts">
+import {flowMixin} from '@/views/workflow/plugin/mixins/flowMixin';
+import {ref} from "vue";
+
+let radioGroup = ref<number>(0);
+</script>
 <template>
   <div class="flow-setting-module">
     <div class="flow-setting-content">
@@ -28,10 +34,4 @@
     </div>
   </div>
 </template>
-<script setup lang="ts">
-import {flowMixin} from '@/views/workflow/plugin/mixins/flowMixin';
-import {ref} from "vue";
-
-let radioGroup = ref<number>(0);
-</script>
 <style lang=“scss”></style>

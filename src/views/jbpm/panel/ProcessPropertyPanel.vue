@@ -33,35 +33,35 @@ const processField = reactive<PageFieldInfo | any>({
             fieldName: "processId",
             type: "input",
             disabled: "Y",
-            formShow: true,
-            tableShow: true
+            formVisible: true,
+            listVisible: true
           }, {
             label: "流程名称",
             fieldName: "processName",
             type: "input",
             required: true,
-            formShow: true,
-            tableShow: true
+            formVisible: true,
+            listVisible: true
           }, {
             label: "可执行",
             fieldName: "executeAble",
             type: "switch",
             defaultValue: "Y",
-            formShow: true,
-            tableShow: true
+            formVisible: true,
+            listVisible: true
           }, {
             label: "流程启动人",
             fieldName: "executeOperator",
             type: "dialog-input",
-            formShow: true,
-            tableShow: true,
+            formVisible: true,
+            listVisible: true,
             params: {}
           }, {
             label: "流程启角色",
             fieldName: "executeRole",
             type: "dialog-input",
-            formShow: true,
-            tableShow: true,
+            formVisible: true,
+            listVisible: true,
             params: {}
           },]
         }, {
@@ -80,14 +80,14 @@ const processField = reactive<PageFieldInfo | any>({
                     label: "ID",
                     fieldName: "id",
                     type: "input",
-                    formShow: true,
-                    tableShow: true,
+                    formVisible: true,
+                    listVisible: true,
                   }, {
                     label: "名称",
                     fieldName: "name",
                     type: "input",
-                    formShow: true,
-                    tableShow: true,
+                    formVisible: true,
+                    listVisible: true,
                   }]
                 }]
               }, {
@@ -100,20 +100,20 @@ const processField = reactive<PageFieldInfo | any>({
                     label: "ID",
                     fieldName: "id",
                     type: "input",
-                    formShow: true,
-                    tableShow: true,
+                    formVisible: true,
+                    listVisible: true,
                   }, {
                     label: "名称",
                     fieldName: "name",
                     type: "input",
-                    formShow: true,
-                    tableShow: true,
+                    formVisible: true,
+                    listVisible: true,
                   }, {
                     label: "错误编码",
                     fieldName: "errorCode",
                     type: "input",
-                    formShow: true,
-                    tableShow: true,
+                    formVisible: true,
+                    listVisible: true,
                   }]
                 }]
               }, {
@@ -126,20 +126,20 @@ const processField = reactive<PageFieldInfo | any>({
                     label: "ID",
                     fieldName: "id",
                     type: "input",
-                    formShow: true,
-                    tableShow: true,
+                    formVisible: true,
+                    listVisible: true,
                   }, {
                     label: "名称",
                     fieldName: "name",
                     type: "input",
-                    formShow: true,
-                    tableShow: true,
+                    formVisible: true,
+                    listVisible: true,
                   }, {
                     label: "作用域",
                     fieldName: "area",
                     type: "switch",
-                    formShow: true,
-                    tableShow: true,
+                    formVisible: true,
+                    listVisible: true,
                     preps: {
                       inactiveText: "全局",
                       activeText: "当前实例"
@@ -156,20 +156,20 @@ const processField = reactive<PageFieldInfo | any>({
                     label: "ID",
                     fieldName: "id",
                     type: "input",
-                    formShow: true,
-                    tableShow: true,
+                    formVisible: true,
+                    listVisible: true,
                   }, {
                     label: "名称",
                     fieldName: "name",
                     type: "input",
-                    formShow: true,
-                    tableShow: true,
+                    formVisible: true,
+                    listVisible: true,
                   }, {
                     label: "升级编码",
                     fieldName: "code",
                     type: "input",
-                    formShow: true,
-                    tableShow: true,
+                    formVisible: true,
+                    listVisible: true,
 
                   }]
                 }]
@@ -189,8 +189,8 @@ const processField = reactive<PageFieldInfo | any>({
                 fieldName: "eventType",
                 type: "select",
                 optionList: processEventTypeList,
-                formShow: true,
-                tableShow: true,
+                formVisible: true,
+                listVisible: true,
                 preps: {
                   multiple: "Y",
                 }
@@ -199,8 +199,8 @@ const processField = reactive<PageFieldInfo | any>({
                 fieldName: "listenerType",
                 type: "radio",
                 optionList: [{name: "Java类", value: "java"}, {name: "代理表达式", value: "proxyExp"}],
-                formShow: true,
-                tableShow: true,
+                formVisible: true,
+                listVisible: true,
                 preps: {
                   radioType: "button"
                 }
@@ -209,8 +209,8 @@ const processField = reactive<PageFieldInfo | any>({
                 fieldName: "throwEvent",
                 type: "radio",
                 optionList: [{name: "是", value: "Y"}, {name: "否", value: "N"}],
-                formShow: true,
-                tableShow: true,
+                formVisible: true,
+                listVisible: true,
                 preps: {
                   radioType: "button"
                 }
@@ -218,16 +218,16 @@ const processField = reactive<PageFieldInfo | any>({
                 label: "监听器",
                 fieldName: "listenerName",
                 type: "input",
-                formShow: true,
-                tableShow: true,
+                formVisible: true,
+                listVisible: true,
               },
                 {
                   label: "实体类型",
                   fieldName: "entityType",
                   type: "select",
                   optionList: entityTypeList,
-                  formShow: true,
-                  tableShow: true,
+                  formVisible: true,
+                  listVisible: true,
                 },]
             }]
           }, {
@@ -241,23 +241,23 @@ const processField = reactive<PageFieldInfo | any>({
                   label: "名称",
                   fieldName: "name",
                   type: "input",
-                  formShow: true,
-                  tableShow: true,
+                  formVisible: true,
+                  listVisible: true,
                 },
                 {
                   label: "数据类型",
                   fieldName: "dataType",
                   type: "select",
                   optionList: dataTypeList,
-                  formShow: true,
-                  tableShow: true,
+                  formVisible: true,
+                  listVisible: true,
                 },
                 {
                   label: "默认值",
                   fieldName: "defaultValue",
                   type: "input",
-                  formShow: true,
-                  tableShow: true,
+                  formVisible: true,
+                  listVisible: true,
                 },
               ]
             }]
@@ -268,8 +268,8 @@ const processField = reactive<PageFieldInfo | any>({
               label: "文档",
               fieldName: "desc",
               type: "textarea",
-              formShow: true,
-              tableShow: true
+              formVisible: true,
+              listVisible: true
             }]
           },
         ]

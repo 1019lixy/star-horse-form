@@ -149,46 +149,46 @@ export function viewFieldInfo(viewTypeList: Ref<SelectOption[]>, consumeAuthorit
             [
                 {
                     label: "视图名称", fieldName: "viewName", type: "input",
-                    required: true, formShow: true,
+                    required: true, formVisible: true,
                 },
                 {
                     label: "视图类型", fieldName: "viewType", type: "select",
-                    required: true, formShow: true,
+                    required: true, formVisible: true,
                     optionList: viewTypeList,
                 },
             ],
             [{
                 label: "消费权限", fieldName: "consumeAuthority", type: "select",
                 optionList: consumeAuthorityList,
-                required: true, formShow: true,
+                required: true, formVisible: true,
             }, {
                 label: "单次最大数量", fieldName: "dataLimits", type: "number",
-                required: true, formShow: true,
+                required: true, formVisible: true,
                 min: 1,
                 defaultValue: 100,
             },],
             [{
                 label: "是否认证", fieldName: "isAudit", type: "switch",
-                formShow: true,
+                formVisible: true,
                 defaultValue: "N",
             }, {
                 label: "是否去重", fieldName: "isDistinct", type: "switch",
-                formShow: true,
+                formVisible: true,
                 defaultValue: "N",
             },],
             [{
                 label: "是否需要公共字段", fieldName: "isCommonField", type: "switch",
-                formShow: true,
+                formVisible: true,
                 defaultValue: "N",
                 helpMsg: "如果指定返回字段，该设置失效",
             }, {
                 label: "是否创建菜单", fieldName: "isCreateMenu", type: "switch",
-                formShow: true,
+                formVisible: true,
                 defaultValue: "N",
             },],
             [{
                 label: "是否字段排序", fieldName: "dataSortType", type: "switch",
-                formShow: true,
+                formVisible: true,
                 defaultValue: "N",
                 actionName: "change",
                 actions: (val: any) => {
@@ -196,7 +196,7 @@ export function viewFieldInfo(viewTypeList: Ref<SelectOption[]>, consumeAuthorit
                 },
             }, {
                 label: "是否指定返回字段", fieldName: "limitFieldType", type: "switch",
-                formShow: true,
+                formVisible: true,
                 defaultValue: "N",
                 actionName: "change",
                 actions: (val: any) => {
@@ -205,7 +205,7 @@ export function viewFieldInfo(viewTypeList: Ref<SelectOption[]>, consumeAuthorit
             },],
             {
                 label: "视图描述", fieldName: "remark", type: "textarea",
-                formShow: true,
+                formVisible: true,
             },
             {
                 batchFieldList: [{
@@ -222,17 +222,17 @@ export function viewFieldInfo(viewTypeList: Ref<SelectOption[]>, consumeAuthorit
                                 val["fieldNameOptionList"] = lineDatas[val["tableName"]];
                                 console.log(val);
                             },
-                            formShow: true,
+                            formVisible: true,
                         },
                         {
                             label: "属性名", fieldName: "fieldName",
                             type: "select",
-                            formShow: true,
+                            formVisible: true,
                         },
                         {
                             label: "排序方式", fieldName: "sortType",
                             type: "select",
-                            formShow: true,
+                            formVisible: true,
                         },
                     ]
                 }, {
@@ -250,13 +250,13 @@ export function viewFieldInfo(viewTypeList: Ref<SelectOption[]>, consumeAuthorit
                                 val["exclusionFieldNameOptionList"] = lineDatas[val["tableName"]];
                                 console.log(val);
                             },
-                            formShow: true,
+                            formVisible: true,
                         },
                         {
                             label: "返回字段", fieldName: "fieldName",
                             type: "select",
                             helpMsg: "返回字段和排除字段设置一个",
-                            formShow: true,
+                            formVisible: true,
                             preps: {
                                 multiple: "Y",
                             }
@@ -264,7 +264,7 @@ export function viewFieldInfo(viewTypeList: Ref<SelectOption[]>, consumeAuthorit
                         {
                             label: "排除字段", fieldName: "exclusionFieldName",
                             type: "select",
-                            formShow: true,
+                            formVisible: true,
                             preps: {
                                 multiple: "Y",
                             }
@@ -307,23 +307,23 @@ export function relationFieldInfo(datas: any) {
             [
                 {
                     label: "关联主表名", fieldName: "from", type: "text",
-                    formShow: true,
+                    formVisible: true,
                 },
                 {
                     label: "关联主表字段名", fieldName: "fromPort", type: "text",
-                    formShow: true,
+                    formVisible: true,
                 },
             ],
             [{
                 label: "被关联表名", fieldName: "to", type: "text",
-                formShow: true,
+                formVisible: true,
             }, {
                 label: "被关联表字段名", fieldName: "toPort", type: "text",
-                formShow: true,
+                formVisible: true,
             },],
             {
                 label: "自定义条件", fieldName: "condition", type: "switch",
-                formShow: true,
+                formVisible: true,
                 defaultValue: "N",
                 actionName: "input",
                 actions: (val: any) => {
@@ -346,23 +346,23 @@ export function relationFieldInfo(datas: any) {
                                 val["fieldNameOptionList"] = lineDatas[val["tableName"]];
                                 console.log(val);
                             },
-                            required: relationRequired, formShow: true,
+                            required: relationRequired, formVisible: true,
                         },
                         {
                             label: "属性名", fieldName: "fieldName",
                             type: "select",
-                            required: relationRequired, formShow: true,
+                            required: relationRequired, formVisible: true,
                         },
                         {
                             label: "匹配方式", fieldName: "matchType",
                             type: "select",
                             optionList: searchMatchList(),
-                            required: relationRequired, formShow: true,
+                            required: relationRequired, formVisible: true,
                         },
                         {
                             label: "匹配值", fieldName: "matchValue",
                             type: "input",
-                            required: relationRequired, formShow: true,
+                            required: relationRequired, formVisible: true,
                         }
                     ]
                 }]

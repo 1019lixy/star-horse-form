@@ -8,9 +8,9 @@ import {Config} from "@/api/settings.ts";
 const dataUrl: ApiUrls = apiInstance("devops-continus", "continus/envInfo");
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "项目名称", fieldName: "projectName", type: "input", matchType: "lk", defaultShow: true},
-    {label: "项目类型", fieldName: "projectType", type: "input", matchType: "lk", defaultShow: true},
-    {label: "程序语言", fieldName: "language", type: "input", matchType: "lk", defaultShow: true},
+    {label: "项目名称", fieldName: "projectName", type: "input", matchType: "lk", defaultVisible: true},
+    {label: "项目类型", fieldName: "projectType", type: "input", matchType: "lk", defaultVisible: true},
+    {label: "程序语言", fieldName: "language", type: "input", matchType: "lk", defaultVisible: true},
   ]
 });
 const tableFieldList = reactive({
@@ -19,52 +19,52 @@ const tableFieldList = reactive({
       label: "主键", fieldName: "idEnvInfo", type: "long",
     }, {
       label: "环境名称", fieldName: "envName", type: "input",
-      required: true, formShow: true,
-      tableShow: true
+      required: true, formVisible: true,
+      listVisible: true
     },
     [{
       label: "环境编码", fieldName: "nevCode", type: "input",
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     },
       {
         label: "环境地址", fieldName: "envHose", type: "number",
-        formShow: true,
-        tableShow: true
+        formVisible: true,
+        listVisible: true
       }],
     [{
       label: "环境端口", fieldName: "envPort", type: "input",
-      required: true, formShow: true,
-      tableShow: true
+      required: true, formVisible: true,
+      listVisible: true
     },
       {
         label: "初始空间大小", fieldName: "envInitSpace", type: "input",
-        required: true, formShow: true,
-        tableShow: true
+        required: true, formVisible: true,
+        listVisible: true
       }],
     [{
       label: "已使用空间大小", fieldName: "envUsedSpace", type: "input",
-      required: true, formShow: true,
-      tableShow: true
+      required: true, formVisible: true,
+      listVisible: true
     },
       {
         label: "程序语言", fieldName: "language", type: "input",
-        required: true, formShow: true,
-        tableShow: true
+        required: true, formVisible: true,
+        listVisible: true
       }],
     [{
       label: "失效日期", fieldName: "expirationDate", type: "input",
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     },
       {
         label: "生效时间", fieldName: "effectiveDate", type: "input",
-        formShow: true,
-        tableShow: true
+        formVisible: true,
+        listVisible: true
       }],
     {
       label: "备注", fieldName: "remark", type: "textarea",
-      formShow: true,
+      formVisible: true,
     },
     {
       label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",

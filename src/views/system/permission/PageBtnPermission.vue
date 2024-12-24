@@ -34,7 +34,7 @@ let dataForm = ref<any>({});
 let defaultCondition = ref<SearchParams[]>([]);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "角色名称", defaultShow: true, fieldName: "idRolesinfo", type: "select", optionList: rolesList},
+    {label: "角色名称", defaultVisible: true, fieldName: "idRolesinfo", type: "select", optionList: rolesList},
     {label: "创建日期", fieldName: "createdDate", type: "date", matchType: "bt"},
   ]
 });
@@ -43,22 +43,22 @@ const formFieldList = reactive<PageFieldInfo | any>({
     [
       {
         label: "角色名称", fieldName: "idRolesinfo", type: "select", optionList: rolesList,
-        required: true, formShow: true, disabled: "Y",
-        tableShow: true
+        required: true, formVisible: true, disabled: "Y",
+        listVisible: true
       }, {
       label: "所属系统", fieldName: "idInformations", type: "select", optionList: appinfoList,
-      required: true, formShow: true, disabled: "Y",
-      tableShow: true
+      required: true, formVisible: true, disabled: "Y",
+      listVisible: true
     }],
     [{
       label: "菜单名称", fieldName: "menusList", type: "tselect", optionList: menusSelectList,
-      required: true, formShow: true, multiple: "Y",
-      tableShow: true
+      required: true, formVisible: true, multiple: "Y",
+      listVisible: true
     },
       {
         label: "权限", fieldName: "resourcesPos", type: "select", optionList: authorityList,
-        required: true, formShow: true, multiple: "Y",
-        tableShow: true
+        required: true, formVisible: true, multiple: "Y",
+        listVisible: true
       }],
 
   ],
@@ -67,19 +67,19 @@ const formFieldList = reactive<PageFieldInfo | any>({
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     {
-      label: "角色名称", fieldName: "roleName", type: "input", formShow: true
+      label: "角色名称", fieldName: "roleName", type: "input", formVisible: true
     },
     {
-      label: "系统名称", fieldName: "sysName", type: "input", tableShow: true
+      label: "系统名称", fieldName: "sysName", type: "input", listVisible: true
     },
     {
-      label: "系统编码", fieldName: "sysCode", type: "input", tableShow: true
+      label: "系统编码", fieldName: "sysCode", type: "input", listVisible: true
     },
     {
-      label: "菜单名称", fieldName: "menuName", type: "input", tableShow: true
+      label: "菜单名称", fieldName: "menuName", type: "input", listVisible: true
     },
     {
-      label: "权限", fieldName: "btnNames", tableShow: true
+      label: "权限", fieldName: "btnNames", listVisible: true
     },
   ],
   cellEditable: false

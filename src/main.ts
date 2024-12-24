@@ -1,11 +1,12 @@
 import "element-plus/theme-chalk/index.css"
 import "@/assets/css/index.scss"
-import "@/views/workflow/plugin/css/flow.scss"
+import "@/assets/css/flow.scss"
 import userComponent from "@/components/comp/selfcomp";
 import nodeComponent from "@/views/continus/nodeInfo/nodecomp";
 import userContainerComponent from "@/components/comp/items/callitem";
 import itemComponent from "@/components/formcomp/items/allitem";
 import containerComponent from "@/components/formcomp/container/callitem";
+import flowNodeComponent from "@/views/workflow/plugin/FlowNode/nodes.ts";
 import App from "@/App.vue";
 import {createApp} from "vue"
 import ElementPlus from "element-plus";
@@ -15,7 +16,7 @@ import 'highlight.js/styles/idea.css' //这里有多个样式，自己可以根�
 import 'highlight.js/lib/common'
 import hljsVuePlugin from '@highlightjs/vue-plugin'
 import "animate.css"
-//import "uno.css"
+//import "uno.enums"
 import ZhLocale from 'element-plus/es/locale/lang/zh-cn'; // 中文
 import router from "@/router";
 import draggable from "vuedraggable";
@@ -31,6 +32,7 @@ import "prismjs/components/prism-json.js";
 import hljs from "highlight.js";
 
 const app = createApp(App);
+// window.app = app;
 app.component("draggable", draggable);
 /**
  * 加载elementplus 自己提供的图标
@@ -44,6 +46,7 @@ app.use(itemComponent);
 app.use(userContainerComponent);
 app.use(containerComponent);
 app.use(nodeComponent);
+app.use(flowNodeComponent);
 app.use(piniaInstance);
 app.use(router);
 VMEditor.use(vuepressTheme, {

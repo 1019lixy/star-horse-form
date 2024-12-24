@@ -51,30 +51,31 @@ const onDragAdd = (evt: Event, dataList: any) => {
   }
 };
 
-watch(() => props.field,
-    () => {
-      update!.proxy!.$forceUpdate();
-      console.log("forceupdate")
-    }, {
-      immediate: false,
-      deep: true
-    })
+// watch(() => props.field,
+//     () => {
+//       update!.proxy!.$forceUpdate();
+//       console.log("forceupdate")
+//     }, {
+//       immediate: false,
+//       deep: true
+//     })
 </script>
 <template>
   <group-box-container
       class="star-horse-form-container"
       :parentField="parentField"
       :form-item="boxCompList">
-    <el-row v-for="adata in boxCompList.preps?.elements"
+
+    <el-row v-for="element in boxCompList.preps.elements"
             :gutter="boxCompList.preps?.gutter||10"
-            :justify="boxCompList.preps?.justify"
-            :align="boxCompList.preps?.align"
-            :tag="boxCompList.preps?.tag">
+            :justify="boxCompList.preps?.justify||'start'"
+            :align="boxCompList.preps?.align||'top'"
+            :tag="boxCompList.preps?.tag||'div'">
       <el-col
           class="edit_col"
           :item-key="index"
           :span="sdata.colspan||24"
-          v-for="(sdata,index) in adata.columns"
+          v-for="(sdata,index) in element.columns"
           v-if="isEdit"
       >
         <draggable
@@ -106,7 +107,7 @@ watch(() => props.field,
           :span="sdata.colspan||24"
           style="border: none"
           v-else
-          v-for="(sdata,index) in adata.columns"
+          v-for="(sdata,index) in element.columns"
       >
         <template v-for="data in sdata.items">
           <component

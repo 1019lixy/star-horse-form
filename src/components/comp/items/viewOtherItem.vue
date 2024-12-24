@@ -32,7 +32,7 @@ onMounted(() => {
 <template>
   <star-horse-item v-if="item.type=='comp'" :primaryKey="'id'" v-model:dataForm="dataForm" :item="item"
                    :isView="true"/>
-  <div class="item" v-if="item.formShow||item.tableShow||item.viewShow">
+  <div class="item" v-if="item.formVisible||item.listVisible||item.viewVisible">
     <label>{{ item.label }} :</label>
     <div class="content">
       <pre v-if="item.type=='textarea'||item.type=='markdown'">{{ dataFormat(item) }}</pre>

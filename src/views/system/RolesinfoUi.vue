@@ -39,9 +39,9 @@ const sessionTimeOut = [
 ];
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "用户组名称", fieldName: "roleName", defaultShow: true, type: "input", matchType: "lk"},
+    {label: "用户组名称", fieldName: "roleName", defaultVisible: true, type: "input", matchType: "lk"},
     /* {label: "角色编码", fieldName: "roleCode", type: "input", matchType: "lk"},*/
-    {label: "用户组类型", fieldName: "roleType", defaultShow: true, type: "select", optionList: roleTypes},
+    {label: "用户组类型", fieldName: "roleType", defaultVisible: true, type: "select", optionList: roleTypes},
   ]
 });
 const tableFieldList = reactive<PageFieldInfo | any>({
@@ -51,8 +51,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     },
     {
       label: "用户组名称", fieldName: "roleName", type: "input",
-      required: true, formShow: true,
-      tableShow: true
+      required: true, formVisible: true,
+      listVisible: true
     },
     /*    {
           label: "归属部门", fieldName: "idDepartment", type: "select", optionList: departmentList,
@@ -68,13 +68,13 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     },
     {
       label: "用户组类型", fieldName: "roleType", type: "select", optionList: roleTypes,
-      required: true, formShow: true, editDisabled: "Y",
-      tableShow: true
+      required: true, formVisible: true, editDisabled: "Y",
+      listVisible: true
     },
     {
       label: "会话超时时间", fieldName: "sessionTimeOut", type: "select", optionList: sessionTimeOut,
-      required: true, formShow: true, defaultValue: 30,
-      tableShow: true
+      required: true, formVisible: true, defaultValue: 30,
+      listVisible: true
     },
     [{
       label: "系统权限", fieldName: "appsList", type: "select", optionList: systemList,
@@ -86,19 +86,19 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       }],
     {
       label: "用户组职责", fieldName: "roleDesc", type: "textarea",
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     },
     {
       label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
-      tableShow: true
+      listVisible: true
     },
     {
       label: "修改人", disabled: "Y", fieldName: "updatedBy", type: "input",
     },
     {
       label: "创建日期", disabled: "Y", fieldName: "createdDate", type: "date",
-      tableShow: true
+      listVisible: true
     },
     {
       label: "修改日期", disabled: "Y", fieldName: "updatedDate", type: "date",

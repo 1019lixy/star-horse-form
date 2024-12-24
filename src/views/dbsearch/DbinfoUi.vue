@@ -16,8 +16,8 @@ let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.co
 let dbTypeList = ref<Array<any>>([]);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "数据库类型", fieldName: "dbType", type: "select", defaultShow: true, optionList: dbTypeList},
-    {label: "数据库名称", fieldName: "dbName", type: "input", defaultShow: true, matchType: "lk"},
+    {label: "数据库类型", fieldName: "dbType", type: "select", defaultVisible: true, optionList: dbTypeList},
+    {label: "数据库名称", fieldName: "dbName", type: "input", defaultVisible: true, matchType: "lk"},
   ]
 });
 const tableFieldList = reactive<PageFieldInfo>({
@@ -27,53 +27,53 @@ const tableFieldList = reactive<PageFieldInfo>({
     },
     [{
       label: "数据库类型", fieldName: "dbType", type: "select", optionList: dbTypeList,
-      required: true, formShow: true,
+      required: true, formVisible: true,
       actionName: "change", actions: (val: any) => {
         val["port"] = dbTypeList.value.find(item => item.value == val["dbType"])?.port || val["port"];
       },
-      tableShow: true
+      listVisible: true
     },
       {
         label: "数据库名称/实例", fieldName: "dbName", type: "input",
-        formShow: true, required: true,
-        tableShow: true,
+        formVisible: true, required: true,
+        listVisible: true,
         brotherNodes: [{
           fieldName: "createDb",
           type: "radio",
           defaultValue: "N",
-          formShow: true,
+          formVisible: true,
           optionList: [{name: "不存在创建", value: "Y"}]
         }]
       }],
     [{
       label: "数据库地址", fieldName: "host", type: "input",
-      formShow: true, required: true,
-      tableShow: true
+      formVisible: true, required: true,
+      listVisible: true
     },
       {
         label: "数据库端口", fieldName: "port", type: "number",
-        formShow: true, required: true,
-        tableShow: true
+        formVisible: true, required: true,
+        listVisible: true
       }],
     [{
       label: "用户名", fieldName: "userName", type: "input",
-      formShow: true, required: true,
-      tableShow: true
+      formVisible: true, required: true,
+      listVisible: true
     },
       {
         label: "密码", fieldName: "password", type: "password",
-        formShow: true, required: true,
-        tableShow: true
+        formVisible: true, required: true,
+        listVisible: true
       }],
     {
       label: "禁用操作权限", fieldName: "exclusions", type: "textarea",
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     },
     {
       label: "数据库描述", fieldName: "dbComment", type: "textarea",
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     },
     {
       label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
@@ -166,8 +166,10 @@ onMounted(() => {
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible"
                      :compSize="compSize"
                      :dialogProps="dialogProps">
-    <star-horse-form @refresh="dbinfoRef.loadByPage()" :compUrl="dataUrl"
-                     :fieldList="tableFieldList" :rules="rules" ref="dbinfoFormRef"/>
+    <div class="dialog-body">
+      <star-horse-form @refresh="dbinfoRef.loadByPage()" :compUrl="dataUrl"
+                       :fieldList="tableFieldList" :rules="rules" ref="dbinfoFormRef"/>
+    </div>
     <template #extand>
       <el-button @click="validDb" type="primary" :size="compSize">
         <star-horse-icon icon-class="valid" color="var(--star-horse-white)"/>
@@ -177,7 +179,9 @@ onMounted(() => {
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title=
       "'查看数据'" :is-view="true">
-    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+    <div class="dialog-body">
+      <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+    </div>
   </star-horse-dialog>
   <el-card class="inner_content">
     <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
@@ -190,6 +194,10 @@ onMounted(() => {
     </div>
     <star-horse-table-comp ref="dbinfoRef" :fieldList="tableFieldList"
                            :primaryKey="primaryKey" :compUrl="dataUrl"
+                           :order-by="[{
+                             fieldName:'createdDate',
+                             ascOrDesc:'desc'
+                           }]"
                            :dataFormat="dataFormat"/>
   </el-card>
 </template>

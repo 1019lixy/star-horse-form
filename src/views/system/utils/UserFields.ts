@@ -15,30 +15,30 @@ const userEditFieldInfo: Array<any> = [
     [
         {
             label: "邮箱地址", fieldName: "email", type: "input",
-            required: true, formShow: true,
-            tableShow: true
+            required: true, formVisible: true,
+            listVisible: true
         },
         {
             label: "联系电话", fieldName: "phone", type: "input",
-            required: true, formShow: true,
-            tableShow: true
+            required: true, formVisible: true,
+            listVisible: true
         }
     ],
     [
         {
             label: "姓名", fieldName: "name", type: "input",
-            required: true, formShow: true,
-            tableShow: true
+            required: true, formVisible: true,
+            listVisible: true
         },
         {
             label: "性别", fieldName: "sex", type: "radio", optionList: sexList,
             defaultValue: 3,
-            formShow: true,
-            tableShow: true
+            formVisible: true,
+            listVisible: true
         }
     ],
     {
-        label: "紧急联系人电话", fieldName: "bakePhone", type: "input", formShow: true,
+        label: "紧急联系人电话", fieldName: "bakePhone", type: "input", formVisible: true,
     },
 ];
 const userFormat = (name: string, val: any, row: any) => {
@@ -59,8 +59,8 @@ const baseUserFields: Array<any> = [
     [
         {
             label: "用户名", fieldName: "username", aliasName: "employeeNo", type: "user",
-            required: true, formShow: true, editDisabled: "Y",
-            tableShow: true,
+            required: true, formVisible: true, editDisabled: "Y",
+            listVisible: true,
             preps: {
                 needField: [
                     {sourceField: "name", distField: "name"},
@@ -74,14 +74,14 @@ const baseUserFields: Array<any> = [
         },
         {
             label: "所属用户组", fieldName: "rolesList", type: "select", optionList: rolesList,
-            required: true, formShow: true, multiple: "Y",
-            tableShow: true
+            required: true, formVisible: true, multiple: "Y",
+            listVisible: true
         }
     ],
     ...userEditFieldInfo,
     {
         label: "状态", fieldName: "statusName", type: "input",
-        tableShow: true
+        listVisible: true
     },
 ];
 const fullUserField: Array<any> = [
@@ -90,8 +90,8 @@ const fullUserField: Array<any> = [
 
     {
         label: "学历", fieldName: "education", type: "select", optionList: educationList,
-        formShow: true,
-        tableShow: true
+        formVisible: true,
+        listVisible: true
     },
     [{
         label: "入职时间", fieldName: "entryDate", type: "date",
@@ -101,52 +101,52 @@ const fullUserField: Array<any> = [
         }],
     {
         label: "籍贯", fieldName: "nativePlace", type: "select", optionList: nativePlaceList,
-        formShow: true,
-        tableShow: true
+        formVisible: true,
+        listVisible: true
     },
     {
         label: "政治面貌", fieldName: "politicalStatus", type: "select", optionList: politicalStatusList,
-        formShow: true,
-        tableShow: true
+        formVisible: true,
+        listVisible: true
     },
     {
         label: "证件类型", fieldName: "identityType", type: "select", optionList: identityTypeList,
-        formShow: true,
-        tableShow: true
+        formVisible: true,
+        listVisible: true
     },
     {
         label: "证件编号", fieldName: "identityNo", type: "input",
-        formShow: true,
-        tableShow: true
+        formVisible: true,
+        listVisible: true
     },
     [{
         label: "状态", fieldName: "statusCode", type: "select",
-        formShow: true,
+        formVisible: true,
         optionList: statusList,
     },
         {
             label: "通信地址", fieldName: "address", type: "input",
-            formShow: true,
-            tableShow: true
+            formVisible: true,
+            listVisible: true
         }],
     {
         label: "备注", fieldName: "remark", type: "textarea",
-        formShow: true,
-        tableShow: true
+        formVisible: true,
+        listVisible: true
     },
     {
         label: "证件照", fieldName: "imagePath", type: "input",
     },
     {
         label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
-        tableShow: true
+        listVisible: true
     },
     {
         label: "修改人", disabled: "Y", fieldName: "updatedBy", type: "input",
     },
     {
         label: "创建日期", disabled: "Y", fieldName: "createdDate", type: "date",
-        tableShow: true
+        listVisible: true
     },
     {
         label: "修改日期", disabled: "Y", fieldName: "updatedDate", type: "date",

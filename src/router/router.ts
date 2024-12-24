@@ -158,5 +158,13 @@ routers.push(
             keepAlive: "N",
             title: "流程表单"
         }
+    }, {
+        path: "/dingding",
+        component: () => import("@/views/workflow/formItems/UFlowDesign.vue"),
+        name: "WorkFlowForm",
+        meta: {
+            keepAlive: "N",
+            title: "流程表单"
+        }
     });
 export default routers;

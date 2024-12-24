@@ -8,7 +8,7 @@ const props = defineProps({
   // compUrl: {type: Object as PropType<ApiUrls>},
   fieldList: {type: Object as PropType<PageFieldInfo>, required: true},
   objectName: {type: String},
-  subCreateFlag: {type: Boolean, default: false},
+  subFormFlag: {type: String, default: "N"},
   batchName: {type: String, default: "batchDataList"},
   batchFieldName: {type: String, default: "batchFieldList"},
   primaryKey: {type: String},

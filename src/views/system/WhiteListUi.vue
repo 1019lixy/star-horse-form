@@ -11,8 +11,8 @@ const dataUrl: ApiUrls = apiInstance("system-config", "system/whiteList");
 let typeList = ref({});
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "过滤类型", fieldName: "whiteType", defaultShow: true, type: "select", optionList: typeList},
-    {label: "过滤内容", fieldName: "whiteName", defaultShow: true, type: "input", matchType: "lk"},
+    {label: "过滤类型", fieldName: "whiteType", defaultVisible: true, type: "select", optionList: typeList},
+    {label: "过滤内容", fieldName: "whiteName", defaultVisible: true, type: "input", matchType: "lk"},
   ]
 });
 const tableFieldList = reactive<PageFieldInfo>({
@@ -22,29 +22,29 @@ const tableFieldList = reactive<PageFieldInfo>({
     },
     {
       label: "过滤类型", fieldName: "whiteType", type: "select", optionList: typeList,
-      required: true, formShow: true,
-      tableShow: true
+      required: true, formVisible: true,
+      listVisible: true
     },
     {
       label: "过滤内容", fieldName: "whiteName", type: "input",
-      required: true, formShow: true,
-      tableShow: true
+      required: true, formVisible: true,
+      listVisible: true
     },
     {
       label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
-      tableShow: true
+      listVisible: true
     },
     {
       label: "创建日期", disabled: "Y", fieldName: "createdDate", type: "date",
-      tableShow: true
+      listVisible: true
     },
     {
       label: "修改人", disabled: "Y", fieldName: "updatedBy", type: "input",
-      tableShow: true
+      listVisible: true
     },
     {
       label: "修改日期", disabled: "Y", fieldName: "updatedDate", type: "date",
-      tableShow: true
+      listVisible: true
     },
     {
       label: "数据版本号", fieldName: "version", type: "number",
@@ -66,8 +66,8 @@ const tableFieldList = reactive<PageFieldInfo>({
     },
     {
       label: "备注", fieldName: "remark", type: "textarea",
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     },
   ],
   batchFieldList: []

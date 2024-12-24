@@ -1,10 +1,8 @@
 import {Config} from '@/api/settings.ts'
 import {SearchParams} from "@/components/types/Params";
 
-const TokenKey = Config.TokenKey || "STAR-HORSE-TOEKN";
-
 export function getToken() {
-    return sessionStorage.getItem(TokenKey)
+    return sessionStorage.getItem(Config.TokenKey)
 }
 
 export function setUserInfo(userInfo: any) {
@@ -66,10 +64,10 @@ export function isSystemManage(): boolean {
 export function setToken(token: string, rememberMe: any) {
     if (rememberMe) {
     } else {
-        sessionStorage.setItem(TokenKey, token);
+        sessionStorage.setItem(Config.TokenKey, token);
     }
 }
 
 export function removeToken() {
-    sessionStorage.removeItem(TokenKey);
+    sessionStorage.removeItem(Config.TokenKey);
 }

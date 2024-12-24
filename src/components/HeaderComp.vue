@@ -163,11 +163,11 @@ const changeLang = (lang: LangType, isInit: boolean) => {
 const fieldList = ref<PageFieldInfo>({
   fieldList: [{
     label: "菜单名称",
-    tableShow: true,
+    listVisible: true,
     fieldName: "meta.title"
   }, {
     label: "菜单路径",
-    tableShow: true,
+    listVisible: true,
     fieldName: "path"
   }],
   stopAutoLoad: true

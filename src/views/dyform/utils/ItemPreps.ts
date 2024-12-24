@@ -205,16 +205,16 @@ export function dataSourceFields(dataSourceRef: Ref<any>, _recall: Function) {
                 label: "表单属性",
                 fieldName: "label",
                 type: "text",
-                formShow: true,
-                tableShow: true,
+                formVisible: true,
+                listVisible: true,
             },
                 {
                     label: "数据源类型",
                     fieldName: "dataSource",
                     type: "select",
                     required: true,
-                    formShow: true,
-                    tableShow: true,
+                    formVisible: true,
+                    listVisible: true,
                     defaultValue: "data",
                     optionList: dataSourceList,
                     actionName: "change",
@@ -254,15 +254,15 @@ export function dataSourceFields(dataSourceRef: Ref<any>, _recall: Function) {
                                 fieldName: "name",
                                 type: "input",
                                 required: dataRequired,
-                                formShow: true,
-                                tableShow: true,
+                                formVisible: true,
+                                listVisible: true,
                             }, {
                                 label: "属性值",
                                 fieldName: "value",
                                 type: "input",
                                 required: dataRequired,
-                                formShow: true,
-                                tableShow: true,
+                                formVisible: true,
+                                listVisible: true,
                             }]
                         }]
                     }, {
@@ -277,7 +277,7 @@ export function dataSourceFields(dataSourceRef: Ref<any>, _recall: Function) {
                                 defaultValue: {"preinterfaceUrl": "http://"},
                                 required: urlRequired,
                                 helpMsg: helpMsg,
-                                formShow: true,
+                                formVisible: true,
                                 preps: {
                                     colspan: 16,
                                     prependList: [
@@ -297,8 +297,8 @@ export function dataSourceFields(dataSourceRef: Ref<any>, _recall: Function) {
                                     type: "select",
                                     required: urlRequired,
                                     defaultValue: "POST",
-                                    formShow: true,
-                                    tableShow: true,
+                                    formVisible: true,
+                                    listVisible: true,
                                     optionList: httpMethod(),
                                     preps: {
                                         colspan: 8
@@ -310,8 +310,8 @@ export function dataSourceFields(dataSourceRef: Ref<any>, _recall: Function) {
                                 type: "select",
                                 optionList: fieldList,
                                 required: urlRequired,
-                                formShow: true,
-                                tableShow: true,
+                                formVisible: true,
+                                listVisible: true,
                             },
                                 {
                                     label: "标签值字段",
@@ -319,8 +319,8 @@ export function dataSourceFields(dataSourceRef: Ref<any>, _recall: Function) {
                                     type: "select",
                                     optionList: fieldList,
                                     required: urlRequired,
-                                    formShow: true,
-                                    tableShow: true,
+                                    formVisible: true,
+                                    listVisible: true,
                                 }]],
                         batchFieldList: [
                             {
@@ -332,23 +332,23 @@ export function dataSourceFields(dataSourceRef: Ref<any>, _recall: Function) {
                                     type: "select",
                                     optionList: fieldList,
                                     required: urlRequired,
-                                    formShow: true,
-                                    tableShow: true,
+                                    formVisible: true,
+                                    listVisible: true,
                                 }, {
                                     label: "参数值",
                                     fieldName: "value",
                                     type: "input",
                                     required: urlRequired,
-                                    formShow: true,
-                                    tableShow: true,
+                                    formVisible: true,
+                                    listVisible: true,
                                 }, {
                                     label: "匹配方式",
                                     fieldName: "matchType",
                                     type: "select",
                                     defaultValue: "eq",
                                     required: urlRequired,
-                                    formShow: true,
-                                    tableShow: true,
+                                    formVisible: true,
+                                    listVisible: true,
                                     optionList: matchTypeList,
                                 },]
                             }]
@@ -362,8 +362,8 @@ export function dataSourceFields(dataSourceRef: Ref<any>, _recall: Function) {
                                 fieldName: "urlOrDictName",
                                 type: "input",
                                 required: dictRequired,
-                                formShow: true,
-                                tableShow: true,
+                                formVisible: true,
+                                listVisible: true,
                                 preps: {
                                     appendAction: {
                                         icon: "valid",
@@ -402,7 +402,7 @@ export function paramsFields(fieldName: string, item: any) {
         {
             fieldName: "preinterfaceUrl",
             type: "input",
-            formShow: false,
+            formVisible: false,
             defaultValue: "http://",
             preps: {
                 colspan: -1
@@ -414,7 +414,7 @@ export function paramsFields(fieldName: string, item: any) {
             type: "input",
             required: true,
             helpMsg: helpMsg,
-            formShow: true,
+            formVisible: true,
             preps: {
                 colspan: 24,
                 prependList: [
@@ -431,7 +431,7 @@ export function paramsFields(fieldName: string, item: any) {
             defaultValue: "POST",
             required: true,
             optionList: httpMethod(),
-            formShow: true,
+            formVisible: true,
             preps: {
                 colspan: 10
             }
@@ -441,7 +441,7 @@ export function paramsFields(fieldName: string, item: any) {
             fieldName: "dataType",
             type: "select",
             defaultValue: "JSON",
-            formShow: true,
+            formVisible: true,
             required: true,
             optionList: dataType(),
             preps: {
@@ -453,7 +453,7 @@ export function paramsFields(fieldName: string, item: any) {
             fieldName: "primaryKey",
             type: "select",
             helpMsg: "在列表中需用到",
-            formShow: true,
+            formVisible: true,
             required: true,
             optionList: fieldList,
             preps: {
@@ -485,7 +485,7 @@ export function paramsFields(fieldName: string, item: any) {
                 }
             },
             required: true,
-            formShow: true,
+            formVisible: true,
             preps: {
                 colspan: 4,
             }
@@ -496,45 +496,45 @@ export function paramsFields(fieldName: string, item: any) {
             label: "列名",
             fieldName: "fieldName",
             type: "input",
-            formShow: true,
+            formVisible: true,
         },
         {
             label: "排序",
             fieldName: "ascOrDesc",
             type: "select",
-            formShow: true,
+            formVisible: true,
             optionList: ascOrDesc()
         }];
     const fieldLists: FieldInfo[] = [{
         label: "列名",
         fieldName: "label",
         type: "input",
-        formShow: true,
+        formVisible: true,
     }, {
         label: "属性名称",
         fieldName: "fieldName",
         type: "select",
         allowCreate: true,
         optionList: fieldList,
-        formShow: true,
+        formVisible: true,
     }, {
         label: "搜索显示",
         fieldName: "searchFlag",
         type: "switch",
         defaultValue: "Y",
-        formShow: true,
+        formVisible: true,
     }];
     const needFields: FieldInfo[] = [{
         label: "原属性名",
         fieldName: "sourceField",
         type: "select",
         optionList: fieldList,
-        formShow: true,
+        formVisible: true,
     }, {
         label: "目标属性名",
         fieldName: "distField",
         type: "input",
-        formShow: true,
+        formVisible: true,
     }];
     const otherField: FieldInfo[] = [];
     const fieldInfos: string[] = ["dataUrl", "orderby", "fieldList", "needField"];
@@ -545,7 +545,7 @@ export function paramsFields(fieldName: string, item: any) {
                 label: temp.label,
                 fieldName: temp.fieldName,
                 type: "input",
-                tableShow: true,
+                listVisible: true,
             });
         }
     }
@@ -594,8 +594,8 @@ export function containerField(fieldName: string) {
                 fieldName: "label",
                 type: "input",
                 required: true,
-                formShow: true,
-                tableShow: true,
+                formVisible: true,
+                listVisible: true,
             }, {
                 label: "主键",
                 fieldName: "tabName",
@@ -603,23 +603,23 @@ export function containerField(fieldName: string) {
                 当设置对应关系时,系统作为表的主键`,
                 type: "input",
                 required: true,
-                formShow: true,
-                tableShow: true,
+                formVisible: true,
+                listVisible: true,
             }, {
                 label: "对象名字",
                 fieldName: "objectName",
                 type: "input",
                 required: true,
-                formShow: true,
-                tableShow: true,
+                formVisible: true,
+                listVisible: true,
             }, {
                 label: "是否子表",
                 fieldName: "subFormFlag",
                 type: "switch",
                 defaultValue: "Y",
                 required: true,
-                formShow: true,
-                tableShow: true,
+                formVisible: true,
+                listVisible: true,
             }]
         }]
     };
@@ -633,8 +633,8 @@ export function containerField(fieldName: string) {
                 fieldName: "label",
                 type: "input",
                 required: true,
-                formShow: true,
-                tableShow: true,
+                formVisible: true,
+                listVisible: true,
             }, {
                 label: "主键",
                 fieldName: "tabName",
@@ -642,23 +642,23 @@ export function containerField(fieldName: string) {
                 当设置对应关系时,系统作为表的主键`,
                 type: "input",
                 required: true,
-                formShow: true,
-                tableShow: true,
+                formVisible: true,
+                listVisible: true,
             }, {
                 label: "对象名字",
                 fieldName: "objectName",
                 type: "input",
                 required: true,
-                formShow: true,
-                tableShow: true,
+                formVisible: true,
+                listVisible: true,
             }, {
                 label: "是否子表",
                 fieldName: "subFormFlag",
                 type: "switch",
                 defaultValue: "Y",
                 required: true,
-                formShow: true,
-                tableShow: true,
+                formVisible: true,
+                listVisible: true,
             }]
         }]
     };
@@ -673,8 +673,8 @@ export function containerField(fieldName: string) {
                 fieldName: "colIndex",
                 type: "input",
                 required: true,
-                formShow: true,
-                tableShow: true,
+                formVisible: true,
+                listVisible: true,
                 batchFieldList: [{
                     batchName: "columns",
                     batchDefaultData: {items: []},
@@ -684,8 +684,8 @@ export function containerField(fieldName: string) {
                         type: "number",
                         defaultValue: 24,
                         required: true,
-                        formShow: true,
-                        tableShow: true,
+                        formVisible: true,
+                        listVisible: true,
                         actionName: "change",
                         preps: {
                             min: 1,
@@ -717,8 +717,8 @@ export function containerField(fieldName: string) {
                 fieldName: "colIndex",
                 type: "input",
                 required: true,
-                formShow: true,
-                tableShow: true,
+                formVisible: true,
+                listVisible: true,
                 batchFieldList: [{
                     batchName: "columns",
                     batchDefaultData: {items: []},
@@ -728,8 +728,8 @@ export function containerField(fieldName: string) {
                         type: "number",
                         defaultValue: 100,
                         required: true,
-                        formShow: true,
-                        tableShow: true,
+                        formVisible: true,
+                        listVisible: true,
                         actionName: "change",
                         preps: {
                             min: 10,
@@ -752,8 +752,8 @@ export function containerField(fieldName: string) {
                         type: "number",
                         defaultValue: 30,
                         required: true,
-                        formShow: true,
-                        tableShow: true,
+                        formVisible: true,
+                        listVisible: true,
                         actionName: "change",
                         preps: {
                             min: 30,
@@ -808,8 +808,8 @@ export function relationDataField() {
                 optionList: eventList,
                 defaultValue: "change",
                 required: true,
-                formShow: true,
-                tableShow: true,
+                formVisible: true,
+                listVisible: true,
             },
             {
                 batchFieldList: [
@@ -834,16 +834,16 @@ export function relationDataField() {
                                     val["_matchTypeEditable"] = true;
                                 }
                             },
-                            formShow: true,
-                            tableShow: true,
+                            formVisible: true,
+                            listVisible: true,
                         }, {
                             label: "被控制属性",
                             fieldName: "relationFields",
                             type: "tselect",
                             optionList: fields,
                             required: true,
-                            formShow: true,
-                            tableShow: true,
+                            formVisible: true,
+                            listVisible: true,
                             preps: {
                                 checkStrictly: "Y"
                             }
@@ -855,16 +855,16 @@ export function relationDataField() {
                             defaultValue: "eq",
                             required: false,
                             disabled: "Y",
-                            formShow: true,
-                            tableShow: true,
+                            formVisible: true,
+                            listVisible: true,
                         }, {
                             label: "参数",
                             fieldName: "params",
                             type: fieldType,
                             required: false,
                             helpMsg: `1、如果是作为查询条件，则填写参数名称；\n2、如果是等于某个值，则填写具体的值；`,
-                            formShow: true,
-                            tableShow: true,
+                            formVisible: true,
+                            listVisible: true,
                         }]
                     }
                 ]
@@ -883,78 +883,100 @@ export function compCommonFields(): FieldInfo[] {
             fieldName: "label",
             type: "input",
             required: true,
-            formShow: true
+            formVisible: true
         },
         {
             label: "属性名称",
             fieldName: "name",
             required: true,
             type: "input",
-            formShow: true
+            formVisible: true
+        },
+        {
+            label: "数据长度",
+            fieldName: "maxLength",
+            required: true,
+            defaultValue: 100,
+            type: "number",
+            formVisible: true
         },
         {
             label: "表单显示",
-            fieldName: "formShow",
+            fieldName: "formVisible",
             type: "switch",
             defaultValue: "Y",
-            formShow: true
+            formVisible: true
         },
         {
             label: "查询显示",
-            fieldName: "searchShow",
+            fieldName: "searchVisible",
             type: "switch",
             defaultValue: "N",
-            formShow: true
+            formVisible: true
         },
         {
             label: "列表显示",
-            fieldName: "tableShow",
+            fieldName: "listVisible",
             type: "switch",
             defaultValue: "Y",
-            formShow: true
+            formVisible: true
         },
         {
             label: "查看显示",
-            fieldName: "viewShow",
+            fieldName: "viewVisible",
             type: "switch",
             defaultValue: "Y",
-            formShow: true
+            formVisible: true
         },
         {
             label: "隐藏标签",
             fieldName: "hideLabel",
             type: "switch",
             defaultValue: "N",
-            formShow: true
+            formVisible: true
         },
         {
             label: "是否必须",
             fieldName: "required",
             type: "switch",
             defaultValue: "N",
-            formShow: true
+            formVisible: true
         },
         {
             label: "全局禁用",
             fieldName: "disabled",
             type: "switch",
             defaultValue: "N",
-            formShow: true
+            formVisible: true
         },
         {
             label: "修改禁用",
             fieldName: "editDisabled",
             type: "switch",
             defaultValue: "N",
-            formShow: true
+            formVisible: true
+        },
+        {
+            label: "可清除",
+            fieldName: "clearable",
+            type: "switch",
+            defaultValue: "Y",
+            formVisible: true
+        },
+        {
+            label: "只读",
+            fieldName: "readonly",
+            type: "switch",
+            defaultValue: "N",
+            formVisible: true
         },
         {
             label: "唯一性校验",
             fieldName: "uniqueValid",
             type: "switch",
-            helpMsg:`如果开启此功能，\n在新增数据时系统对数据进行唯一性校验。`,
+            helpMsg: `如果开启此功能，\n在新增数据时系统对数据进行唯一性校验。`,
             defaultValue: "N",
-            formShow: true
+            formVisible: true
         }
     ]);
 }

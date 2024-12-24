@@ -21,14 +21,14 @@ const searchFormData = reactive<SearchFields>({
     {
       label: "名称",
       fieldName: "categoryName",
-      defaultShow: true,
+      defaultVisible: true,
       matchType: "lk",
       type: "input"
     },
     {
       label: "编码",
       fieldName: "categoryCode",
-      defaultShow: true,
+      defaultVisible: true,
       matchType: "lk",
       type: "input"
     },
@@ -45,8 +45,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       fieldName: "categoryName",
       type: "input",
       required: true,
-      formShow: !false,
-      tableShow: !false,
+      formVisible: !false,
+      listVisible: !false,
     },
     {
       label: "编码",
@@ -54,16 +54,16 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "input",
       required: true,
       editDisabled: "Y",
-      formShow: !false,
-      tableShow: !false,
+      formVisible: !false,
+      listVisible: !false,
     },
     {
       label: "序号",
       fieldName: "dataSort",
       type: "number",
       required: false,
-      formShow: !false,
-      tableShow: !false,
+      formVisible: !false,
+      listVisible: !false,
     }, ...commonField()
   ],
   cellEditable:true,

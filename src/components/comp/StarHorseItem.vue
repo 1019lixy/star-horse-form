@@ -113,7 +113,6 @@ const compPreps = () => {
     field.value.preps['type'] = unref(itemType);
     itemType.value = "datetime"
     //日期默认以时间戳赋值
-    field.value.preps["valueFormat"] = "x";
     field.value.preps["endPlaceholder"] = "结束日期";
     field.value.preps["rangeSeparator"] = "到";
     field.value.preps["startPlaceholder"] = "开始日期";
@@ -139,7 +138,7 @@ const compPreps = () => {
         if (item.prefix) {
           temp["fieldName"] = item.prefix + "." + temp["fieldName"];
         }
-        temp["defaultShow"] = true;
+        temp["defaultVisible"] = true;
         if (item?.type == "input" && !item["matchType"]) {
           temp["matchType"] = "lk";
         }
@@ -241,7 +240,7 @@ onMounted(() => {
                :field="field" :formData="dataForm"/>
     <div v-if="item.brotherNodes" style="width: 15px"/>
     <template v-for="temp in item.brotherNodes">
-      <star-horse-item v-show="temp.formShow" :primaryKey="primaryKey"
+      <star-horse-item v-show="temp.formVisible" :primaryKey="primaryKey"
                        :compSize="compSize"
                        v-model:dataForm="dataForm"
                        :item="temp" :isDesign="isDesign"
@@ -250,8 +249,9 @@ onMounted(() => {
     </template>
   </div>
   <div v-else class="comp-info"
-       :style="{ 'height':
-       itemType != 'button' ?'100%':'inherit' }">
+       :style="{ 'height':itemType != 'button' ?'100%':'inherit',
+       'width':item.minWidth||'inherit'
+  }">
     <component :id="randId" :is="(dataForm['_'+field.preps.name+'Type']||itemType)+'-item'" @selfFunc="actionDispatcher"
                :isDesign="isDesign"
                ref="componentRef"
@@ -260,7 +260,7 @@ onMounted(() => {
                :field="field" :formData="dataForm"/>
     <div v-if="item.brotherNodes" class="brother-node">
       <template v-for="temp in item.brotherNodes">
-        <star-horse-item v-if="dataForm['_'+field.preps.name+'Visible']||temp.formShow" :primaryKey="primaryKey"
+        <star-horse-item v-if="dataForm['_'+field.preps.name+'Visible']||temp.formVisible" :primaryKey="primaryKey"
                          :compSize="compSize"
                          v-model:dataForm="dataForm"
                          :item="temp" :isDesign="isDesign"

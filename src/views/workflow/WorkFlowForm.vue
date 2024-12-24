@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import {nextTick, onMounted, ref} from "vue";
-import FlowSetting from "@/views/workflow/plugin/FlowDesign/FlowSetting/index.vue"
-import BasicInfo from "@/views/workflow/plugin/FlowDesign/BasicInfo/index.vue"
-import FlowNav from "@/views/workflow/plugin/Common/FlowNav.vue";
+import FlowSetting from "@/views/workflow/plugin/FlowDesign/FlowSetting.vue"
+import BasicInfo from "@/views/workflow/plugin/FlowDesign/BasicInfo.vue"
+import FlowNav from "@/views/workflow/plugin/common/FlowNav.vue";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 import DynamicForm from "@/views/dyform/DynamicForm.vue";
@@ -28,7 +28,7 @@ const changeFlow = () => {
 }
 /**
  * 可以使用此成熟的框架，进行更改,对于bpmn-js 可以考虑去除，太技术化不太实用
- * git clone https://gitee.com/crowncloud/smart-flow-design.git
+ * git clone https://gitee.com/crowncloud/smart-sh-flow-editor.git
  */
 const change = async (item: any) => {
   if (currentData.value == 1) {

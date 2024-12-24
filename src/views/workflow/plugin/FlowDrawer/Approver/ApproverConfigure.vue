@@ -5,7 +5,7 @@
       <div class="flow-setting-option" v-for="(operation, i) in operations" :key="i">
         <div class="flow-setting-option-item">
           <div class="flow-setting-option-item-left">
-            <img :src="flowMixin.optionIcon"/>
+            <star-horse-icon icon-class="config1" size="36px"/>
             <div class="flow-setting-option-desc">
               <p class="setting-option-title">{{ operation.name }}</p>
               <p class="setting-option-desc">{{ operation.content }}</p>
@@ -23,7 +23,7 @@
       <div class="flow-setting-option" v-for="(timeout, i) in timeouts" :key="i">
         <div class="flow-setting-option-item">
           <div class="flow-setting-option-item-left">
-            <img :src="flowMixin.optionIcon"/>
+            <star-horse-icon icon-class="config1" size="36px"/>
             <div class="flow-setting-option-desc">
               <p class="setting-option-title">{{ timeout.name }}</p>
               <p class="setting-option-desc">{{ timeout.content }}</p>
@@ -40,14 +40,14 @@
       <div class="flow-setting-option" v-for="(security, i) in securities" :key="i">
         <div class="flow-setting-option-item">
           <div class="flow-setting-option-item-left">
-            <img :src="flowMixin.optionIcon"/>
+            <star-horse-icon icon-class="config1" size="36px"/>
             <div class="flow-setting-option-desc">
               <p class="setting-option-title">{{ security.name }}</p>
               <p class="setting-option-desc">{{ security.name }}</p>
             </div>
           </div>
           <div class="flow-setting-option-item-switch">
-            <el-switch v-model="security.code" active-text="开" inactive-text="关"/>
+            <el-switch v-model="security.code" active-text="开" inactive-text="关" @change="openPasswordModal"/>
           </div>
         </div>
       </div>
@@ -57,18 +57,19 @@
     <star-horse-dialog :dialog-visible="passwordVisible" :box-width="scale.isMobile()?'100%':'40%'" title="填写密码"
                        @closeAction="passwordVisible = false">
       <div class="flow-setting-module">
-        <el-input type="password" placeholder="输入密码"/>
+        <el-input type="password" v-model="password" placeholder="输入密码"/>
       </div>
     </star-horse-dialog>
   </div>
 </template>
 <script setup lang="ts">
-import {flowMixin} from '@/views/workflow/plugin/mixins/flowMixin';
 import {uuid} from "@/api/system.ts";
 import {ref} from "vue";
 import {scale} from "@/views/workflow/plugin/util/deviceUtil.ts";
 import StarHorseDialog from "@/components/comp/StarHorseDialog.vue";
-
+defineOptions({
+  name: 'ApproverConfigure',
+})
 
 const props = defineProps({
   value: {
@@ -79,6 +80,7 @@ const props = defineProps({
   },
 });
 const emits = defineEmits(["input"]);
+let password=ref<string>('');
 let passwordVisible = ref<boolean>(false);
 // 操作配置
 let operations = ref<Array<any>>([
@@ -159,7 +161,7 @@ let securities = ref<Array<any>>([
     code: 'password',
   },
 ]);
-const openPasswordModal = (checked) => {
+const openPasswordModal = (checked:any) => {
   if (checked) {
     passwordVisible.value = true;
   }

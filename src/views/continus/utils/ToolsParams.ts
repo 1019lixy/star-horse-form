@@ -33,7 +33,7 @@ const commonFields: FieldInfo[] = [{
     type: "select",
     optionList: compileLanguageList,
     required: true,
-    formShow: true,
+    formVisible: true,
     actionName: "change",
     actions: (val: any) => {
         loadLanguageVersions(val);
@@ -44,7 +44,7 @@ const commonFields: FieldInfo[] = [{
         label: "版本",
         optionList: languageVersionList,
         required: true,
-        formShow: true
+        formVisible: true
     }]
 }];
 const errorPerson = ref<boolean>(false);
@@ -59,12 +59,12 @@ const extendCommonFields: FieldInfo[] = [{
     collapseList: [{
         title: "高级设置",
         tabName: "row1",
-        subFormFlag: false,
+        subFormFlag: "N",
         objectName: "advancedSetting",
         fieldList: [[{
             label: "  ",
             type: "checkbox",
-            formShow: true,
+            formVisible: true,
             optionList: [{name: "使用唯一镜像名称", value: "Y"}],
             fieldName: "singleImageFlag",
             preps: {
@@ -74,7 +74,7 @@ const extendCommonFields: FieldInfo[] = [{
         }, {
             label: "关联使用执行机",
             type: "select",
-            formShow: true,
+            formVisible: true,
             optionList: linkExecServerList,
             fieldName: "linkExecServer",
             preps: {
@@ -84,14 +84,14 @@ const extendCommonFields: FieldInfo[] = [{
     }, {
         title: "运行结果通知",
         tabName: "result",
-        subFormFlag: false,
+        subFormFlag: "N",
         objectName: "resultReport",
         fieldList: [[{
             label: "失败时通知",
             type: "switch",
             defaultValue: "N",
             fieldName: "errorReport",
-            formShow: true,
+            formVisible: true,
             actionName: "change",
             actions: (val: any) => {
                 console.log(val);
@@ -103,7 +103,7 @@ const extendCommonFields: FieldInfo[] = [{
         }], {
             label: "通知人",
             type: "checkbox",
-            formShow: errorFlag,
+            formVisible: errorFlag,
             optionList: reportPersonList,
             fieldName: "errorReportPerson",
             actionName: "change",
@@ -117,7 +117,7 @@ const extendCommonFields: FieldInfo[] = [{
             brotherNodes: [{
                 type: "select",
                 label: "  ",
-                formShow: errorPerson,
+                formVisible: errorPerson,
                 optionList: codeCommitorList,
                 fieldName: "codeCommitor",
                 preps: {
@@ -127,7 +127,7 @@ const extendCommonFields: FieldInfo[] = [{
         }, {
             label: "通知方式",
             type: "checkbox",
-            formShow: errorFlag,
+            formVisible: errorFlag,
             optionList: reportTypeList,
             fieldName: "errorReportType",
             preps: {
@@ -142,14 +142,14 @@ const extendCommonFields: FieldInfo[] = [{
             actions: (val: any) => {
                 successFlag.value = val["successReport"] == "Y";
             },
-            formShow: true,
+            formVisible: true,
             preps: {
                 colspan: 6
             }
         }], {
             label: "通知人",
             type: "checkbox",
-            formShow: successFlag,
+            formVisible: successFlag,
             actionName: "change",
             actions: (val: any) => {
                 const temp = val["successReportPerson"];
@@ -163,7 +163,7 @@ const extendCommonFields: FieldInfo[] = [{
             brotherNodes: [{
                 type: "select",
                 label: "  ",
-                formShow: successPerson,
+                formVisible: successPerson,
                 optionList: codeCommitorList,
                 fieldName: "codeCommitor",
                 preps: {
@@ -173,7 +173,7 @@ const extendCommonFields: FieldInfo[] = [{
         }, {
             label: "通知方式",
             type: "checkbox",
-            formShow: successFlag,
+            formVisible: successFlag,
             optionList: reportTypeList,
             fieldName: "successReportType",
         }]
@@ -186,14 +186,14 @@ const mavenTools = reactive<FieldInfo[]>([
         type: "select",
         optionList: pluginVersionList,
         required: true,
-        formShow: true,
+        formVisible: true,
     }, {
         label: "Pom文件",
         fieldName: "fileName",
         type: "input",
         defaultValue: "pom.xml",
         required: false,
-        formShow: true,
+        formVisible: true,
     },],
     {
         label: "编译脚本",
@@ -201,7 +201,7 @@ const mavenTools = reactive<FieldInfo[]>([
         type: "textarea",
         defaultValue: "mvn clean compile package ",
         required: false,
-        formShow: true,
+        formVisible: true,
     },
     ...extendCommonFields
 ]);
@@ -212,14 +212,14 @@ const gradleTools = reactive<FieldInfo[]>([
         type: "select",
         optionList: pluginVersionList,
         required: true,
-        formShow: true,
+        formVisible: true,
     }, {
         label: "Gradle文件",
         fieldName: "fileName",
         type: "input",
         defaultValue: "gradlew.bat",
         required: false,
-        formShow: true,
+        formVisible: true,
     },],
     {
         label: "编译脚本",
@@ -227,7 +227,7 @@ const gradleTools = reactive<FieldInfo[]>([
         type: "textarea",
         defaultValue: "gradle build ",
         required: false,
-        formShow: true,
+        formVisible: true,
     },
     ...extendCommonFields
 ]);
@@ -238,14 +238,14 @@ const antTools = reactive<FieldInfo[]>([
         type: "select",
         optionList: pluginVersionList,
         required: true,
-        formShow: true,
+        formVisible: true,
     }, {
         label: "Ant文件",
         fieldName: "fileName",
         type: "input",
         defaultValue: "build.xml",
         required: false,
-        formShow: true,
+        formVisible: true,
     },],
     {
         label: "编译脚本",
@@ -253,7 +253,7 @@ const antTools = reactive<FieldInfo[]>([
         type: "textarea",
         defaultValue: "ant build ",
         required: false,
-        formShow: true,
+        formVisible: true,
     },
     ...extendCommonFields
 ]);

@@ -35,13 +35,13 @@ const searchFields = reactive<SearchFields>({
     {
       label: "系统名称",
       fieldName: "b.idInformations",
-      defaultShow: true,
+      defaultVisible: true,
       type: "tselect",
       optionList: informationsList,
       matchType: "eq"
     },
     {
-      label: "状态", fieldName: "b.statusCode", type: "select", optionList: appPermissionStatus, defaultShow: true
+      label: "状态", fieldName: "b.statusCode", type: "select", optionList: appPermissionStatus, defaultVisible: true
     },
   ]
 });
@@ -49,16 +49,16 @@ const formFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
       label: "分组名称", fieldName: "idRolesinfo", type: "select", optionList: rolesList,
-      formShow: true, required: true, viewShow: false, disabled: "Y"
+      formVisible: true, required: true, viewVisible: false, disabled: "Y"
     },
     {
       label: "应用名称",
       fieldName: "appList",
       type: "tselect",
       optionList: informationsList,
-      formShow: true,
+      formVisible: true,
       required: true,
-      viewShow: false,
+      viewVisible: false,
       multiple: "Y",
       helpMsg: "选择子节点时，一定要先选中父节点，否则在头部应用菜单栏无法显示",
       preps: {
@@ -68,30 +68,30 @@ const formFieldList = reactive<PageFieldInfo>({
       label: "状态",
       fieldName: "statusCode",
       type: "select",
-      tableShow: true,
-      formShow: true,
+      listVisible: true,
+      formVisible: true,
       optionList: appPermissionStatus,
     },]
 });
 const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
-      label: "分组名称", fieldName: "roleName", type: "input", tableShow: true
+      label: "分组名称", fieldName: "roleName", type: "input", listVisible: true
     },
     {
-      label: "分组编码", fieldName: "roleCode", type: "input", tableShow: true
+      label: "分组编码", fieldName: "roleCode", type: "input", listVisible: true
     },
     {
-      label: "系统名称", fieldName: "sysName", type: "input", tableShow: true
+      label: "系统名称", fieldName: "sysName", type: "input", listVisible: true
     },
     {
-      label: "系统编码", fieldName: "sysCode", type: "input", tableShow: true
+      label: "系统编码", fieldName: "sysCode", type: "input", listVisible: true
     },
     {
       label: "状态",
       fieldName: "statusName",
       type: "input",
-      tableShow: true,
+      listVisible: true,
     },
 
   ],

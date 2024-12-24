@@ -20,31 +20,31 @@ const fieldList = reactive<PageFieldInfo | any>({
             fieldName: "instanceName",
             type: "input",
             required: true,
-            formShow: true,
-            tableShow: true,
+            formVisible: true,
+            listVisible: true,
           }, {
             label: "代码分支",
             fieldName: "codeBranch",
             type: "input",
             required: true,
-            formShow: true,
-            tableShow: true,
+            formVisible: true,
+            listVisible: true,
           }], [{
             label: "流水线类型",
             fieldName: "execType",
             type: "select",
             optionList: execTypeList,
             required: true,
-            formShow: true,
-            tableShow: true,
+            formVisible: true,
+            listVisible: true,
           }, {
             label: "Cron定时触发",
             fieldName: "cron",
             type: "cron",
             helpMsg: "不设置则表示手动触发",
             required: false,
-            formShow: true,
-            tableShow: true,
+            formVisible: true,
+            listVisible: true,
           }]]
         }, {
           title: "数据源",
@@ -55,8 +55,8 @@ const fieldList = reactive<PageFieldInfo | any>({
             type: "select",
             optionList: repoList,
             required: true,
-            formShow: true,
-            tableShow: true,
+            formVisible: true,
+            listVisible: true,
             preps: {
               colspan: 6,
             }
@@ -65,8 +65,8 @@ const fieldList = reactive<PageFieldInfo | any>({
             fieldName: "repoInstUrl",
             type: "input",
             required: true,
-            formShow: true,
-            tableShow: true,
+            formVisible: true,
+            listVisible: true,
             preps: {
               colspan: 12,
             }
@@ -76,8 +76,8 @@ const fieldList = reactive<PageFieldInfo | any>({
             type: "switch",
             defaultValue: "N",
             required: false,
-            formShow: true,
-            tableShow: true,
+            formVisible: true,
+            listVisible: true,
             preps: {
               colspan: 6,
             }
@@ -86,8 +86,8 @@ const fieldList = reactive<PageFieldInfo | any>({
             fieldName: "dataVersion",
             type: "input",
             required: false,
-            formShow: true,
-            tableShow: true,
+            formVisible: true,
+            listVisible: true,
             preps: {
               colspan: 8,
             }
@@ -96,8 +96,8 @@ const fieldList = reactive<PageFieldInfo | any>({
             fieldName: "targetDir",
             type: "input",
             required: false,
-            formShow: true,
-            tableShow: true,
+            formVisible: true,
+            listVisible: true,
             preps: {
               colspan: 16,
             }

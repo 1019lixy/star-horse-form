@@ -44,9 +44,12 @@ export default defineComponent({
     let actionName = shallowRef("keydown.enter");
     const itemAction = (prep: any) => {
       if (prep == "change" && field.preps['type']?.includes("range")) {
-        let val = context.attrs['formData'][field.preps['name']]
-        context.attrs['formData'][field.preps['name'] + "Start"] = val[0];
-        context.attrs['formData'][field.preps['name'] + "End"] = val[1];
+        let val = context.attrs['formData'][field.preps['name']];
+        console.log(field.preps, val);
+        if (field.preps['needSplitName'] == 'Y') {
+          context.attrs['formData'][field.preps['name'] + "Start"] = val[0];
+          context.attrs['formData'][field.preps['name'] + "End"] = val[1];
+        }
       }
       console.log(context.attrs['formData']);
       allAction(context, prep);
@@ -65,7 +68,7 @@ export default defineComponent({
 });
 </script>
 <style lang="scss" scoped>
-:deep(.el-input){
+:deep(.el-input) {
   width: unset !important;
 }
 </style>

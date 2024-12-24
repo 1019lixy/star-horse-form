@@ -104,9 +104,19 @@ const loadData = async () => {
   } else {
     objData = await loadById(props.compUrl?.loadByIdUrl!, id, false, params);
   }
-  dataForm.value = {...objData};
+  // dataForm.value = {...objData};
+
   let data = formFieldMapping(props.fieldList);
   dataForm.value = objData;
+  //如果是动态表单
+  if (props.dynamicForm) {
+    for (let i in params) {
+      let temp = params[i];
+      if (!temp.subTabFlag) {
+        dataForm.value[temp.tableName] = [objData];
+      }
+    }
+  }
   let mapping = data.mappingFields;
   if (mapping) {
     for (let index in mapping) {
@@ -189,7 +199,7 @@ const analysisSameToParentField = (): Array<string> => {
   let batchFields = props.fieldList.batchFieldList || [];
   const analysis = (batchFields: BatchFieldInfo[]) => {
     batchFields.forEach((item: BatchFieldInfo) => {
-      if (item.sameParentTable) {
+      if ("N" == item.subFormFlag) {
         batchName.push(item.batchName);
       }
     });
@@ -219,7 +229,7 @@ const doMerge = (type: string) => {
   let mergeUrl = props.compUrl?.mergeUrl;
   let flag = true;
   //单独批量数据和嵌入fieldList 里的批量数据
-  //原则上只支持1个批量表格，多个存在数据对称问他
+  //原则上只支持1个批量表格，多个存在数据对称问题
   let sameBatchNames = analysisSameToParentField();
   if (sameBatchNames && sameBatchNames.length > 0) {
     flag = false;
@@ -229,6 +239,10 @@ const doMerge = (type: string) => {
       let batchDatas = tempDatas[batchName];
       delete tempDatas[batchName];
       for (let i in batchDatas) {
+        //保留第一条数据的ID
+        if (parseInt(i) > 0) {
+          delete tempDatas[props.primaryKey];
+        }
         let temp = {...tempDatas, ...batchDatas[i]}
         tempForm.push(temp);
       }
@@ -237,6 +251,8 @@ const doMerge = (type: string) => {
   let dydata: any = {
     relationTables: props.globalCondition,
   }
+  //props.globalCondition 有属性不是子表，需要额外封装
+
   if (flag) {
     tempForm = dataForm.value;
     dydata["dataMap"] = tempForm;
@@ -357,7 +373,6 @@ defineExpose({
              require-asterisk-position="right"
              label-width="auto"
              class="data-form" ref="starHorseFormRef">
-
       <star-horse-form-item :primaryKey="primaryKey"
                             :compUrl="compUrl"
                             :fieldList="fieldList"
@@ -369,7 +384,6 @@ defineExpose({
                             @removeRow="removeRow"
                             :batchName="batchName"
                             :batchFieldName="batchFieldName"/>
-
     </el-form>
   </el-scrollbar>
 </template>

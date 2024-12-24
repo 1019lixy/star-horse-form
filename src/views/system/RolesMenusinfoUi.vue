@@ -12,13 +12,13 @@ const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
       label: "系统名称",
-      defaultShow: true,
+      defaultVisible: true,
       fieldName: "idInformations",
       type: "select"
     },
     {
       label: "菜单名称",
-      defaultShow: true,
+      defaultVisible: true,
       fieldName: "idMenusinfo",
       type: "input"
     },
@@ -54,14 +54,14 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       label: "系统名称",
       fieldName: "sysName",
       type: "input",
-      tableShow: true,
+      listVisible: true,
     },
     {
       label: "菜单名称",
       fieldName: "menuName",
       type: "input",
       required: true,
-      tableShow: true,
+      listVisible: true,
     },
     {
       label: "创建人", disabled: "Y",

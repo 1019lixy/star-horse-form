@@ -17,7 +17,7 @@ const changeDesignStyle = () => {
 }
 /**
  * 可以使用此成熟的框架，进行更改,对于bpmn-js 可以考虑去除，太技术化不太实用
- * git clone https://gitee.com/crowncloud/smart-flow-design.git
+ * git clone https://gitee.com/crowncloud/smart-sh-flow-editor.git
  */
 </script>
 
@@ -62,7 +62,7 @@ const changeDesignStyle = () => {
         <base-info v-if="currentStep==0"/>
         <flow-params v-if="currentStep==1"/>
         <flow-status v-if="currentStep==2"/>
-        <flow-design v-if="currentStep==3" :flowStyle="flowStyle"/>
+        <sh-flow-editor v-if="currentStep==3" :flowStyle="flowStyle"/>
       </div>
     </div>
   </el-card>

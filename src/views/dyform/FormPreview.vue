@@ -1,12 +1,28 @@
 <script setup lang="ts">
 import {Config} from "@/api/settings.ts";
-import {ref} from "vue";
+import {computed, ref} from "vue";
+import {commonField} from "@/api/system.ts";
 
-defineProps({
+const props = defineProps({
   list: {type: Array<any>, required: true},
+  commonFieldList: {type: Array<any>, default: []},
   compSize: {type: String, default: Config.compSize}
 });
+let commonFields = commonField();
+let fieldList = computed(() => {
+  let tempList: any = [];
+  props.commonFieldList?.filter(item => item.formVisible == 'Y').forEach(item => {
+    let tempItem = commonFields.find(item2 => item2.fieldName == item.fieldName);
+    if (tempItem) {
+      tempItem["required"] =item.required;
+      tempItem["preps"] ={...tempItem};
+      tempList.push(tempItem);
+    }
+  });
+  return tempList;
+});
 let formData = ref<any>({});
+
 defineExpose({
   formData
 })
@@ -41,6 +57,18 @@ defineExpose({
 
             />
           </el-form-item>
+
+        </template>
+        <template v-for="data in fieldList">
+          <el-form-item :label="data.label" :prop="data.fieldName" :required="data.required=='Y'">
+            <component
+                :field="data"
+                :formData="formData"
+                :isDesign="false"
+                :is="data?.type+'-item'"
+
+            />
+          </el-form-item>
         </template>
       </el-form>
     </el-scrollbar>
@@ -54,7 +82,7 @@ defineExpose({
   align-items: center;
   width: 99%;
   height: 100%;
-  margin: 0 auto;
+  margin: 5px auto;
   padding: 5px;
   flex: 1;
   overflow: hidden;

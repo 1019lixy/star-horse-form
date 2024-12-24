@@ -1,14 +1,14 @@
 <script setup lang="ts" name="FormPropertyPanel">
 import {computed, onMounted, reactive, ref, watch} from "vue";
-import {dbConfigList, loadElementPlusIcon, loadGetData, loadSystemInfo} from "@/api/sh_api";
+import {dbConfigList, loadElementPlusIcon, loadSystemInfo} from "@/api/sh_api";
 import {SelectOption} from "@/components/types/SearchProps";
 import {permissionMenus, postRequest} from "@/api/star_horse";
-import {warning} from "@/utils/message";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import StarHorseForm from "@/components/comp/StarHorseForm.vue";
 import {Config} from "@/api/settings.ts";
+import {commonField} from "@/api/system.ts";
 
 let designForm = DesignForm(piniaInstance);
 let formInfo = computed(() => designForm.formInfo);
@@ -33,6 +33,10 @@ const relationMsg = `
  多对一: 表示当前表多条数据对应被选择表1条数据;
  多对多: 表示当前表1条数据对应被选择表多条,
         反之被选择表的一条数据也对于当前表的多条数据。`;
+const commonColumnsMsg = `
+ 配置系统公共字段:
+  控制公共字段是否显示在页面对于的位置
+`;
 const dbPositionMsg = `
 动态创建的表需要存在那个数据库，
 如果为空，则在当前业务数据库创建表信息。`;
@@ -42,16 +46,16 @@ const loadMenus = (val: any) => {
   }
   permissionMenus({}, val).then((res) => {
     let redata = res.data.data;
-    menusInfoList.value = [];
-    redata.forEach((item: any) => {
-      menusInfoList.value.push({name: item.menuName, value: item.dataNo});
-    });
+    menusInfoList.value = redata;
+    // redata.forEach((item: any) => {
+    //   menusInfoList.value.push({name: item.menuName, value: item.dataNo});
+    // });
   });
 };
 const tableFieldList = reactive<PageFieldInfo | any>({
       fieldList: [
         [
-          {label: "表单名称", fieldName: "formName", type: "input", required: true, formShow: true},
+          {label: "表单名称", fieldName: "formName", type: "input", required: true, formVisible: true},
           {
             label: "数据源", fieldName: "datasourceConfigId", helpMsg: dbPositionMsg, type: "select", optionList: dbList, actionName: "change",
             actions: (val: any) => {
@@ -59,7 +63,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 console.log(val["datasourceConfigId"])
                 loadSameDataSourceTables(val);
               }
-            }, required: true, formShow: true
+            }, required: true, formVisible: true
           },
         ], {
           fieldName: "tab1",
@@ -68,33 +72,41 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             tabName: "tab1",
             fieldList: [
               [
-                {label: "表名", fieldName: "tbName", type: "input", required: true, formShow: true, editDisabled: "Y"},
-                {label: "主键", fieldName: "formId", type: "input", required: true, formShow: true, editDisabled: "Y"},
-                {label: "主键策略", fieldName: "primaryKeyPolicy", type: "select", optionList: primaryKeyPolicyList, formShow: true, editDisabled: "Y"},
+                {label: "表名", fieldName: "tbName", type: "input", required: true, formVisible: true, editDisabled: "Y"},
+                {label: "主键", fieldName: "formId", type: "input", required: true, formVisible: true, editDisabled: "Y"},
+                {label: "主键策略", fieldName: "primaryKeyPolicy", type: "select", optionList: primaryKeyPolicyList, formVisible: true, editDisabled: "Y"},
               ],
               [
-                {label: "创建表", fieldName: "createTable", type: "switch", defaultValue: "N", formShow: true,},
-                {label: "需要公共字段", fieldName: "needCommonFields", type: "switch", defaultValue: "N", formShow: true,},
+                {label: "创建表", fieldName: "createTable", type: "switch", defaultValue: "N", formVisible: true,},
                 {
                   label: "创建菜单", fieldName: "createMenu", type: "switch", actionName: "change", actions: (val: any) => {
                     menuFlag.value = val["createMenu"] == "Y";
-                  }, defaultValue: "N", formShow: true,
+                  }, defaultValue: "N", formVisible: true,
                 },
               ],
-              [
+              [{
+                label: "所属系统", fieldName: "sysId", type: "select", optionList: informationsList,
+                actionName: "change", actions: (val: any) => {
+                  console.log(val);
+                  loadMenus(val["sysId"]);
+                }, formVisible: menuFlag, required: true
+              },
                 {
-                  label: "所属系统", fieldName: "sysId", type: "select", optionList: informationsList, actionName: "change", actions: (val: any) => {
-                    console.log(val);
-                    loadMenus(val["sysId"]);
-                  }, formShow: menuFlag, required: true
+                  label: "父级菜单", fieldName: "parentMenuId", type: "tselect", optionList: menusInfoList,
+                  formVisible: menuFlag,
+                  preps: {
+                    checkStrictly: "Y",
+                    props: {
+                      label: "menuName",
+                      value: "dataNo",
+                    }
+                  }
                 },
-                {label: "父级菜单", fieldName: "parentMenuId", type: "select", optionList: menusInfoList, formShow: menuFlag},
-
               ],
               [
-                {label: "级联删除", helpMsg:`页面字段删除时同步删除数据库对应表字段`, fieldName: "deleteCascade", type: "switch",defaultValue:"Y" , formShow: true},
-                {label: "表单图标", fieldName: "formIcon", type: "icon", formShow: true,},
-                {label: "页面版式", fieldName: "pageStyle", type: "select", optionList: pageStyleList, formShow: true},
+                {label: "级联删除", helpMsg: `页面字段删除时同步删除数据库对应表字段`, fieldName: "deleteCascade", type: "switch", defaultValue: "Y", formVisible: true},
+                {label: "表单图标", fieldName: "formIcon", type: "icon", formVisible: true,},
+                {label: "页面版式", fieldName: "pageStyle", type: "select", optionList: pageStyleList, formVisible: true},
               ],
             ]
           }, {
@@ -104,8 +116,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             batchFieldList: [{
               batchName: "relations",
               fieldList: [
-                {label: "关联表", fieldName: "tableId", type: "select", optionList: relationDataList, required: true, formShow: true},
-                {label: "映射关系", fieldName: "relationType", type: "select", defaultValue: "1n", optionList: relationTypeList, required: true, formShow: true},
+                {label: "关联表", fieldName: "tableId", type: "select", optionList: relationDataList, required: true, formVisible: true},
+                {label: "映射关系", fieldName: "relationType", type: "select", defaultValue: "1n", optionList: relationTypeList, required: true, formVisible: true},
               ]
             }]
           }, {
@@ -117,29 +129,58 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             tabName: "tab4",
             fieldList: [
               [
-                {label: "标签位置", fieldName: "labelPosition", defaultValue: "left", type: "select", optionList: labelPositionList, formShow: true},
-                {label: "标签长度", fieldName: "labelWidth", helpMsg: "如：50px", type: "input", formShow: true},
-                {label: "表单验证规则名称", fieldName: "rules", defaultValue: "rules", type: "input", formShow: true},
+                {label: "标签位置", fieldName: "labelPosition", defaultValue: "left", type: "select", optionList: labelPositionList, formVisible: true},
+                {label: "标签长度", fieldName: "labelWidth", helpMsg: "如：50px", type: "input", formVisible: true},
+                {label: "表单验证规则名称", fieldName: "rules", defaultValue: "rules", type: "input", formVisible: true},
               ],
               [
-                {label: "表单风格", fieldName: "size", defaultValue: Config.compSize, type: "select", optionList: formSizeList, formShow: true},
-                {label: "表单域标签的后缀", fieldName: "labelSuffix", type: "input", formShow: true},
-                {label: "禁用所有组件", fieldName: "disabled", defaultValue: "N", type: "switch", formShow: true},
+                {label: "表单风格", fieldName: "size", defaultValue: Config.compSize, type: "select", optionList: formSizeList, formVisible: true},
+                {label: "表单域标签的后缀", fieldName: "labelSuffix", type: "input", formVisible: true},
+                {label: "禁用所有组件", fieldName: "disabled", defaultValue: "N", type: "switch", formVisible: true},
               ],
               [
-                {label: "隐藏必填字段的红色星号", fieldName: "hideRequiredAsterisk", defaultValue: "N", type: "switch", formShow: true},
-                {label: "校验失败时，滚动到第一个错误表单项", fieldName: "scrollToError", defaultValue: "Y", type: "switch", formShow: true},
-                {label: "星号的位置", fieldName: "requireAsteriskPosition", defaultValue: "right", type: "radio", optionList: requireAsteriskPositionList, formShow: true},
+                {label: "隐藏必填字段的红色星号", fieldName: "hideRequiredAsterisk", defaultValue: "N", type: "switch", formVisible: true},
+                {label: "校验失败时，滚动到第一个错误表单项", fieldName: "scrollToError", defaultValue: "Y", type: "switch", formVisible: true},
+                {label: "星号的位置", fieldName: "requireAsteriskPosition", defaultValue: "right", type: "radio", optionList: requireAsteriskPositionList, formVisible: true},
               ],
               [
-                {label: "是否在输入框中显示校验结果反馈图标", fieldName: "statusIcon", defaultValue: "N", type: "switch", formShow: true},
-                {label: "是否显示校验错误信息", fieldName: "showMessage", defaultValue: "Y", type: "switch", formShow: true},
-                {label: "是否以行内形式展示校验信息", fieldName: "inlineMessage", defaultValue: "Y", type: "switch", formShow: true},
+                {label: "是否在输入框中显示校验结果反馈图标", fieldName: "statusIcon", defaultValue: "N", type: "switch", formVisible: true},
+                {label: "是否显示校验错误信息", fieldName: "showMessage", defaultValue: "Y", type: "switch", formVisible: true},
+                {label: "是否以行内形式展示校验信息", fieldName: "inlineMessage", defaultValue: "Y", type: "switch", formVisible: true},
               ],
               [
-                {label: "是否在 rules 属性改变后立即触发一次验证", fieldName: "validateOnRuleChange", defaultValue: "N", type: "switch", formShow: true},
-                {label: "行内表单模式", fieldName: "inline", defaultValue: "Y", type: "switch", formShow: true},
+                {label: "是否在 rules 属性改变后立即触发一次验证", fieldName: "validateOnRuleChange", defaultValue: "N", type: "switch", formVisible: true},
+                {label: "行内表单模式", fieldName: "inline", defaultValue: "Y", type: "switch", formVisible: true},
               ]
+            ]
+          }, {
+            title: "公共属性",
+            tabName: "tab5",
+            helpMsg: commonColumnsMsg,
+            fieldList: [
+              {label: "需要公共字段", fieldName: "needCommonFields", type: "switch", defaultValue: "Y", formVisible: true,},
+              {
+                batchFieldList: [{
+                  objectName: "commonFieldControllers",
+                  batchName: "commonFieldControllers",
+                  subFormFlag: true,
+                  fieldList: [
+                    {
+                      label: "字段信息", fieldName: "fieldName", type: "select", optionList: commonField(),
+                      formVisible: true,
+                      preps: {
+                        props: {
+                          label: "label",
+                          value: "fieldName",
+                        }
+                      }
+                    },
+                    {label: "查询显示", fieldName: "searchVisible", type: "switch", defaultValue: "N", formVisible: true,},
+                    {label: "表单显示", fieldName: "formVisible", type: "switch", defaultValue: "N", formVisible: true,},
+                    {label: "列表显示", fieldName: "listVisible", type: "switch", defaultValue: "N", formVisible: true,},
+                  ]
+                }],
+              },
             ]
           }
           ]
@@ -212,10 +253,10 @@ watch(() => formInfo.value,
     }, {
       immediate: true,
       deep: true
-    })
+    });
 defineExpose({
   loadMenus, getFormData
-})
+});
 </script>
 <style lang="scss" scoped>
 .dynamic-form {
@@ -224,5 +265,6 @@ defineExpose({
 
 </style>
 <template>
-  <star-horse-form label-position="right" :outerFormData="formInfo" :fieldList="tableFieldList" ref="dynamicFormItemRef"/>
+  <star-horse-form label-position="right" :outerFormData="formInfo" :fieldList="tableFieldList"
+                   ref="dynamicFormItemRef"/>
 </template>

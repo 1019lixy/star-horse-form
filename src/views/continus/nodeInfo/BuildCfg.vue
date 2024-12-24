@@ -27,16 +27,16 @@ const fieldList = reactive<PageFieldInfo | any>({
         fieldName: "nodeName",
         type: "input",
         required: true,
-        formShow: true,
-        tableShow: true,
+        formVisible: true,
+        listVisible: true,
       }, {
         label: "执行方式",
         fieldName: "nodeExecType",
         type: "select",
         optionList: execTypeList,
         required: true,
-        formShow: true,
-        tableShow: true,
+        formVisible: true,
+        listVisible: true,
       }], [{
         label: "节点成功条件",
         fieldName: "nodeSuccessCondition",
@@ -48,15 +48,15 @@ const fieldList = reactive<PageFieldInfo | any>({
           assignSelect.value = val["nodeSuccessCondition"] == "assign";
         },
         required: true,
-        formShow: true,
-        tableShow: true,
+        formVisible: true,
+        listVisible: true,
         brotherNodes: [{
           label: "  ",
           fieldName: "assignNode",
           type: "select",
           optionList: subNodeList,
           required: true,
-          formShow: assignSelect,
+          formVisible: assignSelect,
           preps: {
             colspan: 6
           }
@@ -68,7 +68,7 @@ const fieldList = reactive<PageFieldInfo | any>({
         {
           cardList: [{
             title: "子节点配置",
-            subFormFlag: true,
+            subFormFlag: "Y",
             tabName: "subNodeInfo",
             objectName: "subNodeInfo",
             headerFieldList: [{
@@ -118,12 +118,12 @@ const dataSubmit = () => {
   subNodeFieldList.value.push({
     title: "节点" + len,
     tabName: "tab" + len,
-    subFormFlag: true,
+    subFormFlag: "Y",
     objectName: "sub" + len,
     fieldList: [{
       label: "",
       type: "comp",
-      formShow: true,
+      formVisible: true,
       fieldName: "SubNodeInfo"
     }]
   });
@@ -134,12 +134,12 @@ const init = async () => {
       subNodeFieldList.value.push({
         title: "节点一",
         tabName: "tab1",
-        subFormFlag: true,
+        subFormFlag: "Y",
         objectName: "sub",
         fieldList: [{
           label: "",
           type: "comp",
-          formShow: true,
+          formVisible: true,
           fieldName: "SubNodeInfo"
         }]
       });

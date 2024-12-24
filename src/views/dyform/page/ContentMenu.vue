@@ -42,22 +42,27 @@ const contains = (el: HTMLElement) => menu.value?.contains(el) || subMenu.value?
 
 const hide = () => {
   if (!visible.value) return;
-
+  // console.log('hide');
   visible.value = false;
   subMenu.value?.hide();
 
   emit('hide');
 };
 
-const clickHandler = () => {
+const clickHandler = (item: any) => {
+  // e.stopPropagation();
+  // e.preventDefault();
+  // console.log('clickHandler', item);
   if (!props.autoHide) return;
-
+  item.handler();
   hide();
 };
 
 const outsideClickHideHandler = (e: MouseEvent) => {
+  // e.stopPropagation();
+  // e.preventDefault();
+  // console.log('outsideClickHideHandler', e);
   if (!props.autoHide) return;
-
   const target = e.target as HTMLElement | undefined;
   if (!visible.value || !target) {
     return;
@@ -70,7 +75,7 @@ const outsideClickHideHandler = (e: MouseEvent) => {
 
 const setPosition = (e: MouseEvent) => {
   const menuHeight = menu.value?.clientHeight || 0;
-  console.log(menuHeight, e, document.body);
+  // console.log(menuHeight, e.target.classList, e.target, e);
   let top = e.clientY;
   if (menuHeight + e.clientY > document.body.clientHeight) {
     top = document.body.clientHeight - menuHeight;
@@ -107,7 +112,7 @@ const showSubMenu = (item: any, index: number) => {
     if (menu.value) {
       // 将子菜单放置在按钮右侧，与按钮齐平
       let y = menu.value.offsetTop;
-      if (buttons.value?.[index].$el) {
+      if (buttons.value?.[index]?.$el) {
         const rect = buttons.value?.[index].$el.getBoundingClientRect();
         y = rect.top;
       }
@@ -154,15 +159,15 @@ defineExpose({
       <slot name="title"></slot>
 
       <template v-for="(item, index) in menuData">
-        <el-divider  v-if="item.type=='divider'" :direction="item.direction"/>
+        <el-divider v-if="item.type=='divider'" :direction="item.direction"/>
         <div
-            v-if="item.type=='button'"
+            v-if="item.type=='button'&&item.display"
             ref="buttons"
             class="menu-item button"
             :class="{ active: active && item.id === active }"
             :data="item"
             :key="index"
-            @mouseup="clickHandler"
+            @mouseup="clickHandler(item)"
             @mouseenter="showSubMenu(item, index)"
         >
           <star-horse-icon :icon-class="item.icon"/>
@@ -184,9 +189,10 @@ defineExpose({
   </transition>
 </template>
 <style lang="scss" scoped>
-:deep(.el-divider){
+:deep(.el-divider) {
   margin: 5px auto;
 }
+
 .content-menu {
   position: fixed;
   font-size: 12px;

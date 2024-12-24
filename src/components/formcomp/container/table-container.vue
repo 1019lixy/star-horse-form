@@ -97,7 +97,7 @@ const deleteCol = (index: number) => {
     }">
       <thead class="container-thead">
       <tr>
-        <th v-for="td of parseInt(field.preps.columns)" @mouseenter="(evt)=>tdOver(evt,td)"
+        <th v-for="td of parseInt(field.preps.columns||1)" @mouseenter="(evt)=>tdOver(evt,td)"
             @mouseleave="(evt)=>tdOut(evt,td)">
           <div class="td-operator" v-if="currentIndex==td&&isEdit">
             <el-tooltip content="删除列">
@@ -110,8 +110,8 @@ const deleteCol = (index: number) => {
       </thead>
       <tbody>
       <tr>
-        <template v-for="td of parseInt(field.preps.columns)">
-          <td :style="{ width:(100/parseInt(field.preps.columns))+'%',
+        <template v-for="td of parseInt(field.preps.columns||1)">
+          <td :style="{ width:(100/parseInt(field.preps.columns||1))+'%',
           'margin-top':'5px',
                       }" class="td-clz" @mouseenter="(evt)=>tdOver(evt,td)" @mouseleave="(evt)=>tdOut(evt,td)">
             <draggable @add="(evt:Event)=>onDragAdd(evt,field.preps.elements[td-1].items)"

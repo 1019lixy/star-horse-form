@@ -69,12 +69,12 @@ const searchFields = reactive<SearchFields>({
     {
       label: "菜单名称",
       fieldName: "d.menuName",
-      defaultShow: true,
+      defaultVisible: true,
       type: "input",
       matchType: "lk"
     },
     {
-      label: "状态", fieldName: "b.statusCode", type: "select", optionList: menuPermissionStatus, defaultShow: true
+      label: "状态", fieldName: "b.statusCode", type: "select", optionList: menuPermissionStatus, defaultVisible: true
     },
   ]
 });
@@ -82,11 +82,11 @@ const formFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
       label: "系统名称", fieldName: "idInformations", type: "tselect", optionList: appinfoList,
-      formShow: true, required: true, viewShow: false, disabled: "Y"
+      formVisible: true, required: true, viewVisible: false, disabled: "Y"
     },
     {
       label: "菜单名称", fieldName: "menuList", type: "tselect", optionList: menusList,
-      formShow: true, required: true, viewShow: false, multiple: "Y",
+      formVisible: true, required: true, viewVisible: false, multiple: "Y",
       helpMsg: "选择子节点时，一定要先选中父节点，否则左侧菜单栏无法显示",
       preps: {
         checkStrictly: "Y",
@@ -100,27 +100,27 @@ const formFieldList = reactive<PageFieldInfo>({
       fieldName: "statusCode",
       type: "select",
       defaultValue: "1",
-      tableShow: true,
-      formShow: true,
+      listVisible: true,
+      formVisible: true,
       optionList: menuPermissionStatus,
     },]
 });
 const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
-      label: "系统名称", fieldName: "sysName", type: "input", tableShow: true
+      label: "系统名称", fieldName: "sysName", type: "input", listVisible: true
     },
     {
-      label: "系统编码", fieldName: "sysCode", type: "input", tableShow: true
+      label: "系统编码", fieldName: "sysCode", type: "input", listVisible: true
     },
     {
-      label: "菜单名称", fieldName: "menuName", type: "input", tableShow: true
+      label: "菜单名称", fieldName: "menuName", type: "input", listVisible: true
     },
     {
       label: "状态",
       fieldName: "statusName",
       type: "input",
-      tableShow: true,
+      listVisible: true,
 
     },
 

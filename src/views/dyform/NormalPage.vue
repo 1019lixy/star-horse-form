@@ -10,7 +10,7 @@ import piniaInstance from "@/store/index.ts";
 let designForm = DesignForm(piniaInstance);
 const normalPageRef = ref();
 let relationTables = ref<any>({});
-let dataUrl = ref<ApiUrls>(apiInstance("userdb-manage", "consumer/api"));
+let dataUrl = ref<ApiUrls>();
 const errorMsg = ref("数据加载中");
 let searchFormData = ref<SearchProps[]>([]);
 const tableFieldList = ref<any>({fieldList: []});
@@ -37,7 +37,7 @@ const loadFormData = async (formId: string) => {
     return;
   }
   hasData.value = data && Object.keys(data).length > 0;
-  dataUrl.value = data["dataUrl"];
+  dataUrl.value = apiInstance(data["dataUrl"]?.appName, data["dataUrl"]?.contextUrl)
   searchFormData.value = data["searchFormData"] as SearchProps[];
   primaryKey.value = data["primaryKey"];
   tableFieldList.value = data["tableFieldList"];
@@ -96,6 +96,7 @@ watch(() => props.param,
       <div class="dialog-body">
         <star-horse-form @refresh="normalPageRef.loadByPage()" :compUrl="dataUrl"
                          :fieldList="tableFieldList"
+                         :primary-key="primaryKey"
                          :rules="rules" :globalCondition="relationTables" :dynamicForm="true"/>
       </div>
     </star-horse-dialog>
@@ -109,6 +110,7 @@ watch(() => props.param,
           :dataFormat="dataFormat"
           :field-list="tableFieldList"
           :globalCondition="relationTables"
+          :dynamicForm="true"
           :compUrl="dataUrl"
       />
     </star-horse-dialog>
@@ -125,6 +127,8 @@ watch(() => props.param,
       <hr>
       <star-horse-table-comp
           ref="normalPageRef" :fieldList="tableFieldList" :primaryKey="primaryKey"
+          :globalConfig="relationTables"
+          :isDynamic="true"
           :compUrl="dataUrl" :showBatchField="true" :dataFormat="dataFormat"/>
     </el-card>
   </template>

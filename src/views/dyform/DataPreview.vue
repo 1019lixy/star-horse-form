@@ -102,19 +102,19 @@ defineExpose({
           <template #default="scope">
             <el-tag
                 round
-                :effect="scope.row.tableShow?'dark':'light'">
+                :effect="scope.row.listVisible?'dark':'light'">
               {{ scope.row.comment }}
             </el-tag>
           </template>
         </el-table-column>
         <el-table-column
-            prop="tableShow"
+            prop="listVisible"
             label="显示/隐藏"
             width="100"
         >
           <template #default="scope">
             <el-switch
-                v-model="scope.row.tableShow"
+                v-model="scope.row.listVisible"
                 :size="Config.compSize"
                 :active-value="true"
                 :inactive-value="false"
@@ -159,7 +159,7 @@ defineExpose({
             :prop="key+'&'+pp.fieldName"
             :show-overflow-tooltip="true"
             min-width="150px"
-            v-if="pp.tableShow"
+            v-if="pp.listVisible"
             sortable
         >
         </el-table-column>

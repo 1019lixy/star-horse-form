@@ -24,7 +24,7 @@ onMounted(() => {
         <el-tab-pane v-if="Object.keys(tabItem).length>0" :label="tabItem.title||tabItem.tabName"
                      :name="tabItem.tabName||key">
           <star-horse-data-view-items :objectName="tabItem.objectName"
-                                      :subCreateFlag="tabItem.subFormFlag"
+                                      :subFormFlag="tabItem.subFormFlag"
                                       v-model:dataForm="dataForm[tabItem.objectName]"
                                       :commonFormat="commonFormat"
                                       primaryKey="id"

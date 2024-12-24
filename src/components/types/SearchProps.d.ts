@@ -15,8 +15,9 @@ export type SearchProps = {
     matchType?: string,
     disabled?: boolean | string,
     defaultValue?: any | null,
-    defaultShow?: boolean,
+    defaultVisible?: boolean,
     helpMsg?: string,
+    minWidth?: string,
     /**
      * 弹窗数据配置
      */

@@ -6,7 +6,7 @@ import {ModelRef} from "vue-demi";
 defineProps({
   item: {type: Array as PropType<Array<FieldInfo>>, required: true},
   objectName: {type: String},
-  subCreateFlag: {type: Boolean, default: false},
+  subFormFlag: {type: String, default: "N"},
   batchName: {type: String, default: "batchDataList"},
   batchFieldName: {type: String, default: "batchFieldList"},
   commonFormat: {type: Function, required: true},
@@ -42,7 +42,7 @@ onMounted(() => {
                 :fieldList="{
                                ...collapseItem
                                  }"
-                :subCreateFlag="collapseItem.subFormFlag"
+                :subFormFlag="collapseItem.subFormFlag"
             />
           </el-scrollbar>
         </el-collapse-item>

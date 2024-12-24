@@ -118,11 +118,11 @@ const paramsValid = async () => {
   }
   let searchFieldList: Array<any> = [];
   formProps.value["fieldLists"].forEach((item: any) => {
-    item["tableShow"] = true;
+    item["listVisible"] = true;
     item["type"] = "input";
-    item["formShow"] = true;
+    item["formVisible"] = true;
     if (item.searchFlag == "Y") {
-      searchFieldList.push({...item, matchType: "lk", defaultShow: true})
+      searchFieldList.push({...item, matchType: "lk", defaultVisible: true})
     }
   });
   formProps.value["searchFieldList"] = searchFieldList;
@@ -217,7 +217,7 @@ let formFields = ref<PageFieldInfo>({
 });
 const parseSelectData = (items: any, type: string) => {
   items.forEach((item: any) => {
-    item["formShow"] = true;
+    item["formVisible"] = true;
     item["type"] = item["fieldType"];
     item["required"] = item["required"] == 'Y';
     if (item["selectValues"] && isJson(item["selectValues"])) {
@@ -267,7 +267,7 @@ const assignValue = (fieldInfo: any) => {
           fieldName: "rows",
           type: "button",
           actions: (_data: any) => editContainerPrep(),
-          formShow: true,
+          formVisible: true,
         });
       }
     } else {
@@ -279,7 +279,7 @@ const assignValue = (fieldInfo: any) => {
           fieldName: "dataRelation",
           type: "button",
           actions: (_data: any) => condifRelationPolicy(),
-          formShow: true,
+          formVisible: true,
         });
         if (!exclusionDataSource.value.includes(currentItemType.value)) {
           commonFields.push({
@@ -287,7 +287,7 @@ const assignValue = (fieldInfo: any) => {
             fieldName: "dataSource",
             type: "button",
             actions: (_data: any) => dataSource(formProps.value['itemType']),
-            formShow: true,
+            formVisible: true,
           });
         }
       }
@@ -299,7 +299,7 @@ const assignValue = (fieldInfo: any) => {
         label: "备注",
         fieldName: "remark",
         type: "textarea",
-        formShow: true,
+        formVisible: true,
       });
     }
 
@@ -390,13 +390,17 @@ watch(() => [currentItemId, currentItemType],
                      @merge="paramsValid"
                      @closeAction="closeAction"
                      @reset="resetDataSourceForm" :selfFunc="true">
+    <div class="dialog-body">
     <star-horse-form :outerFormData="formInfo" ref="paramsConfigRef" :fieldList="paramsFields(fieldName,currentField)"/>
+    </div>
   </star-horse-dialog>
   <star-horse-dialog :dialogVisible="containerDialogVisible"
-                     :title="'设置容器'" :isBatch="false" @merge="containerAction"
+                     :title="'容器设置'" :isBatch="false" @merge="containerAction"
                      @closeAction="closeAction"
                      @reset="resetForm" :selfFunc="true">
+    <div class="dialog-body">
     <star-horse-form ref="containerPrepRef" :outerFormData="formInfo" :fieldList="containerField(currentItemType)"/>
+    </div>
   </star-horse-dialog>
   <star-horse-dialog :dialogVisible="jsEditor" :title="'自定义信息'" :isBatch="false" @merge="closeAction"
                      @closeAction="closeAction"

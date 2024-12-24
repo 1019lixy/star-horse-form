@@ -1,0 +1,46 @@
+<template>
+  <div class="flow-row">
+    <div class="flow-box">
+      <div class="flow-item">
+        <div class="node-name" :class="nameClass(node, 'node-temmi')">
+          分隔
+          <div v-if="!readable" class="close-icon">
+            <star-horse-icon iconClass="close"/>
+          </div>
+        </div>
+      </div>
+      <FlowAddNode :node="node" :nodeType="node.type" :readable="readable"/>
+    </div>
+  </div>
+</template>
+<script setup lang="ts">
+import FlowAddNode from '@/views/workflow/plugin/FlowNode/AddNode.vue';
+import {computed} from "vue";
+defineOptions({
+  name: 'FlowNodeDivide',
+});
+const props = defineProps({
+  node: {
+    type: Object,
+    default: function () {
+      return {};
+    },
+  },
+  readable: {
+    type: Boolean,
+    default: false,
+  }
+});
+let nameClass = computed(() => {
+  return (node, defaultStyle) => {
+    if (node.status == -1) {
+      return defaultStyle;
+    }
+    return {
+      'node-status-not': node.status == 0,
+      'node-status-current': node.status == 1,
+      'node-status-complete': node.status == 2
+    };
+  };
+});
+</script>

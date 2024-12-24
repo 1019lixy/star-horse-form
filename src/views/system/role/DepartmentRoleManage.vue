@@ -37,14 +37,14 @@ const searchFormData = reactive<SearchFields>({
     {
       label: "部门名称/编码",
       fieldName: "deptName",
-      defaultShow: true,
+      defaultVisible: true,
       matchType: "lk",
       type: "input"
     },
     {
       label: "角色名称/编码",
       fieldName: "roleName",
-      defaultShow: true,
+      defaultVisible: true,
       matchType: "lk",
       type: "input"
     },
@@ -61,7 +61,7 @@ const pageField = reactive<PageFieldInfo | any>({
       fieldName: "deptName",
       type: "input",
       required: true,
-      tableShow: true,
+      listVisible: true,
     },
   ],
   //默认查询条件
@@ -101,7 +101,7 @@ const initData = async () => {
       label: temp.roleName,
       fieldName: temp.idCompanyRole,
       type: "button",
-      tableShow: true,
+      listVisible: true,
       preps: {
         showComp: "Y",
         styles: {

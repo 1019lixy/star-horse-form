@@ -5,6 +5,7 @@
   --star-horse-background: #fff;
   --star-horse-shadow: #f7f7f9;
   --star-horse-disable: gray;
+  --star-horse-light-gray:#ccc;
   --star-horse-font-color: #fafaf;
   --star-horse-border—color: #2233;
   --star-horse-shadow-rgba: rgba(75, 61, 89, 0.3);
@@ -610,7 +611,7 @@ hr {
 
 .main-design, .main-design-phone, .main-design-pad {
   flex: 1;
-  padding-top: 5px;
+  padding-top: 15px;
   height: 100% !important;
   width: 98%;
   margin: 0 auto;
@@ -647,7 +648,6 @@ hr {
     flex: 1;
     overflow: auto;
   }
-
 
 
   .dialog-footer {
@@ -886,9 +886,14 @@ button.el-collapse-item__header {
   }
 
 }
-.el-table th>.cell{
+
+.el-table th > .cell {
   display: inline-block;
   white-space: nowrap;
   word-break: keep-all;
   text-overflow: unset;
+}
+
+.m-message-container {
+  z-index: 9999999 !important;
 }

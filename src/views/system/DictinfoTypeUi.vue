@@ -11,8 +11,8 @@ import {SearchParams} from "@/components/types/Params";
 const dataUrl: ApiUrls = apiInstance("system-config", "system/dictinfoType");
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "名称", defaultShow: false, matchType: "lk", fieldName: "dictTypeName", type: "input"},
-    {label: "编码", defaultShow: true, matchType: "eq", fieldName: "dictTypeCode", type: "input"},
+    {label: "名称", defaultVisible: false, matchType: "lk", fieldName: "dictTypeName", type: "input"},
+    {label: "编码", defaultVisible: true, matchType: "eq", fieldName: "dictTypeCode", type: "input"},
   ]
 });
 const tableFieldList = reactive<PageFieldInfo>({
@@ -22,18 +22,18 @@ const tableFieldList = reactive<PageFieldInfo>({
     },
     {
       label: "字典类型名称", fieldName: "dictTypeName", type: "input",
-      required: true, formShow: true,
-      tableShow: true
+      required: true, formVisible: true,
+      listVisible: true
     },
     {
       label: "字典类型编码", fieldName: "dictTypeCode", type: "input",
-      required: true, formShow: true,
-      tableShow: true
+      required: true, formVisible: true,
+      listVisible: true
     },
     {
       label: "备注", fieldName: "remark", type: "textarea",
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     },
   ],
   //在表格右侧添加自定义功能
@@ -64,12 +64,16 @@ onMounted(async () => {
 </script>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form @refresh="dictTypeRef.loadByPage()" :compUrl="dataUrl"
-                     :fieldList="tableFieldList" :rules="rules"/>
+    <div class="dialog-body">
+      <star-horse-form @refresh="dictTypeRef.loadByPage()" :compUrl="dataUrl"
+                       :fieldList="tableFieldList" :rules="rules"/>
+    </div>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title=
       "'查看数据'" :is-view="true">
-    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+    <div class="dialog-body">
+      <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+    </div>
   </star-horse-dialog>
   <el-card class="inner_content">
 

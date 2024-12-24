@@ -10,7 +10,7 @@ defineProps({
   item: {type: Array as PropType<Array<FieldInfo>>, required: true},
   objectName: {type: String},
   parentPreps:{type:Object,default:{}},
-  subCreateFlag: {type: Boolean, default: false},
+  subFormFlag: {type: String, default: "N"},
   batchName: {type: String, default: "batchDataList"},
   batchFieldName: {type: String, default: "batchFieldList"},
   primaryKey: {type: String, required: true},
@@ -40,12 +40,12 @@ onMounted(() => {
             :prop="sitem.fieldName"
             :label-position="parentPreps?.labelPosition"
             :rules="sitem.required?validMsg(sitem,dataForm):[]"
-            v-if="sitem.formShow&&sitem.label&&sitem.preps?.headerFlag!='Y'">
+            v-if="sitem.formVisible&&sitem.label&&sitem.preps?.headerFlag!='Y'">
           <star-horse-item :primaryKey="primaryKey" :compSize="compSize" v-model:dataForm="dataForm"
                            :item="sitem"
                            :isEdit="isEdit"/>
         </el-form-item>
-        <star-horse-item v-else-if="sitem.formShow||sitem.viewShow" :compSize="compSize" :primaryKey="primaryKey"
+        <star-horse-item v-else-if="sitem.formVisible||sitem.viewVisible" :compSize="compSize" :primaryKey="primaryKey"
                          v-model:dataForm="dataForm"
                          :item="sitem"
                          :isEdit="isEdit"/>

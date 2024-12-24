@@ -4,7 +4,13 @@ import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
 import StarHorseDialog from "@/components/comp/StarHorseDialog.vue";
 import FieldList from "@/components/formcomp/utils/FieldList.vue";
-import {uuid} from "@/api/system.ts";
+import {
+  dynamicFormContextMenuData,
+  getParentComp,
+  moveDownItem,
+  moveUpItem,
+  removeItem
+} from "@/views/dyform/page/AblesPlugin.ts";
 
 const props = defineProps({
   parentField: {type: Object},
@@ -16,171 +22,30 @@ const props = defineProps({
 });
 let designForm = DesignForm(piniaInstance);
 let isEdit = computed(() => designForm.isEdit);
-let refresh = computed(() => designForm.refresh);
-let compList = computed(() => designForm.compList);
+// let refresh = computed(() => designForm.refresh);
+// let compList = computed(() => designForm.compList);
 let currentItemId = computed(() => designForm.currentItemId);
-const getParentComp = () => {
-  return props.parentField &&
-  (props.parentField.itemType == "box"
-      || props.parentField.itemType == "tab"
-      || props.parentField.itemType == "dytable"
-      || props.parentField.itemType == "table")
-      ? "container"
-      : "item";
-};
+let componentVisible = computed(() => {
+  return designForm.componentVisible && currentItemId.value == props.formItem?.preps.id;
+});
 const selectParentContainer = () => {
   if (!isEdit.value) {
     return;
   }
-  designForm.selectItem(props.parentField, "", "item");
+  designForm.selectItem(props.parentField, "", "container");
 };
 const selectData = (data: any) => {
   if (!isEdit.value) {
     return;
   }
-  designForm.selectItem(props.formItem, data.itemType, getParentComp());
+  designForm.selectItem(props.formItem, data.itemType, getParentComp(props.parentField));
 };
-const moveUpItem = (formItem: any) => {
-  if (!isEdit.value) {
-    return;
-  }
-  //这个数据解析好麻烦
-  let dataList = compList.value;
-  if (props.parentField?.itemType == "tab") {
-    let elements = props.parentField!.preps.elements;
-    for (let i = 0; i < elements.length; i++) {
-      let items = elements[i].items;
-      for (let j = 0; j < items.length; j++) {
-        if (formItem.id === items[j]?.id && j > 0) {
-          let temp = items[j];
-          items[j] = items[j - 1];
-          items[j - 1] = temp;
-          return;
-        }
-      }
-    }
-  } else if (props.parentField?.itemType == "box") {
-  }
-  //console.log(props.parentField);
-  let compType = getParentComp();
-  if (compType === "item") {
-    for (let i = 0; i < dataList.length; i++) {
-      if (formItem.id === dataList[i].id && i > 0) {
-        let temp = dataList[i];
-        dataList[i] = dataList[i - 1];
-        dataList[i - 1] = temp;
-        break;
-      }
-    }
-  } else {
-    for (let i = 0; i < dataList.length; i++) {
-      let dataTemp = dataList[i];
-      if (dataTemp.compType !== "container") {
-        continue;
-      }
-      let elements = dataTemp.preps.elements;
-      for (let index in elements) {
-        let sdataTemp = elements[index];
-        if (sdataTemp.columns.length > 0) {
-          for (let i = 0; i < sdataTemp.columns.length; i++) {
-            let items = sdataTemp.columns[i].items;
-            for (let j = 0; j < items.length; j++) {
-              if (formItem.id === items[j].id && j > 0) {
-                let temp = items[j];
-                items[j] = items[j - 1];
-                items[j - 1] = temp;
-                break;
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-};
-const moveDownItem = (formItem: any) => {
-  if (!isEdit.value) {
-    return;
-  }
-  let dataList = compList.value;
-  if (props.parentField?.itemType == "tab") {
-    let elements = props.parentField!.preps.elements;
-    for (let i = 0; i < elements.length; i++) {
-      let items = elements[i].items;
-      for (let j = 0; j < items.length; j++) {
-        if (formItem.id === items[j]?.id && j < items.length - 1) {
-          let temp = items[j];
-          items[j] = items[j + 1];
-          items[j + 1] = temp;
-          return;
-        }
-      }
-    }
-  } else if (props.parentField?.itemType == "box") {
-  }
-  let compType = getParentComp();
-  if (compType === "item") {
-    for (let i = 0; i < dataList.length; i++) {
-      if (formItem.id === dataList[i].id && i < dataList.length - 1) {
-        let temp = dataList[i];
-        dataList[i] = dataList[i + 1];
-        dataList[i + 1] = temp;
-        break;
-      }
-    }
-  } else {
-    for (let i = 0; i < dataList.length; i++) {
-      let dataTemp = dataList[i];
-      if (dataTemp.compType !== "container") {
-        continue;
-      }
-      let elements = dataTemp.preps.elements;
-      for (let index in elements) {
-        let sdataTemp = elements[index];
-        if (sdataTemp.columns.length > 0) {
-          for (let i = 0; i < sdataTemp.columns.length; i++) {
-            let items = sdataTemp.columns[i].items;
-            for (let j = 0; j < items.length; j++) {
-              if (formItem.id === items[j].id && j < items.length - 1) {
-                let temp = items[j];
-                items[j] = items[j + 1];
-                items[j + 1] = temp;
-                break;
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-};
-let componentVisible = ref<boolean>(false);
-let currentChangeItem = ref<any>({});
-const operation = (cmd: string) => {
-  if (cmd == 'cut') {
-    currentChangeItem.value = JSON.parse(JSON.stringify(props.formItem));
-    removeItem(props.formItem);
-  } else if (cmd == 'copy') {
-    let temp: any = JSON.parse(JSON.stringify(props.formItem));
-    temp.id = uuid();
-    temp.preps["id"] = temp.id;
-    temp.preps["name"] = temp.preps["name"] + "Copy";
-    temp.preps["label"] = temp.preps["label"] + "Copy";
-    currentChangeItem.value = temp;
-  } else if (cmd == 'paste') {
-    if (currentChangeItem.value) {
-      compList.value.push(currentChangeItem.value);
-      currentChangeItem.value = {};
-    }
-  } else if (cmd == 'exchange') {
-    exchangeItem();
-  }
-}
+
 const exchangeItem = () => {
-  componentVisible.value = true;
+  designForm.setComponentVisible(true);
 }
 const close = () => {
-  componentVisible.value = false;
+  designForm.setComponentVisible(false);
 }
 const changeItem = (item: any) => {
   props.formItem["itemType"] = item["itemType"];
@@ -189,75 +54,24 @@ const changeItem = (item: any) => {
   }
   props.formItem["preps"] = {
     ...props.formItem["preps"],
-    itemNameLabel: item.itemName,
-    /* disabled: props.formItem["preps"]?.disabled || 'N',
-     editDisabled: props.formItem["preps"]?.editDisabled || 'N',
-     formShow: props.formItem["preps"]?.formShow || 'Y',
-     hideLabel: props.formItem["preps"]?.hideLabel || 'N',
-     id: props.formItem["preps"]?.id || props.formItem.id,
-     label: props.formItem["preps"]?.label || item.itemName,
-     maxLength: props.formItem["preps"]?.maxLength || 100,
-     name: props.formItem["preps"]?.name || item.itemType + "1",
-     placeholder: props.formItem["preps"]?.placeholder || "请输入" + item.itemName,
-     readonly: props.formItem["preps"]?.readonly || "N",
-     required: props.formItem["preps"]?.required || "N",
-     searchShow: props.formItem["preps"]?.searchShow || "N",
-     tableShow: props.formItem["preps"]?.tableShow || "N",
-     values: props.formItem["preps"]?.values || [],
-     viewShow: props.formItem["preps"]?.viewShow || [],*/
+    itemNameLabel: item.itemName
   };
-  //console.log(item, props.formItem);
+  close();
   selectData(props.formItem);
 }
-const removeItem = (formItem: any) => {
-  if (!isEdit.value) {
-    return;
-  }
-  console.log(formItem, props.parentField);
-  let parentItemType = props.parentField?.itemType;
-
-  let dataList = compList.value;
-  if (parentItemType == "tab" || parentItemType == "table" || parentItemType == "card" || parentItemType == "collapse") {
-    let elements = props.parentField!.preps.elements;
-    for (let i = 0; i < elements.length; i++) {
-      let items = elements[i].items;
-      for (let j = 0; j < items.length; j++) {
-        if (formItem.id === items[j]?.id) {
-          items.splice(j, 1);
-          return;
-        }
-      }
-    }
-  } else if (parentItemType == "box" || parentItemType == "dytable") {
-    let elements = props.parentField!.preps.elements;
-    for (let index in elements) {
-      let sdataTemp = elements[index];
-      if (sdataTemp.columns.length > 0) {
-        for (let i = 0; i < sdataTemp.columns.length; i++) {
-          let items = sdataTemp.columns[i].items;
-          for (let j = 0; j < items.length; j++) {
-            if (formItem.id === items[j].id) {
-              items.splice(j, 1);
-              return;
-            }
-          }
-        }
-      }
-    }
-  } else {
-    for (let i = 0; i < dataList.length; i++) {
-      if (formItem.id === dataList[i].id) {
-        dataList.splice(i, 1);
-        return;
-      }
-    }
-  }
-};
+const itemContextMenuRef = ref();
+const itemContextMenu = (evt: MouseEvent) => {
+  evt.stopPropagation();
+  evt.preventDefault();
+  evt.props = props;
+  itemContextMenuRef.value?.show(evt);
+}
 onMounted(() => {
 })
 </script>
 <template>
-  <star-horse-dialog box-width="450px" :is-view="true" :self-func="true" :dialog-visible="componentVisible"
+  <star-horse-dialog box-width="450px" :is-view="true" :full-screen="false" title="更换组件" :self-func="true"
+                     :dialog-visible="componentVisible"
                      @closeAction="close">
     <template #footer>
       <el-button type="primary" size="default" @click="close">确定</el-button>
@@ -272,7 +86,7 @@ onMounted(() => {
     <div :class="{'design-star-horse' : isEdit,
     'field-item':true,
   'active-item':currentItemId == formItem?.preps.id && isEdit
-  }" v-if="isDesign" @click="selectData(formItem)">
+  }" v-if="isDesign" @click="selectData(formItem)" @contextmenu="itemContextMenu">
       <el-form-item
           :size="formItem?.preps['size']||'default'"
           v-if="parentField?.itemType!='table'&&formItem?.itemType!='divider'&&formItem?.preps['headerFlag']!='Y'"
@@ -299,51 +113,31 @@ onMounted(() => {
               style="color: var(--star-horse-white)"
           />
         </el-tooltip>
-        <el-dropdown @command="operation">
+
+        <el-tooltip content="更换组件" >
           <star-horse-icon
-              icon-class="v-dot"
+              @click.stop="exchangeItem"
+              icon-class="exchange"
               style="color: var(--star-horse-white)"
           />
-          <template #dropdown>
-            <el-dropdown-menu>
-              <el-dropdown-item command="cut">
-                <star-horse-icon icon-class="cut"/>
-                剪切
-              </el-dropdown-item>
-              <el-dropdown-item command="copy">
-                <star-horse-icon icon-class="copy"/>
-                复制
-              </el-dropdown-item>
-              <el-dropdown-item command="paste" :disabled="Object.keys(currentChangeItem).length==0">
-                <star-horse-icon icon-class="paste"/>
-                粘贴
-              </el-dropdown-item>
-              <el-dropdown-item command="exchange" divided>
-                <star-horse-icon icon-class="exchange"/>
-                更换组件
-              </el-dropdown-item>
-            </el-dropdown-menu>
-          </template>
-        </el-dropdown>
-
-
+        </el-tooltip>
         <el-tooltip content="上移" v-if="parentField?.itemType!='table'">
           <star-horse-icon
-              @click.stop="moveUpItem(formItem?.preps)"
+              @click.stop="moveUpItem(isEdit,formItem?.preps,parentField)"
               icon-class="move-up"
               style="color: var(--star-horse-white)"
           />
         </el-tooltip>
         <el-tooltip content="下移" v-if="parentField?.itemType!='table'">
           <star-horse-icon
-              @click.stop="moveDownItem(formItem?.preps)"
+              @click.stop="moveDownItem(isEdit,formItem?.preps,parentField)"
               icon-class="move-down"
               style="color: var(--star-horse-white)"
           />
         </el-tooltip>
         <el-tooltip content="删除组件">
           <star-horse-icon
-              @click.stop="removeItem(formItem?.preps)"
+              @click.stop="removeItem(isEdit,formItem?.preps,parentField)"
               icon-class="clear-all"
               style="color: var(--star-horse-white)"
           />
@@ -364,6 +158,9 @@ onMounted(() => {
       <help :message="formItem.preps?.helpMsg" v-if="formItem.preps?.helpMsg"/>
       <slot></slot>
     </div>
+    <Teleport to="body">
+      <ContentMenu ref="itemContextMenuRef" :menu-data="dynamicFormContextMenuData(formItem,parentField,'item')"/>
+    </Teleport>
   </div>
 </template>
 <style lang="scss" scoped>

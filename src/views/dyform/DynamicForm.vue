@@ -10,7 +10,7 @@ import FieldAnalysis from "@/views/dyform/FieldAnalysis.vue";
 import FormPropertyPanel from "@/views/dyform/FormPropertyPanel.vue";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import Help from "@/components/help.vue";
-import {formActions} from "@/views/dyform/utils/DynamicForm.ts";
+import {dynamicFormHelpMessage, formActions} from "@/views/dyform/utils/DynamicForm.ts";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
 import {validDynamicFormCompParams} from "@/views/dyform/utils/preview.ts";
@@ -24,6 +24,9 @@ import {i18n} from "@/lang";
 import {Config} from "@/api/settings.ts";
 import FormPreview from "@/views/dyform/FormPreview.vue";
 import {initKeyboardEvent, removeKeyboardEvent} from "@/api/keyboard-event-utils.ts";
+import {dynamicFormContextMenuData} from "@/views/dyform/page/AblesPlugin.ts";
+import {ModuleEnums} from "@/components/enums/ModuleEnums.ts";
+import {helpMessage} from "@/utils/sh_design.ts";
 
 const dataUrl = apiInstance("userdb-manage", "userdb/dynamicForm");
 let designForm = DesignForm(piniaInstance);
@@ -36,8 +39,8 @@ let permissions = ref<any>({});
 let compSize = computed(() => configStore.configFormInfo?.buttonSize || Config.compSize);
 let draggingItem = computed(() => designForm.draggingItem);
 let list = computed(() => designForm.compList);
-let isPreview = ref<any>(false);
-let batchEditFieldVisible = ref<any>(false);
+let isPreview = computed(() => designForm.previewVisible);
+let batchEditFieldVisible = computed(() => designForm.batchEditFieldVisible);
 let activeTab = ref<any>("first");
 let errMessage = ref<string>("");
 let formData = computed(() => designForm.formData);
@@ -90,10 +93,10 @@ const loadFormData = async (formId: any, isParent: boolean) => {
 
 const closeAction = () => {
   designForm.setIsEdit(true);
-  isPreview.value = false;
+  designForm.setPreviewVisible(false);
   userOperation.setFormInstance(dynamicFormRef);
   userOperation.clearAll();
-  batchEditFieldVisible.value = false;
+  designForm.setBatchEditFieldVisible(false);
   configDialogVisible.value = false;
   codeDialogVisible.value = false;
 };
@@ -110,11 +113,11 @@ const clearData = (flag: boolean = true) => {
   }
 };
 const preview = async () => {
-  isPreview.value = true;
+  designForm.setPreviewVisible(true);
   designForm.setIsEdit(false);
   await nextTick();
   userOperation.setFormInstance(previewDynamicFormRef);
-  list.value.forEach(item => {
+  list.value.forEach((item: any) => {
     userOperation.addFormItem(item);
   })
 };
@@ -197,6 +200,7 @@ const formInfoChange = (_data: any) => {
 };
 const onDragAdd = async (_evt: Event, dataList: Array<any>) => {
   // let index = evt.oldIndex;
+  console.log(_evt, dataList);
   if (draggingItem.value.itemType == 'table') {
     let id = draggingItem.value.id;
     let datas = dataList.filter(item => item.itemType == "table");
@@ -225,7 +229,7 @@ const createCode = () => {
   codeDialogVisible.value = true;
 };
 const batchEdit = () => {
-  batchEditFieldVisible.value = true;
+  designForm.setBatchEditFieldVisible(true);
 };
 const configDialogVisible = ref(false);
 const codeDialogVisible = ref(false);
@@ -234,35 +238,15 @@ let batchModifyData = reactive<any>({
   maxLength: 100,
   precision: 0,
   required: "N",
-  formShow: "Y",
-  searchShow: "Y",
-  tableShow: "Y"
+  formVisible: "Y",
+  searchVisible: "Y",
+  listVisible: "Y"
 });
 const tableEdit = (submit: boolean) => {
   isSubmit.value = submit;
   configDialogVisible.value = true;
 };
-const helpMessage =
-    `
-描述：StarHorse 表单设计器是一款通过拖拽即可实现
-     复杂表单模型，可满足大部分常见业务。
-规则：所有同级组件的名字不能重复，在Tab组件中tabName
-     和objectName不能重复;
-     Table组件中batchFieldName不能重复。
-操作步骤：
-  1、将左边的组件拖动中间空白区域；
-  2、在右边属性区域设置选中组件得属性；
-  3、在头部可批量编辑按钮可编辑属性名称；
-  4、在在头部设置按钮可设置表单属性；
-  5、在头部代码按钮可以生产代码（目前只能生产vue3）；
-  6、在头部预览按钮可以预览表单信息；
-盲点（数据源生成的表单模型）：
-  1、须注意选择器、单选框、多选框等组件的值类型，
-     系统默认是字符串类型，如果数据库设置是数值类型
-     需要在对应字段的属性面板中修改值类型。
-  2、提交时须注意表的主键生成策略，默认时动态赋值，
-    如果是自增，需要在配置或者保存是修改主键策略。
-`;
+
 let leftPanelVisible = ref<boolean>(true);
 let rightPanelVisible = ref<boolean>(true);
 
@@ -354,6 +338,14 @@ const analysisQueryParams = () => {
   }
   analysisParentParam();
 }
+const contentMenuRef = ref();
+const contextMenu = async (evt: MouseEvent) => {
+  evt.preventDefault();
+  evt.stopPropagation();
+  console.log("场景触发");
+  await nextTick();
+  contentMenuRef.value.show(evt);
+}
 /**
  * 键盘事件
  * @param evt
@@ -362,11 +354,11 @@ const analysisQueryParams = () => {
 onActivated(() => {
   analysisQueryParams();
   designForm.setIsEdit(true);
-  initKeyboardEvent(actions);
+  initKeyboardEvent(actions, ModuleEnums.DYNAMIC_FORM);
 });
 onDeactivated(() => {
   designForm.setIsEdit(false);
-  removeKeyboardEvent(actions);
+  removeKeyboardEvent(actions, ModuleEnums.DYNAMIC_FORM);
 });
 onBeforeUnmount(() => {
   designForm.setIsEdit(false);
@@ -398,7 +390,7 @@ watch(() => list.value,
 );
 onMounted(async () => {
   await init();
-  initKeyboardEvent(actions);
+  initKeyboardEvent(actions, ModuleEnums.DYNAMIC_FORM);
 });
 let prepsModel = ref("one");
 </script>
@@ -482,20 +474,20 @@ let prepsModel = ref("one");
                          inactive-text="否"/>
             </el-col>
             <el-col :span="2">
-              <el-switch v-model="batchModifyData.formShow" :size="compSize"
-                         @change="(val:any)=>batchOperation(val,'formShow')" active-value="Y" active-text="是"
+              <el-switch v-model="batchModifyData.formVisible" :size="compSize"
+                         @change="(val:any)=>batchOperation(val,'formVisible')" active-value="Y" active-text="是"
                          inactive-value="N"
                          inactive-text="否"/>
             </el-col>
             <el-col :span="2">
-              <el-switch v-model="batchModifyData.searchShow" :size="compSize"
-                         @change="(val:any)=>batchOperation(val,'searchShow')" active-value="Y" active-text="是"
+              <el-switch v-model="batchModifyData.searchVisible" :size="compSize"
+                         @change="(val:any)=>batchOperation(val,'searchVisible')" active-value="Y" active-text="是"
                          inactive-value="N"
                          inactive-text="否"/>
             </el-col>
             <el-col :span="2">
-              <el-switch v-model="batchModifyData.tableShow" :size="compSize"
-                         @change="(val:any)=>batchOperation(val,'tableShow')" active-value="Y" active-text="是"
+              <el-switch v-model="batchModifyData.listVisible" :size="compSize"
+                         @change="(val:any)=>batchOperation(val,'listVisible')" active-value="Y" active-text="是"
                          inactive-value="N"
                          inactive-text="否"/>
             </el-col>
@@ -570,10 +562,10 @@ let prepsModel = ref("one");
           <el-tooltip content="恢复缓存数据" v-if="cacheData&&cacheData.length>0">
             <star-horse-icon icon-class="reset" @click="cacheDataRestore($event)"/>
           </el-tooltip>
-          <help :message="helpMessage"/>
+          <help :message="dynamicFormHelpMessage"/>
         </div>
         <div class="main-design-a">
-          <div class="main-design-outer">
+          <div class="main-design-outer" @contextmenu="contextMenu">
             <el-form
                 ref="dynamicFormRef"
                 class="design-form-container"
@@ -608,6 +600,7 @@ let prepsModel = ref("one");
                     <component
                         :key="data.id"
                         :field="data"
+                        :isDesign="true"
                         :formInfo="formInfo"
                         :is="data.itemType +(data.compType === 'container'? '-container':'-item')"
                         :formData="formData"
@@ -616,6 +609,9 @@ let prepsModel = ref("one");
                 </template>
               </draggable>
             </el-form>
+            <Teleport to="body">
+              <ContentMenu ref="contentMenuRef" :menu-data="dynamicFormContextMenuData({},{})"/>
+            </Teleport>
           </div>
           <div class="side-panel-item" v-show="rightPanelVisible">
             <property-panel
@@ -703,6 +699,7 @@ let prepsModel = ref("one");
 
       .main-design-outer {
         flex: 1;
+        position: relative;
         background: var(--star-horse-background);
         justify-content: center;
         border: 1px dashed var(--star-horse-shadow);
@@ -710,7 +707,9 @@ let prepsModel = ref("one");
         border-radius: 3px;
         display: flex;
         flex-direction: column;
-
+        top: 0;
+        left: 0;
+        transform: translate(0, 0);
 
       }
 

@@ -1,13 +1,12 @@
 <script lang="ts" setup name="StarHorseTableComp">
 import {ApiUrls} from "@/components/types/ApiUrls";
-import {computed, inject, nextTick, onMounted, onUpdated, PropType, reactive, ref, unref, watch} from "vue";
+import {computed, inject, onMounted, onUpdated, PropType, reactive, ref, unref, watch} from "vue";
 import {download, postRequest} from "@/api/star_horse";
 import {PageProps} from "@/components/types/PageProps";
 import {closeLoad, createCondition, deleteByIds, isJson, load, loadData,} from "@/api/sh_api";
 import {BtnHideCondition, SearchParams} from "@/components/types/Params";
 import Sortable from "sortablejs";
 import {DialogProps} from "../types/DialogProps";
-import {BtnAuth} from "@/components/types/BtnAuth";
 import {error, warning} from "@/utils/message";
 import {ExpandTable, FieldInfo, OrderByInfo, PageFieldInfo, UserFuncInfo} from "@/components/types/PageFieldInfo";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
@@ -75,7 +74,11 @@ const props = defineProps({
   showSelection: {type: Boolean, default: true},
   expandTable: {type: Object as PropType<ExpandTable>},
   //帮助提示
-  helpMsg: {type: String}
+  helpMsg: {type: String},
+  //全局配置，动态页面使用
+  globalConfig: {type: Object as PropType<any>, required: false},
+  //是否动态页面
+  isDynamic: {type: Boolean, default: false},
 });
 let route = useRoute();
 let pagePermission = useButtonPermission();
@@ -514,18 +517,18 @@ const loadByPage = () => {
     load("数据加载中");
   }
   postRequest(url, params).then((res: any) => {
-    if (res.data?.code != 0) {
-      console.error(res.data.cnMessage);
+    if (res?.data?.code != 0) {
+      res&&console.error(res?.data?.cnMessage);
       return;
     }
-    let redata = res?.data.data;
+    let redata = res?.data?.data;
     //如果不是分页之间显示返回的所有数据
     pageInfo.dataList = redata?.dataList || redata;
     if (props.dialogInput) {
       filterData();
     }
-    pageInfo.totalPage = redata.totalPages;
-    pageInfo.totalData = redata.totalDatas;
+    pageInfo.totalPage = redata?.totalPages;
+    pageInfo.totalData = redata?.totalDatas;
   }).catch((err: any) => {
     console.log(err);
   }).finally(() => {
@@ -714,7 +717,7 @@ const loadField = (): FieldInfo[] => {
   let {fieldList} = analysisFields(props.fieldList?.fieldList);
   if (fieldList) {
     fieldList.sort((a: FieldInfo, b: FieldInfo) => (a.priority || 100) - (b.priority || 100));
-    return fieldList.filter(item => item.tableShow)?.slice(0, 3);
+    return fieldList.filter(item => item.listVisible)?.slice(0, 3);
   }
   return [];
 }
@@ -806,15 +809,15 @@ defineExpose({
                 :show-overflow-tooltip="true"
             >
               <template #default="scope">
-                <el-tag round :effect="scope.row.tableShow ? 'dark' : 'light'" :size="compSize">
+                <el-tag round :effect="scope.row.listVisible ? 'dark' : 'light'" :size="compSize">
                   {{ scope.row.label }}
                 </el-tag>
               </template>
             </el-table-column>
-            <el-table-column prop="tableShow" label="显示/隐藏" width="100">
+            <el-table-column prop="listVisible" label="显示/隐藏" width="100">
               <template #default="scope">
                 <el-switch
-                    v-model="scope.row.tableShow"
+                    v-model="scope.row.listVisible"
                     :size="compSize"
                     :active-value="true"
                     :inactive-value="false"
@@ -890,6 +893,8 @@ defineExpose({
                 </el-table-column>
                 <table-column :fieldList="expandTable" :compSize="configInfo.inputSize" :compUrl="compUrl"
                               :dataFormat="dataFormat" :sortable="false"
+                              :globalConfig="globalConfig"
+                              :isDynamic="isDynamic"
                               :showBatchField="showBatchField"/>
               </el-table>
             </div>
@@ -897,6 +902,8 @@ defineExpose({
         </el-table-column>
         <table-column :fieldList="fieldList" :compSize="configInfo.inputSize" :compUrl="compUrl"
                       :dataFormat="dataFormat"
+                      :globalConfig="globalConfig"
+                      :isDynamic="isDynamic"
                       :showBatchField="showBatchField"/>
         <el-table-column
             v-if="(!disableAction||(disableAction&&extandBtns?.length>0))&&Object.keys(permissions||{}).length>0"

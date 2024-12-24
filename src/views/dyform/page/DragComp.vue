@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {contentMenuData, Editable} from "@/views/dyform/page/AblesPlugin.ts";
+import {dynamicPageContextMenuData, Editable} from "@/views/dyform/page/AblesPlugin.ts";
 import VueMoveable from "vue3-moveable";
 import {onMounted, ref} from "vue";
 import {uuid} from "@/api/system.ts";
@@ -50,11 +50,11 @@ const handleWarp = ({target, transform}) => {
   console.log("onWarp", transform);
   target.style.transform = transform;
 }
-const clearAllStates = () => {
-  Object.keys(this.states).forEach(key => {
-    this.moveable[key] = false;
-  });
-}
+// const clearAllStates = () => {
+//   Object.keys(states).forEach(key => {
+//     moveable[key] = false;
+//   });
+// }
 let clazz = ref<string>("clz");
 onMounted(() => {
   clazz.value = "clz" + uuid();
@@ -81,7 +81,7 @@ onMounted(() => {
       @warp="handleWarp"
   />
   <Teleport to="body">
-    <ContentMenu ref="contentMenuRef" :menu-data="contentMenuData"/>
+    <ContentMenu ref="contentMenuRef" :menu-data="dynamicPageContextMenuData()"/>
   </Teleport>
 </template>
 

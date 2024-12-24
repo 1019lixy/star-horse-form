@@ -21,6 +21,7 @@ const tableFieldList = ref<any>({
 const primaryKey = ref("");
 const rules = ref({});
 const hasData = ref(false);
+let relationTables = ref<any>({});
 const formInfo = ref<any>({});
 const activeName = ref<string>("form");
 const props = defineProps({
@@ -46,6 +47,7 @@ const loadFormData = async (formId: string) => {
   searchFormData.value = data["searchFormData"] as SearchProps[];
   primaryKey.value = data["primaryKey"];
   tableFieldList.value = data["tableFieldList"] as PageFieldInfo;
+  relationTables.value = data["relationTables"];
   rules.value = data["rules"];
   formInfo.value = data["formInfo"];
   await nextTick();
@@ -95,6 +97,8 @@ onMounted(async () => {
       <div class="dialog-body">
         <star-horse-data-view
             :dataFormat="dataFormat"
+            :primary-key="primaryKey"
+            :dynamicForm="true"
             :field-list="tableFieldList"
             :compUrl="dataUrl"
         />
@@ -123,6 +127,8 @@ onMounted(async () => {
               :fieldList="tableFieldList"
               :primaryKey="primaryKey"
               :compUrl="dataUrl"
+              :globalConfig="relationTables"
+              :isDynamic="true"
               :showBatchField="true"
               :dataFormat="dataFormat"
           />

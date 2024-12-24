@@ -32,7 +32,7 @@ onMounted(() => {
 <template>
   <el-row v-if="item instanceof Array" :gutter="0">
     <el-col :span="sitem.colspan||sitem.preps?.colspan||(24/item.length)" v-for="sitem in item">
-      <div class="item" v-if="sitem.formShow||sitem.tableShow||sitem.viewShow">
+      <div class="item" v-if="sitem.formVisible||sitem.listVisible||sitem.viewVisible">
         <label>{{ sitem.label }} :</label>
         <div class="content">
           <pre v-if="sitem.type=='textarea'||sitem.type=='markdown'">{{ dataFormat(sitem) }}</pre>

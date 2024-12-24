@@ -8,7 +8,7 @@ import piniaInstance from "@/store";
 import {v4 as uuidv4} from "uuid";
 import {FieldInfo} from "@/components/types/PageFieldInfo";
 import {DyCompField} from "@/components/types/DyCompField";
-import {computed, createApp, Ref, unref,ref} from "vue";
+import {computed, createApp, Ref, unref, ref} from "vue";
 import previewImage from 'preview-image-js'
 import 'preview-image-js/icon.js';
 import App from "@/App.vue";
@@ -224,20 +224,6 @@ export const toggleDark = (val: string) => {
 }
 
 
-const complexFields = (items: Array<any>) => {
-    for (const index in items) {
-        const item = items[index];
-        if (item.compType == "container") {
-            const sitems = item.preps.elements;
-            for (const sindex in sitems) {
-                complexFields(sitems[sindex].items);
-            }
-        } else {
-            item.id = item.id + "Copy";
-        }
-    }
-}
-
 /**
  * 批量修改公共属性
  * @param items
@@ -265,37 +251,7 @@ export const batchModifyAction = (items: Array<any>, val: any, fieldName: string
         }
     }
 }
-/**
- * 拷贝容器
- * @param parentComp
- * @param containerType
- * @param currentContainer
- */
-export const copyContainer = (parentComp: Array<any>, currentContainer: any) => {
-    if (!currentContainer) {
-        return;
-    }
-    const containerType = currentContainer.itemType;
-    const container = JSON.parse(JSON.stringify(currentContainer));
-    //box和dytable 有列属性
-    if (containerType == "box" || containerType == "dytable") {
-        const rows = container.preps.elements;
-        for (const index in rows) {
-            const row = rows[index];
-            for (const cIndex in row.columns) {
-                const col = row.columns[cIndex];
-                col._uuid = uuid();
-                complexFields(col.items);
-            }
-        }
-    } else {
-        const rows = container.preps.elements;
-        for (const index in rows) {
-            complexFields(rows[index].items);
-        }
-    }
-    parentComp.push(container);
-}
+
 
 /**
  * 公共字段
@@ -304,56 +260,60 @@ export function commonField() {
     let fields: FieldInfo[] = [];
     fields.push({
         label: "创建人", fieldName: "createdBy", type: "input",
-        formShow: false,
-        tableShow: false
+        formVisible: false,
+        listVisible: false
     });
     fields.push({
         label: "创建日期", fieldName: "createdDate", type: "date",
-        formShow: false,
-        tableShow: false
+        formVisible: false,
+        listVisible: false
     });
     fields.push({
         label: "修改人", fieldName: "updatedBy", type: "input",
-        formShow: false,
-        tableShow: false
+        formVisible: false,
+        listVisible: false
     });
     fields.push({
         label: "修改日期", fieldName: "updatedDate", type: "date",
-        formShow: false,
-        tableShow: false
+        formVisible: false,
+        listVisible: false
     });
-
+    fields.push({
+        label: "备注", fieldName: "remark", type: "textarea",
+        formVisible: false,
+        listVisible: false
+    });
     fields.push({
         label: "数据编号", fieldName: "dataNo", type: "input",
-        formShow: false,
-        tableShow: false
+        formVisible: false,
+        listVisible: false
     });
     fields.push({
         label: "数据版本号", fieldName: "version", type: "number",
-        formShow: false,
-        tableShow: false
+        formVisible: false,
+        listVisible: false
     });
 
     fields.push({
         label: "状态", fieldName: "statusName", type: "input",
-        formShow: false,
-        tableShow: false
+        formVisible: false,
+        listVisible: false
     });
     fields.push({
         label: "状态码", fieldName: "statusCode", type: "input",
-        formShow: false,
-        tableShow: false
+        formVisible: false,
+        listVisible: false
     });
 
     fields.push({
         label: "国际码", fieldName: "local", type: "input",
-        formShow: false,
-        tableShow: false
+        formVisible: false,
+        listVisible: false
     });
     fields.push({
         label: "是否已逻辑", fieldName: "isDel", type: "number",
-        formShow: false,
-        tableShow: false
+        formVisible: false,
+        listVisible: false
     });
 
     return fields;

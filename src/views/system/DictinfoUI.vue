@@ -19,36 +19,36 @@ let dictType = computed(() => props.dictType);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {label: "字典类型", fieldName: "dictType", type: "input", defaultValue: dictType, disabled: "Y"},
-    {label: "字典名称", defaultShow: true, fieldName: "dictName", type: "input", matchType: "lk"}
+    {label: "字典名称", defaultVisible: true, fieldName: "dictName", type: "input", matchType: "lk"}
   ]
 });
 const editFormField = reactive<PageFieldInfo>({
   fieldList: [{
     label: "字典名称", fieldName: "dictName", type: "input",
-    required: true, formShow: true,
-    tableShow: true
+    required: true, formVisible: true,
+    listVisible: true
   },
     {
       label: "字典编码", fieldName: "dictCode", type: "input",
-      required: true, formShow: true,
-      tableShow: true
+      required: true, formVisible: true,
+      listVisible: true
     },
     {
       label: "状态", fieldName: "statusName", type: "input",
       required: true,
-      tableShow: true
+      listVisible: true
     },
     {
       label: "状态", fieldName: "statusCode", type: "select", optionList: commonDictList,
       required: true,
-      formShow: true,
+      formVisible: true,
       defaultValue: "1",
-      tableShow: false
+      listVisible: false
     },
     {
       label: "字典描述", fieldName: "dictDesc", type: "textarea",
-      formShow: true,
-      tableShow: true
+      formVisible: true,
+      listVisible: true
     },
   ]
 });
@@ -59,14 +59,14 @@ const tableFieldList = reactive<PageFieldInfo>({
     },
     {
       label: "字典类型", fieldName: "dictType", type: "input",
-      required: true, formShow: true, defaultValue: dictType,
-      tableShow: true, disabled: "Y"
+      required: true, formVisible: true, defaultValue: dictType,
+      listVisible: true, disabled: "Y"
     },
     {
       batchFieldList: [{
         title: "字典信息",
         batchName: "dictList",
-        sameParentTable: true,
+        subFormFlag: "N",
         fieldList: editFormField.fieldList
       }]
     },
@@ -141,10 +141,14 @@ onMounted(async () => {
 </script>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
+    <div class="dialog-body">
     <star-horse-form @refresh="tabListRef.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList" :rules="rules"/>
+    </div>
   </star-horse-dialog>
   <star-horse-dialog :dialogVisible="dialogProps.bakeVisible1" :dialogProps="dialogProps">
-    <star-horse-form @refresh="tabListRef.loadByPage()" :compUrl="dataUrl" :fieldList="editFormField" :rules="rules"/>
+    <div class="dialog-body">
+      <star-horse-form @refresh="tabListRef.loadByPage()" :compUrl="dataUrl" :fieldList="editFormField" :rules="rules"/>
+    </div>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title=
       "'查看数据'" :is-view="true">

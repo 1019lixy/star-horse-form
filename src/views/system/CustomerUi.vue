@@ -13,7 +13,7 @@ const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
       label: "客户名称",
-      defaultShow: true,
+      defaultVisible: true,
       fieldName: "customerName",
       type: "input",
       matchType: "lk"
@@ -22,7 +22,7 @@ const searchFormData = reactive<SearchFields>({
       label: "客户编码",
       fieldName: "customerCode",
       type: "input",
-      defaultShow: true,
+      defaultVisible: true,
       matchType: "lk"
     },
   ]
@@ -42,30 +42,30 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       fieldName: "customerName",
       type: "input",
       required: true,
-      formShow: true,
-      tableShow: true,
+      formVisible: true,
+      listVisible: true,
     },
     {
       label: "客户编码",
       fieldName: "customerCode",
       type: "input",
       disabled: "Y",
-      tableShow: true,
+      listVisible: true,
     },
     {
       label: "Logo",
       fieldName: "customerLogo",
       type: "icon",
-      formShow: true,
-      tableShow: true,
+      formVisible: true,
+      listVisible: true,
       optionList: systemIconList,
     },
     {
       label: "描述",
       fieldName: "customerDesc",
       type: "textarea",
-      formShow: true,
-      tableShow: true,
+      formVisible: true,
+      listVisible: true,
     },
     {
       label: "创建人", disabled: "Y",
