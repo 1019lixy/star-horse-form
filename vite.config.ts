@@ -63,7 +63,7 @@ export default defineConfig((mode, command) => {
         '@codemirror/lang-java',
         '@codemirror/lang-json',
         '@codemirror/lang-yaml',
-        '@codemirror/lang-css',
+        '@codemirror/lang-enums',
         '@codemirror/lang-vue',
         '@codemirror/lang-html',
         '@codemirror/lang-cpp',
@@ -91,11 +91,11 @@ export default defineConfig((mode, command) => {
     ]
     // fs.readdirSync("node_modules/element-plus/es/components").map((dirname) => {
     //     fs.access(
-    //         `node_modules/element-plus/es/components/${dirname}/style/css.mjs`,
+    //         `node_modules/element-plus/es/components/${dirname}/style/enums.mjs`,
     //         (err) => {
     //             if (!err) {
     //                 optimizeDepsElementPlusIncludes.push(
-    //                     `element-plus/es/components/${dirname}/style/css`
+    //                     `element-plus/es/components/${dirname}/style/enums`
     //                 )
     //             }
     //         }
@@ -214,7 +214,7 @@ export default defineConfig((mode, command) => {
         /*  optimizeDeps: {
               include: [
                   `monaco-editor/esm/vs/language/json/json.worker`,
-                  `monaco-editor/esm/vs/language/css/css.worker`,
+                  `monaco-editor/esm/vs/language/enums/enums.worker`,
                   `monaco-editor/esm/vs/language/html/html.worker`,
                   `monaco-editor/esm/vs/language/typescript/ts.worker`,
                   `monaco-editor/esm/vs/editor/editor.worker`
@@ -227,10 +227,10 @@ export default defineConfig((mode, command) => {
 
             extensions: ['.js', '.vue', '.json', '.ts', ".jsx"]
         },
-        /*   css: {
+        /*   enums: {
                preprocessorOptions: {
                    scss: {
-                       additionalData: `@use "@/assets/css/element/index.scss" as *;`,
+                       additionalData: `@use "@/assets/enums/element/index.scss" as *;`,
                    },
                },
            },*/

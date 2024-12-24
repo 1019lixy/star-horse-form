@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import {flowMixin} from '@/views/workflow/plugin/mixins/flowMixin.ts';
 import {uuid} from "@/api/system.ts";
-import EditName from '@/views/workflow/plugin/Common/EditName.vue';
-import FlowDrawerFooter from '@/views/workflow/plugin/Common/DrawerFooter.vue';
+import EditName from '@/views/workflow/plugin/common/EditName.vue';
+import FlowDrawerFooter from '@/views/workflow/plugin/common/DrawerFooter.vue';
 import {onMounted, ref} from "vue";
 import {scale} from "@/views/workflow/plugin/util/deviceUtil.ts";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";

@@ -41,8 +41,8 @@
 import {close, flowMixin, open,} from '@/views/workflow/plugin/mixins/flowMixin.ts';
 import FlowAddNode from '@/views/workflow/plugin/FlowNode/AddNode.vue';
 import FlowCopyerSetting from '@/views/workflow/plugin/FlowDrawer/CopyerPrep.vue';
-import EditName from '@/views/workflow/plugin/Common/EditName.vue';
-import DeleteConfirm from '@/views/workflow/plugin/Common/DeleteConfirm.vue';
+import EditName from '@/views/workflow/plugin/common/EditName.vue';
+import DeleteConfirm from '@/views/workflow/plugin/common/DeleteConfirm.vue';
 import {computed, ref} from "vue";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";

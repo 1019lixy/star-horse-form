@@ -4,12 +4,13 @@
       <div class="flow-item">
         <div class="node-name node-start">开始</div>
       </div>
-      <FlowAddNode :node="node" :nodeType="node.type" :readable="readable"/>
+      <FlowAddNode :node="node" :nodeType="FlowNodeEnums.WRITE_NODE" :readable="readable"/>
     </div>
   </div>
 </template>
 <script setup lang="ts">
 import FlowAddNode from '@/views/workflow/plugin/FlowNode/AddNode.vue';
+import {FlowNodeEnums} from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
 defineOptions({
   name: 'FlowNodeStart',
 });

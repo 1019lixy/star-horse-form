@@ -52,9 +52,9 @@
 </template>
 <script setup lang="ts">
 import {flowMixin} from '@/views/workflow/plugin/mixins/flowMixin.ts';
-import FlowDrawerFooter from '@/views/workflow/plugin/Common/DrawerFooter.vue';
-import EditName from '@/views/workflow/plugin/Common/EditName.vue';
-import AuthForm from '@/views/workflow/plugin/Common/AuthForm.vue';
+import FlowDrawerFooter from '@/views/workflow/plugin/common/DrawerFooter.vue';
+import EditName from '@/views/workflow/plugin/common/EditName.vue';
+import AuthForm from '@/views/workflow/plugin/common/AuthForm.vue';
 import FlowNodeApproval from './Approver/Approval.vue';
 import FlowNodeCopyerConfigure from './Copyer/CopyerConfigure.vue';
 import {ref} from "vue";

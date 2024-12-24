@@ -10,6 +10,7 @@ import {
     updateMap,
     updateNode
 } from "@/views/workflow/plugin/util/nodeUtil.ts";
+import {FlowNodeEnums} from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
 
 export const useFlowDesign = defineStore("flowDesignStore", () => {
     const currentNode = ref<any>({});
@@ -63,20 +64,21 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
      */
     const flowAddNode = (data: any) => {
         console.log("flowAddNode", data);
-        if (data.nodeType == 0) {
+        if (data.nodeType == FlowNodeEnums.WRITE_NODE) {
             //  开始
             if (node.value.hasOwnProperty('name')) {
                 // 如果添加的是并行节点
-                if (data.addNode.type == 9) {
+                if (data.addNode.type == FlowNodeEnums.PARALLEL_NODE) {
                     data.addNode.childNode.childNode = node.value;
                     data.addNode.childNode.childNode.pid = data.addNode.childNode.id;
                 } else {
-                    data.addNode.childNode = node.value;
-                    data.addNode.childNode.pid = data.addNode.id;
+                    data.currNode.childNode = data.addNode;
+                    console.log("data.currNode.childNode", data.currNode.childNode);
+                    data.currNode.childNode["pid"] = data.currNode.id;
                 }
                 data.addNode.pid = 0;
             }
-            node.value = data.addNode;
+            node.value = data.currNode;
         } else {
             if (data.id) {
                 data.currNode.conditionNodes.forEach((conditionNode: any) => {
@@ -102,7 +104,7 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
         const len = snode.conditionNodes.length;
         const conditionNode = snode.conditionNodes[len - 1];
         conditionNode.attr.priorityLevel = len + 1 + '';
-        if (conditionNode.type == 3) {
+        if (conditionNode.type == FlowNodeEnums.BRANCH_CONDITION_NODE) {
             // 分支
             snode.conditionNodes.splice(len - 1, 0, addCondition(snode, len));
         } else {
@@ -117,16 +119,18 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
      * 删除节点
      */
     const flowDelNode = (snode: any) => {
-        console.log("flowDelNode", snode,node.value);
+        console.log("flowDelNode", snode, node.value);
         if (snode.id == node.value.id) {
             if (snode.childNode) {
                 node.value = snode.childNode;
             } else {
                 node.value = {};
             }
-        } else if (snode.type == 3 || snode.type == 8 || snode.type == 10) {
+        } else if (snode.type == FlowNodeEnums.BRANCH_CONDITION_NODE
+            || snode.type == FlowNodeEnums.SUGGEST_SUB_NODE
+            || snode.type == FlowNodeEnums.PARALLEL_SUB_NODE) {
             // 条件(意见)分支节点和并行节点
-            delBranchNode(node.value, node.value.childNode, snode);
+            delBranchNode(node.value, node.value, snode);
         } else {
             delNode(node.value, snode);
         }

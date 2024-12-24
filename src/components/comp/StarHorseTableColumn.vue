@@ -13,6 +13,10 @@ const props = defineProps({
   item: {type: Object as PropType<any>, required: true},
   dataFormat: {type: Function, required: true},
   cellEditable: {type: Boolean, default: true},
+  //全局配置，动态页面使用
+  globalConfig: {type: Object as PropType<any>, required: false},
+  //是否动态页面
+  isDynamic: {type: Boolean, default: false},
   //是否显示排序
   sortable: {type: Boolean, default: true},
   compSize: {type: String, default: Config.compSize}
@@ -30,7 +34,17 @@ const blurEvent = (column: any) => {
   if ((!bakeValue && bakeValue != 0) || bakeValue == currentRow.value[column["property"]]) {
     return;
   }
-  postRequest(props.compUrl?.mergeUrl!, currentRow.value).then(res => {
+  let params: any = {};
+  console.log(props.isDynamic, props.globalConfig);
+  if (props.isDynamic) {
+    params = {
+      dataMap: currentRow.value,
+      relationTables: props.globalConfig
+    }
+  } else {
+    params = currentRow.value;
+  }
+  postRequest(props.compUrl?.mergeUrl!, params).then(res => {
     if (res.data.code != 0) {
       warning(res.data.cnMessage);
     } else {

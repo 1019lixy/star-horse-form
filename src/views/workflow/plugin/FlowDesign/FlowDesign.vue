@@ -19,10 +19,10 @@
 </template>
 <script setup lang="ts">
 import {getStartNode} from '@/views/workflow/plugin/util/nodeUtil';
-import FlowZoom from '@/views/workflow/plugin/Common/FlowZoom.vue';
-import FlowMap from '@/views/workflow/plugin/Common/FlowMap.vue';
-import FlowHelper from '@/views/workflow/plugin/Common/FlowHelper.vue';
-import FlowTips from '@/views/workflow/plugin/Common/FlowTips.vue';
+import FlowZoom from '@/views/workflow/plugin/common/FlowZoom.vue';
+import FlowMap from '@/views/workflow/plugin/common/FlowMap.vue';
+import FlowHelper from '@/views/workflow/plugin/common/FlowHelper.vue';
+import FlowTips from '@/views/workflow/plugin/common/FlowTips.vue';
 import FlowNode from '@/views/workflow/plugin/FlowNode/FlowNode.vue';
 import FlowStartNode from '@/views/workflow/plugin/FlowNode/StartNode.vue';
 import FlowEndNode from '@/views/workflow/plugin/FlowNode/EndNode.vue';

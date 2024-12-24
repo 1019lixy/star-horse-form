@@ -15,6 +15,11 @@
       <span>{{ zoomValue }}%</span>
       <div class="sh-flow-editor-zoom-more" @click="onZoomIn"></div>
     </div>
+    <div class="flow-btn" @click="controlScale">
+      <el-tooltip content="关闭/打开自动缩放">
+        <star-horse-icon icon-class="scale" cursor="pointer"/>
+      </el-tooltip>
+    </div>
   </div>
   <el-drawer
       v-model="drawer"
@@ -77,8 +82,18 @@ defineProps({
 const flowDesign = useFlowDesign(piniaInstance);
 const emits = defineEmits(["saveImage"]);
 const zoomValue: ModelRef<number> = defineModel("zoomValue")!;
+let scaleEnable = ref<boolean>(false);
 let nodeData = computed(() => flowDesign.node);
 const drawer = ref(false);
+const controlScale = () => {
+  scaleEnable.value = !scaleEnable.value;
+  if (scaleEnable.value) {
+    init();
+  } else {
+    deactivate();
+    zoomValue.value= INIT_ZOOM_VALUE;
+  }
+}
 const handleWeel = (e: WheelEvent) => {
   e.preventDefault();
   if (e.wheelDelta < 0) {
@@ -116,13 +131,18 @@ const viewCode = () => {
   drawer.value = true;
 }
 const init = () => {
-  window.addEventListener("wheel", handleWeel, true);
+  if (scaleEnable.value) {
+    window.addEventListener("wheel", handleWeel, true);
+  }
+}
+const deactivate = () => {
+  window.removeEventListener("wheel", handleWeel, true);
 }
 onActivated(() => {
   init();
 });
 onDeactivated(() => {
-  window.removeEventListener("wheel", handleWeel, true);
+  deactivate();
 })
 onMounted(() => {
   zoomValue.value = INIT_ZOOM_VALUE;

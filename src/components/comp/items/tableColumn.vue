@@ -14,16 +14,23 @@ defineProps({
   sortable: {type: Boolean, default: true},
   //是否显示批量属性
   showBatchField: {type: Boolean, default: false},
-  compSize: {type: String, default: Config.compSize}
+  compSize: {type: String, default: Config.compSize},
+  //全局配置，动态页面使用
+  globalConfig: {type: Object as PropType<any>, required: false},
+  //是否动态页面
+  isDynamic: {type: Boolean, default: false},
 });
 </script>
 <template>
+  {{ isDynamic }}
   <template v-for="item in fieldList?.fieldList">
     <template v-if="item instanceof Array">
       <star-horse-table-column
           :data-format="dataFormat"
           :cellEditable="fieldList['cellEditable']"
           :item="sitem"
+          :globalConfig="globalConfig"
+          :isDynamic="isDynamic"
           :sortable="sortable"
           :compSize="compSize"
           :compUrl="compUrl"
@@ -36,6 +43,8 @@ defineProps({
             :data-format="dataFormat"
             :cellEditable="fieldList['cellEditable']"
             :item="sitem"
+            :globalConfig="globalConfig"
+            :isDynamic="isDynamic"
             :sortable="sortable"
             :compSize="compSize"
             :compUrl="compUrl"
@@ -49,6 +58,8 @@ defineProps({
             :data-format="dataFormat"
             :cellEditable="fieldList['cellEditable']"
             :item="sitem"
+            :globalConfig="globalConfig"
+            :isDynamic="isDynamic"
             :sortable="sortable"
             :compSize="compSize"
             :compUrl="compUrl"
@@ -62,6 +73,8 @@ defineProps({
             :data-format="dataFormat"
             :cellEditable="fieldList['cellEditable']"
             :item="sitem"
+            :globalConfig="globalConfig"
+            :isDynamic="isDynamic"
             :sortable="sortable"
             :compSize="compSize"
             :compUrl="compUrl"
@@ -74,6 +87,8 @@ defineProps({
         v-else
         :compUrl="compUrl"
         :cellEditable="fieldList['cellEditable']"
+        :globalConfig="globalConfig"
+        :isDynamic="isDynamic"
         :data-format="dataFormat"
         :sortable="sortable"
         :compSize="compSize"
@@ -81,7 +96,11 @@ defineProps({
     />
   </template>
   <template v-if="showBatchField" v-for="item in fieldList['batchFieldList']">
-    <star-horse-table-column :data-format="dataFormat" :compSize="compSize" :sortable="sortable" :item="item"/>
+    <star-horse-table-column :data-format="dataFormat"
+                             :compSize="compSize"
+                             :globalConfig="globalConfig"
+                             :isDynamic="isDynamic"
+                             :sortable="sortable" :item="item"/>
   </template>
 </template>
 

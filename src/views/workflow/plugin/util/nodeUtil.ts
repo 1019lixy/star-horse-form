@@ -1,6 +1,7 @@
 import {uuid} from '@/api/system.ts';
 import html2canvas from 'html2canvas';
 import {isRef, Ref} from "vue";
+import {FlowNodeEnums} from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
 
 /**
  *   获取ID
@@ -16,7 +17,7 @@ export function getStartNode() {
     return {
         id: getId(),
         name: '发起人',
-        type: "WriteNode",
+        type: FlowNodeEnums.WRITE_NODE,
         // 流程节点状态(用于只读模式, 0:未进行 1:进行中  2:已完成)
         status: -1,
         // 是否有错误
@@ -35,24 +36,24 @@ export function addCondition(node: any, len: any) {
     return {
         pid: node.id,
         id: uuid(),
-        name: (node.type == 4 ? '分支' : '并行') + len,
-        type: node.type == 4 ? 3 : 10,
+        name: (node.type == FlowNodeEnums.BRANCH_NODE ? '分支' : '并行') + len,
+        type: node.type == FlowNodeEnums.BRANCH_NODE ? FlowNodeEnums.BRANCH_CONDITION_NODE : FlowNodeEnums.PARALLEL_SUB_NODE,
         // 显示添加按钮
         addable: true,
         // 可删除提示
         deletable: false,
         attr: {
             // 显示优先级
-            showPriorityLevel: node.type == 4,
+            showPriorityLevel: node.type == FlowNodeEnums.BRANCH_NODE,
             // 优先级
             priorityLevel: len,
             // 分支类型
-            branchType: node.type == 4 ? "rule" : "other",
+            branchType: node.type == FlowNodeEnums.BRANCH_NODE ? FlowNodeEnums.APPROVER_NODE: FlowNodeEnums.BRANCH_CONDITION_NODE,
         },
         // 是否有错误
         error: false,
         // 显示内容
-        content: node.type == 4 ? null : '任意(其他)',
+        content: node.type == FlowNodeEnums.BRANCH_NODE ? null : '任意(其他)',
         // 子节点
         childNode: null,
         // 条件组
@@ -71,7 +72,7 @@ export function addNode(node: any, currNode: any, addNodeData: any) {
             childNode.pid = addNodeData.id;
         }
         // 如果添加的是并行节点
-        if (addNodeData.type == 9) {
+        if (addNodeData.type == FlowNodeEnums.PARALLEL_NODE) {
             if (childNode) {
                 // 聚合节点作为其父节点
                 childNode.pid = addNodeData.childNode.id;
@@ -120,7 +121,7 @@ export function delNode(node: any, currNode: any) {
         // 当前节点的子节点暂存
         let childNode = currNode.childNode;
         // 如果删除的是并行节点
-        if (currNode.type == 9) {
+        if (currNode.type == FlowNodeEnums.PARALLEL_NODE) {
             childNode = currNode.childNode.childNode;
         }
         if (childNode && childNode.hasOwnProperty('name')) {
@@ -194,7 +195,7 @@ export function updateNode(node: any, currNode: any, field: any, value: any) {
 export function getApproveNodes(node: any, approveNodes: Array<any>) {
     console.log("getApproveNodes",node);
     isRef(node) && (node = node.value);
-    if (node.type == 1) {
+    if (node.type == FlowNodeEnums.APPROVER_NODE) {
         approveNodes.push(node);
     }
     // 如果有孩子节点

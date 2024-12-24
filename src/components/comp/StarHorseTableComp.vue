@@ -74,7 +74,11 @@ const props = defineProps({
   showSelection: {type: Boolean, default: true},
   expandTable: {type: Object as PropType<ExpandTable>},
   //帮助提示
-  helpMsg: {type: String}
+  helpMsg: {type: String},
+  //全局配置，动态页面使用
+  globalConfig: {type: Object as PropType<any>, required: false},
+  //是否动态页面
+  isDynamic: {type: Boolean, default: false},
 });
 let route = useRoute();
 let pagePermission = useButtonPermission();
@@ -889,6 +893,8 @@ defineExpose({
                 </el-table-column>
                 <table-column :fieldList="expandTable" :compSize="configInfo.inputSize" :compUrl="compUrl"
                               :dataFormat="dataFormat" :sortable="false"
+                              :globalConfig="globalConfig"
+                              :isDynamic="isDynamic"
                               :showBatchField="showBatchField"/>
               </el-table>
             </div>
@@ -896,6 +902,8 @@ defineExpose({
         </el-table-column>
         <table-column :fieldList="fieldList" :compSize="configInfo.inputSize" :compUrl="compUrl"
                       :dataFormat="dataFormat"
+                      :globalConfig="globalConfig"
+                      :isDynamic="isDynamic"
                       :showBatchField="showBatchField"/>
         <el-table-column
             v-if="(!disableAction||(disableAction&&extandBtns?.length>0))&&Object.keys(permissions||{}).length>0"

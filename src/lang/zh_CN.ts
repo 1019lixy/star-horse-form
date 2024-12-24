@@ -40,4 +40,41 @@ export default {
     "dialog.fullScreen": "最大化",
     "dialog.resize": "还原",
     "dialog.close": "关闭",
+    /**
+     * 流程设计器
+     */
+    "flow.design": "流程设计",
+    "flow.designer": "流程设计器",
+    "flow.designer.addNode": "添加节点",
+    "flow.designer.addNode.start": "开始",
+    "flow.designer.addNode.end": "结束",
+    "flow.designer.addNode.condition": "条件分支",
+    "flow.designer.addNode.parallel": "并行分支",
+    "flow.designer.addNode.suggest": "意见分支",
+    "flow.designer.addNode.user": "用户节点",
+    "flow.designer.addNode.form": "表单节点",
+    "flow.designer.addNode.approve": "审批节点",
+    "flow.designer.addNode.sign": "会签节点",
+    "flow.designer.addNode.branch": "分支节点",
+    "flow.designer.addNode.loop": "循环节点",
+    "flow.designer.addNode.subProcess": "子流程节点",
+    "flow.designer.addNode.auto": "自动节点",
+    "flow.designer.addNode.manual": "人工节点",
+    "flow.designer.addNode.autoApprove": "自动审批",
+    "flow.designer.addNode.manualApprove": "人工审批",
+    "flow.designer.addNode.autoSign": "自动会签",
+    "flow.designer.addNode.manualSign": "人工会签",
+    "flow.designer.addNode.autoBranch": "自动分支",
+    "flow.designer.addNode.manualBranch": "人工分支",
+    "flow.designer.addNode.autoLoop": "自动循环",
+    "flow.designer.addNode.manualLoop": "人工循环",
+    "flow.designer.addNode.autoSubProcess": "自动子流程",
+    "flow.designer.addNode.manualSubProcess": "人工子流程",
+    "flow.designer.delNode": "删除节点",
+    "flow.designer.delNode.confirm": "确认删除节点？",
+    "flow.designer.delNode.confirm.tips": "删除节点后，该节点的所有子节点将被删除，确认删除？",
+
+
+
+
 }

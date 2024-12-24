@@ -92,8 +92,8 @@
 </template>
 <script setup lang="ts" name="Event">
 import {flowMixin} from '@/views/workflow/plugin/mixins/flowMixin.ts';
-import EditName from '@/views/workflow/plugin/Common/EditName.vue';
-import FlowDrawerFooter from '@/views/workflow/plugin/Common/DrawerFooter.vue';
+import EditName from '@/views/workflow/plugin/common/EditName.vue';
+import FlowDrawerFooter from '@/views/workflow/plugin/common/DrawerFooter.vue';
 import {ref} from "vue";
 import {scale} from "@/views/workflow/plugin/util/deviceUtil.ts";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";

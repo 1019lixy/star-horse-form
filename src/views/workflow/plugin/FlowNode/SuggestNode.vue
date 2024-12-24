@@ -42,7 +42,7 @@ import {close} from '@/views/workflow/plugin/mixins/flowMixin.ts';
 import FlowNode from '@/views/workflow/plugin/FlowNode/FlowNode.vue';
 import FlowAddNode from '@/views/workflow/plugin/FlowNode/AddNode.vue';
 import FlowBranchSetting from '@/views/workflow/plugin/FlowDrawer/BranchPrep.vue';
-import DeleteConfirm from '@/views/workflow/plugin/Common/DeleteConfirm.vue';
+import DeleteConfirm from '@/views/workflow/plugin/common/DeleteConfirm.vue';
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";

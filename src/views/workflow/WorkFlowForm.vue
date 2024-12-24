@@ -2,7 +2,7 @@
 import {nextTick, onMounted, ref} from "vue";
 import FlowSetting from "@/views/workflow/plugin/FlowDesign/FlowSetting.vue"
 import BasicInfo from "@/views/workflow/plugin/FlowDesign/BasicInfo.vue"
-import FlowNav from "@/views/workflow/plugin/Common/FlowNav.vue";
+import FlowNav from "@/views/workflow/plugin/common/FlowNav.vue";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 import DynamicForm from "@/views/dyform/DynamicForm.vue";

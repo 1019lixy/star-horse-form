@@ -25,7 +25,7 @@
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 import {computed, onMounted, ref} from "vue";
-import FlowFormItem from "@/views/workflow/plugin/Common/FlowFormItem.vue";
+import FlowFormItem from "@/views/workflow/plugin/common/FlowFormItem.vue";
 
 const flowDesign = useFlowDesign(piniaInstance);
 const flowFormInfo = computed(() => flowDesign.flowFormInfo);

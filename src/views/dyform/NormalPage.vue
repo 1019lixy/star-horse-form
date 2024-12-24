@@ -127,6 +127,8 @@ watch(() => props.param,
       <hr>
       <star-horse-table-comp
           ref="normalPageRef" :fieldList="tableFieldList" :primaryKey="primaryKey"
+          :globalConfig="relationTables"
+          :isDynamic="true"
           :compUrl="dataUrl" :showBatchField="true" :dataFormat="dataFormat"/>
     </el-card>
   </template>
