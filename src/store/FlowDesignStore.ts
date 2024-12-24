@@ -11,8 +11,17 @@ import {
     updateNode
 } from "@/views/workflow/plugin/util/nodeUtil.ts";
 import {FlowNodeEnums} from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
+import {ApiUrls} from "@/components/types/ApiUrls";
+import {apiInstance, createCondition} from "@/api/sh_api.ts";
+import {SearchParams} from "@/components/types/Params";
 
+const dataUrl: ApiUrls = apiInstance("userdb-manage", "userdb/formInstance/shFlowNode/idFlowNode/337537414606095357");
+const prepUrl: ApiUrls = apiInstance("userdb-manage", "userdb/formInstance/shNodeMappingPreps/idNodeMappingPrep/337537414606095357");
 export const useFlowDesign = defineStore("flowDesignStore", () => {
+
+    const nodeList = ref<any>([]);
+    const nodePrepMap = ref<any>({});
+    const commonPreps = ref<any>({});
     const currentNode = ref<any>({});
     const flowFormInfo = ref<any>({});
     //  节点数据
@@ -60,6 +69,20 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
         flowFormInfo.value = formInfo;
     }
     /**
+     * 设置节点数据
+     * @param node
+     */
+    const putNodePrepMap = (nodeId: string, prep: any) => {
+        nodePrepMap.value[nodeId] = prep;
+    }
+    /**
+     * 获取节点数据
+     * @param nodeId
+     */
+    const getPrepMap = (nodeId: string) => {
+        return nodePrepMap.value[nodeId];
+    }
+    /**
      * 添加节点
      */
     const flowAddNode = (data: any) => {
@@ -70,15 +93,16 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
                 // 如果添加的是并行节点
                 if (data.addNode.type == FlowNodeEnums.PARALLEL_NODE) {
                     data.addNode.childNode.childNode = node.value;
-                    data.addNode.childNode.childNode.pid = data.addNode.childNode.id;
+                    data.addNode.childNode.childNode['pid'] = data.addNode.childNode.id;
+                    console.log("data.addNode.childNode", data.addNode.childNode);
                 } else {
-                    data.currNode.childNode = data.addNode;
+                    data.addNode.childNode = node.value;
                     console.log("data.currNode.childNode", data.currNode.childNode);
-                    data.currNode.childNode["pid"] = data.currNode.id;
+                    data.addNode.childNode["pid"] = data.addNode.id;
                 }
                 data.addNode.pid = 0;
             }
-            node.value = data.currNode;
+            node.value = data.addNode;
         } else {
             if (data.id) {
                 data.currNode.conditionNodes.forEach((conditionNode: any) => {
@@ -154,8 +178,27 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
     const flowUpdateMap = () => {
         updateMap(mapImg);
     }
+    const init = () => {
+        const innerInit = async () => {
+            let res = await dataUrl.queryConditionAction!([]);
+            nodeList.value = res.data;
+            let params: SearchParams[] = [
+                createCondition("attrType", "common")
+            ];
+            res = await prepUrl.queryConditionAction!(params);
+            let temp: any = {};
+            res.data?.forEach((item: any) => {
+                temp[item.attrName] = temp[item.defaultValue];
+            });
+            commonPreps.value = temp;
+        }
+        innerInit();
+
+    }
     return {
         currentNode,
+        nodeList,
+        commonPreps,
         node,
         mapImg,
         suggestBranchEnable,
@@ -164,6 +207,8 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
         navable,
         readable,
         lintData,
+        putNodePrepMap,
+        getPrepMap,
         setLintData,
         setNavable,
         setReadable,
@@ -174,6 +219,7 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
         flowAddBranch,
         flowDelNode,
         flowUpdateNode,
-        flowUpdateMap
+        flowUpdateMap,
+        init
     }
 });

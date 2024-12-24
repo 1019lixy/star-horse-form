@@ -517,18 +517,18 @@ const loadByPage = () => {
     load("数据加载中");
   }
   postRequest(url, params).then((res: any) => {
-    if (res.data?.code != 0) {
-      console.error(res.data.cnMessage);
+    if (res?.data?.code != 0) {
+      res&&console.error(res?.data?.cnMessage);
       return;
     }
-    let redata = res?.data.data;
+    let redata = res?.data?.data;
     //如果不是分页之间显示返回的所有数据
     pageInfo.dataList = redata?.dataList || redata;
     if (props.dialogInput) {
       filterData();
     }
-    pageInfo.totalPage = redata.totalPages;
-    pageInfo.totalData = redata.totalDatas;
+    pageInfo.totalPage = redata?.totalPages;
+    pageInfo.totalData = redata?.totalDatas;
   }).catch((err: any) => {
     console.log(err);
   }).finally(() => {

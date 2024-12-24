@@ -129,6 +129,40 @@ const noticeNodePreps = () => {
     };
 }
 /**
+ * 添加任务节点
+ */
+const taskNodePreps = () => {
+    return {
+        id: uuid(),
+        name: '任务',
+        type: FlowNodeEnums.TASK_NODE,
+        // 流程节点状态(用于只读模式, 0:未进行 1:进行中  2:已完成)
+        status: -1,
+        // 子节点
+        childNode: null,
+        // 审批设置
+        approverGroups: [
+            {
+                id: uuid(),
+                // 审批人模式
+                approverType: 1,
+                // 层级模式
+                levelMode: 1,
+                // 审批人ID
+                approverIds: [],
+                // 审批人名称
+                approverNames: [],
+            },
+        ],
+        // 显示添加按钮
+        addable: true,
+        // 可删除提示
+        deletable: false,
+        // 是否有错误
+        error: false,
+    };
+}
+/**
  * 添加事件节点
  */
 const eventNodePreps = () => {
@@ -367,7 +401,7 @@ const parallelNodePreps = () => {
         ],
     };
 }
-const nodePrepList:any = {
+const nodePrepList: any = {
     [FlowNodeEnums.APPLY_NODE]: approverNodePreps("apply"),
     [FlowNodeEnums.APPROVER_NODE]: approverNodePreps("approve"),
     [FlowNodeEnums.PARALLEL_NODE]: parallelNodePreps(),
@@ -376,6 +410,7 @@ const nodePrepList:any = {
     [FlowNodeEnums.EVENT_NODE]: eventNodePreps(),
     [FlowNodeEnums.NOTICE_NODE]: noticeNodePreps(),
     [FlowNodeEnums.COPYER_NODE]: copyerNodePreps(),
+    [FlowNodeEnums.TASK_NODE]: taskNodePreps(),
 }
 export {
     nodePrepList

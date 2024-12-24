@@ -4,12 +4,11 @@
       <template #reference>
         <!-- 当审批节点下添加意见分支,就不允许添加其他类型的节点了 -->
         <star-horse-icon icon-class="plus_circle"
-                         v-if="!readable && (nodeType != FlowNodeEnums.APPROVER_NODE || (nodeType == FlowNodeEnums.APPROVER_NODE && node.addable))"/>
+                         v-if="!readable && (nodeType != FlowNodeEnums.APPROVER_NODE
+                         || (nodeType == FlowNodeEnums.APPROVER_NODE && node.addable))"/>
       </template>
       <el-menu mode="vertical" class="flow-menu-vertical">
         <template v-for="item in nodeList">
-          <template v-if="item.nodeCode ==FlowNodeEnums.SUGGEST_NODE&&nodeType==FlowNodeEnums.APPROVER_NODE ">
-          </template>
           <el-menu-item :key="item.idFlowNode" @click="addNode(item)" v-if="checkVisible(item)">
             <star-horse-icon :icon-class="item.nodeIcon"/>
             <span>{{ item.nodeName }}</span>
@@ -21,7 +20,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import {computed, isRef, onMounted, ref, unref} from "vue";
+import {computed, isRef, onMounted, unref} from "vue";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
@@ -31,7 +30,6 @@ import {SearchParams} from "@/components/types/Params";
 import {nodePrepList} from "@/views/workflow/plugin/util/nodePreps.ts";
 import {FlowNodeEnums} from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
 
-const dataUrl: ApiUrls = apiInstance("userdb-manage", "userdb/formInstance/shFlowNode/idFlowNode/337537414606095357");
 const prepUrl: ApiUrls = apiInstance("userdb-manage", "userdb/formInstance/shNodeMappingPreps/idNodeMappingPrep/337537414606095357");
 defineOptions({
   name: 'FlowNodeAdd',
@@ -61,7 +59,8 @@ const props = defineProps({
 const flowDesign = useFlowDesign(piniaInstance);
 const suggestBranchEnable = computed(() => flowDesign.suggestBranchEnable);
 const parallelBranchEnable = computed(() => flowDesign.parallelBranchEnable);
-let commonPreps = ref<any>([]);
+let commonPreps = computed(() => flowDesign.commonPreps);
+let nodeList = computed(() => flowDesign.nodeList);
 const checkVisible = (item: any) => {
   //nodeType == 1 && suggestBranchEnable
   if (item.nodeCode == FlowNodeEnums.SUGGEST_NODE) {
@@ -78,24 +77,31 @@ const checkVisible = (item: any) => {
   return true;
 }
 const loadNodePrep = async (item: any) => {
-  let params: SearchParams[] = [
-    createCondition("idFlowNode", item.idFlowNode)
-  ];
-  let res = await prepUrl.queryConditionAction!(params);
-  let temp: any = {};
-  res?.data?.forEach((item: any) => {
-    temp[item.attrName] = temp[item.defaultValue];
-  });
-  return temp;
+  let prep = flowDesign.getPrepMap(item.idFlowNode);
+  if (!prep) {
+    let params: SearchParams[] = [
+      createCondition("idFlowNode", item.idFlowNode)
+    ];
+    let res = await prepUrl.queryConditionAction!(params);
+    let temp: any = {};
+    res?.data?.forEach((item: any) => {
+      temp[item.attrName] = temp[item.defaultValue];
+    });
+    prep = temp;
+    flowDesign.putNodePrepMap(item.idFlowNode, prep);
+  }
+  return prep;
 }
 const addNode = async (item: any) => {
   console.log(item);
   let addNode = JSON.parse(JSON.stringify(commonPreps.value));
   let preps = await loadNodePrep(item);
   let currentPreps: any = nodePrepList[item.nodeCode];
-  addNode = {...addNode, ...preps, ...currentPreps};
+  addNode = {...addNode, ...currentPreps};
+  if (preps && Object.keys(preps).length > 0) {
+    addNode = {...addNode, ...preps};
+  }
   console.log(addNode);
-  // let addNode = currentPreps;// {...addNode, ...preps, ...currentPreps};
   addNode["nodeId"] = item.idFlowNode;
   let currNode = props.node;
   let nodeType = props.nodeType;
@@ -107,25 +113,10 @@ const addNode = async (item: any) => {
     flowDesign.flowUpdateNode({currNode, field: 'addable', value: false});
   }
 }
-let nodeList = ref<any>([]);
-
 const init = async () => {
-  let res = await dataUrl.queryConditionAction!([]);
-  nodeList.value = res.data;
-  let params: SearchParams[] = [
-    createCondition("attrType", "common")
-  ];
-  res = await prepUrl.queryConditionAction!(params);
-  let temp: any = {};
-  res.data.forEach((item: any) => {
-    temp[item.attrName] = temp[item.defaultValue];
-  });
 
-  commonPreps.value = temp;
 }
 onMounted(() => {
   init();
 })
-
-
 </script>

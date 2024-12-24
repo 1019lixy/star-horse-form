@@ -2,7 +2,7 @@
 import {onMounted, ref} from "vue";
 import {scale} from "@/views/workflow/plugin/util/deviceUtil";
 import {ApiUrls} from "@/components/types/ApiUrls";
-import {apiInstance, createCondition, loadData} from "@/api/sh_api.ts";
+import {apiInstance, createCondition} from "@/api/sh_api.ts";
 
 const dataUrl: ApiUrls = apiInstance("flow-engine", "workflow/categoryItemConfig");
 const props = defineProps({
@@ -44,7 +44,8 @@ onMounted(() => {
 </script>
 <template>
   <el-row :gutter="16">
-    <el-col v-for="item in items" :key="item.idCategoryItemConfig" :xs="24" :sm="24" :md="6" :lg="6" :xl="6" style="margin-bottom: 10px">
+    <el-col v-for="item in items" :key="item.idCategoryItemConfig" :xs="24" :sm="24" :md="6" :lg="6" :xl="6"
+            style="margin-bottom: 10px">
       <el-card hoverable class="w-fill card-xx" @click="setSetting(item)">
         <div class="flowSetting-card-header">
           <div class="flowSetting-card-header-title">

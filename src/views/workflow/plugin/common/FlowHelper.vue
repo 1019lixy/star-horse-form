@@ -155,7 +155,7 @@ onMounted(() => {
     </el-drawer>
   </div>
 </template>
-<style lang="scss">
+<style  lang="scss" scoped>
 :deep(.el-popper), :deep(.el-popover) {
   width: 100% !important;
 }

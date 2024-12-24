@@ -39,19 +39,19 @@
               <p class="flow-setting-item-title">发送通知人</p>
               <FlowNodeApproval :groups="node.approverGroups" :node="node" title="通知人"/>
             </div>
-            <div v-if="noticeType.includes(2)" class="flow-setting-item">
+            <div v-if="noticeType.includes('shortMsg')" class="flow-setting-item">
               <p class="flow-setting-item-title">外部手机号</p>
               <el-button link icon="plus" block>
                 添加手机号
               </el-button>
             </div>
-            <div v-if="noticeType.includes(3)" class="flow-setting-item">
+            <div v-if="noticeType.includes('email')" class="flow-setting-item">
               <p class="flow-setting-item-title">外部邮箱账号</p>
               <el-button link icon="plus" block>
                 添加邮箱
               </el-button>
             </div>
-            <div v-if="noticeType.includes(3)" class="flow-setting-item">
+            <div v-if="noticeType.includes('email')" class="flow-setting-item">
               <el-checkbox-group v-model="emailExt">
                 <el-row :gutter="12">
                   <el-col :span="12" v-for="(item, i) in emailItems" :key="i">
@@ -60,11 +60,11 @@
                 </el-row>
               </el-checkbox-group>
             </div>
-            <div v-if="noticeType.includes(3) && emailExt.includes(1)" class="flow-setting-item">
+            <div v-if="noticeType.includes('email') && emailExt.includes(1)" class="flow-setting-item">
               <p class="flow-setting-item-title">抄送人</p>
               <FlowNodeApproval :groups="node.approverGroups" :node="node" title="抄送人"/>
             </div>
-            <div v-if="noticeType.includes(3) && emailExt.includes(2)" class="flow-setting-item">
+            <div v-if="noticeType.includes('email') && emailExt.includes(2)" class="flow-setting-item">
               <p class="flow-setting-item-title">密送人</p>
               <FlowNodeApproval :groups="node.approverGroups" :node="node" title="密送人"/>
             </div>
@@ -99,14 +99,16 @@
     <FlowDrawerFooter @close="onClose"/>
   </el-drawer>
 </template>
-<script setup lang="ts" >
+<script setup lang="ts">
 import {flowMixin} from '@/views/workflow/plugin/mixins/flowMixin.ts';
 import EditName from '@/views/workflow/plugin/common/EditName.vue';
 import FlowNodeApproval from './Approver/Approval.vue';
 import FlowDrawerFooter from '@/views/workflow/plugin/common/DrawerFooter.vue';
 import {scale} from "@/views/workflow/plugin/util/deviceUtil.ts";
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
+import {dictData} from "@/api/sh_api.ts";
+
 defineOptions({
   name: 'NoticePrep',
 })
@@ -117,38 +119,12 @@ let headerStyle = ref<any>({
   'background-color': '#498ff2',
   'border-radius': '0px 0px 0 0',
 });
-let noticeTitle = ref<string>("");
-let noticeContext = ref<string>('');
+
 let noticeTab = ref<string>('1');
 let noticeType = ref<Array<any>>([]);
 // 邮件选择项
 let emailExt = ref<Array<any>>([]);
-let notices = ref<Array<any>>([
-  {
-    name: '站内通信',
-    value: 1,
-  },
-  {
-    name: '短信通知',
-    value: 2,
-  },
-  {
-    name: '邮件通知',
-    value: 3,
-  },
-  {
-    name: '钉钉通知',
-    value: 4,
-  },
-  {
-    name: '企业微信',
-    value: 5,
-  },
-  {
-    name: 'WeLink',
-    value: 6,
-  },
-]);
+let notices = ref<Array<any>>([]);
 let emailItems = ref<Array<any>>([
   {
     name: '添加抄送',
@@ -170,6 +146,12 @@ const onClose = () => {
   visible.value = false;
   emits('close');
 }
+const init = async () => {
+  notices.value = await dictData("message_tools");
+}
+onMounted(() => {
+  init();
+})
 defineExpose({
   showDrawer
 })

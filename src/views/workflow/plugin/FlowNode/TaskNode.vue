@@ -2,11 +2,11 @@
   <div class="flow-row">
     <div class="flow-box">
       <div class="flow-item" :class="{ 'flow-item-active': currentNode.id==node.id }"
-           @click="!readable && open(flowWriteSettingRef, node)">
+           @click="!readable && open(flowTaskSettingRef, node)">
         <div class="flow-node-box" :class="{ 'has-error': node.error }">
-          <div class="node-name" :class="nameClass(node, 'node-fill')">
+          <div class="node-name" :class="nameClass(node, 'node-task')">
             <EditName v-model:nodeName="node.name"/>
-            <star-horse-icon icon-class="edit_node" style="margin-left: 10px"/>
+            <star-horse-icon icon-class="task" style="margin-left: 10px"/>
           </div>
           <div class="node-main">
             <span v-if="node.content">
@@ -18,7 +18,7 @@
                 {{ node.content }}
               </el-tooltip>
             </span>
-            <span v-else class="hint-title">默认表单全可编辑</span>
+            <span v-else class="hint-title">任务节点</span>
           </div>
           <!-- 错误提示 -->
           <star-horse-icon v-if="node.error" icon-class="exclamation-circle" theme="filled" class="node-error"/>
@@ -32,21 +32,22 @@
       </div>
       <FlowAddNode :node="node" :nodeType="node.type" :readable="readable"/>
     </div>
-    <FlowWriteSetting ref="flowWriteSettingRef" @close="close"/>
+    <TaskPrep ref="flowTaskSettingRef" @close="close"/>
   </div>
 </template>
 <script setup lang="ts">
-import {close, flowMixin, open} from '@/views/workflow/plugin/mixins/flowMixin.ts';
+import {close, open} from '@/views/workflow/plugin/mixins/flowMixin.ts';
 import FlowAddNode from '@/views/workflow/plugin/FlowNode/AddNode.vue';
-import FlowWriteSetting from '@/views/workflow/plugin/FlowDrawer/WritePrep.vue';
+import TaskPrep from '@/views/workflow/plugin/FlowDrawer/TaskPrep.vue';
 import EditName from '@/views/workflow/plugin/common/EditName.vue';
 import DeleteConfirm from '@/views/workflow/plugin/common/DeleteConfirm.vue';
 import {computed, ref} from "vue";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
+
 defineOptions({
-  name: 'FlowNodeWrite',
+  name: 'TaskNode',
 });
 const flowDesign = useFlowDesign(piniaInstance);
 let currentNode = computed(() => flowDesign.currentNode);
@@ -62,7 +63,7 @@ const props = defineProps({
     default: false,
   }
 });
-const flowWriteSettingRef = ref();
+const flowTaskSettingRef = ref();
 let nameClass = computed(() => {
   return (node, defaultStyle) => {
     if (node.status == -1) {

@@ -32,7 +32,7 @@
       </div>
     </div>
     <div class="after-branch-btn">
-      <FlowAddNode :node="node" :nodeType="4" :readable="readable"/>
+      <FlowAddNode :node="node" :nodeType="FlowNodeEnums.BRANCH_NODE" :readable="readable"/>
     </div>
     <FlowBranchSetting ref="flowBranchSetting" @close="close"/>
   </div>
@@ -46,6 +46,7 @@ import DeleteConfirm from '@/views/workflow/plugin/common/DeleteConfirm.vue';
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
+import {FlowNodeEnums} from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
 
 const props = defineProps({
   node: {

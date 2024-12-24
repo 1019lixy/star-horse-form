@@ -384,6 +384,7 @@ declare module 'vue' {
     TabPage: typeof import('./src/views/dyform/TabPage.vue')['default']
     TagsView: typeof import('./src/components/tags/TagsView.vue')['default']
     TaskNode: typeof import('./src/views/workflow/plugin/FlowNode/TaskNode.vue')['default']
+    TaskPrep: typeof import('./src/views/workflow/plugin/FlowDrawer/TaskPrep.vue')['default']
     Test: typeof import('./src/components/Test.vue')['default']
     TextareaItem: typeof import('./src/components/formcomp/items/textarea-item.vue')['default']
     TextItem: typeof import('./src/components/formcomp/items/text-item.vue')['default']

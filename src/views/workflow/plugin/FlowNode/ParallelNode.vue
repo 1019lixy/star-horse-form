@@ -35,7 +35,7 @@
                 <DeleteConfirm :node="conditionNode"/>
               </div>
             </div>
-            <FlowAddNode :node="node" :nodeType="3" :id="conditionNode.id" :readable="readable"/>
+            <FlowAddNode :node="node" :nodeType="FlowNodeEnums.BRANCH_CONDITION_NODE" :id="conditionNode.id" :readable="readable"/>
           </div>
         </div>
         <FlowNode v-if="conditionNode.childNode && conditionNode.childNode.hasOwnProperty('name')"
@@ -59,6 +59,7 @@ import {computed, ref} from "vue";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
+import {FlowNodeEnums} from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
 
 const flowBranchSettingRef = ref();
 const flowDesign = useFlowDesign(piniaInstance);
