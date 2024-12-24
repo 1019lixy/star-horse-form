@@ -113,7 +113,6 @@ const compPreps = () => {
     field.value.preps['type'] = unref(itemType);
     itemType.value = "datetime"
     //日期默认以时间戳赋值
-    field.value.preps["valueFormat"] = "x";
     field.value.preps["endPlaceholder"] = "结束日期";
     field.value.preps["rangeSeparator"] = "到";
     field.value.preps["startPlaceholder"] = "开始日期";
@@ -250,8 +249,9 @@ onMounted(() => {
     </template>
   </div>
   <div v-else class="comp-info"
-       :style="{ 'height':
-       itemType != 'button' ?'100%':'inherit' }">
+       :style="{ 'height':itemType != 'button' ?'100%':'inherit',
+       'width':item.minWidth||'inherit'
+  }">
     <component :id="randId" :is="(dataForm['_'+field.preps.name+'Type']||itemType)+'-item'" @selfFunc="actionDispatcher"
                :isDesign="isDesign"
                ref="componentRef"
