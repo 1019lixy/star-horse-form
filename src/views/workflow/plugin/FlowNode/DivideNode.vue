@@ -9,13 +9,15 @@
           </div>
         </div>
       </div>
-      <FlowAddNode :node="node" :nodeType="node.type" :readable="readable"/>
+      <FlowAddNode :node="node" :nodeType="FlowNodeEnums.SUGGEST_NODE" :readable="readable"/>
     </div>
   </div>
 </template>
 <script setup lang="ts">
 import FlowAddNode from '@/views/workflow/plugin/FlowNode/AddNode.vue';
-import {computed} from "vue";
+import {computed,onMounted} from "vue";
+import {FlowNodeEnums} from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
+import {closeLoad} from "@/api/sh_api.ts";
 defineOptions({
   name: 'FlowNodeDivide',
 });
@@ -43,4 +45,7 @@ let nameClass = computed(() => {
     };
   };
 });
+onMounted(()=>{
+  closeLoad();
+})
 </script>

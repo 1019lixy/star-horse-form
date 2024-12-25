@@ -18,21 +18,24 @@
           <DeleteConfirm :node="node"/>
         </div>
       </div>
-      <FlowAddNode :node="node" :nodeType="node.type" :readable="readable"/>
+      <FlowAddNode :node="node" :nodeType="FlowNodeEnums.EVENT_NODE" :readable="readable"/>
     </div>
     <FlowNoticeSetting ref="flowNoticeSettingRef" @close="close"/>
   </div>
 </template>
 <script setup lang="ts">
-import {close, flowMixin, open} from '@/views/workflow/plugin/mixins/flowMixin.ts';
+import {close, open} from '@/views/workflow/plugin/mixins/flowMixin.ts';
 import FlowAddNode from '@/views/workflow/plugin/FlowNode/AddNode.vue';
 import FlowNoticeSetting from '@/views/workflow/plugin/FlowDrawer/NoticePrep.vue';
 import EditName from '@/views/workflow/plugin/common/EditName.vue';
 import DeleteConfirm from '@/views/workflow/plugin/common/DeleteConfirm.vue';
-import {computed, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
+import {FlowNodeEnums} from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
+import {closeLoad} from "@/api/sh_api.ts";
+
 defineOptions({
   name: 'FlowNodeNotice',
 });
@@ -63,4 +66,7 @@ let nameClass = computed(() => {
     };
   };
 });
+onMounted(() => {
+  closeLoad();
+})
 </script>

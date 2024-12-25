@@ -107,7 +107,7 @@
           </el-select>
         </div>
         <!-- 编码审批人 -->
-        <div v-if="group.approverType == 4">
+        <div v-else-if="group.approverType == 4">
           <p class="flow-setting-item-title">
             <span>编码对应部门审批人</span>
           </p>
@@ -116,7 +116,7 @@
           </el-select>
         </div>
         <!-- 角色 -->
-        <div v-if="group.approverType == 5">
+        <div v-else-if="group.approverType == 5">
           <p class="flow-setting-item-title">
             <span>选择角色</span>
           </p>
@@ -126,7 +126,7 @@
           </el-select>
         </div>
         <!-- 岗位 -->
-        <div v-if="group.approverType == 6">
+        <div v-else-if="group.approverType == 6">
           <p class="flow-setting-item-title">
             <span>选择岗位</span>
           </p>
@@ -143,7 +143,7 @@
             }}"/>
         </div>
         <!-- 用户组 -->
-        <div v-if="group.approverType == 7">
+        <div v-else-if="group.approverType == 7">
           <p class="flow-setting-item-title">
             <span>选择用户组</span>
           </p>
@@ -160,7 +160,7 @@
             }}"/>
         </div>
         <!-- 指定成员 -->
-        <div v-if="group.approverType == 8">
+        <div v-else-if="group.approverType == 8">
           <p class="flow-setting-item-title">
             <span>指定成员</span>
             <span class="light-text">(不能超过 25 人)</span>
@@ -175,7 +175,7 @@
           </p>
         </div>
         <!-- 发起人自选 -->
-        <div v-if="group.approverType == 9">
+        <div v-else-if="group.approverType == 9">
           <p class="flow-setting-item-title">
             <span>选择方式</span>
           </p>
@@ -215,7 +215,7 @@
           </p>
         </div>
         <!-- 节点审批人 -->
-        <div v-if="group.approverType == 11">
+        <div v-else-if="group.approverType == 11">
           <p class="flow-setting-item-title">
             <span>选择节点</span>
           </p>
@@ -227,7 +227,7 @@
           </p>
         </div>
         <!-- 连续多级上级审批 -->
-        <div v-if="group.approverType == 12">
+        <div v-else-if="group.approverType == 12">
           <p class="flow-setting-item-title">
             <span>审批终点</span>
           </p>
@@ -239,7 +239,7 @@
 
         </div>
         <!-- 表单内人员 -->
-        <div v-if="group.approverType == 13">
+        <div v-else-if="group.approverType == 13">
           <p class="flow-setting-item-title">
             <span>人员控件</span>
           </p>
@@ -264,7 +264,7 @@
           </el-radio-group>
         </div>
         <!-- 表单内部门 -->
-        <div v-if="group.approverType == 14">
+        <div v-else-if="group.approverType == 14">
           <p class="flow-setting-item-title">
             <span>部门控件</span>
           </p>

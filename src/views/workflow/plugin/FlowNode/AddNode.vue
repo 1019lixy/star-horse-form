@@ -1,6 +1,6 @@
 <template>
   <div class="after-node-btn">
-    <el-popover placement="right" trigger="hover" :popper-style="{width: 'unset !important'}">
+    <el-popover placement="right" trigger="hover" aria-hidden="true" :popper-style="{width: 'unset !important'}">
       <template #reference>
         <!-- 当审批节点下添加意见分支,就不允许添加其他类型的节点了 -->
         <star-horse-icon icon-class="plus_circle"
@@ -25,10 +25,11 @@ import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {ApiUrls} from "@/components/types/ApiUrls";
-import {apiInstance, createCondition} from "@/api/sh_api.ts";
+import {apiInstance, createCondition, load} from "@/api/sh_api.ts";
 import {SearchParams} from "@/components/types/Params";
 import {nodePrepList} from "@/views/workflow/plugin/util/nodePreps.ts";
 import {FlowNodeEnums} from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
+import {ModelRef} from "vue-demi";
 
 const prepUrl: ApiUrls = apiInstance("userdb-manage", "userdb/formInstance/shNodeMappingPreps/idNodeMappingPrep/337537414606095357");
 defineOptions({
@@ -59,6 +60,7 @@ const props = defineProps({
 const flowDesign = useFlowDesign(piniaInstance);
 const suggestBranchEnable = computed(() => flowDesign.suggestBranchEnable);
 const parallelBranchEnable = computed(() => flowDesign.parallelBranchEnable);
+// const node: ModelRef<any> = defineModel("node");
 let commonPreps = computed(() => flowDesign.commonPreps);
 let nodeList = computed(() => flowDesign.nodeList);
 const checkVisible = (item: any) => {
@@ -107,6 +109,7 @@ const addNode = async (item: any) => {
   let nodeType = props.nodeType;
   addNode = isRef(addNode) ? unref(addNode) : addNode;
   let id = props.id;
+  // load("组件渲染中");
   flowDesign.flowAddNode({addNode, currNode, nodeType, id});
   if (nodeType == FlowNodeEnums.APPROVER_NODE && item.nodeCode == FlowNodeEnums.SUGGEST_NODE) {
     // 当审批节点下添加意见分支,就不允许添加其他类型的节点了

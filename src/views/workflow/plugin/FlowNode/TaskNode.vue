@@ -41,10 +41,11 @@ import FlowAddNode from '@/views/workflow/plugin/FlowNode/AddNode.vue';
 import TaskPrep from '@/views/workflow/plugin/FlowDrawer/TaskPrep.vue';
 import EditName from '@/views/workflow/plugin/common/EditName.vue';
 import DeleteConfirm from '@/views/workflow/plugin/common/DeleteConfirm.vue';
-import {computed, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
+import {closeLoad} from "@/api/sh_api.ts";
 
 defineOptions({
   name: 'TaskNode',
@@ -76,5 +77,7 @@ let nameClass = computed(() => {
     };
   };
 });
-
+onMounted(() => {
+  closeLoad();
+})
 </script>

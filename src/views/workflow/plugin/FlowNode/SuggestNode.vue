@@ -47,6 +47,8 @@ import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {FlowNodeEnums} from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
+import {onMounted} from "vue";
+import {closeLoad} from "@/api/sh_api.ts";
 
 const props = defineProps({
   node: {
@@ -68,4 +70,7 @@ const delCallback = (_conditionNode: any) => {
   // 将对应的审批节点的添加按钮开启
   flowDesign.flowUpdateNode({currNode, field: 'addable', value: true});
 };
+onMounted(() => {
+  closeLoad();
+})
 </script>

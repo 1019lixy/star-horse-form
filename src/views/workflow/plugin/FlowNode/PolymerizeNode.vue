@@ -20,8 +20,9 @@
 import {close} from '@/views/workflow/plugin/mixins/flowMixin.ts';
 import FlowAddNode from '@/views/workflow/plugin/FlowNode/AddNode.vue';
 import EditName from '@/views/workflow/plugin/common/EditName.vue';
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
+import {closeLoad} from "@/api/sh_api.ts";
 
 const flowApproverSetting = ref();
 const props = defineProps({
@@ -36,4 +37,7 @@ const props = defineProps({
     default: false,
   }
 });
+onMounted(() => {
+  closeLoad();
+})
 </script>

@@ -4,13 +4,13 @@
       <div class="flow-item" :class="{ 'flow-item-active': currentNode.id==node.id }"
            @click="!readable && open(flowApproverSettingRef, node)">
         <div class="flow-node-box" :class="{ 'has-error': node.error }">
-          <div class="node-name" :class="nameClass(node, node.type == 1 ? 'node-sp' : 'node-transact')">
+          <div class="node-name" :class="nameClass(node, node.type == FlowNodeEnums.APPROVER_NODE ? 'node-sp' : 'node-transact')">
             <EditName v-model:nodeName="node.name"/>
             <star-horse-icon icon-class="audit_node" style="margin-left: 10px"/>
           </div>
           <div class="node-main">
             <span v-if="node.content">
-              {{ node.type == 1 ? '审批人' : '办理人' }}:
+              {{ node.type == FlowNodeEnums.APPROVER_NODE ? '审批人' : '办理人' }}:
               <el-tooltip placement="top">
                 <template v-slot:title>
                   <span>{{ node.content }}</span>
@@ -44,10 +44,12 @@ import FlowAddNode from '@/views/workflow/plugin/FlowNode/AddNode.vue';
 import FlowApproverSetting from '@/views/workflow/plugin/FlowDrawer/ApproverPrep.vue';
 import EditName from '@/views/workflow/plugin/common/EditName.vue';
 import DeleteConfirm from '@/views/workflow/plugin/common/DeleteConfirm.vue';
-import {computed, ref} from "vue";
+import {computed, ref,onMounted} from "vue";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
+import {FlowNodeEnums} from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
+import {closeLoad} from "@/api/sh_api.ts";
 defineOptions({
   name: 'FlowNodeApprover',
 });
@@ -79,4 +81,7 @@ let nameClass = computed(() => {
   };
 });
 let deleteable = ref<boolean>(false);
+onMounted(()=>{
+  closeLoad();
+})
 </script>

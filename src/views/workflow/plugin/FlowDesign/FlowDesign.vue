@@ -4,7 +4,6 @@
       <div class="sh-flow-editor-wrap">
         <div id="sh-flow-editor" class="sh-flow-editor-container" :style="zoomStyle">
           <div id="sh-flow-editor-content" class="sh-flow-editor-content">
-            {{ nodeData }}
             <FlowStartNode :node="nodeData"/>
             <FlowNode :node="nodeData" :readable="readable"/>
             <FlowEndNode :node="nodeData" :readable="readable"/>

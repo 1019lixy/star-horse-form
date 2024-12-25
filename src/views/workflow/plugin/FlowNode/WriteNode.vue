@@ -23,14 +23,14 @@
           <!-- 错误提示 -->
           <star-horse-icon v-if="node.error" icon-class="exclamation-circle" theme="filled" class="node-error"/>
           <!-- 只有是填写节点才能删除，发起节点不能删除 -->
-          <div v-if="!readable && !node.deletable " class="close-icon">
+          <div v-if="!readable && !node.deletable&&node.type==FlowNodeEnums.APPLY_NODE " class="close-icon">
             <star-horse-icon icon-class="close" @click.stop="node.deletable = true"/>
           </div>
           <!-- 删除提示 -->
           <DeleteConfirm :node="node"/>
         </div>
       </div>
-      <FlowAddNode :node="node" :nodeType="node.type" :readable="readable"/>
+      <FlowAddNode :node="node" :nodeType="FlowNodeEnums.APPLY_NODE" :readable="readable"/>
     </div>
     <FlowWriteSetting ref="flowWriteSettingRef" @close="close"/>
   </div>
@@ -45,6 +45,7 @@ import {computed, ref} from "vue";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
+import {FlowNodeEnums} from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
 defineOptions({
   name: 'FlowNodeWrite',
 });
