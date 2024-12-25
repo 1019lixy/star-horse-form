@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import {onMounted, ref} from "vue";
+import {ModelRef} from "vue-demi";
 
 defineProps({
   msg: {
@@ -9,7 +10,8 @@ defineProps({
 });
 
 let nodeList = ref([]);
-
+let node: ModelRef<any> = defineModel("node");
+const pointList = ref<Array<string>>(["left", "right", "top", "bottom", "bottom-right", "bottom-left", "top-right", "top-left"]);
 const addNode = async () => {
   let t = nodeList.value.length;
   let e = "节点" + t;
@@ -130,38 +132,26 @@ onMounted(() => {
 </script>
 
 <template>
-  <button @click="addNode">添加节点</button>
-
-  <div class="node-list">
-
-    <div class="node" :style="{width: baseWidth+'px !important',
+  <div class="node" :style="{width: baseWidth+'px !important',
     height: baseHeight+'px !important',
     left: baseLeft+'px!important',
     top: baseTop+'px!important',
     }"
-         v-for="(item,index) in nodeList" :key="index" :id="item.id" draggable="true"
-         @mousedown="dragStart"
-         @mouseup="endAction"
-         @mousemove="dragAction">
-      <div class="node__wrapper">
-        <div class="node__line node__line--left"
-             :style="{'border-width': '3.6px', 'border-color': 'red'}"></div>
-        <div class="node__line node__line--top" style="{'border-width': '3.6px', 'border-color': 'red'}"></div>
-        <!--        <div class="node__line node__line&#45;&#45;label" style="font-size: 64.8px;"><h3>{{ item.name }}</h3></div>-->
-        <div class="node-point node-point--left" @mousedown="rangeMove($event,'left')"></div>
-        <div class="node-point node-point--right" @mousedown="rangeMove($event,'right')"></div>
-        <div class="node-point node-point--top" @mousedown="rangeMove($event,'top')"></div>
-        <div class="node-point node-point--bottom" @mousedown="rangeMove($event,'bottom')"></div>
-        <div class="node-point node-point--top-left" @mousedown="rangeMove($event,'top-left')"></div>
-        <div class="node-point node-point--top-right" @mousedown="rangeMove($event,'top-right')"></div>
-        <div class="node-point node-point--bottom-left" @mousedown="rangeMove($event,'bottom-left')"></div>
-        <div class="node-point node-point--bottom-right" @mousedown="rangeMove($event,'bottom-right')"></div>
-        <div class="node__menu" :style="{'transform-origin': '0px 0px',transform: 'scale(3.6)'}"></div>
-        <div class="node__item node-content">
-          <h3>{{ item.name }}</h3>
-        </div>
-        <div class="node__mask"></div>
+       draggable="true"
+       @mousedown="dragStart"
+       @mouseup="endAction"
+       @mousemove="dragAction">
+    <div class="node__wrapper">
+      <div class="node__line node__line--left" :style="{'border-width': '3.6px', 'border-color': 'red'}"></div>
+      <div class="node__line node__line--top" style="{'border-width': '3.6px', 'border-color': 'red'}"></div>
+      <!--        <div class="node__line node__line&#45;&#45;label" style="font-size: 64.8px;"><h3>{{ item.name }}</h3></div>-->
+      <div class="node-point" :class="'node-point--'+item" v-for="item in pointList"
+           @mousedown="rangeMove($event,item)"></div>
+      <div class="node__menu" :style="{'transform-origin': '0px 0px',transform: 'scale(3.6)'}"></div>
+      <div class="node__item node-content">
+        <h3>{{ node.name }}</h3>
       </div>
+      <div class="node__mask"></div>
     </div>
   </div>
 </template>
