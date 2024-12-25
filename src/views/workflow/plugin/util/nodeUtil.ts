@@ -1,6 +1,6 @@
 import {uuid} from '@/api/system.ts';
 import html2canvas from 'html2canvas';
-import {isRef, Ref} from "vue";
+import {isRef, nextTick, Ref} from "vue";
 import {FlowNodeEnums} from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
 
 /**
@@ -48,7 +48,7 @@ export function addCondition(node: any, len: any) {
             // 优先级
             priorityLevel: len,
             // 分支类型
-            branchType: node.type == FlowNodeEnums.BRANCH_NODE ? FlowNodeEnums.APPROVER_NODE: FlowNodeEnums.BRANCH_CONDITION_NODE,
+            branchType: node.type == FlowNodeEnums.BRANCH_NODE ? FlowNodeEnums.APPROVER_NODE : FlowNodeEnums.BRANCH_CONDITION_NODE,
         },
         // 是否有错误
         error: false,
@@ -193,7 +193,7 @@ export function updateNode(node: any, currNode: any, field: any, value: any) {
  * @param {*} approveNodes
  */
 export function getApproveNodes(node: any, approveNodes: Array<any>) {
-    console.log("getApproveNodes",node);
+    console.log("getApproveNodes", node);
     isRef(node) && (node = node.value);
     if (node.type == FlowNodeEnums.APPROVER_NODE) {
         approveNodes.push(node);
@@ -215,17 +215,18 @@ export function getApproveNodes(node: any, approveNodes: Array<any>) {
  * 更新地图
  *
  */
-export function updateMap(mapImg: Ref<string>) {
-    setTimeout(() => {
-        const content: any = document.querySelector('#sh-flow-editor-content');
-        html2canvas(content, {
-            backgroundColor: '#aaa',
-            scale: 1,
-            width: content.clientWidth,
-            height: content.scrollHeight,
-            windowHeight: content.scrollHeight,
-        }).then((canvas) => {
-            mapImg.value = canvas.toDataURL('image/jpeg', 0.8);
-        });
-    }, 100);
+export async function updateMap(mapImg: Ref<string>) {
+    await nextTick();
+    // setTimeout(() => {
+    const content: any = document.querySelector('#sh-flow-editor-content');
+    html2canvas(content, {
+        backgroundColor: '#aaa',
+        scale: 1,
+        width: content.clientWidth,
+        height: content.scrollHeight,
+        windowHeight: content.scrollHeight,
+    }).then((canvas) => {
+        mapImg.value = canvas.toDataURL('image/jpeg', 0.8);
+    });
+    // }, 100);
 }

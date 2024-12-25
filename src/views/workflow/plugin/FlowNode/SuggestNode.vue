@@ -70,7 +70,11 @@ const delCallback = (_conditionNode: any) => {
   // 将对应的审批节点的添加按钮开启
   flowDesign.flowUpdateNode({currNode, field: 'addable', value: true});
 };
-onMounted(() => {
+const init=()=>{
   closeLoad();
+  flowDesign.refreshMap();
+}
+onMounted(()=>{
+  init();
 })
 </script>

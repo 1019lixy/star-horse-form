@@ -92,7 +92,11 @@ const props = defineProps({
 const deleteNode = () => {
   flowDesign.flowDelNode(props.node);
 }
-onMounted(() => {
+const init=()=>{
   closeLoad();
+  flowDesign.refreshMap();
+}
+onMounted(()=>{
+  init();
 })
 </script>

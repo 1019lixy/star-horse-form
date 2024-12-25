@@ -66,7 +66,11 @@ let nameClass = computed(() => {
     };
   };
 });
-onMounted(() => {
+const init=()=>{
   closeLoad();
+  flowDesign.refreshMap();
+}
+onMounted(()=>{
+  init();
 })
 </script>

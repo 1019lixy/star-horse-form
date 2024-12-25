@@ -81,7 +81,11 @@ let nameClass = computed(() => {
   };
 });
 let deleteable = ref<boolean>(false);
-onMounted(()=>{
+const init=()=>{
   closeLoad();
+  flowDesign.refreshMap();
+}
+onMounted(()=>{
+  init();
 })
 </script>

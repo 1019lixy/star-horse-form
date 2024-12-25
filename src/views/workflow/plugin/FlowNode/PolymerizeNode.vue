@@ -23,8 +23,11 @@ import EditName from '@/views/workflow/plugin/common/EditName.vue';
 import {onMounted, ref} from "vue";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {closeLoad} from "@/api/sh_api.ts";
+import {useFlowDesign} from "@/store/FlowDesignStore.ts";
+import piniaInstance from "@/store";
 
 const flowApproverSetting = ref();
+const flowDesign = useFlowDesign(piniaInstance);
 const props = defineProps({
   node: {
     type: Object,
@@ -37,7 +40,11 @@ const props = defineProps({
     default: false,
   }
 });
-onMounted(() => {
+const init=()=>{
   closeLoad();
+  flowDesign.refreshMap();
+}
+onMounted(()=>{
+  init();
 })
 </script>

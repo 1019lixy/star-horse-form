@@ -18,9 +18,12 @@ import FlowAddNode from '@/views/workflow/plugin/FlowNode/AddNode.vue';
 import {computed,onMounted} from "vue";
 import {FlowNodeEnums} from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
 import {closeLoad} from "@/api/sh_api.ts";
+import {useFlowDesign} from "@/store/FlowDesignStore.ts";
+import piniaInstance from "@/store";
 defineOptions({
   name: 'FlowNodeDivide',
 });
+const flowDesign = useFlowDesign(piniaInstance);
 const props = defineProps({
   node: {
     type: Object,
@@ -45,7 +48,11 @@ let nameClass = computed(() => {
     };
   };
 });
-onMounted(()=>{
+const init=()=>{
   closeLoad();
+  flowDesign.refreshMap();
+}
+onMounted(()=>{
+  init();
 })
 </script>

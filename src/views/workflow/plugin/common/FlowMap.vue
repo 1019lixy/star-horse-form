@@ -85,7 +85,7 @@ const init = async () => {
   flowMap.value = document.querySelector('#sh-flow-editor-map');
   flowMapMsk.value = document.querySelector('#sh-flow-editor-map-mask');
   initSize(flowDesign.value);
-  flowDesignStore.flowUpdateMap();
+  flowDesignStore.refreshMap();
   // 监听滚动条
   window.addEventListener('scroll', handleScroll, true);
   // 监听出现滚动条

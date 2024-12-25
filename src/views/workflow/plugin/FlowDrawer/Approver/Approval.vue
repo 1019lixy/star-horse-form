@@ -1,6 +1,6 @@
 <template>
   <!-- 审批人 -->
-  <el-space direction="vertical" :fill="true">
+  <el-space direction="vertical" :fill="true" style="width: 100%!important;">
     <el-card v-for="(group, k) in groups" :key="k" :headStyle="headStyle" class="card-container">
       <template #header>
         <div class="card-header">
@@ -58,7 +58,6 @@
                       <p class="content">{{ popover.content }}</p>
                     </div>
                   </div>
-
                 </div>
               </el-popover>
             </el-radio>
@@ -306,6 +305,7 @@
     <el-button v-if="show" link icon="plus" block @click="addApproval">添加{{ title }}</el-button>
   </el-space>
 </template>
+
 <script setup lang="ts">
 import {flowMixin, radioStyle} from '@/views/workflow/plugin/mixins/flowMixin';
 import {uuid} from "@/api/system.ts";
@@ -856,3 +856,8 @@ onMounted(() => {
   init();
 });
 </script>
+<style lang="scss" scoped>
+:deep(.el-space) {
+  width: 100%;
+}
+</style>

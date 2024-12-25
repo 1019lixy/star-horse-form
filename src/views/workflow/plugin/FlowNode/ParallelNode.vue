@@ -78,7 +78,11 @@ const props = defineProps({
     default: false,
   },
 });
-onMounted(() => {
+const init=()=>{
   closeLoad();
+  flowDesign.refreshMap();
+}
+onMounted(()=>{
+  init();
 })
 </script>
