@@ -1,6 +1,9 @@
 <script lang="ts" setup>
-import {onMounted, ref} from "vue";
+import {onMounted, ref, computed} from "vue";
 import {ModelRef} from "vue-demi";
+import {DynamicNode} from "@/components/types/DynamicNode";
+import {DesignPage} from "@/store/DesignPageStore.ts";
+import piniaInstance from "@/store";
 
 defineProps({
   msg: {
@@ -8,46 +11,28 @@ defineProps({
     required: true,
   },
 });
+let designPage = DesignPage(piniaInstance);
+let currentNode = computed(() => designPage.currentNode);
+let node: ModelRef<DynamicNode> = defineModel("node");
+const pointList = ref<Array<string>>([
+  "left", "right", "top", "bottom",
+  "bottom-right", "bottom-left",
+  "top-right", "top-left"
+]);
 
-let nodeList = ref([]);
-let node: ModelRef<any> = defineModel("node");
-const pointList = ref<Array<string>>(["left", "right", "top", "bottom", "bottom-right", "bottom-left", "top-right", "top-left"]);
-const addNode = async () => {
-  let t = nodeList.value.length;
-  let e = "节点" + t;
-  let n = "node" + t;
-  nodeList.value.push({id: n, name: e, left: 0, top: 0});
-
-};
 const init = async () => {
 }
-const handleMouseDown = (e) => {
+const handleMouseDown = (e: MouseEvent) => {
   moveActive.value = true;
-  // this.$emit("focus", {
-  //   index: this.index,
-  //   width: this.baseWidth,
-  //   height: this.baseHeight,
-  //   left: this.baseLeft,
-  //   top: this.baseTop
-  // })
+
 }
 let moveActive = ref(false);
 let rangeActive = ref(false);
 const handleMouseUp = () => {
   moveActive.value = false;
   rangeActive.value = false;
-  // this.$emit("blur", {
-  //   index: this.index,
-  //   width: this.baseWidth,
-  //   height: this.baseHeight,
-  //   left: this.baseLeft,
-  //   top: this.baseTop
-  // })
+
 }
-let baseLeft = ref(0);
-let baseWidth = ref(100);
-let baseHeight = ref(100);
-let baseTop = ref(0);
 let step = ref(1);
 const handleClear = () => {
   document.onmouseup = function () {
@@ -56,14 +41,18 @@ const handleClear = () => {
     handleMouseUp()
   }
 }
-const rangeMove = (evt, t) => {
+const selectItem = () => {
+  designPage.selectNode(node.value);
+}
+const rangeMove = (evt: MouseEvent, t: string) => {
   evt.preventDefault();
   evt.stopPropagation();
-  let o, a, c, l, r, i;
+  let o: boolean = false, a: boolean = false, c: boolean = false, l: boolean = false, r: boolean = false,
+      i: boolean = false;
   rangeActive.value = true;
-  handleMouseDown();
+  handleMouseDown(evt);
   let s = evt.clientX, d = evt.clientY;
-  document.onmousemove = function (e) {
+  document.onmousemove = (e: MouseEvent) => {
     moveActive.value = true;
     "right" === t ? (o = true, a = false) :
         "left" === t ? (o = true, c = true, r = true, a = false) :
@@ -80,16 +69,16 @@ const rangeMove = (evt, t) => {
     if (o) {
       let p = u * step.value;
       r && (p = -p);
-      c && (baseLeft.value = baseLeft.value - p);
-      baseWidth.value = (baseWidth.value + p)
+      c && (node.value.left = (node.value.left || 0) - p);
+      node.value.width = ((node.value.width || 100) + p)
     }
     if (a) {
       let h = m * step.value;
       i && (h = -h);
-      l && (baseTop.value = (baseTop.value - h));
-      baseHeight.value = (baseHeight.value + h)
+      l && (node.value.top = ((node.value.top || 0) - h));
+      node.value.height = ((node.value.height || 50) + h)
     }
-    console.log(baseWidth.value, baseHeight.value, baseLeft.value, baseTop.value);
+    console.log(node.value);
   };
 
   handleClear()
@@ -97,56 +86,46 @@ const rangeMove = (evt, t) => {
 let offsetX = ref(0);
 let offsetY = ref(0);
 let isDraging = ref(false);
-const dragStart = (evt) => {
+const dragStart = (evt: MouseEvent) => {
   console.log("start", evt);
   isDraging.value = true;
-  offsetX.value = evt.clientX - baseLeft.value;
-  offsetY.value = evt.clientY - baseTop.value;
+  offsetX.value = evt.clientX - node.value.left || 0;
+  offsetY.value = evt.clientY - node.value.top || 0;
 }
-const dragAction = (evt) => {
+const dragAction = (evt: MouseEvent) => {
   if (isDraging.value) {
     console.log("leave", evt);
-    baseLeft.value = evt.clientX - offsetX.value;
-    baseTop.value = evt.clientY - offsetY.value;
+    node.value.left = evt.clientX - offsetX.value;
+    node.value.top = evt.clientY - offsetY.value;
   }
 }
-const endAction = (evt) => {
+const endAction = (evt: MouseEvent) => {
   console.log("end", evt);
   isDraging.value = false;
 }
-const drag = (evt) => {
-  console.log("drag", evt);
-}
-const dragOver = (evt) => {
-  console.log("dragOver", evt);
-}
-const dragLeave = (evt) => {
-  console.log("dragLeave", evt);
-}
-const dragEnter = (evt) => {
-  console.log("dragEnter", evt);
-}
+
 onMounted(() => {
   init();
 })
 </script>
 
 <template>
-  <div class="node" :style="{width: baseWidth+'px !important',
-    height: baseHeight+'px !important',
-    left: baseLeft+'px!important',
-    top: baseTop+'px!important',
+  <div class="node" :class="{active:node.id==currentNode.id}" :style="{
+    width: node.width+'px !important',
+    height: node.height+'px !important',
+    left: node.left+'px!important',
+    top: node.top+'px!important',
     }"
-       draggable="true"
        @mousedown="dragStart"
+       @click.stop="selectItem"
        @mouseup="endAction"
        @mousemove="dragAction">
     <div class="node__wrapper">
-      <div class="node__line node__line--left" :style="{'border-width': '3.6px', 'border-color': 'red'}"></div>
-      <div class="node__line node__line--top" style="{'border-width': '3.6px', 'border-color': 'red'}"></div>
+      <div class="node__line node__line--left" :style="{'border-width': '3px', 'border-color': 'red'}"></div>
+      <div class="node__line node__line--top" style="{'border-width': '3px', 'border-color': 'red'}"></div>
       <!--        <div class="node__line node__line&#45;&#45;label" style="font-size: 64.8px;"><h3>{{ item.name }}</h3></div>-->
       <div class="node-point" :class="'node-point--'+item" v-for="item in pointList"
-           @mousedown="rangeMove($event,item)"></div>
+           @mousedown="rangeMove($event,item)" v-if="node.id==currentNode.id"></div>
       <div class="node__menu" :style="{'transform-origin': '0px 0px',transform: 'scale(3.6)'}"></div>
       <div class="node__item node-content">
         <h3>{{ node.name }}</h3>
@@ -157,14 +136,7 @@ onMounted(() => {
 </template>
 
 <style scoped lang="scss">
-.node-list {
-  width: 1000px;
-  height: 600px;
-  display: flex;
-  flex-wrap: wrap;
-  border: 1px solid #cecece;
-  position: relative;
-}
+
 
 .node {
   width: 100px;
@@ -177,6 +149,11 @@ onMounted(() => {
   -webkit-tap-highlight-color: transparent;
   -moz-user-select: none;
   user-select: none
+}
+
+.node.active {
+  border: 1px dotted #09f;
+  box-shadow: 0 0 10px #09f;
 }
 
 .node-point {
