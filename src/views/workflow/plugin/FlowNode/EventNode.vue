@@ -19,9 +19,10 @@
 import {close, delNode, open} from '@/views/workflow/plugin/mixins/flowMixin.ts';
 import FlowAddNode from '@/views/workflow/plugin/FlowNode/AddNode.vue';
 import FlowEventSetting from '@/views/workflow/plugin/FlowDrawer/EventPrep.vue';
-import {computed, ref} from "vue";
+import {computed, ref,onMounted} from "vue";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
+import {closeLoad} from "@/api/sh_api.ts";
 defineOptions({
   name: 'FlowNodeEvent',
 });
@@ -52,4 +53,11 @@ let nameClass = computed(() => {
     };
   };
 });
+const init=()=>{
+  closeLoad();
+  flowDesign.refreshMap();
+}
+onMounted(()=>{
+  init();
+})
 </script>

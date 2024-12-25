@@ -35,7 +35,8 @@
                 <DeleteConfirm :node="conditionNode"/>
               </div>
             </div>
-            <FlowAddNode :node="node" :nodeType="FlowNodeEnums.BRANCH_CONDITION_NODE" :id="conditionNode.id" :readable="readable"/>
+            <FlowAddNode :node="node" :nodeType="FlowNodeEnums.BRANCH_CONDITION_NODE" :id="conditionNode.id"
+                         :readable="readable"/>
           </div>
         </div>
         <FlowNode v-if="conditionNode.childNode && conditionNode.childNode.hasOwnProperty('name')"
@@ -49,17 +50,18 @@
   </div>
 </template>
 <script setup lang="ts">
-import {addBranch, close, flowMixin, open} from '@/views/workflow/plugin/mixins/flowMixin.ts';
+import {addBranch, close, open} from '@/views/workflow/plugin/mixins/flowMixin.ts';
 import FlowNode from '@/views/workflow/plugin/FlowNode/FlowNode.vue';
 import FlowAddNode from '@/views/workflow/plugin/FlowNode/AddNode.vue';
 import FlowBranchSetting from '@/views/workflow/plugin/FlowDrawer/BranchPrep.vue';
 import EditName from '@/views/workflow/plugin/common/EditName.vue';
 import DeleteConfirm from '@/views/workflow/plugin/common/DeleteConfirm.vue';
-import {computed, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 import {FlowNodeEnums} from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
+import {closeLoad} from "@/api/sh_api.ts";
 
 const flowBranchSettingRef = ref();
 const flowDesign = useFlowDesign(piniaInstance);
@@ -76,4 +78,11 @@ const props = defineProps({
     default: false,
   },
 });
+const init=()=>{
+  closeLoad();
+  flowDesign.refreshMap();
+}
+onMounted(()=>{
+  init();
+})
 </script>

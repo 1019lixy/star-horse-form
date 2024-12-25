@@ -117,7 +117,7 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
             }
         }
         // 更新地图
-        updateMap(mapImg);
+        refreshMap();
         //console.log('node', state.node);
         console.info(JSON.stringify(node.value));
     }
@@ -137,6 +137,9 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
         }
         addBranch(node.value, snode);
         // 更新地图
+        refreshMap();
+    }
+    const refreshMap = () => {
         updateMap(mapImg);
     }
     /**
@@ -159,7 +162,7 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
             delNode(node.value, snode);
         }
         // 更新地图
-        updateMap(mapImg);
+        refreshMap();
     }
     /**
      * 更新节点
@@ -172,12 +175,7 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
         }
         console.info(JSON.stringify(node.value));
     }
-    /**
-     * 更新地图
-     */
-    const flowUpdateMap = () => {
-        updateMap(mapImg);
-    }
+
     const init = () => {
         const innerInit = async () => {
             let res = await dataUrl.queryConditionAction!([]);
@@ -219,7 +217,7 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
         flowAddBranch,
         flowDelNode,
         flowUpdateNode,
-        flowUpdateMap,
+        refreshMap,
         init
     }
 });

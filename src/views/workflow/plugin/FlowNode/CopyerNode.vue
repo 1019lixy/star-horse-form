@@ -1,3 +1,55 @@
+<script setup lang="ts">
+import {close, open,} from '@/views/workflow/plugin/mixins/flowMixin.ts';
+import FlowAddNode from '@/views/workflow/plugin/FlowNode/AddNode.vue';
+import CopyerPrep from '@/views/workflow/plugin/FlowDrawer/CopyerPrep.vue';
+import EditName from '@/views/workflow/plugin/common/EditName.vue';
+import DeleteConfirm from '@/views/workflow/plugin/common/DeleteConfirm.vue';
+import {computed, onMounted, ref} from "vue";
+import {useFlowDesign} from "@/store/FlowDesignStore.ts";
+import piniaInstance from "@/store";
+import {FlowNodeEnums} from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
+import {onBeforeMount} from "vue-demi";
+import {closeLoad, load} from "@/api/sh_api.ts";
+
+defineOptions({
+  name: 'FlowNodeCopyer',
+});
+const flowCopyerSettingRef = ref();
+const flowDesign = useFlowDesign(piniaInstance);
+const drawerVisible = ref<boolean>(false);
+let currentNode = computed(() => flowDesign.currentNode);
+const props = defineProps({
+  node: {
+    type: Object,
+    default: function () {
+      return {};
+    },
+  },
+  readable: {
+    type: Boolean,
+    default: false,
+  }
+});
+let nameClass = computed(() => {
+  return (node, defaultStyle) => {
+    if (node.status == -1) {
+      return defaultStyle;
+    }
+    return {
+      'node-status-not': node.status == 0,
+      'node-status-current': node.status == 1,
+      'node-status-complete': node.status == 2
+    };
+  };
+});
+const init=()=>{
+  closeLoad();
+  flowDesign.refreshMap();
+}
+onMounted(()=>{
+  init();
+})
+</script>
 <template>
   <div class="flow-row">
     <div class="flow-box">
@@ -32,48 +84,8 @@
           <DeleteConfirm :node="node"/>
         </div>
       </div>
-      <FlowAddNode :node="node" :nodeType="node.type" :readable="readable"/>
+      <FlowAddNode :node="node" :nodeType="FlowNodeEnums.COPYER_NODE" :readable="readable"/>
     </div>
-    <FlowCopyerSetting ref="flowCopyerSettingRef" @close="close"/>
+    <CopyerPrep ref="flowCopyerSettingRef" @close="close"/>
   </div>
 </template>
-<script setup lang="ts">
-import {close, flowMixin, open,} from '@/views/workflow/plugin/mixins/flowMixin.ts';
-import FlowAddNode from '@/views/workflow/plugin/FlowNode/AddNode.vue';
-import FlowCopyerSetting from '@/views/workflow/plugin/FlowDrawer/CopyerPrep.vue';
-import EditName from '@/views/workflow/plugin/common/EditName.vue';
-import DeleteConfirm from '@/views/workflow/plugin/common/DeleteConfirm.vue';
-import {computed, ref} from "vue";
-import {useFlowDesign} from "@/store/FlowDesignStore.ts";
-import piniaInstance from "@/store";
-defineOptions({
-  name: 'FlowNodeCopyer',
-});
-const flowCopyerSettingRef = ref();
-const flowDesign = useFlowDesign(piniaInstance);
-let currentNode = computed(() => flowDesign.currentNode);
-const props = defineProps({
-  node: {
-    type: Object,
-    default: function () {
-      return {};
-    },
-  },
-  readable: {
-    type: Boolean,
-    default: false,
-  }
-});
-let nameClass = computed(() => {
-  return (node, defaultStyle) => {
-    if (node.status == -1) {
-      return defaultStyle;
-    }
-    return {
-      'node-status-not': node.status == 0,
-      'node-status-current': node.status == 1,
-      'node-status-complete': node.status == 2
-    };
-  };
-});
-</script>

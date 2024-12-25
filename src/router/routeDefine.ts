@@ -1,7 +1,7 @@
 import {RouteRecordRaw} from "vue-router";
 
-const routers: RouteRecordRaw[] = [];
-routers.push({
+const routeDefine: RouteRecordRaw[] = [];
+routeDefine.push({
     path: "/",
     component: () => import("@/components/Dashboard.vue"),
     name: "Index",
@@ -98,7 +98,7 @@ routers.push({
         keepAlive: "N"
     }
 });
-routers.push(
+routeDefine.push(
     {
         path: "/test",
         component: () => import("@/components/Test.vue"),
@@ -167,4 +167,4 @@ routers.push(
             title: "流程表单"
         }
     });
-export default routers;
+export default routeDefine;

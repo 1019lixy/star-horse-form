@@ -2,7 +2,7 @@
   <div class="flow-row">
     <div class="flow-branch">
       <div class="branch-node" @click="!readable && addBranch(node)">
-        <el-button  icon="plus">添加条件</el-button>
+        <el-button icon="plus">添加条件</el-button>
       </div>
       <div class="meet-node"></div>
       <div class="flow-col" v-for="(conditionNode, index) in node.conditionNodes" :key="conditionNode.id">
@@ -43,7 +43,8 @@
                 <DeleteConfirm :node="conditionNode"/>
               </div>
             </div>
-            <FlowAddNode :node="node" :nodeType="node.type" :id="conditionNode.id" :readable="readable"/>
+            <FlowAddNode :node="node" :nodeType="FlowNodeEnums.BRANCH_CONDITION_NODE" :id="conditionNode.id"
+                         :readable="readable"/>
           </div>
         </div>
         <FlowNode v-if="conditionNode.childNode && conditionNode.childNode.hasOwnProperty('name')"
@@ -51,22 +52,24 @@
       </div>
     </div>
     <div class="after-branch-btn">
-      <FlowAddNode :node="node" :nodeType="node.type" :readable="readable"/>
+      <FlowAddNode :node="node" :nodeType="FlowNodeEnums.BRANCH_NODE" :readable="readable"/>
     </div>
     <FlowBranchSetting ref="flowBranchSettingRef" @close="close"/>
   </div>
 </template>
 <script setup lang="ts">
-import {addBranch, close, flowMixin, open} from '@/views/workflow/plugin/mixins/flowMixin.ts';
+import {addBranch, close, open} from '@/views/workflow/plugin/mixins/flowMixin.ts';
 import FlowNode from '@/views/workflow/plugin/FlowNode/FlowNode.vue';
 import FlowAddNode from '@/views/workflow/plugin/FlowNode/AddNode.vue';
 import FlowBranchSetting from '@/views/workflow/plugin/FlowDrawer/BranchPrep.vue';
 import EditName from '@/views/workflow/plugin/common/EditName.vue';
 import DeleteConfirm from '@/views/workflow/plugin/common/DeleteConfirm.vue';
-import {computed, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
+import {FlowNodeEnums} from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
+import {closeLoad} from "@/api/sh_api.ts";
 
 defineOptions({
   name: 'FlowNodeBranch',
@@ -89,4 +92,11 @@ const props = defineProps({
 const deleteNode = () => {
   flowDesign.flowDelNode(props.node);
 }
+const init=()=>{
+  closeLoad();
+  flowDesign.refreshMap();
+}
+onMounted(()=>{
+  init();
+})
 </script>

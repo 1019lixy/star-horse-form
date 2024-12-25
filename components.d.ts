@@ -327,6 +327,7 @@ declare module 'vue' {
     StarHorseDataViewTable: typeof import('./src/components/comp/StarHorseDataViewTable.vue')['default']
     StarHorseDesign: typeof import('./src/components/comp/StarHorseDesign.vue')['default']
     StarHorseDialog: typeof import('./src/components/comp/StarHorseDialog.vue')['default']
+    StarHorseDraggable: typeof import('./src/components/comp/StarHorseDraggable.vue')['default']
     StarHorseEditor: typeof import('./src/components/comp/StarHorseEditor.vue')['default']
     StarHorseForm: typeof import('./src/components/comp/StarHorseForm.vue')['default']
     StarhorseFormItem: typeof import('./src/components/formcomp/items/starhorse-form-item.vue')['default']
