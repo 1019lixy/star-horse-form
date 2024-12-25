@@ -1,5 +1,5 @@
 import {createRouter, createWebHistory, NavigationGuardNext, RouteLocationNormalized} from "vue-router";
-import routers from "./router";
+import routeDefine from "@/router/routeDefine.ts";
 import {starhorseProcess} from "@/utils/starhorseProcess";
 import {Config} from "@/api/settings.ts";
 import {getToken} from "@/utils/auth";
@@ -13,7 +13,7 @@ const navBarListStore = navBarList(piniaInstance);
 const viewListStore = viewList(piniaInstance);
 const router = createRouter({
     history: createWebHistory("/"),
-    routes: routers,
+    routes: routeDefine,
     scrollBehavior: () => ({left: 0, top: 0}),
 });
 const whiteList = ["/login", "/continus", "/workflowDesign", "/jpbmDesign"]; // N redirect whitelist

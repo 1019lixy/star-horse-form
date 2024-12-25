@@ -18,7 +18,7 @@ import hljsVuePlugin from '@highlightjs/vue-plugin'
 import "animate.css"
 //import "uno.enums"
 import ZhLocale from 'element-plus/es/locale/lang/zh-cn'; // 中文
-import router from "@/router";
+import router from "@/router/index.ts";
 import draggable from "vuedraggable";
 import * as ElementPlusIconsVue from '@element-plus/icons-vue';
 import piniaInstance from "@/store";
