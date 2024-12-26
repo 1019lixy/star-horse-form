@@ -198,7 +198,7 @@ defineExpose({
   font-size: 12px;
   background: #fff;
   box-shadow: 0 2px 8px 2px rgba(68, 73, 77, 0.16);
-  z-index: 1000;
+  z-index: 999999;
   transform-origin: 0 0;
   font-weight: 600;
   padding: 4px 0;

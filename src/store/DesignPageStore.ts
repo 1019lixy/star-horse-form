@@ -6,11 +6,12 @@ export const DesignPage = defineStore("DesignPage", () => {
         const nodeList = ref<Array<DynamicNode>>([]);
         const currentNode = ref<DynamicNode>({});
         const isEdit = ref<boolean>(false);
+        const defaultZindex = ref<number>(100);
         /**
          * 清除所有数据
          */
         const clearAll = () => {
-            isEdit.value = true;
+            isEdit.value = false;
             nodeList.value = [];
             currentNode.value = null;
         }
@@ -18,6 +19,7 @@ export const DesignPage = defineStore("DesignPage", () => {
             nodeList.value = nodeList.value.filter((node: DynamicNode) => {
                 return node.id != id;
             });
+            currentNode.value = id == currentNode.value.id ? null : currentNode.value;
         }
         const setNodeList = (list: Array<DynamicNode>) => {
             nodeList.value = list;
@@ -28,16 +30,32 @@ export const DesignPage = defineStore("DesignPage", () => {
         const selectNode = (node: DynamicNode) => {
             currentNode.value = node;
         }
+        const setIsEdit = (edit: boolean) => {
+            isEdit.value = edit;
+        }
+        const maxZIndex = () => {
+            nodeList.value.sort((a: DynamicNode, b: DynamicNode) => {
+                return (a.zIndex || defaultZindex.value) - (b.zIndex || defaultZindex.value);
+            });
+            console.log(nodeList.value);
+            return nodeList.value[0].zIndex || defaultZindex.value;
+        }
+        const init = () => {
+
+        }
         return {
             nodeList,
             currentNode,
             isEdit,
+            defaultZindex,
             setNodeList,
             removeNode,
             addNode,
             selectNode,
             clearAll,
-
+            setIsEdit,
+            maxZIndex,
+            init
         }
     }
 );

@@ -1,28 +1,32 @@
 <script setup lang="ts">
-import {onMounted, ref} from "vue";
-import {DynamicNode} from "@/components/types/DynamicNode";
+import {computed, onMounted} from "vue";
+import {DesignPage} from "@/store/DesignPageStore.ts";
+import piniaInstance from "@/store";
+import {uuid} from "@/api/system.ts";
 
-let nodeList = ref<Array<DynamicNode>>([]);
+let designPage = DesignPage(piniaInstance);
+let nodeList = computed(() => designPage.nodeList);
 const handleClick = () => {
-  nodeList.value.push({
-    id: "node" + nodeList.value.length + 1,
+  designPage.addNode({
+    id: uuid(),
     name: "节点" + (nodeList.value.length + 1),
     width: 100,
     height: 100,
+    zIndex: designPage.defaultZindex + nodeList.value.length,
     left: 0,
     top: 0,
-  })
+  });
 }
 onMounted(() => {
-
+  designPage.setIsEdit(true);
 })
 </script>
 
 <template>
   <el-button @click="handleClick">添加节点</el-button>
-  <div class="box">
+  <div class="box" @click.stop="designPage.selectNode({})">
     <StarHorseDraggable v-for="(item,index) in nodeList" :key="index" :node="item"
-                        />
+    />
   </div>
 </template>
 

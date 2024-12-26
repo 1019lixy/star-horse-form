@@ -5,10 +5,13 @@ import piniaInstance from "@/store";
 import {computed, reactive, ref} from "vue";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import {uuid} from "@/api/system.ts";
+import {DynamicNode} from "@/components/types/DynamicNode";
+import {DesignPage} from "@/store/DesignPageStore.ts";
 
 const customizedButton: Array<any> = [];
 const copyerAction = CopyerOperation(piniaInstance);
 const designForm = DesignForm(piniaInstance);
+const designPage = DesignPage(piniaInstance);
 let compList = computed(() => designForm.compList);
 let currentItemId = computed(() => designForm.currentItemId);
 const pasteDisplay = computed(() => {
@@ -441,7 +444,7 @@ export function dynamicFormContextMenuData(item: any, parentItem: any, flag: str
     return menus;
 }
 
-export function dynamicPageContextMenuData() {
+export function dynamicPageContextMenuData(node: DynamicNode) {
     let contentMenuData: Array<any> = [];
     contentMenuData = [
         {
@@ -459,7 +462,10 @@ export function dynamicPageContextMenuData() {
             icon: 'copy',
             display: true,
             handler: () => {
-
+                let temp = JSON.parse(JSON.stringify(node));
+                temp.id = uuid();
+                temp.name = temp.name + "复制";
+                designPage.addNode(temp);
             },
         },
         {
@@ -473,16 +479,16 @@ export function dynamicPageContextMenuData() {
             icon: 'up-layer',
             display: true,
             handler: () => {
-
+                node.zIndex = (node.zIndex || 100) + 1;
             },
         },
         {
             type: 'button',
             text: '下移一层',
             icon: 'down-layer',
-            display: true,
+            display: node.zIndex && node.zIndex > 100,
             handler: () => {
-
+                node.zIndex = node.zIndex && node.zIndex > 100 ? node.zIndex - 1 : 100;
             },
         },
         {
@@ -491,16 +497,16 @@ export function dynamicPageContextMenuData() {
             icon: 'to-top',
             display: true,
             handler: () => {
-
+                node.zIndex = designPage.maxZIndex() + 1;
             },
         },
         {
             type: 'button',
             text: '置底',
             icon: 'to-bottom',
-            display: true,
+            display: node.zIndex && node.zIndex > 100,
             handler: () => {
-
+                node.zIndex = 100;
             },
         },
 
@@ -515,7 +521,7 @@ export function dynamicPageContextMenuData() {
             icon: 'delete',
             display: true,
             handler: () => {
-
+                designPage.removeNode(node.id);
             },
         },
         {

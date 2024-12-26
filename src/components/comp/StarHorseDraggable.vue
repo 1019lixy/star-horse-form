@@ -4,6 +4,7 @@ import {ModelRef} from "vue-demi";
 import {DynamicNode} from "@/components/types/DynamicNode";
 import {DesignPage} from "@/store/DesignPageStore.ts";
 import piniaInstance from "@/store";
+import {dynamicPageContextMenuData} from "@/views/dyform/page/AblesPlugin.ts";
 
 defineProps({
   msg: {
@@ -13,6 +14,7 @@ defineProps({
 });
 let designPage = DesignPage(piniaInstance);
 let currentNode = computed(() => designPage.currentNode);
+let isActive = computed(() => currentNode.value.id == node.value.id);
 let node: ModelRef<DynamicNode> = defineModel("node");
 const pointList = ref<Array<string>>([
   "left", "right", "top", "bottom",
@@ -47,6 +49,9 @@ const selectItem = () => {
 const rangeMove = (evt: MouseEvent, t: string) => {
   evt.preventDefault();
   evt.stopPropagation();
+  if (!isActive.value) {
+    return;
+  }
   let o: boolean = false, a: boolean = false, c: boolean = false, l: boolean = false, r: boolean = false,
       i: boolean = false;
   rangeActive.value = true;
@@ -54,15 +59,48 @@ const rangeMove = (evt: MouseEvent, t: string) => {
   let s = evt.clientX, d = evt.clientY;
   document.onmousemove = (e: MouseEvent) => {
     moveActive.value = true;
-    "right" === t ? (o = true, a = false) :
-        "left" === t ? (o = true, c = true, r = true, a = false) :
-            "top" === t ? (o = false, a = true, l = true, i = true) :
-                "bottom" === t ? (o = false, a = true) :
-                    "bottom-right" === t ? (o = true, a = true) :
-                        "bottom-left" === t ? (o = true, a = true, c = true, r = true) :
-                            "top-right" === t ? (o = true, a = true, l = true, i = true) :
-                                "top-left" === t && (o = true, a = true, c = true, r = true, l = true, i = true);
-    console.log(o, a, c, l, r, i);
+    switch (t) {
+      case "right":
+        o = true;
+        break;
+      case "left":
+        o = true;
+        c = true;
+        r = true;
+        break;
+      case "top":
+        a = true;
+        l = true;
+        i = true;
+        break;
+      case "bottom":
+        a = true;
+        break;
+      case "bottom-right":
+        o = true;
+        a = true;
+        break;
+      case "bottom-left":
+        o = true;
+        a = true;
+        c = true;
+        r = true;
+        break;
+      case "top-right":
+        o = true;
+        a = true;
+        l = true;
+        i = true;
+        break;
+      case "top-left":
+        o = true;
+        a = true;
+        c = true;
+        r = true;
+        l = true;
+        i = true;
+        break;
+    }
     let u = e.clientX - s, m = e.clientY - d;
     s = e.clientX;
     d = e.clientY;
@@ -80,20 +118,21 @@ const rangeMove = (evt: MouseEvent, t: string) => {
     }
     console.log(node.value);
   };
-
   handleClear()
 }
 let offsetX = ref(0);
 let offsetY = ref(0);
-let isDraging = ref(false);
+let isDragging = ref(false);
 const dragStart = (evt: MouseEvent) => {
-  console.log("start", evt);
-  isDraging.value = true;
+  if (!isActive.value) {
+    return;
+  }
+  isDragging.value = true;
   offsetX.value = evt.clientX - node.value.left || 0;
   offsetY.value = evt.clientY - node.value.top || 0;
 }
 const dragAction = (evt: MouseEvent) => {
-  if (isDraging.value) {
+  if (isDragging.value) {
     console.log("leave", evt);
     node.value.left = evt.clientX - offsetX.value;
     node.value.top = evt.clientY - offsetY.value;
@@ -101,43 +140,54 @@ const dragAction = (evt: MouseEvent) => {
 }
 const endAction = (evt: MouseEvent) => {
   console.log("end", evt);
-  isDraging.value = false;
+  isDragging.value = false;
 }
-
+const contentMenuRef = ref();
+const contextmenu = (e: MouseEvent) => {
+  console.log(e);
+  e.preventDefault();
+  contentMenuRef.value?.show(e);
+}
 onMounted(() => {
   init();
 })
 </script>
 
 <template>
-  <div class="node" :class="{active:node.id==currentNode.id}" :style="{
+  <div class="node" :class="{active:isActive}" :style="{
     width: node.width+'px !important',
     height: node.height+'px !important',
     left: node.left+'px!important',
     top: node.top+'px!important',
+    cursor: isActive?'move':'default',
+    zIndex:node.zIndex
     }"
+       @contextmenu="contextmenu"
        @mousedown="dragStart"
        @click.stop="selectItem"
        @mouseup="endAction"
        @mousemove="dragAction">
     <div class="node__wrapper">
-      <div class="node__line node__line--left" :style="{'border-width': '3px', 'border-color': 'red'}"></div>
-      <div class="node__line node__line--top" style="{'border-width': '3px', 'border-color': 'red'}"></div>
-      <!--        <div class="node__line node__line&#45;&#45;label" style="font-size: 64.8px;"><h3>{{ item.name }}</h3></div>-->
-      <div class="node-point" :class="'node-point--'+item" v-for="item in pointList"
-           @mousedown="rangeMove($event,item)" v-if="node.id==currentNode.id"></div>
-      <div class="node__menu" :style="{'transform-origin': '0px 0px',transform: 'scale(3.6)'}"></div>
-      <div class="node__item node-content">
+      <div v-if="isActive" class="node-line node-line-left"
+           :style="{'border-width': '3px', 'border-color': 'red'}"></div>
+      <div v-if="isActive" class="node-line node-line-top"
+           style="{'border-width': '3px', 'border-color': 'red'}"></div>
+      <!--        <div class="node-line node-line&#45;&#45;label" style="font-size: 64.8px;"><h3>{{ item.name }}</h3></div>-->
+      <div class="node-point" :class="'node-point-'+item" v-for="item in pointList"
+           @mousedown="rangeMove($event,item)" v-if="isActive"></div>
+      <!--      <div class="node-menu" :style="{'transform-origin': '0px 0px',transform: 'scale(3.6)'}"></div>-->
+      <div class="node-item node-content">
         <h3>{{ node.name }}</h3>
       </div>
-      <div class="node__mask"></div>
+      <!--      <div class="node-mask"></div>-->
     </div>
   </div>
+  <Teleport to="body">
+    <ContentMenu ref="contentMenuRef" :menu-data="dynamicPageContextMenuData(node)"/>
+  </Teleport>
 </template>
 
 <style scoped lang="scss">
-
-
 .node {
   width: 100px;
   height: 100px;
@@ -157,15 +207,15 @@ onMounted(() => {
 }
 
 .node-point {
+  position: absolute;
   width: 10px;
   height: 10px;
   border-radius: 100%;
-  z-index: 9999;
-  background: #09f;
-
+  z-index: 100;
+  background-color: #09f
 }
 
-.node__line--left {
+.node-line-left {
   position: absolute;
   border-top: 1px dashed #09f;
   width: 10000px;
@@ -175,7 +225,7 @@ onMounted(() => {
   transform: translateX(-100%)
 }
 
-.node__line--top {
+.node-line-top {
   position: absolute;
   border-left: 1px dashed #09f;
   width: 0;
@@ -185,7 +235,7 @@ onMounted(() => {
   transform: translateY(-100%)
 }
 
-.node__line--label {
+.node-line-label {
   top: -5px;
   left: -8px;
   position: absolute;
@@ -198,7 +248,7 @@ onMounted(() => {
   cursor: move
 }
 
-.node__menu {
+.node-menu {
   position: absolute;
   top: 0;
   left: 0;
@@ -209,17 +259,7 @@ onMounted(() => {
   cursor: pointer
 }
 
-.node-point {
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  border-radius: 100%;
-  z-index: 9999;
-  background-color: #09f
-}
-
-
-.node__mask {
+.node-mask {
   width: 100%;
   height: 100%;
   border: 0;
@@ -231,66 +271,66 @@ onMounted(() => {
   z-index: 1
 }
 
-.node-point--left, .node-point--right {
+.node-point-left, .node-point-right {
   top: 50%;
   -webkit-transform: translateY(-50%);
   transform: translateY(-50%)
 }
 
-.node-point--left:hover, .node-point--right:hover {
+.node-point-left:hover, .node-point-right:hover {
   cursor: ew-resize
 }
 
-.node-point--left {
+.node-point-left {
   left: -6px
 }
 
-.node-point--right {
+.node-point-right {
   right: -6px
 }
 
-.node-point--bottom, .node-point--top {
+.node-point-bottom, .node-point-top {
   left: 50%;
   -webkit-transform: translateX(-50%);
   transform: translateX(-50%)
 }
 
-.node-point--bottom:hover, .node-point--top:hover {
+.node-point-bottom:hover, .node-point-top:hover {
   cursor: ns-resize
 }
 
-.node-point--top {
+.node-point-top {
   top: -6px
 }
 
-.node-point--bottom {
+.node-point-bottom {
   bottom: -6px
 }
 
-.node-point--bottom-right:hover, .node-point--top-left:hover {
+.node-point-bottom-right:hover, .node-point-top-left:hover {
   cursor: nwse-resize
 }
 
-.node-point--bottom-left:hover, .node-point--top-right:hover {
+.node-point-bottom-left:hover, .node-point-top-right:hover {
   cursor: nesw-resize
 }
 
-.node-point--top-right {
+.node-point-top-right {
   top: -6px;
   right: -6px
 }
 
-.node-point--top-left {
+.node-point-top-left {
   top: -6px;
   left: -6px
 }
 
-.node-point--bottom-right {
+.node-point-bottom-right {
   bottom: -6px;
   right: -6px
 }
 
-.node-point--bottom-left {
+.node-point-bottom-left {
   bottom: -6px;
   left: -6px
 }
