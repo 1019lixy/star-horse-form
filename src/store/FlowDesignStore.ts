@@ -117,7 +117,7 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
             }
         }
         // 更新地图
-        refreshMap();
+        refreshMap(true);
         //console.log('node', state.node);
         console.info(JSON.stringify(node.value));
     }
@@ -137,10 +137,12 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
         }
         addBranch(node.value, snode);
         // 更新地图
-        refreshMap();
+        refreshMap(true);
     }
-    const refreshMap = () => {
-        updateMap(mapImg);
+    const refreshMap = (autoRefresh: boolean = false) => {
+        if (autoRefresh) {
+            updateMap(mapImg);
+        }
     }
     /**
      * 删除节点
@@ -162,7 +164,7 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
             delNode(node.value, snode);
         }
         // 更新地图
-        refreshMap();
+        refreshMap(true);
     }
     /**
      * 更新节点

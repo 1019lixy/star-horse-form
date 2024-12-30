@@ -216,17 +216,17 @@ export function getApproveNodes(node: any, approveNodes: Array<any>) {
  *
  */
 export async function updateMap(mapImg: Ref<string>) {
-    await nextTick();
+    // await nextTick();
     // setTimeout(() => {
-    const content: any = document.querySelector('#sh-flow-editor-content');
-    html2canvas(content, {
-        backgroundColor: '#aaa',
-        scale: 1,
-        width: content.clientWidth,
-        height: content.scrollHeight,
-        windowHeight: content.scrollHeight,
-    }).then((canvas) => {
-        mapImg.value = canvas.toDataURL('image/jpeg', 0.8);
-    });
-    // }, 100);
+    // const content: any = document.querySelector('#sh-flow-editor-content');
+    // html2canvas(content, {
+    //     backgroundColor: '#aaa',
+    //     scale: 1,
+    //     width: content.clientWidth,
+    //     height: content.scrollHeight,
+    //     windowHeight: content.scrollHeight,
+    // }).then((canvas) => {
+    //     mapImg.value = canvas.toDataURL('image/jpeg', 0.8);
+    // });
+    // }, 300);
 }

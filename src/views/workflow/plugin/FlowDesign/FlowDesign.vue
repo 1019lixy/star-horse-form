@@ -12,7 +12,7 @@
         <FlowHelper v-if="!readable"/>
         <FlowTips v-if="readable"/>
         <FlowZoom v-model:zoomValue="zoomValue" @saveImage="saveAsPng"/>
-        <FlowMap v-if="!scale.isMobile()"/>
+<!--        <FlowMap v-if="!scale.isMobile()"/>-->
       </div>
     </div>
   </div>
@@ -26,7 +26,7 @@ import FlowTips from '@/views/workflow/plugin/common/FlowTips.vue';
 import FlowNode from '@/views/workflow/plugin/FlowNode/FlowNode.vue';
 import FlowStartNode from '@/views/workflow/plugin/FlowNode/StartNode.vue';
 import FlowEndNode from '@/views/workflow/plugin/FlowNode/EndNode.vue';
-import {computed, onMounted, ref} from "vue";
+import {computed, onMounted, ref, watch} from "vue";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 import {scale} from "@/views/workflow/plugin/util/deviceUtil.ts";
@@ -42,6 +42,12 @@ let zoomStyle = computed(() => {
 });
 let nodeData = computed(() => flowDesign.node);
 let readable = computed(() => flowDesign.readable);
+// watch(() => nodeData.value,
+//     () => {
+//       flowDesign.refreshMap(true)
+//     }, {
+//       deep: true
+//     })
 const saveAsPng = async () => {
   const element: HTMLElement = document.getElementById('sh-flow-editor-content')!;
   element.parentElement!.style.transform = 'scale(1)'

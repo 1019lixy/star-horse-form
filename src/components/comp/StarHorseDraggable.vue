@@ -33,6 +33,7 @@ let rangeActive = ref(false);
 const handleMouseUp = () => {
   moveActive.value = false;
   rangeActive.value = false;
+  isDragging.value = false;
 
 }
 let step = ref(1);
@@ -132,7 +133,7 @@ const dragStart = (evt: MouseEvent) => {
   offsetY.value = evt.clientY - node.value.top || 0;
 }
 const dragAction = (evt: MouseEvent) => {
-  if (isDragging.value) {
+  if (isDragging.value&&isActive.value) {
     console.log("leave", evt);
     node.value.left = evt.clientX - offsetX.value;
     node.value.top = evt.clientY - offsetY.value;
