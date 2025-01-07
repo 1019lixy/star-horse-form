@@ -1,6 +1,6 @@
 <template>
   <el-drawer
-      v-if="node.approverGroups"
+      v-if="node.approveGroups"
       :width="scale.isMobile() ? '100%' : '40%'"
       :headerStyle="headerStyle"
       :bodyStyle="flowMixin.bodyStyle"
@@ -24,7 +24,7 @@
           <div class="flow-setting-content">
             <div class="flow-setting-item">
               <p class="flow-setting-item-title">抄送人</p>
-              <FlowNodeApproval :groups="node.approverGroups" :node="node" title="抄送人"/>
+              <FlowNodeApproval :groups="node.approveGroups" :node="node" title="抄送人"/>
             </div>
             <div class="flow-setting-item">
               <p class="flow-setting-item-title">提示：</p>
@@ -92,7 +92,7 @@ const onClose = () => {
 const onSave = () => {
   // 更新节点显示信息
   let content = '';
-  node.value.approverGroups.forEach((group:any) => {
+  node.value.approveGroups.forEach((group:any) => {
     if (group.approverNames.length > 0) {
       content += group.approverNames.join(',');
     }

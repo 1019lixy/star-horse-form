@@ -19,7 +19,10 @@ const props = defineProps({
   boxWidth: {type: String, default: "60%"},
   isBatch: {type: Boolean, default: false},
   fullScreen: {type: Boolean, default: false},
+  //自定义提交
   selfFunc: {type: Boolean, default: false},
+  //自定义关闭
+  selfClose: {type: Boolean, default: false},
   btnText: {type: String, default: "提交"},
   userBtn: {type: Array<UserFuncInfo>, default: []},
   btnTextContinue: {type: String, default: "提交并继续"},
@@ -42,6 +45,10 @@ const dialogStyle = computed(() => {
 });
 const beforeClose = () => {
   emits("closeAction");
+  windowsType.value = false;
+  if (props.selfClose) {
+    return;
+  }
   if (props.dialogProps?.batchEditVisible || props.isBatch) {
     props.dialogProps.batchEditVisible = false;
   }
@@ -60,7 +67,7 @@ const beforeClose = () => {
   if (props.dialogProps!.bakeVisible3) {
     props.dialogProps!.bakeVisible3 = false;
   }
-  windowsType.value = false;
+
 };
 onMounted(() => {
 });
@@ -105,6 +112,7 @@ provide("dialogOperation", clickFunction);
             </el-button>
           </div>
         </template>
+        <slot name="header"></slot>
         <div class="shdialog">
           <slot></slot>
         </div>
@@ -140,7 +148,6 @@ provide("dialogOperation", clickFunction);
             <star-horse-icon icon-class="undo" style="color:var(--star-horse-style);"/>
             {{ i18n("dialog.reset") }}</el-button>
         </span>
-
           <slot name="footer"></slot>
         </template>
       </el-dialog>

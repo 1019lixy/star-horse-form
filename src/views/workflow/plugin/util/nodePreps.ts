@@ -25,11 +25,11 @@ const approverNodePreps = (type: String) => {
             noHander: 4,
         },
         // 审批设置
-        approverGroups: [
+        approveGroups: [
             {
                 id: uuid(),
                 // 审批人模式
-                approverType: 1,
+                approveType: 1,
                 // 层级模式
                 levelMode: 1,
                 // 审批人ID
@@ -67,11 +67,11 @@ const copyerNodePreps = () => {
         // 子节点
         childNode: null,
         // 抄送人设置
-        approverGroups: [
+        approveGroups: [
             {
                 id: uuid(),
                 // 审批人模式
-                approverType: 1,
+                approveType: 1,
                 // 层级模式
                 levelMode: 1,
                 // 审批人ID
@@ -107,11 +107,11 @@ const noticeNodePreps = () => {
         // 子节点
         childNode: null,
         // 审批设置
-        approverGroups: [
+        approveGroups: [
             {
                 id: uuid(),
                 // 审批人模式
-                approverType: 1,
+                approveType: 1,
                 // 层级模式
                 levelMode: 1,
                 // 审批人ID
@@ -141,11 +141,11 @@ const taskNodePreps = () => {
         // 子节点
         childNode: null,
         // 审批设置
-        approverGroups: [
+        approveGroups: [
             {
                 id: uuid(),
                 // 审批人模式
-                approverType: 1,
+                approveType: 1,
                 // 层级模式
                 levelMode: 1,
                 // 审批人ID

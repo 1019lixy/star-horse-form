@@ -37,7 +37,7 @@
             </div>
             <div class="flow-setting-item">
               <p class="flow-setting-item-title">发送通知人</p>
-              <FlowNodeApproval :groups="node.approverGroups" :node="node" title="通知人"/>
+              <FlowNodeApproval :groups="node.approveGroups" :node="node" title="通知人"/>
             </div>
             <div v-if="noticeType.includes('shortMsg')" class="flow-setting-item">
               <p class="flow-setting-item-title">外部手机号</p>
@@ -62,11 +62,11 @@
             </div>
             <div v-if="noticeType.includes('email') && emailExt.includes(1)" class="flow-setting-item">
               <p class="flow-setting-item-title">抄送人</p>
-              <FlowNodeApproval :groups="node.approverGroups" :node="node" title="抄送人"/>
+              <FlowNodeApproval :groups="node.approveGroups" :node="node" title="抄送人"/>
             </div>
             <div v-if="noticeType.includes('email') && emailExt.includes(2)" class="flow-setting-item">
               <p class="flow-setting-item-title">密送人</p>
-              <FlowNodeApproval :groups="node.approverGroups" :node="node" title="密送人"/>
+              <FlowNodeApproval :groups="node.approveGroups" :node="node" title="密送人"/>
             </div>
           </div>
         </el-tab-pane>

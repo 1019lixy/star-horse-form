@@ -10,6 +10,11 @@
         <star-horse-icon icon-class="code" cursor="pointer"/>
       </el-tooltip>
     </div>
+    <div class="flow-btn" @click="exportCode">
+      <el-tooltip content="导出Bpmn">
+        <star-horse-icon icon-class="export" cursor="pointer"/>
+      </el-tooltip>
+    </div>
     <div class="sh-flow-editor-zoom">
       <div class="sh-flow-editor-zoom-less" @click="onZoomOut"></div>
       <span>{{ zoomValue }}%</span>
@@ -63,6 +68,8 @@ import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 import {computed, onActivated, onDeactivated, onMounted, ref} from "vue";
 import {copy} from "@/api/sh_api.ts";
+import {download} from "@/api/star_horse.ts";
+import {uuid} from "@/api/system.ts";
 
 const INIT_ZOOM_VALUE = 100;
 const MIN_ZOOM_VALUE = 10;
@@ -91,7 +98,7 @@ const controlScale = () => {
     init();
   } else {
     deactivate();
-    zoomValue.value= INIT_ZOOM_VALUE;
+    zoomValue.value = INIT_ZOOM_VALUE;
   }
 }
 const handleWeel = (e: WheelEvent) => {
@@ -129,6 +136,17 @@ const copyJson = async () => {
 }
 const viewCode = () => {
   drawer.value = true;
+}
+const exportCode = () => {
+  let params = {
+    id: uuid(),
+    process: nodeData.value,
+    code: "test",
+    name: "测试",
+    version: 1,
+    remark: "测试",
+  }
+  download("/flow-engine/workflow/flowdefinition/dataConvertJsonToXml", params);
 }
 const init = () => {
   if (scaleEnable.value) {

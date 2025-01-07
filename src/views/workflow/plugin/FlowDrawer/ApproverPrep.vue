@@ -1,6 +1,6 @@
 <template>
   <el-drawer
-      v-if="node.approverGroups"
+      v-if="node.approveGroups"
       :width="scale.isMobile() ? '100%' : '40%'"
       :headerStyle="headerStyle"
       :bodyStyle="flowMixin.bodyStyle"
@@ -56,7 +56,7 @@
               </el-select>
             </div>
             <!-- 审批人 -->
-            <FlowNodeApproval :groups="node.approverGroups" :node="node" :title="node.type == 1 ? '审批人' : '办理人'"/>
+            <FlowNodeApproval :groups="node.approveGroups" :node="node" :title="node.type == 1 ? '审批人' : '办理人'"/>
             <!-- 审批人与发起人为同一人时 -->
             <div v-if="node.type == 1" class="flow-setting-item margin-top-10">
               <p class="flow-setting-item-title">
@@ -319,7 +319,7 @@ const onSave = () => {
   // 更新节点显示信息
   let content = '';
   debugger;
-  node.value.approverGroups.forEach((group:any) => {
+  node.value.approveGroups.forEach((group:any) => {
     if (group.approverNames.length > 0) {
       content += group.approverNames.join(',');
     }

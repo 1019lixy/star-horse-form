@@ -153,7 +153,12 @@ const configInfo = computed(() => configStore.configFormInfo);
           <router-view v-slot="{ Component }">
             <transition name="solid">
               <keep-alive :include="cachedDatas">
+                <Suspense>
                 <component :is="Component"/>
+                  <template #fallback>
+                    数据加载中...
+                  </template>
+                </Suspense>
               </keep-alive>
             </transition>
           </router-view>

@@ -9,8 +9,8 @@
         </div>
       </template>
       <div class="flow-setting-item">
-        <el-select v-model="group.approverType" filterable clearable default-first-option
-                   @change="changeApproverType(group)">
+        <el-select v-model="group.approveType" filterable clearable default-first-option
+                   @change="changeapproveType(group)">
           <el-option v-for="item in approvals" :key="item.value" :value="item.value" :label="item.name"
                      :disabled="item.disabled && groups.length > 1"
           >
@@ -37,7 +37,7 @@
           </el-option>
         </el-select>
         <!-- 上级 -->
-        <div v-if="group.approverType == 1">
+        <div v-if="group.approveType == 1">
           <p class="flow-setting-item-title">
             <span>指定层级</span>
           </p>
@@ -67,7 +67,7 @@
           </el-select>
         </div>
         <!-- 部门负责人 -->
-        <div v-if="group.approverType == 2">
+        <div v-if="group.approveType == 2">
           <p class="flow-setting-item-title">
             <span>指定层级</span>
           </p>
@@ -97,7 +97,7 @@
           </el-select>
         </div>
         <!-- 部门审批人 -->
-        <div v-if="group.approverType == 3">
+        <div v-if="group.approveType == 3">
           <p class="flow-setting-item-title">
             <span>部门审批人</span>
           </p>
@@ -106,7 +106,7 @@
           </el-select>
         </div>
         <!-- 编码审批人 -->
-        <div v-else-if="group.approverType == 4">
+        <div v-else-if="group.approveType == 4">
           <p class="flow-setting-item-title">
             <span>编码对应部门审批人</span>
           </p>
@@ -115,7 +115,7 @@
           </el-select>
         </div>
         <!-- 角色 -->
-        <div v-else-if="group.approverType == 5">
+        <div v-else-if="group.approveType == 5">
           <p class="flow-setting-item-title">
             <span>选择角色</span>
           </p>
@@ -125,7 +125,7 @@
           </el-select>
         </div>
         <!-- 岗位 -->
-        <div v-else-if="group.approverType == 6">
+        <div v-else-if="group.approveType == 6">
           <p class="flow-setting-item-title">
             <span>选择岗位</span>
           </p>
@@ -142,7 +142,7 @@
             }}"/>
         </div>
         <!-- 用户组 -->
-        <div v-else-if="group.approverType == 7">
+        <div v-else-if="group.approveType == 7">
           <p class="flow-setting-item-title">
             <span>选择用户组</span>
           </p>
@@ -159,7 +159,7 @@
             }}"/>
         </div>
         <!-- 指定成员 -->
-        <div v-else-if="group.approverType == 8">
+        <div v-else-if="group.approveType == 8">
           <p class="flow-setting-item-title">
             <span>指定成员</span>
             <span class="light-text">(不能超过 25 人)</span>
@@ -174,7 +174,7 @@
           </p>
         </div>
         <!-- 发起人自选 -->
-        <div v-else-if="group.approverType == 9">
+        <div v-else-if="group.approveType == 9">
           <p class="flow-setting-item-title">
             <span>选择方式</span>
           </p>
@@ -214,7 +214,7 @@
           </p>
         </div>
         <!-- 节点审批人 -->
-        <div v-else-if="group.approverType == 11">
+        <div v-else-if="group.approveType == 11">
           <p class="flow-setting-item-title">
             <span>选择节点</span>
           </p>
@@ -226,7 +226,7 @@
           </p>
         </div>
         <!-- 连续多级上级审批 -->
-        <div v-else-if="group.approverType == 12">
+        <div v-else-if="group.approveType == 12">
           <p class="flow-setting-item-title">
             <span>审批终点</span>
           </p>
@@ -238,7 +238,7 @@
 
         </div>
         <!-- 表单内人员 -->
-        <div v-else-if="group.approverType == 13">
+        <div v-else-if="group.approveType == 13">
           <p class="flow-setting-item-title">
             <span>人员控件</span>
           </p>
@@ -263,7 +263,7 @@
           </el-radio-group>
         </div>
         <!-- 表单内部门 -->
-        <div v-else-if="group.approverType == 14">
+        <div v-else-if="group.approveType == 14">
           <p class="flow-setting-item-title">
             <span>部门控件</span>
           </p>
@@ -789,7 +789,7 @@ let rankList = ref<any>([]);
 let stationList = ref<any>([]);
 const dataNode = computed(() => flowDesign.node);
 let show = computed(() => {
-  return props.groups.filter((group: any) => [9, 10].includes(group.approverType)).length == 0;
+  return props.groups.filter((group: any) => [9, 10].includes(group.approveType)).length == 0;
 });
 let approveNodes = computed(() => {
   let approveNodes: Array<any> = [];
@@ -801,7 +801,7 @@ let approveNodes = computed(() => {
 /**
  * 改变审批人类型
  */
-const changeApproverType = (group: any) => {
+const changeapproveType = (group: any) => {
   group.approverIds = [];
   group.approverNames = [];
 }
@@ -810,7 +810,7 @@ const addApproval = () => {
   props.groups.push({
     id: uuid(),
     // 审批人模式
-    approverType: 1,
+    approveType: 1,
     // 层级模式
     levelMode: 1,
     // 审批人ID

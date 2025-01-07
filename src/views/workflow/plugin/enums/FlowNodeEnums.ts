@@ -3,49 +3,65 @@
  */
 export enum FlowNodeEnums {
     /**
+     * 开始节点
+     */
+    START_NODE = "StartNode",
+    /**
      * 发起人节点
      */
-    APPLY_NODE = "ApplyNode",
-    /**
-     * 审批节点
-     */
-    APPROVER_NODE = "ApproverNode",
-    /**
-     * 分支节点
-     */
-    BRANCH_NODE = "BranchNode",
-    /**
-     * 分支条件节点
-     */
-    BRANCH_CONDITION_NODE = "BranchConditionNode",
+    APPLY_NODE = "StartNode",
     /**
      * 抄送节点
      */
     COPYER_NODE = "CopyerNode",
     /**
-     * 分割
+     * 审批节点
      */
-    DIVIDE_NODE = "DivideNode",
+    APPROVER_NODE = "ApprovalNode",
     /**
-     * 开始节点
+     * 分支节点
      */
-    START_NODE = "StartNode",
+    BRANCH_NODE = "BranchNode",
+    /**
+     * 排他节点
+     */
+    EXCLUSIVE_NODE = "ExclusiveNode",
+    /**
+     * 并行节点
+     */
+    PARALLEL_NODE = "ParallelNode",
+    /**
+     * 定时节点
+     */
+    TIMER_NODE = "TimerNode",
+    /**
+     * 提醒节点
+     */
+    NOTICE_NODE = "NotifyNode",
+    /**
+     * 服务节点
+     */
+    SERVICE_NODE = "ServiceNode",
+    /**
+     * 事件节点
+     */
+    EVENT_NODE = "EventNode",
+
     /**
      * 结束节点
      */
     END_NODE = "EndNode",
     /**
-     * 事件节点
+     * 分支条件节点
      */
-    EVENT_NODE = "EventNode",
+    BRANCH_CONDITION_NODE = "ConditionNode",
+
     /**
-     * 提醒节点
+     * 分割
      */
-    NOTICE_NODE = "NoticeNode",
-    /**
-     * 并行节点
-     */
-    PARALLEL_NODE = "ParallelNode",
+    DIVIDE_NODE = "DivideNode",
+
+
     /**
      * 并行子节点
      */
@@ -66,6 +82,7 @@ export enum FlowNodeEnums {
      * 任务节点
      */
     TASK_NODE = "TaskNode",
+
     /**
      * 编辑节点
      */
