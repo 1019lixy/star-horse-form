@@ -93,8 +93,10 @@ const onSave = () => {
   // 更新节点显示信息
   let content = '';
   node.value.approveGroups.forEach((group:any) => {
-    if (group.approverNames.length > 0) {
+    if (Array.isArray(group.approverNames)&&group.approverNames.length > 0) {
       content += group.approverNames.join(',');
+    }else{
+      content += group.approverNames;
     }
     if (content) {
       content += ',';

@@ -30,9 +30,9 @@ onMounted(() => {
   <el-menu
       class="system-menu"
       mode="horizontal"
-      ellipsis
-      >
-    <SystemSubMenu :dataList="dataList"/>
+      :ellipsis="false"
+  >
+    <SystemSubMenu :dataList="dataList" style="width: 100% !important;"/>
   </el-menu>
 </template>
 <style lang="scss" scoped>
@@ -55,20 +55,18 @@ onMounted(() => {
 .el-submenu__title.is-opened {
   background-color: unset !important;
 }
-
-
 .sub-class:hover {
   background-color: unset !important;
 }
 
 .system-menu {
-  --el-menu-bg-color:#fff;
-  --el-menu-text-color:#eee;
-  --el-menu-active-color:#ffd04b;
-  --el-menu-hover-bg-color: rgb(245,235,255,0.5);
+  --el-menu-bg-color: #fff;
+  --el-menu-text-color: #eee;
+  --el-menu-active-color: #ffd04b;
+  --el-menu-hover-bg-color: rgb(245, 235, 255, 0.5);
   max-height: 50px;
   background-color: unset !important;
-  width: 100%;
+  width: 100% !important;
   border-bottom: unset !important;
   color: var(--star-horse-white);
   font-weight: bold;

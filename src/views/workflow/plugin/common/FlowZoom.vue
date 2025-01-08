@@ -67,9 +67,10 @@ import {ModelRef} from "vue-demi";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 import {computed, onActivated, onDeactivated, onMounted, ref} from "vue";
-import {copy} from "@/api/sh_api.ts";
-import {download} from "@/api/star_horse.ts";
+import {copy, loadData} from "@/api/sh_api.ts";
+import {download, downloadData} from "@/api/star_horse.ts";
 import {uuid} from "@/api/system.ts";
+import {warning} from "@/utils/message.ts";
 
 const INIT_ZOOM_VALUE = 100;
 const MIN_ZOOM_VALUE = 10;
@@ -137,7 +138,7 @@ const copyJson = async () => {
 const viewCode = () => {
   drawer.value = true;
 }
-const exportCode = () => {
+const exportCode = async () => {
   let params = {
     id: uuid(),
     process: nodeData.value,
@@ -146,7 +147,13 @@ const exportCode = () => {
     version: 1,
     remark: "测试",
   }
-  download("/flow-engine/workflow/flowdefinition/dataConvertJsonToXml", params);
+  let reData = await loadData("/flow-engine/workflow/flowdefinition/dataConvertJsonToXml", params);
+  if (reData.error) {
+    warning(reData.error);
+    return
+  } else {
+    downloadData(reData.data, new Date().getDate() + "bpmn.xml");
+  }
 }
 const init = () => {
   if (scaleEnable.value) {

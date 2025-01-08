@@ -50,7 +50,7 @@ const forceLoginOut = () => {
 // 添加响应拦截器
 service.interceptors.response.use((response: AxiosResponse) => {
     const code = response.data?.code;
-   // console.log(code);
+    // console.log(code);
     // 401 未登录
     if (code == 401) {
         forceLoginOut();
@@ -331,21 +331,39 @@ export function createRouterAndMenuList(redata: Array<object>): MenusInfo[] {
 export function download(url: string, param: any) {
     return new Promise((resolve, reject) => {
         service.post(url, param, {responseType: "blob"}).then(res => {
-            const blob = new Blob([res.data]);
-            const delement = document.createElement("a");
-            const href = window.URL.createObjectURL(blob);
-            delement.href = href;
-            delement.download = decodeURI(res.headers["content-disposition"].split("=")[1]);
-            document.body.appendChild(delement);
-            delement.click();
-            document.body.removeChild(delement);
-            window.URL.revokeObjectURL(href);
+            downloadData(res.data, decodeURI(res.headers["content-disposition"].split("=")[1]));
+            // const blob = new Blob([res.data]);
+            // const delement = document.createElement("a");
+            // const href = window.URL.createObjectURL(blob);
+            // delement.href = href;
+            // delement.download = decodeURI(res.headers["content-disposition"].split("=")[1]);
+            // document.body.appendChild(delement);
+            // delement.click();
+            // document.body.removeChild(delement);
+            // window.URL.revokeObjectURL(href);
             resolve(null);
         }).catch(err => {
             console.log(err);
             reject(err);
         });
     });
+}
+
+/**
+ * 下载文件,
+ * @param data 数据
+ * @param name 文件名称
+ */
+export function downloadData(data: any, name: string) {
+    const blob = new Blob([data]);
+    const delement = document.createElement("a");
+    const href = window.URL.createObjectURL(blob);
+    delement.href = href;
+    delement.download = name;
+    document.body.appendChild(delement);
+    delement.click();
+    document.body.removeChild(delement);
+    window.URL.revokeObjectURL(href);    //释放URL 对象
 }
 
 /**

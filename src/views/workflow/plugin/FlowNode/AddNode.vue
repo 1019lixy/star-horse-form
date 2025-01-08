@@ -1,6 +1,7 @@
 <template>
   <div class="after-node-btn">
-    <el-popover placement="right" trigger="hover" aria-hidden="true" :popper-style="{width: 'unset !important'}">
+    <el-popover placement="right" ref="nodeRef" trigger="hover" aria-hidden="true"
+                :popper-style="{width: 'unset !important'}">
       <template #reference>
         <!-- 当审批节点下添加意见分支,就不允许添加其他类型的节点了 -->
         <star-horse-icon icon-class="plus_circle"
@@ -20,17 +21,17 @@
   </div>
 </template>
 <script setup lang="ts">
-import {computed, isRef, onMounted, unref} from "vue";
+import {computed, isRef, onMounted, ref, unref} from "vue";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {ApiUrls} from "@/components/types/ApiUrls";
-import {apiInstance, createCondition, load} from "@/api/sh_api.ts";
+import {apiInstance, createCondition} from "@/api/sh_api.ts";
 import {SearchParams} from "@/components/types/Params";
 import {nodePrepList} from "@/views/workflow/plugin/util/nodePreps.ts";
 import {FlowNodeEnums} from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
-import {ModelRef} from "vue-demi";
 
+const nodeRef = ref();
 const prepUrl: ApiUrls = apiInstance("userdb-manage", "userdb/formInstance/shNodeMappingPreps/idNodeMappingPrep/337537414606095357");
 defineOptions({
   name: 'FlowNodeAdd',
@@ -98,6 +99,7 @@ const addNode = async (item: any) => {
   console.log(item);
   let addNode = JSON.parse(JSON.stringify(commonPreps.value));
   let preps = await loadNodePrep(item);
+  nodeRef.value.hide();
   let currentPreps: any = nodePrepList[item.nodeCode];
   addNode = {...addNode, ...currentPreps};
   if (preps && Object.keys(preps).length > 0) {

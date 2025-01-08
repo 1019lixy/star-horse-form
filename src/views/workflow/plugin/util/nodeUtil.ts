@@ -10,6 +10,18 @@ export function getId() {
     return uuid();
 }
 
+export function getEndNode() {
+    return {
+        id: getId(),
+        name: '结束',
+        type: FlowNodeEnums.END_NODE,
+        // 流程节点状态(用于只读模式, 0:未进行 1:进行中  2:已完成)
+        status: -1,
+        // 是否有错误
+        error: false,
+    }
+}
+
 /**
  *   获取发起人节点
  */
@@ -23,7 +35,7 @@ export function getStartNode() {
         // 是否有错误
         error: false,
         // 子节点
-        childNode: null,
+        childNode: getEndNode(),
         // 显示添加按钮
         addable: true,
     };
