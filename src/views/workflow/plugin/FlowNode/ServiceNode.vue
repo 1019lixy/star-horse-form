@@ -14,7 +14,7 @@
                 {{ node.content }}
               </el-tooltip>
             </span>
-            <span v-else class="hint-title">任务节点</span>
+            <span v-else class="hint-title">服务节点</span>
           </div>
           <!-- 错误提示 -->
           <star-horse-icon v-if="node.error" icon-class="exclamation-circle" theme="filled" class="node-error"/>
@@ -41,7 +41,7 @@ import piniaInstance from "@/store";
 import {closeLoad} from "@/api/sh_api.ts";
 
 defineOptions({
-  name: 'TaskNode',
+  name: 'ServiceNode',
 });
 const flowDesign = useFlowDesign(piniaInstance);
 let currentNode = computed(() => flowDesign.currentNode);

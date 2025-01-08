@@ -117,9 +117,7 @@ defineExpose({
   setEditorContent,
 })
 </script>
-
 <template>
-
   <div class="container" :class="{ 'full-screen-container': isFullScreen }">
     <div ref="jsonEditorRef" class="json-editor"/>
     <div

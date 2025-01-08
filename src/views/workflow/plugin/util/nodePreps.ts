@@ -24,9 +24,14 @@ const nodeInfoList = () => {
             "nodeIcon": "copy_node",
         },
         {
-            "nodeName": "任务节点",
-            "nodeCode": "TaskNode",
+            "nodeName": "服务节点",
+            "nodeCode": "ServiceNode",
             "nodeIcon": "task",
+        },
+        {
+            "nodeName": "时间节点",
+            "nodeCode": "TimerNode",
+            "nodeIcon": "timer",
         },
         {
             "nodeName": "事件节点",
@@ -179,29 +184,39 @@ const noticeNodePreps = () => {
 /**
  * 添加任务节点
  */
-const taskNodePreps = () => {
+const serviceNodePreps = () => {
     return {
         id: uuid(),
-        name: '任务',
-        type: FlowNodeEnums.TASK_NODE,
+        name: '服务节点',
+        type: FlowNodeEnums.SERVICE_NODE,
         // 流程节点状态(用于只读模式, 0:未进行 1:进行中  2:已完成)
         status: -1,
+        implementationType: "class",
+        // 子节点
+        childNode: null,
+        // 显示添加按钮
+        addable: true,
+        // 可删除提示
+        deletable: false,
+        // 是否有错误
+        error: false,
+    };
+}
+
+/**
+ * 时间节点
+ */
+const timerNodePreps = () => {
+    return {
+        id: uuid(),
+        name: '计时等待',
+        type: FlowNodeEnums.TIMER_NODE,
+        // 流程节点状态(用于只读模式, 0:未进行 1:进行中  2:已完成)
+        status: -1,
+        waitType: "duration",
         // 子节点
         childNode: null,
         // 审批设置
-        approveGroups: [
-            {
-                id: uuid(),
-                // 审批人模式
-                approveType: 1,
-                // 层级模式
-                levelMode: 1,
-                // 审批人ID
-                approverIds: [],
-                // 审批人名称
-                approverNames: [],
-            },
-        ],
         // 显示添加按钮
         addable: true,
         // 可删除提示
@@ -458,7 +473,8 @@ const nodePrepList: any = {
     [FlowNodeEnums.EVENT_NODE]: eventNodePreps(),
     [FlowNodeEnums.NOTICE_NODE]: noticeNodePreps(),
     [FlowNodeEnums.COPYER_NODE]: copyerNodePreps(),
-    [FlowNodeEnums.TASK_NODE]: taskNodePreps(),
+    [FlowNodeEnums.SERVICE_NODE]: serviceNodePreps(),
+    [FlowNodeEnums.TIMER_NODE]: timerNodePreps(),
 }
 export {
     nodePrepList, nodeInfoList

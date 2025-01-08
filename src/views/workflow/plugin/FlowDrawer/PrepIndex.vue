@@ -7,7 +7,7 @@ import BranchPrep from "@/views/workflow/plugin/FlowDrawer/BranchPrep.vue";
 import CopyerPrep from "@/views/workflow/plugin/FlowDrawer/CopyerPrep.vue";
 import EventPrep from "@/views/workflow/plugin/FlowDrawer/EventPrep.vue";
 import NoticePrep from "@/views/workflow/plugin/FlowDrawer/NoticePrep.vue";
-import TaskPrep from "@/views/workflow/plugin/FlowDrawer/TaskPrep.vue";
+import ServicePrep from "@/views/workflow/plugin/FlowDrawer/ServicePrep.vue";
 import TimerPrep from "@/views/workflow/plugin/FlowDrawer/TimerPrep.vue";
 import EndPrep from "@/views/workflow/plugin/FlowDrawer/EndPrep.vue";
 import {flowMixin} from "@/views/workflow/plugin/mixins/flowMixin.ts";
@@ -32,7 +32,7 @@ const panels = ref<any>({
   ConditionNode: BranchPrep,
   ParallelSubNode: BranchPrep,
   EventNode: EventPrep,
-  TaskNode: TaskPrep,
+  ServiceNode: ServicePrep,
   EndPrep: EndPrep
 });
 
