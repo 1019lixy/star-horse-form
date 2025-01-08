@@ -25,7 +25,7 @@
 import FlowAddNode from '@/views/workflow/plugin/FlowNode/AddNode.vue';
 import EditName from '@/views/workflow/plugin/common/EditName.vue';
 import DeleteConfirm from '@/views/workflow/plugin/common/DeleteConfirm.vue';
-import {computed, onMounted, ref} from "vue";
+import {computed, onMounted} from "vue";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
@@ -33,7 +33,7 @@ import {FlowNodeEnums} from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
 import {closeLoad} from "@/api/sh_api.ts";
 
 defineOptions({
-  name: 'FlowNodeNotice',
+  name: 'NoticeNode',
 });
 const flowDesign = useFlowDesign(piniaInstance);
 let currentNode = computed(() => flowDesign.currentNode);
@@ -49,9 +49,9 @@ const props = defineProps({
     default: false,
   }
 });
-const emits=defineEmits(['selectNode']);
+const emits = defineEmits(['selectNode']);
 const selectNode = () => {
-  emits('selectNode',props.node);
+  emits('selectNode', props.node);
 }
 let nameClass = computed(() => {
   return (node, defaultStyle) => {

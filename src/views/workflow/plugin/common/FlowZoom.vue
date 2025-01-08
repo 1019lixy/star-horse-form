@@ -5,6 +5,11 @@
         <star-horse-icon icon-class="image" cursor="pointer"/>
       </el-tooltip>
     </div>
+    <div class="flow-btn" @click="mapVisibleOperation">
+      <el-tooltip content="开启/关闭小地图">
+        <star-horse-icon icon-class="map" cursor="pointer"/>
+      </el-tooltip>
+    </div>
     <div class="flow-btn" @click="viewCode">
       <el-tooltip content="查看代码">
         <star-horse-icon icon-class="code" cursor="pointer"/>
@@ -93,6 +98,12 @@ const zoomValue: ModelRef<number> = defineModel("zoomValue")!;
 let scaleEnable = ref<boolean>(false);
 let nodeData = computed(() => flowDesign.node);
 const drawer = ref(false);
+const mapVisibleOperation = () => {
+  flowDesign.mapVisible = !flowDesign.mapVisible;
+  if (flowDesign.mapVisible) {
+    flowDesign.refreshMap(true);
+  }
+}
 const controlScale = () => {
   scaleEnable.value = !scaleEnable.value;
   if (scaleEnable.value) {

@@ -261,7 +261,7 @@ declare module 'vue' {
     NormalPage: typeof import('./src/views/dyform/NormalPage.vue')['default']
     NoticeNode: typeof import('./src/views/workflow/plugin/FlowNode/NoticeNode.vue')['default']
     NoticePrep: typeof import('./src/views/workflow/plugin/FlowDrawer/NoticePrep.vue')['default']
-    NotifyPrep: typeof import('./src/views/workflow/plugin/FlowDrawer/NotifyPrep.vue')['default']
+    NotifyPrep: typeof import('./src/views/workflow/plugin/FlowDrawer/NoticePrep.vue')['default']
     NumberItem: typeof import('./src/components/formcomp/items/number-item.vue')['default']
     NumberRangeItem: typeof import('./src/components/formcomp/items/number-range-item.vue')['default']
     OtherItem: typeof import('./src/components/comp/items/otherItem.vue')['default']

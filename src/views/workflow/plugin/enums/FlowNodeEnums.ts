@@ -37,7 +37,7 @@ export enum FlowNodeEnums {
     /**
      * 提醒节点
      */
-    NOTICE_NODE = "NotifyNode",
+    NOTICE_NODE = "NoticeNode",
     /**
      * 服务节点
      */

@@ -12,7 +12,7 @@
         <FlowHelper v-if="!readable"/>
         <FlowTips v-if="readable"/>
         <FlowZoom v-model:zoomValue="zoomValue" @saveImage="saveAsPng"/>
-        <FlowMap v-if="!scale.isMobile()"/>
+        <FlowMap v-if="mapVisible&&!scale.isMobile()"/>
         <PrepIndex v-if="!readable"/>
       </div>
     </div>
@@ -41,7 +41,7 @@ let zoomStyle = computed(() => {
 });
 let nodeData = computed(() => flowDesign.node);
 let readable = computed(() => flowDesign.readable);
-
+let mapVisible = computed(() => flowDesign.mapVisible);
 const saveAsPng = async () => {
   const element: HTMLElement = document.getElementById('sh-flow-editor-content')!;
   element.parentElement!.style.transform = 'scale(1)'

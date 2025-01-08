@@ -8,8 +8,8 @@
           <star-horse-icon iconClass="delete" @click="delApproval(group)"/>
         </div>
       </template>
-      <div class="flow-setting-item">
-        <el-select v-model="group.approveType" filterable clearable default-first-option
+      <div class="flow-setting-item" >
+        <el-select style="margin-bottom: 10px;" v-model="group.approveType" filterable clearable default-first-option
                    @change="changeapproveType(group)">
           <el-option v-for="item in approvals" :key="item.value" :value="item.value" :label="item.name"
                      :disabled="item.disabled && groups.length > 1"

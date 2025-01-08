@@ -38,11 +38,15 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
     const readable = ref<boolean>(false);
     const lintData = ref<any>({});
     const active = ref<boolean>(false);
+    const mapVisible = ref<boolean>(false);
     const setNavable = (flag: boolean) => {
         navable.value = flag;
     }
     const setActive = (flag: boolean) => {
         active.value = flag;
+    }
+    const setMapVisible = (flag: boolean) => {
+        mapVisible.value = flag;
     }
     const setLintData = (data: any) => {
         lintData.value = data;
@@ -147,7 +151,7 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
         refreshMap(true);
     }
     const refreshMap = (autoRefresh: boolean = false) => {
-        if (autoRefresh) {
+        if (autoRefresh && mapVisible.value) {
             updateMap(mapImg);
         }
     }
@@ -201,6 +205,8 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
         navable,
         readable,
         lintData,
+        mapVisible,
+        setMapVisible,
         putNodePrepMap,
         setActive,
         getPrepMap,
