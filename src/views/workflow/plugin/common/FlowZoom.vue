@@ -35,8 +35,9 @@
       v-model="drawer"
       size="500px"
       class="drawer"
-      :append-to-body="true"
-      :modal="false"
+      :show-close="true"
+      :closable="true"
+      @click-outside="drawer = false"
       :with-header="false">
     <div style="height: 100vh">
       <div style="padding: 1px; background-color: #3883fa">
@@ -61,6 +62,7 @@
       </div>
       <star-horse-json-editor
           class="editor"
+          ref="jsonEditorRef"
           language="zh-CN"
           current-mode="view"
           v-model:modelValue="nodeData"/>
@@ -68,12 +70,12 @@
   </el-drawer>
 </template>
 <script setup lang="ts">
+import {computed, nextTick, onActivated, onDeactivated, onMounted, ref} from "vue";
 import {ModelRef} from "vue-demi";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
-import {computed, onActivated, onDeactivated, onMounted, ref} from "vue";
 import {copy, loadData} from "@/api/sh_api.ts";
-import {download, downloadData} from "@/api/star_horse.ts";
+import {downloadData} from "@/api/star_horse.ts";
 import {uuid} from "@/api/system.ts";
 import {warning} from "@/utils/message.ts";
 
@@ -98,6 +100,7 @@ const zoomValue: ModelRef<number> = defineModel("zoomValue")!;
 let scaleEnable = ref<boolean>(false);
 let nodeData = computed(() => flowDesign.node);
 const drawer = ref(false);
+const jsonEditorRef = ref();
 const mapVisibleOperation = () => {
   flowDesign.mapVisible = !flowDesign.mapVisible;
   if (flowDesign.mapVisible) {
@@ -146,8 +149,11 @@ const copyParseJson = async () => {
 const copyJson = async () => {
   copy(JSON.stringify(nodeData.value))
 }
-const viewCode = () => {
+const viewCode = async () => {
   drawer.value = true;
+  await nextTick(() => {
+    jsonEditorRef.value.setEditorContent(nodeData.value);
+  });
 }
 const exportCode = async () => {
   let params = {

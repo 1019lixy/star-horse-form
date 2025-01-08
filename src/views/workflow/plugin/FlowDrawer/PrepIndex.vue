@@ -47,7 +47,7 @@ const onClose = () => {
              :bodyStyle="flowMixin.bodyStyle"
              placement="right"
              :closable="true"
-             @click-outside="console"
+             @click-outside="onClose"
              v-model="activePanel"
              @close="onClose">
     <template #header>

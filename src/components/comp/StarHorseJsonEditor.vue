@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {markRaw, nextTick, onBeforeUnmount, onMounted, ref} from "vue";
+import {markRaw, nextTick, onActivated, onBeforeUnmount, onMounted, ref, watch} from "vue";
 import JsonEditor from "jsoneditor";
 import "jsoneditor/dist/jsoneditor.min.css";
 import {ModelRef} from "vue-demi";
@@ -101,7 +101,6 @@ const init = () => {
   editor.value = markRaw(new JsonEditor(
       jsonEditorRef.value,
       finalOptions,
-      json.value
   ));
 }
 onMounted(() => {
@@ -113,9 +112,14 @@ onBeforeUnmount(() => {
   editor.value?.destroy();
   editor.value = null;
 })
+defineExpose({
+  editor,
+  setEditorContent,
+})
 </script>
 
 <template>
+
   <div class="container" :class="{ 'full-screen-container': isFullScreen }">
     <div ref="jsonEditorRef" class="json-editor"/>
     <div
