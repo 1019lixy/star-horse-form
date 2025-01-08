@@ -2,19 +2,17 @@
   <div class="flow-row">
     <div class="flow-box">
       <div class="flow-item" :class="{ 'flow-item-active': currentNode.id==node.id }"
-           @click="!readable && open(flowApproverSettingRef, node)">
+           @click.stop="selectNode">
         <div class="flow-node-box" :class="{ 'has-error': node.error }">
-          <div class="node-name" :class="nameClass(node, node.type == FlowNodeEnums.APPROVER_NODE ? 'node-sp' : 'node-transact')">
+          <div class="node-name"
+               :class="nameClass(node, node.type == FlowNodeEnums.APPROVER_NODE ? 'node-sp' : 'node-transact')">
             <EditName v-model:nodeName="node.name"/>
             <star-horse-icon icon-class="audit_node" style="margin-left: 10px"/>
           </div>
           <div class="node-main">
             <span v-if="node.content">
               {{ node.type == FlowNodeEnums.APPROVER_NODE ? '审批人' : '办理人' }}:
-              <el-tooltip placement="top">
-                <template v-slot:title>
-                  <span>{{ node.content }}</span>
-                </template>
+              <el-tooltip placement="top" :content="node.content">
                 {{ node.content }}
               </el-tooltip>
             </span>
@@ -35,25 +33,22 @@
       <!-- 如果子节点是意见分支,则只能添加一个意见分支 -->
       <FlowAddNode :node="node" :nodeType="node.type" :readable="readable"/>
     </div>
-    <FlowApproverSetting ref="flowApproverSettingRef" @close="flowMixin.isActive = false"/>
   </div>
 </template>
 <script setup lang="ts">
-import {flowMixin, open} from '@/views/workflow/plugin/mixins/flowMixin.ts';
 import FlowAddNode from '@/views/workflow/plugin/FlowNode/AddNode.vue';
-import FlowApproverSetting from '@/views/workflow/plugin/FlowDrawer/ApproverPrep.vue';
 import EditName from '@/views/workflow/plugin/common/EditName.vue';
 import DeleteConfirm from '@/views/workflow/plugin/common/DeleteConfirm.vue';
-import {computed, ref,onMounted} from "vue";
+import {computed, onMounted, ref} from "vue";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {FlowNodeEnums} from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
 import {closeLoad} from "@/api/sh_api.ts";
+
 defineOptions({
-  name: 'FlowNodeApprover',
+  name: 'ApprovalNode',
 });
-const flowApproverSettingRef = ref();
 const flowDesign = useFlowDesign(piniaInstance);
 let currentNode = computed(() => flowDesign.currentNode);
 const props = defineProps({
@@ -68,6 +63,11 @@ const props = defineProps({
     default: false,
   },
 });
+
+const emits = defineEmits(['selectNode']);
+const selectNode = () => {
+  emits('selectNode', props.node);
+}
 let nameClass = computed(() => {
   return (node, defaultStyle) => {
     if (node.status == -1) {
@@ -81,11 +81,11 @@ let nameClass = computed(() => {
   };
 });
 let deleteable = ref<boolean>(false);
-const init=()=>{
+const init = () => {
   closeLoad();
   flowDesign.refreshMap();
 }
-onMounted(()=>{
+onMounted(() => {
   init();
 })
 </script>

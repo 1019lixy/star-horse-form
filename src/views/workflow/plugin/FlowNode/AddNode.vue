@@ -28,7 +28,7 @@ import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {apiInstance, createCondition} from "@/api/sh_api.ts";
 import {SearchParams} from "@/components/types/Params";
-import {nodePrepList} from "@/views/workflow/plugin/util/nodePreps.ts";
+import {nodeInfoList, nodePrepList} from "@/views/workflow/plugin/util/nodePreps.ts";
 import {FlowNodeEnums} from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
 
 const nodeRef = ref();
@@ -63,7 +63,7 @@ const suggestBranchEnable = computed(() => flowDesign.suggestBranchEnable);
 const parallelBranchEnable = computed(() => flowDesign.parallelBranchEnable);
 // const node: ModelRef<any> = defineModel("node");
 let commonPreps = computed(() => flowDesign.commonPreps);
-let nodeList = computed(() => flowDesign.nodeList);
+let nodeList = nodeInfoList();
 const checkVisible = (item: any) => {
   //nodeType == 1 && suggestBranchEnable
   if (item.nodeCode == FlowNodeEnums.SUGGEST_NODE) {

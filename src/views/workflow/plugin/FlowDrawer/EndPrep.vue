@@ -17,11 +17,17 @@ import piniaInstance from "@/store";
 import {ModelRef} from "vue-demi";
 
 defineOptions({
-  name: 'WritePrep',
+  name: 'EndPrep',
 })
 let node: ModelRef<any> = defineModel("activeData");
 
 const flowDesign = useFlowDesign(piniaInstance);
+
+const showDrawer = (snode: any) => {
+  console.log(snode);
+
+  node.value = snode;
+}
 const onClose = () => {
   flowDesign.setActive(false);
 }
@@ -38,5 +44,9 @@ const onSave = () => {
     flowDesign.flowUpdateNode({currNode: node.value, field: 'content', value: null});
     flowDesign.flowUpdateNode({currNode: node.value, field: 'error', value: false});
   }
+  onClose();
 }
+defineExpose({
+  showDrawer
+})
 </script>

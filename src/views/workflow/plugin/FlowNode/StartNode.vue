@@ -1,7 +1,7 @@
 <template>
   <div class="flow-row">
     <div class="flow-box">
-      <div class="flow-item">
+      <div class="flow-item" @click.stop="selectNode">
         <div class="node-name node-start">开始</div>
       </div>
       <FlowAddNode :node="node" :nodeType="FlowNodeEnums.WRITE_NODE" :readable="readable"/>
@@ -26,5 +26,8 @@ const props = defineProps({
     default: true,
   }
 });
-
+const emits=defineEmits(['selectNode']);
+const selectNode = () => {
+  emits('selectNode',props.node);
+}
 </script>

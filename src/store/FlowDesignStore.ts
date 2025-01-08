@@ -14,9 +14,11 @@ import {FlowNodeEnums} from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {apiInstance, createCondition} from "@/api/sh_api.ts";
 import {SearchParams} from "@/components/types/Params";
+import {nodeInfoList} from "@/views/workflow/plugin/util/nodePreps.ts";
 
 const dataUrl: ApiUrls = apiInstance("userdb-manage", "userdb/formInstance/shFlowNode/idFlowNode/337537414606095357");
 const prepUrl: ApiUrls = apiInstance("userdb-manage", "userdb/formInstance/shNodeMappingPreps/idNodeMappingPrep/337537414606095357");
+
 export const useFlowDesign = defineStore("flowDesignStore", () => {
 
     const nodeList = ref<any>([]);
@@ -35,8 +37,12 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
     const navable = ref<boolean>(true);
     const readable = ref<boolean>(false);
     const lintData = ref<any>({});
+    const active = ref<boolean>(false);
     const setNavable = (flag: boolean) => {
         navable.value = flag;
+    }
+    const setActive = (flag: boolean) => {
+        active.value = flag;
     }
     const setLintData = (data: any) => {
         lintData.value = data;
@@ -58,8 +64,9 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
      * 选中
      * @param node
      */
-    const flowSetCurrentNode = (node: any) => {
+    const activeNode = (node: any) => {
         currentNode.value = node;
+        active.value = true;
     }
     /**
      * 设置表单信息
@@ -179,25 +186,12 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
     }
 
     const init = () => {
-        const innerInit = async () => {
-            let res = await dataUrl.queryConditionAction!([]);
-            nodeList.value = res.data;
-            let params: SearchParams[] = [
-                createCondition("attrType", "common")
-            ];
-            res = await prepUrl.queryConditionAction!(params);
-            let temp: any = {};
-            res.data?.forEach((item: any) => {
-                temp[item.attrName] = temp[item.defaultValue];
-            });
-            commonPreps.value = temp;
-        }
-        innerInit();
-
+        refreshMap(true);
     }
     return {
         currentNode,
         nodeList,
+        active,
         commonPreps,
         node,
         mapImg,
@@ -208,12 +202,13 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
         readable,
         lintData,
         putNodePrepMap,
+        setActive,
         getPrepMap,
         setLintData,
         setNavable,
         setReadable,
         flowSetFormInfo,
-        flowSetCurrentNode,
+        activeNode,
         flowSetNode,
         flowAddNode,
         flowAddBranch,

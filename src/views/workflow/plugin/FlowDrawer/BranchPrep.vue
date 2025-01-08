@@ -1,26 +1,20 @@
 <script setup lang="ts">
 import {flowMixin} from '@/views/workflow/plugin/mixins/flowMixin.ts';
 import {uuid} from "@/api/system.ts";
-import EditName from '@/views/workflow/plugin/common/EditName.vue';
 import FlowDrawerFooter from '@/views/workflow/plugin/common/DrawerFooter.vue';
 import {onMounted, ref} from "vue";
-import {scale} from "@/views/workflow/plugin/util/deviceUtil.ts";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 import {dictData, searchMatchList} from "@/api/sh_api.ts";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {SelectOption} from "@/components/types/SearchProps";
+import {ModelRef} from "vue-demi";
 
 defineOptions({
   name: "BranchPrep",
 })
-const emits = defineEmits(["close"]);
-let node = ref<any>({});
-let visible = ref<boolean>(false);
-let headerStyle = ref<any>({
-  'background-color': '#5ccc98',
-  'border-radius': '0px 0px 0 0',
-});
+let node :ModelRef<any>= defineModel("activeData");
+
 // 等级
 let levelOptions = ref<Array<any>>([]);
 let branchTypes = ref<SelectOption[]>([]);
@@ -59,11 +53,8 @@ let flowValueTypes = ref<Array<any>>([
 ]);
 // 表单数据
 const flowDesign = useFlowDesign(piniaInstance);
-const afterVisibleChange = (val: any) => {
-  console.log('visible', val);
-}
 const showDrawer = (snode: any, routeNode: any) => {
-  visible.value = true;
+
   node.value = snode;
   // 等级
   if (snode.attr.showPriorityLevel) {
@@ -75,8 +66,7 @@ const showDrawer = (snode: any, routeNode: any) => {
   }
 }
 const onClose = () => {
-  visible.value = false;
-  emits('close');
+  flowDesign.setActive(false);
 }
 const handleChange = () => {
 }
@@ -171,8 +161,8 @@ const onSave = () => {
     console.info('content', content);
     flowDesign.flowUpdateNode({currNode: node.value, field: 'error', value: false});
     flowDesign.flowUpdateNode({currNode: node.value, field: 'content', value: content});
-    onClose();
   }
+  onClose();
 }
 const init = async () => {
   branchTypes.value = await dictData("flow_branch_type")
@@ -185,147 +175,127 @@ defineExpose({
 })
 </script>
 <template>
-  <el-drawer
-      v-if="node.attr"
-      :width="scale.isMobile() ? '100%' : '40%'"
-      :headerStyle="headerStyle"
-      :bodyStyle="flowMixin.bodyStyle"
-      placement="right"
-      :closable="true"
-      v-model="visible"
-      :after-visible-change="afterVisibleChange"
-      @close="onClose"
-  >
-    <template #header>
-      <div class="drawer-header">
-        <star-horse-icon icon-class="branch_node" color="#fff" style="margin-left: 10px"/>
-        <span class="flow-drawer-title">
-        <EditName v-model:nodeName="node.name"/>
-      </span>
+  <div class="flow-setting-module">
+    <div class="flow-setting-content">
+      <div v-if="node.attr.showPriorityLevel" class="flow-setting-item">
+        <p class="flow-setting-item-title">分支等级</p>
+        <el-select v-model="node.attr.priorityLevel" :size="flowMixin.size" placeholder="请选择等级">
+          <el-option v-for="item in levelOptions" :key="item.value" :label="item.label" :value="item.value"/>
+        </el-select>
       </div>
-    </template>
-    <div class="flow-setting-module">
-      <div class="flow-setting-content">
-        <div v-if="node.attr.showPriorityLevel" class="flow-setting-item">
-          <p class="flow-setting-item-title">分支等级</p>
-          <el-select v-model="node.attr.priorityLevel" :size="flowMixin.size" placeholder="请选择等级">
-            <el-option v-for="item in levelOptions" :key="item.value" :label="item.label" :value="item.value"/>
-          </el-select>
-        </div>
-        <div class="flow-setting-item">
-          <p class="flow-setting-item-title">分支类型</p>
-          <el-radio-group v-model="node.attr.branchType" :size="flowMixin.size">
-            <el-radio :value="branchType.value" v-for="branchType in branchTypes" :key="branchType.value">
-              {{ branchType.name }}
-            </el-radio>
-          </el-radio-group>
-        </div>
-        <el-divider/>
-        <div v-if="node.attr.branchType == 'rule'" class="flow-setting-item">
-          <p class="flow-setting-item-title">条件规则</p>
-          <div class="flow-setting-condition-box">
-            <div v-for="(group, i) in node.conditionGroup" :key="i">
-              <div class="flow-setting-condition-group">
-                <div class="flow-setting-condition-item" v-for="(condition, k) in group.conditions" :key="k">
-                  <el-row gutter="5">
-                    <el-col :span="6">
-                      <el-select v-model="condition.columnValue" :size="flowMixin.size"
-                                 placeholder="字段" filterable clearable
-                                 @change="handleChange">
-                        <el-option-group label="基础字段">
-                          <el-option :value="column.value" v-for="(column, i) in columns" :key="i">{{
-                              column.label
-                            }}
-                          </el-option>
-                        </el-option-group>
-                        <el-option-group label="表单字段">
-                          <el-option :value="column.value" v-for="(column, i) in formColumns" :key="i">{{
-                              column.label
-                            }}
-                          </el-option>
-                        </el-option-group>
-                      </el-select>
-                    </el-col>
-                    <el-col :span="5">
-                      <!-- 判断(操作)符 -->
-                      <el-select v-model="condition.optType" :size="flowMixin.size"
-                                 placeholder="操作符"
-                                 @change="handleChange">
-                        <el-option :value="optType.value" :label="optType.name" v-for="optType in searchMatchList()"
-                                   :key="optType.value"/>
-                      </el-select>
-                    </el-col>
-                    <el-col :span="5">
-                      <!-- 值类型 -->
-                      <el-select v-model="condition.valueType" :size="flowMixin.size"
-                                 @change="condition.conditionValue = []"
-                                 placeholder="值类型"
-                      >
-                        <el-option :value="valueType.value" :label="valueType.label" v-for="valueType in valueTypes"
-                                   :key="valueType.value"/>
-                      </el-select>
-                    </el-col>
-                    <el-col :span="6">
-                      <!-- 动态值 -->
-                      <el-select
-                          v-if="condition.valueType == 2"
-                          :size="flowMixin.size"
-                          v-model="condition.conditionValue">
-                        <el-option :value="valueType.value" :label="valueType.label"
-                                   v-for="valueType in dynamicValueTypes" :key="valueType.value"/>
-                      </el-select>
+      <div class="flow-setting-item">
+        <p class="flow-setting-item-title">分支类型</p>
+        <el-radio-group v-model="node.attr.branchType" :size="flowMixin.size">
+          <el-radio :value="branchType.value" v-for="branchType in branchTypes" :key="branchType.value">
+            {{ branchType.name }}
+          </el-radio>
+        </el-radio-group>
+      </div>
+      <el-divider/>
+      <div v-if="node.attr.branchType == 'rule'" class="flow-setting-item">
+        <p class="flow-setting-item-title">条件规则</p>
+        <div class="flow-setting-condition-box">
+          <div v-for="(group, i) in node.conditionGroup" :key="i">
+            <div class="flow-setting-condition-group">
+              <div class="flow-setting-condition-item" v-for="(condition, k) in group.conditions" :key="k">
+                <el-row gutter="5">
+                  <el-col :span="6">
+                    <el-select v-model="condition.columnValue" :size="flowMixin.size"
+                               placeholder="字段" filterable clearable
+                               @change="handleChange">
+                      <el-option-group label="基础字段">
+                        <el-option :value="column.value" v-for="(column, i) in columns" :key="i">{{
+                            column.label
+                          }}
+                        </el-option>
+                      </el-option-group>
+                      <el-option-group label="表单字段">
+                        <el-option :value="column.value" v-for="(column, i) in formColumns" :key="i">{{
+                            column.label
+                          }}
+                        </el-option>
+                      </el-option-group>
+                    </el-select>
+                  </el-col>
+                  <el-col :span="5">
+                    <!-- 判断(操作)符 -->
+                    <el-select v-model="condition.optType" :size="flowMixin.size"
+                               placeholder="操作符"
+                               @change="handleChange">
+                      <el-option :value="optType.value" :label="optType.name" v-for="optType in searchMatchList()"
+                                 :key="optType.value"/>
+                    </el-select>
+                  </el-col>
+                  <el-col :span="5">
+                    <!-- 值类型 -->
+                    <el-select v-model="condition.valueType" :size="flowMixin.size"
+                               @change="condition.conditionValue = []"
+                               placeholder="值类型"
+                    >
+                      <el-option :value="valueType.value" :label="valueType.label" v-for="valueType in valueTypes"
+                                 :key="valueType.value"/>
+                    </el-select>
+                  </el-col>
+                  <el-col :span="6">
+                    <!-- 动态值 -->
+                    <el-select
+                        v-if="condition.valueType == 2"
+                        :size="flowMixin.size"
+                        v-model="condition.conditionValue">
+                      <el-option :value="valueType.value" :label="valueType.label"
+                                 v-for="valueType in dynamicValueTypes" :key="valueType.value"/>
+                    </el-select>
 
-                      <!-- 流程值 -->
-                      <el-select
-                          v-else-if="condition.valueType == 3"
-                          :size="flowMixin.size"
-                          v-model="condition.conditionValue">
-                        <el-option :value="valueType.value" :label="valueType.label"
-                                   v-for="valueType in flowValueTypes" :key="valueType.value"/>
-                      </el-select>
+                    <!-- 流程值 -->
+                    <el-select
+                        v-else-if="condition.valueType == 3"
+                        :size="flowMixin.size"
+                        v-model="condition.conditionValue">
+                      <el-option :value="valueType.value" :label="valueType.label"
+                                 v-for="valueType in flowValueTypes" :key="valueType.value"/>
+                    </el-select>
 
-                      <!-- 数据源 -->
-                      <el-select
-                          v-else-if="condition.valueType == 4"
-                          :size="flowMixin.size"
-                          v-model="condition.conditionValue">
-                        <el-option :value="valueType.value" :label="valueType.label" v-for="valueType in columns"
-                                   :key="valueType.value"/>
-                      </el-select>
-                      <!-- 固定 -->
-                      <el-input v-else v-model="condition.conditionValue" :size="flowMixin.size"/>
-                    </el-col>
-                    <el-col :span="2">
-                      <star-horse-icon @click.stop="delCondition(1, group, condition)" iconClass="delete"
-                                       color="var(--el-color-danger)"/>
-                    </el-col>
-                  </el-row>
-                </div>
-                <div class="flow-setting-condition-add" @click="addCondition(1, group)">
-                  <star-horse-icon iconClass="plus"/>
-                  <span style="margin-left: 5px">且条件</span>
-                </div>
+                    <!-- 数据源 -->
+                    <el-select
+                        v-else-if="condition.valueType == 4"
+                        :size="flowMixin.size"
+                        v-model="condition.conditionValue">
+                      <el-option :value="valueType.value" :label="valueType.label" v-for="valueType in columns"
+                                 :key="valueType.value"/>
+                    </el-select>
+                    <!-- 固定 -->
+                    <el-input v-else v-model="condition.conditionValue" :size="flowMixin.size"/>
+                  </el-col>
+                  <el-col :span="2">
+                    <star-horse-icon @click.stop="delCondition(1, group, condition)" iconClass="delete"
+                                     color="var(--el-color-danger)"/>
+                  </el-col>
+                </el-row>
               </div>
-              <div v-if="node.conditionGroup.length > 1 && i != node.conditionGroup.length - 1"
-                   class="flow-setting-condition-group-connector">或
+              <div class="flow-setting-condition-add" @click="addCondition(1, group)">
+                <star-horse-icon iconClass="plus"/>
+                <span style="margin-left: 5px">且条件</span>
               </div>
             </div>
-            <div class="flow-setting-condition-add" @click="addGroup(1)">
-              <star-horse-icon iconClass="plus"/>
-              <span>或条件</span>
+            <div v-if="node.conditionGroup.length > 1 && i != node.conditionGroup.length - 1"
+                 class="flow-setting-condition-group-connector">或
             </div>
           </div>
-        </div>
-        <div v-else-if="node.attr.branchType == 'formula'" class="flow-setting-item">
-          <p class="flow-setting-item-title">公式</p>
-        </div>
-        <div v-else class="flow-setting-item">
-          <p class="flow-setting-item-title">其他</p>
+          <div class="flow-setting-condition-add" @click="addGroup(1)">
+            <star-horse-icon iconClass="plus"/>
+            <span>或条件</span>
+          </div>
         </div>
       </div>
+      <div v-else-if="node.attr.branchType == 'formula'" class="flow-setting-item">
+        <p class="flow-setting-item-title">公式</p>
+      </div>
+      <div v-else class="flow-setting-item">
+        <p class="flow-setting-item-title">其他</p>
+      </div>
     </div>
-    <FlowDrawerFooter @close="onClose" @save="onSave"/>
-  </el-drawer>
+  </div>
+  <FlowDrawerFooter @close="onClose" @save="onSave"/>
 </template>
 <style lang="scss" scoped>
 :deep {

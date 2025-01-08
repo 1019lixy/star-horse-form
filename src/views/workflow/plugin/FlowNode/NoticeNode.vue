@@ -1,8 +1,7 @@
 <template>
   <div class="flow-row">
     <div class="flow-box">
-      <div class="flow-item" :class="{ 'flow-item-active': currentNode.id==node.id }"
-           @click="!readable && open(flowNoticeSettingRef, node)">
+      <div class="flow-item" :class="{ 'flow-item-active': currentNode.id==node.id }" @click.stop="selectNode">
         <div class="flow-node-box" :class="{ 'has-error': node.error }">
           <div class="node-name" :class="nameClass(node, 'node-tz')">
             <EditName v-model:nodeName="node.name"/>
@@ -20,13 +19,10 @@
       </div>
       <FlowAddNode :node="node" :nodeType="FlowNodeEnums.EVENT_NODE" :readable="readable"/>
     </div>
-    <FlowNoticeSetting ref="flowNoticeSettingRef" @close="close"/>
   </div>
 </template>
 <script setup lang="ts">
-import {close, open} from '@/views/workflow/plugin/mixins/flowMixin.ts';
 import FlowAddNode from '@/views/workflow/plugin/FlowNode/AddNode.vue';
-import FlowNoticeSetting from '@/views/workflow/plugin/FlowDrawer/NoticePrep.vue';
 import EditName from '@/views/workflow/plugin/common/EditName.vue';
 import DeleteConfirm from '@/views/workflow/plugin/common/DeleteConfirm.vue';
 import {computed, onMounted, ref} from "vue";
@@ -39,7 +35,6 @@ import {closeLoad} from "@/api/sh_api.ts";
 defineOptions({
   name: 'FlowNodeNotice',
 });
-const flowNoticeSettingRef = ref();
 const flowDesign = useFlowDesign(piniaInstance);
 let currentNode = computed(() => flowDesign.currentNode);
 const props = defineProps({
@@ -54,6 +49,10 @@ const props = defineProps({
     default: false,
   }
 });
+const emits=defineEmits(['selectNode']);
+const selectNode = () => {
+  emits('selectNode',props.node);
+}
 let nameClass = computed(() => {
   return (node, defaultStyle) => {
     if (node.status == -1) {
@@ -66,11 +65,11 @@ let nameClass = computed(() => {
     };
   };
 });
-const init=()=>{
+const init = () => {
   closeLoad();
   flowDesign.refreshMap();
 }
-onMounted(()=>{
+onMounted(() => {
   init();
 })
 </script>

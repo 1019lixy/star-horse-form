@@ -1,7 +1,55 @@
 import {FlowNodeEnums} from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
 import {uuid} from "@/api/system.ts";
 
-
+const nodeInfoList = () => {
+    return [
+        {
+            "nodeName": "分支节点",
+            "nodeCode": "BranchNode",
+            "nodeIcon": "branch_node",
+        },
+        {
+            "nodeName": "意见分支",
+            "nodeCode": "SuggestNode",
+            "nodeIcon": "text",
+        },
+        {
+            "nodeName": "并行分支",
+            "nodeCode": "ParallelNode",
+            "nodeIcon": "parallel_node",
+        },
+        {
+            "nodeName": "抄送节点",
+            "nodeCode": "CopyerNode",
+            "nodeIcon": "copy_node",
+        },
+        {
+            "nodeName": "任务节点",
+            "nodeCode": "TaskNode",
+            "nodeIcon": "task",
+        },
+        {
+            "nodeName": "事件节点",
+            "nodeCode": "EventNode",
+            "nodeIcon": "event_node",
+        },
+        {
+            "nodeName": "通知节点",
+            "nodeCode": "NoticeNode",
+            "nodeIcon": "copy_node",
+        },
+        {
+            "nodeName": "审批节点",
+            "nodeCode": "ApprovalNode",
+            "nodeIcon": "audit_node",
+        },
+        {
+            "nodeName": "办理节点",
+            "nodeCode": "ApprovalNode",
+            "nodeIcon": "handle_node",
+        }
+    ];
+}
 /**
  * 添加审批节点 ||
  */
@@ -413,5 +461,5 @@ const nodePrepList: any = {
     [FlowNodeEnums.TASK_NODE]: taskNodePreps(),
 }
 export {
-    nodePrepList
+    nodePrepList, nodeInfoList
 }

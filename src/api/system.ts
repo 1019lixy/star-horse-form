@@ -21,7 +21,7 @@ const configStore = GlobalConfig(piniaInstance);
  * UUID
  */
 export function uuid() {
-    return uuidv4();
+    return "sh"+uuidv4();
 }
 
 /**

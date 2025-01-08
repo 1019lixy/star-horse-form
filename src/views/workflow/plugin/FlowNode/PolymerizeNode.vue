@@ -1,7 +1,7 @@
 <template>
   <div class="flow-row">
     <div class="flow-box">
-      <div class="flow-item flow-node-branch">
+      <div class="flow-item flow-node-branch" @click.stop="selectNode">
         <div class="flow-branch-suggest">
           <div class="node-name">
             <EditName v-model:nodeName="node.name" style="width: 90%"/>
@@ -13,20 +13,18 @@
       <!-- 如果子节点是意见分支,则只能添加一个意见分支 -->
       <FlowAddNode :node="node" :nodeType="node.type" :readable="readable"/>
     </div>
-    <FlowApproverSetting ref="flowApproverSetting" @close="close"/>
   </div>
 </template>
 <script setup lang="ts">
-import {close} from '@/views/workflow/plugin/mixins/flowMixin.ts';
 import FlowAddNode from '@/views/workflow/plugin/FlowNode/AddNode.vue';
 import EditName from '@/views/workflow/plugin/common/EditName.vue';
-import {onMounted, ref} from "vue";
+import {onMounted} from "vue";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {closeLoad} from "@/api/sh_api.ts";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
+import {warning} from "@/utils/message.ts";
 
-const flowApproverSetting = ref();
 const flowDesign = useFlowDesign(piniaInstance);
 const props = defineProps({
   node: {
@@ -40,11 +38,16 @@ const props = defineProps({
     default: false,
   }
 });
-const init=()=>{
+const emits=defineEmits(['selectNode']);
+const selectNode = () => {
+  warning("该节点无法编辑");
+  // emits('selectNode',props.node);
+}
+const init = () => {
   closeLoad();
   flowDesign.refreshMap();
 }
-onMounted(()=>{
+onMounted(() => {
   init();
 })
 </script>

@@ -5,13 +5,14 @@
         <el-button icon="plus">添加条件</el-button>
       </div>
       <div class="meet-node"></div>
-      <div class="flow-col" v-for="(conditionNode, index) in node.conditionNodes" :key="conditionNode.id">
+      <div class="flow-col" v-for="(conditionNode, index) in node.conditionNodes" :key="conditionNode.id"
+      >
         <div class="clear-left-border" v-if="index == 0"></div>
         <div class="clear-right-border" v-if="node.conditionNodes.length - 1 == index"></div>
         <div class="flow-row">
           <div class="flow-box">
             <div class="flow-item flow-node-branch" :class="{ 'flow-item-active': currentNode.id==node.id }"
-                 @click="!readable && open(flowBranchSettingRef, conditionNode)">
+                 @click.stop="!readable&&selectNode(conditionNode)">
               <div class="flow-node-box" :class="{ 'has-error': conditionNode.error }">
                 <div class="node-name">
                   <EditName v-model:nodeName="conditionNode.name"/>
@@ -46,24 +47,21 @@
     <div class="after-branch-btn">
       <!-- <FlowAddNode :node="node" :nodeType="4" :read="read" /> -->
     </div>
-    <FlowBranchSetting ref="flowBranchSettingRef" @close="close"/>
   </div>
 </template>
 <script setup lang="ts">
-import {addBranch, close, open} from '@/views/workflow/plugin/mixins/flowMixin.ts';
+import {addBranch} from '@/views/workflow/plugin/mixins/flowMixin.ts';
 import FlowNode from '@/views/workflow/plugin/FlowNode/FlowNode.vue';
 import FlowAddNode from '@/views/workflow/plugin/FlowNode/AddNode.vue';
-import FlowBranchSetting from '@/views/workflow/plugin/FlowDrawer/BranchPrep.vue';
 import EditName from '@/views/workflow/plugin/common/EditName.vue';
 import DeleteConfirm from '@/views/workflow/plugin/common/DeleteConfirm.vue';
-import {computed, onMounted, ref} from "vue";
+import {computed, onMounted} from "vue";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 import {FlowNodeEnums} from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
 import {closeLoad} from "@/api/sh_api.ts";
 
-const flowBranchSettingRef = ref();
 const flowDesign = useFlowDesign(piniaInstance);
 let currentNode = computed(() => flowDesign.currentNode);
 const props = defineProps({
@@ -78,11 +76,15 @@ const props = defineProps({
     default: false,
   },
 });
-const init=()=>{
+const emits = defineEmits(['selectNode']);
+const selectNode = (node: any) => {
+  emits('selectNode', node, props.node);
+}
+const init = () => {
   closeLoad();
   flowDesign.refreshMap();
 }
-onMounted(()=>{
+onMounted(() => {
   init();
 })
 </script>

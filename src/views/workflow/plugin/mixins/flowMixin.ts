@@ -16,18 +16,18 @@ export function uuid() {
  * @param {*} routeNode
  */
 export function open(name: any, node: any, routeNode: any) {
-    flowDesign.flowSetCurrentNode(node);
+    flowDesign.activeNode(node);
     // 高亮
     // flowMixin.isActive = true;
     //  打开配置
-    name.showDrawer(node, routeNode);
+    // name.showDrawer(node, routeNode);
 }
 
 /**
  * 关闭是取消当前设定的节点
  */
 export function close() {
-    flowDesign.flowSetCurrentNode({});
+    flowDesign.setActive(false);
 }
 
 /**

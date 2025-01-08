@@ -1,7 +1,7 @@
 <template>
   <div class="flow-row">
     <div class="flow-box">
-      <div class="flow-item">
+      <div class="flow-item" @click.stop="selectNode">
         <div class="node-name" :class="nameClass(node, 'node-temmi')">
           分隔
           <div v-if="!readable" class="close-icon">
@@ -36,6 +36,11 @@ const props = defineProps({
     default: false,
   }
 });
+
+const emits=defineEmits(['selectNode']);
+const selectNode = () => {
+  emits('selectNode',props.node);
+}
 let nameClass = computed(() => {
   return (node, defaultStyle) => {
     if (node.status == -1) {

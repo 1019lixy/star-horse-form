@@ -1,8 +1,7 @@
 <template>
   <div class="flow-row">
     <div class="flow-box">
-      <div class="flow-item" :class="{ 'flow-item-active': currentNode.id==node.id }"
-           @click="!readable && open(flowEventSettingRef, node)">
+      <div class="flow-item" :class="{ 'flow-item-active': currentNode.id==node.id }" @click.stop="selectNode">
         <div class="node-name" :class="nameClass(node, 'node-temmi')">
           {{ node.name }}
           <div v-if="!readable" class="close-icon">
@@ -12,21 +11,19 @@
       </div>
       <FlowAddNode :node="node" :nodeType="node.type" :readable="readable"/>
     </div>
-    <FlowEventSetting ref="flowEventSettingRef" @close="close"/>
   </div>
 </template>
 <script setup lang="ts">
-import {close, delNode, open} from '@/views/workflow/plugin/mixins/flowMixin.ts';
+import {delNode} from '@/views/workflow/plugin/mixins/flowMixin.ts';
 import FlowAddNode from '@/views/workflow/plugin/FlowNode/AddNode.vue';
-import FlowEventSetting from '@/views/workflow/plugin/FlowDrawer/EventPrep.vue';
-import {computed, ref,onMounted} from "vue";
+import {computed, onMounted, ref} from "vue";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 import {closeLoad} from "@/api/sh_api.ts";
+
 defineOptions({
   name: 'FlowNodeEvent',
 });
-const flowEventSettingRef = ref();
 const flowDesign = useFlowDesign(piniaInstance);
 let currentNode = computed(() => flowDesign.currentNode);
 const props = defineProps({
@@ -41,6 +38,10 @@ const props = defineProps({
     default: false,
   }
 });
+const emits=defineEmits(['selectNode']);
+const selectNode = () => {
+  emits('selectNode',props.node);
+}
 let nameClass = computed(() => {
   return (node, defaultStyle) => {
     if (node.status == -1) {
@@ -53,11 +54,11 @@ let nameClass = computed(() => {
     };
   };
 });
-const init=()=>{
+const init = () => {
   closeLoad();
   flowDesign.refreshMap();
 }
-onMounted(()=>{
+onMounted(() => {
   init();
 })
 </script>

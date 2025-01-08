@@ -12,6 +12,7 @@
 <script setup lang="ts">
 import FlowDrawerFooter from '@/views/workflow/plugin/common/DrawerFooter.vue';
 import AuthForm from '@/views/workflow/plugin/common/AuthForm.vue';
+import {ref} from "vue";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 import {ModelRef} from "vue-demi";
@@ -20,8 +21,10 @@ defineOptions({
   name: 'WritePrep',
 })
 let node: ModelRef<any> = defineModel("activeData");
+let visible = ref<boolean>(false);
 
 const flowDesign = useFlowDesign(piniaInstance);
+
 const onClose = () => {
   flowDesign.setActive(false);
 }
@@ -38,5 +41,6 @@ const onSave = () => {
     flowDesign.flowUpdateNode({currNode: node.value, field: 'content', value: null});
     flowDesign.flowUpdateNode({currNode: node.value, field: 'error', value: false});
   }
+
 }
 </script>

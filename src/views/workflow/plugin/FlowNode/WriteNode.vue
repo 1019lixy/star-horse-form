@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import {close, open} from '@/views/workflow/plugin/mixins/flowMixin.ts';
 import FlowAddNode from '@/views/workflow/plugin/FlowNode/AddNode.vue';
-import FlowWriteSetting from '@/views/workflow/plugin/FlowDrawer/WritePrep.vue';
 import EditName from '@/views/workflow/plugin/common/EditName.vue';
 import DeleteConfirm from '@/views/workflow/plugin/common/DeleteConfirm.vue';
-import {computed, onMounted, ref} from "vue";
+import {computed, onMounted} from "vue";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
@@ -28,7 +26,10 @@ const props = defineProps({
     default: false,
   }
 });
-const flowWriteSettingRef = ref();
+const emits=defineEmits(['selectNode']);
+const selectNode = () => {
+  emits('selectNode',props.node);
+}
 let nameClass = computed(() => {
   return (node, defaultStyle) => {
     if (node.status == -1) {
@@ -52,8 +53,7 @@ onMounted(() => {
 <template>
   <div class="flow-row">
     <div class="flow-box">
-      <div class="flow-item" :class="{ 'flow-item-active': currentNode.id==node.id }"
-           @click="!readable && open(flowWriteSettingRef, node)">
+      <div class="flow-item" :class="{ 'flow-item-active': currentNode.id==node.id }" @click.stop="selectNode">
         <div class="flow-node-box" :class="{ 'has-error': node.error }">
           <div class="node-name" :class="nameClass(node, 'node-fill')">
             <EditName v-model:nodeName="node.name"/>
@@ -62,10 +62,7 @@ onMounted(() => {
           <div class="node-main">
             <span v-if="node.content">
               表单权限:
-              <el-tooltip placement="top">
-                <template #content>
-                  <span>{{ node.content }}</span>
-                </template>
+              <el-tooltip placement="top" :content="node.content">
                 {{ node.content }}
               </el-tooltip>
             </span>
@@ -83,11 +80,10 @@ onMounted(() => {
       </div>
       <FlowAddNode :node="node" :nodeType="FlowNodeEnums.APPLY_NODE" :readable="readable"/>
     </div>
-    <FlowWriteSetting ref="flowWriteSettingRef" @close="close"/>
   </div>
 </template>
 <style lang="scss" scoped>
-.node-name  {
+.node-name {
   &:before {
     content: "";
     top: 0 !important;

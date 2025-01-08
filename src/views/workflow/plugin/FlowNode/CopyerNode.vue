@@ -1,22 +1,19 @@
 <script setup lang="ts">
-import {close, open,} from '@/views/workflow/plugin/mixins/flowMixin.ts';
 import FlowAddNode from '@/views/workflow/plugin/FlowNode/AddNode.vue';
-import CopyerPrep from '@/views/workflow/plugin/FlowDrawer/CopyerPrep.vue';
 import EditName from '@/views/workflow/plugin/common/EditName.vue';
 import DeleteConfirm from '@/views/workflow/plugin/common/DeleteConfirm.vue';
-import {computed, onMounted, ref} from "vue";
+import {computed, onMounted} from "vue";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 import {FlowNodeEnums} from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
-import {onBeforeMount} from "vue-demi";
-import {closeLoad, load} from "@/api/sh_api.ts";
+import {closeLoad} from "@/api/sh_api.ts";
 
 defineOptions({
-  name: 'FlowNodeCopyer',
+  name: 'CopyerNode',
 });
-const flowCopyerSettingRef = ref();
+
 const flowDesign = useFlowDesign(piniaInstance);
-const drawerVisible = ref<boolean>(false);
+
 let currentNode = computed(() => flowDesign.currentNode);
 const props = defineProps({
   node: {
@@ -30,6 +27,11 @@ const props = defineProps({
     default: false,
   }
 });
+
+const emits = defineEmits(['selectNode']);
+const selectNode = () => {
+  emits('selectNode', props.node);
+}
 let nameClass = computed(() => {
   return (node, defaultStyle) => {
     if (node.status == -1) {
@@ -42,19 +44,18 @@ let nameClass = computed(() => {
     };
   };
 });
-const init=()=>{
+const init = () => {
   closeLoad();
   flowDesign.refreshMap();
 }
-onMounted(()=>{
+onMounted(() => {
   init();
 })
 </script>
 <template>
   <div class="flow-row">
     <div class="flow-box">
-      <div class="flow-item" :class="{ 'flow-item-active': currentNode.id==node.id }"
-           @click="!readable && open(flowCopyerSettingRef, node)">
+      <div class="flow-item" :class="{ 'flow-item-active': currentNode.id==node.id }" @click.stop="selectNode">
         <div class="flow-node-box" :class="{ 'has-error': node.error }">
           <div class="node-name" :class="nameClass(node, 'node-cc')">
             <EditName v-model:nodeName="node.name"/>
@@ -66,10 +67,7 @@ onMounted(()=>{
           <div class="node-main">
             <span v-if="node.content">
               抄送人:
-              <el-tooltip placement="top">
-                <template #content>
-                  <span>{{ node.content }}</span>
-                </template>
+              <el-tooltip placement="top" :content="node.content">
                 {{ node.content }}
               </el-tooltip>
             </span>
@@ -86,6 +84,5 @@ onMounted(()=>{
       </div>
       <FlowAddNode :node="node" :nodeType="FlowNodeEnums.COPYER_NODE" :readable="readable"/>
     </div>
-    <CopyerPrep ref="flowCopyerSettingRef" @close="close"/>
   </div>
 </template>

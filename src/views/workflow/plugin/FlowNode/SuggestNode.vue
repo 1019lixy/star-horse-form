@@ -2,7 +2,8 @@
   <div class="flow-row">
     <div class="flow-branch">
       <div class="meet-node"></div>
-      <div class="flow-col" v-for="(conditionNode, index) in node.conditionNodes" :key="index">
+      <div class="flow-col" v-for="(conditionNode, index) in node.conditionNodes" :key="index"
+           @click.stop="selectNode(conditionNode)">
         <div class="clear-left-border" v-if="index == 0"></div>
         <div class="clear-right-border" v-if="node.conditionNodes.length - 1 == index"></div>
         <div class="flow-row">
@@ -34,14 +35,11 @@
     <div class="after-branch-btn">
       <FlowAddNode :node="node" :nodeType="FlowNodeEnums.BRANCH_NODE" :readable="readable"/>
     </div>
-    <FlowBranchSetting ref="flowBranchSetting" @close="close"/>
   </div>
 </template>
 <script setup lang="ts">
-import {close} from '@/views/workflow/plugin/mixins/flowMixin.ts';
 import FlowNode from '@/views/workflow/plugin/FlowNode/FlowNode.vue';
 import FlowAddNode from '@/views/workflow/plugin/FlowNode/AddNode.vue';
-import FlowBranchSetting from '@/views/workflow/plugin/FlowDrawer/BranchPrep.vue';
 import DeleteConfirm from '@/views/workflow/plugin/common/DeleteConfirm.vue';
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
@@ -62,6 +60,10 @@ const props = defineProps({
     default: false,
   },
 });
+const emits = defineEmits(['selectNode']);
+const selectNode = (node: any) => {
+  emits('selectNode', node);
+}
 const flowDesign = useFlowDesign(piniaInstance);
 const delCallback = (_conditionNode: any) => {
   let currNode = {
@@ -70,11 +72,11 @@ const delCallback = (_conditionNode: any) => {
   // 将对应的审批节点的添加按钮开启
   flowDesign.flowUpdateNode({currNode, field: 'addable', value: true});
 };
-const init=()=>{
+const init = () => {
   closeLoad();
   flowDesign.refreshMap();
 }
-onMounted(()=>{
+onMounted(() => {
   init();
 })
 </script>

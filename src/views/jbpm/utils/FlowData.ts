@@ -46,10 +46,10 @@ const createBpmnModeler = (canvas: any, properties: any) => {
             lintModule,
             minimapModule
         ],
-        moddleExtensions: {
-            modeler: modelerModdleExtension,
-            // camunda: camundaModdleExtension,
-        },
+        // moddleExtensions: {
+        //     modeler: modelerModdleExtension,
+        //     // camunda: camundaModdleExtension,
+        // },
         keyboard: {
             bindTo: document
         }
