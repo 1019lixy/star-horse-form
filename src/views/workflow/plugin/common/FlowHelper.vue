@@ -76,7 +76,7 @@ onMounted(() => {
         <template #reference>
           <div class="flow-helper-drawer-item">
             <div class="flow-helper-drawer-item-icon">
-              <star-horse-icon icon-class="flow_temp_icon" size="22px"/>
+              <star-horse-icon icon-class="flow_temp_icon" size="22px" boxShow="true"/>
             </div>
             <div>
               <div class="flow-helper-drawer-item-title">{{ item.name }}</div>
@@ -117,7 +117,7 @@ onMounted(() => {
         <template #reference>
           <div class="flow-helper-drawer-item">
             <div class="flow-helper-drawer-item-icon">
-              <star-horse-icon :iconClass="item.icon||'document'" :style="item.style"/>
+              <star-horse-icon :iconClass="item.icon||'document'" :style="item.style" boxShow="true"/>
             </div>
             <div>
               <div class="flow-helper-drawer-item-title">{{ item.name }}</div>
@@ -142,7 +142,7 @@ onMounted(() => {
         <template #reference>
           <div class="flow-helper-drawer-item">
             <div class="flow-helper-drawer-item-icon">
-              <star-horse-icon :iconClass="item.icon||'document'" :style="item.style"/>
+              <star-horse-icon :iconClass="item.icon||'document'" :style="item.style" boxShow="true"/>
             </div>
             <div>
               <div class="flow-helper-drawer-item-title">{{ item.name }}</div>

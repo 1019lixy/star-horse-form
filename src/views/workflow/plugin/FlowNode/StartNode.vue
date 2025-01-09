@@ -12,7 +12,7 @@
 import FlowAddNode from '@/views/workflow/plugin/FlowNode/AddNode.vue';
 import {FlowNodeEnums} from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
 defineOptions({
-  name: 'FlowNodeStart',
+  name: 'StartNode',
 });
 const props = defineProps({
   node: {

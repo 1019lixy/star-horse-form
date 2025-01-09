@@ -27,7 +27,7 @@
       </div>
     </div>
 
-    <el-tabs v-if="node.attr.approvalMethod == 1" v-model="approvalTab">
+    <el-tabs v-if="node.attr.approvalMethod == 1" v-model="approvalTab" >
       <el-tab-pane key="1" name="1" label="审批设置">
         <div class="flow-setting-content">
           <!-- 审批方式 -->
@@ -125,7 +125,7 @@
         </div>
       </el-tab-pane>
       <el-tab-pane key="3" name="3" label="高级设置">
-        <FlowNodeApprovalConfigure v-model="node.configure"/>
+        <FlowNodeApprovalConfigure v-model:configure="node.configure"/>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -135,19 +135,18 @@
 <script setup lang="ts">
 import {flowMixin, radioStyle} from '@/views/workflow/plugin/mixins/flowMixin.ts';
 import FlowDrawerFooter from '@/views/workflow/plugin/common/DrawerFooter.vue';
-import FlowNodeApproval from './Approver/Approval.vue';
-import FlowNodeApprovalConfigure from './Approver/ApproverConfigure.vue';
+import FlowNodeApproval from '@/views/workflow/plugin/FlowDrawer/utils/Approval.vue';
+import FlowNodeApprovalConfigure from '@/views/workflow/plugin/FlowDrawer/utils/ApproverConfigure.vue';
 import AuthForm from '@/views/workflow/plugin/common/AuthForm.vue';
 import {ref} from "vue";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {ModelRef} from "vue-demi";
 
 defineOptions({
   name: 'ApproverPrep',
 })
-let node :ModelRef<any>= defineModel("activeData");
+let node: ModelRef<any> = defineModel("activeData");
 let approvalTab = ref<string>("1");
 
 // 审批类型

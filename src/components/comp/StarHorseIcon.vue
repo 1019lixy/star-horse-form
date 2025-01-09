@@ -6,15 +6,18 @@ const props = defineProps({
   className: {type: String,},
   title: {type: String, default: "",},
   size: {type: String, default: "20px"},
+  // 图标是否有边框
+  boxShow: {type: Boolean, default: false},
   color: {type: String, default: "var(--star-horse-style)"},
   cursor: {type: String, default: "default"}
 });
 const iconName = computed(() => `#icon-${props.iconClass}`);
 const svgClass = computed(() => {
+  let cls = props.boxShow ? "svg-icon icon-cls" : "svg-icon";
   if (props.className) {
-    return "svg-icon " + props.className;
+    return cls + props.className;
   } else {
-    return "svg-icon";
+    return cls;
   }
 });
 </script>
@@ -31,9 +34,16 @@ const svgClass = computed(() => {
   overflow: hidden;
   outline: none;
 }
+
+.icon-cls {
+  background: var(--star-horse-style);
+  color: var(--star-horse-white);
+  border-radius: 7px;
+  padding: 3px;
+}
 </style>
 <template>
-  <svg :class="svgClass" aria-hidden="false">
+  <svg aria-hidden="false" :class="svgClass">
     <use :xlink:href="iconName"></use>
     <title v-if="!!title">{{ title }}</title>
   </svg>

@@ -33,7 +33,7 @@ const panels = ref<any>({
   ParallelSubNode: BranchPrep,
   EventNode: EventPrep,
   ServiceNode: ServicePrep,
-  EndPrep: EndPrep
+  EndNode: EndPrep
 });
 
 const onClose = () => {

@@ -49,7 +49,7 @@ onMounted(() => {
       <el-card hoverable class="w-fill card-xx" @click="setSetting(item)">
         <div class="flowSetting-card-header">
           <div class="flowSetting-card-header-title">
-            <star-horse-icon icon-class="document" size="22px"/>
+            <star-horse-icon icon-class="document" size="22px" boxShow="true"/>
             <span>{{ item.name }}</span>
           </div>
           <div @click.stop>

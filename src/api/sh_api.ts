@@ -49,7 +49,7 @@ export async function loadData(url: string, params: SearchParams[] | any, orderB
     }
     await postRequest(url, cond).then((res: any) => {
         const redata = res.data;
-        if (redata.code != 0) {
+        if (redata.code) {
             error = redata.cnMessage;
         } else {
             //先去分页数据，没有再去非分页数据
@@ -570,7 +570,7 @@ export function formFieldMapping(fieldList: PageFieldInfo) {
     const batchDefaultValues: any = {};
     const tabOperation = (data: TabFieldInfo) => {
         const fieldList = data.fieldList as Array<FieldInfo>;
-        if ("Y"==data.subFormFlag) {
+        if ("Y" == data.subFormFlag) {
             defaultDatas[data.tabName] = {};
             //如果是子表
             fieldsOperation(fieldList, defaultDatas[data.tabName]);
@@ -715,6 +715,10 @@ export async function compDynamicData(preps: any) {
     let reDataList: SelectOption[] = [];
     const dataSource = temp['dataSource'];
     const urlOrDictName = temp['urlOrDictName'];
+    //如果已经有数据了，就不再请求
+    if (preps["values"] && preps["values"].length > 0) {
+        return preps["values"];
+    }
     if (dataSource == "url") {
         reDataList = await dynamicUrlOperation(preps);
     } else if (dataSource == "dict") {
@@ -739,7 +743,7 @@ export async function compDynamicData(preps: any) {
 export async function dynamicUrlOperation(preps: any, queryInfo?: SearchParams[]) {
     const temp = preps;
     const reDataList: SelectOption[] = [];
-    const requestParams:any = [] ;
+    const requestParams: any = [];
     const queryParams = temp['queryParams'];
     queryParams?.forEach((item: any) => {
         if (!item.name) {
@@ -757,7 +761,11 @@ export async function dynamicUrlOperation(preps: any, queryInfo?: SearchParams[]
     }
     let url = temp["preinterfaceUrl"] + temp["interfaceUrl"];
     const params = {
-        url: url,
+        url: temp["interfaceUrl"],
+        host: temp["host"],
+        port: temp["port"],
+        protocol: temp["protocol"],
+        env: temp["env"],
         httpMethod: temp.httpMethod || "POST",
         dataType: temp.dataType || "JSON",
         searchInfo: {
@@ -773,7 +781,7 @@ export async function dynamicUrlOperation(preps: any, queryInfo?: SearchParams[]
             const options: SelectOption[] = [];
             list?.forEach((item: any) => {
                 const option: SelectOption = {name: item[temp["selectLabel"]], value: item[temp["selectValue"]]};
-                if (item.children&& item.children.length > 0) {
+                if (item.children && item.children.length > 0) {
                     option.children = childrenOperation(item.children);
                 }
                 options.push(option);
@@ -783,7 +791,7 @@ export async function dynamicUrlOperation(preps: any, queryInfo?: SearchParams[]
         };
         validResult.data.forEach((item: any) => {
             const option: SelectOption = {name: item[temp["selectLabel"]], value: item[temp["selectValue"]]};
-            if (item.children&& item.children.length > 0) {
+            if (item.children && item.children.length > 0) {
                 option.children = childrenOperation(item.children);
             }
             reDataList.push(option);

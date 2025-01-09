@@ -34,19 +34,19 @@
 import {ref} from "vue";
 import FlowDrawerFooter from '@/views/workflow/plugin/common/DrawerFooter.vue';
 import AuthForm from '@/views/workflow/plugin/common/AuthForm.vue';
-import FlowNodeApproval from '@/views/workflow/plugin/FlowDrawer/Approver/Approval.vue';
-import FlowNodeCopyerConfigure from '@/views/workflow/plugin/FlowDrawer/Copyer/CopyerConfigure.vue';
+import FlowNodeApproval from '@/views/workflow/plugin/FlowDrawer/utils/Approval.vue';
+import FlowNodeCopyerConfigure from '@/views/workflow/plugin/FlowDrawer/utils/CopyerConfigure.vue';
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
+import {ModelRef} from "vue-demi";
 
 defineOptions({
   name: 'CopyerPrep',
 })
-let node = ref<any>({});
+let node: ModelRef<any> = defineModel("activeData");
 let copyerTab = ref<string>("1");
 
 const flowDesign = useFlowDesign(piniaInstance);
-
 const onClose = () => {
   flowDesign.setActive(false);
 }

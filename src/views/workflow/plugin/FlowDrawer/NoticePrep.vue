@@ -82,7 +82,7 @@
 </template>
 <script setup lang="ts">
 import {flowMixin} from '@/views/workflow/plugin/mixins/flowMixin.ts';
-import FlowNodeApproval from './Approver/Approval.vue';
+import FlowNodeApproval from '@/views/workflow/plugin/FlowDrawer/utils/Approval.vue';
 import FlowDrawerFooter from '@/views/workflow/plugin/common/DrawerFooter.vue';
 import {onMounted, ref} from "vue";
 import {dictData} from "@/api/sh_api.ts";

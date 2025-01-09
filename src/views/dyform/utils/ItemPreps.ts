@@ -77,9 +77,13 @@ export async function validInterface(formProps: any, dataSourceRef: Ref<any>, re
         });
         let url = temp["preinterfaceUrl"] + temp["interfaceUrl"];
         const params = {
-            url: url,
+            url: temp["interfaceUrl"],
+            protocol: temp["protocol"],
+            host: temp["host"],
+            port: temp["port"],
             httpMethod: temp.httpMethod || "POST",
             dataType: temp.dataType || "JSON",
+            env: temp["env"] || "",
             searchInfo: {
                 fieldList: requestParams
             }
@@ -184,12 +188,13 @@ const validOperation = async (val: any, dataSourceRef: Ref<any>, fieldList: Ref<
 /**
  * 数据源属性配置
  */
-export function dataSourceFields(dataSourceRef: Ref<any>, _recall: Function) {
+export function dataSourceFields(dataSourceRef: Ref<any>, envList: Array<SelectOption>, _recall: Function) {
     const dataSourceList: Array<SelectOption> = [
         {value: "url", name: "动态接口"},
         {value: "dict", name: "数据字典"},
         {value: "data", name: "静态数据"},
     ];
+
     const matchTypeList = searchMatchList();
     const disableData = ref<boolean>(false);
     const disableUrl = ref<boolean>(true);
@@ -207,11 +212,14 @@ export function dataSourceFields(dataSourceRef: Ref<any>, _recall: Function) {
                 type: "text",
                 formVisible: true,
                 listVisible: true,
+                preps: {
+                    colspan: 8,
+                }
             },
                 {
                     label: "数据源类型",
                     fieldName: "dataSource",
-                    type: "select",
+                    type: "radio",
                     required: true,
                     formVisible: true,
                     listVisible: true,
@@ -271,18 +279,66 @@ export function dataSourceFields(dataSourceRef: Ref<any>, _recall: Function) {
                         disabled: disableUrl,
                         fieldList: [
                             [{
+                                label: "系统环境",
+                                fieldName: "env",
+                                type: "select",
+                                required: true,
+                                defaultValue: "",
+                                formVisible: true,
+                                listVisible: true,
+                                optionList: envList,
+
+                            }, {
+                                label: "请求方式",
+                                fieldName: "requestType",
+                                type: "select",
+                                required: urlRequired,
+                                defaultValue: "POST",
+                                formVisible: true,
+                                listVisible: true,
+                                optionList: httpMethod(),
+
+                            }, {
+                                label: "协议",
+                                fieldName: "protocol",
+                                type: "select",
+                                required: true,
+                                defaultValue: "http",
+                                formVisible: true,
+                                listVisible: true,
+                                optionList: [
+                                    {name: "HTTP", value: "http"},
+                                    {name: "HTTPS", value: "https"}
+                                ],
+                            }], [{
+                                label: "IP/域名/服务名",
+                                fieldName: "host",
+                                type: "input",
+                                required: true,
+                                formVisible: true,
+                                listVisible: true,
+                                preps:{
+                                    colspan: 16
+                                }
+                            }, {
+                                label: "端口",
+                                fieldName: "port",
+                                type: "number",
+                                min: 1,
+                                max: 65535,
+                                formVisible: true,
+                                listVisible: true,
+                                preps:{
+                                    colspan: 8
+                                }
+                            }], {
                                 label: "接口地址",
                                 fieldName: "interfaceUrl",
                                 type: "input",
-                                defaultValue: {"preinterfaceUrl": "http://"},
                                 required: urlRequired,
                                 helpMsg: helpMsg,
                                 formVisible: true,
                                 preps: {
-                                    colspan: 16,
-                                    prependList: [
-                                        {name: "HTTP", value: "http://"},
-                                        {name: "HTTPS", value: "https://"}],
                                     appendAction: {
                                         icon: "valid",
                                         actions: async (val: any) => {
@@ -291,19 +347,6 @@ export function dataSourceFields(dataSourceRef: Ref<any>, _recall: Function) {
                                     }
                                 }
                             },
-                                {
-                                    label: "请求方式",
-                                    fieldName: "requestType",
-                                    type: "select",
-                                    required: urlRequired,
-                                    defaultValue: "POST",
-                                    formVisible: true,
-                                    listVisible: true,
-                                    optionList: httpMethod(),
-                                    preps: {
-                                        colspan: 8
-                                    }
-                                }],
                             [{
                                 label: "标签名字段",
                                 fieldName: "selectLabel",

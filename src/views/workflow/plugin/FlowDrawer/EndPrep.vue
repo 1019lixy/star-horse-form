@@ -1,20 +1,17 @@
 <template>
-  <div class="flow-setting-module">
-    <div class="flow-setting-content">
-      <div class="flow-setting-item">
-        <p class="flow-setting-item-title">表单权限</p>
-        <AuthForm v-model="node.privileges" readable/>
-      </div>
-    </div>
-  </div>
+  <el-form label-position="top" label-width="90px">
+    <el-form-item prop="executionListeners" label="执行监听器">
+      <ExecutionListeners :node="node"/>
+    </el-form-item>
+  </el-form>
   <FlowDrawerFooter @close="onClose" @save="onSave"/>
 </template>
 <script setup lang="ts">
 import FlowDrawerFooter from '@/views/workflow/plugin/common/DrawerFooter.vue';
-import AuthForm from '@/views/workflow/plugin/common/AuthForm.vue';
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 import {ModelRef} from "vue-demi";
+import ExecutionListeners from "@/views/workflow/plugin/FlowDrawer/utils/ExecutionListeners.vue";
 
 defineOptions({
   name: 'EndPrep',

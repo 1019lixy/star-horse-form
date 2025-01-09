@@ -88,6 +88,7 @@ watch(() => props.param,
     })
 </script>
 <template>
+  {{formFields}}
   <template v-if="hasData">
     <star-horse-dialog
         :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible"

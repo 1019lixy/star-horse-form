@@ -2,8 +2,15 @@
   <div class="flow-setting-module">
     <div class="flow-setting-content">
       <div class="flow-setting-item">
-        <p class="flow-setting-item-title">表单权限</p>
-        <AuthForm v-model="node.privileges" readable/>
+        <el-tabs v-model="activeTab" type="border-card" stretch>
+          <el-tab-pane label="基础设置" name="basic">
+            <ExecutionListeners :node="node"/>
+          </el-tab-pane>
+          <el-tab-pane label="表单权限" name="form">
+            <AuthForm v-model="node.privileges" writable/>
+          </el-tab-pane>
+        </el-tabs>
+
       </div>
     </div>
   </div>
@@ -15,10 +22,12 @@ import AuthForm from '@/views/workflow/plugin/common/AuthForm.vue';
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 import {ModelRef} from "vue-demi";
+import ExecutionListeners from "@/views/workflow/plugin/FlowDrawer/utils/ExecutionListeners.vue";
 
 defineOptions({
   name: 'WritePrep',
 })
+let activeTab = ref<string>('basic');
 let node: ModelRef<any> = defineModel("activeData");
 
 const flowDesign = useFlowDesign(piniaInstance);

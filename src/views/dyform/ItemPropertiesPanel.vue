@@ -20,6 +20,7 @@ import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import StarHorseFormItem from "@/components/comp/StarHorseFormItem.vue";
 import {Config} from "@/api/settings.ts";
+import {loadDict} from "@/api/star_horse.ts";
 
 let designForm = DesignForm(piniaInstance);
 let formDataList = computed(() => designForm.formDataList);
@@ -211,7 +212,7 @@ const assignPrep = async (itemType: string, isItem: boolean) => {
 };
 let relationComps = ref<Array<string>>(["select", "tselect", "switch", "autocomplete",
   "checkbox", "radio", "cascade", "page-select", "dialog-input"]);
-let exclusionDataSource = ref<Array<string>>(["page-select","switch", "dialog-input"]);
+let exclusionDataSource = ref<Array<string>>(["page-select", "switch", "dialog-input"]);
 let formFields = ref<PageFieldInfo>({
   fieldList: []
 });
@@ -356,8 +357,10 @@ const hmsg: string = `
    formInstance:Object 表单实例对象
    具体参数或方法切换Tab查看
 `;
-onMounted(() => {
+let envList = ref<Array<SelectOption>>([]);
+onMounted(async () => {
   matchTypeList.value = searchMatchList();
+  envList.value = await loadDict("system_environment");
 });
 watch(() => [currentItemId, currentItemType],
     () => {
@@ -383,7 +386,7 @@ watch(() => [currentItemId, currentItemType],
                      @reset="resetDataSourceForm" :selfFunc="true">
     <div class="dialog-body">
       <star-horse-form :outerFormData="formProps" primary-key="" ref="dataSourceFormRef"
-                       :fieldList="dataSourceFields(dataSourceFormRef,recall)"/>
+                       :fieldList="dataSourceFields(dataSourceFormRef,envList,recall)"/>
     </div>
   </star-horse-dialog>
   <star-horse-dialog :dialogVisible="paramsDialogVisible" :title="'参数配置'" :isBatch="false"
@@ -391,7 +394,8 @@ watch(() => [currentItemId, currentItemType],
                      @closeAction="closeAction"
                      @reset="resetDataSourceForm" :selfFunc="true">
     <div class="dialog-body">
-    <star-horse-form :outerFormData="formInfo" ref="paramsConfigRef" :fieldList="paramsFields(fieldName,currentField)"/>
+      <star-horse-form :outerFormData="formInfo" ref="paramsConfigRef"
+                       :fieldList="paramsFields(fieldName,currentField)"/>
     </div>
   </star-horse-dialog>
   <star-horse-dialog :dialogVisible="containerDialogVisible"
@@ -399,7 +403,7 @@ watch(() => [currentItemId, currentItemType],
                      @closeAction="closeAction"
                      @reset="resetForm" :selfFunc="true">
     <div class="dialog-body">
-    <star-horse-form ref="containerPrepRef" :outerFormData="formInfo" :fieldList="containerField(currentItemType)"/>
+      <star-horse-form ref="containerPrepRef" :outerFormData="formInfo" :fieldList="containerField(currentItemType)"/>
     </div>
   </star-horse-dialog>
   <star-horse-dialog :dialogVisible="jsEditor" :title="'自定义信息'" :isBatch="false" @merge="closeAction"

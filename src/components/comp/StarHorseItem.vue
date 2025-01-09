@@ -61,7 +61,7 @@ const actionDispatcher = (act: string, ...params: any[]) => {
   }
 };
 //页面属性改变，重新刷新数据
-watch(() => props.item,
+watch(() => [props.item,props.isEdit],
     () => {
       compPreps();
     }, {

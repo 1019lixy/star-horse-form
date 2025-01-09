@@ -94,7 +94,9 @@ const approverNodePreps = (type: String) => {
         // 表单权限
         privileges: [],
         // 高级配置
-        configure: {},
+        configure: {
+
+        },
         // 子节点
         childNode: null,
         // 显示添加按钮
