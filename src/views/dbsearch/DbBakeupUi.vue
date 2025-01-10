@@ -7,7 +7,7 @@ import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {Config} from "@/api/settings.ts";
 import {initDbList} from "@/views/dbsearch/utils/DbSearchUtils.ts";
 //后端交互接口地址
-const dataUrl: ApiUrls = apiInstance("dbsearch-manage", "dbsearch/dbBakeup");
+const dataUrl: ApiUrls = apiInstance("userdb-manage", "dbsearch/dbBakeup");
 let dbList = ref<SelectOption[]>([]);
 let bakePolicyList = ref<SelectOption[]>([]);
 //查询属性

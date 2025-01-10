@@ -9,7 +9,7 @@ import {SelectOption} from "@/components/types/SearchProps";
 import {initDbList} from "@/views/dbsearch/utils/DbSearchUtils.ts";
 import {apiInstance} from "@/api/sh_api.ts";
 
-const dataUrl: ApiUrls = apiInstance("dbsearch-manage", "dbsearch/dbinfoEntity");
+const dataUrl: ApiUrls = apiInstance("userdb-manage", "dbsearch/dbinfoEntity");
 let dbList = ref<SelectOption[]>([]);
 const tableFieldList = reactive({
   fieldList: [

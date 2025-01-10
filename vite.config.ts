@@ -133,12 +133,6 @@ export default defineConfig((mode, command) => {
                     rewrite: (path: string) => path.replace(/^\/devops-continus/, '/devops-continus-dev'),
                     ws: true
                 },
-                "/dbsearch-manage": {
-                    target: dbSearchHost,
-                    changeOrigin: true,
-                    rewrite: (path: string) => path.replace(/^\/dbsearch-manage/, '/dbsearch-manage-dev'),
-                    ws: true
-                },
 
                 "/userdb-manage": {
                     target: userDbHost,

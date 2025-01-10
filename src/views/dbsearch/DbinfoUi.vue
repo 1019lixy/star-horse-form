@@ -10,7 +10,7 @@ import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import piniaInstance from "@/store";
 
-const dataUrl: ApiUrls = apiInstance("dbsearch-manage", "dbsearch/dbinfoEntity");
+const dataUrl: ApiUrls = apiInstance("userdb-manage", "dbsearch/dbinfoEntity");
 let configStore = GlobalConfig(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
 let dbTypeList = ref<Array<any>>([]);
@@ -116,7 +116,7 @@ const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 
 const loadDbTypeList = async () => {
-  let {data, error} = await loadGetData("/dbsearch-manage/dbsearch/dbinfoEntity/dbType");
+  let {data, error} = await loadGetData("/userdb-manage/dbsearch/dbinfoEntity/dbType");
   if (error) {
     warning(error);
     return;
@@ -144,7 +144,7 @@ const validDb = async () => {
     return;
   }
   let data = dbinfoFormRef.value.getFormData().value;
-  let resultData = await loadData("/dbsearch-manage/dbsearch/dbinfoEntity/validDbInfo", data);
+  let resultData = await loadData("/userdb-manage/dbsearch/dbinfoEntity/validDbInfo", data);
   if (resultData.error) {
     warning(resultData.error);
     return;

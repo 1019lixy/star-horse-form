@@ -17,7 +17,7 @@ export function openDatabase(configId: any): Promise<any> | null {
     }
     load("数据加载中");
     return new Promise<any>((resolve, reject) => {
-        getRequest(`/dbsearch-manage/dbsearch/dbinfoEntity/openConn/${configId}`).then((res: any) => {
+        getRequest(`/userdb-manage/dbsearch/dbinfoEntity/openConn/${configId}`).then((res: any) => {
                 if (res.data.code != 0) {
                     error(res.data.cnMessage);
                     return;
@@ -36,7 +36,7 @@ export function openDatabase(configId: any): Promise<any> | null {
  * 初始化当前用户权限的数据库配置信息
  */
 export async function initDbList(): Promise<Array<SelectOption>> {
-    const {data, error} = await loadGetData("/dbsearch-manage/dbsearch/dbinfoEntity/getDbInfoByUser");
+    const {data, error} = await loadGetData("/userdb-manage/dbsearch/dbinfoEntity/getDbInfoByUser");
     if (error) {
         warning(error);
         return [];
@@ -56,7 +56,7 @@ export async function initDbList(): Promise<Array<SelectOption>> {
  * @param configId
  */
 export async function tableList(configId: number): Promise<Array<SelectOption>> {
-    const {data, error} = await loadGetData(`/dbsearch-manage/dbsearch/dbinfoEntity/tableList/${configId}`);
+    const {data, error} = await loadGetData(`/userdb-manage/dbsearch/dbinfoEntity/tableList/${configId}`);
     if (error) {
         warning(error);
         return [];
@@ -84,7 +84,7 @@ export async function tableColumns(configId: any, tableName: string): Promise<Ar
         return redata;
     }
     // load("数据加载中");
-    await getRequest(`/dbsearch-manage/dbsearch/dbinfoEntity/tableColumns/${configId}/${tableName}`)
+    await getRequest(`/userdb-manage/dbsearch/dbinfoEntity/tableColumns/${configId}/${tableName}`)
         .then((res: any) => {
             if (res.data.code != 0) {
                 warning(res.data.cnMessage);

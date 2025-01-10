@@ -54,7 +54,6 @@ export default defineComponent({
      * 动态获取数据
      */
     const initData = async () => {
-
       field.preps["values"] = await compDynamicData(field.preps);
     }
     const remoteMethod = async (queryString: string) => {

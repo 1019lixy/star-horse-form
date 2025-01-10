@@ -48,7 +48,7 @@ const viewDataDetail = (row: any, column: any, event: Event) => {
 };
 const openDb = () => {
   let editor = editorRef.value!;
-  getRequest(`/dbsearch-manage/dbsearch/dbinfoEntity/openConn/${dbIndex.value}`).then((res) => {
+  getRequest(`/userdb-manage/dbsearch/dbinfoEntity/openConn/${dbIndex.value}`).then((res) => {
         tableList.value = {};
         if (res.data.code != 0) {
           error(res.data.cnMessage);
@@ -100,7 +100,7 @@ const executeSql = () => {
     idDbinfo: dbIndex.value,
   };
   load("数据查询中...");
-  postRequest("/dbsearch-manage/dbsearch/dbinfoEntity/search", reqData).then((res) => {
+  postRequest("/userdb-manage/dbsearch/dbinfoEntity/search", reqData).then((res) => {
     if (res.data.code != 0) {
       error(res.data.cnMessage);
     } else {
@@ -128,7 +128,7 @@ const handleCurrentChange = (index: number, sql: string, currentPage: number, pa
     idDbinfo: dbIndex.value,
   };
   load("数据查询中...");
-  postRequest("/dbsearch-manage/dbsearch/dbinfoEntity/search", reqData).then((res) => {
+  postRequest("/userdb-manage/dbsearch/dbinfoEntity/search", reqData).then((res) => {
     if (res.data.code == 1) {
       warning(res.data.cnMessage);
       return;
@@ -149,7 +149,7 @@ const exportData = (item: any) => {
     pageSize: pageSize.value,
     currentPage: item.currentPage
   }
-  download("/dbsearch-manage/dbsearch/dbinfoEntity/exportData", params).catch(err => {
+  download("/userdb-manage/dbsearch/dbinfoEntity/exportData", params).catch(err => {
     error("接口不存在或网络异常:" + err);
   }).finally(() => {
     closeLoad();
@@ -161,7 +161,7 @@ const tableField = (tableName: string) => {
     //如果已经有值，则不再请求后端
     return;
   }
-  getRequest(`/dbsearch-manage/dbsearch/dbinfoEntity/tableColumns/${dbIndex.value}/${tableName}`).then((res) => {
+  getRequest(`/userdb-manage/dbsearch/dbinfoEntity/tableColumns/${dbIndex.value}/${tableName}`).then((res) => {
     if (res.data.code != 0) {
       warning(res.data.cnMessage);
       return;

@@ -22,6 +22,7 @@ const primaryKey = ref<string>("");
 const rules = ref<any>({});
 const hasData = ref<boolean>(true);
 const formInfo = ref<any>({});
+const dataSource = ref<any>({});
 const props = defineProps({
   param: {type: String, required: true},
 });
@@ -44,6 +45,7 @@ const loadFormData = async (formId: string) => {
   rules.value = data["rules"];
   formInfo.value = data["formInfo"];
   relationTables.value = data["relationTables"];
+  dataSource.value = data["dataSource"];
   await nextTick();
   closeLoad();
   normalPageRef.value?.init();
@@ -68,6 +70,12 @@ const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 
 const dataFormat = (name: string, cellValue: any, row: any): any => {
+  if (dataSource.value && Object.keys(dataSource.value).length > 0) {
+    let temp = dataSource.value[name];
+    if (temp) {
+      return temp.datas?.find(item => item[temp.valueField] == cellValue)[temp.labelField] || cellValue;
+    }
+  }
   return "null" == cellValue ? "--" : cellValue || "--";
 };
 const loadPermission = async () => {
@@ -88,7 +96,6 @@ watch(() => props.param,
     })
 </script>
 <template>
-  {{formFields}}
   <template v-if="hasData">
     <star-horse-dialog
         :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible"
@@ -116,6 +123,7 @@ watch(() => props.param,
       />
     </star-horse-dialog>
     <el-card class="inner_content">
+
       <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
         <star-horse-search-comp @searchData="(data:any)=>normalPageRef.createSearchParams(data)"
                                 :formData="searchFormData"
@@ -131,6 +139,7 @@ watch(() => props.param,
           :globalConfig="relationTables"
           :isDynamic="true"
           :compUrl="dataUrl" :showBatchField="true" :dataFormat="dataFormat"/>
+
     </el-card>
   </template>
   <el-empty :content="errorMsg" v-else></el-empty>
