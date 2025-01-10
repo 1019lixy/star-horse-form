@@ -21,7 +21,7 @@ const addTags = () => {
   const {name} = unref(currentRoute);
   if (name) {
     selectedTag.value = unref(currentRoute);
-    viewListStore.setCurrentView(currentRoute);
+    viewListStore.setCurrentView(currentRoute.value);
   }
 };
 // 关闭选中的tag
@@ -39,9 +39,9 @@ const closeAllTags = () => {
 // 关闭其他
 const closeOthersTags = () => {
   let path = unref(selectedTag)?.path;
-  let fData = viewListStore.getNavBarList.find((item: RouteLocationNormalizedLoaded) => item.path == path);
+  let fData: any = navTagsList.value.find((item: RouteLocationNormalizedLoaded) => item.path == path);
   viewListStore.clearAll();
-  if (fData.path) {
+  if (fData?.path) {
     viewListStore.addNavBar(fData);
     toLastView();
   }
@@ -62,10 +62,10 @@ const refreshSelectedTag = async (view?: RouteLocationNormalizedLoaded) => {
 // 关闭左侧
 const closeLeftTags = () => {
   let path = unref(selectedTag)?.path as string;
-  viewListStore.getNavBarList.splice(1, getCurrentIndex(path) - 1);
+  navTagsList.value.splice(1, getCurrentIndex(path) - 1);
 };
 const getCurrentIndex = (path: string) => {
-  let tagsList = viewListStore.getNavBarList;
+  let tagsList = navTagsList.value;
   let i = 0;
   for (; i < tagsList.length; i++) {
     let temp = tagsList[i];
@@ -77,13 +77,14 @@ const getCurrentIndex = (path: string) => {
 }
 // 关闭右侧
 const closeRightTags = () => {
-  let tagsList = viewListStore.getNavBarList;
+  let tagsList = navTagsList.value;
   let path = unref(selectedTag)?.path || "";
-  viewListStore.getNavBarList.splice(getCurrentIndex(path) + 1, tagsList.length - 1);
+  tagsList.splice(getCurrentIndex(path) + 1, tagsList.length - 1);
+  toLastView();
 };
 // 跳转到最后一个
 const toLastView = () => {
-  const visitedViews = viewListStore.getNavBarList;
+  const visitedViews = navTagsList.value;
   const latestView = visitedViews.slice(-1)[0]
   if (latestView) {
     push(latestView)
@@ -92,7 +93,7 @@ const toLastView = () => {
 // 滚动到选中的tag
 const moveToCurrentTag = async () => {
   await nextTick();
-  for (const v of unref(viewListStore.getNavBarList)) {
+  for (const v of navTagsList.value) {
     if (v.fullPath === unref(currentRoute).path) {
       moveToTarget(v);
       if (v.fullPath !== unref(currentRoute).fullPath) {

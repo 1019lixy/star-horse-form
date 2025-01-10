@@ -827,7 +827,7 @@ export function checkObject(item: any, dataForm: Ref<any>) {
 
 export async function dbConfigList(): Promise<SelectOption[]> {
     let dbList: SelectOption[] = [];
-    let {data, error} = await loadGetData("/dbsearch-manage/dbsearch/dbinfoEntity/getDbInfoByUser");
+    let {data, error} = await loadGetData("/userdb-manage/dbsearch/dbinfoEntity/getDbInfoByUser");
     if (error) {
         warning(error);
         return dbList;

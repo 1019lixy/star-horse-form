@@ -2,6 +2,7 @@
   <starhorse-form-item :isDesign="context.attrs['isDesign']" :bareFlag="context.attrs['bareFlag']" :form-item="field"
                        :parentField="parentField"
   >
+
     <el-select
         :fid="field.preps['name']"
         :readonly="field.preps['readonly']=='Y'"
@@ -28,7 +29,7 @@
         @focus="itemAction('focus')"
         @blur="itemAction('blur')"
         v-model="context.attrs['formData'][field.preps['name']]">
-      <el-option :disabled="items['disabled']" :label="items[field.preps['props']?.label||'name']"
+      <el-option :disabled="'Y'==items['disabled']" :label="items[field.preps['props']?.label||'name']"
                  :value="items[field.preps['props']?.value||'value']"
                  v-for="items in field.preps['values']||context.attrs['formData'][field.preps['name']+'OptionList']"/>
     </el-select>
@@ -54,7 +55,6 @@ export default defineComponent({
      * 动态获取数据
      */
     const initData = async () => {
-
       field.preps["values"] = await compDynamicData(field.preps);
     }
     const remoteMethod = async (queryString: string) => {

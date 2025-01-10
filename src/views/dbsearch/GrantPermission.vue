@@ -13,7 +13,7 @@ const assignTypeRef = ref(null);
 let userOrRoleList = ref<SelectOption[]>([]);
 let dbList = ref<SelectOption[]>([]);
 let sqlLangs = ref([]);
-const dataUrl: ApiUrls = apiInstance("dbsearch-manage", "dbsearch/dbAssign");
+const dataUrl: ApiUrls = apiInstance("userdb-manage", "dbsearch/dbAssign");
 
 
 const searchFormData = reactive<SearchFields>({
@@ -175,7 +175,7 @@ const searchUserOrRole = (val: any) => {
 const initDbList = async () => {
   let params = [{"propertyName": "isDel", "value": 0},
     {"propertyName": "statusCode", "value": "1"}];
-  let {data, error} = await loadData("/dbsearch-manage/dbsearch/dbinfoEntity/getAllByCondition", params);
+  let {data, error} = await loadData("/userdb-manage/dbsearch/dbinfoEntity/getAllByCondition", params);
   if (error) {
     warning(error);
     return

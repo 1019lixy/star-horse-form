@@ -127,6 +127,20 @@ const formPropertyRef = ref();
  */
 const codeDoSave = () => {
 };
+/**
+ * 创建表单信息
+ */
+const createFormInfo = () => {
+  let dynameForm = JSON.parse(JSON.stringify(formInfo.value));
+  console.log(dynameForm);
+  //解决多次转换
+  dynameForm!["relations"] = (dynameForm["relations"] && dynameForm["relations"] instanceof Array) ?
+      JSON.stringify(dynameForm["relations"]) : dynameForm["relations"];
+  dynameForm!["details"] = {};
+  dynameForm!["details"]["content"] = JSON.stringify(list.value);
+  dynameForm!["details"]["fieldNames"] = "{}";//JSON.stringify(formData.value);
+  return dynameForm;
+}
 const doSave = async (isDraft: boolean = false) => {
   let formData = formPropertyRef.value.getFormData();
   console.log(formData);
@@ -152,17 +166,9 @@ const doSave = async (isDraft: boolean = false) => {
     warning("请先填写表单信息");
     return;
   }
-  let dynameForm = JSON.parse(JSON.stringify(formInfo.value));
-  console.log(dynameForm);
-  //解决多次转换
-  dynameForm!["relations"] = (dynameForm["relations"] && dynameForm["relations"] instanceof Array) ?
-      JSON.stringify(dynameForm["relations"]) : dynameForm["relations"];
-  dynameForm!["details"] = {};
-  dynameForm!["details"]["content"] = JSON.stringify(list.value);
-  dynameForm!["details"]["fieldNames"] = "{}";//JSON.stringify(formData.value);
 
   load("数据提交中，请等待");
-  postRequest(`/userdb-manage/userdb/dynamicForm/${isDraft ? "mergeDraft" : "merge"}`, dynameForm)
+  postRequest(`/userdb-manage/userdb/dynamicForm/${isDraft ? "mergeDraft" : "merge"}`, createFormInfo())
       .then((res) => {
         if (res.data.code != 0) {
           activeTab.value = "second";
@@ -242,9 +248,12 @@ let batchModifyData = reactive<any>({
   searchVisible: "Y",
   listVisible: "Y"
 });
-const tableEdit = (submit: boolean) => {
+const tableEdit = async (submit: boolean) => {
   isSubmit.value = submit;
   configDialogVisible.value = true;
+  await nextTick(() => {
+    formPropertyRef.value.analysisDynamicFields(createFormInfo());
+  })
 };
 
 let leftPanelVisible = ref<boolean>(true);

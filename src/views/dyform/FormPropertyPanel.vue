@@ -1,14 +1,16 @@
 <script setup lang="ts" name="FormPropertyPanel">
 import {computed, onMounted, reactive, ref, watch} from "vue";
-import {dbConfigList, loadElementPlusIcon, loadSystemInfo} from "@/api/sh_api";
+import {createCondition, dbConfigList, loadData, loadElementPlusIcon, loadSystemInfo} from "@/api/sh_api";
 import {SelectOption} from "@/components/types/SearchProps";
-import {permissionMenus, postRequest} from "@/api/star_horse";
+import {getRequest, permissionMenus, postRequest} from "@/api/star_horse";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import StarHorseForm from "@/components/comp/StarHorseForm.vue";
 import {Config} from "@/api/settings.ts";
 import {commonField} from "@/api/system.ts";
+import {warning} from "@/utils/message.ts";
+import {tableList} from "@/views/dbsearch/utils/DbSearchUtils.ts";
 
 let designForm = DesignForm(piniaInstance);
 let formInfo = computed(() => designForm.formInfo);
@@ -23,6 +25,8 @@ let pageStyleList = ref<SelectOption[]>([{name: "普通", value: "general"}, {na
 let requireAsteriskPositionList = ref<SelectOption[]>([{name: "左", value: "left"}, {name: "右", value: "right"}]);
 let labelPositionList = ref<SelectOption[]>([{name: "左", value: "left"}, {name: "右", value: "right"}, {name: "顶部", value: "top"}]);
 let formSizeList = ref<SelectOption[]>([{name: "大", value: "large"}, {name: "中", value: "default"}, {name: "小", value: "small"}]);
+let dynamicFieldList = ref<SelectOption[]>([]);
+let tableColumnsList = ref<SelectOption[]>([]);
 let informationsList = ref<any>([]);
 let menusInfoList = ref<any>([]);
 let menuFlag = ref<boolean>(false);
@@ -40,6 +44,9 @@ const commonColumnsMsg = `
 const dbPositionMsg = `
 动态创建的表需要存在那个数据库，
 如果为空，则在当前业务数据库创建表信息。`;
+const tableListMsg = `
+对于关联字段的处理，
+将编码或者ID 映射为对于的名称显示。`;
 const loadMenus = (val: any) => {
   if (!val) {
     return;
@@ -158,7 +165,10 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             tabName: "tab5",
             helpMsg: commonColumnsMsg,
             fieldList: [
-              {label: "需要公共字段", fieldName: "needCommonFields", type: "switch", defaultValue: "Y", formVisible: true,},
+              [
+                {label: "需要公共字段", fieldName: "needCommonFields", type: "switch", defaultValue: "Y", formVisible: true,},
+                {label: "状态字典", fieldName: "statusDictName", type: "input", defaultValue: "common", formVisible: true,}
+              ],
               {
                 batchFieldList: [{
                   objectName: "commonFieldControllers",
@@ -182,6 +192,36 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 }],
               },
             ]
+          }, {
+            fieldName: "tab6",
+            title: "列表显示配置",
+            helpMsg: tableListMsg,
+            batchFieldList: [{
+              objectName: "fieldMappingList",
+              batchName: "fieldMappingList",
+              subFormFlag: true,
+              fieldList: [
+                {
+                  label: "字段信息", fieldName: "fieldName", type: "select", optionList: dynamicFieldList,
+                  formVisible: true, required: true,
+                },
+                {
+                  label: "映射表", fieldName: "mappingTable", type: "select", formVisible: true,
+                  optionList: dataSourceData, actionName: "change",required: true,
+                  preps: {
+                    props: {
+                      label: "formName",
+                      value: "tbName",
+                    }
+                  },
+                  actions: (val: any) => {
+                    loadTableColumns(val["mappingTable"]);
+                  }
+                },
+                {label: "关联字段", fieldName: "mappingField", type: "select",required: true, optionList: tableColumnsList, formVisible: true,},
+                {label: "显示字段", fieldName: "mappingDisplayField", type: "select",required: true, optionList: tableColumnsList, formVisible: true,},
+              ]
+            }],
           }
           ]
         }
@@ -195,21 +235,25 @@ const initData = async () => {
   let params = [{propertyName: "statusCode", value: "1"}];
   informationsList.value = await loadSystemInfo(params);
   systemIconList.value = loadElementPlusIcon();
+
 };
-
-
+const analysisDynamicFields = async (formInfo: any) => {
+  let reData = await loadData("/userdb-manage/userdb/dynamicForm/analysisDynamicDatasourceFields", formInfo);
+  if (reData.error) {
+    // warning(reData.error);
+    return;
+  }
+  dynamicFieldList.value = reData.data;
+}
+let currentDataSourceId = ref<string>("");
 //获取同数据源下的表,用来配置对应的关系
 const loadSameDataSourceTables = (formInfo: any) => {
   let params: any = [];
   formInfo['relations'] = [];
-  params.push({
-    propertyName: "datasourceConfigId",
-    value: formInfo["datasourceConfigId"] || null,
-    operation: formInfo["datasourceConfigId"] ? "eq" : "is",
-    datatype: "input"
-  })
+  currentDataSourceId.value = formInfo['datasourceConfigId'];
+  params.push(createCondition("datasourceConfigId", formInfo["datasourceConfigId"] || null, formInfo["datasourceConfigId"] ? "eq" : "is"))
   postRequest("/userdb-manage/userdb/dynamicForm/getAllByCondition", {
-    dataList: params
+    fieldList: params
   }).then(res => {
     relationDataList.value = [];
     if (res.data.code != 0) {
@@ -231,6 +275,24 @@ const relationChange = (row: any) => {
   let fdata = dataSourceData.value.find((item: any) => item.formId == tableId);
   row["formName"] = fdata?.formName;
   row["tbName"] = fdata?.tbName;
+};
+const loadTableColumns = (tbName: any) => {
+  if (!tbName) {
+    return;
+  }
+  tableColumnsList.value = [];
+  getRequest(`/userdb-manage/dbsearch/dbinfoEntity/tableColumns/${currentDataSourceId.value}/${tbName}`).then(res => {
+    if (res.data.code != 0) {
+      return;
+    }
+    let resData = res.data.data;
+    resData.forEach((item: any) => {
+      tableColumnsList.value.push({
+        name: item.comment,
+        value: item.fieldName
+      })
+    });
+  });
 };
 /**
  * 表单更新的时候，更新表单的属性
@@ -255,7 +317,7 @@ watch(() => formInfo.value,
       deep: true
     });
 defineExpose({
-  loadMenus, getFormData
+  loadMenus, getFormData, analysisDynamicFields
 });
 </script>
 <style lang="scss" scoped>
