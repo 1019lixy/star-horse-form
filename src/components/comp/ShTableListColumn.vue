@@ -2,6 +2,7 @@
 import {inject} from "vue";
 import {DialogProps} from "@/components/types/DialogProps";
 import {Config} from "@/api/settings.ts";
+import {validMsg} from "@/api/sh_api.ts";
 
 defineProps({
   dataForm: {type: Object, required: true},
@@ -14,12 +15,7 @@ defineProps({
   size: {type: String, default: Config.compSize}
 });
 const dialogProps = inject<DialogProps>("dialogProps");
-const validMsg = (item: any) => {
-  if (item.required && item.disabled != 'Y') {
-    return [{'required': true, 'message': '必填项不能为空', 'trigger': 'blur'}];
-  }
-  return []
-};
+
 </script>
 <template>
   <template v-if="staticColumn=='Y'">
@@ -28,7 +24,7 @@ const validMsg = (item: any) => {
   <el-form-item
       v-else
       :size="size"
-      :rules="item.required?validMsg(item,dataForm):[]"
+      :rules="item.required?validMsg(item,dataForm):item.rules||[]"
       :prop="`${batchName}.${index}.${item.fieldName}`">
     <star-horse-item :primaryKey="primaryKey" :compSize="size" :batchName="batchName" :item="item" :data-form="dataForm"
                      :isEdit="dialogProps?.ids&&dialogProps?.ids!=-1"/>

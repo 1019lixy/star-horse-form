@@ -504,7 +504,7 @@ const loadByPage = () => {
 
   let url: string = props.compUrl?.loadByPageUrl as string;
   let params: any = createParams();
-  if (props.compUrl.redirect) {
+  if (props.compUrl?.redirect) {
     params = {
       url,
       httpMethod: props.compUrl?.httpMethod || "POST",
@@ -518,7 +518,7 @@ const loadByPage = () => {
   }
   postRequest(url, params).then((res: any) => {
     if (res?.data?.code != 0) {
-      res&&console.error(res?.data?.cnMessage);
+      res && console.error(res?.data?.cnMessage);
       return;
     }
     let redata = res?.data?.data;

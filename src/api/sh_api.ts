@@ -882,6 +882,11 @@ export function validMsg(item: any, dataForm: any) {
             });
         }
     }
+    if(item.rules&&item.rules.length>0){
+        item.rules.forEach((rule: any) => {
+            rules.push(rule)
+        })
+    }
     return rules;
 }
 

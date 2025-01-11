@@ -122,6 +122,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             helpMsg: relationMsg,
             batchFieldList: [{
               batchName: "relations",
+              initRows:0,
               fieldList: [
                 {label: "关联表", fieldName: "tableId", type: "select", optionList: relationDataList, required: true, formVisible: true},
                 {label: "映射关系", fieldName: "relationType", type: "select", defaultValue: "1n", optionList: relationTypeList, required: true, formVisible: true},
@@ -167,12 +168,13 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             fieldList: [
               [
                 {label: "需要公共字段", fieldName: "needCommonFields", type: "switch", defaultValue: "Y", formVisible: true,},
-                {label: "状态字典", fieldName: "statusDictName", type: "input", defaultValue: "common", formVisible: true,}
+                {label: "状态字典",helpMsg:"系统字段中配置的类型编码", fieldName: "statusDictName", type: "input", defaultValue: "common", formVisible: true,}
               ],
               {
                 batchFieldList: [{
                   objectName: "commonFieldControllers",
                   batchName: "commonFieldControllers",
+                  initRows:0,
                   subFormFlag: true,
                   fieldList: [
                     {
@@ -200,6 +202,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
               objectName: "fieldMappingList",
               batchName: "fieldMappingList",
               subFormFlag: true,
+              initRows:0,
               fieldList: [
                 {
                   label: "字段信息", fieldName: "fieldName", type: "select", optionList: dynamicFieldList,
@@ -207,7 +210,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 },
                 {
                   label: "映射表", fieldName: "mappingTable", type: "select", formVisible: true,
-                  optionList: dataSourceData, actionName: "change",required: true,
+                  optionList: dataSourceData, actionName: "change", required: true,
                   preps: {
                     props: {
                       label: "formName",
@@ -218,8 +221,20 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                     loadTableColumns(val["mappingTable"]);
                   }
                 },
-                {label: "关联字段", fieldName: "mappingField", type: "select",required: true, optionList: tableColumnsList, formVisible: true,},
-                {label: "显示字段", fieldName: "mappingDisplayField", type: "select",required: true, optionList: tableColumnsList, formVisible: true,},
+                {label: "关联字段", fieldName: "mappingField", type: "select", required: true, optionList: tableColumnsList, formVisible: true,},
+                {label: "显示字段", fieldName: "mappingDisplayField", type: "select", required: true, optionList: tableColumnsList, formVisible: true,},
+                {
+                  label: "显示别名", fieldName: "displayAliasField", type: "input",
+                  helpMsg: `关联字段与主表字段冲突时配置,\n必须以字母开头不能有特殊符号`,
+                  formVisible: true,
+                  rules: [
+                    {
+                      pattern: /^[a-zA-Z][a-zA-Z0-9_]*$/,
+                      message: '必须以字母开头不能有特殊符号',
+                      trigger: 'blur'
+                    }
+                  ]
+                },
               ]
             }],
           }

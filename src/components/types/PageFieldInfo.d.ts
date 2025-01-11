@@ -217,6 +217,10 @@ export declare interface FieldInfo {
      * 优先级，数字越小，组件越靠前
      */
     priority?: number;
+    /**
+     * 校验规则
+     */
+    rules?: Array<any>;
 }
 
 /**

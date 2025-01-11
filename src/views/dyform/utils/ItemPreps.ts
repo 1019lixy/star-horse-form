@@ -6,6 +6,7 @@ import {ascOrDesc, dataType, httpMethod, validDataUrl} from "@/api/system.ts";
 import {error, success, warning} from "@/utils/message.ts";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store";
+import {validRulesList} from "@/api/valid_utils.ts";
 
 const designForm = DesignForm(piniaInstance);
 
@@ -317,7 +318,7 @@ export function dataSourceFields(dataSourceRef: Ref<any>, envList: Array<SelectO
                                 required: true,
                                 formVisible: true,
                                 listVisible: true,
-                                preps:{
+                                preps: {
                                     colspan: 16
                                 }
                             }, {
@@ -328,7 +329,7 @@ export function dataSourceFields(dataSourceRef: Ref<any>, envList: Array<SelectO
                                 max: 65535,
                                 formVisible: true,
                                 listVisible: true,
-                                preps:{
+                                preps: {
                                     colspan: 8
                                 }
                             }], {
@@ -919,7 +920,7 @@ export function relationDataField() {
 /**
  * 定义所有组件的公共属性
  */
-export function compCommonFields(): FieldInfo[] {
+export function compCommonFields(customerValid: Function): FieldInfo[] {
     return reactive<FieldInfo[]>([
         {
             label: "标签名称",
@@ -935,6 +936,7 @@ export function compCommonFields(): FieldInfo[] {
             type: "input",
             formVisible: true
         },
+
         {
             label: "数据长度",
             fieldName: "maxLength",
@@ -942,6 +944,23 @@ export function compCommonFields(): FieldInfo[] {
             defaultValue: 100,
             type: "number",
             formVisible: true
+        },
+        {
+            label: "校验规则",
+            fieldName: "rules",
+            defaultValue: [],
+            type: "select",
+            optionList: validRulesList,
+            formVisible: true,
+            actionName: "change",
+            actions: (val: any) => {
+                if (val?.rules?.includes("custom")) {
+                    customerValid(val);
+                }
+            },
+            preps: {
+                multiple: "Y"
+            }
         },
         {
             label: "表单显示",
@@ -1019,6 +1038,12 @@ export function compCommonFields(): FieldInfo[] {
             type: "switch",
             helpMsg: `如果开启此功能，\n在新增数据时系统对数据进行唯一性校验。`,
             defaultValue: "N",
+            formVisible: true
+        },
+        {
+            label: "提示信息",
+            fieldName: "helpMsg",
+            type: "textarea",
             formVisible: true
         }
     ]);

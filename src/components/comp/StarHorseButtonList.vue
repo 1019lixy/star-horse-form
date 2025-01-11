@@ -74,7 +74,7 @@ const btnOperation = (funcName: string) => {
  * @param fileList
  */
 const downloadTemplate = () => {
-  download(props.compUrl!.downloadTemplateUrl!, {}).catch((err) => {
+  download(props.compUrl?.downloadTemplateUrl!, {}).catch((err) => {
     error("接口不存在或网络异常:" + err);
   });
 };
@@ -231,7 +231,7 @@ defineExpose({
               :show-file-list="false"
               accept=".xls,.xlsx"
               :before-upload="beforeUpload"
-              :action="compUrl.importUrl"
+              :action="compUrl?.importUrl"
               :headers="{ token: getToken() }"
               class="upload"
               name="file"
@@ -289,7 +289,7 @@ defineExpose({
                 :show-file-list="false"
                 accept=".xls,.xlsx"
                 :before-upload="beforeUpload"
-                :action="compUrl.importUrl"
+                :action="compUrl?.importUrl"
                 :headers="{ token: getToken() }"
                 class="upload"
                 name="file"
