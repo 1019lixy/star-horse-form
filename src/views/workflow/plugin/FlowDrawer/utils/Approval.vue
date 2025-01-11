@@ -10,6 +10,7 @@ import {createCondition, loadData} from "@/api/sh_api.ts";
 import {warning} from "@/utils/message.ts";
 import TselectItem from "@/components/formcomp/items/tselect-item.vue";
 import UserItem from "@/components/formcomp/items/user-item.vue";
+import {postRequest} from "@/api/star_horse.ts";
 
 const props = defineProps({
   groups: {
@@ -501,28 +502,21 @@ const delApproval = (group: any) => {
 }
 const init = async () => {
 //加载职级
-  let result = await loadData("/system-config/system/rankDefine/rankTree", {});
-  if (result.error) {
-    warning(result.error);
-  } else {
-    rankList.value = result.data;
-  }
-  //加载岗位
-  result = await loadData("/system-config/system/stationDefine/stationTree", {});
-  if (result.error) {
-    warning(result.error);
-  } else {
-    stationList.value = result.data;
-  }
-  //加载角色
-  result = await loadData("/system-config/system/companyRole/getAllByCondition", {
-    fieldList: [createCondition("a.roleType", "common_role")]
+  postRequest("/system-config/system/rankDefine/rankTree", {}).then(res => {
+    rankList.value = res.data?.data;
   });
-  if (result.error) {
-    warning(result.error);
-  } else {
-    roleList.value = result.data;
-  }
+  //加载岗位
+  postRequest("/system-config/system/stationDefine/stationTree", {}).then(res => {
+    stationList.value = res.data?.data;
+  });
+
+  //加载角色
+  postRequest("/system-config/system/companyRole/getAllByCondition", {
+    fieldList: [createCondition("a.roleType", "common_role")]
+  }).then(res => {
+    roleList.value = res.data?.data;
+  });
+
 }
 onMounted(() => {
   init();

@@ -13,9 +13,7 @@ import StarHorseTree from "@/components/comp/StarHorseTree.vue";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import FormPreview from "@/views/dyform/FormPreview.vue";
 import {warning} from "@/utils/message.ts";
-import {formActions} from "@/views/dyform/utils/DynamicForm.ts";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-import Help from "@/components/help.vue";
 import {SearchParams} from "@/components/types/Params";
 
 const router = useRouter();
@@ -165,7 +163,7 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
 let extandBtnList = ref<UserFuncInfo[]>([]);
 let viewBtnList = ref<UserFuncInfo[]>([]);
 
-const initData = async () => {
+const initData = () => {
   selfBtnFunc.value?.push({
     btnName: "新增",
     icon: "add",
@@ -194,7 +192,9 @@ const initData = async () => {
     }
   });
   extandBtnList.value = selfBtnFunc.value.slice(1, selfBtnFunc.value.length);
-  dataSource.value = await dbConfigList();
+  dbConfigList().then(res => {
+    dataSource.value = res
+  });
   viewBtnList.value.push(...tableFieldList.userTableFuncs);
   viewBtnList.value.push(selfBtnFunc.value[1]);
 };
@@ -226,8 +226,8 @@ const dataChange = async (param: any) => {
   dataList.value = JSON.parse(data["details"].content);
   commonFieldList.value = data.commonFieldControllers;
 }
-onMounted(async () => {
-  await initData();
+onMounted(() => {
+  initData();
 })
 </script>
 
@@ -257,7 +257,8 @@ onMounted(async () => {
                               :formData="searchFormData"
                               :compUrl="dataUrl"/>
       <hr/>
-      <star-horse-button-list @tableCompFunc="(fun:any)=>dynamicFormRef.tableCompFunc(fun)" :extandBtns="[selfBtnFunc[0]]"
+      <star-horse-button-list @tableCompFunc="(fun:any)=>dynamicFormRef.tableCompFunc(fun)"
+                              :extandBtns="[selfBtnFunc[0]]"
                               :compUrl="dataUrl"
                               :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
@@ -314,7 +315,8 @@ onMounted(async () => {
                 </el-menu>
               </div>
               <el-divider style="margin: 0 10px"/>
-              <form-preview :commonFieldList="commonFieldList" :compSize="compSize" :list="dataList" v-if="dataList&&dataList.length>0"/>
+              <form-preview :commonFieldList="commonFieldList" :compSize="compSize" :list="dataList"
+                            v-if="dataList&&dataList.length>0"/>
               <el-empty description="请在左侧选择表单" v-else/>
             </el-card>
           </el-col>

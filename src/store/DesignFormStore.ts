@@ -4,6 +4,7 @@ import {loadData} from "@/api/sh_api.ts";
 import {SelectOption} from "@/components/types/SearchProps";
 import {Config} from "@/api/settings.ts";
 import {ref, unref} from "vue";
+import {postRequest} from "@/api/star_horse.ts";
 
 export const DesignForm = defineStore("DesignForm", () => {
     const containerList = ref<Array<any>>([]);
@@ -317,7 +318,15 @@ export const DesignForm = defineStore("DesignForm", () => {
         };
         if (initComp) {
             const url = "/userdb-manage/userdb/dynamicFormItems/getAllByCondition";
-            const initContainer = async () => {
+            const assignData = (datas: any) => {
+                datas.forEach((item: any) => {
+                    allFormDataList.value.push({
+                        name: item.itemName,
+                        value: item.itemType
+                    })
+                });
+            }
+            const initContainer = () => {
                 const params: SearchParams[] = [{
                     propertyName: "category",
                     value: 2
@@ -329,10 +338,13 @@ export const DesignForm = defineStore("DesignForm", () => {
                     fieldList: params,
                     orderBy: [{fieldName: "dataSort", ascOrDesc: "asc"}]
                 }
-                const result = await loadData(url, query);
-                containerList.value = result.data;
+                postRequest(url, query).then(res => {
+                    containerList.value = res.data?.data;
+                    assignData(res.data?.data);
+                });
+
             };
-            const initItems = async () => {
+            const initItems = () => {
                 const params: SearchParams[] = [{
                     propertyName: "category",
                     value: 1
@@ -344,10 +356,13 @@ export const DesignForm = defineStore("DesignForm", () => {
                     fieldList: params,
                     orderBy: [{fieldName: "dataSort", ascOrDesc: "asc"}]
                 }
-                const result = await loadData(url, query);
-                formDataList.value = result.data;
+                postRequest(url, query).then(res => {
+                    formDataList.value = res.data?.data;
+                    assignData(res.data?.data);
+                });
+
             };
-            const initSelfItems = async () => {
+            const initSelfItems = () => {
                 const params: SearchParams[] = [{
                     propertyName: "category",
                     value: 3
@@ -359,27 +374,16 @@ export const DesignForm = defineStore("DesignForm", () => {
                     fieldList: params,
                     orderBy: [{fieldName: "dataSort", ascOrDesc: "asc"}]
                 }
-                const result = await loadData(url, query);
-                selfFormDataList.value = result.data;
-            };
-            const init = async () => {
-
-                await initContainer();
-                await initItems();
-                await initSelfItems();
-                const temp: Array<any> = [];
-                if (formDataList.value) {
-                    temp.push(...formDataList.value);
-                }
-                if (selfFormDataList) {
-                    temp.push(...selfFormDataList.value);
-                }
-                temp.forEach((item: any) => {
-                    allFormDataList.value.push({
-                        name: item.itemName,
-                        value: item.itemType
-                    })
+                postRequest(url, query).then(res => {
+                    selfFormDataList.value = res.data?.data;
+                    assignData(res.data?.data);
                 });
+
+            };
+            const init = () => {
+                initContainer();
+                initItems();
+                initSelfItems();
             };
             init();
         }
