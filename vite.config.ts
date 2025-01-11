@@ -5,6 +5,7 @@ import vueJsx from "@vitejs/plugin-vue-jsx"
 import inject from "@rollup/plugin-inject"
 import topLevelAwait from 'vite-plugin-top-level-await';
 import {resolve} from "path";
+import fs from 'fs';
 import {createSvgIconsPlugin} from 'vite-plugin-svg-icons'
 import Components from 'unplugin-vue-components/vite'
 import {ElementPlusResolver} from 'unplugin-vue-components/resolvers'
@@ -23,7 +24,7 @@ const userDbHost: string = "http://localhost:7758/"
 // const userDbHost:string = "http://192.168.20.204:7758/"
 // https://vitejs.dev/config/
 export default defineConfig((mode, command) => {
-    const optimizeDepsElementPlusIncludes = [
+    let optimizeDepsElementPlusIncludes = [
         "element-plus/es", 'vue',
         'vue-router',
         'vue3-guides',
@@ -81,7 +82,6 @@ export default defineConfig((mode, command) => {
         '@replit/codemirror-minimap',
         '@element-plus/dist/locale/zh-cn.mjs',
         '@element-plus/dist/locale/en.mjs',
-        '@element-plus/es/components/*/style/index',
         '@element-plus/icons-vue',
         'pinia',
         'axios',
@@ -89,18 +89,30 @@ export default defineConfig((mode, command) => {
         '@vueuse/core',
         'flv.js',
     ]
-    // fs.readdirSync("node_modules/element-plus/es/components").map((dirname) => {
-    //     fs.access(
-    //         `node_modules/element-plus/es/components/${dirname}/style/enums.mjs`,
-    //         (err) => {
-    //             if (!err) {
-    //                 optimizeDepsElementPlusIncludes.push(
-    //                     `element-plus/es/components/${dirname}/style/enums`
-    //                 )
-    //             }
-    //         }
-    //     )
-    // })
+
+    fs.readdirSync("node_modules/element-plus/es/components").map((dirname) => {
+        fs.access(
+            `node_modules/element-plus/es/components/${dirname}/style/css.mjs`,
+            (err) => {
+                if (!err) {
+                    let path = `element-plus/es/components/${dirname}/style/css`;
+                    optimizeDepsElementPlusIncludes.push(path);
+                    console.log(`将强制对${path}进行依赖预构建`);
+                }
+            }
+        );
+        //注意，一定要包含下面这部分
+        fs.access(
+            `node_modules/element-plus/es/components/${dirname}/style/index.mjs`,
+            (err) => {
+                if (!err) {
+                    let path = `element-plus/es/components/${dirname}/style/index`;
+                    optimizeDepsElementPlusIncludes.push(path);
+                    console.log(`将强制对${path}进行依赖预构建`);
+                }
+            }
+        );
+    });
     return {
         base: "/",
         server: {
