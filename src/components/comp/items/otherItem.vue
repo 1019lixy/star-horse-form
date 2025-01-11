@@ -40,7 +40,7 @@ onMounted(() => {
       :size="compSize"
       :label="item.preps?.hideLabel=='Y'?'':item.label"
       :required="item.required"
-      :rules="item.required?validMsg(item,dataForm):[]"
+      :rules="item.required?validMsg(item,dataForm):item.rules||[]"
       :prop="item.fieldName"
       :label-position="parentPreps?.labelPosition"
       v-else-if="item.formVisible">

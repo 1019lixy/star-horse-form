@@ -22,6 +22,7 @@ const primaryKey = ref<string>("");
 const rules = ref<any>({});
 const hasData = ref<boolean>(true);
 const formInfo = ref<any>({});
+const fieldMappingList = ref<any>([]);
 const dataSource = ref<any>({});
 const props = defineProps({
   param: {type: String, required: true},
@@ -44,6 +45,7 @@ const loadFormData = async (formId: string) => {
   tableFieldList.value = data["tableFieldList"];
   rules.value = data["rules"];
   formInfo.value = data["formInfo"];
+  fieldMappingList.value = formInfo.value["fieldMappingList"];
   relationTables.value = data["relationTables"];
   dataSource.value = data["dataSource"];
   await nextTick();
@@ -70,14 +72,24 @@ const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 
 const dataFormat = (name: string, cellValue: any, row: any): any => {
-  if (dataSource.value && Object.keys(dataSource.value).length > 0) {
-    let temp = dataSource.value[name];
-    if (temp) {
-      return temp.datas?.find(item => item[temp.valueField] == cellValue)[temp.labelField] || cellValue;
+      const subFormat = (name: string, cellValue: any, row: any) => {
+        if (dataSource.value && Object.keys(dataSource.value).length > 0) {
+          let temp = dataSource.value[name];
+          if (temp) {
+            return temp.datas?.find((item: any) => item[temp.valueField] == cellValue)[temp.labelField] || cellValue;
+          }
+        }
+        return "null" == cellValue ? "--" : cellValue || "--";
+      }
+      if (fieldMappingList.value && fieldMappingList.value?.length > 0) {
+        let temp = fieldMappingList.value.find((item: any) => item["fieldName"] == name);
+        if (temp) {
+          return row[temp.mappingDisplayField] || subFormat(name, cellValue, row);
+        }
+      }
+      return subFormat(name, cellValue, row);
     }
-  }
-  return "null" == cellValue ? "--" : cellValue || "--";
-};
+;
 const loadPermission = async () => {
 };
 const init = async () => {

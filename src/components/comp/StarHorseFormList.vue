@@ -3,7 +3,7 @@ import {inject, nextTick, onMounted, PropType, ref, ShallowReactive} from 'vue'
 import {ApiUrls} from "@/components/types/ApiUrls";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {rowClassName} from "@/api/sh_api";
-import {error, success, warning} from "@/utils/message";
+import {error, success, warning, confirm} from "@/utils/message";
 import {download} from "@/api/star_horse";
 import {getToken} from "@/utils/auth";
 import Sortable from "sortablejs";
@@ -14,6 +14,7 @@ import UTableColumn from "@/components/comp/items/UTableColumn.vue";
 import StarHorseForm from "@/components/comp/StarHorseForm.vue";
 import {Config} from "@/api/settings.ts";
 
+
 let importDialogVisible = ref<boolean>(false);
 let rowDialogVisible = ref<boolean>(false);
 const rowDataFormRef = ref();
@@ -23,7 +24,7 @@ const props = defineProps({
   defaultValues: {type: Object, default: {}},
   batchName: {type: String, default: "batchDataList"},
   primaryKey: {type: String},
-  initRows: {type: Number, default: 1},
+  initRows: {type: Number, default: 0},
   importInfo: {type: Object},
   title: {type: String, default: ""},
   helpMsg: {type: String, default: ""},
@@ -162,13 +163,22 @@ const moveColumn = () => {
     });
   }
 };
+const clearAll = () => {
+  if (dataForm.value[props.batchName].length == 0) {
+    return;
+  }
+  confirm("确定要清空吗?").then(() => {
+    dataForm.value[props.batchName] = [];
+  });
+
+}
 const init = async () => {
   // console.log(Object.keys(dataForm.value), props.batchName);
   if (!Object.keys(dataForm.value).includes(props.batchName)) {
     dataForm.value[props.batchName] = [];
   }
   /**
-   * 如果列表为空得情况才初始化行数
+   * 如果列表为空的情况才初始化行数
    */
   if (props.staticColumn == 'N') {
     if (dataForm.value[props.batchName]?.length == 0) {
@@ -234,22 +244,23 @@ onMounted(async () => {
     </div>
   </star-horse-dialog>
   <div class="form-list">
-    <div
-        v-if="!subFlag"
-        class="dynamic-tools"
-    >
-      <div class="tb_title">
+    <div class="dynamic-tools">
+      <div class="tb_title" v-if="!subFlag">
         <star-horse-icon icon-class="info" size="14px"/>
         {{ title }}
         <help v-if="helpMsg" :message="helpMsg" :width="400"/>
       </div>
-      <div style="display: flex;align-items: center;flex-direction: row-reverse">
+      <div style="height:30px;display: flex;align-items: center;flex-direction: row-reverse;margin-bottom: 5px">
         <ul class="inner_button" v-if="!isView">
-          <li v-if="importInfo?.importDataUrl">
-            <el-button @click="excelOperation" title="" link :size="size">
-              <star-horse-icon icon-class="upload" color="var(--star-horse-style)" size="12px"/>
-              <el-tooltip content="导入Excel">导入Excel</el-tooltip>
-            </el-button>
+          <li v-if="importInfo?.importDataUrl&&!subFlag" @click="excelOperation">
+            <el-tooltip content="导入Excel">
+              <star-horse-icon icon-class="upload" color="var(--star-horse-style)" size="18px"/>
+            </el-tooltip>
+          </li>
+          <li @click="clearAll">
+            <el-tooltip content="清空列表">
+              <star-horse-icon icon-class="delete-comp" color="var(--el-style-danger)" size="18px"/>
+            </el-tooltip>
           </li>
         </ul>
       </div>
@@ -335,7 +346,7 @@ onMounted(async () => {
   justify-content: space-between;
   width: 100%;
   align-items: center;
-  height: 20px;
+  height: 30px;
   border-bottom: var(--star-horse-style) 1px solid;
 }
 

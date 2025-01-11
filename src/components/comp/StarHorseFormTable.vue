@@ -8,6 +8,7 @@ import StarHorseFormItem from "@/components/comp/StarHorseFormItem.vue";
 defineProps({
   item: {type: Object, required: true},
   rules: {type: Object},
+  initRows: {type: Number, default: 0},
   size: {type: String, default: Config.compSize}
 });
 const emits = defineEmits(["addRow", "removeRow"]);

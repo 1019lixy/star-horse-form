@@ -15,7 +15,7 @@ import {
 } from "@/views/dyform/utils/ItemPreps.ts";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
-import {error, success} from "@/utils/message.ts";
+import {error, success, warning} from "@/utils/message.ts";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import StarHorseFormItem from "@/components/comp/StarHorseFormItem.vue";
@@ -251,6 +251,12 @@ const parseSelectData = (items: any, type: string) => {
     }
   });
 }
+/**
+ * 自定义验证规则
+ */
+const customerValid = () => {
+  warning("自定义验证规则开发中");
+}
 const assignValue = (fieldInfo: any) => {
   try {
     let temp = JSON.parse(JSON.stringify(fieldInfo))
@@ -272,7 +278,7 @@ const assignValue = (fieldInfo: any) => {
         });
       }
     } else {
-      let commonFields = compCommonFields();
+      let commonFields = compCommonFields(customerValid);
       if (relationComps.value.includes(currentItemType.value)) {
         console.log(currentItemType.value);
         commonFields.push({
