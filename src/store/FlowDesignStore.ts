@@ -6,15 +6,13 @@ import {
     addNode,
     delBranchNode,
     delNode,
-    getStartNode,
     updateMap,
     updateNode
-} from "@/views/workflow/plugin/util/nodeUtil.ts";
+} from "@/views/workflow/plugin/utils/nodeUtil.ts";
 import {FlowNodeEnums} from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
-import {apiInstance, createCondition} from "@/api/sh_api.ts";
-import {SearchParams} from "@/components/types/Params";
-import {nodeInfoList} from "@/views/workflow/plugin/util/nodePreps.ts";
+import {apiInstance} from "@/api/sh_api.ts";
+import {nodePrepList} from "@/views/workflow/plugin/utils/nodePreps.ts";
 
 const dataUrl: ApiUrls = apiInstance("userdb-manage", "userdb/formInstance/shFlowNode/idFlowNode/337537414606095357");
 const prepUrl: ApiUrls = apiInstance("userdb-manage", "userdb/formInstance/shNodeMappingPreps/idNodeMappingPrep/337537414606095357");
@@ -27,7 +25,7 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
     const currentNode = ref<any>({});
     const flowFormInfo = ref<any>({});
     //  节点数据
-    const node = ref<any>(getStartNode());
+    const node = ref<any>(nodePrepList[FlowNodeEnums.WRITE_NODE]);
     //  缩略图
     const mapImg = ref<string>("");
     // 意见分支
@@ -39,6 +37,7 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
     const lintData = ref<any>({});
     const active = ref<boolean>(false);
     const mapVisible = ref<boolean>(false);
+
     const setNavable = (flag: boolean) => {
         navable.value = flag;
     }
@@ -61,7 +60,7 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
         if (snode) {
             node.value = snode;
         } else {
-            node.value = getStartNode();
+            node.value = nodePrepList[FlowNodeEnums.WRITE_NODE];
         }
     }
     /**

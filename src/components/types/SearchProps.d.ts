@@ -22,6 +22,7 @@ export type SearchProps = {
      * 弹窗数据配置
      */
     params?: CompParams,
+    preps?: any,
     optionList?: SelectOption[]
 }
 /**

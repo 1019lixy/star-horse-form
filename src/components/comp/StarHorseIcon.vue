@@ -8,12 +8,13 @@ const props = defineProps({
   size: {type: String, default: "20px"},
   // 图标是否有边框
   boxShow: {type: Boolean, default: false},
+  border: {type: Boolean, default: false},
   color: {type: String, default: "var(--star-horse-style)"},
   cursor: {type: String, default: "default"}
 });
 const iconName = computed(() => `#icon-${props.iconClass}`);
 const svgClass = computed(() => {
-  let cls = props.boxShow ? "svg-icon icon-cls" : "svg-icon";
+  let cls = props.border ? "svg-icon icon-border" : props.boxShow ? "svg-icon icon-cls" : "svg-icon";
   if (props.className) {
     return cls + props.className;
   } else {
@@ -33,6 +34,12 @@ const svgClass = computed(() => {
   fill: currentColor;
   overflow: hidden;
   outline: none;
+}
+
+.icon-border {
+  border-radius: 7px;
+  border: 1px solid var(--star-horse-style);
+  padding: 3px;
 }
 
 .icon-cls {

@@ -1,6 +1,5 @@
 import {defineStore} from "pinia";
 import {SearchParams} from "@/components/types/Params";
-import {loadData} from "@/api/sh_api.ts";
 import {SelectOption} from "@/components/types/SearchProps";
 import {Config} from "@/api/settings.ts";
 import {ref, unref} from "vue";

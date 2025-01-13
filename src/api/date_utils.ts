@@ -40,7 +40,7 @@ export function monthRange(date: Date) {
     date.setMonth(currentMonth + 1, 0);
     let lastDay = new Date(date.getTime());
     let year = date.getFullYear();
-    let month = currentMonth + 1;
+    let month: number | string = currentMonth + 1;
     month = month < 10 ? "0" + month : month;
     return {
         "startDate": firstDay,

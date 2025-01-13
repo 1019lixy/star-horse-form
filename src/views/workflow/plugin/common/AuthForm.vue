@@ -1,37 +1,30 @@
 <template>
-  <div v-if="flowFormInfo.formVisibleType=='step'">
-    <el-steps :active="flowFormStep">
-      <el-step :title="name" v-for="name in flowFormInfo.bindFormName"/>
-    </el-steps>
-    <template v-for="(dataNo,index) in flowFormInfo.bindForm">
-      <flow-form-item v-if="flowFormStep==(index+1)" :data-no="dataNo"/>
-    </template>
-    <el-button v-if="flowFormStep>1" @click="flowFormStep=flowFormStep-1">上一步</el-button>
-    <el-button v-if="flowFormStep<flowFormInfo.bindFormName.length" @click="flowFormStep=flowFormStep+1">下一步
-    </el-button>
-  </div>
-  <div v-if="flowFormInfo.formVisibleType=='tab'">
-    <el-tabs v-model="flowFormTab">
-      <el-tab-pane :label="name" :name="index" v-for="(name,index) in flowFormInfo.bindFormName">
-        <flow-form-item :data-no="flowFormInfo.bindForm[index]"/>
-      </el-tab-pane>
-    </el-tabs>
-  </div>
-  <div v-if="flowFormInfo.formVisibleType=='seq'">
-    <flow-form-item :data-no="dataNo" v-for="dataNo in flowFormInfo.bindForm"/>
-  </div>
+  <el-divider/>
+  <form-preview :commonFieldList="commonFieldList" :compSize="compSize" :list="dataList"
+                v-if="dataList&&dataList.length>0"/>
+  <el-empty description="请选择表单" v-else/>
 </template>
 <script setup lang="ts">
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
-import {computed, onMounted, ref} from "vue";
+import {computed, onMounted, ref, watch} from "vue";
 import FlowFormItem from "@/views/workflow/plugin/common/FlowFormItem.vue";
+import videojs from "video.js";
+import any = videojs.any;
+import FormPreview from "@/views/dyform/FormPreview.vue";
+import {loadData} from "@/api/sh_api.ts";
+import {warning} from "@/utils/message.ts";
 
 const flowDesign = useFlowDesign(piniaInstance);
 const flowFormInfo = computed(() => flowDesign.flowFormInfo);
-let flowFormTab = ref<number>(0);
-let flowFormStep = ref<number>(1);
+let commonFieldList = ref<any>([]);
+let dataList = ref<any>([]);
+let currentData = ref<any>({});
 const props = defineProps({
+  compSize: {
+    type: String,
+    default: "small",
+  },
   readable: {
     type: Boolean,
     default: false,
@@ -43,18 +36,34 @@ const props = defineProps({
     },
   },
   value: {
-    type: Array,
+    type: any,
     default: function () {
-      return [];
+      return {};
     },
   },
 });
-
+const dataChange = async (param: any) => {
+  console.log(param);
+  let {data, error} = await loadData("/userdb-manage/userdb/dynamicForm/getById/" + param['idDynamicForm'], {});
+  if (error) {
+    warning(error);
+    return;
+  }
+  currentData.value = data;
+  dataList.value = JSON.parse(data["details"].content);
+  commonFieldList.value = data.commonFieldControllers;
+}
 const init = () => {
-
+  dataChange(props.value);
 }
 onMounted(() => {
   init();
+});
+watch(() => props.value, (_val: any) => {
+  init();
+}, {
+  immediate: false,
+  deep: true
 });
 
 </script>

@@ -489,7 +489,7 @@
                   border-radius: 4px;
 
                   button {
-                    margin-right: 10px;
+                    margin: 10px;
                   }
 
                   .node-delete-cancel {
@@ -1322,7 +1322,7 @@
     background: #fff;
     align-items: center;
     cursor: pointer;
-    font-family: PingFangSC, PingFangSC-Medium;
+    font-family: PingFangSC, PingFangSC-Medium, serif;
     font-weight: 500;
     padding: 10px 10px 10px 12px;
     border-radius: 0 100px 100px 0;

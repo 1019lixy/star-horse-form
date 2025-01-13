@@ -9,8 +9,6 @@ import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import StarHorseForm from "@/components/comp/StarHorseForm.vue";
 import {Config} from "@/api/settings.ts";
 import {commonField} from "@/api/system.ts";
-import {warning} from "@/utils/message.ts";
-import {tableList} from "@/views/dbsearch/utils/DbSearchUtils.ts";
 
 let designForm = DesignForm(piniaInstance);
 let formInfo = computed(() => designForm.formInfo);
@@ -52,8 +50,7 @@ const loadMenus = (val: any) => {
     return;
   }
   permissionMenus({}, val).then((res) => {
-    let redata = res.data.data;
-    menusInfoList.value = redata;
+    menusInfoList.value = res.data.data;
     // redata.forEach((item: any) => {
     //   menusInfoList.value.push({name: item.menuName, value: item.dataNo});
     // });
@@ -122,7 +119,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             helpMsg: relationMsg,
             batchFieldList: [{
               batchName: "relations",
-              initRows:0,
+              initRows: 0,
               fieldList: [
                 {label: "关联表", fieldName: "tableId", type: "select", optionList: relationDataList, required: true, formVisible: true},
                 {label: "映射关系", fieldName: "relationType", type: "select", defaultValue: "1n", optionList: relationTypeList, required: true, formVisible: true},
@@ -168,13 +165,13 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             fieldList: [
               [
                 {label: "需要公共字段", fieldName: "needCommonFields", type: "switch", defaultValue: "Y", formVisible: true,},
-                {label: "状态字典",helpMsg:"系统字段中配置的类型编码", fieldName: "statusDictName", type: "input", defaultValue: "common", formVisible: true,}
+                {label: "状态字典", helpMsg: "系统字段中配置的类型编码", fieldName: "statusDictName", type: "input", defaultValue: "common", formVisible: true,}
               ],
               {
                 batchFieldList: [{
                   objectName: "commonFieldControllers",
                   batchName: "commonFieldControllers",
-                  initRows:0,
+                  initRows: 0,
                   subFormFlag: true,
                   fieldList: [
                     {
@@ -202,7 +199,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
               objectName: "fieldMappingList",
               batchName: "fieldMappingList",
               subFormFlag: true,
-              initRows:0,
+              initRows: 0,
               fieldList: [
                 {
                   label: "字段信息", fieldName: "fieldName", type: "select", optionList: dynamicFieldList,

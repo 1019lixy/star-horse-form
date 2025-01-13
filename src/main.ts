@@ -6,7 +6,7 @@ import nodeComponent from "@/views/continus/nodeInfo/nodecomp";
 import userContainerComponent from "@/components/comp/items/callitem";
 import itemComponent from "@/components/formcomp/items/allitem";
 import containerComponent from "@/components/formcomp/container/callitem";
-import flowNodeComponent from "@/views/workflow/plugin/FlowNode/nodes.ts";
+import flowNodeComponent from "@/views/workflow/plugin/node/nodes.ts";
 import App from "@/App.vue";
 import {createApp} from "vue"
 import ElementPlus from "element-plus";

@@ -11,6 +11,7 @@ import {ApiUrls} from "@/components/types/ApiUrls";
 import {Reactive} from "vue-demi";
 import {DialogProps} from "@/components/types/DialogProps";
 import {createDatetime} from "@/api/date_utils.ts";
+import {getValidType} from "@/api/valid_utils.ts";
 
 let loading: any = null;
 /**
@@ -853,7 +854,7 @@ export function validMsg(item: any, dataForm: any) {
         rules.push({'required': true, 'message': '必填项不能为空', 'trigger': 'blur'});
         if (item.type == "number-range") {
             rules.push({
-                validator: (rule: any, value: any, callback: any) => {
+                validator: (_rule: any, _value: any, callback: any) => {
                     let fieldName = item.fieldName;
                     console.log(dataForm)
                     if (dataForm[fieldName + 'Min'] + '' === '') {
@@ -882,9 +883,14 @@ export function validMsg(item: any, dataForm: any) {
             });
         }
     }
-    if(item.rules&&item.rules.length>0){
+    if (item.rules && item.rules.length > 0) {
         item.rules.forEach((rule: any) => {
-            rules.push(rule)
+            if (rule instanceof String) {
+                rules.push(getValidType(rule))
+            } else {
+                rules.push(rule)
+            }
+
         })
     }
     return rules;

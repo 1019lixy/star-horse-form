@@ -75,7 +75,7 @@ export default defineComponent({
         //         let url = proxy.imgUrl + res.data.data.path
         //         insertFn(url) // 最后插入图片 insertFn(url, alt, href)，alt：描述，href:链接，后面非必填
         //       } else {
-        //         proxy.$util.messages(res.data.msg, "error")
+        //         proxy.$utils.messages(res.data.msg, "error")
         //       }
         //     })
         //     .catch((err) => {})

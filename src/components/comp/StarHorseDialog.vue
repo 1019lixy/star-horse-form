@@ -6,7 +6,7 @@ import {BtnAuth} from "@/components/types/BtnAuth";
 import {UserFuncInfo} from "@/components/types/PageFieldInfo";
 import {Config} from "@/api/settings.ts";
 
-const emits = defineEmits(["merge", "mergeDraft", "resetForm", "closeAction"]);
+const emits = defineEmits(["merge", "mergeDraft", "resetForm", "open", "closeAction"]);
 const props = defineProps({
   dialogVisible: {type: Boolean, default: false},
   dialogProps: {type: Object as PropType<DialogProps>, default: {}},
@@ -19,6 +19,7 @@ const props = defineProps({
   boxWidth: {type: String, default: "60%"},
   isBatch: {type: Boolean, default: false},
   fullScreen: {type: Boolean, default: false},
+  hideFullScreenIcon: {type: Boolean, default: false},
   //自定义提交
   selfFunc: {type: Boolean, default: false},
   //自定义关闭
@@ -69,6 +70,9 @@ const beforeClose = () => {
   }
 
 };
+const open = () => {
+  emits("open");
+};
 onMounted(() => {
 });
 provide("closeDialog", beforeClose);
@@ -94,18 +98,21 @@ provide("dialogOperation", clickFunction);
                  :fullscreen="isFullScreen"
                  :show-close="false" :draggable="draggable" :align-center="true" v-model="windowsType"
                  @close="beforeClose"
+                 @open="open"
                  :width="boxWidth" :style="dialogStyle">
         <template #header="{ close }">
           <h3>{{ title || dialogProps.dialogTitle }}</h3>
           <div class="my-header">
-            <el-button style="background: var(--star-horse-style);color: var(--star-horse-white)" :size="compSize"
-                       @click="fullScreen" link v-if="!!isFullScreen && draggable" :title="i18n('dialog.resize')">
-              <star-horse-icon icon-class="fullscreen-shrink" color="var(--star-horse-white)"/>
-            </el-button>
-            <el-button style="background: var(--star-horse-style);color: var(--star-horse-white)" :size="compSize"
-                       @click="fullScreen" link v-if="!isFullScreen && draggable" :title="i18n('dialog.fullScreen')">
-              <star-horse-icon icon-class="fullscreen-expand" color="var(--star-horse-white)"/>
-            </el-button>
+            <template v-if="!hideFullScreenIcon">
+              <el-button style="background: var(--star-horse-style);color: var(--star-horse-white)" :size="compSize"
+                         @click="fullScreen" link v-if="!!isFullScreen && draggable" :title="i18n('dialog.resize')">
+                <star-horse-icon icon-class="fullscreen-shrink" color="var(--star-horse-white)"/>
+              </el-button>
+              <el-button style="background: var(--star-horse-style);color: var(--star-horse-white)" :size="compSize"
+                         @click="fullScreen" link v-if="!isFullScreen && draggable" :title="i18n('dialog.fullScreen')">
+                <star-horse-icon icon-class="fullscreen-expand" color="var(--star-horse-white)"/>
+              </el-button>
+            </template>
             <el-button style="background: var(--star-horse-style);color: var(--star-horse-white)" :size="compSize"
                        @click="close" link :title="i18n('dialog.close')">
               <star-horse-icon icon-class="close" color="var(--star-horse-white)"/>

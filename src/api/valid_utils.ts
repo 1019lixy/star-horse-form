@@ -35,7 +35,7 @@ export const validRulesList: Array<SelectOption> = [
  * 获取验证类型
  * @param type
  */
-export function getValidType(type: string) {
+export function getValidType(type: any) {
     for (let i = 0; i < validTypes.length; i++) {
         if (validTypes[i].value === type) {
             return validTypes[i]

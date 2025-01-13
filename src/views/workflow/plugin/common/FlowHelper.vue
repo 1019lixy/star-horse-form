@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {computed, onMounted, ref} from "vue";
-import {scale} from "@/views/workflow/plugin/util/deviceUtil";
+import {scale} from "@/views/workflow/plugin/utils/deviceUtil";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 import {ApiUrls} from "@/components/types/ApiUrls";

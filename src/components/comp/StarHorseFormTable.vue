@@ -3,7 +3,6 @@ import {onMounted, ref} from "vue";
 import {batchFieldDefaultValues} from "@/api/sh_api.ts";
 import {ModelRef} from "vue-demi";
 import {Config} from "@/api/settings.ts";
-import StarHorseFormItem from "@/components/comp/StarHorseFormItem.vue";
 
 defineProps({
   item: {type: Object, required: true},
