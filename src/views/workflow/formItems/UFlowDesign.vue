@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import JbpmDesign from "@/views/jbpm/JbpmDesign.vue";
-import FlowDesign from "@/views/workflow/plugin/FlowDesign/FlowDesign.vue"
+import FlowDesign from "@/views/workflow/plugin/FlowDesign.vue"
 const props = defineProps({
   flowStyle: {type: String, default: "dingding"}
 });

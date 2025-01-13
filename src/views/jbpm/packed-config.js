@@ -387,7 +387,7 @@ var labelRequired = function () {
 
         // ignore data objects and artifacts for now
         if (isAny$6(node, [
-            'bpmn:FlowNode',
+            'bpmn:node',
             'bpmn:SequenceFlow',
             'bpmn:Participant',
             'bpmn:Lane'
@@ -2309,7 +2309,7 @@ var superfluousTermination = function () {
         const flowElements = node.flowElements || [];
 
         const ends = flowElements.filter(
-            element => is(element, 'bpmn:FlowNode') && (element.outgoing || []).length === 0
+            element => is(element, 'bpmn:node') && (element.outgoing || []).length === 0
         );
 
         const terminateEnds = ends.filter(isTerminateEnd);

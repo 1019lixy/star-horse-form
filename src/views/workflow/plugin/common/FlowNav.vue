@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {computed, ref} from "vue";
-import {flowMixin} from '@/views/workflow/plugin/mixins/flowMixin';
-import {scale} from "@/views/workflow/plugin/util/deviceUtil";
+import {flowCommon} from '@/views/workflow/plugin/utils/flowCommon.ts';
+import {scale} from "@/views/workflow/plugin/utils/deviceUtil";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 import {warning} from "@/utils/message.ts";
@@ -76,10 +76,10 @@ const changeFlow = () => {
       </div>
     </div>
     <div class="designer-nav-button">
-      <el-button v-if="currentNav ==3" link :size="flowMixin.size" @click="changeFlow">
+      <el-button v-if="currentNav ==3" link :size="flowCommon.size" @click="changeFlow">
         <span>切换</span>
       </el-button>
-      <el-button type="primary" :size="flowMixin.size" @click="onClick">
+      <el-button type="primary" :size="flowCommon.size" @click="onClick">
         <span>{{ buttonName }}</span>
       </el-button>
     </div>

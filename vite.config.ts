@@ -106,7 +106,7 @@ export default defineConfig((mode, command) => {
             );
             optimizeDepsList.push(`element-plus/es/components/${dirname}/style/index`);
         }catch (e) {
-            console.log(`2,将强制对${dirname}进行依赖预构建异常`,e);
+            console.log(`2,将强制对${dirname}进行依赖预构建异常`);
         }
     });
     // console.log(optimizeDepsList);

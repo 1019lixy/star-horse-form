@@ -1,0 +1,308 @@
+<script setup lang="ts">
+import {flowCommon} from '@/views/workflow/plugin/utils/flowCommon.ts';
+import {uuid} from "@/api/system.ts";
+import FlowDrawerFooter from '@/views/workflow/plugin/common/DrawerFooter.vue';
+import {onMounted, ref} from "vue";
+import {useFlowDesign} from "@/store/FlowDesignStore.ts";
+import piniaInstance from "@/store";
+import {dictData, searchMatchList} from "@/api/sh_api.ts";
+import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
+import {SelectOption} from "@/components/types/SearchProps";
+import {ModelRef} from "vue-demi";
+
+defineOptions({
+  name: "BranchPrep",
+})
+let node :ModelRef<any>= defineModel("activeData");
+
+// 等级
+let levelOptions = ref<Array<any>>([]);
+let branchTypes = ref<SelectOption[]>([]);
+let columns = ref<Array<any>>([
+  {label: '姓名', value: '姓名'},
+  {label: '工号', value: '工号'},
+  {label: '部门', value: '部门'},
+  {label: 'Base地', value: 'Base地'},
+  {label: '所属体系', value: '所属体系'},
+  {label: '归属地', value: '归属地'},
+]);
+let formColumns = ref<Array<any>>([{label: '加班类型', value: '加班类型'}]);
+
+// 值类型
+let valueTypes = ref<Array<any>>([
+  {label: '固定', value: '1'},
+  {label: '动态值', value: '2'},
+  {label: '流程值', value: '3'},
+  {label: '数据源', value: '4'},
+]);
+// 动态值类型
+let dynamicValueTypes = ref<Array<any>>([
+  {label: '当前员工', value: '1'},
+  {label: '当前员工工号', value: '2'},
+  {label: '当前部门', value: '3'},
+  {label: '当前组织', value: '4'},
+  {label: '下级部门', value: '5'},
+  {label: '上级部门', value: '6'},
+  {label: '当前日期', value: '7'},
+  {label: '当前时间', value: '8'},
+]);
+// 流程值类型
+let flowValueTypes = ref<Array<any>>([
+  {label: '流程状态', value: '1'},
+  {label: '流程创建人', value: '2'},
+]);
+// 表单数据
+const flowDesign = useFlowDesign(piniaInstance);
+const showDrawer = (snode: any, routeNode: any) => {
+
+  node.value = snode;
+  // 等级
+  if (snode.attr.showPriorityLevel) {
+    levelOptions.value = [];
+    routeNode.conditionNodes.forEach((_item: any, index: number) => {
+      let priorityLevel = index + 1;
+      levelOptions.value.push({label: '优先' + priorityLevel, value: priorityLevel});
+    });
+  }
+}
+const onClose = () => {
+  flowDesign.setActive(false);
+}
+const handleChange = () => {
+}
+const addGroup = (type: number) => {
+  if (type == 1) {
+    node.value.conditionGroup.push({
+      id: uuid(),
+      condition: 'OR',
+      conditions: [
+        {
+          id: uuid(),
+          columnId: '姓名',
+          columnName: '姓名',
+          columnValue: '姓名',
+          columnType: undefined,
+          optType: 'eq',
+          optTypeName: '等于',
+          valueType: '1',
+          conditionValue: [],
+          conditionValueName: [],
+        },
+      ],
+    });
+  }
+}
+const addCondition = (type: number, currGroup: any) => {
+  if (type == 1) {
+    node.value.conditionGroup.forEach((group: any) => {
+      if (currGroup.id == group.id) {
+        group.conditions.push({
+          id: uuid(),
+          columnId: undefined,
+          columnName: undefined,
+          columnValue: undefined,
+          columnType: undefined,
+          optType: undefined,
+          optTypeName: undefined,
+          valueType: undefined,
+          conditionValue: [],
+          conditionValueName: [],
+        });
+      }
+    });
+  }
+}
+const delCondition = (type: number, currGroup: any, CurrCondition: any) => {
+  if (type == 1) {
+    node.value.conditionGroup.forEach((group: any, k: number) => {
+      if (currGroup.id == group.id) {
+        group.conditions.forEach((condition: any, index: number) => {
+          if (CurrCondition.id == condition.id) {
+            group.conditions.splice(index, 1);
+            // 当前组没有条件了，当前组也需要删除
+            if (group.conditions.length == 0) {
+              node.value.conditionGroup.splice(k, 1);
+            }
+          }
+        });
+      }
+    });
+  }
+}
+/**
+ * 保存配置
+ */
+const onSave = () => {
+  // 更新节点显示信息
+  let content = '';
+  if (node.value.attr.branchType == 1) {
+    node.value.conditionGroup.forEach((group: any, j: number) => {
+      if (j != 0) {
+        content += ' 或 ';
+      }
+      if (group.conditions.length > 0) {
+        group.conditions.forEach((condition: any, i: number) => {
+          // const conditionValueName = condition.conditionValueName[0];
+          // if (conditionValueName) {
+          if (i != 0) {
+            content += ' 且 ';
+          }
+          content += '[' + condition.columnValue + ' ' + condition.optTypeName + ' ' + condition.conditionValue + ']';
+          // }
+        });
+      }
+    });
+  } else {
+    content += '任意(其他)';
+  }
+  flowDesign.flowUpdateNode({currNode: node.value, field: 'content', value: null});
+  flowDesign.flowUpdateNode({currNode: node.value, field: 'error', value: true});
+  if (content) {
+    console.info('content', content);
+    flowDesign.flowUpdateNode({currNode: node.value, field: 'error', value: false});
+    flowDesign.flowUpdateNode({currNode: node.value, field: 'content', value: content});
+  }
+  onClose();
+}
+const init = async () => {
+  branchTypes.value = await dictData("flow_branch_type")
+}
+onMounted(() => {
+  init();
+})
+defineExpose({
+  showDrawer
+})
+</script>
+<template>
+  <div class="flow-setting-module">
+    <div class="flow-setting-content">
+      <div v-if="node.attr.showPriorityLevel" class="flow-setting-item">
+        <p class="flow-setting-item-title">分支等级</p>
+        <el-select v-model="node.attr.priorityLevel" :size="flowCommon.size" placeholder="请选择等级">
+          <el-option v-for="item in levelOptions" :key="item.value" :label="item.label" :value="item.value"/>
+        </el-select>
+      </div>
+      <div class="flow-setting-item">
+        <p class="flow-setting-item-title">分支类型</p>
+        <el-radio-group v-model="node.attr.branchType" :size="flowCommon.size">
+          <el-radio :value="branchType.value" v-for="branchType in branchTypes" :key="branchType.value">
+            {{ branchType.name }}
+          </el-radio>
+        </el-radio-group>
+      </div>
+      <el-divider/>
+      <div v-if="node.attr.branchType == 'rule'" class="flow-setting-item">
+        <p class="flow-setting-item-title">条件规则</p>
+        <div class="flow-setting-condition-box">
+          <div v-for="(group, i) in node.conditionGroup" :key="i">
+            <div class="flow-setting-condition-group">
+              <div class="flow-setting-condition-item" v-for="(condition, k) in group.conditions" :key="k">
+                <el-row gutter="5">
+                  <el-col :span="6">
+                    <el-select v-model="condition.columnValue" :size="flowCommon.size"
+                               placeholder="字段" filterable clearable
+                               @change="handleChange">
+                      <el-option-group label="基础字段">
+                        <el-option :value="column.value" v-for="(column, i) in columns" :key="i">{{
+                            column.label
+                          }}
+                        </el-option>
+                      </el-option-group>
+                      <el-option-group label="表单字段">
+                        <el-option :value="column.value" v-for="(column, i) in formColumns" :key="i">{{
+                            column.label
+                          }}
+                        </el-option>
+                      </el-option-group>
+                    </el-select>
+                  </el-col>
+                  <el-col :span="5">
+                    <!-- 判断(操作)符 -->
+                    <el-select v-model="condition.optType" :size="flowCommon.size"
+                               placeholder="操作符"
+                               @change="handleChange">
+                      <el-option :value="optType.value" :label="optType.name" v-for="optType in searchMatchList()"
+                                 :key="optType.value"/>
+                    </el-select>
+                  </el-col>
+                  <el-col :span="5">
+                    <!-- 值类型 -->
+                    <el-select v-model="condition.valueType" :size="flowCommon.size"
+                               @change="condition.conditionValue = []"
+                               placeholder="值类型"
+                    >
+                      <el-option :value="valueType.value" :label="valueType.label" v-for="valueType in valueTypes"
+                                 :key="valueType.value"/>
+                    </el-select>
+                  </el-col>
+                  <el-col :span="6">
+                    <!-- 动态值 -->
+                    <el-select
+                        v-if="condition.valueType == 2"
+                        :size="flowCommon.size"
+                        v-model="condition.conditionValue">
+                      <el-option :value="valueType.value" :label="valueType.label"
+                                 v-for="valueType in dynamicValueTypes" :key="valueType.value"/>
+                    </el-select>
+
+                    <!-- 流程值 -->
+                    <el-select
+                        v-else-if="condition.valueType == 3"
+                        :size="flowCommon.size"
+                        v-model="condition.conditionValue">
+                      <el-option :value="valueType.value" :label="valueType.label"
+                                 v-for="valueType in flowValueTypes" :key="valueType.value"/>
+                    </el-select>
+
+                    <!-- 数据源 -->
+                    <el-select
+                        v-else-if="condition.valueType == 4"
+                        :size="flowCommon.size"
+                        v-model="condition.conditionValue">
+                      <el-option :value="valueType.value" :label="valueType.label" v-for="valueType in columns"
+                                 :key="valueType.value"/>
+                    </el-select>
+                    <!-- 固定 -->
+                    <el-input v-else v-model="condition.conditionValue" :size="flowCommon.size"/>
+                  </el-col>
+                  <el-col :span="2">
+                    <star-horse-icon @click.stop="delCondition(1, group, condition)" iconClass="delete"
+                                     color="var(--el-color-danger)"/>
+                  </el-col>
+                </el-row>
+              </div>
+              <div class="flow-setting-condition-add" @click="addCondition(1, group)">
+                <star-horse-icon iconClass="plus"/>
+                <span style="margin-left: 5px">且条件</span>
+              </div>
+            </div>
+            <div v-if="node.conditionGroup.length > 1 && i != node.conditionGroup.length - 1"
+                 class="flow-setting-condition-group-connector">或
+            </div>
+          </div>
+          <div class="flow-setting-condition-add" @click="addGroup(1)">
+            <star-horse-icon iconClass="plus"/>
+            <span>或条件</span>
+          </div>
+        </div>
+      </div>
+      <div v-else-if="node.attr.branchType == 'formula'" class="flow-setting-item">
+        <p class="flow-setting-item-title">公式</p>
+      </div>
+      <div v-else class="flow-setting-item">
+        <p class="flow-setting-item-title">其他</p>
+      </div>
+    </div>
+  </div>
+  <FlowDrawerFooter @close="onClose" @save="onSave"/>
+</template>
+<style lang="scss" scoped>
+:deep {
+  .el-row {
+    width: 100%;
+    align-items: center;
+  }
+}
+
+</style>
