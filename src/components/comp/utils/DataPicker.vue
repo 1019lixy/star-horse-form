@@ -20,7 +20,8 @@ export interface DataDropdownProps {
   compSize?: string,
   displayName?: string,
   displayValue?: string,
-  multiple?: boolean
+  multiple?: boolean,
+  checkStrictly?: boolean
 }
 
 
@@ -29,7 +30,8 @@ const props = withDefaults(defineProps<DataDropdownProps>(), {
   displayValue: 'value',
   compSize: 'small',
   pageSize: 0,
-  multiple: false
+  multiple: false,
+  checkStrictly: true
 })
 
 const emits = defineEmits<{
@@ -79,7 +81,7 @@ const onNodeClick = (data: any) => {
       dataOptions.value.splice(index, 1)
     }
   }
-  console.log("onNodeClick", dataOptions.value);
+  // console.log("onNodeClick", dataOptions.value);
 }
 const dialogVisible = ref(false)
 const queryForm = reactive({
@@ -94,11 +96,11 @@ watch(
 )
 const filterNode = (value: string, data: TreeNodeData): boolean => {
   if (!value) return true;
-  if (props.pageSize > 0) {
-
-  } else {
-    return data.name.includes(value)
-  }
+  // if (props.pageSize > 0) {
+  //
+  // } else {
+  return data[props.displayName].includes(value)
+  // }
 
 }
 let pageInfo = reactive<PageProps>({
@@ -115,7 +117,7 @@ const loadData = () => {
     fieldList: [],
     orderBy: [],
   };
-  postRequest(props.dataUrl, params).then((res) => {
+  postRequest(props.dataUrl!, params).then((res) => {
     if (res?.data?.code) {
       res && console.error(res?.data?.cnMessage);
       return;
@@ -206,6 +208,7 @@ defineExpose({
             :data="dataOrgOptions"
             :default-expanded-keys="expandedKeys"
             :props="treeProps"
+            :check-strictly="checkStrictly"
             :filter-node-method="filterNode"
             @node-click="onNodeClick"
         >

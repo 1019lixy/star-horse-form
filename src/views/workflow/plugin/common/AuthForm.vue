@@ -35,16 +35,19 @@ const props = defineProps({
       return {};
     },
   },
-  value: {
-    type: any,
-    default: function () {
-      return {};
-    },
+  formId: {
+    type: String,
+    required: true,
   },
 });
-const dataChange = async (param: any) => {
-  console.log(param);
-  let {data, error} = await loadData("/userdb-manage/userdb/dynamicForm/getById/" + param['idDynamicForm'], {});
+const dataChange = async (formId: string) => {
+  if (!formId) {
+    dataList.value = [];
+    commonFieldList.value = [];
+    currentData.value = [];
+    return;
+  }
+  let {data, error} = await loadData("/userdb-manage/userdb/dynamicForm/getById/" + formId, {});
   if (error) {
     warning(error);
     return;
@@ -54,12 +57,12 @@ const dataChange = async (param: any) => {
   commonFieldList.value = data.commonFieldControllers;
 }
 const init = () => {
-  dataChange(props.value);
+  dataChange(props.formId);
 }
 onMounted(() => {
   init();
 });
-watch(() => props.value, (_val: any) => {
+watch(() => props.formId, (_val: any) => {
   init();
 }, {
   immediate: false,

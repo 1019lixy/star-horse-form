@@ -17,8 +17,9 @@ export interface DataSelectorProps {
   compSize?: string,
   displayName?: string,
   displayValue?: string,
-  multiple?: boolean
-  disabled?: boolean
+  multiple?: boolean,
+  disabled?: boolean,
+  checkStrictly?: boolean,
   style?: CSSProperties
 }
 
@@ -29,15 +30,23 @@ const props = withDefaults(defineProps<DataSelectorProps>(), {
   pageSize: 0,
   displayName: 'name',
   displayValue: 'value',
+  checkStrictly: true,
   placeholder: '请选择数据'
 })
 const emits = defineEmits<{
   (e: 'update:modelValue', modelValue: ModelValueType): void
 }>()
-const value: any = useVModel(props, 'modelValue', emits)
+const value: any = useVModel(props, 'modelValue', emits);
+const selectData: any = ref<any>();
 const valueArr = computed<string[]>(() => {
-  if (!value.value) return []
-  return Array.isArray(value.value) ? value.value : [value.value]
+  if (!selectData.value) return [];
+  if (Array.isArray(selectData.value)) {
+    value.value = selectData.value.map((v: any) => v[props.displayValue]);
+    return selectData.value;
+  } else {
+    value.value = selectData.value[props.displayValue];
+    return [selectData.value];
+  }
 })
 const dataPickerRef = ref<InstanceType<typeof DataPicker>>()
 const formDisabled = useFormDisabled()
@@ -46,14 +55,17 @@ const disabled = computed<boolean>(() => {
   return formDisabled.value || props.disabled
 })
 const openDataPicker = () => {
+  if (props.disabled) return;
   dataPickerRef.value?.open()
 }
-const onClose = (data: string) => {
-  if (!value.value) return
-  if (props.multiple && Array.isArray(value.value)) {
-    value.value.splice(value.value.indexOf(data), 1)
+const onClose = (data: any) => {
+  if (!selectData.value) return
+  if (props.multiple && Array.isArray(selectData.value)) {
+    selectData.value.splice(selectData.value.indexOf(data), 1);
+    value.value.splice(selectData.value.indexOf(data[props.displayValue]), 1);
   } else {
-    value.value = null
+    selectData.value = null
+    value.value = null;
   }
 }
 </script>
@@ -66,20 +78,21 @@ const onClose = (data: string) => {
                :page-size="pageSize"
                :display-name="displayName"
                :display-value="displayValue"
-               :multiple="multiple" v-model="value"/>
+               :checkStrictly="checkStrictly"
+               :multiple="multiple" v-model="selectData"/>
   <div class="data-wrapper">
-    <star-horse-icon @click="openDataPicker" cursor="pointer" icon-class="select-data" border="true"/>
-    <DataTag
-        v-for="item in valueArr"
-        :closable="!disabled"
-        :data="item"
-        :display-name="displayName"
-        :display-value="displayValue"
-        @close="onClose"
-    />
-    <el-text v-show="!value || value.length === 0" class="placeholder">
-      {{ placeholder }}
-    </el-text>
+    <star-horse-icon @click="openDataPicker" cursor="pointer" icon-class="select-data" :border=true />
+      <DataTag
+          v-for="item in valueArr"
+          :closable="!disabled"
+          :data="item"
+          :display-name="displayName"
+          :display-value="displayValue"
+          @close="onClose"
+      />
+      <el-text v-show="!value || value.length === 0" class="placeholder">
+        {{ placeholder }}
+      </el-text>
   </div>
 </template>
 

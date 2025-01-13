@@ -9,10 +9,10 @@
           <el-tab-pane label="表单权限" name="form">
             <star-horse-data-selector data-url="/userdb-manage/userdb/dynamicForm/pageList"
                                       display-name="formName"
-                                      display-value="dataNo"
-                                      page-size="100"
+                                      display-value="idDynamicForm"
+                                      page-size=100
                                       v-model="value"/>
-            <AuthForm v-model="node.privileges" :value="value" writable/>
+            <AuthForm v-model="node.privileges" :formId="value" writable/>
           </el-tab-pane>
         </el-tabs>
       </div>
