@@ -26,6 +26,7 @@ const props = defineProps({
     default: false,
   }
 });
+props.node.error=computed(()=>!props.node.privileges);
 const emits=defineEmits(['selectNode']);
 const selectNode = () => {
   emits('selectNode',props.node);

@@ -77,10 +77,10 @@
                 <div class="approver-tip-content">
                   <div class="approver-tip-main-content">
                     <p class="main-title">什么情况下会出现{{ node.type == 1 ? '审批人' : '办理人' }}为空？</p>
-                    <p class="content">设置了“上级”审批，但申请人在飞书管理后台 - 组织架构中没有上级</p>
-                    <p class="content">设置了“部门负责人”审批，但申请人在飞书管理后台 - 组织架构中没有部门负责人</p>
-                    <p class="content">设置了“角色”审批，但该角色在飞书管理后台 - 组织架构中没有任何成员</p>
-                    <p class="content">设置了“用户组”审批，但该用户组在飞书管理后台 - 组织架构中没有任何成员</p>
+                    <p class="content">设置了“上级”审批，但申请人在管理后台 - 组织架构中没有上级</p>
+                    <p class="content">设置了“部门负责人”审批，但申请人在管理后台 - 组织架构中没有部门负责人</p>
+                    <p class="content">设置了“角色”审批，但该角色在管理后台 - 组织架构中没有任何成员</p>
+                    <p class="content">设置了“用户组”审批，但该用户组在管理后台 - 组织架构中没有任何成员</p>
                   </div>
                 </div>
               </el-popover>
