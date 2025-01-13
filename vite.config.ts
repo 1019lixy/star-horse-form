@@ -12,6 +12,7 @@ import {ElementPlusResolver} from 'unplugin-vue-components/resolvers'
 import AutoImport from 'unplugin-auto-import/vite'
 import {viteCommonjs} from '@originjs/vite-plugin-commonjs'
 import vueDevTools from 'vite-plugin-vue-devtools'
+
 const codeHost: string = "http://192.168.20.165:8888/"
 // const codeHost:string = "http://localhost:8888/"
 const systemHost: string = "http://localhost:8749/"
@@ -23,8 +24,9 @@ const dbSearchHost: string = "http://localhost:7759/"
 const userDbHost: string = "http://localhost:7758/"
 // const userDbHost:string = "http://192.168.20.204:7758/"
 // https://vitejs.dev/config/
+
 export default defineConfig((mode, command) => {
-    let optimizeDepsElementPlusIncludes = [
+    let optimizeDepsList: string[] = [
         "element-plus/es", 'vue',
         'vue-router',
         'vue3-guides',
@@ -39,7 +41,6 @@ export default defineConfig((mode, command) => {
         '@fullcalendar/daygrid',
         '@fullcalendar/timegrid',
         '@fullcalendar/multimonth',
-        '@fullccalendar/interaction',
         '@fullcalendar/core/locales/zh-cn',
         '@fullcalendar/list',
         '@fullcalendar/interaction',
@@ -64,7 +65,6 @@ export default defineConfig((mode, command) => {
         '@codemirror/lang-java',
         '@codemirror/lang-json',
         '@codemirror/lang-yaml',
-        '@codemirror/lang-enums',
         '@codemirror/lang-vue',
         '@codemirror/lang-html',
         '@codemirror/lang-cpp',
@@ -80,39 +80,36 @@ export default defineConfig((mode, command) => {
         '@wangeditor/editor',
         '@wangeditor/editor-for-vue',
         '@replit/codemirror-minimap',
-        '@element-plus/dist/locale/zh-cn.mjs',
-        '@element-plus/dist/locale/en.mjs',
-        '@element-plus/icons-vue',
+        'element-plus/dist/locale/zh-cn.mjs',
+        'element-plus/dist/locale/en.mjs',
         'pinia',
         'axios',
         'vue-router',
         '@vueuse/core',
         'flv.js',
     ]
-
-    fs.readdirSync("node_modules/element-plus/es/components").map((dirname) => {
-        fs.access(
+    fs.readdirSync("node_modules/element-plus/es/components").map(async (dirname) => {
+       try{
+        fs.accessSync(
             `node_modules/element-plus/es/components/${dirname}/style/css.mjs`,
-            (err) => {
-                if (!err) {
-                    let path = `element-plus/es/components/${dirname}/style/css`;
-                    optimizeDepsElementPlusIncludes.push(path);
-                    console.log(`将强制对${path}进行依赖预构建`);
-                }
-            }
+            fs.constants.F_OK
         );
+           optimizeDepsList.push( `element-plus/es/components/${dirname}/style/css`);
+       }catch (e) {
+           console.log(`1,将强制对${dirname}进行依赖预构建异常`);
+       }
         //注意，一定要包含下面这部分
-        fs.access(
-            `node_modules/element-plus/es/components/${dirname}/style/index.mjs`,
-            (err) => {
-                if (!err) {
-                    let path = `element-plus/es/components/${dirname}/style/index`;
-                    optimizeDepsElementPlusIncludes.push(path);
-                    console.log(`将强制对${path}进行依赖预构建`);
-                }
-            }
-        );
+        try {
+            fs.accessSync(
+                `node_modules/element-plus/es/components/${dirname}/style/index.mjs`,
+                fs.constants.F_OK
+            );
+            optimizeDepsList.push(`element-plus/es/components/${dirname}/style/index`);
+        }catch (e) {
+            console.log(`2,将强制对${dirname}进行依赖预构建异常`,e);
+        }
     });
+    // console.log(optimizeDepsList);
     return {
         base: "/",
         server: {
@@ -155,7 +152,8 @@ export default defineConfig((mode, command) => {
             }
         },
         optimizeDeps: {
-            include: optimizeDepsElementPlusIncludes
+            // force: true,
+            include: optimizeDepsList
             // exclude:[]
         },
         plugins: [
@@ -217,15 +215,6 @@ export default defineConfig((mode, command) => {
                 },
             },
         },
-        /*  optimizeDeps: {
-              include: [
-                  `monaco-editor/esm/vs/language/json/json.worker`,
-                  `monaco-editor/esm/vs/language/enums/enums.worker`,
-                  `monaco-editor/esm/vs/language/html/html.worker`,
-                  `monaco-editor/esm/vs/language/typescript/ts.worker`,
-                  `monaco-editor/esm/vs/editor/editor.worker`
-              ],
-          },*/
         resolve: {
             alias: {
                 "@": resolve(__dirname, "./src")
@@ -233,15 +222,9 @@ export default defineConfig((mode, command) => {
 
             extensions: ['.js', '.vue', '.json', '.ts', ".jsx"]
         },
-        /*   enums: {
-               preprocessorOptions: {
-                   scss: {
-                       additionalData: `@use "@/assets/enums/element/index.scss" as *;`,
-                   },
-               },
-           },*/
         build: {
             rollupOptions: {
+                external: ["vue", "vue-router", "vuex", "element-plus/es", "axios", "jsencrypt", "jquery"],
                 input: {
                     main: resolve(__dirname, "index.html")
                 }
