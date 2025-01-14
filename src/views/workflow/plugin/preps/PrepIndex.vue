@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {scale} from "@/views/workflow/plugin/utils/deviceUtil.ts";
 import {ref, computed} from 'vue'
-import WritePrep from "@/views/workflow/plugin/preps/WritePrep.vue";
+import ApplyPrep from "@/views/workflow/plugin/preps/ApplyPrep.vue";
 import ApprovalPrep from "@/views/workflow/plugin/preps/ApprovalPrep.vue";
 import BranchPrep from "@/views/workflow/plugin/preps/BranchPrep.vue";
 import CopyerPrep from "@/views/workflow/plugin/preps/CopyerPrep.vue";
@@ -24,8 +24,9 @@ const flowDesign = useFlowDesign(piniaInstance);
 let activeNode = computed(() => flowDesign.currentNode);
 let activePanel = computed(() => flowDesign.active);
 const panels = ref<any>({
-  WriteNode: WritePrep,
+  ApplyNode: ApplyPrep,
   ApprovalNode: ApprovalPrep,
+  HandleNode: ApprovalPrep,
   CopyerNode: CopyerPrep,
   TimerNode: TimerPrep,
   NoticeNode: NoticePrep,

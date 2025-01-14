@@ -17,7 +17,9 @@
             <span v-else class="hint-title">时间节点</span>
           </div>
           <!-- 错误提示 -->
-          <star-horse-icon v-if="node.error" icon-class="exclamation-circle" theme="filled" class="node-error"/>
+          <el-tooltip :content="node.errorMsg" placement="top" v-if="node.error">
+            <star-horse-icon icon-class="exclamation-circle" theme="filled" class="node-error"/>
+          </el-tooltip>
           <!-- 只有是填写节点才能删除，发起节点不能删除 -->
           <div v-if="!readable && !node.deletable " class="close-icon">
             <star-horse-icon icon-class="close" @click.stop="node.deletable = true"/>
@@ -34,17 +36,18 @@
 import FlowAddNode from '@/views/workflow/plugin/node/AddNode.vue';
 import EditName from '@/views/workflow/plugin/common/EditName.vue';
 import DeleteConfirm from '@/views/workflow/plugin/common/DeleteConfirm.vue';
-import {computed, onMounted, ref} from "vue";
+import {computed, onMounted} from "vue";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 import {closeLoad} from "@/api/sh_api.ts";
 
 defineOptions({
-  name: 'TaskNode',
+  name: 'TimerNode',
 });
 const flowDesign = useFlowDesign(piniaInstance);
 let currentNode = computed(() => flowDesign.currentNode);
+
 const props = defineProps({
   node: {
     type: Object,
@@ -57,9 +60,27 @@ const props = defineProps({
     default: false,
   }
 });
-const emits=defineEmits(['selectNode']);
+props.node.error = computed(() => {
+  let flag = false;
+  let msg = "";
+  if (!props.node.waitType) {
+    msg = "未配置时间类型";
+    flag = true;
+  }
+  if (props.node.waitType == 'duration' && (!props.node.duration || !props.node.unit)) {
+    msg += "\n未配置等待时长或单位";
+    flag = true;
+  }
+  if (props.node.waitType == 'date' && !props.node.timeDate) {
+    msg += "\n未配置时间";
+    flag = true;
+  }
+  props.node.errorMsg = msg;
+  return flag;
+});
+const emits = defineEmits(['selectNode']);
 const selectNode = () => {
-  emits('selectNode',props.node);
+  emits('selectNode', props.node);
 }
 let nameClass = computed(() => {
   return (node, defaultStyle) => {

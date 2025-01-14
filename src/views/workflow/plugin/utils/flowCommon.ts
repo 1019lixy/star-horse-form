@@ -91,7 +91,7 @@ export function nameClass(node: any, defaultStyle: any) {
 export const flowCommon = {
     isActive: false,
     // 大小，可选值为 small large
-    size: 'default',
+    size: 'small',
     // el-drawer内容滚动
     bodyStyle: {
         height: 'calc(100vh - 114px)',

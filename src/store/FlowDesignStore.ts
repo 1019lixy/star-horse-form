@@ -25,7 +25,7 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
     const currentNode = ref<any>({});
     const flowFormInfo = ref<any>({});
     //  节点数据
-    const node = ref<any>(nodePrepList[FlowNodeEnums.WRITE_NODE]);
+    const node = ref<any>(nodePrepList[FlowNodeEnums.APPLY_NODE]);
     //  缩略图
     const mapImg = ref<string>("");
     // 意见分支
@@ -60,7 +60,7 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
         if (snode) {
             node.value = snode;
         } else {
-            node.value = nodePrepList[FlowNodeEnums.WRITE_NODE];
+            node.value = nodePrepList[FlowNodeEnums.APPLY_NODE];
         }
     }
     /**
@@ -96,18 +96,19 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
      * 添加节点
      */
     const flowAddNode = (data: any) => {
-        console.log("flowAddNode", data);
-        if (data.nodeType == FlowNodeEnums.WRITE_NODE) {
+        // console.log("flowAddNode", data);
+        /**
+         * 如果是开始节点，则将当前节点放在最前面，否则放在当前节点后面
+         */
+        if (data.nodeType == FlowNodeEnums.START_NODE) {
             //  开始
             if (node.value.hasOwnProperty('name')) {
                 // 如果添加的是并行节点
                 if (data.addNode.type == FlowNodeEnums.PARALLEL_NODE) {
                     data.addNode.childNode.childNode = node.value;
                     data.addNode.childNode.childNode['pid'] = data.addNode.childNode.id;
-                    console.log("data.addNode.childNode", data.addNode.childNode);
                 } else {
                     data.addNode.childNode = node.value;
-                    console.log("data.currNode.childNode", data.currNode.childNode);
                     data.addNode.childNode["pid"] = data.addNode.id;
                 }
                 data.addNode.pid = 0;
@@ -129,7 +130,7 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
         // 更新地图
         refreshMap(true);
         //console.log('node', state.node);
-        console.info(JSON.stringify(node.value));
+        // console.info(JSON.stringify(node.value));
     }
     /**
      * 添加分支
@@ -185,7 +186,6 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
         } else {
             updateNode(node.value, currNode, field, value);
         }
-        console.info(JSON.stringify(node.value));
     }
 
     const init = () => {

@@ -1,33 +1,64 @@
 <script setup lang="ts">
-import {computed, onMounted} from "vue";
-import {DesignPage} from "@/store/DesignPageStore.ts";
-import piniaInstance from "@/store";
-import {uuid} from "@/api/system.ts";
+import {onMounted, ref} from "vue";
+import * as monaco from 'monaco-editor';
+import IStandaloneCodeEditor = editor.IStandaloneCodeEditor;
 
-let designPage = DesignPage(piniaInstance);
-let nodeList = computed(() => designPage.nodeList);
-const handleClick = () => {
-  designPage.addNode({
-    id: uuid(),
-    name: "节点" + (nodeList.value.length + 1),
-    width: 100,
-    height: 100,
-    zIndex: designPage.defaultZindex + nodeList.value.length,
-    left: 0,
-    top: 0,
+const containerRef = ref();
+const editor = ref<IStandaloneCodeEditor>();
+const init = () => {
+
+  editor.value = monaco.editor.create(containerRef.value, {
+    minimap: {
+      enabled: false
+    },
+    language: 'java',
+    folding: true,
+    lineDecorationsWidth: 35,
+    wordWrap: 'on',
+    theme: 'vs-dark',
+    colorDecorators: true,
+    fontFamily: 'JetBrainsMono, Consolas, "Courier New",monospace, 微软雅黑',
+    fontSize: 14,
+    fontLigatures: true,
+    renderWhitespace: 'none',
+    // 自动调整大小
+    automaticLayout: true,
   });
+  editor.value.addAction({
+    id: 'editor.action.triggerSuggest.extension',
+    label: '触发代码提示',
+    precondition: '!suggestWidgetVisible && !markersNavigationVisible && !parameterHintsVisible && !findWidgetVisible',
+    run: () => {
+      editor.value!.trigger(null, 'editor.action.triggerSuggest', {})
+    }
+  });
+  // CommandsRegistry.registerCommand('editor.action.scrollUp1Line', () => {
+  //   this.editor.setScrollTop(this.editor.getScrollTop() - 22)
+  // })
+  editor.value.addCommand(
+      monaco.KeyMod.Alt | monaco.KeyCode.US_SLASH,
+      () => {
+        let triggerParameterHints = editor.value!.getAction('editor.action.triggerParameterHints')!;
+        let triggerSuggest = editor.value!.getAction('editor.action.triggerSuggest.extension')!;
+        triggerParameterHints.run().then(() => {
+          setTimeout(() => {
+            if (triggerSuggest.isSupported()) {
+              triggerSuggest.run()
+            }
+          }, 0)
+        })
+      },
+      '!findWidgetVisible && !inreferenceSearchEditor && !editorHasSelection'
+  )
+
 }
 onMounted(() => {
-  designPage.setIsEdit(true);
+  init();
 })
 </script>
 
 <template>
-  <el-button @click="handleClick">添加节点</el-button>
-  <div class="box" @click.stop="designPage.selectNode({})">
-    <StarHorseDraggable v-for="(item,index) in nodeList" :key="index" :node="item"
-    />
-  </div>
+  <div class="box" ref="containerRef"></div>
 </template>
 
 <style lang="scss" scoped>

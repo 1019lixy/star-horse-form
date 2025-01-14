@@ -6,7 +6,8 @@ import {commonField} from "@/api/system.ts";
 const props = defineProps({
   list: {type: Array<any>, required: true},
   commonFieldList: {type: Array<any>, default: []},
-  compSize: {type: String, default: Config.compSize}
+  compSize: {type: String, default: Config.compSize},
+  formDisabled: {type: Boolean, default: false},
 });
 let commonFields = commonField();
 let fieldList = computed(() => {
@@ -14,8 +15,8 @@ let fieldList = computed(() => {
   props.commonFieldList?.filter(item => item.formVisible == 'Y').forEach(item => {
     let tempItem = commonFields.find(item2 => item2.fieldName == item.fieldName);
     if (tempItem) {
-      tempItem["required"] =item.required;
-      tempItem["preps"] ={...tempItem};
+      tempItem["required"] = item.required;
+      tempItem["preps"] = {...tempItem};
       tempList.push(tempItem);
     }
   });
@@ -35,6 +36,7 @@ defineExpose({
           label-width="auto"
           label-position="left"
           require-asterisk-position="right"
+          :disabled="formDisabled"
           :model="formData"
           :size="compSize"
       >

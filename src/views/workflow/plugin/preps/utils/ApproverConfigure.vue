@@ -100,7 +100,7 @@ let timeouts = ref<Array<any>>([
     id: uuid(),
     name: '审批限时处理',
     value: '1',
-    icon:"timer",
+    icon: "timer",
     content: '支持自动提醒、转交等，为每条审批流设一个智能闹钟',
     code: 'timeout',
   },
@@ -111,7 +111,7 @@ let securities = ref<Array<any>>([
     id: uuid(),
     name: '审批同意是否需要手写签名',
     value: '1',
-    icon:"sign",
+    icon: "sign",
     content: '如果全局设置了需要签字，则此处不生效',
     code: 'sign',
   },
@@ -119,7 +119,7 @@ let securities = ref<Array<any>>([
     id: uuid(),
     name: '填写密码',
     value: '1',
-    icon:"password",
+    icon: "password",
     content: '凭密码才能填写表单',
     code: 'password',
   },
@@ -147,71 +147,75 @@ onMounted(() => {
 })
 </script>
 <template>
-  <div class="flow-setting-content">
-    <div class="flow-setting-item">
-      <p class="flow-setting-item-title">操作配置</p>
-      <div class="flow-setting-option" v-for="(operation, i) in operations" :key="i">
-        <div class="flow-setting-option-item">
-          <div class="flow-setting-option-item-left">
-            <star-horse-icon :icon-class="operation.icon" size="36px" boxShow="true"/>
-            <div class="flow-setting-option-desc">
-              <p class="setting-option-title">{{ operation.name }}</p>
-              <p class="setting-option-desc">{{ operation.content }}</p>
+  <el-scrollbar>
+    <div class="flow-content">
+      <div class="flow-item">
+        <p class="flow-item-title">操作配置</p>
+        <div class="flow-option" v-for="(operation, i) in operations" :key="i">
+          <div class="flow-item">
+            <div class="flow-item-left">
+              <star-horse-icon :icon-class="operation.icon" size="36px" boxShow="true"/>
+              <div class="flow-desc">
+                <p class="option-title">{{ operation.name }}</p>
+                <p class="option-desc">{{ operation.content }}</p>
+              </div>
+            </div>
+            <div class="flow-item-switch">
+              <el-switch v-model="configure[operation.code]" active-text="开" inactive-text="关"
+                         @change="changeConfigure"/>
             </div>
           </div>
-          <div class="flow-setting-option-item-switch">
-            <el-switch v-model="configure[operation.code]" active-text="开" inactive-text="关"
-                       @change="changeConfigure"/>
+        </div>
+      </div>
+      <div class="flow-item">
+        <p class="flow-item-title">超时配置</p>
+        <div class="flow-option" v-for="(timeout, i) in timeouts" :key="i">
+          <div class="flow-item">
+            <div class="flow-item-left">
+              <star-horse-icon :icon-class="timeout.icon" size="36px" boxShow="true"/>
+              <div class="flow-desc">
+                <p class="option-title">{{ timeout.name }}</p>
+                <p class="option-desc">{{ timeout.content }}</p>
+              </div>
+            </div>
+            <div class="flow-item-switch">
+              <el-switch v-model="configure[timeout.code]" active-text="开" inactive-text="关"/>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="flow-item">
+        <p class="flow-item-title">安全配置</p>
+        <div class="flow-option" v-for="(security, i) in securities" :key="i">
+          <div class="flow-item">
+            <div class="flow-item-left">
+              <star-horse-icon :icon-class="security.icon" size="36px" boxShow="true"/>
+              <div class="flow-desc">
+                <p class="option-title">{{ security.name }}</p>
+                <p class="option-desc">{{ security.name }}</p>
+              </div>
+            </div>
+            <div class="flow-item-switch">
+              <el-switch v-model="configure[security.code]" active-text="开" inactive-text="关"
+                         @change="(checked)=>openPasswordModal(checked,security)"/>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="flow-setting-item">
-      <p class="flow-setting-item-title">超时配置</p>
-      <div class="flow-setting-option" v-for="(timeout, i) in timeouts" :key="i">
-        <div class="flow-setting-option-item">
-          <div class="flow-setting-option-item-left">
-            <star-horse-icon :icon-class="timeout.icon" size="36px" boxShow="true"/>
-            <div class="flow-setting-option-desc">
-              <p class="setting-option-title">{{ timeout.name }}</p>
-              <p class="setting-option-desc">{{ timeout.content }}</p>
-            </div>
-          </div>
-          <div class="flow-setting-option-item-switch">
-            <el-switch v-model="configure[timeout.code]" active-text="开" inactive-text="关"/>
-          </div>
-        </div>
-      </div>
+    <div style="height: 30px;"/>
+  </el-scrollbar>
+  <!-- 填写密码 -->
+  <star-horse-dialog self-func="true" :dialog-visible="passwordVisible" @merge="passwordVisible=false"
+                     :box-width="scale.isMobile()?'100%':'40%'" title="填写密码"
+                     @closeAction="passwordVisible = false">
+    <div class="dialog-body">
+      <el-input type="password" v-model="configure.passwordValue" placeholder="输入密码"/>
     </div>
-    <div class="flow-setting-item">
-      <p class="flow-setting-item-title">安全配置</p>
-      <div class="flow-setting-option" v-for="(security, i) in securities" :key="i">
-        <div class="flow-setting-option-item">
-          <div class="flow-setting-option-item-left">
-            <star-horse-icon :icon-class="security.icon" size="36px" boxShow="true"/>
-            <div class="flow-setting-option-desc">
-              <p class="setting-option-title">{{ security.name }}</p>
-              <p class="setting-option-desc">{{ security.name }}</p>
-            </div>
-          </div>
-          <div class="flow-setting-option-item-switch">
-            <el-switch v-model="configure[security.code]" active-text="开" inactive-text="关"
-                       @change="(checked)=>openPasswordModal(checked,security)"/>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 填写密码 -->
-    <star-horse-dialog self-func="true" :dialog-visible="passwordVisible" @merge="passwordVisible=false"
-                       :box-width="scale.isMobile()?'100%':'40%'" title="填写密码"
-                       @closeAction="passwordVisible = false">
-      <div class="dialog-body">
-        <el-input type="password" v-model="configure.passwordValue" placeholder="输入密码"/>
-      </div>
-    </star-horse-dialog>
-  </div>
+  </star-horse-dialog>
 </template>
 <style scoped lang="scss">
-
+.flow-item-title {
+  font-weight: 800;
+}
 </style>

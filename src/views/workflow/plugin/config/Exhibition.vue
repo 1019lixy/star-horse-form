@@ -1,7 +1,7 @@
 <template>
-  <div class="flow-setting-module">
-    <div class="flow-setting-content">
-      <div class="flow-setting-block">
+  <div class="flow-module">
+    <div class="flow-content">
+      <div class="flow-block">
         <div class="flow-block-title">标题设置</div>
         <div class="flow-block-desc">通过设置数据的显示标题，快速识别一条数据</div>
         <div class="flow-block-content">
@@ -25,7 +25,7 @@
           </div>
         </div>
       </div>
-      <div class="flow-setting-block" style="margin-top: 32px;">
+      <div class="flow-block" style="margin-top: 32px;">
         <div class="flow-block-title">摘要设置</div>
         <div class="flow-block-desc">自定义表单摘要展示信息，灵活设置提升工作效率</div>
         <div class="flow-block-content">

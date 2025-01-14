@@ -9,7 +9,7 @@ export enum FlowNodeEnums {
     /**
      * 发起人节点
      */
-    APPLY_NODE = "StartNode",
+    APPLY_NODE = "ApplyNode",
     /**
      * 抄送节点
      */
@@ -84,7 +84,7 @@ export enum FlowNodeEnums {
     TASK_NODE = "TaskNode",
 
     /**
-     * 编辑节点
+     * 办理节点
      */
-    WRITE_NODE = "WriteNode",
+    HANDLE_NODE = "HandleNode",
 }

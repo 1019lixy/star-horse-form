@@ -1,17 +1,17 @@
 <template>
-  <div class="flow-setting-content">
-    <div class="flow-setting-item">
-      <p class="flow-setting-item-title">配置</p>
-      <div class="flow-setting-option" v-for="(operation, i) in operations" :key="i">
-        <div class="flow-setting-option-item">
-          <div class="flow-setting-option-item-left">
+  <div class="flow-content">
+    <div class="flow-item">
+      <p class="flow-item-title">配置</p>
+      <div class="flow-option" v-for="(operation, i) in operations" :key="i">
+        <div class="flow-item">
+          <div class="flow-item-left">
             <star-horse-icon icon-class="config1" size="36px"/>
-            <div class="flow-setting-option-desc">
-              <p class="setting-option-title">{{ operation.name }}</p>
-              <p class="setting-option-desc">{{ operation.content }}</p>
+            <div class="flow-desc">
+              <p class="option-title">{{ operation.name }}</p>
+              <p class="option-desc">{{ operation.content }}</p>
             </div>
           </div>
-          <div class="flow-setting-option-item-switch">
+          <div class="flow-item-switch">
             <el-switch v-model="operation.code" active-text="开" inactive-text="关"
                        @change="changeConfigure"/>
           </div>

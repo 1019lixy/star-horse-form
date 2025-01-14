@@ -110,7 +110,7 @@
             .flow-item {
               padding-top: 0;
 
-              .node-start,.node-temmi {
+              .node-start, .node-temmi {
                 position: relative;
                 display: -webkit-box;
                 display: -ms-flexbox;
@@ -199,7 +199,7 @@
                 }
 
                 .node-launch,
-                .node-task{
+                .node-task {
                   background-image: -webkit-gradient(linear, left top, right top, from(#a9b4cd), to(#a9b4cd)),
                   -webkit-gradient(linear, left top, left bottom, from(#a9b4cd), to(#a9b4cd));
                   background-image: -webkit-linear-gradient(left, #a9b4cd, #a9b4cd), -webkit-linear-gradient(#a9b4cd, #a9b4cd);
@@ -316,6 +316,7 @@
                     width: 50%;
                     text-align: right;
                   }
+
                   &:before {
                     content: "";
                     position: absolute;
@@ -325,8 +326,8 @@
                     width: 0;
                     border-style: solid;
                     border-width: 8px 6px 4px;
-                    border-color: rgb(202,202,202) transparent transparent;
-                  /*  background: rgb(239,239,239)*/
+                    border-color: rgb(202, 202, 202) transparent transparent;
+                    /*  background: rgb(239,239,239)*/
                   }
                 }
 
@@ -561,6 +562,7 @@
                 -ms-flex-direction: column;
                 flex-direction: column;
                 position: relative;
+
                 .clear-left-border {
                   left: 0;
 
@@ -660,6 +662,7 @@
 
           .flow-end-box {
             padding-bottom: 120px;
+
             .flow-end {
               position: relative;
               display: -webkit-box;
@@ -684,6 +687,7 @@
               box-shadow: 0 2px 10px 0 rgba(145, 145, 153, 50%);
               font-size: 14px;
             }
+
             &:before {
               content: "";
               position: absolute;
@@ -694,7 +698,7 @@
               height: 10px;
               border-style: solid;
               border-radius: 50%;
-              border-color: rgb(202,202,202) transparent transparent;
+              border-color: rgb(202, 202, 202) transparent transparent;
               background-color: var(--star-horse-light-gray);
             }
           }
@@ -939,260 +943,258 @@
   vertical-align: middle;
 }
 
-.flow-setting-module {
-  // height: calc(100% - 114px);
-  .flow-setting-content {
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
+.flow-content {
+  flex-direction: column;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  font-size: 14px;
+  color: #575757;
+
+  .flow-item {
+    margin-bottom: 20px;
     font-size: 14px;
     color: #575757;
+    width: 100% !important;
 
-    .flow-setting-item {
-      margin-bottom: 20px;
-      font-size: 14px;
-      color: #575757;
-      width: 100% !important;
+    .flow-item-title {
+      margin-bottom: 10px;
+      font-weight: 700;
 
-      .flow-setting-item-title {
-        margin-bottom: 10px;
-        font-weight: 700;
-
-        .light-text {
-          color: #8f959e;
-          font-weight: 400;
-        }
+      .light-text {
+        color: #8f959e;
+        font-weight: 400;
       }
+    }
 
-      // 操作
-      .flow-setting-option {
-        .flow-setting-option-item {
+    // 操作
+    .flow-option {
+      .flow-item {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        padding: 14px 0;
+        border-bottom: 1px solid #dee0e3;
+        -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+
+        .flow-item-left {
           display: -webkit-box;
           display: -ms-flexbox;
           display: flex;
           -webkit-box-align: center;
           -ms-flex-align: center;
           align-items: center;
-          padding: 14px 0;
-          border-bottom: 1px solid #dee0e3;
-          -webkit-box-pack: justify;
-          -ms-flex-pack: justify;
-          justify-content: space-between;
 
-          .flow-setting-option-item-left {
+          .flow-desc {
+            margin-left: 9px;
+
+            p {
+              margin: 0;
+              padding: 0;
+              font-family: Microsoft YaHei;
+            }
+
+            .option-title {
+              color: #575757;
+              font-size: 14px;
+            }
+
+            .option-desc {
+              color: #979797;
+              font-size: 12px;
+            }
+          }
+        }
+      }
+    }
+
+    // 条件
+    .flow-condition-box {
+      max-height: 90%;
+      // overflow: scroll;
+      .flow-condition-group {
+        background-color: #f2f3f5;
+        padding-bottom: 10px;
+        margin-top: 15px;
+
+        .flow-condition-item {
+          border-radius: 3px;
+          display: -webkit-box;
+          display: -ms-flexbox;
+          display: flex;
+          -webkit-box-pack: start;
+          -ms-flex-pack: start;
+          justify-content: flex-start;
+          padding: 10px 10px 5px;
+
+          .flow-condition-option {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-pack: distribute;
+            justify-content: space-around;
+            width: 100%;
+          }
+
+          .flow-condition-value {
+            background: #fff;
+            width: 45%;
+            color: #c0c4cc;
+            font-size: 13px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            line-height: 40px;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            border-radius: 5px;
+            border: 1px solid #dcdfe6;
+          }
+
+          .flow-condition-del {
+            width: 38px;
+            height: 38px;
+            background-color: #fff;
+            border-radius: 3px;
+            border: 1px solid #dee0e3;
             display: -webkit-box;
             display: -ms-flexbox;
             display: flex;
             -webkit-box-align: center;
             -ms-flex-align: center;
             align-items: center;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            justify-content: center;
+            color: #a3a8af;
+            font-size: 16px;
+            cursor: pointer;
+            -webkit-box-flex: 0;
+            -ms-flex: 0 0 auto;
+            flex: 0 0 auto;
 
-            .flow-setting-option-desc {
-              margin-left: 9px;
-
-              p {
-                margin: 0;
-                padding: 0;
-                font-family: Microsoft YaHei;
-              }
-
-              .setting-option-title {
-                color: #575757;
-                font-size: 14px;
-              }
-
-              .setting-option-desc {
-                color: #979797;
-                font-size: 12px;
-              }
+            &:hover {
+              background-color: #dcdcdc;
             }
           }
         }
       }
 
-      // 条件
-      .flow-setting-condition-box {
-        max-height: 90%;
-        // overflow: scroll;
-        .flow-setting-condition-group {
-          background-color: #f2f3f5;
-          padding-bottom: 10px;
-          margin-top: 15px;
-
-          .flow-setting-condition-item {
-            border-radius: 3px;
-            display: -webkit-box;
-            display: -ms-flexbox;
-            display: flex;
-            -webkit-box-pack: start;
-            -ms-flex-pack: start;
-            justify-content: flex-start;
-            padding: 10px 10px 5px;
-
-            .flow-setting-condition-option {
-              display: -webkit-box;
-              display: -ms-flexbox;
-              display: flex;
-              -ms-flex-pack: distribute;
-              justify-content: space-around;
-              width: 100%;
-            }
-
-            .flow-setting-condition-value {
-              background: #fff;
-              width: 45%;
-              color: #c0c4cc;
-              font-size: 13px;
-              height: 40px;
-              display: flex;
-              align-items: center;
-              line-height: 40px;
-              -webkit-box-sizing: border-box;
-              box-sizing: border-box;
-              border-radius: 5px;
-              border: 1px solid #dcdfe6;
-            }
-
-            .flow-setting-condition-del {
-              width: 38px;
-              height: 38px;
-              background-color: #fff;
-              border-radius: 3px;
-              border: 1px solid #dee0e3;
-              display: -webkit-box;
-              display: -ms-flexbox;
-              display: flex;
-              -webkit-box-align: center;
-              -ms-flex-align: center;
-              align-items: center;
-              -webkit-box-pack: center;
-              -ms-flex-pack: center;
-              justify-content: center;
-              color: #a3a8af;
-              font-size: 16px;
-              cursor: pointer;
-              -webkit-box-flex: 0;
-              -ms-flex: 0 0 auto;
-              flex: 0 0 auto;
-
-              &:hover {
-                background-color: #dcdcdc;
-              }
-            }
-          }
-        }
-
-        .flow-setting-condition-group-connector {
-          margin-top: 15px;
-          color: rgb(142, 142, 142);
-          font-size: 14px;
-        }
-
-        .flow-setting-condition-add {
-          width: 100px;
-          height: 34px;
-          background-color: #fff;
-          border-radius: 3px;
-          border: 1px solid #dee0e3;
-          color: #8e8e8e;
-          display: flex;
-          align-items: center;
-          text-align: center;
-          font-size: 13px;
-          cursor: pointer;
-          line-height: 34px;
-          margin-top: 15px;
-          margin-left: 13px;
-
-          &:hover {
-            background-color: #dcdcdc;
-          }
-        }
-      }
-
-      //
-      .tpl-flex-box {
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-        color: #575757;
+      .flow-condition-group-connector {
+        margin-top: 15px;
+        color: rgb(142, 142, 142);
         font-size: 14px;
-        -webkit-box-pack: justify;
-        -ms-flex-pack: justify;
-        justify-content: space-between;
       }
 
-      // 提示
-      .hint-info {
-        line-height: 22px;
-        color: #646a73;
+      .flow-condition-add {
+        width: 100px;
+        height: 34px;
+        background-color: #fff;
+        border-radius: 3px;
+        border: 1px solid #dee0e3;
+        color: #8e8e8e;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        font-size: 13px;
+        cursor: pointer;
+        line-height: 34px;
+        margin-top: 15px;
+        margin-left: 13px;
 
-        p {
-          position: relative;
-          padding-left: 10px;
-
-          &::before {
-            content: '';
-            width: 4px;
-            height: 4px;
-            position: absolute;
-            top: 9px;
-            left: 0;
-            border-radius: 2px;
-            background: #fff;
-          }
+        &:hover {
+          background-color: #dcdcdc;
         }
       }
     }
 
-    .flow-setting-block {
-      .flow-block-title {
-        color: #171a1d;
-        font-size: 14px;
-        font-weight: 600;
+    //
+    .tpl-flex-box {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      color: #575757;
+      font-size: 14px;
+      -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+      justify-content: space-between;
+    }
+
+    // 提示
+    .hint-info {
+      line-height: 22px;
+      color: #646a73;
+
+      p {
+        position: relative;
+        padding-left: 10px;
+
+        &::before {
+          content: '';
+          width: 4px;
+          height: 4px;
+          position: absolute;
+          top: 9px;
+          left: 0;
+          border-radius: 2px;
+          background: #fff;
+        }
+      }
+    }
+  }
+
+  .flow-block {
+    .flow-block-title {
+      color: #171a1d;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .flow-block-desc {
+      color: rgba(23, 26, 29, 0.4);
+      font-size: 12px;
+      padding-top: 6px;
+      padding-bottom: 18px;
+    }
+
+    .flow-block-content {
+      .flow-block-defaultTab {
+        margin-top: 12px;
+
+        .flow-block-defaultTpl {
+          border-radius: 6px;
+          background: rgba(23, 26, 29, 0.04);
+          padding: 8px 12px;
+        }
+
+        .flow-block-defaultSample {
+          font-size: 12px;
+          color: rgba(23, 26, 29, 0.4);
+          padding-top: 8px;
+        }
       }
 
-      .flow-block-desc {
-        color: rgba(23, 26, 29, 0.4);
-        font-size: 12px;
-        padding-top: 6px;
-        padding-bottom: 18px;
+      .flow-block-var {
+        padding: 3px 10px;
+        background: rgba(126, 134, 142, 0.16);
+        border-radius: 4px;
+        margin: 0 2px;
       }
 
-      .flow-block-content {
-        .flow-block-defaultTab {
-          margin-top: 12px;
-
-          .flow-block-defaultTpl {
-            border-radius: 6px;
-            background: rgba(23, 26, 29, 0.04);
-            padding: 8px 12px;
-          }
-
-          .flow-block-defaultSample {
-            font-size: 12px;
-            color: rgba(23, 26, 29, 0.4);
-            padding-top: 8px;
-          }
-        }
-
-        .flow-block-var {
-          padding: 3px 10px;
-          background: rgba(126, 134, 142, 0.16);
-          border-radius: 4px;
-          margin: 0 2px;
-        }
-
-        .flow-block-card-header {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-        }
+      .flow-block-card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
       }
     }
   }
 }
 
-.flow-setting-approval-title {
+.flow-approval-title {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -1202,7 +1204,7 @@
   }
 }
 
-.flow-setting-auth-table {
+.flow-auth-table {
   font-size: 14px;
   color: #8e8e8e;
   font-weight: 400;
@@ -1214,7 +1216,7 @@
     font-family: Microsoft YaHei;
   }
 
-  .flow-setting-auth-table-header {
+  .flow-auth-table-header {
     padding-left: 9px;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
@@ -1229,7 +1231,7 @@
     background-color: #f2f3f5;
   }
 
-  .flow-setting-auth-table-body {
+  .flow-auth-table-body {
     color: #575757;
     background-color: #fff;
     display: block;
@@ -1242,7 +1244,7 @@
     -ms-flex-align: center;
     align-items: center;
 
-    .flow-setting-auth-table-name-column-row {
+    .flow-auth-table-name-column-row {
       height: 40px;
       width: 100%;
       display: -webkit-box;
@@ -1256,16 +1258,16 @@
     }
   }
 
-  .flow-setting-auth-table-name-column-25 {
+  .flow-auth-table-name-column-25 {
     width: 25%;
   }
 
-  .flow-setting-auth-table-name-column-30 {
+  .flow-auth-table-name-column-30 {
     width: 40%;
   }
 
-  .flow-setting-auth-table-name-column-25,
-  flow-setting-auth-table-name-column-30 {
+  .flow-auth-table-name-column-25,
+  flow-auth-table-name-column-30 {
     span {
       display: block;
       max-width: 100px;
@@ -1276,7 +1278,7 @@
     }
   }
 
-  .flow-setting-auth-table-option-column {
+  .flow-auth-table-option-column {
     -webkit-box-flex: 1;
     -ms-flex-positive: 1;
     flex-grow: 1;
@@ -1285,7 +1287,7 @@
     display: flex;
     position: relative;
 
-    .flow-setting-auth-table-option-column-item-25 {
+    .flow-auth-table-option-column-item-25 {
       width: 25%;
 
       span {
@@ -1293,7 +1295,7 @@
       }
     }
 
-    .flow-setting-auth-table-option-column-item-50 {
+    .flow-auth-table-option-column-item-50 {
       width: 50%;
     }
   }
@@ -1309,6 +1311,13 @@
   left: 0;
   background: rgb(255, 255, 255);
   border-radius: 0 0 4px 4px;
+}
+
+.w-full, .w-fill {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: start !important;
 }
 
 .flow-helper {

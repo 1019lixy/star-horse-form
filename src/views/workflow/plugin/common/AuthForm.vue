@@ -1,22 +1,10 @@
-<template>
-  <el-divider/>
-  <form-preview :commonFieldList="commonFieldList" :compSize="compSize" :list="dataList"
-                v-if="dataList&&dataList.length>0"/>
-  <el-empty description="请选择表单" v-else/>
-</template>
 <script setup lang="ts">
-import {useFlowDesign} from "@/store/FlowDesignStore.ts";
-import piniaInstance from "@/store";
-import {computed, onMounted, ref, watch} from "vue";
-import FlowFormItem from "@/views/workflow/plugin/common/FlowFormItem.vue";
-import videojs from "video.js";
-import any = videojs.any;
+import {onMounted, ref, watch} from "vue";
 import FormPreview from "@/views/dyform/FormPreview.vue";
 import {loadData} from "@/api/sh_api.ts";
 import {warning} from "@/utils/message.ts";
-
-const flowDesign = useFlowDesign(piniaInstance);
-const flowFormInfo = computed(() => flowDesign.flowFormInfo);
+import {useVModel} from "@vueuse/core";
+const emits = defineEmits<{ e: "update:modelValue", modelValue: String }>();
 let commonFieldList = ref<any>([]);
 let dataList = ref<any>([]);
 let currentData = ref<any>({});
@@ -39,7 +27,12 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  modelValue: {
+    type: String,
+    default: "edit",
+  },
 });
+let privilege = useVModel(props, 'modelValue', emits);
 const dataChange = async (formId: string) => {
   if (!formId) {
     dataList.value = [];
@@ -68,5 +61,27 @@ watch(() => props.formId, (_val: any) => {
   immediate: false,
   deep: true
 });
-
 </script>
+<template>
+  <el-divider content-position="left">表单权限</el-divider>
+  <div class="form-detail" v-if="dataList&&dataList.length>0">
+    <el-radio-group v-model="privilege">
+      <el-radio value="edit" key="edit">可编辑</el-radio>
+      <el-radio value="readonly" key="readonly">只读</el-radio>
+      <el-radio value="forbidden" key="forbidden">禁止查看</el-radio>
+    </el-radio-group>
+    <el-divider content-position="left">表单预览</el-divider>
+    <form-preview :formDisabled="privilege=='readonly'" v-if="privilege!='forbidden'" :commonFieldList="commonFieldList"
+                  :compSize="compSize"
+                  :list="dataList"/>
+  </div>
+  <el-empty description="请选择表单" v-else/>
+</template>
+<style lang="scss" scoped>
+.form-detail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+</style>

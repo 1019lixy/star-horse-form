@@ -5,9 +5,9 @@ import {ref} from "vue";
 let radioGroup = ref<number>(0);
 </script>
 <template>
-  <div class="flow-setting-module">
-    <div class="flow-setting-content">
-      <div class="flow-setting-block">
+  <div class="flow-module">
+    <div class="flow-content">
+      <div class="flow-block">
         <div class="flow-block-title">打印模板</div>
         <div class="flow-block-desc">通过设置推送提醒指定成员填写表单</div>
         <div class="flow-block-content">

@@ -1,14 +1,14 @@
 <template>
-  <div class="flow-setting-module">
+  <div class="flow-module">
     <el-tabs v-model="copyerTab">
       <el-tab-pane key="1" name="1" label="抄送设置">
-        <div class="flow-setting-content">
-          <div class="flow-setting-item">
-            <p class="flow-setting-item-title">抄送人</p>
+        <div class="flow-content">
+          <div class="flow-item">
+            <p class="flow-item-title">抄送人</p>
             <FlowNodeApproval :groups="node.approveGroups" :node="node" title="抄送人"/>
           </div>
-          <div class="flow-setting-item">
-            <p class="flow-setting-item-title">提示：</p>
+          <div class="flow-item">
+            <p class="flow-item-title">提示：</p>
             <div class="hint-info">
               <p>抄送的人数最多支持100人以内</p>
             </div>
@@ -16,9 +16,9 @@
         </div>
       </el-tab-pane>
       <el-tab-pane key="2" name="2" label="表单权限">
-        <div class="flow-setting-content">
-          <div class="flow-setting-item">
-            <p class="flow-setting-item-title">表单权限</p>
+        <div class="flow-content">
+          <div class="flow-item">
+            <p class="flow-item-title">表单权限</p>
             <AuthForm v-model="node.privileges"/>
           </div>
         </div>

@@ -175,16 +175,16 @@ defineExpose({
 })
 </script>
 <template>
-  <div class="flow-setting-module">
-    <div class="flow-setting-content">
-      <div v-if="node.attr.showPriorityLevel" class="flow-setting-item">
-        <p class="flow-setting-item-title">分支等级</p>
+  <div class="flow-module">
+    <div class="flow-content">
+      <div v-if="node.attr.showPriorityLevel" class="flow-item">
+        <p class="flow-item-title">分支等级</p>
         <el-select v-model="node.attr.priorityLevel" :size="flowCommon.size" placeholder="请选择等级">
           <el-option v-for="item in levelOptions" :key="item.value" :label="item.label" :value="item.value"/>
         </el-select>
       </div>
-      <div class="flow-setting-item">
-        <p class="flow-setting-item-title">分支类型</p>
+      <div class="flow-item">
+        <p class="flow-item-title">分支类型</p>
         <el-radio-group v-model="node.attr.branchType" :size="flowCommon.size">
           <el-radio :value="branchType.value" v-for="branchType in branchTypes" :key="branchType.value">
             {{ branchType.name }}
@@ -192,12 +192,12 @@ defineExpose({
         </el-radio-group>
       </div>
       <el-divider/>
-      <div v-if="node.attr.branchType == 'rule'" class="flow-setting-item">
-        <p class="flow-setting-item-title">条件规则</p>
-        <div class="flow-setting-condition-box">
+      <div v-if="node.attr.branchType == 'rule'" class="flow-item">
+        <p class="flow-item-title">条件规则</p>
+        <div class="flow-condition-box">
           <div v-for="(group, i) in node.conditionGroup" :key="i">
-            <div class="flow-setting-condition-group">
-              <div class="flow-setting-condition-item" v-for="(condition, k) in group.conditions" :key="k">
+            <div class="flow-condition-group">
+              <div class="flow-condition-item" v-for="(condition, k) in group.conditions" :key="k">
                 <el-row gutter="5">
                   <el-col :span="6">
                     <el-select v-model="condition.columnValue" :size="flowCommon.size"
@@ -272,26 +272,26 @@ defineExpose({
                   </el-col>
                 </el-row>
               </div>
-              <div class="flow-setting-condition-add" @click="addCondition(1, group)">
+              <div class="flow-condition-add" @click="addCondition(1, group)">
                 <star-horse-icon iconClass="plus"/>
                 <span style="margin-left: 5px">且条件</span>
               </div>
             </div>
             <div v-if="node.conditionGroup.length > 1 && i != node.conditionGroup.length - 1"
-                 class="flow-setting-condition-group-connector">或
+                 class="flow-condition-group-connector">或
             </div>
           </div>
-          <div class="flow-setting-condition-add" @click="addGroup(1)">
+          <div class="flow-condition-add" @click="addGroup(1)">
             <star-horse-icon iconClass="plus"/>
             <span>或条件</span>
           </div>
         </div>
       </div>
-      <div v-else-if="node.attr.branchType == 'formula'" class="flow-setting-item">
-        <p class="flow-setting-item-title">公式</p>
+      <div v-else-if="node.attr.branchType == 'formula'" class="flow-item">
+        <p class="flow-item-title">公式</p>
       </div>
-      <div v-else class="flow-setting-item">
-        <p class="flow-setting-item-title">其他</p>
+      <div v-else class="flow-item">
+        <p class="flow-item-title">其他</p>
       </div>
     </div>
   </div>

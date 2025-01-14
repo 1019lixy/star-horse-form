@@ -67,9 +67,9 @@ onMounted(() => {
   <star-horse-dialog :dialog-visible="duplicateVisible" :box-width="scale.isMobile() ? '100%' : '40%'"
                      class="modalClass"
                      title="自动去重设置" @closeAction="duplicateVisible = false">
-    <div class="flow-setting-module">
-      <div class="flow-setting-content">
-        <div class="flow-setting-block">
+    <div class="flow-module">
+      <div class="flow-content">
+        <div class="flow-block">
           <!-- <div class="flow-block-title">审批人设置</div>
           <div class="flow-block-desc">审批流程中审批人重复出现时</div> -->
           <div class="flow-block-content">
@@ -96,7 +96,7 @@ onMounted(() => {
   <star-horse-dialog :dialog-visible="appendVisible" :box-width="scale.isMobile() ? '100%' : '40%'" class="modalClass"
                      title="允许加签"
                      @closeAction="appendVisible = false">
-    <div class="flow-setting-module">
+    <div class="flow-module">
       <img class="w-fill"
            src="https://img.alicdn.com/imgextra/i2/O1CN01sONUxT1vSpDcicfBb_!!6000000006172-2-tps-1360-1090.png"/>
     </div>
@@ -105,7 +105,7 @@ onMounted(() => {
   <star-horse-dialog :dialog-visible="revokeVisible" :box-width="scale.isMobile() ? '100%' : '40%'" class="modalClass"
                      title="审批撤销"
                      @closeAction="revokeVisible = false">
-    <div class="flow-setting-module">
+    <div class="flow-module">
       <img class="w-fill"
            src="https://img.alicdn.com/imgextra/i4/O1CN01mfeF241w8xed2adqL_!!6000000006264-2-tps-1360-920.png"/>
     </div>
