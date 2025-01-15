@@ -43,7 +43,7 @@
       <el-tab-pane key="2" name="2" label="内容设置">
         <el-form-item label="选择已审核模板" prop="contentTemplate">
           <div style="display: flex;width: 100%; flex-direction: column;align-items: start !important;">
-            <star-horse-data-selector model-value="node.contentTemplate"
+            <star-horse-data-selector v-model="node.contentTemplate"
                                       data-url="/message-manage/messageTemplate/pageList"
                                       display-name="templateName"
                                       display-value="idMessageTemplate"

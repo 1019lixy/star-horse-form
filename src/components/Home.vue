@@ -1,12 +1,35 @@
 <template>
   <el-card class="box-card" style="height: 100%;width: 100%">
+    <el-tabs v-model="general" v-if="visible" type="border-card">
+      <el-tab-pane name="a" label="未接收">
+        <pre>
+          1. 点击“新建工作流”，进入新建工作流页面。
+          2. 接入催办，撤回。
 
+        </pre>
+        <a href="https://blog.csdn.net/oa2000/article/details/106612615">工作流操作说明</a><br/>
+        <a href="https://gitee.com/mengxin-no1/meeting-jie">在线会议</a>
+      </el-tab-pane>
+      <el-tab-pane name="b" label="办理中">
+      </el-tab-pane>
+      <el-tab-pane name="c" label="已办结">
+      </el-tab-pane>
+      <el-tab-pane name="d" label="关注中">
+      </el-tab-pane>
+      <el-tab-pane name="e" label="已挂起">
+      </el-tab-pane>
+      <el-tab-pane name="f" label="委托中">
+      </el-tab-pane>
+      <el-tab-pane name="g" label="全部工作">
+      </el-tab-pane>
+    </el-tabs>
   </el-card>
 </template>
 <script setup lang="ts">
 import {onMounted, ref} from "vue";
 
-
+let general = ref<string>('a');
+let visible = ref<boolean>(true);
 let matchList = ref<Array<any>>([
   // {
   //   id: "001",
