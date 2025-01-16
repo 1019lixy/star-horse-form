@@ -10,22 +10,22 @@
   </div>
 </template>
 <script setup lang="ts" name="crontab-result">
-import {onMounted, ref, watch} from "vue";
+import {onMounted, PropType, ref, watch} from "vue";
 
 const props = defineProps({
-  ex: {type: Object}
+  ex: {type: Object as PropType<any>},
 });
 let dayRule = ref('');
-let dayRuleSup = ref();
-let dateArr = ref([]);
+let dayRuleSup = ref<any | Array<any>>();
+let dateArr = ref<Array<any>>([]);
 let resultList = ref<string[]>([]);
-let isShow = ref(false);
+let isShow = ref<boolean>(false);
 // 表达式值变化时，开始去计算结果
 const expressionChange = () => {
   // 计算开始-隐藏结果
   isShow.value = false;
   // 获取规则数组[0秒、1分、2时、3日、4月、5星期、6年]
-  let ruleArr = props.ex!.value.split(' ') || [];
+  let ruleArr = props.ex!.split(' ') || [];
   console.log(ruleArr);
   // 用于记录进入循环的次数
   let nums = 0;
@@ -48,19 +48,19 @@ const expressionChange = () => {
   getWeekArr(ruleArr[5]);
   getYearArr(ruleArr[6], nYear);
   // 将获取到的数组赋值-方便使用
-  let sDate = dateArr.value[0];
-  let mDate = dateArr.value[1];
-  let hDate = dateArr.value[2];
-  let DDate = dateArr.value[3];
-  let MDate = dateArr.value[4];
-  let YDate = dateArr.value[5];
+  let sDate: any = dateArr.value[0];
+  let mDate: any = dateArr.value[1];
+  let hDate: any = dateArr.value[2];
+  let DDate: any = dateArr.value[3];
+  let MDate: any = dateArr.value[4];
+  let YDate: any = dateArr.value[5];
   // 获取当前时间在数组中的索引
-  let sIdx = getIndex(sDate, nSecond);
-  let mIdx = getIndex(mDate, nMin);
-  let hIdx = getIndex(hDate, nHour);
-  let DIdx = getIndex(DDate, nDay);
-  let MIdx = getIndex(MDate, nmonth);
-  let YIdx = getIndex(YDate, nYear);
+  let sIdx: any = getIndex(sDate, nSecond);
+  let mIdx: any = getIndex(mDate, nMin);
+  let hIdx: any = getIndex(hDate, nHour);
+  let DIdx: any = getIndex(DDate, nDay);
+  let MIdx: any = getIndex(MDate, nmonth);
+  let YIdx: any = getIndex(YDate, nYear);
   // 重置月日时分秒的函数(后面用的比较多)
   const resetSecond = () => {
     sIdx = 0;
@@ -147,8 +147,7 @@ const expressionChange = () => {
           continue;
         }
         // 判断日期的合法性，不合法的话也是跳出当前循环
-        if (checkDate(YY + '-' + MM + '-' + thisDD + ' 00:00:00') !== true && dayRule.value !== 'workDay' &&
-            dayRule.value
+        if (!checkDate(YY + '-' + MM + '-' + thisDD + ' 00:00:00') && dayRule.value !== 'workDay' && dayRule.value
             !== 'lastWeek' && dayRule.value !== 'lastDay') {
           resetDay();
           continue gomonth;
@@ -156,16 +155,16 @@ const expressionChange = () => {
         // 如果日期规则中有值时
         if (dayRule.value == 'lastDay') {
           //如果不是合法日期则需要将前将日期调到合法日期即月末最后一天
-          if (checkDate(YY + '-' + MM + '-' + thisDD + ' 00:00:00') !== true) {
-            while (DD > 0 && checkDate(YY + '-' + MM + '-' + thisDD + ' 00:00:00') !== true) {
+          if (!checkDate(YY + '-' + MM + '-' + thisDD + ' 00:00:00')) {
+            while (DD > 0 && !checkDate(YY + '-' + MM + '-' + thisDD + ' 00:00:00')) {
               DD--;
               thisDD = DD < 10 ? '0' + DD : DD;
             }
           }
         } else if (dayRule.value == 'workDay') {
           //校验并调整如果是2月30号这种日期传进来时需调整至正常月底
-          if (checkDate(YY + '-' + MM + '-' + thisDD + ' 00:00:00') !== true) {
-            while (DD > 0 && checkDate(YY + '-' + MM + '-' + thisDD + ' 00:00:00') !== true) {
+          if (!checkDate(YY + '-' + MM + '-' + thisDD + ' 00:00:00')) {
+            while (DD > 0 && !checkDate(YY + '-' + MM + '-' + thisDD + ' 00:00:00')) {
               DD--;
               thisDD = DD < 10 ? '0' + DD : DD;
             }
@@ -178,7 +177,7 @@ const expressionChange = () => {
             DD++;
             thisDD = DD < 10 ? '0' + DD : DD;
             //判断下一日已经不是合法日期
-            if (checkDate(YY + '-' + MM + '-' + thisDD + ' 00:00:00') !== true) {
+            if (!checkDate(YY + '-' + MM + '-' + thisDD + ' 00:00:00')) {
               DD -= 3;
             }
           } else if (thisWeek == 6) {
@@ -194,7 +193,7 @@ const expressionChange = () => {
           //获取当前日期是属于星期几
           let thisWeek = formatDate(new Date(YY + '-' + MM + '-' + DD + ' 00:00:00'), 'week');
           //校验当前星期是否在星期池（dayRuleSup）中
-          if (Array.indexOf(dayRuleSup, thisWeek) < 0) {
+          if (dayRuleSup.value.indexOf(thisWeek) < 0) {
             // 如果到达最大值时
             if (Di == DDate.length - 1) {
               resetDay();
@@ -218,8 +217,8 @@ const expressionChange = () => {
         } else if (dayRule.value == 'lastWeek') {
           //如果指定了每月最后一个星期几
           //校验并调整如果是2月30号这种日期传进来时需调整至正常月底
-          if (checkDate(YY + '-' + MM + '-' + thisDD + ' 00:00:00') !== true) {
-            while (DD > 0 && checkDate(YY + '-' + MM + '-' + thisDD + ' 00:00:00') !== true) {
+          if (!checkDate(YY + '-' + MM + '-' + thisDD + ' 00:00:00')) {
+            while (DD > 0 && !checkDate(YY + '-' + MM + '-' + thisDD + ' 00:00:00')) {
               DD--;
               thisDD = DD < 10 ? '0' + DD : DD;
             }
@@ -393,8 +392,8 @@ const getWeekArr = (rule: any) => {
     //如果weekDay时将7调整为0【week值0即是星期日】
     if (dayRule.value == 'weekDay') {
       for (let i = 0; i < dayRuleSup.value.length; i++) {
-        if (dayRuleSup[i] == 7) {
-          dayRuleSup[i] = 0;
+        if (dayRuleSup.value[i] == 7) {
+          dayRuleSup.value[i] = 0;
         }
       }
     }
@@ -501,7 +500,7 @@ const getCycleArr = (rule: any, limit: number, status: boolean) => {
   }
   for (let i = min; i <= max; i++) {
     let add = 0;
-    if (status == false && i % limit == 0) {
+    if (!status && i % limit == 0) {
       add = limit;
     }
     arr.push(Math.round(i % limit + add))
@@ -539,12 +538,13 @@ const formatDate = (value: any, type: any) => {
 const checkDate = (value: any) => {
   let time = new Date(value);
   let format = formatDate(time, null);
-  return value == format ? true : false;
+  return value == format;
 };
 watch(() => props.ex,
-    (val) => {
+    () => {
       expressionChange();
-    }, {immediate: true, deep: true});
+    },
+    {immediate: true, deep: true});
 onMounted(() => {
   expressionChange();
 });

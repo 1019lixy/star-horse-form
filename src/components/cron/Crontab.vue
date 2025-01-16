@@ -1,103 +1,99 @@
 <template>
-  <div>
-    <el-tabs type="border-card">
-      <el-tab-pane label="秒" v-if="shouldHide('second')">
-        <CrontabSecond @update="updateContabValue" :check="checkNumber" ref="cronsecond"/>
-      </el-tab-pane>
-      <el-tab-pane label="分钟" v-if="shouldHide('min')">
-        <CrontabMin
-            @update="updateContabValue"
-            :check="checkNumber"
-            :cron="contabValueObj"
-            ref="cronmin"
-        />
-      </el-tab-pane>
-      <el-tab-pane label="小时" v-if="shouldHide('hour')">
-        <CrontabHour
-            @update="updateContabValue"
-            :check="checkNumber"
-            :cron="contabValueObj"
-            ref="cronhour"
-        />
-      </el-tab-pane>
-      <el-tab-pane label="日" v-if="shouldHide('day')">
-        <CrontabDay
-            @update="updateContabValue"
-            :check="checkNumber"
-            :cron="contabValueObj"
-            ref="cronday"
-        />
-      </el-tab-pane>
-      <el-tab-pane label="月" v-if="shouldHide('month')">
-        <Crontabmonth
-            @update="updateContabValue"
-            :check="checkNumber"
-            :cron="contabValueObj"
-            ref="cronmonth"
-        />
-      </el-tab-pane>
-      <el-tab-pane label="周" v-if="shouldHide('week')">
-        <CrontabWeek
-            @update="updateContabValue"
-            :check="checkNumber"
-            :cron="contabValueObj"
-            ref="cronweek"
-        />
-      </el-tab-pane>
-      <el-tab-pane label="年" v-if="shouldHide('year')">
-        <CrontabYear
-            @update="updateContabValue"
-            :check="checkNumber"
-            :cron="contabValueObj"
-            ref="cronyear"
-        />
-      </el-tab-pane>
-    </el-tabs>
-    <div class="popup-main">
-      <div class="popup-result">
-        <p class="title">时间表达式</p>
-        <table>
-          <thead>
-          <th v-for="item of tabTitles" width="40" :key="item">{{ item }}</th>
-          <th>crontab完整表达式</th>
-          </thead>
-          <tbody>
-          <td>
-            <el-tag>{{ contabValueObj.second }}</el-tag>
-          </td>
-          <td>
-            <el-tag>{{ contabValueObj.min }}</el-tag>
-          </td>
-          <td>
-            <el-tag>{{ contabValueObj.hour }}</el-tag>
-          </td>
-          <td>
-            <el-tag>{{ contabValueObj.day }}</el-tag>
-          </td>
-          <td>
-            <el-tag>{{ contabValueObj.month }}</el-tag>
-          </td>
-          <td>
-            <el-tag>{{ contabValueObj.week }}</el-tag>
-          </td>
-          <td>
-            <el-tag>{{ contabValueObj.year }}</el-tag>
-          </td>
-          <td>
-            <el-tag style="cursor: pointer" @click="copy(contabValueString.value)">{{
-                contabValueString.value
-              }}
-            </el-tag>
-          </td>
-          </tbody>
-        </table>
-      </div>
-      <CrontabResult :ex="contabValueString"></CrontabResult>
+  <el-tabs type="border-card" v-model="tabActive">
+    <el-tab-pane label="秒" name="0" v-if="shouldHide('second')">
+      <CrontabSecond @update="updateContabValue" :check="checkNumber" ref="cronsecond"/>
+    </el-tab-pane>
+    <el-tab-pane label="分钟" name="1" v-if="shouldHide('min')">
+      <CrontabMin
+          @update="updateContabValue"
+          :check="checkNumber"
+          :cron="contabValueObj"
+          ref="cronmin"
+      />
+    </el-tab-pane>
+    <el-tab-pane label="小时" name="2" v-if="shouldHide('hour')">
+      <CrontabHour
+          @update="updateContabValue"
+          :check="checkNumber"
+          :cron="contabValueObj"
+          ref="cronhour"
+      />
+    </el-tab-pane>
+    <el-tab-pane label="日" name="3" v-if="shouldHide('day')">
+      <CrontabDay
+          @update="updateContabValue"
+          :check="checkNumber"
+          :cron="contabValueObj"
+          ref="cronday"
+      />
+    </el-tab-pane>
+    <el-tab-pane label="月" name="4" v-if="shouldHide('month')">
+      <Crontabmonth
+          @update="updateContabValue"
+          :check="checkNumber"
+          :cron="contabValueObj"
+          ref="cronmonth"
+      />
+    </el-tab-pane>
+    <el-tab-pane label="周" name="5" v-if="shouldHide('week')">
+      <CrontabWeek
+          @update="updateContabValue"
+          :check="checkNumber"
+          :cron="contabValueObj"
+          ref="cronweek"
+      />
+    </el-tab-pane>
+    <el-tab-pane label="年" name="6" v-if="shouldHide('year')">
+      <CrontabYear
+          @update="updateContabValue"
+          :check="checkNumber"
+          :cron="contabValueObj"
+          ref="cronyear"
+      />
+    </el-tab-pane>
+  </el-tabs>
+  <div class="popup-main">
+    <div class="popup-result">
+      <p class="title">时间表达式</p>
+      <table>
+        <thead>
+        <th v-for="item of tabTitles" width="40" :key="item">{{ item }}</th>
+        <th>crontab完整表达式</th>
+        </thead>
+        <tbody>
+        <td>
+          <el-tag>{{ contabValueObj.second }}</el-tag>
+        </td>
+        <td>
+          <el-tag>{{ contabValueObj.min }}</el-tag>
+        </td>
+        <td>
+          <el-tag>{{ contabValueObj.hour }}</el-tag>
+        </td>
+        <td>
+          <el-tag>{{ contabValueObj.day }}</el-tag>
+        </td>
+        <td>
+          <el-tag>{{ contabValueObj.month }}</el-tag>
+        </td>
+        <td>
+          <el-tag>{{ contabValueObj.week }}</el-tag>
+        </td>
+        <td>
+          <el-tag>{{ contabValueObj.year }}</el-tag>
+        </td>
+        <td>
+          <el-tag style="cursor: pointer" @click="copy(contabValueString)">{{ contabValueString }}
+          </el-tag>
+        </td>
+        </tbody>
+      </table>
     </div>
+    <CrontabResult :ex="contabValueString"/>
   </div>
 </template>
 <script setup lang="ts">
-import {computed, inject, nextTick, onMounted, ref, watch} from "vue";
+import {computed, nextTick, onMounted, ref} from "vue";
 import CrontabSecond from "@/components/cron/Crontab-Second.vue";
 import CrontabMin from "@/components/cron/Crontab-Min.vue";
 import CrontabHour from "@/components/cron/Crontab-Hour.vue";
@@ -107,13 +103,19 @@ import CrontabWeek from "@/components/cron/Crontab-Week.vue";
 import CrontabYear from "@/components/cron/Crontab-Year.vue";
 import CrontabResult from "@/components/cron/Crontab-Result.vue";
 import {copy} from "@/api/sh_api";
+import {useVModel} from "@vueuse/core";
 
-const props = defineProps({
-  "expression": {type: String}, "hideComponent": {}
-});
-const emit = defineEmits(["hide", "fill"]);
-let tabTitles = ref(["秒", "分钟", "小时", "日", "月", "周", "年"]);
-let tabActive = ref(0);
+export interface Crontab {
+  expression: string,
+  modelValue: string,
+  hideComponent: any,
+}
+
+const props = withDefaults(defineProps<Crontab>(), {});
+const emits = defineEmits(["update:modelValue"]);
+let dataValue = useVModel(props, "modelValue", emits);
+let tabTitles = ref<Array<string>>(["秒", "分钟", "小时", "日", "月", "周", "年"]);
+let tabActive = ref<string>("0");
 const cronsecond = ref();
 const cronmin = ref();
 const cronhour = ref();
@@ -121,10 +123,12 @@ const cronday = ref();
 const cronmonth = ref();
 const cronweek = ref();
 const cronyear = ref();
-let contabValueString = ref("");
-let myindex = ref(0);
-const cronExpress = inject("cronExpress") as Function;
-let contabValueObj = ref({
+let contabValueString = computed(() => {
+  let str = contabValueStringFun();
+  dataValue.value = str;
+  return str;
+});
+let contabValueObj = ref<any>({
   second: "*",
   min: "*",
   hour: "*",
@@ -133,9 +137,8 @@ let contabValueObj = ref({
   week: "?",
   year: "",
 });
-const shouldHide = (key) => {
-  if (props.hideComponent && props.hideComponent.includes(key)) return false;
-  return true;
+const shouldHide = (key: any) => {
+  return !(props.hideComponent && props.hideComponent.includes(key));
 };
 const resolveExp = () => {
   //反解析 表达式
@@ -143,7 +146,7 @@ const resolveExp = () => {
     let arr = props.expression.split(" ");
     if (arr.length >= 6) {
       //6 位以上是合法表达式
-      let obj = {
+      let obj: any = {
         second: arr[0],
         min: arr[1],
         hour: arr[2],
@@ -164,10 +167,7 @@ const resolveExp = () => {
     clearCron();
   }
 };
-// tab切换值
-const tabCheck = (index) => {
-  tabActive.value = index;
-};
+
 // 由子组件触发，更改表达式组成的字段值
 const updateContabValue = (name: string, value: any, from: any) => {
   contabValueObj.value[name] = value;
@@ -193,7 +193,7 @@ const getRefObj = (name: string) => {
   }
 }
 //赋值到组件
-const changeRadio = async (name, value) => {
+const changeRadio = async (name: string, value: string) => {
   let arr = ["second", "min", "hour", "month"],
       refName = "cron" + name,
       insVlaue;
@@ -203,14 +203,14 @@ const changeRadio = async (name, value) => {
     if (value === "*") {
       insVlaue = 1;
     } else if (value.indexOf("-") > -1) {
-      let indexArr = value.split("-");
+      let indexArr: Array<any> = value.split("-");
       isNaN(indexArr[0])
           ? (refObj.value.cycle01 = 0)
           : (refObj.value.cycle01 = indexArr[0]);
       refObj.value.cycle02 = indexArr[1];
       insVlaue = 2;
     } else if (value.indexOf("/") > -1) {
-      let indexArr = value.split("/");
+      let indexArr: Array<any> = value.split("/");
       isNaN(indexArr[0])
           ? (refObj.value.average01 = 0)
           : (refObj.value.average01 = indexArr[0]);
@@ -226,21 +226,21 @@ const changeRadio = async (name, value) => {
     } else if (value == "?") {
       insVlaue = 2;
     } else if (value.indexOf("-") > -1) {
-      let indexArr = value.split("-");
+      let indexArr: Array<any> = value.split("-");
       isNaN(indexArr[0])
           ? (refObj.value.cycle01 = 0)
           : (refObj.value.cycle01 = indexArr[0]);
       refObj.value.cycle02 = indexArr[1];
       insVlaue = 3;
     } else if (value.indexOf("/") > -1) {
-      let indexArr = value.split("/");
+      let indexArr: Array<any> = value.split("/");
       isNaN(indexArr[0])
           ? (refObj.value.average01 = 0)
           : (refObj.value.average01 = indexArr[0]);
       refObj.value.average02 = indexArr[1];
       insVlaue = 4;
     } else if (value.indexOf("W") > -1) {
-      let indexArr = value.split("W");
+      let indexArr: Array<any> = value.split("W");
       isNaN(indexArr[0])
           ? (refObj.value.workday = 0)
           : (refObj.value.workday = indexArr[0]);
@@ -257,21 +257,21 @@ const changeRadio = async (name, value) => {
     } else if (value == "?") {
       insVlaue = 2;
     } else if (value.indexOf("-") > -1) {
-      let indexArr = value.split("-");
+      let indexArr: Array<any> = value.split("-");
       isNaN(indexArr[0])
           ? (refObj.value.cycle01 = 0)
           : (refObj.value.cycle01 = indexArr[0]);
       refObj.value.cycle02 = indexArr[1];
       insVlaue = 3;
     } else if (value.indexOf("#") > -1) {
-      let indexArr = value.split("#");
+      let indexArr: Array<any> = value.split("#");
       isNaN(indexArr[0])
           ? (refObj.value.average01 = 1)
           : (refObj.value.average01 = indexArr[0]);
       refObj.value.average02 = indexArr[1];
       insVlaue = 4;
     } else if (value.indexOf("L") > -1) {
-      let indexArr = value.split("L");
+      let indexArr: Array<any> = value.split("L");
       isNaN(indexArr[0])
           ? (refObj.value.weekday = 1)
           : (refObj.value.weekday = indexArr[0]);
@@ -297,7 +297,7 @@ const changeRadio = async (name, value) => {
   refObj.value.radioValue = insVlaue;
 };
 // 表单选项的子组件校验数字格式（通过-props传递）
-const checkNumber = (value, minLimit, maxLimit) => {
+const checkNumber = (value: number, minLimit: number, maxLimit: number) => {
   //检查必须为整数
   value = Math.floor(value);
   if (value < minLimit) {
@@ -307,15 +307,7 @@ const checkNumber = (value, minLimit, maxLimit) => {
   }
   return value;
 };
-// 隐藏弹窗
-const hidePopup = () => {
-  emit("hide");
-};
-// 填充表达式
-const submitFill = () => {
-  emit("fill", contabValueString.value);
-  hidePopup();
-};
+
 const clearCron = () => {
   // 还原选择项
   contabValueObj.value = {
@@ -331,11 +323,10 @@ const clearCron = () => {
     changeRadio(j, contabValueObj.value[j]);
   }
 };
-contabValueString.value = computed(() => contabValueStringFun());
+
 const contabValueStringFun = () => {
   let obj = contabValueObj.value;
-  let str =
-      obj.second +
+  return obj.second +
       " " +
       obj.min +
       " " +
@@ -347,13 +338,7 @@ const contabValueStringFun = () => {
       " " +
       obj.week +
       (obj.year == "" ? "" : " " + obj.year);
-  cronExpress(str);
-  return str;
 };
-watch(() => "resolveExp",
-    (val) => {
-    }
-);
 onMounted(() => {
   resolveExp();
 });
@@ -366,6 +351,7 @@ defineExpose({
   position: relative;
   margin: 10px auto;
   background: #fff;
+  width: 100%;
   border-radius: 5px;
   font-size: 12px;
   overflow: hidden;
@@ -381,6 +367,7 @@ defineExpose({
     box-sizing: border-box;
     line-height: 24px;
     margin: 25px auto;
+    width: 100%;
     padding: 15px 10px 10px;
     border: 1px solid #ccc;
     position: relative;

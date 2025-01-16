@@ -1,15 +1,14 @@
 <template>
-  <star-horse-dialog :title="'Crontab 配置器'" :self-func="true " @resetForm="resetForm" @closeAction="close"
+  <star-horse-dialog :title="'Crontab 配置器'" box-width="45%" :self-func="true " @resetForm="resetForm"
+                     @closeAction="close"
                      @merge="submit"
                      :dialog-visible="cronVisible">
     <div class="dialog-body">
-      <Crontab ref="cronTabRef" :expression="context.attrs['formData'][field.preps['name']]"
-      />
+      <Crontab ref="cronTabRef" v-model="cronDataValue"/>
     </div>
   </star-horse-dialog>
   <starhorse-form-item :isDesign="context.attrs['isDesign']" :bareFlag="context.attrs['bareFlag']" :form-item="field"
-                       :parentField="parentField"
-  >
+                       :parentField="parentField">
     <el-input
         :fid="field.preps['name']"
         :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
@@ -28,32 +27,34 @@
   </starhorse-form-item>
 </template>
 <script lang="ts">
-import {defineComponent, onMounted, provide, ref, shallowRef} from "vue";
+import {defineComponent, onMounted, ref, shallowRef} from "vue";
 import Crontab from "@/components/cron/Crontab.vue";
 import StarHorseDialog from "@/components/comp/StarHorseDialog.vue";
 import {allAction} from "@/components/formcomp/utils/ItemRelationEventUtils.ts";
+import {useVModel} from "@vueuse/core";
 
 export default defineComponent({
   components: {Crontab, StarHorseDialog},
+
   setup(_props, context) {
-    const parentField = context.attrs["parentField"];
-    //  const formData = context.attrs["formData"];
+    // console.log(context);
+    // const emit = context.emit;
     const field = context.attrs["field"] as any;
-    const defaultExpress = "* * * * * * *";
+    // let defaultExpress = useVModel(field, 'modelValue', emit);
+
+    const parentField = context.attrs["parentField"];
+    let cronDataValue = ref<any>("");
+    let dataValue = ref<any>("");
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
     let cronVisible = ref(false);
     const cronTabRef = ref();
-    let recordNewExpress = defaultExpress;
-    provide("cronExpress", (val: string) => {
-      recordNewExpress = val;
-    });
     let actionName = shallowRef("change");
     const itemAction = (prep: any) => {
       allAction(context, prep);
     };
     const resetForm = () => {
-      context.attrs['formData'][field.preps['name']] = defaultExpress;
+      // context.attrs['formData'][field.preps['name']] = defaultExpress;
       if (cronTabRef.value) {
         cronTabRef.value.clearCron();
       }
@@ -62,8 +63,10 @@ export default defineComponent({
       cronVisible.value = false;
     };
     const submit = () => {
+      // dataValue.value = cronDataValue.value;
+      context.attrs['formData'][field.preps['name']] = cronDataValue.value;
+      // emit('update:modelValue', dataValue.value);
       close();
-      context.attrs['formData'][field.preps['name']] = recordNewExpress;
     };
     resetForm();
     onMounted(() => {
@@ -73,9 +76,8 @@ export default defineComponent({
       }
     });
     return {
-      parentField, context, field, formItem,
-      dataField, itemAction, cronVisible
-      , resetForm, close, submit, cronTabRef, actionName
+      parentField, context, field, formItem, dataField, itemAction, cronVisible, resetForm, close,
+      submit, cronTabRef, actionName, dataValue, cronDataValue
     }
   }
 });
