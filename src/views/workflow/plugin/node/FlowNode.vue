@@ -17,8 +17,14 @@ const props = defineProps(
       }
     }
 );
+/**
+ * 选中节点
+ * @param node
+ * @param parentNode
+ */
 const selectNode = (node: any, parentNode: any) => {
   flowDesign.activeNode(node);
+  flowDesign.setParentNode(parentNode)
 };
 </script>
 <template>

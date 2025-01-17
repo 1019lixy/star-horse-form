@@ -5,7 +5,6 @@ import DeleteConfirm from '@/views/workflow/plugin/common/DeleteConfirm.vue';
 import {computed, onMounted} from "vue";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
-import {FlowNodeEnums} from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
 import {closeLoad} from "@/api/sh_api.ts";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 
@@ -98,7 +97,7 @@ onMounted(() => {
           <DeleteConfirm :node="node"/>
         </div>
       </div>
-      <FlowAddNode :node="node" :nodeType="FlowNodeEnums.COPYER_NODE" :readable="readable"/>
+      <FlowAddNode :node="node" :nodeType="node.type" :readable="readable"/>
     </div>
   </div>
 </template>

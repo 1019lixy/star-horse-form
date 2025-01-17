@@ -111,28 +111,27 @@ const approverNodePreps = (type: String) => {
         id: uuid(),
         name: type == "approve" ? '审批人' : '办理人',
         subType: type,
-        type: type == "approve" ? FlowNodeEnums.APPROVER_NODE : FlowNodeEnums.APPLY_NODE,
+        type: type == "approve" ? FlowNodeEnums.APPROVER_NODE : FlowNodeEnums.HANDLE_NODE,
         // 流程节点状态(用于只读模式, 0:未进行 1:进行中  2:已完成)
         status: -1,
         //错误提示
         errorMsg: '',
         // 流程基础配置属性
-        attr: {
-            // 审批类型
-            approvalMethod: 1,
-            // 审批方式
-            approvalMode: 1,
-            // 审批人与发起人为同一人时
-            sameMode: 2,
-            // 审批人为空时
-            noHander: 4,
-        },
+        approvalMethod: "assign",
+        // 审批方式
+        approvalMode: "sequential",
+        // 审批模式
+        multiPercent: 100,
+        // 审批人与发起人为同一人时
+        sameMode: "B",
+        // 审批人为空时
+        noHander: "A",
         // 审批设置
         approveGroups: [
             {
                 id: uuid(),
                 // 审批人模式
-                approveType: 1,
+                approveType: null,
                 // 层级模式
                 levelMode: 1,
                 // 审批人ID
@@ -141,10 +140,12 @@ const approverNodePreps = (type: String) => {
                 approverNames: [],
             },
         ],
+        //无审批人
+        nobodyUsers: [],
         // 表单权限
-        privileges: [],
+        privilege: "edit",
         // 高级配置
-        configure: {},
+        operations: {},
         // 子节点
         childNode: null,
         // 显示添加按钮
@@ -188,7 +189,7 @@ const copyerNodePreps = () => {
             },
         ],
         // 表单权限
-        privileges: [],
+        privilege: "readonly",
         // 高级配置
         operations: {},
         // 显示添加按钮
@@ -233,6 +234,8 @@ const noticeNodePreps = () => {
                 approverNames: [],
             },
         ],
+        // 表单权限
+        privilege: "readonly",
         // 显示添加按钮
         addable: true,
         // 可删除提示
@@ -251,7 +254,10 @@ const serviceNodePreps = () => {
         type: FlowNodeEnums.SERVICE_NODE,
         // 流程节点状态(用于只读模式, 0:未进行 1:进行中  2:已完成)
         status: -1,
-        implementationType: "class",
+        executionListeners: [{
+            event: "start",
+            implementationType: "class",
+        }],
         // 子节点
         childNode: null,
         // 显示添加按钮
@@ -350,14 +356,12 @@ const branchNodePreps = () => {
                 // 条件组
                 conditionGroup: [],
                 // 流程基础配置属性
-                attr: {
-                    // 分支类型
-                    branchType: "rule",
-                    // 优先级
-                    priorityLevel: 1,
-                    // 显示优先级
-                    showPriorityLevel: true,
-                },
+                // 分支类型
+                branchType: "rule",
+                // 优先级
+                priorityLevel: 1,
+                // 显示优先级
+                showPriorityLevel: true,
             },
             {
                 id: uuid(),
@@ -374,15 +378,12 @@ const branchNodePreps = () => {
                 deletable: false,
                 // 条件组
                 conditionGroup: [],
-                // 流程基础配置属性
-                attr: {
-                    // 分支类型
-                    branchType: "rule",
-                    // 优先级
-                    priorityLevel: 2,
-                    // 显示优先级
-                    showPriorityLevel: true,
-                },
+                // 分支类型
+                branchType: "rule",
+                // 优先级
+                priorityLevel: 2,
+                // 显示优先级
+                showPriorityLevel: true,
                 // 是否有错误
                 error: false,
                 //错误提示

@@ -2,7 +2,7 @@
 import {flowCommon} from '@/views/workflow/plugin/utils/flowCommon.ts';
 import {uuid} from "@/api/system.ts";
 import FlowDrawerFooter from '@/views/workflow/plugin/common/DrawerFooter.vue';
-import {onMounted, ref} from "vue";
+import {onMounted, ref, computed} from "vue";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 import {dictData, searchMatchList} from "@/api/sh_api.ts";
@@ -13,7 +13,7 @@ import {ModelRef} from "vue-demi";
 defineOptions({
   name: "BranchPrep",
 })
-let node :ModelRef<any>= defineModel("activeData");
+let node: ModelRef<any> = defineModel("activeData");
 
 // 等级
 let levelOptions = ref<Array<any>>([]);
@@ -53,13 +53,12 @@ let flowValueTypes = ref<Array<any>>([
 ]);
 // 表单数据
 const flowDesign = useFlowDesign(piniaInstance);
-const showDrawer = (snode: any, routeNode: any) => {
-
-  node.value = snode;
+const parentNode = computed(() => flowDesign.parentNode);
+const initLavel = () => {
   // 等级
-  if (snode.attr.showPriorityLevel) {
+  if (node.value.showPriorityLevel) {
     levelOptions.value = [];
-    routeNode.conditionNodes.forEach((_item: any, index: number) => {
+    parentNode.value.conditionNodes.forEach((_item: any, index: number) => {
       let priorityLevel = index + 1;
       levelOptions.value.push({label: '优先' + priorityLevel, value: priorityLevel});
     });
@@ -155,45 +154,33 @@ const onSave = () => {
   } else {
     content += '任意(其他)';
   }
-  flowDesign.flowUpdateNode({currNode: node.value, field: 'content', value: null});
-  flowDesign.flowUpdateNode({currNode: node.value, field: 'error', value: true});
-  if (content) {
-    console.info('content', content);
-    flowDesign.flowUpdateNode({currNode: node.value, field: 'error', value: false});
-    flowDesign.flowUpdateNode({currNode: node.value, field: 'content', value: content});
-  }
   onClose();
 }
 const init = async () => {
-  branchTypes.value = await dictData("flow_branch_type")
+  branchTypes.value = await dictData("flow_branch_type");
+  initLavel();
 }
 onMounted(() => {
   init();
 })
-defineExpose({
-  showDrawer
-})
+
 </script>
 <template>
-  <div class="flow-module">
+  <el-form v-model="node" label-position="top">
+    <el-form-item v-if="node.showPriorityLevel" label="分支等级" prop="name">
+      <el-select v-model="node.priorityLevel" filterable clearable :size="flowCommon.size" placeholder="请选择等级">
+        <el-option v-for="item in levelOptions" :key="item.value" :label="item.label" :value="item.value"/>
+      </el-select>
+    </el-form-item>
+    <el-form-item label="分支类型" prop="name">
+      <el-radio-group v-model="node.branchType" filterable clearable :size="flowCommon.size" placeholder="请选择分支类型">
+        <el-radio-button v-for="item in branchTypes" :key="item.value" :label="item.name" :value="item.value"/>
+      </el-radio-group>
+    </el-form-item>
+    <el-divider content-position="left">条件规则</el-divider>
     <div class="flow-content">
-      <div v-if="node.attr.showPriorityLevel" class="flow-item">
-        <p class="flow-item-title">分支等级</p>
-        <el-select v-model="node.attr.priorityLevel" :size="flowCommon.size" placeholder="请选择等级">
-          <el-option v-for="item in levelOptions" :key="item.value" :label="item.label" :value="item.value"/>
-        </el-select>
-      </div>
-      <div class="flow-item">
-        <p class="flow-item-title">分支类型</p>
-        <el-radio-group v-model="node.attr.branchType" :size="flowCommon.size">
-          <el-radio :value="branchType.value" v-for="branchType in branchTypes" :key="branchType.value">
-            {{ branchType.name }}
-          </el-radio>
-        </el-radio-group>
-      </div>
-      <el-divider/>
-      <div v-if="node.attr.branchType == 'rule'" class="flow-item">
-        <p class="flow-item-title">条件规则</p>
+      <div v-if="node.branchType == 'rule'" class="flow-item">
+        <p class="flow-item-title"></p>
         <div class="flow-condition-box">
           <div v-for="(group, i) in node.conditionGroup" :key="i">
             <div class="flow-condition-group">
@@ -287,14 +274,14 @@ defineExpose({
           </div>
         </div>
       </div>
-      <div v-else-if="node.attr.branchType == 'formula'" class="flow-item">
+      <div v-else-if="node.branchType == 'formula'" class="flow-item">
         <p class="flow-item-title">公式</p>
       </div>
       <div v-else class="flow-item">
         <p class="flow-item-title">其他</p>
       </div>
     </div>
-  </div>
+  </el-form>
   <FlowDrawerFooter @close="onClose" @save="onSave"/>
 </template>
 <style lang="scss" scoped>

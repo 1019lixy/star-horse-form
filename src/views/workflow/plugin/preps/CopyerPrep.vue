@@ -55,8 +55,8 @@ const onSave = () => {
         </el-form-item>
       </el-tab-pane>
       <el-tab-pane key="2" name="2" label="表单权限">
-        <el-form-item label="表单权限" prop="privileges">
-          <AuthForm v-model="node.privileges" :form-id="flowFormInfo?.formId"/>
+        <el-form-item label="表单权限" prop="privilege">
+          <AuthForm v-model="node.privilege" :form-id="flowFormInfo?.formId"/>
         </el-form-item>
       </el-tab-pane>
       <el-tab-pane key="3" name="3" label="高级设置">

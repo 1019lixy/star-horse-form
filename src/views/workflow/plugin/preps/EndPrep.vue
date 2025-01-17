@@ -33,14 +33,7 @@ const onClose = () => {
  */
 const onSave = () => {
   // 更新节点显示信息
-  if (node.value.privileges && node.value.privileges.length > 0) {
-    flowDesign.flowUpdateNode({currNode: node.value, field: 'content', value: '已设置'});
-    flowDesign.flowUpdateNode({currNode: node.value, field: 'error', value: false});
-    onClose();
-  } else {
-    flowDesign.flowUpdateNode({currNode: node.value, field: 'content', value: null});
-    flowDesign.flowUpdateNode({currNode: node.value, field: 'error', value: false});
-  }
+
   onClose();
 }
 defineExpose({

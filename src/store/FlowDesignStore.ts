@@ -23,6 +23,7 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
     const nodePrepMap = ref<any>({});
     const commonPreps = ref<any>({});
     const currentNode = ref<any>({});
+    const parentNode = ref<any>({});
     const flowFormInfo = ref<any>({});
     //  节点数据
     const node = ref<any>(nodePrepList[FlowNodeEnums.APPLY_NODE]);
@@ -70,6 +71,9 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
     const activeNode = (node: any) => {
         currentNode.value = node;
         active.value = true;
+    }
+    const setParentNode = (node: any) => {
+        parentNode.value = node;
     }
     /**
      * 设置表单信息
@@ -204,6 +208,7 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
         nodeList,
         active,
         commonPreps,
+        parentNode,
         node,
         mapImg,
         suggestBranchEnable,
@@ -229,6 +234,7 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
         flowUpdateNode,
         refreshMap,
         init,
-        formAddField
+        formAddField,
+        setParentNode
     }
 });

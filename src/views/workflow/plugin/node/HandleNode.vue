@@ -28,6 +28,19 @@ const props = defineProps({
 });
 props.node.error = computed(() => !props.node.formId);
 const emits = defineEmits(['selectNode']);
+props.node.error = computed(() => {
+  let flag = false;
+  let msg = "";
+  if (!props.node.approveGroups
+      || !props.node.approveGroups.length
+      || !props.node.approveGroups[0].approveType
+      || !props.node.approveGroups[0].approverIds?.length) {
+    flag = true;
+    msg += "未配置办理人";
+  }
+  props.node.errorMsg = msg;
+  return flag;
+});
 const selectNode = () => {
   emits('selectNode', props.node);
 }
@@ -70,7 +83,9 @@ onMounted(() => {
             <span v-else class="hint-title">默认表单全可编辑</span>
           </div>
           <!-- 错误提示 -->
-          <star-horse-icon v-if="node.error" icon-class="exclamation-circle" theme="filled" class="node-error"/>
+          <el-tooltip :content="node.errorMsg" placement="top" v-if="node.error">
+            <star-horse-icon icon-class="exclamation-circle" theme="filled" class="node-error"/>
+          </el-tooltip>
           <!-- 只有是填写节点才能删除，发起节点不能删除 -->
           <div v-if="!readable && !node.deletable" class="close-icon">
             <star-horse-icon icon-class="close" @click.stop="node.deletable = true"/>
