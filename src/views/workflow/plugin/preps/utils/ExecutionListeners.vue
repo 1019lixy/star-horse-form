@@ -77,7 +77,7 @@ const delListener = (index: number) => {
   </div>
 </template>
 
-<style scoped lang="scss">
+<style  lang="scss">
 .listener-box {
   border: 1px dashed var(--el-border-color);
   border-radius: var(--el-border-radius-base);

@@ -53,10 +53,10 @@ const onClose = () => {
              @close="onClose">
     <template #header>
       <div class="drawer-header">
-        <star-horse-icon icon-class="audit_node" color="#fff" style="margin-left: 10px"/>
-        <span class="flow-drawer-title">
+<!--        <star-horse-icon icon-class="audit_node" color="#fff" style="margin-left: 10px"/>-->
+        <div class="flow-drawer-title">
         <EditName v-model:nodeName="activeNode.name"/>
-      </span>
+      </div>
       </div>
     </template>
     <component :is="panels[activeNode.type]" :activeData="activeNode"/>

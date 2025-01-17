@@ -1,16 +1,12 @@
 <script setup lang="ts">
-import {flowCommon, radioStyle} from '@/views/workflow/plugin/utils/flowCommon.ts';
 import {uuid} from "@/api/system.ts";
 import {getApproveNodes} from '@/views/workflow/plugin/utils/nodeUtil';
 import {computed, onMounted, ref} from "vue";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 import {createCondition} from "@/api/sh_api.ts";
-import TselectItem from "@/components/formcomp/items/tselect-item.vue";
-import UserItem from "@/components/formcomp/items/user-item.vue";
 import {postRequest} from "@/api/star_horse.ts";
 import StarHorseDataSelector from "@/components/comp/StarHorseDataSelector.vue";
-import {FlowNodeEnums} from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
 
 const props = defineProps({
   groups: {
@@ -267,7 +263,6 @@ let approveNodes = computed(() => {
 let dataSelectorVisible = ref<boolean>(false);
 let dataList = ref<any>([]);
 let selectorParmas = ref<any>({});
-let currentApproveType = ref<any>({});
 /**
  * 改变审批人类型
  */
@@ -276,7 +271,7 @@ const changeApproveType = (group: any) => {
   group.approverNames = [];
   dataSelectorVisible.value = false;
   let item = approvals.value.find((item: any) => item.idApprovalType == group.approveType);
-  currentApproveType.value = item;
+  group.currentApproveType = item;
   selectorParmas.value = {
     placeholder: `请选${item.approveType}`,
     displayFieldName: "name",
@@ -294,7 +289,7 @@ const addApproval = () => {
   props.groups.push({
     id: uuid(),
     // 审批人模式
-    approveType: 1,
+    approveType: null,
     // 层级模式
     levelMode: 1,
     // 审批人ID
@@ -338,43 +333,57 @@ onMounted(() => {
 });
 </script>
 <template>
-  <el-form :model="node.audit" label-position="top">
-    <el-form-item :label="title" prop="approveType">
-      <el-select style="margin-bottom: 10px;width: 100%;" v-model="node.audit.approveType" filterable clearable
-                 default-first-option
-                 @change="changeApproveType(node.audit)">
-        <el-option v-for="item in approvals" :key="item.idApprovalType" :value="item.idApprovalType"
-                   :label="item.approvalType"
-                   :disabled="item.statusCode=='0' && groups.length > 1">
-          <div style="float: left">{{ item.approvalType }}</div>
-          <div style="
+  <el-form :model="groups" label-position="top">
+    <div v-for="(group,index) in groups" :key="index" class="listener-box">
+      <el-button
+          class="listener-close"
+          @click="delApproval(group)"
+          plain
+          circle
+          icon="CircleClose"
+          size="small"
+          type="danger"
+      />
+      <el-form-item :label="title" :prop="`groups.${index}.approveType`">
+        <el-select style="margin-bottom: 10px;width: 100%;" v-model="group.approveType" filterable clearable
+                   default-first-option
+                   @change="changeApproveType(group)">
+          <el-option v-for="item in approvals" :key="item.idApprovalType" :value="item.idApprovalType"
+                     :label="item.approvalType"
+                     :disabled="item.statusCode=='0' && groups.length > 1">
+            <div style="float: left">{{ item.approvalType }}</div>
+            <div style="
           float: right;
           color: var(--el-text-color-secondary);
         ">
-            <el-popover v-if="item.remark && item.remark.length > 0"
-                        :popper-style="{width: 'unset !important'}" placement="top-start" trigger="hover">
-              <template #reference>
-                <star-horse-icon style="margin-left: 5px;" size="18px" icon-class="question-circle"/>
-              </template>
-              <div class="approver-tip-content">
-                <div class="approver-tip-main-content">
-                  {{ item.remark }}
+              <el-popover v-if="item.remark && item.remark.length > 0"
+                          :popper-style="{width: 'unset !important'}" placement="top-start" trigger="hover">
+                <template #reference>
+                  <star-horse-icon style="margin-left: 5px;" size="18px" icon-class="question-circle"/>
+                </template>
+                <div class="approver-tip-content">
+                  <div class="approver-tip-main-content">
+                    {{ item.remark }}
+                  </div>
                 </div>
-              </div>
-            </el-popover>
-          </div>
-        </el-option>
-      </el-select>
+              </el-popover>
+            </div>
+          </el-option>
+        </el-select>
 
-    </el-form-item>
-    <el-form-item v-if="node.audit.approveType" :label="'指定'+currentApproveType.approvalType" prop="approverIds">
-      <star-horse-data-selector
-          multiple
-          v-model="node.audit.approverIds"
-          :placeholder="'请选择'+currentApproveType.approvalType"
-      />
-    </el-form-item>
-
+      </el-form-item>
+      <el-form-item v-if="group.approveType" :label="'指定'+(group.currentApproveType?.approvalType||'')"
+                    :prop="`groups.${index}.approverIds`">
+        <star-horse-data-selector
+            multiple
+            v-model="group.approverIds"
+            :placeholder="'请选择'+(group.currentApproveType?.approvalType||'')"
+        />
+      </el-form-item>
+    </div>
+    <div class="listener-btn">
+      <el-button link @click="addApproval" type="primary" icon="Plus">添加</el-button>
+    </div>
   </el-form>
 
 </template>

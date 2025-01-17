@@ -30,11 +30,12 @@ const nodeInfoList = () => {
             "nodeCode": "ServiceNode",
             "nodeIcon": "task",
         },
-        {
-            "nodeName": "事件节点",
-            "nodeCode": "EventNode",
-            "nodeIcon": "event_node",
-        },
+        /*认知里还没有对事件节点有进一步认识*/
+        /*   {
+               "nodeName": "事件节点",
+               "nodeCode": "EventNode",
+               "nodeIcon": "event_node",
+           },*/
         {
             "nodeName": "抄送节点",
             "nodeCode": "CopyerNode",
@@ -175,7 +176,7 @@ const copyerNodePreps = () => {
             {
                 id: uuid(),
                 // 审批人模式
-                approveType: 1,
+                approveType: null,
                 // 层级模式
                 levelMode: 1,
                 // 审批人ID
@@ -212,12 +213,14 @@ const noticeNodePreps = () => {
         errorMsg: '',
         // 子节点
         childNode: null,
+        //通知方式
+        noticeType: [],
         // 审批设置
         approveGroups: [
             {
                 id: uuid(),
                 // 审批人模式
-                approveType: 1,
+                approveType: null,
                 // 层级模式
                 levelMode: 1,
                 // 审批人ID

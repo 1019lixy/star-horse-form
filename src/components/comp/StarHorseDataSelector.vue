@@ -8,8 +8,9 @@ import {computed, ref} from 'vue';
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 
 export interface DataSelectorProps {
-  modelValue: ModelValueType
-  placeholder?: string
+  modelValue: ModelValueType,
+  selectedData?: any,
+  placeholder?: string,
   dataUrl?: string,
   datas?: Array<any>,
   pageSize?: number,
@@ -34,11 +35,14 @@ const props = withDefaults(defineProps<DataSelectorProps>(), {
   placeholder: '请选择数据'
 })
 const emits = defineEmits<{
-  (e: 'update:modelValue', modelValue: ModelValueType): void
-}>()
+  (e: 'update:modelValue', modelValue: ModelValueType): void,
+  (e: 'selectedData', selectData: any): void,
+}>();
 const value: any = useVModel(props, 'modelValue', emits);
+const emitData: any = useVModel(props, 'selectedData', emits);
 const selectData: any = ref<any>();
 const valueArr = computed<string[]>(() => {
+  emitData.value = selectData.value;
   if (!selectData.value) return [];
   if (Array.isArray(selectData.value)) {
     value.value = selectData.value.map((v: any) => v[props.displayValue]);
@@ -47,7 +51,7 @@ const valueArr = computed<string[]>(() => {
     value.value = selectData.value[props.displayValue];
     return [selectData.value];
   }
-})
+});
 const dataPickerRef = ref<InstanceType<typeof DataPicker>>()
 const formDisabled = useFormDisabled()
 const formSize = useFormSize()
@@ -67,6 +71,7 @@ const onClose = (data: any) => {
     selectData.value = null
     value.value = null;
   }
+  emits('selectData', selectData.value);
 }
 </script>
 
@@ -81,18 +86,18 @@ const onClose = (data: any) => {
                :checkStrictly="checkStrictly"
                :multiple="multiple" v-model="selectData"/>
   <div class="data-wrapper">
-    <star-horse-icon @click="openDataPicker" cursor="pointer" icon-class="select-data" :border=true />
-      <DataTag
-          v-for="item in valueArr"
-          :closable="!disabled"
-          :data="item"
-          :display-name="displayName"
-          :display-value="displayValue"
-          @close="onClose"
-      />
-      <el-text v-show="!value || value.length === 0" class="placeholder">
-        {{ placeholder }}
-      </el-text>
+    <star-horse-icon @click="openDataPicker" cursor="pointer" icon-class="select-data" :border="true"/>
+    <DataTag
+        v-for="item in valueArr"
+        :closable="!disabled"
+        :data="item"
+        :display-name="displayName"
+        :display-value="displayValue"
+        @close="onClose"
+    />
+    <el-text v-show="!value || value.length === 0" class="placeholder">
+      {{ placeholder }}
+    </el-text>
   </div>
 </template>
 

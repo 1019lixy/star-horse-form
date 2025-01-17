@@ -17,13 +17,8 @@
           class="input-with-select"
       >
         <template #append>
-          <el-select v-model="node.unit" placeholder="Select" style="width: 100px">
-            <el-option label="秒" value="PT%sS"></el-option>
-            <el-option label="分钟" value="PT%sM"></el-option>
-            <el-option label="小时" value="PT%sH"></el-option>
-            <el-option label="天" value="P%sD"></el-option>
-            <el-option label="周" value="P%sW"></el-option>
-            <el-option label="月" value="P%sM"></el-option>
+          <el-select v-model="node.unit" placeholder="Select" default-first-option style="width: 100px">
+            <el-option v-for="(item,i) in timeOptionList" :label="item.name" :value="item.value" :key="i"/>
           </el-select>
         </template>
       </el-input>
@@ -43,17 +38,34 @@
 </template>
 <script setup lang="ts">
 import FlowDrawerFooter from '@/views/workflow/plugin/common/DrawerFooter.vue';
-import {ref} from "vue";
+import {ref, computed} from "vue";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 import {ModelRef} from "vue-demi";
+import {SelectOption} from "@/components/types/SearchProps";
 
 defineOptions({
   name: 'WritePrep',
 })
 const rules = [{trigger: 'blur', required: true, message: '必填项不能为空'}];
+const timeOptionList = ref<SelectOption[]>([
+  {name: '秒', value: 'PT%sS'},
+  {name: '分钟', value: 'PT%sM'},
+  {name: '小时', value: 'PT%sH'},
+  {name: '天', value: 'P%sD'},
+  {name: '周', value: 'P%sW'},
+  {name: '月', value: 'P%sM'},
+]);
 let node: ModelRef<any> = defineModel("activeData");
-let visible = ref<boolean>(false);
+node.value.content = computed(() => {
+  if (node.value.waitType == 'duration') {
+    return node.value.duration + timeOptionList.value.find(item => item.value == node.value.unit)?.name || '';
+  }
+  if (node.value.waitType == 'date') {
+    return node.value.timeDate;
+  }
+  return '';
+});
 const timerNodeRef = ref();
 const flowDesign = useFlowDesign(piniaInstance);
 
