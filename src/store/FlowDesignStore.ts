@@ -79,6 +79,14 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
         flowFormInfo.value = formInfo;
     }
     /**
+     * 添加表单属性
+     * @param key
+     * @param value
+     */
+    const formAddField = (key: string, value: any) => {
+        flowFormInfo.value[key] = value;
+    }
+    /**
      * 设置节点数据
      * @param node
      */
@@ -220,6 +228,7 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
         flowDelNode,
         flowUpdateNode,
         refreshMap,
-        init
+        init,
+        formAddField
     }
 });

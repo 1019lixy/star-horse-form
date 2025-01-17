@@ -7,6 +7,7 @@ import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 import {FlowNodeEnums} from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
 import {closeLoad} from "@/api/sh_api.ts";
+import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 
 defineOptions({
   name: 'CopyerNode',
@@ -29,6 +30,19 @@ const props = defineProps({
 });
 
 const emits = defineEmits(['selectNode']);
+props.node.error = computed(() => {
+  let flag = false;
+  let msg = "";
+  if (!props.node.approveGroups
+      || !props.node.approveGroups.length
+      || !props.node.approveGroups[0].approveType
+      || !props.node.approveGroups[0].approverIds?.length) {
+    flag = true;
+    msg += "未配置抄送人";
+  }
+  props.node.errorMsg = msg;
+  return flag;
+});
 const selectNode = () => {
   emits('selectNode', props.node);
 }
@@ -74,7 +88,9 @@ onMounted(() => {
             <span v-else class="hint-title">设置此节点</span>
           </div>
           <!-- 错误提示 -->
-          <star-horse-icon v-if="node.error" iconClass="exclamation-circle" theme="filled" class="node-error"/>
+          <el-tooltip :content="node.errorMsg" placement="top" v-if="node.error">
+            <star-horse-icon icon-class="exclamation-circle" theme="filled" class="node-error"/>
+          </el-tooltip>
           <div v-if="!readable && !node.deletable" class="close-icon">
             <star-horse-icon iconClass="close" @click.stop="node.deletable = true"/>
           </div>

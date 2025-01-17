@@ -171,6 +171,8 @@ const copyerNodePreps = () => {
         errorMsg: '',
         // 子节点
         childNode: null,
+        //密送人
+        secretApproveGroups: [],
         // 抄送人设置
         approveGroups: [
             {
@@ -188,7 +190,7 @@ const copyerNodePreps = () => {
         // 表单权限
         privileges: [],
         // 高级配置
-        configure: {},
+        operations: {},
         // 显示添加按钮
         addable: true,
         // 可删除提示
@@ -215,6 +217,8 @@ const noticeNodePreps = () => {
         childNode: null,
         //通知方式
         noticeType: [],
+        //密送人
+        secretApproveGroups: [],
         // 审批设置
         approveGroups: [
             {

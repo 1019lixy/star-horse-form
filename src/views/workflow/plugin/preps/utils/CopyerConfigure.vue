@@ -5,15 +5,15 @@
       <div class="flow-option" v-for="(operation, i) in operations" :key="i">
         <div class="flow-item">
           <div class="flow-item-left">
-            <star-horse-icon icon-class="config1" size="36px"/>
+            <star-horse-icon icon-class="config1" size="36px" :border="true"/>
             <div class="flow-desc">
-              <p class="option-title">{{ operation.name }}</p>
-              <p class="option-desc">{{ operation.content }}</p>
+              <p class="option-title">{{ operation.attrName }}</p>
+              <p class="option-desc">{{ operation.defaultValue }}</p>
             </div>
           </div>
           <div class="flow-item-switch">
-            <el-switch v-model="operation.code" active-text="开" inactive-text="关"
-                       @change="changeConfigure"/>
+            <el-switch v-model="config[operation.attrValue]" active-value="Y" inactive-value="N" active-text="开"
+                       inactive-text="关"/>
           </div>
         </div>
       </div>
@@ -21,31 +21,39 @@
   </div>
 </template>
 <script setup lang="ts">
-import {uuid} from "@/api/system.ts";
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
+import {useVModel} from "@vueuse/core";
+import {postRequest} from "@/api/star_horse.ts";
+import {createCondition} from "@/api/sh_api.ts";
 
 defineOptions({
-  name: 'FlowNodeCopyerConfigure',
+  name: 'CopyerConfigure',
 })
 const props = defineProps({
-  value: {
+  modelValue: {
     type: Object,
     default: function () {
       return {};
     },
   },
 });
-const emits = defineEmits(["input"]);
-let operations = ref<Array<any>>([
-  {
-    id: uuid(),
-    name: '发起人填写',
-    value: '1',
-    content: '允许发起人添加抄送人',
-    code: 'customCc',
-  },
-]);
-const changeConfigure = () => {
-  emits('input', props.value);
-}
+const emits = defineEmits(["update:modelValue"]);
+let config = useVModel(props, "modelValue", emits)
+let operations = ref<Array<any>>([]);
+const init = () => {
+  postRequest("/userdb-manage/userdb/formInstance/shNodeMappingPreps/idNodeMappingPrep/337537414606095357/getAllByCondition",
+      {
+        fieldList: [createCondition("idFlowNode", "cc_advance_config")],
+        orderBy: [{fieldName: "createdTime", ascOrDesc: "ASC"}]
+      }).then((res) => {
+    if (res.data.code) {
+      console.log(res.data.cnMessage);
+      return;
+    }
+    operations.value = res.data.data;
+  });
+};
+onMounted(() => {
+  init();
+});
 </script>

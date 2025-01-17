@@ -2,3 +2,4 @@ ApplyNode OK
 TimerNode OK
 EventNode IGNORE
 NoticeNode OK
+CopyerNode OK

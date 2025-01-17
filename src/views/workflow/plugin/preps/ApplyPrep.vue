@@ -22,7 +22,7 @@
   <FlowDrawerFooter @close="onClose" @save="onSave"/>
 </template>
 <script setup lang="ts">
-import {computed, defineModel, defineOptions, ref} from "vue";
+import {computed, defineModel, defineOptions, ref, watch} from "vue";
 import FlowDrawerFooter from '@/views/workflow/plugin/common/DrawerFooter.vue';
 import AuthForm from '@/views/workflow/plugin/common/AuthForm.vue';
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
@@ -53,4 +53,12 @@ const onSave = () => {
   flowFormInfo.value["formId"] = node.value.formId;
   onClose();
 }
+watch(() => node.value.formId, (val) => {
+  if (val) {
+    flowDesign.formAddField("formId", val);
+  }
+}, {
+  immediate: true,
+  deep: true
+});
 </script>
