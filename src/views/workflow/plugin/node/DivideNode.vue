@@ -21,7 +21,7 @@ import {closeLoad} from "@/api/sh_api.ts";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 defineOptions({
-  name: 'FlowNodeDivide',
+  name: 'DivideNode',
 });
 const flowDesign = useFlowDesign(piniaInstance);
 const props = defineProps({

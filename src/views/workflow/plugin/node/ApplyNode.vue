@@ -78,7 +78,7 @@ onMounted(() => {
             <star-horse-icon icon-class="exclamation-circle" theme="filled" class="node-error"/>
           </el-tooltip>
           <!-- 只有是填写节点才能删除，发起节点不能删除 -->
-          <div v-if="!readable && !node.deletable&&node.type==FlowNodeEnums.APPLY_NODE " class="close-icon">
+          <div v-if="!readable && !node.deletable&&node.type==FlowNodeEnums.START_NODE " class="close-icon">
             <star-horse-icon icon-class="close" @click.stop="node.deletable = true"/>
           </div>
           <!-- 删除提示 -->

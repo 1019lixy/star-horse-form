@@ -60,9 +60,9 @@ onMounted(() => {
               <div class="flow-node-box" :class="{ 'has-error': conditionNode.error }">
                 <div class="node-name">
                   <EditName v-model:nodeName="conditionNode.name"
-                            @edit="(showPriorityLevel) => (conditionNode.attr.showPriorityLevel = showPriorityLevel)"/>
-                  <div class="node-name-level" v-if="conditionNode.attr.showPriorityLevel">
-                    优先{{ conditionNode.attr.priorityLevel }}
+                            @edit="(showPriorityLevel) => (conditionNode.showPriorityLevel = showPriorityLevel)"/>
+                  <div class="node-name-level" v-if="conditionNode.showPriorityLevel">
+                    优先{{ conditionNode.priorityLevel }}
                   </div>
                   <star-horse-icon icon-class="branch_node" style="margin-left: 5px"/>
                 </div>

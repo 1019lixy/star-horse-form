@@ -3,11 +3,6 @@
     <div class="flow-content">
       <el-form label-position="top">
         <div class="flow-item">
-          <el-form-item name="name" label="节点名称">
-            <el-input v-model="node.name" :size="flowCommon.size" class="w-full" placeholder="节点名称"/>
-          </el-form-item>
-        </div>
-        <div class="flow-item">
           <p class="flow-item-title">事件类型</p>
           <div class="flow-option">
             <div class="flow-item">

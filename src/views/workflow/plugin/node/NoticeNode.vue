@@ -7,9 +7,19 @@
             <EditName v-model:nodeName="node.name"/>
             <star-horse-icon icon-class="notice_node" style="margin-left: 10px"/>
           </div>
-          <div class="node-main"><span class="hint-title">设置此节点</span></div>
+          <div class="node-main">
+            <span v-if="node.content">
+              通知信息:
+               <el-tooltip placement="top" :content="node.content">
+                {{ node.content }}
+              </el-tooltip>
+            </span>
+            <span v-else class="hint-title">设置此节点</span>
+          </div>
           <!-- 错误提示 -->
-          <star-horse-icon v-if="node.error" iconClass="exclamation-circle" theme="filled" class="node-error"/>
+          <el-tooltip :content="node.errorMsg" placement="top" v-if="node.error">
+            <star-horse-icon icon-class="exclamation-circle" theme="filled" class="node-error"/>
+          </el-tooltip>
           <div v-if="!readable && !node.deletable" class="close-icon">
             <star-horse-icon iconClass="close" @click.stop="node.deletable = true"/>
           </div>
@@ -50,6 +60,28 @@ const props = defineProps({
   }
 });
 const emits = defineEmits(['selectNode']);
+props.node.error = computed(() => {
+  let flag = false;
+  let msg = "";
+  if (!props.node.noticeType || !props.node.noticeType.length) {
+    msg += "未选择通知类型\n";
+    flag = true;
+  }
+  if (!props.node.approveGroups || !props.node.approveGroups.length) {
+    msg += "未选择通知人\n";
+    flag = true;
+  }
+  if (!props.node.subject) {
+    msg += "未填写主题\n";
+    flag = true;
+  }
+  if (!props.node.content) {
+    msg += "未填写内容\n";
+    flag = true;
+  }
+  props.node.errorMsg = msg;
+  return flag;
+})
 const selectNode = () => {
   emits('selectNode', props.node);
 }

@@ -19,7 +19,7 @@ let importDialogVisible = ref<boolean>(false);
 let rowDialogVisible = ref<boolean>(false);
 const rowDataFormRef = ref();
 const props = defineProps({
-  compUrl: {type: Object as PropType<ApiUrls>, required: true},
+  compUrl: {type: Object as PropType<ApiUrls>},
   fieldList: {type: Object, required: true},
   defaultValues: {type: Object, default: {}},
   batchName: {type: String, default: "batchDataList"},

@@ -10,7 +10,7 @@
             <star-horse-data-selector data-url="/userdb-manage/userdb/dynamicForm/pageList"
                                       display-name="formName"
                                       display-value="idDynamicForm"
-                                      page-size=100
+                                      :pageSize="100"
                                       placeholder="请选择表单"
                                       v-model="node.formId"/>
             <AuthForm v-model="node.privilege" :formId="node.formId" writable/>
@@ -22,7 +22,7 @@
   <FlowDrawerFooter @close="onClose" @save="onSave"/>
 </template>
 <script setup lang="ts">
-import {computed, defineModel, defineOptions, ref} from "vue";
+import {computed, defineModel, defineOptions, ref, watch} from "vue";
 import FlowDrawerFooter from '@/views/workflow/plugin/common/DrawerFooter.vue';
 import AuthForm from '@/views/workflow/plugin/common/AuthForm.vue';
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
@@ -38,6 +38,10 @@ let activeTab = ref<string>('basic');
 let node: ModelRef<any> = defineModel("activeData");
 const flowDesign = useFlowDesign(piniaInstance);
 const flowFormInfo = computed(() => flowDesign.flowFormInfo);
+node.value.content = computed(() => {
+  let privilege = node.value.privilege;
+  return privilege == "edit" ? "可编辑" : privilege == "readonly" ? "只读" : "禁止查看";
+})
 const onClose = () => {
   flowDesign.setActive(false);
 }
@@ -49,4 +53,12 @@ const onSave = () => {
   flowFormInfo.value["formId"] = node.value.formId;
   onClose();
 }
+watch(() => node.value.formId, (val) => {
+  if (val) {
+    flowDesign.formAddField("formId", val);
+  }
+}, {
+  immediate: true,
+  deep: true
+});
 </script>

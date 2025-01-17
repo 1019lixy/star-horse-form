@@ -290,7 +290,6 @@ const shortKeyList = (model: ModuleEnums) => {
  * @param params 参数
  */
 export const keyboardEvent = (evt: KeyboardEvent, actions: Function, module: ModuleEnums, ...params: any) => {
-    return;
     console.log(evt, evt.key);
     //ctrlKey
     if (evt.key == "Control") {

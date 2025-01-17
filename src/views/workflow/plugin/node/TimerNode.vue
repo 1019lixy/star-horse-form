@@ -5,16 +5,16 @@
         <div class="flow-node-box" :class="{ 'has-error': node.error }">
           <div class="node-name" :class="nameClass(node, 'node-task')">
             <EditName v-model:nodeName="node.name"/>
-            <star-horse-icon icon-class="task" style="margin-left: 10px"/>
+            <star-horse-icon icon-class="timer" style="margin-left: 10px"/>
           </div>
           <div class="node-main">
             <span v-if="node.content">
-              表单权限:
+              节点等待:
                <el-tooltip placement="top" :content="node.content">
                 {{ node.content }}
               </el-tooltip>
             </span>
-            <span v-else class="hint-title">时间节点</span>
+            <span v-else class="hint-title">等待节点</span>
           </div>
           <!-- 错误提示 -->
           <el-tooltip :content="node.errorMsg" placement="top" v-if="node.error">

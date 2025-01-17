@@ -1,5 +1,8 @@
 <script setup lang="ts">
-import {ref} from 'vue'
+import {onMounted, ref} from "vue";
+import {postRequest} from "@/api/star_horse.ts";
+import {createCondition} from "@/api/sh_api.ts";
+import Help from "@/components/help.vue";
 
 const props = defineProps({
   node: {
@@ -9,7 +12,6 @@ const props = defineProps({
     }
   }
 })
-const drawer = ref(false)
 const addListener = () => {
   if (!props.node.executionListeners) {
     props.node.executionListeners = []
@@ -23,10 +25,26 @@ const addListener = () => {
 const delListener = (index: number) => {
   props.node.executionListeners?.splice(index, 1)
 }
+let implementationTypeList = ref<Array<any>>([]);
+const init = () => {
+  postRequest("/userdb-manage/userdb/formInstance/shNodeMappingPreps/idNodeMappingPrep/337537414606095357/getAllByCondition",
+      {
+        fieldList: [createCondition("idFlowNode", "implementationType")],
+        orderBy: [{fieldName: "createdTime", ascOrDesc: "ASC"}]
+      }).then((res) => {
+    if (res.data.code) {
+      console.log(res.data.cnMessage);
+      return;
+    }
+    implementationTypeList.value = res.data.data;
+  });
+}
+onMounted(() => {
+  init();
+})
 </script>
 
 <template>
-
   <div v-for="(item, index) in node.executionListeners" :key="index" class="listener-box">
     <el-button
         class="listener-close"
@@ -46,12 +64,21 @@ const delListener = (index: number) => {
     </el-form-item>
     <el-form-item label="类型" :prop="`executionListeners.${index}.implementationType`">
       <el-radio-group v-model="item.implementationType">
-        <el-radio-button label="委托表达式" value="delegateExpression"/>
-        <el-radio-button label="java类" value="class"/>
-        <el-radio-button label="表达式" value="expression"/>
+        <el-radio-button v-for="item in implementationTypeList" :label="item.attrName" :value="item.attrValue"/>
       </el-radio-group>
     </el-form-item>
-    <el-form-item label="监听器" :prop="`executionListeners.${index}.implementation`">
+    <el-form-item v-if="item.implementationType=='script'" prop="implementation" label="执行脚本">
+      <star-horse-data-selector
+          v-model="node.implementation"
+          data-url="/userdb-manage/script/scriptInfo/pageList"
+          display-name="scriptName"
+          display-value="idScript"
+          :pageSize="100"
+          placeholder="请选择"
+      />
+      <help :message="'待运维模块对接'"/>
+    </el-form-item>
+    <el-form-item v-else label="监听器" :prop="`executionListeners.${index}.implementation`">
       <template #label>
         <div class="flex-items-center gap3px">
           <span>监听器</span>
@@ -77,7 +104,7 @@ const delListener = (index: number) => {
   </div>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss">
 .listener-box {
   border: 1px dashed var(--el-border-color);
   border-radius: var(--el-border-radius-base);

@@ -9,15 +9,17 @@
           </div>
           <div class="node-main">
             <span v-if="node.content">
-              表单权限:
+             执行类型:
                <el-tooltip placement="top" :content="node.content">
                 {{ node.content }}
               </el-tooltip>
             </span>
-            <span v-else class="hint-title">服务节点</span>
+            <span v-else class="hint-title">配置此节点</span>
           </div>
           <!-- 错误提示 -->
-          <star-horse-icon v-if="node.error" icon-class="exclamation-circle" theme="filled" class="node-error"/>
+          <el-tooltip :content="node.errorMsg" placement="top" v-if="node.error">
+            <star-horse-icon icon-class="exclamation-circle" theme="filled" class="node-error"/>
+          </el-tooltip>
           <!-- 只有是填写节点才能删除，发起节点不能删除 -->
           <div v-if="!readable && !node.deletable " class="close-icon">
             <star-horse-icon icon-class="close" @click.stop="node.deletable = true"/>
@@ -57,9 +59,30 @@ const props = defineProps({
     default: false,
   }
 });
-const emits=defineEmits(['selectNode']);
+const emits = defineEmits(['selectNode']);
+props.node.error = computed(() => {
+  let flag = false;
+  let msg = "";
+
+  if (!props.node.executionListeners) {
+    flag = true;
+    msg += "未配置执行器\n";
+  }
+  props.node.executionListeners?.forEach((item: any) => {
+    if (!item.implementationType) {
+      flag = true;
+      msg += "未配置执行器类型\n";
+    }
+    if (!item.implementation) {
+      flag = true;
+      msg += "执行器未配置参数\n";
+    }
+  });
+  props.node.errorMsg = msg;
+  return flag;
+});
 const selectNode = () => {
-  emits('selectNode',props.node);
+  emits('selectNode', props.node);
 }
 let nameClass = computed(() => {
   return (node, defaultStyle) => {
