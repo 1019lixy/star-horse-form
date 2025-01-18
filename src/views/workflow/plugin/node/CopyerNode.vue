@@ -72,9 +72,6 @@ onMounted(() => {
         <div class="flow-node-box" :class="{ 'has-error': node.error }">
           <div class="node-name" :class="nameClass(node, 'node-cc')">
             <EditName v-model:nodeName="node.name"/>
-            <div class="search-input el-input" style="display: none;">
-              <el-input type="text" autocomplete="off"/>
-            </div>
             <star-horse-icon icon-class="copy_node" style="margin-left: 10px"/>
           </div>
           <div class="node-main">

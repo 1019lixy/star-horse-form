@@ -110,7 +110,7 @@
             .flow-item {
               padding-top: 0;
 
-              .node-start{
+              .node-start {
                 position: relative;
                 display: -webkit-box;
                 display: -ms-flexbox;
@@ -207,13 +207,14 @@
                   background-image: linear-gradient(90deg, #a9b4cd, #a9b4cd), linear-gradient(#a9b4cd, #a9b4cd);
                 }
 
-                /* .node-cc {
-                  background-image: -webkit-gradient(linear, left top, right top, from(#498ff2), to(#6da4f2)),
-                    -webkit-gradient(linear, left top, left bottom, from(#ff6a00), to(#ff6a00));
-                  background-image: -webkit-linear-gradient(left, #498ff2, #6da4f2), -webkit-linear-gradient(#ff6a00, #ff6a00);
-                  background-image: -o-linear-gradient(left, #498ff2 0, #6da4f2 100%), -o-linear-gradient(#ff6a00, #ff6a00);
-                  background-image: linear-gradient(90deg, #498ff2, #6da4f2), linear-gradient(#ff6a00, #ff6a00);
-                } */
+                .node-sub-branch {
+                  background-image: -webkit-gradient(linear, left top, right top, from(#4f9593), to(#61f64a)),
+                  -webkit-gradient(linear, left top, left bottom, from(#a2a45b), to(#af25de));
+                  background-image: -webkit-linear-gradient(left, #498ff2, #6da4f2), -webkit-linear-gradient(#a2a45b, #af25de);
+                  background-image: -o-linear-gradient(left, #498ff2 0, #6da4f2 100%), -o-linear-gradient(#a2a45b, #af25de);
+                  background-image: linear-gradient(90deg, #498ff2, #6da4f2), linear-gradient(#a2a45b, #af25de);
+                }
+
                 .node-cc {
                   background-image: -webkit-gradient(linear, left top, right top, from(#268bfb -16.37%), to(#33e1ae 137.34%)),
                   -webkit-gradient(linear, left top, left bottom, from(#ff6a00), to(#ff6a00));
@@ -224,7 +225,7 @@
 
                 .node-tz {
                   background-image: -webkit-gradient(linear, left top, right top, from(#498ff2), to(#6da4f2)),
-                  -webkit-gradient(linear, left top, left bottom, from(#ff6a00), to(#ff6a00));
+                  -webkit-gradient(linear, left top, left bottom, from(#9d5eb6), to(#6e098a));
                   background-image: -webkit-linear-gradient(left, #498ff2, #6da4f2), -webkit-linear-gradient(#ff6a00, #ff6a00);
                   background-image: -o-linear-gradient(left, #498ff2 0, #6da4f2 100%), -o-linear-gradient(#ff6a00, #ff6a00);
                   background-image: linear-gradient(90deg, #498ff2, #6da4f2), linear-gradient(#ff6a00, #ff6a00);
@@ -324,7 +325,6 @@
                   }
 
                   .node-name-level {
-                    width: 50%;
                     text-align: right;
                   }
 
@@ -629,7 +629,7 @@
                 }
 
                 .flow-node-branch {
-                  padding-bottom: 10px;
+                  /* padding-bottom: 10px;*/
 
                   .node-name {
                     color: #575757;
@@ -1035,6 +1035,8 @@
         background-color: #f2f3f5;
         padding-bottom: 10px;
         margin-top: 15px;
+        border-radius: 3px;
+        border: 1px dashed #dee0e3;
 
         .flow-condition-item {
           border-radius: 3px;

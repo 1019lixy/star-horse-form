@@ -15,22 +15,23 @@ export function addCondition(node: any, len: any) {
         type: node.type == FlowNodeEnums.BRANCH_NODE ? FlowNodeEnums.BRANCH_CONDITION_NODE : FlowNodeEnums.PARALLEL_SUB_NODE,
         // 显示添加按钮
         addable: true,
+        //状态
+        status: "-1",
+        otherFlag: false,
         // 可删除提示
         deletable: false,
-        attr: {
-            // 显示优先级
-            showPriorityLevel: node.type == FlowNodeEnums.BRANCH_NODE,
-            // 优先级
-            priorityLevel: len,
-            // 分支类型
-            branchType: node.type == FlowNodeEnums.BRANCH_NODE ? FlowNodeEnums.APPROVER_NODE : FlowNodeEnums.BRANCH_CONDITION_NODE,
-        },
+        showPriorityLevel: node.type == FlowNodeEnums.BRANCH_NODE,
+        // 优先级
+        priorityLevel: len,
         // 是否有错误
         error: false,
+        // 分支类型
+        branchType: node.type == FlowNodeEnums.BRANCH_NODE ? "rule" : null,
         // 显示内容
         content: node.type == FlowNodeEnums.BRANCH_NODE ? null : '任意(其他)',
         // 子节点
         childNode: null,
+        errorMsg: '',
         // 条件组
         conditionGroup: [],
     };

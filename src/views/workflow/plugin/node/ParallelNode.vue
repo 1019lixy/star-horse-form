@@ -13,18 +13,10 @@
           <div class="flow-box">
             <div class="flow-item flow-node-branch" :class="{ 'flow-item-active': currentNode.id==node.id }"
                  @click.stop="!readable&&selectNode(conditionNode)">
-              <div class="flow-node-box" :class="{ 'has-error': conditionNode.error }">
+              <div class="flow-branch-suggest" :class="{ 'has-error': conditionNode.error }">
                 <div class="node-name">
-                  <EditName v-model:nodeName="conditionNode.name"/>
+                  <EditName v-model:nodeName="conditionNode.name" style="width: 90%"/>
                   <star-horse-icon icon-class="parallel_node" style="margin-left: 10px"/>
-                </div>
-                <div class="node-main">
-                  <span v-if="conditionNode.content">
-                    <el-tooltip placement="top" :content="conditionNode.content">
-                      {{ conditionNode.content }}
-                    </el-tooltip>
-                  </span>
-                  <span v-else class="hint-title">配置筛选条件</span>
                 </div>
                 <!-- 错误提示 -->
                 <star-horse-icon v-if="conditionNode.error" icon-class="exclamation-circle" theme="filled"
@@ -61,6 +53,7 @@ import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 import {FlowNodeEnums} from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
 import {closeLoad} from "@/api/sh_api.ts";
+import {warning} from "@/utils/message.ts";
 
 const flowDesign = useFlowDesign(piniaInstance);
 let currentNode = computed(() => flowDesign.currentNode);
@@ -78,7 +71,8 @@ const props = defineProps({
 });
 const emits = defineEmits(['selectNode']);
 const selectNode = (node: any) => {
-  emits('selectNode', node, props.node);
+  warning("并行节点无需编辑");
+  // emits('selectNode', node, props.node);
 }
 const init = () => {
   closeLoad();

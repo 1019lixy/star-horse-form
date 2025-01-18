@@ -114,7 +114,6 @@ onMounted(() => {
 
   &:hover {
     border-color: var(--el-color-primary);
-
     .listener-close {
       display: block;
     }
@@ -133,6 +132,7 @@ onMounted(() => {
   border: 1px dashed var(--el-border-color);
   height: 30px;
   margin-top: 5px;
+  background: #fff;
   display: flex;
   justify-content: center;
   align-items: center;

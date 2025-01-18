@@ -150,7 +150,7 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
     const flowAddBranch = (snode: any) => {
         const len = snode.conditionNodes.length;
         const conditionNode = snode.conditionNodes[len - 1];
-        conditionNode.attr.priorityLevel = len + 1 + '';
+        conditionNode.priorityLevel = len + 1;
         if (conditionNode.type == FlowNodeEnums.BRANCH_CONDITION_NODE) {
             // 分支
             snode.conditionNodes.splice(len - 1, 0, addCondition(snode, len));

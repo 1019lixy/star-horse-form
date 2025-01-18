@@ -345,6 +345,7 @@ const branchNodePreps = () => {
                 status: -1,
                 // 是否有错误
                 error: false,
+                otherFlag: false,
                 //错误提示
                 errorMsg: '',
                 // 子节点
@@ -370,6 +371,7 @@ const branchNodePreps = () => {
                 type: FlowNodeEnums.BRANCH_CONDITION_NODE,
                 // 流程节点状态(用于只读模式, 0:未进行 1:进行中  2:已完成)
                 status: -1,
+                otherFlag: true,
                 // 子节点
                 childNode: null,
                 // 显示添加按钮
@@ -496,7 +498,7 @@ const parallelNodePreps = () => {
                 id: uuid(),
                 pid: uid,
                 name: '并行1',
-                type: FlowNodeEnums.PARALLEL_SUB_NODE,
+                type: FlowNodeEnums.BRANCH_CONDITION_NODE,
                 // 流程节点状态(用于只读模式, 0:未进行 1:进行中  2:已完成)
                 status: -1,
                 // 是否有错误
@@ -512,10 +514,7 @@ const parallelNodePreps = () => {
                 // 可删除提示
                 deletable: false,
                 // 流程基础配置属性
-                attr: {
-                    // 分支类型
-                    branchType: "other",
-                },
+                branchType: "other",
                 // 条件组
                 conditionGroup: [],
             },
@@ -523,7 +522,7 @@ const parallelNodePreps = () => {
                 id: uuid(),
                 pid: uid,
                 name: '并行2',
-                type: FlowNodeEnums.PARALLEL_SUB_NODE,
+                type: FlowNodeEnums.BRANCH_CONDITION_NODE,
                 // 流程节点状态(用于只读模式, 0:未进行 1:进行中  2:已完成)
                 status: -1,
                 // 是否有错误
@@ -539,10 +538,8 @@ const parallelNodePreps = () => {
                 // 可删除提示
                 deletable: false,
                 // 流程基础配置属性
-                attr: {
-                    // 分支类型
-                    branchType: "other",
-                },
+                // 分支类型
+                branchType: "other",
                 // 条件组
                 conditionGroup: [],
             },
