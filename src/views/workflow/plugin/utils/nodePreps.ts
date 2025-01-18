@@ -481,18 +481,11 @@ const parallelNodePreps = () => {
         //错误提示
         errorMsg: '',
         // 聚合节点
-        childNode: {
-            id: uuid(),
-            pid: uid,
-            name: '聚合',
-            type: FlowNodeEnums.POLYMERIZE_NODE,
-            status: -1,
-            childNode: null,
-            // 显示添加按钮
-            addable: true,
-            // 可删除提示
-            deletable: false,
-        },
+        childNode: null,
+        //每个分支的第一个节点
+        outLines: {},
+        //每个分支的最后一个节点
+        inLines: {},
         conditionNodes: [
             {
                 id: uuid(),

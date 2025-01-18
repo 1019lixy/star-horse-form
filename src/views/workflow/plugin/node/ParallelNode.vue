@@ -2,7 +2,7 @@
   <div class="flow-row">
     <div class="flow-branch">
       <div class="branch-node" @click="!readable && addBranch(node)">
-        <el-button icon="plus">添加条件</el-button>
+        <el-button icon="plus">添加分支</el-button>
       </div>
       <div class="meet-node"></div>
       <div class="flow-col" v-for="(conditionNode, index) in node.conditionNodes" :key="conditionNode.id"

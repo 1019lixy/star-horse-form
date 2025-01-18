@@ -48,17 +48,17 @@ export function addNode(node: any, currNode: any, addNodeData: any) {
             childNode.pid = addNodeData.id;
         }
         // 如果添加的是并行节点
-        if (addNodeData.type == FlowNodeEnums.PARALLEL_NODE) {
-            if (childNode) {
-                // 聚合节点作为其父节点
-                childNode.pid = addNodeData.childNode.id;
-            }
-            //  将需要添加的节点后面挂载当前聚合节点子节点
-            addNodeData.childNode.childNode = childNode;
-        } else {
+        // if (addNodeData.type == FlowNodeEnums.PARALLEL_NODE) {
+        //     if (childNode) {
+        //         // 聚合节点作为其父节点
+        //         childNode.pid = addNodeData.childNode.id;
+        //     }
+        //     //  将需要添加的节点后面挂载当前聚合节点子节点
+        //     addNodeData.childNode.childNode = childNode;
+        // } else {
             //  将需要添加的节点后面挂载当前子节点
             addNodeData.childNode = childNode;
-        }
+        // }
         //  当前添加节点父节点
         addNodeData.pid = currNode.id;
         //  当前子节点上添加需要添加的节点
