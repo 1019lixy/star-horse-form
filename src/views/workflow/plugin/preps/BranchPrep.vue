@@ -136,7 +136,7 @@ const delCondition = (type: number, currGroup: any, CurrCondition: any) => {
 const onSave = () => {
   // 更新节点显示信息
   let content = '';
-  if (node.value.attr.branchType == 1) {
+  if (node.value.branchType == "rule") {
     node.value.conditionGroup.forEach((group: any, j: number) => {
       if (j != 0) {
         content += ' 或 ';

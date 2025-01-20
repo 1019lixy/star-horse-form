@@ -40,38 +40,30 @@ export function addCondition(node: any, len: any) {
 /**
  *   添加节点
  */
-export function addNode(node: any, currNode: any, addNodeData: any) {
-    if (node && node.id == currNode.id) {
-        // 当前节点的子节点暂存
-        const childNode = currNode.childNode;
-        if (childNode) {
-            childNode.pid = addNodeData.id;
-        }
-        // 如果添加的是并行节点
-        // if (addNodeData.type == FlowNodeEnums.PARALLEL_NODE) {
-        //     if (childNode) {
-        //         // 聚合节点作为其父节点
-        //         childNode.pid = addNodeData.childNode.id;
-        //     }
-        //     //  将需要添加的节点后面挂载当前聚合节点子节点
-        //     addNodeData.childNode.childNode = childNode;
-        // } else {
-            //  将需要添加的节点后面挂载当前子节点
-            addNodeData.childNode = childNode;
-        // }
-        //  当前添加节点父节点
-        addNodeData.pid = currNode.id;
-        //  当前子节点上添加需要添加的节点
-        node.childNode = addNodeData;
-    } else if (node) {
-        addNode(node.childNode, currNode, addNodeData);
-        if (node.conditionNodes) {
-            node.conditionNodes.forEach((conditionNode: any) => {
-                addNode(conditionNode, currNode, addNodeData);
-            });
-        }
-    }
-}
+// export function addNode(node: any, currNode: any, addNodeData: any) {
+//     console.log('addNodeData', node, currNode, addNodeData);
+//     if (node && node.id == currNode.id) {
+//         // 当前节点的子节点暂存
+//         const childNode = currNode.childNode;
+//         if (childNode) {
+//             childNode.pid = addNodeData.id;
+//         }
+//         // 如果添加的是并行节点
+//         //  将需要添加的节点后面挂载当前子节点
+//         addNodeData.childNode = childNode;
+//         //  当前添加节点父节点
+//         addNodeData.pid = currNode.id;
+//         //  当前子节点上添加需要添加的节点
+//         node.childNode = addNodeData;
+//     } else if (node) {
+//         addNode(node.childNode, currNode, addNodeData);
+//         if (node.conditionNodes) {
+//             node.conditionNodes.forEach((conditionNode: any) => {
+//                 addNode(conditionNode, currNode, addNodeData);
+//             });
+//         }
+//     }
+// }
 
 /**
  *   添加分支
@@ -97,9 +89,9 @@ export function delNode(node: any, currNode: any) {
         // 当前节点的子节点暂存
         let childNode = currNode.childNode;
         // 如果删除的是并行节点
-        if (currNode.type == FlowNodeEnums.PARALLEL_NODE) {
-            childNode = currNode.childNode.childNode;
-        }
+        // if (currNode.type == FlowNodeEnums.PARALLEL_NODE) {
+        //     childNode = currNode.childNode?.childNode;
+        // }
         if (childNode && childNode.hasOwnProperty('name')) {
             childNode.pid = currNode.pid;
         }

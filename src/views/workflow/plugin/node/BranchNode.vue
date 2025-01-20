@@ -12,7 +12,7 @@ import {FlowNodeEnums} from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
 import {closeLoad} from "@/api/sh_api.ts";
 
 defineOptions({
-  name: 'FlowNodeBranch',
+  name: 'BranchNode',
 });
 const flowDesign = useFlowDesign(piniaInstance);
 let currentNode = computed(() => flowDesign.currentNode);
@@ -49,6 +49,11 @@ const errorCheck = () => {
   props.node.conditionNodes.forEach((conditionNode: any) => {
     let flag = false;
     let msg = "";
+    if(conditionNode.otherFlag){
+      conditionNode.error = false;
+      conditionNode.errorMsg = "";
+      return;
+    }
     if (!conditionNode.branchType) {
       flag = true;
       msg += "未配置条件规则\n";

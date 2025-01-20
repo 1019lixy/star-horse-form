@@ -96,26 +96,22 @@ const loadNodePrep = async (item: any) => {
   return prep;
 }
 const addNode = async (item: any) => {
-  console.log(item);
-  let addNode = JSON.parse(JSON.stringify(commonPreps.value));
+  let currentNode = JSON.parse(JSON.stringify(commonPreps.value));
   let preps = await loadNodePrep(item);
   nodeRef.value.hide();
-  let currentPreps: any = nodePrepList[item.nodeCode];
-  addNode = {...addNode, ...currentPreps};
+  let currentPreps: any = JSON.parse(JSON.stringify(nodePrepList[item.nodeCode]));
+  currentNode = {...currentNode, ...currentPreps};
   if (preps && Object.keys(preps).length > 0) {
-    addNode = {...addNode, ...preps};
+    currentNode = {...currentNode, ...preps};
   }
-  console.log(addNode);
-  addNode["nodeId"] = item.idFlowNode;
-  let currNode = props.node;
+  currentNode["nodeId"] = item.idFlowNode;
+  let parentNode = props.node;
   let nodeType = props.nodeType;
-  addNode = isRef(addNode) ? unref(addNode) : addNode;
   let id = props.id;
-  console.log(nodeType, addNode);
-  flowDesign.flowAddNode({addNode, currNode, nodeType, id});
+  flowDesign.flowAddNode(currentNode, parentNode, nodeType, id);
   if (nodeType == FlowNodeEnums.APPROVER_NODE && item.nodeCode == FlowNodeEnums.SUGGEST_NODE) {
     // 当审批节点下添加意见分支,就不允许添加其他类型的节点了
-    flowDesign.flowUpdateNode({currNode, field: 'addable', value: false});
+    flowDesign.flowUpdateNode({currentNode, field: 'addable', value: false});
   }
 }
 const init = async () => {
