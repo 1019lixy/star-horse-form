@@ -19,9 +19,7 @@ let currentNode = computed(() => flowDesign.currentNode);
 const props = defineProps({
   node: {
     type: Object,
-    default: function () {
-      return {};
-    },
+    default: {},
   },
   readable: {
     type: Boolean,
@@ -49,7 +47,7 @@ const errorCheck = () => {
   props.node.conditionNodes.forEach((conditionNode: any) => {
     let flag = false;
     let msg = "";
-    if(conditionNode.otherFlag){
+    if (conditionNode.otherFlag) {
       conditionNode.error = false;
       conditionNode.errorMsg = "";
       return;
@@ -58,11 +56,11 @@ const errorCheck = () => {
       flag = true;
       msg += "未配置条件规则\n";
     }
-    if (!conditionNode.conditionGroup || !conditionNode.conditionGroup.length) {
+    if (!conditionNode.conditionGroups || !conditionNode.conditionGroups.length) {
       flag = true;
       msg += "未配置条件\n";
     } else {
-      conditionNode.conditionGroup.forEach((condition: any, index: number) => {
+      conditionNode.conditionGroups.forEach((condition: any, index: number) => {
         console.log(condition);
         condition.conditions.forEach((condition: any, sindex: number) => {
           if (!condition.columnName) {
@@ -92,8 +90,9 @@ onMounted(() => {
   init();
 });
 watch(() => props.node.conditionNodes, () => {
-  errorCheck();
-}, {immediate: true, deep: true})
+      errorCheck();
+    },
+    {immediate: true, deep: true})
 </script>
 <template>
   <div class="flow-row">

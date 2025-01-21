@@ -21,7 +21,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import {computed, isRef, onMounted, ref, unref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
@@ -39,10 +39,8 @@ defineOptions({
 const props = defineProps({
   node: {
     type: Object,
-    default: function () {
-      return {
-        addable: true,
-      };
+    default: {
+      addable: true,
     },
   },
   nodeType: {
@@ -99,7 +97,7 @@ const addNode = async (item: any) => {
   let currentNode = JSON.parse(JSON.stringify(commonPreps.value));
   let preps = await loadNodePrep(item);
   nodeRef.value.hide();
-  let currentPreps: any = JSON.parse(JSON.stringify(nodePrepList[item.nodeCode]));
+  let currentPreps: any = JSON.parse(JSON.stringify(nodePrepList(item.nodeCode)));
   currentNode = {...currentNode, ...currentPreps};
   if (preps && Object.keys(preps).length > 0) {
     currentNode = {...currentNode, ...preps};

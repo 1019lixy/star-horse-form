@@ -355,7 +355,7 @@ const branchNodePreps = () => {
                 // 可删除提示
                 deletable: false,
                 // 条件组
-                conditionGroup: [],
+                conditionGroups: [],
                 // 流程基础配置属性
                 // 分支类型
                 branchType: "rule",
@@ -379,7 +379,7 @@ const branchNodePreps = () => {
                 // 可删除提示
                 deletable: false,
                 // 条件组
-                conditionGroup: [],
+                conditionGroups: [],
                 // 分支类型
                 branchType: "rule",
                 // 优先级
@@ -481,7 +481,18 @@ const parallelNodePreps = () => {
         //错误提示
         errorMsg: '',
         // 聚合节点
-        childNode: null,
+        childNode: {
+            id: uuid(),
+            pid: uid,
+            name: '聚合',
+            type: FlowNodeEnums.POLYMERIZE_NODE,
+            status: -1,
+            childNode: null,
+            // 显示添加按钮
+            addable: true,
+            // 可删除提示
+            deletable: false,
+        },
         //每个分支的第一个节点
         outLines: {},
         //每个分支的最后一个节点
@@ -509,7 +520,7 @@ const parallelNodePreps = () => {
                 // 流程基础配置属性
                 branchType: "other",
                 // 条件组
-                conditionGroup: [],
+                conditionGroups: [],
             },
             {
                 id: uuid(),
@@ -534,25 +545,35 @@ const parallelNodePreps = () => {
                 // 分支类型
                 branchType: "other",
                 // 条件组
-                conditionGroup: [],
+                conditionGroups: [],
             },
         ],
     };
 }
-const nodePrepList: any = {
-    [FlowNodeEnums.HANDLE_NODE]: approverNodePreps("handle"),
-    [FlowNodeEnums.APPROVER_NODE]: approverNodePreps("approve"),
-    [FlowNodeEnums.PARALLEL_NODE]: parallelNodePreps(),
-    [FlowNodeEnums.SUGGEST_NODE]: suggestNodePreps(),
-    [FlowNodeEnums.BRANCH_NODE]: branchNodePreps(),
-    [FlowNodeEnums.EVENT_NODE]: eventNodePreps(),
-    [FlowNodeEnums.NOTICE_NODE]: noticeNodePreps(),
-    [FlowNodeEnums.COPYER_NODE]: copyerNodePreps(),
-    [FlowNodeEnums.SERVICE_NODE]: serviceNodePreps(),
-    [FlowNodeEnums.TIMER_NODE]: timerNodePreps(),
-    [FlowNodeEnums.APPLY_NODE]: startNode(),
-    [FlowNodeEnums.END_NODE]: endNode(),
+const nodePreps: any = {
+    [FlowNodeEnums.HANDLE_NODE]: approverNodePreps,
+    [FlowNodeEnums.APPROVER_NODE]: approverNodePreps,
+    [FlowNodeEnums.PARALLEL_NODE]: parallelNodePreps,
+    [FlowNodeEnums.SUGGEST_NODE]: suggestNodePreps,
+    [FlowNodeEnums.BRANCH_NODE]: branchNodePreps,
+    [FlowNodeEnums.EVENT_NODE]: eventNodePreps,
+    [FlowNodeEnums.NOTICE_NODE]: noticeNodePreps,
+    [FlowNodeEnums.COPYER_NODE]: copyerNodePreps,
+    [FlowNodeEnums.SERVICE_NODE]: serviceNodePreps,
+    [FlowNodeEnums.TIMER_NODE]: timerNodePreps,
+    [FlowNodeEnums.APPLY_NODE]: startNode,
+    [FlowNodeEnums.END_NODE]: endNode,
 }
+const nodePrepList = (node: FlowNodeEnums) => {
+    let param = "";
+    if (node == FlowNodeEnums.HANDLE_NODE) {
+        param = "handle";
+    } else if (node == FlowNodeEnums.APPROVER_NODE) {
+        param = "approve";
+    }
+    return nodePreps[node](param);
+}
+
 export {
     nodePrepList, nodeInfoList
 }

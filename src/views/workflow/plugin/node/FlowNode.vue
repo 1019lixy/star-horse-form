@@ -29,7 +29,7 @@ const selectNode = (node: any, parentNode: any) => {
 </script>
 <template>
   <div class="flow-row-container">
-    <component :is="node.type" :node="node" :readable="readable" @selectNode="selectNode"/>
+    <component :is="node.type" :key="node.id" :node="node" :readable="readable" @selectNode="selectNode"/>
     <FlowNode v-if="node && node.childNode && node.childNode.hasOwnProperty('name')"
               :node="node.childNode"
               :readable="readable"/>

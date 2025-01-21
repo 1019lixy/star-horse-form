@@ -50,6 +50,9 @@ let nameClass = computed(() => {
 const init = () => {
   closeLoad();
   flowDesign.refreshMap();
+  if (window.gc) {
+    window.gc();
+  }
 }
 onMounted(() => {
   init();

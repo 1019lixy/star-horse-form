@@ -73,7 +73,7 @@ const handleChange = () => {
 }
 const addGroup = (type: number) => {
   if (type == 1) {
-    node.value.conditionGroup.push({
+    node.value.conditionGroups.push({
       id: uuid(),
       condition: 'OR',
       conditions: [
@@ -95,7 +95,7 @@ const addGroup = (type: number) => {
 }
 const addCondition = (type: number, currGroup: any) => {
   if (type == 1) {
-    node.value.conditionGroup.forEach((group: any) => {
+    node.value.conditionGroups.forEach((group: any) => {
       if (currGroup.id == group.id) {
         group.conditions.push({
           id: uuid(),
@@ -115,14 +115,14 @@ const addCondition = (type: number, currGroup: any) => {
 }
 const delCondition = (type: number, currGroup: any, CurrCondition: any) => {
   if (type == 1) {
-    node.value.conditionGroup.forEach((group: any, k: number) => {
+    node.value.conditionGroups.forEach((group: any, k: number) => {
       if (currGroup.id == group.id) {
         group.conditions.forEach((condition: any, index: number) => {
           if (CurrCondition.id == condition.id) {
             group.conditions.splice(index, 1);
             // 当前组没有条件了，当前组也需要删除
             if (group.conditions.length == 0) {
-              node.value.conditionGroup.splice(k, 1);
+              node.value.conditionGroups.splice(k, 1);
             }
           }
         });
@@ -137,7 +137,7 @@ const onSave = () => {
   // 更新节点显示信息
   let content = '';
   if (node.value.branchType == "rule") {
-    node.value.conditionGroup.forEach((group: any, j: number) => {
+    node.value.conditionGroups.forEach((group: any, j: number) => {
       if (j != 0) {
         content += ' 或 ';
       }
@@ -202,7 +202,7 @@ watch(() => node.value.id, () => {
     <div class="flow-content">
       <div v-if="node.branchType == 'rule'" class="flow-item">
         <div class="flow-condition-box">
-          <div v-for="(group, i) in node.conditionGroup" :key="i">
+          <div v-for="(group, i) in node.conditionGroups" :key="i">
             <div class="flow-condition-group">
               <div class="flow-condition-item" v-for="(condition, k) in group.conditions" :key="k">
                 <el-row gutter="5">
@@ -282,7 +282,7 @@ watch(() => node.value.id, () => {
               </div>
 
             </div>
-            <div v-if="node.conditionGroup.length > 1 && i != node.conditionGroup.length - 1"
+            <div v-if="node.conditionGroups.length > 1 && i != node.conditionGroups.length - 1"
                  class="flow-condition-group-connector">或
             </div>
           </div>

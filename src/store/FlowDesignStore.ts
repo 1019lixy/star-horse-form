@@ -26,7 +26,7 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
             const parentNode = ref<any>({});
             const flowFormInfo = ref<any>({});
             //  节点数据
-            const node = ref<any>(nodePrepList[FlowNodeEnums.APPLY_NODE]);
+            const node = ref<any>(nodePrepList(FlowNodeEnums.APPLY_NODE));
             //  缩略图
             const mapImg = ref<string>("");
             // 意见分支
@@ -61,7 +61,7 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
                 if (snode) {
                     node.value = snode;
                 } else {
-                    node.value = nodePrepList[FlowNodeEnums.APPLY_NODE];
+                    node.value = nodePrepList(FlowNodeEnums.APPLY_NODE);
                 }
             }
             /**
@@ -145,11 +145,23 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
                         );
                     } else {
                         let bakeNode = parentNode.childNode;
-                        // 获取当前操作节点
-                        if (bakeNode) {
-                            bakeNode.pid = currentNode.id;
-                            currentNode.childNode = bakeNode;
+                        // 如果添加的是并行节点
+                        if (currentNode.type == FlowNodeEnums.PARALLEL_NODE) {
+                            if (currentNode.childNode) {
+                                // 聚合节点作为其父节点
+                                bakeNode.pid = currentNode.childNode.id;
+                            }
+                            //  将需要添加的节点后面挂载当前聚合节点子节点
+                            currentNode.childNode.childNode = bakeNode;
+                        } else {
+                            //  将需要添加的节点后面挂载当前子节点
+                            // 获取当前操作节点
+                            if (bakeNode) {
+                                bakeNode.pid = currentNode.id;
+                                currentNode.childNode = bakeNode;
+                            }
                         }
+
                         currentNode.pid = parentNode.id;
                         parentNode.childNode = currentNode;
                         // 获取当前操作节点
@@ -177,7 +189,7 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
                     // 并行
                     snode.conditionNodes.push(addCondition(snode, len + 1));
                 }
-                addBranch(node.value, snode);
+                // addBranch(node.value, snode);
                 // 更新地图
                 refreshMap(true);
             }
