@@ -61,7 +61,7 @@ const actionDispatcher = (act: string, ...params: any[]) => {
   }
 };
 //页面属性改变，重新刷新数据
-watch(() => [props.item,props.isEdit],
+watch(() => [props.item, props.isEdit],
     () => {
       compPreps();
     }, {
@@ -132,17 +132,19 @@ const compPreps = () => {
       field.value.preps["filterCondition"] = inputPreps.filterCondition;
       field.value.preps["orderBy"] = inputPreps.orderBy;
       inputPreps.fieldList?.forEach((item: FieldInfo) => {
-        let temp: any = {
-          ...item
-        };
-        if (item.prefix) {
-          temp["fieldName"] = item.prefix + "." + temp["fieldName"];
+        if (item.searchVisible) {
+          let temp: any = {
+            ...item
+          };
+          if (item.prefix) {
+            temp["fieldName"] = item.prefix + "." + temp["fieldName"];
+          }
+          temp["defaultVisible"] = true;
+          if (item?.type == "input" && !item["matchType"]) {
+            temp["matchType"] = "lk";
+          }
+          searchFieldList.push(temp);
         }
-        temp["defaultVisible"] = true;
-        if (item?.type == "input" && !item["matchType"]) {
-          temp["matchType"] = "lk";
-        }
-        searchFieldList.push(temp);
       });
       field.value.preps["searchFieldList"] = {fieldList: searchFieldList};
     } else {

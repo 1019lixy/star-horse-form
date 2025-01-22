@@ -10,7 +10,7 @@
     <el-form-item prop="duration" label="等待时长" :rules="rules"
                   v-if="node.waitType === 'duration'">
       <el-input
-          v-model.number="node.duration"
+          v-model="node.duration"
           :min="0"
           :max="9999999"
           type="number"
@@ -57,18 +57,8 @@ const timeOptionList = ref<SelectOption[]>([
   {name: '月', value: 'P%sM'},
 ]);
 let node: ModelRef<any> = defineModel("activeData");
-node.value.content = computed(() => {
-  if (node.value.waitType == 'duration') {
-    return node.value.duration + timeOptionList.value.find(item => item.value == node.value.unit)?.name || '';
-  }
-  if (node.value.waitType == 'date') {
-    return node.value.timeDate;
-  }
-  return '';
-});
 const timerNodeRef = ref();
 const flowDesign = useFlowDesign(piniaInstance);
-
 const onClose = () => {
   flowDesign.setActive(false);
 }
@@ -77,8 +67,13 @@ const onClose = () => {
  */
 const onSave = () => {
   timerNodeRef.value.validate((valid: boolean) => {
-    node.value.error = !valid;
     if (valid) {
+      if (node.value.waitType == 'duration' || node.value.duration) {
+        node.value.content = node.value.duration + timeOptionList.value.find(item => item.value == node.value.unit)?.name || '';
+      }
+      if (node.value.waitType == 'date') {
+        node.value.content = node.value.timeDate;
+      }
       onClose();
     }
   });

@@ -86,14 +86,14 @@ const selectNode = () => {
   emits('selectNode', props.node);
 }
 let nameClass = computed(() => {
-  return (node, defaultStyle) => {
-    if (node.status == -1) {
+  return (node:any, defaultStyle:string) => {
+    if (node.statusCode == -1) {
       return defaultStyle;
     }
     return {
-      'node-status-not': node.status == 0,
-      'node-status-current': node.status == 1,
-      'node-status-complete': node.status == 2
+      'node-status-not': node.statusCode == 0,
+      'node-status-current': node.statusCode == 1,
+      'node-status-complete': node.statusCode == 2
     };
   };
 });

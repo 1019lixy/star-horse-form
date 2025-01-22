@@ -54,6 +54,9 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
             const setReadable = (flag: boolean) => {
                 readable.value = flag;
             }
+            const setNode= (data: any) => {
+                node.value = data;
+            }
             /**
              *  初始节点
              */
@@ -145,23 +148,11 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
                         );
                     } else {
                         let bakeNode = parentNode.childNode;
-                        // 如果添加的是并行节点
-                        if (currentNode.type == FlowNodeEnums.PARALLEL_NODE) {
-                            if (currentNode.childNode) {
-                                // 聚合节点作为其父节点
-                                bakeNode.pid = currentNode.childNode.id;
-                            }
-                            //  将需要添加的节点后面挂载当前聚合节点子节点
-                            currentNode.childNode.childNode = bakeNode;
-                        } else {
-                            //  将需要添加的节点后面挂载当前子节点
-                            // 获取当前操作节点
-                            if (bakeNode) {
-                                bakeNode.pid = currentNode.id;
-                                currentNode.childNode = bakeNode;
-                            }
+                        // 获取当前操作节点
+                        if (bakeNode) {
+                            bakeNode.pid = currentNode.id;
+                            currentNode.childNode = bakeNode;
                         }
-
                         currentNode.pid = parentNode.id;
                         parentNode.childNode = currentNode;
                         // 获取当前操作节点
@@ -266,7 +257,8 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
                 refreshMap,
                 init,
                 formAddField,
-                setParentNode
+                setParentNode,
+                setNode
             }
         }
     )

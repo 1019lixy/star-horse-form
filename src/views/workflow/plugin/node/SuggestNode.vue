@@ -1,42 +1,3 @@
-<template>
-  <div class="flow-row">
-    <div class="flow-branch">
-      <div class="meet-node"></div>
-      <div class="flow-col" v-for="(conditionNode, index) in node.conditionNodes" :key="index"
-           @click.stop="selectNode(conditionNode)">
-        <div class="clear-left-border" v-if="index == 0"></div>
-        <div class="clear-right-border" v-if="node.conditionNodes.length - 1 == index"></div>
-        <div class="flow-row">
-          <div class="flow-box">
-            <div class="flow-item flow-node-branch">
-              <div class="flow-branch-suggest">
-                <div class="node-name">
-                  <span>{{ conditionNode.name }}</span>
-                  <span style="margin-left: 10px;">
-                    <star-horse-icon v-if="index == 0" icon-class="check-circle" theme="filled" style="color: green;"/>
-                    <star-horse-icon v-if="node.conditionNodes.length - 1 == index" icon-class="close" theme="filled"
-                                     style="color: red;"/>
-                  </span>
-                </div>
-                <div v-if="!readable && !conditionNode.deletable" class="close-icon">
-                  <star-horse-icon iconClass="close" @click.stop="conditionNode.deletable = true"/>
-                </div>
-                <!-- 删除提示 -->
-                <DeleteConfirm :node="conditionNode" @callback="delCallback"/>
-              </div>
-            </div>
-            <FlowAddNode :node="node" :nodeType="3" :id="conditionNode.id" :readable="readable"/>
-          </div>
-        </div>
-        <FlowNode v-if="conditionNode.childNode && conditionNode.childNode.hasOwnProperty('name')"
-                  :node="conditionNode.childNode" :readable="readable"/>
-      </div>
-    </div>
-    <div class="after-branch-btn">
-      <FlowAddNode :node="node" :nodeType="FlowNodeEnums.BRANCH_NODE" :readable="readable"/>
-    </div>
-  </div>
-</template>
 <script setup lang="ts">
 import FlowNode from '@/views/workflow/plugin/node/FlowNode.vue';
 import FlowAddNode from '@/views/workflow/plugin/node/AddNode.vue';
@@ -80,3 +41,42 @@ onMounted(() => {
   init();
 })
 </script>
+<template>
+  <div class="flow-row">
+    <div class="flow-branch">
+      <div class="meet-node"></div>
+      <div class="flow-col" v-for="(conditionNode, index) in node.conditionNodes" :key="index"
+           @click.stop="selectNode(conditionNode)">
+        <div class="clear-left-border" v-if="index == 0"></div>
+        <div class="clear-right-border" v-if="node.conditionNodes.length - 1 == index"></div>
+        <div class="flow-row">
+          <div class="flow-box">
+            <div class="flow-item flow-node-branch">
+              <div class="flow-branch-suggest">
+                <div class="node-name">
+                  <span>{{ conditionNode.name }}</span>
+                  <span style="margin-left: 10px;">
+                    <star-horse-icon v-if="index == 0" icon-class="check-circle" theme="filled" style="color: green;"/>
+                    <star-horse-icon v-if="node.conditionNodes.length - 1 == index" icon-class="close" theme="filled"
+                                     style="color: red;"/>
+                  </span>
+                </div>
+                <div v-if="!readable && !conditionNode.deletable" class="close-icon">
+                  <star-horse-icon iconClass="close" @click.stop="conditionNode.deletable = true"/>
+                </div>
+                <!-- 删除提示 -->
+                <DeleteConfirm :node="conditionNode" @callback="delCallback"/>
+              </div>
+            </div>
+            <FlowAddNode :node="node" :nodeType="FlowNodeEnums.BRANCH_NODE" :id="conditionNode.id" :readable="readable"/>
+          </div>
+        </div>
+        <FlowNode v-if="conditionNode.childNode && conditionNode.childNode.hasOwnProperty('name')"
+                  :node="conditionNode.childNode" :readable="readable"/>
+      </div>
+    </div>
+    <div class="after-branch-btn">
+      <FlowAddNode :node="node" :nodeType="FlowNodeEnums.BRANCH_NODE" :readable="readable"/>
+    </div>
+  </div>
+</template>

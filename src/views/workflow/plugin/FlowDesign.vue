@@ -11,7 +11,10 @@
         </div>
         <FlowHelper v-if="!readable"/>
         <FlowTips v-if="readable"/>
-        <FlowZoom v-model:zoomValue="zoomValue" @saveImage="saveAsPng"/>
+        <FlowZoom v-model:zoomValue="zoomValue" @saveImage="saveAsPng"
+                  :saveBtnVisible="saveBtnVisible"
+                  :mapBtnVisible="mapBtnVisible"
+                  :zoomBtnVisible="zoomBtnVisible"/>
         <FlowMap v-if="mapVisible&&!scale.isMobile()"/>
         <PrepIndex v-if="!readable"/>
       </div>
@@ -30,6 +33,20 @@ import html2canvas from "html2canvas";
 import FlowMap from "@/views/workflow/plugin/common/FlowMap.vue";
 import {scale} from "@/views/workflow/plugin/utils/deviceUtil.ts";
 
+defineProps({
+  saveBtnVisible: {
+    type: Boolean,
+    default: true,
+  },
+  mapBtnVisible: {
+    type: Boolean,
+    default: false,
+  },
+  zoomBtnVisible: {
+    type: Boolean,
+    default: true,
+  },
+})
 const flowDesign = useFlowDesign(piniaInstance);
 let zoomValue = ref<number>(100);
 let zoomStyle = computed(() => {
@@ -55,7 +72,7 @@ const saveAsPng = async () => {
 }
 
 const init = () => {
-  flowDesign.flowSetNode(null);
+  // flowDesign.flowSetNode(null);
   flowDesign.init();
 }
 onMounted(() => {

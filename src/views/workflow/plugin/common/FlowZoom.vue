@@ -1,11 +1,16 @@
 <template>
   <div class="sh-flow-editor-operate">
+    <div class="flow-btn" @click="saveData" v-if="saveBtnVisible">
+      <el-tooltip content="保存数据">
+        <star-horse-icon icon-class="save" cursor="pointer"/>
+      </el-tooltip>
+    </div>
     <div class="flow-btn" @click="saveImage">
       <el-tooltip content="保存图片">
         <star-horse-icon icon-class="image" cursor="pointer"/>
       </el-tooltip>
     </div>
-    <div class="flow-btn" @click="mapVisibleOperation">
+    <div class="flow-btn" @click="mapVisibleOperation" v-if="mapBtnVisible">
       <el-tooltip content="开启/关闭小地图">
         <star-horse-icon icon-class="map" cursor="pointer"/>
       </el-tooltip>
@@ -20,7 +25,7 @@
         <star-horse-icon icon-class="export" cursor="pointer"/>
       </el-tooltip>
     </div>
-    <div class="sh-flow-editor-zoom">
+    <div class="sh-flow-editor-zoom" v-if="zoomBtnVisible">
       <div class="sh-flow-editor-zoom-less" @click="onZoomOut"></div>
       <span>{{ zoomValue }}%</span>
       <div class="sh-flow-editor-zoom-more" @click="onZoomIn"></div>
@@ -93,6 +98,18 @@ defineProps({
     required: false,
     default: MAX_ZOOM_VALUE,
   },
+  saveBtnVisible: {
+    type: Boolean,
+    default: true,
+  },
+  mapBtnVisible: {
+    type: Boolean,
+    default: true,
+  },
+  zoomBtnVisible: {
+    type: Boolean,
+    default: true,
+  },
 });
 const flowDesign = useFlowDesign(piniaInstance);
 const emits = defineEmits(["saveImage"]);
@@ -107,6 +124,9 @@ const mapVisibleOperation = () => {
     flowDesign.refreshMap(true);
   }
 }
+const saveData = () => {
+
+}
 const controlScale = () => {
   scaleEnable.value = !scaleEnable.value;
   if (scaleEnable.value) {
@@ -116,7 +136,7 @@ const controlScale = () => {
     zoomValue.value = INIT_ZOOM_VALUE;
   }
 }
-const handleWeel = (e: WheelEvent) => {
+const handleWheel = (e: WheelEvent) => {
   e.preventDefault();
   if (e.wheelDelta < 0) {
     onZoomOut();
@@ -174,11 +194,11 @@ const exportCode = async () => {
 }
 const init = () => {
   if (scaleEnable.value) {
-    window.addEventListener("wheel", handleWeel, true);
+    window.addEventListener("wheel", handleWheel, true);
   }
 }
 const deactivate = () => {
-  window.removeEventListener("wheel", handleWeel, true);
+  window.removeEventListener("wheel", handleWheel, true);
 }
 onActivated(() => {
   init();

@@ -12,7 +12,7 @@ const flowFormFields = reactive<PageFieldInfo>({
     fieldList: [
         {
             label: "图标",
-            fieldName: "icon",
+            fieldName: "flowIcon",
             type: "icon",
             defaultValue: "document",
             formVisible: true,
@@ -20,7 +20,7 @@ const flowFormFields = reactive<PageFieldInfo>({
         },
         {
             label: "流程名称",
-            fieldName: "flowName",
+            fieldName: "name",
             type: "input",
             required: true,
             formVisible: true,
@@ -53,6 +53,7 @@ const flowFormFields = reactive<PageFieldInfo>({
                     label: "表单名称",
                     type: "input",
                     fieldName: "formName",
+                    searchVisible: true,
                     listVisible: true,
                 }, {
                     label: "表单图标",
@@ -103,28 +104,30 @@ const flowFormFields = reactive<PageFieldInfo>({
             listVisible: true,
         },
         {
-            label: "谁可以管理这个审批",
+            label: "谁可以管理这个流程",
             fieldName: "flowManagerName",
             aliasName: "flowManager",
             type: "page-select",
             params: {
-                primaryKey: "idUsersinfo",
+                primaryKey: "idEmployeeInfo",
                 dataUrl: {
-                    loadByPageUrl: "/system-config/system/usersinfoEntity/pageList"
+                    loadByPageUrl: "/system-config/system/employeeInfo/pageList"
                 },
                 needField: [
                     {sourceField: "name", distField: "flowManagerName"},
-                    {sourceField: "idUsersinfo", distField: "flowManager"},
+                    {sourceField: "idEmployeeInfo", distField: "flowManager"},
                 ],
                 fieldList: [{
                     label: "姓名",
                     type: "input",
+                    searchVisible: true,
                     fieldName: "name",
                     listVisible: true,
                 }, {
                     label: "用户名",
                     type: "input",
-                    fieldName: "username",
+                    searchVisible: true,
+                    fieldName: "employeeNo",
                     listVisible: true,
                 }]
             },

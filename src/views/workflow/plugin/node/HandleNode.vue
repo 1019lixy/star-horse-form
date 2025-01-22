@@ -45,14 +45,14 @@ const selectNode = () => {
   emits('selectNode', props.node);
 }
 let nameClass = computed(() => {
-  return (node, defaultStyle) => {
-    if (node.status == -1) {
+  return (node:any, defaultStyle:string) => {
+    if (node.statusCode == -1) {
       return defaultStyle;
     }
     return {
-      'node-status-not': node.status == 0,
-      'node-status-current': node.status == 1,
-      'node-status-complete': node.status == 2
+      'node-status-not': node.statusCode == 0,
+      'node-status-current': node.statusCode == 1,
+      'node-status-complete': node.statusCode == 2
     };
   };
 });
@@ -69,7 +69,7 @@ onMounted(() => {
     <div class="flow-box">
       <div class="flow-item" :class="{ 'flow-item-active': currentNode.id==node.id }" @click.stop="selectNode">
         <div class="flow-node-box" :class="{ 'has-error': node.error }">
-          <div class="node-name" :class="nameClass(node, 'node-fill')">
+          <div class="node-name" :class="nameClass(node, 'node-handle')">
             <EditName v-model:nodeName="node.name"/>
             <star-horse-icon icon-class="edit_node" style="margin-left: 10px"/>
           </div>

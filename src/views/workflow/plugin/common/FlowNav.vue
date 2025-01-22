@@ -5,6 +5,7 @@ import {scale} from "@/views/workflow/plugin/utils/deviceUtil";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 import {warning} from "@/utils/message.ts";
+import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 
 defineProps({
   currentNav: {
@@ -16,7 +17,7 @@ defineProps({
     default: '发布',
   },
 });
-const emits = defineEmits(["change", "click", "changeFlow"]);
+const emits = defineEmits(["change", "flowSave", "changeFlow"]);
 const navItems = ref<Array<any>>([
   {
     name: '基础信息',
@@ -52,8 +53,8 @@ const onChange = (item: any) => {
   }
   emits('change', item);
 }
-const onClick = () => {
-  emits('click');
+const flowSave = (type: string) => {
+  emits('flowSave', type);
 }
 const changeFlow = () => {
   emits("changeFlow");
@@ -62,6 +63,10 @@ const changeFlow = () => {
 <template>
   <div class="designer-nav-box">
     <div class="designer-nav-return">
+      <router-link :to="{path: '/workflow/FlowDefineUi'}" style="display:flex;width: 100px;margin-right: 10px">
+        <star-horse-icon icon-class="back"/>
+        返回
+      </router-link>
       <div v-if="!scale.isMobile()" class="select-version-box">
         <span class="title">流程设计器</span>
       </div>
@@ -76,11 +81,16 @@ const changeFlow = () => {
       </div>
     </div>
     <div class="designer-nav-button">
-      <el-button v-if="currentNav ==3" link :size="flowCommon.size" @click="changeFlow">
-        <span>切换</span>
+      <!--      <el-button v-if="currentNav ==3" link :size="flowCommon.size" @click="changeFlow">
+              <span>切换</span>
+            </el-button>-->
+      <el-button type="info" :size="flowCommon.size" @click="flowSave('save')">
+        <star-horse-icon icon-class="save" color="var(--star-style-white)"/>
+        暂存
       </el-button>
-      <el-button type="primary" :size="flowCommon.size" @click="onClick">
-        <span>{{ buttonName }}</span>
+      <el-button type="primary" :size="flowCommon.size" @click="flowSave('publish')">
+        <star-horse-icon icon-class="publish" color="var(--star-style-white)"/>
+        {{ buttonName }}
       </el-button>
     </div>
   </div>
@@ -121,7 +131,7 @@ const changeFlow = () => {
     }
 
     .select-version-box {
-      width: 100%;
+      flex:1;
       display: -webkit-box;
       display: -ms-flexbox;
       display: flex;
