@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {isRef, nextTick, onMounted, ref, watch} from "vue";
+import {nextTick, onMounted, ref, watch} from "vue";
 import FlowSetting from "@/views/workflow/plugin/FlowSetting.vue"
 import BasicInfo from "@/views/workflow/plugin/BasicInfo.vue"
 import FlowNav from "@/views/workflow/plugin/common/FlowNav.vue";
@@ -7,11 +7,10 @@ import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 import DynamicForm from "@/views/dyform/DynamicForm.vue";
 import UFlowDesign from "@/views/workflow/formItems/UFlowDesign.vue";
-import {error, success} from "@/utils/message.ts";
-import {postRequest} from "@/api/star_horse.ts";
 import {useRouter} from "vue-router";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {apiInstance} from "@/api/sh_api.ts";
+import {doSaveData} from "@/views/workflow/utils/FlowFormUtils.ts";
 
 const dataUrl: ApiUrls = apiInstance("flow-engine", "workflow/flowDefine");
 const props = defineProps({
@@ -60,27 +59,13 @@ const change = async (item: any) => {
     await nextTick();
     basicInfoRef.value.$refs.flowFormRef.setFormData(formData.value);
   }
+
 }
 const flowSave = (type: string) => {
   let formInfo = flowDesign.flowFormInfo;
-  formInfo = isRef(formInfo) ? formInfo.value : formInfo;
-  formInfo.submitType = type;
-  formInfo.process = flowDesign.node;
-  postRequest("/flow-engine/workflow/flowdefinition/saveOrDeployProcess", formInfo)
-      .then(reData => {
-        let res = reData.data;
-        if (res.code) {
-          error(res.message);
-          return;
-        } else {
-          success(type == "publish" ? "发布成功" : "保存成功");
-          router.push({
-            path: "/workflow/FlowDefineUi",
-          });
-        }
-      });
-
+  doSaveData(formInfo, type, router);
 }
+
 const init = () => {
   if (props.data) {
     flowDesign.flowSetFormInfo(props.data);

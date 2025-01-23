@@ -46,6 +46,7 @@ const navItems = ref<Array<any>>([
 ]);
 const flowDesign = useFlowDesign(piniaInstance);
 let navable = computed(() => flowDesign.navable);
+let formInfo = computed(() => flowDesign.flowFormInfo);
 const onChange = (item: any) => {
   if (!navable.value) {
     warning("请先完成当前页面的数据填写");
@@ -73,7 +74,14 @@ const changeFlow = () => {
     </div>
     <div class="designer-nav-center">
       <div v-for="(item, i) in navItems" :key="i" :class="{'designer-nav-center-wrap':true}">
-        <div class="designer-nav-center-wrap-item" @click="onChange(item)">
+        <template v-if="item.type == 2">
+          <div v-if="!formInfo.bindForm||!formInfo.bindForm.length" class="designer-nav-center-wrap-item" @click="onChange(item)">
+          <span :class="{ 'act-item': currentNav == item.type }">{{
+              scale.isMobile() ? item.shortName : item.name
+            }}</span>
+          </div>
+        </template>
+        <div v-else class="designer-nav-center-wrap-item" @click="onChange(item)">
           <span :class="{ 'act-item': currentNav == item.type }">{{
               scale.isMobile() ? item.shortName : item.name
             }}</span>
@@ -131,7 +139,7 @@ const changeFlow = () => {
     }
 
     .select-version-box {
-      flex:1;
+      flex: 1;
       display: -webkit-box;
       display: -ms-flexbox;
       display: flex;

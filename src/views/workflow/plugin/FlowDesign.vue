@@ -26,12 +26,15 @@ import FlowZoom from '@/views/workflow/plugin/common/FlowZoom.vue';
 import FlowHelper from '@/views/workflow/plugin/common/FlowHelper.vue';
 import FlowTips from '@/views/workflow/plugin/common/FlowTips.vue';
 import FlowNode from '@/views/workflow/plugin/node/FlowNode.vue';
-import {computed, onMounted, ref} from "vue";
+import {computed, onMounted, ref, watch} from "vue";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 import html2canvas from "html2canvas";
 import FlowMap from "@/views/workflow/plugin/common/FlowMap.vue";
 import {scale} from "@/views/workflow/plugin/utils/deviceUtil.ts";
+import {useRouter} from "vue-router";
+import {ApiUrls} from "@/components/types/ApiUrls";
+import {apiInstance} from "@/api/sh_api.ts";
 
 defineProps({
   saveBtnVisible: {
@@ -47,6 +50,8 @@ defineProps({
     default: true,
   },
 })
+const dataUrl: ApiUrls = apiInstance("flow-engine", "workflow/flowDefine");
+const router = useRouter();
 const flowDesign = useFlowDesign(piniaInstance);
 let zoomValue = ref<number>(100);
 let zoomStyle = computed(() => {
@@ -72,8 +77,23 @@ const saveAsPng = async () => {
 }
 
 const init = () => {
-  // flowDesign.flowSetNode(null);
   flowDesign.init();
+  if (!nodeData.value || Object.keys(nodeData.value).length == 0) {
+    flowDesign.flowSetNode(null);
+  }
+}
+const loadData = async () => {
+  let id = router.currentRoute.value.query.data;
+  let isView = router.currentRoute.value.query.isView;
+  flowDesign.setReadable("Y" == isView);
+  if (id) {
+    let data = await dataUrl.loadByIdAction!(id, "Y" == isView);
+    data["bindForm"] = data["bindForm"]?.split(";");
+    data["flowManager"] = data["flowManager"]?.split(";");
+    flowDesign.flowSetFormInfo(data);
+    flowDesign.setNode(JSON.parse(data.jsonFile)?.process);
+  }
+  console.log(id, isView);
 }
 onMounted(() => {
   init();
@@ -81,4 +101,7 @@ onMounted(() => {
 defineExpose({
   nodeData
 });
+watch(() => router.currentRoute.value.query, () => {
+  loadData();
+}, {immediate: true, deep: true})
 </script>

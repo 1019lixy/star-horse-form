@@ -161,9 +161,9 @@ routeDefine.push(
         }
     }, */
     {
-        path: "/dingding",
-        component: () => import("@/views/workflow/formItems/UFlowDesign.vue"),
-        name: "WorkFlowForm",
+        path: "/flowDesign",
+        component: () => import("@/views/workflow/plugin/FlowDesign.vue"),
+        name: "FlowDesign",
         meta: {
             keepAlive: "N",
             title: "流程表单"

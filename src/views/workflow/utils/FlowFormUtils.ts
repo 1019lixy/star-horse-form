@@ -1,7 +1,12 @@
-import {reactive, ref} from "vue";
+import {reactive, ref, isRef} from "vue";
 import {SelectOption} from "@/components/types/SearchProps.d.js";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo.d.js";
+import {useFlowDesign} from "@/store/FlowDesignStore.ts";
+import piniaInstance from "@/store";
+import {postRequest} from "@/api/star_horse.ts";
+import {error, success} from "@/utils/message.ts";
 
+const flowDesign = useFlowDesign(piniaInstance);
 const flowGroups = ref<SelectOption[]>([]);
 const formVisibleTypeList = ref<SelectOption[]>([
     {name: "标签栏", value: "tab"},
@@ -10,14 +15,7 @@ const formVisibleTypeList = ref<SelectOption[]>([
 ]);
 const flowFormFields = reactive<PageFieldInfo>({
     fieldList: [
-        {
-            label: "图标",
-            fieldName: "flowIcon",
-            type: "icon",
-            defaultValue: "document",
-            formVisible: true,
-            listVisible: true
-        },
+
         {
             label: "流程名称",
             fieldName: "name",
@@ -32,6 +30,14 @@ const flowFormFields = reactive<PageFieldInfo>({
             type: "select",
             optionList: flowGroups,
             required: true,
+            formVisible: true,
+            listVisible: true
+        },
+        {
+            label: "图标",
+            fieldName: "flowIcon",
+            type: "icon",
+            defaultValue: "document",
             formVisible: true,
             listVisible: true
         },
@@ -72,7 +78,7 @@ const flowFormFields = reactive<PageFieldInfo>({
                     listVisible: true,
                 }]
             },
-            required: true,
+            required: false,
             formVisible: true,
             listVisible: true,
             preps: {
@@ -99,7 +105,6 @@ const flowFormFields = reactive<PageFieldInfo>({
             type: "radio",
             optionList: formVisibleTypeList,
             defaultValue: "step",
-            required: true,
             formVisible: true,
             listVisible: true,
         },
@@ -149,7 +154,35 @@ const flowFormFields = reactive<PageFieldInfo>({
 const setFlowGroups = (data: any) => {
     flowGroups.value = data;
 }
+/**
+ * 保存数据
+ * @param formInfo
+ * @param type
+ * @param router
+ */
+const doSaveData = (formInfo: any, type: string, router?: any) => {
+    formInfo = isRef(formInfo) ? formInfo.value : formInfo;
+    formInfo.submitType = type;
+    formInfo.process = flowDesign.node;
+    postRequest("/flow-engine/workflow/flowdefinition/saveOrDeployProcess", formInfo)
+        .then(reData => {
+            let res = reData.data;
+            if (res.code) {
+                error(res.message);
+                return;
+            } else {
+                success(type == "publish" ? "发布成功" : "保存成功");
+                if (router) {
+                    router.push({
+                        path: "/workflow/FlowDefineUi",
+                    });
+                }
+            }
+        });
+}
 export {
     flowFormFields,
+    formVisibleTypeList,
+    doSaveData,
     setFlowGroups
 }

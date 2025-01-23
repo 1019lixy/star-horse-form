@@ -11,6 +11,10 @@ defineProps({
     type: Boolean,
     default: true,
   },
+  dialogFlag: {
+    type: Boolean,
+    default: false,
+  },
   readable: {
     type: Boolean,
     default: false,
@@ -34,11 +38,12 @@ defineExpose({
 });
 </script>
 <template>
-  <div class="designer-wrap">
+  <div class="designer-wrap" v-if="!dialogFlag">
     <div class="designer-base-info">
       <div class="base-info-panel">
         <star-horse-form :field-list="flowFormFields" :outerFormData="formInfo" ref="flowFormRef"/>
       </div>
     </div>
   </div>
+  <star-horse-form v-else :field-list="flowFormFields" :outerFormData="formInfo" ref="flowFormRef"/>
 </template>

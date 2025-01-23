@@ -1,9 +1,5 @@
 <template>
-  <el-form label-position="top" label-width="90px">
-    <el-form-item prop="executionListeners" label="执行监听器">
-      <ExecutionListeners :node="node"/>
-    </el-form-item>
-  </el-form>
+  <ExecutionListeners :node="node"/>
   <FlowDrawerFooter @close="onClose" @save="onSave"/>
 </template>
 <script setup lang="ts">
@@ -33,7 +29,6 @@ const onClose = () => {
  */
 const onSave = () => {
   // 更新节点显示信息
-
   onClose();
 }
 defineExpose({

@@ -3,7 +3,7 @@ import {getToken, getUserInfo, removeToken, setCustomerInfo, setToken, setUserIn
 import router from "@/router";
 import {error, warning} from "../utils/message";
 import {Config} from "@/api/settings.ts";
-import {getCurrentInstance, reactive} from "vue";
+import {reactive} from "vue";
 import {MenusInfo} from "@/components/types/MenusInfo";
 import piniaInstance from "@/store";
 import {navBarList} from "@/store/NavbarListStore";

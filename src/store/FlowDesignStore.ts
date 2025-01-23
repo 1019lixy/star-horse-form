@@ -54,7 +54,7 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
             const setReadable = (flag: boolean) => {
                 readable.value = flag;
             }
-            const setNode= (data: any) => {
+            const setNode = (data: any) => {
                 node.value = data;
             }
             /**
@@ -224,6 +224,11 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
 
             const init = () => {
                 refreshMap(true);
+                nodeList.value = [];
+                nodePrepMap.value = {};
+                parentNode.value = {};
+                node.value = nodePrepList(FlowNodeEnums.APPLY_NODE);
+                flowFormInfo.value = {};
             }
             return {
                 currentNode,

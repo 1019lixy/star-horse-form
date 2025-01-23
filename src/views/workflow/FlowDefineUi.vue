@@ -7,6 +7,9 @@ import {SearchFields, SelectOption} from "@/components/types/SearchProps";
 import {PageFieldInfo, UserFuncInfo} from "@/components/types/PageFieldInfo";
 import {getCustomerParam} from "@/utils/auth";
 import {useRouter} from "vue-router";
+import {useFlowDesign} from "@/store/FlowDesignStore.ts";
+import piniaInstance from "@/store";
+import {formVisibleTypeList} from "@/views/workflow/utils/FlowFormUtils.ts";
 
 defineOptions({
   name: 'FlowDefine',
@@ -17,13 +20,14 @@ const dataUrl: ApiUrls = apiInstance("flow-engine", "workflow/flowDefine");
 const primaryKey = "idFlowDefine";
 const flowDefineRef = ref();
 const router = useRouter();
+const flowDesign = useFlowDesign(piniaInstance);
 //定义表单的所有属性
 const formFields = reactive<Object>({});
 provide("formFields", formFields);
 let flowGroupList = ref<SelectOption[]>([]);
 let flowDeploymentList = ref<SelectOption[]>([
-  {name: "已部署", "value": "1"},
-  {name: "未部署", "value": "2"}
+  {name: "已部署", "value": "not null"},
+  {name: "未部署", "value": "null"}
 ]);
 //查询属性
 const searchFormData = reactive<SearchFields>({
@@ -31,13 +35,13 @@ const searchFormData = reactive<SearchFields>({
     {"label": "流程名称", "fieldName": "name", "type": "input", matchType: "lk", defaultVisible: true},
     {"label": "流程分类", "fieldName": "flowGroup", "type": "select", matchType: "lk", defaultVisible: true, optionList: flowGroupList},
     /* {"label": "流程类型", "fieldName": "flowType", "type": "input",matchType:"lk",defaultVisible: true},*/
-    {"label": "是否部署", "fieldName": "flowDeploymentId", "type": "select", matchType: "is", defaultVisible: true, optionList: flowGroupList},
+    {"label": "是否部署", "fieldName": "flowDeploymentId", "type": "select", matchType: "is", defaultVisible: true, optionList: flowDeploymentList},
   ]
 });
 const tableFieldList = reactive<PageFieldInfo | any>({
   "fieldList": [
     {"label": "流程名称", "fieldName": "name", "type": "input", "required": true, "formVisible": true, "listVisible": true},
-    {"label": "流程不是ID", "fieldName": "flowDeploymentId", "type": "input", "required": true, "formVisible": true, "listVisible": true},
+    {"label": "流程部署ID", "fieldName": "flowDeploymentId", "type": "input", "required": true, "formVisible": true, "listVisible": true},
     {"label": "流程分类", "fieldName": "flowGroup", "type": "input", "required": false, "formVisible": true, "listVisible": true},
     {"label": "绑定表单信息", "fieldName": "bindForm", "type": "input", "required": false, "formVisible": true, "listVisible": true},
     {"label": "图标", "fieldName": "flowIcon", "type": "input", "required": false, "formVisible": true, "listVisible": true},
@@ -76,7 +80,7 @@ const extandBtns = ref<UserFuncInfo[]>([
     priority: 1,
     authority: "edit",
     funcName: (row: any) => {
-      router.push({path: "/workflow/WorkFlowForm", query: {data: row[primaryKey]}})
+      router.push({path: "/flowDesign", query: {data: row[primaryKey]}})
     }
   },
   {
@@ -85,7 +89,7 @@ const extandBtns = ref<UserFuncInfo[]>([
     priority: 2,
     authority: "view",
     funcName: (row: any) => {
-      router.push({path: "/workflow/WorkFlowForm", query: {data: row[primaryKey], isView: "Y"}})
+      router.push({path: "/flowDesign", query: {data: row[primaryKey], isView: "Y"}})
     }
   }
 ]);
@@ -95,7 +99,8 @@ const extandBtns2 = ref<UserFuncInfo[]>([
     btnName: "新增",
     authority: "add",
     funcName: () => {
-      router.push({path: "/workflow/WorkFlowForm"})
+      flowDesign.init();
+      router.push({path: "/flowDesign"})
     }
   },
 ]);
@@ -121,6 +126,9 @@ const deactivated = () => {
  * @param row 列表行数据
  */
 const dataFormat = (name: string, cellValue: any, row: any): any => {
+  if (name == "formVisibleType") {
+    return formVisibleTypeList.value.find((item: SelectOption) => item.value == cellValue)?.name || cellValue;
+  }
   //转换显示信息
   return cellValue;
 }
