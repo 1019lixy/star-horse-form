@@ -16,7 +16,7 @@ export function addCondition(node: any, len: any) {
         // 显示添加按钮
         addable: true,
         //状态
-        status: "-1",
+        statusCode: "-1",
         otherFlag: false,
         // 可删除提示
         deletable: false,
