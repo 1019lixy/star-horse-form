@@ -5,6 +5,7 @@ import {scale} from "@/views/workflow/plugin/utils/deviceUtil";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 import {warning} from "@/utils/message.ts";
+import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 
 defineProps({
   currentNav: {
@@ -16,7 +17,7 @@ defineProps({
     default: '发布',
   },
 });
-const emits = defineEmits(["change", "click", "changeFlow"]);
+const emits = defineEmits(["change", "flowSave", "changeFlow"]);
 const navItems = ref<Array<any>>([
   {
     name: '基础信息',
@@ -45,6 +46,7 @@ const navItems = ref<Array<any>>([
 ]);
 const flowDesign = useFlowDesign(piniaInstance);
 let navable = computed(() => flowDesign.navable);
+let formInfo = computed(() => flowDesign.flowFormInfo);
 const onChange = (item: any) => {
   if (!navable.value) {
     warning("请先完成当前页面的数据填写");
@@ -52,8 +54,8 @@ const onChange = (item: any) => {
   }
   emits('change', item);
 }
-const onClick = () => {
-  emits('click');
+const flowSave = (type: string) => {
+  emits('flowSave', type);
 }
 const changeFlow = () => {
   emits("changeFlow");
@@ -62,13 +64,24 @@ const changeFlow = () => {
 <template>
   <div class="designer-nav-box">
     <div class="designer-nav-return">
+      <router-link :to="{path: '/workflow/FlowDefineUi'}" style="display:flex;width: 100px;margin-right: 10px">
+        <star-horse-icon icon-class="back"/>
+        返回
+      </router-link>
       <div v-if="!scale.isMobile()" class="select-version-box">
         <span class="title">流程设计器</span>
       </div>
     </div>
     <div class="designer-nav-center">
       <div v-for="(item, i) in navItems" :key="i" :class="{'designer-nav-center-wrap':true}">
-        <div class="designer-nav-center-wrap-item" @click="onChange(item)">
+        <template v-if="item.type == 2">
+          <div v-if="!formInfo.bindForm||!formInfo.bindForm.length" class="designer-nav-center-wrap-item" @click="onChange(item)">
+          <span :class="{ 'act-item': currentNav == item.type }">{{
+              scale.isMobile() ? item.shortName : item.name
+            }}</span>
+          </div>
+        </template>
+        <div v-else class="designer-nav-center-wrap-item" @click="onChange(item)">
           <span :class="{ 'act-item': currentNav == item.type }">{{
               scale.isMobile() ? item.shortName : item.name
             }}</span>
@@ -76,11 +89,16 @@ const changeFlow = () => {
       </div>
     </div>
     <div class="designer-nav-button">
-      <el-button v-if="currentNav ==3" link :size="flowCommon.size" @click="changeFlow">
-        <span>切换</span>
+      <!--      <el-button v-if="currentNav ==3" link :size="flowCommon.size" @click="changeFlow">
+              <span>切换</span>
+            </el-button>-->
+      <el-button type="info" :size="flowCommon.size" @click="flowSave('save')">
+        <star-horse-icon icon-class="save" color="var(--star-style-white)"/>
+        暂存
       </el-button>
-      <el-button type="primary" :size="flowCommon.size" @click="onClick">
-        <span>{{ buttonName }}</span>
+      <el-button type="primary" :size="flowCommon.size" @click="flowSave('publish')">
+        <star-horse-icon icon-class="publish" color="var(--star-style-white)"/>
+        {{ buttonName }}
       </el-button>
     </div>
   </div>
@@ -121,7 +139,7 @@ const changeFlow = () => {
     }
 
     .select-version-box {
-      width: 100%;
+      flex: 1;
       display: -webkit-box;
       display: -ms-flexbox;
       display: flex;

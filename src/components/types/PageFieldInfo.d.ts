@@ -218,6 +218,10 @@ export declare interface FieldInfo {
      */
     priority?: number;
     /**
+     * 列表搜索时是否显示该属性
+     */
+    searchVisible?: boolean;
+    /**
      * 校验规则
      */
     rules?: Array<any>;

@@ -95,6 +95,24 @@ export function analysisSearchData(searchForm: any, searchFormData: any) {
                 operation: temp?.matchType || 'eq',
                 value: val
             }
+            //处理is查询
+            if (temp?.matchType == "is") {
+                if (val == "null") {
+                    param.orOperList = [
+                        {
+                            propertyName: key,
+                            operation: 'eq',
+                            value: ""
+                        }
+                    ]
+                } else if (val == "not null") {
+                    searchFields.push({
+                        propertyName: key,
+                        operation: 'neq',
+                        value: ""
+                    })
+                }
+            }
             searchFields.push(param)
         }
     }

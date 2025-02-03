@@ -65,7 +65,7 @@ export enum FlowNodeEnums {
     /**
      * 并行子节点
      */
-    PARALLEL_SUB_NODE = "ParallelSubNode",
+    PARALLEL_SUB_NODE = "ConditionNode",
     /**
      *聚合节点
      */

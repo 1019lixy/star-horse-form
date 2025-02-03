@@ -1,11 +1,35 @@
 <template>
+  <star-horse-dialog
+      :dialogVisible="dataDialogVisible"
+      @closeAction="dataDialogVisible=false"
+      :selfFunc="true"
+      :boxWidth="'45%'"
+      :full-screen="false"
+      :compSize="flowCommon.size"
+      @merge="dataDoSave"
+      :title="'流程信息'"
+  >
+    <div class="dialog-body">
+      <BasicInfo ref="basicInfoRef" :dialogFlag="true"/>
+    </div>
+  </star-horse-dialog>
   <div class="sh-flow-editor-operate">
+    <div class="flow-btn" @click="saveData('publish')" v-if="saveBtnVisible&&!readable">
+      <el-tooltip content="发布流程">
+        <star-horse-icon icon-class="publish" cursor="pointer"/>
+      </el-tooltip>
+    </div>
+    <div class="flow-btn" @click="saveData('save')" v-if="saveBtnVisible&&!readable">
+      <el-tooltip content="保存数据">
+        <star-horse-icon icon-class="save" cursor="pointer"/>
+      </el-tooltip>
+    </div>
     <div class="flow-btn" @click="saveImage">
       <el-tooltip content="保存图片">
         <star-horse-icon icon-class="image" cursor="pointer"/>
       </el-tooltip>
     </div>
-    <div class="flow-btn" @click="mapVisibleOperation">
+    <div class="flow-btn" @click="mapVisibleOperation" v-if="mapBtnVisible">
       <el-tooltip content="开启/关闭小地图">
         <star-horse-icon icon-class="map" cursor="pointer"/>
       </el-tooltip>
@@ -20,7 +44,7 @@
         <star-horse-icon icon-class="export" cursor="pointer"/>
       </el-tooltip>
     </div>
-    <div class="sh-flow-editor-zoom">
+    <div class="sh-flow-editor-zoom" v-if="zoomBtnVisible">
       <div class="sh-flow-editor-zoom-less" @click="onZoomOut"></div>
       <span>{{ zoomValue }}%</span>
       <div class="sh-flow-editor-zoom-more" @click="onZoomIn"></div>
@@ -28,6 +52,11 @@
     <div class="flow-btn" @click="controlScale">
       <el-tooltip content="关闭/打开自动缩放">
         <star-horse-icon icon-class="scale" cursor="pointer"/>
+      </el-tooltip>
+    </div>
+    <div class="flow-btn" @click="goBack">
+      <el-tooltip content="返回列表">
+        <star-horse-icon icon-class="return" cursor="pointer"/>
       </el-tooltip>
     </div>
   </div>
@@ -78,6 +107,10 @@ import {copy, loadData} from "@/api/sh_api.ts";
 import {downloadData} from "@/api/star_horse.ts";
 import {uuid} from "@/api/system.ts";
 import {warning} from "@/utils/message.ts";
+import {flowCommon} from "@/views/workflow/plugin/utils/flowCommon.ts";
+import BasicInfo from "@/views/workflow/plugin/BasicInfo.vue";
+import {doSaveData} from "@/views/workflow/utils/FlowFormUtils.ts";
+import {useRouter} from "vue-router";
 
 const INIT_ZOOM_VALUE = 100;
 const MIN_ZOOM_VALUE = 10;
@@ -93,19 +126,60 @@ defineProps({
     required: false,
     default: MAX_ZOOM_VALUE,
   },
+  saveBtnVisible: {
+    type: Boolean,
+    default: true,
+  },
+  mapBtnVisible: {
+    type: Boolean,
+    default: true,
+  },
+  zoomBtnVisible: {
+    type: Boolean,
+    default: true,
+  },
 });
 const flowDesign = useFlowDesign(piniaInstance);
 const emits = defineEmits(["saveImage"]);
-const zoomValue: ModelRef<number> = defineModel("zoomValue")!;
+const zoomValue: ModelRef<any> = defineModel("zoomValue")!;
+const basicInfoRef = ref();
 let scaleEnable = ref<boolean>(false);
 let nodeData = computed(() => flowDesign.node);
+let formData = computed(() => flowDesign.flowFormInfo);
+let readable = computed(() => flowDesign.readable);
 const drawer = ref(false);
+const dataDialogVisible = ref(false);
 const jsonEditorRef = ref();
+const router = useRouter();
+const goBack = () => {
+  router.push({
+    path: "/workflow/FlowDefineUi",
+  });
+}
 const mapVisibleOperation = () => {
   flowDesign.mapVisible = !flowDesign.mapVisible;
   if (flowDesign.mapVisible) {
     flowDesign.refreshMap(true);
   }
+}
+let operType: string = "";
+const saveData = (type: string) => {
+  operType = type;
+  dataDialogVisible.value = true;
+  nextTick(()=>{
+    basicInfoRef.value.$refs.flowFormRef.setFormData(formData.value);
+  })
+}
+const dataDoSave = () => {
+  let formInfo = basicInfoRef.value.$refs.flowFormRef.$refs.starHorseFormRef;
+  formInfo.validate((valid: boolean) => {
+    if (valid) {
+      let formData = basicInfoRef.value.$refs.flowFormRef.getFormData();
+      doSaveData(formData, operType);
+      flowDesign.init();
+      dataDialogVisible.value = false;
+    }
+  });
 }
 const controlScale = () => {
   scaleEnable.value = !scaleEnable.value;
@@ -116,7 +190,7 @@ const controlScale = () => {
     zoomValue.value = INIT_ZOOM_VALUE;
   }
 }
-const handleWeel = (e: WheelEvent) => {
+const handleWheel = (e: WheelEvent) => {
   e.preventDefault();
   if (e.wheelDelta < 0) {
     onZoomOut();
@@ -174,11 +248,11 @@ const exportCode = async () => {
 }
 const init = () => {
   if (scaleEnable.value) {
-    window.addEventListener("wheel", handleWeel, true);
+    window.addEventListener("wheel", handleWheel, true);
   }
 }
 const deactivate = () => {
-  window.removeEventListener("wheel", handleWeel, true);
+  window.removeEventListener("wheel", handleWheel, true);
 }
 onActivated(() => {
   init();

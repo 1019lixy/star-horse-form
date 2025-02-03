@@ -7,7 +7,6 @@
             <EditName v-model:nodeName="node.name" style="width: 90%"/>
             <star-horse-icon icon-class="parallel_node" style="margin-left: 10px"/>
           </div>
-          <!--  <div class="close-icon"><star-horse-icon  iconClass="close" @click.stop="!read && delNode(node)" /></div> -->
         </div>
       </div>
       <!-- 如果子节点是意见分支,则只能添加一个意见分支 -->
@@ -24,6 +23,7 @@ import {closeLoad} from "@/api/sh_api.ts";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 import {warning} from "@/utils/message.ts";
+import DeleteConfirm from "@/views/workflow/plugin/common/DeleteConfirm.vue";
 
 const flowDesign = useFlowDesign(piniaInstance);
 const props = defineProps({
@@ -38,9 +38,9 @@ const props = defineProps({
     default: false,
   }
 });
-const emits=defineEmits(['selectNode']);
+const emits = defineEmits(['selectNode']);
 const selectNode = () => {
-  warning("该节点无法编辑");
+  warning("聚合节点无需编辑");
   // emits('selectNode',props.node);
 }
 const init = () => {

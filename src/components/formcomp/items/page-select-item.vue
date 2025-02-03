@@ -1,7 +1,7 @@
 <script lang="ts">
 import {defineComponent, onMounted, ref, shallowRef, watch} from "vue";
 import {PageProps} from "@/components/types/PageProps";
-import {closeLoad, load} from "@/api/sh_api";
+import {closeLoad, createCondition, load} from "@/api/sh_api";
 import {postRequest} from "@/api/star_horse";
 import {FieldMapping, OrderByInfo} from "@/components/types/PageFieldInfo";
 import {SearchParams} from "@/components/types/Params";
@@ -39,9 +39,20 @@ export default defineComponent({
       loadByPage()
     }
 
-    const loadByPage = () => {
+    const loadByPage = (isInit: boolean = false) => {
       if (filterCondtion) {
         searchData.value.push(...filterCondtion);
+      }
+      if (isInit) {
+        let fieldName = loadSourceField();
+        let value = context.attrs['formData'][field.preps['aliasName'] || field.preps['name']];
+        if (fieldName && value) {
+          if ('Y' == field.preps['multiple']) {
+            searchData.value.push(createCondition(fieldName, Array.isArray(value) ? value : value.split(";"), "in"))
+          } else {
+            searchData.value.push(createCondition(fieldName, value))
+          }
+        }
       }
       let orderByTemp = [] as Array<OrderByInfo>;
       if (orderBy) {
@@ -72,6 +83,10 @@ export default defineComponent({
         pageInfo.value.dataList = redata.dataList;
         pageInfo.value.totalPage = redata.totalPages;
         pageInfo.value.totalData = redata.totalDatas;
+        if (isInit) {
+          let name = loadSourceField(false);
+          context.attrs['formData'][name] = redata.dataList?.map((item: any) => item[name]);
+        }
       }).catch((err) => {
         console.log(err)
       }).finally(() => {
@@ -102,6 +117,11 @@ export default defineComponent({
       }
       assignVal();
     };
+    const loadSourceField = (aliasFirst: boolean = true) => {
+      let fields: any = field.preps["needField"];
+      let name = aliasFirst ? field.preps['aliasName'] || field.preps['name'] : field.preps['name'];
+      return fields?.find((temp: FieldMapping) => temp.distField == name)?.sourceField || "";
+    }
     const assignVal = () => {
       let fields: any = field.preps["needField"];
       let name = field.preps['name'];
@@ -130,7 +150,7 @@ export default defineComponent({
         });
     onMounted(() => {
       actionName.value = field.preps["actionName"];
-      loadByPage();
+      loadByPage(true);
       if (!context.attrs["isSearch"]) {
         allAction(context, actionName.value, true);
       }
@@ -159,6 +179,7 @@ export default defineComponent({
         :multiple="field.preps['multiple']=='Y'"
         :multiple-limit="field.preps['multipleLimit']"
         :name="field.preps['name']"
+
         :placeholder="field.preps['placeholder']||'请选择'+field.preps['label']"
         :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
         :tag-type="field.preps['tagType']"
@@ -183,7 +204,7 @@ export default defineComponent({
               :stripe="true"
               :row-key="getRowIdentity"
               :fit="true"
-              height="250px"
+              max-height="250px"
               :highlight-current-row="true"
               :header-cell-style="{'background':'#f2f2f2',
       'color': '#707070',

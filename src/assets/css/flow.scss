@@ -1,4 +1,3 @@
-
 .designer-wrap {
   width: 100%;
   height: 100vh;
@@ -110,7 +109,7 @@
             .flow-item {
               padding-top: 0;
 
-              .node-start{
+              .node-start {
                 position: relative;
                 display: -webkit-box;
                 display: -ms-flexbox;
@@ -200,20 +199,29 @@
 
                 .node-launch,
                 .node-task {
-                  background-image: -webkit-gradient(linear, left top, right top, from(#a9b4cd), to(#a9b4cd)),
-                  -webkit-gradient(linear, left top, left bottom, from(#a9b4cd), to(#a9b4cd));
-                  background-image: -webkit-linear-gradient(left, #a9b4cd, #a9b4cd), -webkit-linear-gradient(#a9b4cd, #a9b4cd);
-                  background-image: -o-linear-gradient(left, #a9b4cd 0, #a9b4cd 100%), -o-linear-gradient(#a9b4cd, #a9b4cd);
-                  background-image: linear-gradient(90deg, #a9b4cd, #a9b4cd), linear-gradient(#a9b4cd, #a9b4cd);
+                  background-image: -webkit-gradient(linear, left top, right top, from(#E872B7), to(#a9b4cd)),
+                  -webkit-gradient(linear, left top, left bottom, from(#E872B7), to(#a9b4cd));
+                  background-image: -webkit-linear-gradient(left, #E872B7, #a9b4cd), -webkit-linear-gradient(#E872B7, #a9b4cd);
+                  background-image: -o-linear-gradient(left, #E872B7 0, #a9b4cd 100%), -o-linear-gradient(#E872B7, #a9b4cd);
+                  background-image: linear-gradient(90deg, #E872B7, #a9b4cd), linear-gradient(#E872B7, #a9b4cd);
                 }
 
-                /* .node-cc {
-                  background-image: -webkit-gradient(linear, left top, right top, from(#498ff2), to(#6da4f2)),
-                    -webkit-gradient(linear, left top, left bottom, from(#ff6a00), to(#ff6a00));
-                  background-image: -webkit-linear-gradient(left, #498ff2, #6da4f2), -webkit-linear-gradient(#ff6a00, #ff6a00);
-                  background-image: -o-linear-gradient(left, #498ff2 0, #6da4f2 100%), -o-linear-gradient(#ff6a00, #ff6a00);
-                  background-image: linear-gradient(90deg, #498ff2, #6da4f2), linear-gradient(#ff6a00, #ff6a00);
-                } */
+                .node-timer {
+                  background-image: -webkit-gradient(linear, left top, right top, from(#a9b4cd), to(#E872B7)),
+                  -webkit-gradient(linear, left top, left bottom, from(#a9b4cd), to(#E872B7));
+                  background-image: -webkit-linear-gradient(left, #a9b4cd, #E872B7), -webkit-linear-gradient(#a9b4cd, #E872B7);
+                  background-image: -o-linear-gradient(left, #a9b4cd 0, #E872B7 100%), -o-linear-gradient(#a9b4cd, #E872B7);
+                  background-image: linear-gradient(90deg, #a9b4cd, #E872B7), linear-gradient(#a9b4cd, #E872B7);
+                }
+
+                .node-sub-branch {
+                  background-image: -webkit-gradient(linear, left top, right top, from(#4f9593), to(#61f64a)),
+                  -webkit-gradient(linear, left top, left bottom, from(#4f9593), to(#61f64a));
+                  background-image: -webkit-linear-gradient(left, #4f9593, #61f64a), -webkit-linear-gradient(#4f9593, #61f64a);
+                  background-image: -o-linear-gradient(left, #4f9593 0, #61f64a 100%), -o-linear-gradient(#4f9593, #61f64a);
+                  background-image: linear-gradient(90deg, #4f9593, #61f64a), linear-gradient(#4f9593, #61f64a);
+                }
+
                 .node-cc {
                   background-image: -webkit-gradient(linear, left top, right top, from(#268bfb -16.37%), to(#33e1ae 137.34%)),
                   -webkit-gradient(linear, left top, left bottom, from(#ff6a00), to(#ff6a00));
@@ -224,7 +232,7 @@
 
                 .node-tz {
                   background-image: -webkit-gradient(linear, left top, right top, from(#498ff2), to(#6da4f2)),
-                  -webkit-gradient(linear, left top, left bottom, from(#ff6a00), to(#ff6a00));
+                  -webkit-gradient(linear, left top, left bottom, from(#9d5eb6), to(#6e098a));
                   background-image: -webkit-linear-gradient(left, #498ff2, #6da4f2), -webkit-linear-gradient(#ff6a00, #ff6a00);
                   background-image: -o-linear-gradient(left, #498ff2 0, #6da4f2 100%), -o-linear-gradient(#ff6a00, #ff6a00);
                   background-image: linear-gradient(90deg, #498ff2, #6da4f2), linear-gradient(#ff6a00, #ff6a00);
@@ -254,7 +262,7 @@
                   background-image: linear-gradient(90deg, #aaaab3, #aaaab3), linear-gradient(#c4c4cc, #c4c4cc);
                 }
 
-                .node-zl {
+                .node-handle {
                   background-image: -webkit-gradient(linear, left top, right top, from(#ff9313), to(#faab4b)),
                   -webkit-gradient(linear, left top, left bottom, from(#ff6a00), to(#ff6a00));
                   background-image: -webkit-linear-gradient(left, #ff9313, #faab4b), -webkit-linear-gradient(#ff6a00, #ff6a00);
@@ -324,7 +332,6 @@
                   }
 
                   .node-name-level {
-                    width: 50%;
                     text-align: right;
                   }
 
@@ -629,7 +636,7 @@
                 }
 
                 .flow-node-branch {
-                  padding-bottom: 10px;
+                  /* padding-bottom: 10px;*/
 
                   .node-name {
                     color: #575757;
@@ -663,9 +670,9 @@
                 background-color: var(--star-horse-light-gray);
               }
 
-              img {
+              svg {
                 cursor: pointer;
-                z-index: 2;
+                z-index: 99999;
                 position: relative;
               }
             }
@@ -717,8 +724,8 @@
       }
 
       .sh-flow-editor-operate {
-        position: fixed;
-        top: 30px;
+        position: absolute;
+        top: 10px;
         right: 20px;
         // width: 160px;
         display: flex;
@@ -728,7 +735,7 @@
         flex-direction: row-reverse;
         -ms-flex-wrap: wrap;
         flex-wrap: wrap;
-        z-index: 20;
+        z-index: 1120;
 
         .flow-btn {
           cursor: pointer;
@@ -911,7 +918,7 @@
           .flowSetting-card-header-title {
             height: 22px;
             width: 138px;
-            font-family: PingFangSC-Medium;
+            font-family: PingFangSC-Medium, serif;
             font-size: 14px;
             color: #171a1d;
             letter-spacing: 0;
@@ -931,7 +938,7 @@
 
         .flowSetting-card-des {
           height: 44px;
-          font-family: PingFangSC-Regular;
+          font-family: PingFangSC-Regular, serif;
           font-size: 14px;
           color: rgba(23, 26, 29, 0.4);
           letter-spacing: 0;
@@ -1010,7 +1017,7 @@
             p {
               margin: 0;
               padding: 0;
-              font-family: Microsoft YaHei;
+              font-family: Microsoft YaHei, serif;
             }
 
             .option-title {
@@ -1035,6 +1042,8 @@
         background-color: #f2f3f5;
         padding-bottom: 10px;
         margin-top: 15px;
+        border-radius: 3px;
+        border: 1px dashed #dee0e3;
 
         .flow-condition-item {
           border-radius: 3px;
@@ -1213,7 +1222,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-
   .del-icon {
     cursor: pointer;
   }
@@ -1228,7 +1236,7 @@
   div {
     margin: 0;
     padding: 0;
-    font-family: Microsoft YaHei;
+    font-family: Microsoft YaHei, serif;
   }
 
   .flow-auth-table-header {
@@ -1382,7 +1390,7 @@
   }
 
   .flow-helper-title {
-    font-family: PingFangSC, PingFangSC-Medium;
+    font-family: PingFangSC, PingFangSC-Medium, serif;
     font-weight: 500;
     height: 20px;
     margin: 0 5px;
@@ -1404,7 +1412,7 @@
     .flow-helper-drawer-header-title {
       font-size: 18px;
       line-height: 25px;
-      font-family: PingFangSC-Medium;
+      font-family: PingFangSC-Medium, serif;
       color: #111f2c;
     }
 
@@ -1480,7 +1488,7 @@
 
   .flow-tips-item {
     line-height: 20px;
-    font-size: 16px;
+    font-size: 14px;
     display: inline-block;
     margin-right: 15px;
 
@@ -1576,7 +1584,6 @@
 
 .approver-tip-content {
   width: 440px;
-
   .main-title {
     font-weight: 500;
     color: #000;
@@ -1604,7 +1611,6 @@
     height: 500px;
   }
 }
-
 .w-fill {
   width: 100%;
 }
@@ -1625,24 +1631,3 @@
 .margin-bottom-20 {
   margin-bottom: 20px;
 }
-
-//  滚动条样式
-//&::-webkit-scrollbar {
-//  width: 8px;
-//  height: 8px;
-//  background-color: rgba(0, 0, 0, 0%);
-//}
-//
-//&::-webkit-scrollbar-thumb {
-//  background-color: hsla(0, 0%, 79.2%, 0.5);
-//  cursor: pointer;
-//  border-radius: 10px;
-//}
-//
-///* &::-webkit-scrollbar-thumb {
-//  border-radius: 0 !important;
-//} */
-//
-//&::-webkit-scrollbar-track {
-//  background-color: rgba(0, 0, 0, 0%);
-//}

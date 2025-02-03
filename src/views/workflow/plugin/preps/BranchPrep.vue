@@ -2,7 +2,7 @@
 import {flowCommon} from '@/views/workflow/plugin/utils/flowCommon.ts';
 import {uuid} from "@/api/system.ts";
 import FlowDrawerFooter from '@/views/workflow/plugin/common/DrawerFooter.vue';
-import {onMounted, ref, computed} from "vue";
+import {onMounted, ref, computed, onActivated, watch} from "vue";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 import {dictData, searchMatchList} from "@/api/sh_api.ts";
@@ -54,13 +54,15 @@ let flowValueTypes = ref<Array<any>>([
 // 表单数据
 const flowDesign = useFlowDesign(piniaInstance);
 const parentNode = computed(() => flowDesign.parentNode);
-const initLavel = () => {
+const initLevel = () => {
   // 等级
   if (node.value.showPriorityLevel) {
     levelOptions.value = [];
-    parentNode.value.conditionNodes.forEach((_item: any, index: number) => {
+    parentNode.value.conditionNodes.forEach((item: any, index: number) => {
       let priorityLevel = index + 1;
-      levelOptions.value.push({label: '优先' + priorityLevel, value: priorityLevel});
+      if (!item.otherFlag) {
+        levelOptions.value.push({label: '优先' + priorityLevel, value: priorityLevel});
+      }
     });
   }
 }
@@ -71,7 +73,7 @@ const handleChange = () => {
 }
 const addGroup = (type: number) => {
   if (type == 1) {
-    node.value.conditionGroup.push({
+    node.value.conditionGroups.push({
       id: uuid(),
       condition: 'OR',
       conditions: [
@@ -93,7 +95,7 @@ const addGroup = (type: number) => {
 }
 const addCondition = (type: number, currGroup: any) => {
   if (type == 1) {
-    node.value.conditionGroup.forEach((group: any) => {
+    node.value.conditionGroups.forEach((group: any) => {
       if (currGroup.id == group.id) {
         group.conditions.push({
           id: uuid(),
@@ -113,14 +115,14 @@ const addCondition = (type: number, currGroup: any) => {
 }
 const delCondition = (type: number, currGroup: any, CurrCondition: any) => {
   if (type == 1) {
-    node.value.conditionGroup.forEach((group: any, k: number) => {
+    node.value.conditionGroups.forEach((group: any, k: number) => {
       if (currGroup.id == group.id) {
         group.conditions.forEach((condition: any, index: number) => {
           if (CurrCondition.id == condition.id) {
             group.conditions.splice(index, 1);
             // 当前组没有条件了，当前组也需要删除
             if (group.conditions.length == 0) {
-              node.value.conditionGroup.splice(k, 1);
+              node.value.conditionGroups.splice(k, 1);
             }
           }
         });
@@ -134,8 +136,8 @@ const delCondition = (type: number, currGroup: any, CurrCondition: any) => {
 const onSave = () => {
   // 更新节点显示信息
   let content = '';
-  if (node.value.attr.branchType == 1) {
-    node.value.conditionGroup.forEach((group: any, j: number) => {
+  if (node.value.branchType == "rule") {
+    node.value.conditionGroups.forEach((group: any, j: number) => {
       if (j != 0) {
         content += ' 或 ';
       }
@@ -156,33 +158,51 @@ const onSave = () => {
   }
   onClose();
 }
+let currentLevel = ref<number>(0);
+let level = ref<number>(0);
+const levelChange = (newVal: any) => {
+  parentNode.value.conditionNodes.forEach((item: any) => {
+    if (item.priorityLevel == newVal) {
+      item.priorityLevel = currentLevel.value;
+    }
+  });
+  currentLevel.value = newVal;
+  node.value.priorityLevel = newVal;
+}
+
 const init = async () => {
   branchTypes.value = await dictData("flow_branch_type");
-  initLavel();
+  currentLevel.value = node.value.priorityLevel;
+  level.value = currentLevel.value;
+  initLevel();
 }
 onMounted(() => {
   init();
+});
+watch(() => node.value.id, () => {
+  init()
 })
 
 </script>
 <template>
   <el-form v-model="node" label-position="top">
     <el-form-item v-if="node.showPriorityLevel" label="分支等级" prop="name">
-      <el-select v-model="node.priorityLevel" filterable clearable :size="flowCommon.size" placeholder="请选择等级">
+      <el-select v-model="level" @change="levelChange" filterable clearable :size="flowCommon.size"
+                 placeholder="请选择等级">
         <el-option v-for="item in levelOptions" :key="item.value" :label="item.label" :value="item.value"/>
       </el-select>
     </el-form-item>
     <el-form-item label="分支类型" prop="name">
-      <el-radio-group v-model="node.branchType" filterable clearable :size="flowCommon.size" placeholder="请选择分支类型">
+      <el-radio-group v-model="node.branchType" filterable clearable :size="flowCommon.size"
+                      placeholder="请选择分支类型">
         <el-radio-button v-for="item in branchTypes" :key="item.value" :label="item.name" :value="item.value"/>
       </el-radio-group>
     </el-form-item>
     <el-divider content-position="left">条件规则</el-divider>
     <div class="flow-content">
       <div v-if="node.branchType == 'rule'" class="flow-item">
-        <p class="flow-item-title"></p>
         <div class="flow-condition-box">
-          <div v-for="(group, i) in node.conditionGroup" :key="i">
+          <div v-for="(group, i) in node.conditionGroups" :key="i">
             <div class="flow-condition-group">
               <div class="flow-condition-item" v-for="(condition, k) in group.conditions" :key="k">
                 <el-row gutter="5">
@@ -217,8 +237,7 @@ onMounted(() => {
                     <!-- 值类型 -->
                     <el-select v-model="condition.valueType" :size="flowCommon.size"
                                @change="condition.conditionValue = []"
-                               placeholder="值类型"
-                    >
+                               placeholder="值类型">
                       <el-option :value="valueType.value" :label="valueType.label" v-for="valueType in valueTypes"
                                  :key="valueType.value"/>
                     </el-select>
@@ -241,7 +260,6 @@ onMounted(() => {
                       <el-option :value="valueType.value" :label="valueType.label"
                                  v-for="valueType in flowValueTypes" :key="valueType.value"/>
                     </el-select>
-
                     <!-- 数据源 -->
                     <el-select
                         v-else-if="condition.valueType == 4"
@@ -259,23 +277,22 @@ onMounted(() => {
                   </el-col>
                 </el-row>
               </div>
-              <div class="flow-condition-add" @click="addCondition(1, group)">
-                <star-horse-icon iconClass="plus"/>
-                <span style="margin-left: 5px">且条件</span>
+              <div class="listener-btn">
+                <el-button text icon="plus" :size="flowCommon.size" @click="addCondition(1, group)">且条件</el-button>
               </div>
+
             </div>
-            <div v-if="node.conditionGroup.length > 1 && i != node.conditionGroup.length - 1"
+            <div v-if="node.conditionGroups.length > 1 && i != node.conditionGroups.length - 1"
                  class="flow-condition-group-connector">或
             </div>
           </div>
-          <div class="flow-condition-add" @click="addGroup(1)">
-            <star-horse-icon iconClass="plus"/>
-            <span>或条件</span>
+          <div class="listener-btn">
+            <el-button text icon="plus" :size="flowCommon.size" @click="addGroup(1)">或条件</el-button>
           </div>
         </div>
       </div>
       <div v-else-if="node.branchType == 'formula'" class="flow-item">
-        <p class="flow-item-title">公式</p>
+        <p class="flow-item-title"></p>
       </div>
       <div v-else class="flow-item">
         <p class="flow-item-title">其他</p>
@@ -291,5 +308,4 @@ onMounted(() => {
     align-items: center;
   }
 }
-
 </style>

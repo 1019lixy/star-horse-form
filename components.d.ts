@@ -196,6 +196,7 @@ declare module 'vue' {
     FieldPanel: typeof import('./src/views/dyform/FieldPanel.vue')['default']
     FixedMenu: typeof import('./src/components/FixedMenu.vue')['default']
     FixedSubMenu: typeof import('./src/components/menu/FixedSubMenu.vue')['default']
+    FlowDefineUi: typeof import('./src/views/workflow/FlowDefineUi.vue')['default']
     FlowdefinitionUi: typeof import('./src/views/workflow/FlowdefinitionUi.vue')['default']
     FlowDesign: typeof import('./src/views/workflow/plugin/FlowDesign.vue')['default']
     FlowFormItem: typeof import('./src/views/workflow/plugin/common/FlowFormItem.vue')['default']

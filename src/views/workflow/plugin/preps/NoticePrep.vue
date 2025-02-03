@@ -59,7 +59,7 @@
       <el-tab-pane key="3" name="3" label="高级设置"></el-tab-pane>
     </el-tabs>
   </el-form>
-  <FlowDrawerFooter @close="onClose"/>
+  <FlowDrawerFooter @save="onClose" @close="onClose"/>
 </template>
 <script setup lang="ts">
 import {flowCommon} from '@/views/workflow/plugin/utils/flowCommon.ts';
@@ -124,7 +124,6 @@ const addExtendData = (type: string) => {
       return {email: item};
     });
   }
-
 
   drawer.value = true;
 }

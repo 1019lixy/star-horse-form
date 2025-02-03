@@ -2,7 +2,7 @@ import BpmnModeler from 'bpmn-js/lib/Modeler';
 import TokenSimulationModule from "bpmn-js-token-simulation";
 import {postRequest} from "@/api/star_horse.ts";
 import {warning} from "@/utils/message.ts";
-import {markRaw, ref, unref} from "vue";
+import {markRaw, ref, unref, computed} from "vue";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 import {flowTemplate} from "@/views/jbpm/utils/template.ts";
@@ -13,7 +13,6 @@ import {Canvas, EventBus} from "bpmn-js/lib/features/context-pad/ContextPadProvi
 import Modeling from "bpmn-js/lib/features/modeling/Modeling";
 import {Moddle} from "bpmn-js/lib/model/Types";
 import {ModdleElement} from "bpmnlint/lib/types";
-import modelerModdleExtension from 'modeler-moddle/resources/modeler.json';
 import lintModule from 'bpmn-js-bpmnlint';
 import bpmnlintConfig from "../packed-config.js"
 import minimapModule from "diagram-js-minimap";
@@ -26,6 +25,7 @@ const miniMap = ref<string>("eye-close");
 const miniMapLabel = ref<string>('关闭小地图');
 const canRedo = ref<boolean>(true);
 const flowDesign = useFlowDesign(piniaInstance);
+let flowFormInfo = computed(() => flowDesign.flowFormInfo);
 // 流程校验使用
 
 const createBpmnModeler = (canvas: any, properties: any) => {
@@ -161,11 +161,10 @@ const deploy = async (modeler: BpmnModeler) => {
 const save = async (modeler: BpmnModeler) => {
     const result_xml = await modeler.saveXML();
     const result_svg = await modeler.saveSVG();
-    const dataForm = flowDesign.flowFormInfo.value;
     const {xml} = result_xml;
     const {svg} = result_svg;
-    dataForm["flowXml"] = xml;
-    dataForm["flowSvg"] = svg;
+    flowFormInfo.value["flowXml"] = xml;
+    flowFormInfo.value["flowSvg"] = svg;
 };
 
 
@@ -498,11 +497,7 @@ const setDiagramType = (modeler: BpmnModeler) => {
 };
 const valid = async (modeler: BpmnModeler) => {
     let linting = modeler.get<any>("linting");
-    if (linting.isActive()) {
-        linting.deactivate();
-    } else {
-        linting.activate();
-    }
+    linting.active = !linting.isActive;
 };
 
 const flowButtonList = (modeler: BpmnModeler) => {

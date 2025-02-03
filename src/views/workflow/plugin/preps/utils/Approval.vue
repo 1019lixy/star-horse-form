@@ -348,7 +348,7 @@ onMounted(() => {
         <el-select style="margin-bottom: 10px;width: 100%;" v-model="group.approveType" filterable clearable
                    default-first-option
                    @change="changeApproveType(group)">
-          <el-option v-for="item in approvals" :key="item.idApprovalType" :value="item.idApprovalType"
+          <el-option v-for="item in approvals" :key="item.idApprovalType" :value="item.approvalCode"
                      :label="item.approvalType"
                      :disabled="item.statusCode=='0' && groups.length > 1">
             <div style="float: left">{{ item.approvalType }}</div>
