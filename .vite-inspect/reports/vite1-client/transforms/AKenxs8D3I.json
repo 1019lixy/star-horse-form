@@ -1,0 +1,184 @@
+{
+  "resolvedId": "E:/lixycode/testcode/src/components/comp/StarHorseIcon.vue?vue&type=style&index=0&scoped=d5960c42&lang.scss",
+  "transforms": [
+    {
+      "name": "vite:vue",
+      "result": "\r\n.svg-icon {\r\n  cursor: v-bind(cursor);\r\n  width: v-bind(size);\r\n  height: v-bind(size);\r\n  color: v-bind(color);\r\n  margin-left: 0.35em;\r\n  margin-right: 0.35em;\r\n  vertical-align: -0.15em;\r\n  fill: currentColor;\r\n  overflow: hidden;\r\n  outline: none;\r\n}\r\n\r\n.icon-border {\r\n  border-radius: 7px;\r\n  border: 1px solid var(--star-horse-style);\r\n  padding: 3px;\r\n}\r\n\r\n.icon-cls {\r\n  background: var(--star-horse-style);\r\n  color: var(--star-horse-white);\r\n  border-radius: 7px;\r\n  padding: 3px;\r\n}\r\n",
+      "start": 1738720226537,
+      "end": 1738720226537,
+      "sourcemaps": {
+        "version": 3,
+        "sources": [
+          "E:/lixycode/testcode/src/components/comp/StarHorseIcon.vue"
+        ],
+        "names": [],
+        "mappings": ";AAyBA,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE;EACR,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;EACtB,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;EACnB,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;EACpB,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;EACpB,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;EACnB,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;EACpB,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;EACvB,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;EAClB,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;EAChB,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC;AACf;;AAEA,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE;EACX,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC;EAClB,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;EACzC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC;AACd;;AAEA,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE;EACR,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;EACnC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;EAC9B,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC;EAClB,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC;AACd",
+        "file": "E:/lixycode/testcode/src/components/comp/StarHorseIcon.vue",
+        "sourceRoot": "",
+        "sourcesContent": [
+          "<script setup lang=\"ts\" name=\"StarHorseIcon\">\r\nimport {computed} from 'vue';\r\n\r\nconst props = defineProps({\r\n  iconClass: {type: String, required: true,},\r\n  className: {type: String,},\r\n  title: {type: String, default: \"\",},\r\n  size: {type: String, default: \"20px\"},\r\n  // 图标是否有边框\r\n  boxShow: {type: Boolean, default: false},\r\n  border: {type: Boolean, default: false},\r\n  color: {type: String, default: \"var(--star-horse-style)\"},\r\n  cursor: {type: String, default: \"default\"}\r\n});\r\nconst iconName = computed(() => `#icon-${props.iconClass}`);\r\nconst svgClass = computed(() => {\r\n  let cls = props.border ? \"svg-icon icon-border\" : props.boxShow ? \"svg-icon icon-cls\" : \"svg-icon\";\r\n  if (props.className) {\r\n    return cls + props.className;\r\n  } else {\r\n    return cls;\r\n  }\r\n});\r\n</script>\r\n<style lang=\"scss\" scoped>\r\n.svg-icon {\r\n  cursor: v-bind(cursor);\r\n  width: v-bind(size);\r\n  height: v-bind(size);\r\n  color: v-bind(color);\r\n  margin-left: 0.35em;\r\n  margin-right: 0.35em;\r\n  vertical-align: -0.15em;\r\n  fill: currentColor;\r\n  overflow: hidden;\r\n  outline: none;\r\n}\r\n\r\n.icon-border {\r\n  border-radius: 7px;\r\n  border: 1px solid var(--star-horse-style);\r\n  padding: 3px;\r\n}\r\n\r\n.icon-cls {\r\n  background: var(--star-horse-style);\r\n  color: var(--star-horse-white);\r\n  border-radius: 7px;\r\n  padding: 3px;\r\n}\r\n</style>\r\n<template>\r\n  <svg aria-hidden=\"false\" :class=\"svgClass\" data-v-inspector=\"src/components/comp/StarHorseIcon.vue:53:3\">\r\n    <use :xlink:href=\"iconName\" data-v-inspector=\"src/components/comp/StarHorseIcon.vue:54:5\"></use>\r\n    <title v-if=\"!!title\" data-v-inspector=\"src/components/comp/StarHorseIcon.vue:55:5\">{{ title }}</title>\r\n  </svg>\r\n</template>\r\n"
+        ]
+      }
+    },
+    {
+      "name": "vite-plugin-vue-inspector",
+      "start": 1738720226537,
+      "end": 1738720226537,
+      "order": "pre"
+    },
+    {
+      "name": "vite-plugin-vue-devtools",
+      "result": "\r\n.svg-icon {\r\n  cursor: v-bind(cursor);\r\n  width: v-bind(size);\r\n  height: v-bind(size);\r\n  color: v-bind(color);\r\n  margin-left: 0.35em;\r\n  margin-right: 0.35em;\r\n  vertical-align: -0.15em;\r\n  fill: currentColor;\r\n  overflow: hidden;\r\n  outline: none;\r\n}\r\n\r\n.icon-border {\r\n  border-radius: 7px;\r\n  border: 1px solid var(--star-horse-style);\r\n  padding: 3px;\r\n}\r\n\r\n.icon-cls {\r\n  background: var(--star-horse-style);\r\n  color: var(--star-horse-white);\r\n  border-radius: 7px;\r\n  padding: 3px;\r\n}\r\n",
+      "start": 1738720226537,
+      "end": 1738720226537,
+      "order": "pre",
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "result": ".svg-icon {\n  cursor: v-bind(cursor);\n  width: v-bind(size);\n  height: v-bind(size);\n  color: v-bind(color);\n  margin-left: 0.35em;\n  margin-right: 0.35em;\n  vertical-align: -0.15em;\n  fill: currentColor;\n  overflow: hidden;\n  outline: none;\n}\n\n.icon-border {\n  border-radius: 7px;\n  border: 1px solid var(--star-horse-style);\n  padding: 3px;\n}\n\n.icon-cls {\n  background: var(--star-horse-style);\n  color: var(--star-horse-white);\n  border-radius: 7px;\n  padding: 3px;\n}",
+      "start": 1738720226537,
+      "end": 1738720226767,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1738720226767,
+      "end": 1738720226767,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1738720226767,
+      "end": 1738720226767,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1738720226767,
+      "end": 1738720226767,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "result": ".svg-icon[data-v-d5960c42] {\n  cursor: var(--d5960c42-cursor);\n  width: var(--d5960c42-size);\n  height: var(--d5960c42-size);\n  color: var(--d5960c42-color);\n  margin-left: 0.35em;\n  margin-right: 0.35em;\n  vertical-align: -0.15em;\n  fill: currentColor;\n  overflow: hidden;\n  outline: none;\n}\n.icon-border[data-v-d5960c42] {\n  border-radius: 7px;\n  border: 1px solid var(--star-horse-style);\n  padding: 3px;\n}\n.icon-cls[data-v-d5960c42] {\n  background: var(--star-horse-style);\n  color: var(--star-horse-white);\n  border-radius: 7px;\n  padding: 3px;\n}",
+      "start": 1738720226767,
+      "end": 1738720226772,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "originjs:commonjs",
+      "start": 1738720226772,
+      "end": 1738720226772,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1738720226772,
+      "end": 1738720226772,
+      "order": "normal"
+    },
+    {
+      "name": "inject",
+      "start": 1738720226772,
+      "end": 1738720226772,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1738720226772,
+      "end": 1738720226772,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "result": "import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/src/components/comp/StarHorseIcon.vue?vue&type=style&index=0&scoped=d5960c42&lang.scss\"\nconst __vite__css = \".svg-icon[data-v-d5960c42] {\\n  cursor: var(--d5960c42-cursor);\\n  width: var(--d5960c42-size);\\n  height: var(--d5960c42-size);\\n  color: var(--d5960c42-color);\\n  margin-left: 0.35em;\\n  margin-right: 0.35em;\\n  vertical-align: -0.15em;\\n  fill: currentColor;\\n  overflow: hidden;\\n  outline: none;\\n}\\n.icon-border[data-v-d5960c42] {\\n  border-radius: 7px;\\n  border: 1px solid var(--star-horse-style);\\n  padding: 3px;\\n}\\n.icon-cls[data-v-d5960c42] {\\n  background: var(--star-horse-style);\\n  color: var(--star-horse-white);\\n  border-radius: 7px;\\n  padding: 3px;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720226773,
+      "end": 1738720226773,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1738720226773,
+      "end": 1738720226773,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1738720226773,
+      "end": 1738720226773,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1738720226773,
+      "end": 1738720226773,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1738720226773,
+      "end": 1738720226773,
+      "order": "normal"
+    },
+    {
+      "name": "vite-plugin-vue-inspector:post",
+      "start": 1738720226773,
+      "end": 1738720226773,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-auto-import",
+      "start": 1738720226773,
+      "end": 1738720226774,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-vue-components",
+      "result": "/* unplugin-vue-components disabled */import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/src/components/comp/StarHorseIcon.vue?vue&type=style&index=0&scoped=d5960c42&lang.scss\"\nconst __vite__css = \".svg-icon[data-v-d5960c42] {\\n  cursor: var(--d5960c42-cursor);\\n  width: var(--d5960c42-size);\\n  height: var(--d5960c42-size);\\n  color: var(--d5960c42-color);\\n  margin-left: 0.35em;\\n  margin-right: 0.35em;\\n  vertical-align: -0.15em;\\n  fill: currentColor;\\n  overflow: hidden;\\n  outline: none;\\n}\\n.icon-border[data-v-d5960c42] {\\n  border-radius: 7px;\\n  border: 1px solid var(--star-horse-style);\\n  padding: 3px;\\n}\\n.icon-cls[data-v-d5960c42] {\\n  background: var(--star-horse-style);\\n  color: var(--star-horse-white);\\n  border-radius: 7px;\\n  padding: 3px;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720226774,
+      "end": 1738720226775,
+      "order": "post",
+      "sourcemaps": {
+        "version": 3,
+        "sources": [
+          "E:/lixycode/testcode/src/components/comp/StarHorseIcon.vue?vue&type=style&index=0&scoped=d5960c42&lang.scss"
+        ],
+        "sourcesContent": [
+          "import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/src/components/comp/StarHorseIcon.vue?vue&type=style&index=0&scoped=d5960c42&lang.scss\"\nconst __vite__css = \".svg-icon[data-v-d5960c42] {\\n  cursor: var(--d5960c42-cursor);\\n  width: var(--d5960c42-size);\\n  height: var(--d5960c42-size);\\n  color: var(--d5960c42-color);\\n  margin-left: 0.35em;\\n  margin-right: 0.35em;\\n  vertical-align: -0.15em;\\n  fill: currentColor;\\n  overflow: hidden;\\n  outline: none;\\n}\\n.icon-border[data-v-d5960c42] {\\n  border-radius: 7px;\\n  border: 1px solid var(--star-horse-style);\\n  padding: 3px;\\n}\\n.icon-cls[data-v-d5960c42] {\\n  background: var(--star-horse-style);\\n  color: var(--star-horse-white);\\n  border-radius: 7px;\\n  padding: 3px;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))"
+        ],
+        "names": [],
+        "mappings": "sCAAA,MAAM,CAAC,CAAC,CAAC,WAAW,CAAC,EAAE,CAAC,mBAAmB,CAAC,CAAC,WAAW,CAAC,EAAE,CAAC,mBAAmB,CAAC,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,CAAC,IAAI,CAAC,MAAM;AACrG,KAAK,CAAC,UAAU,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,QAAQ,CAAC,QAAQ,CAAC,GAAG,CAAC,UAAU,CAAC,IAAI,CAAC,aAAa,CAAC,GAAG,CAAC,GAAG,CAAC,IAAI,CAAC,KAAK,CAAC,KAAK,CAAC,CAAC,CAAC,MAAM,CAAC,QAAQ,CAAC,IAAI,CAAC,IAAI;AAC/H,KAAK,CAAC,WAAW,CAAC,CAAC,CAAC,CAAC,CAAC,GAAG,CAAC,IAAI,CAAC,IAAI,CAAC,CAAC,CAAC,QAAQ,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,MAAM,CAAC,CAAC,GAAG,CAAC,CAAC,CAAC,QAAQ,CAAC,MAAM,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,KAAK,CAAC,CAAC,GAAG,CAAC,CAAC,CAAC,QAAQ,CAAC,IAAI,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,MAAM,CAAC,CAAC,GAAG,CAAC,CAAC,CAAC,QAAQ,CAAC,IAAI,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,KAAK,CAAC,CAAC,GAAG,CAAC,CAAC,CAAC,QAAQ,CAAC,KAAK,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,MAAM,CAAC,IAAI,CAAC,CAAC,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,CAAC,CAAC,MAAM,CAAC,KAAK,CAAC,CAAC,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,CAAC,CAAC,QAAQ,CAAC,KAAK,CAAC,CAAC,CAAC,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,CAAC,CAAC,IAAI,CAAC,CAAC,YAAY,CAAC,CAAC,CAAC,CAAC,CAAC,QAAQ,CAAC,CAAC,MAAM,CAAC,CAAC,CAAC,CAAC,CAAC,OAAO,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,IAAI,CAAC,MAAM,CAAC,IAAI,CAAC,CAAC,CAAC,QAAQ,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,MAAM,CAAC,MAAM,CAAC,CAAC,GAAG,CAAC,CAAC,CAAC,CAAC,CAAC,MAAM,CAAC,CAAC,GAAG,CAAC,KAAK,CAAC,GAAG,CAAC,CAAC,CAAC,IAAI,CAAC,KAAK,CAAC,KAAK,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,OAAO,CAAC,CAAC,GAAG,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,IAAI,CAAC,GAAG,CAAC,IAAI,CAAC,CAAC,CAAC,QAAQ,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,UAAU,CAAC,CAAC,GAAG,CAAC,CAAC,CAAC,IAAI,CAAC,KAAK,CAAC,KAAK,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,KAAK,CAAC,CAAC,GAAG,CAAC,CAAC,CAAC,IAAI,CAAC,KAAK,CAAC,KAAK,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,MAAM,CAAC,MAAM,CAAC,CAAC,GAAG,CAAC,CAAC,CAAC,CAAC,CAAC,OAAO,CAAC,CAAC,GAAG,CAAC,CAAC,CAAC,CAAC;AACllB,mBAAmB,CAAC,UAAU,CAAC,CAAC,WAAW;AAC3C,MAAM,CAAC,IAAI,CAAC,GAAG,CAAC,MAAM,CAAC;AACvB,MAAM,CAAC,IAAI,CAAC,GAAG,CAAC,KAAK,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,mBAAmB,CAAC,UAAU,CAAC"
+      }
+    },
+    {
+      "name": "vite:client-inject",
+      "start": 1738720226775,
+      "end": 1738720226775,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-analysis",
+      "start": 1738720226775,
+      "end": 1738720226775,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-analysis",
+      "result": "import { createHotContext as __vite__createHotContext } from \"/@vite/client\";import.meta.hot = __vite__createHotContext(\"/src/components/comp/StarHorseIcon.vue?vue&type=style&index=0&scoped=d5960c42&lang.scss\");/* unplugin-vue-components disabled */import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/src/components/comp/StarHorseIcon.vue?vue&type=style&index=0&scoped=d5960c42&lang.scss\"\nconst __vite__css = \".svg-icon[data-v-d5960c42] {\\n  cursor: var(--d5960c42-cursor);\\n  width: var(--d5960c42-size);\\n  height: var(--d5960c42-size);\\n  color: var(--d5960c42-color);\\n  margin-left: 0.35em;\\n  margin-right: 0.35em;\\n  vertical-align: -0.15em;\\n  fill: currentColor;\\n  overflow: hidden;\\n  outline: none;\\n}\\n.icon-border[data-v-d5960c42] {\\n  border-radius: 7px;\\n  border: 1px solid var(--star-horse-style);\\n  padding: 3px;\\n}\\n.icon-cls[data-v-d5960c42] {\\n  background: var(--star-horse-style);\\n  color: var(--star-horse-white);\\n  border-radius: 7px;\\n  padding: 3px;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720226775,
+      "end": 1738720226776,
+      "order": "normal",
+      "sourcemaps": null
+    }
+  ]
+}

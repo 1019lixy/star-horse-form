@@ -1,0 +1,148 @@
+{
+  "resolvedId": "E:/lixycode/testcode/node_modules/.vite/deps/element-plus_es_components_header_style_index.js",
+  "transforms": [
+    {
+      "name": "vite:optimized-deps",
+      "result": "import \"./chunk-W2CSSDXN.js\";\n\n// node_modules/element-plus/es/components/header/style/index.mjs\nimport \"E:/lixycode/testcode/node_modules/element-plus/theme-chalk/src/header.scss\";\n//# sourceMappingURL=element-plus_es_components_header_style_index.js.map\n",
+      "start": 1738720224386,
+      "end": 1738720224810,
+      "sourcemaps": null
+    },
+    {
+      "name": "vite-plugin-vue-inspector",
+      "start": 1738720224810,
+      "end": 1738720224810,
+      "order": "pre"
+    },
+    {
+      "name": "vite-plugin-vue-devtools",
+      "result": "import \"./chunk-W2CSSDXN.js\";\n\n// node_modules/element-plus/es/components/header/style/index.mjs\nimport \"E:/lixycode/testcode/node_modules/element-plus/theme-chalk/src/header.scss\";\n//# sourceMappingURL=element-plus_es_components_header_style_index.js.map\n",
+      "start": 1738720224810,
+      "end": 1738720224810,
+      "order": "pre",
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "start": 1738720224810,
+      "end": 1738720224810,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1738720224810,
+      "end": 1738720224810,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1738720224810,
+      "end": 1738720224810,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1738720224810,
+      "end": 1738720224810,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1738720224810,
+      "end": 1738720224810,
+      "order": "normal"
+    },
+    {
+      "name": "originjs:commonjs",
+      "start": 1738720224810,
+      "end": 1738720224811,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1738720224811,
+      "end": 1738720224811,
+      "order": "normal"
+    },
+    {
+      "name": "inject",
+      "start": 1738720224811,
+      "end": 1738720224811,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1738720224811,
+      "end": 1738720224811,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1738720224811,
+      "end": 1738720224811,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1738720224811,
+      "end": 1738720224811,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1738720224811,
+      "end": 1738720224811,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1738720224811,
+      "end": 1738720224811,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1738720224811,
+      "end": 1738720224811,
+      "order": "normal"
+    },
+    {
+      "name": "vite-plugin-vue-inspector:post",
+      "start": 1738720224811,
+      "end": 1738720224811,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-auto-import",
+      "start": 1738720224811,
+      "end": 1738720224811,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-vue-components",
+      "start": 1738720224811,
+      "end": 1738720224811,
+      "order": "post"
+    },
+    {
+      "name": "vite:client-inject",
+      "start": 1738720224811,
+      "end": 1738720224811,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-analysis",
+      "start": 1738720224811,
+      "end": 1738720224811,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-analysis",
+      "result": "import \"/node_modules/.vite/deps/chunk-W2CSSDXN.js?v=65efcb1b\";\n\n// node_modules/element-plus/es/components/header/style/index.mjs\nimport \"/node_modules/element-plus/theme-chalk/src/header.scss\";\n//# sourceMappingURL=element-plus_es_components_header_style_index.js.map\n",
+      "start": 1738720224811,
+      "end": 1738720224811,
+      "order": "normal",
+      "sourcemaps": null
+    }
+  ]
+}

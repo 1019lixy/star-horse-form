@@ -1,0 +1,155 @@
+{
+  "resolvedId": "E:/lixycode/testcode/node_modules/element-plus/theme-chalk/src/loading.scss",
+  "transforms": [
+    {
+      "name": "__load__",
+      "result": "@use 'mixins/mixins' as *;\n@use 'mixins/var' as *;\n@use 'common/var' as *;\n\n:root {\n  @include set-component-css-var('loading', $loading);\n}\n\n@include b(loading-parent) {\n  @include m(relative) {\n    position: relative !important;\n  }\n\n  @include m(hidden) {\n    overflow: hidden !important;\n  }\n}\n\n@include b(loading-mask) {\n  position: absolute;\n  z-index: 2000;\n  background-color: getCssVar('mask-color');\n  margin: 0;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  transition: opacity getCssVar('transition-duration');\n\n  @include when(fullscreen) {\n    position: fixed;\n\n    .#{$namespace}-loading-spinner {\n      margin-top: calc(\n        (0px - getCssVar('loading-fullscreen-spinner-size')) / 2\n      );\n\n      .circular {\n        height: getCssVar('loading-fullscreen-spinner-size');\n        width: getCssVar('loading-fullscreen-spinner-size');\n      }\n    }\n  }\n}\n\n@include b(loading-spinner) {\n  top: 50%;\n  margin-top: calc((0px - getCssVar('loading-spinner-size')) / 2);\n  width: 100%;\n  text-align: center;\n  position: absolute;\n\n  .#{$namespace}-loading-text {\n    color: getCssVar('color-primary');\n    margin: 3px 0;\n    font-size: 14px;\n  }\n\n  .circular {\n    display: inline;\n    height: getCssVar('loading-spinner-size');\n    width: getCssVar('loading-spinner-size');\n    animation: loading-rotate 2s linear infinite;\n  }\n\n  .path {\n    animation: loading-dash 1.5s ease-in-out infinite;\n    stroke-dasharray: 90, 150;\n    stroke-dashoffset: 0;\n    stroke-width: 2;\n    stroke: getCssVar('color-primary');\n    stroke-linecap: round;\n  }\n\n  i {\n    color: getCssVar('color-primary');\n  }\n}\n\n.#{$namespace}-loading-fade-enter-from,\n.#{$namespace}-loading-fade-leave-to {\n  opacity: 0;\n}\n\n@keyframes loading-rotate {\n  100% {\n    transform: rotate(360deg);\n  }\n}\n\n@keyframes loading-dash {\n  0% {\n    stroke-dasharray: 1, 200;\n    stroke-dashoffset: 0;\n  }\n  50% {\n    stroke-dasharray: 90, 150;\n    stroke-dashoffset: -40px;\n  }\n  100% {\n    stroke-dasharray: 90, 150;\n    stroke-dashoffset: -120px;\n  }\n}\n",
+      "start": 1738720351001,
+      "end": 1738720351001
+    },
+    {
+      "name": "vite-plugin-vue-inspector",
+      "start": 1738720351001,
+      "end": 1738720351001,
+      "order": "pre"
+    },
+    {
+      "name": "vite-plugin-vue-devtools",
+      "result": "@use 'mixins/mixins' as *;\n@use 'mixins/var' as *;\n@use 'common/var' as *;\n\n:root {\n  @include set-component-css-var('loading', $loading);\n}\n\n@include b(loading-parent) {\n  @include m(relative) {\n    position: relative !important;\n  }\n\n  @include m(hidden) {\n    overflow: hidden !important;\n  }\n}\n\n@include b(loading-mask) {\n  position: absolute;\n  z-index: 2000;\n  background-color: getCssVar('mask-color');\n  margin: 0;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  transition: opacity getCssVar('transition-duration');\n\n  @include when(fullscreen) {\n    position: fixed;\n\n    .#{$namespace}-loading-spinner {\n      margin-top: calc(\n        (0px - getCssVar('loading-fullscreen-spinner-size')) / 2\n      );\n\n      .circular {\n        height: getCssVar('loading-fullscreen-spinner-size');\n        width: getCssVar('loading-fullscreen-spinner-size');\n      }\n    }\n  }\n}\n\n@include b(loading-spinner) {\n  top: 50%;\n  margin-top: calc((0px - getCssVar('loading-spinner-size')) / 2);\n  width: 100%;\n  text-align: center;\n  position: absolute;\n\n  .#{$namespace}-loading-text {\n    color: getCssVar('color-primary');\n    margin: 3px 0;\n    font-size: 14px;\n  }\n\n  .circular {\n    display: inline;\n    height: getCssVar('loading-spinner-size');\n    width: getCssVar('loading-spinner-size');\n    animation: loading-rotate 2s linear infinite;\n  }\n\n  .path {\n    animation: loading-dash 1.5s ease-in-out infinite;\n    stroke-dasharray: 90, 150;\n    stroke-dashoffset: 0;\n    stroke-width: 2;\n    stroke: getCssVar('color-primary');\n    stroke-linecap: round;\n  }\n\n  i {\n    color: getCssVar('color-primary');\n  }\n}\n\n.#{$namespace}-loading-fade-enter-from,\n.#{$namespace}-loading-fade-leave-to {\n  opacity: 0;\n}\n\n@keyframes loading-rotate {\n  100% {\n    transform: rotate(360deg);\n  }\n}\n\n@keyframes loading-dash {\n  0% {\n    stroke-dasharray: 1, 200;\n    stroke-dashoffset: 0;\n  }\n  50% {\n    stroke-dasharray: 90, 150;\n    stroke-dashoffset: -40px;\n  }\n  100% {\n    stroke-dasharray: 90, 150;\n    stroke-dashoffset: -120px;\n  }\n}\n",
+      "start": 1738720351001,
+      "end": 1738720351001,
+      "order": "pre",
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "result": "/* Element Chalk Variables */\n:root {\n  --el-loading-spinner-size: 42px;\n  --el-loading-fullscreen-spinner-size: 50px;\n}\n\n.el-loading-parent--relative {\n  position: relative !important;\n}\n\n.el-loading-parent--hidden {\n  overflow: hidden !important;\n}\n\n.el-loading-mask {\n  position: absolute;\n  z-index: 2000;\n  background-color: var(--el-mask-color);\n  margin: 0;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  transition: opacity var(--el-transition-duration);\n}\n.el-loading-mask.is-fullscreen {\n  position: fixed;\n}\n.el-loading-mask.is-fullscreen .el-loading-spinner {\n  margin-top: calc((0px - var(--el-loading-fullscreen-spinner-size)) / 2);\n}\n.el-loading-mask.is-fullscreen .el-loading-spinner .circular {\n  height: var(--el-loading-fullscreen-spinner-size);\n  width: var(--el-loading-fullscreen-spinner-size);\n}\n\n.el-loading-spinner {\n  top: 50%;\n  margin-top: calc((0px - var(--el-loading-spinner-size)) / 2);\n  width: 100%;\n  text-align: center;\n  position: absolute;\n}\n.el-loading-spinner .el-loading-text {\n  color: var(--el-color-primary);\n  margin: 3px 0;\n  font-size: 14px;\n}\n.el-loading-spinner .circular {\n  display: inline;\n  height: var(--el-loading-spinner-size);\n  width: var(--el-loading-spinner-size);\n  animation: loading-rotate 2s linear infinite;\n}\n.el-loading-spinner .path {\n  animation: loading-dash 1.5s ease-in-out infinite;\n  stroke-dasharray: 90, 150;\n  stroke-dashoffset: 0;\n  stroke-width: 2;\n  stroke: var(--el-color-primary);\n  stroke-linecap: round;\n}\n.el-loading-spinner i {\n  color: var(--el-color-primary);\n}\n\n.el-loading-fade-enter-from,\n.el-loading-fade-leave-to {\n  opacity: 0;\n}\n\n@keyframes loading-rotate {\n  100% {\n    transform: rotate(360deg);\n  }\n}\n@keyframes loading-dash {\n  0% {\n    stroke-dasharray: 1, 200;\n    stroke-dashoffset: 0;\n  }\n  50% {\n    stroke-dasharray: 90, 150;\n    stroke-dashoffset: -40px;\n  }\n  100% {\n    stroke-dasharray: 90, 150;\n    stroke-dashoffset: -120px;\n  }\n}",
+      "start": 1738720351001,
+      "end": 1738720351405,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1738720351405,
+      "end": 1738720351405,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1738720351405,
+      "end": 1738720351405,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1738720351405,
+      "end": 1738720351405,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1738720351405,
+      "end": 1738720351405,
+      "order": "normal"
+    },
+    {
+      "name": "originjs:commonjs",
+      "start": 1738720351405,
+      "end": 1738720351405,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1738720351405,
+      "end": 1738720351405,
+      "order": "normal"
+    },
+    {
+      "name": "inject",
+      "start": 1738720351405,
+      "end": 1738720351405,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1738720351405,
+      "end": 1738720351405,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "result": "import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/node_modules/element-plus/theme-chalk/src/loading.scss\"\nconst __vite__css = \"/* Element Chalk Variables */\\n:root {\\n  --el-loading-spinner-size: 42px;\\n  --el-loading-fullscreen-spinner-size: 50px;\\n}\\n\\n.el-loading-parent--relative {\\n  position: relative !important;\\n}\\n\\n.el-loading-parent--hidden {\\n  overflow: hidden !important;\\n}\\n\\n.el-loading-mask {\\n  position: absolute;\\n  z-index: 2000;\\n  background-color: var(--el-mask-color);\\n  margin: 0;\\n  top: 0;\\n  right: 0;\\n  bottom: 0;\\n  left: 0;\\n  transition: opacity var(--el-transition-duration);\\n}\\n.el-loading-mask.is-fullscreen {\\n  position: fixed;\\n}\\n.el-loading-mask.is-fullscreen .el-loading-spinner {\\n  margin-top: calc((0px - var(--el-loading-fullscreen-spinner-size)) / 2);\\n}\\n.el-loading-mask.is-fullscreen .el-loading-spinner .circular {\\n  height: var(--el-loading-fullscreen-spinner-size);\\n  width: var(--el-loading-fullscreen-spinner-size);\\n}\\n\\n.el-loading-spinner {\\n  top: 50%;\\n  margin-top: calc((0px - var(--el-loading-spinner-size)) / 2);\\n  width: 100%;\\n  text-align: center;\\n  position: absolute;\\n}\\n.el-loading-spinner .el-loading-text {\\n  color: var(--el-color-primary);\\n  margin: 3px 0;\\n  font-size: 14px;\\n}\\n.el-loading-spinner .circular {\\n  display: inline;\\n  height: var(--el-loading-spinner-size);\\n  width: var(--el-loading-spinner-size);\\n  animation: loading-rotate 2s linear infinite;\\n}\\n.el-loading-spinner .path {\\n  animation: loading-dash 1.5s ease-in-out infinite;\\n  stroke-dasharray: 90, 150;\\n  stroke-dashoffset: 0;\\n  stroke-width: 2;\\n  stroke: var(--el-color-primary);\\n  stroke-linecap: round;\\n}\\n.el-loading-spinner i {\\n  color: var(--el-color-primary);\\n}\\n\\n.el-loading-fade-enter-from,\\n.el-loading-fade-leave-to {\\n  opacity: 0;\\n}\\n\\n@keyframes loading-rotate {\\n  100% {\\n    transform: rotate(360deg);\\n  }\\n}\\n@keyframes loading-dash {\\n  0% {\\n    stroke-dasharray: 1, 200;\\n    stroke-dashoffset: 0;\\n  }\\n  50% {\\n    stroke-dasharray: 90, 150;\\n    stroke-dashoffset: -40px;\\n  }\\n  100% {\\n    stroke-dasharray: 90, 150;\\n    stroke-dashoffset: -120px;\\n  }\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720351405,
+      "end": 1738720351406,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1738720351406,
+      "end": 1738720351406,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1738720351406,
+      "end": 1738720351406,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1738720351406,
+      "end": 1738720351406,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1738720351406,
+      "end": 1738720351406,
+      "order": "normal"
+    },
+    {
+      "name": "vite-plugin-vue-inspector:post",
+      "start": 1738720351406,
+      "end": 1738720351406,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-auto-import",
+      "start": 1738720351406,
+      "end": 1738720351406,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-vue-components",
+      "start": 1738720351406,
+      "end": 1738720351406,
+      "order": "post"
+    },
+    {
+      "name": "vite:client-inject",
+      "start": 1738720351406,
+      "end": 1738720351406,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-analysis",
+      "start": 1738720351406,
+      "end": 1738720351406,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-analysis",
+      "result": "import { createHotContext as __vite__createHotContext } from \"/@vite/client\";import.meta.hot = __vite__createHotContext(\"/node_modules/element-plus/theme-chalk/src/loading.scss\");import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/node_modules/element-plus/theme-chalk/src/loading.scss\"\nconst __vite__css = \"/* Element Chalk Variables */\\n:root {\\n  --el-loading-spinner-size: 42px;\\n  --el-loading-fullscreen-spinner-size: 50px;\\n}\\n\\n.el-loading-parent--relative {\\n  position: relative !important;\\n}\\n\\n.el-loading-parent--hidden {\\n  overflow: hidden !important;\\n}\\n\\n.el-loading-mask {\\n  position: absolute;\\n  z-index: 2000;\\n  background-color: var(--el-mask-color);\\n  margin: 0;\\n  top: 0;\\n  right: 0;\\n  bottom: 0;\\n  left: 0;\\n  transition: opacity var(--el-transition-duration);\\n}\\n.el-loading-mask.is-fullscreen {\\n  position: fixed;\\n}\\n.el-loading-mask.is-fullscreen .el-loading-spinner {\\n  margin-top: calc((0px - var(--el-loading-fullscreen-spinner-size)) / 2);\\n}\\n.el-loading-mask.is-fullscreen .el-loading-spinner .circular {\\n  height: var(--el-loading-fullscreen-spinner-size);\\n  width: var(--el-loading-fullscreen-spinner-size);\\n}\\n\\n.el-loading-spinner {\\n  top: 50%;\\n  margin-top: calc((0px - var(--el-loading-spinner-size)) / 2);\\n  width: 100%;\\n  text-align: center;\\n  position: absolute;\\n}\\n.el-loading-spinner .el-loading-text {\\n  color: var(--el-color-primary);\\n  margin: 3px 0;\\n  font-size: 14px;\\n}\\n.el-loading-spinner .circular {\\n  display: inline;\\n  height: var(--el-loading-spinner-size);\\n  width: var(--el-loading-spinner-size);\\n  animation: loading-rotate 2s linear infinite;\\n}\\n.el-loading-spinner .path {\\n  animation: loading-dash 1.5s ease-in-out infinite;\\n  stroke-dasharray: 90, 150;\\n  stroke-dashoffset: 0;\\n  stroke-width: 2;\\n  stroke: var(--el-color-primary);\\n  stroke-linecap: round;\\n}\\n.el-loading-spinner i {\\n  color: var(--el-color-primary);\\n}\\n\\n.el-loading-fade-enter-from,\\n.el-loading-fade-leave-to {\\n  opacity: 0;\\n}\\n\\n@keyframes loading-rotate {\\n  100% {\\n    transform: rotate(360deg);\\n  }\\n}\\n@keyframes loading-dash {\\n  0% {\\n    stroke-dasharray: 1, 200;\\n    stroke-dashoffset: 0;\\n  }\\n  50% {\\n    stroke-dasharray: 90, 150;\\n    stroke-dashoffset: -40px;\\n  }\\n  100% {\\n    stroke-dasharray: 90, 150;\\n    stroke-dashoffset: -120px;\\n  }\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720351406,
+      "end": 1738720351406,
+      "order": "normal",
+      "sourcemaps": null
+    }
+  ]
+}

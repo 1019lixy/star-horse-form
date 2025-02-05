@@ -3,7 +3,7 @@
 </script>
 
 <template>
-关系图
+  关系图
 </template>
 
 <style scoped lang="scss">

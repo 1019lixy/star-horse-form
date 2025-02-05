@@ -1,0 +1,155 @@
+{
+  "resolvedId": "E:/lixycode/testcode/node_modules/element-plus/theme-chalk/src/row.scss",
+  "transforms": [
+    {
+      "name": "__load__",
+      "result": "@use 'common/var' as *;\n@use 'mixins/mixins' as *;\n@use 'mixins/utils' as *;\n\n@include b(row) {\n  display: flex;\n  flex-wrap: wrap;\n  position: relative;\n  box-sizing: border-box;\n\n  @include when(justify-center) {\n    justify-content: center;\n  }\n  @include when(justify-end) {\n    justify-content: flex-end;\n  }\n  @include when(justify-space-between) {\n    justify-content: space-between;\n  }\n  @include when(justify-space-around) {\n    justify-content: space-around;\n  }\n  @include when(justify-space-evenly) {\n    justify-content: space-evenly;\n  }\n  @include when(align-top) {\n    align-items: flex-start;\n  }\n  @include when(align-middle) {\n    align-items: center;\n  }\n  @include when(align-bottom) {\n    align-items: flex-end;\n  }\n}\n",
+      "start": 1738720192171,
+      "end": 1738720192171
+    },
+    {
+      "name": "vite-plugin-vue-inspector",
+      "start": 1738720192171,
+      "end": 1738720192171,
+      "order": "pre"
+    },
+    {
+      "name": "vite-plugin-vue-devtools",
+      "result": "@use 'common/var' as *;\n@use 'mixins/mixins' as *;\n@use 'mixins/utils' as *;\n\n@include b(row) {\n  display: flex;\n  flex-wrap: wrap;\n  position: relative;\n  box-sizing: border-box;\n\n  @include when(justify-center) {\n    justify-content: center;\n  }\n  @include when(justify-end) {\n    justify-content: flex-end;\n  }\n  @include when(justify-space-between) {\n    justify-content: space-between;\n  }\n  @include when(justify-space-around) {\n    justify-content: space-around;\n  }\n  @include when(justify-space-evenly) {\n    justify-content: space-evenly;\n  }\n  @include when(align-top) {\n    align-items: flex-start;\n  }\n  @include when(align-middle) {\n    align-items: center;\n  }\n  @include when(align-bottom) {\n    align-items: flex-end;\n  }\n}\n",
+      "start": 1738720192171,
+      "end": 1738720192171,
+      "order": "pre",
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "result": "/* Element Chalk Variables */\n.el-row {\n  display: flex;\n  flex-wrap: wrap;\n  position: relative;\n  box-sizing: border-box;\n}\n.el-row.is-justify-center {\n  justify-content: center;\n}\n\n.el-row.is-justify-end {\n  justify-content: flex-end;\n}\n\n.el-row.is-justify-space-between {\n  justify-content: space-between;\n}\n\n.el-row.is-justify-space-around {\n  justify-content: space-around;\n}\n\n.el-row.is-justify-space-evenly {\n  justify-content: space-evenly;\n}\n\n.el-row.is-align-top {\n  align-items: flex-start;\n}\n\n.el-row.is-align-middle {\n  align-items: center;\n}\n\n.el-row.is-align-bottom {\n  align-items: flex-end;\n}",
+      "start": 1738720192171,
+      "end": 1738720193260,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1738720193260,
+      "end": 1738720193260,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1738720193260,
+      "end": 1738720193260,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1738720193260,
+      "end": 1738720193260,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1738720193260,
+      "end": 1738720193260,
+      "order": "normal"
+    },
+    {
+      "name": "originjs:commonjs",
+      "start": 1738720193260,
+      "end": 1738720193261,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1738720193261,
+      "end": 1738720193261,
+      "order": "normal"
+    },
+    {
+      "name": "inject",
+      "start": 1738720193261,
+      "end": 1738720193261,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1738720193261,
+      "end": 1738720193261,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "result": "import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/node_modules/element-plus/theme-chalk/src/row.scss\"\nconst __vite__css = \"/* Element Chalk Variables */\\n.el-row {\\n  display: flex;\\n  flex-wrap: wrap;\\n  position: relative;\\n  box-sizing: border-box;\\n}\\n.el-row.is-justify-center {\\n  justify-content: center;\\n}\\n\\n.el-row.is-justify-end {\\n  justify-content: flex-end;\\n}\\n\\n.el-row.is-justify-space-between {\\n  justify-content: space-between;\\n}\\n\\n.el-row.is-justify-space-around {\\n  justify-content: space-around;\\n}\\n\\n.el-row.is-justify-space-evenly {\\n  justify-content: space-evenly;\\n}\\n\\n.el-row.is-align-top {\\n  align-items: flex-start;\\n}\\n\\n.el-row.is-align-middle {\\n  align-items: center;\\n}\\n\\n.el-row.is-align-bottom {\\n  align-items: flex-end;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720193261,
+      "end": 1738720193261,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1738720193261,
+      "end": 1738720193261,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1738720193261,
+      "end": 1738720193261,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1738720193261,
+      "end": 1738720193261,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1738720193261,
+      "end": 1738720193261,
+      "order": "normal"
+    },
+    {
+      "name": "vite-plugin-vue-inspector:post",
+      "start": 1738720193261,
+      "end": 1738720193262,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-auto-import",
+      "start": 1738720193262,
+      "end": 1738720193262,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-vue-components",
+      "start": 1738720193262,
+      "end": 1738720193262,
+      "order": "post"
+    },
+    {
+      "name": "vite:client-inject",
+      "start": 1738720193262,
+      "end": 1738720193262,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-analysis",
+      "start": 1738720193262,
+      "end": 1738720193262,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-analysis",
+      "result": "import { createHotContext as __vite__createHotContext } from \"/@vite/client\";import.meta.hot = __vite__createHotContext(\"/node_modules/element-plus/theme-chalk/src/row.scss\");import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/node_modules/element-plus/theme-chalk/src/row.scss\"\nconst __vite__css = \"/* Element Chalk Variables */\\n.el-row {\\n  display: flex;\\n  flex-wrap: wrap;\\n  position: relative;\\n  box-sizing: border-box;\\n}\\n.el-row.is-justify-center {\\n  justify-content: center;\\n}\\n\\n.el-row.is-justify-end {\\n  justify-content: flex-end;\\n}\\n\\n.el-row.is-justify-space-between {\\n  justify-content: space-between;\\n}\\n\\n.el-row.is-justify-space-around {\\n  justify-content: space-around;\\n}\\n\\n.el-row.is-justify-space-evenly {\\n  justify-content: space-evenly;\\n}\\n\\n.el-row.is-align-top {\\n  align-items: flex-start;\\n}\\n\\n.el-row.is-align-middle {\\n  align-items: center;\\n}\\n\\n.el-row.is-align-bottom {\\n  align-items: flex-end;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720193262,
+      "end": 1738720193263,
+      "order": "normal",
+      "sourcemaps": null
+    }
+  ]
+}

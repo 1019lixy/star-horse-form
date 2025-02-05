@@ -1,0 +1,155 @@
+{
+  "resolvedId": "E:/lixycode/testcode/node_modules/element-plus/theme-chalk/src/tree.scss",
+  "transforms": [
+    {
+      "name": "__load__",
+      "result": "@use 'mixins/mixins' as *;\n@use 'mixins/var' as *;\n@use 'common/var' as *;\n@use 'common/transition';\n\n@include b(tree) {\n  @include set-component-css-var('tree', $tree);\n}\n\n@include b(tree) {\n  position: relative;\n  cursor: default;\n  background: getCssVar('fill-color', 'blank');\n  color: getCssVar('tree-text-color');\n  font-size: getCssVar('font-size', 'base');\n\n  @include e(empty-block) {\n    position: relative;\n    min-height: 60px;\n    text-align: center;\n    width: 100%;\n    height: 100%;\n  }\n\n  @include e(empty-text) {\n    position: absolute;\n    left: 50%;\n    top: 50%;\n    transform: translate(-50%, -50%);\n    color: getCssVar('text-color', 'secondary');\n    font-size: getCssVar('font-size', 'base');\n  }\n\n  @include e(drop-indicator) {\n    position: absolute;\n    left: 0;\n    right: 0;\n    height: 1px;\n    background-color: getCssVar('color-primary');\n  }\n}\n\n@include b(tree-node) {\n  white-space: nowrap;\n  outline: none;\n  &:focus {\n    /* focus */\n    > .#{$namespace}-tree-node__content {\n      background-color: getCssVar('tree-node-hover-bg-color');\n    }\n  }\n\n  @include when(drop-inner) {\n    > .#{$namespace}-tree-node__content .#{$namespace}-tree-node__label {\n      background-color: getCssVar('color-primary');\n      color: #fff;\n    }\n  }\n\n  @include e(content) {\n    @include css-var-from-global('checkbox-height', 'tree-node-content-height');\n\n    display: flex;\n    align-items: center;\n    height: getCssVar('tree-node-content-height');\n    cursor: pointer;\n\n    & > .#{$namespace}-tree-node__expand-icon {\n      padding: 6px;\n      box-sizing: content-box;\n    }\n    & > label.#{$namespace}-checkbox {\n      margin-right: 8px;\n    }\n    &:hover {\n      background-color: getCssVar('tree-node-hover-bg-color');\n    }\n\n    .#{$namespace}-tree.is-dragging & {\n      cursor: move;\n\n      & * {\n        pointer-events: none;\n      }\n    }\n\n    .#{$namespace}-tree.is-dragging.is-drop-not-allow & {\n      cursor: not-allowed;\n    }\n  }\n\n  @include e(expand-icon) {\n    cursor: pointer;\n    color: getCssVar('tree-expand-icon-color');\n    font-size: 12px;\n\n    transform: rotate(0deg);\n    transition: transform getCssVar('transition-duration') ease-in-out;\n\n    &.expanded {\n      transform: rotate(90deg);\n    }\n\n    &.is-leaf {\n      color: transparent;\n      cursor: default;\n      visibility: hidden;\n    }\n    &.is-hidden {\n      visibility: hidden;\n    }\n  }\n\n  @include e(loading-icon) {\n    margin-right: 8px;\n    font-size: getCssVar('font-size', 'base');\n    color: getCssVar('tree-expand-icon-color');\n  }\n\n  & > .#{$namespace}-tree-node__children {\n    overflow: hidden;\n    background-color: transparent;\n  }\n\n  &.is-expanded > .#{$namespace}-tree-node__children {\n    display: block;\n  }\n}\n\n.#{$namespace}-tree--highlight-current\n  .#{$namespace}-tree-node.is-current\n  > .#{$namespace}-tree-node__content {\n  background-color: getCssVar('color-primary-light-9');\n}\n",
+      "start": 1738720351724,
+      "end": 1738720351724
+    },
+    {
+      "name": "vite-plugin-vue-inspector",
+      "start": 1738720351724,
+      "end": 1738720351724,
+      "order": "pre"
+    },
+    {
+      "name": "vite-plugin-vue-devtools",
+      "result": "@use 'mixins/mixins' as *;\n@use 'mixins/var' as *;\n@use 'common/var' as *;\n@use 'common/transition';\n\n@include b(tree) {\n  @include set-component-css-var('tree', $tree);\n}\n\n@include b(tree) {\n  position: relative;\n  cursor: default;\n  background: getCssVar('fill-color', 'blank');\n  color: getCssVar('tree-text-color');\n  font-size: getCssVar('font-size', 'base');\n\n  @include e(empty-block) {\n    position: relative;\n    min-height: 60px;\n    text-align: center;\n    width: 100%;\n    height: 100%;\n  }\n\n  @include e(empty-text) {\n    position: absolute;\n    left: 50%;\n    top: 50%;\n    transform: translate(-50%, -50%);\n    color: getCssVar('text-color', 'secondary');\n    font-size: getCssVar('font-size', 'base');\n  }\n\n  @include e(drop-indicator) {\n    position: absolute;\n    left: 0;\n    right: 0;\n    height: 1px;\n    background-color: getCssVar('color-primary');\n  }\n}\n\n@include b(tree-node) {\n  white-space: nowrap;\n  outline: none;\n  &:focus {\n    /* focus */\n    > .#{$namespace}-tree-node__content {\n      background-color: getCssVar('tree-node-hover-bg-color');\n    }\n  }\n\n  @include when(drop-inner) {\n    > .#{$namespace}-tree-node__content .#{$namespace}-tree-node__label {\n      background-color: getCssVar('color-primary');\n      color: #fff;\n    }\n  }\n\n  @include e(content) {\n    @include css-var-from-global('checkbox-height', 'tree-node-content-height');\n\n    display: flex;\n    align-items: center;\n    height: getCssVar('tree-node-content-height');\n    cursor: pointer;\n\n    & > .#{$namespace}-tree-node__expand-icon {\n      padding: 6px;\n      box-sizing: content-box;\n    }\n    & > label.#{$namespace}-checkbox {\n      margin-right: 8px;\n    }\n    &:hover {\n      background-color: getCssVar('tree-node-hover-bg-color');\n    }\n\n    .#{$namespace}-tree.is-dragging & {\n      cursor: move;\n\n      & * {\n        pointer-events: none;\n      }\n    }\n\n    .#{$namespace}-tree.is-dragging.is-drop-not-allow & {\n      cursor: not-allowed;\n    }\n  }\n\n  @include e(expand-icon) {\n    cursor: pointer;\n    color: getCssVar('tree-expand-icon-color');\n    font-size: 12px;\n\n    transform: rotate(0deg);\n    transition: transform getCssVar('transition-duration') ease-in-out;\n\n    &.expanded {\n      transform: rotate(90deg);\n    }\n\n    &.is-leaf {\n      color: transparent;\n      cursor: default;\n      visibility: hidden;\n    }\n    &.is-hidden {\n      visibility: hidden;\n    }\n  }\n\n  @include e(loading-icon) {\n    margin-right: 8px;\n    font-size: getCssVar('font-size', 'base');\n    color: getCssVar('tree-expand-icon-color');\n  }\n\n  & > .#{$namespace}-tree-node__children {\n    overflow: hidden;\n    background-color: transparent;\n  }\n\n  &.is-expanded > .#{$namespace}-tree-node__children {\n    display: block;\n  }\n}\n\n.#{$namespace}-tree--highlight-current\n  .#{$namespace}-tree-node.is-current\n  > .#{$namespace}-tree-node__content {\n  background-color: getCssVar('color-primary-light-9');\n}\n",
+      "start": 1738720351724,
+      "end": 1738720351724,
+      "order": "pre",
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "result": "/* Element Chalk Variables */\n.fade-in-linear-enter-active,\n.fade-in-linear-leave-active {\n  transition: var(--el-transition-fade-linear);\n}\n\n.fade-in-linear-enter-from,\n.fade-in-linear-leave-to {\n  opacity: 0;\n}\n\n.el-fade-in-linear-enter-active,\n.el-fade-in-linear-leave-active {\n  transition: var(--el-transition-fade-linear);\n}\n\n.el-fade-in-linear-enter-from,\n.el-fade-in-linear-leave-to {\n  opacity: 0;\n}\n\n.el-fade-in-enter-active,\n.el-fade-in-leave-active {\n  transition: all var(--el-transition-duration) cubic-bezier(0.55, 0, 0.1, 1);\n}\n\n.el-fade-in-enter-from,\n.el-fade-in-leave-active {\n  opacity: 0;\n}\n\n.el-zoom-in-center-enter-active,\n.el-zoom-in-center-leave-active {\n  transition: all var(--el-transition-duration) cubic-bezier(0.55, 0, 0.1, 1);\n}\n\n.el-zoom-in-center-enter-from,\n.el-zoom-in-center-leave-active {\n  opacity: 0;\n  transform: scaleX(0);\n}\n\n.el-zoom-in-top-enter-active,\n.el-zoom-in-top-leave-active {\n  opacity: 1;\n  transform: scaleY(1);\n  transition: var(--el-transition-md-fade);\n  transform-origin: center top;\n}\n.el-zoom-in-top-enter-active[data-popper-placement^=top],\n.el-zoom-in-top-leave-active[data-popper-placement^=top] {\n  transform-origin: center bottom;\n}\n\n.el-zoom-in-top-enter-from,\n.el-zoom-in-top-leave-active {\n  opacity: 0;\n  transform: scaleY(0);\n}\n\n.el-zoom-in-bottom-enter-active,\n.el-zoom-in-bottom-leave-active {\n  opacity: 1;\n  transform: scaleY(1);\n  transition: var(--el-transition-md-fade);\n  transform-origin: center bottom;\n}\n\n.el-zoom-in-bottom-enter-from,\n.el-zoom-in-bottom-leave-active {\n  opacity: 0;\n  transform: scaleY(0);\n}\n\n.el-zoom-in-left-enter-active,\n.el-zoom-in-left-leave-active {\n  opacity: 1;\n  transform: scale(1, 1);\n  transition: var(--el-transition-md-fade);\n  transform-origin: top left;\n}\n\n.el-zoom-in-left-enter-from,\n.el-zoom-in-left-leave-active {\n  opacity: 0;\n  transform: scale(0.45, 0.45);\n}\n\n.collapse-transition {\n  transition: var(--el-transition-duration) height ease-in-out, var(--el-transition-duration) padding-top ease-in-out, var(--el-transition-duration) padding-bottom ease-in-out;\n}\n\n.el-collapse-transition-leave-active,\n.el-collapse-transition-enter-active {\n  transition: var(--el-transition-duration) max-height ease-in-out, var(--el-transition-duration) padding-top ease-in-out, var(--el-transition-duration) padding-bottom ease-in-out;\n}\n\n.horizontal-collapse-transition {\n  transition: var(--el-transition-duration) width ease-in-out, var(--el-transition-duration) padding-left ease-in-out, var(--el-transition-duration) padding-right ease-in-out;\n}\n\n.el-list-enter-active,\n.el-list-leave-active {\n  transition: all 1s;\n}\n\n.el-list-enter-from,\n.el-list-leave-to {\n  opacity: 0;\n  transform: translateY(-30px);\n}\n\n.el-list-leave-active {\n  position: absolute !important;\n}\n\n.el-opacity-transition {\n  transition: opacity var(--el-transition-duration) cubic-bezier(0.55, 0, 0.1, 1);\n}\n\n.el-tree {\n  --el-tree-node-content-height: 26px;\n  --el-tree-node-hover-bg-color: var(--el-fill-color-light);\n  --el-tree-text-color: var(--el-text-color-regular);\n  --el-tree-expand-icon-color: var(--el-text-color-placeholder);\n}\n\n.el-tree {\n  position: relative;\n  cursor: default;\n  background: var(--el-fill-color-blank);\n  color: var(--el-tree-text-color);\n  font-size: var(--el-font-size-base);\n}\n.el-tree__empty-block {\n  position: relative;\n  min-height: 60px;\n  text-align: center;\n  width: 100%;\n  height: 100%;\n}\n\n.el-tree__empty-text {\n  position: absolute;\n  left: 50%;\n  top: 50%;\n  transform: translate(-50%, -50%);\n  color: var(--el-text-color-secondary);\n  font-size: var(--el-font-size-base);\n}\n\n.el-tree__drop-indicator {\n  position: absolute;\n  left: 0;\n  right: 0;\n  height: 1px;\n  background-color: var(--el-color-primary);\n}\n\n.el-tree-node {\n  white-space: nowrap;\n  outline: none;\n}\n.el-tree-node:focus {\n  /* focus */\n}\n.el-tree-node:focus > .el-tree-node__content {\n  background-color: var(--el-tree-node-hover-bg-color);\n}\n.el-tree-node.is-drop-inner > .el-tree-node__content .el-tree-node__label {\n  background-color: var(--el-color-primary);\n  color: #fff;\n}\n\n.el-tree-node__content {\n  --el-checkbox-height: var(--el-tree-node-content-height);\n  display: flex;\n  align-items: center;\n  height: var(--el-tree-node-content-height);\n  cursor: pointer;\n}\n.el-tree-node__content > .el-tree-node__expand-icon {\n  padding: 6px;\n  box-sizing: content-box;\n}\n.el-tree-node__content > label.el-checkbox {\n  margin-right: 8px;\n}\n.el-tree-node__content:hover {\n  background-color: var(--el-tree-node-hover-bg-color);\n}\n.el-tree.is-dragging .el-tree-node__content {\n  cursor: move;\n}\n.el-tree.is-dragging .el-tree-node__content * {\n  pointer-events: none;\n}\n.el-tree.is-dragging.is-drop-not-allow .el-tree-node__content {\n  cursor: not-allowed;\n}\n\n.el-tree-node__expand-icon {\n  cursor: pointer;\n  color: var(--el-tree-expand-icon-color);\n  font-size: 12px;\n  transform: rotate(0deg);\n  transition: transform var(--el-transition-duration) ease-in-out;\n}\n.el-tree-node__expand-icon.expanded {\n  transform: rotate(90deg);\n}\n.el-tree-node__expand-icon.is-leaf {\n  color: transparent;\n  cursor: default;\n  visibility: hidden;\n}\n.el-tree-node__expand-icon.is-hidden {\n  visibility: hidden;\n}\n\n.el-tree-node__loading-icon {\n  margin-right: 8px;\n  font-size: var(--el-font-size-base);\n  color: var(--el-tree-expand-icon-color);\n}\n\n.el-tree-node > .el-tree-node__children {\n  overflow: hidden;\n  background-color: transparent;\n}\n.el-tree-node.is-expanded > .el-tree-node__children {\n  display: block;\n}\n\n.el-tree--highlight-current .el-tree-node.is-current > .el-tree-node__content {\n  background-color: var(--el-color-primary-light-9);\n}",
+      "start": 1738720351724,
+      "end": 1738720351813,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1738720351813,
+      "end": 1738720351813,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1738720351813,
+      "end": 1738720351813,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1738720351813,
+      "end": 1738720351813,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1738720351813,
+      "end": 1738720351813,
+      "order": "normal"
+    },
+    {
+      "name": "originjs:commonjs",
+      "start": 1738720351813,
+      "end": 1738720351814,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1738720351814,
+      "end": 1738720351814,
+      "order": "normal"
+    },
+    {
+      "name": "inject",
+      "start": 1738720351814,
+      "end": 1738720351814,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1738720351814,
+      "end": 1738720351814,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "result": "import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/node_modules/element-plus/theme-chalk/src/tree.scss\"\nconst __vite__css = \"/* Element Chalk Variables */\\n.fade-in-linear-enter-active,\\n.fade-in-linear-leave-active {\\n  transition: var(--el-transition-fade-linear);\\n}\\n\\n.fade-in-linear-enter-from,\\n.fade-in-linear-leave-to {\\n  opacity: 0;\\n}\\n\\n.el-fade-in-linear-enter-active,\\n.el-fade-in-linear-leave-active {\\n  transition: var(--el-transition-fade-linear);\\n}\\n\\n.el-fade-in-linear-enter-from,\\n.el-fade-in-linear-leave-to {\\n  opacity: 0;\\n}\\n\\n.el-fade-in-enter-active,\\n.el-fade-in-leave-active {\\n  transition: all var(--el-transition-duration) cubic-bezier(0.55, 0, 0.1, 1);\\n}\\n\\n.el-fade-in-enter-from,\\n.el-fade-in-leave-active {\\n  opacity: 0;\\n}\\n\\n.el-zoom-in-center-enter-active,\\n.el-zoom-in-center-leave-active {\\n  transition: all var(--el-transition-duration) cubic-bezier(0.55, 0, 0.1, 1);\\n}\\n\\n.el-zoom-in-center-enter-from,\\n.el-zoom-in-center-leave-active {\\n  opacity: 0;\\n  transform: scaleX(0);\\n}\\n\\n.el-zoom-in-top-enter-active,\\n.el-zoom-in-top-leave-active {\\n  opacity: 1;\\n  transform: scaleY(1);\\n  transition: var(--el-transition-md-fade);\\n  transform-origin: center top;\\n}\\n.el-zoom-in-top-enter-active[data-popper-placement^=top],\\n.el-zoom-in-top-leave-active[data-popper-placement^=top] {\\n  transform-origin: center bottom;\\n}\\n\\n.el-zoom-in-top-enter-from,\\n.el-zoom-in-top-leave-active {\\n  opacity: 0;\\n  transform: scaleY(0);\\n}\\n\\n.el-zoom-in-bottom-enter-active,\\n.el-zoom-in-bottom-leave-active {\\n  opacity: 1;\\n  transform: scaleY(1);\\n  transition: var(--el-transition-md-fade);\\n  transform-origin: center bottom;\\n}\\n\\n.el-zoom-in-bottom-enter-from,\\n.el-zoom-in-bottom-leave-active {\\n  opacity: 0;\\n  transform: scaleY(0);\\n}\\n\\n.el-zoom-in-left-enter-active,\\n.el-zoom-in-left-leave-active {\\n  opacity: 1;\\n  transform: scale(1, 1);\\n  transition: var(--el-transition-md-fade);\\n  transform-origin: top left;\\n}\\n\\n.el-zoom-in-left-enter-from,\\n.el-zoom-in-left-leave-active {\\n  opacity: 0;\\n  transform: scale(0.45, 0.45);\\n}\\n\\n.collapse-transition {\\n  transition: var(--el-transition-duration) height ease-in-out, var(--el-transition-duration) padding-top ease-in-out, var(--el-transition-duration) padding-bottom ease-in-out;\\n}\\n\\n.el-collapse-transition-leave-active,\\n.el-collapse-transition-enter-active {\\n  transition: var(--el-transition-duration) max-height ease-in-out, var(--el-transition-duration) padding-top ease-in-out, var(--el-transition-duration) padding-bottom ease-in-out;\\n}\\n\\n.horizontal-collapse-transition {\\n  transition: var(--el-transition-duration) width ease-in-out, var(--el-transition-duration) padding-left ease-in-out, var(--el-transition-duration) padding-right ease-in-out;\\n}\\n\\n.el-list-enter-active,\\n.el-list-leave-active {\\n  transition: all 1s;\\n}\\n\\n.el-list-enter-from,\\n.el-list-leave-to {\\n  opacity: 0;\\n  transform: translateY(-30px);\\n}\\n\\n.el-list-leave-active {\\n  position: absolute !important;\\n}\\n\\n.el-opacity-transition {\\n  transition: opacity var(--el-transition-duration) cubic-bezier(0.55, 0, 0.1, 1);\\n}\\n\\n.el-tree {\\n  --el-tree-node-content-height: 26px;\\n  --el-tree-node-hover-bg-color: var(--el-fill-color-light);\\n  --el-tree-text-color: var(--el-text-color-regular);\\n  --el-tree-expand-icon-color: var(--el-text-color-placeholder);\\n}\\n\\n.el-tree {\\n  position: relative;\\n  cursor: default;\\n  background: var(--el-fill-color-blank);\\n  color: var(--el-tree-text-color);\\n  font-size: var(--el-font-size-base);\\n}\\n.el-tree__empty-block {\\n  position: relative;\\n  min-height: 60px;\\n  text-align: center;\\n  width: 100%;\\n  height: 100%;\\n}\\n\\n.el-tree__empty-text {\\n  position: absolute;\\n  left: 50%;\\n  top: 50%;\\n  transform: translate(-50%, -50%);\\n  color: var(--el-text-color-secondary);\\n  font-size: var(--el-font-size-base);\\n}\\n\\n.el-tree__drop-indicator {\\n  position: absolute;\\n  left: 0;\\n  right: 0;\\n  height: 1px;\\n  background-color: var(--el-color-primary);\\n}\\n\\n.el-tree-node {\\n  white-space: nowrap;\\n  outline: none;\\n}\\n.el-tree-node:focus {\\n  /* focus */\\n}\\n.el-tree-node:focus > .el-tree-node__content {\\n  background-color: var(--el-tree-node-hover-bg-color);\\n}\\n.el-tree-node.is-drop-inner > .el-tree-node__content .el-tree-node__label {\\n  background-color: var(--el-color-primary);\\n  color: #fff;\\n}\\n\\n.el-tree-node__content {\\n  --el-checkbox-height: var(--el-tree-node-content-height);\\n  display: flex;\\n  align-items: center;\\n  height: var(--el-tree-node-content-height);\\n  cursor: pointer;\\n}\\n.el-tree-node__content > .el-tree-node__expand-icon {\\n  padding: 6px;\\n  box-sizing: content-box;\\n}\\n.el-tree-node__content > label.el-checkbox {\\n  margin-right: 8px;\\n}\\n.el-tree-node__content:hover {\\n  background-color: var(--el-tree-node-hover-bg-color);\\n}\\n.el-tree.is-dragging .el-tree-node__content {\\n  cursor: move;\\n}\\n.el-tree.is-dragging .el-tree-node__content * {\\n  pointer-events: none;\\n}\\n.el-tree.is-dragging.is-drop-not-allow .el-tree-node__content {\\n  cursor: not-allowed;\\n}\\n\\n.el-tree-node__expand-icon {\\n  cursor: pointer;\\n  color: var(--el-tree-expand-icon-color);\\n  font-size: 12px;\\n  transform: rotate(0deg);\\n  transition: transform var(--el-transition-duration) ease-in-out;\\n}\\n.el-tree-node__expand-icon.expanded {\\n  transform: rotate(90deg);\\n}\\n.el-tree-node__expand-icon.is-leaf {\\n  color: transparent;\\n  cursor: default;\\n  visibility: hidden;\\n}\\n.el-tree-node__expand-icon.is-hidden {\\n  visibility: hidden;\\n}\\n\\n.el-tree-node__loading-icon {\\n  margin-right: 8px;\\n  font-size: var(--el-font-size-base);\\n  color: var(--el-tree-expand-icon-color);\\n}\\n\\n.el-tree-node > .el-tree-node__children {\\n  overflow: hidden;\\n  background-color: transparent;\\n}\\n.el-tree-node.is-expanded > .el-tree-node__children {\\n  display: block;\\n}\\n\\n.el-tree--highlight-current .el-tree-node.is-current > .el-tree-node__content {\\n  background-color: var(--el-color-primary-light-9);\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720351814,
+      "end": 1738720351814,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1738720351814,
+      "end": 1738720351814,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1738720351814,
+      "end": 1738720351814,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1738720351814,
+      "end": 1738720351814,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1738720351814,
+      "end": 1738720351814,
+      "order": "normal"
+    },
+    {
+      "name": "vite-plugin-vue-inspector:post",
+      "start": 1738720351814,
+      "end": 1738720351814,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-auto-import",
+      "start": 1738720351814,
+      "end": 1738720351814,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-vue-components",
+      "start": 1738720351814,
+      "end": 1738720351814,
+      "order": "post"
+    },
+    {
+      "name": "vite:client-inject",
+      "start": 1738720351814,
+      "end": 1738720351814,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-analysis",
+      "start": 1738720351814,
+      "end": 1738720351814,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-analysis",
+      "result": "import { createHotContext as __vite__createHotContext } from \"/@vite/client\";import.meta.hot = __vite__createHotContext(\"/node_modules/element-plus/theme-chalk/src/tree.scss\");import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/node_modules/element-plus/theme-chalk/src/tree.scss\"\nconst __vite__css = \"/* Element Chalk Variables */\\n.fade-in-linear-enter-active,\\n.fade-in-linear-leave-active {\\n  transition: var(--el-transition-fade-linear);\\n}\\n\\n.fade-in-linear-enter-from,\\n.fade-in-linear-leave-to {\\n  opacity: 0;\\n}\\n\\n.el-fade-in-linear-enter-active,\\n.el-fade-in-linear-leave-active {\\n  transition: var(--el-transition-fade-linear);\\n}\\n\\n.el-fade-in-linear-enter-from,\\n.el-fade-in-linear-leave-to {\\n  opacity: 0;\\n}\\n\\n.el-fade-in-enter-active,\\n.el-fade-in-leave-active {\\n  transition: all var(--el-transition-duration) cubic-bezier(0.55, 0, 0.1, 1);\\n}\\n\\n.el-fade-in-enter-from,\\n.el-fade-in-leave-active {\\n  opacity: 0;\\n}\\n\\n.el-zoom-in-center-enter-active,\\n.el-zoom-in-center-leave-active {\\n  transition: all var(--el-transition-duration) cubic-bezier(0.55, 0, 0.1, 1);\\n}\\n\\n.el-zoom-in-center-enter-from,\\n.el-zoom-in-center-leave-active {\\n  opacity: 0;\\n  transform: scaleX(0);\\n}\\n\\n.el-zoom-in-top-enter-active,\\n.el-zoom-in-top-leave-active {\\n  opacity: 1;\\n  transform: scaleY(1);\\n  transition: var(--el-transition-md-fade);\\n  transform-origin: center top;\\n}\\n.el-zoom-in-top-enter-active[data-popper-placement^=top],\\n.el-zoom-in-top-leave-active[data-popper-placement^=top] {\\n  transform-origin: center bottom;\\n}\\n\\n.el-zoom-in-top-enter-from,\\n.el-zoom-in-top-leave-active {\\n  opacity: 0;\\n  transform: scaleY(0);\\n}\\n\\n.el-zoom-in-bottom-enter-active,\\n.el-zoom-in-bottom-leave-active {\\n  opacity: 1;\\n  transform: scaleY(1);\\n  transition: var(--el-transition-md-fade);\\n  transform-origin: center bottom;\\n}\\n\\n.el-zoom-in-bottom-enter-from,\\n.el-zoom-in-bottom-leave-active {\\n  opacity: 0;\\n  transform: scaleY(0);\\n}\\n\\n.el-zoom-in-left-enter-active,\\n.el-zoom-in-left-leave-active {\\n  opacity: 1;\\n  transform: scale(1, 1);\\n  transition: var(--el-transition-md-fade);\\n  transform-origin: top left;\\n}\\n\\n.el-zoom-in-left-enter-from,\\n.el-zoom-in-left-leave-active {\\n  opacity: 0;\\n  transform: scale(0.45, 0.45);\\n}\\n\\n.collapse-transition {\\n  transition: var(--el-transition-duration) height ease-in-out, var(--el-transition-duration) padding-top ease-in-out, var(--el-transition-duration) padding-bottom ease-in-out;\\n}\\n\\n.el-collapse-transition-leave-active,\\n.el-collapse-transition-enter-active {\\n  transition: var(--el-transition-duration) max-height ease-in-out, var(--el-transition-duration) padding-top ease-in-out, var(--el-transition-duration) padding-bottom ease-in-out;\\n}\\n\\n.horizontal-collapse-transition {\\n  transition: var(--el-transition-duration) width ease-in-out, var(--el-transition-duration) padding-left ease-in-out, var(--el-transition-duration) padding-right ease-in-out;\\n}\\n\\n.el-list-enter-active,\\n.el-list-leave-active {\\n  transition: all 1s;\\n}\\n\\n.el-list-enter-from,\\n.el-list-leave-to {\\n  opacity: 0;\\n  transform: translateY(-30px);\\n}\\n\\n.el-list-leave-active {\\n  position: absolute !important;\\n}\\n\\n.el-opacity-transition {\\n  transition: opacity var(--el-transition-duration) cubic-bezier(0.55, 0, 0.1, 1);\\n}\\n\\n.el-tree {\\n  --el-tree-node-content-height: 26px;\\n  --el-tree-node-hover-bg-color: var(--el-fill-color-light);\\n  --el-tree-text-color: var(--el-text-color-regular);\\n  --el-tree-expand-icon-color: var(--el-text-color-placeholder);\\n}\\n\\n.el-tree {\\n  position: relative;\\n  cursor: default;\\n  background: var(--el-fill-color-blank);\\n  color: var(--el-tree-text-color);\\n  font-size: var(--el-font-size-base);\\n}\\n.el-tree__empty-block {\\n  position: relative;\\n  min-height: 60px;\\n  text-align: center;\\n  width: 100%;\\n  height: 100%;\\n}\\n\\n.el-tree__empty-text {\\n  position: absolute;\\n  left: 50%;\\n  top: 50%;\\n  transform: translate(-50%, -50%);\\n  color: var(--el-text-color-secondary);\\n  font-size: var(--el-font-size-base);\\n}\\n\\n.el-tree__drop-indicator {\\n  position: absolute;\\n  left: 0;\\n  right: 0;\\n  height: 1px;\\n  background-color: var(--el-color-primary);\\n}\\n\\n.el-tree-node {\\n  white-space: nowrap;\\n  outline: none;\\n}\\n.el-tree-node:focus {\\n  /* focus */\\n}\\n.el-tree-node:focus > .el-tree-node__content {\\n  background-color: var(--el-tree-node-hover-bg-color);\\n}\\n.el-tree-node.is-drop-inner > .el-tree-node__content .el-tree-node__label {\\n  background-color: var(--el-color-primary);\\n  color: #fff;\\n}\\n\\n.el-tree-node__content {\\n  --el-checkbox-height: var(--el-tree-node-content-height);\\n  display: flex;\\n  align-items: center;\\n  height: var(--el-tree-node-content-height);\\n  cursor: pointer;\\n}\\n.el-tree-node__content > .el-tree-node__expand-icon {\\n  padding: 6px;\\n  box-sizing: content-box;\\n}\\n.el-tree-node__content > label.el-checkbox {\\n  margin-right: 8px;\\n}\\n.el-tree-node__content:hover {\\n  background-color: var(--el-tree-node-hover-bg-color);\\n}\\n.el-tree.is-dragging .el-tree-node__content {\\n  cursor: move;\\n}\\n.el-tree.is-dragging .el-tree-node__content * {\\n  pointer-events: none;\\n}\\n.el-tree.is-dragging.is-drop-not-allow .el-tree-node__content {\\n  cursor: not-allowed;\\n}\\n\\n.el-tree-node__expand-icon {\\n  cursor: pointer;\\n  color: var(--el-tree-expand-icon-color);\\n  font-size: 12px;\\n  transform: rotate(0deg);\\n  transition: transform var(--el-transition-duration) ease-in-out;\\n}\\n.el-tree-node__expand-icon.expanded {\\n  transform: rotate(90deg);\\n}\\n.el-tree-node__expand-icon.is-leaf {\\n  color: transparent;\\n  cursor: default;\\n  visibility: hidden;\\n}\\n.el-tree-node__expand-icon.is-hidden {\\n  visibility: hidden;\\n}\\n\\n.el-tree-node__loading-icon {\\n  margin-right: 8px;\\n  font-size: var(--el-font-size-base);\\n  color: var(--el-tree-expand-icon-color);\\n}\\n\\n.el-tree-node > .el-tree-node__children {\\n  overflow: hidden;\\n  background-color: transparent;\\n}\\n.el-tree-node.is-expanded > .el-tree-node__children {\\n  display: block;\\n}\\n\\n.el-tree--highlight-current .el-tree-node.is-current > .el-tree-node__content {\\n  background-color: var(--el-color-primary-light-9);\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720351814,
+      "end": 1738720351814,
+      "order": "normal",
+      "sourcemaps": null
+    }
+  ]
+}

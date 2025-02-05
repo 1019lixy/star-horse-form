@@ -24,10 +24,8 @@ const dyCopy = () => {
         warning("请先选择要复制的组件");
         return;
     }
-
     let copyItem: any = JSON.parse(JSON.stringify(item));
     copyerOperation.keyboardOperation("copy", ModuleEnums.DYNAMIC_FORM, {}, copyItem);
-
 }
 /**
  * 剪切
@@ -46,6 +44,9 @@ const dyCut = () => {
  */
 const dyPaste = () => {
     let copyItem: any = JSON.parse(JSON.stringify(copyerData.value));
+    if (!copyItem || Object.keys(copyItem).length === 0) {
+        return;
+    }
     let compType = copyItem.compType;
     let itemType = copyItem.itemType;
     console.log(compType, itemType, copyItem);
@@ -65,15 +66,13 @@ const dyPaste = () => {
     // console.log("paste")
 }
 const dyEnter = () => {
-
-    console.log("enter")
+    console.log("enter");
 }
 /**
  * tab
  */
 const dyTab = () => {
-
-    console.log("tab")
+    console.log("tab");
 }
 /**
  * 撤销

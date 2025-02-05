@@ -15,11 +15,12 @@
 </template>
 <script setup lang="ts">
 import FlowAddNode from '@/views/workflow/plugin/node/AddNode.vue';
-import {computed,onMounted} from "vue";
+import {computed, onMounted} from "vue";
 import {FlowNodeEnums} from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
 import {closeLoad} from "@/api/sh_api.ts";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
+
 defineOptions({
   name: 'DivideNode',
 });
@@ -37,12 +38,12 @@ const props = defineProps({
   }
 });
 
-const emits=defineEmits(['selectNode']);
+const emits = defineEmits(['selectNode']);
 const selectNode = () => {
-  emits('selectNode',props.node);
+  emits('selectNode', props.node);
 }
 let nameClass = computed(() => {
-  return (node:any, defaultStyle:string) => {
+  return (node: any, defaultStyle: string) => {
     if (node.statusCode == -1) {
       return defaultStyle;
     }
@@ -53,11 +54,11 @@ let nameClass = computed(() => {
     };
   };
 });
-const init=()=>{
+const init = () => {
   closeLoad();
   flowDesign.refreshMap();
 }
-onMounted(()=>{
+onMounted(() => {
   init();
 })
 </script>

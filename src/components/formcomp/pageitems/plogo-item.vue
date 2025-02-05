@@ -5,7 +5,7 @@ defineOptions({
 </script>
 
 <template>
-logo内容
+  logo内容
 </template>
 
 <style scoped lang="scss">

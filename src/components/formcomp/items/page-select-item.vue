@@ -149,7 +149,7 @@ export default defineComponent({
           loadByPage()
         });
     onMounted(() => {
-      actionName.value = field.preps["actionName"];
+       actionName.value = field.preps?.actionName || "keydown.enter";;
       loadByPage(true);
       if (!context.attrs["isSearch"]) {
         allAction(context, actionName.value, true);

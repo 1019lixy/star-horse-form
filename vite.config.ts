@@ -12,7 +12,6 @@ import {ElementPlusResolver} from 'unplugin-vue-components/resolvers'
 import AutoImport from 'unplugin-auto-import/vite'
 import {viteCommonjs} from '@originjs/vite-plugin-commonjs'
 import vueDevTools from 'vite-plugin-vue-devtools';
-import Inspect from 'vite-plugin-inspect';
 
 const codeHost: string = "http://192.168.20.165:8888/"
 // const codeHost:string = "http://localhost:8888/"
@@ -159,12 +158,12 @@ export default defineConfig((mode, command) => {
         },
         plugins: [
             vueDevTools(),
-            Inspect({
-                // 可以配置一些选项，以下是一些常用选项的示例
-                dev: true,  // 是否启用该插件，默认为 true
-                build: true,   // 是否在构建时启用，默认为 false
-                outputDir: '.vite-inspect' // 输出目录，默认为 '.vite-inspect'
-            }),
+            // Inspect({
+            //     // 可以配置一些选项，以下是一些常用选项的示例
+            //     dev: true,  // 是否启用该插件，默认为 true
+            //     build: true,   // 是否在构建时启用，默认为 false
+            //     outputDir: '.vite-inspect' // 输出目录，默认为 '.vite-inspect'
+            // }),
             vue({
                 script: {
                     // 开启 defineModel

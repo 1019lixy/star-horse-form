@@ -5,7 +5,7 @@ defineOptions({
 </script>
 
 <template>
-分页条
+  分页条
 </template>
 
 <style scoped lang="scss">

@@ -59,7 +59,7 @@ const addItem = () => {
               <el-card hoverable class="w-fill card-xx" @click="setSetting(item)" :style="bodyStyle">
                 <div class="flowSetting-card-header">
                   <div class="flowSetting-card-header-title">
-                   <star-horse-icon iconClass="document" boxShow="true"/>
+                    <star-horse-icon iconClass="document" boxShow="true"/>
                     <span>{{ item.name }}</span>
                   </div>
                   <div @click.stop="deleteItem(item)">

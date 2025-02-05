@@ -21,7 +21,7 @@ let extandBtns = ref<UserFuncInfo[]>([{
   btnName: "添加子节点",
   authority: "add",
   icon: "add",
-  priority:1,
+  priority: 1,
   funcName: async (row: any) => {
     console.log(row);
     outerForm.value["parentId"] = row[primaryKey];

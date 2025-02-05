@@ -59,8 +59,11 @@
               class="upload"
               name="file"
           >
-            <el-button type="text" text  size="small">
-              <el-tooltip content="上传图片"><star-horse-icon icon-class="upload" />上传图片</el-tooltip>
+            <el-button type="text" text size="small">
+              <el-tooltip content="上传图片">
+                <star-horse-icon icon-class="upload"/>
+                上传图片
+              </el-tooltip>
             </el-button>
           </el-upload>
         </template>
@@ -127,7 +130,7 @@ export default defineComponent({
       context.emit('selfFunc', prep, uploadFile, uploadFiles, param);
     };
     onMounted(() => {
-      actionName.value = field.preps["actionName"];
+       actionName.value = field.preps?.actionName || "keydown.enter";;
       if (!context.attrs["isSearch"]) {
         allAction(context, actionName.value, true);
       }

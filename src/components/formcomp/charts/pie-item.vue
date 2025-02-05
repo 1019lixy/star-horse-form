@@ -3,7 +3,7 @@
 </script>
 
 <template>
-饼图
+  饼图
 </template>
 
 <style scoped lang="scss">

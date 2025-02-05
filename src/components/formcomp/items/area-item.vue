@@ -67,14 +67,14 @@ export default defineComponent({
     }
     onMounted(() => {
       initData();
-      actionName.value = field.preps["actionName"];
+       actionName.value = field.preps?.actionName || "keydown.enter";;
       if (!context.attrs["isSearch"]) {
         allAction(context, actionName.value, true);
       }
     });
     return {
       parentField, context, field, formItem,
-      dataField, itemAction, actionName, lazyLoad,areaData
+      dataField, itemAction, actionName, lazyLoad, areaData
     }
   }
 });

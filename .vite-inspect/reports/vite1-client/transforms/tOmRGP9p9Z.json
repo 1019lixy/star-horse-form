@@ -1,0 +1,184 @@
+{
+  "resolvedId": "E:/lixycode/testcode/src/views/workflow/plugin/preps/utils/ApproverConfigure.vue?vue&type=style&index=0&scoped=b7b2fb3b&lang.scss",
+  "transforms": [
+    {
+      "name": "vite:vue",
+      "result": "\r\n.flow-item-title {\r\n  font-weight: 800;\r\n}\r\n",
+      "start": 1738720349084,
+      "end": 1738720349084,
+      "sourcemaps": {
+        "version": 3,
+        "sources": [
+          "E:/lixycode/testcode/src/views/workflow/plugin/preps/utils/ApproverConfigure.vue"
+        ],
+        "names": [],
+        "mappings": ";AAyNA,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE;EACf,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC;AAClB",
+        "file": "E:/lixycode/testcode/src/views/workflow/plugin/preps/utils/ApproverConfigure.vue",
+        "sourceRoot": "",
+        "sourcesContent": [
+          "<script setup lang=\"ts\">\r\nimport {uuid} from \"@/api/system.ts\";\r\nimport {onMounted, ref} from \"vue\";\r\nimport {scale} from \"@/views/workflow/plugin/utils/deviceUtil.ts\";\r\nimport StarHorseDialog from \"@/components/comp/StarHorseDialog.vue\";\r\nimport {ModelRef} from \"vue-demi\";\r\n\r\ndefineOptions({\r\n  name: 'ApproverConfigure',\r\n})\r\nconst configure: ModelRef<any> = defineModel(\"configure\");\r\nlet currentForm = ref<any>({});\r\nlet passwordVisible = ref<boolean>(false);\r\n// 操作配置\r\nlet operations = ref<Array<any>>([\r\n  {\r\n    id: uuid(),\r\n    name: '同意',\r\n    value: '1',\r\n    icon: \"flow-agree\",\r\n    content: '审批通过，流转到下一个节点',\r\n    code: 'complete',\r\n  },\r\n  {\r\n    id: uuid(),\r\n    name: '转交',\r\n    value: '1',\r\n    icon: \"flow-turn\",\r\n    content: '转交给他人办理，依然在当前节点',\r\n    code: 'turn',\r\n  },\r\n  {\r\n    id: uuid(),\r\n    name: '抄送',\r\n    value: '2',\r\n    icon: \"flow-cc\",\r\n    content: '选择抄送给谁，可以在待阅和已阅中查看',\r\n    code: 'cc',\r\n  },\r\n  {\r\n    id: uuid(),\r\n    name: '退回',\r\n    value: '3',\r\n    icon: \"flow-back\",\r\n    content: '退回给申请人，申请人修改完成后，流程按节点开始走',\r\n    code: 'back',\r\n  },\r\n  {\r\n    id: uuid(),\r\n    name: '撤回',\r\n    value: '4',\r\n    icon: \"flow-revoke\",\r\n    content: '允许申请人对未进入流程（第一个流程节点为待处理状态）的申请进行撤回',\r\n    code: 'revoke',\r\n  },\r\n  {\r\n    id: uuid(),\r\n    name: '加签',\r\n    value: '5',\r\n    icon: \"flow-add-user\",\r\n    content: '这个事情我不能完全做主，需要某些人先处理，再由我处理',\r\n    code: 'addSign',\r\n  },\r\n  {\r\n    id: uuid(),\r\n    name: '减签',\r\n    value: '5',\r\n    icon: \"flow-reduce-user\",\r\n    content: '在当前任务中减少处理人员数量，以简化流程或重新分配责任',\r\n    code: 'subSign',\r\n  },\r\n  {\r\n    id: uuid(),\r\n    name: '跟踪',\r\n    value: '6',\r\n    icon: \"flow-trace\",\r\n    content: '流程实例所有的进度需要发短信和email给我，可在我的跟踪查看',\r\n    code: 'trace',\r\n  },\r\n  {\r\n    id: uuid(),\r\n    name: '拒绝',\r\n    value: '7',\r\n    icon: \"flow-reject\",\r\n    content: '节点负责人可以拒绝该流程（拒绝后流程直接结束，标记为已拒绝）',\r\n    code: 'end',\r\n  },\r\n  {\r\n    id: uuid(),\r\n    name: '委派',\r\n    value: '8',\r\n    icon: \"user-add\",\r\n    content: '将当前任务暂时交由他人处理，待其完成后再交回自己处理',\r\n    code: 'delegate',\r\n  },\r\n]);\r\n// 超时配置\r\nlet timeouts = ref<Array<any>>([\r\n  {\r\n    id: uuid(),\r\n    name: '审批限时处理',\r\n    value: '1',\r\n    icon: \"timer\",\r\n    content: '支持自动提醒、转交等，为每条审批流设一个智能闹钟',\r\n    code: 'timeout',\r\n  },\r\n]);\r\n// 安全配置\r\nlet securities = ref<Array<any>>([\r\n  {\r\n    id: uuid(),\r\n    name: '审批同意是否需要手写签名',\r\n    value: '1',\r\n    icon: \"sign\",\r\n    content: '如果全局设置了需要签字，则此处不生效',\r\n    code: 'sign',\r\n  },\r\n  {\r\n    id: uuid(),\r\n    name: '填写密码',\r\n    value: '1',\r\n    icon: \"password\",\r\n    content: '凭密码才能填写表单',\r\n    code: 'password',\r\n  },\r\n]);\r\nconst openPasswordModal = (checked: any, security: any) => {\r\n  currentForm.value = security;\r\n  console.log(checked, security);\r\n  if (checked && security.code == 'password') {\r\n    passwordVisible.value = true;\r\n  }\r\n}\r\nconst changeConfigure = () => {\r\n\r\n}\r\nconst init = () => {\r\n  let datas: Array<any> = [...operations.value, ...timeouts.value, ...securities.value];\r\n  datas.forEach(item => {\r\n    if (Object.keys(configure.value).includes(item.code)) {\r\n      item.value = configure.value[item.code];\r\n    }\r\n  });\r\n}\r\nonMounted(() => {\r\n  init();\r\n})\r\n</script>\r\n<template>\r\n  <el-scrollbar data-v-inspector=\"src/views/workflow/plugin/preps/utils/ApproverConfigure.vue:150:3\">\r\n    <div class=\"flow-content\" data-v-inspector=\"src/views/workflow/plugin/preps/utils/ApproverConfigure.vue:151:5\">\r\n      <div class=\"flow-item\" data-v-inspector=\"src/views/workflow/plugin/preps/utils/ApproverConfigure.vue:152:7\">\r\n        <p class=\"flow-item-title\" data-v-inspector=\"src/views/workflow/plugin/preps/utils/ApproverConfigure.vue:153:9\">操作配置</p>\r\n        <div class=\"flow-option\" v-for=\"(operation, i) in operations\" :key=\"i\" data-v-inspector=\"src/views/workflow/plugin/preps/utils/ApproverConfigure.vue:154:9\">\r\n          <div class=\"flow-item\" data-v-inspector=\"src/views/workflow/plugin/preps/utils/ApproverConfigure.vue:155:11\">\r\n            <div class=\"flow-item-left\" data-v-inspector=\"src/views/workflow/plugin/preps/utils/ApproverConfigure.vue:156:13\">\r\n              <star-horse-icon :icon-class=\"operation.icon\" size=\"36px\" boxShow=\"true\" data-v-inspector=\"src/views/workflow/plugin/preps/utils/ApproverConfigure.vue:157:15\"/>\r\n              <div class=\"flow-desc\" data-v-inspector=\"src/views/workflow/plugin/preps/utils/ApproverConfigure.vue:158:15\">\r\n                <p class=\"option-title\" data-v-inspector=\"src/views/workflow/plugin/preps/utils/ApproverConfigure.vue:159:17\">{{ operation.name }}</p>\r\n                <p class=\"option-desc\" data-v-inspector=\"src/views/workflow/plugin/preps/utils/ApproverConfigure.vue:160:17\">{{ operation.content }}</p>\r\n              </div>\r\n            </div>\r\n            <div class=\"flow-item-switch\" data-v-inspector=\"src/views/workflow/plugin/preps/utils/ApproverConfigure.vue:163:13\">\r\n              <el-switch v-model=\"configure[operation.code]\" active-text=\"开\" inactive-text=\"关\"\r\n                         @change=\"changeConfigure\" data-v-inspector=\"src/views/workflow/plugin/preps/utils/ApproverConfigure.vue:164:15\"/>\r\n            </div>\r\n          </div>\r\n        </div>\r\n      </div>\r\n      <div class=\"flow-item\" data-v-inspector=\"src/views/workflow/plugin/preps/utils/ApproverConfigure.vue:170:7\">\r\n        <p class=\"flow-item-title\" data-v-inspector=\"src/views/workflow/plugin/preps/utils/ApproverConfigure.vue:171:9\">超时配置</p>\r\n        <div class=\"flow-option\" v-for=\"(timeout, i) in timeouts\" :key=\"i\" data-v-inspector=\"src/views/workflow/plugin/preps/utils/ApproverConfigure.vue:172:9\">\r\n          <div class=\"flow-item\" data-v-inspector=\"src/views/workflow/plugin/preps/utils/ApproverConfigure.vue:173:11\">\r\n            <div class=\"flow-item-left\" data-v-inspector=\"src/views/workflow/plugin/preps/utils/ApproverConfigure.vue:174:13\">\r\n              <star-horse-icon :icon-class=\"timeout.icon\" size=\"36px\" boxShow=\"true\" data-v-inspector=\"src/views/workflow/plugin/preps/utils/ApproverConfigure.vue:175:15\"/>\r\n              <div class=\"flow-desc\" data-v-inspector=\"src/views/workflow/plugin/preps/utils/ApproverConfigure.vue:176:15\">\r\n                <p class=\"option-title\" data-v-inspector=\"src/views/workflow/plugin/preps/utils/ApproverConfigure.vue:177:17\">{{ timeout.name }}</p>\r\n                <p class=\"option-desc\" data-v-inspector=\"src/views/workflow/plugin/preps/utils/ApproverConfigure.vue:178:17\">{{ timeout.content }}</p>\r\n              </div>\r\n            </div>\r\n            <div class=\"flow-item-switch\" data-v-inspector=\"src/views/workflow/plugin/preps/utils/ApproverConfigure.vue:181:13\">\r\n              <el-switch v-model=\"configure[timeout.code]\" active-text=\"开\" inactive-text=\"关\" data-v-inspector=\"src/views/workflow/plugin/preps/utils/ApproverConfigure.vue:182:15\"/>\r\n            </div>\r\n          </div>\r\n        </div>\r\n      </div>\r\n      <div class=\"flow-item\" data-v-inspector=\"src/views/workflow/plugin/preps/utils/ApproverConfigure.vue:187:7\">\r\n        <p class=\"flow-item-title\" data-v-inspector=\"src/views/workflow/plugin/preps/utils/ApproverConfigure.vue:188:9\">安全配置</p>\r\n        <div class=\"flow-option\" v-for=\"(security, i) in securities\" :key=\"i\" data-v-inspector=\"src/views/workflow/plugin/preps/utils/ApproverConfigure.vue:189:9\">\r\n          <div class=\"flow-item\" data-v-inspector=\"src/views/workflow/plugin/preps/utils/ApproverConfigure.vue:190:11\">\r\n            <div class=\"flow-item-left\" data-v-inspector=\"src/views/workflow/plugin/preps/utils/ApproverConfigure.vue:191:13\">\r\n              <star-horse-icon :icon-class=\"security.icon\" size=\"36px\" boxShow=\"true\" data-v-inspector=\"src/views/workflow/plugin/preps/utils/ApproverConfigure.vue:192:15\"/>\r\n              <div class=\"flow-desc\" data-v-inspector=\"src/views/workflow/plugin/preps/utils/ApproverConfigure.vue:193:15\">\r\n                <p class=\"option-title\" data-v-inspector=\"src/views/workflow/plugin/preps/utils/ApproverConfigure.vue:194:17\">{{ security.name }}</p>\r\n                <p class=\"option-desc\" data-v-inspector=\"src/views/workflow/plugin/preps/utils/ApproverConfigure.vue:195:17\">{{ security.name }}</p>\r\n              </div>\r\n            </div>\r\n            <div class=\"flow-item-switch\" data-v-inspector=\"src/views/workflow/plugin/preps/utils/ApproverConfigure.vue:198:13\">\r\n              <el-switch v-model=\"configure[security.code]\" active-text=\"开\" inactive-text=\"关\"\r\n                         @change=\"(checked)=>openPasswordModal(checked,security)\" data-v-inspector=\"src/views/workflow/plugin/preps/utils/ApproverConfigure.vue:199:15\"/>\r\n            </div>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n    <div style=\"height: 30px;\" data-v-inspector=\"src/views/workflow/plugin/preps/utils/ApproverConfigure.vue:206:5\"/>\r\n  </el-scrollbar>\r\n  <!-- 填写密码 -->\r\n  <star-horse-dialog self-func=\"true\" :dialog-visible=\"passwordVisible\" @merge=\"passwordVisible=false\"\r\n                     :box-width=\"scale.isMobile()?'100%':'40%'\" title=\"填写密码\"\r\n                     @closeAction=\"passwordVisible = false\" data-v-inspector=\"src/views/workflow/plugin/preps/utils/ApproverConfigure.vue:209:3\">\r\n    <div class=\"dialog-body\" data-v-inspector=\"src/views/workflow/plugin/preps/utils/ApproverConfigure.vue:212:5\">\r\n      <el-input type=\"password\" v-model=\"configure.passwordValue\" placeholder=\"输入密码\" data-v-inspector=\"src/views/workflow/plugin/preps/utils/ApproverConfigure.vue:213:7\"/>\r\n    </div>\r\n  </star-horse-dialog>\r\n</template>\r\n<style scoped lang=\"scss\">\r\n.flow-item-title {\r\n  font-weight: 800;\r\n}\r\n</style>\r\n"
+        ]
+      }
+    },
+    {
+      "name": "vite-plugin-vue-inspector",
+      "start": 1738720349084,
+      "end": 1738720349084,
+      "order": "pre"
+    },
+    {
+      "name": "vite-plugin-vue-devtools",
+      "result": "\r\n.flow-item-title {\r\n  font-weight: 800;\r\n}\r\n",
+      "start": 1738720349084,
+      "end": 1738720349084,
+      "order": "pre",
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "result": ".flow-item-title {\n  font-weight: 800;\n}",
+      "start": 1738720349084,
+      "end": 1738720349088,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1738720349088,
+      "end": 1738720349088,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1738720349088,
+      "end": 1738720349088,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1738720349088,
+      "end": 1738720349088,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "result": ".flow-item-title[data-v-b7b2fb3b] {\n  font-weight: 800;\n}",
+      "start": 1738720349088,
+      "end": 1738720349088,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "originjs:commonjs",
+      "start": 1738720349088,
+      "end": 1738720349088,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1738720349088,
+      "end": 1738720349088,
+      "order": "normal"
+    },
+    {
+      "name": "inject",
+      "start": 1738720349088,
+      "end": 1738720349088,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1738720349088,
+      "end": 1738720349088,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "result": "import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/src/views/workflow/plugin/preps/utils/ApproverConfigure.vue?vue&type=style&index=0&scoped=b7b2fb3b&lang.scss\"\nconst __vite__css = \".flow-item-title[data-v-b7b2fb3b] {\\n  font-weight: 800;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720349088,
+      "end": 1738720349088,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1738720349088,
+      "end": 1738720349088,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1738720349088,
+      "end": 1738720349088,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1738720349088,
+      "end": 1738720349088,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1738720349088,
+      "end": 1738720349088,
+      "order": "normal"
+    },
+    {
+      "name": "vite-plugin-vue-inspector:post",
+      "start": 1738720349088,
+      "end": 1738720349088,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-auto-import",
+      "start": 1738720349088,
+      "end": 1738720349089,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-vue-components",
+      "result": "/* unplugin-vue-components disabled */import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/src/views/workflow/plugin/preps/utils/ApproverConfigure.vue?vue&type=style&index=0&scoped=b7b2fb3b&lang.scss\"\nconst __vite__css = \".flow-item-title[data-v-b7b2fb3b] {\\n  font-weight: 800;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720349089,
+      "end": 1738720349089,
+      "order": "post",
+      "sourcemaps": {
+        "version": 3,
+        "sources": [
+          "E:/lixycode/testcode/src/views/workflow/plugin/preps/utils/ApproverConfigure.vue?vue&type=style&index=0&scoped=b7b2fb3b&lang.scss"
+        ],
+        "sourcesContent": [
+          "import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/src/views/workflow/plugin/preps/utils/ApproverConfigure.vue?vue&type=style&index=0&scoped=b7b2fb3b&lang.scss\"\nconst __vite__css = \".flow-item-title[data-v-b7b2fb3b] {\\n  font-weight: 800;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))"
+        ],
+        "names": [],
+        "mappings": "sCAAA,MAAM,CAAC,CAAC,CAAC,WAAW,CAAC,EAAE,CAAC,mBAAmB,CAAC,CAAC,WAAW,CAAC,EAAE,CAAC,mBAAmB,CAAC,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,CAAC,IAAI,CAAC,MAAM;AACrG,KAAK,CAAC,UAAU,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,QAAQ,CAAC,QAAQ,CAAC,GAAG,CAAC,KAAK,CAAC,QAAQ,CAAC,MAAM,CAAC,KAAK,CAAC,KAAK,CAAC,iBAAiB,CAAC,GAAG,CAAC,GAAG,CAAC,IAAI,CAAC,KAAK,CAAC,KAAK,CAAC,CAAC,CAAC,MAAM,CAAC,QAAQ,CAAC,IAAI,CAAC,IAAI;AACrJ,KAAK,CAAC,WAAW,CAAC,CAAC,CAAC,CAAC,CAAC,IAAI,CAAC,IAAI,CAAC,KAAK,CAAC,IAAI,CAAC,CAAC,CAAC,QAAQ,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,IAAI,CAAC,MAAM,CAAC,CAAC,GAAG,CAAC,CAAC,CAAC,CAAC;AAChF,mBAAmB,CAAC,UAAU,CAAC,CAAC,WAAW;AAC3C,MAAM,CAAC,IAAI,CAAC,GAAG,CAAC,MAAM,CAAC;AACvB,MAAM,CAAC,IAAI,CAAC,GAAG,CAAC,KAAK,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,mBAAmB,CAAC,UAAU,CAAC"
+      }
+    },
+    {
+      "name": "vite:client-inject",
+      "start": 1738720349089,
+      "end": 1738720349089,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-analysis",
+      "start": 1738720349089,
+      "end": 1738720349089,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-analysis",
+      "result": "import { createHotContext as __vite__createHotContext } from \"/@vite/client\";import.meta.hot = __vite__createHotContext(\"/src/views/workflow/plugin/preps/utils/ApproverConfigure.vue?vue&type=style&index=0&scoped=b7b2fb3b&lang.scss\");/* unplugin-vue-components disabled */import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/src/views/workflow/plugin/preps/utils/ApproverConfigure.vue?vue&type=style&index=0&scoped=b7b2fb3b&lang.scss\"\nconst __vite__css = \".flow-item-title[data-v-b7b2fb3b] {\\n  font-weight: 800;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720349089,
+      "end": 1738720349089,
+      "order": "normal",
+      "sourcemaps": null
+    }
+  ]
+}

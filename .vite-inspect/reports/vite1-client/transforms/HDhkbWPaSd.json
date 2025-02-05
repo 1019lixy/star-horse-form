@@ -1,0 +1,159 @@
+{
+  "resolvedId": "E:/lixycode/testcode/src/store/index.ts",
+  "transforms": [
+    {
+      "name": "__load__",
+      "result": "import {createPinia} from \"pinia\";\r\nimport piniaPersist from 'pinia-plugin-persistedstate';\r\n\r\nconst piniaInstance = createPinia();\r\npiniaInstance.use(piniaPersist);\r\n// export const installStore = (app: App<Element>) => {\r\n//     app.use(piniaInstance);\r\n// }\r\nexport default piniaInstance;\r\n",
+      "start": 1738720187204,
+      "end": 1738720187204
+    },
+    {
+      "name": "vite-plugin-vue-inspector",
+      "start": 1738720187204,
+      "end": 1738720187204,
+      "order": "pre"
+    },
+    {
+      "name": "vite-plugin-vue-devtools",
+      "result": "import {createPinia} from \"pinia\";\r\nimport piniaPersist from 'pinia-plugin-persistedstate';\r\n\r\nconst piniaInstance = createPinia();\r\npiniaInstance.use(piniaPersist);\r\n// export const installStore = (app: App<Element>) => {\r\n//     app.use(piniaInstance);\r\n// }\r\nexport default piniaInstance;\r\n",
+      "start": 1738720187204,
+      "end": 1738720187204,
+      "order": "pre",
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "start": 1738720187204,
+      "end": 1738720187204,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "result": "import { createPinia } from \"pinia\";\nimport piniaPersist from \"pinia-plugin-persistedstate\";\nconst piniaInstance = createPinia();\npiniaInstance.use(piniaPersist);\nexport default piniaInstance;\n",
+      "start": 1738720187204,
+      "end": 1738720188700,
+      "order": "normal",
+      "sourcemaps": {
+        "version": 3,
+        "sources": [
+          "index.ts"
+        ],
+        "sourcesContent": [
+          "import {createPinia} from \"pinia\";\r\nimport piniaPersist from 'pinia-plugin-persistedstate';\r\n\r\nconst piniaInstance = createPinia();\r\npiniaInstance.use(piniaPersist);\r\n// export const installStore = (app: App<Element>) => {\r\n//     app.use(piniaInstance);\r\n// }\r\nexport default piniaInstance;\r\n"
+        ],
+        "mappings": "AAAA,SAAQ,mBAAkB;AAC1B,OAAO,kBAAkB;AAEzB,MAAM,gBAAgB,YAAY;AAClC,cAAc,IAAI,YAAY;AAI9B,eAAe;",
+        "names": []
+      }
+    },
+    {
+      "name": "vite:json",
+      "start": 1738720188700,
+      "end": 1738720188700,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1738720188700,
+      "end": 1738720188701,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1738720188701,
+      "end": 1738720188701,
+      "order": "normal"
+    },
+    {
+      "name": "originjs:commonjs",
+      "start": 1738720188701,
+      "end": 1738720188701,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1738720188701,
+      "end": 1738720188701,
+      "order": "normal"
+    },
+    {
+      "name": "inject",
+      "start": 1738720188701,
+      "end": 1738720188701,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1738720188701,
+      "end": 1738720188701,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1738720188701,
+      "end": 1738720188701,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1738720188701,
+      "end": 1738720188701,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1738720188701,
+      "end": 1738720188701,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1738720188701,
+      "end": 1738720188701,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1738720188701,
+      "end": 1738720188703,
+      "order": "normal"
+    },
+    {
+      "name": "vite-plugin-vue-inspector:post",
+      "start": 1738720188703,
+      "end": 1738720188703,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-auto-import",
+      "start": 1738720188703,
+      "end": 1738720188705,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-vue-components",
+      "start": 1738720188705,
+      "end": 1738720188705,
+      "order": "post"
+    },
+    {
+      "name": "vite:client-inject",
+      "start": 1738720188705,
+      "end": 1738720188705,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-analysis",
+      "start": 1738720188705,
+      "end": 1738720188705,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-analysis",
+      "result": "import { createPinia } from \"/node_modules/.vite/deps/pinia.js?v=65efcb1b\";\nimport piniaPersist from \"/node_modules/.vite/deps/pinia-plugin-persistedstate.js?v=65efcb1b\";\nconst piniaInstance = createPinia();\npiniaInstance.use(piniaPersist);\nexport default piniaInstance;\n",
+      "start": 1738720188705,
+      "end": 1738720188710,
+      "order": "normal",
+      "sourcemaps": null
+    }
+  ]
+}

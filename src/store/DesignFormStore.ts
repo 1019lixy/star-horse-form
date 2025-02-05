@@ -26,6 +26,7 @@ export const DesignForm = defineStore("DesignForm", () => {
     const refresh = ref<number>(0);
     const currentFormPreps = ref<any>({});
     const draggingItem = ref<any>({});
+    const shortKeyDisabled = ref<boolean>(false);
     const historyRecord = ref<any>({
         index: -1,
         maxStep: 20,
@@ -396,6 +397,9 @@ export const DesignForm = defineStore("DesignForm", () => {
     const setPreviewVisible = (visible: boolean) => {
         previewVisible.value = visible;
     }
+    const setShortKeyDisabled = (disabled: boolean) => {
+        shortKeyDisabled.value = disabled;
+    }
     return {
         formData,
         formInfo,
@@ -418,6 +422,7 @@ export const DesignForm = defineStore("DesignForm", () => {
         componentVisible,
         batchEditFieldVisible,
         previewVisible,
+        shortKeyDisabled,
         addHistoryRecord,
         redo,
         undo,
@@ -440,6 +445,7 @@ export const DesignForm = defineStore("DesignForm", () => {
         clearAll,
         setComponentVisible,
         setBatchEditFieldVisible,
-        setPreviewVisible
+        setPreviewVisible,
+        setShortKeyDisabled
     }
 });

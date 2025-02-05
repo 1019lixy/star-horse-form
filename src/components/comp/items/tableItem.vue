@@ -50,14 +50,14 @@ onMounted(() => {
     <el-tabs v-model="tabModel">
       <template v-for="(temp,key) in item[batchFieldName]">
         <el-tab-pane :label="temp['title']" :name="temp.tabName||'sub_tab'+key" :disabled="temp.disabled">
-          <star-horse-form-table :size="compSize"  @addRow="addRow"
+          <star-horse-form-table :size="compSize" @addRow="addRow"
                                  @removeRow="removeRow" :rules="rules" :item="temp" v-model:dataForm="dataForm"/>
         </el-tab-pane>
       </template>
     </el-tabs>
   </template>
   <template v-else v-for="temp in item[batchFieldName]">
-    <star-horse-form-table :size="compSize" :rules="rules"  @addRow="addRow"
+    <star-horse-form-table :size="compSize" :rules="rules" @addRow="addRow"
                            @removeRow="removeRow" :item="temp" v-model:dataForm="dataForm"/>
   </template>
 </template>

@@ -1,0 +1,159 @@
+{
+  "resolvedId": "E:/lixycode/testcode/src/api/date_utils.ts",
+  "transforms": [
+    {
+      "name": "__load__",
+      "result": "/**\r\n * 创建日期\r\n * @param val\r\n * @returns {string}\r\n */\r\nexport function createDate(val: any) {\r\n    if (!val) {\r\n        return \"--\";\r\n    }\r\n    return dateParse(val, false)\r\n}\r\n\r\n/**\r\n * 当前日期\r\n * @param split\r\n */\r\nexport function currentDate(split: string = \"-\") {\r\n    const date = new Date();\r\n    return dateParse(date, false, split);\r\n}\r\n\r\n/**\r\n * 获取当月的开始和结束时间\r\n */\r\nexport function currentMonthRange() {\r\n    // 获取当前日期\r\n    return monthRange(new Date());\r\n}\r\n\r\nexport function monthRange(date: Date) {\r\n    if (!date) {\r\n        return {}\r\n    }\r\n    // 获取当前月份\r\n    let currentMonth = date.getMonth();\r\n// 获取当前月份的第一天\r\n    date.setDate(1);\r\n    let firstDay = new Date(date.getTime());\r\n// 获取当前月份的最后一天\r\n    date.setMonth(currentMonth + 1, 0);\r\n    let lastDay = new Date(date.getTime());\r\n    let year = date.getFullYear();\r\n    let month: number | string = currentMonth + 1;\r\n    month = month < 10 ? \"0\" + month : month;\r\n    return {\r\n        \"startDate\": firstDay,\r\n        \"starDateStr\": year + \"-\" + month + \"-01\",\r\n        \"lastDate\": lastDay,\r\n        \"lastDateStr\": year + \"-\" + month + \"-\" + lastDay.getDate()\r\n    }\r\n}\r\n\r\n/**\r\n * 将日期解析为字符串\r\n * @param date\r\n * @param needTime\r\n * @param split\r\n * @param needSecond\r\n */\r\nexport function dateParse(date: Date, needTime: boolean = true, split: string = \"-\", needSecond: boolean = false) {\r\n    if (!date) {\r\n        return \"\";\r\n    }\r\n    const m = (date.getMonth() + 1);\r\n    const m1 = m < 10 ? \"0\" + m : m;\r\n    const day = date.getDate() < 10 ? \"0\" + date.getDate() : date.getDate();\r\n    const hour = date.getHours() < 10 ? '0' + date.getHours() : date.getHours();\r\n    const minute = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();\r\n    const second = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds();\r\n    let restr = date.getFullYear() + split + m1 + split + day;\r\n    let tm = hour + \":\" + minute;\r\n    if (needTime) {\r\n        restr += \" \" + tm;\r\n    }\r\n    if (needSecond) {\r\n        restr += \":\" + second;\r\n    }\r\n    return restr;\r\n\r\n}\r\n\r\n/**\r\n * 创建年月日时分秒\r\n * @param val\r\n */\r\nexport function createDatetime(val: any) {\r\n    if (!val || val == \"undefined\" || val == \"-\") {\r\n        return \"--\";\r\n    }\r\n    const date = new Date(val);\r\n    return dateParse(date);\r\n}\r\n",
+      "start": 1738720190368,
+      "end": 1738720190368
+    },
+    {
+      "name": "vite-plugin-vue-inspector",
+      "start": 1738720190368,
+      "end": 1738720190368,
+      "order": "pre"
+    },
+    {
+      "name": "vite-plugin-vue-devtools",
+      "result": "/**\r\n * 创建日期\r\n * @param val\r\n * @returns {string}\r\n */\r\nexport function createDate(val: any) {\r\n    if (!val) {\r\n        return \"--\";\r\n    }\r\n    return dateParse(val, false)\r\n}\r\n\r\n/**\r\n * 当前日期\r\n * @param split\r\n */\r\nexport function currentDate(split: string = \"-\") {\r\n    const date = new Date();\r\n    return dateParse(date, false, split);\r\n}\r\n\r\n/**\r\n * 获取当月的开始和结束时间\r\n */\r\nexport function currentMonthRange() {\r\n    // 获取当前日期\r\n    return monthRange(new Date());\r\n}\r\n\r\nexport function monthRange(date: Date) {\r\n    if (!date) {\r\n        return {}\r\n    }\r\n    // 获取当前月份\r\n    let currentMonth = date.getMonth();\r\n// 获取当前月份的第一天\r\n    date.setDate(1);\r\n    let firstDay = new Date(date.getTime());\r\n// 获取当前月份的最后一天\r\n    date.setMonth(currentMonth + 1, 0);\r\n    let lastDay = new Date(date.getTime());\r\n    let year = date.getFullYear();\r\n    let month: number | string = currentMonth + 1;\r\n    month = month < 10 ? \"0\" + month : month;\r\n    return {\r\n        \"startDate\": firstDay,\r\n        \"starDateStr\": year + \"-\" + month + \"-01\",\r\n        \"lastDate\": lastDay,\r\n        \"lastDateStr\": year + \"-\" + month + \"-\" + lastDay.getDate()\r\n    }\r\n}\r\n\r\n/**\r\n * 将日期解析为字符串\r\n * @param date\r\n * @param needTime\r\n * @param split\r\n * @param needSecond\r\n */\r\nexport function dateParse(date: Date, needTime: boolean = true, split: string = \"-\", needSecond: boolean = false) {\r\n    if (!date) {\r\n        return \"\";\r\n    }\r\n    const m = (date.getMonth() + 1);\r\n    const m1 = m < 10 ? \"0\" + m : m;\r\n    const day = date.getDate() < 10 ? \"0\" + date.getDate() : date.getDate();\r\n    const hour = date.getHours() < 10 ? '0' + date.getHours() : date.getHours();\r\n    const minute = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();\r\n    const second = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds();\r\n    let restr = date.getFullYear() + split + m1 + split + day;\r\n    let tm = hour + \":\" + minute;\r\n    if (needTime) {\r\n        restr += \" \" + tm;\r\n    }\r\n    if (needSecond) {\r\n        restr += \":\" + second;\r\n    }\r\n    return restr;\r\n\r\n}\r\n\r\n/**\r\n * 创建年月日时分秒\r\n * @param val\r\n */\r\nexport function createDatetime(val: any) {\r\n    if (!val || val == \"undefined\" || val == \"-\") {\r\n        return \"--\";\r\n    }\r\n    const date = new Date(val);\r\n    return dateParse(date);\r\n}\r\n",
+      "start": 1738720190368,
+      "end": 1738720190368,
+      "order": "pre",
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "start": 1738720190368,
+      "end": 1738720190368,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "result": "export function createDate(val) {\n  if (!val) {\n    return \"--\";\n  }\n  return dateParse(val, false);\n}\nexport function currentDate(split = \"-\") {\n  const date = /* @__PURE__ */ new Date();\n  return dateParse(date, false, split);\n}\nexport function currentMonthRange() {\n  return monthRange(/* @__PURE__ */ new Date());\n}\nexport function monthRange(date) {\n  if (!date) {\n    return {};\n  }\n  let currentMonth = date.getMonth();\n  date.setDate(1);\n  let firstDay = new Date(date.getTime());\n  date.setMonth(currentMonth + 1, 0);\n  let lastDay = new Date(date.getTime());\n  let year = date.getFullYear();\n  let month = currentMonth + 1;\n  month = month < 10 ? \"0\" + month : month;\n  return {\n    \"startDate\": firstDay,\n    \"starDateStr\": year + \"-\" + month + \"-01\",\n    \"lastDate\": lastDay,\n    \"lastDateStr\": year + \"-\" + month + \"-\" + lastDay.getDate()\n  };\n}\nexport function dateParse(date, needTime = true, split = \"-\", needSecond = false) {\n  if (!date) {\n    return \"\";\n  }\n  const m = date.getMonth() + 1;\n  const m1 = m < 10 ? \"0\" + m : m;\n  const day = date.getDate() < 10 ? \"0\" + date.getDate() : date.getDate();\n  const hour = date.getHours() < 10 ? \"0\" + date.getHours() : date.getHours();\n  const minute = date.getMinutes() < 10 ? \"0\" + date.getMinutes() : date.getMinutes();\n  const second = date.getSeconds() < 10 ? \"0\" + date.getSeconds() : date.getSeconds();\n  let restr = date.getFullYear() + split + m1 + split + day;\n  let tm = hour + \":\" + minute;\n  if (needTime) {\n    restr += \" \" + tm;\n  }\n  if (needSecond) {\n    restr += \":\" + second;\n  }\n  return restr;\n}\nexport function createDatetime(val) {\n  if (!val || val == \"undefined\" || val == \"-\") {\n    return \"--\";\n  }\n  const date = new Date(val);\n  return dateParse(date);\n}\n",
+      "start": 1738720190368,
+      "end": 1738720190478,
+      "order": "normal",
+      "sourcemaps": {
+        "version": 3,
+        "sources": [
+          "date_utils.ts"
+        ],
+        "sourcesContent": [
+          "/**\r\n * 创建日期\r\n * @param val\r\n * @returns {string}\r\n */\r\nexport function createDate(val: any) {\r\n    if (!val) {\r\n        return \"--\";\r\n    }\r\n    return dateParse(val, false)\r\n}\r\n\r\n/**\r\n * 当前日期\r\n * @param split\r\n */\r\nexport function currentDate(split: string = \"-\") {\r\n    const date = new Date();\r\n    return dateParse(date, false, split);\r\n}\r\n\r\n/**\r\n * 获取当月的开始和结束时间\r\n */\r\nexport function currentMonthRange() {\r\n    // 获取当前日期\r\n    return monthRange(new Date());\r\n}\r\n\r\nexport function monthRange(date: Date) {\r\n    if (!date) {\r\n        return {}\r\n    }\r\n    // 获取当前月份\r\n    let currentMonth = date.getMonth();\r\n// 获取当前月份的第一天\r\n    date.setDate(1);\r\n    let firstDay = new Date(date.getTime());\r\n// 获取当前月份的最后一天\r\n    date.setMonth(currentMonth + 1, 0);\r\n    let lastDay = new Date(date.getTime());\r\n    let year = date.getFullYear();\r\n    let month: number | string = currentMonth + 1;\r\n    month = month < 10 ? \"0\" + month : month;\r\n    return {\r\n        \"startDate\": firstDay,\r\n        \"starDateStr\": year + \"-\" + month + \"-01\",\r\n        \"lastDate\": lastDay,\r\n        \"lastDateStr\": year + \"-\" + month + \"-\" + lastDay.getDate()\r\n    }\r\n}\r\n\r\n/**\r\n * 将日期解析为字符串\r\n * @param date\r\n * @param needTime\r\n * @param split\r\n * @param needSecond\r\n */\r\nexport function dateParse(date: Date, needTime: boolean = true, split: string = \"-\", needSecond: boolean = false) {\r\n    if (!date) {\r\n        return \"\";\r\n    }\r\n    const m = (date.getMonth() + 1);\r\n    const m1 = m < 10 ? \"0\" + m : m;\r\n    const day = date.getDate() < 10 ? \"0\" + date.getDate() : date.getDate();\r\n    const hour = date.getHours() < 10 ? '0' + date.getHours() : date.getHours();\r\n    const minute = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();\r\n    const second = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds();\r\n    let restr = date.getFullYear() + split + m1 + split + day;\r\n    let tm = hour + \":\" + minute;\r\n    if (needTime) {\r\n        restr += \" \" + tm;\r\n    }\r\n    if (needSecond) {\r\n        restr += \":\" + second;\r\n    }\r\n    return restr;\r\n\r\n}\r\n\r\n/**\r\n * 创建年月日时分秒\r\n * @param val\r\n */\r\nexport function createDatetime(val: any) {\r\n    if (!val || val == \"undefined\" || val == \"-\") {\r\n        return \"--\";\r\n    }\r\n    const date = new Date(val);\r\n    return dateParse(date);\r\n}\r\n"
+        ],
+        "mappings": "AAKO,gBAAS,WAAW,KAAU;AACjC,MAAI,CAAC,KAAK;AACN,WAAO;AAAA,EACX;AACA,SAAO,UAAU,KAAK,KAAK;AAC/B;AAMO,gBAAS,YAAY,QAAgB,KAAK;AAC7C,QAAM,OAAO,oBAAI,KAAK;AACtB,SAAO,UAAU,MAAM,OAAO,KAAK;AACvC;AAKO,gBAAS,oBAAoB;AAEhC,SAAO,WAAW,oBAAI,KAAK,CAAC;AAChC;AAEO,gBAAS,WAAW,MAAY;AACnC,MAAI,CAAC,MAAM;AACP,WAAO,CAAC;AAAA,EACZ;AAEA,MAAI,eAAe,KAAK,SAAS;AAEjC,OAAK,QAAQ,CAAC;AACd,MAAI,WAAW,IAAI,KAAK,KAAK,QAAQ,CAAC;AAEtC,OAAK,SAAS,eAAe,GAAG,CAAC;AACjC,MAAI,UAAU,IAAI,KAAK,KAAK,QAAQ,CAAC;AACrC,MAAI,OAAO,KAAK,YAAY;AAC5B,MAAI,QAAyB,eAAe;AAC5C,UAAQ,QAAQ,KAAK,MAAM,QAAQ;AACnC,SAAO;AAAA,IACH,aAAa;AAAA,IACb,eAAe,OAAO,MAAM,QAAQ;AAAA,IACpC,YAAY;AAAA,IACZ,eAAe,OAAO,MAAM,QAAQ,MAAM,QAAQ,QAAQ;AAAA,EAC9D;AACJ;AASO,gBAAS,UAAU,MAAY,WAAoB,MAAM,QAAgB,KAAK,aAAsB,OAAO;AAC9G,MAAI,CAAC,MAAM;AACP,WAAO;AAAA,EACX;AACA,QAAM,IAAK,KAAK,SAAS,IAAI;AAC7B,QAAM,KAAK,IAAI,KAAK,MAAM,IAAI;AAC9B,QAAM,MAAM,KAAK,QAAQ,IAAI,KAAK,MAAM,KAAK,QAAQ,IAAI,KAAK,QAAQ;AACtE,QAAM,OAAO,KAAK,SAAS,IAAI,KAAK,MAAM,KAAK,SAAS,IAAI,KAAK,SAAS;AAC1E,QAAM,SAAS,KAAK,WAAW,IAAI,KAAK,MAAM,KAAK,WAAW,IAAI,KAAK,WAAW;AAClF,QAAM,SAAS,KAAK,WAAW,IAAI,KAAK,MAAM,KAAK,WAAW,IAAI,KAAK,WAAW;AAClF,MAAI,QAAQ,KAAK,YAAY,IAAI,QAAQ,KAAK,QAAQ;AACtD,MAAI,KAAK,OAAO,MAAM;AACtB,MAAI,UAAU;AACV,aAAS,MAAM;AAAA,EACnB;AACA,MAAI,YAAY;AACZ,aAAS,MAAM;AAAA,EACnB;AACA,SAAO;AAEX;AAMO,gBAAS,eAAe,KAAU;AACrC,MAAI,CAAC,OAAO,OAAO,eAAe,OAAO,KAAK;AAC1C,WAAO;AAAA,EACX;AACA,QAAM,OAAO,IAAI,KAAK,GAAG;AACzB,SAAO,UAAU,IAAI;AACzB;",
+        "names": []
+      }
+    },
+    {
+      "name": "vite:json",
+      "start": 1738720190478,
+      "end": 1738720190478,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1738720190478,
+      "end": 1738720190478,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1738720190478,
+      "end": 1738720190478,
+      "order": "normal"
+    },
+    {
+      "name": "originjs:commonjs",
+      "start": 1738720190478,
+      "end": 1738720190478,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1738720190478,
+      "end": 1738720190478,
+      "order": "normal"
+    },
+    {
+      "name": "inject",
+      "start": 1738720190478,
+      "end": 1738720190480,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1738720190480,
+      "end": 1738720190480,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1738720190480,
+      "end": 1738720190480,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1738720190480,
+      "end": 1738720190480,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1738720190480,
+      "end": 1738720190480,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1738720190480,
+      "end": 1738720190480,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1738720190480,
+      "end": 1738720190480,
+      "order": "normal"
+    },
+    {
+      "name": "vite-plugin-vue-inspector:post",
+      "start": 1738720190480,
+      "end": 1738720190480,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-auto-import",
+      "start": 1738720190480,
+      "end": 1738720190481,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-vue-components",
+      "start": 1738720190481,
+      "end": 1738720190481,
+      "order": "post"
+    },
+    {
+      "name": "vite:client-inject",
+      "start": 1738720190482,
+      "end": 1738720190482,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-analysis",
+      "start": 1738720190482,
+      "end": 1738720190482,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-analysis",
+      "result": "export function createDate(val) {\n  if (!val) {\n    return \"--\";\n  }\n  return dateParse(val, false);\n}\nexport function currentDate(split = \"-\") {\n  const date = /* @__PURE__ */ new Date();\n  return dateParse(date, false, split);\n}\nexport function currentMonthRange() {\n  return monthRange(/* @__PURE__ */ new Date());\n}\nexport function monthRange(date) {\n  if (!date) {\n    return {};\n  }\n  let currentMonth = date.getMonth();\n  date.setDate(1);\n  let firstDay = new Date(date.getTime());\n  date.setMonth(currentMonth + 1, 0);\n  let lastDay = new Date(date.getTime());\n  let year = date.getFullYear();\n  let month = currentMonth + 1;\n  month = month < 10 ? \"0\" + month : month;\n  return {\n    \"startDate\": firstDay,\n    \"starDateStr\": year + \"-\" + month + \"-01\",\n    \"lastDate\": lastDay,\n    \"lastDateStr\": year + \"-\" + month + \"-\" + lastDay.getDate()\n  };\n}\nexport function dateParse(date, needTime = true, split = \"-\", needSecond = false) {\n  if (!date) {\n    return \"\";\n  }\n  const m = date.getMonth() + 1;\n  const m1 = m < 10 ? \"0\" + m : m;\n  const day = date.getDate() < 10 ? \"0\" + date.getDate() : date.getDate();\n  const hour = date.getHours() < 10 ? \"0\" + date.getHours() : date.getHours();\n  const minute = date.getMinutes() < 10 ? \"0\" + date.getMinutes() : date.getMinutes();\n  const second = date.getSeconds() < 10 ? \"0\" + date.getSeconds() : date.getSeconds();\n  let restr = date.getFullYear() + split + m1 + split + day;\n  let tm = hour + \":\" + minute;\n  if (needTime) {\n    restr += \" \" + tm;\n  }\n  if (needSecond) {\n    restr += \":\" + second;\n  }\n  return restr;\n}\nexport function createDatetime(val) {\n  if (!val || val == \"undefined\" || val == \"-\") {\n    return \"--\";\n  }\n  const date = new Date(val);\n  return dateParse(date);\n}\n",
+      "start": 1738720190482,
+      "end": 1738720190482,
+      "order": "normal",
+      "sourcemaps": null
+    }
+  ]
+}

@@ -45,6 +45,7 @@ let activeTab = ref<any>("first");
 let errMessage = ref<string>("");
 let formData = computed(() => designForm.formData);
 let formInfo = computed(() => designForm.formInfo);
+let shortKeyDisabled = computed(() => designForm.shortKeyDisabled);
 const fieldPanelRef = ref();
 const dynamicFormRef = ref();
 const previewDynamicFormRef = ref();
@@ -99,6 +100,7 @@ const closeAction = () => {
   designForm.setBatchEditFieldVisible(false);
   configDialogVisible.value = false;
   codeDialogVisible.value = false;
+  designForm.setShortKeyDisabled(false);
 };
 const clearData = (flag: boolean = true) => {
   if (list.value?.length > 0) {
@@ -204,6 +206,17 @@ const goBack = () => {
 }
 const formInfoChange = (_data: any) => {
 };
+/**
+ * 开启或者关闭快捷键
+ * @param val
+ */
+const shortKeySwitch = (val: boolean) => {
+  if (val) {
+    initKeyboardEvent(actions, ModuleEnums.DYNAMIC_FORM);
+  } else {
+    removeKeyboardEvent(actions, ModuleEnums.DYNAMIC_FORM);
+  }
+}
 const onDragAdd = async (_evt: Event, dataList: Array<any>) => {
   // let index = evt.oldIndex;
   console.log(_evt, dataList);
@@ -233,9 +246,11 @@ const onDragAdd = async (_evt: Event, dataList: Array<any>) => {
 };
 const createCode = () => {
   codeDialogVisible.value = true;
+  designForm.setShortKeyDisabled(true);
 };
 const batchEdit = () => {
   designForm.setBatchEditFieldVisible(true);
+  designForm.setShortKeyDisabled(true);
 };
 const configDialogVisible = ref(false);
 const codeDialogVisible = ref(false);
@@ -283,6 +298,9 @@ const cacheDataRestore = (evt: MouseEvent) => {
   }
 }
 const actions = (action: string) => {
+  if (action !== "leftPanel" && action !== "rightPanel") {
+    designForm.setShortKeyDisabled(true);
+  }
   switch (action) {
     case "leftPanel":
       leftPanelVisible.value = !leftPanelVisible.value;
@@ -363,11 +381,12 @@ const contextMenu = async (evt: MouseEvent) => {
 onActivated(() => {
   analysisQueryParams();
   designForm.setIsEdit(true);
-  initKeyboardEvent(actions, ModuleEnums.DYNAMIC_FORM);
+  designForm.setShortKeyDisabled(false);
+
 });
 onDeactivated(() => {
   designForm.setIsEdit(false);
-  removeKeyboardEvent(actions, ModuleEnums.DYNAMIC_FORM);
+  designForm.setShortKeyDisabled(true);
 });
 onBeforeUnmount(() => {
   designForm.setIsEdit(false);
@@ -397,9 +416,15 @@ watch(() => list.value,
       deep: true
     }
 );
+watch(() => shortKeyDisabled.value,
+    (val: boolean) => {
+      shortKeySwitch(val);
+    }, {
+      deep: true, immediate: true
+    })
 onMounted(async () => {
   await init();
-  initKeyboardEvent(actions, ModuleEnums.DYNAMIC_FORM);
+  designForm.setShortKeyDisabled(false);
 });
 let prepsModel = ref("one");
 </script>
@@ -626,6 +651,7 @@ let prepsModel = ref("one");
             <property-panel
                 :activeTab="activeTab"
                 @formInfoChange="formInfoChange"
+                @shortKeySwitch="shortKeySwitch"
                 ref="propertyRef"
             />
           </div>

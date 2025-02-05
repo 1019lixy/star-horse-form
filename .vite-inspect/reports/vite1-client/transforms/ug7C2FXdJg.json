@@ -1,0 +1,155 @@
+{
+  "resolvedId": "E:/lixycode/testcode/node_modules/element-plus/theme-chalk/src/drawer.scss",
+  "transforms": [
+    {
+      "name": "__load__",
+      "result": "@use 'mixins/mixins' as *;\n@use 'mixins/var' as *;\n@use 'common/var' as *;\n\n$directions: rtl, ltr, ttb, btt;\n\n@include b(drawer) {\n  @include set-component-css-var('drawer', $drawer);\n}\n\n@include b(drawer) {\n  position: absolute;\n  box-sizing: border-box;\n  background-color: getCssVar('drawer', 'bg-color');\n  display: flex;\n  flex-direction: column;\n  box-shadow: getCssVar('box-shadow', 'dark');\n  overflow: hidden;\n\n  transition: all getCssVar('transition-duration');\n\n  @each $direction in $directions {\n    .#{$direction} {\n      transform: translate(0, 0);\n    }\n  }\n\n  &__sr-focus:focus {\n    outline: none !important;\n  }\n\n  &__header {\n    align-items: center;\n    color: rgb(114, 118, 123);\n    display: flex;\n    margin-bottom: 32px;\n    padding: getCssVar('drawer-padding-primary');\n    padding-bottom: 0;\n    & > :first-child {\n      flex: 1;\n    }\n  }\n\n  &__title {\n    margin: 0;\n    flex: 1;\n    line-height: inherit;\n    font-size: 16px;\n  }\n\n  @include e(footer) {\n    padding: getCssVar('drawer-padding-primary');\n    padding-top: 10px;\n    text-align: right;\n  }\n\n  &__close-btn {\n    display: inline-flex;\n    border: none;\n    cursor: pointer;\n    font-size: getCssVar('font-size-extra-large');\n    color: inherit;\n    background-color: transparent;\n    outline: none;\n    &:focus,\n    &:hover {\n      i {\n        color: getCssVar('color-primary');\n      }\n    }\n  }\n\n  &__body {\n    flex: 1;\n    padding: getCssVar('drawer-padding-primary');\n    overflow: auto;\n    & > * {\n      box-sizing: border-box;\n    }\n  }\n\n  &.ltr,\n  &.rtl {\n    height: 100%;\n    top: 0;\n    bottom: 0;\n  }\n\n  &.ttb,\n  &.btt {\n    width: 100%;\n    left: 0;\n    right: 0;\n  }\n\n  &.ltr {\n    left: 0;\n  }\n\n  &.rtl {\n    right: 0;\n  }\n\n  &.ttb {\n    top: 0;\n  }\n\n  &.btt {\n    bottom: 0;\n  }\n}\n\n.#{$namespace}-drawer-fade {\n  &-enter-active,\n  &-leave-active {\n    transition: all getCssVar('transition-duration');\n  }\n\n  &-enter-from,\n  &-enter-active,\n  &-enter-to,\n  &-leave-from,\n  &-leave-active,\n  &-leave-to {\n    overflow: hidden !important;\n  }\n\n  &-enter-from,\n  &-leave-to {\n    background-color: transparent !important;\n  }\n\n  &-enter-from,\n  &-leave-to {\n    @each $direction in $directions {\n      .#{$direction} {\n        @if $direction == ltr {\n          transform: translateX(-100%);\n        }\n\n        @if $direction == rtl {\n          transform: translateX(100%);\n        }\n\n        @if $direction == ttb {\n          transform: translateY(-100%);\n        }\n\n        @if $direction == btt {\n          transform: translateY(100%);\n        }\n      }\n    }\n  }\n}\n",
+      "start": 1738720225522,
+      "end": 1738720225522
+    },
+    {
+      "name": "vite-plugin-vue-inspector",
+      "start": 1738720225522,
+      "end": 1738720225522,
+      "order": "pre"
+    },
+    {
+      "name": "vite-plugin-vue-devtools",
+      "result": "@use 'mixins/mixins' as *;\n@use 'mixins/var' as *;\n@use 'common/var' as *;\n\n$directions: rtl, ltr, ttb, btt;\n\n@include b(drawer) {\n  @include set-component-css-var('drawer', $drawer);\n}\n\n@include b(drawer) {\n  position: absolute;\n  box-sizing: border-box;\n  background-color: getCssVar('drawer', 'bg-color');\n  display: flex;\n  flex-direction: column;\n  box-shadow: getCssVar('box-shadow', 'dark');\n  overflow: hidden;\n\n  transition: all getCssVar('transition-duration');\n\n  @each $direction in $directions {\n    .#{$direction} {\n      transform: translate(0, 0);\n    }\n  }\n\n  &__sr-focus:focus {\n    outline: none !important;\n  }\n\n  &__header {\n    align-items: center;\n    color: rgb(114, 118, 123);\n    display: flex;\n    margin-bottom: 32px;\n    padding: getCssVar('drawer-padding-primary');\n    padding-bottom: 0;\n    & > :first-child {\n      flex: 1;\n    }\n  }\n\n  &__title {\n    margin: 0;\n    flex: 1;\n    line-height: inherit;\n    font-size: 16px;\n  }\n\n  @include e(footer) {\n    padding: getCssVar('drawer-padding-primary');\n    padding-top: 10px;\n    text-align: right;\n  }\n\n  &__close-btn {\n    display: inline-flex;\n    border: none;\n    cursor: pointer;\n    font-size: getCssVar('font-size-extra-large');\n    color: inherit;\n    background-color: transparent;\n    outline: none;\n    &:focus,\n    &:hover {\n      i {\n        color: getCssVar('color-primary');\n      }\n    }\n  }\n\n  &__body {\n    flex: 1;\n    padding: getCssVar('drawer-padding-primary');\n    overflow: auto;\n    & > * {\n      box-sizing: border-box;\n    }\n  }\n\n  &.ltr,\n  &.rtl {\n    height: 100%;\n    top: 0;\n    bottom: 0;\n  }\n\n  &.ttb,\n  &.btt {\n    width: 100%;\n    left: 0;\n    right: 0;\n  }\n\n  &.ltr {\n    left: 0;\n  }\n\n  &.rtl {\n    right: 0;\n  }\n\n  &.ttb {\n    top: 0;\n  }\n\n  &.btt {\n    bottom: 0;\n  }\n}\n\n.#{$namespace}-drawer-fade {\n  &-enter-active,\n  &-leave-active {\n    transition: all getCssVar('transition-duration');\n  }\n\n  &-enter-from,\n  &-enter-active,\n  &-enter-to,\n  &-leave-from,\n  &-leave-active,\n  &-leave-to {\n    overflow: hidden !important;\n  }\n\n  &-enter-from,\n  &-leave-to {\n    background-color: transparent !important;\n  }\n\n  &-enter-from,\n  &-leave-to {\n    @each $direction in $directions {\n      .#{$direction} {\n        @if $direction == ltr {\n          transform: translateX(-100%);\n        }\n\n        @if $direction == rtl {\n          transform: translateX(100%);\n        }\n\n        @if $direction == ttb {\n          transform: translateY(-100%);\n        }\n\n        @if $direction == btt {\n          transform: translateY(100%);\n        }\n      }\n    }\n  }\n}\n",
+      "start": 1738720225522,
+      "end": 1738720225522,
+      "order": "pre",
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "result": "/* Element Chalk Variables */\n.el-drawer {\n  --el-drawer-bg-color: var(--el-dialog-bg-color, var(--el-bg-color));\n  --el-drawer-padding-primary: var(--el-dialog-padding-primary, 20px);\n}\n\n.el-drawer {\n  position: absolute;\n  box-sizing: border-box;\n  background-color: var(--el-drawer-bg-color);\n  display: flex;\n  flex-direction: column;\n  box-shadow: var(--el-box-shadow-dark);\n  overflow: hidden;\n  transition: all var(--el-transition-duration);\n}\n.el-drawer .rtl {\n  transform: translate(0, 0);\n}\n.el-drawer .ltr {\n  transform: translate(0, 0);\n}\n.el-drawer .ttb {\n  transform: translate(0, 0);\n}\n.el-drawer .btt {\n  transform: translate(0, 0);\n}\n.el-drawer__sr-focus:focus {\n  outline: none !important;\n}\n.el-drawer__header {\n  align-items: center;\n  color: rgb(114, 118, 123);\n  display: flex;\n  margin-bottom: 32px;\n  padding: var(--el-drawer-padding-primary);\n  padding-bottom: 0;\n}\n.el-drawer__header > :first-child {\n  flex: 1;\n}\n.el-drawer__title {\n  margin: 0;\n  flex: 1;\n  line-height: inherit;\n  font-size: 16px;\n}\n.el-drawer__footer {\n  padding: var(--el-drawer-padding-primary);\n  padding-top: 10px;\n  text-align: right;\n}\n\n.el-drawer__close-btn {\n  display: inline-flex;\n  border: none;\n  cursor: pointer;\n  font-size: var(--el-font-size-extra-large);\n  color: inherit;\n  background-color: transparent;\n  outline: none;\n}\n.el-drawer__close-btn:focus i, .el-drawer__close-btn:hover i {\n  color: var(--el-color-primary);\n}\n.el-drawer__body {\n  flex: 1;\n  padding: var(--el-drawer-padding-primary);\n  overflow: auto;\n}\n.el-drawer__body > * {\n  box-sizing: border-box;\n}\n.el-drawer.ltr, .el-drawer.rtl {\n  height: 100%;\n  top: 0;\n  bottom: 0;\n}\n.el-drawer.ttb, .el-drawer.btt {\n  width: 100%;\n  left: 0;\n  right: 0;\n}\n.el-drawer.ltr {\n  left: 0;\n}\n.el-drawer.rtl {\n  right: 0;\n}\n.el-drawer.ttb {\n  top: 0;\n}\n.el-drawer.btt {\n  bottom: 0;\n}\n\n.el-drawer-fade-enter-active, .el-drawer-fade-leave-active {\n  transition: all var(--el-transition-duration);\n}\n.el-drawer-fade-enter-from, .el-drawer-fade-enter-active, .el-drawer-fade-enter-to, .el-drawer-fade-leave-from, .el-drawer-fade-leave-active, .el-drawer-fade-leave-to {\n  overflow: hidden !important;\n}\n.el-drawer-fade-enter-from, .el-drawer-fade-leave-to {\n  background-color: transparent !important;\n}\n.el-drawer-fade-enter-from .rtl, .el-drawer-fade-leave-to .rtl {\n  transform: translateX(100%);\n}\n.el-drawer-fade-enter-from .ltr, .el-drawer-fade-leave-to .ltr {\n  transform: translateX(-100%);\n}\n.el-drawer-fade-enter-from .ttb, .el-drawer-fade-leave-to .ttb {\n  transform: translateY(-100%);\n}\n.el-drawer-fade-enter-from .btt, .el-drawer-fade-leave-to .btt {\n  transform: translateY(100%);\n}",
+      "start": 1738720225522,
+      "end": 1738720226102,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1738720226102,
+      "end": 1738720226102,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1738720226102,
+      "end": 1738720226102,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1738720226102,
+      "end": 1738720226102,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1738720226104,
+      "end": 1738720226104,
+      "order": "normal"
+    },
+    {
+      "name": "originjs:commonjs",
+      "start": 1738720226105,
+      "end": 1738720226105,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1738720226105,
+      "end": 1738720226105,
+      "order": "normal"
+    },
+    {
+      "name": "inject",
+      "start": 1738720226105,
+      "end": 1738720226105,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1738720226105,
+      "end": 1738720226105,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "result": "import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/node_modules/element-plus/theme-chalk/src/drawer.scss\"\nconst __vite__css = \"/* Element Chalk Variables */\\n.el-drawer {\\n  --el-drawer-bg-color: var(--el-dialog-bg-color, var(--el-bg-color));\\n  --el-drawer-padding-primary: var(--el-dialog-padding-primary, 20px);\\n}\\n\\n.el-drawer {\\n  position: absolute;\\n  box-sizing: border-box;\\n  background-color: var(--el-drawer-bg-color);\\n  display: flex;\\n  flex-direction: column;\\n  box-shadow: var(--el-box-shadow-dark);\\n  overflow: hidden;\\n  transition: all var(--el-transition-duration);\\n}\\n.el-drawer .rtl {\\n  transform: translate(0, 0);\\n}\\n.el-drawer .ltr {\\n  transform: translate(0, 0);\\n}\\n.el-drawer .ttb {\\n  transform: translate(0, 0);\\n}\\n.el-drawer .btt {\\n  transform: translate(0, 0);\\n}\\n.el-drawer__sr-focus:focus {\\n  outline: none !important;\\n}\\n.el-drawer__header {\\n  align-items: center;\\n  color: rgb(114, 118, 123);\\n  display: flex;\\n  margin-bottom: 32px;\\n  padding: var(--el-drawer-padding-primary);\\n  padding-bottom: 0;\\n}\\n.el-drawer__header > :first-child {\\n  flex: 1;\\n}\\n.el-drawer__title {\\n  margin: 0;\\n  flex: 1;\\n  line-height: inherit;\\n  font-size: 16px;\\n}\\n.el-drawer__footer {\\n  padding: var(--el-drawer-padding-primary);\\n  padding-top: 10px;\\n  text-align: right;\\n}\\n\\n.el-drawer__close-btn {\\n  display: inline-flex;\\n  border: none;\\n  cursor: pointer;\\n  font-size: var(--el-font-size-extra-large);\\n  color: inherit;\\n  background-color: transparent;\\n  outline: none;\\n}\\n.el-drawer__close-btn:focus i, .el-drawer__close-btn:hover i {\\n  color: var(--el-color-primary);\\n}\\n.el-drawer__body {\\n  flex: 1;\\n  padding: var(--el-drawer-padding-primary);\\n  overflow: auto;\\n}\\n.el-drawer__body > * {\\n  box-sizing: border-box;\\n}\\n.el-drawer.ltr, .el-drawer.rtl {\\n  height: 100%;\\n  top: 0;\\n  bottom: 0;\\n}\\n.el-drawer.ttb, .el-drawer.btt {\\n  width: 100%;\\n  left: 0;\\n  right: 0;\\n}\\n.el-drawer.ltr {\\n  left: 0;\\n}\\n.el-drawer.rtl {\\n  right: 0;\\n}\\n.el-drawer.ttb {\\n  top: 0;\\n}\\n.el-drawer.btt {\\n  bottom: 0;\\n}\\n\\n.el-drawer-fade-enter-active, .el-drawer-fade-leave-active {\\n  transition: all var(--el-transition-duration);\\n}\\n.el-drawer-fade-enter-from, .el-drawer-fade-enter-active, .el-drawer-fade-enter-to, .el-drawer-fade-leave-from, .el-drawer-fade-leave-active, .el-drawer-fade-leave-to {\\n  overflow: hidden !important;\\n}\\n.el-drawer-fade-enter-from, .el-drawer-fade-leave-to {\\n  background-color: transparent !important;\\n}\\n.el-drawer-fade-enter-from .rtl, .el-drawer-fade-leave-to .rtl {\\n  transform: translateX(100%);\\n}\\n.el-drawer-fade-enter-from .ltr, .el-drawer-fade-leave-to .ltr {\\n  transform: translateX(-100%);\\n}\\n.el-drawer-fade-enter-from .ttb, .el-drawer-fade-leave-to .ttb {\\n  transform: translateY(-100%);\\n}\\n.el-drawer-fade-enter-from .btt, .el-drawer-fade-leave-to .btt {\\n  transform: translateY(100%);\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720226105,
+      "end": 1738720226105,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1738720226105,
+      "end": 1738720226105,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1738720226105,
+      "end": 1738720226105,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1738720226105,
+      "end": 1738720226105,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1738720226105,
+      "end": 1738720226105,
+      "order": "normal"
+    },
+    {
+      "name": "vite-plugin-vue-inspector:post",
+      "start": 1738720226105,
+      "end": 1738720226105,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-auto-import",
+      "start": 1738720226105,
+      "end": 1738720226105,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-vue-components",
+      "start": 1738720226105,
+      "end": 1738720226105,
+      "order": "post"
+    },
+    {
+      "name": "vite:client-inject",
+      "start": 1738720226105,
+      "end": 1738720226105,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-analysis",
+      "start": 1738720226105,
+      "end": 1738720226105,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-analysis",
+      "result": "import { createHotContext as __vite__createHotContext } from \"/@vite/client\";import.meta.hot = __vite__createHotContext(\"/node_modules/element-plus/theme-chalk/src/drawer.scss\");import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/node_modules/element-plus/theme-chalk/src/drawer.scss\"\nconst __vite__css = \"/* Element Chalk Variables */\\n.el-drawer {\\n  --el-drawer-bg-color: var(--el-dialog-bg-color, var(--el-bg-color));\\n  --el-drawer-padding-primary: var(--el-dialog-padding-primary, 20px);\\n}\\n\\n.el-drawer {\\n  position: absolute;\\n  box-sizing: border-box;\\n  background-color: var(--el-drawer-bg-color);\\n  display: flex;\\n  flex-direction: column;\\n  box-shadow: var(--el-box-shadow-dark);\\n  overflow: hidden;\\n  transition: all var(--el-transition-duration);\\n}\\n.el-drawer .rtl {\\n  transform: translate(0, 0);\\n}\\n.el-drawer .ltr {\\n  transform: translate(0, 0);\\n}\\n.el-drawer .ttb {\\n  transform: translate(0, 0);\\n}\\n.el-drawer .btt {\\n  transform: translate(0, 0);\\n}\\n.el-drawer__sr-focus:focus {\\n  outline: none !important;\\n}\\n.el-drawer__header {\\n  align-items: center;\\n  color: rgb(114, 118, 123);\\n  display: flex;\\n  margin-bottom: 32px;\\n  padding: var(--el-drawer-padding-primary);\\n  padding-bottom: 0;\\n}\\n.el-drawer__header > :first-child {\\n  flex: 1;\\n}\\n.el-drawer__title {\\n  margin: 0;\\n  flex: 1;\\n  line-height: inherit;\\n  font-size: 16px;\\n}\\n.el-drawer__footer {\\n  padding: var(--el-drawer-padding-primary);\\n  padding-top: 10px;\\n  text-align: right;\\n}\\n\\n.el-drawer__close-btn {\\n  display: inline-flex;\\n  border: none;\\n  cursor: pointer;\\n  font-size: var(--el-font-size-extra-large);\\n  color: inherit;\\n  background-color: transparent;\\n  outline: none;\\n}\\n.el-drawer__close-btn:focus i, .el-drawer__close-btn:hover i {\\n  color: var(--el-color-primary);\\n}\\n.el-drawer__body {\\n  flex: 1;\\n  padding: var(--el-drawer-padding-primary);\\n  overflow: auto;\\n}\\n.el-drawer__body > * {\\n  box-sizing: border-box;\\n}\\n.el-drawer.ltr, .el-drawer.rtl {\\n  height: 100%;\\n  top: 0;\\n  bottom: 0;\\n}\\n.el-drawer.ttb, .el-drawer.btt {\\n  width: 100%;\\n  left: 0;\\n  right: 0;\\n}\\n.el-drawer.ltr {\\n  left: 0;\\n}\\n.el-drawer.rtl {\\n  right: 0;\\n}\\n.el-drawer.ttb {\\n  top: 0;\\n}\\n.el-drawer.btt {\\n  bottom: 0;\\n}\\n\\n.el-drawer-fade-enter-active, .el-drawer-fade-leave-active {\\n  transition: all var(--el-transition-duration);\\n}\\n.el-drawer-fade-enter-from, .el-drawer-fade-enter-active, .el-drawer-fade-enter-to, .el-drawer-fade-leave-from, .el-drawer-fade-leave-active, .el-drawer-fade-leave-to {\\n  overflow: hidden !important;\\n}\\n.el-drawer-fade-enter-from, .el-drawer-fade-leave-to {\\n  background-color: transparent !important;\\n}\\n.el-drawer-fade-enter-from .rtl, .el-drawer-fade-leave-to .rtl {\\n  transform: translateX(100%);\\n}\\n.el-drawer-fade-enter-from .ltr, .el-drawer-fade-leave-to .ltr {\\n  transform: translateX(-100%);\\n}\\n.el-drawer-fade-enter-from .ttb, .el-drawer-fade-leave-to .ttb {\\n  transform: translateY(-100%);\\n}\\n.el-drawer-fade-enter-from .btt, .el-drawer-fade-leave-to .btt {\\n  transform: translateY(100%);\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720226105,
+      "end": 1738720226106,
+      "order": "normal",
+      "sourcemaps": null
+    }
+  ]
+}

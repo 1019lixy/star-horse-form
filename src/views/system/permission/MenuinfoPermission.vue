@@ -90,9 +90,9 @@ const formFieldList = reactive<PageFieldInfo>({
       helpMsg: "选择子节点时，一定要先选中父节点，否则左侧菜单栏无法显示",
       preps: {
         checkStrictly: "Y",
-        props:{
-          label:"menuName",
-          value:"idMenusinfo"
+        props: {
+          label: "menuName",
+          value: "idMenusinfo"
         }
       }
     }, {
@@ -166,18 +166,18 @@ onMounted(async () => {
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
     <div class="dialog-body">
-    <star-horse-form :outerFormData="{
+      <star-horse-form :outerFormData="{
       idInformations:currentSystemId,
       idRolesinfo:currentUserGroupId
     }" @refresh="menuPermission.loadByPage()" :compUrl="dataUrl"
-                     :fieldList="formFieldList"
-    />
+                       :fieldList="formFieldList"
+      />
     </div>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title=
       "'查看数据'" :is-view="true">
     <div class="dialog-body">
-    <star-horse-data-view :data-format="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+      <star-horse-data-view :data-format="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
     </div>
   </star-horse-dialog>
   <el-row :gutter="10" style="height: 100%;overflow: hidden">

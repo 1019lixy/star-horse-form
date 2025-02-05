@@ -34,7 +34,7 @@ const extandBtns: UserFuncInfo[] = [
     btnName: "编辑",
     authority: "edit",
     funcName: (row: any) => {
-      router.push({path: "/workFlowEdit", query: {data: row}})
+      router.push({path: "/flowDesign", query: {data: row}})
     }
   },
   {
@@ -65,7 +65,7 @@ const addBtnFunc: UserFuncInfo[] = [
     btnName: "新增",
     authority: "add",
     funcName: () => {
-      router.push({path: "/workFlowEdit"})
+      router.push({path: "/flowDesign"})
     }
   }
 ];

@@ -75,7 +75,8 @@ const changeFlow = () => {
     <div class="designer-nav-center">
       <div v-for="(item, i) in navItems" :key="i" :class="{'designer-nav-center-wrap':true}">
         <template v-if="item.type == 2">
-          <div v-if="!formInfo.bindForm||!formInfo.bindForm.length" class="designer-nav-center-wrap-item" @click="onChange(item)">
+          <div v-if="!formInfo.bindForm||!formInfo.bindForm.length" class="designer-nav-center-wrap-item"
+               @click="onChange(item)">
           <span :class="{ 'act-item': currentNav == item.type }">{{
               scale.isMobile() ? item.shortName : item.name
             }}</span>

@@ -44,7 +44,7 @@ const svgClass = computed(() => {
       :height="height"
   >
     <!--'+(width - borderOffset)/ data.viewBox[0]+','+(height - borderOffset) / data.viewBox[1]+'-->
-    <g  :transform="'scale('+(width - borderOffset)/ data.viewBox[0]+','+(height - borderOffset) / data.viewBox[1]+') translate(0,0) matrix(1,0,0,1,0,0)'" >
+    <g :transform="'scale('+(width - borderOffset)/ data.viewBox[0]+','+(height - borderOffset) / data.viewBox[1]+') translate(0,0) matrix(1,0,0,1,0,0)'">
       <path
           :class="data.outlined?'outlined':''"
           :d="data.path"

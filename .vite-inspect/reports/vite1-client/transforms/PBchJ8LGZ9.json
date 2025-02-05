@@ -1,0 +1,159 @@
+{
+  "resolvedId": "E:/lixycode/testcode/src/store/SelfOperationStore.ts",
+  "transforms": [
+    {
+      "name": "__load__",
+      "result": "import {defineStore} from \"pinia\";\r\nimport {Ref, ref} from \"vue\";\r\nimport {PageFieldInfo} from \"@/components/types/PageFieldInfo\";\r\n\r\n/**\r\n * 用户自定义方法处理逻辑\r\n */\r\nexport const useUserSelfOperation = defineStore(\"userSelfOperation\", () => {\r\n    const formFieldList = ref<PageFieldInfo>({});\r\n    const fieldItemList = ref<any>({});\r\n    const formData = ref<any>({});\r\n    const formInstance = ref();\r\n    /**\r\n     * 设置表单信息\r\n     * @param fieldList\r\n     */\r\n    const setFormFields = (fieldList: PageFieldInfo) => {\r\n        formFieldList.value = fieldList;\r\n    }\r\n    const setFormInstance = (formRef: Ref) => {\r\n        // console.log(formRef.value);\r\n        formInstance.value = formRef.value;\r\n    }\r\n    /**\r\n     * 设置实例数据\r\n     * @param data\r\n     */\r\n    const setFormData = (data: any) => {\r\n        formData.value = data;\r\n    }\r\n    /**\r\n     * 添加\r\n     * @param formItem\r\n     */\r\n    const addFormItem = (formItem: any) => {\r\n        if (!formItem || (!formItem.fieldName && !formItem.preps?.name)) {\r\n            return;\r\n        }\r\n        fieldItemList.value[formItem.fieldName || formItem.preps?.name] = formItem;\r\n    }\r\n\r\n    /**\r\n     * 批量添加\r\n     * @param formItems\r\n     */\r\n    const addFormItemList = (formItems: Array<any>) => {\r\n        if (!formItems) {\r\n            return;\r\n        }\r\n        for (const index in formItems) {\r\n            const formItem = formItems[index];\r\n            fieldItemList.value[formItem.fieldName || formItem.preps?.name] = formItem;\r\n        }\r\n\r\n    }\r\n    /**\r\n     * 获取属性配置信息\r\n     * @param fieldName\r\n     */\r\n    const getFormItem = (fieldName: string) => {\r\n        return fieldItemList.value[fieldName] || {};\r\n    }\r\n    /**\r\n     * 一个模块只能操作一个表单\r\n     * 初始化数据\r\n     */\r\n    const init = (fieldList: PageFieldInfo, data: any, formRef: Ref) => {\r\n        formFieldList.value = fieldList;\r\n        fieldItemList.value = {};\r\n        formData.value = data;\r\n        formInstance.value = formRef;\r\n    }\r\n    /**\r\n     * 清除掉数据\r\n     */\r\n    const clearAll = () => {\r\n        formFieldList.value = {};\r\n        fieldItemList.value = {};\r\n        formData.value = {};\r\n        formInstance.value = null;\r\n    }\r\n    return {\r\n        formFieldList, fieldItemList, formInstance, formData, setFormInstance, setFormFields, setFormData,\r\n        addFormItem, addFormItemList, getFormItem, init, clearAll\r\n    }\r\n});\r\n",
+      "start": 1738720230382,
+      "end": 1738720230382
+    },
+    {
+      "name": "vite-plugin-vue-inspector",
+      "start": 1738720230382,
+      "end": 1738720230382,
+      "order": "pre"
+    },
+    {
+      "name": "vite-plugin-vue-devtools",
+      "result": "import {defineStore} from \"pinia\";\r\nimport {Ref, ref} from \"vue\";\r\nimport {PageFieldInfo} from \"@/components/types/PageFieldInfo\";\r\n\r\n/**\r\n * 用户自定义方法处理逻辑\r\n */\r\nexport const useUserSelfOperation = defineStore(\"userSelfOperation\", () => {\r\n    const formFieldList = ref<PageFieldInfo>({});\r\n    const fieldItemList = ref<any>({});\r\n    const formData = ref<any>({});\r\n    const formInstance = ref();\r\n    /**\r\n     * 设置表单信息\r\n     * @param fieldList\r\n     */\r\n    const setFormFields = (fieldList: PageFieldInfo) => {\r\n        formFieldList.value = fieldList;\r\n    }\r\n    const setFormInstance = (formRef: Ref) => {\r\n        // console.log(formRef.value);\r\n        formInstance.value = formRef.value;\r\n    }\r\n    /**\r\n     * 设置实例数据\r\n     * @param data\r\n     */\r\n    const setFormData = (data: any) => {\r\n        formData.value = data;\r\n    }\r\n    /**\r\n     * 添加\r\n     * @param formItem\r\n     */\r\n    const addFormItem = (formItem: any) => {\r\n        if (!formItem || (!formItem.fieldName && !formItem.preps?.name)) {\r\n            return;\r\n        }\r\n        fieldItemList.value[formItem.fieldName || formItem.preps?.name] = formItem;\r\n    }\r\n\r\n    /**\r\n     * 批量添加\r\n     * @param formItems\r\n     */\r\n    const addFormItemList = (formItems: Array<any>) => {\r\n        if (!formItems) {\r\n            return;\r\n        }\r\n        for (const index in formItems) {\r\n            const formItem = formItems[index];\r\n            fieldItemList.value[formItem.fieldName || formItem.preps?.name] = formItem;\r\n        }\r\n\r\n    }\r\n    /**\r\n     * 获取属性配置信息\r\n     * @param fieldName\r\n     */\r\n    const getFormItem = (fieldName: string) => {\r\n        return fieldItemList.value[fieldName] || {};\r\n    }\r\n    /**\r\n     * 一个模块只能操作一个表单\r\n     * 初始化数据\r\n     */\r\n    const init = (fieldList: PageFieldInfo, data: any, formRef: Ref) => {\r\n        formFieldList.value = fieldList;\r\n        fieldItemList.value = {};\r\n        formData.value = data;\r\n        formInstance.value = formRef;\r\n    }\r\n    /**\r\n     * 清除掉数据\r\n     */\r\n    const clearAll = () => {\r\n        formFieldList.value = {};\r\n        fieldItemList.value = {};\r\n        formData.value = {};\r\n        formInstance.value = null;\r\n    }\r\n    return {\r\n        formFieldList, fieldItemList, formInstance, formData, setFormInstance, setFormFields, setFormData,\r\n        addFormItem, addFormItemList, getFormItem, init, clearAll\r\n    }\r\n});\r\n",
+      "start": 1738720230382,
+      "end": 1738720230382,
+      "order": "pre",
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "start": 1738720230382,
+      "end": 1738720230382,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "result": "import { defineStore } from \"pinia\";\nimport { ref } from \"vue\";\nexport const useUserSelfOperation = defineStore(\"userSelfOperation\", () => {\n  const formFieldList = ref({});\n  const fieldItemList = ref({});\n  const formData = ref({});\n  const formInstance = ref();\n  const setFormFields = (fieldList) => {\n    formFieldList.value = fieldList;\n  };\n  const setFormInstance = (formRef) => {\n    formInstance.value = formRef.value;\n  };\n  const setFormData = (data) => {\n    formData.value = data;\n  };\n  const addFormItem = (formItem) => {\n    if (!formItem || !formItem.fieldName && !formItem.preps?.name) {\n      return;\n    }\n    fieldItemList.value[formItem.fieldName || formItem.preps?.name] = formItem;\n  };\n  const addFormItemList = (formItems) => {\n    if (!formItems) {\n      return;\n    }\n    for (const index in formItems) {\n      const formItem = formItems[index];\n      fieldItemList.value[formItem.fieldName || formItem.preps?.name] = formItem;\n    }\n  };\n  const getFormItem = (fieldName) => {\n    return fieldItemList.value[fieldName] || {};\n  };\n  const init = (fieldList, data, formRef) => {\n    formFieldList.value = fieldList;\n    fieldItemList.value = {};\n    formData.value = data;\n    formInstance.value = formRef;\n  };\n  const clearAll = () => {\n    formFieldList.value = {};\n    fieldItemList.value = {};\n    formData.value = {};\n    formInstance.value = null;\n  };\n  return {\n    formFieldList,\n    fieldItemList,\n    formInstance,\n    formData,\n    setFormInstance,\n    setFormFields,\n    setFormData,\n    addFormItem,\n    addFormItemList,\n    getFormItem,\n    init,\n    clearAll\n  };\n});\n",
+      "start": 1738720230382,
+      "end": 1738720230398,
+      "order": "normal",
+      "sourcemaps": {
+        "version": 3,
+        "sources": [
+          "SelfOperationStore.ts"
+        ],
+        "sourcesContent": [
+          "import {defineStore} from \"pinia\";\r\nimport {Ref, ref} from \"vue\";\r\nimport {PageFieldInfo} from \"@/components/types/PageFieldInfo\";\r\n\r\n/**\r\n * 用户自定义方法处理逻辑\r\n */\r\nexport const useUserSelfOperation = defineStore(\"userSelfOperation\", () => {\r\n    const formFieldList = ref<PageFieldInfo>({});\r\n    const fieldItemList = ref<any>({});\r\n    const formData = ref<any>({});\r\n    const formInstance = ref();\r\n    /**\r\n     * 设置表单信息\r\n     * @param fieldList\r\n     */\r\n    const setFormFields = (fieldList: PageFieldInfo) => {\r\n        formFieldList.value = fieldList;\r\n    }\r\n    const setFormInstance = (formRef: Ref) => {\r\n        // console.log(formRef.value);\r\n        formInstance.value = formRef.value;\r\n    }\r\n    /**\r\n     * 设置实例数据\r\n     * @param data\r\n     */\r\n    const setFormData = (data: any) => {\r\n        formData.value = data;\r\n    }\r\n    /**\r\n     * 添加\r\n     * @param formItem\r\n     */\r\n    const addFormItem = (formItem: any) => {\r\n        if (!formItem || (!formItem.fieldName && !formItem.preps?.name)) {\r\n            return;\r\n        }\r\n        fieldItemList.value[formItem.fieldName || formItem.preps?.name] = formItem;\r\n    }\r\n\r\n    /**\r\n     * 批量添加\r\n     * @param formItems\r\n     */\r\n    const addFormItemList = (formItems: Array<any>) => {\r\n        if (!formItems) {\r\n            return;\r\n        }\r\n        for (const index in formItems) {\r\n            const formItem = formItems[index];\r\n            fieldItemList.value[formItem.fieldName || formItem.preps?.name] = formItem;\r\n        }\r\n\r\n    }\r\n    /**\r\n     * 获取属性配置信息\r\n     * @param fieldName\r\n     */\r\n    const getFormItem = (fieldName: string) => {\r\n        return fieldItemList.value[fieldName] || {};\r\n    }\r\n    /**\r\n     * 一个模块只能操作一个表单\r\n     * 初始化数据\r\n     */\r\n    const init = (fieldList: PageFieldInfo, data: any, formRef: Ref) => {\r\n        formFieldList.value = fieldList;\r\n        fieldItemList.value = {};\r\n        formData.value = data;\r\n        formInstance.value = formRef;\r\n    }\r\n    /**\r\n     * 清除掉数据\r\n     */\r\n    const clearAll = () => {\r\n        formFieldList.value = {};\r\n        fieldItemList.value = {};\r\n        formData.value = {};\r\n        formInstance.value = null;\r\n    }\r\n    return {\r\n        formFieldList, fieldItemList, formInstance, formData, setFormInstance, setFormFields, setFormData,\r\n        addFormItem, addFormItemList, getFormItem, init, clearAll\r\n    }\r\n});\r\n"
+        ],
+        "mappings": "AAAA,SAAQ,mBAAkB;AAC1B,SAAa,WAAU;AAMhB,aAAM,uBAAuB,YAAY,qBAAqB,MAAM;AACvE,QAAM,gBAAgB,IAAmB,CAAC,CAAC;AAC3C,QAAM,gBAAgB,IAAS,CAAC,CAAC;AACjC,QAAM,WAAW,IAAS,CAAC,CAAC;AAC5B,QAAM,eAAe,IAAI;AAKzB,QAAM,gBAAgB,CAAC,cAA6B;AAChD,kBAAc,QAAQ;AAAA,EAC1B;AACA,QAAM,kBAAkB,CAAC,YAAiB;AAEtC,iBAAa,QAAQ,QAAQ;AAAA,EACjC;AAKA,QAAM,cAAc,CAAC,SAAc;AAC/B,aAAS,QAAQ;AAAA,EACrB;AAKA,QAAM,cAAc,CAAC,aAAkB;AACnC,QAAI,CAAC,YAAa,CAAC,SAAS,aAAa,CAAC,SAAS,OAAO,MAAO;AAC7D;AAAA,IACJ;AACA,kBAAc,MAAM,SAAS,aAAa,SAAS,OAAO,IAAI,IAAI;AAAA,EACtE;AAMA,QAAM,kBAAkB,CAAC,cAA0B;AAC/C,QAAI,CAAC,WAAW;AACZ;AAAA,IACJ;AACA,eAAW,SAAS,WAAW;AAC3B,YAAM,WAAW,UAAU,KAAK;AAChC,oBAAc,MAAM,SAAS,aAAa,SAAS,OAAO,IAAI,IAAI;AAAA,IACtE;AAAA,EAEJ;AAKA,QAAM,cAAc,CAAC,cAAsB;AACvC,WAAO,cAAc,MAAM,SAAS,KAAK,CAAC;AAAA,EAC9C;AAKA,QAAM,OAAO,CAAC,WAA0B,MAAW,YAAiB;AAChE,kBAAc,QAAQ;AACtB,kBAAc,QAAQ,CAAC;AACvB,aAAS,QAAQ;AACjB,iBAAa,QAAQ;AAAA,EACzB;AAIA,QAAM,WAAW,MAAM;AACnB,kBAAc,QAAQ,CAAC;AACvB,kBAAc,QAAQ,CAAC;AACvB,aAAS,QAAQ,CAAC;AAClB,iBAAa,QAAQ;AAAA,EACzB;AACA,SAAO;AAAA,IACH;AAAA,IAAe;AAAA,IAAe;AAAA,IAAc;AAAA,IAAU;AAAA,IAAiB;AAAA,IAAe;AAAA,IACtF;AAAA,IAAa;AAAA,IAAiB;AAAA,IAAa;AAAA,IAAM;AAAA,EACrD;AACJ,CAAC;",
+        "names": []
+      }
+    },
+    {
+      "name": "vite:json",
+      "start": 1738720230398,
+      "end": 1738720230398,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1738720230398,
+      "end": 1738720230398,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1738720230398,
+      "end": 1738720230398,
+      "order": "normal"
+    },
+    {
+      "name": "originjs:commonjs",
+      "start": 1738720230398,
+      "end": 1738720230398,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1738720230398,
+      "end": 1738720230398,
+      "order": "normal"
+    },
+    {
+      "name": "inject",
+      "start": 1738720230398,
+      "end": 1738720230398,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1738720230398,
+      "end": 1738720230398,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1738720230398,
+      "end": 1738720230398,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1738720230398,
+      "end": 1738720230398,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1738720230398,
+      "end": 1738720230398,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1738720230398,
+      "end": 1738720230398,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1738720230398,
+      "end": 1738720230398,
+      "order": "normal"
+    },
+    {
+      "name": "vite-plugin-vue-inspector:post",
+      "start": 1738720230398,
+      "end": 1738720230398,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-auto-import",
+      "start": 1738720230398,
+      "end": 1738720230399,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-vue-components",
+      "start": 1738720230399,
+      "end": 1738720230399,
+      "order": "post"
+    },
+    {
+      "name": "vite:client-inject",
+      "start": 1738720230399,
+      "end": 1738720230399,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-analysis",
+      "start": 1738720230399,
+      "end": 1738720230399,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-analysis",
+      "result": "import { defineStore } from \"/node_modules/.vite/deps/pinia.js?v=65efcb1b\";\nimport { ref } from \"/node_modules/.vite/deps/vue.js?v=65efcb1b\";\nexport const useUserSelfOperation = defineStore(\"userSelfOperation\", () => {\n  const formFieldList = ref({});\n  const fieldItemList = ref({});\n  const formData = ref({});\n  const formInstance = ref();\n  const setFormFields = (fieldList) => {\n    formFieldList.value = fieldList;\n  };\n  const setFormInstance = (formRef) => {\n    formInstance.value = formRef.value;\n  };\n  const setFormData = (data) => {\n    formData.value = data;\n  };\n  const addFormItem = (formItem) => {\n    if (!formItem || !formItem.fieldName && !formItem.preps?.name) {\n      return;\n    }\n    fieldItemList.value[formItem.fieldName || formItem.preps?.name] = formItem;\n  };\n  const addFormItemList = (formItems) => {\n    if (!formItems) {\n      return;\n    }\n    for (const index in formItems) {\n      const formItem = formItems[index];\n      fieldItemList.value[formItem.fieldName || formItem.preps?.name] = formItem;\n    }\n  };\n  const getFormItem = (fieldName) => {\n    return fieldItemList.value[fieldName] || {};\n  };\n  const init = (fieldList, data, formRef) => {\n    formFieldList.value = fieldList;\n    fieldItemList.value = {};\n    formData.value = data;\n    formInstance.value = formRef;\n  };\n  const clearAll = () => {\n    formFieldList.value = {};\n    fieldItemList.value = {};\n    formData.value = {};\n    formInstance.value = null;\n  };\n  return {\n    formFieldList,\n    fieldItemList,\n    formInstance,\n    formData,\n    setFormInstance,\n    setFormFields,\n    setFormData,\n    addFormItem,\n    addFormItemList,\n    getFormItem,\n    init,\n    clearAll\n  };\n});\n",
+      "start": 1738720230399,
+      "end": 1738720230399,
+      "order": "normal",
+      "sourcemaps": null
+    }
+  ]
+}

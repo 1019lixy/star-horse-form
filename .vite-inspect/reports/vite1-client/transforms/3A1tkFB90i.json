@@ -1,0 +1,184 @@
+{
+  "resolvedId": "E:/lixycode/testcode/src/components/comp/StarHorseDataView.vue?vue&type=style&index=0&scoped=eff6f035&lang.scss",
+  "transforms": [
+    {
+      "name": "vite:vue",
+      "result": "\r\n.star-horse-data-view {\r\n  display: flex;\r\n  height: 100%;\r\n  width: 100%;\r\n  flex-direction: column;\r\n}\r\n",
+      "start": 1738720229086,
+      "end": 1738720229086,
+      "sourcemaps": {
+        "version": 3,
+        "sources": [
+          "E:/lixycode/testcode/src/components/comp/StarHorseDataView.vue"
+        ],
+        "names": [],
+        "mappings": ";AA+FA,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE;EACpB,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC;EACb,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC;EACZ,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC;EACX,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;AACxB",
+        "file": "E:/lixycode/testcode/src/components/comp/StarHorseDataView.vue",
+        "sourceRoot": "",
+        "sourcesContent": [
+          "<script setup lang=\"ts\" name=\"StarHorseDataView\">\r\nimport {ApiUrls} from \"@/components/types/ApiUrls\";\r\nimport {inject, nextTick, onMounted, PropType, ref, watch} from \"vue\";\r\nimport {DialogProps} from \"@/components/types/DialogProps\";\r\nimport {formFieldMapping, isJson, loadById} from \"@/api/sh_api\";\r\n\r\nconst dataForm = ref<any>({});\r\nconst props = defineProps({\r\n  compUrl: {type: Object as PropType<ApiUrls>},\r\n  objectName: {type: String},\r\n  subFormFlag: {type: String, default: \"N\"},\r\n  fieldList: {type: Object, required: true},\r\n  globalCondition: {type: Object},\r\n  outerData: {type: Object},\r\n  dynamicForm: {type: Boolean, default: false},\r\n  primaryKey: {type: String, default: \"id\"},\r\n  batchFieldName: {type: String, default: \"batchFieldList\"},\r\n  dataFormat: {type: Function, default: null}\r\n});\r\nconst emits = defineEmits([\"dataLoaded\"]);\r\nconst dialogProps = inject<DialogProps>(\"dialogProps\");\r\nwatch(() => dialogProps?.ids,\r\n    (val) => {\r\n      if (val == -2) {\r\n      } else if (!val || val == -1) {\r\n        dataForm.value = {};\r\n      } else {\r\n        loadData();\r\n      }\r\n    }, {\r\n      // immediate: true,\r\n      deep: true\r\n    });\r\nonMounted(() => {\r\n  if (dialogProps?.ids) {\r\n    loadData();\r\n  }\r\n});\r\nconst loadData = async () => {\r\n  await nextTick();\r\n  let id = dialogProps?.ids instanceof Array ? dialogProps.ids[0] : dialogProps?.ids;\r\n  if (!props.compUrl) {\r\n    return;\r\n  }\r\n  let objData;\r\n  let params = props.globalCondition || {};\r\n  //如果是Json 对象\r\n  if (isJson(id)) {\r\n    params = {...params, ...id};\r\n    objData = await loadById(props.compUrl?.loadByIdUrl!, \"\", true, params);\r\n  } else {\r\n    objData = await loadById(props.compUrl?.loadByIdUrl!, id, true, params);\r\n  }\r\n  let data = formFieldMapping(props.fieldList);\r\n  dataForm.value = objData;\r\n  //如果是动态表单\r\n  if (props.dynamicForm) {\r\n    for (let i in params) {\r\n      let temp = params[i];\r\n      if (!temp.subTabFlag) {\r\n        dataForm.value[temp.tableName] = [objData];\r\n      }\r\n    }\r\n  }\r\n  let mapping = data.mappingFields;\r\n  if (mapping) {\r\n    for (let index in mapping) {\r\n      let temp = mapping[index];\r\n      dataForm.value[temp.name] = dataForm.value[temp.alias];\r\n    }\r\n  }\r\n  await nextTick(() => {\r\n    emits(\"dataLoaded\", objData, true);\r\n  });\r\n};\r\nconst setData = (data: any) => {\r\n  dataForm.value = data;\r\n}\r\n//更新外面传进来的数据\r\nwatch(() => props.outerData,\r\n    (val: any) => {\r\n      if (val) {\r\n        dataForm.value = {...dataForm.value, ...val};\r\n      }\r\n    }, {immediate: true, deep: true});\r\ndefineExpose({\r\n  setData\r\n});\r\n</script>\r\n<template>\r\n  <div class=\"star-horse-data-view\" data-v-inspector=\"src/components/comp/StarHorseDataView.vue:91:3\">\r\n    <star-horse-data-view-items :commonFormat=\"dataFormat\" :field-list=\"fieldList\" v-model:data-form=\"dataForm\" data-v-inspector=\"src/components/comp/StarHorseDataView.vue:92:5\"/>\r\n  </div>\r\n</template>\r\n<style lang=\"scss\" scoped>\r\n.star-horse-data-view {\r\n  display: flex;\r\n  height: 100%;\r\n  width: 100%;\r\n  flex-direction: column;\r\n}\r\n</style>\r\n"
+        ]
+      }
+    },
+    {
+      "name": "vite-plugin-vue-inspector",
+      "start": 1738720229086,
+      "end": 1738720229086,
+      "order": "pre"
+    },
+    {
+      "name": "vite-plugin-vue-devtools",
+      "result": "\r\n.star-horse-data-view {\r\n  display: flex;\r\n  height: 100%;\r\n  width: 100%;\r\n  flex-direction: column;\r\n}\r\n",
+      "start": 1738720229111,
+      "end": 1738720229111,
+      "order": "pre",
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "result": ".star-horse-data-view {\n  display: flex;\n  height: 100%;\n  width: 100%;\n  flex-direction: column;\n}",
+      "start": 1738720229111,
+      "end": 1738720229211,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1738720229211,
+      "end": 1738720229211,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1738720229211,
+      "end": 1738720229212,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1738720229212,
+      "end": 1738720229212,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "result": ".star-horse-data-view[data-v-eff6f035] {\n  display: flex;\n  height: 100%;\n  width: 100%;\n  flex-direction: column;\n}",
+      "start": 1738720229212,
+      "end": 1738720229212,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "originjs:commonjs",
+      "start": 1738720229212,
+      "end": 1738720229212,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1738720229212,
+      "end": 1738720229212,
+      "order": "normal"
+    },
+    {
+      "name": "inject",
+      "start": 1738720229212,
+      "end": 1738720229212,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1738720229212,
+      "end": 1738720229212,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "result": "import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/src/components/comp/StarHorseDataView.vue?vue&type=style&index=0&scoped=eff6f035&lang.scss\"\nconst __vite__css = \".star-horse-data-view[data-v-eff6f035] {\\n  display: flex;\\n  height: 100%;\\n  width: 100%;\\n  flex-direction: column;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720229212,
+      "end": 1738720229212,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1738720229212,
+      "end": 1738720229212,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1738720229212,
+      "end": 1738720229212,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1738720229212,
+      "end": 1738720229212,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1738720229212,
+      "end": 1738720229212,
+      "order": "normal"
+    },
+    {
+      "name": "vite-plugin-vue-inspector:post",
+      "start": 1738720229212,
+      "end": 1738720229212,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-auto-import",
+      "start": 1738720229212,
+      "end": 1738720229213,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-vue-components",
+      "result": "/* unplugin-vue-components disabled */import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/src/components/comp/StarHorseDataView.vue?vue&type=style&index=0&scoped=eff6f035&lang.scss\"\nconst __vite__css = \".star-horse-data-view[data-v-eff6f035] {\\n  display: flex;\\n  height: 100%;\\n  width: 100%;\\n  flex-direction: column;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720229213,
+      "end": 1738720229213,
+      "order": "post",
+      "sourcemaps": {
+        "version": 3,
+        "sources": [
+          "E:/lixycode/testcode/src/components/comp/StarHorseDataView.vue?vue&type=style&index=0&scoped=eff6f035&lang.scss"
+        ],
+        "sourcesContent": [
+          "import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/src/components/comp/StarHorseDataView.vue?vue&type=style&index=0&scoped=eff6f035&lang.scss\"\nconst __vite__css = \".star-horse-data-view[data-v-eff6f035] {\\n  display: flex;\\n  height: 100%;\\n  width: 100%;\\n  flex-direction: column;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))"
+        ],
+        "names": [],
+        "mappings": "sCAAA,MAAM,CAAC,CAAC,CAAC,WAAW,CAAC,EAAE,CAAC,mBAAmB,CAAC,CAAC,WAAW,CAAC,EAAE,CAAC,mBAAmB,CAAC,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,CAAC,IAAI,CAAC,MAAM;AACrG,KAAK,CAAC,UAAU,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,QAAQ,CAAC,QAAQ,CAAC,GAAG,CAAC,UAAU,CAAC,IAAI,CAAC,iBAAiB,CAAC,GAAG,CAAC,GAAG,CAAC,IAAI,CAAC,KAAK,CAAC,KAAK,CAAC,CAAC,CAAC,MAAM,CAAC,QAAQ,CAAC,IAAI,CAAC,IAAI;AACnI,KAAK,CAAC,WAAW,CAAC,CAAC,CAAC,CAAC,CAAC,IAAI,CAAC,KAAK,CAAC,IAAI,CAAC,IAAI,CAAC,IAAI,CAAC,CAAC,CAAC,QAAQ,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,OAAO,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,CAAC,CAAC,MAAM,CAAC,CAAC,GAAG,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,KAAK,CAAC,CAAC,GAAG,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,IAAI,CAAC,SAAS,CAAC,CAAC,MAAM,CAAC,CAAC,CAAC,CAAC;AAC9I,mBAAmB,CAAC,UAAU,CAAC,CAAC,WAAW;AAC3C,MAAM,CAAC,IAAI,CAAC,GAAG,CAAC,MAAM,CAAC;AACvB,MAAM,CAAC,IAAI,CAAC,GAAG,CAAC,KAAK,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,mBAAmB,CAAC,UAAU,CAAC"
+      }
+    },
+    {
+      "name": "vite:client-inject",
+      "start": 1738720229213,
+      "end": 1738720229213,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-analysis",
+      "start": 1738720229213,
+      "end": 1738720229213,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-analysis",
+      "result": "import { createHotContext as __vite__createHotContext } from \"/@vite/client\";import.meta.hot = __vite__createHotContext(\"/src/components/comp/StarHorseDataView.vue?vue&type=style&index=0&scoped=eff6f035&lang.scss\");/* unplugin-vue-components disabled */import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/src/components/comp/StarHorseDataView.vue?vue&type=style&index=0&scoped=eff6f035&lang.scss\"\nconst __vite__css = \".star-horse-data-view[data-v-eff6f035] {\\n  display: flex;\\n  height: 100%;\\n  width: 100%;\\n  flex-direction: column;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720229213,
+      "end": 1738720229213,
+      "order": "normal",
+      "sourcemaps": null
+    }
+  ]
+}

@@ -1,0 +1,184 @@
+{
+  "resolvedId": "E:/lixycode/testcode/src/components/formcomp/utils/FieldList.vue?vue&type=style&index=0&scoped=ef669610&lang.scss",
+  "transforms": [
+    {
+      "name": "vite:vue",
+      "result": "\r\n:deep(.el-divider){\r\n  margin: 15px auto;\r\n}\r\n.component-list {\r\n  display: flex;\r\n  flex-direction: row;\r\n  height: inherit;\r\n  width: 100%;\r\n  overflow: hidden;\r\n\r\n  .title {\r\n    width: 100px;\r\n    overflow: hidden;\r\n  }\r\n\r\n  .content {\r\n    margin-left: 10px;\r\n    height: 100%;\r\n    overflow: hidden;\r\n    flex: 1;\r\n\r\n    ul {\r\n      list-style: none;\r\n\r\n      li {\r\n        cursor: pointer;\r\n        display: block;\r\n        height: 30px;\r\n        &:hover {\r\n          background-color: #f5f7fa;\r\n        }\r\n      }\r\n    }\r\n  }\r\n}\r\n",
+      "start": 1738720249256,
+      "end": 1738720249256,
+      "sourcemaps": {
+        "version": 3,
+        "sources": [
+          "E:/lixycode/testcode/src/components/formcomp/utils/FieldList.vue"
+        ],
+        "names": [],
+        "mappings": ";AAkEA,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;EAChB,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC;AACnB;AACA,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE;EACd,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC;EACb,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC;EACnB,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;EACf,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC;EACX,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;;EAEhB,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE;IACL,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC;IACZ,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;EAClB;;EAEA,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE;IACP,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC;IACjB,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC;IACZ,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;IAChB,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC;;IAEP,CAAC,EAAE;MACD,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC;;MAEhB,CAAC,EAAE;QACD,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;QACf,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC;QACd,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC;QACZ,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE;UACN,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;QAC3B;MACF;IACF;EACF;AACF",
+        "file": "E:/lixycode/testcode/src/components/formcomp/utils/FieldList.vue",
+        "sourceRoot": "",
+        "sourcesContent": [
+          "<script setup lang=\"ts\">\r\nimport {DesignForm} from \"@/store/DesignFormStore.ts\";\r\nimport piniaInstance from \"@/store\";\r\nimport {computed, ref} from \"vue\";\r\n\r\ndefineOptions({\r\n  name: \"FieldList\"\r\n});\r\nconst containerRef = ref();\r\nconst emits = defineEmits([\"selectData\"]);\r\nlet designForm = DesignForm(piniaInstance);\r\nlet formDataList = computed(() => designForm.formDataList);\r\nlet containerList = computed(() => designForm.containerList);\r\nlet selfFormDataList = computed(() => designForm.selfFormDataList);\r\nconst selectData = (item: any) => {\r\n  emits(\"selectData\", item);\r\n}\r\n</script>\r\n\r\n<template>\r\n  <div class=\"component-list\" data-v-inspector=\"src/components/formcomp/utils/FieldList.vue:21:3\">\r\n    <div class=\"title\" data-v-inspector=\"src/components/formcomp/utils/FieldList.vue:22:5\">\r\n      <el-anchor type=\"underline\" :container=\"containerRef\" :offset=\"70\" data-v-inspector=\"src/components/formcomp/utils/FieldList.vue:23:7\">\r\n        <el-anchor-link :href=\"`#container`\" data-v-inspector=\"src/components/formcomp/utils/FieldList.vue:24:9\">\r\n          容器\r\n        </el-anchor-link>\r\n        <el-anchor-link :href=\"`#basic`\" data-v-inspector=\"src/components/formcomp/utils/FieldList.vue:27:9\">\r\n          基础组件\r\n        </el-anchor-link>\r\n        <el-anchor-link :href=\"`#self`\" data-v-inspector=\"src/components/formcomp/utils/FieldList.vue:30:9\">\r\n          自定义组件\r\n        </el-anchor-link>\r\n      </el-anchor>\r\n    </div>\r\n    <div class=\"content\" ref=\"containerRef\" data-v-inspector=\"src/components/formcomp/utils/FieldList.vue:35:5\">\r\n      <el-scrollbar data-v-inspector=\"src/components/formcomp/utils/FieldList.vue:36:7\">\r\n        <el-divider content-position=\"left\" data-v-inspector=\"src/components/formcomp/utils/FieldList.vue:37:9\">容器</el-divider>\r\n        <ul id=\"container\" data-v-inspector=\"src/components/formcomp/utils/FieldList.vue:38:9\">\r\n          <template v-for=\"item in containerList\">\r\n            <li class=\"field-item\" @click=\"selectData(item)\" data-v-inspector=\"src/components/formcomp/utils/FieldList.vue:40:13\">&nbsp;&nbsp;\r\n              <span data-v-inspector=\"src/components/formcomp/utils/FieldList.vue:41:15\"><star-horse-icon :icon-class=\"item.itemIcon\" data-v-inspector=\"src/components/formcomp/utils/FieldList.vue:41:21\"/> &nbsp;{{ item.itemName }}</span>\r\n            </li>\r\n          </template>\r\n        </ul>\r\n        <el-divider content-position=\"left\" data-v-inspector=\"src/components/formcomp/utils/FieldList.vue:45:9\">基础组件</el-divider>\r\n        <ul id=\"basic\" data-v-inspector=\"src/components/formcomp/utils/FieldList.vue:46:9\">\r\n          <template v-for=\"item in formDataList\">\r\n            <li class=\"field-item\" @click=\"selectData(item)\" data-v-inspector=\"src/components/formcomp/utils/FieldList.vue:48:13\">&nbsp;&nbsp;\r\n              <span data-v-inspector=\"src/components/formcomp/utils/FieldList.vue:49:15\"><star-horse-icon :icon-class=\"item.itemIcon\" data-v-inspector=\"src/components/formcomp/utils/FieldList.vue:49:21\"/> &nbsp;{{ item.itemName }}</span>\r\n            </li>\r\n          </template>\r\n        </ul>\r\n        <el-divider content-position=\"left\" data-v-inspector=\"src/components/formcomp/utils/FieldList.vue:53:9\">自定义组件</el-divider>\r\n        <ul id=\"self\" data-v-inspector=\"src/components/formcomp/utils/FieldList.vue:54:9\">\r\n          <template v-for=\"item in selfFormDataList\">\r\n            <li class=\"field-item\" @click=\"selectData(item)\" data-v-inspector=\"src/components/formcomp/utils/FieldList.vue:56:13\">&nbsp;&nbsp;\r\n              <span data-v-inspector=\"src/components/formcomp/utils/FieldList.vue:57:15\"><star-horse-icon :icon-class=\"item.itemIcon\" data-v-inspector=\"src/components/formcomp/utils/FieldList.vue:57:21\"/> &nbsp;{{ item.itemName }}</span>\r\n            </li>\r\n          </template>\r\n        </ul>\r\n      </el-scrollbar>\r\n    </div>\r\n  </div>\r\n</template>\r\n\r\n<style scoped lang=\"scss\">\r\n:deep(.el-divider){\r\n  margin: 15px auto;\r\n}\r\n.component-list {\r\n  display: flex;\r\n  flex-direction: row;\r\n  height: inherit;\r\n  width: 100%;\r\n  overflow: hidden;\r\n\r\n  .title {\r\n    width: 100px;\r\n    overflow: hidden;\r\n  }\r\n\r\n  .content {\r\n    margin-left: 10px;\r\n    height: 100%;\r\n    overflow: hidden;\r\n    flex: 1;\r\n\r\n    ul {\r\n      list-style: none;\r\n\r\n      li {\r\n        cursor: pointer;\r\n        display: block;\r\n        height: 30px;\r\n        &:hover {\r\n          background-color: #f5f7fa;\r\n        }\r\n      }\r\n    }\r\n  }\r\n}\r\n</style>\r\n"
+        ]
+      }
+    },
+    {
+      "name": "vite-plugin-vue-inspector",
+      "start": 1738720249257,
+      "end": 1738720249257,
+      "order": "pre"
+    },
+    {
+      "name": "vite-plugin-vue-devtools",
+      "result": "\r\n:deep(.el-divider){\r\n  margin: 15px auto;\r\n}\r\n.component-list {\r\n  display: flex;\r\n  flex-direction: row;\r\n  height: inherit;\r\n  width: 100%;\r\n  overflow: hidden;\r\n\r\n  .title {\r\n    width: 100px;\r\n    overflow: hidden;\r\n  }\r\n\r\n  .content {\r\n    margin-left: 10px;\r\n    height: 100%;\r\n    overflow: hidden;\r\n    flex: 1;\r\n\r\n    ul {\r\n      list-style: none;\r\n\r\n      li {\r\n        cursor: pointer;\r\n        display: block;\r\n        height: 30px;\r\n        &:hover {\r\n          background-color: #f5f7fa;\r\n        }\r\n      }\r\n    }\r\n  }\r\n}\r\n",
+      "start": 1738720249257,
+      "end": 1738720249257,
+      "order": "pre",
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "result": ":deep(.el-divider) {\n  margin: 15px auto;\n}\n\n.component-list {\n  display: flex;\n  flex-direction: row;\n  height: inherit;\n  width: 100%;\n  overflow: hidden;\n}\n.component-list .title {\n  width: 100px;\n  overflow: hidden;\n}\n.component-list .content {\n  margin-left: 10px;\n  height: 100%;\n  overflow: hidden;\n  flex: 1;\n}\n.component-list .content ul {\n  list-style: none;\n}\n.component-list .content ul li {\n  cursor: pointer;\n  display: block;\n  height: 30px;\n}\n.component-list .content ul li:hover {\n  background-color: #f5f7fa;\n}",
+      "start": 1738720249257,
+      "end": 1738720249315,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1738720249315,
+      "end": 1738720249315,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1738720249315,
+      "end": 1738720249315,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1738720249315,
+      "end": 1738720249315,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "result": "[data-v-ef669610] .el-divider {\n  margin: 15px auto;\n}\n.component-list[data-v-ef669610] {\n  display: flex;\n  flex-direction: row;\n  height: inherit;\n  width: 100%;\n  overflow: hidden;\n}\n.component-list .title[data-v-ef669610] {\n  width: 100px;\n  overflow: hidden;\n}\n.component-list .content[data-v-ef669610] {\n  margin-left: 10px;\n  height: 100%;\n  overflow: hidden;\n  flex: 1;\n}\n.component-list .content ul[data-v-ef669610] {\n  list-style: none;\n}\n.component-list .content ul li[data-v-ef669610] {\n  cursor: pointer;\n  display: block;\n  height: 30px;\n}\n.component-list .content ul li[data-v-ef669610]:hover {\n  background-color: #f5f7fa;\n}",
+      "start": 1738720249315,
+      "end": 1738720249317,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "originjs:commonjs",
+      "start": 1738720249317,
+      "end": 1738720249317,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1738720249317,
+      "end": 1738720249317,
+      "order": "normal"
+    },
+    {
+      "name": "inject",
+      "start": 1738720249317,
+      "end": 1738720249317,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1738720249317,
+      "end": 1738720249317,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "result": "import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/src/components/formcomp/utils/FieldList.vue?vue&type=style&index=0&scoped=ef669610&lang.scss\"\nconst __vite__css = \"[data-v-ef669610] .el-divider {\\n  margin: 15px auto;\\n}\\n.component-list[data-v-ef669610] {\\n  display: flex;\\n  flex-direction: row;\\n  height: inherit;\\n  width: 100%;\\n  overflow: hidden;\\n}\\n.component-list .title[data-v-ef669610] {\\n  width: 100px;\\n  overflow: hidden;\\n}\\n.component-list .content[data-v-ef669610] {\\n  margin-left: 10px;\\n  height: 100%;\\n  overflow: hidden;\\n  flex: 1;\\n}\\n.component-list .content ul[data-v-ef669610] {\\n  list-style: none;\\n}\\n.component-list .content ul li[data-v-ef669610] {\\n  cursor: pointer;\\n  display: block;\\n  height: 30px;\\n}\\n.component-list .content ul li[data-v-ef669610]:hover {\\n  background-color: #f5f7fa;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720249317,
+      "end": 1738720249317,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1738720249317,
+      "end": 1738720249317,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1738720249317,
+      "end": 1738720249317,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1738720249317,
+      "end": 1738720249317,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1738720249317,
+      "end": 1738720249317,
+      "order": "normal"
+    },
+    {
+      "name": "vite-plugin-vue-inspector:post",
+      "start": 1738720249317,
+      "end": 1738720249317,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-auto-import",
+      "start": 1738720249317,
+      "end": 1738720249318,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-vue-components",
+      "result": "/* unplugin-vue-components disabled */import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/src/components/formcomp/utils/FieldList.vue?vue&type=style&index=0&scoped=ef669610&lang.scss\"\nconst __vite__css = \"[data-v-ef669610] .el-divider {\\n  margin: 15px auto;\\n}\\n.component-list[data-v-ef669610] {\\n  display: flex;\\n  flex-direction: row;\\n  height: inherit;\\n  width: 100%;\\n  overflow: hidden;\\n}\\n.component-list .title[data-v-ef669610] {\\n  width: 100px;\\n  overflow: hidden;\\n}\\n.component-list .content[data-v-ef669610] {\\n  margin-left: 10px;\\n  height: 100%;\\n  overflow: hidden;\\n  flex: 1;\\n}\\n.component-list .content ul[data-v-ef669610] {\\n  list-style: none;\\n}\\n.component-list .content ul li[data-v-ef669610] {\\n  cursor: pointer;\\n  display: block;\\n  height: 30px;\\n}\\n.component-list .content ul li[data-v-ef669610]:hover {\\n  background-color: #f5f7fa;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720249318,
+      "end": 1738720249318,
+      "order": "post",
+      "sourcemaps": {
+        "version": 3,
+        "sources": [
+          "E:/lixycode/testcode/src/components/formcomp/utils/FieldList.vue?vue&type=style&index=0&scoped=ef669610&lang.scss"
+        ],
+        "sourcesContent": [
+          "import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/src/components/formcomp/utils/FieldList.vue?vue&type=style&index=0&scoped=ef669610&lang.scss\"\nconst __vite__css = \"[data-v-ef669610] .el-divider {\\n  margin: 15px auto;\\n}\\n.component-list[data-v-ef669610] {\\n  display: flex;\\n  flex-direction: row;\\n  height: inherit;\\n  width: 100%;\\n  overflow: hidden;\\n}\\n.component-list .title[data-v-ef669610] {\\n  width: 100px;\\n  overflow: hidden;\\n}\\n.component-list .content[data-v-ef669610] {\\n  margin-left: 10px;\\n  height: 100%;\\n  overflow: hidden;\\n  flex: 1;\\n}\\n.component-list .content ul[data-v-ef669610] {\\n  list-style: none;\\n}\\n.component-list .content ul li[data-v-ef669610] {\\n  cursor: pointer;\\n  display: block;\\n  height: 30px;\\n}\\n.component-list .content ul li[data-v-ef669610]:hover {\\n  background-color: #f5f7fa;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))"
+        ],
+        "names": [],
+        "mappings": "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"
+      }
+    },
+    {
+      "name": "vite:client-inject",
+      "start": 1738720249318,
+      "end": 1738720249318,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-analysis",
+      "start": 1738720249318,
+      "end": 1738720249318,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-analysis",
+      "result": "import { createHotContext as __vite__createHotContext } from \"/@vite/client\";import.meta.hot = __vite__createHotContext(\"/src/components/formcomp/utils/FieldList.vue?vue&type=style&index=0&scoped=ef669610&lang.scss\");/* unplugin-vue-components disabled */import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/src/components/formcomp/utils/FieldList.vue?vue&type=style&index=0&scoped=ef669610&lang.scss\"\nconst __vite__css = \"[data-v-ef669610] .el-divider {\\n  margin: 15px auto;\\n}\\n.component-list[data-v-ef669610] {\\n  display: flex;\\n  flex-direction: row;\\n  height: inherit;\\n  width: 100%;\\n  overflow: hidden;\\n}\\n.component-list .title[data-v-ef669610] {\\n  width: 100px;\\n  overflow: hidden;\\n}\\n.component-list .content[data-v-ef669610] {\\n  margin-left: 10px;\\n  height: 100%;\\n  overflow: hidden;\\n  flex: 1;\\n}\\n.component-list .content ul[data-v-ef669610] {\\n  list-style: none;\\n}\\n.component-list .content ul li[data-v-ef669610] {\\n  cursor: pointer;\\n  display: block;\\n  height: 30px;\\n}\\n.component-list .content ul li[data-v-ef669610]:hover {\\n  background-color: #f5f7fa;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720249318,
+      "end": 1738720249318,
+      "order": "normal",
+      "sourcemaps": null
+    }
+  ]
+}

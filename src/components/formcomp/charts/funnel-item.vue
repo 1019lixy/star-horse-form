@@ -3,7 +3,7 @@
 </script>
 
 <template>
-漏斗图
+  漏斗图
 </template>
 
 <style scoped lang="scss">

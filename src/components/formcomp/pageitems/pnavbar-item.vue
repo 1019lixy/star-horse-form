@@ -5,7 +5,7 @@ defineOptions({
 </script>
 
 <template>
-导航条
+  导航条
 </template>
 
 <style scoped lang="scss">

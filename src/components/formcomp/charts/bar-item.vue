@@ -3,7 +3,7 @@
 </script>
 
 <template>
-柱状图
+  柱状图
 </template>
 
 <style scoped lang="scss">

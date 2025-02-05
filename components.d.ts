@@ -177,6 +177,7 @@ declare module 'vue' {
     ElTag: typeof import('element-plus/es')['ElTag']
     ElText: typeof import('element-plus/es')['ElText']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
+    ElTransfer: typeof import('element-plus/es')['ElTransfer']
     ElTree: typeof import('element-plus/es')['ElTree']
     ElUpload: typeof import('element-plus/es')['ElUpload']
     EndNode: typeof import('./src/views/workflow/plugin/node/EndNode.vue')['default']

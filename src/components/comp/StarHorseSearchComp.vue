@@ -106,7 +106,7 @@ defineExpose({
             :label="item.label"
             v-if="item.defaultVisible"
             :prop="item.fieldName">
-          <template v-if="item.type=='input'&&(!item.disabled||item.disabled=='N')" :span="6">
+          <template v-if="(!item.type||item.type=='input')&&(!item.disabled||item.disabled=='N')" :span="6">
             <el-select :size="compSize" style="width: 90px;height:100%;padding-top:2px;" v-model="item['matchType']"
                        clearable filterable>
               <el-option v-for="sitem in matchTypeList" :value="sitem.value" :label="sitem.name" :key=
@@ -136,13 +136,13 @@ defineExpose({
       </template>
       <el-form-item style="vertical-align: middle;align-items: center">
         <div class="search_btn">
-          <el-button @click="dataSearch"  style="background: var(--star-horse-style);color: var(--star-horse-white)"
+          <el-button @click="dataSearch" style="background: var(--star-horse-style);color: var(--star-horse-white)"
                      :size="compSize">
             <star-horse-icon icon-class="search" size="16px" color="var(--star-horse-white)"/>
             查询
           </el-button>
-          <el-button @click="dataSearch('reset')"  link :size="compSize">
-                    <star-horse-icon icon-class="reset" size="16px" color="var(--star-horse-disable)"/>
+          <el-button @click="dataSearch('reset')" link :size="compSize">
+            <star-horse-icon icon-class="reset" size="16px" color="var(--star-horse-disable)"/>
             重置
           </el-button>
           <el-tooltip :content="tips" v-if="showTips">

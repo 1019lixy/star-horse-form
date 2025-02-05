@@ -1,0 +1,148 @@
+{
+  "resolvedId": "E:/lixycode/testcode/node_modules/.vite/deps/@highlightjs_vue-plugin.js",
+  "transforms": [
+    {
+      "name": "vite:optimized-deps",
+      "result": "import {\n  require_core\n} from \"./chunk-HKBK7YNB.js\";\nimport \"./chunk-SC7WD54P.js\";\nimport {\n  computed,\n  defineComponent,\n  h,\n  ref,\n  watch\n} from \"./chunk-7PYUCYS5.js\";\nimport {\n  __toESM\n} from \"./chunk-PLDDJCW6.js\";\n\n// node_modules/highlight.js/es/core.js\nvar import_core = __toESM(require_core());\nvar core_default = import_core.default;\n\n// node_modules/@highlightjs/vue-plugin/dist/highlightjs-vue.esm.min.js\nvar r = defineComponent({ props: { code: { type: String, required: true }, language: { type: String, default: \"\" }, autodetect: { type: Boolean, default: true }, ignoreIllegals: { type: Boolean, default: true } }, setup: function(e) {\n  var n = ref(e.language);\n  watch(function() {\n    return e.language;\n  }, function(e2) {\n    n.value = e2;\n  });\n  var r2 = computed(function() {\n    return e.autodetect || !n.value;\n  }), o2 = computed(function() {\n    return !r2.value && !core_default.getLanguage(n.value);\n  });\n  return { className: computed(function() {\n    return o2.value ? \"\" : \"hljs \" + n.value;\n  }), highlightedCode: computed(function() {\n    var l;\n    if (o2.value) return console.warn('The language \"' + n.value + '\" you specified could not be found.'), e.code.replace(/&/g, \"&amp;\").replace(/</g, \"&lt;\").replace(/>/g, \"&gt;\").replace(/\"/g, \"&quot;\").replace(/'/g, \"&#x27;\");\n    if (r2.value) {\n      var a = core_default.highlightAuto(e.code);\n      return n.value = null !== (l = a.language) && void 0 !== l ? l : \"\", a.value;\n    }\n    return (a = core_default.highlight(e.code, { language: n.value, ignoreIllegals: e.ignoreIllegals })).value;\n  }) };\n}, render: function() {\n  return h(\"pre\", {}, [h(\"code\", { class: this.className, innerHTML: this.highlightedCode })]);\n} });\nvar o = { install: function(e) {\n  e.component(\"highlightjs\", r);\n}, component: r };\nvar highlightjs_vue_esm_min_default = o;\nexport {\n  highlightjs_vue_esm_min_default as default\n};\n//# sourceMappingURL=@highlightjs_vue-plugin.js.map\n",
+      "start": 1738720186181,
+      "end": 1738720186713,
+      "sourcemaps": null
+    },
+    {
+      "name": "vite-plugin-vue-inspector",
+      "start": 1738720186713,
+      "end": 1738720186713,
+      "order": "pre"
+    },
+    {
+      "name": "vite-plugin-vue-devtools",
+      "result": "import {\n  require_core\n} from \"./chunk-HKBK7YNB.js\";\nimport \"./chunk-SC7WD54P.js\";\nimport {\n  computed,\n  defineComponent,\n  h,\n  ref,\n  watch\n} from \"./chunk-7PYUCYS5.js\";\nimport {\n  __toESM\n} from \"./chunk-PLDDJCW6.js\";\n\n// node_modules/highlight.js/es/core.js\nvar import_core = __toESM(require_core());\nvar core_default = import_core.default;\n\n// node_modules/@highlightjs/vue-plugin/dist/highlightjs-vue.esm.min.js\nvar r = defineComponent({ props: { code: { type: String, required: true }, language: { type: String, default: \"\" }, autodetect: { type: Boolean, default: true }, ignoreIllegals: { type: Boolean, default: true } }, setup: function(e) {\n  var n = ref(e.language);\n  watch(function() {\n    return e.language;\n  }, function(e2) {\n    n.value = e2;\n  });\n  var r2 = computed(function() {\n    return e.autodetect || !n.value;\n  }), o2 = computed(function() {\n    return !r2.value && !core_default.getLanguage(n.value);\n  });\n  return { className: computed(function() {\n    return o2.value ? \"\" : \"hljs \" + n.value;\n  }), highlightedCode: computed(function() {\n    var l;\n    if (o2.value) return console.warn('The language \"' + n.value + '\" you specified could not be found.'), e.code.replace(/&/g, \"&amp;\").replace(/</g, \"&lt;\").replace(/>/g, \"&gt;\").replace(/\"/g, \"&quot;\").replace(/'/g, \"&#x27;\");\n    if (r2.value) {\n      var a = core_default.highlightAuto(e.code);\n      return n.value = null !== (l = a.language) && void 0 !== l ? l : \"\", a.value;\n    }\n    return (a = core_default.highlight(e.code, { language: n.value, ignoreIllegals: e.ignoreIllegals })).value;\n  }) };\n}, render: function() {\n  return h(\"pre\", {}, [h(\"code\", { class: this.className, innerHTML: this.highlightedCode })]);\n} });\nvar o = { install: function(e) {\n  e.component(\"highlightjs\", r);\n}, component: r };\nvar highlightjs_vue_esm_min_default = o;\nexport {\n  highlightjs_vue_esm_min_default as default\n};\n//# sourceMappingURL=@highlightjs_vue-plugin.js.map\n",
+      "start": 1738720186713,
+      "end": 1738720186713,
+      "order": "pre",
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "start": 1738720186713,
+      "end": 1738720186713,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1738720186713,
+      "end": 1738720186713,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1738720186713,
+      "end": 1738720186713,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1738720186713,
+      "end": 1738720186713,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1738720186713,
+      "end": 1738720186713,
+      "order": "normal"
+    },
+    {
+      "name": "originjs:commonjs",
+      "start": 1738720186713,
+      "end": 1738720186713,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1738720186713,
+      "end": 1738720186713,
+      "order": "normal"
+    },
+    {
+      "name": "inject",
+      "start": 1738720186713,
+      "end": 1738720186713,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1738720186713,
+      "end": 1738720186713,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1738720186713,
+      "end": 1738720186713,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1738720186713,
+      "end": 1738720186713,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1738720186713,
+      "end": 1738720186713,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1738720186713,
+      "end": 1738720186713,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1738720186713,
+      "end": 1738720186713,
+      "order": "normal"
+    },
+    {
+      "name": "vite-plugin-vue-inspector:post",
+      "start": 1738720186713,
+      "end": 1738720186713,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-auto-import",
+      "start": 1738720186713,
+      "end": 1738720186713,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-vue-components",
+      "start": 1738720186713,
+      "end": 1738720186713,
+      "order": "post"
+    },
+    {
+      "name": "vite:client-inject",
+      "start": 1738720186713,
+      "end": 1738720186713,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-analysis",
+      "start": 1738720186713,
+      "end": 1738720186713,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-analysis",
+      "result": "import {\n  require_core\n} from \"/node_modules/.vite/deps/chunk-HKBK7YNB.js?v=65efcb1b\";\nimport \"/node_modules/.vite/deps/chunk-SC7WD54P.js?v=65efcb1b\";\nimport {\n  computed,\n  defineComponent,\n  h,\n  ref,\n  watch\n} from \"/node_modules/.vite/deps/chunk-7PYUCYS5.js?v=65efcb1b\";\nimport {\n  __toESM\n} from \"/node_modules/.vite/deps/chunk-PLDDJCW6.js?v=65efcb1b\";\n\n// node_modules/highlight.js/es/core.js\nvar import_core = __toESM(require_core());\nvar core_default = import_core.default;\n\n// node_modules/@highlightjs/vue-plugin/dist/highlightjs-vue.esm.min.js\nvar r = defineComponent({ props: { code: { type: String, required: true }, language: { type: String, default: \"\" }, autodetect: { type: Boolean, default: true }, ignoreIllegals: { type: Boolean, default: true } }, setup: function(e) {\n  var n = ref(e.language);\n  watch(function() {\n    return e.language;\n  }, function(e2) {\n    n.value = e2;\n  });\n  var r2 = computed(function() {\n    return e.autodetect || !n.value;\n  }), o2 = computed(function() {\n    return !r2.value && !core_default.getLanguage(n.value);\n  });\n  return { className: computed(function() {\n    return o2.value ? \"\" : \"hljs \" + n.value;\n  }), highlightedCode: computed(function() {\n    var l;\n    if (o2.value) return console.warn('The language \"' + n.value + '\" you specified could not be found.'), e.code.replace(/&/g, \"&amp;\").replace(/</g, \"&lt;\").replace(/>/g, \"&gt;\").replace(/\"/g, \"&quot;\").replace(/'/g, \"&#x27;\");\n    if (r2.value) {\n      var a = core_default.highlightAuto(e.code);\n      return n.value = null !== (l = a.language) && void 0 !== l ? l : \"\", a.value;\n    }\n    return (a = core_default.highlight(e.code, { language: n.value, ignoreIllegals: e.ignoreIllegals })).value;\n  }) };\n}, render: function() {\n  return h(\"pre\", {}, [h(\"code\", { class: this.className, innerHTML: this.highlightedCode })]);\n} });\nvar o = { install: function(e) {\n  e.component(\"highlightjs\", r);\n}, component: r };\nvar highlightjs_vue_esm_min_default = o;\nexport {\n  highlightjs_vue_esm_min_default as default\n};\n//# sourceMappingURL=@highlightjs_vue-plugin.js.map\n",
+      "start": 1738720186713,
+      "end": 1738720186714,
+      "order": "normal",
+      "sourcemaps": null
+    }
+  ]
+}

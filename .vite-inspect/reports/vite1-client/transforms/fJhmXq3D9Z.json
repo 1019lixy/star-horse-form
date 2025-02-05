@@ -1,0 +1,159 @@
+{
+  "resolvedId": "E:/lixycode/testcode/src/theme/localStorge.ts",
+  "transforms": [
+    {
+      "name": "__load__",
+      "result": "import {LangType} from \"./theme.ts\";\r\n\r\n/**\r\n * 获取系统语言\r\n */\r\nexport function getLang(): LangType {\r\n    return (localStorage.getItem('lang') as LangType) || LangType.ZH_CN;\r\n}\r\n\r\n/**\r\n * 设置系统语言\r\n * @param lang\r\n */\r\nexport function setLang(lang: LangType) {\r\n    return localStorage.setItem('lang', lang);\r\n}\r\n",
+      "start": 1738720193788,
+      "end": 1738720193788
+    },
+    {
+      "name": "vite-plugin-vue-inspector",
+      "start": 1738720193788,
+      "end": 1738720193788,
+      "order": "pre"
+    },
+    {
+      "name": "vite-plugin-vue-devtools",
+      "result": "import {LangType} from \"./theme.ts\";\r\n\r\n/**\r\n * 获取系统语言\r\n */\r\nexport function getLang(): LangType {\r\n    return (localStorage.getItem('lang') as LangType) || LangType.ZH_CN;\r\n}\r\n\r\n/**\r\n * 设置系统语言\r\n * @param lang\r\n */\r\nexport function setLang(lang: LangType) {\r\n    return localStorage.setItem('lang', lang);\r\n}\r\n",
+      "start": 1738720193788,
+      "end": 1738720193788,
+      "order": "pre",
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "start": 1738720193788,
+      "end": 1738720193788,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "result": "import { LangType } from \"./theme.ts\";\nexport function getLang() {\n  return localStorage.getItem(\"lang\") || LangType.ZH_CN;\n}\nexport function setLang(lang) {\n  return localStorage.setItem(\"lang\", lang);\n}\n",
+      "start": 1738720193788,
+      "end": 1738720193970,
+      "order": "normal",
+      "sourcemaps": {
+        "version": 3,
+        "sources": [
+          "localStorge.ts"
+        ],
+        "sourcesContent": [
+          "import {LangType} from \"./theme.ts\";\r\n\r\n/**\r\n * 获取系统语言\r\n */\r\nexport function getLang(): LangType {\r\n    return (localStorage.getItem('lang') as LangType) || LangType.ZH_CN;\r\n}\r\n\r\n/**\r\n * 设置系统语言\r\n * @param lang\r\n */\r\nexport function setLang(lang: LangType) {\r\n    return localStorage.setItem('lang', lang);\r\n}\r\n"
+        ],
+        "mappings": "AAAA,SAAQ,gBAAe;AAKhB,gBAAS,UAAoB;AAChC,SAAQ,aAAa,QAAQ,MAAM,KAAkB,SAAS;AAClE;AAMO,gBAAS,QAAQ,MAAgB;AACpC,SAAO,aAAa,QAAQ,QAAQ,IAAI;AAC5C;",
+        "names": []
+      }
+    },
+    {
+      "name": "vite:json",
+      "start": 1738720193970,
+      "end": 1738720193970,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1738720193970,
+      "end": 1738720193970,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1738720193970,
+      "end": 1738720193971,
+      "order": "normal"
+    },
+    {
+      "name": "originjs:commonjs",
+      "start": 1738720193971,
+      "end": 1738720193971,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1738720193971,
+      "end": 1738720193971,
+      "order": "normal"
+    },
+    {
+      "name": "inject",
+      "start": 1738720193971,
+      "end": 1738720193971,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1738720193971,
+      "end": 1738720193971,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1738720193971,
+      "end": 1738720193971,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1738720193971,
+      "end": 1738720193971,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1738720193971,
+      "end": 1738720193971,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1738720193971,
+      "end": 1738720193971,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1738720193971,
+      "end": 1738720193971,
+      "order": "normal"
+    },
+    {
+      "name": "vite-plugin-vue-inspector:post",
+      "start": 1738720193971,
+      "end": 1738720193971,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-auto-import",
+      "start": 1738720193971,
+      "end": 1738720193971,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-vue-components",
+      "start": 1738720193971,
+      "end": 1738720193971,
+      "order": "post"
+    },
+    {
+      "name": "vite:client-inject",
+      "start": 1738720193971,
+      "end": 1738720193971,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-analysis",
+      "start": 1738720193971,
+      "end": 1738720193971,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-analysis",
+      "result": "import { LangType } from \"/src/theme/theme.ts\";\nexport function getLang() {\n  return localStorage.getItem(\"lang\") || LangType.ZH_CN;\n}\nexport function setLang(lang) {\n  return localStorage.setItem(\"lang\", lang);\n}\n",
+      "start": 1738720193971,
+      "end": 1738720193972,
+      "order": "normal",
+      "sourcemaps": null
+    }
+  ]
+}

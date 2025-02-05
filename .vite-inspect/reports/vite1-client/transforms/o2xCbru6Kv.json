@@ -1,0 +1,155 @@
+{
+  "resolvedId": "E:/lixycode/testcode/node_modules/element-plus/theme-chalk/src/empty.scss",
+  "transforms": [
+    {
+      "name": "__load__",
+      "result": "@use 'mixins/mixins' as *;\n@use 'mixins/var' as *;\n@use 'common/var' as *;\n\n@include b(empty) {\n  @include set-component-css-var('empty', $empty);\n\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  flex-direction: column;\n  text-align: center;\n  box-sizing: border-box;\n  padding: getCssVar('empty-padding');\n\n  @include e(image) {\n    width: getCssVar('empty-image-width');\n\n    img {\n      user-select: none;\n      width: 100%;\n      height: 100%;\n      vertical-align: top;\n      object-fit: contain;\n    }\n\n    svg {\n      color: getCssVar('svg-monochrome-grey');\n      fill: currentColor;\n      width: 100%;\n      height: 100%;\n      vertical-align: top;\n    }\n  }\n\n  @include e(description) {\n    margin-top: getCssVar('empty-description-margin-top');\n\n    p {\n      margin: 0;\n      font-size: getCssVar('font-size', 'base');\n      color: getCssVar('text-color', 'secondary');\n    }\n  }\n\n  @include e(bottom) {\n    margin-top: getCssVar('empty-bottom-margin-top');\n  }\n}\n",
+      "start": 1738720351428,
+      "end": 1738720351428
+    },
+    {
+      "name": "vite-plugin-vue-inspector",
+      "start": 1738720351428,
+      "end": 1738720351428,
+      "order": "pre"
+    },
+    {
+      "name": "vite-plugin-vue-devtools",
+      "result": "@use 'mixins/mixins' as *;\n@use 'mixins/var' as *;\n@use 'common/var' as *;\n\n@include b(empty) {\n  @include set-component-css-var('empty', $empty);\n\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  flex-direction: column;\n  text-align: center;\n  box-sizing: border-box;\n  padding: getCssVar('empty-padding');\n\n  @include e(image) {\n    width: getCssVar('empty-image-width');\n\n    img {\n      user-select: none;\n      width: 100%;\n      height: 100%;\n      vertical-align: top;\n      object-fit: contain;\n    }\n\n    svg {\n      color: getCssVar('svg-monochrome-grey');\n      fill: currentColor;\n      width: 100%;\n      height: 100%;\n      vertical-align: top;\n    }\n  }\n\n  @include e(description) {\n    margin-top: getCssVar('empty-description-margin-top');\n\n    p {\n      margin: 0;\n      font-size: getCssVar('font-size', 'base');\n      color: getCssVar('text-color', 'secondary');\n    }\n  }\n\n  @include e(bottom) {\n    margin-top: getCssVar('empty-bottom-margin-top');\n  }\n}\n",
+      "start": 1738720351428,
+      "end": 1738720351428,
+      "order": "pre",
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "result": "/* Element Chalk Variables */\n.el-empty {\n  --el-empty-padding: 40px 0;\n  --el-empty-image-width: 160px;\n  --el-empty-description-margin-top: 20px;\n  --el-empty-bottom-margin-top: 20px;\n  --el-empty-fill-color-0: var(--el-color-white);\n  --el-empty-fill-color-1: #fcfcfd;\n  --el-empty-fill-color-2: #f8f9fb;\n  --el-empty-fill-color-3: #f7f8fc;\n  --el-empty-fill-color-4: #eeeff3;\n  --el-empty-fill-color-5: #edeef2;\n  --el-empty-fill-color-6: #e9ebef;\n  --el-empty-fill-color-7: #e5e7e9;\n  --el-empty-fill-color-8: #e0e3e9;\n  --el-empty-fill-color-9: #d5d7de;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  flex-direction: column;\n  text-align: center;\n  box-sizing: border-box;\n  padding: var(--el-empty-padding);\n}\n.el-empty__image {\n  width: var(--el-empty-image-width);\n}\n.el-empty__image img {\n  user-select: none;\n  width: 100%;\n  height: 100%;\n  vertical-align: top;\n  object-fit: contain;\n}\n.el-empty__image svg {\n  color: var(--el-svg-monochrome-grey);\n  fill: currentColor;\n  width: 100%;\n  height: 100%;\n  vertical-align: top;\n}\n\n.el-empty__description {\n  margin-top: var(--el-empty-description-margin-top);\n}\n.el-empty__description p {\n  margin: 0;\n  font-size: var(--el-font-size-base);\n  color: var(--el-text-color-secondary);\n}\n\n.el-empty__bottom {\n  margin-top: var(--el-empty-bottom-margin-top);\n}",
+      "start": 1738720351428,
+      "end": 1738720351509,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1738720351509,
+      "end": 1738720351509,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1738720351509,
+      "end": 1738720351509,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1738720351509,
+      "end": 1738720351509,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1738720351509,
+      "end": 1738720351509,
+      "order": "normal"
+    },
+    {
+      "name": "originjs:commonjs",
+      "start": 1738720351509,
+      "end": 1738720351509,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1738720351509,
+      "end": 1738720351509,
+      "order": "normal"
+    },
+    {
+      "name": "inject",
+      "start": 1738720351509,
+      "end": 1738720351509,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1738720351509,
+      "end": 1738720351509,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "result": "import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/node_modules/element-plus/theme-chalk/src/empty.scss\"\nconst __vite__css = \"/* Element Chalk Variables */\\n.el-empty {\\n  --el-empty-padding: 40px 0;\\n  --el-empty-image-width: 160px;\\n  --el-empty-description-margin-top: 20px;\\n  --el-empty-bottom-margin-top: 20px;\\n  --el-empty-fill-color-0: var(--el-color-white);\\n  --el-empty-fill-color-1: #fcfcfd;\\n  --el-empty-fill-color-2: #f8f9fb;\\n  --el-empty-fill-color-3: #f7f8fc;\\n  --el-empty-fill-color-4: #eeeff3;\\n  --el-empty-fill-color-5: #edeef2;\\n  --el-empty-fill-color-6: #e9ebef;\\n  --el-empty-fill-color-7: #e5e7e9;\\n  --el-empty-fill-color-8: #e0e3e9;\\n  --el-empty-fill-color-9: #d5d7de;\\n  display: flex;\\n  justify-content: center;\\n  align-items: center;\\n  flex-direction: column;\\n  text-align: center;\\n  box-sizing: border-box;\\n  padding: var(--el-empty-padding);\\n}\\n.el-empty__image {\\n  width: var(--el-empty-image-width);\\n}\\n.el-empty__image img {\\n  user-select: none;\\n  width: 100%;\\n  height: 100%;\\n  vertical-align: top;\\n  object-fit: contain;\\n}\\n.el-empty__image svg {\\n  color: var(--el-svg-monochrome-grey);\\n  fill: currentColor;\\n  width: 100%;\\n  height: 100%;\\n  vertical-align: top;\\n}\\n\\n.el-empty__description {\\n  margin-top: var(--el-empty-description-margin-top);\\n}\\n.el-empty__description p {\\n  margin: 0;\\n  font-size: var(--el-font-size-base);\\n  color: var(--el-text-color-secondary);\\n}\\n\\n.el-empty__bottom {\\n  margin-top: var(--el-empty-bottom-margin-top);\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720351509,
+      "end": 1738720351509,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1738720351509,
+      "end": 1738720351509,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1738720351509,
+      "end": 1738720351509,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1738720351509,
+      "end": 1738720351509,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1738720351509,
+      "end": 1738720351509,
+      "order": "normal"
+    },
+    {
+      "name": "vite-plugin-vue-inspector:post",
+      "start": 1738720351509,
+      "end": 1738720351509,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-auto-import",
+      "start": 1738720351509,
+      "end": 1738720351509,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-vue-components",
+      "start": 1738720351509,
+      "end": 1738720351509,
+      "order": "post"
+    },
+    {
+      "name": "vite:client-inject",
+      "start": 1738720351509,
+      "end": 1738720351509,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-analysis",
+      "start": 1738720351509,
+      "end": 1738720351509,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-analysis",
+      "result": "import { createHotContext as __vite__createHotContext } from \"/@vite/client\";import.meta.hot = __vite__createHotContext(\"/node_modules/element-plus/theme-chalk/src/empty.scss\");import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/node_modules/element-plus/theme-chalk/src/empty.scss\"\nconst __vite__css = \"/* Element Chalk Variables */\\n.el-empty {\\n  --el-empty-padding: 40px 0;\\n  --el-empty-image-width: 160px;\\n  --el-empty-description-margin-top: 20px;\\n  --el-empty-bottom-margin-top: 20px;\\n  --el-empty-fill-color-0: var(--el-color-white);\\n  --el-empty-fill-color-1: #fcfcfd;\\n  --el-empty-fill-color-2: #f8f9fb;\\n  --el-empty-fill-color-3: #f7f8fc;\\n  --el-empty-fill-color-4: #eeeff3;\\n  --el-empty-fill-color-5: #edeef2;\\n  --el-empty-fill-color-6: #e9ebef;\\n  --el-empty-fill-color-7: #e5e7e9;\\n  --el-empty-fill-color-8: #e0e3e9;\\n  --el-empty-fill-color-9: #d5d7de;\\n  display: flex;\\n  justify-content: center;\\n  align-items: center;\\n  flex-direction: column;\\n  text-align: center;\\n  box-sizing: border-box;\\n  padding: var(--el-empty-padding);\\n}\\n.el-empty__image {\\n  width: var(--el-empty-image-width);\\n}\\n.el-empty__image img {\\n  user-select: none;\\n  width: 100%;\\n  height: 100%;\\n  vertical-align: top;\\n  object-fit: contain;\\n}\\n.el-empty__image svg {\\n  color: var(--el-svg-monochrome-grey);\\n  fill: currentColor;\\n  width: 100%;\\n  height: 100%;\\n  vertical-align: top;\\n}\\n\\n.el-empty__description {\\n  margin-top: var(--el-empty-description-margin-top);\\n}\\n.el-empty__description p {\\n  margin: 0;\\n  font-size: var(--el-font-size-base);\\n  color: var(--el-text-color-secondary);\\n}\\n\\n.el-empty__bottom {\\n  margin-top: var(--el-empty-bottom-margin-top);\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720351509,
+      "end": 1738720351509,
+      "order": "normal",
+      "sourcemaps": null
+    }
+  ]
+}

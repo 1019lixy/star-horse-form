@@ -154,7 +154,7 @@ const configInfo = computed(() => configStore.configFormInfo);
             <transition name="solid">
               <keep-alive :include="cachedDatas">
                 <Suspense>
-                <component :is="Component"/>
+                  <component :is="Component"/>
                   <template #fallback>
                     数据加载中...
                   </template>

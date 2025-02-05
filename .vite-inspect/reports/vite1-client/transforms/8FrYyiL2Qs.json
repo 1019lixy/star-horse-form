@@ -1,0 +1,184 @@
+{
+  "resolvedId": "E:/lixycode/testcode/src/components/comp/items/dytableItem.vue?vue&type=style&index=0&scoped=2d034c8c&lang.scss",
+  "transforms": [
+    {
+      "name": "vite:vue",
+      "result": "\r\n.instance-table {\r\n  width: 100%;\r\n  height: 100%;\r\n  table-layout:fixed;\r\n  td {\r\n    line-height: 40px;\r\n    height: 40px;\r\n    padding: 0 10px 0 0;\r\n  }\r\n}\r\n",
+      "start": 1738720351675,
+      "end": 1738720351675,
+      "sourcemaps": {
+        "version": 3,
+        "sources": [
+          "E:/lixycode/testcode/src/components/comp/items/dytableItem.vue"
+        ],
+        "names": [],
+        "mappings": ";AA8DA,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE;EACd,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC;EACX,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC;EACZ,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;EAClB,CAAC,EAAE;IACD,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC;IACjB,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC;IACZ,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,EAAE,CAAC,CAAC,CAAC,EAAE,EAAE,CAAC;EACrB;AACF",
+        "file": "E:/lixycode/testcode/src/components/comp/items/dytableItem.vue",
+        "sourceRoot": "",
+        "sourcesContent": [
+          "<script setup lang=\"ts\">\r\nimport {onMounted, PropType} from \"vue\";\r\nimport {ApiUrls} from \"@/components/types/ApiUrls\";\r\nimport {PageFieldInfo} from \"@/components/types/PageFieldInfo\";\r\nimport {ModelRef} from \"vue-demi\";\r\nimport {validMsg} from \"@/api/sh_api.ts\";\r\nimport {Config} from \"@/api/settings.ts\";\r\n\r\ndefineProps({\r\n  compUrl: {type: Object as PropType<ApiUrls>},\r\n  item: {type: Object as PropType<PageFieldInfo>, required: true},\r\n  objectName: {type: String},\r\n  parentPreps:{type:Object,default:{}},\r\n  subFormFlag: {type: String, default: \"N\"},\r\n  batchName: {type: String, default: \"batchDataList\"},\r\n  batchFieldName: {type: String, default: \"batchFieldList\"},\r\n  primaryKey: {type: String, required: true},\r\n  rules: {type: Object},\r\n  compSize: {type: String, default: Config.compSize},\r\n  isView: {type: Boolean, default: false},\r\n  isEdit: {type: Boolean, default: false},\r\n});\r\nconst dataForm: ModelRef<any> = defineModel(\"dataForm\");\r\nconst init = () => {\r\n\r\n}\r\nonMounted(() => {\r\n  init();\r\n});\r\n</script>\r\n\r\n<template>\r\n  <template v-if=\"item.dytableList&&item.dytableList.length>0\">\r\n    <table ref=\"containerTableRef\" :class=\"{'dynamic-table':true,'instance-table':true }\" data-v-inspector=\"src/components/comp/items/dytableItem.vue:34:5\">\r\n      <tbody data-v-inspector=\"src/components/comp/items/dytableItem.vue:35:7\">\r\n      <tr v-for=\"(row,rowIndex) in item.dytableList\" class=\"dy-tr\" data-v-inspector=\"src/components/comp/items/dytableItem.vue:36:7\">\r\n        <td v-for=\"(sitem,colIndex) in row\" :colspan=\"sitem.preps?.colspan||1\" :rowspan=\"sitem.preps?.rowspan||1\"\r\n            :style=\"{width: sitem.preps?.colWidth + '% !important' || '',\r\n                     height: sitem.preps?.colHeight + '% !important' || '',\r\n                     'white-space':'nowrap',\r\n                     'word-break': !!sitem.preps?.wordBreak ? 'break-all' : 'keep-all'}\" data-v-inspector=\"src/components/comp/items/dytableItem.vue:37:9\">\r\n          <el-form-item\r\n              :size=\"compSize\"\r\n              :label=\"sitem.label\"\r\n              :required=\"sitem.required\"\r\n              :prop=\"sitem.fieldName\"\r\n              :label-position=\"parentPreps?.labelPosition\"\r\n              :rules=\"sitem.required?validMsg(sitem,dataForm):sitem.rules||[]\"\r\n              v-if=\"sitem.formVisible&&sitem.label&&sitem.preps?.headerFlag!='Y'\" data-v-inspector=\"src/components/comp/items/dytableItem.vue:42:11\">\r\n            <star-horse-item :primaryKey=\"primaryKey\" :compSize=\"compSize\" v-model:dataForm=\"dataForm\"\r\n                             :item=\"sitem\" :isEdit=\"isEdit\" data-v-inspector=\"src/components/comp/items/dytableItem.vue:50:13\"/>\r\n          </el-form-item>\r\n          <star-horse-item v-else-if=\"sitem.formVisible||sitem.viewVisible\" :compSize=\"compSize\" :primaryKey=\"primaryKey\"\r\n                           v-model:dataForm=\"dataForm\" :item=\"sitem\" :isEdit=\"isEdit\" data-v-inspector=\"src/components/comp/items/dytableItem.vue:53:11\"/>\r\n        </td>\r\n      </tr>\r\n      </tbody>\r\n    </table>\r\n  </template>\r\n</template>\r\n\r\n<style scoped lang=\"scss\">\r\n.instance-table {\r\n  width: 100%;\r\n  height: 100%;\r\n  table-layout:fixed;\r\n  td {\r\n    line-height: 40px;\r\n    height: 40px;\r\n    padding: 0 10px 0 0;\r\n  }\r\n}\r\n</style>\r\n"
+        ]
+      }
+    },
+    {
+      "name": "vite-plugin-vue-inspector",
+      "start": 1738720351675,
+      "end": 1738720351675,
+      "order": "pre"
+    },
+    {
+      "name": "vite-plugin-vue-devtools",
+      "result": "\r\n.instance-table {\r\n  width: 100%;\r\n  height: 100%;\r\n  table-layout:fixed;\r\n  td {\r\n    line-height: 40px;\r\n    height: 40px;\r\n    padding: 0 10px 0 0;\r\n  }\r\n}\r\n",
+      "start": 1738720351675,
+      "end": 1738720351675,
+      "order": "pre",
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "result": ".instance-table {\n  width: 100%;\n  height: 100%;\n  table-layout: fixed;\n}\n.instance-table td {\n  line-height: 40px;\n  height: 40px;\n  padding: 0 10px 0 0;\n}",
+      "start": 1738720351675,
+      "end": 1738720351682,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1738720351682,
+      "end": 1738720351682,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1738720351682,
+      "end": 1738720351682,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1738720351682,
+      "end": 1738720351682,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "result": ".instance-table[data-v-2d034c8c] {\n  width: 100%;\n  height: 100%;\n  table-layout: fixed;\n}\n.instance-table td[data-v-2d034c8c] {\n  line-height: 40px;\n  height: 40px;\n  padding: 0 10px 0 0;\n}",
+      "start": 1738720351683,
+      "end": 1738720351683,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "originjs:commonjs",
+      "start": 1738720351683,
+      "end": 1738720351683,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1738720351683,
+      "end": 1738720351683,
+      "order": "normal"
+    },
+    {
+      "name": "inject",
+      "start": 1738720351683,
+      "end": 1738720351683,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1738720351683,
+      "end": 1738720351683,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "result": "import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/src/components/comp/items/dytableItem.vue?vue&type=style&index=0&scoped=2d034c8c&lang.scss\"\nconst __vite__css = \".instance-table[data-v-2d034c8c] {\\n  width: 100%;\\n  height: 100%;\\n  table-layout: fixed;\\n}\\n.instance-table td[data-v-2d034c8c] {\\n  line-height: 40px;\\n  height: 40px;\\n  padding: 0 10px 0 0;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720351683,
+      "end": 1738720351684,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1738720351684,
+      "end": 1738720351684,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1738720351684,
+      "end": 1738720351684,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1738720351684,
+      "end": 1738720351684,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1738720351684,
+      "end": 1738720351684,
+      "order": "normal"
+    },
+    {
+      "name": "vite-plugin-vue-inspector:post",
+      "start": 1738720351684,
+      "end": 1738720351684,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-auto-import",
+      "start": 1738720351684,
+      "end": 1738720351684,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-vue-components",
+      "result": "/* unplugin-vue-components disabled */import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/src/components/comp/items/dytableItem.vue?vue&type=style&index=0&scoped=2d034c8c&lang.scss\"\nconst __vite__css = \".instance-table[data-v-2d034c8c] {\\n  width: 100%;\\n  height: 100%;\\n  table-layout: fixed;\\n}\\n.instance-table td[data-v-2d034c8c] {\\n  line-height: 40px;\\n  height: 40px;\\n  padding: 0 10px 0 0;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720351684,
+      "end": 1738720351684,
+      "order": "post",
+      "sourcemaps": {
+        "version": 3,
+        "sources": [
+          "E:/lixycode/testcode/src/components/comp/items/dytableItem.vue?vue&type=style&index=0&scoped=2d034c8c&lang.scss"
+        ],
+        "sourcesContent": [
+          "import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/src/components/comp/items/dytableItem.vue?vue&type=style&index=0&scoped=2d034c8c&lang.scss\"\nconst __vite__css = \".instance-table[data-v-2d034c8c] {\\n  width: 100%;\\n  height: 100%;\\n  table-layout: fixed;\\n}\\n.instance-table td[data-v-2d034c8c] {\\n  line-height: 40px;\\n  height: 40px;\\n  padding: 0 10px 0 0;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))"
+        ],
+        "names": [],
+        "mappings": "sCAAA,MAAM,CAAC,CAAC,CAAC,WAAW,CAAC,EAAE,CAAC,mBAAmB,CAAC,CAAC,WAAW,CAAC,EAAE,CAAC,mBAAmB,CAAC,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,CAAC,IAAI,CAAC,MAAM;AACrG,KAAK,CAAC,UAAU,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,QAAQ,CAAC,QAAQ,CAAC,GAAG,CAAC,UAAU,CAAC,IAAI,CAAC,KAAK,CAAC,WAAW,CAAC,GAAG,CAAC,GAAG,CAAC,IAAI,CAAC,KAAK,CAAC,KAAK,CAAC,CAAC,CAAC,MAAM,CAAC,QAAQ,CAAC,IAAI,CAAC,IAAI;AACnI,KAAK,CAAC,WAAW,CAAC,CAAC,CAAC,CAAC,CAAC,QAAQ,CAAC,KAAK,CAAC,IAAI,CAAC,CAAC,CAAC,QAAQ,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,KAAK,CAAC,CAAC,GAAG,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,MAAM,CAAC,CAAC,GAAG,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,KAAK,CAAC,MAAM,CAAC,CAAC,KAAK,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,QAAQ,CAAC,KAAK,CAAC,EAAE,CAAC,IAAI,CAAC,CAAC,CAAC,QAAQ,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,IAAI,CAAC,MAAM,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,CAAC,CAAC,MAAM,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,CAAC,CAAC,OAAO,CAAC,CAAC,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;AAC5N,mBAAmB,CAAC,UAAU,CAAC,CAAC,WAAW;AAC3C,MAAM,CAAC,IAAI,CAAC,GAAG,CAAC,MAAM,CAAC;AACvB,MAAM,CAAC,IAAI,CAAC,GAAG,CAAC,KAAK,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,mBAAmB,CAAC,UAAU,CAAC"
+      }
+    },
+    {
+      "name": "vite:client-inject",
+      "start": 1738720351684,
+      "end": 1738720351684,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-analysis",
+      "start": 1738720351684,
+      "end": 1738720351684,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-analysis",
+      "result": "import { createHotContext as __vite__createHotContext } from \"/@vite/client\";import.meta.hot = __vite__createHotContext(\"/src/components/comp/items/dytableItem.vue?vue&type=style&index=0&scoped=2d034c8c&lang.scss\");/* unplugin-vue-components disabled */import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/src/components/comp/items/dytableItem.vue?vue&type=style&index=0&scoped=2d034c8c&lang.scss\"\nconst __vite__css = \".instance-table[data-v-2d034c8c] {\\n  width: 100%;\\n  height: 100%;\\n  table-layout: fixed;\\n}\\n.instance-table td[data-v-2d034c8c] {\\n  line-height: 40px;\\n  height: 40px;\\n  padding: 0 10px 0 0;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720351684,
+      "end": 1738720351684,
+      "order": "normal",
+      "sourcemaps": null
+    }
+  ]
+}

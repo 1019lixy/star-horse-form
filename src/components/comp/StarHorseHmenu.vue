@@ -55,6 +55,7 @@ onMounted(() => {
 .el-submenu__title.is-opened {
   background-color: unset !important;
 }
+
 .sub-class:hover {
   background-color: unset !important;
 }

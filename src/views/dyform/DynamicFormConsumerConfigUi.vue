@@ -166,7 +166,7 @@ const initData = async () => {
   selfBtnFunc.value?.push({
     btnName: "新增",
     icon: "add",
-    authority:"add",
+    authority: "add",
     funcName: () => {
       router.push("/dyform/DataConsumerConfig");
     }
@@ -174,7 +174,7 @@ const initData = async () => {
   expandBtns.value?.push({
     btnName: "编辑",
     icon: "edit",
-    authority:"edit",
+    authority: "edit",
     funcName: (params: any) => {
       //params 页面刷新后 参数丢失，query 页面刷新后参数不会丢失
       router.push({path: "/dyform/DataConsumerConfig", query: {configId: params[primaryKey]}});
@@ -183,7 +183,7 @@ const initData = async () => {
   expandBtns.value?.push({
     btnName: "查看详情",
     icon: "view",
-    authority:"view",
+    authority: "view",
     funcName: (params: any) => {
       router.push({path: "/dyform/DataConsumerConfig", query: {configId: params[primaryKey], isView: "Y"}});
     }
@@ -218,7 +218,7 @@ const dataFormat = (name: string, cellValue: any, _row: any): any => {
                      :box-width="'70%'"
                      :isBatch="false" :isView="true">
     <div class="dialog-body">
-    <ViewPage :param="currentRow.dataNo" :isPreview="true"/>
+      <ViewPage :param="currentRow.dataNo" :isPreview="true"/>
     </div>
   </star-horse-dialog>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">

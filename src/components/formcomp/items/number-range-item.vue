@@ -63,9 +63,10 @@
   </starhorse-form-item>
 </template>
 <script lang="ts">
-import {defineComponent, onMounted, shallowRef,watch,ref,useSlots} from "vue";
+import {defineComponent, onMounted, shallowRef, watch, ref, useSlots} from "vue";
 import {allAction} from "@/components/formcomp/utils/ItemRelationEventUtils.ts";
 import {warning} from "@/utils/message.ts";
+
 export default defineComponent({
   setup(_props, context) {
     const parentField = context.attrs["parentField"];
@@ -100,7 +101,7 @@ export default defineComponent({
       allAction(context, prep);
     };
     onMounted(() => {
-      actionName.value = field.preps["actionName"];
+       actionName.value = field.preps?.actionName || "keydown.enter";;
       field.preps['maxName'] = field.preps["name"] + "Max";
       field.preps['minName'] = field.preps["name"] + "Min";
       let val = context.attrs['formData'][field.preps['name']];

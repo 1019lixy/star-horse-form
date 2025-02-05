@@ -3,7 +3,7 @@
 </script>
 
 <template>
-矩形树图
+  矩形树图
 </template>
 
 <style scoped lang="scss">

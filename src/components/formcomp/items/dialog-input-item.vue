@@ -133,7 +133,7 @@ export default defineComponent({
       dialogInputTableRef.value?.createSearchParams(data);
     };
     onMounted(() => {
-      actionName.value = field.preps["actionName"];
+       actionName.value = field.preps?.actionName || "keydown.enter";;
       if (!context.attrs["isSearch"]) {
         allAction(context, actionName.value, true);
       }
@@ -147,7 +147,7 @@ export default defineComponent({
 });
 </script>
 <style lang="scss" scoped>
-:deep(.el-input-group__append){
+:deep(.el-input-group__append) {
   padding: 0 20px !important;
 }
 </style>

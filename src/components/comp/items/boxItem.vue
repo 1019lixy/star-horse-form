@@ -9,7 +9,7 @@ defineProps({
   compUrl: {type: Object as PropType<ApiUrls>},
   item: {type: Array as PropType<Array<FieldInfo>>, required: true},
   objectName: {type: String},
-  parentPreps:{type:Object,default:{}},
+  parentPreps: {type: Object, default: {}},
   subFormFlag: {type: String, default: "N"},
   batchName: {type: String, default: "batchDataList"},
   batchFieldName: {type: String, default: "batchFieldList"},

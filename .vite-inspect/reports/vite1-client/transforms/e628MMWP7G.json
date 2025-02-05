@@ -1,0 +1,148 @@
+{
+  "resolvedId": "E:/lixycode/testcode/node_modules/.vite/deps/element-plus_es_components_button_style_index.js",
+  "transforms": [
+    {
+      "name": "vite:optimized-deps",
+      "result": "import \"./chunk-6XCJQ3FK.js\";\nimport \"./chunk-W2CSSDXN.js\";\n",
+      "start": 1738720191844,
+      "end": 1738720191971,
+      "sourcemaps": null
+    },
+    {
+      "name": "vite-plugin-vue-inspector",
+      "start": 1738720191971,
+      "end": 1738720191971,
+      "order": "pre"
+    },
+    {
+      "name": "vite-plugin-vue-devtools",
+      "result": "import \"./chunk-6XCJQ3FK.js\";\nimport \"./chunk-W2CSSDXN.js\";\n",
+      "start": 1738720191971,
+      "end": 1738720191971,
+      "order": "pre",
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "start": 1738720191971,
+      "end": 1738720191971,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1738720191971,
+      "end": 1738720191971,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1738720191971,
+      "end": 1738720191971,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1738720191971,
+      "end": 1738720191971,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1738720191971,
+      "end": 1738720191971,
+      "order": "normal"
+    },
+    {
+      "name": "originjs:commonjs",
+      "start": 1738720191971,
+      "end": 1738720191971,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1738720191971,
+      "end": 1738720191971,
+      "order": "normal"
+    },
+    {
+      "name": "inject",
+      "start": 1738720191971,
+      "end": 1738720191971,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1738720191971,
+      "end": 1738720191971,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1738720191971,
+      "end": 1738720191971,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1738720191971,
+      "end": 1738720191971,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1738720191971,
+      "end": 1738720191971,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1738720191971,
+      "end": 1738720191971,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1738720191971,
+      "end": 1738720191971,
+      "order": "normal"
+    },
+    {
+      "name": "vite-plugin-vue-inspector:post",
+      "start": 1738720191971,
+      "end": 1738720191971,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-auto-import",
+      "start": 1738720191971,
+      "end": 1738720191971,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-vue-components",
+      "start": 1738720191971,
+      "end": 1738720191971,
+      "order": "post"
+    },
+    {
+      "name": "vite:client-inject",
+      "start": 1738720191971,
+      "end": 1738720191971,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-analysis",
+      "start": 1738720191971,
+      "end": 1738720191971,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-analysis",
+      "result": "import \"/node_modules/.vite/deps/chunk-6XCJQ3FK.js?v=65efcb1b\";\nimport \"/node_modules/.vite/deps/chunk-W2CSSDXN.js?v=65efcb1b\";\n",
+      "start": 1738720191971,
+      "end": 1738720191972,
+      "order": "normal",
+      "sourcemaps": null
+    }
+  ]
+}

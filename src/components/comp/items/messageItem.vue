@@ -300,6 +300,7 @@ onMounted(() => {
     }
   }
 }
+
 .message-footer {
   height: 30px;
   margin-top: 10px;

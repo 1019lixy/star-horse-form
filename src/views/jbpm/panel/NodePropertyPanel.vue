@@ -28,7 +28,7 @@ const props = defineProps({
     type: Object,
     required: true
   },
-  compSize: {type: String, default:Config.compSize},
+  compSize: {type: String, default: Config.compSize},
   tab: {type: String, default: "node"}
 });
 const userTaskFormRef = ref();

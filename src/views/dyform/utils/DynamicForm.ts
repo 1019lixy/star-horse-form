@@ -112,7 +112,7 @@ const formActions = [
         label: '右侧属性栏',
     },
 ];
-const shortKeyHelpMessage=
+const shortKeyHelpMessage =
     `
 快捷键：
   1、Ctrl + X 剪切操作；
@@ -159,4 +159,4 @@ const dynamicFormHelpMessage =
     如果是自增，需要在保存时修改主键策略。
 ${shortKeyHelpMessage}
 `;
-export {formActions,dynamicFormHelpMessage};
+export {formActions, dynamicFormHelpMessage};

@@ -41,25 +41,25 @@ const strToObj = (str: string) => {
       <el-tooltip content="插入容器">
         <star-horse-icon icon-class="container" @click="goBack" cursor="pointer"/>
       </el-tooltip>
-<!--      <el-popover trigger="click" :width="450">
-        <template #reference>
-          <star-horse-icon icon-class="charts" cursor="pointer" title="插入图表"/>
-        </template>
-        <template #default>
-          <el-scrollbar>
-            <template v-for="item in CHART_LIST">
-              <div class="shape-info">
-                <div class="shape-title">{{ item.type }}</div>
-                <div class="shape-content">
-                  <template v-for="sitem in item.children">
-                    <star-horse-svg :data="sitem" cursor="pointer" width="28" height="28" size="28px"/>
+      <!--      <el-popover trigger="click" :width="450">
+              <template #reference>
+                <star-horse-icon icon-class="charts" cursor="pointer" title="插入图表"/>
+              </template>
+              <template #default>
+                <el-scrollbar>
+                  <template v-for="item in CHART_LIST">
+                    <div class="shape-info">
+                      <div class="shape-title">{{ item.type }}</div>
+                      <div class="shape-content">
+                        <template v-for="sitem in item.children">
+                          <star-horse-svg :data="sitem" cursor="pointer" width="28" height="28" size="28px"/>
+                        </template>
+                      </div>
+                    </div>
                   </template>
-                </div>
-              </div>
-            </template>
-          </el-scrollbar>
-        </template>
-      </el-popover>-->
+                </el-scrollbar>
+              </template>
+            </el-popover>-->
       <el-popover trigger="click" :width="450" :popper-style="{'max-height':'500px','overflow':'hidden'}">
         <template #reference>
           <star-horse-icon icon-class="icon" cursor="pointer" title="插入图标/贴纸"/>
@@ -90,7 +90,8 @@ const strToObj = (str: string) => {
                     <div class="shape-title">{{ item.name }}</div>
                     <div class="shape-content">
                       <template v-for="sitem in item.list">
-                        <span v-if="sitem.name.includes('viewBox')" v-html="sitem.name" style="display: block;width: 28px;height: 28px;margin: 5px;"/>
+                        <span v-if="sitem.name.includes('viewBox')" v-html="sitem.name"
+                              style="display: block;width: 28px;height: 28px;margin: 5px;"/>
                         <star-horse-icon v-else :icon-class="sitem.name" cursor="pointer" size="30px"/>
                       </template>
                     </div>
@@ -153,7 +154,7 @@ const strToObj = (str: string) => {
   overflow: hidden;
 }
 
-.svg-icon, .icon,img {
+.svg-icon, .icon, img {
   margin: 0 10px;
 }
 

@@ -207,13 +207,13 @@ onMounted(() => {
           </el-form-item>
           <template v-else>
 
-              <star-horse-data-selector data-url="/userdb-manage/userdb/dynamicForm/pageList"
-                                        display-name="formName"
-                                        display-value="idDynamicForm"
-                                        :pageSize="100"
-                                        placeholder="请选择表单"
-                                        v-model="node.formId"/>
-              <AuthForm v-model="node.privilege" :formId="node.formId" writable/>
+            <star-horse-data-selector data-url="/userdb-manage/userdb/dynamicForm/pageList"
+                                      display-name="formName"
+                                      display-value="idDynamicForm"
+                                      :pageSize="100"
+                                      placeholder="请选择表单"
+                                      v-model="node.formId"/>
+            <AuthForm v-model="node.privilege" :formId="node.formId" writable/>
           </template>
         </el-tab-pane>
         <el-tab-pane key="3" name="3" label="任务监听">

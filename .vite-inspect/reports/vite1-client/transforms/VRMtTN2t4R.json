@@ -1,0 +1,184 @@
+{
+  "resolvedId": "E:/lixycode/testcode/src/components/comp/StarHorseFormList.vue?vue&type=style&index=0&scoped=e03f8987&lang.scss",
+  "transforms": [
+    {
+      "name": "vite:vue",
+      "result": "\r\n:deep(.el-table__cell) {\r\n  padding: 0;\r\n}\r\n\r\n.dynamic-tools {\r\n  display: flex;\r\n  justify-content: space-between;\r\n  width: 100%;\r\n  align-items: center;\r\n  height: 30px;\r\n  border-bottom: var(--star-horse-style) 1px solid;\r\n}\r\n\r\n.form-list {\r\n  display: flex;\r\n  flex-direction: column;\r\n  width: 99%;\r\n  margin: 0 auto;\r\n  flex: 1;\r\n  height: 100%;\r\n  overflow: hidden;\r\n\r\n  .inner_button {\r\n    margin-bottom: 5px;\r\n  }\r\n\r\n  .el-table {\r\n    flex: 1;\r\n  }\r\n}\r\n\r\n:deep(th.el-table__cell:first-child) {\r\n  padding: 5px 0;\r\n}\r\n\r\n:deep(.el-form-item) {\r\n  font-size: 11px;\r\n  margin-bottom: 1px;\r\n}\r\n\r\n:deep(.el-input__inner ), :deep(el-select) {\r\n  height: 25px;\r\n  font-size: 12px;\r\n}\r\n\r\n:deep(.el-select) {\r\n  line-height: 25px;\r\n}\r\n",
+      "start": 1738720349018,
+      "end": 1738720349018,
+      "sourcemaps": {
+        "version": 3,
+        "sources": [
+          "E:/lixycode/testcode/src/components/comp/StarHorseFormList.vue"
+        ],
+        "names": [],
+        "mappings": "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",
+        "file": "E:/lixycode/testcode/src/components/comp/StarHorseFormList.vue",
+        "sourceRoot": "",
+        "sourcesContent": [
+          "<script lang=\"ts\" setup name=\"StarHorseFormList\">\r\nimport {inject, nextTick, onMounted, PropType, ref, ShallowReactive} from 'vue'\r\nimport {ApiUrls} from \"@/components/types/ApiUrls\";\r\nimport StarHorseIcon from \"@/components/comp/StarHorseIcon.vue\";\r\nimport {rowClassName} from \"@/api/sh_api\";\r\nimport {error, success, warning, confirm} from \"@/utils/message\";\r\nimport {download} from \"@/api/star_horse\";\r\nimport {getToken} from \"@/utils/auth\";\r\nimport Sortable from \"sortablejs\";\r\nimport Help from \"@/components/help.vue\";\r\nimport {ModelRef} from \"vue-demi\";\r\nimport {uuid} from \"@/api/system.ts\";\r\nimport UTableColumn from \"@/components/comp/items/UTableColumn.vue\";\r\nimport StarHorseForm from \"@/components/comp/StarHorseForm.vue\";\r\nimport {Config} from \"@/api/settings.ts\";\r\n\r\n\r\nlet importDialogVisible = ref<boolean>(false);\r\nlet rowDialogVisible = ref<boolean>(false);\r\nconst rowDataFormRef = ref();\r\nconst props = defineProps({\r\n  compUrl: {type: Object as PropType<ApiUrls>},\r\n  fieldList: {type: Object, required: true},\r\n  defaultValues: {type: Object, default: {}},\r\n  batchName: {type: String, default: \"batchDataList\"},\r\n  primaryKey: {type: String},\r\n  initRows: {type: Number, default: 0},\r\n  importInfo: {type: Object},\r\n  title: {type: String, default: \"\"},\r\n  helpMsg: {type: String, default: \"\"},\r\n  rules: {type: Object},\r\n  staticColumn: {type: String, default: \"N\"},\r\n  size: {type: String, default: Config.compSize},\r\n  isView: {type: Boolean, default: false},\r\n  subFlag: {type: Boolean, default: false},\r\n});\r\nconst emits = defineEmits([\"addRow\", \"removeRow\"]);\r\nconst dataForm: ModelRef<any> = defineModel(\"dataForm\");\r\nconst formFields = inject(\"formFields\") as ShallowReactive<any>;\r\nconst loading = ref(null);\r\nconst starHorseFormListRef = ref(null);\r\n\r\nconst handleAddDetails = (row: any, type: number) => {\r\n  if (props.staticColumn == \"Y\" && type != 2) {\r\n    dynamicHandleAddForm(row, \"add\");\r\n  } else {\r\n    dynamicHandleAddRow(row, type);\r\n  }\r\n}\r\nlet currentRow = ref<any>({});\r\n/**\r\n * 编辑当前行的数据\r\n * @param row\r\n * @param type\r\n */\r\nconst dynamicHandleAddForm = async (row: any, type: string) => {\r\n  currentRow.value = row;\r\n  rowDialogVisible.value = true;\r\n  await nextTick();\r\n  rowDataFormRef.value.setFormData(row);\r\n}\r\nconst mergeData = async () => {\r\n  let flag = false;\r\n  await rowDataFormRef.value.$refs.starHorseFormRef.validate(res => flag = res);\r\n  if (!flag) {\r\n    return;\r\n  }\r\n  let formData = rowDataFormRef.value.getFormData().value;\r\n  if (formData.xh) {\r\n    dataForm.value[props.batchName][formData.xh - 1] = formData;\r\n  } else {\r\n    dataForm.value[props.batchName].push(formData);\r\n  }\r\n  closeAction();\r\n}\r\nconst closeAction = () => {\r\n  rowDialogVisible.value = false;\r\n}\r\n/**\r\n * 动态添加行\r\n * @param row\r\n * @param type\r\n */\r\nconst dynamicHandleAddRow = (row: any, type: number) => {\r\n  if (!dataForm.value[props.batchName]) {\r\n    dataForm.value[props.batchName] = [];\r\n  }\r\n  if (type === 1) {\r\n    let obj = JSON.parse(JSON.stringify(props.defaultValues || {}));\r\n    obj[\"_uuid\"] = uuid();\r\n    dataForm.value[props.batchName].push(obj);\r\n    emits(\"addRow\", row);\r\n  } else {\r\n    let index = row.xh - 1;\r\n    formFields && formFields[props.batchName].splice(index, 1);\r\n    dataForm.value[props.batchName].splice(index, 1);\r\n    emits(\"removeRow\", row);\r\n  }\r\n  //将事件传出去\r\n  let fieldList = props.fieldList;\r\n  for (let ind in fieldList) {\r\n    let temp = fieldList[ind];\r\n    if (temp.actions) {\r\n      temp.actions(dataForm, \"oper\");\r\n    }\r\n  }\r\n};\r\nconst getRowIdentity = (row: any) => {\r\n  return row[props.primaryKey!];\r\n}\r\n//批量操作\r\nconst excelOperation = () => {\r\n  importDialogVisible.value = true;\r\n};\r\n/**\r\n * 下载模板\r\n */\r\nconst downloadTemplate = () => {\r\n  download(props.importInfo!.downloadTemplateUrl, {}).catch((err) => {\r\n    error(\"接口不存在或网络异常:\" + err);\r\n  });\r\n};\r\n/**\r\n * 上传失败\r\n * @param _err err\r\n * @param _file file\r\n * @param _fileList fileList\r\n */\r\nconst uploadError = (_err: any, _file: any, _fileList: any) => {\r\n  warning(\"导入数据失败\");\r\n};\r\n/**\r\n * 上传成功\r\n */\r\nconst uploadSuccess = (response: any, _file: any, _fileList: any) => {\r\n  if (response.code != 0) {\r\n    warning(\"数据解析异常\");\r\n    return;\r\n  }\r\n  success(\"导入成功\");\r\n  dataForm.value[props.batchName] = response.data;\r\n  importDialogVisible.value = false;\r\n};\r\nlet currentItem = ref<any>({});\r\nconst selectData = (item: any) => {\r\n  currentItem.value = item;\r\n};\r\nconst moveColumn = () => {\r\n  const tbody = document.querySelector(\r\n      \".sh-columns .el-table__body-wrapper tbody\"\r\n  ) as HTMLElement | null;\r\n  if (tbody) {\r\n    Sortable.create(tbody, {\r\n      handle: \".move\",\r\n      animation: 200,\r\n      ghostClass: \"ghost\",\r\n      onEnd(event: any) {\r\n        const {oldIndex, newIndex} = event;\r\n        if (oldIndex === newIndex) {\r\n          return\r\n        }\r\n      },\r\n    });\r\n  }\r\n};\r\nconst clearAll = () => {\r\n  if (dataForm.value[props.batchName].length == 0) {\r\n    return;\r\n  }\r\n  confirm(\"确定要清空吗?\").then(() => {\r\n    dataForm.value[props.batchName] = [];\r\n  });\r\n\r\n}\r\nconst init = async () => {\r\n  // console.log(Object.keys(dataForm.value), props.batchName);\r\n  if (!Object.keys(dataForm.value).includes(props.batchName)) {\r\n    dataForm.value[props.batchName] = [];\r\n  }\r\n  /**\r\n   * 如果列表为空的情况才初始化行数\r\n   */\r\n  if (props.staticColumn == 'N') {\r\n    if (dataForm.value[props.batchName]?.length == 0) {\r\n      for (let i = 0; i < props.initRows; i++) {\r\n        handleAddDetails(null, 1);\r\n      }\r\n    }\r\n  }\r\n  moveColumn();\r\n};\r\nonMounted(async () => {\r\n  await init();\r\n});\r\n</script>\r\n<template>\r\n  <star-horse-dialog :title=\"'编辑数据'\" :dialogVisible=\"rowDialogVisible\"\r\n                     :boxWidth=\"'60%'\"\r\n                     :selfFunc=\"true\"\r\n                     @merge=\"mergeData\"\r\n                     @closeAction=\"closeAction\" data-v-inspector=\"src/components/comp/StarHorseFormList.vue:197:3\">\r\n    <div class=\"dialog-body\" data-v-inspector=\"src/components/comp/StarHorseFormList.vue:202:5\">\r\n      <star-horse-form :fieldList=\"{fieldList:fieldList}\" ref=\"rowDataFormRef\" data-v-inspector=\"src/components/comp/StarHorseFormList.vue:203:7\"/>\r\n    </div>\r\n  </star-horse-dialog>\r\n  <star-horse-dialog v-if=\"!subFlag\" :title=\"'导入文件'\" :dialogVisible=\"importDialogVisible\"\r\n                     :boxWidth=\"'30%'\"\r\n                     :isView=\"true\"\r\n                     :draggable=\"false\"\r\n                     @closeAction=\"importDialogVisible=false\" data-v-inspector=\"src/components/comp/StarHorseFormList.vue:206:3\">\r\n    <div class=\"dialog-body\" data-v-inspector=\"src/components/comp/StarHorseFormList.vue:211:5\">\r\n      <el-card data-v-inspector=\"src/components/comp/StarHorseFormList.vue:212:7\">\r\n        <el-upload\r\n            :auto-upload=\"true\"\r\n            :on-error=\"uploadError\"\r\n            :on-success=\"uploadSuccess\"\r\n            :show-file-list=\"false\"\r\n            accept=\".xls,.xlsx\"\r\n            :action=\"importInfo!.importDataUrl\"\r\n            :headers=\"{ token: getToken() }\"\r\n            class=\"upload\"\r\n            name=\"file\"\r\n            drag data-v-inspector=\"src/components/comp/StarHorseFormList.vue:213:9\"\r\n        >\r\n          <el-icon class=\"el-icon--upload\" data-v-inspector=\"src/components/comp/StarHorseFormList.vue:225:11\">\r\n            <upload-filled data-v-inspector=\"src/components/comp/StarHorseFormList.vue:226:13\"/>\r\n          </el-icon>\r\n          <div class=\"el-upload__text\" data-v-inspector=\"src/components/comp/StarHorseFormList.vue:228:11\">\r\n            拖拽文件到这里 or\r\n            <em data-v-inspector=\"src/components/comp/StarHorseFormList.vue:230:13\">点击上传</em>\r\n          </div>\r\n          <template #tip>\r\n            <div class=\"el-upload__tip\" data-v-inspector=\"src/components/comp/StarHorseFormList.vue:233:13\">\r\n              只能上传 xls/xlsx 文件类型\r\n              <el-button @click=\"downloadTemplate\" title=\"\" :size=\"size\" link v-if=\r\n                  \"importInfo?.downloadTemplateUrl\" data-v-inspector=\"src/components/comp/StarHorseFormList.vue:235:15\">\r\n                <star-horse-icon icon-class=\"download\" color=\"var(--star-horse-white)\" size=\"12px\" data-v-inspector=\"src/components/comp/StarHorseFormList.vue:237:17\"/>\r\n                <el-tooltip content=\"下载模板\" data-v-inspector=\"src/components/comp/StarHorseFormList.vue:238:17\">下载模板</el-tooltip>\r\n              </el-button>\r\n            </div>\r\n          </template>\r\n        </el-upload>\r\n      </el-card>\r\n    </div>\r\n  </star-horse-dialog>\r\n  <div class=\"form-list\" data-v-inspector=\"src/components/comp/StarHorseFormList.vue:246:3\">\r\n    <div class=\"dynamic-tools\" data-v-inspector=\"src/components/comp/StarHorseFormList.vue:247:5\">\r\n      <div class=\"tb_title\" v-if=\"!subFlag\" data-v-inspector=\"src/components/comp/StarHorseFormList.vue:248:7\">\r\n        <star-horse-icon icon-class=\"info\" size=\"14px\" data-v-inspector=\"src/components/comp/StarHorseFormList.vue:249:9\"/>\r\n        {{ title }}\r\n        <help v-if=\"helpMsg\" :message=\"helpMsg\" :width=\"400\" data-v-inspector=\"src/components/comp/StarHorseFormList.vue:251:9\"/>\r\n      </div>\r\n      <div style=\"height:30px;display: flex;align-items: center;flex-direction: row-reverse;margin-bottom: 5px\" data-v-inspector=\"src/components/comp/StarHorseFormList.vue:253:7\">\r\n        <ul class=\"inner_button\" v-if=\"!isView\" data-v-inspector=\"src/components/comp/StarHorseFormList.vue:254:9\">\r\n          <li v-if=\"importInfo?.importDataUrl&&!subFlag\" @click=\"excelOperation\" data-v-inspector=\"src/components/comp/StarHorseFormList.vue:255:11\">\r\n            <el-tooltip content=\"导入Excel\" data-v-inspector=\"src/components/comp/StarHorseFormList.vue:256:13\">\r\n              <star-horse-icon icon-class=\"upload\" color=\"var(--star-horse-style)\" size=\"18px\" data-v-inspector=\"src/components/comp/StarHorseFormList.vue:257:15\"/>\r\n            </el-tooltip>\r\n          </li>\r\n          <li @click=\"clearAll\" data-v-inspector=\"src/components/comp/StarHorseFormList.vue:260:11\">\r\n            <el-tooltip content=\"清空列表\" data-v-inspector=\"src/components/comp/StarHorseFormList.vue:261:13\">\r\n              <star-horse-icon icon-class=\"delete-comp\" color=\"var(--el-style-danger)\" size=\"18px\" data-v-inspector=\"src/components/comp/StarHorseFormList.vue:262:15\"/>\r\n            </el-tooltip>\r\n          </li>\r\n        </ul>\r\n      </div>\r\n    </div>\r\n    <el-table\r\n        v-loading=\"loading\"\r\n        :data=\"dataForm[batchName]\"\r\n        fit\r\n        border\r\n        sortable\r\n        :size=\"size\"\r\n        :row-key=\"getRowIdentity\"\r\n        :strip=\"true\"\r\n        :highlight-current-row=\"true\"\r\n        :row-class-name=\"rowClassName\"\r\n        ref=\"starHorseFormListRef\"\r\n        class=\"sh-columns\"\r\n        :stripe=\"true\"\r\n        :header-cell-style=\"{'background':'#f2f2f2',\r\n      'color': '#707070',\r\n      'font-size':'12px',\r\n      'background-image': '-webkit-gradient(linear,left 0,left 100%,from(#f8f8f8),to(#ececec))'\r\n      }\"\r\n        :cell-style=\"{'font-size':'12px'}\" data-v-inspector=\"src/components/comp/StarHorseFormList.vue:268:5\"\r\n    >\r\n      <el-table-column\r\n          type=\"selection\"\r\n          fixed=\"left\"\r\n          width=\"50\"\r\n          align=\"center\"\r\n          v-if=\"false\" data-v-inspector=\"src/components/comp/StarHorseFormList.vue:289:7\"\r\n      />\r\n      <el-table-column\r\n          label=\"序号\"\r\n          align=\"center\"\r\n          prop=\"xh\"\r\n          width=\"50\" data-v-inspector=\"src/components/comp/StarHorseFormList.vue:296:7\"\r\n      />\r\n      <el-table-column prop=\"\" label=\"排序\" width=\"60\" v-if=\"staticColumn=='N'\" data-v-inspector=\"src/components/comp/StarHorseFormList.vue:302:7\">\r\n        <template #default=\"scope\">\r\n          <el-tag class=\"move\" style=\"cursor: move\"\r\n                  @mousedown=\"selectData(scope.row)\" data-v-inspector=\"src/components/comp/StarHorseFormList.vue:304:11\">\r\n            <el-icon style=\"cursor: move\" data-v-inspector=\"src/components/comp/StarHorseFormList.vue:306:13\">\r\n              <Sort data-v-inspector=\"src/components/comp/StarHorseFormList.vue:307:15\"/>\r\n            </el-icon>\r\n          </el-tag>\r\n        </template>\r\n      </el-table-column>\r\n      <template v-for=\"item in fieldList\">\r\n        <template v-if=\"Array.isArray(item)\">\r\n          <UTableColumn :item=\"temp\" v-for=\"temp in item\" :size=\"size\" :rules=\"rules\" :batchName=\"batchName\"\r\n                        :primaryKey=\"primaryKey\" :staticColumn=\"staticColumn\" data-v-inspector=\"src/components/comp/StarHorseFormList.vue:314:11\"/>\r\n        </template>\r\n        <template v-else-if=\"item.formVisible\">\r\n          <UTableColumn :item=\"item\" :size=\"size\" :rules=\"rules\" :batchName=\"batchName\"\r\n                        :primaryKey=\"primaryKey\" :staticColumn=\"staticColumn\" data-v-inspector=\"src/components/comp/StarHorseFormList.vue:318:11\"/>\r\n        </template>\r\n\r\n      </template>\r\n      <el-table-column fixed=\"right\" label=\"操作\" width=\"80\" data-v-inspector=\"src/components/comp/StarHorseFormList.vue:323:7\">\r\n        <template #default=\"scope\" v-if=\"!isView\">\r\n          <star-horse-icon icon-class=\"edit\" v-if=\"staticColumn=='Y'\"\r\n                           @click=\"dynamicHandleAddForm(scope.row,'edit')\" title=\"编辑\" data-v-inspector=\"src/components/comp/StarHorseFormList.vue:325:11\"/>\r\n          <star-horse-icon icon-class=\"delete\" @click=\"handleAddDetails(scope.row, 2)\" title=\"删除当前行\"\r\n                           color=\"#f56c6c\" data-v-inspector=\"src/components/comp/StarHorseFormList.vue:327:11\"/>\r\n\r\n        </template>\r\n      </el-table-column>\r\n    </el-table>\r\n    <div class=\"add-row\" v-if=\"!isView\" @click=\"handleAddDetails(null, 1)\" data-v-inspector=\"src/components/comp/StarHorseFormList.vue:333:5\">\r\n      <star-horse-icon icon-class=\"plus\" color=\"var(--star-horse-style)\" data-v-inspector=\"src/components/comp/StarHorseFormList.vue:334:7\"/>\r\n      {{ staticColumn == 'Y' ? \"添加数据\" : \"加一行\" }}\r\n    </div>\r\n  </div>\r\n</template>\r\n<style lang=\"scss\" scoped>\r\n:deep(.el-table__cell) {\r\n  padding: 0;\r\n}\r\n\r\n.dynamic-tools {\r\n  display: flex;\r\n  justify-content: space-between;\r\n  width: 100%;\r\n  align-items: center;\r\n  height: 30px;\r\n  border-bottom: var(--star-horse-style) 1px solid;\r\n}\r\n\r\n.form-list {\r\n  display: flex;\r\n  flex-direction: column;\r\n  width: 99%;\r\n  margin: 0 auto;\r\n  flex: 1;\r\n  height: 100%;\r\n  overflow: hidden;\r\n\r\n  .inner_button {\r\n    margin-bottom: 5px;\r\n  }\r\n\r\n  .el-table {\r\n    flex: 1;\r\n  }\r\n}\r\n\r\n:deep(th.el-table__cell:first-child) {\r\n  padding: 5px 0;\r\n}\r\n\r\n:deep(.el-form-item) {\r\n  font-size: 11px;\r\n  margin-bottom: 1px;\r\n}\r\n\r\n:deep(.el-input__inner ), :deep(el-select) {\r\n  height: 25px;\r\n  font-size: 12px;\r\n}\r\n\r\n:deep(.el-select) {\r\n  line-height: 25px;\r\n}\r\n</style>\r\n"
+        ]
+      }
+    },
+    {
+      "name": "vite-plugin-vue-inspector",
+      "start": 1738720349018,
+      "end": 1738720349018,
+      "order": "pre"
+    },
+    {
+      "name": "vite-plugin-vue-devtools",
+      "result": "\r\n:deep(.el-table__cell) {\r\n  padding: 0;\r\n}\r\n\r\n.dynamic-tools {\r\n  display: flex;\r\n  justify-content: space-between;\r\n  width: 100%;\r\n  align-items: center;\r\n  height: 30px;\r\n  border-bottom: var(--star-horse-style) 1px solid;\r\n}\r\n\r\n.form-list {\r\n  display: flex;\r\n  flex-direction: column;\r\n  width: 99%;\r\n  margin: 0 auto;\r\n  flex: 1;\r\n  height: 100%;\r\n  overflow: hidden;\r\n\r\n  .inner_button {\r\n    margin-bottom: 5px;\r\n  }\r\n\r\n  .el-table {\r\n    flex: 1;\r\n  }\r\n}\r\n\r\n:deep(th.el-table__cell:first-child) {\r\n  padding: 5px 0;\r\n}\r\n\r\n:deep(.el-form-item) {\r\n  font-size: 11px;\r\n  margin-bottom: 1px;\r\n}\r\n\r\n:deep(.el-input__inner ), :deep(el-select) {\r\n  height: 25px;\r\n  font-size: 12px;\r\n}\r\n\r\n:deep(.el-select) {\r\n  line-height: 25px;\r\n}\r\n",
+      "start": 1738720349018,
+      "end": 1738720349018,
+      "order": "pre",
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "result": ":deep(.el-table__cell) {\n  padding: 0;\n}\n\n.dynamic-tools {\n  display: flex;\n  justify-content: space-between;\n  width: 100%;\n  align-items: center;\n  height: 30px;\n  border-bottom: var(--star-horse-style) 1px solid;\n}\n\n.form-list {\n  display: flex;\n  flex-direction: column;\n  width: 99%;\n  margin: 0 auto;\n  flex: 1;\n  height: 100%;\n  overflow: hidden;\n}\n.form-list .inner_button {\n  margin-bottom: 5px;\n}\n.form-list .el-table {\n  flex: 1;\n}\n\n:deep(th.el-table__cell:first-child) {\n  padding: 5px 0;\n}\n\n:deep(.el-form-item) {\n  font-size: 11px;\n  margin-bottom: 1px;\n}\n\n:deep(.el-input__inner), :deep(el-select) {\n  height: 25px;\n  font-size: 12px;\n}\n\n:deep(.el-select) {\n  line-height: 25px;\n}",
+      "start": 1738720349020,
+      "end": 1738720349054,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1738720349054,
+      "end": 1738720349054,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1738720349054,
+      "end": 1738720349054,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1738720349054,
+      "end": 1738720349054,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "result": "[data-v-e03f8987] .el-table__cell {\n  padding: 0;\n}\n.dynamic-tools[data-v-e03f8987] {\n  display: flex;\n  justify-content: space-between;\n  width: 100%;\n  align-items: center;\n  height: 30px;\n  border-bottom: var(--star-horse-style) 1px solid;\n}\n.form-list[data-v-e03f8987] {\n  display: flex;\n  flex-direction: column;\n  width: 99%;\n  margin: 0 auto;\n  flex: 1;\n  height: 100%;\n  overflow: hidden;\n}\n.form-list .inner_button[data-v-e03f8987] {\n  margin-bottom: 5px;\n}\n.form-list .el-table[data-v-e03f8987] {\n  flex: 1;\n}\n[data-v-e03f8987] th.el-table__cell:first-child {\n  padding: 5px 0;\n}\n[data-v-e03f8987] .el-form-item {\n  font-size: 11px;\n  margin-bottom: 1px;\n}\n[data-v-e03f8987] .el-input__inner,[data-v-e03f8987] el-select {\n  height: 25px;\n  font-size: 12px;\n}\n[data-v-e03f8987] .el-select {\n  line-height: 25px;\n}",
+      "start": 1738720349055,
+      "end": 1738720349056,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "originjs:commonjs",
+      "start": 1738720349056,
+      "end": 1738720349056,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1738720349056,
+      "end": 1738720349056,
+      "order": "normal"
+    },
+    {
+      "name": "inject",
+      "start": 1738720349056,
+      "end": 1738720349056,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1738720349056,
+      "end": 1738720349056,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "result": "import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/src/components/comp/StarHorseFormList.vue?vue&type=style&index=0&scoped=e03f8987&lang.scss\"\nconst __vite__css = \"[data-v-e03f8987] .el-table__cell {\\n  padding: 0;\\n}\\n.dynamic-tools[data-v-e03f8987] {\\n  display: flex;\\n  justify-content: space-between;\\n  width: 100%;\\n  align-items: center;\\n  height: 30px;\\n  border-bottom: var(--star-horse-style) 1px solid;\\n}\\n.form-list[data-v-e03f8987] {\\n  display: flex;\\n  flex-direction: column;\\n  width: 99%;\\n  margin: 0 auto;\\n  flex: 1;\\n  height: 100%;\\n  overflow: hidden;\\n}\\n.form-list .inner_button[data-v-e03f8987] {\\n  margin-bottom: 5px;\\n}\\n.form-list .el-table[data-v-e03f8987] {\\n  flex: 1;\\n}\\n[data-v-e03f8987] th.el-table__cell:first-child {\\n  padding: 5px 0;\\n}\\n[data-v-e03f8987] .el-form-item {\\n  font-size: 11px;\\n  margin-bottom: 1px;\\n}\\n[data-v-e03f8987] .el-input__inner,[data-v-e03f8987] el-select {\\n  height: 25px;\\n  font-size: 12px;\\n}\\n[data-v-e03f8987] .el-select {\\n  line-height: 25px;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720349056,
+      "end": 1738720349056,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1738720349056,
+      "end": 1738720349056,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1738720349056,
+      "end": 1738720349056,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1738720349056,
+      "end": 1738720349056,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1738720349056,
+      "end": 1738720349056,
+      "order": "normal"
+    },
+    {
+      "name": "vite-plugin-vue-inspector:post",
+      "start": 1738720349056,
+      "end": 1738720349056,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-auto-import",
+      "start": 1738720349056,
+      "end": 1738720349056,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-vue-components",
+      "result": "/* unplugin-vue-components disabled */import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/src/components/comp/StarHorseFormList.vue?vue&type=style&index=0&scoped=e03f8987&lang.scss\"\nconst __vite__css = \"[data-v-e03f8987] .el-table__cell {\\n  padding: 0;\\n}\\n.dynamic-tools[data-v-e03f8987] {\\n  display: flex;\\n  justify-content: space-between;\\n  width: 100%;\\n  align-items: center;\\n  height: 30px;\\n  border-bottom: var(--star-horse-style) 1px solid;\\n}\\n.form-list[data-v-e03f8987] {\\n  display: flex;\\n  flex-direction: column;\\n  width: 99%;\\n  margin: 0 auto;\\n  flex: 1;\\n  height: 100%;\\n  overflow: hidden;\\n}\\n.form-list .inner_button[data-v-e03f8987] {\\n  margin-bottom: 5px;\\n}\\n.form-list .el-table[data-v-e03f8987] {\\n  flex: 1;\\n}\\n[data-v-e03f8987] th.el-table__cell:first-child {\\n  padding: 5px 0;\\n}\\n[data-v-e03f8987] .el-form-item {\\n  font-size: 11px;\\n  margin-bottom: 1px;\\n}\\n[data-v-e03f8987] .el-input__inner,[data-v-e03f8987] el-select {\\n  height: 25px;\\n  font-size: 12px;\\n}\\n[data-v-e03f8987] .el-select {\\n  line-height: 25px;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720349056,
+      "end": 1738720349057,
+      "order": "post",
+      "sourcemaps": {
+        "version": 3,
+        "sources": [
+          "E:/lixycode/testcode/src/components/comp/StarHorseFormList.vue?vue&type=style&index=0&scoped=e03f8987&lang.scss"
+        ],
+        "sourcesContent": [
+          "import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/src/components/comp/StarHorseFormList.vue?vue&type=style&index=0&scoped=e03f8987&lang.scss\"\nconst __vite__css = \"[data-v-e03f8987] .el-table__cell {\\n  padding: 0;\\n}\\n.dynamic-tools[data-v-e03f8987] {\\n  display: flex;\\n  justify-content: space-between;\\n  width: 100%;\\n  align-items: center;\\n  height: 30px;\\n  border-bottom: var(--star-horse-style) 1px solid;\\n}\\n.form-list[data-v-e03f8987] {\\n  display: flex;\\n  flex-direction: column;\\n  width: 99%;\\n  margin: 0 auto;\\n  flex: 1;\\n  height: 100%;\\n  overflow: hidden;\\n}\\n.form-list .inner_button[data-v-e03f8987] {\\n  margin-bottom: 5px;\\n}\\n.form-list .el-table[data-v-e03f8987] {\\n  flex: 1;\\n}\\n[data-v-e03f8987] th.el-table__cell:first-child {\\n  padding: 5px 0;\\n}\\n[data-v-e03f8987] .el-form-item {\\n  font-size: 11px;\\n  margin-bottom: 1px;\\n}\\n[data-v-e03f8987] .el-input__inner,[data-v-e03f8987] el-select {\\n  height: 25px;\\n  font-size: 12px;\\n}\\n[data-v-e03f8987] .el-select {\\n  line-height: 25px;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))"
+        ],
+        "names": [],
+        "mappings": "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"
+      }
+    },
+    {
+      "name": "vite:client-inject",
+      "start": 1738720349057,
+      "end": 1738720349057,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-analysis",
+      "start": 1738720349057,
+      "end": 1738720349057,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-analysis",
+      "result": "import { createHotContext as __vite__createHotContext } from \"/@vite/client\";import.meta.hot = __vite__createHotContext(\"/src/components/comp/StarHorseFormList.vue?vue&type=style&index=0&scoped=e03f8987&lang.scss\");/* unplugin-vue-components disabled */import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/src/components/comp/StarHorseFormList.vue?vue&type=style&index=0&scoped=e03f8987&lang.scss\"\nconst __vite__css = \"[data-v-e03f8987] .el-table__cell {\\n  padding: 0;\\n}\\n.dynamic-tools[data-v-e03f8987] {\\n  display: flex;\\n  justify-content: space-between;\\n  width: 100%;\\n  align-items: center;\\n  height: 30px;\\n  border-bottom: var(--star-horse-style) 1px solid;\\n}\\n.form-list[data-v-e03f8987] {\\n  display: flex;\\n  flex-direction: column;\\n  width: 99%;\\n  margin: 0 auto;\\n  flex: 1;\\n  height: 100%;\\n  overflow: hidden;\\n}\\n.form-list .inner_button[data-v-e03f8987] {\\n  margin-bottom: 5px;\\n}\\n.form-list .el-table[data-v-e03f8987] {\\n  flex: 1;\\n}\\n[data-v-e03f8987] th.el-table__cell:first-child {\\n  padding: 5px 0;\\n}\\n[data-v-e03f8987] .el-form-item {\\n  font-size: 11px;\\n  margin-bottom: 1px;\\n}\\n[data-v-e03f8987] .el-input__inner,[data-v-e03f8987] el-select {\\n  height: 25px;\\n  font-size: 12px;\\n}\\n[data-v-e03f8987] .el-select {\\n  line-height: 25px;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720349057,
+      "end": 1738720349057,
+      "order": "normal",
+      "sourcemaps": null
+    }
+  ]
+}

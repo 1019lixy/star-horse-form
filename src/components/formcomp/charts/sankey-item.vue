@@ -3,7 +3,7 @@
 </script>
 
 <template>
-桑基图
+  桑基图
 </template>
 
 <style scoped lang="scss">

@@ -10,7 +10,7 @@ defineProps({
   compUrl: {type: Object as PropType<ApiUrls>},
   item: {type: Object as PropType<PageFieldInfo>, required: true},
   objectName: {type: String},
-  parentPreps:{type:Object,default:{}},
+  parentPreps: {type: Object, default: {}},
   subFormFlag: {type: String, default: "N"},
   batchName: {type: String, default: "batchDataList"},
   batchFieldName: {type: String, default: "batchFieldList"},
@@ -50,7 +50,8 @@ onMounted(() => {
             <star-horse-item :primaryKey="primaryKey" :compSize="compSize" v-model:dataForm="dataForm"
                              :item="sitem" :isEdit="isEdit"/>
           </el-form-item>
-          <star-horse-item v-else-if="sitem.formVisible||sitem.viewVisible" :compSize="compSize" :primaryKey="primaryKey"
+          <star-horse-item v-else-if="sitem.formVisible||sitem.viewVisible" :compSize="compSize"
+                           :primaryKey="primaryKey"
                            v-model:dataForm="dataForm" :item="sitem" :isEdit="isEdit"/>
         </td>
       </tr>
@@ -63,7 +64,8 @@ onMounted(() => {
 .instance-table {
   width: 100%;
   height: 100%;
-  table-layout:fixed;
+  table-layout: fixed;
+
   td {
     line-height: 40px;
     height: 40px;

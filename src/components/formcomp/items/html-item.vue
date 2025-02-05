@@ -17,7 +17,7 @@ export default defineComponent({
     let dataField = shallowRef("");
     context.attrs['formData'][field.preps['name']] = field.preps['content'];
     const itemAction = (prep: any) => {
-     allAction(context,prep);
+      allAction(context, prep);
     };
     return {parentField, context, field, formItem, dataField, itemAction}
   }

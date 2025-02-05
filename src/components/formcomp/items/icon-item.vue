@@ -84,7 +84,7 @@ export default defineComponent({
       context.emit('selfFunc', prep);
     };
     onMounted(() => {
-      actionName.value = field.preps["actionName"];
+       actionName.value = field.preps?.actionName || "keydown.enter";;
       console.log(field.preps);
       if (field.preps['values']?.length > 0) {
         allIconList.value = field.preps['values'];

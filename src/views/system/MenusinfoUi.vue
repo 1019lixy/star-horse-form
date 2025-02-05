@@ -76,7 +76,7 @@ const tableFieldList = reactive<PageFieldInfo>({
       label: "排序", fieldName: "dataIndex", type: "number",
       required: true, formVisible: true,
       listVisible: true
-    },{
+    }, {
       label: "菜单图标", fieldName: "menuIcon", type: "icon", optionList: menuIconList,
       required: false, formVisible: true,
       listVisible: true

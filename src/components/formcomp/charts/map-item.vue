@@ -3,7 +3,7 @@
 </script>
 
 <template>
-地理坐标/地图
+  地理坐标/地图
 </template>
 
 <style scoped lang="scss">

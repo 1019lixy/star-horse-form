@@ -1,0 +1,155 @@
+{
+  "resolvedId": "E:/lixycode/testcode/node_modules/element-plus/theme-chalk/src/option.scss",
+  "transforms": [
+    {
+      "name": "__load__",
+      "result": "@use 'sass:map';\n\n@use 'mixins/mixins' as *;\n@use 'common/var' as *;\n\n$checked-icon: \"data:image/svg+xml;utf8,%3Csvg class='icon' width='200' height='200' viewBox='0 0 1024 1024' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='currentColor' d='M406.656 706.944L195.84 496.256a32 32 0 10-45.248 45.248l256 256 512-512a32 32 0 00-45.248-45.248L406.592 706.944z'%3E%3C/path%3E%3C/svg%3E\";\n\n@mixin checked-icon {\n  content: '';\n  position: absolute;\n  top: 50%;\n  right: 20px;\n  border-top: none;\n  border-right: none;\n  background-repeat: no-repeat;\n  background-position: center;\n  background-color: map.get($select-option, 'selected-text-color');\n  mask: url('#{$checked-icon}') no-repeat;\n  mask-size: 100% 100%;\n  -webkit-mask: url('#{$checked-icon}') no-repeat;\n  -webkit-mask-size: 100% 100%;\n  transform: translateY(-50%);\n  width: 12px;\n  height: 12px;\n}\n\n@include b(select-dropdown) {\n  @include e(item) {\n    font-size: map.get($select, 'font-size');\n    // 20 as the padding of option item, 12 as the size of ✓ icon size\n    padding: 0 #{20 + 12}px 0 20px;\n    position: relative;\n    white-space: nowrap;\n    overflow: hidden;\n    text-overflow: ellipsis;\n    color: map.get($select-option, 'text-color');\n    height: map.get($select-option, 'height');\n    line-height: map.get($select-option, 'height');\n    box-sizing: border-box;\n    cursor: pointer;\n\n    @include when(hovering) {\n      background-color: map.get($select-option, 'hover-background');\n    }\n\n    @include when(selected) {\n      color: map.get($select-option, 'selected-text-color');\n      font-weight: bold;\n    }\n\n    @include when(disabled) {\n      color: map.get($select-option, 'disabled-color');\n      cursor: not-allowed;\n      background-color: unset;\n    }\n  }\n\n  @include when(multiple) {\n    .#{$namespace}-select-dropdown__item.is-selected {\n      &::after {\n        @include checked-icon;\n      }\n    }\n\n    .#{$namespace}-select-dropdown__item.is-disabled {\n      &::after {\n        background-color: map.get($select-option, 'disabled-color');\n      }\n    }\n  }\n}\n",
+      "start": 1738720228022,
+      "end": 1738720228022
+    },
+    {
+      "name": "vite-plugin-vue-inspector",
+      "start": 1738720228022,
+      "end": 1738720228022,
+      "order": "pre"
+    },
+    {
+      "name": "vite-plugin-vue-devtools",
+      "result": "@use 'sass:map';\n\n@use 'mixins/mixins' as *;\n@use 'common/var' as *;\n\n$checked-icon: \"data:image/svg+xml;utf8,%3Csvg class='icon' width='200' height='200' viewBox='0 0 1024 1024' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='currentColor' d='M406.656 706.944L195.84 496.256a32 32 0 10-45.248 45.248l256 256 512-512a32 32 0 00-45.248-45.248L406.592 706.944z'%3E%3C/path%3E%3C/svg%3E\";\n\n@mixin checked-icon {\n  content: '';\n  position: absolute;\n  top: 50%;\n  right: 20px;\n  border-top: none;\n  border-right: none;\n  background-repeat: no-repeat;\n  background-position: center;\n  background-color: map.get($select-option, 'selected-text-color');\n  mask: url('#{$checked-icon}') no-repeat;\n  mask-size: 100% 100%;\n  -webkit-mask: url('#{$checked-icon}') no-repeat;\n  -webkit-mask-size: 100% 100%;\n  transform: translateY(-50%);\n  width: 12px;\n  height: 12px;\n}\n\n@include b(select-dropdown) {\n  @include e(item) {\n    font-size: map.get($select, 'font-size');\n    // 20 as the padding of option item, 12 as the size of ✓ icon size\n    padding: 0 #{20 + 12}px 0 20px;\n    position: relative;\n    white-space: nowrap;\n    overflow: hidden;\n    text-overflow: ellipsis;\n    color: map.get($select-option, 'text-color');\n    height: map.get($select-option, 'height');\n    line-height: map.get($select-option, 'height');\n    box-sizing: border-box;\n    cursor: pointer;\n\n    @include when(hovering) {\n      background-color: map.get($select-option, 'hover-background');\n    }\n\n    @include when(selected) {\n      color: map.get($select-option, 'selected-text-color');\n      font-weight: bold;\n    }\n\n    @include when(disabled) {\n      color: map.get($select-option, 'disabled-color');\n      cursor: not-allowed;\n      background-color: unset;\n    }\n  }\n\n  @include when(multiple) {\n    .#{$namespace}-select-dropdown__item.is-selected {\n      &::after {\n        @include checked-icon;\n      }\n    }\n\n    .#{$namespace}-select-dropdown__item.is-disabled {\n      &::after {\n        background-color: map.get($select-option, 'disabled-color');\n      }\n    }\n  }\n}\n",
+      "start": 1738720228022,
+      "end": 1738720228022,
+      "order": "pre",
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "result": "/* Element Chalk Variables */\n.el-select-dropdown__item {\n  font-size: var(--el-font-size-base);\n  padding: 0 32px 0 20px;\n  position: relative;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  color: var(--el-text-color-regular);\n  height: 34px;\n  line-height: 34px;\n  box-sizing: border-box;\n  cursor: pointer;\n}\n.el-select-dropdown__item.is-hovering {\n  background-color: var(--el-fill-color-light);\n}\n\n.el-select-dropdown__item.is-selected {\n  color: var(--el-color-primary);\n  font-weight: bold;\n}\n\n.el-select-dropdown__item.is-disabled {\n  color: var(--el-text-color-placeholder);\n  cursor: not-allowed;\n  background-color: unset;\n}\n\n.el-select-dropdown.is-multiple .el-select-dropdown__item.is-selected::after {\n  content: \"\";\n  position: absolute;\n  top: 50%;\n  right: 20px;\n  border-top: none;\n  border-right: none;\n  background-repeat: no-repeat;\n  background-position: center;\n  background-color: var(--el-color-primary);\n  mask: url(\"data:image/svg+xml;utf8,%3Csvg class='icon' width='200' height='200' viewBox='0 0 1024 1024' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='currentColor' d='M406.656 706.944L195.84 496.256a32 32 0 10-45.248 45.248l256 256 512-512a32 32 0 00-45.248-45.248L406.592 706.944z'%3E%3C/path%3E%3C/svg%3E\") no-repeat;\n  mask-size: 100% 100%;\n  -webkit-mask: url(\"data:image/svg+xml;utf8,%3Csvg class='icon' width='200' height='200' viewBox='0 0 1024 1024' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='currentColor' d='M406.656 706.944L195.84 496.256a32 32 0 10-45.248 45.248l256 256 512-512a32 32 0 00-45.248-45.248L406.592 706.944z'%3E%3C/path%3E%3C/svg%3E\") no-repeat;\n  -webkit-mask-size: 100% 100%;\n  transform: translateY(-50%);\n  width: 12px;\n  height: 12px;\n}\n.el-select-dropdown.is-multiple .el-select-dropdown__item.is-disabled::after {\n  background-color: var(--el-text-color-placeholder);\n}",
+      "start": 1738720228022,
+      "end": 1738720228712,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1738720228712,
+      "end": 1738720228712,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1738720228712,
+      "end": 1738720228712,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1738720228712,
+      "end": 1738720228712,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1738720228712,
+      "end": 1738720228712,
+      "order": "normal"
+    },
+    {
+      "name": "originjs:commonjs",
+      "start": 1738720228712,
+      "end": 1738720228712,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1738720228712,
+      "end": 1738720228712,
+      "order": "normal"
+    },
+    {
+      "name": "inject",
+      "start": 1738720228712,
+      "end": 1738720228712,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1738720228712,
+      "end": 1738720228712,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "result": "import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/node_modules/element-plus/theme-chalk/src/option.scss\"\nconst __vite__css = \"/* Element Chalk Variables */\\n.el-select-dropdown__item {\\n  font-size: var(--el-font-size-base);\\n  padding: 0 32px 0 20px;\\n  position: relative;\\n  white-space: nowrap;\\n  overflow: hidden;\\n  text-overflow: ellipsis;\\n  color: var(--el-text-color-regular);\\n  height: 34px;\\n  line-height: 34px;\\n  box-sizing: border-box;\\n  cursor: pointer;\\n}\\n.el-select-dropdown__item.is-hovering {\\n  background-color: var(--el-fill-color-light);\\n}\\n\\n.el-select-dropdown__item.is-selected {\\n  color: var(--el-color-primary);\\n  font-weight: bold;\\n}\\n\\n.el-select-dropdown__item.is-disabled {\\n  color: var(--el-text-color-placeholder);\\n  cursor: not-allowed;\\n  background-color: unset;\\n}\\n\\n.el-select-dropdown.is-multiple .el-select-dropdown__item.is-selected::after {\\n  content: \\\"\\\";\\n  position: absolute;\\n  top: 50%;\\n  right: 20px;\\n  border-top: none;\\n  border-right: none;\\n  background-repeat: no-repeat;\\n  background-position: center;\\n  background-color: var(--el-color-primary);\\n  mask: url(\\\"data:image/svg+xml;utf8,%3Csvg class='icon' width='200' height='200' viewBox='0 0 1024 1024' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='currentColor' d='M406.656 706.944L195.84 496.256a32 32 0 10-45.248 45.248l256 256 512-512a32 32 0 00-45.248-45.248L406.592 706.944z'%3E%3C/path%3E%3C/svg%3E\\\") no-repeat;\\n  mask-size: 100% 100%;\\n  -webkit-mask: url(\\\"data:image/svg+xml;utf8,%3Csvg class='icon' width='200' height='200' viewBox='0 0 1024 1024' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='currentColor' d='M406.656 706.944L195.84 496.256a32 32 0 10-45.248 45.248l256 256 512-512a32 32 0 00-45.248-45.248L406.592 706.944z'%3E%3C/path%3E%3C/svg%3E\\\") no-repeat;\\n  -webkit-mask-size: 100% 100%;\\n  transform: translateY(-50%);\\n  width: 12px;\\n  height: 12px;\\n}\\n.el-select-dropdown.is-multiple .el-select-dropdown__item.is-disabled::after {\\n  background-color: var(--el-text-color-placeholder);\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720228712,
+      "end": 1738720228713,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1738720228713,
+      "end": 1738720228713,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1738720228713,
+      "end": 1738720228713,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1738720228713,
+      "end": 1738720228713,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1738720228713,
+      "end": 1738720228713,
+      "order": "normal"
+    },
+    {
+      "name": "vite-plugin-vue-inspector:post",
+      "start": 1738720228713,
+      "end": 1738720228713,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-auto-import",
+      "start": 1738720228713,
+      "end": 1738720228713,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-vue-components",
+      "start": 1738720228713,
+      "end": 1738720228713,
+      "order": "post"
+    },
+    {
+      "name": "vite:client-inject",
+      "start": 1738720228713,
+      "end": 1738720228713,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-analysis",
+      "start": 1738720228713,
+      "end": 1738720228713,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-analysis",
+      "result": "import { createHotContext as __vite__createHotContext } from \"/@vite/client\";import.meta.hot = __vite__createHotContext(\"/node_modules/element-plus/theme-chalk/src/option.scss\");import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/node_modules/element-plus/theme-chalk/src/option.scss\"\nconst __vite__css = \"/* Element Chalk Variables */\\n.el-select-dropdown__item {\\n  font-size: var(--el-font-size-base);\\n  padding: 0 32px 0 20px;\\n  position: relative;\\n  white-space: nowrap;\\n  overflow: hidden;\\n  text-overflow: ellipsis;\\n  color: var(--el-text-color-regular);\\n  height: 34px;\\n  line-height: 34px;\\n  box-sizing: border-box;\\n  cursor: pointer;\\n}\\n.el-select-dropdown__item.is-hovering {\\n  background-color: var(--el-fill-color-light);\\n}\\n\\n.el-select-dropdown__item.is-selected {\\n  color: var(--el-color-primary);\\n  font-weight: bold;\\n}\\n\\n.el-select-dropdown__item.is-disabled {\\n  color: var(--el-text-color-placeholder);\\n  cursor: not-allowed;\\n  background-color: unset;\\n}\\n\\n.el-select-dropdown.is-multiple .el-select-dropdown__item.is-selected::after {\\n  content: \\\"\\\";\\n  position: absolute;\\n  top: 50%;\\n  right: 20px;\\n  border-top: none;\\n  border-right: none;\\n  background-repeat: no-repeat;\\n  background-position: center;\\n  background-color: var(--el-color-primary);\\n  mask: url(\\\"data:image/svg+xml;utf8,%3Csvg class='icon' width='200' height='200' viewBox='0 0 1024 1024' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='currentColor' d='M406.656 706.944L195.84 496.256a32 32 0 10-45.248 45.248l256 256 512-512a32 32 0 00-45.248-45.248L406.592 706.944z'%3E%3C/path%3E%3C/svg%3E\\\") no-repeat;\\n  mask-size: 100% 100%;\\n  -webkit-mask: url(\\\"data:image/svg+xml;utf8,%3Csvg class='icon' width='200' height='200' viewBox='0 0 1024 1024' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='currentColor' d='M406.656 706.944L195.84 496.256a32 32 0 10-45.248 45.248l256 256 512-512a32 32 0 00-45.248-45.248L406.592 706.944z'%3E%3C/path%3E%3C/svg%3E\\\") no-repeat;\\n  -webkit-mask-size: 100% 100%;\\n  transform: translateY(-50%);\\n  width: 12px;\\n  height: 12px;\\n}\\n.el-select-dropdown.is-multiple .el-select-dropdown__item.is-disabled::after {\\n  background-color: var(--el-text-color-placeholder);\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720228714,
+      "end": 1738720228714,
+      "order": "normal",
+      "sourcemaps": null
+    }
+  ]
+}

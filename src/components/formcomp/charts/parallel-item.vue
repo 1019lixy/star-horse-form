@@ -3,7 +3,7 @@
 </script>
 
 <template>
-平行坐标系
+  平行坐标系
 </template>
 
 <style scoped lang="scss">

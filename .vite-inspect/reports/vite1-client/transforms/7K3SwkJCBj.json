@@ -1,0 +1,155 @@
+{
+  "resolvedId": "E:/lixycode/testcode/node_modules/element-plus/theme-chalk/src/scrollbar.scss",
+  "transforms": [
+    {
+      "name": "__load__",
+      "result": "@use 'sass:map';\n\n@use 'mixins/mixins' as *;\n@use 'mixins/var' as *;\n@use 'common/var' as *;\n\n@include b(scrollbar) {\n  @include set-component-css-var('scrollbar', $scrollbar);\n}\n\n@include b(scrollbar) {\n  overflow: hidden;\n  position: relative;\n  height: 100%;\n\n  @include e(wrap) {\n    overflow: auto;\n    height: 100%;\n\n    @include m(hidden-default) {\n      scrollbar-width: none;\n      &::-webkit-scrollbar {\n        display: none;\n      }\n    }\n  }\n\n  @include e(thumb) {\n    position: relative;\n    display: block;\n    width: 0;\n    height: 0;\n    cursor: pointer;\n    border-radius: inherit;\n    background-color: var(\n      #{getCssVarName('scrollbar-bg-color')},\n      map.get($scrollbar, 'bg-color')\n    );\n    transition: getCssVar('transition-duration') background-color;\n    opacity: var(\n      #{getCssVarName('scrollbar-opacity')},\n      map.get($scrollbar, 'opacity')\n    );\n\n    &:hover {\n      background-color: var(\n        #{getCssVarName('scrollbar-hover-bg-color')},\n        map.get($scrollbar, 'hover-bg-color')\n      );\n      opacity: var(\n        #{getCssVarName('scrollbar-hover-opacity')},\n        map.get($scrollbar, 'hover-opacity')\n      );\n    }\n  }\n\n  @include e(bar) {\n    position: absolute;\n    right: 2px;\n    bottom: 2px;\n    z-index: 1;\n    border-radius: 4px;\n\n    @include when(vertical) {\n      width: 6px;\n      top: 2px;\n\n      > div {\n        width: 100%;\n      }\n    }\n\n    @include when(horizontal) {\n      height: 6px;\n      left: 2px;\n\n      > div {\n        height: 100%;\n      }\n    }\n  }\n}\n\n.#{$namespace}-scrollbar-fade {\n  &-enter-active {\n    transition: opacity 340ms ease-out;\n  }\n\n  &-leave-active {\n    transition: opacity 120ms ease-out;\n  }\n\n  &-enter-from,\n  &-leave-active {\n    opacity: 0;\n  }\n}\n",
+      "start": 1738720228004,
+      "end": 1738720228004
+    },
+    {
+      "name": "vite-plugin-vue-inspector",
+      "start": 1738720228004,
+      "end": 1738720228004,
+      "order": "pre"
+    },
+    {
+      "name": "vite-plugin-vue-devtools",
+      "result": "@use 'sass:map';\n\n@use 'mixins/mixins' as *;\n@use 'mixins/var' as *;\n@use 'common/var' as *;\n\n@include b(scrollbar) {\n  @include set-component-css-var('scrollbar', $scrollbar);\n}\n\n@include b(scrollbar) {\n  overflow: hidden;\n  position: relative;\n  height: 100%;\n\n  @include e(wrap) {\n    overflow: auto;\n    height: 100%;\n\n    @include m(hidden-default) {\n      scrollbar-width: none;\n      &::-webkit-scrollbar {\n        display: none;\n      }\n    }\n  }\n\n  @include e(thumb) {\n    position: relative;\n    display: block;\n    width: 0;\n    height: 0;\n    cursor: pointer;\n    border-radius: inherit;\n    background-color: var(\n      #{getCssVarName('scrollbar-bg-color')},\n      map.get($scrollbar, 'bg-color')\n    );\n    transition: getCssVar('transition-duration') background-color;\n    opacity: var(\n      #{getCssVarName('scrollbar-opacity')},\n      map.get($scrollbar, 'opacity')\n    );\n\n    &:hover {\n      background-color: var(\n        #{getCssVarName('scrollbar-hover-bg-color')},\n        map.get($scrollbar, 'hover-bg-color')\n      );\n      opacity: var(\n        #{getCssVarName('scrollbar-hover-opacity')},\n        map.get($scrollbar, 'hover-opacity')\n      );\n    }\n  }\n\n  @include e(bar) {\n    position: absolute;\n    right: 2px;\n    bottom: 2px;\n    z-index: 1;\n    border-radius: 4px;\n\n    @include when(vertical) {\n      width: 6px;\n      top: 2px;\n\n      > div {\n        width: 100%;\n      }\n    }\n\n    @include when(horizontal) {\n      height: 6px;\n      left: 2px;\n\n      > div {\n        height: 100%;\n      }\n    }\n  }\n}\n\n.#{$namespace}-scrollbar-fade {\n  &-enter-active {\n    transition: opacity 340ms ease-out;\n  }\n\n  &-leave-active {\n    transition: opacity 120ms ease-out;\n  }\n\n  &-enter-from,\n  &-leave-active {\n    opacity: 0;\n  }\n}\n",
+      "start": 1738720228004,
+      "end": 1738720228004,
+      "order": "pre",
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "result": "/* Element Chalk Variables */\n.el-scrollbar {\n  --el-scrollbar-opacity: 0.3;\n  --el-scrollbar-bg-color: var(--el-text-color-secondary);\n  --el-scrollbar-hover-opacity: 0.5;\n  --el-scrollbar-hover-bg-color: var(--el-text-color-secondary);\n}\n\n.el-scrollbar {\n  overflow: hidden;\n  position: relative;\n  height: 100%;\n}\n.el-scrollbar__wrap {\n  overflow: auto;\n  height: 100%;\n}\n.el-scrollbar__wrap--hidden-default {\n  scrollbar-width: none;\n}\n.el-scrollbar__wrap--hidden-default::-webkit-scrollbar {\n  display: none;\n}\n\n.el-scrollbar__thumb {\n  position: relative;\n  display: block;\n  width: 0;\n  height: 0;\n  cursor: pointer;\n  border-radius: inherit;\n  background-color: var(--el-scrollbar-bg-color, var(--el-text-color-secondary));\n  transition: var(--el-transition-duration) background-color;\n  opacity: var(--el-scrollbar-opacity, 0.3);\n}\n.el-scrollbar__thumb:hover {\n  background-color: var(--el-scrollbar-hover-bg-color, var(--el-text-color-secondary));\n  opacity: var(--el-scrollbar-hover-opacity, 0.5);\n}\n\n.el-scrollbar__bar {\n  position: absolute;\n  right: 2px;\n  bottom: 2px;\n  z-index: 1;\n  border-radius: 4px;\n}\n.el-scrollbar__bar.is-vertical {\n  width: 6px;\n  top: 2px;\n}\n.el-scrollbar__bar.is-vertical > div {\n  width: 100%;\n}\n\n.el-scrollbar__bar.is-horizontal {\n  height: 6px;\n  left: 2px;\n}\n.el-scrollbar__bar.is-horizontal > div {\n  height: 100%;\n}\n\n.el-scrollbar-fade-enter-active {\n  transition: opacity 340ms ease-out;\n}\n.el-scrollbar-fade-leave-active {\n  transition: opacity 120ms ease-out;\n}\n.el-scrollbar-fade-enter-from, .el-scrollbar-fade-leave-active {\n  opacity: 0;\n}",
+      "start": 1738720228004,
+      "end": 1738720228708,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1738720228712,
+      "end": 1738720228712,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1738720228712,
+      "end": 1738720228712,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1738720228712,
+      "end": 1738720228712,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1738720228712,
+      "end": 1738720228712,
+      "order": "normal"
+    },
+    {
+      "name": "originjs:commonjs",
+      "start": 1738720228712,
+      "end": 1738720228712,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1738720228712,
+      "end": 1738720228712,
+      "order": "normal"
+    },
+    {
+      "name": "inject",
+      "start": 1738720228712,
+      "end": 1738720228712,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1738720228712,
+      "end": 1738720228712,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "result": "import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/node_modules/element-plus/theme-chalk/src/scrollbar.scss\"\nconst __vite__css = \"/* Element Chalk Variables */\\n.el-scrollbar {\\n  --el-scrollbar-opacity: 0.3;\\n  --el-scrollbar-bg-color: var(--el-text-color-secondary);\\n  --el-scrollbar-hover-opacity: 0.5;\\n  --el-scrollbar-hover-bg-color: var(--el-text-color-secondary);\\n}\\n\\n.el-scrollbar {\\n  overflow: hidden;\\n  position: relative;\\n  height: 100%;\\n}\\n.el-scrollbar__wrap {\\n  overflow: auto;\\n  height: 100%;\\n}\\n.el-scrollbar__wrap--hidden-default {\\n  scrollbar-width: none;\\n}\\n.el-scrollbar__wrap--hidden-default::-webkit-scrollbar {\\n  display: none;\\n}\\n\\n.el-scrollbar__thumb {\\n  position: relative;\\n  display: block;\\n  width: 0;\\n  height: 0;\\n  cursor: pointer;\\n  border-radius: inherit;\\n  background-color: var(--el-scrollbar-bg-color, var(--el-text-color-secondary));\\n  transition: var(--el-transition-duration) background-color;\\n  opacity: var(--el-scrollbar-opacity, 0.3);\\n}\\n.el-scrollbar__thumb:hover {\\n  background-color: var(--el-scrollbar-hover-bg-color, var(--el-text-color-secondary));\\n  opacity: var(--el-scrollbar-hover-opacity, 0.5);\\n}\\n\\n.el-scrollbar__bar {\\n  position: absolute;\\n  right: 2px;\\n  bottom: 2px;\\n  z-index: 1;\\n  border-radius: 4px;\\n}\\n.el-scrollbar__bar.is-vertical {\\n  width: 6px;\\n  top: 2px;\\n}\\n.el-scrollbar__bar.is-vertical > div {\\n  width: 100%;\\n}\\n\\n.el-scrollbar__bar.is-horizontal {\\n  height: 6px;\\n  left: 2px;\\n}\\n.el-scrollbar__bar.is-horizontal > div {\\n  height: 100%;\\n}\\n\\n.el-scrollbar-fade-enter-active {\\n  transition: opacity 340ms ease-out;\\n}\\n.el-scrollbar-fade-leave-active {\\n  transition: opacity 120ms ease-out;\\n}\\n.el-scrollbar-fade-enter-from, .el-scrollbar-fade-leave-active {\\n  opacity: 0;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720228712,
+      "end": 1738720228712,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1738720228713,
+      "end": 1738720228713,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1738720228713,
+      "end": 1738720228713,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1738720228713,
+      "end": 1738720228713,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1738720228713,
+      "end": 1738720228713,
+      "order": "normal"
+    },
+    {
+      "name": "vite-plugin-vue-inspector:post",
+      "start": 1738720228713,
+      "end": 1738720228713,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-auto-import",
+      "start": 1738720228713,
+      "end": 1738720228713,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-vue-components",
+      "start": 1738720228713,
+      "end": 1738720228713,
+      "order": "post"
+    },
+    {
+      "name": "vite:client-inject",
+      "start": 1738720228713,
+      "end": 1738720228713,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-analysis",
+      "start": 1738720228713,
+      "end": 1738720228713,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-analysis",
+      "result": "import { createHotContext as __vite__createHotContext } from \"/@vite/client\";import.meta.hot = __vite__createHotContext(\"/node_modules/element-plus/theme-chalk/src/scrollbar.scss\");import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/node_modules/element-plus/theme-chalk/src/scrollbar.scss\"\nconst __vite__css = \"/* Element Chalk Variables */\\n.el-scrollbar {\\n  --el-scrollbar-opacity: 0.3;\\n  --el-scrollbar-bg-color: var(--el-text-color-secondary);\\n  --el-scrollbar-hover-opacity: 0.5;\\n  --el-scrollbar-hover-bg-color: var(--el-text-color-secondary);\\n}\\n\\n.el-scrollbar {\\n  overflow: hidden;\\n  position: relative;\\n  height: 100%;\\n}\\n.el-scrollbar__wrap {\\n  overflow: auto;\\n  height: 100%;\\n}\\n.el-scrollbar__wrap--hidden-default {\\n  scrollbar-width: none;\\n}\\n.el-scrollbar__wrap--hidden-default::-webkit-scrollbar {\\n  display: none;\\n}\\n\\n.el-scrollbar__thumb {\\n  position: relative;\\n  display: block;\\n  width: 0;\\n  height: 0;\\n  cursor: pointer;\\n  border-radius: inherit;\\n  background-color: var(--el-scrollbar-bg-color, var(--el-text-color-secondary));\\n  transition: var(--el-transition-duration) background-color;\\n  opacity: var(--el-scrollbar-opacity, 0.3);\\n}\\n.el-scrollbar__thumb:hover {\\n  background-color: var(--el-scrollbar-hover-bg-color, var(--el-text-color-secondary));\\n  opacity: var(--el-scrollbar-hover-opacity, 0.5);\\n}\\n\\n.el-scrollbar__bar {\\n  position: absolute;\\n  right: 2px;\\n  bottom: 2px;\\n  z-index: 1;\\n  border-radius: 4px;\\n}\\n.el-scrollbar__bar.is-vertical {\\n  width: 6px;\\n  top: 2px;\\n}\\n.el-scrollbar__bar.is-vertical > div {\\n  width: 100%;\\n}\\n\\n.el-scrollbar__bar.is-horizontal {\\n  height: 6px;\\n  left: 2px;\\n}\\n.el-scrollbar__bar.is-horizontal > div {\\n  height: 100%;\\n}\\n\\n.el-scrollbar-fade-enter-active {\\n  transition: opacity 340ms ease-out;\\n}\\n.el-scrollbar-fade-leave-active {\\n  transition: opacity 120ms ease-out;\\n}\\n.el-scrollbar-fade-enter-from, .el-scrollbar-fade-leave-active {\\n  opacity: 0;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720228713,
+      "end": 1738720228714,
+      "order": "normal",
+      "sourcemaps": null
+    }
+  ]
+}

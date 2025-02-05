@@ -39,10 +39,10 @@ export default defineComponent({
     let dataField = shallowRef("");
     let actionName = shallowRef("click");
     onMounted(() => {
-      actionName.value = field.preps["actionName"];
+       actionName.value = field.preps?.actionName || "keydown.enter";;
     });
     const dynamicFunc = (code: any) => {
-     buttonAction(context,code);
+      buttonAction(context, code);
     };
     return {parentField, dynamicFunc, context, field, formItem, dataField}
   }

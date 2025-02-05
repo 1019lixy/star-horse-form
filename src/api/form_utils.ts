@@ -13,7 +13,7 @@ export function dynamicFormAnalysis(props: any, dataForm: any) {
     for (let key in globalCondition) {
         let temp = globalCondition[key];
         //如果非子表
-        if ("N"==temp.subFormFlag) {
+        if ("N" == temp.subFormFlag) {
             let data = dataForm[temp.tableName];
             delete dataForm[temp.tableName];
             if (data instanceof Array) {

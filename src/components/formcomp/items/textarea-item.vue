@@ -48,7 +48,7 @@ export default defineComponent({
       allAction(context, prep);
     };
     onMounted(() => {
-      actionName.value = field.preps["actionName"];
+       actionName.value = field.preps?.actionName || "keydown.enter";;
       if (!context.attrs["isSearch"]) {
         allAction(context, actionName.value, true);
       }

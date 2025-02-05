@@ -1,0 +1,153 @@
+{
+  "resolvedId": "E:/lixycode/testcode/node_modules/highlight.js/styles/idea.css",
+  "transforms": [
+    {
+      "name": "__load__",
+      "result": "pre code.hljs {\n  display: block;\n  overflow-x: auto;\n  padding: 1em\n}\ncode.hljs {\n  padding: 3px 5px\n}\n/*\n\nIntellij Idea-like styling (c) Vasily Polovnyov <vast@whiteants.net>\n\n*/\n.hljs {\n  color: #000;\n  background: #fff\n}\n.hljs-subst,\n.hljs-title {\n  font-weight: normal;\n  color: #000\n}\n.hljs-comment,\n.hljs-quote {\n  color: #808080;\n  font-style: italic\n}\n.hljs-meta {\n  color: #808000\n}\n.hljs-tag {\n  background: #efefef\n}\n.hljs-section,\n.hljs-name,\n.hljs-literal,\n.hljs-keyword,\n.hljs-selector-tag,\n.hljs-type,\n.hljs-selector-id,\n.hljs-selector-class {\n  font-weight: bold;\n  color: #000080\n}\n.hljs-attribute,\n.hljs-number,\n.hljs-regexp,\n.hljs-link {\n  font-weight: bold;\n  color: #0000ff\n}\n.hljs-number,\n.hljs-regexp,\n.hljs-link {\n  font-weight: normal\n}\n.hljs-string {\n  color: #008000;\n  font-weight: bold\n}\n.hljs-symbol,\n.hljs-bullet,\n.hljs-formula {\n  color: #000;\n  background: #d0eded;\n  font-style: italic\n}\n.hljs-doctag {\n  text-decoration: underline\n}\n.hljs-variable,\n.hljs-template-variable {\n  color: #660e7a\n}\n.hljs-addition {\n  background: #baeeba\n}\n.hljs-deletion {\n  background: #ffc8bd\n}\n.hljs-emphasis {\n  font-style: italic\n}\n.hljs-strong {\n  font-weight: bold\n}",
+      "start": 1738720186869,
+      "end": 1738720186869
+    },
+    {
+      "name": "vite-plugin-vue-inspector",
+      "start": 1738720186869,
+      "end": 1738720186869,
+      "order": "pre"
+    },
+    {
+      "name": "vite-plugin-vue-devtools",
+      "result": "pre code.hljs {\n  display: block;\n  overflow-x: auto;\n  padding: 1em\n}\ncode.hljs {\n  padding: 3px 5px\n}\n/*\n\nIntellij Idea-like styling (c) Vasily Polovnyov <vast@whiteants.net>\n\n*/\n.hljs {\n  color: #000;\n  background: #fff\n}\n.hljs-subst,\n.hljs-title {\n  font-weight: normal;\n  color: #000\n}\n.hljs-comment,\n.hljs-quote {\n  color: #808080;\n  font-style: italic\n}\n.hljs-meta {\n  color: #808000\n}\n.hljs-tag {\n  background: #efefef\n}\n.hljs-section,\n.hljs-name,\n.hljs-literal,\n.hljs-keyword,\n.hljs-selector-tag,\n.hljs-type,\n.hljs-selector-id,\n.hljs-selector-class {\n  font-weight: bold;\n  color: #000080\n}\n.hljs-attribute,\n.hljs-number,\n.hljs-regexp,\n.hljs-link {\n  font-weight: bold;\n  color: #0000ff\n}\n.hljs-number,\n.hljs-regexp,\n.hljs-link {\n  font-weight: normal\n}\n.hljs-string {\n  color: #008000;\n  font-weight: bold\n}\n.hljs-symbol,\n.hljs-bullet,\n.hljs-formula {\n  color: #000;\n  background: #d0eded;\n  font-style: italic\n}\n.hljs-doctag {\n  text-decoration: underline\n}\n.hljs-variable,\n.hljs-template-variable {\n  color: #660e7a\n}\n.hljs-addition {\n  background: #baeeba\n}\n.hljs-deletion {\n  background: #ffc8bd\n}\n.hljs-emphasis {\n  font-style: italic\n}\n.hljs-strong {\n  font-weight: bold\n}",
+      "start": 1738720186869,
+      "end": 1738720186869,
+      "order": "pre",
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "result": "pre code.hljs {\n  display: block;\n  overflow-x: auto;\n  padding: 1em\n}\ncode.hljs {\n  padding: 3px 5px\n}\n/*\n\nIntellij Idea-like styling (c) Vasily Polovnyov <vast@whiteants.net>\n\n*/\n.hljs {\n  color: #000;\n  background: #fff\n}\n.hljs-subst,\n.hljs-title {\n  font-weight: normal;\n  color: #000\n}\n.hljs-comment,\n.hljs-quote {\n  color: #808080;\n  font-style: italic\n}\n.hljs-meta {\n  color: #808000\n}\n.hljs-tag {\n  background: #efefef\n}\n.hljs-section,\n.hljs-name,\n.hljs-literal,\n.hljs-keyword,\n.hljs-selector-tag,\n.hljs-type,\n.hljs-selector-id,\n.hljs-selector-class {\n  font-weight: bold;\n  color: #000080\n}\n.hljs-attribute,\n.hljs-number,\n.hljs-regexp,\n.hljs-link {\n  font-weight: bold;\n  color: #0000ff\n}\n.hljs-number,\n.hljs-regexp,\n.hljs-link {\n  font-weight: normal\n}\n.hljs-string {\n  color: #008000;\n  font-weight: bold\n}\n.hljs-symbol,\n.hljs-bullet,\n.hljs-formula {\n  color: #000;\n  background: #d0eded;\n  font-style: italic\n}\n.hljs-doctag {\n  text-decoration: underline\n}\n.hljs-variable,\n.hljs-template-variable {\n  color: #660e7a\n}\n.hljs-addition {\n  background: #baeeba\n}\n.hljs-deletion {\n  background: #ffc8bd\n}\n.hljs-emphasis {\n  font-style: italic\n}\n.hljs-strong {\n  font-weight: bold\n}",
+      "start": 1738720186869,
+      "end": 1738720186870,
+      "order": "normal",
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1738720186870,
+      "end": 1738720186870,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1738720186870,
+      "end": 1738720186870,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1738720186870,
+      "end": 1738720186870,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1738720186870,
+      "end": 1738720186870,
+      "order": "normal"
+    },
+    {
+      "name": "originjs:commonjs",
+      "start": 1738720186870,
+      "end": 1738720186870,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1738720186870,
+      "end": 1738720186870,
+      "order": "normal"
+    },
+    {
+      "name": "inject",
+      "start": 1738720186870,
+      "end": 1738720186870,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1738720186870,
+      "end": 1738720186870,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "result": "import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/node_modules/highlight.js/styles/idea.css\"\nconst __vite__css = \"pre code.hljs {\\n  display: block;\\n  overflow-x: auto;\\n  padding: 1em\\n}\\ncode.hljs {\\n  padding: 3px 5px\\n}\\n/*\\n\\nIntellij Idea-like styling (c) Vasily Polovnyov <vast@whiteants.net>\\n\\n*/\\n.hljs {\\n  color: #000;\\n  background: #fff\\n}\\n.hljs-subst,\\n.hljs-title {\\n  font-weight: normal;\\n  color: #000\\n}\\n.hljs-comment,\\n.hljs-quote {\\n  color: #808080;\\n  font-style: italic\\n}\\n.hljs-meta {\\n  color: #808000\\n}\\n.hljs-tag {\\n  background: #efefef\\n}\\n.hljs-section,\\n.hljs-name,\\n.hljs-literal,\\n.hljs-keyword,\\n.hljs-selector-tag,\\n.hljs-type,\\n.hljs-selector-id,\\n.hljs-selector-class {\\n  font-weight: bold;\\n  color: #000080\\n}\\n.hljs-attribute,\\n.hljs-number,\\n.hljs-regexp,\\n.hljs-link {\\n  font-weight: bold;\\n  color: #0000ff\\n}\\n.hljs-number,\\n.hljs-regexp,\\n.hljs-link {\\n  font-weight: normal\\n}\\n.hljs-string {\\n  color: #008000;\\n  font-weight: bold\\n}\\n.hljs-symbol,\\n.hljs-bullet,\\n.hljs-formula {\\n  color: #000;\\n  background: #d0eded;\\n  font-style: italic\\n}\\n.hljs-doctag {\\n  text-decoration: underline\\n}\\n.hljs-variable,\\n.hljs-template-variable {\\n  color: #660e7a\\n}\\n.hljs-addition {\\n  background: #baeeba\\n}\\n.hljs-deletion {\\n  background: #ffc8bd\\n}\\n.hljs-emphasis {\\n  font-style: italic\\n}\\n.hljs-strong {\\n  font-weight: bold\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720186870,
+      "end": 1738720186870,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1738720186870,
+      "end": 1738720186870,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1738720186870,
+      "end": 1738720186870,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1738720186870,
+      "end": 1738720186870,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1738720186870,
+      "end": 1738720186870,
+      "order": "normal"
+    },
+    {
+      "name": "vite-plugin-vue-inspector:post",
+      "start": 1738720186870,
+      "end": 1738720186870,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-auto-import",
+      "start": 1738720186870,
+      "end": 1738720186870,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-vue-components",
+      "start": 1738720186870,
+      "end": 1738720186870,
+      "order": "post"
+    },
+    {
+      "name": "vite:client-inject",
+      "start": 1738720186870,
+      "end": 1738720186870,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-analysis",
+      "start": 1738720186870,
+      "end": 1738720186870,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-analysis",
+      "result": "import { createHotContext as __vite__createHotContext } from \"/@vite/client\";import.meta.hot = __vite__createHotContext(\"/node_modules/highlight.js/styles/idea.css\");import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/node_modules/highlight.js/styles/idea.css\"\nconst __vite__css = \"pre code.hljs {\\n  display: block;\\n  overflow-x: auto;\\n  padding: 1em\\n}\\ncode.hljs {\\n  padding: 3px 5px\\n}\\n/*\\n\\nIntellij Idea-like styling (c) Vasily Polovnyov <vast@whiteants.net>\\n\\n*/\\n.hljs {\\n  color: #000;\\n  background: #fff\\n}\\n.hljs-subst,\\n.hljs-title {\\n  font-weight: normal;\\n  color: #000\\n}\\n.hljs-comment,\\n.hljs-quote {\\n  color: #808080;\\n  font-style: italic\\n}\\n.hljs-meta {\\n  color: #808000\\n}\\n.hljs-tag {\\n  background: #efefef\\n}\\n.hljs-section,\\n.hljs-name,\\n.hljs-literal,\\n.hljs-keyword,\\n.hljs-selector-tag,\\n.hljs-type,\\n.hljs-selector-id,\\n.hljs-selector-class {\\n  font-weight: bold;\\n  color: #000080\\n}\\n.hljs-attribute,\\n.hljs-number,\\n.hljs-regexp,\\n.hljs-link {\\n  font-weight: bold;\\n  color: #0000ff\\n}\\n.hljs-number,\\n.hljs-regexp,\\n.hljs-link {\\n  font-weight: normal\\n}\\n.hljs-string {\\n  color: #008000;\\n  font-weight: bold\\n}\\n.hljs-symbol,\\n.hljs-bullet,\\n.hljs-formula {\\n  color: #000;\\n  background: #d0eded;\\n  font-style: italic\\n}\\n.hljs-doctag {\\n  text-decoration: underline\\n}\\n.hljs-variable,\\n.hljs-template-variable {\\n  color: #660e7a\\n}\\n.hljs-addition {\\n  background: #baeeba\\n}\\n.hljs-deletion {\\n  background: #ffc8bd\\n}\\n.hljs-emphasis {\\n  font-style: italic\\n}\\n.hljs-strong {\\n  font-weight: bold\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720186870,
+      "end": 1738720186870,
+      "order": "normal",
+      "sourcemaps": null
+    }
+  ]
+}

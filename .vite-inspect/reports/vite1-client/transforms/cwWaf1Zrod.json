@@ -1,0 +1,159 @@
+{
+  "resolvedId": "E:/lixycode/testcode/src/utils/message.ts",
+  "transforms": [
+    {
+      "name": "__load__",
+      "result": "import {ElMessageBox} from \"element-plus\";\r\nimport Message from 'vue-m-message';\r\nimport 'vue-m-message/dist/style.css';\r\n\r\nexport const confirm = (msg: string): Promise<boolean> => {\r\n    return new Promise((resolve, reject) => {\r\n        ElMessageBox.confirm(msg, \"警告\", {\r\n            confirmButtonText: '确认',\r\n            cancelButtonText: '取消',\r\n            type: 'warning',\r\n        }).then(() => {\r\n            resolve(true);\r\n        }).catch(() => {\r\n            reject(false);\r\n        });\r\n    });\r\n}\r\n/**\r\n * 消息提\r\n * @param msg 消息内容\r\n * @param type 类型\r\n * @param duration 持续时间\r\n * @param title 标题\r\n * @param position 位置\r\n */\r\nexport const message = (msg: string, type: string = \"info\", duration: number = 2000, title: string = \"提示\", position: string = \"top-right\") => {\r\n    Message({\r\n        message: msg,\r\n        type: type,\r\n        duration: duration,\r\n        title: title,\r\n        position: position,\r\n        closable: true,\r\n        collapsable: true,\r\n        isCollapsed: false,\r\n        supportHTML: true,\r\n        width: \"350px\",\r\n        stopTimerOnHover: true,\r\n    });\r\n}\r\n/**\r\n * 成功提示\r\n * @param msg 消息内容\r\n */\r\nexport const success = (msg: string) => {\r\n    message(msg, \"success\", 3000, \"成功\", \"bottom-right\")\r\n\r\n}\r\n/**\r\n * 警告提示\r\n * @param msg 消息内容\r\n */\r\nexport const warning = (msg: string) => {\r\n    message(msg, \"warning\", 3000, \"警告\", \"bottom-right\");\r\n\r\n}\r\n/**\r\n * 错误提示\r\n * @param msg 消息内容\r\n */\r\nexport const error = (msg: string) => {\r\n    message(msg, \"error\", 3000, \"错误\", \"bottom-right\");\r\n}\r\n",
+      "start": 1738720190079,
+      "end": 1738720190079
+    },
+    {
+      "name": "vite-plugin-vue-inspector",
+      "start": 1738720190079,
+      "end": 1738720190079,
+      "order": "pre"
+    },
+    {
+      "name": "vite-plugin-vue-devtools",
+      "result": "import {ElMessageBox} from \"element-plus\";\r\nimport Message from 'vue-m-message';\r\nimport 'vue-m-message/dist/style.css';\r\n\r\nexport const confirm = (msg: string): Promise<boolean> => {\r\n    return new Promise((resolve, reject) => {\r\n        ElMessageBox.confirm(msg, \"警告\", {\r\n            confirmButtonText: '确认',\r\n            cancelButtonText: '取消',\r\n            type: 'warning',\r\n        }).then(() => {\r\n            resolve(true);\r\n        }).catch(() => {\r\n            reject(false);\r\n        });\r\n    });\r\n}\r\n/**\r\n * 消息提\r\n * @param msg 消息内容\r\n * @param type 类型\r\n * @param duration 持续时间\r\n * @param title 标题\r\n * @param position 位置\r\n */\r\nexport const message = (msg: string, type: string = \"info\", duration: number = 2000, title: string = \"提示\", position: string = \"top-right\") => {\r\n    Message({\r\n        message: msg,\r\n        type: type,\r\n        duration: duration,\r\n        title: title,\r\n        position: position,\r\n        closable: true,\r\n        collapsable: true,\r\n        isCollapsed: false,\r\n        supportHTML: true,\r\n        width: \"350px\",\r\n        stopTimerOnHover: true,\r\n    });\r\n}\r\n/**\r\n * 成功提示\r\n * @param msg 消息内容\r\n */\r\nexport const success = (msg: string) => {\r\n    message(msg, \"success\", 3000, \"成功\", \"bottom-right\")\r\n\r\n}\r\n/**\r\n * 警告提示\r\n * @param msg 消息内容\r\n */\r\nexport const warning = (msg: string) => {\r\n    message(msg, \"warning\", 3000, \"警告\", \"bottom-right\");\r\n\r\n}\r\n/**\r\n * 错误提示\r\n * @param msg 消息内容\r\n */\r\nexport const error = (msg: string) => {\r\n    message(msg, \"error\", 3000, \"错误\", \"bottom-right\");\r\n}\r\n",
+      "start": 1738720190079,
+      "end": 1738720190079,
+      "order": "pre",
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "start": 1738720190079,
+      "end": 1738720190079,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "result": "import { ElMessageBox } from \"element-plus\";\nimport Message from \"vue-m-message\";\nimport \"vue-m-message/dist/style.css\";\nexport const confirm = (msg) => {\n  return new Promise((resolve, reject) => {\n    ElMessageBox.confirm(msg, \"警告\", {\n      confirmButtonText: \"确认\",\n      cancelButtonText: \"取消\",\n      type: \"warning\"\n    }).then(() => {\n      resolve(true);\n    }).catch(() => {\n      reject(false);\n    });\n  });\n};\nexport const message = (msg, type = \"info\", duration = 2e3, title = \"提示\", position = \"top-right\") => {\n  Message({\n    message: msg,\n    type,\n    duration,\n    title,\n    position,\n    closable: true,\n    collapsable: true,\n    isCollapsed: false,\n    supportHTML: true,\n    width: \"350px\",\n    stopTimerOnHover: true\n  });\n};\nexport const success = (msg) => {\n  message(msg, \"success\", 3e3, \"成功\", \"bottom-right\");\n};\nexport const warning = (msg) => {\n  message(msg, \"warning\", 3e3, \"警告\", \"bottom-right\");\n};\nexport const error = (msg) => {\n  message(msg, \"error\", 3e3, \"错误\", \"bottom-right\");\n};\n",
+      "start": 1738720190079,
+      "end": 1738720190124,
+      "order": "normal",
+      "sourcemaps": {
+        "version": 3,
+        "sources": [
+          "message.ts"
+        ],
+        "sourcesContent": [
+          "import {ElMessageBox} from \"element-plus\";\r\nimport Message from 'vue-m-message';\r\nimport 'vue-m-message/dist/style.css';\r\n\r\nexport const confirm = (msg: string): Promise<boolean> => {\r\n    return new Promise((resolve, reject) => {\r\n        ElMessageBox.confirm(msg, \"警告\", {\r\n            confirmButtonText: '确认',\r\n            cancelButtonText: '取消',\r\n            type: 'warning',\r\n        }).then(() => {\r\n            resolve(true);\r\n        }).catch(() => {\r\n            reject(false);\r\n        });\r\n    });\r\n}\r\n/**\r\n * 消息提\r\n * @param msg 消息内容\r\n * @param type 类型\r\n * @param duration 持续时间\r\n * @param title 标题\r\n * @param position 位置\r\n */\r\nexport const message = (msg: string, type: string = \"info\", duration: number = 2000, title: string = \"提示\", position: string = \"top-right\") => {\r\n    Message({\r\n        message: msg,\r\n        type: type,\r\n        duration: duration,\r\n        title: title,\r\n        position: position,\r\n        closable: true,\r\n        collapsable: true,\r\n        isCollapsed: false,\r\n        supportHTML: true,\r\n        width: \"350px\",\r\n        stopTimerOnHover: true,\r\n    });\r\n}\r\n/**\r\n * 成功提示\r\n * @param msg 消息内容\r\n */\r\nexport const success = (msg: string) => {\r\n    message(msg, \"success\", 3000, \"成功\", \"bottom-right\")\r\n\r\n}\r\n/**\r\n * 警告提示\r\n * @param msg 消息内容\r\n */\r\nexport const warning = (msg: string) => {\r\n    message(msg, \"warning\", 3000, \"警告\", \"bottom-right\");\r\n\r\n}\r\n/**\r\n * 错误提示\r\n * @param msg 消息内容\r\n */\r\nexport const error = (msg: string) => {\r\n    message(msg, \"error\", 3000, \"错误\", \"bottom-right\");\r\n}\r\n"
+        ],
+        "mappings": "AAAA,SAAQ,oBAAmB;AAC3B,OAAO,aAAa;AACpB,OAAO;AAEA,aAAM,UAAU,CAAC,QAAkC;AACtD,SAAO,IAAI,QAAQ,CAAC,SAAS,WAAW;AACpC,iBAAa,QAAQ,KAAK,MAAM;AAAA,MAC5B,mBAAmB;AAAA,MACnB,kBAAkB;AAAA,MAClB,MAAM;AAAA,IACV,CAAC,EAAE,KAAK,MAAM;AACV,cAAQ,IAAI;AAAA,IAChB,CAAC,EAAE,MAAM,MAAM;AACX,aAAO,KAAK;AAAA,IAChB,CAAC;AAAA,EACL,CAAC;AACL;AASO,aAAM,UAAU,CAAC,KAAa,OAAe,QAAQ,WAAmB,KAAM,QAAgB,MAAM,WAAmB,gBAAgB;AAC1I,UAAQ;AAAA,IACJ,SAAS;AAAA,IACT;AAAA,IACA;AAAA,IACA;AAAA,IACA;AAAA,IACA,UAAU;AAAA,IACV,aAAa;AAAA,IACb,aAAa;AAAA,IACb,aAAa;AAAA,IACb,OAAO;AAAA,IACP,kBAAkB;AAAA,EACtB,CAAC;AACL;AAKO,aAAM,UAAU,CAAC,QAAgB;AACpC,UAAQ,KAAK,WAAW,KAAM,MAAM,cAAc;AAEtD;AAKO,aAAM,UAAU,CAAC,QAAgB;AACpC,UAAQ,KAAK,WAAW,KAAM,MAAM,cAAc;AAEtD;AAKO,aAAM,QAAQ,CAAC,QAAgB;AAClC,UAAQ,KAAK,SAAS,KAAM,MAAM,cAAc;AACpD;",
+        "names": []
+      }
+    },
+    {
+      "name": "vite:json",
+      "start": 1738720190124,
+      "end": 1738720190124,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1738720190124,
+      "end": 1738720190124,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1738720190124,
+      "end": 1738720190124,
+      "order": "normal"
+    },
+    {
+      "name": "originjs:commonjs",
+      "start": 1738720190124,
+      "end": 1738720190124,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1738720190124,
+      "end": 1738720190124,
+      "order": "normal"
+    },
+    {
+      "name": "inject",
+      "start": 1738720190124,
+      "end": 1738720190124,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1738720190124,
+      "end": 1738720190124,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1738720190124,
+      "end": 1738720190124,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1738720190124,
+      "end": 1738720190124,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1738720190124,
+      "end": 1738720190124,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1738720190124,
+      "end": 1738720190124,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1738720190124,
+      "end": 1738720190124,
+      "order": "normal"
+    },
+    {
+      "name": "vite-plugin-vue-inspector:post",
+      "start": 1738720190124,
+      "end": 1738720190124,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-auto-import",
+      "start": 1738720190124,
+      "end": 1738720190125,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-vue-components",
+      "start": 1738720190125,
+      "end": 1738720190125,
+      "order": "post"
+    },
+    {
+      "name": "vite:client-inject",
+      "start": 1738720190125,
+      "end": 1738720190125,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-analysis",
+      "start": 1738720190125,
+      "end": 1738720190125,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-analysis",
+      "result": "import { ElMessageBox } from \"/node_modules/.vite/deps/element-plus.js?v=65efcb1b\";\nimport Message from \"/node_modules/.vite/deps/vue-m-message.js?v=65efcb1b\";\nimport \"/node_modules/vue-m-message/dist/style.css\";\nexport const confirm = (msg) => {\n  return new Promise((resolve, reject) => {\n    ElMessageBox.confirm(msg, \"警告\", {\n      confirmButtonText: \"确认\",\n      cancelButtonText: \"取消\",\n      type: \"warning\"\n    }).then(() => {\n      resolve(true);\n    }).catch(() => {\n      reject(false);\n    });\n  });\n};\nexport const message = (msg, type = \"info\", duration = 2e3, title = \"提示\", position = \"top-right\") => {\n  Message({\n    message: msg,\n    type,\n    duration,\n    title,\n    position,\n    closable: true,\n    collapsable: true,\n    isCollapsed: false,\n    supportHTML: true,\n    width: \"350px\",\n    stopTimerOnHover: true\n  });\n};\nexport const success = (msg) => {\n  message(msg, \"success\", 3e3, \"成功\", \"bottom-right\");\n};\nexport const warning = (msg) => {\n  message(msg, \"warning\", 3e3, \"警告\", \"bottom-right\");\n};\nexport const error = (msg) => {\n  message(msg, \"error\", 3e3, \"错误\", \"bottom-right\");\n};\n",
+      "start": 1738720190125,
+      "end": 1738720190127,
+      "order": "normal",
+      "sourcemaps": null
+    }
+  ]
+}

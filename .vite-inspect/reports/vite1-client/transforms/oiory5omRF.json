@@ -1,0 +1,184 @@
+{
+  "resolvedId": "E:/lixycode/testcode/src/components/Dashboard.vue?vue&type=style&index=0&scoped=fedac4b6&lang.scss",
+  "transforms": [
+    {
+      "name": "vite:vue",
+      "result": "\r\n:deep(.el-header) {\r\n  height: unset;\r\n  padding: unset;\r\n}\r\n\r\n.operation-area {\r\n  height: 100%;\r\n  overflow: hidden;\r\n}\r\n\r\n.Resizer.vertical {\r\n  width: 6px;\r\n  margin: 0 auto;\r\n  display: flex;\r\n  justify-content: center;\r\n  vertical-align: middle;\r\n  align-items: center;\r\n  border-left: 2px solid transparent;\r\n  border-right: 2px solid transparent;\r\n\r\n  &:hover {\r\n    background-color: var(--star-horse-style);\r\n    cursor: col-resize;\r\n  }\r\n}\r\n\r\n.Resizer {\r\n  z-index: 1;\r\n  box-sizing: border-box;\r\n  background: padding-box var(--star-horse-background);\r\n}\r\n\r\n.moveBox {\r\n  width: 10px;\r\n  height: 100%;\r\n  border: 1px solid var(--star-horse-style);\r\n  line-height: 100%;\r\n  color: var(--star-horse-style);\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  font-weight: bold;\r\n\r\n  &:hover {\r\n    cursor: col-resize;\r\n  }\r\n}\r\n\r\n.el-menu--collapse {\r\n  width: 100%;\r\n  height: 100%;\r\n}\r\n\r\n/*:deep(.el-aside) {\r\n  overflow: hidden;\r\n}*/\r\n\r\n/*.main-config {\r\n  position: absolute;\r\n  top: 50%;\r\n  right: 1px;\r\n  border-radius: 3px;\r\n  background: var(--star-horse-font-color);\r\n\r\n  &:hover, svg:hover {\r\n    cursor: pointer;\r\n  }\r\n}*/\r\n:deep(.el-drawer__close-btn) {\r\n  background-color: unset;\r\n\r\n  svg {\r\n    color: unset !important;\r\n  }\r\n}\r\n\r\n\r\n",
+      "start": 1738720224396,
+      "end": 1738720224396,
+      "sourcemaps": {
+        "version": 3,
+        "sources": [
+          "E:/lixycode/testcode/src/components/Dashboard.vue"
+        ],
+        "names": [],
+        "mappings": ";AAuLA,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE;EAChB,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC;EACb,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC;AAChB;;AAEA,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE;EACd,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC;EACZ,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;AAClB;;AAEA,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE;EAChB,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC;EACV,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,EAAE,CAAC,CAAC,CAAC,CAAC;EACd,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC;EACb,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;EACvB,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;EACtB,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;EACnB,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;EAClC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;;EAEnC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE;IACN,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;IACzC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;EACpB;AACF;;AAEA,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE;EACP,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC;EACV,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;EACtB,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;AACtD;;AAEA,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE;EACP,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC;EACX,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC;EACZ,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;EACzC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC;EACjB,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;EAC9B,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC;EACb,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;EACnB,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;EACvB,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC;;EAEjB,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE;IACN,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;EACpB;AACF;;AAEA,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE;EACjB,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC;EACX,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC;AACd;;AAEA,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE;EACjB,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;AAClB,CAAC,CAAC;;AAEF,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE;EACb,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;EAClB,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC;EACR,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC;EACV,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC;EAClB,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;;EAExC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE;IACjB,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;EACjB;AACF,CAAC,CAAC;AACF,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE;EAC3B,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC;;EAEvB,CAAC,CAAC,EAAE;IACF,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;EACzB;AACF",
+        "file": "E:/lixycode/testcode/src/components/Dashboard.vue",
+        "sourceRoot": "",
+        "sourcesContent": [
+          "<script lang=\"ts\" setup>\r\nimport router from \"@/router\";\r\nimport {computed, nextTick, onMounted, provide, ref, watch} from \"vue\";\r\nimport {navBarList} from \"@/store/NavbarListStore\";\r\nimport {viewList} from \"@/store/ViewCacheStore\";\r\nimport TagsView from \"@/components/tags/TagsView.vue\";\r\nimport zhCn from 'element-plus/dist/locale/zh-cn.mjs'\r\nimport en from 'element-plus/dist/locale/en.mjs'\r\nimport {warning} from \"@/utils/message.ts\";\r\nimport {LangType} from \"@/theme/theme.ts\";\r\nimport {getLang} from \"@/theme/localStorge.ts\";\r\nimport {i18n} from \"@/lang\";\r\nimport piniaInstance from \"@/store\";\r\nimport LeftMenu from \"@/components/LeftMenu.vue\";\r\nimport HeaderComp from \"@/components/HeaderComp.vue\";\r\nimport PageConfig from \"@/components/PageConfig.vue\";\r\nimport {GlobalConfig} from \"@/store/GlobalConfigStore.ts\";\r\nimport FixedMenu from \"@/components/FixedMenu.vue\";\r\nimport ExtandMenu from \"@/components/ExtandMenu.vue\";\r\n\r\nlet configStore = GlobalConfig(piniaInstance);\r\nconst route = router.getRoutes().find(item => item.path == \"/home\");\r\nlet viewListStore = viewList(piniaInstance);\r\nconst navBarListStore = navBarList(piniaInstance);\r\nconst cachedDatas = computed(() => viewListStore.viewListDatas);\r\nlet isCollapse = ref<boolean>(true);\r\nlet sysemId = ref<string>(\"-1\");\r\nlet outerIsCollapse = ref<number>(64);\r\n\r\nlet locale = ref();\r\nlet direction = ref();\r\nconst changeLang = (lang: LangType, _isInit: boolean) => {\r\n  locale.value = lang == LangType.ZH_CN ? zhCn : en;\r\n  // console.log(isInit);\r\n};\r\nconst layoutConfig = () => {\r\n  drawer.value = true;\r\n}\r\nconst loadMenuFun = (data: string) => {\r\n  sysemId.value = data;\r\n}\r\nprovide(\"loadMenu\", loadMenuFun);\r\nconst mouseOver = () => {\r\n  if (configInfo.value.menusCfg == \"fixed\") {\r\n    return;\r\n  }\r\n  $(\".star-horse-left\").addClass('show-scroll-bar');\r\n};\r\nconst mouseOut = () => {\r\n  $(\".star-horse-left\").removeClass('show-scroll-bar');\r\n};\r\nconst collopseOperation = () => {\r\n  isCollapse.value = !isCollapse.value;\r\n};\r\nwatch(\r\n    () => isCollapse.value,\r\n    (val: boolean) => {\r\n      setTimeout(() => {\r\n        outerIsCollapse.value = val ? 200 : 64;\r\n      }, 200);\r\n    }, {\r\n      immediate: true\r\n    }\r\n)\r\nlet currentX = ref<number>(0);\r\nlet dragging = ref<boolean>(false);\r\nlet mainLeftAside = ref();\r\nlet resizerRef = ref();\r\nconst dragStart = (event: MouseEvent) => {\r\n  // event.preventDefault();\r\n  event.stopPropagation();\r\n  if (configInfo.value.menusCfg != 'tradition') {\r\n    return;\r\n  }\r\n  currentX.value = event.clientX;\r\n  dragging.value = true;\r\n  resizerRef.value.left = resizerRef.value.offsetLeft\r\n  document.onmousemove = (_e) => {\r\n    if (_e.clientX % 2 == 0) {\r\n      compDragging(_e.clientX);\r\n    }\r\n  };\r\n  document.onmouseup = () => {\r\n    dragging.value = false;\r\n    document.onmouseup = null;\r\n    document.onmousemove = null;\r\n  };\r\n};\r\nonMounted(async () => {\r\n  await nextTick();\r\n  if (resizerRef.value) {\r\n    resizerRef.value.onmousedown = dragStart;\r\n  }\r\n  changeLang(getLang(), true);\r\n  navBarListStore.addNavBar(route);\r\n  configStore.clearAll();\r\n  $(\".star-horse-left\").addClass(\"animate__animated animate__bounceInLeft\");\r\n  setTimeout(() => {\r\n    $(\".star-horse-left\").removeClass(\"animate__animated animate__bounceInLeft\");\r\n  }, 1000);\r\n  //添加浏览器事件，当从其它地方切换过来时，检查session 是否超时\r\n  document.addEventListener(\"visibilitychange\", () => {\r\n    if (!document.hidden) {\r\n      // router.go(router.currentRoute.value);\r\n      // document.location.reload();\r\n    }\r\n  });\r\n})\r\n// 移动完成\r\nconst compDragging = (x: number) => {\r\n  if (!dragging.value) {\r\n    return;\r\n  }\r\n  if (!isCollapse.value) {\r\n    dragging.value = false;\r\n    warning(\"隐藏状态不能拖动\");\r\n    return;\r\n  }\r\n  let move = (currentX.value - x) / 80;\r\n  outerIsCollapse.value = outerIsCollapse.value - move;\r\n  //设置最小和最大宽带\r\n  if (outerIsCollapse.value <= 64) {\r\n    isCollapse.value = false;\r\n    outerIsCollapse.value = 64;\r\n  } else if (outerIsCollapse.value >= 500) {\r\n    outerIsCollapse.value = 500;\r\n  }\r\n};\r\nlet drawer = ref<boolean>(false);\r\nconst configInfo = computed(() => configStore.configFormInfo);\r\n\r\n</script>\r\n<template>\r\n  <el-config-provider :locale=\"locale\" data-v-inspector=\"src/components/Dashboard.vue:134:3\">\r\n    <el-container class=\"star-horse-container\" data-v-inspector=\"src/components/Dashboard.vue:135:5\">\r\n      <el-header class=\"star-horse-header\" data-v-inspector=\"src/components/Dashboard.vue:136:7\">\r\n        <header-comp :is-collapse=\"!isCollapse\" @changeLang=\"changeLang\" @layoutConfig=\"layoutConfig\" data-v-inspector=\"src/components/Dashboard.vue:137:9\"/>\r\n      </el-header>\r\n      <el-container class=\"star-horse-container-main\" data-v-inspector=\"src/components/Dashboard.vue:139:7\">\r\n        <el-aside :width=\"(configInfo.menusCfg=='tradition'?outerIsCollapse:90)+'px'\" ref=\"mainLeftAside\"\r\n                  class=\"star-horse-left\" @mouseover=\"mouseOver\" @mouseout=\"mouseOut\" data-v-inspector=\"src/components/Dashboard.vue:140:9\">\r\n          <left-menu v-if=\"configInfo.menusCfg=='tradition'\" :sysem-id=\"sysemId\" :is-collapse=\"!isCollapse\"\r\n                     @collopseOperation=\"collopseOperation\" data-v-inspector=\"src/components/Dashboard.vue:142:11\"/>\r\n          <span v-if=\"configInfo.menusCfg=='tradition'\"\r\n                ref=\"resizerRef\"\r\n                class=\"Resizer vertical\"\r\n                @mousedown=\"dragStart\" data-v-inspector=\"src/components/Dashboard.vue:144:11\">⁝</span>\r\n          <FixedMenu :sysem-id=\"sysemId\" :top=\"configInfo.shortCutMenus=='N'?'53px':'83px'\"\r\n                     v-if=\"configInfo.menusCfg=='fixed'\" data-v-inspector=\"src/components/Dashboard.vue:148:11\"/>\r\n        </el-aside>\r\n        <el-main class=\"star-horse-main animate__animated animate__bounceInUp\" data-v-inspector=\"src/components/Dashboard.vue:151:9\">\r\n          <tags-view v-if=\"configInfo.tagsView=='Y'\" data-v-inspector=\"src/components/Dashboard.vue:152:11\"/>\r\n          <router-view v-slot=\"{ Component }\" data-v-inspector=\"src/components/Dashboard.vue:153:11\">\r\n            <transition name=\"solid\" data-v-inspector=\"src/components/Dashboard.vue:154:13\">\r\n              <keep-alive :include=\"cachedDatas\" data-v-inspector=\"src/components/Dashboard.vue:155:15\">\r\n                <Suspense data-v-inspector=\"src/components/Dashboard.vue:156:17\">\r\n                <component :is=\"Component\" data-v-inspector=\"src/components/Dashboard.vue:157:17\"/>\r\n                  <template #fallback>\r\n                    数据加载中...\r\n                  </template>\r\n                </Suspense>\r\n              </keep-alive>\r\n            </transition>\r\n          </router-view>\r\n          <div class=\"main-copyright\" data-v-inspector=\"src/components/Dashboard.vue:165:11\">{{ i18n(\"starhorse.copyright\") }}</div>\r\n        </el-main>\r\n      </el-container>\r\n    </el-container>\r\n    <el-drawer v-model=\"drawer\" :direction=\"direction\" data-v-inspector=\"src/components/Dashboard.vue:169:5\">\r\n      <template #header>\r\n        <h3 data-v-inspector=\"src/components/Dashboard.vue:171:9\">操作习惯配置</h3>\r\n      </template>\r\n      <template #default>\r\n        <el-card class=\"inner_content operation-area\" data-v-inspector=\"src/components/Dashboard.vue:174:9\">\r\n          <page-config data-v-inspector=\"src/components/Dashboard.vue:175:11\"/>\r\n        </el-card>\r\n      </template>\r\n      <template #footer>\r\n      </template>\r\n    </el-drawer>\r\n  </el-config-provider>\r\n</template>\r\n<style lang=\"scss\" scoped>\r\n:deep(.el-header) {\r\n  height: unset;\r\n  padding: unset;\r\n}\r\n\r\n.operation-area {\r\n  height: 100%;\r\n  overflow: hidden;\r\n}\r\n\r\n.Resizer.vertical {\r\n  width: 6px;\r\n  margin: 0 auto;\r\n  display: flex;\r\n  justify-content: center;\r\n  vertical-align: middle;\r\n  align-items: center;\r\n  border-left: 2px solid transparent;\r\n  border-right: 2px solid transparent;\r\n\r\n  &:hover {\r\n    background-color: var(--star-horse-style);\r\n    cursor: col-resize;\r\n  }\r\n}\r\n\r\n.Resizer {\r\n  z-index: 1;\r\n  box-sizing: border-box;\r\n  background: padding-box var(--star-horse-background);\r\n}\r\n\r\n.moveBox {\r\n  width: 10px;\r\n  height: 100%;\r\n  border: 1px solid var(--star-horse-style);\r\n  line-height: 100%;\r\n  color: var(--star-horse-style);\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  font-weight: bold;\r\n\r\n  &:hover {\r\n    cursor: col-resize;\r\n  }\r\n}\r\n\r\n.el-menu--collapse {\r\n  width: 100%;\r\n  height: 100%;\r\n}\r\n\r\n/*:deep(.el-aside) {\r\n  overflow: hidden;\r\n}*/\r\n\r\n/*.main-config {\r\n  position: absolute;\r\n  top: 50%;\r\n  right: 1px;\r\n  border-radius: 3px;\r\n  background: var(--star-horse-font-color);\r\n\r\n  &:hover, svg:hover {\r\n    cursor: pointer;\r\n  }\r\n}*/\r\n:deep(.el-drawer__close-btn) {\r\n  background-color: unset;\r\n\r\n  svg {\r\n    color: unset !important;\r\n  }\r\n}\r\n\r\n\r\n</style>\r\n"
+        ]
+      }
+    },
+    {
+      "name": "vite-plugin-vue-inspector",
+      "start": 1738720224396,
+      "end": 1738720224396,
+      "order": "pre"
+    },
+    {
+      "name": "vite-plugin-vue-devtools",
+      "result": "\r\n:deep(.el-header) {\r\n  height: unset;\r\n  padding: unset;\r\n}\r\n\r\n.operation-area {\r\n  height: 100%;\r\n  overflow: hidden;\r\n}\r\n\r\n.Resizer.vertical {\r\n  width: 6px;\r\n  margin: 0 auto;\r\n  display: flex;\r\n  justify-content: center;\r\n  vertical-align: middle;\r\n  align-items: center;\r\n  border-left: 2px solid transparent;\r\n  border-right: 2px solid transparent;\r\n\r\n  &:hover {\r\n    background-color: var(--star-horse-style);\r\n    cursor: col-resize;\r\n  }\r\n}\r\n\r\n.Resizer {\r\n  z-index: 1;\r\n  box-sizing: border-box;\r\n  background: padding-box var(--star-horse-background);\r\n}\r\n\r\n.moveBox {\r\n  width: 10px;\r\n  height: 100%;\r\n  border: 1px solid var(--star-horse-style);\r\n  line-height: 100%;\r\n  color: var(--star-horse-style);\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  font-weight: bold;\r\n\r\n  &:hover {\r\n    cursor: col-resize;\r\n  }\r\n}\r\n\r\n.el-menu--collapse {\r\n  width: 100%;\r\n  height: 100%;\r\n}\r\n\r\n/*:deep(.el-aside) {\r\n  overflow: hidden;\r\n}*/\r\n\r\n/*.main-config {\r\n  position: absolute;\r\n  top: 50%;\r\n  right: 1px;\r\n  border-radius: 3px;\r\n  background: var(--star-horse-font-color);\r\n\r\n  &:hover, svg:hover {\r\n    cursor: pointer;\r\n  }\r\n}*/\r\n:deep(.el-drawer__close-btn) {\r\n  background-color: unset;\r\n\r\n  svg {\r\n    color: unset !important;\r\n  }\r\n}\r\n\r\n\r\n",
+      "start": 1738720224396,
+      "end": 1738720224396,
+      "order": "pre",
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "result": ":deep(.el-header) {\n  height: unset;\n  padding: unset;\n}\n\n.operation-area {\n  height: 100%;\n  overflow: hidden;\n}\n\n.Resizer.vertical {\n  width: 6px;\n  margin: 0 auto;\n  display: flex;\n  justify-content: center;\n  vertical-align: middle;\n  align-items: center;\n  border-left: 2px solid transparent;\n  border-right: 2px solid transparent;\n}\n.Resizer.vertical:hover {\n  background-color: var(--star-horse-style);\n  cursor: col-resize;\n}\n\n.Resizer {\n  z-index: 1;\n  box-sizing: border-box;\n  background: padding-box var(--star-horse-background);\n}\n\n.moveBox {\n  width: 10px;\n  height: 100%;\n  border: 1px solid var(--star-horse-style);\n  line-height: 100%;\n  color: var(--star-horse-style);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-weight: bold;\n}\n.moveBox:hover {\n  cursor: col-resize;\n}\n\n.el-menu--collapse {\n  width: 100%;\n  height: 100%;\n}\n\n/*:deep(.el-aside) {\n  overflow: hidden;\n}*/\n/*.main-config {\n  position: absolute;\n  top: 50%;\n  right: 1px;\n  border-radius: 3px;\n  background: var(--star-horse-font-color);\n\n  &:hover, svg:hover {\n    cursor: pointer;\n  }\n}*/\n:deep(.el-drawer__close-btn) {\n  background-color: unset;\n}\n:deep(.el-drawer__close-btn) svg {\n  color: unset !important;\n}",
+      "start": 1738720224396,
+      "end": 1738720224551,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1738720224551,
+      "end": 1738720224551,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1738720224551,
+      "end": 1738720224551,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1738720224551,
+      "end": 1738720224551,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "result": "[data-v-fedac4b6] .el-header {\n  height: unset;\n  padding: unset;\n}\n.operation-area[data-v-fedac4b6] {\n  height: 100%;\n  overflow: hidden;\n}\n.Resizer.vertical[data-v-fedac4b6] {\n  width: 6px;\n  margin: 0 auto;\n  display: flex;\n  justify-content: center;\n  vertical-align: middle;\n  align-items: center;\n  border-left: 2px solid transparent;\n  border-right: 2px solid transparent;\n}\n.Resizer.vertical[data-v-fedac4b6]:hover {\n  background-color: var(--star-horse-style);\n  cursor: col-resize;\n}\n.Resizer[data-v-fedac4b6] {\n  z-index: 1;\n  box-sizing: border-box;\n  background: padding-box var(--star-horse-background);\n}\n.moveBox[data-v-fedac4b6] {\n  width: 10px;\n  height: 100%;\n  border: 1px solid var(--star-horse-style);\n  line-height: 100%;\n  color: var(--star-horse-style);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-weight: bold;\n}\n.moveBox[data-v-fedac4b6]:hover {\n  cursor: col-resize;\n}\n.el-menu--collapse[data-v-fedac4b6] {\n  width: 100%;\n  height: 100%;\n}\n\n/*:deep(.el-aside) {\n  overflow: hidden;\n}*/\n/*.main-config {\n  position: absolute;\n  top: 50%;\n  right: 1px;\n  border-radius: 3px;\n  background: var(--star-horse-font-color);\n\n  &:hover, svg:hover {\n    cursor: pointer;\n  }\n}*/\n[data-v-fedac4b6] .el-drawer__close-btn {\n  background-color: unset;\n}\n[data-v-fedac4b6] .el-drawer__close-btn svg {\n  color: unset !important;\n}",
+      "start": 1738720224551,
+      "end": 1738720224553,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "originjs:commonjs",
+      "start": 1738720224553,
+      "end": 1738720224553,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1738720224553,
+      "end": 1738720224553,
+      "order": "normal"
+    },
+    {
+      "name": "inject",
+      "start": 1738720224553,
+      "end": 1738720224553,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1738720224553,
+      "end": 1738720224553,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "result": "import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/src/components/Dashboard.vue?vue&type=style&index=0&scoped=fedac4b6&lang.scss\"\nconst __vite__css = \"[data-v-fedac4b6] .el-header {\\n  height: unset;\\n  padding: unset;\\n}\\n.operation-area[data-v-fedac4b6] {\\n  height: 100%;\\n  overflow: hidden;\\n}\\n.Resizer.vertical[data-v-fedac4b6] {\\n  width: 6px;\\n  margin: 0 auto;\\n  display: flex;\\n  justify-content: center;\\n  vertical-align: middle;\\n  align-items: center;\\n  border-left: 2px solid transparent;\\n  border-right: 2px solid transparent;\\n}\\n.Resizer.vertical[data-v-fedac4b6]:hover {\\n  background-color: var(--star-horse-style);\\n  cursor: col-resize;\\n}\\n.Resizer[data-v-fedac4b6] {\\n  z-index: 1;\\n  box-sizing: border-box;\\n  background: padding-box var(--star-horse-background);\\n}\\n.moveBox[data-v-fedac4b6] {\\n  width: 10px;\\n  height: 100%;\\n  border: 1px solid var(--star-horse-style);\\n  line-height: 100%;\\n  color: var(--star-horse-style);\\n  display: flex;\\n  align-items: center;\\n  justify-content: center;\\n  font-weight: bold;\\n}\\n.moveBox[data-v-fedac4b6]:hover {\\n  cursor: col-resize;\\n}\\n.el-menu--collapse[data-v-fedac4b6] {\\n  width: 100%;\\n  height: 100%;\\n}\\n\\n/*:deep(.el-aside) {\\n  overflow: hidden;\\n}*/\\n/*.main-config {\\n  position: absolute;\\n  top: 50%;\\n  right: 1px;\\n  border-radius: 3px;\\n  background: var(--star-horse-font-color);\\n\\n  &:hover, svg:hover {\\n    cursor: pointer;\\n  }\\n}*/\\n[data-v-fedac4b6] .el-drawer__close-btn {\\n  background-color: unset;\\n}\\n[data-v-fedac4b6] .el-drawer__close-btn svg {\\n  color: unset !important;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720224553,
+      "end": 1738720224553,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1738720224553,
+      "end": 1738720224553,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1738720224553,
+      "end": 1738720224553,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1738720224553,
+      "end": 1738720224553,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1738720224553,
+      "end": 1738720224553,
+      "order": "normal"
+    },
+    {
+      "name": "vite-plugin-vue-inspector:post",
+      "start": 1738720224553,
+      "end": 1738720224553,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-auto-import",
+      "start": 1738720224553,
+      "end": 1738720224553,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-vue-components",
+      "result": "/* unplugin-vue-components disabled */import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/src/components/Dashboard.vue?vue&type=style&index=0&scoped=fedac4b6&lang.scss\"\nconst __vite__css = \"[data-v-fedac4b6] .el-header {\\n  height: unset;\\n  padding: unset;\\n}\\n.operation-area[data-v-fedac4b6] {\\n  height: 100%;\\n  overflow: hidden;\\n}\\n.Resizer.vertical[data-v-fedac4b6] {\\n  width: 6px;\\n  margin: 0 auto;\\n  display: flex;\\n  justify-content: center;\\n  vertical-align: middle;\\n  align-items: center;\\n  border-left: 2px solid transparent;\\n  border-right: 2px solid transparent;\\n}\\n.Resizer.vertical[data-v-fedac4b6]:hover {\\n  background-color: var(--star-horse-style);\\n  cursor: col-resize;\\n}\\n.Resizer[data-v-fedac4b6] {\\n  z-index: 1;\\n  box-sizing: border-box;\\n  background: padding-box var(--star-horse-background);\\n}\\n.moveBox[data-v-fedac4b6] {\\n  width: 10px;\\n  height: 100%;\\n  border: 1px solid var(--star-horse-style);\\n  line-height: 100%;\\n  color: var(--star-horse-style);\\n  display: flex;\\n  align-items: center;\\n  justify-content: center;\\n  font-weight: bold;\\n}\\n.moveBox[data-v-fedac4b6]:hover {\\n  cursor: col-resize;\\n}\\n.el-menu--collapse[data-v-fedac4b6] {\\n  width: 100%;\\n  height: 100%;\\n}\\n\\n/*:deep(.el-aside) {\\n  overflow: hidden;\\n}*/\\n/*.main-config {\\n  position: absolute;\\n  top: 50%;\\n  right: 1px;\\n  border-radius: 3px;\\n  background: var(--star-horse-font-color);\\n\\n  &:hover, svg:hover {\\n    cursor: pointer;\\n  }\\n}*/\\n[data-v-fedac4b6] .el-drawer__close-btn {\\n  background-color: unset;\\n}\\n[data-v-fedac4b6] .el-drawer__close-btn svg {\\n  color: unset !important;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720224553,
+      "end": 1738720224553,
+      "order": "post",
+      "sourcemaps": {
+        "version": 3,
+        "sources": [
+          "E:/lixycode/testcode/src/components/Dashboard.vue?vue&type=style&index=0&scoped=fedac4b6&lang.scss"
+        ],
+        "sourcesContent": [
+          "import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/src/components/Dashboard.vue?vue&type=style&index=0&scoped=fedac4b6&lang.scss\"\nconst __vite__css = \"[data-v-fedac4b6] .el-header {\\n  height: unset;\\n  padding: unset;\\n}\\n.operation-area[data-v-fedac4b6] {\\n  height: 100%;\\n  overflow: hidden;\\n}\\n.Resizer.vertical[data-v-fedac4b6] {\\n  width: 6px;\\n  margin: 0 auto;\\n  display: flex;\\n  justify-content: center;\\n  vertical-align: middle;\\n  align-items: center;\\n  border-left: 2px solid transparent;\\n  border-right: 2px solid transparent;\\n}\\n.Resizer.vertical[data-v-fedac4b6]:hover {\\n  background-color: var(--star-horse-style);\\n  cursor: col-resize;\\n}\\n.Resizer[data-v-fedac4b6] {\\n  z-index: 1;\\n  box-sizing: border-box;\\n  background: padding-box var(--star-horse-background);\\n}\\n.moveBox[data-v-fedac4b6] {\\n  width: 10px;\\n  height: 100%;\\n  border: 1px solid var(--star-horse-style);\\n  line-height: 100%;\\n  color: var(--star-horse-style);\\n  display: flex;\\n  align-items: center;\\n  justify-content: center;\\n  font-weight: bold;\\n}\\n.moveBox[data-v-fedac4b6]:hover {\\n  cursor: col-resize;\\n}\\n.el-menu--collapse[data-v-fedac4b6] {\\n  width: 100%;\\n  height: 100%;\\n}\\n\\n/*:deep(.el-aside) {\\n  overflow: hidden;\\n}*/\\n/*.main-config {\\n  position: absolute;\\n  top: 50%;\\n  right: 1px;\\n  border-radius: 3px;\\n  background: var(--star-horse-font-color);\\n\\n  &:hover, svg:hover {\\n    cursor: pointer;\\n  }\\n}*/\\n[data-v-fedac4b6] .el-drawer__close-btn {\\n  background-color: unset;\\n}\\n[data-v-fedac4b6] .el-drawer__close-btn svg {\\n  color: unset !important;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))"
+        ],
+        "names": [],
+        "mappings": "sCAAA,MAAM,CAAC,CAAC,CAAC,WAAW,CAAC,EAAE,CAAC,mBAAmB,CAAC,CAAC,WAAW,CAAC,EAAE,CAAC,mBAAmB,CAAC,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,CAAC,IAAI,CAAC,MAAM;AACrG,KAAK,CAAC,UAAU,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,QAAQ,CAAC,QAAQ,CAAC,GAAG,CAAC,UAAU,CAAC,SAAS,CAAC,GAAG,CAAC,GAAG,CAAC,IAAI,CAAC,KAAK,CAAC,KAAK,CAAC,CAAC,CAAC,MAAM,CAAC,QAAQ,CAAC,IAAI,CAAC,IAAI;AACtH,KAAK,CAAC,WAAW,CAAC,CAAC,CAAC,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,QAAQ,CAAC,CAAC,CAAC,EAAE,CAAC,MAAM,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,MAAM,CAAC,CAAC,KAAK,CAAC,CAAC,CAAC,CAAC,CAAC,OAAO,CAAC,CAAC,KAAK,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,SAAS,CAAC,IAAI,CAAC,IAAI,CAAC,CAAC,CAAC,QAAQ,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,MAAM,CAAC,CAAC,GAAG,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,QAAQ,CAAC,CAAC,MAAM,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,OAAO,CAAC,QAAQ,CAAC,IAAI,CAAC,CAAC,CAAC,QAAQ,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,KAAK,CAAC,CAAC,GAAG,CAAC,CAAC,CAAC,CAAC,CAAC,MAAM,CAAC,CAAC,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,CAAC,CAAC,OAAO,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,CAAC,CAAC,OAAO,CAAC,OAAO,CAAC,CAAC,MAAM,CAAC,CAAC,CAAC,CAAC,CAAC,QAAQ,CAAC,KAAK,CAAC,CAAC,MAAM,CAAC,CAAC,CAAC,CAAC,CAAC,KAAK,CAAC,KAAK,CAAC,CAAC,MAAM,CAAC,CAAC,CAAC,CAAC,CAAC,MAAM,CAAC,IAAI,CAAC,CAAC,GAAG,CAAC,KAAK,CAAC,WAAW,CAAC,CAAC,CAAC,CAAC,CAAC,MAAM,CAAC,KAAK,CAAC,CAAC,GAAG,CAAC,KAAK,CAAC,WAAW,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,OAAO,CAAC,QAAQ,CAAC,IAAI,CAAC,CAAC,CAAC,QAAQ,CAAC,CAAC,KAAK,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,UAAU,CAAC,KAAK,CAAC,CAAC,GAAG,CAAC,CAAC,CAAC,IAAI,CAAC,KAAK,CAAC,KAAK,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,MAAM,CAAC,CAAC,GAAG,CAAC,MAAM,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,OAAO,CAAC,IAAI,CAAC,CAAC,CAAC,QAAQ,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,KAAK,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,GAAG,CAAC,MAAM,CAAC,CAAC,MAAM,CAAC,GAAG,CAAC,CAAC,CAAC,CAAC,CAAC,UAAU,CAAC,CAAC,OAAO,CAAC,GAAG,CAAC,GAAG,CAAC,CAAC,CAAC,IAAI,CAAC,KAAK,CAAC,UAAU,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,OAAO,CAAC,IAAI,CAAC,CAAC,CAAC,QAAQ,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,KAAK,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,CAAC,CAAC,MAAM,CAAC,CAAC,GAAG,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,MAAM,CAAC,CAAC,GAAG,CAAC,KAAK,CAAC,GAAG,CAAC,CAAC,CAAC,IAAI,CAAC,KAAK,CAAC,KAAK,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,IAAI,CAAC,MAAM,CAAC,CAAC,GAAG,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,KAAK,CAAC,CAAC,GAAG,CAAC,CAAC,CAAC,IAAI,CAAC,KAAK,CAAC,KAAK,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,OAAO,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,CAAC,CAAC,KAAK,CAAC,KAAK,CAAC,CAAC,MAAM,CAAC,CAAC,CAAC,CAAC,CAAC,OAAO,CAAC,OAAO,CAAC,CAAC,MAAM,CAAC,CAAC,CAAC,CAAC,CAAC,IAAI,CAAC,MAAM,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,OAAO,CAAC,IAAI,CAAC,CAAC,CAAC,QAAQ,CAAC,CAAC,KAAK,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,MAAM,CAAC,CAAC,GAAG,CAAC,MAAM,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,IAAI,CAAC,CAAC,QAAQ,CAAC,IAAI,CAAC,CAAC,CAAC,QAAQ,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,KAAK,CAAC,CAAC,GAAG,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,MAAM,CAAC,CAAC,GAAG,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,IAAI,CAAC,CAAC,EAAE,CAAC,KAAK,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,QAAQ,CAAC,CAAC,MAAM,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,IAAI,CAAC,MAAM,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,QAAQ,CAAC,CAAC,QAAQ,CAAC,CAAC,CAAC,CAAC,CAAC,GAAG,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,KAAK,CAAC,CAAC,GAAG,CAAC,CAAC,CAAC,CAAC,CAAC,MAAM,CAAC,MAAM,CAAC,CAAC,GAAG,CAAC,CAAC,CAAC,CAAC,CAAC,UAAU,CAAC,CAAC,GAAG,CAAC,CAAC,CAAC,IAAI,CAAC,KAAK,CAAC,IAAI,CAAC,KAAK,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,KAAK,CAAC,CAAC,GAAG,CAAC,KAAK,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,MAAM,CAAC,CAAC,OAAO,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,QAAQ,CAAC,CAAC,CAAC,EAAE,CAAC,aAAa,CAAC,GAAG,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,UAAU,CAAC,KAAK,CAAC,CAAC,KAAK,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,QAAQ,CAAC,CAAC,CAAC,EAAE,CAAC,aAAa,CAAC,GAAG,CAAC,GAAG,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,KAAK,CAAC,CAAC,KAAK,CAAC,CAAC,SAAS,CAAC,CAAC,CAAC,CAAC;AACn7C,mBAAmB,CAAC,UAAU,CAAC,CAAC,WAAW;AAC3C,MAAM,CAAC,IAAI,CAAC,GAAG,CAAC,MAAM,CAAC;AACvB,MAAM,CAAC,IAAI,CAAC,GAAG,CAAC,KAAK,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,mBAAmB,CAAC,UAAU,CAAC"
+      }
+    },
+    {
+      "name": "vite:client-inject",
+      "start": 1738720224553,
+      "end": 1738720224553,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-analysis",
+      "start": 1738720224553,
+      "end": 1738720224553,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-analysis",
+      "result": "import { createHotContext as __vite__createHotContext } from \"/@vite/client\";import.meta.hot = __vite__createHotContext(\"/src/components/Dashboard.vue?vue&type=style&index=0&scoped=fedac4b6&lang.scss\");/* unplugin-vue-components disabled */import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/src/components/Dashboard.vue?vue&type=style&index=0&scoped=fedac4b6&lang.scss\"\nconst __vite__css = \"[data-v-fedac4b6] .el-header {\\n  height: unset;\\n  padding: unset;\\n}\\n.operation-area[data-v-fedac4b6] {\\n  height: 100%;\\n  overflow: hidden;\\n}\\n.Resizer.vertical[data-v-fedac4b6] {\\n  width: 6px;\\n  margin: 0 auto;\\n  display: flex;\\n  justify-content: center;\\n  vertical-align: middle;\\n  align-items: center;\\n  border-left: 2px solid transparent;\\n  border-right: 2px solid transparent;\\n}\\n.Resizer.vertical[data-v-fedac4b6]:hover {\\n  background-color: var(--star-horse-style);\\n  cursor: col-resize;\\n}\\n.Resizer[data-v-fedac4b6] {\\n  z-index: 1;\\n  box-sizing: border-box;\\n  background: padding-box var(--star-horse-background);\\n}\\n.moveBox[data-v-fedac4b6] {\\n  width: 10px;\\n  height: 100%;\\n  border: 1px solid var(--star-horse-style);\\n  line-height: 100%;\\n  color: var(--star-horse-style);\\n  display: flex;\\n  align-items: center;\\n  justify-content: center;\\n  font-weight: bold;\\n}\\n.moveBox[data-v-fedac4b6]:hover {\\n  cursor: col-resize;\\n}\\n.el-menu--collapse[data-v-fedac4b6] {\\n  width: 100%;\\n  height: 100%;\\n}\\n\\n/*:deep(.el-aside) {\\n  overflow: hidden;\\n}*/\\n/*.main-config {\\n  position: absolute;\\n  top: 50%;\\n  right: 1px;\\n  border-radius: 3px;\\n  background: var(--star-horse-font-color);\\n\\n  &:hover, svg:hover {\\n    cursor: pointer;\\n  }\\n}*/\\n[data-v-fedac4b6] .el-drawer__close-btn {\\n  background-color: unset;\\n}\\n[data-v-fedac4b6] .el-drawer__close-btn svg {\\n  color: unset !important;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720224553,
+      "end": 1738720224554,
+      "order": "normal",
+      "sourcemaps": null
+    }
+  ]
+}

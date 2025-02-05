@@ -1,0 +1,184 @@
+{
+  "resolvedId": "E:/lixycode/testcode/src/views/workflow/plugin/preps/PrepIndex.vue?vue&type=style&index=0&scoped=8b76006f&lang.scss",
+  "transforms": [
+    {
+      "name": "vite:vue",
+      "result": "\r\n:deep(.el-tabs__content) {\r\n  margin-top: 10px;\r\n}\r\n",
+      "start": 1738720347296,
+      "end": 1738720347297,
+      "sourcemaps": {
+        "version": 3,
+        "sources": [
+          "E:/lixycode/testcode/src/views/workflow/plugin/preps/PrepIndex.vue"
+        ],
+        "names": [],
+        "mappings": ";AAiEA,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE;EACvB,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC;AAClB",
+        "file": "E:/lixycode/testcode/src/views/workflow/plugin/preps/PrepIndex.vue",
+        "sourceRoot": "",
+        "sourcesContent": [
+          "<script setup lang=\"ts\">\r\nimport {scale} from \"@/views/workflow/plugin/utils/deviceUtil.ts\";\r\nimport {computed, ref} from 'vue'\r\nimport ApplyPrep from \"@/views/workflow/plugin/preps/ApplyPrep.vue\";\r\nimport ApprovalPrep from \"@/views/workflow/plugin/preps/ApprovalPrep.vue\";\r\nimport BranchPrep from \"@/views/workflow/plugin/preps/BranchPrep.vue\";\r\nimport CopyerPrep from \"@/views/workflow/plugin/preps/CopyerPrep.vue\";\r\nimport EventPrep from \"@/views/workflow/plugin/preps/EventPrep.vue\";\r\nimport NoticePrep from \"@/views/workflow/plugin/preps/NoticePrep.vue\";\r\nimport ServicePrep from \"@/views/workflow/plugin/preps/ServicePrep.vue\";\r\nimport TimerPrep from \"@/views/workflow/plugin/preps/TimerPrep.vue\";\r\nimport EndPrep from \"@/views/workflow/plugin/preps/EndPrep.vue\";\r\nimport {flowCommon} from \"@/views/workflow/plugin/utils/flowCommon.ts\";\r\nimport EditName from \"@/views/workflow/plugin/common/EditName.vue\";\r\nimport {useFlowDesign} from \"@/store/FlowDesignStore.ts\";\r\nimport piniaInstance from \"@/store\";\r\n\r\nlet headerStyle = ref<any>({\r\n  background: 'linear-gradient(89.96deg,#fa6f32 .05%,#fb9337 79.83%)',\r\n  'border-radius': '0px 0px 0 0',\r\n});\r\nconst flowDesign = useFlowDesign(piniaInstance);\r\nlet activeNode = computed(() => flowDesign.currentNode);\r\nlet activePanel = computed(() => flowDesign.active);\r\nconst panels = ref<any>({\r\n  ApplyNode: ApplyPrep,\r\n  ApprovalNode: ApprovalPrep,\r\n  HandleNode: ApprovalPrep,\r\n  CopyerNode: CopyerPrep,\r\n  TimerNode: TimerPrep,\r\n  NoticeNode: NoticePrep,\r\n  ConditionNode: BranchPrep,\r\n  ParallelSubNode: BranchPrep,\r\n  EventNode: EventPrep,\r\n  ServiceNode: ServicePrep,\r\n  EndNode: EndPrep\r\n});\r\n\r\nconst onClose = () => {\r\n  flowDesign.setActive(false);\r\n}\r\n</script>\r\n\r\n<template>\r\n  <el-drawer :width=\"scale.isMobile() ? '100%' : '40%'\"\r\n             :headerStyle=\"headerStyle\"\r\n             :bodyStyle=\"flowCommon.bodyStyle\"\r\n             placement=\"right\"\r\n             :closable=\"true\"\r\n             @click-outside=\"onClose\"\r\n             v-model=\"activePanel\"\r\n             @close=\"onClose\" data-v-inspector=\"src/views/workflow/plugin/preps/PrepIndex.vue:45:3\">\r\n    <template #header>\r\n      <div class=\"drawer-header\" data-v-inspector=\"src/views/workflow/plugin/preps/PrepIndex.vue:54:7\">\r\n        <!--        <star-horse-icon icon-class=\"audit_node\" color=\"#fff\" style=\"margin-left: 10px\"/>-->\r\n        <div class=\"flow-drawer-title\" data-v-inspector=\"src/views/workflow/plugin/preps/PrepIndex.vue:56:9\">\r\n          <EditName v-model:nodeName=\"activeNode.name\" data-v-inspector=\"src/views/workflow/plugin/preps/PrepIndex.vue:57:11\"/>\r\n        </div>\r\n      </div>\r\n    </template>\r\n    <component :is=\"panels[activeNode.type]\" :activeData=\"activeNode\" data-v-inspector=\"src/views/workflow/plugin/preps/PrepIndex.vue:61:5\"/>\r\n  </el-drawer>\r\n</template>\r\n\r\n<style scoped lang=\"scss\">\r\n:deep(.el-tabs__content) {\r\n  margin-top: 10px;\r\n}\r\n</style>\r\n"
+        ]
+      }
+    },
+    {
+      "name": "vite-plugin-vue-inspector",
+      "start": 1738720347297,
+      "end": 1738720347297,
+      "order": "pre"
+    },
+    {
+      "name": "vite-plugin-vue-devtools",
+      "result": "\r\n:deep(.el-tabs__content) {\r\n  margin-top: 10px;\r\n}\r\n",
+      "start": 1738720347297,
+      "end": 1738720347297,
+      "order": "pre",
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "result": ":deep(.el-tabs__content) {\n  margin-top: 10px;\n}",
+      "start": 1738720347297,
+      "end": 1738720347586,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1738720347586,
+      "end": 1738720347586,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1738720347586,
+      "end": 1738720347586,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1738720347586,
+      "end": 1738720347586,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "result": "[data-v-8b76006f] .el-tabs__content {\n  margin-top: 10px;\n}",
+      "start": 1738720347586,
+      "end": 1738720347587,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "originjs:commonjs",
+      "start": 1738720347587,
+      "end": 1738720347587,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1738720347587,
+      "end": 1738720347587,
+      "order": "normal"
+    },
+    {
+      "name": "inject",
+      "start": 1738720347587,
+      "end": 1738720347587,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1738720347587,
+      "end": 1738720347587,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "result": "import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/src/views/workflow/plugin/preps/PrepIndex.vue?vue&type=style&index=0&scoped=8b76006f&lang.scss\"\nconst __vite__css = \"[data-v-8b76006f] .el-tabs__content {\\n  margin-top: 10px;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720347587,
+      "end": 1738720347587,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1738720347587,
+      "end": 1738720347587,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1738720347587,
+      "end": 1738720347587,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1738720347587,
+      "end": 1738720347587,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1738720347587,
+      "end": 1738720347587,
+      "order": "normal"
+    },
+    {
+      "name": "vite-plugin-vue-inspector:post",
+      "start": 1738720347587,
+      "end": 1738720347587,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-auto-import",
+      "start": 1738720347587,
+      "end": 1738720347588,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-vue-components",
+      "result": "/* unplugin-vue-components disabled */import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/src/views/workflow/plugin/preps/PrepIndex.vue?vue&type=style&index=0&scoped=8b76006f&lang.scss\"\nconst __vite__css = \"[data-v-8b76006f] .el-tabs__content {\\n  margin-top: 10px;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720347588,
+      "end": 1738720347588,
+      "order": "post",
+      "sourcemaps": {
+        "version": 3,
+        "sources": [
+          "E:/lixycode/testcode/src/views/workflow/plugin/preps/PrepIndex.vue?vue&type=style&index=0&scoped=8b76006f&lang.scss"
+        ],
+        "sourcesContent": [
+          "import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/src/views/workflow/plugin/preps/PrepIndex.vue?vue&type=style&index=0&scoped=8b76006f&lang.scss\"\nconst __vite__css = \"[data-v-8b76006f] .el-tabs__content {\\n  margin-top: 10px;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))"
+        ],
+        "names": [],
+        "mappings": "sCAAA,MAAM,CAAC,CAAC,CAAC,WAAW,CAAC,EAAE,CAAC,mBAAmB,CAAC,CAAC,WAAW,CAAC,EAAE,CAAC,mBAAmB,CAAC,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,CAAC,IAAI,CAAC,MAAM;AACrG,KAAK,CAAC,UAAU,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,QAAQ,CAAC,QAAQ,CAAC,GAAG,CAAC,KAAK,CAAC,QAAQ,CAAC,MAAM,CAAC,KAAK,CAAC,SAAS,CAAC,GAAG,CAAC,GAAG,CAAC,IAAI,CAAC,KAAK,CAAC,KAAK,CAAC,CAAC,CAAC,MAAM,CAAC,QAAQ,CAAC,IAAI,CAAC,IAAI;AACvI,KAAK,CAAC,WAAW,CAAC,CAAC,CAAC,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,QAAQ,CAAC,CAAC,CAAC,EAAE,CAAC,aAAa,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,MAAM,CAAC,GAAG,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,CAAC;AAClF,mBAAmB,CAAC,UAAU,CAAC,CAAC,WAAW;AAC3C,MAAM,CAAC,IAAI,CAAC,GAAG,CAAC,MAAM,CAAC;AACvB,MAAM,CAAC,IAAI,CAAC,GAAG,CAAC,KAAK,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,mBAAmB,CAAC,UAAU,CAAC"
+      }
+    },
+    {
+      "name": "vite:client-inject",
+      "start": 1738720347588,
+      "end": 1738720347588,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-analysis",
+      "start": 1738720347588,
+      "end": 1738720347588,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-analysis",
+      "result": "import { createHotContext as __vite__createHotContext } from \"/@vite/client\";import.meta.hot = __vite__createHotContext(\"/src/views/workflow/plugin/preps/PrepIndex.vue?vue&type=style&index=0&scoped=8b76006f&lang.scss\");/* unplugin-vue-components disabled */import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/src/views/workflow/plugin/preps/PrepIndex.vue?vue&type=style&index=0&scoped=8b76006f&lang.scss\"\nconst __vite__css = \"[data-v-8b76006f] .el-tabs__content {\\n  margin-top: 10px;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720347588,
+      "end": 1738720347588,
+      "order": "normal",
+      "sourcemaps": null
+    }
+  ]
+}
