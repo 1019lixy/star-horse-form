@@ -3,7 +3,7 @@
 </script>
 
 <template>
-自定义图
+  自定义图
 </template>
 
 <style scoped lang="scss">

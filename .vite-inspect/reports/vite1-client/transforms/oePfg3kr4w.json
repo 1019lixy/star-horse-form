@@ -1,0 +1,155 @@
+{
+  "resolvedId": "E:/lixycode/testcode/node_modules/element-plus/theme-chalk/src/form.scss",
+  "transforms": [
+    {
+      "name": "__load__",
+      "result": "@use 'sass:map';\n\n@use 'mixins/mixins' as *;\n@use 'mixins/utils' as *;\n@use 'mixins/var' as *;\n@use 'common/var' as *;\n\n$form-item-margin-bottom: () !default;\n$form-item-margin-bottom: map.merge(\n  (\n    'large': 22px,\n    'default': 18px,\n    'small': 18px,\n  ),\n  $form-item-margin-bottom\n);\n\n$form-item-line-height: () !default;\n$form-item-line-height: map.merge(\n  (\n    'large': 40px,\n    'default': 32px,\n    'small': 24px,\n  ),\n  $form-item-line-height\n);\n\n$form-item-error-padding-top: () !default;\n$form-item-error-padding-top: map.merge(\n  (\n    'large': 4px,\n    'default': 2px,\n    'small': 2px,\n  ),\n  $form-item-error-padding-top\n);\n\n$form-item-label-top-line-height: () !default;\n$form-item-label-top-line-height: map.merge(\n  (\n    'large': 22px,\n    'default': 22px,\n    'small': 20px,\n  ),\n  $form-item-label-top-line-height\n);\n\n$form-item-label-top-margin-bottom: () !default;\n$form-item-label-top-margin-bottom: map.merge(\n  (\n    'large': 12px,\n    'default': 8px,\n    'small': 4px,\n  ),\n  $form-item-label-top-margin-bottom\n);\n\n@include b(form) {\n  @include set-component-css-var('form', $form);\n\n  @include m(inline) {\n    .#{$namespace}-form-item {\n      display: inline-flex;\n      vertical-align: middle;\n      margin-right: 32px;\n    }\n\n    &.#{$namespace}-form--label-top {\n      display: flex;\n      flex-wrap: wrap;\n\n      .#{$namespace}-form-item {\n        display: block;\n      }\n    }\n  }\n}\n\n@include b(form-item) {\n  display: flex;\n  --font-size: #{map.get($input-font-size, 'default')};\n  margin-bottom: #{map.get($form-item-margin-bottom, 'default')};\n\n  .#{$namespace}-form-item {\n    margin-bottom: 0;\n  }\n\n  .#{$namespace}-input__validateIcon {\n    display: none;\n  }\n\n  @each $size in (large, default, small) {\n    @include m($size) {\n      --font-size: #{map.get($input-font-size, $size)};\n      @include set-css-var-value(('form', 'label-font-size'), var(--font-size));\n\n      margin-bottom: #{map.get($form-item-margin-bottom, $size)};\n\n      @include e(label) {\n        height: #{map.get($form-item-line-height, $size)};\n        line-height: #{map.get($form-item-line-height, $size)};\n      }\n\n      @include e(content) {\n        line-height: #{map.get($form-item-line-height, $size)};\n      }\n\n      @include e(error) {\n        padding-top: #{map.get($form-item-error-padding-top, $size)};\n      }\n    }\n  }\n\n  @include m(label-left) {\n    .#{$namespace}-form-item__label {\n      justify-content: flex-start;\n    }\n  }\n\n  @include m(label-top) {\n    display: block;\n\n    .#{$namespace}-form-item__label {\n      display: inline-block;\n      vertical-align: middle;\n      height: auto;\n      text-align: left;\n      margin-bottom: #{map.get($form-item-label-top-margin-bottom, 'default')};\n      line-height: #{map.get($form-item-label-top-line-height, 'default')};\n    }\n  }\n\n  @include e(label-wrap) {\n    display: flex;\n  }\n\n  @include e(label) {\n    display: inline-flex;\n    justify-content: flex-end;\n    align-items: flex-start;\n\n    flex: 0 0 auto;\n    font-size: getCssVar('form-label-font-size');\n    color: getCssVar('text-color', 'regular');\n\n    height: #{map.get($form-item-line-height, 'default')};\n    line-height: #{map.get($form-item-line-height, 'default')};\n\n    padding: 0 12px 0 0;\n    box-sizing: border-box;\n  }\n\n  @include e(content) {\n    display: flex;\n    flex-wrap: wrap;\n    align-items: center;\n    flex: 1;\n    line-height: #{map.get($form-item-line-height, 'default')};\n    position: relative;\n    font-size: var(--font-size);\n    min-width: 0;\n\n    .#{$namespace}-input-group {\n      vertical-align: top;\n    }\n  }\n\n  @include e(error) {\n    color: getCssVar('color-danger');\n    font-size: 12px;\n    line-height: 1;\n    padding-top: #{map.get($form-item-error-padding-top, 'default')};\n    position: absolute;\n    top: 100%;\n    left: 0;\n\n    @include m(inline) {\n      position: relative;\n      top: auto;\n      left: auto;\n      display: inline-block;\n      margin-left: 10px;\n    }\n  }\n\n  @include when(required) {\n    @include pseudo('not(.is-no-asterisk)') {\n      &.asterisk-left {\n        > .#{$namespace}-form-item__label:before,\n        > .#{$namespace}-form-item__label-wrap\n          > .#{$namespace}-form-item__label:before {\n          content: '*';\n          color: getCssVar('color-danger');\n          margin-right: 4px;\n        }\n      }\n\n      &.asterisk-right {\n        > .#{$namespace}-form-item__label:after,\n        > .#{$namespace}-form-item__label-wrap\n          > .#{$namespace}-form-item__label:after {\n          content: '*';\n          color: getCssVar('color-danger');\n          margin-left: 4px;\n        }\n      }\n    }\n  }\n\n  @include when(error) {\n    .#{$namespace}-input__wrapper,\n    .#{$namespace}-textarea__inner,\n    .#{$namespace}-select__wrapper,\n    .#{$namespace}-input-tag__wrapper {\n      &,\n      &:hover,\n      &:focus,\n      &.is-focus {\n        box-shadow: 0 0 0 1px getCssVar('color-danger') inset;\n      }\n    }\n\n    .#{$namespace}-input-group__append,\n    .#{$namespace}-input-group__prepend {\n      .#{$namespace}-input__wrapper {\n        box-shadow: 0 0 0 1px transparent inset;\n      }\n\n      .#{$namespace}-input__validateIcon {\n        display: none;\n      }\n    }\n\n    .#{$namespace}-input__validateIcon {\n      color: getCssVar('color-danger');\n    }\n  }\n\n  @include m(feedback) {\n    .#{$namespace}-input__validateIcon {\n      display: inline-flex;\n    }\n  }\n}\n",
+      "start": 1738720192204,
+      "end": 1738720192204
+    },
+    {
+      "name": "vite-plugin-vue-inspector",
+      "start": 1738720192204,
+      "end": 1738720192204,
+      "order": "pre"
+    },
+    {
+      "name": "vite-plugin-vue-devtools",
+      "result": "@use 'sass:map';\n\n@use 'mixins/mixins' as *;\n@use 'mixins/utils' as *;\n@use 'mixins/var' as *;\n@use 'common/var' as *;\n\n$form-item-margin-bottom: () !default;\n$form-item-margin-bottom: map.merge(\n  (\n    'large': 22px,\n    'default': 18px,\n    'small': 18px,\n  ),\n  $form-item-margin-bottom\n);\n\n$form-item-line-height: () !default;\n$form-item-line-height: map.merge(\n  (\n    'large': 40px,\n    'default': 32px,\n    'small': 24px,\n  ),\n  $form-item-line-height\n);\n\n$form-item-error-padding-top: () !default;\n$form-item-error-padding-top: map.merge(\n  (\n    'large': 4px,\n    'default': 2px,\n    'small': 2px,\n  ),\n  $form-item-error-padding-top\n);\n\n$form-item-label-top-line-height: () !default;\n$form-item-label-top-line-height: map.merge(\n  (\n    'large': 22px,\n    'default': 22px,\n    'small': 20px,\n  ),\n  $form-item-label-top-line-height\n);\n\n$form-item-label-top-margin-bottom: () !default;\n$form-item-label-top-margin-bottom: map.merge(\n  (\n    'large': 12px,\n    'default': 8px,\n    'small': 4px,\n  ),\n  $form-item-label-top-margin-bottom\n);\n\n@include b(form) {\n  @include set-component-css-var('form', $form);\n\n  @include m(inline) {\n    .#{$namespace}-form-item {\n      display: inline-flex;\n      vertical-align: middle;\n      margin-right: 32px;\n    }\n\n    &.#{$namespace}-form--label-top {\n      display: flex;\n      flex-wrap: wrap;\n\n      .#{$namespace}-form-item {\n        display: block;\n      }\n    }\n  }\n}\n\n@include b(form-item) {\n  display: flex;\n  --font-size: #{map.get($input-font-size, 'default')};\n  margin-bottom: #{map.get($form-item-margin-bottom, 'default')};\n\n  .#{$namespace}-form-item {\n    margin-bottom: 0;\n  }\n\n  .#{$namespace}-input__validateIcon {\n    display: none;\n  }\n\n  @each $size in (large, default, small) {\n    @include m($size) {\n      --font-size: #{map.get($input-font-size, $size)};\n      @include set-css-var-value(('form', 'label-font-size'), var(--font-size));\n\n      margin-bottom: #{map.get($form-item-margin-bottom, $size)};\n\n      @include e(label) {\n        height: #{map.get($form-item-line-height, $size)};\n        line-height: #{map.get($form-item-line-height, $size)};\n      }\n\n      @include e(content) {\n        line-height: #{map.get($form-item-line-height, $size)};\n      }\n\n      @include e(error) {\n        padding-top: #{map.get($form-item-error-padding-top, $size)};\n      }\n    }\n  }\n\n  @include m(label-left) {\n    .#{$namespace}-form-item__label {\n      justify-content: flex-start;\n    }\n  }\n\n  @include m(label-top) {\n    display: block;\n\n    .#{$namespace}-form-item__label {\n      display: inline-block;\n      vertical-align: middle;\n      height: auto;\n      text-align: left;\n      margin-bottom: #{map.get($form-item-label-top-margin-bottom, 'default')};\n      line-height: #{map.get($form-item-label-top-line-height, 'default')};\n    }\n  }\n\n  @include e(label-wrap) {\n    display: flex;\n  }\n\n  @include e(label) {\n    display: inline-flex;\n    justify-content: flex-end;\n    align-items: flex-start;\n\n    flex: 0 0 auto;\n    font-size: getCssVar('form-label-font-size');\n    color: getCssVar('text-color', 'regular');\n\n    height: #{map.get($form-item-line-height, 'default')};\n    line-height: #{map.get($form-item-line-height, 'default')};\n\n    padding: 0 12px 0 0;\n    box-sizing: border-box;\n  }\n\n  @include e(content) {\n    display: flex;\n    flex-wrap: wrap;\n    align-items: center;\n    flex: 1;\n    line-height: #{map.get($form-item-line-height, 'default')};\n    position: relative;\n    font-size: var(--font-size);\n    min-width: 0;\n\n    .#{$namespace}-input-group {\n      vertical-align: top;\n    }\n  }\n\n  @include e(error) {\n    color: getCssVar('color-danger');\n    font-size: 12px;\n    line-height: 1;\n    padding-top: #{map.get($form-item-error-padding-top, 'default')};\n    position: absolute;\n    top: 100%;\n    left: 0;\n\n    @include m(inline) {\n      position: relative;\n      top: auto;\n      left: auto;\n      display: inline-block;\n      margin-left: 10px;\n    }\n  }\n\n  @include when(required) {\n    @include pseudo('not(.is-no-asterisk)') {\n      &.asterisk-left {\n        > .#{$namespace}-form-item__label:before,\n        > .#{$namespace}-form-item__label-wrap\n          > .#{$namespace}-form-item__label:before {\n          content: '*';\n          color: getCssVar('color-danger');\n          margin-right: 4px;\n        }\n      }\n\n      &.asterisk-right {\n        > .#{$namespace}-form-item__label:after,\n        > .#{$namespace}-form-item__label-wrap\n          > .#{$namespace}-form-item__label:after {\n          content: '*';\n          color: getCssVar('color-danger');\n          margin-left: 4px;\n        }\n      }\n    }\n  }\n\n  @include when(error) {\n    .#{$namespace}-input__wrapper,\n    .#{$namespace}-textarea__inner,\n    .#{$namespace}-select__wrapper,\n    .#{$namespace}-input-tag__wrapper {\n      &,\n      &:hover,\n      &:focus,\n      &.is-focus {\n        box-shadow: 0 0 0 1px getCssVar('color-danger') inset;\n      }\n    }\n\n    .#{$namespace}-input-group__append,\n    .#{$namespace}-input-group__prepend {\n      .#{$namespace}-input__wrapper {\n        box-shadow: 0 0 0 1px transparent inset;\n      }\n\n      .#{$namespace}-input__validateIcon {\n        display: none;\n      }\n    }\n\n    .#{$namespace}-input__validateIcon {\n      color: getCssVar('color-danger');\n    }\n  }\n\n  @include m(feedback) {\n    .#{$namespace}-input__validateIcon {\n      display: inline-flex;\n    }\n  }\n}\n",
+      "start": 1738720192204,
+      "end": 1738720192204,
+      "order": "pre",
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "result": "/* Element Chalk Variables */\n.el-form {\n  --el-form-label-font-size: var(--el-font-size-base);\n  --el-form-inline-content-width: 220px;\n}\n.el-form--inline .el-form-item {\n  display: inline-flex;\n  vertical-align: middle;\n  margin-right: 32px;\n}\n.el-form--inline.el-form--label-top {\n  display: flex;\n  flex-wrap: wrap;\n}\n.el-form--inline.el-form--label-top .el-form-item {\n  display: block;\n}\n\n.el-form-item {\n  display: flex;\n  --font-size: 14px;\n  margin-bottom: 18px;\n}\n.el-form-item .el-form-item {\n  margin-bottom: 0;\n}\n.el-form-item .el-input__validateIcon {\n  display: none;\n}\n.el-form-item--large {\n  --font-size: 14px;\n  --el-form-label-font-size: var(--font-size);\n  margin-bottom: 22px;\n}\n.el-form-item--large .el-form-item__label {\n  height: 40px;\n  line-height: 40px;\n}\n\n.el-form-item--large .el-form-item__content {\n  line-height: 40px;\n}\n\n.el-form-item--large .el-form-item__error {\n  padding-top: 4px;\n}\n\n.el-form-item--default {\n  --font-size: 14px;\n  --el-form-label-font-size: var(--font-size);\n  margin-bottom: 18px;\n}\n.el-form-item--default .el-form-item__label {\n  height: 32px;\n  line-height: 32px;\n}\n\n.el-form-item--default .el-form-item__content {\n  line-height: 32px;\n}\n\n.el-form-item--default .el-form-item__error {\n  padding-top: 2px;\n}\n\n.el-form-item--small {\n  --font-size: 12px;\n  --el-form-label-font-size: var(--font-size);\n  margin-bottom: 18px;\n}\n.el-form-item--small .el-form-item__label {\n  height: 24px;\n  line-height: 24px;\n}\n\n.el-form-item--small .el-form-item__content {\n  line-height: 24px;\n}\n\n.el-form-item--small .el-form-item__error {\n  padding-top: 2px;\n}\n\n.el-form-item--label-left .el-form-item__label {\n  justify-content: flex-start;\n}\n\n.el-form-item--label-top {\n  display: block;\n}\n.el-form-item--label-top .el-form-item__label {\n  display: inline-block;\n  vertical-align: middle;\n  height: auto;\n  text-align: left;\n  margin-bottom: 8px;\n  line-height: 22px;\n}\n\n.el-form-item__label-wrap {\n  display: flex;\n}\n\n.el-form-item__label {\n  display: inline-flex;\n  justify-content: flex-end;\n  align-items: flex-start;\n  flex: 0 0 auto;\n  font-size: var(--el-form-label-font-size);\n  color: var(--el-text-color-regular);\n  height: 32px;\n  line-height: 32px;\n  padding: 0 12px 0 0;\n  box-sizing: border-box;\n}\n\n.el-form-item__content {\n  display: flex;\n  flex-wrap: wrap;\n  align-items: center;\n  flex: 1;\n  line-height: 32px;\n  position: relative;\n  font-size: var(--font-size);\n  min-width: 0;\n}\n.el-form-item__content .el-input-group {\n  vertical-align: top;\n}\n\n.el-form-item__error {\n  color: var(--el-color-danger);\n  font-size: 12px;\n  line-height: 1;\n  padding-top: 2px;\n  position: absolute;\n  top: 100%;\n  left: 0;\n}\n.el-form-item__error--inline {\n  position: relative;\n  top: auto;\n  left: auto;\n  display: inline-block;\n  margin-left: 10px;\n}\n\n.el-form-item.is-required:not(.is-no-asterisk).asterisk-left > .el-form-item__label:before,\n.el-form-item.is-required:not(.is-no-asterisk).asterisk-left > .el-form-item__label-wrap > .el-form-item__label:before {\n  content: \"*\";\n  color: var(--el-color-danger);\n  margin-right: 4px;\n}\n.el-form-item.is-required:not(.is-no-asterisk).asterisk-right > .el-form-item__label:after,\n.el-form-item.is-required:not(.is-no-asterisk).asterisk-right > .el-form-item__label-wrap > .el-form-item__label:after {\n  content: \"*\";\n  color: var(--el-color-danger);\n  margin-left: 4px;\n}\n\n.el-form-item.is-error .el-input__wrapper, .el-form-item.is-error .el-input__wrapper:hover, .el-form-item.is-error .el-input__wrapper:focus, .el-form-item.is-error .el-input__wrapper.is-focus,\n.el-form-item.is-error .el-textarea__inner,\n.el-form-item.is-error .el-textarea__inner:hover,\n.el-form-item.is-error .el-textarea__inner:focus,\n.el-form-item.is-error .el-textarea__inner.is-focus,\n.el-form-item.is-error .el-select__wrapper,\n.el-form-item.is-error .el-select__wrapper:hover,\n.el-form-item.is-error .el-select__wrapper:focus,\n.el-form-item.is-error .el-select__wrapper.is-focus,\n.el-form-item.is-error .el-input-tag__wrapper,\n.el-form-item.is-error .el-input-tag__wrapper:hover,\n.el-form-item.is-error .el-input-tag__wrapper:focus,\n.el-form-item.is-error .el-input-tag__wrapper.is-focus {\n  box-shadow: 0 0 0 1px var(--el-color-danger) inset;\n}\n.el-form-item.is-error .el-input-group__append .el-input__wrapper,\n.el-form-item.is-error .el-input-group__prepend .el-input__wrapper {\n  box-shadow: 0 0 0 1px transparent inset;\n}\n.el-form-item.is-error .el-input-group__append .el-input__validateIcon,\n.el-form-item.is-error .el-input-group__prepend .el-input__validateIcon {\n  display: none;\n}\n.el-form-item.is-error .el-input__validateIcon {\n  color: var(--el-color-danger);\n}\n\n.el-form-item--feedback .el-input__validateIcon {\n  display: inline-flex;\n}",
+      "start": 1738720192204,
+      "end": 1738720193260,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1738720193260,
+      "end": 1738720193260,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1738720193260,
+      "end": 1738720193260,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1738720193260,
+      "end": 1738720193260,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1738720193260,
+      "end": 1738720193260,
+      "order": "normal"
+    },
+    {
+      "name": "originjs:commonjs",
+      "start": 1738720193260,
+      "end": 1738720193261,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1738720193261,
+      "end": 1738720193261,
+      "order": "normal"
+    },
+    {
+      "name": "inject",
+      "start": 1738720193261,
+      "end": 1738720193261,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1738720193261,
+      "end": 1738720193261,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "result": "import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/node_modules/element-plus/theme-chalk/src/form.scss\"\nconst __vite__css = \"/* Element Chalk Variables */\\n.el-form {\\n  --el-form-label-font-size: var(--el-font-size-base);\\n  --el-form-inline-content-width: 220px;\\n}\\n.el-form--inline .el-form-item {\\n  display: inline-flex;\\n  vertical-align: middle;\\n  margin-right: 32px;\\n}\\n.el-form--inline.el-form--label-top {\\n  display: flex;\\n  flex-wrap: wrap;\\n}\\n.el-form--inline.el-form--label-top .el-form-item {\\n  display: block;\\n}\\n\\n.el-form-item {\\n  display: flex;\\n  --font-size: 14px;\\n  margin-bottom: 18px;\\n}\\n.el-form-item .el-form-item {\\n  margin-bottom: 0;\\n}\\n.el-form-item .el-input__validateIcon {\\n  display: none;\\n}\\n.el-form-item--large {\\n  --font-size: 14px;\\n  --el-form-label-font-size: var(--font-size);\\n  margin-bottom: 22px;\\n}\\n.el-form-item--large .el-form-item__label {\\n  height: 40px;\\n  line-height: 40px;\\n}\\n\\n.el-form-item--large .el-form-item__content {\\n  line-height: 40px;\\n}\\n\\n.el-form-item--large .el-form-item__error {\\n  padding-top: 4px;\\n}\\n\\n.el-form-item--default {\\n  --font-size: 14px;\\n  --el-form-label-font-size: var(--font-size);\\n  margin-bottom: 18px;\\n}\\n.el-form-item--default .el-form-item__label {\\n  height: 32px;\\n  line-height: 32px;\\n}\\n\\n.el-form-item--default .el-form-item__content {\\n  line-height: 32px;\\n}\\n\\n.el-form-item--default .el-form-item__error {\\n  padding-top: 2px;\\n}\\n\\n.el-form-item--small {\\n  --font-size: 12px;\\n  --el-form-label-font-size: var(--font-size);\\n  margin-bottom: 18px;\\n}\\n.el-form-item--small .el-form-item__label {\\n  height: 24px;\\n  line-height: 24px;\\n}\\n\\n.el-form-item--small .el-form-item__content {\\n  line-height: 24px;\\n}\\n\\n.el-form-item--small .el-form-item__error {\\n  padding-top: 2px;\\n}\\n\\n.el-form-item--label-left .el-form-item__label {\\n  justify-content: flex-start;\\n}\\n\\n.el-form-item--label-top {\\n  display: block;\\n}\\n.el-form-item--label-top .el-form-item__label {\\n  display: inline-block;\\n  vertical-align: middle;\\n  height: auto;\\n  text-align: left;\\n  margin-bottom: 8px;\\n  line-height: 22px;\\n}\\n\\n.el-form-item__label-wrap {\\n  display: flex;\\n}\\n\\n.el-form-item__label {\\n  display: inline-flex;\\n  justify-content: flex-end;\\n  align-items: flex-start;\\n  flex: 0 0 auto;\\n  font-size: var(--el-form-label-font-size);\\n  color: var(--el-text-color-regular);\\n  height: 32px;\\n  line-height: 32px;\\n  padding: 0 12px 0 0;\\n  box-sizing: border-box;\\n}\\n\\n.el-form-item__content {\\n  display: flex;\\n  flex-wrap: wrap;\\n  align-items: center;\\n  flex: 1;\\n  line-height: 32px;\\n  position: relative;\\n  font-size: var(--font-size);\\n  min-width: 0;\\n}\\n.el-form-item__content .el-input-group {\\n  vertical-align: top;\\n}\\n\\n.el-form-item__error {\\n  color: var(--el-color-danger);\\n  font-size: 12px;\\n  line-height: 1;\\n  padding-top: 2px;\\n  position: absolute;\\n  top: 100%;\\n  left: 0;\\n}\\n.el-form-item__error--inline {\\n  position: relative;\\n  top: auto;\\n  left: auto;\\n  display: inline-block;\\n  margin-left: 10px;\\n}\\n\\n.el-form-item.is-required:not(.is-no-asterisk).asterisk-left > .el-form-item__label:before,\\n.el-form-item.is-required:not(.is-no-asterisk).asterisk-left > .el-form-item__label-wrap > .el-form-item__label:before {\\n  content: \\\"*\\\";\\n  color: var(--el-color-danger);\\n  margin-right: 4px;\\n}\\n.el-form-item.is-required:not(.is-no-asterisk).asterisk-right > .el-form-item__label:after,\\n.el-form-item.is-required:not(.is-no-asterisk).asterisk-right > .el-form-item__label-wrap > .el-form-item__label:after {\\n  content: \\\"*\\\";\\n  color: var(--el-color-danger);\\n  margin-left: 4px;\\n}\\n\\n.el-form-item.is-error .el-input__wrapper, .el-form-item.is-error .el-input__wrapper:hover, .el-form-item.is-error .el-input__wrapper:focus, .el-form-item.is-error .el-input__wrapper.is-focus,\\n.el-form-item.is-error .el-textarea__inner,\\n.el-form-item.is-error .el-textarea__inner:hover,\\n.el-form-item.is-error .el-textarea__inner:focus,\\n.el-form-item.is-error .el-textarea__inner.is-focus,\\n.el-form-item.is-error .el-select__wrapper,\\n.el-form-item.is-error .el-select__wrapper:hover,\\n.el-form-item.is-error .el-select__wrapper:focus,\\n.el-form-item.is-error .el-select__wrapper.is-focus,\\n.el-form-item.is-error .el-input-tag__wrapper,\\n.el-form-item.is-error .el-input-tag__wrapper:hover,\\n.el-form-item.is-error .el-input-tag__wrapper:focus,\\n.el-form-item.is-error .el-input-tag__wrapper.is-focus {\\n  box-shadow: 0 0 0 1px var(--el-color-danger) inset;\\n}\\n.el-form-item.is-error .el-input-group__append .el-input__wrapper,\\n.el-form-item.is-error .el-input-group__prepend .el-input__wrapper {\\n  box-shadow: 0 0 0 1px transparent inset;\\n}\\n.el-form-item.is-error .el-input-group__append .el-input__validateIcon,\\n.el-form-item.is-error .el-input-group__prepend .el-input__validateIcon {\\n  display: none;\\n}\\n.el-form-item.is-error .el-input__validateIcon {\\n  color: var(--el-color-danger);\\n}\\n\\n.el-form-item--feedback .el-input__validateIcon {\\n  display: inline-flex;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720193261,
+      "end": 1738720193261,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1738720193261,
+      "end": 1738720193261,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1738720193261,
+      "end": 1738720193261,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1738720193261,
+      "end": 1738720193261,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1738720193261,
+      "end": 1738720193261,
+      "order": "normal"
+    },
+    {
+      "name": "vite-plugin-vue-inspector:post",
+      "start": 1738720193261,
+      "end": 1738720193262,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-auto-import",
+      "start": 1738720193262,
+      "end": 1738720193262,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-vue-components",
+      "start": 1738720193262,
+      "end": 1738720193262,
+      "order": "post"
+    },
+    {
+      "name": "vite:client-inject",
+      "start": 1738720193262,
+      "end": 1738720193262,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-analysis",
+      "start": 1738720193262,
+      "end": 1738720193262,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-analysis",
+      "result": "import { createHotContext as __vite__createHotContext } from \"/@vite/client\";import.meta.hot = __vite__createHotContext(\"/node_modules/element-plus/theme-chalk/src/form.scss\");import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/node_modules/element-plus/theme-chalk/src/form.scss\"\nconst __vite__css = \"/* Element Chalk Variables */\\n.el-form {\\n  --el-form-label-font-size: var(--el-font-size-base);\\n  --el-form-inline-content-width: 220px;\\n}\\n.el-form--inline .el-form-item {\\n  display: inline-flex;\\n  vertical-align: middle;\\n  margin-right: 32px;\\n}\\n.el-form--inline.el-form--label-top {\\n  display: flex;\\n  flex-wrap: wrap;\\n}\\n.el-form--inline.el-form--label-top .el-form-item {\\n  display: block;\\n}\\n\\n.el-form-item {\\n  display: flex;\\n  --font-size: 14px;\\n  margin-bottom: 18px;\\n}\\n.el-form-item .el-form-item {\\n  margin-bottom: 0;\\n}\\n.el-form-item .el-input__validateIcon {\\n  display: none;\\n}\\n.el-form-item--large {\\n  --font-size: 14px;\\n  --el-form-label-font-size: var(--font-size);\\n  margin-bottom: 22px;\\n}\\n.el-form-item--large .el-form-item__label {\\n  height: 40px;\\n  line-height: 40px;\\n}\\n\\n.el-form-item--large .el-form-item__content {\\n  line-height: 40px;\\n}\\n\\n.el-form-item--large .el-form-item__error {\\n  padding-top: 4px;\\n}\\n\\n.el-form-item--default {\\n  --font-size: 14px;\\n  --el-form-label-font-size: var(--font-size);\\n  margin-bottom: 18px;\\n}\\n.el-form-item--default .el-form-item__label {\\n  height: 32px;\\n  line-height: 32px;\\n}\\n\\n.el-form-item--default .el-form-item__content {\\n  line-height: 32px;\\n}\\n\\n.el-form-item--default .el-form-item__error {\\n  padding-top: 2px;\\n}\\n\\n.el-form-item--small {\\n  --font-size: 12px;\\n  --el-form-label-font-size: var(--font-size);\\n  margin-bottom: 18px;\\n}\\n.el-form-item--small .el-form-item__label {\\n  height: 24px;\\n  line-height: 24px;\\n}\\n\\n.el-form-item--small .el-form-item__content {\\n  line-height: 24px;\\n}\\n\\n.el-form-item--small .el-form-item__error {\\n  padding-top: 2px;\\n}\\n\\n.el-form-item--label-left .el-form-item__label {\\n  justify-content: flex-start;\\n}\\n\\n.el-form-item--label-top {\\n  display: block;\\n}\\n.el-form-item--label-top .el-form-item__label {\\n  display: inline-block;\\n  vertical-align: middle;\\n  height: auto;\\n  text-align: left;\\n  margin-bottom: 8px;\\n  line-height: 22px;\\n}\\n\\n.el-form-item__label-wrap {\\n  display: flex;\\n}\\n\\n.el-form-item__label {\\n  display: inline-flex;\\n  justify-content: flex-end;\\n  align-items: flex-start;\\n  flex: 0 0 auto;\\n  font-size: var(--el-form-label-font-size);\\n  color: var(--el-text-color-regular);\\n  height: 32px;\\n  line-height: 32px;\\n  padding: 0 12px 0 0;\\n  box-sizing: border-box;\\n}\\n\\n.el-form-item__content {\\n  display: flex;\\n  flex-wrap: wrap;\\n  align-items: center;\\n  flex: 1;\\n  line-height: 32px;\\n  position: relative;\\n  font-size: var(--font-size);\\n  min-width: 0;\\n}\\n.el-form-item__content .el-input-group {\\n  vertical-align: top;\\n}\\n\\n.el-form-item__error {\\n  color: var(--el-color-danger);\\n  font-size: 12px;\\n  line-height: 1;\\n  padding-top: 2px;\\n  position: absolute;\\n  top: 100%;\\n  left: 0;\\n}\\n.el-form-item__error--inline {\\n  position: relative;\\n  top: auto;\\n  left: auto;\\n  display: inline-block;\\n  margin-left: 10px;\\n}\\n\\n.el-form-item.is-required:not(.is-no-asterisk).asterisk-left > .el-form-item__label:before,\\n.el-form-item.is-required:not(.is-no-asterisk).asterisk-left > .el-form-item__label-wrap > .el-form-item__label:before {\\n  content: \\\"*\\\";\\n  color: var(--el-color-danger);\\n  margin-right: 4px;\\n}\\n.el-form-item.is-required:not(.is-no-asterisk).asterisk-right > .el-form-item__label:after,\\n.el-form-item.is-required:not(.is-no-asterisk).asterisk-right > .el-form-item__label-wrap > .el-form-item__label:after {\\n  content: \\\"*\\\";\\n  color: var(--el-color-danger);\\n  margin-left: 4px;\\n}\\n\\n.el-form-item.is-error .el-input__wrapper, .el-form-item.is-error .el-input__wrapper:hover, .el-form-item.is-error .el-input__wrapper:focus, .el-form-item.is-error .el-input__wrapper.is-focus,\\n.el-form-item.is-error .el-textarea__inner,\\n.el-form-item.is-error .el-textarea__inner:hover,\\n.el-form-item.is-error .el-textarea__inner:focus,\\n.el-form-item.is-error .el-textarea__inner.is-focus,\\n.el-form-item.is-error .el-select__wrapper,\\n.el-form-item.is-error .el-select__wrapper:hover,\\n.el-form-item.is-error .el-select__wrapper:focus,\\n.el-form-item.is-error .el-select__wrapper.is-focus,\\n.el-form-item.is-error .el-input-tag__wrapper,\\n.el-form-item.is-error .el-input-tag__wrapper:hover,\\n.el-form-item.is-error .el-input-tag__wrapper:focus,\\n.el-form-item.is-error .el-input-tag__wrapper.is-focus {\\n  box-shadow: 0 0 0 1px var(--el-color-danger) inset;\\n}\\n.el-form-item.is-error .el-input-group__append .el-input__wrapper,\\n.el-form-item.is-error .el-input-group__prepend .el-input__wrapper {\\n  box-shadow: 0 0 0 1px transparent inset;\\n}\\n.el-form-item.is-error .el-input-group__append .el-input__validateIcon,\\n.el-form-item.is-error .el-input-group__prepend .el-input__validateIcon {\\n  display: none;\\n}\\n.el-form-item.is-error .el-input__validateIcon {\\n  color: var(--el-color-danger);\\n}\\n\\n.el-form-item--feedback .el-input__validateIcon {\\n  display: inline-flex;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720193262,
+      "end": 1738720193263,
+      "order": "normal",
+      "sourcemaps": null
+    }
+  ]
+}

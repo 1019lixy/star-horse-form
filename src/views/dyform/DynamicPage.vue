@@ -14,6 +14,7 @@ import {GridStackWidget} from "gridstack/dist/types";
 import {createComponent} from "@/api/system.ts";
 import Moveable from "vue3-moveable";
 import DragComp from "@/views/dyform/page/DragComp.vue";
+
 const dataUrl = apiInstance("userdb-manage", "userdb/dynamicPage");
 const horizontalGuides = ref();
 const verticalGuides = ref();

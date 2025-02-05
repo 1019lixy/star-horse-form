@@ -81,7 +81,7 @@ const compPreps = () => {
     helpMsg: props.item?.helpMsg,
     readonly: props.item?.readonly || props.isView ? 'Y' : 'N',
   }
-  itemType.value = props.item?.type || props.item?.fieldType;
+  itemType.value = props.item?.type || props.item?.fieldType || "input";
   field.value["isDesign"] = props.isDesign;
   field.value["bareFlag"] = props.bareFlag;
   field.value.preps["values"] = props.item?.optionList;

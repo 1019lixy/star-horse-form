@@ -114,7 +114,7 @@ onMounted(() => {
           />
         </el-tooltip>
 
-        <el-tooltip content="更换组件" >
+        <el-tooltip content="更换组件">
           <star-horse-icon
               @click.stop="exchangeItem"
               icon-class="exchange"

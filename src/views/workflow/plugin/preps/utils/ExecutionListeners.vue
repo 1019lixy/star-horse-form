@@ -114,6 +114,7 @@ onMounted(() => {
 
   &:hover {
     border-color: var(--el-color-primary);
+
     .listener-close {
       display: block;
     }

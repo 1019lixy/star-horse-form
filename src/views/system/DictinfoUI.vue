@@ -127,7 +127,7 @@ const extendBtns = ref<UserFuncInfo[]>([
   }
 ]);
 const dataFormat = (name: string, cellValue: any): any => {
-  if (name == "statusCode"||name == "statusName") {
+  if (name == "statusCode" || name == "statusName") {
     return cellValue === "1" ? "启用" : cellValue == "0" ? "禁用" : cellValue;
   }
   return cellValue;
@@ -142,7 +142,8 @@ onMounted(async () => {
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
     <div class="dialog-body">
-    <star-horse-form @refresh="tabListRef.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList" :rules="rules"/>
+      <star-horse-form @refresh="tabListRef.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList"
+                       :rules="rules"/>
     </div>
   </star-horse-dialog>
   <star-horse-dialog :dialogVisible="dialogProps.bakeVisible1" :dialogProps="dialogProps">

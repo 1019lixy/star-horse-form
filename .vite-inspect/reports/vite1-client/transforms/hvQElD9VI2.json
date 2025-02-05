@@ -1,0 +1,155 @@
+{
+  "resolvedId": "E:/lixycode/testcode/node_modules/element-plus/theme-chalk/src/button-group.scss",
+  "transforms": [
+    {
+      "name": "__load__",
+      "result": "@use 'sass:map';\n\n@use 'common/var' as *;\n@use 'mixins/mixins' as *;\n@use 'mixins/utils' as *;\n\n@include b(button-group) {\n  display: inline-block;\n  vertical-align: middle;\n  @include utils-clearfix;\n\n  & > .#{$namespace}-button {\n    float: left;\n    position: relative;\n    & + .#{$namespace}-button {\n      margin-left: 0;\n    }\n    &:first-child {\n      border-top-right-radius: 0;\n      border-bottom-right-radius: 0;\n    }\n    &:last-child {\n      border-top-left-radius: 0;\n      border-bottom-left-radius: 0;\n    }\n    &:first-child:last-child {\n      border-top-right-radius: map.get($button-border-radius, 'default');\n      border-bottom-right-radius: map.get($button-border-radius, 'default');\n      border-top-left-radius: map.get($button-border-radius, 'default');\n      border-bottom-left-radius: map.get($button-border-radius, 'default');\n\n      &.is-round {\n        border-radius: getCssVar('border-radius', 'round');\n      }\n\n      &.is-circle {\n        border-radius: 50%;\n      }\n    }\n    &:not(:first-child):not(:last-child) {\n      border-radius: 0;\n    }\n    &:not(:last-child) {\n      margin-right: -1px;\n    }\n\n    &:hover,\n    &:focus,\n    &:active {\n      z-index: 1;\n    }\n\n    @include when(active) {\n      z-index: 1;\n    }\n  }\n\n  & > .#{$namespace}-dropdown {\n    & > .#{$namespace}-button {\n      border-top-left-radius: 0;\n      border-bottom-left-radius: 0;\n      border-left-color: getCssVar('button', 'divide-border-color');\n    }\n  }\n\n  @each $type in (primary, success, warning, danger, info) {\n    .#{$namespace}-button--#{$type} {\n      &:first-child {\n        border-right-color: getCssVar('button', 'divide-border-color');\n      }\n      &:last-child {\n        border-left-color: getCssVar('button', 'divide-border-color');\n      }\n      &:not(:first-child):not(:last-child) {\n        border-left-color: getCssVar('button', 'divide-border-color');\n        border-right-color: getCssVar('button', 'divide-border-color');\n      }\n    }\n  }\n}\n",
+      "start": 1738720228900,
+      "end": 1738720228900
+    },
+    {
+      "name": "vite-plugin-vue-inspector",
+      "start": 1738720228900,
+      "end": 1738720228900,
+      "order": "pre"
+    },
+    {
+      "name": "vite-plugin-vue-devtools",
+      "result": "@use 'sass:map';\n\n@use 'common/var' as *;\n@use 'mixins/mixins' as *;\n@use 'mixins/utils' as *;\n\n@include b(button-group) {\n  display: inline-block;\n  vertical-align: middle;\n  @include utils-clearfix;\n\n  & > .#{$namespace}-button {\n    float: left;\n    position: relative;\n    & + .#{$namespace}-button {\n      margin-left: 0;\n    }\n    &:first-child {\n      border-top-right-radius: 0;\n      border-bottom-right-radius: 0;\n    }\n    &:last-child {\n      border-top-left-radius: 0;\n      border-bottom-left-radius: 0;\n    }\n    &:first-child:last-child {\n      border-top-right-radius: map.get($button-border-radius, 'default');\n      border-bottom-right-radius: map.get($button-border-radius, 'default');\n      border-top-left-radius: map.get($button-border-radius, 'default');\n      border-bottom-left-radius: map.get($button-border-radius, 'default');\n\n      &.is-round {\n        border-radius: getCssVar('border-radius', 'round');\n      }\n\n      &.is-circle {\n        border-radius: 50%;\n      }\n    }\n    &:not(:first-child):not(:last-child) {\n      border-radius: 0;\n    }\n    &:not(:last-child) {\n      margin-right: -1px;\n    }\n\n    &:hover,\n    &:focus,\n    &:active {\n      z-index: 1;\n    }\n\n    @include when(active) {\n      z-index: 1;\n    }\n  }\n\n  & > .#{$namespace}-dropdown {\n    & > .#{$namespace}-button {\n      border-top-left-radius: 0;\n      border-bottom-left-radius: 0;\n      border-left-color: getCssVar('button', 'divide-border-color');\n    }\n  }\n\n  @each $type in (primary, success, warning, danger, info) {\n    .#{$namespace}-button--#{$type} {\n      &:first-child {\n        border-right-color: getCssVar('button', 'divide-border-color');\n      }\n      &:last-child {\n        border-left-color: getCssVar('button', 'divide-border-color');\n      }\n      &:not(:first-child):not(:last-child) {\n        border-left-color: getCssVar('button', 'divide-border-color');\n        border-right-color: getCssVar('button', 'divide-border-color');\n      }\n    }\n  }\n}\n",
+      "start": 1738720228900,
+      "end": 1738720228900,
+      "order": "pre",
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "result": "/* Element Chalk Variables */\n.el-button-group {\n  display: inline-block;\n  vertical-align: middle;\n}\n.el-button-group::before,\n.el-button-group::after {\n  display: table;\n  content: \"\";\n}\n\n.el-button-group::after {\n  clear: both;\n}\n\n.el-button-group > .el-button {\n  float: left;\n  position: relative;\n}\n.el-button-group > .el-button + .el-button {\n  margin-left: 0;\n}\n.el-button-group > .el-button:first-child {\n  border-top-right-radius: 0;\n  border-bottom-right-radius: 0;\n}\n.el-button-group > .el-button:last-child {\n  border-top-left-radius: 0;\n  border-bottom-left-radius: 0;\n}\n.el-button-group > .el-button:first-child:last-child {\n  border-top-right-radius: var(--el-border-radius-base);\n  border-bottom-right-radius: var(--el-border-radius-base);\n  border-top-left-radius: var(--el-border-radius-base);\n  border-bottom-left-radius: var(--el-border-radius-base);\n}\n.el-button-group > .el-button:first-child:last-child.is-round {\n  border-radius: var(--el-border-radius-round);\n}\n.el-button-group > .el-button:first-child:last-child.is-circle {\n  border-radius: 50%;\n}\n.el-button-group > .el-button:not(:first-child):not(:last-child) {\n  border-radius: 0;\n}\n.el-button-group > .el-button:not(:last-child) {\n  margin-right: -1px;\n}\n.el-button-group > .el-button:hover, .el-button-group > .el-button:focus, .el-button-group > .el-button:active {\n  z-index: 1;\n}\n.el-button-group > .el-button.is-active {\n  z-index: 1;\n}\n\n.el-button-group > .el-dropdown > .el-button {\n  border-top-left-radius: 0;\n  border-bottom-left-radius: 0;\n  border-left-color: var(--el-button-divide-border-color);\n}\n.el-button-group .el-button--primary:first-child {\n  border-right-color: var(--el-button-divide-border-color);\n}\n.el-button-group .el-button--primary:last-child {\n  border-left-color: var(--el-button-divide-border-color);\n}\n.el-button-group .el-button--primary:not(:first-child):not(:last-child) {\n  border-left-color: var(--el-button-divide-border-color);\n  border-right-color: var(--el-button-divide-border-color);\n}\n.el-button-group .el-button--success:first-child {\n  border-right-color: var(--el-button-divide-border-color);\n}\n.el-button-group .el-button--success:last-child {\n  border-left-color: var(--el-button-divide-border-color);\n}\n.el-button-group .el-button--success:not(:first-child):not(:last-child) {\n  border-left-color: var(--el-button-divide-border-color);\n  border-right-color: var(--el-button-divide-border-color);\n}\n.el-button-group .el-button--warning:first-child {\n  border-right-color: var(--el-button-divide-border-color);\n}\n.el-button-group .el-button--warning:last-child {\n  border-left-color: var(--el-button-divide-border-color);\n}\n.el-button-group .el-button--warning:not(:first-child):not(:last-child) {\n  border-left-color: var(--el-button-divide-border-color);\n  border-right-color: var(--el-button-divide-border-color);\n}\n.el-button-group .el-button--danger:first-child {\n  border-right-color: var(--el-button-divide-border-color);\n}\n.el-button-group .el-button--danger:last-child {\n  border-left-color: var(--el-button-divide-border-color);\n}\n.el-button-group .el-button--danger:not(:first-child):not(:last-child) {\n  border-left-color: var(--el-button-divide-border-color);\n  border-right-color: var(--el-button-divide-border-color);\n}\n.el-button-group .el-button--info:first-child {\n  border-right-color: var(--el-button-divide-border-color);\n}\n.el-button-group .el-button--info:last-child {\n  border-left-color: var(--el-button-divide-border-color);\n}\n.el-button-group .el-button--info:not(:first-child):not(:last-child) {\n  border-left-color: var(--el-button-divide-border-color);\n  border-right-color: var(--el-button-divide-border-color);\n}",
+      "start": 1738720228900,
+      "end": 1738720229054,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1738720229054,
+      "end": 1738720229054,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1738720229054,
+      "end": 1738720229054,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1738720229054,
+      "end": 1738720229054,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1738720229054,
+      "end": 1738720229054,
+      "order": "normal"
+    },
+    {
+      "name": "originjs:commonjs",
+      "start": 1738720229054,
+      "end": 1738720229054,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1738720229054,
+      "end": 1738720229054,
+      "order": "normal"
+    },
+    {
+      "name": "inject",
+      "start": 1738720229054,
+      "end": 1738720229054,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1738720229054,
+      "end": 1738720229054,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "result": "import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/node_modules/element-plus/theme-chalk/src/button-group.scss\"\nconst __vite__css = \"/* Element Chalk Variables */\\n.el-button-group {\\n  display: inline-block;\\n  vertical-align: middle;\\n}\\n.el-button-group::before,\\n.el-button-group::after {\\n  display: table;\\n  content: \\\"\\\";\\n}\\n\\n.el-button-group::after {\\n  clear: both;\\n}\\n\\n.el-button-group > .el-button {\\n  float: left;\\n  position: relative;\\n}\\n.el-button-group > .el-button + .el-button {\\n  margin-left: 0;\\n}\\n.el-button-group > .el-button:first-child {\\n  border-top-right-radius: 0;\\n  border-bottom-right-radius: 0;\\n}\\n.el-button-group > .el-button:last-child {\\n  border-top-left-radius: 0;\\n  border-bottom-left-radius: 0;\\n}\\n.el-button-group > .el-button:first-child:last-child {\\n  border-top-right-radius: var(--el-border-radius-base);\\n  border-bottom-right-radius: var(--el-border-radius-base);\\n  border-top-left-radius: var(--el-border-radius-base);\\n  border-bottom-left-radius: var(--el-border-radius-base);\\n}\\n.el-button-group > .el-button:first-child:last-child.is-round {\\n  border-radius: var(--el-border-radius-round);\\n}\\n.el-button-group > .el-button:first-child:last-child.is-circle {\\n  border-radius: 50%;\\n}\\n.el-button-group > .el-button:not(:first-child):not(:last-child) {\\n  border-radius: 0;\\n}\\n.el-button-group > .el-button:not(:last-child) {\\n  margin-right: -1px;\\n}\\n.el-button-group > .el-button:hover, .el-button-group > .el-button:focus, .el-button-group > .el-button:active {\\n  z-index: 1;\\n}\\n.el-button-group > .el-button.is-active {\\n  z-index: 1;\\n}\\n\\n.el-button-group > .el-dropdown > .el-button {\\n  border-top-left-radius: 0;\\n  border-bottom-left-radius: 0;\\n  border-left-color: var(--el-button-divide-border-color);\\n}\\n.el-button-group .el-button--primary:first-child {\\n  border-right-color: var(--el-button-divide-border-color);\\n}\\n.el-button-group .el-button--primary:last-child {\\n  border-left-color: var(--el-button-divide-border-color);\\n}\\n.el-button-group .el-button--primary:not(:first-child):not(:last-child) {\\n  border-left-color: var(--el-button-divide-border-color);\\n  border-right-color: var(--el-button-divide-border-color);\\n}\\n.el-button-group .el-button--success:first-child {\\n  border-right-color: var(--el-button-divide-border-color);\\n}\\n.el-button-group .el-button--success:last-child {\\n  border-left-color: var(--el-button-divide-border-color);\\n}\\n.el-button-group .el-button--success:not(:first-child):not(:last-child) {\\n  border-left-color: var(--el-button-divide-border-color);\\n  border-right-color: var(--el-button-divide-border-color);\\n}\\n.el-button-group .el-button--warning:first-child {\\n  border-right-color: var(--el-button-divide-border-color);\\n}\\n.el-button-group .el-button--warning:last-child {\\n  border-left-color: var(--el-button-divide-border-color);\\n}\\n.el-button-group .el-button--warning:not(:first-child):not(:last-child) {\\n  border-left-color: var(--el-button-divide-border-color);\\n  border-right-color: var(--el-button-divide-border-color);\\n}\\n.el-button-group .el-button--danger:first-child {\\n  border-right-color: var(--el-button-divide-border-color);\\n}\\n.el-button-group .el-button--danger:last-child {\\n  border-left-color: var(--el-button-divide-border-color);\\n}\\n.el-button-group .el-button--danger:not(:first-child):not(:last-child) {\\n  border-left-color: var(--el-button-divide-border-color);\\n  border-right-color: var(--el-button-divide-border-color);\\n}\\n.el-button-group .el-button--info:first-child {\\n  border-right-color: var(--el-button-divide-border-color);\\n}\\n.el-button-group .el-button--info:last-child {\\n  border-left-color: var(--el-button-divide-border-color);\\n}\\n.el-button-group .el-button--info:not(:first-child):not(:last-child) {\\n  border-left-color: var(--el-button-divide-border-color);\\n  border-right-color: var(--el-button-divide-border-color);\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720229054,
+      "end": 1738720229054,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1738720229054,
+      "end": 1738720229054,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1738720229054,
+      "end": 1738720229054,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1738720229054,
+      "end": 1738720229054,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1738720229054,
+      "end": 1738720229054,
+      "order": "normal"
+    },
+    {
+      "name": "vite-plugin-vue-inspector:post",
+      "start": 1738720229054,
+      "end": 1738720229054,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-auto-import",
+      "start": 1738720229054,
+      "end": 1738720229054,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-vue-components",
+      "start": 1738720229054,
+      "end": 1738720229054,
+      "order": "post"
+    },
+    {
+      "name": "vite:client-inject",
+      "start": 1738720229054,
+      "end": 1738720229054,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-analysis",
+      "start": 1738720229054,
+      "end": 1738720229054,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-analysis",
+      "result": "import { createHotContext as __vite__createHotContext } from \"/@vite/client\";import.meta.hot = __vite__createHotContext(\"/node_modules/element-plus/theme-chalk/src/button-group.scss\");import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/node_modules/element-plus/theme-chalk/src/button-group.scss\"\nconst __vite__css = \"/* Element Chalk Variables */\\n.el-button-group {\\n  display: inline-block;\\n  vertical-align: middle;\\n}\\n.el-button-group::before,\\n.el-button-group::after {\\n  display: table;\\n  content: \\\"\\\";\\n}\\n\\n.el-button-group::after {\\n  clear: both;\\n}\\n\\n.el-button-group > .el-button {\\n  float: left;\\n  position: relative;\\n}\\n.el-button-group > .el-button + .el-button {\\n  margin-left: 0;\\n}\\n.el-button-group > .el-button:first-child {\\n  border-top-right-radius: 0;\\n  border-bottom-right-radius: 0;\\n}\\n.el-button-group > .el-button:last-child {\\n  border-top-left-radius: 0;\\n  border-bottom-left-radius: 0;\\n}\\n.el-button-group > .el-button:first-child:last-child {\\n  border-top-right-radius: var(--el-border-radius-base);\\n  border-bottom-right-radius: var(--el-border-radius-base);\\n  border-top-left-radius: var(--el-border-radius-base);\\n  border-bottom-left-radius: var(--el-border-radius-base);\\n}\\n.el-button-group > .el-button:first-child:last-child.is-round {\\n  border-radius: var(--el-border-radius-round);\\n}\\n.el-button-group > .el-button:first-child:last-child.is-circle {\\n  border-radius: 50%;\\n}\\n.el-button-group > .el-button:not(:first-child):not(:last-child) {\\n  border-radius: 0;\\n}\\n.el-button-group > .el-button:not(:last-child) {\\n  margin-right: -1px;\\n}\\n.el-button-group > .el-button:hover, .el-button-group > .el-button:focus, .el-button-group > .el-button:active {\\n  z-index: 1;\\n}\\n.el-button-group > .el-button.is-active {\\n  z-index: 1;\\n}\\n\\n.el-button-group > .el-dropdown > .el-button {\\n  border-top-left-radius: 0;\\n  border-bottom-left-radius: 0;\\n  border-left-color: var(--el-button-divide-border-color);\\n}\\n.el-button-group .el-button--primary:first-child {\\n  border-right-color: var(--el-button-divide-border-color);\\n}\\n.el-button-group .el-button--primary:last-child {\\n  border-left-color: var(--el-button-divide-border-color);\\n}\\n.el-button-group .el-button--primary:not(:first-child):not(:last-child) {\\n  border-left-color: var(--el-button-divide-border-color);\\n  border-right-color: var(--el-button-divide-border-color);\\n}\\n.el-button-group .el-button--success:first-child {\\n  border-right-color: var(--el-button-divide-border-color);\\n}\\n.el-button-group .el-button--success:last-child {\\n  border-left-color: var(--el-button-divide-border-color);\\n}\\n.el-button-group .el-button--success:not(:first-child):not(:last-child) {\\n  border-left-color: var(--el-button-divide-border-color);\\n  border-right-color: var(--el-button-divide-border-color);\\n}\\n.el-button-group .el-button--warning:first-child {\\n  border-right-color: var(--el-button-divide-border-color);\\n}\\n.el-button-group .el-button--warning:last-child {\\n  border-left-color: var(--el-button-divide-border-color);\\n}\\n.el-button-group .el-button--warning:not(:first-child):not(:last-child) {\\n  border-left-color: var(--el-button-divide-border-color);\\n  border-right-color: var(--el-button-divide-border-color);\\n}\\n.el-button-group .el-button--danger:first-child {\\n  border-right-color: var(--el-button-divide-border-color);\\n}\\n.el-button-group .el-button--danger:last-child {\\n  border-left-color: var(--el-button-divide-border-color);\\n}\\n.el-button-group .el-button--danger:not(:first-child):not(:last-child) {\\n  border-left-color: var(--el-button-divide-border-color);\\n  border-right-color: var(--el-button-divide-border-color);\\n}\\n.el-button-group .el-button--info:first-child {\\n  border-right-color: var(--el-button-divide-border-color);\\n}\\n.el-button-group .el-button--info:last-child {\\n  border-left-color: var(--el-button-divide-border-color);\\n}\\n.el-button-group .el-button--info:not(:first-child):not(:last-child) {\\n  border-left-color: var(--el-button-divide-border-color);\\n  border-right-color: var(--el-button-divide-border-color);\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720229054,
+      "end": 1738720229055,
+      "order": "normal",
+      "sourcemaps": null
+    }
+  ]
+}

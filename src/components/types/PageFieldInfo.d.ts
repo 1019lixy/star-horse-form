@@ -106,9 +106,13 @@ export declare interface FieldInfo {
      * number 数字，
      * textrarea 文本域,
      * password 密码,
-     * 非以上类型全部按照input 处理
+     * 非以上类型全部按照input处理
      */
     type?: string;
+    /**
+     * 以组件形式展示,如果是指定的组件，将以指定组件形式展示
+     */
+    listPrototypeDisplay?: boolean | string;
     /**
      * 是否必须项
      */

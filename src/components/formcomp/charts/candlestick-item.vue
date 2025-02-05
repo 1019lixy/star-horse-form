@@ -3,7 +3,7 @@
 </script>
 
 <template>
-K线图
+  K线图
 </template>
 
 <style scoped lang="scss">

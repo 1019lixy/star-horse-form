@@ -151,16 +151,16 @@ onMounted(async () => {
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
     <div class="dialog-body">
-    <star-horse-form :outerFormData="{
+      <star-horse-form :outerFormData="{
       idRolesinfo:currentUserGroupId
     }" @refresh="accountPermission.loadByPage()" :compUrl="dataUrl"
-                     :fieldList="formFieldList"/>
+                       :fieldList="formFieldList"/>
     </div>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title="'查看数据'"
                      :is-view="true">
     <div class="dialog-body">
-    <star-horse-data-view :data-format="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+      <star-horse-data-view :data-format="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
     </div>
   </star-horse-dialog>
   <el-row :gutter="10" style="height: 100%;">

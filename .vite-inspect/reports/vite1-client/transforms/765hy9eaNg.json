@@ -1,0 +1,159 @@
+{
+  "resolvedId": "E:/lixycode/testcode/src/store/UserInfoStore.ts",
+  "transforms": [
+    {
+      "name": "__load__",
+      "result": "import {defineStore} from \"pinia\";\r\nimport {MenusInfo} from \"@/components/types/MenusInfo\";\r\nimport {ref} from \"vue\";\r\n\r\nexport const userInfoStore = defineStore(\"userInfo\", () => {\r\n    const userInfo = ref<any>({});\r\n    const pageButtonPermission = ref<any>({});\r\n    const permissionMenus = ref<any>([]);\r\n    const dynamicMenus = ref<any>([]);\r\n    /**\r\n     * 用户登录\r\n     * @param data\r\n     */\r\n    const login = (data: any) => {\r\n        userInfo.value = data;\r\n    }\r\n    /**\r\n     * 用户登出\r\n     */\r\n    const logout = () => {\r\n        // this.userInfo = {};\r\n        permissionMenus.value = [];\r\n        dynamicMenus.value = [];\r\n    }\r\n    /**\r\n     * 权限菜单\r\n     * @param data\r\n     */\r\n    const addPermissionMenus = (data: any) => {\r\n        permissionMenus.value = data;\r\n    }\r\n    /**\r\n     * 添加页面按钮权限\r\n     * @param data\r\n     */\r\n    const addPageButtonPermission = (data: any) => {\r\n        pageButtonPermission.value = data;\r\n    }\r\n    /**\r\n     * 记录菜单权限\r\n     * @param menuId\r\n     * @param data\r\n     */\r\n    const pushPageButtonPermission = (menuId: string, data: any) => {\r\n        pageButtonPermission.value[menuId] = data;\r\n    }\r\n    /**\r\n     * 添加动态菜单\r\n     * @param data\r\n     */\r\n    const addDynamicMenus = (data: MenusInfo) => {\r\n        if (!dynamicMenus.value) {\r\n            dynamicMenus.value = [];\r\n        }\r\n        if (data) {\r\n            dynamicMenus.value.push(data);\r\n        }\r\n    }\r\n    return {\r\n        userInfo,\r\n        pageButtonPermission,\r\n        permissionMenus,\r\n        dynamicMenus,\r\n        login,\r\n        logout,\r\n        addPermissionMenus,\r\n        addPageButtonPermission,\r\n        pushPageButtonPermission,\r\n        addDynamicMenus\r\n    }\r\n}, {\r\n    persist: {\r\n        enabled: true, // 开启数据缓存\r\n        strategies: [\r\n            {key: \"userInfo\", paths: [\"userInfo\"]},\r\n            {key: \"pageButtonPermission\", paths: [\"pageButtonPermission\"]},\r\n            {key: \"permissionMenus\", paths: [\"permissionMenus\"]},\r\n        ]\r\n    }\r\n});\r\n",
+      "start": 1738720190080,
+      "end": 1738720190080
+    },
+    {
+      "name": "vite-plugin-vue-inspector",
+      "start": 1738720190080,
+      "end": 1738720190080,
+      "order": "pre"
+    },
+    {
+      "name": "vite-plugin-vue-devtools",
+      "result": "import {defineStore} from \"pinia\";\r\nimport {MenusInfo} from \"@/components/types/MenusInfo\";\r\nimport {ref} from \"vue\";\r\n\r\nexport const userInfoStore = defineStore(\"userInfo\", () => {\r\n    const userInfo = ref<any>({});\r\n    const pageButtonPermission = ref<any>({});\r\n    const permissionMenus = ref<any>([]);\r\n    const dynamicMenus = ref<any>([]);\r\n    /**\r\n     * 用户登录\r\n     * @param data\r\n     */\r\n    const login = (data: any) => {\r\n        userInfo.value = data;\r\n    }\r\n    /**\r\n     * 用户登出\r\n     */\r\n    const logout = () => {\r\n        // this.userInfo = {};\r\n        permissionMenus.value = [];\r\n        dynamicMenus.value = [];\r\n    }\r\n    /**\r\n     * 权限菜单\r\n     * @param data\r\n     */\r\n    const addPermissionMenus = (data: any) => {\r\n        permissionMenus.value = data;\r\n    }\r\n    /**\r\n     * 添加页面按钮权限\r\n     * @param data\r\n     */\r\n    const addPageButtonPermission = (data: any) => {\r\n        pageButtonPermission.value = data;\r\n    }\r\n    /**\r\n     * 记录菜单权限\r\n     * @param menuId\r\n     * @param data\r\n     */\r\n    const pushPageButtonPermission = (menuId: string, data: any) => {\r\n        pageButtonPermission.value[menuId] = data;\r\n    }\r\n    /**\r\n     * 添加动态菜单\r\n     * @param data\r\n     */\r\n    const addDynamicMenus = (data: MenusInfo) => {\r\n        if (!dynamicMenus.value) {\r\n            dynamicMenus.value = [];\r\n        }\r\n        if (data) {\r\n            dynamicMenus.value.push(data);\r\n        }\r\n    }\r\n    return {\r\n        userInfo,\r\n        pageButtonPermission,\r\n        permissionMenus,\r\n        dynamicMenus,\r\n        login,\r\n        logout,\r\n        addPermissionMenus,\r\n        addPageButtonPermission,\r\n        pushPageButtonPermission,\r\n        addDynamicMenus\r\n    }\r\n}, {\r\n    persist: {\r\n        enabled: true, // 开启数据缓存\r\n        strategies: [\r\n            {key: \"userInfo\", paths: [\"userInfo\"]},\r\n            {key: \"pageButtonPermission\", paths: [\"pageButtonPermission\"]},\r\n            {key: \"permissionMenus\", paths: [\"permissionMenus\"]},\r\n        ]\r\n    }\r\n});\r\n",
+      "start": 1738720190080,
+      "end": 1738720190080,
+      "order": "pre",
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "start": 1738720190080,
+      "end": 1738720190080,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "result": "import { defineStore } from \"pinia\";\nimport { ref } from \"vue\";\nexport const userInfoStore = defineStore(\"userInfo\", () => {\n  const userInfo = ref({});\n  const pageButtonPermission = ref({});\n  const permissionMenus = ref([]);\n  const dynamicMenus = ref([]);\n  const login = (data) => {\n    userInfo.value = data;\n  };\n  const logout = () => {\n    permissionMenus.value = [];\n    dynamicMenus.value = [];\n  };\n  const addPermissionMenus = (data) => {\n    permissionMenus.value = data;\n  };\n  const addPageButtonPermission = (data) => {\n    pageButtonPermission.value = data;\n  };\n  const pushPageButtonPermission = (menuId, data) => {\n    pageButtonPermission.value[menuId] = data;\n  };\n  const addDynamicMenus = (data) => {\n    if (!dynamicMenus.value) {\n      dynamicMenus.value = [];\n    }\n    if (data) {\n      dynamicMenus.value.push(data);\n    }\n  };\n  return {\n    userInfo,\n    pageButtonPermission,\n    permissionMenus,\n    dynamicMenus,\n    login,\n    logout,\n    addPermissionMenus,\n    addPageButtonPermission,\n    pushPageButtonPermission,\n    addDynamicMenus\n  };\n}, {\n  persist: {\n    enabled: true,\n    // 开启数据缓存\n    strategies: [\n      { key: \"userInfo\", paths: [\"userInfo\"] },\n      { key: \"pageButtonPermission\", paths: [\"pageButtonPermission\"] },\n      { key: \"permissionMenus\", paths: [\"permissionMenus\"] }\n    ]\n  }\n});\n",
+      "start": 1738720190080,
+      "end": 1738720190161,
+      "order": "normal",
+      "sourcemaps": {
+        "version": 3,
+        "sources": [
+          "UserInfoStore.ts"
+        ],
+        "sourcesContent": [
+          "import {defineStore} from \"pinia\";\r\nimport {MenusInfo} from \"@/components/types/MenusInfo\";\r\nimport {ref} from \"vue\";\r\n\r\nexport const userInfoStore = defineStore(\"userInfo\", () => {\r\n    const userInfo = ref<any>({});\r\n    const pageButtonPermission = ref<any>({});\r\n    const permissionMenus = ref<any>([]);\r\n    const dynamicMenus = ref<any>([]);\r\n    /**\r\n     * 用户登录\r\n     * @param data\r\n     */\r\n    const login = (data: any) => {\r\n        userInfo.value = data;\r\n    }\r\n    /**\r\n     * 用户登出\r\n     */\r\n    const logout = () => {\r\n        // this.userInfo = {};\r\n        permissionMenus.value = [];\r\n        dynamicMenus.value = [];\r\n    }\r\n    /**\r\n     * 权限菜单\r\n     * @param data\r\n     */\r\n    const addPermissionMenus = (data: any) => {\r\n        permissionMenus.value = data;\r\n    }\r\n    /**\r\n     * 添加页面按钮权限\r\n     * @param data\r\n     */\r\n    const addPageButtonPermission = (data: any) => {\r\n        pageButtonPermission.value = data;\r\n    }\r\n    /**\r\n     * 记录菜单权限\r\n     * @param menuId\r\n     * @param data\r\n     */\r\n    const pushPageButtonPermission = (menuId: string, data: any) => {\r\n        pageButtonPermission.value[menuId] = data;\r\n    }\r\n    /**\r\n     * 添加动态菜单\r\n     * @param data\r\n     */\r\n    const addDynamicMenus = (data: MenusInfo) => {\r\n        if (!dynamicMenus.value) {\r\n            dynamicMenus.value = [];\r\n        }\r\n        if (data) {\r\n            dynamicMenus.value.push(data);\r\n        }\r\n    }\r\n    return {\r\n        userInfo,\r\n        pageButtonPermission,\r\n        permissionMenus,\r\n        dynamicMenus,\r\n        login,\r\n        logout,\r\n        addPermissionMenus,\r\n        addPageButtonPermission,\r\n        pushPageButtonPermission,\r\n        addDynamicMenus\r\n    }\r\n}, {\r\n    persist: {\r\n        enabled: true, // 开启数据缓存\r\n        strategies: [\r\n            {key: \"userInfo\", paths: [\"userInfo\"]},\r\n            {key: \"pageButtonPermission\", paths: [\"pageButtonPermission\"]},\r\n            {key: \"permissionMenus\", paths: [\"permissionMenus\"]},\r\n        ]\r\n    }\r\n});\r\n"
+        ],
+        "mappings": "AAAA,SAAQ,mBAAkB;AAE1B,SAAQ,WAAU;AAEX,aAAM,gBAAgB,YAAY,YAAY,MAAM;AACvD,QAAM,WAAW,IAAS,CAAC,CAAC;AAC5B,QAAM,uBAAuB,IAAS,CAAC,CAAC;AACxC,QAAM,kBAAkB,IAAS,CAAC,CAAC;AACnC,QAAM,eAAe,IAAS,CAAC,CAAC;AAKhC,QAAM,QAAQ,CAAC,SAAc;AACzB,aAAS,QAAQ;AAAA,EACrB;AAIA,QAAM,SAAS,MAAM;AAEjB,oBAAgB,QAAQ,CAAC;AACzB,iBAAa,QAAQ,CAAC;AAAA,EAC1B;AAKA,QAAM,qBAAqB,CAAC,SAAc;AACtC,oBAAgB,QAAQ;AAAA,EAC5B;AAKA,QAAM,0BAA0B,CAAC,SAAc;AAC3C,yBAAqB,QAAQ;AAAA,EACjC;AAMA,QAAM,2BAA2B,CAAC,QAAgB,SAAc;AAC5D,yBAAqB,MAAM,MAAM,IAAI;AAAA,EACzC;AAKA,QAAM,kBAAkB,CAAC,SAAoB;AACzC,QAAI,CAAC,aAAa,OAAO;AACrB,mBAAa,QAAQ,CAAC;AAAA,IAC1B;AACA,QAAI,MAAM;AACN,mBAAa,MAAM,KAAK,IAAI;AAAA,IAChC;AAAA,EACJ;AACA,SAAO;AAAA,IACH;AAAA,IACA;AAAA,IACA;AAAA,IACA;AAAA,IACA;AAAA,IACA;AAAA,IACA;AAAA,IACA;AAAA,IACA;AAAA,IACA;AAAA,EACJ;AACJ,GAAG;AAAA,EACC,SAAS;AAAA,IACL,SAAS;AAAA;AAAA,IACT,YAAY;AAAA,MACR,EAAC,KAAK,YAAY,OAAO,CAAC,UAAU,EAAC;AAAA,MACrC,EAAC,KAAK,wBAAwB,OAAO,CAAC,sBAAsB,EAAC;AAAA,MAC7D,EAAC,KAAK,mBAAmB,OAAO,CAAC,iBAAiB,EAAC;AAAA,IACvD;AAAA,EACJ;AACJ,CAAC;",
+        "names": []
+      }
+    },
+    {
+      "name": "vite:json",
+      "start": 1738720190161,
+      "end": 1738720190161,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1738720190161,
+      "end": 1738720190161,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1738720190161,
+      "end": 1738720190161,
+      "order": "normal"
+    },
+    {
+      "name": "originjs:commonjs",
+      "start": 1738720190161,
+      "end": 1738720190162,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1738720190162,
+      "end": 1738720190162,
+      "order": "normal"
+    },
+    {
+      "name": "inject",
+      "start": 1738720190162,
+      "end": 1738720190169,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1738720190169,
+      "end": 1738720190169,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1738720190169,
+      "end": 1738720190169,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1738720190169,
+      "end": 1738720190169,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1738720190169,
+      "end": 1738720190169,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1738720190169,
+      "end": 1738720190169,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1738720190169,
+      "end": 1738720190174,
+      "order": "normal"
+    },
+    {
+      "name": "vite-plugin-vue-inspector:post",
+      "start": 1738720190174,
+      "end": 1738720190174,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-auto-import",
+      "start": 1738720190174,
+      "end": 1738720190176,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-vue-components",
+      "start": 1738720190176,
+      "end": 1738720190176,
+      "order": "post"
+    },
+    {
+      "name": "vite:client-inject",
+      "start": 1738720190176,
+      "end": 1738720190176,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-analysis",
+      "start": 1738720190176,
+      "end": 1738720190176,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-analysis",
+      "result": "import { defineStore } from \"/node_modules/.vite/deps/pinia.js?v=65efcb1b\";\nimport { ref } from \"/node_modules/.vite/deps/vue.js?v=65efcb1b\";\nexport const userInfoStore = defineStore(\"userInfo\", () => {\n  const userInfo = ref({});\n  const pageButtonPermission = ref({});\n  const permissionMenus = ref([]);\n  const dynamicMenus = ref([]);\n  const login = (data) => {\n    userInfo.value = data;\n  };\n  const logout = () => {\n    permissionMenus.value = [];\n    dynamicMenus.value = [];\n  };\n  const addPermissionMenus = (data) => {\n    permissionMenus.value = data;\n  };\n  const addPageButtonPermission = (data) => {\n    pageButtonPermission.value = data;\n  };\n  const pushPageButtonPermission = (menuId, data) => {\n    pageButtonPermission.value[menuId] = data;\n  };\n  const addDynamicMenus = (data) => {\n    if (!dynamicMenus.value) {\n      dynamicMenus.value = [];\n    }\n    if (data) {\n      dynamicMenus.value.push(data);\n    }\n  };\n  return {\n    userInfo,\n    pageButtonPermission,\n    permissionMenus,\n    dynamicMenus,\n    login,\n    logout,\n    addPermissionMenus,\n    addPageButtonPermission,\n    pushPageButtonPermission,\n    addDynamicMenus\n  };\n}, {\n  persist: {\n    enabled: true,\n    // 开启数据缓存\n    strategies: [\n      { key: \"userInfo\", paths: [\"userInfo\"] },\n      { key: \"pageButtonPermission\", paths: [\"pageButtonPermission\"] },\n      { key: \"permissionMenus\", paths: [\"permissionMenus\"] }\n    ]\n  }\n});\n",
+      "start": 1738720190176,
+      "end": 1738720190178,
+      "order": "normal",
+      "sourcemaps": null
+    }
+  ]
+}

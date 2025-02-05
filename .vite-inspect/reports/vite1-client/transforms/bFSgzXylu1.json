@@ -1,0 +1,184 @@
+{
+  "resolvedId": "E:/lixycode/testcode/src/views/dyform/FormPreview.vue?vue&type=style&index=0&scoped=ce37d269&lang.scss",
+  "transforms": [
+    {
+      "name": "vite:vue",
+      "result": "\r\n.form-preview {\r\n  display: flex;\r\n  flex-direction: column;\r\n  align-items: center;\r\n  width: 99%;\r\n  height: 100%;\r\n  margin: 5px auto;\r\n  padding: 5px;\r\n  flex: 1;\r\n  overflow: hidden;\r\n}\r\n",
+      "start": 1738720350488,
+      "end": 1738720350488,
+      "sourcemaps": {
+        "version": 3,
+        "sources": [
+          "E:/lixycode/testcode/src/views/dyform/FormPreview.vue"
+        ],
+        "names": [],
+        "mappings": ";AAgFA,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE;EACZ,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC;EACb,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;EACtB,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;EACnB,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC;EACV,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC;EACZ,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC;EAChB,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC;EACZ,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC;EACP,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;AAClB",
+        "file": "E:/lixycode/testcode/src/views/dyform/FormPreview.vue",
+        "sourceRoot": "",
+        "sourcesContent": [
+          "<script setup lang=\"ts\">\r\nimport {Config} from \"@/api/settings.ts\";\r\nimport {computed, ref} from \"vue\";\r\nimport {commonField} from \"@/api/system.ts\";\r\n\r\nconst props = defineProps({\r\n  list: {type: Array<any>, required: true},\r\n  commonFieldList: {type: Array<any>, default: []},\r\n  compSize: {type: String, default: Config.compSize},\r\n  formDisabled: {type: Boolean, default: false},\r\n});\r\nlet commonFields = commonField();\r\nlet fieldList = computed(() => {\r\n  let tempList: any = [];\r\n  props.commonFieldList?.filter(item => item.formVisible == 'Y').forEach(item => {\r\n    let tempItem = commonFields.find(item2 => item2.fieldName == item.fieldName);\r\n    if (tempItem) {\r\n      tempItem[\"required\"] = item.required;\r\n      tempItem[\"preps\"] = {...tempItem};\r\n      tempList.push(tempItem);\r\n    }\r\n  });\r\n  return tempList;\r\n});\r\nlet formData = ref<any>({});\r\n\r\ndefineExpose({\r\n  formData\r\n})\r\n</script>\r\n\r\n<template>\r\n  <div class=\"form-preview\" data-v-inspector=\"src/views/dyform/FormPreview.vue:33:3\">\r\n    <el-scrollbar height=\"100%\" style=\"width: inherit\" data-v-inspector=\"src/views/dyform/FormPreview.vue:34:5\">\r\n      <el-form\r\n          label-width=\"auto\"\r\n          label-position=\"left\"\r\n          require-asterisk-position=\"right\"\r\n          :disabled=\"formDisabled\"\r\n          :model=\"formData\"\r\n          :size=\"compSize\" data-v-inspector=\"src/views/dyform/FormPreview.vue:35:7\"\r\n      >\r\n        <template v-for=\"data in list\">\r\n          <component\r\n              :field=\"data\"\r\n              :formData=\"formData\"\r\n              :isDesign=\"false\"\r\n              :is=\"data?.itemType+'-container'\"\r\n              v-if=\"data?.compType==='container'\" data-v-inspector=\"src/views/dyform/FormPreview.vue:44:11\"\r\n          >\r\n          </component>\r\n          <el-form-item :label=\"data.preps.label\" :prop=\"data.preps.fieldName\" :required=\"data.preps.required=='Y'\"\r\n                        v-else-if=\"data?.compType=='formItem'\" data-v-inspector=\"src/views/dyform/FormPreview.vue:52:11\">\r\n            <component\r\n                :field=\"data\"\r\n                :formData=\"formData\"\r\n                :isDesign=\"false\"\r\n                :is=\"data?.itemType + '-item'\" data-v-inspector=\"src/views/dyform/FormPreview.vue:54:13\"\r\n\r\n            />\r\n          </el-form-item>\r\n\r\n        </template>\r\n        <template v-for=\"data in fieldList\">\r\n          <el-form-item :label=\"data.label\" :prop=\"data.fieldName\" :required=\"data.required=='Y'\" data-v-inspector=\"src/views/dyform/FormPreview.vue:65:11\">\r\n            <component\r\n                :field=\"data\"\r\n                :formData=\"formData\"\r\n                :isDesign=\"false\"\r\n                :is=\"data?.type+'-item'\" data-v-inspector=\"src/views/dyform/FormPreview.vue:66:13\"\r\n\r\n            />\r\n          </el-form-item>\r\n        </template>\r\n      </el-form>\r\n    </el-scrollbar>\r\n  </div>\r\n</template>\r\n\r\n<style scoped lang=\"scss\">\r\n.form-preview {\r\n  display: flex;\r\n  flex-direction: column;\r\n  align-items: center;\r\n  width: 99%;\r\n  height: 100%;\r\n  margin: 5px auto;\r\n  padding: 5px;\r\n  flex: 1;\r\n  overflow: hidden;\r\n}\r\n</style>\r\n"
+        ]
+      }
+    },
+    {
+      "name": "vite-plugin-vue-inspector",
+      "start": 1738720350519,
+      "end": 1738720350527,
+      "order": "pre"
+    },
+    {
+      "name": "vite-plugin-vue-devtools",
+      "result": "\r\n.form-preview {\r\n  display: flex;\r\n  flex-direction: column;\r\n  align-items: center;\r\n  width: 99%;\r\n  height: 100%;\r\n  margin: 5px auto;\r\n  padding: 5px;\r\n  flex: 1;\r\n  overflow: hidden;\r\n}\r\n",
+      "start": 1738720350528,
+      "end": 1738720350528,
+      "order": "pre",
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "result": ".form-preview {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  width: 99%;\n  height: 100%;\n  margin: 5px auto;\n  padding: 5px;\n  flex: 1;\n  overflow: hidden;\n}",
+      "start": 1738720350528,
+      "end": 1738720350675,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1738720350675,
+      "end": 1738720350675,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1738720350675,
+      "end": 1738720350675,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1738720350675,
+      "end": 1738720350675,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "result": ".form-preview[data-v-ce37d269] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  width: 99%;\n  height: 100%;\n  margin: 5px auto;\n  padding: 5px;\n  flex: 1;\n  overflow: hidden;\n}",
+      "start": 1738720350677,
+      "end": 1738720350678,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "originjs:commonjs",
+      "start": 1738720350679,
+      "end": 1738720350679,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1738720350679,
+      "end": 1738720350679,
+      "order": "normal"
+    },
+    {
+      "name": "inject",
+      "start": 1738720350679,
+      "end": 1738720350679,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1738720350679,
+      "end": 1738720350679,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "result": "import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/src/views/dyform/FormPreview.vue?vue&type=style&index=0&scoped=ce37d269&lang.scss\"\nconst __vite__css = \".form-preview[data-v-ce37d269] {\\n  display: flex;\\n  flex-direction: column;\\n  align-items: center;\\n  width: 99%;\\n  height: 100%;\\n  margin: 5px auto;\\n  padding: 5px;\\n  flex: 1;\\n  overflow: hidden;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720350679,
+      "end": 1738720350679,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1738720350679,
+      "end": 1738720350679,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1738720350679,
+      "end": 1738720350679,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1738720350679,
+      "end": 1738720350679,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1738720350679,
+      "end": 1738720350679,
+      "order": "normal"
+    },
+    {
+      "name": "vite-plugin-vue-inspector:post",
+      "start": 1738720350679,
+      "end": 1738720350679,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-auto-import",
+      "start": 1738720350679,
+      "end": 1738720350679,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-vue-components",
+      "result": "/* unplugin-vue-components disabled */import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/src/views/dyform/FormPreview.vue?vue&type=style&index=0&scoped=ce37d269&lang.scss\"\nconst __vite__css = \".form-preview[data-v-ce37d269] {\\n  display: flex;\\n  flex-direction: column;\\n  align-items: center;\\n  width: 99%;\\n  height: 100%;\\n  margin: 5px auto;\\n  padding: 5px;\\n  flex: 1;\\n  overflow: hidden;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720350680,
+      "end": 1738720350680,
+      "order": "post",
+      "sourcemaps": {
+        "version": 3,
+        "sources": [
+          "E:/lixycode/testcode/src/views/dyform/FormPreview.vue?vue&type=style&index=0&scoped=ce37d269&lang.scss"
+        ],
+        "sourcesContent": [
+          "import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/src/views/dyform/FormPreview.vue?vue&type=style&index=0&scoped=ce37d269&lang.scss\"\nconst __vite__css = \".form-preview[data-v-ce37d269] {\\n  display: flex;\\n  flex-direction: column;\\n  align-items: center;\\n  width: 99%;\\n  height: 100%;\\n  margin: 5px auto;\\n  padding: 5px;\\n  flex: 1;\\n  overflow: hidden;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))"
+        ],
+        "names": [],
+        "mappings": "sCAAA,MAAM,CAAC,CAAC,CAAC,WAAW,CAAC,EAAE,CAAC,mBAAmB,CAAC,CAAC,WAAW,CAAC,EAAE,CAAC,mBAAmB,CAAC,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,CAAC,IAAI,CAAC,MAAM;AACrG,KAAK,CAAC,UAAU,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,QAAQ,CAAC,QAAQ,CAAC,GAAG,CAAC,KAAK,CAAC,MAAM,CAAC,WAAW,CAAC,GAAG,CAAC,GAAG,CAAC,IAAI,CAAC,KAAK,CAAC,KAAK,CAAC,CAAC,CAAC,MAAM,CAAC,QAAQ,CAAC,IAAI,CAAC,IAAI;AAC1H,KAAK,CAAC,WAAW,CAAC,CAAC,CAAC,CAAC,CAAC,IAAI,CAAC,OAAO,CAAC,IAAI,CAAC,CAAC,CAAC,QAAQ,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,OAAO,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,CAAC,CAAC,IAAI,CAAC,SAAS,CAAC,CAAC,MAAM,CAAC,CAAC,CAAC,CAAC,CAAC,KAAK,CAAC,KAAK,CAAC,CAAC,MAAM,CAAC,CAAC,CAAC,CAAC,CAAC,KAAK,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,MAAM,CAAC,CAAC,GAAG,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,MAAM,CAAC,CAAC,GAAG,CAAC,IAAI,CAAC,CAAC,CAAC,CAAC,CAAC,OAAO,CAAC,CAAC,GAAG,CAAC,CAAC,CAAC,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,QAAQ,CAAC,CAAC,MAAM,CAAC,CAAC,CAAC,CAAC;AACpO,mBAAmB,CAAC,UAAU,CAAC,CAAC,WAAW;AAC3C,MAAM,CAAC,IAAI,CAAC,GAAG,CAAC,MAAM,CAAC;AACvB,MAAM,CAAC,IAAI,CAAC,GAAG,CAAC,KAAK,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,mBAAmB,CAAC,UAAU,CAAC"
+      }
+    },
+    {
+      "name": "vite:client-inject",
+      "start": 1738720350680,
+      "end": 1738720350680,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-analysis",
+      "start": 1738720350680,
+      "end": 1738720350680,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-analysis",
+      "result": "import { createHotContext as __vite__createHotContext } from \"/@vite/client\";import.meta.hot = __vite__createHotContext(\"/src/views/dyform/FormPreview.vue?vue&type=style&index=0&scoped=ce37d269&lang.scss\");/* unplugin-vue-components disabled */import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/src/views/dyform/FormPreview.vue?vue&type=style&index=0&scoped=ce37d269&lang.scss\"\nconst __vite__css = \".form-preview[data-v-ce37d269] {\\n  display: flex;\\n  flex-direction: column;\\n  align-items: center;\\n  width: 99%;\\n  height: 100%;\\n  margin: 5px auto;\\n  padding: 5px;\\n  flex: 1;\\n  overflow: hidden;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720350680,
+      "end": 1738720350680,
+      "order": "normal",
+      "sourcemaps": null
+    }
+  ]
+}

@@ -83,7 +83,7 @@ const selectNode = () => {
   emits('selectNode', props.node);
 }
 let nameClass = computed(() => {
-  return (node:any, defaultStyle:string) => {
+  return (node: any, defaultStyle: string) => {
     if (node.statusCode == -1) {
       return defaultStyle;
     }

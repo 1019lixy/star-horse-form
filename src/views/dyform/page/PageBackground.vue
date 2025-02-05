@@ -2,7 +2,7 @@
 
 import {ModelRef} from "vue-demi";
 
-let backgroundData:ModelRef<any> =defineModel("background");
+let backgroundData: ModelRef<any> = defineModel("background");
 </script>
 
 <template>

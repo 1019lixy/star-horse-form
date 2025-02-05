@@ -75,6 +75,4 @@ export default {
     "flow.designer.delNode.confirm.tips": "删除节点后，该节点的所有子节点将被删除，确认删除？",
 
 
-
-
 }

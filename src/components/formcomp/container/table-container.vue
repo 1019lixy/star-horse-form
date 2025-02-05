@@ -152,6 +152,7 @@ const deleteCol = (index: number) => {
 th {
   position: relative;
   border: 1px solid #dfe6ec;
+
   .td-operator {
     position: absolute;
     right: 0;
@@ -159,9 +160,11 @@ th {
     z-index: 9999;
   }
 }
-tr{
+
+tr {
   width: 100%;
 }
+
 .td-clz {
   flex-direction: row;
   padding: 5px;

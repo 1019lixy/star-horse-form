@@ -78,7 +78,7 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
           if (temp) {
             let stemp = temp.datas?.find((item: any) => item[temp.valueField] == cellValue);
             console.log(stemp);
-            return stemp ? stemp[temp.labelField] : cellValue||"--";
+            return stemp ? stemp[temp.labelField] : cellValue || "--";
           }
         }
         return "null" == cellValue ? "--" : cellValue || "--";

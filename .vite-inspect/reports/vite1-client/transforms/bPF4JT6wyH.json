@@ -1,0 +1,184 @@
+{
+  "resolvedId": "E:/lixycode/testcode/src/components/comp/StarHorseDialog.vue?vue&type=style&index=0&scoped=bc3ee995&lang.scss",
+  "transforms": [
+    {
+      "name": "vite:vue",
+      "result": "\r\n:deep(.el-dialog__footer) {\r\n  text-align: center;\r\n}\r\n\r\n.di {\r\n  :deep(.el-dialog) {\r\n    display: flex;\r\n    flex-direction: column;\r\n    padding: unset;\r\n\r\n    .el-dialog__header {\r\n      flex-shrink: 0;\r\n      height: 40px;\r\n      box-sizing: border-box;\r\n      padding: 10px;\r\n      background-color: var(--star-horse-style);\r\n      margin: 0;\r\n      border-bottom: var(--star-horse-shadow) 4px solid;\r\n      display: flex;\r\n      flex-direction: row;\r\n      color: var(--star-horse-white);\r\n\r\n      h3 {\r\n        flex: 1;\r\n      }\r\n\r\n      .my-header {\r\n        width: 100px;\r\n        display: flex;\r\n        justify-content: right;\r\n        flex-direction: row;\r\n        right: 10px;\r\n      }\r\n    }\r\n\r\n    .el-dialog__body {\r\n      flex: 1;\r\n      display: flex;\r\n      flex-direction: column;\r\n    }\r\n  }\r\n}\r\n\r\n.shdialog {\r\n  flex: 1;\r\n  display: inline-flex;\r\n  overflow-y: auto;\r\n  padding: 0 10px;\r\n  box-sizing: border-box;\r\n\r\n  &::-webkit-scrollbar {\r\n    width: 6px;\r\n  }\r\n\r\n  &::-webkit-scrollbar-track {\r\n    background: transparent;\r\n    border-radius: 10px;\r\n  }\r\n\r\n  &::-webkit-scrollbar-thumb {\r\n    background: #f2f2f2 !important;\r\n    z-index: 222;\r\n    border-radius: 8px;\r\n  }\r\n}\r\n\r\n.dialog-footer {\r\n  display: flex;\r\n  justify-content: center;\r\n  margin-top: 10px;\r\n}\r\n",
+      "start": 1738720226537,
+      "end": 1738720226537,
+      "sourcemaps": {
+        "version": 3,
+        "sources": [
+          "E:/lixycode/testcode/src/components/comp/StarHorseDialog.vue"
+        ],
+        "names": [],
+        "mappings": "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",
+        "file": "E:/lixycode/testcode/src/components/comp/StarHorseDialog.vue",
+        "sourceRoot": "",
+        "sourcesContent": [
+          "<script setup lang=\"ts\" name=\"StarHorseDialog\">\r\nimport {computed, onMounted, PropType, provide, reactive, ref, watch} from \"vue\";\r\nimport {DialogProps} from \"@/components/types/DialogProps\";\r\nimport {i18n} from \"@/lang\";\r\nimport {BtnAuth} from \"@/components/types/BtnAuth\";\r\nimport {UserFuncInfo} from \"@/components/types/PageFieldInfo\";\r\nimport {Config} from \"@/api/settings.ts\";\r\n\r\nconst emits = defineEmits([\"merge\", \"mergeDraft\", \"resetForm\", \"open\", \"closeAction\"]);\r\nconst props = defineProps({\r\n  dialogVisible: {type: Boolean, default: false},\r\n  dialogProps: {type: Object as PropType<DialogProps>, default: {}},\r\n  isShowReset: {type: Boolean, default: true},\r\n  isShowSave: {type: Boolean, default: false},\r\n  isShowBtnContinue: {type: Boolean, default: false},\r\n  isView: {type: Boolean, default: false},\r\n  draggable: {type: Boolean, default: true},\r\n  boxHeight: {type: String, default: \"60%\"},\r\n  boxWidth: {type: String, default: \"60%\"},\r\n  isBatch: {type: Boolean, default: false},\r\n  fullScreen: {type: Boolean, default: false},\r\n  hideFullScreenIcon: {type: Boolean, default: false},\r\n  //自定义提交\r\n  selfFunc: {type: Boolean, default: false},\r\n  //自定义关闭\r\n  selfClose: {type: Boolean, default: false},\r\n  btnText: {type: String, default: \"提交\"},\r\n  userBtn: {type: Array<UserFuncInfo>, default: []},\r\n  btnTextContinue: {type: String, default: \"提交并继续\"},\r\n  title: {type: String, default: \"\"},\r\n  compSize: {type: String, default: Config.compSize}\r\n});\r\nlet windowsType = ref<boolean>(false);\r\nwatch(\r\n    () => props.dialogVisible,\r\n    (val: boolean) => {\r\n      windowsType.value = val;\r\n    }, {\r\n      immediate: true,\r\n      deep: true\r\n    }\r\n);\r\nlet isFullScreen = ref(props.fullScreen);\r\nconst dialogStyle = computed(() => {\r\n  return {\"max-height\": isFullScreen.value ? \"100%\" : props.boxHeight};\r\n});\r\nconst beforeClose = () => {\r\n  emits(\"closeAction\");\r\n  windowsType.value = false;\r\n  if (props.selfClose) {\r\n    return;\r\n  }\r\n  if (props.dialogProps?.batchEditVisible || props.isBatch) {\r\n    props.dialogProps.batchEditVisible = false;\r\n  }\r\n  if (props.dialogProps!.viewVisible || props.isView) {\r\n    props.dialogProps!.viewVisible = false;\r\n  }\r\n  if (props.dialogProps!.editVisible) {\r\n    props.dialogProps!.editVisible = false;\r\n  }\r\n  if (props.dialogProps!.bakeVisible1) {\r\n    props.dialogProps!.bakeVisible1 = false;\r\n  }\r\n  if (props.dialogProps!.bakeVisible2) {\r\n    props.dialogProps!.bakeVisible2 = false;\r\n  }\r\n  if (props.dialogProps!.bakeVisible3) {\r\n    props.dialogProps!.bakeVisible3 = false;\r\n  }\r\n\r\n};\r\nconst open = () => {\r\n  emits(\"open\");\r\n};\r\nonMounted(() => {\r\n});\r\nprovide(\"closeDialog\", beforeClose);\r\nconst fullScreen = () => {\r\n  isFullScreen.value = !isFullScreen.value;\r\n};\r\nlet clickFunction = reactive<any>({});\r\nconst operation = (funcName: string, type: string) => {\r\n  if (props.selfFunc) {\r\n    emits(`${funcName}`, type);\r\n  } else {\r\n    clickFunction[\"funcName\"] = funcName;\r\n    clickFunction[\"type\"] = type;\r\n  }\r\n}\r\nprovide(\"dialogOperation\", clickFunction);\r\n</script>\r\n<template>\r\n  <Teleport to=\"body\" data-v-inspector=\"src/components/comp/StarHorseDialog.vue:94:3\">\r\n    <div class=\"di animated animate__fadeIn\" data-v-inspector=\"src/components/comp/StarHorseDialog.vue:95:5\">\r\n      <el-dialog :append-to-body=\"false\" :center=\"false\" :destroy-on-close=\"true\" :close-on-click-modal=\"false\"\r\n                 :close-on-press-escape=\"false\" :lock-scroll=\"true\" class=\"dialog-settings\"\r\n                 :fullscreen=\"isFullScreen\"\r\n                 :show-close=\"false\" :draggable=\"draggable\" :align-center=\"true\" v-model=\"windowsType\"\r\n                 @close=\"beforeClose\"\r\n                 @open=\"open\"\r\n                 :width=\"boxWidth\" :style=\"dialogStyle\" data-v-inspector=\"src/components/comp/StarHorseDialog.vue:96:7\">\r\n        <template #header=\"{ close }\">\r\n          <h3 data-v-inspector=\"src/components/comp/StarHorseDialog.vue:104:11\">{{ title || dialogProps.dialogTitle }}</h3>\r\n          <div class=\"my-header\" data-v-inspector=\"src/components/comp/StarHorseDialog.vue:105:11\">\r\n            <template v-if=\"!hideFullScreenIcon\">\r\n              <el-button style=\"background: var(--star-horse-style);color: var(--star-horse-white)\" :size=\"compSize\"\r\n                         @click=\"fullScreen\" link v-if=\"!!isFullScreen && draggable\" :title=\"i18n('dialog.resize')\" data-v-inspector=\"src/components/comp/StarHorseDialog.vue:107:15\">\r\n                <star-horse-icon icon-class=\"fullscreen-shrink\" color=\"var(--star-horse-white)\" data-v-inspector=\"src/components/comp/StarHorseDialog.vue:109:17\"/>\r\n              </el-button>\r\n              <el-button style=\"background: var(--star-horse-style);color: var(--star-horse-white)\" :size=\"compSize\"\r\n                         @click=\"fullScreen\" link v-if=\"!isFullScreen && draggable\" :title=\"i18n('dialog.fullScreen')\" data-v-inspector=\"src/components/comp/StarHorseDialog.vue:111:15\">\r\n                <star-horse-icon icon-class=\"fullscreen-expand\" color=\"var(--star-horse-white)\" data-v-inspector=\"src/components/comp/StarHorseDialog.vue:113:17\"/>\r\n              </el-button>\r\n            </template>\r\n            <el-button style=\"background: var(--star-horse-style);color: var(--star-horse-white)\" :size=\"compSize\"\r\n                       @click=\"close\" link :title=\"i18n('dialog.close')\" data-v-inspector=\"src/components/comp/StarHorseDialog.vue:116:13\">\r\n              <star-horse-icon icon-class=\"close\" color=\"var(--star-horse-white)\" data-v-inspector=\"src/components/comp/StarHorseDialog.vue:118:15\"/>\r\n            </el-button>\r\n          </div>\r\n        </template>\r\n        <slot name=\"header\"></slot>\r\n        <div class=\"shdialog\" data-v-inspector=\"src/components/comp/StarHorseDialog.vue:123:9\">\r\n          <slot></slot>\r\n        </div>\r\n        <template #footer>\r\n        <span class=\"dialog-footer\" v-if=\"!isView\" data-v-inspector=\"src/components/comp/StarHorseDialog.vue:127:9\">\r\n            <slot name=\"extand\"></slot>\r\n          <el-button @click=\"operation('merge','close')\"\r\n                     style=\"background: var(--star-horse-style);color: var(--star-horse-white)\" :size=\"compSize\" data-v-inspector=\"src/components/comp/StarHorseDialog.vue:129:11\">\r\n            <star-horse-icon icon-class=\"save\" style=\"color:var(--star-horse-white);\" data-v-inspector=\"src/components/comp/StarHorseDialog.vue:131:13\"/>\r\n            {{ i18n(\"dialog.submit\") }}\r\n          </el-button>\r\n             <el-button @click=\"operation('merge','continue')\"\r\n                        style=\"background: var(--star-horse-style);color: var(--star-horse-white)\" :size=\"compSize\"\r\n                        v-if=\"isShowBtnContinue\" data-v-inspector=\"src/components/comp/StarHorseDialog.vue:134:14\">\r\n            <star-horse-icon icon-class=\"save_continue\" style=\"color:var(--star-horse-white);\" data-v-inspector=\"src/components/comp/StarHorseDialog.vue:137:13\"/>\r\n             {{ i18n(\"dialog.submitContinue\") }}</el-button>\r\n          <el-button @click=\"operation('mergeDraft','close')\" :size=\"compSize\" link\r\n                     style=\"background: var(--star-horse-style);color: var(--star-horse-white)\" v-if=\"isShowSave\" data-v-inspector=\"src/components/comp/StarHorseDialog.vue:139:11\">\r\n            <star-horse-icon icon-class=\"short_save\" data-v-inspector=\"src/components/comp/StarHorseDialog.vue:141:13\"/>{{ i18n(\"dialog.save\") }}</el-button>\r\n             <el-button @click=\"operation('mergeDraft','continue')\" :size=\"compSize\" link\r\n                        style=\"background: var(--star-horse-style);color: var(--star-horse-white)\"\r\n                        v-if=\"isShowSave&&isShowBtnContinue\" data-v-inspector=\"src/components/comp/StarHorseDialog.vue:142:14\">\r\n            <star-horse-icon icon-class=\"save\" data-v-inspector=\"src/components/comp/StarHorseDialog.vue:145:13\"/>{{ i18n(\"dialog.saveContinue\") }}</el-button>\r\n           <template v-for=\"item in userBtn\">\r\n               <el-button @click=\"item?.funcName()\" :disabled=\"item.disabled=='Y'\"\r\n                          :style=\"{background: item.disabled=='Y'?'var(--star-horse-disable)':'var(--star-horse-style)',\r\n                          color: 'var(--star-horse-white)'}\" :size=\"compSize\" data-v-inspector=\"src/components/comp/StarHorseDialog.vue:147:16\">\r\n            <star-horse-icon :icon-class=\"item.icon\" style=\"color:var(--star-horse-white);\" data-v-inspector=\"src/components/comp/StarHorseDialog.vue:150:13\"/>\r\n            {{ item.btnName }}\r\n          </el-button>\r\n           </template>\r\n          <el-button @click=\"operation('resetForm','reset')\" :size=\"compSize\" link v-if=\"isShowReset\" data-v-inspector=\"src/components/comp/StarHorseDialog.vue:154:11\">\r\n            <star-horse-icon icon-class=\"undo\" style=\"color:var(--star-horse-style);\" data-v-inspector=\"src/components/comp/StarHorseDialog.vue:155:13\"/>\r\n            {{ i18n(\"dialog.reset\") }}</el-button>\r\n        </span>\r\n          <slot name=\"footer\"></slot>\r\n        </template>\r\n      </el-dialog>\r\n    </div>\r\n  </Teleport>\r\n</template>\r\n<style lang=\"scss\" scoped>\r\n:deep(.el-dialog__footer) {\r\n  text-align: center;\r\n}\r\n\r\n.di {\r\n  :deep(.el-dialog) {\r\n    display: flex;\r\n    flex-direction: column;\r\n    padding: unset;\r\n\r\n    .el-dialog__header {\r\n      flex-shrink: 0;\r\n      height: 40px;\r\n      box-sizing: border-box;\r\n      padding: 10px;\r\n      background-color: var(--star-horse-style);\r\n      margin: 0;\r\n      border-bottom: var(--star-horse-shadow) 4px solid;\r\n      display: flex;\r\n      flex-direction: row;\r\n      color: var(--star-horse-white);\r\n\r\n      h3 {\r\n        flex: 1;\r\n      }\r\n\r\n      .my-header {\r\n        width: 100px;\r\n        display: flex;\r\n        justify-content: right;\r\n        flex-direction: row;\r\n        right: 10px;\r\n      }\r\n    }\r\n\r\n    .el-dialog__body {\r\n      flex: 1;\r\n      display: flex;\r\n      flex-direction: column;\r\n    }\r\n  }\r\n}\r\n\r\n.shdialog {\r\n  flex: 1;\r\n  display: inline-flex;\r\n  overflow-y: auto;\r\n  padding: 0 10px;\r\n  box-sizing: border-box;\r\n\r\n  &::-webkit-scrollbar {\r\n    width: 6px;\r\n  }\r\n\r\n  &::-webkit-scrollbar-track {\r\n    background: transparent;\r\n    border-radius: 10px;\r\n  }\r\n\r\n  &::-webkit-scrollbar-thumb {\r\n    background: #f2f2f2 !important;\r\n    z-index: 222;\r\n    border-radius: 8px;\r\n  }\r\n}\r\n\r\n.dialog-footer {\r\n  display: flex;\r\n  justify-content: center;\r\n  margin-top: 10px;\r\n}\r\n</style>\r\n"
+        ]
+      }
+    },
+    {
+      "name": "vite-plugin-vue-inspector",
+      "start": 1738720226537,
+      "end": 1738720226537,
+      "order": "pre"
+    },
+    {
+      "name": "vite-plugin-vue-devtools",
+      "result": "\r\n:deep(.el-dialog__footer) {\r\n  text-align: center;\r\n}\r\n\r\n.di {\r\n  :deep(.el-dialog) {\r\n    display: flex;\r\n    flex-direction: column;\r\n    padding: unset;\r\n\r\n    .el-dialog__header {\r\n      flex-shrink: 0;\r\n      height: 40px;\r\n      box-sizing: border-box;\r\n      padding: 10px;\r\n      background-color: var(--star-horse-style);\r\n      margin: 0;\r\n      border-bottom: var(--star-horse-shadow) 4px solid;\r\n      display: flex;\r\n      flex-direction: row;\r\n      color: var(--star-horse-white);\r\n\r\n      h3 {\r\n        flex: 1;\r\n      }\r\n\r\n      .my-header {\r\n        width: 100px;\r\n        display: flex;\r\n        justify-content: right;\r\n        flex-direction: row;\r\n        right: 10px;\r\n      }\r\n    }\r\n\r\n    .el-dialog__body {\r\n      flex: 1;\r\n      display: flex;\r\n      flex-direction: column;\r\n    }\r\n  }\r\n}\r\n\r\n.shdialog {\r\n  flex: 1;\r\n  display: inline-flex;\r\n  overflow-y: auto;\r\n  padding: 0 10px;\r\n  box-sizing: border-box;\r\n\r\n  &::-webkit-scrollbar {\r\n    width: 6px;\r\n  }\r\n\r\n  &::-webkit-scrollbar-track {\r\n    background: transparent;\r\n    border-radius: 10px;\r\n  }\r\n\r\n  &::-webkit-scrollbar-thumb {\r\n    background: #f2f2f2 !important;\r\n    z-index: 222;\r\n    border-radius: 8px;\r\n  }\r\n}\r\n\r\n.dialog-footer {\r\n  display: flex;\r\n  justify-content: center;\r\n  margin-top: 10px;\r\n}\r\n",
+      "start": 1738720226537,
+      "end": 1738720226537,
+      "order": "pre",
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "result": ":deep(.el-dialog__footer) {\n  text-align: center;\n}\n\n.di :deep(.el-dialog) {\n  display: flex;\n  flex-direction: column;\n  padding: unset;\n}\n.di :deep(.el-dialog) .el-dialog__header {\n  flex-shrink: 0;\n  height: 40px;\n  box-sizing: border-box;\n  padding: 10px;\n  background-color: var(--star-horse-style);\n  margin: 0;\n  border-bottom: var(--star-horse-shadow) 4px solid;\n  display: flex;\n  flex-direction: row;\n  color: var(--star-horse-white);\n}\n.di :deep(.el-dialog) .el-dialog__header h3 {\n  flex: 1;\n}\n.di :deep(.el-dialog) .el-dialog__header .my-header {\n  width: 100px;\n  display: flex;\n  justify-content: right;\n  flex-direction: row;\n  right: 10px;\n}\n.di :deep(.el-dialog) .el-dialog__body {\n  flex: 1;\n  display: flex;\n  flex-direction: column;\n}\n\n.shdialog {\n  flex: 1;\n  display: inline-flex;\n  overflow-y: auto;\n  padding: 0 10px;\n  box-sizing: border-box;\n}\n.shdialog::-webkit-scrollbar {\n  width: 6px;\n}\n.shdialog::-webkit-scrollbar-track {\n  background: transparent;\n  border-radius: 10px;\n}\n.shdialog::-webkit-scrollbar-thumb {\n  background: #f2f2f2 !important;\n  z-index: 222;\n  border-radius: 8px;\n}\n\n.dialog-footer {\n  display: flex;\n  justify-content: center;\n  margin-top: 10px;\n}",
+      "start": 1738720226538,
+      "end": 1738720226767,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1738720226767,
+      "end": 1738720226767,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1738720226767,
+      "end": 1738720226767,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1738720226767,
+      "end": 1738720226767,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "result": "[data-v-bc3ee995] .el-dialog__footer {\n  text-align: center;\n}\n.di[data-v-bc3ee995] .el-dialog {\n  display: flex;\n  flex-direction: column;\n  padding: unset;\n}\n.di[data-v-bc3ee995] .el-dialog .el-dialog__header {\n  flex-shrink: 0;\n  height: 40px;\n  box-sizing: border-box;\n  padding: 10px;\n  background-color: var(--star-horse-style);\n  margin: 0;\n  border-bottom: var(--star-horse-shadow) 4px solid;\n  display: flex;\n  flex-direction: row;\n  color: var(--star-horse-white);\n}\n.di[data-v-bc3ee995] .el-dialog .el-dialog__header h3 {\n  flex: 1;\n}\n.di[data-v-bc3ee995] .el-dialog .el-dialog__header .my-header {\n  width: 100px;\n  display: flex;\n  justify-content: right;\n  flex-direction: row;\n  right: 10px;\n}\n.di[data-v-bc3ee995] .el-dialog .el-dialog__body {\n  flex: 1;\n  display: flex;\n  flex-direction: column;\n}\n.shdialog[data-v-bc3ee995] {\n  flex: 1;\n  display: inline-flex;\n  overflow-y: auto;\n  padding: 0 10px;\n  box-sizing: border-box;\n}\n.shdialog[data-v-bc3ee995]::-webkit-scrollbar {\n  width: 6px;\n}\n.shdialog[data-v-bc3ee995]::-webkit-scrollbar-track {\n  background: transparent;\n  border-radius: 10px;\n}\n.shdialog[data-v-bc3ee995]::-webkit-scrollbar-thumb {\n  background: #f2f2f2 !important;\n  z-index: 222;\n  border-radius: 8px;\n}\n.dialog-footer[data-v-bc3ee995] {\n  display: flex;\n  justify-content: center;\n  margin-top: 10px;\n}",
+      "start": 1738720226770,
+      "end": 1738720226772,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "originjs:commonjs",
+      "start": 1738720226772,
+      "end": 1738720226772,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1738720226772,
+      "end": 1738720226772,
+      "order": "normal"
+    },
+    {
+      "name": "inject",
+      "start": 1738720226772,
+      "end": 1738720226772,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1738720226772,
+      "end": 1738720226772,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "result": "import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/src/components/comp/StarHorseDialog.vue?vue&type=style&index=0&scoped=bc3ee995&lang.scss\"\nconst __vite__css = \"[data-v-bc3ee995] .el-dialog__footer {\\n  text-align: center;\\n}\\n.di[data-v-bc3ee995] .el-dialog {\\n  display: flex;\\n  flex-direction: column;\\n  padding: unset;\\n}\\n.di[data-v-bc3ee995] .el-dialog .el-dialog__header {\\n  flex-shrink: 0;\\n  height: 40px;\\n  box-sizing: border-box;\\n  padding: 10px;\\n  background-color: var(--star-horse-style);\\n  margin: 0;\\n  border-bottom: var(--star-horse-shadow) 4px solid;\\n  display: flex;\\n  flex-direction: row;\\n  color: var(--star-horse-white);\\n}\\n.di[data-v-bc3ee995] .el-dialog .el-dialog__header h3 {\\n  flex: 1;\\n}\\n.di[data-v-bc3ee995] .el-dialog .el-dialog__header .my-header {\\n  width: 100px;\\n  display: flex;\\n  justify-content: right;\\n  flex-direction: row;\\n  right: 10px;\\n}\\n.di[data-v-bc3ee995] .el-dialog .el-dialog__body {\\n  flex: 1;\\n  display: flex;\\n  flex-direction: column;\\n}\\n.shdialog[data-v-bc3ee995] {\\n  flex: 1;\\n  display: inline-flex;\\n  overflow-y: auto;\\n  padding: 0 10px;\\n  box-sizing: border-box;\\n}\\n.shdialog[data-v-bc3ee995]::-webkit-scrollbar {\\n  width: 6px;\\n}\\n.shdialog[data-v-bc3ee995]::-webkit-scrollbar-track {\\n  background: transparent;\\n  border-radius: 10px;\\n}\\n.shdialog[data-v-bc3ee995]::-webkit-scrollbar-thumb {\\n  background: #f2f2f2 !important;\\n  z-index: 222;\\n  border-radius: 8px;\\n}\\n.dialog-footer[data-v-bc3ee995] {\\n  display: flex;\\n  justify-content: center;\\n  margin-top: 10px;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720226773,
+      "end": 1738720226773,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1738720226773,
+      "end": 1738720226773,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1738720226773,
+      "end": 1738720226773,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1738720226773,
+      "end": 1738720226773,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1738720226773,
+      "end": 1738720226773,
+      "order": "normal"
+    },
+    {
+      "name": "vite-plugin-vue-inspector:post",
+      "start": 1738720226773,
+      "end": 1738720226773,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-auto-import",
+      "start": 1738720226773,
+      "end": 1738720226774,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-vue-components",
+      "result": "/* unplugin-vue-components disabled */import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/src/components/comp/StarHorseDialog.vue?vue&type=style&index=0&scoped=bc3ee995&lang.scss\"\nconst __vite__css = \"[data-v-bc3ee995] .el-dialog__footer {\\n  text-align: center;\\n}\\n.di[data-v-bc3ee995] .el-dialog {\\n  display: flex;\\n  flex-direction: column;\\n  padding: unset;\\n}\\n.di[data-v-bc3ee995] .el-dialog .el-dialog__header {\\n  flex-shrink: 0;\\n  height: 40px;\\n  box-sizing: border-box;\\n  padding: 10px;\\n  background-color: var(--star-horse-style);\\n  margin: 0;\\n  border-bottom: var(--star-horse-shadow) 4px solid;\\n  display: flex;\\n  flex-direction: row;\\n  color: var(--star-horse-white);\\n}\\n.di[data-v-bc3ee995] .el-dialog .el-dialog__header h3 {\\n  flex: 1;\\n}\\n.di[data-v-bc3ee995] .el-dialog .el-dialog__header .my-header {\\n  width: 100px;\\n  display: flex;\\n  justify-content: right;\\n  flex-direction: row;\\n  right: 10px;\\n}\\n.di[data-v-bc3ee995] .el-dialog .el-dialog__body {\\n  flex: 1;\\n  display: flex;\\n  flex-direction: column;\\n}\\n.shdialog[data-v-bc3ee995] {\\n  flex: 1;\\n  display: inline-flex;\\n  overflow-y: auto;\\n  padding: 0 10px;\\n  box-sizing: border-box;\\n}\\n.shdialog[data-v-bc3ee995]::-webkit-scrollbar {\\n  width: 6px;\\n}\\n.shdialog[data-v-bc3ee995]::-webkit-scrollbar-track {\\n  background: transparent;\\n  border-radius: 10px;\\n}\\n.shdialog[data-v-bc3ee995]::-webkit-scrollbar-thumb {\\n  background: #f2f2f2 !important;\\n  z-index: 222;\\n  border-radius: 8px;\\n}\\n.dialog-footer[data-v-bc3ee995] {\\n  display: flex;\\n  justify-content: center;\\n  margin-top: 10px;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720226774,
+      "end": 1738720226775,
+      "order": "post",
+      "sourcemaps": {
+        "version": 3,
+        "sources": [
+          "E:/lixycode/testcode/src/components/comp/StarHorseDialog.vue?vue&type=style&index=0&scoped=bc3ee995&lang.scss"
+        ],
+        "sourcesContent": [
+          "import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/src/components/comp/StarHorseDialog.vue?vue&type=style&index=0&scoped=bc3ee995&lang.scss\"\nconst __vite__css = \"[data-v-bc3ee995] .el-dialog__footer {\\n  text-align: center;\\n}\\n.di[data-v-bc3ee995] .el-dialog {\\n  display: flex;\\n  flex-direction: column;\\n  padding: unset;\\n}\\n.di[data-v-bc3ee995] .el-dialog .el-dialog__header {\\n  flex-shrink: 0;\\n  height: 40px;\\n  box-sizing: border-box;\\n  padding: 10px;\\n  background-color: var(--star-horse-style);\\n  margin: 0;\\n  border-bottom: var(--star-horse-shadow) 4px solid;\\n  display: flex;\\n  flex-direction: row;\\n  color: var(--star-horse-white);\\n}\\n.di[data-v-bc3ee995] .el-dialog .el-dialog__header h3 {\\n  flex: 1;\\n}\\n.di[data-v-bc3ee995] .el-dialog .el-dialog__header .my-header {\\n  width: 100px;\\n  display: flex;\\n  justify-content: right;\\n  flex-direction: row;\\n  right: 10px;\\n}\\n.di[data-v-bc3ee995] .el-dialog .el-dialog__body {\\n  flex: 1;\\n  display: flex;\\n  flex-direction: column;\\n}\\n.shdialog[data-v-bc3ee995] {\\n  flex: 1;\\n  display: inline-flex;\\n  overflow-y: auto;\\n  padding: 0 10px;\\n  box-sizing: border-box;\\n}\\n.shdialog[data-v-bc3ee995]::-webkit-scrollbar {\\n  width: 6px;\\n}\\n.shdialog[data-v-bc3ee995]::-webkit-scrollbar-track {\\n  background: transparent;\\n  border-radius: 10px;\\n}\\n.shdialog[data-v-bc3ee995]::-webkit-scrollbar-thumb {\\n  background: #f2f2f2 !important;\\n  z-index: 222;\\n  border-radius: 8px;\\n}\\n.dialog-footer[data-v-bc3ee995] {\\n  display: flex;\\n  justify-content: center;\\n  margin-top: 10px;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))"
+        ],
+        "names": [],
+        "mappings": "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"
+      }
+    },
+    {
+      "name": "vite:client-inject",
+      "start": 1738720226775,
+      "end": 1738720226775,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-analysis",
+      "start": 1738720226775,
+      "end": 1738720226775,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-analysis",
+      "result": "import { createHotContext as __vite__createHotContext } from \"/@vite/client\";import.meta.hot = __vite__createHotContext(\"/src/components/comp/StarHorseDialog.vue?vue&type=style&index=0&scoped=bc3ee995&lang.scss\");/* unplugin-vue-components disabled */import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/src/components/comp/StarHorseDialog.vue?vue&type=style&index=0&scoped=bc3ee995&lang.scss\"\nconst __vite__css = \"[data-v-bc3ee995] .el-dialog__footer {\\n  text-align: center;\\n}\\n.di[data-v-bc3ee995] .el-dialog {\\n  display: flex;\\n  flex-direction: column;\\n  padding: unset;\\n}\\n.di[data-v-bc3ee995] .el-dialog .el-dialog__header {\\n  flex-shrink: 0;\\n  height: 40px;\\n  box-sizing: border-box;\\n  padding: 10px;\\n  background-color: var(--star-horse-style);\\n  margin: 0;\\n  border-bottom: var(--star-horse-shadow) 4px solid;\\n  display: flex;\\n  flex-direction: row;\\n  color: var(--star-horse-white);\\n}\\n.di[data-v-bc3ee995] .el-dialog .el-dialog__header h3 {\\n  flex: 1;\\n}\\n.di[data-v-bc3ee995] .el-dialog .el-dialog__header .my-header {\\n  width: 100px;\\n  display: flex;\\n  justify-content: right;\\n  flex-direction: row;\\n  right: 10px;\\n}\\n.di[data-v-bc3ee995] .el-dialog .el-dialog__body {\\n  flex: 1;\\n  display: flex;\\n  flex-direction: column;\\n}\\n.shdialog[data-v-bc3ee995] {\\n  flex: 1;\\n  display: inline-flex;\\n  overflow-y: auto;\\n  padding: 0 10px;\\n  box-sizing: border-box;\\n}\\n.shdialog[data-v-bc3ee995]::-webkit-scrollbar {\\n  width: 6px;\\n}\\n.shdialog[data-v-bc3ee995]::-webkit-scrollbar-track {\\n  background: transparent;\\n  border-radius: 10px;\\n}\\n.shdialog[data-v-bc3ee995]::-webkit-scrollbar-thumb {\\n  background: #f2f2f2 !important;\\n  z-index: 222;\\n  border-radius: 8px;\\n}\\n.dialog-footer[data-v-bc3ee995] {\\n  display: flex;\\n  justify-content: center;\\n  margin-top: 10px;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720226775,
+      "end": 1738720226776,
+      "order": "normal",
+      "sourcemaps": null
+    }
+  ]
+}

@@ -5,7 +5,7 @@ defineOptions({
 </script>
 
 <template>
-消息内容
+  消息内容
 </template>
 
 <style scoped lang="scss">

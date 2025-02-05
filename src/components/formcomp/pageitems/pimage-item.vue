@@ -5,7 +5,7 @@ defineOptions({
 </script>
 
 <template>
-图片内容
+  图片内容
 </template>
 
 <style scoped lang="scss">

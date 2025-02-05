@@ -765,7 +765,7 @@ defineExpose({
           <el-scrollbar>
             <el-collapse accordion v-model="activeItem">
               <template v-for="item in filterDatas">
-                <el-collapse-item :name="item.name" :title="item.title"  type="default">
+                <el-collapse-item :name="item.name" :title="item.title" type="default">
                   <el-scrollbar max-height="350">
                     <ul>
                       <li

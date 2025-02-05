@@ -3,7 +3,7 @@
 </script>
 
 <template>
-路径图
+  路径图
 </template>
 
 <style scoped lang="scss">

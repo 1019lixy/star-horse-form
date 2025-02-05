@@ -1,0 +1,184 @@
+{
+  "resolvedId": "E:/lixycode/testcode/src/views/workflow/plugin/common/FlowHelper.vue?vue&type=style&index=0&scoped=7d35d4c5&lang.scss",
+  "transforms": [
+    {
+      "name": "vite:vue",
+      "result": "\r\n:deep(.el-popper), :deep(.el-popover) {\r\n  width: 100% !important;\r\n}\r\n",
+      "start": 1738720347297,
+      "end": 1738720347297,
+      "sourcemaps": {
+        "version": 3,
+        "sources": [
+          "E:/lixycode/testcode/src/views/workflow/plugin/common/FlowHelper.vue"
+        ],
+        "names": [],
+        "mappings": ";AA8JA,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE;EACpC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;AACxB",
+        "file": "E:/lixycode/testcode/src/views/workflow/plugin/common/FlowHelper.vue",
+        "sourceRoot": "",
+        "sourcesContent": [
+          "<script setup lang=\"ts\">\r\nimport {computed, onMounted, ref} from \"vue\";\r\nimport {scale} from \"@/views/workflow/plugin/utils/deviceUtil\";\r\nimport {useFlowDesign} from \"@/store/FlowDesignStore.ts\";\r\nimport piniaInstance from \"@/store\";\r\nimport {ApiUrls} from \"@/components/types/ApiUrls\";\r\nimport {apiInstance, createCondition, loadData} from \"@/api/sh_api.ts\";\r\n\r\nconst dataUrl: ApiUrls = apiInstance(\"flow-engine\", \"workflow/categoryItemConfig\");\r\nconst flowDesign = useFlowDesign(piniaInstance);\r\nconst suggestBranchEnable = computed(() => flowDesign.suggestBranchEnable);\r\nconst parallelBranchEnable = computed(() => flowDesign.parallelBranchEnable);\r\nconst dynamicFlow = ref<boolean>(false);\r\nlet visibleHelper = ref<boolean>(false);\r\nlet visibleAdvice = ref<boolean>(false);\r\nlet visibleSelf = ref<boolean>(false);\r\nlet placement = ref<string>('ltr');\r\nlet helpItemList = ref<any>([]);\r\nlet advancedItemList = ref<any>([]);\r\nlet selfItemList = ref<any>([]);\r\nconst wrapStyle = {\r\n  top: '50px',\r\n};\r\nconst showHelperDrawer = () => {\r\n  visibleHelper.value = true;\r\n}\r\nconst showAdviceDrawer = () => {\r\n  visibleAdvice.value = true;\r\n}\r\nconst showSelfDrawer = () => {\r\n  visibleSelf.value = true;\r\n}\r\nconst onClose = () => {\r\n  visibleHelper.value = false;\r\n  visibleAdvice.value = false;\r\n  visibleSelf.value = false;\r\n}\r\nconst init = async () => {\r\n  let params = [createCondition(\"a.cfgCategory\", [\"help\", \"advanced\"], \"in\")];\r\n  let res = await loadData(dataUrl.userConditionUrl!, params);\r\n  helpItemList.value = res?.data?.filter((item: any) => item.cfgCategory == 'help');\r\n  advancedItemList.value = res?.data?.filter((item: any) => item.cfgCategory == 'advanced');\r\n\r\n}\r\nonMounted(() => {\r\n  init();\r\n})\r\n</script>\r\n<template>\r\n  <div class=\"flow-helper\" id=\"flow-helper\" data-v-inspector=\"src/views/workflow/plugin/common/FlowHelper.vue:50:3\">\r\n    <div class=\"flow-helper-template\" @click=\"showHelperDrawer\" data-v-inspector=\"src/views/workflow/plugin/common/FlowHelper.vue:51:5\">\r\n      <star-horse-icon icon-class=\"template\" size=\"22px\" data-v-inspector=\"src/views/workflow/plugin/common/FlowHelper.vue:52:7\"/>\r\n      <span class=\"flow-helper-title\" data-v-inspector=\"src/views/workflow/plugin/common/FlowHelper.vue:53:7\">系统模板</span>\r\n      <star-horse-icon icon-class=\"arrow-right\" size=\"16px\" data-v-inspector=\"src/views/workflow/plugin/common/FlowHelper.vue:54:7\"/>\r\n    </div>\r\n    <div class=\"flow-helper-strengthen\" @click=\"showAdviceDrawer\" data-v-inspector=\"src/views/workflow/plugin/common/FlowHelper.vue:56:5\">\r\n      <star-horse-icon icon-class=\"advanced_template\" size=\"22px\" data-v-inspector=\"src/views/workflow/plugin/common/FlowHelper.vue:57:7\"/>\r\n      <span class=\"flow-helper-title\" data-v-inspector=\"src/views/workflow/plugin/common/FlowHelper.vue:58:7\">高级模板</span>\r\n      <star-horse-icon icon-class=\"arrow-right\" size=\"16px\" data-v-inspector=\"src/views/workflow/plugin/common/FlowHelper.vue:59:7\"/>\r\n    </div>\r\n    <div class=\"flow-helper-self\" @click=\"showSelfDrawer\" data-v-inspector=\"src/views/workflow/plugin/common/FlowHelper.vue:61:5\">\r\n      <star-horse-icon icon-class=\"self_template\" size=\"22px\" data-v-inspector=\"src/views/workflow/plugin/common/FlowHelper.vue:62:7\"/>\r\n      <span class=\"flow-helper-title\" data-v-inspector=\"src/views/workflow/plugin/common/FlowHelper.vue:63:7\">自定义模板</span>\r\n      <star-horse-icon icon-class=\"arrow-right\" size=\"16px\" data-v-inspector=\"src/views/workflow/plugin/common/FlowHelper.vue:64:7\"/>\r\n    </div>\r\n    <el-drawer :direction=\"placement\" getContainer=\"flow-helper\" :wrapStyle=\"wrapStyle\"\r\n               :size=\"scale.isMobile() ? '100%' : '300px'\" :with-header=\"false\"\r\n               v-model=\"visibleHelper\" @close=\"onClose\" data-v-inspector=\"src/views/workflow/plugin/common/FlowHelper.vue:66:5\">\r\n      <div class=\"flow-helper-drawer-header\" data-v-inspector=\"src/views/workflow/plugin/common/FlowHelper.vue:69:7\">\r\n        <div class=\"flow-helper-drawer-header-title\" data-v-inspector=\"src/views/workflow/plugin/common/FlowHelper.vue:70:9\">流程助手</div>\r\n        <div class=\"flow-helper-drawer-header-content\" data-v-inspector=\"src/views/workflow/plugin/common/FlowHelper.vue:71:9\">一键启用精选流程模板，提升效率</div>\r\n      </div>\r\n\r\n      <el-popover placement=\"right\" trigger=\"hover\" :popper-style=\"{width: 'unset !important'}\"\r\n                  v-for=\"item in helpItemList\" :key=\"item.idCategoryItemConfig\" data-v-inspector=\"src/views/workflow/plugin/common/FlowHelper.vue:74:7\">\r\n        <template #reference>\r\n          <div class=\"flow-helper-drawer-item\" data-v-inspector=\"src/views/workflow/plugin/common/FlowHelper.vue:77:11\">\r\n            <div class=\"flow-helper-drawer-item-icon\" data-v-inspector=\"src/views/workflow/plugin/common/FlowHelper.vue:78:13\">\r\n              <star-horse-icon icon-class=\"flow_temp_icon\" size=\"22px\" boxShow=\"true\" data-v-inspector=\"src/views/workflow/plugin/common/FlowHelper.vue:79:15\"/>\r\n            </div>\r\n            <div data-v-inspector=\"src/views/workflow/plugin/common/FlowHelper.vue:81:13\">\r\n              <div class=\"flow-helper-drawer-item-title\" data-v-inspector=\"src/views/workflow/plugin/common/FlowHelper.vue:82:15\">{{ item.name }}</div>\r\n              <div class=\"flow-helper-drawer-item-content\" data-v-inspector=\"src/views/workflow/plugin/common/FlowHelper.vue:83:15\">{{ item.description }}</div>\r\n            </div>\r\n          </div>\r\n        </template>\r\n        <img class=\"flow-helper-drawer-item-popover-img\" :src=\"item.imageUrl\" data-v-inspector=\"src/views/workflow/plugin/common/FlowHelper.vue:87:9\"/>\r\n      </el-popover>\r\n    </el-drawer>\r\n\r\n    <el-drawer :direction=\"placement\" getContainer=\"flow-helper\" :wrapStyle=\"wrapStyle\"\r\n               :size=\"scale.isMobile() ? '100%' : '300px'\" :with-header=\"false\"\r\n               v-model=\"visibleAdvice\" @close=\"onClose\" data-v-inspector=\"src/views/workflow/plugin/common/FlowHelper.vue:91:5\">\r\n      <div class=\"flow-helper-drawer-header\" data-v-inspector=\"src/views/workflow/plugin/common/FlowHelper.vue:94:7\">\r\n        <div class=\"flow-helper-drawer-header-title\" data-v-inspector=\"src/views/workflow/plugin/common/FlowHelper.vue:95:9\">流程增强</div>\r\n        <div class=\"flow-helper-drawer-header-content\" data-v-inspector=\"src/views/workflow/plugin/common/FlowHelper.vue:96:9\">提升审批流程灵活性，满足复杂业务场景</div>\r\n      </div>\r\n      <el-divider data-v-inspector=\"src/views/workflow/plugin/common/FlowHelper.vue:98:7\"/>\r\n      <div class=\"flow-helper-drawer-row\" data-v-inspector=\"src/views/workflow/plugin/common/FlowHelper.vue:99:7\">\r\n        <span class=\"flow-helper-drawer-row-title\" data-v-inspector=\"src/views/workflow/plugin/common/FlowHelper.vue:100:9\">动态流程</span>\r\n        <el-switch v-model=\"dynamicFlow\" data-v-inspector=\"src/views/workflow/plugin/common/FlowHelper.vue:101:9\"/>\r\n      </div>\r\n      <div class=\"flow-helper-drawer-row\" style=\"margin-top: 10px;\" data-v-inspector=\"src/views/workflow/plugin/common/FlowHelper.vue:103:7\">\r\n        <span class=\"flow-helper-drawer-row-title\" data-v-inspector=\"src/views/workflow/plugin/common/FlowHelper.vue:104:9\">意见分支</span>\r\n        <el-switch v-model=\"suggestBranchEnable\" data-v-inspector=\"src/views/workflow/plugin/common/FlowHelper.vue:105:9\"/>\r\n      </div>\r\n      <div class=\"flow-helper-drawer-row\" style=\"margin-top: 10px;\" data-v-inspector=\"src/views/workflow/plugin/common/FlowHelper.vue:107:7\">\r\n        <span class=\"flow-helper-drawer-row-title\" data-v-inspector=\"src/views/workflow/plugin/common/FlowHelper.vue:108:9\">并行节点</span>\r\n        <el-switch v-model=\"parallelBranchEnable\" data-v-inspector=\"src/views/workflow/plugin/common/FlowHelper.vue:109:9\"/>\r\n      </div>\r\n      <div class=\"flow-helper-drawer-row\" data-v-inspector=\"src/views/workflow/plugin/common/FlowHelper.vue:111:7\">\r\n        <p class=\"flow-helper-drawer-row-foot-text\" data-v-inspector=\"src/views/workflow/plugin/common/FlowHelper.vue:112:9\">并行节点可在添加节点时使用</p>\r\n      </div>\r\n      <el-popover placement=\"right\" trigger=\"hover\" :popper-style=\"{width: 'unset !important'}\"\r\n                  v-for=\"item in advancedItemList\"\r\n                  :key=\"item.idCategoryItemConfig\" data-v-inspector=\"src/views/workflow/plugin/common/FlowHelper.vue:114:7\">\r\n        <template #reference>\r\n          <div class=\"flow-helper-drawer-item\" data-v-inspector=\"src/views/workflow/plugin/common/FlowHelper.vue:118:11\">\r\n            <div class=\"flow-helper-drawer-item-icon\" data-v-inspector=\"src/views/workflow/plugin/common/FlowHelper.vue:119:13\">\r\n              <star-horse-icon :iconClass=\"item.icon||'document'\" :style=\"item.style\" boxShow=\"true\" data-v-inspector=\"src/views/workflow/plugin/common/FlowHelper.vue:120:15\"/>\r\n            </div>\r\n            <div data-v-inspector=\"src/views/workflow/plugin/common/FlowHelper.vue:122:13\">\r\n              <div class=\"flow-helper-drawer-item-title\" data-v-inspector=\"src/views/workflow/plugin/common/FlowHelper.vue:123:15\">{{ item.name }}</div>\r\n              <div class=\"flow-helper-drawer-item-content\" data-v-inspector=\"src/views/workflow/plugin/common/FlowHelper.vue:124:15\">{{ item.description }}</div>\r\n            </div>\r\n          </div>\r\n        </template>\r\n        <img class=\"flow-helper-drawer-item-popover-img\" :src=\"item.imageUrl\" data-v-inspector=\"src/views/workflow/plugin/common/FlowHelper.vue:128:9\"/>\r\n      </el-popover>\r\n    </el-drawer>\r\n    <el-drawer :direction=\"placement\" getContainer=\"flow-helper\" :wrapStyle=\"wrapStyle\"\r\n               :size=\"scale.isMobile() ? '100%' : '300px'\" :with-header=\"false\"\r\n               v-model=\"visibleSelf\" @close=\"onClose\" data-v-inspector=\"src/views/workflow/plugin/common/FlowHelper.vue:131:5\">\r\n      <div class=\"flow-helper-drawer-header\" data-v-inspector=\"src/views/workflow/plugin/common/FlowHelper.vue:134:7\">\r\n        <div class=\"flow-helper-drawer-header-title\" data-v-inspector=\"src/views/workflow/plugin/common/FlowHelper.vue:135:9\">自定义模板</div>\r\n        <div class=\"flow-helper-drawer-header-content\" data-v-inspector=\"src/views/workflow/plugin/common/FlowHelper.vue:136:9\">提升流程设计效率</div>\r\n      </div>\r\n\r\n      <el-popover placement=\"right\" trigger=\"hover\" :popper-style=\"{width: 'unset !important'}\"\r\n                  v-for=\"item in selfItemList\"\r\n                  :key=\"item.idCategoryItemConfig\" data-v-inspector=\"src/views/workflow/plugin/common/FlowHelper.vue:139:7\">\r\n        <template #reference>\r\n          <div class=\"flow-helper-drawer-item\" data-v-inspector=\"src/views/workflow/plugin/common/FlowHelper.vue:143:11\">\r\n            <div class=\"flow-helper-drawer-item-icon\" data-v-inspector=\"src/views/workflow/plugin/common/FlowHelper.vue:144:13\">\r\n              <star-horse-icon :iconClass=\"item.icon||'document'\" :style=\"item.style\" boxShow=\"true\" data-v-inspector=\"src/views/workflow/plugin/common/FlowHelper.vue:145:15\"/>\r\n            </div>\r\n            <div data-v-inspector=\"src/views/workflow/plugin/common/FlowHelper.vue:147:13\">\r\n              <div class=\"flow-helper-drawer-item-title\" data-v-inspector=\"src/views/workflow/plugin/common/FlowHelper.vue:148:15\">{{ item.name }}</div>\r\n              <div class=\"flow-helper-drawer-item-content\" data-v-inspector=\"src/views/workflow/plugin/common/FlowHelper.vue:149:15\">{{ item.description }}</div>\r\n            </div>\r\n          </div>\r\n        </template>\r\n        <img class=\"flow-helper-drawer-item-popover-img\" :src=\"item.imageUrl\" data-v-inspector=\"src/views/workflow/plugin/common/FlowHelper.vue:153:9\"/>\r\n      </el-popover>\r\n    </el-drawer>\r\n  </div>\r\n</template>\r\n<style  lang=\"scss\" scoped>\r\n:deep(.el-popper), :deep(.el-popover) {\r\n  width: 100% !important;\r\n}\r\n</style>\r\n\r\n"
+        ]
+      }
+    },
+    {
+      "name": "vite-plugin-vue-inspector",
+      "start": 1738720347297,
+      "end": 1738720347297,
+      "order": "pre"
+    },
+    {
+      "name": "vite-plugin-vue-devtools",
+      "result": "\r\n:deep(.el-popper), :deep(.el-popover) {\r\n  width: 100% !important;\r\n}\r\n",
+      "start": 1738720347298,
+      "end": 1738720347298,
+      "order": "pre",
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "result": ":deep(.el-popper), :deep(.el-popover) {\n  width: 100% !important;\n}",
+      "start": 1738720347298,
+      "end": 1738720347586,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1738720347586,
+      "end": 1738720347586,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1738720347586,
+      "end": 1738720347586,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1738720347586,
+      "end": 1738720347586,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "result": "[data-v-7d35d4c5] .el-popper,[data-v-7d35d4c5] .el-popover {\n  width: 100% !important;\n}",
+      "start": 1738720347587,
+      "end": 1738720347587,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "originjs:commonjs",
+      "start": 1738720347587,
+      "end": 1738720347587,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1738720347587,
+      "end": 1738720347587,
+      "order": "normal"
+    },
+    {
+      "name": "inject",
+      "start": 1738720347587,
+      "end": 1738720347587,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1738720347587,
+      "end": 1738720347587,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "result": "import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/src/views/workflow/plugin/common/FlowHelper.vue?vue&type=style&index=0&scoped=7d35d4c5&lang.scss\"\nconst __vite__css = \"[data-v-7d35d4c5] .el-popper,[data-v-7d35d4c5] .el-popover {\\n  width: 100% !important;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720347587,
+      "end": 1738720347587,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1738720347587,
+      "end": 1738720347587,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1738720347587,
+      "end": 1738720347587,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1738720347587,
+      "end": 1738720347587,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1738720347587,
+      "end": 1738720347587,
+      "order": "normal"
+    },
+    {
+      "name": "vite-plugin-vue-inspector:post",
+      "start": 1738720347587,
+      "end": 1738720347587,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-auto-import",
+      "start": 1738720347587,
+      "end": 1738720347588,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-vue-components",
+      "result": "/* unplugin-vue-components disabled */import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/src/views/workflow/plugin/common/FlowHelper.vue?vue&type=style&index=0&scoped=7d35d4c5&lang.scss\"\nconst __vite__css = \"[data-v-7d35d4c5] .el-popper,[data-v-7d35d4c5] .el-popover {\\n  width: 100% !important;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720347588,
+      "end": 1738720347588,
+      "order": "post",
+      "sourcemaps": {
+        "version": 3,
+        "sources": [
+          "E:/lixycode/testcode/src/views/workflow/plugin/common/FlowHelper.vue?vue&type=style&index=0&scoped=7d35d4c5&lang.scss"
+        ],
+        "sourcesContent": [
+          "import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/src/views/workflow/plugin/common/FlowHelper.vue?vue&type=style&index=0&scoped=7d35d4c5&lang.scss\"\nconst __vite__css = \"[data-v-7d35d4c5] .el-popper,[data-v-7d35d4c5] .el-popover {\\n  width: 100% !important;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))"
+        ],
+        "names": [],
+        "mappings": "sCAAA,MAAM,CAAC,CAAC,CAAC,WAAW,CAAC,EAAE,CAAC,mBAAmB,CAAC,CAAC,WAAW,CAAC,EAAE,CAAC,mBAAmB,CAAC,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,CAAC,IAAI,CAAC,MAAM;AACrG,KAAK,CAAC,UAAU,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,QAAQ,CAAC,QAAQ,CAAC,GAAG,CAAC,KAAK,CAAC,QAAQ,CAAC,MAAM,CAAC,MAAM,CAAC,UAAU,CAAC,GAAG,CAAC,GAAG,CAAC,IAAI,CAAC,KAAK,CAAC,KAAK,CAAC,CAAC,CAAC,MAAM,CAAC,QAAQ,CAAC,IAAI,CAAC,IAAI;AACzI,KAAK,CAAC,WAAW,CAAC,CAAC,CAAC,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,QAAQ,CAAC,CAAC,CAAC,EAAE,CAAC,MAAM,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,QAAQ,CAAC,CAAC,CAAC,EAAE,CAAC,OAAO,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,KAAK,CAAC,CAAC,GAAG,CAAC,CAAC,CAAC,SAAS,CAAC,CAAC,CAAC,CAAC;AAC/G,mBAAmB,CAAC,UAAU,CAAC,CAAC,WAAW;AAC3C,MAAM,CAAC,IAAI,CAAC,GAAG,CAAC,MAAM,CAAC;AACvB,MAAM,CAAC,IAAI,CAAC,GAAG,CAAC,KAAK,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,mBAAmB,CAAC,UAAU,CAAC"
+      }
+    },
+    {
+      "name": "vite:client-inject",
+      "start": 1738720347588,
+      "end": 1738720347588,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-analysis",
+      "start": 1738720347588,
+      "end": 1738720347588,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-analysis",
+      "result": "import { createHotContext as __vite__createHotContext } from \"/@vite/client\";import.meta.hot = __vite__createHotContext(\"/src/views/workflow/plugin/common/FlowHelper.vue?vue&type=style&index=0&scoped=7d35d4c5&lang.scss\");/* unplugin-vue-components disabled */import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/src/views/workflow/plugin/common/FlowHelper.vue?vue&type=style&index=0&scoped=7d35d4c5&lang.scss\"\nconst __vite__css = \"[data-v-7d35d4c5] .el-popper,[data-v-7d35d4c5] .el-popover {\\n  width: 100% !important;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720347588,
+      "end": 1738720347588,
+      "order": "normal",
+      "sourcemaps": null
+    }
+  ]
+}

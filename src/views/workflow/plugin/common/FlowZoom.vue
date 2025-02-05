@@ -166,7 +166,7 @@ let operType: string = "";
 const saveData = (type: string) => {
   operType = type;
   dataDialogVisible.value = true;
-  nextTick(()=>{
+  nextTick(() => {
     basicInfoRef.value.$refs.flowFormRef.setFormData(formData.value);
   })
 }

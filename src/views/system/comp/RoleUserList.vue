@@ -354,7 +354,9 @@ onDeactivated(() => {
 <template>
   <star-horse-dialog :dialog-visible="dialogProps?.viewVisible" :dialogProps="dialogProps" :title="'查看数据'"
                      :isView="true">
-    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+    <div class="dialog-body">
+      <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+    </div>
   </star-horse-dialog>
   <el-card class="inner_content ">
     <div class="search_btn" :style="{'flex-direction':Config?.buttonStyle=='line'?'column':'row'}">

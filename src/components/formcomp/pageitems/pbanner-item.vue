@@ -5,7 +5,7 @@ defineOptions({
 </script>
 
 <template>
-广告栏
+  广告栏
 </template>
 
 <style scoped lang="scss">

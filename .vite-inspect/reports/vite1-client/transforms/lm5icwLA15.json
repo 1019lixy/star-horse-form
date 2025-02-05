@@ -1,0 +1,157 @@
+{
+  "resolvedId": "E:/lixycode/testcode/node_modules/vite-plugin-vue-inspector/src/load.js",
+  "transforms": [
+    {
+      "name": "vite-plugin-vue-inspector",
+      "result": "/* eslint-disable new-cap */\n\nimport * as Vue from 'vue'\nimport App from 'virtual:vue-inspector-path:Overlay.vue'\nimport inspectorOptions from 'virtual:vue-inspector-options'\nconst CONTAINER_ID = 'vue-inspector-container'\n\nfunction createInspectorContainer() {\n  if (document.getElementById(CONTAINER_ID) != null)\n    throw new Error('vueInspectorContainer element already exists')\n\n  const el = document.createElement('div')\n  el.setAttribute('id', CONTAINER_ID)\n  document.getElementsByTagName('body')[0].appendChild(el)\n  return el\n}\n\nfunction load() {\n  const isClient = typeof window !== 'undefined'\n  if (!isClient)\n    return\n  createInspectorContainer()\n  const { vue } = inspectorOptions\n  // vue 2/3 compatibility\n  vue === 3\n    ? Vue.createApp({\n      render: () => Vue.h(App),\n      devtools: {\n        hide: true,\n      },\n    }).mount(`#${CONTAINER_ID}`)\n    : new Vue.default({\n      render: h => h(App),\n      devtools: {\n        hide: true,\n      },\n    }).$mount(`#${CONTAINER_ID}`)\n}\n\nif (inspectorOptions.lazyLoad)\n  setTimeout(load, inspectorOptions.lazyLoad)\n\nelse\n  load()\n",
+      "start": 1738720170626,
+      "end": 1738720170913,
+      "sourcemaps": null
+    },
+    {
+      "name": "vite-plugin-vue-inspector",
+      "start": 1738720170913,
+      "end": 1738720170913,
+      "order": "pre"
+    },
+    {
+      "name": "vite-plugin-vue-devtools",
+      "result": "/* eslint-disable new-cap */\n\nimport * as Vue from 'vue'\nimport App from 'virtual:vue-inspector-path:Overlay.vue'\nimport inspectorOptions from 'virtual:vue-inspector-options'\nconst CONTAINER_ID = 'vue-inspector-container'\n\nfunction createInspectorContainer() {\n  if (document.getElementById(CONTAINER_ID) != null)\n    throw new Error('vueInspectorContainer element already exists')\n\n  const el = document.createElement('div')\n  el.setAttribute('id', CONTAINER_ID)\n  document.getElementsByTagName('body')[0].appendChild(el)\n  return el\n}\n\nfunction load() {\n  const isClient = typeof window !== 'undefined'\n  if (!isClient)\n    return\n  createInspectorContainer()\n  const { vue } = inspectorOptions\n  // vue 2/3 compatibility\n  vue === 3\n    ? Vue.createApp({\n      render: () => Vue.h(App),\n      devtools: {\n        hide: true,\n      },\n    }).mount(`#${CONTAINER_ID}`)\n    : new Vue.default({\n      render: h => h(App),\n      devtools: {\n        hide: true,\n      },\n    }).$mount(`#${CONTAINER_ID}`)\n}\n\nif (inspectorOptions.lazyLoad)\n  setTimeout(load, inspectorOptions.lazyLoad)\n\nelse\n  load()\n",
+      "start": 1738720170913,
+      "end": 1738720170913,
+      "order": "pre",
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "start": 1738720170913,
+      "end": 1738720170913,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1738720170913,
+      "end": 1738720170913,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1738720170913,
+      "end": 1738720170913,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1738720170913,
+      "end": 1738720170913,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1738720170913,
+      "end": 1738720170913,
+      "order": "normal"
+    },
+    {
+      "name": "originjs:commonjs",
+      "start": 1738720170913,
+      "end": 1738720170913,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1738720170913,
+      "end": 1738720170913,
+      "order": "normal"
+    },
+    {
+      "name": "inject",
+      "result": "/* eslint-disable new-cap */\n\nimport * as Vue from 'vue'\nimport App from 'virtual:vue-inspector-path:Overlay.vue'\nimport inspectorOptions from 'virtual:vue-inspector-options'\nconst CONTAINER_ID = 'vue-inspector-container'\n\nfunction createInspectorContainer() {\n  if (document.getElementById(CONTAINER_ID) != null)\n    throw new Error('vueInspectorContainer element already exists')\n\n  const el = document.createElement('div')\n  el.setAttribute('id', CONTAINER_ID)\n  document.getElementsByTagName('body')[0].appendChild(el)\n  return el\n}\n\nfunction load() {\n  const isClient = typeof window !== 'undefined'\n  if (!isClient)\n    return\n  createInspectorContainer()\n  const { vue } = inspectorOptions\n  // vue 2/3 compatibility\n  vue === 3\n    ? Vue.createApp({\n      render: () => Vue.h(App),\n      devtools: {\n        hide: true,\n      },\n    }).mount(`#${CONTAINER_ID}`)\n    : new Vue.default({\n      render: h => h(App),\n      devtools: {\n        hide: true,\n      },\n    }).$mount(`#${CONTAINER_ID}`)\n}\n\nif (inspectorOptions.lazyLoad)\n  setTimeout(load, inspectorOptions.lazyLoad)\n\nelse\n  load()\n",
+      "start": 1738720170913,
+      "end": 1738720170916,
+      "order": "normal",
+      "sourcemaps": {
+        "version": 3,
+        "sources": [
+          ""
+        ],
+        "names": [],
+        "mappings": "AAAA,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;;AAE3B,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;AACzB,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;AACvD,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;AAC3D,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;;AAE7C,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;AACpC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;AACnD,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;;AAElE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;AACzC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;AACpC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CA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"
+      }
+    },
+    {
+      "name": "vite:define",
+      "start": 1738720170916,
+      "end": 1738720170916,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1738720170916,
+      "end": 1738720170916,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1738720170916,
+      "end": 1738720170916,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1738720170916,
+      "end": 1738720170916,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1738720170916,
+      "end": 1738720170916,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1738720170916,
+      "end": 1738720170916,
+      "order": "normal"
+    },
+    {
+      "name": "vite-plugin-vue-inspector:post",
+      "start": 1738720170916,
+      "end": 1738720170916,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-auto-import",
+      "start": 1738720170916,
+      "end": 1738720170916,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-vue-components",
+      "start": 1738720170916,
+      "end": 1738720170916,
+      "order": "post"
+    },
+    {
+      "name": "vite:client-inject",
+      "start": 1738720170916,
+      "end": 1738720170916,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-analysis",
+      "start": 1738720170916,
+      "end": 1738720170916,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-analysis",
+      "result": "/* eslint-disable new-cap */\n\nimport * as Vue from \"/node_modules/.vite/deps/vue.js?v=65efcb1b\"\nimport App from \"/node_modules/vite-plugin-vue-inspector/src/Overlay.vue\"\nimport inspectorOptions from \"/@id/virtual:vue-inspector-options\"\nconst CONTAINER_ID = 'vue-inspector-container'\n\nfunction createInspectorContainer() {\n  if (document.getElementById(CONTAINER_ID) != null)\n    throw new Error('vueInspectorContainer element already exists')\n\n  const el = document.createElement('div')\n  el.setAttribute('id', CONTAINER_ID)\n  document.getElementsByTagName('body')[0].appendChild(el)\n  return el\n}\n\nfunction load() {\n  const isClient = typeof window !== 'undefined'\n  if (!isClient)\n    return\n  createInspectorContainer()\n  const { vue } = inspectorOptions\n  // vue 2/3 compatibility\n  vue === 3\n    ? Vue.createApp({\n      render: () => Vue.h(App),\n      devtools: {\n        hide: true,\n      },\n    }).mount(`#${CONTAINER_ID}`)\n    : new Vue.default({\n      render: h => h(App),\n      devtools: {\n        hide: true,\n      },\n    }).$mount(`#${CONTAINER_ID}`)\n}\n\nif (inspectorOptions.lazyLoad)\n  setTimeout(load, inspectorOptions.lazyLoad)\n\nelse\n  load()\n",
+      "start": 1738720170916,
+      "end": 1738720170918,
+      "order": "normal",
+      "sourcemaps": null
+    }
+  ]
+}

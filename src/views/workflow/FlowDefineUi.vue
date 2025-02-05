@@ -2,14 +2,14 @@
 import {apiInstance, dialogPreps, dictData} from "@/api/sh_api";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {Config} from "@/api/settings";
-import {onMounted, provide, reactive, ref, onActivated, onDeactivated, nextTick} from "vue";
+import {nextTick, onActivated, onDeactivated, onMounted, provide, reactive, ref} from "vue";
 import {SearchFields, SelectOption} from "@/components/types/SearchProps";
 import {PageFieldInfo, UserFuncInfo} from "@/components/types/PageFieldInfo";
-import {getCustomerParam} from "@/utils/auth";
 import {useRouter} from "vue-router";
 import {useFlowDesign} from "@/store/FlowDesignStore.ts";
 import piniaInstance from "@/store";
 import {formVisibleTypeList} from "@/views/workflow/utils/FlowFormUtils.ts";
+
 
 defineOptions({
   name: 'FlowDefine',
@@ -25,6 +25,7 @@ const flowDesign = useFlowDesign(piniaInstance);
 const formFields = reactive<Object>({});
 provide("formFields", formFields);
 let flowGroupList = ref<SelectOption[]>([]);
+let statusList = ref<SelectOption[]>([]);
 let flowDeploymentList = ref<SelectOption[]>([
   {name: "已部署", "value": "not null"},
   {name: "未部署", "value": "null"}
@@ -33,33 +34,162 @@ let flowDeploymentList = ref<SelectOption[]>([
 const searchFormData = reactive<SearchFields>({
   "fieldList": [
     {"label": "流程名称", "fieldName": "name", "type": "input", matchType: "lk", defaultVisible: true},
-    {"label": "流程分类", "fieldName": "flowGroup", "type": "select", matchType: "lk", defaultVisible: true, optionList: flowGroupList},
+    {
+      "label": "流程分类",
+      "fieldName": "flowGroup",
+      "type": "select",
+      matchType: "lk",
+      defaultVisible: true,
+      optionList: flowGroupList
+    },
     /* {"label": "流程类型", "fieldName": "flowType", "type": "input",matchType:"lk",defaultVisible: true},*/
-    {"label": "是否部署", "fieldName": "flowDeploymentId", "type": "select", matchType: "is", defaultVisible: true, optionList: flowDeploymentList},
+    {
+      "label": "是否部署",
+      "fieldName": "flowDeploymentId",
+      "type": "select",
+      matchType: "is",
+      defaultVisible: true,
+      optionList: flowDeploymentList
+    },
   ]
 });
 const tableFieldList = reactive<PageFieldInfo | any>({
   "fieldList": [
-    {"label": "流程名称", "fieldName": "name", "type": "input", "required": true, "formVisible": true, "listVisible": true},
-    {"label": "流程部署ID", "fieldName": "flowDeploymentId", "type": "input", "required": true, "formVisible": true, "listVisible": true},
-    {"label": "流程分类", "fieldName": "flowGroup", "type": "input", "required": false, "formVisible": true, "listVisible": true},
-    {"label": "绑定表单信息", "fieldName": "bindForm", "type": "input", "required": false, "formVisible": true, "listVisible": true},
-    {"label": "图标", "fieldName": "flowIcon", "type": "input", "required": false, "formVisible": true, "listVisible": true},
-    {"label": "流程类型", "fieldName": "flowType", "type": "input", "required": false, "formVisible": false, "listVisible": false},
-    {"label": "流程版本", "fieldName": "flowVersion", "type": "input", "required": false, "formVisible": true, "listVisible": true},
-    {"label": "多表单显示模式", "fieldName": "formVisibleType", "type": "input", "required": false, "formVisible": true, "listVisible": true},
-    {"label": "流程管理员", "fieldName": "flowManager", "type": "input", "required": false, "formVisible": true, "listVisible": true},
-    {"label": "流程Xml文件", "fieldName": "xmlFile", "type": "input", "required": true, "formVisible": true, "listVisible": false},
-    {"label": "流程Json文件", "fieldName": "jsonFile", "type": "input", "required": true, "formVisible": true, "listVisible": false},
+    {
+      "label": "流程名称",
+      "fieldName": "name",
+      "type": "input",
+      "required": true,
+      "formVisible": true,
+      "listVisible": true
+    },
+    {
+      "label": "流程部署ID",
+      "fieldName": "flowDeploymentId",
+      "type": "input",
+      "required": true,
+      "formVisible": true,
+      "listVisible": true
+    },
+    {
+      "label": "流程分类",
+      "fieldName": "flowGroup",
+      "type": "input",
+      "required": false,
+      "formVisible": true,
+      "listVisible": true
+    },
+    {
+      "label": "绑定表单信息",
+      "fieldName": "bindForm",
+      "type": "input",
+      "required": false,
+      "formVisible": true,
+      "listVisible": true
+    },
+    {
+      "label": "图标",
+      "fieldName": "flowIcon",
+      "type": "input",
+      "required": false,
+      "formVisible": true,
+      "listVisible": true
+    },
+    {
+      "label": "流程类型",
+      "fieldName": "flowType",
+      "type": "input",
+      "required": false,
+      "formVisible": false,
+      "listVisible": false
+    },
+    {
+      "label": "状态", "fieldName": "statusCode", "type": "select", "listVisible": true,
+      optionList: statusList,
+      listPrototypeDisplay: "text",
+      preps: {
+        tagMap: {
+          "1": "success",
+          "2": "default",
+        }
+      }
+    },
+    {
+      "label": "流程版本",
+      "fieldName": "flowVersion",
+      "type": "input",
+      "required": false,
+      "formVisible": true,
+      "listVisible": true
+    },
+    {
+      "label": "多表单显示模式",
+      "fieldName": "formVisibleType",
+      "type": "input",
+      "required": false,
+      "formVisible": true,
+      "listVisible": true
+    },
+    {
+      "label": "流程管理员",
+      "fieldName": "flowManager",
+      "type": "input",
+      "required": false,
+      "formVisible": true,
+      "listVisible": true
+    },
+    {
+      "label": "流程Xml文件",
+      "fieldName": "xmlFile",
+      "type": "input",
+      "required": true,
+      "formVisible": true,
+      "listVisible": false
+    },
+    {
+      "label": "流程Json文件",
+      "fieldName": "jsonFile",
+      "type": "input",
+      "required": true,
+      "formVisible": true,
+      "listVisible": false
+    },
     {"label": "创建人", "fieldName": "createdBy", "type": "input", "listVisible": true, "preps": {}, "commonFlag": "Y"},
-    {"label": "修改人", "fieldName": "updatedBy", "type": "input", "listVisible": false, "preps": {}, "commonFlag": "Y"},
-    {"label": "创建时间", "fieldName": "createdTime", "type": "datetime", "listVisible": true, "preps": {}, "commonFlag": "Y"},
-    {"label": "修改时间", "fieldName": "updatedTime", "type": "datetime", "listVisible": false, "preps": {}, "commonFlag": "Y"},
+    {
+      "label": "修改人",
+      "fieldName": "updatedBy",
+      "type": "input",
+      "listVisible": false,
+      "preps": {},
+      "commonFlag": "Y"
+    },
+    {
+      "label": "创建时间",
+      "fieldName": "createdTime",
+      "type": "datetime",
+      "listVisible": true,
+      "preps": {},
+      "commonFlag": "Y"
+    },
+    {
+      "label": "修改时间",
+      "fieldName": "updatedTime",
+      "type": "datetime",
+      "listVisible": false,
+      "preps": {},
+      "commonFlag": "Y"
+    },
     {"label": "版本号", "fieldName": "version", "type": "number", "listVisible": true, "preps": {}, "commonFlag": "Y"},
     {"label": "是否删除", "fieldName": "isDel", "type": "number", "listVisible": false, "preps": {}, "commonFlag": "Y"},
     {"label": "数据编号", "fieldName": "dataNo", "type": "input", "listVisible": false, "preps": {}, "commonFlag": "Y"},
-    {"label": "状态", "fieldName": "statusCode", "type": "select", "listVisible": false, "preps": {"urlOrDictName": "common", "values": [], "name": "statusCode", "dataSource": "dict", "props": {}}, "commonFlag": "Y"},
-    {"label": "状态名称", "fieldName": "statusName", "type": "input", "listVisible": false, "preps": {}, "commonFlag": "Y"},
+    {
+      "label": "状态名称",
+      "fieldName": "statusName",
+      "type": "input",
+      "listVisible": false,
+      "preps": {},
+      "commonFlag": "Y"
+    },
     {"label": "国际编码", "fieldName": "local", "type": "input", "listVisible": false, "preps": {}, "commonFlag": "Y"},
     {"label": "备注", "fieldName": "remark", "type": "textarea", "listVisible": false, "preps": {}, "commonFlag": "Y"}],
   "batchFieldList": [],
@@ -128,6 +258,9 @@ const deactivated = () => {
 const dataFormat = (name: string, cellValue: any, row: any): any => {
   if (name == "formVisibleType") {
     return formVisibleTypeList.value.find((item: SelectOption) => item.value == cellValue)?.name || cellValue;
+  }
+  if (name == "statusCode") {
+    return !row.flowDeploymentId ? "未部署" : "已部署";
   }
   //转换显示信息
   return cellValue;

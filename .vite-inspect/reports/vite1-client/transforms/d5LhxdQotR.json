@@ -1,0 +1,155 @@
+{
+  "resolvedId": "E:/lixycode/testcode/node_modules/element-plus/theme-chalk/src/alert.scss",
+  "transforms": [
+    {
+      "name": "__load__",
+      "result": "@use 'mixins/mixins' as *;\n@use 'mixins/var' as *;\n@use 'common/var' as *;\n\n@include b(alert) {\n  @include set-component-css-var('alert', $alert);\n\n  width: 100%;\n  padding: getCssVar('alert', 'padding');\n  margin: 0;\n  box-sizing: border-box;\n  border-radius: getCssVar('alert', 'border-radius-base');\n  position: relative;\n  background-color: getCssVar('color', 'white');\n  overflow: hidden;\n  opacity: 1;\n  display: flex;\n  align-items: center;\n  transition: opacity getCssVar('transition-duration', 'fast');\n\n  @include when(light) {\n    .#{$namespace}-alert__close-btn {\n      color: getCssVar('text-color', 'placeholder');\n    }\n  }\n\n  @include when(dark) {\n    .#{$namespace}-alert__close-btn {\n      color: getCssVar('color', 'white');\n    }\n    .#{$namespace}-alert__description {\n      color: getCssVar('color', 'white');\n    }\n  }\n\n  @include when(center) {\n    justify-content: center;\n  }\n\n  @each $type in (success, info, warning, error) {\n    @include m($type) {\n      @include css-var-from-global(\n        ('alert', 'bg-color'),\n        ('color', $type, 'light-9')\n      );\n\n      &.is-light {\n        background-color: getCssVar('alert', 'bg-color');\n        color: getCssVar('color', $type);\n\n        .#{$namespace}-alert__description {\n          color: getCssVar('color', $type);\n        }\n      }\n\n      &.is-dark {\n        background-color: getCssVar('color', $type);\n        color: getCssVar('color', 'white');\n      }\n    }\n  }\n\n  @include e(content) {\n    display: flex;\n    flex-direction: column;\n    gap: 4px;\n  }\n\n  & .#{$namespace}-alert__icon {\n    font-size: getCssVar('alert', 'icon-size');\n    width: getCssVar('alert', 'icon-size');\n    margin-right: 8px;\n\n    @include when(big) {\n      font-size: getCssVar('alert', 'icon-large-size');\n      width: getCssVar('alert', 'icon-large-size');\n      margin-right: 12px;\n    }\n  }\n\n  @include e(title) {\n    font-size: getCssVar('alert', 'title-font-size');\n    line-height: 24px;\n\n    &.with-description {\n      font-size: getCssVar('alert', 'title-with-description-font-size');\n    }\n  }\n\n  & .#{$namespace}-alert__description {\n    font-size: getCssVar('alert', 'description-font-size');\n    margin: 0;\n  }\n\n  & .#{$namespace}-alert__close-btn {\n    font-size: getCssVar('alert', 'close-font-size');\n    opacity: 1;\n    position: absolute;\n    top: 12px;\n    right: 16px;\n    cursor: pointer;\n\n    @include when(customed) {\n      font-style: normal;\n      font-size: getCssVar('alert', 'close-customed-font-size');\n      line-height: 24px;\n      top: 8px;\n    }\n  }\n}\n\n.#{$namespace}-alert-fade-enter-from,\n.#{$namespace}-alert-fade-leave-active {\n  opacity: 0;\n}\n",
+      "start": 1738720349743,
+      "end": 1738720349743
+    },
+    {
+      "name": "vite-plugin-vue-inspector",
+      "start": 1738720349743,
+      "end": 1738720349743,
+      "order": "pre"
+    },
+    {
+      "name": "vite-plugin-vue-devtools",
+      "result": "@use 'mixins/mixins' as *;\n@use 'mixins/var' as *;\n@use 'common/var' as *;\n\n@include b(alert) {\n  @include set-component-css-var('alert', $alert);\n\n  width: 100%;\n  padding: getCssVar('alert', 'padding');\n  margin: 0;\n  box-sizing: border-box;\n  border-radius: getCssVar('alert', 'border-radius-base');\n  position: relative;\n  background-color: getCssVar('color', 'white');\n  overflow: hidden;\n  opacity: 1;\n  display: flex;\n  align-items: center;\n  transition: opacity getCssVar('transition-duration', 'fast');\n\n  @include when(light) {\n    .#{$namespace}-alert__close-btn {\n      color: getCssVar('text-color', 'placeholder');\n    }\n  }\n\n  @include when(dark) {\n    .#{$namespace}-alert__close-btn {\n      color: getCssVar('color', 'white');\n    }\n    .#{$namespace}-alert__description {\n      color: getCssVar('color', 'white');\n    }\n  }\n\n  @include when(center) {\n    justify-content: center;\n  }\n\n  @each $type in (success, info, warning, error) {\n    @include m($type) {\n      @include css-var-from-global(\n        ('alert', 'bg-color'),\n        ('color', $type, 'light-9')\n      );\n\n      &.is-light {\n        background-color: getCssVar('alert', 'bg-color');\n        color: getCssVar('color', $type);\n\n        .#{$namespace}-alert__description {\n          color: getCssVar('color', $type);\n        }\n      }\n\n      &.is-dark {\n        background-color: getCssVar('color', $type);\n        color: getCssVar('color', 'white');\n      }\n    }\n  }\n\n  @include e(content) {\n    display: flex;\n    flex-direction: column;\n    gap: 4px;\n  }\n\n  & .#{$namespace}-alert__icon {\n    font-size: getCssVar('alert', 'icon-size');\n    width: getCssVar('alert', 'icon-size');\n    margin-right: 8px;\n\n    @include when(big) {\n      font-size: getCssVar('alert', 'icon-large-size');\n      width: getCssVar('alert', 'icon-large-size');\n      margin-right: 12px;\n    }\n  }\n\n  @include e(title) {\n    font-size: getCssVar('alert', 'title-font-size');\n    line-height: 24px;\n\n    &.with-description {\n      font-size: getCssVar('alert', 'title-with-description-font-size');\n    }\n  }\n\n  & .#{$namespace}-alert__description {\n    font-size: getCssVar('alert', 'description-font-size');\n    margin: 0;\n  }\n\n  & .#{$namespace}-alert__close-btn {\n    font-size: getCssVar('alert', 'close-font-size');\n    opacity: 1;\n    position: absolute;\n    top: 12px;\n    right: 16px;\n    cursor: pointer;\n\n    @include when(customed) {\n      font-style: normal;\n      font-size: getCssVar('alert', 'close-customed-font-size');\n      line-height: 24px;\n      top: 8px;\n    }\n  }\n}\n\n.#{$namespace}-alert-fade-enter-from,\n.#{$namespace}-alert-fade-leave-active {\n  opacity: 0;\n}\n",
+      "start": 1738720349743,
+      "end": 1738720349743,
+      "order": "pre",
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "result": "/* Element Chalk Variables */\n.el-alert {\n  --el-alert-padding: 8px 16px;\n  --el-alert-border-radius-base: var(--el-border-radius-base);\n  --el-alert-title-font-size: 14px;\n  --el-alert-title-with-description-font-size: 16px;\n  --el-alert-description-font-size: 14px;\n  --el-alert-close-font-size: 16px;\n  --el-alert-close-customed-font-size: 14px;\n  --el-alert-icon-size: 16px;\n  --el-alert-icon-large-size: 28px;\n  width: 100%;\n  padding: var(--el-alert-padding);\n  margin: 0;\n  box-sizing: border-box;\n  border-radius: var(--el-alert-border-radius-base);\n  position: relative;\n  background-color: var(--el-color-white);\n  overflow: hidden;\n  opacity: 1;\n  display: flex;\n  align-items: center;\n  transition: opacity var(--el-transition-duration-fast);\n}\n.el-alert.is-light .el-alert__close-btn {\n  color: var(--el-text-color-placeholder);\n}\n\n.el-alert.is-dark .el-alert__close-btn {\n  color: var(--el-color-white);\n}\n.el-alert.is-dark .el-alert__description {\n  color: var(--el-color-white);\n}\n\n.el-alert.is-center {\n  justify-content: center;\n}\n\n.el-alert--success {\n  --el-alert-bg-color: var(--el-color-success-light-9);\n}\n.el-alert--success.is-light {\n  background-color: var(--el-alert-bg-color);\n  color: var(--el-color-success);\n}\n.el-alert--success.is-light .el-alert__description {\n  color: var(--el-color-success);\n}\n.el-alert--success.is-dark {\n  background-color: var(--el-color-success);\n  color: var(--el-color-white);\n}\n\n.el-alert--info {\n  --el-alert-bg-color: var(--el-color-info-light-9);\n}\n.el-alert--info.is-light {\n  background-color: var(--el-alert-bg-color);\n  color: var(--el-color-info);\n}\n.el-alert--info.is-light .el-alert__description {\n  color: var(--el-color-info);\n}\n.el-alert--info.is-dark {\n  background-color: var(--el-color-info);\n  color: var(--el-color-white);\n}\n\n.el-alert--warning {\n  --el-alert-bg-color: var(--el-color-warning-light-9);\n}\n.el-alert--warning.is-light {\n  background-color: var(--el-alert-bg-color);\n  color: var(--el-color-warning);\n}\n.el-alert--warning.is-light .el-alert__description {\n  color: var(--el-color-warning);\n}\n.el-alert--warning.is-dark {\n  background-color: var(--el-color-warning);\n  color: var(--el-color-white);\n}\n\n.el-alert--error {\n  --el-alert-bg-color: var(--el-color-error-light-9);\n}\n.el-alert--error.is-light {\n  background-color: var(--el-alert-bg-color);\n  color: var(--el-color-error);\n}\n.el-alert--error.is-light .el-alert__description {\n  color: var(--el-color-error);\n}\n.el-alert--error.is-dark {\n  background-color: var(--el-color-error);\n  color: var(--el-color-white);\n}\n\n.el-alert__content {\n  display: flex;\n  flex-direction: column;\n  gap: 4px;\n}\n\n.el-alert .el-alert__icon {\n  font-size: var(--el-alert-icon-size);\n  width: var(--el-alert-icon-size);\n  margin-right: 8px;\n}\n.el-alert .el-alert__icon.is-big {\n  font-size: var(--el-alert-icon-large-size);\n  width: var(--el-alert-icon-large-size);\n  margin-right: 12px;\n}\n\n.el-alert__title {\n  font-size: var(--el-alert-title-font-size);\n  line-height: 24px;\n}\n.el-alert__title.with-description {\n  font-size: var(--el-alert-title-with-description-font-size);\n}\n\n.el-alert .el-alert__description {\n  font-size: var(--el-alert-description-font-size);\n  margin: 0;\n}\n.el-alert .el-alert__close-btn {\n  font-size: var(--el-alert-close-font-size);\n  opacity: 1;\n  position: absolute;\n  top: 12px;\n  right: 16px;\n  cursor: pointer;\n}\n.el-alert .el-alert__close-btn.is-customed {\n  font-style: normal;\n  font-size: var(--el-alert-close-customed-font-size);\n  line-height: 24px;\n  top: 8px;\n}\n\n.el-alert-fade-enter-from,\n.el-alert-fade-leave-active {\n  opacity: 0;\n}",
+      "start": 1738720349743,
+      "end": 1738720350675,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1738720350675,
+      "end": 1738720350675,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1738720350675,
+      "end": 1738720350675,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1738720350675,
+      "end": 1738720350675,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1738720350678,
+      "end": 1738720350678,
+      "order": "normal"
+    },
+    {
+      "name": "originjs:commonjs",
+      "start": 1738720350678,
+      "end": 1738720350679,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1738720350679,
+      "end": 1738720350679,
+      "order": "normal"
+    },
+    {
+      "name": "inject",
+      "start": 1738720350679,
+      "end": 1738720350679,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1738720350679,
+      "end": 1738720350679,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "result": "import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/node_modules/element-plus/theme-chalk/src/alert.scss\"\nconst __vite__css = \"/* Element Chalk Variables */\\n.el-alert {\\n  --el-alert-padding: 8px 16px;\\n  --el-alert-border-radius-base: var(--el-border-radius-base);\\n  --el-alert-title-font-size: 14px;\\n  --el-alert-title-with-description-font-size: 16px;\\n  --el-alert-description-font-size: 14px;\\n  --el-alert-close-font-size: 16px;\\n  --el-alert-close-customed-font-size: 14px;\\n  --el-alert-icon-size: 16px;\\n  --el-alert-icon-large-size: 28px;\\n  width: 100%;\\n  padding: var(--el-alert-padding);\\n  margin: 0;\\n  box-sizing: border-box;\\n  border-radius: var(--el-alert-border-radius-base);\\n  position: relative;\\n  background-color: var(--el-color-white);\\n  overflow: hidden;\\n  opacity: 1;\\n  display: flex;\\n  align-items: center;\\n  transition: opacity var(--el-transition-duration-fast);\\n}\\n.el-alert.is-light .el-alert__close-btn {\\n  color: var(--el-text-color-placeholder);\\n}\\n\\n.el-alert.is-dark .el-alert__close-btn {\\n  color: var(--el-color-white);\\n}\\n.el-alert.is-dark .el-alert__description {\\n  color: var(--el-color-white);\\n}\\n\\n.el-alert.is-center {\\n  justify-content: center;\\n}\\n\\n.el-alert--success {\\n  --el-alert-bg-color: var(--el-color-success-light-9);\\n}\\n.el-alert--success.is-light {\\n  background-color: var(--el-alert-bg-color);\\n  color: var(--el-color-success);\\n}\\n.el-alert--success.is-light .el-alert__description {\\n  color: var(--el-color-success);\\n}\\n.el-alert--success.is-dark {\\n  background-color: var(--el-color-success);\\n  color: var(--el-color-white);\\n}\\n\\n.el-alert--info {\\n  --el-alert-bg-color: var(--el-color-info-light-9);\\n}\\n.el-alert--info.is-light {\\n  background-color: var(--el-alert-bg-color);\\n  color: var(--el-color-info);\\n}\\n.el-alert--info.is-light .el-alert__description {\\n  color: var(--el-color-info);\\n}\\n.el-alert--info.is-dark {\\n  background-color: var(--el-color-info);\\n  color: var(--el-color-white);\\n}\\n\\n.el-alert--warning {\\n  --el-alert-bg-color: var(--el-color-warning-light-9);\\n}\\n.el-alert--warning.is-light {\\n  background-color: var(--el-alert-bg-color);\\n  color: var(--el-color-warning);\\n}\\n.el-alert--warning.is-light .el-alert__description {\\n  color: var(--el-color-warning);\\n}\\n.el-alert--warning.is-dark {\\n  background-color: var(--el-color-warning);\\n  color: var(--el-color-white);\\n}\\n\\n.el-alert--error {\\n  --el-alert-bg-color: var(--el-color-error-light-9);\\n}\\n.el-alert--error.is-light {\\n  background-color: var(--el-alert-bg-color);\\n  color: var(--el-color-error);\\n}\\n.el-alert--error.is-light .el-alert__description {\\n  color: var(--el-color-error);\\n}\\n.el-alert--error.is-dark {\\n  background-color: var(--el-color-error);\\n  color: var(--el-color-white);\\n}\\n\\n.el-alert__content {\\n  display: flex;\\n  flex-direction: column;\\n  gap: 4px;\\n}\\n\\n.el-alert .el-alert__icon {\\n  font-size: var(--el-alert-icon-size);\\n  width: var(--el-alert-icon-size);\\n  margin-right: 8px;\\n}\\n.el-alert .el-alert__icon.is-big {\\n  font-size: var(--el-alert-icon-large-size);\\n  width: var(--el-alert-icon-large-size);\\n  margin-right: 12px;\\n}\\n\\n.el-alert__title {\\n  font-size: var(--el-alert-title-font-size);\\n  line-height: 24px;\\n}\\n.el-alert__title.with-description {\\n  font-size: var(--el-alert-title-with-description-font-size);\\n}\\n\\n.el-alert .el-alert__description {\\n  font-size: var(--el-alert-description-font-size);\\n  margin: 0;\\n}\\n.el-alert .el-alert__close-btn {\\n  font-size: var(--el-alert-close-font-size);\\n  opacity: 1;\\n  position: absolute;\\n  top: 12px;\\n  right: 16px;\\n  cursor: pointer;\\n}\\n.el-alert .el-alert__close-btn.is-customed {\\n  font-style: normal;\\n  font-size: var(--el-alert-close-customed-font-size);\\n  line-height: 24px;\\n  top: 8px;\\n}\\n\\n.el-alert-fade-enter-from,\\n.el-alert-fade-leave-active {\\n  opacity: 0;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720350679,
+      "end": 1738720350679,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1738720350679,
+      "end": 1738720350679,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1738720350679,
+      "end": 1738720350679,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1738720350679,
+      "end": 1738720350679,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1738720350679,
+      "end": 1738720350679,
+      "order": "normal"
+    },
+    {
+      "name": "vite-plugin-vue-inspector:post",
+      "start": 1738720350679,
+      "end": 1738720350679,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-auto-import",
+      "start": 1738720350679,
+      "end": 1738720350679,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-vue-components",
+      "start": 1738720350679,
+      "end": 1738720350679,
+      "order": "post"
+    },
+    {
+      "name": "vite:client-inject",
+      "start": 1738720350679,
+      "end": 1738720350679,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-analysis",
+      "start": 1738720350679,
+      "end": 1738720350679,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-analysis",
+      "result": "import { createHotContext as __vite__createHotContext } from \"/@vite/client\";import.meta.hot = __vite__createHotContext(\"/node_modules/element-plus/theme-chalk/src/alert.scss\");import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/node_modules/element-plus/theme-chalk/src/alert.scss\"\nconst __vite__css = \"/* Element Chalk Variables */\\n.el-alert {\\n  --el-alert-padding: 8px 16px;\\n  --el-alert-border-radius-base: var(--el-border-radius-base);\\n  --el-alert-title-font-size: 14px;\\n  --el-alert-title-with-description-font-size: 16px;\\n  --el-alert-description-font-size: 14px;\\n  --el-alert-close-font-size: 16px;\\n  --el-alert-close-customed-font-size: 14px;\\n  --el-alert-icon-size: 16px;\\n  --el-alert-icon-large-size: 28px;\\n  width: 100%;\\n  padding: var(--el-alert-padding);\\n  margin: 0;\\n  box-sizing: border-box;\\n  border-radius: var(--el-alert-border-radius-base);\\n  position: relative;\\n  background-color: var(--el-color-white);\\n  overflow: hidden;\\n  opacity: 1;\\n  display: flex;\\n  align-items: center;\\n  transition: opacity var(--el-transition-duration-fast);\\n}\\n.el-alert.is-light .el-alert__close-btn {\\n  color: var(--el-text-color-placeholder);\\n}\\n\\n.el-alert.is-dark .el-alert__close-btn {\\n  color: var(--el-color-white);\\n}\\n.el-alert.is-dark .el-alert__description {\\n  color: var(--el-color-white);\\n}\\n\\n.el-alert.is-center {\\n  justify-content: center;\\n}\\n\\n.el-alert--success {\\n  --el-alert-bg-color: var(--el-color-success-light-9);\\n}\\n.el-alert--success.is-light {\\n  background-color: var(--el-alert-bg-color);\\n  color: var(--el-color-success);\\n}\\n.el-alert--success.is-light .el-alert__description {\\n  color: var(--el-color-success);\\n}\\n.el-alert--success.is-dark {\\n  background-color: var(--el-color-success);\\n  color: var(--el-color-white);\\n}\\n\\n.el-alert--info {\\n  --el-alert-bg-color: var(--el-color-info-light-9);\\n}\\n.el-alert--info.is-light {\\n  background-color: var(--el-alert-bg-color);\\n  color: var(--el-color-info);\\n}\\n.el-alert--info.is-light .el-alert__description {\\n  color: var(--el-color-info);\\n}\\n.el-alert--info.is-dark {\\n  background-color: var(--el-color-info);\\n  color: var(--el-color-white);\\n}\\n\\n.el-alert--warning {\\n  --el-alert-bg-color: var(--el-color-warning-light-9);\\n}\\n.el-alert--warning.is-light {\\n  background-color: var(--el-alert-bg-color);\\n  color: var(--el-color-warning);\\n}\\n.el-alert--warning.is-light .el-alert__description {\\n  color: var(--el-color-warning);\\n}\\n.el-alert--warning.is-dark {\\n  background-color: var(--el-color-warning);\\n  color: var(--el-color-white);\\n}\\n\\n.el-alert--error {\\n  --el-alert-bg-color: var(--el-color-error-light-9);\\n}\\n.el-alert--error.is-light {\\n  background-color: var(--el-alert-bg-color);\\n  color: var(--el-color-error);\\n}\\n.el-alert--error.is-light .el-alert__description {\\n  color: var(--el-color-error);\\n}\\n.el-alert--error.is-dark {\\n  background-color: var(--el-color-error);\\n  color: var(--el-color-white);\\n}\\n\\n.el-alert__content {\\n  display: flex;\\n  flex-direction: column;\\n  gap: 4px;\\n}\\n\\n.el-alert .el-alert__icon {\\n  font-size: var(--el-alert-icon-size);\\n  width: var(--el-alert-icon-size);\\n  margin-right: 8px;\\n}\\n.el-alert .el-alert__icon.is-big {\\n  font-size: var(--el-alert-icon-large-size);\\n  width: var(--el-alert-icon-large-size);\\n  margin-right: 12px;\\n}\\n\\n.el-alert__title {\\n  font-size: var(--el-alert-title-font-size);\\n  line-height: 24px;\\n}\\n.el-alert__title.with-description {\\n  font-size: var(--el-alert-title-with-description-font-size);\\n}\\n\\n.el-alert .el-alert__description {\\n  font-size: var(--el-alert-description-font-size);\\n  margin: 0;\\n}\\n.el-alert .el-alert__close-btn {\\n  font-size: var(--el-alert-close-font-size);\\n  opacity: 1;\\n  position: absolute;\\n  top: 12px;\\n  right: 16px;\\n  cursor: pointer;\\n}\\n.el-alert .el-alert__close-btn.is-customed {\\n  font-style: normal;\\n  font-size: var(--el-alert-close-customed-font-size);\\n  line-height: 24px;\\n  top: 8px;\\n}\\n\\n.el-alert-fade-enter-from,\\n.el-alert-fade-leave-active {\\n  opacity: 0;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720350679,
+      "end": 1738720350680,
+      "order": "normal",
+      "sourcemaps": null
+    }
+  ]
+}

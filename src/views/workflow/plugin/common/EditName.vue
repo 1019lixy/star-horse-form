@@ -1,8 +1,9 @@
 <template>
   <div class="node-name-title">
     <div v-if="!isInput" @click.stop="clickEvent()">
-      <star-horse-icon icon-class="data_edit" size="16px" color="var(--star-horse-white)" />
-      {{ dataValue }}</div>
+      <star-horse-icon icon-class="data_edit" size="16px" color="var(--star-horse-white)"/>
+      {{ dataValue }}
+    </div>
     <el-input v-if="isInput" type="text" @blur="blurEvent()" @focus="$event.target.select()" autofocus
               v-model="dataValue" :style="{ width: width }"/>
   </div>

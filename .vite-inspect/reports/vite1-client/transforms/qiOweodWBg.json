@@ -1,0 +1,184 @@
+{
+  "resolvedId": "E:/lixycode/testcode/src/views/workflow/plugin/preps/TimerPrep.vue?vue&type=style&index=0&scoped=11d4d5a1&lang.scss",
+  "transforms": [
+    {
+      "name": "vite:vue",
+      "result": "\r\n:deep(.el-input-group__append) {\r\n  padding: 0 20px !important;\r\n}\r\n",
+      "start": 1738720347930,
+      "end": 1738720347930,
+      "sourcemaps": {
+        "version": 3,
+        "sources": [
+          "E:/lixycode/testcode/src/views/workflow/plugin/preps/TimerPrep.vue"
+        ],
+        "names": [],
+        "mappings": ";AAkFA,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE;EAC7B,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,EAAE,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;AAC5B",
+        "file": "E:/lixycode/testcode/src/views/workflow/plugin/preps/TimerPrep.vue",
+        "sourceRoot": "",
+        "sourcesContent": [
+          "<template>\r\n  <el-form label-position=\"top\" :model=\"node\" ref=\"timerNodeRef\" data-v-inspector=\"src/views/workflow/plugin/preps/TimerPrep.vue:2:3\">\r\n    <el-form-item prop=\"waitType\" label=\"等待方式\"\r\n                  :rules=\"rules\" data-v-inspector=\"src/views/workflow/plugin/preps/TimerPrep.vue:3:5\">\r\n      <el-radio-group v-model=\"node.waitType\" data-v-inspector=\"src/views/workflow/plugin/preps/TimerPrep.vue:5:7\">\r\n        <el-radio-button label=\"固定时长\" value=\"duration\" data-v-inspector=\"src/views/workflow/plugin/preps/TimerPrep.vue:6:9\"/>\r\n        <el-radio-button label=\"固定时间\" value=\"date\" data-v-inspector=\"src/views/workflow/plugin/preps/TimerPrep.vue:7:9\"/>\r\n      </el-radio-group>\r\n    </el-form-item>\r\n    <el-form-item prop=\"duration\" label=\"等待时长\" :rules=\"rules\"\r\n                  v-if=\"node.waitType === 'duration'\" data-v-inspector=\"src/views/workflow/plugin/preps/TimerPrep.vue:10:5\">\r\n      <el-input\r\n          v-model=\"node.duration\"\r\n          :min=\"0\"\r\n          :max=\"9999999\"\r\n          type=\"number\"\r\n          class=\"input-with-select\" data-v-inspector=\"src/views/workflow/plugin/preps/TimerPrep.vue:12:7\"\r\n      >\r\n        <template #append>\r\n          <el-select v-model=\"node.unit\" placeholder=\"Select\" default-first-option style=\"width: 100px\" data-v-inspector=\"src/views/workflow/plugin/preps/TimerPrep.vue:20:11\">\r\n            <el-option v-for=\"(item,i) in timeOptionList\" :label=\"item.name\" :value=\"item.value\" :key=\"i\" data-v-inspector=\"src/views/workflow/plugin/preps/TimerPrep.vue:21:13\"/>\r\n          </el-select>\r\n        </template>\r\n      </el-input>\r\n    </el-form-item>\r\n    <el-form-item prop=\"timeDate\" :rules=\"rules\" label=\"指定时间\" v-if=\"activeData.waitType === 'date'\" data-v-inspector=\"src/views/workflow/plugin/preps/TimerPrep.vue:26:5\">\r\n      <el-date-picker\r\n          v-model=\"activeData.timeDate\"\r\n          type=\"datetime\"\r\n          format=\"YYYY-MM-DD HH:mm:ss\"\r\n          value-format=\"YYYY-MM-DD HH:mm:ss\"\r\n          placeholder=\"请选择等待时间\" data-v-inspector=\"src/views/workflow/plugin/preps/TimerPrep.vue:27:7\"\r\n      />\r\n    </el-form-item>\r\n  </el-form>\r\n\r\n  <FlowDrawerFooter @close=\"onClose\" @save=\"onSave\" data-v-inspector=\"src/views/workflow/plugin/preps/TimerPrep.vue:37:3\"/>\r\n</template>\r\n<script setup lang=\"ts\">\r\nimport FlowDrawerFooter from '@/views/workflow/plugin/common/DrawerFooter.vue';\r\nimport {ref, computed} from \"vue\";\r\nimport {useFlowDesign} from \"@/store/FlowDesignStore.ts\";\r\nimport piniaInstance from \"@/store\";\r\nimport {ModelRef} from \"vue-demi\";\r\nimport {SelectOption} from \"@/components/types/SearchProps\";\r\n\r\ndefineOptions({\r\n  name: 'WritePrep',\r\n})\r\nconst rules = [{trigger: 'blur', required: true, message: '必填项不能为空'}];\r\nconst timeOptionList = ref<SelectOption[]>([\r\n  {name: '秒', value: 'PT%sS'},\r\n  {name: '分钟', value: 'PT%sM'},\r\n  {name: '小时', value: 'PT%sH'},\r\n  {name: '天', value: 'P%sD'},\r\n  {name: '周', value: 'P%sW'},\r\n  {name: '月', value: 'P%sM'},\r\n]);\r\nlet node: ModelRef<any> = defineModel(\"activeData\");\r\nconst timerNodeRef = ref();\r\nconst flowDesign = useFlowDesign(piniaInstance);\r\nconst onClose = () => {\r\n  flowDesign.setActive(false);\r\n}\r\n/**\r\n * 保存配置\r\n */\r\nconst onSave = () => {\r\n  timerNodeRef.value.validate((valid: boolean) => {\r\n    if (valid) {\r\n      if (node.value.waitType == 'duration' || node.value.duration) {\r\n        node.value.content = node.value.duration + timeOptionList.value.find(item => item.value == node.value.unit)?.name || '';\r\n      }\r\n      if (node.value.waitType == 'date') {\r\n        node.value.content = node.value.timeDate;\r\n      }\r\n      onClose();\r\n    }\r\n  });\r\n}\r\n</script>\r\n<style lang=\"scss\" scoped>\r\n:deep(.el-input-group__append) {\r\n  padding: 0 20px !important;\r\n}\r\n</style>\r\n"
+        ]
+      }
+    },
+    {
+      "name": "vite-plugin-vue-inspector",
+      "start": 1738720347930,
+      "end": 1738720347930,
+      "order": "pre"
+    },
+    {
+      "name": "vite-plugin-vue-devtools",
+      "result": "\r\n:deep(.el-input-group__append) {\r\n  padding: 0 20px !important;\r\n}\r\n",
+      "start": 1738720347930,
+      "end": 1738720347930,
+      "order": "pre",
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "result": ":deep(.el-input-group__append) {\n  padding: 0 20px !important;\n}",
+      "start": 1738720347932,
+      "end": 1738720347990,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1738720347990,
+      "end": 1738720347990,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1738720347990,
+      "end": 1738720347991,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1738720347991,
+      "end": 1738720347991,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "result": "[data-v-11d4d5a1] .el-input-group__append {\n  padding: 0 20px !important;\n}",
+      "start": 1738720347991,
+      "end": 1738720347991,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "originjs:commonjs",
+      "start": 1738720347991,
+      "end": 1738720347991,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1738720347991,
+      "end": 1738720347991,
+      "order": "normal"
+    },
+    {
+      "name": "inject",
+      "start": 1738720347991,
+      "end": 1738720347991,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1738720347991,
+      "end": 1738720347991,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "result": "import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/src/views/workflow/plugin/preps/TimerPrep.vue?vue&type=style&index=0&scoped=11d4d5a1&lang.scss\"\nconst __vite__css = \"[data-v-11d4d5a1] .el-input-group__append {\\n  padding: 0 20px !important;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720347991,
+      "end": 1738720347991,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1738720347991,
+      "end": 1738720347991,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1738720347991,
+      "end": 1738720347991,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1738720347991,
+      "end": 1738720347991,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1738720347991,
+      "end": 1738720347991,
+      "order": "normal"
+    },
+    {
+      "name": "vite-plugin-vue-inspector:post",
+      "start": 1738720347991,
+      "end": 1738720347991,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-auto-import",
+      "start": 1738720347991,
+      "end": 1738720347992,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-vue-components",
+      "result": "/* unplugin-vue-components disabled */import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/src/views/workflow/plugin/preps/TimerPrep.vue?vue&type=style&index=0&scoped=11d4d5a1&lang.scss\"\nconst __vite__css = \"[data-v-11d4d5a1] .el-input-group__append {\\n  padding: 0 20px !important;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720347992,
+      "end": 1738720347992,
+      "order": "post",
+      "sourcemaps": {
+        "version": 3,
+        "sources": [
+          "E:/lixycode/testcode/src/views/workflow/plugin/preps/TimerPrep.vue?vue&type=style&index=0&scoped=11d4d5a1&lang.scss"
+        ],
+        "sourcesContent": [
+          "import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/src/views/workflow/plugin/preps/TimerPrep.vue?vue&type=style&index=0&scoped=11d4d5a1&lang.scss\"\nconst __vite__css = \"[data-v-11d4d5a1] .el-input-group__append {\\n  padding: 0 20px !important;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))"
+        ],
+        "names": [],
+        "mappings": "sCAAA,MAAM,CAAC,CAAC,CAAC,WAAW,CAAC,EAAE,CAAC,mBAAmB,CAAC,CAAC,WAAW,CAAC,EAAE,CAAC,mBAAmB,CAAC,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,CAAC,IAAI,CAAC,MAAM;AACrG,KAAK,CAAC,UAAU,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,QAAQ,CAAC,QAAQ,CAAC,GAAG,CAAC,KAAK,CAAC,QAAQ,CAAC,MAAM,CAAC,KAAK,CAAC,SAAS,CAAC,GAAG,CAAC,GAAG,CAAC,IAAI,CAAC,KAAK,CAAC,KAAK,CAAC,CAAC,CAAC,MAAM,CAAC,QAAQ,CAAC,IAAI,CAAC,IAAI;AACvI,KAAK,CAAC,WAAW,CAAC,CAAC,CAAC,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,QAAQ,CAAC,CAAC,CAAC,EAAE,CAAC,KAAK,CAAC,aAAa,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,OAAO,CAAC,CAAC,CAAC,CAAC,IAAI,CAAC,CAAC,SAAS,CAAC,CAAC,CAAC,CAAC;AAClG,mBAAmB,CAAC,UAAU,CAAC,CAAC,WAAW;AAC3C,MAAM,CAAC,IAAI,CAAC,GAAG,CAAC,MAAM,CAAC;AACvB,MAAM,CAAC,IAAI,CAAC,GAAG,CAAC,KAAK,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,mBAAmB,CAAC,UAAU,CAAC"
+      }
+    },
+    {
+      "name": "vite:client-inject",
+      "start": 1738720347992,
+      "end": 1738720347992,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-analysis",
+      "start": 1738720347992,
+      "end": 1738720347992,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-analysis",
+      "result": "import { createHotContext as __vite__createHotContext } from \"/@vite/client\";import.meta.hot = __vite__createHotContext(\"/src/views/workflow/plugin/preps/TimerPrep.vue?vue&type=style&index=0&scoped=11d4d5a1&lang.scss\");/* unplugin-vue-components disabled */import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/src/views/workflow/plugin/preps/TimerPrep.vue?vue&type=style&index=0&scoped=11d4d5a1&lang.scss\"\nconst __vite__css = \"[data-v-11d4d5a1] .el-input-group__append {\\n  padding: 0 20px !important;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720347992,
+      "end": 1738720347992,
+      "order": "normal",
+      "sourcemaps": null
+    }
+  ]
+}

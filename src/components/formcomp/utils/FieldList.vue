@@ -64,9 +64,10 @@ const selectData = (item: any) => {
 </template>
 
 <style scoped lang="scss">
-:deep(.el-divider){
+:deep(.el-divider) {
   margin: 15px auto;
 }
+
 .component-list {
   display: flex;
   flex-direction: row;
@@ -92,6 +93,7 @@ const selectData = (item: any) => {
         cursor: pointer;
         display: block;
         height: 30px;
+
         &:hover {
           background-color: #f5f7fa;
         }

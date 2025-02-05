@@ -1,0 +1,161 @@
+{
+  "resolvedId": "E:/lixycode/testcode/src/api/websocket.ts",
+  "transforms": [
+    {
+      "name": "__load__",
+      "result": "// WebSocket地址\r\nimport {warning} from \"@/utils/message.ts\";\r\nimport {getUserInfo} from \"@/utils/auth.ts\";\r\n\r\nconst url: string = '';\r\n// WebSocket实例\r\nlet ws: WebSocket;\r\n// 重连定时器实例\r\nlet reconnectTimer;\r\n// WebSocket重连开关\r\nlet isReconnecting = false;\r\n// WebSocket对象\r\nconst websocket = {\r\n    // WebSocket建立连接\r\n    init(url: string, username: string) {\r\n        // 判断浏览器是否支持WebSocket\r\n        if (!('WebSocket' in window)) {\r\n            warning('您的浏览器不支持 WebSocket');\r\n            return;\r\n        }\r\n        this.url = url;\r\n        if ((ws && ws.OPEN) || !url) {\r\n            // 已经连接，无需重复连接\r\n            return;\r\n        }\r\n        // 创建WebSocket实例\r\n        let temp = \"ws://\" + url;\r\n        ws = new WebSocket(temp);\r\n        // 监听WebSocket连接\r\n        ws.onopen = () => {\r\n            console.log('WebSocket连接成功');\r\n        }\r\n        // 监听WebSocket连接错误信息\r\n        ws.onerror = (e) => {\r\n            console.log('WebSocket重连开关', isReconnecting);\r\n            console.log('WebSocket数据传输发生错误', e);\r\n            // 打开重连\r\n            reconnect()\r\n        }\r\n        // 监听WebSocket接收消息\r\n        ws.onmessage = (e) => {\r\n            console.log('WebSocket接收后端消息:' + e.data);\r\n            // 心跳消息不做处理\r\n            if (e.data === 'ok') {\r\n                return\r\n            }\r\n            // 调用回调函数处理接收到的消息\r\n            if (websocket.onMessageCallback) {\r\n                websocket.onMessageCallback(e.data);\r\n            }\r\n        }\r\n    },\r\n    // WebSocket连接关闭方法\r\n    close() {\r\n        // 关闭断开重连机制\r\n        isReconnecting = true;\r\n        ws.close();\r\n    },\r\n    // WebSocket发送信息方法\r\n    send(data: any) {\r\n        // 处理发送数据JSON字符串\r\n        const msg = JSON.stringify(data);\r\n        // 发送消息给后端\r\n        ws.send(msg);\r\n    },\r\n\r\n    // 暴露WebSocket实例，其他地方调用就调用这个\r\n    getWebSocket() {\r\n        return ws;\r\n    },\r\n    // 新增回调函数用于处理收到的消息\r\n    onMessageCallback: null,\r\n    // 设置消息处理回调函数\r\n    setMessageCallback(callback: Function) {\r\n        this.onMessageCallback = callback;\r\n    }\r\n}\r\n\r\n// 监听窗口关闭事件，当窗口关闭时-每一个页面关闭都会触发-扩张需求业务\r\nwindow.onbeforeunload = () => {\r\n    // 在窗口关闭时关闭 WebSocket 连接\r\n    websocket.close();\r\n    console.log('WebSocket窗口关闭事件触发');\r\n}\r\n\r\n// 浏览器刷新重新连接\r\n// 刷新页面后需要重连-并且是在登录之后\r\nif (performance.getEntriesByType('navigation')[0].type === 'reload') {\r\n    console.log('WebSocket浏览器刷新了')\r\n\r\n    // 延迟一定时间再执行 WebSocket 初始化，确保页面完全加载后再进行连接\r\n    setTimeout(() => {\r\n        console.log('WebSocket执行刷新后重连...')\r\n        // 刷新后重连\r\n        // 获取username（假设为测试username写死，现在是动态获取）\r\n        const username = getUserInfo().idUsersinfo;\r\n        websocket.init(url, username)\r\n    }, 200) // 适当调整延迟时间\r\n}\r\n\r\n// 重连方法\r\nfunction reconnect() {\r\n    console.log('WebSocket重连开关', isReconnecting)\r\n    // 判断是否主动关闭连接\r\n    if (isReconnecting) {\r\n        return;\r\n    }\r\n    // 重连定时器-每次WebSocket错误方法onerror触发它都会触发\r\n    reconnectTimer && clearTimeout(reconnectTimer)\r\n    reconnectTimer = setTimeout(() => {\r\n        console.log('WebSocket执行断线重连...')\r\n        // 获取username（假设为测试username写死，现在是动态获取）\r\n        const username = getUserInfo().idUsersinfo;\r\n        websocket.init(url, username)\r\n        isReconnecting = false\r\n    }, 4000);\r\n}\r\n\r\n// 暴露对象\r\nexport default websocket\r\n\r\n",
+      "start": 1738720228903,
+      "end": 1738720228903
+    },
+    {
+      "name": "vite-plugin-vue-inspector",
+      "start": 1738720228903,
+      "end": 1738720228903,
+      "order": "pre"
+    },
+    {
+      "name": "vite-plugin-vue-devtools",
+      "result": "// WebSocket地址\r\nimport {warning} from \"@/utils/message.ts\";\r\nimport {getUserInfo} from \"@/utils/auth.ts\";\r\n\r\nconst url: string = '';\r\n// WebSocket实例\r\nlet ws: WebSocket;\r\n// 重连定时器实例\r\nlet reconnectTimer;\r\n// WebSocket重连开关\r\nlet isReconnecting = false;\r\n// WebSocket对象\r\nconst websocket = {\r\n    // WebSocket建立连接\r\n    init(url: string, username: string) {\r\n        // 判断浏览器是否支持WebSocket\r\n        if (!('WebSocket' in window)) {\r\n            warning('您的浏览器不支持 WebSocket');\r\n            return;\r\n        }\r\n        this.url = url;\r\n        if ((ws && ws.OPEN) || !url) {\r\n            // 已经连接，无需重复连接\r\n            return;\r\n        }\r\n        // 创建WebSocket实例\r\n        let temp = \"ws://\" + url;\r\n        ws = new WebSocket(temp);\r\n        // 监听WebSocket连接\r\n        ws.onopen = () => {\r\n            console.log('WebSocket连接成功');\r\n        }\r\n        // 监听WebSocket连接错误信息\r\n        ws.onerror = (e) => {\r\n            console.log('WebSocket重连开关', isReconnecting);\r\n            console.log('WebSocket数据传输发生错误', e);\r\n            // 打开重连\r\n            reconnect()\r\n        }\r\n        // 监听WebSocket接收消息\r\n        ws.onmessage = (e) => {\r\n            console.log('WebSocket接收后端消息:' + e.data);\r\n            // 心跳消息不做处理\r\n            if (e.data === 'ok') {\r\n                return\r\n            }\r\n            // 调用回调函数处理接收到的消息\r\n            if (websocket.onMessageCallback) {\r\n                websocket.onMessageCallback(e.data);\r\n            }\r\n        }\r\n    },\r\n    // WebSocket连接关闭方法\r\n    close() {\r\n        // 关闭断开重连机制\r\n        isReconnecting = true;\r\n        ws.close();\r\n    },\r\n    // WebSocket发送信息方法\r\n    send(data: any) {\r\n        // 处理发送数据JSON字符串\r\n        const msg = JSON.stringify(data);\r\n        // 发送消息给后端\r\n        ws.send(msg);\r\n    },\r\n\r\n    // 暴露WebSocket实例，其他地方调用就调用这个\r\n    getWebSocket() {\r\n        return ws;\r\n    },\r\n    // 新增回调函数用于处理收到的消息\r\n    onMessageCallback: null,\r\n    // 设置消息处理回调函数\r\n    setMessageCallback(callback: Function) {\r\n        this.onMessageCallback = callback;\r\n    }\r\n}\r\n\r\n// 监听窗口关闭事件，当窗口关闭时-每一个页面关闭都会触发-扩张需求业务\r\nwindow.onbeforeunload = () => {\r\n    // 在窗口关闭时关闭 WebSocket 连接\r\n    websocket.close();\r\n    console.log('WebSocket窗口关闭事件触发');\r\n}\r\n\r\n// 浏览器刷新重新连接\r\n// 刷新页面后需要重连-并且是在登录之后\r\nif (performance.getEntriesByType('navigation')[0].type === 'reload') {\r\n    console.log('WebSocket浏览器刷新了')\r\n\r\n    // 延迟一定时间再执行 WebSocket 初始化，确保页面完全加载后再进行连接\r\n    setTimeout(() => {\r\n        console.log('WebSocket执行刷新后重连...')\r\n        // 刷新后重连\r\n        // 获取username（假设为测试username写死，现在是动态获取）\r\n        const username = getUserInfo().idUsersinfo;\r\n        websocket.init(url, username)\r\n    }, 200) // 适当调整延迟时间\r\n}\r\n\r\n// 重连方法\r\nfunction reconnect() {\r\n    console.log('WebSocket重连开关', isReconnecting)\r\n    // 判断是否主动关闭连接\r\n    if (isReconnecting) {\r\n        return;\r\n    }\r\n    // 重连定时器-每次WebSocket错误方法onerror触发它都会触发\r\n    reconnectTimer && clearTimeout(reconnectTimer)\r\n    reconnectTimer = setTimeout(() => {\r\n        console.log('WebSocket执行断线重连...')\r\n        // 获取username（假设为测试username写死，现在是动态获取）\r\n        const username = getUserInfo().idUsersinfo;\r\n        websocket.init(url, username)\r\n        isReconnecting = false\r\n    }, 4000);\r\n}\r\n\r\n// 暴露对象\r\nexport default websocket\r\n\r\n",
+      "start": 1738720228903,
+      "end": 1738720228903,
+      "order": "pre",
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "start": 1738720228903,
+      "end": 1738720228903,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "result": "import { warning } from \"@/utils/message.ts\";\nimport { getUserInfo } from \"@/utils/auth.ts\";\nconst url = \"\";\nlet ws;\nlet reconnectTimer;\nlet isReconnecting = false;\nconst websocket = {\n  // WebSocket建立连接\n  init(url2, username) {\n    if (!(\"WebSocket\" in window)) {\n      warning(\"您的浏览器不支持 WebSocket\");\n      return;\n    }\n    this.url = url2;\n    if (ws && ws.OPEN || !url2) {\n      return;\n    }\n    let temp = \"ws://\" + url2;\n    ws = new WebSocket(temp);\n    ws.onopen = () => {\n      console.log(\"WebSocket连接成功\");\n    };\n    ws.onerror = (e) => {\n      console.log(\"WebSocket重连开关\", isReconnecting);\n      console.log(\"WebSocket数据传输发生错误\", e);\n      reconnect();\n    };\n    ws.onmessage = (e) => {\n      console.log(\"WebSocket接收后端消息:\" + e.data);\n      if (e.data === \"ok\") {\n        return;\n      }\n      if (websocket.onMessageCallback) {\n        websocket.onMessageCallback(e.data);\n      }\n    };\n  },\n  // WebSocket连接关闭方法\n  close() {\n    isReconnecting = true;\n    ws.close();\n  },\n  // WebSocket发送信息方法\n  send(data) {\n    const msg = JSON.stringify(data);\n    ws.send(msg);\n  },\n  // 暴露WebSocket实例，其他地方调用就调用这个\n  getWebSocket() {\n    return ws;\n  },\n  // 新增回调函数用于处理收到的消息\n  onMessageCallback: null,\n  // 设置消息处理回调函数\n  setMessageCallback(callback) {\n    this.onMessageCallback = callback;\n  }\n};\nwindow.onbeforeunload = () => {\n  websocket.close();\n  console.log(\"WebSocket窗口关闭事件触发\");\n};\nif (performance.getEntriesByType(\"navigation\")[0].type === \"reload\") {\n  console.log(\"WebSocket浏览器刷新了\");\n  setTimeout(() => {\n    console.log(\"WebSocket执行刷新后重连...\");\n    const username = getUserInfo().idUsersinfo;\n    websocket.init(url, username);\n  }, 200);\n}\nfunction reconnect() {\n  console.log(\"WebSocket重连开关\", isReconnecting);\n  if (isReconnecting) {\n    return;\n  }\n  reconnectTimer && clearTimeout(reconnectTimer);\n  reconnectTimer = setTimeout(() => {\n    console.log(\"WebSocket执行断线重连...\");\n    const username = getUserInfo().idUsersinfo;\n    websocket.init(url, username);\n    isReconnecting = false;\n  }, 4e3);\n}\nexport default websocket;\n",
+      "start": 1738720228903,
+      "end": 1738720229060,
+      "order": "normal",
+      "sourcemaps": {
+        "version": 3,
+        "sources": [
+          "websocket.ts"
+        ],
+        "sourcesContent": [
+          "// WebSocket地址\r\nimport {warning} from \"@/utils/message.ts\";\r\nimport {getUserInfo} from \"@/utils/auth.ts\";\r\n\r\nconst url: string = '';\r\n// WebSocket实例\r\nlet ws: WebSocket;\r\n// 重连定时器实例\r\nlet reconnectTimer;\r\n// WebSocket重连开关\r\nlet isReconnecting = false;\r\n// WebSocket对象\r\nconst websocket = {\r\n    // WebSocket建立连接\r\n    init(url: string, username: string) {\r\n        // 判断浏览器是否支持WebSocket\r\n        if (!('WebSocket' in window)) {\r\n            warning('您的浏览器不支持 WebSocket');\r\n            return;\r\n        }\r\n        this.url = url;\r\n        if ((ws && ws.OPEN) || !url) {\r\n            // 已经连接，无需重复连接\r\n            return;\r\n        }\r\n        // 创建WebSocket实例\r\n        let temp = \"ws://\" + url;\r\n        ws = new WebSocket(temp);\r\n        // 监听WebSocket连接\r\n        ws.onopen = () => {\r\n            console.log('WebSocket连接成功');\r\n        }\r\n        // 监听WebSocket连接错误信息\r\n        ws.onerror = (e) => {\r\n            console.log('WebSocket重连开关', isReconnecting);\r\n            console.log('WebSocket数据传输发生错误', e);\r\n            // 打开重连\r\n            reconnect()\r\n        }\r\n        // 监听WebSocket接收消息\r\n        ws.onmessage = (e) => {\r\n            console.log('WebSocket接收后端消息:' + e.data);\r\n            // 心跳消息不做处理\r\n            if (e.data === 'ok') {\r\n                return\r\n            }\r\n            // 调用回调函数处理接收到的消息\r\n            if (websocket.onMessageCallback) {\r\n                websocket.onMessageCallback(e.data);\r\n            }\r\n        }\r\n    },\r\n    // WebSocket连接关闭方法\r\n    close() {\r\n        // 关闭断开重连机制\r\n        isReconnecting = true;\r\n        ws.close();\r\n    },\r\n    // WebSocket发送信息方法\r\n    send(data: any) {\r\n        // 处理发送数据JSON字符串\r\n        const msg = JSON.stringify(data);\r\n        // 发送消息给后端\r\n        ws.send(msg);\r\n    },\r\n\r\n    // 暴露WebSocket实例，其他地方调用就调用这个\r\n    getWebSocket() {\r\n        return ws;\r\n    },\r\n    // 新增回调函数用于处理收到的消息\r\n    onMessageCallback: null,\r\n    // 设置消息处理回调函数\r\n    setMessageCallback(callback: Function) {\r\n        this.onMessageCallback = callback;\r\n    }\r\n}\r\n\r\n// 监听窗口关闭事件，当窗口关闭时-每一个页面关闭都会触发-扩张需求业务\r\nwindow.onbeforeunload = () => {\r\n    // 在窗口关闭时关闭 WebSocket 连接\r\n    websocket.close();\r\n    console.log('WebSocket窗口关闭事件触发');\r\n}\r\n\r\n// 浏览器刷新重新连接\r\n// 刷新页面后需要重连-并且是在登录之后\r\nif (performance.getEntriesByType('navigation')[0].type === 'reload') {\r\n    console.log('WebSocket浏览器刷新了')\r\n\r\n    // 延迟一定时间再执行 WebSocket 初始化，确保页面完全加载后再进行连接\r\n    setTimeout(() => {\r\n        console.log('WebSocket执行刷新后重连...')\r\n        // 刷新后重连\r\n        // 获取username（假设为测试username写死，现在是动态获取）\r\n        const username = getUserInfo().idUsersinfo;\r\n        websocket.init(url, username)\r\n    }, 200) // 适当调整延迟时间\r\n}\r\n\r\n// 重连方法\r\nfunction reconnect() {\r\n    console.log('WebSocket重连开关', isReconnecting)\r\n    // 判断是否主动关闭连接\r\n    if (isReconnecting) {\r\n        return;\r\n    }\r\n    // 重连定时器-每次WebSocket错误方法onerror触发它都会触发\r\n    reconnectTimer && clearTimeout(reconnectTimer)\r\n    reconnectTimer = setTimeout(() => {\r\n        console.log('WebSocket执行断线重连...')\r\n        // 获取username（假设为测试username写死，现在是动态获取）\r\n        const username = getUserInfo().idUsersinfo;\r\n        websocket.init(url, username)\r\n        isReconnecting = false\r\n    }, 4000);\r\n}\r\n\r\n// 暴露对象\r\nexport default websocket\r\n\r\n"
+        ],
+        "mappings": "AACA,SAAQ,eAAc;AACtB,SAAQ,mBAAkB;AAE1B,MAAM,MAAc;AAEpB,IAAI;AAEJ,IAAI;AAEJ,IAAI,iBAAiB;AAErB,MAAM,YAAY;AAAA;AAAA,EAEd,KAAKA,MAAa,UAAkB;AAEhC,QAAI,EAAE,eAAe,SAAS;AAC1B,cAAQ,oBAAoB;AAC5B;AAAA,IACJ;AACA,SAAK,MAAMA;AACX,QAAK,MAAM,GAAG,QAAS,CAACA,MAAK;AAEzB;AAAA,IACJ;AAEA,QAAI,OAAO,UAAUA;AACrB,SAAK,IAAI,UAAU,IAAI;AAEvB,OAAG,SAAS,MAAM;AACd,cAAQ,IAAI,eAAe;AAAA,IAC/B;AAEA,OAAG,UAAU,CAAC,MAAM;AAChB,cAAQ,IAAI,iBAAiB,cAAc;AAC3C,cAAQ,IAAI,qBAAqB,CAAC;AAElC,gBAAU;AAAA,IACd;AAEA,OAAG,YAAY,CAAC,MAAM;AAClB,cAAQ,IAAI,qBAAqB,EAAE,IAAI;AAEvC,UAAI,EAAE,SAAS,MAAM;AACjB;AAAA,MACJ;AAEA,UAAI,UAAU,mBAAmB;AAC7B,kBAAU,kBAAkB,EAAE,IAAI;AAAA,MACtC;AAAA,IACJ;AAAA,EACJ;AAAA;AAAA,EAEA,QAAQ;AAEJ,qBAAiB;AACjB,OAAG,MAAM;AAAA,EACb;AAAA;AAAA,EAEA,KAAK,MAAW;AAEZ,UAAM,MAAM,KAAK,UAAU,IAAI;AAE/B,OAAG,KAAK,GAAG;AAAA,EACf;AAAA;AAAA,EAGA,eAAe;AACX,WAAO;AAAA,EACX;AAAA;AAAA,EAEA,mBAAmB;AAAA;AAAA,EAEnB,mBAAmB,UAAoB;AACnC,SAAK,oBAAoB;AAAA,EAC7B;AACJ;AAGA,OAAO,iBAAiB,MAAM;AAE1B,YAAU,MAAM;AAChB,UAAQ,IAAI,mBAAmB;AACnC;AAIA,IAAI,YAAY,iBAAiB,YAAY,EAAE,CAAC,EAAE,SAAS,UAAU;AACjE,UAAQ,IAAI,iBAAiB;AAG7B,aAAW,MAAM;AACb,YAAQ,IAAI,qBAAqB;AAGjC,UAAM,WAAW,YAAY,EAAE;AAC/B,cAAU,KAAK,KAAK,QAAQ;AAAA,EAChC,GAAG,GAAG;AACV;AAGA,SAAS,YAAY;AACjB,UAAQ,IAAI,iBAAiB,cAAc;AAE3C,MAAI,gBAAgB;AAChB;AAAA,EACJ;AAEA,oBAAkB,aAAa,cAAc;AAC7C,mBAAiB,WAAW,MAAM;AAC9B,YAAQ,IAAI,oBAAoB;AAEhC,UAAM,WAAW,YAAY,EAAE;AAC/B,cAAU,KAAK,KAAK,QAAQ;AAC5B,qBAAiB;AAAA,EACrB,GAAG,GAAI;AACX;AAGA,eAAe;",
+        "names": [
+          "url"
+        ]
+      }
+    },
+    {
+      "name": "vite:json",
+      "start": 1738720229061,
+      "end": 1738720229061,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1738720229061,
+      "end": 1738720229061,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1738720229063,
+      "end": 1738720229065,
+      "order": "normal"
+    },
+    {
+      "name": "originjs:commonjs",
+      "start": 1738720229065,
+      "end": 1738720229065,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1738720229065,
+      "end": 1738720229065,
+      "order": "normal"
+    },
+    {
+      "name": "inject",
+      "start": 1738720229065,
+      "end": 1738720229065,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1738720229065,
+      "end": 1738720229065,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1738720229065,
+      "end": 1738720229065,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1738720229065,
+      "end": 1738720229065,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1738720229066,
+      "end": 1738720229066,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1738720229066,
+      "end": 1738720229066,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1738720229069,
+      "end": 1738720229070,
+      "order": "normal"
+    },
+    {
+      "name": "vite-plugin-vue-inspector:post",
+      "start": 1738720229070,
+      "end": 1738720229070,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-auto-import",
+      "start": 1738720229070,
+      "end": 1738720229074,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-vue-components",
+      "start": 1738720229074,
+      "end": 1738720229074,
+      "order": "post"
+    },
+    {
+      "name": "vite:client-inject",
+      "start": 1738720229075,
+      "end": 1738720229075,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-analysis",
+      "start": 1738720229075,
+      "end": 1738720229075,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-analysis",
+      "result": "import { warning } from \"/src/utils/message.ts\";\nimport { getUserInfo } from \"/src/utils/auth.ts\";\nconst url = \"\";\nlet ws;\nlet reconnectTimer;\nlet isReconnecting = false;\nconst websocket = {\n  // WebSocket建立连接\n  init(url2, username) {\n    if (!(\"WebSocket\" in window)) {\n      warning(\"您的浏览器不支持 WebSocket\");\n      return;\n    }\n    this.url = url2;\n    if (ws && ws.OPEN || !url2) {\n      return;\n    }\n    let temp = \"ws://\" + url2;\n    ws = new WebSocket(temp);\n    ws.onopen = () => {\n      console.log(\"WebSocket连接成功\");\n    };\n    ws.onerror = (e) => {\n      console.log(\"WebSocket重连开关\", isReconnecting);\n      console.log(\"WebSocket数据传输发生错误\", e);\n      reconnect();\n    };\n    ws.onmessage = (e) => {\n      console.log(\"WebSocket接收后端消息:\" + e.data);\n      if (e.data === \"ok\") {\n        return;\n      }\n      if (websocket.onMessageCallback) {\n        websocket.onMessageCallback(e.data);\n      }\n    };\n  },\n  // WebSocket连接关闭方法\n  close() {\n    isReconnecting = true;\n    ws.close();\n  },\n  // WebSocket发送信息方法\n  send(data) {\n    const msg = JSON.stringify(data);\n    ws.send(msg);\n  },\n  // 暴露WebSocket实例，其他地方调用就调用这个\n  getWebSocket() {\n    return ws;\n  },\n  // 新增回调函数用于处理收到的消息\n  onMessageCallback: null,\n  // 设置消息处理回调函数\n  setMessageCallback(callback) {\n    this.onMessageCallback = callback;\n  }\n};\nwindow.onbeforeunload = () => {\n  websocket.close();\n  console.log(\"WebSocket窗口关闭事件触发\");\n};\nif (performance.getEntriesByType(\"navigation\")[0].type === \"reload\") {\n  console.log(\"WebSocket浏览器刷新了\");\n  setTimeout(() => {\n    console.log(\"WebSocket执行刷新后重连...\");\n    const username = getUserInfo().idUsersinfo;\n    websocket.init(url, username);\n  }, 200);\n}\nfunction reconnect() {\n  console.log(\"WebSocket重连开关\", isReconnecting);\n  if (isReconnecting) {\n    return;\n  }\n  reconnectTimer && clearTimeout(reconnectTimer);\n  reconnectTimer = setTimeout(() => {\n    console.log(\"WebSocket执行断线重连...\");\n    const username = getUserInfo().idUsersinfo;\n    websocket.init(url, username);\n    isReconnecting = false;\n  }, 4e3);\n}\nexport default websocket;\n",
+      "start": 1738720229075,
+      "end": 1738720229084,
+      "order": "normal",
+      "sourcemaps": null
+    }
+  ]
+}

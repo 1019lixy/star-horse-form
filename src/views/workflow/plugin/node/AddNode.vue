@@ -6,7 +6,7 @@
         <!-- 当审批节点下添加意见分支,就不允许添加其他类型的节点了 -->
         <star-horse-icon icon-class="plus_circle"
                          v-if="!readable && (nodeType != FlowNodeEnums.APPROVER_NODE
-                         || (nodeType == FlowNodeEnums.APPROVER_NODE && node.addable))" />
+                         || (nodeType == FlowNodeEnums.APPROVER_NODE && node.addable))"/>
       </template>
       <el-menu mode="vertical" class="flow-menu-vertical">
         <template v-for="item in nodeList">

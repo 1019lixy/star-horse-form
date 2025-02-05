@@ -1,0 +1,184 @@
+{
+  "resolvedId": "E:/lixycode/testcode/src/components/comp/items/viewCardItem.vue?vue&type=style&index=0&scoped=7b19eddc&lang.scss",
+  "transforms": [
+    {
+      "name": "vite:vue",
+      "result": "\r\n.el-card:nth-child(n+1) {\r\n  margin-top: 10px;\r\n}\r\n",
+      "start": 1738720230312,
+      "end": 1738720230312,
+      "sourcemaps": {
+        "version": 3,
+        "sources": [
+          "E:/lixycode/testcode/src/components/comp/items/viewCardItem.vue"
+        ],
+        "names": [],
+        "mappings": ";AA0CA,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE;EACtB,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC;AAClB",
+        "file": "E:/lixycode/testcode/src/components/comp/items/viewCardItem.vue",
+        "sourceRoot": "",
+        "sourcesContent": [
+          "<script setup lang=\"ts\">\r\nimport {onMounted, PropType} from \"vue\";\r\nimport {FieldInfo} from \"@/components/types/PageFieldInfo\";\r\nimport {ModelRef} from \"vue-demi\";\r\n\r\nconst props = defineProps({\r\n  item: {type: Array as PropType<Array<FieldInfo>>, required: true},\r\n  commonFormat: {type: Function, required: true},\r\n});\r\nconst dataForm: ModelRef<any> = defineModel(\"dataForm\");\r\nconst init = () => {\r\n\r\n}\r\nonMounted(() => {\r\n  init();\r\n});\r\n</script>\r\n\r\n<template>\r\n  <template v-if=\"item.cardList&&item.cardList.length>0\">\r\n    <template v-for=\"cardItem  in item.cardList\">\r\n      <el-card shadow=\"hover\" v-if=\"Object.keys(cardItem).length>0\" data-v-inspector=\"src/components/comp/items/viewCardItem.vue:22:7\">\r\n        <template #header>\r\n          <div class=\"card-header\" data-v-inspector=\"src/components/comp/items/viewCardItem.vue:24:11\">\r\n            <span data-v-inspector=\"src/components/comp/items/viewCardItem.vue:25:13\">{{ cardItem.title || cardItem.tabName }}</span>\r\n          </div>\r\n        </template>\r\n        <star-horse-data-view-items :objectName=\"cardItem.objectName\"\r\n                                    :subFormFlag=\"cardItem.subFormFlag\"\r\n                                    v-model:data-form=\"dataForm\"\r\n                                    :commonFormat=\"commonFormat\"\r\n                                    primaryKey=\"id\"\r\n                                    :fieldList=\"{\r\n               ...cardItem\r\n            }\" data-v-inspector=\"src/components/comp/items/viewCardItem.vue:28:9\"/>\r\n\r\n      </el-card>\r\n    </template>\r\n  </template>\r\n</template>\r\n\r\n<style scoped lang=\"scss\">\r\n.el-card:nth-child(n+1) {\r\n  margin-top: 10px;\r\n}\r\n</style>\r\n"
+        ]
+      }
+    },
+    {
+      "name": "vite-plugin-vue-inspector",
+      "start": 1738720230312,
+      "end": 1738720230312,
+      "order": "pre"
+    },
+    {
+      "name": "vite-plugin-vue-devtools",
+      "result": "\r\n.el-card:nth-child(n+1) {\r\n  margin-top: 10px;\r\n}\r\n",
+      "start": 1738720230312,
+      "end": 1738720230339,
+      "order": "pre",
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "result": ".el-card:nth-child(n+1) {\n  margin-top: 10px;\n}",
+      "start": 1738720230339,
+      "end": 1738720230344,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1738720230344,
+      "end": 1738720230344,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1738720230344,
+      "end": 1738720230344,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1738720230344,
+      "end": 1738720230344,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "result": ".el-card[data-v-7b19eddc]:nth-child(n+1) {\n  margin-top: 10px;\n}",
+      "start": 1738720230344,
+      "end": 1738720230345,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "originjs:commonjs",
+      "start": 1738720230345,
+      "end": 1738720230345,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1738720230345,
+      "end": 1738720230345,
+      "order": "normal"
+    },
+    {
+      "name": "inject",
+      "start": 1738720230345,
+      "end": 1738720230345,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1738720230345,
+      "end": 1738720230345,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "result": "import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/src/components/comp/items/viewCardItem.vue?vue&type=style&index=0&scoped=7b19eddc&lang.scss\"\nconst __vite__css = \".el-card[data-v-7b19eddc]:nth-child(n+1) {\\n  margin-top: 10px;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720230345,
+      "end": 1738720230345,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1738720230345,
+      "end": 1738720230345,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1738720230345,
+      "end": 1738720230345,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1738720230345,
+      "end": 1738720230345,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1738720230345,
+      "end": 1738720230345,
+      "order": "normal"
+    },
+    {
+      "name": "vite-plugin-vue-inspector:post",
+      "start": 1738720230345,
+      "end": 1738720230345,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-auto-import",
+      "start": 1738720230345,
+      "end": 1738720230345,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-vue-components",
+      "result": "/* unplugin-vue-components disabled */import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/src/components/comp/items/viewCardItem.vue?vue&type=style&index=0&scoped=7b19eddc&lang.scss\"\nconst __vite__css = \".el-card[data-v-7b19eddc]:nth-child(n+1) {\\n  margin-top: 10px;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720230345,
+      "end": 1738720230346,
+      "order": "post",
+      "sourcemaps": {
+        "version": 3,
+        "sources": [
+          "E:/lixycode/testcode/src/components/comp/items/viewCardItem.vue?vue&type=style&index=0&scoped=7b19eddc&lang.scss"
+        ],
+        "sourcesContent": [
+          "import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/src/components/comp/items/viewCardItem.vue?vue&type=style&index=0&scoped=7b19eddc&lang.scss\"\nconst __vite__css = \".el-card[data-v-7b19eddc]:nth-child(n+1) {\\n  margin-top: 10px;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))"
+        ],
+        "names": [],
+        "mappings": "sCAAA,MAAM,CAAC,CAAC,CAAC,WAAW,CAAC,EAAE,CAAC,mBAAmB,CAAC,CAAC,WAAW,CAAC,EAAE,CAAC,mBAAmB,CAAC,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,CAAC,IAAI,CAAC,MAAM;AACrG,KAAK,CAAC,UAAU,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,QAAQ,CAAC,QAAQ,CAAC,GAAG,CAAC,UAAU,CAAC,IAAI,CAAC,KAAK,CAAC,YAAY,CAAC,GAAG,CAAC,GAAG,CAAC,IAAI,CAAC,KAAK,CAAC,KAAK,CAAC,CAAC,CAAC,MAAM,CAAC,QAAQ,CAAC,IAAI,CAAC,IAAI;AACpI,KAAK,CAAC,WAAW,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,IAAI,CAAC,IAAI,CAAC,CAAC,CAAC,QAAQ,CAAC,CAAC,GAAG,CAAC,KAAK,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,MAAM,CAAC,GAAG,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,CAAC;AACvF,mBAAmB,CAAC,UAAU,CAAC,CAAC,WAAW;AAC3C,MAAM,CAAC,IAAI,CAAC,GAAG,CAAC,MAAM,CAAC;AACvB,MAAM,CAAC,IAAI,CAAC,GAAG,CAAC,KAAK,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,mBAAmB,CAAC,UAAU,CAAC"
+      }
+    },
+    {
+      "name": "vite:client-inject",
+      "start": 1738720230346,
+      "end": 1738720230346,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-analysis",
+      "start": 1738720230346,
+      "end": 1738720230346,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-analysis",
+      "result": "import { createHotContext as __vite__createHotContext } from \"/@vite/client\";import.meta.hot = __vite__createHotContext(\"/src/components/comp/items/viewCardItem.vue?vue&type=style&index=0&scoped=7b19eddc&lang.scss\");/* unplugin-vue-components disabled */import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/src/components/comp/items/viewCardItem.vue?vue&type=style&index=0&scoped=7b19eddc&lang.scss\"\nconst __vite__css = \".el-card[data-v-7b19eddc]:nth-child(n+1) {\\n  margin-top: 10px;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720230346,
+      "end": 1738720230346,
+      "order": "normal",
+      "sourcemaps": null
+    }
+  ]
+}

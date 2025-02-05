@@ -1,0 +1,155 @@
+{
+  "resolvedId": "E:/lixycode/testcode/node_modules/element-plus/theme-chalk/src/collapse.scss",
+  "transforms": [
+    {
+      "name": "__load__",
+      "result": "@use 'mixins/mixins' as *;\n@use 'mixins/var' as *;\n@use 'common/var' as *;\n@use 'common/transition';\n\n@include b(collapse) {\n  @include set-component-css-var('collapse', $collapse);\n\n  border-top: 1px solid getCssVar('collapse-border-color');\n  border-bottom: 1px solid getCssVar('collapse-border-color');\n}\n\n@include b(collapse-item) {\n  @include when(disabled) {\n    .#{$namespace}-collapse-item__header {\n      color: getCssVar('text-color-disabled');\n      cursor: not-allowed;\n    }\n  }\n  @include e(header) {\n    width: 100%;\n    padding: 0;\n    border: none;\n    display: flex;\n    align-items: center;\n    height: getCssVar('collapse-header-height');\n    line-height: getCssVar('collapse-header-height');\n    background-color: getCssVar('collapse-header-bg-color');\n    color: getCssVar('collapse-header-text-color');\n    cursor: pointer;\n    border-bottom: 1px solid getCssVar('collapse-border-color');\n    font-size: getCssVar('collapse-header-font-size');\n    font-weight: 500;\n    transition: border-bottom-color getCssVar('transition-duration');\n    outline: none;\n    @include e(arrow) {\n      margin: 0 8px 0 auto;\n      transition: transform getCssVar('transition-duration');\n      font-weight: 300;\n      @include when(active) {\n        transform: rotate(90deg);\n      }\n    }\n    &.focusing:focus:not(:hover) {\n      color: getCssVar('color-primary');\n    }\n    @include when(active) {\n      border-bottom-color: transparent;\n    }\n  }\n\n  @include e(wrap) {\n    will-change: height;\n    background-color: getCssVar('collapse-content-bg-color');\n    overflow: hidden;\n    box-sizing: border-box;\n    border-bottom: 1px solid getCssVar('collapse-border-color');\n  }\n\n  @include e(content) {\n    padding-bottom: 25px;\n    font-size: getCssVar('collapse-content-font-size');\n    color: getCssVar('collapse-content-text-color');\n    line-height: 1.769230769230769;\n  }\n\n  &:last-child {\n    margin-bottom: -1px;\n  }\n}\n",
+      "start": 1738720230514,
+      "end": 1738720230514
+    },
+    {
+      "name": "vite-plugin-vue-inspector",
+      "start": 1738720230514,
+      "end": 1738720230514,
+      "order": "pre"
+    },
+    {
+      "name": "vite-plugin-vue-devtools",
+      "result": "@use 'mixins/mixins' as *;\n@use 'mixins/var' as *;\n@use 'common/var' as *;\n@use 'common/transition';\n\n@include b(collapse) {\n  @include set-component-css-var('collapse', $collapse);\n\n  border-top: 1px solid getCssVar('collapse-border-color');\n  border-bottom: 1px solid getCssVar('collapse-border-color');\n}\n\n@include b(collapse-item) {\n  @include when(disabled) {\n    .#{$namespace}-collapse-item__header {\n      color: getCssVar('text-color-disabled');\n      cursor: not-allowed;\n    }\n  }\n  @include e(header) {\n    width: 100%;\n    padding: 0;\n    border: none;\n    display: flex;\n    align-items: center;\n    height: getCssVar('collapse-header-height');\n    line-height: getCssVar('collapse-header-height');\n    background-color: getCssVar('collapse-header-bg-color');\n    color: getCssVar('collapse-header-text-color');\n    cursor: pointer;\n    border-bottom: 1px solid getCssVar('collapse-border-color');\n    font-size: getCssVar('collapse-header-font-size');\n    font-weight: 500;\n    transition: border-bottom-color getCssVar('transition-duration');\n    outline: none;\n    @include e(arrow) {\n      margin: 0 8px 0 auto;\n      transition: transform getCssVar('transition-duration');\n      font-weight: 300;\n      @include when(active) {\n        transform: rotate(90deg);\n      }\n    }\n    &.focusing:focus:not(:hover) {\n      color: getCssVar('color-primary');\n    }\n    @include when(active) {\n      border-bottom-color: transparent;\n    }\n  }\n\n  @include e(wrap) {\n    will-change: height;\n    background-color: getCssVar('collapse-content-bg-color');\n    overflow: hidden;\n    box-sizing: border-box;\n    border-bottom: 1px solid getCssVar('collapse-border-color');\n  }\n\n  @include e(content) {\n    padding-bottom: 25px;\n    font-size: getCssVar('collapse-content-font-size');\n    color: getCssVar('collapse-content-text-color');\n    line-height: 1.769230769230769;\n  }\n\n  &:last-child {\n    margin-bottom: -1px;\n  }\n}\n",
+      "start": 1738720230514,
+      "end": 1738720230514,
+      "order": "pre",
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "result": "/* Element Chalk Variables */\n.fade-in-linear-enter-active,\n.fade-in-linear-leave-active {\n  transition: var(--el-transition-fade-linear);\n}\n\n.fade-in-linear-enter-from,\n.fade-in-linear-leave-to {\n  opacity: 0;\n}\n\n.el-fade-in-linear-enter-active,\n.el-fade-in-linear-leave-active {\n  transition: var(--el-transition-fade-linear);\n}\n\n.el-fade-in-linear-enter-from,\n.el-fade-in-linear-leave-to {\n  opacity: 0;\n}\n\n.el-fade-in-enter-active,\n.el-fade-in-leave-active {\n  transition: all var(--el-transition-duration) cubic-bezier(0.55, 0, 0.1, 1);\n}\n\n.el-fade-in-enter-from,\n.el-fade-in-leave-active {\n  opacity: 0;\n}\n\n.el-zoom-in-center-enter-active,\n.el-zoom-in-center-leave-active {\n  transition: all var(--el-transition-duration) cubic-bezier(0.55, 0, 0.1, 1);\n}\n\n.el-zoom-in-center-enter-from,\n.el-zoom-in-center-leave-active {\n  opacity: 0;\n  transform: scaleX(0);\n}\n\n.el-zoom-in-top-enter-active,\n.el-zoom-in-top-leave-active {\n  opacity: 1;\n  transform: scaleY(1);\n  transition: var(--el-transition-md-fade);\n  transform-origin: center top;\n}\n.el-zoom-in-top-enter-active[data-popper-placement^=top],\n.el-zoom-in-top-leave-active[data-popper-placement^=top] {\n  transform-origin: center bottom;\n}\n\n.el-zoom-in-top-enter-from,\n.el-zoom-in-top-leave-active {\n  opacity: 0;\n  transform: scaleY(0);\n}\n\n.el-zoom-in-bottom-enter-active,\n.el-zoom-in-bottom-leave-active {\n  opacity: 1;\n  transform: scaleY(1);\n  transition: var(--el-transition-md-fade);\n  transform-origin: center bottom;\n}\n\n.el-zoom-in-bottom-enter-from,\n.el-zoom-in-bottom-leave-active {\n  opacity: 0;\n  transform: scaleY(0);\n}\n\n.el-zoom-in-left-enter-active,\n.el-zoom-in-left-leave-active {\n  opacity: 1;\n  transform: scale(1, 1);\n  transition: var(--el-transition-md-fade);\n  transform-origin: top left;\n}\n\n.el-zoom-in-left-enter-from,\n.el-zoom-in-left-leave-active {\n  opacity: 0;\n  transform: scale(0.45, 0.45);\n}\n\n.collapse-transition {\n  transition: var(--el-transition-duration) height ease-in-out, var(--el-transition-duration) padding-top ease-in-out, var(--el-transition-duration) padding-bottom ease-in-out;\n}\n\n.el-collapse-transition-leave-active,\n.el-collapse-transition-enter-active {\n  transition: var(--el-transition-duration) max-height ease-in-out, var(--el-transition-duration) padding-top ease-in-out, var(--el-transition-duration) padding-bottom ease-in-out;\n}\n\n.horizontal-collapse-transition {\n  transition: var(--el-transition-duration) width ease-in-out, var(--el-transition-duration) padding-left ease-in-out, var(--el-transition-duration) padding-right ease-in-out;\n}\n\n.el-list-enter-active,\n.el-list-leave-active {\n  transition: all 1s;\n}\n\n.el-list-enter-from,\n.el-list-leave-to {\n  opacity: 0;\n  transform: translateY(-30px);\n}\n\n.el-list-leave-active {\n  position: absolute !important;\n}\n\n.el-opacity-transition {\n  transition: opacity var(--el-transition-duration) cubic-bezier(0.55, 0, 0.1, 1);\n}\n\n.el-collapse {\n  --el-collapse-border-color: var(--el-border-color-lighter);\n  --el-collapse-header-height: 48px;\n  --el-collapse-header-bg-color: var(--el-fill-color-blank);\n  --el-collapse-header-text-color: var(--el-text-color-primary);\n  --el-collapse-header-font-size: 13px;\n  --el-collapse-content-bg-color: var(--el-fill-color-blank);\n  --el-collapse-content-font-size: 13px;\n  --el-collapse-content-text-color: var(--el-text-color-primary);\n  border-top: 1px solid var(--el-collapse-border-color);\n  border-bottom: 1px solid var(--el-collapse-border-color);\n}\n\n.el-collapse-item.is-disabled .el-collapse-item__header {\n  color: var(--el-text-color-disabled);\n  cursor: not-allowed;\n}\n\n.el-collapse-item__header {\n  width: 100%;\n  padding: 0;\n  border: none;\n  display: flex;\n  align-items: center;\n  height: var(--el-collapse-header-height);\n  line-height: var(--el-collapse-header-height);\n  background-color: var(--el-collapse-header-bg-color);\n  color: var(--el-collapse-header-text-color);\n  cursor: pointer;\n  border-bottom: 1px solid var(--el-collapse-border-color);\n  font-size: var(--el-collapse-header-font-size);\n  font-weight: 500;\n  transition: border-bottom-color var(--el-transition-duration);\n  outline: none;\n}\n.el-collapse-item__arrow {\n  margin: 0 8px 0 auto;\n  transition: transform var(--el-transition-duration);\n  font-weight: 300;\n}\n.el-collapse-item__arrow.is-active {\n  transform: rotate(90deg);\n}\n\n.el-collapse-item__header.focusing:focus:not(:hover) {\n  color: var(--el-color-primary);\n}\n.el-collapse-item__header.is-active {\n  border-bottom-color: transparent;\n}\n\n.el-collapse-item__wrap {\n  will-change: height;\n  background-color: var(--el-collapse-content-bg-color);\n  overflow: hidden;\n  box-sizing: border-box;\n  border-bottom: 1px solid var(--el-collapse-border-color);\n}\n\n.el-collapse-item__content {\n  padding-bottom: 25px;\n  font-size: var(--el-collapse-content-font-size);\n  color: var(--el-collapse-content-text-color);\n  line-height: 1.7692307692;\n}\n\n.el-collapse-item:last-child {\n  margin-bottom: -1px;\n}",
+      "start": 1738720230514,
+      "end": 1738720230600,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1738720230600,
+      "end": 1738720230600,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1738720230600,
+      "end": 1738720230600,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1738720230600,
+      "end": 1738720230600,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1738720230600,
+      "end": 1738720230600,
+      "order": "normal"
+    },
+    {
+      "name": "originjs:commonjs",
+      "start": 1738720230600,
+      "end": 1738720230600,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1738720230600,
+      "end": 1738720230600,
+      "order": "normal"
+    },
+    {
+      "name": "inject",
+      "start": 1738720230600,
+      "end": 1738720230600,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1738720230600,
+      "end": 1738720230600,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "result": "import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/node_modules/element-plus/theme-chalk/src/collapse.scss\"\nconst __vite__css = \"/* Element Chalk Variables */\\n.fade-in-linear-enter-active,\\n.fade-in-linear-leave-active {\\n  transition: var(--el-transition-fade-linear);\\n}\\n\\n.fade-in-linear-enter-from,\\n.fade-in-linear-leave-to {\\n  opacity: 0;\\n}\\n\\n.el-fade-in-linear-enter-active,\\n.el-fade-in-linear-leave-active {\\n  transition: var(--el-transition-fade-linear);\\n}\\n\\n.el-fade-in-linear-enter-from,\\n.el-fade-in-linear-leave-to {\\n  opacity: 0;\\n}\\n\\n.el-fade-in-enter-active,\\n.el-fade-in-leave-active {\\n  transition: all var(--el-transition-duration) cubic-bezier(0.55, 0, 0.1, 1);\\n}\\n\\n.el-fade-in-enter-from,\\n.el-fade-in-leave-active {\\n  opacity: 0;\\n}\\n\\n.el-zoom-in-center-enter-active,\\n.el-zoom-in-center-leave-active {\\n  transition: all var(--el-transition-duration) cubic-bezier(0.55, 0, 0.1, 1);\\n}\\n\\n.el-zoom-in-center-enter-from,\\n.el-zoom-in-center-leave-active {\\n  opacity: 0;\\n  transform: scaleX(0);\\n}\\n\\n.el-zoom-in-top-enter-active,\\n.el-zoom-in-top-leave-active {\\n  opacity: 1;\\n  transform: scaleY(1);\\n  transition: var(--el-transition-md-fade);\\n  transform-origin: center top;\\n}\\n.el-zoom-in-top-enter-active[data-popper-placement^=top],\\n.el-zoom-in-top-leave-active[data-popper-placement^=top] {\\n  transform-origin: center bottom;\\n}\\n\\n.el-zoom-in-top-enter-from,\\n.el-zoom-in-top-leave-active {\\n  opacity: 0;\\n  transform: scaleY(0);\\n}\\n\\n.el-zoom-in-bottom-enter-active,\\n.el-zoom-in-bottom-leave-active {\\n  opacity: 1;\\n  transform: scaleY(1);\\n  transition: var(--el-transition-md-fade);\\n  transform-origin: center bottom;\\n}\\n\\n.el-zoom-in-bottom-enter-from,\\n.el-zoom-in-bottom-leave-active {\\n  opacity: 0;\\n  transform: scaleY(0);\\n}\\n\\n.el-zoom-in-left-enter-active,\\n.el-zoom-in-left-leave-active {\\n  opacity: 1;\\n  transform: scale(1, 1);\\n  transition: var(--el-transition-md-fade);\\n  transform-origin: top left;\\n}\\n\\n.el-zoom-in-left-enter-from,\\n.el-zoom-in-left-leave-active {\\n  opacity: 0;\\n  transform: scale(0.45, 0.45);\\n}\\n\\n.collapse-transition {\\n  transition: var(--el-transition-duration) height ease-in-out, var(--el-transition-duration) padding-top ease-in-out, var(--el-transition-duration) padding-bottom ease-in-out;\\n}\\n\\n.el-collapse-transition-leave-active,\\n.el-collapse-transition-enter-active {\\n  transition: var(--el-transition-duration) max-height ease-in-out, var(--el-transition-duration) padding-top ease-in-out, var(--el-transition-duration) padding-bottom ease-in-out;\\n}\\n\\n.horizontal-collapse-transition {\\n  transition: var(--el-transition-duration) width ease-in-out, var(--el-transition-duration) padding-left ease-in-out, var(--el-transition-duration) padding-right ease-in-out;\\n}\\n\\n.el-list-enter-active,\\n.el-list-leave-active {\\n  transition: all 1s;\\n}\\n\\n.el-list-enter-from,\\n.el-list-leave-to {\\n  opacity: 0;\\n  transform: translateY(-30px);\\n}\\n\\n.el-list-leave-active {\\n  position: absolute !important;\\n}\\n\\n.el-opacity-transition {\\n  transition: opacity var(--el-transition-duration) cubic-bezier(0.55, 0, 0.1, 1);\\n}\\n\\n.el-collapse {\\n  --el-collapse-border-color: var(--el-border-color-lighter);\\n  --el-collapse-header-height: 48px;\\n  --el-collapse-header-bg-color: var(--el-fill-color-blank);\\n  --el-collapse-header-text-color: var(--el-text-color-primary);\\n  --el-collapse-header-font-size: 13px;\\n  --el-collapse-content-bg-color: var(--el-fill-color-blank);\\n  --el-collapse-content-font-size: 13px;\\n  --el-collapse-content-text-color: var(--el-text-color-primary);\\n  border-top: 1px solid var(--el-collapse-border-color);\\n  border-bottom: 1px solid var(--el-collapse-border-color);\\n}\\n\\n.el-collapse-item.is-disabled .el-collapse-item__header {\\n  color: var(--el-text-color-disabled);\\n  cursor: not-allowed;\\n}\\n\\n.el-collapse-item__header {\\n  width: 100%;\\n  padding: 0;\\n  border: none;\\n  display: flex;\\n  align-items: center;\\n  height: var(--el-collapse-header-height);\\n  line-height: var(--el-collapse-header-height);\\n  background-color: var(--el-collapse-header-bg-color);\\n  color: var(--el-collapse-header-text-color);\\n  cursor: pointer;\\n  border-bottom: 1px solid var(--el-collapse-border-color);\\n  font-size: var(--el-collapse-header-font-size);\\n  font-weight: 500;\\n  transition: border-bottom-color var(--el-transition-duration);\\n  outline: none;\\n}\\n.el-collapse-item__arrow {\\n  margin: 0 8px 0 auto;\\n  transition: transform var(--el-transition-duration);\\n  font-weight: 300;\\n}\\n.el-collapse-item__arrow.is-active {\\n  transform: rotate(90deg);\\n}\\n\\n.el-collapse-item__header.focusing:focus:not(:hover) {\\n  color: var(--el-color-primary);\\n}\\n.el-collapse-item__header.is-active {\\n  border-bottom-color: transparent;\\n}\\n\\n.el-collapse-item__wrap {\\n  will-change: height;\\n  background-color: var(--el-collapse-content-bg-color);\\n  overflow: hidden;\\n  box-sizing: border-box;\\n  border-bottom: 1px solid var(--el-collapse-border-color);\\n}\\n\\n.el-collapse-item__content {\\n  padding-bottom: 25px;\\n  font-size: var(--el-collapse-content-font-size);\\n  color: var(--el-collapse-content-text-color);\\n  line-height: 1.7692307692;\\n}\\n\\n.el-collapse-item:last-child {\\n  margin-bottom: -1px;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720230600,
+      "end": 1738720230600,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1738720230600,
+      "end": 1738720230600,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1738720230600,
+      "end": 1738720230600,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1738720230600,
+      "end": 1738720230600,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1738720230600,
+      "end": 1738720230600,
+      "order": "normal"
+    },
+    {
+      "name": "vite-plugin-vue-inspector:post",
+      "start": 1738720230600,
+      "end": 1738720230601,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-auto-import",
+      "start": 1738720230601,
+      "end": 1738720230601,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-vue-components",
+      "start": 1738720230601,
+      "end": 1738720230601,
+      "order": "post"
+    },
+    {
+      "name": "vite:client-inject",
+      "start": 1738720230601,
+      "end": 1738720230601,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-analysis",
+      "start": 1738720230601,
+      "end": 1738720230601,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-analysis",
+      "result": "import { createHotContext as __vite__createHotContext } from \"/@vite/client\";import.meta.hot = __vite__createHotContext(\"/node_modules/element-plus/theme-chalk/src/collapse.scss\");import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/node_modules/element-plus/theme-chalk/src/collapse.scss\"\nconst __vite__css = \"/* Element Chalk Variables */\\n.fade-in-linear-enter-active,\\n.fade-in-linear-leave-active {\\n  transition: var(--el-transition-fade-linear);\\n}\\n\\n.fade-in-linear-enter-from,\\n.fade-in-linear-leave-to {\\n  opacity: 0;\\n}\\n\\n.el-fade-in-linear-enter-active,\\n.el-fade-in-linear-leave-active {\\n  transition: var(--el-transition-fade-linear);\\n}\\n\\n.el-fade-in-linear-enter-from,\\n.el-fade-in-linear-leave-to {\\n  opacity: 0;\\n}\\n\\n.el-fade-in-enter-active,\\n.el-fade-in-leave-active {\\n  transition: all var(--el-transition-duration) cubic-bezier(0.55, 0, 0.1, 1);\\n}\\n\\n.el-fade-in-enter-from,\\n.el-fade-in-leave-active {\\n  opacity: 0;\\n}\\n\\n.el-zoom-in-center-enter-active,\\n.el-zoom-in-center-leave-active {\\n  transition: all var(--el-transition-duration) cubic-bezier(0.55, 0, 0.1, 1);\\n}\\n\\n.el-zoom-in-center-enter-from,\\n.el-zoom-in-center-leave-active {\\n  opacity: 0;\\n  transform: scaleX(0);\\n}\\n\\n.el-zoom-in-top-enter-active,\\n.el-zoom-in-top-leave-active {\\n  opacity: 1;\\n  transform: scaleY(1);\\n  transition: var(--el-transition-md-fade);\\n  transform-origin: center top;\\n}\\n.el-zoom-in-top-enter-active[data-popper-placement^=top],\\n.el-zoom-in-top-leave-active[data-popper-placement^=top] {\\n  transform-origin: center bottom;\\n}\\n\\n.el-zoom-in-top-enter-from,\\n.el-zoom-in-top-leave-active {\\n  opacity: 0;\\n  transform: scaleY(0);\\n}\\n\\n.el-zoom-in-bottom-enter-active,\\n.el-zoom-in-bottom-leave-active {\\n  opacity: 1;\\n  transform: scaleY(1);\\n  transition: var(--el-transition-md-fade);\\n  transform-origin: center bottom;\\n}\\n\\n.el-zoom-in-bottom-enter-from,\\n.el-zoom-in-bottom-leave-active {\\n  opacity: 0;\\n  transform: scaleY(0);\\n}\\n\\n.el-zoom-in-left-enter-active,\\n.el-zoom-in-left-leave-active {\\n  opacity: 1;\\n  transform: scale(1, 1);\\n  transition: var(--el-transition-md-fade);\\n  transform-origin: top left;\\n}\\n\\n.el-zoom-in-left-enter-from,\\n.el-zoom-in-left-leave-active {\\n  opacity: 0;\\n  transform: scale(0.45, 0.45);\\n}\\n\\n.collapse-transition {\\n  transition: var(--el-transition-duration) height ease-in-out, var(--el-transition-duration) padding-top ease-in-out, var(--el-transition-duration) padding-bottom ease-in-out;\\n}\\n\\n.el-collapse-transition-leave-active,\\n.el-collapse-transition-enter-active {\\n  transition: var(--el-transition-duration) max-height ease-in-out, var(--el-transition-duration) padding-top ease-in-out, var(--el-transition-duration) padding-bottom ease-in-out;\\n}\\n\\n.horizontal-collapse-transition {\\n  transition: var(--el-transition-duration) width ease-in-out, var(--el-transition-duration) padding-left ease-in-out, var(--el-transition-duration) padding-right ease-in-out;\\n}\\n\\n.el-list-enter-active,\\n.el-list-leave-active {\\n  transition: all 1s;\\n}\\n\\n.el-list-enter-from,\\n.el-list-leave-to {\\n  opacity: 0;\\n  transform: translateY(-30px);\\n}\\n\\n.el-list-leave-active {\\n  position: absolute !important;\\n}\\n\\n.el-opacity-transition {\\n  transition: opacity var(--el-transition-duration) cubic-bezier(0.55, 0, 0.1, 1);\\n}\\n\\n.el-collapse {\\n  --el-collapse-border-color: var(--el-border-color-lighter);\\n  --el-collapse-header-height: 48px;\\n  --el-collapse-header-bg-color: var(--el-fill-color-blank);\\n  --el-collapse-header-text-color: var(--el-text-color-primary);\\n  --el-collapse-header-font-size: 13px;\\n  --el-collapse-content-bg-color: var(--el-fill-color-blank);\\n  --el-collapse-content-font-size: 13px;\\n  --el-collapse-content-text-color: var(--el-text-color-primary);\\n  border-top: 1px solid var(--el-collapse-border-color);\\n  border-bottom: 1px solid var(--el-collapse-border-color);\\n}\\n\\n.el-collapse-item.is-disabled .el-collapse-item__header {\\n  color: var(--el-text-color-disabled);\\n  cursor: not-allowed;\\n}\\n\\n.el-collapse-item__header {\\n  width: 100%;\\n  padding: 0;\\n  border: none;\\n  display: flex;\\n  align-items: center;\\n  height: var(--el-collapse-header-height);\\n  line-height: var(--el-collapse-header-height);\\n  background-color: var(--el-collapse-header-bg-color);\\n  color: var(--el-collapse-header-text-color);\\n  cursor: pointer;\\n  border-bottom: 1px solid var(--el-collapse-border-color);\\n  font-size: var(--el-collapse-header-font-size);\\n  font-weight: 500;\\n  transition: border-bottom-color var(--el-transition-duration);\\n  outline: none;\\n}\\n.el-collapse-item__arrow {\\n  margin: 0 8px 0 auto;\\n  transition: transform var(--el-transition-duration);\\n  font-weight: 300;\\n}\\n.el-collapse-item__arrow.is-active {\\n  transform: rotate(90deg);\\n}\\n\\n.el-collapse-item__header.focusing:focus:not(:hover) {\\n  color: var(--el-color-primary);\\n}\\n.el-collapse-item__header.is-active {\\n  border-bottom-color: transparent;\\n}\\n\\n.el-collapse-item__wrap {\\n  will-change: height;\\n  background-color: var(--el-collapse-content-bg-color);\\n  overflow: hidden;\\n  box-sizing: border-box;\\n  border-bottom: 1px solid var(--el-collapse-border-color);\\n}\\n\\n.el-collapse-item__content {\\n  padding-bottom: 25px;\\n  font-size: var(--el-collapse-content-font-size);\\n  color: var(--el-collapse-content-text-color);\\n  line-height: 1.7692307692;\\n}\\n\\n.el-collapse-item:last-child {\\n  margin-bottom: -1px;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720230601,
+      "end": 1738720230601,
+      "order": "normal",
+      "sourcemaps": null
+    }
+  ]
+}

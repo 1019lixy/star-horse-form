@@ -3,7 +3,7 @@
 </script>
 
 <template>
-雷达图
+  雷达图
 </template>
 
 <style scoped lang="scss">

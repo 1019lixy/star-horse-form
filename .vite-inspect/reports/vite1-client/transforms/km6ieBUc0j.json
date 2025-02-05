@@ -1,0 +1,161 @@
+{
+  "resolvedId": "E:/lixycode/testcode/src/views/workflow/plugin/enums/FlowNodeEnums.ts",
+  "transforms": [
+    {
+      "name": "__load__",
+      "result": "/**\r\n * 流程节点\r\n */\r\nexport enum FlowNodeEnums {\r\n    /**\r\n     * 开始节点\r\n     */\r\n    START_NODE = \"StartNode\",\r\n    /**\r\n     * 发起人节点\r\n     */\r\n    APPLY_NODE = \"ApplyNode\",\r\n    /**\r\n     * 抄送节点\r\n     */\r\n    COPYER_NODE = \"CopyerNode\",\r\n    /**\r\n     * 审批节点\r\n     */\r\n    APPROVER_NODE = \"ApprovalNode\",\r\n    /**\r\n     * 分支节点\r\n     */\r\n    BRANCH_NODE = \"BranchNode\",\r\n    /**\r\n     * 排他节点\r\n     */\r\n    EXCLUSIVE_NODE = \"ExclusiveNode\",\r\n    /**\r\n     * 并行节点\r\n     */\r\n    PARALLEL_NODE = \"ParallelNode\",\r\n    /**\r\n     * 定时节点\r\n     */\r\n    TIMER_NODE = \"TimerNode\",\r\n    /**\r\n     * 提醒节点\r\n     */\r\n    NOTICE_NODE = \"NoticeNode\",\r\n    /**\r\n     * 服务节点\r\n     */\r\n    SERVICE_NODE = \"ServiceNode\",\r\n    /**\r\n     * 事件节点\r\n     */\r\n    EVENT_NODE = \"EventNode\",\r\n\r\n    /**\r\n     * 结束节点\r\n     */\r\n    END_NODE = \"EndNode\",\r\n    /**\r\n     * 分支条件节点\r\n     */\r\n    BRANCH_CONDITION_NODE = \"ConditionNode\",\r\n\r\n    /**\r\n     * 分割\r\n     */\r\n    DIVIDE_NODE = \"DivideNode\",\r\n\r\n\r\n    /**\r\n     * 并行子节点\r\n     */\r\n    PARALLEL_SUB_NODE = \"ConditionNode\",\r\n    /**\r\n     *聚合节点\r\n     */\r\n    POLYMERIZE_NODE = \"PolymerizeNode\",\r\n    /**\r\n     * 意见节点\r\n     */\r\n    SUGGEST_NODE = \"SuggestNode\",\r\n    /**\r\n     * 意见子节点\r\n     */\r\n    SUGGEST_SUB_NODE = \"SuggestSubNode\",\r\n    /**\r\n     * 任务节点\r\n     */\r\n    TASK_NODE = \"TaskNode\",\r\n\r\n    /**\r\n     * 办理节点\r\n     */\r\n    HANDLE_NODE = \"HandleNode\",\r\n}\r\n",
+      "start": 1738720248522,
+      "end": 1738720248522
+    },
+    {
+      "name": "vite-plugin-vue-inspector",
+      "start": 1738720248522,
+      "end": 1738720248522,
+      "order": "pre"
+    },
+    {
+      "name": "vite-plugin-vue-devtools",
+      "result": "/**\r\n * 流程节点\r\n */\r\nexport enum FlowNodeEnums {\r\n    /**\r\n     * 开始节点\r\n     */\r\n    START_NODE = \"StartNode\",\r\n    /**\r\n     * 发起人节点\r\n     */\r\n    APPLY_NODE = \"ApplyNode\",\r\n    /**\r\n     * 抄送节点\r\n     */\r\n    COPYER_NODE = \"CopyerNode\",\r\n    /**\r\n     * 审批节点\r\n     */\r\n    APPROVER_NODE = \"ApprovalNode\",\r\n    /**\r\n     * 分支节点\r\n     */\r\n    BRANCH_NODE = \"BranchNode\",\r\n    /**\r\n     * 排他节点\r\n     */\r\n    EXCLUSIVE_NODE = \"ExclusiveNode\",\r\n    /**\r\n     * 并行节点\r\n     */\r\n    PARALLEL_NODE = \"ParallelNode\",\r\n    /**\r\n     * 定时节点\r\n     */\r\n    TIMER_NODE = \"TimerNode\",\r\n    /**\r\n     * 提醒节点\r\n     */\r\n    NOTICE_NODE = \"NoticeNode\",\r\n    /**\r\n     * 服务节点\r\n     */\r\n    SERVICE_NODE = \"ServiceNode\",\r\n    /**\r\n     * 事件节点\r\n     */\r\n    EVENT_NODE = \"EventNode\",\r\n\r\n    /**\r\n     * 结束节点\r\n     */\r\n    END_NODE = \"EndNode\",\r\n    /**\r\n     * 分支条件节点\r\n     */\r\n    BRANCH_CONDITION_NODE = \"ConditionNode\",\r\n\r\n    /**\r\n     * 分割\r\n     */\r\n    DIVIDE_NODE = \"DivideNode\",\r\n\r\n\r\n    /**\r\n     * 并行子节点\r\n     */\r\n    PARALLEL_SUB_NODE = \"ConditionNode\",\r\n    /**\r\n     *聚合节点\r\n     */\r\n    POLYMERIZE_NODE = \"PolymerizeNode\",\r\n    /**\r\n     * 意见节点\r\n     */\r\n    SUGGEST_NODE = \"SuggestNode\",\r\n    /**\r\n     * 意见子节点\r\n     */\r\n    SUGGEST_SUB_NODE = \"SuggestSubNode\",\r\n    /**\r\n     * 任务节点\r\n     */\r\n    TASK_NODE = \"TaskNode\",\r\n\r\n    /**\r\n     * 办理节点\r\n     */\r\n    HANDLE_NODE = \"HandleNode\",\r\n}\r\n",
+      "start": 1738720248522,
+      "end": 1738720248522,
+      "order": "pre",
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "start": 1738720248522,
+      "end": 1738720248522,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "result": "export var FlowNodeEnums = /* @__PURE__ */ ((FlowNodeEnums2) => {\n  FlowNodeEnums2[\"START_NODE\"] = \"StartNode\";\n  FlowNodeEnums2[\"APPLY_NODE\"] = \"ApplyNode\";\n  FlowNodeEnums2[\"COPYER_NODE\"] = \"CopyerNode\";\n  FlowNodeEnums2[\"APPROVER_NODE\"] = \"ApprovalNode\";\n  FlowNodeEnums2[\"BRANCH_NODE\"] = \"BranchNode\";\n  FlowNodeEnums2[\"EXCLUSIVE_NODE\"] = \"ExclusiveNode\";\n  FlowNodeEnums2[\"PARALLEL_NODE\"] = \"ParallelNode\";\n  FlowNodeEnums2[\"TIMER_NODE\"] = \"TimerNode\";\n  FlowNodeEnums2[\"NOTICE_NODE\"] = \"NoticeNode\";\n  FlowNodeEnums2[\"SERVICE_NODE\"] = \"ServiceNode\";\n  FlowNodeEnums2[\"EVENT_NODE\"] = \"EventNode\";\n  FlowNodeEnums2[\"END_NODE\"] = \"EndNode\";\n  FlowNodeEnums2[\"BRANCH_CONDITION_NODE\"] = \"ConditionNode\";\n  FlowNodeEnums2[\"DIVIDE_NODE\"] = \"DivideNode\";\n  FlowNodeEnums2[\"PARALLEL_SUB_NODE\"] = \"ConditionNode\";\n  FlowNodeEnums2[\"POLYMERIZE_NODE\"] = \"PolymerizeNode\";\n  FlowNodeEnums2[\"SUGGEST_NODE\"] = \"SuggestNode\";\n  FlowNodeEnums2[\"SUGGEST_SUB_NODE\"] = \"SuggestSubNode\";\n  FlowNodeEnums2[\"TASK_NODE\"] = \"TaskNode\";\n  FlowNodeEnums2[\"HANDLE_NODE\"] = \"HandleNode\";\n  return FlowNodeEnums2;\n})(FlowNodeEnums || {});\n",
+      "start": 1738720248522,
+      "end": 1738720248606,
+      "order": "normal",
+      "sourcemaps": {
+        "version": 3,
+        "sources": [
+          "FlowNodeEnums.ts"
+        ],
+        "sourcesContent": [
+          "/**\r\n * 流程节点\r\n */\r\nexport enum FlowNodeEnums {\r\n    /**\r\n     * 开始节点\r\n     */\r\n    START_NODE = \"StartNode\",\r\n    /**\r\n     * 发起人节点\r\n     */\r\n    APPLY_NODE = \"ApplyNode\",\r\n    /**\r\n     * 抄送节点\r\n     */\r\n    COPYER_NODE = \"CopyerNode\",\r\n    /**\r\n     * 审批节点\r\n     */\r\n    APPROVER_NODE = \"ApprovalNode\",\r\n    /**\r\n     * 分支节点\r\n     */\r\n    BRANCH_NODE = \"BranchNode\",\r\n    /**\r\n     * 排他节点\r\n     */\r\n    EXCLUSIVE_NODE = \"ExclusiveNode\",\r\n    /**\r\n     * 并行节点\r\n     */\r\n    PARALLEL_NODE = \"ParallelNode\",\r\n    /**\r\n     * 定时节点\r\n     */\r\n    TIMER_NODE = \"TimerNode\",\r\n    /**\r\n     * 提醒节点\r\n     */\r\n    NOTICE_NODE = \"NoticeNode\",\r\n    /**\r\n     * 服务节点\r\n     */\r\n    SERVICE_NODE = \"ServiceNode\",\r\n    /**\r\n     * 事件节点\r\n     */\r\n    EVENT_NODE = \"EventNode\",\r\n\r\n    /**\r\n     * 结束节点\r\n     */\r\n    END_NODE = \"EndNode\",\r\n    /**\r\n     * 分支条件节点\r\n     */\r\n    BRANCH_CONDITION_NODE = \"ConditionNode\",\r\n\r\n    /**\r\n     * 分割\r\n     */\r\n    DIVIDE_NODE = \"DivideNode\",\r\n\r\n\r\n    /**\r\n     * 并行子节点\r\n     */\r\n    PARALLEL_SUB_NODE = \"ConditionNode\",\r\n    /**\r\n     *聚合节点\r\n     */\r\n    POLYMERIZE_NODE = \"PolymerizeNode\",\r\n    /**\r\n     * 意见节点\r\n     */\r\n    SUGGEST_NODE = \"SuggestNode\",\r\n    /**\r\n     * 意见子节点\r\n     */\r\n    SUGGEST_SUB_NODE = \"SuggestSubNode\",\r\n    /**\r\n     * 任务节点\r\n     */\r\n    TASK_NODE = \"TaskNode\",\r\n\r\n    /**\r\n     * 办理节点\r\n     */\r\n    HANDLE_NODE = \"HandleNode\",\r\n}\r\n"
+        ],
+        "mappings": "AAGO,WAAK,gBAAL,kBAAKA,mBAAL;AAIH,EAAAA,eAAA,gBAAa;AAIb,EAAAA,eAAA,gBAAa;AAIb,EAAAA,eAAA,iBAAc;AAId,EAAAA,eAAA,mBAAgB;AAIhB,EAAAA,eAAA,iBAAc;AAId,EAAAA,eAAA,oBAAiB;AAIjB,EAAAA,eAAA,mBAAgB;AAIhB,EAAAA,eAAA,gBAAa;AAIb,EAAAA,eAAA,iBAAc;AAId,EAAAA,eAAA,kBAAe;AAIf,EAAAA,eAAA,gBAAa;AAKb,EAAAA,eAAA,cAAW;AAIX,EAAAA,eAAA,2BAAwB;AAKxB,EAAAA,eAAA,iBAAc;AAMd,EAAAA,eAAA,uBAAoB;AAIpB,EAAAA,eAAA,qBAAkB;AAIlB,EAAAA,eAAA,kBAAe;AAIf,EAAAA,eAAA,sBAAmB;AAInB,EAAAA,eAAA,eAAY;AAKZ,EAAAA,eAAA,iBAAc;AArFN,SAAAA;AAAA,GAAA;",
+        "names": [
+          "FlowNodeEnums"
+        ]
+      }
+    },
+    {
+      "name": "vite:json",
+      "start": 1738720248606,
+      "end": 1738720248606,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1738720248606,
+      "end": 1738720248606,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1738720248606,
+      "end": 1738720248606,
+      "order": "normal"
+    },
+    {
+      "name": "originjs:commonjs",
+      "start": 1738720248606,
+      "end": 1738720248606,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1738720248606,
+      "end": 1738720248606,
+      "order": "normal"
+    },
+    {
+      "name": "inject",
+      "start": 1738720248606,
+      "end": 1738720248606,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1738720248606,
+      "end": 1738720248606,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1738720248606,
+      "end": 1738720248607,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1738720248607,
+      "end": 1738720248607,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1738720248607,
+      "end": 1738720248607,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1738720248607,
+      "end": 1738720248607,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1738720248607,
+      "end": 1738720248607,
+      "order": "normal"
+    },
+    {
+      "name": "vite-plugin-vue-inspector:post",
+      "start": 1738720248607,
+      "end": 1738720248607,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-auto-import",
+      "start": 1738720248607,
+      "end": 1738720248613,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-vue-components",
+      "start": 1738720248613,
+      "end": 1738720248613,
+      "order": "post"
+    },
+    {
+      "name": "vite:client-inject",
+      "start": 1738720248613,
+      "end": 1738720248613,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-analysis",
+      "start": 1738720248613,
+      "end": 1738720248613,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-analysis",
+      "result": "export var FlowNodeEnums = /* @__PURE__ */ ((FlowNodeEnums2) => {\n  FlowNodeEnums2[\"START_NODE\"] = \"StartNode\";\n  FlowNodeEnums2[\"APPLY_NODE\"] = \"ApplyNode\";\n  FlowNodeEnums2[\"COPYER_NODE\"] = \"CopyerNode\";\n  FlowNodeEnums2[\"APPROVER_NODE\"] = \"ApprovalNode\";\n  FlowNodeEnums2[\"BRANCH_NODE\"] = \"BranchNode\";\n  FlowNodeEnums2[\"EXCLUSIVE_NODE\"] = \"ExclusiveNode\";\n  FlowNodeEnums2[\"PARALLEL_NODE\"] = \"ParallelNode\";\n  FlowNodeEnums2[\"TIMER_NODE\"] = \"TimerNode\";\n  FlowNodeEnums2[\"NOTICE_NODE\"] = \"NoticeNode\";\n  FlowNodeEnums2[\"SERVICE_NODE\"] = \"ServiceNode\";\n  FlowNodeEnums2[\"EVENT_NODE\"] = \"EventNode\";\n  FlowNodeEnums2[\"END_NODE\"] = \"EndNode\";\n  FlowNodeEnums2[\"BRANCH_CONDITION_NODE\"] = \"ConditionNode\";\n  FlowNodeEnums2[\"DIVIDE_NODE\"] = \"DivideNode\";\n  FlowNodeEnums2[\"PARALLEL_SUB_NODE\"] = \"ConditionNode\";\n  FlowNodeEnums2[\"POLYMERIZE_NODE\"] = \"PolymerizeNode\";\n  FlowNodeEnums2[\"SUGGEST_NODE\"] = \"SuggestNode\";\n  FlowNodeEnums2[\"SUGGEST_SUB_NODE\"] = \"SuggestSubNode\";\n  FlowNodeEnums2[\"TASK_NODE\"] = \"TaskNode\";\n  FlowNodeEnums2[\"HANDLE_NODE\"] = \"HandleNode\";\n  return FlowNodeEnums2;\n})(FlowNodeEnums || {});\n",
+      "start": 1738720248613,
+      "end": 1738720248613,
+      "order": "normal",
+      "sourcemaps": null
+    }
+  ]
+}

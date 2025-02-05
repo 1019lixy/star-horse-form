@@ -3,7 +3,7 @@
 </script>
 
 <template>
-热力图
+  热力图
 </template>
 
 <style scoped lang="scss">

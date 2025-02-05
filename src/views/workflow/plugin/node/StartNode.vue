@@ -11,6 +11,7 @@
 <script setup lang="ts">
 import FlowAddNode from '@/views/workflow/plugin/node/AddNode.vue';
 import {FlowNodeEnums} from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
+
 defineOptions({
   name: 'StartNode',
 });
@@ -26,8 +27,8 @@ const props = defineProps({
     default: true,
   }
 });
-const emits=defineEmits(['selectNode']);
+const emits = defineEmits(['selectNode']);
 const selectNode = () => {
-  emits('selectNode',props.node);
+  emits('selectNode', props.node);
 }
 </script>

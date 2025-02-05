@@ -1,0 +1,159 @@
+{
+  "resolvedId": "E:/lixycode/testcode/src/utils/starhorseProcess.ts",
+  "transforms": [
+    {
+      "name": "__load__",
+      "result": "import type {NProgressOptions} from 'nprogress'\r\nimport NProgress from 'nprogress';\r\nimport 'nprogress/nprogress.css';\r\n//全局进度条的配置\r\nexport const starhorseProcess = () => {\r\n    NProgress.configure({\r\n        easing: 'ease', // 动画方式\r\n        speed: 1000, // 递增进度条的速度\r\n        showSpinner: false, // 是否显示加载ico\r\n        trickleSpeed: 200, // 自动递增间隔\r\n        minimum: 0.3, // 更改启动时使用的最小百分比\r\n        parent: 'body', //指定进度条的父容器\r\n    } as NProgressOptions)\r\n// 打开进度条\r\n    const start = () => {\r\n        NProgress.start()\r\n    }\r\n// 关闭进度条\r\n    const done = () => {\r\n        NProgress.done()\r\n    }\r\n    return {\r\n        start, done\r\n    }\r\n};\r\n",
+      "start": 1738720189698,
+      "end": 1738720189698
+    },
+    {
+      "name": "vite-plugin-vue-inspector",
+      "start": 1738720189698,
+      "end": 1738720189698,
+      "order": "pre"
+    },
+    {
+      "name": "vite-plugin-vue-devtools",
+      "result": "import type {NProgressOptions} from 'nprogress'\r\nimport NProgress from 'nprogress';\r\nimport 'nprogress/nprogress.css';\r\n//全局进度条的配置\r\nexport const starhorseProcess = () => {\r\n    NProgress.configure({\r\n        easing: 'ease', // 动画方式\r\n        speed: 1000, // 递增进度条的速度\r\n        showSpinner: false, // 是否显示加载ico\r\n        trickleSpeed: 200, // 自动递增间隔\r\n        minimum: 0.3, // 更改启动时使用的最小百分比\r\n        parent: 'body', //指定进度条的父容器\r\n    } as NProgressOptions)\r\n// 打开进度条\r\n    const start = () => {\r\n        NProgress.start()\r\n    }\r\n// 关闭进度条\r\n    const done = () => {\r\n        NProgress.done()\r\n    }\r\n    return {\r\n        start, done\r\n    }\r\n};\r\n",
+      "start": 1738720189698,
+      "end": 1738720189698,
+      "order": "pre",
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "start": 1738720189698,
+      "end": 1738720189698,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "result": "import NProgress from \"nprogress\";\nimport \"nprogress/nprogress.css\";\nexport const starhorseProcess = () => {\n  NProgress.configure({\n    easing: \"ease\",\n    // 动画方式\n    speed: 1e3,\n    // 递增进度条的速度\n    showSpinner: false,\n    // 是否显示加载ico\n    trickleSpeed: 200,\n    // 自动递增间隔\n    minimum: 0.3,\n    // 更改启动时使用的最小百分比\n    parent: \"body\"\n    //指定进度条的父容器\n  });\n  const start = () => {\n    NProgress.start();\n  };\n  const done = () => {\n    NProgress.done();\n  };\n  return {\n    start,\n    done\n  };\n};\n",
+      "start": 1738720189698,
+      "end": 1738720189738,
+      "order": "normal",
+      "sourcemaps": {
+        "version": 3,
+        "sources": [
+          "starhorseProcess.ts"
+        ],
+        "sourcesContent": [
+          "import type {NProgressOptions} from 'nprogress'\r\nimport NProgress from 'nprogress';\r\nimport 'nprogress/nprogress.css';\r\n//全局进度条的配置\r\nexport const starhorseProcess = () => {\r\n    NProgress.configure({\r\n        easing: 'ease', // 动画方式\r\n        speed: 1000, // 递增进度条的速度\r\n        showSpinner: false, // 是否显示加载ico\r\n        trickleSpeed: 200, // 自动递增间隔\r\n        minimum: 0.3, // 更改启动时使用的最小百分比\r\n        parent: 'body', //指定进度条的父容器\r\n    } as NProgressOptions)\r\n// 打开进度条\r\n    const start = () => {\r\n        NProgress.start()\r\n    }\r\n// 关闭进度条\r\n    const done = () => {\r\n        NProgress.done()\r\n    }\r\n    return {\r\n        start, done\r\n    }\r\n};\r\n"
+        ],
+        "mappings": "AACA,OAAO,eAAe;AACtB,OAAO;AAEA,aAAM,mBAAmB,MAAM;AAClC,YAAU,UAAU;AAAA,IAChB,QAAQ;AAAA;AAAA,IACR,OAAO;AAAA;AAAA,IACP,aAAa;AAAA;AAAA,IACb,cAAc;AAAA;AAAA,IACd,SAAS;AAAA;AAAA,IACT,QAAQ;AAAA;AAAA,EACZ,CAAqB;AAErB,QAAM,QAAQ,MAAM;AAChB,cAAU,MAAM;AAAA,EACpB;AAEA,QAAM,OAAO,MAAM;AACf,cAAU,KAAK;AAAA,EACnB;AACA,SAAO;AAAA,IACH;AAAA,IAAO;AAAA,EACX;AACJ;",
+        "names": []
+      }
+    },
+    {
+      "name": "vite:json",
+      "start": 1738720189738,
+      "end": 1738720189738,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1738720189738,
+      "end": 1738720189738,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1738720189738,
+      "end": 1738720189738,
+      "order": "normal"
+    },
+    {
+      "name": "originjs:commonjs",
+      "start": 1738720189738,
+      "end": 1738720189738,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1738720189738,
+      "end": 1738720189738,
+      "order": "normal"
+    },
+    {
+      "name": "inject",
+      "start": 1738720189739,
+      "end": 1738720189743,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1738720189743,
+      "end": 1738720189743,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1738720189743,
+      "end": 1738720189743,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1738720189743,
+      "end": 1738720189743,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1738720189743,
+      "end": 1738720189743,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1738720189743,
+      "end": 1738720189743,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1738720189743,
+      "end": 1738720189746,
+      "order": "normal"
+    },
+    {
+      "name": "vite-plugin-vue-inspector:post",
+      "start": 1738720189746,
+      "end": 1738720189746,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-auto-import",
+      "start": 1738720189747,
+      "end": 1738720189752,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-vue-components",
+      "start": 1738720189752,
+      "end": 1738720189752,
+      "order": "post"
+    },
+    {
+      "name": "vite:client-inject",
+      "start": 1738720189752,
+      "end": 1738720189752,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-analysis",
+      "start": 1738720189752,
+      "end": 1738720189752,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-analysis",
+      "result": "import __vite__cjsImport0_nprogress from \"/node_modules/.vite/deps/nprogress.js?v=65efcb1b\"; const NProgress = __vite__cjsImport0_nprogress.__esModule ? __vite__cjsImport0_nprogress.default : __vite__cjsImport0_nprogress;\nimport \"/node_modules/nprogress/nprogress.css\";\nexport const starhorseProcess = () => {\n  NProgress.configure({\n    easing: \"ease\",\n    // 动画方式\n    speed: 1e3,\n    // 递增进度条的速度\n    showSpinner: false,\n    // 是否显示加载ico\n    trickleSpeed: 200,\n    // 自动递增间隔\n    minimum: 0.3,\n    // 更改启动时使用的最小百分比\n    parent: \"body\"\n    //指定进度条的父容器\n  });\n  const start = () => {\n    NProgress.start();\n  };\n  const done = () => {\n    NProgress.done();\n  };\n  return {\n    start,\n    done\n  };\n};\n",
+      "start": 1738720189752,
+      "end": 1738720189757,
+      "order": "normal",
+      "sourcemaps": null
+    }
+  ]
+}

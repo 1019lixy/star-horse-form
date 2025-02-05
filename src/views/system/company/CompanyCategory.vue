@@ -23,14 +23,12 @@ const searchFormData = reactive<SearchFields>({
       fieldName: "categoryName",
       defaultVisible: true,
       matchType: "lk",
-      type: "input"
     },
     {
       label: "编码",
       fieldName: "categoryCode",
       defaultVisible: true,
       matchType: "lk",
-      type: "input"
     },
 
   ]
@@ -39,19 +37,20 @@ const searchFormData = reactive<SearchFields>({
 const tableFieldList = reactive<PageFieldInfo | any>({
   //属性列表
   fieldList: [
-
     {
       label: "名称",
       fieldName: "categoryName",
-      type: "input",
       required: true,
       formVisible: !false,
       listVisible: !false,
+      listPrototypeDisplay:"text",
+      preps:{
+        tagType:"info",
+      }
     },
     {
       label: "编码",
       fieldName: "categoryCode",
-      type: "input",
       required: true,
       editDisabled: "Y",
       formVisible: !false,
@@ -64,9 +63,10 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       required: false,
       formVisible: !false,
       listVisible: !false,
+      listPrototypeDisplay:"text",
     }, ...commonField()
   ],
-  cellEditable:true,
+  cellEditable: true,
   //默认查询条件
   condition: [getCustomerParam()],
 });
@@ -80,7 +80,7 @@ let extandBtns = ref<UserFuncInfo[]>([{
   btnName: "添加子节点",
   authority: "add",
   icon: "plus",
-  priority:1,
+  priority: 1,
   funcName: (row: any) => {
     outerForm.value["parentId"] = row[primaryKey];
     dialogProps.editVisible = true;
@@ -111,13 +111,17 @@ onMounted(async () => {
 </script>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialog-visible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form @refresh="companyCategoryRef.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList"
-                     :outerFormData="outerForm"
-                     :rules="rules"/>
+    <div class="dialog-body">
+      <star-horse-form @refresh="companyCategoryRef.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList"
+                       :outerFormData="outerForm"
+                       :rules="rules"/>
+    </div>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title="'查看数据'"
                      :isView="true">
-    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+    <div class="dialog-body">
+      <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+    </div>
   </star-horse-dialog>
   <el-card class="inner_content">
     <div class="search_btn" :style="{'flex-direction':Config.buttonStyle=='line'?'column':'row'}">

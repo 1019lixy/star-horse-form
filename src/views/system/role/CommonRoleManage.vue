@@ -346,14 +346,14 @@ onDeactivated(() => {
   </star-horse-dialog>
   <star-horse-dialog :isShowBtnContinue="true" :dialog-visible="dialogProps.editVisible" :dialogProps="dialogProps">
     <div class="dialog-body">
-    <star-horse-form @refresh="companyRoleRef.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList"
-                     :rules="rules" :outerFormData="outerFormData"/>
+      <star-horse-form @refresh="companyRoleRef.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList"
+                       :rules="rules" :outerFormData="outerFormData"/>
     </div>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title="'查看数据'"
                      :isView="true">
     <div class="dialog-body">
-    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+      <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
     </div>
   </star-horse-dialog>
   <el-row :gutter="10" class="h100-overflow-hidden ">

@@ -68,7 +68,8 @@ onMounted(() => {
                 <DeleteConfirm :node="conditionNode" @callback="delCallback"/>
               </div>
             </div>
-            <FlowAddNode :node="node" :nodeType="FlowNodeEnums.BRANCH_NODE" :id="conditionNode.id" :readable="readable"/>
+            <FlowAddNode :node="node" :nodeType="FlowNodeEnums.BRANCH_NODE" :id="conditionNode.id"
+                         :readable="readable"/>
           </div>
         </div>
         <FlowNode v-if="conditionNode.childNode && conditionNode.childNode.hasOwnProperty('name')"

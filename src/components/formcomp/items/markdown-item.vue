@@ -44,7 +44,7 @@ export default defineComponent({
     onUpdated(() => {
       init();
     })
-    return {parentField, context, field, formItem, dataField, markdownEditor, itemAction, defaultLeftToolBar,defaultRightToolBar}
+    return {parentField, context, field, formItem, dataField, markdownEditor, itemAction, defaultLeftToolBar, defaultRightToolBar}
   }
 });
 </script>

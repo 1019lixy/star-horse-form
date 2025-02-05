@@ -5,7 +5,7 @@ defineOptions({
 </script>
 
 <template>
-版权
+  版权
 </template>
 
 <style scoped lang="scss">

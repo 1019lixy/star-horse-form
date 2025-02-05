@@ -1,0 +1,155 @@
+{
+  "resolvedId": "E:/lixycode/testcode/node_modules/element-plus/theme-chalk/src/progress.scss",
+  "transforms": [
+    {
+      "name": "__load__",
+      "result": "@use 'mixins/mixins' as *;\n@use 'mixins/utils' as *;\n@use 'common/var' as *;\n\n@include b(progress) {\n  position: relative;\n  line-height: 1;\n  display: flex;\n  align-items: center;\n\n  @include e(text) {\n    font-size: 14px;\n    color: getCssVar('text-color', 'regular');\n    margin-left: 5px;\n    min-width: 50px;\n    line-height: 1;\n\n    i {\n      vertical-align: middle;\n      display: block;\n    }\n  }\n\n  @include m((circle, dashboard)) {\n    display: inline-block;\n\n    .#{$namespace}-progress__text {\n      position: absolute;\n      top: 50%;\n      left: 0;\n      width: 100%;\n      text-align: center;\n      margin: 0;\n      transform: translate(0, -50%);\n\n      i {\n        vertical-align: middle;\n        display: inline-block;\n      }\n    }\n  }\n\n  @include m(without-text) {\n    .#{$namespace}-progress__text {\n      display: none;\n    }\n\n    .#{$namespace}-progress-bar {\n      padding-right: 0;\n      margin-right: 0;\n      display: block;\n    }\n  }\n\n  @include m(text-inside) {\n    .#{$namespace}-progress-bar {\n      padding-right: 0;\n      margin-right: 0;\n    }\n  }\n\n  @include when(success) {\n    .#{$namespace}-progress-bar__inner {\n      background-color: getCssVar('color-success');\n    }\n\n    .#{$namespace}-progress__text {\n      color: getCssVar('color-success');\n    }\n  }\n\n  @include when(warning) {\n    .#{$namespace}-progress-bar__inner {\n      background-color: getCssVar('color-warning');\n    }\n\n    .#{$namespace}-progress__text {\n      color: getCssVar('color-warning');\n    }\n  }\n\n  @include when(exception) {\n    .#{$namespace}-progress-bar__inner {\n      background-color: getCssVar('color-danger');\n    }\n\n    .#{$namespace}-progress__text {\n      color: getCssVar('color-danger');\n    }\n  }\n}\n\n@include b(progress-bar) {\n  flex-grow: 1;\n  box-sizing: border-box;\n\n  @include e(outer) {\n    height: 6px;\n    border-radius: 100px;\n    background-color: getCssVar('border-color-lighter');\n    overflow: hidden;\n    position: relative;\n    vertical-align: middle;\n  }\n  @include e(inner) {\n    position: absolute;\n    left: 0;\n    top: 0;\n    height: 100%;\n    background-color: getCssVar('color-primary');\n    text-align: right;\n    border-radius: 100px;\n    line-height: 1;\n    white-space: nowrap;\n    transition: width 0.6s ease;\n\n    @include utils-vertical-center;\n\n    @include m(indeterminate) {\n      transform: translateZ(0);\n      animation: indeterminate 3s infinite;\n    }\n\n    @include m(striped) {\n      background-image: linear-gradient(\n        45deg,\n        rgba(0, 0, 0, 0.1) 25%,\n        transparent 25%,\n        transparent 50%,\n        rgba(0, 0, 0, 0.1) 50%,\n        rgba(0, 0, 0, 0.1) 75%,\n        transparent 75%,\n        transparent\n      );\n      background-size: 1.25em 1.25em;\n      &.#{$namespace}-progress-bar__inner--striped-flow {\n        animation: striped-flow 3s linear infinite;\n      }\n    }\n  }\n\n  @include e(innerText) {\n    display: inline-block;\n    vertical-align: middle;\n    color: $color-white;\n    font-size: 12px;\n    margin: 0 5px;\n  }\n}\n\n@keyframes progress {\n  0% {\n    background-position: 0 0;\n  }\n\n  100% {\n    background-position: 32px 0;\n  }\n}\n\n@keyframes indeterminate {\n  0% {\n    left: -100%;\n  }\n\n  100% {\n    left: 100%;\n  }\n}\n\n@keyframes striped-flow {\n  0% {\n    background-position: -100%;\n  }\n\n  100% {\n    background-position: 100%;\n  }\n}\n",
+      "start": 1738720248520,
+      "end": 1738720248520
+    },
+    {
+      "name": "vite-plugin-vue-inspector",
+      "start": 1738720248520,
+      "end": 1738720248520,
+      "order": "pre"
+    },
+    {
+      "name": "vite-plugin-vue-devtools",
+      "result": "@use 'mixins/mixins' as *;\n@use 'mixins/utils' as *;\n@use 'common/var' as *;\n\n@include b(progress) {\n  position: relative;\n  line-height: 1;\n  display: flex;\n  align-items: center;\n\n  @include e(text) {\n    font-size: 14px;\n    color: getCssVar('text-color', 'regular');\n    margin-left: 5px;\n    min-width: 50px;\n    line-height: 1;\n\n    i {\n      vertical-align: middle;\n      display: block;\n    }\n  }\n\n  @include m((circle, dashboard)) {\n    display: inline-block;\n\n    .#{$namespace}-progress__text {\n      position: absolute;\n      top: 50%;\n      left: 0;\n      width: 100%;\n      text-align: center;\n      margin: 0;\n      transform: translate(0, -50%);\n\n      i {\n        vertical-align: middle;\n        display: inline-block;\n      }\n    }\n  }\n\n  @include m(without-text) {\n    .#{$namespace}-progress__text {\n      display: none;\n    }\n\n    .#{$namespace}-progress-bar {\n      padding-right: 0;\n      margin-right: 0;\n      display: block;\n    }\n  }\n\n  @include m(text-inside) {\n    .#{$namespace}-progress-bar {\n      padding-right: 0;\n      margin-right: 0;\n    }\n  }\n\n  @include when(success) {\n    .#{$namespace}-progress-bar__inner {\n      background-color: getCssVar('color-success');\n    }\n\n    .#{$namespace}-progress__text {\n      color: getCssVar('color-success');\n    }\n  }\n\n  @include when(warning) {\n    .#{$namespace}-progress-bar__inner {\n      background-color: getCssVar('color-warning');\n    }\n\n    .#{$namespace}-progress__text {\n      color: getCssVar('color-warning');\n    }\n  }\n\n  @include when(exception) {\n    .#{$namespace}-progress-bar__inner {\n      background-color: getCssVar('color-danger');\n    }\n\n    .#{$namespace}-progress__text {\n      color: getCssVar('color-danger');\n    }\n  }\n}\n\n@include b(progress-bar) {\n  flex-grow: 1;\n  box-sizing: border-box;\n\n  @include e(outer) {\n    height: 6px;\n    border-radius: 100px;\n    background-color: getCssVar('border-color-lighter');\n    overflow: hidden;\n    position: relative;\n    vertical-align: middle;\n  }\n  @include e(inner) {\n    position: absolute;\n    left: 0;\n    top: 0;\n    height: 100%;\n    background-color: getCssVar('color-primary');\n    text-align: right;\n    border-radius: 100px;\n    line-height: 1;\n    white-space: nowrap;\n    transition: width 0.6s ease;\n\n    @include utils-vertical-center;\n\n    @include m(indeterminate) {\n      transform: translateZ(0);\n      animation: indeterminate 3s infinite;\n    }\n\n    @include m(striped) {\n      background-image: linear-gradient(\n        45deg,\n        rgba(0, 0, 0, 0.1) 25%,\n        transparent 25%,\n        transparent 50%,\n        rgba(0, 0, 0, 0.1) 50%,\n        rgba(0, 0, 0, 0.1) 75%,\n        transparent 75%,\n        transparent\n      );\n      background-size: 1.25em 1.25em;\n      &.#{$namespace}-progress-bar__inner--striped-flow {\n        animation: striped-flow 3s linear infinite;\n      }\n    }\n  }\n\n  @include e(innerText) {\n    display: inline-block;\n    vertical-align: middle;\n    color: $color-white;\n    font-size: 12px;\n    margin: 0 5px;\n  }\n}\n\n@keyframes progress {\n  0% {\n    background-position: 0 0;\n  }\n\n  100% {\n    background-position: 32px 0;\n  }\n}\n\n@keyframes indeterminate {\n  0% {\n    left: -100%;\n  }\n\n  100% {\n    left: 100%;\n  }\n}\n\n@keyframes striped-flow {\n  0% {\n    background-position: -100%;\n  }\n\n  100% {\n    background-position: 100%;\n  }\n}\n",
+      "start": 1738720248520,
+      "end": 1738720248520,
+      "order": "pre",
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "result": "/* Element Chalk Variables */\n.el-progress {\n  position: relative;\n  line-height: 1;\n  display: flex;\n  align-items: center;\n}\n.el-progress__text {\n  font-size: 14px;\n  color: var(--el-text-color-regular);\n  margin-left: 5px;\n  min-width: 50px;\n  line-height: 1;\n}\n.el-progress__text i {\n  vertical-align: middle;\n  display: block;\n}\n\n.el-progress--circle, .el-progress--dashboard {\n  display: inline-block;\n}\n.el-progress--circle .el-progress__text, .el-progress--dashboard .el-progress__text {\n  position: absolute;\n  top: 50%;\n  left: 0;\n  width: 100%;\n  text-align: center;\n  margin: 0;\n  transform: translate(0, -50%);\n}\n.el-progress--circle .el-progress__text i, .el-progress--dashboard .el-progress__text i {\n  vertical-align: middle;\n  display: inline-block;\n}\n\n.el-progress--without-text .el-progress__text {\n  display: none;\n}\n.el-progress--without-text .el-progress-bar {\n  padding-right: 0;\n  margin-right: 0;\n  display: block;\n}\n\n.el-progress--text-inside .el-progress-bar {\n  padding-right: 0;\n  margin-right: 0;\n}\n\n.el-progress.is-success .el-progress-bar__inner {\n  background-color: var(--el-color-success);\n}\n.el-progress.is-success .el-progress__text {\n  color: var(--el-color-success);\n}\n\n.el-progress.is-warning .el-progress-bar__inner {\n  background-color: var(--el-color-warning);\n}\n.el-progress.is-warning .el-progress__text {\n  color: var(--el-color-warning);\n}\n\n.el-progress.is-exception .el-progress-bar__inner {\n  background-color: var(--el-color-danger);\n}\n.el-progress.is-exception .el-progress__text {\n  color: var(--el-color-danger);\n}\n\n.el-progress-bar {\n  flex-grow: 1;\n  box-sizing: border-box;\n}\n.el-progress-bar__outer {\n  height: 6px;\n  border-radius: 100px;\n  background-color: var(--el-border-color-lighter);\n  overflow: hidden;\n  position: relative;\n  vertical-align: middle;\n}\n\n.el-progress-bar__inner {\n  position: absolute;\n  left: 0;\n  top: 0;\n  height: 100%;\n  background-color: var(--el-color-primary);\n  text-align: right;\n  border-radius: 100px;\n  line-height: 1;\n  white-space: nowrap;\n  transition: width 0.6s ease;\n}\n.el-progress-bar__inner::after {\n  display: inline-block;\n  content: \"\";\n  height: 100%;\n  vertical-align: middle;\n}\n\n.el-progress-bar__inner--indeterminate {\n  transform: translateZ(0);\n  animation: indeterminate 3s infinite;\n}\n\n.el-progress-bar__inner--striped {\n  background-image: linear-gradient(45deg, rgba(0, 0, 0, 0.1) 25%, transparent 25%, transparent 50%, rgba(0, 0, 0, 0.1) 50%, rgba(0, 0, 0, 0.1) 75%, transparent 75%, transparent);\n  background-size: 1.25em 1.25em;\n}\n.el-progress-bar__inner--striped.el-progress-bar__inner--striped-flow {\n  animation: striped-flow 3s linear infinite;\n}\n\n.el-progress-bar__innerText {\n  display: inline-block;\n  vertical-align: middle;\n  color: #ffffff;\n  font-size: 12px;\n  margin: 0 5px;\n}\n\n@keyframes progress {\n  0% {\n    background-position: 0 0;\n  }\n  100% {\n    background-position: 32px 0;\n  }\n}\n@keyframes indeterminate {\n  0% {\n    left: -100%;\n  }\n  100% {\n    left: 100%;\n  }\n}\n@keyframes striped-flow {\n  0% {\n    background-position: -100%;\n  }\n  100% {\n    background-position: 100%;\n  }\n}",
+      "start": 1738720248520,
+      "end": 1738720248594,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1738720248594,
+      "end": 1738720248594,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1738720248594,
+      "end": 1738720248594,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1738720248594,
+      "end": 1738720248594,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1738720248594,
+      "end": 1738720248594,
+      "order": "normal"
+    },
+    {
+      "name": "originjs:commonjs",
+      "start": 1738720248594,
+      "end": 1738720248595,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1738720248595,
+      "end": 1738720248595,
+      "order": "normal"
+    },
+    {
+      "name": "inject",
+      "start": 1738720248595,
+      "end": 1738720248595,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1738720248595,
+      "end": 1738720248595,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "result": "import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/node_modules/element-plus/theme-chalk/src/progress.scss\"\nconst __vite__css = \"/* Element Chalk Variables */\\n.el-progress {\\n  position: relative;\\n  line-height: 1;\\n  display: flex;\\n  align-items: center;\\n}\\n.el-progress__text {\\n  font-size: 14px;\\n  color: var(--el-text-color-regular);\\n  margin-left: 5px;\\n  min-width: 50px;\\n  line-height: 1;\\n}\\n.el-progress__text i {\\n  vertical-align: middle;\\n  display: block;\\n}\\n\\n.el-progress--circle, .el-progress--dashboard {\\n  display: inline-block;\\n}\\n.el-progress--circle .el-progress__text, .el-progress--dashboard .el-progress__text {\\n  position: absolute;\\n  top: 50%;\\n  left: 0;\\n  width: 100%;\\n  text-align: center;\\n  margin: 0;\\n  transform: translate(0, -50%);\\n}\\n.el-progress--circle .el-progress__text i, .el-progress--dashboard .el-progress__text i {\\n  vertical-align: middle;\\n  display: inline-block;\\n}\\n\\n.el-progress--without-text .el-progress__text {\\n  display: none;\\n}\\n.el-progress--without-text .el-progress-bar {\\n  padding-right: 0;\\n  margin-right: 0;\\n  display: block;\\n}\\n\\n.el-progress--text-inside .el-progress-bar {\\n  padding-right: 0;\\n  margin-right: 0;\\n}\\n\\n.el-progress.is-success .el-progress-bar__inner {\\n  background-color: var(--el-color-success);\\n}\\n.el-progress.is-success .el-progress__text {\\n  color: var(--el-color-success);\\n}\\n\\n.el-progress.is-warning .el-progress-bar__inner {\\n  background-color: var(--el-color-warning);\\n}\\n.el-progress.is-warning .el-progress__text {\\n  color: var(--el-color-warning);\\n}\\n\\n.el-progress.is-exception .el-progress-bar__inner {\\n  background-color: var(--el-color-danger);\\n}\\n.el-progress.is-exception .el-progress__text {\\n  color: var(--el-color-danger);\\n}\\n\\n.el-progress-bar {\\n  flex-grow: 1;\\n  box-sizing: border-box;\\n}\\n.el-progress-bar__outer {\\n  height: 6px;\\n  border-radius: 100px;\\n  background-color: var(--el-border-color-lighter);\\n  overflow: hidden;\\n  position: relative;\\n  vertical-align: middle;\\n}\\n\\n.el-progress-bar__inner {\\n  position: absolute;\\n  left: 0;\\n  top: 0;\\n  height: 100%;\\n  background-color: var(--el-color-primary);\\n  text-align: right;\\n  border-radius: 100px;\\n  line-height: 1;\\n  white-space: nowrap;\\n  transition: width 0.6s ease;\\n}\\n.el-progress-bar__inner::after {\\n  display: inline-block;\\n  content: \\\"\\\";\\n  height: 100%;\\n  vertical-align: middle;\\n}\\n\\n.el-progress-bar__inner--indeterminate {\\n  transform: translateZ(0);\\n  animation: indeterminate 3s infinite;\\n}\\n\\n.el-progress-bar__inner--striped {\\n  background-image: linear-gradient(45deg, rgba(0, 0, 0, 0.1) 25%, transparent 25%, transparent 50%, rgba(0, 0, 0, 0.1) 50%, rgba(0, 0, 0, 0.1) 75%, transparent 75%, transparent);\\n  background-size: 1.25em 1.25em;\\n}\\n.el-progress-bar__inner--striped.el-progress-bar__inner--striped-flow {\\n  animation: striped-flow 3s linear infinite;\\n}\\n\\n.el-progress-bar__innerText {\\n  display: inline-block;\\n  vertical-align: middle;\\n  color: #ffffff;\\n  font-size: 12px;\\n  margin: 0 5px;\\n}\\n\\n@keyframes progress {\\n  0% {\\n    background-position: 0 0;\\n  }\\n  100% {\\n    background-position: 32px 0;\\n  }\\n}\\n@keyframes indeterminate {\\n  0% {\\n    left: -100%;\\n  }\\n  100% {\\n    left: 100%;\\n  }\\n}\\n@keyframes striped-flow {\\n  0% {\\n    background-position: -100%;\\n  }\\n  100% {\\n    background-position: 100%;\\n  }\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720248595,
+      "end": 1738720248595,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1738720248595,
+      "end": 1738720248595,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1738720248595,
+      "end": 1738720248595,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1738720248595,
+      "end": 1738720248595,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1738720248595,
+      "end": 1738720248595,
+      "order": "normal"
+    },
+    {
+      "name": "vite-plugin-vue-inspector:post",
+      "start": 1738720248595,
+      "end": 1738720248595,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-auto-import",
+      "start": 1738720248595,
+      "end": 1738720248595,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-vue-components",
+      "start": 1738720248595,
+      "end": 1738720248595,
+      "order": "post"
+    },
+    {
+      "name": "vite:client-inject",
+      "start": 1738720248595,
+      "end": 1738720248595,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-analysis",
+      "start": 1738720248595,
+      "end": 1738720248595,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-analysis",
+      "result": "import { createHotContext as __vite__createHotContext } from \"/@vite/client\";import.meta.hot = __vite__createHotContext(\"/node_modules/element-plus/theme-chalk/src/progress.scss\");import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/node_modules/element-plus/theme-chalk/src/progress.scss\"\nconst __vite__css = \"/* Element Chalk Variables */\\n.el-progress {\\n  position: relative;\\n  line-height: 1;\\n  display: flex;\\n  align-items: center;\\n}\\n.el-progress__text {\\n  font-size: 14px;\\n  color: var(--el-text-color-regular);\\n  margin-left: 5px;\\n  min-width: 50px;\\n  line-height: 1;\\n}\\n.el-progress__text i {\\n  vertical-align: middle;\\n  display: block;\\n}\\n\\n.el-progress--circle, .el-progress--dashboard {\\n  display: inline-block;\\n}\\n.el-progress--circle .el-progress__text, .el-progress--dashboard .el-progress__text {\\n  position: absolute;\\n  top: 50%;\\n  left: 0;\\n  width: 100%;\\n  text-align: center;\\n  margin: 0;\\n  transform: translate(0, -50%);\\n}\\n.el-progress--circle .el-progress__text i, .el-progress--dashboard .el-progress__text i {\\n  vertical-align: middle;\\n  display: inline-block;\\n}\\n\\n.el-progress--without-text .el-progress__text {\\n  display: none;\\n}\\n.el-progress--without-text .el-progress-bar {\\n  padding-right: 0;\\n  margin-right: 0;\\n  display: block;\\n}\\n\\n.el-progress--text-inside .el-progress-bar {\\n  padding-right: 0;\\n  margin-right: 0;\\n}\\n\\n.el-progress.is-success .el-progress-bar__inner {\\n  background-color: var(--el-color-success);\\n}\\n.el-progress.is-success .el-progress__text {\\n  color: var(--el-color-success);\\n}\\n\\n.el-progress.is-warning .el-progress-bar__inner {\\n  background-color: var(--el-color-warning);\\n}\\n.el-progress.is-warning .el-progress__text {\\n  color: var(--el-color-warning);\\n}\\n\\n.el-progress.is-exception .el-progress-bar__inner {\\n  background-color: var(--el-color-danger);\\n}\\n.el-progress.is-exception .el-progress__text {\\n  color: var(--el-color-danger);\\n}\\n\\n.el-progress-bar {\\n  flex-grow: 1;\\n  box-sizing: border-box;\\n}\\n.el-progress-bar__outer {\\n  height: 6px;\\n  border-radius: 100px;\\n  background-color: var(--el-border-color-lighter);\\n  overflow: hidden;\\n  position: relative;\\n  vertical-align: middle;\\n}\\n\\n.el-progress-bar__inner {\\n  position: absolute;\\n  left: 0;\\n  top: 0;\\n  height: 100%;\\n  background-color: var(--el-color-primary);\\n  text-align: right;\\n  border-radius: 100px;\\n  line-height: 1;\\n  white-space: nowrap;\\n  transition: width 0.6s ease;\\n}\\n.el-progress-bar__inner::after {\\n  display: inline-block;\\n  content: \\\"\\\";\\n  height: 100%;\\n  vertical-align: middle;\\n}\\n\\n.el-progress-bar__inner--indeterminate {\\n  transform: translateZ(0);\\n  animation: indeterminate 3s infinite;\\n}\\n\\n.el-progress-bar__inner--striped {\\n  background-image: linear-gradient(45deg, rgba(0, 0, 0, 0.1) 25%, transparent 25%, transparent 50%, rgba(0, 0, 0, 0.1) 50%, rgba(0, 0, 0, 0.1) 75%, transparent 75%, transparent);\\n  background-size: 1.25em 1.25em;\\n}\\n.el-progress-bar__inner--striped.el-progress-bar__inner--striped-flow {\\n  animation: striped-flow 3s linear infinite;\\n}\\n\\n.el-progress-bar__innerText {\\n  display: inline-block;\\n  vertical-align: middle;\\n  color: #ffffff;\\n  font-size: 12px;\\n  margin: 0 5px;\\n}\\n\\n@keyframes progress {\\n  0% {\\n    background-position: 0 0;\\n  }\\n  100% {\\n    background-position: 32px 0;\\n  }\\n}\\n@keyframes indeterminate {\\n  0% {\\n    left: -100%;\\n  }\\n  100% {\\n    left: 100%;\\n  }\\n}\\n@keyframes striped-flow {\\n  0% {\\n    background-position: -100%;\\n  }\\n  100% {\\n    background-position: 100%;\\n  }\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720248595,
+      "end": 1738720248595,
+      "order": "normal",
+      "sourcemaps": null
+    }
+  ]
+}

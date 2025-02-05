@@ -1,0 +1,184 @@
+{
+  "resolvedId": "E:/lixycode/testcode/src/views/workflow/plugin/node/ApplyNode.vue?vue&type=style&index=0&scoped=5d486513&lang.scss",
+  "transforms": [
+    {
+      "name": "vite:vue",
+      "result": "\r\n.node-name {\r\n  &:before {\r\n    content: \"\";\r\n    top: 0 !important;\r\n    left: 0 !important;\r\n    width: 0 !important;\r\n    border-style: unset !important;\r\n    transform: unset !important;\r\n    background-color: unset !important;\r\n    border-color: unset !important;\r\n    border-width: unset !important;\r\n  }\r\n}\r\n",
+      "start": 1738720351972,
+      "end": 1738720351972,
+      "sourcemaps": {
+        "version": 3,
+        "sources": [
+          "E:/lixycode/testcode/src/views/workflow/plugin/node/ApplyNode.vue"
+        ],
+        "names": [],
+        "mappings": ";AA+FA,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE;EACT,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE;IACP,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC;IACX,CAAC,CAAC,CAAC,EAAE,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;IACjB,CAAC,CAAC,CAAC,CAAC,EAAE,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;IAClB,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;IACnB,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;IAC9B,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;IAC3B,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;IAClC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;IAC9B,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;EAChC;AACF",
+        "file": "E:/lixycode/testcode/src/views/workflow/plugin/node/ApplyNode.vue",
+        "sourceRoot": "",
+        "sourcesContent": [
+          "<script setup lang=\"ts\">\r\nimport FlowAddNode from '@/views/workflow/plugin/node/AddNode.vue';\r\nimport EditName from '@/views/workflow/plugin/common/EditName.vue';\r\nimport DeleteConfirm from '@/views/workflow/plugin/common/DeleteConfirm.vue';\r\nimport {computed, onMounted} from \"vue\";\r\nimport StarHorseIcon from \"@/components/comp/StarHorseIcon.vue\";\r\nimport {useFlowDesign} from \"@/store/FlowDesignStore.ts\";\r\nimport piniaInstance from \"@/store\";\r\nimport {FlowNodeEnums} from \"@/views/workflow/plugin/enums/FlowNodeEnums.ts\";\r\nimport {closeLoad} from \"@/api/sh_api.ts\";\r\n\r\ndefineOptions({\r\n  name: 'ApplyNode',\r\n});\r\nconst flowDesign = useFlowDesign(piniaInstance);\r\nlet currentNode = computed(() => flowDesign.currentNode);\r\nconst props = defineProps({\r\n  node: {\r\n    type: Object,\r\n    default: function () {\r\n      return {};\r\n    },\r\n  },\r\n  readable: {\r\n    type: Boolean,\r\n    default: false,\r\n  }\r\n});\r\nprops.node.error = computed(() => {\r\n  let flag = !props.node.formId;\r\n  props.node.errorMsg = flag ? \"未配置表单\" : \"\";\r\n  return flag;\r\n});\r\nconst emits = defineEmits(['selectNode']);\r\nconst selectNode = () => {\r\n  emits('selectNode', props.node);\r\n}\r\nlet nameClass = computed(() => {\r\n  return (node:any, defaultStyle:string) => {\r\n    if (node.statusCode == -1) {\r\n      return defaultStyle;\r\n    }\r\n    return {\r\n      'node-status-not': node.statusCode == 0,\r\n      'node-status-current': node.statusCode == 1,\r\n      'node-status-complete': node.statusCode == 2\r\n    };\r\n  };\r\n});\r\nconst init = () => {\r\n  closeLoad();\r\n  flowDesign.refreshMap();\r\n  if (window.gc) {\r\n    window.gc();\r\n  }\r\n}\r\nonMounted(() => {\r\n  init();\r\n})\r\n</script>\r\n<template>\r\n  <div class=\"flow-row\" data-v-inspector=\"src/views/workflow/plugin/node/ApplyNode.vue:62:3\">\r\n    <div class=\"flow-box\" data-v-inspector=\"src/views/workflow/plugin/node/ApplyNode.vue:63:5\">\r\n      <div class=\"flow-item\" :class=\"{ 'flow-item-active': currentNode.id==node.id }\" @click.stop=\"selectNode\" data-v-inspector=\"src/views/workflow/plugin/node/ApplyNode.vue:64:7\">\r\n        <div class=\"flow-node-box\" :class=\"{ 'has-error': node.error }\" data-v-inspector=\"src/views/workflow/plugin/node/ApplyNode.vue:65:9\">\r\n          <div class=\"node-name\" :class=\"nameClass(node, 'node-fill')\" data-v-inspector=\"src/views/workflow/plugin/node/ApplyNode.vue:66:11\">\r\n            <EditName v-model:nodeName=\"node.name\" data-v-inspector=\"src/views/workflow/plugin/node/ApplyNode.vue:67:13\"/>\r\n            <star-horse-icon icon-class=\"edit_node\" style=\"margin-left: 10px\" data-v-inspector=\"src/views/workflow/plugin/node/ApplyNode.vue:68:13\"/>\r\n          </div>\r\n          <div class=\"node-main\" data-v-inspector=\"src/views/workflow/plugin/node/ApplyNode.vue:70:11\">\r\n            <span v-if=\"node.content\" data-v-inspector=\"src/views/workflow/plugin/node/ApplyNode.vue:71:13\">\r\n              表单权限:\r\n              <el-tooltip placement=\"top\" :content=\"node.content\" data-v-inspector=\"src/views/workflow/plugin/node/ApplyNode.vue:73:15\">\r\n                {{ node.content }}\r\n              </el-tooltip>\r\n            </span>\r\n            <span v-else class=\"hint-title\" data-v-inspector=\"src/views/workflow/plugin/node/ApplyNode.vue:77:13\">默认表单全可编辑</span>\r\n          </div>\r\n          <!-- 错误提示 -->\r\n          <el-tooltip :content=\"node.errorMsg\" placement=\"top\" v-if=\"node.error\" data-v-inspector=\"src/views/workflow/plugin/node/ApplyNode.vue:80:11\">\r\n            <star-horse-icon icon-class=\"exclamation-circle\" theme=\"filled\" class=\"node-error\" data-v-inspector=\"src/views/workflow/plugin/node/ApplyNode.vue:81:13\"/>\r\n          </el-tooltip>\r\n          <!-- 只有是填写节点才能删除，发起节点不能删除 -->\r\n          <div v-if=\"!readable && !node.deletable&&node.type==FlowNodeEnums.START_NODE \" class=\"close-icon\" data-v-inspector=\"src/views/workflow/plugin/node/ApplyNode.vue:84:11\">\r\n            <star-horse-icon icon-class=\"close\" @click.stop=\"node.deletable = true\" data-v-inspector=\"src/views/workflow/plugin/node/ApplyNode.vue:85:13\"/>\r\n          </div>\r\n          <!-- 删除提示 -->\r\n          <DeleteConfirm :node=\"node\" data-v-inspector=\"src/views/workflow/plugin/node/ApplyNode.vue:88:11\"/>\r\n        </div>\r\n      </div>\r\n      <FlowAddNode :node=\"node\" :nodeType=\"FlowNodeEnums.APPLY_NODE\" :readable=\"readable\" data-v-inspector=\"src/views/workflow/plugin/node/ApplyNode.vue:91:7\"/>\r\n    </div>\r\n  </div>\r\n</template>\r\n<style lang=\"scss\" scoped>\r\n.node-name {\r\n  &:before {\r\n    content: \"\";\r\n    top: 0 !important;\r\n    left: 0 !important;\r\n    width: 0 !important;\r\n    border-style: unset !important;\r\n    transform: unset !important;\r\n    background-color: unset !important;\r\n    border-color: unset !important;\r\n    border-width: unset !important;\r\n  }\r\n}\r\n</style>\r\n"
+        ]
+      }
+    },
+    {
+      "name": "vite-plugin-vue-inspector",
+      "start": 1738720351972,
+      "end": 1738720351972,
+      "order": "pre"
+    },
+    {
+      "name": "vite-plugin-vue-devtools",
+      "result": "\r\n.node-name {\r\n  &:before {\r\n    content: \"\";\r\n    top: 0 !important;\r\n    left: 0 !important;\r\n    width: 0 !important;\r\n    border-style: unset !important;\r\n    transform: unset !important;\r\n    background-color: unset !important;\r\n    border-color: unset !important;\r\n    border-width: unset !important;\r\n  }\r\n}\r\n",
+      "start": 1738720351972,
+      "end": 1738720351972,
+      "order": "pre",
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "result": ".node-name:before {\n  content: \"\";\n  top: 0 !important;\n  left: 0 !important;\n  width: 0 !important;\n  border-style: unset !important;\n  transform: unset !important;\n  background-color: unset !important;\n  border-color: unset !important;\n  border-width: unset !important;\n}",
+      "start": 1738720351972,
+      "end": 1738720352027,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1738720352027,
+      "end": 1738720352027,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1738720352027,
+      "end": 1738720352027,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1738720352027,
+      "end": 1738720352027,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "result": ".node-name[data-v-5d486513]:before {\n  content: \"\";\n  top: 0 !important;\n  left: 0 !important;\n  width: 0 !important;\n  border-style: unset !important;\n  transform: unset !important;\n  background-color: unset !important;\n  border-color: unset !important;\n  border-width: unset !important;\n}",
+      "start": 1738720352027,
+      "end": 1738720352028,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "originjs:commonjs",
+      "start": 1738720352028,
+      "end": 1738720352028,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1738720352028,
+      "end": 1738720352028,
+      "order": "normal"
+    },
+    {
+      "name": "inject",
+      "start": 1738720352028,
+      "end": 1738720352028,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1738720352028,
+      "end": 1738720352028,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "result": "import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/src/views/workflow/plugin/node/ApplyNode.vue?vue&type=style&index=0&scoped=5d486513&lang.scss\"\nconst __vite__css = \".node-name[data-v-5d486513]:before {\\n  content: \\\"\\\";\\n  top: 0 !important;\\n  left: 0 !important;\\n  width: 0 !important;\\n  border-style: unset !important;\\n  transform: unset !important;\\n  background-color: unset !important;\\n  border-color: unset !important;\\n  border-width: unset !important;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720352028,
+      "end": 1738720352028,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1738720352028,
+      "end": 1738720352028,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1738720352028,
+      "end": 1738720352028,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1738720352028,
+      "end": 1738720352028,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1738720352028,
+      "end": 1738720352028,
+      "order": "normal"
+    },
+    {
+      "name": "vite-plugin-vue-inspector:post",
+      "start": 1738720352028,
+      "end": 1738720352028,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-auto-import",
+      "start": 1738720352028,
+      "end": 1738720352028,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-vue-components",
+      "result": "/* unplugin-vue-components disabled */import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/src/views/workflow/plugin/node/ApplyNode.vue?vue&type=style&index=0&scoped=5d486513&lang.scss\"\nconst __vite__css = \".node-name[data-v-5d486513]:before {\\n  content: \\\"\\\";\\n  top: 0 !important;\\n  left: 0 !important;\\n  width: 0 !important;\\n  border-style: unset !important;\\n  transform: unset !important;\\n  background-color: unset !important;\\n  border-color: unset !important;\\n  border-width: unset !important;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720352028,
+      "end": 1738720352029,
+      "order": "post",
+      "sourcemaps": {
+        "version": 3,
+        "sources": [
+          "E:/lixycode/testcode/src/views/workflow/plugin/node/ApplyNode.vue?vue&type=style&index=0&scoped=5d486513&lang.scss"
+        ],
+        "sourcesContent": [
+          "import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/src/views/workflow/plugin/node/ApplyNode.vue?vue&type=style&index=0&scoped=5d486513&lang.scss\"\nconst __vite__css = \".node-name[data-v-5d486513]:before {\\n  content: \\\"\\\";\\n  top: 0 !important;\\n  left: 0 !important;\\n  width: 0 !important;\\n  border-style: unset !important;\\n  transform: unset !important;\\n  background-color: unset !important;\\n  border-color: unset !important;\\n  border-width: unset !important;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))"
+        ],
+        "names": [],
+        "mappings": "sCAAA,MAAM,CAAC,CAAC,CAAC,WAAW,CAAC,EAAE,CAAC,mBAAmB,CAAC,CAAC,WAAW,CAAC,EAAE,CAAC,mBAAmB,CAAC,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,CAAC,IAAI,CAAC,MAAM;AACrG,KAAK,CAAC,UAAU,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,QAAQ,CAAC,QAAQ,CAAC,GAAG,CAAC,KAAK,CAAC,QAAQ,CAAC,MAAM,CAAC,IAAI,CAAC,SAAS,CAAC,GAAG,CAAC,GAAG,CAAC,IAAI,CAAC,KAAK,CAAC,KAAK,CAAC,CAAC,CAAC,MAAM,CAAC,QAAQ,CAAC,IAAI,CAAC,IAAI;AACtI,KAAK,CAAC,WAAW,CAAC,CAAC,CAAC,CAAC,CAAC,IAAI,CAAC,IAAI,CAAC,IAAI,CAAC,CAAC,CAAC,QAAQ,CAAC,CAAC,MAAM,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,OAAO,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,GAAG,CAAC,CAAC,CAAC,CAAC,CAAC,SAAS,CAAC,CAAC,CAAC,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,CAAC,CAAC,SAAS,CAAC,CAAC,CAAC,CAAC,CAAC,KAAK,CAAC,CAAC,CAAC,CAAC,CAAC,SAAS,CAAC,CAAC,CAAC,CAAC,CAAC,MAAM,CAAC,KAAK,CAAC,CAAC,KAAK,CAAC,CAAC,SAAS,CAAC,CAAC,CAAC,CAAC,CAAC,SAAS,CAAC,CAAC,KAAK,CAAC,CAAC,SAAS,CAAC,CAAC,CAAC,CAAC,CAAC,UAAU,CAAC,KAAK,CAAC,CAAC,KAAK,CAAC,CAAC,SAAS,CAAC,CAAC,CAAC,CAAC,CAAC,MAAM,CAAC,KAAK,CAAC,CAAC,KAAK,CAAC,CAAC,SAAS,CAAC,CAAC,CAAC,CAAC,CAAC,MAAM,CAAC,KAAK,CAAC,CAAC,KAAK,CAAC,CAAC,SAAS,CAAC,CAAC,CAAC,CAAC;AACnU,mBAAmB,CAAC,UAAU,CAAC,CAAC,WAAW;AAC3C,MAAM,CAAC,IAAI,CAAC,GAAG,CAAC,MAAM,CAAC;AACvB,MAAM,CAAC,IAAI,CAAC,GAAG,CAAC,KAAK,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,mBAAmB,CAAC,UAAU,CAAC"
+      }
+    },
+    {
+      "name": "vite:client-inject",
+      "start": 1738720352029,
+      "end": 1738720352029,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-analysis",
+      "start": 1738720352029,
+      "end": 1738720352029,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-analysis",
+      "result": "import { createHotContext as __vite__createHotContext } from \"/@vite/client\";import.meta.hot = __vite__createHotContext(\"/src/views/workflow/plugin/node/ApplyNode.vue?vue&type=style&index=0&scoped=5d486513&lang.scss\");/* unplugin-vue-components disabled */import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/src/views/workflow/plugin/node/ApplyNode.vue?vue&type=style&index=0&scoped=5d486513&lang.scss\"\nconst __vite__css = \".node-name[data-v-5d486513]:before {\\n  content: \\\"\\\";\\n  top: 0 !important;\\n  left: 0 !important;\\n  width: 0 !important;\\n  border-style: unset !important;\\n  transform: unset !important;\\n  background-color: unset !important;\\n  border-color: unset !important;\\n  border-width: unset !important;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720352029,
+      "end": 1738720352029,
+      "order": "normal",
+      "sourcemaps": null
+    }
+  ]
+}

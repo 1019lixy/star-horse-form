@@ -53,13 +53,16 @@ const selectData = (item: any, event: MouseEvent) => {
 .star-icon {
   font-size: 22px;
 }
-.el-sub-menu{
+
+.el-sub-menu {
   justify-content: space-between;
 }
+
 :deep(.el-sub-menu__title) {
   height: 35px !important;
   line-height: 35px !important;
   width: 100%;
+
   .menu-title {
     width: 100% !important;
     height: 100% !important;

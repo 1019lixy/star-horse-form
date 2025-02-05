@@ -1,0 +1,155 @@
+{
+  "resolvedId": "E:/lixycode/testcode/node_modules/element-plus/theme-chalk/src/input-number.scss",
+  "transforms": [
+    {
+      "name": "__load__",
+      "result": "@use 'sass:math';\n@use 'sass:map';\n\n@use 'mixins/mixins' as *;\n@use 'common/var' as *;\n\n@include b(input-number) {\n  position: relative;\n  display: inline-flex;\n  width: map.get($input-number-width, 'default');\n  line-height: #{map.get($input-height, 'default') - 2};\n  vertical-align: middle;\n\n  .#{$namespace}-input {\n    &__wrapper {\n      padding-left: #{map.get($input-height, 'default') + 10};\n      padding-right: #{map.get($input-height, 'default') + 10};\n    }\n\n    &__inner {\n      -webkit-appearance: none;\n      -moz-appearance: textfield;\n      text-align: center;\n      line-height: 1;\n      &::-webkit-inner-spin-button,\n      &::-webkit-outer-spin-button {\n        margin: 0;\n        -webkit-appearance: none;\n      }\n    }\n  }\n\n  @include e((increase, decrease)) {\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    height: auto;\n\n    position: absolute;\n    z-index: 1;\n    top: 1px;\n    bottom: 1px;\n\n    width: map.get($input-height, 'default');\n    background: getCssVar('fill-color', 'light');\n    color: getCssVar('text-color', 'regular');\n    cursor: pointer;\n    font-size: 13px;\n    user-select: none;\n\n    &:hover {\n      color: getCssVar('color-primary');\n\n      & ~ .#{$namespace}-input:not(.is-disabled) .#{$namespace}-input__wrapper {\n        box-shadow: 0 0 0 1px\n          var(\n            #{getCssVarName('input', 'focus-border-color')},\n            map.get($input, 'focus-border-color')\n          )\n          inset;\n      }\n    }\n\n    &.is-disabled {\n      color: getCssVar('disabled-text-color');\n      cursor: not-allowed;\n    }\n  }\n\n  @include e(increase) {\n    right: 1px;\n    border-radius: 0 getCssVar('border-radius-base')\n      getCssVar('border-radius-base') 0;\n    border-left: getCssVar('border');\n  }\n\n  @include e(decrease) {\n    left: 1px;\n    border-radius: getCssVar('border-radius-base') 0 0\n      getCssVar('border-radius-base');\n    border-right: getCssVar('border');\n  }\n\n  @include when(disabled) {\n    @include e((increase, decrease)) {\n      border-color: getCssVar('disabled-border-color');\n      color: getCssVar('disabled-border-color');\n\n      &:hover {\n        color: getCssVar('disabled-border-color');\n        cursor: not-allowed;\n      }\n    }\n  }\n\n  @each $size in (large, small) {\n    @include m($size) {\n      width: map.get($input-number-width, $size);\n      line-height: #{map.get($input-height, $size) - 2};\n\n      @include e((increase, decrease)) {\n        width: map.get($input-height, $size);\n        font-size: map.get($input-font-size, $size);\n      }\n\n      @include when(controls-right) {\n        .#{$namespace}-input--#{$size} {\n          .#{$namespace}-input__wrapper {\n            padding-right: #{map.get($input-height, $size) + 7};\n          }\n        }\n      }\n\n      .#{$namespace}-input--#{$size} {\n        .#{$namespace}-input__wrapper {\n          padding-left: #{map.get($input-height, $size) + 7};\n          padding-right: #{map.get($input-height, $size) + 7};\n        }\n      }\n    }\n  }\n\n  @include m(small) {\n    @include e((increase, decrease)) {\n      [class*='#{$namespace}-icon'] {\n        transform: scale(0.9);\n      }\n    }\n  }\n\n  @include when(without-controls) {\n    .#{$namespace}-input__wrapper {\n      padding-left: 15px;\n      padding-right: 15px;\n    }\n  }\n\n  @include when(controls-right) {\n    .#{$namespace}-input__wrapper {\n      padding-left: 15px;\n      padding-right: #{map.get($input-height, 'default') + 10};\n    }\n\n    @include e((increase, decrease)) {\n      @include set-css-var-value(\n        ('input', 'number-controls-height'),\n        math.div(map.get($input-height, 'default') - 2, 2)\n      );\n\n      height: getCssVar('input-number-controls-height');\n      line-height: getCssVar('input-number-controls-height');\n\n      [class*='#{$namespace}-icon'] {\n        transform: scale(0.8);\n      }\n    }\n\n    @include e(increase) {\n      bottom: auto;\n      left: auto;\n      border-radius: 0 getCssVar('border-radius-base') 0 0;\n      border-bottom: getCssVar('border');\n    }\n\n    @include e(decrease) {\n      right: 1px;\n      top: auto;\n      left: auto;\n      border-right: none;\n      border-left: getCssVar('border');\n      border-radius: 0 0 getCssVar('border-radius-base') 0;\n    }\n\n    @each $size in (large, small) {\n      &[class*='#{$size}'] {\n        [class*='increase'],\n        [class*='decrease'] {\n          @include set-css-var-value(\n            ('input', 'number-controls-height'),\n            math.div(map.get($input-height, $size) - 2, 2)\n          );\n        }\n      }\n    }\n  }\n}\n",
+      "start": 1738720350997,
+      "end": 1738720350997
+    },
+    {
+      "name": "vite-plugin-vue-inspector",
+      "start": 1738720350997,
+      "end": 1738720350997,
+      "order": "pre"
+    },
+    {
+      "name": "vite-plugin-vue-devtools",
+      "result": "@use 'sass:math';\n@use 'sass:map';\n\n@use 'mixins/mixins' as *;\n@use 'common/var' as *;\n\n@include b(input-number) {\n  position: relative;\n  display: inline-flex;\n  width: map.get($input-number-width, 'default');\n  line-height: #{map.get($input-height, 'default') - 2};\n  vertical-align: middle;\n\n  .#{$namespace}-input {\n    &__wrapper {\n      padding-left: #{map.get($input-height, 'default') + 10};\n      padding-right: #{map.get($input-height, 'default') + 10};\n    }\n\n    &__inner {\n      -webkit-appearance: none;\n      -moz-appearance: textfield;\n      text-align: center;\n      line-height: 1;\n      &::-webkit-inner-spin-button,\n      &::-webkit-outer-spin-button {\n        margin: 0;\n        -webkit-appearance: none;\n      }\n    }\n  }\n\n  @include e((increase, decrease)) {\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    height: auto;\n\n    position: absolute;\n    z-index: 1;\n    top: 1px;\n    bottom: 1px;\n\n    width: map.get($input-height, 'default');\n    background: getCssVar('fill-color', 'light');\n    color: getCssVar('text-color', 'regular');\n    cursor: pointer;\n    font-size: 13px;\n    user-select: none;\n\n    &:hover {\n      color: getCssVar('color-primary');\n\n      & ~ .#{$namespace}-input:not(.is-disabled) .#{$namespace}-input__wrapper {\n        box-shadow: 0 0 0 1px\n          var(\n            #{getCssVarName('input', 'focus-border-color')},\n            map.get($input, 'focus-border-color')\n          )\n          inset;\n      }\n    }\n\n    &.is-disabled {\n      color: getCssVar('disabled-text-color');\n      cursor: not-allowed;\n    }\n  }\n\n  @include e(increase) {\n    right: 1px;\n    border-radius: 0 getCssVar('border-radius-base')\n      getCssVar('border-radius-base') 0;\n    border-left: getCssVar('border');\n  }\n\n  @include e(decrease) {\n    left: 1px;\n    border-radius: getCssVar('border-radius-base') 0 0\n      getCssVar('border-radius-base');\n    border-right: getCssVar('border');\n  }\n\n  @include when(disabled) {\n    @include e((increase, decrease)) {\n      border-color: getCssVar('disabled-border-color');\n      color: getCssVar('disabled-border-color');\n\n      &:hover {\n        color: getCssVar('disabled-border-color');\n        cursor: not-allowed;\n      }\n    }\n  }\n\n  @each $size in (large, small) {\n    @include m($size) {\n      width: map.get($input-number-width, $size);\n      line-height: #{map.get($input-height, $size) - 2};\n\n      @include e((increase, decrease)) {\n        width: map.get($input-height, $size);\n        font-size: map.get($input-font-size, $size);\n      }\n\n      @include when(controls-right) {\n        .#{$namespace}-input--#{$size} {\n          .#{$namespace}-input__wrapper {\n            padding-right: #{map.get($input-height, $size) + 7};\n          }\n        }\n      }\n\n      .#{$namespace}-input--#{$size} {\n        .#{$namespace}-input__wrapper {\n          padding-left: #{map.get($input-height, $size) + 7};\n          padding-right: #{map.get($input-height, $size) + 7};\n        }\n      }\n    }\n  }\n\n  @include m(small) {\n    @include e((increase, decrease)) {\n      [class*='#{$namespace}-icon'] {\n        transform: scale(0.9);\n      }\n    }\n  }\n\n  @include when(without-controls) {\n    .#{$namespace}-input__wrapper {\n      padding-left: 15px;\n      padding-right: 15px;\n    }\n  }\n\n  @include when(controls-right) {\n    .#{$namespace}-input__wrapper {\n      padding-left: 15px;\n      padding-right: #{map.get($input-height, 'default') + 10};\n    }\n\n    @include e((increase, decrease)) {\n      @include set-css-var-value(\n        ('input', 'number-controls-height'),\n        math.div(map.get($input-height, 'default') - 2, 2)\n      );\n\n      height: getCssVar('input-number-controls-height');\n      line-height: getCssVar('input-number-controls-height');\n\n      [class*='#{$namespace}-icon'] {\n        transform: scale(0.8);\n      }\n    }\n\n    @include e(increase) {\n      bottom: auto;\n      left: auto;\n      border-radius: 0 getCssVar('border-radius-base') 0 0;\n      border-bottom: getCssVar('border');\n    }\n\n    @include e(decrease) {\n      right: 1px;\n      top: auto;\n      left: auto;\n      border-right: none;\n      border-left: getCssVar('border');\n      border-radius: 0 0 getCssVar('border-radius-base') 0;\n    }\n\n    @each $size in (large, small) {\n      &[class*='#{$size}'] {\n        [class*='increase'],\n        [class*='decrease'] {\n          @include set-css-var-value(\n            ('input', 'number-controls-height'),\n            math.div(map.get($input-height, $size) - 2, 2)\n          );\n        }\n      }\n    }\n  }\n}\n",
+      "start": 1738720350997,
+      "end": 1738720350997,
+      "order": "pre",
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "result": "/* Element Chalk Variables */\n.el-input-number {\n  position: relative;\n  display: inline-flex;\n  width: 150px;\n  line-height: 30px;\n  vertical-align: middle;\n}\n.el-input-number .el-input__wrapper {\n  padding-left: 42px;\n  padding-right: 42px;\n}\n.el-input-number .el-input__inner {\n  -webkit-appearance: none;\n  -moz-appearance: textfield;\n  text-align: center;\n  line-height: 1;\n}\n.el-input-number .el-input__inner::-webkit-inner-spin-button, .el-input-number .el-input__inner::-webkit-outer-spin-button {\n  margin: 0;\n  -webkit-appearance: none;\n}\n.el-input-number__increase, .el-input-number__decrease {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  height: auto;\n  position: absolute;\n  z-index: 1;\n  top: 1px;\n  bottom: 1px;\n  width: 32px;\n  background: var(--el-fill-color-light);\n  color: var(--el-text-color-regular);\n  cursor: pointer;\n  font-size: 13px;\n  user-select: none;\n}\n.el-input-number__increase:hover, .el-input-number__decrease:hover {\n  color: var(--el-color-primary);\n}\n.el-input-number__increase:hover ~ .el-input:not(.is-disabled) .el-input__wrapper, .el-input-number__decrease:hover ~ .el-input:not(.is-disabled) .el-input__wrapper {\n  box-shadow: 0 0 0 1px var(--el-input-focus-border-color, var(--el-color-primary)) inset;\n}\n.el-input-number__increase.is-disabled, .el-input-number__decrease.is-disabled {\n  color: var(--el-disabled-text-color);\n  cursor: not-allowed;\n}\n\n.el-input-number__increase {\n  right: 1px;\n  border-radius: 0 var(--el-border-radius-base) var(--el-border-radius-base) 0;\n  border-left: var(--el-border);\n}\n\n.el-input-number__decrease {\n  left: 1px;\n  border-radius: var(--el-border-radius-base) 0 0 var(--el-border-radius-base);\n  border-right: var(--el-border);\n}\n\n.el-input-number.is-disabled .el-input-number__increase, .el-input-number.is-disabled .el-input-number__decrease {\n  border-color: var(--el-disabled-border-color);\n  color: var(--el-disabled-border-color);\n}\n.el-input-number.is-disabled .el-input-number__increase:hover, .el-input-number.is-disabled .el-input-number__decrease:hover {\n  color: var(--el-disabled-border-color);\n  cursor: not-allowed;\n}\n\n.el-input-number--large {\n  width: 180px;\n  line-height: 38px;\n}\n.el-input-number--large .el-input-number__increase, .el-input-number--large .el-input-number__decrease {\n  width: 40px;\n  font-size: 14px;\n}\n\n.el-input-number--large.is-controls-right .el-input--large .el-input__wrapper {\n  padding-right: 47px;\n}\n\n.el-input-number--large .el-input--large .el-input__wrapper {\n  padding-left: 47px;\n  padding-right: 47px;\n}\n\n.el-input-number--small {\n  width: 120px;\n  line-height: 22px;\n}\n.el-input-number--small .el-input-number__increase, .el-input-number--small .el-input-number__decrease {\n  width: 24px;\n  font-size: 12px;\n}\n\n.el-input-number--small.is-controls-right .el-input--small .el-input__wrapper {\n  padding-right: 31px;\n}\n\n.el-input-number--small .el-input--small .el-input__wrapper {\n  padding-left: 31px;\n  padding-right: 31px;\n}\n\n.el-input-number--small .el-input-number__increase [class*=el-icon], .el-input-number--small .el-input-number__decrease [class*=el-icon] {\n  transform: scale(0.9);\n}\n\n.el-input-number.is-without-controls .el-input__wrapper {\n  padding-left: 15px;\n  padding-right: 15px;\n}\n\n.el-input-number.is-controls-right .el-input__wrapper {\n  padding-left: 15px;\n  padding-right: 42px;\n}\n.el-input-number.is-controls-right .el-input-number__increase, .el-input-number.is-controls-right .el-input-number__decrease {\n  --el-input-number-controls-height: 15px;\n  height: var(--el-input-number-controls-height);\n  line-height: var(--el-input-number-controls-height);\n}\n.el-input-number.is-controls-right .el-input-number__increase [class*=el-icon], .el-input-number.is-controls-right .el-input-number__decrease [class*=el-icon] {\n  transform: scale(0.8);\n}\n\n.el-input-number.is-controls-right .el-input-number__increase {\n  bottom: auto;\n  left: auto;\n  border-radius: 0 var(--el-border-radius-base) 0 0;\n  border-bottom: var(--el-border);\n}\n\n.el-input-number.is-controls-right .el-input-number__decrease {\n  right: 1px;\n  top: auto;\n  left: auto;\n  border-right: none;\n  border-left: var(--el-border);\n  border-radius: 0 0 var(--el-border-radius-base) 0;\n}\n\n.el-input-number.is-controls-right[class*=large] [class*=increase],\n.el-input-number.is-controls-right[class*=large] [class*=decrease] {\n  --el-input-number-controls-height: 19px;\n}\n.el-input-number.is-controls-right[class*=small] [class*=increase],\n.el-input-number.is-controls-right[class*=small] [class*=decrease] {\n  --el-input-number-controls-height: 11px;\n}",
+      "start": 1738720350997,
+      "end": 1738720351405,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1738720351405,
+      "end": 1738720351405,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1738720351405,
+      "end": 1738720351405,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1738720351405,
+      "end": 1738720351405,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1738720351405,
+      "end": 1738720351405,
+      "order": "normal"
+    },
+    {
+      "name": "originjs:commonjs",
+      "start": 1738720351405,
+      "end": 1738720351405,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1738720351405,
+      "end": 1738720351405,
+      "order": "normal"
+    },
+    {
+      "name": "inject",
+      "start": 1738720351405,
+      "end": 1738720351405,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1738720351405,
+      "end": 1738720351405,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "result": "import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/node_modules/element-plus/theme-chalk/src/input-number.scss\"\nconst __vite__css = \"/* Element Chalk Variables */\\n.el-input-number {\\n  position: relative;\\n  display: inline-flex;\\n  width: 150px;\\n  line-height: 30px;\\n  vertical-align: middle;\\n}\\n.el-input-number .el-input__wrapper {\\n  padding-left: 42px;\\n  padding-right: 42px;\\n}\\n.el-input-number .el-input__inner {\\n  -webkit-appearance: none;\\n  -moz-appearance: textfield;\\n  text-align: center;\\n  line-height: 1;\\n}\\n.el-input-number .el-input__inner::-webkit-inner-spin-button, .el-input-number .el-input__inner::-webkit-outer-spin-button {\\n  margin: 0;\\n  -webkit-appearance: none;\\n}\\n.el-input-number__increase, .el-input-number__decrease {\\n  display: flex;\\n  justify-content: center;\\n  align-items: center;\\n  height: auto;\\n  position: absolute;\\n  z-index: 1;\\n  top: 1px;\\n  bottom: 1px;\\n  width: 32px;\\n  background: var(--el-fill-color-light);\\n  color: var(--el-text-color-regular);\\n  cursor: pointer;\\n  font-size: 13px;\\n  user-select: none;\\n}\\n.el-input-number__increase:hover, .el-input-number__decrease:hover {\\n  color: var(--el-color-primary);\\n}\\n.el-input-number__increase:hover ~ .el-input:not(.is-disabled) .el-input__wrapper, .el-input-number__decrease:hover ~ .el-input:not(.is-disabled) .el-input__wrapper {\\n  box-shadow: 0 0 0 1px var(--el-input-focus-border-color, var(--el-color-primary)) inset;\\n}\\n.el-input-number__increase.is-disabled, .el-input-number__decrease.is-disabled {\\n  color: var(--el-disabled-text-color);\\n  cursor: not-allowed;\\n}\\n\\n.el-input-number__increase {\\n  right: 1px;\\n  border-radius: 0 var(--el-border-radius-base) var(--el-border-radius-base) 0;\\n  border-left: var(--el-border);\\n}\\n\\n.el-input-number__decrease {\\n  left: 1px;\\n  border-radius: var(--el-border-radius-base) 0 0 var(--el-border-radius-base);\\n  border-right: var(--el-border);\\n}\\n\\n.el-input-number.is-disabled .el-input-number__increase, .el-input-number.is-disabled .el-input-number__decrease {\\n  border-color: var(--el-disabled-border-color);\\n  color: var(--el-disabled-border-color);\\n}\\n.el-input-number.is-disabled .el-input-number__increase:hover, .el-input-number.is-disabled .el-input-number__decrease:hover {\\n  color: var(--el-disabled-border-color);\\n  cursor: not-allowed;\\n}\\n\\n.el-input-number--large {\\n  width: 180px;\\n  line-height: 38px;\\n}\\n.el-input-number--large .el-input-number__increase, .el-input-number--large .el-input-number__decrease {\\n  width: 40px;\\n  font-size: 14px;\\n}\\n\\n.el-input-number--large.is-controls-right .el-input--large .el-input__wrapper {\\n  padding-right: 47px;\\n}\\n\\n.el-input-number--large .el-input--large .el-input__wrapper {\\n  padding-left: 47px;\\n  padding-right: 47px;\\n}\\n\\n.el-input-number--small {\\n  width: 120px;\\n  line-height: 22px;\\n}\\n.el-input-number--small .el-input-number__increase, .el-input-number--small .el-input-number__decrease {\\n  width: 24px;\\n  font-size: 12px;\\n}\\n\\n.el-input-number--small.is-controls-right .el-input--small .el-input__wrapper {\\n  padding-right: 31px;\\n}\\n\\n.el-input-number--small .el-input--small .el-input__wrapper {\\n  padding-left: 31px;\\n  padding-right: 31px;\\n}\\n\\n.el-input-number--small .el-input-number__increase [class*=el-icon], .el-input-number--small .el-input-number__decrease [class*=el-icon] {\\n  transform: scale(0.9);\\n}\\n\\n.el-input-number.is-without-controls .el-input__wrapper {\\n  padding-left: 15px;\\n  padding-right: 15px;\\n}\\n\\n.el-input-number.is-controls-right .el-input__wrapper {\\n  padding-left: 15px;\\n  padding-right: 42px;\\n}\\n.el-input-number.is-controls-right .el-input-number__increase, .el-input-number.is-controls-right .el-input-number__decrease {\\n  --el-input-number-controls-height: 15px;\\n  height: var(--el-input-number-controls-height);\\n  line-height: var(--el-input-number-controls-height);\\n}\\n.el-input-number.is-controls-right .el-input-number__increase [class*=el-icon], .el-input-number.is-controls-right .el-input-number__decrease [class*=el-icon] {\\n  transform: scale(0.8);\\n}\\n\\n.el-input-number.is-controls-right .el-input-number__increase {\\n  bottom: auto;\\n  left: auto;\\n  border-radius: 0 var(--el-border-radius-base) 0 0;\\n  border-bottom: var(--el-border);\\n}\\n\\n.el-input-number.is-controls-right .el-input-number__decrease {\\n  right: 1px;\\n  top: auto;\\n  left: auto;\\n  border-right: none;\\n  border-left: var(--el-border);\\n  border-radius: 0 0 var(--el-border-radius-base) 0;\\n}\\n\\n.el-input-number.is-controls-right[class*=large] [class*=increase],\\n.el-input-number.is-controls-right[class*=large] [class*=decrease] {\\n  --el-input-number-controls-height: 19px;\\n}\\n.el-input-number.is-controls-right[class*=small] [class*=increase],\\n.el-input-number.is-controls-right[class*=small] [class*=decrease] {\\n  --el-input-number-controls-height: 11px;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720351405,
+      "end": 1738720351406,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1738720351406,
+      "end": 1738720351406,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1738720351406,
+      "end": 1738720351406,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1738720351406,
+      "end": 1738720351406,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1738720351406,
+      "end": 1738720351406,
+      "order": "normal"
+    },
+    {
+      "name": "vite-plugin-vue-inspector:post",
+      "start": 1738720351406,
+      "end": 1738720351406,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-auto-import",
+      "start": 1738720351406,
+      "end": 1738720351406,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-vue-components",
+      "start": 1738720351406,
+      "end": 1738720351406,
+      "order": "post"
+    },
+    {
+      "name": "vite:client-inject",
+      "start": 1738720351406,
+      "end": 1738720351406,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-analysis",
+      "start": 1738720351406,
+      "end": 1738720351406,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-analysis",
+      "result": "import { createHotContext as __vite__createHotContext } from \"/@vite/client\";import.meta.hot = __vite__createHotContext(\"/node_modules/element-plus/theme-chalk/src/input-number.scss\");import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/node_modules/element-plus/theme-chalk/src/input-number.scss\"\nconst __vite__css = \"/* Element Chalk Variables */\\n.el-input-number {\\n  position: relative;\\n  display: inline-flex;\\n  width: 150px;\\n  line-height: 30px;\\n  vertical-align: middle;\\n}\\n.el-input-number .el-input__wrapper {\\n  padding-left: 42px;\\n  padding-right: 42px;\\n}\\n.el-input-number .el-input__inner {\\n  -webkit-appearance: none;\\n  -moz-appearance: textfield;\\n  text-align: center;\\n  line-height: 1;\\n}\\n.el-input-number .el-input__inner::-webkit-inner-spin-button, .el-input-number .el-input__inner::-webkit-outer-spin-button {\\n  margin: 0;\\n  -webkit-appearance: none;\\n}\\n.el-input-number__increase, .el-input-number__decrease {\\n  display: flex;\\n  justify-content: center;\\n  align-items: center;\\n  height: auto;\\n  position: absolute;\\n  z-index: 1;\\n  top: 1px;\\n  bottom: 1px;\\n  width: 32px;\\n  background: var(--el-fill-color-light);\\n  color: var(--el-text-color-regular);\\n  cursor: pointer;\\n  font-size: 13px;\\n  user-select: none;\\n}\\n.el-input-number__increase:hover, .el-input-number__decrease:hover {\\n  color: var(--el-color-primary);\\n}\\n.el-input-number__increase:hover ~ .el-input:not(.is-disabled) .el-input__wrapper, .el-input-number__decrease:hover ~ .el-input:not(.is-disabled) .el-input__wrapper {\\n  box-shadow: 0 0 0 1px var(--el-input-focus-border-color, var(--el-color-primary)) inset;\\n}\\n.el-input-number__increase.is-disabled, .el-input-number__decrease.is-disabled {\\n  color: var(--el-disabled-text-color);\\n  cursor: not-allowed;\\n}\\n\\n.el-input-number__increase {\\n  right: 1px;\\n  border-radius: 0 var(--el-border-radius-base) var(--el-border-radius-base) 0;\\n  border-left: var(--el-border);\\n}\\n\\n.el-input-number__decrease {\\n  left: 1px;\\n  border-radius: var(--el-border-radius-base) 0 0 var(--el-border-radius-base);\\n  border-right: var(--el-border);\\n}\\n\\n.el-input-number.is-disabled .el-input-number__increase, .el-input-number.is-disabled .el-input-number__decrease {\\n  border-color: var(--el-disabled-border-color);\\n  color: var(--el-disabled-border-color);\\n}\\n.el-input-number.is-disabled .el-input-number__increase:hover, .el-input-number.is-disabled .el-input-number__decrease:hover {\\n  color: var(--el-disabled-border-color);\\n  cursor: not-allowed;\\n}\\n\\n.el-input-number--large {\\n  width: 180px;\\n  line-height: 38px;\\n}\\n.el-input-number--large .el-input-number__increase, .el-input-number--large .el-input-number__decrease {\\n  width: 40px;\\n  font-size: 14px;\\n}\\n\\n.el-input-number--large.is-controls-right .el-input--large .el-input__wrapper {\\n  padding-right: 47px;\\n}\\n\\n.el-input-number--large .el-input--large .el-input__wrapper {\\n  padding-left: 47px;\\n  padding-right: 47px;\\n}\\n\\n.el-input-number--small {\\n  width: 120px;\\n  line-height: 22px;\\n}\\n.el-input-number--small .el-input-number__increase, .el-input-number--small .el-input-number__decrease {\\n  width: 24px;\\n  font-size: 12px;\\n}\\n\\n.el-input-number--small.is-controls-right .el-input--small .el-input__wrapper {\\n  padding-right: 31px;\\n}\\n\\n.el-input-number--small .el-input--small .el-input__wrapper {\\n  padding-left: 31px;\\n  padding-right: 31px;\\n}\\n\\n.el-input-number--small .el-input-number__increase [class*=el-icon], .el-input-number--small .el-input-number__decrease [class*=el-icon] {\\n  transform: scale(0.9);\\n}\\n\\n.el-input-number.is-without-controls .el-input__wrapper {\\n  padding-left: 15px;\\n  padding-right: 15px;\\n}\\n\\n.el-input-number.is-controls-right .el-input__wrapper {\\n  padding-left: 15px;\\n  padding-right: 42px;\\n}\\n.el-input-number.is-controls-right .el-input-number__increase, .el-input-number.is-controls-right .el-input-number__decrease {\\n  --el-input-number-controls-height: 15px;\\n  height: var(--el-input-number-controls-height);\\n  line-height: var(--el-input-number-controls-height);\\n}\\n.el-input-number.is-controls-right .el-input-number__increase [class*=el-icon], .el-input-number.is-controls-right .el-input-number__decrease [class*=el-icon] {\\n  transform: scale(0.8);\\n}\\n\\n.el-input-number.is-controls-right .el-input-number__increase {\\n  bottom: auto;\\n  left: auto;\\n  border-radius: 0 var(--el-border-radius-base) 0 0;\\n  border-bottom: var(--el-border);\\n}\\n\\n.el-input-number.is-controls-right .el-input-number__decrease {\\n  right: 1px;\\n  top: auto;\\n  left: auto;\\n  border-right: none;\\n  border-left: var(--el-border);\\n  border-radius: 0 0 var(--el-border-radius-base) 0;\\n}\\n\\n.el-input-number.is-controls-right[class*=large] [class*=increase],\\n.el-input-number.is-controls-right[class*=large] [class*=decrease] {\\n  --el-input-number-controls-height: 19px;\\n}\\n.el-input-number.is-controls-right[class*=small] [class*=increase],\\n.el-input-number.is-controls-right[class*=small] [class*=decrease] {\\n  --el-input-number-controls-height: 11px;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720351406,
+      "end": 1738720351406,
+      "order": "normal",
+      "sourcemaps": null
+    }
+  ]
+}

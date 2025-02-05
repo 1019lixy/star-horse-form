@@ -87,7 +87,7 @@ const operationRelation = (relation: any, actionName: string, formData: any, cur
 
             let queryParams = field.preps["queryParams"];
             if (queryParams) {
-                queryParams = field.preps["queryParams"].filter((item:any) => item.name != params);
+                queryParams = field.preps["queryParams"].filter((item: any) => item.name != params);
             }
             queryParams.push(cond);
             field.preps["queryParams"] = queryParams;
@@ -157,7 +157,7 @@ const allAction = (context: any, actionName: string, isInit: boolean = false) =>
     }
     try {
         console.log(field.preps["actionName"], context.attrs['formData']);
-        context.emit('selfFunc', actionName,context.attrs['formData']);
+        context.emit('selfFunc', actionName, context.attrs['formData']);
     } catch (e) {
         error("事件触发异常：" + e);
     }

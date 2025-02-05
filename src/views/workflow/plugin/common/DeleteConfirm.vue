@@ -1,6 +1,6 @@
 <template>
   <div v-if="node.deletable" class="node-delete-layer">
-    <el-button :size="flowCommon.size" type="danger"  @click.stop="delNode(node, callback)">
+    <el-button :size="flowCommon.size" type="danger" @click.stop="delNode(node, callback)">
       <star-horse-icon icon-class="delete"/>
       删除
     </el-button>

@@ -99,6 +99,16 @@ const popover = ref();
 const showOperation = async () => {
   await nextTick();
 }
+const createPreps = (item: any) => {
+  return {
+    preps: {
+      ...item,
+      ...item.preps,
+      size: props.compSize,
+      name: item.fieldName
+    }
+  }
+}
 </script>
 <template>
 
@@ -114,7 +124,6 @@ const showOperation = async () => {
 
     <template #default="scope">
       <template v-if="item.preps?.showComp=='Y'">
-
         <el-popover ref="popover" :placement="item.preps.placement||'left'" :width="'auto'"
                     v-if="item.preps.popover=='Y'" @show="showOperation">
           <template #reference>
@@ -138,7 +147,12 @@ const showOperation = async () => {
                          v-on:[item.preps.compAction]="item.preps.compFunc(scope.row)"
                          v-else
         />
-
+      </template>
+      <template v-else-if="item.listPrototypeDisplay">
+        <component
+            :is="(item.listPrototypeDisplay===true?item.type||'input':item.listPrototypeDisplay)+'-item'"
+            :bareFlag="true"
+            :field="createPreps(item)" :formData="scope.row"/>
       </template>
       <template v-else>
         <star-horse-item :dataForm="scope.row" :item="item"

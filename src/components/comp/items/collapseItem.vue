@@ -60,7 +60,9 @@ onMounted(() => {
                             :index="checkObject(collapseItem)">
             <template #title>
               <div class="collapse-item-title title">
-                <div style="width: 80%">{{ collapseItem.title }}  <help v-if="collapseItem.helpMsg" :message="collapseItem.helpMsg"/></div>
+                <div style="width: 80%">{{ collapseItem.title }}
+                  <help v-if="collapseItem.helpMsg" :message="collapseItem.helpMsg"/>
+                </div>
                 <star-horse-icon v-if="collapseItem.icon" :icon-class="collapseItem.icon"/>
               </div>
             </template>

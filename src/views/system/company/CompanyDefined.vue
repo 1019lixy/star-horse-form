@@ -70,7 +70,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !false,
       preps: {
         checkStrictly: "Y",
-        defaultExpandAll:"Y"
+        defaultExpandAll: "Y"
       }
     }, {
       label: "排序",
@@ -95,7 +95,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         formVisible: !false,
         preps: {
           checkStrictly: "Y",
-          defaultExpandAll:"Y"
+          defaultExpandAll: "Y"
         }
       }],
     {
@@ -119,7 +119,7 @@ let extandBtns = ref<UserFuncInfo[]>([{
   btnName: "添加子公司",
   authority: "add",
   icon: "plus",
-  priority:1,
+  priority: 1,
   funcName: (row: any) => {
     outerForm.value["parentId"] = row[primaryKey];
     dialogProps.editVisible = true;
@@ -164,12 +164,16 @@ onDeactivated(() => {
 </script>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialog-visible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form @refresh="companyDefineRef.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList"
-                     :rules="rules" :outerFormData="outerForm"/>
+    <div class="dialog-body">
+      <star-horse-form @refresh="companyDefineRef.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList"
+                       :rules="rules" :outerFormData="outerForm"/>
+    </div>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title="'查看数据'"
                      :isView="true">
-    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+    <div class="dialog-body">
+      <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+    </div>
   </star-horse-dialog>
   <el-card class="inner_content">
     <div class="search_btn" :style="{'flex-direction':Config.buttonStyle=='line'?'column':'row'}">
@@ -177,7 +181,7 @@ onDeactivated(() => {
                               :compUrl="dataUrl"/>
       <hr/>
       <star-horse-button-list @tableCompFunc="(fun)=>companyDefineRef.tableCompFunc(fun)" :compUrl="dataUrl"
-                              :dialogProps="dialogProps" :showType="Config.buttonStyle" />
+                              :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
     </div>
     <hr/>
     <star-horse-table-comp ref="companyDefineRef" :fieldList="tableFieldList" :primaryKey="primaryKey"

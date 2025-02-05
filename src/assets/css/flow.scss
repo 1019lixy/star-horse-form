@@ -1222,6 +1222,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+
   .del-icon {
     cursor: pointer;
   }
@@ -1584,6 +1585,7 @@
 
 .approver-tip-content {
   width: 440px;
+
   .main-title {
     font-weight: 500;
     color: #000;
@@ -1611,6 +1613,7 @@
     height: 500px;
   }
 }
+
 .w-fill {
   width: 100%;
 }

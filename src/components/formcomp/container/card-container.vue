@@ -57,7 +57,7 @@ onMounted(() => {
     >
       <template #header>
         <div class="card-header">
-          <span>{{adata.label}}</span>
+          <span>{{ adata.label }}</span>
         </div>
       </template>
       <el-scrollbar height="100%">

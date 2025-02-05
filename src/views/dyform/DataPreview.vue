@@ -9,7 +9,7 @@ const props = defineProps({
   item: {type: Object, default: {}},
   columns: {type: Array<any>, default: []},
   isPreview: {type: Boolean, default: false},
-  compSize:{type:String,default:Config.compSize}
+  compSize: {type: String, default: Config.compSize}
 });
 const emits = defineEmits(["changePage", "exportData"]);
 const viewDataPreviewRef = ref();
@@ -43,7 +43,7 @@ watch(() => props.columns,
 const viewDataDetail = () => {
 };
 const resultDataFormat = (row: any, column: any, val: any) => {
-  return commonDataFormat(row,column,val,0);
+  return commonDataFormat(row, column, val, 0);
 };
 const handleCurrentChange = (cp: number, ps: number) => {
   currentPage.value = cp;

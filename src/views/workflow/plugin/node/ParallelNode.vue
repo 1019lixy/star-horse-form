@@ -37,7 +37,7 @@
       </div>
     </div>
     <div class="after-branch-btn">
-       <FlowAddNode :node="node" :nodeType="node.type" :readable="readable" />
+      <FlowAddNode :node="node" :nodeType="node.type" :readable="readable"/>
     </div>
   </div>
 </template>

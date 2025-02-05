@@ -1,0 +1,159 @@
+{
+  "resolvedId": "E:/lixycode/testcode/src/store/GlobalConfigStore.ts",
+  "transforms": [
+    {
+      "name": "__load__",
+      "result": "import {defineStore} from \"pinia\";\r\nimport {Config} from \"@/api/settings.ts\";\r\nimport {ref} from \"vue\";\r\n\r\nexport const GlobalConfig = defineStore(\"GlobalConfig\", () => {\r\n        const configFormInfo = ref<any>({});\r\n        /**\r\n         *设置数据\r\n         * @param data\r\n         */\r\n        const setConfigFormInfo = (data: any) => {\r\n            configFormInfo.value = data;\r\n            localStorage.setItem(\"starHorseConfigInfo\", JSON.stringify(data));\r\n            Config.buttonStyle.value = data.buttonShowType || \"dropdown\";\r\n            // console.log(data, Config.buttonStyle.value);\r\n            if (data.themeColor) {\r\n                document.documentElement.style.setProperty('--star-horse-style', data.themeColor)\r\n                document.documentElement.style.setProperty('--el-color-primary', data.themeColor)\r\n                document.documentElement.style.setProperty('--el-select-input-color', data.themeColor)\r\n                document.documentElement.style.setProperty('--el-pagination-button-color', data.themeColor)\r\n                document.documentElement.style.setProperty('--el-tree-expand-icon-color', data.themeColor)\r\n                document.documentElement.style.setProperty('--fc-button-bg-color', data.themeColor)\r\n                document.documentElement.style.setProperty('--fc-button-border-color', data.themeColor)\r\n                document.documentElement.style.setProperty('--fc-button-active-bg-color', data.themeColor)\r\n                document.documentElement.style.setProperty('--fc-button-active-border-color', data.themeColor)\r\n                document.documentElement.style.setProperty('--fc-button-hover-bg-color', data.themeColor)\r\n                document.documentElement.style.setProperty('--fc-button-hover-border-color', data.themeColor)\r\n                // document.documentElement.style.setProperty('--fc-button-text-color', \"#000\");\r\n            }\r\n        }\r\n        /**\r\n         * 清除所有Tab\r\n         */\r\n        const clearAll = (isDark: string = \"N\") => {\r\n            configFormInfo.value = {\r\n                tagsView: 'Y',\r\n                position: \"left\",\r\n                menusCfg: \"tradition\",\r\n                isDark\r\n            };\r\n            const starHorseConfigInfo = localStorage.getItem(\"starHorseConfigInfo\");\r\n            if (starHorseConfigInfo) {\r\n                setConfigFormInfo(JSON.parse(starHorseConfigInfo));\r\n            }\r\n        }\r\n\r\n        return {\r\n            configFormInfo,\r\n            setConfigFormInfo,\r\n            clearAll\r\n        }\r\n    },\r\n    {\r\n        persist: {\r\n            enabled: false,\r\n            strategies: [{\r\n                key: \"configFormInfo\",\r\n                paths: [\"configFormInfo\"]\r\n            }]\r\n        },\r\n    }\r\n);\r\n",
+      "start": 1738720192123,
+      "end": 1738720192123
+    },
+    {
+      "name": "vite-plugin-vue-inspector",
+      "start": 1738720192123,
+      "end": 1738720192123,
+      "order": "pre"
+    },
+    {
+      "name": "vite-plugin-vue-devtools",
+      "result": "import {defineStore} from \"pinia\";\r\nimport {Config} from \"@/api/settings.ts\";\r\nimport {ref} from \"vue\";\r\n\r\nexport const GlobalConfig = defineStore(\"GlobalConfig\", () => {\r\n        const configFormInfo = ref<any>({});\r\n        /**\r\n         *设置数据\r\n         * @param data\r\n         */\r\n        const setConfigFormInfo = (data: any) => {\r\n            configFormInfo.value = data;\r\n            localStorage.setItem(\"starHorseConfigInfo\", JSON.stringify(data));\r\n            Config.buttonStyle.value = data.buttonShowType || \"dropdown\";\r\n            // console.log(data, Config.buttonStyle.value);\r\n            if (data.themeColor) {\r\n                document.documentElement.style.setProperty('--star-horse-style', data.themeColor)\r\n                document.documentElement.style.setProperty('--el-color-primary', data.themeColor)\r\n                document.documentElement.style.setProperty('--el-select-input-color', data.themeColor)\r\n                document.documentElement.style.setProperty('--el-pagination-button-color', data.themeColor)\r\n                document.documentElement.style.setProperty('--el-tree-expand-icon-color', data.themeColor)\r\n                document.documentElement.style.setProperty('--fc-button-bg-color', data.themeColor)\r\n                document.documentElement.style.setProperty('--fc-button-border-color', data.themeColor)\r\n                document.documentElement.style.setProperty('--fc-button-active-bg-color', data.themeColor)\r\n                document.documentElement.style.setProperty('--fc-button-active-border-color', data.themeColor)\r\n                document.documentElement.style.setProperty('--fc-button-hover-bg-color', data.themeColor)\r\n                document.documentElement.style.setProperty('--fc-button-hover-border-color', data.themeColor)\r\n                // document.documentElement.style.setProperty('--fc-button-text-color', \"#000\");\r\n            }\r\n        }\r\n        /**\r\n         * 清除所有Tab\r\n         */\r\n        const clearAll = (isDark: string = \"N\") => {\r\n            configFormInfo.value = {\r\n                tagsView: 'Y',\r\n                position: \"left\",\r\n                menusCfg: \"tradition\",\r\n                isDark\r\n            };\r\n            const starHorseConfigInfo = localStorage.getItem(\"starHorseConfigInfo\");\r\n            if (starHorseConfigInfo) {\r\n                setConfigFormInfo(JSON.parse(starHorseConfigInfo));\r\n            }\r\n        }\r\n\r\n        return {\r\n            configFormInfo,\r\n            setConfigFormInfo,\r\n            clearAll\r\n        }\r\n    },\r\n    {\r\n        persist: {\r\n            enabled: false,\r\n            strategies: [{\r\n                key: \"configFormInfo\",\r\n                paths: [\"configFormInfo\"]\r\n            }]\r\n        },\r\n    }\r\n);\r\n",
+      "start": 1738720192123,
+      "end": 1738720192123,
+      "order": "pre",
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "start": 1738720192123,
+      "end": 1738720192123,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "result": "import { defineStore } from \"pinia\";\nimport { Config } from \"@/api/settings.ts\";\nimport { ref } from \"vue\";\nexport const GlobalConfig = defineStore(\n  \"GlobalConfig\",\n  () => {\n    const configFormInfo = ref({});\n    const setConfigFormInfo = (data) => {\n      configFormInfo.value = data;\n      localStorage.setItem(\"starHorseConfigInfo\", JSON.stringify(data));\n      Config.buttonStyle.value = data.buttonShowType || \"dropdown\";\n      if (data.themeColor) {\n        document.documentElement.style.setProperty(\"--star-horse-style\", data.themeColor);\n        document.documentElement.style.setProperty(\"--el-color-primary\", data.themeColor);\n        document.documentElement.style.setProperty(\"--el-select-input-color\", data.themeColor);\n        document.documentElement.style.setProperty(\"--el-pagination-button-color\", data.themeColor);\n        document.documentElement.style.setProperty(\"--el-tree-expand-icon-color\", data.themeColor);\n        document.documentElement.style.setProperty(\"--fc-button-bg-color\", data.themeColor);\n        document.documentElement.style.setProperty(\"--fc-button-border-color\", data.themeColor);\n        document.documentElement.style.setProperty(\"--fc-button-active-bg-color\", data.themeColor);\n        document.documentElement.style.setProperty(\"--fc-button-active-border-color\", data.themeColor);\n        document.documentElement.style.setProperty(\"--fc-button-hover-bg-color\", data.themeColor);\n        document.documentElement.style.setProperty(\"--fc-button-hover-border-color\", data.themeColor);\n      }\n    };\n    const clearAll = (isDark = \"N\") => {\n      configFormInfo.value = {\n        tagsView: \"Y\",\n        position: \"left\",\n        menusCfg: \"tradition\",\n        isDark\n      };\n      const starHorseConfigInfo = localStorage.getItem(\"starHorseConfigInfo\");\n      if (starHorseConfigInfo) {\n        setConfigFormInfo(JSON.parse(starHorseConfigInfo));\n      }\n    };\n    return {\n      configFormInfo,\n      setConfigFormInfo,\n      clearAll\n    };\n  },\n  {\n    persist: {\n      enabled: false,\n      strategies: [{\n        key: \"configFormInfo\",\n        paths: [\"configFormInfo\"]\n      }]\n    }\n  }\n);\n",
+      "start": 1738720192123,
+      "end": 1738720192129,
+      "order": "normal",
+      "sourcemaps": {
+        "version": 3,
+        "sources": [
+          "GlobalConfigStore.ts"
+        ],
+        "sourcesContent": [
+          "import {defineStore} from \"pinia\";\r\nimport {Config} from \"@/api/settings.ts\";\r\nimport {ref} from \"vue\";\r\n\r\nexport const GlobalConfig = defineStore(\"GlobalConfig\", () => {\r\n        const configFormInfo = ref<any>({});\r\n        /**\r\n         *设置数据\r\n         * @param data\r\n         */\r\n        const setConfigFormInfo = (data: any) => {\r\n            configFormInfo.value = data;\r\n            localStorage.setItem(\"starHorseConfigInfo\", JSON.stringify(data));\r\n            Config.buttonStyle.value = data.buttonShowType || \"dropdown\";\r\n            // console.log(data, Config.buttonStyle.value);\r\n            if (data.themeColor) {\r\n                document.documentElement.style.setProperty('--star-horse-style', data.themeColor)\r\n                document.documentElement.style.setProperty('--el-color-primary', data.themeColor)\r\n                document.documentElement.style.setProperty('--el-select-input-color', data.themeColor)\r\n                document.documentElement.style.setProperty('--el-pagination-button-color', data.themeColor)\r\n                document.documentElement.style.setProperty('--el-tree-expand-icon-color', data.themeColor)\r\n                document.documentElement.style.setProperty('--fc-button-bg-color', data.themeColor)\r\n                document.documentElement.style.setProperty('--fc-button-border-color', data.themeColor)\r\n                document.documentElement.style.setProperty('--fc-button-active-bg-color', data.themeColor)\r\n                document.documentElement.style.setProperty('--fc-button-active-border-color', data.themeColor)\r\n                document.documentElement.style.setProperty('--fc-button-hover-bg-color', data.themeColor)\r\n                document.documentElement.style.setProperty('--fc-button-hover-border-color', data.themeColor)\r\n                // document.documentElement.style.setProperty('--fc-button-text-color', \"#000\");\r\n            }\r\n        }\r\n        /**\r\n         * 清除所有Tab\r\n         */\r\n        const clearAll = (isDark: string = \"N\") => {\r\n            configFormInfo.value = {\r\n                tagsView: 'Y',\r\n                position: \"left\",\r\n                menusCfg: \"tradition\",\r\n                isDark\r\n            };\r\n            const starHorseConfigInfo = localStorage.getItem(\"starHorseConfigInfo\");\r\n            if (starHorseConfigInfo) {\r\n                setConfigFormInfo(JSON.parse(starHorseConfigInfo));\r\n            }\r\n        }\r\n\r\n        return {\r\n            configFormInfo,\r\n            setConfigFormInfo,\r\n            clearAll\r\n        }\r\n    },\r\n    {\r\n        persist: {\r\n            enabled: false,\r\n            strategies: [{\r\n                key: \"configFormInfo\",\r\n                paths: [\"configFormInfo\"]\r\n            }]\r\n        },\r\n    }\r\n);\r\n"
+        ],
+        "mappings": "AAAA,SAAQ,mBAAkB;AAC1B,SAAQ,cAAa;AACrB,SAAQ,WAAU;AAEX,aAAM,eAAe;AAAA,EAAY;AAAA,EAAgB,MAAM;AACtD,UAAM,iBAAiB,IAAS,CAAC,CAAC;AAKlC,UAAM,oBAAoB,CAAC,SAAc;AACrC,qBAAe,QAAQ;AACvB,mBAAa,QAAQ,uBAAuB,KAAK,UAAU,IAAI,CAAC;AAChE,aAAO,YAAY,QAAQ,KAAK,kBAAkB;AAElD,UAAI,KAAK,YAAY;AACjB,iBAAS,gBAAgB,MAAM,YAAY,sBAAsB,KAAK,UAAU;AAChF,iBAAS,gBAAgB,MAAM,YAAY,sBAAsB,KAAK,UAAU;AAChF,iBAAS,gBAAgB,MAAM,YAAY,2BAA2B,KAAK,UAAU;AACrF,iBAAS,gBAAgB,MAAM,YAAY,gCAAgC,KAAK,UAAU;AAC1F,iBAAS,gBAAgB,MAAM,YAAY,+BAA+B,KAAK,UAAU;AACzF,iBAAS,gBAAgB,MAAM,YAAY,wBAAwB,KAAK,UAAU;AAClF,iBAAS,gBAAgB,MAAM,YAAY,4BAA4B,KAAK,UAAU;AACtF,iBAAS,gBAAgB,MAAM,YAAY,+BAA+B,KAAK,UAAU;AACzF,iBAAS,gBAAgB,MAAM,YAAY,mCAAmC,KAAK,UAAU;AAC7F,iBAAS,gBAAgB,MAAM,YAAY,8BAA8B,KAAK,UAAU;AACxF,iBAAS,gBAAgB,MAAM,YAAY,kCAAkC,KAAK,UAAU;AAAA,MAEhG;AAAA,IACJ;AAIA,UAAM,WAAW,CAAC,SAAiB,QAAQ;AACvC,qBAAe,QAAQ;AAAA,QACnB,UAAU;AAAA,QACV,UAAU;AAAA,QACV,UAAU;AAAA,QACV;AAAA,MACJ;AACA,YAAM,sBAAsB,aAAa,QAAQ,qBAAqB;AACtE,UAAI,qBAAqB;AACrB,0BAAkB,KAAK,MAAM,mBAAmB,CAAC;AAAA,MACrD;AAAA,IACJ;AAEA,WAAO;AAAA,MACH;AAAA,MACA;AAAA,MACA;AAAA,IACJ;AAAA,EACJ;AAAA,EACA;AAAA,IACI,SAAS;AAAA,MACL,SAAS;AAAA,MACT,YAAY,CAAC;AAAA,QACT,KAAK;AAAA,QACL,OAAO,CAAC,gBAAgB;AAAA,MAC5B,CAAC;AAAA,IACL;AAAA,EACJ;AACJ;",
+        "names": []
+      }
+    },
+    {
+      "name": "vite:json",
+      "start": 1738720192129,
+      "end": 1738720192129,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1738720192129,
+      "end": 1738720192129,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1738720192129,
+      "end": 1738720192129,
+      "order": "normal"
+    },
+    {
+      "name": "originjs:commonjs",
+      "start": 1738720192129,
+      "end": 1738720192129,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1738720192129,
+      "end": 1738720192129,
+      "order": "normal"
+    },
+    {
+      "name": "inject",
+      "start": 1738720192129,
+      "end": 1738720192129,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1738720192129,
+      "end": 1738720192129,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1738720192129,
+      "end": 1738720192129,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1738720192129,
+      "end": 1738720192129,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1738720192129,
+      "end": 1738720192129,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1738720192129,
+      "end": 1738720192129,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1738720192129,
+      "end": 1738720192129,
+      "order": "normal"
+    },
+    {
+      "name": "vite-plugin-vue-inspector:post",
+      "start": 1738720192129,
+      "end": 1738720192129,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-auto-import",
+      "start": 1738720192129,
+      "end": 1738720192130,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-vue-components",
+      "start": 1738720192130,
+      "end": 1738720192130,
+      "order": "post"
+    },
+    {
+      "name": "vite:client-inject",
+      "start": 1738720192130,
+      "end": 1738720192130,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-analysis",
+      "start": 1738720192130,
+      "end": 1738720192130,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-analysis",
+      "result": "import { defineStore } from \"/node_modules/.vite/deps/pinia.js?v=65efcb1b\";\nimport { Config } from \"/src/api/settings.ts\";\nimport { ref } from \"/node_modules/.vite/deps/vue.js?v=65efcb1b\";\nexport const GlobalConfig = defineStore(\n  \"GlobalConfig\",\n  () => {\n    const configFormInfo = ref({});\n    const setConfigFormInfo = (data) => {\n      configFormInfo.value = data;\n      localStorage.setItem(\"starHorseConfigInfo\", JSON.stringify(data));\n      Config.buttonStyle.value = data.buttonShowType || \"dropdown\";\n      if (data.themeColor) {\n        document.documentElement.style.setProperty(\"--star-horse-style\", data.themeColor);\n        document.documentElement.style.setProperty(\"--el-color-primary\", data.themeColor);\n        document.documentElement.style.setProperty(\"--el-select-input-color\", data.themeColor);\n        document.documentElement.style.setProperty(\"--el-pagination-button-color\", data.themeColor);\n        document.documentElement.style.setProperty(\"--el-tree-expand-icon-color\", data.themeColor);\n        document.documentElement.style.setProperty(\"--fc-button-bg-color\", data.themeColor);\n        document.documentElement.style.setProperty(\"--fc-button-border-color\", data.themeColor);\n        document.documentElement.style.setProperty(\"--fc-button-active-bg-color\", data.themeColor);\n        document.documentElement.style.setProperty(\"--fc-button-active-border-color\", data.themeColor);\n        document.documentElement.style.setProperty(\"--fc-button-hover-bg-color\", data.themeColor);\n        document.documentElement.style.setProperty(\"--fc-button-hover-border-color\", data.themeColor);\n      }\n    };\n    const clearAll = (isDark = \"N\") => {\n      configFormInfo.value = {\n        tagsView: \"Y\",\n        position: \"left\",\n        menusCfg: \"tradition\",\n        isDark\n      };\n      const starHorseConfigInfo = localStorage.getItem(\"starHorseConfigInfo\");\n      if (starHorseConfigInfo) {\n        setConfigFormInfo(JSON.parse(starHorseConfigInfo));\n      }\n    };\n    return {\n      configFormInfo,\n      setConfigFormInfo,\n      clearAll\n    };\n  },\n  {\n    persist: {\n      enabled: false,\n      strategies: [{\n        key: \"configFormInfo\",\n        paths: [\"configFormInfo\"]\n      }]\n    }\n  }\n);\n",
+      "start": 1738720192130,
+      "end": 1738720192131,
+      "order": "normal",
+      "sourcemaps": null
+    }
+  ]
+}

@@ -1,0 +1,155 @@
+{
+  "resolvedId": "E:/lixycode/testcode/node_modules/element-plus/theme-chalk/src/popover.scss",
+  "transforms": [
+    {
+      "name": "__load__",
+      "result": "@use 'mixins/mixins' as *;\n@use 'mixins/var' as *;\n@use 'common/var' as *;\n\n@include b(popover) {\n  @include set-component-css-var('popover', $popover);\n\n  &.#{$namespace}-popper {\n    background: getCssVar('popover-bg-color');\n    min-width: 150px;\n    border-radius: getCssVar('popover-border-radius');\n    border: 1px solid getCssVar('popover-border-color');\n    padding: getCssVar('popover-padding');\n    z-index: getCssVar('index-popper');\n    color: getCssVar('text-color', 'regular');\n    line-height: 1.4;\n    font-size: getCssVar('popover-font-size');\n    box-shadow: getCssVar('box-shadow-light');\n    overflow-wrap: break-word;\n    box-sizing: border-box;\n\n    @include m(plain) {\n      padding: getCssVar('popover-padding-large');\n    }\n\n    @include e(title) {\n      color: getCssVar('popover-title-text-color');\n      font-size: getCssVar('popover-title-font-size');\n      line-height: 1;\n      margin-bottom: 12px;\n    }\n\n    @include e(reference) {\n      &:focus:not(.focusing),\n      &:focus:hover {\n        outline-width: 0;\n      }\n    }\n\n    @include when(dark) {\n      @include set-css-var-value(\n        ('popover', 'bg-color'),\n        var(#{getCssVarName('text-color', 'primary')})\n      );\n      @include set-css-var-value(\n        ('popover', 'border-color'),\n        var(#{getCssVarName('text-color', 'primary')})\n      );\n      @include set-css-var-value(\n        ('popover', 'title-text-color'),\n        var(#{getCssVarName('bg-color')})\n      );\n      color: getCssVar('bg-color');\n    }\n\n    &:focus:active,\n    &:focus {\n      outline-width: 0;\n    }\n  }\n}\n",
+      "start": 1738720229963,
+      "end": 1738720229963
+    },
+    {
+      "name": "vite-plugin-vue-inspector",
+      "start": 1738720229963,
+      "end": 1738720229963,
+      "order": "pre"
+    },
+    {
+      "name": "vite-plugin-vue-devtools",
+      "result": "@use 'mixins/mixins' as *;\n@use 'mixins/var' as *;\n@use 'common/var' as *;\n\n@include b(popover) {\n  @include set-component-css-var('popover', $popover);\n\n  &.#{$namespace}-popper {\n    background: getCssVar('popover-bg-color');\n    min-width: 150px;\n    border-radius: getCssVar('popover-border-radius');\n    border: 1px solid getCssVar('popover-border-color');\n    padding: getCssVar('popover-padding');\n    z-index: getCssVar('index-popper');\n    color: getCssVar('text-color', 'regular');\n    line-height: 1.4;\n    font-size: getCssVar('popover-font-size');\n    box-shadow: getCssVar('box-shadow-light');\n    overflow-wrap: break-word;\n    box-sizing: border-box;\n\n    @include m(plain) {\n      padding: getCssVar('popover-padding-large');\n    }\n\n    @include e(title) {\n      color: getCssVar('popover-title-text-color');\n      font-size: getCssVar('popover-title-font-size');\n      line-height: 1;\n      margin-bottom: 12px;\n    }\n\n    @include e(reference) {\n      &:focus:not(.focusing),\n      &:focus:hover {\n        outline-width: 0;\n      }\n    }\n\n    @include when(dark) {\n      @include set-css-var-value(\n        ('popover', 'bg-color'),\n        var(#{getCssVarName('text-color', 'primary')})\n      );\n      @include set-css-var-value(\n        ('popover', 'border-color'),\n        var(#{getCssVarName('text-color', 'primary')})\n      );\n      @include set-css-var-value(\n        ('popover', 'title-text-color'),\n        var(#{getCssVarName('bg-color')})\n      );\n      color: getCssVar('bg-color');\n    }\n\n    &:focus:active,\n    &:focus {\n      outline-width: 0;\n    }\n  }\n}\n",
+      "start": 1738720229963,
+      "end": 1738720229963,
+      "order": "pre",
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "result": "/* Element Chalk Variables */\n.el-popover {\n  --el-popover-bg-color: var(--el-bg-color-overlay);\n  --el-popover-font-size: var(--el-font-size-base);\n  --el-popover-border-color: var(--el-border-color-lighter);\n  --el-popover-padding: 12px;\n  --el-popover-padding-large: 18px 20px;\n  --el-popover-title-font-size: 16px;\n  --el-popover-title-text-color: var(--el-text-color-primary);\n  --el-popover-border-radius: 4px;\n}\n.el-popover.el-popper {\n  background: var(--el-popover-bg-color);\n  min-width: 150px;\n  border-radius: var(--el-popover-border-radius);\n  border: 1px solid var(--el-popover-border-color);\n  padding: var(--el-popover-padding);\n  z-index: var(--el-index-popper);\n  color: var(--el-text-color-regular);\n  line-height: 1.4;\n  font-size: var(--el-popover-font-size);\n  box-shadow: var(--el-box-shadow-light);\n  overflow-wrap: break-word;\n  box-sizing: border-box;\n}\n.el-popover.el-popper--plain {\n  padding: var(--el-popover-padding-large);\n}\n\n.el-popover__title {\n  color: var(--el-popover-title-text-color);\n  font-size: var(--el-popover-title-font-size);\n  line-height: 1;\n  margin-bottom: 12px;\n}\n\n.el-popover__reference:focus:not(.focusing), .el-popover__reference:focus:hover {\n  outline-width: 0;\n}\n\n.el-popover.el-popper.is-dark {\n  --el-popover-bg-color: var(--el-text-color-primary);\n  --el-popover-border-color: var(--el-text-color-primary);\n  --el-popover-title-text-color: var(--el-bg-color);\n  color: var(--el-bg-color);\n}\n\n.el-popover.el-popper:focus:active, .el-popover.el-popper:focus {\n  outline-width: 0;\n}",
+      "start": 1738720229963,
+      "end": 1738720230060,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1738720230060,
+      "end": 1738720230060,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1738720230060,
+      "end": 1738720230060,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1738720230060,
+      "end": 1738720230060,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1738720230060,
+      "end": 1738720230060,
+      "order": "normal"
+    },
+    {
+      "name": "originjs:commonjs",
+      "start": 1738720230060,
+      "end": 1738720230060,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1738720230060,
+      "end": 1738720230060,
+      "order": "normal"
+    },
+    {
+      "name": "inject",
+      "start": 1738720230060,
+      "end": 1738720230060,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1738720230060,
+      "end": 1738720230060,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "result": "import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/node_modules/element-plus/theme-chalk/src/popover.scss\"\nconst __vite__css = \"/* Element Chalk Variables */\\n.el-popover {\\n  --el-popover-bg-color: var(--el-bg-color-overlay);\\n  --el-popover-font-size: var(--el-font-size-base);\\n  --el-popover-border-color: var(--el-border-color-lighter);\\n  --el-popover-padding: 12px;\\n  --el-popover-padding-large: 18px 20px;\\n  --el-popover-title-font-size: 16px;\\n  --el-popover-title-text-color: var(--el-text-color-primary);\\n  --el-popover-border-radius: 4px;\\n}\\n.el-popover.el-popper {\\n  background: var(--el-popover-bg-color);\\n  min-width: 150px;\\n  border-radius: var(--el-popover-border-radius);\\n  border: 1px solid var(--el-popover-border-color);\\n  padding: var(--el-popover-padding);\\n  z-index: var(--el-index-popper);\\n  color: var(--el-text-color-regular);\\n  line-height: 1.4;\\n  font-size: var(--el-popover-font-size);\\n  box-shadow: var(--el-box-shadow-light);\\n  overflow-wrap: break-word;\\n  box-sizing: border-box;\\n}\\n.el-popover.el-popper--plain {\\n  padding: var(--el-popover-padding-large);\\n}\\n\\n.el-popover__title {\\n  color: var(--el-popover-title-text-color);\\n  font-size: var(--el-popover-title-font-size);\\n  line-height: 1;\\n  margin-bottom: 12px;\\n}\\n\\n.el-popover__reference:focus:not(.focusing), .el-popover__reference:focus:hover {\\n  outline-width: 0;\\n}\\n\\n.el-popover.el-popper.is-dark {\\n  --el-popover-bg-color: var(--el-text-color-primary);\\n  --el-popover-border-color: var(--el-text-color-primary);\\n  --el-popover-title-text-color: var(--el-bg-color);\\n  color: var(--el-bg-color);\\n}\\n\\n.el-popover.el-popper:focus:active, .el-popover.el-popper:focus {\\n  outline-width: 0;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720230060,
+      "end": 1738720230060,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1738720230060,
+      "end": 1738720230060,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1738720230060,
+      "end": 1738720230060,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1738720230060,
+      "end": 1738720230060,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1738720230060,
+      "end": 1738720230060,
+      "order": "normal"
+    },
+    {
+      "name": "vite-plugin-vue-inspector:post",
+      "start": 1738720230060,
+      "end": 1738720230060,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-auto-import",
+      "start": 1738720230060,
+      "end": 1738720230060,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-vue-components",
+      "start": 1738720230060,
+      "end": 1738720230060,
+      "order": "post"
+    },
+    {
+      "name": "vite:client-inject",
+      "start": 1738720230060,
+      "end": 1738720230060,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-analysis",
+      "start": 1738720230060,
+      "end": 1738720230061,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-analysis",
+      "result": "import { createHotContext as __vite__createHotContext } from \"/@vite/client\";import.meta.hot = __vite__createHotContext(\"/node_modules/element-plus/theme-chalk/src/popover.scss\");import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/node_modules/element-plus/theme-chalk/src/popover.scss\"\nconst __vite__css = \"/* Element Chalk Variables */\\n.el-popover {\\n  --el-popover-bg-color: var(--el-bg-color-overlay);\\n  --el-popover-font-size: var(--el-font-size-base);\\n  --el-popover-border-color: var(--el-border-color-lighter);\\n  --el-popover-padding: 12px;\\n  --el-popover-padding-large: 18px 20px;\\n  --el-popover-title-font-size: 16px;\\n  --el-popover-title-text-color: var(--el-text-color-primary);\\n  --el-popover-border-radius: 4px;\\n}\\n.el-popover.el-popper {\\n  background: var(--el-popover-bg-color);\\n  min-width: 150px;\\n  border-radius: var(--el-popover-border-radius);\\n  border: 1px solid var(--el-popover-border-color);\\n  padding: var(--el-popover-padding);\\n  z-index: var(--el-index-popper);\\n  color: var(--el-text-color-regular);\\n  line-height: 1.4;\\n  font-size: var(--el-popover-font-size);\\n  box-shadow: var(--el-box-shadow-light);\\n  overflow-wrap: break-word;\\n  box-sizing: border-box;\\n}\\n.el-popover.el-popper--plain {\\n  padding: var(--el-popover-padding-large);\\n}\\n\\n.el-popover__title {\\n  color: var(--el-popover-title-text-color);\\n  font-size: var(--el-popover-title-font-size);\\n  line-height: 1;\\n  margin-bottom: 12px;\\n}\\n\\n.el-popover__reference:focus:not(.focusing), .el-popover__reference:focus:hover {\\n  outline-width: 0;\\n}\\n\\n.el-popover.el-popper.is-dark {\\n  --el-popover-bg-color: var(--el-text-color-primary);\\n  --el-popover-border-color: var(--el-text-color-primary);\\n  --el-popover-title-text-color: var(--el-bg-color);\\n  color: var(--el-bg-color);\\n}\\n\\n.el-popover.el-popper:focus:active, .el-popover.el-popper:focus {\\n  outline-width: 0;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720230061,
+      "end": 1738720230061,
+      "order": "normal",
+      "sourcemaps": null
+    }
+  ]
+}

@@ -5,7 +5,7 @@
 </template>
 <script setup lang="ts">
 import Speech from "speak-tts";
-import {ref, unref,onMounted} from "vue";
+import {ref, unref, onMounted} from "vue";
 
 const speech = new Speech();
 const msg = ref("你好");

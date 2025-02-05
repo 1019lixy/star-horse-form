@@ -5,7 +5,7 @@ defineOptions({
 </script>
 
 <template>
-水平菜单
+  水平菜单
 </template>
 
 <style scoped lang="scss">

@@ -229,13 +229,17 @@ onDeactivated(() => {
 </script>
 <template>
   <star-horse-dialog :dialog-visible="dialogProps.editVisible" :dialogProps="dialogProps" :isShowBtnContinue="true">
-    <star-horse-form :compUrl="dataUrl" :fieldList="tableFieldList" :rules="rules"
-                     :outerFormData="outForm"
-                     @refresh="rankDefineRef.loadByPage()"/>
+    <div class="dialog-body">
+      <star-horse-form :compUrl="dataUrl" :fieldList="tableFieldList" :rules="rules"
+                       :outerFormData="outForm"
+                       @refresh="rankDefineRef.loadByPage()"/>
+    </div>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :isView="true"
                      :title="'查看数据'">
-    <star-horse-data-view :compUrl="dataUrl" :dataFormat="dataFormat" :field-list="tableFieldList"/>
+    <div class="dialog-body">
+      <star-horse-data-view :compUrl="dataUrl" :dataFormat="dataFormat" :field-list="tableFieldList"/>
+    </div>
   </star-horse-dialog>
   <el-row :gutter="10" class="h100-overflow-hidden ">
     <el-col :span="4" class="h100">

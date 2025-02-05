@@ -343,6 +343,7 @@ let configInfo = computed(() => configStore.configFormInfo);
     display: flex;
     flex-direction: row;
     align-items: center;
+
     .message {
       height: 40px;
       width: 45%;
@@ -351,6 +352,7 @@ let configInfo = computed(() => configStore.configFormInfo);
       justify-content: center;
       vertical-align: middle;
       cursor: pointer;
+
       .el-badge {
         svg {
           width: 2em;
@@ -358,6 +360,7 @@ let configInfo = computed(() => configStore.configFormInfo);
         }
       }
     }
+
     .user-info {
       flex: 1;
       width: 30%;
@@ -367,12 +370,14 @@ let configInfo = computed(() => configStore.configFormInfo);
       flex-direction: row;
       vertical-align: middle;
       align-items: center;
+
       .lang {
         width: 50%;
         align-items: center;
         justify-content: center;
         vertical-align: middle;
       }
+
       .el-dropdown-link {
         color: var(--star-horse-white);
         display: flex;
@@ -416,6 +421,7 @@ let configInfo = computed(() => configStore.configFormInfo);
       margin-left: 15px;
       text-align: center;
       height: 100%;
+
       a {
         display: inline-flex;
         justify-content: center;

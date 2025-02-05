@@ -63,7 +63,7 @@ export function fieldCopy(data: any, type: string) {
     if (reData.itemType == "box") {
         mvData.preps["elements"] = [{rowIndex: 1, columns: [{colIndex: 1, colspan: 24, items: []}]}];
     } else if (reData.itemType == "table") {
-        mvData.preps["elements"] = [{colIndex: 1,columns:1, items: []}];
+        mvData.preps["elements"] = [{colIndex: 1, columns: 1, items: []}];
     } else if (reData.itemType == "dytable") {
         mvData.preps["elements"] = [{colIndex: 1, columns: [{colIndex: 1, colspan: 1, rowspan: 1, items: []}]}];
     }

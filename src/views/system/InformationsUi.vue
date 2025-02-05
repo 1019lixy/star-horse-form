@@ -15,7 +15,7 @@ let customerList = ref<SelectOption[]>([]);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {label: "归属主体", fieldName: "idCustomer", type: "select", optionList: customerList},
-    {label: "系统名称", defaultVisible: true, fieldName: "sysName", type: "input", matchType: "lk",minWidth: "200px"},
+    {label: "系统名称", defaultVisible: true, fieldName: "sysName", type: "input", matchType: "lk", minWidth: "200px"},
     {label: "添加时间", fieldName: "createdDate", type: "daterange", matchType: "bt"}
   ]
 });

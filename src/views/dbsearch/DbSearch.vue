@@ -1,6 +1,6 @@
 <script setup lang="ts" name="DbSearch">
 import StarHorseEditor from "@/components/comp/StarHorseEditor.vue";
-import {onMounted, ref, unref,computed} from "vue";
+import {onMounted, ref, unref, computed} from "vue";
 import {closeLoad, commonParseCodeToName, load} from "@/api/sh_api";
 import {error, warning} from "@/utils/message";
 import {download, getRequest, postRequest} from "@/api/star_horse";
@@ -29,7 +29,7 @@ let dbIndex = ref<any>(null);
 let currentIndex = ref<any>(null);
 let readOnly = ref<boolean>(true);
 let configStore = GlobalConfig(piniaInstance);
-let compSize = computed(() => configStore.configFormInfo?.inputSize ||Config.compSize);
+let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
 const init = async () => {
   dbList.value = await initDbList();
 };
@@ -336,7 +336,8 @@ const operMsg = `
                 v-for="(item, indexa) in queryResult"
             >
               <el-button :size="compSize" @click="exportData(item)" link title="">
-                <star-horse-icon icon-class="excel-export" />导出
+                <star-horse-icon icon-class="excel-export"/>
+                导出
               </el-button>
               <hr>
               <el-table
@@ -480,6 +481,7 @@ const operMsg = `
     display: flex;
     flex-direction: column;
     margin-left: 10px;
+
     .search-editor {
       flex: 1;
     }

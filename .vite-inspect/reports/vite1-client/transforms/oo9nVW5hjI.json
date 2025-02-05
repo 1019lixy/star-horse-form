@@ -1,0 +1,184 @@
+{
+  "resolvedId": "E:/lixycode/testcode/src/components/comp/items/viewCollapseItem.vue?vue&type=style&index=0&scoped=d9957279&lang.scss",
+  "transforms": [
+    {
+      "name": "vite:vue",
+      "result": "\r\n.el-collapse {\r\n\r\n  :deep(.el-collapse-item__header) {\r\n    border: 1px solid var(--star-horse-style);\r\n    margin-top: 5px;\r\n    height: 40px;\r\n    padding-left: 15px;\r\n  }\r\n\r\n  :deep(.el-collapse-item__content) {\r\n    padding: 5px 10px;\r\n  }\r\n\r\n  :deep(.el-collapse-item__wrap) {\r\n    margin-top: 10px;\r\n    border: unset;\r\n  }\r\n}\r\n",
+      "start": 1738720230371,
+      "end": 1738720230371,
+      "sourcemaps": {
+        "version": 3,
+        "sources": [
+          "E:/lixycode/testcode/src/components/comp/items/viewCollapseItem.vue"
+        ],
+        "names": [],
+        "mappings": ";AAsDA,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE;;EAEX,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE;IAC/B,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;IACzC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC;IACf,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC;IACZ,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC;EACpB;;EAEA,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE;IAChC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC;EACnB;;EAEA,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE;IAC7B,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC;IAChB,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC;EACf;AACF",
+        "file": "E:/lixycode/testcode/src/components/comp/items/viewCollapseItem.vue",
+        "sourceRoot": "",
+        "sourcesContent": [
+          "<script setup lang=\"ts\">\r\nimport {onMounted, PropType} from \"vue\";\r\nimport {FieldInfo} from \"@/components/types/PageFieldInfo\";\r\nimport {ModelRef} from \"vue-demi\";\r\n\r\ndefineProps({\r\n  item: {type: Array as PropType<Array<FieldInfo>>, required: true},\r\n  objectName: {type: String},\r\n  subFormFlag: {type: String, default: \"N\"},\r\n  batchName: {type: String, default: \"batchDataList\"},\r\n  batchFieldName: {type: String, default: \"batchFieldList\"},\r\n  commonFormat: {type: Function, required: true},\r\n});\r\nconst dataForm: ModelRef<any> = defineModel(\"dataForm\");\r\nconst checkObject = (item: any) => {\r\n  if (item && item.objectName && !Object.keys(dataForm.value).includes(item.objectName)) {\r\n    dataForm.value[item.objectName] = {};\r\n  }\r\n  return 1;\r\n}\r\nconst init = () => {\r\n\r\n}\r\nonMounted(() => {\r\n  init();\r\n});\r\n</script>\r\n\r\n<template>\r\n\r\n  <template v-if=\"item.collapseList&&item.collapseList.length>0\">\r\n    <el-collapse v-model=\"item.fieldName\" data-v-inspector=\"src/components/comp/items/viewCollapseItem.vue:32:5\">\r\n      <template v-for=\"(collapseItem,key ) in item.collapseList\">\r\n        <el-collapse-item v-if=\"Object.keys(collapseItem).length>0\" :title=\"collapseItem.title\"\r\n                          :name=\"collapseItem.tabName||key\"\r\n                          :index=\"checkObject(collapseItem)\" data-v-inspector=\"src/components/comp/items/viewCollapseItem.vue:34:9\">\r\n          <el-scrollbar height=\"95%\" data-v-inspector=\"src/components/comp/items/viewCollapseItem.vue:37:11\">\r\n            <star-horse-data-view-items\r\n                v-model:dataForm=\"dataForm[collapseItem.objectName]\"\r\n                :objectName=\"collapseItem.objectName\"\r\n                :commonFormat=\"commonFormat\"\r\n                :fieldList=\"{\r\n                               ...collapseItem\r\n                                 }\"\r\n                :subFormFlag=\"collapseItem.subFormFlag\" data-v-inspector=\"src/components/comp/items/viewCollapseItem.vue:38:13\"\r\n            />\r\n          </el-scrollbar>\r\n        </el-collapse-item>\r\n      </template>\r\n    </el-collapse>\r\n  </template>\r\n</template>\r\n\r\n<style scoped lang=\"scss\">\r\n.el-collapse {\r\n\r\n  :deep(.el-collapse-item__header) {\r\n    border: 1px solid var(--star-horse-style);\r\n    margin-top: 5px;\r\n    height: 40px;\r\n    padding-left: 15px;\r\n  }\r\n\r\n  :deep(.el-collapse-item__content) {\r\n    padding: 5px 10px;\r\n  }\r\n\r\n  :deep(.el-collapse-item__wrap) {\r\n    margin-top: 10px;\r\n    border: unset;\r\n  }\r\n}\r\n</style>\r\n"
+        ]
+      }
+    },
+    {
+      "name": "vite-plugin-vue-inspector",
+      "start": 1738720230372,
+      "end": 1738720230372,
+      "order": "pre"
+    },
+    {
+      "name": "vite-plugin-vue-devtools",
+      "result": "\r\n.el-collapse {\r\n\r\n  :deep(.el-collapse-item__header) {\r\n    border: 1px solid var(--star-horse-style);\r\n    margin-top: 5px;\r\n    height: 40px;\r\n    padding-left: 15px;\r\n  }\r\n\r\n  :deep(.el-collapse-item__content) {\r\n    padding: 5px 10px;\r\n  }\r\n\r\n  :deep(.el-collapse-item__wrap) {\r\n    margin-top: 10px;\r\n    border: unset;\r\n  }\r\n}\r\n",
+      "start": 1738720230372,
+      "end": 1738720230372,
+      "order": "pre",
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "result": ".el-collapse :deep(.el-collapse-item__header) {\n  border: 1px solid var(--star-horse-style);\n  margin-top: 5px;\n  height: 40px;\n  padding-left: 15px;\n}\n.el-collapse :deep(.el-collapse-item__content) {\n  padding: 5px 10px;\n}\n.el-collapse :deep(.el-collapse-item__wrap) {\n  margin-top: 10px;\n  border: unset;\n}",
+      "start": 1738720230372,
+      "end": 1738720230377,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1738720230377,
+      "end": 1738720230377,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1738720230377,
+      "end": 1738720230377,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1738720230377,
+      "end": 1738720230377,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "result": ".el-collapse[data-v-d9957279] .el-collapse-item__header {\n  border: 1px solid var(--star-horse-style);\n  margin-top: 5px;\n  height: 40px;\n  padding-left: 15px;\n}\n.el-collapse[data-v-d9957279] .el-collapse-item__content {\n  padding: 5px 10px;\n}\n.el-collapse[data-v-d9957279] .el-collapse-item__wrap {\n  margin-top: 10px;\n  border: unset;\n}",
+      "start": 1738720230377,
+      "end": 1738720230378,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "originjs:commonjs",
+      "start": 1738720230378,
+      "end": 1738720230378,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1738720230378,
+      "end": 1738720230378,
+      "order": "normal"
+    },
+    {
+      "name": "inject",
+      "start": 1738720230378,
+      "end": 1738720230378,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1738720230378,
+      "end": 1738720230378,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "result": "import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/src/components/comp/items/viewCollapseItem.vue?vue&type=style&index=0&scoped=d9957279&lang.scss\"\nconst __vite__css = \".el-collapse[data-v-d9957279] .el-collapse-item__header {\\n  border: 1px solid var(--star-horse-style);\\n  margin-top: 5px;\\n  height: 40px;\\n  padding-left: 15px;\\n}\\n.el-collapse[data-v-d9957279] .el-collapse-item__content {\\n  padding: 5px 10px;\\n}\\n.el-collapse[data-v-d9957279] .el-collapse-item__wrap {\\n  margin-top: 10px;\\n  border: unset;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720230378,
+      "end": 1738720230378,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1738720230378,
+      "end": 1738720230378,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1738720230378,
+      "end": 1738720230378,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1738720230378,
+      "end": 1738720230378,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1738720230378,
+      "end": 1738720230378,
+      "order": "normal"
+    },
+    {
+      "name": "vite-plugin-vue-inspector:post",
+      "start": 1738720230378,
+      "end": 1738720230378,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-auto-import",
+      "start": 1738720230378,
+      "end": 1738720230379,
+      "order": "post"
+    },
+    {
+      "name": "unplugin-vue-components",
+      "result": "/* unplugin-vue-components disabled */import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/src/components/comp/items/viewCollapseItem.vue?vue&type=style&index=0&scoped=d9957279&lang.scss\"\nconst __vite__css = \".el-collapse[data-v-d9957279] .el-collapse-item__header {\\n  border: 1px solid var(--star-horse-style);\\n  margin-top: 5px;\\n  height: 40px;\\n  padding-left: 15px;\\n}\\n.el-collapse[data-v-d9957279] .el-collapse-item__content {\\n  padding: 5px 10px;\\n}\\n.el-collapse[data-v-d9957279] .el-collapse-item__wrap {\\n  margin-top: 10px;\\n  border: unset;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720230379,
+      "end": 1738720230379,
+      "order": "post",
+      "sourcemaps": {
+        "version": 3,
+        "sources": [
+          "E:/lixycode/testcode/src/components/comp/items/viewCollapseItem.vue?vue&type=style&index=0&scoped=d9957279&lang.scss"
+        ],
+        "sourcesContent": [
+          "import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/src/components/comp/items/viewCollapseItem.vue?vue&type=style&index=0&scoped=d9957279&lang.scss\"\nconst __vite__css = \".el-collapse[data-v-d9957279] .el-collapse-item__header {\\n  border: 1px solid var(--star-horse-style);\\n  margin-top: 5px;\\n  height: 40px;\\n  padding-left: 15px;\\n}\\n.el-collapse[data-v-d9957279] .el-collapse-item__content {\\n  padding: 5px 10px;\\n}\\n.el-collapse[data-v-d9957279] .el-collapse-item__wrap {\\n  margin-top: 10px;\\n  border: unset;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))"
+        ],
+        "names": [],
+        "mappings": "sCAAA,MAAM,CAAC,CAAC,CAAC,WAAW,CAAC,EAAE,CAAC,mBAAmB,CAAC,CAAC,WAAW,CAAC,EAAE,CAAC,mBAAmB,CAAC,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,CAAC,IAAI,CAAC,MAAM;AACrG,KAAK,CAAC,UAAU,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,QAAQ,CAAC,QAAQ,CAAC,GAAG,CAAC,UAAU,CAAC,IAAI,CAAC,KAAK,CAAC,gBAAgB,CAAC,GAAG,CAAC,GAAG,CAAC,IAAI,CAAC,KAAK,CAAC,KAAK,CAAC,CAAC,CAAC,MAAM,CAAC,QAAQ,CAAC,IAAI,CAAC,IAAI;AACxI,KAAK,CAAC,WAAW,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,QAAQ,CAAC,IAAI,CAAC,CAAC,CAAC,QAAQ,CAAC,CAAC,CAAC,EAAE,CAAC,QAAQ,CAAC,YAAY,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,MAAM,CAAC,CAAC,GAAG,CAAC,KAAK,CAAC,GAAG,CAAC,CAAC,CAAC,IAAI,CAAC,KAAK,CAAC,KAAK,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,MAAM,CAAC,GAAG,CAAC,CAAC,GAAG,CAAC,CAAC,CAAC,CAAC,CAAC,MAAM,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,CAAC,CAAC,OAAO,CAAC,IAAI,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,QAAQ,CAAC,IAAI,CAAC,CAAC,CAAC,QAAQ,CAAC,CAAC,CAAC,EAAE,CAAC,QAAQ,CAAC,aAAa,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,OAAO,CAAC,CAAC,GAAG,CAAC,IAAI,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,QAAQ,CAAC,IAAI,CAAC,CAAC,CAAC,QAAQ,CAAC,CAAC,CAAC,EAAE,CAAC,QAAQ,CAAC,UAAU,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,MAAM,CAAC,GAAG,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,CAAC,CAAC,MAAM,CAAC,CAAC,KAAK,CAAC,CAAC,CAAC,CAAC;AACnX,mBAAmB,CAAC,UAAU,CAAC,CAAC,WAAW;AAC3C,MAAM,CAAC,IAAI,CAAC,GAAG,CAAC,MAAM,CAAC;AACvB,MAAM,CAAC,IAAI,CAAC,GAAG,CAAC,KAAK,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,mBAAmB,CAAC,UAAU,CAAC"
+      }
+    },
+    {
+      "name": "vite:client-inject",
+      "start": 1738720230379,
+      "end": 1738720230379,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-analysis",
+      "start": 1738720230379,
+      "end": 1738720230379,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-analysis",
+      "result": "import { createHotContext as __vite__createHotContext } from \"/@vite/client\";import.meta.hot = __vite__createHotContext(\"/src/components/comp/items/viewCollapseItem.vue?vue&type=style&index=0&scoped=d9957279&lang.scss\");/* unplugin-vue-components disabled */import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"E:/lixycode/testcode/src/components/comp/items/viewCollapseItem.vue?vue&type=style&index=0&scoped=d9957279&lang.scss\"\nconst __vite__css = \".el-collapse[data-v-d9957279] .el-collapse-item__header {\\n  border: 1px solid var(--star-horse-style);\\n  margin-top: 5px;\\n  height: 40px;\\n  padding-left: 15px;\\n}\\n.el-collapse[data-v-d9957279] .el-collapse-item__content {\\n  padding: 5px 10px;\\n}\\n.el-collapse[data-v-d9957279] .el-collapse-item__wrap {\\n  margin-top: 10px;\\n  border: unset;\\n}\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1738720230379,
+      "end": 1738720230380,
+      "order": "normal",
+      "sourcemaps": null
+    }
+  ]
+}
