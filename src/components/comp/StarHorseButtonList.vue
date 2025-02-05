@@ -166,7 +166,7 @@ const extandBtnFunction = (): Array<UserFuncInfo> => {
   if (props.extandBtns && props.extandBtns.length > 0) {
     for (let i in arr) {
       let temp: UserFuncInfo = arr[i];
-      if (props.extandBtns.find(item => item.btnName == temp.btnName)) {
+      if (props.extandBtns.find(item => item.btnName == temp.btnName&&item.authority==temp.authority)) {
         arr.splice(i, 1);
       }
     }

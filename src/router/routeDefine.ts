@@ -151,17 +151,8 @@ routeDefine.push(
             title: "流程设计器"
         }
     },
-    /*{
-        path: "/workFlowEdit",
-        component: () => import("@/views/workflow/WorkFlowForm.vue"),
-        name: "WorkFlowForm",
-        meta: {
-            keepAlive: "N",
-            title: "流程表单"
-        }
-    }, */
     {
-        path: "/flowDesign",
+        path: "/workFlowEdit",
         component: () => import("@/views/workflow/plugin/FlowDesign.vue"),
         name: "FlowDesign",
         meta: {

@@ -6,7 +6,6 @@ import {SearchFields, SelectOption} from "@/components/types/SearchProps.d.ts";
 import {Config} from "@/api/settings.ts";
 import {flowFormFields, setFlowGroups} from "@/views/workflow/utils/FlowFormUtils.ts";
 import {UserFuncInfo} from "@/components/types/PageFieldInfo";
-import {BtnAuth} from "@/components/types/BtnAuth";
 import {useRouter} from "vue-router";
 
 const dataUrl: ApiUrls = apiInstance("flow-engine", "workflow/flowoperation");
@@ -14,7 +13,14 @@ let flowGroupList = ref<SelectOption[]>([]);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {label: "流程名称", fieldName: "flowName", type: "input", matchType: "lk", defaultVisible: true},
-    {label: "流程分类", fieldName: "flowGroup", type: "select", optionList: flowGroupList, matchType: "lk", defaultVisible: true},
+    {
+      label: "流程分类",
+      fieldName: "flowGroup",
+      type: "select",
+      optionList: flowGroupList,
+      matchType: "lk",
+      defaultVisible: true
+    },
   ]
 });
 const router = useRouter();
@@ -56,7 +62,7 @@ const selectItemFun = (_item: any) => {
 const addBtnFunc: UserFuncInfo[] = [
   {
     icon: "add",
-    btnName: "新建",
+    btnName: "新增",
     authority: "add",
     funcName: () => {
       router.push({path: "/workFlowEdit"})
