@@ -77,7 +77,6 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
           let temp = dataSource.value[name];
           if (temp) {
             let stemp = temp.datas?.find((item: any) => item[temp.valueField] == cellValue);
-            console.log(stemp);
             return stemp ? stemp[temp.labelField] : cellValue || "--";
           }
         }
@@ -115,12 +114,10 @@ watch(() => props.param,
         :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible"
         :dialogProps="dialogProps"
     >
-      <div class="dialog-body">
         <star-horse-form @refresh="normalPageRef.loadByPage()" :compUrl="dataUrl"
                          :fieldList="tableFieldList"
                          :primary-key="primaryKey"
                          :rules="rules" :globalCondition="relationTables" :dynamicForm="true"/>
-      </div>
     </star-horse-dialog>
     <star-horse-dialog
         :dialog-visible="dialogProps.viewVisible"

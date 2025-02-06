@@ -207,9 +207,9 @@ const loadMenus = async () => {
     return;
   }
   menusList.value = menusDatas.data;
-  menusSelectList.value = createTree(menusDatas.data, "", "menuName", "idMenusinfo");
+  menusSelectList.value = createTree(menusDatas.data, "idMenusinfo", "menuName", "");
 }
-const systemChange = async (data: TreeNodeData, checked: boolean) => {
+const systemChange = async (data: TreeNodeData, _checked: boolean) => {
   currentSystemId.value = data.value;
   currentMenuId.value = 0;
   dataForm.value["idInformations"] = data.value;
@@ -250,17 +250,13 @@ onMounted(async () => {
 </style>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <div class="dialog-body">
       <star-horse-form :outerFormData="dataForm" @refresh="dataPermissionRef.loadByPage()" :compUrl="dataUrl"
                        :fieldList="formFieldList"
                        :rules="rules"/>
-    </div>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title=
       "'查看数据'" :is-view="true">
-    <div class="dialog-body">
       <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
-    </div>
   </star-horse-dialog>
   <el-card class="inner_content">
     <el-row gutter="5" class="h100-overflow-hidden ">

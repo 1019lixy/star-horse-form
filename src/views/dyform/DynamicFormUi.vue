@@ -239,9 +239,7 @@ onMounted(() => {
       :title="'表单预览'"
       :is-view="true"
   >
-    <div class="dialog-body">
       <form-preview :list="list"/>
-    </div>
   </star-horse-dialog>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
     <star-horse-form :compUrl="dataUrl" :fieldList="tableFieldList" :rules="rules"/>

@@ -40,13 +40,12 @@ field.value.preps.size = computed(() => props.compSize);
  * @param params
  */
 const actionDispatcher = (act: string, ...params: any[]) => {
-  // console.log(act);
   if (props.isSearch) {
     if (!act || act == "focus" || act == "blur") {
       return;
     }
     emit("dataSearch", params);
-  } else if (act != "keydown.enter") {
+  } else {
     let actionFun = props.item.actions;
     if (actionFun && actionName.value == act) {
       actionFun(dataForm.value, params);
@@ -56,8 +55,6 @@ const actionDispatcher = (act: string, ...params: any[]) => {
     } else if (act == "blur") {
       emit("blur", props.column, params)
     }
-  } else {
-    console.log("未知事件", act)
   }
 };
 //页面属性改变，重新刷新数据
@@ -153,7 +150,6 @@ const compPreps = () => {
     field.value.preps["dataUrl"] = inputPreps.dataUrl;
     field.value.preps["needField"] = inputPreps.needField;
     field.value.preps["dataFormat"] = inputPreps.dataFormat;
-    // console.log(inputPreps);
     field.value.preps["recall"] = inputPreps.recall;
     field.value.preps["readonly"] = inputPreps.readonly;
   } else if (itemType.value == "switch") {
@@ -211,13 +207,14 @@ const compPreps = () => {
   if (!props.isSearch) {
     userOperation.addFormItem(field);
   }
-  // console.log(field.value.preps);
+
 };
 const defaultAction = ref("keydown.enter")
 const typeList = ["select", "tselect", "date", "daterange"];
 const actionName = ref();
 const randId = ref();
 const componentRef = ref();
+
 onMounted(() => {
   if (typeList.includes(props.item?.type) || typeList.includes(props.item?.fieldType)) {
     defaultAction.value = "change";

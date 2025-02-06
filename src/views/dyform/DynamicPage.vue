@@ -116,8 +116,8 @@ const listenCompChange = (parent: HTMLElement, item: GridStackWidget, add: boole
   if (!parent) {
     return
   }
+  //currentItem 没有赋值
   if (!currentItem.value) {
-    console.log("currentItem 没有赋值", currentItem.value)
     return;
   }
   // Not supported yet

@@ -117,7 +117,6 @@ const rangeMove = (evt: MouseEvent, t: string) => {
       l && (node.value.top = ((node.value.top || 0) - h));
       node.value.height = ((node.value.height || 50) + h)
     }
-    console.log(node.value);
   };
   handleClear()
 }
@@ -134,18 +133,15 @@ const dragStart = (evt: MouseEvent) => {
 }
 const dragAction = (evt: MouseEvent) => {
   if (isDragging.value && isActive.value) {
-    console.log("leave", evt);
     node.value.left = evt.clientX - offsetX.value;
     node.value.top = evt.clientY - offsetY.value;
   }
 }
 const endAction = (evt: MouseEvent) => {
-  console.log("end", evt);
   isDragging.value = false;
 }
 const contentMenuRef = ref();
 const contextmenu = (e: MouseEvent) => {
-  console.log(e);
   e.preventDefault();
   contentMenuRef.value?.show(e);
 }

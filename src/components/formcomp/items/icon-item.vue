@@ -5,10 +5,13 @@
         :popper-style="{'width':'inherit !important'}"
         ref="popoverRef"
         placement="bottom-end"
-        :disabled="!context.attrs['formData']['_'+field.preps['name']+'Editable']&&field.preps['disabled'] == 'Y'"
+        :disabled="(!context.attrs['formData']['_'+field.preps['name']+'Editable']&&field.preps['disabled'] == 'Y')||field.preps['listView'] == 'Y'"
         trigger="click">
       <template #reference>
-        <el-avatar v-if="iconType=='system'" fit="fill" shape="square" style="font-size: 24px"
+        <el-avatar v-if="iconType=='system'" fit="fill" shape="square" :style="{
+          'font-size': field.preps['listView'] == 'Y'?'22px':'24px',
+           background: field.preps['listView'] == 'Y'?'unset':'var(--el-avatar-bg-color)',
+        }"
                    :icon="context.attrs['formData'][field.preps['name']]"/>
         <star-horse-icon :icon-class="context.attrs['formData'][field.preps['name']]" v-else size="40px"
                          style="font-size: 50px;
@@ -62,7 +65,6 @@ export default defineComponent({
     let iconType = ref<string>("system");
     const popoverRef = shallowRef();
     let actionName = shallowRef("keydown.enter");
-
     const assignIcon = (iconName: string) => {
       context.attrs['formData'][field.preps['name']] = iconName;
       unref(popoverRef).popperRef?.delayHide?.();
@@ -84,8 +86,7 @@ export default defineComponent({
       context.emit('selfFunc', prep);
     };
     onMounted(() => {
-       actionName.value = field.preps?.actionName || "keydown.enter";;
-      console.log(field.preps);
+      actionName.value = field.preps?.actionName || "keydown.enter";
       if (field.preps['values']?.length > 0) {
         allIconList.value = field.preps['values'];
         iconType.value = "user";

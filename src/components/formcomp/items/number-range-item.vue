@@ -74,6 +74,7 @@ export default defineComponent({
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef("");
     let actionName = shallowRef("keydown.enter");
+    let slotStyle = shallowRef("");
 // input焦点事件
     const isFocus = ref();
     const handleFocus = () => {
@@ -101,7 +102,8 @@ export default defineComponent({
       allAction(context, prep);
     };
     onMounted(() => {
-       actionName.value = field.preps?.actionName || "keydown.enter";;
+      actionName.value = field.preps?.actionName || "keydown.enter";
+      ;
       field.preps['maxName'] = field.preps["name"] + "Max";
       field.preps['minName'] = field.preps["name"] + "Min";
       let val = context.attrs['formData'][field.preps['name']];
@@ -120,7 +122,7 @@ export default defineComponent({
         }, {immediate: true, deep: true});
     return {
       parentField, context, field, formItem, dataField, actionName,
-      itemAction, handleBlur, handleFocus, isFocus
+      itemAction, handleBlur, handleFocus, isFocus, slotStyle
     }
   }
 });
@@ -166,7 +168,6 @@ export default defineComponent({
     border-radius: 5px !important;
 
   }
-
 
   .number-range {
     background-color: var(--el-bg-color) !important;

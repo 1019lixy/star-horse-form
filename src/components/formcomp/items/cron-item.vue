@@ -3,9 +3,7 @@
                      @closeAction="close"
                      @merge="submit"
                      :dialog-visible="cronVisible">
-    <div class="dialog-body">
-      <Crontab ref="cronTabRef" v-model="cronDataValue"/>
-    </div>
+    <Crontab ref="cronTabRef" v-model="cronDataValue"/>
   </star-horse-dialog>
   <starhorse-form-item :isDesign="context.attrs['isDesign']" :bareFlag="context.attrs['bareFlag']" :form-item="field"
                        :parentField="parentField">
@@ -20,7 +18,7 @@
         @blur="itemAction('blur')"
         v-model="context.attrs['formData'][field.preps['name']]">
       <template #append>
-        <el-button icon="Clock" @click="cronVisible=true"
+        <el-button icon="Clock" @click="open"
                    :disabled="!context.attrs['formData']['_'+field.preps['name']+'Editable']&&field.preps['disabled']=='Y'"/>
       </template>
     </el-input>
@@ -31,7 +29,6 @@ import {defineComponent, onMounted, ref, shallowRef} from "vue";
 import Crontab from "@/components/cron/Crontab.vue";
 import StarHorseDialog from "@/components/comp/StarHorseDialog.vue";
 import {allAction} from "@/components/formcomp/utils/ItemRelationEventUtils.ts";
-import {useVModel} from "@vueuse/core";
 
 export default defineComponent({
   components: {Crontab, StarHorseDialog},
@@ -62,22 +59,27 @@ export default defineComponent({
     const close = () => {
       cronVisible.value = false;
     };
+    const open = () => {
+      cronDataValue.value = context.attrs['formData'][field.preps['name']];
+      cronVisible.value = true;
+    }
     const submit = () => {
       // dataValue.value = cronDataValue.value;
+      console.log(cronDataValue.value);
       context.attrs['formData'][field.preps['name']] = cronDataValue.value;
       // emit('update:modelValue', dataValue.value);
       close();
     };
     resetForm();
     onMounted(() => {
-       actionName.value = field.preps?.actionName || "keydown.enter";;
+      actionName.value = field.preps?.actionName || "keydown.enter";
       if (!context.attrs["isSearch"]) {
         allAction(context, actionName.value, true);
       }
     });
     return {
       parentField, context, field, formItem, dataField, itemAction, cronVisible, resetForm, close,
-      submit, cronTabRef, actionName, dataValue, cronDataValue
+      submit, cronTabRef, actionName, dataValue, cronDataValue, open
     }
   }
 });

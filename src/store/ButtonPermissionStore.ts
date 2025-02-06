@@ -11,14 +11,9 @@ import {warning} from "@/utils/message.ts";
 export const useButtonPermission = defineStore("buttonPermission", () => {
     const pageBtnPermisson = ref<any>({});
     const currentPermission = ref<any>({});
-    // const route = useRoute();
-    // // const router=useRouter();
-    // const meta = route?.meta;
-    // console.log(route, meta, router);
     const addRoute = async (route: RouteLocationNormalized) => {
         const meta: any = route.meta;
         return await getPagePermission(meta?.menuId);
-        //    console.log(meta);
     }
     /**
      * 添加单个权限
@@ -40,7 +35,6 @@ export const useButtonPermission = defineStore("buttonPermission", () => {
         if (menuId) {
             menuId = menuId.split("_")[1];
             let permissons = pageBtnPermisson.value[menuId];
-            // console.log(permissons);
             if (!permissons || permissons.length == 0) {
                 const userId = getUserInfo()?.idUsersinfo;
                 if (!userId) {
@@ -59,7 +53,7 @@ export const useButtonPermission = defineStore("buttonPermission", () => {
                 if (permissons && permissons.length > 0) {
                     addPermission(menuId, permissons);
                 } else {
-                    console.log("没有页面按钮操作权限,请联系系统管理员授权");
+                    warning("没有页面按钮操作权限,请联系系统管理员授权");
                 }
             }
             const permission: any = {};

@@ -218,7 +218,6 @@ export const toggleDark = (val: string) => {
         document.documentElement.style.setProperty('--star-horse-shadow', "#f7f7f9");
         configStore.clearAll();
     }
-    console.log(event, isDark);
     toggle();
 
 }
@@ -352,7 +351,6 @@ export function removeEmptyCondition(condition: SearchParams[]): SearchParams[] 
     }
     for (let a in condition) {
         let temp = condition[a];
-        console.log(temp);
         if (temp && isJson(temp) && Object.keys(temp).length > 0) {
             params.push(temp);
         }
@@ -389,7 +387,6 @@ export function findNodesWithValue(nodes: Array<any>, valueFieldName: string, va
  */
 export function imagesPreview(images: Array<string> | string) {
     let imagesUrl = Array.isArray(images) ? images : [images];
-    console.log(imagesUrl);
     previewImage({
         images: imagesUrl, // 该属性是必填项，其他属性都是非必填。images表示图片地址数组, 也可以是一个object[], object格式为{url: '', name: '', type: '', id: ''}
         index: 1, // 初始状态显示图片的索引，默认为0
@@ -399,18 +396,18 @@ export function imagesPreview(images: Array<string> | string) {
         thumbnailDraggable: true, // 是否允许拖拽缩以更改略图位置，默认为true
         toolbar: true, // 是否显示工具栏，包括放大缩小、旋转、适应窗口、实际尺寸、删除、下载，默认为true
         delete: true, // 是否显示删除按钮，默认为false，当toolbar为true时生效
-        onDelete: function (url, index, id, item) { // 删除回调，默认为空函数，若不允许删除或者删除失败，返回Promise.reject即可（throw Error也可以）
-            console.log('删除', index)
+        onDelete:(_index:number,_url:string,  _id:string|number)=> { // 删除回调，默认为空函数，若不允许删除或者删除失败，返回Promise.reject即可（throw Error也可以）
+            console.log('删除', _index)
             // return Promise.reject('无权限')
         },
         download: true, // 是否显示下载按钮，默认为false, 当toolbar为true时生效
-        onDownload: function (url, index, id, item) { // 下载回调，不传的话会用内置的下载方法来下载图片到本地
-            console.log('下载', index)
+        onDownload: (_index:number,_url:string,  _id:any)=> { // 下载回调，不传的话会用内置的下载方法来下载图片到本地
+            console.log('下载', _index)
         },
-        onClose: function () { // 关闭回调，默认为空，可以在此处做一些清理工作，比如在移动端解除对返回键的拦截
+        onClose:  ()=> { // 关闭回调，默认为空，可以在此处做一些清理工作，比如在移动端解除对返回键的拦截
             console.log('关闭')
         },
-        onFileClick: function (url, index, id, item) { // 点击非图片格式文件的回调，可以在此处做跳转等操作
+        onFileClick:  ( _index:number,_url:string, _id:any)=> { // 点击非图片格式文件的回调，可以在此处做跳转等操作
             window.open('preview url') // 可以打开预览链接
         },
         clickableFileTypes: ['pdf'], // 点击非图片格式文件时，只允许点击这些文件类型，会设置hover样式，当onFileClick不为空时生效，默认为all，即所有类型都可以点击

@@ -37,7 +37,6 @@ export const DesignPage = defineStore("DesignPage", () => {
             nodeList.value.sort((a: DynamicNode, b: DynamicNode) => {
                 return (a.zIndex || defaultZindex.value) - (b.zIndex || defaultZindex.value);
             });
-            console.log(nodeList.value);
             return nodeList.value[0].zIndex || defaultZindex.value;
         }
         const init = () => {

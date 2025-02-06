@@ -13,12 +13,16 @@ const copyerOperation = CopyerOperation(piniaInstance);
 let list = computed(() => designForm.compList);
 let currentComp = computed(() => designForm.currentComp);
 let action = computed(() => copyerOperation.action);
+let shortKeyDisabled = computed(() => designForm.shortKeyDisabled);
 let parentContainer = computed(() => copyerOperation.parentContainer);
 let copyerData = computed(() => copyerOperation.copyerData);
 /**
  * 复制
  */
 const dyCopy = () => {
+    if(shortKeyDisabled.value){
+        return;
+    }
     let item: any = currentComp.value;
     if (!item || Object.keys(item).length === 0) {
         warning("请先选择要复制的组件");
@@ -31,6 +35,9 @@ const dyCopy = () => {
  * 剪切
  */
 const dyCut = () => {
+    if(shortKeyDisabled.value){
+        return;
+    }
     let item: any = currentComp.value;
     if (!item || Object.keys(item).length === 0) {
         warning("请先选择要剪切的组件");
@@ -43,13 +50,15 @@ const dyCut = () => {
  * 粘贴
  */
 const dyPaste = () => {
+    if(shortKeyDisabled.value){
+        return;
+    }
     let copyItem: any = JSON.parse(JSON.stringify(copyerData.value));
     if (!copyItem || Object.keys(copyItem).length === 0) {
         return;
     }
     let compType = copyItem.compType;
     let itemType = copyItem.itemType;
-    console.log(compType, itemType, copyItem);
     if (action.value === "cut") {
         removeItem(list.value, currentComp.value, parentContainer.value);
     }
@@ -62,8 +71,7 @@ const dyPaste = () => {
         copyItem.preps.name = copyItem.preps.name + (list.value.length + 1);
         list.value.push(copyItem);
     }
-    designForm.selectItem(copyItem, copyItem.itemType, "");
-    // console.log("paste")
+    designForm.selectItem(copyItem, itemType, "");
 }
 const dyEnter = () => {
     console.log("enter");
@@ -87,7 +95,6 @@ const dyBackspace = () => {
 const dyRedo = () => {
     //已有实现接口
     // designForm.redo();
-    // console.log("redo")
 }
 const dyUndo = () => {
     //已有实现接口
@@ -153,7 +160,6 @@ const dyPreview = () => {
     //已有实现接口
     // designForm.setPreviewVisible(true);
     // designForm.setIsEdit(false);
-    // console.log("preview")
 }
 const dyReturn = () => {
     //已有实现接口
@@ -161,7 +167,6 @@ const dyReturn = () => {
     //     path: "/dyform/DynamicFormUi",
     //     componentName: "DynamicFormUi",
     // });
-    // console.log("return")
 }
 const dyUp = () => {
     moveUpItem(true, currentComp.value, {});

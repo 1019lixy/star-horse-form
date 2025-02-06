@@ -64,32 +64,55 @@ let cycle01 = ref(0);
 let cycle02 = ref(0);
 let average01 = ref(0);
 let average02 = ref(1);
-let cycleTotal = ref(0);
-let averageTotal = ref(0);
-let weekdayCheck = ref(0);
-let checkboxString = ref(0);
+
 let checkboxList = ref([]);
 let weekList = ref(['周一', '周二', '周三', '周四', '周五', '周六', '周日']);
 let checkNum = ref(props.check);
+// 计算两个周期值
+const cycleTotalFun = () => {
+  cycle01.value = checkNum.value?.(cycle01.value, 1, 7)
+  cycle02.value = checkNum.value?.(cycle02.value, 1, 7)
+  return cycle01.value + '-' + cycle02.value;
+};
+// 计算平均用到的值
+const averageTotalFun = () => {
+  average01.value = checkNum.value?.(average01.value, 1, 4)
+  average02.value = checkNum.value?.(average02.value, 1, 7)
+  return average01.value + '#' + average02.value;
+};
+// 最近的工作日（格式）
+const weekdayCheckFun = () => {
+  weekday.value = checkNum.value?.(weekday.value, 1, 7)
+  return weekday.value;
+};
+// 计算勾选的checkbox值合集
+const checkboxStringFun = () => {
+  let str = checkboxList.value.join();
+  return str == '' ? '*' : str;
+};
+let cycleTotal = computed(() => cycleTotalFun());
+let averageTotal = computed(() => averageTotalFun());
+let weekdayCheck = computed(() => weekdayCheckFun());
+let checkboxString = computed(() => checkboxStringFun());
 // 单选按钮值变化时
 const radioChange = () => {
   if (radioValue.value === 1) {
     emits('update', 'week', '*');
     emits('update', 'year', '*');
   } else {
-    if (props.cron.month === '*') {
+    if (props.cron?.month === '*') {
       emits('update', 'month', '0', 'week');
     }
-    if (props.cron.day === '*') {
+    if (props.cron?.day === '*') {
       emits('update', 'day', '0', 'week');
     }
-    if (props.cron.hour === '*') {
+    if (props.cron?.hour === '*') {
       emits('update', 'hour', '0', 'week');
     }
-    if (props.cron.min === '*') {
+    if (props.cron?.min === '*') {
       emits('update', 'min', '0', 'week');
     }
-    if (props.cron.second === '*') {
+    if (props.cron?.second === '*') {
       emits('update', 'second', '0', 'week');
     }
   }
@@ -107,7 +130,7 @@ const radioChange = () => {
       emits('update', 'week', weekday.value + 'L');
       break;
     case 6:
-      emits('update', 'week', checkboxString.value.value);
+      emits('update', 'week', checkboxString.value);
       break;
   }
 };
@@ -115,13 +138,13 @@ const radioChange = () => {
 // 周期两个值变化时
 const cycleChange = () => {
   if (radioValue.value == 3) {
-    emits('update', 'week', cycleTotal.value.value);
+    emits('update', 'week', cycleTotal.value);
   }
 };
 // 平均两个值变化时
 const averageChange = () => {
   if (radioValue.value == 4) {
-    emits('update', 'week', averageTotal.value.value);
+    emits('update', 'week', averageTotal.value);
   }
 };
 // 最近工作日值变化时
@@ -133,58 +156,34 @@ const weekdayChange = () => {
 // checkbox值变化时
 const checkboxChange = () => {
   if (radioValue.value == 6) {
-    emits('update', 'week', checkboxString.value.value);
+    emits('update', 'week', checkboxString.value);
   }
 };
 watch(() => radioValue.value,
-    (val) => radioChange(), {
+    (_val) => radioChange(), {
       immediate: true,
       deep: true
     });
 watch(() => cycleTotal.value,
-    (val) => cycleChange(), {
+    (_val) => cycleChange(), {
       immediate: true,
       deep: true
     });
 watch(() => averageTotal.value,
-    (val) => averageChange(), {
+    (_val) => averageChange(), {
       immediate: true,
       deep: true
     });
 watch(() => weekdayCheck.value,
-    (val) => weekdayChange(), {
+    (_val) => weekdayChange(), {
       immediate: true,
       deep: true
     });
 watch(() => checkboxString.value,
-    (val) => checkboxChange(), {
+    (_val) => checkboxChange(), {
       immediate: true,
       deep: true
     });
-cycleTotal.value = computed(() => cycleTotalFun());
-averageTotal.value = computed(() => averageTotalFun());
-weekdayCheck.value = computed(() => weekdayCheckFun());
-checkboxString.value = computed(() => checkboxStringFun());
-// 计算两个周期值
-const cycleTotalFun = () => {
-  cycle01.value = checkNum.value(cycle01.value, 1, 7)
-  cycle02.value = checkNum.value(cycle02.value, 1, 7)
-  return cycle01.value + '-' + cycle02.value;
-};
-// 计算平均用到的值
-const averageTotalFun = () => {
-  average01.value = checkNum.value(average01.value, 1, 4)
-  average02.value = checkNum.value(average02.value, 1, 7)
-  return average01.value + '#' + average02.value;
-};
-// 最近的工作日（格式）
-const weekdayCheckFun = () => {
-  weekday.value = checkNum.value(weekday.value, 1, 7)
-  return weekday.value;
-};
-// 计算勾选的checkbox值合集
-const checkboxStringFun = () => {
-  let str = checkboxList.value.join();
-  return str == '' ? '*' : str;
-};
+
+
 </script>

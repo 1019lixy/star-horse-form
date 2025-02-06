@@ -22,7 +22,6 @@ export const userFunction = (code: string, context: any) => {
     // let formData: any = userOperation.formData;
     //表单实例
     const formInstance: any = userOperation.formInstance;
-    // console.log(formFields, formData, formInstance);
     /**
      * currentField 当前组件信息
      * formData 表单数据

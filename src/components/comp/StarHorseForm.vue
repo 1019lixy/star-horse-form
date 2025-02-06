@@ -136,7 +136,7 @@ const loadData = async () => {
       }
     }
   }
-  await nextTick(() => {
+  nextTick(() => {
     emits("dataLoaded", objData);
     checkActionRelation();
   });

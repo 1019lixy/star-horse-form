@@ -4,11 +4,8 @@
                      @merge="selectItem"
                      @resetForm="resetForm"
                      @closeAction="closeAction">
-    <div class="dialog-body">
       <star-horse-json-editor v-if="field.preps['devType']=='Y'" v-model:modelValue="jsonObject" style="height: 100vh"/>
       <star-horse-form v-else :field-list="jsonTableField" ref="jsonFormRef"/>
-    </div>
-
   </star-horse-dialog>
   <starhorse-form-item :isDesign="context.attrs['isDesign']" :bareFlag="context.attrs['bareFlag']" :form-item="field"
                        :parentField="parentField"

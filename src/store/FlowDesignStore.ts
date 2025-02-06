@@ -103,7 +103,6 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
              * 添加节点
              */
             const flowAddNode = (currentNode: any, parentNode: any, parentNodeType: string, id: string) => {
-                // console.log("flowAddNode", data);
                 /**
                  * 如果是开始节点，则将当前节点放在最前面，否则放在当前节点后面
                  */
@@ -125,7 +124,6 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
                     if (id) {
                         parentNode.conditionNodes.forEach((conditionNode: any) => {
                                 if (conditionNode.id == id) {
-                                    console.log("conditionNode", conditionNode);
                                     let bakeNode = conditionNode.childNode;
                                     // 获取当前操作节点
                                     if (bakeNode) {
@@ -151,12 +149,8 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
                         // addNode(node.value, parentNode, currentNode);
                     }
                 }
-                console.log(node.value);
                 // 更新地图
                 refreshMap(true);
-                //console.log('node', state.node);
-                // console.info(JSON.stringify(node.value));
-
             }
             /**
              * 添加分支
@@ -185,7 +179,6 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
              * 删除节点
              */
             const flowDelNode = (snode: any) => {
-                console.log("flowDelNode", snode, node.value);
                 if (snode.id == node.value.id) {
                     if (snode.childNode) {
                         node.value = snode.childNode;

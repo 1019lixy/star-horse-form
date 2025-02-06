@@ -413,7 +413,7 @@ const getDayArr = (rule: any) => {
   } else if (rule.indexOf('W') >= 0) {
     dayRule.value = 'workDay';
     dayRuleSup.value = Number(rule.match(/[0-9]{1,2}/g)[0]);
-    dateArr.value[3] = [dayRuleSup];
+    dateArr.value[3] = [dayRuleSup.value];
   } else if (rule.indexOf('L') >= 0) {
     dayRule.value = 'lastDay';
     dayRuleSup.value = 'null';

@@ -427,7 +427,6 @@ onMounted(() => {
                      @closeAction="tableOperClose"
                      @merge="()=>tableSubmit(false)"
   >
-    <div class="dialog-body">
       <el-tabs v-model="tbTab">
         <el-tab-pane name="tb1">
           <template #label><span><star-horse-icon icon-class="config" color="var(--star-horse-style)"/>风格设置
@@ -460,7 +459,6 @@ onMounted(() => {
           </el-scrollbar>
         </el-tab-pane>
       </el-tabs>
-    </div>
   </star-horse-dialog>
   <star-horse-dialog
       :dialogVisible="configDialogVisible"

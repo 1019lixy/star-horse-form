@@ -1,7 +1,7 @@
 <template>
   <el-tabs type="border-card" v-model="tabActive">
     <el-tab-pane label="秒" name="0" v-if="shouldHide('second')">
-      <CrontabSecond @update="updateContabValue" :check="checkNumber" ref="cronsecond"/>
+      <CrontabSecond @update="updateContabValue" :cron="contabValueObj" :check="checkNumber" ref="cronsecond"/>
     </el-tab-pane>
     <el-tab-pane label="分钟" name="1" v-if="shouldHide('min')">
       <CrontabMin
@@ -93,7 +93,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import {computed, nextTick, onMounted, ref} from "vue";
+import {computed, nextTick, onMounted, ref, watch} from "vue";
 import CrontabSecond from "@/components/cron/Crontab-Second.vue";
 import CrontabMin from "@/components/cron/Crontab-Min.vue";
 import CrontabHour from "@/components/cron/Crontab-Hour.vue";
@@ -123,11 +123,7 @@ const cronday = ref();
 const cronmonth = ref();
 const cronweek = ref();
 const cronyear = ref();
-let contabValueString = computed(() => {
-  let str = contabValueStringFun();
-  dataValue.value = str;
-  return str;
-});
+const prototypeCron = ["0 0 0 0 0 *", "* * * * * ? *", "* * * * * ?"];
 let contabValueObj = ref<any>({
   second: "*",
   min: "*",
@@ -137,13 +133,35 @@ let contabValueObj = ref<any>({
   week: "?",
   year: "",
 });
+const contabValueStringFun = () => {
+  let obj = contabValueObj.value;
+  return obj.second +
+      " " +
+      obj.min +
+      " " +
+      obj.hour +
+      " " +
+      obj.day +
+      " " +
+      obj.month +
+      " " +
+      obj.week +
+      (obj.year == "" ? "" : " " + obj.year);
+};
+let contabValueString = computed(() => {
+  let val = contabValueStringFun();
+  if (!prototypeCron.includes(val)) {
+    emits("update:modelValue", val);
+  }
+  return val;
+});
 const shouldHide = (key: any) => {
   return !(props.hideComponent && props.hideComponent.includes(key));
 };
 const resolveExp = () => {
   //反解析 表达式
-  if (props.expression) {
-    let arr = props.expression.split(" ");
+  if (dataValue.value) {
+    let arr = dataValue.value.split(" ");
     if (arr.length >= 6) {
       //6 位以上是合法表达式
       let obj: any = {
@@ -204,16 +222,12 @@ const changeRadio = async (name: string, value: string) => {
       insVlaue = 1;
     } else if (value.indexOf("-") > -1) {
       let indexArr: Array<any> = value.split("-");
-      isNaN(indexArr[0])
-          ? (refObj.value.cycle01 = 0)
-          : (refObj.value.cycle01 = indexArr[0]);
+      isNaN(indexArr[0]) ? (refObj.value.cycle01 = 0) : (refObj.value.cycle01 = indexArr[0]);
       refObj.value.cycle02 = indexArr[1];
       insVlaue = 2;
     } else if (value.indexOf("/") > -1) {
       let indexArr: Array<any> = value.split("/");
-      isNaN(indexArr[0])
-          ? (refObj.value.average01 = 0)
-          : (refObj.value.average01 = indexArr[0]);
+      isNaN(indexArr[0]) ? (refObj.value.average01 = 0) : (refObj.value.average01 = indexArr[0]);
       refObj.value.average02 = indexArr[1];
       insVlaue = 3;
     } else {
@@ -227,23 +241,17 @@ const changeRadio = async (name: string, value: string) => {
       insVlaue = 2;
     } else if (value.indexOf("-") > -1) {
       let indexArr: Array<any> = value.split("-");
-      isNaN(indexArr[0])
-          ? (refObj.value.cycle01 = 0)
-          : (refObj.value.cycle01 = indexArr[0]);
+      isNaN(indexArr[0]) ? (refObj.value.cycle01 = 0) : (refObj.value.cycle01 = indexArr[0]);
       refObj.value.cycle02 = indexArr[1];
       insVlaue = 3;
     } else if (value.indexOf("/") > -1) {
       let indexArr: Array<any> = value.split("/");
-      isNaN(indexArr[0])
-          ? (refObj.value.average01 = 0)
-          : (refObj.value.average01 = indexArr[0]);
+      isNaN(indexArr[0]) ? (refObj.value.average01 = 0) : (refObj.value.average01 = indexArr[0]);
       refObj.value.average02 = indexArr[1];
       insVlaue = 4;
     } else if (value.indexOf("W") > -1) {
       let indexArr: Array<any> = value.split("W");
-      isNaN(indexArr[0])
-          ? (refObj.value.workday = 0)
-          : (refObj.value.workday = indexArr[0]);
+      isNaN(indexArr[0]) ? (refObj.value.workday = 0) : (refObj.value.workday = indexArr[0]);
       insVlaue = 5;
     } else if (value === "L") {
       insVlaue = 6;
@@ -265,16 +273,12 @@ const changeRadio = async (name: string, value: string) => {
       insVlaue = 3;
     } else if (value.indexOf("#") > -1) {
       let indexArr: Array<any> = value.split("#");
-      isNaN(indexArr[0])
-          ? (refObj.value.average01 = 1)
-          : (refObj.value.average01 = indexArr[0]);
+      isNaN(indexArr[0]) ? (refObj.value.average01 = 1) : (refObj.value.average01 = indexArr[0]);
       refObj.value.average02 = indexArr[1];
       insVlaue = 4;
     } else if (value.indexOf("L") > -1) {
       let indexArr: Array<any> = value.split("L");
-      isNaN(indexArr[0])
-          ? (refObj.value.weekday = 1)
-          : (refObj.value.weekday = indexArr[0]);
+      isNaN(indexArr[0]) ? (refObj.value.weekday = 1) : (refObj.value.weekday = indexArr[0]);
       insVlaue = 5;
     } else {
       refObj.value.checkboxList = value.split(",");
@@ -324,24 +328,11 @@ const clearCron = () => {
   }
 };
 
-const contabValueStringFun = () => {
-  let obj = contabValueObj.value;
-  return obj.second +
-      " " +
-      obj.min +
-      " " +
-      obj.hour +
-      " " +
-      obj.day +
-      " " +
-      obj.month +
-      " " +
-      obj.week +
-      (obj.year == "" ? "" : " " + obj.year);
-};
+
 onMounted(() => {
   resolveExp();
 });
+
 defineExpose({
   clearCron, resolveExp
 })

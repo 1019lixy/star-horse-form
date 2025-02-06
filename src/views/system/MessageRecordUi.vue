@@ -267,10 +267,8 @@ onDeactivated(() => {
 </script>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialog-visible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <div class="dialog-body">
       <star-horse-form @refresh="messageRecordRef.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList"
                        :rules="rules"/>
-    </div>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title="'查看数据'"
                      :isView="true">

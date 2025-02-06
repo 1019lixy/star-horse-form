@@ -168,17 +168,13 @@ onMounted(() => {
   <star-horse-dialog :self-func="true" :title="viewUserTitle" :dialog-visible="dialogProps.bakeVisible2"
                      :dialogProps="dialogProps" @merge="(data)=>loadInstanceData([])"
                      @closeAction="(data)=>loadInstanceData([])">
-    <div class="dialog-body">
       <role-user-list :queryCondition="queryCondition" :showButton="false" :dialogInput="true" :multipleSelect="true"
                       ref="companyRoleManageRef"/>
-    </div>
   </star-horse-dialog>
   <star-horse-dialog :self-func="true" :title="'添加人员'" :dialog-visible="dialogProps.bakeVisible1"
                      :dialogProps="dialogProps" @merge="assignRoleUser">
-    <div class="dialog-body">
       <user-manage :cellEditable="false" :showButton="false" :dialogInput="true" :multipleSelect="true"
                    ref="companyRoleManageRef"/>
-    </div>
   </star-horse-dialog>
   <el-card class="inner_content">
     <div class="search_btn" :style="{'flex-direction':Config.buttonStyle=='line'?'column':'row'}">

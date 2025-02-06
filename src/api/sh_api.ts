@@ -622,7 +622,6 @@ export function formFieldMapping(fieldList: PageFieldInfo) {
             if (temp instanceof Array) {
                 temp.forEach((item: FieldInfo) => {
                     if (item.defaultValue) {
-                        // console.log(Object.keys(item.defaultValue));
                         if (isJson(item.defaultValue)) {
                             for (const key in item.defaultValue) {
                                 defaultData[key] = item.defaultValue[key];
@@ -790,7 +789,6 @@ export async function dynamicUrlOperation(preps: any, queryInfo?: SearchParams[]
                 }
                 options.push(option);
             });
-            console.log(options);
             return options;
         };
         validResult.data.forEach((item: any) => {
@@ -859,7 +857,6 @@ export function validMsg(item: any, dataForm: any) {
             rules.push({
                 validator: (_rule: any, _value: any, callback: any) => {
                     let fieldName = item.fieldName;
-                    console.log(dataForm)
                     if (dataForm[fieldName + 'Min'] + '' === '') {
                         callback(new Error("必填项小值不能为空"));
                     }

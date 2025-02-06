@@ -290,7 +290,6 @@ const shortKeyList = (model: ModuleEnums) => {
  * @param params 参数
  */
 export const keyboardEvent = (evt: KeyboardEvent, actions: Function, module: ModuleEnums, ...params: any) => {
-    console.log(evt, evt.key);
     //ctrlKey
     if (evt.key == "Control") {
         ctrlKey.value = true;
@@ -328,7 +327,6 @@ export const keyboardEvent = (evt: KeyboardEvent, actions: Function, module: Mod
     }
 }
 const windowBlur = () => {
-    console.log("窗口失去焦点");
     altKey.value = false;
     shiftKey.value = false;
     ctrlKey.value = false;
@@ -339,12 +337,10 @@ export const initKeyboardEvent = (actions: Function, module: ModuleEnums, ...par
     window.addEventListener("keydown", (evt: KeyboardEvent) => keyboardEvent(evt, actions, module, params), true);
     window.addEventListener("keyup", (evt: KeyboardEvent) => resetCtrlKey(evt), true);
     window.addEventListener("blur", windowBlur, false);
-    console.log("初始化监听事件");
 }
 //移除键盘事件
 export const removeKeyboardEvent = (actions: Function, module: ModuleEnums, ...params: any) => {
     window.removeEventListener("keydown", (evt: KeyboardEvent) => keyboardEvent(evt, actions, module, params), true);
     window.removeEventListener("keyup", (evt: KeyboardEvent) => resetCtrlKey(evt), true);
     window.removeEventListener("blur", windowBlur, false);
-    console.log("移除化监听事件");
 }

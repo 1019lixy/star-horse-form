@@ -18,7 +18,6 @@ export const useUserSelfOperation = defineStore("userSelfOperation", () => {
         formFieldList.value = fieldList;
     }
     const setFormInstance = (formRef: Ref) => {
-        // console.log(formRef.value);
         formInstance.value = formRef.value;
     }
     /**
