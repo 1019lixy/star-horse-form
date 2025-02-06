@@ -1,7 +1,7 @@
 <template>
   <el-tabs type="border-card" v-model="tabActive">
     <el-tab-pane label="秒" name="0" v-if="shouldHide('second')">
-      <CrontabSecond @update="updateContabValue" :check="checkNumber" ref="cronsecond"/>
+      <CrontabSecond @update="updateContabValue" :cron="contabValueObj" :check="checkNumber" ref="cronsecond"/>
     </el-tab-pane>
     <el-tab-pane label="分钟" name="1" v-if="shouldHide('min')">
       <CrontabMin
@@ -123,7 +123,7 @@ const cronday = ref();
 const cronmonth = ref();
 const cronweek = ref();
 const cronyear = ref();
-const prototypeCron = ["0 0 0 0 0 *", "* * * * * ? *"];
+const prototypeCron = ["0 0 0 0 0 *", "* * * * * ? *", "* * * * * ?"];
 let contabValueObj = ref<any>({
   second: "*",
   min: "*",
@@ -148,7 +148,13 @@ const contabValueStringFun = () => {
       obj.week +
       (obj.year == "" ? "" : " " + obj.year);
 };
-let contabValueString = computed(() => contabValueStringFun());
+let contabValueString = computed(() => {
+  let val = contabValueStringFun();
+  if (!prototypeCron.includes(val)) {
+    emits("update:modelValue", val);
+  }
+  return val;
+});
 const shouldHide = (key: any) => {
   return !(props.hideComponent && props.hideComponent.includes(key));
 };
@@ -326,15 +332,7 @@ const clearCron = () => {
 onMounted(() => {
   resolveExp();
 });
-watch(() => contabValueString.value,
-    (val: any) => {
-      if (!prototypeCron.includes(val)) {
-        dataValue.value = val;
-      }
-    }, {
-      immediate: false,
-      deep: true
-    });
+
 defineExpose({
   clearCron, resolveExp
 })

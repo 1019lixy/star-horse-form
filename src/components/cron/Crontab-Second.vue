@@ -114,7 +114,7 @@ const checkboxChange = () => {
 };
 const othChange = () => {
   //反解析
-  let ins = props.cron?.second
+  let ins = props.cron?.second;
   if (ins === '*') {
     radioValue.value = 1;
   } else if (ins.indexOf('-') > -1) {
@@ -125,6 +125,7 @@ const othChange = () => {
     radioValue.value = 4
     checkboxList.value = ins.split(',')
   }
+  debugger;
 };
 watch(() => radioValue.value,
     (_val) => radioChange(), {
@@ -148,7 +149,8 @@ watch(() => checkboxString.value,
     });
 
 onMounted(() => {
-  radioValue.value = props.radioParent;
+  // radioValue.value = props.radioParent;
+  othChange();
 })
 
 </script>
