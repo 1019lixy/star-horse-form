@@ -7,6 +7,8 @@
   </star-horse-dialog>
   <starhorse-form-item :isDesign="context.attrs['isDesign']" :bareFlag="context.attrs['bareFlag']" :form-item="field"
                        :parentField="parentField">
+    {{context.attrs['formData'][field.preps['name']]}}
+    {{cronDataValue}}
     <el-input
         :fid="field.preps['name']"
         :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
@@ -61,13 +63,11 @@ export default defineComponent({
     };
     const open = () => {
       cronDataValue.value = context.attrs['formData'][field.preps['name']];
+      console.log(cronDataValue.value);
       cronVisible.value = true;
     }
     const submit = () => {
-      // dataValue.value = cronDataValue.value;
-      console.log(cronDataValue.value);
       context.attrs['formData'][field.preps['name']] = cronDataValue.value;
-      // emit('update:modelValue', dataValue.value);
       close();
     };
     resetForm();

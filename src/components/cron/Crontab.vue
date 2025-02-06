@@ -1,7 +1,12 @@
 <template>
+  {{ dataValue }}
   <el-tabs type="border-card" v-model="tabActive">
     <el-tab-pane label="秒" name="0" v-if="shouldHide('second')">
-      <CrontabSecond @update="updateContabValue" :cron="contabValueObj" :check="checkNumber" ref="cronsecond"/>
+      <CrontabSecond
+          @update="updateContabValue"
+          :cron="contabValueObj"
+          :check="checkNumber"
+          ref="cronsecond"/>
     </el-tab-pane>
     <el-tab-pane label="分钟" name="1" v-if="shouldHide('min')">
       <CrontabMin
@@ -57,35 +62,39 @@
       <p class="title">时间表达式</p>
       <table>
         <thead>
-        <th v-for="item of tabTitles" width="40" :key="item">{{ item }}</th>
-        <th>crontab完整表达式</th>
+        <tr>
+          <th v-for="item of tabTitles" width="40" :key="item">{{ item }}</th>
+          <th>crontab完整表达式</th>
+        </tr>
         </thead>
         <tbody>
-        <td>
-          <el-tag>{{ contabValueObj.second }}</el-tag>
-        </td>
-        <td>
-          <el-tag>{{ contabValueObj.min }}</el-tag>
-        </td>
-        <td>
-          <el-tag>{{ contabValueObj.hour }}</el-tag>
-        </td>
-        <td>
-          <el-tag>{{ contabValueObj.day }}</el-tag>
-        </td>
-        <td>
-          <el-tag>{{ contabValueObj.month }}</el-tag>
-        </td>
-        <td>
-          <el-tag>{{ contabValueObj.week }}</el-tag>
-        </td>
-        <td>
-          <el-tag>{{ contabValueObj.year }}</el-tag>
-        </td>
-        <td>
-          <el-tag style="cursor: pointer" @click="copy(contabValueString)">{{ contabValueString }}
-          </el-tag>
-        </td>
+        <tr>
+          <td>
+            <el-tag>{{ contabValueObj.second }}</el-tag>
+          </td>
+          <td>
+            <el-tag>{{ contabValueObj.min }}</el-tag>
+          </td>
+          <td>
+            <el-tag>{{ contabValueObj.hour }}</el-tag>
+          </td>
+          <td>
+            <el-tag>{{ contabValueObj.day }}</el-tag>
+          </td>
+          <td>
+            <el-tag>{{ contabValueObj.month }}</el-tag>
+          </td>
+          <td>
+            <el-tag>{{ contabValueObj.week }}</el-tag>
+          </td>
+          <td>
+            <el-tag>{{ contabValueObj.year }}</el-tag>
+          </td>
+          <td>
+            <el-tag style="cursor: pointer" @click="copy(contabValueString)">{{ contabValueString }}
+            </el-tag>
+          </td>
+        </tr>
         </tbody>
       </table>
     </div>
@@ -133,9 +142,10 @@ let contabValueObj = ref<any>({
   week: "?",
   year: "",
 });
+let contabValueString = ref<string>("");
 const contabValueStringFun = () => {
   let obj = contabValueObj.value;
-  return obj.second +
+  let val = obj.second +
       " " +
       obj.min +
       " " +
@@ -147,14 +157,11 @@ const contabValueStringFun = () => {
       " " +
       obj.week +
       (obj.year == "" ? "" : " " + obj.year);
-};
-let contabValueString = computed(() => {
-  let val = contabValueStringFun();
+  contabValueString.value = val;
   if (!prototypeCron.includes(val)) {
     emits("update:modelValue", val);
   }
-  return val;
-});
+};
 const shouldHide = (key: any) => {
   return !(props.hideComponent && props.hideComponent.includes(key));
 };
@@ -176,6 +183,7 @@ const resolveExp = () => {
       contabValueObj.value = {
         ...obj,
       };
+      console.log("resolveExp",contabValueObj.value);
       for (let i in obj) {
         if (obj[i]) changeRadio(i, obj[i]);
       }
@@ -332,7 +340,11 @@ const clearCron = () => {
 onMounted(() => {
   resolveExp();
 });
-
+watch(
+    () => contabValueObj.value,
+    () => {
+      contabValueStringFun();
+    }, {immediate: false, deep: true});
 defineExpose({
   clearCron, resolveExp
 })

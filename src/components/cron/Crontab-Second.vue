@@ -115,6 +115,7 @@ const checkboxChange = () => {
 const othChange = () => {
   //反解析
   let ins = props.cron?.second;
+  console.log("second", ins);
   if (ins === '*') {
     radioValue.value = 1;
   } else if (ins.indexOf('-') > -1) {

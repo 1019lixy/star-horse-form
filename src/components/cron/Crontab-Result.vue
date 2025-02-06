@@ -24,8 +24,11 @@ let isShow = ref<boolean>(false);
 const expressionChange = () => {
   // 计算开始-隐藏结果
   isShow.value = false;
+  if (!props.ex) {
+    return;
+  }
   // 获取规则数组[0秒、1分、2时、3日、4月、5星期、6年]
-  let ruleArr = props.ex!.split(' ') || [];
+  let ruleArr = props.ex?.split(' ') || [];
   console.log(ruleArr);
   // 用于记录进入循环的次数
   let nums = 0;
