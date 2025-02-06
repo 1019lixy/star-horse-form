@@ -256,7 +256,6 @@ let show = computed(() => {
 let approveNodes = computed(() => {
   let approveNodes: Array<any> = [];
   getApproveNodes(dataNode, approveNodes);
-  console.log(approveNodes);
   // 过滤自己
   return approveNodes.filter((approveNode) => approveNode.id != props.node.id);
 });

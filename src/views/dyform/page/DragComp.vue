@@ -25,7 +25,6 @@ const moveable = ref({
 });
 const contentMenuRef = ref();
 const contextmenu = (e: MouseEvent) => {
-  console.log(e);
   e.preventDefault();
   contentMenuRef.value?.show(e);
 }

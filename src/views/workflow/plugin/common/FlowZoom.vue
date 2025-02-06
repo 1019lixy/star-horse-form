@@ -9,9 +9,7 @@
       @merge="dataDoSave"
       :title="'流程信息'"
   >
-    <div class="dialog-body">
       <BasicInfo ref="basicInfoRef" :dialogFlag="true"/>
-    </div>
   </star-horse-dialog>
   <div class="sh-flow-editor-operate">
     <div class="flow-btn" @click="saveData('publish')" v-if="saveBtnVisible&&!readable">

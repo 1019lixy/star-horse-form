@@ -126,7 +126,6 @@ let securities = ref<Array<any>>([
 ]);
 const openPasswordModal = (checked: any, security: any) => {
   currentForm.value = security;
-  console.log(checked, security);
   if (checked && security.code == 'password') {
     passwordVisible.value = true;
   }
@@ -209,9 +208,7 @@ onMounted(() => {
   <star-horse-dialog self-func="true" :dialog-visible="passwordVisible" @merge="passwordVisible=false"
                      :box-width="scale.isMobile()?'100%':'40%'" title="填写密码"
                      @closeAction="passwordVisible = false">
-    <div class="dialog-body">
       <el-input type="password" v-model="configure.passwordValue" placeholder="输入密码"/>
-    </div>
   </star-horse-dialog>
 </template>
 <style scoped lang="scss">

@@ -117,12 +117,8 @@ onMounted(async () => {
         :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible"
         :dialogProps="dialogProps"
     >
-      <div class="dialog-body">
         <sh-dynamic-form @refresh="starHorseTableCompRef?.loadByPage()" :compUrl="dataUrl" :formInfo="formInfo"
-
-                         :fieldList=
-                             "tableFieldList.dynamicFormas" :rules="rules"/>
-      </div>
+                         :fieldList= "tableFieldList.dynamicFormas" :rules="rules"/>
     </star-horse-dialog>
     <star-horse-dialog
         :dialog-visible="dialogProps.viewVisible"
@@ -130,14 +126,12 @@ onMounted(async () => {
         :title="'查看数据'"
         :is-view="true"
     >
-      <div class="dialog-body">
         <star-horse-data-view
             :dataFormat="dataFormat"
             :data-list="primaryKey"
             :field-list="tableFieldList"
             :compUrl="dataUrl"
         />
-      </div>
     </star-horse-dialog>
     <el-card class="inner_content">
       <div class="search_btn"

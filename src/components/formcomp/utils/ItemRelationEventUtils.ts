@@ -3,8 +3,13 @@ import {userFunction} from "@/api/user_func.ts";
 import {createCondition} from "@/api/sh_api.ts";
 import piniaInstance from "@/store";
 import {useUserSelfOperation} from "@/store/SelfOperationStore.ts";
+import {DesignForm} from "@/store/DesignFormStore.ts";
+import {computed} from "vue";
 
+const designForm = DesignForm(piniaInstance);
 let userOperation = useUserSelfOperation(piniaInstance);
+
+let isDesign = computed(() => designForm.isEdit);
 /**
  * Change 事件
  * @param context
@@ -60,7 +65,6 @@ const mouseEnter = (context: any) => {
  * @param currentName
  */
 const operationRelation = (relation: any, actionName: string, formData: any, currentName: string) => {
-    // console.log(relation, actionName, formData, currentName);
     if (!relation || actionName != relation.actionName) {
         return;
     }
@@ -69,7 +73,6 @@ const operationRelation = (relation: any, actionName: string, formData: any, cur
     if (!relations || relations.length == 0) {
         return
     }
-    debugger;
     for (let index in relations) {
         let temp = relations[index];
         let conditon: string = temp.controlCondition;
@@ -102,7 +105,6 @@ const operationRelation = (relation: any, actionName: string, formData: any, cur
             //输入的值等于指定值时赋予新值
             if (field.itemType == "select" || field.itemType == "tselect"
                 || field.itemType == "autocomplete" || field.itemType == "cascade") {
-                debugger;
                 field.preps.values = JSON.parse(params);
             } else {
                 formData[field.name] = params;
@@ -123,7 +125,7 @@ const operationRelation = (relation: any, actionName: string, formData: any, cur
  */
 const allAction = (context: any, actionName: string, isInit: boolean = false) => {
     //设计时的初始化不作处理
-    if (context.attrs['isDesign'] && isInit) {
+    if (isDesign.value && isInit) {
         return;
     }
     //处理连动
@@ -141,10 +143,11 @@ const allAction = (context: any, actionName: string, isInit: boolean = false) =>
             blur(context);
             break;
         case "enter":
+        case "keydown.enter":
             mouseEnter(context);
             break;
         default:
-            console.log("不支持的事件：" + actionName);
+            // console.log("不支持的事件：" + actionName);
             return;
     }
     const field = context.attrs["field"] as any;
@@ -156,7 +159,6 @@ const allAction = (context: any, actionName: string, isInit: boolean = false) =>
         field.preps["actionRelation"](context.attrs['formData'][field.preps['name']], context.attrs['formData']["xh"]);
     }
     try {
-        console.log(field.preps["actionName"], context.attrs['formData']);
         context.emit('selfFunc', actionName, context.attrs['formData']);
     } catch (e) {
         error("事件触发异常：" + e);

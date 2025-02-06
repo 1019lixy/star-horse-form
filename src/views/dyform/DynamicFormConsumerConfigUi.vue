@@ -217,9 +217,7 @@ const dataFormat = (name: string, cellValue: any, _row: any): any => {
                      @closeAction="closeAction"
                      :box-width="'70%'"
                      :isBatch="false" :isView="true">
-    <div class="dialog-body">
       <ViewPage :param="currentRow.dataNo" :isPreview="true"/>
-    </div>
   </star-horse-dialog>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
     <star-horse-form @refresh="dynamicFormConsumerConfigRef.loadByPage()"

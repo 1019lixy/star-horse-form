@@ -24,8 +24,8 @@ export function setCustomerInfo(customerInfo: any) {
  */
 export function getCustomerInfo() {
     const str = sessionStorage.getItem(Config.customerInfo);
+    //未找到客户编码
     if (!str || str == "undefined") {
-        console.log("未找到客户编码");
         return null;
     }
     return JSON.parse(str);
@@ -44,8 +44,8 @@ export function getCustomerParam(propertyName: string = ""): SearchParams | null
 
 export function getUserInfo() {
     const userInfo = sessionStorage.getItem(Config.loginInfo);
+    //未找到用户信息
     if (!userInfo) {
-        console.log("未找到用户信息");
         return null;
     }
     return JSON.parse(userInfo);
@@ -55,9 +55,7 @@ export function getUserInfo() {
  * 检测是否系统管理员
  */
 export function isSystemManage(): boolean {
-    console.log(getUserInfo()?.rolesList);
     let roleList = getUserInfo()?.rolesList?.filter((item: any) => item.roleType == 3);
-
     return roleList && roleList.length > 0;
 }
 

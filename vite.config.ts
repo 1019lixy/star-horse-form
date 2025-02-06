@@ -109,7 +109,6 @@ export default defineConfig((mode, command) => {
             console.log(`2,将强制对${dirname}进行依赖预构建异常`);
         }
     });
-    // console.log(optimizeDepsList);
     return {
         base: "/",
         server: {

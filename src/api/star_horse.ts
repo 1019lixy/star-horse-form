@@ -50,7 +50,6 @@ const forceLoginOut = () => {
 // 添加响应拦截器
 service.interceptors.response.use((response: AxiosResponse) => {
     const code = response.data?.code;
-    // console.log(code);
     // 401 未登录
     if (code == 401) {
         forceLoginOut();
@@ -240,7 +239,6 @@ export function restoreMenu(to: RouteLocationNormalized) {
     if (redata) {
         router.push({...redata});
     } else {
-        console.log("重定向", to, router.getRoutes());
         router.push("/");
     }
 }

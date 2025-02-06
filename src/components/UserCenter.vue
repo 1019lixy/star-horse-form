@@ -132,7 +132,6 @@ const init = async () => {
   roles.value = userInfo.value.rolesList?.map((item: any) => {
     return item.roleName
   }).join(";");
-  console.log(userInfo.value, depts.value);
 }
 onMounted(async () => {
   await init();

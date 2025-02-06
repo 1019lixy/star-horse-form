@@ -93,7 +93,6 @@ const loadData = async () => {
     flowDesign.flowSetFormInfo(data);
     flowDesign.setNode(JSON.parse(data.jsonFile)?.process);
   }
-  console.log(id, isView);
 }
 onMounted(() => {
   init();

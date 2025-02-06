@@ -121,7 +121,9 @@ provide("dialogOperation", clickFunction);
         </template>
         <slot name="header"></slot>
         <div class="shdialog">
-          <slot></slot>
+          <div class="dialog-body">
+            <slot></slot>
+          </div>
         </div>
         <template #footer>
         <span class="dialog-footer" v-if="!isView">

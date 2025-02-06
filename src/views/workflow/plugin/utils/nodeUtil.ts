@@ -41,7 +41,6 @@ export function addCondition(node: any, len: any) {
  *   添加节点
  */
 // export function addNode(node: any, currNode: any, addNodeData: any) {
-//     console.log('addNodeData', node, currNode, addNodeData);
 //     if (node && node.id == currNode.id) {
 //         // 当前节点的子节点暂存
 //         const childNode = currNode.childNode;
@@ -161,7 +160,6 @@ export function updateNode(node: any, currNode: any, field: any, value: any) {
  * @param {*} approveNodes
  */
 export function getApproveNodes(node: any, approveNodes: Array<any>) {
-    console.log("getApproveNodes", node);
     isRef(node) && (node = node.value);
     if (node.type == FlowNodeEnums.APPROVER_NODE) {
         approveNodes.push(node);

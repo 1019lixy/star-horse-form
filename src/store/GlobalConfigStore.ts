@@ -12,7 +12,6 @@ export const GlobalConfig = defineStore("GlobalConfig", () => {
             configFormInfo.value = data;
             localStorage.setItem("starHorseConfigInfo", JSON.stringify(data));
             Config.buttonStyle.value = data.buttonShowType || "dropdown";
-            // console.log(data, Config.buttonStyle.value);
             if (data.themeColor) {
                 document.documentElement.style.setProperty('--star-horse-style', data.themeColor)
                 document.documentElement.style.setProperty('--el-color-primary', data.themeColor)

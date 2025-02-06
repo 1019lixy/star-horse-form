@@ -3,9 +3,7 @@
                      @closeAction="close"
                      @merge="submit"
                      :dialog-visible="cronVisible">
-    <div class="dialog-body">
       <Crontab ref="cronTabRef" v-model="cronDataValue"/>
-    </div>
   </star-horse-dialog>
   <starhorse-form-item :isDesign="context.attrs['isDesign']" :bareFlag="context.attrs['bareFlag']" :form-item="field"
                        :parentField="parentField">

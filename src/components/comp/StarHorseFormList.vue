@@ -199,16 +199,13 @@ onMounted(async () => {
                      :selfFunc="true"
                      @merge="mergeData"
                      @closeAction="closeAction">
-    <div class="dialog-body">
       <star-horse-form :fieldList="{fieldList:fieldList}" ref="rowDataFormRef"/>
-    </div>
   </star-horse-dialog>
   <star-horse-dialog v-if="!subFlag" :title="'导入文件'" :dialogVisible="importDialogVisible"
                      :boxWidth="'30%'"
                      :isView="true"
                      :draggable="false"
                      @closeAction="importDialogVisible=false">
-    <div class="dialog-body">
       <el-card>
         <el-upload
             :auto-upload="true"
@@ -241,7 +238,6 @@ onMounted(async () => {
           </template>
         </el-upload>
       </el-card>
-    </div>
   </star-horse-dialog>
   <div class="form-list">
     <div class="dynamic-tools">

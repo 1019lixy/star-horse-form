@@ -327,12 +327,10 @@ const closeAction = () => {
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps"
                      :selfFunc="true"
                      @merge="generateMerge" @closeAction="closeAction">
-    <div class="dialog-body">
       <star-horse-form ref="generateFormRef" @refresh="codeGeneratorRef.loadByPage()"
                        :compUrl="dataUrl"
                        :fieldList="tableFieldList"
                        :rules="rules"/>
-    </div>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title=
       "'查看数据'" :is-view="true">

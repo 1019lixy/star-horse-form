@@ -64,19 +64,14 @@ onMounted(async () => {
 </script>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <div class="dialog-body">
       <star-horse-form @refresh="dictTypeRef.loadByPage()" :compUrl="dataUrl"
                        :fieldList="tableFieldList" :rules="rules"/>
-    </div>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title=
       "'查看数据'" :is-view="true">
-    <div class="dialog-body">
       <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
-    </div>
   </star-horse-dialog>
   <el-card class="inner_content">
-
     <div class="dict-content">
       <div class="dict-type">
         <el-card class="inner_content">

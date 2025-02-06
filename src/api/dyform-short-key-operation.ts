@@ -59,7 +59,6 @@ const dyPaste = () => {
     }
     let compType = copyItem.compType;
     let itemType = copyItem.itemType;
-    console.log(compType, itemType, copyItem);
     if (action.value === "cut") {
         removeItem(list.value, currentComp.value, parentContainer.value);
     }
@@ -72,8 +71,7 @@ const dyPaste = () => {
         copyItem.preps.name = copyItem.preps.name + (list.value.length + 1);
         list.value.push(copyItem);
     }
-    designForm.selectItem(copyItem, copyItem.itemType, "");
-    // console.log("paste")
+    designForm.selectItem(copyItem, itemType, "");
 }
 const dyEnter = () => {
     console.log("enter");
@@ -97,7 +95,6 @@ const dyBackspace = () => {
 const dyRedo = () => {
     //已有实现接口
     // designForm.redo();
-    // console.log("redo")
 }
 const dyUndo = () => {
     //已有实现接口
@@ -163,7 +160,6 @@ const dyPreview = () => {
     //已有实现接口
     // designForm.setPreviewVisible(true);
     // designForm.setIsEdit(false);
-    // console.log("preview")
 }
 const dyReturn = () => {
     //已有实现接口
@@ -171,7 +167,6 @@ const dyReturn = () => {
     //     path: "/dyform/DynamicFormUi",
     //     componentName: "DynamicFormUi",
     // });
-    // console.log("return")
 }
 const dyUp = () => {
     moveUpItem(true, currentComp.value, {});

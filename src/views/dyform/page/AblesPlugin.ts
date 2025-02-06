@@ -39,9 +39,7 @@ export function removeItem(isEdit: boolean, formItem: any, parentField: any) {
     if (!isEdit) {
         return;
     }
-    console.log(formItem, parentField);
     let parentItemType = parentField?.itemType;
-
     let dataList = compList.value;
     if (parentItemType == "tab" || parentItemType == "table" || parentItemType == "card" || parentItemType == "collapse") {
         let elements = parentField!.preps.elements;
@@ -106,7 +104,6 @@ export function moveUpItem(isEdit: boolean, formItem: any, parentField: any) {
         }
     } else if (parentField?.itemType == "box") {
     }
-    //console.log(props.parentField);
     let compType = getParentComp(parentField);
     if (compType === "item") {
         for (let i = 0; i < dataList.length; i++) {
@@ -278,7 +275,6 @@ export function copy(item: any, parentItem: any) {
 }
 
 export function paste(parentItem: any) {
-    console.log("粘贴");
     let copyerData = copyerAction.copyerData;
     if (!copyerData || Object.keys(copyerData).length == 0) {
         return;
@@ -298,7 +294,6 @@ export function paste(parentItem: any) {
             compList.value.push(copyerData);
         }
     }
-    console.log(compList.value);
 }
 
 /**
@@ -355,7 +350,6 @@ export function dynamicFormContextMenuData(item: any, parentItem: any, flag: str
             icon: 'paste',
             display: pasteDisplay,
             handler: () => {
-                console.log("scene....粘贴");
                 paste(parentItem)
             },
         }, {

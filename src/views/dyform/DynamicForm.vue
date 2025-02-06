@@ -117,6 +117,7 @@ const clearData = (flag: boolean = true) => {
 const preview = async () => {
   designForm.setPreviewVisible(true);
   designForm.setIsEdit(false);
+  designForm.setShortKeyDisabled(true);
   await nextTick();
   userOperation.setFormInstance(previewDynamicFormRef);
   list.value.forEach((item: any) => {
@@ -219,7 +220,6 @@ const shortKeySwitch = (val: boolean) => {
 }
 const onDragAdd = async (_evt: Event, dataList: Array<any>) => {
   // let index = evt.oldIndex;
-  console.log(_evt, dataList);
   if (draggingItem.value.itemType == 'table') {
     let id = draggingItem.value.id;
     let datas = dataList.filter(item => item.itemType == "table");
@@ -266,6 +266,7 @@ let batchModifyData = reactive<any>({
 const tableEdit = async (submit: boolean) => {
   isSubmit.value = submit;
   configDialogVisible.value = true;
+  designForm.setShortKeyDisabled(true);
   await nextTick(() => {
     formPropertyRef.value.analysisDynamicFields(createFormInfo());
   })
@@ -298,9 +299,6 @@ const cacheDataRestore = (evt: MouseEvent) => {
   }
 }
 const actions = (action: string) => {
-  if (action !== "leftPanel" && action !== "rightPanel") {
-    designForm.setShortKeyDisabled(true);
-  }
   switch (action) {
     case "leftPanel":
       leftPanelVisible.value = !leftPanelVisible.value;
@@ -433,9 +431,7 @@ let prepsModel = ref("one");
       @merge="codeDoSave"
       :title="'代码'"
   >
-    <div class="dialog-body">
       <code-comp/>
-    </div>
   </star-horse-dialog>
   <star-horse-dialog
       :dialogVisible="configDialogVisible"
@@ -445,9 +441,7 @@ let prepsModel = ref("one");
       @merge="doSave(false)"
       :title="'表单配置'"
   >
-    <div class="dialog-body">
       <FormPropertyPanel ref="formPropertyRef"/>
-    </div>
     <template #extand>
       <el-button @click="doSave(true)"
                  style="background: var(--star-horse-style);color: var(--star-horse-white)" :size="compSize">
@@ -464,7 +458,6 @@ let prepsModel = ref("one");
       @merge="closeAction"
       :title="'批量修改属性'"
   >
-    <div class="dialog-body">
       <el-tabs v-model="prepsModel">
         <el-tab-pane name="one" label="业务字段">
           <el-row style="font-weight: bold;font-size:12px;margin: 5px 0;">
@@ -544,14 +537,11 @@ let prepsModel = ref("one");
 
         </el-tab-pane>
       </el-tabs>
-    </div>
   </star-horse-dialog>
   <star-horse-dialog
       :dialogVisible="isPreview" @closeAction="closeAction" :selfFunc="true" :compSize="compSize" :title="'表单预览'"
       :is-view="true">
-    <div class="dialog-body">
       <form-preview :list="list"/>
-    </div>
   </star-horse-dialog>
   <el-card class="inner_content">
     <div class="form_content">
@@ -560,7 +550,7 @@ let prepsModel = ref("one");
       </div>
       <div class="form-main">
         <div class="inner_button">
-          <el-menu mode="horizontal" style="height: inherit;width: 100%;">
+          <el-menu mode="horizontal" :ellipsis="false" style="height: inherit;width: 100%;">
             <template v-for="(item,index) in formActions">
               <el-menu-item
                   v-if="(list.length>0||item.defaultEdit)&&(item.auth=='none'||permissions[item.auth])&&!item.children"
@@ -667,7 +657,6 @@ let prepsModel = ref("one");
 
 .design-form-container {
   height: 100%;
-  width: 100% !important;
   border: 1px dashed var(--star-horse-style);
   background: var(--star-horse-background);
 }

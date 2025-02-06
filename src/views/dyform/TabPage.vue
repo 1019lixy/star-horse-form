@@ -94,7 +94,6 @@ onMounted(async () => {
         :title="'查看数据'"
         :is-view="true"
     >
-      <div class="dialog-body">
         <star-horse-data-view
             :dataFormat="dataFormat"
             :primary-key="primaryKey"
@@ -102,7 +101,6 @@ onMounted(async () => {
             :field-list="tableFieldList"
             :compUrl="dataUrl"
         />
-      </div>
     </star-horse-dialog>
     <el-card class="inner_content">
       <el-tabs v-model="activeName" type="border-card" @tab-click="handleClick">

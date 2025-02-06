@@ -394,10 +394,8 @@ const nodeOperation = (cell: any) => {
   <star-horse-dialog :dialogVisible="dataPreviewVisible" :title="'数据预览'"
                      @closeAction="closeAction"
                      :isBatch="false" :isView="true">
-    <div class="dialog-body">
       <DataPreview :compSize="compSize" :item="previewDatas" :columns="columnList" @changePage="dataList"
                    :isPriview="true"/>
-    </div>
   </star-horse-dialog>
   <star-horse-dialog :dialogVisible="relationDialogVisible" :title="'关系配置'" :isBatch="false"
                      @merge="conditionValid"

@@ -38,8 +38,8 @@ export const DesignForm = defineStore("DesignForm", () => {
      * @param reOrUnDoFlag 是否点击按钮时触发
      */
     const addHistoryRecord = (reOrUnDoFlag: boolean) => {
+        //不需要添加历史记录
         if (reOrUnDoFlag || compList.value.length == 0) {
-            console.log("不需要添加历史记录");
             return;
         }
         const record = historyRecord;
@@ -57,7 +57,6 @@ export const DesignForm = defineStore("DesignForm", () => {
         if (record.value.datas.length > record.value.maxStep) {
             record.value.datas.splice(record.value.datas.length - 1, 1);
         }
-        console.log(record);
     }
     /**
      * 下一步
@@ -98,7 +97,6 @@ export const DesignForm = defineStore("DesignForm", () => {
      */
     const undo = () => {
         const record = unref(historyRecord);
-        console.log(record);
         historyRecord.value.index = record.index < 0 ? 1 : record.index + 1;
         //上一步大于已存在的数据量
         if (historyRecord.value.index > record.datas.length) {
@@ -164,7 +162,6 @@ export const DesignForm = defineStore("DesignForm", () => {
                         let columns = elements[sindex].columns;
                         for (let ssindex in columns) {
                             let column = columns[ssindex];
-                            console.log(column)
                             if (column.items && column.items.length > 0) {
                                 selectList.push(...column.items?.map((item: any) =>
                                     ({name: item.preps?.label, type: "item", value: item.preps?.name}))
@@ -212,7 +209,6 @@ export const DesignForm = defineStore("DesignForm", () => {
             }
             return selectList;
         }
-        console.log(JSON.stringify(compList.value));
         return innerFunc(compList.value);
     }
 

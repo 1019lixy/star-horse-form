@@ -177,6 +177,7 @@ const closeAction = () => {
  */
 const dataSource = async (_type: string) => {
   dataSourceDialogVisible.value = true;
+  designForm.setShortKeyDisabled(true);
   await nextTick();
   dataSourceFormRef.value.setFormData(formProps.value);
 };
@@ -270,7 +271,6 @@ const assignValue = (fieldInfo: any) => {
     parseSelectData(temp.actions, "action");
     //如果是组件动态增加公共属性，公共属性不应该维护在数据库
     //如果是select,checkbox,radio 等，增加联动属性
-    console.log(currentCompCategory.value);
     if (currentCompCategory.value == "container") {
       if (currentItemType.value != 'table') {
         temp.fields.splice(0, 0, {
@@ -284,7 +284,6 @@ const assignValue = (fieldInfo: any) => {
     } else {
       let commonFields = compCommonFields(customerValid);
       if (relationComps.value.includes(currentItemType.value)) {
-        console.log(currentItemType.value);
         commonFields.push({
           label: "配置联动策略",
           fieldName: "dataRelation",
@@ -305,7 +304,6 @@ const assignValue = (fieldInfo: any) => {
       for (let i in commonFields) {
         temp.fields.splice(i, 0, commonFields[i]);
       }
-      // console.log(temp.fields);
       temp.advancedFields.push({
         label: "备注",
         fieldName: "remark",
@@ -385,41 +383,32 @@ watch(() => [currentItemId, currentItemType],
                      @merge="dataRelationMerge"
                      @closeAction="closeAction"
                      @reset="dataRelationReset" :selfFunc="true">
-    <div class="dialog-body">
       <star-horse-form :outerFormData="formProps" primary-key="" ref="dataRelationFormRef"
                        :fieldList="relationDataField()"/>
-    </div>
   </star-horse-dialog>
   <star-horse-dialog :dialogVisible="dataSourceDialogVisible" :title="'数据源配置'" :isBatch="false"
                      @merge="submitValid"
                      @closeAction="closeAction"
                      @reset="resetDataSourceForm" :selfFunc="true">
-    <div class="dialog-body">
       <star-horse-form :outerFormData="formProps" primary-key="" ref="dataSourceFormRef"
                        :fieldList="dataSourceFields(dataSourceFormRef,envList,recall)"/>
-    </div>
   </star-horse-dialog>
   <star-horse-dialog :dialogVisible="paramsDialogVisible" :title="'参数配置'" :isBatch="false"
                      @merge="paramsValid"
                      @closeAction="closeAction"
                      @reset="resetDataSourceForm" :selfFunc="true">
-    <div class="dialog-body">
       <star-horse-form :outerFormData="formInfo" ref="paramsConfigRef"
                        :fieldList="paramsFields(fieldName,currentField)"/>
-    </div>
   </star-horse-dialog>
   <star-horse-dialog :dialogVisible="containerDialogVisible"
                      :title="'容器设置'" :isBatch="false" @merge="containerAction"
                      @closeAction="closeAction"
                      @reset="resetForm" :selfFunc="true">
-    <div class="dialog-body">
       <star-horse-form ref="containerPrepRef" :outerFormData="formInfo" :fieldList="containerField(currentItemType)"/>
-    </div>
   </star-horse-dialog>
   <star-horse-dialog :dialogVisible="jsEditor" :title="'自定义信息'" :isBatch="false" @merge="closeAction"
                      @closeAction="closeAction"
                      @reset="closeAction" :selfFunc="true">
-    <div class="dialog-body">
       <el-tabs v-model="codeTab">
         <el-tab-pane label="代码" name="code">
           <star-horse-editor
@@ -486,7 +475,6 @@ watch(() => [currentItemId, currentItemType],
         </pre>
         </el-tab-pane>
       </el-tabs>
-    </div>
   </star-horse-dialog>
   <div class="dynamic-form" v-if="currentItemType">
     <el-scrollbar>
@@ -511,7 +499,6 @@ watch(() => [currentItemId, currentItemType],
 
 :deep(.el-collapse-item) {
   overflow: hidden;
-
   .el-collapse-item__wrap {
     height: 100%;
     overflow: hidden;
@@ -521,7 +508,6 @@ watch(() => [currentItemId, currentItemType],
       overflow: hidden;
     }
   }
-
   &:last-child {
     flex: 1;
     height: 100%;

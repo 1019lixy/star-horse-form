@@ -61,7 +61,6 @@ const errorCheck = () => {
       msg += "未配置条件\n";
     } else {
       conditionNode.conditionGroups.forEach((condition: any, index: number) => {
-        console.log(condition);
         condition.conditions.forEach((condition: any, sindex: number) => {
           if (!condition.columnName) {
             flag = true;

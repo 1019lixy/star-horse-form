@@ -257,16 +257,12 @@ onDeactivated(() => {
 </script>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialog-visible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <div class="dialog-body">
       <star-horse-form @refresh="categoryItemConfigRef.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList"
                        :rules="rules"/>
-    </div>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title="'查看数据'"
                      :isView="true">
-    <div class="dialog-body">
       <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
-    </div>
   </star-horse-dialog>
   <el-card class="inner_content">
     <div class="search_btn" :style="{'flex-direction':Config.buttonStyle=='line'?'column':'row'}">

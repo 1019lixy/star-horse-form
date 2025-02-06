@@ -364,7 +364,6 @@ const handleSelectionChange = (val: any) => {
 
     }
   } else {
-    // console.log(val);
     multipleSelection.value = val;
   }
 };
@@ -477,7 +476,6 @@ const createParams = () => {
   if (searchFields.length > 0) {
     searchTemp.push(...searchFields);
   }
-  // console.log(searchTemp);
   let condition: any = removeEmptyCondition(props.compUrl?.condition!);
   if (condition && condition.length > 0) {
     searchTemp.push(...condition);
@@ -660,10 +658,6 @@ const extandBtnFunction = (): Array<UserFuncInfo> => {
  * @param parentRow 父节点的数据
  */
 const expandCommonFun = (name: string, row: any, parentRow: any) => {
-  // let func = props.expandTable?.extandFuncs?.find(item => item.authority == name);
-  // if (func && func.funcName) {
-  //   func.funcName!(row, parentRow);
-  // } else {
   let id = analysisPrimaryKeys(props.expandTable?.primaryKey, row);
   for (let key in id) {
     if (!id[key]) {
@@ -677,9 +671,7 @@ const expandCommonFun = (name: string, row: any, parentRow: any) => {
     editById(id, true);
   } else if (name == "delete") {
     deleteById(id, true);
-    // console.log(id, row, parentRow);
   }
-  // }
 }
 /**
  * 借助列表组件获取需要的数据

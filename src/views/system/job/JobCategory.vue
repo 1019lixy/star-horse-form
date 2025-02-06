@@ -194,16 +194,12 @@ onDeactivated(() => {
 <template>
   <star-horse-dialog :dialog-visible="dialogProps.editVisible" :boxWidth="'400px'" :dialogProps="dialogProps"
                      :isShowBtnContinue="true">
-    <div class="dialog-body">
       <star-horse-form :compUrl="dataUrl" :fieldList="tableFieldList" :rules="rules"
                        @refresh="rankTypeRef.loadByPage()"/>
-    </div>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :isView="true"
                      :title="'查看数据'">
-    <div class="dialog-body">
       <star-horse-data-view :compUrl="dataUrl" :dataFormat="dataFormat" :field-list="tableFieldList"/>
-    </div>
   </star-horse-dialog>
   <el-card class="inner_content">
     <div :style="{'flex-direction':Config.buttonStyle=='line'?'column':'row'}" class="search_btn">

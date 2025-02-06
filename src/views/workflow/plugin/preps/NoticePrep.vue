@@ -99,7 +99,6 @@ let extendForm = ref<any>({});
 const closeAction = () => {
   drawer.value = false;
   node.value[currentName.value] = extendForm.value[currentName.value].map((item: any) => item.email || item.phone);
-  console.log(node.value);
 }
 const addExtendData = (type: string) => {
   extendForm.value = {};
