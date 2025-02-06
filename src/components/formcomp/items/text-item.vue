@@ -28,7 +28,9 @@ export default defineComponent({
   >
     <div class="cell-header" @click="itemAction('click')" v-if="field?.preps?.headerFlag=='Y'">
        <span>{{
-           context.attrs['formData'][field.preps['name']] || (field.preps['placeholder'] || field.preps['label'])
+           (context.attrs['callBack'] && context.attrs['callBack']())
+           || context.attrs['formData'][field.preps['name']]
+           || (field.preps['placeholder'] || field.preps['label'])
          }}</span>
     </div>
     <el-tag
@@ -43,7 +45,9 @@ export default defineComponent({
         @click="itemAction('click')"
     >
       {{
-        context.attrs['formData'][field.preps['name']] || (field.preps['placeholder'] || '请赋值' + field.preps['label'])
+        (context.attrs['callBack'] && context.attrs['callBack']())
+        || context.attrs['formData'][field.preps['name']]
+        || (field.preps['placeholder'] || '请赋值' + field.preps['label'])
       }}
     </el-tag>
   </starhorse-form-item>

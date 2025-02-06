@@ -152,6 +152,7 @@ const createPreps = (item: any) => {
         <component
             :is="(item.listPrototypeDisplay===true?item.type||'input':item.listPrototypeDisplay)+'-item'"
             :bareFlag="true"
+            :callBack="()=>currentDataFormat(scope)"
             :field="createPreps(item)" :formData="scope.row"/>
       </template>
       <template v-else>
@@ -168,7 +169,7 @@ const createPreps = (item: any) => {
     </template>
   </el-table-column>
 </template>
-<style lang="scss">
+<style lang="scss" scoped>
 tbody {
   .cell {
     display: flex;
@@ -183,4 +184,6 @@ tbody {
     }
   }
 }
+
+
 </style>
