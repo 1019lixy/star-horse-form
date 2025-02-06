@@ -12,7 +12,7 @@
         :editable="field.preps['editable']=='Y'"
         :end-placeholder="field.preps['endPlaceholder']||'请选择结束日期'"
         :format="field.preps['format']||'YYYY-MM-DD HH:mm:ss'"
-        :value-format="field.preps['valueFormat']||'YYYY-MM-DD HH:mm:ss'"
+        :value-format="field.preps['valueFormat']"
         date-format="YYYY-MM-DD"
         time-format="HH:mm"
         :type="field.preps['type']"
@@ -45,17 +45,17 @@ export default defineComponent({
     const itemAction = (prep: any) => {
       if (prep == "change" && field.preps['type']?.includes("range")) {
         let val = context.attrs['formData'][field.preps['name']];
-        console.log(field.preps, val);
+        // console.log(field.preps, val);
         if (field.preps['needSplitName'] == 'Y') {
           context.attrs['formData'][field.preps['name'] + "Start"] = val[0];
           context.attrs['formData'][field.preps['name'] + "End"] = val[1];
         }
       }
-      console.log(context.attrs['formData']);
+      // console.log(context.attrs['formData']);
       allAction(context, prep);
     };
     onMounted(() => {
-       actionName.value = field.preps?.actionName || "keydown.enter";;
+      actionName.value = field.preps?.actionName || "keydown.enter";
       if (!context.attrs["isSearch"]) {
         allAction(context, actionName.value, true);
       }

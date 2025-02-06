@@ -138,7 +138,7 @@ const roleChange = async (data: TreeNodeData, checked: boolean) => {
     return;
   }
   systemInfoList.value = roleSystemDatas.data;
-  appinfoList.value = createTree(roleSystemDatas.data, "", "sysName", "idInformations")
+  appinfoList.value = createTree(roleSystemDatas.data, "idInformations", "sysName", "")
   //同时加载当前角色下的所有菜单
   loadMenus();
   doQuery();
@@ -168,7 +168,7 @@ const loadMenus = async () => {
     return;
   }
   menusList.value = menusDatas.data;
-  menusSelectList.value = createTree(menusDatas.data, "", "menuName", "idMenusinfo");
+  menusSelectList.value = createTree(menusDatas.data, "idMenusinfo", "menuName", "");
 }
 const systemChange = async (data: TreeNodeData, checked: boolean) => {
   currentSystemId.value = data.idInformations;
@@ -213,7 +213,7 @@ onMounted(async () => {
 </style>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-      <star-horse-form :outerFormData="dataForm" @refresh="menuBtnTableRef.loadByPage()" :compUrl="dataUrl"
+    <star-horse-form :outerFormData="dataForm" @refresh="menuBtnTableRef.loadByPage()" :compUrl="dataUrl"
                        :fieldList="formFieldList"
                        :rules="rules"/>
   </star-horse-dialog>
@@ -228,13 +228,13 @@ onMounted(async () => {
                          :compSize="compSize"/>
       </el-col>
       <el-col v-if="systemInfoList?.length>0" :span="4" class="h100">
-        <star-horse-tree v-model:tree-datas="systemInfoList" treeTitle="应用系统" :preps="{
+        <star-horse-tree v-model:treeDatas="systemInfoList" treeTitle="应用系统" :preps="{
                          label:'sysName',
                          value:'idInformations'
                        }" @selectData="systemChange" :compSize="compSize"/>
       </el-col>
       <el-col v-if="systemInfoList?.length>0" :span="4" class="h100">
-        <star-horse-tree v-model:tree-datas="menusList" treeTitle="系统菜单"
+        <star-horse-tree v-model:treeDatas="menusList" treeTitle="系统菜单"
                          :preps="{
                          label:'menuName',
                          value:'idMenusinfo',

@@ -207,12 +207,14 @@ const compPreps = () => {
   if (!props.isSearch) {
     userOperation.addFormItem(field);
   }
+
 };
 const defaultAction = ref("keydown.enter")
 const typeList = ["select", "tselect", "date", "daterange"];
 const actionName = ref();
 const randId = ref();
 const componentRef = ref();
+
 onMounted(() => {
   if (typeList.includes(props.item?.type) || typeList.includes(props.item?.fieldType)) {
     defaultAction.value = "change";

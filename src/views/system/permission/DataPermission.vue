@@ -207,9 +207,9 @@ const loadMenus = async () => {
     return;
   }
   menusList.value = menusDatas.data;
-  menusSelectList.value = createTree(menusDatas.data, "", "menuName", "idMenusinfo");
+  menusSelectList.value = createTree(menusDatas.data, "idMenusinfo", "menuName", "");
 }
-const systemChange = async (data: TreeNodeData, checked: boolean) => {
+const systemChange = async (data: TreeNodeData, _checked: boolean) => {
   currentSystemId.value = data.value;
   currentMenuId.value = 0;
   dataForm.value["idInformations"] = data.value;
