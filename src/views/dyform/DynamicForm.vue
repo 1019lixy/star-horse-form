@@ -381,12 +381,11 @@ const contextMenu = async (evt: MouseEvent) => {
 onActivated(() => {
   analysisQueryParams();
   designForm.setIsEdit(true);
-  designForm.setShortKeyDisabled(false);
-
+  shortKeySwitch(true);
 });
 onDeactivated(() => {
   designForm.setIsEdit(false);
-  designForm.setShortKeyDisabled(true);
+  shortKeySwitch(false);
 });
 onBeforeUnmount(() => {
   designForm.setIsEdit(false);
@@ -416,15 +415,10 @@ watch(() => list.value,
       deep: true
     }
 );
-watch(() => shortKeyDisabled.value,
-    (val: boolean) => {
-      shortKeySwitch(val);
-    }, {
-      deep: true, immediate: true
-    })
+
 onMounted(async () => {
   await init();
-  designForm.setShortKeyDisabled(false);
+  shortKeySwitch(true);
 });
 let prepsModel = ref("one");
 </script>
@@ -651,7 +645,6 @@ let prepsModel = ref("one");
             <property-panel
                 :activeTab="activeTab"
                 @formInfoChange="formInfoChange"
-                @shortKeySwitch="shortKeySwitch"
                 ref="propertyRef"
             />
           </div>

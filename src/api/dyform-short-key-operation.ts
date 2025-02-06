@@ -13,12 +13,16 @@ const copyerOperation = CopyerOperation(piniaInstance);
 let list = computed(() => designForm.compList);
 let currentComp = computed(() => designForm.currentComp);
 let action = computed(() => copyerOperation.action);
+let shortKeyDisabled = computed(() => designForm.shortKeyDisabled);
 let parentContainer = computed(() => copyerOperation.parentContainer);
 let copyerData = computed(() => copyerOperation.copyerData);
 /**
  * 复制
  */
 const dyCopy = () => {
+    if(shortKeyDisabled.value){
+        return;
+    }
     let item: any = currentComp.value;
     if (!item || Object.keys(item).length === 0) {
         warning("请先选择要复制的组件");
@@ -31,6 +35,9 @@ const dyCopy = () => {
  * 剪切
  */
 const dyCut = () => {
+    if(shortKeyDisabled.value){
+        return;
+    }
     let item: any = currentComp.value;
     if (!item || Object.keys(item).length === 0) {
         warning("请先选择要剪切的组件");
@@ -43,6 +50,9 @@ const dyCut = () => {
  * 粘贴
  */
 const dyPaste = () => {
+    if(shortKeyDisabled.value){
+        return;
+    }
     let copyItem: any = JSON.parse(JSON.stringify(copyerData.value));
     if (!copyItem || Object.keys(copyItem).length === 0) {
         return;

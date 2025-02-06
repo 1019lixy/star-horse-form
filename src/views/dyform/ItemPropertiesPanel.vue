@@ -22,7 +22,6 @@ import StarHorseFormItem from "@/components/comp/StarHorseFormItem.vue";
 import {Config} from "@/api/settings.ts";
 import {loadDict} from "@/api/star_horse.ts";
 
-const emits=defineEmits(["shortKeySwitch"]);
 let designForm = DesignForm(piniaInstance);
 let formDataList = computed(() => designForm.formDataList);
 let containerList = computed(() => designForm.containerList);
@@ -65,14 +64,14 @@ const jsButtonClick = (data: any, actionName: string) => {
 };
 const condifRelationPolicy = async () => {
   dataRelationDialogVisible.value = true;
-  emits("shortKeySwitch",false);
+   designForm.setShortKeyDisabled(true);
   await nextTick();
   dataRelationFormRef?.value.setFormData(formProps.value["dataRelation"] || {});
 }
 const configParams = async (params: any) => {
   fieldName.value = params;
   paramsDialogVisible.value = true;
-  emits("shortKeySwitch",false);
+  designForm.setShortKeyDisabled(true);
   await nextTick();
   paramsConfigRef.value.setFormData(formProps.value);
 }
@@ -153,7 +152,7 @@ const dataRelationReset = () => {
 }
 const editContainerPrep = async () => {
   containerDialogVisible.value = true;
-  emits("shortKeySwitch",false);
+  designForm.setShortKeyDisabled(true);
   await nextTick();
   containerPrepRef.value.setFormData(formProps.value);
 }
@@ -170,7 +169,7 @@ const closeAction = () => {
   dataSourceDialogVisible.value = false;
   paramsDialogVisible.value = false;
   dataRelationDialogVisible.value = false;
-  emits("shortKeySwitch",true);
+  designForm.setShortKeyDisabled(false);
 };
 /**
  * 数据源操作框
