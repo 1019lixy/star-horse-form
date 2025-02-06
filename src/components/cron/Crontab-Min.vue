@@ -48,9 +48,7 @@ let cycle01 = ref(1);
 let cycle02 = ref(2);
 let average01 = ref(1);
 let average02 = ref(1);
-let checkboxString = ref(0);
-let cycleTotal = ref(0);
-let averageTotal = ref(0);
+
 let checkboxList = ref([]);
 const props = defineProps({
   check: {type: Function},
@@ -58,9 +56,29 @@ const props = defineProps({
 });
 let checkNum = ref(props.check);
 const emits = defineEmits(["update"]);
+// 计算两个周期值
+const cycleTotalFun = () => {
+  cycle01.value = checkNum.value?.(cycle01.value, 0, 59)
+  cycle02.value = checkNum.value?.(cycle02.value, 0, 59)
+  return cycle01.value + '-' + cycle02.value;
+};
+// 计算平均用到的值
+const averageTotalFun = () => {
+  average01.value = checkNum.value?.(average01.value, 0, 59)
+  average02.value = checkNum.value?.(average02.value, 1, 59)
+  return average01.value + '/' + average02.value;
+};
+// 计算勾选的checkbox值合集
+const checkboxStringFun = () => {
+  let str = checkboxList.value.join();
+  return str == '' ? '*' : str;
+};
+let cycleTotal = computed(() => cycleTotalFun());
+let averageTotal = computed(() => averageTotalFun());
+let checkboxString = computed(() => checkboxStringFun());
 // 单选按钮值变化时
 const radioChange = () => {
-  if (radioValue.value !== 1 && props.cron.second === '*') {
+  if (radioValue.value !== 1 && props.cron?.second === '*') {
     emits('update', 'second', '0', 'min');
   }
   switch (radioValue.value) {
@@ -75,66 +93,48 @@ const radioChange = () => {
       emits('update', 'min', average01.value + '/' + average02.value, 'min');
       break;
     case 4:
-      emits('update', 'min', checkboxString.value.value, 'min');
+      emits('update', 'min', checkboxString.value, 'min');
       break;
   }
 };
 // 周期两个值变化时
 const cycleChange = () => {
   if (radioValue.value == 2) {
-    emits('update', 'min', cycleTotal.value.value, 'min');
+    emits('update', 'min', cycleTotal.value, 'min');
   }
 };
 // 平均两个值变化时
 const averageChange = () => {
   if (radioValue.value == 3) {
-    emits('update', 'min', averageTotal.value.value, 'min');
+    emits('update', 'min', averageTotal.value, 'min');
   }
 };
 // checkbox值变化时
 const checkboxChange = () => {
   if (radioValue.value == 4) {
-    emits('update', 'min', checkboxString.value.value, 'min');
+    emits('update', 'min', checkboxString.value, 'min');
   }
 };
 watch(() => radioValue.value,
-    (val) => radioChange(), {
+    (_val) => radioChange(), {
       immediate: true,
       deep: true
     });
 watch(() => cycleTotal.value,
-    (val) => cycleChange(), {
+    (_val) => cycleChange(), {
       immediate: true,
       deep: true
     });
 watch(() => averageTotal.value,
-    (val) => averageChange(), {
+    (_val) => averageChange(), {
       immediate: true,
       deep: true
     });
 watch(() => checkboxString.value,
-    (val) => checkboxChange(), {
+    (_val) => checkboxChange(), {
       immediate: true,
       deep: true
     });
-cycleTotal.value = computed(() => cycleTotalFun());
-averageTotal.value = computed(() => averageTotalFun());
-checkboxString.value = computed(() => checkboxStringFun());
-// 计算两个周期值
-const cycleTotalFun = () => {
-  cycle01.value = checkNum.value(cycle01.value, 0, 59)
-  cycle02.value = checkNum.value(cycle02.value, 0, 59)
-  return cycle01.value + '-' + cycle02.value;
-};
-// 计算平均用到的值
-const averageTotalFun = () => {
-  average01.value = checkNum.value(average01.value, 0, 59)
-  average02.value = checkNum.value(average02.value, 1, 59)
-  return average01.value + '/' + average02.value;
-};
-// 计算勾选的checkbox值合集
-const checkboxStringFun = () => {
-  let str = checkboxList.value.join();
-  return str == '' ? '*' : str;
-};
+
+
 </script>
