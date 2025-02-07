@@ -128,11 +128,7 @@ const activated = async () => {
  */
 const dataLoaded = (data: any) => {
   //将数据范围的字段进行处理
-  let temp: any = {};
-  temp["effectiveTime"] = [data['effectiveTimeStart'], data['effectiveTimeEnd']];
-  if (Object.keys(temp).length > 0) {
-    tenantInfoFormRef.value.updateFormData(temp);
-  }
+
 }
 const deactivated = () => {
 
@@ -145,6 +141,7 @@ const dataChange = (data: any) => {
   nextTick(() => {
     params.push(createCondition(primaryKey, data[primaryKey]));
     tenantAppTreeRef.value.createSearchParams(params);
+    tenantAppMenusinfoRef.value.createSearchParams(params);
   });
 }
 let outerData: any = {};
