@@ -216,7 +216,6 @@ let dataList = ref<Array<any>>([]);
 let currentData = ref<any>({});
 let commonFieldList = ref<Array<any>>([]);
 const dataChange = async (param: any) => {
-  console.log(param);
   let {data, error} = await loadData(dataUrl.loadByIdUrl + "/" + param[primaryKey], {});
   if (error) {
     warning(error);

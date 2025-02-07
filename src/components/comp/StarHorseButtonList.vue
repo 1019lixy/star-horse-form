@@ -166,7 +166,7 @@ const extandBtnFunction = (): Array<UserFuncInfo> => {
   if (props.extandBtns && props.extandBtns.length > 0) {
     for (let i in arr) {
       let temp: UserFuncInfo = arr[i];
-      if (props.extandBtns.find(item => item.btnName == temp.btnName&&item.authority==temp.authority)) {
+      if (props.extandBtns.find(item => item.btnName == temp.btnName && item.authority == temp.authority)) {
         arr.splice(i, 1);
       }
     }
@@ -205,7 +205,8 @@ defineExpose({
               <template v-for="sitem in item.children">
                 <el-dropdown-item v-if="permissions[sitem.authority]">
                   <el-button @click="sitem.funcName(sitem.btnName)" link title=""
-                             style="background: var(--star-horse-style);color: var(--star-horse-white)"
+                             :type="sitem.authority=='delete'||sitem.authority=='batchDelete'?'danger':'primary'"
+                             style="color: var(--star-horse-white)"
                              :size="compSize">
                     <star-horse-icon :icon-class="item.icon||'edit'"
                                      :color="item.authority=='delete'||item.authority=='batchDelete'?'var(--el-style-danger)'
@@ -237,19 +238,20 @@ defineExpose({
               name="file"
               v-if="item.authority=='upload'"
           >
-            <el-button title="" style="background: var(--star-horse-style);color: var(--star-horse-white)"
+            <el-button type="primary" title="" style="color: var(--star-horse-white);margin-left: 5px"
                        :size="compSize">
               <star-horse-icon icon-class="excel-upload" color="var(--star-horse-white)"/>
-              <el-tooltip content="导入">导入</el-tooltip>
+              导入
             </el-button>
           </el-upload>
           <el-button v-else @click="item.funcName(item.authority)" title=""
-                     style="background: var(--star-horse-style);color: var(--star-horse-white)" :size="compSize">
+                     :type="item.authority=='delete'||item.authority=='batchDelete'?'danger':'primary'"
+                     style="color: var(--star-horse-white);margin-left: 5px" :size="compSize">
             <star-horse-icon :icon-class="item.icon||'edit'"
+                             siez="16px"
                              :color="item.authority=='delete'||item.authority=='batchDelete'?'var(--el-style-danger)'
-                             : 'var(--star-horse-style)'"
-            />
-            <el-tooltip content="新增">新增</el-tooltip>
+                             : 'var(--star-horse-white)'"/>
+            {{ item.btnName }}
           </el-button>
           <help :message="item.helpMsg" v-if="item.helpMsg"/>
         </li>

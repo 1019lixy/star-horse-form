@@ -42,12 +42,23 @@ const props = defineProps({
   treeType: {type: String, default: "tree"},
   //在标签上显示值
   showCode: {type: Boolean, default: false},
+  //是否显示分页
   showPageBar: {type: Boolean, default: false},
+  //是否动态数据
   isDynamicData: {type: Boolean, default: false},
+  //是否自动加载数据
   autoLoad: {type: Boolean, default: true},
-  compUrl: {type: Object as PropType<ApiUrls>}
+  //接口地址
+  compUrl: {type: Object as PropType<ApiUrls>},
+  //按钮名称
+  btnTitle: {type: String, default: "添加数据"},
+  //按钮是否可见
+  btnVisible: {type: Boolean, default: false},
+  //是否显示下拉按钮
+  showDropdown: {type: Boolean, default: true},
+
 });
-const emits = defineEmits(["selectData", "changeCollapse"]);
+const emits = defineEmits(["selectData", "changeCollapse", "addData"]);
 let configStore = GlobalConfig(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
 const treeRef = ref<any>();
@@ -156,6 +167,9 @@ const treeChange = (data: any, checked: boolean) => {
 const menuChange = (data: any) => {
   emits("selectData", data);
 }
+const addData = (item: any) => {
+  emits("addData", item);
+}
 const pageSizeClick = (pageSize: number) => {
   pageInfo.pageSize = pageSize;
   loadByPage();
@@ -258,13 +272,14 @@ defineExpose({
           v-model="searchData"
           :size="compSize"
           clearable
+          :style="{'margin-right': showDropdown?'unset':'10px'}"
           placeholder="请输入关键字"
           @input="onQueryChanged">
         <template #append>
           <star-horse-icon @click="onQueryChanged" icon-class="search" color="var(--star-horse-style)" size="18px"/>
         </template>
       </el-input>
-      <el-dropdown placement="bottom" @command="treeOperation">
+      <el-dropdown placement="bottom" @command="treeOperation" v-if="showDropdown">
         <star-horse-icon icon-class="v-dot" color="var(--star-horse-style)" size="20px"/>
         <template #dropdown>
           <el-dropdown-menu>
@@ -286,13 +301,27 @@ defineExpose({
             :filter-node-method="filterMethod"
             :check-strictly="checkStrictly"
             :show-checkbox="showCheckBox"
-            :render-content="renderContent"
             highlight-current
             @nodeClick="treeChange"
             @checkChange="treeChange"
-        />
+        >
+          <template #default="{ node, data }">
+            <div class="menu-title">
+              <div class="name">{{ node.label }}
+                <template v-if="showCode">
+                  ({{ data["code"] || data[preps.code || preps.value || 'value'] || '' }})
+                </template>
+              </div>
+              <div v-if="btnVisible" class="btn" @click.stop="addData(data)">
+                <el-tooltip :content="btnTitle">
+                  <star-horse-icon cursor="pointer" icon-class="plus"/>
+                </el-tooltip>
+              </div>
+            </div>
+          </template>
+        </el-tree>
         <el-menu v-if="treeType=='menu'" ref="menuTreeRef" :unique-opened="false">
-          <SubSystemMenu :dataList="treeDatas" :preps="preps" @selectData="menuChange"/>
+          <SubSystemMenu :dataList="treeDatas" :preps="preps" @addData="addData" @selectData="menuChange"/>
         </el-menu>
       </el-scrollbar>
     </div>

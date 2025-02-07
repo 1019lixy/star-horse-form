@@ -275,7 +275,7 @@ onDeactivated(() => {
     </el-col>
     <el-col :span="20" class="h100">
       <el-card class="inner_content h100">
-        <div class="search_btn" :style="{'flex-direction':Config.buttonStyle=='line'?'column':'row'}">
+        <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
           <star-horse-search-comp @searchData="(data:any)=>companyRoleRef.createSearchParams(data)"
                                   :formData="searchFormData"
                                   :compUrl="dataUrl"/>

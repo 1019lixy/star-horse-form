@@ -298,7 +298,7 @@ watch(
                     size: '18px',
                   }"
                   >
-                    <component :is="item.meta.menuIcon"/>
+                    <component :is="item.meta.menuIcon||'document'"/>
                   </el-icon>
                   &nbsp;{{ item.meta.title }}
                   <star-horse-icon
@@ -386,18 +386,14 @@ watch(
   </div>
 </template>
 <style lang="scss" scoped>
-
-
 .prefixCls {
   display: flex;
   width: 100%;
   background: var(--star-horse-background);
   border: 1px solid #eee;
-
   :deep(.scrollbar__view) {
     height: 100%;
   }
-
   .overflow-hidden {
     position: relative;
     overflow-x: hidden;
@@ -413,14 +409,11 @@ watch(
     vertical-align: middle;
     border-right: 1px solid var(--star-horse-style);
     border-left: 1px solid var(--star-horse-style);
-
     &:hover {
       :deep(span) {
         color: #000000 !important;
       }
     }
-
-
   }
 
   .tags-item {
@@ -478,10 +471,8 @@ watch(
         color: var(--star-horse-white);
       }
     }
-
     .item--close {
       :deep(span) {
-
         color: var(--el-color-white) !important;
       }
     }

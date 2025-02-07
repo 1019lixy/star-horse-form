@@ -11,8 +11,7 @@
         <el-avatar v-if="iconType=='system'" fit="fill" shape="square" :style="{
           'font-size': field.preps['listView'] == 'Y'?'22px':'24px',
            background: field.preps['listView'] == 'Y'?'unset':'var(--el-avatar-bg-color)',
-        }"
-                   :icon="context.attrs['formData'][field.preps['name']]"/>
+        }" :icon="context.attrs['formData'][field.preps['name']]"/>
         <star-horse-icon :icon-class="context.attrs['formData'][field.preps['name']]" v-else size="40px"
                          style="font-size: 50px;
                          color:var(--star-horse-style);

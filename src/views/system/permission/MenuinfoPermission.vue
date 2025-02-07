@@ -24,7 +24,7 @@ const menuPermission = ref();
 let rolesList = ref<SelectOption[]>([]);
 let systemInfoList = ref<SelectOption[]>([]);
 let appinfoList = ref<SelectOption[]>([]);
-let menusList = ref<Array[]>();
+let menusList = ref<Array<any>>();
 let configStore = GlobalConfig(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
 let currentUserGroupId = ref<number>(0);

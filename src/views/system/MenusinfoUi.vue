@@ -77,7 +77,7 @@ const tableFieldList = reactive<PageFieldInfo>({
       required: true, formVisible: true,
       listVisible: true
     }, {
-      label: "菜单图标", fieldName: "menuIcon", type: "icon", optionList: menuIconList,
+      label: "菜单图标", fieldName: "menuIcon", type: "icon",
       required: false, formVisible: true,
       listVisible: true
     },
@@ -209,6 +209,7 @@ let extandBtns = ref<UserFuncInfo[]>([{
   icon: "plus",
   priority: 1,
   funcName: (row: any) => {
+    dialogProps.ids = -1;
     dataForm.value["parentNo"] = row["dataNo"];
     dialogProps.editVisible = true;
   }
@@ -236,7 +237,7 @@ const initData = async () => {
       searchParentMenus.value.push(temp);
     })
   }
-  menuIconList.value = loadElementPlusIcon();
+  // menuIconList.value = loadElementPlusIcon();
 };
 onMounted(async () => {
   await initData();
@@ -248,13 +249,13 @@ onMounted(async () => {
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps"
                      :self-func="true"
                      @merge="merge" @mergeDraft="mergeDraft" @resetForm="resetForm">
-      <star-horse-form :outerFormData="dataForm" :compUrl="dataUrl" :fieldList="tableFieldList"
-                       :primaryKey="primaryKey" :rules="rules"
-                       ref="menuFormRef"/>
+    <star-horse-form :outerFormData="dataForm" :compUrl="dataUrl" :fieldList="tableFieldList"
+                     :primaryKey="primaryKey" :rules="rules"
+                     ref="menuFormRef"/>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title="'查看数据'"
                      :is-view="true">
-      <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
   </star-horse-dialog>
   <el-card class="inner_content">
     <el-row style="height: 100%;" :gutter="10">

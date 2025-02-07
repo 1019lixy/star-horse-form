@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {ref} from "vue";
+import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 
 defineProps({
   dataList: {type: Array, required: true},
@@ -13,8 +14,10 @@ defineProps({
       };
     }
   },
+  btnTitle: {type: String, default: "添加数据"},
+  btnVisible: {type: Boolean, default: false},
 });
-const emits = defineEmits(["selectData"]);
+const emits = defineEmits(["selectData", "addData"]);
 let currentItem = ref<any>({});
 const selectData = (item: any, event: MouseEvent) => {
   currentItem.value = item;
@@ -24,29 +27,48 @@ const selectData = (item: any, event: MouseEvent) => {
   }
   emits("selectData", item);
 }
+/**
+ * 添加数据
+ * @param item
+ */
+const addData = (item: any) => {
+  emits("addData", item);
+}
 </script>
 <template>
   <template v-for="item in dataList">
     <el-sub-menu v-if="item.children&&item.children.length>0"
                  :class="{'is-active':item[preps.value]==currentItem[preps.value]}" :index="item[preps.value]">
-
       <template #title>
         <el-icon class="star-icon">
           <component is="folder"/>
         </el-icon>
-        <span class="menu-title" @click="selectData(item,$event)">{{ item[preps.label] }}</span>
+        <div class="menu-title" @click="selectData(item,$event)">
+          <div class="name">{{ item[preps.label] }}</div>
+          <div v-if="btnVisible" class="btn" @click.stop="addData(item)">
+            <el-tooltip :content="btnTitle">
+              <star-horse-icon cursor="pointer" icon-class="plus"/>
+            </el-tooltip>
+          </div>
+        </div>
       </template>
-      <SubSystemMenu :dataList="item.children" :preps="preps" @selectData="selectData"/>
+      <SubSystemMenu :dataList="item.children" :preps="preps" @selectData="selectData" :btnVisible="btnVisible" :btnTitle="btnTitle"/>
     </el-sub-menu>
     <el-menu-item v-else :index="item[preps.value]" :class="{'is-active':item[preps.value]==currentItem[preps.value]}">
       <el-icon class="star-icon">
         <component is="document"/>
       </el-icon>
       <template #title>
-        <span class="menu-title" @click="selectData(item,$event)">{{ item[preps.label] }}</span>
+        <div class="menu-title" @click="selectData(item,$event)">
+          <div class="name">{{ item[preps.label] }}</div>
+          <div v-if="btnVisible" class="btn" @click.stop="addData(item)">
+            <el-tooltip :content="btnTitle">
+              <star-horse-icon cursor="pointer" icon-class="plus"/>
+            </el-tooltip>
+          </div>
+        </div>
       </template>
     </el-menu-item>
-
   </template>
 </template>
 <style scoped lang="scss">
@@ -62,12 +84,9 @@ const selectData = (item: any, event: MouseEvent) => {
   height: 35px !important;
   line-height: 35px !important;
   width: 100%;
-
-  .menu-title {
-    width: 100% !important;
-    height: 100% !important;
-  }
 }
+
+
 
 :deep(.el-scrollbar__view) {
   height: 100%;

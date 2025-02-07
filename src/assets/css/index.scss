@@ -592,11 +592,9 @@ hr {
 
         .search_btn {
           display: flex;
-
           .search_content {
             flex: 1;
           }
-
           .el-dropdown {
             vertical-align: top;
             justify-content: center;
@@ -898,4 +896,23 @@ button.el-collapse-item__header {
 
 .m-message-container {
   z-index: 9999999 !important;
+}
+.menu-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100% !important;
+  height: 100% !important;
+  flex: 1;
+  font-size: 14px;
+  font-weight: 500;
+  .name {
+    color: #303133;
+  }
+  .btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--star-horse-style);
+  }
 }
