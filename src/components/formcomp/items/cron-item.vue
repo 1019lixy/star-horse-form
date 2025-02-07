@@ -7,8 +7,6 @@
   </star-horse-dialog>
   <starhorse-form-item :isDesign="context.attrs['isDesign']" :bareFlag="context.attrs['bareFlag']" :form-item="field"
                        :parentField="parentField">
-    {{context.attrs['formData'][field.preps['name']]}}
-    {{cronDataValue}}
     <el-input
         :fid="field.preps['name']"
         :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
