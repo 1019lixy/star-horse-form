@@ -145,7 +145,7 @@ let contabValueObj = ref<any>({
 let contabValueString = ref<string>("");
 const contabValueStringFun = () => {
   let obj = contabValueObj.value;
-  let val = obj.second +
+  let val =obj.second +
       " " +
       obj.min +
       " " +
@@ -180,12 +180,11 @@ const resolveExp = () => {
         week: arr[5],
         year: arr[6] ? arr[6] : "",
       };
-      contabValueObj.value = {
-        ...obj,
-      };
-      console.log("resolveExp",contabValueObj.value);
+      contabValueObj.value = obj;
       for (let i in obj) {
-        if (obj[i]) changeRadio(i, obj[i]);
+        if (obj[i]) {
+          changeRadio(i, obj[i]);
+        }
       }
     }
   } else {
@@ -222,91 +221,94 @@ const getRefObj = (name: string) => {
 const changeRadio = async (name: string, value: string) => {
   let arr = ["second", "min", "hour", "month"],
       refName = "cron" + name,
-      insVlaue;
-  await nextTick();
+      insValue;
   let refObj = getRefObj(refName);
+  await nextTick();
   if (arr.includes(name)) {
     if (value === "*") {
-      insVlaue = 1;
+      insValue = 1;
     } else if (value.indexOf("-") > -1) {
       let indexArr: Array<any> = value.split("-");
       isNaN(indexArr[0]) ? (refObj.value.cycle01 = 0) : (refObj.value.cycle01 = indexArr[0]);
       refObj.value.cycle02 = indexArr[1];
-      insVlaue = 2;
+      insValue = 2;
     } else if (value.indexOf("/") > -1) {
       let indexArr: Array<any> = value.split("/");
       isNaN(indexArr[0]) ? (refObj.value.average01 = 0) : (refObj.value.average01 = indexArr[0]);
       refObj.value.average02 = indexArr[1];
-      insVlaue = 3;
+      insValue = 3;
     } else {
-      insVlaue = 4;
-      refObj.value.checkboxList = value.split(",");
+      if (name == "month" && value == "0") {
+        insValue = 1;
+      } else {
+        insValue = 4;
+        refObj.value.checkboxList = value.split(",");
+      }
     }
+    console.log("insValue", name, value, insValue);
   } else if (name == "day") {
     if (value === "*") {
-      insVlaue = 1;
+      insValue = 1;
     } else if (value == "?") {
-      insVlaue = 2;
+      insValue = 2;
     } else if (value.indexOf("-") > -1) {
       let indexArr: Array<any> = value.split("-");
       isNaN(indexArr[0]) ? (refObj.value.cycle01 = 0) : (refObj.value.cycle01 = indexArr[0]);
       refObj.value.cycle02 = indexArr[1];
-      insVlaue = 3;
+      insValue = 3;
     } else if (value.indexOf("/") > -1) {
       let indexArr: Array<any> = value.split("/");
       isNaN(indexArr[0]) ? (refObj.value.average01 = 0) : (refObj.value.average01 = indexArr[0]);
       refObj.value.average02 = indexArr[1];
-      insVlaue = 4;
+      insValue = 4;
     } else if (value.indexOf("W") > -1) {
       let indexArr: Array<any> = value.split("W");
       isNaN(indexArr[0]) ? (refObj.value.workday = 0) : (refObj.value.workday = indexArr[0]);
-      insVlaue = 5;
+      insValue = 5;
     } else if (value === "L") {
-      insVlaue = 6;
+      insValue = 6;
     } else {
       refObj.value.checkboxList = value.split(",");
-      insVlaue = 7;
+      insValue = 7;
     }
   } else if (name == "week") {
     if (value === "*") {
-      insVlaue = 1;
+      insValue = 1;
     } else if (value == "?") {
-      insVlaue = 2;
+      insValue = 2;
     } else if (value.indexOf("-") > -1) {
       let indexArr: Array<any> = value.split("-");
-      isNaN(indexArr[0])
-          ? (refObj.value.cycle01 = 0)
-          : (refObj.value.cycle01 = indexArr[0]);
+      isNaN(indexArr[0]) ? (refObj.value.cycle01 = 0) : (refObj.value.cycle01 = indexArr[0]);
       refObj.value.cycle02 = indexArr[1];
-      insVlaue = 3;
+      insValue = 3;
     } else if (value.indexOf("#") > -1) {
       let indexArr: Array<any> = value.split("#");
       isNaN(indexArr[0]) ? (refObj.value.average01 = 1) : (refObj.value.average01 = indexArr[0]);
       refObj.value.average02 = indexArr[1];
-      insVlaue = 4;
+      insValue = 4;
     } else if (value.indexOf("L") > -1) {
       let indexArr: Array<any> = value.split("L");
       isNaN(indexArr[0]) ? (refObj.value.weekday = 1) : (refObj.value.weekday = indexArr[0]);
-      insVlaue = 5;
+      insValue = 5;
     } else {
       refObj.value.checkboxList = value.split(",");
-      insVlaue = 7;
+      insValue = 7;
     }
   } else if (name == "year") {
     if (value == "") {
-      insVlaue = 1;
+      insValue = 1;
     } else if (value == "*") {
-      insVlaue = 2;
+      insValue = 2;
     } else if (value.indexOf("-") > -1) {
-      insVlaue = 3;
+      insValue = 3;
     } else if (value.indexOf("/") > -1) {
-      insVlaue = 4;
+      insValue = 4;
     } else {
       refObj.value.checkboxList = value.split(",");
-      insVlaue = 5;
+      insValue = 5;
     }
   }
-  refObj.value.radioValue = insVlaue;
+  refObj.value.radioValue = insValue;
 };
 // 表单选项的子组件校验数字格式（通过-props传递）
 const checkNumber = (value: number, minLimit: number, maxLimit: number) => {
@@ -335,8 +337,6 @@ const clearCron = () => {
     changeRadio(j, contabValueObj.value[j]);
   }
 };
-
-
 onMounted(() => {
   resolveExp();
 });

@@ -59,7 +59,6 @@ let cycle01 = ref(0);
 let cycle02 = ref(0);
 let average01 = ref(0);
 let average02 = ref(1);
-
 let checkboxList = ref([]);
 let checkNum = ref(props.check);
 // 计算两个周期值
@@ -155,9 +154,10 @@ watch(() => checkboxString.value,
       deep: true
     });
 
-//computed(() =>);
-
 onMounted(() => {
   fullYear.value = Number(new Date().getFullYear());
 });
+defineExpose({
+  cycle01, cycle02, average01, average02, checkboxList,radioValue
+})
 </script>

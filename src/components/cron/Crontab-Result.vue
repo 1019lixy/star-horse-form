@@ -29,7 +29,7 @@ const expressionChange = () => {
   }
   // 获取规则数组[0秒、1分、2时、3日、4月、5星期、6年]
   let ruleArr = props.ex?.split(' ') || [];
-  console.log(ruleArr);
+  ruleArr[4] = ruleArr[4] == "0" ? "*" : ruleArr[4];
   // 用于记录进入循环的次数
   let nums = 0;
   // 用于暂时存符号时间规则结果的数组

@@ -197,6 +197,8 @@ watch(() => checkboxString.value,
       immediate: true,
       deep: true
     });
-
+defineExpose({
+  cycle01, cycle02, average01, average02, checkboxList,workday,radioValue
+})
 
 </script>

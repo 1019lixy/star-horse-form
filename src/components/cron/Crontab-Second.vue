@@ -126,7 +126,6 @@ const othChange = () => {
     radioValue.value = 4
     checkboxList.value = ins.split(',')
   }
-  debugger;
 };
 watch(() => radioValue.value,
     (_val) => radioChange(), {
@@ -151,7 +150,10 @@ watch(() => checkboxString.value,
 
 onMounted(() => {
   // radioValue.value = props.radioParent;
-  othChange();
+  // othChange();
+})
+defineExpose({
+  cycle01, cycle02, average01, average02, checkboxList,radioValue
 })
 
 </script>

@@ -73,7 +73,7 @@ const averageTotalFun = () => {
 // 计算勾选的checkbox值合集
 const checkboxStringFun = () => {
   let str = checkboxList.value.join();
-  return str == '' ? '*' : str;
+  return str == '' || str == "0" ? '*' : str;
 };
 let cycleTotal = computed(() => cycleTotalFun());
 let averageTotal = computed(() => averageTotalFun());
@@ -148,5 +148,7 @@ watch(() => checkboxString.value,
       deep: true
     });
 
-
+defineExpose({
+  cycle01, cycle02, average01, average02, checkboxList, radioValue
+})
 </script>
