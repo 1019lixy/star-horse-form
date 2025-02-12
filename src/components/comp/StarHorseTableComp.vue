@@ -81,7 +81,7 @@ const props = defineProps({
   isDynamic: {type: Boolean, default: false},
 });
 let route = useRoute();
-let pagePermission = useButtonPermission();
+let pagePermission = useButtonPermission(piniaInstance);
 let permissions = ref<any>({});
 let configStore = GlobalConfig(piniaInstance);
 const configInfo = computed(() => {

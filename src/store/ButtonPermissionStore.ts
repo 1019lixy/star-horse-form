@@ -24,6 +24,14 @@ export const useButtonPermission = defineStore("buttonPermission", () => {
         pageBtnPermisson.value[menuId] = data;
     }
     /**
+     * 删除某个菜单权限
+     * @param menuId
+     */
+    const removePermission = (menuId: string) => {
+
+        delete pageBtnPermisson.value[menuId];
+    }
+    /**
      *
      * @param data
      */
@@ -64,5 +72,5 @@ export const useButtonPermission = defineStore("buttonPermission", () => {
         }
         return currentPermission.value;
     }
-    return {addPermission, addAllPermission, addRoute}
+    return {addPermission, addAllPermission, addRoute,removePermission}
 });

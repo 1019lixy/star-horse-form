@@ -21,6 +21,7 @@ import piniaInstance from "@/store";
 import StarHorseTree from "@/components/comp/StarHorseTree.vue";
 import {warning} from "@/utils/message.ts";
 import {SearchParams} from "@/components/types/Params";
+import {useButtonPermission} from "@/store/ButtonPermissionStore.ts";
 
 const dataUrl: ApiUrls = apiInstance("system-config", "system/rolesPkBtnAuthority");
 dataUrl.mergeUrl = "/system-config/system/resourcesSummaryEntity/merge";
@@ -85,6 +86,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   cellEditable: false
 });
 let configStore = GlobalConfig(piniaInstance);
+let pagePermission = useButtonPermission(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
 const primaryKey = ["idMenusinfo", "idRolesinfo", "idInformations"];
 const rules = {};
@@ -200,6 +202,12 @@ const doQuery = () => {
   }
   menuBtnTableRef.value.createSearchParams(params);
 }
+const refreshData = (formData: any, resData: any) => {
+  formData["menusList"]?.forEach((item: any) => {
+    pagePermission.removePermission(item);
+  })
+  menuBtnTableRef.value.loadByPage();
+}
 const initData = async () => {
   // systemInfoList.value = await loadSystemInfo([]);
   rolesList.value = await loadRolesInfo([]);
@@ -213,13 +221,13 @@ onMounted(async () => {
 </style>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form :outerFormData="dataForm" @refresh="menuBtnTableRef.loadByPage()" :compUrl="dataUrl"
-                       :fieldList="formFieldList"
-                       :rules="rules"/>
+    <star-horse-form :outerFormData="dataForm" @refresh="refreshData" :compUrl="dataUrl"
+                     :fieldList="formFieldList"
+                     :rules="rules"/>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title=
       "'查看数据'" :is-view="true">
-      <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
   </star-horse-dialog>
   <el-card class="inner_content">
     <el-row gutter="5" class="h100-overflow-hidden ">

@@ -262,7 +262,8 @@ const doMerge = (type: string) => {
   // console.log(sameBatchNames, tempForm, dydata);
   load("数据处理中");
   //dynamicForm 如果为true 表示动态表单，动态表单需额外封装数据对象
-  postRequest(mergeUrl!, props.dynamicForm ? dydata : tempForm).then(res => {
+  let formData = props.dynamicForm ? dydata : tempForm;
+  postRequest(mergeUrl!, formData).then(res => {
     closeLoad();
     if (res.data.code != 0) {
       warning(res.data.cnMessage);
@@ -270,7 +271,7 @@ const doMerge = (type: string) => {
     } else {
       success(res.data.cnMessage);
     }
-    emits("refresh");
+    emits("refresh", formData,res.data);
     resetForm();
     if (type == "close") {
       closeDialog();

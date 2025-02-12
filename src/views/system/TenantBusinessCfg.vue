@@ -201,6 +201,7 @@ onDeactivated(() => {
                      :compUrl="tenantAppDataUrl"
                      :fieldList="formFieldList"
                      ref="tenantInfoFormRef"
+                     :primaryKey="'idTenantAppMenusinfo'"
                      :rules="rules"/>
   </star-horse-dialog>
   <star-horse-dialog boxWidth="40%" :dialog-visible="dialogProps.bakeVisible1" :dialogProps="dialogProps"
@@ -209,6 +210,7 @@ onDeactivated(() => {
     <star-horse-form @refresh="menuAddedRefresh" :outerFormData="outerData" @dataLoaded="dataLoaded"
                      :compUrl="tenantAppMenuDataUrl"
                      :fieldList="menuformFieldList"
+                     :primaryKey="'idTenantAppMenusinfo'"
                      ref="tenantMenuInfoFormRef"
                      :rules="rules"/>
   </star-horse-dialog>
@@ -262,7 +264,7 @@ onDeactivated(() => {
                                           :compUrl="dataUrl"/>
                 </div>
                 <hr/>
-                <star-horse-table-comp ref="tenantAppMenusinfoRef" :fieldList="tableFieldList" :primaryKey="primaryKey"
+                <star-horse-table-comp ref="tenantAppMenusinfoRef" :fieldList="tableFieldList"  :primaryKey="'idTenantAppMenusinfo'"
                                        :compUrl="tenantAppMenuDataUrl"
                                        :dataFormat="dataFormat"/>
               </el-card>
