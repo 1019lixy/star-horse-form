@@ -3,6 +3,7 @@ import {CompParams} from "@/components/types/PageFieldInfo";
 export type SelectOption = {
     name?: string,
     value?: string | number,
+    disabled?: string,
     children?: SelectOption[]
 }
 /**
