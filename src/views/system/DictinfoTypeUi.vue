@@ -64,12 +64,12 @@ onMounted(async () => {
 </script>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-      <star-horse-form @refresh="dictTypeRef.loadByPage()" :compUrl="dataUrl"
-                       :fieldList="tableFieldList" :rules="rules"/>
+    <star-horse-form @refresh="dictTypeRef.loadByPage()" :compUrl="dataUrl"
+                     :fieldList="tableFieldList" :rules="rules"/>
   </star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title=
       "'查看数据'" :is-view="true">
-      <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
   </star-horse-dialog>
   <el-card class="inner_content">
     <div class="dict-content">
@@ -89,6 +89,10 @@ onMounted(async () => {
                                  :fieldList="tableFieldList"
                                  :primaryKey="primaryKey"
                                  :compUrl="dataUrl"
+                                 :order-by="[{
+                                   fieldName: 'createdDate',
+                                   ascOrDesc:'desc'
+                                 }]"
                                  :dataFormat="dataFormat"/>
         </el-card>
       </div>

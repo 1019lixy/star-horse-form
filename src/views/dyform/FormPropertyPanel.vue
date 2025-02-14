@@ -2,7 +2,7 @@
 import {computed, onMounted, reactive, ref, watch} from "vue";
 import {createCondition, dbConfigList, loadData, loadElementPlusIcon, loadSystemInfo} from "@/api/sh_api";
 import {SelectOption} from "@/components/types/SearchProps";
-import {getRequest, permissionMenus, postRequest} from "@/api/star_horse";
+import {getRequest, loadDict, permissionMenus, postRequest} from "@/api/star_horse";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
@@ -19,7 +19,7 @@ let relationDataList = ref<Array<SelectOption>>([]);
 let relationTypeList = ref<Array<SelectOption>>([{name: "一对一", value: "11"}, {name: "一对多", value: "1n"}, {name: "多对一", value: "n1"}, {name: "多对多", value: "mn"}]);
 let dataSourceData = ref<any>();
 let primaryKeyPolicyList = ref<SelectOption[]>([{name: "自增", value: "auto"}, {name: "动态赋值", value: "manual"}, {name: "序列", value: "sequence"}]);
-let pageStyleList = ref<SelectOption[]>([{name: "普通", value: "general"}, {name: "Tab", value: "tab"}, {name: "列表", value: "formtb"}]);
+let pageStyleList = ref<SelectOption[]>([]);
 let requireAsteriskPositionList = ref<SelectOption[]>([{name: "左", value: "left"}, {name: "右", value: "right"}]);
 let labelPositionList = ref<SelectOption[]>([{name: "左", value: "left"}, {name: "右", value: "right"}, {name: "顶部", value: "top"}]);
 let formSizeList = ref<SelectOption[]>([{name: "大", value: "large"}, {name: "中", value: "default"}, {name: "小", value: "small"}]);
@@ -247,7 +247,7 @@ const initData = async () => {
   let params = [{propertyName: "statusCode", value: "1"}];
   informationsList.value = await loadSystemInfo(params);
   systemIconList.value = loadElementPlusIcon();
-
+  pageStyleList.value = await loadDict("page_style");
 };
 const analysisDynamicFields = async (formInfo: any) => {
   let reData = await loadData("/userdb-manage/userdb/dynamicForm/analysisDynamicDatasourceFields", formInfo);

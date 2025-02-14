@@ -68,13 +68,23 @@ routeDefine.push({
                 keepAlive: "Y"
             }
         }, {
-            path: "/formtb/page/:param",
+            path: "/list/page/:param",
             name: "FormTablePage",
             component: () => import("@/views/dyform/FormTablePage.vue"),
             props: true,
             meta: {
                 title: "动态表单实例",
                 menuIcon: "list",
+                keepAlive: "Y"
+            }
+        }, {
+            path: "/form/page/:param",
+            name: "TabPage",
+            component: () => import("@/views/dyform/FormPage.vue"),
+            props: true,
+            meta: {
+                title: "动态表单实例",
+                menuIcon: "form",
                 keepAlive: "Y"
             }
         }, {
