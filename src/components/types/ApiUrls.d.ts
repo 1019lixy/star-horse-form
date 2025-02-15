@@ -39,9 +39,13 @@ export  type ApiUrls = {
      */
     downloadTemplateUrl?: string,
     /**
-     * 自定义查询接口
+     * 自定义查询接口 返回满足条件的所有数据
      */
     userConditionUrl?: string,
+    /**
+     * 自定义查询接口 返回满足条件的一条数据
+     */
+    oneConditionUrl?: string,
     /**
      * 上载接口
      */

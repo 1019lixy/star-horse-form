@@ -6,7 +6,7 @@
         :fid="field.preps['name']"
         :accept="field.preps['accept']"
         :action="field.preps['action']"
-        :auto-upload="field.preps['autoUpload']=='Y'"
+        :auto-upload="field.preps['autoUpload']?field.preps['autoUpload']=='Y':true"
         :before-remove="field.preps['beforeRemove']"
         :before-upload="field.preps['beforeUpload']"
         :data="field.preps['data']||{}"
@@ -69,8 +69,9 @@ export default defineComponent({
             context.attrs['formData'][key] = value;
           });
         }
-        //console.log(param.data.path);
+
       }
+      console.log(prep, uploadFile, uploadFiles, param);
       context.emit('selfFunc', prep, uploadFile, uploadFiles, param);
     };
     onMounted(async () => {

@@ -23,11 +23,13 @@ let pageStyleList = ref<SelectOption[]>([]);
 let requireAsteriskPositionList = ref<SelectOption[]>([{name: "左", value: "left"}, {name: "右", value: "right"}]);
 let labelPositionList = ref<SelectOption[]>([{name: "左", value: "left"}, {name: "右", value: "right"}, {name: "顶部", value: "top"}]);
 let formSizeList = ref<SelectOption[]>([{name: "大", value: "large"}, {name: "中", value: "default"}, {name: "小", value: "small"}]);
+let dataLoadConditionList = ref<SelectOption[]>([{name: "创建人", value: "createdBy"}, {name: "租户", value: "tenantId"}, {name: "ID", value: "id"},]);
 let dynamicFieldList = ref<SelectOption[]>([]);
 let tableColumnsList = ref<SelectOption[]>([]);
 let informationsList = ref<any>([]);
 let menusInfoList = ref<any>([]);
 let menuFlag = ref<boolean>(false);
+let conditionFlag = ref<boolean>(false);
 const relationMsg = `
 映射关系表示当前表与所选择的表之间的关系:
  一对一: 表示当前表和被选择表数据是一一对应关系;
@@ -75,31 +77,44 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             title: "基础属性",
             tabName: "tab1",
             fieldList: [
+              {label: "表名", fieldName: "tbName", type: "input", required: true, formVisible: true, editDisabled: "Y"},
+              {label: "主键", fieldName: "formId", type: "input", required: true, formVisible: true, editDisabled: "Y"},
               [
-                {label: "表名", fieldName: "tbName", type: "input", required: true, formVisible: true, editDisabled: "Y"},
-                {label: "主键", fieldName: "formId", type: "input", required: true, formVisible: true, editDisabled: "Y"},
-                {label: "主键策略", fieldName: "primaryKeyPolicy", type: "select", optionList: primaryKeyPolicyList, formVisible: true, editDisabled: "Y"},
-              ],
-              [
-                {label: "创建表", fieldName: "createTable", type: "switch", defaultValue: "N", formVisible: true,},
                 {
-                  label: "创建菜单", fieldName: "createMenu", type: "switch", actionName: "change", actions: (val: any) => {
-                    menuFlag.value = val["createMenu"] == "Y";
-                  }, defaultValue: "N", formVisible: true,
+                  label: "创建表", fieldName: "createTable", type: "switch", defaultValue: "N", formVisible: true,
+                  preps: {
+                    colspan: 6
+                  }
+                },
+                {
+                  label: "主键策略", fieldName: "primaryKeyPolicy", type: "select", optionList: primaryKeyPolicyList, formVisible: true, editDisabled: "Y",
+                  preps: {
+                    colspan: 18
+                  }
                 },
               ],
               [{
+                label: "创建菜单", fieldName: "createMenu", type: "switch", actionName: "change", actions: (val: any) => {
+                  menuFlag.value = val["createMenu"] == "Y";
+                }, defaultValue: "N", formVisible: true,
+                preps: {
+                  colspan: 6
+                }
+              }, {
                 label: "所属系统", fieldName: "sysId", type: "select", optionList: informationsList,
                 actionName: "change", actions: (val: any) => {
-                  console.log(val);
                   loadMenus(val["sysId"]);
-                }, formVisible: menuFlag, required: true
+                }, formVisible: menuFlag, required: true,
+                preps: {
+                  colspan: 9
+                }
               },
                 {
                   label: "父级菜单", fieldName: "parentMenuId", type: "tselect", optionList: menusInfoList,
                   formVisible: menuFlag,
                   preps: {
                     checkStrictly: "Y",
+                    colspan: 9,
                     props: {
                       label: "menuName",
                       value: "dataNo",
@@ -108,10 +123,36 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 },
               ],
               [
-                {label: "级联删除", helpMsg: `页面字段删除时同步删除数据库对应表字段`, fieldName: "deleteCascade", type: "switch", defaultValue: "Y", formVisible: true},
-                {label: "表单图标", fieldName: "formIcon", type: "icon", formVisible: true,},
-                {label: "页面版式", fieldName: "pageStyle", type: "select", optionList: pageStyleList, formVisible: true},
+                {
+                  label: "级联删除", helpMsg: `页面字段删除时同步删除数据库对应表字段`, fieldName: "deleteCascade", type: "switch", defaultValue: "Y", formVisible: true,
+                  preps: {
+                    colspan: 6
+                  }
+                },
+                {
+                  label: "表单图标", fieldName: "formIcon", type: "icon", formVisible: true,
+                  preps: {
+                    colspan: 9
+                  }
+                },
+
               ],
+              [{
+                label: "页面版式", fieldName: "pageStyle", type: "select",
+                optionList: pageStyleList, formVisible: true,
+                actionName: "change", actions: (val: any) => {
+                  conditionFlag.value = val['pageStyle'] == 'form';
+                },
+                preps: {
+                  colspan: 6
+                }
+              }, {
+                label: "数据加载条件", fieldName: "dataLoadField", type: "select", formVisible: conditionFlag,
+                optionList: dataLoadConditionList,
+                preps: {
+                  colspan: 18
+                }
+              },]
             ]
           }, {
             title: "映射关系配置",

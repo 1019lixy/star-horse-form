@@ -97,7 +97,6 @@ const initData = async () => {
  * @param row 列表行数据
  */
 const dataFormat = (name: string, cellValue: any, row: any): any => {
-  console.log(row);
   //转换显示信息
   if (name == "parentId" && row.parent) {
     row.parent.categoryName;
