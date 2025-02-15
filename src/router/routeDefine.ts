@@ -162,7 +162,7 @@ routeDefine.push(
         }
     },
     {
-        path: "/workFlowEdit",
+        path: "/flowDesign",
         component: () => import("@/views/workflow/plugin/FlowDesign.vue"),
         name: "FlowDesign",
         meta: {
