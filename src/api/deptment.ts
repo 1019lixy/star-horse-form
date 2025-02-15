@@ -58,7 +58,7 @@ export function createDeptUserTree(datas: any, valField: string, name: string, v
         deptUserList.push(temp);
     });
     return deptUserList;
-};
+}
 
 /**
  * 解析部门信息
