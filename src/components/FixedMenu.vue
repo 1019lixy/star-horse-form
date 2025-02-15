@@ -42,7 +42,7 @@ const overHandler = (item: any) => {
 }*/
 onMounted(async () => {
   let menus = userStore.getPermissionMenus;
-  if (menus.length == 0) {
+  if (!menus || menus.length == 0) {
     await loadMenus("-1");
   } else {
     leftMenuDatas.value = menus;

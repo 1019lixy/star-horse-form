@@ -85,15 +85,12 @@ const selectData = (item: any) => {
     height: 100%;
     overflow: hidden;
     flex: 1;
-
     ul {
       list-style: none;
-
       li {
         cursor: pointer;
         display: block;
         height: 30px;
-
         &:hover {
           background-color: #f5f7fa;
         }

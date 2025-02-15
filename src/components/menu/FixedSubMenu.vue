@@ -38,6 +38,7 @@ const outHandler = () => {
           </el-icon>
           <span>{{ item.meta.title }}</span>
           <star-horse-icon
+              size="16px"
               :icon-class="item.meta.menuId==currentItem.meta?.menuId?'arrow-double-left':'arrow-double-right'"
               class="sub-arrow"/>
         </div>
