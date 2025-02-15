@@ -77,20 +77,25 @@ const outHandler = () => {
     }
 
     span, .link-url a {
-      margin-left: 10px;
+      margin-left: 5px;
       font-weight: bold;
       display: block;
       line-height: 40px;
       height: 40px;
       font-size: 12px;
       color: #666;
+      cursor: pointer;
+
+    }
+
+    &:hover {
+      background: var(--star-horse-shadow);
     }
 
   }
 
   .menu-item {
     margin: 0 25px;
-
     .star-icon {
       height: 2rem;
       width: 2rem;
@@ -102,6 +107,9 @@ const outHandler = () => {
   .menu-item-sub {
     margin-left: 25px;
 
+    &:hover {
+      background: var(--star-horse-background);
+    }
   }
 
   &:hover {

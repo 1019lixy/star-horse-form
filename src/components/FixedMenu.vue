@@ -61,7 +61,7 @@ watch(() => props.sysemId,
     <div class="menu-base">
       <template v-for="item in leftMenuDatas">
         <div :class="{'menu-item':true,'is-active':item.meta.title==currentItem.meta?.title}"
-             @mouseover="overHandler(item)">
+             @mouseover="overHandler(item)" >
           <div class="menu-item-icon">
             <el-icon class="star-icon">
               <component :is="item.meta.menuIcon||'document'"/>
@@ -104,12 +104,11 @@ watch(() => props.sysemId,
       justify-content: center;
       align-items: center;
       vertical-align: middle;
-      cursor: pointer;
 
       .menu-item-icon {
         width: 100%;
         height: 45px;
-
+        cursor: pointer;
         .star-icon {
 
           width: 100%;
@@ -133,6 +132,7 @@ watch(() => props.sysemId,
         font-weight: bold;
         font-size: 13px;
         color: var(--star-horse-white);
+        cursor: pointer;
       }
 
       .menu-item-line {
