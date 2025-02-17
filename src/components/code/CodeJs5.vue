@@ -137,7 +137,7 @@ defineExpose({
   exportCode, editor, eventName: props.fieldName,
 });
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .CodeMirror-fullscreen {
   display: block;
   position: absolute;
@@ -158,12 +158,12 @@ defineExpose({
 
 .CodeMirror, .CodeMirror-line {
   font-size: 16px;
-  font-family: 微软雅黑 Arial;
+  font-family: 微软雅黑 Arial,serif;
 }
 
 .CodeMirror-hints, .CodeMirror-lint-tooltip {
   font-size: 16px;
-  font-family: 微软雅黑 Arial;
+  font-family: 微软雅黑 Arial,serif;
   z-index: 3000 !important;
 }
 </style>

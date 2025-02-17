@@ -914,6 +914,7 @@ export function apiInstance(appName: string, urlPrefix: string, condition: Array
         exportAllUrl: `/${appName}/${urlPrefix}/exportData`,
         downloadTemplateUrl: `/${appName}/${urlPrefix}/downloadTemplate`,
         userConditionUrl: `/${appName}/${urlPrefix}/getAllByCondition`,
+        oneConditionUrl: `/${appName}/${urlPrefix}/getOneByCondition`,
         importUrl: `/${appName}/${urlPrefix}/importData`,
         uploadUrl: `/${appName}/annex/upload/common`,
         condition: condition
@@ -948,6 +949,9 @@ export function apiInstance(appName: string, urlPrefix: string, condition: Array
     apiUrls.queryConditionAction = async (params: SearchParams[] | any, orderBy: OrderByInfo[] = []) => {
         return await loadData(apiUrls.userConditionUrl!, params, orderBy);
     };
+    apiUrls.queryOneAction = async (params: SearchParams[] | any, orderBy: OrderByInfo[] = []) => {
+        return await loadData(apiUrls.oneConditionUrl!, params, orderBy);
+    }
     apiUrls.importAction = (param: any) => {
         return uploadRequest(apiUrls.importUrl!, param);
     };

@@ -127,7 +127,7 @@ routeDefine.push(
             keepAlive: "N"
         }
     },
-    /*    {
+    {
         path: "/login",
         component: () => import("@/components/Login.vue"),
         name: "登录",
@@ -135,16 +135,8 @@ routeDefine.push(
             keepAlive: "N",
             title: "系统登录"
         }
-    },*/
+    },
     {
-        path: "/login",
-        component: () => import("@/components/Login1.vue"),
-        name: "登录",
-        meta: {
-            keepAlive: "N",
-            title: "系统登录"
-        }
-    }, {
         path: "/404",
         component: () => import("@/components/404.vue"),
         name: "404",
@@ -162,7 +154,7 @@ routeDefine.push(
         }
     },
     {
-        path: "/workFlowEdit",
+        path: "/flowDesign",
         component: () => import("@/views/workflow/plugin/FlowDesign.vue"),
         name: "FlowDesign",
         meta: {

@@ -142,7 +142,6 @@ const actived = async () => {
     return;
   }
   companyList.value = createTree(data.data, primaryKey, "name", "");
-  console.log(companyCategoryList.value);
 }
 /**
  * 列表，查看数据时数据转换

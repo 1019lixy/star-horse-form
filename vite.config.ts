@@ -11,7 +11,11 @@ import Components from 'unplugin-vue-components/vite'
 import {ElementPlusResolver} from 'unplugin-vue-components/resolvers'
 import AutoImport from 'unplugin-auto-import/vite'
 import {viteCommonjs} from '@originjs/vite-plugin-commonjs'
+import {visualizer} from 'rollup-plugin-visualizer';
+//此插件是处理外部依赖 比如cdn引入的js
+// import externalGlobals from 'rollup-plugin-external-globals';
 import vueDevTools from 'vite-plugin-vue-devtools';
+import tailwindcss from '@tailwindcss/vite'
 
 const codeHost: string = "http://192.168.20.165:8888/"
 // const codeHost:string = "http://localhost:8888/"
@@ -156,7 +160,8 @@ export default defineConfig((mode, command) => {
             // exclude:[]
         },
         plugins: [
-            vueDevTools(),
+            tailwindcss(),
+            // vueDevTools(),
             // Inspect({
             //     // 可以配置一些选项，以下是一些常用选项的示例
             //     dev: true,  // 是否启用该插件，默认为 true
@@ -211,6 +216,7 @@ export default defineConfig((mode, command) => {
                  deleteOriginFile: true,
                  ext: '.gz',
              }),*/
+            visualizer(),
         ],
         css: {
             //解决 Deprecation Warning: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
@@ -228,8 +234,18 @@ export default defineConfig((mode, command) => {
             extensions: ['.js', '.vue', '.json', '.ts', ".jsx"]
         },
         build: {
+            // 👇 告诉打包工具 "vue-demi" 也是外部依赖项 👇
+            // external: ["vue", "element-plus", "vue-demi"],
             rollupOptions: {
-                external: ["vue", "vue-router", "vuex", "element-plus/es", "axios", "jsencrypt", "jquery"],
+                // external: ["vue", "vue-demi", "vue-router", "vuex", "element-plus/es", "axios", "jsencrypt", "jquery"],
+                // plugins: [
+                //     externalGlobals({
+                //         vue: "Vue",
+                //         "element-plus": "ElementPlus",
+                //         // 👇 配置 vue-demi 全局变量 👇
+                //         "vue-demi": "VueDemi",
+                //     }),
+                // ],
                 input: {
                     main: resolve(__dirname, "index.html")
                 }
@@ -240,8 +256,8 @@ export default defineConfig((mode, command) => {
                     drop_debugger: true
                 }
             },
-            //浏览器兼容性  "esnext"|"modules"
-            target: "modules",
+            //浏览器兼容性  "esnext"|"modules",升级后用modules 报错
+            target: 'esnext',
             //指定输出路径
             outDir: "dist",
             //生成静态资源的存放路径

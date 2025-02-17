@@ -8,6 +8,7 @@ import {TabsPaneContext} from "element-plus";
 import {Config} from "@/api/settings.ts";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
+import StarHorseForm from "@/components/comp/StarHorseForm.vue";
 
 let designForm = DesignForm(piniaInstance);
 const starHorseTableCompRef = ref();
@@ -42,8 +43,7 @@ const loadFormData = async (formId: string) => {
     return;
   }
   hasData.value = data && Object.keys(data).length > 0;
-  console.log(hasData);
-  dataUrl.value = data["dataUrl"];
+  dataUrl.value = apiInstance(data["dataUrl"].appName, data["dataUrl"].contextUrl);
   searchFormData.value = data["searchFormData"] as SearchProps[];
   primaryKey.value = data["primaryKey"];
   tableFieldList.value = data["tableFieldList"] as PageFieldInfo;
@@ -105,8 +105,8 @@ onMounted(async () => {
     <el-card class="inner_content">
       <el-tabs v-model="activeName" type="border-card" @tab-click="handleClick">
         <el-tab-pane label="表单" name="form">
-          <sh-dynamic-form @refresh="starHorseTableCompRef?.loadByPage()" :compUrl="dataUrl" :formInfo="formInfo"
-                           :fieldList="tableFieldList['dynamicFormas']" :rules="rules" :typeModel="'tab'"/>
+          <star-horse-form @refresh="starHorseTableCompRef?.loadByPage()" :dynamicForm="true" :compUrl="dataUrl" :formInfo="formInfo"
+                           :fieldList="tableFieldList" :rules="rules" :globalCondition="relationTables" :typeModel="'form'"/>
         </el-tab-pane>
         <el-tab-pane label="数据列表" name="table">
           <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">

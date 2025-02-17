@@ -182,7 +182,8 @@ const compPreps = () => {
     field.value.preps["disabled"] = 'Y';
   }
   if (itemType.value == "upload" && !field.value.preps["action"]) {
-    warning("上传组件需要配置上传路径");
+    field.value.preps["action"] = "/system-config/annex/upload/commonFiles";
+    warning("上传组件没配置上传路径,将使用系统默认路径");
   }
   //过滤掉查询表单的信息
   if (!props.isSearch && formFields) {

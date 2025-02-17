@@ -89,7 +89,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       preps: {
         drag: "Y",
         autoUpload: "Y",
-        action: "/system-config/annex/upload/commonFiels",
+        action: "/system-config/annex/upload/commonFiles",
         showFileList: "Y",
         listType: "text",
         headers: {

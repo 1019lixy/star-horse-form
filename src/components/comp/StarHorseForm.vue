@@ -35,6 +35,7 @@ const props = defineProps({
   rules: {type: Object},
   formSize: {type: String},
   labelPosition: {type: String, default: "left"},
+  typeModel: {type: String},
   dynamicForm: {type: Boolean, default: false},
   isView: {type: Boolean, default: false},
   selectData: {
@@ -271,7 +272,7 @@ const doMerge = (type: string) => {
     } else {
       success(res.data.cnMessage);
     }
-    emits("refresh", formData,res.data);
+    emits("refresh", formData, res.data);
     resetForm();
     if (type == "close") {
       closeDialog();
@@ -388,6 +389,16 @@ defineExpose({
                             :batchFieldName="batchFieldName"/>
     </el-form>
   </el-scrollbar>
+  <el-form-item v-if="typeModel=='form'"  :size="formSize||compSize">
+    <el-button @click="merge" style="background: var(--star-horse-style);color: var(--star-horse-white)">
+      <star-horse-icon icon-class="save" style="color:var(--star-horse-white);"/>
+      提交
+    </el-button>
+    <el-button @click="resetForm" link>
+      <star-horse-icon icon-class="undo"/>
+      重置
+    </el-button>
+  </el-form-item>
 </template>
 <style lang="scss" scoped>
 /*:deep(.el-form-item__content) {

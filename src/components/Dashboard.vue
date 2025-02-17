@@ -66,58 +66,21 @@ let currentX = ref<number>(0);
 let dragging = ref<boolean>(false);
 let mainLeftAside = ref();
 let resizerRef = ref();
-const dragStart = (event: MouseEvent) => {
-  // event.preventDefault();
-  event.stopPropagation();
-  if (configInfo.value.menusCfg != 'tradition') {
-    return;
-  }
-  currentX.value = event.clientX;
-  dragging.value = true;
-  resizerRef.value.left = resizerRef.value.offsetLeft
-  document.onmousemove = (_e) => {
-    if (_e.clientX % 2 == 0) {
-      compDragging(_e.clientX);
-    }
-  };
-  document.onmouseup = () => {
-    dragging.value = false;
-    document.onmouseup = null;
-    document.onmousemove = null;
-  };
-};
-onMounted(async () => {
-  await nextTick();
-  if (resizerRef.value) {
-    resizerRef.value.onmousedown = dragStart;
-  }
-  changeLang(getLang(), true);
-  navBarListStore.addNavBar(route);
-  configStore.clearAll();
-  $(".star-horse-left").addClass("animate__animated animate__bounceInLeft");
-  setTimeout(() => {
-    $(".star-horse-left").removeClass("animate__animated animate__bounceInLeft");
-  }, 1000);
-  //添加浏览器事件，当从其它地方切换过来时，检查session 是否超时
-  document.addEventListener("visibilitychange", () => {
-    if (!document.hidden) {
-      // router.go(router.currentRoute.value);
-      // document.location.reload();
-    }
-  });
-})
 // 移动完成
-const compDragging = (x: number) => {
-  if (!dragging.value) {
+
+
+const mouseDow = (event: MouseEvent) => {
+  event.stopPropagation();
+  dragging.value = true;
+  outerIsCollapse.value = event.clientX - 2;
+  resizerRef.value = event.clientX-2;
+}
+const dragStart = (event: MouseEvent) => {
+  if (configInfo.value.menusCfg != 'tradition' || !dragging.value) {
     return;
   }
-  if (!isCollapse.value) {
-    dragging.value = false;
-    warning("隐藏状态不能拖动");
-    return;
-  }
-  let move = (currentX.value - x) / 80;
-  outerIsCollapse.value = outerIsCollapse.value - move;
+  resizerRef.value = event.clientX;
+  outerIsCollapse.value = event.clientX;
   //设置最小和最大宽带
   if (outerIsCollapse.value <= 64) {
     isCollapse.value = false;
@@ -126,6 +89,25 @@ const compDragging = (x: number) => {
     outerIsCollapse.value = 500;
   }
 };
+
+onMounted(async () => {
+  await nextTick();
+  changeLang(getLang(), true);
+  navBarListStore.addNavBar(route);
+  configStore.clearAll();
+  $(".star-horse-left").addClass("animate__animated animate__bounceInLeft");
+  setTimeout(() => {
+    $(".star-horse-left").removeClass("animate__animated animate__bounceInLeft");
+  }, 1000);
+  //添加浏览器事件，当从其它地方切换过来时，检查session 是否超时
+  window.addEventListener("visibilitychange", () => {
+    if (!document.hidden) {}
+  });
+  window.addEventListener("mouseup", () => {
+    dragging.value = false;
+  })
+})
+
 let drawer = ref<boolean>(false);
 const configInfo = computed(() => configStore.configFormInfo);
 
@@ -141,13 +123,15 @@ const configInfo = computed(() => configStore.configFormInfo);
                   class="star-horse-left" @mouseover="mouseOver" @mouseout="mouseOut">
           <left-menu v-if="configInfo.menusCfg=='tradition'" :sysem-id="sysemId" :is-collapse="!isCollapse"
                      @collopseOperation="collopseOperation"/>
-          <span v-if="configInfo.menusCfg=='tradition'"
-                ref="resizerRef"
-                class="Resizer vertical"
-                @mousedown="dragStart">⁝</span>
           <FixedMenu :sysem-id="sysemId" :top="configInfo.shortCutMenus=='N'?'53px':'83px'"
                      v-if="configInfo.menusCfg=='fixed'"/>
         </el-aside>
+        <div v-if="configInfo.menusCfg=='tradition'"
+             ref="resizerRef"
+             class="vertical"
+             @mousemove="dragStart"
+             @mousedown="mouseDow">⁝
+        </div>
         <el-main class="star-horse-main animate__animated animate__bounceInUp">
           <tags-view v-if="configInfo.tagsView=='Y'"/>
           <router-view v-slot="{ Component }">
@@ -191,26 +175,24 @@ const configInfo = computed(() => configStore.configFormInfo);
   overflow: hidden;
 }
 
-.Resizer.vertical {
-  width: 6px;
-  margin: 0 auto;
+.vertical {
+  z-index: 1500;
+  position: relative;
+  box-sizing: border-box;
+  background: padding-box var(--star-horse-background);
   display: flex;
   justify-content: center;
   vertical-align: middle;
   align-items: center;
-  border-left: 2px solid transparent;
-  border-right: 2px solid transparent;
 
   &:hover {
+    margin: 2px auto;
+    width: 6px;
     background-color: var(--star-horse-style);
+    border-left: 2px solid transparent;
+    border-right: 2px solid transparent;
     cursor: col-resize;
   }
-}
-
-.Resizer {
-  z-index: 1;
-  box-sizing: border-box;
-  background: padding-box var(--star-horse-background);
 }
 
 .moveBox {
