@@ -6,6 +6,7 @@ import {SearchProps} from "@/components/types/SearchProps";
 import {Config} from "@/api/settings.ts";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
+import {createDatetime} from "@/api/date_utils.ts";
 
 let designForm = DesignForm(piniaInstance);
 const normalPageRef = ref();
@@ -24,6 +25,7 @@ const hasData = ref<boolean>(true);
 const formInfo = ref<any>({});
 const fieldMappingList = ref<any>([]);
 const dataSource = ref<any>({});
+let dateFields = ref<Array<string>>([]);
 const props = defineProps({
   param: {type: String, required: true},
 });
@@ -44,6 +46,7 @@ const loadFormData = async (formId: string) => {
   primaryKey.value = data["primaryKey"];
   tableFieldList.value = data["tableFieldList"];
   rules.value = data["rules"];
+  dateFields.value = data["dateFields"];
   formInfo.value = data["formInfo"];
   fieldMappingList.value = formInfo.value["fieldMappingList"];
   relationTables.value = data["relationTables"];
@@ -72,6 +75,11 @@ const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 
 const dataFormat = (name: string, cellValue: any, row: any): any => {
+      if (dateFields.value && dateFields.value.length > 0) {
+        if (dateFields.value.includes(name)) {
+          return createDatetime(cellValue);
+        }
+      }
       const subFormat = (name: string, cellValue: any, row: any) => {
         if (dataSource.value && Object.keys(dataSource.value).length > 0) {
           let temp = dataSource.value[name];
@@ -114,10 +122,10 @@ watch(() => props.param,
         :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible"
         :dialogProps="dialogProps"
     >
-        <star-horse-form @refresh="normalPageRef.loadByPage()" :compUrl="dataUrl"
-                         :fieldList="tableFieldList"
-                         :primary-key="primaryKey"
-                         :rules="rules" :globalCondition="relationTables" :dynamicForm="true"/>
+      <star-horse-form @refresh="normalPageRef.loadByPage()" :compUrl="dataUrl"
+                       :fieldList="tableFieldList"
+                       :primary-key="primaryKey"
+                       :rules="rules" :globalCondition="relationTables" :dynamicForm="true"/>
     </star-horse-dialog>
     <star-horse-dialog
         :dialog-visible="dialogProps.viewVisible"

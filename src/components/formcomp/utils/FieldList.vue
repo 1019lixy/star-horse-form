@@ -38,7 +38,7 @@ const selectData = (item: any) => {
         <ul id="container">
           <template v-for="item in containerList">
             <li class="field-item" @click="selectData(item)">&nbsp;&nbsp;
-              <span><star-horse-icon :icon-class="item.itemIcon"/> &nbsp;{{ item.itemName }}</span>
+              <div ><star-horse-icon :icon-class="item.itemIcon"/> &nbsp;{{ item.itemName }}</div>
             </li>
           </template>
         </ul>
@@ -46,7 +46,7 @@ const selectData = (item: any) => {
         <ul id="basic">
           <template v-for="item in formDataList">
             <li class="field-item" @click="selectData(item)">&nbsp;&nbsp;
-              <span><star-horse-icon :icon-class="item.itemIcon"/> &nbsp;{{ item.itemName }}</span>
+              <div ><star-horse-icon :icon-class="item.itemIcon"/> &nbsp;{{ item.itemName }}</div>
             </li>
           </template>
         </ul>
@@ -54,7 +54,7 @@ const selectData = (item: any) => {
         <ul id="self">
           <template v-for="item in selfFormDataList">
             <li class="field-item" @click="selectData(item)">&nbsp;&nbsp;
-              <span><star-horse-icon :icon-class="item.itemIcon"/> &nbsp;{{ item.itemName }}</span>
+              <div ><star-horse-icon :icon-class="item.itemIcon"/> &nbsp;{{ item.itemName }}</div>
             </li>
           </template>
         </ul>
@@ -87,12 +87,23 @@ const selectData = (item: any) => {
     flex: 1;
     ul {
       list-style: none;
+      margin-top: 0 !important;
+      padding-top: 0!important;
       li {
         cursor: pointer;
         display: block;
         height: 30px;
+        padding: 0!important;
+        margin: 0;
         &:hover {
           background-color: #f5f7fa;
+        }
+        div{
+          display: inline-flex;
+          height: 100%;
+          align-items: center;
+          margin-top:0 !important;
+          padding-top:0 !important;
         }
       }
     }
