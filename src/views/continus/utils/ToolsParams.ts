@@ -281,7 +281,8 @@ const loadPlugin = (name: string) => {
     }
 }
 const init = async () => {
-    compileLanguageList.value = (await loadData("/devops-continus/continus/baseInfo/programLanguage", {})).data;
+    let reData=await loadData("/devops-continus/continus/baseInfo/programLanguage", {});
+    compileLanguageList.value = reData?.data;
     // compileLanguageList.value=(await loadData("/devops-continus/continus/baseInfo/programLanguage",{})).data;
     // compileLanguageList.value=(await loadData("/devops-continus/continus/baseInfo/programLanguage",{})).data;
 }

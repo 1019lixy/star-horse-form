@@ -127,27 +127,9 @@ routeDefine.push(
             keepAlive: "N"
         }
     },
-    /*    {
-        path: "/login",
-        component: () => import("@/components/Login.bake"),
-        name: "登录",
-        meta: {
-            keepAlive: "N",
-            title: "系统登录"
-        }
-    },*/
-    /*{
-        path: "/login",
-        component: () => import("@/components/Login1.bake"),
-        name: "登录",
-        meta: {
-            keepAlive: "N",
-            title: "系统登录"
-        }
-    }, */
     {
         path: "/login",
-        component: () => import("@/components/Login2.vue"),
+        component: () => import("@/components/Login.vue"),
         name: "登录",
         meta: {
             keepAlive: "N",
