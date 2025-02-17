@@ -12,7 +12,7 @@ import {ElementPlusResolver} from 'unplugin-vue-components/resolvers'
 import AutoImport from 'unplugin-auto-import/vite'
 import {viteCommonjs} from '@originjs/vite-plugin-commonjs'
 import vueDevTools from 'vite-plugin-vue-devtools';
-
+import tailwindcss from '@tailwindcss/vite'
 const codeHost: string = "http://192.168.20.165:8888/"
 // const codeHost:string = "http://localhost:8888/"
 const systemHost: string = "http://localhost:8749/"
@@ -156,6 +156,7 @@ export default defineConfig((mode, command) => {
             // exclude:[]
         },
         plugins: [
+            tailwindcss(),
             vueDevTools(),
             // Inspect({
             //     // 可以配置一些选项，以下是一些常用选项的示例
