@@ -12,7 +12,7 @@
     "serve": " vite",
     "build": "NODE_OPTIONS=--max-old-space-size=8192 vite build",
     "preview": "vite preview",
-    "deploy": "vite build && vite publish",
+    "deploy": "vite build && node deploy.js",
     "publish": "node deploy.js",
     "createNodeImageList": "node ./script/createNodeImageList.js"
   },
