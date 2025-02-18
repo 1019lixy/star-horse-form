@@ -218,7 +218,7 @@ export default defineConfig((mode, command) => {
                  ext: '.gz',
              }),*/
             visualizer({
-                open: true, // 构建完成后自动打开分析页面
+                open: false, // 构建完成后自动打开分析页面
                 gzipSize: true,
                 brotliSize: true
             }),

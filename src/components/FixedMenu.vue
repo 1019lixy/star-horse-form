@@ -139,6 +139,7 @@ watch(() => props.sysemId,
         height: 2px;
         width: 90%;
         border-bottom: 1px solid var(--star-horse-white);
+        box-shadow: #6b7785 0 0 1px 0;
         border-radius: 2px;
       }
 
