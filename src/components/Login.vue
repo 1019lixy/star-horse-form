@@ -342,7 +342,7 @@ watch(
                 </el-button>
               </el-col>
             </el-row>
-            <el-form-item class="w-full h-50">
+            <el-form-item class="h-50">
               <el-button
                   :loading="loading"
                   @click.stop="handleLogin(loginFormRef,$event)"

@@ -48,7 +48,6 @@ declare module 'vue' {
     CheckboxItem: typeof import('./src/components/formcomp/items/checkbox-item.vue')['default']
     CodeComp: typeof import('./src/views/dyform/code/CodeComp.vue')['default']
     CodeGeneratorUI: typeof import('./src/views/codegenerator/CodeGeneratorUI.vue')['default']
-    CodeJs5: typeof import('./src/components/code/CodeJs5.vue')['default']
     CollapseContainer: typeof import('./src/components/formcomp/container/collapse-container.vue')['default']
     CollapseItem: typeof import('./src/components/comp/items/collapseItem.vue')['default']
     ColorItem: typeof import('./src/components/formcomp/items/color-item.vue')['default']
