@@ -60,9 +60,12 @@ const tableFieldList = reactive<PageFieldInfo>({
       listVisible: true
     },
     [{
-      label: "系统Logo", fieldName: "sysLogo", type: "icon", optionList: systemIconList,
+      label: "系统Logo", fieldName: "sysLogo", type: "icon",
       formVisible: true,
-      listVisible: true
+      listVisible: true,
+      preps: {
+        iconType: "system",
+      }
     }, {
       label: "数据排序", fieldName: "dataSort", type: "number",
       formVisible: true,

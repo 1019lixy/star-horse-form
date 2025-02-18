@@ -138,7 +138,8 @@ watch(() => props.sysemId,
       .menu-item-line {
         height: 2px;
         width: 90%;
-        border-bottom: 1px solid var(--star-horse-disable);
+        border-bottom: 1px solid var(--star-horse-white);
+        border-radius: 2px;
       }
 
       .menu-sub-item {
