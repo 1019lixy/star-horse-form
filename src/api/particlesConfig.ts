@@ -14,7 +14,7 @@
 // hoverMode: String类型。默认true。可用的hover模式有: "grab", "repulse", "bubble"。
 // clickEffect: 布尔类型。默认true。是否有click特效。
 // clickMode: String类型。默认true。可用的click模式有: "push", "remove", "repulse", "bubble"。
-export const particles = {
+ const particlesCfg = {
     background: {
         color: {
             value: 'var(--star-horse-style)'
@@ -87,4 +87,7 @@ export const particles = {
         }
     },
     detectRetina: true
+}
+export {
+    particlesCfg
 }

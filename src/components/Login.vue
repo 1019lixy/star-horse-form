@@ -10,7 +10,6 @@ import {warning} from "@/utils/message";
 import {i18n} from "@/lang";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import piniaInstance from "@/store";
-
 interface LoginInfo {
   userName: string;
   password: string;
@@ -20,13 +19,11 @@ interface LoginInfo {
   uuid: string;
 }
 
-const loginTitle = Config.title;
 let configStore = GlobalConfig(piniaInstance);
 let validateImg = ref<string>("");
 let uuid = ref<string>("");
 let flag = ref<boolean>(false);
 let redirect = ref<string>("");
-let activeName = ref<string>("first");
 let publicKey = ref<string>("");
 let loading = ref<boolean>(false);
 let loginForm = reactive<LoginInfo>({password: "", rememberMe: "", tokenId: "", userName: "", uuid: "", validCode: ""});
@@ -113,6 +110,10 @@ const register = () => {
  */
 const otherLogin = (typeName: string) => {
   console.log(typeName);
+};
+
+const particlesLoaded = async (container: any) => {
+  console.log("Particles container loaded", container);
 };
 watch(
     () => router.currentRoute.value,
@@ -207,7 +208,7 @@ watch(
       >
         <div class=" w-xl  space-y-8">
           <div class="text-center">
-            <h2 class="mt-6 text-3xl font-bold text-gray-900">{{i18n("loginButton.welcomeBack") }}</h2>
+            <h2 class="mt-6 text-3xl font-bold text-gray-900">{{ i18n("loginButton.welcomeBack") }}</h2>
             <p class="mt-2 text-sm text-gray-500">第三方登录</p>
           </div>
           <div class="flex flex-row justify-center items-center space-x-3">
@@ -404,6 +405,7 @@ watch(
 </template>
 <style lang="scss" scoped>
 @import "@/assets/css/login1/css/style.css";
+
 .login-bg {
   background-image: url("@/assets/css/login1/image/img.jpg");
 }

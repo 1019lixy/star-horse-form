@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {markRaw, nextTick, onActivated, onBeforeUnmount, onMounted, ref, watch} from "vue";
+import {markRaw, nextTick, onActivated, onBeforeUnmount, onMounted, ref} from "vue";
 import JsonEditor from "jsoneditor";
 import "jsoneditor/dist/jsoneditor.min.css";
 import {ModelRef} from "vue-demi";

@@ -14,7 +14,7 @@ import {viteCommonjs} from '@originjs/vite-plugin-commonjs'
 import {visualizer} from 'rollup-plugin-visualizer';
 //此插件是处理外部依赖 比如cdn引入的js
 // import externalGlobals from 'rollup-plugin-external-globals';
-import vueDevTools from 'vite-plugin-vue-devtools';
+//import vueDevTools from 'vite-plugin-vue-devtools';
 import tailwindcss from '@tailwindcss/vite'
 
 const codeHost: string = "http://192.168.20.165:8888/"
@@ -31,11 +31,13 @@ const userDbHost: string = "http://localhost:7758/"
 
 export default defineConfig((mode, command) => {
     let optimizeDepsList: string[] = [
-        "element-plus/es", 'vue',
+        'vue',
         'vue-router',
         'vue3-guides',
+        'element-plus/es',
         'vue3-infinite-viewer',
         'vue3-moveable',
+        'lodash-es',
         'smooth-signature',
         'jsoneditor',
         '@vueuse/core',
@@ -88,7 +90,6 @@ export default defineConfig((mode, command) => {
         'element-plus/dist/locale/en.mjs',
         'pinia',
         'axios',
-        'vue-router',
         '@vueuse/core',
         'flv.js',
     ]
@@ -216,7 +217,11 @@ export default defineConfig((mode, command) => {
                  deleteOriginFile: true,
                  ext: '.gz',
              }),*/
-            visualizer(),
+            visualizer({
+                open: true, // 构建完成后自动打开分析页面
+                gzipSize: true,
+                brotliSize: true
+            }),
         ],
         css: {
             //解决 Deprecation Warning: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
@@ -233,19 +238,18 @@ export default defineConfig((mode, command) => {
             },
             extensions: ['.js', '.vue', '.json', '.ts', ".jsx"]
         },
+        cacheDir: 'node_modules/.vite',
         build: {
             // 👇 告诉打包工具 "vue-demi" 也是外部依赖项 👇
             // external: ["vue", "element-plus", "vue-demi"],
             rollupOptions: {
-                // external: ["vue", "vue-demi", "vue-router", "vuex", "element-plus/es", "axios", "jsencrypt", "jquery"],
-                // plugins: [
-                //     externalGlobals({
-                //         vue: "Vue",
-                //         "element-plus": "ElementPlus",
-                //         // 👇 配置 vue-demi 全局变量 👇
-                //         "vue-demi": "VueDemi",
-                //     }),
-                // ],
+                output: {
+                    manualChunks(id: any) {
+                        if (id.includes('node_modules')) {
+                            return "vender";
+                        }
+                    }
+                },
                 input: {
                     main: resolve(__dirname, "index.html")
                 }
@@ -256,6 +260,10 @@ export default defineConfig((mode, command) => {
                     drop_debugger: true
                 }
             },
+            // 开启并行压缩
+            parallel: true,
+            //chunk 大小警告的限制（以 kbs 为单位）
+            chunkSizeWarningLimit: 2000,
             //浏览器兼容性  "esnext"|"modules",升级后用modules 报错
             target: 'esnext',
             //指定输出路径
@@ -285,8 +293,6 @@ export default defineConfig((mode, command) => {
             write: true,
             //默认情况下，若 outDir 在 root 目录下，则 Vite 会在构建时清空该目录。
             emptyOutDir: true,
-            //chunk 大小警告的限制
-            chunkSizeWarningLimit: 500
         }
     };
 })

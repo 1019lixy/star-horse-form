@@ -55,6 +55,7 @@
     "@replit/codemirror-minimap": "^0.5.2",
     "@rollup/plugin-inject": "^5.0.5",
     "@tailwindcss/vite": "^4.0.6",
+    "@tsparticles/vue3": "^3.0.1",
     "@types/js-cookie": "^3.0.6",
     "@vitejs/plugin-vue-jsx": "^4.1.1",
     "@vue-office/docx": "^1.6.3",
@@ -96,7 +97,6 @@
     "less": "^4.2.2",
     "less-loader": "^12.2.0",
     "modeler-moddle": "^0.2.0",
-    "monaco-editor": "^0.52.2",
     "node-scp": "^0.0.23",
     "nprogress": "^0.2.0",
     "ora": "^8.2.0",
@@ -158,8 +158,7 @@
     "vue3-particles": "^2.12.0",
     "vue3-pdfjs": "^0.1.6",
     "vue3-selecto": "^1.12.3",
-    "vuedraggable": "^4.1.0",
-    "yarn": "^1.22.22"
+    "vuedraggable": "^4.1.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.20.0",
