@@ -10,9 +10,10 @@
     "lint:fix": "eslint . --fix",
     "memory": "cross-env LIMIT=3072 increase-memory-limit",
     "serve": " vite",
-    "build": "NODE_OPTIONS=--max-old-space-size=8192 vite build",
+    "build:dev": "NODE_OPTIONS=--max-old-space-size=8192 vite build --mode development",
+    "build:prod": "NODE_OPTIONS=--max-old-space-size=8192 vite build --mode production",
     "preview": "vite preview",
-    "deploy": "vite build && node deploy.js",
+    "deploy": "vite build --mode production && node deploy.js",
     "publish": "node deploy.js",
     "createNodeImageList": "node ./script/createNodeImageList.js"
   },

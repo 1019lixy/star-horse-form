@@ -2,30 +2,29 @@
 import {warning} from "@/utils/message.ts";
 import {getUserInfo} from "@/utils/auth.ts";
 
-const url: string = '';
+let globalUrl: string = '';
 // WebSocket实例
 let ws: WebSocket;
 // 重连定时器实例
-let reconnectTimer;
+let reconnectTimer: any = null;
 // WebSocket重连开关
 let isReconnecting = false;
 // WebSocket对象
 const websocket = {
     // WebSocket建立连接
-    init(url: string, username: string) {
+    init(url: string, _username: string) {
         // 判断浏览器是否支持WebSocket
         if (!('WebSocket' in window)) {
             warning('您的浏览器不支持 WebSocket');
             return;
         }
-        this.url = url;
+        globalUrl = url;
         if ((ws && ws.OPEN) || !url) {
             // 已经连接，无需重复连接
             return;
         }
         // 创建WebSocket实例
-        let temp = "ws://" + url;
-        ws = new WebSocket(temp);
+        ws = new WebSocket(url);
         // 监听WebSocket连接
         ws.onopen = () => {
             console.log('WebSocket连接成功');
@@ -85,7 +84,7 @@ window.onbeforeunload = () => {
 
 // 浏览器刷新重新连接
 // 刷新页面后需要重连-并且是在登录之后
-if (performance.getEntriesByType('navigation')[0].type === 'reload') {
+if (performance.getEntriesByType('navigation')[0]?.type === 'reload') {
     console.log('WebSocket浏览器刷新了')
 
     // 延迟一定时间再执行 WebSocket 初始化，确保页面完全加载后再进行连接
@@ -94,7 +93,7 @@ if (performance.getEntriesByType('navigation')[0].type === 'reload') {
         // 刷新后重连
         // 获取username（假设为测试username写死，现在是动态获取）
         const username = getUserInfo().idUsersinfo;
-        websocket.init(url, username)
+        websocket.init(globalUrl, username)
     }, 200) // 适当调整延迟时间
 }
 
@@ -111,11 +110,11 @@ function reconnect() {
         console.log('WebSocket执行断线重连...')
         // 获取username（假设为测试username写死，现在是动态获取）
         const username = getUserInfo().idUsersinfo;
-        websocket.init(url, username)
+        websocket.init(globalUrl, username)
         isReconnecting = false
     }, 4000);
 }
 
 // 暴露对象
-export default websocket
+export default websocket;
 

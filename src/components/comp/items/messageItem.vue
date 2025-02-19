@@ -37,7 +37,8 @@ const reCount = (msgList: Array<any>, auditList: Array<any>) => {
   totals.value = totalMessages.value + totalAudit.value;
 }
 const webSocketOperation = () => {
-  websocket.init("127.0.0.1:8749/system-config-dev/websocket/socketHandler", getUserInfo().idUsersinfo);
+  console.log('当前环境:', import.meta.env.MODE);
+  websocket.init(import.meta.env.VITE_WEBSOCKET_URL, getUserInfo().idUsersinfo);
   websocket.setMessageCallback((data: any) => {
     let reData = JSON.parse(data);
     if (!isJson(reData.data)) {
