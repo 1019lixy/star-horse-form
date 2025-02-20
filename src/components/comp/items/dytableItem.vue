@@ -45,7 +45,7 @@ onMounted(() => {
               :required="sitem.required"
               :prop="sitem.fieldName"
               :label-position="parentPreps?.labelPosition"
-              :rules="sitem.required?validMsg(sitem,dataForm):sitem.rules||[]"
+              :rules="validMsg(sitem,dataForm)"
               v-if="sitem.formVisible&&sitem.label&&sitem.preps?.headerFlag!='Y'">
             <star-horse-item :primaryKey="primaryKey" :compSize="compSize" v-model:dataForm="dataForm"
                              :item="sitem" :isEdit="isEdit"/>

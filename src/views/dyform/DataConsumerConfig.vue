@@ -16,7 +16,6 @@ import {ConsumerView} from "@/store/ConsumerViewStore.ts";
 import piniaInstance from "@/store";
 import {tableColumns} from "@/views/dbsearch/utils/DbSearchUtils.ts";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
-import {useButtonPermission} from "@/store/ButtonPermissionStore.ts";
 import {Config} from "@/api/settings.ts";
 
 const route = useRoute();
@@ -34,9 +33,9 @@ let compSize = computed(() => configStore.configFormInfo?.buttonSize || Config.c
 
 const initDiagram = () => {
 };
-let viewTypeList = ref<SelectOption[]>();
-let conditionList = ref<SelectOption[]>();
-let consumeAuthorityList = ref<SelectOption[]>();
+let viewTypeList = ref<SelectOption[]>([]);
+let conditionList = ref<SelectOption[]>([]);
+let consumeAuthorityList = ref<SelectOption[]>([]);
 const init = async () => {
   initDiagram();
   viewTypeList.value = await dictData("consumer_type");
@@ -145,7 +144,7 @@ const submitValid = () => {
     if (result) {
       let data = createMergeData();
       load("数据提交中");
-      postRequest(dataUrl.mergeUrl, data).then(res => {
+      postRequest(dataUrl.mergeUrl!, data).then(res => {
         let redata = res.data;
         if (redata.code != 0) {
           error(redata.cnMessage);
@@ -394,8 +393,8 @@ const nodeOperation = (cell: any) => {
   <star-horse-dialog :dialogVisible="dataPreviewVisible" :title="'数据预览'"
                      @closeAction="closeAction"
                      :isBatch="false" :isView="true">
-      <DataPreview :compSize="compSize" :item="previewDatas" :columns="columnList" @changePage="dataList"
-                   :isPriview="true"/>
+    <DataPreview :compSize="compSize" :item="previewDatas" :columns="columnList" @changePage="dataList"
+                 :isPriview="true"/>
   </star-horse-dialog>
   <star-horse-dialog :dialogVisible="relationDialogVisible" :title="'关系配置'" :isBatch="false"
                      @merge="conditionValid"

@@ -10,7 +10,6 @@ import {Config} from "@/api/settings.ts";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
-import {ApiUrls} from "@/components/types/ApiUrls";
 
 let designForm = DesignForm(piniaInstance);
 const props = defineProps({
@@ -117,8 +116,8 @@ onMounted(async () => {
         :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible"
         :dialogProps="dialogProps"
     >
-        <sh-dynamic-form @refresh="starHorseTableCompRef?.loadByPage()" :compUrl="dataUrl" :formInfo="formInfo"
-                         :fieldList= "tableFieldList.dynamicFormas" :rules="rules"/>
+      <sh-dynamic-form @refresh="starHorseTableCompRef?.loadByPage()" :compUrl="dataUrl" :formInfo="formInfo"
+                       :fieldList="tableFieldList.dynamicFormas" :rules="rules"/>
     </star-horse-dialog>
     <star-horse-dialog
         :dialog-visible="dialogProps.viewVisible"
@@ -126,12 +125,12 @@ onMounted(async () => {
         :title="'查看数据'"
         :is-view="true"
     >
-        <star-horse-data-view
-            :dataFormat="dataFormat"
-            :data-list="primaryKey"
-            :field-list="tableFieldList"
-            :compUrl="dataUrl"
-        />
+      <star-horse-data-view
+          :dataFormat="dataFormat"
+          :data-list="primaryKey"
+          :field-list="tableFieldList"
+          :compUrl="dataUrl"
+      />
     </star-horse-dialog>
     <el-card class="inner_content">
       <div class="search_btn"

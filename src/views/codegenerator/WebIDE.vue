@@ -113,7 +113,7 @@ hr {
         display: flex;
         height: 28px;
         line-height: 28px;
-        width: 98%;
+        width: 99%;
         margin-bottom: 2px;
         margin-left: 2px;
         cursor: move;

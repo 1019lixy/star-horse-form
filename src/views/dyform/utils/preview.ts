@@ -10,7 +10,9 @@ import {success} from "@/utils/message.ts";
  */
 export async function viewColumns(param: string) {
     let formDatas: any = [], columns: any = [];
-    await postRequest(`/userdb-manage/consumer/api/viewColumns/${param}`, []).then(res => {
+    await postRequest(`/userdb-manage/consumer/api/viewColumns`, {
+        viewToken: param
+    }).then(res => {
         const redata = res.data;
         if (redata.code != 0) {
             error(redata.cnMessage);
@@ -55,13 +57,16 @@ const convertType = (type: string) => {
  */
 export async function viewDataList(viewToken: string, currentPage: number, pageSize: number, conditions: any) {
     const dataPo = {
-        fieldList: conditions,
-        pageSize: pageSize || 20,
-        currentPage: currentPage || 1
+        viewToken: viewToken,
+        searchPo: {
+            fieldList: conditions,
+            pageSize: pageSize || 20,
+            currentPage: currentPage || 1
+        }
     };
     let viewDatas: any = [], error;
     load("数据加载中");
-    await postRequest(`/userdb-manage/consumer/api/viewPageList/${viewToken}`, dataPo).then(res => {
+    await postRequest(`/userdb-manage/consumer/api/pageList`, dataPo).then(res => {
         const redata = res.data;
         if (redata.code != 0) {
             error = redata.cnMessage;

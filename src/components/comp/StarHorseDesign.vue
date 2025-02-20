@@ -569,16 +569,16 @@ const getCellnfo = (cell: any) => {
     }
   } else {
     let sourceNode = cell.getSourceNode();
-    let sourceInfo = sourceNode.getData();
+    let sourceInfo = sourceNode?.getData();
     console.log(sourceInfo);
-    let sourcePort = sourceNode.getPort(cell.store.data.source.port);
+    let sourcePort = sourceNode?.getPort(cell.store.data?.source.port);
     let targetNode = cell.getTargetNode();
-    let targetInfo = targetNode.getData();
+    let targetInfo = targetNode?.getData();
     if (!targetInfo) {
       console.log("连线没有目标节点")
       return;
     }
-    let targetPort = targetNode.getPort(cell.store.data.target.port);
+    let targetPort = targetNode.getPort(cell.store.data?.target.port);
     if (!targetPort) {
       console.log("连线没有目标属性")
       return;
@@ -796,7 +796,7 @@ defineExpose({
     </div>
     <div class="design-main">
       <div class="inner_button">
-        <el-menu mode="horizontal" style="height: inherit;width: 100%;">
+        <el-menu mode="horizontal" :ellipsis="false" style="height: inherit;width: 100%;">
           <template v-for="(item,index) in commands">
             <el-menu-item v-if="(hasData.length>0&&!readonly)||item.defaultEdit">
               <el-tooltip class="item" :content="item.label" :index="index"
@@ -947,7 +947,7 @@ hr {
         display: flex;
         height: 28px;
         line-height: 28px;
-        width: 98%;
+        width: 99%;
         margin-bottom: 2px;
         margin-left: 2px;
         cursor: move;

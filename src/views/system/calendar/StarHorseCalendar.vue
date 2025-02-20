@@ -713,7 +713,7 @@ onMounted(async () => {
 }
 
 .create-calender {
-  width: 98%;
+  width: 99%;
   display: flex;
   align-items: center;
   justify-content: center;

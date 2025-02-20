@@ -850,7 +850,6 @@ export async function dbConfigList(): Promise<SelectOption[]> {
  */
 export function validMsg(item: any, dataForm: any) {
     let rules = [];
-
     if (item.required && item.disabled != 'Y') {
         rules.push({'required': true, 'message': '必填项不能为空', 'trigger': 'blur'});
         if (item.type == "number-range") {
@@ -883,15 +882,15 @@ export function validMsg(item: any, dataForm: any) {
             });
         }
     }
-    if (item.rules && item.rules.length > 0) {
-        item.rules.forEach((rule: any) => {
-            if (rule instanceof String) {
+    let itemRules: any = item.rules || item.preps?.rules;
+    if (itemRules && itemRules.length > 0) {
+        itemRules?.forEach((rule: any) => {
+            if (typeof rule == 'string') {
                 rules.push(getValidType(rule))
             } else {
                 rules.push(rule)
             }
-
-        })
+        });
     }
     return rules;
 }

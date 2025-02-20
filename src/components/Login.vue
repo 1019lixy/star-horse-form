@@ -7,7 +7,7 @@ import {ref, onMounted} from 'vue';
 import LoginDev from '@/components/LoginDev.vue';
 import LoginPrd from '@/components/LoginPrd.vue';
 
-const loginComponent = ref(null);
+const loginComponent = ref<any>(null);
 
 onMounted(() => {
   let env:string = import.meta.env.MODE;

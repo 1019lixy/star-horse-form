@@ -6,7 +6,7 @@ let data: ModelRef<any> = defineModel("pageFont");
 
 <template>
   <el-form v-model="data" label-width="auto" label-position="left"
-           style="width: 98%;margin:0 auto; overflow-x:hidden;">
+           style="width: 99%;margin:0 auto; overflow-x:hidden;">
     <div class="row">
       <el-form-item label="大小" prop="size">
         <el-input v-model="data.size" size="small" placeholder=""></el-input>

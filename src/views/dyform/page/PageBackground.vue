@@ -7,7 +7,7 @@ let backgroundData: ModelRef<any> = defineModel("background");
 
 <template>
   <el-form v-model="backgroundData" label-width="auto" label-position="left"
-           style="width: 98%;margin:0 auto; overflow-x:hidden;">
+           style="width: 99%;margin:0 auto; overflow-x:hidden;">
     <el-form-item label="颜色" prop="backgroundColor">
       <div class="row">
         <el-color-picker v-model="backgroundData.backgroundColor" color-format="rgb" size="small" placeholder="X"/>

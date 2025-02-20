@@ -34,7 +34,7 @@
     border-radius: 4px;
     padding: 16px;
     position: relative;
-    width: 98%;
+    width: 99%;
 
     .title {
       color: #383838;

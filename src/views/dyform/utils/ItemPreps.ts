@@ -917,6 +917,8 @@ export function relationDataField() {
     });
 }
 
+let listPrototypeVisible = ref<boolean>(false);
+
 /**
  * 定义所有组件的公共属性
  */
@@ -1031,6 +1033,32 @@ export function compCommonFields(customerValid: Function): FieldInfo[] {
             type: "switch",
             defaultValue: "N",
             formVisible: true
+        },
+        {
+            label: "组件原样显示",
+            helpMsg: `在列表上原样显示组件,\n此属性开启可能会导致列表数据加载缓慢`,
+            fieldName: "prototypeDisplay",
+            type: "switch",
+            defaultValue: "N",
+            actionName: "change",
+            actions: (val: any) => {
+                if (val.prototypeDisplay == "Y") {
+                    val["listPrototypeDisplay"] = "Y";
+                    listPrototypeVisible.value = true;
+                } else {
+                    listPrototypeVisible.value = false;
+                    val["listPrototypeDisplay"] = "N"
+                }
+            },
+            formVisible: true
+        },
+        {
+            label: "组件值",
+            helpMsg: `可指定显示为什么组件`,
+            fieldName: "listPrototypeDisplay",
+            type: "input",
+            defaultValue: "N",
+            formVisible: listPrototypeVisible
         },
         {
             label: "唯一性校验",
