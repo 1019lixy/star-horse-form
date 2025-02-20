@@ -802,7 +802,7 @@ defineExpose({
               <el-tooltip class="item" :content="item.label" :index="index"
                           effect="dark"
                           placement="bottom">
-                <star-horse-icon @click="transform(item.key)" :icon-class="item.icon" size="24px"
+                <star-horse-icon @click="transform(item.key)" :icon-class="item.icon" size="22px"
                                  style="color: var(--star-horse-style)"
                 />
               </el-tooltip>
@@ -888,6 +888,9 @@ defineExpose({
   </el-drawer>
 </template>
 <style lang="scss" scoped>
+:deep(.el-menu-item ){
+  padding: 0 5px;
+}
 .x6-edge-selected {
   border: 1px dashed #3a8ee6;
 }

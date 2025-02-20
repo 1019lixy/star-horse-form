@@ -9,7 +9,7 @@ const sortTableVisible = ref<boolean>(true);
 const limitFieldVisible = ref<boolean>(true);
 let lineDatas: any = {};
 const tableList = ref<SelectOption[]>([]);
-const fieldList = ref<SelectOption[]>([]);
+// const fieldList = ref<SelectOption[]>([]);
 export const line_height = 24;
 export const table_width = 320;
 export const consumerNodeData: any = {
@@ -139,8 +139,8 @@ export function viewFieldInfo(viewTypeList: Ref<SelectOption[]>, consumeAuthorit
         });
         table.fromData?.items?.forEach(item => {
             lineDatas[table.from].push({
-                name: item.name,
-                value: item.name
+                name: item.comment||item.fieldName,
+                value: item.fieldName
             })
         });
     }
@@ -192,7 +192,7 @@ export function viewFieldInfo(viewTypeList: Ref<SelectOption[]>, consumeAuthorit
                 defaultValue: "N",
                 actionName: "change",
                 actions: (val: any) => {
-                    sortTableVisible.value = val["dataSortType"] == "N";
+                    sortTableVisible.value = val["dataSortType"] == "Y";
                 },
             }, {
                 label: "是否指定返回字段", fieldName: "limitFieldType", type: "switch",
@@ -200,7 +200,7 @@ export function viewFieldInfo(viewTypeList: Ref<SelectOption[]>, consumeAuthorit
                 defaultValue: "N",
                 actionName: "change",
                 actions: (val: any) => {
-                    limitFieldVisible.value = val["limitFieldType"] == "N";
+                    limitFieldVisible.value = val["limitFieldType"] == "Y";
                 },
             },],
             {
@@ -276,21 +276,27 @@ export function viewFieldInfo(viewTypeList: Ref<SelectOption[]>, consumeAuthorit
     });
 }
 
+let fieldNameList = ref<SelectOption[]>([]);
+
+/**
+ * 关联属性信息
+ */
 export function relationFieldInfo(datas: any) {
     lineDatas = {};
     tableVisible.value = true;
     lineDatas[datas.from] = [];
     datas.fromData?.items?.forEach(item => {
         lineDatas[datas.from].push({
-            name: item.name,
-            value: item.name
+            name: item.comment||item.fieldName,
+            value: item.fieldName
         })
     });
+    console.log(datas);
     lineDatas[datas.to] = [];
     datas.toData?.items?.forEach(item => {
         lineDatas[datas.to].push({
-            name: item.name,
-            value: item.name
+            name: item.comment||item.fieldName,
+            value: item.fieldName
         })
     });
     tableList.value = [];
@@ -325,7 +331,7 @@ export function relationFieldInfo(datas: any) {
                 label: "自定义条件", fieldName: "condition", type: "switch",
                 formVisible: true,
                 defaultValue: "N",
-                actionName: "input",
+                actionName: "change",
                 actions: (val: any) => {
                     tableVisible.value = val["condition"] == "N";
                     relationRequired.value = val["condition"] == "Y";
@@ -343,14 +349,15 @@ export function relationFieldInfo(datas: any) {
                             optionList: tableList,
                             actionName: "change",
                             actions: (val: any) => {
-                                val["fieldNameOptionList"] = lineDatas[val["tableName"]];
-                                console.log(val);
+                                fieldNameList.value = lineDatas[val["tableName"]];
+                                console.log(val,fieldNameList.value);
                             },
                             required: relationRequired, formVisible: true,
                         },
                         {
                             label: "属性名", fieldName: "fieldName",
                             type: "select",
+                            optionList: fieldNameList,
                             required: relationRequired, formVisible: true,
                         },
                         {

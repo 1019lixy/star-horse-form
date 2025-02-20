@@ -56,7 +56,7 @@ onMounted(() => {
   <template v-if="item.tabList&&item.tabList.length>0">
     <el-tabs v-model="item.fieldName" :closable="item.closable=='Y'" v-on:tab-change="item.actions">
       <template v-for="(tabItem,key) in item.tabList">
-        <el-tab-pane :label="tabItem.title" :name="tabItem.tabName||key" :disabled="tabItem.disabled"
+        <el-tab-pane :label="tabItem.title" v-if="Object.keys(tabItem).includes('disVisible')?tabItem['disVisible']:Object.keys(tabItem).length>0" :name="tabItem.tabName||key" :disabled="tabItem.disabled"
                      :index="checkObject(tabItem)">
           <template #label>
             <div class="custom-tabs-label">
@@ -97,7 +97,7 @@ onMounted(() => {
     <template v-if="item.batchFieldList.length>1&&(!item.displayStyle||item.displayStyle=='tab')">
       <el-tabs v-model="normalTabList">
         <template v-for="(sitem,key) in item.batchFieldList">
-          <el-tab-pane v-if="Object.keys(sitem).length>0" :label="sitem['title']" :name="sitem.tabName||'tab'+key"
+          <el-tab-pane v-if="Object.keys(sitem).includes('disVisible')?sitem['disVisible']:Object.keys(sitem).length>0" :label="sitem['title']" :name="sitem.tabName||'tab'+key"
                        :disabled="sitem.disabled">
             <template #label>
               <div class="custom-tabs-label">

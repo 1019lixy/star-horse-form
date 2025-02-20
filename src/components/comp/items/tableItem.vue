@@ -49,7 +49,7 @@ onMounted(() => {
   <template v-if="item[batchFieldName]?.length > 1 && (!item.displayStyle||item.displayStyle=='tab')">
     <el-tabs v-model="tabModel">
       <template v-for="(temp,key) in item[batchFieldName]">
-        <el-tab-pane :label="temp['title']" :name="temp.tabName||'sub_tab'+key" :disabled="temp.disabled">
+        <el-tab-pane :label="temp['title']" v-if="Object.keys(temp).includes('disVisible')?temp['disVisible']:true" :name="temp.tabName||'sub_tab'+key" :disabled="temp.disabled">
           <star-horse-form-table :size="compSize" @addRow="addRow"
                                  @removeRow="removeRow" :rules="rules" :item="temp" v-model:dataForm="dataForm"/>
         </el-tab-pane>

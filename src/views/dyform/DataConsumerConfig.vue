@@ -400,7 +400,7 @@ const nodeOperation = (cell: any) => {
                      @merge="conditionValid"
                      @closeAction="conditionClose"
                      @reset="resetConditionForm" :selfFunc="true">
-    <star-horse-form v-model:data-form="formConditionProps" ref="conditionFormRef" :compUrl="dataUrl"
+    <star-horse-form :outerFormData="formConditionProps" ref="conditionFormRef" :compUrl="dataUrl"
                      :fieldList="relationFieldInfo(formConditionProps)"
                      :rules="{}"/>
   </star-horse-dialog>
