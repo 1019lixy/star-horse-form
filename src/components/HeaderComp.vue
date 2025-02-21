@@ -2,7 +2,7 @@
 import {computed, nextTick, onMounted, ref, unref} from "vue"
 import {Config} from "@/api/settings.ts"
 import {postRequest, trim, userLogout} from "@/api/star_horse";
-import {confirm, error, success, warning} from "@/utils/message";
+import {operationConfirm, error, success, warning} from "@/utils/message";
 import {apiInstance, dialogPreps} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {getCustomerInfo, getCustomerParam, getUserInfo} from "@/utils/auth";
@@ -60,7 +60,7 @@ const modifyInfo = () => {
 };
 
 const loginOut = () => {
-  confirm("是否确认退出系统?").then((res: boolean) => {
+  operationConfirm("是否确认退出系统?").then((res: boolean) => {
     if (res) {
       userStore.logout();
       userLogout(userInfo || {});

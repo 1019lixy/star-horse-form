@@ -1,5 +1,5 @@
 <script setup lang="ts" name="GroupBoxContainer">
-import {confirm} from "@/utils/message";
+import {operationConfirm} from "@/utils/message";
 import piniaInstance from "@/store/index.ts";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import {computed, ref} from "vue";
@@ -25,7 +25,7 @@ const selectData = () => {
   designForm.selectItem(container, container?.itemType, "");
 };
 const removeData = () => {
-  confirm("删除容器，容器内的所有元素都会被删除").then(res => {
+  operationConfirm("删除容器，容器内的所有元素都会被删除").then(res => {
     if (res) {
       let id = props.formItem.preps?.id || props.formItem.id;
       console.log(id, props.parentField);

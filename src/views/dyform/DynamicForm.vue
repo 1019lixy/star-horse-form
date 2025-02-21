@@ -3,7 +3,7 @@ import FieldPanel from "@/views/dyform/FieldPanel.vue";
 import {computed, nextTick, onActivated, onBeforeUnmount, onDeactivated, onMounted, reactive, ref, watch} from "vue";
 import PropertyPanel from "@/views/dyform/PropertyPanel.vue";
 import {postRequest} from "@/api/star_horse";
-import {confirm, error, warning} from "@/utils/message";
+import {operationConfirm, error, warning} from "@/utils/message";
 import {useRoute, useRouter} from "vue-router";
 import {apiInstance, closeLoad, load, loadData} from "@/api/sh_api";
 import FieldAnalysis from "@/views/dyform/FieldAnalysis.vue";
@@ -103,7 +103,7 @@ const closeAction = () => {
 };
 const clearData = (flag: boolean = true) => {
   if (list.value?.length > 0) {
-    confirm("新建将清空舞台上的所有元素，是否确定要清空？").then((res: boolean) => {
+    operationConfirm("新建将清空舞台上的所有元素，是否确定要清空？").then((res: boolean) => {
       if (res) {
         designForm.clearAll(flag);
         delCacheData(cacheName);
@@ -182,7 +182,7 @@ const doSave = async (isDraft: boolean = false) => {
         //添加成功清空缓存
         designForm.clearAll(false);
         //添加成功后是否还要继续添加，
-        confirm(res.data.cnMessage + ",是否继续留在当前页面").then((cfm: boolean) => {
+        operationConfirm(res.data.cnMessage + ",是否继续留在当前页面").then((cfm: boolean) => {
           if (cfm) {
             analysisParentParam();
           }

@@ -2,7 +2,7 @@ import {ElMessageBox} from "element-plus";
 import Message from 'vue-m-message';
 import 'vue-m-message/dist/style.css';
 
-export const confirm = (msg: string): Promise<boolean> => {
+export const operationConfirm = (msg: string): Promise<boolean> => {
     return new Promise((resolve, reject) => {
         ElMessageBox.confirm(msg, "警告", {
             confirmButtonText: '确认',

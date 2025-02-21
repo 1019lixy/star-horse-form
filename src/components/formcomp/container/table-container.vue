@@ -1,7 +1,7 @@
 <script setup lang="ts" name="table-container">
 // 右键菜单组件
 import {computed, PropType, ref} from "vue";
-import {confirm, warning} from "@/utils/message";
+import {operationConfirm, warning} from "@/utils/message";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
@@ -74,7 +74,7 @@ const tdOut = (evt: MouseEvent, _index: number) => {
   currentIndex.value = 0;
 }
 const deleteCol = (index: number) => {
-  confirm("列删除后，对应的组件也会删除，确认删除吗？").then((res: boolean) => {
+  operationConfirm("列删除后，对应的组件也会删除，确认删除吗？").then((res: boolean) => {
     if (res) {
       let elements = props.field.preps.elements;
       elements.splice(index - 1, 1);

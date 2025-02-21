@@ -6,10 +6,11 @@ import {computed, nextTick, onActivated, onDeactivated, onMounted, provide, reac
 import {SearchFields, SelectOption} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {createDatetime} from "@/api/date_utils.ts";
-import {loadDict} from "@/api/star_horse.ts";
+import {loadDict, postRequest} from "@/api/star_horse.ts";
 import StarHorseTree from "@/components/comp/StarHorseTree.vue";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import piniaInstance from "@/store";
+import {operationConfirm} from "@/utils/message.ts";
 
 defineOptions({
   name: 'TenantInfo',
@@ -160,6 +161,35 @@ const addMenuData = (data: any) => {
   loadMenuBySystemId(data["idInformations"]);
   dialogProps.bakeVisible1 = true;
 }
+const removeAppData = (data: any) => {
+  operationConfirm("确定要删除吗？").then(() => {
+    let params = [];
+    params.push(createCondition("idTenantInfo", data["idTenantInfo"]));
+    params.push(createCondition("idInformations", data["idInformations"]));
+    let index = 0;
+    postRequest(tenantAppDataUrl.deleteByConditionUrl!, {
+      fieldList: params
+    }).then((res) => {
+      if (index > 0) {
+        dataChange(currentTenantData.value);
+      }
+      if (!res.data.code) {
+        index++;
+      }
+    });
+    postRequest(tenantAppMenuDataUrl.deleteByConditionUrl!, {
+      fieldList: params
+    }).then((res) => {
+      if (index > 0) {
+        dataChange(currentTenantData.value);
+      }
+      if (!res.data.code) {
+        index++;
+      }
+    })
+  });
+
+}
 const loadMenuBySystemId = async (systemId: any) => {
   let params = [];
   params.push(createCondition("idInformations", systemId));
@@ -225,9 +255,9 @@ onDeactivated(() => {
                          :btnVisible="true"
                          :showDropdown="false"
                          :preps="{
-                       label:'tenantName',
-                       value:primaryKey
-                       }"
+                          label:'tenantName',
+                          value:primaryKey
+                          }"
                          :showPageBar="true"
                          :isDynamicData="true"
                          :autoLoad="true"
@@ -243,8 +273,11 @@ onDeactivated(() => {
                   treeTitle="应用列表"
                   @selectData="appDataChange"
                   @addData="addMenuData"
+                  @removeData="removeAppData"
                   btnTitle="添加菜单"
                   :btnVisible="true"
+                  rmvTitle="删除应用"
+                  :rmvVisible="true"
                   :showDropdown="false"
                   :preps="{
                        label:'appName',
@@ -264,7 +297,8 @@ onDeactivated(() => {
                                           :compUrl="dataUrl"/>
                 </div>
                 <hr/>
-                <star-horse-table-comp ref="tenantAppMenusinfoRef" :fieldList="tableFieldList"  :primaryKey="'idTenantAppMenusinfo'"
+                <star-horse-table-comp ref="tenantAppMenusinfoRef" :fieldList="tableFieldList"
+                                       :primaryKey="'idTenantAppMenusinfo'"
                                        :compUrl="tenantAppMenuDataUrl"
                                        :dataFormat="dataFormat"/>
               </el-card>

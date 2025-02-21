@@ -1,7 +1,7 @@
 <script setup lang="ts" name="StarHorseDesign">
 import {computed, nextTick, onMounted, PropType, provide, ref, watch} from "vue";
 import {Cell, Graph, Shape, View} from "@antv/x6";
-import {confirm, warning} from "@/utils/message.ts";
+import {operationConfirm, warning} from "@/utils/message.ts";
 import {CompInfo, CustomerItem, NodeInfo} from "@/components/types/CompInfo.d.ts";
 import {commands, configInfo, helpMessage, ports, tableConfigInfo} from "@/utils/sh_design.ts";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
@@ -102,7 +102,7 @@ const transform = (command: string) => {
       normalRightPanel.value = !normalRightPanel.value;
       break;
     case 'empty':
-      confirm("清空画布，所有的数据都会丢失，确定要清空吗？").then(res => {
+      operationConfirm("清空画布，所有的数据都会丢失，确定要清空吗？").then(res => {
         if (res) {
           nodeList.value = [];
           graph.value.resetCells([]);
@@ -152,7 +152,7 @@ const alignOperation = (align: string) => {
       warning("请先选择要删除的对象");
       return;
     }
-    confirm("确定要删除所选的元素吗？").then(res => {
+    operationConfirm("确定要删除所选的元素吗？").then(res => {
       if (res) {
         deleteNode(cells);
         graph.value.removeCells(cells);

@@ -31,6 +31,10 @@ export  type ApiUrls = {
      */
     deleteUrl?: string,
     /**
+     * 根据条件删除数据
+     */
+    deleteByConditionUrl?: string,
+    /**
      * 导出数据接口
      */
     exportAllUrl?: string,
@@ -104,6 +108,10 @@ export  type ApiUrls = {
      */
     deleteAction?: Function;
     /**
+     * 根据条件删除数据
+     */
+    deleteByConditionAction?: Function;
+    /**
      * 导出数据接口
      */
     exportDataAction?: Function;
@@ -115,6 +123,10 @@ export  type ApiUrls = {
      * 自定义查询接口
      */
     queryConditionAction?: Function;
+    /**
+     * 自定义查询接口
+     */
+    queryOneByConditionAction?: Function;
     /**
      * 上载接口
      */

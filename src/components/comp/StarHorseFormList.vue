@@ -3,7 +3,7 @@ import {inject, nextTick, onMounted, PropType, ref, ShallowReactive} from 'vue'
 import {ApiUrls} from "@/components/types/ApiUrls";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {rowClassName} from "@/api/sh_api";
-import {error, success, warning, confirm} from "@/utils/message";
+import {error, success, warning, operationConfirm} from "@/utils/message";
 import {download} from "@/api/star_horse";
 import {getToken} from "@/utils/auth";
 import Sortable from "sortablejs";
@@ -167,7 +167,7 @@ const clearAll = () => {
   if (dataForm.value[props.batchName].length == 0) {
     return;
   }
-  confirm("确定要清空吗?").then(() => {
+  operationConfirm("确定要清空吗?").then(() => {
     dataForm.value[props.batchName] = [];
   });
 

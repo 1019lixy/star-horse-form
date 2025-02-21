@@ -54,11 +54,13 @@ const props = defineProps({
   btnTitle: {type: String, default: "添加数据"},
   //按钮是否可见
   btnVisible: {type: Boolean, default: false},
+  rmvTitle: {type: String, default: "删除数据"},
+  rmvVisible: {type: Boolean, default: false},
   //是否显示下拉按钮
   showDropdown: {type: Boolean, default: true},
 
 });
-const emits = defineEmits(["selectData", "changeCollapse", "addData"]);
+const emits = defineEmits(["selectData", "changeCollapse", "addData", "removeData"]);
 let configStore = GlobalConfig(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
 const treeRef = ref<any>();
@@ -169,6 +171,9 @@ const menuChange = (data: any) => {
 }
 const addData = (item: any) => {
   emits("addData", item);
+}
+const removeData = (item: any) => {
+  emits("removeData", item);
 }
 const pageSizeClick = (pageSize: number) => {
   pageInfo.pageSize = pageSize;
@@ -312,16 +317,21 @@ defineExpose({
                   ({{ data["code"] || data[preps.code || preps.value || 'value'] || '' }})
                 </template>
               </div>
-              <div v-if="btnVisible" class="btn" @click.stop="addData(data)">
+              <div v-if="btnVisible||rmvVisible" class="btn">
                 <el-tooltip :content="btnTitle">
-                  <star-horse-icon cursor="pointer" icon-class="plus"/>
+                  <star-horse-icon cursor="pointer" v-if="btnVisible" @click.stop="addData(data)" icon-class="plus"/>
+                </el-tooltip>
+                <el-tooltip :content="rmvTitle">
+                  <star-horse-icon cursor="pointer" v-if="rmvVisible" @click.stop="removeData(data)"
+                                   color="var(--el-color-danger)" icon-class="minus"/>
                 </el-tooltip>
               </div>
             </div>
           </template>
         </el-tree>
         <el-menu v-if="treeType=='menu'" ref="menuTreeRef" :unique-opened="false">
-          <SubSystemMenu :dataList="treeDatas" :preps="preps" @addData="addData" @selectData="menuChange"/>
+          <SubSystemMenu :dataList="treeDatas" :preps="preps" @addData="addData" @removeData="removeData"
+                         @selectData="menuChange"/>
         </el-menu>
       </el-scrollbar>
     </div>

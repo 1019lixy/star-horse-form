@@ -6,7 +6,7 @@ import {onActivated, onDeactivated, onMounted, PropType, provide, reactive, ref}
 import {SearchFields} from "@/components/types/SearchProps";
 import {PageFieldInfo, UserFuncInfo} from "@/components/types/PageFieldInfo";
 import {getCustomerParam} from "@/utils/auth";
-import {confirm, success, warning} from "@/utils/message.ts";
+import {operationConfirm, success, warning} from "@/utils/message.ts";
 import {SearchParams} from "@/components/types/Params";
 import {postRequest} from "@/api/star_horse.ts";
 //后端交互接口地址
@@ -267,7 +267,7 @@ let extandBtns = ref<UserFuncInfo[]>([{
   authority: "delete",
   icon: "delete",
   funcName: async (row: any) => {
-    let flag = await confirm("确定要移出吗？");
+    let flag = await operationConfirm("确定要移出吗？");
     if (flag) {
       let params: Array<any> = [];
       let idCompanyDefine = analysisField(props.queryCondition, "idCompanyDefine");

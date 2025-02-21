@@ -2,7 +2,7 @@ import {SearchInfo, SearchParams} from "@/components/types/Params";
 import {reactive, Ref, ShallowRef} from "vue";
 import {ElLoading} from "element-plus";
 import {download, getRequest, postRequest, uploadRequest} from "@/api/star_horse";
-import {confirm, error, success, warning} from "@/utils/message";
+import {operationConfirm, error, success, warning} from "@/utils/message";
 import {SelectOption} from "@/components/types/SearchProps";
 import * as ElementPlusIconsVue from '@element-plus/icons-vue';
 import {MenusInfo} from "@/components/types/MenusInfo";
@@ -354,7 +354,7 @@ export async function deleteByIds(url: string, ids: any, msg: string = "确认�
         return;
     }
     let objData: boolean = false;
-    let confirmFlag: boolean = await confirm(msg);
+    let confirmFlag: boolean = await operationConfirm(msg);
     if (!confirmFlag) {
         return;
     }
@@ -910,6 +910,7 @@ export function apiInstance(appName: string, urlPrefix: string, condition: Array
         batchMergeDraftUrl: `/${appName}/${urlPrefix}/mergeBatchDraft`,
         loadByIdUrl: `/${appName}/${urlPrefix}/getById`,
         deleteUrl: `/${appName}/${urlPrefix}/batchDeleteById`,
+        deleteByConditionUrl: `/${appName}/${urlPrefix}/deleteByCondition`,
         exportAllUrl: `/${appName}/${urlPrefix}/exportData`,
         downloadTemplateUrl: `/${appName}/${urlPrefix}/downloadTemplate`,
         userConditionUrl: `/${appName}/${urlPrefix}/getAllByCondition`,
@@ -939,6 +940,9 @@ export function apiInstance(appName: string, urlPrefix: string, condition: Array
     apiUrls.deleteAction = async (params: any) => {
         return await deleteByIds(apiUrls.deleteUrl!, params)
     };
+    apiUrls.deleteByConditionAction = async (params: any) => {
+        return await postRequest(apiUrls.deleteByConditionUrl!, params)
+    };
     apiUrls.exportDataAction = async (param: any) => {
         return await download(apiUrls.exportAllUrl!, param);
     };
@@ -948,7 +952,7 @@ export function apiInstance(appName: string, urlPrefix: string, condition: Array
     apiUrls.queryConditionAction = async (params: SearchParams[] | any, orderBy: OrderByInfo[] = []) => {
         return await loadData(apiUrls.userConditionUrl!, params, orderBy);
     };
-    apiUrls.queryOneAction = async (params: SearchParams[] | any, orderBy: OrderByInfo[] = []) => {
+    apiUrls.queryOneByConditionAction = async (params: SearchParams[] | any, orderBy: OrderByInfo[] = []) => {
         return await loadData(apiUrls.oneConditionUrl!, params, orderBy);
     }
     apiUrls.importAction = (param: any) => {

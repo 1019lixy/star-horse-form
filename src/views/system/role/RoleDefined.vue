@@ -10,7 +10,7 @@ import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import piniaInstance from "@/store";
 import {SearchParams} from "@/components/types/Params";
 import {TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
-import {confirm, error, success, warning} from "@/utils/message.ts";
+import {operationConfirm, error, success, warning} from "@/utils/message.ts";
 import {statusList} from "@/views/system/utils/UserFields.ts";
 import {postRequest} from "@/api/star_horse.ts";
 import {DyCompField} from "@/components/types/DyCompField";
@@ -62,7 +62,7 @@ const viewCompField = ref<DyCompField>({
   methods: {
     closeAction: (role: any, item: any) => {
       console.log(role, item);
-      confirm("确定要删除吗？").then(_ => {
+      operationConfirm("确定要删除吗？").then(_ => {
         postRequest(`/system-config/system/companyRolePkDefine/deleteData/${role.idCompanyRole}/${item.idCompanyDefine}`, {}).then(res => {
           if (res.data.code) {
             warning(res.data.cnMessage);
