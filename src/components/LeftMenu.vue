@@ -107,13 +107,13 @@ watch(() => props.sysemId,
 
 .starhorse-menu {
   height: 100%;
-  width: 100%;
+  width: inherit;
   display: flex;
   flex-direction: column;
 
   .base {
     border-radius: 3px;
-    width: 100%;
+    width: inherit;
   }
 
   .menu-button {

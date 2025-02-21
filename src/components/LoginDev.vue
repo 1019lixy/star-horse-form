@@ -10,6 +10,9 @@ import {warning} from "@/utils/message";
 import {i18n} from "@/lang";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import piniaInstance from "@/store";
+import {particlesCfg} from "@/api/particlesConfig.ts";
+import {loadSlim} from "tsparticles-slim";
+
 interface LoginInfo {
   userName: string;
   password: string;
@@ -93,7 +96,7 @@ const refreshValidate = () => {
   });
 };
 onMounted(() => {
-  refreshValidate();
+  // refreshValidate();
 });
 let rtCodeimg = ref("");
 const handleClick = async (tab: TabsPaneContext, _event: Event) => {
@@ -111,7 +114,10 @@ const register = () => {
 const otherLogin = (typeName: string) => {
   console.log(typeName);
 };
-
+const particlesInit = async engine => {
+  //await loadFull(engine);
+  await loadSlim(engine);
+};
 const particlesLoaded = async (container: any) => {
   console.log("Particles container loaded", container);
 };
@@ -127,6 +133,7 @@ watch(
 );
 </script>
 <template>
+
   <div class="relative min-h-screen flex">
     <div class="
               flex flex-col
@@ -206,7 +213,14 @@ watch(
                 md:rounded-none
                 bg-white"
       >
-        <div class=" w-xl  space-y-8">
+        <div class=" w-xl  space-y-8 relative" style="position: relative;background: #fff">
+          <vue-particles
+              id="tsparticles"
+              :particlesInit="particlesInit"
+              :particlesLoaded="particlesLoaded"
+              :options="particlesCfg"
+          />
+
           <div class="text-center">
             <h2 class="mt-6 text-3xl font-bold text-gray-900">{{ i18n("loginButton.welcomeBack") }}</h2>
             <p class="mt-2 text-sm text-gray-500">第三方登录</p>
@@ -278,7 +292,7 @@ watch(
                 class="w-4 h-4"
             /></div>
           </div>
-          <div class="flex items-center justify-center space-x-2">
+          <div class="flex items-center justify-center space-x-2 ">
             <span class="h-px w-16 bg-gray-200"></span>
             <span class="text-gray-300 font-normal">{{ i18n("loginButton.login") }}</span>
             <span class="h-px w-16 bg-gray-200"></span>
@@ -368,7 +382,7 @@ watch(
                           ease-in
                           duration-500
                       "
-                  style="width: 100%;height:50px;font-size:16px;border:none;background: var(--star-horse-style);color: var(--star-horse-white)"
+                  style="width: 100%;height:50px;font-size:16px;border:none;background: var(&#45;&#45;star-horse-style);color: var(&#45;&#45;star-horse-white)"
               >
                 <span v-if="!loading">{{ i18n("loginButton.login") }}</span>
                 <span v-else>{{ i18n("loginButton.logging") }}</span>
@@ -401,7 +415,6 @@ watch(
       </div>
     </div>
   </div>
-
 </template>
 <style lang="scss" scoped>
 @import "@/assets/css/login1/css/style.css";

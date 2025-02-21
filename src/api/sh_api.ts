@@ -147,7 +147,6 @@ export async function loadDepartmentInfo(param: any) {
             console.warn(res.data.cnMessage);
         } else {
             deptData = res.data.data;
-            // deptData = createTree(redata, "", "deptName", "idDepartment");
         }
     }).catch(err => console.error(err));
     return deptData;

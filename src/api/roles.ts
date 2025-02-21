@@ -24,7 +24,6 @@ export async function loadRolesMenus(idRolesinfo: number) {
 export function submitMenus(roleId: string, menuIds: Array<string>) {
     postRequest(`/system-config/system/rolesMenusinfo/roleMenuAuthority/${roleId}`, menuIds)
         .then(res => {
-            if (res.data.data) {
-            }
+            if (res.data.data) {}
         });
 }

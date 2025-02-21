@@ -35,7 +35,6 @@ const blurEvent = (column: any) => {
     return;
   }
   let params: any = {};
-  console.log(props.isDynamic, props.globalConfig);
   if (props.isDynamic) {
     params = {
       dataMap: currentRow.value,
@@ -69,7 +68,7 @@ const cellClick = (row: any, column: any) => {
   nextTick(() => {
     setTimeout(() => {
       let obj = $("." + column["id"]).find("input");
-      obj.focus();
+      obj.select().focus();
       // obj.unbind().on("blur", () => {
       //   console.log(column);
       //   blurEvent(column);
@@ -90,7 +89,7 @@ const currentDataFormat = (scope: any) => {
     return fname;
   }
   val = commonParseCodeToName(name, val);
-  if (props.dataFormat) {
+  if (typeof props.dataFormat === 'function') {
     return props.dataFormat(name, val, scope.row)
   }
   return val;

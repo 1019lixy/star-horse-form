@@ -155,35 +155,35 @@ onMounted(async () => {
           <div class="details">
             <ul>
               <li>
-                <div>
+                <div class="li-label">
                   <star-horse-icon icon-class="user-circle"/>
                   用户名/姓名/工号
                 </div>
                 <div>{{ userInfo.username }}/{{ userInfo.name || "--" }}/{{ userInfo.employeeNo || "--" }}</div>
               </li>
               <li>
-                <div>
+                <div class="li-label">
                   <star-horse-icon icon-class="phone"/>
                   联系电话
                 </div>
                 <div class="pointer" @click="copy(userInfo.phone)">{{ userInfo.phone || "--" }}</div>
               </li>
               <li>
-                <div>
+                <div class="li-label">
                   <star-horse-icon icon-class="email"/>
                   邮箱
                 </div>
                 <div class="pointer" @click="copy(userInfo.email)">{{ userInfo.email || "--" }}</div>
               </li>
               <li>
-                <div>
+                <div class="li-label">
                   <star-horse-icon icon-class="dept"/>
                   所属部门
                 </div>
                 <div>{{ depts }}</div>
               </li>
               <li>
-                <div>
+                <div class="li-label">
                   <star-horse-icon icon-class="role"/>
                   系统角色
                 </div>
@@ -209,7 +209,7 @@ onMounted(async () => {
           </template>
           <div class="base-info-form">
             <star-horse-form :outer-form-data="userInfo" :fieldList="baseFieldList" ref="userFormRef"
-                             style="width:95%;margin:0 auto;"/>
+                             />
           </div>
         </el-card>
       </div>
@@ -245,7 +245,14 @@ onMounted(async () => {
           flex-direction: row;
           align-items: center;
           justify-content: space-between;
-          border-bottom: 1px solid var(--star-horse-font-color);
+          border-bottom: 1px dashed var(--star-horse-shadow);
+          &:hover {
+            background-color: var(--star-horse-shadow);
+          }
+          .li-label {
+            display: flex;
+            align-items: center;
+          }
         }
       }
     }
