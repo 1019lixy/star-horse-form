@@ -73,7 +73,6 @@ const formFields = reactive<Array<any>>([]);
 provide("formFields", formFields);
 const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
-
 const dataFormat = (name: string, cellValue: any, row: any): any => {
       if (dateFields.value && dateFields.value.length > 0) {
         if (dateFields.value.includes(name)) {

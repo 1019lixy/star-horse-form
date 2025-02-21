@@ -22,7 +22,6 @@ defineProps({
 });
 </script>
 <template>
-  {{ isDynamic }}
   <template v-for="item in fieldList?.fieldList">
     <template v-if="item instanceof Array">
       <star-horse-table-column
