@@ -176,7 +176,7 @@ watch(
                   z-0
               "
         ></div>
-        <div class="w-full max-w-md z-10">
+        <div class="w-full max-w-2xl z-10">
           <div class="sm:text-4xl xl:text-5xl font-bold leading-tight mb-6">
             {{ i18n("loginButton.welcome") }}
           </div>
@@ -214,12 +214,12 @@ watch(
                 bg-white"
       >
         <div class=" w-xl  space-y-8 relative" style="position: relative;background: #fff">
-          <vue-particles
+<!--          <vue-particles
               id="tsparticles"
               :particlesInit="particlesInit"
               :particlesLoaded="particlesLoaded"
               :options="particlesCfg"
-          />
+          />-->
 
           <div class="text-center">
             <h2 class="mt-6 text-3xl font-bold text-gray-900">{{ i18n("loginButton.welcomeBack") }}</h2>

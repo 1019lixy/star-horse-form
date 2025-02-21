@@ -68,26 +68,29 @@ let mainLeftAside = ref();
 let resizerRef = ref();
 // 移动完成
 
+let initialX = ref<number>(0); // 记录鼠标按下时的初始位置
 
 const mouseDow = (event: MouseEvent) => {
   event.stopPropagation();
   dragging.value = true;
-  outerIsCollapse.value = event.clientX - 2;
-  resizerRef.value = event.clientX-2;
+  initialX.value = event.clientX; // 记录鼠标按下时的初始位置
 }
 const dragStart = (event: MouseEvent) => {
   if (configInfo.value.menusCfg != 'tradition' || !dragging.value) {
     return;
   }
-  resizerRef.value = event.clientX;
-  outerIsCollapse.value = event.clientX;
+  const offsetX = event.clientX - initialX.value; // 计算偏移量
+  const newWidth = outerIsCollapse.value + offsetX; // 计算新的宽度
   //设置最小和最大宽带
-  if (outerIsCollapse.value <= 64) {
+  if (newWidth<= 64) {
     isCollapse.value = false;
     outerIsCollapse.value = 64;
-  } else if (outerIsCollapse.value >= 500) {
+  } else if (newWidth > 500) {
     outerIsCollapse.value = 500;
+  }else{
+    outerIsCollapse.value = newWidth;
   }
+  initialX.value = event.clientX; // 更新初始位置
 };
 
 onMounted(async () => {
@@ -99,6 +102,7 @@ onMounted(async () => {
   setTimeout(() => {
     $(".star-horse-left").removeClass("animate__animated animate__bounceInLeft");
   }, 1000);
+
   //添加浏览器事件，当从其它地方切换过来时，检查session 是否超时
   window.addEventListener("visibilitychange", () => {
     if (!document.hidden) {}
