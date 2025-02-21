@@ -62,7 +62,6 @@ watch(
       immediate: true
     }
 )
-let currentX = ref<number>(0);
 let dragging = ref<boolean>(false);
 let mainLeftAside = ref();
 let resizerRef = ref();
