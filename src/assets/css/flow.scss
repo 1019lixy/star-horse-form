@@ -99,7 +99,9 @@
                 padding: 20px 0 35px;
                 position: relative;
                 text-align: center;
-
+                display: flex;
+                justify-content: center;
+                align-items: center;
                 img {
                   cursor: pointer;
                 }
