@@ -149,8 +149,8 @@ const createPreps = (item: any) => {
       </template>
       <template v-else-if="item.listPrototypeDisplay||item.preps?.listPrototypeDisplay">
         <component
-            :is="(item.listPrototypeDisplay===true||item.preps.listPrototypeDisplay===true?item.type||'input'
-            :item.listPrototypeDisplay||item.preps.listPrototypeDisplay)+'-item'"
+            :is="(item.listPrototypeDisplay===true||item.preps?.listPrototypeDisplay===true?item.type||'input'
+            :item.listPrototypeDisplay||item.preps?.listPrototypeDisplay)+'-item'"
             :bareFlag="true"
             :callBack="()=>currentDataFormat(scope)"
             :field="createPreps(item)" :formData="scope.row"/>

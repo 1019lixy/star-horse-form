@@ -532,7 +532,7 @@ let prepsModel = ref("one");
 
       </el-tab-pane>
       <el-tab-pane name="two" label="公共字段">
-
+       在配置或者提交功能里设置
       </el-tab-pane>
     </el-tabs>
   </star-horse-dialog>

@@ -1,5 +1,6 @@
 <script setup lang="ts" name="FieldAnalysis">
 import {Config} from "@/api/settings.ts";
+import {onMounted} from "vue";
 
 const props = defineProps({
   container: {type: String, default: ""},
@@ -8,7 +9,24 @@ const props = defineProps({
   size: {type: String, default: Config.compSize}
 });
 const needLengthComp: Array<string> = ["input", "number", "image", "text", "tselect", "textarea", "htmleditor", "cascade",
-  "autocomplete", "dialog-input", "select", "page-select"]
+  "autocomplete", "dialog-input", "select", "page-select", "json", "json-array", "html", "signature", "markdown"];
+const needBigLengthComp: Array<string> = ["textarea", "htmleditor", "json", "json-array", "html", "signature", "markdown"];
+
+onMounted(() => {
+  if (needLengthComp.includes(props.field.itemType)) {
+    props.field.preps.maxLength = 100;
+  }
+  if (needBigLengthComp.includes(props.field.itemType)) {
+    props.field.preps.maxLength = 2000;
+  }
+  if (props.field.itemType == 'switch') {
+    props.field.preps.maxLength = 20;
+  }
+  if (props.field.itemType == 'number') {
+    props.field.preps.precision = 2;
+    props.field.preps.maxLength = 15;
+  }
+})
 </script>
 <template>
   <template v-if="field?.compType=='container'">
