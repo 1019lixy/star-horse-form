@@ -54,7 +54,7 @@ const onClose = () => {
       <div class="drawer-header">
         <!--        <star-horse-icon icon-class="audit_node" color="#fff" style="margin-left: 10px"/>-->
         <div class="flow-drawer-title">
-          <EditName v-model:nodeName="activeNode.name"/>
+          <EditName :node="activeNode"/>
         </div>
       </div>
     </template>

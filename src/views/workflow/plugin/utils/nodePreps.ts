@@ -14,7 +14,7 @@ const nodeInfoList = () => {
             "nodeIcon": "handle_node",
         },
         {
-            "nodeName": "分支节点",
+            "nodeName": "条件节点",
             "nodeCode": "BranchNode",
             "nodeIcon": "branch_node",
         },

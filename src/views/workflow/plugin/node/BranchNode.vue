@@ -110,7 +110,7 @@ watch(() => props.node.conditionNodes, () => {
                  @click.stop="!readable && node.conditionNodes.length - 1 != index && selectNode(conditionNode)">
               <div class="flow-node-box" :class="{ 'has-error': conditionNode.error }">
                 <div class="node-name" :class="nameClass(conditionNode, 'node-sub-branch')">
-                  <EditName v-model:nodeName="conditionNode.name"
+                  <EditName :node="conditionNode"
                             @edit="(showPriorityLevel:boolean) => (conditionNode.showPriorityLevel = showPriorityLevel)"/>
                   <div class="node-name-level" v-if="conditionNode.showPriorityLevel">
                     优先{{ conditionNode.priorityLevel }}

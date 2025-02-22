@@ -102,6 +102,7 @@
                 display: flex;
                 justify-content: center;
                 align-items: center;
+
                 img {
                   cursor: pointer;
                 }
@@ -324,6 +325,10 @@
                     display: flex;
                     align-items: center;
                     flex: 1;
+                    div {
+                      display: flex;
+                      align-items: center;
+                    }
 
                     span {
                       display: block;

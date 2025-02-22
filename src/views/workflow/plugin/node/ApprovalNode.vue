@@ -6,7 +6,7 @@
         <div class="flow-node-box" :class="{ 'has-error': node.error }">
           <div class="node-name"
                :class="nameClass(node, node.type == FlowNodeEnums.APPROVER_NODE ? 'node-sp' : 'node-transact')">
-            <EditName v-model:nodeName="node.name"/>
+            <EditName :node="node"/>
             <star-horse-icon icon-class="audit_node" style="margin-left: 10px"/>
           </div>
           <div class="node-main">

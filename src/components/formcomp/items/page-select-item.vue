@@ -83,10 +83,10 @@ export default defineComponent({
         pageInfo.value.dataList = redata.dataList;
         pageInfo.value.totalPage = redata.totalPages;
         pageInfo.value.totalData = redata.totalDatas;
-        if (isInit) {
-          let name = loadSourceField(false);
-          context.attrs['formData'][name] = redata.dataList?.map((item: any) => item[name]);
-        }
+        // if (isInit) {
+        //   let name = loadSourceField(false);
+        //   context.attrs['formData'][field.preps["name"]] = redata.dataList?.map((item: any) => item[name]);
+        // }
       }).catch((err) => {
         console.log(err)
       }).finally(() => {

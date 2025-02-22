@@ -15,7 +15,7 @@
                  @click.stop="!readable&&selectNode(conditionNode)">
               <div class="flow-branch-suggest" :class="{ 'has-error': conditionNode.error }">
                 <div class="node-name">
-                  <EditName v-model:nodeName="conditionNode.name" style="width: 90%"/>
+                  <EditName :node="conditionNode" style="width: 90%"/>
                   <star-horse-icon icon-class="parallel_node" style="margin-left: 10px"/>
                 </div>
                 <!-- 错误提示 -->

@@ -4,7 +4,7 @@
       <div class="flow-item flow-node-branch" @click.stop="selectNode">
         <div class="flow-branch-suggest">
           <div class="node-name">
-            <EditName v-model:nodeName="node.name" style="width: 90%"/>
+            <EditName :node="node" style="width: 90%"/>
             <star-horse-icon icon-class="parallel_node" style="margin-left: 10px"/>
           </div>
         </div>

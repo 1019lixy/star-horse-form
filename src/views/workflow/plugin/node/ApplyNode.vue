@@ -64,7 +64,7 @@ onMounted(() => {
       <div class="flow-item" :class="{ 'flow-item-active': currentNode.id==node.id }" @click.stop="selectNode">
         <div class="flow-node-box" :class="{ 'has-error': node.error }">
           <div class="node-name" :class="nameClass(node, 'node-fill')">
-            <EditName v-model:nodeName="node.name"/>
+            <EditName :node="node"/>
             <star-horse-icon icon-class="edit_node" style="margin-left: 10px"/>
           </div>
           <div class="node-main">
