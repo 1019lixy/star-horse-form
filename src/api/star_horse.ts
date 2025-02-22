@@ -230,16 +230,16 @@ export async function permissionResources(data: any) {
 /**
  * 将Store里的菜单还原
  */
-export function restoreMenu(to: RouteLocationNormalized) {
+export async function restoreMenu(to: RouteLocationNormalized) {
     const data = localStorage.getItem("menusInfo");
     if (data) {
         createRouterAndMenuList(JSON.parse(data));
     }
     const redata = router.getRoutes().find(item => item.path == to.fullPath);
     if (redata) {
-        router.push({...redata});
+        await router.push({...redata});
     } else {
-        router.push("/");
+        await router.push("/");
     }
 }
 
