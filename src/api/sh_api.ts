@@ -12,6 +12,7 @@ import {Reactive} from "vue-demi";
 import {DialogProps} from "@/components/types/DialogProps";
 import {createDatetime} from "@/api/date_utils.ts";
 import {getValidType} from "@/api/valid_utils.ts";
+import {pinyin} from "pinyin-pro";
 
 let loading: any = null;
 /**
@@ -982,4 +983,24 @@ export function dialogPreps(title: string = "编辑", batchTitle: string = "批�
         uploadVisible: false,
         viewVisible: false,
     });
+}
+
+/**
+ * 文本转拼音
+ * @param text 文本
+ * @param toCamel 是否驼峰
+ */
+export function textToPinYin(text: string, toCamel: boolean = true): string {
+    let data = pinyin(text, {
+        toneType: 'none'
+    });
+    if (toCamel) {
+        let arr = data.split(" ");
+        arr.forEach((item, index) => {
+            if (index > 0)
+                arr[index] = item.charAt(0).toUpperCase() + item.slice(1);
+        });
+        return arr.join("");
+    }
+    return data;
 }

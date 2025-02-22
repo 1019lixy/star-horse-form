@@ -1,9 +1,10 @@
 import fs from 'fs/promises';
 import path from 'path';
-import pinyin from 'pinyin';
+import {pinyin} from 'pinyin-pro';
+
 
 // 项目根目录
-const projectRoot = '.';
+const projectRoot = '../../src';
 // 存储中文文本和对应的键
 const translationDict = {};
 
@@ -12,12 +13,28 @@ function getFileName(filePath) {
     return path.basename(filePath, path.extname(filePath));
 }
 
+// Remove comments from the content
+function removeComments(content) {
+    // Remove single-line comments
+    content = content.replace(/\/\/.*$/gm, '');
+    // Remove multi-line comments
+    content = content.replace(/\/\*[\s\S]*?\*\//g, '');
+    return content;
+}
+
 // 生成拼音键
 function generatePinyinKey(fileName, text) {
     const pinyinArray = pinyin(text, {
-        style: pinyin.STYLE_NORMAL
+        toneType: 'none'
     });
-    let pinyinKey = pinyinArray.flat().join('');
+    console.log(pinyinArray);
+    let arr = pinyinArray.split(" ");
+    arr.forEach((item, index) => {
+        if (index > 0)
+            arr[index] = item[0].charAt(0).toUpperCase() + item.slice(1);
+    })
+    //  let pinyinKey = pinyinArray.replaceAll(" ", "");
+    let pinyinKey = arr.join("");
     let key = `${fileName}.${pinyinKey}`;
     let index = 1;
     const originalKey = key;
@@ -30,11 +47,12 @@ function generatePinyinKey(fileName, text) {
 
 // 提取中文文本并生成字典
 async function extractChineseText(filePath) {
-    const content = await fs.readFile(filePath, 'utf-8');
+    let content = await fs.readFile(filePath, 'utf-8');
+    content = removeComments(content);
     const chinesePattern = /[\u4e00-\u9fa5]+/g;
     const fileName = getFileName(filePath);
     let match;
-    while ((match = chinesePattern.exec(content))!== null) {
+    while ((match = chinesePattern.exec(content)) !== null) {
         const text = match[0];
         const key = generatePinyinKey(fileName, text);
         translationDict[key] = text;

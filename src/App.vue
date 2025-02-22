@@ -13,7 +13,7 @@
 import {onMounted} from "vue";
 //const userInfoStore = UserInfo(piniaInstance);
 const closeAction = () => {
-  //关闭浏览器情况数据
+  //关闭浏览器清空数据
   window.onbeforeunload = async (evt) => {
     evt.preventDefault();
     // userInfoStore.logout();
