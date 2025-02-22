@@ -301,16 +301,36 @@ export function paste(parentItem: any) {
  * @param item
  * @param parentItem
  * @param flag scene 场景 container 容器 item 组件
+ * @param recall
  */
-export function dynamicFormContextMenuData(item: any, parentItem: any, flag: string = 'scene') {
+export function dynamicFormContextMenuData(item: any, parentItem: any, flag: string = 'scene', recall?: Function) {
     let menus = reactive<Array<any>>([]);
+    if (flag == 'scene') {
+        menus.push({
+            type: 'button',
+            text: '新建',
+            icon: 'new',
+            display: true,
+            handler: () => {
+                if (recall) {
+                    recall('new');
+                } else {
+
+                }
+            },
+        });
+    }
     menus.push({
             type: 'button',
             text: '剪切',
             icon: 'cut',
             display: true,
             handler: () => {
-                cut(item, parentItem);
+                if (recall) {
+                    recall('cut');
+                } else {
+                    cut(item, parentItem);
+                }
             },
         },
         {
@@ -319,7 +339,11 @@ export function dynamicFormContextMenuData(item: any, parentItem: any, flag: str
             icon: 'copy',
             display: true,
             handler: () => {
-                copy(item, parentItem);
+                if (recall) {
+                    recall('copy');
+                } else {
+                    copy(item, parentItem);
+                }
             },
         },
         {
@@ -328,7 +352,11 @@ export function dynamicFormContextMenuData(item: any, parentItem: any, flag: str
             icon: 'paste',
             display: pasteDisplay,
             handler: () => {
-                paste(parentItem)
+                if (recall) {
+                    recall('paste');
+                } else {
+                    paste(parentItem)
+                }
             },
         },
         {
@@ -337,27 +365,16 @@ export function dynamicFormContextMenuData(item: any, parentItem: any, flag: str
             display: () => true,
         },);
     if (flag == 'scene') {
-        menus = [{
-            type: 'button',
-            text: '新建',
-            icon: 'new',
-            display: true,
-            handler: () => {
-            },
-        }, {
-            type: 'button',
-            text: '粘贴',
-            icon: 'paste',
-            display: pasteDisplay,
-            handler: () => {
-                paste(parentItem)
-            },
-        }, {
+      menus.push({
             type: 'button',
             text: '全选',
             icon: 'select-all',
             display: true,
             handler: () => {
+                if (recall) {
+                    recall('select-all');
+                } else {
+                }
             },
         }, {
             type: 'button',
@@ -365,6 +382,10 @@ export function dynamicFormContextMenuData(item: any, parentItem: any, flag: str
             icon: 'dustbin',
             display: true,
             handler: () => {
+                if (recall) {
+                    recall('dustbin');
+                } else {
+                }
             },
         }, {
             type: 'divider',
@@ -376,65 +397,81 @@ export function dynamicFormContextMenuData(item: any, parentItem: any, flag: str
             icon: 'preview',
             display: true,
             handler: () => {
+                if (recall) {
+                    recall('preview');
+                } else {
+                }
             },
-        },];
-    } else {
-        if (flag == 'container') {
-            menus.push({
-                type: 'button',
-                text: '添加组件',
-                icon: 'new',
-                display: true,
-                handler: () => {
-                    designForm.setComponentVisible(true);
-                },
-            },);
-            menus.push({
-                type: 'button',
-                text: '选中容器',
-                icon: 'select-parent',
-                display: currentItemId.value != item.id,
-                handler: () => {
-                    designForm.selectItem(item, item?.itemType, "");
-                },
-            },);
-        }
-        menus.push(
-            {
-                type: 'button',
-                text: '撤销',
-                icon: 'undo',
-                display: true,
-                handler: () => {
-                },
-            },
-            {
-                type: 'divider',
-                direction: 'horizontal',
-                display: true,
-            },
-            {
-                type: 'button',
-                text: '删除',
-                icon: 'delete',
-                display: () => true,
-                handler: () => {
-                },
-            },
-            {
-                type: 'divider',
-                direction: 'horizontal',
-                display: true,
-            },
-            {
-                type: 'button',
-                text: '属性',
-                icon: 'prep',
-                display: true,
-                handler: () => {
-                },
-            });
+        },);
     }
+    if (flag == 'container') {
+        menus.push({
+            type: 'button',
+            text: '添加组件',
+            icon: 'new',
+            display: true,
+            handler: () => {
+                designForm.setComponentVisible(true);
+            },
+        },);
+        menus.push({
+            type: 'button',
+            text: '选中容器',
+            icon: 'select-parent',
+            display: currentItemId.value != item.id,
+            handler: () => {
+                designForm.selectItem(item, item?.itemType, "");
+            },
+        },);
+    }
+    menus.push(
+        {
+            type: 'button',
+            text: '撤销',
+            icon: 'undo',
+            display: true,
+            handler: () => {
+                if (recall) {
+                    recall('undo');
+                } else {
+                }
+            },
+        },
+        {
+            type: 'divider',
+            direction: 'horizontal',
+            display: true,
+        },
+        {
+            type: 'button',
+            text: '删除',
+            icon: 'delete',
+            display: () => true,
+            handler: () => {
+                if (recall) {
+                    recall('delete');
+                } else {
+                }
+            },
+        },
+        {
+            type: 'divider',
+            direction: 'horizontal',
+            display: true,
+        },
+        {
+            type: 'button',
+            text: '属性',
+            icon: 'prep',
+            display: true,
+            handler: () => {
+                if (recall) {
+                    recall('prep');
+                } else {
+                }
+            },
+        });
+
     return menus;
 }
 

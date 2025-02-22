@@ -165,6 +165,12 @@ watch(
                 relative
             "
       >
+        <vue-particles
+            id="tsparticles"
+            :particlesInit="particlesInit"
+            :particlesLoaded="particlesLoaded"
+            :options="particlesCfg"
+        />
         <div
             class="
                   absolute
@@ -214,12 +220,7 @@ watch(
                 bg-white"
       >
         <div class=" w-xl  space-y-8 relative" style="position: relative;background: #fff">
-<!--          <vue-particles
-              id="tsparticles"
-              :particlesInit="particlesInit"
-              :particlesLoaded="particlesLoaded"
-              :options="particlesCfg"
-          />-->
+
 
           <div class="text-center">
             <h2 class="mt-6 text-3xl font-bold text-gray-900">{{ i18n("loginButton.welcomeBack") }}</h2>
@@ -382,7 +383,7 @@ watch(
                           ease-in
                           duration-500
                       "
-                  style="width: 100%;height:50px;font-size:16px;border:none;background: var(&#45;&#45;star-horse-style);color: var(&#45;&#45;star-horse-white)"
+                  style="width: 100%;height:50px;font-size:16px;border:none;background: var(--star-horse-style);color: var(--star-horse-white)"
               >
                 <span v-if="!loading">{{ i18n("loginButton.login") }}</span>
                 <span v-else>{{ i18n("loginButton.logging") }}</span>
@@ -421,5 +422,6 @@ watch(
 
 .login-bg {
   background-image: url("@/assets/css/login1/image/img.jpg");
+  position: relative;
 }
 </style>

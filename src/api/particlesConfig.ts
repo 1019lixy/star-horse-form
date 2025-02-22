@@ -15,11 +15,11 @@
 // clickEffect: 布尔类型。默认true。是否有click特效。
 // clickMode: String类型。默认true。可用的click模式有: "push", "remove", "repulse", "bubble"。
  const particlesCfg ={
-     background: {
+   /*  background: {
          color: {
              value: '#0d47a1'
          }
-     },
+     },*/
      fpsLimit: 120,
      interactivity: {
          events: {
@@ -57,7 +57,7 @@
              color: '#ffffff',
              distance: 150,
              enable: true,
-             opacity: 0.5,
+             opacity: 1,
              width: 1
          },
          collisions: {

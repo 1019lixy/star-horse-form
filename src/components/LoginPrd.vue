@@ -10,6 +10,7 @@ import {warning} from "@/utils/message";
 import {i18n} from "@/lang";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import piniaInstance from "@/store";
+import {particlesCfg} from "@/api/particlesConfig.ts";
 
 interface LoginInfo {
   userName: string;
@@ -124,6 +125,12 @@ watch(
 </script>
 <template>
   <div class="login1">
+    <vue-particles
+        id="tsparticles"
+        :particlesInit="particlesInit"
+        :particlesLoaded="particlesLoaded"
+        :options="particlesCfg"
+    />
     <div class="loginav">
       <div class="loginbox boxall">
         <div class="logo">{{ Config.title }}</div>

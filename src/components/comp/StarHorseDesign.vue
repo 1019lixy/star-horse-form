@@ -15,6 +15,7 @@ import ConsumerDbListComp from "@/views/dbsearch/utils/ConsumerDbListComp.vue";
 import StarHorseEditor from "@/components/comp/StarHorseEditor.vue";
 import {ConsumerView} from "@/store/ConsumerViewStore.ts";
 import {Config} from "@/api/settings.ts";
+import {dynamicFormContextMenuData} from "@/views/dyform/page/AblesPlugin.ts";
 
 const designGraph = DesignGraph(piniaInstance);
 const consumerView = ConsumerView(piniaInstance);
@@ -147,7 +148,7 @@ const dataValid = () => {
 };
 const alignOperation = (align: string) => {
   let cells = graph.value.getSelectedCells();
-  if (align == "deleteItem") {
+  if (align == "deleteItem"|| align == "delete") {
     if (!cells || cells.length == 0) {
       warning("请先选择要删除的对象");
       return;
@@ -405,12 +406,13 @@ const contextMenu = (e: MouseEvent, _x: number, _y: number, cell: Cell, view: Vi
   currentView.value = view;
   contextMenuVisible.value = true;
   currentComp.value = cell;
+  graph.value.select(cell);
   menuPosition.value = {
-    top: `${e.pageY - 200}px`,
+    top: `${e.pageY}px`, // 仍然使用页面坐标设置菜单位置
     left: `${e.pageX}px`
   };
   nextTick(() => {
-    contextmenuRef.value.handleOpen();
+    contextmenuRef.value.show();
   });
 };
 /**
@@ -622,11 +624,6 @@ let nodeIndex = 0;
 const dragDrop = (evt: DragEvent) => {
   let dt = evt.dataTransfer!;
   let data = JSON.parse(dt.getData("text/plain")) as NodeInfo;
-  let fdata = nodeList.value.filter((item: any) => item.store.data["name"] == data["name"]);
-  if (fdata?.length >= 3) {
-    warning("相同的组件最多能添加三次");
-    return;
-  }
   data["index"] = nodeIndex++;
   data["posX"] = evt.pageX;
   data["posY"] = evt.pageY;
@@ -814,26 +811,16 @@ defineExpose({
       <div class="background-grid-app">
         <div id="graph-dropdown" @dragover.prevent="dragOver" @drop="dragDrop" class="app-content" ref=
             "starHorseDesignRef"></div>
-        <el-dropdown @command="contextMenuOperation" ref="contextmenuRef" v-if="contextMenuVisible&&!readonly"
-                     @visibleChange="visibleChange" trigger=
-                         "contextmenu"
-                     :style=
-                         "{'z-index': 99999999,
-          'position': 'absolute',
-          'top':menuPosition.top,
-          'left':menuPosition.left
-          }">
-          <span class="el-dropdown-link"> 右键菜单</span>
-          <template #dropdown>
-            <el-dropdown-menu>
-              <el-dropdown-item command="cut" divided>剪切</el-dropdown-item>
-              <el-dropdown-item command="copy" divided>复制</el-dropdown-item>
-              <el-dropdown-item command="paste" :disabled="graph.isClipboardEmpty()" divided>粘贴</el-dropdown-item>
-              <el-dropdown-item command="deleteItem" divided>删除</el-dropdown-item>
-              <el-dropdown-item command="empty" divided>清空</el-dropdown-item>
-            </el-dropdown-menu>
-          </template>
-        </el-dropdown>
+        <Teleport to="body">
+          <ContentMenu ref="contextmenuRef"
+                       :style="{'z-index': 99999999,
+                    'position': 'absolute',
+                    'top':menuPosition.top,
+                    'left':menuPosition.left
+                    }"
+                       v-if="contextMenuVisible&&!readonly"
+                       :menu-data="dynamicFormContextMenuData({},{},'scene',contextMenuOperation)"/>
+        </Teleport>
       </div>
     </div>
     <div class="right-attr-panel" v-if="panelStyle=='normal'" v-show="normalRightPanel">
@@ -888,9 +875,10 @@ defineExpose({
   </el-drawer>
 </template>
 <style lang="scss" scoped>
-:deep(.el-menu-item ){
+:deep(.el-menu-item ) {
   padding: 0 5px;
 }
+
 .x6-edge-selected {
   border: 1px dashed #3a8ee6;
 }
