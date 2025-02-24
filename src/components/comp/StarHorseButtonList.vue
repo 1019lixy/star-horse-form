@@ -32,7 +32,7 @@ const emits = defineEmits([
 ]);
 let route = useRoute();
 let configStore = GlobalConfig(piniaInstance);
-let pagePermission = useButtonPermission();
+let pagePermission = useButtonPermission(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.buttonSize || Config.compSize);
 let showType = computed(() => configStore.configFormInfo?.buttonShowType || "dropdown");
 let permissions = ref<any>({});

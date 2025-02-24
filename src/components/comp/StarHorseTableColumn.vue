@@ -98,6 +98,18 @@ const popover = ref();
 const showOperation = async () => {
   await nextTick();
 }
+const prototypeCheck = (item: any) => {
+  let flag = Object.keys(item).includes("listPrototypeDisplay");
+  if (flag) {
+    return item.listPrototypeDisplay === true || item.listPrototypeDisplay !== "N";
+  } else {
+    flag = Object.keys(item.preps).includes("listPrototypeDisplay");
+    if (flag) {
+      return item.preps.listPrototypeDisplay === true || item.preps.listPrototypeDisplay !== "N";
+    }
+  }
+  return false
+}
 const createPreps = (item: any) => {
   return {
     preps: {
@@ -147,7 +159,8 @@ const createPreps = (item: any) => {
                          v-else
         />
       </template>
-      <template v-else-if="item.listPrototypeDisplay||item.preps?.listPrototypeDisplay">
+      <template v-else-if="prototypeCheck(item)">
+
         <component
             :is="(item.listPrototypeDisplay===true||item.preps?.listPrototypeDisplay===true?item.type||'input'
             :item.listPrototypeDisplay||item.preps?.listPrototypeDisplay)+'-item'"

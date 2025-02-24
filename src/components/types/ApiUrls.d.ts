@@ -63,6 +63,14 @@ export  type ApiUrls = {
      */
     executeUrl?: string,
     /**
+     * 接口路径前缀
+     */
+    basePrefix?: string,
+    /**
+     * 应用名称
+     */
+    appName?: string,
+    /**
      * 权限隔离属性字段，如果提供则所有Post请求都会带上该字段
      * 接口过滤条件
      */

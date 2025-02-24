@@ -165,6 +165,7 @@ export async function userLogout(data: Array<any>) {
     userStore.logout();
     navBarListStore.clearAll();
     viewListStore.clearAll();
+    pagePermission.cleanPermission();
     router.push({path: "/login"});
 }
 

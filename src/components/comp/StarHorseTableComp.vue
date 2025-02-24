@@ -81,7 +81,7 @@ const props = defineProps({
   isDynamic: {type: Boolean, default: false},
 });
 let route = useRoute();
-let pagePermission = useButtonPermission();
+let pagePermission = useButtonPermission(piniaInstance);
 let permissions = ref<any>({});
 let configStore = GlobalConfig(piniaInstance);
 const configInfo = computed(() => {
@@ -199,15 +199,13 @@ const init = async () => {
   if (!props.fieldList?.stopAutoLoad) {
     loadByPage();
   } else {
-    pageInfo.dataList = props.tableDataList;
+    pageInfo.dataList = props.tableDataList||[];
     starHorseTableCompRef.value!.clearSelection();
     //如果有需要回显的数据则需要选中
-    if (props.reverseDataList && props.reverseDataList.length > 0) {
-      //在手动设置选中前,一定要先做清除选中,否则会出现很多重复被选中的情况
-      props.reverseDataList.forEach((item: any) => {
-        starHorseTableCompRef.value!.toggleRowSelection(item, true);
-      });
-    }
+    //在手动设置选中前,一定要先做清除选中,否则会出现很多重复被选中的情况
+    props.reverseDataList?.forEach((item: any) => {
+      starHorseTableCompRef.value!.toggleRowSelection(item, true);
+    });
   }
   moveColumn();
   reCreateData();

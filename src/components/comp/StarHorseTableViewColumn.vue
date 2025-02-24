@@ -15,9 +15,7 @@ const dataFormat = (scope: any) => {
   if (item.type == "select" || item.type == "checkbox" || item.type == "radio") {
     return item.preps?.values?.find((temp: any) => String(temp.value) == val)?.name || val;
   }
-  console.log(scope.column.property);
   if (props.commonFormat && scope.column.property) {
-    console.log(scope.column.property);
     return props.commonFormat(scope.column.property, val, scope.row)
   }
   return val;

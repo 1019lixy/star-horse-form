@@ -1,11 +1,13 @@
 <script setup lang="ts" name="DbBakeup">
-import {apiInstance, dictData} from "@/api/sh_api.ts";
+import {apiInstance, dialogPreps, dictData} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {onMounted, provide, reactive, ref} from "vue";
 import {SearchFields, SelectOption} from "@/components/types/SearchProps";
-import {PageFieldInfo} from "@/components/types/PageFieldInfo";
+import {PageFieldInfo, UserFuncInfo} from "@/components/types/PageFieldInfo";
 import {Config} from "@/api/settings.ts";
 import {initDbList} from "@/views/dbsearch/utils/DbSearchUtils.ts";
+import {postRequest} from "@/api/star_horse.ts";
+import {operationConfirm, success, warning} from "@/utils/message.ts";
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance("userdb-manage", "dbsearch/dbBakeup");
 let dbList = ref<SelectOption[]>([]);
@@ -15,7 +17,7 @@ const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
       label: "数据库配置",
-      fieldName: "datasourcceConfigId",
+      fieldName: "datasourceConfigId",
       type: "select",
       optionList: dbList,
       defaultVisible: true,
@@ -42,7 +44,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     },
     {
       label: "数据库信息",
-      fieldName: "datasourcceConfigId",
+      fieldName: "datasourceConfigId",
       type: "select",
       optionList: dbList,
       required: true,
@@ -144,12 +146,31 @@ const rules = {};
 //控制弹窗相关设置
 const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
-
+const extBtns = ref<UserFuncInfo[]>([]);
 //初始化方法
 const initData = async () => {
-  ;
   dbList.value = await initDbList();
   bakePolicyList.value = await dictData("BAKE_POLICY");
+  extBtns.value.push({
+    btnName: "备份",
+    icon: "run",
+    authority: "execution",
+    priority: 1,
+    funcName: (row: any) => {
+      operationConfirm("确定要执行该操作吗？").then(() => {
+        let configId = row.datasourceConfigId;
+        postRequest(dataUrl.basePrefix + `/dbBakeUp/${configId}/true`, {}).then((res) => {
+          if (res.data.code) {
+            warning(res.data.cnMessage);
+            return;
+          }
+          success("备份任务已下达，请稍后在备份记录页面查看");
+        })
+      })
+
+    }
+
+  })
 };
 onMounted(() => {
   initData();
@@ -160,7 +181,10 @@ onMounted(() => {
  * @param cellValue 值
  * @param _row 列表行数据
  */
-const dataFormat = (_name: string, cellValue: any, _row: any): any => {
+const dataFormat = (name: string, cellValue: any, _row: any): any => {
+  if (name == "datasourceConfigId") {
+    return dbList.value.find(item => item.value == cellValue)?.name || cellValue;
+  }
   //转换显示信息
   return cellValue;
 }
@@ -188,8 +212,8 @@ const dataFormat = (_name: string, cellValue: any, _row: any): any => {
     </div>
     <hr>
     <star-horse-table-comp ref="dbBakeupRef" :fieldList="tableFieldList"
-                           :primaryKey="primaryKey" :compUrl=
-                               "dataUrl"
+                           :primaryKey="primaryKey" :compUrl="dataUrl"
+                           :extandBtns="extBtns"
                            :dataFormat="dataFormat"/>
   </el-card>
 </template>

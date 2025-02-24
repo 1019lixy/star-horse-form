@@ -19,7 +19,6 @@ const props = defineProps({
   showLimit: {type: Number, default: 3}
 });
 let validButtonList = ref<UserFuncInfo[]>([]);
-
 /**
  * 过滤掉需要隐藏的按钮
  */
@@ -62,15 +61,11 @@ const btnHideCheck = (btn: string, row: any) => {
   }
   return hasBtn ? flag : true;
 }
-onMounted(async () => {
-  await nextTick();
-  init();
+onMounted(() => {
+  nextTick(() => {
+    init();
+  });
 })
-// watch(() => props.buttonList,
-//     (val: any) => {
-//       init();
-//     }, {immediate: true, deep: true}
-// );
 </script>
 
 <template>

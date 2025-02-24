@@ -11,6 +11,7 @@ import {warning} from "@/utils/message.ts";
 export const useButtonPermission = defineStore("buttonPermission", () => {
     const pageBtnPermisson = ref<any>({});
     const currentPermission = ref<any>({});
+
     const addRoute = async (route: RouteLocationNormalized) => {
         const meta: any = route.meta;
         return await getPagePermission(meta?.menuId);
@@ -28,7 +29,6 @@ export const useButtonPermission = defineStore("buttonPermission", () => {
      * @param menuId
      */
     const removePermission = (menuId: string) => {
-
         delete pageBtnPermisson.value[menuId];
     }
     /**
@@ -38,11 +38,18 @@ export const useButtonPermission = defineStore("buttonPermission", () => {
     const addAllPermission = (data: any) => {
         pageBtnPermisson.value = data;
     }
+    /**
+     * 清空所有权限
+     */
+    const cleanPermission = () => {
+        pageBtnPermisson.value = {};
+    }
     const getPagePermission = async (menuId: string) => {
         currentPermission.value = [];
         if (menuId) {
             menuId = menuId.split("_")[1];
-            let permissons = pageBtnPermisson.value[menuId];
+            let permissons: any =[]// pageBtnPermisson.value[menuId];
+          //  console.log(permissons);
             if (!permissons || permissons.length == 0) {
                 const userId = getUserInfo()?.idUsersinfo;
                 if (!userId) {
@@ -72,5 +79,5 @@ export const useButtonPermission = defineStore("buttonPermission", () => {
         }
         return currentPermission.value;
     }
-    return {addPermission, addAllPermission, addRoute,removePermission}
+    return {addPermission, addAllPermission, addRoute, removePermission, cleanPermission}
 });

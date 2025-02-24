@@ -902,23 +902,27 @@ export function validMsg(item: any, dataForm: any) {
  * @param condition 条件
  */
 export function apiInstance(appName: string, urlPrefix: string, condition: Array<any> = []): ApiUrls {
+    let prefix: string = `/${appName}/${urlPrefix}`;
     let apiUrls: ApiUrls = {
-        loadByPageUrl: `/${appName}/${urlPrefix}/pageList`,
-        mergeUrl: `/${appName}/${urlPrefix}/merge`,
-        mergeDraftUrl: `/${appName}/${urlPrefix}/mergeDraft`,
-        batchMergeUrl: `/${appName}/${urlPrefix}/mergeBatch`,
-        batchMergeDraftUrl: `/${appName}/${urlPrefix}/mergeBatchDraft`,
-        loadByIdUrl: `/${appName}/${urlPrefix}/getById`,
-        deleteUrl: `/${appName}/${urlPrefix}/batchDeleteById`,
-        deleteByConditionUrl: `/${appName}/${urlPrefix}/deleteByCondition`,
-        exportAllUrl: `/${appName}/${urlPrefix}/exportData`,
-        downloadTemplateUrl: `/${appName}/${urlPrefix}/downloadTemplate`,
-        userConditionUrl: `/${appName}/${urlPrefix}/getAllByCondition`,
-        oneConditionUrl: `/${appName}/${urlPrefix}/getOneByCondition`,
-        importUrl: `/${appName}/${urlPrefix}/importData`,
-        uploadUrl: `/${appName}/annex/upload/common`,
+        basePrefix: prefix,
+        appName: appName,
+        loadByPageUrl: `${prefix}/pageList`,
+        mergeUrl: `${prefix}/merge`,
+        mergeDraftUrl: `${prefix}/mergeDraft`,
+        batchMergeUrl: `${prefix}/mergeBatch`,
+        batchMergeDraftUrl: `${prefix}/mergeBatchDraft`,
+        loadByIdUrl: `${prefix}/getById`,
+        deleteUrl: `${prefix}/batchDeleteById`,
+        deleteByConditionUrl: `${prefix}/deleteByCondition`,
+        exportAllUrl: `${prefix}/exportData`,
+        downloadTemplateUrl: `${prefix}/downloadTemplate`,
+        userConditionUrl: `${prefix}/getAllByCondition`,
+        oneConditionUrl: `${prefix}/getOneByCondition`,
+        importUrl: `${prefix}/importData`,
+        uploadUrl: `${appName}/annex/upload/common`,
         condition: condition
     };
+    console.log(apiUrls);
     apiUrls.pageAction = (params: SearchInfo) => {
         return postRequest(apiUrls.loadByPageUrl!, params);
     };
