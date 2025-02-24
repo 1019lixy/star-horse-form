@@ -23,6 +23,7 @@ import {showMinimap} from "@replit/codemirror-minimap";
 import {javaKeywords} from "../code/java.ts";
 import {amy, ayuLight, barf, bespin, birdsOfParadise, boysAndGirls, clouds, dracula} from 'thememirror';
 import Help from "@/components/help.vue";
+import {formActions} from "@/views/dyform/utils/DynamicForm.ts";
 
 const model = defineModel("value", {default: ""});
 const editorLang = ref<any>(javascript());
@@ -33,6 +34,7 @@ const props = defineProps({
   lang: {type: String, default: null},
   theme: {type: String, default: "dracula"},
   boxHeight: {type: String, default: "95%"},
+  btnList: {type: Array<any>, default: () => []},
   helpMsg: {type: String}
 });
 const languageConf = new Compartment;
@@ -216,7 +218,37 @@ defineExpose({
 })
 </script>
 <template>
-  <div class="inner_button">
+  <div class="inner_button justify-between">
+    <el-menu mode="horizontal" :ellipsis="false" style="height: inherit;width:90%;">
+      <template v-for="(item,index) in btnList">
+        <template v-if="item.children&&item.children.length>0">
+          <el-sub-menu :index="'1_'+index">
+            <template #title>
+              <el-tooltip class="item" :content="item.label" effect="dark" placement="bottom">
+                <star-horse-icon :icon-class="item.icon" size="24px" style="color: var(--star-horse-style)"/>
+              </el-tooltip>
+            </template>
+            <el-menu-item v-for="(sitem,sindex) in item.children"
+                          :disabled="sitem.disabled?.value===true"
+                          :index="'2_'+sindex"
+                          @click="sitem.actions">
+              <star-horse-icon :icon-class="sitem.icon" size="24px"
+                               style="color: var(--star-horse-style)"/>
+              {{ sitem.label }}
+            </el-menu-item>
+          </el-sub-menu>
+        </template>
+        <el-menu-item
+            v-else
+            :disabled="item.disabled?.value===true"
+            :index="'1_'+index" @click="item.actions">
+          <el-tooltip class="item" :content="item.label" effect="dark" placement="bottom">
+            <star-horse-icon :icon-class="item.icon" size="24px"
+                             style="color: var(--star-horse-style)"/>
+          </el-tooltip>
+        </el-menu-item>
+      </template>
+    </el-menu>
     <el-dropdown>
     <span class="el-dropdown-link">
       主题

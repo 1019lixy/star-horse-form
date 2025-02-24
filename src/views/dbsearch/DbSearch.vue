@@ -22,7 +22,7 @@ let pageSize = ref<number>(10);
 let activeName = ref<string>("Result1");
 let pageSizeLimit = ref<Array<number>>([10, 20, 50, 100]); //每条Sql允许一次查询数据量
 let tableAndColumnsList = ref<any>([]);
-let tableList = ref({});
+let tableList = ref<any>({});
 let assignDataList = ref<any>([]);
 let value = ref<string>("");
 let dbIndex = ref<any>(null);
@@ -56,6 +56,7 @@ const openDb = () => {
         }
         tableAndColumnsList.value = res.data.data;
         assignDataList.value = tableAndColumnsList.value;
+        btnDisabled.value = false;
         currentIndex.value = dbIndex.value;
         editor.setAutoCompletion("test", tableAndColumnsList.value);
       }
@@ -204,6 +205,38 @@ const dragDrop = (evt: DragEvent) => {
     sqlInfo.value = unref(bakeData) + " " + data;
   }
 }
+let btnDisabled = ref<boolean>(true);
+const btnList = [
+  {
+    label: "执行",
+    icon: "run",
+    disabled: btnDisabled,
+    type: "primary",
+    actions: executeSql,
+  },
+  {
+    label: "停止",
+    icon: "stop",
+    disabled: btnDisabled,
+    type: "danger",
+    actions: executeStop,
+  },
+  {
+    label: "格式化",
+    icon: "format",
+    disabled: btnDisabled,
+    type: "warning",
+    actions: () => {
+      editorRef.value?.editor.dispatch({
+        changes: {
+          from: 0,
+          to: editorRef.value?.editor.state.doc.length,
+          insert: editorRef.value?.editor.state.doc.toString().replaceAll("\n", "") + "\n"
+        }
+      })
+    }
+  }
+]
 const operMsg = `
  使用说明:
      目前快捷键失效,提示表字段需先单击表名加载字段到本地.
@@ -218,115 +251,103 @@ const operMsg = `
 </script>
 <template>
   <el-card class="inner_content">
-    <el-row gutter="10">
-      <el-col :span="4">
-        <el-select
-            :size="compSize"
-            @change="openDb"
-            clearable
-            filterable
-            id="dbInfo"
-            placeholder="请选择数据库信息"
-            v-model="dbIndex"
-        >
-          <el-option
-              :key="sitem.value"
-              :label="sitem.name"
-              :value="sitem.value"
-              v-for="sitem in dbList"
-          >
-          </el-option>
-        </el-select>
-      </el-col>
-      <el-col :span="20">
-        <div class="inner_button">
-          <el-menu mode="horizontal" style="height: inherit;width: 100%;">
-            <el-menu-item index="0">
-              <el-select style="width: 130px; margin-right: 5px" v-model="pageSize" :size="compSize">
-                <el-option
-                    :key="sitem"
-                    :label="'每页' + sitem + '条'"
-                    :value="sitem"
-                    v-for="sitem in pageSizeLimit">
-                </el-option>
-              </el-select>
-            </el-menu-item>
-            <el-menu-item @click="executeSql" index="1" v-if="!!dbIndex">
-              <el-tooltip class="item" content="执行" index="1"
-                          effect="dark"
-                          placement="bottom">
-                <star-horse-icon icon-class="run" color="#303133"/>
-              </el-tooltip>
-            </el-menu-item>
-            <el-menu-item @click="executeStop" index="2" v-if="!!dbIndex">
-              <el-tooltip class="item" content="停止"
-                          effect="dark"
-                          placement="bottom">
-                <star-horse-icon icon-class="stop" color="red"/>
-                停止
-              </el-tooltip>
-            </el-menu-item>
-            <el-menu-item @click="executeStop" index="2" v-if="!!dbIndex">
-              <el-tooltip class="item" content="格式化"
-                          effect="dark"
-                          placement="bottom">
-                <star-horse-icon icon-class="format" color="darkorange"/>
-                格式化
-              </el-tooltip>
-            </el-menu-item>
-          </el-menu>
-          <help :message="operMsg" width="650"/>
-        </div>
-      </el-col>
-    </el-row>
     <div class="search-area">
-      <div class="table-list" v-if="assignDataList.length>0">
-        <el-input :size="compSize" placeholder="请输入关键字" v-model="filterTableName" @keydown.enter="filterData"
-        >
-          <template #suffix>
-            <star-horse-icon @click="filterData" icon-class="search" color="var(--star-horse-style)"/>
-          </template>
-        </el-input>
-        <el-scrollbar height="90%">
-          <ul>
-            <template v-for="(data, index) in assignDataList">
-              <el-popover :popper-style="{width: 'unset !important'}" placement="right" trigger="click">
-                <template #reference>
-                  <li @click="tableField(data.tableName)" @dragstart="evt=>dratStart(data,evt)" draggable="true">
-                    <star-horse-icon icon-class="table" style="margin-top: 5px;height: 18px"/>
-                    <el-tooltip :content="data.comment">
-                      {{ data.tableName }}
-                    </el-tooltip>
-                  </li>
-                </template>
-                <table class="el-table field-table" style="width: 100%;overflow: auto;">
-                  <thead>
-                  <tr>
-                    <th>名称</th>
-                    <th>类型</th>
-                    <th>空标识</th>
-                    <th>主键</th>
-                    <th>备注</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr v-for="sdata in data.fields">
-                    <td>{{ sdata.fieldName }}</td>
-                    <td>{{ sdata.type }}</td>
-                    <td>{{ sdata.nullFlag }}</td>
-                    <td>{{ sdata.primaryKey }}</td>
-                    <td>{{ sdata.comment }}</td>
-                  </tr>
-                  </tbody>
-                </table>
-              </el-popover>
+      <div class="table-list">
+        <div class="mb-3 mt-4">
+          <el-select
+              :size="compSize"
+              @change="openDb"
+              clearable
+              filterable
+              id="dbInfo"
+              placeholder="请选择数据库信息"
+              v-model="dbIndex"
+          >
+            <el-option
+                :key="sitem.value"
+                :label="sitem.name"
+                :value="sitem.value"
+                v-for="sitem in dbList"
+            >
+            </el-option>
+          </el-select>
+        </div>
+        <template v-if="assignDataList.length>0">
+          <el-input :size="compSize" placeholder="请输入关键字" v-model="filterTableName" @keydown.enter="filterData"
+          >
+            <template #suffix>
+              <star-horse-icon @click="filterData" icon-class="search" color="var(--star-horse-style)"/>
             </template>
-          </ul>
-        </el-scrollbar>
+          </el-input>
+          <el-scrollbar height="90%">
+            <ul>
+              <template v-for="(data, index) in assignDataList">
+                <el-popover :popper-style="{width: 'unset !important'}" placement="right" trigger="click">
+                  <template #reference>
+                    <li @click="tableField(data.tableName)" @dragstart="evt=>dratStart(data,evt)" draggable="true">
+                      <star-horse-icon icon-class="table" style="margin-top: 5px;height: 18px"/>
+                      <el-tooltip :content="data.comment">
+                        {{ data.tableName }}
+                      </el-tooltip>
+                    </li>
+                  </template>
+                  <table class="el-table field-table" style="width: 100%;overflow: auto;">
+                    <thead>
+                    <tr>
+                      <th>名称</th>
+                      <th>类型</th>
+                      <th>空标识</th>
+                      <th>主键</th>
+                      <th>备注</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="sdata in data.fields">
+                      <td>{{ sdata.fieldName }}</td>
+                      <td>{{ sdata.type }}</td>
+                      <td>{{ sdata.nullFlag }}</td>
+                      <td>{{ sdata.primaryKey }}</td>
+                      <td>{{ sdata.comment }}</td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </el-popover>
+              </template>
+            </ul>
+          </el-scrollbar>
+        </template>
       </div>
       <div class="search-editor-result">
+        <!--        <div class="inner_button border-b border-solid border-b-gray-300">
+                  <el-menu mode="horizontal" :ellipsis="false" style="height: inherit;width: 100%;">
+                    <el-menu-item @click="executeSql" index="1" v-if="!!dbIndex">
+                      <el-tooltip class="item" content="执行" index="1"
+                                  effect="dark"
+                                  placement="bottom">
+                        <star-horse-icon icon-class="run" color="#303133"/>
+                      </el-tooltip>
+                    </el-menu-item>
+                    <el-menu-item @click="executeStop" index="2" v-if="!!dbIndex">
+                      <el-tooltip class="item" content="停止"
+                                  effect="dark"
+                                  placement="bottom">
+                        <star-horse-icon icon-class="stop" color="red"/>
+                        停止
+                      </el-tooltip>
+                    </el-menu-item>
+                    <el-menu-item @click="executeStop" index="2" v-if="!!dbIndex">
+                      <el-tooltip class="item" content="格式化"
+                                  effect="dark"
+                                  placement="bottom">
+                        <star-horse-icon icon-class="format" color="darkorange"/>
+                        格式化
+                      </el-tooltip>
+                    </el-menu-item>
+                  </el-menu>
+                  <help :message="operMsg" :width="650"/>
+                </div>-->
         <div class="search-editor" @dragover.prevent="dragOver" @drop="dragDrop">
-          <StarHorseEditor :lang="'sql'" ref="editorRef" v-model:value="sqlInfo"/>
+          <StarHorseEditor :lang="'sql'" ref="editorRef" :btnList="btnList" v-model:value="sqlInfo"/>
         </div>
         <div class="search-result" v-if="queryResult?.length>0">
           <el-tabs class="demo-tabs" type="border-card" v-model="activeName">
@@ -335,10 +356,20 @@ const operMsg = `
                 :name="'Result' + (indexa + 1)"
                 v-for="(item, indexa) in queryResult"
             >
+              <el-select style="width: 130px; margin-right: 5px" v-model="pageSize" :size="compSize">
+                <el-option
+                    :key="sitem"
+                    :label="'每页' + sitem + '条'"
+                    :value="sitem"
+                    v-for="sitem in pageSizeLimit">
+                </el-option>
+              </el-select>
               <el-button :size="compSize" @click="exportData(item)" link title="">
                 <star-horse-icon icon-class="excel-export"/>
                 导出
               </el-button>
+
+
               <hr>
               <el-table
                   :size="compSize"

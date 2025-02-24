@@ -10,7 +10,7 @@ import {navBarList} from "@/store/NavbarListStore";
 import {userInfoStore} from "@/store/UserInfoStore";
 import {viewList} from "@/store/ViewCacheStore";
 import {SelectOption} from "@/components/types/SearchProps";
-import {RouteLocationNormalized} from "vue-router";
+import {NavigationGuardNext, RouteLocationNormalized} from "vue-router";
 import {useButtonPermission} from "@/store/ButtonPermissionStore.ts";
 import {loadData} from "@/api/sh_api.ts";
 
@@ -230,14 +230,14 @@ export async function permissionResources(data: any) {
 /**
  * 将Store里的菜单还原
  */
-export async function restoreMenu(to: RouteLocationNormalized) {
+export async function restoreMenu(to: RouteLocationNormalized, next: NavigationGuardNext) {
     const data = localStorage.getItem("menusInfo");
     if (data) {
         createRouterAndMenuList(JSON.parse(data));
     }
     const redata = router.getRoutes().find(item => item.path == to.fullPath);
     if (redata) {
-        await router.push({...redata});
+        await next(to);
     } else {
         await router.push("/");
     }

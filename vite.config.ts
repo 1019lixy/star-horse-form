@@ -14,7 +14,7 @@ import {viteCommonjs} from '@originjs/vite-plugin-commonjs'
 import {visualizer} from 'rollup-plugin-visualizer';
 //此插件是处理外部依赖 比如cdn引入的js
 // import externalGlobals from 'rollup-plugin-external-globals';
-//import vueDevTools from 'vite-plugin-vue-devtools';
+import vueDevTools from 'vite-plugin-vue-devtools';
 import tailwindcss from '@tailwindcss/vite'
 
 const codeHost: string = "http://192.168.20.165:8888/"
@@ -160,7 +160,7 @@ export default defineConfig((mode, command) => {
         },
         plugins: [
             tailwindcss(),
-            // vueDevTools(),
+            vueDevTools(),
             // Inspect({
             //     // 可以配置一些选项，以下是一些常用选项的示例
             //     dev: true,  // 是否启用该插件，默认为 true
