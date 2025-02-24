@@ -922,7 +922,6 @@ export function apiInstance(appName: string, urlPrefix: string, condition: Array
         uploadUrl: `${appName}/annex/upload/common`,
         condition: condition
     };
-    console.log(apiUrls);
     apiUrls.pageAction = (params: SearchInfo) => {
         return postRequest(apiUrls.loadByPageUrl!, params);
     };

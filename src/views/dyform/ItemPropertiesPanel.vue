@@ -142,7 +142,7 @@ const resetForm = () => {
 };
 const resetDataSourceForm = () => {
   formProps.value["dataSource"] = "data";
-  formProps.value["requestType"] = null;
+  formProps.value["httpMethod"] = null;
   formProps.value["urlOrDictName"] = null;
   formProps.value["queryParams"] = [];
   formProps.value["values"] = [];

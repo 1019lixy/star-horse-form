@@ -53,7 +53,7 @@ const loadFormData = async (formId: string) => {
   dataSource.value = data["dataSource"];
   await nextTick();
   closeLoad();
-  normalPageRef.value?.init();
+  // normalPageRef.value?.init();
 };
 watch(
     () => props.param,
@@ -141,17 +141,14 @@ watch(() => props.param,
       />
     </star-horse-dialog>
     <el-card class="inner_content">
-
       <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
         <star-horse-search-comp @searchData="(data:any)=>normalPageRef.createSearchParams(data)"
                                 :formData="searchFormData"
                                 :compUrl="dataUrl"/>
-        <hr/>
         <star-horse-button-list @tableCompFunc="(fun:any)=>normalPageRef.tableCompFunc(fun)"
                                 :compUrl="dataUrl"
                                 :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
       </div>
-      <hr>
       <star-horse-table-comp
           ref="normalPageRef" :fieldList="tableFieldList" :primaryKey="primaryKey"
           :globalConfig="relationTables"

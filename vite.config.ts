@@ -19,8 +19,8 @@ import tailwindcss from '@tailwindcss/vite'
 
 const codeHost: string = "http://192.168.20.165:8888/"
 // const codeHost:string = "http://localhost:8888/"
-// const systemHost: string = "http://localhost:8749/"
-const systemHost:string = "http://192.168.20.204:8749/"
+const systemHost: string = "http://localhost:8749/"
+// const systemHost:string = "http://192.168.20.204:8749/"
 const workflowHost: string = "http://localhost:8899/"
 const continusHost: string = "http://localhost:8859/"
 const userDbHost: string = "http://localhost:7758/"

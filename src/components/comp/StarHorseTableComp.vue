@@ -199,7 +199,7 @@ const init = async () => {
   if (!props.fieldList?.stopAutoLoad) {
     loadByPage();
   } else {
-    pageInfo.dataList = props.tableDataList||[];
+    pageInfo.dataList = props.tableDataList || [];
     starHorseTableCompRef.value!.clearSelection();
     //如果有需要回显的数据则需要选中
     //在手动设置选中前,一定要先做清除选中,否则会出现很多重复被选中的情况

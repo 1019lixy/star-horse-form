@@ -159,7 +159,7 @@ const initData = async () => {
     funcName: (row: any) => {
       operationConfirm("确定要执行该操作吗？").then(() => {
         let configId = row.datasourceConfigId;
-        postRequest(dataUrl.basePrefix + `/dbBakeUp/${configId}/true`, {}).then((res) => {
+        postRequest(dataUrl.basePrefix + `/dbBackup/${configId}/true`, {}).then((res) => {
           if (res.data.code) {
             warning(res.data.cnMessage);
             return;

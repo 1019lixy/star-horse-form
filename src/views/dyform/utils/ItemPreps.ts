@@ -291,14 +291,13 @@ export function dataSourceFields(dataSourceRef: Ref<any>, envList: Array<SelectO
 
                             }, {
                                 label: "请求方式",
-                                fieldName: "requestType",
+                                fieldName: "httpMethod",
                                 type: "select",
                                 required: urlRequired,
                                 defaultValue: "POST",
                                 formVisible: true,
                                 listVisible: true,
                                 optionList: httpMethod(),
-
                             }, {
                                 label: "协议",
                                 fieldName: "protocol",

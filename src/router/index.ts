@@ -22,7 +22,7 @@ const assignTitle = (meta: any) => {
         document.title = meta.title + " - " + Config.title;
     }
 };
-router.beforeEach(async (to: RouteLocationNormalized, _from: RouteLocationNormalized, next: NavigationGuardNext) => {
+router.beforeEach( (to: RouteLocationNormalized, _from: RouteLocationNormalized, next: NavigationGuardNext) => {
     assignTitle(to.meta);
     start();
     if (getToken()) {
@@ -32,7 +32,7 @@ router.beforeEach(async (to: RouteLocationNormalized, _from: RouteLocationNormal
         } else {
             //第一次验证路由是不是存在，不存在则重新加载
             if (!to.name || !router.hasRoute(to.name)) {
-              await  restoreMenu(to,next);
+                restoreMenu(to,next);
             } else {
                 let path = to.path;
                 //判断是不是动态菜单

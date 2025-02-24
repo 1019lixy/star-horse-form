@@ -161,12 +161,12 @@ export function dataType(): SelectOption[] {
  * @param url
  * @param params 参数
  * @param dataType 数据类型 FORM,JSON 默认JSON
- * @param requestType 接口请求方式 POST,GET,PUT,DELETE
+ * @param httpMethod 接口请求方式 POST,GET,PUT,DELETE
  */
-export async function validDataUrl(url: string, params?: any, dataType: string = "JSON", requestType: string = "POST") {
+export async function validDataUrl(url: string, params?: any, dataType: string = "JSON", httpMethod: string = "POST") {
     const checkParams: any = {
         url,
-        httpMethod: requestType.toUpperCase(),
+        httpMethod: httpMethod.toUpperCase(),
         dataType,
         params: params
     };
@@ -180,13 +180,13 @@ export async function validDataUrl(url: string, params?: any, dataType: string =
  * @param params 参数
  * @param searchInfo 查询信息
  * @param dataType 请求数据类型
- * @param requestType 请求类型
+ * @param httpMethod 请求类型
  */
 export async function redirectUrlOperation(url: string, searchInfo?: SearchInfo, params?: any,
-                                           dataType: string = "JSON", requestType: string = "POST") {
+                                           dataType: string = "JSON", httpMethod: string = "POST") {
     const checkParams: any = {
         url,
-        httpMethod: requestType.toUpperCase(),
+        httpMethod: httpMethod.toUpperCase(),
         dataType,
         params: params,
         searchInfo

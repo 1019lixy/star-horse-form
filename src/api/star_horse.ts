@@ -231,14 +231,14 @@ export async function permissionResources(data: any) {
 /**
  * 将Store里的菜单还原
  */
-export async function restoreMenu(to: RouteLocationNormalized, next: NavigationGuardNext) {
+export async function restoreMenu(to: RouteLocationNormalized, _next: NavigationGuardNext) {
     const data = localStorage.getItem("menusInfo");
     if (data) {
         createRouterAndMenuList(JSON.parse(data));
     }
     const redata = router.getRoutes().find(item => item.path == to.fullPath);
     if (redata) {
-        await next(to);
+        await router.push(to);
     } else {
         await router.push("/");
     }

@@ -207,8 +207,8 @@ let restTaskField = reactive<TabFieldInfo | any>({
         formVisible: true,
         listVisible: true,
     }, {
-        label: "请求地址",
-        fieldName: "requestType",
+        label: "请求方式",
+        fieldName: "httpMethod",
         type: "select",
         optionList: httpMethod(),
         formVisible: true,
@@ -238,7 +238,7 @@ let httpTaskField = reactive<TabFieldInfo | any>({
         listVisible: true,
     }, {
         label: "请求地址",
-        fieldName: "requestType",
+        fieldName: "httpMethod",
         type: "select",
         optionList: httpMethod(),
         formVisible: true,

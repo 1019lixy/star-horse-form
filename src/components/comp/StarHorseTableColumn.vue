@@ -103,7 +103,7 @@ const prototypeCheck = (item: any) => {
   if (flag) {
     return item.listPrototypeDisplay === true || item.listPrototypeDisplay !== "N";
   } else {
-    flag = Object.keys(item.preps).includes("listPrototypeDisplay");
+    flag = Object.keys(item.preps||{}).includes("listPrototypeDisplay");
     if (flag) {
       return item.preps.listPrototypeDisplay === true || item.preps.listPrototypeDisplay !== "N";
     }
