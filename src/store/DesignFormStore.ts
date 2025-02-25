@@ -1,9 +1,7 @@
 import {defineStore} from "pinia";
-import {SearchParams} from "@/components/types/Params";
 import {SelectOption} from "@/components/types/SearchProps";
 import {Config} from "@/api/settings.ts";
 import {ref, unref} from "vue";
-import {postRequest} from "@/api/star_horse.ts";
 
 export const DesignForm = defineStore("DesignForm", () => {
     const containerList = ref<Array<any>>([]);
@@ -218,7 +216,7 @@ export const DesignForm = defineStore("DesignForm", () => {
      */
     const addComp = (comp: any) => {
         //如果已存在，则要过滤掉,不能重复添加
-        if (comp instanceof Array) {
+        if (Array.isArray(comp)) {
             compList.value = [...compList.value, ...comp];
         } else {
             compList.value.push(comp);
@@ -273,7 +271,7 @@ export const DesignForm = defineStore("DesignForm", () => {
             const temp = comps[i];
             if (temp instanceof Promise) {
                 temp.then(res => {
-                    if (res instanceof Array) {
+                    if (Array.isArray(res)) {
                         comps.splice(i, 1, ...res);
                     } else {
                         comps.splice(i, 1, res);

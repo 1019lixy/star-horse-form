@@ -36,7 +36,7 @@
           <el-icon class="star-icon" style="font-size: 50px;color:var(--star-horse-style)" v-if="iconType=='system'">
             <component :is="sdata.value"/>
           </el-icon>
-          <star-horse-icon :icon-class="sdata.value" v-else size="40px"
+          <star-horse-icon :icon-class="sdata.value" v-else size="30px"
                            style="font-size: 50px;color:var(--star-horse-style)" cursor="pointer"/>
         </li>
       </ul>

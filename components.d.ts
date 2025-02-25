@@ -125,6 +125,7 @@ declare module 'vue' {
     DytableContainer: typeof import('./src/components/formcomp/container/dytable-container.vue')['default']
     DytableItem: typeof import('./src/components/comp/items/dytableItem.vue')['default']
     EditName: typeof import('./src/views/workflow/plugin/common/EditName.vue')['default']
+    EditorItem: typeof import('./src/components/formcomp/items/editor-item.vue')['default']
     ElAlert: typeof import('element-plus/es')['ElAlert']
     ElAnchor: typeof import('element-plus/es')['ElAnchor']
     ElAnchorLink: typeof import('element-plus/es')['ElAnchorLink']

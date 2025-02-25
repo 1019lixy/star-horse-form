@@ -2,6 +2,11 @@ import {useUserSelfOperation} from "@/store/SelfOperationStore.ts";
 import piniaInstance from "@/store";
 import {download, getRequest, postRequest, uploadRequest} from "@/api/star_horse.ts";
 import {getUserInfo} from "@/utils/auth.ts";
+import {Ref} from "vue";
+import {createCondition} from "@/api/sh_api.ts";
+import {success, warning} from "@/utils/message.ts";
+import {useRouter} from "vue-router";
+import {UserFuncInfo} from "@/components/types/PageFieldInfo";
 
 /**
  * 动态表单用户自定义驱动
@@ -37,4 +42,63 @@ export const userFunction = (code: string, context: any) => {
         "getRequest", "download", "upload", code);
     fun.call(this, context.attrs["formInfo"], context.attrs["formData"], formFields, formInstance, getUserInfo(),
         postRequest, getRequest, download, uploadRequest);
+}
+let router = useRouter();
+
+/**
+ * 用户自定义按钮
+ * @param tableRef 表格实例
+ * @param primaryKey 主键名称
+ * @param datas 按钮信息
+ */
+export function userAction(tableRef: Ref, primaryKey: string, datas: Array<any>): Array<UserFuncInfo> {
+    let btnList: Array<UserFuncInfo> = [];
+    if (datas && datas.length > 0) {
+        datas.forEach((item: any) => {
+            let content = item["funcName"];
+            if (item["eventType"] == "interface") {
+                if (item["authority"] == "download") {
+                    item["funcName"] = (row: any) => {
+                        let fieldList: any = [];
+                        fieldList.push(createCondition(primaryKey, row[primaryKey]));
+                        download(content, {
+                            fieldList: fieldList,
+                        }).catch((e) => {
+                            warning(e.message);
+                        });
+                    }
+                } else {
+                    item["funcName"] = (row: any) => {
+                        let fieldList: any = [];
+                        fieldList.push(createCondition(primaryKey, row[primaryKey]));
+                        postRequest(content, {
+                            fieldList: fieldList,
+                        }).then((res) => {
+                            if (res.data.code) {
+                                warning(res.data.cnMessage);
+                                return;
+                            }
+                            success("操作成功");
+                            normalPageRef.value?.loadByPage();
+                        });
+                    }
+                }
+            } else if (item["eventType"] == "dialog") {
+                //弹出对话框
+                warning("暂未实现");
+            } else if (item["eventType"] == "page") {
+                //打开页面
+                item["funcName"] = (row: any) => {
+                    router.push({
+                        path: content,
+                        query: {
+                            param: JSON.stringify(row)
+                        }
+                    });
+                }
+            }
+            btnList.push(item);
+        })
+    }
+    return btnList;
 }

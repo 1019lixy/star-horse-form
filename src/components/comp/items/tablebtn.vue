@@ -27,10 +27,11 @@ const init = () => {
   validButtonList.value = [];
   for (let i in btnList) {
     let temp: UserFuncInfo = btnList[i];
-    if (btnHideCheck(temp.authority, props.row)) {
+    if (btnHideCheck(temp.authority, props.row)&&Object.keys(props.permissions).includes(temp.authority!)) {
       validButtonList.value.push(temp);
     }
   }
+  console.log(validButtonList.value);
 }
 
 /**

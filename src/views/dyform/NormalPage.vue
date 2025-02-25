@@ -1,12 +1,17 @@
 <script setup lang="ts">
 import {nextTick, onMounted, provide, reactive, ref, watch} from "vue";
-import {apiInstance, closeLoad, dialogPreps, load, loadGetData} from "@/api/sh_api";
+import {apiInstance, closeLoad, createCondition, dialogPreps, load, loadGetData} from "@/api/sh_api";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {SearchProps} from "@/components/types/SearchProps";
 import {Config} from "@/api/settings.ts";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
 import {createDatetime} from "@/api/date_utils.ts";
+import {UserFuncInfo} from "@/components/types/PageFieldInfo";
+import {download, postRequest} from "@/api/star_horse.ts";
+import {success, warning} from "@/utils/message.ts";
+import {useRouter} from "vue-router";
+import {userAction} from "@/api/user_func.ts";
 
 let designForm = DesignForm(piniaInstance);
 const normalPageRef = ref();
@@ -15,6 +20,7 @@ let dataUrl = ref<ApiUrls>();
 const errorMsg = ref("数据加载中");
 let searchFormData = ref<SearchProps[]>([]);
 const tableFieldList = ref<any>({fieldList: []});
+let router = useRouter();
 /**
  * 表单数据直接取定义的数据preps,
  * 列表数据重新定义，方便排序和位置拖拽
@@ -26,6 +32,7 @@ const formInfo = ref<any>({});
 const fieldMappingList = ref<any>([]);
 const dataSource = ref<any>({});
 let dateFields = ref<Array<string>>([]);
+let extBtns = ref<Array<UserFuncInfo>>([]);
 const props = defineProps({
   param: {type: String, required: true},
 });
@@ -51,6 +58,8 @@ const loadFormData = async (formId: string) => {
   fieldMappingList.value = formInfo.value["fieldMappingList"];
   relationTables.value = data["relationTables"];
   dataSource.value = data["dataSource"];
+  extBtns.value = userAction(normalPageRef,primaryKey.value, tableFieldList.value["userTableFuncs"]);
+  delete tableFieldList.value["userTableFuncs"];
   await nextTick();
   closeLoad();
   normalPageRef.value?.init();
@@ -153,6 +162,7 @@ watch(() => props.param,
           ref="normalPageRef" :fieldList="tableFieldList" :primaryKey="primaryKey"
           :globalConfig="relationTables"
           :isDynamic="true"
+          :extandBtns="extBtns"
           :compUrl="dataUrl" :showBatchField="true" :dataFormat="dataFormat"/>
 
     </el-card>

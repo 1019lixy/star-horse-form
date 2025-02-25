@@ -26,6 +26,8 @@ let formSizeList = ref<SelectOption[]>([{name: "大", value: "large"}, {name: "�
 let dataLoadConditionList = ref<SelectOption[]>([{name: "创建人", value: "createdBy"}, {name: "租户", value: "tenantId"}, {name: "ID", value: "id"},]);
 let dynamicFieldList = ref<SelectOption[]>([]);
 let tableColumnsList = ref<SelectOption[]>([]);
+let authorityList = ref<SelectOption[]>([]);
+let eventTypeList = ref<SelectOption[]>([]);
 let informationsList = ref<any>([]);
 let menusInfoList = ref<any>([]);
 let menuFlag = ref<boolean>(false);
@@ -46,7 +48,7 @@ const dbPositionMsg = `
 如果为空，则在当前业务数据库创建表信息。`;
 const tableListMsg = `
 对于关联字段的处理，
-将编码或者ID 映射为对于的名称显示。`;
+将编码或者ID 映射为对应的名称显示。`;
 const loadMenus = (val: any) => {
   if (!val) {
     return;
@@ -58,6 +60,7 @@ const loadMenus = (val: any) => {
     // });
   });
 };
+let urlFieldVisible = ref<boolean>(false);
 const tableFieldList = reactive<PageFieldInfo | any>({
       fieldList: [
         [
@@ -275,6 +278,41 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 },
               ]
             }],
+          }, {
+            fieldName: "tab7",
+            title: "列表自定义事件",
+            batchFieldList: [{
+              objectName: "listActions",
+              batchName: "listActions",
+              subFormFlag: true,
+              staticData: "Y",
+              initRows: 0,
+              fieldList: [
+                {label: "事件名称", fieldName: "eventName", type: "input", formVisible: true, required: true,},
+                {
+                  label: "图标", fieldName: "icon", type: "icon", formVisible: true, required: true,
+                  preps: {
+                    iconType: "user"
+                  }
+                },
+                {label: "操作权限", fieldName: "authority", type: "select", required: true, optionList: authorityList, formVisible: true,},
+                {
+                  label: "事件类别", fieldName: "eventType", type: "select", required: true, optionList: eventTypeList, formVisible: true,
+                  actionName: "change",
+                  actions: (val: any) => {
+                    urlFieldVisible.value = val["eventType"] && val["eventType"] != "dialog";
+                  }
+                },
+                {
+                  label: "请求地址", fieldName: "content",
+                  helpMsg: `请求接口：填写接口地址， 例如：/userdb-manage/xx/xx/xx;\n页面跳转：填写前端路由，例如：/test/UserInfo;\n弹窗：填写弹窗组件名称，例如：UserInfo。`,
+                  required: true, formVisible: true,
+                },
+                {
+                  label: "参数", fieldName: "parameters", type: "json",  formVisible: urlFieldVisible,
+                },
+              ]
+            }],
           }
           ]
         }
@@ -289,6 +327,8 @@ const initData = async () => {
   informationsList.value = await loadSystemInfo(params);
   systemIconList.value = loadElementPlusIcon();
   pageStyleList.value = await loadDict("page_style");
+  authorityList.value = await loadDict("button_authority");
+  eventTypeList.value = await loadDict("event_type");
 };
 const analysisDynamicFields = async (formInfo: any) => {
   let reData = await loadData("/userdb-manage/userdb/dynamicForm/analysisDynamicDatasourceFields", formInfo);

@@ -3,12 +3,13 @@ import {nextTick, onMounted, provide, reactive, ref, watch} from "vue";
 import {apiInstance, closeLoad, dialogPreps, load, loadGetData} from "@/api/sh_api";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {SearchProps} from "@/components/types/SearchProps";
-import {PageFieldInfo} from "@/components/types/PageFieldInfo";
+import {PageFieldInfo, UserFuncInfo} from "@/components/types/PageFieldInfo";
 import {TabsPaneContext} from "element-plus";
 import {Config} from "@/api/settings.ts";
 import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
 import StarHorseForm from "@/components/comp/StarHorseForm.vue";
+import {userAction} from "@/api/user_func.ts";
 
 let designForm = DesignForm(piniaInstance);
 const starHorseTableCompRef = ref();
@@ -25,6 +26,7 @@ const hasData = ref(false);
 let relationTables = ref<any>({});
 const formInfo = ref<any>({});
 const activeName = ref<string>("form");
+let extBtns = ref<Array<UserFuncInfo>>([]);
 const props = defineProps({
   param: {type: String, required: true},
 });
@@ -50,6 +52,8 @@ const loadFormData = async (formId: string) => {
   relationTables.value = data["relationTables"];
   rules.value = data["rules"];
   formInfo.value = data["formInfo"];
+  extBtns.value = userAction(normalPageRef, primaryKey.value, tableFieldList.value["userTableFuncs"]);
+  delete tableFieldList.value["userTableFuncs"];
   await nextTick();
   closeLoad();
   starHorseTableCompRef.value!.init();
@@ -94,19 +98,21 @@ onMounted(async () => {
         :title="'查看数据'"
         :is-view="true"
     >
-        <star-horse-data-view
-            :dataFormat="dataFormat"
-            :primary-key="primaryKey"
-            :dynamicForm="true"
-            :field-list="tableFieldList"
-            :compUrl="dataUrl"
-        />
+      <star-horse-data-view
+          :dataFormat="dataFormat"
+          :primary-key="primaryKey"
+          :dynamicForm="true"
+          :field-list="tableFieldList"
+          :compUrl="dataUrl"
+      />
     </star-horse-dialog>
     <el-card class="inner_content">
       <el-tabs v-model="activeName" type="border-card" @tab-click="handleClick">
         <el-tab-pane label="表单" name="form">
-          <star-horse-form @refresh="starHorseTableCompRef?.loadByPage()" :dynamicForm="true" :compUrl="dataUrl" :formInfo="formInfo"
-                           :fieldList="tableFieldList" :rules="rules" :globalCondition="relationTables" :typeModel="'form'"/>
+          <star-horse-form @refresh="starHorseTableCompRef?.loadByPage()" :dynamicForm="true" :compUrl="dataUrl"
+                           :formInfo="formInfo"
+                           :fieldList="tableFieldList" :rules="rules" :globalCondition="relationTables"
+                           :typeModel="'form'"/>
         </el-tab-pane>
         <el-tab-pane label="数据列表" name="table">
           <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
@@ -127,6 +133,7 @@ onMounted(async () => {
               :compUrl="dataUrl"
               :globalConfig="relationTables"
               :isDynamic="true"
+              :extandBtns="extBtns"
               :showBatchField="true"
               :dataFormat="dataFormat"
           />

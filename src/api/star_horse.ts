@@ -316,7 +316,6 @@ export function createRouterAndMenuList(redata: Array<object>): MenusInfo[] {
 
     userStore.addPermissionMenus(leftMenuDatas);
     pagePermission.addAllPermission(pageButtonPermissions);
-    // localStorage.setItem("pageButtonPermissions", JSON.stringify(pageButtonPermissions));
     localStorage.setItem("menusInfo", JSON.stringify(redata));
     localStorage.setItem("dynamicMenusLists", JSON.stringify(userStore.dynamicMenus));
     return leftMenuDatas;
@@ -331,15 +330,6 @@ export function download(url: string, param: any) {
     return new Promise((resolve, reject) => {
         service.post(url, param, {responseType: "blob"}).then(res => {
             downloadData(res.data, decodeURI(res.headers["content-disposition"].split("=")[1]));
-            // const blob = new Blob([res.data]);
-            // const delement = document.createElement("a");
-            // const href = window.URL.createObjectURL(blob);
-            // delement.href = href;
-            // delement.download = decodeURI(res.headers["content-disposition"].split("=")[1]);
-            // document.body.appendChild(delement);
-            // delement.click();
-            // document.body.removeChild(delement);
-            // window.URL.revokeObjectURL(href);
             resolve(null);
         }).catch(err => {
             console.log(err);

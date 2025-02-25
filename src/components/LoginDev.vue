@@ -96,7 +96,7 @@ const refreshValidate = () => {
   });
 };
 onMounted(() => {
-  // refreshValidate();
+  refreshValidate();
 });
 let rtCodeimg = ref("");
 const handleClick = async (tab: TabsPaneContext, _event: Event) => {
