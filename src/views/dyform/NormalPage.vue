@@ -53,7 +53,7 @@ const loadFormData = async (formId: string) => {
   dataSource.value = data["dataSource"];
   await nextTick();
   closeLoad();
-  // normalPageRef.value?.init();
+  normalPageRef.value?.init();
 };
 watch(
     () => props.param,

@@ -245,6 +245,18 @@ export const DesignForm = defineStore("DesignForm", () => {
     const setCurrentFormPreps = (currFormPreps: any) => {
         currentFormPreps.value = currFormPreps["preps"] || currFormPreps;
     }
+    const setContainerList = (list: any) => {
+        containerList.value = list;
+    }
+    const setFormDataList = (list: any) => {
+        formDataList.value = list;
+    }
+    const setSelfFormDataList = (list: any) => {
+        selfFormDataList.value = list;
+    }
+    const setAllFormDataList = (list: any) => {
+        allFormDataList.value = list;
+    }
     /**
      * 正在拖动中的组件
      * @param dragItem
@@ -312,77 +324,6 @@ export const DesignForm = defineStore("DesignForm", () => {
             maxStep: 20,
             datas: []
         };
-        if (initComp) {
-            const url = "/userdb-manage/userdb/dynamicFormItems/getAllByCondition";
-            const assignData = (datas: any) => {
-                datas.forEach((item: any) => {
-                    allFormDataList.value.push({
-                        name: item.itemName,
-                        value: item.itemType
-                    })
-                });
-            }
-            const initContainer = () => {
-                const params: SearchParams[] = [{
-                    propertyName: "category",
-                    value: 2
-                }, {
-                    propertyName: "isDel",
-                    value: 0
-                }];
-                const query = {
-                    fieldList: params,
-                    orderBy: [{fieldName: "dataSort", ascOrDesc: "asc"}]
-                }
-                postRequest(url, query).then(res => {
-                    containerList.value = res.data?.data;
-                    assignData(res.data?.data);
-                });
-
-            };
-            const initItems = () => {
-                const params: SearchParams[] = [{
-                    propertyName: "category",
-                    value: 1
-                }, {
-                    propertyName: "isDel",
-                    value: 0
-                }];
-                const query = {
-                    fieldList: params,
-                    orderBy: [{fieldName: "dataSort", ascOrDesc: "asc"}]
-                }
-                postRequest(url, query).then(res => {
-                    formDataList.value = res.data?.data;
-                    assignData(res.data?.data);
-                });
-
-            };
-            const initSelfItems = () => {
-                const params: SearchParams[] = [{
-                    propertyName: "category",
-                    value: 3
-                }, {
-                    propertyName: "isDel",
-                    value: 0
-                }];
-                const query = {
-                    fieldList: params,
-                    orderBy: [{fieldName: "dataSort", ascOrDesc: "asc"}]
-                }
-                postRequest(url, query).then(res => {
-                    selfFormDataList.value = res.data?.data;
-                    assignData(res.data?.data);
-                });
-
-            };
-            const init = () => {
-                initContainer();
-                initItems();
-                initSelfItems();
-            };
-            init();
-        }
     }
     const setComponentVisible = (visible: boolean) => {
         componentVisible.value = visible;
@@ -419,6 +360,10 @@ export const DesignForm = defineStore("DesignForm", () => {
         batchEditFieldVisible,
         previewVisible,
         shortKeyDisabled,
+        setAllFormDataList,
+        setSelfFormDataList,
+        setFormDataList,
+        setContainerList,
         addHistoryRecord,
         redo,
         undo,

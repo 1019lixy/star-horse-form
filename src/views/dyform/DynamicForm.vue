@@ -26,6 +26,7 @@ import FormPreview from "@/views/dyform/FormPreview.vue";
 import {initKeyboardEvent, removeKeyboardEvent} from "@/api/keyboard-event-utils.ts";
 import {dynamicFormContextMenuData} from "@/views/dyform/page/AblesPlugin.ts";
 import {ModuleEnums} from "@/components/enums/ModuleEnums.ts";
+import {compFieldInit} from "@/views/dyform/utils/FieldOperationUtils.ts";
 
 const dataUrl = apiInstance("userdb-manage", "userdb/dynamicForm");
 let designForm = DesignForm(piniaInstance);
@@ -49,13 +50,25 @@ const fieldPanelRef = ref();
 const dynamicFormRef = ref();
 const previewDynamicFormRef = ref();
 let reOrUnDoFlag = ref<boolean>(false);
+let initFinish = ref<boolean>(false);
 let currentPageStyle = ref<any>({label: "电脑", key: "pc"});
 let currentPageClass = ref<string>("main-design");
 let cacheData = ref<any>("");
 let cacheName = "dynamicFormCache";
 const init = async () => {
-  permissions.value = await pagePermission.addRoute(route);
+  //初始化数据
   designForm.clearAll(true);
+  //加载组件属性
+  compFieldInit().then(() => {
+    initFinish.value = true;
+    console.log("初始化完成");
+    //解决数据已经加载完成，但是组件属性没有加载完成的问题
+    if (list.value.length > 0) {
+      let activeItem = list.value[0];
+      designForm.selectItem(activeItem, activeItem.itemType, activeItem.compType);
+    }
+  });
+  permissions.value = await pagePermission.addRoute(route);
   cacheData.value = getCacheData(cacheName);
 };
 const propertyRef = ref();
@@ -67,6 +80,7 @@ const loadFormData = async (formId: any, isParent: boolean) => {
     warning(resultData.error);
     return;
   }
+  console.log("数据加载完成");
   let data = resultData.data;
   if (isParent) {
     data["idDynamicForm"] = null;
@@ -86,7 +100,8 @@ const loadFormData = async (formId: any, isParent: boolean) => {
   designForm.setFormData(JSON.parse(details?.fieldNames || "{}"));
   designForm.setIsEdit(true);
   let activeItem = list.value[0];
-  if (activeItem) {
+  //如果组件属性已经加载完成，则直接选中第一个组件
+  if (activeItem && initFinish.value) {
     designForm.selectItem(activeItem, activeItem.itemType, activeItem.compType);
   }
 };
@@ -134,7 +149,6 @@ const codeDoSave = () => {
  */
 const createFormInfo = () => {
   let dynameForm = JSON.parse(JSON.stringify(formInfo.value));
-  console.log(dynameForm);
   //解决多次转换
   dynameForm!["relations"] = (dynameForm["relations"] && dynameForm["relations"] instanceof Array) ?
       JSON.stringify(dynameForm["relations"]) : dynameForm["relations"];
@@ -145,7 +159,6 @@ const createFormInfo = () => {
 }
 const doSave = async (isDraft: boolean = false) => {
   let formData = formPropertyRef.value.getFormData();
-  console.log(formData);
   designForm.setFormInfo(formData.value);
   if (!isSubmit.value) {
     closeAction();
@@ -168,7 +181,6 @@ const doSave = async (isDraft: boolean = false) => {
     warning("请先填写表单信息");
     return;
   }
-
   load("数据提交中，请等待");
   postRequest(`/userdb-manage/userdb/dynamicForm/${isDraft ? "mergeDraft" : "merge"}`, createFormInfo())
       .then((res) => {
@@ -218,7 +230,6 @@ const shortKeySwitch = (val: boolean) => {
   }
 }
 const onDragAdd = async (_evt: Event, dataList: Array<any>) => {
-  // let index = evt.oldIndex;
   if (draggingItem.value.itemType == 'table') {
     let id = draggingItem.value.id;
     let datas = dataList.filter(item => item.itemType == "table");
@@ -236,7 +247,7 @@ const onDragAdd = async (_evt: Event, dataList: Array<any>) => {
   if (!draggingItem.value) {
     return;
   }
-  if (draggingItem.value instanceof Array) {
+  if (Array.isArray(draggingItem.value)) {
     let temp = draggingItem.value[draggingItem.value.length - 1];
     designForm.selectItem(temp, temp["itemType"], "");
   } else {
@@ -349,14 +360,12 @@ const batchOperation = (val: any, fieldName: string) => {
 const analysisParentParam = () => {
   let parentId = route.query["parentId"];
   if (parentId && "0" != parentId) {
-    // console.log(parentId);
     loadFormData(parentId, true);
   }
 }
 const analysisQueryParams = () => {
   let formId = route.query["formId"];
   if (formId) {
-    // console.log(formId);
     loadFormData(formId, false);
     return;
   }
@@ -532,7 +541,7 @@ let prepsModel = ref("one");
 
       </el-tab-pane>
       <el-tab-pane name="two" label="公共字段">
-       在配置或者提交功能里设置
+        在配置或者提交功能里设置
       </el-tab-pane>
     </el-tabs>
   </star-horse-dialog>
