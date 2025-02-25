@@ -8,7 +8,7 @@ import piniaInstance from "@/store/index.ts";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import StarHorseForm from "@/components/comp/StarHorseForm.vue";
 import {Config} from "@/api/settings.ts";
-import {commonField} from "@/api/system.ts";
+import {commonField, httpMethod} from "@/api/system.ts";
 
 let designForm = DesignForm(piniaInstance);
 let formInfo = computed(() => designForm.formInfo);
@@ -61,6 +61,7 @@ const loadMenus = (val: any) => {
   });
 };
 let urlFieldVisible = ref<boolean>(false);
+let httpMethodVisible = ref<boolean>(false);
 const tableFieldList = reactive<PageFieldInfo | any>({
       fieldList: [
         [
@@ -288,28 +289,38 @@ const tableFieldList = reactive<PageFieldInfo | any>({
               staticData: "Y",
               initRows: 0,
               fieldList: [
-                {label: "事件名称", fieldName: "eventName", type: "input", formVisible: true, required: true,},
-                {
-                  label: "图标", fieldName: "icon", type: "icon", formVisible: true, required: true,
-                  preps: {
-                    iconType: "user"
-                  }
-                },
-                {label: "操作权限", fieldName: "authority", type: "select", required: true, optionList: authorityList, formVisible: true,},
-                {
-                  label: "事件类别", fieldName: "eventType", type: "select", required: true, optionList: eventTypeList, formVisible: true,
-                  actionName: "change",
-                  actions: (val: any) => {
-                    urlFieldVisible.value = val["eventType"] && val["eventType"] != "dialog";
-                  }
-                },
-                {
+                [{label: "事件名称", fieldName: "eventName", type: "input", formVisible: true, required: true,},
+                  {
+                    label: "图标", fieldName: "icon", type: "icon", formVisible: true, required: true,
+                    preps: {
+                      iconType: "user"
+                    }
+                  }],
+                [{label: "操作权限", fieldName: "authority", type: "select", required: true, optionList: authorityList, formVisible: true,},
+                  {
+                    label: "事件类别", fieldName: "eventType", type: "select", required: true, optionList: eventTypeList, formVisible: true,
+                    actionName: "change",
+                    actions: (val: any) => {
+                      urlFieldVisible.value = val["eventType"] && val["eventType"] != "dialog";
+                      httpMethodVisible.value = val["eventType"] && val["eventType"] == "interface";
+                    }
+                  }],
+                [{
                   label: "请求地址", fieldName: "content",
                   helpMsg: `请求接口：填写接口地址， 例如：/userdb-manage/xx/xx/xx;\n页面跳转：填写前端路由，例如：/test/UserInfo;\n弹窗：填写弹窗组件名称，例如：UserInfo。`,
                   required: true, formVisible: true,
+                  preps: {
+                    colspan: 18,
+                  }
                 },
+                  {
+                    label: "请求方式", fieldName: "httpMethod", defaultValue: "POST", type: "select", optionList: httpMethod(), formVisible: httpMethodVisible,
+                    preps: {
+                      colspan: 5,
+                    }
+                  }],
                 {
-                  label: "参数", fieldName: "parameters", type: "json",  formVisible: urlFieldVisible,
+                  label: "参数", fieldName: "parameters", type: "json", formVisible: urlFieldVisible,
                 },
               ]
             }],
