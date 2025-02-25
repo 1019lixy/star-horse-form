@@ -20,52 +20,17 @@ const lineDetail = (instanceId: string) => {
     query: {instanceId: instanceId, isEdit: props.isEdit}
   })
 };
+const execLine = (instanceId: string) => {
+  console.log("执行");
+};
+const configLine = (instanceId: string) => {
+
+}
+const publishLine = (instanceId: string) => {
+
+}
 </script>
-<style lang="scss" scoped>
-:deep(.el-progress-bar__outer) {
-  border-radius: 0;
-}
 
-:deep(.el-progress-bar__inner) {
-  border-radius: 0;
-}
-
-.el-card__header {
-  padding: 5px;
-  box-sizing: border-box;
-}
-
-.instance-item {
-  box-shadow: rgb(232, 232, 232) 0px 0px 0px 1px;
-  background: var(--star-horse-white);
-  transition: all 0.5s linear 0s;
-
-  .item-line {
-    height: inherit;
-    padding-bottom: 0px;
-
-    .line-node {
-      cursor: pointer;
-
-      .node-content {
-        margin: 10px 1px;
-        width: 100%;
-        display: table;
-
-        .node-process {
-          display: table-cell;
-        }
-      }
-    }
-  }
-}
-
-.svg-path {
-  fill: none;
-  stroke: #d8d8d8;
-  stroke-width: 1;
-}
-</style>
 <template>
   <div class="instance-item">
     <div class="item-bar">
@@ -197,3 +162,48 @@ const lineDetail = (instanceId: string) => {
     </div>
   </div>
 </template>
+<style lang="scss" scoped>
+:deep(.el-progress-bar__outer) {
+  border-radius: 0;
+}
+
+:deep(.el-progress-bar__inner) {
+  border-radius: 0;
+}
+
+.el-card__header {
+  padding: 5px;
+  box-sizing: border-box;
+}
+
+.instance-item {
+  box-shadow: rgb(232, 232, 232) 0px 0px 0px 1px;
+  background: var(--star-horse-white);
+  transition: all 0.5s linear 0s;
+
+  .item-line {
+    height: inherit;
+    padding-bottom: 0px;
+
+    .line-node {
+      cursor: pointer;
+
+      .node-content {
+        margin: 10px 1px;
+        width: 100%;
+        display: table;
+
+        .node-process {
+          display: table-cell;
+        }
+      }
+    }
+  }
+}
+
+.svg-path {
+  fill: none;
+  stroke: #d8d8d8;
+  stroke-width: 1;
+}
+</style>

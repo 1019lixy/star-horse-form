@@ -31,7 +31,6 @@ const init = () => {
       validButtonList.value.push(temp);
     }
   }
-  console.log(validButtonList.value);
 }
 
 /**

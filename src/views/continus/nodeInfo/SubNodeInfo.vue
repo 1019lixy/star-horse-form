@@ -111,7 +111,8 @@ const fieldList = reactive<PageFieldInfo | any>({
   }]
 });
 const init = async () => {
-  compileTypeList.value = (await loadData("/devops-continus/continus/baseInfo/projectType", {})).data;
+  let reData = await loadData("/devops-continus/continus/baseInfo/projectType", {});
+  compileTypeList.value = reData?.data;
 }
 onMounted(async () => {
   await init();

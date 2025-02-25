@@ -1,5 +1,5 @@
 <script setup lang="ts" name="ComplianceScanReport">
-import {apiInstance} from "@/api/sh_api.ts";
+import {apiInstance, dialogPreps} from "@/api/sh_api.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {onMounted, provide, reactive} from "vue";
 import {SearchFields} from "@/components/types/SearchProps";

@@ -1,20 +1,15 @@
 <script setup lang="ts" name="ContinusInstanceDetail">
 import InstanceItemDetail from "@/views/continus/InstanceItemDetail.vue";
 import Compliance from "@/views/continus/nodeDetail/Compliance.vue";
-</script>
-<style lang="scss" scoped>
-.config-nav-bar {
-  .nav-bar-left {
-    width: 81%;
-  }
 
-  .nav-bar-right {
-    justify-items: right;
-    align-items: center;
-    text-align: center;
-  }
+const execLine = () => {
+  console.log("执行");
 }
-</style>
+const nodeDetail = (id: number) => {
+
+}
+</script>
+
 <template>
   <div class="config-nav-bar">
     <div class="nav-bar-left">
@@ -31,3 +26,16 @@ import Compliance from "@/views/continus/nodeDetail/Compliance.vue";
   <instance-item-detail @nodeDetail="nodeDetail"></instance-item-detail>
   <compliance/>
 </template>
+<style lang="scss" scoped>
+.config-nav-bar {
+  .nav-bar-left {
+    width: 81%;
+  }
+
+  .nav-bar-right {
+    justify-items: right;
+    align-items: center;
+    text-align: center;
+  }
+}
+</style>

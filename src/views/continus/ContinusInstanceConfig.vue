@@ -6,6 +6,9 @@ const router = useRouter();
 const addDataFun = () => {
   router.push("/continus/instanceInit");
 };
+const btnOperation = (type: number) => {
+
+};
 </script>
 <style lang="scss" scoped>
 .config-nav-bar {

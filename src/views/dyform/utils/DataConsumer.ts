@@ -137,9 +137,9 @@ export function viewFieldInfo(viewTypeList: Ref<SelectOption[]>, consumeAuthorit
             name: table.from,
             value: table.from,
         });
-        table.fromData?.items?.forEach(item => {
+        table.fromData?.items?.forEach((item:any) => {
             lineDatas[table.from].push({
-                name: item.comment||item.fieldName,
+                name: item.comment || item.fieldName,
                 value: item.fieldName
             })
         });
@@ -285,9 +285,9 @@ export function relationFieldInfo(datas: any) {
     lineDatas = {};
     tableVisible.value = true;
     lineDatas[datas.from] = [];
-    datas.fromData?.items?.forEach(item => {
+    datas.fromData?.items?.forEach((item:any) => {
         lineDatas[datas.from].push({
-            name: item.comment||item.fieldName,
+            name: item.comment || item.fieldName,
             value: item.fieldName
         })
     });
@@ -295,7 +295,7 @@ export function relationFieldInfo(datas: any) {
     lineDatas[datas.to] = [];
     datas.toData?.items?.forEach(item => {
         lineDatas[datas.to].push({
-            name: item.comment||item.fieldName,
+            name: item.comment || item.fieldName,
             value: item.fieldName
         })
     });
@@ -350,7 +350,7 @@ export function relationFieldInfo(datas: any) {
                             actionName: "change",
                             actions: (val: any) => {
                                 fieldNameList.value = lineDatas[val["tableName"]];
-                                console.log(val,fieldNameList.value);
+                                console.log(val, fieldNameList.value);
                             },
                             required: relationRequired, formVisible: true,
                         },

@@ -237,7 +237,7 @@ let httpTaskField = reactive<TabFieldInfo | any>({
         formVisible: true,
         listVisible: true,
     }, {
-        label: "请求地址",
+        label: "请求方式",
         fieldName: "httpMethod",
         type: "select",
         optionList: httpMethod(),
@@ -735,7 +735,6 @@ const userTaskNodeField = reactive<PageFieldInfo | any>({
     }]
 });
 const serviceTaskNodeField = (node: any) => {
-    console.log("sss", node);
     if (node.type == "bpmn:ServiceTask") {
         serviceTask.value = serviceTaskField;
     } else if (node.type == "bpmn:SendTask") {

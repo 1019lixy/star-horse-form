@@ -114,7 +114,8 @@ const setFormData = (data: any) => {
   pipelineCfgRef.value.setFormData(data);
 }
 const init = async () => {
-  repoList.value = (await loadData("/devops-continus/continus/baseInfo/repoTypes")).data;
+  let redata = await loadData("/devops-continus/continus/baseInfo/repoTypes", {});
+  repoList.value = redata?.data;
   execTypeList.value.push({name: "独占模式", value: "single"});
   execTypeList.value.push({name: "并行模式", value: "multiple"});
 };

@@ -28,6 +28,15 @@ const getStatus = (statusCode: number) => {
 };
 const showDetail = (nodeType: string, instanceId: string) => {
 };
+const execLine = () => {
+  console.log("执行");
+}
+const configLine = () => {
+
+}
+const publishLine = () => {
+
+}
 </script>
 <style lang="scss" scoped>
 .svg-path {

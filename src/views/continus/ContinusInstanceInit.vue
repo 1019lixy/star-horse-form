@@ -75,8 +75,14 @@ onMounted(async () => {
         </el-button>
       </div>
       <div class="nav-bar-right">
-        <el-button style="background: var(--star-horse-style);color: var(--star-horse-white)">保存并启用</el-button>
-        <el-button>保存并执行</el-button>
+        <el-button style="background: var(--star-horse-style);color: var(--star-horse-white)">
+          <star-horse-icon icon-class="save" color="white"/>
+          保存并启用
+        </el-button>
+        <el-button>
+          <star-horse-icon icon-class="save"/>
+          保存并执行
+        </el-button>
       </div>
     </div>
     <div class="pipeline-nav">
@@ -92,11 +98,11 @@ onMounted(async () => {
           <div class="node-content" v-for="(item,index) in processList">
             <div class="step">
               <i class="icon node-arrow">
-                <star-horse-icon icon-class="arrow-double-right" style="vertical-align: middle;"/>
+                <star-horse-icon icon-class="arrow-double-right" />
               </i>
               <i @click="addNode(index)" class="icon node-add">
                 <el-tooltip content="插入节点">
-                  <star-horse-icon icon-class="add" style="vertical-align: middle;"/>
+                  <star-horse-icon icon-class="add" />
                 </el-tooltip>
               </i>
             </div>
@@ -134,18 +140,20 @@ onMounted(async () => {
   </el-card>
 </template>
 <style lang="scss" scoped>
-
-
 .config-content {
   flex: 1;
   overflow: hidden;
-
 }
 
-
 .config-nav-bar {
+  display: flex;
+  justify-content: space-between; // 左右分散对齐
+  align-items: center;
+  padding: 10px 0;
   .nav-bar-left {
-    width: 75%;
+    display: flex;
+    align-items: center;
+    gap: 20px; // 添加间隙
   }
 
   .nav-bar-right {
@@ -156,11 +164,11 @@ onMounted(async () => {
 }
 
 .pipeline-nav {
-  display: inline-block;
-  margin: 5px 0;
-  border: 1px solid var(--star-horse-font-color);
-  width: 100%;
+  display: block;
+  margin: 15px 0;
   position: relative;
+  min-width: 1200px; // 添加最小宽度
+
 
   .icon {
     font-style: normal;
@@ -168,8 +176,21 @@ onMounted(async () => {
     line-height: 0;
     color: #e8e8e8;
     display: inline-block;
+    align-items: center;
+    margin: 0 5px;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
+    &.node-add, &.node-arrow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #e8e8e8;
+    }
   }
 
   .pright {
@@ -188,13 +209,14 @@ onMounted(async () => {
     border-radius: 4px;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .04);
     cursor: pointer;
-    flex-shrink: 0;
     font-size: 14px;
     height: 40px;
     line-height: 40px;
+
     position: relative;
     text-align: center;
-    width: 110px;
+    flex-shrink: 0; // 禁止面板缩小
+    width: 140px; // 加宽面板
 
     .label {
       display: block;
@@ -217,7 +239,6 @@ onMounted(async () => {
     border: 1px solid var(--star-horse-style);
     box-shadow: none;
     color: var(--star-horse-white) !important;
-
     &:after {
       border: 9px solid transparent;
       border-top-color: var(--star-horse-style);
@@ -229,23 +250,26 @@ onMounted(async () => {
       width: 0;
     }
   }
-
   .step {
     flex-shrink: 0;
     position: relative;
     text-align: center;
-    width: 30px;
-
+    width: 40px;
+    display: flex;
+    align-items: center;
     .node-add {
       cursor: pointer;
       display: none;
       color: var(--star-horse-style);
       font-size: 16px;
+
     }
 
     .node-arrow {
       cursor: pointer;
       font-size: 16px;
+      align-items: center;
+      display: flex;
     }
 
     &:hover .node-arrow {
@@ -269,18 +293,18 @@ onMounted(async () => {
       content: "";
       height: 1px;
       position: absolute;
-      top: 9px;
-      width: 6px;
+      top: 50%;
+      width: 10px;
     }
   }
 
   .nav {
-    align-items: center;
-    color: #606060;
     display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 0;
+    flex-wrap: nowrap; // 禁止换行
     overflow-x: auto;
-    overflow-y: hidden;
-    margin: 5px 0;
 
     .nav-setting {
       align-items: center;
@@ -332,6 +356,7 @@ onMounted(async () => {
       .node-content {
         align-items: center;
         display: flex;
+        gap: 8px; // 添加节点间隙
       }
     }
   }

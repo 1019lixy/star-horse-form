@@ -83,7 +83,7 @@ const tableFieldList = reactive({
   ],
   stopAutoLoad: true,
 });
-const primaryKey = "idDbinfo";
+const primaryKey = "idprojectMember";
 const projectMemberRef = ref();
 const rules = {};
 const dialogProps = dialogPreps();
