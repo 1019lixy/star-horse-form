@@ -12,7 +12,6 @@
         :fetch-suggestions="querySearch"
         :fit-input-width="field.preps['fitInputWidth']=='Y'"
         :aria-label="field.preps['label']"
-        :name="field.preps['name']"
         :hide-loading="false"
         :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
         :placeholder="field.preps['placeholder']||'请输入'+field.preps['label']"

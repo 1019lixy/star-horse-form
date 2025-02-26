@@ -15,7 +15,6 @@
         :format="field.preps['format']||'HH:mm:ss'"
         :value-format="field.preps['valueFormat']||'HH:mm:ss'"
         :is-range="field.preps['isRange']=='Y'"
-        :name="field.preps['name']"
         :placeholder="field.preps['placeholder']||'请选择'+field.preps['label']"
         :range-separator="field.preps['rangeSeparator']"
         :readonly="field.preps['readonly']=='Y'"

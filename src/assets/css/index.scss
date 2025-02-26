@@ -122,9 +122,9 @@ a {
 
 .dialog-body {
   display: flex;
+  flex: 1;
   flex-direction: column;
-  height: 100%;
-  width: 100%;
+  overflow-y: auto;
 }
 
 .el-form-item__label-wrap {
@@ -553,6 +553,7 @@ hr {
     background: #fff;
     margin: 4px 0 0 0;
     position: relative;
+
     .star-horse-left {
       height: 100%;
       width: var(--el-aside-width);
@@ -584,9 +585,11 @@ hr {
 
         .search_btn {
           display: flex;
+
           .search_content {
             flex: 1;
           }
+
           .el-dropdown {
             vertical-align: top;
             justify-content: center;
@@ -889,6 +892,7 @@ button.el-collapse-item__header {
 .m-message-container {
   z-index: 9999999 !important;
 }
+
 .menu-title {
   display: flex;
   align-items: center;
@@ -898,9 +902,11 @@ button.el-collapse-item__header {
   flex: 1;
   font-size: 14px;
   font-weight: 500;
+
   .name {
     color: #303133;
   }
+
   .btn {
     display: flex;
     align-items: center;

@@ -1,23 +1,21 @@
 <script setup lang="ts" name="ContinusInstanceInit">
-import {onMounted, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import ToolInfo from "@/views/continus/ToolInfo.vue";
 import DeployTemplate from "@/views/continus/DeployTemplate.vue";
 import {warning} from "@/utils/message.ts";
+import {continusConfig} from "@/store/ContinusConfigStore.ts";
+import piniaInstance from "@/store";
 
 const nodeCompRef = ref<any>();
 const toolInfoRef = ref<any>();
 const tempDialog = ref<boolean>(false);
 const nodeDialog = ref<boolean>(false);
 const currentNode = ref<number>(-1);
+const continusStore = continusConfig(piniaInstance);
+const nodeInfo = computed(() => continusStore.nodeInfo);
 let currentCompName = ref<string>("PipelineCfg");
 
-const processList = ref<any>([
-  {name: "编译", value: "BuildCfg"},
-  {name: "合规", value: "AuditCfg"},
-  {name: "Sql审核", value: "SqlAuditCfg"},
-  {name: "质量门禁", value: "InspectCfg"},
-  {name: "PRD", value: "DeployCfg"}
-]);
+const processList = ref<any>([]);
 
 
 const changeTemplate = () => {
@@ -30,6 +28,10 @@ const addNode = (currentIndex: number) => {
 const editNode = (compName: string, currentIndex: number) => {
   currentCompName.value = compName;
   currentNode.value = currentIndex;
+};
+const delNode = (item: any) => {
+  let index = processList.value.indexOf(item);
+  processList.value.splice(index, 1);
 };
 const addSubNode = () => {
   nodeDialog.value = true;
@@ -44,8 +46,13 @@ const dataSubmit = () => {
     return;
   }
   let index = currentNode.value == -1 ? processList.value.length : currentNode.value;
-  processList.value.splice(index, 0, {name: node.name, value: node.code});
+  processList.value.splice(index, 0, {name: node.name, value: node.code, icon: node.icon});
+  currentNode.value = index;
+  currentCompName.value = node.code;
   closeAction();
+}
+const save = (type: string) => {
+  console.log(type);
 }
 const init = async () => {
 
@@ -62,25 +69,24 @@ onMounted(async () => {
   <star-horse-dialog :title="'更换模板'" :dialogVisible="tempDialog">
     <deploy-template/>
   </star-horse-dialog>
-
   <el-card class="inner_content">
     <div class="config-nav-bar">
       <div class="nav-bar-left">
-        <span>xxxx-----</span>
+        <span>{{ nodeInfo.pipelineCfg?.lineName || '未定义' }}</span>
         <span style="width: 40px;"></span>
-        <span>当前模板：XXX</span>&nbsp;&nbsp;
-        <el-button @click="changeTemplate" link>
-          <star-horse-icon icon-class="transfer" style="vertical-align: middle;"/>
+        <span>当前模板：{{ nodeInfo.pipelineCfg?.templateName || '默认' }}</span>&nbsp;&nbsp;
+        <el-button @click="changeTemplate" link class="flex items-center">
+          <star-horse-icon icon-class="transfer"/>
           更换模板
         </el-button>
       </div>
       <div class="nav-bar-right">
-        <el-button style="background: var(--star-horse-style);color: var(--star-horse-white)">
-          <star-horse-icon icon-class="save" color="white"/>
+        <el-button @click="save('publish')" style="background: var(--star-horse-style);color: var(--star-horse-white)">
+          <star-horse-icon icon-class="publish" color="white"/>
           保存并启用
         </el-button>
-        <el-button>
-          <star-horse-icon icon-class="save"/>
+        <el-button @click="save('exec')">
+          <star-horse-icon icon-class="run"/>
           保存并执行
         </el-button>
       </div>
@@ -93,41 +99,48 @@ onMounted(async () => {
           流水线配置
         </div>
         <div class="nav-line"></div>
-        <div class="start_end">开始</div>
-        <div class="nav-nodes">
-          <div class="node-content" v-for="(item,index) in processList">
-            <div class="step">
-              <i class="icon node-arrow">
-                <star-horse-icon icon-class="arrow-double-right" />
-              </i>
-              <i @click="addNode(index)" class="icon node-add">
-                <el-tooltip content="插入节点">
-                  <star-horse-icon icon-class="add" />
-                </el-tooltip>
-              </i>
-            </div>
-            <div :class="{'is-active':index==currentNode}" @click="editNode(item.value,index)" class="nav-panel">
-                        <span class="label text-overflow">{{ item.name }}
-                           <i class="icon pright"><star-horse-icon icon-class="close"
-                                                                   :style="{'vertical-align': 'middle',
-                                                                   color:index==currentNode? 'var(--star-horse-white)':'var(--star-horse-style)'}"/></i>
-                        </span>
+        <div class="start_end" v-if="processList.length>0">开始</div>
+        <el-scrollbar>
+          <div class="nav-nodes">
+            <div class="continus-node-content" v-for="(item,index) in processList">
+              <div class="step">
+                <i class="icon node-arrow">
+                  <star-horse-icon icon-class="arrow-double-right"/>
+                </i>
+                <i @click="addNode(index)" class="icon node-add">
+                  <el-tooltip content="插入节点">
+                    <star-horse-icon icon-class="add" cursor="pointer"/>
+                  </el-tooltip>
+                </i>
+              </div>
+              <div :class="{'is-active':index==currentNode}" @click="editNode(item.value,index)" class="nav-panel">
+                <div class="relative flex flex-row items-center justify-center">
+                  <star-horse-icon :icon-class="item.icon" size="30px"/>
+                  <span>{{ item.name }}</span>
+                  <i class="icon pright">
+                    <star-horse-icon @click.stop="delNode(item)" icon-class="close"
+                                     cursor="pointer"
+                                     color="red"
+                    />
+                  </i>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="step">
+        </el-scrollbar>
+        <div class="step"  v-if="processList.length>0">
           <i class="icon node-arrow">
             <star-horse-icon icon-class="arrow-double-right" style="vertical-align: middle;"/>
           </i>
           <i @click="addNode(processList.length)" class="icon node-add">
             <el-tooltip content="插入节点">
-              <star-horse-icon icon-class="add" style="vertical-align: middle;"/>
+              <star-horse-icon icon-class="add" cursor="pointer" style="vertical-align: middle;"/>
             </el-tooltip>
           </i>
         </div>
-        <div class="start_end">结束</div>
+        <div class="start_end"  v-if="processList.length>0">结束</div>
         <el-button @click="addNode(-1)" class="init-btn" text>
-          <star-horse-icon icon-class="add" style="vertical-align: middle;"/>
+          <star-horse-icon icon-class="add" cursor="pointer" style="vertical-align: middle;"/>
           添加节点
         </el-button>
       </div>
@@ -150,6 +163,7 @@ onMounted(async () => {
   justify-content: space-between; // 左右分散对齐
   align-items: center;
   padding: 10px 0;
+
   .nav-bar-left {
     display: flex;
     align-items: center;
@@ -165,11 +179,7 @@ onMounted(async () => {
 
 .pipeline-nav {
   display: block;
-  margin: 15px 0;
   position: relative;
-  min-width: 1200px; // 添加最小宽度
-
-
   .icon {
     font-style: normal;
     text-align: center;
@@ -180,10 +190,11 @@ onMounted(async () => {
     margin: 0 5px;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
+
     &.node-add, &.node-arrow {
       position: absolute;
       top: 50%;
-      left: 50%;
+      left: 40%;
       transform: translate(-50%, -50%);
       border-radius: 50%;
       display: flex;
@@ -197,8 +208,8 @@ onMounted(async () => {
     color: #e8e8e8;
     cursor: pointer;
     font-size: 16px;
-    right: 3px;
-    top: 2px;
+    right: -7px;
+    top: -2px;
     display: none;
     position: absolute;
   }
@@ -210,13 +221,12 @@ onMounted(async () => {
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .04);
     cursor: pointer;
     font-size: 14px;
-    height: 40px;
-    line-height: 40px;
-
+    height: 35px;
+    line-height: 35px;
     position: relative;
     text-align: center;
     flex-shrink: 0; // 禁止面板缩小
-    width: 140px; // 加宽面板
+    width: 120px; // 加宽面板
 
     .label {
       display: block;
@@ -238,18 +248,21 @@ onMounted(async () => {
     background: var(--star-horse-style);
     border: 1px solid var(--star-horse-style);
     box-shadow: none;
+    flex-shrink: 0;
     color: var(--star-horse-white) !important;
+
     &:after {
-      border: 9px solid transparent;
+      border: 10px solid transparent;
       border-top-color: var(--star-horse-style);
       content: "";
       height: 0;
-      left: 47px;
+      left: 45%;
       position: absolute;
       top: 100%;
       width: 0;
     }
   }
+
   .step {
     flex-shrink: 0;
     position: relative;
@@ -257,11 +270,13 @@ onMounted(async () => {
     width: 40px;
     display: flex;
     align-items: center;
+
     .node-add {
       cursor: pointer;
       display: none;
       color: var(--star-horse-style);
       font-size: 16px;
+      position: absolute;
 
     }
 
@@ -277,7 +292,7 @@ onMounted(async () => {
     }
 
     &:hover .node-add {
-      display: block;
+      display: flex;
     }
 
     &:before {
@@ -288,23 +303,14 @@ onMounted(async () => {
       right: 0;
     }
 
-    &:after, &:before {
-      background-color: #e8e8e8;
-      content: "";
-      height: 1px;
-      position: absolute;
-      top: 50%;
-      width: 10px;
-    }
+
   }
 
   .nav {
     display: flex;
     align-items: center;
-    gap: 10px;
     padding: 10px 0;
-    flex-wrap: nowrap; // 禁止换行
-    overflow-x: auto;
+    border-bottom: 2px solid #e8e8e8;
 
     .nav-setting {
       align-items: center;
@@ -317,20 +323,24 @@ onMounted(async () => {
     .nav-line {
       background-color: #dadada;
       height: 52px;
-      margin: 0 20px;
-      width: 1px;
+      font-weight: bold;
+      margin: 0 5px;
+      width: 2px;
     }
 
     .start_end {
       border: 1px solid #e8e8e8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       border-radius: 100%;
       box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .04);
       color: #898989;
       flex-shrink: 0;
       font-size: 12px;
-      height: 44px;
-      width: 44px;
-      line-height: 44px;
+      height: 35px;
+      width: 35px;
+      line-height: 35px;
       text-align: center;
       vertical-align: middle;
     }
@@ -352,11 +362,11 @@ onMounted(async () => {
     .nav-nodes {
       align-items: center;
       display: flex;
-
-      .node-content {
+      height: 73px;
+      .continus-node-content {
         align-items: center;
+        height: 35px;
         display: flex;
-        gap: 8px; // 添加节点间隙
       }
     }
   }

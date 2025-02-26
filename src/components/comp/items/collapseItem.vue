@@ -52,7 +52,7 @@ onMounted(() => {
 
 <template>
   <template v-if="item.collapseList&&item.collapseList.length>0">
-    <el-scrollbar>
+    <el-scrollbar style="margin-top: 10px">
       <el-collapse v-model="item.fieldName" :accordion="item.preps?.accordion" v-on:change="item.actions">
         <template v-for="(collapseItem,key ) in item.collapseList">
           <el-collapse-item v-if="Object.keys(collapseItem).includes('disVisible')?collapseItem['disVisible']:Object.keys(collapseItem).length>0 " :name="collapseItem.tabName||key"

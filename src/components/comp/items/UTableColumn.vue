@@ -20,20 +20,23 @@ defineProps({
       :min-width="item.minWidth||Config.defaultColumnWidth + 'px'"
       v-if="item.formVisible">
     <template #default="scope">
-      <template v-if="item.batchFieldList?.length>0" v-for="sitem in  item.batchFieldList">
-        <star-horse-form-list
-            style="min-height:100px;width: 100%!important;"
-            v-model:dataForm="scope.row"
-            :compUrl="sitem['compUrl']"
-            :primaryKey="sitem['primaryKey']"
-            :batchName="sitem['batchName']"
-            :initRows="sitem['initRows']"
-            :subFlag="true"
-            :size="size"
-            :defaultValues="batchFieldDefaultValues(sitem)"
-            :field-list="sitem['fieldList']"
-            :rules="sitem['rules']||rules"
-        />
+
+      <template v-if="item.batchFieldList?.length>0">
+        <template v-for="sitem in  item.batchFieldList">
+          <star-horse-form-list
+              style="min-height:100px;width: 100%!important;"
+              v-model:dataForm="scope.row"
+              :compUrl="sitem['compUrl']"
+              :primaryKey="sitem['primaryKey']"
+              :batchName="sitem['batchName']"
+              :initRows="sitem['initRows']"
+              :subFlag="true"
+              :size="size"
+              :defaultValues="batchFieldDefaultValues(sitem)"
+              :field-list="sitem['fieldList']"
+              :rules="sitem['rules']||rules"
+          />
+        </template>
       </template>
       <template v-else>
         <sh-table-list-column :primaryKey="primaryKey" :batchName="batchName"
@@ -44,6 +47,7 @@ defineProps({
                               :item="item"
                               :index="scope.$index"/>
       </template>
+
     </template>
   </el-table-column>
 </template>

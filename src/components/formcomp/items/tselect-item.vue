@@ -25,7 +25,6 @@
         :disabled="!context.attrs['formData']['_'+field.preps['name']+'Editable']&&field.preps['disabled'] == 'Y'"
         :multiple="field.preps['multiple']=='Y'"
         :multiple-limit="field.preps['multipleLimit']"
-        :name="field.preps['name']"
         :placeholder="field.preps['placeholder']||'请选择'+(field.preps['label']||'')"
         :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
         :data="field.preps['values']||context.attrs['formData'][field.preps['name']+'OptionList']"

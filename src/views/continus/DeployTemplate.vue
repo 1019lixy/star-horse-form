@@ -1,5 +1,35 @@
 <script setup lang="ts">
+import {onMounted} from "vue";
+import {continusNodeList} from "@/views/continus/utils/ToolsParams.ts";
+import {ApiUrls} from "@/components/types/ApiUrls";
+import {apiInstance} from "@/api/sh_api.ts";
+import {postRequest} from "@/api/star_horse.ts";
 
+const apiUrl: ApiUrls = apiInstance("userdb-manage", "/userdb/formInstance/conTemplate/idTemplate/136");
+const nodeList = ref<any>([]);
+const loadTemplate = () => {
+  postRequest(apiUrl.basePrefix+"/joinQuery", {
+    joinTables: [
+      {
+        tableName: "conTemplateNode",
+        joinType: "inner",
+        queryCondition:{
+
+        }
+      }
+    ],
+  }).then(res => {
+    if (res.data.code) {
+      return;
+    }
+    let reData = res.data.data;
+    console.log(reData);
+  })
+}
+onMounted(() => {
+  nodeList.value = continusNodeList.value;
+  loadTemplate();
+})
 </script>
 
 <template>
@@ -13,7 +43,7 @@
         <div class="content">
           <span class="content-title">ssss1</span>
           <i>
-            <star-horse-icon icon-class="fa-solid fa-arrow-right-long"/>
+            <star-horse-icon icon-class="arrow-double-right"/>
           </i>
         </div>
         <div class="content">
@@ -27,6 +57,7 @@
 <style scoped lang="scss">
 .template-list {
   height: 420px;
+  width: 100%;
   padding: 0 24px;
 
   .template-item {

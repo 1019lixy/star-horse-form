@@ -6,12 +6,44 @@ import {FieldInfo, PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {SelectOption} from "@/components/types/SearchProps";
 import {loadData} from "@/api/sh_api.ts";
 import {loadDict} from "@/api/star_horse.ts";
-
 const compileLanguageList = ref<SelectOption[]>([]);
 const languageVersionList = ref<SelectOption[]>([]);
 const pluginVersionList = ref<SelectOption[]>([]);
 const linkExecServerList = ref<SelectOption[]>([]);
 const codeCommitorList = ref<SelectOption[]>([]);
+const continusNodeList = ref<Array<any>>([
+    {icon: "continus-java", index: 1, name: "Java编译", code: "JavaCompile", default: "Y"},
+    {icon: "continus-compile", index: 1, name: "普通编译", code: "BuildCfg"},
+    {icon: "continus-golang", index: 1, name: "Go编译", code: "GoCompile"},
+    {icon: "continus-python", index: 1, name: "Python编译", code: "PythonCompile"},
+    {icon: "continus-nodejs", index: 1, name: "Node.JS编译", code: "NodeCompile"},
+    {icon: "continus-android", index: 1, name: "Android编译", code: "AndroidCompile"},
+    {icon: "continus-ios", index: 1, name: "IOS编译", code: "IosCompile"},
+    {icon: "continus-junit", index: 2, name: "通用测试任务", code: "GenerateTest", default: "Y"},
+    {icon: "continus-api", index: 2, name: "API接口测试", code: "ApiInterfaceTest"},
+    {icon: "continus-cpp", index: 2, name: "C++单元测试", code: "CppUnitTest"},
+    {icon: "continus-junit", index: 2, name: "Junit单元测试", code: "JunitTest"},
+    {icon: "continus-nodejs", index: 2, name: "Node.JS单元测试", code: "NodeUnitTest"},
+    {icon: "continus-golang", index: 2, name: "Golang单元测试", code: "GoUnitTest"},
+    {icon: "continus-python", index: 2, name: "Python单元测试", code: "PythonUnitTest"},
+    {icon: "continus-sonar", index: 3, name: "Sonar代码扫描", code: "SonarScan", default: "Y"},
+    {icon: "continus-app-sql-audit", index: 3, name: "应用Sql性能审核", code: "AppSqlAudit"},
+    {icon: "continus-db-audit", index: 3, name: "Db审核", code: "DbAudit"},
+    {icon: "continus-quality-gates", index: 4, name: "质量门禁", code: "EntranceGuard", default: "Y"},
+    {icon: "continus-fortify", index: 4, name: "Fortify代码检查", code: "FortifyScan"},
+    {icon: "continus-safe", index: 4, name: "安全加固", code: "SecurityReinforcement"},
+    {icon: "continus-deploy", index: 5, name: "普通部署", code: "GeneralDeploy", default: "Y"},
+    {icon: "continus-script-task", index: 5, name: "脚本部署", code: "ScriptDeploy"},
+    {icon: "continus-archive", index: 6, name: "制品库下载链接", code: "PackageDownload", default: "Y"},
+    {icon: "continus-http", index: 6, name: "http请求任务", code: "HttpRequest"},
+    {icon: "continus-docker", index: 6, name: "镜像移交", code: "ImageHandOver"},
+    {icon: "continus-docker", index: 6, name: "镜像推送", code: "ImageSend"},
+    {icon: "continus-jenkins", index: 6, name: "Jenkins任务", code: "JenkinsTask"},
+    {icon: "file_transfer", index: 6, name: "大文件外发", code: "BigFileSendOut"},
+    {icon: "continus-increment", index: 6, name: "增量包制作", code: "IncPackageCreate"},
+    {icon: "continus-windows", index: 6, name: "WindowsMSBuild构建任务", code: "WmsBuildTask"},
+    {icon: "continus-windows", index: 6, name: "Windows批处理脚本执行", code: "WBatchScriptExec"},
+]);
 const reportPersonList = ref<SelectOption[]>([
     {name: "作业操作人", value: "1"},
     {name: "流水线操作人", value: "2"},
@@ -281,7 +313,7 @@ const loadPlugin = (name: string) => {
     }
 }
 const init = async () => {
-    let reData=await loadData("/devops-continus/continus/baseInfo/programLanguage", {});
+    let reData = await loadData("/devops-continus/continus/baseInfo/programLanguage", {});
     compileLanguageList.value = reData?.data;
     // compileLanguageList.value=(await loadData("/devops-continus/continus/baseInfo/programLanguage",{})).data;
     // compileLanguageList.value=(await loadData("/devops-continus/continus/baseInfo/programLanguage",{})).data;
@@ -298,5 +330,6 @@ export {
     webpackTools,
     dockerTools,
     userTools,
+    continusNodeList,
     loadPlugin
 }

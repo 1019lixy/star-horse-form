@@ -98,6 +98,7 @@ const fieldList = reactive<PageFieldInfo | any>({
         label: "编译类型",
         fieldName: "compileType",
         type: "select",
+        defaultValue: "maven",
         actionName: "change",
         actions: (val: any) => {
           nodeParams.value = loadPlugin(val["compileType"])
@@ -120,13 +121,16 @@ onMounted(async () => {
 </script>
 
 <template>
-  <star-horse-form ref="nodeInfoRef" class="node-info" :fieldList="fieldList"/>
+  <star-horse-form ref="nodeInfoRef" formSize="default" class="node-info" :fieldList="fieldList"/>
 </template>
 <style lang="scss" scoped>
-:deep(.el-card) {
+.el-card {
   width: 100%;
 }
-
+.comp-info {
+  display: block !important;
+  border: 1px solid #e8e8e8;
+}
 .el-tabs {
   margin: 5px 10px;
 }

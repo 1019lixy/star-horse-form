@@ -52,7 +52,7 @@ onMounted(() => {
 <template>
   <template v-if="item.cardList&&item.cardList.length>0">
     <template v-for="cardItem in item.cardList">
-      <el-card shadow="hover" v-if="Object.keys(cardItem).includes('disVisible')?cardItem['disVisible']:Object.keys(cardItem).length>0 " :index="checkObject(cardItem)">
+      <el-card shadow="hover" style="margin-bottom: 10px" v-if="Object.keys(cardItem).includes('disVisible')?cardItem['disVisible']:Object.keys(cardItem).length>0 " :index="checkObject(cardItem)">
         <template #header>
           <div class="card-header">
             <span>{{ cardItem.title || cardItem.tabName }}  <help v-if="cardItem.helpMsg" :message="cardItem.helpMsg"/></span>

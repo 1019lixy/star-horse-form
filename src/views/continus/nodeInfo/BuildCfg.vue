@@ -66,6 +66,7 @@ const fieldList = reactive<PageFieldInfo | any>({
         }
       }],
         {
+
           cardList: [{
             title: "子节点配置",
             subFormFlag: "Y",
@@ -89,6 +90,11 @@ const fieldList = reactive<PageFieldInfo | any>({
             fieldList: [{
               fieldName: currentTabName,
               closable: "Y",
+              type:"border-card",
+              closeAction: (val: any) => {
+                console.log(val);
+
+              },
               tabList: subNodeFieldList
             }]
           }],
@@ -143,7 +149,8 @@ const init = async () => {
           fieldName: "SubNodeInfo"
         }]
       });
-      repoList.value = (await loadData("/devops-continus/continus/baseInfo/repoTypes")).data;
+      let redata=await loadData("/devops-continus/continus/baseInfo/repoTypes",{});
+      repoList.value =redata?.data;
       execTypeList.value.push({name: "并行", value: "serial"});
       execTypeList.value.push({name: "串行", value: "parallel"});
       nodeSuccessConditionList.value.push({name: "成功完成所有子任务", value: "all"});
@@ -165,12 +172,14 @@ defineExpose({
                      @merge="dataSubmit" :is-batch="false" :is-show-btn-continue="false">
     <ToolInfo ref="toolInfoRef"/>
   </star-horse-dialog>
-  <star-horse-form ref="buildCfgRef" class="build-cfg" :fieldList="fieldList"/>
+  <star-horse-form ref="buildCfgRef" formSize="default" class="build-cfg" :fieldList="fieldList"/>
 </template>
 
 <style scoped lang="scss">
+
 .build-cfg {
   height: 100%;
+
 
 }
 </style>

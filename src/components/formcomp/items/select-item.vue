@@ -2,7 +2,6 @@
   <starhorse-form-item :isDesign="context.attrs['isDesign']" :bareFlag="context.attrs['bareFlag']" :form-item="field"
                        :parentField="parentField"
   >
-
     <el-select
         :fid="field.preps['name']"
         :readonly="field.preps['readonly']=='Y'"
@@ -12,14 +11,13 @@
         :collapse-tags-tooltip="field.preps['collapseTagsTooltip']=='Y'"
         :default-first-option="field.preps['defaultFirstOption']=='Y'"
         :disabled="!context.attrs['formData']['_'+field.preps['name']+'Editable']&&field.preps['disabled']=='Y'"
-        :filterable="field.preps['filterable']=='Y'"
+        :filterable="field.preps['filterable']=='Y'||field.preps['allowCreate']=='Y'"
         :multiple="field.preps['multiple']=='Y'"
         :remote="field.preps['remote']=='Y'||field.preps['dataSource']=='url'"
         :remote-show-suffix="field.preps['remoteShowSuffix']=='Y'"
         :remote-method="remoteMethod"
         :allow-create="field.preps['allowCreate']=='Y'"
         :multiple-limit="field.preps['multipleLimit']"
-        :name="field.preps['name']"
         :placeholder="field.preps['placeholder']||'请选择'+field.preps['label']"
         :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
         :tag-type="field.preps['tagType']"
@@ -29,8 +27,8 @@
         @focus="itemAction('focus')"
         @blur="itemAction('blur')"
         v-model="context.attrs['formData'][field.preps['name']]">
-      <el-option :disabled="'Y'==items['disabled']" :label="items[field.preps['props']?.label||'name']"
-                 :value="items[field.preps['props']?.value||'value']"
+      <el-option :disabled="'Y'==items['disabled']" :label="items[field.preps?.props?.label||'name']"
+                 :value="items[field.preps?.props?.value||'value']"
                  v-for="items in field.preps['values']||context.attrs['formData'][field.preps['name']+'OptionList']"/>
     </el-select>
   </starhorse-form-item>
@@ -69,12 +67,12 @@ export default defineComponent({
         });
         temp["values"] = await dynamicUrlOperation(temp, searchParams);
       } else {
-        temp["values"] = queryString ? temp['values'].filter(createFilter(queryString)) : temp['values'];
+        temp["values"] = queryString ? temp['values']?.filter(createFilter(queryString)) : temp['values'];
       }
     }
     onMounted(() => {
       initData();
-       actionName.value = field.preps?.actionName || "keydown.enter";;
+       actionName.value = field.preps?.actionName || "keydown.enter";
       if (!context.attrs["isSearch"]) {
         allAction(context, actionName.value, !field.preps["needInitLink"]);
       }

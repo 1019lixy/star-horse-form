@@ -8,7 +8,7 @@ import {ModelRef} from "vue-demi";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {Config} from "@/api/settings.ts";
 
-defineProps({
+const props = defineProps({
   compUrl: {type: Object as PropType<ApiUrls>},
   item: {type: Array as PropType<Array<FieldInfo>>, required: true},
   objectName: {type: String},
@@ -37,6 +37,17 @@ const checkObject = (item: any) => {
 const addRow = (row: any) => {
   emits("addRow", row);
 }
+const closeOperation = (tabName: any) => {
+  props.item.tabList?.forEach((item: any, index: number) => {
+    if (item.tabName == tabName) {
+      props.item.tabList.splice(index, 1);
+      props.item.fieldName = props.item.tabList[0]?.tabName;
+      let closeAction = props.item.closeAction;
+      closeAction && closeAction(item);
+      return false;
+    }
+  });
+}
 /**
  * 列表删除行数据
  * @param row
@@ -54,9 +65,12 @@ onMounted(() => {
 
 <template>
   <template v-if="item.tabList&&item.tabList.length>0">
-    <el-tabs v-model="item.fieldName" :closable="item.closable=='Y'" v-on:tab-change="item.actions">
+    <el-tabs v-model="item.fieldName" :type="item.type||''" @tabRemove="closeOperation" :closable="item.closable=='Y'"
+             @tabChange="item.actions">
       <template v-for="(tabItem,key) in item.tabList">
-        <el-tab-pane :label="tabItem.title" v-if="Object.keys(tabItem).includes('disVisible')?tabItem['disVisible']:Object.keys(tabItem).length>0" :name="tabItem.tabName||key" :disabled="tabItem.disabled"
+        <el-tab-pane :label="tabItem.title"
+                     v-if="Object.keys(tabItem).includes('disVisible')?tabItem['disVisible']:Object.keys(tabItem).length>0"
+                     :name="tabItem.tabName||key" :disabled="tabItem.disabled"
                      :index="checkObject(tabItem)">
           <template #label>
             <div class="custom-tabs-label">
@@ -95,9 +109,10 @@ onMounted(() => {
   </template>
   <template v-else-if="item.batchFieldList&&item.batchFieldList.length>0">
     <template v-if="item.batchFieldList.length>1&&(!item.displayStyle||item.displayStyle=='tab')">
-      <el-tabs v-model="normalTabList">
+      <el-tabs v-model="normalTabList" :type="item.type||''">
         <template v-for="(sitem,key) in item.batchFieldList">
-          <el-tab-pane v-if="Object.keys(sitem).includes('disVisible')?sitem['disVisible']:Object.keys(sitem).length>0" :label="sitem['title']" :name="sitem.tabName||'tab'+key"
+          <el-tab-pane v-if="Object.keys(sitem).includes('disVisible')?sitem['disVisible']:Object.keys(sitem).length>0"
+                       :label="sitem['title']" :name="sitem.tabName||'tab'+key"
                        :disabled="sitem.disabled">
             <template #label>
               <div class="custom-tabs-label">

@@ -9,7 +9,6 @@
         :disabled="!context.attrs['formData']['_'+field.preps['name']+'Editable']&&field.preps['disabled'] == 'Y'"
         :max="field.preps['max']||Infinity"
         :min="field.preps['min']||-Infinity"
-        :name="field.preps['name']"
         :clearable="field.preps['clearable']=='Y'"
         :placeholder="field.preps['placeholder']||'请输入'+field.preps['label']"
         :precision="field.preps['precision']"

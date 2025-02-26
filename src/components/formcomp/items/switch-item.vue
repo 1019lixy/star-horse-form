@@ -12,7 +12,6 @@
         :inactive-color="field.preps['inactiveColor']"
         :inactive-text="field.preps['inactiveText']"
         :inactive-value="field.preps['inactiveValue']"
-        :name="field.preps['name']"
         :size="context.attrs.formInfo?.size||field?.preps['size']||'default'"
         :width="field.preps['width']"
         @change="itemAction('change')"

@@ -33,6 +33,7 @@ onMounted(() => {
   <star-horse-item v-if="item.type=='comp'||item.type=='button'" :primaryKey="primaryKey"
                    v-model:dataForm="dataForm"
                    :item="item"
+                   :bareFlag="true"
                    :compSize="compSize"
                    :isEdit="isEdit"/>
 

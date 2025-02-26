@@ -809,8 +809,8 @@ export async function dynamicUrlOperation(preps: any, queryInfo?: SearchParams[]
  */
 export async function createFilter(queryString: string) {
     return (restaurant: SelectOption) => {
-        return (restaurant?.name!.toLowerCase().search(queryString.toLowerCase())
-            || restaurant?.value!.toString().toLowerCase().search(queryString.toLowerCase())
+        return (restaurant?.name?.toLowerCase().search(queryString?.toLowerCase())
+            || restaurant?.value?.toString()?.toLowerCase().search(queryString?.toLowerCase())
         )
     }
 }

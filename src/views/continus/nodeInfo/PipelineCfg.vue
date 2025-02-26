@@ -1,9 +1,12 @@
 <script setup lang="ts" name="PipelineCfg">
-import {onMounted, reactive, ref} from "vue";
+import {onMounted, reactive, ref, watch} from "vue";
 import {SelectOption} from "@/components/types/SearchProps";
 import {loadData} from "@/api/sh_api.ts";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
+import piniaInstance from "@/store";
+import {continusConfig} from "@/store/ContinusConfigStore.ts";
 
+const continusStore = continusConfig(piniaInstance);
 let repoList = ref<SelectOption[]>([]);
 let execTypeList = ref<SelectOption[]>([]);
 const pipelineCfgRef = ref();
@@ -17,7 +20,7 @@ const fieldList = reactive<PageFieldInfo | any>({
           tabName: "baseInfo",
           fieldList: [[{
             label: "流水线名称",
-            fieldName: "instanceName",
+            fieldName: "lineName",
             type: "input",
             required: true,
             formVisible: true,
@@ -31,7 +34,7 @@ const fieldList = reactive<PageFieldInfo | any>({
             listVisible: true,
           }], [{
             label: "流水线类型",
-            fieldName: "execType",
+            fieldName: "lineType",
             type: "select",
             optionList: execTypeList,
             required: true,
@@ -47,11 +50,11 @@ const fieldList = reactive<PageFieldInfo | any>({
             listVisible: true,
           }]]
         }, {
-          title: "数据源",
+          title: "代码源",
           tableName: "dataSource",
           fieldList: [[{
-            label: "数据源类型",
-            fieldName: "execType",
+            label: "代码源类型",
+            fieldName: "vcsType",
             type: "select",
             optionList: repoList,
             required: true,
@@ -62,7 +65,7 @@ const fieldList = reactive<PageFieldInfo | any>({
             }
           }, {
             label: "URL",
-            fieldName: "repoInstUrl",
+            fieldName: "vcsUrl",
             type: "input",
             required: true,
             formVisible: true,
@@ -108,10 +111,10 @@ const fieldList = reactive<PageFieldInfo | any>({
   ],
 });
 const getFormData = () => {
-  return pipelineCfgRef.value.getFormData();
+  return pipelineCfgRef.value?.getFormData()||{};
 }
 const setFormData = (data: any) => {
-  pipelineCfgRef.value.setFormData(data);
+  pipelineCfgRef.value?.setFormData(data);
 }
 const init = async () => {
   let redata = await loadData("/devops-continus/continus/baseInfo/repoTypes", {});
@@ -119,9 +122,13 @@ const init = async () => {
   execTypeList.value.push({name: "独占模式", value: "single"});
   execTypeList.value.push({name: "并行模式", value: "multiple"});
 };
-onMounted(async () => {
-  await init();
+onMounted(() => {
+  init();
 });
+watch(() => getFormData(), (newVal) => {
+  //将数据存入store
+  continusStore.addNodeInfo("pipelineCfg", newVal);
+}, {deep: true});
 defineExpose({
   getFormData,
   setFormData,
@@ -129,7 +136,7 @@ defineExpose({
 </script>
 
 <template>
-  <star-horse-form ref="pipelineCfgRef" :fieldList="fieldList"/>
+  <star-horse-form ref="pipelineCfgRef" formSize="default" :fieldList="fieldList"/>
 </template>
 
 <style scoped lang="scss">

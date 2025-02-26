@@ -1,52 +1,12 @@
 <script setup lang="ts">
 import {onMounted, ref} from "vue";
+import {continusNodeList} from "@/views/continus/utils/ToolsParams.ts";
 
 const currentItem = ref<number>(0);
 const currentNode = ref<any>({});
 let categoryNodeList = ref<Array<any>>([]);
-const nodeList = ref<Array<any>>([
-  {icon: "", index: 1, name: "Java编译", code: "JavaCompile", default: "Y"},
-  {icon: "", index: 1, name: "普通编译", code: "BuildCfg"},
-  {icon: "", index: 1, name: "Caas编译", code: "CaasCompile"},
-  {icon: "", index: 1, name: "ApaasCaas编译", code: "ApaasCaasCompile"},
-  {icon: "", index: 1, name: "Go编译", code: "GoCompile"},
-  {icon: "", index: 1, name: "Python编译", code: "PythonCompile"},
-  {icon: "", index: 1, name: "Node.JS编译", code: "NodeCompile"},
-  {icon: "", index: 1, name: "Android编译", code: "AndroidCompile"},
-  {icon: "", index: 1, name: "IOS编译", code: "IosCompile"},
-  {icon: "", index: 2, name: "通用测试任务", code: "GenerateTest", default: "Y"},
-  {icon: "", index: 2, name: "API接口测试", code: "ApiInterfaceTest"},
-  {icon: "", index: 2, name: "Power性能测试", code: "PowerTest"},
-  {icon: "", index: 2, name: "C++单元测试", code: "CPPUnitTest"},
-  {icon: "", index: 2, name: "Junit单元测试", code: "JunitTest"},
-  {icon: "", index: 2, name: "Node.JS单元测试", code: "NodeUnitTest"},
-  {icon: "", index: 2, name: "Golang单元测试", code: "GoUnitTest"},
-  {icon: "", index: 2, name: "Python单元测试", code: "PythonUnitTest"},
-  {icon: "", index: 3, name: "Sonar代码扫描", code: "SonarScan", default: "Y"},
-  {icon: "", index: 3, name: "代码风格检查", code: "CodeStyleCheck"},
-  {icon: "", index: 3, name: "一致性检查", code: "ConsistenceCheck"},
-  {icon: "", index: 3, name: "应用Sql性能审核", code: "AppSqlAudit"},
-  {icon: "", index: 3, name: "Db审核", code: "DbAudit"},
-  {icon: "", index: 4, name: "质量门禁", code: "EntranceGuard", default: "Y"},
-  {icon: "", index: 4, name: "BlankDuck代码安全检查", code: "BlankDuckScan"},
-  {icon: "", index: 4, name: "Fortify代码检查", code: "FortifyScan"},
-  {icon: "", index: 4, name: "安全加固", code: "SecurityReinforcement"},
-  {icon: "", index: 5, name: "普通部署", code: "GeneralDeploy", default: "Y"},
-  {icon: "", index: 5, name: "Caas部署", code: "CaasDeploy"},
-  {icon: "", index: 5, name: "脚本部署", code: "ScriptDeploy"},
-  {icon: "", index: 5, name: "padis部署", code: "PadisDeploy"},
-  {icon: "", index: 5, name: "pafa5部署", code: "PafaDeploy"},
-  {icon: "", index: 6, name: "制品库下载链接", code: "PackageDownload", default: "Y"},
-  {icon: "", index: 6, name: "http请求任务", code: "HttpRequest"},
-  {icon: "", index: 6, name: "镜像移交", code: "ImageHandOver"},
-  {icon: "", index: 6, name: "镜像推送", code: "ImageSend"},
-  {icon: "", index: 6, name: "Jenkins任务", code: "JenkinsTask"},
-  {icon: "", index: 6, name: "大文件外发", code: "BigFileSendOut"},
-  {icon: "", index: 6, name: "增量包制作", code: "IncPackageCreate"},
-  {icon: "", index: 6, name: "pafa5编译", code: "PafaCompile"},
-  {icon: "", index: 6, name: "WindowsMSBuild构建任务", code: "WmsBuildTask"},
-  {icon: "", index: 6, name: "Windows批处理脚本执行", code: "WBatchScriptExec"},
-]);
+let nodeList = ref<Array<any>>([]);
+
 const changeNode = (itemIndex: number) => {
   currentItem.value = itemIndex;
   if (!itemIndex) {
@@ -55,7 +15,6 @@ const changeNode = (itemIndex: number) => {
     categoryNodeList.value = nodeList.value.filter(item => item.index == itemIndex);
   }
   currentNode.value = categoryNodeList.value.find(item => item.default == "Y");
-
 }
 const selectNode = (item: any) => {
   currentNode.value = item;
@@ -67,6 +26,7 @@ const getNode = () => {
   return currentNode.value;
 }
 const init = () => {
+  nodeList.value = continusNodeList.value;
   changeNode(0);
 }
 onMounted(() => {
@@ -89,19 +49,23 @@ defineExpose({
       <div :class="{'active':currentItem==5}" @click="changeNode(5)" class="node-item">部署</div>
       <div :class="{'active':currentItem==6}" @click="changeNode(6)" class="node-item">其他</div>
     </div>
+
     <div class="node-list">
       <div class="content-node">
-        <div class="node">
-          <div class="item-box" v-for="(item,index) in categoryNodeList">
-            <div @click="selectNode(item)" :class="{'item-active':item.code==currentNode?.code}">
-              <div class="item-logo">
-                <div class="node-icon"></div>
-                <span class="text text-overflow">{{ item.name }}</span>
+        <el-scrollbar height="100%">
+          <div class="node">
+            <div class="item-box" v-for="(item,index) in categoryNodeList">
+              <div class="node-info" @click="selectNode(item)" :class="{'item-active':item.code==currentNode?.code}">
+                <div class="item-logo">
+                  <div class="node-icon">
+                    <star-horse-icon :icon-class="item.icon" size="40px"/>
+                  </div>
+                  <span class="text text-overflow">{{ item.name }}</span>
+                </div>
               </div>
-              <span class="item-desc">{{ item.name }}</span>
             </div>
           </div>
-        </div>
+        </el-scrollbar>
       </div>
     </div>
     <div class="node-desc"></div>
@@ -111,16 +75,16 @@ defineExpose({
 <style scoped lang="scss">
 .content-tools {
   display: flex;
-  visibility: visible;
-  overflow-x: hidden;
-  overflow-y: auto;
+  flex-direction: row;
+  height: 100%;
+  min-height: 400px;
+  overflow: hidden;
 
   .node-menu {
     box-shadow: inset -1px 0 0 0 #e8e8e8;
     flex-shrink: 0;
-    overflow: auto;
+    overflow: hidden;
     width: 110px;
-    height: calc(100% - 200px);
 
     .node-item {
       box-shadow: inset -1px -1px 0 0 #e8e8e8;
@@ -148,8 +112,11 @@ defineExpose({
   }
 
   .item-active {
-    border: 2px dashed var(--star-horse-style);
+    background-color: var(--star-horse-shadow);
+    border-radius: 4px;
+    box-shadow: 1px 1px 2px 2px rgba(233, 112, 75, .4);
     font-weight: bold;
+    height: 100%;
   }
 
   .node-list {
@@ -158,25 +125,38 @@ defineExpose({
     padding: 20px 0 72px;
     position: relative;
     width: calc(100% - 110px);
-    height: 90%;
+    height: 100%;
+    overflow: hidden;
 
     .content-node {
-      max-height: calc(100vh - 200px);
-      overflow: auto;
+      height: 100%;
+      overflow: hidden;
 
       .node {
         display: flex;
         flex-wrap: wrap;
         padding: 0 20px 8px 0;
+        overflow: auto;
+        height: 100%;
 
         .item-box {
           display: inline-block;
-          margin: 0 0 12px 20px;
+          margin: 10px;
+          padding: 0;
           max-width: 200px;
+          border: 1px solid #e8e8e8;
           width: calc(33.3333% - 20px);
+          border-radius: 4px;
 
-          div {
+          .node-info {
+            display: flex;
+            width: 100%;
+            align-items: center;
+
             .item-logo {
+              display: flex;
+              width: 100%;
+              justify-content: space-between;
               align-items: center;
               border: 1px solid #e8e8e8;
               border-radius: 4px;
@@ -211,6 +191,7 @@ defineExpose({
       }
     }
   }
+
   .node-desc {
   }
 }
