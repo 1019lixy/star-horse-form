@@ -1,5 +1,5 @@
 <script setup lang="ts" name="ContinusInstanceInit">
-import {computed, onMounted, ref} from "vue";
+import {computed, nextTick, onMounted, ref} from "vue";
 import ToolInfo from "@/views/continus/ToolInfo.vue";
 import DeployTemplate from "@/views/continus/DeployTemplate.vue";
 import {warning} from "@/utils/message.ts";
@@ -18,6 +18,9 @@ let currentCompName = ref<string>("PipelineCfg");
 const processList = ref<any>([]);
 const changeTemplate = () => {
   tempDialog.value = !tempDialog.value;
+  nextTick(() => {
+    deployTemplateRef.value.setTemplate(nodeInfo.value.pipelineCfg);
+  })
 };
 const addNode = (currentIndex: number) => {
   currentNode.value = currentIndex;
@@ -160,7 +163,7 @@ onMounted(async () => {
       </div>
     </div>
     <div class="config-content">
-      {{currentCompName}}
+      {{ currentCompName }}
       <keep-alive>
         <component :is="currentCompName" ref="nodeCompRef"/>
       </keep-alive>

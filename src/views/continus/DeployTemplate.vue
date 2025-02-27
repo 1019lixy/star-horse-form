@@ -4,6 +4,7 @@ import {continusNodeList} from "@/views/continus/utils/ToolsParams.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {apiInstance, createJoinCondition} from "@/api/sh_api.ts";
 import {postRequest} from "@/api/star_horse.ts";
+import {warning} from "@/utils/message.ts";
 
 const apiUrl: ApiUrls = apiInstance("userdb-manage", "/userdb/formInstance/conTemplate/idTemplate/136");
 const nodeList = ref<any>([]);
@@ -27,11 +28,12 @@ const loadTemplate = () => {
       }
     ],
   }).then(res => {
-    if (res.data.code) {
+    if (res.data?.code) {
+      warning(res.data?.cnMessage);
       return;
     }
-    let reData = res.data.data;
-    reData.forEach((item: any) => {
+    let reData = res.data?.data;
+    reData?.forEach((item: any) => {
       item.nodeList = item.nodeList.map((node: any) => {
         return nodeList.value.find((nodeItem: any) => nodeItem.code == node.nodeName);
       });
@@ -46,12 +48,16 @@ const selectItem = (item: any) => {
 const getTemplate = () => {
   return currentTemplate.value;
 }
+const setTemplate = (item: any) => {
+  currentTemplate.value = item;
+}
 onMounted(() => {
   nodeList.value = continusNodeList.value;
   loadTemplate();
 })
 defineExpose({
-  getTemplate
+  getTemplate,
+  setTemplate
 })
 </script>
 
