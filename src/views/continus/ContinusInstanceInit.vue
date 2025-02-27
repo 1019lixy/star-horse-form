@@ -241,7 +241,6 @@ onMounted(async () => {
     cursor: pointer;
     text-overflow: ellipsis;
     white-space: nowrap;
-    overflow: hidden;
     padding: 0 8px;
     height: 35px;
     line-height: 35px;

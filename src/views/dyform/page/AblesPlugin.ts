@@ -30,6 +30,26 @@ export function getParentComp(parentField: any) {
 }
 
 /**
+ * 选中组件
+ * @param index
+ * @param currentItems
+ * @param elements
+ * @param parentType
+ */
+const selectItem = (index: number, currentItems: Array<any>, elements: Array<any>, parentType: string) => {
+    let item: any = {};
+    if (currentItems.length > 0) {
+        item = currentItems[currentItems.length - 1];
+    } else {
+        let element = elements[index - 1] || elements[0];
+        item = element?.items[element.items?.length - 1];
+    }
+    if (item && Object.keys(item).length > 0) {
+        designForm.selectItem(item, item.itemType, parentType);
+    }
+}
+
+/**
  * 从舞台删除组件
  * @param isEdit
  * @param formItem
@@ -48,6 +68,7 @@ export function removeItem(isEdit: boolean, formItem: any, parentField: any) {
             for (let j = 0; j < items.length; j++) {
                 if (formItem.id === items[j]?.id) {
                     items.splice(j, 1);
+                    selectItem(i, items, elements, parentItemType);
                     return;
                 }
             }
@@ -62,6 +83,7 @@ export function removeItem(isEdit: boolean, formItem: any, parentField: any) {
                     for (let j = 0; j < items.length; j++) {
                         if (formItem.id === items[j].id) {
                             items.splice(j, 1);
+                            selectItem(i, items, sdataTemp.columns, parentItemType);
                             return;
                         }
                     }
@@ -71,7 +93,11 @@ export function removeItem(isEdit: boolean, formItem: any, parentField: any) {
     } else {
         for (let i = 0; i < dataList.length; i++) {
             if (formItem.id === dataList[i].id) {
+                let item = dataList[i - 1] || dataList[0];
                 dataList.splice(i, 1);
+                if (item && Object.keys(item).length > 0) {
+                    designForm.selectItem(item, item.itemType, parentItemType);
+                }
                 return;
             }
         }
@@ -365,7 +391,7 @@ export function dynamicFormContextMenuData(item: any, parentItem: any, flag: str
             display: () => true,
         },);
     if (flag == 'scene') {
-      menus.push({
+        menus.push({
             type: 'button',
             text: '全选',
             icon: 'select-all',
