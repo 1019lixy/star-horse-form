@@ -390,7 +390,7 @@ export async function dictData(dictType: string, exclusion: Array<string> = []) 
     await postRequest(dictUrl, {fieldList: query}).then(res => {
         const redata = res.data;
         if (redata.code == 0) {
-            redata.data.forEach((item: any) => {
+            redata.data?.forEach((item: any) => {
                 if (exclusion && exclusion.includes(item.dictCode)) {
                     return;
                 }

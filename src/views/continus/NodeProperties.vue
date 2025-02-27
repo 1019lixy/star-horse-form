@@ -152,3 +152,4 @@ onMounted(async () => {
                            :compUrl="dataUrl"
                            :dataFormat="dataFormat" @selectItem="selectItemFun"/>
   </el-card>
+</template>

@@ -12,8 +12,8 @@ import 'gridstack/dist/gridstack.min.css';
 import {GridStack} from 'gridstack';
 import {GridStackWidget} from "gridstack/dist/types";
 import {createComponent} from "@/api/system.ts";
-import Moveable from "vue3-moveable";
-import DragComp from "@/views/dyform/page/DragComp.vue";
+import StarHorseDraggable from "@/components/comp/StarHorseDraggable.vue";
+import {DynamicNode} from "@/components/types/DynamicNode";
 
 const dataUrl = apiInstance("userdb-manage", "userdb/dynamicPage");
 const horizontalGuides = ref();
@@ -78,7 +78,17 @@ const onChange = (e: any) => {
   console.log(e);
 }
 const count = ref<number>(0);
-let items = ref<Array<any>>([]);
+let items = ref<Array<DynamicNode>>([
+  {
+    x: 1,
+    y: 1,
+    w: 2,
+    h: 2,
+    id: "1",
+    name: "测试",
+    content: "1",
+  }
+]);
 const dynamicComponent = (itemName: string) => {
   const AsyncComp = defineAsyncComponent({
     // 加载函数
@@ -262,11 +272,7 @@ onMounted(async () => {
             ...dyPageInfo.pageFont,
           }">
             <template v-for="(item,ind) in items">
-              <DragComp :itemName="item" :form-data="testFormData" :field="{
-                preps:{
-                  name:'Field'+ind
-                }
-              }"/>
+              <StarHorseDraggable :node="item" :msg="item.name"/>
             </template>
           </div>
         </VueInfiniteViewer>

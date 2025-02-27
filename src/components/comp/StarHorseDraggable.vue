@@ -23,6 +23,7 @@ const pointList = ref<Array<string>>([
 ]);
 
 const init = async () => {
+  handleClear();
 }
 const handleMouseDown = (e: MouseEvent) => {
   moveActive.value = true;
@@ -38,7 +39,7 @@ const handleMouseUp = () => {
 }
 let step = ref(1);
 const handleClear = () => {
-  document.onmouseup = function () {
+  window.onmouseup = function () {
     document.onmousemove = null;
     document.onmouseup = null;
     handleMouseUp()
@@ -47,98 +48,135 @@ const handleClear = () => {
 const selectItem = () => {
   designPage.selectNode(node.value);
 }
-const rangeMove = (evt: MouseEvent, t: string) => {
+/**
+ * 改变div的大小
+ * @param evt
+ * @param direction
+ */
+const rangeMove = (evt: MouseEvent, direction: string) => {
   evt.preventDefault();
   evt.stopPropagation();
   if (!isActive.value) {
     return;
   }
-  let o: boolean = false, a: boolean = false, c: boolean = false, l: boolean = false, r: boolean = false,
-      i: boolean = false;
+  // 声明有意义的变量名
+  let shouldAdjustWidth = false;
+  let shouldAdjustHeight = false;
+  let adjustLeft = false;
+  let adjustTop = false;
+  let invertWidthDirection = false;
+  let invertHeightDirection = false;
   rangeActive.value = true;
   handleMouseDown(evt);
-  let s = evt.clientX, d = evt.clientY;
+  // 初始化鼠标起始坐标
+  let startX = evt.clientX;
+  let startY = evt.clientY;
   document.onmousemove = (e: MouseEvent) => {
     moveActive.value = true;
-    switch (t) {
+    // 根据方向设置调整逻辑
+    switch (direction) {
       case "right":
-        o = true;
+        shouldAdjustWidth = true;
         break;
       case "left":
-        o = true;
-        c = true;
-        r = true;
+        shouldAdjustWidth = true;
+        adjustLeft = true;
+        invertWidthDirection = true;
         break;
       case "top":
-        a = true;
-        l = true;
-        i = true;
+        shouldAdjustHeight = true;
+        adjustTop = true;
+        invertHeightDirection = true;
         break;
       case "bottom":
-        a = true;
+        shouldAdjustHeight = true;
         break;
       case "bottom-right":
-        o = true;
-        a = true;
+        shouldAdjustWidth = true;
+        shouldAdjustHeight = true;
         break;
       case "bottom-left":
-        o = true;
-        a = true;
-        c = true;
-        r = true;
+        shouldAdjustWidth = true;
+        shouldAdjustHeight = true;
+        adjustLeft = true;
+        invertWidthDirection = true;
         break;
       case "top-right":
-        o = true;
-        a = true;
-        l = true;
-        i = true;
+        shouldAdjustWidth = true;
+        shouldAdjustHeight = true;
+        adjustTop = true;
+        invertHeightDirection = true;
         break;
       case "top-left":
-        o = true;
-        a = true;
-        c = true;
-        r = true;
-        l = true;
-        i = true;
+        shouldAdjustWidth = true;
+        shouldAdjustHeight = true;
+        adjustLeft = true;
+        invertWidthDirection = true;
+        adjustTop = true;
+        invertHeightDirection = true;
         break;
     }
-    let u = e.clientX - s, m = e.clientY - d;
-    s = e.clientX;
-    d = e.clientY;
-    if (o) {
-      let p = u * step.value;
-      r && (p = -p);
-      c && (node.value.left = (node.value.left || 0) - p);
-      node.value.width = ((node.value.width || 100) + p)
+    // 计算鼠标移动增量
+    const deltaX = e.clientX - startX;
+    const deltaY = e.clientY - startY;
+    startX = e.clientX;
+    startY = e.clientY;
+
+    // 宽度调整逻辑
+    if (shouldAdjustWidth) {
+      const widthDelta = deltaX * step.value;
+      const finalWidthDelta = invertWidthDirection ? -widthDelta : widthDelta;
+
+      if (adjustLeft) {
+        node.value.left = (node.value.left || 0) - finalWidthDelta;
+      }
+      node.value.width = (node.value.width || 100) + finalWidthDelta;
     }
-    if (a) {
-      let h = m * step.value;
-      i && (h = -h);
-      l && (node.value.top = ((node.value.top || 0) - h));
-      node.value.height = ((node.value.height || 50) + h)
+
+    // 高度调整逻辑
+    if (shouldAdjustHeight) {
+      const heightDelta = deltaY * step.value;
+      const finalHeightDelta = invertHeightDirection ? -heightDelta : heightDelta;
+
+      if (adjustTop) {
+        node.value.top = (node.value.top || 0) - finalHeightDelta;
+      }
+      node.value.height = (node.value.height || 50) + finalHeightDelta;
     }
   };
+
   handleClear()
 }
-let offsetX = ref(0);
-let offsetY = ref(0);
 let isDragging = ref(false);
+let initialX = ref(0);
+let initialY = ref(0);
+let nodeStartX = ref(0);
+let nodeStartY = ref(0);
 const dragStart = (evt: MouseEvent) => {
   if (!isActive.value) {
     return;
   }
   isDragging.value = true;
-  offsetX.value = evt.clientX - node.value.left || 0;
-  offsetY.value = evt.clientY - node.value.top || 0;
+  initialX.value = evt.clientX;
+  initialY.value = evt.clientY;
+  nodeStartX.value = node.value.left || 0;
+  nodeStartY.value = node.value.top || 0;
+  // 锁定鼠标样式
+  document.body.style.cursor = 'grabbing';
 }
 const dragAction = (evt: MouseEvent) => {
+
   if (isDragging.value && isActive.value) {
-    node.value.left = evt.clientX - offsetX.value;
-    node.value.top = evt.clientY - offsetY.value;
+    console.log("dragAction");
+    const deltaX = evt.clientX - initialX.value;
+    const deltaY = evt.clientY - initialY.value;
+    node.value.left = nodeStartX.value + deltaX;
+    node.value.top = nodeStartY.value + deltaY;
   }
 }
 const endAction = (evt: MouseEvent) => {
   isDragging.value = false;
+  document.body.style.cursor = ''; // 恢复默认鼠标样式
 }
 const contentMenuRef = ref();
 const contextmenu = (e: MouseEvent) => {
@@ -166,7 +204,7 @@ onMounted(() => {
        @mousemove="dragAction">
     <div class="node__wrapper">
       <div v-if="isActive" class="node-line node-line-left"
-           :style="{'border-width': '3px', 'border-color': 'red'}"></div>
+           :style="{'border-width': '1px', 'border-color': 'red'}"></div>
       <div v-if="isActive" class="node-line node-line-top"
            style="{'border-width': '3px', 'border-color': 'red'}"></div>
       <!--        <div class="node-line node-line&#45;&#45;label" style="font-size: 64.8px;"><h3>{{ item.name }}</h3></div>-->

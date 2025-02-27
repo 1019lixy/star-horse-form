@@ -1,4 +1,4 @@
-<script setup lang="ts" name="PipelineCfg">
+<script setup lang="ts" name="IosCompile">
 import {onMounted, reactive, ref} from "vue";
 import {SelectOption} from "@/components/types/SearchProps";
 import {loadData} from "@/api/sh_api.ts";

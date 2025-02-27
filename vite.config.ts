@@ -10,10 +10,8 @@ import {createSvgIconsPlugin} from 'vite-plugin-svg-icons'
 import Components from 'unplugin-vue-components/vite'
 import {ElementPlusResolver} from 'unplugin-vue-components/resolvers'
 import AutoImport from 'unplugin-auto-import/vite'
-import {viteCommonjs} from '@originjs/vite-plugin-commonjs'
 import {visualizer} from 'rollup-plugin-visualizer';
 //此插件是处理外部依赖 比如cdn引入的js
-// import externalGlobals from 'rollup-plugin-external-globals';
 import vueDevTools from 'vite-plugin-vue-devtools';
 import tailwindcss from '@tailwindcss/vite'
 
@@ -34,7 +32,6 @@ export default defineConfig((mode, command) => {
         'vue3-guides',
         'element-plus/es',
         'vue3-infinite-viewer',
-        'vue3-moveable',
         'lodash-es',
         'smooth-signature',
         'jsoneditor',
@@ -91,6 +88,10 @@ export default defineConfig((mode, command) => {
         '@vueuse/core',
         'flv.js',
     ]
+    // const elementPlusStyles = glob.sync('node_modules/element-plus/es/components/**/style/*.mjs');
+    // optimizeDepsList.push(...elementPlusStyles.map(path =>
+    //     path.replace('node_modules/', '').replace(/\.mjs$/, '')
+    // ));
     fs.readdirSync("node_modules/element-plus/es/components").map(async (dirname) => {
         try {
             fs.accessSync(
@@ -101,6 +102,7 @@ export default defineConfig((mode, command) => {
         } catch (e) {
             console.log(`1,将强制对${dirname}进行依赖预构建异常`);
         }
+
         //注意，一定要包含下面这部分
         try {
             fs.accessSync(
@@ -160,7 +162,7 @@ export default defineConfig((mode, command) => {
         },
         plugins: [
             tailwindcss(),
-            vueDevTools(),
+            // vueDevTools(),
             // Inspect({
             //     // 可以配置一些选项，以下是一些常用选项的示例
             //     dev: true,  // 是否启用该插件，默认为 true
@@ -186,7 +188,7 @@ export default defineConfig((mode, command) => {
             }),
             progress(),
             topLevelAwait(),
-            viteCommonjs(),
+            // viteCommonjs(),
             vueJsx({}),
             inject({
                 $: "jquery", // 这里会自动载入 node_modules 中的 jquery
@@ -232,7 +234,7 @@ export default defineConfig((mode, command) => {
         resolve: {
             alias: {
                 "@": resolve(__dirname, "./src"),
-                'monaco-editor': 'monaco-editor/esm/vs/editor/editor.main.js'
+                'monaco-editor': 'monaco-editor/esm/vs/editor/editor.api.js'
             },
             extensions: ['.js', '.vue', '.json', '.ts', ".jsx"]
         },
@@ -244,7 +246,10 @@ export default defineConfig((mode, command) => {
                 output: {
                     manualChunks(id: any) {
                         if (id.includes('node_modules')) {
-                            return "vender";
+                            if (id.includes('monaco-editor')) return 'monaco';
+                            if (id.includes('element-plus')) return 'element-plus';
+                            if (id.includes('bpmn-js')) return 'bpmn';
+                            return 'vendor';
                         }
                     }
                 },
@@ -254,8 +259,8 @@ export default defineConfig((mode, command) => {
             },
             terserOptions: {
                 compress: {
-                    drop_console: true,
-                    drop_debugger: true
+                    drop_console: mode === "production",
+                    drop_debugger: mode === "production",
                 }
             },
             // 开启并行压缩
@@ -273,7 +278,7 @@ export default defineConfig((mode, command) => {
             //启用/禁用 CSS 代码拆分
             cssCodeSplit: true,
             //构建后是否生成 source map 文件
-            sourcemap: false,
+            sourcemap: mode === "development",
             //自定义底层的 Rollup 打包配置
             //@rollup/plugin-commonjs 插件的选项
             commonjsOptions: {},

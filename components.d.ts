@@ -113,7 +113,6 @@ declare module 'vue' {
     DictinfoUI: typeof import('./src/views/system/DictinfoUI.vue')['default']
     DivideNode: typeof import('./src/views/workflow/plugin/node/DivideNode.vue')['default']
     DividerItem: typeof import('./src/components/formcomp/items/divider-item.vue')['default']
-    DragComp: typeof import('./src/views/dyform/page/DragComp.vue')['default']
     DrawerFooter: typeof import('./src/views/workflow/plugin/common/DrawerFooter.vue')['default']
     DynamicForm: typeof import('./src/views/dyform/DynamicForm.vue')['default']
     DynamicFormActionsUi: typeof import('./src/views/dyform/DynamicFormActionsUi.vue')['default']
