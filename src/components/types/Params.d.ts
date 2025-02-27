@@ -23,6 +23,28 @@ declare export interface SearchParams {
 }
 
 /**
+ * 查询条件组装数据对象
+ */
+declare export interface JoinSearchParams {
+    /**
+     * 属性名称
+     */
+    leftFieldName: string,
+    /**
+     * 匹配方式 eq,neq,gt,gte,lt,lte
+     */
+    operation?: string | null,
+    /**
+     * 查询值
+     */
+    rightFieldName: string,
+    /**
+     * 或查询
+     */
+    or?: JoinSearchParams[]
+}
+
+/**
  * 查询对象
  */
 declare export interface SearchInfo {

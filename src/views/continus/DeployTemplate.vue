@@ -1,20 +1,28 @@
 <script setup lang="ts">
-import {onMounted} from "vue";
+import {onMounted, ref} from "vue";
 import {continusNodeList} from "@/views/continus/utils/ToolsParams.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
-import {apiInstance} from "@/api/sh_api.ts";
+import {apiInstance, createJoinCondition} from "@/api/sh_api.ts";
 import {postRequest} from "@/api/star_horse.ts";
 
 const apiUrl: ApiUrls = apiInstance("userdb-manage", "/userdb/formInstance/conTemplate/idTemplate/136");
 const nodeList = ref<any>([]);
+const templateList = ref<any>([]);
+let currentTemplate = ref<any>({});
 const loadTemplate = () => {
-  postRequest(apiUrl.basePrefix+"/joinQuery", {
+  let fields = ["idTemplate", "templateName", "templateCode"];
+  postRequest(apiUrl.basePrefix + "/joinQuery", {
+    limitFields: fields,
+    groupByFields: fields,
+    groupName: "nodeList",
     joinTables: [
       {
         tableName: "conTemplateNode",
         joinType: "inner",
-        queryCondition:{
-
+        aliasName: "b",
+        limitFields: ["nodeName"],
+        joinCondition: {
+          joinFieldList: [createJoinCondition("a.idTemplate", "b.idTemplate")]
         }
       }
     ],
@@ -23,34 +31,50 @@ const loadTemplate = () => {
       return;
     }
     let reData = res.data.data;
-    console.log(reData);
+    reData.forEach((item: any) => {
+      item.nodeList = item.nodeList.map((node: any) => {
+        return nodeList.value.find((nodeItem: any) => nodeItem.code == node.nodeName);
+      });
+    })
+    templateList.value = reData;
   })
+}
+
+const selectItem = (item: any) => {
+  currentTemplate.value = item;
+}
+const getTemplate = () => {
+  return currentTemplate.value;
 }
 onMounted(() => {
   nodeList.value = continusNodeList.value;
   loadTemplate();
 })
+defineExpose({
+  getTemplate
+})
 </script>
 
 <template>
   <div class="template-list">
-    <div class="template-item">
-      <div class="title">
-        <el-tag type="info">标签二</el-tag>
-        脚本部署模板
-      </div>
-      <div class="contents">
-        <div class="content">
-          <span class="content-title">ssss1</span>
-          <i>
-            <star-horse-icon icon-class="arrow-double-right"/>
-          </i>
+    <template v-for="item in templateList">
+      <div class="template-item" :class="{'is-active':currentTemplate.idTemplate==item.idTemplate}"
+           @click="selectItem(item)">
+        <div class="title">
+          <el-tag type="info">{{ item.templateName }}</el-tag>
+          {{ item.remark || item.templateName }}
         </div>
-        <div class="content">
-          <span class="content-title">ssss2</span>
+        <div class="contents">
+          <div class="content" v-for="(sitem,index) in item.nodeList">
+            <div class="relative flex flex-row items-center justify-center">
+              <star-horse-icon :icon-class="sitem.icon" size="30px"/>
+              <span>{{ sitem.name }}</span>
+            </div>
+            <star-horse-icon icon-class="arrow-double-right" v-if="index<item.nodeList.length-1"/>
+          </div>
         </div>
       </div>
-    </div>
+    </template>
   </div>
 </template>
 
@@ -60,10 +84,15 @@ onMounted(() => {
   width: 100%;
   padding: 0 24px;
 
+  .is-active {
+    border: 2px dotted var(--star-horse-style) !important;
+  }
+
   .template-item {
     border: 1px solid #e8e8e8;
     border-radius: 4px;
     padding: 16px;
+    margin: 5px auto;
     position: relative;
     width: 99%;
 

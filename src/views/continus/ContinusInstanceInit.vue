@@ -8,16 +8,14 @@ import piniaInstance from "@/store";
 
 const nodeCompRef = ref<any>();
 const toolInfoRef = ref<any>();
+const deployTemplateRef = ref<any>();
 const tempDialog = ref<boolean>(false);
 const nodeDialog = ref<boolean>(false);
 const currentNode = ref<number>(-1);
 const continusStore = continusConfig(piniaInstance);
 const nodeInfo = computed(() => continusStore.nodeInfo);
 let currentCompName = ref<string>("PipelineCfg");
-
 const processList = ref<any>([]);
-
-
 const changeTemplate = () => {
   tempDialog.value = !tempDialog.value;
 };
@@ -38,6 +36,7 @@ const addSubNode = () => {
 };
 const closeAction = () => {
   nodeDialog.value = false;
+  tempDialog.value = false;
 }
 const dataSubmit = () => {
   let node = toolInfoRef.value.getNode();
@@ -49,6 +48,20 @@ const dataSubmit = () => {
   processList.value.splice(index, 0, {name: node.name, value: node.code, icon: node.icon});
   currentNode.value = index;
   currentCompName.value = node.code;
+  closeAction();
+}
+const selectTemplate = () => {
+  let template = deployTemplateRef.value.getTemplate();
+  if (!template || Object.keys(template).length == 0) {
+    warning("请选择要更换的模板");
+    return;
+  }
+  if (!nodeInfo.value.pipelineCfg) {
+    nodeInfo.value["pipelineCfg"] = {};
+  }
+  nodeInfo.value.pipelineCfg.templateName = template.templateName;
+  nodeInfo.value.pipelineCfg.idTemplate = template.idTemplate;
+  processList.value = template.nodeList;
   closeAction();
 }
 const save = (type: string) => {
@@ -66,8 +79,9 @@ onMounted(async () => {
                      @merge="dataSubmit" :is-batch="false" :is-show-btn-continue="false">
     <ToolInfo ref="toolInfoRef"/>
   </star-horse-dialog>
-  <star-horse-dialog :title="'更换模板'" :dialogVisible="tempDialog">
-    <deploy-template/>
+  <star-horse-dialog :title="'更换模板'" @merge="selectTemplate" :dialogVisible="tempDialog" :self-func="true"
+                     @closeAction="closeAction">
+    <deploy-template ref="deployTemplateRef"/>
   </star-horse-dialog>
   <el-card class="inner_content">
     <div class="config-nav-bar">
@@ -113,7 +127,7 @@ onMounted(async () => {
                   </el-tooltip>
                 </i>
               </div>
-              <div :class="{'is-active':index==currentNode}" @click="editNode(item.value,index)" class="nav-panel">
+              <div :class="{'is-active':index==currentNode}" @click="editNode(item.code,index)" class="nav-panel">
                 <div class="relative flex flex-row items-center justify-center">
                   <star-horse-icon :icon-class="item.icon" size="30px"/>
                   <span>{{ item.name }}</span>
@@ -128,7 +142,7 @@ onMounted(async () => {
             </div>
           </div>
         </el-scrollbar>
-        <div class="step"  v-if="processList.length>0">
+        <div class="step" v-if="processList.length>0">
           <i class="icon node-arrow">
             <star-horse-icon icon-class="arrow-double-right" style="vertical-align: middle;"/>
           </i>
@@ -138,7 +152,7 @@ onMounted(async () => {
             </el-tooltip>
           </i>
         </div>
-        <div class="start_end"  v-if="processList.length>0">结束</div>
+        <div class="start_end" v-if="processList.length>0">结束</div>
         <el-button @click="addNode(-1)" class="init-btn" text>
           <star-horse-icon icon-class="add" cursor="pointer" style="vertical-align: middle;"/>
           添加节点
@@ -146,6 +160,7 @@ onMounted(async () => {
       </div>
     </div>
     <div class="config-content">
+      {{currentCompName}}
       <keep-alive>
         <component :is="currentCompName" ref="nodeCompRef"/>
       </keep-alive>
@@ -180,6 +195,7 @@ onMounted(async () => {
 .pipeline-nav {
   display: block;
   position: relative;
+
   .icon {
     font-style: normal;
     text-align: center;
@@ -220,13 +236,25 @@ onMounted(async () => {
     border-radius: 4px;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .04);
     cursor: pointer;
-    font-size: 14px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    padding: 0 8px;
     height: 35px;
     line-height: 35px;
     position: relative;
     text-align: center;
     flex-shrink: 0; // 禁止面板缩小
     width: 120px; // 加宽面板
+    .relative { // 内部flex容器
+      min-width: 0; // 允许内容收缩
+      span {
+        display: inline-block;
+        max-width: 80px; // 控制文本最大宽度
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
 
     .label {
       display: block;
@@ -362,7 +390,8 @@ onMounted(async () => {
     .nav-nodes {
       align-items: center;
       display: flex;
-      height: 73px;
+      height: 74px;
+
       .continus-node-content {
         align-items: center;
         height: 35px;

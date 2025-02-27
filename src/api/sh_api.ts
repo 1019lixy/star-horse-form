@@ -1,4 +1,4 @@
-import {SearchInfo, SearchParams} from "@/components/types/Params";
+import {JoinSearchParams, SearchInfo, SearchParams} from "@/components/types/Params";
 import {reactive, Ref, ShallowRef} from "vue";
 import {ElLoading} from "element-plus";
 import {download, getRequest, postRequest, uploadRequest} from "@/api/star_horse";
@@ -474,6 +474,16 @@ export function rowClassName({row, rowIndex}: any) {
  */
 export function createCondition(name: string, val: any, matchType: string = "eq"): SearchParams {
     return {propertyName: name, value: val, operation: matchType};
+}
+
+/**
+ * 创建关联条件
+ * @param leftFieldName 左表字段名称
+ * @param rightFieldName 右表字段名称
+ * @param matchType 匹配方式
+ */
+export function createJoinCondition(leftFieldName: string, rightFieldName: string, matchType: string = "eq"): JoinSearchParams {
+    return {leftFieldName, rightFieldName, operation: matchType};
 }
 
 /**
