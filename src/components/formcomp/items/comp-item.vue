@@ -8,17 +8,17 @@
   />
 </template>
 <script lang="ts">
-import {defineComponent, shallowRef} from "vue";
+import {defineComponent, shallowRef} from 'vue';
 
 export default defineComponent({
   setup(_props, context) {
-    console.log("this is comp-item")
-    const parentField = context.attrs["parentField"];
+    console.log('this is comp-item');
+    const parentField = context.attrs['parentField'];
 
-    const field = context.attrs["field"] as any;
+    const field = context.attrs['field'] as any;
     let formItem = shallowRef({label: 'input', required: false});
-    let dataField = shallowRef("");
-    return {parentField, context, field, formItem, dataField}
+    let dataField = shallowRef('');
+    return {parentField, context, field, formItem, dataField};
   }
 });
 </script>

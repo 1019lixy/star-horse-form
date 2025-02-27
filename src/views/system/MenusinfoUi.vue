@@ -1,20 +1,20 @@
 <script setup lang="ts" name="Menusinfo">
-import {apiInstance, dialogPreps} from "@/api/sh_api.ts";
-import {ApiUrls} from "@/components/types/ApiUrls";
-import {Config} from "@/api/settings.ts";
-import {computed, onMounted, provide, reactive, ref, unref} from "vue";
-import {SearchFields, SelectOption} from "@/components/types/SearchProps";
-import {closeLoad, createTree, dictData, load, loadData, loadElementPlusIcon, loadSystemInfo} from "@/api/sh_api";
-import {postRequest} from "@/api/star_horse";
-import {error, success, warning} from "@/utils/message";
-import {PageFieldInfo, UserFuncInfo} from "@/components/types/PageFieldInfo";
-import {TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
-import {findNodesWithValue, treeCheckChange} from "@/api/system";
-import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
-import piniaInstance from "@/store";
-import StarHorseTree from "@/components/comp/StarHorseTree.vue";
+import {apiInstance, dialogPreps} from '@/api/sh_api.ts';
+import {ApiUrls} from '@/components/types/ApiUrls';
+import {Config} from '@/api/settings.ts';
+import {computed, onMounted, provide, reactive, ref, unref} from 'vue';
+import {SearchFields, SelectOption} from '@/components/types/SearchProps';
+import {closeLoad, createTree, dictData, load, loadData, loadElementPlusIcon, loadSystemInfo} from '@/api/sh_api';
+import {postRequest} from '@/api/star_horse';
+import {error, success, warning} from '@/utils/message';
+import {PageFieldInfo, UserFuncInfo} from '@/components/types/PageFieldInfo';
+import {TreeNodeData} from 'element-plus/es/components/tree-v2/src/types';
+import {findNodesWithValue, treeCheckChange} from '@/api/system';
+import {GlobalConfig} from '@/store/GlobalConfigStore.ts';
+import piniaInstance from '@/store';
+import StarHorseTree from '@/components/comp/StarHorseTree.vue';
 
-const dataUrl: ApiUrls = apiInstance("system-config", "system/menusinfoEntity");
+const dataUrl: ApiUrls = apiInstance('system-config', 'system/menusinfoEntity');
 let parentMenus: any = ref<any>([]);
 let searchParentMenus: any = ref<any>([]);
 let informationsList: any = ref<any>([]);
@@ -24,32 +24,32 @@ const searchFormData = reactive<SearchFields>({
   fieldList: [
     /*{label: "归属系统", fieldName: "idInformations", type: "select", optionList: informationsList},
     {label: "父菜单", fieldName: "parentNo", type: "tselect", optionList: searchParentMenus},*/
-    {label: "菜单名称", defaultVisible: true, fieldName: "menuName", type: "input", matchType: "lk"},
-    {label: "菜单编码", fieldName: "menuCode", type: "input", matchType: "lk"},
+    {label: '菜单名称', defaultVisible: true, fieldName: 'menuName', type: 'input', matchType: 'lk'},
+    {label: '菜单编码', fieldName: 'menuCode', type: 'input', matchType: 'lk'},
   ]
 });
 let menuIconList = ref<SelectOption[]>([]);
 let openTypeList = ref<SelectOption[]>([]);
 const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [{
-    label: "主键", fieldName: "idMenusinfo", type: "input",
+    label: '主键', fieldName: 'idMenusinfo', type: 'input',
   },
     [{
-      label: "菜单名称", fieldName: "menuName", type: "input",
+      label: '菜单名称', fieldName: 'menuName', type: 'input',
       required: true, formVisible: true,
       listVisible: true
     },
       {
-        label: "菜单路径", fieldName: "menuPath", type: "input",
+        label: '菜单路径', fieldName: 'menuPath', type: 'input',
         required: true, formVisible: true,
         listVisible: true
       }],
     [{
-      label: "归属应用名称", fieldName: "idInformations", type: "tselect", optionList: informationsList,
+      label: '归属应用名称', fieldName: 'idInformations', type: 'tselect', optionList: informationsList,
       required: true, formVisible: true, defaultValue: currentInformation,
-      actionName: "change",
+      actionName: 'change',
       actions: (val: any) => {
-        let systemId = val["idInformations"];
+        let systemId = val['idInformations'];
         if (!systemId) {
           return;
         }
@@ -57,83 +57,83 @@ const tableFieldList = reactive<PageFieldInfo>({
       },
       listVisible: true,
       preps: {
-        checkStrictly: "Y"
+        checkStrictly: 'Y'
       }
     },
       {
-        label: "父菜单", fieldName: "parentNo", type: "tselect", optionList: parentMenus,
+        label: '父菜单', fieldName: 'parentNo', type: 'tselect', optionList: parentMenus,
         formVisible: true,
         preps: {
-          checkStrictly: "Y"
+          checkStrictly: 'Y'
         }
       }],
     {
-      label: "菜单编码", fieldName: "menuCode", type: "input",
-      required: true, disabled: "Y",
+      label: '菜单编码', fieldName: 'menuCode', type: 'input',
+      required: true, disabled: 'Y',
       listVisible: true
     },
     [{
-      label: "排序", fieldName: "dataIndex", type: "number",
+      label: '排序', fieldName: 'dataIndex', type: 'number',
       required: true, formVisible: true,
       listVisible: true
     }, {
-      label: "菜单图标", fieldName: "menuIcon", type: "icon",
+      label: '菜单图标', fieldName: 'menuIcon', type: 'icon',
       required: false, formVisible: true,
       listVisible: true
     },
 
     ],
     [{
-      label: "是否缓存页面", fieldName: "keepAlive", type: "switch",
-      defaultValue: "Y",
+      label: '是否缓存页面', fieldName: 'keepAlive', type: 'switch',
+      defaultValue: 'Y',
       formVisible: true,
       listVisible: true
     }, {
-      label: "页面打开方式", fieldName: "openType", type: "select", optionList: openTypeList,
-      required: true, formVisible: true, defaultValue: "self",
+      label: '页面打开方式', fieldName: 'openType', type: 'select', optionList: openTypeList,
+      required: true, formVisible: true, defaultValue: 'self',
       listVisible: true
     }],
     {
-      label: "菜单描述", fieldName: "menuDesc", type: "textarea",
+      label: '菜单描述', fieldName: 'menuDesc', type: 'textarea',
       formVisible: true,
       listVisible: true
     },
     {
-      label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
+      label: '创建人', disabled: 'Y', fieldName: 'createdBy', type: 'input',
     },
     {
-      label: "修改人", disabled: "Y", fieldName: "updatedBy", type: "input",
+      label: '修改人', disabled: 'Y', fieldName: 'updatedBy', type: 'input',
     },
     {
-      label: "创建日期", disabled: "Y", fieldName: "createdDate", type: "date",
+      label: '创建日期', disabled: 'Y', fieldName: 'createdDate', type: 'date',
     },
     {
-      label: "修改日期", disabled: "Y", fieldName: "updatedDate", type: "date",
+      label: '修改日期', disabled: 'Y', fieldName: 'updatedDate', type: 'date',
     },
     {
-      label: "数据版本号", fieldName: "version", type: "number",
+      label: '数据版本号', fieldName: 'version', type: 'number',
     },
     {
-      label: "是否已逻辑", fieldName: "isDel", type: "number",
+      label: '是否已逻辑', fieldName: 'isDel', type: 'number',
     },
     {
-      label: "数据编号", fieldName: "dataNo", type: "input",
+      label: '数据编号', fieldName: 'dataNo', type: 'input',
     },
     {
-      label: "状态码", fieldName: "statusCode", type: "input",
+      label: '状态码', fieldName: 'statusCode', type: 'input',
     },
     {
-      label: "状态码名称", fieldName: "statusName", type: "input",
+      label: '状态码名称', fieldName: 'statusName', type: 'input',
     },
     {
-      label: "国际码", fieldName: "local", type: "input",
+      label: '国际码', fieldName: 'local', type: 'input',
     },
   ],
   cellEditable: true
 });
 let configStore = GlobalConfig(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
-const primaryKey = "idMenusinfo";
+const primaryKey = 'idMenusinfo';
 const rules = {};
 const dataForm = ref<any>({});
 const loadMenuBySystemId = async (systemId: string) => {
@@ -141,32 +141,32 @@ const loadMenuBySystemId = async (systemId: string) => {
     return;
   }
   let params = [{
-    "propertyName": "idInformations",
-    "value": systemId
+    'propertyName': 'idInformations',
+    'value': systemId
   }];
   defaultCondition.value = params;
-  let {data} = await loadData("/system-config/system/menusinfoEntity/getAllTreeDataByCondition/false", params);
+  let {data} = await loadData('/system-config/system/menusinfoEntity/getAllTreeDataByCondition/false', params);
   if (data) {
-    parentMenus.value = createTree(data, "dataNo", "menuName", "idMenusinfo");
+    parentMenus.value = createTree(data, 'dataNo', 'menuName', 'idMenusinfo');
   }
 
 };
 const dialogProps = dialogPreps();
-provide("dialogProps", dialogProps);
+provide('dialogProps', dialogProps);
 
 const menuFormRef = ref(null);
 const menuTableListRef = ref();
 const dataFormat = (name: string, cellValue: any, row: any): any => {
-  if (name == "idInformations") {
-    return findNodesWithValue(informationsList.value, "value", cellValue)?.find(item => item.value == cellValue)?.name || cellValue;
-  } else if (name == "parentNo") {
+  if (name == 'idInformations') {
+    return findNodesWithValue(informationsList.value, 'value', cellValue)?.find(item => item.value == cellValue)?.name || cellValue;
+  } else if (name == 'parentNo') {
     //let fdata = parentMenus.value.find(item => item.value == cellValue);
-    return row && row["parentData"] ? row["parentData"].menuName : cellValue;
+    return row && row['parentData'] ? row['parentData'].menuName : cellValue;
   }
   return cellValue;
-}
+};
 const merge = (type: string) => {
-  menuFormRef.value!.$refs["starHorseFormRef"].validate((result: boolean) => {
+  menuFormRef.value!.$refs['starHorseFormRef'].validate((result: boolean) => {
     if (!result) {
       return;
     }
@@ -177,7 +177,7 @@ const mergeDraft = (type: string) => {
   doMerge(type);
 };
 const doMerge = (type: string) => {
-  load("数据处理中");
+  load('数据处理中');
   let temp = unref(menuFormRef.value.getFormData());
   postRequest(dataUrl.mergeUrl!, temp).then(res => {
     closeLoad();
@@ -188,14 +188,14 @@ const doMerge = (type: string) => {
       success(res.data.cnMessage);
     }
     resetForm();
-    if (type == "close") {
+    if (type == 'close') {
       dialogProps.editVisible = false;
     }
     menuTableListRef.value!.loadByPage();
     loadMenuBySystemId(currentInformation.value);
     //关闭弹窗
   }).catch(err => {
-    error("接口调用异常" + err);
+    error('接口调用异常' + err);
   }).finally(() => {
     closeLoad();
   });
@@ -204,13 +204,13 @@ const resetForm = () => {
   dataForm.value = {};
 };
 let extandBtns = ref<UserFuncInfo[]>([{
-  btnName: "添加子菜单",
-  authority: "add",
-  icon: "plus",
+  btnName: '添加子菜单',
+  authority: 'add',
+  icon: 'plus',
   priority: 1,
   funcName: (row: any) => {
     dialogProps.ids = -1;
-    dataForm.value["parentNo"] = row["dataNo"];
+    dataForm.value['parentNo'] = row['dataNo'];
     dialogProps.editVisible = true;
   }
 }]);
@@ -226,22 +226,22 @@ const checkChange = (data: TreeNodeData, checked: boolean) => {
 };
 const initData = async () => {
 
-  let params: any = [{propertyName: "statusCode", value: "1"}]
+  let params: any = [{propertyName: 'statusCode', value: '1'}];
   informationsList.value = await loadSystemInfo(params);
-  openTypeList.value = await dictData("page_open_type");
+  openTypeList.value = await dictData('page_open_type');
   // await loadMenuBySystemId(true);
   let {data} = await loadData(dataUrl.userConditionUrl!, params);
   if (data) {
     data.forEach((item: any) => {
       let temp: SelectOption = {name: item.menuName, value: item.dataNo};
       searchParentMenus.value.push(temp);
-    })
+    });
   }
   // menuIconList.value = loadElementPlusIcon();
 };
 onMounted(async () => {
   await initData();
-})
+});
 </script>
 <style lang="scss" scoped>
 </style>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import {onMounted, ref, watch} from "vue";
-import {convertToCamelCase} from "@/api/sh_api.ts";
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
+import {onMounted, ref, watch} from 'vue';
+import {convertToCamelCase} from '@/api/sh_api.ts';
+import StarHorseIcon from '@/components/comp/StarHorseIcon.vue';
 
 const props = defineProps({
   formInfo: {type: Object, required: true},
@@ -10,7 +10,7 @@ const props = defineProps({
 });
 let searchFieldList: Array<any> = [];
 let formData: Array<any> = [];
-let code = ref<string>("");
+let code = ref<string>('');
 const starHorseEditorRef = ref();
 const asssignVal = (searchFields: string, formFields: string) => {
   return `<script setup lang='ts'>
@@ -65,7 +65,7 @@ onMounted(() => {
 <style scoped lang="scss">
 <\/style>
 `;
-}
+};
 const init = () => {
   let searchFields = JSON.stringify(props.compList?.searchFormData || [], null, 4);
   let formFields = JSON.stringify(props.compList?.tableFieldList?.fieldList || [], null, 4);
@@ -76,17 +76,17 @@ const init = () => {
 };
 const saveFile = () => {
   let blob = new Blob([code.value]);
-  let delement = document.createElement("a");
+  let delement = document.createElement('a');
   let href = window.URL.createObjectURL(blob);
   delement.href = href;
-  let name = convertToCamelCase(props.formInfo.tbName) + ".vue";
+  let name = convertToCamelCase(props.formInfo.tbName) + '.vue';
   name = name.substring(0, 1).toUpperCase() + name.substring(1);
   delement.download = name;
   document.body.appendChild(delement);
   delement.click();
   document.body.removeChild(delement);
   window.URL.revokeObjectURL(href);
-}
+};
 onMounted(() => {
   init();
 });

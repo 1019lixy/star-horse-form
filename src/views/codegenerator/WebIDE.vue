@@ -1,24 +1,24 @@
 <script setup lang="ts">
-import {onMounted, ref} from "vue";
-import {loadTemplate, templateList} from "@/views/codegenerator/utils/IdeOperation.ts";
-import {SelectOption} from "@/components/types/SearchProps";
-import Help from "@/components/help.vue";
-import {commands} from "@/utils/sh_design.ts";
+import {onMounted, ref} from 'vue';
+import {loadTemplate, templateList} from '@/views/codegenerator/utils/IdeOperation.ts';
+import {SelectOption} from '@/components/types/SearchProps';
+import Help from '@/components/help.vue';
+import {commands} from '@/utils/sh_design.ts';
 
 const editor = ref();
 let tempList = ref<SelectOption[]>([]);
-let sourceCode = ref<string>("");
-let templateCode = ref<string>("");
+let sourceCode = ref<string>('');
+let templateCode = ref<string>('');
 const transform = (_val: string) => {
-}
+};
 const init = async () => {
   tempList.value = await templateList();
-}
+};
 const changeTemplate = async (val: string) => {
-  let value = await loadTemplate(val, "com.starhorse.devops.customer", "Customer");
+  let value = await loadTemplate(val, 'com.starhorse.devops.customer', 'Customer');
   editor.value.setValue(value);
-}
-const helpMessage = ``;
+};
+const helpMessage = '';
 onMounted(() => {
   init();
 });

@@ -1,19 +1,19 @@
 <script setup lang="ts">
 import {flowCommon} from '@/views/workflow/plugin/utils/flowCommon.ts';
-import {uuid} from "@/api/system.ts";
+import {uuid} from '@/api/system.ts';
 import FlowDrawerFooter from '@/views/workflow/plugin/common/DrawerFooter.vue';
-import {onMounted, ref, computed, onActivated, watch} from "vue";
-import {useFlowDesign} from "@/store/FlowDesignStore.ts";
-import piniaInstance from "@/store";
-import {dictData, searchMatchList} from "@/api/sh_api.ts";
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-import {SelectOption} from "@/components/types/SearchProps";
-import {ModelRef} from "vue-demi";
+import {onMounted, ref, computed, onActivated, watch} from 'vue';
+import {useFlowDesign} from '@/store/FlowDesignStore.ts';
+import piniaInstance from '@/store';
+import {dictData, searchMatchList} from '@/api/sh_api.ts';
+import StarHorseIcon from '@/components/comp/StarHorseIcon.vue';
+import {SelectOption} from '@/components/types/SearchProps';
+import {ModelRef} from 'vue-demi';
 
 defineOptions({
-  name: "BranchPrep",
-})
-let node: ModelRef<any> = defineModel("activeData");
+  name: 'BranchPrep',
+});
+let node: ModelRef<any> = defineModel('activeData');
 
 // 等级
 let levelOptions = ref<Array<any>>([]);
@@ -65,12 +65,12 @@ const initLevel = () => {
       }
     });
   }
-}
+};
 const onClose = () => {
   flowDesign.setActive(false);
-}
+};
 const handleChange = () => {
-}
+};
 const addGroup = (type: number) => {
   if (type == 1) {
     node.value.conditionGroups.push({
@@ -92,7 +92,7 @@ const addGroup = (type: number) => {
       ],
     });
   }
-}
+};
 const addCondition = (type: number, currGroup: any) => {
   if (type == 1) {
     node.value.conditionGroups.forEach((group: any) => {
@@ -112,7 +112,7 @@ const addCondition = (type: number, currGroup: any) => {
       }
     });
   }
-}
+};
 const delCondition = (type: number, currGroup: any, CurrCondition: any) => {
   if (type == 1) {
     node.value.conditionGroups.forEach((group: any, k: number) => {
@@ -129,14 +129,14 @@ const delCondition = (type: number, currGroup: any, CurrCondition: any) => {
       }
     });
   }
-}
+};
 /**
  * 保存配置
  */
 const onSave = () => {
   // 更新节点显示信息
   let content = '';
-  if (node.value.branchType == "rule") {
+  if (node.value.branchType == 'rule') {
     node.value.conditionGroups.forEach((group: any, j: number) => {
       if (j != 0) {
         content += ' 或 ';
@@ -157,7 +157,7 @@ const onSave = () => {
     content += '任意(其他)';
   }
   onClose();
-}
+};
 let currentLevel = ref<number>(0);
 let level = ref<number>(0);
 const levelChange = (newVal: any) => {
@@ -168,20 +168,20 @@ const levelChange = (newVal: any) => {
   });
   currentLevel.value = newVal;
   node.value.priorityLevel = newVal;
-}
+};
 
 const init = async () => {
-  branchTypes.value = await dictData("flow_branch_type");
+  branchTypes.value = await dictData('flow_branch_type');
   currentLevel.value = node.value.priorityLevel;
   level.value = currentLevel.value;
   initLevel();
-}
+};
 onMounted(() => {
   init();
 });
 watch(() => node.value.id, () => {
-  init()
-})
+  init();
+});
 
 </script>
 <template>

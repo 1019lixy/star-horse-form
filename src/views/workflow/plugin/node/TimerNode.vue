@@ -36,11 +36,11 @@
 import FlowAddNode from '@/views/workflow/plugin/node/AddNode.vue';
 import EditName from '@/views/workflow/plugin/common/EditName.vue';
 import DeleteConfirm from '@/views/workflow/plugin/common/DeleteConfirm.vue';
-import {computed, onMounted} from "vue";
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-import {useFlowDesign} from "@/store/FlowDesignStore.ts";
-import piniaInstance from "@/store";
-import {closeLoad} from "@/api/sh_api.ts";
+import {computed, onMounted} from 'vue';
+import StarHorseIcon from '@/components/comp/StarHorseIcon.vue';
+import {useFlowDesign} from '@/store/FlowDesignStore.ts';
+import piniaInstance from '@/store';
+import {closeLoad} from '@/api/sh_api.ts';
 
 defineOptions({
   name: 'TimerNode',
@@ -62,17 +62,17 @@ const props = defineProps({
 });
 props.node.error = computed(() => {
   let flag = false;
-  let msg = "";
+  let msg = '';
   if (!props.node.waitType) {
-    msg = "未配置时间类型";
+    msg = '未配置时间类型';
     flag = true;
   }
   if (props.node.waitType == 'duration' && (!props.node.duration || !props.node.unit)) {
-    msg += "\n未配置等待时长或单位";
+    msg += '\n未配置等待时长或单位';
     flag = true;
   }
   if (props.node.waitType == 'date' && !props.node.timeDate) {
-    msg += "\n未配置时间";
+    msg += '\n未配置时间';
     flag = true;
   }
   props.node.errorMsg = msg;
@@ -81,7 +81,7 @@ props.node.error = computed(() => {
 const emits = defineEmits(['selectNode']);
 const selectNode = () => {
   emits('selectNode', props.node);
-}
+};
 let nameClass = computed(() => {
   return (node: any, defaultStyle: string) => {
     if (node.statusCode == -1) {
@@ -97,8 +97,8 @@ let nameClass = computed(() => {
 const init = () => {
   closeLoad();
   flowDesign.refreshMap();
-}
+};
 onMounted(() => {
   init();
-})
+});
 </script>

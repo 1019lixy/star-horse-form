@@ -1,19 +1,19 @@
 <script setup lang="ts">
-import {apiInstance, dialogPreps, dictData, loadRolesInfo, loadSystemInfo} from "@/api/sh_api.ts";
-import {computed, onMounted, provide, reactive, ref} from "vue";
-import {SearchFields, SelectOption} from "@/components/types/SearchProps";
-import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
-import piniaInstance from "@/store";
-import {TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
-import {ApiUrls} from "@/components/types/ApiUrls";
-import {PageFieldInfo} from "@/components/types/PageFieldInfo";
-import {Config} from "@/api/settings.ts";
-import {warning} from "@/utils/message.ts";
-import {SearchParams} from "@/components/types/Params";
+import {apiInstance, dialogPreps, dictData, loadRolesInfo, loadSystemInfo} from '@/api/sh_api.ts';
+import {computed, onMounted, provide, reactive, ref} from 'vue';
+import {SearchFields, SelectOption} from '@/components/types/SearchProps';
+import {GlobalConfig} from '@/store/GlobalConfigStore.ts';
+import piniaInstance from '@/store';
+import {TreeNodeData} from 'element-plus/es/components/tree-v2/src/types';
+import {ApiUrls} from '@/components/types/ApiUrls';
+import {PageFieldInfo} from '@/components/types/PageFieldInfo';
+import {Config} from '@/api/settings.ts';
+import {warning} from '@/utils/message.ts';
+import {SearchParams} from '@/components/types/Params';
 
 let informationsList = ref<any>([]);
 let appPermissionStatus = ref<SelectOption[]>([]);
-const dataUrl: ApiUrls = apiInstance("system-config", "system/rolesPkAppinfo");
+const dataUrl: ApiUrls = apiInstance('system-config', 'system/rolesPkAppinfo');
 const appinfoPermission = ref();
 let rolesList = ref<SelectOption[]>();
 let configStore = GlobalConfig(piniaInstance);
@@ -24,50 +24,50 @@ const checkChange = (data: TreeNodeData, checked: boolean) => {
   currentUserGroupId.value = data.value;
   defaultCondition.value = [
     {
-      propertyName: "b.idRolesinfo",
+      propertyName: 'b.idRolesinfo',
       value: data.value
     }
   ];
-  appinfoPermission.value.createSearchParams(defaultCondition.value)
+  appinfoPermission.value.createSearchParams(defaultCondition.value);
 };
 const searchFields = reactive<SearchFields>({
   fieldList: [
     {
-      label: "系统名称",
-      fieldName: "b.idInformations",
+      label: '系统名称',
+      fieldName: 'b.idInformations',
       defaultVisible: true,
-      type: "tselect",
+      type: 'tselect',
       optionList: informationsList,
-      matchType: "eq"
+      matchType: 'eq'
     },
     {
-      label: "状态", fieldName: "b.statusCode", type: "select", optionList: appPermissionStatus, defaultVisible: true
+      label: '状态', fieldName: 'b.statusCode', type: 'select', optionList: appPermissionStatus, defaultVisible: true
     },
   ]
 });
 const formFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
-      label: "分组名称", fieldName: "idRolesinfo", type: "select", optionList: rolesList,
-      formVisible: true, required: true, viewVisible: false, disabled: "Y"
+      label: '分组名称', fieldName: 'idRolesinfo', type: 'select', optionList: rolesList,
+      formVisible: true, required: true, viewVisible: false, disabled: 'Y'
     },
     {
-      label: "应用名称",
-      fieldName: "appList",
-      type: "tselect",
+      label: '应用名称',
+      fieldName: 'appList',
+      type: 'tselect',
       optionList: informationsList,
       formVisible: true,
       required: true,
       viewVisible: false,
-      multiple: "Y",
-      helpMsg: "选择子节点时，一定要先选中父节点，否则在头部应用菜单栏无法显示",
+      multiple: 'Y',
+      helpMsg: '选择子节点时，一定要先选中父节点，否则在头部应用菜单栏无法显示',
       preps: {
-        checkStrictly: "Y"
+        checkStrictly: 'Y'
       }
     }, {
-      label: "状态",
-      fieldName: "statusCode",
-      type: "select",
+      label: '状态',
+      fieldName: 'statusCode',
+      type: 'select',
       listVisible: true,
       formVisible: true,
       optionList: appPermissionStatus,
@@ -76,44 +76,44 @@ const formFieldList = reactive<PageFieldInfo>({
 const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
-      label: "分组名称", fieldName: "roleName", type: "input", listVisible: true
+      label: '分组名称', fieldName: 'roleName', type: 'input', listVisible: true
     },
     {
-      label: "分组编码", fieldName: "roleCode", type: "input", listVisible: true
+      label: '分组编码', fieldName: 'roleCode', type: 'input', listVisible: true
     },
     {
-      label: "系统名称", fieldName: "sysName", type: "input", listVisible: true
+      label: '系统名称', fieldName: 'sysName', type: 'input', listVisible: true
     },
     {
-      label: "系统编码", fieldName: "sysCode", type: "input", listVisible: true
+      label: '系统编码', fieldName: 'sysCode', type: 'input', listVisible: true
     },
     {
-      label: "状态",
-      fieldName: "statusName",
-      type: "input",
+      label: '状态',
+      fieldName: 'statusName',
+      type: 'input',
       listVisible: true,
     },
 
   ],
   orderBy: [{
-    fieldName: "idRolesinfo",
-    ascOrDesc: "asc"
+    fieldName: 'idRolesinfo',
+    ascOrDesc: 'asc'
   }]
 });
-const primaryKey = ["idInformations", "idRolesinfo"];
+const primaryKey = ['idInformations', 'idRolesinfo'];
 const dialogProps = dialogPreps();
-provide("dialogProps", dialogProps);
+provide('dialogProps', dialogProps);
 let preValid = ref<any>({
-  "add": () => {
+  'add': () => {
     if (!currentUserGroupId.value) {
-      warning("请先选择用户分组");
+      warning('请先选择用户分组');
       return false;
     }
     return true;
   }
 });
 const dataFormat = (name: string, cellValue: object): any => {
-  if (name == "statusCode") {
+  if (name == 'statusCode') {
     return appPermissionStatus.value.find(item => item.value == cellValue)?.name || cellValue;
   }
   return cellValue;
@@ -122,11 +122,11 @@ const dataFormat = (name: string, cellValue: object): any => {
 const initData = async () => {
   informationsList.value = await loadSystemInfo([]);
   rolesList.value = await loadRolesInfo([]);
-  appPermissionStatus.value = await dictData("app_permission_status");
+  appPermissionStatus.value = await dictData('app_permission_status');
 };
 onMounted(async () => {
   await initData();
-})
+});
 </script>
 
 <template>

@@ -1,21 +1,21 @@
 <script>
-import icon from "@/assets/icon";
+import icon from '@/assets/icon';
 
 export default {
-  name: "StarHorsePopover",
+  name: 'StarHorsePopover',
   props: {
     menuIcon: {type: String}
   },
   data() {
     return {
       iconList: icon
-    }
+    };
   },
   methods: {
     menuIconSelect(icon) {
     }
   }
-}
+};
 </script>
 <style scoped>
 </style>

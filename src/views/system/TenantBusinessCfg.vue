@@ -1,58 +1,58 @@
 <script setup lang="ts">
-import {apiInstance, createCondition, dialogPreps, loadMenusInfo, loadSystemInfo} from "@/api/sh_api";
-import {ApiUrls} from "@/components/types/ApiUrls";
-import {Config} from "@/api/settings";
-import {computed, nextTick, onActivated, onDeactivated, onMounted, provide, reactive, ref} from "vue";
-import {SearchFields, SelectOption} from "@/components/types/SearchProps";
-import {PageFieldInfo} from "@/components/types/PageFieldInfo";
-import {createDatetime} from "@/api/date_utils.ts";
-import {loadDict, postRequest} from "@/api/star_horse.ts";
-import StarHorseTree from "@/components/comp/StarHorseTree.vue";
-import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
-import piniaInstance from "@/store";
-import {operationConfirm} from "@/utils/message.ts";
+import {apiInstance, createCondition, dialogPreps, loadMenusInfo, loadSystemInfo} from '@/api/sh_api';
+import {ApiUrls} from '@/components/types/ApiUrls';
+import {Config} from '@/api/settings';
+import {computed, nextTick, onActivated, onDeactivated, onMounted, provide, reactive, ref} from 'vue';
+import {SearchFields, SelectOption} from '@/components/types/SearchProps';
+import {PageFieldInfo} from '@/components/types/PageFieldInfo';
+import {createDatetime} from '@/api/date_utils.ts';
+import {loadDict, postRequest} from '@/api/star_horse.ts';
+import StarHorseTree from '@/components/comp/StarHorseTree.vue';
+import {GlobalConfig} from '@/store/GlobalConfigStore.ts';
+import piniaInstance from '@/store';
+import {operationConfirm} from '@/utils/message.ts';
 
 defineOptions({
   name: 'TenantInfo',
-})
+});
 //后端交互接口地址
-const dataUrl: ApiUrls = apiInstance("system-config", "system/tenantInfo");
-const tenantAppDataUrl: ApiUrls = apiInstance("system-config", "system/tenantAppinfo");
-const tenantAppMenuDataUrl: ApiUrls = apiInstance("system-config", "system/tenantAppMenusinfo");
+const dataUrl: ApiUrls = apiInstance('system-config', 'system/tenantInfo');
+const tenantAppDataUrl: ApiUrls = apiInstance('system-config', 'system/tenantAppinfo');
+const tenantAppMenuDataUrl: ApiUrls = apiInstance('system-config', 'system/tenantAppMenusinfo');
 let configStore = GlobalConfig(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
 //主键
-const primaryKey = "idTenantInfo";
+const primaryKey = 'idTenantInfo';
 const tenantInfoRef = ref();
 const tenantInfoFormRef = ref();
 const tenantAppMenusinfoRef = ref();
 let effectiveTimeList = ref<SelectOption[]>([]);
 let dynamicFormList = ref<SelectOption[]>([]);
 //定义表单的所有属性
-const formFields = reactive<Object>({});
-provide("formFields", formFields);
+const formFields = reactive<object>({});
+provide('formFields', formFields);
 //查询属性
 const searchFormData = reactive<SearchFields>({
-  "fieldList": [
-    {"label": "菜单名称", "fieldName": "menuName", matchType: "lk", defaultVisible: true},
+  'fieldList': [
+    {'label': '菜单名称', 'fieldName': 'menuName', matchType: 'lk', defaultVisible: true},
   ]
 });
 const tableFieldList = reactive<PageFieldInfo | any>({
-  "fieldList": [
-    {"label": "菜单名称", "fieldName": "menuName", "type": "input", "required": false, "formVisible": true, "listVisible": true, "preps": {}},
-    {"label": "排序", "fieldName": "dataIndex", "type": "number", "required": false, "formVisible": true, "listVisible": true, "preps": {}},
-    {"label": "创建人", "fieldName": "createdBy", "type": "input", "listVisible": true, "preps": {}, "commonFlag": "Y"},
-    {"label": "创建时间", "fieldName": "createdTime", "type": "datetime", "listVisible": true, "preps": {}, "commonFlag": "Y"},
-    {"label": "修改人", "fieldName": "updatedBy", "type": "input", "listVisible": false, "preps": {}, "commonFlag": "Y"},
-    {"label": "修改时间", "fieldName": "updatedTime", "type": "datetime", "listVisible": false, "preps": {}, "commonFlag": "Y"},
+  'fieldList': [
+    {'label': '菜单名称', 'fieldName': 'menuName', 'type': 'input', 'required': false, 'formVisible': true, 'listVisible': true, 'preps': {}},
+    {'label': '排序', 'fieldName': 'dataIndex', 'type': 'number', 'required': false, 'formVisible': true, 'listVisible': true, 'preps': {}},
+    {'label': '创建人', 'fieldName': 'createdBy', 'type': 'input', 'listVisible': true, 'preps': {}, 'commonFlag': 'Y'},
+    {'label': '创建时间', 'fieldName': 'createdTime', 'type': 'datetime', 'listVisible': true, 'preps': {}, 'commonFlag': 'Y'},
+    {'label': '修改人', 'fieldName': 'updatedBy', 'type': 'input', 'listVisible': false, 'preps': {}, 'commonFlag': 'Y'},
+    {'label': '修改时间', 'fieldName': 'updatedTime', 'type': 'datetime', 'listVisible': false, 'preps': {}, 'commonFlag': 'Y'},
   ],
-  "batchFieldList": [],
-  "userTableFuncs": [],
-  "dynamicFormas": [],
-  "orderBy": [],
-  "batchName": "batchDataList",
-  "tableCellEditabled": false,
-  "stopAutoLoad": false
+  'batchFieldList': [],
+  'userTableFuncs': [],
+  'dynamicFormas': [],
+  'orderBy': [],
+  'batchName': 'batchDataList',
+  'tableCellEditabled': false,
+  'stopAutoLoad': false
 });
 
 let informationsList = ref<any>([]);
@@ -60,17 +60,17 @@ let menusList = ref<any>([]);
 const formFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
-      label: "应用名称",
-      fieldName: "appList",
-      type: "tselect",
+      label: '应用名称',
+      fieldName: 'appList',
+      type: 'tselect',
       optionList: informationsList,
       formVisible: true,
       required: true,
       viewVisible: false,
-      multiple: "Y",
-      helpMsg: "选择子节点时，一定要先选中父节点，否则在头部应用菜单栏无法显示",
+      multiple: 'Y',
+      helpMsg: '选择子节点时，一定要先选中父节点，否则在头部应用菜单栏无法显示',
       preps: {
-        checkStrictly: "Y"
+        checkStrictly: 'Y'
       }
     }]
 });
@@ -78,32 +78,32 @@ let menuRequired = ref<boolean>(false);
 const menuformFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
-      label: "系统名称", fieldName: "idInformations", type: "tselect", optionList: informationsList,
-      formVisible: true, required: true, viewVisible: false, disabled: "Y"
+      label: '系统名称', fieldName: 'idInformations', type: 'tselect', optionList: informationsList,
+      formVisible: true, required: true, viewVisible: false, disabled: 'Y'
     },
     {
-      label: "分配所有菜单", fieldName: "allMenu", type: "switch", defaultValue: "Y",
+      label: '分配所有菜单', fieldName: 'allMenu', type: 'switch', defaultValue: 'Y',
       formVisible: true, required: false, viewVisible: false,
-      actionName: "change",
+      actionName: 'change',
       actions: (val: any) => {
-        menuRequired.value = val['allMenu'] == "N";
+        menuRequired.value = val['allMenu'] == 'N';
       }
     },
     {
-      label: "指定菜单", fieldName: "menuList", type: "tselect", optionList: menusList,
-      formVisible: true, required: menuRequired, viewVisible: false, multiple: "Y",
-      helpMsg: "选择子节点时，一定要先选中父节点，否则左侧菜单栏无法显示",
-      actionName: "change",
+      label: '指定菜单', fieldName: 'menuList', type: 'tselect', optionList: menusList,
+      formVisible: true, required: menuRequired, viewVisible: false, multiple: 'Y',
+      helpMsg: '选择子节点时，一定要先选中父节点，否则左侧菜单栏无法显示',
+      actionName: 'change',
       actions: (val: any) => {
         if (val['menuList']) {
-          val['allMenu'] = "N";
+          val['allMenu'] = 'N';
         }
       },
       preps: {
-        checkStrictly: "Y",
+        checkStrictly: 'Y',
         props: {
-          label: "menuName",
-          value: "idMenusinfo"
+          label: 'menuName',
+          value: 'idMenusinfo'
         }
       }
     },]
@@ -112,17 +112,17 @@ const menuformFieldList = reactive<PageFieldInfo>({
 const rules = {};
 //控制弹窗相关设置
 const dialogProps = dialogPreps();
-provide("dialogProps", dialogProps);
+provide('dialogProps', dialogProps);
 //初始化方法
 const initData = async () => {
   informationsList.value = await loadSystemInfo([]);
-  effectiveTimeList.value = await loadDict("effective_time");
+  effectiveTimeList.value = await loadDict('effective_time');
 };
 const activated = async () => {
   await nextTick(() => {
-    tenantInfoRef.value.loadByPage()
+    tenantInfoRef.value.loadByPage();
   });
-}
+};
 /**
  * 数据加载完成后
  * @param data 数据
@@ -130,10 +130,10 @@ const activated = async () => {
 const dataLoaded = (data: any) => {
   //将数据范围的字段进行处理
 
-}
+};
 const deactivated = () => {
 
-}
+};
 const tenantAppTreeRef = ref();
 let currentTenantData = ref<any>({});
 const dataChange = (data: any) => {
@@ -144,28 +144,28 @@ const dataChange = (data: any) => {
     tenantAppTreeRef.value.createSearchParams(params);
     tenantAppMenusinfoRef.value.createSearchParams(params);
   });
-}
+};
 let outerData: any = {};
 const addData = (data: any) => {
   outerData[primaryKey] = data[primaryKey];
   dialogProps.editVisible = true;
-}
+};
 const appDataChange = (data: any) => {
   outerData = data;
   menuAddedRefresh();
-}
+};
 const addMenuData = (data: any) => {
   outerData = {};
   outerData[primaryKey] = data[primaryKey];
-  outerData["idInformations"] = data["idInformations"];
-  loadMenuBySystemId(data["idInformations"]);
+  outerData['idInformations'] = data['idInformations'];
+  loadMenuBySystemId(data['idInformations']);
   dialogProps.bakeVisible1 = true;
-}
+};
 const removeAppData = (data: any) => {
-  operationConfirm("确定要删除吗？").then(() => {
+  operationConfirm('确定要删除吗？').then(() => {
     let params = [];
-    params.push(createCondition("idTenantInfo", data["idTenantInfo"]));
-    params.push(createCondition("idInformations", data["idInformations"]));
+    params.push(createCondition('idTenantInfo', data['idTenantInfo']));
+    params.push(createCondition('idInformations', data['idInformations']));
     let index = 0;
     postRequest(tenantAppDataUrl.deleteByConditionUrl!, {
       fieldList: params
@@ -186,21 +186,21 @@ const removeAppData = (data: any) => {
       if (!res.data.code) {
         index++;
       }
-    })
+    });
   });
 
-}
+};
 const loadMenuBySystemId = async (systemId: any) => {
   let params = [];
-  params.push(createCondition("idInformations", systemId));
+  params.push(createCondition('idInformations', systemId));
   menusList.value = await loadMenusInfo(true, params, false);
-}
+};
 const menuAddedRefresh = () => {
   let params = [];
-  params.push(createCondition("idInformations", outerData["idInformations"]));
-  params.push(createCondition("idTenantInfo", outerData[primaryKey]));
+  params.push(createCondition('idInformations', outerData['idInformations']));
+  params.push(createCondition('idTenantInfo', outerData[primaryKey]));
   tenantAppMenusinfoRef.value.createSearchParams(params);
-}
+};
 /**
  * 列表，查看数据时数据转换
  * @param name 名称
@@ -208,12 +208,12 @@ const menuAddedRefresh = () => {
  * @param row 列表行数据
  */
 const dataFormat = (name: string, cellValue: any, row: any): any => {
-  if (name == "effectiveTime") {
-    return createDatetime(row.effectiveTimeStart) + "-" + createDatetime(row.effectiveTimeEnd);
+  if (name == 'effectiveTime') {
+    return createDatetime(row.effectiveTimeStart) + '-' + createDatetime(row.effectiveTimeEnd);
   }
   //转换显示信息
   return cellValue;
-}
+};
 onMounted(async () => {
   await initData();
 });

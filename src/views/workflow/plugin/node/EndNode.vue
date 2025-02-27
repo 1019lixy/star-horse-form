@@ -27,5 +27,5 @@ const props = defineProps({
 const emits = defineEmits(['selectNode']);
 const selectNode = () => {
   emits('selectNode', props.node);
-}
+};
 </script>

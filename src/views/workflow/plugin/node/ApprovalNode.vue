@@ -41,12 +41,12 @@
 import FlowAddNode from '@/views/workflow/plugin/node/AddNode.vue';
 import EditName from '@/views/workflow/plugin/common/EditName.vue';
 import DeleteConfirm from '@/views/workflow/plugin/common/DeleteConfirm.vue';
-import {computed, onMounted, ref} from "vue";
-import {useFlowDesign} from "@/store/FlowDesignStore.ts";
-import piniaInstance from "@/store";
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-import {FlowNodeEnums} from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
-import {closeLoad} from "@/api/sh_api.ts";
+import {computed, onMounted, ref} from 'vue';
+import {useFlowDesign} from '@/store/FlowDesignStore.ts';
+import piniaInstance from '@/store';
+import StarHorseIcon from '@/components/comp/StarHorseIcon.vue';
+import {FlowNodeEnums} from '@/views/workflow/plugin/enums/FlowNodeEnums.ts';
+import {closeLoad} from '@/api/sh_api.ts';
 
 defineOptions({
   name: 'ApprovalNode',
@@ -69,20 +69,20 @@ const props = defineProps({
 const emits = defineEmits(['selectNode']);
 props.node.error = computed(() => {
   let flag = false;
-  let msg = "";
+  let msg = '';
   if (!props.node.approveGroups
       || !props.node.approveGroups.length
       || !props.node.approveGroups[0].approveType
       || !props.node.approveGroups[0].approverIds?.length) {
     flag = true;
-    msg += "未配置审批人";
+    msg += '未配置审批人';
   }
   props.node.errorMsg = msg;
   return flag;
 });
 const selectNode = () => {
   emits('selectNode', props.node);
-}
+};
 let nameClass = computed(() => {
   return (node: any, defaultStyle: string) => {
     if (node.statusCode == -1) {
@@ -98,8 +98,8 @@ let nameClass = computed(() => {
 const init = () => {
   closeLoad();
   flowDesign.refreshMap();
-}
+};
 onMounted(() => {
   init();
-})
+});
 </script>

@@ -8,23 +8,23 @@ import {
   loadData,
   loadMenusInfo,
   loadRolesInfo
-} from "@/api/sh_api.ts";
-import {ApiUrls} from "@/components/types/ApiUrls";
-import {Config} from "@/api/settings.ts";
-import {computed, onMounted, provide, reactive, ref} from "vue";
-import {SearchFields, SelectOption} from "@/components/types/SearchProps";
-import {PageFieldInfo} from "@/components/types/PageFieldInfo";
-import {ElTreeV2} from "element-plus";
-import {TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
-import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
-import piniaInstance from "@/store";
-import StarHorseTree from "@/components/comp/StarHorseTree.vue";
-import {warning} from "@/utils/message.ts";
-import {SearchParams} from "@/components/types/Params";
-import {useButtonPermission} from "@/store/ButtonPermissionStore.ts";
+} from '@/api/sh_api.ts';
+import {ApiUrls} from '@/components/types/ApiUrls';
+import {Config} from '@/api/settings.ts';
+import {computed, onMounted, provide, reactive, ref} from 'vue';
+import {SearchFields, SelectOption} from '@/components/types/SearchProps';
+import {PageFieldInfo} from '@/components/types/PageFieldInfo';
+import {ElTreeV2} from 'element-plus';
+import {TreeNodeData} from 'element-plus/es/components/tree-v2/src/types';
+import {GlobalConfig} from '@/store/GlobalConfigStore.ts';
+import piniaInstance from '@/store';
+import StarHorseTree from '@/components/comp/StarHorseTree.vue';
+import {warning} from '@/utils/message.ts';
+import {SearchParams} from '@/components/types/Params';
+import {useButtonPermission} from '@/store/ButtonPermissionStore.ts';
 
-const dataUrl: ApiUrls = apiInstance("system-config", "system/rolesPkBtnAuthority");
-dataUrl.mergeUrl = "/system-config/system/resourcesSummaryEntity/merge";
+const dataUrl: ApiUrls = apiInstance('system-config', 'system/rolesPkBtnAuthority');
+dataUrl.mergeUrl = '/system-config/system/resourcesSummaryEntity/merge';
 let systemInfoList = ref<SelectOption[]>([]);
 let appinfoList = ref<SelectOption[]>([]);
 let rolesList = ref<SelectOption[]>([]);
@@ -35,30 +35,30 @@ let dataForm = ref<any>({});
 let defaultCondition = ref<SearchParams[]>([]);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "角色名称", defaultVisible: true, fieldName: "idRolesinfo", type: "select", optionList: rolesList},
-    {label: "创建日期", fieldName: "createdDate", type: "date", matchType: "bt"},
+    {label: '角色名称', defaultVisible: true, fieldName: 'idRolesinfo', type: 'select', optionList: rolesList},
+    {label: '创建日期', fieldName: 'createdDate', type: 'date', matchType: 'bt'},
   ]
 });
 const formFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     [
       {
-        label: "角色名称", fieldName: "idRolesinfo", type: "select", optionList: rolesList,
-        required: true, formVisible: true, disabled: "Y",
+        label: '角色名称', fieldName: 'idRolesinfo', type: 'select', optionList: rolesList,
+        required: true, formVisible: true, disabled: 'Y',
         listVisible: true
       }, {
-      label: "所属系统", fieldName: "idInformations", type: "select", optionList: appinfoList,
-      required: true, formVisible: true, disabled: "Y",
+      label: '所属系统', fieldName: 'idInformations', type: 'select', optionList: appinfoList,
+      required: true, formVisible: true, disabled: 'Y',
       listVisible: true
     }],
     [{
-      label: "菜单名称", fieldName: "menusList", type: "tselect", optionList: menusSelectList,
-      required: true, formVisible: true, multiple: "Y",
+      label: '菜单名称', fieldName: 'menusList', type: 'tselect', optionList: menusSelectList,
+      required: true, formVisible: true, multiple: 'Y',
       listVisible: true
     },
       {
-        label: "权限", fieldName: "resourcesPos", type: "select", optionList: authorityList,
-        required: true, formVisible: true, multiple: "Y",
+        label: '权限', fieldName: 'resourcesPos', type: 'select', optionList: authorityList,
+        required: true, formVisible: true, multiple: 'Y',
         listVisible: true
       }],
 
@@ -68,19 +68,19 @@ const formFieldList = reactive<PageFieldInfo | any>({
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     {
-      label: "角色名称", fieldName: "roleName", type: "input", formVisible: true
+      label: '角色名称', fieldName: 'roleName', type: 'input', formVisible: true
     },
     {
-      label: "系统名称", fieldName: "sysName", type: "input", listVisible: true
+      label: '系统名称', fieldName: 'sysName', type: 'input', listVisible: true
     },
     {
-      label: "系统编码", fieldName: "sysCode", type: "input", listVisible: true
+      label: '系统编码', fieldName: 'sysCode', type: 'input', listVisible: true
     },
     {
-      label: "菜单名称", fieldName: "menuName", type: "input", listVisible: true
+      label: '菜单名称', fieldName: 'menuName', type: 'input', listVisible: true
     },
     {
-      label: "权限", fieldName: "btnNames", listVisible: true
+      label: '权限', fieldName: 'btnNames', listVisible: true
     },
   ],
   cellEditable: false
@@ -88,10 +88,10 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 let configStore = GlobalConfig(piniaInstance);
 let pagePermission = useButtonPermission(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
-const primaryKey = ["idMenusinfo", "idRolesinfo", "idInformations"];
+const primaryKey = ['idMenusinfo', 'idRolesinfo', 'idInformations'];
 const rules = {};
 const dialogProps = dialogPreps();
-provide("dialogProps", dialogProps);
+provide('dialogProps', dialogProps);
 
 const dataFormat = (name: string, cellValue: any, row: any): any => {
   return cellValue;
@@ -102,13 +102,13 @@ let currentUserGroupId = ref<number>(0);
 let currentSystemId = ref<number>(0);
 let currentMenuId = ref<number>(0);
 let preValid = ref<any>({
-  "add": () => {
+  'add': () => {
     if (!currentUserGroupId.value) {
-      warning("请先选择分组");
+      warning('请先选择分组');
       return false;
     }
     if (!currentSystemId.value) {
-      warning("请先选择应用");
+      warning('请先选择应用');
       return false;
     }
     return true;
@@ -125,14 +125,14 @@ const roleChange = async (data: TreeNodeData, checked: boolean) => {
   currentSystemId.value = 0;
   currentMenuId.value = 0;
   dataForm.value = {idRolesinfo: data.value};
-  let roleSystemDatas = await loadData("/system-config/system/rolesPkAppinfo/getAllByCondition", {
+  let roleSystemDatas = await loadData('/system-config/system/rolesPkAppinfo/getAllByCondition', {
     fieldList: [{
-      propertyName: "b.idRolesinfo",
+      propertyName: 'b.idRolesinfo',
       value: data.value
     }],
     orderBy: [{
-      fieldName: "idInformations",
-      ascOrDesc: "asc"
+      fieldName: 'idInformations',
+      ascOrDesc: 'asc'
     }]
   });
   if (roleSystemDatas.error) {
@@ -140,29 +140,29 @@ const roleChange = async (data: TreeNodeData, checked: boolean) => {
     return;
   }
   systemInfoList.value = roleSystemDatas.data;
-  appinfoList.value = createTree(roleSystemDatas.data, "idInformations", "sysName", "")
+  appinfoList.value = createTree(roleSystemDatas.data, 'idInformations', 'sysName', '');
   //同时加载当前角色下的所有菜单
   loadMenus();
   doQuery();
 };
 const loadMenus = async () => {
   let fieldList = [];
-  fieldList.push(createCondition("a.idRolesinfo", currentUserGroupId.value));
+  fieldList.push(createCondition('a.idRolesinfo', currentUserGroupId.value));
   if (currentSystemId.value) {
-    fieldList.push(createCondition("a.idInformations", currentSystemId.value));
+    fieldList.push(createCondition('a.idInformations', currentSystemId.value));
   }
   menusList.value = [];
-  let menusDatas = await loadData("/system-config/system/menusinfoEntity/rolesAppMenus", {
+  let menusDatas = await loadData('/system-config/system/menusinfoEntity/rolesAppMenus', {
     fieldList: fieldList,
     orderBy: [{
-      fieldName: "a.idRolesinfo",
-      ascOrDesc: "asc"
+      fieldName: 'a.idRolesinfo',
+      ascOrDesc: 'asc'
     }, {
-      fieldName: "a.idInformations",
-      ascOrDesc: "asc"
+      fieldName: 'a.idInformations',
+      ascOrDesc: 'asc'
     }, {
-      fieldName: "b.dataIndex",
-      ascOrDesc: "asc"
+      fieldName: 'b.dataIndex',
+      ascOrDesc: 'asc'
     }]
   });
   if (menusDatas.error) {
@@ -170,13 +170,13 @@ const loadMenus = async () => {
     return;
   }
   menusList.value = menusDatas.data;
-  menusSelectList.value = createTree(menusDatas.data, "idMenusinfo", "menuName", "");
-}
+  menusSelectList.value = createTree(menusDatas.data, 'idMenusinfo', 'menuName', '');
+};
 const systemChange = async (data: TreeNodeData, checked: boolean) => {
   currentSystemId.value = data.idInformations;
   currentMenuId.value = 0;
-  dataForm.value["idInformations"] = data.idInformations;
-  delete dataForm.value["menusList"];
+  dataForm.value['idInformations'] = data.idInformations;
+  delete dataForm.value['menusList'];
   await loadMenus();
   doQuery();
   //加载菜单
@@ -185,37 +185,37 @@ const systemChange = async (data: TreeNodeData, checked: boolean) => {
 
 const menuChange = (data: TreeNodeData, checked: boolean) => {
   currentMenuId.value = data.idMenusinfo;
-  dataForm.value["menusList"] = [data.idMenusinfo];
+  dataForm.value['menusList'] = [data.idMenusinfo];
   doQuery();
 };
 const doQuery = () => {
   let params: SearchParams[] = [];
   if (currentUserGroupId.value) {
-    params.push(createCondition("a.idRolesinfo", currentUserGroupId.value));
+    params.push(createCondition('a.idRolesinfo', currentUserGroupId.value));
   }
   if (currentSystemId.value) {
-    params.push(createCondition("a.idInformations", currentSystemId.value));
+    params.push(createCondition('a.idInformations', currentSystemId.value));
   }
   defaultCondition.value = JSON.parse(JSON.stringify(params));
   if (currentMenuId.value) {
-    params.push(createCondition("a.idMenusinfo", currentMenuId.value));
+    params.push(createCondition('a.idMenusinfo', currentMenuId.value));
   }
   menuBtnTableRef.value.createSearchParams(params);
-}
+};
 const refreshData = (formData: any, resData: any) => {
-  formData["menusList"]?.forEach((item: any) => {
+  formData['menusList']?.forEach((item: any) => {
     pagePermission.removePermission(item);
-  })
+  });
   menuBtnTableRef.value.loadByPage();
-}
+};
 const initData = async () => {
   // systemInfoList.value = await loadSystemInfo([]);
   rolesList.value = await loadRolesInfo([]);
-  authorityList.value = await dictData("button_authority");
+  authorityList.value = await dictData('button_authority');
 };
 onMounted(async () => {
   await initData();
-})
+});
 </script>
 <style lang="scss" scoped>
 </style>

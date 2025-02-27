@@ -34,14 +34,14 @@
 </template>
 <script setup lang="ts">
 import FlowAddNode from '@/views/workflow/plugin/node/AddNode.vue';
-import {computed, onMounted} from "vue";
-import {useFlowDesign} from "@/store/FlowDesignStore.ts";
-import piniaInstance from "@/store";
-import {closeLoad} from "@/api/sh_api.ts";
-import {FlowNodeEnums} from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
-import EditName from "@/views/workflow/plugin/common/EditName.vue";
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-import DeleteConfirm from "@/views/workflow/plugin/common/DeleteConfirm.vue";
+import {computed, onMounted} from 'vue';
+import {useFlowDesign} from '@/store/FlowDesignStore.ts';
+import piniaInstance from '@/store';
+import {closeLoad} from '@/api/sh_api.ts';
+import {FlowNodeEnums} from '@/views/workflow/plugin/enums/FlowNodeEnums.ts';
+import EditName from '@/views/workflow/plugin/common/EditName.vue';
+import StarHorseIcon from '@/components/comp/StarHorseIcon.vue';
+import DeleteConfirm from '@/views/workflow/plugin/common/DeleteConfirm.vue';
 
 defineOptions({
   name: 'FlowNodeEvent',
@@ -63,7 +63,7 @@ const props = defineProps({
 const emits = defineEmits(['selectNode']);
 const selectNode = () => {
   emits('selectNode', props.node);
-}
+};
 let nameClass = computed(() => {
   return (node: any, defaultStyle: string) => {
     if (node.statusCode == -1) {
@@ -79,8 +79,8 @@ let nameClass = computed(() => {
 const init = () => {
   closeLoad();
   flowDesign.refreshMap();
-}
+};
 onMounted(() => {
   init();
-})
+});
 </script>

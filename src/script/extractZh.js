@@ -28,13 +28,13 @@ function generatePinyinKey(fileName, text) {
         toneType: 'none'
     });
     console.log(pinyinArray);
-    let arr = pinyinArray.split(" ");
+    let arr = pinyinArray.split(' ');
     arr.forEach((item, index) => {
         if (index > 0)
             arr[index] = item[0].charAt(0).toUpperCase() + item.slice(1);
-    })
+    });
     //  let pinyinKey = pinyinArray.replaceAll(" ", "");
-    let pinyinKey = arr.join("");
+    let pinyinKey = arr.join('');
     let key = `${fileName}.${pinyinKey}`;
     let index = 1;
     const originalKey = key;

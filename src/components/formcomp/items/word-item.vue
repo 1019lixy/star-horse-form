@@ -6,15 +6,15 @@
   </starhorse-form-item>
 </template>
 <script lang="ts" name="excelItem">
-import {defineComponent, onMounted, shallowRef} from "vue";
+import {defineComponent, onMounted, shallowRef} from 'vue';
 
 export default defineComponent({
   setup(_props, context) {
-    const parentField = context.attrs["parentField"];
+    const parentField = context.attrs['parentField'];
 
-    const field = context.attrs["field"] as any;
+    const field = context.attrs['field'] as any;
     let formItem = shallowRef({label: 'input', required: false});
-    let dataField = shallowRef("");
+    let dataField = shallowRef('');
     const itemAction = () => {
       context.emit('selfFunc');
     };
@@ -25,7 +25,7 @@ export default defineComponent({
     onMounted(() => {
       init();
     });
-    return {parentField, context, field, formItem, dataField, itemAction, rendered}
+    return {parentField, context, field, formItem, dataField, itemAction, rendered};
   }
 });
 </script>

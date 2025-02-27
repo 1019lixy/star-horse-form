@@ -65,22 +65,22 @@
 import {flowCommon} from '@/views/workflow/plugin/utils/flowCommon.ts';
 import FlowNodeApproval from '@/views/workflow/plugin/preps/utils/Approval.vue';
 import FlowDrawerFooter from '@/views/workflow/plugin/common/DrawerFooter.vue';
-import {onMounted, ref} from "vue";
-import {dictData} from "@/api/sh_api.ts";
-import {useFlowDesign} from "@/store/FlowDesignStore.ts";
-import piniaInstance from "@/store";
-import {ModelRef} from "vue-demi";
-import StarHorseDataSelector from "@/components/comp/StarHorseDataSelector.vue";
-import StarHorseFormList from "@/components/comp/StarHorseFormList.vue";
-import {FieldInfo} from "@/components/types/PageFieldInfo";
-import {getValidType} from "@/api/valid_utils.ts";
-import {warning} from "@/utils/message.ts";
+import {onMounted, ref} from 'vue';
+import {dictData} from '@/api/sh_api.ts';
+import {useFlowDesign} from '@/store/FlowDesignStore.ts';
+import piniaInstance from '@/store';
+import {ModelRef} from 'vue-demi';
+import StarHorseDataSelector from '@/components/comp/StarHorseDataSelector.vue';
+import StarHorseFormList from '@/components/comp/StarHorseFormList.vue';
+import {FieldInfo} from '@/components/types/PageFieldInfo';
+import {getValidType} from '@/api/valid_utils.ts';
+import {warning} from '@/utils/message.ts';
 
 defineOptions({
   name: 'NoticePrep',
-})
+});
 
-let node: ModelRef<any> = defineModel("activeData");
+let node: ModelRef<any> = defineModel('activeData');
 
 const flowDesign = useFlowDesign(piniaInstance);
 let noticeTab = ref<string>('1');
@@ -89,52 +89,52 @@ let fieldList = ref<Array<FieldInfo>>([]);
 let notices = ref<Array<any>>([]);
 
 const newTemplate = () => {
-  warning("加急开发中");
-}
+  warning('加急开发中');
+};
 let currentExtend = ref<Array<any>>([]);
 let drawer = ref<boolean>(false);
-let currentName = ref<string>("");
+let currentName = ref<string>('');
 let extendForm = ref<any>({});
 
 const closeAction = () => {
   drawer.value = false;
   node.value[currentName.value] = extendForm.value[currentName.value].map((item: any) => item.email || item.phone);
-}
+};
 const addExtendData = (type: string) => {
   extendForm.value = {};
-  if (type == "phone") {
+  if (type == 'phone') {
     fieldList.value = [
-      {label: '手机号', fieldName: 'phone', type: 'input', required: true, rules: getValidType("phone"), formVisible: true},
+      {label: '手机号', fieldName: 'phone', type: 'input', required: true, rules: getValidType('phone'), formVisible: true},
     ];
     node.value.extendPhones = node.value.extendPhones || [];
     currentExtend.value = node.value.extendPhones;
-    currentName.value = "extendPhones";
+    currentName.value = 'extendPhones';
     extendForm.value[currentName.value] = node.value.extendPhones.map((item: any) => {
       return {phone: item};
     });
   } else {
     fieldList.value = [
-      {label: '邮箱号', fieldName: 'email', type: 'input', required: true, rules: getValidType("email"), formVisible: true},
+      {label: '邮箱号', fieldName: 'email', type: 'input', required: true, rules: getValidType('email'), formVisible: true},
     ];
     node.value.extendEmails = node.value.extendEmails || [];
     currentExtend.value = node.value.extendEmails;
-    currentName.value = "extendEmails";
+    currentName.value = 'extendEmails';
     extendForm.value[currentName.value] = node.value.extendEmails.map((item: any) => {
       return {email: item};
     });
   }
 
   drawer.value = true;
-}
+};
 const onClose = () => {
   flowDesign.setActive(false);
-}
+};
 const init = async () => {
-  notices.value = await dictData("message_tools");
-}
+  notices.value = await dictData('message_tools');
+};
 onMounted(() => {
   init();
-})
+});
 
 </script>
 <style lang="scss" scoped>

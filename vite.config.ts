@@ -1,32 +1,32 @@
-import {defineConfig} from 'vite'
-import vue from '@vitejs/plugin-vue'
-import progress from 'vite-plugin-progress'
-import vueJsx from "@vitejs/plugin-vue-jsx"
-import inject from "@rollup/plugin-inject"
+import {defineConfig} from 'vite';
+import vue from '@vitejs/plugin-vue';
+import progress from 'vite-plugin-progress';
+import vueJsx from '@vitejs/plugin-vue-jsx';
+import inject from '@rollup/plugin-inject';
 import topLevelAwait from 'vite-plugin-top-level-await';
-import {resolve} from "path";
+import {resolve} from 'path';
 import fs from 'fs';
-import {createSvgIconsPlugin} from 'vite-plugin-svg-icons'
-import Components from 'unplugin-vue-components/vite'
-import {ElementPlusResolver} from 'unplugin-vue-components/resolvers'
-import AutoImport from 'unplugin-auto-import/vite'
+import {createSvgIconsPlugin} from 'vite-plugin-svg-icons';
+import Components from 'unplugin-vue-components/vite';
+import {ElementPlusResolver} from 'unplugin-vue-components/resolvers';
+import AutoImport from 'unplugin-auto-import/vite';
 import {visualizer} from 'rollup-plugin-visualizer';
 //此插件是处理外部依赖 比如cdn引入的js
 import vueDevTools from 'vite-plugin-vue-devtools';
-import tailwindcss from '@tailwindcss/vite'
+import tailwindcss from '@tailwindcss/vite';
 
-const codeHost: string = "http://192.168.20.165:8888/"
+const codeHost: string = 'http://192.168.20.165:8888/';
 // const codeHost:string = "http://localhost:8888/"
-const systemHost: string = "http://localhost:8749/"
+const systemHost: string = 'http://localhost:8749/';
 // const systemHost:string = "http://192.168.20.204:8749/"
-const workflowHost: string = "http://localhost:8899/"
-const continusHost: string = "http://localhost:8859/"
-const userDbHost: string = "http://localhost:7758/"
+const workflowHost: string = 'http://localhost:8899/';
+const continusHost: string = 'http://localhost:8859/';
+const userDbHost: string = 'http://localhost:7758/';
 // const userDbHost:string = "http://192.168.20.204:7758/"
 // https://vitejs.dev/config/
 
 export default defineConfig((mode, command) => {
-    let optimizeDepsList: string[] = [
+    const optimizeDepsList: string[] = [
         'vue',
         'vue-router',
         'vue3-guides',
@@ -87,12 +87,12 @@ export default defineConfig((mode, command) => {
         'axios',
         '@vueuse/core',
         'flv.js',
-    ]
+    ];
     // const elementPlusStyles = glob.sync('node_modules/element-plus/es/components/**/style/*.mjs');
     // optimizeDepsList.push(...elementPlusStyles.map(path =>
     //     path.replace('node_modules/', '').replace(/\.mjs$/, '')
     // ));
-    fs.readdirSync("node_modules/element-plus/es/components").map(async (dirname) => {
+    fs.readdirSync('node_modules/element-plus/es/components').map(async (dirname) => {
         try {
             fs.accessSync(
                 `node_modules/element-plus/es/components/${dirname}/style/css.mjs`,
@@ -115,39 +115,39 @@ export default defineConfig((mode, command) => {
         }
     });
     return {
-        base: "/",
+        base: '/',
         server: {
             port: 8880,
             host: true,
             open: true,
             hmr: true,
             proxy: {
-                "/system-config": {
+                '/system-config': {
                     target: systemHost,
                     changeOrigin: true,
                     rewrite: (path: string) => path.replace(/^\/system-config/, '/system-config-dev'),
                     ws: true
                 },
-                "/code-generator": {
+                '/code-generator': {
                     target: codeHost,
                     changeOrigin: true,
                     rewrite: (path: string) => path.replace(/^\/code-generator/, '/code-generator-dev'),
                     ws: true
                 },
-                "/flow-engine": {
+                '/flow-engine': {
                     target: workflowHost,
                     changeOrigin: true,
                     rewrite: (path: string) => path.replace(/^\/flow-engine/, '/flow-engine-dev'),
                     ws: true
                 },
-                "/devops-continus": {
+                '/devops-continus': {
                     target: continusHost,
                     changeOrigin: true,
                     rewrite: (path: string) => path.replace(/^\/devops-continus/, '/devops-continus-dev'),
                     ws: true
                 },
 
-                "/userdb-manage": {
+                '/userdb-manage': {
                     target: userDbHost,
                     changeOrigin: true,
                     rewrite: (path: string) => path.replace(/^\/userdb-manage/, '/userdb-manage-dev'),
@@ -180,7 +180,7 @@ export default defineConfig((mode, command) => {
                 resolvers: [ElementPlusResolver()],
             }),
             Components({
-                dirs: ["src/components", "src/views"],
+                dirs: ['src/components', 'src/views'],
                 // 这里就是相关ui库的解析工具, 里面的选项有是否使用自动导入样式 如果需要通过 var 变量改变主题 需要注意一下
                 resolvers: [ElementPlusResolver(
                     {importStyle: 'sass',}
@@ -191,10 +191,10 @@ export default defineConfig((mode, command) => {
             // viteCommonjs(),
             vueJsx({}),
             inject({
-                $: "jquery", // 这里会自动载入 node_modules 中的 jquery
-                jQuery: "jquery",
-                "windows.jQuery": "jquery",
-                "windows.$": "jquery",
+                $: 'jquery', // 这里会自动载入 node_modules 中的 jquery
+                jQuery: 'jquery',
+                'windows.jQuery': 'jquery',
+                'windows.$': 'jquery',
             }),
             createSvgIconsPlugin({
                 iconDirs: [resolve(process.cwd(), 'src/icons'), resolve(process.cwd(), 'src/assets/icons/svg')],
@@ -233,10 +233,10 @@ export default defineConfig((mode, command) => {
         },
         resolve: {
             alias: {
-                "@": resolve(__dirname, "./src"),
+                '@': resolve(__dirname, './src'),
                 'monaco-editor': 'monaco-editor/esm/vs/editor/editor.api.js'
             },
-            extensions: ['.js', '.vue', '.json', '.ts', ".jsx"]
+            extensions: ['.js', '.vue', '.json', '.ts', '.jsx']
         },
         cacheDir: 'node_modules/.vite',
         build: {
@@ -254,13 +254,13 @@ export default defineConfig((mode, command) => {
                     }
                 },
                 input: {
-                    main: resolve(__dirname, "index.html")
+                    main: resolve(__dirname, 'index.html')
                 }
             },
             terserOptions: {
                 compress: {
-                    drop_console: mode === "production",
-                    drop_debugger: mode === "production",
+                    drop_console: mode === 'production',
+                    drop_debugger: mode === 'production',
                 }
             },
             // 开启并行压缩
@@ -270,15 +270,15 @@ export default defineConfig((mode, command) => {
             //浏览器兼容性  "esnext"|"modules",升级后用modules 报错
             target: 'esnext',
             //指定输出路径
-            outDir: "dist",
+            outDir: 'dist',
             //生成静态资源的存放路径
-            assetsDir: "assets",
+            assetsDir: 'assets',
             //小于此阈值的导入或引用资源将内联为 base64 编码，以避免额外的 http 请求。设置为 0 可以完全禁用此项
             assetsInlineLimit: 4096,
             //启用/禁用 CSS 代码拆分
             cssCodeSplit: true,
             //构建后是否生成 source map 文件
-            sourcemap: mode === "development",
+            sourcemap: mode === 'development',
             //自定义底层的 Rollup 打包配置
             //@rollup/plugin-commonjs 插件的选项
             commonjsOptions: {},
@@ -290,7 +290,7 @@ export default defineConfig((mode, command) => {
             // 设置为 false 可以禁用最小化混淆，
             // 或是用来指定使用哪种混淆器
             // boolean | 'terser' | 'esbuild'
-            minify: "terser", //terser 构建后文件体积更小
+            minify: 'terser', //terser 构建后文件体积更小
             //传递给 Terser 的更多 minify 选项。
             //设置为 false 来禁用将构建后的文件写入磁盘
             write: true,
@@ -298,4 +298,4 @@ export default defineConfig((mode, command) => {
             emptyOutDir: true,
         }
     };
-})
+});

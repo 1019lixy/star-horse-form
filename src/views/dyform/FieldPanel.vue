@@ -1,15 +1,15 @@
 <script setup lang="ts" name="FieldPanel">
-import {computed, ref} from 'vue'
-import {DesignForm} from "@/store/DesignFormStore.ts";
-import piniaInstance from "@/store/index.ts";
-import DbListComp from "@/views/dbsearch/utils/DbListComp.vue";
-import {fieldCopy} from "@/views/dyform/utils/FieldOperationUtils.ts";
+import {computed, ref} from 'vue';
+import {DesignForm} from '@/store/DesignFormStore.ts';
+import piniaInstance from '@/store/index.ts';
+import DbListComp from '@/views/dbsearch/utils/DbListComp.vue';
+import {fieldCopy} from '@/views/dyform/utils/FieldOperationUtils.ts';
 
 let designForm = DesignForm(piniaInstance);
 let formDataList = computed(() => designForm.formDataList);
 let containerList = computed(() => designForm.containerList);
 let selfFormDataList = computed(() => designForm.selfFormDataList);
-let tabModel = ref<string>("component");
+let tabModel = ref<string>('component');
 let activeNames = ref(['a', 'b', 'c', 'd']);
 
 const onContainerCopy = (data: any) => {

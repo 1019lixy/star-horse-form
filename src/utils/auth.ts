@@ -1,8 +1,8 @@
-import {Config} from '@/api/settings.ts'
-import {SearchParams} from "@/components/types/Params";
+import {Config} from '@/api/settings.ts';
+import {SearchParams} from '@/components/types/Params';
 
 export function getToken() {
-    return sessionStorage.getItem(Config.TokenKey)
+    return sessionStorage.getItem(Config.TokenKey);
 }
 
 export function setUserInfo(userInfo: any) {
@@ -25,7 +25,7 @@ export function setCustomerInfo(customerInfo: any) {
 export function getCustomerInfo() {
     const str = sessionStorage.getItem(Config.customerInfo);
     //未找到客户编码
-    if (!str || str == "undefined") {
+    if (!str || str == 'undefined') {
         return null;
     }
     return JSON.parse(str);
@@ -34,7 +34,7 @@ export function getCustomerInfo() {
 /**
  * 获取查询对象
  */
-export function getCustomerParam(propertyName: string = ""): SearchParams | null {
+export function getCustomerParam(propertyName: string = ''): SearchParams | null {
     const customerInfo = getCustomerInfo();
     if (!customerInfo || !propertyName) {
         return null;
@@ -55,7 +55,7 @@ export function getUserInfo() {
  * 检测是否系统管理员
  */
 export function isSystemManage(): boolean {
-    let roleList = getUserInfo()?.rolesList?.filter((item: any) => item.roleType == 3);
+    const roleList = getUserInfo()?.rolesList?.filter((item: any) => item.roleType == 3);
     return roleList && roleList.length > 0;
 }
 

@@ -1,6 +1,6 @@
-import {SearchFields, SelectOption} from "@/components/types/SearchProps";
-import {ApiUrls} from "@/components/types/ApiUrls";
-import {SearchParams} from "@/components/types/Params";
+import {SearchFields, SelectOption} from '@/components/types/SearchProps';
+import {ApiUrls} from '@/components/types/ApiUrls';
+import {SearchParams} from '@/components/types/Params';
 
 /**
  * Tab 表单数据

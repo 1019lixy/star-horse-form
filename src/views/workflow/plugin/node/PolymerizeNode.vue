@@ -17,13 +17,13 @@
 <script setup lang="ts">
 import FlowAddNode from '@/views/workflow/plugin/node/AddNode.vue';
 import EditName from '@/views/workflow/plugin/common/EditName.vue';
-import {onMounted} from "vue";
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-import {closeLoad} from "@/api/sh_api.ts";
-import {useFlowDesign} from "@/store/FlowDesignStore.ts";
-import piniaInstance from "@/store";
-import {warning} from "@/utils/message.ts";
-import DeleteConfirm from "@/views/workflow/plugin/common/DeleteConfirm.vue";
+import {onMounted} from 'vue';
+import StarHorseIcon from '@/components/comp/StarHorseIcon.vue';
+import {closeLoad} from '@/api/sh_api.ts';
+import {useFlowDesign} from '@/store/FlowDesignStore.ts';
+import piniaInstance from '@/store';
+import {warning} from '@/utils/message.ts';
+import DeleteConfirm from '@/views/workflow/plugin/common/DeleteConfirm.vue';
 
 const flowDesign = useFlowDesign(piniaInstance);
 const props = defineProps({
@@ -40,14 +40,14 @@ const props = defineProps({
 });
 const emits = defineEmits(['selectNode']);
 const selectNode = () => {
-  warning("聚合节点无需编辑");
+  warning('聚合节点无需编辑');
   // emits('selectNode',props.node);
-}
+};
 const init = () => {
   closeLoad();
   flowDesign.refreshMap();
-}
+};
 onMounted(() => {
   init();
-})
+});
 </script>

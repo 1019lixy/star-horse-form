@@ -1,16 +1,16 @@
-import {CopyerOperation} from "@/store/CopyerOperationStore.ts";
-import piniaInstance from "@/store";
-import {computed, reactive, ref} from "vue";
-import {DesignForm} from "@/store/DesignFormStore.ts";
-import {uuid} from "@/api/system.ts";
-import {DynamicNode} from "@/components/types/DynamicNode";
-import {DesignPage} from "@/store/DesignPageStore.ts";
+import {CopyerOperation} from '@/store/CopyerOperationStore.ts';
+import piniaInstance from '@/store';
+import {computed, reactive, ref} from 'vue';
+import {DesignForm} from '@/store/DesignFormStore.ts';
+import {uuid} from '@/api/system.ts';
+import {DynamicNode} from '@/components/types/DynamicNode';
+import {DesignPage} from '@/store/DesignPageStore.ts';
 
 const copyerAction = CopyerOperation(piniaInstance);
 const designForm = DesignForm(piniaInstance);
 const designPage = DesignPage(piniaInstance);
-let compList = computed(() => designForm.compList);
-let currentItemId = computed(() => designForm.currentItemId);
+const compList = computed(() => designForm.compList);
+const currentItemId = computed(() => designForm.currentItemId);
 const pasteDisplay = computed(() => {
     const action = copyerAction.action;
     return !!action;
@@ -18,12 +18,12 @@ const pasteDisplay = computed(() => {
 
 export function getParentComp(parentField: any) {
     return parentField &&
-    (parentField.itemType == "box"
-        || parentField.itemType == "tab"
-        || parentField.itemType == "dytable"
-        || parentField.itemType == "table")
-        ? "container"
-        : "item";
+    (parentField.itemType == 'box'
+        || parentField.itemType == 'tab'
+        || parentField.itemType == 'dytable'
+        || parentField.itemType == 'table')
+        ? 'container'
+        : 'item';
 }
 
 /**
@@ -38,13 +38,13 @@ const selectItem = (index: number, currentItems: Array<any>, elements: Array<any
     if (currentItems.length > 0) {
         item = currentItems[currentItems.length - 1];
     } else {
-        let element = elements[index - 1] || elements[0];
+        const element = elements[index - 1] || elements[0];
         item = element?.items[element.items?.length - 1];
     }
     if (item && Object.keys(item).length > 0) {
         designForm.selectItem(item, item.itemType, parentType);
     }
-}
+};
 
 /**
  * 从舞台删除组件
@@ -56,12 +56,12 @@ export function removeItem(isEdit: boolean, formItem: any, parentField: any) {
     if (!isEdit) {
         return;
     }
-    let parentItemType = parentField?.itemType;
-    let dataList = compList.value;
-    if (parentItemType == "tab" || parentItemType == "table" || parentItemType == "card" || parentItemType == "collapse") {
-        let elements = parentField!.preps.elements;
+    const parentItemType = parentField?.itemType;
+    const dataList = compList.value;
+    if (parentItemType == 'tab' || parentItemType == 'table' || parentItemType == 'card' || parentItemType == 'collapse') {
+        const elements = parentField!.preps.elements;
         for (let i = 0; i < elements.length; i++) {
-            let items = elements[i].items;
+            const items = elements[i].items;
             for (let j = 0; j < items.length; j++) {
                 if (formItem.id === items[j]?.id) {
                     items.splice(j, 1);
@@ -70,13 +70,13 @@ export function removeItem(isEdit: boolean, formItem: any, parentField: any) {
                 }
             }
         }
-    } else if (parentItemType == "box" || parentItemType == "dytable") {
-        let elements = parentField!.preps.elements;
-        for (let index in elements) {
-            let sdataTemp = elements[index];
+    } else if (parentItemType == 'box' || parentItemType == 'dytable') {
+        const elements = parentField!.preps.elements;
+        for (const index in elements) {
+            const sdataTemp = elements[index];
             if (sdataTemp.columns.length > 0) {
                 for (let i = 0; i < sdataTemp.columns.length; i++) {
-                    let items = sdataTemp.columns[i].items;
+                    const items = sdataTemp.columns[i].items;
                     for (let j = 0; j < items.length; j++) {
                         if (formItem.id === items[j].id) {
                             items.splice(j, 1);
@@ -90,7 +90,7 @@ export function removeItem(isEdit: boolean, formItem: any, parentField: any) {
     } else {
         for (let i = 0; i < dataList.length; i++) {
             if (formItem.id === dataList[i].id) {
-                let item = dataList[i - 1] || dataList[0];
+                const item = dataList[i - 1] || dataList[0];
                 dataList.splice(i, 1);
                 if (item && Object.keys(item).length > 0) {
                     designForm.selectItem(item, item.itemType, parentItemType);
@@ -111,27 +111,27 @@ export function moveUpItem(isEdit: boolean, formItem: any, parentField: any) {
         return;
     }
     //这个数据解析好麻烦
-    let dataList = compList.value;
-    if (parentField?.itemType == "tab") {
-        let elements = parentField!.preps.elements;
+    const dataList = compList.value;
+    if (parentField?.itemType == 'tab') {
+        const elements = parentField!.preps.elements;
         for (let i = 0; i < elements.length; i++) {
-            let items = elements[i].items;
+            const items = elements[i].items;
             for (let j = 0; j < items.length; j++) {
                 if (formItem.id === items[j]?.id && j > 0) {
-                    let temp = items[j];
+                    const temp = items[j];
                     items[j] = items[j - 1];
                     items[j - 1] = temp;
                     return;
                 }
             }
         }
-    } else if (parentField?.itemType == "box") {
+    } else if (parentField?.itemType == 'box') {
     }
-    let compType = getParentComp(parentField);
-    if (compType === "item") {
+    const compType = getParentComp(parentField);
+    if (compType === 'item') {
         for (let i = 0; i < dataList.length; i++) {
             if (formItem.id === dataList[i].id && i > 0) {
-                let temp = dataList[i];
+                const temp = dataList[i];
                 dataList[i] = dataList[i - 1];
                 dataList[i - 1] = temp;
                 break;
@@ -139,19 +139,19 @@ export function moveUpItem(isEdit: boolean, formItem: any, parentField: any) {
         }
     } else {
         for (let i = 0; i < dataList.length; i++) {
-            let dataTemp = dataList[i];
-            if (dataTemp.compType !== "container") {
+            const dataTemp = dataList[i];
+            if (dataTemp.compType !== 'container') {
                 continue;
             }
-            let elements = dataTemp.preps.elements;
-            for (let index in elements) {
-                let sdataTemp = elements[index];
+            const elements = dataTemp.preps.elements;
+            for (const index in elements) {
+                const sdataTemp = elements[index];
                 if (sdataTemp.columns.length > 0) {
                     for (let i = 0; i < sdataTemp.columns.length; i++) {
-                        let items = sdataTemp.columns[i].items;
+                        const items = sdataTemp.columns[i].items;
                         for (let j = 0; j < items.length; j++) {
                             if (formItem.id === items[j].id && j > 0) {
-                                let temp = items[j];
+                                const temp = items[j];
                                 items[j] = items[j - 1];
                                 items[j - 1] = temp;
                                 break;
@@ -168,28 +168,28 @@ export function moveDownItem(isEdit: boolean, formItem: any, parentField: any) {
     if (!isEdit) {
         return;
     }
-    let dataList = compList.value;
-    if (parentField?.itemType == "tab") {
-        let elements = parentField!.preps.elements;
+    const dataList = compList.value;
+    if (parentField?.itemType == 'tab') {
+        const elements = parentField!.preps.elements;
         for (let i = 0; i < elements.length; i++) {
-            let items = elements[i].items;
+            const items = elements[i].items;
             for (let j = 0; j < items.length; j++) {
                 if (formItem.id === items[j]?.id && j < items.length - 1) {
-                    let temp = items[j];
+                    const temp = items[j];
                     items[j] = items[j + 1];
                     items[j + 1] = temp;
                     return;
                 }
             }
         }
-    } else if (parentField?.itemType == "box") {
+    } else if (parentField?.itemType == 'box') {
 
     }
-    let compType = getParentComp(parentField);
-    if (compType === "item") {
+    const compType = getParentComp(parentField);
+    if (compType === 'item') {
         for (let i = 0; i < dataList.length; i++) {
             if (formItem.id === dataList[i].id && i < dataList.length - 1) {
-                let temp = dataList[i];
+                const temp = dataList[i];
                 dataList[i] = dataList[i + 1];
                 dataList[i + 1] = temp;
                 break;
@@ -197,19 +197,19 @@ export function moveDownItem(isEdit: boolean, formItem: any, parentField: any) {
         }
     } else {
         for (let i = 0; i < dataList.length; i++) {
-            let dataTemp = dataList[i];
-            if (dataTemp.compType !== "container") {
+            const dataTemp = dataList[i];
+            if (dataTemp.compType !== 'container') {
                 continue;
             }
-            let elements = dataTemp.preps.elements;
-            for (let index in elements) {
-                let sdataTemp = elements[index];
+            const elements = dataTemp.preps.elements;
+            for (const index in elements) {
+                const sdataTemp = elements[index];
                 if (sdataTemp.columns.length > 0) {
                     for (let i = 0; i < sdataTemp.columns.length; i++) {
-                        let items = sdataTemp.columns[i].items;
+                        const items = sdataTemp.columns[i].items;
                         for (let j = 0; j < items.length; j++) {
                             if (formItem.id === items[j].id && j < items.length - 1) {
-                                let temp = items[j];
+                                const temp = items[j];
                                 items[j] = items[j + 1];
                                 items[j + 1] = temp;
                                 break;
@@ -222,26 +222,26 @@ export function moveDownItem(isEdit: boolean, formItem: any, parentField: any) {
     }
 }
 
-let fieldIndex = ref<number>(200);
+const fieldIndex = ref<number>(200);
 const complexFields = (items: Array<any>, isCut: boolean = false) => {
     for (const index in items) {
         const item = items[index];
-        if (item.compType == "container") {
+        if (item.compType == 'container') {
             const sitems = item.preps.elements;
             for (const sindex in sitems) {
                 complexFields(sitems[sindex].items);
             }
         } else {
             item.id = uuid();
-            item["preps"]["id"] = item.id;
+            item['preps']['id'] = item.id;
             if (!isCut) {
                 fieldIndex.value++;
                 item.preps.name = item.preps.name + (fieldIndex.value);
-                item.preps.label = item.preps.label + "(复制)";
+                item.preps.label = item.preps.label + '(复制)';
             }
         }
     }
-}
+};
 /**
  * 拷贝容器
  * @param parentComp
@@ -256,7 +256,7 @@ export const copyContainer = (parentComp: Array<any>, currentContainer: any, isC
     const container = JSON.parse(JSON.stringify(currentContainer));
     container.id = uuid();
     //box和dytable 有列属性
-    if (containerType == "box" || containerType == "dytable") {
+    if (containerType == 'box' || containerType == 'dytable') {
         const rows = container.preps.elements;
         for (const index in rows) {
             const row = rows[index];
@@ -274,8 +274,8 @@ export const copyContainer = (parentComp: Array<any>, currentContainer: any, isC
         }
     }
     parentComp.push(container);
-    designForm.selectItem(container, containerType, "");
-}
+    designForm.selectItem(container, containerType, '');
+};
 
 /**
  * 操作接口
@@ -289,11 +289,11 @@ export function contextOperation(act: string, item: any, parentItem: any) {
 }
 
 export function cut(item: any, parentItem: any) {
-    copyerAction.operation("cut", parentItem, item);
+    copyerAction.operation('cut', parentItem, item);
 }
 
 export function copy(item: any, parentItem: any) {
-    copyerAction.operation("copy", parentItem, item);
+    copyerAction.operation('copy', parentItem, item);
 
 }
 
@@ -307,8 +307,8 @@ export function paste(parentItem: any) {
         copyContainer(parentItem!.preps?.elements, copyerData);
     } else {
         //拷贝容器
-        if (getParentComp(copyerData) == "container") {
-            let parentContainer = copyerAction.parentContainer;
+        if (getParentComp(copyerData) == 'container') {
+            const parentContainer = copyerAction.parentContainer;
             copyContainer(parentContainer ? parentContainer!.preps?.elements : compList.value, copyerData);
         } else {
             copyerData = JSON.parse(JSON.stringify(copyerData));
@@ -327,7 +327,7 @@ export function paste(parentItem: any) {
  * @param recall
  */
 export function dynamicFormContextMenuData(item: any, parentItem: any, flag: string = 'scene', recall?: Function) {
-    let menus = reactive<Array<any>>([]);
+    const menus = reactive<Array<any>>([]);
     if (flag == 'scene') {
         menus.push({
             type: 'button',
@@ -378,7 +378,7 @@ export function dynamicFormContextMenuData(item: any, parentItem: any, flag: str
                 if (recall) {
                     recall('paste');
                 } else {
-                    paste(parentItem)
+                    paste(parentItem);
                 }
             },
         },
@@ -443,7 +443,7 @@ export function dynamicFormContextMenuData(item: any, parentItem: any, flag: str
             icon: 'select-parent',
             display: currentItemId.value != item.id,
             handler: () => {
-                designForm.selectItem(item, item?.itemType, "");
+                designForm.selectItem(item, item?.itemType, '');
             },
         },);
     }
@@ -516,9 +516,9 @@ export function dynamicPageContextMenuData(node: DynamicNode) {
             icon: 'copy',
             display: true,
             handler: () => {
-                let temp = JSON.parse(JSON.stringify(node));
+                const temp = JSON.parse(JSON.stringify(node));
                 temp.id = uuid();
-                temp.name = temp.name + "复制";
+                temp.name = temp.name + '复制';
                 designPage.addNode(temp);
             },
         },

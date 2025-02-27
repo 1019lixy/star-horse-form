@@ -1,16 +1,16 @@
 <script setup lang="ts" name="Statusinfo">
-import {apiInstance, dialogPreps} from "@/api/sh_api.ts";
-import {ApiUrls} from "@/components/types/ApiUrls";
-import {Config} from "@/api/settings.ts";
-import {computed, onMounted, provide, reactive, ref, watch} from "vue";
-import {SearchFields, SelectOption} from "@/components/types/SearchProps";
-import {PageFieldInfo, UserFuncInfo} from "@/components/types/PageFieldInfo";
-import {loadDict} from "@/api/star_horse";
-import {createCondition} from "@/api/sh_api";
+import {apiInstance, dialogPreps} from '@/api/sh_api.ts';
+import {ApiUrls} from '@/components/types/ApiUrls';
+import {Config} from '@/api/settings.ts';
+import {computed, onMounted, provide, reactive, ref, watch} from 'vue';
+import {SearchFields, SelectOption} from '@/components/types/SearchProps';
+import {PageFieldInfo, UserFuncInfo} from '@/components/types/PageFieldInfo';
+import {loadDict} from '@/api/star_horse';
+import {createCondition} from '@/api/sh_api';
 
 const tabListRef = ref();
 const dictSearchRef = ref();
-const dataUrl: ApiUrls = apiInstance("system-config", "system/dictinfoEntity");
+const dataUrl: ApiUrls = apiInstance('system-config', 'system/dictinfoEntity');
 const commonDictList = ref<SelectOption[]>([]);
 const props = defineProps({
   dictType: {type: String, required: true}
@@ -18,35 +18,35 @@ const props = defineProps({
 let dictType = computed(() => props.dictType);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "字典类型", fieldName: "dictType", type: "input", defaultValue: dictType, disabled: "Y"},
-    {label: "字典名称", defaultVisible: true, fieldName: "dictName", type: "input", matchType: "lk"}
+    {label: '字典类型', fieldName: 'dictType', type: 'input', defaultValue: dictType, disabled: 'Y'},
+    {label: '字典名称', defaultVisible: true, fieldName: 'dictName', type: 'input', matchType: 'lk'}
   ]
 });
 const editFormField = reactive<PageFieldInfo>({
   fieldList: [{
-    label: "字典名称", fieldName: "dictName", type: "input",
+    label: '字典名称', fieldName: 'dictName', type: 'input',
     required: true, formVisible: true,
     listVisible: true
   },
     {
-      label: "字典编码", fieldName: "dictCode", type: "input",
+      label: '字典编码', fieldName: 'dictCode', type: 'input',
       required: true, formVisible: true,
       listVisible: true
     },
     {
-      label: "状态", fieldName: "statusName", type: "input",
+      label: '状态', fieldName: 'statusName', type: 'input',
       required: true,
       listVisible: true
     },
     {
-      label: "状态", fieldName: "statusCode", type: "select", optionList: commonDictList,
+      label: '状态', fieldName: 'statusCode', type: 'select', optionList: commonDictList,
       required: true,
       formVisible: true,
-      defaultValue: "1",
+      defaultValue: '1',
       listVisible: false
     },
     {
-      label: "字典描述", fieldName: "dictDesc", type: "textarea",
+      label: '字典描述', fieldName: 'dictDesc', type: 'textarea',
       formVisible: true,
       listVisible: true
     },
@@ -55,56 +55,56 @@ const editFormField = reactive<PageFieldInfo>({
 const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
-      label: "主键", fieldName: "idDictinfo", type: "long",
+      label: '主键', fieldName: 'idDictinfo', type: 'long',
     },
     {
-      label: "字典类型", fieldName: "dictType", type: "input",
+      label: '字典类型', fieldName: 'dictType', type: 'input',
       required: true, formVisible: true, defaultValue: dictType,
-      listVisible: true, disabled: "Y"
+      listVisible: true, disabled: 'Y'
     },
     {
       batchFieldList: [{
-        title: "字典信息",
-        batchName: "dictList",
-        subFormFlag: "N",
+        title: '字典信息',
+        batchName: 'dictList',
+        subFormFlag: 'N',
         fieldList: editFormField.fieldList
       }]
     },
     {
-      label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
+      label: '创建人', disabled: 'Y', fieldName: 'createdBy', type: 'input',
     },
     {
-      label: "修改人", disabled: "Y", fieldName: "updatedBy", type: "input",
+      label: '修改人', disabled: 'Y', fieldName: 'updatedBy', type: 'input',
     },
     {
-      label: "创建日期", disabled: "Y", fieldName: "createdDate", type: "date",
+      label: '创建日期', disabled: 'Y', fieldName: 'createdDate', type: 'date',
     },
     {
-      label: "修改日期", disabled: "Y", fieldName: "updatedDate", type: "date",
+      label: '修改日期', disabled: 'Y', fieldName: 'updatedDate', type: 'date',
     },
     {
-      label: "数据版本号", fieldName: "version", type: "number",
+      label: '数据版本号', fieldName: 'version', type: 'number',
     },
     {
-      label: "是否已逻辑", fieldName: "isDel", type: "number",
+      label: '是否已逻辑', fieldName: 'isDel', type: 'number',
     },
     {
-      label: "数据编号", fieldName: "dataNo", type: "input",
+      label: '数据编号', fieldName: 'dataNo', type: 'input',
     },
     {
-      label: "国际码", fieldName: "local", type: "input",
+      label: '国际码', fieldName: 'local', type: 'input',
     },
   ],
   //阻止初始化时自动加载列表数据
   stopAutoLoad: true,
 });
-const primaryKey = "idDictinfo";
+const primaryKey = 'idDictinfo';
 const rules = {};
 watch(
     () => props.dictType,
     (val) => {
       dictSearchRef.value?.setData({dictType: val});
-      let condition = [createCondition("dictType", val)];
+      let condition = [createCondition('dictType', val)];
       tabListRef.value!.setDataInfo(condition, null);
       tabListRef.value!.createSearchParams(condition);
     }, {
@@ -113,12 +113,12 @@ watch(
     }
 );
 const dialogProps = dialogPreps();
-provide("dialogProps", dialogProps);
+provide('dialogProps', dialogProps);
 const extendBtns = ref<UserFuncInfo[]>([
   {
-    btnName: "编辑",
-    authority: "edit",
-    icon: "edit",
+    btnName: '编辑',
+    authority: 'edit',
+    icon: 'edit',
     priority: 1,
     funcName: (data: any) => {
       dialogProps.ids = data[primaryKey];
@@ -127,13 +127,13 @@ const extendBtns = ref<UserFuncInfo[]>([
   }
 ]);
 const dataFormat = (name: string, cellValue: any): any => {
-  if (name == "statusCode" || name == "statusName") {
-    return cellValue === "1" ? "启用" : cellValue == "0" ? "禁用" : cellValue;
+  if (name == 'statusCode' || name == 'statusName') {
+    return cellValue === '1' ? '启用' : cellValue == '0' ? '禁用' : cellValue;
   }
   return cellValue;
-}
+};
 const initData = async () => {
-  commonDictList.value = await loadDict("");
+  commonDictList.value = await loadDict('');
 };
 onMounted(async () => {
   await initData();

@@ -1,32 +1,32 @@
-import {Shape} from "@antv/x6";
+import {Shape} from '@antv/x6';
 
 const commands = [
     {
-        icon: "left_panel",
+        icon: 'left_panel',
         defaultEdit: true,
         key: 'leftPanel',
         label: '左侧工具栏',
     },
     {
-        icon: "zoom_in",
+        icon: 'zoom_in',
         defaultEdit: true,
         key: 'zoomIn',
         label: '放大(0.2)',
     },
     {
-        icon: "zoom_out",
+        icon: 'zoom_out',
         defaultEdit: true,
         key: 'zoomOut',
         label: '缩小(-0.2)',
     },
     {
-        icon: "auto_fit",
+        icon: 'auto_fit',
         defaultEdit: true,
         key: 'zoomToFit',
         label: '自适应',
     },
     {
-        icon: "equal",
+        icon: 'equal',
         defaultEdit: true,
         key: 'zoomTo',
         label: '1:1大小',
@@ -42,72 +42,72 @@ const commands = [
           label: '直角连接模式',
       },*/
     {
-        icon: "align_top",
+        icon: 'align_top',
         key: 'alignTop',
         label: '向上对齐',
     },
     {
-        icon: "align_bottom",
+        icon: 'align_bottom',
         key: 'alignBottom',
         label: '向下对齐',
     },
     {
-        icon: "align_left",
+        icon: 'align_left',
         key: 'alignLeft',
         label: '向左对齐',
     },
     {
-        icon: "align_right",
+        icon: 'align_right',
         key: 'alignRight',
         label: '向右对齐',
     },
     {
-        icon: "center",
+        icon: 'center',
         key: 'centerContent',
         label: '居中',
     },
     {
-        icon: "dustbin",
+        icon: 'dustbin',
         key: 'deleteItem',
         label: '删除元素',
     },
     {
-        icon: "empty_setting",
+        icon: 'empty_setting',
         key: 'empty',
         label: '清空画布',
     },
     {
-        icon: "undo",
+        icon: 'undo',
         key: 'unDo',
         label: '后退一步',
     },
     {
-        icon: "redo",
+        icon: 'redo',
         key: 'reDo',
         label: '前进一步',
     },
     {
-        icon: "json_file",
+        icon: 'json_file',
         key: 'json',
         label: 'JSON数据',
     },
     {
-        icon: "config",
+        icon: 'config',
         key: 'config',
         label: '配置',
     },
     {
-        icon: "valid",
+        icon: 'valid',
         key: 'valid',
         label: '校验',
     },
     {
-        icon: "preview",
+        icon: 'preview',
         key: 'preview',
         label: '预览',
     },
     {
-        icon: "save",
+        icon: 'save',
         key: 'save',
         label: '保存',
     },
@@ -130,7 +130,7 @@ const ports = {
                 circle: {
                     r: 4,
                     magnet: true,
-                    stroke: "var(--star-horse-style)",
+                    stroke: 'var(--star-horse-style)',
                     strokeWidth: 1,
                     fill: '#fff',
                     style: {
@@ -145,7 +145,7 @@ const ports = {
                 circle: {
                     r: 4,
                     magnet: true,
-                    stroke: "var(--star-horse-style)",
+                    stroke: 'var(--star-horse-style)',
                     strokeWidth: 1,
                     fill: '#fff',
                     style: {
@@ -160,7 +160,7 @@ const ports = {
                 circle: {
                     r: 4,
                     magnet: true,
-                    stroke: "var(--star-horse-style)",
+                    stroke: 'var(--star-horse-style)',
                     strokeWidth: 1,
                     fill: '#fff',
                     style: {
@@ -175,7 +175,7 @@ const ports = {
                 circle: {
                     r: 4,
                     magnet: true,
-                    stroke: "var(--star-horse-style)",
+                    stroke: 'var(--star-horse-style)',
                     strokeWidth: 1,
                     fill: '#fff',
                     style: {
@@ -299,7 +299,7 @@ const configInfo: any = {
                 ],
                 attrs: {
                     line: {
-                        stroke: "var(--star-horse-style)",
+                        stroke: 'var(--star-horse-style)',
                         strokeWidth: 2,
                         targetMarker: {
                             name: 'block',
@@ -309,10 +309,10 @@ const configInfo: any = {
                     },
                 },
                 zIndex: 0,
-            })
+            });
         },
     },
-}
+};
 const tableConfigInfo = {
     ...commonConfig,
     connecting: {
@@ -334,7 +334,7 @@ const tableConfigInfo = {
                     },
                 },
                 zIndex: 0,
-            })
+            });
         },
     },
 };

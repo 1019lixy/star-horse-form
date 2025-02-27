@@ -1,17 +1,17 @@
 <script setup lang="ts" name="StarHorseButtonList">
-import {computed, onMounted, onUpdated, PropType, ref} from "vue";
-import {ApiUrls} from "@/components/types/ApiUrls";
-import {download} from "@/api/star_horse";
-import {error} from "@/utils/message";
-import {DialogProps} from "../types/DialogProps";
-import {getToken} from "@/utils/auth";
-import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
-import piniaInstance from "@/store";
-import {useButtonPermission} from "@/store/ButtonPermissionStore.ts";
-import {useRoute} from "vue-router";
-import {UserFuncInfo} from "@/components/types/PageFieldInfo";
-import Help from "@/components/help.vue";
-import {Config} from "@/api/settings.ts";
+import {computed, onMounted, onUpdated, PropType, ref} from 'vue';
+import {ApiUrls} from '@/components/types/ApiUrls';
+import {download} from '@/api/star_horse';
+import {error} from '@/utils/message';
+import {DialogProps} from '../types/DialogProps';
+import {getToken} from '@/utils/auth';
+import {GlobalConfig} from '@/store/GlobalConfigStore.ts';
+import piniaInstance from '@/store';
+import {useButtonPermission} from '@/store/ButtonPermissionStore.ts';
+import {useRoute} from 'vue-router';
+import {UserFuncInfo} from '@/components/types/PageFieldInfo';
+import Help from '@/components/help.vue';
+import {Config} from '@/api/settings.ts';
 
 const props = defineProps({
   dialogProps: {type: Object as PropType<DialogProps>, required: true},
@@ -23,18 +23,18 @@ const props = defineProps({
   preValidFunc: {type: Object, default: {}}
 });
 const emits = defineEmits([
-  "upload",
-  "uploadProcess",
-  "uploadError",
-  "uploadSuccess",
-  "btnOperation",
-  "tableCompFunc"
+  'upload',
+  'uploadProcess',
+  'uploadError',
+  'uploadSuccess',
+  'btnOperation',
+  'tableCompFunc'
 ]);
 let route = useRoute();
 let configStore = GlobalConfig(piniaInstance);
 let pagePermission = useButtonPermission(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.buttonSize || Config.compSize);
-let showType = computed(() => configStore.configFormInfo?.buttonShowType || "dropdown");
+let showType = computed(() => configStore.configFormInfo?.buttonShowType || 'dropdown');
 let permissions = ref<any>({});
 const dataForm = ref<any>({});
 /**
@@ -42,7 +42,7 @@ const dataForm = ref<any>({});
  * @param funcName
  */
 const tableCompFunc = (funcName: string) => {
-  emits("tableCompFunc", funcName);
+  emits('tableCompFunc', funcName);
 };
 const btnOperation = (funcName: string) => {
   //检查前置条件
@@ -54,15 +54,15 @@ const btnOperation = (funcName: string) => {
   }
 
   //？表示判断是否为空 ！表示断言not null
-  if (funcName == "add") {
+  if (funcName == 'add') {
     //  dataForm.value = {};
     props.dialogProps!.ids = -1;
     props.dialogProps!.editVisible = true;
-    props.dialogProps!.dialogTitle = "新增数据";
-  } else if (funcName == "batchAdd") {
+    props.dialogProps!.dialogTitle = '新增数据';
+  } else if (funcName == 'batchAdd') {
     props.dialogProps!.batchEditVisible = true;
-    props.dialogProps!.batchDialogTitle = "批量新增数据";
-  } else if (funcName == "download") {
+    props.dialogProps!.batchDialogTitle = '批量新增数据';
+  } else if (funcName == 'download') {
     downloadTemplate();
   } else {
     tableCompFunc(funcName);
@@ -75,11 +75,11 @@ const btnOperation = (funcName: string) => {
  */
 const downloadTemplate = () => {
   download(props.compUrl?.downloadTemplateUrl!, {}).catch((err) => {
-    error("接口不存在或网络异常:" + err);
+    error('接口不存在或网络异常:' + err);
   });
 };
 const upload = (file: any, fileList: any) => {
-  emits("upload", file, fileList);
+  emits('upload', file, fileList);
 };
 const beforeUpload = (_file: any, _fileList: any) => {
   //load("数据导入中");
@@ -94,14 +94,14 @@ const uploadProcess = (_event: any, _file: any, _fileList: any) => {
  */
 const uploadError = (_err: any, _file: any, _fileList: any) => {
   // closeLoad();
-  tableCompFunc("refresh");
+  tableCompFunc('refresh');
 };
 /**
  * 上传成功
  */
 const uploadSuccess = (_response: any, _file: any, _fileList: any) => {
   //closeLoad();
-  tableCompFunc("refresh");
+  tableCompFunc('refresh');
 };
 let buttonList = ref<UserFuncInfo[]>([]);
 /**
@@ -113,52 +113,52 @@ const extandBtnFunction = (): Array<UserFuncInfo> => {
     return arr;
   }
   arr.push({
-    btnName: "新增",
-    icon: "add",
-    authority: "add",
+    btnName: '新增',
+    icon: 'add',
+    authority: 'add',
     priority: 100,
     funcName: (actionName: string) => btnOperation(actionName)
   });
   arr.push({
-    btnName: "批量新增",
-    icon: "batch-add",
-    authority: "batchAdd",
+    btnName: '批量新增',
+    icon: 'batch-add',
+    authority: 'batchAdd',
     priority: 110,
     funcName: (actionName: string) => btnOperation(actionName)
   });
   arr.push({
-    btnName: "下载模板",
-    icon: "download",
-    authority: "download",
+    btnName: '下载模板',
+    icon: 'download',
+    authority: 'download',
     priority: 120,
     funcName: (actionName: string) => btnOperation(actionName)
   });
   arr.push({
-    btnName: "执行",
-    icon: "run",
-    authority: "execution",
+    btnName: '执行',
+    icon: 'run',
+    authority: 'execution',
     priority: 130,
     funcName: (actionName: string) => btnOperation(actionName)
   });
   arr.push({
-    btnName: "导入数据",
-    icon: "excel-upload",
-    authority: "upload",
+    btnName: '导入数据',
+    icon: 'excel-upload',
+    authority: 'upload',
     priority: 140,
     funcName: (actionName: string) => btnOperation(actionName)
   });
   arr.push({
-    btnName: "导出数据",
-    icon: "excel-export",
-    authority: "export",
-    helpMsg: `如果选择了数据，则按选择数据导出;\n没有选择数据，则根据查询条件导出`,
+    btnName: '导出数据',
+    icon: 'excel-export',
+    authority: 'export',
+    helpMsg: '如果选择了数据，则按选择数据导出;\n没有选择数据，则根据查询条件导出',
     priority: 150,
     funcName: (actionName: string) => btnOperation(actionName)
   });
   arr.push({
-    btnName: "批量删除",
-    icon: "batch_delete1",
-    authority: "batchDelete",
+    btnName: '批量删除',
+    icon: 'batch_delete1',
+    authority: 'batchDelete',
     priority: 160,
     funcName: (actionName: string) => btnOperation(actionName)
   });
@@ -174,10 +174,10 @@ const extandBtnFunction = (): Array<UserFuncInfo> => {
   }
   arr.sort((a: UserFuncInfo, b: UserFuncInfo) => (a.priority || 100) - (b.priority || 100));
   return arr;
-}
+};
 const setFormData = (val: any) => {
   dataForm.value = {...val};
-}
+};
 const init = async () => {
   permissions.value = await pagePermission.addRoute(route);
 };
@@ -186,10 +186,10 @@ onMounted(() => {
 });
 onUpdated(() => {
   buttonList.value = extandBtnFunction();
-})
+});
 defineExpose({
   setFormData
-})
+});
 </script>
 <template>
   <ul class="inner_button" v-if="showType=='line'&&Object.keys(permissions||{}).length>0">

@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import {dynamicPageContextMenuData, Editable} from "@/views/dyform/page/AblesPlugin.ts";
-import VueMoveable from "vue3-moveable";
-import {onMounted, ref} from "vue";
-import {uuid} from "@/api/system.ts";
+import {dynamicPageContextMenuData, Editable} from '@/views/dyform/page/AblesPlugin.ts';
+import VueMoveable from 'vue3-moveable';
+import {onMounted, ref} from 'vue';
+import {uuid} from '@/api/system.ts';
 
 const props = defineProps({
   field: {type: Object, required: true},
@@ -27,37 +27,37 @@ const contentMenuRef = ref();
 const contextmenu = (e: MouseEvent) => {
   e.preventDefault();
   contentMenuRef.value?.show(e);
-}
+};
 const handleDrag = ({target, transform}) => {
-  console.log("onDrag", transform);
+  console.log('onDrag', transform);
   target.style.transform = transform;
-}
+};
 const handleResize = ({target, width, height}) => {
-  console.log("onResize", width, height);
+  console.log('onResize', width, height);
   target.style.width = `${width}px`;
   target.style.height = `${height}px`;
-}
+};
 const handleScale = ({target, transform}) => {
-  console.log("onScale", transform);
+  console.log('onScale', transform);
   target.style.transform = transform;
-}
+};
 const handleRotate = ({target, transform}) => {
-  console.log("onRotate", transform);
+  console.log('onRotate', transform);
   target.style.transform = transform;
-}
+};
 const handleWarp = ({target, transform}) => {
-  console.log("onWarp", transform);
+  console.log('onWarp', transform);
   target.style.transform = transform;
-}
+};
 // const clearAllStates = () => {
 //   Object.keys(states).forEach(key => {
 //     moveable[key] = false;
 //   });
 // }
-let clazz = ref<string>("clz");
+let clazz = ref<string>('clz');
 onMounted(() => {
-  clazz.value = "clz" + uuid();
-})
+  clazz.value = 'clz' + uuid();
+});
 </script>
 
 <template>

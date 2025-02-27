@@ -1,21 +1,21 @@
-import {defineStore} from "pinia";
-import {ref} from "vue";
-import {RouteLocationNormalized} from "vue-router";
-import {postRequest, userLogout} from "@/api/star_horse.ts";
-import {getUserInfo} from "@/utils/auth.ts";
-import {warning} from "@/utils/message.ts";
+import {defineStore} from 'pinia';
+import {ref} from 'vue';
+import {RouteLocationNormalized} from 'vue-router';
+import {postRequest, userLogout} from '@/api/star_horse.ts';
+import {getUserInfo} from '@/utils/auth.ts';
+import {warning} from '@/utils/message.ts';
 
 /**
  * 用户权限控制
  */
-export const useButtonPermission = defineStore("buttonPermission", () => {
+export const useButtonPermission = defineStore('buttonPermission', () => {
     const pageBtnPermisson = ref<any>({});
     const currentPermission = ref<any>({});
 
     const addRoute = async (route: RouteLocationNormalized) => {
         const meta: any = route.meta;
         return await getPagePermission(meta?.menuId);
-    }
+    };
     /**
      * 添加单个权限
      * @param menuId
@@ -23,37 +23,37 @@ export const useButtonPermission = defineStore("buttonPermission", () => {
      */
     const addPermission = (menuId: string, data: any) => {
         pageBtnPermisson.value[menuId] = data;
-    }
+    };
     /**
      * 删除某个菜单权限
      * @param menuId
      */
     const removePermission = (menuId: string) => {
         delete pageBtnPermisson.value[menuId];
-    }
+    };
     /**
      *
      * @param data
      */
     const addAllPermission = (data: any) => {
         pageBtnPermisson.value = data;
-    }
+    };
     /**
      * 清空所有权限
      */
     const cleanPermission = () => {
         pageBtnPermisson.value = {};
-    }
+    };
     const getPagePermission = async (menuId: string) => {
         currentPermission.value = [];
         if (menuId) {
-            menuId = menuId.split("_")[1];
-            let permissons: any =[]// pageBtnPermisson.value[menuId];
+            menuId = menuId.split('_')[1];
+            let permissons: any =[];// pageBtnPermisson.value[menuId];
           //  console.log(permissons);
             if (!permissons || permissons.length == 0) {
                 const userId = getUserInfo()?.idUsersinfo;
                 if (!userId) {
-                    warning("Session 失效")
+                    warning('Session 失效');
                     await userLogout([]);
                     return;
                 }
@@ -68,7 +68,7 @@ export const useButtonPermission = defineStore("buttonPermission", () => {
                 if (permissons && permissons.length > 0) {
                     addPermission(menuId, permissons);
                 } else {
-                    warning("没有页面按钮操作权限,请联系系统管理员授权");
+                    warning('没有页面按钮操作权限,请联系系统管理员授权');
                 }
             }
             const permission: any = {};
@@ -78,6 +78,6 @@ export const useButtonPermission = defineStore("buttonPermission", () => {
             currentPermission.value = permission;
         }
         return currentPermission.value;
-    }
-    return {addPermission, addAllPermission, addRoute, removePermission, cleanPermission}
+    };
+    return {addPermission, addAllPermission, addRoute, removePermission, cleanPermission};
 });

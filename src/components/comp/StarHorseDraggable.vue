@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import {onMounted, ref, computed} from "vue";
-import {ModelRef} from "vue-demi";
-import {DynamicNode} from "@/components/types/DynamicNode";
-import {DesignPage} from "@/store/DesignPageStore.ts";
-import piniaInstance from "@/store";
-import {dynamicPageContextMenuData} from "@/views/dyform/page/AblesPlugin.ts";
+import {onMounted, ref, computed} from 'vue';
+import {ModelRef} from 'vue-demi';
+import {DynamicNode} from '@/components/types/DynamicNode';
+import {DesignPage} from '@/store/DesignPageStore.ts';
+import piniaInstance from '@/store';
+import {dynamicPageContextMenuData} from '@/views/dyform/page/AblesPlugin.ts';
 
 defineProps({
   msg: {
@@ -15,20 +15,20 @@ defineProps({
 let designPage = DesignPage(piniaInstance);
 let currentNode = computed(() => designPage.currentNode);
 let isActive = computed(() => currentNode.value.id == node.value.id);
-let node: ModelRef<DynamicNode> = defineModel("node");
+let node: ModelRef<DynamicNode> = defineModel('node');
 const pointList = ref<Array<string>>([
-  "left", "right", "top", "bottom",
-  "bottom-right", "bottom-left",
-  "top-right", "top-left"
+  'left', 'right', 'top', 'bottom',
+  'bottom-right', 'bottom-left',
+  'top-right', 'top-left'
 ]);
 
 const init = async () => {
   handleClear();
-}
+};
 const handleMouseDown = (e: MouseEvent) => {
   moveActive.value = true;
 
-}
+};
 let moveActive = ref(false);
 let rangeActive = ref(false);
 const handleMouseUp = () => {
@@ -36,18 +36,18 @@ const handleMouseUp = () => {
   rangeActive.value = false;
   isDragging.value = false;
 
-}
+};
 let step = ref(1);
 const handleClear = () => {
   window.onmouseup = function () {
     document.onmousemove = null;
     document.onmouseup = null;
-    handleMouseUp()
-  }
-}
+    handleMouseUp();
+  };
+};
 const selectItem = () => {
   designPage.selectNode(node.value);
-}
+};
 /**
  * 改变div的大小
  * @param evt
@@ -75,39 +75,39 @@ const rangeMove = (evt: MouseEvent, direction: string) => {
     moveActive.value = true;
     // 根据方向设置调整逻辑
     switch (direction) {
-      case "right":
+      case 'right':
         shouldAdjustWidth = true;
         break;
-      case "left":
+      case 'left':
         shouldAdjustWidth = true;
         adjustLeft = true;
         invertWidthDirection = true;
         break;
-      case "top":
+      case 'top':
         shouldAdjustHeight = true;
         adjustTop = true;
         invertHeightDirection = true;
         break;
-      case "bottom":
+      case 'bottom':
         shouldAdjustHeight = true;
         break;
-      case "bottom-right":
+      case 'bottom-right':
         shouldAdjustWidth = true;
         shouldAdjustHeight = true;
         break;
-      case "bottom-left":
+      case 'bottom-left':
         shouldAdjustWidth = true;
         shouldAdjustHeight = true;
         adjustLeft = true;
         invertWidthDirection = true;
         break;
-      case "top-right":
+      case 'top-right':
         shouldAdjustWidth = true;
         shouldAdjustHeight = true;
         adjustTop = true;
         invertHeightDirection = true;
         break;
-      case "top-left":
+      case 'top-left':
         shouldAdjustWidth = true;
         shouldAdjustHeight = true;
         adjustLeft = true;
@@ -145,8 +145,8 @@ const rangeMove = (evt: MouseEvent, direction: string) => {
     }
   };
 
-  handleClear()
-}
+  handleClear();
+};
 let isDragging = ref(false);
 let initialX = ref(0);
 let initialY = ref(0);
@@ -163,29 +163,29 @@ const dragStart = (evt: MouseEvent) => {
   nodeStartY.value = node.value.top || 0;
   // 锁定鼠标样式
   document.body.style.cursor = 'grabbing';
-}
+};
 const dragAction = (evt: MouseEvent) => {
 
   if (isDragging.value && isActive.value) {
-    console.log("dragAction");
+    console.log('dragAction');
     const deltaX = evt.clientX - initialX.value;
     const deltaY = evt.clientY - initialY.value;
     node.value.left = nodeStartX.value + deltaX;
     node.value.top = nodeStartY.value + deltaY;
   }
-}
+};
 const endAction = (evt: MouseEvent) => {
   isDragging.value = false;
   document.body.style.cursor = ''; // 恢复默认鼠标样式
-}
+};
 const contentMenuRef = ref();
 const contextmenu = (e: MouseEvent) => {
   e.preventDefault();
   contentMenuRef.value?.show(e);
-}
+};
 onMounted(() => {
   init();
-})
+});
 </script>
 
 <template>

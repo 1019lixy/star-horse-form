@@ -1,8 +1,8 @@
-import {defineStore} from "pinia";
-import {warning} from "@/utils/message";
-import {ref} from "vue";
+import {defineStore} from 'pinia';
+import {warning} from '@/utils/message';
+import {ref} from 'vue';
 
-export const DynamicForm = defineStore("DynamicForm", () => {
+export const DynamicForm = defineStore('DynamicForm', () => {
     const dataForm: any = ref({});
     const selectData: any = ref(null);
     const dataId: any = ref(null);
@@ -13,21 +13,21 @@ export const DynamicForm = defineStore("DynamicForm", () => {
      */
     const setSelectData = (data: object | Array<object>) => {
         selectData.value = data;
-    }
+    };
     /**
      * 赋值
      * @param id 数据Id
      */
     const setDataId = (id: number | string) => {
         dataId.value = id;
-    }
+    };
     /**
      * 存数据
      * @param data
      */
     const setFormData = (data: object) => {
         dataForm.value = {...data};
-    }
+    };
     /**
      * 向集合添加数据
      * @param batchName
@@ -40,14 +40,14 @@ export const DynamicForm = defineStore("DynamicForm", () => {
             batchDatas = dataForm.value[batchName];
         }
         batchDatas.push(data);
-    }
+    };
     /**
      * 清除视图
      * @param fieldName
      */
     const delField = (fieldName: string) => {
         delete dataForm.value[fieldName];
-    }
+    };
     /**
      * 删除集合内指定的所有属性
      * @param batchName 集合名称
@@ -70,7 +70,7 @@ export const DynamicForm = defineStore("DynamicForm", () => {
                 });
             }
         }
-    }
+    };
     /**
      * 设置指定属性的值
      * @param fieldName
@@ -78,7 +78,7 @@ export const DynamicForm = defineStore("DynamicForm", () => {
      */
     const addOrUpdateField = (fieldName: string, value: any) => {
         dataForm.value[fieldName] = value;
-    }
+    };
     /**
      * 在集合里新增或者修改属性的值
      * @param batchName 集合名称
@@ -103,7 +103,7 @@ export const DynamicForm = defineStore("DynamicForm", () => {
                 });
             }
         }
-    }
+    };
     /**
      * 重命名属性，
      * @param sourceField 原来的属性名
@@ -112,13 +112,13 @@ export const DynamicForm = defineStore("DynamicForm", () => {
      */
     const renameField = (sourceField: string, distField: string, newValue?: any) => {
         if (Object.keys(dataForm.value).includes(distField)) {
-            warning("新的属性名已存在，不能进行修改");
+            warning('新的属性名已存在，不能进行修改');
             return;
         }
         const bakeValue = dataForm.value[sourceField];
         delete dataForm.value[sourceField];
         dataForm.value[distField] = newValue ? newValue : bakeValue;
-    }
+    };
     /**
      * 重命名集合属性，
      * @param batchName 集合名称
@@ -135,7 +135,7 @@ export const DynamicForm = defineStore("DynamicForm", () => {
         }
         const dataFun = (data: any, sourceField: string, distField: string, newValue?: any) => {
             if (Object.keys(data).includes(distField)) {
-                warning("新的属性名已存在，不能进行修改");
+                warning('新的属性名已存在，不能进行修改');
                 return false;
             }
             const bakeValue: any = data[sourceField];
@@ -157,14 +157,14 @@ export const DynamicForm = defineStore("DynamicForm", () => {
                 });
             }
         }
-    }
+    };
     /**
      * 获取指定属性的值
      * @param fieldName 属性名称
      */
     const getFieldValue = (fieldName: string) => {
         return dataForm.value[fieldName];
-    }
+    };
     /**
      * 获取集合指定属性的数据
      * @param batchName 集合名称
@@ -185,13 +185,13 @@ export const DynamicForm = defineStore("DynamicForm", () => {
                 return batchDatas.map((item: any) => item[fieldName]);
             }
         }
-    }
+    };
     /**
      * 清除所有Tab
      */
     const clearAll = () => {
         dataForm.value = {};
-    }
+    };
     return {
         dataForm,
         selectData,
@@ -209,5 +209,5 @@ export const DynamicForm = defineStore("DynamicForm", () => {
         getFieldValue,
         getBatchFieldValue,
         clearAll
-    }
+    };
 });

@@ -1,16 +1,16 @@
 <script setup lang="ts" name="FieldAnalysis">
-import {Config} from "@/api/settings.ts";
-import {onMounted} from "vue";
+import {Config} from '@/api/settings.ts';
+import {onMounted} from 'vue';
 
 const props = defineProps({
-  container: {type: String, default: ""},
+  container: {type: String, default: ''},
   field: {type: Object, required: true},
   index: {type: Number, required: true, default: 1},
   size: {type: String, default: Config.compSize}
 });
-const needLengthComp: Array<string> = ["input", "number", "image", "text", "tselect", "textarea", "htmleditor", "cascade",
-  "autocomplete", "dialog-input", "select", "page-select", "json", "json-array", "html", "signature", "markdown"];
-const needBigLengthComp: Array<string> = ["textarea", "htmleditor", "json", "json-array", "html", "signature", "markdown"];
+const needLengthComp: Array<string> = ['input', 'number', 'image', 'text', 'tselect', 'textarea', 'htmleditor', 'cascade',
+  'autocomplete', 'dialog-input', 'select', 'page-select', 'json', 'json-array', 'html', 'signature', 'markdown'];
+const needBigLengthComp: Array<string> = ['textarea', 'htmleditor', 'json', 'json-array', 'html', 'signature', 'markdown'];
 
 onMounted(() => {
   if (needLengthComp.includes(props.field.itemType)) {
@@ -26,7 +26,7 @@ onMounted(() => {
     props.field.preps.precision = 2;
     props.field.preps.maxLength = 15;
   }
-})
+});
 </script>
 <template>
   <template v-if="field?.compType=='container'">

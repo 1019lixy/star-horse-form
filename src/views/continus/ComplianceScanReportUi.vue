@@ -1,118 +1,118 @@
 <script setup lang="ts" name="ComplianceScanReport">
-import {apiInstance, dialogPreps} from "@/api/sh_api.ts";
-import {ApiUrls} from "@/components/types/ApiUrls";
-import {onMounted, provide, reactive} from "vue";
-import {SearchFields} from "@/components/types/SearchProps";
-import {PageFieldInfo} from "@/components/types/PageFieldInfo";
+import {apiInstance, dialogPreps} from '@/api/sh_api.ts';
+import {ApiUrls} from '@/components/types/ApiUrls';
+import {onMounted, provide, reactive} from 'vue';
+import {SearchFields} from '@/components/types/SearchProps';
+import {PageFieldInfo} from '@/components/types/PageFieldInfo';
 
-const dataUrl: ApiUrls = apiInstance("devops-continus", "continus/complianceScanReport");
+const dataUrl: ApiUrls = apiInstance('devops-continus', 'continus/complianceScanReport');
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "致命总数", fieldName: "blocker", type: "input"},
-    {label: "严重总数", fieldName: "critical", type: "input", matchType: "lk"},
-    {label: "中度总数", fieldName: "major", type: "input", matchType: "lk"},
+    {label: '致命总数', fieldName: 'blocker', type: 'input'},
+    {label: '严重总数', fieldName: 'critical', type: 'input', matchType: 'lk'},
+    {label: '中度总数', fieldName: 'major', type: 'input', matchType: 'lk'},
   ]
 });
 const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
-      label: "主键", fieldName: "idComplianceReport", type: "long",
+      label: '主键', fieldName: 'idComplianceReport', type: 'long',
     }, {
-      label: "主键", fieldName: "idNodeProperty", type: "long",
+      label: '主键', fieldName: 'idNodeProperty', type: 'long',
     },
     {
-      label: "致命总数", fieldName: "blocker", type: "number",
+      label: '致命总数', fieldName: 'blocker', type: 'number',
       required: true, formVisible: true,
       listVisible: true
     },
     {
-      label: "严重总数", fieldName: "critical", type: "number",
+      label: '严重总数', fieldName: 'critical', type: 'number',
       required: true, formVisible: true,
       listVisible: true
     },
     {
-      label: "中度总数", fieldName: "major", type: "",
+      label: '中度总数', fieldName: 'major', type: '',
       formVisible: true,
       listVisible: true
     },
     {
-      label: "轻微总数", fieldName: "minor", type: "number",
+      label: '轻微总数', fieldName: 'minor', type: 'number',
       formVisible: true,
       listVisible: true
     },
     {
-      label: "Info总数", fieldName: "infos", type: "number",
-      formVisible: true,
-      listVisible: true
-    }, {
-      label: "重复率", fieldName: "repeatRate", type: "number",
+      label: 'Info总数', fieldName: 'infos', type: 'number',
       formVisible: true,
       listVisible: true
     }, {
-      label: "重复代码行", fieldName: "repeatCodeLines", type: "number",
+      label: '重复率', fieldName: 'repeatRate', type: 'number',
       formVisible: true,
       listVisible: true
     }, {
-      label: "重复代码块", fieldName: "repeatCodeBlock", type: "number",
+      label: '重复代码行', fieldName: 'repeatCodeLines', type: 'number',
       formVisible: true,
       listVisible: true
     }, {
-      label: "重复文件", fieldName: "repeatFiles", type: "number",
+      label: '重复代码块', fieldName: 'repeatCodeBlock', type: 'number',
       formVisible: true,
       listVisible: true
     }, {
-      label: "总复杂度", fieldName: "totalComplex", type: "number",
+      label: '重复文件', fieldName: 'repeatFiles', type: 'number',
       formVisible: true,
       listVisible: true
     }, {
-      label: "文件平均复杂度", fieldName: "fileAvgComplex", type: "number",
+      label: '总复杂度', fieldName: 'totalComplex', type: 'number',
       formVisible: true,
       listVisible: true
     }, {
-      label: "详情地址", fieldName: "detailUrls", type: "number",
+      label: '文件平均复杂度', fieldName: 'fileAvgComplex', type: 'number',
+      formVisible: true,
+      listVisible: true
+    }, {
+      label: '详情地址', fieldName: 'detailUrls', type: 'number',
       formVisible: true,
       listVisible: true
     },
     {
-      label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
+      label: '创建人', disabled: 'Y', fieldName: 'createdBy', type: 'input',
     },
     {
-      label: "修改人", disabled: "Y", fieldName: "updatedBy", type: "input",
+      label: '修改人', disabled: 'Y', fieldName: 'updatedBy', type: 'input',
     },
     {
-      label: "创建日期", disabled: "Y", fieldName: "createdDate", type: "date",
+      label: '创建日期', disabled: 'Y', fieldName: 'createdDate', type: 'date',
     },
     {
-      label: "修改日期", disabled: "Y", fieldName: "updatedDate", type: "date",
+      label: '修改日期', disabled: 'Y', fieldName: 'updatedDate', type: 'date',
     },
     {
-      label: "数据版本号", fieldName: "version", type: "number",
+      label: '数据版本号', fieldName: 'version', type: 'number',
     },
     {
-      label: "是否已逻辑", fieldName: "isDel", type: "number",
+      label: '是否已逻辑', fieldName: 'isDel', type: 'number',
     },
     {
-      label: "数据编号", fieldName: "dataNo", type: "input",
+      label: '数据编号', fieldName: 'dataNo', type: 'input',
     },
     {
-      label: "状态码", fieldName: "statusCode", type: "input",
+      label: '状态码', fieldName: 'statusCode', type: 'input',
     },
     {
-      label: "状态码名称", fieldName: "statusName", type: "input",
+      label: '状态码名称', fieldName: 'statusName', type: 'input',
     },
     {
-      label: "国际码", fieldName: "local", type: "input",
+      label: '国际码', fieldName: 'local', type: 'input',
     },
   ],
 });
-const primaryKey = "idComplianceReport";
+const primaryKey = 'idComplianceReport';
 const rules = {};
 const dialogProps = dialogPreps();
-provide("dialogProps", dialogProps);
+provide('dialogProps', dialogProps);
 
 const dataFormat = (name: string, cellValue: object): any => {
   return cellValue;
-}
+};
 const initData = async () => {
 
 };

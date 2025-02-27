@@ -1,27 +1,27 @@
 <script lang="ts" setup name="Header">
-import {computed, nextTick, onMounted, ref, unref} from "vue"
-import {Config} from "@/api/settings.ts"
-import {postRequest, trim, userLogout} from "@/api/star_horse";
-import {operationConfirm, error, success, warning} from "@/utils/message";
-import {apiInstance, dialogPreps} from "@/api/sh_api.ts";
-import {ApiUrls} from "@/components/types/ApiUrls";
-import {getCustomerInfo, getCustomerParam, getUserInfo} from "@/utils/auth";
-import {PageFieldInfo} from "@/components/types/PageFieldInfo";
-import {ElTable} from "element-plus";
-import {closeLoad, filterTree, load} from "@/api/sh_api";
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-import StarHorseTableComp from "@/components/comp/StarHorseTableComp.vue";
-import {getLang, setLang} from "@/theme/localStorge.ts";
-import {LangType} from "@/theme/theme.ts";
-import {i18n} from "../lang";
-import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
-import piniaInstance from "@/store";
-import {userInfoStore} from "@/store/UserInfoStore.ts";
+import {computed, nextTick, onMounted, ref, unref} from 'vue';
+import {Config} from '@/api/settings.ts';
+import {postRequest, trim, userLogout} from '@/api/star_horse';
+import {operationConfirm, error, success, warning} from '@/utils/message';
+import {apiInstance, dialogPreps} from '@/api/sh_api.ts';
+import {ApiUrls} from '@/components/types/ApiUrls';
+import {getCustomerInfo, getCustomerParam, getUserInfo} from '@/utils/auth';
+import {PageFieldInfo} from '@/components/types/PageFieldInfo';
+import {ElTable} from 'element-plus';
+import {closeLoad, filterTree, load} from '@/api/sh_api';
+import StarHorseIcon from '@/components/comp/StarHorseIcon.vue';
+import StarHorseTableComp from '@/components/comp/StarHorseTableComp.vue';
+import {getLang, setLang} from '@/theme/localStorge.ts';
+import {LangType} from '@/theme/theme.ts';
+import {i18n} from '../lang';
+import {GlobalConfig} from '@/store/GlobalConfigStore.ts';
+import piniaInstance from '@/store';
+import {userInfoStore} from '@/store/UserInfoStore.ts';
 // import {configInfo} from "@/items/sh_design.ts";
-import {toggleDark} from "@/api/system.ts";
-import {Moon, Sunny} from "@element-plus/icons-vue";
-import {useRouter} from "vue-router";
-import MessageItem from "@/components/comp/items/messageItem.vue";
+import {toggleDark} from '@/api/system.ts';
+import {Moon, Sunny} from '@element-plus/icons-vue';
+import {useRouter} from 'vue-router';
+import MessageItem from '@/components/comp/items/messageItem.vue';
 
 const userStore = userInfoStore(piniaInstance);
 const shortcutMenuList = ref<Array<any>>([]);
@@ -30,10 +30,10 @@ let userInfo = getUserInfo();
 let permissionMenuList = ref<Array<any>>([]);
 const shortcutMultipleTable = ref<InstanceType<typeof ElTable>>();
 let editUserinfoRef = ref();
-const dataUrl: ApiUrls = apiInstance("system-config", "system/dictinfoEntity", [getCustomerParam()]);
+const dataUrl: ApiUrls = apiInstance('system-config', 'system/dictinfoEntity', [getCustomerParam()]);
 let configStore = GlobalConfig(piniaInstance);
 let router = useRouter();
-const emits = defineEmits(["changeLang", "layoutConfig"]);
+const emits = defineEmits(['changeLang', 'layoutConfig']);
 const dialogProps = dialogPreps();
 
 const initData = async () => {
@@ -47,7 +47,7 @@ onMounted(() => {
  * 权限弹窗
  */
 const layoutConfig = () => {
-  emits("layoutConfig");
+  emits('layoutConfig');
 };
 /**
  * 个人信息弹窗
@@ -56,11 +56,11 @@ const modifyInfo = () => {
   // dialogProps.dialogTitle = "更新个人信息";
   // dialogProps.editVisible = true;
   // resetForm();
-  router.push("/userCenter");
+  router.push('/userCenter');
 };
 
 const loginOut = () => {
-  operationConfirm("是否确认退出系统?").then((res: boolean) => {
+  operationConfirm('是否确认退出系统?').then((res: boolean) => {
     if (res) {
       userStore.logout();
       userLogout(userInfo || {});
@@ -70,11 +70,11 @@ const loginOut = () => {
 
 const loadShortMenu = async () => {
   let param: any = [];
-  await postRequest("/system-config/system/shortcutMenu/currentUserShortcut", param).then(res => {
+  await postRequest('/system-config/system/shortcutMenu/currentUserShortcut', param).then(res => {
     shortcutMenuList.value = res?.data?.data;
   }).catch(err => {
     console.log(err);
-  })
+  });
 };
 
 /**
@@ -106,7 +106,7 @@ const addShortcutMenu = async () => {
   reverseDataList.value = [];
   permissionMenuList.value = datas;
   dialogProps.bakeVisible1 = true;
-  dialogProps.dialogTitle = "设置快捷菜单";
+  dialogProps.dialogTitle = '设置快捷菜单';
   /**
    * 坑，或者说是自己知识储备不足，dialog 是懒加载的，在dialog 打开前是获取不到Ref的，
    * 因此需要先打开Dialog 后再对表格选中问题进行处理
@@ -125,8 +125,8 @@ const addShortcutMenu = async () => {
 const batchMerge = () => {
   let selectedRows = shortcutMultipleTable.value!.multipleSelection!.value;
   if (selectedRows.length > 10) {
-    warning("快捷菜单最多只能设置10个");
-    return
+    warning('快捷菜单最多只能设置10个');
+    return;
   }
   let dataList: Array<any> = [];
   selectedRows.forEach((item: any) => {
@@ -136,7 +136,7 @@ const batchMerge = () => {
       menuPath: item.path
     });
   });
-  load("数据提交中");
+  load('数据提交中');
   postRequest(`/system-config/system/shortcutMenu/mergeBatch/${userInfo.idUsersinfo}`, dataList).then(res => {
     success(res.data.cnMessage);
     dialogProps.bakeVisible1 = false;
@@ -145,41 +145,41 @@ const batchMerge = () => {
     error(err);
   }).finally(() => {
     closeLoad();
-  })
+  });
 };
 const shortcutReset = () => {
   shortcutMultipleTable.value!.clearSelection();
 };
-let curLangName = ref("中文");
+let curLangName = ref('中文');
 const handleLanguageChanged = (lang: LangType) => {
   changeLang(lang, false);
   window.location.reload();
 };
 const changeLang = (lang: LangType, isInit: boolean) => {
-  curLangName.value = lang == LangType.ZH_CN ? "中文" : "English";
+  curLangName.value = lang == LangType.ZH_CN ? '中文' : 'English';
   setLang(lang);
-  emits("changeLang", lang, isInit);
-}
+  emits('changeLang', lang, isInit);
+};
 const fieldList = ref<PageFieldInfo>({
   fieldList: [{
-    label: "菜单名称",
+    label: '菜单名称',
     listVisible: true,
-    fieldName: "meta.title"
+    fieldName: 'meta.title'
   }, {
-    label: "菜单路径",
+    label: '菜单路径',
     listVisible: true,
-    fieldName: "path"
+    fieldName: 'path'
   }],
   stopAutoLoad: true
 });
 const dataFormat = (name: string, val: any, row: any) => {
-  if (name == "meta.title") {
-    return row["meta"]["title"];
+  if (name == 'meta.title') {
+    return row['meta']['title'];
   }
   return val;
 };
 const search = ref<string>();
-let theme = ref<string>("light");
+let theme = ref<string>('light');
 const filterTableData = computed(() => filterTree(search.value, permissionMenuList.value));
 let configInfo = computed(() => configStore.configFormInfo);
 </script>

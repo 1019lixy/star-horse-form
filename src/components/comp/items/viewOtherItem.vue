@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import {onMounted, PropType, unref} from "vue";
-import {FieldInfo} from "@/components/types/PageFieldInfo";
-import {ModelRef} from "vue-demi";
+import {onMounted, PropType, unref} from 'vue';
+import {FieldInfo} from '@/components/types/PageFieldInfo';
+import {ModelRef} from 'vue-demi';
 
 const props = defineProps({
   item: {type: Object as PropType<FieldInfo>, required: true},
   commonFormat: {type: Function, required: true},
 });
-const dataForm: ModelRef<any> = defineModel("dataForm");
+const dataForm: ModelRef<any> = defineModel('dataForm');
 const dataFormat = (item: any) => {
   let name = item['hideName'] || item['fieldName'];
   let tempForm = unref(dataForm);
   if (!tempForm) {
-    return "--";
+    return '--';
   }
   let val = tempForm[name];
   try {
@@ -23,7 +23,7 @@ const dataFormat = (item: any) => {
 };
 const init = () => {
 
-}
+};
 onMounted(() => {
   init();
 });

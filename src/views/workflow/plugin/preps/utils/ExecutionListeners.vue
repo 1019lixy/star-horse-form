@@ -1,36 +1,36 @@
 <script setup lang="ts">
-import {onMounted, ref} from "vue";
-import {postRequest} from "@/api/star_horse.ts";
-import {createCondition} from "@/api/sh_api.ts";
-import Help from "@/components/help.vue";
+import {onMounted, ref} from 'vue';
+import {postRequest} from '@/api/star_horse.ts';
+import {createCondition} from '@/api/sh_api.ts';
+import Help from '@/components/help.vue';
 
 const props = defineProps({
   node: {
     type: Object,
     default: function () {
-      return {}
+      return {};
     }
   }
-})
+});
 const addListener = () => {
   if (!props.node.executionListeners) {
-    props.node.executionListeners = []
+    props.node.executionListeners = [];
   }
   props.node.executionListeners?.push({
     event: 'start',
     implementationType: 'delegateExpression',
     implementation: ''
-  })
-}
+  });
+};
 const delListener = (index: number) => {
-  props.node.executionListeners?.splice(index, 1)
-}
+  props.node.executionListeners?.splice(index, 1);
+};
 let implementationTypeList = ref<Array<any>>([]);
 const init = () => {
-  postRequest("/userdb-manage/userdb/formInstance/shNodeMappingPreps/idNodeMappingPrep/337537414606095357/getAllByCondition",
+  postRequest('/userdb-manage/userdb/formInstance/shNodeMappingPreps/idNodeMappingPrep/337537414606095357/getAllByCondition',
       {
-        fieldList: [createCondition("idFlowNode", "implementationType")],
-        orderBy: [{fieldName: "createdTime", ascOrDesc: "ASC"}]
+        fieldList: [createCondition('idFlowNode', 'implementationType')],
+        orderBy: [{fieldName: 'createdTime', ascOrDesc: 'ASC'}]
       }).then((res) => {
     if (res.data.code) {
       console.log(res.data.cnMessage);
@@ -38,10 +38,10 @@ const init = () => {
     }
     implementationTypeList.value = res.data.data;
   });
-}
+};
 onMounted(() => {
   init();
-})
+});
 </script>
 
 <template>

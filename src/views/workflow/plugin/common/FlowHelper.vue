@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import {computed, onMounted, ref} from "vue";
-import {scale} from "@/views/workflow/plugin/utils/deviceUtil";
-import {useFlowDesign} from "@/store/FlowDesignStore.ts";
-import piniaInstance from "@/store";
-import {ApiUrls} from "@/components/types/ApiUrls";
-import {apiInstance, createCondition, loadData} from "@/api/sh_api.ts";
+import {computed, onMounted, ref} from 'vue';
+import {scale} from '@/views/workflow/plugin/utils/deviceUtil';
+import {useFlowDesign} from '@/store/FlowDesignStore.ts';
+import piniaInstance from '@/store';
+import {ApiUrls} from '@/components/types/ApiUrls';
+import {apiInstance, createCondition, loadData} from '@/api/sh_api.ts';
 
-const dataUrl: ApiUrls = apiInstance("flow-engine", "workflow/categoryItemConfig");
+const dataUrl: ApiUrls = apiInstance('flow-engine', 'workflow/categoryItemConfig');
 const flowDesign = useFlowDesign(piniaInstance);
 const suggestBranchEnable = computed(() => flowDesign.suggestBranchEnable);
 const parallelBranchEnable = computed(() => flowDesign.parallelBranchEnable);
@@ -23,28 +23,28 @@ const wrapStyle = {
 };
 const showHelperDrawer = () => {
   visibleHelper.value = true;
-}
+};
 const showAdviceDrawer = () => {
   visibleAdvice.value = true;
-}
+};
 const showSelfDrawer = () => {
   visibleSelf.value = true;
-}
+};
 const onClose = () => {
   visibleHelper.value = false;
   visibleAdvice.value = false;
   visibleSelf.value = false;
-}
+};
 const init = async () => {
-  let params = [createCondition("a.cfgCategory", ["help", "advanced"], "in")];
+  let params = [createCondition('a.cfgCategory', ['help', 'advanced'], 'in')];
   let res = await loadData(dataUrl.userConditionUrl!, params);
   helpItemList.value = res?.data?.filter((item: any) => item.cfgCategory == 'help');
   advancedItemList.value = res?.data?.filter((item: any) => item.cfgCategory == 'advanced');
 
-}
+};
 onMounted(() => {
   init();
-})
+});
 </script>
 <template>
   <div class="flow-helper" id="flow-helper">

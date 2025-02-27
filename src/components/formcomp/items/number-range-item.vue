@@ -61,18 +61,18 @@
   </starhorse-form-item>
 </template>
 <script lang="ts">
-import {defineComponent, onMounted, shallowRef, watch, ref, useSlots} from "vue";
-import {allAction} from "@/components/formcomp/utils/ItemRelationEventUtils.ts";
-import {warning} from "@/utils/message.ts";
+import {defineComponent, onMounted, shallowRef, watch, ref, useSlots} from 'vue';
+import {allAction} from '@/components/formcomp/utils/ItemRelationEventUtils.ts';
+import {warning} from '@/utils/message.ts';
 
 export default defineComponent({
   setup(_props, context) {
-    const parentField = context.attrs["parentField"];
-    const field = context.attrs["field"] as any;
+    const parentField = context.attrs['parentField'];
+    const field = context.attrs['field'] as any;
     let formItem = shallowRef({label: 'input', required: false});
-    let dataField = shallowRef("");
-    let actionName = shallowRef("keydown.enter");
-    let slotStyle = shallowRef("");
+    let dataField = shallowRef('');
+    let actionName = shallowRef('keydown.enter');
+    let slotStyle = shallowRef('');
 // input焦点事件
     const isFocus = ref();
     const handleFocus = () => {
@@ -93,35 +93,35 @@ export default defineComponent({
       let min = context.attrs['formData'][field.preps['minName']];
       let max = context.attrs['formData'][field.preps['maxName']];
       if (max < min) {
-        warning("最大值不能小于最小值");
+        warning('最大值不能小于最小值');
         return;
       }
       context.attrs['formData'][field.preps['name']] = `${min}-${max}`;
       allAction(context, prep);
     };
     onMounted(() => {
-      actionName.value = field.preps?.actionName || "keydown.enter";
+      actionName.value = field.preps?.actionName || 'keydown.enter';
       ;
-      field.preps['maxName'] = field.preps["name"] + "Max";
-      field.preps['minName'] = field.preps["name"] + "Min";
+      field.preps['maxName'] = field.preps['name'] + 'Max';
+      field.preps['minName'] = field.preps['name'] + 'Min';
       let val = context.attrs['formData'][field.preps['name']];
       if (val) {
-        let data = val.split("-");
+        let data = val.split('-');
         context.attrs['formData'][field.preps['minName']] = Number(data[0]);
         context.attrs['formData'][field.preps['maxName']] = Number(data[1]);
       }
-      if (!context.attrs["isSearch"]) {
+      if (!context.attrs['isSearch']) {
         allAction(context, actionName.value, true);
       }
     });
     watch(() => context.attrs['formFieldList'],
         () => {
-          itemAction("init")
+          itemAction('init');
         }, {immediate: true, deep: true});
     return {
       parentField, context, field, formItem, dataField, actionName,
       itemAction, handleBlur, handleFocus, isFocus, slotStyle
-    }
+    };
   }
 });
 </script>

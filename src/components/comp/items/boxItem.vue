@@ -1,28 +1,28 @@
 <script setup lang="ts">
-import {onMounted, PropType} from "vue";
-import {ApiUrls} from "@/components/types/ApiUrls";
-import {FieldInfo} from "@/components/types/PageFieldInfo";
-import {validMsg} from "@/api/sh_api.ts";
-import {Config} from "@/api/settings.ts";
+import {onMounted, PropType} from 'vue';
+import {ApiUrls} from '@/components/types/ApiUrls';
+import {FieldInfo} from '@/components/types/PageFieldInfo';
+import {validMsg} from '@/api/sh_api.ts';
+import {Config} from '@/api/settings.ts';
 
 defineProps({
   compUrl: {type: Object as PropType<ApiUrls>},
   item: {type: Array as PropType<Array<FieldInfo>>, required: true},
   objectName: {type: String},
   parentPreps: {type: Object, default: {}},
-  subFormFlag: {type: String, default: "N"},
-  batchName: {type: String, default: "batchDataList"},
-  batchFieldName: {type: String, default: "batchFieldList"},
+  subFormFlag: {type: String, default: 'N'},
+  batchName: {type: String, default: 'batchDataList'},
+  batchFieldName: {type: String, default: 'batchFieldList'},
   primaryKey: {type: String, required: true},
   rules: {type: Object},
   compSize: {type: String, default: Config.compSize},
   isView: {type: Boolean, default: false},
   isEdit: {type: Boolean, default: false},
 });
-const dataForm = defineModel("dataForm");
+const dataForm = defineModel('dataForm');
 const init = () => {
 
-}
+};
 onMounted(() => {
   init();
 });

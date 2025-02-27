@@ -30,10 +30,10 @@ import Advanced from '@/views/workflow/plugin/config/Advanced.vue';
 import Exhibition from '@/views/workflow/plugin/config/Exhibition.vue';
 import Remind from '@/views/workflow/plugin/config/Remind.vue';
 import Print from '@/views/workflow/plugin/config/Print.vue';
-import {computed, ref} from "vue";
-import {scale} from "@/views/workflow/plugin/utils/deviceUtil.ts";
-import {useFlowDesign} from "@/store/FlowDesignStore.ts";
-import piniaInstance from "@/store";
+import {computed, ref} from 'vue';
+import {scale} from '@/views/workflow/plugin/utils/deviceUtil.ts';
+import {useFlowDesign} from '@/store/FlowDesignStore.ts';
+import piniaInstance from '@/store';
 
 const flowDesign = useFlowDesign(piniaInstance);
 const props = defineProps({
@@ -46,7 +46,7 @@ const props = defineProps({
     default: false,
   },
 });
-const emits = defineEmits(["save"]);
+const emits = defineEmits(['save']);
 const nodeData = computed(() => flowDesign.node);
 let currentNav = ref<number>(2);
 let currentContext = ref<number>(1);
@@ -92,8 +92,8 @@ const changeMenu = (menu) => {
       m.activate = false;
     }
   });
-}
+};
 const save = () => {
   emits('save', nodeData);
-}
+};
 </script>

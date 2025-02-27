@@ -1,11 +1,11 @@
-import {uuid} from "@/api/system.ts";
+import {uuid} from '@/api/system.ts';
 
 /**
  * 定义td 数据
  */
 export const colDataInfo = () => {
-    return {_uuid: uuid(), colspan: 1, rowspan: 1, items: []}
-}
+    return {_uuid: uuid(), colspan: 1, rowspan: 1, items: []};
+};
 /**
  * 左方插入列
  */
@@ -14,7 +14,7 @@ const insertLeftCol = (props: any) => {
     const position = props.isFirstCol ? 0 : props.colIndex - 1;
     for (let index = 0; index < rows.length; index++) {
         const cols = rows[index].columns;
-        cols.splice(position, 0, colDataInfo())
+        cols.splice(position, 0, colDataInfo());
     }
 
 };
@@ -64,7 +64,7 @@ const tableCellInfo = (props: any) => {
     const row = rows[props.rowIndex];
     const col = row.columns[props.colIndex];
     return {rows, row, col};
-}
+};
 const mergeLeftCol = (props: any) => {
     const {row, col} = tableCellInfo(props);
     col.colspan = col.colspan + 1;
@@ -190,55 +190,55 @@ const deleteWholeRow = (props: any) => {
  */
 export const tableCellOperation = (command: string, props: any) => {
     switch (command) {
-        case "insertLeftCol":
+        case 'insertLeftCol':
             insertLeftCol(props);
             break;
-        case "insertRightCol":
+        case 'insertRightCol':
             insertRightCol(props);
             break;
-        case "insertAboveRow":
+        case 'insertAboveRow':
             insertAboveRow(props);
             break;
-        case "insertBelowRow":
+        case 'insertBelowRow':
             insertBelowRow(props);
             break;
-        case "mergeLeftCol":
+        case 'mergeLeftCol':
             mergeLeftCol(props);
             break;
-        case "mergeRightCol":
+        case 'mergeRightCol':
             mergeRightCol(props);
             break;
-        case "mergeWholeCol":
+        case 'mergeWholeCol':
             mergeWholeCol(props);
             break;
-        case "mergeAboveRow":
+        case 'mergeAboveRow':
             mergeAboveRow(props);
             break;
-        case "mergeBelowRow":
+        case 'mergeBelowRow':
             mergeBelowRow(props);
             break;
-        case "mergeWholeRow":
+        case 'mergeWholeRow':
             mergeWholeRow(props);
             break;
-        case "undoMergeRow":
+        case 'undoMergeRow':
             undoMergeRow(props);
             break;
-        case "undoMergeCol":
+        case 'undoMergeCol':
             undoMergeCol(props);
             break;
-        case "deleteWholeCol":
+        case 'deleteWholeCol':
             deleteWholeCol(props);
             break;
-        case "deleteWholeRow":
+        case 'deleteWholeRow':
             deleteWholeRow(props);
             break;
-        case "colConfig":
+        case 'colConfig':
             console.log();
 
     }
     //操作单元格后再次调用控制按钮函数
     // tableAction(props, buttonControl);
-}
+};
 const mergeLeftColAction = (props: any) => {
     const {row, col} = tableCellInfo(props);
     if (!row || !row.columns?.length) {
@@ -246,7 +246,7 @@ const mergeLeftColAction = (props: any) => {
     }
     const leftCol = row.columns[props.colIndex - 1];
     return col.rowspan > 1 && leftCol ? leftCol.rowspan != col.rowspan : props.isFirstCol;
-}
+};
 const mergeRightColAction = (props: any) => {
     const {row, col} = tableCellInfo(props);
     if (!row || !row.columns?.length) {
@@ -254,10 +254,10 @@ const mergeRightColAction = (props: any) => {
     }
     const rightCol = row.columns[props.colIndex + 1];
     return col.rowspan > 1 && rightCol ? rightCol.rowspan != col.rowspan : props.isLastCol;
-}
+};
 const mergeWholeColAction = (props: any) => {
     return colCommonAction(props);
-}
+};
 const mergeAboveRowAction = (props: any) => {
     const {rows, col} = tableCellInfo(props);
     const aboveRow = rows[props.rowIndex - 1];
@@ -269,7 +269,7 @@ const mergeAboveRowAction = (props: any) => {
         return true;
     }
     return props.isFirstRow;
-}
+};
 const mergeBelowRowAction = (props: any) => {
     const {rows, col} = tableCellInfo(props);
     const belowRow = rows[props.rowIndex + 1];
@@ -281,10 +281,10 @@ const mergeBelowRowAction = (props: any) => {
         return true;
     }
     return props.isLastRow;
-}
+};
 const mergeWholeRowAction = (props: any) => {
     return rowCommonAction(props);
-}
+};
 const colCommonAction = (props: any) => {
     const {rows, col} = tableCellInfo(props);
     for (const index in rows) {
@@ -292,14 +292,14 @@ const colCommonAction = (props: any) => {
         if (!tempRow || !tempRow.columns?.length) {
             return true;
         }
-        const tempCol = tempRow.columns[props.colIndex]
+        const tempCol = tempRow.columns[props.colIndex];
         if (!tempCol || tempCol.colspan != col.colspan) {
             // console.log(tempCol, col);
             return true;
         }
     }
     return false;
-}
+};
 const rowCommonAction = (props: any) => {
     const {row, col} = tableCellInfo(props);
 
@@ -310,13 +310,13 @@ const rowCommonAction = (props: any) => {
         }
     }
     return false;
-}
+};
 const deleteWholeColAction = (props: any) => {
     return colCommonAction(props);
-}
+};
 const deleteWholeRowAction = (props: any) => {
     return rowCommonAction(props);
-}
+};
 const undoMergeRowAction = (props: any) => {
     const {rows, col} = tableCellInfo(props);
     let columns: number = 0;
@@ -330,7 +330,7 @@ const undoMergeRowAction = (props: any) => {
         return false;
     }
     return props.field.rowspan == 1;
-}
+};
 const undoMergeColAction = (props: any) => {
     const {rows, col} = tableCellInfo(props);
     // console.log(rows.length, col);
@@ -338,7 +338,7 @@ const undoMergeColAction = (props: any) => {
         return false;
     }
     return props.field.colspan == 1;
-}
+};
 /**
  * 单元格按钮是否可点击控制
  * @param props
@@ -355,4 +355,4 @@ export const tableAction = (props: any, buttonControl: any) => {
     buttonControl.deleteWholeRowDisabled = deleteWholeRowAction(props);
     buttonControl.undoMergeRowDisabled = undoMergeRowAction(props);
     buttonControl.undoMergeColDisabled = undoMergeColAction(props);
-}
+};

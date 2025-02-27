@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import {createRouterAndMenuList, permissionMenus} from "@/api/star_horse";
-import {computed, nextTick, onMounted, reactive, ref, watch} from "vue";
-import {userInfoStore} from "@/store/UserInfoStore";
-import {MenusInfo} from "@/components/types/MenusInfo";
-import piniaInstance from "@/store";
-import FixedSubMenu from "@/components/menu/FixedSubMenu.vue";
+import {createRouterAndMenuList, permissionMenus} from '@/api/star_horse';
+import {computed, nextTick, onMounted, reactive, ref, watch} from 'vue';
+import {userInfoStore} from '@/store/UserInfoStore';
+import {MenusInfo} from '@/components/types/MenusInfo';
+import piniaInstance from '@/store';
+import FixedSubMenu from '@/components/menu/FixedSubMenu.vue';
 
 let userStore = userInfoStore(piniaInstance);
 // const emits = defineEmits(["collopseOperation"]);
@@ -12,17 +12,17 @@ let leftMenuDatas = ref<MenusInfo[]>([]);
 let props = defineProps({
   sysemId: {type: String},
   isCollapse: {type: Boolean, default: true},
-  top: {type: String, default: "83px"}
+  top: {type: String, default: '83px'}
 });
 let defaultOpenMenu = ref<Array<string>>([]);
-let htop = ref<string>(computed(() => props.top).value == "83px" ? "65px" : "35px");
+let htop = ref<string>(computed(() => props.top).value == '83px' ? '65px' : '35px');
 const loadMenus = async (sysemId: string) => {
   if (!sysemId) {
-    sysemId = "-1";
+    sysemId = '-1';
   }
   await permissionMenus({}, sysemId).then(res => {
     let redata = res.data.data;
-    localStorage.setItem("menusInfo", JSON.stringify(redata));
+    localStorage.setItem('menusInfo', JSON.stringify(redata));
     leftMenuDatas.value = reactive(createRouterAndMenuList(redata));
     let allId = leftMenuDatas.value.map(item => item.meta.menuId);
     nextTick(() => {
@@ -36,14 +36,14 @@ let currentItem = ref<any>({});
 // const _filterTableData = computed(() => filterTree(search.value, leftMenuDatas.value));
 const overHandler = (item: any) => {
   currentItem.value = item;
-}
+};
 /*const _outHandler = (_item: any) => {
   currentItem.value = {};
 }*/
 onMounted(async () => {
   let menus = userStore.getPermissionMenus;
   if (!menus || menus.length == 0) {
-    await loadMenus("-1");
+    await loadMenus('-1');
   } else {
     leftMenuDatas.value = menus;
   }

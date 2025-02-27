@@ -1,19 +1,19 @@
 <script setup lang="ts">
-import {scale} from "@/views/workflow/plugin/utils/deviceUtil.ts";
-import {computed, ref} from 'vue'
-import ApplyPrep from "@/views/workflow/plugin/preps/ApplyPrep.vue";
-import ApprovalPrep from "@/views/workflow/plugin/preps/ApprovalPrep.vue";
-import BranchPrep from "@/views/workflow/plugin/preps/BranchPrep.vue";
-import CopyerPrep from "@/views/workflow/plugin/preps/CopyerPrep.vue";
-import EventPrep from "@/views/workflow/plugin/preps/EventPrep.vue";
-import NoticePrep from "@/views/workflow/plugin/preps/NoticePrep.vue";
-import ServicePrep from "@/views/workflow/plugin/preps/ServicePrep.vue";
-import TimerPrep from "@/views/workflow/plugin/preps/TimerPrep.vue";
-import EndPrep from "@/views/workflow/plugin/preps/EndPrep.vue";
-import {flowCommon} from "@/views/workflow/plugin/utils/flowCommon.ts";
-import EditName from "@/views/workflow/plugin/common/EditName.vue";
-import {useFlowDesign} from "@/store/FlowDesignStore.ts";
-import piniaInstance from "@/store";
+import {scale} from '@/views/workflow/plugin/utils/deviceUtil.ts';
+import {computed, ref} from 'vue';
+import ApplyPrep from '@/views/workflow/plugin/preps/ApplyPrep.vue';
+import ApprovalPrep from '@/views/workflow/plugin/preps/ApprovalPrep.vue';
+import BranchPrep from '@/views/workflow/plugin/preps/BranchPrep.vue';
+import CopyerPrep from '@/views/workflow/plugin/preps/CopyerPrep.vue';
+import EventPrep from '@/views/workflow/plugin/preps/EventPrep.vue';
+import NoticePrep from '@/views/workflow/plugin/preps/NoticePrep.vue';
+import ServicePrep from '@/views/workflow/plugin/preps/ServicePrep.vue';
+import TimerPrep from '@/views/workflow/plugin/preps/TimerPrep.vue';
+import EndPrep from '@/views/workflow/plugin/preps/EndPrep.vue';
+import {flowCommon} from '@/views/workflow/plugin/utils/flowCommon.ts';
+import EditName from '@/views/workflow/plugin/common/EditName.vue';
+import {useFlowDesign} from '@/store/FlowDesignStore.ts';
+import piniaInstance from '@/store';
 
 let headerStyle = ref<any>({
   background: 'linear-gradient(89.96deg,#fa6f32 .05%,#fb9337 79.83%)',
@@ -38,7 +38,7 @@ const panels = ref<any>({
 
 const onClose = () => {
   flowDesign.setActive(false);
-}
+};
 </script>
 
 <template>

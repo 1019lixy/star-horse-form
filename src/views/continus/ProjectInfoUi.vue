@@ -1,151 +1,151 @@
 <script setup lang="ts" name="ProjectInfoUi">
-import {apiInstance, dialogPreps} from "@/api/sh_api.ts";
-import {ApiUrls} from "@/components/types/ApiUrls";
-import {onMounted, provide, reactive, ref} from "vue";
-import {SearchFields, SelectOption} from "@/components/types/SearchProps.d.ts";
-import {Config} from "@/api/settings.ts";
-import ProjectMemberUi from "@/views/continus/ProjectMemberUi.vue";
+import {apiInstance, dialogPreps} from '@/api/sh_api.ts';
+import {ApiUrls} from '@/components/types/ApiUrls';
+import {onMounted, provide, reactive, ref} from 'vue';
+import {SearchFields, SelectOption} from '@/components/types/SearchProps.d.ts';
+import {Config} from '@/api/settings.ts';
+import ProjectMemberUi from '@/views/continus/ProjectMemberUi.vue';
 
-const dataUrl: ApiUrls = apiInstance("devops-continus", "continus/projectInfo");
+const dataUrl: ApiUrls = apiInstance('devops-continus', 'continus/projectInfo');
 let libTypeList = ref<Array<SelectOption>>([]);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "项目名称", fieldName: "projectName", type: "input", matchType: "lk", defaultVisible: true},
-    {label: "项目类型", fieldName: "projectType", type: "input", matchType: "lk", defaultVisible: true},
-    {label: "程序语言", fieldName: "language", type: "input", matchType: "lk", defaultVisible: true},
+    {label: '项目名称', fieldName: 'projectName', type: 'input', matchType: 'lk', defaultVisible: true},
+    {label: '项目类型', fieldName: 'projectType', type: 'input', matchType: 'lk', defaultVisible: true},
+    {label: '程序语言', fieldName: 'language', type: 'input', matchType: 'lk', defaultVisible: true},
   ]
 });
 const tableFieldList = reactive({
   fieldList: [
     {
-      label: "主键", fieldName: "idProjectInfo", type: "long",
+      label: '主键', fieldName: 'idProjectInfo', type: 'long',
     }, {
-      label: "代码库类型", fieldName: "type", type: "select", optionList: libTypeList,
+      label: '代码库类型', fieldName: 'type', type: 'select', optionList: libTypeList,
       required: true, formVisible: true,
       listVisible: true
     },
     [{
-      label: "代码库地址", fieldName: "host", type: "input",
+      label: '代码库地址', fieldName: 'host', type: 'input',
       formVisible: true,
       listVisible: true
     },
       {
-        label: "代码库端口", fieldName: "port", type: "number",
+        label: '代码库端口', fieldName: 'port', type: 'number',
         formVisible: true,
         listVisible: true
       }],
     [{
-      label: "项目名称", fieldName: "projectName", type: "input",
+      label: '项目名称', fieldName: 'projectName', type: 'input',
       required: true, formVisible: true,
       listVisible: true
     },
       {
-        label: "项目编码", fieldName: "projectCharset", type: "input",
+        label: '项目编码', fieldName: 'projectCharset', type: 'input',
         required: true, formVisible: true,
         listVisible: true
       }],
     [{
-      label: "项目类型", fieldName: "projectType", type: "input",
+      label: '项目类型', fieldName: 'projectType', type: 'input',
       required: true, formVisible: true,
       listVisible: true
     },
       {
-        label: "程序语言", fieldName: "language", type: "input",
+        label: '程序语言', fieldName: 'language', type: 'input',
         required: true, formVisible: true,
         listVisible: true
       }],
     [{
-      label: "流水线账号", fieldName: "account", type: "input",
+      label: '流水线账号', fieldName: 'account', type: 'input',
       formVisible: true,
       listVisible: true
     },
       {
-        label: "流水线密码", fieldName: "security", type: "input",
+        label: '流水线密码', fieldName: 'security', type: 'input',
         formVisible: true,
         listVisible: true
       }],
     {
-      label: "备注", fieldName: "remark", type: "textarea",
+      label: '备注', fieldName: 'remark', type: 'textarea',
       formVisible: true,
     },
     {
       batchFieldList: [{
-        batchName: "memberList",
-        title: "项目成员",
+        batchName: 'memberList',
+        title: '项目成员',
         fieldList: [{
-          label: "用户名", fieldName: "username", type: "input",
+          label: '用户名', fieldName: 'username', type: 'input',
           formVisible: true,
           listVisible: true
         },
           {
-            label: "姓名", fieldName: "name", type: "input",
+            label: '姓名', fieldName: 'name', type: 'input',
             formVisible: true,
             listVisible: true
           },
           {
-            label: "角色名称", fieldName: "roleName", type: "input",
+            label: '角色名称', fieldName: 'roleName', type: 'input',
             formVisible: true,
             listVisible: true
           },
           {
-            label: "生效时间", fieldName: "effectiveDate", type: "input",
+            label: '生效时间', fieldName: 'effectiveDate', type: 'input',
             formVisible: true,
             listVisible: true
           },
           {
-            label: "失效日期", fieldName: "expirationDate", type: "input",
+            label: '失效日期', fieldName: 'expirationDate', type: 'input',
             formVisible: true,
             listVisible: true
           },
           {
-            label: "是否管理员 1是 2否", fieldName: "isManager", type: "input",
+            label: '是否管理员 1是 2否', fieldName: 'isManager', type: 'input',
             formVisible: true,
             listVisible: true
           },]
       }]
     },
     {
-      label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
+      label: '创建人', disabled: 'Y', fieldName: 'createdBy', type: 'input',
     },
     {
-      label: "修改人", disabled: "Y", fieldName: "updatedBy", type: "input",
+      label: '修改人', disabled: 'Y', fieldName: 'updatedBy', type: 'input',
     },
     {
-      label: "创建日期", disabled: "Y", fieldName: "createdDate", type: "date",
+      label: '创建日期', disabled: 'Y', fieldName: 'createdDate', type: 'date',
     },
     {
-      label: "修改日期", disabled: "Y", fieldName: "updatedDate", type: "date",
+      label: '修改日期', disabled: 'Y', fieldName: 'updatedDate', type: 'date',
     },
     {
-      label: "数据版本号", fieldName: "version", type: "number",
+      label: '数据版本号', fieldName: 'version', type: 'number',
     },
     {
-      label: "是否已逻辑", fieldName: "isDel", type: "number",
+      label: '是否已逻辑', fieldName: 'isDel', type: 'number',
     },
     {
-      label: "数据编号", fieldName: "dataNo", type: "input",
+      label: '数据编号', fieldName: 'dataNo', type: 'input',
     },
     {
-      label: "状态码", fieldName: "statusCode", type: "input",
+      label: '状态码', fieldName: 'statusCode', type: 'input',
     },
     {
-      label: "状态码名称", fieldName: "statusName", type: "input",
+      label: '状态码名称', fieldName: 'statusName', type: 'input',
     },
     {
-      label: "国际码", fieldName: "local", type: "input",
+      label: '国际码', fieldName: 'local', type: 'input',
     },
   ],
   batchFieldList: []
 });
-const primaryKey = "idProjectInfo";
+const primaryKey = 'idProjectInfo';
 const projectInfoRef = ref();
 const rules = {};
 const dialogProps = dialogPreps();
-provide("dialogProps", dialogProps);
+provide('dialogProps', dialogProps);
 
 const dataFormat = (name: string, cellValue: object): any => {
   return cellValue;
-}
+};
 const init = async () => {
 
 };
@@ -155,7 +155,7 @@ const selectItemFun = (row: any) => {
 };
 onMounted(async () => {
   await init();
-})
+});
 </script>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">

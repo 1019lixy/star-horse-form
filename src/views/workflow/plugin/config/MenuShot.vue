@@ -12,7 +12,7 @@
 </template>
 <script setup lang="ts">
 import {flowCommon} from '@/views/workflow/plugin/utils/flowCommon.ts';
-import {nextTick, onMounted, ref} from "vue";
+import {nextTick, onMounted, ref} from 'vue';
 
 defineProps({
   menus: {
@@ -20,7 +20,7 @@ defineProps({
     default: () => [],
   },
 });
-const emits = defineEmits(["change"]);
+const emits = defineEmits(['change']);
 let startX = ref<any>(undefined); //判断是否要打开下拉
 let endX = ref<any>(undefined);
 let startY = ref<any>(undefined);
@@ -46,7 +46,7 @@ const hideDropDown = () => {
   if (screenshotBtn) {
     screenshotBtn.style.opacity = 0.2;
   }
-}
+};
 //展示下拉
 const showDropDown = (e) => {
   if (startX.value == endX.value && startY.value == endY.value) {
@@ -61,10 +61,10 @@ const showDropDown = (e) => {
       }
     }
   }
-}
+};
 const setTranslate = (xPos, yPos, el) => {
   el.style.transform = 'translate3d(' + xPos + 'px, ' + yPos + 'px, 0)';
-}
+};
 const drag = ($event) => {
   if (active.value) {
     if ($event.type === 'touchmove') {
@@ -80,7 +80,7 @@ const drag = ($event) => {
     setTranslate(currentX, currentY, screenshot.value);
   }
   return false;
-}
+};
 const dragEnd = ($event) => {
   initialX.value = currentX;
   initialY.value = currentY;
@@ -105,7 +105,7 @@ const dragEnd = ($event) => {
   body.removeEventListener('mouseup', dragEnd);
   body.removeEventListener('mousemove', drag);
   return false;
-}
+};
 const dragStart = ($event) => {
   if ($event.type === 'touchstart') {
     initialX.value = $event.touches[0].clientX - xOffset.value;
@@ -138,15 +138,15 @@ const dragStart = ($event) => {
   }
 
   return false;
-}
+};
 const changeMenu = (menu: any) => {
   emits('change', menu);
-}
+};
 const init = async () => {
   await nextTick();
   screenshot.value.addEventListener('touchstart', dragStart, false);
   screenshot.value.addEventListener('mousedown', dragStart, false);
-}
+};
 onMounted(async () => {
   await init();
 });

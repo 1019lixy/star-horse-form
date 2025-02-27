@@ -40,7 +40,7 @@
 }
 </style>
 <script setup lang="ts" name="crontab-second">
-import {computed, onMounted, ref, watch} from "vue";
+import {computed, onMounted, ref, watch} from 'vue';
 
 let radioValue = ref(1);
 let cycle01 = ref(1);
@@ -55,17 +55,17 @@ const props = defineProps({
   radioParent: {}
 });
 let checkNum = ref(props.check);
-const emits = defineEmits(["update"]);
+const emits = defineEmits(['update']);
 // 计算两个周期值
 const cycleTotalFun = () => {
-  cycle01.value = checkNum.value?.(cycle01.value, 0, 59)
-  cycle02.value = checkNum.value?.(cycle02.value, 0, 59)
+  cycle01.value = checkNum.value?.(cycle01.value, 0, 59);
+  cycle02.value = checkNum.value?.(cycle02.value, 0, 59);
   return cycle01.value + '-' + cycle02.value;
 };
 // 计算平均用到的值
 const averageTotalFun = () => {
-  average01.value = checkNum.value?.(average01.value, 0, 59)
-  average02.value = checkNum.value?.(average02.value, 1, 59)
+  average01.value = checkNum.value?.(average01.value, 0, 59);
+  average02.value = checkNum.value?.(average02.value, 1, 59);
   return average01.value + '/' + average02.value;
 };
 // 计算勾选的checkbox值合集
@@ -115,16 +115,16 @@ const checkboxChange = () => {
 const othChange = () => {
   //反解析
   let ins = props.cron?.second;
-  console.log("second", ins);
+  console.log('second', ins);
   if (ins === '*') {
     radioValue.value = 1;
   } else if (ins.indexOf('-') > -1) {
-    radioValue.value = 2
+    radioValue.value = 2;
   } else if (ins.indexOf('/') > -1) {
-    radioValue.value = 3
+    radioValue.value = 3;
   } else {
-    radioValue.value = 4
-    checkboxList.value = ins.split(',')
+    radioValue.value = 4;
+    checkboxList.value = ins.split(',');
   }
 };
 watch(() => radioValue.value,
@@ -151,9 +151,9 @@ watch(() => checkboxString.value,
 onMounted(() => {
   // radioValue.value = props.radioParent;
   // othChange();
-})
+});
 defineExpose({
   cycle01, cycle02, average01, average02, checkboxList,radioValue
-})
+});
 
 </script>

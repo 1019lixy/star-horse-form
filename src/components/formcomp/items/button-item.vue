@@ -24,26 +24,26 @@
   </starhorse-form-item>
 </template>
 <script lang="ts" name="buttonItem">
-import {defineComponent, onMounted, shallowRef} from "vue";
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-import {userFunction} from "@/api/user_func.ts";
-import {buttonAction} from "@/components/formcomp/utils/ItemRelationEventUtils.ts";
+import {defineComponent, onMounted, shallowRef} from 'vue';
+import StarHorseIcon from '@/components/comp/StarHorseIcon.vue';
+import {userFunction} from '@/api/user_func.ts';
+import {buttonAction} from '@/components/formcomp/utils/ItemRelationEventUtils.ts';
 
 export default defineComponent({
   components: {StarHorseIcon},
   setup(_props, context) {
-    const parentField = context.attrs["parentField"];
-    const field = context.attrs["field"] as any;
+    const parentField = context.attrs['parentField'];
+    const field = context.attrs['field'] as any;
     let formItem = shallowRef({label: 'input', required: false});
-    let dataField = shallowRef("");
-    let actionName = shallowRef("click");
+    let dataField = shallowRef('');
+    let actionName = shallowRef('click');
     onMounted(() => {
-       actionName.value = field.preps?.actionName || "keydown.enter";;
+       actionName.value = field.preps?.actionName || 'keydown.enter';;
     });
     const dynamicFunc = (code: any) => {
       buttonAction(context, code);
     };
-    return {parentField, dynamicFunc, context, field, formItem, dataField}
+    return {parentField, dynamicFunc, context, field, formItem, dataField};
   }
 });
 </script>

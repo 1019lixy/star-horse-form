@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import {onMounted, ref} from "vue";
-import {scale} from "@/views/workflow/plugin/utils/deviceUtil.ts";
-import {ApiUrls} from "@/components/types/ApiUrls";
-import {apiInstance, createCondition} from "@/api/sh_api.ts";
+import {onMounted, ref} from 'vue';
+import {scale} from '@/views/workflow/plugin/utils/deviceUtil.ts';
+import {ApiUrls} from '@/components/types/ApiUrls';
+import {apiInstance, createCondition} from '@/api/sh_api.ts';
 
-const dataUrl: ApiUrls = apiInstance("flow-engine", "workflow/categoryItemConfig");
+const dataUrl: ApiUrls = apiInstance('flow-engine', 'workflow/categoryItemConfig');
 const props = defineProps({
   read: {
     type: Boolean,
@@ -32,15 +32,15 @@ const setSetting = (item: any) => {
     revokeVisible.value = true;
   }
 
-}
+};
 const init = async () => {
-  let params = [createCondition("a.cfgCategory", "basic")];
+  let params = [createCondition('a.cfgCategory', 'basic')];
   let res = await dataUrl.queryConditionAction!(params);
   items.value = res.data;
-}
+};
 onMounted(() => {
   init();
-})
+});
 </script>
 <template>
   <el-row :gutter="16">

@@ -51,13 +51,13 @@
 }
 </style>
 <script setup lang="ts" name="crontab-week">
-import {computed, ref, watch} from "vue";
+import {computed, ref, watch} from 'vue';
 
 const props = defineProps({
   check: {type: Function},
   cron: {type: Object}
 });
-const emits = defineEmits(["update"]);
+const emits = defineEmits(['update']);
 let weekday = ref(0);
 let radioValue = ref(1);
 let cycle01 = ref(0);
@@ -70,19 +70,19 @@ let weekList = ref(['周一', '周二', '周三', '周四', '周五', '周六', 
 let checkNum = ref(props.check);
 // 计算两个周期值
 const cycleTotalFun = () => {
-  cycle01.value = checkNum.value?.(cycle01.value, 1, 7)
-  cycle02.value = checkNum.value?.(cycle02.value, 1, 7)
+  cycle01.value = checkNum.value?.(cycle01.value, 1, 7);
+  cycle02.value = checkNum.value?.(cycle02.value, 1, 7);
   return cycle01.value + '-' + cycle02.value;
 };
 // 计算平均用到的值
 const averageTotalFun = () => {
-  average01.value = checkNum.value?.(average01.value, 1, 4)
-  average02.value = checkNum.value?.(average02.value, 1, 7)
+  average01.value = checkNum.value?.(average01.value, 1, 4);
+  average02.value = checkNum.value?.(average02.value, 1, 7);
   return average01.value + '#' + average02.value;
 };
 // 最近的工作日（格式）
 const weekdayCheckFun = () => {
-  weekday.value = checkNum.value?.(weekday.value, 1, 7)
+  weekday.value = checkNum.value?.(weekday.value, 1, 7);
   return weekday.value;
 };
 // 计算勾选的checkbox值合集
@@ -187,5 +187,5 @@ watch(() => checkboxString.value,
 
 defineExpose({
   cycle01, cycle02, average01, average02, checkboxList,weekday,radioValue
-})
+});
 </script>

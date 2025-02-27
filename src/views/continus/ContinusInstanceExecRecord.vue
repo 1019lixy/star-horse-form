@@ -1,18 +1,18 @@
 <script setup lang="ts" name="ContinusInstanceExecRecord">
-import {ref} from "vue";
-import InstanceItemDetail from "@/views/continus/InstanceItemDetail.vue";
-import {ApiUrls} from "@/components/types/ApiUrls";
-import {apiInstance} from "@/api/sh_api.ts";
+import {ref} from 'vue';
+import InstanceItemDetail from '@/views/continus/InstanceItemDetail.vue';
+import {ApiUrls} from '@/components/types/ApiUrls';
+import {apiInstance} from '@/api/sh_api.ts';
 
-const apiUrl: ApiUrls = apiInstance("devops-continus", "continus/continusInstance");
-const primaryKey: string = "idContinusInst";
-let activeName: string = ref<string>("first");
+const apiUrl: ApiUrls = apiInstance('devops-continus', 'continus/continusInstance');
+const primaryKey: string = 'idContinusInst';
+let activeName: string = ref<string>('first');
 const execLine = () => {
-  console.log("执行");
-}
+  console.log('执行');
+};
 const handleClick = (tab: string, event: Event) => {
 
-}
+};
 </script>
 
 <template>

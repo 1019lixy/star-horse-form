@@ -1,5 +1,5 @@
 <script setup lang="ts" name="InstanceItem">
-import {useRouter} from "vue-router";
+import {useRouter} from 'vue-router';
 
 const router = useRouter();
 const props = defineProps({
@@ -10,25 +10,25 @@ const props = defineProps({
 });
 const execRecord = (instanceId: string) => {
   this.$router.push({
-    path: "/continus/instanceExecRecord",
+    path: '/continus/instanceExecRecord',
     query: {instanceId: instanceId, isEdit: props.isEdit}
-  })
+  });
 };
 const lineDetail = (instanceId: string) => {
   router.push({
-    path: "/continus/instanceDetail",
+    path: '/continus/instanceDetail',
     query: {instanceId: instanceId, isEdit: props.isEdit}
-  })
+  });
 };
 const execLine = (instanceId: string) => {
-  console.log("执行");
+  console.log('执行');
 };
 const configLine = (instanceId: string) => {
 
-}
+};
 const publishLine = (instanceId: string) => {
 
-}
+};
 </script>
 
 <template>

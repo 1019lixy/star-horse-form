@@ -1,4 +1,4 @@
-import {ApiUrls} from "@/components/types/ApiUrls";
+import {ApiUrls} from '@/components/types/ApiUrls';
 
 /**
  * 弹窗属性

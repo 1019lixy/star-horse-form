@@ -90,7 +90,7 @@
          }
      },
      detectRetina: true
- }
+ };
 export {
     particlesCfg
-}
+};

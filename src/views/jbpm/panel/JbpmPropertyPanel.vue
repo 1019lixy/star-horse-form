@@ -18,9 +18,9 @@
   </div>
 </template>
 <script setup lang="ts" name="JbpmPropertyPanel">
-import {onMounted, ref} from "vue";
-import NodePropertyPanel from "@/views/jbpm/panel/NodePropertyPanel.vue";
-import ProcessPropertyPanel from "@/views/jbpm/panel/ProcessPropertyPanel.vue";
+import {onMounted, ref} from 'vue';
+import NodePropertyPanel from '@/views/jbpm/panel/NodePropertyPanel.vue';
+import ProcessPropertyPanel from '@/views/jbpm/panel/ProcessPropertyPanel.vue';
 
 const props = defineProps({
   modeler: {
@@ -32,8 +32,8 @@ const props = defineProps({
     required: true
   }
 });
-const emits = defineEmits(["updateXml"]);
-let configTab = ref<string>("node");
+const emits = defineEmits(['updateXml']);
+let configTab = ref<string>('node');
 let panelIndex = ref<number>(1);
 let element = ref<any>(null);
 let nodeElement = ref<any>({});
@@ -46,7 +46,7 @@ const handleConfigSelect = (value: string) => {
 };
 const handleModeler = () => {
   //根节点添加事件
-  props.modeler.on("root.added", e => {
+  props.modeler.on('root.added', e => {
     let el = e.element;
     if (isImplicitRoot(el)) {
       return;
@@ -61,18 +61,18 @@ const handleModeler = () => {
   //   });
   // })
   //节点选择变化
-  props.modeler.on("selection.changed", (e: any) => {
-    console.log("selection.changed", e);
+  props.modeler.on('selection.changed', (e: any) => {
+    console.log('selection.changed', e);
     const element = e.newSelection[0];
     if (!element) {
       return;
     }
     modifyConfigTab(element);
     handleFormData(element);
-  })
+  });
   // //节点属性变化
-  props.modeler.on("element.changed", (e: any) => {
-    console.log("element.changed", e);
+  props.modeler.on('element.changed', (e: any) => {
+    console.log('element.changed', e);
     const {element} = e;
     if (!element) {
       return;
@@ -80,30 +80,30 @@ const handleModeler = () => {
     // handleFormData(element);
   });
   // //节点点击事件
-  props.modeler.on("element.click", (e: any) => {
-    console.log("element.click", e);
+  props.modeler.on('element.click', (e: any) => {
+    console.log('element.click', e);
     const {element} = e;
     if (element.type == props.modeler._definitions.rootElements[0].$type) {
-      modifyConfigTab(0)
+      modifyConfigTab(0);
     } else {
-      modifyConfigTab(1)
-      if (element.type == "bpmn:UserTask") {
+      modifyConfigTab(1);
+      if (element.type == 'bpmn:UserTask') {
         let _businessObject = element.businessObject;
         if (_businessObject.assignee) {
-          formData.value.userType = "assignee";
+          formData.value.userType = 'assignee';
           formData.value.assignee = _businessObject.assignee;
         }
       }
     }
-  })
+  });
 };
 const isImplicitRoot = (element: any) => {
   return element.id === '__implicitroot';
 };
 const modifyConfigTab = (element: any) => {
-  let tab = 'node'
+  let tab = 'node';
   if (!element) {
-    tab = 'process'
+    tab = 'process';
   }
   configTab.value = tab;
 };

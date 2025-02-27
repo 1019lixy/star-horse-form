@@ -1,9 +1,9 @@
 <script setup lang="ts" name="UserTransfer">
-import {onMounted, ref} from "vue";
-import {SelectOption} from "@/components/types/SearchProps";
-import {postRequest} from "@/api/star_horse";
-import {closeLoad} from "@/api/sh_api";
-import {analysisData} from "@/api/deptment";
+import {onMounted, ref} from 'vue';
+import {SelectOption} from '@/components/types/SearchProps';
+import {postRequest} from '@/api/star_horse';
+import {closeLoad} from '@/api/sh_api';
+import {analysisData} from '@/api/deptment';
 
 const deptUserList = ref<SelectOption>([]);
 const selectUsers = ref<Array<number>>([]);
@@ -20,12 +20,12 @@ onMounted(() => {
   init();
 });
 const pageSizeClick = (pageSize: number) => {
-  pageInfo.value.pageSize = pageSize
-  loadByPage()
+  pageInfo.value.pageSize = pageSize;
+  loadByPage();
 };
 const pageChangeClick = (currentPage: number) => {
-  pageInfo.value.currentPage = currentPage
-  loadByPage()
+  pageInfo.value.currentPage = currentPage;
+  loadByPage();
 };
 const searchFields = ref<Array<any>>([]);
 const filterMethod = (query, item) => {
@@ -43,9 +43,9 @@ const filterMethod = (query, item) => {
   //   });
   // }
   // loadByPage();
-}
+};
 const loadByPage = async () => {
-  await postRequest("/system-config/system/usersinfoEntity/pageList", {
+  await postRequest('/system-config/system/usersinfoEntity/pageList', {
     currentPage: pageInfo.value.currentPage,
     pageSize: pageInfo.value.pageSize,
     fieldList: searchFields.value
@@ -53,9 +53,9 @@ const loadByPage = async () => {
     let redata = res.data.data;
     pageInfo.value['dataList'] = redata.dataList;
     redata.dataList.forEach(item => {
-      let {listNames, listValues} = analysisData(item.deptList, "", "deptName", "idDepartment");
+      let {listNames, listValues} = analysisData(item.deptList, '', 'deptName', 'idDepartment');
       deptUserList.value.push({
-        name: listNames.join("/") + "_" + item.name + "(" + item.username + ")",
+        name: listNames.join('/') + '_' + item.name + '(' + item.username + ')',
         value: item.idUsersinfo
       });
     });
@@ -63,9 +63,9 @@ const loadByPage = async () => {
     pageInfo.value['totalPage'] = redata.totalPages;
     pageInfo.value['totalData'] = redata.totalDatas;
   }).catch((err) => {
-    console.log(err)
+    console.log(err);
   }).finally(() => {
-    closeLoad()
+    closeLoad();
   });
 };
 const getSelectedUsers = () => {

@@ -1,27 +1,27 @@
 <script lang="ts" setup name="DynamicPage">
-import {defineAsyncComponent, h, nextTick, onMounted, ref, render} from "vue";
-import {apiInstance} from "@/api/sh_api";
-import Guides from "vue3-guides";
-import {VueInfiniteViewer} from "vue3-infinite-viewer"
-import {i18n} from "@/lang";
-import PageHeader from "@/views/dyform/page/PageHeader.vue";
-import PagePosition from "@/views/dyform/page/PagePosition.vue";
-import PageBackground from "@/views/dyform/page/PageBackground.vue";
-import PageFont from "@/views/dyform/page/PageFont.vue";
+import {defineAsyncComponent, h, nextTick, onMounted, ref, render} from 'vue';
+import {apiInstance} from '@/api/sh_api';
+import Guides from 'vue3-guides';
+import {VueInfiniteViewer} from 'vue3-infinite-viewer';
+import {i18n} from '@/lang';
+import PageHeader from '@/views/dyform/page/PageHeader.vue';
+import PagePosition from '@/views/dyform/page/PagePosition.vue';
+import PageBackground from '@/views/dyform/page/PageBackground.vue';
+import PageFont from '@/views/dyform/page/PageFont.vue';
 import 'gridstack/dist/gridstack.min.css';
 import {GridStack} from 'gridstack';
-import {GridStackWidget} from "gridstack/dist/types";
-import {createComponent} from "@/api/system.ts";
-import StarHorseDraggable from "@/components/comp/StarHorseDraggable.vue";
-import {DynamicNode} from "@/components/types/DynamicNode";
+import {GridStackWidget} from 'gridstack/dist/types';
+import {createComponent} from '@/api/system.ts';
+import StarHorseDraggable from '@/components/comp/StarHorseDraggable.vue';
+import {DynamicNode} from '@/components/types/DynamicNode';
 
-const dataUrl = apiInstance("userdb-manage", "userdb/dynamicPage");
+const dataUrl = apiInstance('userdb-manage', 'userdb/dynamicPage');
 const horizontalGuides = ref();
 const verticalGuides = ref();
 const vueInfiniteViewerRef = ref();
 const gridStackInstance = ref<GridStack>(null);
-let panelModel = ref<string>("first");
-let propertyItem = ref<string>("1");
+let panelModel = ref<string>('first');
+let propertyItem = ref<string>('1');
 let scrollX = ref<number>(0);
 let scrollY = ref<number>(0);
 let dyPageInfo = ref<any>({
@@ -29,17 +29,17 @@ let dyPageInfo = ref<any>({
   background: {},
   pageFont: {},
 
-})
+});
 const initGuides = async () => {
 
   await nextTick(() => {
     horizontalGuides.value?.resize();
     verticalGuides.value?.resize();
-    window.addEventListener("resize", () => {
+    window.addEventListener('resize', () => {
       horizontalGuides.value?.resize();
       verticalGuides.value?.resize();
     });
-    window.addEventListener("wheel", e => {
+    window.addEventListener('wheel', e => {
       scrollX.value += e.deltaX;
       scrollY.value += e.deltaY;
       horizontalGuides.value?.scroll(scrollX.value);
@@ -63,20 +63,20 @@ const initGuides = async () => {
   //   {w: 2, h: 2, subGridOpts: {children: [{content: 'nest'}]}}
   // ];
   // GridStack.setupDragIn('.star-horse-page', undefined, sidebarContent);
-}
-let currentItem = ref<string>("");
+};
+let currentItem = ref<string>('');
 const dragItem = (item: any) => {
   currentItem.value = item;
   items.value.push(item);
   console.log(item);
-}
+};
 const init = async () => {
   await initGuides();
   onRestore();
 };
 const onChange = (e: any) => {
   console.log(e);
-}
+};
 const count = ref<number>(0);
 let items = ref<Array<DynamicNode>>([
   {
@@ -84,9 +84,9 @@ let items = ref<Array<DynamicNode>>([
     y: 1,
     w: 2,
     h: 2,
-    id: "1",
-    name: "测试",
-    content: "1",
+    id: '1',
+    name: '测试',
+    content: '1',
   }
 ]);
 const dynamicComponent = (itemName: string) => {
@@ -102,7 +102,7 @@ const dynamicComponent = (itemName: string) => {
   components[itemName] = AsyncComp;
   return createComponent({
     components: components,
-    name: "dynamicComponent",
+    name: 'dynamicComponent',
     template: `
       <div ref="root" class="grid-stack-item my-custom-grid-item-component">
         <div class="grid-stack-item-content">
@@ -117,14 +117,14 @@ const dynamicComponent = (itemName: string) => {
       itemId: {type: String || Number},
     },
     methods: {},
-    emits: ["remove"],
+    emits: ['remove'],
   });
-}
+};
 
 let shadowDom: any = {};
 const listenCompChange = (parent: HTMLElement, item: GridStackWidget, add: boolean, grid: boolean) => {
   if (!parent) {
-    return
+    return;
   }
   //currentItem 没有赋值
   if (!currentItem.value) {
@@ -135,7 +135,7 @@ const listenCompChange = (parent: HTMLElement, item: GridStackWidget, add: boole
     return;
   }
   if (add) {
-    let itemName = currentItem.value + "-item";
+    let itemName = currentItem.value + '-item';
     let itemId: string = item.id!;
     let itemVNode = h(
         dynamicComponent(itemName)!,
@@ -147,18 +147,18 @@ const listenCompChange = (parent: HTMLElement, item: GridStackWidget, add: boole
           }
         }
     );
-    shadowDom[itemId] = document.createElement('div')
-    render(itemVNode, shadowDom[itemId])
-    return itemVNode.el
+    shadowDom[itemId] = document.createElement('div');
+    render(itemVNode, shadowDom[itemId]);
+    return itemVNode.el;
   } else {
     let itemId = item.id!;
-    render(null, shadowDom[itemId])
+    render(null, shadowDom[itemId]);
     return;
   }
-}
+};
 const target = ref();
 const addNewWidget = () => {
-  currentItem.value = "cron";
+  currentItem.value = 'cron';
   const node = items.value[count.value] || {
     x: Math.round(12 * Math.random()),
     y: Math.round(5 * Math.random()),
@@ -168,17 +168,17 @@ const addNewWidget = () => {
   node.id = String(count.value++);
   // items.value.push(node);
   gridStackInstance.value?.addWidget(node);
-}
+};
 const viewScroller = (e: any) => {
   let type = e.currentTarget.horizontalScrollbar.type;
-  if (type == "horizontal") {
+  if (type == 'horizontal') {
     horizontalGuides.value?.scroll(e.scrollLeft);
     horizontalGuides.value?.scrollGuides(e.scrollTop);
   } else {
     verticalGuides.value?.scroll(e.scrollTop);
     verticalGuides.value?.scrollGuides(e.scrollLeft);
   }
-}
+};
 let testFormData = ref<any>({});
 const onRestore = () => {
   scrollX.value = 0;
@@ -188,7 +188,7 @@ const onRestore = () => {
   verticalGuides.value?.scroll(0);
   verticalGuides.value?.scrollGuides(0);
   // vueInfiniteViewerRef.value?.scrollCenter();
-}
+};
 onMounted(async () => {
   await init();
 });

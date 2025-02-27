@@ -1,27 +1,27 @@
-import {TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
-import {SearchInfo, SearchParams} from "@/components/types/Params";
-import {createCondition, isJson, loadData} from "@/api/sh_api";
-import {SelectOption} from "@/components/types/SearchProps";
-import {useDark, useToggle} from "@vueuse/core";
-import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
-import piniaInstance from "@/store";
-import {v4 as uuidv4} from "uuid";
-import {FieldInfo} from "@/components/types/PageFieldInfo";
-import {DyCompField} from "@/components/types/DyCompField";
-import {computed, createApp, Ref, unref, ref} from "vue";
-import previewImage from 'preview-image-js'
+import {TreeNodeData} from 'element-plus/es/components/tree-v2/src/types';
+import {SearchInfo, SearchParams} from '@/components/types/Params';
+import {createCondition, isJson, loadData} from '@/api/sh_api';
+import {SelectOption} from '@/components/types/SearchProps';
+import {useDark, useToggle} from '@vueuse/core';
+import {GlobalConfig} from '@/store/GlobalConfigStore.ts';
+import piniaInstance from '@/store';
+import {v4 as uuidv4} from 'uuid';
+import {FieldInfo} from '@/components/types/PageFieldInfo';
+import {DyCompField} from '@/components/types/DyCompField';
+import {computed, createApp, Ref, unref, ref} from 'vue';
+import previewImage from 'preview-image-js';
 import 'preview-image-js/icon.js';
-import App from "@/App.vue";
+import App from '@/App.vue';
 
-const validUrl: string = "/userdb-manage/redirect/valid";
-const redirectUrl: string = "/userdb-manage/redirect/valid";
+const validUrl: string = '/userdb-manage/redirect/valid';
+const redirectUrl: string = '/userdb-manage/redirect/valid';
 const configStore = GlobalConfig(piniaInstance);
 
 /**
  * UUID
  */
 export function uuid() {
-    return "sh" + uuidv4();
+    return 'sh' + uuidv4();
 }
 
 /**
@@ -46,7 +46,7 @@ export function treeCheckChange(tableComp: any, data: TreeNodeData) {
     // }
     const conditions: Array<SearchParams> = [];
     // if (checked) {
-    conditions.push(createCondition("idInformations", data.value));
+    conditions.push(createCondition('idInformations', data.value));
     // }
     tableComp.setDataInfo(conditions, null);
     searchData(tableComp, conditions);
@@ -75,7 +75,7 @@ export function parseFormData(dataList: any, name: string) {
         }
         const containsData = node.preps.name == name;
         return containsData ? node : null;
-    }
+    };
     const filterDatas = filterRecursive(dataList);
     return filterDatas.length > 0 ? filterDatas[0] : {};
 }
@@ -85,14 +85,14 @@ export function parseFormData(dataList: any, name: string) {
  */
 export async function printerList(): Promise<Array<SelectOption>> {
     const getData = {
-        type: "getPrinter"
+        type: 'getPrinter'
     };
     const options: Array<SelectOption> = [];
     //创建一个实例
-    const ws = new WebSocket("ws://127.0.0.1:55333");
+    const ws = new WebSocket('ws://127.0.0.1:55333');
     //用于指定连接成功后的回调函数
     ws.onopen = (_evt) => {
-        console.log("Connection open ...");
+        console.log('Connection open ...');
         ws.send(JSON.stringify(getData));
     };
     //用于指定连接关闭后的回调函数
@@ -106,14 +106,14 @@ export async function printerList(): Promise<Array<SelectOption>> {
         //用于指定收到服务器数据后的回调函数
         ws.onmessage = (event) => {
             const data = event.data;
-            const printers = JSON.parse(data)["data"];
+            const printers = JSON.parse(data)['data'];
             if (printers) {
                 printers.forEach((item: any) => {
                     options.push({name: item, value: item});
                 });
                 resolve(options);
             } else {
-                reject("获取打印机失败");
+                reject('获取打印机失败');
             }
         };
     });
@@ -124,8 +124,8 @@ export async function printerList(): Promise<Array<SelectOption>> {
  */
 export function ascOrDesc(): SelectOption[] {
     const options: SelectOption[] = [];
-    options.push({name: "Asc", value: "asc"});
-    options.push({name: "Desc", value: "desc"});
+    options.push({name: 'Asc', value: 'asc'});
+    options.push({name: 'Desc', value: 'desc'});
     return options;
 }
 
@@ -134,14 +134,14 @@ export function ascOrDesc(): SelectOption[] {
  */
 export function httpMethod(): SelectOption[] {
     const options: SelectOption[] = [];
-    options.push({name: "GET", value: "GET"});
-    options.push({name: "HEAD", value: "HEAD"});
-    options.push({name: "POST", value: "POST"});
-    options.push({name: "PUT", value: "PUT"});
-    options.push({name: "PATCH", value: "PATCH"});
-    options.push({name: "DELETE", value: "DELETE"});
-    options.push({name: "OPTIONS", value: "OPTIONS"});
-    options.push({name: "TRACE", value: "TRACE"});
+    options.push({name: 'GET', value: 'GET'});
+    options.push({name: 'HEAD', value: 'HEAD'});
+    options.push({name: 'POST', value: 'POST'});
+    options.push({name: 'PUT', value: 'PUT'});
+    options.push({name: 'PATCH', value: 'PATCH'});
+    options.push({name: 'DELETE', value: 'DELETE'});
+    options.push({name: 'OPTIONS', value: 'OPTIONS'});
+    options.push({name: 'TRACE', value: 'TRACE'});
     return options;
 }
 
@@ -150,9 +150,9 @@ export function httpMethod(): SelectOption[] {
  */
 export function dataType(): SelectOption[] {
     const options: SelectOption[] = [];
-    options.push({name: "FORM", value: "FORM"});
-    options.push({name: "JSON", value: "JSON"});
-    options.push({name: "BINARY", value: "BINARY"});
+    options.push({name: 'FORM', value: 'FORM'});
+    options.push({name: 'JSON', value: 'JSON'});
+    options.push({name: 'BINARY', value: 'BINARY'});
     return options;
 }
 
@@ -163,7 +163,7 @@ export function dataType(): SelectOption[] {
  * @param dataType 数据类型 FORM,JSON 默认JSON
  * @param httpMethod 接口请求方式 POST,GET,PUT,DELETE
  */
-export async function validDataUrl(url: string, params?: any, dataType: string = "JSON", httpMethod: string = "POST") {
+export async function validDataUrl(url: string, params?: any, dataType: string = 'JSON', httpMethod: string = 'POST') {
     const checkParams: any = {
         url,
         httpMethod: httpMethod.toUpperCase(),
@@ -183,7 +183,7 @@ export async function validDataUrl(url: string, params?: any, dataType: string =
  * @param httpMethod 请求类型
  */
 export async function redirectUrlOperation(url: string, searchInfo?: SearchInfo, params?: any,
-                                           dataType: string = "JSON", httpMethod: string = "POST") {
+                                           dataType: string = 'JSON', httpMethod: string = 'POST') {
     const checkParams: any = {
         url,
         httpMethod: httpMethod.toUpperCase(),
@@ -202,28 +202,28 @@ export const toggleDark = (val: string) => {
     // event.stopPropagation();
     // event.preventDefault();
     //
-    if (val == "dark") {
-        configStore.clearAll("Y");
-        const dark = "#141414";
-        document.documentElement.style.setProperty('--star-horse-style', dark)
-        document.documentElement.style.setProperty('--el-color-primary', dark)
-        document.documentElement.style.setProperty('--el-select-input-color', dark)
-        document.documentElement.style.setProperty('--star-horse-shadow', dark)
-        document.documentElement.style.setProperty('--star-horse-background', dark)
-        document.documentElement.style.setProperty('--el-pagination-button-color', dark)
-        document.documentElement.style.setProperty('--el-tree-expand-icon-color', dark)
+    if (val == 'dark') {
+        configStore.clearAll('Y');
+        const dark = '#141414';
+        document.documentElement.style.setProperty('--star-horse-style', dark);
+        document.documentElement.style.setProperty('--el-color-primary', dark);
+        document.documentElement.style.setProperty('--el-select-input-color', dark);
+        document.documentElement.style.setProperty('--star-horse-shadow', dark);
+        document.documentElement.style.setProperty('--star-horse-background', dark);
+        document.documentElement.style.setProperty('--el-pagination-button-color', dark);
+        document.documentElement.style.setProperty('--el-tree-expand-icon-color', dark);
 
     } else {
-        document.documentElement.style.setProperty('--star-horse-background', "#fff");
-        document.documentElement.style.setProperty('--star-horse-shadow', "#f7f7f9");
+        document.documentElement.style.setProperty('--star-horse-background', '#fff');
+        document.documentElement.style.setProperty('--star-horse-shadow', '#f7f7f9');
         configStore.clearAll();
     }
     toggle();
 
-}
+};
 
-let exclusionItems: Array<any> = ["number", "switch", "rate", "slider", "number-range",
-    "textarea", "htmleditor", "json", "json-array", "html", "signature", "markdown"];
+const exclusionItems: Array<any> = ['number', 'switch', 'rate', 'slider', 'number-range',
+    'textarea', 'htmleditor', 'json', 'json-array', 'html', 'signature', 'markdown'];
 /**
  * 批量修改公共属性
  * @param items
@@ -233,14 +233,14 @@ let exclusionItems: Array<any> = ["number", "switch", "rate", "slider", "number-
 export const batchModifyAction = (items: Array<any>, val: any, fieldName: string) => {
     for (const index in items) {
         const item = items[index];
-        if (item.compType == "container") {
+        if (item.compType == 'container') {
             const sitems = item.preps.elements;
             for (const sindex in sitems) {
                 const col = sitems[sindex];
                 if (col.columns) {
                     col.columns.forEach((temp: any) => {
                         batchModifyAction(temp.items, val, fieldName);
-                    })
+                    });
                 } else {
                     batchModifyAction(col.items, val, fieldName);
                 }
@@ -254,68 +254,68 @@ export const batchModifyAction = (items: Array<any>, val: any, fieldName: string
 
         }
     }
-}
+};
 
 
 /**
  * 公共字段
  */
 export function commonField() {
-    let fields: FieldInfo[] = [];
+    const fields: FieldInfo[] = [];
     fields.push({
-        label: "创建人", fieldName: "createdBy", type: "input",
+        label: '创建人', fieldName: 'createdBy', type: 'input',
         formVisible: false,
         listVisible: false
     });
     fields.push({
-        label: "创建日期", fieldName: "createdDate", type: "date",
+        label: '创建日期', fieldName: 'createdDate', type: 'date',
         formVisible: false,
         listVisible: false
     });
     fields.push({
-        label: "修改人", fieldName: "updatedBy", type: "input",
+        label: '修改人', fieldName: 'updatedBy', type: 'input',
         formVisible: false,
         listVisible: false
     });
     fields.push({
-        label: "修改日期", fieldName: "updatedDate", type: "date",
+        label: '修改日期', fieldName: 'updatedDate', type: 'date',
         formVisible: false,
         listVisible: false
     });
     fields.push({
-        label: "备注", fieldName: "remark", type: "textarea",
+        label: '备注', fieldName: 'remark', type: 'textarea',
         formVisible: false,
         listVisible: false
     });
     fields.push({
-        label: "数据编号", fieldName: "dataNo", type: "input",
+        label: '数据编号', fieldName: 'dataNo', type: 'input',
         formVisible: false,
         listVisible: false
     });
     fields.push({
-        label: "数据版本号", fieldName: "version", type: "number",
-        formVisible: false,
-        listVisible: false
-    });
-
-    fields.push({
-        label: "状态", fieldName: "statusName", type: "input",
-        formVisible: false,
-        listVisible: false
-    });
-    fields.push({
-        label: "状态码", fieldName: "statusCode", type: "input",
+        label: '数据版本号', fieldName: 'version', type: 'number',
         formVisible: false,
         listVisible: false
     });
 
     fields.push({
-        label: "国际码", fieldName: "local", type: "input",
+        label: '状态', fieldName: 'statusName', type: 'input',
         formVisible: false,
         listVisible: false
     });
     fields.push({
-        label: "是否已逻辑", fieldName: "isDel", type: "number",
+        label: '状态码', fieldName: 'statusCode', type: 'input',
+        formVisible: false,
+        listVisible: false
+    });
+
+    fields.push({
+        label: '国际码', fieldName: 'local', type: 'input',
+        formVisible: false,
+        listVisible: false
+    });
+    fields.push({
+        label: '是否已逻辑', fieldName: 'isDel', type: 'number',
         formVisible: false,
         listVisible: false
     });
@@ -350,12 +350,12 @@ export function createComponent(compInfo: DyCompField) {
  * @param condition
  */
 export function removeEmptyCondition(condition: SearchParams[]): SearchParams[] {
-    let params: SearchParams[] = [];
+    const params: SearchParams[] = [];
     if (!condition || condition.length == 0) {
         return params;
     }
-    for (let a in condition) {
-        let temp = condition[a];
+    for (const a in condition) {
+        const temp = condition[a];
         if (temp && isJson(temp) && Object.keys(temp).length > 0) {
             params.push(temp);
         }
@@ -370,10 +370,10 @@ export function removeEmptyCondition(condition: SearchParams[]): SearchParams[] 
  * @param value
  */
 export function findNodesWithValue(nodes: Array<any>, valueFieldName: string, value: any) {
-    let findDdatas: Array<any> = [];
+    const findDdatas: Array<any> = [];
     const traverse = (children: Array<any>) => {
-        for (let i in children) {
-            let node = children[i];
+        for (const i in children) {
+            const node = children[i];
             if (node[valueFieldName] == value) {
                 findDdatas.push(node);
             }
@@ -381,7 +381,7 @@ export function findNodesWithValue(nodes: Array<any>, valueFieldName: string, va
                 traverse(node.children);
             }
         }
-    }
+    };
     traverse(nodes);
     return findDdatas;
 }
@@ -391,7 +391,7 @@ export function findNodesWithValue(nodes: Array<any>, valueFieldName: string, va
  * @param images
  */
 export function imagesPreview(images: Array<string> | string) {
-    let imagesUrl = Array.isArray(images) ? images : [images];
+    const imagesUrl = Array.isArray(images) ? images : [images];
     previewImage({
         images: imagesUrl, // 该属性是必填项，其他属性都是非必填。images表示图片地址数组, 也可以是一个object[], object格式为{url: '', name: '', type: '', id: ''}
         index: 1, // 初始状态显示图片的索引，默认为0
@@ -402,18 +402,18 @@ export function imagesPreview(images: Array<string> | string) {
         toolbar: true, // 是否显示工具栏，包括放大缩小、旋转、适应窗口、实际尺寸、删除、下载，默认为true
         delete: true, // 是否显示删除按钮，默认为false，当toolbar为true时生效
         onDelete: (_index: number, _url: string, _id: string | number) => { // 删除回调，默认为空函数，若不允许删除或者删除失败，返回Promise.reject即可（throw Error也可以）
-            console.log('删除', _index)
+            console.log('删除', _index);
             // return Promise.reject('无权限')
         },
         download: true, // 是否显示下载按钮，默认为false, 当toolbar为true时生效
         onDownload: (_index: number, _url: string, _id: any) => { // 下载回调，不传的话会用内置的下载方法来下载图片到本地
-            console.log('下载', _index)
+            console.log('下载', _index);
         },
         onClose: () => { // 关闭回调，默认为空，可以在此处做一些清理工作，比如在移动端解除对返回键的拦截
-            console.log('关闭')
+            console.log('关闭');
         },
         onFileClick: (_index: number, _url: string, _id: any) => { // 点击非图片格式文件的回调，可以在此处做跳转等操作
-            window.open('preview url') // 可以打开预览链接
+            window.open('preview url'); // 可以打开预览链接
         },
         clickableFileTypes: ['pdf'], // 点击非图片格式文件时，只允许点击这些文件类型，会设置hover样式，当onFileClick不为空时生效，默认为all，即所有类型都可以点击
         buttonTooltip: true, // 是否显示按钮提示，默认为true，若设为false，则不会显示按钮提示
@@ -431,9 +431,9 @@ export function imagesPreview(images: Array<string> | string) {
         deleteText: 'delete', // 删除提示，默认为’删除‘
         nextText: 'next', // 下一张提示，默认为’下一张‘
         prevText: 'prev', // 上一张提示，默认为’上一张‘
-        firstText: "It's already the first one", // 第一张提示，默认为’已到第一个‘
-        lastText: "It's already the last one", // 最后一张提示，默认为’已到最后一个‘
-        closeText: "Close" // 关闭提示，默认为’关闭‘
+        firstText: 'It\'s already the first one', // 第一张提示，默认为’已到第一个‘
+        lastText: 'It\'s already the last one', // 最后一张提示，默认为’已到最后一个‘
+        closeText: 'Close' // 关闭提示，默认为’关闭‘
     });
 
     // closeDialog() // 该方法可以关闭预览窗口，比如在移动端监听返回键，在返回键拦截的情况下，点击返回键可以调用该方法关闭预览窗口
@@ -441,7 +441,7 @@ export function imagesPreview(images: Array<string> | string) {
 
 const zIndex = ref(0);
 export const DEFAULT_INITIAL_Z_INDEX = 2000;
-export let useZIndex = (zIndexOverrides?: Ref<number>) => {
+export const useZIndex = (zIndexOverrides?: Ref<number>) => {
     const zIndexInjection = zIndexOverrides;
     const initialZIndex = computed(() => {
         const zIndexFromInjection = unref(zIndexInjection);

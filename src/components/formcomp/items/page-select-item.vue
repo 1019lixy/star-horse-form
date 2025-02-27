@@ -1,26 +1,26 @@
 <script lang="ts">
-import {defineComponent, onMounted, ref, shallowRef, watch} from "vue";
-import {PageProps} from "@/components/types/PageProps";
-import {closeLoad, createCondition, load} from "@/api/sh_api";
-import {postRequest} from "@/api/star_horse";
-import {FieldMapping, OrderByInfo} from "@/components/types/PageFieldInfo";
-import {SearchParams} from "@/components/types/Params";
-import {allAction} from "@/components/formcomp/utils/ItemRelationEventUtils.ts";
-import StarHorseTableComp from "@/components/comp/StarHorseTableComp.vue";
+import {defineComponent, onMounted, ref, shallowRef, watch} from 'vue';
+import {PageProps} from '@/components/types/PageProps';
+import {closeLoad, createCondition, load} from '@/api/sh_api';
+import {postRequest} from '@/api/star_horse';
+import {FieldMapping, OrderByInfo} from '@/components/types/PageFieldInfo';
+import {SearchParams} from '@/components/types/Params';
+import {allAction} from '@/components/formcomp/utils/ItemRelationEventUtils.ts';
+import StarHorseTableComp from '@/components/comp/StarHorseTableComp.vue';
 
 export default defineComponent({
   components: {StarHorseTableComp},
   setup(_props, context) {
-    const parentField = context.attrs["parentField"];
+    const parentField = context.attrs['parentField'];
     // let formData = context.attrs["formData"] as any;
-    const field = context.attrs["field"] as any;
+    const field = context.attrs['field'] as any;
     const starHorseTableCompRef = ref();
-    const filterCondtion = field.preps["filterCondition"] as Array<SearchParams>;
-    const orderBy = field.preps["orderBy"] as Array<OrderByInfo>;
+    const filterCondtion = field.preps['filterCondition'] as Array<SearchParams>;
+    const orderBy = field.preps['orderBy'] as Array<OrderByInfo>;
     let formItem = shallowRef({label: 'input', required: false});
-    let dataField = shallowRef("");
+    let dataField = shallowRef('');
     let multipleSelection = shallowRef<Array<any>>([]);
-    let actionName = shallowRef("keydown.enter");
+    let actionName = shallowRef('keydown.enter');
     let pageInfo = ref<PageProps>({
       pageSize: 20,
       currentPage: 1,
@@ -31,13 +31,13 @@ export default defineComponent({
 
     let searchData = shallowRef<Array<SearchParams>>([]);
     const pageSizeClick = (pageSize: number) => {
-      pageInfo.value.pageSize = pageSize
-      loadByPage()
-    }
+      pageInfo.value.pageSize = pageSize;
+      loadByPage();
+    };
     const pageChangeClick = (currentPage: number) => {
-      pageInfo.value.currentPage = currentPage
-      loadByPage()
-    }
+      pageInfo.value.currentPage = currentPage;
+      loadByPage();
+    };
 
     const loadByPage = (isInit: boolean = false) => {
       if (filterCondtion) {
@@ -48,9 +48,9 @@ export default defineComponent({
         let value = context.attrs['formData'][field.preps['aliasName'] || field.preps['name']];
         if (fieldName && value) {
           if ('Y' == field.preps['multiple']) {
-            searchData.value.push(createCondition(fieldName, Array.isArray(value) ? value : value.split(";"), "in"))
+            searchData.value.push(createCondition(fieldName, Array.isArray(value) ? value : value.split(';'), 'in'));
           } else {
-            searchData.value.push(createCondition(fieldName, value))
+            searchData.value.push(createCondition(fieldName, value));
           }
         }
       }
@@ -58,7 +58,7 @@ export default defineComponent({
       if (orderBy) {
         orderByTemp = orderBy;
       }
-      if (!field.preps["dataUrl"]?.loadByPageUrl) {
+      if (!field.preps['dataUrl']?.loadByPageUrl) {
         return;
       }
       let params: any = {
@@ -71,15 +71,15 @@ export default defineComponent({
       if (field.preps.dataUrl.redirect) {
         params = {
           url,
-          httpMethod: field.preps?.httpMethod || "POST",
-          dataType: field.preps?.dataType || "JSON",
+          httpMethod: field.preps?.httpMethod || 'POST',
+          dataType: field.preps?.dataType || 'JSON',
           searchInfo: params
-        }
-        url = "/system-config/redirect/pageList";
+        };
+        url = '/system-config/redirect/pageList';
       }
       load('数据加载中');
       postRequest(url, params).then((res) => {
-        let redata = res.data.data
+        let redata = res.data.data;
         pageInfo.value.dataList = redata.dataList;
         pageInfo.value.totalPage = redata.totalPages;
         pageInfo.value.totalData = redata.totalDatas;
@@ -88,9 +88,9 @@ export default defineComponent({
         //   context.attrs['formData'][field.preps["name"]] = redata.dataList?.map((item: any) => item[name]);
         // }
       }).catch((err) => {
-        console.log(err)
+        console.log(err);
       }).finally(() => {
-        closeLoad()
+        closeLoad();
       });
     };
     const itemAction = (prep: any) => {
@@ -101,7 +101,7 @@ export default defineComponent({
       loadByPage();
     };
     const getRowIdentity = (row: any) => {
-      return row[field.preps.primaryKey]
+      return row[field.preps.primaryKey];
     };
     const handleSelectionChange = (val: any) => {
       multipleSelection.value = val;
@@ -110,20 +110,20 @@ export default defineComponent({
     const selectRow = (row: any, _column: any, _evt: any) => {
       const selected = multipleSelection.value.some((item: any) => item[field.preps.primaryKey] === row[field.preps.primaryKey]);
       if (!selected) {
-        multipleSelection.value.push(row)
-        starHorseTableCompRef.value.toggleRowSelection(row)
+        multipleSelection.value.push(row);
+        starHorseTableCompRef.value.toggleRowSelection(row);
       } else {
-        starHorseTableCompRef.value.toggleRowSelection(row, false)
+        starHorseTableCompRef.value.toggleRowSelection(row, false);
       }
       assignVal();
     };
     const loadSourceField = (aliasFirst: boolean = true) => {
-      let fields: any = field.preps["needField"];
+      let fields: any = field.preps['needField'];
       let name = aliasFirst ? field.preps['aliasName'] || field.preps['name'] : field.preps['name'];
-      return fields?.find((temp: FieldMapping) => temp.distField == name)?.sourceField || "";
-    }
+      return fields?.find((temp: FieldMapping) => temp.distField == name)?.sourceField || '';
+    };
     const assignVal = () => {
-      let fields: any = field.preps["needField"];
+      let fields: any = field.preps['needField'];
       let name = field.preps['name'];
       if (fields) {
         fields.forEach((temp: FieldMapping) => {
@@ -140,18 +140,18 @@ export default defineComponent({
       } else {
         context.attrs['formData'][name] = multipleSelection.value.map(item => item[name]);
       }
-      if (field.preps["recall"]) {
-        field.preps["recall"](multipleSelection.value);
+      if (field.preps['recall']) {
+        field.preps['recall'](multipleSelection.value);
       }
     };
-    watch(() => field.preps["dataUrl"],
+    watch(() => field.preps['dataUrl'],
         () => {
-          loadByPage()
+          loadByPage();
         });
     onMounted(() => {
-       actionName.value = field.preps?.actionName || "keydown.enter";;
+       actionName.value = field.preps?.actionName || 'keydown.enter';;
       loadByPage(true);
-      if (!context.attrs["isSearch"]) {
+      if (!context.attrs['isSearch']) {
         allAction(context, actionName.value, true);
       }
     });
@@ -159,7 +159,7 @@ export default defineComponent({
       parentField, context, field, formItem,
       dataField, itemAction, actionName, pageInfo, pageSizeClick, pageChangeClick
       , getRowIdentity, searchDataFun, handleSelectionChange, starHorseTableCompRef, selectRow
-    }
+    };
   }
 });
 </script>

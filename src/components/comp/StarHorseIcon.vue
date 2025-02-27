@@ -4,17 +4,17 @@ import {computed} from 'vue';
 const props = defineProps({
   iconClass: {type: String, required: true,},
   className: {type: String,},
-  title: {type: String, default: "",},
-  size: {type: String, default: "20px"},
+  title: {type: String, default: '',},
+  size: {type: String, default: '20px'},
   // 图标是否有边框
   boxShow: {type: Boolean, default: false},
   border: {type: Boolean, default: false},
-  color: {type: String, default: "var(--star-horse-style)"},
-  cursor: {type: String, default: "default"}
+  color: {type: String, default: 'var(--star-horse-style)'},
+  cursor: {type: String, default: 'default'}
 });
 const iconName = computed(() => `#icon-${props.iconClass}`);
 const svgClass = computed(() => {
-  let cls = props.border ? "svg-icon icon-border" : props.boxShow ? "svg-icon icon-cls" : "svg-icon";
+  let cls = props.border ? 'svg-icon icon-border' : props.boxShow ? 'svg-icon icon-cls' : 'svg-icon';
   if (props.className) {
     return cls + props.className;
   } else {

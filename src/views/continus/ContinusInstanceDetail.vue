@@ -1,13 +1,13 @@
 <script setup lang="ts" name="ContinusInstanceDetail">
-import InstanceItemDetail from "@/views/continus/InstanceItemDetail.vue";
-import Compliance from "@/views/continus/nodeDetail/Compliance.vue";
+import InstanceItemDetail from '@/views/continus/InstanceItemDetail.vue';
+import Compliance from '@/views/continus/nodeDetail/Compliance.vue';
 
 const execLine = () => {
-  console.log("执行");
-}
+  console.log('执行');
+};
 const nodeDetail = (id: number) => {
 
-}
+};
 </script>
 
 <template>

@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import {nextTick, onMounted, PropType, ref, watch} from "vue";
-import {UserFuncInfo} from "@/components/types/PageFieldInfo";
-import {BtnHideCondition} from "@/components/types/Params";
-import {Config} from "@/api/settings.ts";
+import {nextTick, onMounted, PropType, ref, watch} from 'vue';
+import {UserFuncInfo} from '@/components/types/PageFieldInfo';
+import {BtnHideCondition} from '@/components/types/Params';
+import {Config} from '@/api/settings.ts';
 
 const props = defineProps({
   //按钮列表
@@ -31,7 +31,7 @@ const init = () => {
       validButtonList.value.push(temp);
     }
   }
-}
+};
 
 /**
  * 判断按钮是否需要隐藏
@@ -60,12 +60,12 @@ const btnHideCheck = (btn: string, row: any) => {
     }
   }
   return hasBtn ? flag : true;
-}
+};
 onMounted(() => {
   nextTick(() => {
     init();
   });
-})
+});
 </script>
 
 <template>

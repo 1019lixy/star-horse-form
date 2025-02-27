@@ -48,19 +48,19 @@
   </starhorse-form-item>
 </template>
 <script lang="ts">
-import {defineComponent, shallowRef, onMounted, nextTick, ref, watch} from "vue";
-import {getToken} from "@/utils/auth.ts";
+import {defineComponent, shallowRef, onMounted, nextTick, ref, watch} from 'vue';
+import {getToken} from '@/utils/auth.ts';
 
 export default defineComponent({
-  emits: ["selectItem", "selfFunc"],
+  emits: ['selectItem', 'selfFunc'],
   setup(_props, context) {
-    const parentField = context.attrs["parentField"];
-    const field = context.attrs["field"] as any;
+    const parentField = context.attrs['parentField'];
+    const field = context.attrs['field'] as any;
     let formItem = shallowRef({label: 'input', required: false});
     let dataField = shallowRef([]);
     let headers = ref<any>({});
     const selfAction = (prep: any, uploadFile: any, uploadFiles: any = [], param: any = {}) => {
-      if (prep == "success") {
+      if (prep == 'success') {
         let result = param.data;
         context.attrs['formData'][field.preps['name']] = result.path;
         //默认将上传成功的属性存入数据对象
@@ -78,22 +78,22 @@ export default defineComponent({
       await nextTick();
       let datas = context.attrs['formData'][field.preps['name']];
       if (datas) {
-        dataField.value.push({url: (field.preps["context"] || '/system-config') + datas});
+        dataField.value.push({url: (field.preps['context'] || '/system-config') + datas});
       }
       let temp = field.preps?.headers;
       if (temp && Object.keys(temp).length > 0) {
         headers.value = temp;
       }
-      headers.value["token"] = getToken();
+      headers.value['token'] = getToken();
     });
     watch(() => context.attrs['formFieldList'],
         (val: any) => {
           if (val && Object.keys(val).includes(field.preps['name'])) {
-            dataField.value = [{url: (field.preps["context"] || '/system-config') + val[field.preps['name']]}];
+            dataField.value = [{url: (field.preps['context'] || '/system-config') + val[field.preps['name']]}];
           }
         },
-        {immediate: true, deep: true})
-    return {parentField, context, field, formItem, dataField, selfAction, headers}
+        {immediate: true, deep: true});
+    return {parentField, context, field, formItem, dataField, selfAction, headers};
   }
 });
 </script>

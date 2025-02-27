@@ -10,8 +10,8 @@
   </div>
 </template>
 <script setup lang="ts">
-import {ref} from "vue";
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
+import {ref} from 'vue';
+import StarHorseIcon from '@/components/comp/StarHorseIcon.vue';
 
 defineProps({
   node: {
@@ -27,8 +27,8 @@ defineProps({
 let isInput = ref<boolean>(false);
 const clickEvent = () => {
   isInput.value = true;
-}
+};
 const blurEvent = () => {
   isInput.value = false;
-}
+};
 </script>

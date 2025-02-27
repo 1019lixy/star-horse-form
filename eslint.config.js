@@ -1,33 +1,37 @@
-import globals from "globals";
-import pluginJs from "@eslint/js";
-import tseslint from "typescript-eslint";
-import pluginVue from "eslint-plugin-vue";
-
+import js from '@eslint/js';
+import globals from 'globals';
+import vueParser from 'vue-eslint-parser';
+import vuePlugin from 'eslint-plugin-vue';
 
 export default [
-    {files: ["**/*.{js,mjs,cjs,ts,tsx,vue}"]},
     {
+        files: ['**/*.vue', '**/*.js', '**/*.ts'],
+        ignores: ['node_modules/', 'dist/'],
         languageOptions: {
-            globals: globals.browser,
-            ecmaVersion: 12,
-            sourceType: "module"
-        }
-    },
-    pluginJs.configs.recommended,
-    ...tseslint.configs.recommended,
-    ...pluginVue.configs["flat/essential"],
-    {
-        files: ["**/*.vue"],
-        languageOptions: {
+            ecmaVersion: 'latest',
+            sourceType: 'module',
+            globals: {
+                ...globals.browser,
+                ...globals.node,
+                process: 'readonly'
+            },
+            parser: vueParser,
             parserOptions: {
-                parser: tseslint.parser
+                parser: '@typescript-eslint/parser',
+                extraFileExtensions: ['.vue']
             }
+        },
+        plugins: {
+            vue: vuePlugin
+        },
+        rules: {
+            ...js.configs.recommended.rules,
+            'vue/multi-word-component-names': 'off',
+            'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+            'no-unused-vars': 'off',
+            '@typescript-eslint/no-unused-vars': 'off',
+            'quotes': ['error', 'single'],
+            'semi': ['error', 'always']
         }
-    },
-    {
-        ignores:[
-            "**/dist",
-            "**/node_modules"
-        ]
     }
 ];

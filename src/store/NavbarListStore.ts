@@ -1,9 +1,9 @@
-import {defineStore} from "pinia";
-import router from "@/router/index";
-import {RouteLocationNormalizedLoaded} from "vue-router";
-import {ref} from "vue";
+import {defineStore} from 'pinia';
+import router from '@/router/index';
+import {RouteLocationNormalizedLoaded} from 'vue-router';
+import {ref} from 'vue';
 
-export const navBarList = defineStore("navBarList", () => {
+export const navBarList = defineStore('navBarList', () => {
     const currentView = ref<RouteLocationNormalizedLoaded<any>>({});
     const navTagsList = ref<RouteLocationNormalizedLoaded[]>([]);
 
@@ -13,15 +13,15 @@ export const navBarList = defineStore("navBarList", () => {
      */
     const setCurrentView = (view: RouteLocationNormalizedLoaded) => {
         currentView.value = view;
-    }
+    };
     const updateVisitedView = (view: RouteLocationNormalizedLoaded) => {
         for (let v of navTagsList.value) {
             if (v.path === view.path) {
-                v = Object.assign(v, view)
-                break
+                v = Object.assign(v, view);
+                break;
             }
         }
-    }
+    };
     /**
      * 添加数据
      * @param  data
@@ -31,13 +31,13 @@ export const navBarList = defineStore("navBarList", () => {
         const nav = dataList.find((item: RouteLocationNormalizedLoaded) => item.path === data.path);
         // @ts-ignore
         if (!nav) {
-            if (data.name == "Index" || data.name == "Home") {
+            if (data.name == 'Index' || data.name == 'Home') {
                 dataList.splice(0, 0, data);
             } else {
                 dataList.push(data);
             }
         }
-    }
+    };
     /**
      * 清除数据
      */
@@ -48,7 +48,7 @@ export const navBarList = defineStore("navBarList", () => {
         // const len = dataList.length - 1;
         dataList.splice(index, 1);
         //   (index == len || isActive) && router.push({path: dataList[dataList.length - 1]["path"]})
-    }
+    };
     /**
      * 切换Tab
      * @param {number} data
@@ -63,23 +63,23 @@ export const navBarList = defineStore("navBarList", () => {
              * @type {{ [x: string]: any; }}
              */
             const temp = dataList[i];
-            if (currentPath == temp["path"]) {
+            if (currentPath == temp['path']) {
                 index = i + data;
                 break;
             }
         }
         index = index < 0 ? 0 : index >= len ? len - 1 : index;
-        router.push({path: dataList[index]["path"]})
-    }
+        router.push({path: dataList[index]['path']});
+    };
     /**
      * 清空对象
      */
     const clearAll = () => {
-        const route = navTagsList.value.find(item => item.path == "/home");
+        const route = navTagsList.value.find(item => item.path == '/home');
         if (route) {
             navTagsList.value = [route];
         }
-    }
+    };
     return {
         currentView,
         navTagsList,
@@ -89,5 +89,5 @@ export const navBarList = defineStore("navBarList", () => {
         clearNavItem,
         changeTab,
         clearAll
-    }
+    };
 });

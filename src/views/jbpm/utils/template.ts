@@ -29,6 +29,6 @@ xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
         </bpmndi:BPMNPlane>
       </bpmndi:BPMNDiagram>
     </bpmn:definitions>`;
-}
+};
 
 export {flowTemplate};

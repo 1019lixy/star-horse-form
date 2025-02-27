@@ -31,27 +31,27 @@
   </starhorse-form-item>
 </template>
 <script lang="ts">
-import {defineComponent, onMounted, shallowRef} from "vue";
-import {compDynamicData} from "@/api/sh_api.ts";
-import {SelectOption} from "@/components/types/SearchProps";
-import {allAction} from "@/components/formcomp/utils/ItemRelationEventUtils.ts";
+import {defineComponent, onMounted, shallowRef} from 'vue';
+import {compDynamicData} from '@/api/sh_api.ts';
+import {SelectOption} from '@/components/types/SearchProps';
+import {allAction} from '@/components/formcomp/utils/ItemRelationEventUtils.ts';
 
 export default defineComponent({
   setup(_props, context) {
-    const parentField = context.attrs["parentField"];
+    const parentField = context.attrs['parentField'];
 
-    const field = context.attrs["field"] as any;
+    const field = context.attrs['field'] as any;
     let formItem = shallowRef({label: 'input', required: false});
-    let dataField = shallowRef("");
-    let actionName = shallowRef("keydown.enter");
+    let dataField = shallowRef('');
+    let actionName = shallowRef('keydown.enter');
     let bakeData: SelectOption[] = [];
     const itemAction = (prep: string) => {
       allAction(context, prep);
     };
     const initData = async () => {
-      field.preps["values"] = await compDynamicData(field.preps);
-      bakeData = JSON.parse(JSON.stringify(field.preps["values"]));
-    }
+      field.preps['values'] = await compDynamicData(field.preps);
+      bakeData = JSON.parse(JSON.stringify(field.preps['values']));
+    };
 
     // let bakeQueryString
     const querySearch = async (_queryString: string, _item: Record<string, any>) => {
@@ -79,19 +79,19 @@ export default defineComponent({
       //temp['values'] = queryString ? temp['values'].filter(createFilter(queryString)) : temp['values'];
       // }
       // return item.initial.toLowerCase().includes(queryString.toLowerCase());
-    }
+    };
 
     onMounted(() => {
       initData();
-       actionName.value = field.preps?.actionName || "keydown.enter";;
-      if (!context.attrs["isSearch"]) {
+       actionName.value = field.preps?.actionName || 'keydown.enter';;
+      if (!context.attrs['isSearch']) {
         allAction(context, actionName.value, true);
       }
     });
     return {
       parentField, context, field, formItem,
       dataField, itemAction, actionName, querySearch
-    }
+    };
   }
 });
 </script>

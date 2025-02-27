@@ -28,7 +28,7 @@
   </el-card>
 </template>
 <script setup lang="ts">
-import {onMounted, ref} from "vue";
+import {onMounted, ref} from 'vue';
 
 let general = ref<string>('a');
 let visible = ref<boolean>(true);
@@ -76,7 +76,7 @@ onMounted(() => {
   // lineNumbersMinChars: 5, // 行号最小字符   number
   // readOnly: false, //是否只读  取值 true | false
   // });
-})
+});
 
 </script>
 <style lang="scss" scoped>

@@ -1,27 +1,27 @@
 <script setup lang="ts">
-import {computed, ComputedRef, nextTick, onMounted, ref, unref} from "vue";
-import {warning} from "@/utils/message.ts";
-import {initDbList, openDatabase, tableColumns} from "@/views/dbsearch/utils/DbSearchUtils.ts";
-import {convertToCamelCase, isJson} from "@/api/sh_api.ts";
-import {DesignForm} from "@/store/DesignFormStore.ts";
-import piniaInstance from "@/store";
-import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
-import Help from "@/components/help.vue";
-import {PageFieldInfo} from "@/components/types/PageFieldInfo.d.ts";
-import {SelectOption} from "@/components/types/SearchProps.d.ts";
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-import StarHorseDialog from "@/components/comp/StarHorseDialog.vue";
-import {BtnAuth} from "@/components/types/BtnAuth";
+import {computed, ComputedRef, nextTick, onMounted, ref, unref} from 'vue';
+import {warning} from '@/utils/message.ts';
+import {initDbList, openDatabase, tableColumns} from '@/views/dbsearch/utils/DbSearchUtils.ts';
+import {convertToCamelCase, isJson} from '@/api/sh_api.ts';
+import {DesignForm} from '@/store/DesignFormStore.ts';
+import piniaInstance from '@/store';
+import {GlobalConfig} from '@/store/GlobalConfigStore.ts';
+import Help from '@/components/help.vue';
+import {PageFieldInfo} from '@/components/types/PageFieldInfo.d.ts';
+import {SelectOption} from '@/components/types/SearchProps.d.ts';
+import StarHorseIcon from '@/components/comp/StarHorseIcon.vue';
+import StarHorseDialog from '@/components/comp/StarHorseDialog.vue';
+import {BtnAuth} from '@/components/types/BtnAuth';
 
 let configStore = GlobalConfig(piniaInstance);
 let designForm = DesignForm(piniaInstance);
 let allFormDataList = computed(() => designForm.allFormDataList);
-let compSize = computed(() => configStore.configFormInfo?.buttonSize || "small");
+let compSize = computed(() => configStore.configFormInfo?.buttonSize || 'small');
 let dbIndex = ref<any>(null);
 let formData: ComputedRef<any> = computed(() => designForm.formData);
 let compList = computed(() => designForm.compList);
-const filterTableName = ref<string>("");
-const tbTab = ref<string>("tb1");
+const filterTableName = ref<string>('');
+const tbTab = ref<string>('tb1');
 let assignDataList = ref<Array<any>>([]);
 let selectFields = ref<Array<SelectOption>>([]);
 let dbList = ref<any>([]);
@@ -34,7 +34,7 @@ let containerTypeList = computed(() => {
     temp.push({
       name: item.itemName,
       value: item.itemType
-    })
+    });
   });
   return temp;
 });
@@ -48,31 +48,31 @@ const fieldCompTypesMsg = `类型操作提示：
    将字符串类型的字段映射为单行文本框组件；
    将日期类型映射为日期选择器组件；
 2、如果字段有特色业务需要，则可以将字段配置为对应的组件类型`;
-let columnsContr = ref<string>("Y");
-let added = ref<string>("N");
+let columnsContr = ref<string>('Y');
+let added = ref<string>('N');
 /**
  * 判断列数是否需要禁用
  * @param val
  */
 const containerTypeOperation = (val: any) => {
-  columnsContr.value = val['containerType'] == 'box' ? "N" : "Y"
-}
+  columnsContr.value = val['containerType'] == 'box' ? 'N' : 'Y';
+};
 let dataFieldInfo = ref<PageFieldInfo>({
   fieldList: [
     [{
-      label: "展示方式",
-      fieldName: "containerType",
-      type: "select",
+      label: '展示方式',
+      fieldName: 'containerType',
+      type: 'select',
       optionList: containerTypeList,
       formVisible: true,
       listVisible: true,
-      actionNames: "change",
+      actionNames: 'change',
       actions: (val: any) => containerTypeOperation(val)
     }, {
-      label: "列数",
-      fieldName: "columns",
-      type: "number",
-      helpMsg: "一行展示几列,展示方式为栅格时有效",
+      label: '列数',
+      fieldName: 'columns',
+      type: 'number',
+      helpMsg: '一行展示几列,展示方式为栅格时有效',
       formVisible: true,
       listVisible: true,
       disabled: columnsContr,
@@ -85,10 +85,10 @@ let dataFieldInfo = ref<PageFieldInfo>({
     }]
     ,
     {
-      label: "排除字段",
-      fieldName: "exclusionFields",
-      type: "select",
-      multiple: "Y",
+      label: '排除字段',
+      fieldName: 'exclusionFields',
+      type: 'select',
+      multiple: 'Y',
       optionList: selectFields,
       formVisible: true,
       listVisible: true,
@@ -96,20 +96,20 @@ let dataFieldInfo = ref<PageFieldInfo>({
     {
       batchFieldList: [
         {
-          batchName: "fieldCompTypes",
-          title: "字段类型",
+          batchName: 'fieldCompTypes',
+          title: '字段类型',
           helpMsg: fieldCompTypesMsg,
           fieldList: [{
-            label: "字段",
-            fieldName: "fieldName",
-            type: "select",
+            label: '字段',
+            fieldName: 'fieldName',
+            type: 'select',
             optionList: selectFields,
             formVisible: true,
             listVisible: true,
           }, {
-            label: "组件类型",
-            fieldName: "fieldType",
-            type: "select",
+            label: '组件类型',
+            fieldName: 'fieldType',
+            type: 'select',
             optionList: allFormDataList,
             formVisible: true,
             listVisible: true,
@@ -131,19 +131,19 @@ const contextOperation = async (evt: Event, data: any, _index: number) => {
   // dataForm.value = {...data};
   containerTypeOperation(data);
   await nextTick();
-  added.value = data["added"];
+  added.value = data['added'];
   tableFieldInfoRef.value.setFormData(currentData.value);
-}
+};
 const dataReset = () => {
   //dataForm.value = {...currentData.value};
   tableFieldInfoRef.value.setFormData(currentData.value);
-}
+};
 const tableSubmit = async (addFlag: boolean = false) => {
   let data = tableFieldInfoRef.value.getFormData();
-  currentData.value["containerType"] = unref(data)["containerType"];
-  currentData.value["columns"] = unref(data)["columns"];
-  currentData.value["exclusionFields"] = unref(data)["exclusionFields"];
-  currentData.value["fieldCompTypes"] = unref(data)["fieldCompTypes"];
+  currentData.value['containerType'] = unref(data)['containerType'];
+  currentData.value['columns'] = unref(data)['columns'];
+  currentData.value['exclusionFields'] = unref(data)['exclusionFields'];
+  currentData.value['fieldCompTypes'] = unref(data)['fieldCompTypes'];
   tableOperClose();
   if (addFlag) {
     let datas = await onDataCopy(currentData.value);
@@ -151,26 +151,26 @@ const tableSubmit = async (addFlag: boolean = false) => {
     designForm.addComp(datas);
     if (datas instanceof Array) {
       let temp = datas[datas.length - 1];
-      designForm.selectItem(temp, temp["itemType"], "");
+      designForm.selectItem(temp, temp['itemType'], '');
     } else {
-      designForm.selectItem(datas, datas["itemType"], "");
+      designForm.selectItem(datas, datas['itemType'], '');
     }
   }
-}
+};
 const tableOperClose = () => {
   // dataForm.value = {};
   currentDataVisible.value = false;
-}
+};
 const openDb = () => {
-  if (!dbIndex.value || dbIndex.value == "undefined") {
+  if (!dbIndex.value || dbIndex.value == 'undefined') {
     return;
   }
   openDatabase(dbIndex.value)?.then((res: any) => {
     tableAndColumnsList.value = res;
     tableAndColumnsList.value.forEach((item: any) => {
       item['visible'] = false;
-      item['containerType'] = "box";
-      item["columns"] = configData.value.columns;
+      item['containerType'] = 'box';
+      item['columns'] = configData.value.columns;
     });
     assignDataList.value = tableAndColumnsList.value;
   });
@@ -182,8 +182,8 @@ const selectFieldsOperation = (datas: any) => {
     selectFields.value.push({
       name: item.fieldName + '(' + item.comment + ')',
       value: item.fieldName
-    })
-  })
+    });
+  });
 };
 const tableField = async (tableName: string) => {
   let fdata = tableAndColumnsList.value.find((item: any) => item.tableName == tableName);
@@ -208,12 +208,12 @@ const init = async () => {
   dbList.value = await initDbList();
 };
 const getDefaultVal = (type: string) => {
-  if (type == "number" || type == "slider" || type == "rate") {
+  if (type == 'number' || type == 'slider' || type == 'rate') {
     return undefined;
-  } else if (type == "checkbox" || type == "transfer") {
+  } else if (type == 'checkbox' || type == 'transfer') {
     return [];
   } else {
-    return "";
+    return '';
   }
 };
 const getFieldType = (item: any, fieldCompTypes: Array<any>) => {
@@ -224,14 +224,14 @@ const getFieldType = (item: any, fieldCompTypes: Array<any>) => {
     }
   }
   let type = item.type.toLowerCase();
-  if (type.includes("varchar") || type.includes("character")) {
-    return "input";
-  } else if (type.includes("number") || type.includes("int") || type.includes("bigint") || type.includes("serial")) {
-    return "number";
-  } else if (type.includes("date") || type.includes("datetime") || type.includes("timestamp")) {
-    return "datetime";
+  if (type.includes('varchar') || type.includes('character')) {
+    return 'input';
+  } else if (type.includes('number') || type.includes('int') || type.includes('bigint') || type.includes('serial')) {
+    return 'number';
+  } else if (type.includes('date') || type.includes('datetime') || type.includes('timestamp')) {
+    return 'datetime';
   }
-  return "input";
+  return 'input';
 };
 const onDataCopy = async (data: any) => {
   console.log(data, data.tableName);
@@ -247,19 +247,19 @@ const onDataCopy = async (data: any) => {
   let config = unref(configData);
   let formInfo: any = {
     tbName: tableName,
-    formName: data.comment || "",
-    needCommonFields: data.commonFieldFlag == "Y" ? "Y" : configData.value.commonFieldFlag == "Y" ? "Y" : "N"
+    formName: data.comment || '',
+    needCommonFields: data.commonFieldFlag == 'Y' ? 'Y' : configData.value.commonFieldFlag == 'Y' ? 'Y' : 'N'
   };
-  data["added"] = "Y";
+  data['added'] = 'Y';
   for (let i in fieldList) {
     let reData = fieldList[i];
     let fieldName: string = convertToCamelCase(reData.fieldName.toLowerCase())!;
-    let ms = formData.value["index"]++;
-    if (reData.commonFieldFlag?.toLowerCase() == "y" && config.commonFieldFlag?.toLowerCase() == "n") {
+    let ms = formData.value['index']++;
+    if (reData.commonFieldFlag?.toLowerCase() == 'y' && config.commonFieldFlag?.toLowerCase() == 'n') {
       continue;
     }
-    if (reData.primaryKey?.toLowerCase() == "y") {
-      formInfo["formId"] = fieldName;
+    if (reData.primaryKey?.toLowerCase() == 'y') {
+      formInfo['formId'] = fieldName;
       continue;
     }
     //如果有过滤的字段，则跳过
@@ -272,60 +272,60 @@ const onDataCopy = async (data: any) => {
     /**
      * 处理preps
      */
-    mvData["preps"] = {
-      clearable: "N",
-      comment: "",
-      controls: "Y",
-      required: reData["nullFlag"] == "n" ? "Y" : "N",
-      controlsPosition: "",
-      disabled: "N",
-      formVisible: "Y",
-      placeholder: "",
+    mvData['preps'] = {
+      clearable: 'N',
+      comment: '',
+      controls: 'Y',
+      required: reData['nullFlag'] == 'n' ? 'Y' : 'N',
+      controlsPosition: '',
+      disabled: 'N',
+      formVisible: 'Y',
+      placeholder: '',
     };
     mvData['itemType'] = getFieldType(reData, data.fieldCompTypes);
     mvData.preps['id'] = mvData['id'];
     let labelName = reData.comment;
     if (labelName && isJson(labelName)) {
-      labelName = labelName.replaceAll("“", "\"");
-      labelName = labelName.replaceAll("”", "\"");
+      labelName = labelName.replaceAll('“', '"');
+      labelName = labelName.replaceAll('”', '"');
       try {
         let jsonData = JSON.parse(labelName);
-        labelName = jsonData ["desc"];
+        labelName = jsonData ['desc'];
       } catch (e) {
-        labelName = "属性";
+        labelName = '属性';
       }
     }
     mvData.preps['label'] = labelName;
     mvData.preps['itemNameLabel'] = labelName;
     mvData.preps['name'] = fieldName;
     formData.value[fieldName] = getDefaultVal(mvData['itemType']);
-    mvData['compType'] = "formItem";
+    mvData['compType'] = 'formItem';
     mvDataList.push(mvData);
   }
   if (compLength == 0 || compLength == 1) {
     designForm.setFormInfo(formInfo);
   }
   let elements = [];
-  if ((config.columns > 1 || data.columns > 1) && data.containerType == "box") {
+  if ((config.columns > 1 || data.columns > 1) && data.containerType == 'box') {
     let boxColumns = data.columns > 1 ? data.columns : config.columns;
-    let boxId = "box" + formData.value["index"]++;
+    let boxId = 'box' + formData.value['index']++;
     let box: any = {
       id: boxId,
-      compType: "container",
-      itemType: "box",
+      compType: 'container',
+      itemType: 'box',
       preps: {
         id: boxId,
-        "formVisible": "N",
-        "gutter": 0,
-        "justify": "start",
-        "readonly": "N",
-        "required": "N",
-        "searchVisible": "N",
-        "size": "small",
-        "listVisible": "N",
-        "tag": "div",
-        label: "栅格",
-        name: "box",
+        'formVisible': 'N',
+        'gutter': 0,
+        'justify': 'start',
+        'readonly': 'N',
+        'required': 'N',
+        'searchVisible': 'N',
+        'size': 'small',
+        'listVisible': 'N',
+        'tag': 'div',
+        label: '栅格',
+        name: 'box',
       }
     };
     let col = parseInt(boxColumns);
@@ -345,34 +345,34 @@ const onDataCopy = async (data: any) => {
         rowIndex: r,
         columns: columns,
         xh: r
-      })
+      });
     }
-    box.preps["elements"] = elements;
+    box.preps['elements'] = elements;
     designForm.setDraggingItem(mvDataList[0]);
     return box;
-  } else if (data.containerType == "table") {
-    let tableId = "table" + formData.value["index"]++;
+  } else if (data.containerType == 'table') {
+    let tableId = 'table' + formData.value['index']++;
     let table: any = {
       id: tableId,
-      compType: "container",
-      itemType: "table",
+      compType: 'container',
+      itemType: 'table',
       preps: {
         id: tableId,
-        "align": "top",
-        "batchFieldName": convertToCamelCase(tableName),
-        "primaryKeyName": formInfo.formId,
-        "columns": mvDataList.length,
-        "comment": "",
-        "formVisible": "N",
-        "readonly": "N",
-        "required": "N",
-        "searchVisible": "N",
-        "size": "small",
-        "listVisible": "N",
-        label: "动态列表",
-        templateDownFlag: "N",
-        importFlag: "N",
-        name: "table",
+        'align': 'top',
+        'batchFieldName': convertToCamelCase(tableName),
+        'primaryKeyName': formInfo.formId,
+        'columns': mvDataList.length,
+        'comment': '',
+        'formVisible': 'N',
+        'readonly': 'N',
+        'required': 'N',
+        'searchVisible': 'N',
+        'size': 'small',
+        'listVisible': 'N',
+        label: '动态列表',
+        templateDownFlag: 'N',
+        importFlag: 'N',
+        name: 'table',
       }
     };
     for (let index in mvDataList) {
@@ -380,9 +380,9 @@ const onDataCopy = async (data: any) => {
       elements.push({
         colIndex: parseInt(index) + 1,
         items: [temp]
-      })
+      });
     }
-    table.preps["elements"] = elements;
+    table.preps['elements'] = elements;
     designForm.setDraggingItem(mvDataList[0]);
     return table;
   } else {
@@ -405,16 +405,16 @@ const configMsg = `操作指引：
 const dynamicBtn = () => {
   let userBtn: BtnAuth[] = [];
   userBtn.push({
-    btnName: "add",
-    labelName: "添加",
-    icon: "add",
+    btnName: 'add',
+    labelName: '添加',
+    icon: 'add',
     disabled: added.value,
     exec: () => {
       tableSubmit(true);
     }
   });
   return userBtn;
-}
+};
 onMounted(() => {
   init();
 });

@@ -1,7 +1,7 @@
-import {reactive, Ref, ref} from "vue";
-import {PageFieldInfo} from "@/components/types/PageFieldInfo";
-import {SelectOption} from "@/components/types/SearchProps";
-import {searchMatchList} from "@/api/sh_api.ts";
+import {reactive, Ref, ref} from 'vue';
+import {PageFieldInfo} from '@/components/types/PageFieldInfo';
+import {SelectOption} from '@/components/types/SearchProps';
+import {searchMatchList} from '@/api/sh_api.ts';
 
 const tableVisible = ref<boolean>(true);
 const relationRequired = ref<boolean>(false);
@@ -13,7 +13,7 @@ const tableList = ref<SelectOption[]>([]);
 export const line_height = 24;
 export const table_width = 320;
 export const consumerNodeData: any = {
-    portName: "erPortPosition",
+    portName: 'erPortPosition',
     name: 'er-rect',
     entity: {
         inherit: 'rect',
@@ -84,7 +84,7 @@ export const consumerNodeData: any = {
                             refX: 6,
                             refY: 6,
                             fontSize: 10,
-                            ref: "portBody",
+                            ref: 'portBody',
                             textWrap: {
                                 width: 78,
                                 ellipsis: true,
@@ -98,7 +98,7 @@ export const consumerNodeData: any = {
                            fontSize: 10,
                          },*/
                         comment: {
-                            ref: "portBody",
+                            ref: 'portBody',
                             refX: 150,
                             refY: 6,
                             fontSize: 10,
@@ -141,132 +141,132 @@ export function viewFieldInfo(viewTypeList: Ref<SelectOption[]>, consumeAuthorit
             lineDatas[table.from].push({
                 name: item.comment || item.fieldName,
                 value: item.fieldName
-            })
+            });
         });
     }
     return reactive<PageFieldInfo>({
         fieldList: [
             [
                 {
-                    label: "视图名称", fieldName: "viewName", type: "input",
+                    label: '视图名称', fieldName: 'viewName', type: 'input',
                     required: true, formVisible: true,
                 },
                 {
-                    label: "视图类型", fieldName: "viewType", type: "select",
+                    label: '视图类型', fieldName: 'viewType', type: 'select',
                     required: true, formVisible: true,
                     optionList: viewTypeList,
                 },
             ],
             [{
-                label: "消费权限", fieldName: "consumeAuthority", type: "select",
+                label: '消费权限', fieldName: 'consumeAuthority', type: 'select',
                 optionList: consumeAuthorityList,
                 required: true, formVisible: true,
             }, {
-                label: "单次最大数量", fieldName: "dataLimits", type: "number",
+                label: '单次最大数量', fieldName: 'dataLimits', type: 'number',
                 required: true, formVisible: true,
                 min: 1,
                 defaultValue: 100,
             },],
             [{
-                label: "是否认证", fieldName: "isAudit", type: "switch",
+                label: '是否认证', fieldName: 'isAudit', type: 'switch',
                 formVisible: true,
-                defaultValue: "N",
+                defaultValue: 'N',
             }, {
-                label: "是否去重", fieldName: "isDistinct", type: "switch",
+                label: '是否去重', fieldName: 'isDistinct', type: 'switch',
                 formVisible: true,
-                defaultValue: "N",
+                defaultValue: 'N',
             },],
             [{
-                label: "是否需要公共字段", fieldName: "isCommonField", type: "switch",
+                label: '是否需要公共字段', fieldName: 'isCommonField', type: 'switch',
                 formVisible: true,
-                defaultValue: "N",
-                helpMsg: "如果指定返回字段，该设置失效",
+                defaultValue: 'N',
+                helpMsg: '如果指定返回字段，该设置失效',
             }, {
-                label: "是否创建菜单", fieldName: "isCreateMenu", type: "switch",
+                label: '是否创建菜单', fieldName: 'isCreateMenu', type: 'switch',
                 formVisible: true,
-                defaultValue: "N",
+                defaultValue: 'N',
             },],
             [{
-                label: "是否字段排序", fieldName: "dataSortType", type: "switch",
+                label: '是否字段排序', fieldName: 'dataSortType', type: 'switch',
                 formVisible: true,
-                defaultValue: "N",
-                actionName: "change",
+                defaultValue: 'N',
+                actionName: 'change',
                 actions: (val: any) => {
-                    sortTableVisible.value = val["dataSortType"] == "Y";
+                    sortTableVisible.value = val['dataSortType'] == 'Y';
                 },
             }, {
-                label: "是否指定返回字段", fieldName: "limitFieldType", type: "switch",
+                label: '是否指定返回字段', fieldName: 'limitFieldType', type: 'switch',
                 formVisible: true,
-                defaultValue: "N",
-                actionName: "change",
+                defaultValue: 'N',
+                actionName: 'change',
                 actions: (val: any) => {
-                    limitFieldVisible.value = val["limitFieldType"] == "Y";
+                    limitFieldVisible.value = val['limitFieldType'] == 'Y';
                 },
             },],
             {
-                label: "视图描述", fieldName: "remark", type: "textarea",
+                label: '视图描述', fieldName: 'remark', type: 'textarea',
                 formVisible: true,
             },
             {
                 batchFieldList: [{
-                    batchName: "sortFields",
-                    title: "排序方式",
+                    batchName: 'sortFields',
+                    title: '排序方式',
                     disVisible: sortTableVisible,
                     fieldList: [
                         {
-                            label: "表名", fieldName: "tableName",
-                            type: "select",
+                            label: '表名', fieldName: 'tableName',
+                            type: 'select',
                             optionList: tableList,
-                            actionName: "change",
+                            actionName: 'change',
                             actions: (val: any) => {
-                                val["fieldNameOptionList"] = lineDatas[val["tableName"]];
+                                val['fieldNameOptionList'] = lineDatas[val['tableName']];
                                 console.log(val);
                             },
                             formVisible: true,
                         },
                         {
-                            label: "属性名", fieldName: "fieldName",
-                            type: "select",
+                            label: '属性名', fieldName: 'fieldName',
+                            type: 'select',
                             formVisible: true,
                         },
                         {
-                            label: "排序方式", fieldName: "sortType",
-                            type: "select",
+                            label: '排序方式', fieldName: 'sortType',
+                            type: 'select',
                             formVisible: true,
                         },
                     ]
                 }, {
-                    batchName: "limitFields",
-                    title: "指定返回字段",
+                    batchName: 'limitFields',
+                    title: '指定返回字段',
                     disVisible: limitFieldVisible,
                     fieldList: [
                         {
-                            label: "表名", fieldName: "tableName",
-                            type: "select",
+                            label: '表名', fieldName: 'tableName',
+                            type: 'select',
                             optionList: tableList,
-                            actionName: "change",
+                            actionName: 'change',
                             actions: (val: any) => {
-                                val["fieldNameOptionList"] = lineDatas[val["tableName"]];
-                                val["exclusionFieldNameOptionList"] = lineDatas[val["tableName"]];
+                                val['fieldNameOptionList'] = lineDatas[val['tableName']];
+                                val['exclusionFieldNameOptionList'] = lineDatas[val['tableName']];
                                 console.log(val);
                             },
                             formVisible: true,
                         },
                         {
-                            label: "返回字段", fieldName: "fieldName",
-                            type: "select",
-                            helpMsg: "返回字段和排除字段设置一个",
+                            label: '返回字段', fieldName: 'fieldName',
+                            type: 'select',
+                            helpMsg: '返回字段和排除字段设置一个',
                             formVisible: true,
                             preps: {
-                                multiple: "Y",
+                                multiple: 'Y',
                             }
                         },
                         {
-                            label: "排除字段", fieldName: "exclusionFieldName",
-                            type: "select",
+                            label: '排除字段', fieldName: 'exclusionFieldName',
+                            type: 'select',
                             formVisible: true,
                             preps: {
-                                multiple: "Y",
+                                multiple: 'Y',
                             }
                         },
                     ]
@@ -276,7 +276,7 @@ export function viewFieldInfo(viewTypeList: Ref<SelectOption[]>, consumeAuthorit
     });
 }
 
-let fieldNameList = ref<SelectOption[]>([]);
+const fieldNameList = ref<SelectOption[]>([]);
 
 /**
  * 关联属性信息
@@ -289,7 +289,7 @@ export function relationFieldInfo(datas: any) {
         lineDatas[datas.from].push({
             name: item.comment || item.fieldName,
             value: item.fieldName
-        })
+        });
     });
     console.log(datas);
     lineDatas[datas.to] = [];
@@ -297,7 +297,7 @@ export function relationFieldInfo(datas: any) {
         lineDatas[datas.to].push({
             name: item.comment || item.fieldName,
             value: item.fieldName
-        })
+        });
     });
     tableList.value = [];
     tableList.value.push({
@@ -307,68 +307,68 @@ export function relationFieldInfo(datas: any) {
     tableList.value.push({
         name: datas.to,
         value: datas.to,
-    })
+    });
     return reactive<PageFieldInfo>({
         fieldList: [
             [
                 {
-                    label: "关联主表名", fieldName: "from", type: "text",
+                    label: '关联主表名', fieldName: 'from', type: 'text',
                     formVisible: true,
                 },
                 {
-                    label: "关联主表字段名", fieldName: "fromPort", type: "text",
+                    label: '关联主表字段名', fieldName: 'fromPort', type: 'text',
                     formVisible: true,
                 },
             ],
             [{
-                label: "被关联表名", fieldName: "to", type: "text",
+                label: '被关联表名', fieldName: 'to', type: 'text',
                 formVisible: true,
             }, {
-                label: "被关联表字段名", fieldName: "toPort", type: "text",
+                label: '被关联表字段名', fieldName: 'toPort', type: 'text',
                 formVisible: true,
             },],
             {
-                label: "自定义条件", fieldName: "condition", type: "switch",
+                label: '自定义条件', fieldName: 'condition', type: 'switch',
                 formVisible: true,
-                defaultValue: "N",
-                actionName: "change",
+                defaultValue: 'N',
+                actionName: 'change',
                 actions: (val: any) => {
-                    tableVisible.value = val["condition"] == "N";
-                    relationRequired.value = val["condition"] == "Y";
+                    tableVisible.value = val['condition'] == 'N';
+                    relationRequired.value = val['condition'] == 'Y';
                 },
             },
             {
                 batchFieldList: [{
-                    batchName: "conditionList",
-                    title: "自定义条件",
+                    batchName: 'conditionList',
+                    title: '自定义条件',
                     disVisible: tableVisible,
                     fieldList: [
                         {
-                            label: "表名", fieldName: "tableName",
-                            type: "select",
+                            label: '表名', fieldName: 'tableName',
+                            type: 'select',
                             optionList: tableList,
-                            actionName: "change",
+                            actionName: 'change',
                             actions: (val: any) => {
-                                fieldNameList.value = lineDatas[val["tableName"]];
+                                fieldNameList.value = lineDatas[val['tableName']];
                                 console.log(val, fieldNameList.value);
                             },
                             required: relationRequired, formVisible: true,
                         },
                         {
-                            label: "属性名", fieldName: "fieldName",
-                            type: "select",
+                            label: '属性名', fieldName: 'fieldName',
+                            type: 'select',
                             optionList: fieldNameList,
                             required: relationRequired, formVisible: true,
                         },
                         {
-                            label: "匹配方式", fieldName: "matchType",
-                            type: "select",
+                            label: '匹配方式', fieldName: 'matchType',
+                            type: 'select',
                             optionList: searchMatchList(),
                             required: relationRequired, formVisible: true,
                         },
                         {
-                            label: "匹配值", fieldName: "matchValue",
-                            type: "input",
+                            label: '匹配值', fieldName: 'matchValue',
+                            type: 'input',
                             required: relationRequired, formVisible: true,
                         }
                     ]

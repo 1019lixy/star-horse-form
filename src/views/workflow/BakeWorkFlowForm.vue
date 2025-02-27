@@ -1,20 +1,20 @@
 <script setup lang="ts">
-import {ref} from "vue";
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-import BaseInfo from "@/views/workflow/formItems/BaseInfo.vue";
-import FlowParams from "@/views/workflow/formItems/FlowParams.vue";
-import FlowStatus from "@/views/workflow/formItems/FlowStatus.vue";
-import FlowDesign from "@/views/workflow/formItems/UFlowDesign.vue";
+import {ref} from 'vue';
+import StarHorseIcon from '@/components/comp/StarHorseIcon.vue';
+import BaseInfo from '@/views/workflow/formItems/BaseInfo.vue';
+import FlowParams from '@/views/workflow/formItems/FlowParams.vue';
+import FlowStatus from '@/views/workflow/formItems/FlowStatus.vue';
+import FlowDesign from '@/views/workflow/formItems/UFlowDesign.vue';
 
-let flowStyle = ref<string>("dingding");
+let flowStyle = ref<string>('dingding');
 let currentStep = ref<number>(3);
 const changeDesignStyle = () => {
-  if (flowStyle.value == "dingding") {
-    flowStyle.value = "flowable";
+  if (flowStyle.value == 'dingding') {
+    flowStyle.value = 'flowable';
   } else {
-    flowStyle.value = "dingding";
+    flowStyle.value = 'dingding';
   }
-}
+};
 /**
  * 可以使用此成熟的框架，进行更改,对于bpmn-js 可以考虑去除，太技术化不太实用
  * git clone https://gitee.com/crowncloud/smart-sh-flow-editor.git

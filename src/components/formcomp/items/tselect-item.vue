@@ -40,35 +40,35 @@
   </starhorse-form-item>
 </template>
 <script lang="ts">
-import {defineComponent, onMounted, shallowRef} from "vue";
-import {dictData, loadData} from "@/api/sh_api.ts";
-import {error} from "@/utils/message.ts";
-import {SelectOption} from "@/components/types/SearchProps";
-import {allAction} from "@/components/formcomp/utils/ItemRelationEventUtils.ts";
+import {defineComponent, onMounted, shallowRef} from 'vue';
+import {dictData, loadData} from '@/api/sh_api.ts';
+import {error} from '@/utils/message.ts';
+import {SelectOption} from '@/components/types/SearchProps';
+import {allAction} from '@/components/formcomp/utils/ItemRelationEventUtils.ts';
 
 export default defineComponent({
   setup(_props, context) {
-    const parentField = context.attrs["parentField"];
+    const parentField = context.attrs['parentField'];
 
-    const field = context.attrs["field"] as any;
+    const field = context.attrs['field'] as any;
     let formItem = shallowRef({label: 'input', required: false});
-    let dataField = shallowRef("");
-    let actionName = shallowRef("keydown.enter");
+    let dataField = shallowRef('');
+    let actionName = shallowRef('keydown.enter');
     const itemAction = (prep: any) => {
       allAction(context, prep);
     };
     const filterNodeMethod = (value: any, data: any) => {
-      let name: any = field.preps['props']?.label || "label";
+      let name: any = field.preps['props']?.label || 'label';
       return data[name].includes(value);
-    }
+    };
     const renderContent = (_h: Function, data: any) => {
       let labelName = field.preps.props?.label || 'label';
-      if (field.preps["showCode"] == 'Y') {
+      if (field.preps['showCode'] == 'Y') {
         let codeName = field.preps.props?.code || field.preps.props?.value || 'value';
-        return `${data.data[labelName]}(${data.data["code"] || data.data[codeName] || ''})`;
+        return `${data.data[labelName]}(${data.data['code'] || data.data[codeName] || ''})`;
       }
       return data.data[labelName];
-    }
+    };
     /**
      * 动态获取数据
      */
@@ -77,7 +77,7 @@ export default defineComponent({
       let dataSource = temp['dataSource'];
       let urlOrDictName = temp['urlOrDictName'];
       let queryParams = temp['queryParams'];
-      if (dataSource == "url") {
+      if (dataSource == 'url') {
         let requestParams = [] as any;
         queryParams?.forEach((item: any) => {
           if (!item.name) {
@@ -89,43 +89,43 @@ export default defineComponent({
             operation: item.matchType
           });
         });
-        let url = temp["preinterfaceUrl"] + temp["interfaceUrl"];
+        let url = temp['preinterfaceUrl'] + temp['interfaceUrl'];
         let params = {
           url: url,
-          httpMethod: temp.httpMethod || "POST",
-          dataType: temp.dataType || "JSON",
+          httpMethod: temp.httpMethod || 'POST',
+          dataType: temp.dataType || 'JSON',
           searchInfo: {
             fieldList: requestParams
           }
-        }
-        url = "/system-config/redirect/execute";
+        };
+        url = '/system-config/redirect/execute';
         let validResult = await loadData(url, params);
         if (validResult.error) {
           error(validResult.error);
         } else {
           let reDataList: SelectOption[] = [];
           validResult.data.forEach((item: any) => {
-            reDataList.push({name: item[temp["selectLabel"]], value: item[temp["selectValue"]]});
+            reDataList.push({name: item[temp['selectLabel']], value: item[temp['selectValue']]});
           });
-          field.preps["values"] = reDataList;
+          field.preps['values'] = reDataList;
         }
-      } else if (dataSource == "dict") {
+      } else if (dataSource == 'dict') {
         let dicts = await dictData(urlOrDictName);
         if (Object.keys(dicts).length == 0) {
-          error("数据字典可能未配置");
+          error('数据字典可能未配置');
         } else {
-          field.preps["values"] = dicts;
+          field.preps['values'] = dicts;
         }
       }
-    }
+    };
     onMounted(() => {
       initData();
-       actionName.value = field.preps?.actionName || "keydown.enter";;
-      if (!context.attrs["isSearch"]) {
+       actionName.value = field.preps?.actionName || 'keydown.enter';;
+      if (!context.attrs['isSearch']) {
         allAction(context, actionName.value, true);
       }
     });
-    return {parentField, context, field, formItem, dataField, itemAction, filterNodeMethod, actionName, renderContent}
+    return {parentField, context, field, formItem, dataField, itemAction, filterNodeMethod, actionName, renderContent};
   }
 });
 </script>

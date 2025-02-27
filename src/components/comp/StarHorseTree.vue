@@ -1,20 +1,20 @@
 <script setup lang="ts">
-import {computed, nextTick, onMounted, reactive, ref, unref, PropType} from "vue";
-import {TreeNode, TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
-import {ModelRef} from "vue-demi";
-import SubSystemMenu from "@/components/menu/SubSystemMenu.vue";
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
-import piniaInstance from "@/store";
-import {PageProps} from "@/components/types/PageProps";
-import {ApiUrls} from "@/components/types/ApiUrls";
-import {warning} from "@/utils/message.ts";
-import {SearchParams} from "@/components/types/Params";
-import {OrderByInfo} from "@/components/types/PageFieldInfo";
-import {postRequest} from "@/api/star_horse.ts";
-import {closeLoad, createCondition, loadData} from "@/api/sh_api.ts";
-import {isSystemManage} from "@/utils/auth.ts";
-import {Config} from "@/api/settings.ts";
+import {computed, nextTick, onMounted, reactive, ref, unref, PropType} from 'vue';
+import {TreeNode, TreeNodeData} from 'element-plus/es/components/tree-v2/src/types';
+import {ModelRef} from 'vue-demi';
+import SubSystemMenu from '@/components/menu/SubSystemMenu.vue';
+import StarHorseIcon from '@/components/comp/StarHorseIcon.vue';
+import {GlobalConfig} from '@/store/GlobalConfigStore.ts';
+import piniaInstance from '@/store';
+import {PageProps} from '@/components/types/PageProps';
+import {ApiUrls} from '@/components/types/ApiUrls';
+import {warning} from '@/utils/message.ts';
+import {SearchParams} from '@/components/types/Params';
+import {OrderByInfo} from '@/components/types/PageFieldInfo';
+import {postRequest} from '@/api/star_horse.ts';
+import {closeLoad, createCondition, loadData} from '@/api/sh_api.ts';
+import {isSystemManage} from '@/utils/auth.ts';
+import {Config} from '@/api/settings.ts';
 
 const props = defineProps({
   preps: {
@@ -28,9 +28,9 @@ const props = defineProps({
     }
   },
   showCollapse: {type: Boolean, default: false},
-  treeTitle: {type: String, default: "树形菜单"},
+  treeTitle: {type: String, default: '树形菜单'},
   expand: {type: Boolean, default: false},
-  height: {type: Number, default: "600"},
+  height: {type: Number, default: '600'},
   //是否显示复选框
   showCheckBox: {type: Boolean, default: false},
   //是否显示已选中的数据
@@ -39,7 +39,7 @@ const props = defineProps({
   //是否显示搜索框
   showSearch: {type: Boolean, default: true},
   checkOnClickNode: {type: Boolean, default: true},
-  treeType: {type: String, default: "tree"},
+  treeType: {type: String, default: 'tree'},
   //在标签上显示值
   showCode: {type: Boolean, default: false},
   //是否显示分页
@@ -51,23 +51,23 @@ const props = defineProps({
   //接口地址
   compUrl: {type: Object as PropType<ApiUrls>},
   //按钮名称
-  btnTitle: {type: String, default: "添加数据"},
+  btnTitle: {type: String, default: '添加数据'},
   //按钮是否可见
   btnVisible: {type: Boolean, default: false},
-  rmvTitle: {type: String, default: "删除数据"},
+  rmvTitle: {type: String, default: '删除数据'},
   rmvVisible: {type: Boolean, default: false},
   //是否显示下拉按钮
   showDropdown: {type: Boolean, default: true},
 
 });
-const emits = defineEmits(["selectData", "changeCollapse", "addData", "removeData"]);
+const emits = defineEmits(['selectData', 'changeCollapse', 'addData', 'removeData']);
 let configStore = GlobalConfig(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
 const treeRef = ref<any>();
 const menuTreeRef = ref<any>();
 const searchData = ref('');
-const treeDatas: ModelRef<any> = defineModel("treeDatas");
-let menuIcon = ref<string>("expand");
+const treeDatas: ModelRef<any> = defineModel('treeDatas');
+let menuIcon = ref<string>('expand');
 let collapse = ref<boolean>(false);
 let pageInfo = reactive<PageProps>({
   pageSize: 100,
@@ -80,30 +80,30 @@ const onQueryChanged = (query: string) => {
   treeRef.value!.filter(query);
 };
 const filterMethod = (query: string, node: TreeNode) => {
-  return node[props.preps?.label]!.toLowerCase().includes(query?.toLowerCase())
+  return node[props.preps?.label]!.toLowerCase().includes(query?.toLowerCase());
 };
 const changeArrow = (evt: MouseEvent) => {
   if (evt) {
     evt.preventDefault();
     evt.stopPropagation();
   }
-  collapse.value = !collapse;
-  menuIcon.value = unref(menuIcon) == "expand" ? "collapse" : "expand";
-  emits("changeCollapse", collapse.value);
+  collapse.value = !collapse.value;
+  menuIcon.value = unref(menuIcon) == 'expand' ? 'collapse' : 'expand';
+  emits('changeCollapse', collapse.value);
 };
 const treeOperation = (cmd: string) => {
-  if (props.treeType == "tree") {
-    if (cmd == "collapse") {
-      Object.values(treeRef.value!.store.nodesMap).forEach((v: any) => v.collapse())
+  if (props.treeType == 'tree') {
+    if (cmd == 'collapse') {
+      Object.values(treeRef.value!.store.nodesMap).forEach((v: any) => v.collapse());
     } else {
-      Object.values(treeRef.value!.store.nodesMap).forEach((v: any) => v.expand())
+      Object.values(treeRef.value!.store.nodesMap).forEach((v: any) => v.expand());
     }
 
   } else {
     const getAllSubNodeIndex = (datas: any) => {
       datas.forEach((item: any) => {
         if (item.children && item.children.length > 0) {
-          if (cmd == "collapse") {
+          if (cmd == 'collapse') {
             menuTreeRef.value.close(item[props.preps.value]);
           } else {
             menuTreeRef.value!.open(item[props.preps.value]);
@@ -111,10 +111,10 @@ const treeOperation = (cmd: string) => {
           getAllSubNodeIndex(item.children);
         }
       });
-    }
+    };
     getAllSubNodeIndex(treeDatas.value);
   }
-}
+};
 let selectedDataList = ref<Array<any>>([]);
 const operSelectData = (data: TreeNodeData, checked: boolean) => {
   if (checked) {
@@ -132,18 +132,18 @@ const operSelectData = (data: TreeNodeData, checked: boolean) => {
     }
     treeRef.value!.setChecked(data, checked);
   }
-}
+};
 const setSelectData = (datas: Array<any>) => {
   //设置数据选中自动会再次赋值
   selectedDataList.value = datas;
   datas.forEach(item => {
     treeRef.value!.setChecked(item, true);
-  })
+  });
 
-}
+};
 const getSelectData = () => {
   return selectedDataList.value;
-}
+};
 /**
  * 根据条件重新渲染视图
  * @param _h
@@ -153,10 +153,10 @@ const renderContent = (_h: any, data: any) => {
   let labelName = props.preps.label || 'label';
   if (props.showCode) {
     let codeName = props.preps.code || props.preps.value || 'value';
-    return `${data.data[labelName]}(${data.data["code"] || data.data[codeName] || ''})`;
+    return `${data.data[labelName]}(${data.data['code'] || data.data[codeName] || ''})`;
   }
   return data.data[labelName];
-}
+};
 /**
  * 点击事件
  * @param data
@@ -164,17 +164,17 @@ const renderContent = (_h: any, data: any) => {
  */
 const treeChange = (data: any, checked: boolean) => {
   operSelectData(data, checked);
-  emits("selectData", data, checked);
+  emits('selectData', data, checked);
 };
 const menuChange = (data: any) => {
-  emits("selectData", data);
-}
+  emits('selectData', data);
+};
 const addData = (item: any) => {
-  emits("addData", item);
-}
+  emits('addData', item);
+};
 const removeData = (item: any) => {
-  emits("removeData", item);
-}
+  emits('removeData', item);
+};
 const pageSizeClick = (pageSize: number) => {
   pageInfo.pageSize = pageSize;
   loadByPage();
@@ -189,19 +189,19 @@ const createSearchParams = (params: SearchParams[] = [], orderBy: OrderByInfo[] 
   searchParams = params;
   orderBys = orderBy;
   loadByPage();
-}
+};
 const expandData = () => {
   if (props.expand) {
     setTimeout(() => {
-      treeOperation("expand");
+      treeOperation('expand');
     }, 800);
   }
-}
+};
 let commonPersons = ref<Array<string>>([]);
 const loadByPage = async () => {
   //加入共享人的信息
   if (commonPersons.value && commonPersons.value.length && !isSystemManage()) {
-    searchParams.push(createCondition("a.createdBy", commonPersons.value, "in"));
+    searchParams.push(createCondition('a.createdBy', commonPersons.value, 'in'));
   }
   let params: any = {
     currentPage: pageInfo.currentPage,
@@ -211,7 +211,7 @@ const loadByPage = async () => {
   };
   postRequest(props.compUrl?.loadByPageUrl!, params).then((res: any) => {
     if (!res || res.data.code != 0) {
-      console.error(res?.data?.cnMessage || "接口异常");
+      console.error(res?.data?.cnMessage || '接口异常');
       return;
     }
     let redata = res.data.data;
@@ -227,16 +227,16 @@ const loadByPage = async () => {
   });
   await nextTick();
   expandData();
-}
+};
 
 const init = async () => {
   if (props.isDynamicData) {
     if (!props.compUrl) {
-      warning("动态数据须配置数据获取接口");
+      warning('动态数据须配置数据获取接口');
       return;
     }
     //拿到别人共享的信息
-    let resultData = await loadData("/system-config/system/dataPermission/currentMenuPermissionPerson", {});
+    let resultData = await loadData('/system-config/system/dataPermission/currentMenuPermissionPerson', {});
     commonPersons.value = resultData.data;
     if (props.autoLoad) {
       loadByPage();
@@ -245,7 +245,7 @@ const init = async () => {
     await nextTick();
     expandData();
   }
-}
+};
 
 onMounted(() => {
   init();
@@ -255,7 +255,7 @@ defineExpose({
   getSelectData,
   setSelectData,
   createSearchParams
-})
+});
 </script>
 
 <template>

@@ -2,12 +2,12 @@
 import FlowAddNode from '@/views/workflow/plugin/node/AddNode.vue';
 import EditName from '@/views/workflow/plugin/common/EditName.vue';
 import DeleteConfirm from '@/views/workflow/plugin/common/DeleteConfirm.vue';
-import {computed, onMounted} from "vue";
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-import {useFlowDesign} from "@/store/FlowDesignStore.ts";
-import piniaInstance from "@/store";
-import {FlowNodeEnums} from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
-import {closeLoad} from "@/api/sh_api.ts";
+import {computed, onMounted} from 'vue';
+import StarHorseIcon from '@/components/comp/StarHorseIcon.vue';
+import {useFlowDesign} from '@/store/FlowDesignStore.ts';
+import piniaInstance from '@/store';
+import {FlowNodeEnums} from '@/views/workflow/plugin/enums/FlowNodeEnums.ts';
+import {closeLoad} from '@/api/sh_api.ts';
 
 defineOptions({
   name: 'ApplyNode',
@@ -28,13 +28,13 @@ const props = defineProps({
 });
 props.node.error = computed(() => {
   let flag = !props.node.formId;
-  props.node.errorMsg = flag ? "未配置表单" : "";
+  props.node.errorMsg = flag ? '未配置表单' : '';
   return flag;
 });
 const emits = defineEmits(['selectNode']);
 const selectNode = () => {
   emits('selectNode', props.node);
-}
+};
 let nameClass = computed(() => {
   return (node: any, defaultStyle: string) => {
     if (node.statusCode == -1) {
@@ -53,10 +53,10 @@ const init = () => {
   if (window.gc) {
     window.gc();
   }
-}
+};
 onMounted(() => {
   init();
-})
+});
 </script>
 <template>
   <div class="flow-row">

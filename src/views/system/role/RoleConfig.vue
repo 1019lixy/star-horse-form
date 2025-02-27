@@ -1,57 +1,57 @@
 <script setup lang="ts" name="CompanyRole">
-import {apiInstance, closeLoad, createCondition, dialogPreps, dictData, load} from "@/api/sh_api";
-import {ApiUrls} from "@/components/types/ApiUrls";
-import {Config} from "@/api/settings";
-import {computed, onActivated, onDeactivated, onMounted, provide, reactive, ref} from "vue";
-import {SearchFields, SelectOption} from "@/components/types/SearchProps";
-import {PageFieldInfo, UserFuncInfo} from "@/components/types/PageFieldInfo";
-import {getCustomerParam} from "@/utils/auth";
-import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
-import piniaInstance from "@/store";
-import {SearchParams} from "@/components/types/Params";
-import {TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
-import {error, success, warning} from "@/utils/message.ts";
-import {statusList} from "@/views/system/utils/UserFields.ts";
-import {postRequest} from "@/api/star_horse.ts";
+import {apiInstance, closeLoad, createCondition, dialogPreps, dictData, load} from '@/api/sh_api';
+import {ApiUrls} from '@/components/types/ApiUrls';
+import {Config} from '@/api/settings';
+import {computed, onActivated, onDeactivated, onMounted, provide, reactive, ref} from 'vue';
+import {SearchFields, SelectOption} from '@/components/types/SearchProps';
+import {PageFieldInfo, UserFuncInfo} from '@/components/types/PageFieldInfo';
+import {getCustomerParam} from '@/utils/auth';
+import {GlobalConfig} from '@/store/GlobalConfigStore.ts';
+import piniaInstance from '@/store';
+import {SearchParams} from '@/components/types/Params';
+import {TreeNodeData} from 'element-plus/es/components/tree-v2/src/types';
+import {error, success, warning} from '@/utils/message.ts';
+import {statusList} from '@/views/system/utils/UserFields.ts';
+import {postRequest} from '@/api/star_horse.ts';
 //后端交互接口地址
-const dataUrl: ApiUrls = apiInstance("system-config", "system/companyRole");
-dataUrl.condition = [createCondition("a.roleType", "common_role", "neq")];
+const dataUrl: ApiUrls = apiInstance('system-config', 'system/companyRole');
+dataUrl.condition = [createCondition('a.roleType', 'common_role', 'neq')];
 //主键
-const primaryKey = "idCompanyRole";
+const primaryKey = 'idCompanyRole';
 const companyRoleRef = ref();
 const assignRoleCompanyRef = ref();
 let companyList = ref<Array<any>>([]);
 let outerFormData = ref<any>({});
 //定义表单的所有属性
-const formFields = reactive<Object>({});
-provide("formFields", formFields);
+const formFields = reactive<object>({});
+provide('formFields', formFields);
 let configStore = GlobalConfig(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
 let currentUserGroupId = ref<number>(0);
 let defaultCondition = ref<SearchParams[]>([]);
 
 const roleTypeChange = (data: TreeNodeData, _checked: boolean) => {
-  currentUserGroupId.value = data["value"];
-  outerFormData.value["roleType"] = data["value"];
-  defaultCondition.value = [createCondition("a.roleType", currentUserGroupId.value)];
-  companyRoleRef.value.createSearchParams(defaultCondition.value)
+  currentUserGroupId.value = data['value'];
+  outerFormData.value['roleType'] = data['value'];
+  defaultCondition.value = [createCondition('a.roleType', currentUserGroupId.value)];
+  companyRoleRef.value.createSearchParams(defaultCondition.value);
 };
 //查询属性
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: "角色名称",
-      fieldName: "roleName",
+      label: '角色名称',
+      fieldName: 'roleName',
       defaultVisible: true,
-      matchType: "lk",
-      type: "input"
+      matchType: 'lk',
+      type: 'input'
     },
     {
-      label: "角色编码",
-      fieldName: "roleCode",
+      label: '角色编码',
+      fieldName: 'roleCode',
       defaultVisible: true,
-      matchType: "lk",
-      type: "input"
+      matchType: 'lk',
+      type: 'input'
     },
   ]
 });
@@ -62,116 +62,116 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   //属性列表
   fieldList: [
     {
-      label: "角色类型",
-      fieldName: "roleType",
-      type: "select",
+      label: '角色类型',
+      fieldName: 'roleType',
+      type: 'select',
       optionList: roleTypeList,
       required: true,
       formVisible: !false,
       listVisible: !false,
     },
     {
-      label: "角色名称",
-      fieldName: "roleName",
-      type: "input",
+      label: '角色名称',
+      fieldName: 'roleName',
+      type: 'input',
       required: true,
       formVisible: !false,
       listVisible: !false,
     },
     {
-      label: "角色编码",
-      fieldName: "roleCode",
-      type: "input",
+      label: '角色编码',
+      fieldName: 'roleCode',
+      type: 'input',
       required: true,
       formVisible: !false,
       listVisible: !false,
     },
 
     {
-      label: "版本号",
-      fieldName: "version",
-      type: "number",
+      label: '版本号',
+      fieldName: 'version',
+      type: 'number',
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "创建人",
-      fieldName: "createdBy",
-      type: "input",
+      label: '创建人',
+      fieldName: 'createdBy',
+      type: 'input',
       required: false,
       formVisible: !true,
       listVisible: true,
     },
     {
-      label: "创建时间",
-      fieldName: "createdTime",
-      type: "input",
+      label: '创建时间',
+      fieldName: 'createdTime',
+      type: 'input',
       required: false,
       formVisible: !true,
       listVisible: true,
     },
     {
-      label: "修改人",
-      fieldName: "updatedBy",
-      type: "input",
+      label: '修改人',
+      fieldName: 'updatedBy',
+      type: 'input',
       required: false,
       formVisible: !true,
       listVisible: true,
     },
     {
-      label: "修改时间",
-      fieldName: "updatedTime",
-      type: "input",
+      label: '修改时间',
+      fieldName: 'updatedTime',
+      type: 'input',
       required: false,
       formVisible: !true,
       listVisible: true,
     },
     {
-      label: "数据编号",
-      fieldName: "dataNo",
-      type: "input",
+      label: '数据编号',
+      fieldName: 'dataNo',
+      type: 'input',
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "状态码",
-      fieldName: "statusCode",
-      type: "select",
+      label: '状态码',
+      fieldName: 'statusCode',
+      type: 'select',
       optionList: statusList,
       required: false,
       formVisible: true,
       listVisible: !true,
     },
     {
-      label: "状态名称",
-      fieldName: "statusName",
-      type: "input",
+      label: '状态名称',
+      fieldName: 'statusName',
+      type: 'input',
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "是否删除",
-      fieldName: "isDel",
-      type: "number",
+      label: '是否删除',
+      fieldName: 'isDel',
+      type: 'number',
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "国际编码",
-      fieldName: "local",
-      type: "input",
+      label: '国际编码',
+      fieldName: 'local',
+      type: 'input',
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "备注",
-      fieldName: "remark",
-      type: "textarea",
+      label: '备注',
+      fieldName: 'remark',
+      type: 'textarea',
       required: false,
       formVisible: true,
       listVisible: !true,
@@ -185,28 +185,28 @@ const rules = {};
 let outerForm = ref<any>({});
 //控制弹窗相关设置
 const dialogProps = dialogPreps();
-provide("dialogProps", dialogProps);
+provide('dialogProps', dialogProps);
 let extandBtns = ref<UserFuncInfo[]>([]);
 //初始化方法
 const initData = async () => {
-  roleTypeList.value = await dictData("company_role_type", ["common_role"]);
+  roleTypeList.value = await dictData('company_role_type', ['common_role']);
 };
 const assignCompany = () => {
   let selectedDatas = assignRoleCompanyRef.value.getSelectData();
   console.log(selectedDatas);
   if (!selectedDatas || selectedDatas.length == 0) {
-    warning("请设置当前角色的归属公司");
+    warning('请设置当前角色的归属公司');
     return;
   }
   let datas = [];
   for (let index in selectedDatas) {
     datas.push({
-      idCompanyRole: outerForm.value["idCompanyRole"],
+      idCompanyRole: outerForm.value['idCompanyRole'],
       idCompanyDefine: selectedDatas[index].idCompanyDefine
     });
   }
-  load("数据提交中");
-  postRequest("/system-config/system/companyRolePkDefine/mergeBatch", datas).then(res => {
+  load('数据提交中');
+  postRequest('/system-config/system/companyRolePkDefine/mergeBatch', datas).then(res => {
     if (res.data.code) {
       error(res.data.cnMessage);
       return;
@@ -216,13 +216,13 @@ const assignCompany = () => {
     companyRoleRef.value.loadByPage();
   }).finally(() => closeLoad());
 
-}
+};
 const activated = () => {
   initData();
-}
+};
 const deactivated = () => {
 
-}
+};
 /**
  * 列表，查看数据时数据转换
  * @param name 名称
@@ -230,12 +230,12 @@ const deactivated = () => {
  * @param row 列表行数据
  */
 const dataFormat = (name: string, cellValue: any, row: any): any => {
-  if (name == "roleType") {
+  if (name == 'roleType') {
     return roleTypeList.value.find(item => item.value == cellValue)?.name || cellValue;
   }
   //转换显示信息
   return cellValue;
-}
+};
 onMounted(async () => {
   await initData();
 });

@@ -19,22 +19,22 @@
   </starhorse-form-item>
 </template>
 <script lang="ts">
-import {defineComponent, onMounted, shallowRef} from "vue";
-import {allAction} from "@/components/formcomp/utils/ItemRelationEventUtils.ts";
+import {defineComponent, onMounted, shallowRef} from 'vue';
+import {allAction} from '@/components/formcomp/utils/ItemRelationEventUtils.ts';
 
 export default defineComponent({
   setup(_props, context) {
-    const parentField = context.attrs["parentField"];
-    const field = context.attrs["field"] as any;
+    const parentField = context.attrs['parentField'];
+    const field = context.attrs['field'] as any;
     let formItem = shallowRef({label: 'input', required: false});
-    let dataField = shallowRef("");
+    let dataField = shallowRef('');
     const itemAction = () => {
-      allAction(context, "change");
+      allAction(context, 'change');
     };
     onMounted(() => {
-      allAction(context, "change", true);
-    })
-    return {parentField, context, field, formItem, dataField, itemAction}
+      allAction(context, 'change', true);
+    });
+    return {parentField, context, field, formItem, dataField, itemAction};
   }
 });
 </script>

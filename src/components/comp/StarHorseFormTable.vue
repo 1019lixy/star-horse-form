@@ -1,8 +1,8 @@
 <script setup lang="ts" name="StarHorseFormItem">
-import {onMounted, ref} from "vue";
-import {batchFieldDefaultValues} from "@/api/sh_api.ts";
-import {ModelRef} from "vue-demi";
-import {Config} from "@/api/settings.ts";
+import {onMounted, ref} from 'vue';
+import {batchFieldDefaultValues} from '@/api/sh_api.ts';
+import {ModelRef} from 'vue-demi';
+import {Config} from '@/api/settings.ts';
 
 defineProps({
   item: {type: Object, required: true},
@@ -10,23 +10,23 @@ defineProps({
   initRows: {type: Number, default: 0},
   size: {type: String, default: Config.compSize}
 });
-const emits = defineEmits(["addRow", "removeRow"]);
-const dataForm: ModelRef<any> = defineModel("dataForm");
+const emits = defineEmits(['addRow', 'removeRow']);
+const dataForm: ModelRef<any> = defineModel('dataForm');
 const currentTableRef = ref();
 /**
  * 列表添加行数据
  * @param row
  */
 const addRow = (row: any) => {
-  emits("addRow", row);
-}
+  emits('addRow', row);
+};
 /**
  * 列表删除行数据
  * @param row
  */
 const removeRow = (row: any) => {
-  emits("removeRow", row);
-}
+  emits('removeRow', row);
+};
 onMounted(() => {
   //console.log(dataForm);
 });

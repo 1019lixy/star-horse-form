@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import {ref} from "vue";
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
+import {ref} from 'vue';
+import StarHorseIcon from '@/components/comp/StarHorseIcon.vue';
 
 defineProps({
   dataList: {type: Array, required: true},
@@ -14,12 +14,12 @@ defineProps({
       };
     }
   },
-  btnTitle: {type: String, default: "添加数据"},
-  rmvTitle: {type: String, default: "删除数据"},
+  btnTitle: {type: String, default: '添加数据'},
+  rmvTitle: {type: String, default: '删除数据'},
   btnVisible: {type: Boolean, default: false},
   rmvVisible: {type: Boolean, default: false},
 });
-const emits = defineEmits(["selectData", "addData", "removeData"]);
+const emits = defineEmits(['selectData', 'addData', 'removeData']);
 let currentItem = ref<any>({});
 const selectData = (item: any, event: MouseEvent) => {
   currentItem.value = item;
@@ -27,18 +27,18 @@ const selectData = (item: any, event: MouseEvent) => {
     event.stopPropagation();
     event.preventDefault();
   }
-  emits("selectData", item);
-}
+  emits('selectData', item);
+};
 /**
  * 添加数据
  * @param item
  */
 const addData = (item: any) => {
-  emits("addData", item);
-}
+  emits('addData', item);
+};
 const removeData = (item: any) => {
-  emits("removeData", item);
-}
+  emits('removeData', item);
+};
 </script>
 <template>
   <template v-for="item in dataList">

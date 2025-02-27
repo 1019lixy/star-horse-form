@@ -1,45 +1,45 @@
 <script setup lang="ts">
-import {onMounted, PropType, ref} from "vue";
-import {ApiUrls} from "@/components/types/ApiUrls";
-import {PageFieldInfo} from "@/components/types/PageFieldInfo";
-import StarHorseFormTable from "@/components/comp/StarHorseFormTable.vue";
-import {ModelRef} from "vue-demi";
-import {Config} from "@/api/settings.ts";
+import {onMounted, PropType, ref} from 'vue';
+import {ApiUrls} from '@/components/types/ApiUrls';
+import {PageFieldInfo} from '@/components/types/PageFieldInfo';
+import StarHorseFormTable from '@/components/comp/StarHorseFormTable.vue';
+import {ModelRef} from 'vue-demi';
+import {Config} from '@/api/settings.ts';
 
 const props = defineProps({
   compUrl: {type: Object as PropType<ApiUrls>},
   item: {type: Object as PropType<PageFieldInfo>, required: true},
   objectName: {type: String},
-  subFormFlag: {type: String, default: "N"},
-  batchName: {type: String, default: "batchDataList"},
-  batchFieldName: {type: String, default: "batchFieldList"},
+  subFormFlag: {type: String, default: 'N'},
+  batchName: {type: String, default: 'batchDataList'},
+  batchFieldName: {type: String, default: 'batchFieldList'},
   primaryKey: {type: String, required: true},
   rules: {type: Object},
   compSize: {type: String, default: Config.compSize},
   isView: {type: Boolean, default: false},
 });
-const emits = defineEmits(["addRow", "removeRow"]);
-const dataForm: ModelRef<any> = defineModel("dataForm");
-let tabModel = ref<string>("");
+const emits = defineEmits(['addRow', 'removeRow']);
+const dataForm: ModelRef<any> = defineModel('dataForm');
+let tabModel = ref<string>('');
 const init = () => {
   if (props.item && props.item[props.batchFieldName]?.length > 1) {
     tabModel.value = props.item[props.batchFieldName][0].tabName;
   }
-}
+};
 /**
  * 列表添加行数据
  * @param row
  */
 const addRow = (row: any) => {
-  emits("addRow", row);
-}
+  emits('addRow', row);
+};
 /**
  * 列表删除行数据
  * @param row
  */
 const removeRow = (row: any) => {
-  emits("removeRow", row);
-}
+  emits('removeRow', row);
+};
 onMounted(() => {
   init();
 });

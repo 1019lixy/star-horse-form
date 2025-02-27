@@ -1,24 +1,24 @@
 <script setup lang="ts">
-import {ref, computed} from "vue";
+import {ref, computed} from 'vue';
 import FlowDrawerFooter from '@/views/workflow/plugin/common/DrawerFooter.vue';
 import AuthForm from '@/views/workflow/plugin/common/AuthForm.vue';
 import FlowNodeApproval from '@/views/workflow/plugin/preps/utils/Approval.vue';
 import FlowNodeCopyerConfigure from '@/views/workflow/plugin/preps/utils/CopyerConfigure.vue';
-import {useFlowDesign} from "@/store/FlowDesignStore.ts";
-import piniaInstance from "@/store";
-import {ModelRef} from "vue-demi";
+import {useFlowDesign} from '@/store/FlowDesignStore.ts';
+import piniaInstance from '@/store';
+import {ModelRef} from 'vue-demi';
 
 defineOptions({
   name: 'CopyerPrep',
-})
-let node: ModelRef<any> = defineModel("activeData");
-let copyerTab = ref<string>("1");
+});
+let node: ModelRef<any> = defineModel('activeData');
+let copyerTab = ref<string>('1');
 
 const flowDesign = useFlowDesign(piniaInstance);
 const flowFormInfo = computed(() => flowDesign.flowFormInfo);
 const onClose = () => {
   flowDesign.setActive(false);
-}
+};
 /**
  * 保存配置
  */
@@ -40,7 +40,7 @@ const onSave = () => {
     content += '发起人填写';
   }
   onClose();
-}
+};
 
 </script>
 <template>

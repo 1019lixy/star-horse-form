@@ -1,29 +1,29 @@
 <script setup lang="ts">
-import {onMounted, ref} from "vue";
-import {continusNodeList} from "@/views/continus/utils/ToolsParams.ts";
-import {ApiUrls} from "@/components/types/ApiUrls";
-import {apiInstance, createJoinCondition} from "@/api/sh_api.ts";
-import {postRequest} from "@/api/star_horse.ts";
-import {warning} from "@/utils/message.ts";
+import {onMounted, ref} from 'vue';
+import {continusNodeList} from '@/views/continus/utils/ToolsParams.ts';
+import {ApiUrls} from '@/components/types/ApiUrls';
+import {apiInstance, createJoinCondition} from '@/api/sh_api.ts';
+import {postRequest} from '@/api/star_horse.ts';
+import {warning} from '@/utils/message.ts';
 
-const apiUrl: ApiUrls = apiInstance("userdb-manage", "/userdb/formInstance/conTemplate/idTemplate/136");
+const apiUrl: ApiUrls = apiInstance('userdb-manage', '/userdb/formInstance/conTemplate/idTemplate/136');
 const nodeList = ref<any>([]);
 const templateList = ref<any>([]);
 let currentTemplate = ref<any>({});
 const loadTemplate = () => {
-  let fields = ["idTemplate", "templateName", "templateCode"];
-  postRequest(apiUrl.basePrefix + "/joinQuery", {
+  let fields = ['idTemplate', 'templateName', 'templateCode'];
+  postRequest(apiUrl.basePrefix + '/joinQuery', {
     limitFields: fields,
     groupByFields: fields,
-    groupName: "nodeList",
+    groupName: 'nodeList',
     joinTables: [
       {
-        tableName: "conTemplateNode",
-        joinType: "inner",
-        aliasName: "b",
-        limitFields: ["nodeName"],
+        tableName: 'conTemplateNode',
+        joinType: 'inner',
+        aliasName: 'b',
+        limitFields: ['nodeName'],
         joinCondition: {
-          joinFieldList: [createJoinCondition("a.idTemplate", "b.idTemplate")]
+          joinFieldList: [createJoinCondition('a.idTemplate', 'b.idTemplate')]
         }
       }
     ],
@@ -37,28 +37,28 @@ const loadTemplate = () => {
       item.nodeList = item.nodeList.map((node: any) => {
         return nodeList.value.find((nodeItem: any) => nodeItem.code == node.nodeName);
       });
-    })
+    });
     templateList.value = reData;
-  })
-}
+  });
+};
 
 const selectItem = (item: any) => {
   currentTemplate.value = item;
-}
+};
 const getTemplate = () => {
   return currentTemplate.value;
-}
+};
 const setTemplate = (item: any) => {
   currentTemplate.value = item;
-}
+};
 onMounted(() => {
   nodeList.value = continusNodeList.value;
   loadTemplate();
-})
+});
 defineExpose({
   getTemplate,
   setTemplate
-})
+});
 </script>
 
 <template>

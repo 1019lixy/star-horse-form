@@ -10,7 +10,7 @@
 
 </template>
 <script lang="ts" setup>
-import {onMounted} from "vue";
+import {onMounted} from 'vue';
 //const userInfoStore = UserInfo(piniaInstance);
 const closeAction = () => {
   //关闭浏览器清空数据

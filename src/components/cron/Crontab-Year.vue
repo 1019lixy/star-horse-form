@@ -45,14 +45,14 @@
 }
 </style>
 <script lang="ts" setup name="crontab-year">
-import {computed, onMounted, ref, watch} from "vue";
+import {computed, onMounted, ref, watch} from 'vue';
 
 const props = defineProps({
   check: {type: Function},
   month: {},
   cron: {type: Object}
 });
-const emits = defineEmits(["update"]);
+const emits = defineEmits(['update']);
 let fullYear = ref(0);
 let radioValue = ref(1);
 let cycle01 = ref(0);
@@ -63,14 +63,14 @@ let checkboxList = ref([]);
 let checkNum = ref(props.check);
 // 计算两个周期值
 const cycleTotalFun = () => {
-  cycle01.value = checkNum.value?.(cycle01.value, fullYear.value, fullYear.value + 100)
-  cycle02.value = checkNum.value?.(cycle02.value, fullYear.value + 1, fullYear.value + 101)
+  cycle01.value = checkNum.value?.(cycle01.value, fullYear.value, fullYear.value + 100);
+  cycle02.value = checkNum.value?.(cycle02.value, fullYear.value + 1, fullYear.value + 101);
   return cycle01.value + '-' + cycle02.value;
 };
 // 计算平均用到的值
 const averageTotalFun = () => {
-  average01.value = checkNum.value?.(average01.value, fullYear.value, fullYear.value + 100)
-  average02.value = checkNum.value?.(average02.value, 1, 10)
+  average01.value = checkNum.value?.(average01.value, fullYear.value, fullYear.value + 100);
+  average02.value = checkNum.value?.(average02.value, 1, 10);
   return average01.value + '/' + average02.value;
 };
 // 计算勾选的checkbox值合集
@@ -159,5 +159,5 @@ onMounted(() => {
 });
 defineExpose({
   cycle01, cycle02, average01, average02, checkboxList,radioValue
-})
+});
 </script>

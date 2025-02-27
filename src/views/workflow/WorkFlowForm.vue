@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import {nextTick, onMounted, ref, watch} from "vue";
-import FlowSetting from "@/views/workflow/plugin/FlowSetting.vue"
-import BasicInfo from "@/views/workflow/plugin/BasicInfo.vue"
-import FlowNav from "@/views/workflow/plugin/common/FlowNav.vue";
-import {useFlowDesign} from "@/store/FlowDesignStore.ts";
-import piniaInstance from "@/store";
-import DynamicForm from "@/views/dyform/DynamicForm.vue";
-import UFlowDesign from "@/views/workflow/formItems/UFlowDesign.vue";
-import {useRouter} from "vue-router";
-import {ApiUrls} from "@/components/types/ApiUrls";
-import {apiInstance} from "@/api/sh_api.ts";
-import {doSaveData} from "@/views/workflow/utils/FlowFormUtils.ts";
+import {nextTick, onMounted, ref, watch} from 'vue';
+import FlowSetting from '@/views/workflow/plugin/FlowSetting.vue';
+import BasicInfo from '@/views/workflow/plugin/BasicInfo.vue';
+import FlowNav from '@/views/workflow/plugin/common/FlowNav.vue';
+import {useFlowDesign} from '@/store/FlowDesignStore.ts';
+import piniaInstance from '@/store';
+import DynamicForm from '@/views/dyform/DynamicForm.vue';
+import UFlowDesign from '@/views/workflow/formItems/UFlowDesign.vue';
+import {useRouter} from 'vue-router';
+import {ApiUrls} from '@/components/types/ApiUrls';
+import {apiInstance} from '@/api/sh_api.ts';
+import {doSaveData} from '@/views/workflow/utils/FlowFormUtils.ts';
 
-const dataUrl: ApiUrls = apiInstance("flow-engine", "workflow/flowDefine");
+const dataUrl: ApiUrls = apiInstance('flow-engine', 'workflow/flowDefine');
 const props = defineProps({
   data: {
     type: Object
@@ -24,19 +24,19 @@ const props = defineProps({
 
 });
 let router = useRouter();
-let flowStyle = ref<string>("dingding");
+let flowStyle = ref<string>('dingding');
 const flowDesign = useFlowDesign(piniaInstance);
 const basicInfoRef = ref();
 const flowDesignRef = ref();
 const flowSettingRef = ref();
 let currentData = ref<number>(1);
 const changeFlow = () => {
-  if (flowStyle.value == "dingding") {
-    flowStyle.value = "flowable";
+  if (flowStyle.value == 'dingding') {
+    flowStyle.value = 'flowable';
   } else {
-    flowStyle.value = "dingding";
+    flowStyle.value = 'dingding';
   }
-}
+};
 /**
  * 可以使用此成熟的框架，进行更改,对于bpmn-js 可以考虑去除，太技术化不太实用
  * git clone https://gitee.com/crowncloud/smart-sh-flow-editor.git
@@ -60,36 +60,36 @@ const change = async (item: any) => {
     basicInfoRef.value.$refs.flowFormRef.setFormData(formData.value);
   }
 
-}
+};
 const flowSave = (type: string) => {
   let formInfo = flowDesign.flowFormInfo;
   doSaveData(formInfo, type, router);
-}
+};
 
 const init = () => {
   if (props.data) {
     flowDesign.flowSetFormInfo(props.data);
   }
-}
+};
 const loadData = async () => {
   let id = router.currentRoute.value.query.data;
   let isView = router.currentRoute.value.query.isView;
   if (id) {
-    let data = await dataUrl.loadByIdAction!(id, "Y" == isView);
-    data["bindForm"] = data["bindForm"]?.split(";");
-    data["flowManager"] = data["flowManager"]?.split(";");
+    let data = await dataUrl.loadByIdAction!(id, 'Y' == isView);
+    data['bindForm'] = data['bindForm']?.split(';');
+    data['flowManager'] = data['flowManager']?.split(';');
     flowDesign.flowSetFormInfo(data);
     flowDesign.setNode(JSON.parse(data.jsonFile)?.process);
   }
   console.log(id, isView);
-}
+};
 onMounted(() => {
   init();
 });
 
 watch(() => router.currentRoute.value.query, () => {
   loadData();
-}, {immediate: true, deep: true})
+}, {immediate: true, deep: true});
 </script>
 <template>
   <el-card class="inner_content">

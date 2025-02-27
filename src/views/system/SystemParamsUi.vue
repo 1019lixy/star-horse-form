@@ -1,35 +1,35 @@
 <script setup lang="ts" name="SystemParams">
-import {apiInstance, dialogPreps} from "@/api/sh_api";
-import {ApiUrls} from "@/components/types/ApiUrls";
-import {Config} from "@/api/settings";
-import {onActivated, onDeactivated, onMounted, provide, reactive, ref} from "vue";
-import {SearchFields} from "@/components/types/SearchProps";
-import {PageFieldInfo} from "@/components/types/PageFieldInfo";
-import {getCustomerParam} from "@/utils/auth";
+import {apiInstance, dialogPreps} from '@/api/sh_api';
+import {ApiUrls} from '@/components/types/ApiUrls';
+import {Config} from '@/api/settings';
+import {onActivated, onDeactivated, onMounted, provide, reactive, ref} from 'vue';
+import {SearchFields} from '@/components/types/SearchProps';
+import {PageFieldInfo} from '@/components/types/PageFieldInfo';
+import {getCustomerParam} from '@/utils/auth';
 //后端交互接口地址
-const dataUrl: ApiUrls = apiInstance("system-config", "system/systemParams");
+const dataUrl: ApiUrls = apiInstance('system-config', 'system/systemParams');
 //主键
-const primaryKey = "idSystemParams";
+const primaryKey = 'idSystemParams';
 const systemParamsRef = ref();
 //定义表单的所有属性
-const formFields = reactive<Object>({});
-provide("formFields", formFields);
+const formFields = reactive<object>({});
+provide('formFields', formFields);
 //查询属性
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: "参数名",
-      fieldName: "paramName",
+      label: '参数名',
+      fieldName: 'paramName',
       defaultVisible: true,
-      matchType: "lk",
-      type: "input"
+      matchType: 'lk',
+      type: 'input'
     },
     {
-      label: "参数值",
-      fieldName: "paramValue",
+      label: '参数值',
+      fieldName: 'paramValue',
       defaultVisible: true,
-      matchType: "lk",
-      type: "input"
+      matchType: 'lk',
+      type: 'input'
     },
   ]
 });
@@ -39,106 +39,106 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
 
     {
-      label: "参数名",
-      fieldName: "paramName",
-      type: "input",
+      label: '参数名',
+      fieldName: 'paramName',
+      type: 'input',
       editDisabled: true,
       required: true,
       formVisible: !false,
       listVisible: !false,
     },
     {
-      label: "参数值",
-      fieldName: "paramValue",
-      type: "textarea",
+      label: '参数值',
+      fieldName: 'paramValue',
+      type: 'textarea',
       required: true,
       formVisible: !false,
       listVisible: !false,
     },
     {
-      label: "版本号",
-      fieldName: "version",
-      type: "number",
+      label: '版本号',
+      fieldName: 'version',
+      type: 'number',
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "创建人",
-      fieldName: "createdBy",
-      type: "input",
+      label: '创建人',
+      fieldName: 'createdBy',
+      type: 'input',
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "创建时间",
-      fieldName: "createdTime",
-      type: "datetime",
+      label: '创建时间',
+      fieldName: 'createdTime',
+      type: 'datetime',
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "修改人",
-      fieldName: "updatedBy",
-      type: "input",
+      label: '修改人',
+      fieldName: 'updatedBy',
+      type: 'input',
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "修改时间",
-      fieldName: "updatedTime",
-      type: "datetime",
+      label: '修改时间',
+      fieldName: 'updatedTime',
+      type: 'datetime',
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "数据编号",
-      fieldName: "dataNo",
-      type: "input",
+      label: '数据编号',
+      fieldName: 'dataNo',
+      type: 'input',
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "状态码",
-      fieldName: "statusCode",
-      type: "input",
+      label: '状态码',
+      fieldName: 'statusCode',
+      type: 'input',
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "状态名称",
-      fieldName: "statusName",
-      type: "input",
+      label: '状态名称',
+      fieldName: 'statusName',
+      type: 'input',
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "是否删除",
-      fieldName: "isDel",
-      type: "number",
+      label: '是否删除',
+      fieldName: 'isDel',
+      type: 'number',
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "国际编码",
-      fieldName: "local",
-      type: "input",
+      label: '国际编码',
+      fieldName: 'local',
+      type: 'input',
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "备注",
-      fieldName: "remark",
-      type: "textarea",
+      label: '备注',
+      fieldName: 'remark',
+      type: 'textarea',
       required: false,
       formVisible: true,
       listVisible: true,
@@ -151,16 +151,16 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 const rules = {};
 //控制弹窗相关设置
 const dialogProps = dialogPreps();
-provide("dialogProps", dialogProps);
+provide('dialogProps', dialogProps);
 //初始化方法
 const initData = async () => {
 };
 const activated = () => {
 
-}
+};
 const deactivated = () => {
 
-}
+};
 /**
  * 列表，查看数据时数据转换
  * @param name 名称
@@ -170,7 +170,7 @@ const deactivated = () => {
 const dataFormat = (name: string, cellValue: any, row: any): any => {
   //转换显示信息
   return cellValue;
-}
+};
 onMounted(async () => {
   await initData();
 });

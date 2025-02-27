@@ -1,9 +1,9 @@
 <script setup lang="ts" name="DataPreview">
-import {onMounted, ref, watch} from "vue";
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-import {commonDataFormat} from "@/api/sh_api.ts";
-import {createDatetime} from "@/api/date_utils.ts"
-import {Config} from "@/api/settings.ts";
+import {onMounted, ref, watch} from 'vue';
+import StarHorseIcon from '@/components/comp/StarHorseIcon.vue';
+import {commonDataFormat} from '@/api/sh_api.ts';
+import {createDatetime} from '@/api/date_utils.ts';
+import {Config} from '@/api/settings.ts';
 
 const props = defineProps({
   item: {type: Object, default: {}},
@@ -11,7 +11,7 @@ const props = defineProps({
   isPreview: {type: Boolean, default: false},
   compSize: {type: String, default: Config.compSize}
 });
-const emits = defineEmits(["changePage", "exportData"]);
+const emits = defineEmits(['changePage', 'exportData']);
 const viewDataPreviewRef = ref();
 let toolFields = ref<Array<any>>([]);
 let currentPage = ref(1);
@@ -19,9 +19,9 @@ let pageSize = ref(20);
 const tableCompFunc = (func: any) => {
   if (func == 'refresh') {
     handleCurrentChange(currentPage.value, pageSize.value);
-  } else if (func == "exportData") {
-    emits("exportData");
-  } else if (func == "exec") {
+  } else if (func == 'exportData') {
+    emits('exportData');
+  } else if (func == 'exec') {
   }
 };
 const createSearchParams = (formData: any) => {
@@ -32,14 +32,14 @@ const initData = () => {
     let temp = props.columns[i];
     toolFields.value.push(...temp);
   }
-}
+};
 onMounted(() => {
-  initData()
+  initData();
 });
 watch(() => props.columns,
     (val) => {
-      initData()
-    }, {immediate: true, deep: true})
+      initData();
+    }, {immediate: true, deep: true});
 const viewDataDetail = () => {
 };
 const resultDataFormat = (row: any, column: any, val: any) => {
@@ -48,12 +48,12 @@ const resultDataFormat = (row: any, column: any, val: any) => {
 const handleCurrentChange = (cp: number, ps: number) => {
   currentPage.value = cp;
   pageSize.value = ps;
-  emits("changePage", currentPage.value, pageSize.value);
+  emits('changePage', currentPage.value, pageSize.value);
 };
 defineExpose({
   tableCompFunc,
   createSearchParams
-})
+});
 </script>
 <template>
   <div style="width: 100%;display: flex;flex-direction: row-reverse">

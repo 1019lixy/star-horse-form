@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {flowCommon} from '@/views/workflow/plugin/utils/flowCommon.ts';
-import {ref} from "vue";
+import {ref} from 'vue';
 
 let bodyStyle = ref<any>({
   padding: '12px 12px 0',
@@ -39,13 +39,13 @@ let items = ref<Array<any>>([
 ]);
 const setSetting = (item: any) => {
   console.log(item);
-}
+};
 const deleteItem = (item: any) => {
 
-}
+};
 const addItem = () => {
 
-}
+};
 </script>
 <template>
   <div class="flow-module">

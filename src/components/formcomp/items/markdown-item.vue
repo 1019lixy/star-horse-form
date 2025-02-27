@@ -18,22 +18,22 @@
   </starhorse-form-item>
 </template>
 <script lang="ts" name="markdown">
-import {defineComponent, onMounted, onUpdated, ref, shallowRef} from "vue";
-import {allAction} from "@/components/formcomp/utils/ItemRelationEventUtils.ts";
+import {defineComponent, onMounted, onUpdated, ref, shallowRef} from 'vue';
+import {allAction} from '@/components/formcomp/utils/ItemRelationEventUtils.ts';
 
 
 export default defineComponent({
   setup(_props, context) {
-    const parentField = context.attrs["parentField"];
+    const parentField = context.attrs['parentField'];
 
-    const field = context.attrs["field"] as any;
+    const field = context.attrs['field'] as any;
     let formItem = shallowRef({label: 'input', required: false});
-    let dataField = shallowRef("");
-    let defaultLeftToolBar = shallowRef<string>("undo redo clear | h bold italic strikethrough quote | ul ol table hr | link image code");
-    let defaultRightToolBar = shallowRef<string>("preview toc sync-scroll fullscreen");
+    let dataField = shallowRef('');
+    let defaultLeftToolBar = shallowRef<string>('undo redo clear | h bold italic strikethrough quote | ul ol table hr | link image code');
+    let defaultRightToolBar = shallowRef<string>('preview toc sync-scroll fullscreen');
     let markdownEditor = ref();
     const itemAction = () => {
-      allAction(context, "change")
+      allAction(context, 'change');
     };
     const init = async () => {
 
@@ -43,8 +43,8 @@ export default defineComponent({
     });
     onUpdated(() => {
       init();
-    })
-    return {parentField, context, field, formItem, dataField, markdownEditor, itemAction, defaultLeftToolBar, defaultRightToolBar}
+    });
+    return {parentField, context, field, formItem, dataField, markdownEditor, itemAction, defaultLeftToolBar, defaultRightToolBar};
   }
 });
 </script>

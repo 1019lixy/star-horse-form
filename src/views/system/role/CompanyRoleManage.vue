@@ -1,47 +1,47 @@
 <script setup lang="ts">
-import {computed, onMounted, provide, reactive, ref} from "vue";
-import {apiInstance, closeLoad, createCondition, dialogPreps, load, loadData} from "@/api/sh_api.ts";
-import {error, success, warning} from "@/utils/message.ts";
-import {PageFieldInfo} from "@/components/types/PageFieldInfo";
-import {getRowIdentity} from "element-plus/es/components/table/src/util";
-import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
-import piniaInstance from "@/store";
-import UserManage from "@/views/system/UserManage.vue";
-import {postRequest} from "@/api/star_horse.ts";
-import {SearchFields} from "@/components/types/SearchProps";
-import {Config} from "@/api/settings.ts";
-import {SearchParams} from "@/components/types/Params";
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-import RoleUserList from "@/views/system/comp/RoleUserList.vue";
+import {computed, onMounted, provide, reactive, ref} from 'vue';
+import {apiInstance, closeLoad, createCondition, dialogPreps, load, loadData} from '@/api/sh_api.ts';
+import {error, success, warning} from '@/utils/message.ts';
+import {PageFieldInfo} from '@/components/types/PageFieldInfo';
+import {getRowIdentity} from 'element-plus/es/components/table/src/util';
+import {GlobalConfig} from '@/store/GlobalConfigStore.ts';
+import piniaInstance from '@/store';
+import UserManage from '@/views/system/UserManage.vue';
+import {postRequest} from '@/api/star_horse.ts';
+import {SearchFields} from '@/components/types/SearchProps';
+import {Config} from '@/api/settings.ts';
+import {SearchParams} from '@/components/types/Params';
+import StarHorseIcon from '@/components/comp/StarHorseIcon.vue';
+import RoleUserList from '@/views/system/comp/RoleUserList.vue';
 
 let configStore = GlobalConfig(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
-const dataUrl = apiInstance("system-config", "system/companyRole");
-dataUrl.loadByPageUrl = "/system-config/system/companyRole/companyRoleUserList";
+const dataUrl = apiInstance('system-config', 'system/companyRole');
+dataUrl.loadByPageUrl = '/system-config/system/companyRole/companyRoleUserList';
 //查询属性
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: "公司名称/编码",
-      fieldName: "companyName",
+      label: '公司名称/编码',
+      fieldName: 'companyName',
       defaultVisible: true,
-      matchType: "lk",
-      type: "input"
+      matchType: 'lk',
+      type: 'input'
     },
     {
-      label: "角色名称/编码",
-      fieldName: "roleName",
+      label: '角色名称/编码',
+      fieldName: 'roleName',
       defaultVisible: true,
-      matchType: "lk",
-      type: "input"
+      matchType: 'lk',
+      type: 'input'
     },
   ]
 });
 let pageField = reactive<PageFieldInfo>({
   fieldList: [{
-    label: "公司名称",
-    fieldName: "companyName",
-    type: "input",
+    label: '公司名称',
+    fieldName: 'companyName',
+    type: 'input',
     listVisible: true,
   }]
 });
@@ -60,12 +60,12 @@ let dataList = ref<Array<any>>([]);
 //   return cellValue;
 // }
 const init = async () => {
-  let result = await loadData("/system-config/system/companyRole/getAllByCondition", {
-    fieldList: [createCondition("a.roleType", "company_role")],
-    orderBy: [{fieldName: "a.createdTime", ascOrDesc: "asc"}]
+  let result = await loadData('/system-config/system/companyRole/getAllByCondition', {
+    fieldList: [createCondition('a.roleType', 'company_role')],
+    orderBy: [{fieldName: 'a.createdTime', ascOrDesc: 'asc'}]
   });
   if (result.error) {
-    warning("加载公司角色信息异常");
+    warning('加载公司角色信息异常');
     return;
   }
   for (let index in result.data) {
@@ -73,24 +73,24 @@ const init = async () => {
     pageField.fieldList.push({
       label: temp.roleName,
       fieldName: temp.idCompanyRole,
-      type: "button",
+      type: 'button',
       listVisible: true,
       preps: {
-        showComp: "Y",
+        showComp: 'Y',
         styles: {
-          height: "100%",
-          width: "100%",
-          display: "block",
+          height: '100%',
+          width: '100%',
+          display: 'block',
         }
       }
 
     });
   }
   await loadInstanceData([]);
-}
+};
 const loadInstanceData = async (data: SearchParams[]) => {
   let conditions: SearchParams[] = [];
-  conditions.push(createCondition("a.roleType", "company_role"));
+  conditions.push(createCondition('a.roleType', 'company_role'));
   if (data) {
     conditions.push(...data);
   }
@@ -103,41 +103,41 @@ const loadInstanceData = async (data: SearchParams[]) => {
   }
   dataList.value = result.data;
   dialogProps.bakeVisible2 = false;
-}
+};
 
 const companyRoleManageRef = ref();
 //控制弹窗相关设置
 const dialogProps = dialogPreps();
-provide("dialogProps", dialogProps);
+provide('dialogProps', dialogProps);
 let currentRow = ref<any>({});
 let currentItem = ref<any>({});
 const cellClick = (row: any, item: any) => {
-  if (item.fieldName == "companyName") {
+  if (item.fieldName == 'companyName') {
     return;
   }
   currentRow.value = row;
   currentItem.value = item;
   dialogProps.bakeVisible1 = true;
   console.log(row, item);
-}
+};
 const assignRoleUser = () => {
   let selectedDatas = companyRoleManageRef.value.$refs.employeeInfoRef.multipleSelection;
   console.log(selectedDatas);
   if (!selectedDatas || selectedDatas.length == 0) {
-    warning("请选择人员信息");
+    warning('请选择人员信息');
     return;
   }
   let datas = [];
   for (let index in selectedDatas) {
     datas.push({
-      idCompanyDefine: currentRow.value["idCompanyDefine"],
+      idCompanyDefine: currentRow.value['idCompanyDefine'],
       idCompanyRole: currentItem.value.fieldName,
       idEmployee: selectedDatas[index].idEmployeeInfo
     });
   }
   console.log(datas);
-  load("数据提交中");
-  postRequest("/system-config/system/companyRolePkEmployee/mergeBatch", datas).then(res => {
+  load('数据提交中');
+  postRequest('/system-config/system/companyRolePkEmployee/mergeBatch', datas).then(res => {
     if (res.data.code) {
       error(res.data.cnMessage);
       return;
@@ -147,18 +147,18 @@ const assignRoleUser = () => {
     loadInstanceData([]);
   }).finally(() => closeLoad());
 
-}
-let viewUserTitle = ref<string>("");
+};
+let viewUserTitle = ref<string>('');
 let queryCondition = ref<SearchParams[]>([]);
 const showAllUsers = (row: any, item: any, event: MouseEvent) => {
   event.stopPropagation();
   viewUserTitle.value = `${row.companyName}--${item.label}人员列表`;
   queryCondition.value = [];
   dialogProps.bakeVisible2 = true;
-  queryCondition.value.push(createCondition("b.idCompanyDefine", row["idCompanyDefine"]));
-  queryCondition.value.push(createCondition("b.idCompanyRole", item.fieldName));
+  queryCondition.value.push(createCondition('b.idCompanyDefine', row['idCompanyDefine']));
+  queryCondition.value.push(createCondition('b.idCompanyRole', item.fieldName));
   console.log(row, item);
-}
+};
 onMounted(() => {
   init();
 });

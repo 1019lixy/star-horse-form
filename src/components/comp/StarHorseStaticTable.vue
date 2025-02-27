@@ -1,10 +1,10 @@
 <script lang="ts" setup name="StarHorseStaticTable">
-import {onMounted, reactive, ref, unref,} from "vue";
-import {commonParseCodeToName,} from "@/api/sh_api";
-import Sortable from "sortablejs";
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-import {warning} from "@/utils/message";
-import {Config} from "@/api/settings.ts";
+import {onMounted, reactive, ref, unref,} from 'vue';
+import {commonParseCodeToName,} from '@/api/sh_api';
+import Sortable from 'sortablejs';
+import StarHorseIcon from '@/components/comp/StarHorseIcon.vue';
+import {warning} from '@/utils/message';
+import {Config} from '@/api/settings.ts';
 
 const props = defineProps({
   //主键
@@ -18,7 +18,7 @@ const props = defineProps({
   //弹窗模式
   dialogInput: {type: Boolean, default: false},
   //默认表格高度
-  height: {type: String, default: "100%"},
+  height: {type: String, default: '100%'},
   //默认是否展开所有子节点
   expand: {type: Boolean, default: false},
   showBatchField: {type: Boolean, default: false},
@@ -59,8 +59,8 @@ const assignData = (dataList: Array<any>) => {
     } else if (temp.tabList?.length > 0) {
       for (let skey in temp.tabList) {
         let stemp = temp.tabList[skey];
-        if (stemp["fieldList"]) {
-          toolFields.push(...stemp["fieldList"]);
+        if (stemp['fieldList']) {
+          toolFields.push(...stemp['fieldList']);
         }
       }
     } else {
@@ -70,7 +70,7 @@ const assignData = (dataList: Array<any>) => {
 };
 const reCreateData = () => {
   toolFields = [];
-  let tempList = props.fieldList["fieldList"];
+  let tempList = props.fieldList['fieldList'];
   if (tempList) {
     assignData(tempList);
   }
@@ -78,13 +78,13 @@ const reCreateData = () => {
 
 const moveColumn = () => {
   const tbody = document.querySelector(
-      ".sh-columns .el-table__body-wrapper tbody"
+      '.sh-columns .el-table__body-wrapper tbody'
   ) as HTMLElement | null;
   if (tbody) {
     Sortable.create(tbody, {
-      handle: ".move",
+      handle: '.move',
       animation: 200,
-      ghostClass: "ghost",
+      ghostClass: 'ghost',
       onEnd(event: any) {
         const {oldIndex, newIndex} = event;
         //删除并获取当前行
@@ -107,13 +107,13 @@ const checkParent = (val: any) => {
   let flag = false;
   for (let i in val) {
     let item = val[i];
-    if (item["children"] && item["children"].length > 0) {
+    if (item['children'] && item['children'].length > 0) {
       flag = true;
       shStaticTableCompRef.value.toggleRowSelection(item, false);
     }
   }
   if (flag) {
-    warning("非叶子节点不能选择");
+    warning('非叶子节点不能选择');
     return false;
   }
   return true;
@@ -147,7 +147,7 @@ onMounted(() => {
 
 
 const getRowIdentity = (row: any) => {
-  let arr = props.primaryKey?.split(".");
+  let arr = props.primaryKey?.split('.');
   if (arr?.length > 1) {
     let temp = row;
     for (let i in arr) {
@@ -155,7 +155,7 @@ const getRowIdentity = (row: any) => {
     }
     return temp;
   }
-  return props.primaryKey ? row[props.primaryKey] : "";
+  return props.primaryKey ? row[props.primaryKey] : '';
 };
 const dataFormat = (row: any, column: any, cellValue: any, _index: number) => {
   cellValue = commonParseCodeToName(column.property, cellValue);
@@ -197,7 +197,7 @@ const selectRow = (row: any, _column: any, _evt: any) => {
  */
 const setData = (data: any) => {
   staticDataList.value = data;
-}
+};
 //导出方法和变量
 defineExpose({
   getIds,

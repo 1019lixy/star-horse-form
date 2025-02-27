@@ -1,31 +1,31 @@
 <script setup lang="ts" name="DynamicFormConsumerConfig">
-import {apiInstance, dialogPreps} from "@/api/sh_api.ts";
-import {ApiUrls} from "@/components/types/ApiUrls";
-import {onMounted, provide, reactive, ref} from "vue";
-import {SearchFields, SelectOption} from "@/components/types/SearchProps";
-import {PageFieldInfo, UserFuncInfo} from "@/components/types/PageFieldInfo";
-import {dictData} from "@/api/sh_api";
-import {useRouter} from "vue-router";
-import {BtnAuth} from "@/components/types/BtnAuth";
-import StarHorseDialog from "@/components/comp/StarHorseDialog.vue";
-import ViewPage from "@/views/dyform/ViewPage.vue";
-import {Config} from "@/api/settings.ts";
+import {apiInstance, dialogPreps} from '@/api/sh_api.ts';
+import {ApiUrls} from '@/components/types/ApiUrls';
+import {onMounted, provide, reactive, ref} from 'vue';
+import {SearchFields, SelectOption} from '@/components/types/SearchProps';
+import {PageFieldInfo, UserFuncInfo} from '@/components/types/PageFieldInfo';
+import {dictData} from '@/api/sh_api';
+import {useRouter} from 'vue-router';
+import {BtnAuth} from '@/components/types/BtnAuth';
+import StarHorseDialog from '@/components/comp/StarHorseDialog.vue';
+import ViewPage from '@/views/dyform/ViewPage.vue';
+import {Config} from '@/api/settings.ts';
 
 const router = useRouter();
 //后端交互接口地址
-const dataUrl: ApiUrls = apiInstance("userdb-manage", "userdb/dynamicFormConsumerConfig");
+const dataUrl: ApiUrls = apiInstance('userdb-manage', 'userdb/dynamicFormConsumerConfig');
 let viewTypeList = ref<SelectOption[]>([]);
 let auditList = ref<SelectOption[]>([
-  {name: "是", value: "Y"},
-  {name: "否", value: "N"}
+  {name: '是', value: 'Y'},
+  {name: '否', value: 'N'}
 ]);
 //查询属性
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "视图名称", fieldName: "viewName", defaultVisible: true, type: "input", matchType: "lk"},
-    {label: "视图类别", fieldName: "viewType", defaultVisible: true, type: "select", optionList: viewTypeList},
-    {label: "消费权限", fieldName: "consumeAuthority", defaultVisible: true, type: "select"},
-    {label: "是否需要认证", fieldName: "isAudit", defaultVisible: true, type: "select", optionList: auditList},
+    {label: '视图名称', fieldName: 'viewName', defaultVisible: true, type: 'input', matchType: 'lk'},
+    {label: '视图类别', fieldName: 'viewType', defaultVisible: true, type: 'select', optionList: viewTypeList},
+    {label: '消费权限', fieldName: 'consumeAuthority', defaultVisible: true, type: 'select'},
+    {label: '是否需要认证', fieldName: 'isAudit', defaultVisible: true, type: 'select', optionList: auditList},
   ]
 });
 const currentRow = ref<any>({});
@@ -37,155 +37,155 @@ const preview = (row: any, _currentPage: number, _pageSize: number) => {
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     {
-      label: "主键",
-      fieldName: "idConsumerConfig",
-      type: "long",
+      label: '主键',
+      fieldName: 'idConsumerConfig',
+      type: 'long',
       required: true,
     },
     {
-      label: "视图Token",
-      fieldName: "dataNo",
-      type: "input",
+      label: '视图Token',
+      fieldName: 'dataNo',
+      type: 'input',
       listVisible: true,
     },
     {
-      label: "视图名称",
-      fieldName: "viewName",
-      type: "input",
-      required: true,
-      formVisible: true,
-      listVisible: true,
-    },
-    {
-      label: "视图类别",
-      fieldName: "viewType",
-      type: "input",
+      label: '视图名称',
+      fieldName: 'viewName',
+      type: 'input',
       required: true,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "消费权限",
-      fieldName: "consumeAuthority",
-      type: "input",
-      formVisible: true,
-      listVisible: true,
-    },
-    {
-      label: "是否需要认证 ",
-      fieldName: "isAudit",
-      type: "input",
+      label: '视图类别',
+      fieldName: 'viewType',
+      type: 'input',
       required: true,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "单次请求数据限制",
-      fieldName: "dataLimits",
-      type: "long",
+      label: '消费权限',
+      fieldName: 'consumeAuthority',
+      type: 'input',
+      formVisible: true,
+      listVisible: true,
+    },
+    {
+      label: '是否需要认证 ',
+      fieldName: 'isAudit',
+      type: 'input',
       required: true,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "版本号",
-      fieldName: "version",
-      type: "long",
-    },
-    {
-      label: "创建人", disabled: "Y",
-      fieldName: "createdBy",
-      type: "input",
+      label: '单次请求数据限制',
+      fieldName: 'dataLimits',
+      type: 'long',
+      required: true,
+      formVisible: true,
       listVisible: true,
     },
     {
-      label: "创建时间",
-      fieldName: "createdTime",
-      type: "date",
+      label: '版本号',
+      fieldName: 'version',
+      type: 'long',
+    },
+    {
+      label: '创建人', disabled: 'Y',
+      fieldName: 'createdBy',
+      type: 'input',
       listVisible: true,
     },
     {
-      label: "修改人", disabled: "Y",
-      fieldName: "updatedBy",
-      type: "input",
+      label: '创建时间',
+      fieldName: 'createdTime',
+      type: 'date',
       listVisible: true,
     },
     {
-      label: "修改时间",
-      fieldName: "updatedTime",
-      type: "date",
+      label: '修改人', disabled: 'Y',
+      fieldName: 'updatedBy',
+      type: 'input',
+      listVisible: true,
     },
     {
-      label: "状态吗",
-      fieldName: "statusCode",
-      type: "input",
+      label: '修改时间',
+      fieldName: 'updatedTime',
+      type: 'date',
     },
     {
-      label: "状态名称",
-      fieldName: "statusName",
-      type: "input",
+      label: '状态吗',
+      fieldName: 'statusCode',
+      type: 'input',
     },
     {
-      label: "是否删除",
-      fieldName: "isDel",
-      type: "long",
+      label: '状态名称',
+      fieldName: 'statusName',
+      type: 'input',
     },
     {
-      label: "国际码",
-      fieldName: "local",
-      type: "input",
+      label: '是否删除',
+      fieldName: 'isDel',
+      type: 'long',
     },
     {
-      label: "备注",
-      fieldName: "remark",
-      type: "input",
+      label: '国际码',
+      fieldName: 'local',
+      type: 'input',
+    },
+    {
+      label: '备注',
+      fieldName: 'remark',
+      type: 'input',
       formVisible: true,
       listVisible: true,
     },
   ],
-  userTableFuncs: [{btnName: "数据预览", authority: "view", funcName: (row: any) => preview(row, 1, 20)}],
+  userTableFuncs: [{btnName: '数据预览', authority: 'view', funcName: (row: any) => preview(row, 1, 20)}],
 });
 //主键
-const primaryKey = "idConsumerConfig";
+const primaryKey = 'idConsumerConfig';
 const dynamicFormConsumerConfigRef = ref();
 //校验
 const rules = {};
 //控制弹窗相关设置
 const dialogProps = dialogPreps();
-provide("dialogProps", dialogProps);
+provide('dialogProps', dialogProps);
 
 const selfBtnFunc = ref<UserFuncInfo[]>([]);
 const expandBtns = ref<UserFuncInfo[]>([]);
 const closeAction = () => {
   dialogProps.bakeVisible1 = false;
   currentRow.value = {};
-}
+};
 //初始化方法
 const initData = async () => {
-  viewTypeList.value = await dictData("consumer_type");
+  viewTypeList.value = await dictData('consumer_type');
   selfBtnFunc.value?.push({
-    btnName: "新增",
-    icon: "add",
-    authority: "add",
+    btnName: '新增',
+    icon: 'add',
+    authority: 'add',
     funcName: () => {
-      router.push("/dyform/DataConsumerConfig");
+      router.push('/dyform/DataConsumerConfig');
     }
   });
   expandBtns.value?.push({
-    btnName: "编辑",
-    icon: "edit",
-    authority: "edit",
+    btnName: '编辑',
+    icon: 'edit',
+    authority: 'edit',
     funcName: (params: any) => {
       //params 页面刷新后 参数丢失，query 页面刷新后参数不会丢失
-      router.push({path: "/dyform/DataConsumerConfig", query: {configId: params[primaryKey]}});
+      router.push({path: '/dyform/DataConsumerConfig', query: {configId: params[primaryKey]}});
     }
   });
   expandBtns.value?.push({
-    btnName: "查看详情",
-    icon: "view",
-    authority: "view",
+    btnName: '查看详情',
+    icon: 'view',
+    authority: 'view',
     funcName: (params: any) => {
-      router.push({path: "/dyform/DataConsumerConfig", query: {configId: params[primaryKey], isView: "Y"}});
+      router.push({path: '/dyform/DataConsumerConfig', query: {configId: params[primaryKey], isView: 'Y'}});
     }
   });
 };
@@ -200,15 +200,15 @@ onMounted(async () => {
  */
 const dataFormat = (name: string, cellValue: any, _row: any): any => {
   //转换显示信息
-  if (name == "viewType") {
+  if (name == 'viewType') {
     let redata = viewTypeList.value?.find((item: SelectOption) => item.value == cellValue);
     return redata?.name || cellValue;
-  } else if (name == "isAudit") {
+  } else if (name == 'isAudit') {
     let redata = auditList.value?.find((item: SelectOption) => item.value == cellValue);
     return redata?.name || cellValue;
   }
   return cellValue;
-}
+};
 </script>
 <style lang="scss" scoped>
 </style>

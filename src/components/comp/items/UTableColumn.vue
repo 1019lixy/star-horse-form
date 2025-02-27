@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import {Config} from "@/api/settings.ts";
-import {batchFieldDefaultValues} from "@/api/sh_api.ts";
+import {Config} from '@/api/settings.ts';
+import {batchFieldDefaultValues} from '@/api/sh_api.ts';
 
 defineProps({
   item: {type: Object, required: true},
   rules: {type: Object},
-  staticColumn: {type: String, default: "N"},
+  staticColumn: {type: String, default: 'N'},
   size: {type: String, default: Config.compSize},
-  batchName: {type: String, default: "batchDataList"},
+  batchName: {type: String, default: 'batchDataList'},
   primaryKey: {type: String},
 });
 </script>

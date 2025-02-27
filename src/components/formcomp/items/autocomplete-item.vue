@@ -29,18 +29,18 @@
   </starhorse-form-item>
 </template>
 <script lang="ts">
-import {defineComponent, onMounted, shallowRef} from "vue";
-import {compDynamicData, createFilter, dynamicUrlOperation} from "@/api/sh_api.ts";
-import {SearchParams} from "@/components/types/Params";
-import {allAction} from "@/components/formcomp/utils/ItemRelationEventUtils.ts";
+import {defineComponent, onMounted, shallowRef} from 'vue';
+import {compDynamicData, createFilter, dynamicUrlOperation} from '@/api/sh_api.ts';
+import {SearchParams} from '@/components/types/Params';
+import {allAction} from '@/components/formcomp/utils/ItemRelationEventUtils.ts';
 
 export default defineComponent({
   setup(_props, context) {
-    const parentField = context.attrs["parentField"];
-    const field = context.attrs["field"] as any;
+    const parentField = context.attrs['parentField'];
+    const field = context.attrs['field'] as any;
     let formItem = shallowRef({label: 'input', required: false});
-    let dataField = shallowRef("");
-    let actionName = shallowRef("keydown.enter");
+    let dataField = shallowRef('');
+    let actionName = shallowRef('keydown.enter');
     const itemAction = (prep: any) => {
       allAction(context, prep);
     };
@@ -48,40 +48,40 @@ export default defineComponent({
      * 动态获取数据
      */
     const initData = async () => {
-      field.preps["values"] = await compDynamicData(field.preps);
-    }
+      field.preps['values'] = await compDynamicData(field.preps);
+    };
     onMounted(() => {
       initData();
-       actionName.value = field.preps?.actionName || "keydown.enter";;
-      if (!context.attrs["isSearch"]) {
+       actionName.value = field.preps?.actionName || 'keydown.enter';;
+      if (!context.attrs['isSearch']) {
         allAction(context, actionName.value, true);
       }
     });
     const querySearch = async (queryString: string, cb: (arg: any) => void) => {
       let temp = field.preps;
       let dataSource = temp['dataSource'];
-      if (dataSource == "url") {
+      if (dataSource == 'url') {
         let searchParams: SearchParams[] = [];
         searchParams.push({
-          propertyName: temp["selectLabel"],
+          propertyName: temp['selectLabel'],
           value: queryString,
-          operation: "lk"
+          operation: 'lk'
         });
-        temp["values"] = await dynamicUrlOperation(temp, searchParams);
-        cb(temp["values"]);
+        temp['values'] = await dynamicUrlOperation(temp, searchParams);
+        cb(temp['values']);
       } else {
         const results = queryString ? temp['values'].filter(createFilter(queryString)) : temp['values'];
         cb(results);
       }
-    }
+    };
 
     const handSelect = (item: Record<string, any>) => {
       console.log(item);
-    }
+    };
     return {
       parentField, context, field, formItem, dataField,
       itemAction, querySearch, actionName, handSelect
-    }
+    };
   }
 });
 </script>

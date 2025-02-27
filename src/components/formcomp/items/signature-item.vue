@@ -1,17 +1,17 @@
 <script lang="ts" name="signature-item">
-import {defineComponent, nextTick, onMounted, onUpdated, ref, shallowRef} from "vue";
-import SmoothSignature from "smooth-signature";
-import {warning} from "@/utils/message.ts";
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-import StarHorseDialog from "@/components/comp/StarHorseDialog.vue";
+import {defineComponent, nextTick, onMounted, onUpdated, ref, shallowRef} from 'vue';
+import SmoothSignature from 'smooth-signature';
+import {warning} from '@/utils/message.ts';
+import StarHorseIcon from '@/components/comp/StarHorseIcon.vue';
+import StarHorseDialog from '@/components/comp/StarHorseDialog.vue';
 
 export default defineComponent({
   components: {StarHorseDialog, StarHorseIcon},
   setup(_props, context) {
-    const parentField = context.attrs["parentField"];
-    const field = context.attrs["field"] as any;
+    const parentField = context.attrs['parentField'];
+    const field = context.attrs['field'] as any;
     let formItem = shallowRef({label: 'input', required: false});
-    let dataField = shallowRef("");
+    let dataField = shallowRef('');
     let previewDialog = shallowRef<boolean>(false);
     let signature = ref<SmoothSignature>(null);
     let canvas = ref();
@@ -28,7 +28,7 @@ export default defineComponent({
     };
     const init = async () => {
       await nextTick(() => {
-        let singatureCanvas = document.getElementById("singatureCanvas");
+        let singatureCanvas = document.getElementById('singatureCanvas');
         if (!signature.value && canvas.value && singatureCanvas) {
           signature.value = new SmoothSignature(singatureCanvas, options);
         }
@@ -39,11 +39,11 @@ export default defineComponent({
     const clear = (evt: MouseEvent) => {
       evt && evt.defaultPrevented;
       signature.value && signature.value.clear();
-    }
+    };
     const undo = (evt: MouseEvent) => {
       evt && evt.defaultPrevented;
       signature.value && signature.value.undo();
-    }
+    };
 
     const handleColor = (evt: MouseEvent) => {
       evt && evt.defaultPrevented;
@@ -53,24 +53,24 @@ export default defineComponent({
       evt && evt.defaultPrevented;
       const isEmpty = signature.value.isEmpty();
       if (isEmpty) {
-        warning("请先签名");
+        warning('请先签名');
         return;
       }
       previewDialog.value = true;
       const pngUrl = signature.value.getPNG();
       // imagesPreview(pngUrl);
       // window.previewImage(pngUrl);
-    }
+    };
     onMounted(() => {
       init();
     });
     onUpdated(() => {
       init();
-    })
+    });
     return {
       parentField, context, field, formItem, dataField, handlePreview, itemAction,
       clear, undo, handleColor, canvas, signature, previewDialog
-    }
+    };
   }
 });
 </script>

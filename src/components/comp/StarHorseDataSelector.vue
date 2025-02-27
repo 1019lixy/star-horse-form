@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import {useVModel} from '@vueuse/core'
+import {useVModel} from '@vueuse/core';
 import DataTag from '@/components/comp/utils/DataTag.vue';
 import DataPicker, {type ModelValueType} from '@/components/comp/utils/DataPicker.vue';
-import {useFormDisabled, useFormSize} from 'element-plus'
-import type {CSSProperties} from 'vue'
+import {useFormDisabled, useFormSize} from 'element-plus';
+import type {CSSProperties} from 'vue';
 import {computed, ref} from 'vue';
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
+import StarHorseIcon from '@/components/comp/StarHorseIcon.vue';
 
 export interface DataSelectorProps {
   modelValue: ModelValueType,
@@ -33,7 +33,7 @@ const props = withDefaults(defineProps<DataSelectorProps>(), {
   displayValue: 'value',
   checkStrictly: true,
   placeholder: '请选择数据'
-})
+});
 const emits = defineEmits<{
   (e: 'update:modelValue', modelValue: ModelValueType): void,
   (e: 'selectedData', selectData: any): void,
@@ -52,27 +52,27 @@ const valueArr = computed<string[]>(() => {
     return [selectData.value];
   }
 });
-const dataPickerRef = ref<InstanceType<typeof DataPicker>>()
-const formDisabled = useFormDisabled()
-const formSize = useFormSize()
+const dataPickerRef = ref<InstanceType<typeof DataPicker>>();
+const formDisabled = useFormDisabled();
+const formSize = useFormSize();
 const disabled = computed<boolean>(() => {
-  return formDisabled.value || props.disabled
-})
+  return formDisabled.value || props.disabled;
+});
 const openDataPicker = () => {
   if (props.disabled) return;
-  dataPickerRef.value?.open()
-}
+  dataPickerRef.value?.open();
+};
 const onClose = (data: any) => {
-  if (!selectData.value) return
+  if (!selectData.value) return;
   if (props.multiple && Array.isArray(selectData.value)) {
     selectData.value.splice(selectData.value.indexOf(data), 1);
     value.value.splice(selectData.value.indexOf(data[props.displayValue]), 1);
   } else {
-    selectData.value = null
+    selectData.value = null;
     value.value = null;
   }
   emits('selectData', selectData.value);
-}
+};
 </script>
 
 <template>

@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import {computed, onMounted, provide, reactive, ref, watch} from "vue";
-import {apiInstance, closeLoad, dialogPreps, load} from "@/api/sh_api";
-import {SearchProps} from "@/components/types/SearchProps";
-import DataPreview from "@/views/dyform/DataPreview.vue";
-import {analysisSearchData, viewColumns, viewDataList} from "@/views/dyform/utils/preview";
-import {download} from "@/api/star_horse";
-import {error} from "@/utils/message";
-import {Config} from "@/api/settings.ts";
-import {DesignForm} from "@/store/DesignFormStore.ts";
-import piniaInstance from "@/store/index.ts";
-import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
+import {computed, onMounted, provide, reactive, ref, watch} from 'vue';
+import {apiInstance, closeLoad, dialogPreps, load} from '@/api/sh_api';
+import {SearchProps} from '@/components/types/SearchProps';
+import DataPreview from '@/views/dyform/DataPreview.vue';
+import {analysisSearchData, viewColumns, viewDataList} from '@/views/dyform/utils/preview';
+import {download} from '@/api/star_horse';
+import {error} from '@/utils/message';
+import {Config} from '@/api/settings.ts';
+import {DesignForm} from '@/store/DesignFormStore.ts';
+import piniaInstance from '@/store/index.ts';
+import {GlobalConfig} from '@/store/GlobalConfigStore.ts';
 
 let designForm = DesignForm(piniaInstance);
 const props = defineProps({
@@ -19,9 +19,9 @@ const props = defineProps({
 let configStore = GlobalConfig(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
 
-const dataUrl = apiInstance("userdb-manage", "consumer/api");
+const dataUrl = apiInstance('userdb-manage', 'consumer/api');
 dataUrl.exportAllUrl = `/userdb-manage/consumer/api/exportData/${props.param}`;
-const errorMsg = ref("数据加载中");
+const errorMsg = ref('数据加载中');
 let searchFormData = ref<SearchProps[]>([]);
 const tableFieldList = ref<any>({
   fieldList: [],
@@ -30,7 +30,7 @@ const tableFieldList = ref<any>({
  * 表单数据直接取定义的数据preps,
  * 列表数据重新定义，方便排序和位置拖拽
  */
-const primaryKey = ref<string>("");
+const primaryKey = ref<string>('');
 const viewSearchRef = ref();
 const rules = ref<any>({});
 const hasData = ref<boolean>(false);
@@ -41,14 +41,14 @@ const clear = () => {
   hasData.value = false;
 };
 const exportData = () => {
-  load("数据处理中");
+  load('数据处理中');
   let params = {
     fieldList: viewSearchRef.value.createSearchParams(searchFormData.value),
     pageSize: 100,
     currentPage: 1
-  }
+  };
   download(dataUrl.exportAllUrl!, params).catch(err => {
-    error("接口不存在或网络异常:" + err);
+    error('接口不存在或网络异常:' + err);
   }).finally(() => {
     closeLoad();
   });
@@ -60,7 +60,7 @@ const loadColumnFields = async () => {
   let {formDatas, columns} = await viewColumns(props.param);
   searchFormData.value = formDatas;
   columnList.value = columns;
-}
+};
 const loadFormData = async (currentPage: number, pageSize: number) => {
   let {viewDatas, error} = await viewDataList(props.param, currentPage, pageSize,
       analysisSearchData(viewSearchRef.value?.searchForm || {}, searchFormData.value));
@@ -81,22 +81,22 @@ watch(
       clear();
       try {
         if (props.param) {
-          load("数据加载中。。。");
+          load('数据加载中。。。');
           loadColumnFields();
           loadFormData(1, 20);
         }
       } catch (e) {
         closeLoad();
-        console.log("数据类型不匹配");
+        console.log('数据类型不匹配');
       }
     },
     {deep: true}
 );
 //记录表单的属性
 const formFields = reactive<Array<any>>([]);
-provide("formFields", formFields);
+provide('formFields', formFields);
 const dialogProps = dialogPreps();
-provide("dialogProps", dialogProps);
+provide('dialogProps', dialogProps);
 
 const dataFormat = (name: string, cellValue: object): any => {
   return cellValue;
@@ -105,7 +105,7 @@ const init = async () => {
   designForm.setIsEdit(false);
   await loadColumnFields();
   await loadFormData(1, 20);
-}
+};
 onMounted(async () => {
   await init();
 });

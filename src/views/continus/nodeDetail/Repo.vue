@@ -1,8 +1,8 @@
 <script setup lang="ts" name="Repo">
-import DataLog from "@/views/continus/nodeDetail/DataLog.vue";
-import {ref} from "vue";
+import DataLog from '@/views/continus/nodeDetail/DataLog.vue';
+import {ref} from 'vue';
 
-const tabCurrent = ref("first");
+const tabCurrent = ref('first');
 </script>
 <style scoped>
 </style>

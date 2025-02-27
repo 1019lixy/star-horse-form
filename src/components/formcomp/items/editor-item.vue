@@ -9,17 +9,17 @@
   </starhorse-form-item>
 </template>
 <script lang="ts" name="codeItem">
-import {defineComponent, onMounted, shallowRef} from "vue";
-import StarHorseEditor from "@/components/comp/StarHorseEditor.vue";
+import {defineComponent, onMounted, shallowRef} from 'vue';
+import StarHorseEditor from '@/components/comp/StarHorseEditor.vue';
 
 export default defineComponent({
   components: {StarHorseEditor},
   setup(_props, context) {
-    const parentField = context.attrs["parentField"];
+    const parentField = context.attrs['parentField'];
 
-    const field = context.attrs["field"] as any;
+    const field = context.attrs['field'] as any;
     let formItem = shallowRef({label: 'input', required: false});
-    let dataField = shallowRef("");
+    let dataField = shallowRef('');
     const itemAction = () => {
       context.emit('selfFunc');
     };
@@ -30,7 +30,7 @@ export default defineComponent({
     onMounted(() => {
       init();
     });
-    return {parentField, context, field, formItem, dataField, itemAction, rendered}
+    return {parentField, context, field, formItem, dataField, itemAction, rendered};
   }
 });
 </script>

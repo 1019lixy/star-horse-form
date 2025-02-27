@@ -4,12 +4,12 @@ import FlowNode from '@/views/workflow/plugin/node/FlowNode.vue';
 import FlowAddNode from '@/views/workflow/plugin/node/AddNode.vue';
 import EditName from '@/views/workflow/plugin/common/EditName.vue';
 import DeleteConfirm from '@/views/workflow/plugin/common/DeleteConfirm.vue';
-import {computed, onMounted, watch} from "vue";
-import {useFlowDesign} from "@/store/FlowDesignStore.ts";
-import piniaInstance from "@/store";
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-import {FlowNodeEnums} from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
-import {closeLoad} from "@/api/sh_api.ts";
+import {computed, onMounted, watch} from 'vue';
+import {useFlowDesign} from '@/store/FlowDesignStore.ts';
+import piniaInstance from '@/store';
+import StarHorseIcon from '@/components/comp/StarHorseIcon.vue';
+import {FlowNodeEnums} from '@/views/workflow/plugin/enums/FlowNodeEnums.ts';
+import {closeLoad} from '@/api/sh_api.ts';
 
 defineOptions({
   name: 'BranchNode',
@@ -30,7 +30,7 @@ const props = defineProps({
 const emits = defineEmits(['selectNode']);
 const selectNode = (node: any) => {
   emits('selectNode', node, props.node);
-}
+};
 let nameClass = computed(() => {
   return (node: any, defaultStyle: string) => {
     if (node.statusCode == -1) {
@@ -46,19 +46,19 @@ let nameClass = computed(() => {
 const errorCheck = () => {
   props.node.conditionNodes.forEach((conditionNode: any) => {
     let flag = false;
-    let msg = "";
+    let msg = '';
     if (conditionNode.otherFlag) {
       conditionNode.error = false;
-      conditionNode.errorMsg = "";
+      conditionNode.errorMsg = '';
       return;
     }
     if (!conditionNode.branchType) {
       flag = true;
-      msg += "未配置条件规则\n";
+      msg += '未配置条件规则\n';
     }
     if (!conditionNode.conditionGroups || !conditionNode.conditionGroups.length) {
       flag = true;
-      msg += "未配置条件\n";
+      msg += '未配置条件\n';
     } else {
       conditionNode.conditionGroups.forEach((condition: any, index: number) => {
         condition.conditions.forEach((condition: any, sindex: number) => {
@@ -80,18 +80,18 @@ const errorCheck = () => {
     conditionNode.error = flag;
     conditionNode.errorMsg = msg;
   });
-}
+};
 const init = () => {
   closeLoad();
   flowDesign.refreshMap();
-}
+};
 onMounted(() => {
   init();
 });
 watch(() => props.node.conditionNodes, () => {
       errorCheck();
     },
-    {immediate: true, deep: true})
+    {immediate: true, deep: true});
 </script>
 <template>
   <div class="flow-row">

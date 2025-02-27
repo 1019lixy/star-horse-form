@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import {onMounted, PropType, ref} from "vue";
-import {FieldInfo} from "@/components/types/PageFieldInfo";
-import {ModelRef} from "vue-demi";
+import {onMounted, PropType, ref} from 'vue';
+import {FieldInfo} from '@/components/types/PageFieldInfo';
+import {ModelRef} from 'vue-demi';
 
 defineProps({
   item: {type: Array as PropType<Array<FieldInfo>>, required: true},
   commonFormat: {type: Function, required: true},
 });
-const dataForm: ModelRef<any> = defineModel("dataForm");
-const normalTabList = ref<string>("tab0");
+const dataForm: ModelRef<any> = defineModel('dataForm');
+const normalTabList = ref<string>('tab0');
 const init = () => {
 
-}
+};
 onMounted(() => {
   init();
 });

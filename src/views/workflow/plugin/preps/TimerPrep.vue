@@ -38,15 +38,15 @@
 </template>
 <script setup lang="ts">
 import FlowDrawerFooter from '@/views/workflow/plugin/common/DrawerFooter.vue';
-import {ref, computed} from "vue";
-import {useFlowDesign} from "@/store/FlowDesignStore.ts";
-import piniaInstance from "@/store";
-import {ModelRef} from "vue-demi";
-import {SelectOption} from "@/components/types/SearchProps";
+import {ref, computed} from 'vue';
+import {useFlowDesign} from '@/store/FlowDesignStore.ts';
+import piniaInstance from '@/store';
+import {ModelRef} from 'vue-demi';
+import {SelectOption} from '@/components/types/SearchProps';
 
 defineOptions({
   name: 'WritePrep',
-})
+});
 const rules = [{trigger: 'blur', required: true, message: '必填项不能为空'}];
 const timeOptionList = ref<SelectOption[]>([
   {name: '秒', value: 'PT%sS'},
@@ -56,12 +56,12 @@ const timeOptionList = ref<SelectOption[]>([
   {name: '周', value: 'P%sW'},
   {name: '月', value: 'P%sM'},
 ]);
-let node: ModelRef<any> = defineModel("activeData");
+let node: ModelRef<any> = defineModel('activeData');
 const timerNodeRef = ref();
 const flowDesign = useFlowDesign(piniaInstance);
 const onClose = () => {
   flowDesign.setActive(false);
-}
+};
 /**
  * 保存配置
  */
@@ -77,7 +77,7 @@ const onSave = () => {
       onClose();
     }
   });
-}
+};
 </script>
 <style lang="scss" scoped>
 :deep(.el-input-group__append) {

@@ -1,105 +1,105 @@
 <script setup lang="ts" name="Audit">
-import {apiInstance, dialogPreps} from "@/api/sh_api.ts";
-import {ApiUrls} from "@/components/types/ApiUrls";
-import {Config} from "@/api/settings.ts";
-import {onMounted, provide, reactive, ref} from "vue";
-import {SearchFields} from "@/components/types/SearchProps";
-import {PageFieldInfo} from "@/components/types/PageFieldInfo";
+import {apiInstance, dialogPreps} from '@/api/sh_api.ts';
+import {ApiUrls} from '@/components/types/ApiUrls';
+import {Config} from '@/api/settings.ts';
+import {onMounted, provide, reactive, ref} from 'vue';
+import {SearchFields} from '@/components/types/SearchProps';
+import {PageFieldInfo} from '@/components/types/PageFieldInfo';
 
-const dataUrl: ApiUrls = apiInstance("system-config", "system/auditEntity");
-const requestMethod = [{name: "POST", value: "POST"}, {name: "GET", value: "GET"},
-  {name: "PUT", value: "PUT"}, {name: "DELETE", value: "DELETE"},];
+const dataUrl: ApiUrls = apiInstance('system-config', 'system/auditEntity');
+const requestMethod = [{name: 'POST', value: 'POST'}, {name: 'GET', value: 'GET'},
+  {name: 'PUT', value: 'PUT'}, {name: 'DELETE', value: 'DELETE'},];
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "请求方法", fieldName: "requestMethod", type: "select", optionList: requestMethod},
-    {label: "操作人", defaultVisible: true, fieldName: "operator", type: "input", matchType: "lk"},
-    {label: "操作接口", defaultVisible: true, fieldName: "signature", type: "input", matchType: "lk"},
-    {label: "接口地址", fieldName: "url", type: "input", matchType: "lk"},
+    {label: '请求方法', fieldName: 'requestMethod', type: 'select', optionList: requestMethod},
+    {label: '操作人', defaultVisible: true, fieldName: 'operator', type: 'input', matchType: 'lk'},
+    {label: '操作接口', defaultVisible: true, fieldName: 'signature', type: 'input', matchType: 'lk'},
+    {label: '接口地址', fieldName: 'url', type: 'input', matchType: 'lk'},
   ]
 });
 const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
-      label: "主键", fieldName: "idAudit", type: "long",
+      label: '主键', fieldName: 'idAudit', type: 'long',
     },
     {
-      label: "操作人", fieldName: "operator", type: "input",
+      label: '操作人', fieldName: 'operator', type: 'input',
       formVisible: true,
       listVisible: true
     },
     {
-      label: "操作接口", fieldName: "signature", type: "input",
+      label: '操作接口', fieldName: 'signature', type: 'input',
       formVisible: true,
       listVisible: true
     },
     {
-      label: "操作内容", fieldName: "operContent", type: "input",
+      label: '操作内容', fieldName: 'operContent', type: 'input',
       formVisible: true,
       listVisible: true
     },
     {
-      label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
+      label: '创建人', disabled: 'Y', fieldName: 'createdBy', type: 'input',
     },
     {
-      label: "修改人", disabled: "Y", fieldName: "updatedBy", type: "input",
+      label: '修改人', disabled: 'Y', fieldName: 'updatedBy', type: 'input',
     },
     {
-      label: "创建日期", disabled: "Y", fieldName: "createdDate", type: "date",
+      label: '创建日期', disabled: 'Y', fieldName: 'createdDate', type: 'date',
     },
     {
-      label: "修改日期", disabled: "Y", fieldName: "updatedDate", type: "date",
+      label: '修改日期', disabled: 'Y', fieldName: 'updatedDate', type: 'date',
     },
     {
-      label: "数据版本号", fieldName: "version", type: "number",
+      label: '数据版本号', fieldName: 'version', type: 'number',
     },
     {
-      label: "是否已逻辑", fieldName: "isDel", type: "number",
+      label: '是否已逻辑', fieldName: 'isDel', type: 'number',
     },
     {
-      label: "数据编号", fieldName: "dataNo", type: "input",
+      label: '数据编号', fieldName: 'dataNo', type: 'input',
     },
     {
-      label: "状态码", fieldName: "statusCode", type: "input",
+      label: '状态码', fieldName: 'statusCode', type: 'input',
     },
     {
-      label: "状态码名称", fieldName: "statusName", type: "input",
+      label: '状态码名称', fieldName: 'statusName', type: 'input',
     },
     {
-      label: "国际码", fieldName: "local", type: "input",
+      label: '国际码', fieldName: 'local', type: 'input',
     },
     {
-      label: "接口地址", fieldName: "url", type: "input",
+      label: '接口地址', fieldName: 'url', type: 'input',
       formVisible: true,
       listVisible: true
     },
     {
-      label: "备注", fieldName: "remark", type: "input",
+      label: '备注', fieldName: 'remark', type: 'input',
       formVisible: true,
       listVisible: true
     },
     {
-      label: "请求方法", fieldName: "requestMethod", type: "input",
+      label: '请求方法', fieldName: 'requestMethod', type: 'input',
       formVisible: true,
       listVisible: true
     },
   ],
   cellEditable: false
 });
-const primaryKey = "idAudit";
+const primaryKey = 'idAudit';
 const auditRef = ref();
 const rules = {};
 const dialogProps = dialogPreps();
-provide("dialogProps", dialogProps);
+provide('dialogProps', dialogProps);
 
 const dataFormat = (_name: string, cellValue: object): any => {
   return cellValue;
-}
+};
 const initData = async () => {
 
 };
 onMounted(async () => {
-  await initData()
-})
+  await initData();
+});
 </script>
 <style lang="scss" scoped>
 </style>

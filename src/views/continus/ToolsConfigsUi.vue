@@ -1,102 +1,102 @@
 <script setup lang="ts" name="ToolsConfigs">
-import {apiInstance, dialogPreps} from "@/api/sh_api.ts";
-import {ApiUrls} from "@/components/types/ApiUrls";
-import {onMounted, provide, reactive, ref} from "vue";
-import {SearchFields} from "@/components/types/SearchProps";
-import {Config} from "@/api/settings.ts";
+import {apiInstance, dialogPreps} from '@/api/sh_api.ts';
+import {ApiUrls} from '@/components/types/ApiUrls';
+import {onMounted, provide, reactive, ref} from 'vue';
+import {SearchFields} from '@/components/types/SearchProps';
+import {Config} from '@/api/settings.ts';
 
-const dataUrl: ApiUrls = apiInstance("devops-continus", "continus/toolsConfigs");
+const dataUrl: ApiUrls = apiInstance('devops-continus', 'continus/toolsConfigs');
 
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "节点", fieldName: "idNodeProperty", type: "input", matchType: "lk", defaultVisible: true},
-    {label: "测试报告类型", fieldName: "projectType", type: "reportType", matchType: "lk", defaultVisible: true},
+    {label: '节点', fieldName: 'idNodeProperty', type: 'input', matchType: 'lk', defaultVisible: true},
+    {label: '测试报告类型', fieldName: 'projectType', type: 'reportType', matchType: 'lk', defaultVisible: true},
   ]
 });
 const tableFieldList = reactive({
   fieldList: [
     {
-      label: "主键", fieldName: "idToolConfig", type: "input",
+      label: '主键', fieldName: 'idToolConfig', type: 'input',
     }, {
-      label: "工具ID", fieldName: "idToolCategory", type: "select",
+      label: '工具ID', fieldName: 'idToolCategory', type: 'select',
       required: true, formVisible: true,
       listVisible: true
     },
     [{
-      label: "部署地址", fieldName: "deployHost", type: "input",
+      label: '部署地址', fieldName: 'deployHost', type: 'input',
       formVisible: true,
       listVisible: true
     },
       {
-        label: "端口", fieldName: "deployPort", type: "number",
+        label: '端口', fieldName: 'deployPort', type: 'number',
         formVisible: true,
         listVisible: true
       }],
     [{
-      label: "管理员账号", fieldName: "adminAccount", type: "input",
+      label: '管理员账号', fieldName: 'adminAccount', type: 'input',
       formVisible: true,
       listVisible: true
     },
       {
-        label: "管理员密码", fieldName: "adminSecurity", type: "password",
+        label: '管理员密码', fieldName: 'adminSecurity', type: 'password',
         formVisible: true,
         listVisible: true
       }],
     {
-      label: "备注", fieldName: "remark", type: "textarea",
+      label: '备注', fieldName: 'remark', type: 'textarea',
       formVisible: true,
     },
     {
-      label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
+      label: '创建人', disabled: 'Y', fieldName: 'createdBy', type: 'input',
     },
     {
-      label: "修改人", disabled: "Y", fieldName: "updatedBy", type: "input",
+      label: '修改人', disabled: 'Y', fieldName: 'updatedBy', type: 'input',
     },
     {
-      label: "创建日期", disabled: "Y", fieldName: "createdDate", type: "date",
+      label: '创建日期', disabled: 'Y', fieldName: 'createdDate', type: 'date',
     },
     {
-      label: "修改日期", disabled: "Y", fieldName: "updatedDate", type: "date",
+      label: '修改日期', disabled: 'Y', fieldName: 'updatedDate', type: 'date',
     },
     {
-      label: "数据版本号", fieldName: "version", type: "number",
+      label: '数据版本号', fieldName: 'version', type: 'number',
     },
     {
-      label: "是否已逻辑", fieldName: "isDel", type: "number",
+      label: '是否已逻辑', fieldName: 'isDel', type: 'number',
     },
     {
-      label: "数据编号", fieldName: "dataNo", type: "input",
+      label: '数据编号', fieldName: 'dataNo', type: 'input',
     },
     {
-      label: "状态码", fieldName: "statusCode", type: "input",
+      label: '状态码', fieldName: 'statusCode', type: 'input',
     },
     {
-      label: "状态码名称", fieldName: "statusName", type: "input",
+      label: '状态码名称', fieldName: 'statusName', type: 'input',
     },
     {
-      label: "国际码", fieldName: "local", type: "input",
+      label: '国际码', fieldName: 'local', type: 'input',
     },
   ],
   batchFieldList: []
 });
-const primaryKey = "idToolCategory";
+const primaryKey = 'idToolCategory';
 const toolsCategoriesRef = ref();
 const rules = {};
 const dialogProps = dialogPreps();
-provide("dialogProps", dialogProps);
+provide('dialogProps', dialogProps);
 
 const selectItemFun = (data: any) => {
 
-}
+};
 const dataFormat = (name: string, cellValue: object): any => {
   return cellValue;
-}
+};
 const init = async () => {
 
 };
 onMounted(async () => {
   await init();
-})
+});
 </script>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">

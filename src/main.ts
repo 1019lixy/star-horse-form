@@ -1,44 +1,44 @@
-import "element-plus/theme-chalk/index.css"
-import "@/assets/css/index.scss"
-import "@/assets/css/flow.scss"
-import "tailwindcss/index.css"
-import userComponent from "@/components/comp/selfcomp";
-import nodeComponent from "@/views/continus/nodeInfo/nodecomp";
-import userContainerComponent from "@/components/comp/items/callitem";
-import itemComponent from "@/components/formcomp/items/allitem";
-import containerComponent from "@/components/formcomp/container/callitem";
-import flowNodeComponent from "@/views/workflow/plugin/node/nodes.ts";
-import App from "@/App.vue";
-import {createApp} from "vue"
-import ElementPlus from "element-plus";
+import 'element-plus/theme-chalk/index.css';
+import '@/assets/css/index.scss';
+import '@/assets/css/flow.scss';
+import 'tailwindcss/index.css';
+import userComponent from '@/components/comp/selfcomp';
+import nodeComponent from '@/views/continus/nodeInfo/nodecomp';
+import userContainerComponent from '@/components/comp/items/callitem';
+import itemComponent from '@/components/formcomp/items/allitem';
+import containerComponent from '@/components/formcomp/container/callitem';
+import flowNodeComponent from '@/views/workflow/plugin/node/nodes.ts';
+import App from '@/App.vue';
+import {createApp} from 'vue';
+import ElementPlus from 'element-plus';
 // 导入svg图标
-import 'virtual:svg-icons-register'
-import 'highlight.js/styles/idea.css' //这里有多个样式，自己可以根据需要切换
-import 'highlight.js/lib/common'
-import hljsVuePlugin from '@highlightjs/vue-plugin'
-import "animate.css"
+import 'virtual:svg-icons-register';
+import 'highlight.js/styles/idea.css'; //这里有多个样式，自己可以根据需要切换
+import 'highlight.js/lib/common';
+import hljsVuePlugin from '@highlightjs/vue-plugin';
+import 'animate.css';
 import ZhLocale from 'element-plus/es/locale/lang/zh-cn'; // 中文
-import router from "@/router/index.ts";
-import draggable from "vuedraggable";
+import router from '@/router/index.ts';
+import draggable from 'vuedraggable';
 import * as ElementPlusIconsVue from '@element-plus/icons-vue';
-import piniaInstance from "@/store";
-import VMEditor from "v-md-editor";
-import "v-md-editor/lib/style/base-editor.css";
-import vuepressTheme from "v-md-editor/lib/theme/vuepress.js";
-import "v-md-editor/lib/theme/style/vuepress.css";
-import Prism from "prismjs";
-import "prismjs/components/prism-json.js";
-import hljs from "highlight.js";
-import VueParticles from "vue3-particles";
+import piniaInstance from '@/store';
+import VMEditor from 'v-md-editor';
+import 'v-md-editor/lib/style/base-editor.css';
+import vuepressTheme from 'v-md-editor/lib/theme/vuepress.js';
+import 'v-md-editor/lib/theme/style/vuepress.css';
+import Prism from 'prismjs';
+import 'prismjs/components/prism-json.js';
+import hljs from 'highlight.js';
+import VueParticles from 'vue3-particles';
 
 const app = createApp(App);
 // window.app = app;
-app.component("draggable", draggable);
+app.component('draggable', draggable);
 /**
  * 加载elementplus 自己提供的图标
  */
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
-    app.component(key, component)
+    app.component(key, component);
 }
 app.use(userComponent);
 app.use(itemComponent);
@@ -69,7 +69,7 @@ app.config.errorHandler = (err, instance, info) => {
     console.log(err);
     console.log(instance);
     console.log(info);
-}
+};
 /**
  * 处理警告
  * @param err

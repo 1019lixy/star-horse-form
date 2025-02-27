@@ -1,11 +1,11 @@
 <script setup lang="ts" name="box-container">
-import {computed, onMounted, PropType, reactive, watch} from 'vue'
-import {warning} from '@/utils/message'
-import {DesignForm} from "@/store/DesignFormStore.ts";
-import piniaInstance from "@/store/index.ts";
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-import {tableAction, tableCellOperation} from "@/components/formcomp/container/dytableUtils.ts";
-import {Config} from "@/api/settings.ts";
+import {computed, onMounted, PropType, reactive, watch} from 'vue';
+import {warning} from '@/utils/message';
+import {DesignForm} from '@/store/DesignFormStore.ts';
+import piniaInstance from '@/store/index.ts';
+import StarHorseIcon from '@/components/comp/StarHorseIcon.vue';
+import {tableAction, tableCellOperation} from '@/components/formcomp/container/dytableUtils.ts';
+import {Config} from '@/api/settings.ts';
 
 const props = defineProps({
   parentField: {type: String},
@@ -22,7 +22,7 @@ const props = defineProps({
 });
 let designForm = DesignForm(piniaInstance);
 let draggingItem = computed(() => designForm.draggingItem);
-let excludeContainerType: Array<string> = ["box", "tab", "table", "dytable", "collapse", "card"];
+let excludeContainerType: Array<string> = ['box', 'tab', 'table', 'dytable', 'collapse', 'card'];
 let currentSubItemId = computed(() => designForm.currentSubItemId);
 let isEdit = computed(() => designForm.isEdit);
 let buttonControl = reactive<any>({
@@ -38,13 +38,13 @@ let buttonControl = reactive<any>({
   deleteWholeRowDisabled: false,
 });
 const getComponentName = (data: any) => {
-  return data?.itemType + '-item'
+  return data?.itemType + '-item';
 };
 const checkItem = (items: any) => {
   if (!items['items']) {
     items['items'] = [];
   }
-}
+};
 const onDragAdd = (evt: Event, dataList: any) => {
   selectCurrentTd();
   let newIndex = evt.newIndex;
@@ -64,16 +64,16 @@ const onDragAdd = (evt: Event, dataList: any) => {
   }
   if (newIndex != null && newIndex != 'undefined') {
     let dataInfo = dataList[newIndex];
-    designForm.selectItem(dataInfo, dataInfo.itemType, "");
+    designForm.selectItem(dataInfo, dataInfo.itemType, '');
   }
 };
 
 const handleTableCellCommand = (command: string) => {
   tableCellOperation(command, props);
-}
+};
 const selectCurrentTd = () => {
   designForm.setSubItemId(props.field._uuid);
-}
+};
 const init = () => {
   tableAction(props, buttonControl);
 };
@@ -87,7 +87,7 @@ watch(() => props.parentField,
       immediate: false,
       deep: true
     }
-)
+);
 </script>
 <template>
   <td class="edit_col" :colspan="field.colspan||1" :rowspan="field.rowspan||1"

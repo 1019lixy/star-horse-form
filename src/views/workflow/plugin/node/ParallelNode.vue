@@ -47,13 +47,13 @@ import FlowNode from '@/views/workflow/plugin/node/FlowNode.vue';
 import FlowAddNode from '@/views/workflow/plugin/node/AddNode.vue';
 import EditName from '@/views/workflow/plugin/common/EditName.vue';
 import DeleteConfirm from '@/views/workflow/plugin/common/DeleteConfirm.vue';
-import {computed, onMounted} from "vue";
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-import {useFlowDesign} from "@/store/FlowDesignStore.ts";
-import piniaInstance from "@/store";
-import {FlowNodeEnums} from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
-import {closeLoad} from "@/api/sh_api.ts";
-import {warning} from "@/utils/message.ts";
+import {computed, onMounted} from 'vue';
+import StarHorseIcon from '@/components/comp/StarHorseIcon.vue';
+import {useFlowDesign} from '@/store/FlowDesignStore.ts';
+import piniaInstance from '@/store';
+import {FlowNodeEnums} from '@/views/workflow/plugin/enums/FlowNodeEnums.ts';
+import {closeLoad} from '@/api/sh_api.ts';
+import {warning} from '@/utils/message.ts';
 
 const flowDesign = useFlowDesign(piniaInstance);
 let currentNode = computed(() => flowDesign.currentNode);
@@ -71,14 +71,14 @@ const props = defineProps({
 });
 const emits = defineEmits(['selectNode']);
 const selectNode = (node: any) => {
-  warning("并行节点无需编辑");
+  warning('并行节点无需编辑');
   // emits('selectNode', node, props.node);
-}
+};
 const init = () => {
   closeLoad();
   flowDesign.refreshMap();
-}
+};
 onMounted(() => {
   init();
-})
+});
 </script>

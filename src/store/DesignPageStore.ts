@@ -1,8 +1,8 @@
-import {defineStore} from "pinia";
-import {ref} from "vue";
-import {DynamicNode} from "@/components/types/DynamicNode";
+import {defineStore} from 'pinia';
+import {ref} from 'vue';
+import {DynamicNode} from '@/components/types/DynamicNode';
 
-export const DesignPage = defineStore("DesignPage", () => {
+export const DesignPage = defineStore('DesignPage', () => {
         const nodeList = ref<Array<DynamicNode>>([]);
         const currentNode = ref<DynamicNode>({});
         const isEdit = ref<boolean>(false);
@@ -14,34 +14,34 @@ export const DesignPage = defineStore("DesignPage", () => {
             isEdit.value = false;
             nodeList.value = [];
             currentNode.value = null;
-        }
+        };
         const removeNode = (id: string) => {
             nodeList.value = nodeList.value.filter((node: DynamicNode) => {
                 return node.id != id;
             });
             currentNode.value = id == currentNode.value.id ? null : currentNode.value;
-        }
+        };
         const setNodeList = (list: Array<DynamicNode>) => {
             nodeList.value = list;
-        }
+        };
         const addNode = (node: DynamicNode) => {
             nodeList.value.push(node);
-        }
+        };
         const selectNode = (node: DynamicNode) => {
             currentNode.value = node;
-        }
+        };
         const setIsEdit = (edit: boolean) => {
             isEdit.value = edit;
-        }
+        };
         const maxZIndex = () => {
             nodeList.value.sort((a: DynamicNode, b: DynamicNode) => {
                 return (a.zIndex || defaultZindex.value) - (b.zIndex || defaultZindex.value);
             });
             return nodeList.value[0].zIndex || defaultZindex.value;
-        }
+        };
         const init = () => {
 
-        }
+        };
         return {
             nodeList,
             currentNode,
@@ -55,6 +55,6 @@ export const DesignPage = defineStore("DesignPage", () => {
             setIsEdit,
             maxZIndex,
             init
-        }
+        };
     }
 );

@@ -1,71 +1,71 @@
 <script setup lang="ts" name="CalendarManage">
-import {apiInstance, dialogPreps} from "@/api/sh_api.ts";
-import {ApiUrls} from "@/components/types/ApiUrls";
-import {Config} from "@/api/settings.ts";
-import {onActivated, onDeactivated, onMounted, provide, reactive, ref} from "vue";
-import {SearchFields, SelectOption} from "@/components/types/SearchProps";
-import {PageFieldInfo} from "@/components/types/PageFieldInfo";
-import {getCustomerParam} from "@/utils/auth.ts";
-import {loadDict} from "@/api/star_horse.ts";
+import {apiInstance, dialogPreps} from '@/api/sh_api.ts';
+import {ApiUrls} from '@/components/types/ApiUrls';
+import {Config} from '@/api/settings.ts';
+import {onActivated, onDeactivated, onMounted, provide, reactive, ref} from 'vue';
+import {SearchFields, SelectOption} from '@/components/types/SearchProps';
+import {PageFieldInfo} from '@/components/types/PageFieldInfo';
+import {getCustomerParam} from '@/utils/auth.ts';
+import {loadDict} from '@/api/star_horse.ts';
 //后端交互接口地址
-const dataUrl: ApiUrls = apiInstance("system-config", "system/calendarManage");
+const dataUrl: ApiUrls = apiInstance('system-config', 'system/calendarManage');
 //主键
-const primaryKey = "idCalendarManage";
+const primaryKey = 'idCalendarManage';
 const calendarManageRef = ref();
 //定义表单的所有属性
-const formFields = reactive<Object>({});
-provide("formFields", formFields);
+const formFields = reactive<object>({});
+provide('formFields', formFields);
 const commonSelectList = ref<SelectOption[]>([
-  {name: "是", value: "Y"},
-  {name: "否", value: "N"},
+  {name: '是', value: 'Y'},
+  {name: '否', value: 'N'},
 ]);
 //查询属性
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: "日程标题",
-      fieldName: "title",
+      label: '日程标题',
+      fieldName: 'title',
       defaultVisible: true,
-      matchType: "lk",
-      type: "input"
+      matchType: 'lk',
+      type: 'input'
     },
     {
-      label: "开始日期",
-      fieldName: "startStr",
+      label: '开始日期',
+      fieldName: 'startStr',
       defaultVisible: false,
-      type: "date",
+      type: 'date',
       preps: {
-        valueFormat: "YYYY-MM-dd"
+        valueFormat: 'YYYY-MM-dd'
       }
     },
     {
-      label: "结束日期",
-      fieldName: "endStr",
+      label: '结束日期',
+      fieldName: 'endStr',
       defaultVisible: false,
-      type: "date",
+      type: 'date',
       preps: {
-        valueFormat: "YYYY-MM-dd"
+        valueFormat: 'YYYY-MM-dd'
       }
     },
     {
-      label: "是否公开",
-      fieldName: "publicFlag",
+      label: '是否公开',
+      fieldName: 'publicFlag',
       defaultVisible: false,
-      type: "select",
+      type: 'select',
       optionList: commonSelectList,
     },
     {
-      label: "是否允许订阅",
-      fieldName: "subscribeFlag",
+      label: '是否允许订阅',
+      fieldName: 'subscribeFlag',
       defaultVisible: false,
-      type: "select",
+      type: 'select',
       optionList: commonSelectList,
     },
     {
-      label: "是否消息提醒",
-      fieldName: "messageFlag",
+      label: '是否消息提醒',
+      fieldName: 'messageFlag',
       defaultVisible: false,
-      type: "select",
+      type: 'select',
       optionList: commonSelectList,
     },
 
@@ -77,24 +77,24 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   //属性列表
   fieldList: [
     {
-      label: "日程标题",
-      fieldName: "title",
-      type: "input",
+      label: '日程标题',
+      fieldName: 'title',
+      type: 'input',
       required: false,
       formVisible: !false,
       listVisible: !false,
     },
     {
-      label: "开始日期",
-      fieldName: "startStr",
-      type: "date",
+      label: '开始日期',
+      fieldName: 'startStr',
+      type: 'date',
       required: false,
       formVisible: !false,
       listVisible: !false,
       brotherNodes: [{
-        label: "开始时间",
-        fieldName: "sTime",
-        type: "time",
+        label: '开始时间',
+        fieldName: 'sTime',
+        type: 'time',
         required: false,
         formVisible: !false,
         listVisible: !false,
@@ -102,162 +102,162 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     },
 
     {
-      label: "结束日期",
-      fieldName: "endStr",
-      type: "date",
+      label: '结束日期',
+      fieldName: 'endStr',
+      type: 'date',
       required: false,
       formVisible: !false,
       listVisible: !false,
       brotherNodes: [{
-        label: "结束时间",
-        fieldName: "eTime",
-        type: "time",
+        label: '结束时间',
+        fieldName: 'eTime',
+        type: 'time',
         required: false,
         formVisible: !false,
         listVisible: !false,
       },]
     },
     {
-      label: "是否公开",
-      fieldName: "publicFlag",
-      type: "switch",
+      label: '是否公开',
+      fieldName: 'publicFlag',
+      type: 'switch',
       required: false,
       formVisible: !false,
       listVisible: !false,
     },
     {
-      label: "是否允许订阅",
-      fieldName: "subscribeFlag",
-      type: "switch",
+      label: '是否允许订阅',
+      fieldName: 'subscribeFlag',
+      type: 'switch',
       required: false,
       formVisible: !false,
       listVisible: !false,
     },
     {
-      label: "邀请",
-      fieldName: "invitePersons",
-      type: "user",
+      label: '邀请',
+      fieldName: 'invitePersons',
+      type: 'user',
       required: false,
       formVisible: !false,
       listVisible: !false,
     },
     {
-      label: "抄送",
-      fieldName: "cc",
-      type: "user",
+      label: '抄送',
+      fieldName: 'cc',
+      type: 'user',
       required: false,
       formVisible: !false,
       listVisible: !false,
     },
     {
-      label: "日程内容",
-      fieldName: "content",
-      type: "textarea",
+      label: '日程内容',
+      fieldName: 'content',
+      type: 'textarea',
       required: false,
       formVisible: !false,
       listVisible: !false,
     },
     {
-      label: "是否消息提醒",
-      fieldName: "messageFlag",
-      type: "switch",
+      label: '是否消息提醒',
+      fieldName: 'messageFlag',
+      type: 'switch',
       required: false,
       formVisible: !false,
       listVisible: !false,
     },
     {
-      label: "消息提醒方式",
-      fieldName: "messageType",
-      type: "select",
+      label: '消息提醒方式',
+      fieldName: 'messageType',
+      type: 'select',
       optionList: messageTypeList,
       required: false,
       formVisible: !false,
       listVisible: !false,
     },
     {
-      label: "版本号",
-      fieldName: "version",
-      type: "number",
+      label: '版本号',
+      fieldName: 'version',
+      type: 'number',
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "创建人",
-      fieldName: "createdBy",
-      type: "input",
+      label: '创建人',
+      fieldName: 'createdBy',
+      type: 'input',
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "创建时间",
-      fieldName: "createdTime",
-      type: "datetime",
+      label: '创建时间',
+      fieldName: 'createdTime',
+      type: 'datetime',
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "修改人",
-      fieldName: "updatedBy",
-      type: "input",
+      label: '修改人',
+      fieldName: 'updatedBy',
+      type: 'input',
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "修改时间",
-      fieldName: "updatedTime",
-      type: "datetime",
+      label: '修改时间',
+      fieldName: 'updatedTime',
+      type: 'datetime',
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "数据编号",
-      fieldName: "dataNo",
-      type: "input",
+      label: '数据编号',
+      fieldName: 'dataNo',
+      type: 'input',
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "状态码",
-      fieldName: "statusCode",
-      type: "input",
+      label: '状态码',
+      fieldName: 'statusCode',
+      type: 'input',
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "状态名称",
-      fieldName: "statusName",
-      type: "input",
+      label: '状态名称',
+      fieldName: 'statusName',
+      type: 'input',
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "是否删除",
-      fieldName: "isDel",
-      type: "number",
+      label: '是否删除',
+      fieldName: 'isDel',
+      type: 'number',
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "国际编码",
-      fieldName: "local",
-      type: "input",
+      label: '国际编码',
+      fieldName: 'local',
+      type: 'input',
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "备注",
-      fieldName: "remark",
-      type: "input",
+      label: '备注',
+      fieldName: 'remark',
+      type: 'input',
       required: false,
       formVisible: !true,
       listVisible: !true,
@@ -270,17 +270,17 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 const rules = {};
 //控制弹窗相关设置
 const dialogProps = dialogPreps();
-provide("dialogProps", dialogProps);
+provide('dialogProps', dialogProps);
 //初始化方法
 const initData = async () => {
-  messageTypeList.value = await loadDict("message_type")
+  messageTypeList.value = await loadDict('message_type');
 };
 const activated = () => {
 
-}
+};
 const deactivated = () => {
 
-}
+};
 /**
  * 列表，查看数据时数据转换
  * @param name 名称
@@ -290,7 +290,7 @@ const deactivated = () => {
 const dataFormat = (name: string, cellValue: any, row: any): any => {
   //转换显示信息
   return cellValue;
-}
+};
 onMounted(async () => {
   await initData();
 });

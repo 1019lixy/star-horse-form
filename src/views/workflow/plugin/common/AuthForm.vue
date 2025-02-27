@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import {onMounted, ref, watch} from "vue";
-import FormPreview from "@/views/dyform/FormPreview.vue";
-import {loadData} from "@/api/sh_api.ts";
-import {warning} from "@/utils/message.ts";
-import {useVModel} from "@vueuse/core";
+import {onMounted, ref, watch} from 'vue';
+import FormPreview from '@/views/dyform/FormPreview.vue';
+import {loadData} from '@/api/sh_api.ts';
+import {warning} from '@/utils/message.ts';
+import {useVModel} from '@vueuse/core';
 
-const emits = defineEmits<{ e: "update:modelValue", modelValue: String }>();
+const emits = defineEmits<{ e: 'update:modelValue', modelValue: string }>();
 let commonFieldList = ref<any>([]);
 let dataList = ref<any>([]);
 let currentData = ref<any>({});
 const props = defineProps({
   compSize: {
     type: String,
-    default: "small",
+    default: 'small',
   },
   readable: {
     type: Boolean,
@@ -30,7 +30,7 @@ const props = defineProps({
   },
   modelValue: {
     type: String,
-    default: "edit",
+    default: 'edit',
   },
 });
 let privilege = useVModel(props, 'modelValue', emits);
@@ -41,18 +41,18 @@ const dataChange = async (formId: string) => {
     currentData.value = [];
     return;
   }
-  let {data, error} = await loadData("/userdb-manage/userdb/dynamicForm/getById/" + formId, {});
+  let {data, error} = await loadData('/userdb-manage/userdb/dynamicForm/getById/' + formId, {});
   if (error) {
     warning(error);
     return;
   }
   currentData.value = data;
-  dataList.value = JSON.parse(data["details"].content);
+  dataList.value = JSON.parse(data['details'].content);
   commonFieldList.value = data.commonFieldControllers;
-}
+};
 const init = () => {
   dataChange(props.formId);
-}
+};
 onMounted(() => {
   init();
 });

@@ -14,14 +14,14 @@ const props = withDefaults(defineProps<DataTagProps>(), {
   displayName: 'name',
   displayValue: 'value',
   type: 'info'
-})
+});
 const emits = defineEmits<{
   (e: 'close', id: string): void
 }>();
 
 onMounted(() => {
   if (!props.data) {
-    throw new Error('username is required')
+    throw new Error('username is required');
   }
 
   // getById(props.id).then((res) => {
@@ -30,10 +30,10 @@ onMounted(() => {
   //     roleInfo.name = res.data.name
   //   }
   // })
-})
+});
 const onClose = () => {
-  emits('close', props.data)
-}
+  emits('close', props.data);
+};
 </script>
 <template>
   <el-tag round :closable="closable" :type="type" effect="light" @close="onClose">

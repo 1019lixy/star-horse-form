@@ -1,169 +1,169 @@
 <script setup lang="ts" name="ConsumerConfigRelation">
-import {apiInstance, dialogPreps} from "@/api/sh_api.ts";
-import {ApiUrls} from "@/components/types/ApiUrls";
-import {onMounted, provide, reactive, ref} from "vue";
-import {SearchFields} from "@/components/types/SearchProps";
-import {PageFieldInfo} from "@/components/types/PageFieldInfo";
-import {Config} from "@/api/settings.ts";
+import {apiInstance, dialogPreps} from '@/api/sh_api.ts';
+import {ApiUrls} from '@/components/types/ApiUrls';
+import {onMounted, provide, reactive, ref} from 'vue';
+import {SearchFields} from '@/components/types/SearchProps';
+import {PageFieldInfo} from '@/components/types/PageFieldInfo';
+import {Config} from '@/api/settings.ts';
 //后端交互接口地址
-const dataUrl: ApiUrls = apiInstance("userdb-manage", "userdb/consumerConfigRelation");
+const dataUrl: ApiUrls = apiInstance('userdb-manage', 'userdb/consumerConfigRelation');
 //查询属性
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "主键", fieldName: "idConsumerConfigRelation", type: "long"},
-    {label: "消费配置ID", fieldName: "idConsumerConfig", type: "long"},
-    {label: "关联主表名", fieldName: "fromTable", type: "input"},
-    {label: "关联主表Key", fieldName: "fromKey", type: "input"},
-    {label: "关联主表字段名", fieldName: "fromField", type: "input"},
-    {label: "被关联表名", fieldName: "toTable", type: "input"},
-    {label: "被关联表Key", fieldName: "toKey", type: "input"},
-    {label: "被关联表字段", fieldName: "toField", type: "input"},
-    {label: "关联映射关系 默认 eq", fieldName: "mapper", type: "input"},
-    {label: "备注", fieldName: "remark", type: "input"},
+    {label: '主键', fieldName: 'idConsumerConfigRelation', type: 'long'},
+    {label: '消费配置ID', fieldName: 'idConsumerConfig', type: 'long'},
+    {label: '关联主表名', fieldName: 'fromTable', type: 'input'},
+    {label: '关联主表Key', fieldName: 'fromKey', type: 'input'},
+    {label: '关联主表字段名', fieldName: 'fromField', type: 'input'},
+    {label: '被关联表名', fieldName: 'toTable', type: 'input'},
+    {label: '被关联表Key', fieldName: 'toKey', type: 'input'},
+    {label: '被关联表字段', fieldName: 'toField', type: 'input'},
+    {label: '关联映射关系 默认 eq', fieldName: 'mapper', type: 'input'},
+    {label: '备注', fieldName: 'remark', type: 'input'},
   ]
 });
 //页面属性
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     {
-      label: "主键",
-      fieldName: "idConsumerConfigRelation",
-      type: "long",
+      label: '主键',
+      fieldName: 'idConsumerConfigRelation',
+      type: 'long',
       required: true,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "消费配置ID",
-      fieldName: "idConsumerConfig",
-      type: "long",
+      label: '消费配置ID',
+      fieldName: 'idConsumerConfig',
+      type: 'long',
       required: true,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "关联主表名",
-      fieldName: "fromTable",
-      type: "input",
+      label: '关联主表名',
+      fieldName: 'fromTable',
+      type: 'input',
       required: true,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "关联主表Key",
-      fieldName: "fromKey",
-      type: "input",
+      label: '关联主表Key',
+      fieldName: 'fromKey',
+      type: 'input',
       required: true,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "关联主表字段名",
-      fieldName: "fromField",
-      type: "input",
+      label: '关联主表字段名',
+      fieldName: 'fromField',
+      type: 'input',
       required: true,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "被关联表名",
-      fieldName: "toTable",
-      type: "input",
+      label: '被关联表名',
+      fieldName: 'toTable',
+      type: 'input',
       required: true,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "被关联表Key",
-      fieldName: "toKey",
-      type: "input",
+      label: '被关联表Key',
+      fieldName: 'toKey',
+      type: 'input',
       required: true,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "被关联表字段",
-      fieldName: "toField",
-      type: "input",
+      label: '被关联表字段',
+      fieldName: 'toField',
+      type: 'input',
       required: true,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "关联映射关系 默认 eq",
-      fieldName: "mapper",
-      type: "input",
+      label: '关联映射关系 默认 eq',
+      fieldName: 'mapper',
+      type: 'input',
       required: true,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "版本号",
-      fieldName: "version",
-      type: "long",
+      label: '版本号',
+      fieldName: 'version',
+      type: 'long',
     },
     {
-      label: "创建人", disabled: "Y",
-      fieldName: "createdBy",
-      type: "input",
+      label: '创建人', disabled: 'Y',
+      fieldName: 'createdBy',
+      type: 'input',
     },
     {
-      label: "创建时间",
-      fieldName: "createdTime",
-      type: "date",
+      label: '创建时间',
+      fieldName: 'createdTime',
+      type: 'date',
     },
     {
-      label: "修改人", disabled: "Y",
-      fieldName: "updatedBy",
-      type: "input",
+      label: '修改人', disabled: 'Y',
+      fieldName: 'updatedBy',
+      type: 'input',
     },
     {
-      label: "修改时间",
-      fieldName: "updatedTime",
-      type: "date",
+      label: '修改时间',
+      fieldName: 'updatedTime',
+      type: 'date',
     },
     {
-      label: "数据编号",
-      fieldName: "dataNo",
-      type: "input",
+      label: '数据编号',
+      fieldName: 'dataNo',
+      type: 'input',
     },
     {
-      label: "状态吗",
-      fieldName: "statusCode",
-      type: "input",
+      label: '状态吗',
+      fieldName: 'statusCode',
+      type: 'input',
     },
     {
-      label: "状态名称",
-      fieldName: "statusName",
-      type: "input",
+      label: '状态名称',
+      fieldName: 'statusName',
+      type: 'input',
     },
     {
-      label: "是否删除",
-      fieldName: "isDel",
-      type: "long",
+      label: '是否删除',
+      fieldName: 'isDel',
+      type: 'long',
     },
     {
-      label: "国际码",
-      fieldName: "local",
-      type: "input",
+      label: '国际码',
+      fieldName: 'local',
+      type: 'input',
     },
     {
-      label: "备注",
-      fieldName: "remark",
-      type: "input",
+      label: '备注',
+      fieldName: 'remark',
+      type: 'input',
       formVisible: true,
       listVisible: true,
     },
   ],
 });
 //主键
-const primaryKey = "idConsumerConfigRelation";
+const primaryKey = 'idConsumerConfigRelation';
 const consumerConfigRelationRef = ref();
 //校验
 const rules = {};
 //控制弹窗相关设置
 const dialogProps = dialogPreps();
-provide("dialogProps", dialogProps);
+provide('dialogProps', dialogProps);
 
 //初始化方法
 const initData = async () => {
@@ -181,7 +181,7 @@ onMounted(async () => {
 const dataFormat = (name: string, cellValue: any, row: any): any => {
   //转换显示信息
   return cellValue;
-}
+};
 </script>
 <style lang="scss" scoped>
 </style>

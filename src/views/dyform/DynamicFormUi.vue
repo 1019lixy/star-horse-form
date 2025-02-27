@@ -1,23 +1,23 @@
 <script setup lang="ts" name="DynamicForm">
-import {apiInstance, dbConfigList, dialogPreps} from "@/api/sh_api.ts";
-import {ApiUrls} from "@/components/types/ApiUrls";
-import {computed, nextTick, onMounted, provide, reactive, ref} from "vue";
-import {SearchFields, SelectOption} from "@/components/types/SearchProps";
-import {PageFieldInfo, UserFuncInfo} from "@/components/types/PageFieldInfo";
-import {useRouter} from "vue-router";
-import {loadData} from "@/api/sh_api";
-import {Config} from "@/api/settings.ts";
-import {DesignForm} from "@/store/DesignFormStore.ts";
-import piniaInstance from "@/store/index.ts";
-import StarHorseTree from "@/components/comp/StarHorseTree.vue";
-import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
-import FormPreview from "@/views/dyform/FormPreview.vue";
-import {warning} from "@/utils/message.ts";
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-import {SearchParams} from "@/components/types/Params";
+import {apiInstance, dbConfigList, dialogPreps} from '@/api/sh_api.ts';
+import {ApiUrls} from '@/components/types/ApiUrls';
+import {computed, nextTick, onMounted, provide, reactive, ref} from 'vue';
+import {SearchFields, SelectOption} from '@/components/types/SearchProps';
+import {PageFieldInfo, UserFuncInfo} from '@/components/types/PageFieldInfo';
+import {useRouter} from 'vue-router';
+import {loadData} from '@/api/sh_api';
+import {Config} from '@/api/settings.ts';
+import {DesignForm} from '@/store/DesignFormStore.ts';
+import piniaInstance from '@/store/index.ts';
+import StarHorseTree from '@/components/comp/StarHorseTree.vue';
+import {GlobalConfig} from '@/store/GlobalConfigStore.ts';
+import FormPreview from '@/views/dyform/FormPreview.vue';
+import {warning} from '@/utils/message.ts';
+import StarHorseIcon from '@/components/comp/StarHorseIcon.vue';
+import {SearchParams} from '@/components/types/Params';
 
 const router = useRouter();
-const dataUrl: ApiUrls = apiInstance("userdb-manage", "userdb/dynamicForm");
+const dataUrl: ApiUrls = apiInstance('userdb-manage', 'userdb/dynamicForm');
 let designForm = DesignForm(piniaInstance);
 let selfBtnFunc = ref<UserFuncInfo[]>([]);
 let isPreview = ref<boolean>(false);
@@ -31,27 +31,27 @@ const closeAction = () => {
 };
 let list = computed(() => designForm.compList);
 const loadFormData = async (formId: any) => {
-  let {data, error} = await loadData(dataUrl.loadByIdUrl + "/" + formId, {});
+  let {data, error} = await loadData(dataUrl.loadByIdUrl + '/' + formId, {});
   if (error) {
     console.log(error);
   }
   await nextTick();
   isPreview.value = true;
   designForm.clearAll(false);
-  designForm.setCompList(JSON.parse(data["details"].content));
-  designForm.setFormData(JSON.parse(data["details"].fieldNames));
+  designForm.setCompList(JSON.parse(data['details'].content));
+  designForm.setFormData(JSON.parse(data['details'].fieldNames));
   designForm.setIsEdit(false);
-  data["details"] = {};
+  data['details'] = {};
   designForm.setFormInfo(data);
-}
+};
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "表单名称", fieldName: "formName", defaultVisible: true, type: "input", matchType: "lk"},
-    {label: "数据源", fieldName: "datasourceConfigId", defaultVisible: true, type: "select", optionList: dataSource},
+    {label: '表单名称', fieldName: 'formName', defaultVisible: true, type: 'input', matchType: 'lk'},
+    {label: '数据源', fieldName: 'datasourceConfigId', defaultVisible: true, type: 'select', optionList: dataSource},
 
     {
-      label: "创建时间", fieldName: "createdDate", defaultVisible: true, type: "date", matchType: "bt", preps: {
-        valueFormat: "YYYY-MM-DD"
+      label: '创建时间', fieldName: 'createdDate', defaultVisible: true, type: 'date', matchType: 'bt', preps: {
+        valueFormat: 'YYYY-MM-DD'
       }
     },
   ]
@@ -60,174 +60,174 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   cellEditable: false,
   fieldList: [
     {
-      label: "主键", fieldName: "idDynamicForm", type: "long",
+      label: '主键', fieldName: 'idDynamicForm', type: 'long',
     },
     {
-      label: "表单名称", fieldName: "formName", type: "input",
+      label: '表单名称', fieldName: 'formName', type: 'input',
       formVisible: true,
       listVisible: true
     },
     {
-      label: "表名", fieldName: "tbName", type: "input",
+      label: '表名', fieldName: 'tbName', type: 'input',
       formVisible: true,
       listVisible: true
     },
     {
-      label: "主键", fieldName: "formId", type: "input",
+      label: '主键', fieldName: 'formId', type: 'input',
       formVisible: true,
       listVisible: true
     },
     {
-      label: "数据源", fieldName: "datasourceConfigId", type: "select",
+      label: '数据源', fieldName: 'datasourceConfigId', type: 'select',
       formVisible: true,
       listVisible: true
     },
     {
-      label: "是否需要公共字段", fieldName: "needCommonFields", type: "switch",
+      label: '是否需要公共字段', fieldName: 'needCommonFields', type: 'switch',
       formVisible: true,
       listVisible: true
     },
     {
-      label: "主键策略", fieldName: "primaryKeyPolicy", type: "select",
+      label: '主键策略', fieldName: 'primaryKeyPolicy', type: 'select',
       formVisible: true,
       listVisible: true
     },
     {
-      label: "是否创建表", fieldName: "createTable", type: "switch",
+      label: '是否创建表', fieldName: 'createTable', type: 'switch',
       formVisible: true,
       listVisible: true
     },
     {
-      label: "是否创建菜单", fieldName: "createMenu", type: "switch",
+      label: '是否创建菜单', fieldName: 'createMenu', type: 'switch',
       formVisible: true,
       listVisible: true
     },
     {
-      label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
+      label: '创建人', disabled: 'Y', fieldName: 'createdBy', type: 'input',
       listVisible: true
     },
 
     {
-      label: "创建日期", disabled: "Y", fieldName: "createdDate", type: "date",
+      label: '创建日期', disabled: 'Y', fieldName: 'createdDate', type: 'date',
       listVisible: true
     },
     {
-      label: "修改人", disabled: "Y", fieldName: "updatedBy", type: "input",
+      label: '修改人', disabled: 'Y', fieldName: 'updatedBy', type: 'input',
       listVisible: true
     },
     {
-      label: "修改日期", disabled: "Y", fieldName: "updatedDate", type: "date",
+      label: '修改日期', disabled: 'Y', fieldName: 'updatedDate', type: 'date',
       listVisible: true
     },
     {
-      label: "数据版本号", fieldName: "version", type: "number",
+      label: '数据版本号', fieldName: 'version', type: 'number',
       listVisible: true
     },
     {
-      label: "是否已逻辑", fieldName: "isDel", type: "number",
+      label: '是否已逻辑', fieldName: 'isDel', type: 'number',
     },
     {
-      label: "数据编号", fieldName: "dataNo", type: "input",
+      label: '数据编号', fieldName: 'dataNo', type: 'input',
     },
     {
-      label: "状态码", fieldName: "statusCode", type: "input",
+      label: '状态码', fieldName: 'statusCode', type: 'input',
     },
     {
-      label: "状态码名称", fieldName: "statusName", type: "input",
+      label: '状态码名称', fieldName: 'statusName', type: 'input',
     },
     {
-      label: "国际码", fieldName: "local", type: "input",
+      label: '国际码', fieldName: 'local', type: 'input',
     },
   ],
   userTableFuncs: [{
-    authority: "add", funcName: "addSubForm", btnName: "添加子表", icon: "plus", priority: 1, funcName: (row) => {
+    authority: 'add', btnName: '添加子表', icon: 'plus', priority: 1, funcName: (row) => {
       addSubForm(row);
     }
   }],
 });
-const primaryKey = "idDynamicForm";
+const primaryKey = 'idDynamicForm';
 const dynamicFormRef = ref();
 const starHorseTreeRef = ref();
 const rules = {};
 const dialogProps = dialogPreps();
-provide("dialogProps", dialogProps);
+provide('dialogProps', dialogProps);
 const addSubForm = (params: any) => {
-  router.push({path: "/dyform/DynamicForm", query: {parentId: params.idDynamicForm}});
-}
+  router.push({path: '/dyform/DynamicForm', query: {parentId: params.idDynamicForm}});
+};
 const dataFormat = (name: string, cellValue: any, row: any): any => {
-  if (name == "datasourceConfigId") {
+  if (name == 'datasourceConfigId') {
     return dataSource.value.find(item => item.value!.toString() == cellValue)?.name || cellValue;
   }
-  return cellValue == "Y" ? "是" : cellValue == "N" ? "否" : cellValue;
-}
+  return cellValue == 'Y' ? '是' : cellValue == 'N' ? '否' : cellValue;
+};
 let extandBtnList = ref<UserFuncInfo[]>([]);
 let viewBtnList = ref<UserFuncInfo[]>([]);
 
 const initData = () => {
   selfBtnFunc.value?.push({
-    btnName: "新增",
-    icon: "add",
+    btnName: '新增',
+    icon: 'add',
     priority: 2,
-    authority: "add", funcName: () => {
-      router.push("/dyform/DynamicForm");
+    authority: 'add', funcName: () => {
+      router.push('/dyform/DynamicForm');
     }
   });
   selfBtnFunc.value?.push({
-    btnName: "编辑",
+    btnName: '编辑',
     priority: 3,
-    icon: "edit",
-    authority: "edit", funcName: (params: any) => {
+    icon: 'edit',
+    authority: 'edit', funcName: (params: any) => {
       //params 页面刷新后 参数丢失，query 页面刷新后参数不会丢失
       router.push({
-        path: "/dyform/DynamicForm",
-        query: {formId: params[primaryKey], parentId: params["parentId"] || 0}
+        path: '/dyform/DynamicForm',
+        query: {formId: params[primaryKey], parentId: params['parentId'] || 0}
       });
     }
   });
   selfBtnFunc.value?.push({
-    btnName: "预览",
+    btnName: '预览',
     priority: 4,
-    authority: "view", icon: "data-view", funcName: (params: any) => {
+    authority: 'view', icon: 'data-view', funcName: (params: any) => {
       loadFormData(params[primaryKey]);
     }
   });
   extandBtnList.value = selfBtnFunc.value.slice(1, selfBtnFunc.value.length);
   dbConfigList().then(res => {
-    dataSource.value = res
+    dataSource.value = res;
   });
   viewBtnList.value.push(...tableFieldList.userTableFuncs);
   viewBtnList.value.push(selfBtnFunc.value[1]);
 };
-let currentTab = ref<string>("list");
+let currentTab = ref<string>('list');
 const createSearch = (data: SearchParams[]) => {
-  if (currentTab.value == "preview") {
+  if (currentTab.value == 'preview') {
     starHorseTreeRef.value.createSearchParams(data);
   } else {
     dynamicFormRef.value.createSearchParams(data);
   }
-}
+};
 const tabChange = async (name: string) => {
   currentTab.value = name;
-  if (name == "preview") {
+  if (name == 'preview') {
     starHorseTreeRef.value.createSearchParams([]);
   }
-}
+};
 let dataList = ref<Array<any>>([]);
 let currentData = ref<any>({});
 let commonFieldList = ref<Array<any>>([]);
 const dataChange = async (param: any) => {
-  let {data, error} = await loadData(dataUrl.loadByIdUrl + "/" + param[primaryKey], {});
+  let {data, error} = await loadData(dataUrl.loadByIdUrl + '/' + param[primaryKey], {});
   if (error) {
     warning(error);
     return;
   }
   currentData.value = data;
-  dataList.value = JSON.parse(data["details"].content);
+  dataList.value = JSON.parse(data['details'].content);
   commonFieldList.value = data.commonFieldControllers;
-}
+};
 onMounted(() => {
   initData();
-})
+});
 </script>
 
 <template>

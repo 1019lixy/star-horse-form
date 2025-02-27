@@ -1,130 +1,130 @@
 <script setup lang="ts" name="DynamicFormItems">
-import {apiInstance, dialogPreps} from "@/api/sh_api.ts";
-import {ApiUrls} from "@/components/types/ApiUrls";
-import {onMounted, provide, reactive, ref} from "vue";
-import {SearchFields, SelectOption} from "@/components/types/SearchProps";
-import {PageFieldInfo} from "@/components/types/PageFieldInfo";
-import {Config} from "@/api/settings.ts";
+import {apiInstance, dialogPreps} from '@/api/sh_api.ts';
+import {ApiUrls} from '@/components/types/ApiUrls';
+import {onMounted, provide, reactive, ref} from 'vue';
+import {SearchFields, SelectOption} from '@/components/types/SearchProps';
+import {PageFieldInfo} from '@/components/types/PageFieldInfo';
+import {Config} from '@/api/settings.ts';
 //后端交互接口地址
-const dataUrl: ApiUrls = apiInstance("userdb-manage", "userdb/dynamicFormItems");
+const dataUrl: ApiUrls = apiInstance('userdb-manage', 'userdb/dynamicFormItems');
 const categoryList = ref<SelectOption[]>([{
-  name: "容器", value: "2"
+  name: '容器', value: '2'
 }, {
-  name: "标准组件", value: "1"
+  name: '标准组件', value: '1'
 }, {
-  name: "自定义组件", value: "3"
+  name: '自定义组件', value: '3'
 }]);
 //查询属性
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "名称", fieldName: "itemName", type: "input", matchType: "lk"},
-    {label: "类别", fieldName: "itemType", type: "input", matchType: "lk"},
-    {label: "分类", fieldName: "category", type: "select", optionList: categoryList},
+    {label: '名称', fieldName: 'itemName', type: 'input', matchType: 'lk'},
+    {label: '类别', fieldName: 'itemType', type: 'input', matchType: 'lk'},
+    {label: '分类', fieldName: 'category', type: 'select', optionList: categoryList},
   ]
 });
 //页面属性
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     {
-      label: "主键",
-      fieldName: "idFormItems",
-      type: "long",
+      label: '主键',
+      fieldName: 'idFormItems',
+      type: 'long',
       required: true,
     },
     {
-      label: "名称",
-      fieldName: "itemName",
-      type: "input",
-      required: true,
-      formVisible: true,
-      listVisible: true,
-    },
-    {
-      label: "类别",
-      fieldName: "itemType",
-      type: "input",
+      label: '名称',
+      fieldName: 'itemName',
+      type: 'input',
       required: true,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "图标",
-      fieldName: "itemIcon",
-      type: "input",
+      label: '类别',
+      fieldName: 'itemType',
+      type: 'input',
       required: true,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "分类",
-      fieldName: "category",
-      type: "select",
+      label: '图标',
+      fieldName: 'itemIcon',
+      type: 'input',
+      required: true,
+      formVisible: true,
+      listVisible: true,
+    },
+    {
+      label: '分类',
+      fieldName: 'category',
+      type: 'select',
       optionList: categoryList,
       required: true,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "版本号",
-      fieldName: "version",
-      type: "number",
+      label: '版本号',
+      fieldName: 'version',
+      type: 'number',
     },
     {
-      label: "创建人", disabled: "Y",
-      fieldName: "createdBy",
-      type: "input",
+      label: '创建人', disabled: 'Y',
+      fieldName: 'createdBy',
+      type: 'input',
     },
     {
-      label: "创建时间",
-      fieldName: "createdTime",
-      type: "date",
+      label: '创建时间',
+      fieldName: 'createdTime',
+      type: 'date',
     },
     {
-      label: "修改人", disabled: "Y",
-      fieldName: "updatedBy",
-      type: "input",
+      label: '修改人', disabled: 'Y',
+      fieldName: 'updatedBy',
+      type: 'input',
     },
     {
-      label: "修改时间",
-      fieldName: "updatedTime",
-      type: "date",
+      label: '修改时间',
+      fieldName: 'updatedTime',
+      type: 'date',
     },
     {
-      label: "数据编号",
-      fieldName: "dataNo",
-      type: "input",
+      label: '数据编号',
+      fieldName: 'dataNo',
+      type: 'input',
     },
     {
-      label: "状态吗",
-      fieldName: "statusCode",
-      type: "input",
+      label: '状态吗',
+      fieldName: 'statusCode',
+      type: 'input',
     },
     {
-      label: "状态名称",
-      fieldName: "statusName",
-      type: "input",
+      label: '状态名称',
+      fieldName: 'statusName',
+      type: 'input',
     },
     {
-      label: "是否删除",
-      fieldName: "isDel",
-      type: "number",
+      label: '是否删除',
+      fieldName: 'isDel',
+      type: 'number',
     },
     {
-      label: "国际码",
-      fieldName: "local",
-      type: "input",
+      label: '国际码',
+      fieldName: 'local',
+      type: 'input',
     },
     {
-      label: "备注",
-      fieldName: "remark",
-      type: "input",
+      label: '备注',
+      fieldName: 'remark',
+      type: 'input',
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "元素排序",
-      fieldName: "dataSort",
-      type: "number",
+      label: '元素排序',
+      fieldName: 'dataSort',
+      type: 'number',
       required: true,
       formVisible: true,
       listVisible: true,
@@ -132,13 +132,13 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   ],
 });
 //主键
-const primaryKey = "idFormItems";
+const primaryKey = 'idFormItems';
 const dynamicFormItemsRef = ref();
 //校验
 const rules = {};
 //控制弹窗相关设置
 const dialogProps = dialogPreps();
-provide("dialogProps", dialogProps);
+provide('dialogProps', dialogProps);
 //初始化方法
 const initData = async () => {
 
@@ -154,12 +154,12 @@ onMounted(async () => {
  */
 const dataFormat = (name: string, cellValue: any, row: any): any => {
   //转换显示信息
-  if (name == "category") {
+  if (name == 'category') {
     let redata = categoryList.value.find(item => item.value == cellValue);
     return redata?.name || cellValue;
   }
   return cellValue;
-}
+};
 </script>
 <style lang="scss" scoped>
 </style>

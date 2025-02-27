@@ -1,20 +1,20 @@
 <script setup lang="ts">
-import {DesignForm} from "@/store/DesignFormStore.ts";
-import piniaInstance from "@/store";
-import {computed, ref} from "vue";
+import {DesignForm} from '@/store/DesignFormStore.ts';
+import piniaInstance from '@/store';
+import {computed, ref} from 'vue';
 
 defineOptions({
-  name: "FieldList"
+  name: 'FieldList'
 });
 const containerRef = ref();
-const emits = defineEmits(["selectData"]);
+const emits = defineEmits(['selectData']);
 let designForm = DesignForm(piniaInstance);
 let formDataList = computed(() => designForm.formDataList);
 let containerList = computed(() => designForm.containerList);
 let selfFormDataList = computed(() => designForm.selfFormDataList);
 const selectData = (item: any) => {
-  emits("selectData", item);
-}
+  emits('selectData', item);
+};
 </script>
 
 <template>

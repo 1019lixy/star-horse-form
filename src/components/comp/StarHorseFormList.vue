@@ -1,18 +1,18 @@
 <script lang="ts" setup name="StarHorseFormList">
-import {inject, nextTick, onMounted, PropType, ref, ShallowReactive} from 'vue'
-import {ApiUrls} from "@/components/types/ApiUrls";
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-import {rowClassName} from "@/api/sh_api";
-import {error, success, warning, operationConfirm} from "@/utils/message";
-import {download} from "@/api/star_horse";
-import {getToken} from "@/utils/auth";
-import Sortable from "sortablejs";
-import Help from "@/components/help.vue";
-import {ModelRef} from "vue-demi";
-import {uuid} from "@/api/system.ts";
-import UTableColumn from "@/components/comp/items/UTableColumn.vue";
-import StarHorseForm from "@/components/comp/StarHorseForm.vue";
-import {Config} from "@/api/settings.ts";
+import {inject, nextTick, onMounted, PropType, ref, ShallowReactive} from 'vue';
+import {ApiUrls} from '@/components/types/ApiUrls';
+import StarHorseIcon from '@/components/comp/StarHorseIcon.vue';
+import {rowClassName} from '@/api/sh_api';
+import {error, success, warning, operationConfirm} from '@/utils/message';
+import {download} from '@/api/star_horse';
+import {getToken} from '@/utils/auth';
+import Sortable from 'sortablejs';
+import Help from '@/components/help.vue';
+import {ModelRef} from 'vue-demi';
+import {uuid} from '@/api/system.ts';
+import UTableColumn from '@/components/comp/items/UTableColumn.vue';
+import StarHorseForm from '@/components/comp/StarHorseForm.vue';
+import {Config} from '@/api/settings.ts';
 
 
 let importDialogVisible = ref<boolean>(false);
@@ -22,31 +22,31 @@ const props = defineProps({
   compUrl: {type: Object as PropType<ApiUrls>},
   fieldList: {type: Object, required: true},
   defaultValues: {type: Object, default: {}},
-  batchName: {type: String, default: "batchDataList"},
+  batchName: {type: String, default: 'batchDataList'},
   primaryKey: {type: String},
   initRows: {type: Number, default: 0},
   importInfo: {type: Object},
-  title: {type: String, default: ""},
-  helpMsg: {type: String, default: ""},
+  title: {type: String, default: ''},
+  helpMsg: {type: String, default: ''},
   rules: {type: Object},
-  staticColumn: {type: String, default: "N"},
+  staticColumn: {type: String, default: 'N'},
   size: {type: String, default: Config.compSize},
   isView: {type: Boolean, default: false},
   subFlag: {type: Boolean, default: false},
 });
-const emits = defineEmits(["addRow", "removeRow"]);
-const dataForm: ModelRef<any> = defineModel("dataForm");
-const formFields = inject("formFields") as ShallowReactive<any>;
+const emits = defineEmits(['addRow', 'removeRow']);
+const dataForm: ModelRef<any> = defineModel('dataForm');
+const formFields = inject('formFields') as ShallowReactive<any>;
 const loading = ref(null);
 const starHorseFormListRef = ref(null);
 
 const handleAddDetails = (row: any, type: number) => {
-  if (props.staticColumn == "Y" && type != 2) {
-    dynamicHandleAddForm(row, "add");
+  if (props.staticColumn == 'Y' && type != 2) {
+    dynamicHandleAddForm(row, 'add');
   } else {
     dynamicHandleAddRow(row, type);
   }
-}
+};
 let currentRow = ref<any>({});
 /**
  * 编辑当前行的数据
@@ -58,7 +58,7 @@ const dynamicHandleAddForm = async (row: any, type: string) => {
   rowDialogVisible.value = true;
   await nextTick();
   rowDataFormRef.value.setFormData(row);
-}
+};
 const mergeData = async () => {
   let flag = false;
   await rowDataFormRef.value.$refs.starHorseFormRef.validate(res => flag = res);
@@ -72,10 +72,10 @@ const mergeData = async () => {
     dataForm.value[props.batchName].push(formData);
   }
   closeAction();
-}
+};
 const closeAction = () => {
   rowDialogVisible.value = false;
-}
+};
 /**
  * 动态添加行
  * @param row
@@ -87,27 +87,27 @@ const dynamicHandleAddRow = (row: any, type: number) => {
   }
   if (type === 1) {
     let obj = JSON.parse(JSON.stringify(props.defaultValues || {}));
-    obj["_uuid"] = uuid();
+    obj['_uuid'] = uuid();
     dataForm.value[props.batchName].push(obj);
-    emits("addRow", row);
+    emits('addRow', row);
   } else {
     let index = row.xh - 1;
     formFields && formFields[props.batchName].splice(index, 1);
     dataForm.value[props.batchName].splice(index, 1);
-    emits("removeRow", row);
+    emits('removeRow', row);
   }
   //将事件传出去
   let fieldList = props.fieldList;
   for (let ind in fieldList) {
     let temp = fieldList[ind];
     if (temp.actions) {
-      temp.actions(dataForm, "oper");
+      temp.actions(dataForm, 'oper');
     }
   }
 };
 const getRowIdentity = (row: any) => {
   return row[props.primaryKey!];
-}
+};
 //批量操作
 const excelOperation = () => {
   importDialogVisible.value = true;
@@ -117,7 +117,7 @@ const excelOperation = () => {
  */
 const downloadTemplate = () => {
   download(props.importInfo!.downloadTemplateUrl, {}).catch((err) => {
-    error("接口不存在或网络异常:" + err);
+    error('接口不存在或网络异常:' + err);
   });
 };
 /**
@@ -127,17 +127,17 @@ const downloadTemplate = () => {
  * @param _fileList fileList
  */
 const uploadError = (_err: any, _file: any, _fileList: any) => {
-  warning("导入数据失败");
+  warning('导入数据失败');
 };
 /**
  * 上传成功
  */
 const uploadSuccess = (response: any, _file: any, _fileList: any) => {
   if (response.code != 0) {
-    warning("数据解析异常");
+    warning('数据解析异常');
     return;
   }
-  success("导入成功");
+  success('导入成功');
   dataForm.value[props.batchName] = response.data;
   importDialogVisible.value = false;
 };
@@ -147,17 +147,17 @@ const selectData = (item: any) => {
 };
 const moveColumn = () => {
   const tbody = document.querySelector(
-      ".sh-columns .el-table__body-wrapper tbody"
+      '.sh-columns .el-table__body-wrapper tbody'
   ) as HTMLElement | null;
   if (tbody) {
     Sortable.create(tbody, {
-      handle: ".move",
+      handle: '.move',
       animation: 200,
-      ghostClass: "ghost",
+      ghostClass: 'ghost',
       onEnd(event: any) {
         const {oldIndex, newIndex} = event;
         if (oldIndex === newIndex) {
-          return
+          return;
         }
       },
     });
@@ -167,11 +167,11 @@ const clearAll = () => {
   if (dataForm.value[props.batchName].length == 0) {
     return;
   }
-  operationConfirm("确定要清空吗?").then(() => {
+  operationConfirm('确定要清空吗?').then(() => {
     dataForm.value[props.batchName] = [];
   });
 
-}
+};
 const init = async () => {
   // console.log(Object.keys(dataForm.value), props.batchName);
   if (!Object.keys(dataForm.value).includes(props.batchName)) {

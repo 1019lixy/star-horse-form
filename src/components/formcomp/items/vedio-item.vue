@@ -23,16 +23,16 @@
   </starhorse-form-item>
 </template>
 <script lang="ts" name="vedioItem">
-import {defineComponent, onMounted, ref, shallowRef} from "vue";
-import flvjs from "flv.js";
+import {defineComponent, onMounted, ref, shallowRef} from 'vue';
+import flvjs from 'flv.js';
 
 export default defineComponent({
   setup(_props, context) {
-    const parentField = context.attrs["parentField"];
+    const parentField = context.attrs['parentField'];
 
-    const field = context.attrs["field"] as any;
+    const field = context.attrs['field'] as any;
     let formItem = shallowRef({label: 'input', required: false});
-    let dataField = shallowRef("");
+    let dataField = shallowRef('');
     let seekpoint = shallowRef();
     // let videoElement = ref(null);
     let player = ref();
@@ -43,26 +43,26 @@ export default defineComponent({
       let element = document.getElementsByName('videoElement')[0];
       if (flvjs.isSupported() && element) {
         const flvOption = {
-          url: field["videoUrl"], // 播放地址
-          hasAudio: field["hasAudio"] == "Y", // 是否有音频
-          hasVideo: field["hasVideo"] == "Y", //是否有视频
-          isLive: field["isLive"] == "Y", // 是否是直播流，默认 true
-          type: field["videoType"] || "mp4", // 是否是直播流，默认 true
-          stashInitialSize: field["stashInitialSize"] || 128, // 减少首帧显示等待时长
+          url: field['videoUrl'], // 播放地址
+          hasAudio: field['hasAudio'] == 'Y', // 是否有音频
+          hasVideo: field['hasVideo'] == 'Y', //是否有视频
+          isLive: field['isLive'] == 'Y', // 是否是直播流，默认 true
+          type: field['videoType'] || 'mp4', // 是否是直播流，默认 true
+          stashInitialSize: field['stashInitialSize'] || 128, // 减少首帧显示等待时长
         };
         player.value = flvjs.createPlayer(flvOption, {
-          enableWorker: field["enableWorker"] == "Y", // 不启用分离的线程进行转换，之前为true
-          enableStashBuffer: field["enableStashBuffer"] == "Y", // 关闭IO隐藏缓冲区
-          stashInitialSize: field["stashInitialSize"] || 128, // 减少首帧显示等待时长
-          autoCleanupSourceBuffer: field["autoCleanupSourceBuffer"] == "Y", // 打开自动清除缓存
-          fixAudioTimestampGap: field["fixAudioTimestampGap"] == "Y", //false才会音视频同步,新增
-          lazyLoad: field["lazyLoad"] == "Y", // 去掉懒加载,新增
+          enableWorker: field['enableWorker'] == 'Y', // 不启用分离的线程进行转换，之前为true
+          enableStashBuffer: field['enableStashBuffer'] == 'Y', // 关闭IO隐藏缓冲区
+          stashInitialSize: field['stashInitialSize'] || 128, // 减少首帧显示等待时长
+          autoCleanupSourceBuffer: field['autoCleanupSourceBuffer'] == 'Y', // 打开自动清除缓存
+          fixAudioTimestampGap: field['fixAudioTimestampGap'] == 'Y', //false才会音视频同步,新增
+          lazyLoad: field['lazyLoad'] == 'Y', // 去掉懒加载,新增
         });
         player.value.attachMediaElement(element);
-        if (field["autoLoad"] == "Y") {
+        if (field['autoLoad'] == 'Y') {
           player.value.load();
         }
-        if (field["autoPlay"] == "Y") {
+        if (field['autoPlay'] == 'Y') {
           player.value.play();
         }
         // state.endedReloadFlag = true; // 重置画面停滞的播放状态，下次停滞了会再次打开
@@ -75,7 +75,7 @@ export default defineComponent({
     };
     const pause = () => {
       player.value.pause();
-    }
+    };
     const destroy = () => {
       player.value.pause();
       player.value.unload();
@@ -102,9 +102,9 @@ export default defineComponent({
         localStorage.setItem('vedio-item.' + key, value);
       } catch (e) {
       }
-    }
+    };
     const saveSettings = () => {
-      setCfg('sURL', field["videoUrl"]);
+      setCfg('sURL', field['videoUrl']);
     };
     onMounted(() => {
       load();
@@ -112,7 +112,7 @@ export default defineComponent({
     return {
       parentField, context, field, formItem, dataField, itemAction, seekpoint,
       saveSettings, load, start, pause, destroy, seekto
-    }
+    };
   }
 });
 </script>

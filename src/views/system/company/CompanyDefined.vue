@@ -1,39 +1,39 @@
 <script setup lang="ts" name="CompanyDefine">
-import {apiInstance, createTree, dialogPreps, loadData} from "@/api/sh_api";
-import {ApiUrls} from "@/components/types/ApiUrls";
-import {Config} from "@/api/settings";
-import {onMounted, provide, reactive, ref, onActivated, onDeactivated} from "vue";
-import {SearchFields, SelectOption} from "@/components/types/SearchProps";
-import {PageFieldInfo, UserFuncInfo} from "@/components/types/PageFieldInfo";
-import {getCustomerParam} from "@/utils/auth";
-import {warning} from "@/utils/message.ts";
+import {apiInstance, createTree, dialogPreps, loadData} from '@/api/sh_api';
+import {ApiUrls} from '@/components/types/ApiUrls';
+import {Config} from '@/api/settings';
+import {onMounted, provide, reactive, ref, onActivated, onDeactivated} from 'vue';
+import {SearchFields, SelectOption} from '@/components/types/SearchProps';
+import {PageFieldInfo, UserFuncInfo} from '@/components/types/PageFieldInfo';
+import {getCustomerParam} from '@/utils/auth';
+import {warning} from '@/utils/message.ts';
 
 //后端交互接口地址
-const dataUrl: ApiUrls = apiInstance("system-config", "system/companyDefine");
+const dataUrl: ApiUrls = apiInstance('system-config', 'system/companyDefine');
 //主键
-const primaryKey = "idCompanyDefine";
+const primaryKey = 'idCompanyDefine';
 const companyDefineRef = ref();
 //定义表单的所有属性
-const formFields = reactive<Object>({});
-provide("formFields", formFields);
+const formFields = reactive<object>({});
+provide('formFields', formFields);
 let companyCategoryList = ref<SelectOption[]>([]);
 let companyList = ref<SelectOption[]>([]);
 //查询属性
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: "公司名称",
-      fieldName: "name",
+      label: '公司名称',
+      fieldName: 'name',
       defaultVisible: true,
-      matchType: "lk",
-      type: "input"
+      matchType: 'lk',
+      type: 'input'
     },
     {
-      label: "公司编码",
-      fieldName: "code",
+      label: '公司编码',
+      fieldName: 'code',
       defaultVisible: true,
-      matchType: "lk",
-      type: "input"
+      matchType: 'lk',
+      type: 'input'
     },
 
   ]
@@ -44,64 +44,64 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   //属性列表
   fieldList: [
     [{
-      label: "公司名称",
-      fieldName: "name",
-      type: "input",
+      label: '公司名称',
+      fieldName: 'name',
+      type: 'input',
       required: true,
       formVisible: !false,
       listVisible: !false,
     },
       {
-        label: "公司编码",
-        fieldName: "code",
-        type: "input",
-        editDisabled: "Y",
+        label: '公司编码',
+        fieldName: 'code',
+        type: 'input',
+        editDisabled: 'Y',
         required: true,
         formVisible: !false,
         listVisible: !false,
       }],
     [{
-      label: "公司类别",
-      fieldName: "category",
-      type: "tselect",
+      label: '公司类别',
+      fieldName: 'category',
+      type: 'tselect',
       optionList: companyCategoryList,
       required: true,
       formVisible: !false,
       listVisible: !false,
       preps: {
-        checkStrictly: "Y",
-        defaultExpandAll: "Y"
+        checkStrictly: 'Y',
+        defaultExpandAll: 'Y'
       }
     }, {
-      label: "排序",
-      fieldName: "dataSort",
-      type: "number",
+      label: '排序',
+      fieldName: 'dataSort',
+      type: 'number',
       required: true,
       formVisible: !false,
       listVisible: !false,
     }], [{
-      label: "公司简称",
-      fieldName: "shortName",
-      type: "input",
+      label: '公司简称',
+      fieldName: 'shortName',
+      type: 'input',
       required: false,
       formVisible: !false,
       listVisible: !false,
     },
       {
-        label: "父节点",
-        fieldName: "parentId",
-        type: "tselect",
+        label: '父节点',
+        fieldName: 'parentId',
+        type: 'tselect',
         optionList: companyList,
         formVisible: !false,
         preps: {
-          checkStrictly: "Y",
-          defaultExpandAll: "Y"
+          checkStrictly: 'Y',
+          defaultExpandAll: 'Y'
         }
       }],
     {
-      label: "备注",
-      fieldName: "remark",
-      type: "textarea",
+      label: '备注',
+      fieldName: 'remark',
+      type: 'textarea',
       formVisible: !false,
       listVisible: !false,
     }
@@ -114,35 +114,35 @@ const rules = {};
 //控制弹窗相关设置
 const dialogProps = dialogPreps();
 let outerForm = ref<any>({});
-provide("dialogProps", dialogProps);
+provide('dialogProps', dialogProps);
 let extandBtns = ref<UserFuncInfo[]>([{
-  btnName: "添加子公司",
-  authority: "add",
-  icon: "plus",
+  btnName: '添加子公司',
+  authority: 'add',
+  icon: 'plus',
   priority: 1,
   funcName: (row: any) => {
-    outerForm.value["parentId"] = row[primaryKey];
+    outerForm.value['parentId'] = row[primaryKey];
     dialogProps.editVisible = true;
   }
 }]);
 //初始化方法
 const initData = async () => {
-  let data = await loadData("/system-config/system/companyCategory/getAllByCondition", {});
+  let data = await loadData('/system-config/system/companyCategory/getAllByCondition', {});
   if (data.error) {
     warning(data.error);
     return;
   }
-  companyCategoryList.value = createTree(data.data, "categoryCode", "categoryName", "");
+  companyCategoryList.value = createTree(data.data, 'categoryCode', 'categoryName', '');
   await actived();
 };
 const actived = async () => {
-  let data = await loadData("/system-config/system/companyDefine/getAllByCondition", {});
+  let data = await loadData('/system-config/system/companyDefine/getAllByCondition', {});
   if (data.error) {
     warning(data.error);
     return;
   }
-  companyList.value = createTree(data.data, primaryKey, "name", "");
-}
+  companyList.value = createTree(data.data, primaryKey, 'name', '');
+};
 /**
  * 列表，查看数据时数据转换
  * @param name 名称
@@ -151,7 +151,7 @@ const actived = async () => {
  */
 const dataFormat = (name: string, cellValue: any, row: any): any => {
   return cellValue;
-}
+};
 onMounted(async () => {
   await initData();
 });

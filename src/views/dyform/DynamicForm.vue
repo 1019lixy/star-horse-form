@@ -1,34 +1,34 @@
 <script lang="ts" setup name="DynamicForm">
-import FieldPanel from "@/views/dyform/FieldPanel.vue";
-import {computed, nextTick, onActivated, onBeforeUnmount, onDeactivated, onMounted, reactive, ref, watch} from "vue";
-import PropertyPanel from "@/views/dyform/PropertyPanel.vue";
-import {postRequest} from "@/api/star_horse";
-import {operationConfirm, error, warning} from "@/utils/message";
-import {useRoute, useRouter} from "vue-router";
-import {apiInstance, closeLoad, load, loadData} from "@/api/sh_api";
-import FieldAnalysis from "@/views/dyform/FieldAnalysis.vue";
-import FormPropertyPanel from "@/views/dyform/FormPropertyPanel.vue";
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-import Help from "@/components/help.vue";
-import {dynamicFormHelpMessage, formActions} from "@/views/dyform/utils/DynamicForm.ts";
-import {DesignForm} from "@/store/DesignFormStore.ts";
-import piniaInstance from "@/store/index.ts";
-import {validDynamicFormCompParams} from "@/views/dyform/utils/preview.ts";
-import CodeComp from "@/views/dyform/code/CodeComp.vue";
-import {useButtonPermission} from "@/store/ButtonPermissionStore.ts";
-import {useUserSelfOperation} from "@/store/SelfOperationStore.ts";
-import {batchModifyAction} from "@/api/system.ts";
-import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
-import {delCacheData, getCacheData, setCacheData} from "@/api/cached_utils.ts";
-import {i18n} from "@/lang";
-import {Config} from "@/api/settings.ts";
-import FormPreview from "@/views/dyform/FormPreview.vue";
-import {initKeyboardEvent, removeKeyboardEvent} from "@/api/keyboard-event-utils.ts";
-import {dynamicFormContextMenuData} from "@/views/dyform/page/AblesPlugin.ts";
-import {ModuleEnums} from "@/components/enums/ModuleEnums.ts";
-import {compFieldInit} from "@/views/dyform/utils/FieldOperationUtils.ts";
+import FieldPanel from '@/views/dyform/FieldPanel.vue';
+import {computed, nextTick, onActivated, onBeforeUnmount, onDeactivated, onMounted, reactive, ref, watch} from 'vue';
+import PropertyPanel from '@/views/dyform/PropertyPanel.vue';
+import {postRequest} from '@/api/star_horse';
+import {operationConfirm, error, warning} from '@/utils/message';
+import {useRoute, useRouter} from 'vue-router';
+import {apiInstance, closeLoad, load, loadData} from '@/api/sh_api';
+import FieldAnalysis from '@/views/dyform/FieldAnalysis.vue';
+import FormPropertyPanel from '@/views/dyform/FormPropertyPanel.vue';
+import StarHorseIcon from '@/components/comp/StarHorseIcon.vue';
+import Help from '@/components/help.vue';
+import {dynamicFormHelpMessage, formActions} from '@/views/dyform/utils/DynamicForm.ts';
+import {DesignForm} from '@/store/DesignFormStore.ts';
+import piniaInstance from '@/store/index.ts';
+import {validDynamicFormCompParams} from '@/views/dyform/utils/preview.ts';
+import CodeComp from '@/views/dyform/code/CodeComp.vue';
+import {useButtonPermission} from '@/store/ButtonPermissionStore.ts';
+import {useUserSelfOperation} from '@/store/SelfOperationStore.ts';
+import {batchModifyAction} from '@/api/system.ts';
+import {GlobalConfig} from '@/store/GlobalConfigStore.ts';
+import {delCacheData, getCacheData, setCacheData} from '@/api/cached_utils.ts';
+import {i18n} from '@/lang';
+import {Config} from '@/api/settings.ts';
+import FormPreview from '@/views/dyform/FormPreview.vue';
+import {initKeyboardEvent, removeKeyboardEvent} from '@/api/keyboard-event-utils.ts';
+import {dynamicFormContextMenuData} from '@/views/dyform/page/AblesPlugin.ts';
+import {ModuleEnums} from '@/components/enums/ModuleEnums.ts';
+import {compFieldInit} from '@/views/dyform/utils/FieldOperationUtils.ts';
 
-const dataUrl = apiInstance("userdb-manage", "userdb/dynamicForm");
+const dataUrl = apiInstance('userdb-manage', 'userdb/dynamicForm');
 let designForm = DesignForm(piniaInstance);
 let route = useRoute();
 let router = useRouter();
@@ -41,8 +41,8 @@ let draggingItem = computed(() => designForm.draggingItem);
 let list = computed(() => designForm.compList);
 let isPreview = computed(() => designForm.previewVisible);
 let batchEditFieldVisible = computed(() => designForm.batchEditFieldVisible);
-let activeTab = ref<any>("first");
-let errMessage = ref<string>("");
+let activeTab = ref<any>('first');
+let errMessage = ref<string>('');
 let formData = computed(() => designForm.formData);
 let formInfo = computed(() => designForm.formInfo);
 let shortKeyDisabled = computed(() => designForm.shortKeyDisabled);
@@ -51,17 +51,17 @@ const dynamicFormRef = ref();
 const previewDynamicFormRef = ref();
 let reOrUnDoFlag = ref<boolean>(false);
 let initFinish = ref<boolean>(false);
-let currentPageStyle = ref<any>({label: "电脑", key: "pc"});
-let currentPageClass = ref<string>("main-design");
-let cacheData = ref<any>("");
-let cacheName = "dynamicFormCache";
+let currentPageStyle = ref<any>({label: '电脑', key: 'pc'});
+let currentPageClass = ref<string>('main-design');
+let cacheData = ref<any>('');
+let cacheName = 'dynamicFormCache';
 const init = async () => {
   //初始化数据
   designForm.clearAll(true);
   //加载组件属性
   compFieldInit().then(() => {
     initFinish.value = true;
-    console.log("初始化完成");
+    console.log('初始化完成');
     //解决数据已经加载完成，但是组件属性没有加载完成的问题
     if (list.value.length > 0) {
       let activeItem = list.value[0];
@@ -75,29 +75,29 @@ const propertyRef = ref();
 const loadFormData = async (formId: any, isParent: boolean) => {
   await nextTick();
   designForm.clearAll(false);
-  let resultData: any = await loadData(dataUrl.loadByIdUrl! + "/" + formId, {});
+  let resultData: any = await loadData(dataUrl.loadByIdUrl! + '/' + formId, {});
   if (resultData.error) {
     warning(resultData.error);
     return;
   }
-  console.log("数据加载完成");
+  console.log('数据加载完成');
   let data = resultData.data;
   if (isParent) {
-    data["idDynamicForm"] = null;
-    data["parentId"] = formId;
+    data['idDynamicForm'] = null;
+    data['parentId'] = formId;
     //数据编号一定要清空，否则数据会跳过重复验证
-    data["dataNo"] = null;
-    data["formId"] = data["formId"] + "Sub";
-    data["tbName"] = data["tbName"] + "Sub";
+    data['dataNo'] = null;
+    data['formId'] = data['formId'] + 'Sub';
+    data['tbName'] = data['tbName'] + 'Sub';
   }
-  if (data["relations"]) {
-    data["relations"] = JSON.parse(data["relations"]);
+  if (data['relations']) {
+    data['relations'] = JSON.parse(data['relations']);
   }
-  let details = data["details"];
-  data["details"] = {};
+  let details = data['details'];
+  data['details'] = {};
   designForm.setFormInfo(data);
-  designForm.setCompList(JSON.parse(details?.content || "[]"));
-  designForm.setFormData(JSON.parse(details?.fieldNames || "{}"));
+  designForm.setCompList(JSON.parse(details?.content || '[]'));
+  designForm.setFormData(JSON.parse(details?.fieldNames || '{}'));
   designForm.setIsEdit(true);
   let activeItem = list.value[0];
   //如果组件属性已经加载完成，则直接选中第一个组件
@@ -118,12 +118,12 @@ const closeAction = () => {
 };
 const clearData = (flag: boolean = true) => {
   if (list.value?.length > 0) {
-    operationConfirm("新建将清空舞台上的所有元素，是否确定要清空？").then((res: boolean) => {
+    operationConfirm('新建将清空舞台上的所有元素，是否确定要清空？').then((res: boolean) => {
       if (res) {
         designForm.clearAll(flag);
         delCacheData(cacheName);
       }
-    })
+    });
   } else {
     designForm.clearAll(flag);
   }
@@ -136,7 +136,7 @@ const preview = async () => {
   userOperation.setFormInstance(previewDynamicFormRef);
   list.value.forEach((item: any) => {
     userOperation.addFormItem(item);
-  })
+  });
 };
 const formPropertyRef = ref();
 /**
@@ -150,13 +150,13 @@ const codeDoSave = () => {
 const createFormInfo = () => {
   let dynameForm = JSON.parse(JSON.stringify(formInfo.value));
   //解决多次转换
-  dynameForm!["relations"] = (dynameForm["relations"] && dynameForm["relations"] instanceof Array) ?
-      JSON.stringify(dynameForm["relations"]) : dynameForm["relations"];
-  dynameForm!["details"] = {};
-  dynameForm!["details"]["content"] = JSON.stringify(list.value);
-  dynameForm!["details"]["fieldNames"] = "{}";//JSON.stringify(formData.value);
+  dynameForm!['relations'] = (dynameForm['relations'] && dynameForm['relations'] instanceof Array) ?
+      JSON.stringify(dynameForm['relations']) : dynameForm['relations'];
+  dynameForm!['details'] = {};
+  dynameForm!['details']['content'] = JSON.stringify(list.value);
+  dynameForm!['details']['fieldNames'] = '{}';//JSON.stringify(formData.value);
   return dynameForm;
-}
+};
 const doSave = async (isDraft: boolean = false) => {
   let formData = formPropertyRef.value.getFormData();
   designForm.setFormInfo(formData.value);
@@ -178,14 +178,14 @@ const doSave = async (isDraft: boolean = false) => {
     flag = evt;
   });
   if (!flag) {
-    warning("请先填写表单信息");
+    warning('请先填写表单信息');
     return;
   }
-  load("数据提交中，请等待");
-  postRequest(`/userdb-manage/userdb/dynamicForm/${isDraft ? "mergeDraft" : "merge"}`, createFormInfo())
+  load('数据提交中，请等待');
+  postRequest(`/userdb-manage/userdb/dynamicForm/${isDraft ? 'mergeDraft' : 'merge'}`, createFormInfo())
       .then((res) => {
         if (res.data.code != 0) {
-          activeTab.value = "second";
+          activeTab.value = 'second';
           warning(res.data.cnMessage);
           return;
         }
@@ -194,7 +194,7 @@ const doSave = async (isDraft: boolean = false) => {
         //添加成功清空缓存
         designForm.clearAll(false);
         //添加成功后是否还要继续添加，
-        operationConfirm(res.data.cnMessage + ",是否继续留在当前页面").then((cfm: boolean) => {
+        operationConfirm(res.data.cnMessage + ',是否继续留在当前页面').then((cfm: boolean) => {
           if (cfm) {
             analysisParentParam();
           }
@@ -202,20 +202,20 @@ const doSave = async (isDraft: boolean = false) => {
           goBack();
         });
       }).catch((err) => {
-    activeTab.value = "second";
+    activeTab.value = 'second';
     closeAction();
-    error("操作异常:" + err);
+    error('操作异常:' + err);
   }).finally(() => {
     closeLoad();
   });
 };
 const goBack = () => {
   let sdata = {
-    path: "/dyform/DynamicFormUi",
-    componentName: "DynamicFormUi",
+    path: '/dyform/DynamicFormUi',
+    componentName: 'DynamicFormUi',
   };
   router.push(sdata);
-}
+};
 const formInfoChange = (_data: any) => {
 };
 /**
@@ -228,13 +228,13 @@ const shortKeySwitch = (val: boolean) => {
   } else {
     removeKeyboardEvent(actions, ModuleEnums.DYNAMIC_FORM);
   }
-}
+};
 const onDragAdd = async (_evt: Event, dataList: Array<any>) => {
   if (draggingItem.value.itemType == 'table') {
     let id = draggingItem.value.id;
-    let datas = dataList.filter(item => item.itemType == "table");
+    let datas = dataList.filter(item => item.itemType == 'table');
     if (datas.length > 1) {
-      warning("同级容器中只能添加一次动态列表组件");
+      warning('同级容器中只能添加一次动态列表组件');
       for (let i = 0; i < dataList.length; i++) {
         let temp = dataList[i];
         if (temp.id == id) {
@@ -249,9 +249,9 @@ const onDragAdd = async (_evt: Event, dataList: Array<any>) => {
   }
   if (Array.isArray(draggingItem.value)) {
     let temp = draggingItem.value[draggingItem.value.length - 1];
-    designForm.selectItem(temp, temp["itemType"], "");
+    designForm.selectItem(temp, temp['itemType'], '');
   } else {
-    designForm.selectItem(draggingItem.value, draggingItem.value["itemType"], "");
+    designForm.selectItem(draggingItem.value, draggingItem.value['itemType'], '');
   }
 };
 const createCode = () => {
@@ -268,10 +268,10 @@ const isSubmit = ref(false);
 let batchModifyData = reactive<any>({
   maxLength: 100,
   precision: 0,
-  required: "N",
-  formVisible: "Y",
-  searchVisible: "Y",
-  listVisible: "Y"
+  required: 'N',
+  formVisible: 'Y',
+  searchVisible: 'Y',
+  listVisible: 'Y'
 });
 const tableEdit = async (submit: boolean) => {
   isSubmit.value = submit;
@@ -279,7 +279,7 @@ const tableEdit = async (submit: boolean) => {
   designForm.setShortKeyDisabled(true);
   await nextTick(() => {
     formPropertyRef.value.analysisDynamicFields(createFormInfo());
-  })
+  });
 };
 
 let leftPanelVisible = ref<boolean>(true);
@@ -288,14 +288,14 @@ let rightPanelVisible = ref<boolean>(true);
 //页面风格
 const actionsStyle = (item: any) => {
   currentPageStyle.value = item;
-  if (item.key == "pad") {
-    currentPageClass.value = "main-design-pad";
-  } else if (item.key == "phone") {
-    currentPageClass.value = "main-design-phone";
+  if (item.key == 'pad') {
+    currentPageClass.value = 'main-design-pad';
+  } else if (item.key == 'phone') {
+    currentPageClass.value = 'main-design-phone';
   } else {
-    currentPageClass.value = "main-design";
+    currentPageClass.value = 'main-design';
   }
-}
+};
 const cacheDataRestore = (evt: MouseEvent) => {
   evt.stopPropagation();
   designForm.clearAll(true);
@@ -305,79 +305,79 @@ const cacheDataRestore = (evt: MouseEvent) => {
     } catch (e) {
       designForm.setCompList(cacheData.value);
     }
-    cacheData.value = "";
+    cacheData.value = '';
   }
-}
+};
 const actions = (action: string) => {
   switch (action) {
-    case "leftPanel":
+    case 'leftPanel':
       leftPanelVisible.value = !leftPanelVisible.value;
       break;
-    case "rightPanel":
+    case 'rightPanel':
       rightPanelVisible.value = !rightPanelVisible.value;
       break;
-    case "new":
-    case "empty":
+    case 'new':
+    case 'empty':
       clearData(false);
       break;
-    case "eprep":
+    case 'eprep':
       batchEdit();
       break;
-    case "tprep":
+    case 'tprep':
       tableEdit(false);
       break;
-    case "save":
+    case 'save':
       tableEdit(true);
       break;
-    case "preview":
+    case 'preview':
       preview();
       break;
-    case "valid":
+    case 'valid':
       errMessage.value = validDynamicFormCompParams(list.value);
       if (errMessage.value) {
         warning(errMessage.value);
       }
       break;
-    case "code":
+    case 'code':
       createCode();
       break;
-    case "undo":
+    case 'undo':
       reOrUnDoFlag.value = true;
       designForm.undo();
       break;
-    case "redo":
+    case 'redo':
       reOrUnDoFlag.value = true;
       designForm.redo();
       break;
-    case "goBack":
+    case 'goBack':
       goBack();
       break;
   }
 };
 const batchOperation = (val: any, fieldName: string) => {
   batchModifyAction(list.value, val, fieldName);
-}
+};
 const analysisParentParam = () => {
-  let parentId = route.query["parentId"];
-  if (parentId && "0" != parentId) {
+  let parentId = route.query['parentId'];
+  if (parentId && '0' != parentId) {
     loadFormData(parentId, true);
   }
-}
+};
 const analysisQueryParams = () => {
-  let formId = route.query["formId"];
+  let formId = route.query['formId'];
   if (formId) {
     loadFormData(formId, false);
     return;
   }
   analysisParentParam();
-}
+};
 const contentMenuRef = ref();
 const contextMenu = async (evt: MouseEvent) => {
   evt.preventDefault();
   evt.stopPropagation();
   await nextTick();
   contentMenuRef.value.show(evt);
-}
+};
 /**
  * 键盘事件
  * @param evt
@@ -394,12 +394,12 @@ onDeactivated(() => {
 });
 onBeforeUnmount(() => {
   designForm.setIsEdit(false);
-})
+});
 watch(
     () => route.query,
     (val) => {
       if (val) {
-        analysisQueryParams()
+        analysisQueryParams();
       }
     },
     {immediate: true, deep: true}
@@ -425,7 +425,7 @@ onMounted(async () => {
   await init();
   shortKeySwitch(true);
 });
-let prepsModel = ref("one");
+let prepsModel = ref('one');
 </script>
 <template>
   <star-horse-dialog

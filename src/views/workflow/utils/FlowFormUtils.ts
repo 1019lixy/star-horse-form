@@ -1,80 +1,80 @@
-import {reactive, ref, isRef} from "vue";
-import {SelectOption} from "@/components/types/SearchProps.d.js";
-import {PageFieldInfo} from "@/components/types/PageFieldInfo.d.js";
-import {useFlowDesign} from "@/store/FlowDesignStore.ts";
-import piniaInstance from "@/store";
-import {postRequest} from "@/api/star_horse.ts";
-import {error, success} from "@/utils/message.ts";
+import {reactive, ref, isRef} from 'vue';
+import {SelectOption} from '@/components/types/SearchProps.d.js';
+import {PageFieldInfo} from '@/components/types/PageFieldInfo.d.js';
+import {useFlowDesign} from '@/store/FlowDesignStore.ts';
+import piniaInstance from '@/store';
+import {postRequest} from '@/api/star_horse.ts';
+import {error, success} from '@/utils/message.ts';
 
 const flowDesign = useFlowDesign(piniaInstance);
 const flowGroups = ref<SelectOption[]>([]);
 const formVisibleTypeList = ref<SelectOption[]>([
-    {name: "标签栏", value: "tab"},
-    {name: "步进式", value: "step"},
-    {name: "顺序显示", value: "seq"},
+    {name: '标签栏', value: 'tab'},
+    {name: '步进式', value: 'step'},
+    {name: '顺序显示', value: 'seq'},
 ]);
 const flowFormFields = reactive<PageFieldInfo>({
     fieldList: [
 
         {
-            label: "流程名称",
-            fieldName: "name",
-            type: "input",
+            label: '流程名称',
+            fieldName: 'name',
+            type: 'input',
             required: true,
             formVisible: true,
             listVisible: true
         },
         {
-            label: "流程分类",
-            fieldName: "flowGroup",
-            type: "select",
+            label: '流程分类',
+            fieldName: 'flowGroup',
+            type: 'select',
             optionList: flowGroups,
             required: true,
             formVisible: true,
             listVisible: true
         },
         {
-            label: "图标",
-            fieldName: "flowIcon",
-            type: "icon",
-            defaultValue: "document",
+            label: '图标',
+            fieldName: 'flowIcon',
+            type: 'icon',
+            defaultValue: 'document',
             formVisible: true,
             listVisible: true
         },
         {
-            label: "绑定表单",
-            fieldName: "bindFormName",
-            aliasName: "bindForm",
-            type: "page-select",
+            label: '绑定表单',
+            fieldName: 'bindFormName',
+            aliasName: 'bindForm',
+            type: 'page-select',
             params: {
-                primaryKey: "idDynamicForm",
+                primaryKey: 'idDynamicForm',
                 dataUrl: {
-                    loadByPageUrl: "/userdb-manage/userdb/dynamicForm/pageList",
+                    loadByPageUrl: '/userdb-manage/userdb/dynamicForm/pageList',
                 },
                 needField: [
-                    {sourceField: "formName", distField: "bindFormName"},
-                    {sourceField: "dataNo", distField: "bindForm"},
+                    {sourceField: 'formName', distField: 'bindFormName'},
+                    {sourceField: 'dataNo', distField: 'bindForm'},
                 ],
                 fieldList: [{
-                    label: "表单名称",
-                    type: "input",
-                    fieldName: "formName",
+                    label: '表单名称',
+                    type: 'input',
+                    fieldName: 'formName',
                     searchVisible: true,
                     listVisible: true,
                 }, {
-                    label: "表单图标",
-                    type: "icon",
-                    fieldName: "formIcon",
+                    label: '表单图标',
+                    type: 'icon',
+                    fieldName: 'formIcon',
                     listVisible: true,
                 }, {
-                    label: "创建人",
-                    type: "input",
-                    fieldName: "createdBy",
+                    label: '创建人',
+                    type: 'input',
+                    fieldName: 'createdBy',
                     listVisible: true,
                 }, {
-                    label: "创建时间",
-                    type: "input",
-                    fieldName: "createdDate",
+                    label: '创建时间',
+                    type: 'input',
+                    fieldName: 'createdDate',
                     listVisible: true,
                 }]
             },
@@ -82,70 +82,70 @@ const flowFormFields = reactive<PageFieldInfo>({
             formVisible: true,
             listVisible: true,
             preps: {
-                multiple: "Y",
+                multiple: 'Y',
             }
         },
         {
-            label: "流程图类型",
-            fieldName: "flowType",
-            type: "input",
+            label: '流程图类型',
+            fieldName: 'flowType',
+            type: 'input',
             formVisible: false,
             listVisible: true
         },
         {
-            label: "流程版本",
-            fieldName: "flowVersion",
-            type: "input",
+            label: '流程版本',
+            fieldName: 'flowVersion',
+            type: 'input',
             formVisible: false,
             listVisible: true
         },
         {
-            label: "多表单显示模式",
-            fieldName: "formVisibleType",
-            type: "radio",
+            label: '多表单显示模式',
+            fieldName: 'formVisibleType',
+            type: 'radio',
             optionList: formVisibleTypeList,
-            defaultValue: "step",
+            defaultValue: 'step',
             formVisible: true,
             listVisible: true,
         },
         {
-            label: "谁可以管理这个流程",
-            fieldName: "flowManagerName",
-            aliasName: "flowManager",
-            type: "page-select",
+            label: '谁可以管理这个流程',
+            fieldName: 'flowManagerName',
+            aliasName: 'flowManager',
+            type: 'page-select',
             params: {
-                primaryKey: "idEmployeeInfo",
+                primaryKey: 'idEmployeeInfo',
                 dataUrl: {
-                    loadByPageUrl: "/system-config/system/employeeInfo/pageList"
+                    loadByPageUrl: '/system-config/system/employeeInfo/pageList'
                 },
                 needField: [
-                    {sourceField: "name", distField: "flowManagerName"},
-                    {sourceField: "idEmployeeInfo", distField: "flowManager"},
+                    {sourceField: 'name', distField: 'flowManagerName'},
+                    {sourceField: 'idEmployeeInfo', distField: 'flowManager'},
                 ],
                 fieldList: [{
-                    label: "姓名",
-                    type: "input",
+                    label: '姓名',
+                    type: 'input',
                     searchVisible: true,
-                    fieldName: "name",
+                    fieldName: 'name',
                     listVisible: true,
                 }, {
-                    label: "用户名",
-                    type: "input",
+                    label: '用户名',
+                    type: 'input',
                     searchVisible: true,
-                    fieldName: "employeeNo",
+                    fieldName: 'employeeNo',
                     listVisible: true,
                 }]
             },
             formVisible: true,
             listVisible: true,
             preps: {
-                multiple: "Y",
+                multiple: 'Y',
             }
         },
         {
-            label: "说明",
-            fieldName: "remark",
-            type: "textarea",
+            label: '说明',
+            fieldName: 'remark',
+            type: 'textarea',
             formVisible: true,
             listVisible: false
         },
@@ -153,7 +153,7 @@ const flowFormFields = reactive<PageFieldInfo>({
 });
 const setFlowGroups = (data: any) => {
     flowGroups.value = data;
-}
+};
 /**
  * 保存数据
  * @param formInfo
@@ -164,25 +164,25 @@ const doSaveData = (formInfo: any, type: string, router?: any) => {
     formInfo = isRef(formInfo) ? formInfo.value : formInfo;
     formInfo.submitType = type;
     formInfo.process = flowDesign.node;
-    postRequest("/flow-engine/workflow/flowdefinition/saveOrDeployProcess", formInfo)
+    postRequest('/flow-engine/workflow/flowdefinition/saveOrDeployProcess', formInfo)
         .then(reData => {
-            let res = reData.data;
+            const res = reData.data;
             if (res.code) {
                 error(res.message);
                 return;
             } else {
-                success(type == "publish" ? "发布成功" : "保存成功");
+                success(type == 'publish' ? '发布成功' : '保存成功');
                 if (router) {
                     router.push({
-                        path: "/workflow/FlowDefineUi",
+                        path: '/workflow/FlowDefineUi',
                     });
                 }
             }
         });
-}
+};
 export {
     flowFormFields,
     formVisibleTypeList,
     doSaveData,
     setFlowGroups
-}
+};

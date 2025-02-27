@@ -1,27 +1,27 @@
 <script setup lang="ts" name="JbpmDesign">
-import {flowTemplate} from "@/views/jbpm/utils/template.ts";
-import JbpmHeader from "@/views/jbpm/JbpmHeader.vue";
-import JbpmPropertyPanel from "@/views/jbpm/panel/JbpmPropertyPanel.vue";
+import {flowTemplate} from '@/views/jbpm/utils/template.ts';
+import JbpmHeader from '@/views/jbpm/JbpmHeader.vue';
+import JbpmPropertyPanel from '@/views/jbpm/panel/JbpmPropertyPanel.vue';
 import 'bpmn-js/dist/assets/diagram-js.css';
 import 'bpmn-js/dist/assets/bpmn-js.css';
 import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css';
-import "bpmn-js-bpmnlint/dist/assets/css/bpmn-js-bpmnlint.css";
-import "bpmn-js-token-simulation/assets/css/bpmn-js-token-simulation.css";
-import "@/assets/css/diagram-js-minimap.css";
-import {computed, nextTick, onMounted, ref} from "vue";
-import {uuid} from "@/api/system.ts"
-import {createBpmnModeler, createNewFlow} from "@/views/jbpm/utils/FlowData.ts";
+import 'bpmn-js-bpmnlint/dist/assets/css/bpmn-js-bpmnlint.css';
+import 'bpmn-js-token-simulation/assets/css/bpmn-js-token-simulation.css';
+import '@/assets/css/diagram-js-minimap.css';
+import {computed, nextTick, onMounted, ref} from 'vue';
+import {uuid} from '@/api/system.ts';
+import {createBpmnModeler, createNewFlow} from '@/views/jbpm/utils/FlowData.ts';
 import {xmlStrNew} from './utils/linting-cloud.js';
-import {useFlowDesign} from "@/store/FlowDesignStore.ts";
-import piniaInstance from "@/store";
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-import {ElementRegistry} from "bpmn-js/lib/features/auto-place/BpmnAutoPlaceUtil";
+import {useFlowDesign} from '@/store/FlowDesignStore.ts';
+import piniaInstance from '@/store';
+import StarHorseIcon from '@/components/comp/StarHorseIcon.vue';
+import {ElementRegistry} from 'bpmn-js/lib/features/auto-place/BpmnAutoPlaceUtil';
 // 模拟流转流程
 
 
 let bpmnModeler: any = null;
 const initData = ref<any>({});
-const initTemplateRef = ref<string>("");
+const initTemplateRef = ref<string>('');
 const canvas = ref(null);
 const properties = ref(null);
 let isShow = ref<boolean>(false);
@@ -48,9 +48,9 @@ let errorNums = computed(() => {
   for (let key in datas) {
     let temp = datas[key];
     if (Array.isArray(temp)) {
-      nums += temp.filter(item => item.category == "error").length;
+      nums += temp.filter(item => item.category == 'error').length;
     } else {
-      if (temp.category == "error") {
+      if (temp.category == 'error') {
         nums += 1;
       }
     }
@@ -63,9 +63,9 @@ let warningNums = computed(() => {
   for (let key in datas) {
     let temp = datas[key];
     if (Array.isArray(temp)) {
-      nums += temp.filter(item => item.category == "warning").length;
+      nums += temp.filter(item => item.category == 'warning').length;
     } else {
-      if (temp.category == "warning") {
+      if (temp.category == 'warning') {
         nums += 1;
       }
     }
@@ -78,9 +78,9 @@ let infoNums = computed(() => {
   for (let key in datas) {
     let temp = datas[key];
     if (Array.isArray(temp)) {
-      nums += temp.filter(item => item.category == "info").length;
+      nums += temp.filter(item => item.category == 'info').length;
     } else {
-      if (temp.category == "info") {
+      if (temp.category == 'info') {
         nums += 1;
       }
     }
@@ -89,18 +89,18 @@ let infoNums = computed(() => {
 });
 const createData = () => {
   let processId = uuid();
-  let processName = "UnSaved";
+  let processName = 'UnSaved';
   initTemplateRef.value = flowTemplate(processName, processId);
   initData.value = {
     flowName: processName,
     flowId: processId,
     isUpdate: false,
     processTypeList: [
-      {name: "请假", value: "001"},
-      {name: "报销", value: "002"},
-      {name: "聚餐", value: "003"},
+      {name: '请假', value: '001'},
+      {name: '报销', value: '002'},
+      {name: '聚餐', value: '003'},
     ]
-  }
+  };
 };
 const flowCheck = () => {
 };
@@ -118,13 +118,13 @@ const restart = () => {
 };
 const showMessage = () => {
   isShow.value = !isShow.value;
-}
+};
 const elementPosition = (elementKey: string, event: MouseEvent) => {
   event?.preventDefault();
   event?.stopPropagation();
-  let registry = bpmnModeler.get<ElementRegistry>("elementRegistry");
+  let registry = bpmnModeler.get<ElementRegistry>('elementRegistry');
   bpmnModeler.get('selection').select([registry.find((item: any) => item.id == elementKey)]);
-}
+};
 onMounted(() => {
   createData();
   init();

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {onMounted, ref} from "vue";
+import {onMounted, ref} from 'vue';
 // import * as monaco from 'monaco-editor';
 // import IStandaloneCodeEditor = editor.IStandaloneCodeEditor;
 
@@ -51,10 +51,10 @@ const init = () => {
   //     '!findWidgetVisible && !inreferenceSearchEditor && !editorHasSelection'
   // )
 
-}
+};
 onMounted(() => {
   init();
-})
+});
 </script>
 
 <template>

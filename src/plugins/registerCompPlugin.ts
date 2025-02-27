@@ -1,4 +1,4 @@
-import {defineAsyncComponent} from "vue";
+import {defineAsyncComponent} from 'vue';
 
 /**
  * 注册组件
@@ -6,12 +6,12 @@ import {defineAsyncComponent} from "vue";
  * @param moduleName 模块名称
  */
 const register = ({app, moduleName}) => {
-    let items = import.meta.glob(`${moduleName}/*.vue`);
+    const items = import.meta.glob(`${moduleName}/*.vue`);
     for (const [key, value] of Object.entries(items)) {
-        const name = key.slice(key.lastIndexOf("/") + 1, key.lastIndexOf("."))
-        app.component(name, defineAsyncComponent(value))
+        const name = key.slice(key.lastIndexOf('/') + 1, key.lastIndexOf('.'));
+        app.component(name, defineAsyncComponent(value));
     }
 };
 export {
     register
-}
+};

@@ -122,4 +122,4 @@ export var xmlStr = `<?xml version="1.0" encoding="UTF-8"?>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
-</definitions>`
+</definitions>`;

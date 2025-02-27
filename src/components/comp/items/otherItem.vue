@@ -1,29 +1,29 @@
 <script setup lang="ts">
-import {onMounted, PropType} from "vue";
-import {ApiUrls} from "@/components/types/ApiUrls";
-import {FieldInfo} from "@/components/types/PageFieldInfo";
-import {validMsg} from "@/api/sh_api.ts";
-import {ModelRef} from "vue-demi";
-import {Config} from "@/api/settings.ts";
+import {onMounted, PropType} from 'vue';
+import {ApiUrls} from '@/components/types/ApiUrls';
+import {FieldInfo} from '@/components/types/PageFieldInfo';
+import {validMsg} from '@/api/sh_api.ts';
+import {ModelRef} from 'vue-demi';
+import {Config} from '@/api/settings.ts';
 
 defineProps({
   compUrl: {type: Object as PropType<ApiUrls>},
   item: {type: Object as PropType<FieldInfo>, required: true},
   objectName: {type: String},
   parentPreps: {type: Object, default: {}},
-  subFormFlag: {type: String, default: "N"},
-  batchName: {type: String, default: "batchDataList"},
-  batchFieldName: {type: String, default: "batchFieldList"},
+  subFormFlag: {type: String, default: 'N'},
+  batchName: {type: String, default: 'batchDataList'},
+  batchFieldName: {type: String, default: 'batchFieldList'},
   primaryKey: {type: String, required: true},
   rules: {type: Object},
   compSize: {type: String, default: Config.compSize},
   isView: {type: Boolean, default: false},
   isEdit: {type: Boolean, default: false},
 });
-const dataForm: ModelRef<any> = defineModel("dataForm");
+const dataForm: ModelRef<any> = defineModel('dataForm');
 const init = () => {
 
-}
+};
 onMounted(() => {
   init();
 });

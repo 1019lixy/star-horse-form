@@ -1,39 +1,39 @@
 <script setup lang="ts">
-import {createRouterAndMenuList, permissionMenus} from "@/api/star_horse";
-import {computed, nextTick, onMounted, reactive, ref, unref, watch} from "vue";
-import {userInfoStore} from "@/store/UserInfoStore";
-import {MenusInfo} from "@/components/types/MenusInfo";
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-import SubMenu from "@/components/menu/SubMenu.vue";
-import {filterTree} from "@/api/sh_api";
-import piniaInstance from "@/store";
-import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
-import {Config} from "@/api/settings.ts";
+import {createRouterAndMenuList, permissionMenus} from '@/api/star_horse';
+import {computed, nextTick, onMounted, reactive, ref, unref, watch} from 'vue';
+import {userInfoStore} from '@/store/UserInfoStore';
+import {MenusInfo} from '@/components/types/MenusInfo';
+import StarHorseIcon from '@/components/comp/StarHorseIcon.vue';
+import SubMenu from '@/components/menu/SubMenu.vue';
+import {filterTree} from '@/api/sh_api';
+import piniaInstance from '@/store';
+import {GlobalConfig} from '@/store/GlobalConfigStore.ts';
+import {Config} from '@/api/settings.ts';
 
 let userInfo = userInfoStore(piniaInstance);
 let configStore = GlobalConfig(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
-const emits = defineEmits(["collopseOperation"]);
+const emits = defineEmits(['collopseOperation']);
 let leftMenuDatas = ref<MenusInfo[]>([]);
 let props = defineProps({
   sysemId: {type: String},
   isCollapse: {type: Boolean, default: true}
 });
-let defaultOpenMenu = ref<string>("");
-let menuIcon = ref<string>("expand");
+let defaultOpenMenu = ref<string>('');
+let menuIcon = ref<string>('expand');
 const menuBarFun = () => {
   emits('collopseOperation');
 };
 const changeArrow = () => {
-  menuIcon.value = unref(menuIcon) == "expand" ? "collapse" : "expand";
+  menuIcon.value = unref(menuIcon) == 'expand' ? 'collapse' : 'expand';
 };
 const loadMenus = async (sysemId: string) => {
   if (!sysemId) {
-    sysemId = "-1";
+    sysemId = '-1';
   }
   await permissionMenus({}, sysemId).then(res => {
     let redata = res.data?.data;
-    localStorage.setItem("menusInfo", JSON.stringify(redata));
+    localStorage.setItem('menusInfo', JSON.stringify(redata));
     leftMenuDatas.value = reactive(createRouterAndMenuList(redata));
   });
   await nextTick(() => {
@@ -46,13 +46,13 @@ const loadMenus = async (sysemId: string) => {
 };
 // let menuIcon = ref<string>("expand");
 // let collapse = ref<boolean>(false);
-const search = ref<string>("");
+const search = ref<string>('');
 const systemMenu = ref();
 const filterTableData = computed(() => filterTree(search.value, leftMenuDatas.value));
 onMounted(async () => {
   let menus = userInfo.permissionMenus;
   if (menus.length == 0) {
-    await loadMenus("-1");
+    await loadMenus('-1');
   } else {
     leftMenuDatas.value = menus;
   }
@@ -60,7 +60,7 @@ onMounted(async () => {
 watch(
     () => props.isCollapse,
     () => {
-      changeArrow()
+      changeArrow();
     },
     {immediate: true}
 );

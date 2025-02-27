@@ -1,26 +1,26 @@
 <script setup lang="ts">
-import {onMounted, PropType} from "vue";
-import {FieldInfo} from "@/components/types/PageFieldInfo";
-import {ModelRef} from "vue-demi";
+import {onMounted, PropType} from 'vue';
+import {FieldInfo} from '@/components/types/PageFieldInfo';
+import {ModelRef} from 'vue-demi';
 
 defineProps({
   item: {type: Array as PropType<Array<FieldInfo>>, required: true},
   objectName: {type: String},
-  subFormFlag: {type: String, default: "N"},
-  batchName: {type: String, default: "batchDataList"},
-  batchFieldName: {type: String, default: "batchFieldList"},
+  subFormFlag: {type: String, default: 'N'},
+  batchName: {type: String, default: 'batchDataList'},
+  batchFieldName: {type: String, default: 'batchFieldList'},
   commonFormat: {type: Function, required: true},
 });
-const dataForm: ModelRef<any> = defineModel("dataForm");
+const dataForm: ModelRef<any> = defineModel('dataForm');
 const checkObject = (item: any) => {
   if (item && item.objectName && !Object.keys(dataForm.value).includes(item.objectName)) {
     dataForm.value[item.objectName] = {};
   }
   return 1;
-}
+};
 const init = () => {
 
-}
+};
 onMounted(() => {
   init();
 });

@@ -1,9 +1,9 @@
-import {defineStore} from "pinia";
-import {SelectOption} from "@/components/types/SearchProps";
-import {Config} from "@/api/settings.ts";
-import {ref, unref} from "vue";
+import {defineStore} from 'pinia';
+import {SelectOption} from '@/components/types/SearchProps';
+import {Config} from '@/api/settings.ts';
+import {ref, unref} from 'vue';
 
-export const DesignForm = defineStore("DesignForm", () => {
+export const DesignForm = defineStore('DesignForm', () => {
     const containerList = ref<Array<any>>([]);
     const formDataList = ref<Array<any>>([]);
     const selfFormDataList = ref<Array<any>>([]);
@@ -12,11 +12,11 @@ export const DesignForm = defineStore("DesignForm", () => {
     const compList = ref<any>([]);
     const formData = ref<any>({});
     const currentComp = ref<Array<any> | any>();
-    const currentItemType = ref<string>("");
-    const currentCompCategory = ref<string>("");
-    const parentCompType = ref<string>("");
-    const currentItemId = ref<string>("");
-    const currentSubItemId = ref<string>("");
+    const currentItemType = ref<string>('');
+    const currentCompCategory = ref<string>('');
+    const parentCompType = ref<string>('');
+    const currentItemId = ref<string>('');
+    const currentSubItemId = ref<string>('');
     const isEdit = ref<boolean>(false);
     const componentVisible = ref<boolean>(false);
     const batchEditFieldVisible = ref<boolean>(false);
@@ -48,14 +48,14 @@ export const DesignForm = defineStore("DesignForm", () => {
             parentCompType: unref(parentCompType),
             currentItemType: unref(currentItemType),
             currentFormPreps: unref(currentFormPreps),
-        }
+        };
         record.value.index = -1;
         record.value.datas.splice(0, 0, JSON.stringify(recordData));
         //数据只存20条，当大于20条时，删除最旧的一条
         if (record.value.datas.length > record.value.maxStep) {
             record.value.datas.splice(record.value.datas.length - 1, 1);
         }
-    }
+    };
     /**
      * 下一步
      */
@@ -67,17 +67,17 @@ export const DesignForm = defineStore("DesignForm", () => {
         historyRecord.value.index = historyRecord.value.index - 1;
         reAndUnDo();
 
-    }
+    };
 
     const reAndUnDo = () => {
         const record = unref(historyRecord);
         if (!record.datas[record.index]) {
             currentFormPreps.value = {};
-            currentItemType.value = "";
+            currentItemType.value = '';
             currentComp.value = {};
-            currentItemId.value = "";
-            parentCompType.value = "";
-            currentCompCategory.value = "";
+            currentItemId.value = '';
+            parentCompType.value = '';
+            currentCompCategory.value = '';
             compList.value = [];
         } else {
             const data = JSON.parse(record.datas[record.index]);
@@ -88,7 +88,7 @@ export const DesignForm = defineStore("DesignForm", () => {
             currentItemType.value = data.currentItemType;
             currentFormPreps.value = data.currentFormPreps;
         }
-    }
+    };
 
     /**
      * 上一步
@@ -105,7 +105,7 @@ export const DesignForm = defineStore("DesignForm", () => {
             historyRecord.value.index = record.maxStep;
         }
         reAndUnDo();
-    }
+    };
     /**
      * 激活组件的数下
      * @param data 数据
@@ -119,20 +119,20 @@ export const DesignForm = defineStore("DesignForm", () => {
         currentComp.value = data;
         currentItemType.value = itemType || data.itemType;
         currentFormPreps.value = data.preps || data;
-    }
+    };
     /**
      * 刷新页面
      */
     const setRefresh = () => {
         refresh.value++;
-    }
+    };
     /**
      * 选中子组件
      * @param subItemId
      */
     const setSubItemId = (subItemId: string) => {
         currentSubItemId.value = subItemId;
-    }
+    };
     /**
      * 设置表单信息
      * @param formData
@@ -142,73 +142,73 @@ export const DesignForm = defineStore("DesignForm", () => {
             ...unref(formInfo),
             ...formData
         };
-    }
+    };
     const setCompList = (comps: Array<any>) => {
         compList.value = comps;
-    }
+    };
     /**
      * 获取属性列表
      */
     const loadCompNames = () => {
         const innerFunc = (datas: Array<any>) => {
-            let selectList: Array<any> = [];
-            for (let index in datas) {
-                let temp: any = datas[index];
-                if (temp.itemType == "box" || temp.itemType == "dytable") {
-                    let elements = temp.preps.elements;
-                    for (let sindex in elements) {
-                        let columns = elements[sindex].columns;
-                        for (let ssindex in columns) {
-                            let column = columns[ssindex];
+            const selectList: Array<any> = [];
+            for (const index in datas) {
+                const temp: any = datas[index];
+                if (temp.itemType == 'box' || temp.itemType == 'dytable') {
+                    const elements = temp.preps.elements;
+                    for (const sindex in elements) {
+                        const columns = elements[sindex].columns;
+                        for (const ssindex in columns) {
+                            const column = columns[ssindex];
                             if (column.items && column.items.length > 0) {
                                 selectList.push(...column.items?.map((item: any) =>
-                                    ({name: item.preps?.label, type: "item", value: item.preps?.name}))
+                                    ({name: item.preps?.label, type: 'item', value: item.preps?.name}))
                                     .filter((item: SelectOption) => item.name));
                             }
                         }
                     }
-                } else if (temp.itemType == "table") {
-                    let elements = temp.preps.elements;
-                    let children: SelectOption[] = [];
-                    for (let index in elements) {
-                        let element = elements[index];
+                } else if (temp.itemType == 'table') {
+                    const elements = temp.preps.elements;
+                    const children: SelectOption[] = [];
+                    for (const index in elements) {
+                        const element = elements[index];
                         if (element.items && element.items.length > 0) {
                             children.push(...element.items?.map((item: any) =>
                                 ({name: item.preps?.label, value: item.preps?.name}))
-                                .filter((item: SelectOption) => item.name))
+                                .filter((item: SelectOption) => item.name));
                         }
                     }
                     selectList.push({
                         name: temp.preps?.label,
                         value: temp.preps?.batchFieldName,
-                        type: "container",
+                        type: 'container',
                         children: children
                     });
 
-                } else if (temp.itemType == "tab" || temp.itemType == "collapse" || temp.itemType == "card") {
-                    let elements = temp.preps?.elements;
-                    for (let index in elements) {
-                        let element = elements[index];
+                } else if (temp.itemType == 'tab' || temp.itemType == 'collapse' || temp.itemType == 'card') {
+                    const elements = temp.preps?.elements;
+                    for (const index in elements) {
+                        const element = elements[index];
                         selectList.push({
                             name: element.label,
                             value: element.objectName,
-                            type: "container",
+                            type: 'container',
                             children: innerFunc(element.items)
-                        })
+                        });
                     }
                 } else {
                     selectList.push({
                         name: temp.preps?.label,
                         value: temp.preps?.name,
-                        type: "item",
+                        type: 'item',
                     });
                 }
 
             }
             return selectList;
-        }
+        };
         return innerFunc(compList.value);
-    }
+    };
 
     /**
      * 手动添加组件
@@ -221,47 +221,47 @@ export const DesignForm = defineStore("DesignForm", () => {
         } else {
             compList.value.push(comp);
         }
-    }
+    };
     const setFormData = (data: any) => {
         formData.value = data;
-    }
+    };
     const setIsEdit = (editFlag: boolean) => {
         isEdit.value = editFlag;
-    }
+    };
     const setCurrentComp = (currComp: object) => {
         currentComp.value = currComp;
-    }
+    };
     const setCurrentItemType = (currItemType: string) => {
         currentItemType.value = currItemType;
-    }
+    };
     const setParentCompType = (parentType: string) => {
         parentCompType.value = parentType;
-    }
+    };
     const setCurrentItemId = (currItemId: string) => {
         currentItemId.value = currItemId;
-    }
+    };
     const setCurrentFormPreps = (currFormPreps: any) => {
-        currentFormPreps.value = currFormPreps["preps"] || currFormPreps;
-    }
+        currentFormPreps.value = currFormPreps['preps'] || currFormPreps;
+    };
     const setContainerList = (list: any) => {
         containerList.value = list;
-    }
+    };
     const setFormDataList = (list: any) => {
         formDataList.value = list;
-    }
+    };
     const setSelfFormDataList = (list: any) => {
         selfFormDataList.value = list;
-    }
+    };
     const setAllFormDataList = (list: any) => {
         allFormDataList.value = list;
-    }
+    };
     /**
      * 正在拖动中的组件
      * @param dragItem
      */
     const setDraggingItem = (dragItem: any) => {
         draggingItem.value = dragItem;
-    }
+    };
     /**
      * 删除数据
      */
@@ -276,11 +276,11 @@ export const DesignForm = defineStore("DesignForm", () => {
                     } else {
                         comps.splice(i, 1, res);
                     }
-                })
+                });
             }
         }
         // compList = [...JSON.parse(JSON.stringify(comps))];
-    }
+    };
     /**
      * 清除所有数据
      */
@@ -288,32 +288,32 @@ export const DesignForm = defineStore("DesignForm", () => {
         const ms = new Date().getTime();
         isEdit.value = true;
         currentFormPreps.value = {};
-        currentItemType.value = "";
+        currentItemType.value = '';
         currentComp.value = {};
-        currentItemId.value = "";
-        currentItemType.value = "";
-        parentCompType.value = "";
-        currentCompCategory.value = "";
+        currentItemId.value = '';
+        currentItemType.value = '';
+        parentCompType.value = '';
+        currentCompCategory.value = '';
         formInfo.value = {
-            rules: "",
-            inline: "N",
-            labelPosition: "left",
-            labelWidth: "",
-            labelSuffix: "",
-            hideRequiredAsterisk: "N",
-            requireAsteriskPosition: "left",
-            showMessage: "Y",
-            inlineMessage: "N",
-            statusIcon: "N",
-            primaryKeyPolicy: "manual",
-            createTable: "Y",
-            validateOnRuleChange: "Y",
+            rules: '',
+            inline: 'N',
+            labelPosition: 'left',
+            labelWidth: '',
+            labelSuffix: '',
+            hideRequiredAsterisk: 'N',
+            requireAsteriskPosition: 'left',
+            showMessage: 'Y',
+            inlineMessage: 'N',
+            statusIcon: 'N',
+            primaryKeyPolicy: 'manual',
+            createTable: 'Y',
+            validateOnRuleChange: 'Y',
             size: Config.compSize,
-            disabled: "N",
+            disabled: 'N',
             index: 1,
-            scrollToError: "N",
-            formId: "id" + ms,
-            tbName: "tb" + ms
+            scrollToError: 'N',
+            formId: 'id' + ms,
+            tbName: 'tb' + ms
         };
         compList.value = [];
         formData.value = {index: 1};
@@ -322,19 +322,19 @@ export const DesignForm = defineStore("DesignForm", () => {
             maxStep: 20,
             datas: []
         };
-    }
+    };
     const setComponentVisible = (visible: boolean) => {
         componentVisible.value = visible;
-    }
+    };
     const setBatchEditFieldVisible = (visible: boolean) => {
         batchEditFieldVisible.value = visible;
-    }
+    };
     const setPreviewVisible = (visible: boolean) => {
         previewVisible.value = visible;
-    }
+    };
     const setShortKeyDisabled = (disabled: boolean) => {
         shortKeyDisabled.value = disabled;
-    }
+    };
     return {
         formData,
         formInfo,
@@ -386,5 +386,5 @@ export const DesignForm = defineStore("DesignForm", () => {
         setBatchEditFieldVisible,
         setPreviewVisible,
         setShortKeyDisabled
-    }
+    };
 });

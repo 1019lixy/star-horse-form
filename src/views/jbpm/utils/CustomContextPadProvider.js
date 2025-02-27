@@ -1,4 +1,4 @@
-import {assign} from "min-dash";
+import {assign} from 'min-dash';
 
 export default function ContextPadProvider(config, injector, contextPad, modeling, elementFactory, connect, create, translate) {
     this.modeling = modeling;
@@ -8,11 +8,11 @@ export default function ContextPadProvider(config, injector, contextPad, modelin
     this.translate = translate;
     config = config || {};
     if (config.autoPlace !== false) {
-        this.autoPlace = injector.get("autoPlace", false);
+        this.autoPlace = injector.get('autoPlace', false);
     }
     contextPad.registerProvider(this);
 }
-ContextPadProvider.$inject = ["config.contextPad", "injector", "contextPad", "modeling", "elementFactory", "connect", "create", "translate"];
+ContextPadProvider.$inject = ['config.contextPad', 'injector', 'contextPad', 'modeling', 'elementFactory', 'connect', 'create', 'translate'];
 ContextPadProvider.prototype.getContextPadEntries = function (element) {
     const {autoPlace, create, elementFactory, translate, modeling, connect} = this;
 
@@ -26,7 +26,7 @@ ContextPadProvider.prototype.getContextPadEntries = function (element) {
             var shape = elementFactory.createShape(assign({type: type}, options));
             autoPlace.append(element, shape);
         } : appendStart;
-        return {group: "model", className: className, title: title, action: {dragstart: appendStart, click: append}};
+        return {group: 'model', className: className, title: title, action: {dragstart: appendStart, click: append}};
     }
 
     function removeElement(e) {
@@ -34,21 +34,21 @@ ContextPadProvider.prototype.getContextPadEntries = function (element) {
     }
 
     var actions = {};
-    if (element.type === "bpmn:UserTask" || element.type === "bpmn:SequenceFlow") {
+    if (element.type === 'bpmn:UserTask' || element.type === 'bpmn:SequenceFlow') {
         assign(actions, {
             edit: {
-                group: "edit",
-                className: "bpmn-icon-business-rule",
-                title: translate("属性"),
+                group: 'edit',
+                className: 'bpmn-icon-business-rule',
+                title: translate('属性'),
                 action: {}
             }
         });
     }
     assign(actions, {
         delete: {
-            group: "edit",
-            className: "bpmn-icon-trash",
-            title: translate("Remove"),
+            group: 'edit',
+            className: 'bpmn-icon-trash',
+            title: translate('Remove'),
             action: {click: removeElement}
         }
     });

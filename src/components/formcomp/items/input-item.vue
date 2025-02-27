@@ -50,23 +50,23 @@
   </starhorse-form-item>
 </template>
 <script lang="ts">
-import {defineComponent, nextTick, onMounted, shallowRef, ref} from "vue";
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-import {allAction} from "@/components/formcomp/utils/ItemRelationEventUtils.ts";
+import {defineComponent, nextTick, onMounted, shallowRef, ref} from 'vue';
+import StarHorseIcon from '@/components/comp/StarHorseIcon.vue';
+import {allAction} from '@/components/formcomp/utils/ItemRelationEventUtils.ts';
 
 export default defineComponent({
   components: {StarHorseIcon},
-  emits: ["selectItem", "selfFunc"],
+  emits: ['selectItem', 'selfFunc'],
   setup(_props, context) {
-    const parentField = context.attrs["parentField"];
+    const parentField = context.attrs['parentField'];
     // const formData = context.attrs["formData"];
-    const field = context.attrs["field"] as any;
+    const field = context.attrs['field'] as any;
     let formItem = shallowRef({label: 'input', required: false});
-    let dataField = shallowRef("");
-    let preSelect = shallowRef("");
-    let appSelect = shallowRef("");
+    let dataField = shallowRef('');
+    let preSelect = shallowRef('');
+    let appSelect = shallowRef('');
     const inputItemRef = ref();
-    let actionName = shallowRef("keydown.enter");
+    let actionName = shallowRef('keydown.enter');
     const dynamicFunction = (_funcName: string, data: any) => {
       if (!data) {
         return;
@@ -80,13 +80,13 @@ export default defineComponent({
     };
     const initEvent = async () => {
       await nextTick();
-    }
+    };
     const itemAction = (prep: any) => {
       allAction(context, prep);
     };
     onMounted(() => {
-      actionName.value = field.preps?.actionName || "keydown.enter";
-      if (!context.attrs["isSearch"]) {
+      actionName.value = field.preps?.actionName || 'keydown.enter';
+      if (!context.attrs['isSearch']) {
         allAction(context, actionName.value, true);
       }
       initEvent();
@@ -94,7 +94,7 @@ export default defineComponent({
     return {
       parentField, context, field, formItem, inputItemRef,
       dataField, dynamicFunction, itemAction, actionName, preSelect, appSelect
-    }
+    };
   }
 });
 </script>

@@ -1,29 +1,29 @@
 <script lang="ts" setup>
-import {apiInstance, dialogPreps} from "@/api/sh_api.ts";
-import {ApiUrls} from "@/components/types/ApiUrls";
-import {Config} from "@/api/settings.ts";
-import {onMounted, provide, reactive, ref} from "vue";
-import {SearchFields, SelectOption} from "@/components/types/SearchProps";
-import {loadCustomInfo, loadElementPlusIcon, loadSystemInfo} from "@/api/sh_api";
-import {PageFieldInfo} from "@/components/types/PageFieldInfo";
-import {postRequest} from "@/api/star_horse";
+import {apiInstance, dialogPreps} from '@/api/sh_api.ts';
+import {ApiUrls} from '@/components/types/ApiUrls';
+import {Config} from '@/api/settings.ts';
+import {onMounted, provide, reactive, ref} from 'vue';
+import {SearchFields, SelectOption} from '@/components/types/SearchProps';
+import {loadCustomInfo, loadElementPlusIcon, loadSystemInfo} from '@/api/sh_api';
+import {PageFieldInfo} from '@/components/types/PageFieldInfo';
+import {postRequest} from '@/api/star_horse';
 
 let informationsList = ref<any>([]);
-const dataUrl: ApiUrls = apiInstance("system-config", "system/informationsEntity");
+const dataUrl: ApiUrls = apiInstance('system-config', 'system/informationsEntity');
 let systemIconList = ref<SelectOption[]>([]);
 let customerList = ref<SelectOption[]>([]);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "归属主体", fieldName: "idCustomer", type: "select", optionList: customerList},
-    {label: "系统名称", defaultVisible: true, fieldName: "sysName", type: "input", matchType: "lk", minWidth: "200px"},
-    {label: "添加时间", fieldName: "createdDate", type: "daterange", matchType: "bt"}
+    {label: '归属主体', fieldName: 'idCustomer', type: 'select', optionList: customerList},
+    {label: '系统名称', defaultVisible: true, fieldName: 'sysName', type: 'input', matchType: 'lk', minWidth: '200px'},
+    {label: '添加时间', fieldName: 'createdDate', type: 'daterange', matchType: 'bt'}
   ]
 });
 const testFun = (formData: any) => {
   if (!formData['parentId']) {
     return;
   }
-  postRequest(dataUrl.loadByIdUrl + "/" + formData['parentId'], {}).then(res => {
+  postRequest(dataUrl.loadByIdUrl + '/' + formData['parentId'], {}).then(res => {
     let redata = res.data.data;
     formData['idCustomer'] = redata['idCustomer'];
   });
@@ -31,21 +31,21 @@ const testFun = (formData: any) => {
 const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
-      label: "主键", fieldName: "idInformations", type: "long",
+      label: '主键', fieldName: 'idInformations', type: 'long',
     },
     {
-      label: "上级系统", fieldName: "parentId", type: "select", optionList: informationsList,
+      label: '上级系统', fieldName: 'parentId', type: 'select', optionList: informationsList,
       formVisible: true,
-      actionName: "change",
+      actionName: 'change',
       actions: testFun
     },
     [{
-      label: "系统名称", fieldName: "sysName", type: "input",
+      label: '系统名称', fieldName: 'sysName', type: 'input',
       required: true, formVisible: true,
       listVisible: true
     },
       {
-        label: "归属主体", fieldName: "idCustomer", type: "select", optionList: customerList,
+        label: '归属主体', fieldName: 'idCustomer', type: 'select', optionList: customerList,
         required: true, formVisible: true,
         listVisible: true
       }],
@@ -55,82 +55,82 @@ const tableFieldList = reactive<PageFieldInfo>({
        listVisible: true
      },*/
     {
-      label: "系统编码", fieldName: "sysCode", type: "input",
-      required: true, disabled: "Y",
+      label: '系统编码', fieldName: 'sysCode', type: 'input',
+      required: true, disabled: 'Y',
       listVisible: true
     },
     [{
-      label: "系统Logo", fieldName: "sysLogo", type: "icon",
+      label: '系统Logo', fieldName: 'sysLogo', type: 'icon',
       formVisible: true,
       listVisible: true,
       preps: {
-        iconType: "system",
+        iconType: 'system',
       }
     }, {
-      label: "数据排序", fieldName: "dataSort", type: "number",
+      label: '数据排序', fieldName: 'dataSort', type: 'number',
       formVisible: true,
       listVisible: true
     },],
     {
-      label: "系统描述", fieldName: "sysDesc", type: "textarea",
+      label: '系统描述', fieldName: 'sysDesc', type: 'textarea',
       formVisible: true,
-      listVisible: true, actionName: "input", actions: testFun
+      listVisible: true, actionName: 'input', actions: testFun
     },
     {
-      label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
+      label: '创建人', disabled: 'Y', fieldName: 'createdBy', type: 'input',
     },
     {
-      label: "修改人", disabled: "Y", fieldName: "updatedBy", type: "input",
+      label: '修改人', disabled: 'Y', fieldName: 'updatedBy', type: 'input',
     },
     {
-      label: "创建日期", disabled: "Y", fieldName: "createdDate", type: "date",
+      label: '创建日期', disabled: 'Y', fieldName: 'createdDate', type: 'date',
     },
     {
-      label: "修改日期", disabled: "Y", fieldName: "updatedDate", type: "date",
+      label: '修改日期', disabled: 'Y', fieldName: 'updatedDate', type: 'date',
     },
     {
-      label: "数据版本号", fieldName: "version", type: "number",
+      label: '数据版本号', fieldName: 'version', type: 'number',
     },
     {
-      label: "是否已逻辑", fieldName: "isDel", type: "number",
+      label: '是否已逻辑', fieldName: 'isDel', type: 'number',
     },
     {
-      label: "数据编号", fieldName: "dataNo", type: "input",
+      label: '数据编号', fieldName: 'dataNo', type: 'input',
     },
     {
-      label: "状态码", fieldName: "statusCode", type: "input",
+      label: '状态码', fieldName: 'statusCode', type: 'input',
     },
     {
-      label: "状态码名称", fieldName: "statusName", type: "input",
+      label: '状态码名称', fieldName: 'statusName', type: 'input',
     },
     {
-      label: "国际码", fieldName: "local", type: "input",
+      label: '国际码', fieldName: 'local', type: 'input',
     },
   ],
 });
-const primaryKey = "idInformations";
+const primaryKey = 'idInformations';
 const informationsRef = ref();
 const rules = {};
 const dialogProps = dialogPreps();
-provide("dialogProps", dialogProps);
+provide('dialogProps', dialogProps);
 
 const dataFormat = (name: string, cellValue: object): any => {
-  if (name == "parentId") {
+  if (name == 'parentId') {
     return informationsList.value.find((item: SelectOption) => item.value == cellValue)?.name || cellValue;
-  } else if (name == "idCustomer") {
+  } else if (name == 'idCustomer') {
     return customerList.value.find((item: SelectOption) => item.value == cellValue)?.name || cellValue;
   }
   return cellValue;
 };
 const initData = async () => {
-  let params = [{propertyName: "statusCode", value: "1"}]
+  let params = [{propertyName: 'statusCode', value: '1'}];
   const datas = await loadSystemInfo(params);
   const customs = await loadCustomInfo(params);
   informationsList.value = datas;
   customerList.value = customs;
 
   systemIconList.value = loadElementPlusIcon();
-}
+};
 onMounted(async () => {
   await initData();
 });

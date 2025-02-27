@@ -1,19 +1,19 @@
 <script setup lang="ts">
-import {computed, onMounted, ref, watch} from "vue";
-import {initDbList, openDatabase, tableColumns} from "@/views/dbsearch/utils/DbSearchUtils.ts";
-import piniaInstance from "@/store";
-import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
-import {SelectOption} from "@/components/types/SearchProps.d.ts";
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-import {ConsumerView} from "@/store/ConsumerViewStore.ts";
-import {Config} from "@/api/settings.ts";
+import {computed, onMounted, ref, watch} from 'vue';
+import {initDbList, openDatabase, tableColumns} from '@/views/dbsearch/utils/DbSearchUtils.ts';
+import piniaInstance from '@/store';
+import {GlobalConfig} from '@/store/GlobalConfigStore.ts';
+import {SelectOption} from '@/components/types/SearchProps.d.ts';
+import StarHorseIcon from '@/components/comp/StarHorseIcon.vue';
+import {ConsumerView} from '@/store/ConsumerViewStore.ts';
+import {Config} from '@/api/settings.ts';
 
 let configStore = GlobalConfig(piniaInstance);
 const consumerView = ConsumerView(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.buttonSize || Config.compSize);
 let dataForm = ref<any>({});
-const filterTableName = ref<string>("");
-const tbTab = ref<string>("tb1");
+const filterTableName = ref<string>('');
+const tbTab = ref<string>('tb1');
 let assignDataList = ref<Array<any>>([]);
 let selectFields = ref<Array<SelectOption>>([]);
 let dbList = ref<any>([]);
@@ -25,14 +25,14 @@ const fieldCompTypesMsg = `类型操作提示：
    将字符串类型的字段映射为单行文本框组件；
    将日期类型映射为日期选择器组件；
 2、如果字段有特色业务需要，则可以将字段配置为对应的组件类型`;
-let columnsContr = ref<string>("Y");
+let columnsContr = ref<string>('Y');
 /**
  * 判断列数是否需要禁用
  * @param val
  */
 const containerTypeOperation = (val: any) => {
-  columnsContr.value = val['containerType'] == 'box' ? "N" : "Y"
-}
+  columnsContr.value = val['containerType'] == 'box' ? 'N' : 'Y';
+};
 let currentDataVisible = ref<boolean>(false);
 const contextOperation = async (evt: Event, data: any, index: number) => {
   evt.preventDefault();
@@ -44,11 +44,11 @@ const contextOperation = async (evt: Event, data: any, index: number) => {
   selectFieldsOperation(data.fields);
   dataForm.value = {...data};
   containerTypeOperation(dataForm.value);
-}
+};
 const tableOperClose = () => {
   dataForm.value = {};
   currentDataVisible.value = false;
-}
+};
 const openDb = () => {
   if (!dbIndex.value) {
     return;
@@ -66,8 +66,8 @@ const selectFieldsOperation = (datas: any) => {
     selectFields.value.push({
       name: item.fieldName + '(' + item.comment + ')',
       value: item.fieldName
-    })
-  })
+    });
+  });
 };
 const tableField = async (tableName: string) => {
   let fdata = tableAndColumnsList.value.find((item: any) => item.tableName == tableName);
@@ -101,9 +101,9 @@ const viewConfig = () => {
 };
 const dratStart = (item: any, evt: DragEvent) => {
   let dt = evt.dataTransfer!;
-  dt.effectAllowed = "copy";
-  item["name"] = item.tableName;
-  item["label"] = item.comment || "";
+  dt.effectAllowed = 'copy';
+  item['name'] = item.tableName;
+  item['label'] = item.comment || '';
   let fields = tableField(item.tableName);
   let items: Array<any> = [];
   for (let i in fields) {
@@ -113,13 +113,13 @@ const dratStart = (item: any, evt: DragEvent) => {
       type: temp.type,
       comment: temp.comment,
       primaryFlag: temp.primaryKey
-    })
+    });
   }
-  item["items"] = items;
+  item['items'] = items;
   console.log(item);
-  dt.setData("text/plain", JSON.stringify(item));
+  dt.setData('text/plain', JSON.stringify(item));
 };
-let dbIndex = ref<string>("");
+let dbIndex = ref<string>('');
 let dbConfigId = computed(() => consumerView.dbConfigId);
 watch(() => dbConfigId.value,
     (val: string) => {

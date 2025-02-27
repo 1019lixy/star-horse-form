@@ -36,11 +36,11 @@
 import FlowAddNode from '@/views/workflow/plugin/node/AddNode.vue';
 import EditName from '@/views/workflow/plugin/common/EditName.vue';
 import DeleteConfirm from '@/views/workflow/plugin/common/DeleteConfirm.vue';
-import {computed, onMounted, ref} from "vue";
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-import {useFlowDesign} from "@/store/FlowDesignStore.ts";
-import piniaInstance from "@/store";
-import {closeLoad} from "@/api/sh_api.ts";
+import {computed, onMounted, ref} from 'vue';
+import StarHorseIcon from '@/components/comp/StarHorseIcon.vue';
+import {useFlowDesign} from '@/store/FlowDesignStore.ts';
+import piniaInstance from '@/store';
+import {closeLoad} from '@/api/sh_api.ts';
 
 defineOptions({
   name: 'ServiceNode',
@@ -62,20 +62,20 @@ const props = defineProps({
 const emits = defineEmits(['selectNode']);
 props.node.error = computed(() => {
   let flag = false;
-  let msg = "";
+  let msg = '';
 
   if (!props.node.executionListeners) {
     flag = true;
-    msg += "未配置执行器\n";
+    msg += '未配置执行器\n';
   }
   props.node.executionListeners?.forEach((item: any) => {
     if (!item.implementationType) {
       flag = true;
-      msg += "未配置执行器类型\n";
+      msg += '未配置执行器类型\n';
     }
     if (!item.implementation) {
       flag = true;
-      msg += "执行器未配置参数\n";
+      msg += '执行器未配置参数\n';
     }
   });
   props.node.errorMsg = msg;
@@ -83,7 +83,7 @@ props.node.error = computed(() => {
 });
 const selectNode = () => {
   emits('selectNode', props.node);
-}
+};
 let nameClass = computed(() => {
   return (node: any, defaultStyle: string) => {
     if (node.statusCode == -1) {
@@ -99,8 +99,8 @@ let nameClass = computed(() => {
 const init = () => {
   closeLoad();
   flowDesign.refreshMap();
-}
+};
 onMounted(() => {
   init();
-})
+});
 </script>

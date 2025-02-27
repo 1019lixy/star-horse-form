@@ -35,12 +35,12 @@
 import FlowAddNode from '@/views/workflow/plugin/node/AddNode.vue';
 import EditName from '@/views/workflow/plugin/common/EditName.vue';
 import DeleteConfirm from '@/views/workflow/plugin/common/DeleteConfirm.vue';
-import {computed, onMounted} from "vue";
-import {useFlowDesign} from "@/store/FlowDesignStore.ts";
-import piniaInstance from "@/store";
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-import {FlowNodeEnums} from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
-import {closeLoad} from "@/api/sh_api.ts";
+import {computed, onMounted} from 'vue';
+import {useFlowDesign} from '@/store/FlowDesignStore.ts';
+import piniaInstance from '@/store';
+import StarHorseIcon from '@/components/comp/StarHorseIcon.vue';
+import {FlowNodeEnums} from '@/views/workflow/plugin/enums/FlowNodeEnums.ts';
+import {closeLoad} from '@/api/sh_api.ts';
 
 defineOptions({
   name: 'NoticeNode',
@@ -62,29 +62,29 @@ const props = defineProps({
 const emits = defineEmits(['selectNode']);
 props.node.error = computed(() => {
   let flag = false;
-  let msg = "";
+  let msg = '';
   if (!props.node.noticeType || !props.node.noticeType.length) {
-    msg += "未选择通知类型\n";
+    msg += '未选择通知类型\n';
     flag = true;
   }
   if (!props.node.approveGroups || !props.node.approveGroups.length) {
-    msg += "未选择通知人\n";
+    msg += '未选择通知人\n';
     flag = true;
   }
   if (!props.node.subject) {
-    msg += "未填写主题\n";
+    msg += '未填写主题\n';
     flag = true;
   }
   if (!props.node.content) {
-    msg += "未填写内容\n";
+    msg += '未填写内容\n';
     flag = true;
   }
   props.node.errorMsg = msg;
   return flag;
-})
+});
 const selectNode = () => {
   emits('selectNode', props.node);
-}
+};
 let nameClass = computed(() => {
   return (node: any, defaultStyle: string) => {
     if (node.statusCode == -1) {
@@ -100,8 +100,8 @@ let nameClass = computed(() => {
 const init = () => {
   closeLoad();
   flowDesign.refreshMap();
-}
+};
 onMounted(() => {
   init();
-})
+});
 </script>

@@ -1,8 +1,8 @@
 <script setup lang="ts" name="box-container">
-import {ComponentInternalInstance, computed, getCurrentInstance, PropType, watch} from 'vue'
-import {warning} from '@/utils/message'
-import {DesignForm} from "@/store/DesignFormStore.ts";
-import piniaInstance from "@/store/index.ts";
+import {ComponentInternalInstance, computed, getCurrentInstance, PropType, watch} from 'vue';
+import {warning} from '@/utils/message';
+import {DesignForm} from '@/store/DesignFormStore.ts';
+import piniaInstance from '@/store/index.ts';
 
 const props = defineProps({
   parentField: {type: String},
@@ -16,15 +16,15 @@ let draggingItem = computed(() => designForm.draggingItem);
 // let itemType = ref('container');
 let isEdit = computed(() => designForm.isEdit);
 let boxCompList = computed(() => props.field);
-let excludeContainerType: Array<string> = ["box", "tab", "table", "dytable", "collapse", "card"];
+let excludeContainerType: Array<string> = ['box', 'tab', 'table', 'dytable', 'collapse', 'card'];
 const getComponentName = (data: any) => {
-  return data?.itemType + '-item'
+  return data?.itemType + '-item';
 };
 const checkItem = (items: any) => {
   if (!items['items']) {
     items['items'] = [];
   }
-}
+};
 const onDragAdd = (evt: Event, dataList: any) => {
   let newIndex = evt.newIndex;
   if (excludeContainerType.includes(draggingItem.value.itemType)) {
@@ -37,7 +37,7 @@ const onDragAdd = (evt: Event, dataList: any) => {
         for (let i in column?.items) {
           let item = column.items[i];
           if (draggingItem.value.id == item.id) {
-            console.log("find data", item);
+            console.log('find data', item);
             column.items.splice(i, 1);
           }
         }
@@ -47,7 +47,7 @@ const onDragAdd = (evt: Event, dataList: any) => {
   }
   if (newIndex != null && newIndex != 'undefined') {
     let dataInfo = dataList[newIndex];
-    designForm.selectItem(dataInfo, dataInfo.itemType, "");
+    designForm.selectItem(dataInfo, dataInfo.itemType, '');
   }
 };
 

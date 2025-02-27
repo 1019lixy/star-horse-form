@@ -11,41 +11,41 @@
   </starhorse-form-item>
 </template>
 <script lang="ts" name="pdfItem">
-import {computed, defineComponent, onMounted, ref, shallowRef} from "vue";
-import {warning} from "@/utils/message.ts";
+import {computed, defineComponent, onMounted, ref, shallowRef} from 'vue';
+import {warning} from '@/utils/message.ts';
 
 export default defineComponent({
   setup(_props, context) {
-    const parentField = context.attrs["parentField"];
-    const field = context.attrs["field"] as any;
+    const parentField = context.attrs['parentField'];
+    const field = context.attrs['field'] as any;
     let formItem = shallowRef({label: 'input', required: false});
-    let dataField = shallowRef("");
+    let dataField = shallowRef('');
     let filePath = computed(() => {
       let path = context.attrs['formData'][field.preps['name']];
       if (path) {
         path = `?file=${path}`;
       } else {
-        path = "";
+        path = '';
       }
       return `/lib/pdfjs/web/viewer.html${encodeURIComponent(path)}`;
-    })
+    });
     let pdfPages = ref(0); // pdf文件的页数
     const itemAction = () => {
       context.emit('selfFunc');
     };
     const pdfView = () => {
-      if (!filePath.value.includes("file=")) {
-        warning("请先上传文件");
+      if (!filePath.value.includes('file=')) {
+        warning('请先上传文件');
         return;
       }
-      window.open(`${filePath.value}`, "_blank")
-    }
+      window.open(`${filePath.value}`, '_blank');
+    };
     onMounted(() => {
 
-    })
+    });
     return {
       parentField, context, field, formItem, dataField, itemAction, pdfPages, filePath, pdfView
-    }
+    };
   }
 });
 </script>

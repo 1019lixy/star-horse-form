@@ -1,128 +1,128 @@
 <script setup lang="ts" name="DynamicFormActions">
-import {apiInstance, dialogPreps} from "@/api/sh_api.ts";
-import {ApiUrls} from "@/components/types/ApiUrls";
-import {onMounted, provide, reactive, ref} from "vue";
-import {SearchFields} from "@/components/types/SearchProps";
-import {PageFieldInfo} from "@/components/types/PageFieldInfo";
-import {Config} from "@/api/settings.ts";
+import {apiInstance, dialogPreps} from '@/api/sh_api.ts';
+import {ApiUrls} from '@/components/types/ApiUrls';
+import {onMounted, provide, reactive, ref} from 'vue';
+import {SearchFields} from '@/components/types/SearchProps';
+import {PageFieldInfo} from '@/components/types/PageFieldInfo';
+import {Config} from '@/api/settings.ts';
 //后端交互接口地址
-const dataUrl: ApiUrls = apiInstance("userdb-manage", "userdb/dynamicFormActions");
+const dataUrl: ApiUrls = apiInstance('userdb-manage', 'userdb/dynamicFormActions');
 //查询属性
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "主键", fieldName: "idFormActions", type: "long"},
-    {label: "归属元素", fieldName: "idFormItems", type: "long"},
-    {label: "标签名称", fieldName: "label", type: "input"},
-    {label: "事件名称", fieldName: "actionName", type: "input"},
-    {label: "属性类别", fieldName: "fieldType", type: "input"},
-    {label: "备注", fieldName: "remark", type: "input"},
-    {label: "元素排序", fieldName: "dataSort", type: "number"},
+    {label: '主键', fieldName: 'idFormActions', type: 'long'},
+    {label: '归属元素', fieldName: 'idFormItems', type: 'long'},
+    {label: '标签名称', fieldName: 'label', type: 'input'},
+    {label: '事件名称', fieldName: 'actionName', type: 'input'},
+    {label: '属性类别', fieldName: 'fieldType', type: 'input'},
+    {label: '备注', fieldName: 'remark', type: 'input'},
+    {label: '元素排序', fieldName: 'dataSort', type: 'number'},
   ]
 });
 //页面属性
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     {
-      label: "主键",
-      fieldName: "idFormActions",
-      type: "long",
+      label: '主键',
+      fieldName: 'idFormActions',
+      type: 'long',
       required: true,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "归属元素",
-      fieldName: "idFormItems",
-      type: "long",
+      label: '归属元素',
+      fieldName: 'idFormItems',
+      type: 'long',
       required: true,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "标签名称",
-      fieldName: "label",
-      type: "input",
+      label: '标签名称',
+      fieldName: 'label',
+      type: 'input',
       required: true,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "事件名称",
-      fieldName: "actionName",
-      type: "input",
+      label: '事件名称',
+      fieldName: 'actionName',
+      type: 'input',
       required: true,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "属性类别",
-      fieldName: "fieldType",
-      type: "input",
+      label: '属性类别',
+      fieldName: 'fieldType',
+      type: 'input',
       required: true,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "版本号",
-      fieldName: "version",
-      type: "number",
+      label: '版本号',
+      fieldName: 'version',
+      type: 'number',
     },
     {
-      label: "创建人", disabled: "Y",
-      fieldName: "createdBy",
-      type: "input",
+      label: '创建人', disabled: 'Y',
+      fieldName: 'createdBy',
+      type: 'input',
     },
     {
-      label: "创建时间",
-      fieldName: "createdTime",
-      type: "date",
+      label: '创建时间',
+      fieldName: 'createdTime',
+      type: 'date',
     },
     {
-      label: "修改人", disabled: "Y",
-      fieldName: "updatedBy",
-      type: "input",
+      label: '修改人', disabled: 'Y',
+      fieldName: 'updatedBy',
+      type: 'input',
     },
     {
-      label: "修改时间",
-      fieldName: "updatedTime",
-      type: "date",
+      label: '修改时间',
+      fieldName: 'updatedTime',
+      type: 'date',
     },
     {
-      label: "数据编号",
-      fieldName: "dataNo",
-      type: "input",
+      label: '数据编号',
+      fieldName: 'dataNo',
+      type: 'input',
     },
     {
-      label: "状态吗",
-      fieldName: "statusCode",
-      type: "input",
+      label: '状态吗',
+      fieldName: 'statusCode',
+      type: 'input',
     },
     {
-      label: "状态名称",
-      fieldName: "statusName",
-      type: "input",
+      label: '状态名称',
+      fieldName: 'statusName',
+      type: 'input',
     },
     {
-      label: "是否删除",
-      fieldName: "isDel",
-      type: "number",
+      label: '是否删除',
+      fieldName: 'isDel',
+      type: 'number',
     },
     {
-      label: "国际码",
-      fieldName: "local",
-      type: "input",
+      label: '国际码',
+      fieldName: 'local',
+      type: 'input',
     },
     {
-      label: "备注",
-      fieldName: "remark",
-      type: "input",
+      label: '备注',
+      fieldName: 'remark',
+      type: 'input',
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "元素排序",
-      fieldName: "dataSort",
-      type: "number",
+      label: '元素排序',
+      fieldName: 'dataSort',
+      type: 'number',
       required: true,
       formVisible: true,
       listVisible: true,
@@ -130,13 +130,13 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   ],
 });
 //主键
-const primaryKey = "idFormActions";
+const primaryKey = 'idFormActions';
 const dynamicFormActionRef = ref();
 //校验
 const rules = {};
 //控制弹窗相关设置
 const dialogProps = dialogPreps();
-provide("dialogProps", dialogProps);
+provide('dialogProps', dialogProps);
 
 //初始化方法
 const initData = async () => {
@@ -154,7 +154,7 @@ onMounted(async () => {
 const dataFormat = (name: string, cellValue: any, row: any): any => {
   //转换显示信息
   return cellValue;
-}
+};
 </script>
 <style lang="scss" scoped>
 </style>

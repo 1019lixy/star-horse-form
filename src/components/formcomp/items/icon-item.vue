@@ -44,30 +44,30 @@
   </starhorse-form-item>
 </template>
 <script lang="ts">
-import {defineComponent, onMounted, shallowRef, unref, ref} from "vue";
-import {loadElementPlusIcon, loadSvgIcons} from "@/api/sh_api.ts";
-import {allAction} from "@/components/formcomp/utils/ItemRelationEventUtils.ts";
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
+import {defineComponent, onMounted, shallowRef, unref, ref} from 'vue';
+import {loadElementPlusIcon, loadSvgIcons} from '@/api/sh_api.ts';
+import {allAction} from '@/components/formcomp/utils/ItemRelationEventUtils.ts';
+import StarHorseIcon from '@/components/comp/StarHorseIcon.vue';
 
 export default defineComponent({
   components: {StarHorseIcon},
-  emits: ["selectItem", "selfFunc"],
+  emits: ['selectItem', 'selfFunc'],
   setup(_props, context) {
-    const parentField = context.attrs["parentField"];
+    const parentField = context.attrs['parentField'];
 
-    const field = context.attrs["field"] as any;
+    const field = context.attrs['field'] as any;
     let formItem = shallowRef({label: 'input', required: false});
-    let dataField = shallowRef("");
-    let searchName = ref<string>("");
+    let dataField = shallowRef('');
+    let searchName = ref<string>('');
     let iconList = ref<any>([]);
     let allIconList = ref<any>([]);
-    let iconType = ref<string>("system");
+    let iconType = ref<string>('system');
     const popoverRef = shallowRef();
-    let actionName = shallowRef("keydown.enter");
+    let actionName = shallowRef('keydown.enter');
     const assignIcon = (iconName: string) => {
       context.attrs['formData'][field.preps['name']] = iconName;
       unref(popoverRef).popperRef?.delayHide?.();
-      itemAction("blur");
+      itemAction('blur');
     };
     const dataSearch = () => {
       if (!searchName.value) {
@@ -77,34 +77,34 @@ export default defineComponent({
           return item.name.toLowerCase().indexOf(searchName.value.toLowerCase()) > -1;
         });
       }
-    }
+    };
     const itemAction = (prep: any) => {
-      if (prep == actionName.value && field.preps["actionRelation"]) {
-        field.preps["actionRelation"](context.attrs['formData'][field.preps['name']], context.attrs['formData']["xh"]);
+      if (prep == actionName.value && field.preps['actionRelation']) {
+        field.preps['actionRelation'](context.attrs['formData'][field.preps['name']], context.attrs['formData']['xh']);
       }
       context.emit('selfFunc', prep);
     };
     onMounted(() => {
-      actionName.value = field.preps?.actionName || "keydown.enter";
+      actionName.value = field.preps?.actionName || 'keydown.enter';
       if (field.preps['values']?.length > 0) {
         allIconList.value = field.preps['values'];
-        iconType.value = "user";
+        iconType.value = 'user';
       } else if (field.preps['iconType'] == 'user') {
         allIconList.value = loadSvgIcons();
         iconType.value = field.preps['iconType'];
       } else {
         allIconList.value = loadElementPlusIcon();
-        iconType.value = "system";
+        iconType.value = 'system';
       }
       iconList.value = allIconList.value;
-      if (!context.attrs["isSearch"]) {
+      if (!context.attrs['isSearch']) {
         allAction(context, actionName.value, true);
       }
     });
     return {
       parentField, context, field, formItem, dataField, assignIcon,
       itemAction, actionName, popoverRef, searchName, dataSearch, iconList, iconType
-    }
+    };
   }
 });
 </script>

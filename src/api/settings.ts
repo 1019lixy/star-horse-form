@@ -1,4 +1,4 @@
-import {ref} from "vue";
+import {ref} from 'vue';
 
 export const Config: any = {
     /**
@@ -32,12 +32,12 @@ export const Config: any = {
     /**
      * 用户登录信息
      */
-    loginInfo: "userInfo",
+    loginInfo: 'userInfo',
     /**
      * 客户信息
      */
-    customerInfo: "customerInfo",
-    reportId: "reportId",
+    customerInfo: 'customerInfo',
+    reportId: 'reportId',
     /**
      * @description 请求超时时间，毫秒（默认2分钟）
      */
@@ -61,15 +61,15 @@ export const Config: any = {
     /**
      * RSA 公钥
      */
-    publicKey: "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCzWOGpzlfubJ98khnt8/fb8EkdA2Axq2yHWxav0lzGkPa+HMOcRZFndNrY8XIDgGbLY/ts3Lq5LeFE+570f6wCdwRneGbYB6bw/rS0RBBCYRD1VXYOmL9tAdakcUgRkT8pmvpdBPL788/eRNhjCFfXo+HbFvg1lRMFobhhFnxaMQIDAQAB",
+    publicKey: 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCzWOGpzlfubJ98khnt8/fb8EkdA2Axq2yHWxav0lzGkPa+HMOcRZFndNrY8XIDgGbLY/ts3Lq5LeFE+570f6wCdwRneGbYB6bw/rS0RBBCYRD1VXYOmL9tAdakcUgRkT8pmvpdBPL788/eRNhjCFfXo+HbFvg1lRMFobhhFnxaMQIDAQAB',
     /**
      * 文件扩展名
      */
-    fileExt: ".vue",
+    fileExt: '.vue',
     /**
      * 按钮风格
      */
-    buttonStyle: ref("dropdown"),
+    buttonStyle: ref('dropdown'),
     /**
      * 默认列表宽度
      */
@@ -77,5 +77,5 @@ export const Config: any = {
     /**
      * 组件大小
      */
-    compSize: "small"
+    compSize: 'small'
 };

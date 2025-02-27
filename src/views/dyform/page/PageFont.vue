@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import {ModelRef} from "vue-demi";
+import {ModelRef} from 'vue-demi';
 
-let data: ModelRef<any> = defineModel("pageFont");
+let data: ModelRef<any> = defineModel('pageFont');
 </script>
 
 <template>

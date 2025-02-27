@@ -1,4 +1,4 @@
-import {getRequest, postRequest} from "@/api/star_horse.js";
+import {getRequest, postRequest} from '@/api/star_horse.js';
 
 /**
  * 获取角色菜单

@@ -1,7 +1,7 @@
 <script setup lang="ts" name="tab-container">
-import {onMounted, PropType, ref, watch} from "vue";
-import {DesignForm} from "@/store/DesignFormStore.ts";
-import piniaInstance from "@/store/index.ts";
+import {onMounted, PropType, ref, watch} from 'vue';
+import {DesignForm} from '@/store/DesignFormStore.ts';
+import piniaInstance from '@/store/index.ts';
 
 const props = defineProps({
   parentField: {type: String},
@@ -10,9 +10,9 @@ const props = defineProps({
   field: {type: Object as PropType<any>},
 });
 let designForm = DesignForm(piniaInstance);
-let containerType: Array<string> = ["tab", "box", "table", "card", "dytable", "collapse"];
+let containerType: Array<string> = ['tab', 'box', 'table', 'card', 'dytable', 'collapse'];
 const getComponentName = (data: any) => {
-  return containerType.includes(data.itemType) ? data.itemType + '-container' : data.itemType + '-item'
+  return containerType.includes(data.itemType) ? data.itemType + '-container' : data.itemType + '-item';
 };
 /**
  * 如果没有items，动态添加
@@ -22,46 +22,46 @@ const checkItem = (adata: any) => {
   if (!adata['items']) {
     adata['items'] = [];
   }
-}
+};
 const onDragAdd = (evt: Event, dataList: any) => {
   console.log(evt, dataList);
   let newIndex = evt.newIndex;
   if (newIndex != null && newIndex != 'undefined') {
     let dataInfo = dataList[newIndex];
     // designForm.setDraggingItem({});
-    designForm.selectItem(dataInfo, dataInfo.itemType, "");
+    designForm.selectItem(dataInfo, dataInfo.itemType, '');
   }
 };
 const activeTabName = ref();
 onMounted(() => {
-  if (!props.field['preps']["elements"]) {
-    props.field['preps']["elements"] = [{
-      label: "Tab1",
-      tabName: "tab1",
-      objectName: "tab1",
-      subFormFlag: "Y",
+  if (!props.field['preps']['elements']) {
+    props.field['preps']['elements'] = [{
+      label: 'Tab1',
+      tabName: 'tab1',
+      objectName: 'tab1',
+      subFormFlag: 'Y',
       items: []
     }, {
-      label: "Tab2",
-      tabName: "tab2",
-      objectName: "tab2",
-      subFormFlag: "Y",
+      label: 'Tab2',
+      tabName: 'tab2',
+      objectName: 'tab2',
+      subFormFlag: 'Y',
       items: []
     }];
-    props.field['stretch'] = "N";
+    props.field['stretch'] = 'N';
   }
   activeTabName.value = props.field.preps.elements[0].tabName;
 });
 watch(() => activeTabName.value,
     (val) => {
-      props.field["activeItemName"] = val;
+      props.field['activeItemName'] = val;
     }, {immediate: true, deep: true});
 const dynamicFunc = (funcType: string, funcCode: any) => {
   let func = new Function(funcCode);
   func.call(this);
 };
 const addTab = () => {
-}
+};
 </script>
 <template>
   <group-box-container class="star-horse-form-container"

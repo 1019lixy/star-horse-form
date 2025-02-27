@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import {ModelRef} from "vue-demi";
+import {ModelRef} from 'vue-demi';
 
-const data: ModelRef<any> = defineModel("position");
+const data: ModelRef<any> = defineModel('position');
 </script>
 
 <template>

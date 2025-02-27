@@ -1,32 +1,32 @@
-import {Shape} from "@antv/x6";
+import {Shape} from '@antv/x6';
 
 const commands = [
     {
-        icon: "left_panel",
+        icon: 'left_panel',
         defaultEdit: true,
         key: 'leftPanel',
         label: '左侧工具栏',
     },
     {
-        icon: "zoom_in",
+        icon: 'zoom_in',
         defaultEdit: true,
         key: 'zoomIn',
         label: '放大(0.2)',
     },
     {
-        icon: "zoom_out",
+        icon: 'zoom_out',
         defaultEdit: true,
         key: 'zoomOut',
         label: '缩小(-0.2)',
     },
     {
-        icon: "auto_fit",
+        icon: 'auto_fit',
         defaultEdit: true,
         key: 'zoomToFit',
         label: '自适应',
     },
     {
-        icon: "equal",
+        icon: 'equal',
         defaultEdit: true,
         key: 'zoomTo',
         label: '1:1大小',
@@ -42,52 +42,52 @@ const commands = [
           label: '直角连接模式',
       },*/
     {
-        icon: "align_top",
+        icon: 'align_top',
         key: 'alignTop',
         label: '向上对齐',
     },
     {
-        icon: "align_bottom",
+        icon: 'align_bottom',
         key: 'alignBottom',
         label: '向下对齐',
     },
     {
-        icon: "align_left",
+        icon: 'align_left',
         key: 'alignLeft',
         label: '向左对齐',
     },
     {
-        icon: "align_right",
+        icon: 'align_right',
         key: 'alignRight',
         label: '向右对齐',
     },
     {
-        icon: "center",
+        icon: 'center',
         key: 'centerContent',
         label: '居中',
     },
     {
-        icon: "dustbin",
+        icon: 'dustbin',
         key: 'deleteItem',
         label: '删除元素',
     },
     {
-        icon: "empty_setting",
+        icon: 'empty_setting',
         key: 'empty',
         label: '清空画布',
     },
     {
-        icon: "undo",
+        icon: 'undo',
         key: 'unDo',
         label: '后退一步',
     },
     {
-        icon: "redo",
+        icon: 'redo',
         key: 'reDo',
         label: '前进一步',
     },
     {
-        icon: "json_file",
+        icon: 'json_file',
         key: 'json',
         label: 'JSON数据',
     },
@@ -273,12 +273,12 @@ const configInfo = {
                         },
                     },
                     label: {
-                        text: "连线",
-                        color: "blue"
+                        text: '连线',
+                        color: 'blue'
                     }
                 },
                 zIndex: 0,
-            })
+            });
         },
         // validateConnection: ({targetMagnet}) => {
         //     return !!targetMagnet
@@ -312,7 +312,7 @@ const configInfo = {
         maxScale: 4,
         minScale: 0.2,
     },
-}
+};
 const helpMessage = `
 一、操作步骤:
 1、编辑其打开后可将左边的组件拖到中间网格画布区域；

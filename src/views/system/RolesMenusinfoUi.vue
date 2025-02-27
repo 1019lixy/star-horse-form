@@ -1,26 +1,26 @@
 <script setup lang="ts" name="RolesMenusinfo">
-import {apiInstance, dialogPreps} from "@/api/sh_api.ts";
-import {ApiUrls} from "@/components/types/ApiUrls";
-import {Config} from "@/api/settings.ts";
-import {onMounted, provide, reactive, ref} from "vue";
-import {SearchFields} from "@/components/types/SearchProps";
-import {PageFieldInfo} from "@/components/types/PageFieldInfo";
+import {apiInstance, dialogPreps} from '@/api/sh_api.ts';
+import {ApiUrls} from '@/components/types/ApiUrls';
+import {Config} from '@/api/settings.ts';
+import {onMounted, provide, reactive, ref} from 'vue';
+import {SearchFields} from '@/components/types/SearchProps';
+import {PageFieldInfo} from '@/components/types/PageFieldInfo';
 //后端交互接口地址
-const dataUrl: ApiUrls = apiInstance("system-config", "system/rolesMenusinfo");
+const dataUrl: ApiUrls = apiInstance('system-config', 'system/rolesMenusinfo');
 //查询属性
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: "系统名称",
+      label: '系统名称',
       defaultVisible: true,
-      fieldName: "idInformations",
-      type: "select"
+      fieldName: 'idInformations',
+      type: 'select'
     },
     {
-      label: "菜单名称",
+      label: '菜单名称',
       defaultVisible: true,
-      fieldName: "idMenusinfo",
-      type: "input"
+      fieldName: 'idMenusinfo',
+      type: 'input'
     },
   ]
 });
@@ -28,102 +28,102 @@ const searchFormData = reactive<SearchFields>({
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     {
-      label: "主键",
-      fieldName: "idRolesMenusinfo",
-      type: "long",
+      label: '主键',
+      fieldName: 'idRolesMenusinfo',
+      type: 'long',
       required: true,
     },
     {
-      label: "角色Id",
-      fieldName: "idRolesinfo",
-      type: "long",
+      label: '角色Id',
+      fieldName: 'idRolesinfo',
+      type: 'long',
       required: true,
     },
     {
-      label: "系统Id",
-      fieldName: "idInformations",
-      type: "long",
+      label: '系统Id',
+      fieldName: 'idInformations',
+      type: 'long',
     },
     {
-      label: "菜单Id",
-      fieldName: "idMenusinfo",
-      type: "long",
+      label: '菜单Id',
+      fieldName: 'idMenusinfo',
+      type: 'long',
       required: true,
     },
     {
-      label: "系统名称",
-      fieldName: "sysName",
-      type: "input",
+      label: '系统名称',
+      fieldName: 'sysName',
+      type: 'input',
       listVisible: true,
     },
     {
-      label: "菜单名称",
-      fieldName: "menuName",
-      type: "input",
+      label: '菜单名称',
+      fieldName: 'menuName',
+      type: 'input',
       required: true,
       listVisible: true,
     },
     {
-      label: "创建人", disabled: "Y",
-      fieldName: "createdBy",
-      type: "input",
+      label: '创建人', disabled: 'Y',
+      fieldName: 'createdBy',
+      type: 'input',
     },
     {
-      label: "修改人", disabled: "Y",
-      fieldName: "updatedBy",
-      type: "input",
+      label: '修改人', disabled: 'Y',
+      fieldName: 'updatedBy',
+      type: 'input',
     },
     {
-      label: "创建时间",
-      fieldName: "createdDate",
-      type: "date",
+      label: '创建时间',
+      fieldName: 'createdDate',
+      type: 'date',
     },
     {
-      label: "修改时间",
-      fieldName: "updatedDate",
-      type: "date",
+      label: '修改时间',
+      fieldName: 'updatedDate',
+      type: 'date',
     },
     {
-      label: "版本号",
-      fieldName: "version",
-      type: "number",
+      label: '版本号',
+      fieldName: 'version',
+      type: 'number',
     },
     {
-      label: "是否逻辑删除",
-      fieldName: "isDel",
-      type: "number",
+      label: '是否逻辑删除',
+      fieldName: 'isDel',
+      type: 'number',
     },
     {
-      label: "数据编号",
-      fieldName: "dataNo",
-      type: "input",
+      label: '数据编号',
+      fieldName: 'dataNo',
+      type: 'input',
     },
     {
-      label: "数据状态码",
-      fieldName: "statusCode",
-      type: "input",
+      label: '数据状态码',
+      fieldName: 'statusCode',
+      type: 'input',
     },
     {
-      label: "数据状态名称",
-      fieldName: "statusName",
-      type: "input",
+      label: '数据状态名称',
+      fieldName: 'statusName',
+      type: 'input',
     },
     {
-      label: "国际码",
-      fieldName: "local",
-      type: "input",
+      label: '国际码',
+      fieldName: 'local',
+      type: 'input',
     },
   ],
   cellEditable: false,
 });
 //主键
-const primaryKey = "idRolesMenusinfo";
+const primaryKey = 'idRolesMenusinfo';
 const rolesMenusinfoRef = ref();
 //校验
 const rules = {};
 //控制弹窗相关设置
 const dialogProps = dialogPreps();
-provide("dialogProps", dialogProps);
+provide('dialogProps', dialogProps);
 
 //初始化方法
 const initData = async () => {
@@ -141,7 +141,7 @@ onMounted(async () => {
 const dataFormat = (name: string, cellValue: any, row: any): any => {
   //转换显示信息
   return cellValue;
-}
+};
 </script>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">

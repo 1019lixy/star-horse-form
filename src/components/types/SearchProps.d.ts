@@ -1,4 +1,4 @@
-import {CompParams} from "@/components/types/PageFieldInfo";
+import {CompParams} from '@/components/types/PageFieldInfo';
 
 export type SelectOption = {
     name?: string,

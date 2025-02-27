@@ -1,29 +1,29 @@
 <script setup lang="ts">
-import {markRaw, nextTick, onActivated, onBeforeUnmount, onMounted, ref} from "vue";
-import JsonEditor from "jsoneditor";
-import "jsoneditor/dist/jsoneditor.min.css";
-import {ModelRef} from "vue-demi";
+import {markRaw, nextTick, onActivated, onBeforeUnmount, onMounted, ref} from 'vue';
+import JsonEditor from 'jsoneditor';
+import 'jsoneditor/dist/jsoneditor.min.css';
+import {ModelRef} from 'vue-demi';
 
 const props = defineProps({
   options: {type: Object},
   currentMode: {
     type: String,
-    default: "code",
+    default: 'code',
   },
   modeList: {
     type: Array,
-    default: () => ["tree", "code", "form", "text", "view"],
+    default: () => ['tree', 'code', 'form', 'text', 'view'],
   },
   // en, es zh-CN, pt-BR, tr, ja, fr-FR, de, ru, ko
   language: {
     type: String,
-    default: "zh-CN",
+    default: 'zh-CN',
   },
 });
-const emits = defineEmits(["textSelectionChange", "selectionChange", "colorPicker", "focus", "blur", "validationError"]);
-const json: ModelRef<any> = defineModel("modelValue");
+const emits = defineEmits(['textSelectionChange', 'selectionChange', 'colorPicker', 'focus', 'blur', 'validationError']);
+const json: ModelRef<any> = defineModel('modelValue');
 const jsonEditorRef = ref();
-let expandedModes = ref<Array<string>>(["tree", "view", "form"]);
+let expandedModes = ref<Array<string>>(['tree', 'view', 'form']);
 // 全屏处理
 let isFullScreen = ref<boolean>(false);
 let hasLogo = ref<boolean>(true);
@@ -32,10 +32,10 @@ let editor = ref<JsonEditor>(null);
 const toggleFullScreen = async () => {
   isFullScreen.value = !isFullScreen.value;
   await nextTick(() => {
-    const event = new Event("resize");
+    const event = new Event('resize');
     window.dispatchEvent(event);
   });
-}
+};
 const expandAll = () => {
   if (expandedModes.value.includes(editor.value?.getMode())) {
     editor.value?.expandAll();
@@ -66,22 +66,22 @@ const init = () => {
     expandAll();
   };
   const onTextSelectionChange = (start, end, text) => {
-    emits("textSelectionChange", editor.value, start, end, text);
+    emits('textSelectionChange', editor.value, start, end, text);
   };
   const onSelectionChange = (start, end) => {
-    emits("selectionChange", editor.value, start, end);
+    emits('selectionChange', editor.value, start, end);
   };
   const onColorPicker = (parent, color, onChange) => {
-    emits("colorPicker", editor.value, parent, color, onChange);
+    emits('colorPicker', editor.value, parent, color, onChange);
   };
   const onFocus = ({target}) => {
-    emits("focus", editor.value, target);
+    emits('focus', editor.value, target);
   };
   const onBlur = ({target}) => {
-    emits("blur", editor.value, target);
+    emits('blur', editor.value, target);
   };
   const onValidationError = (errors) => {
-    emits("validationError", editor.value, errors);
+    emits('validationError', editor.value, errors);
   };
   const finalOptions = {
     ...props.options,
@@ -102,20 +102,20 @@ const init = () => {
       jsonEditorRef.value,
       finalOptions,
   ));
-}
+};
 onMounted(() => {
   init();
   setEditorContent(json.value);
-  $(".jsoneditor-poweredBy").remove();
+  $('.jsoneditor-poweredBy').remove();
 });
 onBeforeUnmount(() => {
   editor.value?.destroy();
   editor.value = null;
-})
+});
 defineExpose({
   editor,
   setEditorContent,
-})
+});
 </script>
 <template>
   <div class="container" :class="{ 'full-screen-container': isFullScreen }">

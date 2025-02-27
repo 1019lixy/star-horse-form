@@ -6,17 +6,17 @@
   </starhorse-form-item>
 </template>
 <script lang="ts" name="view-markdown">
-import {defineComponent, onMounted, shallowRef, ref, nextTick, onUpdated} from "vue";
-import MarkdownIt from "markdown-it";
+import {defineComponent, onMounted, shallowRef, ref, nextTick, onUpdated} from 'vue';
+import MarkdownIt from 'markdown-it';
 
 
 export default defineComponent({
   setup(_props, context) {
-    const parentField = context.attrs["parentField"];
+    const parentField = context.attrs['parentField'];
 
-    const field = context.attrs["field"] as any;
+    const field = context.attrs['field'] as any;
     let formItem = shallowRef({label: 'input', required: false});
-    let dataField = shallowRef("");
+    let dataField = shallowRef('');
     let markdownEditor = ref();
     let markdown = ref<MarkdownIt>(null);
     const itemAction = () => {
@@ -34,8 +34,8 @@ export default defineComponent({
     });
     onUpdated(() => {
       init();
-    })
-    return {parentField, context, field, formItem, dataField, markdown, markdownEditor, itemAction}
+    });
+    return {parentField, context, field, formItem, dataField, markdown, markdownEditor, itemAction};
   }
 });
 </script>

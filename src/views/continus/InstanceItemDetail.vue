@@ -1,5 +1,5 @@
 <script setup lang="ts" name="InstanceItemDetail">
-import {ref} from "vue";
+import {ref} from 'vue';
 
 const props = defineProps({
   isEdit: {
@@ -7,11 +7,11 @@ const props = defineProps({
     default: 1 //1 编辑 2 已发布
   }
 });
-const emits = defineEmits(["nodeDetail"]);
+const emits = defineEmits(['nodeDetail']);
 let dataSourceStatus = ref<number>(1);
 let compileStatus = ref<number>(2);
 const dataDetail = (type) => {
-  emits("nodeDetail", type);
+  emits('nodeDetail', type);
 };
 const operationAction = (type) => {
   alert(type);
@@ -19,24 +19,24 @@ const operationAction = (type) => {
 const getStatus = (statusCode: number) => {
   switch (statusCode) {
     case 1:
-      return "background:rgba(0,195,95,0.8)";
+      return 'background:rgba(0,195,95,0.8)';
     case 2:
-      return "background:rgba(239,83,91,0.9)";
+      return 'background:rgba(239,83,91,0.9)';
     default:
-      return "background:#d8d8d8";
+      return 'background:#d8d8d8';
   }
 };
 const showDetail = (nodeType: string, instanceId: string) => {
 };
 const execLine = () => {
-  console.log("执行");
-}
+  console.log('执行');
+};
 const configLine = () => {
 
-}
+};
 const publishLine = () => {
 
-}
+};
 </script>
 <style lang="scss" scoped>
 .svg-path {

@@ -1,11 +1,11 @@
 <script setup lang="ts" name="StarHorseDataViewObject">
-import {PropType} from "vue";
-import {FieldInfo} from "@/components/types/PageFieldInfo";
-import {rowClassName} from "@/api/sh_api";
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-import {ModelRef} from "vue-demi";
-import StarHorseTableViewColumn from "@/components/comp/StarHorseTableViewColumn.vue";
-import {Config} from "@/api/settings.ts";
+import {PropType} from 'vue';
+import {FieldInfo} from '@/components/types/PageFieldInfo';
+import {rowClassName} from '@/api/sh_api';
+import StarHorseIcon from '@/components/comp/StarHorseIcon.vue';
+import {ModelRef} from 'vue-demi';
+import StarHorseTableViewColumn from '@/components/comp/StarHorseTableViewColumn.vue';
+import {Config} from '@/api/settings.ts';
 
 defineProps({
   item: {type: Array as PropType<Array<FieldInfo>>, required: true},
@@ -13,7 +13,7 @@ defineProps({
   compSize: {type: String, default: Config.compSize},
   commonFormat: {type: Function, required: true},
 });
-const dataForm: ModelRef<any> = defineModel("dataForm");
+const dataForm: ModelRef<any> = defineModel('dataForm');
 </script>
 <template>
   <div style="display:flex;justify-content:space-between;width: 100%;border-bottom:  var(--star-horse-style) 1px solid">

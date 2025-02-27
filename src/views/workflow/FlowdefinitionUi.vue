@@ -1,86 +1,86 @@
 <script setup lang="ts" name="EnvInfo">
-import {apiInstance, dialogPreps, dictData} from "@/api/sh_api.ts";
-import {ApiUrls} from "@/components/types/ApiUrls";
-import {onMounted, provide, reactive, ref} from "vue";
-import {SearchFields, SelectOption} from "@/components/types/SearchProps.d.ts";
-import {Config} from "@/api/settings.ts";
-import {flowFormFields, setFlowGroups} from "@/views/workflow/utils/FlowFormUtils.ts";
-import {UserFuncInfo} from "@/components/types/PageFieldInfo";
-import {useRouter} from "vue-router";
+import {apiInstance, dialogPreps, dictData} from '@/api/sh_api.ts';
+import {ApiUrls} from '@/components/types/ApiUrls';
+import {onMounted, provide, reactive, ref} from 'vue';
+import {SearchFields, SelectOption} from '@/components/types/SearchProps.d.ts';
+import {Config} from '@/api/settings.ts';
+import {flowFormFields, setFlowGroups} from '@/views/workflow/utils/FlowFormUtils.ts';
+import {UserFuncInfo} from '@/components/types/PageFieldInfo';
+import {useRouter} from 'vue-router';
 
-const dataUrl: ApiUrls = apiInstance("flow-engine", "workflow/flowoperation");
+const dataUrl: ApiUrls = apiInstance('flow-engine', 'workflow/flowoperation');
 let flowGroupList = ref<SelectOption[]>([]);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "流程名称", fieldName: "flowName", type: "input", matchType: "lk", defaultVisible: true},
+    {label: '流程名称', fieldName: 'flowName', type: 'input', matchType: 'lk', defaultVisible: true},
     {
-      label: "流程分类",
-      fieldName: "flowGroup",
-      type: "select",
+      label: '流程分类',
+      fieldName: 'flowGroup',
+      type: 'select',
       optionList: flowGroupList,
-      matchType: "lk",
+      matchType: 'lk',
       defaultVisible: true
     },
   ]
 });
 const router = useRouter();
-const primaryKey = "idEnvInfo";
+const primaryKey = 'idEnvInfo';
 const flowDefinitionRef = ref();
 const dialogProps = dialogPreps();
-provide("dialogProps", dialogProps);
+provide('dialogProps', dialogProps);
 const extandBtns: UserFuncInfo[] = [
   {
-    icon: "edit",
-    btnName: "编辑",
-    authority: "edit",
+    icon: 'edit',
+    btnName: '编辑',
+    authority: 'edit',
     funcName: (row: any) => {
-      router.push({path: "/flowDesign", query: {data: row}})
+      router.push({path: '/flowDesign', query: {data: row}});
     }
   },
   {
-    authority: "exec",
+    authority: 'exec',
     funcName: (row: any) => {
-      console.log(row)
+      console.log(row);
     },
-    btnName: "启动"
+    btnName: '启动'
   }, {
-    authority: "edit",
+    authority: 'edit',
     funcName: (row: any) => {
-      console.log(row)
+      console.log(row);
     },
-    btnName: "发布"
+    btnName: '发布'
   }, {
-    authority: "edit",
+    authority: 'edit',
     funcName: (row: any) => {
-      console.log(row)
+      console.log(row);
     },
-    btnName: "版本管理"
+    btnName: '版本管理'
   }];
 const selectItemFun = (_item: any) => {
 
-}
+};
 const addBtnFunc: UserFuncInfo[] = [
   {
-    icon: "add",
-    btnName: "新增",
-    authority: "add",
+    icon: 'add',
+    btnName: '新增',
+    authority: 'add',
     funcName: () => {
-      router.push({path: "/flowDesign"})
+      router.push({path: '/flowDesign'});
     }
   }
 ];
 
 const dataFormat = (_name: string, cellValue: any): any => {
   return cellValue;
-}
+};
 const init = async () => {
-  let data = await dictData("flow_group");
+  let data = await dictData('flow_group');
   flowGroupList.value = data;
   setFlowGroups(data);
 };
 onMounted(async () => {
   await init();
-})
+});
 </script>
 <template>
 

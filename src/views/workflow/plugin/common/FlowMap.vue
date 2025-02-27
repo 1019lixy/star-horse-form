@@ -6,9 +6,9 @@
   </div>
 </template>
 <script setup lang="ts">
-import {computed, nextTick, onBeforeUnmount, onMounted, ref} from "vue";
-import {useFlowDesign} from "@/store/FlowDesignStore.ts";
-import piniaInstance from "@/store";
+import {computed, nextTick, onBeforeUnmount, onMounted, ref} from 'vue';
+import {useFlowDesign} from '@/store/FlowDesignStore.ts';
+import piniaInstance from '@/store';
 
 const props = defineProps({
   element: {
@@ -56,13 +56,13 @@ const mapMask = computed(() => {
 });
 const initSize = (flowDesign: any) => {
   wrapHeight.value = flowDesign.scrollHeight;
-}
+};
 const handleScroll = (e: MouseEvent) => {
   top.value = flowDesign.value.scrollTop * scaleOffsetHeight.value;
-}
+};
 const handleMouseDown = (e: MouseEvent) => {
   mouseDown.value = true;
-}
+};
 const handleMouseMove = (e: MouseEvent) => {
   if (mouseDown.value) {
     const directionY = e.movementY || e.mozMovementY || e.webkitMovementY || 0;
@@ -73,11 +73,11 @@ const handleMouseMove = (e: MouseEvent) => {
     }
     flowDesign.value.scrollTop = top.value / scaleOffsetHeight.value;
   }
-}
+};
 const handleMouseUp = (e: MouseEvent) => {
   mouseDown.value = false;
   document.onmousemove = document.onmouseup = null;
-}
+};
 let timer: any = null;
 const init = async () => {
   await nextTick();
@@ -101,11 +101,11 @@ const init = async () => {
   window.addEventListener('mousemove', handleMouseMove);
   // 监听页面的mouseleave事件，当鼠标移出浏览器页面可用区域 并 松开按键时，停止拖动
   window.addEventListener('mouseleave', handleMouseUp);
-}
+};
 onBeforeUnmount(() => {
   clearInterval(timer);
-})
+});
 onMounted(async () => {
   await init();
-})
+});
 </script>

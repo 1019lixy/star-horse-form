@@ -1,21 +1,21 @@
 <script setup lang="ts">
 
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-import {getUserInfo} from "../utils/auth.ts";
-import {computed, onMounted, reactive, ref} from "vue";
-import {copy} from "@/api/sh_api.ts";
-import StarHorseForm from "@/components/comp/StarHorseForm.vue";
-import {PageFieldInfo} from "@/components/types/PageFieldInfo";
-import {initSelectData, userEditFieldInfo} from "@/views/system/utils/UserFields.ts";
-import {postRequest} from "@/api/star_horse.ts";
-import {success, warning} from "@/utils/message.ts";
-import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
-import piniaInstance from "@/store";
-import {Config} from "@/api/settings.ts";
+import StarHorseIcon from '@/components/comp/StarHorseIcon.vue';
+import {getUserInfo} from '../utils/auth.ts';
+import {computed, onMounted, reactive, ref} from 'vue';
+import {copy} from '@/api/sh_api.ts';
+import StarHorseForm from '@/components/comp/StarHorseForm.vue';
+import {PageFieldInfo} from '@/components/types/PageFieldInfo';
+import {initSelectData, userEditFieldInfo} from '@/views/system/utils/UserFields.ts';
+import {postRequest} from '@/api/star_horse.ts';
+import {success, warning} from '@/utils/message.ts';
+import {GlobalConfig} from '@/store/GlobalConfigStore.ts';
+import piniaInstance from '@/store';
+import {Config} from '@/api/settings.ts';
 
 let userInfo = ref<any>({});
-let depts = ref<string>("--");
-let roles = ref<string>("--");
+let depts = ref<string>('--');
+let roles = ref<string>('--');
 let configStore = GlobalConfig(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
 const userFormRef = ref();
@@ -23,61 +23,58 @@ const rules = {
   phone: [{
     type: 'string',
     message: '手机格式不正确',
-    trigger: "change",
+    trigger: 'change',
     // 自定义验证手机号格式
     validator(_rule: any, value: any, callback: Function) {
-      const reg = new RegExp(/1\d{10}/)
+      const reg = new RegExp(/1\d{10}/);
       if (reg.test(value)) {
-        callback()
+        callback();
       } else {
-        callback(new Error())
+        callback(new Error());
       }
     }
   },],
-  oldPassword: [{required: true, message: "必填项不能为空", trigger: "blur"}],
-  password: [{required: true, message: "必填项不能为空", trigger: "blur"},
+  oldPassword: [{required: true, message: '必填项不能为空', trigger: 'blur'}],
+  password: [{required: true, message: '必填项不能为空', trigger: 'blur'},
     {min: 6, max: 14, message: '密码长度为6 - 14位'}
   ],
-  rePassword: [{required: true, message: "必填项不能为空", trigger: "blur"},
+  rePassword: [{required: true, message: '必填项不能为空', trigger: 'blur'},
     {min: 6, max: 14, message: '确认密码长度为6 - 14位'},
     {
-      trigger: "blur",
+      trigger: 'blur',
       validator(_rule: any, value: any, callback: Function) {
-        if (value != dataForm.value['password']) {
-          callback(new Error("2次密码不一致"));
-        } else {
-          callback();
-        }
+        callback&&callback(value);
+
       }
     }
   ],
 };
 const baseFieldList = reactive<PageFieldInfo | any>({
   fieldList: [{
-    fieldName: "basic",
+    fieldName: 'basic',
 
     tabList: [
       {
-        title: "基本资料",
-        tabName: "basic",
+        title: '基本资料',
+        tabName: 'basic',
         // objectName: "basicUserInfo",
         fieldList: userEditFieldInfo
       },
       {
-        title: "修改密码",
-        tabName: "password",
+        title: '修改密码',
+        tabName: 'password',
         //  objectName: "passwordInfo",
         fieldList: [
           {
-            label: "原始密码", fieldName: "oldPassword", type: "password",
+            label: '原始密码', fieldName: 'oldPassword', type: 'password',
             required: true, formVisible: true,
           },
           {
-            label: "新密码", fieldName: "password", type: "password",
+            label: '新密码', fieldName: 'password', type: 'password',
             required: true, formVisible: true,
           },
           {
-            label: "确认密码", fieldName: "rePassword", type: "password",
+            label: '确认密码', fieldName: 'rePassword', type: 'password',
             required: true, formVisible: true,
           }
         ]
@@ -102,8 +99,8 @@ const baseFieldList = reactive<PageFieldInfo | any>({
 
 const doModifyUserInfo = async () => {
   let dataForm = userFormRef.value.getFormData()?.value;
-  postRequest("/system-config/system/usersAuditEntity/refreshInvalidPassword/" + dataForm.username +
-      "/" + dataForm.password + "/" + (dataForm.oldPassword || "0") + "/" + dataForm.phone, {})
+  postRequest('/system-config/system/usersAuditEntity/refreshInvalidPassword/' + dataForm.username +
+      '/' + dataForm.password + '/' + (dataForm.oldPassword || '0') + '/' + dataForm.phone, {})
       .then(res => {
         let redata = res.data;
         if (redata.code != 0) {
@@ -119,20 +116,20 @@ const doModifyUserInfo = async () => {
  */
 const resetForm = () => {
   let dataForm: any = {};
-  dataForm["username"] = userInfo.value?.username;
-  dataForm["employeeNo"] = userInfo.value?.employeeNo;
+  dataForm['username'] = userInfo.value?.username;
+  dataForm['employeeNo'] = userInfo.value?.employeeNo;
   userFormRef.value.setFormData(dataForm);
 };
 const init = async () => {
   userInfo.value = getUserInfo();
   await initSelectData();
   depts.value = userInfo.value.deptList?.map((item: any) => {
-    return item.deptName
-  }).join(";");
+    return item.deptName;
+  }).join(';');
   roles.value = userInfo.value.rolesList?.map((item: any) => {
-    return item.roleName
-  }).join(";");
-}
+    return item.roleName;
+  }).join(';');
+};
 onMounted(async () => {
   await init();
 });

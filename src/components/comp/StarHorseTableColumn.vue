@@ -1,15 +1,15 @@
 <script setup lang="ts" name="StarHorseTableColumn">
-import StarHorseItem from "@/components/comp/StarHorseItem.vue";
-import {nextTick, PropType, ref} from "vue";
-import {postRequest} from "@/api/star_horse";
-import {closeLoad, commonParseCodeToName} from "@/api/sh_api";
-import {error, success, warning} from "@/utils/message";
-import {Config} from "@/api/settings.ts";
-import {createComponent} from "@/api/system.ts";
+import StarHorseItem from '@/components/comp/StarHorseItem.vue';
+import {nextTick, PropType, ref} from 'vue';
+import {postRequest} from '@/api/star_horse';
+import {closeLoad, commonParseCodeToName} from '@/api/sh_api';
+import {error, success, warning} from '@/utils/message';
+import {Config} from '@/api/settings.ts';
+import {createComponent} from '@/api/system.ts';
 
 const props = defineProps({
   compUrl: {type: Object},
-  batchName: {type: String, default: ""},
+  batchName: {type: String, default: ''},
   item: {type: Object as PropType<any>, required: true},
   dataFormat: {type: Function, required: true},
   cellEditable: {type: Boolean, default: true},
@@ -21,17 +21,17 @@ const props = defineProps({
   sortable: {type: Boolean, default: true},
   compSize: {type: String, default: Config.compSize}
 });
-const emits = defineEmits(["focusEvent", "blurEvent"]);
+const emits = defineEmits(['focusEvent', 'blurEvent']);
 const currentRow = ref();
 const focusEvent = (_column: any) => {
   // currentRow.value[column["property"]] = currentRow.value[column["property"]];
 };
 const blurEvent = (column: any) => {
-  currentRow.value["isSelected"] = false;
-  let bakeValue = currentRow.value["starHorseBakeValue"];
-  delete currentRow.value["selectName"];
-  delete currentRow.value["starHorseBakeValue"];
-  if ((!bakeValue && bakeValue != 0) || bakeValue == currentRow.value[column["property"]]) {
+  currentRow.value['isSelected'] = false;
+  let bakeValue = currentRow.value['starHorseBakeValue'];
+  delete currentRow.value['selectName'];
+  delete currentRow.value['starHorseBakeValue'];
+  if ((!bakeValue && bakeValue != 0) || bakeValue == currentRow.value[column['property']]) {
     return;
   }
   let params: any = {};
@@ -39,7 +39,7 @@ const blurEvent = (column: any) => {
     params = {
       dataMap: currentRow.value,
       relationTables: props.globalConfig
-    }
+    };
   } else {
     params = currentRow.value;
   }
@@ -50,39 +50,39 @@ const blurEvent = (column: any) => {
       success(res.data.cnMessage);
     }
   }).catch(err => {
-    error("接口调用异常" + err);
+    error('接口调用异常' + err);
   }).finally(() => {
     closeLoad();
   });
 };
 const cellClick = (row: any, column: any) => {
-  if (!props.cellEditable || props.item["disabled"] == 'Y' || props.item["editDisabled"] == "Y") {
+  if (!props.cellEditable || props.item['disabled'] == 'Y' || props.item['editDisabled'] == 'Y') {
     return;
   }
-  row["isSelected"] = true;
-  row["selectName"] = column["property"];
-  let bakeValue = row[column["property"]];
+  row['isSelected'] = true;
+  row['selectName'] = column['property'];
+  let bakeValue = row[column['property']];
   //解决空值不能提交问题
-  row["starHorseBakeValue"] = bakeValue ? bakeValue : "_";
+  row['starHorseBakeValue'] = bakeValue ? bakeValue : '_';
   currentRow.value = row;
   nextTick(() => {
     setTimeout(() => {
-      let obj = $("." + column["id"]).find("input");
+      let obj = $('.' + column['id']).find('input');
       obj.select().focus();
       // obj.unbind().on("blur", () => {
       //   console.log(column);
       //   blurEvent(column);
       // });
     }, 300);
-  })
+  });
 };
 const currentDataFormat = (scope: any) => {
   let item = props.item;
   let name = item.hideName || item.fieldName;
   let val: string = scope.row[name];
   //下拉数据,checkbox,radio切换为对应的名称
-  let fname: string = "";
-  if (item.type == "select" || item.type == "checkbox" || item.type == "radio") {
+  let fname: string = '';
+  if (item.type == 'select' || item.type == 'checkbox' || item.type == 'radio') {
     fname = item.preps?.values?.find((temp: any) => String(temp.value) == val)?.name;
   }
   if (fname) {
@@ -90,26 +90,26 @@ const currentDataFormat = (scope: any) => {
   }
   val = commonParseCodeToName(name, val);
   if (typeof props.dataFormat === 'function') {
-    return props.dataFormat(name, val, scope.row)
+    return props.dataFormat(name, val, scope.row);
   }
   return val;
-}
+};
 const popover = ref();
 const showOperation = async () => {
   await nextTick();
-}
+};
 const prototypeCheck = (item: any) => {
-  let flag = Object.keys(item).includes("listPrototypeDisplay");
+  let flag = Object.keys(item).includes('listPrototypeDisplay');
   if (flag) {
-    return item.listPrototypeDisplay === true || item.listPrototypeDisplay !== "N";
+    return item.listPrototypeDisplay === true || item.listPrototypeDisplay !== 'N';
   } else {
-    flag = Object.keys(item.preps||{}).includes("listPrototypeDisplay");
+    flag = Object.keys(item.preps||{}).includes('listPrototypeDisplay');
     if (flag) {
-      return item.preps.listPrototypeDisplay === true || item.preps.listPrototypeDisplay !== "N";
+      return item.preps.listPrototypeDisplay === true || item.preps.listPrototypeDisplay !== 'N';
     }
   }
-  return false
-}
+  return false;
+};
 const createPreps = (item: any) => {
   return {
     preps: {
@@ -118,8 +118,8 @@ const createPreps = (item: any) => {
       size: props.compSize,
       name: item.fieldName
     }
-  }
-}
+  };
+};
 </script>
 <template>
 

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import {useFlowDesign} from "@/store/FlowDesignStore.ts";
-import piniaInstance from "@/store";
+import {useFlowDesign} from '@/store/FlowDesignStore.ts';
+import piniaInstance from '@/store';
 
 const flowDesign = useFlowDesign(piniaInstance);
 const props = defineProps(
@@ -24,7 +24,7 @@ const props = defineProps(
  */
 const selectNode = (node: any, parentNode: any) => {
   flowDesign.activeNode(node);
-  flowDesign.setParentNode(parentNode)
+  flowDesign.setParentNode(parentNode);
 };
 </script>
 <template>

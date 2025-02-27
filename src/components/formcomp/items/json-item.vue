@@ -41,41 +41,41 @@
   </starhorse-form-item>
 </template>
 <script lang="ts">
-import {defineComponent, nextTick, onMounted, reactive, shallowRef} from "vue";
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-import {PageFieldInfo} from "@/components/types/PageFieldInfo";
-import StarHorseForm from "@/components/comp/StarHorseForm.vue";
-import {allAction} from "@/components/formcomp/utils/ItemRelationEventUtils.ts";
-import StarHorseJsonEditor from "@/components/comp/StarHorseJsonEditor.vue";
+import {defineComponent, nextTick, onMounted, reactive, shallowRef} from 'vue';
+import StarHorseIcon from '@/components/comp/StarHorseIcon.vue';
+import {PageFieldInfo} from '@/components/types/PageFieldInfo';
+import StarHorseForm from '@/components/comp/StarHorseForm.vue';
+import {allAction} from '@/components/formcomp/utils/ItemRelationEventUtils.ts';
+import StarHorseJsonEditor from '@/components/comp/StarHorseJsonEditor.vue';
 
 export default defineComponent({
   components: {StarHorseJsonEditor, StarHorseForm, StarHorseIcon},
   setup(_props, context) {
-    const parentField = context.attrs["parentField"];
-    const field = context.attrs["field"] as any;
+    const parentField = context.attrs['parentField'];
+    const field = context.attrs['field'] as any;
     let formItem = shallowRef({label: 'input', required: false});
-    let dataField = shallowRef("");
+    let dataField = shallowRef('');
     let dialogInputVisible = shallowRef<boolean>(false);
     let jsonFormRef = shallowRef();
     let jsonObject = shallowRef<any>({});
     let jsonTableField = reactive<PageFieldInfo>({
       batchFieldList: [{
-        batchName: "jsonDatas",
+        batchName: 'jsonDatas',
         fieldList: [{
-          label: "Name/名称",
-          fieldName: "name",
-          type: "input",
+          label: 'Name/名称',
+          fieldName: 'name',
+          type: 'input',
           required: true,
           formVisible: true,
         }, {
-          label: "Value/值",
-          fieldName: "value",
-          type: "input",
+          label: 'Value/值',
+          fieldName: 'value',
+          type: 'input',
           required: true,
           formVisible: true,
         }]
       }]
-    })
+    });
     const dynamicFunction = (data: any) => {
       if (!data) {
         return;
@@ -83,7 +83,7 @@ export default defineComponent({
       let fun = new Function(data);
       fun();
     };
-    let actionName = shallowRef("keydown.enter");
+    let actionName = shallowRef('keydown.enter');
     const itemAction = (prep: any) => {
       allAction(context, prep);
     };
@@ -99,27 +99,27 @@ export default defineComponent({
             value: jsonObject.value[key]
           });
         }
-        formData["jsonDatas"] = arr;
+        formData['jsonDatas'] = arr;
       }
       dialogInputVisible.value = true;
       await nextTick();
       if (field.preps['devType'] != 'Y') {
         jsonFormRef.value.setFormData(formData);
       }
-    }
+    };
     const selectItem = async () => {
       if (field.preps['devType'] == 'Y') {
         context.attrs['formData'][field.preps['name']] = JSON.stringify(jsonObject.value, null, 4);
       } else {
         let flag = false;
         await jsonFormRef.value.$refs.starHorseFormRef.validate((res: boolean) => {
-          flag = res
+          flag = res;
         });
         if (!flag) {
           return;
         }
         let formData = jsonFormRef.value.getFormData().value;
-        let dataList = formData["jsonDatas"];
+        let dataList = formData['jsonDatas'];
         let jsonData: any = {};
         dataList.forEach((item: any) => {
           jsonData[item.name] = item.value;
@@ -127,16 +127,16 @@ export default defineComponent({
         context.attrs['formData'][field.preps['name']] = JSON.stringify(jsonData, null, 4);
       }
       closeAction();
-    }
+    };
     const resetForm = () => {
       jsonFormRef.value.setFormData({jsonDatas: [{}]});
-    }
+    };
     const closeAction = () => {
       dialogInputVisible.value = false;
-    }
+    };
     onMounted(() => {
-       actionName.value = field.preps?.actionName || "keydown.enter";;
-      if (!context.attrs["isSearch"]) {
+       actionName.value = field.preps?.actionName || 'keydown.enter';;
+      if (!context.attrs['isSearch']) {
         allAction(context, actionName.value, true);
       }
     });
@@ -144,7 +144,7 @@ export default defineComponent({
       parentField, context, field, formItem, dataField, dynamicFunction, itemAction, actionName, jsonObject,
       dialogInputVisible, selectItem, closeAction, editJsonData, resetForm, jsonTableField, jsonFormRef
 
-    }
+    };
   }
 });
 </script>

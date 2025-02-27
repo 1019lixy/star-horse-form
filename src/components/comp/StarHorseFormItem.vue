@@ -1,25 +1,25 @@
 <script setup lang="ts" name="StarHorseFormItem">
-import {inject, PropType} from "vue";
-import {ApiUrls} from "@/components/types/ApiUrls";
-import {DialogProps} from "@/components/types/DialogProps";
-import {PageFieldInfo} from "@/components/types/PageFieldInfo";
-import {ModelRef} from "vue-demi";
-import {Config} from "@/api/settings.ts";
+import {inject, PropType} from 'vue';
+import {ApiUrls} from '@/components/types/ApiUrls';
+import {DialogProps} from '@/components/types/DialogProps';
+import {PageFieldInfo} from '@/components/types/PageFieldInfo';
+import {ModelRef} from 'vue-demi';
+import {Config} from '@/api/settings.ts';
 
 defineProps({
   compUrl: {type: Object as PropType<ApiUrls>},
   fieldList: {type: Object as PropType<PageFieldInfo>, required: true},
   objectName: {type: String},
-  subFormFlag: {type: String, default: "N"},
-  batchName: {type: String, default: "batchDataList"},
-  batchFieldName: {type: String, default: "batchFieldList"},
+  subFormFlag: {type: String, default: 'N'},
+  batchName: {type: String, default: 'batchDataList'},
+  batchFieldName: {type: String, default: 'batchFieldList'},
   primaryKey: {type: String},
   compSize: {type: String, default: Config.compSize},
   rules: {type: Object},
   isView: {type: Boolean, default: false},
 });
-const dataForm: ModelRef<any> = defineModel("dataForm");
-const dialogProps = inject<DialogProps>("dialogProps", {});
+const dataForm: ModelRef<any> = defineModel('dataForm');
+const dialogProps = inject<DialogProps>('dialogProps', {});
 </script>
 <template>
   <template v-for="item in fieldList.fieldList">

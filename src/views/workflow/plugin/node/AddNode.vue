@@ -21,18 +21,18 @@
   </div>
 </template>
 <script setup lang="ts">
-import {computed, onMounted, ref} from "vue";
-import {useFlowDesign} from "@/store/FlowDesignStore.ts";
-import piniaInstance from "@/store";
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-import {ApiUrls} from "@/components/types/ApiUrls";
-import {apiInstance, createCondition} from "@/api/sh_api.ts";
-import {SearchParams} from "@/components/types/Params";
-import {nodeInfoList, nodePrepList} from "@/views/workflow/plugin/utils/nodePreps.ts";
-import {FlowNodeEnums} from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
+import {computed, onMounted, ref} from 'vue';
+import {useFlowDesign} from '@/store/FlowDesignStore.ts';
+import piniaInstance from '@/store';
+import StarHorseIcon from '@/components/comp/StarHorseIcon.vue';
+import {ApiUrls} from '@/components/types/ApiUrls';
+import {apiInstance, createCondition} from '@/api/sh_api.ts';
+import {SearchParams} from '@/components/types/Params';
+import {nodeInfoList, nodePrepList} from '@/views/workflow/plugin/utils/nodePreps.ts';
+import {FlowNodeEnums} from '@/views/workflow/plugin/enums/FlowNodeEnums.ts';
 
 const nodeRef = ref();
-const prepUrl: ApiUrls = apiInstance("userdb-manage", "userdb/formInstance/shNodeMappingPreps/idNodeMappingPrep/337537414606095357");
+const prepUrl: ApiUrls = apiInstance('userdb-manage', 'userdb/formInstance/shNodeMappingPreps/idNodeMappingPrep/337537414606095357');
 defineOptions({
   name: 'FlowNodeAdd',
 });
@@ -76,12 +76,12 @@ const checkVisible = (item: any) => {
     }
   }
   return true;
-}
+};
 const loadNodePrep = async (item: any) => {
   let prep = flowDesign.getPrepMap(item.idFlowNode);
   if (!prep) {
     let params: SearchParams[] = [
-      createCondition("idFlowNode", item.idFlowNode)
+      createCondition('idFlowNode', item.idFlowNode)
     ];
     let res = await prepUrl.queryConditionAction!(params);
     let temp: any = {};
@@ -92,7 +92,7 @@ const loadNodePrep = async (item: any) => {
     flowDesign.putNodePrepMap(item.idFlowNode, prep);
   }
   return prep;
-}
+};
 const addNode = async (item: any) => {
   let currentNode = JSON.parse(JSON.stringify(commonPreps.value));
   let preps = await loadNodePrep(item);
@@ -102,7 +102,7 @@ const addNode = async (item: any) => {
   if (preps && Object.keys(preps).length > 0) {
     currentNode = {...currentNode, ...preps};
   }
-  currentNode["nodeId"] = item.idFlowNode;
+  currentNode['nodeId'] = item.idFlowNode;
   let parentNode = props.node;
   let nodeType = props.nodeType;
   let id = props.id;
@@ -111,11 +111,11 @@ const addNode = async (item: any) => {
     // 当审批节点下添加意见分支,就不允许添加其他类型的节点了
     flowDesign.flowUpdateNode({currentNode, field: 'addable', value: false});
   }
-}
+};
 const init = async () => {
 
-}
+};
 onMounted(() => {
   init();
-})
+});
 </script>

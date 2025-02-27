@@ -1,143 +1,143 @@
 <script setup lang="ts">
-import {apiInstance, createCondition, dialogPreps, loadData} from "@/api/sh_api.ts";
-import {ApiUrls} from "@/components/types/ApiUrls";
-import {Config} from "@/api/settings.ts";
-import {onMounted, provide, reactive, ref, onActivated, onDeactivated, nextTick} from "vue";
-import {SearchFields, SelectOption} from "@/components/types/SearchProps";
-import {loadDepartmentInfo} from "@/api/sh_api";
-import {PageFieldInfo, UserFuncInfo} from "@/components/types/PageFieldInfo";
-import {warning} from "@/utils/message.ts";
-import {TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
-import {SearchParams} from "@/components/types/Params";
+import {apiInstance, createCondition, dialogPreps, loadData} from '@/api/sh_api.ts';
+import {ApiUrls} from '@/components/types/ApiUrls';
+import {Config} from '@/api/settings.ts';
+import {onMounted, provide, reactive, ref, onActivated, onDeactivated, nextTick} from 'vue';
+import {SearchFields, SelectOption} from '@/components/types/SearchProps';
+import {loadDepartmentInfo} from '@/api/sh_api';
+import {PageFieldInfo, UserFuncInfo} from '@/components/types/PageFieldInfo';
+import {warning} from '@/utils/message.ts';
+import {TreeNodeData} from 'element-plus/es/components/tree-v2/src/types';
+import {SearchParams} from '@/components/types/Params';
 
-const dataUrl: ApiUrls = apiInstance("system-config", "system/departmentEntity");
+const dataUrl: ApiUrls = apiInstance('system-config', 'system/departmentEntity');
 let departmentList = ref<SelectOption[]>([]);
 let companyList = ref<Array<any>>([]);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "部门名称", defaultVisible: true, fieldName: "deptName", type: "input", matchType: "lk"},
-    {label: "部门编码", fieldName: "deptCode", type: "input", matchType: "lk"},
+    {label: '部门名称', defaultVisible: true, fieldName: 'deptName', type: 'input', matchType: 'lk'},
+    {label: '部门编码', fieldName: 'deptCode', type: 'input', matchType: 'lk'},
   ]
 });
 const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
-      label: "主键", fieldName: "idDepartment", type: "long",
+      label: '主键', fieldName: 'idDepartment', type: 'long',
     },
     {
-      label: "上级部门", fieldName: "parentDept", type: "tselect", optionList: departmentList,
+      label: '上级部门', fieldName: 'parentDept', type: 'tselect', optionList: departmentList,
       formVisible: true,
       preps: {
-        checkStrictly: "Y",
-        filterable: "Y",
+        checkStrictly: 'Y',
+        filterable: 'Y',
         props: {
-          label: "deptName",
-          value: "idDepartment"
+          label: 'deptName',
+          value: 'idDepartment'
         }
       }
     },
     [{
-      label: "部门名称", fieldName: "deptName", type: "input",
+      label: '部门名称', fieldName: 'deptName', type: 'input',
       required: true, formVisible: true,
       listVisible: true
     },
       {
-        label: "部门编码", fieldName: "deptCode", type: "input",
-        required: true, editDisabled: "Y", formVisible: true,
+        label: '部门编码', fieldName: 'deptCode', type: 'input',
+        required: true, editDisabled: 'Y', formVisible: true,
         listVisible: true,
       }],
     [{
-      label: "部门领导", fieldName: "deptMasterName", aliasName: "deptMaster", type: "user",
+      label: '部门领导', fieldName: 'deptMasterName', aliasName: 'deptMaster', type: 'user',
       required: true, formVisible: true,
       listVisible: true,
       preps: {
         needField: [
-          {sourceField: "name", distField: "deptMasterName"},
-          {sourceField: "idEmployeeInfo", distField: "deptMaster"},
+          {sourceField: 'name', distField: 'deptMasterName'},
+          {sourceField: 'idEmployeeInfo', distField: 'deptMaster'},
         ]
       }
     },
       {
-        label: "分管领导", fieldName: "manageMasterName", aliasName: "manageMaster", type: "user",
+        label: '分管领导', fieldName: 'manageMasterName', aliasName: 'manageMaster', type: 'user',
         required: true, formVisible: true,
         listVisible: true,
         preps: {
           needField: [
-            {sourceField: "name", distField: "manageMasterName"},
-            {sourceField: "idEmployeeInfo", distField: "manageMaster"},
+            {sourceField: 'name', distField: 'manageMasterName'},
+            {sourceField: 'idEmployeeInfo', distField: 'manageMaster'},
           ]
         }
       }],
     {
-      label: "所属公司", disabled: "Y", fieldName: "companyName", type: "input", listVisible: true
+      label: '所属公司', disabled: 'Y', fieldName: 'companyName', type: 'input', listVisible: true
     },
     [{
-      label: "所属公司", fieldName: "idCompanyDefine", type: "tselect",
+      label: '所属公司', fieldName: 'idCompanyDefine', type: 'tselect',
       required: true, formVisible: true, optionList: companyList,
       preps: {
-        checkStrictly: "Y",
+        checkStrictly: 'Y',
         props: {
-          label: "name",
-          value: "idCompanyDefine"
+          label: 'name',
+          value: 'idCompanyDefine'
         }
       },
     },
       {
-        label: "部门电话", fieldName: "deptPhone", type: "input",
+        label: '部门电话', fieldName: 'deptPhone', type: 'input',
         formVisible: true,
         listVisible: true
       }],
     {
-      label: "部门职责", fieldName: "deptDesc", type: "textarea",
+      label: '部门职责', fieldName: 'deptDesc', type: 'textarea',
       formVisible: true,
       listVisible: true
     },
     {
-      label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
+      label: '创建人', disabled: 'Y', fieldName: 'createdBy', type: 'input',
     },
     {
-      label: "修改人", disabled: "Y", fieldName: "updatedBy", type: "input",
+      label: '修改人', disabled: 'Y', fieldName: 'updatedBy', type: 'input',
     },
     {
-      label: "创建日期", disabled: "Y", fieldName: "createdDate", type: "date", listVisible: true
+      label: '创建日期', disabled: 'Y', fieldName: 'createdDate', type: 'date', listVisible: true
     },
     {
-      label: "修改日期", disabled: "Y", fieldName: "updatedDate", type: "date",
+      label: '修改日期', disabled: 'Y', fieldName: 'updatedDate', type: 'date',
     },
     {
-      label: "数据版本号", fieldName: "version", type: "number",
+      label: '数据版本号', fieldName: 'version', type: 'number',
     },
     {
-      label: "是否已逻辑", fieldName: "isDel", type: "number",
+      label: '是否已逻辑', fieldName: 'isDel', type: 'number',
     },
     {
-      label: "数据编号", fieldName: "dataNo", type: "input",
+      label: '数据编号', fieldName: 'dataNo', type: 'input',
     },
     {
-      label: "状态码", fieldName: "statusCode", type: "input",
+      label: '状态码', fieldName: 'statusCode', type: 'input',
     },
     {
-      label: "状态码名称", fieldName: "statusName", type: "input",
+      label: '状态码名称', fieldName: 'statusName', type: 'input',
     },
     {
-      label: "国际码", fieldName: "local", type: "input",
+      label: '国际码', fieldName: 'local', type: 'input',
     },
   ],
   stopAutoLoad: true
 });
-const primaryKey = "idDepartment";
+const primaryKey = 'idDepartment';
 const departmentRef = ref();
 let outerForm = ref<any>({});
 const rules = {};
 const dialogProps = dialogPreps();
-provide("dialogProps", dialogProps);
+provide('dialogProps', dialogProps);
 let extandBtns = ref<UserFuncInfo[]>([{
-  btnName: "添加子部门",
-  authority: "add",
-  icon: "add-dept",
+  btnName: '添加子部门',
+  authority: 'add',
+  icon: 'add-dept',
   priority: 1,
   funcName: async (row: any) => {
-    outerForm.value["parentDept"] = row[primaryKey];
+    outerForm.value['parentDept'] = row[primaryKey];
     dialogProps.editVisible = true;
     await nextTick();
     // assignRoleCompanyRef.value.setSelectData(row.companyList);
@@ -146,28 +146,28 @@ let extandBtns = ref<UserFuncInfo[]>([{
 
 const dataFormat = (_name: string, cellValue: object): any => {
   return cellValue;
-}
+};
 const activated = () => {
   initData();
-}
+};
 const deactivated = () => {
 
-}
+};
 const initData = async () => {
-  let result = await loadData("/system-config/system/companyDefine/getAllByCondition", {});
+  let result = await loadData('/system-config/system/companyDefine/getAllByCondition', {});
   if (result.error) {
     warning(result.error);
     return;
   }
   companyList.value = result.data;
-  departmentList.value = await loadDepartmentInfo([{propertyName: "isDel", value: 0}])
+  departmentList.value = await loadDepartmentInfo([{propertyName: 'isDel', value: 0}]);
 };
 let currentUserGroupId = ref<number>(0);
 let defaultCondition = ref<SearchParams[]>([]);
 const companyChange = (data: TreeNodeData, _checked: boolean) => {
-  currentUserGroupId.value = data["idCompanyDefine"];
-  defaultCondition.value = [createCondition("b.idCompanyDefine", currentUserGroupId.value)];
-  departmentRef.value.createSearchParams(defaultCondition.value)
+  currentUserGroupId.value = data['idCompanyDefine'];
+  defaultCondition.value = [createCondition('b.idCompanyDefine', currentUserGroupId.value)];
+  departmentRef.value.createSearchParams(defaultCondition.value);
 };
 onMounted(async () => {
   await initData();

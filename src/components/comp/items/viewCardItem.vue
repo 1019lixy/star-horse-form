@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import {onMounted, PropType} from "vue";
-import {FieldInfo} from "@/components/types/PageFieldInfo";
-import {ModelRef} from "vue-demi";
+import {onMounted, PropType} from 'vue';
+import {FieldInfo} from '@/components/types/PageFieldInfo';
+import {ModelRef} from 'vue-demi';
 
 const props = defineProps({
   item: {type: Array as PropType<Array<FieldInfo>>, required: true},
   commonFormat: {type: Function, required: true},
 });
-const dataForm: ModelRef<any> = defineModel("dataForm");
+const dataForm: ModelRef<any> = defineModel('dataForm');
 const init = () => {
 
-}
+};
 onMounted(() => {
   init();
 });

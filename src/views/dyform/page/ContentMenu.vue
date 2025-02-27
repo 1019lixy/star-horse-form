@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import {computed, nextTick, onBeforeUnmount, onMounted, ref} from 'vue';
-import {useZIndex} from "@/api/system.ts";
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
+import {useZIndex} from '@/api/system.ts';
+import StarHorseIcon from '@/components/comp/StarHorseIcon.vue';
 
 defineOptions({
   name: 'PageEditorContentMenu',

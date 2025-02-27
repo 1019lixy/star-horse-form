@@ -1,10 +1,10 @@
 <script setup lang="ts" name="ContinusInstanceInit">
-import {computed, nextTick, onMounted, ref} from "vue";
-import ToolInfo from "@/views/continus/ToolInfo.vue";
-import DeployTemplate from "@/views/continus/DeployTemplate.vue";
-import {warning} from "@/utils/message.ts";
-import {continusConfig} from "@/store/ContinusConfigStore.ts";
-import piniaInstance from "@/store";
+import {computed, nextTick, onMounted, ref} from 'vue';
+import ToolInfo from '@/views/continus/ToolInfo.vue';
+import DeployTemplate from '@/views/continus/DeployTemplate.vue';
+import {warning} from '@/utils/message.ts';
+import {continusConfig} from '@/store/ContinusConfigStore.ts';
+import piniaInstance from '@/store';
 
 const nodeCompRef = ref<any>();
 const toolInfoRef = ref<any>();
@@ -14,13 +14,13 @@ const nodeDialog = ref<boolean>(false);
 const currentNode = ref<number>(-1);
 const continusStore = continusConfig(piniaInstance);
 const nodeInfo = computed(() => continusStore.nodeInfo);
-let currentCompName = ref<string>("PipelineCfg");
+let currentCompName = ref<string>('PipelineCfg');
 const processList = ref<any>([]);
 const changeTemplate = () => {
   tempDialog.value = !tempDialog.value;
   nextTick(() => {
     deployTemplateRef.value.setTemplate(nodeInfo.value.pipelineCfg);
-  })
+  });
 };
 const addNode = (currentIndex: number) => {
   currentNode.value = currentIndex;
@@ -40,11 +40,11 @@ const addSubNode = () => {
 const closeAction = () => {
   nodeDialog.value = false;
   tempDialog.value = false;
-}
+};
 const dataSubmit = () => {
   let node = toolInfoRef.value.getNode();
   if (!node) {
-    warning("请先选择要配置的节点");
+    warning('请先选择要配置的节点');
     return;
   }
   let index = currentNode.value == -1 ? processList.value.length : currentNode.value;
@@ -52,27 +52,27 @@ const dataSubmit = () => {
   currentNode.value = index;
   currentCompName.value = node.code;
   closeAction();
-}
+};
 const selectTemplate = () => {
   let template = deployTemplateRef.value.getTemplate();
   if (!template || Object.keys(template).length == 0) {
-    warning("请选择要更换的模板");
+    warning('请选择要更换的模板');
     return;
   }
   if (!nodeInfo.value.pipelineCfg) {
-    nodeInfo.value["pipelineCfg"] = {};
+    nodeInfo.value['pipelineCfg'] = {};
   }
   nodeInfo.value.pipelineCfg.templateName = template.templateName;
   nodeInfo.value.pipelineCfg.idTemplate = template.idTemplate;
   processList.value = template.nodeList;
   closeAction();
-}
+};
 const save = (type: string) => {
   console.log(type);
-}
+};
 const init = async () => {
 
-}
+};
 onMounted(async () => {
   await init();
 });

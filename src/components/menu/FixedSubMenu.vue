@@ -1,22 +1,22 @@
 <script setup lang="ts">
-import {computed, ref} from "vue";
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
+import {computed, ref} from 'vue';
+import StarHorseIcon from '@/components/comp/StarHorseIcon.vue';
 
 const props = defineProps({
   dataList: {type: Array<any>, required: true},
-  top: {type: String, default: "83px"},
+  top: {type: String, default: '83px'},
   level: {type: Number, default: 1},
 });
 // let arrow = ref<string>("arrow-double-right");
-let menuColor = computed(() => props.level > 1 ? "var(--star-horse-font-color)" : "var(--star-horse-white)");
-let htop = ref<string>(computed(() => props.top).value == "83px" ? "65px" : "35px");
+let menuColor = computed(() => props.level > 1 ? 'var(--star-horse-font-color)' : 'var(--star-horse-white)');
+let htop = ref<string>(computed(() => props.top).value == '83px' ? '65px' : '35px');
 let currentItem = ref<any>({});
 const overHandler = (item: any) => {
   currentItem.value = item;
-}
+};
 const outHandler = () => {
   currentItem.value = {};
-}
+};
 </script>
 <template>
   <el-scrollbar height="100%" style="width: 100%">

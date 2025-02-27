@@ -10,10 +10,10 @@
                    :field-list="serviceTaskNodeField(nodeElement)"/>
 </template>
 <script setup lang="ts" name="NodePropertyPanel">
-import StarHorseForm from "@/components/comp/StarHorseForm.vue";
-import {serviceTaskNodeField, userTaskNodeField} from "@/views/jbpm/panel/Fields.ts";
-import {computed, ref, watch} from "vue";
-import {Config} from "@/api/settings.ts";
+import StarHorseForm from '@/components/comp/StarHorseForm.vue';
+import {serviceTaskNodeField, userTaskNodeField} from '@/views/jbpm/panel/Fields.ts';
+import {computed, ref, watch} from 'vue';
+import {Config} from '@/api/settings.ts';
 
 const props = defineProps({
   modeler: {
@@ -29,12 +29,12 @@ const props = defineProps({
     required: true
   },
   compSize: {type: String, default: Config.compSize},
-  tab: {type: String, default: "node"}
+  tab: {type: String, default: 'node'}
 });
 const userTaskFormRef = ref();
 const taskFormRef = ref();
 const otherTaskFormRef = ref();
-const emits = defineEmits(["modifyFormData"]);
+const emits = defineEmits(['modifyFormData']);
 let outFormData = computed(() => {
   let obj = props.nodeElement.businessObject;
   if (!obj) {
@@ -45,16 +45,16 @@ let outFormData = computed(() => {
     ...attr,
     id: obj.id,
     name: obj.name
-  }
+  };
 });
 let userFormData = computed(() => userTaskFormRef?.value?.getFormData().value);
 let taskFormData = computed(() => taskFormRef?.value?.getFormData().value);
 let otherFormData = computed(() => otherTaskFormRef?.value?.getFormData().value);
 const exportData = (formData: any) => {
-  console.log("触发", formData);
-}
+  console.log('触发', formData);
+};
 const updateProperties = (properties: any) => {
-  console.log("updateProperties", properties);
+  console.log('updateProperties', properties);
   let modeling = props.modeler.get('modeling');
   let shape = props.modeler.get('elementRegistry').get(props.nodeElement.id);
   modeling.updateProperties(shape, properties);
@@ -73,10 +73,10 @@ const updateCompAttr = () => {
   if (otherFormData?.value) {
     updateProperties(otherFormData.value);
   }
-}
+};
 
 const updateSequenceFlow = (val: any) => {
-  let newCondition = props.modeler.get("moddle").create('bpmn:FormalExpression', {
+  let newCondition = props.modeler.get('moddle').create('bpmn:FormalExpression', {
     body: val
   });
   updateProperties({conditionExpression: newCondition});
@@ -87,7 +87,7 @@ const addUser = (properties: any) => {
     userType: Object.keys(properties)[0]
   });
   emits('modifyFormData', properties);
-}
+};
 watch([() => userFormData, () => taskFormData, () => otherFormData],
     () => {
       updateCompAttr();

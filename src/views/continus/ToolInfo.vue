@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import {onMounted, ref} from "vue";
-import {continusNodeList} from "@/views/continus/utils/ToolsParams.ts";
+import {onMounted, ref} from 'vue';
+import {continusNodeList} from '@/views/continus/utils/ToolsParams.ts';
 
 const currentItem = ref<number>(0);
 const currentNode = ref<any>({});
@@ -14,24 +14,24 @@ const changeNode = (itemIndex: number) => {
   } else {
     categoryNodeList.value = nodeList.value.filter(item => item.index == itemIndex);
   }
-  currentNode.value = categoryNodeList.value.find(item => item.default == "Y");
-}
+  currentNode.value = categoryNodeList.value.find(item => item.default == 'Y');
+};
 const selectNode = (item: any) => {
   currentNode.value = item;
-}
+};
 const setNode = (nodeName: string) => {
   currentNode.value = nodeList.value.find(item => item.code == nodeName);
-}
+};
 const getNode = () => {
   return currentNode.value;
-}
+};
 const init = () => {
   nodeList.value = continusNodeList.value;
   changeNode(0);
-}
+};
 onMounted(() => {
   init();
-})
+});
 defineExpose({
   getNode,
   setNode

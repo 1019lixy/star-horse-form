@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import {uuid} from "@/api/system.ts";
+import {uuid} from '@/api/system.ts';
 import {getApproveNodes} from '@/views/workflow/plugin/utils/nodeUtil';
-import {computed, onMounted, ref} from "vue";
-import {useFlowDesign} from "@/store/FlowDesignStore.ts";
-import piniaInstance from "@/store";
-import {createCondition} from "@/api/sh_api.ts";
-import {postRequest} from "@/api/star_horse.ts";
-import StarHorseDataSelector from "@/components/comp/StarHorseDataSelector.vue";
+import {computed, onMounted, ref} from 'vue';
+import {useFlowDesign} from '@/store/FlowDesignStore.ts';
+import piniaInstance from '@/store';
+import {createCondition} from '@/api/sh_api.ts';
+import {postRequest} from '@/api/star_horse.ts';
+import StarHorseDataSelector from '@/components/comp/StarHorseDataSelector.vue';
 
 const props = defineProps({
   groups: {
@@ -273,16 +273,16 @@ const changeApproveType = (group: any) => {
   group.currentApproveType = item;
   selectorParmas.value = {
     placeholder: `请选${item.approveType}`,
-    displayFieldName: "name",
-    displayFieldValue: "id",
+    displayFieldName: 'name',
+    displayFieldValue: 'id',
   };
-  postRequest("/userdb-manage/userdb/formInstance/flApprovalFields/idApprovalFields/337537414606095357/getAllByCondition", {
-    fieldList: [createCondition("a.idApprovalType", group.approveType)]
+  postRequest('/userdb-manage/userdb/formInstance/flApprovalFields/idApprovalFields/337537414606095357/getAllByCondition', {
+    fieldList: [createCondition('a.idApprovalType', group.approveType)]
   }).then(res => {
     dataList.value = res.data?.data;
     dataSelectorVisible.value = true;
-  })
-}
+  });
+};
 // 添加审批人
 const addApproval = () => {
   props.groups.push({
@@ -296,7 +296,7 @@ const addApproval = () => {
     // 审批人名称
     approverNames: [],
   });
-}
+};
 // 删除审批人
 const delApproval = (group: any) => {
   props.groups.forEach((element: any, i) => {
@@ -304,29 +304,29 @@ const delApproval = (group: any) => {
       props.groups.splice(i, 1);
     }
   });
-}
+};
 const init = async () => {
-  props.node["audit"] = {};
+  props.node['audit'] = {};
 //加载职级
-  postRequest("/system-config/system/rankDefine/rankTree", {}).then(res => {
+  postRequest('/system-config/system/rankDefine/rankTree', {}).then(res => {
     rankList.value = res.data?.data;
   });
   //加载岗位
-  postRequest("/system-config/system/stationDefine/stationTree", {}).then(res => {
+  postRequest('/system-config/system/stationDefine/stationTree', {}).then(res => {
     stationList.value = res.data?.data;
   });
 
   //加载角色
-  postRequest("/system-config/system/companyRole/getAllByCondition", {
-    fieldList: [createCondition("a.roleType", "common_role")]
+  postRequest('/system-config/system/companyRole/getAllByCondition', {
+    fieldList: [createCondition('a.roleType', 'common_role')]
   }).then(res => {
     roleList.value = res.data?.data;
   });
-  postRequest("/userdb-manage/userdb/formInstance/flApprovalType/idApprovalType/337537414606095357/getAllByCondition", {})
+  postRequest('/userdb-manage/userdb/formInstance/flApprovalType/idApprovalType/337537414606095357/getAllByCondition', {})
       .then(res => {
         approvals.value = res.data?.data;
       });
-}
+};
 onMounted(() => {
   init();
 });

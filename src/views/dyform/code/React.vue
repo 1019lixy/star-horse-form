@@ -3,7 +3,7 @@ const props = defineProps({
   formInfo: {type: Object, required: true},
   compList: {type: Array, required: true}
 });
-let code = ``;
+let code = '';
 </script>
 <template>
   <StarHorseEditor :lang="'vue'" v-model:value="code"/>

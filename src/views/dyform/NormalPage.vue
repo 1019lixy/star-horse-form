@@ -1,23 +1,23 @@
 <script setup lang="ts">
-import {nextTick, onMounted, provide, reactive, ref, watch} from "vue";
-import {apiInstance, closeLoad, createCondition, dialogPreps, load, loadGetData} from "@/api/sh_api";
-import {ApiUrls} from "@/components/types/ApiUrls";
-import {SearchProps} from "@/components/types/SearchProps";
-import {Config} from "@/api/settings.ts";
-import {DesignForm} from "@/store/DesignFormStore.ts";
-import piniaInstance from "@/store/index.ts";
-import {createDatetime} from "@/api/date_utils.ts";
-import {UserFuncInfo} from "@/components/types/PageFieldInfo";
-import {download, postRequest} from "@/api/star_horse.ts";
-import {success, warning} from "@/utils/message.ts";
-import {useRouter} from "vue-router";
-import {userAction} from "@/api/user_func.ts";
+import {nextTick, onMounted, provide, reactive, ref, watch} from 'vue';
+import {apiInstance, closeLoad, createCondition, dialogPreps, load, loadGetData} from '@/api/sh_api';
+import {ApiUrls} from '@/components/types/ApiUrls';
+import {SearchProps} from '@/components/types/SearchProps';
+import {Config} from '@/api/settings.ts';
+import {DesignForm} from '@/store/DesignFormStore.ts';
+import piniaInstance from '@/store/index.ts';
+import {createDatetime} from '@/api/date_utils.ts';
+import {UserFuncInfo} from '@/components/types/PageFieldInfo';
+import {download, postRequest} from '@/api/star_horse.ts';
+import {success, warning} from '@/utils/message.ts';
+import {useRouter} from 'vue-router';
+import {userAction} from '@/api/user_func.ts';
 
 let designForm = DesignForm(piniaInstance);
 const normalPageRef = ref();
 let relationTables = ref<any>({});
 let dataUrl = ref<ApiUrls>();
-const errorMsg = ref("数据加载中");
+const errorMsg = ref('数据加载中');
 let searchFormData = ref<SearchProps[]>([]);
 const tableFieldList = ref<any>({fieldList: []});
 let router = useRouter();
@@ -25,7 +25,7 @@ let router = useRouter();
  * 表单数据直接取定义的数据preps,
  * 列表数据重新定义，方便排序和位置拖拽
  */
-const primaryKey = ref<string>("");
+const primaryKey = ref<string>('');
 const rules = ref<any>({});
 const hasData = ref<boolean>(true);
 const formInfo = ref<any>({});
@@ -48,18 +48,18 @@ const loadFormData = async (formId: string) => {
     return;
   }
   hasData.value = data && Object.keys(data).length > 0;
-  dataUrl.value = apiInstance(data["dataUrl"]?.appName, data["dataUrl"]?.contextUrl)
-  searchFormData.value = data["searchFormData"] as SearchProps[];
-  primaryKey.value = data["primaryKey"];
-  tableFieldList.value = data["tableFieldList"];
-  rules.value = data["rules"];
-  dateFields.value = data["dateFields"];
-  formInfo.value = data["formInfo"];
-  fieldMappingList.value = formInfo.value["fieldMappingList"];
-  relationTables.value = data["relationTables"];
-  dataSource.value = data["dataSource"];
-  extBtns.value = userAction(normalPageRef,primaryKey.value, tableFieldList.value["userTableFuncs"]);
-  delete tableFieldList.value["userTableFuncs"];
+  dataUrl.value = apiInstance(data['dataUrl']?.appName, data['dataUrl']?.contextUrl);
+  searchFormData.value = data['searchFormData'] as SearchProps[];
+  primaryKey.value = data['primaryKey'];
+  tableFieldList.value = data['tableFieldList'];
+  rules.value = data['rules'];
+  dateFields.value = data['dateFields'];
+  formInfo.value = data['formInfo'];
+  fieldMappingList.value = formInfo.value['fieldMappingList'];
+  relationTables.value = data['relationTables'];
+  dataSource.value = data['dataSource'];
+  extBtns.value = userAction(normalPageRef,primaryKey.value, tableFieldList.value['userTableFuncs']);
+  delete tableFieldList.value['userTableFuncs'];
   await nextTick();
   closeLoad();
   normalPageRef.value?.init();
@@ -68,20 +68,20 @@ watch(
     () => props.param,
     (val) => {
       try {
-        load("数据加载中。。。");
+        load('数据加载中。。。');
         loadFormData(<string>val);
       } catch (e) {
         closeLoad();
-        console.log("数据类型不匹配");
+        console.log('数据类型不匹配');
       }
     },
     {deep: true}
 );
 //记录表单的属性
 const formFields = reactive<Array<any>>([]);
-provide("formFields", formFields);
+provide('formFields', formFields);
 const dialogProps = dialogPreps();
-provide("dialogProps", dialogProps);
+provide('dialogProps', dialogProps);
 const dataFormat = (name: string, cellValue: any, row: any): any => {
       if (dateFields.value && dateFields.value.length > 0) {
         if (dateFields.value.includes(name)) {
@@ -93,13 +93,13 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
           let temp = dataSource.value[name];
           if (temp) {
             let stemp = temp.datas?.find((item: any) => item[temp.valueField] == cellValue);
-            return stemp ? stemp[temp.labelField] : cellValue || "--";
+            return stemp ? stemp[temp.labelField] : cellValue || '--';
           }
         }
-        return "null" == cellValue ? "--" : cellValue || "--";
-      }
+        return 'null' == cellValue ? '--' : cellValue || '--';
+      };
       if (fieldMappingList.value && fieldMappingList.value?.length > 0) {
-        let temp = fieldMappingList.value.find((item: any) => item["fieldName"] == name);
+        let temp = fieldMappingList.value.find((item: any) => item['fieldName'] == name);
         if (temp) {
           return row[temp.mappingDisplayField] || subFormat(name, cellValue, row);
         }
@@ -113,7 +113,7 @@ const init = async () => {
   designForm.setIsEdit(false);
   await loadPermission();
   await loadFormData(props.param);
-}
+};
 onMounted(async () => {
   await init();
 });
@@ -122,7 +122,7 @@ watch(() => props.param,
       loadPermission();
     }, {
       immediate: false
-    })
+    });
 </script>
 <template>
   <template v-if="hasData">

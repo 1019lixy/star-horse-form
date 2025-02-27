@@ -1,118 +1,118 @@
 <script setup lang="ts">
-import {onMounted, provide, reactive, ref} from "vue";
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-import StarHorseForm from "@/components/comp/StarHorseForm.vue";
-import {ApiUrls} from "@/components/types/ApiUrls.d.ts";
-import StarHorseFormTable from "@/components/comp/StarHorseFormTable.vue";
-import {BatchFieldInfo} from "@/components/types/PageFieldInfo.d.ts";
-import {SelectOption} from "@/components/types/SearchProps";
-import {initDbList} from "@/views/dbsearch/utils/DbSearchUtils.ts";
-import {apiInstance} from "@/api/sh_api.ts";
+import {onMounted, provide, reactive, ref} from 'vue';
+import StarHorseIcon from '@/components/comp/StarHorseIcon.vue';
+import StarHorseForm from '@/components/comp/StarHorseForm.vue';
+import {ApiUrls} from '@/components/types/ApiUrls.d.ts';
+import StarHorseFormTable from '@/components/comp/StarHorseFormTable.vue';
+import {BatchFieldInfo} from '@/components/types/PageFieldInfo.d.ts';
+import {SelectOption} from '@/components/types/SearchProps';
+import {initDbList} from '@/views/dbsearch/utils/DbSearchUtils.ts';
+import {apiInstance} from '@/api/sh_api.ts';
 
-const dataUrl: ApiUrls = apiInstance("userdb-manage", "dbsearch/dbinfoEntity");
+const dataUrl: ApiUrls = apiInstance('userdb-manage', 'dbsearch/dbinfoEntity');
 let dbList = ref<SelectOption[]>([]);
 const tableFieldList = reactive({
   fieldList: [
     {
-      label: "数据库信息", fieldName: "dbconfigId", type: "select",
+      label: '数据库信息', fieldName: 'dbconfigId', type: 'select',
       optionList: dbList,
       required: true, formVisible: true,
       listVisible: true
     },
     {
-      label: "表名", fieldName: "tableName", type: "input",
+      label: '表名', fieldName: 'tableName', type: 'input',
       required: true, formVisible: true,
       listVisible: true
     },
     {
-      label: "描述", fieldName: "comment", type: "textarea",
+      label: '描述', fieldName: 'comment', type: 'textarea',
       required: true, formVisible: true,
       listVisible: true
     },
   ]
 });
 const columnFieldList = reactive<BatchFieldInfo>({
-  batchName: "column",
+  batchName: 'column',
   fieldList: [
     {
-      label: "名称", fieldName: "name", type: "input",
+      label: '名称', fieldName: 'name', type: 'input',
       required: true, formVisible: true,
       listVisible: true
     },
     {
-      label: "类型", fieldName: "type", type: "input",
+      label: '类型', fieldName: 'type', type: 'input',
       required: true, formVisible: true,
       listVisible: true
     },
     {
-      label: "长度", fieldName: "length", type: "input",
+      label: '长度', fieldName: 'length', type: 'input',
       formVisible: true,
       listVisible: true
     },
     {
-      label: "允许为空", fieldName: "allowNull", type: "switch",
-      defaultValue: "Y",
+      label: '允许为空', fieldName: 'allowNull', type: 'switch',
+      defaultValue: 'Y',
       formVisible: true,
       listVisible: true
     },
     {
-      label: "是否主键", fieldName: "isPrimaryKey", type: "switch",
+      label: '是否主键', fieldName: 'isPrimaryKey', type: 'switch',
       formVisible: true,
       listVisible: true
     },
     {
-      label: "备注", fieldName: "comment", type: "input",
+      label: '备注', fieldName: 'comment', type: 'input',
       required: true, formVisible: true,
       listVisible: true
     },
   ]
 });
 const indexFieldList = reactive<BatchFieldInfo>({
-  batchName: "index",
+  batchName: 'index',
   fieldList: [
     {
-      label: "表名", fieldName: "tableName", type: "input",
+      label: '表名', fieldName: 'tableName', type: 'input',
       required: true, formVisible: true,
       listVisible: true
     },
     {
-      label: "描述", fieldName: "comment", type: "input",
+      label: '描述', fieldName: 'comment', type: 'input',
       required: true, formVisible: true,
       listVisible: true
     },
   ]
 });
-const primaryKey = "idDbinfo";
+const primaryKey = 'idDbinfo';
 const dataForm = ref({
   columns: [],
   index: []
 });
-provide("dataForm", dataForm);
+provide('dataForm', dataForm);
 type Option = {
   label: string
   value: string | number | boolean
   disabled?: boolean
   [key: string]: any
 } | string | number | boolean | undefined
-let segmentValue = ref("basic");
+let segmentValue = ref('basic');
 let options = ref<Array<Option>>([{
   label: '基础信息',
   value: 'basic',
-  icon: "document",
+  icon: 'document',
 },
   {
     label: '列名',
     value: 'column',
-    icon: "document",
+    icon: 'document',
   },
   {
     label: '索引',
     value: 'index',
-    icon: "document",
+    icon: 'document',
   },]);
 const init = async () => {
   dbList.value = await initDbList();
-}
+};
 onMounted(() => {
   init();
 });

@@ -1,30 +1,30 @@
-import axios, {AxiosResponse, InternalAxiosRequestConfig} from "axios";
-import {getToken, getUserInfo, removeToken, setCustomerInfo, setToken, setUserInfo} from "@/utils/auth";
-import router from "@/router";
-import {error, warning} from "../utils/message";
-import {Config} from "@/api/settings.ts";
-import {reactive} from "vue";
-import {MenusInfo} from "@/components/types/MenusInfo";
-import piniaInstance from "@/store";
-import {navBarList} from "@/store/NavbarListStore";
-import {userInfoStore} from "@/store/UserInfoStore";
-import {viewList} from "@/store/ViewCacheStore";
-import {SelectOption} from "@/components/types/SearchProps";
-import {NavigationGuardNext, RouteLocationNormalized} from "vue-router";
-import {useButtonPermission} from "@/store/ButtonPermissionStore.ts";
-import {loadData} from "@/api/sh_api.ts";
+import axios, {AxiosResponse, InternalAxiosRequestConfig} from 'axios';
+import {getToken, getUserInfo, removeToken, setCustomerInfo, setToken, setUserInfo} from '@/utils/auth';
+import router from '@/router';
+import {error, warning} from '../utils/message';
+import {Config} from '@/api/settings.ts';
+import {reactive} from 'vue';
+import {MenusInfo} from '@/components/types/MenusInfo';
+import piniaInstance from '@/store';
+import {navBarList} from '@/store/NavbarListStore';
+import {userInfoStore} from '@/store/UserInfoStore';
+import {viewList} from '@/store/ViewCacheStore';
+import {SelectOption} from '@/components/types/SearchProps';
+import {NavigationGuardNext, RouteLocationNormalized} from 'vue-router';
+import {useButtonPermission} from '@/store/ButtonPermissionStore.ts';
+import {loadData} from '@/api/sh_api.ts';
 
 const navBarListStore = navBarList(piniaInstance);
 const userStore = userInfoStore(piniaInstance);
 const pagePermission = useButtonPermission(piniaInstance);
 const viewListStore = viewList(piniaInstance);
 const service = axios.create({
-    baseURL: "/",
+    baseURL: '/',
     timeout: 50000,
     headers: {
         'Content-Type': 'application/json; charset=utf-8'
     }
-})
+});
 // 添加请求拦截器
 service.interceptors.request.use((config: InternalAxiosRequestConfig) => {
     const token = getToken();
@@ -39,14 +39,14 @@ service.interceptors.request.use((config: InternalAxiosRequestConfig) => {
     return Promise.reject(error);
 });
 const forceLoginOut = () => {
-    console.log("系统超时，请登录后再操出");
+    console.log('系统超时，请登录后再操出');
     removeToken();
     navBarListStore.clearAll();
     userStore.logout();
-    router.push({path: "/login", query: {redirect: router.currentRoute.value.fullPath}}).then(r => {
+    router.push({path: '/login', query: {redirect: router.currentRoute.value.fullPath}}).then(r => {
         console.log(r);
     });
-}
+};
 // 添加响应拦截器
 service.interceptors.response.use((response: AxiosResponse) => {
     const code = response.data?.code;
@@ -59,13 +59,13 @@ service.interceptors.response.use((response: AxiosResponse) => {
 
 }, (err) => {
     const data = err.toString().toLowerCase();
-    if (data?.includes("status code 401")) {
+    if (data?.includes('status code 401')) {
         forceLoginOut();
-    } else if (data?.includes("status code 500")) {
-        error("服务接口异常，请联系管理员");
+    } else if (data?.includes('status code 500')) {
+        error('服务接口异常，请联系管理员');
         return Promise.reject(err);
     } else {
-        console.log(err)
+        console.log(err);
         // 对响应错误做点什么
         return Promise.reject(err);
     }
@@ -81,7 +81,7 @@ function getUserId() {
  * @returns {Promise<AxiosResponse<any>>}
  */
 export function getValidateImg() {
-    return getRequest("/system-config/global/imageCode");
+    return getRequest('/system-config/global/imageCode');
 }
 
 /**
@@ -89,7 +89,7 @@ export function getValidateImg() {
  * @param content
  */
 export async function rtCode(content: string) {
-    let data = "";
+    let data = '';
     await getRequest(`/system-config/global/qrCode/${content}`).then(res => {
         data = res.data.data;
     });
@@ -105,15 +105,15 @@ export function selectMenusTreeData(data: any) {
     const list: any = [];
     data.forEach((item: any) => {
         const temp: any = {};
-        temp["value"] = item.idMenusinfo;
-        temp["label"] = item.menuName;
+        temp['value'] = item.idMenusinfo;
+        temp['label'] = item.menuName;
         if (item.children && item.children.length > 0) {
-            temp["children"] = [];
+            temp['children'] = [];
             item.children.forEach((sitem: any) => {
                 const stemp: any = {};
-                stemp["value"] = sitem.idMenusinfo;
-                stemp["label"] = sitem.menuName;
-                temp["children"].push(stemp);
+                stemp['value'] = sitem.idMenusinfo;
+                stemp['label'] = sitem.menuName;
+                temp['children'].push(stemp);
             });
         }
         list.push(temp);
@@ -129,20 +129,20 @@ export function selectMenusTreeData(data: any) {
 export async function userLogin(loginData: any) {
     let data: any = {};
     let errMsg = null;
-    let resultData = await loadData("/system-config/system/usersAuditEntity/userLogin", loginData);
+    const resultData = await loadData('/system-config/system/usersAuditEntity/userLogin', loginData);
     if (resultData.error) {
         errMsg = resultData.error;
     } else {
-        let userData = resultData.data;
-        let condition = {
-            "userId": userData.idUsersinfo,
+        const userData = resultData.data;
+        const condition = {
+            'userId': userData.idUsersinfo,
         };
         userStore.login({...userData, rememberMe: loginData.rememberMe});
         setToken(userData.dataNo, data.rememberMe);
         setUserInfo({...userData, ...loginData, rememberMe: loginData.rememberMe});
         setCustomerInfo(userData.customerInfo);
         //登录成功，获取当前用户的权限菜单
-        await permissionMenus(condition, "-1").then(res2 => {
+        await permissionMenus(condition, '-1').then(res2 => {
             createRouterAndMenuList(res2.data.data);
             data = userData;
         });
@@ -156,17 +156,17 @@ export async function userLogin(loginData: any) {
  * @returns {Promise<AxiosResponse<any>>}
  */
 export async function userLogout(data: Array<any>) {
-    let resultDdata = await loadData("/system-config/system/usersAuditEntity/userLogout", data);
+    const resultDdata = await loadData('/system-config/system/usersAuditEntity/userLogout', data);
     if (resultDdata.error) {
         warning(resultDdata.error);
         return;
     }
-    removeToken()
+    removeToken();
     userStore.logout();
     navBarListStore.clearAll();
     viewListStore.clearAll();
     pagePermission.cleanPermission();
-    router.push({path: "/login"});
+    router.push({path: '/login'});
 }
 
 
@@ -174,9 +174,9 @@ export function getMenuId() {
     const meta = router.currentRoute.value.meta;
     let menuId = meta?.menuId as string;
     if (!menuId) {
-        return "";
+        return '';
     }
-    menuId = menuId.split("_")[1];
+    menuId = menuId.split('_')[1];
     return menuId;
 }
 
@@ -186,12 +186,12 @@ export function getMenuId() {
  */
 export async function loadPagePermission(menuId: string) {
     const permission: any = {};
-    const data: any = {"menuId": menuId};
+    const data: any = {'menuId': menuId};
     const redata: Array<any> = await permissionResources(data);
     redata?.forEach((item: any) => {
         permission[item.resCode] = item.resCode;
     });
-    return permission
+    return permission;
 }
 
 /**
@@ -222,7 +222,7 @@ export async function permissionResources(data: any) {
         if (redata && redata.length > 0) {
             userStore.pushPageButtonPermission(data.menuId, redata);
         } else {
-            console.log("没有页面按钮操作权限,请联系系统管理员授权");
+            console.log('没有页面按钮操作权限,请联系系统管理员授权');
         }
         return redata;
     }
@@ -232,7 +232,7 @@ export async function permissionResources(data: any) {
  * 将Store里的菜单还原
  */
 export async function restoreMenu(to: RouteLocationNormalized, _next: NavigationGuardNext) {
-    const data = localStorage.getItem("menusInfo");
+    const data = localStorage.getItem('menusInfo');
     if (data) {
         createRouterAndMenuList(JSON.parse(data));
     }
@@ -240,7 +240,7 @@ export async function restoreMenu(to: RouteLocationNormalized, _next: Navigation
     if (redata) {
         await router.push(to);
     } else {
-        await router.push("/");
+        await router.push('/');
     }
 }
 
@@ -255,8 +255,8 @@ export function createRouterAndMenuList(redata: Array<object>): MenusInfo[] {
     if (!redata) {
         return leftMenuDatas;
     }
-    const baseDir = "/src/views";
-    const compPath = import.meta.glob("@/views/**/*.vue");
+    const baseDir = '/src/views';
+    const compPath = import.meta.glob('@/views/**/*.vue');
 
     /**
      * 递归组装菜单
@@ -268,19 +268,19 @@ export function createRouterAndMenuList(redata: Array<object>): MenusInfo[] {
         const menuDatas: MenusInfo[] = [];
         for (let index = 0; index < redata.length; index++) {
             const item = redata[index];
-            if (item.menuPath == "#" && item.children?.length == 0) {
+            if (item.menuPath == '#' && item.children?.length == 0) {
                 continue;
             }
             const menuId = item.idMenusinfo;
             if (menuId) {
-                pageButtonPermissions[menuId.toString()] = item["pageButtonPermissions"];
+                pageButtonPermissions[menuId.toString()] = item['pageButtonPermissions'];
             }
-            const arr = item.menuPath.split("/");
+            const arr = item.menuPath.split('/');
             let menuName = arr[arr.length - 1];
-            menuName = menuName.endsWith(Config.fileExt) ? menuName.split(".")[0] : menuName;
-            let path = item.menuPath?.startsWith("/") ? item.menuPath : "/" + item.menuPath;
+            menuName = menuName.endsWith(Config.fileExt) ? menuName.split('.')[0] : menuName;
+            let path = item.menuPath?.startsWith('/') ? item.menuPath : '/' + item.menuPath;
             path = path.endsWith(Config.fileExt) ? path : path + Config.fileExt;
-            const prefix = key_index + "_";
+            const prefix = key_index + '_';
             const data = reactive<MenusInfo>({
                 path: item.menuPath,
                 component: compPath[`${baseDir}${path}`],
@@ -293,9 +293,9 @@ export function createRouterAndMenuList(redata: Array<object>): MenusInfo[] {
                     keepAlive: item.keepAlive
                 },
             });
-            if (path.indexOf("/page/") == -1) {
-                if (item.openType == "self") {
-                    router.addRoute("Index", data);
+            if (path.indexOf('/page/') == -1) {
+                if (item.openType == 'self') {
+                    router.addRoute('Index', data);
                 } else {
                     router.addRoute(data);
                 }
@@ -316,8 +316,8 @@ export function createRouterAndMenuList(redata: Array<object>): MenusInfo[] {
 
     userStore.addPermissionMenus(leftMenuDatas);
     pagePermission.addAllPermission(pageButtonPermissions);
-    localStorage.setItem("menusInfo", JSON.stringify(redata));
-    localStorage.setItem("dynamicMenusLists", JSON.stringify(userStore.dynamicMenus));
+    localStorage.setItem('menusInfo', JSON.stringify(redata));
+    localStorage.setItem('dynamicMenusLists', JSON.stringify(userStore.dynamicMenus));
     return leftMenuDatas;
 }
 
@@ -328,8 +328,8 @@ export function createRouterAndMenuList(redata: Array<object>): MenusInfo[] {
  */
 export function download(url: string, param: any) {
     return new Promise((resolve, reject) => {
-        service.post(url, param, {responseType: "blob"}).then(res => {
-            downloadData(res.data, decodeURI(res.headers["content-disposition"].split("=")[1]));
+        service.post(url, param, {responseType: 'blob'}).then(res => {
+            downloadData(res.data, decodeURI(res.headers['content-disposition'].split('=')[1]));
             resolve(null);
         }).catch(err => {
             console.log(err);
@@ -345,7 +345,7 @@ export function download(url: string, param: any) {
  */
 export function downloadData(data: any, name: string) {
     const blob = new Blob([data]);
-    const delement = document.createElement("a");
+    const delement = document.createElement('a');
     const href = window.URL.createObjectURL(blob);
     delement.href = href;
     delement.download = name;
@@ -361,7 +361,7 @@ export function downloadData(data: any, name: string) {
  */
 export async function blobData(url: string) {
     let redata: any = null;
-    await service.post(url, [], {responseType: "blob"}).then(res => {
+    await service.post(url, [], {responseType: 'blob'}).then(res => {
         redata = new Blob([res.data]);
     });
     return redata;
@@ -373,7 +373,7 @@ export async function blobData(url: string) {
  * @returns {Promise<AxiosResponse<*>>}
  */
 export function loadConfigedMenus(param: Array<object>) {
-    return postRequest("/system-config/system/menusinfoEntity/getAllByCondition", param);
+    return postRequest('/system-config/system/menusinfoEntity/getAllByCondition', param);
 }
 
 /**
@@ -384,13 +384,13 @@ export function loadConfigedMenus(param: Array<object>) {
 export async function loadDepartments(param: Array<object>) {
     let redata: any[] = [];
     let errMsg = null;
-    await postRequest("/system-config/system/departmentEntity/getAllByCondition", param).then(res => {
+    await postRequest('/system-config/system/departmentEntity/getAllByCondition', param).then(res => {
         if (res.data.code != 0) {
             errMsg = res.data.cnMessage;
         } else {
-            redata = res.data.data
+            redata = res.data.data;
         }
-    }).catch(err => errMsg = err)
+    }).catch(err => errMsg = err);
     return {redata, errMsg};
 }
 
@@ -402,13 +402,13 @@ export async function loadDepartments(param: Array<object>) {
 export async function loadSystems(param: Array<object>) {
     let redata: any[] = [];
     let errMsg = null;
-    await postRequest("/system-config/system/informationsEntity/getAllByCondition", param).then(res => {
+    await postRequest('/system-config/system/informationsEntity/getAllByCondition', param).then(res => {
         if (res.data.code != 0) {
             errMsg = res.data.cnMessage;
         } else {
-            redata = res.data.data
+            redata = res.data.data;
         }
-    }).catch(err => errMsg = err)
+    }).catch(err => errMsg = err);
     return {redata, errMsg};
 }
 
@@ -420,9 +420,9 @@ export async function loadSystems(param: Array<object>) {
 export async function loadDict(dictName: string) {
     const redata: Array<SelectOption> = [];
     const param = {
-        fieldList: [{propertyName: "dictType", value: dictName ? dictName : "common"}]
+        fieldList: [{propertyName: 'dictType', value: dictName ? dictName : 'common'}]
     };
-    await postRequest("/system-config/system/dictinfoEntity/getAllByCondition", param).then(res => {
+    await postRequest('/system-config/system/dictinfoEntity/getAllByCondition', param).then(res => {
         if (res.data.code != 0) {
             console.log(res.data.cnMessage);
         } else {
@@ -431,7 +431,7 @@ export async function loadDict(dictName: string) {
                 redata.push({
                     name: item.dictName,
                     value: item.dictCode
-                })
+                });
             });
         }
     }).catch(err => console.log(err));
@@ -446,7 +446,7 @@ export async function loadDict(dictName: string) {
 export async function loadRoleDatas(param: Array<object>) {
     let redata: any[] = [];
     let errMsg = null;
-    await postRequest("/system-config/system/rolesinfoEntity/queryUserAllRoles", param).then(res => {
+    await postRequest('/system-config/system/rolesinfoEntity/queryUserAllRoles', param).then(res => {
         if (res.data.code != 0) {
             errMsg = res.data.cnMessage;
         } else {
@@ -454,7 +454,7 @@ export async function loadRoleDatas(param: Array<object>) {
             redata = resdata as any;
         }
     }).catch(err => errMsg = err);
-    return {redata, errMsg}
+    return {redata, errMsg};
 }
 
 /**
@@ -483,7 +483,7 @@ export function getRequest(url: string) {
  * @returns {Promise<AxiosResponse<any>>}
  */
 export function uploadRequest(url: string, data: Array<any>) {
-    return service.post(url, data, {headers: {"Content-Type": "multipart/form-data"}});
+    return service.post(url, data, {headers: {'Content-Type': 'multipart/form-data'}});
 }
 
 /**

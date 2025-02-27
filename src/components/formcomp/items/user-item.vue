@@ -38,35 +38,35 @@
   </starhorse-form-item>
 </template>
 <script lang="ts">
-import {defineComponent, nextTick, shallowRef} from "vue";
-import UserManage from "@/views/system/UserManage.vue";
-import {FieldMapping} from "@/components/types/PageFieldInfo";
-import {isJson} from "@/api/sh_api.ts";
-import {warning} from "@/utils/message.ts";
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-import {allAction} from "@/components/formcomp/utils/ItemRelationEventUtils.ts";
-import {SelectOption} from "@/components/types/SearchProps";
+import {defineComponent, nextTick, shallowRef} from 'vue';
+import UserManage from '@/views/system/UserManage.vue';
+import {FieldMapping} from '@/components/types/PageFieldInfo';
+import {isJson} from '@/api/sh_api.ts';
+import {warning} from '@/utils/message.ts';
+import StarHorseIcon from '@/components/comp/StarHorseIcon.vue';
+import {allAction} from '@/components/formcomp/utils/ItemRelationEventUtils.ts';
+import {SelectOption} from '@/components/types/SearchProps';
 
 export default defineComponent({
   components: {StarHorseIcon, UserManage},
   setup(_props, context) {
-    const parentField = context.attrs["parentField"];
-    const field = context.attrs["field"] as any;
+    const parentField = context.attrs['parentField'];
+    const field = context.attrs['field'] as any;
     let formItem = shallowRef({label: 'input', required: false});
-    let dataField = shallowRef("");
+    let dataField = shallowRef('');
     let userTableRef = shallowRef();
     let dialogInputVisible = shallowRef<boolean>(false);
-    let actionName = shallowRef("keydown.enter");
+    let actionName = shallowRef('keydown.enter');
     let userOptionList = shallowRef<Array<any>>([]);
     const itemAction = (prep: any) => {
       allAction(context, prep);
     };
     const selectItem = (_row: any) => {
       userOptionList.value = [];
-      let needField = field.preps["needField"];
+      let needField = field.preps['needField'];
       let selectDatas = userTableRef.value.$refs.employeeInfoRef.multipleSelection;
       if (!selectDatas) {
-        warning("请选择数据");
+        warning('请选择数据');
         return;
       }
       console.log(selectDatas);
@@ -82,11 +82,11 @@ export default defineComponent({
             temp[aliasName] = [];
           }
           userOptionList.value.push({
-            label: data["name"],
-            value: data["employeeNo"]
-          })
-          temp[name].push(data["name"]);
-          temp[aliasName].push(data["employeeNo"]);
+            label: data['name'],
+            value: data['employeeNo']
+          });
+          temp[name].push(data['name']);
+          temp[aliasName].push(data['employeeNo']);
         } else {
           needField.forEach((item: FieldMapping) => {
             if (needField.length == 1) {
@@ -105,19 +105,19 @@ export default defineComponent({
       }
 
       if (!needField) {
-        context.attrs["formData"][name] = temp[name].join(" ");
-        context.attrs["formData"][aliasName] = temp[aliasName].join(" ");
+        context.attrs['formData'][name] = temp[name].join(' ');
+        context.attrs['formData'][aliasName] = temp[aliasName].join(' ');
       } else {
         needField.forEach((item: FieldMapping) => {
           if (needField.length == 1) {
-            context.attrs["formData"][name] = temp[item.sourceField].join(" ");
+            context.attrs['formData'][name] = temp[item.sourceField].join(' ');
           } else {
-            context.attrs["formData"][item.distField] = temp[item.distField].join(" ");
+            context.attrs['formData'][item.distField] = temp[item.distField].join(' ');
           }
         });
       }
-      if (field.preps["recall"]) {
-        field.preps["recall"](selectDatas);
+      if (field.preps['recall']) {
+        field.preps['recall'](selectDatas);
       }
       closeAction();
     };
@@ -127,7 +127,7 @@ export default defineComponent({
     const showVisible = () => {
       dialogInputVisible.value = true;
       nextTick(() => {
-        let fields = field.preps["needField"];
+        let fields = field.preps['needField'];
         let name = field.preps['name'];
         let realName = name;
         if (field.preps['aliasName']) {
@@ -136,14 +136,14 @@ export default defineComponent({
         if (fields) {
           name = fields.map((item: FieldMapping) => item.sourceField)[0];
         }
-        userTableRef.value.$refs.employeeInfoRef.setDataInfo(name, context.attrs["formData"][realName]);
+        userTableRef.value.$refs.employeeInfoRef.setDataInfo(name, context.attrs['formData'][realName]);
       });
     };
     return {
       parentField, context, field, formItem, dataField, closeAction, dialogInputVisible,
       actionName, itemAction, showVisible,
       userTableRef, selectItem, userOptionList
-    }
+    };
   }
 });
 </script>

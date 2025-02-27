@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import {computed, ref} from "vue";
+import {computed, ref} from 'vue';
 import {flowCommon} from '@/views/workflow/plugin/utils/flowCommon.ts';
-import {scale} from "@/views/workflow/plugin/utils/deviceUtil";
-import {useFlowDesign} from "@/store/FlowDesignStore.ts";
-import piniaInstance from "@/store";
-import {warning} from "@/utils/message.ts";
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
+import {scale} from '@/views/workflow/plugin/utils/deviceUtil';
+import {useFlowDesign} from '@/store/FlowDesignStore.ts';
+import piniaInstance from '@/store';
+import {warning} from '@/utils/message.ts';
+import StarHorseIcon from '@/components/comp/StarHorseIcon.vue';
 
 defineProps({
   currentNav: {
@@ -17,7 +17,7 @@ defineProps({
     default: '发布',
   },
 });
-const emits = defineEmits(["change", "flowSave", "changeFlow"]);
+const emits = defineEmits(['change', 'flowSave', 'changeFlow']);
 const navItems = ref<Array<any>>([
   {
     name: '基础信息',
@@ -49,17 +49,17 @@ let navable = computed(() => flowDesign.navable);
 let formInfo = computed(() => flowDesign.flowFormInfo);
 const onChange = (item: any) => {
   if (!navable.value) {
-    warning("请先完成当前页面的数据填写");
+    warning('请先完成当前页面的数据填写');
     return;
   }
   emits('change', item);
-}
+};
 const flowSave = (type: string) => {
   emits('flowSave', type);
-}
+};
 const changeFlow = () => {
-  emits("changeFlow");
-}
+  emits('changeFlow');
+};
 </script>
 <template>
   <div class="designer-nav-box">

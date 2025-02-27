@@ -1,16 +1,16 @@
 <script lang="ts" setup>
-import {Config} from "@/api/settings.ts";
-import {getValidateImg, rtCode, userLogin} from "@/api/star_horse";
-import {JSEncrypt} from "jsencrypt";
-import {removeToken} from "@/utils/auth";
-import {onMounted, reactive, ref, watch} from "vue";
-import {RouteLocationNormalized, useRouter} from "vue-router";
-import type {ElForm, FormInstance, FormRules, TabsPaneContext} from 'element-plus'
-import {warning} from "@/utils/message";
-import {i18n} from "@/lang";
-import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
-import piniaInstance from "@/store";
-import {particlesCfg} from "@/api/particlesConfig.ts";
+import {Config} from '@/api/settings.ts';
+import {getValidateImg, rtCode, userLogin} from '@/api/star_horse';
+import {JSEncrypt} from 'jsencrypt';
+import {removeToken} from '@/utils/auth';
+import {onMounted, reactive, ref, watch} from 'vue';
+import {RouteLocationNormalized, useRouter} from 'vue-router';
+import type {ElForm, FormInstance, FormRules, TabsPaneContext} from 'element-plus';
+import {warning} from '@/utils/message';
+import {i18n} from '@/lang';
+import {GlobalConfig} from '@/store/GlobalConfigStore.ts';
+import piniaInstance from '@/store';
+import {particlesCfg} from '@/api/particlesConfig.ts';
 
 interface LoginInfo {
   userName: string;
@@ -23,21 +23,21 @@ interface LoginInfo {
 
 const loginTitle = Config.title;
 let configStore = GlobalConfig(piniaInstance);
-let validateImg = ref<string>("");
-let uuid = ref<string>("");
+let validateImg = ref<string>('');
+let uuid = ref<string>('');
 let flag = ref<boolean>(false);
-let redirect = ref<string>("");
-let activeName = ref<string>("first");
-let publicKey = ref<string>("");
+let redirect = ref<string>('');
+let activeName = ref<string>('first');
+let publicKey = ref<string>('');
 let loading = ref<boolean>(false);
-let loginForm = reactive<LoginInfo>({password: "", rememberMe: "", tokenId: "", userName: "", uuid: "", validCode: ""});
+let loginForm = reactive<LoginInfo>({password: '', rememberMe: '', tokenId: '', userName: '', uuid: '', validCode: ''});
 const loginFormRef = ref<FormInstance>();
 let router = useRouter();
 let showValid = ref<boolean>(false);
 let loginRules = reactive<FormRules<LoginInfo>>({
-  userName: [{required: true, trigger: "blur", message: i18n("login.userName", ["starhorse.notAllowEmpty"])},],
-  password: [{required: true, trigger: "blur", message: i18n("login.password", ["starhorse.notAllowEmpty"])},],
-  validCode: [{required: true, trigger: "blur", message: i18n("login.validCode", ["starhorse.notAllowEmpty"])},],
+  userName: [{required: true, trigger: 'blur', message: i18n('login.userName', ['starhorse.notAllowEmpty'])},],
+  password: [{required: true, trigger: 'blur', message: i18n('login.password', ['starhorse.notAllowEmpty'])},],
+  validCode: [{required: true, trigger: 'blur', message: i18n('login.validCode', ['starhorse.notAllowEmpty'])},],
 });
 /**
  * 显示或者隐藏密码
@@ -66,7 +66,7 @@ const handleLogin = async (elForm: FormInstance | undefined, event: Event) => {
         uuid: loginForm?.uuid,
       };
       //密码加密传输，需要加密时去掉注释，单后端认证服务需支持
-      user["password"] = <string>encrypt.encrypt(loginForm.password);
+      user['password'] = <string>encrypt.encrypt(loginForm.password);
       if (valid) {
         let {errMsg} = await userLogin(user);
         if (errMsg) {
@@ -78,7 +78,7 @@ const handleLogin = async (elForm: FormInstance | undefined, event: Event) => {
           if (redirect.value) {
             router.push(<string>redirect.value);
           } else {
-            router.push("/");
+            router.push('/');
           }
         }
       }
@@ -99,12 +99,12 @@ const refreshValidate = () => {
 onMounted(() => {
   refreshValidate();
 });
-let rtCodeimg = ref("");
+let rtCodeimg = ref('');
 const handleClick = async (tab: TabsPaneContext, _event: Event) => {
-  if (tab.paneName == "second") {
-    rtCodeimg.value = await rtCode("hello");
+  if (tab.paneName == 'second') {
+    rtCodeimg.value = await rtCode('hello');
   }
-}
+};
 /**
  * 其它方式登录
  * @param typeName

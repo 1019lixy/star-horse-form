@@ -4,49 +4,49 @@ import FlowDrawerFooter from '@/views/workflow/plugin/common/DrawerFooter.vue';
 import FlowNodeApproval from '@/views/workflow/plugin/preps/utils/Approval.vue';
 import FlowNodeApprovalConfigure from '@/views/workflow/plugin/preps/utils/ApproverConfigure.vue';
 import AuthForm from '@/views/workflow/plugin/common/AuthForm.vue';
-import {ref, computed, onMounted} from "vue";
-import {useFlowDesign} from "@/store/FlowDesignStore.ts";
-import piniaInstance from "@/store";
-import {ModelRef} from "vue-demi";
-import {FlowNodeEnums} from "../enums/FlowNodeEnums.ts";
-import {postRequest} from "@/api/star_horse.ts";
-import {createCondition} from "@/api/sh_api.ts";
-import ExecutionListeners from "@/views/workflow/plugin/preps/utils/ExecutionListeners.vue";
+import {ref, computed, onMounted} from 'vue';
+import {useFlowDesign} from '@/store/FlowDesignStore.ts';
+import piniaInstance from '@/store';
+import {ModelRef} from 'vue-demi';
+import {FlowNodeEnums} from '../enums/FlowNodeEnums.ts';
+import {postRequest} from '@/api/star_horse.ts';
+import {createCondition} from '@/api/sh_api.ts';
+import ExecutionListeners from '@/views/workflow/plugin/preps/utils/ExecutionListeners.vue';
 
 defineOptions({
   name: 'ApprovalPrep',
-})
-let node: ModelRef<any> = defineModel("activeData");
-let approvalTab = ref<string>("1");
+});
+let node: ModelRef<any> = defineModel('activeData');
+let approvalTab = ref<string>('1');
 const flowFormInfo = computed(() => flowDesign.flowFormInfo);
 // 审批类型
 let approvalMethods = ref<Array<any>>([
   {
     name: '指定人员',
-    value: "assign",
+    value: 'assign',
   },
   {
     name: '自动通过',
-    value: "pass",
+    value: 'pass',
   },
   {
     name: '自动拒绝',
-    value: "reject",
+    value: 'reject',
   },
-])
+]);
 // 审批方式
 let approvalModes = ref<Array<any>>([
   {
     name: '依次审批(一人通过再到下一个人处理)',
-    value: "sequential",
+    value: 'sequential',
   },
   {
     name: '多人会签',
-    value: "joint",
+    value: 'joint',
   },
   {
     name: '多人或签(一人通过或否决)',
-    value: "single",
+    value: 'single',
   },
 ]);
 let approvalWithNulls = ref<Array<any>>([]);
@@ -54,7 +54,7 @@ let sameApprovals = ref<Array<any>>([]);
 const flowDesign = useFlowDesign(piniaInstance);
 const onClose = () => {
   flowDesign.setActive(false);
-}
+};
 /**
  * 保存配置
  */
@@ -73,12 +73,12 @@ const onSave = () => {
   });
 
   onClose();
-}
+};
 const init = () => {
-  postRequest("/userdb-manage/userdb/formInstance/shNodeMappingPreps/idNodeMappingPrep/337537414606095357/getAllByCondition",
+  postRequest('/userdb-manage/userdb/formInstance/shNodeMappingPreps/idNodeMappingPrep/337537414606095357/getAllByCondition',
       {
-        fieldList: [createCondition("idFlowNode", ["applyEqAuditMode", "approvalNullOperationType"], "in")],
-        orderBy: [{fieldName: "createdTime", ascOrDesc: "ASC"}]
+        fieldList: [createCondition('idFlowNode', ['applyEqAuditMode', 'approvalNullOperationType'], 'in')],
+        orderBy: [{fieldName: 'createdTime', ascOrDesc: 'ASC'}]
       }).then((res) => {
     if (res.data.code) {
       console.log(res.data.cnMessage);
@@ -86,16 +86,16 @@ const init = () => {
     }
     let reData: Array<any> = res.data.data;
     sameApprovals.value = reData.filter((item: any) => {
-      return item.idFlowNode == "applyEqAuditMode";
+      return item.idFlowNode == 'applyEqAuditMode';
     });
     approvalWithNulls.value = reData.filter((item: any) => {
-      return item.idFlowNode == "approvalNullOperationType";
+      return item.idFlowNode == 'approvalNullOperationType';
     });
   });
-}
+};
 onMounted(() => {
   init();
-})
+});
 </script>
 <template>
   <el-card class="inner_content h100">

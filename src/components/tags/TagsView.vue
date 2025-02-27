@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import {computed, nextTick, onMounted, ref, unref, watch} from "vue";
-import type {RouteLocationNormalizedLoaded, RouterLinkProps,} from "vue-router";
-import {useRouter} from "vue-router";
-import {ElScrollbar} from "element-plus";
-import {navBarList} from "@/store/NavbarListStore";
-import {useScrollTo} from "@/components/tags/useScrollTo";
-import ContextMenu from "@/components/tags/ContextMenu.vue";
-import {useTemplateRefsList} from "@vueuse/core";
-import piniaInstance from "@/store";
+import {computed, nextTick, onMounted, ref, unref, watch} from 'vue';
+import type {RouteLocationNormalizedLoaded, RouterLinkProps,} from 'vue-router';
+import {useRouter} from 'vue-router';
+import {ElScrollbar} from 'element-plus';
+import {navBarList} from '@/store/NavbarListStore';
+import {useScrollTo} from '@/components/tags/useScrollTo';
+import ContextMenu from '@/components/tags/ContextMenu.vue';
+import {useTemplateRefsList} from '@vueuse/core';
+import piniaInstance from '@/store';
 
 const {currentRoute, push, replace} = useRouter();
 const viewListStore = navBarList(piniaInstance);
@@ -52,7 +52,7 @@ const refreshSelectedTag = async (view?: RouteLocationNormalizedLoaded) => {
     return;
   }
   const {path, query} = view;
-  query["redirectPath"] = path;
+  query['redirectPath'] = path;
   await nextTick();
   await replace({
     path: '/redirect',
@@ -74,20 +74,20 @@ const getCurrentIndex = (path: string) => {
     }
   }
   return i;
-}
+};
 // 关闭右侧
 const closeRightTags = () => {
   let tagsList = navTagsList.value;
-  let path = unref(selectedTag)?.path || "";
+  let path = unref(selectedTag)?.path || '';
   tagsList.splice(getCurrentIndex(path) + 1, tagsList.length - 1);
   toLastView();
 };
 // 跳转到最后一个
 const toLastView = () => {
   const visitedViews = navTagsList.value;
-  const latestView = visitedViews.slice(-1)[0]
+  const latestView = visitedViews.slice(-1)[0];
   if (latestView) {
-    push(latestView)
+    push(latestView);
   }
 };
 // 滚动到选中的tag
@@ -119,7 +119,7 @@ const moveToTarget = (currentTag: RouteLocationNormalizedLoaded) => {
     // 直接滚动到0的位置
     const {start} = useScrollTo({
       el: wrap$!,
-      position: "scrollLeft",
+      position: 'scrollLeft',
       to: 0,
       duration: 500,
     });
@@ -130,7 +130,7 @@ const moveToTarget = (currentTag: RouteLocationNormalizedLoaded) => {
     // 滚动到最后的位置
     const {start} = useScrollTo({
       el: wrap$!,
-      position: "scrollLeft",
+      position: 'scrollLeft',
       to: wrap$!.scrollWidth - wrap$!.offsetWidth,
       duration: 500,
     });
@@ -141,7 +141,7 @@ const moveToTarget = (currentTag: RouteLocationNormalizedLoaded) => {
         (item) =>
             (item?.to as RouteLocationNormalizedLoaded).fullPath === currentTag.fullPath
     );
-    const tgsRefs = document.getElementsByClassName("tags-item");
+    const tgsRefs = document.getElementsByClassName('tags-item');
     const prevTag = tgsRefs[currentIndex - 1] as HTMLElement;
     const nextTag = tgsRefs[currentIndex + 1] as HTMLElement;
     // the tag's offsetLeft after of nextTag
@@ -151,7 +151,7 @@ const moveToTarget = (currentTag: RouteLocationNormalizedLoaded) => {
     if (afterNextTagOffsetLeft > unref(scrollLeftNumber) + wrap$!.offsetWidth) {
       const {start} = useScrollTo({
         el: wrap$!,
-        position: "scrollLeft",
+        position: 'scrollLeft',
         to: afterNextTagOffsetLeft - wrap$!.offsetWidth,
         duration: 500,
       });
@@ -159,7 +159,7 @@ const moveToTarget = (currentTag: RouteLocationNormalizedLoaded) => {
     } else if (beforePrevTagOffsetLeft < unref(scrollLeftNumber)) {
       const {start} = useScrollTo({
         el: wrap$!,
-        position: "scrollLeft",
+        position: 'scrollLeft',
         to: beforePrevTagOffsetLeft,
         duration: 500,
       });
@@ -198,7 +198,7 @@ const move = (to: number) => {
   const wrap$ = unref(scrollbarRef)?.wrapRef;
   const {start} = useScrollTo({
     el: wrap$!,
-    position: "scrollLeft",
+    position: 'scrollLeft',
     to: unref(scrollLeftNumber) + to,
     duration: 500,
   });

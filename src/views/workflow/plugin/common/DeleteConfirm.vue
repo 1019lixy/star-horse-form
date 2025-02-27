@@ -11,12 +11,12 @@
   </div>
 </template>
 <script setup lang="ts">
-import {delNode, flowCommon} from "@/views/workflow/plugin/utils/flowCommon.ts";
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
+import {delNode, flowCommon} from '@/views/workflow/plugin/utils/flowCommon.ts';
+import StarHorseIcon from '@/components/comp/StarHorseIcon.vue';
 
 defineOptions({
-  name: "DeleteConfirm",
-})
+  name: 'DeleteConfirm',
+});
 defineProps({
   node: {
     type: Object,
@@ -25,9 +25,9 @@ defineProps({
     },
   },
 });
-const emits = defineEmits(["callback"]);
+const emits = defineEmits(['callback']);
 const callback = () => {
-  emits("callback");
-}
+  emits('callback');
+};
 
 </script>

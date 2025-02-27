@@ -1,8 +1,8 @@
-import {defineStore} from "pinia";
-import {MenusInfo} from "@/components/types/MenusInfo";
-import {ref} from "vue";
+import {defineStore} from 'pinia';
+import {MenusInfo} from '@/components/types/MenusInfo';
+import {ref} from 'vue';
 
-export const userInfoStore = defineStore("userInfo", () => {
+export const userInfoStore = defineStore('userInfo', () => {
     const userInfo = ref<any>({});
     const pageButtonPermission = ref<any>({});
     const permissionMenus = ref<any>([]);
@@ -13,7 +13,7 @@ export const userInfoStore = defineStore("userInfo", () => {
      */
     const login = (data: any) => {
         userInfo.value = data;
-    }
+    };
     /**
      * 用户登出
      */
@@ -21,21 +21,21 @@ export const userInfoStore = defineStore("userInfo", () => {
         // this.userInfo = {};
         permissionMenus.value = [];
         dynamicMenus.value = [];
-    }
+    };
     /**
      * 权限菜单
      * @param data
      */
     const addPermissionMenus = (data: any) => {
         permissionMenus.value = data;
-    }
+    };
     /**
      * 添加页面按钮权限
      * @param data
      */
     const addPageButtonPermission = (data: any) => {
         pageButtonPermission.value = data;
-    }
+    };
     /**
      * 记录菜单权限
      * @param menuId
@@ -43,7 +43,7 @@ export const userInfoStore = defineStore("userInfo", () => {
      */
     const pushPageButtonPermission = (menuId: string, data: any) => {
         pageButtonPermission.value[menuId] = data;
-    }
+    };
     /**
      * 添加动态菜单
      * @param data
@@ -55,7 +55,7 @@ export const userInfoStore = defineStore("userInfo", () => {
         if (data) {
             dynamicMenus.value.push(data);
         }
-    }
+    };
     return {
         userInfo,
         pageButtonPermission,
@@ -67,14 +67,14 @@ export const userInfoStore = defineStore("userInfo", () => {
         addPageButtonPermission,
         pushPageButtonPermission,
         addDynamicMenus
-    }
+    };
 }, {
     persist: {
         enabled: true, // 开启数据缓存
         strategies: [
-            {key: "userInfo", paths: ["userInfo"]},
-            {key: "pageButtonPermission", paths: ["pageButtonPermission"]},
-            {key: "permissionMenus", paths: ["permissionMenus"]},
+            {key: 'userInfo', paths: ['userInfo']},
+            {key: 'pageButtonPermission', paths: ['pageButtonPermission']},
+            {key: 'permissionMenus', paths: ['permissionMenus']},
         ]
     }
 });

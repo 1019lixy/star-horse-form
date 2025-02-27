@@ -1,7 +1,7 @@
 <script setup lang="ts" name="ContextMenu">
-import {PropType, ref} from 'vue'
-import type {RouteLocationNormalizedLoaded} from 'vue-router'
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
+import {PropType, ref} from 'vue';
+import type {RouteLocationNormalizedLoaded} from 'vue-router';
+import StarHorseIcon from '@/components/comp/StarHorseIcon.vue';
 
 const emit = defineEmits(['visibleChange']);
 const props = defineProps({
@@ -17,18 +17,18 @@ const props = defineProps({
     type: Object as PropType<RouteLocationNormalizedLoaded>,
     default: () => ({})
   }
-})
+});
 const command = (item: any) => {
-  item.command && item.command(item)
-}
+  item.command && item.command(item);
+};
 const visibleChange = (visible: boolean) => {
-  emit('visibleChange', visible, props.tagItem)
-}
+  emit('visibleChange', visible, props.tagItem);
+};
 const elDropdownMenuRef = ref(null);
 defineExpose({
   elDropdownMenuRef,
   tagItem: props.tagItem
-})
+});
 </script>
 <template>
   <el-dropdown

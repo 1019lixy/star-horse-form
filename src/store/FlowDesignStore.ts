@@ -1,15 +1,15 @@
-import {defineStore} from "pinia";
-import {ref} from "vue";
-import {addCondition, delBranchNode, delNode, updateMap, updateNode} from "@/views/workflow/plugin/utils/nodeUtil.ts";
-import {FlowNodeEnums} from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
-import {ApiUrls} from "@/components/types/ApiUrls";
-import {apiInstance} from "@/api/sh_api.ts";
-import {nodePrepList} from "@/views/workflow/plugin/utils/nodePreps.ts";
+import {defineStore} from 'pinia';
+import {ref} from 'vue';
+import {addCondition, delBranchNode, delNode, updateMap, updateNode} from '@/views/workflow/plugin/utils/nodeUtil.ts';
+import {FlowNodeEnums} from '@/views/workflow/plugin/enums/FlowNodeEnums.ts';
+import {ApiUrls} from '@/components/types/ApiUrls';
+import {apiInstance} from '@/api/sh_api.ts';
+import {nodePrepList} from '@/views/workflow/plugin/utils/nodePreps.ts';
 
-const dataUrl: ApiUrls = apiInstance("userdb-manage", "userdb/formInstance/shFlowNode/idFlowNode/337537414606095357");
-const prepUrl: ApiUrls = apiInstance("userdb-manage", "userdb/formInstance/shNodeMappingPreps/idNodeMappingPrep/337537414606095357");
+const dataUrl: ApiUrls = apiInstance('userdb-manage', 'userdb/formInstance/shFlowNode/idFlowNode/337537414606095357');
+const prepUrl: ApiUrls = apiInstance('userdb-manage', 'userdb/formInstance/shNodeMappingPreps/idNodeMappingPrep/337537414606095357');
 
-export const useFlowDesign = defineStore("flowDesignStore", () => {
+export const useFlowDesign = defineStore('flowDesignStore', () => {
 
             const nodeList = ref<any>([]);
             const nodePrepMap = ref<any>({});
@@ -20,7 +20,7 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
             //  节点数据
             const node = ref<any>(nodePrepList(FlowNodeEnums.APPLY_NODE));
             //  缩略图
-            const mapImg = ref<string>("");
+            const mapImg = ref<string>('');
             // 意见分支
             const suggestBranchEnable = ref<boolean>(true);
             // 并行节点
@@ -33,22 +33,22 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
 
             const setNavable = (flag: boolean) => {
                 navable.value = flag;
-            }
+            };
             const setActive = (flag: boolean) => {
                 active.value = flag;
-            }
+            };
             const setMapVisible = (flag: boolean) => {
                 mapVisible.value = flag;
-            }
+            };
             const setLintData = (data: any) => {
                 lintData.value = data;
-            }
+            };
             const setReadable = (flag: boolean) => {
                 readable.value = flag;
-            }
+            };
             const setNode = (data: any) => {
                 node.value = data;
-            }
+            };
             /**
              *  初始节点
              */
@@ -58,7 +58,7 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
                 } else {
                     node.value = nodePrepList(FlowNodeEnums.APPLY_NODE);
                 }
-            }
+            };
             /**
              * 选中
              * @param node
@@ -66,17 +66,17 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
             const activeNode = (node: any) => {
                 currentNode.value = node;
                 active.value = true;
-            }
+            };
             const setParentNode = (node: any) => {
                 parentNode.value = node;
-            }
+            };
             /**
              * 设置表单信息
              * @param formInfo
              */
             const flowSetFormInfo = (formInfo: any) => {
                 flowFormInfo.value = formInfo;
-            }
+            };
             /**
              * 添加表单属性
              * @param key
@@ -84,21 +84,21 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
              */
             const formAddField = (key: string, value: any) => {
                 flowFormInfo.value[key] = value;
-            }
+            };
             /**
              * 设置节点数据
              * @param node
              */
             const putNodePrepMap = (nodeId: string, prep: any) => {
                 nodePrepMap.value[nodeId] = prep;
-            }
+            };
             /**
              * 获取节点数据
              * @param nodeId
              */
             const getPrepMap = (nodeId: string) => {
                 return nodePrepMap.value[nodeId];
-            }
+            };
             /**
              * 添加节点
              */
@@ -115,7 +115,7 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
                             currentNode.childNode.childNode['pid'] = currentNode.childNode.id;
                         } else {
                             currentNode.childNode = parentNode;
-                            currentNode.childNode["pid"] = currentNode.id;
+                            currentNode.childNode['pid'] = currentNode.id;
                         }
                         currentNode.pid = 0;
                     }
@@ -124,7 +124,7 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
                     if (id) {
                         parentNode.conditionNodes.forEach((conditionNode: any) => {
                                 if (conditionNode.id == id) {
-                                    let bakeNode = conditionNode.childNode;
+                                    const bakeNode = conditionNode.childNode;
                                     // 获取当前操作节点
                                     if (bakeNode) {
                                         bakeNode.pid = currentNode.id;
@@ -137,7 +137,7 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
                             }
                         );
                     } else {
-                        let bakeNode = parentNode.childNode;
+                        const bakeNode = parentNode.childNode;
                         // 获取当前操作节点
                         if (bakeNode) {
                             bakeNode.pid = currentNode.id;
@@ -151,7 +151,7 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
                 }
                 // 更新地图
                 refreshMap(true);
-            }
+            };
             /**
              * 添加分支
              */
@@ -169,12 +169,12 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
                 // addBranch(node.value, snode);
                 // 更新地图
                 refreshMap(true);
-            }
+            };
             const refreshMap = (autoRefresh: boolean = false) => {
                 if (autoRefresh && mapVisible.value) {
                     updateMap(mapImg);
                 }
-            }
+            };
             /**
              * 删除节点
              */
@@ -195,7 +195,7 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
                 }
                 // 更新地图
                 refreshMap(true);
-            }
+            };
             /**
              * 更新节点
              */
@@ -205,7 +205,7 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
                 } else {
                     updateNode(node.value, currNode, field, value);
                 }
-            }
+            };
 
             const init = () => {
                 refreshMap(true);
@@ -214,7 +214,7 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
                 parentNode.value = {};
                 node.value = nodePrepList(FlowNodeEnums.APPLY_NODE);
                 flowFormInfo.value = {};
-            }
+            };
             return {
                 currentNode,
                 nodeList,
@@ -249,7 +249,7 @@ export const useFlowDesign = defineStore("flowDesignStore", () => {
                 formAddField,
                 setParentNode,
                 setNode
-            }
+            };
         }
     )
 ;

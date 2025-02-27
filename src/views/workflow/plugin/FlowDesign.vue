@@ -26,15 +26,15 @@ import FlowZoom from '@/views/workflow/plugin/common/FlowZoom.vue';
 import FlowHelper from '@/views/workflow/plugin/common/FlowHelper.vue';
 import FlowTips from '@/views/workflow/plugin/common/FlowTips.vue';
 import FlowNode from '@/views/workflow/plugin/node/FlowNode.vue';
-import {computed, onMounted, ref, watch} from "vue";
-import {useFlowDesign} from "@/store/FlowDesignStore.ts";
-import piniaInstance from "@/store";
-import html2canvas from "html2canvas";
-import FlowMap from "@/views/workflow/plugin/common/FlowMap.vue";
-import {scale} from "@/views/workflow/plugin/utils/deviceUtil.ts";
-import {useRouter} from "vue-router";
-import {ApiUrls} from "@/components/types/ApiUrls";
-import {apiInstance} from "@/api/sh_api.ts";
+import {computed, onMounted, ref, watch} from 'vue';
+import {useFlowDesign} from '@/store/FlowDesignStore.ts';
+import piniaInstance from '@/store';
+import html2canvas from 'html2canvas';
+import FlowMap from '@/views/workflow/plugin/common/FlowMap.vue';
+import {scale} from '@/views/workflow/plugin/utils/deviceUtil.ts';
+import {useRouter} from 'vue-router';
+import {ApiUrls} from '@/components/types/ApiUrls';
+import {apiInstance} from '@/api/sh_api.ts';
 
 defineProps({
   saveBtnVisible: {
@@ -49,8 +49,8 @@ defineProps({
     type: Boolean,
     default: true,
   },
-})
-const dataUrl: ApiUrls = apiInstance("flow-engine", "workflow/flowDefine");
+});
+const dataUrl: ApiUrls = apiInstance('flow-engine', 'workflow/flowDefine');
 const router = useRouter();
 const flowDesign = useFlowDesign(piniaInstance);
 let zoomValue = ref<number>(100);
@@ -65,35 +65,35 @@ let readable = computed(() => flowDesign.readable);
 let mapVisible = computed(() => flowDesign.mapVisible);
 const saveAsPng = async () => {
   const element: HTMLElement = document.getElementById('sh-flow-editor-content')!;
-  element.parentElement!.style.transform = 'scale(1)'
+  element.parentElement!.style.transform = 'scale(1)';
   const canvas = await html2canvas(element, {
     backgroundColor: '#efefef'
-  })
-  const image = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream')
-  let link = document.createElement('a')
-  link.download = `star-flow-${Date.now()}.png`
-  link.href = image
-  link.click()
-}
+  });
+  const image = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream');
+  let link = document.createElement('a');
+  link.download = `star-flow-${Date.now()}.png`;
+  link.href = image;
+  link.click();
+};
 
 const init = () => {
   flowDesign.init();
   if (!nodeData.value || Object.keys(nodeData.value).length == 0) {
     flowDesign.flowSetNode(null);
   }
-}
+};
 const loadData = async () => {
   let id = router.currentRoute.value.query.data;
   let isView = router.currentRoute.value.query.isView;
-  flowDesign.setReadable("Y" == isView);
+  flowDesign.setReadable('Y' == isView);
   if (id) {
-    let data = await dataUrl.loadByIdAction!(id, "Y" == isView);
-    data["bindForm"] = data["bindForm"]?.split(";");
-    data["flowManager"] = data["flowManager"]?.split(";");
+    let data = await dataUrl.loadByIdAction!(id, 'Y' == isView);
+    data['bindForm'] = data['bindForm']?.split(';');
+    data['flowManager'] = data['flowManager']?.split(';');
     flowDesign.flowSetFormInfo(data);
     flowDesign.setNode(JSON.parse(data.jsonFile)?.process);
   }
-}
+};
 onMounted(() => {
   init();
 });
@@ -102,5 +102,5 @@ defineExpose({
 });
 watch(() => router.currentRoute.value.query, () => {
   loadData();
-}, {immediate: true, deep: true})
+}, {immediate: true, deep: true});
 </script>

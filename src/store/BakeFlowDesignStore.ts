@@ -1,7 +1,7 @@
-import {defineStore} from "pinia";
-import {ref} from "vue";
+import {defineStore} from 'pinia';
+import {ref} from 'vue';
 
-export const useFlowDesign = defineStore("flowDesign", () => {
+export const useFlowDesign = defineStore('flowDesign', () => {
     /**
      * 流程信息
      */
@@ -15,17 +15,17 @@ export const useFlowDesign = defineStore("flowDesign", () => {
     };
     const addNodeProp = (nodeId: string, data: any) => {
         propertiesForm.value[nodeId] = data;
-    }
+    };
     const deleteNodeProp = (nodeId: string) => {
         delete propertiesForm.value[nodeId];
-    }
+    };
     return {
         flowForm,
         propertiesForm,
         setFlowForm,
         addNodeProp,
         deleteNodeProp
-    }
+    };
 }, {
     persist: {
         enabled: false

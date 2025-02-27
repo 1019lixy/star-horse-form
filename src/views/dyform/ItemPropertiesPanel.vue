@@ -1,9 +1,9 @@
 <script setup lang="ts" name="ItemPropertiesPanel">
-import {computed, nextTick, onMounted, ref, unref, watch} from 'vue'
-import {formFieldMapping, isJson, searchMatchList} from "@/api/sh_api";
-import {SelectOption} from "@/components/types/SearchProps";
-import StarHorseEditor from "@/components/comp/StarHorseEditor.vue";
-import StarHorseForm from "@/components/comp/StarHorseForm.vue";
+import {computed, nextTick, onMounted, ref, unref, watch} from 'vue';
+import {formFieldMapping, isJson, searchMatchList} from '@/api/sh_api';
+import {SelectOption} from '@/components/types/SearchProps';
+import StarHorseEditor from '@/components/comp/StarHorseEditor.vue';
+import StarHorseForm from '@/components/comp/StarHorseForm.vue';
 import {
   compCommonFields,
   containerField,
@@ -12,15 +12,15 @@ import {
   paramsFields,
   relationDataField,
   validInterface
-} from "@/views/dyform/utils/ItemPreps.ts";
-import {DesignForm} from "@/store/DesignFormStore.ts";
-import piniaInstance from "@/store/index.ts";
-import {error, success, warning} from "@/utils/message.ts";
-import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
-import {PageFieldInfo} from "@/components/types/PageFieldInfo";
-import StarHorseFormItem from "@/components/comp/StarHorseFormItem.vue";
-import {Config} from "@/api/settings.ts";
-import {loadDict} from "@/api/star_horse.ts";
+} from '@/views/dyform/utils/ItemPreps.ts';
+import {DesignForm} from '@/store/DesignFormStore.ts';
+import piniaInstance from '@/store/index.ts';
+import {error, success, warning} from '@/utils/message.ts';
+import {GlobalConfig} from '@/store/GlobalConfigStore.ts';
+import {PageFieldInfo} from '@/components/types/PageFieldInfo';
+import StarHorseFormItem from '@/components/comp/StarHorseFormItem.vue';
+import {Config} from '@/api/settings.ts';
+import {loadDict} from '@/api/star_horse.ts';
 
 let designForm = DesignForm(piniaInstance);
 let formDataList = computed(() => designForm.formDataList);
@@ -41,9 +41,9 @@ let containerDialogVisible = ref<boolean>(false);
 let dataSourceDialogVisible = ref<boolean>(false);
 let dataRelationDialogVisible = ref<boolean>(false);
 let paramsDialogVisible = ref<boolean>(false);
-let codeTab = ref<string>("code");
+let codeTab = ref<string>('code');
 let formRules = ref<any>({});
-let jsValue = ref<string>("console.log('hello world')");
+let jsValue = ref<string>('console.log(\'hello world\')');
 let fieldName = ref<string>('');
 const codeCompRef = ref<any>(null);
 const dataSourceFormRef = ref<any>(null);
@@ -57,7 +57,7 @@ const jsButtonClick = (data: any, actionName: string) => {
   console.log(data);
   jsEditor.value = !jsEditor.value;
   if (!Object.keys(formProps.value).includes(actionName)) {
-    data[actionName] = "";
+    data[actionName] = '';
   }
   fieldName.value = actionName;
   jsValue.value = data[actionName];
@@ -66,20 +66,20 @@ const condifRelationPolicy = async () => {
   dataRelationDialogVisible.value = true;
    designForm.setShortKeyDisabled(true);
   await nextTick();
-  dataRelationFormRef?.value.setFormData(formProps.value["dataRelation"] || {});
-}
+  dataRelationFormRef?.value.setFormData(formProps.value['dataRelation'] || {});
+};
 const configParams = async (params: any) => {
   fieldName.value = params;
   paramsDialogVisible.value = true;
   designForm.setShortKeyDisabled(true);
   await nextTick();
   paramsConfigRef.value.setFormData(formProps.value);
-}
+};
 const submitValid = async () => {
   await validInterface(formProps, dataSourceFormRef, (dataList: any, _successMsg: string, errorMsg: string) => {
     if (!errorMsg) {
       //只保存静态数据,
-      formProps.value["values"] = createData(dataSourceFormRef, dataList).reDataList;
+      formProps.value['values'] = createData(dataSourceFormRef, dataList).reDataList;
       closeAction();
     } else {
       error(errorMsg);
@@ -94,10 +94,10 @@ const dataRelationMerge = async () => {
   if (!flag) {
     return;
   }
-  formProps.value["dataRelation"] = dataRelationFormRef?.value.getFormData().value;
+  formProps.value['dataRelation'] = dataRelationFormRef?.value.getFormData().value;
   console.log(formProps.value);
   closeAction();
-}
+};
 const paramsValid = async () => {
   let flag = false;
   await paramsConfigRef.value.$refs.starHorseFormRef.validate((res: boolean) => {
@@ -110,52 +110,52 @@ const paramsValid = async () => {
   for (let key in formDdata.value) {
     formProps.value[key] = formDdata.value[key];
   }
-  formProps.value["dataUrl"] = {
-    loadByPageUrl: formDdata.value["preinterfaceUrl"] + formDdata.value["interfaceUrl"],
+  formProps.value['dataUrl'] = {
+    loadByPageUrl: formDdata.value['preinterfaceUrl'] + formDdata.value['interfaceUrl'],
     redirect: true,
     condition: {
       // url: formDdata.value["preinterfaceUrl"] + formDdata.value["interfaceUrl"],
       httpMethod: formDdata.value.httpMethod,
       params: formDdata.value.params
     },
-  }
+  };
   let searchFieldList: Array<any> = [];
-  formProps.value["fieldLists"].forEach((item: any) => {
-    item["listVisible"] = true;
-    item["type"] = "input";
-    item["formVisible"] = true;
-    if (item.searchFlag == "Y") {
-      searchFieldList.push({...item, matchType: "lk", defaultVisible: true})
+  formProps.value['fieldLists'].forEach((item: any) => {
+    item['listVisible'] = true;
+    item['type'] = 'input';
+    item['formVisible'] = true;
+    if (item.searchFlag == 'Y') {
+      searchFieldList.push({...item, matchType: 'lk', defaultVisible: true});
     }
   });
-  formProps.value["searchFieldList"] = searchFieldList;
-  formProps.value["fieldList"] = {
-    fieldList: formProps.value["fieldLists"]
+  formProps.value['searchFieldList'] = searchFieldList;
+  formProps.value['fieldList'] = {
+    fieldList: formProps.value['fieldLists']
   };
   //删除多余的属性
-  formProps.value["orderBy"]?.forEach((item: any) => {
-    delete item["xh"];
-  })
+  formProps.value['orderBy']?.forEach((item: any) => {
+    delete item['xh'];
+  });
   closeAction();
 };
 const resetForm = () => {
 };
 const resetDataSourceForm = () => {
-  formProps.value["dataSource"] = "data";
-  formProps.value["httpMethod"] = null;
-  formProps.value["urlOrDictName"] = null;
-  formProps.value["queryParams"] = [];
-  formProps.value["values"] = [];
+  formProps.value['dataSource'] = 'data';
+  formProps.value['httpMethod'] = null;
+  formProps.value['urlOrDictName'] = null;
+  formProps.value['queryParams'] = [];
+  formProps.value['values'] = [];
 };
 const dataRelationReset = () => {
 
-}
+};
 const editContainerPrep = async () => {
   containerDialogVisible.value = true;
   designForm.setShortKeyDisabled(true);
   await nextTick();
   containerPrepRef.value.setFormData(formProps.value);
-}
+};
 const containerAction = () => {
   let formDdata = containerPrepRef.value.getFormData();
   for (let key in formDdata.value) {
@@ -215,68 +215,68 @@ const assignPrep = async (itemType: string, isItem: boolean) => {
     }
   }
 };
-let relationComps = ref<Array<string>>(["select", "tselect", "switch", "autocomplete",
-  "checkbox", "radio", "cascade", "page-select", "dialog-input"]);
-let exclusionDataSource = ref<Array<string>>(["page-select", "switch", "dialog-input"]);
+let relationComps = ref<Array<string>>(['select', 'tselect', 'switch', 'autocomplete',
+  'checkbox', 'radio', 'cascade', 'page-select', 'dialog-input']);
+let exclusionDataSource = ref<Array<string>>(['page-select', 'switch', 'dialog-input']);
 let formFields = ref<PageFieldInfo>({
   fieldList: []
 });
 const parseSelectData = (items: any, type: string) => {
   items.forEach((item: any) => {
-    item["formVisible"] = true;
-    item["type"] = item["fieldType"];
-    item["required"] = item["required"] == 'Y';
-    if (item["selectValues"] && isJson(item["selectValues"])) {
-      item["optionList"] = [];
+    item['formVisible'] = true;
+    item['type'] = item['fieldType'];
+    item['required'] = item['required'] == 'Y';
+    if (item['selectValues'] && isJson(item['selectValues'])) {
+      item['optionList'] = [];
       let datas = JSON.parse(item.selectValues);
       for (let i in datas) {
         let data: any = datas[i];
-        item["optionList"].push({
+        item['optionList'].push({
           name: data.name || data,
           value: data.value || data
-        })
+        });
       }
     }
-    if (item["type"] == "button") {
+    if (item['type'] == 'button') {
       switch (type) {
-        case "base":
-          item["actions"] = "";
+        case 'base':
+          item['actions'] = '';
           break;
-        case "other":
-          item["actions"] = "";
+        case 'other':
+          item['actions'] = '';
           break;
         default:
-          item["actions"] = (data: any) => jsButtonClick(data, item.actionName);
+          item['actions'] = (data: any) => jsButtonClick(data, item.actionName);
       }
     }
-    if (item["type"] == "config") {
-      item["type"] = "button";
-      item["label"] = "参数配置";
-      item["actions"] = (_data: any) => configParams(item.actionName);
+    if (item['type'] == 'config') {
+      item['type'] = 'button';
+      item['label'] = '参数配置';
+      item['actions'] = (_data: any) => configParams(item.actionName);
     }
   });
-}
+};
 /**
  * 自定义验证规则
  */
 const customerValid = () => {
-  warning("自定义验证规则开发中");
-}
+  warning('自定义验证规则开发中');
+};
 const assignValue = (fieldInfo: any) => {
   try {
-    let temp = JSON.parse(JSON.stringify(fieldInfo))
+    let temp = JSON.parse(JSON.stringify(fieldInfo));
     currentField.value = temp;
-    parseSelectData(temp.fields, "base");
-    parseSelectData(temp.advancedFields, "other");
-    parseSelectData(temp.actions, "action");
+    parseSelectData(temp.fields, 'base');
+    parseSelectData(temp.advancedFields, 'other');
+    parseSelectData(temp.actions, 'action');
     //如果是组件动态增加公共属性，公共属性不应该维护在数据库
     //如果是select,checkbox,radio 等，增加联动属性
-    if (currentCompCategory.value == "container") {
+    if (currentCompCategory.value == 'container') {
       if (currentItemType.value != 'table') {
         temp.fields.splice(0, 0, {
-          label: "编辑容器属性",
-          fieldName: "rows",
-          type: "button",
+          label: '编辑容器属性',
+          fieldName: 'rows',
+          type: 'button',
           actions: (_data: any) => editContainerPrep(),
           formVisible: true,
         });
@@ -285,17 +285,17 @@ const assignValue = (fieldInfo: any) => {
       let commonFields = compCommonFields(customerValid);
       if (relationComps.value.includes(currentItemType.value)) {
         commonFields.push({
-          label: "配置联动策略",
-          fieldName: "dataRelation",
-          type: "button",
+          label: '配置联动策略',
+          fieldName: 'dataRelation',
+          type: 'button',
           actions: (_data: any) => condifRelationPolicy(),
           formVisible: true,
         });
         if (!exclusionDataSource.value.includes(currentItemType.value)) {
           commonFields.push({
-            label: "配置数据源",
-            fieldName: "dataSource",
-            type: "button",
+            label: '配置数据源',
+            fieldName: 'dataSource',
+            type: 'button',
             actions: (_data: any) => dataSource(formProps.value['itemType']),
             formVisible: true,
           });
@@ -305,34 +305,34 @@ const assignValue = (fieldInfo: any) => {
         temp.fields.splice(i, 0, commonFields[i]);
       }
       temp.advancedFields.push({
-        label: "备注",
-        fieldName: "remark",
-        type: "textarea",
+        label: '备注',
+        fieldName: 'remark',
+        type: 'textarea',
         formVisible: true,
       });
     }
 
     formFields.value.fieldList = [{
-      fieldName: "base",
+      fieldName: 'base',
       collapseList: [{
-        title: "基础属性",
-        icon: "base_preps",
-        tabName: "base",
+        title: '基础属性',
+        icon: 'base_preps',
+        tabName: 'base',
         fieldList: temp.fields
       }, {
-        title: "其它属性",
-        tabName: "other",
-        icon: "advance_preps",
+        title: '其它属性',
+        tabName: 'other',
+        icon: 'advance_preps',
         preps: {
-          labelPosition: "top",
+          labelPosition: 'top',
         },
         fieldList: temp.advancedFields
       }, {
-        title: "自定义事件",
-        tabName: "action",
-        icon: "event-action",
+        title: '自定义事件',
+        tabName: 'action',
+        icon: 'event-action',
         preps: {
-          labelPosition: "top",
+          labelPosition: 'top',
         },
         fieldList: temp.actions
       }]
@@ -344,7 +344,7 @@ const assignValue = (fieldInfo: any) => {
       }
     }
   } catch (e) {
-    console.log(e)
+    console.log(e);
   }
 };
 let dataList = ref<SelectOption[]>([]);
@@ -356,7 +356,7 @@ const recall = (options: SelectOption[], successMsg: string, errorMsg: string) =
   if (errorMsg) {
     error(errorMsg);
   }
-}
+};
 const hmsg: string = `
    自定义事件,提供了如下系统参数：
    currentField:Object 当前组件的信息
@@ -368,11 +368,11 @@ const hmsg: string = `
 let envList = ref<Array<SelectOption>>([]);
 onMounted(async () => {
   matchTypeList.value = searchMatchList();
-  envList.value = await loadDict("system_environment");
+  envList.value = await loadDict('system_environment');
 });
 watch(() => [currentItemId, currentItemType],
     () => {
-      assignPrep(currentItemType.value, parentCompType.value == "item");
+      assignPrep(currentItemType.value, parentCompType.value == 'item');
     }, {
       immediate: true,
       deep: true

@@ -1,21 +1,21 @@
 <script setup lang="ts" name="StarHorseSearchComp">
-import {computed, nextTick, onMounted, PropType, ref} from "vue";
-import {ApiUrls} from "@/components/types/ApiUrls";
-import {SearchFields, SelectOption} from "@/components/types/SearchProps";
-import {isJson, loadData, searchMatchList} from "@/api/sh_api";
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
-import piniaInstance from "@/store";
-import {analysisSearchData} from "@/views/dyform/utils/preview.ts";
-import {SearchParams} from "@/components/types/Params";
-import {Config} from "@/api/settings.ts";
+import {computed, nextTick, onMounted, PropType, ref} from 'vue';
+import {ApiUrls} from '@/components/types/ApiUrls';
+import {SearchFields, SelectOption} from '@/components/types/SearchProps';
+import {isJson, loadData, searchMatchList} from '@/api/sh_api';
+import StarHorseIcon from '@/components/comp/StarHorseIcon.vue';
+import {GlobalConfig} from '@/store/GlobalConfigStore.ts';
+import piniaInstance from '@/store';
+import {analysisSearchData} from '@/views/dyform/utils/preview.ts';
+import {SearchParams} from '@/components/types/Params';
+import {Config} from '@/api/settings.ts';
 
 let matchTypeList = ref<SelectOption[]>();
-let sarchIcon = ref<string>("search_down");
+let sarchIcon = ref<string>('search_down');
 let defaultSearch = ref<boolean>(true);
-let tips = ref<string>("更多查询");
+let tips = ref<string>('更多查询');
 let showTips = ref<boolean>(true);
-const emits = defineEmits(["searchData"]);
+const emits = defineEmits(['searchData']);
 const props = defineProps({
   dialogInput: {type: Boolean, default: false},
   mutComp: {type: Boolean, default: false},
@@ -49,7 +49,7 @@ const analysisDefaultValue = () => {
   return defaultDatas;
 };
 const dataSearch = (val: string | null) => {
-  if (val === "reset") {
+  if (val === 'reset') {
     searchForm.value = {...analysisDefaultValue()};
   }
   let searchDatas = createSearchParams(props.formData?.fieldList);
@@ -58,15 +58,15 @@ const dataSearch = (val: string | null) => {
   if (props.defaultCondition) {
     searchDatas.push(...props.defaultCondition);
   }
-  emits("searchData", searchDatas);
+  emits('searchData', searchDatas);
 };
 const searchArea = () => {
   if (defaultSearch.value) {
-    tips.value = "更多查询";
-    sarchIcon.value = "search_up";
+    tips.value = '更多查询';
+    sarchIcon.value = 'search_up';
   } else {
-    tips.value = "收起";
-    sarchIcon.value = "search_down";
+    tips.value = '收起';
+    sarchIcon.value = 'search_down';
   }
   defaultSearch.value = !defaultSearch.value;
 };
@@ -78,7 +78,7 @@ const setData = (data: any) => {
   if (data) {
     searchForm.value = {...searchForm.value, ...data};
   }
-}
+};
 const init = async () => {
   matchTypeList.value = searchMatchList();
   searchForm.value = {...analysisDefaultValue()};
@@ -95,7 +95,7 @@ onMounted(() => {
 });
 defineExpose({
   searchForm, setData, createSearchParams
-})
+});
 </script>
 <template>
   <div class="search_content">

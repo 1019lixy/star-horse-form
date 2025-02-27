@@ -1,16 +1,16 @@
 <script setup lang="ts" name="starhorse-form-item">
-import {computed, onMounted, ref} from "vue";
-import {DesignForm} from "@/store/DesignFormStore.ts";
-import piniaInstance from "@/store/index.ts";
-import StarHorseDialog from "@/components/comp/StarHorseDialog.vue";
-import FieldList from "@/components/formcomp/utils/FieldList.vue";
+import {computed, onMounted, ref} from 'vue';
+import {DesignForm} from '@/store/DesignFormStore.ts';
+import piniaInstance from '@/store/index.ts';
+import StarHorseDialog from '@/components/comp/StarHorseDialog.vue';
+import FieldList from '@/components/formcomp/utils/FieldList.vue';
 import {
   dynamicFormContextMenuData,
   getParentComp,
   moveDownItem,
   moveUpItem,
   removeItem
-} from "@/views/dyform/page/AblesPlugin.ts";
+} from '@/views/dyform/page/AblesPlugin.ts';
 
 const props = defineProps({
   parentField: {type: Object},
@@ -32,7 +32,7 @@ const selectParentContainer = () => {
   if (!isEdit.value) {
     return;
   }
-  designForm.selectItem(props.parentField, "", "container");
+  designForm.selectItem(props.parentField, '', 'container');
 };
 const selectData = (data: any) => {
   if (!isEdit.value) {
@@ -43,31 +43,31 @@ const selectData = (data: any) => {
 
 const exchangeItem = () => {
   designForm.setComponentVisible(true);
-}
+};
 const close = () => {
   designForm.setComponentVisible(false);
-}
+};
 const changeItem = (item: any) => {
-  props.formItem["itemType"] = item["itemType"];
+  props.formItem['itemType'] = item['itemType'];
   if (item.category == 2) {
-    props.formItem["compType"] = "container";
+    props.formItem['compType'] = 'container';
   }
-  props.formItem["preps"] = {
-    ...props.formItem["preps"],
+  props.formItem['preps'] = {
+    ...props.formItem['preps'],
     itemNameLabel: item.itemName
   };
   close();
   selectData(props.formItem);
-}
+};
 const itemContextMenuRef = ref();
 const itemContextMenu = (evt: MouseEvent) => {
   evt.stopPropagation();
   evt.preventDefault();
   evt.props = props;
   itemContextMenuRef.value?.show(evt);
-}
+};
 onMounted(() => {
-})
+});
 </script>
 <template>
   <star-horse-dialog box-width="450px" :is-view="true" :full-screen="false" title="更换组件" :self-func="true"

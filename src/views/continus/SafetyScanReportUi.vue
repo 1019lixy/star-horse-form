@@ -1,116 +1,116 @@
 <script setup lang="ts" name="SafetyScanReport">
-import {apiInstance, dialogPreps} from "@/api/sh_api.ts";
-import {ApiUrls} from "@/components/types/ApiUrls";
-import {onMounted, provide, reactive, ref} from "vue";
-import {SearchFields} from "@/components/types/SearchProps";
-import {Config} from "@/api/settings.ts";
-const dataUrl: ApiUrls = apiInstance("devops-continus", "continus/safetyScanReport");
+import {apiInstance, dialogPreps} from '@/api/sh_api.ts';
+import {ApiUrls} from '@/components/types/ApiUrls';
+import {onMounted, provide, reactive, ref} from 'vue';
+import {SearchFields} from '@/components/types/SearchProps';
+import {Config} from '@/api/settings.ts';
+const dataUrl: ApiUrls = apiInstance('devops-continus', 'continus/safetyScanReport');
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "节点", fieldName: "idNodeProperty", type: "input", matchType: "lk", defaultVisible: true},
-    {label: "测试报告类型", fieldName: "projectType", type: "reportType", matchType: "lk", defaultVisible: true},
+    {label: '节点', fieldName: 'idNodeProperty', type: 'input', matchType: 'lk', defaultVisible: true},
+    {label: '测试报告类型', fieldName: 'projectType', type: 'reportType', matchType: 'lk', defaultVisible: true},
   ]
 });
 const tableFieldList = reactive({
   fieldList: [
     {
-      label: "主键", fieldName: "idSafetyReport", type: "input",
+      label: '主键', fieldName: 'idSafetyReport', type: 'input',
     }, {
-      label: "节点主键", fieldName: "idNodeProperty", type: "input",
+      label: '节点主键', fieldName: 'idNodeProperty', type: 'input',
       required: true, formVisible: true,
       listVisible: true
     },
     [{
-      label: "致命总数", fieldName: "blocker", type: "number",
+      label: '致命总数', fieldName: 'blocker', type: 'number',
       formVisible: true,
       listVisible: true
     },
       {
-        label: "严重总数", fieldName: "critical", type: "number",
+        label: '严重总数', fieldName: 'critical', type: 'number',
         formVisible: true,
         listVisible: true
       }],
     [{
-      label: "中度总数", fieldName: "major", type: "number",
+      label: '中度总数', fieldName: 'major', type: 'number',
       required: true, formVisible: true,
       listVisible: true
     },
       {
-        label: "方法覆盖率", fieldName: "methodCoverRate", type: "number",
+        label: '方法覆盖率', fieldName: 'methodCoverRate', type: 'number',
         required: true, formVisible: true,
         listVisible: true
       }],
     [{
-      label: "轻微总数", fieldName: "minor", type: "number",
+      label: '轻微总数', fieldName: 'minor', type: 'number',
       required: true, formVisible: true,
       listVisible: true
     },
       {
-        label: "方法覆盖数", fieldName: "methodCoverNums", type: "number",
+        label: '方法覆盖数', fieldName: 'methodCoverNums', type: 'number',
         required: true, formVisible: true,
         listVisible: true
       }],
 
     {
-      label: "详情地址", fieldName: "detailUrls", type: "number",
+      label: '详情地址', fieldName: 'detailUrls', type: 'number',
       required: true, formVisible: true,
       listVisible: true
     },
     {
-      label: "备注", fieldName: "remark", type: "textarea",
+      label: '备注', fieldName: 'remark', type: 'textarea',
       formVisible: true,
     },
     {
-      label: "创建人", disabled: "Y", fieldName: "createdBy", type: "input",
+      label: '创建人', disabled: 'Y', fieldName: 'createdBy', type: 'input',
     },
     {
-      label: "修改人", disabled: "Y", fieldName: "updatedBy", type: "input",
+      label: '修改人', disabled: 'Y', fieldName: 'updatedBy', type: 'input',
     },
     {
-      label: "创建日期", disabled: "Y", fieldName: "createdDate", type: "date",
+      label: '创建日期', disabled: 'Y', fieldName: 'createdDate', type: 'date',
     },
     {
-      label: "修改日期", disabled: "Y", fieldName: "updatedDate", type: "date",
+      label: '修改日期', disabled: 'Y', fieldName: 'updatedDate', type: 'date',
     },
     {
-      label: "数据版本号", fieldName: "version", type: "number",
+      label: '数据版本号', fieldName: 'version', type: 'number',
     },
     {
-      label: "是否已逻辑", fieldName: "isDel", type: "number",
+      label: '是否已逻辑', fieldName: 'isDel', type: 'number',
     },
     {
-      label: "数据编号", fieldName: "dataNo", type: "input",
+      label: '数据编号', fieldName: 'dataNo', type: 'input',
     },
     {
-      label: "状态码", fieldName: "statusCode", type: "input",
+      label: '状态码', fieldName: 'statusCode', type: 'input',
     },
     {
-      label: "状态码名称", fieldName: "statusName", type: "input",
+      label: '状态码名称', fieldName: 'statusName', type: 'input',
     },
     {
-      label: "国际码", fieldName: "local", type: "input",
+      label: '国际码', fieldName: 'local', type: 'input',
     },
   ],
   batchFieldList: []
 });
-const primaryKey = "idSafetyReport";
+const primaryKey = 'idSafetyReport';
 const safetyScanReportRef = ref();
 const rules = {};
 const dialogProps = dialogPreps();
-provide("dialogProps", dialogProps);
+provide('dialogProps', dialogProps);
 
 const selectItemFun = (data: any) => {
 
-}
+};
 const dataFormat = (name: string, cellValue: object): any => {
   return cellValue;
-}
+};
 const init = async () => {
 
 };
 onMounted(async () => {
   await init();
-})
+});
 </script>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">

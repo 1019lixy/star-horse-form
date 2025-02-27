@@ -22,28 +22,28 @@
   </starhorse-form-item>
 </template>
 <script lang="ts">
-import {defineComponent, getCurrentInstance, shallowRef} from "vue";
-import "@wangeditor/editor/dist/css/style.css"
-import {Editor, Toolbar} from "@wangeditor/editor-for-vue"
-import {allAction} from "@/components/formcomp/utils/ItemRelationEventUtils.ts";
+import {defineComponent, getCurrentInstance, shallowRef} from 'vue';
+import '@wangeditor/editor/dist/css/style.css';
+import {Editor, Toolbar} from '@wangeditor/editor-for-vue';
+import {allAction} from '@/components/formcomp/utils/ItemRelationEventUtils.ts';
 
 export default defineComponent({
   components: {Editor, Toolbar},
   beforeUnmount: () => {
-    const {proxy} = getCurrentInstance()
+    const {proxy} = getCurrentInstance();
     const editor = proxy.$refs.editorRef;
     if (editor == null) return;
     editor.destroy();
   },
   setup(_props, context) {
-    const parentField = context.attrs["parentField"];
+    const parentField = context.attrs['parentField'];
 
-    const field = context.attrs["field"] as any;
+    const field = context.attrs['field'] as any;
     let formItem = shallowRef({label: 'input', required: false});
-    let dataField = shallowRef("");
+    let dataField = shallowRef('');
     let editorConfig = shallowRef({});
     let toolbarConfig = shallowRef({});
-    const editorRef = shallowRef() // 编辑器实例，必须用 shallowRef
+    const editorRef = shallowRef(); // 编辑器实例，必须用 shallowRef
     const dynamicFunction = (data: any) => {
       if (!data) {
         return;
@@ -56,17 +56,17 @@ export default defineComponent({
     };
     toolbarConfig.value = {
       //excludeKeys: ["insertLink", "insertImage", "editImage", "viewImageLink", "insertVideo", "emotion", "fullScreen"],
-    }
-    editorConfig.value = {placeholder: "请输入内容...", MENU_CONF: {}}
+    };
+    editorConfig.value = {placeholder: '请输入内容...', MENU_CONF: {}};
     const handleCreated = (editor: any) => {
-      editorRef.value = editor // 记录 editor 实例，重要！
-    }
+      editorRef.value = editor; // 记录 editor 实例，重要！
+    };
 // 自定义上传
-    editorConfig.value.MENU_CONF["uploadImage"] = {
+    editorConfig.value.MENU_CONF['uploadImage'] = {
       async customUpload(file, _insertFn) {
-        let data = new FormData()
-        data.append("from", "article");
-        data.append("image", file);
+        let data = new FormData();
+        data.append('from', 'article');
+        data.append('image', file);
         //
         // proxy.$axios
         //     .post("upload/image", data)
@@ -80,14 +80,14 @@ export default defineComponent({
         //     })
         //     .catch((err) => {})
       },
-    }
+    };
 // 自定义上传视频
-    const videoLoading = shallowRef(false)
-    editorConfig.value.MENU_CONF["uploadVideo"] = {
+    const videoLoading = shallowRef(false);
+    editorConfig.value.MENU_CONF['uploadVideo'] = {
       async customUpload(file, insertFn) {
-        videoLoading.value = true
-        let data = new FormData()
-        data.append("file", file)
+        videoLoading.value = true;
+        let data = new FormData();
+        data.append('file', file);
         // proxy.$axios
         //     .post("upload/video", data)
         //     .then((res) => {
@@ -103,12 +103,12 @@ export default defineComponent({
         //       videoLoading.value = false
         //     })
       },
-    }
+    };
 // 组件销毁时，也及时销毁编辑器
     return {
       parentField, context, field, formItem, editorConfig, editorRef, toolbarConfig,
       dataField, dynamicFunction, itemAction, handleCreated
-    }
+    };
   },
 });
 </script>

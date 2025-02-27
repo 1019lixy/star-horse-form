@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import {Config} from "@/api/settings.ts";
-import {computed, ref} from "vue";
-import {commonField} from "@/api/system.ts";
+import {Config} from '@/api/settings.ts';
+import {computed, ref} from 'vue';
+import {commonField} from '@/api/system.ts';
 
 const props = defineProps({
   list: {type: Array<any>, required: true},
@@ -15,8 +15,8 @@ let fieldList = computed(() => {
   props.commonFieldList?.filter(item => item.formVisible == 'Y').forEach(item => {
     let tempItem = commonFields.find(item2 => item2.fieldName == item.fieldName);
     if (tempItem) {
-      tempItem["required"] = item.required;
-      tempItem["preps"] = {...tempItem};
+      tempItem['required'] = item.required;
+      tempItem['preps'] = {...tempItem};
       tempList.push(tempItem);
     }
   });
@@ -26,7 +26,7 @@ let formData = ref<any>({});
 
 defineExpose({
   formData
-})
+});
 </script>
 
 <template>

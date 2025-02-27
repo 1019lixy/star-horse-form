@@ -1,13 +1,13 @@
 <script lang="ts">
-import {defineComponent, shallowRef} from "vue";
-import {allAction} from "@/components/formcomp/utils/ItemRelationEventUtils.ts";
+import {defineComponent, shallowRef} from 'vue';
+import {allAction} from '@/components/formcomp/utils/ItemRelationEventUtils.ts';
 
 export default defineComponent({
   setup(_props, context) {
-    const parentField = context.attrs["parentField"];
-    const field = context.attrs["field"] as any;
+    const parentField = context.attrs['parentField'];
+    const field = context.attrs['field'] as any;
     let formItem = shallowRef({label: 'input', required: false});
-    let dataField = shallowRef("");
+    let dataField = shallowRef('');
     const itemAction = (prep: any) => {
       allAction(context, prep);
     };
@@ -17,8 +17,8 @@ export default defineComponent({
         return tagMap[val] || 'primary';
       }
       return field?.preps?.tagType || 'primary';
-    }
-    return {parentField, context, field, formItem, dataField, itemAction, tagType}
+    };
+    return {parentField, context, field, formItem, dataField, itemAction, tagType};
   }
 });
 </script>

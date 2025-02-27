@@ -1,7 +1,7 @@
 import {uuid} from '@/api/system.ts';
 import html2canvas from 'html2canvas';
-import {isRef, Ref} from "vue";
-import {FlowNodeEnums} from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
+import {isRef, Ref} from 'vue';
+import {FlowNodeEnums} from '@/views/workflow/plugin/enums/FlowNodeEnums.ts';
 
 
 /**
@@ -16,7 +16,7 @@ export function addCondition(node: any, len: any) {
         // 显示添加按钮
         addable: true,
         //状态
-        statusCode: "-1",
+        statusCode: '-1',
         otherFlag: false,
         // 可删除提示
         deletable: false,
@@ -26,7 +26,7 @@ export function addCondition(node: any, len: any) {
         // 是否有错误
         error: false,
         // 分支类型
-        branchType: node.type == FlowNodeEnums.BRANCH_NODE ? "rule" : null,
+        branchType: node.type == FlowNodeEnums.BRANCH_NODE ? 'rule' : null,
         // 显示内容
         content: node.type == FlowNodeEnums.BRANCH_NODE ? null : '任意(其他)',
         // 子节点
@@ -86,7 +86,7 @@ export function addBranch(node: any, currNode: any) {
 export function delNode(node: any, currNode: any) {
     if (node && currNode && node.id == currNode.pid) {
         // 当前节点的子节点暂存
-        let childNode = currNode.childNode;
+        const childNode = currNode.childNode;
         // 如果删除的是并行节点
         // if (currNode.type == FlowNodeEnums.PARALLEL_NODE) {
         //     childNode = currNode.childNode?.childNode;

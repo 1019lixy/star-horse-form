@@ -1,7 +1,7 @@
 <script setup lang="ts" name="dytable-container">
 // 右键菜单组件
-import {PropType, ref} from "vue";
-import DytableCol from "@/components/formcomp/container/dytable-col.vue";
+import {PropType, ref} from 'vue';
+import DytableCol from '@/components/formcomp/container/dytable-col.vue';
 
 let containerTableRef = ref(); // 强制刷新表格
 defineProps({

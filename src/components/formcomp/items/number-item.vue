@@ -33,30 +33,30 @@
   </starhorse-form-item>
 </template>
 <script lang="ts">
-import {defineComponent, onMounted, shallowRef} from "vue";
-import {allAction} from "@/components/formcomp/utils/ItemRelationEventUtils.ts";
+import {defineComponent, onMounted, shallowRef} from 'vue';
+import {allAction} from '@/components/formcomp/utils/ItemRelationEventUtils.ts';
 
 export default defineComponent({
   setup(_props, context) {
-    const parentField = context.attrs["parentField"];
+    const parentField = context.attrs['parentField'];
 
-    const field = context.attrs["field"] as any;
+    const field = context.attrs['field'] as any;
     let formItem = shallowRef({label: 'input', required: false});
-    let dataField = shallowRef("");
-    let actionName = shallowRef("keydown.enter");
+    let dataField = shallowRef('');
+    let actionName = shallowRef('keydown.enter');
     const itemAction = (prep: string) => {
       allAction(context, prep);
     };
     onMounted(() => {
-       actionName.value = field.preps?.actionName || "keydown.enter";;
-      if (!context.attrs["isSearch"]) {
+       actionName.value = field.preps?.actionName || 'keydown.enter';;
+      if (!context.attrs['isSearch']) {
         allAction(context, actionName.value, true);
       }
     });
     return {
       parentField, context, field, formItem, dataField, actionName,
       itemAction
-    }
+    };
   }
 });
 </script>

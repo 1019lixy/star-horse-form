@@ -2,12 +2,12 @@
 import FlowNode from '@/views/workflow/plugin/node/FlowNode.vue';
 import FlowAddNode from '@/views/workflow/plugin/node/AddNode.vue';
 import DeleteConfirm from '@/views/workflow/plugin/common/DeleteConfirm.vue';
-import {useFlowDesign} from "@/store/FlowDesignStore.ts";
-import piniaInstance from "@/store";
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-import {FlowNodeEnums} from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
-import {onMounted} from "vue";
-import {closeLoad} from "@/api/sh_api.ts";
+import {useFlowDesign} from '@/store/FlowDesignStore.ts';
+import piniaInstance from '@/store';
+import StarHorseIcon from '@/components/comp/StarHorseIcon.vue';
+import {FlowNodeEnums} from '@/views/workflow/plugin/enums/FlowNodeEnums.ts';
+import {onMounted} from 'vue';
+import {closeLoad} from '@/api/sh_api.ts';
 
 const props = defineProps({
   node: {
@@ -24,7 +24,7 @@ const props = defineProps({
 const emits = defineEmits(['selectNode']);
 const selectNode = (node: any) => {
   emits('selectNode', node);
-}
+};
 const flowDesign = useFlowDesign(piniaInstance);
 const delCallback = (_conditionNode: any) => {
   let currNode = {
@@ -36,10 +36,10 @@ const delCallback = (_conditionNode: any) => {
 const init = () => {
   closeLoad();
   flowDesign.refreshMap();
-}
+};
 onMounted(() => {
   init();
-})
+});
 </script>
 <template>
   <div class="flow-row">

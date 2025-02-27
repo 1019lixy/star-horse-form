@@ -41,7 +41,7 @@
 }
 </style>
 <script setup lang="ts" name="crontab-min">
-import {computed, ref, watch} from "vue";
+import {computed, ref, watch} from 'vue';
 
 let radioValue = ref(1);
 let cycle01 = ref(1);
@@ -55,17 +55,17 @@ const props = defineProps({
   cron: {type: Object}
 });
 let checkNum = ref(props.check);
-const emits = defineEmits(["update"]);
+const emits = defineEmits(['update']);
 // 计算两个周期值
 const cycleTotalFun = () => {
-  cycle01.value = checkNum.value?.(cycle01.value, 0, 59)
-  cycle02.value = checkNum.value?.(cycle02.value, 0, 59)
+  cycle01.value = checkNum.value?.(cycle01.value, 0, 59);
+  cycle02.value = checkNum.value?.(cycle02.value, 0, 59);
   return cycle01.value + '-' + cycle02.value;
 };
 // 计算平均用到的值
 const averageTotalFun = () => {
-  average01.value = checkNum.value?.(average01.value, 0, 59)
-  average02.value = checkNum.value?.(average02.value, 1, 59)
+  average01.value = checkNum.value?.(average01.value, 0, 59);
+  average02.value = checkNum.value?.(average02.value, 1, 59);
   return average01.value + '/' + average02.value;
 };
 // 计算勾选的checkbox值合集
@@ -138,5 +138,5 @@ watch(() => checkboxString.value,
 
 defineExpose({
   cycle01, cycle02, average01, average02, checkboxList,radioValue
-})
+});
 </script>

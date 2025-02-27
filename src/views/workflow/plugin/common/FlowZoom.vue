@@ -97,18 +97,18 @@
   </el-drawer>
 </template>
 <script setup lang="ts">
-import {computed, nextTick, onActivated, onDeactivated, onMounted, ref} from "vue";
-import {ModelRef} from "vue-demi";
-import {useFlowDesign} from "@/store/FlowDesignStore.ts";
-import piniaInstance from "@/store";
-import {copy, loadData} from "@/api/sh_api.ts";
-import {downloadData} from "@/api/star_horse.ts";
-import {uuid} from "@/api/system.ts";
-import {warning} from "@/utils/message.ts";
-import {flowCommon} from "@/views/workflow/plugin/utils/flowCommon.ts";
-import BasicInfo from "@/views/workflow/plugin/BasicInfo.vue";
-import {doSaveData} from "@/views/workflow/utils/FlowFormUtils.ts";
-import {useRouter} from "vue-router";
+import {computed, nextTick, onActivated, onDeactivated, onMounted, ref} from 'vue';
+import {ModelRef} from 'vue-demi';
+import {useFlowDesign} from '@/store/FlowDesignStore.ts';
+import piniaInstance from '@/store';
+import {copy, loadData} from '@/api/sh_api.ts';
+import {downloadData} from '@/api/star_horse.ts';
+import {uuid} from '@/api/system.ts';
+import {warning} from '@/utils/message.ts';
+import {flowCommon} from '@/views/workflow/plugin/utils/flowCommon.ts';
+import BasicInfo from '@/views/workflow/plugin/BasicInfo.vue';
+import {doSaveData} from '@/views/workflow/utils/FlowFormUtils.ts';
+import {useRouter} from 'vue-router';
 
 const INIT_ZOOM_VALUE = 100;
 const MIN_ZOOM_VALUE = 10;
@@ -138,8 +138,8 @@ defineProps({
   },
 });
 const flowDesign = useFlowDesign(piniaInstance);
-const emits = defineEmits(["saveImage"]);
-const zoomValue: ModelRef<any> = defineModel("zoomValue")!;
+const emits = defineEmits(['saveImage']);
+const zoomValue: ModelRef<any> = defineModel('zoomValue')!;
 const basicInfoRef = ref();
 let scaleEnable = ref<boolean>(false);
 let nodeData = computed(() => flowDesign.node);
@@ -151,23 +151,23 @@ const jsonEditorRef = ref();
 const router = useRouter();
 const goBack = () => {
   router.push({
-    path: "/workflow/FlowDefineUi",
+    path: '/workflow/FlowDefineUi',
   });
-}
+};
 const mapVisibleOperation = () => {
   flowDesign.mapVisible = !flowDesign.mapVisible;
   if (flowDesign.mapVisible) {
     flowDesign.refreshMap(true);
   }
-}
-let operType: string = "";
+};
+let operType: string = '';
 const saveData = (type: string) => {
   operType = type;
   dataDialogVisible.value = true;
   nextTick(() => {
     basicInfoRef.value.$refs.flowFormRef.setFormData(formData.value);
-  })
-}
+  });
+};
 const dataDoSave = () => {
   let formInfo = basicInfoRef.value.$refs.flowFormRef.$refs.starHorseFormRef;
   formInfo.validate((valid: boolean) => {
@@ -178,7 +178,7 @@ const dataDoSave = () => {
       dataDialogVisible.value = false;
     }
   });
-}
+};
 const controlScale = () => {
   scaleEnable.value = !scaleEnable.value;
   if (scaleEnable.value) {
@@ -187,7 +187,7 @@ const controlScale = () => {
     deactivate();
     zoomValue.value = INIT_ZOOM_VALUE;
   }
-}
+};
 const handleWheel = (e: WheelEvent) => {
   e.preventDefault();
   if (e.wheelDelta < 0) {
@@ -195,7 +195,7 @@ const handleWheel = (e: WheelEvent) => {
   } else {
     onZoomIn();
   }
-}
+};
 const onZoomOut = () => {
   let value = zoomValue.value;
   value -= 5;
@@ -203,7 +203,7 @@ const onZoomOut = () => {
     value = MIN_ZOOM_VALUE;
   }
   zoomValue.value = value;
-}
+};
 const onZoomIn = () => {
   let value = zoomValue.value;
   value += 5;
@@ -211,55 +211,55 @@ const onZoomIn = () => {
     value = MAX_ZOOM_VALUE;
   }
   zoomValue.value = value;
-}
+};
 const saveImage = () => {
   emits('saveImage');
-}
+};
 const copyParseJson = async () => {
-  copy(JSON.stringify(nodeData.value, null, '  '))
-}
+  copy(JSON.stringify(nodeData.value, null, '  '));
+};
 const copyJson = async () => {
-  copy(JSON.stringify(nodeData.value))
-}
+  copy(JSON.stringify(nodeData.value));
+};
 const viewCode = async () => {
   drawer.value = true;
   await nextTick(() => {
     jsonEditorRef.value.setEditorContent(nodeData.value);
   });
-}
+};
 const exportCode = async () => {
   let params = {
     id: uuid(),
     process: nodeData.value,
-    code: "test",
-    name: "测试",
+    code: 'test',
+    name: '测试',
     version: 1,
-    remark: "测试",
-  }
-  let reData = await loadData("/flow-engine/workflow/flowdefinition/dataConvertJsonToXml", params);
+    remark: '测试',
+  };
+  let reData = await loadData('/flow-engine/workflow/flowdefinition/dataConvertJsonToXml', params);
   if (reData.error) {
     warning(reData.error);
-    return
+    return;
   } else {
-    downloadData(reData.data, new Date().getDate() + "bpmn.xml");
+    downloadData(reData.data, new Date().getDate() + 'bpmn.xml');
   }
-}
+};
 const init = () => {
   if (scaleEnable.value) {
-    window.addEventListener("wheel", handleWheel, true);
+    window.addEventListener('wheel', handleWheel, true);
   }
-}
+};
 const deactivate = () => {
-  window.removeEventListener("wheel", handleWheel, true);
-}
+  window.removeEventListener('wheel', handleWheel, true);
+};
 onActivated(() => {
   init();
 });
 onDeactivated(() => {
   deactivate();
-})
+});
 onMounted(() => {
   zoomValue.value = INIT_ZOOM_VALUE;
   init();
-})
+});
 </script>

@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import {useVModel} from '@vueuse/core'
-import type {TreeNodeData} from 'element-plus/es/components/tree/src/tree.type'
-import {type ElTree} from 'element-plus'
-import {reactive, ref, watch} from "vue";
-import {postRequest} from "@/api/star_horse";
-import StarHorseDialog from "@/components/comp/StarHorseDialog.vue";
-import {closeLoad} from "@/api/sh_api.ts";
-import {PageProps} from "@/components/types/PageProps";
+import {useVModel} from '@vueuse/core';
+import type {TreeNodeData} from 'element-plus/es/components/tree/src/tree.type';
+import {type ElTree} from 'element-plus';
+import {reactive, ref, watch} from 'vue';
+import {postRequest} from '@/api/star_horse';
+import StarHorseDialog from '@/components/comp/StarHorseDialog.vue';
+import {closeLoad} from '@/api/sh_api.ts';
+import {PageProps} from '@/components/types/PageProps';
 
 
 export type ModelValueType = any;
@@ -32,77 +32,77 @@ const props = withDefaults(defineProps<DataDropdownProps>(), {
   pageSize: 0,
   multiple: false,
   checkStrictly: true
-})
+});
 
 const emits = defineEmits<{
   (e: 'update:modelValue', modelValue: ModelValueType): void
-}>()
+}>();
 const treeProps = {
   label: props.displayName,
   children: 'children',
   value: props.displayValue,
   isLeaf: 'leaf',
   class: (data: TreeNodeData) => renderClass(data)
-}
-const value: any = useVModel(props, 'modelValue', emits)
+};
+const value: any = useVModel(props, 'modelValue', emits);
 
-const dataOptions = ref<Array<any>>([])
-const dataOrgOptions = ref<Array<any>>([])
-const orgTreeRef = ref<InstanceType<typeof ElTree>>()
-const expandedKeys = ref<string[]>([])
+const dataOptions = ref<Array<any>>([]);
+const dataOrgOptions = ref<Array<any>>([]);
+const orgTreeRef = ref<InstanceType<typeof ElTree>>();
+const expandedKeys = ref<string[]>([]);
 
 const renderClass = (data: TreeNodeData): string | {
   [key: string]: boolean
 } => {
   let value = props.displayValue || 'value';
-  const val = dataOptions.value.find((e) => e[value] === data[value])
+  const val = dataOptions.value.find((e) => e[value] === data[value]);
   if (val) {
-    return 'is-active'
+    return 'is-active';
   } else {
-    return ''
+    return '';
   }
-}
+};
 
 const onNodeClick = (data: any) => {
   let value = props.displayValue || 'value';
   if (props.multiple) {
-    const index = dataOptions.value.findIndex((e) => e[value] === data[value])
+    const index = dataOptions.value.findIndex((e) => e[value] === data[value]);
     if (index === -1) {
-      dataOptions.value.push(data)
-      dataOptions.value.sort((a, b) => a[value].localeCompare(b[value]))
+      dataOptions.value.push(data);
+      dataOptions.value.sort((a, b) => a[value].localeCompare(b[value]));
     } else {
-      dataOptions.value.splice(index, 1)
+      dataOptions.value.splice(index, 1);
     }
   } else {
-    const index = dataOptions.value.findIndex((e) => e[value] === data[value])
+    const index = dataOptions.value.findIndex((e) => e[value] === data[value]);
     if (index === -1) {
-      dataOptions.value = [data]
+      dataOptions.value = [data];
     } else {
-      dataOptions.value.splice(index, 1)
+      dataOptions.value.splice(index, 1);
     }
   }
   // console.log("onNodeClick", dataOptions.value);
-}
-const dialogVisible = ref(false)
+};
+const dialogVisible = ref(false);
 const queryForm = reactive({
   name: null
-})
+});
 
 watch(
     () => queryForm.name,
     (val) => {
-      orgTreeRef.value?.filter(val)
+      orgTreeRef.value?.filter(val);
     }
-)
+);
 const filterNode = (value: string, data: TreeNodeData): boolean => {
   if (!value) return true;
   // if (props.pageSize > 0) {
   //
   // } else {
-  return data[props.displayName].includes(value)
+  return data[props.displayName].includes(value);
   // }
 
-}
+};
 let pageInfo = reactive<PageProps>({
   pageSize: 20,
   currentPage: 1,
@@ -132,29 +132,29 @@ const loadData = () => {
   }).finally(() => {
     closeLoad();
   });
-}
+};
 const open = () => {
-  dialogVisible.value = true
-}
+  dialogVisible.value = true;
+};
 const onOpen = () => {
   if (props.datas && props.datas.length > 0) {
     dataOrgOptions.value = props.datas;
   } else {
     loadData();
   }
-  let dataIds: string[] = []
+  let dataIds: string[] = [];
   if (Array.isArray(value.value)) {
-    dataIds.push(...value.value)
+    dataIds.push(...value.value);
   } else if (value.value) {
-    dataIds.push(value.value)
+    dataIds.push(value.value);
   }
   if (dataIds.length > 0) {
 
   } else {
-    dataOptions.value = []
+    dataOptions.value = [];
   }
-  console.log("onOpen", dataOrgOptions);
-}
+  console.log('onOpen', dataOrgOptions);
+};
 const handelConfirm = () => {
   if (props.multiple) {
     value.value = dataOptions.value;
@@ -162,17 +162,17 @@ const handelConfirm = () => {
     if (dataOptions.value.length > 0) {
       value.value = dataOptions.value[0];
     } else {
-      value.value = null
+      value.value = null;
     }
   }
-  dialogVisible.value = false
-}
+  dialogVisible.value = false;
+};
 const resetData = () => {
   dataOptions.value = [];
-}
+};
 defineExpose({
   open
-})
+});
 </script>
 
 <template>

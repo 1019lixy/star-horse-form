@@ -25,10 +25,10 @@
   </starhorse-form-item>
 </template>
 <script lang="ts">
-import {defineComponent, onMounted, ref, shallowRef} from "vue";
-import Crontab from "@/components/cron/Crontab.vue";
-import StarHorseDialog from "@/components/comp/StarHorseDialog.vue";
-import {allAction} from "@/components/formcomp/utils/ItemRelationEventUtils.ts";
+import {defineComponent, onMounted, ref, shallowRef} from 'vue';
+import Crontab from '@/components/cron/Crontab.vue';
+import StarHorseDialog from '@/components/comp/StarHorseDialog.vue';
+import {allAction} from '@/components/formcomp/utils/ItemRelationEventUtils.ts';
 
 export default defineComponent({
   components: {Crontab, StarHorseDialog},
@@ -36,17 +36,17 @@ export default defineComponent({
   setup(_props, context) {
     // console.log(context);
     // const emit = context.emit;
-    const field = context.attrs["field"] as any;
+    const field = context.attrs['field'] as any;
     // let defaultExpress = useVModel(field, 'modelValue', emit);
 
-    const parentField = context.attrs["parentField"];
-    let cronDataValue = ref<any>("");
-    let dataValue = ref<any>("");
+    const parentField = context.attrs['parentField'];
+    let cronDataValue = ref<any>('');
+    let dataValue = ref<any>('');
     let formItem = shallowRef({label: 'input', required: false});
-    let dataField = shallowRef("");
+    let dataField = shallowRef('');
     let cronVisible = ref(false);
     const cronTabRef = ref();
-    let actionName = shallowRef("change");
+    let actionName = shallowRef('change');
     const itemAction = (prep: any) => {
       allAction(context, prep);
     };
@@ -63,22 +63,22 @@ export default defineComponent({
       cronDataValue.value = context.attrs['formData'][field.preps['name']];
       console.log(cronDataValue.value);
       cronVisible.value = true;
-    }
+    };
     const submit = () => {
       context.attrs['formData'][field.preps['name']] = cronDataValue.value;
       close();
     };
     resetForm();
     onMounted(() => {
-      actionName.value = field.preps?.actionName || "keydown.enter";
-      if (!context.attrs["isSearch"]) {
+      actionName.value = field.preps?.actionName || 'keydown.enter';
+      if (!context.attrs['isSearch']) {
         allAction(context, actionName.value, true);
       }
     });
     return {
       parentField, context, field, formItem, dataField, itemAction, cronVisible, resetForm, close,
       submit, cronTabRef, actionName, dataValue, cronDataValue, open
-    }
+    };
   }
 });
 </script>

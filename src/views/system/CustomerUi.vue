@@ -1,29 +1,29 @@
 <script setup lang="ts" name="Customer">
-import {apiInstance, dialogPreps} from "@/api/sh_api.ts";
-import {ApiUrls} from "@/components/types/ApiUrls";
-import {Config} from "@/api/settings.ts";
-import {onMounted, provide, reactive, ref} from "vue";
-import {SearchFields, SelectOption} from "@/components/types/SearchProps";
-import {PageFieldInfo} from "@/components/types/PageFieldInfo";
-import {loadElementPlusIcon} from "@/api/sh_api";
+import {apiInstance, dialogPreps} from '@/api/sh_api.ts';
+import {ApiUrls} from '@/components/types/ApiUrls';
+import {Config} from '@/api/settings.ts';
+import {onMounted, provide, reactive, ref} from 'vue';
+import {SearchFields, SelectOption} from '@/components/types/SearchProps';
+import {PageFieldInfo} from '@/components/types/PageFieldInfo';
+import {loadElementPlusIcon} from '@/api/sh_api';
 //后端交互接口地址
-const dataUrl: ApiUrls = apiInstance("system-config", "system/customer");
+const dataUrl: ApiUrls = apiInstance('system-config', 'system/customer');
 //查询属性
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: "客户名称",
+      label: '客户名称',
       defaultVisible: true,
-      fieldName: "customerName",
-      type: "input",
-      matchType: "lk"
+      fieldName: 'customerName',
+      type: 'input',
+      matchType: 'lk'
     },
     {
-      label: "客户编码",
-      fieldName: "customerCode",
-      type: "input",
+      label: '客户编码',
+      fieldName: 'customerCode',
+      type: 'input',
       defaultVisible: true,
-      matchType: "lk"
+      matchType: 'lk'
     },
   ]
 });
@@ -32,102 +32,102 @@ let systemIconList = ref<SelectOption[]>([]);
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     {
-      label: "主键",
-      fieldName: "idCustomer",
-      type: "long",
+      label: '主键',
+      fieldName: 'idCustomer',
+      type: 'long',
       required: true,
     },
     {
-      label: "客户名称",
-      fieldName: "customerName",
-      type: "input",
+      label: '客户名称',
+      fieldName: 'customerName',
+      type: 'input',
       required: true,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "客户编码",
-      fieldName: "customerCode",
-      type: "input",
-      disabled: "Y",
+      label: '客户编码',
+      fieldName: 'customerCode',
+      type: 'input',
+      disabled: 'Y',
       listVisible: true,
     },
     {
-      label: "Logo",
-      fieldName: "customerLogo",
-      type: "icon",
+      label: 'Logo',
+      fieldName: 'customerLogo',
+      type: 'icon',
       formVisible: true,
       listVisible: true,
       optionList: systemIconList,
     },
     {
-      label: "描述",
-      fieldName: "customerDesc",
-      type: "textarea",
+      label: '描述',
+      fieldName: 'customerDesc',
+      type: 'textarea',
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "创建人", disabled: "Y",
-      fieldName: "createdBy",
-      type: "input",
+      label: '创建人', disabled: 'Y',
+      fieldName: 'createdBy',
+      type: 'input',
     },
     {
-      label: "修改人", disabled: "Y",
-      fieldName: "updatedBy",
-      type: "input",
+      label: '修改人', disabled: 'Y',
+      fieldName: 'updatedBy',
+      type: 'input',
     },
     {
-      label: "创建时间",
-      fieldName: "createdDate",
-      type: "date",
+      label: '创建时间',
+      fieldName: 'createdDate',
+      type: 'date',
     },
     {
-      label: "修改时间",
-      fieldName: "updatedDate",
-      type: "date",
+      label: '修改时间',
+      fieldName: 'updatedDate',
+      type: 'date',
     },
     {
-      label: "版本号",
-      fieldName: "version",
-      type: "number",
+      label: '版本号',
+      fieldName: 'version',
+      type: 'number',
     },
     {
-      label: "是否逻辑删除",
-      fieldName: "isDel",
-      type: "number",
+      label: '是否逻辑删除',
+      fieldName: 'isDel',
+      type: 'number',
     },
     {
-      label: "数据编号",
-      fieldName: "dataNo",
-      type: "input",
+      label: '数据编号',
+      fieldName: 'dataNo',
+      type: 'input',
     },
     {
-      label: "状态码",
-      fieldName: "statusCode",
-      type: "input",
+      label: '状态码',
+      fieldName: 'statusCode',
+      type: 'input',
     },
     {
-      label: "状态名称",
-      fieldName: "statusName",
-      type: "input",
+      label: '状态名称',
+      fieldName: 'statusName',
+      type: 'input',
     },
     {
-      label: "国际码",
-      fieldName: "local",
-      type: "input",
+      label: '国际码',
+      fieldName: 'local',
+      type: 'input',
     },
   ],
   cellEditable: true,
 });
 //主键
-const primaryKey = "idCustomer";
+const primaryKey = 'idCustomer';
 const customerRef = ref();
 //校验
 const rules = {};
 //控制弹窗相关设置
 const dialogProps = dialogPreps();
-provide("dialogProps", dialogProps);
+provide('dialogProps', dialogProps);
 
 //初始化方法
 const initData = async () => {
@@ -145,7 +145,7 @@ onMounted(async () => {
 const dataFormat = (_name: string, cellValue: any, row: any): any => {
   //转换显示信息
   return cellValue;
-}
+};
 </script>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">

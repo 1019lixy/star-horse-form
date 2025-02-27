@@ -1,42 +1,42 @@
 <script setup lang="ts">
-import StarHorseFormItem from "@/components/comp/StarHorseFormItem.vue";
-import {onMounted, PropType, ref} from "vue";
-import {ApiUrls} from "@/components/types/ApiUrls";
-import {FieldInfo} from "@/components/types/PageFieldInfo";
-import StarHorseFormTable from "@/components/comp/StarHorseFormTable.vue";
-import {ModelRef} from "vue-demi";
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-import {Config} from "@/api/settings.ts";
+import StarHorseFormItem from '@/components/comp/StarHorseFormItem.vue';
+import {onMounted, PropType, ref} from 'vue';
+import {ApiUrls} from '@/components/types/ApiUrls';
+import {FieldInfo} from '@/components/types/PageFieldInfo';
+import StarHorseFormTable from '@/components/comp/StarHorseFormTable.vue';
+import {ModelRef} from 'vue-demi';
+import StarHorseIcon from '@/components/comp/StarHorseIcon.vue';
+import {Config} from '@/api/settings.ts';
 
 const props = defineProps({
   compUrl: {type: Object as PropType<ApiUrls>},
   item: {type: Array as PropType<Array<FieldInfo>>, required: true},
   objectName: {type: String},
   parentPreps: {type: Object, default: {}},
-  subFormFlag: {type: String, default: "N"},
-  batchName: {type: String, default: "batchDataList"},
-  batchFieldName: {type: String, default: "batchFieldList"},
+  subFormFlag: {type: String, default: 'N'},
+  batchName: {type: String, default: 'batchDataList'},
+  batchFieldName: {type: String, default: 'batchFieldList'},
   primaryKey: {type: String, required: true},
   rules: {type: Object},
   compSize: {type: String, default: Config.compSize},
   isView: {type: Boolean, default: false},
 });
-const emits = defineEmits(["addRow", "removeRow"]);
-const dataForm: ModelRef<any> = defineModel("dataForm");
-const normalTabList = ref<string>("tab0");
+const emits = defineEmits(['addRow', 'removeRow']);
+const dataForm: ModelRef<any> = defineModel('dataForm');
+const normalTabList = ref<string>('tab0');
 const checkObject = (item: any) => {
   if (item && item.objectName && !Object.keys(dataForm.value).includes(item.objectName)) {
     dataForm.value[item.objectName] = {};
   }
   return 1;
-}
+};
 /**
  * 列表添加行数据
  * @param row
  */
 const addRow = (row: any) => {
-  emits("addRow", row);
-}
+  emits('addRow', row);
+};
 const closeOperation = (tabName: any) => {
   props.item.tabList?.forEach((item: any, index: number) => {
     if (item.tabName == tabName) {
@@ -47,17 +47,17 @@ const closeOperation = (tabName: any) => {
       return false;
     }
   });
-}
+};
 /**
  * 列表删除行数据
  * @param row
  */
 const removeRow = (row: any) => {
-  emits("removeRow", row);
-}
+  emits('removeRow', row);
+};
 const init = () => {
 
-}
+};
 onMounted(() => {
   init();
 });
