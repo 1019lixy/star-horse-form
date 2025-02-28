@@ -136,10 +136,15 @@ input::input-placeholder {
 
 .copyright {
   position: fixed;
+  display: flex;
   width: 100%;
-  left: 0;
+  left: 50%;
   bottom: 10px;
   text-align: center;
+  align-items: center;
+  justify-content: center;
+  transform: translateX(-50%);
+  z-index: 1000;
   color: rgba(0, 0, 0, 0.5);
   font-size: 12px;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);

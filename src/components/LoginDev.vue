@@ -174,7 +174,10 @@
         </ul>
       </div>
       <div
-        class="md:flex md:items-center md:justify-center sm:w-auto md:h-full w-2/5 xl:w-2/5 p-8 md:p-10 lg:p-14 flex-col sm:rounded-lg md:rounded-none bg-white"
+        class="md:flex md:items-center
+        md:justify-center sm:w-auto
+        md:h-full md:w-2/5 xl:w-2/5 p-8 md:p-10 lg:p-14 flex-col
+        sm:rounded-lg md:rounded-none bg-white"
       >
         <div class="w-xl space-y-8 relative" style="position: relative; background: #fff">
           <div class="text-center">
@@ -209,6 +212,7 @@
             <span class="text-gray-300 font-normal">{{ i18n("loginButton.login") }}</span>
             <span class="h-px w-16 bg-gray-200"></span>
           </div>
+
           <el-form
             :model="loginForm"
             :rules="loginRules"
@@ -297,8 +301,9 @@
               </div>
             </div>
           </el-form>
+
         </div>
-        <div class="copyright" style="position: absolute; bottom: 5px">{{ i18n("starhorse.copyright") }}</div>
+        <div class="copyright items-center justify-center" style="position: absolute; bottom: 5px">{{ i18n("starhorse.copyright") }}</div>
       </div>
     </div>
   </div>
