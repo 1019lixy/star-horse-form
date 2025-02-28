@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import {flowCommon} from '@/views/workflow/plugin/utils/flowCommon.ts';
-import {ref} from 'vue';
+  import { flowCommon } from "@/views/workflow/plugin/utils/flowCommon.ts";
+  import { ref } from "vue";
 
-let radioGroup = ref<number>(0);
+  let radioGroup = ref<number>(0);
 </script>
 <template>
   <div class="flow-module">
@@ -12,12 +12,8 @@ let radioGroup = ref<number>(0);
         <div class="flow-block-desc">通过设置推送提醒指定成员填写表单</div>
         <div class="flow-block-content">
           <el-radio-group v-model="radioGroup" :size="flowCommon.size" :default-value="1">
-            <el-radio :value="1">
-              默认
-            </el-radio>
-            <el-radio :value="2">
-              自定义打印模板
-            </el-radio>
+            <el-radio :value="1"> 默认 </el-radio>
+            <el-radio :value="2"> 自定义打印模板 </el-radio>
           </el-radio-group>
           <div class="flow-block-tabContent">
             <div class="flow-block-defaultTab">
@@ -34,4 +30,4 @@ let radioGroup = ref<number>(0);
     </div>
   </div>
 </template>
-<style lang=“scss”></style>
+<style lang="“scss”"></style>

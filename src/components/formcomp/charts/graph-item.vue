@@ -1,11 +1,5 @@
-<script setup lang="ts">
+<script setup lang="ts"></script>
 
-</script>
+<template>关系图</template>
 
-<template>
-  关系图
-</template>
-
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>

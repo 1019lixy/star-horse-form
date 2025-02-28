@@ -1,13 +1,9 @@
 <script setup lang="ts">
-defineOptions({
-  name: 'PageTableItem',
-});
+  defineOptions({
+    name: "PageTableItem"
+  });
 </script>
 
-<template>
-  列表内容
-</template>
+<template>列表内容</template>
 
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>

@@ -1,13 +1,9 @@
 <script setup lang="ts">
-defineOptions({
-  name: 'PagePagebarItem',
-});
+  defineOptions({
+    name: "PagePagebarItem"
+  });
 </script>
 
-<template>
-  分页条
-</template>
+<template>分页条</template>
 
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>

@@ -1,11 +1,5 @@
-<script setup lang="ts">
+<script setup lang="ts"></script>
 
-</script>
+<template>自定义图</template>
 
-<template>
-  自定义图
-</template>
-
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>

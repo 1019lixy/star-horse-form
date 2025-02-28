@@ -1,11 +1,5 @@
-<script setup lang="ts" name="SqlAuditCfg">
+<script setup lang="ts" name="SqlAuditCfg"></script>
 
-</script>
+<template></template>
 
-<template>
-
-</template>
-
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>

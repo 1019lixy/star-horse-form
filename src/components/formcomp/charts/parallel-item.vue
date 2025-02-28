@@ -1,11 +1,5 @@
-<script setup lang="ts">
+<script setup lang="ts"></script>
 
-</script>
+<template>平行坐标系</template>
 
-<template>
-  平行坐标系
-</template>
-
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>

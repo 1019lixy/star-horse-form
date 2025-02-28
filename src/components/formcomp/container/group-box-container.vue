@@ -1,205 +1,216 @@
 <script setup lang="ts" name="GroupBoxContainer">
-import {operationConfirm} from '@/utils/message';
-import piniaInstance from '@/store/index.ts';
-import {DesignForm} from '@/store/DesignFormStore.ts';
-import {computed, ref} from 'vue';
-import {colDataInfo} from '@/components/formcomp/container/dytableUtils.ts';
-import {dynamicFormContextMenuData} from '@/views/dyform/page/AblesPlugin.ts';
-import FieldList from '@/components/formcomp/utils/FieldList.vue';
-import StarHorseDialog from '@/components/comp/StarHorseDialog.vue';
-import {fieldCopy} from '@/views/dyform/utils/FieldOperationUtils.ts';
+  import { operationConfirm } from "@/utils/message";
+  import piniaInstance from "@/store/index.ts";
+  import { DesignForm } from "@/store/DesignFormStore.ts";
+  import { computed, ref } from "vue";
+  import { colDataInfo } from "@/components/formcomp/container/dytableUtils.ts";
+  import { dynamicFormContextMenuData } from "@/views/dyform/page/AblesPlugin.ts";
+  import FieldList from "@/components/formcomp/utils/FieldList.vue";
+  import StarHorseDialog from "@/components/comp/StarHorseDialog.vue";
+  import { fieldCopy } from "@/views/dyform/utils/FieldOperationUtils.ts";
 
-const props = defineProps({
-  parentField: {type: Object},
-  formItem: {type: Object, required: true},
-});
-let designForm = DesignForm(piniaInstance);
-let compList = computed(() => designForm.compList);
-let currentItemId = computed(() => designForm.currentItemId);
-let componentVisible = computed(() => {
-  return designForm.componentVisible && currentItemId.value == props.formItem?.preps.id;
-});
-let isEdit = computed(() => designForm.isEdit);
-const selectData = () => {
-  let container = props.formItem;
-  designForm.selectItem(container, container?.itemType, '');
-};
-const removeData = () => {
-  operationConfirm('删除容器，容器内的所有元素都会被删除').then(res => {
-    if (res) {
-      let id = props.formItem.preps?.id || props.formItem.id;
-      console.log(id, props.parentField);
-      if (props.parentField?.itemType == 'tab') {
-        let elements = props.parentField!.preps.elements;
-        for (let i = 0; i < elements.length; i++) {
-          let items = elements[i].items;
-          for (let j = 0; j < items.length; j++) {
-            if (id === items[j]?.id) {
-              items.splice(j, 1);
-              return;
+  const props = defineProps({
+    parentField: { type: Object },
+    formItem: { type: Object, required: true }
+  });
+  let designForm = DesignForm(piniaInstance);
+  let compList = computed(() => designForm.compList);
+  let currentItemId = computed(() => designForm.currentItemId);
+  let componentVisible = computed(() => {
+    return designForm.componentVisible && currentItemId.value == props.formItem?.preps.id;
+  });
+  let isEdit = computed(() => designForm.isEdit);
+  const selectData = () => {
+    let container = props.formItem;
+    designForm.selectItem(container, container?.itemType, "");
+  };
+  const removeData = () => {
+    operationConfirm("删除容器，容器内的所有元素都会被删除").then((res) => {
+      if (res) {
+        let id = props.formItem.preps?.id || props.formItem.id;
+        console.log(id, props.parentField);
+        if (props.parentField?.itemType == "tab") {
+          let elements = props.parentField!.preps.elements;
+          for (let i = 0; i < elements.length; i++) {
+            let items = elements[i].items;
+            for (let j = 0; j < items.length; j++) {
+              if (id === items[j]?.id) {
+                items.splice(j, 1);
+                return;
+              }
+            }
+          }
+        } else if (props.parentField?.itemType == "box") {
+        } else {
+          let dataList = compList.value;
+          for (let i = 0; i < dataList.length; i++) {
+            if (id === dataList[i].id) {
+              dataList.splice(i, 1);
             }
           }
         }
-      } else if (props.parentField?.itemType == 'box') {
-      } else {
-        let dataList = compList.value;
-        for (let i = 0; i < dataList.length; i++) {
-          if (id === dataList[i].id) {
-            dataList.splice(i, 1);
-          }
-        }
       }
-    }
-  });
-};
-const containerContextMenuRef = ref();
-const containerContextMenu = (evt: MouseEvent) => {
-  evt.stopPropagation();
-  evt.preventDefault();
-  console.log('容器触发。。。');
-  evt.props = props;
-  containerContextMenuRef.value?.show(evt);
-};
-const close = () => {
-  designForm.setComponentVisible(false);
-};
-const addItem = (item: any) => {
-  let type = item.category == 2 ? 'container' : 'formItem';
-  let data = fieldCopy(item, type);
-  let itemType = props.formItem.itemType;
-  console.log(data, props.formItem);
-  let activeItemName = props.formItem.activeItemName;
-  let elements = props.formItem.preps.elements;
-  for (let index in elements) {
-    let element = elements[index];
-    if (activeItemName && activeItemName != element.tabName) {
-      continue;
-    }
-    let columns = element.columns;
-    if (!columns) {
-      let items = element.items;
-      if (itemType == 'table') {
-        if (items.length == 0) {
+    });
+  };
+  const containerContextMenuRef = ref();
+  const containerContextMenu = (evt: MouseEvent) => {
+    evt.stopPropagation();
+    evt.preventDefault();
+    console.log("容器触发。。。");
+    evt.props = props;
+    containerContextMenuRef.value?.show(evt);
+  };
+  const close = () => {
+    designForm.setComponentVisible(false);
+  };
+  const addItem = (item: any) => {
+    let type = item.category == 2 ? "container" : "formItem";
+    let data = fieldCopy(item, type);
+    let itemType = props.formItem.itemType;
+    console.log(data, props.formItem);
+    let activeItemName = props.formItem.activeItemName;
+    let elements = props.formItem.preps.elements;
+    for (let index in elements) {
+      let element = elements[index];
+      if (activeItemName && activeItemName != element.tabName) {
+        continue;
+      }
+      let columns = element.columns;
+      if (!columns) {
+        let items = element.items;
+        if (itemType == "table") {
+          if (items.length == 0) {
+            items.push(data);
+            return;
+          }
+        } else {
           items.push(data);
           return;
         }
-      } else {
-        items.push(data);
-        return;
       }
-    }
-    for (let colIndex in columns) {
-      let col = columns[colIndex];
-      if (col.items.length == 0) {
-        col.items.push(data);
-        // designForm.selectItem(data, data.itemType, type);
-        return;
-      }
-    }
-  }
-};
-const tableOperation = (actonName: string, _preps: any) => {
-  let preps = props.formItem.preps;
-  if (!preps.elements) {
-    preps['elements'] = [];
-  }
-  let isBox = props.formItem.itemType == 'box';
-  if (actonName == 'insertRow') {
-    //获取最大的数字
-    let rows: Array<any> = preps.elements;
-    if (rows.length > 0) {
-      let columns: Array<any> = [];
-      let len: number = 1;
-      for (let index in rows) {
-        let colLen = rows[index]?.columns?.length;
-        if (colLen > len) {
-          len = colLen;
+      for (let colIndex in columns) {
+        let col = columns[colIndex];
+        if (col.items.length == 0) {
+          col.items.push(data);
+          // designForm.selectItem(data, data.itemType, type);
+          return;
         }
       }
-      for (let i = 0; i < len; i++) {
+    }
+  };
+  const tableOperation = (actonName: string, _preps: any) => {
+    let preps = props.formItem.preps;
+    if (!preps.elements) {
+      preps["elements"] = [];
+    }
+    let isBox = props.formItem.itemType == "box";
+    if (actonName == "insertRow") {
+      //获取最大的数字
+      let rows: Array<any> = preps.elements;
+      if (rows.length > 0) {
+        let columns: Array<any> = [];
+        let len: number = 1;
+        for (let index in rows) {
+          let colLen = rows[index]?.columns?.length;
+          if (colLen > len) {
+            len = colLen;
+          }
+        }
+        for (let i = 0; i < len; i++) {
+          let col = colDataInfo();
+          if (isBox) {
+            col.colspan = 24 / len;
+          }
+          columns.push(col);
+        }
+        preps.elements.push({
+          columns: columns
+        });
+      } else {
         let col = colDataInfo();
         if (isBox) {
-          col.colspan = 24 / len;
+          col.colspan = 24;
         }
-        columns.push(col);
-      }
-      preps.elements.push({
-        columns: columns
-      });
-    } else {
-      let col = colDataInfo();
-      if (isBox) {
-        col.colspan = 24;
-      }
-      preps.elements.push({
-        columns: []
-      });
-    }
-  } else if (actonName == 'insertCol') {
-    if (props.formItem.itemType == 'table') {
-      preps.columns = (preps.columns || 1) + 1;
-      return;
-    }
-    for (let index in preps.elements) {
-      let row: any = preps.elements[index];
-      if (!row.columns) {
-        row['columns'] = [];
-      }
-      let col = colDataInfo();
-      if (isBox) {
-        col.colspan = 24 / (row.columns.length + 1);
-        row.columns.forEach((item: any) => {
-          item.colspan = col.colspan;
+        preps.elements.push({
+          columns: []
         });
       }
-      row.columns.push(col);
+    } else if (actonName == "insertCol") {
+      if (props.formItem.itemType == "table") {
+        preps.columns = (preps.columns || 1) + 1;
+        return;
+      }
+      for (let index in preps.elements) {
+        let row: any = preps.elements[index];
+        if (!row.columns) {
+          row["columns"] = [];
+        }
+        let col = colDataInfo();
+        if (isBox) {
+          col.colspan = 24 / (row.columns.length + 1);
+          row.columns.forEach((item: any) => {
+            item.colspan = col.colspan;
+          });
+        }
+        row.columns.push(col);
+      }
     }
-  }
-};
+  };
 </script>
 <template>
-  <star-horse-dialog box-width="450px" :is-view="true" :full-screen="false" title="添加组件" :self-func="true"
-                     :dialog-visible="componentVisible"
-                     @closeAction="close">
+  <star-horse-dialog
+    box-width="450px"
+    :is-view="true"
+    :full-screen="false"
+    title="添加组件"
+    :self-func="true"
+    :dialog-visible="componentVisible"
+    @closeAction="close"
+  >
     <template #footer>
       <el-button type="primary" size="default" @click="close">确定</el-button>
     </template>
-    <field-list @selectData="addItem"/>
+    <field-list @selectData="addItem" />
   </star-horse-dialog>
   <div class="field-item" v-if="isEdit" @contextmenu="containerContextMenu">
     <slot></slot>
-    <div class="drag-handler" v-if="isEdit&&currentItemId==formItem.id">
+    <div class="drag-handler" v-if="isEdit && currentItemId == formItem.id">
       <el-tooltip content="拖动">
-        <star-horse-icon icon-class="drag" style="color: var(--star-horse-white)"/>
+        <star-horse-icon icon-class="drag" style="color: var(--star-horse-white)" />
       </el-tooltip>
       <el-tooltip content="选中容器">
-        <star-horse-icon class="icon-cls" @click.stop="selectData" icon-class="select-parent"
-                         style="color:var(--star-horse-white);"/>
+        <star-horse-icon
+          class="icon-cls"
+          @click.stop="selectData"
+          icon-class="select-parent"
+          style="color: var(--star-horse-white)"
+        />
       </el-tooltip>
       <el-tooltip content="删除容器">
-        <star-horse-icon class="icon-cls" @click.stop="removeData" icon-class="clear-all"
-                         style="color:var(--star-horse-white);"/>
+        <star-horse-icon
+          class="icon-cls"
+          @click.stop="removeData"
+          icon-class="clear-all"
+          style="color: var(--star-horse-white)"
+        />
       </el-tooltip>
     </div>
-    <div
-        class="field-action"
-        v-if="isEdit&&currentItemId==formItem.id"
-    >
-      <template v-if="formItem.itemType=='dytable'||formItem.itemType=='box'">
+    <div class="field-action" v-if="isEdit && currentItemId == formItem.id">
+      <template v-if="formItem.itemType == 'dytable' || formItem.itemType == 'box'">
         <el-tooltip content="插入行">
           <star-horse-icon
-              @click.stop="tableOperation('insertRow',formItem?.preps)"
-              icon-class="insert_row"
-              style="color: var(--star-horse-white)"
+            @click.stop="tableOperation('insertRow', formItem?.preps)"
+            icon-class="insert_row"
+            style="color: var(--star-horse-white)"
           />
         </el-tooltip>
       </template>
-      <template v-if="formItem.itemType=='dytable'||formItem.itemType=='box'||formItem.itemType=='table'">
+      <template v-if="formItem.itemType == 'dytable' || formItem.itemType == 'box' || formItem.itemType == 'table'">
         <el-tooltip content="插入列">
           <star-horse-icon
-              @click.stop="tableOperation('insertCol',formItem?.preps)"
-              icon-class="insert_col"
-              style="color: var(--star-horse-white)"
+            @click.stop="tableOperation('insertCol', formItem?.preps)"
+            icon-class="insert_col"
+            style="color: var(--star-horse-white)"
           />
         </el-tooltip>
       </template>
@@ -212,8 +223,10 @@ const tableOperation = (actonName: string, _preps: any) => {
             </el-tooltip>-->
     </div>
     <Teleport to="body">
-      <ContentMenu ref="containerContextMenuRef"
-                   :menu-data="dynamicFormContextMenuData(formItem,parentField,'container')"/>
+      <ContentMenu
+        ref="containerContextMenuRef"
+        :menu-data="dynamicFormContextMenuData(formItem, parentField, 'container')"
+      />
     </Teleport>
   </div>
   <div class="field-item" style="border: unset" v-else>
@@ -221,113 +234,114 @@ const tableOperation = (actonName: string, _preps: any) => {
   </div>
 </template>
 <style lang="scss" scoped>
-.field-item {
-  width: 99%;
-  position: relative;
-  padding: 3px;
-  border: 1px dashed #e6a23c;
-  margin: 3px auto;
+  .field-item {
+    width: 99%;
+    position: relative;
+    padding: 3px;
+    border: 1px dashed #e6a23c;
+    margin: 3px auto;
 
-  .field-action {
-    position: absolute;
-    top: 0;
-    transform: translate(0, -100%);
-    right: 0;
-    align-items: center;
-    background: var(--star-horse-style);
-    z-index: 99;
-    display: flex;
+    .field-action {
+      position: absolute;
+      top: 0;
+      transform: translate(0, -100%);
+      right: 0;
+      align-items: center;
+      background: var(--star-horse-style);
+      z-index: 99;
+      display: flex;
 
-    .svg-icon {
-      font-size: 14px;
-      color: var(--star-horse-white);
-      margin: 0 3px;
-      cursor: pointer;
+      .svg-icon {
+        font-size: 14px;
+        color: var(--star-horse-white);
+        margin: 0 3px;
+        cursor: pointer;
+      }
+    }
+
+    .drag-handler {
+      position: absolute;
+      top: 0;
+      left: 3px;
+      transform: translate(0, -100%);
+      background: var(--star-horse-style);
+      z-index: 999;
+      text-align: right;
+      align-items: center;
+      display: flex;
+      flex-direction: row;
+
+      .icon-cls {
+        font-size: 14px;
+        color: var(--star-horse-white);
+        margin: 0 3px;
+        cursor: pointer;
+      }
     }
   }
 
+  .field-action,
   .drag-handler {
-    position: absolute;
-    top: 0;
-    left: 3px;
-    transform: translate(0, -100%);
-    background: var(--star-horse-style);
-    z-index: 999;
-    text-align: right;
-    align-items: center;
-    display: flex;
-    flex-direction: row;
-
-    .icon-cls {
-      font-size: 14px;
-      color: var(--star-horse-white);
-      margin: 0 3px;
-      cursor: pointer;
+    .svg-icon {
+      margin-left: 0;
+      margin-right: 0;
     }
   }
 
-}
+  .el-form-item {
+    position: relative;
 
-.field-action, .drag-handler {
-  .svg-icon {
-    margin-left: 0;
-    margin-right: 0;
-  }
-}
+    :deep(.el-form-item__label) {
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
 
-.el-form-item {
-  position: relative;
+    span.custom-label .icon-cls {
+      margin: 0 3px;
+    }
 
-  :deep(.el-form-item__label) {
-    white-space: nowrap;
-    text-overflow: ellipsis;
-  }
+    :deep(.hide-spin-button) input::-webkit-outer-spin-button,
+    :deep(.hide-spin-button) input::-webkit-inner-spin-button {
+      -webkit-appearance: none !important;
+    }
 
-  span.custom-label .icon-cls {
-    margin: 0 3px;
-  }
-
-  :deep(.hide-spin-button) input::-webkit-outer-spin-button,
-  :deep(.hide-spin-button) input::-webkit-inner-spin-button {
-    -webkit-appearance: none !important;
+    :deep(.hide-spin-button) input[type="number"] {
+      -moz-appearance: textfield;
+    }
   }
 
-  :deep(.hide-spin-button) input[type="number"] {
-    -moz-appearance: textfield;
+  .required :deep(.el-form-item__label)::before {
+    content: "*";
+    color: #f56c6c;
+    margin-right: 4px;
   }
-}
 
-.required :deep(.el-form-item__label)::before {
-  content: '*';
-  color: #F56C6C;
-  margin-right: 4px;
-}
-
-.static-content-item {
-  min-height: 20px;
-  display: flex; /* 垂直居中 */
-  align-items: center; /* 垂直居中 */
-  :deep(.el-divider--horizontal) {
-    margin: 0;
+  .static-content-item {
+    min-height: 20px;
+    display: flex; /* 垂直居中 */
+    align-items: center; /* 垂直居中 */
+    :deep(.el-divider--horizontal) {
+      margin: 0;
+    }
   }
-}
 
-.el-form-item.selected, .static-content-item.selected {
-  outline: 2px solid var(--star-horse-style);
-}
+  .el-form-item.selected,
+  .static-content-item.selected {
+    outline: 2px solid var(--star-horse-style);
+  }
 
-:deep(.label-left-align) .el-form-item__label {
-  text-align: left;
-  justify-content: flex-start !important;
-}
+  :deep(.label-left-align) .el-form-item__label {
+    text-align: left;
+    justify-content: flex-start !important;
+  }
 
-:deep(.label-center-align) .el-form-item__label {
-  text-align: center;
-  justify-content: center !important;
-}
+  :deep(.label-center-align) .el-form-item__label {
+    text-align: center;
+    justify-content: center !important;
+  }
 
-:deep(.label-right-align) .el-form-item__label {
-  text-align: right;
-  justify-content: flex-end !important;
-}
+  :deep(.label-right-align) .el-form-item__label {
+    text-align: right;
+    justify-content: flex-end !important;
+  }
 </style>

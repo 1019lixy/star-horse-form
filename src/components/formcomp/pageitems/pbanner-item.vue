@@ -1,13 +1,9 @@
 <script setup lang="ts">
-defineOptions({
-  name: 'PageBannerItem',
-});
+  defineOptions({
+    name: "PageBannerItem"
+  });
 </script>
 
-<template>
-  广告栏
-</template>
+<template>广告栏</template>
 
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>

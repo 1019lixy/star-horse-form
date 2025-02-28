@@ -5,60 +5,60 @@
         <div class="node-name" :class="nameClass(node, 'node-temmi')">
           分隔
           <div v-if="!readable" class="close-icon">
-            <star-horse-icon iconClass="close"/>
+            <star-horse-icon iconClass="close" />
           </div>
         </div>
       </div>
-      <FlowAddNode :node="node" :nodeType="FlowNodeEnums.SUGGEST_NODE" :readable="readable"/>
+      <FlowAddNode :node="node" :nodeType="FlowNodeEnums.SUGGEST_NODE" :readable="readable" />
     </div>
   </div>
 </template>
 <script setup lang="ts">
-import FlowAddNode from '@/views/workflow/plugin/node/AddNode.vue';
-import {computed, onMounted} from 'vue';
-import {FlowNodeEnums} from '@/views/workflow/plugin/enums/FlowNodeEnums.ts';
-import {closeLoad} from '@/api/sh_api.ts';
-import {useFlowDesign} from '@/store/FlowDesignStore.ts';
-import piniaInstance from '@/store';
+  import FlowAddNode from "@/views/workflow/plugin/node/AddNode.vue";
+  import { computed, onMounted } from "vue";
+  import { FlowNodeEnums } from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
+  import { closeLoad } from "@/api/sh_api.ts";
+  import { useFlowDesign } from "@/store/FlowDesignStore.ts";
+  import piniaInstance from "@/store";
 
-defineOptions({
-  name: 'DivideNode',
-});
-const flowDesign = useFlowDesign(piniaInstance);
-const props = defineProps({
-  node: {
-    type: Object,
-    default: function () {
-      return {};
+  defineOptions({
+    name: "DivideNode"
+  });
+  const flowDesign = useFlowDesign(piniaInstance);
+  const props = defineProps({
+    node: {
+      type: Object,
+      default: function () {
+        return {};
+      }
     },
-  },
-  readable: {
-    type: Boolean,
-    default: false,
-  }
-});
-
-const emits = defineEmits(['selectNode']);
-const selectNode = () => {
-  emits('selectNode', props.node);
-};
-let nameClass = computed(() => {
-  return (node: any, defaultStyle: string) => {
-    if (node.statusCode == -1) {
-      return defaultStyle;
+    readable: {
+      type: Boolean,
+      default: false
     }
-    return {
-      'node-status-not': node.statusCode == 0,
-      'node-status-current': node.statusCode == 1,
-      'node-status-complete': node.statusCode == 2
-    };
+  });
+
+  const emits = defineEmits(["selectNode"]);
+  const selectNode = () => {
+    emits("selectNode", props.node);
   };
-});
-const init = () => {
-  closeLoad();
-  flowDesign.refreshMap();
-};
-onMounted(() => {
-  init();
-});
+  let nameClass = computed(() => {
+    return (node: any, defaultStyle: string) => {
+      if (node.statusCode == -1) {
+        return defaultStyle;
+      }
+      return {
+        "node-status-not": node.statusCode == 0,
+        "node-status-current": node.statusCode == 1,
+        "node-status-complete": node.statusCode == 2
+      };
+    };
+  });
+  const init = () => {
+    closeLoad();
+    flowDesign.refreshMap();
+  };
+  onMounted(() => {
+    init();
+  });
 </script>

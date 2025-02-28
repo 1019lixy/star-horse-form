@@ -1,99 +1,157 @@
 <script setup lang="ts" name="FieldAnalysis">
-import {Config} from '@/api/settings.ts';
-import {onMounted} from 'vue';
+  import { Config } from "@/api/settings.ts";
+  import { onMounted } from "vue";
 
-const props = defineProps({
-  container: {type: String, default: ''},
-  field: {type: Object, required: true},
-  index: {type: Number, required: true, default: 1},
-  size: {type: String, default: Config.compSize}
-});
-const needLengthComp: Array<string> = ['input', 'number', 'image', 'text', 'tselect', 'textarea', 'htmleditor', 'cascade',
-  'autocomplete', 'dialog-input', 'select', 'page-select', 'json', 'json-array', 'html', 'signature', 'markdown'];
-const needBigLengthComp: Array<string> = ['textarea', 'htmleditor', 'json', 'json-array', 'html', 'signature', 'markdown'];
+  const props = defineProps({
+    container: { type: String, default: "" },
+    field: { type: Object, required: true },
+    index: { type: Number, required: true, default: 1 },
+    size: { type: String, default: Config.compSize }
+  });
+  const needLengthComp: Array<string> = [
+    "input",
+    "number",
+    "image",
+    "text",
+    "tselect",
+    "textarea",
+    "htmleditor",
+    "cascade",
+    "autocomplete",
+    "dialog-input",
+    "select",
+    "page-select",
+    "json",
+    "json-array",
+    "html",
+    "signature",
+    "markdown"
+  ];
+  const needBigLengthComp: Array<string> = [
+    "textarea",
+    "htmleditor",
+    "json",
+    "json-array",
+    "html",
+    "signature",
+    "markdown"
+  ];
 
-onMounted(() => {
-  if (needLengthComp.includes(props.field.itemType)) {
-    props.field.preps.maxLength = 100;
-  }
-  if (needBigLengthComp.includes(props.field.itemType)) {
-    props.field.preps.maxLength = 2000;
-  }
-  if (props.field.itemType == 'switch') {
-    props.field.preps.maxLength = 20;
-  }
-  if (props.field.itemType == 'number') {
-    props.field.preps.precision = 2;
-    props.field.preps.maxLength = 15;
-  }
-});
+  onMounted(() => {
+    if (needLengthComp.includes(props.field.itemType)) {
+      props.field.preps.maxLength = 100;
+    }
+    if (needBigLengthComp.includes(props.field.itemType)) {
+      props.field.preps.maxLength = 2000;
+    }
+    if (props.field.itemType == "switch") {
+      props.field.preps.maxLength = 20;
+    }
+    if (props.field.itemType == "number") {
+      props.field.preps.precision = 2;
+      props.field.preps.maxLength = 15;
+    }
+  });
 </script>
 <template>
-  <template v-if="field?.compType=='container'">
-    <template v-if="field.preps['elements']?.length>0" v-for="sitem in field.preps['elements']">
+  <template v-if="field?.compType == 'container'">
+    <template v-if="field.preps['elements']?.length > 0" v-for="sitem in field.preps['elements']">
       <template v-for="sitem1 in sitem['columns']">
-        <template v-for="(sitem2 ,sindex) in sitem1.items">
-          <FieldAnalysis :index="index+sindex+1" :field="sitem2" :container="container+'>'+field.preps.label"/>
+        <template v-for="(sitem2, sindex) in sitem1.items">
+          <FieldAnalysis :index="index + sindex + 1" :field="sitem2" :container="container + '>' + field.preps.label" />
         </template>
       </template>
-      <template v-for="(sitem2 ,sindex) in sitem.items">
-        <FieldAnalysis :index="index+sindex+1" :field="sitem2" :container="container+'>'+field.preps.label"/>
+      <template v-for="(sitem2, sindex) in sitem.items">
+        <FieldAnalysis :index="index + sindex + 1" :field="sitem2" :container="container + '>' + field.preps.label" />
       </template>
     </template>
   </template>
   <template v-else-if="field?.preps">
-    <el-row :style="{background:index%2==0?'#f1f1f1':'','margin-top':'5px'}">
+    <el-row :style="{ background: index % 2 == 0 ? '#f1f1f1' : '', 'margin-top': '5px' }">
       <el-col :span="3">
         <el-tag>{{ container }}</el-tag>
       </el-col>
       <el-col :span="3">
-        <el-input v-model="field.preps['label']" :size="size" placeholder="标签名称" clearable/>
+        <el-input v-model="field.preps['label']" :size="size" placeholder="标签名称" clearable />
       </el-col>
       <el-col :span="3">
-        <el-input v-model="field.preps['name']" :size="size" placeholder="属性名称" clearable/>
+        <el-input v-model="field.preps['name']" :size="size" placeholder="属性名称" clearable />
       </el-col>
       <el-col :span="3">
         <el-row :align="'middle'">
           <el-col :span="12">
-            <el-input-number v-model="field.preps['maxLength']" :size="size" placeholder="最大长度" min="1"
-                             :controls="false"
-                             v-if="needLengthComp.includes(field.itemType)"
-                             clearable/>
+            <el-input-number
+              v-model="field.preps['maxLength']"
+              :size="size"
+              placeholder="最大长度"
+              min="1"
+              :controls="false"
+              v-if="needLengthComp.includes(field.itemType)"
+              clearable
+            />
           </el-col>
           <el-col :span="12">
-            <el-input-number min="0" v-model="field.preps['precision']" :size="size" placeholder="精度"
-                             v-if="field.itemType=='number'" :controls=false clearable/>
+            <el-input-number
+              min="0"
+              v-model="field.preps['precision']"
+              :size="size"
+              placeholder="精度"
+              v-if="field.itemType == 'number'"
+              :controls="false"
+              clearable
+            />
           </el-col>
         </el-row>
       </el-col>
       <el-col :span="3">
-        <el-switch v-model="field.preps['required']" :size="size" active-value="Y" active-text="是"
-                   inactive-value="N"
-                   inactive-text="否"/>
+        <el-switch
+          v-model="field.preps['required']"
+          :size="size"
+          active-value="Y"
+          active-text="是"
+          inactive-value="N"
+          inactive-text="否"
+        />
       </el-col>
       <el-col :span="2">
-        <el-switch v-model="field.preps['formVisible']" :size="size" active-value="Y" active-text="是"
-                   inactive-value="N"
-                   inactive-text="否"/>
+        <el-switch
+          v-model="field.preps['formVisible']"
+          :size="size"
+          active-value="Y"
+          active-text="是"
+          inactive-value="N"
+          inactive-text="否"
+        />
       </el-col>
       <el-col :span="2">
-        <el-switch v-model="field.preps['searchVisible']" :size="size" active-value="Y" active-text="是"
-                   inactive-value="N"
-                   inactive-text="否"/>
+        <el-switch
+          v-model="field.preps['searchVisible']"
+          :size="size"
+          active-value="Y"
+          active-text="是"
+          inactive-value="N"
+          inactive-text="否"
+        />
       </el-col>
       <el-col :span="2">
-        <el-switch v-model="field.preps['listVisible']" :size="size" active-value="Y" active-text="是"
-                   inactive-value="N"
-                   inactive-text="否"/>
+        <el-switch
+          v-model="field.preps['listVisible']"
+          :size="size"
+          active-value="Y"
+          active-text="是"
+          inactive-value="N"
+          inactive-text="否"
+        />
       </el-col>
       <el-col :span="3">
-        <el-input v-model="field.preps['defaultValue']" :size="size" placeholder="默认值"/>
+        <el-input v-model="field.preps['defaultValue']" :size="size" placeholder="默认值" />
       </el-col>
     </el-row>
   </template>
 </template>
 <style scoped lang="scss">
-.el-input-number, .el-input-number-small {
-  width: unset;
-}
+  .el-input-number,
+  .el-input-number-small {
+    width: unset;
+  }
 </style>

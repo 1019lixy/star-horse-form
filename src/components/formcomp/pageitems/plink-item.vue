@@ -1,13 +1,9 @@
 <script setup lang="ts">
-defineOptions({
-  name: 'PageLinkItem',
-});
+  defineOptions({
+    name: "PageLinkItem"
+  });
 </script>
 
-<template>
-  友情链接
-</template>
+<template>友情链接</template>
 
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>

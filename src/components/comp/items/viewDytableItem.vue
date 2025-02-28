@@ -1,64 +1,66 @@
 <script setup lang="ts">
-import {onMounted, PropType} from 'vue';
-import {FieldInfo} from '@/components/types/PageFieldInfo';
-import {ModelRef} from 'vue-demi';
+  import { onMounted, PropType } from "vue";
+  import { FieldInfo } from "@/components/types/PageFieldInfo";
+  import { ModelRef } from "vue-demi";
 
-const props = defineProps({
-  item: {type: Array as PropType<Array<FieldInfo>>, required: true},
-  commonFormat: {type: Function, required: true},
-});
-const dataForm: ModelRef<any> = defineModel('dataForm');
-const dataFormat = (item: any) => {
-  let name = item['hideName'] || item['fieldName'];
-  let val = dataForm.value[name];
-  try {
-    return props.commonFormat(name, val, dataForm.value);
-  } catch (e) {
-    return val || '--';
-  }
-};
-const init = () => {
-
-};
-onMounted(() => {
-  init();
-});
+  const props = defineProps({
+    item: { type: Array as PropType<Array<FieldInfo>>, required: true },
+    commonFormat: { type: Function, required: true }
+  });
+  const dataForm: ModelRef<any> = defineModel("dataForm");
+  const dataFormat = (item: any) => {
+    let name = item["hideName"] || item["fieldName"];
+    let val = dataForm.value[name];
+    try {
+      return props.commonFormat(name, val, dataForm.value);
+    } catch (e) {
+      return val || "--";
+    }
+  };
+  const init = () => {};
+  onMounted(() => {
+    init();
+  });
 </script>
 
 <template>
-  <template v-if="item.dytableList&&item.dytableList.length>0">
-    <table ref="containerTableRef" :class="{'dynamic-table':true,'instance-table':true }">
+  <template v-if="item.dytableList && item.dytableList.length > 0">
+    <table ref="containerTableRef" :class="{ 'dynamic-table': true, 'instance-table': true }">
       <tbody>
-      <tr v-for="(row,rowIndex) in item.dytableList" class="dy-tr">
-        <td v-for="(sitem,colIndex) in row" :colspan="sitem.preps?.colspan||1" :rowspan="sitem.preps?.rowspan||1"
-            :style="{width: sitem.preps?.colWidth + '% !important' || '',
-                     height: sitem.preps?.colHeight + '% !important' || '',
-                     'word-break': !!sitem.preps?.wordBreak ? 'break-all' : 'normal'}">
-          <div class="item" v-if="sitem.formVisible||sitem.listVisible||sitem.viewVisible">
-            <label>{{ sitem.label }} :</label>
-            <div class="content">
-              <el-tooltip :content="dataFormat(sitem)">
-                {{ dataFormat(sitem) }}
-              </el-tooltip>
+        <tr v-for="(row, rowIndex) in item.dytableList" class="dy-tr">
+          <td
+            v-for="(sitem, colIndex) in row"
+            :colspan="sitem.preps?.colspan || 1"
+            :rowspan="sitem.preps?.rowspan || 1"
+            :style="{
+              width: sitem.preps?.colWidth + '% !important' || '',
+              height: sitem.preps?.colHeight + '% !important' || '',
+              'word-break': !!sitem.preps?.wordBreak ? 'break-all' : 'normal'
+            }"
+          >
+            <div class="item" v-if="sitem.formVisible || sitem.listVisible || sitem.viewVisible">
+              <label>{{ sitem.label }} :</label>
+              <div class="content">
+                <el-tooltip :content="dataFormat(sitem)">
+                  {{ dataFormat(sitem) }}
+                </el-tooltip>
+              </div>
             </div>
-          </div>
-        </td>
-      </tr>
+          </td>
+        </tr>
       </tbody>
     </table>
   </template>
 </template>
 
 <style scoped lang="scss">
-.instance-table {
-  margin-top: 5px;
+  .instance-table {
+    margin-top: 5px;
 
-  td {
-    line-height: 40px;
-    height: 40px;
-    padding: 0 10px 0 0;
-
-
+    td {
+      line-height: 40px;
+      height: 40px;
+      padding: 0 10px 0 0;
+    }
   }
-}
 </style>

@@ -1,13 +1,9 @@
 <script setup lang="ts">
-defineOptions({
-  name: 'PageContentItem',
-});
+  defineOptions({
+    name: "PageContentItem"
+  });
 </script>
 
-<template>
-  消息内容
-</template>
+<template>消息内容</template>
 
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>

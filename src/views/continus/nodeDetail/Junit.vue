@@ -1,7 +1,5 @@
-<script setup lang="ts" name="Junit">
-</script>
-<style scoped>
-</style>
+<script setup lang="ts" name="Junit"></script>
+<style scoped></style>
 <template>
   <el-tabs>
     <el-tab-pane>测试报告</el-tab-pane>

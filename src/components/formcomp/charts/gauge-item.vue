@@ -1,11 +1,5 @@
-<script setup lang="ts">
+<script setup lang="ts"></script>
 
-</script>
+<template>仪表盘</template>
 
-<template>
-  仪表盘
-</template>
-
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>

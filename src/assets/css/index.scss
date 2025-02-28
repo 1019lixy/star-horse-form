@@ -1,6 +1,6 @@
 :root {
   --el-color-success: #5cb87a;
-  --star-horse-style: #409EFF;
+  --star-horse-style: #409eff;
   --star-horse-white: #fff;
   --star-horse-background: #fff;
   --star-horse-shadow: #f7f7f9;
@@ -29,11 +29,14 @@
   border-radius: 50px;
 }
 
-html, body {
+html,
+body {
   width: 100%;
   height: 100%;
   font-size: 12px;
-  font-family: "PingFang SC", "Lantinghei SC", "Microsoft YaHei", "HanHei SC", "Helvetica Neue", "Open Sans", Arial, "Hiragino Sans GB", "微软雅黑", STHeiti, "WenQuanYi Micro Hei", SimSun, sans-serif;
+  font-family:
+    "PingFang SC", "Lantinghei SC", "Microsoft YaHei", "HanHei SC", "Helvetica Neue", "Open Sans", Arial,
+    "Hiragino Sans GB", "微软雅黑", STHeiti, "WenQuanYi Micro Hei", SimSun, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   margin: 0;
@@ -54,7 +57,6 @@ a {
   -webkit-font-smoothing: antialiased;
   background: var(--star-horse-background);
   height: 100%;
-
 }
 
 .el-dialog {
@@ -75,7 +77,8 @@ a {
 }
 
 .el-menu--horizontal {
-  .el-menu, .el-sub-menu__title {
+  .el-menu,
+  .el-sub-menu__title {
     border-bottom: unset !important;
   }
 }
@@ -84,7 +87,12 @@ a {
   float: left;
 }
 
-.el-select, .el-input, .el-date-editor.el-input, .el-autocomplete, .el-input-number, .el-input-number--small {
+.el-select,
+.el-input,
+.el-date-editor.el-input,
+.el-autocomplete,
+.el-input-number,
+.el-input-number--small {
   width: 100%;
 }
 
@@ -99,15 +107,11 @@ a {
     display: flex;
     padding: 5px 5px 5px 8px;
 
-
     .cell {
       width: 100%;
-
-
     }
   }
 }
-
 
 .page-up {
   height: 100%;
@@ -151,7 +155,7 @@ a {
     height: 50px;
     padding: 10px;
     width: 50px;
-    border: 1px solid var(--star-horse-white);;
+    border: 1px solid var(--star-horse-white);
   }
 
   li:hover {
@@ -159,7 +163,7 @@ a {
 
   .icon-active {
     background: var(--star-horse-background);
-    box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2)
+    box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
   }
 }
 
@@ -201,7 +205,8 @@ a {
   border-bottom: 2px solid transparent;
 }
 
-.el-input-group__append, .el-input-group__prepend {
+.el-input-group__append,
+.el-input-group__prepend {
   padding: 0 2px !important;
 }
 
@@ -229,10 +234,10 @@ a {
   color: var(--star-horse-white);
 }
 
-.router-link-active, .router-link-exact-active {
+.router-link-active,
+.router-link-exact-active {
   font-weight: bold;
 }
-
 
 .el-icon {
   svg {
@@ -287,7 +292,7 @@ a {
           width: 95%;
           display: flex;
           margin: 5px auto;
-          background: var(--star-horse-background);;
+          background: var(--star-horse-background);
           font-size: 14px;
           overflow: hidden;
           justify-content: space-between;
@@ -422,7 +427,8 @@ a {
   height: 100%;
 }
 
-.item, .audit_item {
+.item,
+.audit_item {
   display: flex;
   flex-direction: row;
   border: 1px solid #ebeef5;
@@ -473,7 +479,7 @@ a {
 }
 
 #nprogress .bar {
-  background-color: #16C2A3 !important;
+  background-color: #16c2a3 !important;
 }
 
 .star-icon {
@@ -486,7 +492,9 @@ a {
   color: var(--star-horse-style);
 }
 
-button, button:focus, button:visited {
+button,
+button:focus,
+button:visited {
   border: none;
   outline: none;
 }
@@ -597,14 +605,14 @@ hr {
             width: 80px;
           }
         }
-
       }
     }
   }
 }
 
-
-.main-design, .main-design-phone, .main-design-pad {
+.main-design,
+.main-design-phone,
+.main-design-pad {
   flex: 1;
   padding-top: 15px;
   height: 100% !important;
@@ -644,7 +652,6 @@ hr {
     overflow: auto;
   }
 
-
   .dialog-footer {
     display: flex;
     flex: 1;
@@ -668,7 +675,6 @@ hr {
     flex: 1 !important;
     /* margin: 5px !important;*/
 
-
     .el-vl__wrapper {
       height: 100%;
 
@@ -688,7 +694,6 @@ hr {
       flex: 1;
       padding-bottom: 0;
     }
-
 
     .el-pagination {
       height: 30px;
@@ -743,7 +748,6 @@ hr {
       text-overflow: ellipsis;
     }
   }
-
 }
 
 .inner_button {
@@ -770,7 +774,6 @@ hr {
 }
 
 .inner_button {
-
 }
 
 .custom-tabs-label {
@@ -806,7 +809,6 @@ hr {
   min-height: 40px;
   border-collapse: collapse;
   table-layout: fixed;
-
 }
 
 .el-drawer__header {
@@ -879,7 +881,6 @@ button.el-collapse-item__header {
     width: 5% !important;
     margin: 0 8px 0 5px !important;
   }
-
 }
 
 .el-table th > .cell {

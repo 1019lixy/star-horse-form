@@ -1,19 +1,19 @@
 <script setup lang="ts">
-import {onMounted, ref, watch} from 'vue';
-import {convertToCamelCase} from '@/api/sh_api.ts';
-import StarHorseIcon from '@/components/comp/StarHorseIcon.vue';
+  import { onMounted, ref, watch } from "vue";
+  import { convertToCamelCase } from "@/api/sh_api.ts";
+  import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 
-const props = defineProps({
-  formInfo: {type: Object, required: true},
-  compList: {type: Array, required: true},
-  compSize: {type: String, required: true},
-});
-let searchFieldList: Array<any> = [];
-let formData: Array<any> = [];
-let code = ref<string>('');
-const starHorseEditorRef = ref();
-const asssignVal = (searchFields: string, formFields: string) => {
-  return `<script setup lang='ts'>
+  const props = defineProps({
+    formInfo: { type: Object, required: true },
+    compList: { type: Array, required: true },
+    compSize: { type: String, required: true }
+  });
+  let searchFieldList: Array<any> = [];
+  let formData: Array<any> = [];
+  let code = ref<string>("");
+  const starHorseEditorRef = ref();
+  const asssignVal = (searchFields: string, formFields: string) => {
+    return `<script setup lang='ts'>
 import {ApiUrls} from "@\/components\/types\/ApiUrls";
 import {apiInstance,dialogPreps} ""@\/api\/system.ts;
 import {Config} from "@\/api\/settings.ts";
@@ -65,32 +65,32 @@ onMounted(() => {
 <style scoped lang="scss">
 <\/style>
 `;
-};
-const init = () => {
-  let searchFields = JSON.stringify(props.compList?.searchFormData || [], null, 4);
-  let formFields = JSON.stringify(props.compList?.tableFieldList?.fieldList || [], null, 4);
-  code.value = asssignVal(searchFields, formFields);
-  if (starHorseEditorRef.value) {
-    starHorseEditorRef.value.setValue(code.value);
-  }
-};
-const saveFile = () => {
-  let blob = new Blob([code.value]);
-  let delement = document.createElement('a');
-  let href = window.URL.createObjectURL(blob);
-  delement.href = href;
-  let name = convertToCamelCase(props.formInfo.tbName) + '.vue';
-  name = name.substring(0, 1).toUpperCase() + name.substring(1);
-  delement.download = name;
-  document.body.appendChild(delement);
-  delement.click();
-  document.body.removeChild(delement);
-  window.URL.revokeObjectURL(href);
-};
-onMounted(() => {
-  init();
-});
-watch(
+  };
+  const init = () => {
+    let searchFields = JSON.stringify(props.compList?.searchFormData || [], null, 4);
+    let formFields = JSON.stringify(props.compList?.tableFieldList?.fieldList || [], null, 4);
+    code.value = asssignVal(searchFields, formFields);
+    if (starHorseEditorRef.value) {
+      starHorseEditorRef.value.setValue(code.value);
+    }
+  };
+  const saveFile = () => {
+    let blob = new Blob([code.value]);
+    let delement = document.createElement("a");
+    let href = window.URL.createObjectURL(blob);
+    delement.href = href;
+    let name = convertToCamelCase(props.formInfo.tbName) + ".vue";
+    name = name.substring(0, 1).toUpperCase() + name.substring(1);
+    delement.download = name;
+    document.body.appendChild(delement);
+    delement.click();
+    document.body.removeChild(delement);
+    window.URL.revokeObjectURL(href);
+  };
+  onMounted(() => {
+    init();
+  });
+  watch(
     () => props.compList,
     () => {
       init();
@@ -99,33 +99,33 @@ watch(
       immediate: true,
       deep: true
     }
-);
+  );
 </script>
 <template>
   <div class="vue3-code">
     <div class="inner_button">
       <el-button type="primary" @click="saveFile" :size="compSize">
-        <star-horse-icon icon-class="save" color="var(--star-horse-white)"/>
+        <star-horse-icon icon-class="save" color="var(--star-horse-white)" />
         保存为文件
       </el-button>
     </div>
     <div class="code-editor">
       <el-scrollbar height="100%">
-        <StarHorseEditor :lang="'vue'" v-model:value="code" ref="starHorseEditorRef"/>
+        <StarHorseEditor :lang="'vue'" v-model:value="code" ref="starHorseEditorRef" />
       </el-scrollbar>
     </div>
   </div>
 </template>
 <style scoped lang="scss">
-.vue3-code {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-
-  .code-editor {
-    flex: 1;
+  .vue3-code {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
     overflow: hidden;
+
+    .code-editor {
+      flex: 1;
+      overflow: hidden;
+    }
   }
-}
 </style>

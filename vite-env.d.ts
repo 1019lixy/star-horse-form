@@ -11,3 +11,6 @@ declare module '*.vue' {
     const component: DefineComponent<{}, {}, any> | ComponentOptions | Vue;
     export default component;
 }
+interface ImportMeta {
+    readonly glob: (pattern: string) => Record<string, () => Promise<any>>;
+}

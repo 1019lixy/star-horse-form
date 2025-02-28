@@ -1,26 +1,26 @@
 <script setup lang="ts">
-import {onMounted, ref} from 'vue';
-import MindMap from 'simple-mind-map';
-import MiniMap from 'simple-mind-map/src/plugins/MiniMap.js';
-import Watermark from 'simple-mind-map/src/plugins/Watermark.js';
-import KeyboardNavigation from 'simple-mind-map/src/plugins/KeyboardNavigation.js';
-import ExportPDF from 'simple-mind-map/src/plugins/ExportPDF.js';
-import ExportXMind from 'simple-mind-map/src/plugins/ExportXMind.js';
-import Export from 'simple-mind-map/src/plugins/Export.js';
-import Drag from 'simple-mind-map/src/plugins/Drag.js';
-import Select from 'simple-mind-map/src/plugins/Select.js';
-import RichText from 'simple-mind-map/src/plugins/RichText.js';
-import AssociativeLine from 'simple-mind-map/src/plugins/AssociativeLine.js';
-import TouchEvent from 'simple-mind-map/src/plugins/TouchEvent.js';
-import NodeImgAdjust from 'simple-mind-map/src/plugins/NodeImgAdjust.js';
-import SearchPlugin from 'simple-mind-map/src/plugins/Search.js';
-import Painter from 'simple-mind-map/src/plugins/Painter.js';
-import ScrollbarPlugin from 'simple-mind-map/src/plugins/Scrollbar.js';
-import Formula from 'simple-mind-map/src/plugins/Formula.js';
-import Cooperate from 'simple-mind-map/src/plugins/Cooperate.js';
+  import { onMounted, ref } from "vue";
+  import MindMap from "simple-mind-map";
+  import MiniMap from "simple-mind-map/src/plugins/MiniMap.js";
+  import Watermark from "simple-mind-map/src/plugins/Watermark.js";
+  import KeyboardNavigation from "simple-mind-map/src/plugins/KeyboardNavigation.js";
+  import ExportPDF from "simple-mind-map/src/plugins/ExportPDF.js";
+  import ExportXMind from "simple-mind-map/src/plugins/ExportXMind.js";
+  import Export from "simple-mind-map/src/plugins/Export.js";
+  import Drag from "simple-mind-map/src/plugins/Drag.js";
+  import Select from "simple-mind-map/src/plugins/Select.js";
+  import RichText from "simple-mind-map/src/plugins/RichText.js";
+  import AssociativeLine from "simple-mind-map/src/plugins/AssociativeLine.js";
+  import TouchEvent from "simple-mind-map/src/plugins/TouchEvent.js";
+  import NodeImgAdjust from "simple-mind-map/src/plugins/NodeImgAdjust.js";
+  import SearchPlugin from "simple-mind-map/src/plugins/Search.js";
+  import Painter from "simple-mind-map/src/plugins/Painter.js";
+  import ScrollbarPlugin from "simple-mind-map/src/plugins/Scrollbar.js";
+  import Formula from "simple-mind-map/src/plugins/Formula.js";
+  import Cooperate from "simple-mind-map/src/plugins/Cooperate.js";
 
-let mindMapContainerRef = ref<HTMLElement>();
-MindMap.usePlugin(MiniMap)
+  let mindMapContainerRef = ref<HTMLElement>();
+  MindMap.usePlugin(MiniMap)
     .usePlugin(Watermark)
     .usePlugin(Drag)
     .usePlugin(KeyboardNavigation)
@@ -34,23 +34,22 @@ MindMap.usePlugin(MiniMap)
     .usePlugin(SearchPlugin)
     .usePlugin(Painter)
     .usePlugin(Formula)
-    .usePlugin(Cooperate);// 协同插件
-const init = () => {
+    .usePlugin(Cooperate); // 协同插件
+  const init = () => {
+    const mindMap = new MindMap({
+      el: document.getElementById("mindMapContainer"),
+      data: {
+        data: {
+          text: "根节点"
+        },
+        children: []
+      }
+    });
+  };
 
-  const mindMap = new MindMap({
-    el: document.getElementById('mindMapContainer'),
-    data: {
-      'data': {
-        'text': '根节点'
-      },
-      'children': []
-    }
+  onMounted(() => {
+    init();
   });
-};
-
-onMounted(() => {
-  init();
-});
 </script>
 
 <template>
@@ -58,10 +57,10 @@ onMounted(() => {
 </template>
 
 <style scoped lang="scss">
-#mindMapContainer {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
+  #mindMapContainer {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
 </style>

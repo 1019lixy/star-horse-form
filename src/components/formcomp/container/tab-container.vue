@@ -1,110 +1,113 @@
 <script setup lang="ts" name="tab-container">
-import {onMounted, PropType, ref, watch} from 'vue';
-import {DesignForm} from '@/store/DesignFormStore.ts';
-import piniaInstance from '@/store/index.ts';
+  import { onMounted, PropType, ref, watch } from "vue";
+  import { DesignForm } from "@/store/DesignFormStore.ts";
+  import piniaInstance from "@/store/index.ts";
 
-const props = defineProps({
-  parentField: {type: String},
-  formInfo: {type: Object as PropType<any>},
-  formData: {type: Object as PropType<any>},
-  field: {type: Object as PropType<any>},
-});
-let designForm = DesignForm(piniaInstance);
-let containerType: Array<string> = ['tab', 'box', 'table', 'card', 'dytable', 'collapse'];
-const getComponentName = (data: any) => {
-  return containerType.includes(data.itemType) ? data.itemType + '-container' : data.itemType + '-item';
-};
-/**
- * 如果没有items，动态添加
- * @param adata
- */
-const checkItem = (adata: any) => {
-  if (!adata['items']) {
-    adata['items'] = [];
-  }
-};
-const onDragAdd = (evt: Event, dataList: any) => {
-  console.log(evt, dataList);
-  let newIndex = evt.newIndex;
-  if (newIndex != null && newIndex != 'undefined') {
-    let dataInfo = dataList[newIndex];
-    // designForm.setDraggingItem({});
-    designForm.selectItem(dataInfo, dataInfo.itemType, '');
-  }
-};
-const activeTabName = ref();
-onMounted(() => {
-  if (!props.field['preps']['elements']) {
-    props.field['preps']['elements'] = [{
-      label: 'Tab1',
-      tabName: 'tab1',
-      objectName: 'tab1',
-      subFormFlag: 'Y',
-      items: []
-    }, {
-      label: 'Tab2',
-      tabName: 'tab2',
-      objectName: 'tab2',
-      subFormFlag: 'Y',
-      items: []
-    }];
-    props.field['stretch'] = 'N';
-  }
-  activeTabName.value = props.field.preps.elements[0].tabName;
-});
-watch(() => activeTabName.value,
+  const props = defineProps({
+    parentField: { type: String },
+    formInfo: { type: Object as PropType<any> },
+    formData: { type: Object as PropType<any> },
+    field: { type: Object as PropType<any> }
+  });
+  let designForm = DesignForm(piniaInstance);
+  let containerType: Array<string> = ["tab", "box", "table", "card", "dytable", "collapse"];
+  const getComponentName = (data: any) => {
+    return containerType.includes(data.itemType) ? data.itemType + "-container" : data.itemType + "-item";
+  };
+  /**
+   * 如果没有items，动态添加
+   * @param adata
+   */
+  const checkItem = (adata: any) => {
+    if (!adata["items"]) {
+      adata["items"] = [];
+    }
+  };
+  const onDragAdd = (evt: Event, dataList: any) => {
+    console.log(evt, dataList);
+    let newIndex = evt.newIndex;
+    if (newIndex != null && newIndex != "undefined") {
+      let dataInfo = dataList[newIndex];
+      // designForm.setDraggingItem({});
+      designForm.selectItem(dataInfo, dataInfo.itemType, "");
+    }
+  };
+  const activeTabName = ref();
+  onMounted(() => {
+    if (!props.field["preps"]["elements"]) {
+      props.field["preps"]["elements"] = [
+        {
+          label: "Tab1",
+          tabName: "tab1",
+          objectName: "tab1",
+          subFormFlag: "Y",
+          items: []
+        },
+        {
+          label: "Tab2",
+          tabName: "tab2",
+          objectName: "tab2",
+          subFormFlag: "Y",
+          items: []
+        }
+      ];
+      props.field["stretch"] = "N";
+    }
+    activeTabName.value = props.field.preps.elements[0].tabName;
+  });
+  watch(
+    () => activeTabName.value,
     (val) => {
-      props.field['activeItemName'] = val;
-    }, {immediate: true, deep: true});
-const dynamicFunc = (funcType: string, funcCode: any) => {
-  let func = new Function(funcCode);
-  func.call(this);
-};
-const addTab = () => {
-};
+      props.field["activeItemName"] = val;
+    },
+    { immediate: true, deep: true }
+  );
+  const dynamicFunc = (funcType: string, funcCode: any) => {
+    let func = new Function(funcCode);
+    func.call(this);
+  };
+  const addTab = () => {};
 </script>
 <template>
-  <group-box-container class="star-horse-form-container"
-                       :parentField="parentField"
-                       :form-item="field"
-  >
+  <group-box-container class="star-horse-form-container" :parentField="parentField" :form-item="field">
     <el-tabs
-        class="tab-container"
-        :tab-position="field.preps['tablePosition']||'top'"
-        :type="field.preps['type']||''"
-        :closable="field.preps['closable']=='Y'"
-        :addable="field.preps['addable']=='Y'"
-        :editable="field.preps['editable']=='Y'"
-        :stretch="field.preps['stretch']=='Y'"
-        v-model="activeTabName"
-        @tab-add="addTab()"
-        @tab-click="dynamicFunc('tabClick',field['tabClick'])"
-        @tab-change="dynamicFunc('tabChange',field['tabChange'])"
-        @tab-remove="dynamicFunc('tabRemove',field['tabRemove'])"
+      class="tab-container"
+      :tab-position="field.preps['tablePosition'] || 'top'"
+      :type="field.preps['type'] || ''"
+      :closable="field.preps['closable'] == 'Y'"
+      :addable="field.preps['addable'] == 'Y'"
+      :editable="field.preps['editable'] == 'Y'"
+      :stretch="field.preps['stretch'] == 'Y'"
+      v-model="activeTabName"
+      @tab-add="addTab()"
+      @tab-click="dynamicFunc('tabClick', field['tabClick'])"
+      @tab-change="dynamicFunc('tabChange', field['tabChange'])"
+      @tab-remove="dynamicFunc('tabRemove', field['tabRemove'])"
     >
-      <el-tab-pane v-for="(adata,index) in field['preps']['elements']"
-                   :label="adata['label']"
-                   :name="adata['tabName']"
+      <el-tab-pane
+        v-for="(adata, index) in field['preps']['elements']"
+        :label="adata['label']"
+        :name="adata['tabName']"
       >
         <el-scrollbar height="100%">
           <draggable
-              @add="(evt:Event)=>onDragAdd(evt,adata['items'])"
-              @dragover="checkItem(adata)"
-              class="tab-design"
-              group="starHorseGroup"
-              animation="100"
-              ghostClass="ghost"
-              :list="adata['items']"
+            @add="(evt: Event) => onDragAdd(evt, adata['items'])"
+            @dragover="checkItem(adata)"
+            class="tab-design"
+            group="starHorseGroup"
+            animation="100"
+            ghostClass="ghost"
+            :list="adata['items']"
           >
-            <template #item="{element:data}">
+            <template #item="{ element: data }">
               <div class="comp-item">
                 <component
-                    :key="data.id"
-                    :field="data"
-                    :formInfo="formInfo"
-                    :is="getComponentName(data)"
-                    :parentField="field"
-                    :formData="formData"
+                  :key="data.id"
+                  :field="data"
+                  :formInfo="formInfo"
+                  :is="getComponentName(data)"
+                  :parentField="field"
+                  :formData="formData"
                 />
               </div>
             </template>
@@ -115,9 +118,8 @@ const addTab = () => {
   </group-box-container>
 </template>
 <style lang="scss" scoped>
-
-.tab-design {
-  height: 100%;
-  overflow-y: auto;
-}
+  .tab-design {
+    height: 100%;
+    overflow-y: auto;
+  }
 </style>

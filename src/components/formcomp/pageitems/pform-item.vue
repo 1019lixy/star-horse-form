@@ -1,13 +1,9 @@
 <script setup lang="ts">
-defineOptions({
-  name: 'PageFormItem',
-});
+  defineOptions({
+    name: "PageFormItem"
+  });
 </script>
 
-<template>
-  表单内容
-</template>
+<template>表单内容</template>
 
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>

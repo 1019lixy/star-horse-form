@@ -1,11 +1,5 @@
-<script setup lang="ts">
+<script setup lang="ts"></script>
 
-</script>
+<template>旭日图</template>
 
-<template>
-  旭日图
-</template>
-
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>

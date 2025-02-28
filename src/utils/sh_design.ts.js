@@ -1,37 +1,37 @@
-import {Shape} from '@antv/x6';
+import { Shape } from "@antv/x6";
 
 const commands = [
-    {
-        icon: 'left_panel',
-        defaultEdit: true,
-        key: 'leftPanel',
-        label: '左侧工具栏',
-    },
-    {
-        icon: 'zoom_in',
-        defaultEdit: true,
-        key: 'zoomIn',
-        label: '放大(0.2)',
-    },
-    {
-        icon: 'zoom_out',
-        defaultEdit: true,
-        key: 'zoomOut',
-        label: '缩小(-0.2)',
-    },
-    {
-        icon: 'auto_fit',
-        defaultEdit: true,
-        key: 'zoomToFit',
-        label: '自适应',
-    },
-    {
-        icon: 'equal',
-        defaultEdit: true,
-        key: 'zoomTo',
-        label: '1:1大小',
-    },
-    /*  {
+  {
+    icon: "left_panel",
+    defaultEdit: true,
+    key: "leftPanel",
+    label: "左侧工具栏"
+  },
+  {
+    icon: "zoom_in",
+    defaultEdit: true,
+    key: "zoomIn",
+    label: "放大(0.2)"
+  },
+  {
+    icon: "zoom_out",
+    defaultEdit: true,
+    key: "zoomOut",
+    label: "缩小(-0.2)"
+  },
+  {
+    icon: "auto_fit",
+    defaultEdit: true,
+    key: "zoomToFit",
+    label: "自适应"
+  },
+  {
+    icon: "equal",
+    defaultEdit: true,
+    key: "zoomTo",
+    label: "1:1大小"
+  },
+  /*  {
           icon: "line_arrow",
           key: 'lineMode',
           label: '直线连接模式',
@@ -41,57 +41,57 @@ const commands = [
           key: 'verticalMode',
           label: '直角连接模式',
       },*/
-    {
-        icon: 'align_top',
-        key: 'alignTop',
-        label: '向上对齐',
-    },
-    {
-        icon: 'align_bottom',
-        key: 'alignBottom',
-        label: '向下对齐',
-    },
-    {
-        icon: 'align_left',
-        key: 'alignLeft',
-        label: '向左对齐',
-    },
-    {
-        icon: 'align_right',
-        key: 'alignRight',
-        label: '向右对齐',
-    },
-    {
-        icon: 'center',
-        key: 'centerContent',
-        label: '居中',
-    },
-    {
-        icon: 'dustbin',
-        key: 'deleteItem',
-        label: '删除元素',
-    },
-    {
-        icon: 'empty_setting',
-        key: 'empty',
-        label: '清空画布',
-    },
-    {
-        icon: 'undo',
-        key: 'unDo',
-        label: '后退一步',
-    },
-    {
-        icon: 'redo',
-        key: 'reDo',
-        label: '前进一步',
-    },
-    {
-        icon: 'json_file',
-        key: 'json',
-        label: 'JSON数据',
-    },
-    /*  {
+  {
+    icon: "align_top",
+    key: "alignTop",
+    label: "向上对齐"
+  },
+  {
+    icon: "align_bottom",
+    key: "alignBottom",
+    label: "向下对齐"
+  },
+  {
+    icon: "align_left",
+    key: "alignLeft",
+    label: "向左对齐"
+  },
+  {
+    icon: "align_right",
+    key: "alignRight",
+    label: "向右对齐"
+  },
+  {
+    icon: "center",
+    key: "centerContent",
+    label: "居中"
+  },
+  {
+    icon: "dustbin",
+    key: "deleteItem",
+    label: "删除元素"
+  },
+  {
+    icon: "empty_setting",
+    key: "empty",
+    label: "清空画布"
+  },
+  {
+    icon: "undo",
+    key: "unDo",
+    label: "后退一步"
+  },
+  {
+    icon: "redo",
+    key: "reDo",
+    label: "前进一步"
+  },
+  {
+    icon: "json_file",
+    key: "json",
+    label: "JSON数据"
+  }
+  /*  {
           icon: "valid",
           key: 'valid',
           label: '校验',
@@ -106,7 +106,7 @@ const commands = [
           key: 'save',
           label: '保存',
       },*/
-    /*{
+  /*{
         icon: "right_panel",
         defaultEdit: true,
         key: 'rightPanel',
@@ -118,200 +118,200 @@ const commands = [
  * @type {{groups: {top: {position: string, attrs: {circle: {strokeWidth: number, r: number, style: {visibility: string}, fill: string, magnet: boolean, stroke: string}}}, left: {position: string, attrs: {circle: {strokeWidth: number, r: number, style: {visibility: string}, fill: string, magnet: boolean, stroke: string}}}, bottom: {position: string, attrs: {circle: {strokeWidth: number, r: number, style: {visibility: string}, fill: string, magnet: boolean, stroke: string}}}, right: {position: string, attrs: {circle: {strokeWidth: number, r: number, style: {visibility: string}, fill: string, magnet: boolean, stroke: string}}}}, items: [{group: string},{group: string},{group: string},{group: string}]}}
  */
 const ports = {
-    groups: {
-        top: {
-            position: 'top',
-            attrs: {
-                circle: {
-                    r: 4,
-                    magnet: true,
-                    stroke: '#5F95FF',
-                    strokeWidth: 1,
-                    fill: '#fff',
-                    style: {
-                        visibility: 'hidden',
-                    },
-                },
-            },
-        },
-        right: {
-            position: 'right',
-            attrs: {
-                circle: {
-                    r: 4,
-                    magnet: true,
-                    stroke: '#5F95FF',
-                    strokeWidth: 1,
-                    fill: '#fff',
-                    style: {
-                        visibility: 'hidden',
-                    },
-                },
-            },
-        },
-        bottom: {
-            position: 'bottom',
-            attrs: {
-                circle: {
-                    r: 4,
-                    magnet: true,
-                    stroke: '#5F95FF',
-                    strokeWidth: 1,
-                    fill: '#fff',
-                    style: {
-                        visibility: 'hidden',
-                    },
-                },
-            },
-        },
-        left: {
-            position: 'left',
-            attrs: {
-                circle: {
-                    r: 4,
-                    magnet: true,
-                    stroke: '#5F95FF',
-                    strokeWidth: 1,
-                    fill: '#fff',
-                    style: {
-                        visibility: 'hidden',
-                    },
-                },
-            },
-        },
+  groups: {
+    top: {
+      position: "top",
+      attrs: {
+        circle: {
+          r: 4,
+          magnet: true,
+          stroke: "#5F95FF",
+          strokeWidth: 1,
+          fill: "#fff",
+          style: {
+            visibility: "hidden"
+          }
+        }
+      }
     },
-    items: [
-        {
-            group: 'top',
-        },
-        {
-            group: 'right',
-        },
-        {
-            group: 'bottom',
-        },
-        {
-            group: 'left',
-        },
-    ],
+    right: {
+      position: "right",
+      attrs: {
+        circle: {
+          r: 4,
+          magnet: true,
+          stroke: "#5F95FF",
+          strokeWidth: 1,
+          fill: "#fff",
+          style: {
+            visibility: "hidden"
+          }
+        }
+      }
+    },
+    bottom: {
+      position: "bottom",
+      attrs: {
+        circle: {
+          r: 4,
+          magnet: true,
+          stroke: "#5F95FF",
+          strokeWidth: 1,
+          fill: "#fff",
+          style: {
+            visibility: "hidden"
+          }
+        }
+      }
+    },
+    left: {
+      position: "left",
+      attrs: {
+        circle: {
+          r: 4,
+          magnet: true,
+          stroke: "#5F95FF",
+          strokeWidth: 1,
+          fill: "#fff",
+          style: {
+            visibility: "hidden"
+          }
+        }
+      }
+    }
+  },
+  items: [
+    {
+      group: "top"
+    },
+    {
+      group: "right"
+    },
+    {
+      group: "bottom"
+    },
+    {
+      group: "left"
+    }
+  ]
 };
 /**
  * 画布配置参数
  * @type {{rotating: boolean, keyboard: boolean, grid: {args: [{color: string, thickness: number},{color: string, thickness: number, factor: number}], visible: boolean, type: string}, mousewheel: {zoomAtMousePosition: boolean, maxScale: number, minScale: number, modifiers: string, enabled: boolean}, snapline: boolean, highlighting: {magnetAdsorbed: {args: {attrs: {fill: string, stroke: string}}, name: string}}, connecting: {allowBlank: boolean, router: {args: {padding: number}, name: string}, connector: {args: {radius: number}, name: string}, anchor: string, connectionPoint: string, createEdge(): Edge<Properties>, snap: {radius: number}, validateConnection({targetMagnet: *}): *}, clipboard: boolean, selecting: {showNodeSelectionBox: boolean, rubberband: boolean, enabled: boolean}}}
  */
 const configInfo = {
-    rotating: true,
-    snapline: true,
-    keyboard: true,
-    clipboard: true,
-    minimap: true,
-    resizing: true,
-    panning: {
-        enabled: true,
-        modifiers: ['alt']
+  rotating: true,
+  snapline: true,
+  keyboard: true,
+  clipboard: true,
+  minimap: true,
+  resizing: true,
+  panning: {
+    enabled: true,
+    modifiers: ["alt"]
+  },
+  selecting: {
+    enabled: true,
+    rubberband: true,
+    showNodeSelectionBox: true
+  },
+  highlighting: {
+    // 当连接桩可以被链接时，在连接桩外围渲染一个 2px 宽的红色矩形框
+    magnetAdsorbed: {
+      name: "stroke",
+      args: {
+        attrs: {
+          fill: "#5F95FF",
+          stroke: "#5F95FF"
+        }
+      }
+    }
+  },
+  connecting: {
+    router: {
+      name: "er"
+      // args: {
+      //     startDirections: ['bottom'],
+      //     endDirections: ['top'],
+      // },
     },
-    selecting: {
-        enabled: true,
-        rubberband: true,
-        showNodeSelectionBox: true,
+    connector: {
+      name: "rounded",
+      args: {
+        radius: 8
+      }
     },
-    highlighting: {
-        // 当连接桩可以被链接时，在连接桩外围渲染一个 2px 宽的红色矩形框
-        magnetAdsorbed: {
-            name: 'stroke',
+    anchor: "center",
+    connectionPoint: "anchor",
+    allowBlank: false,
+    highlight: true,
+    snap: {
+      //距离20px 自动吸附
+      radius: 20
+    },
+    createEdge: () => {
+      return new Shape.Edge({
+        // defaultLabel: "OK", //添加此属性再动态设置Label 报错
+        tools: [
+          {
+            name: "edge-editor",
             args: {
-                attrs: {
-                    fill: '#5F95FF',
-                    stroke: '#5F95FF',
-                },
-            },
-        },
-    },
-    connecting: {
-        router: {
-            name: 'er',
-            // args: {
-            //     startDirections: ['bottom'],
-            //     endDirections: ['top'],
-            // },
-        },
-        connector: {
-            name: 'rounded',
-            args: {
-                radius: 8,
-            },
-        },
-        anchor: 'center',
-        connectionPoint: 'anchor',
-        allowBlank: false,
-        highlight: true,
-        snap: {
-            //距离20px 自动吸附
-            radius: 20,
-        },
-        createEdge: () => {
-            return new Shape.Edge({
-                // defaultLabel: "OK", //添加此属性再动态设置Label 报错
-                tools: [
-                    {
-                        name: 'edge-editor',
-                        args: {
-                            attrs: {
-                                backgroundColor: '#eee',
-                            },
-                        },
-                    },
-                ],
-                attrs: {
-                    line: {
-                        stroke: '#A2B1C3',
-                        strokeWidth: 2,
-                        targetMarker: {
-                            name: 'block',
-                            width: 12,
-                            height: 8,
-                        },
-                    },
-                    label: {
-                        text: '连线',
-                        color: 'blue'
-                    }
-                },
-                zIndex: 0,
-            });
-        },
-        // validateConnection: ({targetMagnet}) => {
-        //     return !!targetMagnet
-        // },
-    },
-    grid: {
-        visible: true,
-        type: 'doubleMesh',
-        args: [
-            {
-                color: '#eee', // 主网格线颜色
-                thickness: 1, // 主网格线宽度
-            },
-            {
-                color: '#ddd', // 次网格线颜色
-                thickness: 1, // 次网格线宽度
-                factor: 4, // 主次网格线间隔
-            },
+              attrs: {
+                backgroundColor: "#eee"
+              }
+            }
+          }
         ],
-    },
-    scroller: {
-        enabled: true,
-        pannable: true,
-        pageVisible: true,
-        pageBreak: false,
-    },
-    mousewheel: {
-        enabled: true,
-        zoomAtMousePosition: true,
-        modifiers: 'ctrl',
-        maxScale: 4,
-        minScale: 0.2,
-    },
+        attrs: {
+          line: {
+            stroke: "#A2B1C3",
+            strokeWidth: 2,
+            targetMarker: {
+              name: "block",
+              width: 12,
+              height: 8
+            }
+          },
+          label: {
+            text: "连线",
+            color: "blue"
+          }
+        },
+        zIndex: 0
+      });
+    }
+    // validateConnection: ({targetMagnet}) => {
+    //     return !!targetMagnet
+    // },
+  },
+  grid: {
+    visible: true,
+    type: "doubleMesh",
+    args: [
+      {
+        color: "#eee", // 主网格线颜色
+        thickness: 1 // 主网格线宽度
+      },
+      {
+        color: "#ddd", // 次网格线颜色
+        thickness: 1, // 次网格线宽度
+        factor: 4 // 主次网格线间隔
+      }
+    ]
+  },
+  scroller: {
+    enabled: true,
+    pannable: true,
+    pageVisible: true,
+    pageBreak: false
+  },
+  mousewheel: {
+    enabled: true,
+    zoomAtMousePosition: true,
+    modifiers: "ctrl",
+    maxScale: 4,
+    minScale: 0.2
+  }
 };
 const helpMessage = `
 一、操作步骤:
@@ -334,4 +334,4 @@ Ctrl+1:放大；
 Ctrl+2:缩小；
 Backspace/Delete:删除组件或者连线。
 `;
-export {commands, ports, configInfo, helpMessage};
+export { commands, ports, configInfo, helpMessage };

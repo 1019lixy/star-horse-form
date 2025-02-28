@@ -1,52 +1,56 @@
 <script setup lang="ts">
-import FlowNode from '@/views/workflow/plugin/node/FlowNode.vue';
-import FlowAddNode from '@/views/workflow/plugin/node/AddNode.vue';
-import DeleteConfirm from '@/views/workflow/plugin/common/DeleteConfirm.vue';
-import {useFlowDesign} from '@/store/FlowDesignStore.ts';
-import piniaInstance from '@/store';
-import StarHorseIcon from '@/components/comp/StarHorseIcon.vue';
-import {FlowNodeEnums} from '@/views/workflow/plugin/enums/FlowNodeEnums.ts';
-import {onMounted} from 'vue';
-import {closeLoad} from '@/api/sh_api.ts';
+  import FlowNode from "@/views/workflow/plugin/node/FlowNode.vue";
+  import FlowAddNode from "@/views/workflow/plugin/node/AddNode.vue";
+  import DeleteConfirm from "@/views/workflow/plugin/common/DeleteConfirm.vue";
+  import { useFlowDesign } from "@/store/FlowDesignStore.ts";
+  import piniaInstance from "@/store";
+  import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
+  import { FlowNodeEnums } from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
+  import { onMounted } from "vue";
+  import { closeLoad } from "@/api/sh_api.ts";
 
-const props = defineProps({
-  node: {
-    type: Object,
-    default: function () {
-      return {};
+  const props = defineProps({
+    node: {
+      type: Object,
+      default: function () {
+        return {};
+      }
     },
-  },
-  readable: {
-    type: Boolean,
-    default: false,
-  },
-});
-const emits = defineEmits(['selectNode']);
-const selectNode = (node: any) => {
-  emits('selectNode', node);
-};
-const flowDesign = useFlowDesign(piniaInstance);
-const delCallback = (_conditionNode: any) => {
-  let currNode = {
-    id: props.node.pid,
+    readable: {
+      type: Boolean,
+      default: false
+    }
+  });
+  const emits = defineEmits(["selectNode"]);
+  const selectNode = (node: any) => {
+    emits("selectNode", node);
   };
-  // 将对应的审批节点的添加按钮开启
-  flowDesign.flowUpdateNode({currNode, field: 'addable', value: true});
-};
-const init = () => {
-  closeLoad();
-  flowDesign.refreshMap();
-};
-onMounted(() => {
-  init();
-});
+  const flowDesign = useFlowDesign(piniaInstance);
+  const delCallback = (_conditionNode: any) => {
+    let currNode = {
+      id: props.node.pid
+    };
+    // 将对应的审批节点的添加按钮开启
+    flowDesign.flowUpdateNode({ currNode, field: "addable", value: true });
+  };
+  const init = () => {
+    closeLoad();
+    flowDesign.refreshMap();
+  };
+  onMounted(() => {
+    init();
+  });
 </script>
 <template>
   <div class="flow-row">
     <div class="flow-branch">
       <div class="meet-node"></div>
-      <div class="flow-col" v-for="(conditionNode, index) in node.conditionNodes" :key="index"
-           @click.stop="selectNode(conditionNode)">
+      <div
+        class="flow-col"
+        v-for="(conditionNode, index) in node.conditionNodes"
+        :key="index"
+        @click.stop="selectNode(conditionNode)"
+      >
         <div class="clear-left-border" v-if="index == 0"></div>
         <div class="clear-right-border" v-if="node.conditionNodes.length - 1 == index"></div>
         <div class="flow-row">
@@ -55,29 +59,40 @@ onMounted(() => {
               <div class="flow-branch-suggest">
                 <div class="node-name">
                   <span>{{ conditionNode.name }}</span>
-                  <span style="margin-left: 10px;">
-                    <star-horse-icon v-if="index == 0" icon-class="check-circle" theme="filled" style="color: green;"/>
-                    <star-horse-icon v-if="node.conditionNodes.length - 1 == index" icon-class="close" theme="filled"
-                                     style="color: red;"/>
+                  <span style="margin-left: 10px">
+                    <star-horse-icon v-if="index == 0" icon-class="check-circle" theme="filled" style="color: green" />
+                    <star-horse-icon
+                      v-if="node.conditionNodes.length - 1 == index"
+                      icon-class="close"
+                      theme="filled"
+                      style="color: red"
+                    />
                   </span>
                 </div>
                 <div v-if="!readable && !conditionNode.deletable" class="close-icon">
-                  <star-horse-icon iconClass="close" @click.stop="conditionNode.deletable = true"/>
+                  <star-horse-icon iconClass="close" @click.stop="conditionNode.deletable = true" />
                 </div>
                 <!-- 删除提示 -->
-                <DeleteConfirm :node="conditionNode" @callback="delCallback"/>
+                <DeleteConfirm :node="conditionNode" @callback="delCallback" />
               </div>
             </div>
-            <FlowAddNode :node="node" :nodeType="FlowNodeEnums.BRANCH_NODE" :id="conditionNode.id"
-                         :readable="readable"/>
+            <FlowAddNode
+              :node="node"
+              :nodeType="FlowNodeEnums.BRANCH_NODE"
+              :id="conditionNode.id"
+              :readable="readable"
+            />
           </div>
         </div>
-        <FlowNode v-if="conditionNode.childNode && conditionNode.childNode.hasOwnProperty('name')"
-                  :node="conditionNode.childNode" :readable="readable"/>
+        <FlowNode
+          v-if="conditionNode.childNode && conditionNode.childNode.hasOwnProperty('name')"
+          :node="conditionNode.childNode"
+          :readable="readable"
+        />
       </div>
     </div>
     <div class="after-branch-btn">
-      <FlowAddNode :node="node" :nodeType="FlowNodeEnums.BRANCH_NODE" :readable="readable"/>
+      <FlowAddNode :node="node" :nodeType="FlowNodeEnums.BRANCH_NODE" :readable="readable" />
     </div>
   </div>
 </template>

@@ -1,26 +1,29 @@
-import {defineStore} from 'pinia';
-import {ref} from 'vue';
+import { defineStore } from "pinia";
+import { ref } from "vue";
 
-export const continusConfig = defineStore('continusConfig', () => {
+export const continusConfig = defineStore(
+  "continusConfig",
+  () => {
     /**
      * 节点信息
      */
     const nodeInfo = ref<any>({});
 
     const addNodeInfo = (nodeName: string, data: any) => {
-        nodeInfo.value[nodeName] = data;
+      nodeInfo.value[nodeName] = data;
     };
     const removeNode = (nodeName: string) => {
-        delete nodeInfo.value[nodeName];
+      delete nodeInfo.value[nodeName];
     };
     const clear = () => {
-        nodeInfo.value = {};
+      nodeInfo.value = {};
     };
     return {
-        addNodeInfo,
-        removeNode,
-        clear,
-        nodeInfo
+      addNodeInfo,
+      removeNode,
+      clear,
+      nodeInfo
     };
-}, {
-});
+  },
+  {}
+);

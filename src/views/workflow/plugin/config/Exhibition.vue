@@ -6,12 +6,8 @@
         <div class="flow-block-desc">通过设置数据的显示标题，快速识别一条数据</div>
         <div class="flow-block-content">
           <el-radio-group v-model="radioGroup" :size="flowCommon.size" :default-value="1">
-            <el-radio :value="1">
-              默认
-            </el-radio>
-            <el-radio :value="2">
-              自定义模式
-            </el-radio>
+            <el-radio :value="1"> 默认 </el-radio>
+            <el-radio :value="2"> 自定义模式 </el-radio>
           </el-radio-group>
           <div class="flow-block-tabContent">
             <div class="flow-block-defaultTab">
@@ -25,17 +21,13 @@
           </div>
         </div>
       </div>
-      <div class="flow-block" style="margin-top: 32px;">
+      <div class="flow-block" style="margin-top: 32px">
         <div class="flow-block-title">摘要设置</div>
         <div class="flow-block-desc">自定义表单摘要展示信息，灵活设置提升工作效率</div>
         <div class="flow-block-content">
           <el-radio-group v-model="radioGroup2" :size="flowCommon.size" :default-value="1">
-            <el-radio :value="1">
-              默认
-            </el-radio>
-            <el-radio :value="2">
-              自定义模式
-            </el-radio>
+            <el-radio :value="1"> 默认 </el-radio>
+            <el-radio :value="2"> 自定义模式 </el-radio>
           </el-radio-group>
           <div class="flow-block-tabContent">
             <div class="flow-block-defaultTab">
@@ -50,10 +42,10 @@
   </div>
 </template>
 <script setup lang="ts">
-import {flowCommon} from '@/views/workflow/plugin/utils/flowCommon.ts';
-import {ref} from 'vue';
+  import { flowCommon } from "@/views/workflow/plugin/utils/flowCommon.ts";
+  import { ref } from "vue";
 
-let radioGroup = ref<number>(0);
-let radioGroup2 = ref<number>(0);
+  let radioGroup = ref<number>(0);
+  let radioGroup2 = ref<number>(0);
 </script>
-<style lang=“scss”></style>
+<style lang="“scss”"></style>

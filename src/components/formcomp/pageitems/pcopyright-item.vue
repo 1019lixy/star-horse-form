@@ -1,13 +1,9 @@
 <script setup lang="ts">
-defineOptions({
-  name: 'PageCopyrightItem',
-});
+  defineOptions({
+    name: "PageCopyrightItem"
+  });
 </script>
 
-<template>
-  版权
-</template>
+<template>版权</template>
 
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>

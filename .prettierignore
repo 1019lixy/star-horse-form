@@ -1,0 +1,26 @@
+# Add environment files
+**/.env*
+
+# Keep existing patterns
+/*.config.js
+/*.config.json
+**/*.d.ts
+.npm/
+.cache/
+.vscode/
+.idea/
+dist/
+node_modules/
+*.lock
+*.log
+*.map
+*.out
+*.tsbuildinfo
+.env.development
+.env.production
+.env.test
+.gitignore
+.prettierignore
+*.txt
+**/*.html
+jquery.min.js

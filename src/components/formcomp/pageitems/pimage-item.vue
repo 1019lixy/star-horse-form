@@ -1,13 +1,9 @@
 <script setup lang="ts">
-defineOptions({
-  name: 'PageImageItem',
-});
+  defineOptions({
+    name: "PageImageItem"
+  });
 </script>
 
-<template>
-  图片内容
-</template>
+<template>图片内容</template>
 
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>

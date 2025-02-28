@@ -1,9 +1,11 @@
-import {defineStore} from 'pinia';
-import {ref} from 'vue';
+import { defineStore } from "pinia";
+import { ref } from "vue";
 
-export const ConsumerView = defineStore('ConsumerView', () => {
+export const ConsumerView = defineStore(
+  "ConsumerView",
+  () => {
     const tableList = ref<any>({});
-    const dbConfigId = ref<string>('');
+    const dbConfigId = ref<string>("");
 
     /**
      *赋值
@@ -11,7 +13,7 @@ export const ConsumerView = defineStore('ConsumerView', () => {
      * @param data 字典列表
      */
     const addTableInfo = (tableName: string, data: object | Array<any>) => {
-        tableList.value[tableName] = data;
+      tableList.value[tableName] = data;
     };
     /**
      * 设置数据库配置id
@@ -19,32 +21,34 @@ export const ConsumerView = defineStore('ConsumerView', () => {
      * @param configId
      */
     const setDbConfigId = (configId: string) => {
-        dbConfigId.value = configId;
+      dbConfigId.value = configId;
     };
     /**
      * 根据表名获取字段信息
      * @param tableName 表名
      */
     const getTableInfo = (tableName: string) => {
-        return tableList.value[tableName];
+      return tableList.value[tableName];
     };
     /**
      * 清除所有Tab
      */
     const clearAll = () => {
-        tableList.value = {};
+      tableList.value = {};
     };
 
     return {
-        tableList,
-        dbConfigId,
-        addTableInfo,
-        setDbConfigId,
-        getTableInfo,
-        clearAll
+      tableList,
+      dbConfigId,
+      addTableInfo,
+      setDbConfigId,
+      getTableInfo,
+      clearAll
     };
-}, {
+  },
+  {
     persist: {
-        enabled: false
+      enabled: false
     }
-});
+  }
+);

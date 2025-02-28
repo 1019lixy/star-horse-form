@@ -1,13 +1,9 @@
 <script setup lang="ts">
-defineOptions({
-  name: 'PageHMenuItem',
-});
+  defineOptions({
+    name: "PageHMenuItem"
+  });
 </script>
 
-<template>
-  水平菜单
-</template>
+<template>水平菜单</template>
 
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>
