@@ -13,11 +13,7 @@ const props = defineProps({
 const javaCompileRef = ref();
 const toolInfoRef = ref();
 let repoList = ref<SelectOption[]>([]);
-let execTypeList = ref<SelectOption[]>([]);
-let nodeSuccessConditionList = ref<SelectOption[]>([]);
-let subNodeList = ref<SelectOption[]>([]);
 const nodeDialog = ref<boolean>(false);
-let assignSelect = ref<boolean>(false);
 let currentTabName = ref<string>("tab1");
 let subNodeFieldList = ref<FieldInfo[]>([]);
 //页面属性
@@ -26,99 +22,38 @@ const fieldList = reactive<PageFieldInfo | any>({
     {
       cardList: [
         {
-          title: "节点信息",
-          tabName: "nodeInfo",
-          subFormFlag: "N",
-          fieldList: [
-            [
-              {
-                label: "名称",
-                fieldName: "name",
-                type: "input",
-                required: true,
-                formVisible: true,
-                listVisible: true
-              },
-              {
-                label: "执行方式",
-                fieldName: "nodeExecType",
-                type: "select",
-                optionList: execTypeList,
-                required: true,
-                formVisible: true,
-                listVisible: true
-              }
-            ],
-            [
-              {
-                label: "节点成功条件",
-                fieldName: "nodeSuccessCondition",
-                type: "radio",
-                optionList: nodeSuccessConditionList,
-                actionName: "change",
-                actions: (val: any) => {
-                  console.log(val);
-                  assignSelect.value = val["nodeSuccessCondition"] == "assign";
-                },
-                required: true,
-                formVisible: true,
-                listVisible: true,
-                brotherNodes: [
-                  {
-                    label: "  ",
-                    fieldName: "assignNode",
-                    type: "select",
-                    optionList: subNodeList,
-                    required: true,
-                    formVisible: assignSelect,
-                    preps: {
-                      colspan: 6
-                    }
-                  }
-                ],
-                preps: {
-                  colspan: 13
-                }
-              }
-            ],
+          title: "子节点配置",
+          subFormFlag: "Y",
+          tabName: "subNodeInfo",
+          objectName: "subNodeInfo",
+          headerFieldList: [
             {
-              cardList: [
-                {
-                  title: "子节点配置",
-                  subFormFlag: "Y",
-                  tabName: "subNodeInfo",
-                  objectName: "subNodeInfo",
-                  headerFieldList: [
-                    {
-                      label: "添加子节点",
-                      type: "button",
-                      fieldName: "subNodeBtn",
-                      actionName: "click",
-                      actions: (val: any) => {
-                        if (val["starHorseBtnName"] == "subNodeBtn") {
-                          addSubNode();
-                        }
-                      },
-                      preps: {
-                        text: "Y",
-                        icon: "plus"
-                      }
-                    }
-                  ],
-                  fieldList: [
-                    {
-                      fieldName: currentTabName,
-                      closable: "Y",
-                      tabList: subNodeFieldList
-                    }
-                  ]
+              label: "添加子节点",
+              type: "button",
+              fieldName: "subNodeBtn",
+              actionName: "click",
+              actions: (val: any) => {
+                if (val["starHorseBtnName"] == "subNodeBtn") {
+                  addSubNode();
                 }
-              ]
+              },
+              preps: {
+                text: "Y",
+                icon: "plus"
+              }
+            }
+          ],
+          fieldList: [
+            {
+              fieldName: currentTabName,
+              closable: "Y",
+              tabList: subNodeFieldList
             }
           ]
         }
       ]
     }
+
   ]
 });
 const getFormData = () => {
@@ -177,19 +112,25 @@ const init = async () => {
   });
   let redata = await loadData("/devops-continus/continus/baseInfo/repoTypes", {});
   repoList.value = redata?.data;
-  execTypeList.value.push({name: "并行", value: "serial"});
-  execTypeList.value.push({name: "串行", value: "parallel"});
-  nodeSuccessConditionList.value.push({name: "成功完成所有子任务", value: "all"});
-  nodeSuccessConditionList.value.push({name: "成功完成任意子任务", value: "any"});
-  nodeSuccessConditionList.value.push({name: "成功完成指定子任务", value: "assign"});
   setFormData(props.nodeInfo);
+};
+const valid=async ()=>{
+  console.log("valid");
+  try{
+    return await javaCompileRef.value?.$refs.starHorseFormRef.validate();
+  }catch (e) {
+    console.log(e);
+    return false;
+  }
+
 };
 onMounted(async () => {
   await init();
 });
 defineExpose({
   getFormData,
-  setFormData
+  setFormData,
+  valid
 });
 </script>
 
@@ -205,8 +146,7 @@ defineExpose({
   >
     <ToolInfo ref="toolInfoRef"/>
   </star-horse-dialog>
-  {{ getFormData() }}
-  <star-horse-form ref="javaCompileRef" class="build-cfg" :outerForm="nodeInfo" :fieldList="fieldList"/>
+  <star-horse-form ref="javaCompileRef" class="build-cfg" :fieldList="fieldList"/>
 </template>
 
 <style scoped lang="scss">

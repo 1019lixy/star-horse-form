@@ -28,7 +28,7 @@ const props = defineProps({
   fieldList: {type: Object as PropType<PageFieldInfo>, required: true},
   batchName: {type: String, default: "batchDataList"},
   batchFieldName: {type: String, default: "batchFieldList"},
-  outerFormData: {type: Object},
+  outerFormData: {type: Object as PropType<any>},
   primaryKey: {type: String},
   globalCondition: {type: Object},
   rules: {type: Object},

@@ -1,21 +1,84 @@
 <script setup lang="ts" name="ContinusInstanceInit">
-import {computed, nextTick, onMounted, ref} from "vue";
+import {computed, nextTick, onMounted, ref, watch} from "vue";
 import ToolInfo from "@/views/continus/ToolInfo.vue";
 import DeployTemplate from "@/views/continus/DeployTemplate.vue";
 import {warning} from "@/utils/message.ts";
 import {continusConfig} from "@/store/ContinusConfigStore.ts";
 import piniaInstance from "@/store";
+import {SelectOption} from "@/components/types/SearchProps";
+import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 
 const nodeCompRef = ref<any>();
+const nodeInfoRef = ref<any>();
 const toolInfoRef = ref<any>();
 const deployTemplateRef = ref<any>();
 const tempDialog = ref<boolean>(false);
 const nodeDialog = ref<boolean>(false);
-const currentNode = ref<number>(-1);
+const currentNodeIndex = ref<number>(-1);
 const continusStore = continusConfig(piniaInstance);
 const nodeInfo = computed(() => continusStore.nodeInfo);
 let currentCompName = ref<string>("PipelineCfg");
 const processList = ref<any>([]);
+let currentNode = ref<any>({});
+let execTypeList = ref<SelectOption[]>([]);
+let nodeSuccessConditionList = ref<SelectOption[]>([]);
+let subNodeList = ref<SelectOption[]>([]);
+let assignSelect = ref<boolean>(false);
+let nodeField = ref<PageFieldInfo>({
+  fieldList: [
+    [
+      {
+        label: "名称",
+        fieldName: "name",
+        type: "input",
+        required: true,
+        formVisible: true,
+        listVisible: true
+      },
+      {
+        label: "执行方式",
+        fieldName: "nodeExecType",
+        type: "select",
+        optionList: execTypeList,
+        required: true,
+        formVisible: true,
+        listVisible: true
+      }
+    ],
+    [
+      {
+        label: "节点成功条件",
+        fieldName: "nodeSuccessCondition",
+        type: "radio",
+        optionList: nodeSuccessConditionList,
+        actionName: "change",
+        actions: (val: any) => {
+          console.log(val);
+          assignSelect.value = val["nodeSuccessCondition"] == "assign";
+        },
+        required: true,
+        formVisible: true,
+        listVisible: true,
+        brotherNodes: [
+          {
+            label: "  ",
+            fieldName: "assignNode",
+            type: "select",
+            optionList: subNodeList,
+            required: true,
+            formVisible: assignSelect,
+            preps: {
+              colspan: 6
+            }
+          }
+        ],
+        preps: {
+          colspan: 13
+        }
+      }
+    ],
+  ]
+})
 const changeTemplate = () => {
   tempDialog.value = !tempDialog.value;
   nextTick(() => {
@@ -23,12 +86,19 @@ const changeTemplate = () => {
   });
 };
 const addNode = (currentIndex: number) => {
-  currentNode.value = currentIndex;
+  currentNodeIndex.value = currentIndex;
   addSubNode();
 };
-const editNode = (compName: string, currentIndex: number) => {
-  currentCompName.value = compName;
-  currentNode.value = currentIndex;
+const editNode = async (node: any, currentIndex: number) => {
+  let result = await nodeCompRef.value?.valid();
+  console.log(result);
+  debugger;
+  if (!result) {
+    return;
+  }
+  currentNode.value = node;
+  currentCompName.value = node.code;
+  currentNodeIndex.value = currentIndex;
 };
 const delNode = (item: any) => {
   let index = processList.value.indexOf(item);
@@ -47,10 +117,11 @@ const dataSubmit = () => {
     warning("请先选择要配置的节点");
     return;
   }
-  let index = currentNode.value == -1 ? processList.value.length : currentNode.value;
+  let index = currentNodeIndex.value == -1 ? processList.value.length : currentNodeIndex.value;
   processList.value.splice(index, 0, {name: node.name, code: node.code, icon: node.icon});
-  currentNode.value = index;
+  currentNodeIndex.value = index;
   currentCompName.value = node.code;
+  currentNode.value = node;
   closeAction();
 };
 const selectTemplate = () => {
@@ -71,10 +142,22 @@ const save = (type: string) => {
   console.log(type);
 };
 const init = async () => {
+  execTypeList.value.push({name: "并行", value: "serial"});
+  execTypeList.value.push({name: "串行", value: "parallel"});
+  nodeSuccessConditionList.value.push({name: "成功完成所有子任务", value: "all"});
+  nodeSuccessConditionList.value.push({name: "成功完成任意子任务", value: "any"});
+  nodeSuccessConditionList.value.push({name: "成功完成指定子任务", value: "assign"});
 };
 onMounted(async () => {
   await init();
 });
+watch(
+    () => nodeInfoRef.value?.getFormData()?.value,
+    (val) => {
+      currentNode.value['name'] = val?.name;
+    },
+    {deep: true}
+)
 </script>
 <template>
   <star-horse-dialog
@@ -123,15 +206,15 @@ onMounted(async () => {
     <div class="pipeline-nav">
       <div class="nav">
         <div
-            :class="{ 'is-active': -1 == currentNode }"
-            @click="editNode('PipelineCfg', -1)"
+            :class="{ 'is-active': -1 == currentNodeIndex }"
+            @click.stop="editNode({code:'PipelineCfg'}, -1)"
             class="nav-setting nav-panel"
         >
           <star-horse-icon
               icon-class="setting"
               :style="{
               'vertical-align': 'middle',
-              color: -1 == currentNode ? 'var(--star-horse-white)' : 'var(--star-horse-style)'
+              color: -1 == currentNodeIndex ? 'var(--star-horse-white)' : 'var(--star-horse-style)'
             }"
           />
           流水线配置
@@ -151,7 +234,7 @@ onMounted(async () => {
                   </el-tooltip>
                 </i>
               </div>
-              <div :class="{ 'is-active': index == currentNode }" @click="editNode(item.code, index)" class="nav-panel">
+              <div :class="{ 'is-active': index == currentNodeIndex }" @click.stop="editNode(item, index)" class="nav-panel">
                 <div class="relative flex flex-row items-center justify-center">
                   <star-horse-icon :icon-class="item.icon" size="30px"/>
                   <span>{{ item.name }}</span>
@@ -182,6 +265,11 @@ onMounted(async () => {
     </div>
     <div class="config-content">
       {{ currentCompName }}
+      <div class=" h-[100px] mx-[7px] my-[10px] border-solid border-1 rounded"
+           style="border-color: var(--el-border-color-light);"
+           v-if="currentNodeIndex!==-1">
+        <star-horse-form ref="nodeInfoRef" class="build-cfg" :outerFormData="currentNode" :fieldList="nodeField"/>
+      </div>
       <keep-alive>
         <component :is="currentCompName" ref="nodeCompRef" :nodeInfo="currentNode"/>
       </keep-alive>

@@ -4,12 +4,14 @@
   import { SelectOption } from "@/components/types/SearchProps";
   import { loadPlugin } from "@/views/continus/utils/ToolsParams.ts";
   import { loadData } from "@/api/sh_api.ts";
+  import StarHorseFormItem from "@/components/comp/StarHorseFormItem.vue";
 
   const nodeInfoRef = ref<any>();
   const nodeTypeList = ref<SelectOption[]>([]);
   const execTypeList = ref<SelectOption[]>([]);
   const compileTypeList = ref<SelectOption[]>([]);
   let nodeParams = ref<FieldInfo[]>([]);
+  let dataForm=ref<any>({});
   const fieldList = reactive<PageFieldInfo | any>({
     fieldList: [
       {
@@ -139,7 +141,13 @@
 </script>
 
 <template>
-  <star-horse-form ref="nodeInfoRef" formSize="default" class="node-info" :fieldList="fieldList" />
+  <star-horse-form-item
+      ref="nodeInfoRef"
+      :fieldList="fieldList"
+      class="node-info"
+      v-model:dataForm="dataForm"
+
+  />
 </template>
 <style lang="scss" scoped>
   .el-card {
