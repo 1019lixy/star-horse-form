@@ -80,7 +80,6 @@ const operationRelation = (relation: any, actionName: string, formData: any, cur
       continue;
     }
     const field = userOperation.getFormItem(fieldName);
-    console.log(userOperation.formFieldList, field, conditon, fieldName);
     const params: any = temp.params;
     const matchType: string = temp.matchType;
     if (conditon == "query") {

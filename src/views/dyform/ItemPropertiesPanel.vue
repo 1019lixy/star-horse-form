@@ -2,7 +2,7 @@
   import { computed, nextTick, onMounted, ref, unref, watch } from "vue";
   import { formFieldMapping, isJson, searchMatchList } from "@/api/sh_api";
   import { SelectOption } from "@/components/types/SearchProps";
-  import StarHorseEditor from "@/components/comp/StarHorseEditor.vue";
+  import StarHorseEditor from "@/components/system/StarHorseEditor.vue";
   import StarHorseForm from "@/components/comp/StarHorseForm.vue";
   import {
     compCommonFields,

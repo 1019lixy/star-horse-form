@@ -14,7 +14,7 @@
 </template>
 <script lang="ts" name="codeItem">
   import { defineComponent, onMounted, shallowRef } from "vue";
-  import StarHorseEditor from "@/components/comp/StarHorseEditor.vue";
+  import StarHorseEditor from "@/components/system/StarHorseEditor.vue";
 
   export default defineComponent({
     components: { StarHorseEditor },

@@ -8,8 +8,9 @@ import userContainerComponent from "@/components/comp/items/callitem";
 import itemComponent from "@/components/formcomp/items/allitem";
 import containerComponent from "@/components/formcomp/container/callitem";
 import flowNodeComponent from "@/views/workflow/plugin/node/nodes.ts";
+import systemComponent from "@/components/system/SystemComp.ts";
 import App from "@/App.vue";
-import { createApp } from "vue";
+import {createApp} from "vue";
 import ElementPlus from "element-plus";
 // 导入svg图标
 import "virtual:svg-icons-register";
@@ -38,8 +39,9 @@ app.component("draggable", draggable);
  * 加载elementplus 自己提供的图标
  */
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
-  app.component(key, component);
+    app.component(key, component);
 }
+app.use(systemComponent);
 app.use(userComponent);
 app.use(itemComponent);
 app.use(userContainerComponent);
@@ -50,12 +52,12 @@ app.use(VueParticles);
 app.use(piniaInstance);
 app.use(router);
 VMEditor.use(vuepressTheme, {
-  Prism,
-  Hljs: hljs
+    Prism,
+    Hljs: hljs
 });
 app.use(VMEditor);
 app.use(ElementPlus, {
-  locale: ZhLocale
+    locale: ZhLocale
 });
 app.use(hljsVuePlugin);
 app.config.performance = true;
@@ -66,9 +68,9 @@ app.config.performance = true;
  * @param info
  */
 app.config.errorHandler = (err, instance, info) => {
-  console.log(err);
-  console.log(instance);
-  console.log(info);
+    console.log(err);
+    console.log(instance);
+    console.log(info);
 };
 /**
  * 处理警告

@@ -14,8 +14,7 @@
     <div style="font-size: 12px">
       <pre
         >{{ message }}
-</pre
-      >
+      </pre>
     </div>
   </el-popover>
 </template>

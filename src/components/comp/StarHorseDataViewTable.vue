@@ -2,9 +2,7 @@
   import { PropType } from "vue";
   import { FieldInfo } from "@/components/types/PageFieldInfo";
   import { rowClassName } from "@/api/sh_api";
-  import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
   import { ModelRef } from "vue-demi";
-  import StarHorseTableViewColumn from "@/components/comp/StarHorseTableViewColumn.vue";
   import { Config } from "@/api/settings.ts";
 
   defineProps({

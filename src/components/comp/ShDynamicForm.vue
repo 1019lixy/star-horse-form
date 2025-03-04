@@ -19,34 +19,8 @@
   const closeDialog = inject("closeDialog") as Function;
   const dialogOperation = inject("dialogOperation") as ShallowReactive<any>;
   const dialogProps = inject<DialogProps>("dialogProps", {});
-  watch(
-    () => dialogOperation,
-    (val: any) => {
-      if (val["funcName"] == "merge") {
-        merge(val["type"]);
-      } else if (val["funcName"] == "mergeDraft") {
-        mergeDraft(val["type"]);
-      } else if (val["funcName"] == "resetForm") {
-        resetForm();
-      }
-      //为了触发多次点击响应
-      dialogOperation["funcName"] = "";
-      dialogOperation["type"] = "";
-    },
-    {
-      immediate: false,
-      deep: true
-    }
-  );
+
   const assignDefault = () => {
-    // let defaultDatas = {};
-    // let tempList = props.fieldList.fieldList;
-    // for (let key in tempList) {
-    //   let temp = tempList[key] as FieldInfo;
-    //   if (temp.defaultValue) {
-    //     defaultDatas[temp.fieldName] = temp.defaultValue;
-    //   }
-    // }
     dataForm.value = {};
   };
   const loadData = async () => {
@@ -54,21 +28,6 @@
     //解决关闭并再次打开不触发watch监听
     dialogProps.ids = -2;
   };
-  watch(
-    () => dialogProps.ids,
-    (val) => {
-      if (val == -2) {
-      } else if (!val || val == -1) {
-        assignDefault();
-      } else {
-        loadData();
-      }
-    },
-    {
-      immediate: true,
-      deep: true
-    }
-  );
   const merge = (_type: string) => {
     starHorseFormRef.value.validate((result: boolean) => {
       if (!result) {
@@ -84,29 +43,64 @@
   const doMerge = () => {
     load("数据处理中");
     postRequest(props.compUrl.mergeUrl!, dataForm.value)
-      .then((res) => {
-        closeLoad();
-        if (res.data.code != 0) {
-          warning(res.data.cnMessage);
-          return;
-        } else {
-          success(res.data.cnMessage);
-        }
-        emits("refresh");
-        resetForm();
-        closeDialog();
-        //关闭弹窗
-      })
-      .catch((err) => {
-        error("接口调用异常" + err);
-      })
-      .finally(() => {
-        closeLoad();
-      });
+        .then((res) => {
+          closeLoad();
+          if (res.data.code != 0) {
+            warning(res.data.cnMessage);
+            return;
+          } else {
+            success(res.data.cnMessage);
+          }
+          emits("refresh");
+          resetForm();
+          closeDialog();
+          //关闭弹窗
+        })
+        .catch((err) => {
+          error("接口调用异常" + err);
+        })
+        .finally(() => {
+          closeLoad();
+        });
   };
   const resetForm = () => {
     assignDefault();
   };
+  watch(
+      () => dialogOperation,
+      (val: any) => {
+        if (val["funcName"] == "merge") {
+          merge(val["type"]);
+        } else if (val["funcName"] == "mergeDraft") {
+          mergeDraft(val["type"]);
+        } else if (val["funcName"] == "resetForm") {
+          resetForm();
+        }
+        //为了触发多次点击响应
+        dialogOperation["funcName"] = "";
+        dialogOperation["type"] = "";
+      },
+      {
+        immediate: false,
+        deep: true
+      }
+  );
+  watch(
+    () => dialogProps.ids,
+    (val) => {
+      if (val == -2) {
+      } else if (!val || val == -1) {
+        assignDefault();
+      } else {
+        loadData();
+      }
+    },
+    {
+      immediate: true,
+      deep: true
+    }
+  );
+
   defineExpose({
     merge,
     mergeDraft,
@@ -114,7 +108,7 @@
     assignDefault
   });
 </script>
-<style scoped></style>
+
 <template>
   <el-form
     :model="dataForm"
@@ -163,3 +157,4 @@
     </el-form-item>
   </el-form>
 </template>
+<style scoped></style>

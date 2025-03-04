@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { dynamicPageContextMenuData, Editable } from "@/views/dyform/page/AblesPlugin.ts";
+  import { dynamicPageContextMenuData, Editable } from "@/plugins/AblesPlugin.ts";
   import VueMoveable from "vue3-moveable";
   import { onMounted, ref } from "vue";
   import { uuid } from "@/api/system.ts";

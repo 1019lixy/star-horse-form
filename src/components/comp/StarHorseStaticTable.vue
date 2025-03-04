@@ -2,7 +2,6 @@
   import { onMounted, reactive, ref, unref } from "vue";
   import { commonParseCodeToName } from "@/api/sh_api";
   import Sortable from "sortablejs";
-  import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
   import { warning } from "@/utils/message";
   import { Config } from "@/api/settings.ts";
 

@@ -41,7 +41,7 @@
   });
   const loadData = async () => {
     await nextTick();
-    let id = dialogProps?.ids instanceof Array ? dialogProps.ids[0] : dialogProps?.ids;
+    let id = Array.isArray(dialogProps?.ids) ? dialogProps.ids[0] : dialogProps?.ids;
     if (!props.compUrl) {
       return;
     }

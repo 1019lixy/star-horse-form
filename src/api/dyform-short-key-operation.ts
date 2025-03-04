@@ -4,7 +4,7 @@ import piniaInstance from "@/store";
 import { computed } from "vue";
 import { operationConfirm, warning } from "@/utils/message.ts";
 import { ModuleEnums } from "@/components/enums/ModuleEnums.ts";
-import { copyContainer, moveDownItem, moveUpItem, removeItem } from "@/views/dyform/page/AblesPlugin.ts";
+import { copyContainer, moveDownItem, moveUpItem, removeItem } from "@/plugins/AblesPlugin.ts";
 import { uuid } from "@/api/system.ts";
 
 const designForm = DesignForm(piniaInstance);

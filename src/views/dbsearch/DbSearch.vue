@@ -1,5 +1,5 @@
 <script setup lang="ts" name="DbSearch">
-  import StarHorseEditor from "@/components/comp/StarHorseEditor.vue";
+  import StarHorseEditor from "@/components/system/StarHorseEditor.vue";
   import { onMounted, ref, unref, computed } from "vue";
   import { closeLoad, commonParseCodeToName, load } from "@/api/sh_api";
   import { error, warning } from "@/utils/message";

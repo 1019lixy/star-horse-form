@@ -1,10 +1,10 @@
 <script setup lang="ts" name="StarHorseButtonList">
   import { computed, onMounted, onUpdated, PropType, ref } from "vue";
   import { ApiUrls } from "@/components/types/ApiUrls";
-  import { download } from "@/api/star_horse";
-  import { error } from "@/utils/message";
+  import { download } from "@/api/star_horse.ts";
+  import { error } from "@/utils/message.ts";
   import { DialogProps } from "../types/DialogProps";
-  import { getToken } from "@/utils/auth";
+  import { getToken } from "@/utils/auth.ts";
   import { GlobalConfig } from "@/store/GlobalConfigStore.ts";
   import piniaInstance from "@/store";
   import { useButtonPermission } from "@/store/ButtonPermissionStore.ts";
@@ -330,12 +330,11 @@
               :before-upload="beforeUpload"
               :action="compUrl?.importUrl"
               :headers="{ token: getToken() }"
-              class="upload"
+              class="upload flex items-center"
               name="file"
               v-if="item.authority == 'upload'"
             >
               <star-horse-icon icon-class="excel-upload" size="14px" />
-              导入
             </el-upload>
             <star-horse-icon
               v-else

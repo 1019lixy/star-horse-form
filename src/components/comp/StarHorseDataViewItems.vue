@@ -15,18 +15,7 @@
     commonFormat: { type: Function, required: true }
   });
   const dataForm: ModelRef<any> = defineModel("dataForm");
-  const currentDataFormat = (scope: any) => {
-    let item = props.fieldList;
-    let val: string = scope.row[item.hideName || item.fieldName];
-    //下拉数据,checkbox,radio切换为对应的名称
-    if (item.type == "select" || item.type == "checkbox" || item.type == "radio") {
-      return item.preps?.values?.find((temp: any) => String(temp.value) == val)?.name || val;
-    }
-    if (props.commonFormat && scope.column.property) {
-      props.commonFormat(scope.column.property, val, scope.row);
-    }
-    return val;
-  };
+
   const itemCommonFormat = (name: string, cellValue: any, row: any) => {
     cellValue = commonParseCodeToName(name, cellValue);
     if (name == "isDel") {
@@ -35,19 +24,6 @@
     return null == props.commonFormat ? cellValue : props.commonFormat(name, cellValue, row);
   };
 
-  const dataFormat = (item: any) => {
-    let name = item["hideName"] || item["fieldName"];
-    let val = dataForm.value[name];
-    try {
-      if (item.type == "select" || item.type == "checkbox" || item.type == "radio") {
-        return item.preps?.values?.find((temp: any) => String(temp.value) == val)?.name || val;
-      }
-      return props.commonFormat(name, val);
-    } catch (e) {
-      console.log(e);
-    }
-    return val;
-  };
 </script>
 <template>
   <template v-for="item in fieldList.fieldList">

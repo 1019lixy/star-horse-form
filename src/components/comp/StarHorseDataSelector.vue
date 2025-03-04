@@ -54,7 +54,6 @@
   });
   const dataPickerRef = ref<InstanceType<typeof DataPicker>>();
   const formDisabled = useFormDisabled();
-  const formSize = useFormSize();
   const disabled = computed<boolean>(() => {
     return formDisabled.value || props.disabled;
   });
@@ -71,7 +70,7 @@
       selectData.value = null;
       value.value = null;
     }
-    emits("selectData", selectData.value);
+    emits("selectedData", selectData.value);
   };
 </script>
 

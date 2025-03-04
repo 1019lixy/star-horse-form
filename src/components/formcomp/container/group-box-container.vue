@@ -4,7 +4,7 @@
   import { DesignForm } from "@/store/DesignFormStore.ts";
   import { computed, ref } from "vue";
   import { colDataInfo } from "@/components/formcomp/container/dytableUtils.ts";
-  import { dynamicFormContextMenuData } from "@/views/dyform/page/AblesPlugin.ts";
+  import { dynamicFormContextMenuData } from "@/plugins/AblesPlugin.ts";
   import FieldList from "@/components/formcomp/utils/FieldList.vue";
   import StarHorseDialog from "@/components/comp/StarHorseDialog.vue";
   import { fieldCopy } from "@/views/dyform/utils/FieldOperationUtils.ts";

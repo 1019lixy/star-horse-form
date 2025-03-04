@@ -8,14 +8,14 @@
   import { ApiUrls } from "@/components/types/ApiUrls.d.ts";
   import { PageFieldInfo } from "@/components/types/PageFieldInfo.d.ts";
   import piniaInstance from "@/store";
-  import { DesignGraph } from "@/store/DesignGraphStore";
-  import { closeLoad, formFieldMapping, load } from "@/api/sh_api";
+  import { DesignGraph } from "@/store/DesignGraphStore.ts";
+  import { closeLoad, formFieldMapping, load } from "@/api/sh_api.ts";
   import Help from "@/components/help.vue";
   import ConsumerDbListComp from "@/views/dbsearch/utils/ConsumerDbListComp.vue";
-  import StarHorseEditor from "@/components/comp/StarHorseEditor.vue";
+  import StarHorseEditor from "@/components/system/StarHorseEditor.vue";
   import { ConsumerView } from "@/store/ConsumerViewStore.ts";
   import { Config } from "@/api/settings.ts";
-  import { dynamicFormContextMenuData } from "@/views/dyform/page/AblesPlugin.ts";
+  import { dynamicFormContextMenuData } from "@/plugins/AblesPlugin.ts";
 
   const designGraph = DesignGraph(piniaInstance);
   const consumerView = ConsumerView(piniaInstance);

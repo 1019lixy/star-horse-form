@@ -13,7 +13,6 @@ function getHardwareInfo() {
         screenResolution: `${window.screen.width}x${window.screen.height}`,
         gpuInfo: {},
     };
-    debugger;
     // 获取 GPU 信息
     const canvas = document.createElement('canvas');
     const gl = canvas.getContext('webgl');

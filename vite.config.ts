@@ -241,6 +241,12 @@ export default defineConfig((mode, command) => {
               if (id.includes("monaco-editor")) return "monaco";
               if (id.includes("element-plus")) return "element-plus";
               if (id.includes("bpmn-js")) return "bpmn";
+              if(id.includes("vue")) return "vue";
+              if(id.includes("echarts")) return "echarts";
+              if(id.includes("codemirror")) return "codemirror";
+              if(id.includes("sortablejs")) return "sortablejs";
+              if(id.includes("jsencrypt")) return "jsencrypt";
+              if(id.includes("jquery")) return "jquery";
               return "vendor";
             }
           }

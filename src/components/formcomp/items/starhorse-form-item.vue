@@ -10,7 +10,7 @@
     moveDownItem,
     moveUpItem,
     removeItem
-  } from "@/views/dyform/page/AblesPlugin.ts";
+  } from "@/plugins/AblesPlugin.ts";
 
   const props = defineProps({
     parentField: { type: Object },

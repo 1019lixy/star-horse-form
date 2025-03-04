@@ -34,7 +34,7 @@
   import { Config } from "@/api/settings.ts";
   import FormPreview from "@/views/dyform/FormPreview.vue";
   import { initKeyboardEvent, removeKeyboardEvent } from "@/api/keyboard-event-utils.ts";
-  import { dynamicFormContextMenuData } from "@/views/dyform/page/AblesPlugin.ts";
+  import { dynamicFormContextMenuData } from "@/plugins/AblesPlugin.ts";
   import { ModuleEnums } from "@/components/enums/ModuleEnums.ts";
   import { compFieldInit } from "@/views/dyform/utils/FieldOperationUtils.ts";
 
