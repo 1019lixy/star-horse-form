@@ -386,7 +386,7 @@ defineExpose({
 });
 </script>
 <template>
-  <el-scrollbar>
+  <el-scrollbar height="100%">
     <el-form
         :model="dataForm"
         :size="formSize"
@@ -428,7 +428,8 @@ defineExpose({
   </el-form-item>
 </template>
 <style lang="scss" scoped>
-/*:deep(.el-form-item__content) {
-flex-direction: column;
-}*/
+:deep(.el-scrollbar__view) {
+  height: inherit !important;
+}
+
 </style>

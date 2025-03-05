@@ -10,6 +10,8 @@
     compUrl: { type: Object as PropType<ApiUrls> },
     item: { type: Object as PropType<PageFieldInfo>, required: true },
     objectName: { type: String },
+    // 数据索引
+    dataIndex: {type: Number, default: -1},
     parentPreps: { type: Object, default: {} },
     subFormFlag: { type: String, default: "N" },
     batchName: { type: String, default: "batchDataList" },
@@ -57,6 +59,7 @@
                 :compSize="compSize"
                 v-model:dataForm="dataForm"
                 :item="sitem"
+                :dataIndex="dataIndex"
                 :isEdit="isEdit"
               />
             </el-form-item>
@@ -66,6 +69,7 @@
               :primaryKey="primaryKey"
               v-model:dataForm="dataForm"
               :item="sitem"
+              :dataIndex="dataIndex"
               :isEdit="isEdit"
             />
           </td>

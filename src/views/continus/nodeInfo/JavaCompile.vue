@@ -20,38 +20,13 @@ let subNodeFieldList = ref<FieldInfo[]>([]);
 const fieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     {
-      cardList: [
-        {
-          title: "子节点配置",
-          subFormFlag: "Y",
-          tabName: "subNodeInfo",
-          objectName: "subNodeInfo",
-          headerFieldList: [
-            {
-              label: "添加子节点",
-              type: "button",
-              fieldName: "subNodeBtn",
-              actionName: "click",
-              actions: (val: any) => {
-                if (val["starHorseBtnName"] == "subNodeBtn") {
-                  addSubNode();
-                }
-              },
-              preps: {
-                text: "Y",
-                icon: "plus"
-              }
-            }
-          ],
-          fieldList: [
-            {
-              fieldName: currentTabName,
-              closable: "Y",
-              tabList: subNodeFieldList
-            }
-          ]
-        }
-      ]
+      addable: "Y",
+      addActions: () => {
+        addSubNode();
+      },
+      closable: "Y",
+      fieldName: currentTabName,
+      tabList: subNodeFieldList
     }
 
   ]
@@ -81,7 +56,7 @@ const dataSubmit = () => {
   subNodeFieldList.value.push({
     title: "节点" + len,
     tabName: "tab" + len,
-    subFormFlag: "Y",
+    subFormFlag: "N",
     objectName: "sub" + len,
     fieldList: [
       {
@@ -99,7 +74,7 @@ const init = async () => {
   subNodeFieldList.value.push({
     title: "节点一",
     tabName: "tab1",
-    subFormFlag: "Y",
+    subFormFlag: "N",
     objectName: "sub",
     fieldList: [
       {
@@ -114,11 +89,11 @@ const init = async () => {
   repoList.value = redata?.data;
   setFormData(props.nodeInfo);
 };
-const valid=async ()=>{
+const valid = async () => {
   console.log("valid");
-  try{
+  try {
     return await javaCompileRef.value?.$refs.starHorseFormRef.validate();
-  }catch (e) {
+  } catch (e) {
     console.log(e);
     return false;
   }

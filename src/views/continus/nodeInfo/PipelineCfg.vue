@@ -148,14 +148,6 @@ const valid = async () => {
 onMounted(() => {
   init();
 });
-watch(
-    () => getFormData(),
-    (newVal) => {
-      //将数据存入store
-      continusStore.addNodeInfo("pipelineCfg", newVal);
-    },
-    {deep: true}
-);
 defineExpose({
   getFormData,
   setFormData,

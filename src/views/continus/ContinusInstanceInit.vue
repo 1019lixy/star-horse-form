@@ -29,7 +29,7 @@ let nodeField = ref<PageFieldInfo>({
     [
       {
         label: "名称",
-        fieldName: "name",
+        fieldName: "nodeName",
         type: "input",
         required: true,
         formVisible: true,
@@ -92,12 +92,18 @@ const addNode = (currentIndex: number) => {
 const editNode = async (node: any, currentIndex: number) => {
   let result = await nodeCompRef.value?.valid();
   console.log(result);
-  debugger;
   if (!result) {
     return;
   }
+  let formData = nodeCompRef.value.getFormData().value;
+  if (currentNodeIndex.value == -1) {
+    continusStore.addNodeInfo("pipelineCfg", formData);
+  } else {
+    // currentNode.value["subNodeInfo"] = formData;
+    console.log(currentNode.value);
+  }
   currentNode.value = node;
-  currentCompName.value = node.code;
+  currentCompName.value = node.nodeCode;
   currentNodeIndex.value = currentIndex;
 };
 const delNode = (item: any) => {
@@ -118,9 +124,9 @@ const dataSubmit = () => {
     return;
   }
   let index = currentNodeIndex.value == -1 ? processList.value.length : currentNodeIndex.value;
-  processList.value.splice(index, 0, {name: node.name, code: node.code, icon: node.icon});
+  processList.value.splice(index, 0, {nodeName: node.nodeName, nodeCode: node.nodeCode, icon: node.icon});
   currentNodeIndex.value = index;
-  currentCompName.value = node.code;
+  currentCompName.value = node.nodeCode;
   currentNode.value = node;
   closeAction();
 };
@@ -154,7 +160,7 @@ onMounted(async () => {
 watch(
     () => nodeInfoRef.value?.getFormData()?.value,
     (val) => {
-      currentNode.value['name'] = val?.name;
+      currentNode.value["nodeName"] = val.nodeName;
     },
     {deep: true}
 )
@@ -180,8 +186,8 @@ watch(
   >
     <deploy-template ref="deployTemplateRef"/>
   </star-horse-dialog>
-  <el-card class="inner_content">
-    <div class="config-nav-bar">
+  <el-card class="inner_content relative">
+    <div class="config-nav-bar relative">
       <div class="nav-bar-left">
         <span>{{ nodeInfo.pipelineCfg?.lineName || "未定义" }}</span>
         <span style="width: 40px"></span>
@@ -203,7 +209,7 @@ watch(
         </el-button>
       </div>
     </div>
-    <div class="pipeline-nav">
+    <div class="pipeline-nav relative">
       <div class="nav">
         <div
             :class="{ 'is-active': -1 == currentNodeIndex }"
@@ -234,10 +240,11 @@ watch(
                   </el-tooltip>
                 </i>
               </div>
-              <div :class="{ 'is-active': index == currentNodeIndex }" @click.stop="editNode(item, index)" class="nav-panel">
+              <div :class="{ 'is-active': index == currentNodeIndex }" @click.stop="editNode(item, index)"
+                   class="nav-panel">
                 <div class="relative flex flex-row items-center justify-center">
                   <star-horse-icon :icon-class="item.icon" size="30px"/>
-                  <span>{{ item.name }}</span>
+                  <span>{{ item.nodeName }}</span>
                   <i class="icon pright">
                     <star-horse-icon @click.stop="delNode(item)" icon-class="close" cursor="pointer" color="red"/>
                   </i>
@@ -263,22 +270,26 @@ watch(
         </el-button>
       </div>
     </div>
-    <div class="config-content">
-      {{ currentCompName }}
+    <div class="config-content relative">
       <div class=" h-[100px] mx-[7px] my-[10px] border-solid border-1 rounded"
            style="border-color: var(--el-border-color-light);"
            v-if="currentNodeIndex!==-1">
         <star-horse-form ref="nodeInfoRef" class="build-cfg" :outerFormData="currentNode" :fieldList="nodeField"/>
       </div>
-      <keep-alive>
-        <component :is="currentCompName" ref="nodeCompRef" :nodeInfo="currentNode"/>
-      </keep-alive>
+      <div class="flex-1 overflow-hidden">
+        <keep-alive>
+          <component :is="currentCompName" ref="nodeCompRef" :nodeInfo="currentNode"/>
+        </keep-alive>
+      </div>
     </div>
   </el-card>
 </template>
 <style lang="scss" scoped>
+
 .config-content {
   flex: 1;
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
 }
 
