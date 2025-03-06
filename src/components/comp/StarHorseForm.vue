@@ -315,7 +315,8 @@ const getFormData = () => {
  * @param data
  */
 const setFormData = (data: any) => {
-  let defaultDatas = formFieldMapping(props.fieldList).defaultDatas;
+  let mappingData = formFieldMapping(props.fieldList);
+  let defaultDatas = mappingData.defaultDatas;
   dataForm.value = {...defaultDatas, ...data};
 };
 /**

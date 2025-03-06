@@ -63,7 +63,10 @@ const dataSubmit = () => {
         label: "",
         type: "comp",
         formVisible: true,
-        fieldName: "SubNodeInfo"
+        fieldName: "SubNodeInfo",
+        params: {
+          totalTab: len
+        }
       }
     ]
   });
@@ -81,7 +84,10 @@ const init = async () => {
         label: "",
         type: "comp",
         formVisible: true,
-        fieldName: "SubNodeInfo"
+        fieldName: "SubNodeInfo",
+        params: {
+          totalTab: 1
+        }
       }
     ]
   });

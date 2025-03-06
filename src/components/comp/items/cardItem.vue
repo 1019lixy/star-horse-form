@@ -5,6 +5,7 @@ import {ApiUrls} from "@/components/types/ApiUrls";
 import {FieldInfo} from "@/components/types/PageFieldInfo";
 import {ModelRef} from "vue-demi";
 import {Config} from "@/api/settings.ts";
+import {checkObject} from "@/api/sh_api.ts";
 
 const props = defineProps({
   compUrl: {type: Object as PropType<ApiUrls>},
@@ -24,18 +25,6 @@ const props = defineProps({
 });
 const emits = defineEmits(["addRow", "removeRow"]);
 const dataForm: ModelRef<any> = defineModel("dataForm");
-const checkObject = (item: any, index: number) => {
-  if (item.subFormFlag == "Y") {
-    if (item && item.objectName && !Object.keys(dataForm.value).includes(item.objectName)) {
-      dataForm.value[item.objectName] = [{}];
-    }
-    let len = dataForm.value[item.objectName].length;
-    if (len < index + 1 || len < props.dataIndex + 1) {
-      dataForm.value[item.objectName].push({});
-    }
-  }
-  return index + 1;
-};
 /**
  * 列表添加行数据
  * @param row
@@ -65,7 +54,7 @@ onMounted(() => {
           shadow="hover"
           style="margin-bottom: 10px"
           v-if="Object.keys(cardItem).includes('disVisible') ? cardItem['disVisible'] : Object.keys(cardItem).length > 0"
-          :index="checkObject(cardItem,index)"
+          :index="checkObject(dataForm,cardItem,index,dataIndex)"
       >
         <template #header>
           <div class="card-header">
@@ -149,5 +138,9 @@ onMounted(() => {
   span {
     width: 90%;
   }
+}
+:deep(.el-card__body),.el-card {
+  height: unset !important;
+  flex: unset !important;
 }
 </style>

@@ -4,13 +4,14 @@
 import {reactive, ref} from "vue";
 import {FieldInfo, PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {SelectOption} from "@/components/types/SearchProps";
-import {apiInstance, createCondition, loadData} from "@/api/sh_api.ts";
-import {loadDict} from "@/api/star_horse.ts";
+import {apiInstance, createCondition, createJoinCondition, loadData} from "@/api/sh_api.ts";
+import {loadDict, postRequest} from "@/api/star_horse.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 
 const apiUrl: ApiUrls = apiInstance("userdb-manage", "userdb/formInstance/conToolManage/idToolManage/136")
 
 const compileLanguageList = ref<SelectOption[]>([]);
+const compileTypeList = ref<SelectOption[]>([]);
 const languageVersionList = ref<SelectOption[]>([]);
 const pluginVersionList = ref<SelectOption[]>([]);
 const linkExecServerList = ref<SelectOption[]>([]);
@@ -27,8 +28,11 @@ const reportTypeList = ref<SelectOption[]>([
     {name: "邮件", value: "3"},
     {name: "系统提醒", value: "4"}
 ]);
-const loadLanguageVersions = async (val: any) => {
-    languageVersionList.value = await loadDict(val["languageVersion"]);
+const loadLanguageVersions = (val: string) => {
+    let versionList = compileLanguageList.value.find((item: any) => item.value == val)?.versionList;
+    languageVersionList.value = versionList?.map((item: any) => {
+        return {name: item["toolVersion"], value: item["toolVersion"]}
+    }) || [];
 };
 
 const commonFields: FieldInfo[] = [
@@ -41,7 +45,7 @@ const commonFields: FieldInfo[] = [
         formVisible: true,
         actionName: "change",
         actions: (val: any) => {
-            loadLanguageVersions(val);
+            loadLanguageVersions(val["compileLanguage"]);
         },
         brotherNodes: [
             {
@@ -69,21 +73,20 @@ const extendCommonFields: FieldInfo[] = [
             {
                 title: "高级设置",
                 tabName: "row1",
-                subFormFlag: "N",
+                subFormFlag: "Y",
                 objectName: "advancedSetting",
                 fieldList: [
-                    [
-                        {
-                            label: "  ",
-                            type: "checkbox",
-                            formVisible: true,
-                            optionList: [{name: "使用唯一镜像名称", value: "Y"}],
-                            fieldName: "singleImageFlag",
-                            preps: {
-                                colspan: 6,
-                                border: "Y"
-                            }
-                        },
+                    [{
+                        label: "  ",
+                        type: "checkbox",
+                        formVisible: true,
+                        optionList: [{name: "使用唯一镜像名称", value: "Y"}],
+                        fieldName: "singleImageFlag",
+                        preps: {
+                            colspan: 6,
+                            border: "Y"
+                        }
+                    },
                         {
                             label: "关联使用执行机",
                             type: "select",
@@ -100,25 +103,24 @@ const extendCommonFields: FieldInfo[] = [
             {
                 title: "运行结果通知",
                 tabName: "result",
-                subFormFlag: "N",
+                subFormFlag: "Y",
                 objectName: "resultReport",
                 fieldList: [
-                    [
-                        {
-                            label: "失败时通知",
-                            type: "switch",
-                            defaultValue: "N",
-                            fieldName: "errorReport",
-                            formVisible: true,
-                            actionName: "change",
-                            actions: (val: any) => {
-                                console.log(val);
-                                errorFlag.value = val["errorReport"] == "Y";
-                            },
-                            preps: {
-                                colspan: 6
-                            }
+                    [{
+                        label: "失败时通知",
+                        type: "switch",
+                        defaultValue: "N",
+                        fieldName: "errorReport",
+                        formVisible: true,
+                        actionName: "change",
+                        actions: (val: any) => {
+                            console.log(val);
+                            errorFlag.value = val["errorReport"] == "Y";
+                        },
+                        preps: {
+                            colspan: 6
                         }
+                    }
                     ],
                     {
                         label: "通知人",
@@ -180,7 +182,7 @@ const extendCommonFields: FieldInfo[] = [
                         actionName: "change",
                         actions: (val: any) => {
                             const temp = val["successReportPerson"];
-                            successPerson.value = temp && temp.nodeTypeOf("3") != -1;
+                            successPerson.value = !!temp;
                         },
                         optionList: reportPersonList,
                         fieldName: "successReportPerson",
@@ -309,13 +311,49 @@ const viteTools = reactive<PageFieldInfo | any>({});
 const webpackTools = reactive<PageFieldInfo | any>({});
 const dockerTools = reactive<PageFieldInfo | any>({});
 const userTools = reactive<PageFieldInfo | any>({});
-const loadPlugin = async (name: string) => {
+const dataInit = () => {
     if (!compileLanguageList.value || compileLanguageList.value.length == 0) {
-        const reData = await loadData(apiUrl.userConditionUrl!, {
-            fieldList: [createCondition("toolType", "language")]
+        let masterFields = ["toolType", "toolCode", "toolName", "defaultParams"];
+        postRequest(apiUrl.basePrefix + "/joinQuery", {
+                limitFields: masterFields,
+                groupByFields: masterFields,
+                groupName: "versionList",
+                joinTables: [
+                    {
+                        tableName: "conToolVersion",
+                        joinType: "inner",
+                        aliasName: "b",
+                        limitFields: ["toolVersion", "toolSubVersion", "privateParams"],
+                        joinCondition: {
+                            joinFieldList: [createJoinCondition("a.idToolManage", "b.idToolManage")]
+                        }
+                    }
+                ],
+                whereCondition: {
+                    fieldList: [createCondition("a.toolType", ["language", "compile"], "in")]
+                }
+            }
+        ).then((res: any) => {
+            let reData = res.data;
+            if (reData.code) {
+                console.log("加载编译语言失败");
+                return;
+            }
+            compileLanguageList.value = reData?.data.filter((item: any) => item.toolType == 'language').map((item: any) => {
+                return {name: item["toolName"], value: item["toolCode"], versionList: item["versionList"]}
+            }); // 加载编译语言
+            compileTypeList.value = reData?.data.filter((item: any) => item.toolType == 'compile').map((item: any) => {
+                return {name: item["toolName"], value: item["toolCode"], versionList: item["versionList"]}
+            }); // 加载编译工具
         });
-        compileLanguageList.value = reData?.data;
     }
+}
+// 加载插件
+const loadPlugin = (name: string) => {
+    let versionList = compileTypeList.value.find((item: any) => item.value == name)?.versionList;
+    pluginVersionList.value = versionList?.map((item: any) => {
+        return {name: item["toolVersion"], value: item["toolVersion"]}
+    }) || [];
     switch (name) {
         case "maven":
             return mavenTools;
@@ -342,5 +380,13 @@ export {
     webpackTools,
     dockerTools,
     userTools,
-    loadPlugin
+    compileLanguageList,
+    compileTypeList,
+    languageVersionList,
+    compileVersionList,
+    pluginVersionList,
+    linkExecServerList,
+    codeCommitorList,
+    loadPlugin,
+    dataInit
 };

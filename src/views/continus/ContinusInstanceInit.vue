@@ -7,6 +7,7 @@ import {continusConfig} from "@/store/ContinusConfigStore.ts";
 import piniaInstance from "@/store";
 import {SelectOption} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
+import {uuid} from "@/api/system.ts";
 
 const nodeCompRef = ref<any>();
 const nodeInfoRef = ref<any>();
@@ -91,16 +92,29 @@ const addNode = (currentIndex: number) => {
 };
 const editNode = async (node: any, currentIndex: number) => {
   let result = await nodeCompRef.value?.valid();
-  console.log(result);
-  if (!result) {
+  let nodeResult = true;
+  if (nodeInfoRef.value) {
+    nodeResult = await nodeInfoRef.value?.$refs.starHorseFormRef.validate();
+  }
+  if (!result || !nodeResult) {
     return;
   }
   let formData = nodeCompRef.value.getFormData().value;
   if (currentNodeIndex.value == -1) {
     continusStore.addNodeInfo("pipelineCfg", formData);
-  } else {
-    // currentNode.value["subNodeInfo"] = formData;
-    console.log(currentNode.value);
+  }
+  let nodeData = nodeInfoRef.value?.getFormData().value;
+  if (nodeData) {
+    let keys = Object.keys(nodeData);
+    for (let key of keys) {
+      currentNode.value[key] = nodeData[key];
+    }
+  }
+  currentNode.value["dataList"] = formData;
+  console.log(currentNode.value, node);
+  //如果点击的是当前节点，则不做任何操作
+  if (currentNode.value.id == node.id) {
+    return;
   }
   currentNode.value = node;
   currentCompName.value = node.nodeCode;
@@ -123,8 +137,10 @@ const dataSubmit = () => {
     warning("请先选择要配置的节点");
     return;
   }
+  node = JSON.parse(JSON.stringify(node));
+  node["id"] = uuid();
   let index = currentNodeIndex.value == -1 ? processList.value.length : currentNodeIndex.value;
-  processList.value.splice(index, 0, {nodeName: node.nodeName, nodeCode: node.nodeCode, icon: node.icon});
+  processList.value.splice(index, 0, node);
   currentNodeIndex.value = index;
   currentCompName.value = node.nodeCode;
   currentNode.value = node;
@@ -141,11 +157,27 @@ const selectTemplate = () => {
   }
   nodeInfo.value.pipelineCfg.templateName = template.templateName;
   nodeInfo.value.pipelineCfg.idTemplate = template.idTemplate;
-  processList.value = JSON.parse(JSON.stringify(template.nodeList));
+  let nodeList = JSON.parse(JSON.stringify(template.nodeList));
+  nodeList.forEach((item: any) => {
+    item["id"] = uuid();
+  })
+  processList.value = nodeList;
   closeAction();
 };
 const save = (type: string) => {
-  console.log(type);
+  let pipeLineData = continusStore.getNodeInfo("pipelineCfg");
+  let nodeList: any = [];
+  processList.value?.forEach((item: any) => {
+    let data = item.dataList;
+    delete item.dataList;
+    Object.keys(item).forEach((key: string) => {
+      data[key] = item[key];
+    });
+    nodeList.push(data);
+  });
+  pipeLineData["nodeList"] = nodeList;
+  pipeLineData["type"] = type;
+  console.log(pipeLineData);
 };
 const init = async () => {
   execTypeList.value.push({name: "并行", value: "serial"});
@@ -153,6 +185,7 @@ const init = async () => {
   nodeSuccessConditionList.value.push({name: "成功完成所有子任务", value: "all"});
   nodeSuccessConditionList.value.push({name: "成功完成任意子任务", value: "any"});
   nodeSuccessConditionList.value.push({name: "成功完成指定子任务", value: "assign"});
+  continusStore.clear();
 };
 onMounted(async () => {
   await init();
@@ -160,7 +193,7 @@ onMounted(async () => {
 watch(
     () => nodeInfoRef.value?.getFormData()?.value,
     (val) => {
-      currentNode.value["nodeName"] = val.nodeName;
+      currentNode.value["nodeName"] = val?.nodeName;
     },
     {deep: true}
 )
@@ -191,7 +224,7 @@ watch(
       <div class="nav-bar-left">
         <span>{{ nodeInfo.pipelineCfg?.lineName || "未定义" }}</span>
         <span style="width: 40px"></span>
-        <span>当前模板：{{ nodeInfo.pipelineCfg?.templateName || "默认" }}</span
+        <span>当前模板：{{ nodeInfo.pipelineCfg?.templateName || "无" }}</span
         >&nbsp;&nbsp;
         <el-button @click="changeTemplate" link class="flex items-center">
           <star-horse-icon icon-class="transfer"/>
@@ -213,7 +246,7 @@ watch(
       <div class="nav">
         <div
             :class="{ 'is-active': -1 == currentNodeIndex }"
-            @click.stop="editNode({code:'PipelineCfg'}, -1)"
+            @click.stop="editNode({nodeCode:'PipelineCfg'}, -1)"
             class="nav-setting nav-panel"
         >
           <star-horse-icon

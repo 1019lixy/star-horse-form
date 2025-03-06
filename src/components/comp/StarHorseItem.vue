@@ -209,6 +209,10 @@ const compPreps = () => {
   if (!props.isSearch) {
     userOperation.addFormItem(field);
   }
+  //赋值默认值
+  if (!dataForm.value[props.item?.fieldName] && props.item?.defaultValue) {
+    dataForm.value[props.item?.fieldName] = props.item?.defaultValue;
+  }
 };
 const defaultAction = ref("keydown.enter");
 const typeList = ["select", "tselect", "date", "daterange"];
@@ -234,7 +238,7 @@ onMounted(() => {
   <div v-if="bareFlag || field.preps.headerFlag == 'Y'" class="bare-comp">
     <component
         :id="randId"
-        :is="(dataForm['_' + field.preps.name + 'Type'] || itemType) + '-item'"
+        :is="(dataForm&&dataForm['_' + field.preps.name + 'Type'] || itemType) + '-item'"
         @selfFunc="actionDispatcher"
         :isDesign="isDesign"
         ref="componentRef"
@@ -266,7 +270,7 @@ onMounted(() => {
   >
     <component
         :id="randId"
-        :is="(dataForm['_' + field.preps.name + 'Type'] || itemType) + '-item'"
+        :is="(dataForm&&dataForm['_' + field.preps.name + 'Type'] || itemType) + '-item'"
         @selfFunc="actionDispatcher"
         :isDesign="isDesign"
         ref="componentRef"

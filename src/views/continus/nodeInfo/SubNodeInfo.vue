@@ -1,27 +1,21 @@
 <script setup lang="ts" name="SubNodeInfo">
-import {onMounted, reactive, ref} from "vue";
+import {onMounted, PropType, reactive, ref} from "vue";
 import {FieldInfo, PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {SelectOption} from "@/components/types/SearchProps";
-import {loadPlugin} from "@/views/continus/utils/ToolsParams.ts";
-import {loadData} from "@/api/sh_api.ts";
+import {compileTypeList, dataInit, loadPlugin} from "@/views/continus/utils/ToolsParams.ts";
 import StarHorseFormItem from "@/components/comp/StarHorseFormItem.vue";
 import {ModelRef} from "vue-demi";
+import {loadDict} from "@/api/star_horse.ts";
 
+const props = defineProps({
+  preps: {
+    type: Object as PropType<any>, default: () => {
+    }
+  }
+});
 const nodeInfoRef = ref<any>();
-const nodeTypeList = ref<SelectOption[]>([
-  {name: "编译", value: "compile"},
-  {name: "测试", value: "test"},
-  {name: "扫描", value: "scan"},
-  {name: "安全", value: "safe"},
-  {name: "部署", value: "deploy"},
-  {name: "其他", value: "other"},
-]);
-const execTypeList = ref<SelectOption[]>([
-  {name: "手动触发", value: "manual"},
-  {name: "自动触发", value: "auto"},
-  {name: "定时触发", value: "cron"},
-]);
-const compileTypeList = ref<SelectOption[]>([]);
+const nodeTypeList = ref<SelectOption[]>([]);
+const execTypeList = ref<SelectOption[]>([]);
 let nodeParams = ref<FieldInfo[]>([]);
 const dataForm: ModelRef<any> = defineModel("dataForm");
 const fieldList = reactive<PageFieldInfo | any>({
@@ -144,13 +138,10 @@ const fieldList = reactive<PageFieldInfo | any>({
   ]
 });
 const init = async () => {
-  if (Object.keys(dataForm.value).includes("subNodeInfo")) {
-    dataForm.value["subNodeInfo"].push({});
-  } else {
-    dataForm.value["subNodeInfo"] = [{}];
-  }
-  let reData = await loadData("/devops-continus/continus/baseInfo/projectType", {});
-  compileTypeList.value = reData?.data;
+  dataInit();
+  let dictDatas = await loadDict("CONTINUS_NODE_TYPE");
+  nodeTypeList.value = dictDatas?.filter((item: any) => item.value != "all");
+  execTypeList.value = await loadDict("EXECUTION_TYPE");
 
 };
 onMounted(async () => {
@@ -164,7 +155,7 @@ onMounted(async () => {
       <star-horse-form-item
           ref="nodeInfoRef"
           :fieldList="fieldList"
-          :dataIndex="dataForm.subNodeInfo?.length-1"
+          :dataIndex="(props.preps?.params?.totalTab||1)-1"
           v-model:dataForm="dataForm"
       />
     </el-scrollbar>
@@ -177,6 +168,7 @@ onMounted(async () => {
   flex-direction: column;
   overflow: hidden;
 }
+
 .el-card {
   width: 100%;
 }

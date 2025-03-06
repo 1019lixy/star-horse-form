@@ -1,12 +1,9 @@
 <script setup lang="ts" name="PipelineCfg">
-import {onMounted, reactive, ref, watch} from "vue";
+import {onMounted, reactive, ref} from "vue";
 import {SelectOption} from "@/components/types/SearchProps";
-import {loadData} from "@/api/sh_api.ts";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
-import piniaInstance from "@/store";
-import {continusConfig} from "@/store/ContinusConfigStore.ts";
+import {loadDict} from "@/api/star_horse.ts";
 
-const continusStore = continusConfig(piniaInstance);
 let repoList = ref<SelectOption[]>([]);
 let execTypeList = ref<SelectOption[]>([]);
 const pipelineCfgRef = ref();
@@ -24,6 +21,7 @@ const fieldList = reactive<PageFieldInfo | any>({
                 label: "流水线名称",
                 fieldName: "lineName",
                 type: "input",
+                defaultValue:"测试",
                 required: true,
                 formVisible: true,
                 listVisible: true
@@ -32,6 +30,7 @@ const fieldList = reactive<PageFieldInfo | any>({
                 label: "代码分支",
                 fieldName: "codeBranch",
                 type: "input",
+                defaultValue:"1",
                 required: true,
                 formVisible: true,
                 listVisible: true
@@ -44,6 +43,7 @@ const fieldList = reactive<PageFieldInfo | any>({
                 type: "select",
                 optionList: execTypeList,
                 required: true,
+                defaultValue:"single",
                 formVisible: true,
                 listVisible: true
               },
@@ -70,6 +70,7 @@ const fieldList = reactive<PageFieldInfo | any>({
                 type: "select",
                 optionList: repoList,
                 required: true,
+                defaultValue:"git",
                 formVisible: true,
                 listVisible: true,
                 preps: {
@@ -80,10 +81,12 @@ const fieldList = reactive<PageFieldInfo | any>({
                 label: "URL",
                 fieldName: "vcsUrl",
                 type: "input",
+                defaultValue:"git://123.com",
                 required: true,
                 formVisible: true,
                 listVisible: true,
                 preps: {
+                  rules: ["url"],
                   colspan: 12
                 }
               },
@@ -137,10 +140,8 @@ const setFormData = (data: any) => {
   pipelineCfgRef.value?.setFormData(data);
 };
 const init = async () => {
-  let redata = await loadData("/devops-continus/continus/baseInfo/repoTypes", {});
-  repoList.value = redata?.data;
-  execTypeList.value.push({name: "独占模式", value: "single"});
-  execTypeList.value.push({name: "并行模式", value: "multiple"});
+  repoList.value = await loadDict("REPO_TYPE");
+  execTypeList.value = await loadDict("PIPELINE_EXECUTION_TYPE");
 };
 const valid = async () => {
   return await pipelineCfgRef.value?.$refs.starHorseFormRef.validate();
@@ -159,4 +160,6 @@ defineExpose({
   <star-horse-form ref="pipelineCfgRef" formSize="default" :fieldList="fieldList"/>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+
+</style>

@@ -26,7 +26,7 @@ const validTypes: any = [
   {
     message: "URL格式不正确",
     value: "url",
-    pattern: /^((https?|ftp|file):\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/
+    pattern: /^((https?|ftp|file|git|svn):\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/
   },
   {
     message: "域名格式不正确",

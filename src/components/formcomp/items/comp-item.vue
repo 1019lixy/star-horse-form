@@ -7,6 +7,7 @@
       :lineFieldList="field['preps'].params?.lineFieldList"
       :customerItems="field['preps'].params?.nodeList"
       :readonly="field['preps']['readonly'] == 'Y'"
+      :preps="field['preps']"
       v-model:dataForm="context.attrs['formData']"
   />
 </template>

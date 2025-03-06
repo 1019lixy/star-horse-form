@@ -5,8 +5,9 @@ import {ApiUrls} from "@/components/types/ApiUrls";
 import {FieldInfo} from "@/components/types/PageFieldInfo";
 import {ModelRef} from "vue-demi";
 import {Config} from "@/api/settings.ts";
+import {checkObject} from "@/api/sh_api.ts";
 
-defineProps({
+const props=defineProps({
   compUrl: {type: Object as PropType<ApiUrls>},
   item: {type: Array as PropType<Array<FieldInfo>>, required: true},
   objectName: {type: String},
@@ -24,17 +25,6 @@ defineProps({
 });
 const emits = defineEmits(["addRow", "removeRow"]);
 const dataForm: ModelRef<any> = defineModel("dataForm");
-const checkObject = (item: any, index: number) => {
-  if (item.subFormFlag == "Y") {
-    if (item && item.objectName && !Object.keys(dataForm.value).includes(item.objectName)) {
-      dataForm.value[item.objectName] = [{}];
-    }
-    if (dataForm.value[item.objectName].length < index + 1) {
-      dataForm.value[item.objectName].push({});
-    }
-  }
-  return index + 1;
-};
 /**
  * 列表添加行数据
  * @param row
@@ -69,7 +59,7 @@ onMounted(() => {
             "
               :name="collapseItem.tabName || key"
               :disabled="collapseItem.disabled"
-              :index="checkObject(collapseItem,key)"
+              :index="checkObject(dataForm,collapseItem,key,dataIndex)"
           >
             <template #title>
               <div class="collapse-item-title title">

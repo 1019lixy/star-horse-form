@@ -7,6 +7,7 @@ import StarHorseFormTable from "@/components/comp/StarHorseFormTable.vue";
 import {ModelRef} from "vue-demi";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {Config} from "@/api/settings.ts";
+import {checkObject} from "@/api/sh_api.ts";
 
 const props = defineProps({
   compUrl: {type: Object as PropType<ApiUrls>},
@@ -26,17 +27,7 @@ const props = defineProps({
 const emits = defineEmits(["addRow", "removeRow"]);
 const dataForm: ModelRef<any> = defineModel("dataForm");
 const normalTabList = ref<string>("tab0");
-const checkObject = (item: any, index: number) => {
-  if (item.subFormFlag == "Y") {
-    if (item && item.objectName && !Object.keys(dataForm.value).includes(item.objectName)) {
-      dataForm.value[item.objectName] = [{}];
-    }
-    if (dataForm.value[item.objectName].length < index + 1) {
-      dataForm.value[item.objectName].push({});
-    }
-  }
-  return index + 1;
-};
+
 /**
  * 列表添加行数据
  * @param row
@@ -55,9 +46,6 @@ const closeOperation = (tabName: any) => {
     }
   });
 };
-const tabAdd = () => {
-
-}
 /**
  * 列表删除行数据
  * @param row
@@ -89,7 +77,7 @@ onMounted(() => {
             v-if="Object.keys(tabItem).includes('disVisible') ? tabItem['disVisible'] : Object.keys(tabItem).length > 0"
             :name="tabItem.tabName || key"
             :disabled="tabItem.disabled"
-            :index="checkObject(tabItem,key)"
+            :index="checkObject(dataForm,tabItem,key,dataIndex)"
         >
           <template #label>
             <div class="custom-tabs-label">
@@ -199,7 +187,7 @@ onMounted(() => {
 
 <style scoped lang="scss">
 :deep(.el-tabs__content) {
- height: 100% !important;
+  height: 100% !important;
   overflow: auto;
 }
 </style>
