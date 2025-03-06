@@ -24,3 +24,4 @@ dist-ssr
 *.sln
 *.sw?
 components.d.ts
+/plugin-dist/
