@@ -50,12 +50,12 @@ onMounted(() => {
 </script>
 
 <template>
-  <template v-if="item.cardList && item.cardList.length > 0">
+  <template v-if=" item.cardList?.length > 0">
     <template v-for="(cardItem,key) in item.cardList">
       <el-card
           shadow="hover"
           style="margin-bottom: 10px"
-          v-if="Object.keys(cardItem).includes('disVisible') ? cardItem['disVisible'] : Object.keys(cardItem).length > 0"
+          v-if="cardItem['disVisible']??Object.keys(cardItem).length > 0"
           :index="checkObject(dataForm,cardItem,key,dataIndex,propPrefix)"
       >
         <template #header>
