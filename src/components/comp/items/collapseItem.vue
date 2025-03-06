@@ -5,7 +5,7 @@ import {ApiUrls} from "@/components/types/ApiUrls";
 import {FieldInfo} from "@/components/types/PageFieldInfo";
 import {ModelRef} from "vue-demi";
 import {Config} from "@/api/settings.ts";
-import {checkObject} from "@/api/sh_api.ts";
+import {checkObject, loadIndex, loadProp} from "@/api/sh_api.ts";
 
 const props=defineProps({
   compUrl: {type: Object as PropType<ApiUrls>},
@@ -13,6 +13,8 @@ const props=defineProps({
   objectName: {type: String},
   // 数据索引
   dataIndex: {type: Number, default: -1},
+  // 父节点名称
+  propPrefix: { type: String,default:"" },
   parentPreps: {type: Object, default: {}},
   subFormFlag: {type: String, default: "N"},
   batchName: {type: String, default: "batchDataList"},
@@ -59,7 +61,7 @@ onMounted(() => {
             "
               :name="collapseItem.tabName || key"
               :disabled="collapseItem.disabled"
-              :index="checkObject(dataForm,collapseItem,key,dataIndex)"
+              :index="checkObject(dataForm,collapseItem,key,dataIndex,propPrefix)"
           >
             <template #title>
               <div class="collapse-item-title title">
@@ -74,12 +76,13 @@ onMounted(() => {
                 v-if="collapseItem.subFormFlag=='Y'&&dataIndex>-1"
                 :isView="isView"
                 :compUrl="compUrl"
-                v-model:dataForm="dataForm[collapseItem.objectName][dataIndex]"
+                v-model:dataForm="dataForm[collapseItem.objectName][loadIndex(propPrefix,dataIndex,key)]"
                 :compSize="compSize"
                 @addRow="addRow"
                 @removeRow="removeRow"
                 :objectName="collapseItem.objectName"
-                :dataIndex="dataIndex"
+                :dataIndex="loadIndex(propPrefix,dataIndex,key)"
+                :propPrefix="loadProp(propPrefix,collapseItem.objectName,dataIndex,key)"
                 :fieldList="{
                 ...collapseItem
               }"
@@ -97,6 +100,7 @@ onMounted(() => {
                 @removeRow="removeRow"
                 :objectName="collapseItem.objectName"
                 :dataIndex="key"
+                :propPrefix="loadProp('',collapseItem.objectName,dataIndex,key)"
                 :fieldList="{
                 ...collapseItem
               }"
@@ -112,13 +116,10 @@ onMounted(() => {
                 :compSize="compSize"
                 @addRow="addRow"
                 @removeRow="removeRow"
-                :objectName="collapseItem.objectName"
-                :dataIndex="key"
                 :fieldList="{
                 ...collapseItem
               }"
                 :rules="rules"
-                :subFormFlag="collapseItem.subFormFlag"
                 :primaryKey="primaryKey"
             />
           </el-collapse-item>

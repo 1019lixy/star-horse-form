@@ -2,10 +2,11 @@
 import {onMounted, PropType, reactive, ref} from "vue";
 import {FieldInfo, PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {SelectOption} from "@/components/types/SearchProps";
-import {compileTypeList, dataInit, loadPlugin} from "@/views/continus/utils/ToolsParams.ts";
+import {compileTypeList, dataInit, extendCommonFields, loadPlugin} from "@/views/continus/utils/ToolsParams.ts";
 import StarHorseFormItem from "@/components/comp/StarHorseFormItem.vue";
 import {ModelRef} from "vue-demi";
 import {loadDict} from "@/api/star_horse.ts";
+import {loadProp} from "@/api/sh_api.ts";
 
 const props = defineProps({
   preps: {
@@ -108,30 +109,38 @@ const fieldList = reactive<PageFieldInfo | any>({
                   }
                 ]
               }
-            ]
-          ]
-        },
-        {
-          title: "节点参数",
-          subFormFlag: "Y",
-          tabName: "subNodeInfoParams",
-          objectName: "subNodeInfoParams",
-          headerFieldList: [
+            ],
             {
-              label: "编译类型",
-              fieldName: "compileType",
-              type: "select",
-              defaultValue: "maven",
-              actionName: "change",
-              actions: (val: any) => {
-                nodeParams.value = loadPlugin(val["compileType"]);
-              },
-              optionList: compileTypeList,
-              required: true,
-              formVisible: true
-            }
-          ],
-          fieldList: nodeParams
+              cardList: [
+                {
+                  title: "节点参数",
+                  subFormFlag: "Y",
+                  tabName: "nodeParams",
+                  objectName: "nodeParams",
+                  headerFieldList: [
+                    {
+                      label: "编译类型",
+                      fieldName: "compileType",
+                      type: "select",
+                      actionName: "change",
+                      actions: (val: any) => {
+                        let plugin = val["compileType"];
+                        if (!plugin) {
+                          return;
+                        }
+                        nodeParams.value = loadPlugin(plugin);
+                      },
+                      optionList: compileTypeList,
+                      required: true,
+                      formVisible: true
+                    }
+                  ],
+                  fieldList: nodeParams
+                }
+              ]
+            },
+            ...extendCommonFields
+          ]
         }
       ]
     }
@@ -150,12 +159,15 @@ onMounted(async () => {
 </script>
 
 <template>
+  {{dataForm}}
   <div class="node-info">
     <el-scrollbar height="100%">
       <star-horse-form-item
           ref="nodeInfoRef"
           :fieldList="fieldList"
           :dataIndex="(props.preps?.params?.totalTab||1)-1"
+          :subFormFlag="'Y'"
+          :objectName="'subNodeInfo'"
           v-model:dataForm="dataForm"
       />
     </el-scrollbar>

@@ -1,8 +1,8 @@
 import {JoinSearchParams, SearchInfo, SearchParams} from "@/components/types/Params";
-import {reactive, Ref, ShallowRef} from "vue";
+import {reactive, ShallowRef} from "vue";
 import {ElLoading} from "element-plus";
 import {download, getRequest, postRequest, uploadRequest} from "@/api/star_horse";
-import {operationConfirm, error, success, warning} from "@/utils/message";
+import {error, operationConfirm, success, warning} from "@/utils/message";
 import {SelectOption} from "@/components/types/SearchProps";
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 import {MenusInfo} from "@/components/types/MenusInfo";
@@ -13,24 +13,25 @@ import {DialogProps} from "@/components/types/DialogProps";
 import {createDatetime} from "@/api/date_utils.ts";
 import {getValidType} from "@/api/valid_utils.ts";
 import {pinyin} from "pinyin-pro";
+import {ServiceEnums} from "@/components/enums/ServiceEnums.ts";
 
 let loading: any = null;
 /**
  * 系统接口
  */
-const systemUrl: string = "/system-config/system/informationsEntity/systemTree";
+const systemUrl: string = `${ServiceEnums.SYSTEM_PREFIX}informationsEntity/systemTree`;
 /**
  * 字典接口
  */
-const dictUrl: string = "/system-config/system/dictinfoEntity/getAllByCondition";
+const dictUrl: string = `${ServiceEnums.SYSTEM_PREFIX}dictinfoEntity/getAllByCondition`;
 /**
  * 获取所有菜单
  */
-const menuUrl: string = "/system-config/system/menusinfoEntity/getAllTreeDataByCondition";
+const menuUrl: string = `${ServiceEnums.SYSTEM_PREFIX}menusinfoEntity/getAllTreeDataByCondition`;
 /**
  * 归属主体
  */
-const customerUrl: string = "/system-config/system/customer/getAllByCondition";
+const customerUrl: string = `${ServiceEnums.SYSTEM_PREFIX}customer/getAllByCondition`;
 
 /**
  * 加载Post 数据
@@ -150,7 +151,7 @@ export async function loadCustomInfo(params: any) {
  */
 export async function loadDepartmentInfo(param: any) {
     let deptData: any = [];
-    await postRequest("/system-config/system/departmentEntity/deptTree", {
+    await postRequest(`${ServiceEnums.SYSTEM_PREFIX}departmentEntity/deptTree`, {
         fieldList: param
     })
         .then((res) => {
@@ -170,7 +171,7 @@ export async function loadDepartmentInfo(param: any) {
  */
 export async function loadRolesInfo(param: any) {
     const roleData: SelectOption[] = [];
-    await postRequest("/system-config/system/rolesinfoEntity/queryUserAllRoles", {
+    await postRequest(`${ServiceEnums.SYSTEM_PREFIX}rolesinfoEntity/queryUserAllRoles`, {
         fieldList: param
     })
         .then((res) => {
@@ -933,18 +934,67 @@ export function validMsg(item: any, dataForm: any) {
  * @param item 表单属性
  * @param index 索引
  * @param parentIndex 父索引
+ * @param prefix 前缀
  */
-export function checkObject(dataForm: any, item: any, index: number, parentIndex: number) {
+export function checkObject(dataForm: any, item: any, index: number, parentIndex: number, prefix: string) {
     if (item.subFormFlag == "Y") {
-        if (item && item.objectName && !Object.keys(dataForm).includes(item.objectName)) {
-            dataForm[item.objectName] = [{}];
+        if (item && item.objectName) {
+            if (!Object.keys(dataForm).includes(item.objectName)) {
+                dataForm[item.objectName] = [{}];
+            }
         }
         let len = dataForm[item.objectName].length;
-        if (len < index + 1 || len < parentIndex + 1) {
+        console.log("checkObject", len, index, parentIndex, prefix);
+        if (prefix && prefix.length > 0) {
+            let arr = prefix.split(".");
+            let tempIndex = arr[arr.length - 1];
+            if (len < parseInt(tempIndex) + 1) {
+                dataForm[item.objectName].push({});
+            }
+        } else if (len < parentIndex + 1) {
             dataForm[item.objectName].push({});
         }
     }
     return index + 1;
+}
+
+/**
+ * 生成验证属性
+ * @param prefix 父表标识
+ * @param fieldName 字段名称
+ * @param parentIndex 父索引
+ * @param currentIndex 当前索引
+ */
+export function loadProp(prefix: string, fieldName: string, parentIndex: number, currentIndex: number) {
+    if (prefix && prefix.length > 0) {
+        return prefix + "." + fieldName + (currentIndex > -1 ? "." + currentIndex : parentIndex > -1 ? "." + parentIndex : "");
+    } else if (parentIndex >= 0) {
+        return fieldName + "." + parentIndex;
+    } else if (currentIndex >= 0) {
+        return fieldName + "." + currentIndex;
+    } else {
+        return fieldName;
+    }
+
+}
+
+/**
+ * 获取数据索引
+ * @param prefix 前缀
+ * @param parentIndex 父索引
+ * @param currentIndex 当前索引
+ */
+export function loadIndex(prefix: string, parentIndex: number, currentIndex: number) {
+    if (prefix && prefix.length > 0) {
+        return (currentIndex > -1 ? currentIndex : parentIndex > -1 ? parentIndex : 0);
+    } else if (parentIndex >= 0) {
+        return parentIndex;
+    } else if (currentIndex >= 0) {
+        return currentIndex;
+    } else {
+        return 0;
+    }
+
 }
 
 /**

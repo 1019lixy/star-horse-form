@@ -2,7 +2,7 @@
 import {onMounted, PropType} from "vue";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {FieldInfo} from "@/components/types/PageFieldInfo";
-import {validMsg} from "@/api/sh_api.ts";
+import {loadProp, validMsg} from "@/api/sh_api.ts";
 import {ModelRef} from "vue-demi";
 import {Config} from "@/api/settings.ts";
 
@@ -12,6 +12,8 @@ const props = defineProps({
   objectName: {type: String},
   // 数据索引
   dataIndex: {type: Number, default: -1},
+  // 父节点名称
+  propPrefix: { type: String,default:"" },
   parentPreps: {type: Object, default: {}},
   subFormFlag: {type: String, default: "N"},
   batchName: {type: String, default: "batchDataList"},
@@ -23,13 +25,6 @@ const props = defineProps({
   isEdit: {type: Boolean, default: false}
 });
 const dataForm: ModelRef<any> = defineModel("dataForm");
-
-const loadProp = (name: string) => {
-  if (!props.subFormFlag||props.subFormFlag == "N") {
-    return name;
-  }
-  return props.objectName + "." + props.dataIndex + "." + name;
-}
 const init = () => {
 };
 onMounted(() => {
@@ -54,7 +49,7 @@ onMounted(() => {
       :label="item.preps?.hideLabel == 'Y' ? '' : item.label"
       :required="item.required"
       :rules="validMsg(item, dataForm)"
-      :prop="loadProp(item.fieldName)"
+      :prop="loadProp(propPrefix,item.fieldName)"
       :label-position="parentPreps?.labelPosition"
       v-else-if="item.formVisible"
   >

@@ -25,6 +25,10 @@ let execTypeList = ref<SelectOption[]>([]);
 let nodeSuccessConditionList = ref<SelectOption[]>([]);
 let subNodeList = ref<SelectOption[]>([]);
 let assignSelect = ref<boolean>(false);
+const pipelineNode: any = {
+  nodeCode: "PipelineCfg",
+  id: uuid()
+}
 let nodeField = ref<PageFieldInfo>({
   fieldList: [
     [
@@ -97,7 +101,7 @@ const editNode = async (node: any, currentIndex: number) => {
     nodeResult = await nodeInfoRef.value?.$refs.starHorseFormRef.validate();
   }
   if (!result || !nodeResult) {
-    return;
+    return "error";
   }
   let formData = nodeCompRef.value.getFormData().value;
   if (currentNodeIndex.value == -1) {
@@ -114,11 +118,12 @@ const editNode = async (node: any, currentIndex: number) => {
   console.log(currentNode.value, node);
   //如果点击的是当前节点，则不做任何操作
   if (currentNode.value.id == node.id) {
-    return;
+    return "same";
   }
   currentNode.value = node;
   currentCompName.value = node.nodeCode;
   currentNodeIndex.value = currentIndex;
+  return "ok";
 };
 const delNode = (item: any) => {
   let index = processList.value.indexOf(item);
@@ -164,9 +169,17 @@ const selectTemplate = () => {
   processList.value = nodeList;
   closeAction();
 };
-const save = (type: string) => {
+const save = async (type: string) => {
+  let result = await editNode(currentNode.value, currentNodeIndex.value);
+  if (result == "error") {
+    return;
+  }
   let pipeLineData = continusStore.getNodeInfo("pipelineCfg");
   let nodeList: any = [];
+  if (!processList.value || processList.value.length == 0) {
+    warning("请先添加节点");
+    return;
+  }
   processList.value?.forEach((item: any) => {
     let data = item.dataList;
     delete item.dataList;
@@ -180,6 +193,8 @@ const save = (type: string) => {
   console.log(pipeLineData);
 };
 const init = async () => {
+  currentNode.value = {...pipelineNode};
+  currentCompName.value = pipelineNode.nodeCode;
   execTypeList.value.push({name: "并行", value: "serial"});
   execTypeList.value.push({name: "串行", value: "parallel"});
   nodeSuccessConditionList.value.push({name: "成功完成所有子任务", value: "all"});
@@ -246,7 +261,7 @@ watch(
       <div class="nav">
         <div
             :class="{ 'is-active': -1 == currentNodeIndex }"
-            @click.stop="editNode({nodeCode:'PipelineCfg'}, -1)"
+            @click.stop="editNode(pipelineNode, -1)"
             class="nav-setting nav-panel"
         >
           <star-horse-icon

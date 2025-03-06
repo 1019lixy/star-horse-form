@@ -29,7 +29,7 @@ onMounted(() => {
             v-if="Object.keys(collapseItem).length > 0"
             :title="collapseItem.title"
             :name="collapseItem.tabName || key"
-            :index="checkObject(dataForm,collapseItem,key,dataIndex)"
+            :index="checkObject(dataForm,collapseItem,key,dataIndex,'')"
         >
           <el-scrollbar height="95%">
             <star-horse-data-view-items

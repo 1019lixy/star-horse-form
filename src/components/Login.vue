@@ -1,5 +1,5 @@
 <template>
-<!--  {{deviceId}}-->
+  <!--  {{deviceId}}-->
   <component :is="loginComponent"/>
 </template>
 
@@ -10,10 +10,9 @@ import LoginPrd from "@/components/LoginPrd.vue";
 import {generateDeviceId} from "@/api/finger_utils.ts";
 
 const loginComponent = ref<any>(null);
-let deviceId = '';
 onMounted(async () => {
-  deviceId =await generateDeviceId('');
-  console.log(deviceId);
+  // 生成设备ID
+  generateDeviceId('');
   let env: string = import.meta.env.MODE;
   const port = window.location.port;
   env = port == "5588" ? "development" : env;

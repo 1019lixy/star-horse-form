@@ -7,7 +7,7 @@ import StarHorseFormTable from "@/components/comp/StarHorseFormTable.vue";
 import {ModelRef} from "vue-demi";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {Config} from "@/api/settings.ts";
-import {checkObject} from "@/api/sh_api.ts";
+import {checkObject, loadIndex, loadProp} from "@/api/sh_api.ts";
 
 const props = defineProps({
   compUrl: {type: Object as PropType<ApiUrls>},
@@ -15,6 +15,8 @@ const props = defineProps({
   objectName: {type: String},
   // 数据索引
   dataIndex: {type: Number, default: -1},
+  // 父节点名称
+  propPrefix: {type: String,default:""},
   parentPreps: {type: Object, default: {}},
   subFormFlag: {type: String, default: "N"},
   batchName: {type: String, default: "batchDataList"},
@@ -77,7 +79,7 @@ onMounted(() => {
             v-if="Object.keys(tabItem).includes('disVisible') ? tabItem['disVisible'] : Object.keys(tabItem).length > 0"
             :name="tabItem.tabName || key"
             :disabled="tabItem.disabled"
-            :index="checkObject(dataForm,tabItem,key,dataIndex)"
+            :index="checkObject(dataForm,tabItem,key,dataIndex,propPrefix)"
         >
           <template #label>
             <div class="custom-tabs-label">
@@ -94,9 +96,10 @@ onMounted(() => {
                 :compSize="compSize"
                 @addRow="addRow"
                 @removeRow="removeRow"
-                v-model:dataForm="dataForm[tabItem.objectName][dataIndex]"
+                v-model:dataForm="dataForm[tabItem.objectName][loadIndex(propPrefix,dataIndex,key)]"
                 :objectName="tabItem.objectName"
-                :dataIndex="dataIndex"
+                :dataIndex="loadIndex(propPrefix,dataIndex,key)"
+                :propPrefix="loadProp(propPrefix,tabItem.objectName,dataIndex,key)"
                 :fieldList="{
                 ...tabItem
               }"
@@ -104,6 +107,7 @@ onMounted(() => {
                 :subFormFlag="tabItem.subFormFlag"
                 :primaryKey="primaryKey"
             />
+
             <star-horse-form-item
                 v-else-if="tabItem.objectName&&tabItem.subFormFlag == 'Y'"
                 :isView="isView"
@@ -114,6 +118,7 @@ onMounted(() => {
                 v-model:dataForm="dataForm[tabItem.objectName][key]"
                 :objectName="tabItem.objectName"
                 :dataIndex="key"
+                :propPrefix="loadProp('',tabItem.objectName,dataIndex,key)"
                 :fieldList="{
                 ...tabItem
               }"
@@ -129,13 +134,10 @@ onMounted(() => {
                 @addRow="addRow"
                 @removeRow="removeRow"
                 v-model:dataForm="dataForm"
-                :objectName="tabItem.objectName"
-                :dataIndex="key"
                 :fieldList="{
                 ...tabItem
               }"
                 :rules="rules"
-                :subFormFlag="tabItem.subFormFlag"
                 :primaryKey="primaryKey"
             />
           </el-scrollbar>

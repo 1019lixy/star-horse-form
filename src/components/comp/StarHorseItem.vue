@@ -210,7 +210,8 @@ const compPreps = () => {
     userOperation.addFormItem(field);
   }
   //赋值默认值
-  if (!dataForm.value[props.item?.fieldName] && props.item?.defaultValue) {
+  //!dataForm.value[props.item?.fieldName] &&
+  if ( props.item?.defaultValue) {
     dataForm.value[props.item?.fieldName] = props.item?.defaultValue;
   }
 };

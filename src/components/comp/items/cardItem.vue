@@ -5,7 +5,7 @@ import {ApiUrls} from "@/components/types/ApiUrls";
 import {FieldInfo} from "@/components/types/PageFieldInfo";
 import {ModelRef} from "vue-demi";
 import {Config} from "@/api/settings.ts";
-import {checkObject} from "@/api/sh_api.ts";
+import {checkObject, loadIndex, loadProp} from "@/api/sh_api.ts";
 
 const props = defineProps({
   compUrl: {type: Object as PropType<ApiUrls>},
@@ -13,6 +13,8 @@ const props = defineProps({
   objectName: {type: String},
   // 数据索引
   dataIndex: {type: Number, default: -1},
+  // 父节点名称
+  propPrefix: {type: String, default: ""},
   parentPreps: {type: Object, default: {}},
   subFormFlag: {type: String, default: "N"},
   batchName: {type: String, default: "batchDataList"},
@@ -49,12 +51,12 @@ onMounted(() => {
 
 <template>
   <template v-if="item.cardList && item.cardList.length > 0">
-    <template v-for="(cardItem,index) in item.cardList">
+    <template v-for="(cardItem,key) in item.cardList">
       <el-card
           shadow="hover"
           style="margin-bottom: 10px"
           v-if="Object.keys(cardItem).includes('disVisible') ? cardItem['disVisible'] : Object.keys(cardItem).length > 0"
-          :index="checkObject(dataForm,cardItem,index,dataIndex)"
+          :index="checkObject(dataForm,cardItem,key,dataIndex,propPrefix)"
       >
         <template #header>
           <div class="card-header">
@@ -63,6 +65,33 @@ onMounted(() => {
             </span>
             <template v-for="headerItem in cardItem.headerFieldList">
               <star-horse-item
+                  v-if="cardItem.subFormFlag=='Y'&&dataIndex>-1"
+                  style="flex: 1"
+                  :compSize="compSize"
+                  :bareFlag="true"
+                  :isView="isView"
+                  :primaryKey="primaryKey"
+                  v-model:dataForm="dataForm[cardItem.objectName][loadIndex(propPrefix,dataIndex,key)]"
+                  :item="headerItem"
+                  :dataIndex="loadIndex(propPrefix,dataIndex,key)"
+                  :propPrefix="propPrefix+'.'+cardItem.objectName+'.'+dataIndex"
+                  :isEdit="isEdit"
+              />
+              <star-horse-item
+                  v-else-if="cardItem.objectName&&cardItem.subFormFlag == 'Y'"
+                  style="flex: 1"
+                  :compSize="compSize"
+                  :bareFlag="true"
+                  :isView="isView"
+                  :primaryKey="primaryKey"
+                  v-model:dataForm="dataForm[cardItem.objectName][key]"
+                  :item="headerItem"
+                  :dataIndex="key"
+                  :propPrefix="cardItem.objectName+'.'+key"
+                  :isEdit="isEdit"
+              />
+              <star-horse-item
+                  v-else
                   style="flex: 1"
                   :compSize="compSize"
                   :bareFlag="true"
@@ -70,7 +99,6 @@ onMounted(() => {
                   :primaryKey="primaryKey"
                   v-model:dataForm="dataForm"
                   :item="headerItem"
-                  :dataIndex="dataIndex"
                   :isEdit="isEdit"
               />
             </template>
@@ -80,9 +108,10 @@ onMounted(() => {
             v-if="cardItem.subFormFlag=='Y'&&dataIndex>-1"
             :isView="isView"
             :compUrl="compUrl"
-            v-model:dataForm="dataForm[cardItem.objectName][dataIndex]"
+            v-model:dataForm="dataForm[cardItem.objectName][loadIndex(propPrefix,dataIndex,key)]"
             :compSize="compSize"
-            :dataIndex="dataIndex"
+            :dataIndex="loadIndex(propPrefix,dataIndex,key)"
+            :propPrefix="loadProp(propPrefix,cardItem.objectName,dataIndex,key)"
             :objectName="cardItem.objectName"
             @addRow="addRow"
             @removeRow="removeRow"
@@ -97,9 +126,10 @@ onMounted(() => {
             v-else-if="cardItem.objectName&&cardItem.subFormFlag == 'Y'"
             :isView="isView"
             :compUrl="compUrl"
-            v-model:dataForm="dataForm[cardItem.objectName][index]"
+            v-model:dataForm="dataForm[cardItem.objectName][key]"
             :compSize="compSize"
-            :dataIndex="index"
+            :dataIndex="key"
+            :propPrefix="loadProp('',cardItem.objectName,dataIndex,key)"
             :objectName="cardItem.objectName"
             @addRow="addRow"
             @removeRow="removeRow"
@@ -117,15 +147,12 @@ onMounted(() => {
             :compUrl="compUrl"
             v-model:dataForm="dataForm"
             :compSize="compSize"
-            :dataIndex="index"
             @addRow="addRow"
             @removeRow="removeRow"
-            :objectName="cardItem.objectName"
             :fieldList="{
             ...cardItem
           }"
             :rules="rules"
-            :subFormFlag="cardItem.subFormFlag"
             :primaryKey="primaryKey"
         />
       </el-card>
@@ -139,7 +166,8 @@ onMounted(() => {
     width: 90%;
   }
 }
-:deep(.el-card__body),.el-card {
+
+:deep(.el-card__body), .el-card {
   height: unset !important;
   flex: unset !important;
 }

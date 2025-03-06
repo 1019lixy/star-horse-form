@@ -41,7 +41,16 @@ export async function generateDeviceId(userIp: string) {
             browserFingerprint = result.visitorId; // 浏览器指纹
             console.log('Browser Fingerprint:', browserFingerprint);
         });
-    const seed = `${browserFingerprint}-${JSON.stringify(hardwareInfo)}-${userIp||''}`;
-    return btoa(seed); // 使用 Base64 编码生成设备 ID
+    const seed = `${browserFingerprint}-${JSON.stringify(hardwareInfo)}-${userIp || ''}`;
+    let deviceId = btoa(seed);
+    localStorage.setItem('deviceId', deviceId);
+    return deviceId; // 使用 Base64 编码生成设备 ID
+}
+
+/**
+ * 获取设备 ID
+ */
+export function getFingerId() {
+    return localStorage.getItem('deviceId');
 }
 

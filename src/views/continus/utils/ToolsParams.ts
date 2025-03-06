@@ -73,7 +73,7 @@ const extendCommonFields: FieldInfo[] = [
             {
                 title: "高级设置",
                 tabName: "row1",
-                subFormFlag: "Y",
+                subFormFlag: "N",
                 objectName: "advancedSetting",
                 fieldList: [
                     [{
@@ -242,7 +242,6 @@ const mavenTools = reactive<FieldInfo[]>([
         required: false,
         formVisible: true
     },
-    ...extendCommonFields
 ]);
 const gradleTools = reactive<FieldInfo[]>([
     [
@@ -272,7 +271,6 @@ const gradleTools = reactive<FieldInfo[]>([
         required: false,
         formVisible: true
     },
-    ...extendCommonFields
 ]);
 const antTools = reactive<FieldInfo[]>([
     [
@@ -302,7 +300,6 @@ const antTools = reactive<FieldInfo[]>([
         required: false,
         formVisible: true
     },
-    ...extendCommonFields
 ]);
 const goTools = reactive<PageFieldInfo | any>({});
 const rustTools = reactive<PageFieldInfo | any>({});
@@ -383,10 +380,10 @@ export {
     compileLanguageList,
     compileTypeList,
     languageVersionList,
-    compileVersionList,
     pluginVersionList,
     linkExecServerList,
     codeCommitorList,
+    extendCommonFields,
     loadPlugin,
     dataInit
 };

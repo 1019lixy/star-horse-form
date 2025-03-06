@@ -13,6 +13,8 @@ defineProps({
   subFormFlag: {type: String, default: "N"},
   // 数据索引
   dataIndex: {type: Number, default: -1},
+  // 父节点名称
+  propPrefix: {type: String,default:""},
   batchName: {type: String, default: "batchDataList"},
   batchFieldName: {type: String, default: "batchFieldList"},
   primaryKey: {type: String},
@@ -37,6 +39,7 @@ const dialogProps = inject<DialogProps>("dialogProps", {});
         :isView="isView"
         :objectName="objectName"
         :dataIndex="dataIndex"
+        :propPrefix="propPrefix"
         v-model:dataForm="dataForm"
         :parentPreps="fieldList.preps"
         :isEdit="!dialogProps?.ids || dialogProps?.ids == -1"
@@ -54,6 +57,7 @@ const dialogProps = inject<DialogProps>("dialogProps", {});
         :isView="isView"
         :objectName="objectName"
         :dataIndex="dataIndex"
+        :propPrefix="propPrefix"
         v-model:dataForm="dataForm"
         :parentPreps="fieldList.preps"
         :isEdit="!dialogProps?.ids || dialogProps?.ids == -1"
@@ -71,6 +75,7 @@ const dialogProps = inject<DialogProps>("dialogProps", {});
         :isView="isView"
         :objectName="objectName"
         :dataIndex="dataIndex"
+        :propPrefix="propPrefix"
         v-model:dataForm="dataForm"
         :parentPreps="fieldList.preps"
         :isEdit="!dialogProps?.ids || dialogProps?.ids == -1"
@@ -87,6 +92,7 @@ const dialogProps = inject<DialogProps>("dialogProps", {});
         :isView="isView"
         :objectName="objectName"
         :dataIndex="dataIndex"
+        :propPrefix="propPrefix"
         v-model:dataForm="dataForm"
         :parentPreps="fieldList.preps"
         :isEdit="!dialogProps?.ids || dialogProps?.ids == -1"
@@ -103,6 +109,7 @@ const dialogProps = inject<DialogProps>("dialogProps", {});
         :isView="isView"
         :objectName="objectName"
         :dataIndex="dataIndex"
+        :propPrefix="propPrefix"
         v-model:dataForm="dataForm"
         :parentPreps="fieldList.preps"
         :isEdit="!dialogProps?.ids || dialogProps?.ids == -1"
@@ -119,6 +126,7 @@ const dialogProps = inject<DialogProps>("dialogProps", {});
         :isView="isView"
         :objectName="objectName"
         :dataIndex="dataIndex"
+        :propPrefix="propPrefix"
         v-model:dataForm="dataForm"
         :parentPreps="fieldList.preps"
         :isEdit="!dialogProps?.ids || dialogProps?.ids == -1"
@@ -136,6 +144,7 @@ const dialogProps = inject<DialogProps>("dialogProps", {});
       :isView="isView"
       :objectName="objectName"
       :dataIndex="dataIndex"
+      :propPrefix="propPrefix"
       v-model:dataForm="dataForm"
       :parentPreps="fieldList.preps"
       :isEdit="!dialogProps?.ids || dialogProps?.ids == -1"
