@@ -181,3 +181,12 @@ export function getPrefix(data: any, prefix: string, parentIndex: number, index:
     }
     return pronPrefix;
 }
+
+/**
+ * 检查是否可见
+ * @param item
+ * @param dataForm
+ */
+export function checkVisible(item: any, dataForm: any) {
+    return item.formVisible || dataForm['_' + item.fieldName + 'Visible'] == 'Y'
+}

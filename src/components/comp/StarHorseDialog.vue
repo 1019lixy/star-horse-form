@@ -1,5 +1,5 @@
 <script setup lang="ts" name="StarHorseDialog">
-import {computed, onMounted, PropType, provide, reactive, ref} from "vue";
+import {computed, onMounted, PropType, provide, reactive, ref, watch} from "vue";
 import {DialogProps} from "@/components/types/DialogProps";
 import {i18n} from "@/lang";
 import {UserFuncInfo} from "@/components/types/PageFieldInfo";
@@ -29,7 +29,18 @@ const props = defineProps({
   title: {type: String, default: ""},
   compSize: {type: String, default: Config.compSize}
 });
-let windowsType = ref(props.dialogVisible);
+let windowsType = ref<boolean>(false);
+watch(
+    () => props.dialogVisible,
+    (val: boolean) => {
+      windowsType.value = val;
+    },
+    {
+      immediate: true,
+      flush: 'sync',
+      deep: true
+    }
+);
 let isFullScreen = ref(props.fullScreen);
 const dialogStyle = computed(() => {
   return {"max-height": isFullScreen.value ? "100%" : props.boxHeight};

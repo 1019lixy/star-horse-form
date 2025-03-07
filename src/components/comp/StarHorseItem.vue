@@ -8,6 +8,7 @@ import piniaInstance from "@/store";
 import {uuid} from "@/api/system.ts";
 import {Config} from "@/api/settings.ts";
 import {SearchFields} from "@/components/types/SearchProps";
+import {checkVisible} from "@/api/form_utils.ts";
 
 const props = defineProps({
   // allItem: {type: Array, required: true},
@@ -252,7 +253,7 @@ onMounted(() => {
     <div v-if="item.brotherNodes" style="width: 15px"/>
     <template v-for="temp in item.brotherNodes">
       <star-horse-item
-          v-show="temp.formVisible"
+          v-if="checkVisible(temp,dataForm)"
           :primaryKey="primaryKey"
           :compSize="compSize"
           v-model:dataForm="dataForm"
@@ -284,7 +285,7 @@ onMounted(() => {
     <div v-if="item.brotherNodes" class="brother-node">
       <template v-for="temp in item.brotherNodes">
         <star-horse-item
-            v-if="dataForm['_' + field.preps.name + 'Visible'] || temp.formVisible"
+            v-if="checkVisible(temp,dataForm)"
             :primaryKey="primaryKey"
             :compSize="compSize"
             v-model:dataForm="dataForm"

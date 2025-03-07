@@ -8,6 +8,7 @@ import piniaInstance from "@/store";
 import {SelectOption} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {uuid} from "@/api/system.ts";
+import {loadDict} from "@/api/star_horse.ts";
 
 const nodeCompRef = ref<any>();
 const nodeInfoRef = ref<any>();
@@ -195,11 +196,12 @@ const save = async (type: string) => {
 const init = async () => {
   currentNode.value = {...pipelineNode};
   currentCompName.value = pipelineNode.nodeCode;
-  execTypeList.value.push({name: "并行", value: "serial"});
-  execTypeList.value.push({name: "串行", value: "parallel"});
-  nodeSuccessConditionList.value.push({name: "成功完成所有子任务", value: "all"});
-  nodeSuccessConditionList.value.push({name: "成功完成任意子任务", value: "any"});
-  nodeSuccessConditionList.value.push({name: "成功完成指定子任务", value: "assign"});
+  loadDict("CONTINUS_SUBNODE_FINISH_CONDITION").then((res) => {
+    nodeSuccessConditionList.value = res;
+  });
+  loadDict("CONTINUS_SUBNODE_EXECUTE_TYPE").then((res) => {
+    execTypeList.value = res;
+  });
   continusStore.clear();
 };
 onMounted(async () => {

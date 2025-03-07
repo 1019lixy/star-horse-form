@@ -159,7 +159,6 @@ onMounted(async () => {
 </script>
 
 <template>
-  {{dataForm}}
   <div class="node-info">
     <el-scrollbar height="100%">
       <star-horse-form-item

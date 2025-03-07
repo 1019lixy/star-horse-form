@@ -2,7 +2,7 @@
 import {onMounted, PropType} from "vue";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {FieldInfo} from "@/components/types/PageFieldInfo";
-import {loadProp, validMsg} from "@/api/form_utils.ts";
+import {checkVisible, loadProp, validMsg} from "@/api/form_utils.ts";
 import {ModelRef} from "vue-demi";
 import {Config} from "@/api/settings.ts";
 
@@ -51,7 +51,7 @@ onMounted(() => {
       :rules="validMsg(item, dataForm)"
       :prop="loadProp(propPrefix,item.fieldName)"
       :label-position="parentPreps?.labelPosition"
-      v-else-if="item.formVisible"
+      v-else-if="checkVisible(item,dataForm)"
   >
     <star-horse-item
         :primaryKey="primaryKey"

@@ -2,7 +2,7 @@
 import {onMounted, PropType} from "vue";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {FieldInfo} from "@/components/types/PageFieldInfo";
-import {validMsg, loadProp} from "@/api/form_utils.ts";
+import {validMsg, loadProp, checkVisible} from "@/api/form_utils.ts";
 import {Config} from "@/api/settings.ts";
 
 const props = defineProps({
@@ -44,9 +44,9 @@ onMounted(() => {
             :label="sitem.preps?.hideLabel == 'Y' ? '' : sitem.label"
             :required="sitem.required"
             :prop="loadProp(propPrefix,sitem.fieldName,-1,-1)"
-            :label-position="parentPreps?.labelPosition"
+            :labelPosition="parentPreps?.labelPosition"
             :rules="validMsg(sitem, dataForm)"
-            v-if="sitem.formVisible && sitem.label && sitem.preps?.headerFlag != 'Y'"
+            v-if="(sitem.formVisible && sitem.label && sitem.preps?.headerFlag != 'Y')||checkVisible(sitem,dataForm)"
         >
           <star-horse-item
               :primaryKey="primaryKey"
@@ -58,7 +58,7 @@ onMounted(() => {
           />
         </el-form-item>
         <star-horse-item
-            v-else-if="sitem.formVisible || sitem.viewVisible"
+            v-else-if="sitem.viewVisible||checkVisible(sitem,dataForm)"
             :compSize="compSize"
             :primaryKey="primaryKey"
             v-model:dataForm="dataForm"

@@ -4,12 +4,10 @@
 import {reactive, ref} from "vue";
 import {FieldInfo, PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {SelectOption} from "@/components/types/SearchProps";
-import {apiInstance, createCondition, createJoinCondition, loadData} from "@/api/sh_api.ts";
+import {apiInstance, createCondition, createJoinCondition} from "@/api/sh_api.ts";
 import {loadDict, postRequest} from "@/api/star_horse.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
-
 const apiUrl: ApiUrls = apiInstance("userdb-manage", "userdb/formInstance/conToolManage/idToolManage/136")
-
 const compileLanguageList = ref<SelectOption[]>([]);
 const compileTypeList = ref<SelectOption[]>([]);
 const languageVersionList = ref<SelectOption[]>([]);
@@ -17,24 +15,14 @@ const pluginVersionList = ref<SelectOption[]>([]);
 const linkExecServerList = ref<SelectOption[]>([]);
 const codeCommitorList = ref<SelectOption[]>([]);
 
-const reportPersonList = ref<SelectOption[]>([
-    {name: "作业操作人", value: "1"},
-    {name: "流水线操作人", value: "2"},
-    {name: "代码提交人", value: "3"}
-]);
-const reportTypeList = ref<SelectOption[]>([
-    {name: "企业微信", value: "1"},
-    {name: "钉钉", value: "2"},
-    {name: "邮件", value: "3"},
-    {name: "系统提醒", value: "4"}
-]);
+const reportPersonList = ref<SelectOption[]>([]);
+const reportTypeList = ref<SelectOption[]>([]);
 const loadLanguageVersions = (val: string) => {
     let versionList = compileLanguageList.value.find((item: any) => item.value == val)?.versionList;
     languageVersionList.value = versionList?.map((item: any) => {
         return {name: item["toolVersion"], value: item["toolVersion"]}
     }) || [];
 };
-
 const commonFields: FieldInfo[] = [
     {
         label: "编译语言",
@@ -59,10 +47,6 @@ const commonFields: FieldInfo[] = [
         ]
     }
 ];
-const errorPerson = ref<boolean>(false);
-const successPerson = ref<boolean>(false);
-const errorFlag = ref<boolean>(false);
-const successFlag = ref<boolean>(false);
 /**
  * 其它拓展配置
  */
@@ -115,7 +99,8 @@ const extendCommonFields: FieldInfo[] = [
                         actionName: "change",
                         actions: (val: any) => {
                             console.log(val);
-                            errorFlag.value = val["errorReport"] == "Y";
+                            val["_errorReportPersonVisible"] = val["errorReport"];
+                            val["_errorReportTypeVisible"] = val["errorReport"];
                         },
                         preps: {
                             colspan: 6
@@ -125,13 +110,14 @@ const extendCommonFields: FieldInfo[] = [
                     {
                         label: "通知人",
                         type: "checkbox",
-                        formVisible: errorFlag,
+                        formVisible: false,
                         optionList: reportPersonList,
                         fieldName: "errorReportPerson",
                         actionName: "change",
                         actions: (val: any) => {
                             const temp = val["errorReportPerson"];
-                            errorPerson.value = temp && temp.nodeTypeOf("3") != -1;
+                            val["_errorCodeCommitorVisible"] = temp && temp.includes("coder") ? "Y" : "N";
+
                         },
                         preps: {
                             border: "Y"
@@ -140,9 +126,9 @@ const extendCommonFields: FieldInfo[] = [
                             {
                                 type: "select",
                                 label: "  ",
-                                formVisible: errorPerson,
+                                formVisible: false,
                                 optionList: codeCommitorList,
-                                fieldName: "codeCommitor",
+                                fieldName: "errorCodeCommitor",
                                 preps: {
                                     multiple: "Y"
                                 }
@@ -152,7 +138,7 @@ const extendCommonFields: FieldInfo[] = [
                     {
                         label: "通知方式",
                         type: "checkbox",
-                        formVisible: errorFlag,
+                        formVisible: false,
                         optionList: reportTypeList,
                         fieldName: "errorReportType",
                         preps: {
@@ -167,7 +153,8 @@ const extendCommonFields: FieldInfo[] = [
                             fieldName: "successReport",
                             actionName: "change",
                             actions: (val: any) => {
-                                successFlag.value = val["successReport"] == "Y";
+                                val["_successReportPersonVisible"] = val["successReport"];
+                                val["_successReportTypeVisible"] = val["successReport"];
                             },
                             formVisible: true,
                             preps: {
@@ -178,11 +165,11 @@ const extendCommonFields: FieldInfo[] = [
                     {
                         label: "通知人",
                         type: "checkbox",
-                        formVisible: successFlag,
+                        formVisible: false,
                         actionName: "change",
                         actions: (val: any) => {
                             const temp = val["successReportPerson"];
-                            successPerson.value = !!temp;
+                            val["_successCodeCommitorVisible"] = temp && temp.includes("coder") ? "Y" : "N";
                         },
                         optionList: reportPersonList,
                         fieldName: "successReportPerson",
@@ -193,9 +180,9 @@ const extendCommonFields: FieldInfo[] = [
                             {
                                 type: "select",
                                 label: "  ",
-                                formVisible: successPerson,
+                                formVisible: false,
                                 optionList: codeCommitorList,
-                                fieldName: "codeCommitor",
+                                fieldName: "successCodeCommitorVisible",
                                 preps: {
                                     multiple: "Y"
                                 }
@@ -205,7 +192,7 @@ const extendCommonFields: FieldInfo[] = [
                     {
                         label: "通知方式",
                         type: "checkbox",
-                        formVisible: successFlag,
+                        formVisible: false,
                         optionList: reportTypeList,
                         fieldName: "successReportType"
                     }
@@ -344,6 +331,12 @@ const dataInit = () => {
             }); // 加载编译工具
         });
     }
+    loadDict("message_tools").then((res: any) => {
+        reportTypeList.value = res;
+    });
+    loadDict("CONTINUS_JOB_REPORT_PERSON").then((res: any) => {
+        reportPersonList.value = res;
+    });
 }
 // 加载插件
 const loadPlugin = (name: string) => {
