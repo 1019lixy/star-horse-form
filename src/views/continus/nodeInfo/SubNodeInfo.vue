@@ -119,7 +119,7 @@ const fieldList = reactive<PageFieldInfo | any>({
                   objectName: "nodeParams",
                   headerFieldList: [
                     {
-                      label: "编译类型",
+                      label: "编译工具",
                       fieldName: "compileType",
                       type: "select",
                       actionName: "change",

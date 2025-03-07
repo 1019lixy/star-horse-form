@@ -5,7 +5,7 @@ import {ApiUrls} from "@/components/types/ApiUrls";
 import {FieldInfo} from "@/components/types/PageFieldInfo";
 import {ModelRef} from "vue-demi";
 import {Config} from "@/api/settings.ts";
-import {getDataIndex, getFormData, getPrefix,checkObject} from "@/api/form_utils.ts";
+import {getDataIndex, getFormData, getPrefix, checkObject, loadProp, validMsg, checkVisible} from "@/api/form_utils.ts";
 
 const props = defineProps({
   compUrl: {type: Object as PropType<ApiUrls>},
@@ -60,11 +60,20 @@ onMounted(() => {
           :index="checkObject(dataForm,cardItem,key,dataIndex,propPrefix)"
       >
         <template #header>
-          <div class="card-header">
-            <span>
+          <div class="card-header flex items-center justify-between ">
+            <div class="w-[60%]">
               {{ cardItem.title || cardItem.tabName }} <help v-if="cardItem.helpMsg" :message="cardItem.helpMsg"/>
-            </span>
-            <template v-for="headerItem in cardItem.headerFieldList">
+            </div>
+            <div class="flex-1" v-for="headerItem in cardItem.headerFieldList">
+              <el-form-item
+                  :size="compSize"
+                  :label="headerItem.preps?.hideLabel == 'Y' ? '' : headerItem.label"
+                  :required="headerItem.required"
+                  :prop="loadProp(getPrefix(cardItem,propPrefix,dataIndex,key),headerItem.fieldName,-1,-1)"
+                  :labelPosition="parentPreps?.labelPosition"
+                  :rules="validMsg(headerItem, dataForm)"
+                  v-if="checkVisible(headerItem,dataForm)"
+              >
               <star-horse-item
                   style="flex: 1"
                   :compSize="compSize"
@@ -77,7 +86,8 @@ onMounted(() => {
                   :propPrefix="getPrefix(cardItem,propPrefix,dataIndex,key)"
                   :isEdit="isEdit"
               />
-            </template>
+              </el-form-item>
+            </div>
           </div>
         </template>
         <star-horse-form-item
