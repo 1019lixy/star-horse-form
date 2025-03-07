@@ -2,7 +2,7 @@
 import {onMounted, PropType} from "vue";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {FieldInfo} from "@/components/types/PageFieldInfo";
-import {loadProp, validMsg} from "@/api/sh_api.ts";
+import {loadProp, validMsg} from "@/api/form_utils.ts";
 import {ModelRef} from "vue-demi";
 import {Config} from "@/api/settings.ts";
 

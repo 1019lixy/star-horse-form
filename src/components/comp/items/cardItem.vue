@@ -5,7 +5,7 @@ import {ApiUrls} from "@/components/types/ApiUrls";
 import {FieldInfo} from "@/components/types/PageFieldInfo";
 import {ModelRef} from "vue-demi";
 import {Config} from "@/api/settings.ts";
-import {checkObject, loadIndex, loadProp} from "@/api/sh_api.ts";
+import {getDataIndex, getFormData, getPrefix,checkObject} from "@/api/form_utils.ts";
 
 const props = defineProps({
   compUrl: {type: Object as PropType<ApiUrls>},
@@ -41,6 +41,7 @@ const addRow = (row: any) => {
 const removeRow = (row: any) => {
   emits("removeRow", row);
 };
+
 const init = () => {
   console.log("carditem................", props.dataIndex)
 };
@@ -50,12 +51,12 @@ onMounted(() => {
 </script>
 
 <template>
-  <template v-if="item.cardList && item.cardList.length > 0">
+  <template v-if="item.cardList?.length > 0">
     <template v-for="(cardItem,key) in item.cardList">
       <el-card
           shadow="hover"
           style="margin-bottom: 10px"
-          v-if="Object.keys(cardItem).includes('disVisible') ? cardItem['disVisible'] : Object.keys(cardItem).length > 0"
+          v-if="cardItem['disVisible']?? Object.keys(cardItem).length > 0"
           :index="checkObject(dataForm,cardItem,key,dataIndex,propPrefix)"
       >
         <template #header>
@@ -65,53 +66,27 @@ onMounted(() => {
             </span>
             <template v-for="headerItem in cardItem.headerFieldList">
               <star-horse-item
-                  v-if="cardItem.subFormFlag=='Y'&&dataIndex>-1"
                   style="flex: 1"
                   :compSize="compSize"
                   :bareFlag="true"
                   :isView="isView"
                   :primaryKey="primaryKey"
-                  v-model:dataForm="dataForm[cardItem.objectName][loadIndex(propPrefix,dataIndex,key)]"
                   :item="headerItem"
-                  :dataIndex="loadIndex(propPrefix,dataIndex,key)"
-                  :propPrefix="propPrefix+'.'+cardItem.objectName+'.'+dataIndex"
-                  :isEdit="isEdit"
-              />
-              <star-horse-item
-                  v-else-if="cardItem.objectName&&cardItem.subFormFlag == 'Y'"
-                  style="flex: 1"
-                  :compSize="compSize"
-                  :bareFlag="true"
-                  :isView="isView"
-                  :primaryKey="primaryKey"
-                  v-model:dataForm="dataForm[cardItem.objectName][key]"
-                  :item="headerItem"
-                  :dataIndex="key"
-                  :propPrefix="cardItem.objectName+'.'+key"
-                  :isEdit="isEdit"
-              />
-              <star-horse-item
-                  v-else
-                  style="flex: 1"
-                  :compSize="compSize"
-                  :bareFlag="true"
-                  :isView="isView"
-                  :primaryKey="primaryKey"
-                  v-model:dataForm="dataForm"
-                  :item="headerItem"
+                  :dataForm="getFormData(cardItem,dataForm,propPrefix,dataIndex,key)"
+                  :dataIndex="getDataIndex(cardItem,propPrefix,dataIndex,key)"
+                  :propPrefix="getPrefix(cardItem,propPrefix,dataIndex,key)"
                   :isEdit="isEdit"
               />
             </template>
           </div>
         </template>
         <star-horse-form-item
-            v-if="cardItem.subFormFlag=='Y'&&dataIndex>-1"
             :isView="isView"
             :compUrl="compUrl"
-            v-model:dataForm="dataForm[cardItem.objectName][loadIndex(propPrefix,dataIndex,key)]"
             :compSize="compSize"
-            :dataIndex="loadIndex(propPrefix,dataIndex,key)"
-            :propPrefix="loadProp(propPrefix,cardItem.objectName,dataIndex,key)"
+            :dataForm="getFormData(cardItem,dataForm,propPrefix,dataIndex,key)"
+            :dataIndex="getDataIndex(cardItem,propPrefix,dataIndex,key)"
+            :propPrefix="getPrefix(cardItem,propPrefix,dataIndex,key)"
             :objectName="cardItem.objectName"
             @addRow="addRow"
             @removeRow="removeRow"
@@ -120,39 +95,6 @@ onMounted(() => {
           }"
             :rules="rules"
             :subFormFlag="cardItem.subFormFlag"
-            :primaryKey="primaryKey"
-        />
-        <star-horse-form-item
-            v-else-if="cardItem.objectName&&cardItem.subFormFlag == 'Y'"
-            :isView="isView"
-            :compUrl="compUrl"
-            v-model:dataForm="dataForm[cardItem.objectName][key]"
-            :compSize="compSize"
-            :dataIndex="key"
-            :propPrefix="loadProp('',cardItem.objectName,dataIndex,key)"
-            :objectName="cardItem.objectName"
-            @addRow="addRow"
-            @removeRow="removeRow"
-            :fieldList="{
-            ...cardItem
-          }"
-            :rules="rules"
-            :subFormFlag="cardItem.subFormFlag"
-            :primaryKey="primaryKey"
-        />
-
-        <star-horse-form-item
-            v-else
-            :isView="isView"
-            :compUrl="compUrl"
-            v-model:dataForm="dataForm"
-            :compSize="compSize"
-            @addRow="addRow"
-            @removeRow="removeRow"
-            :fieldList="{
-            ...cardItem
-          }"
-            :rules="rules"
             :primaryKey="primaryKey"
         />
       </el-card>

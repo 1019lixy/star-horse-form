@@ -5,7 +5,7 @@ import {ApiUrls} from "@/components/types/ApiUrls";
 import {FieldInfo} from "@/components/types/PageFieldInfo";
 import {ModelRef} from "vue-demi";
 import {Config} from "@/api/settings.ts";
-import {checkObject, loadIndex, loadProp} from "@/api/sh_api.ts";
+import {getDataIndex, getFormData, getPrefix,checkObject} from "@/api/form_utils.ts";
 
 const props=defineProps({
   compUrl: {type: Object as PropType<ApiUrls>},
@@ -49,16 +49,12 @@ onMounted(() => {
 </script>
 
 <template>
-  <template v-if="item.collapseList && item.collapseList.length > 0">
+  <template v-if="item.collapseList?.length > 0">
     <el-scrollbar style="margin-top: 10px">
       <el-collapse v-model="item.fieldName" :accordion="item.preps?.accordion" v-on:change="item.actions">
         <template v-for="(collapseItem, key) in item.collapseList">
           <el-collapse-item
-              v-if="
-              Object.keys(collapseItem).includes('disVisible')
-                ? collapseItem['disVisible']
-                : Object.keys(collapseItem).length > 0
-            "
+              v-if="collapseItem['disVisible']??Object.keys(collapseItem).length > 0"
               :name="collapseItem.tabName || key"
               :disabled="collapseItem.disabled"
               :index="checkObject(dataForm,collapseItem,key,dataIndex,propPrefix)"
@@ -73,53 +69,20 @@ onMounted(() => {
               </div>
             </template>
             <star-horse-form-item
-                v-if="collapseItem.subFormFlag=='Y'&&dataIndex>-1"
                 :isView="isView"
                 :compUrl="compUrl"
-                v-model:dataForm="dataForm[collapseItem.objectName][loadIndex(propPrefix,dataIndex,key)]"
                 :compSize="compSize"
                 @addRow="addRow"
                 @removeRow="removeRow"
                 :objectName="collapseItem.objectName"
-                :dataIndex="loadIndex(propPrefix,dataIndex,key)"
-                :propPrefix="loadProp(propPrefix,collapseItem.objectName,dataIndex,key)"
+                :dataForm="getFormData(collapseItem,dataForm,propPrefix,dataIndex,key)"
+                :dataIndex="getDataIndex(collapseItem,propPrefix,dataIndex,key)"
+                :propPrefix="getPrefix(collapseItem,propPrefix,dataIndex,key)"
                 :fieldList="{
                 ...collapseItem
               }"
                 :rules="rules"
                 :subFormFlag="collapseItem.subFormFlag"
-                :primaryKey="primaryKey"
-            />
-            <star-horse-form-item
-                v-else-if="collapseItem.objectName&&collapseItem.subFormFlag == 'Y'"
-                :isView="isView"
-                :compUrl="compUrl"
-                v-model:dataForm="dataForm[collapseItem.objectName][key]"
-                :compSize="compSize"
-                @addRow="addRow"
-                @removeRow="removeRow"
-                :objectName="collapseItem.objectName"
-                :dataIndex="key"
-                :propPrefix="loadProp('',collapseItem.objectName,dataIndex,key)"
-                :fieldList="{
-                ...collapseItem
-              }"
-                :rules="rules"
-                :subFormFlag="collapseItem.subFormFlag"
-                :primaryKey="primaryKey"
-            />
-            <star-horse-form-item
-                v-else
-                :isView="isView"
-                :compUrl="compUrl"
-                v-model:dataForm="dataForm"
-                :compSize="compSize"
-                @addRow="addRow"
-                @removeRow="removeRow"
-                :fieldList="{
-                ...collapseItem
-              }"
-                :rules="rules"
                 :primaryKey="primaryKey"
             />
           </el-collapse-item>

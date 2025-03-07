@@ -2,7 +2,7 @@
   import { inject } from "vue";
   import { DialogProps } from "@/components/types/DialogProps";
   import { Config } from "@/api/settings.ts";
-  import { validMsg } from "@/api/sh_api.ts";
+  import { validMsg } from "@/api/form_utils.ts";
   defineProps({
     dataForm: { type: Object, required: true },
     index: { type: Object, required: true },

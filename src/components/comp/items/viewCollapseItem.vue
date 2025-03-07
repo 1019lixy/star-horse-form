@@ -2,7 +2,7 @@
 import {onMounted, PropType} from "vue";
 import {FieldInfo} from "@/components/types/PageFieldInfo";
 import {ModelRef} from "vue-demi";
-import {checkObject} from "@/api/sh_api.ts";
+import {checkObject} from "@/api/form_utils.ts";
 
 defineProps({
   item: {type: Array as PropType<Array<FieldInfo>>, required: true},

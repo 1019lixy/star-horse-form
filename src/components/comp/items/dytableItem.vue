@@ -3,7 +3,7 @@
   import { ApiUrls } from "@/components/types/ApiUrls";
   import { PageFieldInfo } from "@/components/types/PageFieldInfo";
   import { ModelRef } from "vue-demi";
-  import { validMsg } from "@/api/sh_api.ts";
+  import { validMsg } from "@/api/form_utils.ts";
   import { Config } from "@/api/settings.ts";
 
   defineProps({
@@ -32,7 +32,7 @@
 </script>
 
 <template>
-  <template v-if="item.dytableList && item.dytableList.length > 0">
+  <template v-if="item.dytableList?.length > 0">
     <table ref="containerTableRef" :class="{ 'dynamic-table': true, 'instance-table': true }">
       <tbody>
         <tr v-for="(row, rowIndex) in item.dytableList" class="dy-tr">

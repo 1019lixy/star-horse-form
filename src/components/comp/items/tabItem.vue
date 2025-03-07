@@ -7,7 +7,7 @@ import StarHorseFormTable from "@/components/comp/StarHorseFormTable.vue";
 import {ModelRef} from "vue-demi";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {Config} from "@/api/settings.ts";
-import {checkObject, loadIndex, loadProp} from "@/api/sh_api.ts";
+import {getDataIndex, getFormData, getPrefix,checkObject} from "@/api/form_utils.ts";
 
 const props = defineProps({
   compUrl: {type: Object as PropType<ApiUrls>},
@@ -90,16 +90,15 @@ onMounted(() => {
           </template>
           <el-scrollbar height="95%">
             <star-horse-form-item
-                v-if="tabItem.subFormFlag=='Y'&&dataIndex>-1"
                 :isView="isView"
                 :compUrl="compUrl"
                 :compSize="compSize"
                 @addRow="addRow"
                 @removeRow="removeRow"
-                v-model:dataForm="dataForm[tabItem.objectName][loadIndex(propPrefix,dataIndex,key)]"
                 :objectName="tabItem.objectName"
-                :dataIndex="loadIndex(propPrefix,dataIndex,key)"
-                :propPrefix="loadProp(propPrefix,tabItem.objectName,dataIndex,key)"
+                :dataForm="getFormData(tabItem,dataForm,propPrefix,dataIndex,key)"
+                :dataIndex="getDataIndex(tabItem,propPrefix,dataIndex,key)"
+                :propPrefix="getPrefix(tabItem,propPrefix,dataIndex,key)"
                 :fieldList="{
                 ...tabItem
               }"
@@ -108,49 +107,17 @@ onMounted(() => {
                 :primaryKey="primaryKey"
             />
 
-            <star-horse-form-item
-                v-else-if="tabItem.objectName&&tabItem.subFormFlag == 'Y'"
-                :isView="isView"
-                :compUrl="compUrl"
-                :compSize="compSize"
-                @addRow="addRow"
-                @removeRow="removeRow"
-                v-model:dataForm="dataForm[tabItem.objectName][key]"
-                :objectName="tabItem.objectName"
-                :dataIndex="key"
-                :propPrefix="loadProp('',tabItem.objectName,dataIndex,key)"
-                :fieldList="{
-                ...tabItem
-              }"
-                :rules="rules"
-                :subFormFlag="tabItem.subFormFlag"
-                :primaryKey="primaryKey"
-            />
-            <star-horse-form-item
-                v-else
-                :isView="isView"
-                :compUrl="compUrl"
-                :compSize="compSize"
-                @addRow="addRow"
-                @removeRow="removeRow"
-                v-model:dataForm="dataForm"
-                :fieldList="{
-                ...tabItem
-              }"
-                :rules="rules"
-                :primaryKey="primaryKey"
-            />
           </el-scrollbar>
         </el-tab-pane>
       </template>
     </el-tabs>
   </template>
-  <template v-else-if="item.batchFieldList && item.batchFieldList.length > 0">
+  <template v-else-if="item.batchFieldList?.length > 0">
     <template v-if="item.batchFieldList.length > 1 && (!item.displayStyle || item.displayStyle == 'tab')">
       <el-tabs v-model="normalTabList" :type="item.type || ''">
         <template v-for="(sitem, key) in item.batchFieldList">
           <el-tab-pane
-              v-if="Object.keys(sitem).includes('disVisible') ? sitem['disVisible'] : Object.keys(sitem).length > 0"
+              v-if="sitem['disVisible']??Object.keys(sitem).length > 0"
               :label="sitem['title']"
               :name="sitem.tabName || 'tab' + key"
               :disabled="sitem.disabled"
