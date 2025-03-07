@@ -56,7 +56,7 @@ onMounted(() => {
       <el-card
           shadow="hover"
           style="margin-bottom: 10px"
-          v-if="cardItem['disVisible']?? Object.keys(cardItem).length > 0"
+          v-if="cardItem['disVisible']??Object.keys(cardItem).length > 0"
           :index="checkObject(dataForm,cardItem,key,dataIndex,propPrefix)"
       >
         <template #header>
