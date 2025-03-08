@@ -2,12 +2,14 @@
  * 工具参数
  */
 import {reactive, ref} from "vue";
-import {FieldInfo, PageFieldInfo} from "@/components/types/PageFieldInfo";
+import {FieldInfo} from "@/components/types/PageFieldInfo";
 import {SelectOption} from "@/components/types/SearchProps";
-import {apiInstance, createCondition, createJoinCondition} from "@/api/sh_api.ts";
+import {apiInstance, createCondition, createJoinCondition, loadData} from "@/api/sh_api.ts";
 import {loadDict, postRequest} from "@/api/star_horse.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
-const apiUrl: ApiUrls = apiInstance("userdb-manage", "userdb/formInstance/conToolManage/idToolManage/136")
+
+const apiUrl: ApiUrls = apiInstance("userdb-manage", "userdb/formInstance/conToolManage/idToolManage/136");
+const toolParamApi: ApiUrls = apiInstance("devops-continus", "continus/toolParams");
 const compileLanguageList = ref<SelectOption[]>([]);
 const compileTypeList = ref<SelectOption[]>([]);
 const languageVersionList = ref<SelectOption[]>([]);
@@ -23,30 +25,7 @@ const loadLanguageVersions = (val: string) => {
         return {name: item["toolVersion"], value: item["toolVersion"]}
     }) || [];
 };
-const commonFields: FieldInfo[] = [
-    {
-        label: "编译语言",
-        fieldName: "compileLanguage",
-        type: "select",
-        optionList: compileLanguageList,
-        required: true,
-        formVisible: true,
-        actionName: "change",
-        actions: (val: any) => {
-            loadLanguageVersions(val["compileLanguage"]);
-        },
-        brotherNodes: [
-            {
-                fieldName: "languageVersion",
-                type: "select",
-                label: "版本",
-                optionList: languageVersionList,
-                required: true,
-                formVisible: true
-            }
-        ]
-    }
-];
+
 /**
  * 其它拓展配置
  */
@@ -201,38 +180,9 @@ const extendCommonFields: FieldInfo[] = [
         ]
     }
 ];
-const mavenTools = reactive<FieldInfo[]>([
+
+const gradleTools = reactive<any>([
     [
-        ...commonFields,
-        {
-            label: "Maven版本",
-            fieldName: "pluginVersion",
-            type: "select",
-            optionList: pluginVersionList,
-            required: true,
-            formVisible: true
-        },
-        {
-            label: "Pom文件",
-            fieldName: "fileName",
-            type: "input",
-            defaultValue: "pom.xml",
-            required: false,
-            formVisible: true
-        }
-    ],
-    {
-        label: "编译脚本",
-        fieldName: "compileScript",
-        type: "textarea",
-        defaultValue: "mvn clean compile package ",
-        required: false,
-        formVisible: true
-    },
-]);
-const gradleTools = reactive<FieldInfo[]>([
-    [
-        ...commonFields,
         {
             label: "Gradle版本",
             fieldName: "pluginVersion",
@@ -259,9 +209,8 @@ const gradleTools = reactive<FieldInfo[]>([
         formVisible: true
     },
 ]);
-const antTools = reactive<FieldInfo[]>([
+const antTools = reactive<any>([
     [
-        ...commonFields,
         {
             label: "Ant版本",
             fieldName: "pluginVersion",
@@ -288,13 +237,7 @@ const antTools = reactive<FieldInfo[]>([
         formVisible: true
     },
 ]);
-const goTools = reactive<PageFieldInfo | any>({});
-const rustTools = reactive<PageFieldInfo | any>({});
-const nodeTools = reactive<PageFieldInfo | any>({});
-const viteTools = reactive<PageFieldInfo | any>({});
-const webpackTools = reactive<PageFieldInfo | any>({});
-const dockerTools = reactive<PageFieldInfo | any>({});
-const userTools = reactive<PageFieldInfo | any>({});
+
 const dataInit = () => {
     if (!compileLanguageList.value || compileLanguageList.value.length == 0) {
         let masterFields = ["toolType", "toolCode", "toolName", "defaultParams"];
@@ -338,38 +281,21 @@ const dataInit = () => {
         reportPersonList.value = res;
     });
 }
+const loadToolParams = async (toolName: string) => {
+    let reData = await loadData(`${toolParamApi.basePrefix}/queryByToolName/${toolName}`, {});
+    return reData?.data;
+}
 // 加载插件
-const loadPlugin = (name: string) => {
+const loadPlugin = async (name: string) => {
     let versionList = compileTypeList.value.find((item: any) => item.value == name)?.versionList;
     pluginVersionList.value = versionList?.map((item: any) => {
         return {name: item["toolVersion"], value: item["toolVersion"]}
     }) || [];
-    switch (name) {
-        case "maven":
-            return mavenTools;
-        case "gradle":
-            return gradleTools;
-        case "ant":
-            return antTools;
-        case "vite":
-            return viteTools;
-        case "webpack":
-            return webpackTools;
-        default:
-            console.log("不支持的编译类型");
-    }
+    return await loadToolParams(name);
 };
 export {
-    mavenTools,
     gradleTools,
     antTools,
-    goTools,
-    rustTools,
-    nodeTools,
-    viteTools,
-    webpackTools,
-    dockerTools,
-    userTools,
     compileLanguageList,
     compileTypeList,
     languageVersionList,

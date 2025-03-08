@@ -123,12 +123,13 @@ const fieldList = reactive<PageFieldInfo | any>({
                       fieldName: "compileType",
                       type: "select",
                       actionName: "change",
-                      actions: (val: any) => {
+                      actions: async (val: any) => {
                         let plugin = val["compileType"];
                         if (!plugin) {
                           return;
                         }
-                        nodeParams.value = loadPlugin(plugin);
+                        nodeParams.value =await loadPlugin(plugin);
+                        console.log(nodeParams.value);
                       },
                       optionList: compileTypeList,
                       required: true,
