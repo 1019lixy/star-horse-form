@@ -498,6 +498,21 @@ export function getRequest(url: string) {
 }
 
 /**
+ * Request 请求
+ * @param url 请求地址
+ * @param data 请求参数
+ * @param method 请求方法
+ * @returns {Promise<AxiosResponse<any>>}
+ */
+export function httpRequest(url: string, method: string, data: any) {
+    return service.request({
+        url: url,
+        method: method,
+        data: data
+    })
+}
+
+/**
  * Post Upload 请求
  * @param url
  * @param data

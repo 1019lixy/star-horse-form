@@ -23,7 +23,7 @@ const props = defineProps({
   selfFunc: {type: Boolean, default: false},
   //自定义关闭
   selfClose: {type: Boolean, default: false},
-  btnText: {type: String, default: "提交"},
+  btnText: {type: String},
   userBtn: {type: Array<UserFuncInfo>, default: []},
   btnTextContinue: {type: String, default: "提交并继续"},
   title: {type: String, default: ""},
@@ -162,7 +162,7 @@ provide("dialogOperation", clickFunction);
                 :size="compSize"
             >
               <star-horse-icon icon-class="save" style="color: var(--star-horse-white)"/>
-              {{ i18n("dialog.submit") }}
+              {{ btnText ?? i18n("dialog.submit") }}
             </el-button>
             <el-button
                 @click="operation('merge', 'continue')"

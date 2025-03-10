@@ -1,4 +1,19 @@
 <template>
+  <star-horse-dialog :title="field?.preps['dialogTitle']||'配置按钮事件'"
+                     :selfFunc="true"
+                     @merge="operResultAction"
+                     :dialogVisible="btnDialogVisible"
+                     :boxWidth="field?.preps['boxWidth']||'50%'"
+                     :isShowReset="field?.preps['isShowReset']??false"
+                     @closeAction="close"
+                     :btnText="field?.preps['dialogBtn']??'确定'">
+    <star-horse-form ref="btnFormRef" :fieldList="{
+      fieldList: field.preps?.standAction?.fieldList,
+    }" v-if="field.preps?.standAction?.viewType='form'"/>
+    <component :is="field.preps?.standAction?.componentName"
+               v-else-if="field.preps?.standAction?.viewType!='comp'"
+               :params="field.preps?.standAction?.params"/>
+  </star-horse-dialog>
   <starhorse-form-item
       :isDesign="context.attrs['isDesign']"
       :bareFlag="context.attrs['bareFlag']"
@@ -34,6 +49,11 @@
 import {defineComponent, onMounted, shallowRef} from "vue";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {buttonAction} from "@/components/formcomp/utils/ItemRelationEventUtils.ts";
+import {httpRequest, postRequest} from "@/api/star_horse.ts";
+import {operationConfirm, warning} from "@/utils/message.ts";
+import {BtnAction, DynamicParamField} from "@/components/types/BtnAction";
+import {SearchParams} from "@/components/types/Params";
+import {createCondition} from "@/api/sh_api.ts";
 
 export default defineComponent({
   components: {StarHorseIcon},
@@ -43,13 +63,108 @@ export default defineComponent({
     let formItem = shallowRef({label: "input", required: false});
     let dataField = shallowRef("");
     let actionName = shallowRef("click");
+    let btnDialogVisible = shallowRef<boolean>(false);
     onMounted(() => {
       actionName.value = field.preps?.actionName || "keydown.enter";
     });
+    const operResultAction = () => {
+      close();
+    }
+    //打开对话框
+    const openDialog = async () => {
+
+      /**
+       * 1、调用公共的方法
+       * --2、调用公共的组件
+       * --3、调用指定接口
+       * --4、执行程序块
+       * --5、传入表单参数，生成表单
+       *
+       */
+      let action: BtnAction = field.preps?.standAction;
+      //执行代码块
+      if (action.needConfirm) {
+        let result = operationConfirm(action.confirmMsg ?? "确定要执行此操作吗");
+        if (!result) {
+          return;
+        }
+      }
+      if (action?.viewType == 'interface') {
+        //如果参数是动态参数，则在当前form中寻找对应名称的值
+        let urlParam: any = {};
+        if (action.isDynamicParam == "Y") {
+          let dynamicParams: DynamicParamField[] = action.params;
+          let params: SearchParams[] = [];
+          dynamicParams?.forEach((dynamicParam) => {
+            let value = context.attrs['formData'][dynamicParam.paramName] ?? dynamicParam.defaultValue;
+            params.push(createCondition(dynamicParam.paramName, value, dynamicParam.matchType))
+          });
+          urlParam["fieldList"] = params;
+        } else {
+          urlParam = action.params;
+        }
+        if (!action.url) {
+          warning("请提供需要调用的接口");
+          return;
+        }
+        httpRequest(action.url!, action.method ?? "POST", urlParam).then((res: any) => {
+          //仅仅执行，则直接调用接口
+          console.log(res);
+          let reData = res.data;
+          if (reData.code) {
+            warning(reData.cnMessage);
+            return;
+          }
+          let datas = reData?.data;
+          if (action?.afterAction) {
+            if (!datas) {
+              warning("返回数据为空，无法赋值");
+              return;
+            }
+            if (Array.isArray(datas)) {
+              warning("返回数据为数组，无法赋值");
+              return;
+            }
+            //执行后搜集返回结果
+            if (action?.afterAction == "assignCurrentName") {
+              context.attrs['formData'][field.preps['name']] = datas;
+            } else if (action?.afterAction == "assignForm") {
+              let entries = Object.entries(datas);
+              entries.forEach(([key, value]) => {
+                context.attrs['formData'][key] = value;
+              })
+            }
+          }
+        })
+      } else if (action.viewType == "code") {
+        if (!action.code) {
+          warning("请提供需要执行的代码");
+          return;
+        }
+        buttonAction(context, action.code);
+      } else if (action.viewType == "method") {
+        if (!action.code) {
+          warning("请提供需要执行的函数名");
+          return;
+        }
+      } else {
+        btnDialogVisible.value = true;
+      }
+    }
+    const close = () => {
+      btnDialogVisible.value = false;
+    }
     const dynamicFunc = (code: any) => {
-      buttonAction(context, code);
+      openDialog();
+      //如果是配置的标准操作
+      // if (field.preps?.standAction) {
+      //   openDialog();
+      // } else {
+      //   buttonAction(context, code);
+      // }
+
     };
-    return {parentField, dynamicFunc, context, field, formItem, dataField};
+    return {parentField, dynamicFunc, btnDialogVisible, operResultAction, close, context, field, formItem, dataField};
   }
 });
 </script>

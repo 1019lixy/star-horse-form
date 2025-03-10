@@ -170,6 +170,8 @@ const allAction = (context: any, actionName: string, isInit: boolean = false) =>
  * @param code
  */
 const buttonAction = (context: any, code: string) => {
+
+
   if (code) {
     userFunction(code, context);
   } else {
