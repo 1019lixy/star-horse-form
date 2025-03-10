@@ -8,11 +8,12 @@
                      @closeAction="close"
                      :btnText="field?.preps['dialogBtn']??'确定'">
     <star-horse-form ref="btnFormRef" :fieldList="{
-      fieldList: field.preps?.standAction?.fieldList,
-    }" v-if="field.preps?.standAction?.viewType='form'"/>
-    <component :is="field.preps?.standAction?.componentName"
-               v-else-if="field.preps?.standAction?.viewType!='comp'"
-               :params="field.preps?.standAction?.params"/>
+      fieldList: field.preps?.fieldList,
+    }" v-if="field.preps?.viewType=='form'"/>
+    <component :is="field.preps?.componentName"
+               ref="btnCompRef"
+               v-else-if="field.preps?.viewType=='comp'"
+               :params="field.preps?.params"/>
   </star-horse-dialog>
   <starhorse-form-item
       :isDesign="context.attrs['isDesign']"
@@ -64,10 +65,22 @@ export default defineComponent({
     let dataField = shallowRef("");
     let actionName = shallowRef("click");
     let btnDialogVisible = shallowRef<boolean>(false);
+    const btnCompRef = shallowRef();
     onMounted(() => {
       actionName.value = field.preps?.actionName || "keydown.enter";
     });
     const operResultAction = () => {
+      let action: BtnAction = field.preps;
+      let formData: any = {};
+      if (action?.viewType == "comp") {
+        formData = btnCompRef.value?.getFormData("请先填写表单数据");
+        if (!formData) {
+          return;
+        }
+      } else {
+        formData = btnCompRef.value?.getFormData().value;
+      }
+      context.attrs['formData'][field.preps['name']] = JSON.stringify(formData);
       close();
     }
     //打开对话框
@@ -81,15 +94,15 @@ export default defineComponent({
        * --5、传入表单参数，生成表单
        *
        */
-      let action: BtnAction = field.preps?.standAction;
+      let action: BtnAction = field.preps;
       //执行代码块
-      if (action.needConfirm) {
+      if (action?.needConfirm) {
         let result = operationConfirm(action.confirmMsg ?? "确定要执行此操作吗");
         if (!result) {
           return;
         }
       }
-      if (action?.viewType == 'interface') {
+      if (action?.viewType == 'inter') {
         //如果参数是动态参数，则在当前form中寻找对应名称的值
         let urlParam: any = {};
         if (action.isDynamicParam == "Y") {
@@ -136,13 +149,13 @@ export default defineComponent({
             }
           }
         })
-      } else if (action.viewType == "code") {
+      } else if (action?.viewType == "code") {
         if (!action.code) {
           warning("请提供需要执行的代码");
           return;
         }
         buttonAction(context, action.code);
-      } else if (action.viewType == "method") {
+      } else if (action?.viewType == "method") {
         if (!action.code) {
           warning("请提供需要执行的函数名");
           return;
@@ -155,16 +168,16 @@ export default defineComponent({
       btnDialogVisible.value = false;
     }
     const dynamicFunc = (code: any) => {
-      openDialog();
+      // openDialog();
       //如果是配置的标准操作
-      // if (field.preps?.standAction) {
-      //   openDialog();
-      // } else {
-      //   buttonAction(context, code);
-      // }
+      if (field.preps?.viewType) {
+        openDialog();
+      } else {
+        buttonAction(context, code);
+      }
 
     };
-    return {parentField, dynamicFunc, btnDialogVisible, operResultAction, close, context, field, formItem, dataField};
+    return {parentField, dynamicFunc, btnDialogVisible, btnCompRef, operResultAction, close, context, field, formItem, dataField};
   }
 });
 </script>

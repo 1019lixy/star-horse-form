@@ -15,6 +15,7 @@
 
   let designForm = DesignForm(piniaInstance);
   const normalPageRef = ref();
+  const normalFormRef = ref();
   let relationTables = ref<any>({});
   let dataUrl = ref<ApiUrls>();
   const errorMsg = ref("数据加载中");
@@ -134,6 +135,7 @@
         :fieldList="tableFieldList"
         :primary-key="primaryKey"
         :rules="rules"
+        ref="normalFormRef"
         :globalCondition="relationTables"
         :dynamicForm="true"
       />

@@ -17,7 +17,7 @@ export declare interface BtnAction {
     //视图类型
     viewType: string;
     //动态表单参数
-    fieldList?: FieldInfo[],
+    idDynamicForm?: string,
     //动态组件名称
     componentName?: string,
     //是否动态参数

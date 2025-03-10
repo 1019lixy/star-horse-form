@@ -95,6 +95,7 @@ declare module 'vue' {
     DataPermission: typeof import('./src/views/system/permission/DataPermission.vue')['default']
     DataPicker: typeof import('./src/components/comp/utils/DataPicker.vue')['default']
     DataPreview: typeof import('./src/views/dyform/DataPreview.vue')['default']
+    DataSource: typeof import('./src/components/common/DataSource.vue')['default']
     DataTag: typeof import('./src/components/comp/utils/DataTag.vue')['default']
     DatetimeItem: typeof import('./src/components/formcomp/items/datetime-item.vue')['default']
     DbBake: typeof import('./src/views/dbsearch/DbBake.vue')['default']

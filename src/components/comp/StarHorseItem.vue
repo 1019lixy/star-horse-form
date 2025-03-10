@@ -210,9 +210,11 @@ const compPreps = () => {
   if (!props.isSearch) {
     userOperation.addFormItem(field);
   }
-  //赋值默认值
-  //!dataForm.value[props.item?.fieldName] &&
-  if ( props.item?.defaultValue) {
+  /**
+   * 组件初始化时赋值默认值,
+   * 在表单操作过程中，不再进行默认值的处理
+   */
+  if (!dataForm.value[props.item?.fieldName] && props.item?.defaultValue) {
     dataForm.value[props.item?.fieldName] = props.item?.defaultValue;
   }
 };

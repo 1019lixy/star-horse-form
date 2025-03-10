@@ -9,8 +9,6 @@
       :fid="field.preps['name']"
       :disabled="!context.attrs['formData']['_' + field.preps['name'] + 'Editable'] && field.preps['disabled'] == 'Y'"
       :readonly="field.preps['readonly'] == 'Y'"
-      :max="field.preps['max']"
-      :min="field.preps['min']"
       :size="context.attrs.formInfo?.size || field?.preps['size'] || 'default'"
       :text-color="field.preps['textColor']"
       @change="itemAction"

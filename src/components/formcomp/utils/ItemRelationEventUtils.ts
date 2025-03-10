@@ -147,7 +147,7 @@ const allAction = (context: any, actionName: string, isInit: boolean = false) =>
       mouseEnter(context);
       break;
     default:
-      // console.log("不支持的事件：" + actionName);
+      console.log("不支持的事件：" + actionName);
       return;
   }
   const field = context.attrs["field"] as any;
