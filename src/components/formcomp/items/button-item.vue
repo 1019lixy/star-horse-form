@@ -47,7 +47,7 @@
   </starhorse-form-item>
 </template>
 <script lang="ts" name="buttonItem">
-import {defineComponent, onMounted, shallowRef} from "vue";
+import {defineComponent, onMounted, shallowRef,unref} from "vue";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {buttonAction} from "@/components/formcomp/utils/ItemRelationEventUtils.ts";
 import {httpRequest, postRequest} from "@/api/star_horse.ts";
@@ -69,18 +69,19 @@ export default defineComponent({
     onMounted(() => {
       actionName.value = field.preps?.actionName || "keydown.enter";
     });
-    const operResultAction = () => {
+    const operResultAction = async () => {
       let action: BtnAction = field.preps;
       let formData: any = {};
       if (action?.viewType == "comp") {
-        formData = btnCompRef.value?.getFormData("请先填写表单数据");
+        formData =await btnCompRef.value?.getFormData("请先填写表单数据");
         if (!formData) {
           return;
         }
       } else {
-        formData = btnCompRef.value?.getFormData().value;
+        formData = await btnCompRef.value?.getFormData().value;
       }
-      context.attrs['formData'][field.preps['name']] = JSON.stringify(formData);
+      debugger;
+      context.attrs['formData'][field.preps['name']] = JSON.stringify(unref(formData));
       close();
     }
     //打开对话框
