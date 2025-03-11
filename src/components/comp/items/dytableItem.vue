@@ -3,7 +3,7 @@
   import { ApiUrls } from "@/components/types/ApiUrls";
   import { PageFieldInfo } from "@/components/types/PageFieldInfo";
   import { ModelRef } from "vue-demi";
-  import { validMsg } from "@/api/form_utils.ts";
+  import {loadProp, validMsg} from "@/api/form_utils.ts";
   import { Config } from "@/api/settings.ts";
 
   defineProps({
@@ -51,8 +51,8 @@
               :size="compSize"
               :label="sitem.label"
               :required="sitem.required"
-              :prop="sitem.fieldName"
-              :label-position="parentPreps?.labelPosition"
+              :prop="loadProp(propPrefix,sitem.fieldName,-1,-1)"
+              :labelPosition="parentPreps?.labelPosition"
               :rules="validMsg(sitem, dataForm)"
               v-if="sitem.formVisible && sitem.label && sitem.preps?.headerFlag != 'Y'"
             >

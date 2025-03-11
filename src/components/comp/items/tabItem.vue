@@ -63,7 +63,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <template v-if="item.tabList && item.tabList.length > 0">
+  <template v-if="item.tabList?.length > 0">
     <el-tabs
         v-model="item.fieldName"
         :type="item.type || ''"
