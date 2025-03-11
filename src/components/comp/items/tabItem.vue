@@ -88,7 +88,7 @@ onMounted(() => {
               <help v-if="tabItem.helpMsg" :message="tabItem.helpMsg"/>
             </div>
           </template>
-          <el-scrollbar height="95%">
+          <el-scrollbar>
             <star-horse-form-item
                 :isView="isView"
                 :compUrl="compUrl"
