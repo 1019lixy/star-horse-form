@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {nextTick, onMounted, provide, reactive, ref, watch} from "vue";
-import {apiInstance, closeLoad, createCondition, dialogPreps, load, loadGetData} from "@/api/sh_api";
+import {apiInstance, closeLoad, dialogPreps, load, loadGetData} from "@/api/sh_api";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {SearchProps} from "@/components/types/SearchProps";
 import {Config} from "@/api/settings.ts";
@@ -8,9 +8,6 @@ import {DesignForm} from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store/index.ts";
 import {createDatetime} from "@/api/date_utils.ts";
 import {UserFuncInfo} from "@/components/types/PageFieldInfo";
-import {download, postRequest} from "@/api/star_horse.ts";
-import {success, warning} from "@/utils/message.ts";
-import {useRouter} from "vue-router";
 import {userAction} from "@/api/user_func.ts";
 
 let designForm = DesignForm(piniaInstance);
@@ -21,7 +18,6 @@ let dataUrl = ref<ApiUrls>();
 const errorMsg = ref("数据加载中");
 let searchFormData = ref<SearchProps[]>([]);
 const tableFieldList = ref<any>({fieldList: []});
-let router = useRouter();
 /**
  * 表单数据直接取定义的数据preps,
  * 列表数据重新定义，方便排序和位置拖拽
@@ -113,9 +109,6 @@ const init = async () => {
   designForm.setIsEdit(false);
   await loadPermission();
   await loadFormData(props.param);
-  for (let i = 0; i <= 500; i++) {
-    normalPageRef.value?.loadByPage();
-  }
 };
 onMounted(async () => {
   await init();

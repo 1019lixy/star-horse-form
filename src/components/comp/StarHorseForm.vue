@@ -123,7 +123,9 @@ const loadData = async () => {
     for (let i in params) {
       let temp = params[i];
       if (!temp.subTabFlag) {
-        dataForm.value[temp.tableName] = [objData];
+        let subTemp = {...objData};
+        delete subTemp[temp.tableName];
+        dataForm.value[temp.tableName] = [subTemp];
       }
     }
   }
@@ -363,6 +365,7 @@ onMounted(() => {
 watch(
     () => dialogProps.ids,
     (val) => {
+      console.log("ids", val);
       if (!val || val == -1) {
         setFormData(dataForm.value);
       } else {

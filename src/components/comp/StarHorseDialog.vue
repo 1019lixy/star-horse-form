@@ -37,7 +37,6 @@ watch(
     },
     {
       immediate: true,
-      flush: 'sync',
       deep: true
     }
 );
