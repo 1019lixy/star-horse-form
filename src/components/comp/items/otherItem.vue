@@ -49,7 +49,7 @@ onMounted(() => {
       :label="item.preps?.hideLabel == 'Y' ? '' : item.label"
       :required="item.required"
       :rules="validMsg(item, dataForm)"
-      :prop="loadProp(propPrefix,item.fieldName)"
+      :prop="loadProp(propPrefix,item.fieldName,-1,-1)"
       :label-position="parentPreps?.labelPosition"
       v-else-if="checkVisible(item,dataForm)"
   >

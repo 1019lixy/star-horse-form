@@ -196,7 +196,7 @@
     :dialogProps="dialogProps"
     :title="'查看数据'"
     :isView="true"
-    self-func="true"
+    :selfFunc="true"
     @closeAction="close"
   >
     <star-horse-data-view :outerData="outerData" :field-list="formField" />
