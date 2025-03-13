@@ -1,7 +1,7 @@
 <script setup lang="ts" name="JunitTest">
   import { onMounted, reactive, ref } from "vue";
   import { SelectOption } from "@/components/types/SearchProps";
-  import { loadData } from "@/api/sh_api.ts";
+  import { loadData } from "@/api/star_horse_utils.ts";
   import { FieldInfo, PageFieldInfo } from "@/components/types/PageFieldInfo";
   import ToolInfo from "@/views/continus/ToolInfo.vue";
   import { warning } from "@/utils/message.ts";

@@ -80,7 +80,7 @@
 </template>
 <script lang="ts">
   import { defineComponent, onMounted, shallowRef, unref, ref } from "vue";
-  import { loadElementPlusIcon, loadSvgIcons } from "@/api/sh_api.ts";
+  import { loadElementPlusIcon, loadSvgIcons } from "@/api/star_horse_utils.ts";
   import { allAction } from "@/components/formcomp/utils/ItemRelationEventUtils.ts";
   import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 

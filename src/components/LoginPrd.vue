@@ -1,6 +1,6 @@
 <script lang="ts" setup>
   import { Config } from "@/api/settings.ts";
-  import { getValidateImg, rtCode, userLogin } from "@/api/star_horse";
+  import { getValidateImg, rtCode, userLogin } from "@/api/star_horse_apis.ts";
   import { JSEncrypt } from "jsencrypt";
   import { removeToken } from "@/utils/auth";
   import { onMounted, reactive, ref, watch } from "vue";

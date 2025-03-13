@@ -42,7 +42,7 @@
 </template>
 <script lang="ts">
   import { defineComponent, onMounted, shallowRef } from "vue";
-  import { compDynamicData, createFilter, dynamicUrlOperation } from "@/api/sh_api.ts";
+  import { compDynamicData, createFilter, dynamicUrlOperation } from "@/api/star_horse_utils.ts";
   import { SearchParams } from "@/components/types/Params";
   import { allAction } from "@/components/formcomp/utils/ItemRelationEventUtils.ts";
 

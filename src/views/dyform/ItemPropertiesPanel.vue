@@ -1,6 +1,6 @@
 <script setup lang="ts" name="ItemPropertiesPanel">
 import {computed, nextTick, onMounted, ref, unref, watch} from "vue";
-import {formFieldMapping, isJson, searchMatchList} from "@/api/sh_api";
+import {formFieldMapping, isJson, searchMatchList} from "@/api/star_horse_utils.ts";
 import {SelectOption} from "@/components/types/SearchProps";
 import StarHorseEditor from "@/components/system/StarHorseEditor.vue";
 import StarHorseForm from "@/components/comp/StarHorseForm.vue";
@@ -21,7 +21,7 @@ import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import StarHorseFormItem from "@/components/comp/StarHorseFormItem.vue";
 import {Config} from "@/api/settings.ts";
-import {loadDict} from "@/api/star_horse.ts";
+import {loadDict} from "@/api/star_horse_apis.ts";
 
 let designForm = DesignForm(piniaInstance);
 let formDataList = computed(() => designForm.formDataList);

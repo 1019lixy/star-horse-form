@@ -1,11 +1,11 @@
 <script setup lang="ts" name="WhiteList">
-  import { apiInstance, dialogPreps } from "@/api/sh_api.ts";
+  import { apiInstance, dialogPreps } from "@/api/star_horse_utils.ts";
   import { ApiUrls } from "@/components/types/ApiUrls";
   import { Config } from "@/api/settings.ts";
   import { onMounted, provide, reactive, ref } from "vue";
   import { SearchFields } from "@/components/types/SearchProps";
   import { PageFieldInfo } from "@/components/types/PageFieldInfo";
-  import { dictData } from "@/api/sh_api";
+  import { dictData } from "@/api/star_horse_utils.ts";
 
   const dataUrl: ApiUrls = apiInstance("system-config", "system/whiteList");
   let typeList = ref({});

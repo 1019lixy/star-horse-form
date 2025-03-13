@@ -1,10 +1,10 @@
 <script setup lang="ts" name="DynamicFormConsumerConfig">
-  import { apiInstance, dialogPreps } from "@/api/sh_api.ts";
+  import { apiInstance, dialogPreps } from "@/api/star_horse_utils.ts";
   import { ApiUrls } from "@/components/types/ApiUrls";
   import { onMounted, provide, reactive, ref } from "vue";
   import { SearchFields, SelectOption } from "@/components/types/SearchProps";
   import { PageFieldInfo, UserFuncInfo } from "@/components/types/PageFieldInfo";
-  import { dictData } from "@/api/sh_api";
+  import { dictData } from "@/api/star_horse_utils.ts";
   import { useRouter } from "vue-router";
   import { BtnAuth } from "@/components/types/BtnAuth";
   import StarHorseDialog from "@/components/comp/StarHorseDialog.vue";

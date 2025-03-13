@@ -10,7 +10,7 @@
 </template>
 <script lang="ts" name="audioItem">
   import { defineComponent, onMounted, shallowRef } from "vue";
-  import { blobData } from "@/api/star_horse";
+  import { blobData } from "@/api/star_horse_apis.ts";
   import Help from "@/components/help.vue";
 
   export default defineComponent({

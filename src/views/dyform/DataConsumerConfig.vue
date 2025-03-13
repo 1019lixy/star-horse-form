@@ -1,12 +1,12 @@
 <script setup lang="ts" name="DataConsumerConfig">
   import { computed, nextTick, onMounted, ref, unref, watch } from "vue";
   import { Cell } from "@antv/x6";
-  import { closeLoad, dictData, load, loadData, loadRolesInfo } from "@/api/sh_api";
+  import { closeLoad, dictData, load, loadData, loadRolesInfo } from "@/api/star_horse_utils.ts";
   import { error, success, warning } from "@/utils/message";
-  import { postRequest } from "@/api/star_horse";
+  import { postRequest } from "@/api/star_horse_apis.ts";
   import { SelectOption } from "@/components/types/SearchProps";
   import { LocationQueryValue, useRoute } from "vue-router";
-  import { apiInstance } from "@/api/sh_api.ts";
+  import { apiInstance } from "@/api/star_horse_utils.ts";
   import { ApiUrls } from "@/components/types/ApiUrls";
   import StarHorseDialog from "@/components/comp/StarHorseDialog.vue";
   import DataPreview from "@/views/dyform/DataPreview.vue";

@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-  import { apiInstance, dialogPreps } from "@/api/sh_api.ts";
+  import { apiInstance, dialogPreps } from "@/api/star_horse_utils.ts";
   import { ApiUrls } from "@/components/types/ApiUrls";
   import { Config } from "@/api/settings.ts";
   import { onMounted, provide, reactive, ref } from "vue";
   import { SearchFields, SelectOption } from "@/components/types/SearchProps";
-  import { loadCustomInfo, loadElementPlusIcon, loadSystemInfo } from "@/api/sh_api";
+  import { loadCustomInfo, loadElementPlusIcon, loadSystemInfo } from "@/api/star_horse_utils.ts";
   import { PageFieldInfo } from "@/components/types/PageFieldInfo";
-  import { postRequest } from "@/api/star_horse";
+  import { postRequest } from "@/api/star_horse_apis.ts";
 
   let informationsList = ref<any>([]);
   const dataUrl: ApiUrls = apiInstance("system-config", "system/informationsEntity");

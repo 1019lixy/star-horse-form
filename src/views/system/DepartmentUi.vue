@@ -1,10 +1,10 @@
 <script setup lang="ts">
-  import { apiInstance, createCondition, dialogPreps, loadData } from "@/api/sh_api.ts";
+  import { apiInstance, createCondition, dialogPreps, loadData } from "@/api/star_horse_utils.ts";
   import { ApiUrls } from "@/components/types/ApiUrls";
   import { Config } from "@/api/settings.ts";
   import { onMounted, provide, reactive, ref, onActivated, onDeactivated, nextTick } from "vue";
   import { SearchFields, SelectOption } from "@/components/types/SearchProps";
-  import { loadDepartmentInfo } from "@/api/sh_api";
+  import { loadDepartmentInfo } from "@/api/star_horse_utils.ts";
   import { PageFieldInfo, UserFuncInfo } from "@/components/types/PageFieldInfo";
   import { warning } from "@/utils/message.ts";
   import { TreeNodeData } from "element-plus/es/components/tree-v2/src/types";

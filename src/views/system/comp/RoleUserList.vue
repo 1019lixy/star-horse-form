@@ -1,5 +1,5 @@
 <script setup lang="ts" name="RoleUserList">
-  import { analysisField, apiInstance, closeLoad, createCondition, dialogPreps, load, loadData } from "@/api/sh_api";
+  import { analysisField, apiInstance, closeLoad, createCondition, dialogPreps, load, loadData } from "@/api/star_horse_utils.ts";
   import { ApiUrls } from "@/components/types/ApiUrls";
   import { Config } from "@/api/settings";
   import { onActivated, onDeactivated, onMounted, PropType, provide, reactive, ref } from "vue";
@@ -8,7 +8,7 @@
   import { getCustomerParam } from "@/utils/auth";
   import { operationConfirm, success, warning } from "@/utils/message.ts";
   import { SearchParams } from "@/components/types/Params";
-  import { postRequest } from "@/api/star_horse.ts";
+  import { postRequest } from "@/api/star_horse_apis.ts";
   //后端交互接口地址
   const dataUrl: ApiUrls = apiInstance("system-config", "system/employeeInfo");
   dataUrl.loadByPageUrl = "/system-config/system/employeeInfo/compRolePageList";

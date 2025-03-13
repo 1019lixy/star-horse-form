@@ -64,7 +64,7 @@
   import FlowNodeApproval from "@/views/workflow/plugin/preps/utils/Approval.vue";
   import FlowDrawerFooter from "@/views/workflow/plugin/common/DrawerFooter.vue";
   import { onMounted, ref } from "vue";
-  import { dictData } from "@/api/sh_api.ts";
+  import { dictData } from "@/api/star_horse_utils.ts";
   import { useFlowDesign } from "@/store/FlowDesignStore.ts";
   import piniaInstance from "@/store";
   import { ModelRef } from "vue-demi";

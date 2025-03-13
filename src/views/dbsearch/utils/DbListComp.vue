@@ -2,7 +2,7 @@
   import { computed, ComputedRef, nextTick, onMounted, ref, unref } from "vue";
   import { warning } from "@/utils/message.ts";
   import { initDbList, openDatabase, tableColumns } from "@/views/dbsearch/utils/DbSearchUtils.ts";
-  import { convertToCamelCase, isJson } from "@/api/sh_api.ts";
+  import { convertToCamelCase, isJson } from "@/api/star_horse_utils.ts";
   import { DesignForm } from "@/store/DesignFormStore.ts";
   import piniaInstance from "@/store";
   import { GlobalConfig } from "@/store/GlobalConfigStore.ts";

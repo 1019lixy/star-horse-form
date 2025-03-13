@@ -1,11 +1,11 @@
 <script setup lang="ts">
-  import { createRouterAndMenuList, permissionMenus } from "@/api/star_horse";
+  import { createRouterAndMenuList, permissionMenus } from "@/api/star_horse_apis.ts";
   import { computed, nextTick, onMounted, reactive, ref, unref, watch } from "vue";
   import { userInfoStore } from "@/store/UserInfoStore";
   import { MenusInfo } from "@/components/types/MenusInfo";
   import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
   import SubMenu from "@/components/menu/SubMenu.vue";
-  import { filterTree } from "@/api/sh_api";
+  import { filterTree } from "@/api/star_horse_utils.ts";
   import piniaInstance from "@/store";
   import { GlobalConfig } from "@/store/GlobalConfigStore.ts";
   import { Config } from "@/api/settings.ts";

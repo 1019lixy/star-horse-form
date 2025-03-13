@@ -35,7 +35,7 @@
   import piniaInstance from "@/store";
   import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
   import { ApiUrls } from "@/components/types/ApiUrls";
-  import { apiInstance, createCondition } from "@/api/sh_api.ts";
+  import { apiInstance, createCondition } from "@/api/star_horse_utils.ts";
   import { SearchParams } from "@/components/types/Params";
   import { nodeInfoList, nodePrepList } from "@/views/workflow/plugin/utils/nodePreps.ts";
   import { FlowNodeEnums } from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";

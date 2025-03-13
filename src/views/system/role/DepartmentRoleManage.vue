@@ -1,5 +1,5 @@
 <script setup lang="ts" name="CompanyRole">
-  import { apiInstance, closeLoad, createCondition, dialogPreps, dictData, load, loadData } from "@/api/sh_api";
+  import { apiInstance, closeLoad, createCondition, dialogPreps, dictData, load, loadData } from "@/api/star_horse_utils.ts";
   import { ApiUrls } from "@/components/types/ApiUrls";
   import { Config } from "@/api/settings";
   import { computed, onActivated, onDeactivated, onMounted, provide, reactive, ref } from "vue";
@@ -11,7 +11,7 @@
   import { SearchParams } from "@/components/types/Params";
   import { TreeNodeData } from "element-plus/es/components/tree-v2/src/types";
   import { error, success, warning } from "@/utils/message.ts";
-  import { postRequest } from "@/api/star_horse.ts";
+  import { postRequest } from "@/api/star_horse_apis.ts";
   import { getRowIdentity } from "element-plus/es/components/table/src/util";
   import UserManage from "@/views/system/UserManage.vue";
   import RoleUserList from "@/views/system/comp/RoleUserList.vue";

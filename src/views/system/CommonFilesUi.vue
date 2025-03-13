@@ -1,5 +1,5 @@
 <script setup lang="ts" name="CommonFiles">
-  import { apiInstance, dialogPreps } from "@/api/sh_api";
+  import { apiInstance, dialogPreps } from "@/api/star_horse_utils.ts";
   import { ApiUrls } from "@/components/types/ApiUrls";
   import { Config } from "@/api/settings";
   import { onMounted, provide, reactive, ref, onActivated, onDeactivated } from "vue";
@@ -7,7 +7,7 @@
   import { PageFieldInfo, UserFuncInfo } from "@/components/types/PageFieldInfo";
   import { getCustomerParam, getToken } from "@/utils/auth";
   import { warning } from "@/utils/message.ts";
-  import { download } from "@/api/star_horse.ts";
+  import { download } from "@/api/star_horse_apis.ts";
   //后端交互接口地址
   const dataUrl: ApiUrls = apiInstance("system-config", "system/commonFiles");
   //主键

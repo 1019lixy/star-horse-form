@@ -28,8 +28,8 @@
 <script setup lang="ts">
   import { onMounted, ref } from "vue";
   import { useVModel } from "@vueuse/core";
-  import { postRequest } from "@/api/star_horse.ts";
-  import { createCondition } from "@/api/sh_api.ts";
+  import { postRequest } from "@/api/star_horse_apis.ts";
+  import { createCondition } from "@/api/star_horse_utils.ts";
 
   defineOptions({
     name: "CopyerConfigure"

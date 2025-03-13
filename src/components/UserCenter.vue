@@ -2,11 +2,11 @@
   import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
   import { getUserInfo } from "../utils/auth.ts";
   import { computed, onMounted, reactive, ref } from "vue";
-  import { copy } from "@/api/sh_api.ts";
+  import { copy } from "@/api/star_horse_utils.ts";
   import StarHorseForm from "@/components/comp/StarHorseForm.vue";
   import { PageFieldInfo } from "@/components/types/PageFieldInfo";
   import { initSelectData, userEditFieldInfo } from "@/views/system/utils/UserFields.ts";
-  import { postRequest } from "@/api/star_horse.ts";
+  import { postRequest } from "@/api/star_horse_apis.ts";
   import { success, warning } from "@/utils/message.ts";
   import { GlobalConfig } from "@/store/GlobalConfigStore.ts";
   import piniaInstance from "@/store";

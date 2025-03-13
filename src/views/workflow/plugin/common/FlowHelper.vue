@@ -4,7 +4,7 @@
   import { useFlowDesign } from "@/store/FlowDesignStore.ts";
   import piniaInstance from "@/store";
   import { ApiUrls } from "@/components/types/ApiUrls";
-  import { apiInstance, createCondition, loadData } from "@/api/sh_api.ts";
+  import { apiInstance, createCondition, loadData } from "@/api/star_horse_utils.ts";
 
   const dataUrl: ApiUrls = apiInstance("flow-engine", "workflow/categoryItemConfig");
   const flowDesign = useFlowDesign(piniaInstance);

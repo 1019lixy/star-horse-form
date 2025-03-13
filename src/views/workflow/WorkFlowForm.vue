@@ -9,7 +9,7 @@
   import UFlowDesign from "@/views/workflow/formItems/UFlowDesign.vue";
   import { useRouter } from "vue-router";
   import { ApiUrls } from "@/components/types/ApiUrls";
-  import { apiInstance } from "@/api/sh_api.ts";
+  import { apiInstance } from "@/api/star_horse_utils.ts";
   import { doSaveData } from "@/views/workflow/utils/FlowFormUtils.ts";
 
   const dataUrl: ApiUrls = apiInstance("flow-engine", "workflow/flowDefine");

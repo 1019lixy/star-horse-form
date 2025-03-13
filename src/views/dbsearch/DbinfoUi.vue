@@ -1,9 +1,9 @@
 <script setup lang="ts" name="Dbinfo">
-  import { apiInstance, dialogPreps, loadData } from "@/api/sh_api.ts";
+  import { apiInstance, dialogPreps, loadData } from "@/api/star_horse_utils.ts";
   import { ApiUrls } from "@/components/types/ApiUrls";
   import { computed, onMounted, provide, reactive, ref } from "vue";
   import { SearchFields } from "@/components/types/SearchProps";
-  import { loadGetData } from "@/api/sh_api";
+  import { loadGetData } from "@/api/star_horse_utils.ts";
   import { success, warning } from "@/utils/message";
   import { Config } from "@/api/settings.ts";
   import { PageFieldInfo } from "@/components/types/PageFieldInfo";

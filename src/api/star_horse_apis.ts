@@ -12,7 +12,7 @@ import {viewList} from "@/store/ViewCacheStore";
 import {SelectOption} from "@/components/types/SearchProps";
 import {NavigationGuardNext, RouteLocationNormalized} from "vue-router";
 import {useButtonPermission} from "@/store/ButtonPermissionStore.ts";
-import {loadData} from "@/api/sh_api.ts";
+import {loadData} from "@/api/star_horse_utils.ts";
 import {getFingerId} from "@/api/finger_utils.ts";
 import {ServiceEnums} from "@/components/enums/ServiceEnums.ts";
 
@@ -371,13 +371,47 @@ export function downloadData(data: any, name: string) {
 /**
  * 加载资源文件
  * @param url
+ * @param method
  */
-export async function blobData(url: string) {
+export async function blobData(url: string, method: string = "post") {
     let redata: any = null;
-    await service.post(url, [], {responseType: "blob"}).then((res) => {
-        redata = new Blob([res.data]);
-    });
+    if (method == "get") {
+        await service.get(url, {responseType: "blob"}).then((res) => {
+            redata = new Blob([res.data]);
+        });
+    } else {
+        await service.post(url, [], {responseType: "blob"}).then((res) => {
+            redata = new Blob([res.data]);
+        });
+    }
     return redata;
+}
+
+/**
+ * 下载文件
+ * @param fileUrl 文件路径
+ * @param fileName 文件名称
+ * @param method 请求方式
+ */
+export function downloadFile(fileUrl: string, fileName: string, method: string = "post") {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let blob = await blobData(fileUrl, method);
+            let delement = document.createElement("a");
+            let href = window.URL.createObjectURL(blob);
+            delement.href = href;
+            delement.download = fileName;        //下载后文件名
+            document.body.appendChild(delement);    //body中添加a标签
+            delement.click();       //点击a标签
+            document.body.removeChild(delement);   //移除a标签
+            window.URL.revokeObjectURL(href);      //释放掉blob对象
+            // downloadData(blob.data,fileName)
+            resolve(null);
+        } catch (e) {
+            reject(e);
+        }
+    })
+
 }
 
 /**

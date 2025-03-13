@@ -88,8 +88,8 @@
   import { ModelRef } from "vue-demi";
   import { useFlowDesign } from "@/store/FlowDesignStore.ts";
   import piniaInstance from "@/store";
-  import { copy, loadData } from "@/api/sh_api.ts";
-  import { downloadData } from "@/api/star_horse.ts";
+  import { copy, loadData } from "@/api/star_horse_utils.ts";
+  import { downloadData } from "@/api/star_horse_apis.ts";
   import { uuid } from "@/api/system.ts";
   import { warning } from "@/utils/message.ts";
   import { flowCommon } from "@/views/workflow/plugin/utils/flowCommon.ts";

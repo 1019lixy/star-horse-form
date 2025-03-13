@@ -1,14 +1,14 @@
 <script lang="ts" setup name="Header">
   import { computed, nextTick, onMounted, ref, unref } from "vue";
   import { Config } from "@/api/settings.ts";
-  import { postRequest, trim, userLogout } from "@/api/star_horse";
+  import { postRequest, trim, userLogout } from "@/api/star_horse_apis.ts";
   import { operationConfirm, error, success, warning } from "@/utils/message";
-  import { apiInstance, dialogPreps } from "@/api/sh_api.ts";
+  import { apiInstance, dialogPreps } from "@/api/star_horse_utils.ts";
   import { ApiUrls } from "@/components/types/ApiUrls";
   import { getCustomerInfo, getCustomerParam, getUserInfo } from "@/utils/auth";
   import { PageFieldInfo } from "@/components/types/PageFieldInfo";
   import { ElTable } from "element-plus";
-  import { closeLoad, filterTree, load } from "@/api/sh_api";
+  import { closeLoad, filterTree, load } from "@/api/star_horse_utils.ts";
   import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
   import StarHorseTableComp from "@/components/comp/StarHorseTableComp.vue";
   import { getLang, setLang } from "@/theme/localStorge.ts";

@@ -45,7 +45,7 @@
 </template>
 <script lang="ts">
   import { defineComponent, onMounted, shallowRef } from "vue";
-  import { dictData, loadData } from "@/api/sh_api.ts";
+  import { dictData, loadData } from "@/api/star_horse_utils.ts";
   import { error } from "@/utils/message.ts";
   import { SelectOption } from "@/components/types/SearchProps";
   import { allAction } from "@/components/formcomp/utils/ItemRelationEventUtils.ts";

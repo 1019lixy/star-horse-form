@@ -8,7 +8,7 @@
     loadData,
     loadMenusInfo,
     loadRolesInfo
-  } from "@/api/sh_api.ts";
+  } from "@/api/star_horse_utils.ts";
   import { ApiUrls } from "@/components/types/ApiUrls";
   import { Config } from "@/api/settings.ts";
   import { computed, onMounted, provide, reactive, ref } from "vue";

@@ -1,11 +1,11 @@
 <script setup lang="ts" name="Customer">
-  import { apiInstance, dialogPreps } from "@/api/sh_api.ts";
+  import { apiInstance, dialogPreps } from "@/api/star_horse_utils.ts";
   import { ApiUrls } from "@/components/types/ApiUrls";
   import { Config } from "@/api/settings.ts";
   import { onMounted, provide, reactive, ref } from "vue";
   import { SearchFields, SelectOption } from "@/components/types/SearchProps";
   import { PageFieldInfo } from "@/components/types/PageFieldInfo";
-  import { loadElementPlusIcon } from "@/api/sh_api";
+  import { loadElementPlusIcon } from "@/api/star_horse_utils.ts";
   //后端交互接口地址
   const dataUrl: ApiUrls = apiInstance("system-config", "system/customer");
   //查询属性

@@ -8,7 +8,7 @@ import piniaInstance from "@/store";
 import {SelectOption} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {uuid} from "@/api/system.ts";
-import {loadDict} from "@/api/star_horse.ts";
+import {loadDict} from "@/api/star_horse_apis.ts";
 
 const nodeCompRef = ref<any>();
 const nodeInfoRef = ref<any>();

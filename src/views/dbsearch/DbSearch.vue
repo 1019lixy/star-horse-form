@@ -1,9 +1,9 @@
 <script setup lang="ts" name="DbSearch">
   import StarHorseEditor from "@/components/system/StarHorseEditor.vue";
   import { onMounted, ref, unref, computed } from "vue";
-  import { closeLoad, commonParseCodeToName, load } from "@/api/sh_api";
+  import { closeLoad, commonParseCodeToName, load } from "@/api/star_horse_utils.ts";
   import { error, warning } from "@/utils/message";
-  import { download, getRequest, postRequest } from "@/api/star_horse";
+  import { download, getRequest, postRequest } from "@/api/star_horse_apis.ts";
   import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
   import Help from "@/components/help.vue";
   import { initDbList } from "@/views/dbsearch/utils/DbSearchUtils.ts";

@@ -9,7 +9,7 @@
   import { PageFieldInfo } from "@/components/types/PageFieldInfo.d.ts";
   import piniaInstance from "@/store";
   import { DesignGraph } from "@/store/DesignGraphStore.ts";
-  import { closeLoad, formFieldMapping, load } from "@/api/sh_api.ts";
+  import { closeLoad, formFieldMapping, load } from "@/api/star_horse_utils.ts";
   import Help from "@/components/help.vue";
   import ConsumerDbListComp from "@/views/dbsearch/utils/ConsumerDbListComp.vue";
   import StarHorseEditor from "@/components/system/StarHorseEditor.vue";

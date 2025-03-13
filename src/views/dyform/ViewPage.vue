@@ -1,10 +1,10 @@
 <script setup lang="ts">
   import { computed, onMounted, provide, reactive, ref, watch } from "vue";
-  import { apiInstance, closeLoad, dialogPreps, load } from "@/api/sh_api";
+  import { apiInstance, closeLoad, dialogPreps, load } from "@/api/star_horse_utils.ts";
   import { SearchProps } from "@/components/types/SearchProps";
   import DataPreview from "@/views/dyform/DataPreview.vue";
   import { analysisSearchData, viewColumns, viewDataList } from "@/views/dyform/utils/preview";
-  import { download } from "@/api/star_horse";
+  import { download } from "@/api/star_horse_apis.ts";
   import { error } from "@/utils/message";
   import { Config } from "@/api/settings.ts";
   import { DesignForm } from "@/store/DesignFormStore.ts";

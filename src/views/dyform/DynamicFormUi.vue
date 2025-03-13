@@ -1,11 +1,11 @@
 <script setup lang="ts" name="DynamicForm">
-  import { apiInstance, dbConfigList, dialogPreps } from "@/api/sh_api.ts";
+  import { apiInstance, dbConfigList, dialogPreps } from "@/api/star_horse_utils.ts";
   import { ApiUrls } from "@/components/types/ApiUrls";
   import { computed, nextTick, onMounted, provide, reactive, ref } from "vue";
   import { SearchFields, SelectOption } from "@/components/types/SearchProps";
   import { PageFieldInfo, UserFuncInfo } from "@/components/types/PageFieldInfo";
   import { useRouter } from "vue-router";
-  import { loadData } from "@/api/sh_api";
+  import { loadData } from "@/api/star_horse_utils.ts";
   import { Config } from "@/api/settings.ts";
   import { DesignForm } from "@/store/DesignFormStore.ts";
   import piniaInstance from "@/store/index.ts";

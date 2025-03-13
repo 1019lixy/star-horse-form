@@ -1,11 +1,11 @@
 <script setup lang="ts" name="Menusinfo">
-  import { apiInstance, dialogPreps } from "@/api/sh_api.ts";
+  import { apiInstance, dialogPreps } from "@/api/star_horse_utils.ts";
   import { ApiUrls } from "@/components/types/ApiUrls";
   import { Config } from "@/api/settings.ts";
   import { computed, onMounted, provide, reactive, ref, unref } from "vue";
   import { SearchFields, SelectOption } from "@/components/types/SearchProps";
-  import { closeLoad, createTree, dictData, load, loadData, loadElementPlusIcon, loadSystemInfo } from "@/api/sh_api";
-  import { postRequest } from "@/api/star_horse";
+  import { closeLoad, createTree, dictData, load, loadData, loadElementPlusIcon, loadSystemInfo } from "@/api/star_horse_utils.ts";
+  import { postRequest } from "@/api/star_horse_apis.ts";
   import { error, success, warning } from "@/utils/message";
   import { PageFieldInfo, UserFuncInfo } from "@/components/types/PageFieldInfo";
   import { TreeNodeData } from "element-plus/es/components/tree-v2/src/types";

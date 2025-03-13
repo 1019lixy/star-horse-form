@@ -3,7 +3,7 @@
 </template>
 <script setup lang="ts">
   import { onMounted, ref } from "vue";
-  import { closeLoad, loadGetData } from "@/api/sh_api.ts";
+  import { closeLoad, loadGetData } from "@/api/star_horse_utils.ts";
   import { SearchProps } from "@/components/types/SearchProps";
 
   const props = defineProps({

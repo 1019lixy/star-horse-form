@@ -1,13 +1,13 @@
 <script setup lang="ts">
   import { nextTick, onMounted, provide, reactive, ref, watch } from "vue";
-  import { apiInstance, closeLoad, createCondition, dialogPreps, load, loadGetData } from "@/api/sh_api";
+  import { apiInstance, closeLoad, createCondition, dialogPreps, load, loadGetData } from "@/api/star_horse_utils.ts";
   import { ApiUrls } from "@/components/types/ApiUrls";
   import { SearchProps } from "@/components/types/SearchProps";
   import { PageFieldInfo } from "@/components/types/PageFieldInfo";
   import { DesignForm } from "@/store/DesignFormStore.ts";
   import piniaInstance from "@/store/index.ts";
   import StarHorseForm from "@/components/comp/StarHorseForm.vue";
-  import { postRequest } from "@/api/star_horse.ts";
+  import { postRequest } from "@/api/star_horse_apis.ts";
   import { getUserInfo } from "@/utils/auth.ts";
 
   let designForm = DesignForm(piniaInstance);

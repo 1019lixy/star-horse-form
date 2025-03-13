@@ -1,6 +1,6 @@
 <script setup lang="ts" name="StarHorseHmenu">
   import { inject, onMounted, ref } from "vue";
-  import { postRequest } from "@/api/star_horse.ts";
+  import { postRequest } from "@/api/star_horse_apis.ts";
   import { getUserInfo } from "@/utils/auth.ts";
   import SystemSubMenu from "@/components/menu/SystemSubMenu.vue";
 

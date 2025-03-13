@@ -1,12 +1,12 @@
 <script setup lang="ts">
-  import { apiInstance, createCondition, dialogPreps, loadMenusInfo, loadSystemInfo } from "@/api/sh_api";
+  import { apiInstance, createCondition, dialogPreps, loadMenusInfo, loadSystemInfo } from "@/api/star_horse_utils.ts";
   import { ApiUrls } from "@/components/types/ApiUrls";
   import { Config } from "@/api/settings";
   import { computed, nextTick, onActivated, onDeactivated, onMounted, provide, reactive, ref } from "vue";
   import { SearchFields, SelectOption } from "@/components/types/SearchProps";
   import { PageFieldInfo } from "@/components/types/PageFieldInfo";
   import { createDatetime } from "@/api/date_utils.ts";
-  import { loadDict, postRequest } from "@/api/star_horse.ts";
+  import { loadDict, postRequest } from "@/api/star_horse_apis.ts";
   import StarHorseTree from "@/components/comp/StarHorseTree.vue";
   import { GlobalConfig } from "@/store/GlobalConfigStore.ts";
   import piniaInstance from "@/store";

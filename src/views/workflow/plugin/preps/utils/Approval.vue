@@ -4,8 +4,8 @@
   import { computed, onMounted, ref } from "vue";
   import { useFlowDesign } from "@/store/FlowDesignStore.ts";
   import piniaInstance from "@/store";
-  import { createCondition } from "@/api/sh_api.ts";
-  import { postRequest } from "@/api/star_horse.ts";
+  import { createCondition } from "@/api/star_horse_utils.ts";
+  import { postRequest } from "@/api/star_horse_apis.ts";
   import StarHorseDataSelector from "@/components/comp/StarHorseDataSelector.vue";
 
   const props = defineProps({

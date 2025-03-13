@@ -1,12 +1,12 @@
 <script setup lang="ts" name="MessageRecord">
-  import { apiInstance, dialogPreps } from "@/api/sh_api";
+  import { apiInstance, dialogPreps } from "@/api/star_horse_utils.ts";
   import { ApiUrls } from "@/components/types/ApiUrls";
   import { Config } from "@/api/settings";
   import { onMounted, provide, reactive, ref, onActivated, onDeactivated } from "vue";
   import { SearchFields, SelectOption } from "@/components/types/SearchProps";
   import { PageFieldInfo } from "@/components/types/PageFieldInfo";
   import { getCustomerParam } from "@/utils/auth";
-  import { loadDict } from "@/api/star_horse.ts";
+  import { loadDict } from "@/api/star_horse_apis.ts";
   //后端交互接口地址
   const dataUrl: ApiUrls = apiInstance("system-config", "system/messageRecord");
   //主键

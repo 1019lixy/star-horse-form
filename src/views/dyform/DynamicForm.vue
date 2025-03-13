@@ -12,10 +12,10 @@
     watch
   } from "vue";
   import PropertyPanel from "@/views/dyform/PropertyPanel.vue";
-  import { postRequest } from "@/api/star_horse";
+  import { postRequest } from "@/api/star_horse_apis.ts";
   import { operationConfirm, error, warning } from "@/utils/message";
   import { useRoute, useRouter } from "vue-router";
-  import { apiInstance, closeLoad, load, loadData } from "@/api/sh_api";
+  import { apiInstance, closeLoad, load, loadData } from "@/api/star_horse_utils.ts";
   import FieldAnalysis from "@/views/dyform/FieldAnalysis.vue";
   import FormPropertyPanel from "@/views/dyform/FormPropertyPanel.vue";
   import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";

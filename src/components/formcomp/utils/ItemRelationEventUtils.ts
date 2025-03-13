@@ -1,6 +1,6 @@
 import { error } from "@/utils/message.ts";
 import { userFunction } from "@/api/user_func.ts";
-import { createCondition } from "@/api/sh_api.ts";
+import { createCondition } from "@/api/star_horse_utils.ts";
 import piniaInstance from "@/store";
 import { useUserSelfOperation } from "@/store/SelfOperationStore.ts";
 import { DesignForm } from "@/store/DesignFormStore.ts";

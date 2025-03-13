@@ -1,8 +1,8 @@
 <script setup lang="ts" name="FormPropertyPanel">
   import { computed, onMounted, reactive, ref, watch } from "vue";
-  import { createCondition, dbConfigList, loadData, loadElementPlusIcon, loadSystemInfo } from "@/api/sh_api";
+  import { createCondition, dbConfigList, loadData, loadElementPlusIcon, loadSystemInfo } from "@/api/star_horse_utils.ts";
   import { SelectOption } from "@/components/types/SearchProps";
-  import { getRequest, loadDict, permissionMenus, postRequest } from "@/api/star_horse";
+  import { getRequest, loadDict, permissionMenus, postRequest } from "@/api/star_horse_apis.ts";
   import { DesignForm } from "@/store/DesignFormStore.ts";
   import piniaInstance from "@/store/index.ts";
   import { PageFieldInfo } from "@/components/types/PageFieldInfo";

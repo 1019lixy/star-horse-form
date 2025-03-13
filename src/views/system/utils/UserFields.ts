@@ -1,5 +1,5 @@
 import { SelectOption } from "@/components/types/SearchProps";
-import { dictData, loadDepartmentInfo, loadRolesInfo } from "@/api/sh_api.ts";
+import { dictData, loadDepartmentInfo, loadRolesInfo } from "@/api/star_horse_utils.ts";
 import { ref } from "vue";
 import { analysisData } from "@/api/deptment.ts";
 

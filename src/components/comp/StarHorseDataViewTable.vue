@@ -1,7 +1,7 @@
 <script setup lang="ts" name="StarHorseDataViewObject">
   import { PropType } from "vue";
   import { FieldInfo } from "@/components/types/PageFieldInfo";
-  import { rowClassName } from "@/api/sh_api";
+  import { rowClassName } from "@/api/star_horse_utils.ts";
   import { ModelRef } from "vue-demi";
   import { Config } from "@/api/settings.ts";
 

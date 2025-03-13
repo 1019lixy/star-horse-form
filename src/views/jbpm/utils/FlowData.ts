@@ -1,6 +1,6 @@
 import BpmnModeler from "bpmn-js/lib/Modeler";
 import TokenSimulationModule from "bpmn-js-token-simulation";
-import { postRequest } from "@/api/star_horse.ts";
+import { postRequest } from "@/api/star_horse_apis.ts";
 import { warning } from "@/utils/message.ts";
 import { markRaw, ref, unref, computed } from "vue";
 import { useFlowDesign } from "@/store/FlowDesignStore.ts";

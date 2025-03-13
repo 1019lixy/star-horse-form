@@ -1,7 +1,7 @@
 <script setup lang="ts" name="StarHorseButtonList">
 import {computed, onMounted, onUpdated, PropType, ref} from "vue";
 import {ApiUrls} from "@/components/types/ApiUrls";
-import {download} from "@/api/star_horse.ts";
+import {download} from "@/api/star_horse_apis.ts";
 import {error} from "@/utils/message.ts";
 import {DialogProps} from "../types/DialogProps";
 import {getToken} from "@/utils/auth.ts";

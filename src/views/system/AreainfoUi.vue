@@ -1,6 +1,6 @@
 <script setup lang="ts" name="Areainfo">
   import { ApiUrls } from "@/components/types/ApiUrls";
-  import { apiInstance, dialogPreps } from "@/api/sh_api.ts";
+  import { apiInstance, dialogPreps } from "@/api/star_horse_utils.ts";
   import { Config } from "@/api/settings.ts";
   import { onMounted, provide, reactive, ref } from "vue";
   import { SearchFields } from "@/components/types/SearchProps";

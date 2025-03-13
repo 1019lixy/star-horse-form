@@ -2,7 +2,7 @@
   import { ref } from "vue";
   import InstanceItemDetail from "@/views/continus/InstanceItemDetail.vue";
   import { ApiUrls } from "@/components/types/ApiUrls";
-  import { apiInstance } from "@/api/sh_api.ts";
+  import { apiInstance } from "@/api/star_horse_utils.ts";
 
   const apiUrl: ApiUrls = apiInstance("devops-continus", "continus/continusInstance");
   const primaryKey: string = "idContinusInst";

@@ -38,7 +38,7 @@
 </template>
 <script lang="ts">
   import { defineComponent, nextTick, onMounted, shallowRef } from "vue";
-  import { compDynamicData } from "@/api/sh_api.ts";
+  import { compDynamicData } from "@/api/star_horse_utils.ts";
   import { allAction } from "@/components/formcomp/utils/ItemRelationEventUtils.ts";
 
   export default defineComponent({

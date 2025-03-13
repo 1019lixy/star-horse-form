@@ -5,7 +5,7 @@
   import { computed, onMounted } from "vue";
   import { useFlowDesign } from "@/store/FlowDesignStore.ts";
   import piniaInstance from "@/store";
-  import { closeLoad } from "@/api/sh_api.ts";
+  import { closeLoad } from "@/api/star_horse_utils.ts";
   import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 
   defineOptions({

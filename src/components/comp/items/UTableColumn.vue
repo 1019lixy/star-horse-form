@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { Config } from "@/api/settings.ts";
-  import { batchFieldDefaultValues } from "@/api/sh_api.ts";
+  import { batchFieldDefaultValues } from "@/api/star_horse_utils.ts";
 
   defineProps({
     item: { type: Object, required: true },

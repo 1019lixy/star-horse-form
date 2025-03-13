@@ -1,6 +1,6 @@
-import { postRequest } from "@/api/star_horse";
+import { postRequest } from "@/api/star_horse_apis.ts";
 import { error } from "@/utils/message";
-import { closeLoad, load } from "@/api/sh_api";
+import { closeLoad, load } from "@/api/star_horse_utils.ts";
 import { SearchParams } from "@/components/types/Params";
 import { success } from "@/utils/message.ts";
 

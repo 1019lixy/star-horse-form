@@ -1,9 +1,9 @@
 import {useUserSelfOperation} from "@/store/SelfOperationStore.ts";
 import piniaInstance from "@/store";
-import {download, getRequest, postRequest, uploadRequest} from "@/api/star_horse.ts";
+import {download, getRequest, postRequest, uploadRequest} from "@/api/star_horse_apis.ts";
 import {getUserInfo} from "@/utils/auth.ts";
 import {Ref} from "vue";
-import {createCondition} from "@/api/sh_api.ts";
+import {createCondition} from "@/api/star_horse_utils.ts";
 import {success, warning} from "@/utils/message.ts";
 import {useRouter} from "vue-router";
 import {UserFuncInfo} from "@/components/types/PageFieldInfo";

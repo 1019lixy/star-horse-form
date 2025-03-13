@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { apiInstance, dialogPreps, dictData } from "@/api/sh_api";
+  import { apiInstance, dialogPreps, dictData } from "@/api/star_horse_utils.ts";
   import { ApiUrls } from "@/components/types/ApiUrls";
   import { Config } from "@/api/settings";
   import { nextTick, onActivated, onDeactivated, onMounted, provide, reactive, ref } from "vue";

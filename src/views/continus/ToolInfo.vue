@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import {onMounted, ref} from "vue";
-import {apiInstance, dictData} from "@/api/sh_api.ts";
+import {apiInstance, dictData} from "@/api/star_horse_utils.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
-import {postRequest} from "@/api/star_horse.ts";
+import {postRequest} from "@/api/star_horse_apis.ts";
 import {warning} from "@/utils/message.ts";
 import {SelectOption} from "@/components/types/SearchProps";
 

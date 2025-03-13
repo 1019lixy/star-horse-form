@@ -3,9 +3,9 @@
   import type { TreeNodeData } from "element-plus/es/components/tree/src/tree.type";
   import { type ElTree } from "element-plus";
   import { reactive, ref, watch } from "vue";
-  import { postRequest } from "@/api/star_horse";
+  import { postRequest } from "@/api/star_horse_apis.ts";
   import StarHorseDialog from "@/components/comp/StarHorseDialog.vue";
-  import { closeLoad } from "@/api/sh_api.ts";
+  import { closeLoad } from "@/api/star_horse_utils.ts";
   import { PageProps } from "@/components/types/PageProps";
 
   export type ModelValueType = any;

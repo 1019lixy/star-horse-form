@@ -65,7 +65,7 @@
   import { useFlowDesign } from "@/store/FlowDesignStore.ts";
   import piniaInstance from "@/store";
   import { FlowNodeEnums } from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
-  import { closeLoad } from "@/api/sh_api.ts";
+  import { closeLoad } from "@/api/star_horse_utils.ts";
   import { warning } from "@/utils/message.ts";
 
   const flowDesign = useFlowDesign(piniaInstance);

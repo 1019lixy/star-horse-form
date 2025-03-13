@@ -2,7 +2,7 @@
   import { onMounted, ref } from "vue";
   import { scale } from "@/views/workflow/plugin/utils/deviceUtil.ts";
   import { ApiUrls } from "@/components/types/ApiUrls";
-  import { apiInstance, createCondition } from "@/api/sh_api.ts";
+  import { apiInstance, createCondition } from "@/api/star_horse_utils.ts";
 
   const dataUrl: ApiUrls = apiInstance("flow-engine", "workflow/categoryItemConfig");
   const props = defineProps({

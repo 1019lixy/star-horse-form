@@ -3,7 +3,7 @@ import { computed } from "vue";
 import { DesignForm } from "@/store/DesignFormStore.ts";
 import piniaInstance from "@/store";
 import { SearchParams } from "@/components/types/Params";
-import { postRequest } from "@/api/star_horse.ts";
+import { postRequest } from "@/api/star_horse_apis.ts";
 
 const designForm = DesignForm(piniaInstance);
 // let containerList = computed(() => designForm.containerList);

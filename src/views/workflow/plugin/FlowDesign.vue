@@ -37,7 +37,7 @@
   import { scale } from "@/views/workflow/plugin/utils/deviceUtil.ts";
   import { useRouter } from "vue-router";
   import { ApiUrls } from "@/components/types/ApiUrls";
-  import { apiInstance } from "@/api/sh_api.ts";
+  import { apiInstance } from "@/api/star_horse_utils.ts";
 
   defineProps({
     saveBtnVisible: {

@@ -4,7 +4,7 @@ import { starhorseProcess } from "@/utils/starhorseProcess";
 import { Config } from "@/api/settings.ts";
 import { getToken } from "@/utils/auth";
 import piniaInstance from "@/store";
-import { restoreMenu } from "@/api/star_horse";
+import { restoreMenu } from "@/api/star_horse_apis.ts";
 import { navBarList } from "@/store/NavbarListStore";
 import { viewList } from "@/store/ViewCacheStore";
 

@@ -50,11 +50,11 @@
 import {defineComponent, onMounted, shallowRef,unref} from "vue";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {buttonAction} from "@/components/formcomp/utils/ItemRelationEventUtils.ts";
-import {httpRequest, postRequest} from "@/api/star_horse.ts";
+import {httpRequest, postRequest} from "@/api/star_horse_apis.ts";
 import {operationConfirm, warning} from "@/utils/message.ts";
 import {BtnAction, DynamicParamField} from "@/components/types/BtnAction";
 import {SearchParams} from "@/components/types/Params";
-import {createCondition} from "@/api/sh_api.ts";
+import {createCondition} from "@/api/star_horse_utils.ts";
 
 export default defineComponent({
   components: {StarHorseIcon},

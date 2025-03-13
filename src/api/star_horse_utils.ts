@@ -1,7 +1,7 @@
 import {JoinSearchParams, SearchInfo, SearchParams} from "@/components/types/Params";
 import {reactive, ShallowRef} from "vue";
 import {ElLoading} from "element-plus";
-import {download, getRequest, postRequest, uploadRequest} from "@/api/star_horse";
+import {download, getRequest, postRequest, uploadRequest} from "@/api/star_horse_apis.ts";
 import {error, operationConfirm, success, warning} from "@/utils/message";
 import {SelectOption} from "@/components/types/SearchProps";
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";

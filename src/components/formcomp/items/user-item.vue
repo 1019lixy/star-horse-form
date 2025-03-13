@@ -54,7 +54,7 @@
   import { defineComponent, nextTick, shallowRef } from "vue";
   import UserManage from "@/views/system/UserManage.vue";
   import { FieldMapping } from "@/components/types/PageFieldInfo";
-  import { isJson } from "@/api/sh_api.ts";
+  import { isJson } from "@/api/star_horse_utils.ts";
   import { warning } from "@/utils/message.ts";
   import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
   import { allAction } from "@/components/formcomp/utils/ItemRelationEventUtils.ts";

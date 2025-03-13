@@ -1,5 +1,5 @@
 <script lang="ts" name="StationSequence" setup>
-  import { apiInstance, createCondition, dialogPreps, loadData } from "@/api/sh_api";
+  import { apiInstance, createCondition, dialogPreps, loadData } from "@/api/star_horse_utils.ts";
   import { ApiUrls } from "@/components/types/ApiUrls";
   import { Config } from "@/api/settings";
   import { nextTick, onActivated, onDeactivated, onMounted, provide, reactive, ref } from "vue";

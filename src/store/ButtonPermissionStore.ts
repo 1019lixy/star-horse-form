@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import { RouteLocationNormalized } from "vue-router";
-import { postRequest, userLogout } from "@/api/star_horse.ts";
+import { postRequest, userLogout } from "@/api/star_horse_apis.ts";
 import { getUserInfo } from "@/utils/auth.ts";
 import { warning } from "@/utils/message.ts";
 

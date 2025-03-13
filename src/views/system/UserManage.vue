@@ -1,5 +1,5 @@
 <script setup lang="ts" name="UserManage">
-  import { apiInstance, createCondition, createTree, dialogPreps, loadData } from "@/api/sh_api";
+  import { apiInstance, createCondition, createTree, dialogPreps, loadData } from "@/api/star_horse_utils.ts";
   import { ApiUrls } from "@/components/types/ApiUrls";
   import { Config } from "@/api/settings";
   import { onMounted, provide, reactive, ref, onActivated, onDeactivated, computed, watch } from "vue";

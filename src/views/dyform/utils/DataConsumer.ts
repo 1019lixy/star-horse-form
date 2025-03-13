@@ -1,7 +1,7 @@
 import { reactive, Ref, ref } from "vue";
 import { PageFieldInfo } from "@/components/types/PageFieldInfo";
 import { SelectOption } from "@/components/types/SearchProps";
-import { searchMatchList } from "@/api/sh_api.ts";
+import { searchMatchList } from "@/api/star_horse_utils.ts";
 
 const tableVisible = ref<boolean>(true);
 const relationRequired = ref<boolean>(false);

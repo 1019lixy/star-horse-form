@@ -1,7 +1,7 @@
 import {nextTick, reactive, Ref, ref} from "vue";
 import {FieldInfo, PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {SelectOption} from "@/components/types/SearchProps";
-import {dictData, loadData, searchMatchList} from "@/api/sh_api.ts";
+import {dictData, loadData, searchMatchList} from "@/api/star_horse_utils.ts";
 import {ascOrDesc, dataType, httpMethod, validDataUrl} from "@/api/system.ts";
 import {error, success, warning} from "@/utils/message.ts";
 import {DesignForm} from "@/store/DesignFormStore.ts";

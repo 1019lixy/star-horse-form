@@ -1,10 +1,10 @@
 <script setup lang="ts" name="Rolesinfo">
-  import { apiInstance, dialogPreps } from "@/api/sh_api.ts";
+  import { apiInstance, dialogPreps } from "@/api/star_horse_utils.ts";
   import { ApiUrls } from "@/components/types/ApiUrls";
   import { Config } from "@/api/settings.ts";
   import { onMounted, provide, reactive, ref } from "vue";
   import { SearchFields, SelectOption } from "@/components/types/SearchProps";
-  import { loadDepartmentInfo, loadSystemInfo } from "@/api/sh_api";
+  import { loadDepartmentInfo, loadSystemInfo } from "@/api/star_horse_utils.ts";
   import { PageFieldInfo, UserFuncInfo } from "@/components/types/PageFieldInfo";
   import { isSystemManage } from "@/utils/auth.ts";
 

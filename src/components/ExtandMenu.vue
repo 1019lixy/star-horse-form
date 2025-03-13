@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { createRouterAndMenuList } from "@/api/star_horse";
+  import { createRouterAndMenuList } from "@/api/star_horse_apis.ts";
   import { computed, h, nextTick, onMounted, reactive, ref, unref, watch } from "vue";
   import { userInfoStore } from "@/store/UserInfoStore";
   import { MenusInfo } from "@/components/types/MenusInfo";

@@ -1,13 +1,13 @@
 <script setup lang="ts">
   import { onMounted, reactive, ref, unref } from "vue";
   import { SearchParams } from "@/components/types/Params";
-  import { closeLoad, createCondition, dialogPreps, isJson, loadData } from "@/api/sh_api.ts";
+  import { closeLoad, createCondition, dialogPreps, isJson, loadData } from "@/api/star_horse_utils.ts";
   import { createDatetime } from "../../../api/date_utils.ts";
   import { OrderByInfo, PageFieldInfo } from "@/components/types/PageFieldInfo";
   import websocket from "@/api/websocket.ts";
   import { getUserInfo } from "@/utils/auth.ts";
   import { message } from "@/utils/message.ts";
-  import { postRequest } from "@/api/star_horse.ts";
+  import { postRequest } from "@/api/star_horse_apis.ts";
 
   defineProps({
     compSize: { type: String, default: "small" }

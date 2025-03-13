@@ -1,5 +1,5 @@
 <script setup lang="ts" name="EnvInfo">
-  import { apiInstance, closeLoad, dialogPreps, dictData, load } from "@/api/sh_api.ts";
+  import { apiInstance, closeLoad, dialogPreps, dictData, load } from "@/api/star_horse_utils.ts";
   import { createDatetime } from "@/api/date_utils.ts";
   import { ApiUrls } from "@/components/types/ApiUrls";
   import { onMounted, provide, reactive, ref } from "vue";
@@ -7,7 +7,7 @@
   import { Config } from "@/api/settings.ts";
   import { OrderByInfo, PageFieldInfo, UserFuncInfo } from "@/components/types/PageFieldInfo.d.ts";
   import { initDbList, tableList } from "@/views/dbsearch/utils/DbSearchUtils.ts";
-  import { download } from "@/api/star_horse.ts";
+  import { download } from "@/api/star_horse_apis.ts";
   import { warning } from "@/utils/message.ts";
 
   const dataUrl: ApiUrls = apiInstance("code-generator", "generator/code");

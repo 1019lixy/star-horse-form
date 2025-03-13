@@ -1,4 +1,4 @@
-import { postRequest } from "@/api/star_horse";
+import { postRequest } from "@/api/star_horse_apis.ts";
 import { SelectOption } from "@/components/types/SearchProps";
 
 const deptAndUserTree: string = "/system-config/system/departmentEntity/deptAndUserTree";

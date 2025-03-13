@@ -1,5 +1,5 @@
 <script setup lang="ts" name="CompanyRole">
-  import { apiInstance, closeLoad, createCondition, dialogPreps, dictData, load } from "@/api/sh_api";
+  import { apiInstance, closeLoad, createCondition, dialogPreps, dictData, load } from "@/api/star_horse_utils.ts";
   import { ApiUrls } from "@/components/types/ApiUrls";
   import { Config } from "@/api/settings";
   import { computed, onActivated, onDeactivated, onMounted, provide, reactive, ref } from "vue";
@@ -12,7 +12,7 @@
   import { TreeNodeData } from "element-plus/es/components/tree-v2/src/types";
   import { error, success, warning } from "@/utils/message.ts";
   import { statusList } from "@/views/system/utils/UserFields.ts";
-  import { postRequest } from "@/api/star_horse.ts";
+  import { postRequest } from "@/api/star_horse_apis.ts";
   //后端交互接口地址
   const dataUrl: ApiUrls = apiInstance("system-config", "system/companyRole");
   dataUrl.condition = [createCondition("a.roleType", "common_role", "neq")];

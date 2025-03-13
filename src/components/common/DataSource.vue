@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import {onMounted, ref} from "vue";
 import {SelectOption} from "@/components/types/SearchProps";
-import {searchMatchList} from "@/api/sh_api.ts";
-import {loadDict} from "@/api/star_horse.ts";
+import {searchMatchList} from "@/api/star_horse_utils.ts";
+import {loadDict} from "@/api/star_horse_apis.ts";
 import {createData, dataSourceFields, validInterface} from "@/views/dyform/utils/ItemPreps.ts";
 import {error, warning} from "@/utils/message.ts";
 

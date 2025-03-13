@@ -13,8 +13,8 @@ import {
 } from "vue";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {error, success, warning} from "@/utils/message";
-import {postRequest} from "@/api/star_horse";
-import {closeLoad, formFieldMapping, isJson, load, loadById} from "@/api/sh_api";
+import {postRequest} from "@/api/star_horse_apis.ts";
+import {closeLoad, formFieldMapping, isJson, load, loadById} from "@/api/star_horse_utils.ts";
 import {DialogProps} from "@/components/types/DialogProps";
 import {BatchFieldInfo, FieldInfo, PageFieldInfo} from "@/components/types/PageFieldInfo";
 import StarHorseFormItem from "@/components/comp/StarHorseFormItem.vue";

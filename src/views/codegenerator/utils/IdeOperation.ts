@@ -1,4 +1,4 @@
-import { postRequest } from "@/api/star_horse.ts";
+import { postRequest } from "@/api/star_horse_apis.ts";
 import { SelectOption } from "@/components/types/SearchProps";
 
 const templateListUrl: string = "/code-generator/dynamic/code/templateList";

@@ -1,12 +1,12 @@
 <script setup lang="ts" name="DbBakeup">
-  import { apiInstance, dialogPreps, dictData } from "@/api/sh_api.ts";
+  import { apiInstance, dialogPreps, dictData } from "@/api/star_horse_utils.ts";
   import { ApiUrls } from "@/components/types/ApiUrls";
   import { onMounted, provide, reactive, ref } from "vue";
   import { SearchFields, SelectOption } from "@/components/types/SearchProps";
   import { PageFieldInfo, UserFuncInfo } from "@/components/types/PageFieldInfo";
   import { Config } from "@/api/settings.ts";
   import { initDbList } from "@/views/dbsearch/utils/DbSearchUtils.ts";
-  import { postRequest } from "@/api/star_horse.ts";
+  import { postRequest } from "@/api/star_horse_apis.ts";
   import { operationConfirm, success, warning } from "@/utils/message.ts";
   //后端交互接口地址
   const dataUrl: ApiUrls = apiInstance("userdb-manage", "dbsearch/dbBakeup");

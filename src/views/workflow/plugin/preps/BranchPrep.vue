@@ -5,7 +5,7 @@
   import { onMounted, ref, computed, onActivated, watch } from "vue";
   import { useFlowDesign } from "@/store/FlowDesignStore.ts";
   import piniaInstance from "@/store";
-  import { dictData, searchMatchList } from "@/api/sh_api.ts";
+  import { dictData, searchMatchList } from "@/api/star_horse_utils.ts";
   import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
   import { SelectOption } from "@/components/types/SearchProps";
   import { ModelRef } from "vue-demi";

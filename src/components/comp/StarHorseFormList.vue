@@ -2,9 +2,9 @@
   import { inject, nextTick, onMounted, PropType, ref, ShallowReactive } from "vue";
   import { ApiUrls } from "@/components/types/ApiUrls";
   import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-  import { rowClassName } from "@/api/sh_api";
+  import { rowClassName } from "@/api/star_horse_utils.ts";
   import { error, success, warning, operationConfirm } from "@/utils/message";
-  import { download } from "@/api/star_horse";
+  import { download } from "@/api/star_horse_apis.ts";
   import { getToken } from "@/utils/auth";
   import Sortable from "sortablejs";
   import Help from "@/components/help.vue";

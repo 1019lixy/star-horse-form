@@ -2,8 +2,8 @@
   import { inject, PropType, ref, ShallowReactive, watch } from "vue";
   import { ApiUrls } from "@/components/types/ApiUrls";
   import { error, success, warning } from "@/utils/message";
-  import { postRequest } from "@/api/star_horse";
-  import { closeLoad, load, loadById } from "@/api/sh_api";
+  import { postRequest } from "@/api/star_horse_apis.ts";
+  import { closeLoad, load, loadById } from "@/api/star_horse_utils.ts";
   import { DialogProps } from "@/components/types/DialogProps";
 
   const props = defineProps({

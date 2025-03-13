@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { apiInstance, createCondition, dialogPreps, dictData, loadRolesInfo } from "@/api/sh_api.ts";
+  import { apiInstance, createCondition, dialogPreps, dictData, loadRolesInfo } from "@/api/star_horse_utils.ts";
   import { computed, onMounted, provide, reactive, ref } from "vue";
   import { SearchFields, SelectOption } from "@/components/types/SearchProps";
   import { GlobalConfig } from "@/store/GlobalConfigStore.ts";

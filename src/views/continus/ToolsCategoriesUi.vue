@@ -1,5 +1,5 @@
 <script setup lang="ts" name="ToolsCategories">
-  import { apiInstance, dialogPreps } from "@/api/sh_api.ts";
+  import { apiInstance, dialogPreps } from "@/api/star_horse_utils.ts";
   import { ApiUrls } from "@/components/types/ApiUrls";
   import { onMounted, provide, reactive, ref } from "vue";
   import { SearchFields } from "@/components/types/SearchProps";

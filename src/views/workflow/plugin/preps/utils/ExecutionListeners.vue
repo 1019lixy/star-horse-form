@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { onMounted, ref } from "vue";
-  import { postRequest } from "@/api/star_horse.ts";
-  import { createCondition } from "@/api/sh_api.ts";
+  import { postRequest } from "@/api/star_horse_apis.ts";
+  import { createCondition } from "@/api/star_horse_utils.ts";
   import Help from "@/components/help.vue";
 
   const props = defineProps({

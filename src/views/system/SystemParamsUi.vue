@@ -1,5 +1,5 @@
 <script setup lang="ts" name="SystemParams">
-  import { apiInstance, dialogPreps } from "@/api/sh_api";
+  import { apiInstance, dialogPreps } from "@/api/star_horse_utils.ts";
   import { ApiUrls } from "@/components/types/ApiUrls";
   import { Config } from "@/api/settings";
   import { onActivated, onDeactivated, onMounted, provide, reactive, ref } from "vue";

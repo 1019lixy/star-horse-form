@@ -1,13 +1,13 @@
 <script setup lang="ts">
   import { computed, onMounted, provide, reactive, ref } from "vue";
-  import { apiInstance, closeLoad, createCondition, dialogPreps, load, loadData } from "@/api/sh_api.ts";
+  import { apiInstance, closeLoad, createCondition, dialogPreps, load, loadData } from "@/api/star_horse_utils.ts";
   import { error, success, warning } from "@/utils/message.ts";
   import { PageFieldInfo } from "@/components/types/PageFieldInfo";
   import { getRowIdentity } from "element-plus/es/components/table/src/util";
   import { GlobalConfig } from "@/store/GlobalConfigStore.ts";
   import piniaInstance from "@/store";
   import UserManage from "@/views/system/UserManage.vue";
-  import { postRequest } from "@/api/star_horse.ts";
+  import { postRequest } from "@/api/star_horse_apis.ts";
   import { SearchFields } from "@/components/types/SearchProps";
   import { Config } from "@/api/settings.ts";
   import { SearchParams } from "@/components/types/Params";

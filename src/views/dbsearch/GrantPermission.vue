@@ -2,7 +2,7 @@
   import { ApiUrls } from "@/components/types/ApiUrls";
   import { onMounted, provide, reactive, ref, nextTick } from "vue";
   import { SearchFields, SelectOption } from "@/components/types/SearchProps";
-  import { commonParseCodeToName, loadData, apiInstance, dialogPreps } from "@/api/sh_api";
+  import { commonParseCodeToName, loadData, apiInstance, dialogPreps } from "@/api/star_horse_utils.ts";
   import { createDatetime } from "@/api/date_utils.ts";
   import { warning } from "@/utils/message";
   import { Config } from "@/api/settings.ts";

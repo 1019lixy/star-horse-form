@@ -2,7 +2,7 @@
 import {onMounted, reactive, ref} from "vue";
 import {SelectOption} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
-import {loadDict} from "@/api/star_horse.ts";
+import {loadDict} from "@/api/star_horse_apis.ts";
 
 let repoList = ref<SelectOption[]>([]);
 let execTypeList = ref<SelectOption[]>([]);

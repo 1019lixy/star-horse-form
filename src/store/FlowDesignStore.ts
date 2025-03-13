@@ -3,7 +3,7 @@ import { ref } from "vue";
 import { addCondition, delBranchNode, delNode, updateMap, updateNode } from "@/views/workflow/plugin/utils/nodeUtil.ts";
 import { FlowNodeEnums } from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
 import { ApiUrls } from "@/components/types/ApiUrls";
-import { apiInstance } from "@/api/sh_api.ts";
+import { apiInstance } from "@/api/star_horse_utils.ts";
 import { nodePrepList } from "@/views/workflow/plugin/utils/nodePreps.ts";
 
 const dataUrl: ApiUrls = apiInstance("userdb-manage", "userdb/formInstance/shFlowNode/idFlowNode/337537414606095357");

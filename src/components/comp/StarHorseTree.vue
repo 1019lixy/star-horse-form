@@ -11,8 +11,8 @@
   import { warning } from "@/utils/message.ts";
   import { SearchParams } from "@/components/types/Params";
   import { OrderByInfo } from "@/components/types/PageFieldInfo";
-  import { postRequest } from "@/api/star_horse.ts";
-  import { closeLoad, createCondition, loadData } from "@/api/sh_api.ts";
+  import { postRequest } from "@/api/star_horse_apis.ts";
+  import { closeLoad, createCondition, loadData } from "@/api/star_horse_utils.ts";
   import { isSystemManage } from "@/utils/auth.ts";
   import { Config } from "@/api/settings.ts";
 

@@ -1,7 +1,7 @@
 import { reactive } from "vue";
 import { PageFieldInfo } from "@/components/types/PageFieldInfo";
 import { getCustomerParam } from "@/utils/auth.ts";
-import { dictData } from "@/api/sh_api.ts";
+import { dictData } from "@/api/star_horse_utils.ts";
 
 /**
  * 日历表单参数

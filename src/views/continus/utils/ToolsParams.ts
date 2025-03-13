@@ -4,8 +4,8 @@
 import {reactive, ref} from "vue";
 import {FieldInfo} from "@/components/types/PageFieldInfo";
 import {SelectOption} from "@/components/types/SearchProps";
-import {apiInstance, createCondition, createJoinCondition, loadData} from "@/api/sh_api.ts";
-import {loadDict, postRequest} from "@/api/star_horse.ts";
+import {apiInstance, createCondition, createJoinCondition, loadData} from "@/api/star_horse_utils.ts";
+import {loadDict, postRequest} from "@/api/star_horse_apis.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 
 const apiUrl: ApiUrls = apiInstance("userdb-manage", "userdb/formInstance/conToolManage/idToolManage/136");

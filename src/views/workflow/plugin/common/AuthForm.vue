@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { onMounted, ref, watch } from "vue";
   import FormPreview from "@/views/dyform/FormPreview.vue";
-  import { loadData } from "@/api/sh_api.ts";
+  import { loadData } from "@/api/star_horse_utils.ts";
   import { warning } from "@/utils/message.ts";
   import { useVModel } from "@vueuse/core";
 

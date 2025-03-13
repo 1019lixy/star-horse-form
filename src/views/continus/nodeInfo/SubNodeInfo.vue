@@ -5,8 +5,8 @@ import {SelectOption} from "@/components/types/SearchProps";
 import {compileTypeList, dataInit, extendCommonFields, loadPlugin} from "@/views/continus/utils/ToolsParams.ts";
 import StarHorseFormItem from "@/components/comp/StarHorseFormItem.vue";
 import {ModelRef} from "vue-demi";
-import {loadDict} from "@/api/star_horse.ts";
-import {loadProp} from "@/api/sh_api.ts";
+import {loadDict} from "@/api/star_horse_apis.ts";
+import {loadProp} from "@/api/star_horse_utils.ts";
 
 const props = defineProps({
   preps: {

@@ -12,7 +12,7 @@
   import { uuid } from "@/api/system.ts";
   import { getUserInfo } from "@/utils/auth.ts";
   import { calendarManage, defineType } from "@/views/system/calendar/CalendarProps.ts";
-  import { createCondition, deleteByIds, loadData } from "@/api/sh_api.ts";
+  import { createCondition, deleteByIds, loadData } from "@/api/star_horse_utils.ts";
   import { currentMonthRange, monthRange, currentDate } from "@/api/date_utils.ts";
   import { success, warning } from "@/utils/message.ts";
   import { SearchParams } from "@/components/types/Params";

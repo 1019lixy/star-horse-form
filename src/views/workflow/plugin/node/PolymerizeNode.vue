@@ -19,7 +19,7 @@
   import EditName from "@/views/workflow/plugin/common/EditName.vue";
   import { onMounted } from "vue";
   import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-  import { closeLoad } from "@/api/sh_api.ts";
+  import { closeLoad } from "@/api/star_horse_utils.ts";
   import { useFlowDesign } from "@/store/FlowDesignStore.ts";
   import piniaInstance from "@/store";
   import { warning } from "@/utils/message.ts";

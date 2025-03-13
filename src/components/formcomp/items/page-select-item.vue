@@ -1,8 +1,8 @@
 <script lang="ts">
 import {defineComponent, onMounted, ref, shallowRef, watch} from "vue";
 import {PageProps} from "@/components/types/PageProps";
-import {closeLoad, createCondition, load} from "@/api/sh_api";
-import {postRequest} from "@/api/star_horse";
+import {closeLoad, createCondition, load} from "@/api/star_horse_utils.ts";
+import {postRequest} from "@/api/star_horse_apis.ts";
 import {FieldMapping, OrderByInfo} from "@/components/types/PageFieldInfo";
 import {SearchParams} from "@/components/types/Params";
 import {allAction} from "@/components/formcomp/utils/ItemRelationEventUtils.ts";

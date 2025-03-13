@@ -1,8 +1,8 @@
 <script setup lang="ts" name="UserTransfer">
   import { onMounted, ref } from "vue";
   import { SelectOption } from "@/components/types/SearchProps";
-  import { postRequest } from "@/api/star_horse";
-  import { closeLoad } from "@/api/sh_api";
+  import { postRequest } from "@/api/star_horse_apis.ts";
+  import { closeLoad } from "@/api/star_horse_utils.ts";
   import { analysisData } from "@/api/deptment";
 
   const deptUserList = ref<SelectOption>([]);

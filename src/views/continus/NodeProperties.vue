@@ -1,5 +1,5 @@
 <script setup lang="ts" name="NodeProperties">
-  import { apiInstance, dialogPreps } from "@/api/sh_api.ts";
+  import { apiInstance, dialogPreps } from "@/api/star_horse_utils.ts";
   import { ApiUrls } from "@/components/types/ApiUrls";
   import { ref, reactive, provide, onMounted } from "vue";
   import { SearchFields } from "@/components/types/SearchProps";

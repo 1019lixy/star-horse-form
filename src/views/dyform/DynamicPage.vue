@@ -1,6 +1,6 @@
 <script lang="ts" setup name="DynamicPage">
   import { defineAsyncComponent, h, nextTick, onMounted, ref, render } from "vue";
-  import { apiInstance } from "@/api/sh_api";
+  import { apiInstance } from "@/api/star_horse_utils.ts";
   import Guides from "vue3-guides";
   import { VueInfiniteViewer } from "vue3-infinite-viewer";
   import { i18n } from "@/lang";
