@@ -210,7 +210,7 @@
     let params: SearchParams[] = [];
     let cond = createCondition("a.parentId", null, "is");
     cond.orOperList = [createCondition("a.parentId", "")];
-    let result = await loadData(dataUrl.userConditionUrl!, {
+    let result = await loadData(dataUrl.listConditionUrl!, {
       fieldList: params,
       orderBy: [{ fieldName: "seqSort", ascOrDesc: "asc" }]
     });

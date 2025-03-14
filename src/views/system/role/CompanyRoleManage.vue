@@ -17,7 +17,7 @@
   let configStore = GlobalConfig(piniaInstance);
   let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
   const dataUrl = apiInstance("system-config", "system/companyRole");
-  dataUrl.loadByPageUrl = "/system-config/system/companyRole/companyRoleUserList";
+  dataUrl.pageListUrl = "/system-config/system/companyRole/companyRoleUserList";
   //查询属性
   const searchFormData = reactive<SearchFields>({
     fieldList: [
@@ -95,7 +95,7 @@
     if (data) {
       conditions.push(...data);
     }
-    let result = await loadData(dataUrl.loadByPageUrl!, {
+    let result = await loadData(dataUrl.pageListUrl!, {
       fieldList: conditions
     });
     if (result.error) {

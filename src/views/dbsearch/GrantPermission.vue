@@ -210,7 +210,7 @@
       ];
       params.value.needField = [{ sourceField: "username", distField: "assignTo" }];
       params.value.dataUrl = {
-        loadByPageUrl: "/system-config/system/usersinfoEntity/pageList"
+        pageListUrl: "/system-config/system/usersinfoEntity/pageList"
       };
       params.value.primaryKey = "idUsersinfo";
     } else {
@@ -236,7 +236,7 @@
       ];
       params.value.needField = [{ sourceField: "roleCode", distField: "assignTo" }];
       params.value.dataUrl = {
-        loadByPageUrl: "/system-config/system/rolesinfoEntity/pageList"
+        pageListUrl: "/system-config/system/rolesinfoEntity/pageList"
       };
       params.value.primaryKey = "idRolesinfo";
     }

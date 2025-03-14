@@ -97,7 +97,7 @@
     });
   };
   const editPwd = async (row: any) => {
-    let data = await loadById(dataUrl.loadByIdUrl!, row[primaryKey], false, {});
+    let data = await loadById(dataUrl.loadByIdUrl!, row[primaryKey], {});
     console.log(dialogProps.bakeVisible3);
     dialogProps.bakeVisible3 = true;
     await nextTick();

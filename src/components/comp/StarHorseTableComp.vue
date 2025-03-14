@@ -484,7 +484,7 @@ const createParams = () => {
   if (commonPersons.value && commonPersons.value.length && !isSystemManage()) {
     searchTemp.push(createCondition("a.createdBy", commonPersons.value, "in"));
   }
-  if (!props.compUrl?.loadByPageUrl) {
+  if (!props.compUrl?.pageListUrl) {
     return;
   }
   let params: any = {
@@ -499,7 +499,8 @@ const createParams = () => {
  * 分页显示数据
  */
 const loadByPage = () => {
-  let url: string = props.compUrl?.loadByPageUrl as string;
+  let url: string = props.compUrl?.pageListUrl as string;
+  console.log("url", url);
   let params: any = createParams();
   if (props.compUrl?.redirect) {
     params = {
@@ -697,7 +698,7 @@ const getDatas = async (
   if (params && params.length > 0) {
     tempSearchParams.push(...params);
   }
-  let result = await loadData(url || props.compUrl?.userConditionUrl!, {
+  let result = await loadData(url || props.compUrl?.listConditionUrl!, {
     limits: limitSize,
     fieldList: tempSearchParams,
     orderBy: orderBys

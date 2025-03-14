@@ -7,31 +7,35 @@ export  type ApiUrls = {
     /**
      * 分页接口
      */
-    loadByPageUrl?: string,
+    pageListUrl: string,
     /**
      * merge接口
      */
-    mergeUrl?: string,
+    mergeUrl: string,
     /**
      * merge暂存接口
      */
-    mergeDraftUrl?: string,
+    mergeDraftUrl: string,
     /**
      * 批量Merge接口
      */
-    batchMergeUrl?: string,
+    batchMergeUrl: string,
     /**
      * 批量暂存接口
      */
-    batchMergeDraftUrl?: string,
+    batchMergeDraftUrl: string,
     /**
      * 根据Id获取数据接口
      */
-    loadByIdUrl?: string,
+    loadByIdUrl: string,
+    /**
+     * 根据Id获取数据接口
+     */
+    loadByIdForViewUrl: string,
     /**
      * 删除数据接口
      */
-    deleteUrl?: string,
+    deleteUrl: string,
     /**
      * 根据条件删除数据
      */
@@ -47,7 +51,7 @@ export  type ApiUrls = {
     /**
      * 自定义查询接口 返回满足条件的所有数据
      */
-    userConditionUrl?: string,
+    listConditionUrl?: string,
     /**
      * 自定义查询接口 返回满足条件的一条数据
      */

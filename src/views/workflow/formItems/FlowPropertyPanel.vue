@@ -186,7 +186,7 @@
       type: "dialog-input",
       params: {
         dataUrl: {
-          loadByPageUrl: ""
+          pageListUrl: ""
         },
         needField: [],
         fieldList: []
@@ -199,7 +199,7 @@
       type: "dialog-input",
       params: {
         dataUrl: {
-          loadByPageUrl: ""
+          pageListUrl: ""
         },
         needField: [],
         fieldList: []

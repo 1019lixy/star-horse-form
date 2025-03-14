@@ -333,17 +333,16 @@ export function commonParseCodeToName(name: string, cellValue: any) {
  * 加载Id数据
  * @param url
  * @param id
- * @param isView
  * @param params
  */
-export async function loadById(url: string, id: any, isView: boolean, params: any = {}) {
+export async function loadById(url: string, id: any, params: any = {}) {
     if (!url || "undefined" == id) {
         warning("请提供正确的数据");
         return;
     }
     let objData: any = {};
     const suffix: string = id ? "/" + id : "";
-    await postRequest(url + (isView ? "ForView" : "") + suffix, params).then((res) => {
+    await postRequest(url + suffix, params).then((res) => {
         const redata = res.data.data;
         if (!redata) {
             warning("未找到对应数据");
@@ -877,7 +876,6 @@ export async function dbConfigList(): Promise<SelectOption[]> {
 }
 
 
-
 /**
  * 公共Api接口
  * @param appName 应用名称
@@ -889,24 +887,25 @@ export function apiInstance(appName: string, urlPrefix: string, condition: Array
     const apiUrls: ApiUrls = {
         basePrefix: prefix,
         appName: appName,
-        loadByPageUrl: `${prefix}/pageList`,
+        pageListUrl: `${prefix}/pageList`,
         mergeUrl: `${prefix}/merge`,
         mergeDraftUrl: `${prefix}/mergeDraft`,
         batchMergeUrl: `${prefix}/mergeBatch`,
         batchMergeDraftUrl: `${prefix}/mergeBatchDraft`,
         loadByIdUrl: `${prefix}/getById`,
+        loadByIdForViewUrl: `${prefix}/getByIdForView`,
         deleteUrl: `${prefix}/batchDeleteById`,
         deleteByConditionUrl: `${prefix}/deleteByCondition`,
         exportAllUrl: `${prefix}/exportData`,
         downloadTemplateUrl: `${prefix}/downloadTemplate`,
-        userConditionUrl: `${prefix}/getAllByCondition`,
+        listConditionUrl: `${prefix}/getAllByCondition`,
         oneConditionUrl: `${prefix}/getOneByCondition`,
         importUrl: `${prefix}/importData`,
         uploadUrl: `${appName}/annex/upload/common`,
         condition: condition
     };
     apiUrls.pageAction = (params: SearchInfo) => {
-        return postRequest(apiUrls.loadByPageUrl!, params);
+        return postRequest(apiUrls.pageListUrl!, params);
     };
     apiUrls.mergeAction = (param: any) => {
         return postRequest(apiUrls.mergeUrl!, param);
@@ -921,7 +920,7 @@ export function apiInstance(appName: string, urlPrefix: string, condition: Array
         return postRequest(apiUrls.batchMergeDraftUrl!, param);
     };
     apiUrls.loadByIdAction = async (id: any, isView: boolean, params: any = {}) => {
-        return await loadById(apiUrls.loadByIdUrl!, id, isView, params);
+        return await loadById(isView?apiUrls.loadByIdForViewUrl!:apiUrls.loadByIdUrl!, id,  params);
     };
     apiUrls.deleteAction = async (params: any) => {
         return await deleteByIds(apiUrls.deleteUrl!, params);
@@ -936,7 +935,7 @@ export function apiInstance(appName: string, urlPrefix: string, condition: Array
         return await download(apiUrls.downloadTemplateUrl!, param || {});
     };
     apiUrls.queryConditionAction = async (params: SearchParams[] | any, orderBy: OrderByInfo[] = []) => {
-        return await loadData(apiUrls.userConditionUrl!, params, orderBy);
+        return await loadData(apiUrls.listConditionUrl!, params, orderBy);
     };
     apiUrls.queryOneByConditionAction = async (params: SearchParams[] | any, orderBy: OrderByInfo[] = []) => {
         return await loadData(apiUrls.oneConditionUrl!, params, orderBy);

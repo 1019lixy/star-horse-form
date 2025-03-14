@@ -206,7 +206,7 @@
       fieldList: searchParams,
       orderBy: orderBys
     };
-    postRequest(props.compUrl?.loadByPageUrl!, params)
+    postRequest(props.compUrl?.pageListUrl!, params)
       .then((res: any) => {
         if (!res || res.data.code != 0) {
           console.error(res?.data?.cnMessage || "接口异常");

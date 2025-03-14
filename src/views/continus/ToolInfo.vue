@@ -34,7 +34,7 @@ const getNode = () => {
 const init = async () => {
   nodeList.value = [];
   nodeTypeList.value = await dictData("CONTINUS_NODE_TYPE");
-  postRequest(apiUrl.userConditionUrl!, {}).then((res) => {
+  postRequest(apiUrl.listConditionUrl!, {}).then((res) => {
     let resData = res.data;
     if (resData?.code) {
       warning(resData.cnMessage);

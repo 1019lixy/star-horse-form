@@ -12,7 +12,7 @@ const templateList = ref<any>([]);
 let currentTemplate = ref<any>({});
 const loadTemplate = async () => {
   let fields = ["idTemplate", "templateName", "templateCode"];
-  let reData = await loadData(nodeCfgUrl.userConditionUrl!, {});
+  let reData = await loadData(nodeCfgUrl.listConditionUrl!, {});
   nodeList.value = reData?.data;
   postRequest(apiUrl.basePrefix + "/joinQuery", {
     limitFields: fields,

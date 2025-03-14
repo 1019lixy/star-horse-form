@@ -24,7 +24,7 @@
     dataForm.value = {};
   };
   const loadData = async () => {
-    dataForm.value = await loadById(props.compUrl!.loadByIdUrl!, dialogProps.ids, false);
+    dataForm.value = await loadById(props.compUrl!.loadByIdUrl!, dialogProps.ids);
     //解决关闭并再次打开不触发watch监听
     dialogProps.ids = -2;
   };

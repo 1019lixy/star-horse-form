@@ -50,9 +50,9 @@
     //如果是Json 对象
     if (isJson(id)) {
       params = { ...params, ...id };
-      objData = await loadById(props.compUrl?.loadByIdUrl!, "", true, params);
+      objData = await loadById(props.compUrl?.loadByIdForViewUrl!, "", params);
     } else {
-      objData = await loadById(props.compUrl?.loadByIdUrl!, id, true, params);
+      objData = await loadById(props.compUrl?.loadByIdForViewUrl!, id, params);
     }
     let data = formFieldMapping(props.fieldList);
     dataForm.value = objData;

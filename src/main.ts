@@ -31,7 +31,8 @@ import "v-md-editor/lib/theme/style/vuepress.css";
 import Prism from "prismjs";
 import "prismjs/components/prism-json.js";
 import hljs from "highlight.js";
-import VueParticles from "vue3-particles";
+import VueParticles from "@tsparticles/vue3";
+import {loadSlim} from "@tsparticles/slim";
 
 const app = createApp(App);
 // window.app = app;
@@ -50,7 +51,11 @@ app.use(userContainerComponent);
 app.use(containerComponent);
 app.use(nodeComponent);
 app.use(flowNodeComponent);
-app.use(VueParticles);
+app.use(VueParticles, {
+    init: async engine => {
+        await loadSlim(engine);
+    },
+});
 app.use(piniaInstance);
 app.use(router);
 VMEditor.use(vuepressTheme, {

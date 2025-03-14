@@ -110,9 +110,9 @@ const loadData = async () => {
   //如果是Json 对象
   if (isJson(id)) {
     params = {...params, ...id};
-    objData = await loadById(props.compUrl?.loadByIdUrl!, "", false, params);
+    objData = await loadById(props.compUrl?.loadByIdUrl!, "", params);
   } else {
-    objData = await loadById(props.compUrl?.loadByIdUrl!, id, false, params);
+    objData = await loadById(props.compUrl?.loadByIdUrl!, id, params);
   }
   // dataForm.value = {...objData};
 

@@ -11,7 +11,7 @@
   import { postRequest } from "@/api/star_horse_apis.ts";
   //后端交互接口地址
   const dataUrl: ApiUrls = apiInstance("system-config", "system/employeeInfo");
-  dataUrl.loadByPageUrl = "/system-config/system/employeeInfo/compRolePageList";
+  dataUrl.pageListUrl = "/system-config/system/employeeInfo/compRolePageList";
   dataUrl.deleteUrl = "/system-config/system/companyRolePkEmployee/batchDeleteById";
   const props = defineProps({
     showButton: { type: Boolean, default: true },

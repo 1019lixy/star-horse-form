@@ -305,7 +305,7 @@
     informationsList.value = await loadSystemInfo(params);
     openTypeList.value = await dictData("page_open_type");
     // await loadMenuBySystemId(true);
-    let { data } = await loadData(dataUrl.userConditionUrl!, params);
+    let { data } = await loadData(dataUrl.listConditionUrl!, params);
     if (data) {
       data.forEach((item: any) => {
         let temp: SelectOption = { name: item.menuName, value: item.dataNo };

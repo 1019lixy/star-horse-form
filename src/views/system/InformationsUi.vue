@@ -10,6 +10,7 @@
 
   let informationsList = ref<any>([]);
   const dataUrl: ApiUrls = apiInstance("system-config", "system/informationsEntity");
+  dataUrl.loadByIdUrl = dataUrl.basePrefix + "/getInformationById";
   let systemIconList = ref<SelectOption[]>([]);
   let customerList = ref<SelectOption[]>([]);
   const searchFormData = reactive<SearchFields>({
@@ -20,8 +21,7 @@
         defaultVisible: true,
         fieldName: "sysName",
         type: "input",
-        matchType: "lk",
-        minWidth: "200px"
+        matchType: "lk"
       },
       { label: "添加时间", fieldName: "createdDate", type: "daterange", matchType: "bt" }
     ]

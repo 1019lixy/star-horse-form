@@ -16,7 +16,6 @@
   import PageConfig from "@/components/PageConfig.vue";
   import { GlobalConfig } from "@/store/GlobalConfigStore.ts";
   import FixedMenu from "@/components/FixedMenu.vue";
-  import ExtandMenu from "@/components/ExtandMenu.vue";
 
   let configStore = GlobalConfig(piniaInstance);
   const route = router.getRoutes().find((item) => item.path == "/home");

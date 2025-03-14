@@ -18,7 +18,7 @@
   import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
   //后端交互接口地址
   const dataUrl: ApiUrls = apiInstance("system-config", "system/companyRole");
-  dataUrl.loadByPageUrl = "/system-config/system/companyRole/departRoleUserList";
+  dataUrl.pageListUrl = "/system-config/system/companyRole/departRoleUserList";
   //主键
   const companyRoleRef = ref();
   const companyRoleManageRef = ref();
@@ -168,7 +168,7 @@
     if (data) {
       conditions.push(...data);
     }
-    let result = await loadData(dataUrl.loadByPageUrl!, {
+    let result = await loadData(dataUrl.pageListUrl!, {
       fieldList: conditions
     });
     if (result.error) {

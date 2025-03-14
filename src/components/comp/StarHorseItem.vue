@@ -82,6 +82,7 @@ const compPreps = () => {
     readonly: props.item?.readonly || props.isView ? "Y" : "N"
   };
   itemType.value = props.item?.type || props.item?.fieldType || "input";
+  field.value.preps["itemType"] = itemType.value;
   field.value["isDesign"] = props.isDesign;
   field.value["bareFlag"] = props.bareFlag;
   field.value.preps["values"] = props.item?.optionList;
@@ -270,7 +271,7 @@ onMounted(() => {
   <div
       v-else
       class="comp-info"
-      :style="{ height: itemType != 'button' ? '100%' : 'inherit', width: item.minWidth || 'inherit' }"
+      :style="{ height: itemType != 'button' ? '100%' : 'inherit',minWidth:isSearch?'200px':'unset', width: item.minWidth || 'inherit' }"
   >
     <component
         :id="randId"
