@@ -1168,7 +1168,7 @@ const fieldMap: any = reactive({
             }
         ]
     },
-   /* code: {
+    code: {
         title: "代码块",
         tabName: "code",
         fieldList: [
@@ -1181,7 +1181,7 @@ const fieldMap: any = reactive({
                 listVisible: true
             }
         ]
-    }*/
+    }
 });
 let currentField = ref<FieldInfo[]>([fieldMap["form"]]);
 

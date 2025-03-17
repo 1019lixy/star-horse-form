@@ -24,9 +24,10 @@ const continusHost: string = "http://localhost:8859/";
 const userDbHost: string = "http://localhost:7758/";
 // const userDbHost:string = "http://192.168.20.204:7758/"
 // https://vitejs.dev/config/
-
+/**
+ * 此配置文件，非必需不要随便做修改，特别是打包相关的参数
+ */
 export default defineConfig((mode) => {
-    console.log("mode:", mode);
     let optimizeDepsList: string[] = [];
     if (mode.mode === "development") {
         optimizeDepsList = [
@@ -155,12 +156,6 @@ export default defineConfig((mode) => {
         plugins: [
             tailwindcss(),
             // vueDevTools(),
-            // Inspect({
-            //     // 可以配置一些选项，以下是一些常用选项的示例
-            //     dev: true,  // 是否启用该插件，默认为 true
-            //     build: true,   // 是否在构建时启用，默认为 false
-            //     outputDir: '.vite-inspect' // 输出目录，默认为 '.vite-inspect'
-            // }),
             vue({
                 script: {
                     // 开启 defineModel
@@ -190,12 +185,6 @@ export default defineConfig((mode) => {
                 iconDirs: [resolve(process.cwd(), "src/icons"), resolve(process.cwd(), "src/assets/icons/svg")],
                 symbolId: "icon-[dir]-[name]"
             }),
-            /* eslintPlugin({
-                       include: ["src/!**!/!*.js", "src/!**!/!*.vue", "src/!**!/!*.ts", "src/!**!/!*.tsx"],
-                       exclude: ["node_modules/!**", "dist/!**","jquery.min.js"],
-                       fix: true,
-                       cache: false
-                   }),*/
             // monacoEditorPlugin({ languageWorkers: ['editorWorkerService', 'typescript', 'json', 'html']}),
             //开启gzip,后端nginx 需要 gzip_static设置为on
             /* viteCompression({
@@ -230,25 +219,21 @@ export default defineConfig((mode) => {
         },
         cacheDir: "node_modules/.vite",
         build: {
-            // 👇 告诉打包工具 "vue-demi" 也是外部依赖项 👇
-            // external: ["vue", "element-plus", "vue-demi"],
-
+            //  告诉打包工具 "vue-demi" 也是外部依赖项
             rollupOptions: {
                 output: {
                     manualChunks(id: any) {
                         if (id.includes("node_modules")) {
-                            if (id.includes("monaco-editor")) return "monaco";
-                            if (id.includes("element-plus")) return "element-plus";
-                            if (id.includes("bpmn-js")) return "bpmn";
-                            if (id.includes("vue")) return "vue";
-                            if (id.includes("echarts")) return "echarts";
-                            // 将 codemirror 相关依赖合并打包
-                            if (/[\\/]node_modules[\\/](@codemirror|codemirror)/.test(id)) {
-                                return 'codemirror';
-                            }
-                            if (id.includes("sortablejs")) return "sortablejs";
-                            if (id.includes("jsencrypt")) return "jsencrypt";
-                            if (id.includes("jquery")) return "jquery";
+                            //此处不要随修改，否则很可能打包后代码不能正常运行
+                            if (id.includes('element-plus')) return 'element-plus';
+                            if (id.includes('echarts')) return 'echarts';
+                            if (id.includes('monaco-editor')) return 'monaco-editor';
+                            if (id.includes('bpmn-js')) return 'bpmn-js';
+                            if (id.includes('@wangeditor')) return 'wangeditor';
+                            if (id.includes('flv.js')) return 'flv';
+                            if (id.includes('gridstack')) return 'gridstack';
+                            if (id.includes('sortablejs')) return 'sortablejs';
+                            if (id.includes('lodash')) return 'lodash';
                             return "vendor";
                         }
                     }

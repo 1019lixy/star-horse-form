@@ -218,7 +218,7 @@ defineExpose({
 </script>
 <template>
   <div class="inner_button justify-between">
-    <el-menu mode="horizontal" :ellipsis="false" style="height: inherit; width: 90%">
+    <el-menu mode="horizontal" :ellipsis="false" style="height: inherit; flex: 1; ">
       <template v-for="(item, index) in btnList">
         <template v-if="item.children?.length > 0">
           <el-sub-menu :index="'1_' + index">
