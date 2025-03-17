@@ -28,7 +28,6 @@ const props = defineProps({
 });
 const emits = defineEmits(["addRow", "removeRow"]);
 const dataForm: ModelRef<any> = defineModel("dataForm");
-const normalTabList = ref<string>("tab0");
 
 /**
  * 列表添加行数据
@@ -76,7 +75,7 @@ onMounted(() => {
       <template v-for="(tabItem, key) in item.tabList">
         <el-tab-pane
             :label="tabItem.title"
-            v-if="Object.keys(tabItem).includes('disVisible') ? tabItem['disVisible'] : Object.keys(tabItem).length > 0"
+            v-if="tabItem['disVisible']??Object.keys(tabItem).length > 0"
             :name="tabItem.tabName || key"
             :disabled="tabItem.disabled"
             :index="checkObject(dataForm,tabItem,key,dataIndex,propPrefix)"
@@ -114,7 +113,7 @@ onMounted(() => {
   </template>
   <template v-else-if="item.batchFieldList?.length > 0">
     <template v-if="item.batchFieldList.length > 1 && (!item.displayStyle || item.displayStyle == 'tab')">
-      <el-tabs v-model="normalTabList" :type="item.type || ''">
+      <el-tabs v-model="item.fieldName" :type="item.type || ''">
         <template v-for="(sitem, key) in item.batchFieldList">
           <el-tab-pane
               v-if="sitem['disVisible']??Object.keys(sitem).length > 0"

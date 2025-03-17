@@ -22,11 +22,8 @@
   });
   const emits = defineEmits(["addRow", "removeRow"]);
   const dataForm: ModelRef<any> = defineModel("dataForm");
-  let tabModel = ref<string>("");
   const init = () => {
-    if (props.item && props.item[props.batchFieldName]?.length > 1) {
-      tabModel.value = props.item[props.batchFieldName][0].tabName;
-    }
+
   };
   /**
    * 列表添加行数据
@@ -49,7 +46,7 @@
 
 <template>
   <template v-if="item[batchFieldName]?.length > 1 && (!item.displayStyle || item.displayStyle == 'tab')">
-    <el-tabs v-model="tabModel">
+    <el-tabs v-model="item.fieldName">
       <template v-for="(temp, key) in item[batchFieldName]">
         <el-tab-pane
           :label="temp['title']"

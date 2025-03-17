@@ -505,6 +505,10 @@ const loadByPage = () => {
   if (props.compUrl?.redirect) {
     params = {
       url,
+      host: props.compUrl?.host,
+      port: props.compUrl?.port,
+      protocol: props.compUrl?.protocol,
+      env: props.compUrl?.env,
       httpMethod: props.compUrl?.httpMethod || "POST",
       dataType: props.compUrl?.dataType || "JSON",
       searchInfo: params
@@ -531,10 +535,9 @@ const loadByPage = () => {
       })
       .catch((err: any) => {
         console.log(err);
-      })
-      .finally(() => {
-        closeLoad();
-      });
+      }).finally(() => {
+    closeLoad();
+  });
 };
 const filterData = () => {
   let name = unref(inputFieldName) as string;

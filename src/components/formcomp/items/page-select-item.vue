@@ -58,7 +58,7 @@ export default defineComponent({
       if (orderBy) {
         orderByTemp = orderBy;
       }
-      if (!field.preps["dataUrl"]?.loadByPageUrl) {
+      if (!field.preps["dataUrl"]?.pageListUrl) {
         return;
       }
       let params: any = {
@@ -67,12 +67,16 @@ export default defineComponent({
         fieldList: searchData.value,
         orderBy: orderByTemp
       };
-      let url: string = field.preps.dataUrl?.loadByPageUrl;
+      let url: string = field.preps.dataUrl?.pageListUrl;
       if (field.preps.dataUrl.redirect) {
         params = {
           url,
-          httpMethod: field.preps?.httpMethod || "POST",
-          dataType: field.preps?.dataType || "JSON",
+          host: field.preps.dataUrl?.host,
+          port: field.preps.dataUrl?.port,
+          protocol: field.preps.dataUrl?.protocol,
+          env: field.preps.dataUrl?.env,
+          httpMethod: field.preps.dataUrl?.httpMethod || "POST",
+          dataType: field.preps.dataUrl?.dataType || "JSON",
           searchInfo: params
         };
         url = "/system-config/redirect/pageList";

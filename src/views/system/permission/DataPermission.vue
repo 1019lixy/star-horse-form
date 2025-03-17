@@ -114,7 +114,7 @@
         params: {
           primaryKey: "idUsersinfo",
           dataUrl: {
-            loadByPageUrl: "/system-config/system/usersinfoEntity/pageList"
+            pageListUrl: "/system-config/system/usersinfoEntity/pageList"
           },
           searchFieldList: {
             fieldList: [

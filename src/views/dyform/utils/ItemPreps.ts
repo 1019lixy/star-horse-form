@@ -661,11 +661,12 @@ export function urlFields() {
  * @param fieldName
  * @param item
  */
-export function paramsFields(fieldName: string, item: any, returnField: boolean = false) {
+export function paramsFields(paramsConfigRef: Ref<any>, fieldName: string, item: any, returnField: boolean = false) {
     let datas: any = [];
     if (Object.entries(item).length > 0) {
         datas = [...item["advancedFields"], ...item["fields"]];
     }
+    const disableUrl = ref<boolean>(false);
     let currentData: Array<any> = [];
     datas?.forEach((item) => {
         if (item.fieldName == fieldName) {
@@ -676,74 +677,98 @@ export function paramsFields(fieldName: string, item: any, returnField: boolean 
     const fields: Array<any> = [];
     const fieldList = ref<SelectOption[]>([]);
     const dataUrls: FieldInfo[] = [
-        {
-            label: "请求方式",
-            fieldName: "httpMethod",
-            type: "select",
-            defaultValue: "POST",
+        [
+            {
+                label: "系统环境",
+                fieldName: "env",
+                type: "select",
+                required: true,
+                defaultValue: "",
+                formVisible: true,
+                listVisible: true,
+                preps: {
+                    dataSource: "dict",
+                    urlOrDictName: "system_environment"
+                }
+            },
+            {
+                label: "请求方式",
+                fieldName: "httpMethod",
+                type: "select",
+                required: true,
+                defaultValue: "POST",
+                formVisible: true,
+                listVisible: true,
+                optionList: httpMethod()
+            },
+            {
+                label: "协议",
+                fieldName: "protocol",
+                type: "select",
+                required: true,
+                defaultValue: "http",
+                formVisible: true,
+                listVisible: true,
+                optionList: [
+                    {name: "HTTP", value: "http"},
+                    {name: "HTTPS", value: "https"}
+                ]
+            }
+        ],
+        [
+            {
+                label: "IP/域名/服务名",
+                fieldName: "host",
+                type: "input",
+                required: true,
+                formVisible: true,
+                listVisible: true,
+                preps: {
+                    colspan: 16
+                }
+            },
+            {
+                label: "端口",
+                fieldName: "port",
+                type: "number",
+                min: 1,
+                max: 65535,
+                formVisible: true,
+                listVisible: true,
+                preps: {
+                    colspan: 8
+                }
+            }
+        ],
+        [{
+            label: "接口地址",
+            fieldName: "interfaceUrl",
+            type: "input",
             required: true,
-            optionList: httpMethod(),
+            helpMsg: helpMsg,
             formVisible: true,
             preps: {
-                colspan: 10
+                appendAction: {
+                    icon: "valid",
+                    actions: async (val: any) => {
+                        val["dataSource"] = "url";
+                        await validOperation(val, paramsConfigRef, fieldList, disableUrl);
+                        console.log(fieldList.value)
+                    }
+                },
+                colspan: 16,
             }
-        },
-        {
-            label: "请求数据格式",
-            fieldName: "dataType",
-            type: "select",
-            defaultValue: "JSON",
-            formVisible: true,
-            required: true,
-            optionList: dataType(),
-            preps: {
-                colspan: 10
-            }
-        },
-        {
+        }, {
             label: "主键",
             fieldName: "primaryKey",
             type: "select",
-            helpMsg: "在列表中需用到",
-            formVisible: true,
             required: true,
             optionList: fieldList,
-            preps: {
-                colspan: 10
-            }
-        },
-        {
-            label: "验证",
-            fieldName: "urlValid",
-            type: "button",
-            preps: {
-                icon: "valid",
-                actionTitle: "验证",
-                colspan: 4
-            },
-            actions: async (val: any) => {
-                if (!val["interfaceUrl"]) {
-                    return;
-                }
-                const url = val["preinterfaceUrl"] + val["interfaceUrl"];
-                const result = await validDataUrl(url, {});
-                const datas: any = result.data;
-                const error = result.error;
-                if (error) {
-                    warning(error);
-                    return;
-                }
-                console.log(datas);
-                const data = datas[0];
-                const keys = Object.keys(data);
-                fieldList.value = [];
-                for (const ind in keys) {
-                    fieldList.value.push({name: keys[ind], value: keys[ind]});
-                }
-            },
-            required: true,
             formVisible: true,
-        }
+            preps: {
+                colspan: 8
+            }
+        },]
     ];
     const orderBys: FieldInfo[] = [
         {
@@ -811,30 +836,30 @@ export function paramsFields(fieldName: string, item: any, returnField: boolean 
             });
         }
     }
-    fields.push(urlBaseInfo);
-    fields.push(dataUrls);
+    // fields.push(urlBaseInfo);
+    fields.push(...dataUrls);
     if (otherField) {
         fields.push(...otherField);
     }
     const tabInfo = {
         fieldName: "fieldLists",
-        tabList: [
+        batchFieldList: [
             {
                 title: "显示属性",
                 tabName: "fieldLists",
-                objectName: "fieldLists",
+                batchName: "fieldLists",
                 fieldList: fieldLists
             },
             {
                 title: "回调字段",
                 tabName: "needField",
-                objectName: "needField",
+                batchName: "needField",
                 fieldList: needFields
             },
             {
                 title: "数据排序",
                 tabName: "orderBy",
-                objectName: "orderBy",
+                batchName: "orderBy",
                 fieldList: orderBys
             }
         ]
@@ -1097,7 +1122,7 @@ const fieldMap: any = reactive({
                 params: {
                     primaryKey: "idDynamicForm",
                     dataUrl: {
-                        loadByPageUrl: "userdb-manage/userdb/dynamicForm/pageList",
+                        pageListUrl: "userdb-manage/userdb/dynamicForm/pageList",
                     },
                     needField: [
                         {sourceField: "formName", distField: "formName"},

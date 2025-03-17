@@ -48,7 +48,7 @@ const flowFormFields = reactive<PageFieldInfo>({
       params: {
         primaryKey: "idDynamicForm",
         dataUrl: {
-          loadByPageUrl: "/userdb-manage/userdb/dynamicForm/pageList"
+          pageListUrl: "/userdb-manage/userdb/dynamicForm/pageList"
         },
         needField: [
           { sourceField: "formName", distField: "bindFormName" },
@@ -120,7 +120,7 @@ const flowFormFields = reactive<PageFieldInfo>({
       params: {
         primaryKey: "idEmployeeInfo",
         dataUrl: {
-          loadByPageUrl: "/system-config/system/employeeInfo/pageList"
+          pageListUrl: "/system-config/system/employeeInfo/pageList"
         },
         needField: [
           { sourceField: "name", distField: "flowManagerName" },

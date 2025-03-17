@@ -249,7 +249,7 @@ export function load(msg: string, defaultTarget?: string) {
     closeLoad();
     loading = ElLoading.service({
         lock: true,
-        target: defaultTarget || "#app",
+        target: defaultTarget ?? "#app",
         text: msg || "Loading...",
         background: "rgba(0, 0, 0, 0.7)"
     });
@@ -262,6 +262,7 @@ export function closeLoad() {
     if (loading) {
         loading.close();
         loading = null;
+        $(".el-loading-mask").remove();
     }
 }
 
@@ -920,7 +921,7 @@ export function apiInstance(appName: string, urlPrefix: string, condition: Array
         return postRequest(apiUrls.batchMergeDraftUrl!, param);
     };
     apiUrls.loadByIdAction = async (id: any, isView: boolean, params: any = {}) => {
-        return await loadById(isView?apiUrls.loadByIdForViewUrl!:apiUrls.loadByIdUrl!, id,  params);
+        return await loadById(isView ? apiUrls.loadByIdForViewUrl! : apiUrls.loadByIdUrl!, id, params);
     };
     apiUrls.deleteAction = async (params: any) => {
         return await deleteByIds(apiUrls.deleteUrl!, params);

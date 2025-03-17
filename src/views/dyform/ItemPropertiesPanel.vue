@@ -109,18 +109,20 @@ const paramsValid = async () => {
   if (!flag) {
     return;
   }
-  let formDdata = paramsConfigRef.value.getFormData();
-  for (let key in formDdata.value) {
-    formProps.value[key] = formDdata.value[key];
+  let formDdata = unref(paramsConfigRef.value.getFormData());
+  for (let key in formDdata) {
+    formProps.value[key] = formDdata[key];
   }
+  formProps.value["redirect"] = true;
   formProps.value["dataUrl"] = {
-    loadByPageUrl: formDdata.value["preinterfaceUrl"] + formDdata.value["interfaceUrl"],
     redirect: true,
-    condition: {
-      // url: formDdata.value["preinterfaceUrl"] + formDdata.value["interfaceUrl"],
-      httpMethod: formDdata.value.httpMethod,
-      params: formDdata.value.params
-    }
+    env: formDdata["env"],
+    host: formDdata["host"],
+    pageListUrl: formDdata["interfaceUrl"],
+    httpMethod: formDdata["httpMethod"],
+    port: formDdata["port"],
+    protocol: formDdata["protocol"],
+    params: formDdata.params
   };
   let searchFieldList: Array<any> = [];
   formProps.value["fieldLists"].forEach((item: any) => {
@@ -131,7 +133,9 @@ const paramsValid = async () => {
       searchFieldList.push({...item, matchType: "lk", defaultVisible: true});
     }
   });
-  formProps.value["searchFieldList"] = searchFieldList;
+  formProps.value["searchFieldList"] = {
+    fieldList: searchFieldList
+  };
   formProps.value["fieldList"] = {
     fieldList: formProps.value["fieldLists"]
   };
@@ -488,7 +492,7 @@ watch(
     <star-horse-form
         :outerFormData="formInfo"
         ref="paramsConfigRef"
-        :fieldList="paramsFields(fieldName, currentField)"
+        :fieldList="paramsFields(paramsConfigRef,fieldName, currentField)"
     />
   </star-horse-dialog>
   <star-horse-dialog

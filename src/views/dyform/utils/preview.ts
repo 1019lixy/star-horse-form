@@ -170,9 +170,13 @@ export function validDynamicFormCompParams(compList: Array<any>, isSubmit: boole
     const itemType = temp.itemType;
     if (itemType == "dialog-input" || itemType == "page-select") {
       const temp = "\n" + name + "组件必须在【属性面板->基础属性->参数配置】中";
-      if (!preps.dataUrl || !preps.dataUrl?.condition) {
+      if(!preps.dataUrl?.host) {
+        msg += ",配置IP地址或服务名";
+      }
+      if (!preps.dataUrl?.pageListUrl) {
         msg += ",配置Url地址";
       }
+
       if (!preps.fieldLists || preps.fieldLists?.length == 0) {
         msg += ",配置显示属性";
       }

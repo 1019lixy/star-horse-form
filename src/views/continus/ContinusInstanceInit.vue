@@ -9,6 +9,7 @@ import {SelectOption} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {uuid} from "@/api/system.ts";
 import {loadDict} from "@/api/star_horse_apis.ts";
+import NodeFields from "@/views/continus/utils/NodeFields.vue";
 
 const nodeCompRef = ref<any>();
 const nodeInfoRef = ref<any>();
@@ -20,6 +21,7 @@ const currentNodeIndex = ref<number>(-1);
 const continusStore = continusConfig(piniaInstance);
 const nodeInfo = computed(() => continusStore.nodeInfo);
 let currentCompName = ref<string>("PipelineCfg");
+let formNo = ref<string>("");
 const processList = ref<any>([]);
 let currentNode = ref<any>({});
 let execTypeList = ref<SelectOption[]>([]);
@@ -30,6 +32,8 @@ const pipelineNode: any = {
   nodeCode: "PipelineCfg",
   id: uuid()
 }
+//当前节点属性
+const currentFieldList = ref<PageFieldInfo>({fieldList: []});
 let nodeField = ref<PageFieldInfo>({
   fieldList: [
     [
@@ -96,7 +100,7 @@ const addNode = (currentIndex: number) => {
   addSubNode();
 };
 const editNode = async (node: any, currentIndex: number) => {
-  let result = await nodeCompRef.value?.valid();
+  let result = await nodeCompRef.value.getFormData();
   let nodeResult = true;
   if (nodeInfoRef.value) {
     nodeResult = await nodeInfoRef.value?.$refs.starHorseFormRef.validate();
@@ -104,9 +108,8 @@ const editNode = async (node: any, currentIndex: number) => {
   if (!result || !nodeResult) {
     return "error";
   }
-  let formData = nodeCompRef.value.getFormData().value;
   if (currentNodeIndex.value == -1) {
-    continusStore.addNodeInfo("pipelineCfg", formData);
+    continusStore.addNodeInfo("pipelineCfg", result);
   }
   let nodeData = nodeInfoRef.value?.getFormData().value;
   if (nodeData) {
@@ -115,7 +118,7 @@ const editNode = async (node: any, currentIndex: number) => {
       currentNode.value[key] = nodeData[key];
     }
   }
-  currentNode.value["dataList"] = formData;
+  currentNode.value["dataList"] = result;
   console.log(currentNode.value, node);
   //如果点击的是当前节点，则不做任何操作
   if (currentNode.value.id == node.id) {
@@ -123,6 +126,7 @@ const editNode = async (node: any, currentIndex: number) => {
   }
   currentNode.value = node;
   currentCompName.value = node.nodeCode;
+  formNo.value = node.dynamicFormNo;
   currentNodeIndex.value = currentIndex;
   return "ok";
 };
@@ -149,6 +153,7 @@ const dataSubmit = () => {
   processList.value.splice(index, 0, node);
   currentNodeIndex.value = index;
   currentCompName.value = node.nodeCode;
+  formNo.value = node.dynamicFormNo;
   currentNode.value = node;
   closeAction();
 };
@@ -327,9 +332,8 @@ watch(
         <star-horse-form ref="nodeInfoRef" class="build-cfg" :outerFormData="currentNode" :fieldList="nodeField"/>
       </div>
       <div class="flex-1 overflow-hidden">
-        <keep-alive>
-          <component :is="currentCompName" ref="nodeCompRef" :nodeInfo="currentNode"/>
-        </keep-alive>
+        <node-fields :formNo="formNo" ref="nodeCompRef"/>
+        <star-horse-form ref="nodeCompRef" :outerFormData="currentNode" :fieldList="currentFieldList"/>
       </div>
     </div>
   </el-card>

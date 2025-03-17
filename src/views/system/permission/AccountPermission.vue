@@ -70,7 +70,7 @@
         type: "page-select",
         params: {
           dataUrl: {
-            loadByPageUrl: "/system-config/system/usersinfoEntity/pageList"
+            pageListUrl: "/system-config/system/usersinfoEntity/pageList"
           },
           needField: [
             { sourceField: "username", distField: "userNameList" },
