@@ -145,39 +145,41 @@ const init = async () => {
     }
   }
   await nextTick(() => {
+    if (!codemirror.value) {
+      return;
+    }
+    let create = (_v: EditorView) => {
+      const dom = document.createElement("div");
+      return {dom};
+    };
+    editor.value = new EditorView({
+      doc: model.value,
+      extensions: [
+        basicSetup,
+        themesConf.of(editorTheme.value),
+        ...[windowCompletions, javaCompletions, jsCompletions],
+        keymap.of([...standardKeymap, ...historyKeymap, {key: "Tab", run: insertTab}]),
+        languageConf.of(editorLang.value),
+        autocompletion({activateOnTyping: true}),
+        EditorView.updateListener.of((v) => {
+          if (v.docChanged) {
+            model.value = v.state.doc.toString();
+            currentValFun(model.value);
+          }
+        }),
+        showMinimap.compute(["doc"], (_state: any) => {
+          return {
+            create,
+            displayText: "blocks",
+            showOverlay: "always",
+            gutters: [{1: "#00FF00", 2: "#00FF00"}]
+          };
+        })
+      ],
+      parent: codemirror.value
+    });
   });
-  let create = (_v: EditorView) => {
-    const dom = document.createElement("div");
-    return {dom};
-  };
-  editor.value = new EditorView({
-    doc: model.value,
-    extensions: [
-      basicSetup,
-      themesConf.of(editorTheme.value),
-      keymap.of([standardKeymap, historyKeymap, {key: "Tab", run: insertTab}]),
-      languageConf.of(editorLang.value),
-      autocompletion({activateOnTyping: true}),
-      windowCompletions,
-      javaCompletions,
-      jsCompletions,
-      EditorView.updateListener.of((v) => {
-        if (v.docChanged) {
-          model.value = v.state.doc.toString();
-          currentValFun(model.value);
-        }
-      }),
-      showMinimap.compute(["doc"], (_state: any) => {
-        return {
-          create,
-          displayText: "blocks",
-          showOverlay: "always",
-          gutters: [{1: "#00FF00", 2: "#00FF00"}]
-        };
-      })
-    ],
-    parent: codemirror.value
-  });
+
 };
 onMounted(async () => {
   await nextTick(() => {
@@ -218,7 +220,7 @@ defineExpose({
   <div class="inner_button justify-between">
     <el-menu mode="horizontal" :ellipsis="false" style="height: inherit; width: 90%">
       <template v-for="(item, index) in btnList">
-        <template v-if="item.children && item.children.length > 0">
+        <template v-if="item.children?.length > 0">
           <el-sub-menu :index="'1_' + index">
             <template #title>
               <el-tooltip class="item" :content="item.label" effect="dark" placement="bottom">

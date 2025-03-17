@@ -232,6 +232,7 @@ export default defineConfig((mode) => {
         build: {
             // 👇 告诉打包工具 "vue-demi" 也是外部依赖项 👇
             // external: ["vue", "element-plus", "vue-demi"],
+
             rollupOptions: {
                 output: {
                     manualChunks(id: any) {
@@ -241,7 +242,10 @@ export default defineConfig((mode) => {
                             if (id.includes("bpmn-js")) return "bpmn";
                             if (id.includes("vue")) return "vue";
                             if (id.includes("echarts")) return "echarts";
-                            if (id.includes("codemirror")) return "codemirror";
+                            // 将 codemirror 相关依赖合并打包
+                            if (/[\\/]node_modules[\\/](@codemirror|codemirror)/.test(id)) {
+                                return 'codemirror';
+                            }
                             if (id.includes("sortablejs")) return "sortablejs";
                             if (id.includes("jsencrypt")) return "jsencrypt";
                             if (id.includes("jquery")) return "jquery";
@@ -277,7 +281,11 @@ export default defineConfig((mode) => {
             sourcemap: mode.mode === "development",
             //自定义底层的 Rollup 打包配置
             //@rollup/plugin-commonjs 插件的选项
-            commonjsOptions: {},
+            commonjsOptions: {
+                // 强制包含CodeMirror相关模块
+                include: [/node_modules/, /@codemirror/],
+                transformMixedEsModules: true
+            },
             //构建的库
             // Vite项目 build打包后浏览器中可直接使用的方法 https://blog.csdn.net/weixin_54898878/article/details/129730628
             // lib: {},
