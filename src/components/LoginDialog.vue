@@ -1,16 +1,14 @@
 <script lang="ts" setup>
 import {Config} from "@/api/settings.ts";
-import {getValidateImg, rtCode, userLogin} from "@/api/star_horse_apis.ts";
+import {getValidateImg, userLogin} from "@/api/star_horse_apis.ts";
 import {JSEncrypt} from "jsencrypt";
-import {removeToken} from "@/utils/auth";
 import {onMounted, reactive, ref, watch} from "vue";
-import {RouteLocationNormalized, useRouter} from "vue-router";
-import type {ElForm, FormInstance, FormRules, TabsPaneContext} from "element-plus";
+import {useRouter} from "vue-router";
+import type {ElForm, FormInstance, FormRules} from "element-plus";
 import {warning} from "@/utils/message";
 import {i18n} from "@/lang";
 import {useGlobalConfigStore} from "@/store/GlobalConfig.ts";
 import piniaInstance from "@/store";
-import {particlesCfg} from "@/api/particlesConfig.ts";
 import StarHorseDialog from "@/components/comp/StarHorseDialog.vue";
 import {useUserInfoStore} from "@/store/UserInfo.ts";
 
@@ -93,8 +91,6 @@ const handleLogin = async (elForm: FormInstance | undefined, event: Event) => {
   });
 };
 const refreshValidate = () => {
-  removeToken();
-  configStore.clearAll();
   getValidateImg().then((res) => {
     let record = res.data.data;
     validateImg.value = record.img;
@@ -104,10 +100,15 @@ const refreshValidate = () => {
   });
 };
 onMounted(() => {
-  refreshValidate();
 });
-let rtCodeimg = ref("");
-
+watch(
+    () => loginDialogVisible.value,
+    (val) => {
+      if (val) {
+        refreshValidate();
+      }
+    }, {immediate: true, deep: true}
+)
 /**
  * 其它方式登录
  * @param typeName

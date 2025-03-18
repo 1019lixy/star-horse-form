@@ -5,7 +5,7 @@ import {getUserInfo} from "@/utils/auth.ts";
 import {Ref} from "vue";
 import {createCondition} from "@/api/star_horse_utils.ts";
 import {success, warning} from "@/utils/message.ts";
-import {useRouter} from "vue-router";
+import router from "@/router";
 import {UserFuncInfo} from "@/components/types/PageFieldInfo";
 
 /**
@@ -63,7 +63,7 @@ export const userFunction = (code: string, context: any) => {
         uploadRequest
     );
 };
-const router = useRouter();
+
 
 /**
  * 用户自定义按钮

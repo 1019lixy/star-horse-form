@@ -67,5 +67,6 @@ export function setToken(token: string, rememberMe: any) {
 }
 
 export function removeToken() {
+  alert("token");
   sessionStorage.removeItem(Config.TokenKey);
 }
