@@ -3,7 +3,7 @@ import { SearchInfo, SearchParams } from "@/components/types/Params";
 import { createCondition, isJson, loadData } from "@/api/star_horse_utils.ts";
 import { SelectOption } from "@/components/types/SearchProps";
 import { useDark, useToggle } from "@vueuse/core";
-import { GlobalConfig } from "@/store/GlobalConfigStore.ts";
+import { useGlobalConfigStore } from "@/store/GlobalConfig.ts";
 import piniaInstance from "@/store";
 import { v4 as uuidv4 } from "uuid";
 import { FieldInfo } from "@/components/types/PageFieldInfo";
@@ -15,7 +15,7 @@ import App from "@/App.vue";
 
 const validUrl: string = "/userdb-manage/redirect/valid";
 const redirectUrl: string = "/userdb-manage/redirect/valid";
-const configStore = GlobalConfig(piniaInstance);
+const configStore = useGlobalConfigStore(piniaInstance);
 
 /**
  * UUID

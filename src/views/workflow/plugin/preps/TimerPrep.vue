@@ -31,7 +31,7 @@
 <script setup lang="ts">
   import FlowDrawerFooter from "@/views/workflow/plugin/common/DrawerFooter.vue";
   import { ref, computed } from "vue";
-  import { useFlowDesign } from "@/store/FlowDesignStore.ts";
+  import { useFlowDesignStore } from "@/store/FlowDesign.ts";
   import piniaInstance from "@/store";
   import { ModelRef } from "vue-demi";
   import { SelectOption } from "@/components/types/SearchProps";
@@ -50,7 +50,7 @@
   ]);
   let node: ModelRef<any> = defineModel("activeData");
   const timerNodeRef = ref();
-  const flowDesign = useFlowDesign(piniaInstance);
+  const flowDesign = useFlowDesignStore(piniaInstance);
   const onClose = () => {
     flowDesign.setActive(false);
   };

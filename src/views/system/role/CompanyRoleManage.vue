@@ -4,7 +4,7 @@
   import { error, success, warning } from "@/utils/message.ts";
   import { PageFieldInfo } from "@/components/types/PageFieldInfo";
   import { getRowIdentity } from "element-plus/es/components/table/src/util";
-  import { GlobalConfig } from "@/store/GlobalConfigStore.ts";
+  import { useGlobalConfigStore } from "@/store/GlobalConfig.ts";
   import piniaInstance from "@/store";
   import UserManage from "@/views/system/UserManage.vue";
   import { postRequest } from "@/api/star_horse_apis.ts";
@@ -14,7 +14,7 @@
   import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
   import RoleUserList from "@/views/system/comp/RoleUserList.vue";
 
-  let configStore = GlobalConfig(piniaInstance);
+  let configStore = useGlobalConfigStore(piniaInstance);
   let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
   const dataUrl = apiInstance("system-config", "system/companyRole");
   dataUrl.pageListUrl = "/system-config/system/companyRole/companyRoleUserList";

@@ -1,11 +1,11 @@
 import { uuid } from "@/api/system.ts";
 import { computed } from "vue";
-import { DesignForm } from "@/store/DesignFormStore.ts";
+import { useDesignFormStore } from "@/store/DesignForm.ts";
 import piniaInstance from "@/store";
 import { SearchParams } from "@/components/types/Params";
 import { postRequest } from "@/api/star_horse_apis.ts";
 
-const designForm = DesignForm(piniaInstance);
+const designForm = useDesignFormStore(piniaInstance);
 // let containerList = computed(() => designForm.containerList);
 // let formDataList = computed(() => designForm.formDataList);
 // let selfFormDataList = computed(() => designForm.selfFormDataList);

@@ -18,13 +18,13 @@
   import { computed, onMounted } from "vue";
   import { FlowNodeEnums } from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
   import { closeLoad } from "@/api/star_horse_utils.ts";
-  import { useFlowDesign } from "@/store/FlowDesignStore.ts";
+  import { useFlowDesignStore } from "@/store/FlowDesign.ts";
   import piniaInstance from "@/store";
 
   defineOptions({
     name: "DivideNode"
   });
-  const flowDesign = useFlowDesign(piniaInstance);
+  const flowDesign = useFlowDesignStore(piniaInstance);
   const props = defineProps({
     node: {
       type: Object,

@@ -12,14 +12,14 @@
   import EndPrep from "@/views/workflow/plugin/preps/EndPrep.vue";
   import { flowCommon } from "@/views/workflow/plugin/utils/flowCommon.ts";
   import EditName from "@/views/workflow/plugin/common/EditName.vue";
-  import { useFlowDesign } from "@/store/FlowDesignStore.ts";
+  import { useFlowDesignStore } from "@/store/FlowDesign.ts";
   import piniaInstance from "@/store";
 
   let headerStyle = ref<any>({
     background: "linear-gradient(89.96deg,#fa6f32 .05%,#fb9337 79.83%)",
     "border-radius": "0px 0px 0 0"
   });
-  const flowDesign = useFlowDesign(piniaInstance);
+  const flowDesign = useFlowDesignStore(piniaInstance);
   let activeNode = computed(() => flowDesign.currentNode);
   let activePanel = computed(() => flowDesign.active);
   const panels = ref<any>({

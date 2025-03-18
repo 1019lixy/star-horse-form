@@ -3,9 +3,9 @@
   import { warning } from "@/utils/message.ts";
   import { initDbList, openDatabase, tableColumns } from "@/views/dbsearch/utils/DbSearchUtils.ts";
   import { convertToCamelCase, isJson } from "@/api/star_horse_utils.ts";
-  import { DesignForm } from "@/store/DesignFormStore.ts";
+  import { useDesignFormStore } from "@/store/DesignForm.ts";
   import piniaInstance from "@/store";
-  import { GlobalConfig } from "@/store/GlobalConfigStore.ts";
+  import { useGlobalConfigStore } from "@/store/GlobalConfig.ts";
   import Help from "@/components/help.vue";
   import { PageFieldInfo } from "@/components/types/PageFieldInfo.d.ts";
   import { SelectOption } from "@/components/types/SearchProps.d.ts";
@@ -13,8 +13,8 @@
   import StarHorseDialog from "@/components/comp/StarHorseDialog.vue";
   import { BtnAuth } from "@/components/types/BtnAuth";
 
-  let configStore = GlobalConfig(piniaInstance);
-  let designForm = DesignForm(piniaInstance);
+  let configStore = useGlobalConfigStore(piniaInstance);
+  let designForm = useDesignFormStore(piniaInstance);
   let allFormDataList = computed(() => designForm.allFormDataList);
   let compSize = computed(() => configStore.configFormInfo?.buttonSize || "small");
   let dbIndex = ref<any>(null);

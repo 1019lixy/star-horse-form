@@ -1,7 +1,7 @@
 <script setup lang="ts" name="box-container">
   import { ComponentInternalInstance, computed, getCurrentInstance, PropType, watch } from "vue";
   import { warning } from "@/utils/message";
-  import { DesignForm } from "@/store/DesignFormStore.ts";
+  import { useDesignFormStore } from "@/store/DesignForm.ts";
   import piniaInstance from "@/store/index.ts";
 
   const props = defineProps({
@@ -11,7 +11,7 @@
     field: { type: Object as PropType<any> }
   });
   const update = getCurrentInstance() as ComponentInternalInstance | null;
-  let designForm = DesignForm(piniaInstance);
+  let designForm = useDesignFormStore(piniaInstance);
   let draggingItem = computed(() => designForm.draggingItem);
   // let itemType = ref('container');
   let isEdit = computed(() => designForm.isEdit);

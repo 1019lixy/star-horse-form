@@ -2,7 +2,7 @@
   import { apiInstance, dialogPreps, dictData, loadRolesInfo, loadSystemInfo } from "@/api/star_horse_utils.ts";
   import { computed, onMounted, provide, reactive, ref } from "vue";
   import { SearchFields, SelectOption } from "@/components/types/SearchProps";
-  import { GlobalConfig } from "@/store/GlobalConfigStore.ts";
+  import { useGlobalConfigStore } from "@/store/GlobalConfig.ts";
   import piniaInstance from "@/store";
   import { TreeNodeData } from "element-plus/es/components/tree-v2/src/types";
   import { ApiUrls } from "@/components/types/ApiUrls";
@@ -16,7 +16,7 @@
   const dataUrl: ApiUrls = apiInstance("system-config", "system/rolesPkAppinfo");
   const appinfoPermission = ref();
   let rolesList = ref<SelectOption[]>();
-  let configStore = GlobalConfig(piniaInstance);
+  let configStore = useGlobalConfigStore(piniaInstance);
   let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
   let currentUserGroupId = ref<number>(0);
   let defaultCondition = ref<SearchParams[]>([]);

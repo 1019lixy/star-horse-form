@@ -14,16 +14,16 @@ import {
   relationDataField,
   validInterface
 } from "@/views/dyform/utils/ItemPreps.ts";
-import {DesignForm} from "@/store/DesignFormStore.ts";
+import {useDesignFormStore} from "@/store/DesignForm.ts";
 import piniaInstance from "@/store/index.ts";
 import {error, success, warning} from "@/utils/message.ts";
-import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
+import {useGlobalConfigStore} from "@/store/GlobalConfig.ts";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import StarHorseFormItem from "@/components/comp/StarHorseFormItem.vue";
 import {Config} from "@/api/settings.ts";
 import {loadDict} from "@/api/star_horse_apis.ts";
 
-let designForm = DesignForm(piniaInstance);
+let designForm = useDesignFormStore(piniaInstance);
 let formDataList = computed(() => designForm.formDataList);
 let containerList = computed(() => designForm.containerList);
 let selfFormDataList = computed(() => designForm.selfFormDataList);
@@ -34,7 +34,7 @@ const currentItemId = computed(() => designForm.currentItemId);
 let currentItemType = computed(() => designForm.currentItemType);
 let currentCompCategory = computed(() => designForm.currentCompCategory);
 let parentCompType = computed(() => designForm.parentCompType);
-let configStore = GlobalConfig(piniaInstance);
+let configStore = useGlobalConfigStore(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
 let currentField = ref<any>({});
 let jsEditor = ref<boolean>(false);

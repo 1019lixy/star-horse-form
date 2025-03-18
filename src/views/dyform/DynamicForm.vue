@@ -21,14 +21,14 @@
   import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
   import Help from "@/components/help.vue";
   import { dynamicFormHelpMessage, formActions } from "@/views/dyform/utils/DynamicForm.ts";
-  import { DesignForm } from "@/store/DesignFormStore.ts";
+  import { useDesignFormStore } from "@/store/DesignForm.ts";
   import piniaInstance from "@/store/index.ts";
   import { validDynamicFormCompParams } from "@/views/dyform/utils/preview.ts";
   import CodeComp from "@/views/dyform/code/CodeComp.vue";
-  import { useButtonPermission } from "@/store/ButtonPermissionStore.ts";
-  import { useUserSelfOperation } from "@/store/SelfOperationStore.ts";
+  import { useButtonPermissionStore } from "@/store/ButtonPermission.ts";
+  import { useSelfOperationStore } from "@/store/SelfOperation.ts";
   import { batchModifyAction } from "@/api/system.ts";
-  import { GlobalConfig } from "@/store/GlobalConfigStore.ts";
+  import { useGlobalConfigStore } from "@/store/GlobalConfig.ts";
   import { delCacheData, getCacheData, setCacheData } from "@/api/cached_utils.ts";
   import { i18n } from "@/lang";
   import { Config } from "@/api/settings.ts";
@@ -39,12 +39,12 @@
   import { compFieldInit } from "@/views/dyform/utils/FieldOperationUtils.ts";
 
   const dataUrl = apiInstance("userdb-manage", "userdb/dynamicForm");
-  let designForm = DesignForm(piniaInstance);
+  let designForm = useDesignFormStore(piniaInstance);
   let route = useRoute();
   let router = useRouter();
-  let pagePermission = useButtonPermission(piniaInstance);
-  let userOperation = useUserSelfOperation(piniaInstance);
-  let configStore = GlobalConfig(piniaInstance);
+  let pagePermission = useButtonPermissionStore(piniaInstance);
+  let userOperation = useSelfOperationStore(piniaInstance);
+  let configStore = useGlobalConfigStore(piniaInstance);
   let permissions = ref<any>({});
   let compSize = computed(() => configStore.configFormInfo?.buttonSize || Config.compSize);
   let draggingItem = computed(() => designForm.draggingItem);

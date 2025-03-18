@@ -276,6 +276,7 @@ declare module 'vue' {
     Locale: typeof import('./src/components/Locale.vue')['default']
     Login: typeof import('./src/components/Login.vue')['default']
     LoginDev: typeof import('./src/components/LoginDev.vue')['default']
+    LoginDialog: typeof import('./src/components/LoginDialog.vue')['default']
     LoginPrd: typeof import('./src/components/LoginPrd.vue')['default']
     MapItem: typeof import('./src/components/formcomp/charts/map-item.vue')['default']
     MarkdownItem: typeof import('./src/components/formcomp/items/markdown-item.vue')['default']

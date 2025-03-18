@@ -14,24 +14,21 @@
   import { getLang, setLang } from "@/theme/localStorge.ts";
   import { LangType } from "@/theme/theme.ts";
   import { i18n } from "../lang";
-  import { GlobalConfig } from "@/store/GlobalConfigStore.ts";
+  import { useGlobalConfigStore } from "@/store/GlobalConfig.ts";
   import piniaInstance from "@/store";
-  import { userInfoStore } from "@/store/UserInfoStore.ts";
-  // import {configInfo} from "@/items/sh_design.ts";
+  import { useUserInfoStore } from "@/store/UserInfo.ts";
   import { toggleDark } from "@/api/system.ts";
   import { Moon, Sunny } from "@element-plus/icons-vue";
   import { useRouter } from "vue-router";
   import MessageItem from "@/components/comp/items/messageItem.vue";
-
-  const userStore = userInfoStore(piniaInstance);
+  const userStore = useUserInfoStore(piniaInstance);
   const shortcutMenuList = ref<Array<any>>([]);
   let systemName = Config.title;
   let userInfo = getUserInfo();
   let permissionMenuList = ref<Array<any>>([]);
   const shortcutMultipleTable = ref<InstanceType<typeof ElTable>>();
-  let editUserinfoRef = ref();
   const dataUrl: ApiUrls = apiInstance("system-config", "system/dictinfoEntity", [getCustomerParam()]);
-  let configStore = GlobalConfig(piniaInstance);
+  let configStore = useGlobalConfigStore(piniaInstance);
   let router = useRouter();
   const emits = defineEmits(["changeLang", "layoutConfig"]);
   const dialogProps = dialogPreps();
@@ -274,8 +271,8 @@
           <template #dropdown>
             <el-dropdown-menu>
               <el-dropdown-item>
-                <span>{{ userInfo.name }}</span>
-                <p>({{ userInfo.username }})</p>
+                <span>{{ useUserInfoStore.name }}</span>
+                <p>({{ useUserInfoStore.username }})</p>
               </el-dropdown-item>
               <el-dropdown-item divided class="clearfix" @click="modifyInfo">
                 <star-horse-icon icon-class="user-circle" color="var(--star-horse-style)" />

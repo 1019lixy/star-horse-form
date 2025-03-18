@@ -7,11 +7,11 @@
   import { success, warning } from "@/utils/message";
   import { Config } from "@/api/settings.ts";
   import { PageFieldInfo } from "@/components/types/PageFieldInfo";
-  import { GlobalConfig } from "@/store/GlobalConfigStore.ts";
+  import { useGlobalConfigStore } from "@/store/GlobalConfig.ts";
   import piniaInstance from "@/store";
 
   const dataUrl: ApiUrls = apiInstance("userdb-manage", "dbsearch/dbinfoEntity");
-  let configStore = GlobalConfig(piniaInstance);
+  let configStore = useGlobalConfigStore(piniaInstance);
   let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
   let dbTypeList = ref<Array<any>>([]);
   const searchFormData = reactive<SearchFields>({

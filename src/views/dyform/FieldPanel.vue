@@ -1,11 +1,11 @@
 <script setup lang="ts" name="FieldPanel">
   import { computed, ref } from "vue";
-  import { DesignForm } from "@/store/DesignFormStore.ts";
+  import { useDesignFormStore } from "@/store/DesignForm.ts";
   import piniaInstance from "@/store/index.ts";
   import DbListComp from "@/views/dbsearch/utils/DbListComp.vue";
   import { fieldCopy } from "@/views/dyform/utils/FieldOperationUtils.ts";
 
-  let designForm = DesignForm(piniaInstance);
+  let designForm = useDesignFormStore(piniaInstance);
   let formDataList = computed(() => designForm.formDataList);
   let containerList = computed(() => designForm.containerList);
   let selfFormDataList = computed(() => designForm.selfFormDataList);

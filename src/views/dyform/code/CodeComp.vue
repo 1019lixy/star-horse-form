@@ -1,8 +1,8 @@
 <script setup lang="ts">
   import { computed, onMounted, ref } from "vue";
-  import { GlobalConfig } from "@/store/GlobalConfigStore.ts";
+  import { useGlobalConfigStore } from "@/store/GlobalConfig.ts";
   import piniaInstance from "@/store";
-  import { DesignForm } from "@/store/DesignFormStore.ts";
+  import { useDesignFormStore } from "@/store/DesignForm.ts";
   import Vue3 from "@/views/dyform/code/Vue3.vue";
   import Vue2 from "@/views/dyform/code/Vue2.vue";
   import React from "@/views/dyform/code/React.vue";
@@ -10,8 +10,8 @@
   import { warning } from "@/utils/message.ts";
   import { Config } from "@/api/settings.ts";
 
-  let configStore = GlobalConfig(piniaInstance);
-  let designForm = DesignForm(piniaInstance);
+  let configStore = useGlobalConfigStore(piniaInstance);
+  let designForm = useDesignFormStore(piniaInstance);
   let compList = computed(() => designForm.compList);
   let formInfo = computed(() => designForm.formInfo);
   let formData = computed(() => designForm.formData);

@@ -2,7 +2,7 @@
   import FlowNode from "@/views/workflow/plugin/node/FlowNode.vue";
   import FlowAddNode from "@/views/workflow/plugin/node/AddNode.vue";
   import DeleteConfirm from "@/views/workflow/plugin/common/DeleteConfirm.vue";
-  import { useFlowDesign } from "@/store/FlowDesignStore.ts";
+  import { useFlowDesignStore } from "@/store/FlowDesign.ts";
   import piniaInstance from "@/store";
   import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
   import { FlowNodeEnums } from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
@@ -25,7 +25,7 @@
   const selectNode = (node: any) => {
     emits("selectNode", node);
   };
-  const flowDesign = useFlowDesign(piniaInstance);
+  const flowDesign = useFlowDesignStore(piniaInstance);
   const delCallback = (_conditionNode: any) => {
     let currNode = {
       id: props.node.pid

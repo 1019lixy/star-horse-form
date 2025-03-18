@@ -4,12 +4,12 @@ import {SelectOption} from "@/components/types/SearchProps";
 import {dictData, loadData, searchMatchList} from "@/api/star_horse_utils.ts";
 import {ascOrDesc, dataType, httpMethod, validDataUrl} from "@/api/system.ts";
 import {error, success, warning} from "@/utils/message.ts";
-import {DesignForm} from "@/store/DesignFormStore.ts";
+import {useDesignFormStore} from "@/store/DesignForm.ts";
 import piniaInstance from "@/store";
 import {validRulesList} from "@/api/valid_utils.ts";
 import {matchesType} from "react-dnd-html5-backend/dist/matchesType";
 
-const designForm = DesignForm(piniaInstance);
+const designForm = useDesignFormStore(piniaInstance);
 
 const helpMsg = `
     接口返回的数据格式必须是：

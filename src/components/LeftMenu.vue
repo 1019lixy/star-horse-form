@@ -1,17 +1,17 @@
 <script setup lang="ts">
 import {createRouterAndMenuList, permissionMenus} from "@/api/star_horse_apis.ts";
 import {computed, nextTick, onMounted, reactive, ref, unref, watch} from "vue";
-import {userInfoStore} from "@/store/UserInfoStore";
+import {useUserInfoStore} from "@/store/UserInfo.ts";
 import {MenusInfo} from "@/components/types/MenusInfo";
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import SubMenu from "@/components/menu/SubMenu.vue";
 import {filterTree} from "@/api/star_horse_utils.ts";
 import piniaInstance from "@/store";
-import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
+import {useGlobalConfigStore} from "@/store/GlobalConfig.ts";
 import {Config} from "@/api/settings.ts";
 
-let userInfo = userInfoStore(piniaInstance);
-let configStore = GlobalConfig(piniaInstance);
+let userInfoStore = useUserInfoStore(piniaInstance);
+let configStore = useGlobalConfigStore(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
 const emits = defineEmits(["collopseOperation"]);
 let leftMenuDatas = ref<MenusInfo[]>([]);
@@ -55,7 +55,7 @@ const search = ref<string>("");
 const systemMenu = ref();
 const filterTableData = computed(() => filterTree(search.value, leftMenuDatas.value));
 onMounted(async () => {
-  let menus = userInfo.permissionMenus;
+  let menus = userInfoStore.permissionMenus;
   if (menus.length == 0) {
     await loadMenus("-1");
   } else {

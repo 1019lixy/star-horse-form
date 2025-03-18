@@ -27,7 +27,7 @@
   import { computed, defineModel, defineOptions, ref, watch } from "vue";
   import FlowDrawerFooter from "@/views/workflow/plugin/common/DrawerFooter.vue";
   import AuthForm from "@/views/workflow/plugin/common/AuthForm.vue";
-  import { useFlowDesign } from "@/store/FlowDesignStore.ts";
+  import { useFlowDesignStore } from "@/store/FlowDesign.ts";
   import piniaInstance from "@/store";
   import { ModelRef } from "vue-demi";
   import ExecutionListeners from "@/views/workflow/plugin/preps/utils/ExecutionListeners.vue";
@@ -38,7 +38,7 @@
   });
   let activeTab = ref<string>("basic");
   let node: ModelRef<any> = defineModel("activeData");
-  const flowDesign = useFlowDesign(piniaInstance);
+  const flowDesign = useFlowDesignStore(piniaInstance);
   const flowFormInfo = computed(() => flowDesign.flowFormInfo);
   node.value.content = computed(() => {
     let privilege = node.value.privilege;

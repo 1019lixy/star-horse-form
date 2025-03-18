@@ -4,7 +4,7 @@
   import { ModelRef } from "vue-demi";
   import SubSystemMenu from "@/components/menu/SubSystemMenu.vue";
   import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-  import { GlobalConfig } from "@/store/GlobalConfigStore.ts";
+  import { useGlobalConfigStore } from "@/store/GlobalConfig.ts";
   import piniaInstance from "@/store";
   import { PageProps } from "@/components/types/PageProps";
   import { ApiUrls } from "@/components/types/ApiUrls";
@@ -60,7 +60,7 @@
     showDropdown: { type: Boolean, default: true }
   });
   const emits = defineEmits(["selectData", "changeCollapse", "addData", "removeData"]);
-  let configStore = GlobalConfig(piniaInstance);
+  let configStore = useGlobalConfigStore(piniaInstance);
   let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
   const treeRef = ref<any>();
   const menuTreeRef = ref<any>();

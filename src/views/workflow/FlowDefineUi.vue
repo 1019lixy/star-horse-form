@@ -6,7 +6,7 @@
   import { SearchFields, SelectOption } from "@/components/types/SearchProps";
   import { PageFieldInfo, UserFuncInfo } from "@/components/types/PageFieldInfo";
   import { useRouter } from "vue-router";
-  import { useFlowDesign } from "@/store/FlowDesignStore.ts";
+  import { useFlowDesignStore } from "@/store/FlowDesign.ts";
   import piniaInstance from "@/store";
   import { formVisibleTypeList } from "@/views/workflow/utils/FlowFormUtils.ts";
 
@@ -19,7 +19,7 @@
   const primaryKey = "idFlowDefine";
   const flowDefineRef = ref();
   const router = useRouter();
-  const flowDesign = useFlowDesign(piniaInstance);
+  const flowDesign = useFlowDesignStore(piniaInstance);
   //定义表单的所有属性
   const formFields = reactive<object>({});
   provide("formFields", formFields);

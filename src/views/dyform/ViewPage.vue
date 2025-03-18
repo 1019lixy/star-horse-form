@@ -7,16 +7,16 @@
   import { download } from "@/api/star_horse_apis.ts";
   import { error } from "@/utils/message";
   import { Config } from "@/api/settings.ts";
-  import { DesignForm } from "@/store/DesignFormStore.ts";
+  import { useDesignFormStore } from "@/store/DesignForm.ts";
   import piniaInstance from "@/store/index.ts";
-  import { GlobalConfig } from "@/store/GlobalConfigStore.ts";
+  import { useGlobalConfigStore } from "@/store/GlobalConfig.ts";
 
-  let designForm = DesignForm(piniaInstance);
+  let designForm = useDesignFormStore(piniaInstance);
   const props = defineProps({
     param: { type: String, required: true },
     isPreview: { type: Boolean, default: false }
   });
-  let configStore = GlobalConfig(piniaInstance);
+  let configStore = useGlobalConfigStore(piniaInstance);
   let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
 
   const dataUrl = apiInstance("userdb-manage", "consumer/api");

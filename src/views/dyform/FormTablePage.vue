@@ -3,12 +3,12 @@
   import { apiInstance, closeLoad, dialogPreps, load, loadGetData } from "@/api/star_horse_utils.ts";
   import { ApiUrls } from "@/components/types/ApiUrls";
   import { useRoute, useRouter } from "vue-router";
-  import { navBarList } from "@/store/NavbarListStore";
+  import { useNavBarListStore } from "@/store/NavBarList.ts";
   import { SearchProps } from "@/components/types/SearchProps";
   import { PageFieldInfo } from "@/components/types/PageFieldInfo";
   import { Config } from "@/api/settings.ts";
 
-  const navBarListStore = navBarList();
+  const navBarListStore = useNavBarListStore();
   const router = useRouter();
   const starHorseTableCompRef = ref();
   const currentRoute = useRoute();

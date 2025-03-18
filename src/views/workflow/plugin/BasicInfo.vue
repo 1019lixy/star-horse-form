@@ -3,7 +3,7 @@
   import { dictData } from "@/api/star_horse_utils.ts";
   import StarHorseForm from "@/components/comp/StarHorseForm.vue";
   import { flowFormFields, setFlowGroups } from "@/views/workflow/utils/FlowFormUtils.ts";
-  import { useFlowDesign } from "@/store/FlowDesignStore.ts";
+  import { useFlowDesignStore } from "@/store/FlowDesign.ts";
   import piniaInstance from "@/store";
 
   defineProps({
@@ -21,7 +21,7 @@
     }
   });
   let flowFormRef = ref();
-  const flowDesign = useFlowDesign(piniaInstance);
+  const flowDesign = useFlowDesignStore(piniaInstance);
   const formInfo = computed(() => flowDesign.flowFormInfo);
   const init = async () => {
     let data = await dictData("flow_group");

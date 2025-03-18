@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 import { DynamicNode } from "@/components/types/DynamicNode";
 
-export const DesignPage = defineStore("DesignPage", () => {
+export const useDesignPageStore = defineStore("designPage", () => {
   const nodeList = ref<Array<DynamicNode>>([]);
   const currentNode = ref<DynamicNode>({});
   const isEdit = ref<boolean>(false);

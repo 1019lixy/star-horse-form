@@ -2,8 +2,8 @@ import { defineStore } from "pinia";
 import { RouteRecordNormalized } from "vue-router";
 import { ref } from "vue";
 
-export const viewList = defineStore(
-  "viewList",
+export const useViewCacheStore = defineStore(
+  "viewCache",
   () => {
     const viewListDatas = ref<Array<string>>([]);
 

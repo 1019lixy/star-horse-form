@@ -3,14 +3,14 @@
   import { createCondition, dbConfigList, loadData, loadElementPlusIcon, loadSystemInfo } from "@/api/star_horse_utils.ts";
   import { SelectOption } from "@/components/types/SearchProps";
   import { getRequest, loadDict, permissionMenus, postRequest } from "@/api/star_horse_apis.ts";
-  import { DesignForm } from "@/store/DesignFormStore.ts";
+  import { useDesignFormStore } from "@/store/DesignForm.ts";
   import piniaInstance from "@/store/index.ts";
   import { PageFieldInfo } from "@/components/types/PageFieldInfo";
   import StarHorseForm from "@/components/comp/StarHorseForm.vue";
   import { Config } from "@/api/settings.ts";
   import { commonField, httpMethod } from "@/api/system.ts";
 
-  let designForm = DesignForm(piniaInstance);
+  let designForm = useDesignFormStore(piniaInstance);
   let formInfo = computed(() => designForm.formInfo);
   let dynamicFormItemRef = ref();
   let dbList = ref<any>([]);

@@ -2,7 +2,7 @@
   import { uuid } from "@/api/system.ts";
   import { getApproveNodes } from "@/views/workflow/plugin/utils/nodeUtil";
   import { computed, onMounted, ref } from "vue";
-  import { useFlowDesign } from "@/store/FlowDesignStore.ts";
+  import { useFlowDesignStore } from "@/store/FlowDesign.ts";
   import piniaInstance from "@/store";
   import { createCondition } from "@/api/star_horse_utils.ts";
   import { postRequest } from "@/api/star_horse_apis.ts";
@@ -26,7 +26,7 @@
       default: "审批人"
     }
   });
-  const flowDesign = useFlowDesign(piniaInstance);
+  const flowDesign = useFlowDesignStore(piniaInstance);
   let headStyle = ref<any>({
     background: "#f5f6f7",
     "min-height": "40px"

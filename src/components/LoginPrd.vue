@@ -8,7 +8,7 @@
   import type { ElForm, FormInstance, FormRules, TabsPaneContext } from "element-plus";
   import { warning } from "@/utils/message";
   import { i18n } from "@/lang";
-  import { GlobalConfig } from "@/store/GlobalConfigStore.ts";
+  import { useGlobalConfigStore } from "@/store/GlobalConfig.ts";
   import piniaInstance from "@/store";
   import { particlesCfg } from "@/api/particlesConfig.ts";
 
@@ -22,7 +22,7 @@
   }
 
   const loginTitle = Config.title;
-  let configStore = GlobalConfig(piniaInstance);
+  let configStore = useGlobalConfigStore(piniaInstance);
   let validateImg = ref<string>("");
   let uuid = ref<string>("");
   let flag = ref<boolean>(false);

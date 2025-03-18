@@ -6,20 +6,20 @@ import {Config} from "@/api/settings.ts";
 import {reactive} from "vue";
 import {MenusInfo} from "@/components/types/MenusInfo";
 import piniaInstance from "@/store";
-import {navBarList} from "@/store/NavbarListStore";
-import {userInfoStore} from "@/store/UserInfoStore";
-import {viewList} from "@/store/ViewCacheStore";
+import {useNavBarListStore} from "@/store/NavBarList.ts";
+import {useUserInfoStore} from "@/store/UserInfo.ts";
+import {useViewCacheStore} from "@/store/ViewCache.ts";
 import {SelectOption} from "@/components/types/SearchProps";
 import {NavigationGuardNext, RouteLocationNormalized} from "vue-router";
-import {useButtonPermission} from "@/store/ButtonPermissionStore.ts";
+import {useButtonPermissionStore} from "@/store/ButtonPermission.ts";
 import {loadData} from "@/api/star_horse_utils.ts";
 import {getFingerId} from "@/api/finger_utils.ts";
 import {ServiceEnums} from "@/components/enums/ServiceEnums.ts";
 
-const navBarListStore = navBarList(piniaInstance);
-const userStore = userInfoStore(piniaInstance);
-const pagePermission = useButtonPermission(piniaInstance);
-const viewListStore = viewList(piniaInstance);
+const navBarListStore = useNavBarListStore(piniaInstance);
+const userStore = useUserInfoStore(piniaInstance);
+const pagePermission = useButtonPermissionStore(piniaInstance);
+const viewListStore = useViewCacheStore(piniaInstance);
 
 const service = axios.create({
     baseURL: "/",
@@ -47,13 +47,14 @@ service.interceptors.request.use(
     }
 );
 const forceLoginOut = () => {
-    console.log("系统超时，请登录后再操出");
-    removeToken();
-    navBarListStore.clearAll();
-    userStore.logout();
-    router.push({path: "/login", query: {redirect: router.currentRoute.value.fullPath}}).then((r) => {
-        console.log(r);
-    });
+    userStore.showLoginDialog();
+    // console.log("系统超时，请登录后再操出");
+    // removeToken();
+    // navBarListStore.clearAll();
+    // userStore.logout();
+    // router.push({path: "/login", query: {redirect: router.currentRoute.value.fullPath}}).then((r) => {
+    //     console.log(r);
+    // });
 };
 // 添加响应拦截器
 service.interceptors.response.use(

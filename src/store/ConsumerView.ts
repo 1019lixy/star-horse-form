@@ -1,8 +1,8 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
-export const ConsumerView = defineStore(
-  "ConsumerView",
+export const useConsumerViewStore = defineStore(
+  "consumerView",
   () => {
     const tableList = ref<any>({});
     const dbConfigId = ref<string>("");

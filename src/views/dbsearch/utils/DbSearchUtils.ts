@@ -3,9 +3,9 @@ import { SelectOption } from "@/components/types/SearchProps";
 import { closeLoad, load, loadGetData } from "@/api/star_horse_utils.ts";
 import { getRequest } from "@/api/star_horse_apis.ts";
 import piniaInstance from "@/store";
-import { ConsumerView } from "@/store/ConsumerViewStore.ts";
+import { useConsumerViewStore } from "@/store/ConsumerView.ts";
 
-const consumerView = ConsumerView(piniaInstance);
+const consumerView = useConsumerViewStore(piniaInstance);
 
 /**
  * 打开数据库，并返回所以表信息

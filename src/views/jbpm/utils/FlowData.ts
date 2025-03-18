@@ -3,7 +3,7 @@ import TokenSimulationModule from "bpmn-js-token-simulation";
 import { postRequest } from "@/api/star_horse_apis.ts";
 import { warning } from "@/utils/message.ts";
 import { markRaw, ref, unref, computed } from "vue";
-import { useFlowDesign } from "@/store/FlowDesignStore.ts";
+import { useFlowDesignStore } from "@/store/FlowDesign.ts";
 import piniaInstance from "@/store";
 import { flowTemplate } from "@/views/jbpm/utils/template.ts";
 import { uuid } from "@/api/system.ts";
@@ -24,7 +24,7 @@ const executionLabel = ref<string>("模拟运行");
 const miniMap = ref<string>("eye-close");
 const miniMapLabel = ref<string>("关闭小地图");
 const canRedo = ref<boolean>(true);
-const flowDesign = useFlowDesign(piniaInstance);
+const flowDesign = useFlowDesignStore(piniaInstance);
 const flowFormInfo = computed(() => flowDesign.flowFormInfo);
 // 流程校验使用
 

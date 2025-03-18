@@ -1,14 +1,14 @@
-import { CopyerOperation } from "@/store/CopyerOperationStore.ts";
+import { useCopyerOperationStore } from "@/store/CopyerOperation.ts";
 import piniaInstance from "@/store";
 import { computed, reactive, ref } from "vue";
-import { DesignForm } from "@/store/DesignFormStore.ts";
+import { useDesignFormStore } from "@/store/DesignForm.ts";
 import { uuid } from "@/api/system.ts";
 import { DynamicNode } from "@/components/types/DynamicNode";
-import { DesignPage } from "@/store/DesignPageStore.ts";
+import { useDesignPageStore } from "@/store/DesignPage.ts";
 
-const copyerAction = CopyerOperation(piniaInstance);
-const designForm = DesignForm(piniaInstance);
-const designPage = DesignPage(piniaInstance);
+const copyerAction = useCopyerOperationStore(piniaInstance);
+const designForm = useDesignFormStore(piniaInstance);
+const designPage = useDesignPageStore(piniaInstance);
 const compList = computed(() => designForm.compList);
 const currentItemId = computed(() => designForm.currentItemId);
 const pasteDisplay = computed(() => {

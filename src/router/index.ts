@@ -5,12 +5,12 @@ import { Config } from "@/api/settings.ts";
 import { getToken } from "@/utils/auth";
 import piniaInstance from "@/store";
 import { restoreMenu } from "@/api/star_horse_apis.ts";
-import { navBarList } from "@/store/NavbarListStore";
-import { viewList } from "@/store/ViewCacheStore";
+import { useNavBarListStore } from "@/store/NavBarList.ts";
+import { useViewCacheStore } from "@/store/ViewCache.ts";
 
 const { start, done } = starhorseProcess();
-const navBarListStore = navBarList(piniaInstance);
-const viewListStore = viewList(piniaInstance);
+const navBarListStore = useNavBarListStore(piniaInstance);
+const viewListStore = useViewCacheStore(piniaInstance);
 const router = createRouter({
   history: createWebHistory("/"),
   routes: routeDefine,

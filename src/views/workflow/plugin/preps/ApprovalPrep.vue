@@ -5,7 +5,7 @@
   import FlowNodeApprovalConfigure from "@/views/workflow/plugin/preps/utils/ApproverConfigure.vue";
   import AuthForm from "@/views/workflow/plugin/common/AuthForm.vue";
   import { ref, computed, onMounted } from "vue";
-  import { useFlowDesign } from "@/store/FlowDesignStore.ts";
+  import { useFlowDesignStore } from "@/store/FlowDesign.ts";
   import piniaInstance from "@/store";
   import { ModelRef } from "vue-demi";
   import { FlowNodeEnums } from "../enums/FlowNodeEnums.ts";
@@ -51,7 +51,7 @@
   ]);
   let approvalWithNulls = ref<Array<any>>([]);
   let sameApprovals = ref<Array<any>>([]);
-  const flowDesign = useFlowDesign(piniaInstance);
+  const flowDesign = useFlowDesignStore(piniaInstance);
   const onClose = () => {
     flowDesign.setActive(false);
   };

@@ -4,13 +4,13 @@
   import { ApiUrls } from "@/components/types/ApiUrls";
   import { SearchProps } from "@/components/types/SearchProps";
   import { PageFieldInfo } from "@/components/types/PageFieldInfo";
-  import { DesignForm } from "@/store/DesignFormStore.ts";
+  import { useDesignFormStore } from "@/store/DesignForm.ts";
   import piniaInstance from "@/store/index.ts";
   import StarHorseForm from "@/components/comp/StarHorseForm.vue";
   import { postRequest } from "@/api/star_horse_apis.ts";
   import { getUserInfo } from "@/utils/auth.ts";
 
-  let designForm = DesignForm(piniaInstance);
+  let designForm = useDesignFormStore(piniaInstance);
   let dataUrl = ref<ApiUrls>(apiInstance("", ""));
   const errorMsg = ref("数据加载中");
   let searchFormData = ref<SearchProps[]>();

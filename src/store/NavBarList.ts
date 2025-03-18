@@ -3,7 +3,7 @@ import router from "@/router/index";
 import { RouteLocationNormalizedLoaded } from "vue-router";
 import { ref } from "vue";
 
-export const navBarList = defineStore("navBarList", () => {
+export const useNavBarListStore = defineStore("navBarList", () => {
   const currentView = ref<RouteLocationNormalizedLoaded<any>>({});
   const navTagsList = ref<RouteLocationNormalizedLoaded[]>([]);
 

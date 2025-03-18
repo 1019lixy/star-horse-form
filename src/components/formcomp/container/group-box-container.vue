@@ -1,7 +1,7 @@
 <script setup lang="ts" name="GroupBoxContainer">
   import { operationConfirm } from "@/utils/message";
   import piniaInstance from "@/store/index.ts";
-  import { DesignForm } from "@/store/DesignFormStore.ts";
+  import { useDesignFormStore } from "@/store/DesignForm.ts";
   import { computed, ref } from "vue";
   import { colDataInfo } from "@/components/formcomp/container/dytableUtils.ts";
   import { dynamicFormContextMenuData } from "@/plugins/AblesPlugin.ts";
@@ -13,7 +13,7 @@
     parentField: { type: Object },
     formItem: { type: Object, required: true }
   });
-  let designForm = DesignForm(piniaInstance);
+  let designForm = useDesignFormStore(piniaInstance);
   let compList = computed(() => designForm.compList);
   let currentItemId = computed(() => designForm.currentItemId);
   let componentVisible = computed(() => {

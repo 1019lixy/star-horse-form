@@ -9,12 +9,12 @@ import Sortable from "sortablejs";
 import {DialogProps} from "../types/DialogProps";
 import {error, warning} from "@/utils/message";
 import {ExpandTable, FieldInfo, OrderByInfo, PageFieldInfo, UserFuncInfo} from "@/components/types/PageFieldInfo";
-import {DynamicForm} from "@/store/DynamicFormStore";
+import {useDynamicFormStore} from "@/store/DynamicForm.ts";
 import piniaInstance from "@/store";
 import {useRoute} from "vue-router";
-import {useButtonPermission} from "@/store/ButtonPermissionStore.ts";
+import {useButtonPermissionStore} from "@/store/ButtonPermission.ts";
 import TableColumn from "@/components/comp/items/tableColumn.vue";
-import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
+import {useGlobalConfigStore} from "@/store/GlobalConfig.ts";
 import {analysisFields} from "@/views/dyform/utils/preview.ts";
 import {isSystemManage} from "@/utils/auth.ts";
 import {removeEmptyCondition} from "@/api/system.ts";
@@ -22,7 +22,7 @@ import {Config} from "@/api/settings.ts";
 import Tablebtn from "@/components/comp/items/tablebtn.vue";
 import Help from "@/components/help.vue";
 
-const dynamicForm = DynamicForm(piniaInstance);
+const dynamicForm = useDynamicFormStore(piniaInstance);
 const props = defineProps({
   //url地址
   compUrl: {type: Object as PropType<ApiUrls>, required: true},
@@ -81,8 +81,8 @@ const props = defineProps({
 });
 const emits = defineEmits(["selectItem"]);
 let route = useRoute();
-let pagePermission = useButtonPermission(piniaInstance);
-let configStore = GlobalConfig(piniaInstance);
+let pagePermission = useButtonPermissionStore(piniaInstance);
+let configStore = useGlobalConfigStore(piniaInstance);
 let permissions = ref<any>({});
 const configInfo = computed(() => {
   let data = configStore.configFormInfo;

@@ -2,14 +2,14 @@
   import { computed, onMounted, ref, watch } from "vue";
   import { initDbList, openDatabase, tableColumns } from "@/views/dbsearch/utils/DbSearchUtils.ts";
   import piniaInstance from "@/store";
-  import { GlobalConfig } from "@/store/GlobalConfigStore.ts";
+  import { useGlobalConfigStore } from "@/store/GlobalConfig.ts";
   import { SelectOption } from "@/components/types/SearchProps.d.ts";
   import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-  import { ConsumerView } from "@/store/ConsumerViewStore.ts";
+  import { useConsumerViewStore } from "@/store/ConsumerView.ts";
   import { Config } from "@/api/settings.ts";
 
-  let configStore = GlobalConfig(piniaInstance);
-  const consumerView = ConsumerView(piniaInstance);
+  let configStore = useGlobalConfigStore(piniaInstance);
+  const consumerView = useConsumerViewStore(piniaInstance);
   let compSize = computed(() => configStore.configFormInfo?.buttonSize || Config.compSize);
   let dataForm = ref<any>({});
   const filterTableName = ref<string>("");

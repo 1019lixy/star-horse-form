@@ -1,12 +1,12 @@
 <script setup lang="ts">
   import { createRouterAndMenuList, permissionMenus } from "@/api/star_horse_apis.ts";
   import { computed, nextTick, onMounted, reactive, ref, watch } from "vue";
-  import { userInfoStore } from "@/store/UserInfoStore";
+  import { useUserInfoStore } from "@/store/UserInfo.ts";
   import { MenusInfo } from "@/components/types/MenusInfo";
   import piniaInstance from "@/store";
   import FixedSubMenu from "@/components/menu/FixedSubMenu.vue";
 
-  let userStore = userInfoStore(piniaInstance);
+  let userStore = useUserInfoStore(piniaInstance);
   // const emits = defineEmits(["collopseOperation"]);
   let leftMenuDatas = ref<MenusInfo[]>([]);
   let props = defineProps({

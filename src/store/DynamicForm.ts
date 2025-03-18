@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { warning } from "@/utils/message";
 import { ref } from "vue";
 
-export const DynamicForm = defineStore("DynamicForm", () => {
+export const useDynamicFormStore = defineStore("dynamicForm", () => {
   const dataForm: any = ref({});
   const selectData: any = ref(null);
   const dataId: any = ref(null);

@@ -1,4 +1,4 @@
-import {useUserSelfOperation} from "@/store/SelfOperationStore.ts";
+import {useSelfOperationStore} from "@/store/SelfOperation.ts";
 import piniaInstance from "@/store";
 import {download, getRequest, postRequest, uploadRequest} from "@/api/star_horse_apis.ts";
 import {getUserInfo} from "@/utils/auth.ts";
@@ -11,7 +11,7 @@ import {UserFuncInfo} from "@/components/types/PageFieldInfo";
 /**
  * 动态表单用户自定义驱动
  */
-const userOperation = useUserSelfOperation(piniaInstance);
+const userOperation = useSelfOperationStore(piniaInstance);
 /**
  * 用户自定义事件对接接口
  * @param code 需要执行的代码

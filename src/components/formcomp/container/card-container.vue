@@ -1,6 +1,6 @@
 <script setup lang="ts" name="card-container">
   import { computed, onMounted, PropType, ref } from "vue";
-  import { DesignForm } from "@/store/DesignFormStore.ts";
+  import { useDesignFormStore } from "@/store/DesignForm.ts";
   import piniaInstance from "@/store/index.ts";
 
   const props = defineProps({
@@ -9,7 +9,7 @@
     formData: { type: Object as PropType<any> },
     field: { type: Object as PropType<any> }
   });
-  let designForm = DesignForm(piniaInstance);
+  let designForm = useDesignFormStore(piniaInstance);
   let isEdit = computed(() => designForm.isEdit);
   let containerType: Array<string> = ["tab", "box", "table", "card", "dytable", "collapse"];
   const getComponentName = (data: any) => {

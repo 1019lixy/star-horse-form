@@ -19,7 +19,7 @@ import {DialogProps} from "@/components/types/DialogProps";
 import {BatchFieldInfo, FieldInfo, PageFieldInfo} from "@/components/types/PageFieldInfo";
 import StarHorseFormItem from "@/components/comp/StarHorseFormItem.vue";
 import piniaInstance from "@/store";
-import {useUserSelfOperation} from "@/store/SelfOperationStore.ts";
+import {useSelfOperationStore} from "@/store/SelfOperation.ts";
 import {SelectOption} from "@/components/types/SearchProps";
 import {Config} from "@/api/settings.ts";
 
@@ -49,7 +49,7 @@ const props = defineProps({
 });
 // let configStore = GlobalConfig(piniaInstance);
 // let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
-let userOperation = useUserSelfOperation(piniaInstance);
+let userOperation = useSelfOperationStore(piniaInstance);
 //刷新事件，数据已加载事件，导出数据更新数据
 const emits = defineEmits(["refresh", "dataLoaded", "exportData", "removeRow", "addRow"]);
 const starHorseFormRef = ref(null);

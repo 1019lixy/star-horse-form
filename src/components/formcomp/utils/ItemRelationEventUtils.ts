@@ -2,12 +2,12 @@ import { error } from "@/utils/message.ts";
 import { userFunction } from "@/api/user_func.ts";
 import { createCondition } from "@/api/star_horse_utils.ts";
 import piniaInstance from "@/store";
-import { useUserSelfOperation } from "@/store/SelfOperationStore.ts";
-import { DesignForm } from "@/store/DesignFormStore.ts";
+import { useSelfOperationStore } from "@/store/SelfOperation.ts";
+import { useDesignFormStore } from "@/store/DesignForm.ts";
 import { computed } from "vue";
 
-const designForm = DesignForm(piniaInstance);
-const userOperation = useUserSelfOperation(piniaInstance);
+const designForm = useDesignFormStore(piniaInstance);
+const userOperation = useSelfOperationStore(piniaInstance);
 
 const isDesign = computed(() => designForm.isEdit);
 /**
