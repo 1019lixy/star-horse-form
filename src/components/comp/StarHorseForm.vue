@@ -8,7 +8,7 @@ import {
   onMounted,
   PropType,
   ref,
-  ShallowReactive,
+  ShallowReactive, unref,
   watch
 } from "vue";
 import {ApiUrls} from "@/components/types/ApiUrls";
@@ -19,7 +19,7 @@ import {DialogProps} from "@/components/types/DialogProps";
 import {BatchFieldInfo, FieldInfo, PageFieldInfo} from "@/components/types/PageFieldInfo";
 import StarHorseFormItem from "@/components/comp/StarHorseFormItem.vue";
 import piniaInstance from "@/store";
-import {useUserSelfOperation} from "@/store/SelfOperationStore.ts";
+import {useSelfOperationStore} from "@/store/SelfOperation.ts";
 import {SelectOption} from "@/components/types/SearchProps";
 import {Config} from "@/api/settings.ts";
 
@@ -49,56 +49,23 @@ const props = defineProps({
 });
 // let configStore = GlobalConfig(piniaInstance);
 // let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
-let userOperation = useUserSelfOperation(piniaInstance);
+let userOperation = useSelfOperationStore(piniaInstance);
 //刷新事件，数据已加载事件，导出数据更新数据
 const emits = defineEmits(["refresh", "dataLoaded", "exportData", "removeRow", "addRow"]);
 const starHorseFormRef = ref(null);
 const dataForm = ref<any>({});
 //更新外面传进来的数据
-watch(
-    () => props.outerFormData,
-    (val: any) => {
-      if (val) {
-        dataForm.value = {...dataForm.value, ...val};
-      }
-    },
-    {immediate: true, deep: true}
-);
+
 const exportData = () => {
   emits("exportData", dataForm.value);
 };
 //向外实时导出数据
-watch(
-    () => dataForm.value,
-    () => {
-      exportData();
-    },
-    {immediate: false, deep: true}
-);
+
 const closeDialog = inject("closeDialog") as Function;
 let dialogOperation = inject("dialogOperation") as ShallowReactive<any>;
 const dialogProps = inject<DialogProps>("dialogProps", {});
 const formFields = inject("formFields") as ShallowReactive<any>;
-watch(
-    () => dialogOperation,
-    (val: any) => {
-      //console.log("form", val);
-      if (val["funcName"] == "merge") {
-        merge(val["type"]);
-      } else if (val["funcName"] == "mergeDraft") {
-        mergeDraft(val["type"]);
-      } else if (val["funcName"] == "resetForm") {
-        resetForm();
-      }
-      //为了触发多次点击响应
-      dialogOperation["funcName"] = "";
-      dialogOperation["type"] = "";
-    },
-    {
-      immediate: false,
-      deep: true
-    }
-);
+
 const loadData = async () => {
   if (!props.compUrl || !props.compUrl.loadByIdUrl || !dialogProps.ids) {
     return;
@@ -301,7 +268,8 @@ const doMerge = (type: string) => {
 };
 const resetForm = () => {
   dataForm.value = formFieldMapping(props.fieldList).defaultDatas;
-  let data = props.outerFormData?.value || props.outerFormData;
+  //props.outerFormData?.value || props.outerFormData;
+  let data = unref(props.outerFormData);
   if (data && Object.keys(data).length > 0) {
     dataForm.value = {...dataForm.value, ...data};
   }
@@ -362,6 +330,39 @@ onBeforeUnmount(() => {
 onMounted(() => {
   recordFieldInfo();
 });
+watch(
+    () => dataForm.value,
+    () => {
+      exportData();
+    },
+    {immediate: false, deep: true}
+);
+watch(
+    () => props.outerFormData,
+    (val: any) => {
+      if (val) {
+        resetForm();
+      }
+    },
+    {immediate: true, deep: true}
+);
+watch(
+    () => dialogOperation,
+    (val: any) => {
+      const handlers: any = {
+        merge: () => merge(val.type),
+        mergeDraft: () => mergeDraft(val.type),
+        resetForm: () => resetForm()
+      };
+      handlers[val.funcName]?.();
+      dialogOperation.funcName = '';
+      dialogOperation["type"] = "";
+    },
+    {
+      immediate: false,
+      deep: true
+    }
+);
 watch(
     () => dialogProps.ids,
     (val) => {

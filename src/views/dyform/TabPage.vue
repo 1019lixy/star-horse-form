@@ -6,12 +6,12 @@
   import { PageFieldInfo, UserFuncInfo } from "@/components/types/PageFieldInfo";
   import { TabsPaneContext } from "element-plus";
   import { Config } from "@/api/settings.ts";
-  import { DesignForm } from "@/store/DesignFormStore.ts";
+  import { useDesignFormStore } from "@/store/DesignForm.ts";
   import piniaInstance from "@/store/index.ts";
   import StarHorseForm from "@/components/comp/StarHorseForm.vue";
   import { userAction } from "@/api/user_func.ts";
 
-  let designForm = DesignForm(piniaInstance);
+  let designForm = useDesignFormStore(piniaInstance);
   const starHorseTableCompRef = ref();
   let dataUrl = ref<ApiUrls>(apiInstance("", ""));
   const errorMsg = ref("数据加载中");

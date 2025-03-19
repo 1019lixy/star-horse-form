@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { DesignForm } from "@/store/DesignFormStore.ts";
+  import { useDesignFormStore } from "@/store/DesignForm.ts";
   import piniaInstance from "@/store";
   import { computed, ref } from "vue";
 
@@ -8,7 +8,7 @@
   });
   const containerRef = ref();
   const emits = defineEmits(["selectData"]);
-  let designForm = DesignForm(piniaInstance);
+  let designForm = useDesignFormStore(piniaInstance);
   let formDataList = computed(() => designForm.formDataList);
   let containerList = computed(() => designForm.containerList);
   let selfFormDataList = computed(() => designForm.selfFormDataList);

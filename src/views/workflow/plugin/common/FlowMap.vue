@@ -13,7 +13,7 @@
 </template>
 <script setup lang="ts">
   import { computed, nextTick, onBeforeUnmount, onMounted, ref } from "vue";
-  import { useFlowDesign } from "@/store/FlowDesignStore.ts";
+  import { useFlowDesignStore } from "@/store/FlowDesign.ts";
   import piniaInstance from "@/store";
 
   const props = defineProps({
@@ -22,7 +22,7 @@
       default: "#sh-flow-editor-content"
     }
   });
-  const flowDesignStore = useFlowDesign(piniaInstance);
+  const flowDesignStore = useFlowDesignStore(piniaInstance);
   const mapImg = computed(() => flowDesignStore.mapImg);
   // 流程设计窗口
   let flowDesign = ref<any>(null);

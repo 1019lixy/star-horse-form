@@ -12,7 +12,7 @@ const prepUrl: ApiUrls = apiInstance(
   "userdb/formInstance/shNodeMappingPreps/idNodeMappingPrep/337537414606095357"
 );
 
-export const useFlowDesign = defineStore("flowDesignStore", () => {
+export const useFlowDesignStore = defineStore("flowDesign", () => {
   const nodeList = ref<any>([]);
   const nodePrepMap = ref<any>({});
   const commonPreps = ref<any>({});

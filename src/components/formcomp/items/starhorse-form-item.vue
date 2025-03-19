@@ -1,6 +1,6 @@
 <script setup lang="ts" name="starhorse-form-item">
 import {computed, onMounted, ref} from "vue";
-import {DesignForm} from "@/store/DesignFormStore.ts";
+import {useDesignFormStore} from "@/store/DesignForm.ts";
 import piniaInstance from "@/store/index.ts";
 import StarHorseDialog from "@/components/comp/StarHorseDialog.vue";
 import FieldList from "@/components/formcomp/utils/FieldList.vue";
@@ -20,7 +20,7 @@ const props = defineProps({
   //是否需要css 修饰
   bareFlag: {type: Boolean, default: false}
 });
-let designForm = DesignForm(piniaInstance);
+let designForm = useDesignFormStore(piniaInstance);
 let isEdit = computed(() => designForm.isEdit);
 // let refresh = computed(() => designForm.refresh);
 // let compList = computed(() => designForm.compList);

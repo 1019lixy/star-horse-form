@@ -3,7 +3,7 @@
   import { uuid } from "@/api/system.ts";
   import FlowDrawerFooter from "@/views/workflow/plugin/common/DrawerFooter.vue";
   import { onMounted, ref, computed, onActivated, watch } from "vue";
-  import { useFlowDesign } from "@/store/FlowDesignStore.ts";
+  import { useFlowDesignStore } from "@/store/FlowDesign.ts";
   import piniaInstance from "@/store";
   import { dictData, searchMatchList } from "@/api/star_horse_utils.ts";
   import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
@@ -52,7 +52,7 @@
     { label: "流程创建人", value: "2" }
   ]);
   // 表单数据
-  const flowDesign = useFlowDesign(piniaInstance);
+  const flowDesign = useFlowDesignStore(piniaInstance);
   const parentNode = computed(() => flowDesign.parentNode);
   const initLevel = () => {
     // 等级

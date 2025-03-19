@@ -1,5 +1,5 @@
-import { DesignForm } from "@/store/DesignFormStore.ts";
-import { CopyerOperation } from "@/store/CopyerOperationStore.ts";
+import { useDesignFormStore } from "@/store/DesignForm.ts";
+import { useCopyerOperationStore } from "@/store/CopyerOperation.ts";
 import piniaInstance from "@/store";
 import { computed } from "vue";
 import { operationConfirm, warning } from "@/utils/message.ts";
@@ -7,8 +7,8 @@ import { ModuleEnums } from "@/components/enums/ModuleEnums.ts";
 import { copyContainer, moveDownItem, moveUpItem, removeItem } from "@/plugins/AblesPlugin.ts";
 import { uuid } from "@/api/system.ts";
 
-const designForm = DesignForm(piniaInstance);
-const copyerOperation = CopyerOperation(piniaInstance);
+const designForm = useDesignFormStore(piniaInstance);
+const copyerOperation = useCopyerOperationStore(piniaInstance);
 
 const list = computed(() => designForm.compList);
 const currentComp = computed(() => designForm.currentComp);

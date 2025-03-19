@@ -31,7 +31,7 @@
 </template>
 <script setup lang="ts">
   import { computed, onMounted, ref } from "vue";
-  import { useFlowDesign } from "@/store/FlowDesignStore.ts";
+  import { useFlowDesignStore } from "@/store/FlowDesign.ts";
   import piniaInstance from "@/store";
   import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
   import { ApiUrls } from "@/components/types/ApiUrls";
@@ -68,7 +68,7 @@
       default: false
     }
   });
-  const flowDesign = useFlowDesign(piniaInstance);
+  const flowDesign = useFlowDesignStore(piniaInstance);
   const suggestBranchEnable = computed(() => flowDesign.suggestBranchEnable);
   const parallelBranchEnable = computed(() => flowDesign.parallelBranchEnable);
   // const node: ModelRef<any> = defineModel("node");

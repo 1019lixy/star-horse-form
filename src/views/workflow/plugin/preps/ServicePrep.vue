@@ -4,7 +4,7 @@
 </template>
 <script setup lang="ts">
   import FlowDrawerFooter from "@/views/workflow/plugin/common/DrawerFooter.vue";
-  import { useFlowDesign } from "@/store/FlowDesignStore.ts";
+  import { useFlowDesignStore } from "@/store/FlowDesign.ts";
   import piniaInstance from "@/store";
   import { ModelRef } from "vue-demi";
   import { onMounted } from "vue";
@@ -15,7 +15,7 @@
   });
   let node: ModelRef<any> = defineModel("activeData");
 
-  const flowDesign = useFlowDesign(piniaInstance);
+  const flowDesign = useFlowDesignStore(piniaInstance);
   const init = () => {};
   onMounted(() => {
     init();

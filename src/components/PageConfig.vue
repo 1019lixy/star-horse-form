@@ -1,13 +1,13 @@
 <script setup lang="ts">
   import { computed, onMounted, ref } from "vue";
   import { SelectOption } from "@/components/types/SearchProps.d.ts";
-  import { GlobalConfig } from "@/store/GlobalConfigStore.ts";
+  import { useGlobalConfigStore } from "@/store/GlobalConfig.ts";
   import piniaInstance from "@/store";
   import { useDark, useToggle } from "@vueuse/core";
   import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
   import { Config } from "@/api/settings.ts";
 
-  let configStore = GlobalConfig(piniaInstance);
+  let configStore = useGlobalConfigStore(piniaInstance);
   let sizeList = ref<Array<SelectOption>>([
     { name: "大", value: "large" },
     { name: "中", value: "default" },

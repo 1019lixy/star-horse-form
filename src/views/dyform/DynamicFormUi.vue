@@ -7,10 +7,10 @@
   import { useRouter } from "vue-router";
   import { loadData } from "@/api/star_horse_utils.ts";
   import { Config } from "@/api/settings.ts";
-  import { DesignForm } from "@/store/DesignFormStore.ts";
+  import { useDesignFormStore } from "@/store/DesignForm.ts";
   import piniaInstance from "@/store/index.ts";
   import StarHorseTree from "@/components/comp/StarHorseTree.vue";
-  import { GlobalConfig } from "@/store/GlobalConfigStore.ts";
+  import { useGlobalConfigStore } from "@/store/GlobalConfig.ts";
   import FormPreview from "@/views/dyform/FormPreview.vue";
   import { warning } from "@/utils/message.ts";
   import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
@@ -18,12 +18,12 @@
 
   const router = useRouter();
   const dataUrl: ApiUrls = apiInstance("userdb-manage", "userdb/dynamicForm");
-  let designForm = DesignForm(piniaInstance);
+  let designForm = useDesignFormStore(piniaInstance);
   let selfBtnFunc = ref<UserFuncInfo[]>([]);
   let isPreview = ref<boolean>(false);
   let dataSource = ref<SelectOption[]>([]);
   let dynamicFormList = ref<Array<any>>([]);
-  let configStore = GlobalConfig(piniaInstance);
+  let configStore = useGlobalConfigStore(piniaInstance);
   let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
   const closeAction = () => {
     isPreview.value = false;

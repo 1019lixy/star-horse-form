@@ -2,7 +2,7 @@
   import { computed, ref } from "vue";
   import { flowCommon } from "@/views/workflow/plugin/utils/flowCommon.ts";
   import { scale } from "@/views/workflow/plugin/utils/deviceUtil";
-  import { useFlowDesign } from "@/store/FlowDesignStore.ts";
+  import { useFlowDesignStore } from "@/store/FlowDesign.ts";
   import piniaInstance from "@/store";
   import { warning } from "@/utils/message.ts";
   import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
@@ -44,7 +44,7 @@
       path: "/flowSetting"
     }
   ]);
-  const flowDesign = useFlowDesign(piniaInstance);
+  const flowDesign = useFlowDesignStore(piniaInstance);
   let navable = computed(() => flowDesign.navable);
   let formInfo = computed(() => flowDesign.flowFormInfo);
   const onChange = (item: any) => {

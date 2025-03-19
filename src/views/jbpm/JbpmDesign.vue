@@ -12,7 +12,7 @@
   import { uuid } from "@/api/system.ts";
   import { createBpmnModeler, createNewFlow } from "@/views/jbpm/utils/FlowData.ts";
   import { xmlStrNew } from "./utils/linting-cloud.js";
-  import { useFlowDesign } from "@/store/FlowDesignStore.ts";
+  import { useFlowDesignStore } from "@/store/FlowDesign.ts";
   import piniaInstance from "@/store";
   import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
   import { ElementRegistry } from "bpmn-js/lib/features/auto-place/BpmnAutoPlaceUtil";
@@ -24,7 +24,7 @@
   const canvas = ref(null);
   const properties = ref(null);
   let isShow = ref<boolean>(false);
-  const flowDesign = useFlowDesign(piniaInstance);
+  const flowDesign = useFlowDesignStore(piniaInstance);
   let lintDatas = computed(() => {
     let datas = flowDesign.lintData;
     let elements: any = {};

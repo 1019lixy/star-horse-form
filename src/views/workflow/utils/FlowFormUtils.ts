@@ -1,12 +1,12 @@
 import { reactive, ref, isRef } from "vue";
 import { SelectOption } from "@/components/types/SearchProps.d.js";
 import { PageFieldInfo } from "@/components/types/PageFieldInfo.d.js";
-import { useFlowDesign } from "@/store/FlowDesignStore.ts";
+import { useFlowDesignStore } from "@/store/FlowDesign.ts";
 import piniaInstance from "@/store";
 import { postRequest } from "@/api/star_horse_apis.ts";
 import { error, success } from "@/utils/message.ts";
 
-const flowDesign = useFlowDesign(piniaInstance);
+const flowDesign = useFlowDesignStore(piniaInstance);
 const flowGroups = ref<SelectOption[]>([]);
 const formVisibleTypeList = ref<SelectOption[]>([
   { name: "标签栏", value: "tab" },

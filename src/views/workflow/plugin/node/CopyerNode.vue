@@ -3,7 +3,7 @@
   import EditName from "@/views/workflow/plugin/common/EditName.vue";
   import DeleteConfirm from "@/views/workflow/plugin/common/DeleteConfirm.vue";
   import { computed, onMounted } from "vue";
-  import { useFlowDesign } from "@/store/FlowDesignStore.ts";
+  import { useFlowDesignStore } from "@/store/FlowDesign.ts";
   import piniaInstance from "@/store";
   import { closeLoad } from "@/api/star_horse_utils.ts";
   import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
@@ -12,7 +12,7 @@
     name: "CopyerNode"
   });
 
-  const flowDesign = useFlowDesign(piniaInstance);
+  const flowDesign = useFlowDesignStore(piniaInstance);
 
   let currentNode = computed(() => flowDesign.currentNode);
   const props = defineProps({

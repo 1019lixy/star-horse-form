@@ -3,7 +3,7 @@ import {computed, inject, onMounted, ref, unref, watch} from "vue";
 import {warning} from "@/utils/message";
 import {FieldInfo} from "@/components/types/PageFieldInfo";
 import {ModelRef} from "vue-demi";
-import {useUserSelfOperation} from "@/store/SelfOperationStore.ts";
+import {useSelfOperationStore} from "@/store/SelfOperation.ts";
 import piniaInstance from "@/store";
 import {uuid} from "@/api/system.ts";
 import {Config} from "@/api/settings.ts";
@@ -26,7 +26,7 @@ const props = defineProps({
   isView: {type: Boolean, default: false}, //是否视图数据
   isDesign: {type: Boolean, default: false}
 });
-let userOperation = useUserSelfOperation(piniaInstance);
+let userOperation = useSelfOperationStore(piniaInstance);
 const dataForm: ModelRef<any> = defineModel("dataForm");
 const itemType = ref<string>("input");
 const emit = defineEmits(["dataSearch", "focus", "blur"]);

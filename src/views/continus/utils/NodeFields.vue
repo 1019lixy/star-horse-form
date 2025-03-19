@@ -1,11 +1,15 @@
 <script setup lang="ts">
-import {nextTick, onMounted, provide, reactive, ref, watch} from "vue";
+import {nextTick, onMounted, PropType, provide, reactive, ref, watch} from "vue";
 import {apiInstance, closeLoad, dialogPreps, load, loadGetData} from "@/api/star_horse_utils.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {SearchProps} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
+import {warning} from "@/utils/message.ts";
+import {useContinusConfigStore} from "@/store/ContinusConfig.ts";
+import piniaInstance from "@/store";
 
 let dataUrl = ref<ApiUrls>(apiInstance("", ""));
+const continusStore = useContinusConfigStore(piniaInstance);
 const errorMsg = ref("数据加载中");
 let searchFormData = ref<SearchProps[]>();
 const tableFieldList = ref<any>({
@@ -19,21 +23,13 @@ let relationTables = ref<any>({});
 const formInfo = ref<any>({});
 let outerFormData = ref<any>({});
 const props = defineProps({
-  formNo: {type: String, required: true}
+  formNo: {type: String},
+  staticFieldData: {type: Object as PropType<PageFieldInfo>,}
 });
 const clear = () => {
   hasData.value = false;
 };
-const loadFormData = async (formNo: string) => {
-  if (!formNo) return;
-  let {data, error} = await loadGetData(`/userdb-manage/userdb/dynamicForm/dynamicPageInfo/${formNo}`);
-  if (error) {
-    errorMsg.value = error;
-    hasData.value = false;
-    closeLoad();
-    return;
-  }
-  hasData.value = data && Object.keys(data).length > 0;
+const assignField = (data: any) => {
   dataUrl.value = apiInstance(data["dataUrl"].appName, data["dataUrl"].contextUrl);
   searchFormData.value = data["searchFormData"] as SearchProps[];
   primaryKey.value = data["primaryKey"];
@@ -41,23 +37,48 @@ const loadFormData = async (formNo: string) => {
   relationTables.value = data["relationTables"];
   rules.value = data["rules"];
   formInfo.value = data["formInfo"];
+}
+const resetField = () => {
+  dataUrl.value = apiInstance("", "");
+  searchFormData.value = [];
+  primaryKey.value = "";
+  tableFieldList.value = {
+    fieldList: []
+  };
+  relationTables.value = {};
+  rules.value = {};
+  formInfo.value = {};
+}
+const loadFormData = async (formNo: string) => {
+  if (!formNo) {
+    resetField();
+    return;
+  }
+  let cacheData = continusStore.getNodeFields(formNo);
+  if (cacheData) {
+    assignField(cacheData);
+    return;
+  }
+  let {data, error} = await loadGetData(`/userdb-manage/userdb/dynamicForm/dynamicPageInfo/${formNo}`);
+  if (error) {
+    errorMsg.value = error;
+    hasData.value = false;
+    resetField();
+    closeLoad();
+    return;
+  }
+  assignField(data);
+  continusStore.addNodeFields(formNo, data);
   await nextTick();
   closeLoad();
 };
 watch(
-    () => props.formNo,
-    (val) => {
-      clear();
-      try {
-        load("数据加载中。。。");
-        loadFormData(<string>val);
-      } catch (e) {
-        closeLoad();
-        console.log("数据类型不匹配");
-      }
+    () => props,
+    () => {
+      init();
     },
     {deep: true}
-);
+)
 //记录表单的属性
 const formFields = reactive<Array<any>>([]);
 provide("formFields", formFields);
@@ -77,7 +98,15 @@ const setFormData = (data: any) => {
   })
 }
 const init = async () => {
-  await loadFormData(props.formNo);
+  if (!props.formNo && !props.staticFieldData) {
+    warning("NodeFields组件缺少参数");
+    return;
+  }
+  if (props.staticFieldData?.fieldList?.length > 0) {
+    tableFieldList.value = props.staticFieldData;
+  } else {
+    await loadFormData(props.formNo!);
+  }
 };
 onMounted(async () => {
   await init();
@@ -97,7 +126,6 @@ defineExpose({
       :outerFormData="outerFormData"
       :fieldList="tableFieldList"
       :rules="rules"
-      :typeModel="'form'"
   />
 </template>
 <style scoped></style>

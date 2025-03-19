@@ -4,7 +4,7 @@
   import AuthForm from "@/views/workflow/plugin/common/AuthForm.vue";
   import FlowNodeApproval from "@/views/workflow/plugin/preps/utils/Approval.vue";
   import FlowNodeCopyerConfigure from "@/views/workflow/plugin/preps/utils/CopyerConfigure.vue";
-  import { useFlowDesign } from "@/store/FlowDesignStore.ts";
+  import { useFlowDesignStore } from "@/store/FlowDesign.ts";
   import piniaInstance from "@/store";
   import { ModelRef } from "vue-demi";
 
@@ -14,7 +14,7 @@
   let node: ModelRef<any> = defineModel("activeData");
   let copyerTab = ref<string>("1");
 
-  const flowDesign = useFlowDesign(piniaInstance);
+  const flowDesign = useFlowDesignStore(piniaInstance);
   const flowFormInfo = computed(() => flowDesign.flowFormInfo);
   const onClose = () => {
     flowDesign.setActive(false);

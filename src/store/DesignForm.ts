@@ -3,7 +3,7 @@ import { SelectOption } from "@/components/types/SearchProps";
 import { Config } from "@/api/settings.ts";
 import { ref, unref } from "vue";
 
-export const DesignForm = defineStore("DesignForm", () => {
+export const useDesignFormStore = defineStore("designForm", () => {
   const containerList = ref<Array<any>>([]);
   const formDataList = ref<Array<any>>([]);
   const selfFormDataList = ref<Array<any>>([]);

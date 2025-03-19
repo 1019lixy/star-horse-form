@@ -16,12 +16,12 @@
   import { PageFieldInfo } from "@/components/types/PageFieldInfo";
   import { ElTreeV2 } from "element-plus";
   import { TreeNodeData } from "element-plus/es/components/tree-v2/src/types";
-  import { GlobalConfig } from "@/store/GlobalConfigStore.ts";
+  import { useGlobalConfigStore } from "@/store/GlobalConfig.ts";
   import piniaInstance from "@/store";
   import StarHorseTree from "@/components/comp/StarHorseTree.vue";
   import { warning } from "@/utils/message.ts";
   import { SearchParams } from "@/components/types/Params";
-  import { useButtonPermission } from "@/store/ButtonPermissionStore.ts";
+  import { useButtonPermissionStore } from "@/store/ButtonPermission.ts";
 
   const dataUrl: ApiUrls = apiInstance("system-config", "system/rolesPkBtnAuthority");
   dataUrl.mergeUrl = "/system-config/system/resourcesSummaryEntity/merge";
@@ -122,8 +122,8 @@
     ],
     cellEditable: false
   });
-  let configStore = GlobalConfig(piniaInstance);
-  let pagePermission = useButtonPermission(piniaInstance);
+  let configStore = useGlobalConfigStore(piniaInstance);
+  let pagePermission = useButtonPermissionStore(piniaInstance);
   let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
   const primaryKey = ["idMenusinfo", "idRolesinfo", "idInformations"];
   const rules = {};

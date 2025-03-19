@@ -3,13 +3,14 @@ import {computed, nextTick, onMounted, ref, watch} from "vue";
 import ToolInfo from "@/views/continus/ToolInfo.vue";
 import DeployTemplate from "@/views/continus/DeployTemplate.vue";
 import {warning} from "@/utils/message.ts";
-import {continusConfig} from "@/store/ContinusConfigStore.ts";
+import {useContinusConfigStore} from "@/store/ContinusConfig.ts";
 import piniaInstance from "@/store";
 import {SelectOption} from "@/components/types/SearchProps";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {uuid} from "@/api/system.ts";
 import {loadDict} from "@/api/star_horse_apis.ts";
 import NodeFields from "@/views/continus/utils/NodeFields.vue";
+import {pipelineFields} from "@/views/continus/utils/FieldsUtils.ts";
 
 const nodeCompRef = ref<any>();
 const nodeInfoRef = ref<any>();
@@ -18,7 +19,7 @@ const deployTemplateRef = ref<any>();
 const tempDialog = ref<boolean>(false);
 const nodeDialog = ref<boolean>(false);
 const currentNodeIndex = ref<number>(-1);
-const continusStore = continusConfig(piniaInstance);
+const continusStore = useContinusConfigStore(piniaInstance);
 const nodeInfo = computed(() => continusStore.nodeInfo);
 let currentCompName = ref<string>("PipelineCfg");
 let formNo = ref<string>("");
@@ -97,6 +98,8 @@ const changeTemplate = () => {
 };
 const addNode = (currentIndex: number) => {
   currentNodeIndex.value = currentIndex;
+  currentFieldList.value = {};
+  // nodeInfoRef.value?.resetForm();
   addSubNode();
 };
 const editNode = async (node: any, currentIndex: number) => {
@@ -126,7 +129,15 @@ const editNode = async (node: any, currentIndex: number) => {
   }
   currentNode.value = node;
   currentCompName.value = node.nodeCode;
-  formNo.value = node.dynamicFormNo;
+
+  if (node.nodeCode == "PipelineCfg") {
+    formNo.value = "";
+    currentFieldList.value = pipelineFields;
+  } else {
+    formNo.value = node.dynamicFormNo;
+    // nodeInfoRef.value?.resetForm();
+    currentFieldList.value = {};
+  }
   currentNodeIndex.value = currentIndex;
   return "ok";
 };
@@ -154,6 +165,7 @@ const dataSubmit = () => {
   currentNodeIndex.value = index;
   currentCompName.value = node.nodeCode;
   formNo.value = node.dynamicFormNo;
+  // nodeInfoRef.value?.resetForm();
   currentNode.value = node;
   closeAction();
 };
@@ -201,6 +213,7 @@ const save = async (type: string) => {
 const init = async () => {
   currentNode.value = {...pipelineNode};
   currentCompName.value = pipelineNode.nodeCode;
+  currentFieldList.value = pipelineFields;
   loadDict("CONTINUS_SUBNODE_FINISH_CONDITION").then((res) => {
     nodeSuccessConditionList.value = res;
   });
@@ -326,14 +339,13 @@ watch(
       </div>
     </div>
     <div class="config-content relative">
-      <div class=" h-[100px] mx-[7px] my-[10px] border-solid border-1 rounded"
+      <div class="  mx-[7px] my-[10px] border-solid border-1 rounded"
            style="border-color: var(--el-border-color-light);"
            v-if="currentNodeIndex!==-1">
         <star-horse-form ref="nodeInfoRef" class="build-cfg" :outerFormData="currentNode" :fieldList="nodeField"/>
       </div>
       <div class="flex-1 overflow-hidden">
-        <node-fields :formNo="formNo" ref="nodeCompRef"/>
-        <star-horse-form ref="nodeCompRef" :outerFormData="currentNode" :fieldList="currentFieldList"/>
+        <node-fields :formNo="formNo" :staticFieldData="currentFieldList" ref="nodeCompRef"/>
       </div>
     </div>
   </el-card>

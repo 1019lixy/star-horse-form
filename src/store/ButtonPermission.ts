@@ -8,7 +8,7 @@ import { warning } from "@/utils/message.ts";
 /**
  * 用户权限控制
  */
-export const useButtonPermission = defineStore("buttonPermission", () => {
+export const useButtonPermissionStore = defineStore("buttonPermission", () => {
   const pageBtnPermisson = ref<any>({});
   const currentPermission = ref<any>({});
 

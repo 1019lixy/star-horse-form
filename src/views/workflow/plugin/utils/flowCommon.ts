@@ -1,8 +1,8 @@
 import { scale } from "@/views/workflow/plugin/utils/deviceUtil.ts";
-import { useFlowDesign } from "@/store/FlowDesignStore.ts";
+import { useFlowDesignStore } from "@/store/FlowDesign.ts";
 import piniaInstance from "@/store";
 
-const flowDesign = useFlowDesign(piniaInstance);
+const flowDesign = useFlowDesignStore(piniaInstance);
 
 /**
  * 打开侧边配置

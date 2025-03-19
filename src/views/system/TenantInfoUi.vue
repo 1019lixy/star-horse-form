@@ -33,7 +33,7 @@
         type: "select",
         actionName: "change",
         actions: (value) => {
-          alert(value.effectiveTime);
+
         },
         optionList: effectiveTimeList,
         defaultVisible: true

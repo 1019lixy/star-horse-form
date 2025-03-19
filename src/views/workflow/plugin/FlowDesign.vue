@@ -30,7 +30,7 @@
   import FlowTips from "@/views/workflow/plugin/common/FlowTips.vue";
   import FlowNode from "@/views/workflow/plugin/node/FlowNode.vue";
   import { computed, onMounted, ref, watch } from "vue";
-  import { useFlowDesign } from "@/store/FlowDesignStore.ts";
+  import { useFlowDesignStore } from "@/store/FlowDesign.ts";
   import piniaInstance from "@/store";
   import html2canvas from "html2canvas";
   import FlowMap from "@/views/workflow/plugin/common/FlowMap.vue";
@@ -55,7 +55,7 @@
   });
   const dataUrl: ApiUrls = apiInstance("flow-engine", "workflow/flowDefine");
   const router = useRouter();
-  const flowDesign = useFlowDesign(piniaInstance);
+  const flowDesign = useFlowDesignStore(piniaInstance);
   let zoomValue = ref<number>(100);
   let zoomStyle = computed(() => {
     const zoom = zoomValue.value / 100;

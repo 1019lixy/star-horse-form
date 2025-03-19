@@ -6,7 +6,7 @@
   import { SearchFields, SelectOption } from "@/components/types/SearchProps";
   import { ExpandTable, PageFieldInfo, UserFuncInfo } from "@/components/types/PageFieldInfo";
   import { getCustomerParam } from "@/utils/auth";
-  import { GlobalConfig } from "@/store/GlobalConfigStore.ts";
+  import { useGlobalConfigStore } from "@/store/GlobalConfig.ts";
   import piniaInstance from "@/store";
   import { SearchParams } from "@/components/types/Params";
   import { TreeNodeData } from "element-plus/es/components/tree-v2/src/types";

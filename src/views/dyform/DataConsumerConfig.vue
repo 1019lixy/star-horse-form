@@ -17,10 +17,10 @@
     table_width,
     viewFieldInfo
   } from "@/views/dyform/utils/DataConsumer.ts";
-  import { ConsumerView } from "@/store/ConsumerViewStore.ts";
+  import { useConsumerViewStore } from "@/store/ConsumerView.ts";
   import piniaInstance from "@/store";
   import { tableColumns } from "@/views/dbsearch/utils/DbSearchUtils.ts";
-  import { GlobalConfig } from "@/store/GlobalConfigStore.ts";
+  import { useGlobalConfigStore } from "@/store/GlobalConfig.ts";
   import { Config } from "@/api/settings.ts";
 
   const route = useRoute();
@@ -31,9 +31,9 @@
   const formConditionProps = ref<any>({});
   const dataForm = ref<any>({});
   const relationConditionList = ref<Array<any>>([]);
-  const consumerView = ConsumerView(piniaInstance);
+  const consumerView = useConsumerViewStore(piniaInstance);
   let dbConfigId = computed(() => consumerView.dbConfigId);
-  let configStore = GlobalConfig(piniaInstance);
+  let configStore = useGlobalConfigStore(piniaInstance);
   let compSize = computed(() => configStore.configFormInfo?.buttonSize || Config.compSize);
 
   const initDiagram = () => {};

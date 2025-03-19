@@ -1,10 +1,10 @@
 <script setup lang="ts">
   import { computed, onMounted } from "vue";
-  import { DesignPage } from "@/store/DesignPageStore.ts";
+  import { useDesignPageStore } from "@/store/DesignPage.ts";
   import piniaInstance from "@/store";
   import { uuid } from "@/api/system.ts";
 
-  let designPage = DesignPage(piniaInstance);
+  let designPage = useDesignPageStore(piniaInstance);
   let nodeList = computed(() => designPage.nodeList);
   const handleClick = () => {
     designPage.addNode({

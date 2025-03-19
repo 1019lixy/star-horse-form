@@ -65,7 +65,7 @@
   import FlowDrawerFooter from "@/views/workflow/plugin/common/DrawerFooter.vue";
   import { onMounted, ref } from "vue";
   import { dictData } from "@/api/star_horse_utils.ts";
-  import { useFlowDesign } from "@/store/FlowDesignStore.ts";
+  import { useFlowDesignStore } from "@/store/FlowDesign.ts";
   import piniaInstance from "@/store";
   import { ModelRef } from "vue-demi";
   import StarHorseDataSelector from "@/components/comp/StarHorseDataSelector.vue";
@@ -80,7 +80,7 @@
 
   let node: ModelRef<any> = defineModel("activeData");
 
-  const flowDesign = useFlowDesign(piniaInstance);
+  const flowDesign = useFlowDesignStore(piniaInstance);
   let noticeTab = ref<string>("1");
   // 邮件选择项
   let fieldList = ref<Array<FieldInfo>>([]);

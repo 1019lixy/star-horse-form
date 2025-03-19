@@ -20,12 +20,12 @@
   import { onMounted } from "vue";
   import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
   import { closeLoad } from "@/api/star_horse_utils.ts";
-  import { useFlowDesign } from "@/store/FlowDesignStore.ts";
+  import { useFlowDesignStore } from "@/store/FlowDesign.ts";
   import piniaInstance from "@/store";
   import { warning } from "@/utils/message.ts";
   import DeleteConfirm from "@/views/workflow/plugin/common/DeleteConfirm.vue";
 
-  const flowDesign = useFlowDesign(piniaInstance);
+  const flowDesign = useFlowDesignStore(piniaInstance);
   const props = defineProps({
     node: {
       type: Object,

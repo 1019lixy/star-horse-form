@@ -1,7 +1,7 @@
 <script setup lang="ts" name="box-container">
   import { computed, onMounted, PropType, reactive, watch } from "vue";
   import { warning } from "@/utils/message";
-  import { DesignForm } from "@/store/DesignFormStore.ts";
+  import { useDesignFormStore } from "@/store/DesignForm.ts";
   import piniaInstance from "@/store/index.ts";
   import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
   import { tableAction, tableCellOperation } from "@/components/formcomp/container/dytableUtils.ts";
@@ -20,7 +20,7 @@
     rowIndex: { type: Number, default: -1 },
     colIndex: { type: Number, default: -1 }
   });
-  let designForm = DesignForm(piniaInstance);
+  let designForm = useDesignFormStore(piniaInstance);
   let draggingItem = computed(() => designForm.draggingItem);
   let excludeContainerType: Array<string> = ["box", "tab", "table", "dytable", "collapse", "card"];
   let currentSubItemId = computed(() => designForm.currentSubItemId);

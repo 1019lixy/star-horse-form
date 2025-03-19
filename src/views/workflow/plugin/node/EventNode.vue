@@ -35,7 +35,7 @@
 <script setup lang="ts">
   import FlowAddNode from "@/views/workflow/plugin/node/AddNode.vue";
   import { computed, onMounted } from "vue";
-  import { useFlowDesign } from "@/store/FlowDesignStore.ts";
+  import { useFlowDesignStore } from "@/store/FlowDesign.ts";
   import piniaInstance from "@/store";
   import { closeLoad } from "@/api/star_horse_utils.ts";
   import { FlowNodeEnums } from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
@@ -46,7 +46,7 @@
   defineOptions({
     name: "FlowNodeEvent"
   });
-  const flowDesign = useFlowDesign(piniaInstance);
+  const flowDesign = useFlowDesignStore(piniaInstance);
   let currentNode = computed(() => flowDesign.currentNode);
   const props = defineProps({
     node: {

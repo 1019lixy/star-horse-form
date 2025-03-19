@@ -6,7 +6,7 @@ import { message } from "@/utils/message.ts";
 /**
  * 用户自定义方法处理逻辑
  */
-export const CopyerOperation = defineStore("CopyerOperation", () => {
+export const useCopyerOperationStore = defineStore("copyerOperation", () => {
   //执行的动作
   const action = ref<string>("");
   //模块

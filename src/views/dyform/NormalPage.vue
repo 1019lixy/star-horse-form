@@ -4,13 +4,13 @@ import {apiInstance, closeLoad, dialogPreps, load, loadGetData} from "@/api/star
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {SearchProps} from "@/components/types/SearchProps";
 import {Config} from "@/api/settings.ts";
-import {DesignForm} from "@/store/DesignFormStore.ts";
+import {useDesignFormStore} from "@/store/DesignForm.ts";
 import piniaInstance from "@/store/index.ts";
 import {createDatetime} from "@/api/date_utils.ts";
 import {UserFuncInfo} from "@/components/types/PageFieldInfo";
 import {userAction} from "@/api/user_func.ts";
 
-let designForm = DesignForm(piniaInstance);
+let designForm = useDesignFormStore(piniaInstance);
 const normalPageRef = ref();
 const normalFormRef = ref();
 let relationTables = ref<any>({});

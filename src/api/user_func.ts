@@ -1,17 +1,17 @@
-import {useUserSelfOperation} from "@/store/SelfOperationStore.ts";
+import {useSelfOperationStore} from "@/store/SelfOperation.ts";
 import piniaInstance from "@/store";
 import {download, getRequest, postRequest, uploadRequest} from "@/api/star_horse_apis.ts";
 import {getUserInfo} from "@/utils/auth.ts";
 import {Ref} from "vue";
 import {createCondition} from "@/api/star_horse_utils.ts";
 import {success, warning} from "@/utils/message.ts";
-import {useRouter} from "vue-router";
+import router from "@/router";
 import {UserFuncInfo} from "@/components/types/PageFieldInfo";
 
 /**
  * 动态表单用户自定义驱动
  */
-const userOperation = useUserSelfOperation(piniaInstance);
+const userOperation = useSelfOperationStore(piniaInstance);
 /**
  * 用户自定义事件对接接口
  * @param code 需要执行的代码
@@ -63,7 +63,7 @@ export const userFunction = (code: string, context: any) => {
         uploadRequest
     );
 };
-const router = useRouter();
+
 
 /**
  * 用户自定义按钮

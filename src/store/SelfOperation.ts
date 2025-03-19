@@ -5,7 +5,7 @@ import { PageFieldInfo } from "@/components/types/PageFieldInfo";
 /**
  * 用户自定义方法处理逻辑
  */
-export const useUserSelfOperation = defineStore("userSelfOperation", () => {
+export const useSelfOperationStore = defineStore("selfOperation", () => {
   const formFieldList = ref<PageFieldInfo>({});
   const fieldItemList = ref<any>({});
   const formData = ref<any>({});

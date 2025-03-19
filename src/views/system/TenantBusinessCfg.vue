@@ -8,7 +8,7 @@
   import { createDatetime } from "@/api/date_utils.ts";
   import { loadDict, postRequest } from "@/api/star_horse_apis.ts";
   import StarHorseTree from "@/components/comp/StarHorseTree.vue";
-  import { GlobalConfig } from "@/store/GlobalConfigStore.ts";
+  import { useGlobalConfigStore } from "@/store/GlobalConfig.ts";
   import piniaInstance from "@/store";
   import { operationConfirm } from "@/utils/message.ts";
 
@@ -19,7 +19,7 @@
   const dataUrl: ApiUrls = apiInstance("system-config", "system/tenantInfo");
   const tenantAppDataUrl: ApiUrls = apiInstance("system-config", "system/tenantAppinfo");
   const tenantAppMenuDataUrl: ApiUrls = apiInstance("system-config", "system/tenantAppMenusinfo");
-  let configStore = GlobalConfig(piniaInstance);
+  let configStore = useGlobalConfigStore(piniaInstance);
   let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
   //主键
   const primaryKey = "idTenantInfo";

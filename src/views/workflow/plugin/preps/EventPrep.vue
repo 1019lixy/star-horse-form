@@ -83,12 +83,12 @@
   import { flowCommon } from "@/views/workflow/plugin/utils/flowCommon.ts";
   import FlowDrawerFooter from "@/views/workflow/plugin/common/DrawerFooter.vue";
   import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-  import { useFlowDesign } from "@/store/FlowDesignStore.ts";
+  import { useFlowDesignStore } from "@/store/FlowDesign.ts";
   import piniaInstance from "@/store";
   import { ModelRef } from "vue-demi";
 
   let node: ModelRef<any> = defineModel("activeData");
-  const flowDesign = useFlowDesign(piniaInstance);
+  const flowDesign = useFlowDesignStore(piniaInstance);
   const onClose = () => {
     flowDesign.setActive(false);
   };

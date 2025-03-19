@@ -3,7 +3,7 @@ import {computed, nextTick, onMounted, PropType, ref} from "vue";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {SearchFields, SelectOption} from "@/components/types/SearchProps";
 import {isJson, searchMatchList} from "@/api/star_horse_utils.ts";
-import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
+import {useGlobalConfigStore} from "@/store/GlobalConfig.ts";
 import piniaInstance from "@/store";
 import {analysisSearchData} from "@/views/dyform/utils/preview.ts";
 import {SearchParams} from "@/components/types/Params";
@@ -22,7 +22,7 @@ const props = defineProps({
   formData: {type: Object as PropType<SearchFields>, required: true},
   defaultCondition: {type: Array<SearchParams>}
 });
-let configStore = GlobalConfig(piniaInstance);
+let configStore = useGlobalConfigStore(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
 let searchForm = ref<any>({});
 

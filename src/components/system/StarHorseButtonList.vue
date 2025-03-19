@@ -5,9 +5,9 @@ import {download} from "@/api/star_horse_apis.ts";
 import {error} from "@/utils/message.ts";
 import {DialogProps} from "../types/DialogProps";
 import {getToken} from "@/utils/auth.ts";
-import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
+import {useGlobalConfigStore} from "@/store/GlobalConfig.ts";
 import piniaInstance from "@/store";
-import {useButtonPermission} from "@/store/ButtonPermissionStore.ts";
+import {useButtonPermissionStore} from "@/store/ButtonPermission.ts";
 import {useRoute} from "vue-router";
 import {UserFuncInfo} from "@/components/types/PageFieldInfo";
 import Help from "@/components/help.vue";
@@ -31,8 +31,8 @@ const emits = defineEmits([
   "tableCompFunc"
 ]);
 let route = useRoute();
-let configStore = GlobalConfig(piniaInstance);
-let pagePermission = useButtonPermission(piniaInstance);
+let configStore = useGlobalConfigStore(piniaInstance);
+let pagePermission = useButtonPermissionStore(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.buttonSize || Config.compSize);
 let showType = computed(() => configStore.configFormInfo?.buttonShowType || "dropdown");
 let permissions = ref<any>({});

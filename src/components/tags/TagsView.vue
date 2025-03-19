@@ -3,14 +3,14 @@
   import type { RouteLocationNormalizedLoaded, RouterLinkProps } from "vue-router";
   import { useRouter } from "vue-router";
   import { ElScrollbar } from "element-plus";
-  import { navBarList } from "@/store/NavbarListStore";
+  import { useNavBarListStore } from "@/store/NavBarList.ts";
   import { useScrollTo } from "@/components/tags/useScrollTo";
   import ContextMenu from "@/components/tags/ContextMenu.vue";
   import { useTemplateRefsList } from "@vueuse/core";
   import piniaInstance from "@/store";
 
   const { currentRoute, push, replace } = useRouter();
-  const viewListStore = navBarList(piniaInstance);
+  const viewListStore = useNavBarListStore(piniaInstance);
   const navTagsList = computed(() => viewListStore.navTagsList);
   // 初始化tag
   const initTags = () => {};

@@ -11,7 +11,7 @@
   } from "@/api/star_horse_utils.ts";
   import { computed, onMounted, provide, reactive, ref } from "vue";
   import { SearchFields, SelectOption } from "@/components/types/SearchProps";
-  import { GlobalConfig } from "@/store/GlobalConfigStore.ts";
+  import { useGlobalConfigStore } from "@/store/GlobalConfig.ts";
   import piniaInstance from "@/store";
   import { TreeNodeData } from "element-plus/es/components/tree-v2/src/types";
   import { warning } from "@/utils/message.ts";
@@ -26,7 +26,7 @@
   let systemInfoList = ref<SelectOption[]>([]);
   let appinfoList = ref<SelectOption[]>([]);
   let menusList = ref<Array<any>>();
-  let configStore = GlobalConfig(piniaInstance);
+  let configStore = useGlobalConfigStore(piniaInstance);
   let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
   let currentUserGroupId = ref<number>(0);
   let currentSystemId = ref<number>(0);

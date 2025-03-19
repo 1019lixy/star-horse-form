@@ -10,7 +10,7 @@
   import { PageFieldInfo, UserFuncInfo } from "@/components/types/PageFieldInfo";
   import { TreeNodeData } from "element-plus/es/components/tree-v2/src/types";
   import { findNodesWithValue, treeCheckChange } from "@/api/system";
-  import { GlobalConfig } from "@/store/GlobalConfigStore.ts";
+  import { useGlobalConfigStore } from "@/store/GlobalConfig.ts";
   import piniaInstance from "@/store";
   import StarHorseTree from "@/components/comp/StarHorseTree.vue";
 
@@ -198,7 +198,7 @@
     ],
     cellEditable: true
   });
-  let configStore = GlobalConfig(piniaInstance);
+  let configStore = useGlobalConfigStore(piniaInstance);
   let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
   const primaryKey = "idMenusinfo";
   const rules = {};

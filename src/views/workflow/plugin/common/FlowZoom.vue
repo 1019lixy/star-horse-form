@@ -86,7 +86,7 @@
 <script setup lang="ts">
   import { computed, nextTick, onActivated, onDeactivated, onMounted, ref } from "vue";
   import { ModelRef } from "vue-demi";
-  import { useFlowDesign } from "@/store/FlowDesignStore.ts";
+  import { useFlowDesignStore } from "@/store/FlowDesign.ts";
   import piniaInstance from "@/store";
   import { copy, loadData } from "@/api/star_horse_utils.ts";
   import { downloadData } from "@/api/star_horse_apis.ts";
@@ -124,7 +124,7 @@
       default: true
     }
   });
-  const flowDesign = useFlowDesign(piniaInstance);
+  const flowDesign = useFlowDesignStore(piniaInstance);
   const emits = defineEmits(["saveImage"]);
   const zoomValue: ModelRef<any> = defineModel("zoomValue")!;
   const basicInfoRef = ref();

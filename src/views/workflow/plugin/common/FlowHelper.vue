@@ -1,13 +1,13 @@
 <script setup lang="ts">
   import { computed, onMounted, ref } from "vue";
   import { scale } from "@/views/workflow/plugin/utils/deviceUtil";
-  import { useFlowDesign } from "@/store/FlowDesignStore.ts";
+  import { useFlowDesignStore } from "@/store/FlowDesign.ts";
   import piniaInstance from "@/store";
   import { ApiUrls } from "@/components/types/ApiUrls";
   import { apiInstance, createCondition, loadData } from "@/api/star_horse_utils.ts";
 
   const dataUrl: ApiUrls = apiInstance("flow-engine", "workflow/categoryItemConfig");
-  const flowDesign = useFlowDesign(piniaInstance);
+  const flowDesign = useFlowDesignStore(piniaInstance);
   const suggestBranchEnable = computed(() => flowDesign.suggestBranchEnable);
   const parallelBranchEnable = computed(() => flowDesign.parallelBranchEnable);
   const dynamicFlow = ref<boolean>(false);

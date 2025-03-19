@@ -20,7 +20,7 @@
     sexList,
     userFormat
   } from "@/views/system/utils/UserFields.ts";
-  import { GlobalConfig } from "@/store/GlobalConfigStore.ts";
+  import { useGlobalConfigStore } from "@/store/GlobalConfig.ts";
   import piniaInstance from "@/store";
 
   const props = defineProps({
@@ -45,7 +45,7 @@
       }
     ]
   });
-  let configStore = GlobalConfig(piniaInstance);
+  let configStore = useGlobalConfigStore(piniaInstance);
   let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
   //修改密码方法
   const pwdFormRef = ref();
