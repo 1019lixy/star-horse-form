@@ -14,7 +14,7 @@
     "build:prod": "NODE_OPTIONS=--max-old-space-size=8192 vite build --mode production",
     "preview": "vite preview --mode production",
     "deploy": "vite build --mode production && node deploy.js",
-    "publish": "node deploy.js",
+    "testPublish": "node deploy.js",
     "createNodeImageList": "node ./script/createNodeImageList.js"
   },
   "dependencies": {
