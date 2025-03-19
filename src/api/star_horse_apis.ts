@@ -172,7 +172,6 @@ export async function userLogout(data: Array<any>) {
         warning(resultDdata.error);
         return;
     }
-    alert(33);
     removeToken();
     userStore.logout();
     navBarListStore.clearAll();

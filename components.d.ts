@@ -75,7 +75,6 @@ declare module 'vue' {
     CopyerNode: typeof import('./src/views/workflow/plugin/node/CopyerNode.vue')['default']
     CopyerPrep: typeof import('./src/views/workflow/plugin/preps/CopyerPrep.vue')['default']
     CppCompile: typeof import('./src/views/continus/nodeInfo/CppCompile.vue')['default']
-    CppTest: typeof import('./src/views/continus/nodeInfo/CppTest.vue')['default']
     CppUnitTest: typeof import('./src/views/continus/nodeInfo/CppUnitTest.vue')['default']
     CreateTableUi: typeof import('./src/views/dbsearch/CreateTableUi.vue')['default']
     CronItem: typeof import('./src/components/formcomp/items/cron-item.vue')['default']
