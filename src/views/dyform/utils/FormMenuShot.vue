@@ -2,8 +2,11 @@
 import {nextTick, onMounted, PropType, ref} from "vue";
 import StarHorseTree from "@/components/comp/StarHorseTree.vue";
 import {ApiUrls} from "@/components/types/ApiUrls";
+import {postRequest} from "@/api/star_horse_apis.ts";
+import {operationConfirm, success, warning} from "@/utils/message.ts";
+import {createCondition} from "@/api/star_horse_utils.ts";
 
-defineProps({
+const props = defineProps({
   dynamicFormList: {
     type: Array,
     default: () => []
@@ -21,6 +24,7 @@ defineProps({
   }
 });
 const emits = defineEmits(["change"]);
+const starHorseTreeRef = ref();
 let startX = ref<any>(undefined); //判断是否要打开下拉
 let endX = ref<any>(undefined);
 let startY = ref<any>(undefined);
@@ -143,7 +147,16 @@ const dataChange = (menu: any) => {
   emits("change", 'edit', menu);
 };
 const rmvData = (menu: any) => {
-  emits("change", 'remove', menu);
+  operationConfirm("确认删除吗？").then(() => {
+    postRequest(props.dataUrl.deleteUrl, [menu[props.primaryKey]]).then(res => {
+      if (res.data.code) {
+        warning(res.data.cnMessage);
+        return;
+      }
+      success("操作成功");
+      starHorseTreeRef.value.createSearchParams();
+    })
+  });
 };
 const addData = (menu: any) => {
   emits("change", 'subAdd', menu);
@@ -168,7 +181,7 @@ defineExpose({
           :expand="true"
           treeTitle="表单列表"
           @selectData="dataChange"
-          @rmvData="rmvData"
+          @removeData="rmvData"
           @addData="addData"
           :preps="{
                 label: 'formName',
@@ -191,7 +204,7 @@ defineExpose({
         id="screenshotBtn"
         @click.native.prevent.stop="showDropDown"
         class="fixed-position-btn"
-        type="danger"
+        type="warning"
         icon="menu"
     ></el-button>
   </div>
@@ -215,11 +228,4 @@ defineExpose({
   transform: translate(0, 0) !important;
 }
 
-// 调整下拉菜单定位
-.screenshot-dropdown {
-  position: absolute;
-  right: 0;
-  bottom: 40px; // 保持与按钮间距
-  z-index: 9999;
-}
 </style>
