@@ -38,8 +38,22 @@ const assignField = (data: any) => {
   rules.value = data["rules"];
   formInfo.value = data["formInfo"];
 }
+const resetField = () => {
+  dataUrl.value = apiInstance("", "");
+  searchFormData.value = [];
+  primaryKey.value = "";
+  tableFieldList.value = {
+    fieldList: []
+  };
+  relationTables.value = {};
+  rules.value = {};
+  formInfo.value = {};
+}
 const loadFormData = async (formNo: string) => {
-  if (!formNo) return;
+  if (!formNo) {
+    resetField();
+    return;
+  }
   let cacheData = continusStore.getNodeFields(formNo);
   if (cacheData) {
     assignField(cacheData);
@@ -49,6 +63,7 @@ const loadFormData = async (formNo: string) => {
   if (error) {
     errorMsg.value = error;
     hasData.value = false;
+    resetField();
     closeLoad();
     return;
   }
@@ -90,7 +105,7 @@ const init = async () => {
   if (props.staticFieldData?.fieldList?.length > 0) {
     tableFieldList.value = props.staticFieldData;
   } else {
-    await loadFormData(props.formNo);
+    await loadFormData(props.formNo!);
   }
 };
 onMounted(async () => {

@@ -473,6 +473,9 @@ const createParams = () => {
   if (props.orderBy) {
     orderByTemp.push(...props.orderBy);
   }
+  if (props.fieldList?.orderBy) {
+    orderByTemp.push(...props.fieldList.orderBy);
+  }
   if (searchFields.length > 0) {
     searchTemp.push(...searchFields);
   }
@@ -743,6 +746,9 @@ const showType = (type: string) => {
     typeIcon.value = "card1";
   }
 };
+const getSelectedDatas = () => {
+  return multipleSelection.value;
+}
 onMounted(() => {
   init();
 });
@@ -756,6 +762,7 @@ defineExpose({
   createSearchParams,
   loadByPage,
   getIds,
+  getSelectedDatas,
   multipleSelection,
   setDataInfo,
   //按钮事件

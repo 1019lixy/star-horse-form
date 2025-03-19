@@ -83,13 +83,6 @@ export const useUserInfoStore = defineStore(
         };
     },
     {
-        persist: {
-            enabled: true, // 开启数据缓存
-            strategies: [
-                {key: "userInfo", paths: ["userInfo"]},
-                {key: "pageButtonPermission", paths: ["pageButtonPermission"]},
-                {key: "permissionMenus", paths: ["permissionMenus"]}
-            ]
-        }
+        persist: true
     }
 );

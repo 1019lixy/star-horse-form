@@ -1,12 +1,23 @@
 <script setup lang="ts">
-import {flowCommon} from "@/views/workflow/plugin/utils/flowCommon.ts";
-import {nextTick, onMounted, ref} from "vue";
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
+import {nextTick, onMounted, PropType, ref} from "vue";
+import StarHorseTree from "@/components/comp/StarHorseTree.vue";
+import {ApiUrls} from "@/components/types/ApiUrls";
 
 defineProps({
-  menus: {
+  dynamicFormList: {
     type: Array,
     default: () => []
+  },
+  dataUrl: {
+    type: Object as PropType<ApiUrls>,
+  },
+  compSize: {
+    type: String,
+    default: "default"
+  },
+  primaryKey: {
+    type: String,
+    default: "id"
   }
 });
 const emits = defineEmits(["change"]);
@@ -128,9 +139,15 @@ const dragStart = ($event) => {
 
   return false;
 };
-const changeMenu = (menu: any) => {
-  emits("change", menu);
+const dataChange = (menu: any) => {
+  emits("change", 'edit', menu);
 };
+const rmvData = (menu: any) => {
+  emits("change", 'remove', menu);
+};
+const addData = (menu: any) => {
+  emits("change", 'subAdd', menu);
+}
 const init = async () => {
   await nextTick();
   screenshot.value.addEventListener("touchstart", dragStart, false);
@@ -139,22 +156,70 @@ const init = async () => {
 onMounted(async () => {
   await init();
 });
+defineExpose({
+  hideDropDown
+})
 </script>
 <template>
-  <div v-show="show" ref="screenshot" id="screenshot" class="screenshot">
-    <div ref="screenshotDropdown" v-if="dropDownVisible" class="screenshot-dropdown">
-      <div class="flex items-center " v-for="(menu, i) in menus" :key="i" @click="changeMenu(menu)">
-        <star-horse-icon icon-class="info"/>
-        <span>{{ menu.name }}</span>
-      </div>
+  <div v-show="show" ref="screenshot" id="screenshot" class="absolute left-[20px] bottom-[20px]">
+    <div ref="screenshotDropdown" v-if="dropDownVisible" class="form-list">
+      <star-horse-tree
+          ref="starHorseTreeRef"
+          :expand="true"
+          treeTitle="表单列表"
+          @selectData="dataChange"
+          @rmvData="rmvData"
+          @addData="addData"
+          :preps="{
+                label: 'formName',
+                value: primaryKey
+              }"
+          :helpMsg="`点击节点进行编辑，点击按钮进行添加或删除`"
+          :showPageBar="true"
+          :isDynamicData="true"
+          :btnVisible="true"
+          :rmvVisible="true"
+          rmv-title="删除子表单"
+          btnTitle="添加子表单"
+          :autoLoad="true"
+          :compUrl="dataUrl"
+          :compSize="compSize"
+      />
     </div>
     <el-button
         ref="screenshotBtnRef"
         id="screenshotBtn"
         @click.native.prevent.stop="showDropDown"
-        class="screenshot-btn el-dropdown-link"
+        class="fixed-position-btn"
         type="danger"
         icon="menu"
     ></el-button>
   </div>
 </template>
+<style lang="scss" scoped>
+.form-list {
+  position: absolute;
+  left: 20px;
+  bottom: 40px; // 保持与按钮间距
+  z-index: 9999;
+  width: 350px;
+  height: 500px;
+  background-color: #fff;
+  border: 1px solid #dcdfe6;
+}
+
+.fixed-position-btn {
+  position: absolute;
+  left: 20px;
+  bottom: 20px;
+  transform: translate(0, 0) !important;
+}
+
+// 调整下拉菜单定位
+.screenshot-dropdown {
+  position: absolute;
+  right: 0;
+  bottom: 40px; // 保持与按钮间距
+  z-index: 9999;
+}
+</style>

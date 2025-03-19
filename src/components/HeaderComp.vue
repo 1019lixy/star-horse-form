@@ -26,7 +26,7 @@
   let systemName = Config.title;
   let userInfo = getUserInfo();
   let permissionMenuList = ref<Array<any>>([]);
-  const shortcutMultipleTable = ref<InstanceType<typeof ElTable>>();
+  const shortcutMultipleTable = ref();
   const dataUrl: ApiUrls = apiInstance("system-config", "system/dictinfoEntity", [getCustomerParam()]);
   let configStore = useGlobalConfigStore(piniaInstance);
   let router = useRouter();
@@ -101,7 +101,7 @@
   };
   const reverseDataList = ref<Array<any>>([]);
   const addShortcutMenu = async () => {
-    let datas = userStore.getPermissionMenus;
+    let datas = unref(userStore.permissionMenus);
     reverseDataList.value = [];
     permissionMenuList.value = datas;
     dialogProps.bakeVisible1 = true;
@@ -122,7 +122,7 @@
     });
   };
   const batchMerge = () => {
-    let selectedRows = shortcutMultipleTable.value!.multipleSelection!.value;
+    let selectedRows = unref(shortcutMultipleTable.value!.getSelectedDatas());
     if (selectedRows.length > 10) {
       warning("快捷菜单最多只能设置10个");
       return;
@@ -271,8 +271,8 @@
           <template #dropdown>
             <el-dropdown-menu>
               <el-dropdown-item>
-                <span>{{ useUserInfoStore.name }}</span>
-                <p>({{ useUserInfoStore.username }})</p>
+                <span>{{ userInfo.name }}</span>
+                <p>({{ userInfo.username }})</p>
               </el-dropdown-item>
               <el-dropdown-item divided class="clearfix" @click="modifyInfo">
                 <star-horse-icon icon-class="user-circle" color="var(--star-horse-style)" />

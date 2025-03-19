@@ -99,6 +99,7 @@ const changeTemplate = () => {
 const addNode = (currentIndex: number) => {
   currentNodeIndex.value = currentIndex;
   currentFieldList.value = {};
+  // nodeInfoRef.value?.resetForm();
   addSubNode();
 };
 const editNode = async (node: any, currentIndex: number) => {
@@ -134,6 +135,7 @@ const editNode = async (node: any, currentIndex: number) => {
     currentFieldList.value = pipelineFields;
   } else {
     formNo.value = node.dynamicFormNo;
+    // nodeInfoRef.value?.resetForm();
     currentFieldList.value = {};
   }
   currentNodeIndex.value = currentIndex;
@@ -163,6 +165,7 @@ const dataSubmit = () => {
   currentNodeIndex.value = index;
   currentCompName.value = node.nodeCode;
   formNo.value = node.dynamicFormNo;
+  // nodeInfoRef.value?.resetForm();
   currentNode.value = node;
   closeAction();
 };
@@ -336,7 +339,7 @@ watch(
       </div>
     </div>
     <div class="config-content relative">
-      <div class=" h-[100px] mx-[7px] my-[10px] border-solid border-1 rounded"
+      <div class="  mx-[7px] my-[10px] border-solid border-1 rounded"
            style="border-color: var(--el-border-color-light);"
            v-if="currentNodeIndex!==-1">
         <star-horse-form ref="nodeInfoRef" class="build-cfg" :outerFormData="currentNode" :fieldList="nodeField"/>

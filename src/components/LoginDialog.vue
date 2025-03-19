@@ -187,7 +187,7 @@ const handleClose = () => {
             :loading="loading"
             @click.stop="handleLogin(loginFormRef, $event)"
             style="
-                width: 90%;
+                width: 100%;
                 height: 40px;
                 font-size: 16px;
                 border: none;

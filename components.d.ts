@@ -228,6 +228,7 @@ declare module 'vue' {
     FlowStatus: typeof import('./src/views/workflow/formItems/FlowStatus.vue')['default']
     FlowTips: typeof import('./src/views/workflow/plugin/common/FlowTips.vue')['default']
     FlowZoom: typeof import('./src/views/workflow/plugin/common/FlowZoom.vue')['default']
+    FormMenuShot: typeof import('./src/views/dyform/utils/FormMenuShot.vue')['default']
     FormPage: typeof import('./src/views/dyform/FormPage.vue')['default']
     FormPreview: typeof import('./src/views/dyform/FormPreview.vue')['default']
     FormPropertyPanel: typeof import('./src/views/dyform/FormPropertyPanel.vue')['default']
