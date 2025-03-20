@@ -3,6 +3,7 @@ import {computed, onMounted, PropType, ref} from "vue";
 import {useDesignFormStore} from "@/store/DesignForm.ts";
 import piniaInstance from "@/store/index.ts";
 import {checkVisible, getDataIndex, getFormData, getPrefix, loadProp, validMsg} from "@/api/form_utils.ts";
+import {uuid} from "@/api/system.ts";
 
 const props = defineProps({
   parentField: {type: String},
@@ -12,17 +13,28 @@ const props = defineProps({
 });
 let designForm = useDesignFormStore(piniaInstance);
 let isEdit = computed(() => designForm.isEdit);
+const isDragging = computed(() => designForm.isDragging);
 let containerType: Array<string> = ["tab", "box", "table", "card", "dytable", "collapse"];
 const getComponentName = (data: any) => {
   return containerType.includes(data.itemType) ? data.itemType + "-container" : data.itemType + "-item";
 };
+const isContainer = (data: any) => {
+  return containerType.includes(data.itemType);
+}
 /**
  * 如果没有items，动态添加
  * @param adata
+ * @param type
  */
-const checkItem = (adata: any) => {
-  if (!adata["items"]) {
-    adata["items"] = [];
+const checkItem = (adata: any, type: string) => {
+  if (type == "header") {
+    if (!adata["headerFieldList"]) {
+      adata["headerFieldList"] = [];
+    }
+  } else {
+    if (!adata["items"]) {
+      adata["items"] = [];
+    }
   }
 };
 const onDragAdd = (evt: Event, dataList: any) => {
@@ -30,7 +42,6 @@ const onDragAdd = (evt: Event, dataList: any) => {
   let newIndex = evt.newIndex;
   if (newIndex != null && newIndex != "undefined") {
     let dataInfo = dataList[newIndex];
-    // designForm.setDraggingItem({});
     designForm.selectItem(dataInfo, dataInfo.itemType, "");
   }
 };
@@ -61,24 +72,24 @@ onMounted(() => {
             {{ adata.title || adata.tabName }}
             <help v-if="adata.helpMsg" :message="adata.helpMsg"/>
           </div>
-          <div class="flex-1 border-dashed border-1 min-h-[40px]">
+          <div class="flex-1  min-h-[40px]" :class="{'dragging-area':isDragging}">
             <draggable
                 @add="(evt: Event) => onDragAdd(evt, adata['headerFieldList'])"
-                @dragover="checkItem(adata)"
+                @dragover="checkItem(adata,'header')"
                 class="card-design"
                 group="starHorseGroup"
                 animation="100"
+                :item-key="uuid()"
                 ghostClass="ghost"
-                :list="adata['headerFieldList']"
-                v-if="isEdit"
+                v-model="adata['headerFieldList']"
             >
-              <template #item="{ element: data }">
-                <div class="comp-item">
+              <template #item="{ element: header }">
+                <div class="comp-item" :style="{marginTop:isContainer(header)?'25px':'10px'}">
                   <component
-                      :key="data.id"
-                      :field="data"
+                      :key="header.id"
+                      :field="header"
                       :formInfo="formInfo"
-                      :is="getComponentName(data)"
+                      :is="getComponentName(header)"
                       :parentField="field"
                       :formData="formData"
                   />
@@ -88,24 +99,25 @@ onMounted(() => {
           </div>
         </div>
       </template>
-      <el-scrollbar height="100%" class="min-h-20">
+
+      <el-scrollbar height="100%" class="min-h-20" :class="{'dragging-area':isDragging}">
         <draggable
             @add="(evt: Event) => onDragAdd(evt, adata['items'])"
-            @dragover="checkItem(adata)"
+            @dragover="checkItem(adata,'body')"
             class="card-design"
             group="starHorseGroup"
             animation="100"
+            :item-key="uuid()"
             ghostClass="ghost"
-            :list="adata['items']"
-            v-if="isEdit"
+            v-model="adata['items']"
         >
-          <template #item="{ element: data }">
+          <template #item="{ element: item }">
             <div class="comp-item">
               <component
-                  :key="data.id"
-                  :field="data"
+                  :key="item.id"
+                  :field="item"
                   :formInfo="formInfo"
-                  :is="getComponentName(data)"
+                  :is="getComponentName(item)"
                   :parentField="field"
                   :formData="formData"
               />

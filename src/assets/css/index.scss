@@ -915,3 +915,7 @@ button.el-collapse-item__header {
     color: var(--star-horse-style);
   }
 }
+.dragging-area {
+  background: #e5e5e5 !important;
+  border: 2px dashed var(--star-horse-style) !important;
+}

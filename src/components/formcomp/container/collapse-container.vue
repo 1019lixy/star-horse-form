@@ -1,66 +1,67 @@
 <script setup lang="ts" name="collapse-container">
-  import { onMounted, PropType, ref, watch } from "vue";
-  import { useDesignFormStore } from "@/store/DesignForm.ts";
-  import piniaInstance from "@/store/index.ts";
+import {computed, onMounted, PropType, ref, watch} from "vue";
+import {useDesignFormStore} from "@/store/DesignForm.ts";
+import piniaInstance from "@/store/index.ts";
 
-  const props = defineProps({
-    parentField: { type: String },
-    formInfo: { type: Object as PropType<any> },
-    formData: { type: Object as PropType<any> },
-    field: { type: Object as PropType<any> }
-  });
-  let designForm = useDesignFormStore(piniaInstance);
-  let containerType: Array<string> = ["tab", "box", "table", "card", "dytable", "collapse"];
-  const getComponentName = (data: any) => {
-    return containerType.includes(data.itemType) ? data.itemType + "-container" : data.itemType + "-item";
-  };
-  /**
-   * 如果没有items，动态添加
-   * @param adata
-   */
-  const checkItem = (adata: any) => {
-    if (!adata["items"]) {
-      adata["items"] = [];
-    }
-  };
-  const onDragAdd = (evt: Event, dataList: any) => {
-    console.log(evt, dataList);
-    let newIndex = evt.newIndex;
-    if (newIndex != null && newIndex != "undefined") {
-      let dataInfo = dataList[newIndex];
-      // designForm.setDraggingItem({});
-      designForm.selectItem(dataInfo, dataInfo.itemType, "");
-    }
-  };
-  const activeTabName = ref();
-  onMounted(() => {
-    if (!props.field["preps"]["elements"]) {
-      props.field["preps"]["elements"] = [
-        {
-          label: "Collapse1",
-          tabName: "collapse1",
-          objectName: "collapse1",
-          subFormFlag: "Y",
-          items: []
-        },
-        {
-          label: "Collapse2",
-          tabName: "collapse2",
-          objectName: "collapse2",
-          subFormFlag: "Y",
-          items: []
-        }
-      ];
-    }
-    activeTabName.value = props.field["preps"]["elements"][0].tabName;
-  });
-  watch(
+const props = defineProps({
+  parentField: {type: String},
+  formInfo: {type: Object as PropType<any>},
+  formData: {type: Object as PropType<any>},
+  field: {type: Object as PropType<any>}
+});
+let designForm = useDesignFormStore(piniaInstance);
+const isDragging = computed(() => designForm.isDragging);
+let containerType: Array<string> = ["tab", "box", "table", "card", "dytable", "collapse"];
+const getComponentName = (data: any) => {
+  return containerType.includes(data.itemType) ? data.itemType + "-container" : data.itemType + "-item";
+};
+/**
+ * 如果没有items，动态添加
+ * @param adata
+ */
+const checkItem = (adata: any) => {
+  if (!adata["items"]) {
+    adata["items"] = [];
+  }
+};
+const onDragAdd = (evt: Event, dataList: any) => {
+  console.log(evt, dataList);
+  let newIndex = evt.newIndex;
+  if (newIndex != null && newIndex != "undefined") {
+    let dataInfo = dataList[newIndex];
+    // designForm.setDraggingItem({});
+    designForm.selectItem(dataInfo, dataInfo.itemType, "");
+  }
+};
+const activeTabName = ref();
+onMounted(() => {
+  if (!props.field["preps"]["elements"]) {
+    props.field["preps"]["elements"] = [
+      {
+        label: "Collapse1",
+        tabName: "collapse1",
+        objectName: "collapse1",
+        subFormFlag: "Y",
+        items: []
+      },
+      {
+        label: "Collapse2",
+        tabName: "collapse2",
+        objectName: "collapse2",
+        subFormFlag: "Y",
+        items: []
+      }
+    ];
+  }
+  activeTabName.value = props.field["preps"]["elements"][0].tabName;
+});
+watch(
     () => activeTabName.value,
     (val) => {
       props.field["activeItemName"] = val;
     },
-    { immediate: true, deep: true }
-  );
+    {immediate: true, deep: true}
+);
 </script>
 <template>
   <group-box-container class="star-horse-form-container" :parentField="parentField" :form-item="field">
@@ -71,25 +72,25 @@
             <div>{{ adata.label || adata.objectName }}</div>
           </div>
         </template>
-        <el-scrollbar height="100%">
+        <el-scrollbar height="100%" :class="{'dragging-area':isDragging}">
           <draggable
-            @add="(evt: Event) => onDragAdd(evt, adata['items'])"
-            @dragover="checkItem(adata)"
-            class="card-design"
-            group="starHorseGroup"
-            animation="100"
-            ghostClass="ghost"
-            :list="adata['items']"
+              @add="(evt: Event) => onDragAdd(evt, adata['items'])"
+              @dragover="checkItem(adata)"
+              class="card-design"
+              group="starHorseGroup"
+              animation="100"
+              ghostClass="ghost"
+              :list="adata['items']"
           >
             <template #item="{ element: data }">
               <div class="comp-item">
                 <component
-                  :key="data.id"
-                  :field="data"
-                  :formInfo="formInfo"
-                  :is="getComponentName(data)"
-                  :parentField="field"
-                  :formData="formData"
+                    :key="data.id"
+                    :field="data"
+                    :formInfo="formInfo"
+                    :is="getComponentName(data)"
+                    :parentField="field"
+                    :formData="formData"
                 />
               </div>
             </template>
@@ -100,16 +101,16 @@
   </group-box-container>
 </template>
 <style lang="scss" scoped>
-  :deep(.el-card) {
-    margin-top: 10px;
-  }
+:deep(.el-card) {
+  margin-top: 10px;
+}
 
-  :deep(.el-card__body) {
-    margin-top: 5px;
-  }
+:deep(.el-card__body) {
+  margin-top: 5px;
+}
 
-  .card-design {
-    height: 100%;
-    overflow-y: auto;
-  }
+.card-design {
+  height: 100%;
+  overflow-y: auto;
+}
 </style>

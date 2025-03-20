@@ -25,6 +25,7 @@
   let excludeContainerType: Array<string> = ["box", "tab", "table", "dytable", "collapse", "card"];
   let currentSubItemId = computed(() => designForm.currentSubItemId);
   let isEdit = computed(() => designForm.isEdit);
+  const isDragging = computed(() => designForm.isDragging);
   let buttonControl = reactive<any>({
     mergeLeftColDisabled: props.isFirstCol,
     mergeRightColDisabled: props.isLastCol,
@@ -93,6 +94,7 @@
 <template>
   <td
     class="edit_col"
+    :class="{'dragging-area':isDragging}"
     :colspan="field.colspan || 1"
     :rowspan="field.rowspan || 1"
     :style="{

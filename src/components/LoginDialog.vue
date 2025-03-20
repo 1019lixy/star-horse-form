@@ -7,7 +7,6 @@ import {useRouter} from "vue-router";
 import type {ElForm, FormInstance, FormRules} from "element-plus";
 import {warning} from "@/utils/message";
 import {i18n} from "@/lang";
-import {useGlobalConfigStore} from "@/store/GlobalConfig.ts";
 import piniaInstance from "@/store";
 import StarHorseDialog from "@/components/comp/StarHorseDialog.vue";
 import {useUserInfoStore} from "@/store/UserInfo.ts";
@@ -21,14 +20,12 @@ interface LoginInfo {
   uuid: string;
 }
 
+const {currentRoute, replace} = useRouter();
 const loginDialogVisible = defineModel<boolean>("loginDialogVisible")
-const loginTitle = Config.title;
-let configStore = useGlobalConfigStore(piniaInstance);
 const userInfoStore = useUserInfoStore(piniaInstance);
 let validateImg = ref<string>("");
 let uuid = ref<string>("");
 let flag = ref<boolean>(false);
-let redirect = ref<string>("");
 let publicKey = ref<string>("");
 let loading = ref<boolean>(false);
 let loginForm = reactive<LoginInfo>({
@@ -40,7 +37,6 @@ let loginForm = reactive<LoginInfo>({
   validCode: ""
 });
 const loginFormRef = ref<FormInstance>();
-let router = useRouter();
 let showValid = ref<boolean>(false);
 let loginRules = reactive<FormRules<LoginInfo>>({
   userName: [{required: true, trigger: "blur", message: i18n("login.userName", ["starhorse.notAllowEmpty"])}],
@@ -83,7 +79,12 @@ const handleLogin = async (elForm: FormInstance | undefined, event: Event) => {
           loading.value = false;
         } else {
           loading.value = !loading.value;
-          router.replace(router.currentRoute.value);
+          const {query, fullPath} = currentRoute.value;
+          query["redirectPath"] = fullPath;
+          await replace({
+            path: "/redirect",
+            query: query
+          });
           handleClose();
         }
       }

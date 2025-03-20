@@ -979,7 +979,7 @@ export function containerField(fieldName: string) {
                 fieldList: [
                     {
                         label: "Card名字",
-                        fieldName: "label",
+                        fieldName: "title",
                         type: "input",
                         required: true,
                         formVisible: true,

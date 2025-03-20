@@ -17,6 +17,7 @@
   let draggingItem = computed(() => designForm.draggingItem);
   let excludeContainerType: Array<string> = ["box", "tab", "table", "dytable", "collapse", "card"];
   let isEdit = computed(() => designForm.isEdit);
+  const isDragging = computed(() => designForm.isDragging);
   const getComponentName = (data: any) => {
     return data?.itemType + "-item";
   };
@@ -119,6 +120,7 @@
             <td
               :style="{ width: 100 / parseInt(field.preps.columns || 1) + '%', 'margin-top': '5px' }"
               class="td-clz"
+              :class="{'dragging-area':isDragging}"
               @mouseenter="(evt) => tdOver(evt, td)"
               @mouseleave="(evt) => tdOut(evt, td)"
             >
