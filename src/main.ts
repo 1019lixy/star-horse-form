@@ -3,7 +3,7 @@ import "@/assets/css/index.scss";
 import "@/assets/css/flow.scss";
 import "tailwindcss/index.css";
 import userComponent from "@/components/comp/selfcomp";
-import nodeComponent from "@/views/continus/nodeInfo/nodecomp";
+import nodeComponent from "@/views/continuous/nodeInfo/nodecomp";
 import userContainerComponent from "@/components/comp/items/callitem";
 import itemComponent from "@/components/formcomp/items/allitem";
 import containerComponent from "@/components/formcomp/container/callitem";

@@ -2,7 +2,7 @@ import {defineStore} from "pinia";
 import {ref} from "vue";
 
 export const useContinusConfigStore = defineStore(
-    "continusConfig",
+    "continuousConfig",
     () => {
         /**
          * 节点信息
