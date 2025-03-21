@@ -61,7 +61,7 @@ const dataSubmit = () => {
     fieldList: [
       {
         label: "",
-        type: "comp",
+        type: "usercomp",
         formVisible: true,
         fieldName: "SubNodeInfo",
         params: {
@@ -82,7 +82,7 @@ const init = async () => {
     fieldList: [
       {
         label: "",
-        type: "comp",
+        type: "usercomp",
         formVisible: true,
         fieldName: "SubNodeInfo",
         params: {

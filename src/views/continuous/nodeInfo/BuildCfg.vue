@@ -147,7 +147,7 @@
       fieldList: [
         {
           label: "",
-          type: "comp",
+          type: "usercomp",
           formVisible: true,
           fieldName: "SubNodeInfo"
         }
@@ -165,7 +165,7 @@
       fieldList: [
         {
           label: "",
-          type: "comp",
+          type: "usercomp",
           formVisible: true,
           fieldName: "SubNodeInfo"
         }

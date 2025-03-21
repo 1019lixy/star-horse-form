@@ -1247,7 +1247,7 @@ const fieldMap: any = reactive({
             {
                 label: "函数名称",
                 fieldName: "StarHorseEditor",
-                type: "comp",
+                type: "usercomp",
                 required: true,
                 formVisible: true,
                 listVisible: true

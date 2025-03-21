@@ -29,7 +29,7 @@ export default defineComponent({
       :formItem="field"
       :parentField="parentField"
   >
-    <div class="cell-header" @click="itemAction('click')" v-if="field?.preps?.headerFlag == 'Y'">
+    <div class="cell-header" @click="itemAction('click')">
       <span>{{ field.preps["textContent"] || field.preps["placeholder"] }}</span>
     </div>
   </starhorse-form-item>

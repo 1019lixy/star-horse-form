@@ -432,6 +432,7 @@ declare module 'vue' {
     UnknownItem: typeof import('./src/components/formcomp/items/unknown-item.vue')['default']
     UploadItem: typeof import('./src/components/formcomp/items/upload-item.vue')['default']
     UserCenter: typeof import('./src/components/UserCenter.vue')['default']
+    UsercompItem: typeof import('./src/components/formcomp/items/usercomp-item.vue')['default']
     UserItem: typeof import('./src/components/formcomp/items/user-item.vue')['default']
     UserManage: typeof import('./src/views/system/UserManage.vue')['default']
     UsersAuditUi: typeof import('./src/views/system/UsersAuditUi.vue')['default']

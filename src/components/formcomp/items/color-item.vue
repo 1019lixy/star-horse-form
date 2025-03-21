@@ -26,7 +26,6 @@
   export default defineComponent({
     setup(_props, context) {
       const parentField = context.attrs["parentField"];
-
       const field = context.attrs["field"] as any;
       let formItem = shallowRef({ label: "input", required: false });
       let dataField = shallowRef("");
