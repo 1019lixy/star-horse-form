@@ -121,7 +121,7 @@
       {
         label: "归属公司(数量)",
         fieldName: "assignCompanies",
-        type: "text",
+        type: "tag",
         required: false,
         listVisible: true,
         preps: {

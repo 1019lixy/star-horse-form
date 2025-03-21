@@ -223,7 +223,7 @@ export function dataSourceFields(dataSourceRef: Ref<any>, envList: Array<SelectO
                 {
                     label: "表单属性",
                     fieldName: "label",
-                    type: "text",
+                    type: "tag",
                     formVisible: true,
                     listVisible: true,
                     preps: {

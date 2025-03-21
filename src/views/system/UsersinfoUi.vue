@@ -176,13 +176,13 @@
         {
           label: "工号",
           fieldName: "employeeNo",
-          type: "text",
+          type: "tag",
           formVisible: true
         },
         {
           label: "用户名",
           fieldName: "username",
-          type: "text",
+          type: "tag",
           formVisible: true
         }
       ],
