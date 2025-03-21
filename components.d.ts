@@ -391,6 +391,7 @@ declare module 'vue' {
     TableContainer: typeof import('./src/components/formcomp/container/table-container.vue')['default']
     TableItem: typeof import('./src/components/comp/items/tableItem.vue')['default']
     TabPage: typeof import('./src/views/dyform/TabPage.vue')['default']
+    TagItem: typeof import('./src/components/formcomp/items/tag-item.vue')['default']
     TagsView: typeof import('./src/components/tags/TagsView.vue')['default']
     TenantBusinessCfg: typeof import('./src/views/system/TenantBusinessCfg.vue')['default']
     TenantInfoUi: typeof import('./src/views/system/TenantInfoUi.vue')['default']

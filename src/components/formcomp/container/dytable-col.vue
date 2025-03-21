@@ -8,7 +8,7 @@ import {tableAction, tableCellOperation} from "@/components/formcomp/container/d
 import {Config} from "@/api/settings.ts";
 
 const props = defineProps({
-  parentField: {type: String},
+  parentField: {type: Object as PropType<any>},
   formInfo: {type: Object as PropType<any>},
   formData: {type: Object as PropType<any>},
   parentComp: {type: Object as PropType<any>},
@@ -111,7 +111,16 @@ const handleResizeMove = (e: MouseEvent) => {
   if (resizeDirection.value === 'width') {
     const delta = e.clientX - startX.value;
     const newWidth = startWidth.value + delta;
-    props.field.colWidth = `${Math.max(20, newWidth)}px`; // 最小20px
+    // 同步更新所有关联行中相同列索引的宽度
+    console.log(props.parentField?.preps.elements);
+    props.parentField?.preps.elements.forEach(row => {
+      const targetCol = row.columns[props.colIndex];
+      if (targetCol) {
+        console.log(targetCol);
+        targetCol.colWidth = `${Math.max(20, newWidth)}px`;
+      }
+    });
+    // props.field.colWidth = `${Math.max(20, newWidth)}px`; // 最小20px
   } else {
     const delta = e.clientY - startY.value;
     const newHeight = startHeight.value + delta;
@@ -155,6 +164,7 @@ watch(
       @click="selectCurrentTd"
       @mousedown="handleResizeStart"
   >
+
     <draggable
         @add="(evt: Event) => onDragAdd(evt, field.items)"
         class="smain-design"
@@ -239,30 +249,25 @@ watch(
   vertical-align: middle;
   justify-content: center;
   align-items: center;
-
   .comp-item {
     margin: unset;
   }
-
   .bare-item {
     width: 100%;
     height: 100%;
-
     div {
       width: 100%;
       height: 100%;
     }
   }
 }
-
-td.edit_col {
+.edit_col {
   display: table-cell;
-  height: 40px;
+  min-height: 50px;
   position: relative;
   user-select: none;
   transition: width 0.2s, height 0.2s;
   border: 1px solid var(--star-horse-border—color);
-
   .table-cell-action {
     position: absolute;
     //bottom: -30px;
@@ -295,17 +300,20 @@ td.edit_col {
     position: absolute;
     top: 0;
     bottom: 0;
-    right: -4px; // 扩展右侧触发区域
-    width: 8px; // 加宽触发范围
-    pointer-events: auto; // 允许响应鼠标事件
+    right: -3px !important; // 扩展右侧触发区域
+    width: 6px; // 加宽触发范围
+    pointer-events: auto !important; // 允许响应鼠标事件
     cursor: col-resize;
-    background: var(--el-color-primary);
+    background: var(--star-horse-style);
     opacity: 0;
+    z-index: 1001;
     transition: opacity 0.3s, right 0.1s; // 添加手柄位置过渡
   }
+
   &.no-transition {
     transition: none !important;
   }
+
   &:hover {
     &::after, &::before {
       opacity: 1; // 提高可见度
@@ -313,16 +321,29 @@ td.edit_col {
     }
   }
 
+
+  // 修正事件处理逻辑
+  &[colspan]::after {
+    top:10%;
+    height: 80%; // 跨行合并时保持拖拽区域
+  }
+
+  // 保证后续列可操作
+  &[colspan] + .edit_col::after {
+    z-index: 1002;
+  }
+
   &::before {
     content: '';
     position: absolute;
-    left: 0;
+    left: 10%;
     right: 0;
-    bottom: -4px; // 扩展底部触发区域
-    height: 8px; // 加高触发范围
+    bottom: -3px; // 扩展底部触发区域
+    height: 6px; // 加高触发范围
     pointer-events: auto; // 允许响应鼠标事件
     cursor: row-resize;
-    background: var(--el-color-primary);
+    width: 80%;
+    background: var(--star-horse-style);
     opacity: 0;
     transition: opacity 0.3s, bottom 0.1s;
   }

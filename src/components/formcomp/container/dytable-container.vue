@@ -28,6 +28,7 @@
               :isLastCol="colIndex == row.columns.length - 1"
               :rowIndex="rowIndex"
               :colIndex="colIndex"
+              class="dy-cell"
             />
           </template>
         </tr>
@@ -35,4 +36,9 @@
     </table>
   </group-box-container>
 </template>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.dynamic-table {
+  width: 100% !important;
+  border-collapse: collapse;
+}
+</style>
