@@ -22,7 +22,7 @@
   <el-form-item
     v-else
     :size="size"
-    :rules="item.required ? validMsg(item, dataForm) : item.rules || []"
+    :rules="validMsg(item, dataForm)"
     :prop="`${batchName}.${index}.${item.fieldName}`"
   >
     <star-horse-item

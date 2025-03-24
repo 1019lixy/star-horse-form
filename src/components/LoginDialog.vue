@@ -10,6 +10,7 @@ import {i18n} from "@/lang";
 import piniaInstance from "@/store";
 import StarHorseDialog from "@/components/comp/StarHorseDialog.vue";
 import {useUserInfoStore} from "@/store/UserInfo.ts";
+import {getToken, setPublicKey} from "@/utils/auth.ts";
 
 interface LoginInfo {
   userName: string;
@@ -97,6 +98,7 @@ const refreshValidate = () => {
     validateImg.value = record.img;
     uuid.value = record.uuid;
     showValid.value = record.validFlag as boolean;
+    setPublicKey(record.publicKey);
     publicKey.value = record.publicKey;
   });
 };

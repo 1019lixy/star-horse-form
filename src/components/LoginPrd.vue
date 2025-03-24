@@ -2,7 +2,7 @@
   import { Config } from "@/api/settings.ts";
   import { getValidateImg, rtCode, userLogin } from "@/api/star_horse_apis.ts";
   import { JSEncrypt } from "jsencrypt";
-  import { removeToken } from "@/utils/auth";
+  import {removeToken, setPublicKey} from "@/utils/auth";
   import { onMounted, reactive, ref, watch } from "vue";
   import { RouteLocationNormalized, useRouter } from "vue-router";
   import type { ElForm, FormInstance, FormRules, TabsPaneContext } from "element-plus";
@@ -100,6 +100,7 @@
       validateImg.value = record.img;
       uuid.value = record.uuid;
       showValid.value = record.validFlag as boolean;
+      setPublicKey(record.publicKey);
       publicKey.value = record.publicKey;
     });
   };
