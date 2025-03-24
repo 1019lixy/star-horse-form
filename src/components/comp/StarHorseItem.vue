@@ -186,7 +186,7 @@ const compPreps = () => {
   }
   if (itemType.value == "upload" && !field.value.preps["action"]) {
     field.value.preps["action"] = "/system-config/annex/upload/commonFiles";
-    warning("上传组件没配置上传路径,将使用系统默认路径");
+    // warning("上传组件没配置上传路径,将使用系统默认路径");
   }
   //过滤掉查询表单的信息
   if (!props.isSearch && formFields) {
@@ -224,7 +224,36 @@ const typeList = ["select", "tselect", "date", "daterange"];
 const actionName = ref();
 const randId = ref();
 const componentRef = ref();
+const isDragging = ref(false);
+const startX = ref(0);
+const startWidth = ref(0);
+const dragWidth = ref<string | null>(null);
+const startDrag = (e: MouseEvent) => {
+  isDragging.value = true;
+  startX.value = e.clientX;
+  const compInfo = (e.target as HTMLElement).parentElement;
+  if (compInfo) {
+    startWidth.value = compInfo.offsetWidth;
+  }
+  document.body.style.userSelect = 'none';
+};
 
+const onDrag = (e: MouseEvent) => {
+  if (!isDragging.value) return;
+  const delta = e.clientX - startX.value;
+  const newWidth = startWidth.value + delta;
+
+  if (newWidth > 100) { // 最小宽度限制
+    dragWidth.value = `${newWidth}px`;
+  }
+};
+
+const stopDrag = () => {
+  if (isDragging.value) {
+    isDragging.value = false;
+    document.body.style.userSelect = '';
+  }
+};
 onMounted(() => {
   if (typeList.includes(props.item?.type) || typeList.includes(props.item?.fieldType)) {
     defaultAction.value = "change";
@@ -271,8 +300,22 @@ onMounted(() => {
   <div
       v-else
       class="comp-info"
-      :style="{ height: itemType != 'button' ? '100%' : 'inherit',minWidth:isSearch?'200px':'unset', width: item.minWidth || 'inherit' }"
+      :style="{
+        height: itemType != 'button' ? '100%' : 'inherit',
+        minWidth:isSearch?'200px':'unset',
+        maxWidth:isSearch?'500px':'unset',
+        width: dragWidth ||item.minWidth || 'inherit',
+        position: 'relative'
+  }"
+      @mousemove="onDrag"
+      @mouseup="stopDrag"
+      @mouseleave="stopDrag"
   >
+    <div
+        class="drag-handle"
+        @mousedown.prevent="startDrag"
+        v-if="itemType != 'button'&&isSearch"
+    ></div>
     <component
         :id="randId"
         :is="(dataForm&&dataForm['_' + field.preps.name + 'Type'] || itemType) + '-item'"
@@ -303,6 +346,20 @@ onMounted(() => {
   </div>
 </template>
 <style lang="scss" scoped>
+.drag-handle {
+  position: absolute;
+  right: -4px;
+  top: 0;
+  bottom: 0;
+  width: 8px;
+  cursor: col-resize;
+  z-index: 100;
+
+  &:hover {
+    background: rgba(64, 158, 255, 0.2);
+  }
+}
+
 .comp-info {
   display: flex;
   justify-content: left;

@@ -6,7 +6,7 @@
       :parentField="parentField"
   >
     <component
-        :is="field['preps'].compName??context.attrs['field'].preps['name']"
+        :is="currentComponent"
         :isDesign="context.attrs['isDesign']"
         :bareFlag="context.attrs['bareFlag']"
         :nodeFieldList="field['preps'].params?.nodeFieldList"
@@ -19,7 +19,7 @@
   </starhorse-form-item>
 </template>
 <script lang="ts">
-import {defineComponent, shallowRef} from "vue";
+import {defineComponent, shallowRef, onMounted, watch} from "vue";
 
 export default defineComponent({
   setup(_props, context) {
@@ -28,7 +28,29 @@ export default defineComponent({
     const field = context.attrs["field"] as any;
     let formItem = shallowRef({label: "input", required: false});
     let dataField = shallowRef("");
-    return {parentField, context, field, formItem, dataField};
+    const currentComponent = shallowRef(null);
+    const loadComponent = async () => {
+      let compName = field['preps'].compName;
+      if (compName) {
+        try {
+          let comp = await import(`@/components/${compName}.vue`);
+          currentComponent.value = comp.default;
+        } catch (e) {
+          console.log(e.message);
+          currentComponent.value = null;
+        }
+      } else {
+        currentComponent.value = field?.preps['name'];
+      }
+    }
+    onMounted(() => {
+      loadComponent();
+    });
+    watch(() => [field.preps?.compName, field.preps?.name],
+        () => {
+          loadComponent();
+        }, {immediate: false})
+    return {parentField, context, field, formItem, dataField, currentComponent};
   }
 });
 </script>
