@@ -230,7 +230,7 @@
       {
         label: "姓名",
         fieldName: "name",
-        type: "text",
+        type: "tag",
         required: true,
         formVisible: true,
         listVisible: true,

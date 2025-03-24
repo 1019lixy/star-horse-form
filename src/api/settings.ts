@@ -61,8 +61,7 @@ export const Config: any = {
   /**
    * RSA 公钥
    */
-  publicKey:
-    "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCzWOGpzlfubJ98khnt8/fb8EkdA2Axq2yHWxav0lzGkPa+HMOcRZFndNrY8XIDgGbLY/ts3Lq5LeFE+570f6wCdwRneGbYB6bw/rS0RBBCYRD1VXYOmL9tAdakcUgRkT8pmvpdBPL788/eRNhjCFfXo+HbFvg1lRMFobhhFnxaMQIDAQAB",
+  publicKey: "publicKey",
   /**
    * 文件扩展名
    */

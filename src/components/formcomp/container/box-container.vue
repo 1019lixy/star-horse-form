@@ -15,6 +15,7 @@
   let draggingItem = computed(() => designForm.draggingItem);
   // let itemType = ref('container');
   let isEdit = computed(() => designForm.isEdit);
+  const isDragging = computed(() => designForm.isDragging);
   let boxCompList = computed(() => props.field);
   let excludeContainerType: Array<string> = ["box", "tab", "table", "dytable", "collapse", "card"];
   const getComponentName = (data: any) => {
@@ -71,6 +72,7 @@
     >
       <el-col
         class="edit_col"
+        :class="{'dragging-area':isDragging}"
         :item-key="index"
         :span="sdata.colspan || 24"
         v-for="(sdata, index) in element.columns"
@@ -103,6 +105,7 @@
       <el-col
         :item-key="index"
         :span="sdata.colspan || 24"
+        :class="{'dragging-area':isDragging}"
         style="border: none"
         v-else
         v-for="(sdata, index) in element.columns"

@@ -1,6 +1,7 @@
 import {SearchFields, SelectOption} from '@/components/types/SearchProps';
 import {ApiUrls} from '@/components/types/ApiUrls';
 import {SearchParams} from '@/components/types/Params';
+import {RuleType} from "@/components/types/RuleType";
 
 /**
  * Tab 表单数据
@@ -228,7 +229,7 @@ export declare interface FieldInfo {
     /**
      * 校验规则
      */
-    rules?: Array<any>;
+    rules?: RuleType[] | any;
 }
 
 /**

@@ -56,6 +56,7 @@ let activeTab = ref<any>("first");
 let errMessage = ref<string>("");
 let formData = computed(() => designForm.formData);
 let formInfo = computed(() => designForm.formInfo);
+const isDragging = computed(() => designForm.isDragging);
 let shortKeyDisabled = computed(() => designForm.shortKeyDisabled);
 const fieldPanelRef = ref();
 const dynamicFormRef = ref();
@@ -686,6 +687,7 @@ let prepsModel = ref("one");
             <el-form
                 ref="dynamicFormRef"
                 class="design-form-container"
+                :class="{'dragging-area':isDragging}"
                 :disabled="formInfo['disabled'] == 'Y'"
                 :hide-required-asterisk="formInfo['hideRequiredAsterisk'] == 'Y'"
                 :inline="formInfo.inline == 'Y'"
@@ -757,6 +759,8 @@ let prepsModel = ref("one");
   height: 100%;
   border: 1px dashed var(--star-horse-style);
   background: var(--star-horse-background);
+
+
 }
 
 :deep(.el-divider--horizontal) {

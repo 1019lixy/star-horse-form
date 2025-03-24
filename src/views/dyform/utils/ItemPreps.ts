@@ -223,7 +223,7 @@ export function dataSourceFields(dataSourceRef: Ref<any>, envList: Array<SelectO
                 {
                     label: "表单属性",
                     fieldName: "label",
-                    type: "text",
+                    type: "tag",
                     formVisible: true,
                     listVisible: true,
                     preps: {
@@ -970,6 +970,52 @@ export function containerField(fieldName: string) {
             }
         ]
     };
+    const cardFields = {
+        title: "Card属性",
+        tabName: "card",
+        batchFieldList: [
+            {
+                batchName: "elements",
+                fieldList: [
+                    {
+                        label: "Card名字",
+                        fieldName: "title",
+                        type: "input",
+                        required: true,
+                        formVisible: true,
+                        listVisible: true
+                    },
+                    {
+                        label: "主键",
+                        fieldName: "tabName",
+                        helpMsg: `默认作为Card组件的名称，
+                当设置对应关系时,系统作为表的主键`,
+                        type: "input",
+                        required: true,
+                        formVisible: true,
+                        listVisible: true
+                    },
+                    {
+                        label: "对象名字",
+                        fieldName: "objectName",
+                        type: "input",
+                        required: true,
+                        formVisible: true,
+                        listVisible: true
+                    },
+                    {
+                        label: "是否子表",
+                        fieldName: "subFormFlag",
+                        type: "switch",
+                        defaultValue: "Y",
+                        required: true,
+                        formVisible: true,
+                        listVisible: true
+                    }
+                ]
+            }
+        ]
+    };
 
     const boxFields = {
         title: "栅格属性",
@@ -1093,6 +1139,7 @@ export function containerField(fieldName: string) {
     const fields: any = {
         tab: tabFields,
         collapse: collapseFields,
+        card: cardFields,
         box: boxFields,
         dytable: dyTableFields
     };
@@ -1200,7 +1247,7 @@ const fieldMap: any = reactive({
             {
                 label: "函数名称",
                 fieldName: "StarHorseEditor",
-                type: "comp",
+                type: "usercomp",
                 required: true,
                 formVisible: true,
                 listVisible: true

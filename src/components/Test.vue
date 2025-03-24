@@ -57,7 +57,7 @@
 </script>
 
 <template>
-  <div class="box" ref="containerRef"></div>
+  <div class="box" ref="containerRef">22222</div>
 </template>
 
 <style lang="scss" scoped>

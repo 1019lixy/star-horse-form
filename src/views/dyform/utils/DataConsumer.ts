@@ -365,13 +365,13 @@ export function relationFieldInfo(datas: any) {
         {
           label: "关联主表名",
           fieldName: "from",
-          type: "text",
+          type: "tag",
           formVisible: true
         },
         {
           label: "关联主表字段名",
           fieldName: "fromPort",
-          type: "text",
+          type: "tag",
           formVisible: true
         }
       ],
@@ -379,13 +379,13 @@ export function relationFieldInfo(datas: any) {
         {
           label: "被关联表名",
           fieldName: "to",
-          type: "text",
+          type: "tag",
           formVisible: true
         },
         {
           label: "被关联表字段名",
           fieldName: "toPort",
-          type: "text",
+          type: "tag",
           formVisible: true
         }
       ],

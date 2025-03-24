@@ -152,10 +152,8 @@ a {
   overflow: auto;
 
   li {
-    height: 50px;
     padding: 10px;
-    width: 50px;
-    border: 1px solid var(--star-horse-white);
+    border: 1px solid var(--star-horse-style);
   }
 
   li:hover {
@@ -914,4 +912,8 @@ button.el-collapse-item__header {
     justify-content: space-between;
     color: var(--star-horse-style);
   }
+}
+.dragging-area {
+  background: #e5e5e5 !important;
+  border: 2px dashed var(--star-horse-style) !important;
 }

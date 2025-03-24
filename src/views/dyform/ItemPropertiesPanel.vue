@@ -255,11 +255,13 @@ let exclusionDataSource = ref<Array<string>>(["page-select", "switch", "dialog-i
 let formFields = ref<PageFieldInfo>({
   fieldList: []
 });
-const parseSelectData = (items: any, type: string) => {
+const convertFormFieldData = (items: any, type: string) => {
   items.forEach((item: any) => {
     item["formVisible"] = true;
     item["type"] = item["fieldType"];
     item["required"] = item["required"] == "Y";
+    //增加Help
+    item["helpMsg"] = `${item["remark"]}`;
     if (item["selectValues"] && isJson(item["selectValues"])) {
       item["optionList"] = [];
       let datas = JSON.parse(item.selectValues);
@@ -300,9 +302,9 @@ const assignValue = (fieldInfo: any) => {
   try {
     let temp = JSON.parse(JSON.stringify(fieldInfo));
     currentField.value = temp;
-    parseSelectData(temp.fields, "base");
-    parseSelectData(temp.advancedFields, "other");
-    parseSelectData(temp.actions, "action");
+    convertFormFieldData(temp.fields, "base");
+    convertFormFieldData(temp.advancedFields, "other");
+    convertFormFieldData(temp.actions, "action");
     //如果是组件动态增加公共属性，公共属性不应该维护在数据库
     //如果是select,checkbox,radio 等，增加联动属性
     if (currentCompCategory.value == "container") {

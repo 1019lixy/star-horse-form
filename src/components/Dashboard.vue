@@ -15,6 +15,7 @@ import HeaderComp from "@/components/HeaderComp.vue";
 import PageConfig from "@/components/PageConfig.vue";
 import {useGlobalConfigStore} from "@/store/GlobalConfig.ts";
 import FixedMenu from "@/components/FixedMenu.vue";
+import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 
 let configStore = useGlobalConfigStore(piniaInstance);
 const route = router.getRoutes().find((item) => item.path == "/home");
@@ -69,14 +70,25 @@ let resizerRef = ref();
 let initialX = ref<number>(0); // 记录鼠标按下时的初始位置
 
 const mouseDow = (event: MouseEvent) => {
-  event.stopPropagation();
+  event.preventDefault();
   dragging.value = true;
-  initialX.value = event.clientX; // 记录鼠标按下时的初始位置
+  initialX.value = event.clientX;
+  // 添加全局事件监听
+  document.addEventListener('mousemove', dragStart);
+  document.addEventListener('mouseup', () => {
+    dragging.value = false;
+    resizerRef.value.style.cursor = '';
+    document.body.style.cursor = '';
+    document.removeEventListener('mousemove', dragStart);
+  }, {once: true});
 };
 const dragStart = (event: MouseEvent) => {
-  if (configInfo.value.menusCfg != "tradition" || !dragging.value) {
+  if (!dragging.value) return;
+  event.preventDefault();
+  if (configInfo.value.menusCfg != "tradition") {
     return;
   }
+
   const offsetX = event.clientX - initialX.value; // 计算偏移量
   const newWidth = outerIsCollapse.value + offsetX; // 计算新的宽度
   //设置最小和最大宽带
@@ -86,6 +98,7 @@ const dragStart = (event: MouseEvent) => {
   } else if (newWidth > 500) {
     outerIsCollapse.value = 500;
   } else {
+    isCollapse.value = true;
     outerIsCollapse.value = newWidth;
   }
   initialX.value = event.clientX; // 更新初始位置
@@ -145,7 +158,8 @@ const configInfo = computed(() => configStore.configFormInfo);
             class="vertical"
             @mousemove="dragStart"
             @mousedown="mouseDow"
-        >⁝
+            style="user-select: none;"
+        >
         </div>
         <el-main class="star-horse-main animate__animated animate__bounceInUp">
           <tags-view v-if="configInfo.tagsView == 'Y'"/>
@@ -196,14 +210,24 @@ const configInfo = computed(() => configStore.configFormInfo);
   justify-content: center;
   vertical-align: middle;
   align-items: center;
+  width: 9px;
 
   &:hover {
     margin: 2px auto;
-    width: 6px;
     background-color: var(--star-horse-style);
     border-left: 2px solid transparent;
     border-right: 2px solid transparent;
     cursor: col-resize;
+
+    &::after {
+      content: "║";
+      color: white;
+      font-size: 14px;
+      position: absolute;
+      width: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
   }
 }
 
@@ -228,21 +252,6 @@ const configInfo = computed(() => configStore.configFormInfo);
   height: 100%;
 }
 
-/*:deep(.el-aside) {
-overflow: hidden;
-}*/
-
-/*.main-config {
-position: absolute;
-top: 50%;
-right: 1px;
-border-radius: 3px;
-background: var(--star-horse-font-color);
-
-&:hover, svg:hover {
-  cursor: pointer;
-}
-}*/
 :deep(.el-drawer__close-btn) {
   background-color: unset;
 

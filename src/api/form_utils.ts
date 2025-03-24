@@ -69,15 +69,35 @@ export function validMsg(item: any, dataForm: any) {
         }
     }
     const itemRules: any = item.rules || item.preps?.rules;
-    if (itemRules && itemRules.length > 0) {
-        itemRules?.forEach((rule: any) => {
-            if (typeof rule == "string") {
-                rules.push(getValidType(rule));
+    const innerFun = (itemRules: any) => {
+        if (itemRules?.length > 0) {
+            if (Array.isArray(itemRules)) {
+                itemRules?.forEach((rule: any) => {
+                    if (rule?.name?.length > 0) {
+                        rules.push(getValidType(rule.name, rule.options));
+                    } else {
+                        if (typeof rule == "string") {
+                            rules.push(getValidType(rule));
+                        } else {
+                            rules.push(rule);
+                        }
+                    }
+                });
             } else {
-                rules.push(rule);
+                if (itemRules?.name?.length > 0) {
+                    rules.push(getValidType(itemRules.name, itemRules.options));
+                } else {
+                    if (typeof itemRules == "string") {
+                        rules.push(getValidType(itemRules));
+                    } else {
+                        rules.push(itemRules);
+                    }
+                }
             }
-        });
+        }
     }
+    //解决某些非标准的规则
+    innerFun(itemRules);
     return rules;
 }
 

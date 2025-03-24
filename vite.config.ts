@@ -20,7 +20,7 @@ const codeHost: string = "http://192.168.20.165:8888/";
 const systemHost: string = "http://localhost:8749/";
 // const systemHost:string = "http://192.168.20.204:8749/"
 const workflowHost: string = "http://localhost:8899/";
-const continusHost: string = "http://localhost:8859/";
+const continuousHost: string = "http://localhost:8859/";
 const userDbHost: string = "http://localhost:7758/";
 // const userDbHost:string = "http://192.168.20.204:7758/"
 // https://vitejs.dev/config/
@@ -133,10 +133,10 @@ export default defineConfig((mode) => {
                     rewrite: (path: string) => path.replace(/^\/flow-engine/, "/flow-engine-dev"),
                     ws: true
                 },
-                "/devops-continus": {
-                    target: continusHost,
+                "/continuous-manage": {
+                    target: continuousHost,
                     changeOrigin: true,
-                    rewrite: (path: string) => path.replace(/^\/devops-continus/, "/devops-continus-dev"),
+                    rewrite: (path: string) => path.replace(/^\/continuous-manage/, "/continuous-manage-dev"),
                     ws: true
                 },
 

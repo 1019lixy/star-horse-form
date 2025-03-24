@@ -270,8 +270,6 @@ const moveColumn = () => {
         if (oldIndex === newIndex) {
           return;
         }
-        //删除并获取当前行
-        //   const currRow = props.fieldList?.fieldList.splice(oldIndex, 1)[0];
         //再拖动结束位置插入当前行
         //  props.fieldList?.fieldList.splice(newIndex, 0, currRow);
         let oitem = props.fieldList?.fieldList[oldIndex];

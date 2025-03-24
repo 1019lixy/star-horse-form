@@ -148,7 +148,7 @@ const dataChange = (menu: any) => {
 };
 const rmvData = (menu: any) => {
   operationConfirm("确认删除吗？").then(() => {
-    postRequest(props.dataUrl.deleteUrl, [menu[props.primaryKey]]).then(res => {
+    postRequest(props.dataUrl?.deleteUrl!, [menu[props.primaryKey]]).then(res => {
       if (res.data.code) {
         warning(res.data.cnMessage);
         return;
