@@ -50,6 +50,7 @@ const getDefaultVal = (type: string) => {
  */
 export function fieldCopy(data: any, type: string) {
   const reData = JSON.parse(JSON.stringify(data));
+  //怎么解决多次编辑时index重复问题
   if (!formData.value["index"]) {
     formData.value["index"] = 1000;
   }
@@ -93,7 +94,7 @@ export function fieldCopy(data: any, type: string) {
 
 export function compFieldInit() {
   const url = "/userdb-manage/userdb/dynamicFormItems/getAllByCondition";
-  const allFormDataList: Array = [];
+  const allFormDataList: Array<any> = [];
   const assignData = (datas: any) => {
     datas.forEach((item: any) => {
       allFormDataList.push({
@@ -160,9 +161,6 @@ export function compFieldInit() {
       orderBy: [{ fieldName: "dataSort", ascOrDesc: "asc" }]
     };
     return new Promise((resolve) => {
-      const params: SearchParams[] = [
-        /*...*/
-      ];
       postRequest(url, query).then((res) => {
         resolve(res.data?.data);
       });

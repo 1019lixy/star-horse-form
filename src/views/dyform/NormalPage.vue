@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {nextTick, onMounted, provide, reactive, ref, watch} from "vue";
-import {apiInstance, closeLoad, dialogPreps, load, loadGetData} from "@/api/star_horse_utils.ts";
+import {apiInstance, closeLoad, dialogPreps, load, loadData, loadGetData} from "@/api/star_horse_utils.ts";
 import {ApiUrls} from "@/components/types/ApiUrls";
 import {SearchProps} from "@/components/types/SearchProps";
 import {Config} from "@/api/settings.ts";
@@ -25,7 +25,6 @@ const tableFieldList = ref<any>({fieldList: []});
 const primaryKey = ref<string>("");
 const rules = ref<any>({});
 const hasData = ref<boolean>(true);
-const formInfo = ref<any>({});
 const fieldMappingList = ref<any>([]);
 const dataSource = ref<any>({});
 let dateFields = ref<Array<string>>([]);
@@ -37,7 +36,7 @@ const clear = () => {
   hasData.value = false;
 };
 const loadFormData = async (formId: string) => {
-  let {data, error} = await loadGetData(`/userdb-manage/userdb/dynamicForm/dynamicPageInfo/${formId}`);
+  let {data, error} = await loadData(`/userdb-manage/userdb/dynamicFormInfo/getDynamicForm/${formId}`, {});
   if (error) {
     errorMsg.value = error;
     clear();
@@ -51,8 +50,7 @@ const loadFormData = async (formId: string) => {
   tableFieldList.value = data["tableFieldList"];
   rules.value = data["rules"];
   dateFields.value = data["dateFields"];
-  formInfo.value = data["formInfo"];
-  fieldMappingList.value = formInfo.value["fieldMappingList"];
+  fieldMappingList.value = data?.fieldMappingList;
   relationTables.value = data["relationTables"];
   dataSource.value = data["dataSource"];
   extBtns.value = userAction(normalPageRef, primaryKey.value, tableFieldList.value["userTableFuncs"]);
