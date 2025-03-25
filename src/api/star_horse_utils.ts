@@ -11,7 +11,6 @@ import {ApiUrls} from "@/components/types/ApiUrls";
 import {Reactive} from "vue-demi";
 import {DialogProps} from "@/components/types/DialogProps";
 import {createDatetime} from "@/api/date_utils.ts";
-import {getValidType} from "@/api/valid_utils.ts";
 import {pinyin} from "pinyin-pro";
 import {ServiceEnums} from "@/components/enums/ServiceEnums.ts";
 

@@ -92,7 +92,6 @@ const loadFormData = async (formId: any, isParent: boolean) => {
     warning(resultData.error);
     return;
   }
-  console.log("数据加载完成");
   let data = resultData.data;
   if (isParent) {
     data["idDynamicForm"] = null;
@@ -402,6 +401,7 @@ const contextMenu = async (evt: MouseEvent) => {
  * @param data 选中的数据
  */
 const changeDataHandle = (type: string, data: any) => {
+  console.log(type, data);
   let formId = data["idDynamicForm"];
   if (type == "subAdd") {
     loadFormData(formId, true);

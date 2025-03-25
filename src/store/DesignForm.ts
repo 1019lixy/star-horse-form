@@ -321,7 +321,7 @@ export const useDesignFormStore = defineStore("designForm", () => {
             validateOnRuleChange: "Y",
             size: Config.compSize,
             disabled: "N",
-            index: 1,
+            dataIndex: 1,
             scrollToError: "N",
             formId: "id" + ms,
             tbName: "tb" + ms
