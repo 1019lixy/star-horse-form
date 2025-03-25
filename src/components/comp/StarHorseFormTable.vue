@@ -49,7 +49,7 @@
     :staticColumn="item.staticData || 'N'"
     :downloadTemplateUrl="item['downloadTemplateUrl']"
     :importInfo="item['importInfo']"
-    :defaultValues="batchFieldDefaultValues(item)"
+    :defaultValues="batchFieldDefaultValues(item,dataForm)"
     ref="currentTableRef"
     :fieldList="item['fieldList']"
     :rules="item['rules'] || rules"

@@ -204,6 +204,7 @@ const init = async () => {
       }
     }
   }
+  console.log(dataForm.value[props.batchName]);
   moveColumn();
 };
 onMounted(async () => {
@@ -265,12 +266,12 @@ onMounted(async () => {
   </star-horse-dialog>
   <div class="form-list">
     <div class="dynamic-tools">
-      <div class="tb_title" v-if="!subFlag">
-        <star-horse-icon icon-class="info" size="14px"/>
+      <div class="flex items-center" v-if="!subFlag">
+        <star-horse-icon icon-class="config" size="14px"/>
         {{ title }}
         <help v-if="helpMsg" :message="helpMsg" :width="400"/>
       </div>
-      <div style="height: 30px; display: flex; align-items: center; flex-direction: row-reverse; margin-bottom: 5px">
+      <div class="flex items-center">
         <ul class="inner_button" v-if="!isView">
           <li v-if="importInfo?.importDataUrl && !subFlag" @click="excelOperation">
             <el-tooltip content="导入Excel">
@@ -279,7 +280,7 @@ onMounted(async () => {
           </li>
           <li @click="clearAll">
             <el-tooltip content="清空列表">
-              <star-horse-icon icon-class="delete-comp" color="var(--el-style-danger)" size="18px"/>
+              <star-horse-icon icon-class="dustbin" color="var(--el-color-danger)" size="18px"/>
             </el-tooltip>
           </li>
         </ul>
@@ -388,7 +389,7 @@ onMounted(async () => {
   overflow: hidden;
 
   .inner_button {
-    margin-bottom: 5px;
+    height: unset;
   }
 
   .el-table {

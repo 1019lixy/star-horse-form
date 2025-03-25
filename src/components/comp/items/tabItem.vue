@@ -87,13 +87,14 @@ onMounted(() => {
               <help v-if="tabItem.helpMsg" :message="tabItem.helpMsg"/>
             </div>
           </template>
-          <el-scrollbar>
+          <el-scrollbar height="100%"  >
             <star-horse-form-item
                 :isView="isView"
                 :compUrl="compUrl"
                 :compSize="compSize"
                 @addRow="addRow"
                 @removeRow="removeRow"
+
                 :objectName="tabItem.objectName"
                 :dataForm="getFormData(tabItem,dataForm,propPrefix,dataIndex,key)"
                 :dataIndex="getDataIndex(tabItem,propPrefix,dataIndex,key)"
@@ -156,6 +157,12 @@ onMounted(() => {
 <style scoped lang="scss">
 :deep(.el-tabs__content) {
   height: 100% !important;
+  flex: 1;
   overflow: auto;
+}
+:deep(.el-scrollbar__view){
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 </style>

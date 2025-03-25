@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { nextTick, onMounted, provide, reactive, ref, watch } from "vue";
-  import { apiInstance, closeLoad, dialogPreps, load, loadGetData } from "@/api/star_horse_utils.ts";
+  import {apiInstance, closeLoad, dialogPreps, load, loadData, loadGetData} from "@/api/star_horse_utils.ts";
   import { ApiUrls } from "@/components/types/ApiUrls";
   import { SearchProps } from "@/components/types/SearchProps";
   import { PageFieldInfo, UserFuncInfo } from "@/components/types/PageFieldInfo";
@@ -10,6 +10,7 @@
   import piniaInstance from "@/store/index.ts";
   import StarHorseForm from "@/components/comp/StarHorseForm.vue";
   import { userAction } from "@/api/user_func.ts";
+  import {createDatetime} from "@/api/date_utils.ts";
 
   let designForm = useDesignFormStore(piniaInstance);
   const starHorseTableCompRef = ref();
@@ -24,6 +25,9 @@
   const hasData = ref(false);
   let relationTables = ref<any>({});
   const formInfo = ref<any>({});
+  const fieldMappingList = ref<any>([]);
+  const dataSource = ref<any>({});
+  let dateFields = ref<Array<string>>([]);
   const activeName = ref<string>("form");
   let extBtns = ref<Array<UserFuncInfo>>([]);
   const props = defineProps({
@@ -34,7 +38,7 @@
     hasData.value = false;
   };
   const loadFormData = async (formId: string) => {
-    let { data, error } = await loadGetData(`/userdb-manage/userdb/dynamicForm/dynamicPageInfo/${formId}`);
+    let { data, error } = await loadData(`/userdb-manage/userdb/dynamicFormInfo/getDynamicForm/${formId}`,{});
     if (error) {
       errorMsg.value = error;
       hasData.value = false;
@@ -42,13 +46,15 @@
       return;
     }
     hasData.value = data && Object.keys(data).length > 0;
-    dataUrl.value = apiInstance(data["dataUrl"].appName, data["dataUrl"].contextUrl);
+    dataUrl.value = apiInstance(data["dataUrl"]?.appName, data["dataUrl"]?.contextUrl);
     searchFormData.value = data["searchFormData"] as SearchProps[];
     primaryKey.value = data["primaryKey"];
-    tableFieldList.value = data["tableFieldList"] as PageFieldInfo;
-    relationTables.value = data["relationTables"];
+    tableFieldList.value = data["tableFieldList"];
     rules.value = data["rules"];
-    formInfo.value = data["formInfo"];
+    dateFields.value = data["dateFields"];
+    fieldMappingList.value = data?.fieldMappingList;
+    relationTables.value = data["relationTables"];
+    dataSource.value = data["dataSource"];
     extBtns.value = userAction(starHorseTableCompRef, primaryKey.value, tableFieldList.value["userTableFuncs"]);
     delete tableFieldList.value["userTableFuncs"];
     await nextTick();
@@ -80,8 +86,29 @@
 
     await loadFormData(props.param);
   };
-  const dataFormat = (name: string, cellValue: object): any => {
-    return cellValue;
+  const dataFormat = (name: string, cellValue: object, row: any): any => {
+    if (dateFields.value && dateFields.value.length > 0) {
+      if (dateFields.value.includes(name)) {
+        return createDatetime(cellValue);
+      }
+    }
+    const subFormat = (name: string, cellValue: any, row: any) => {
+      if (dataSource.value && Object.keys(dataSource.value).length > 0) {
+        let temp = dataSource.value[name];
+        if (temp) {
+          let stemp = temp.datas?.find((item: any) => item[temp.valueField] == cellValue);
+          return stemp ? stemp[temp.labelField] : cellValue || "--";
+        }
+      }
+      return "null" == cellValue ? "--" : cellValue || "--";
+    };
+    if (fieldMappingList.value && fieldMappingList.value?.length > 0) {
+      let temp = fieldMappingList.value.find((item: any) => item["fieldName"] == name);
+      if (temp) {
+        return row[temp.mappingDisplayField] || subFormat(name, cellValue, row);
+      }
+    }
+    return subFormat(name, cellValue, row);
   };
   onMounted(async () => {
     await init();

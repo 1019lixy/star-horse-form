@@ -92,7 +92,6 @@ const loadFormData = async (formId: any, isParent: boolean) => {
     warning(resultData.error);
     return;
   }
-  console.log("数据加载完成");
   let data = resultData.data;
   if (isParent) {
     data["idDynamicForm"] = null;
@@ -402,6 +401,7 @@ const contextMenu = async (evt: MouseEvent) => {
  * @param data 选中的数据
  */
 const changeDataHandle = (type: string, data: any) => {
+  console.log(type, data);
   let formId = data["idDynamicForm"];
   if (type == "subAdd") {
     loadFormData(formId, true);
@@ -506,7 +506,7 @@ let prepsModel = ref("one");
       :title="'批量修改属性'"
   >
     <el-tabs v-model="prepsModel">
-      <el-tab-pane name="one" label="业务字段">
+      <el-tab-pane name="one" label="业务字段" class="flex overflow-hidden flex-col">
         <el-row style="font-weight: bold; font-size: 12px; margin: 5px 0">
           <el-col :span="3">容器名称</el-col>
           <el-col :span="3">标签名称</el-col>
@@ -592,36 +592,40 @@ let prepsModel = ref("one");
           </el-col>
           <el-col :span="3"></el-col>
         </el-row>
-        <el-divider content-position="center" content="字段信息" style="margin: 5px 0 !important"/>
-        <template v-for="(item, index) in list">
-          <template v-if="item.compType == 'container'" v-for="sitem in item.preps['elements']">
-            <template v-for="sitem1 in sitem['columns']">
-              <template v-for="(sitem2, sindex) in sitem1.items">
-                <FieldAnalysis
-                    :index="index + sindex + 1"
-                    :size="compSize"
-                    :field="sitem2"
-                    :container="item.preps.label"
-                />
+        <el-divider content-position="center">字段信息</el-divider>
+        <div class="flex-1 overflow-hidden">
+          <el-scrollbar height="100%">
+            <template v-for="(item, index) in list">
+              <template v-if="item.compType == 'container'" v-for="sitem in item.preps['elements']">
+                <template v-for="sitem1 in sitem['columns']">
+                  <template v-for="(sitem2, sindex) in sitem1.items">
+                    <FieldAnalysis
+                        :index="index + sindex + 1"
+                        :size="compSize"
+                        :field="sitem2"
+                        :container="item.preps.label"
+                    />
+                  </template>
+                </template>
+                <template v-for="(sitem2, sindex) in sitem.items">
+                  <FieldAnalysis
+                      :index="index + sindex + 1"
+                      :size="compSize"
+                      :field="sitem2"
+                      :container="sitem.label || item.preps.label"
+                  />
+                </template>
               </template>
-            </template>
-            <template v-for="(sitem2, sindex) in sitem.items">
               <FieldAnalysis
-                  :index="index + sindex + 1"
+                  :index="index + 1"
+                  :field="item"
                   :size="compSize"
-                  :field="sitem2"
-                  :container="sitem.label || item.preps.label"
+                  v-if="item.compType == 'formItem'"
+                  :container="'--'"
               />
             </template>
-          </template>
-          <FieldAnalysis
-              :index="index + 1"
-              :field="item"
-              :size="compSize"
-              v-if="item.compType == 'formItem'"
-              :container="'--'"
-          />
-        </template>
+          </el-scrollbar>
+        </div>
       </el-tab-pane>
       <el-tab-pane name="two" label="公共字段"> 在配置或者提交功能里设置</el-tab-pane>
     </el-tabs>

@@ -89,7 +89,6 @@ function getUserId() {
 
 /**
  * 获取系统验证码
- * @returns {Promise<AxiosResponse<any>>}
  */
 export function getValidateImg() {
     return getRequest(`${ServiceEnums.GLOBAL_PREFIX}imageCode`);
@@ -134,8 +133,7 @@ export function selectMenusTreeData(data: any) {
 
 /**
  * 用户登录
- * @param loginData
- * @returns {Promise<AxiosResponse<any>>}
+ * @param loginData 登录参数
  */
 export async function userLogin(loginData: any) {
     let data: any = {};
@@ -145,26 +143,30 @@ export async function userLogin(loginData: any) {
         errMsg = resultData.error;
     } else {
         const userData = resultData.data;
-        const condition = {
-            userId: userData.idUsersinfo
-        };
-        userStore.login({...userData, rememberMe: loginData.rememberMe});
-        setToken(userData.dataNo, data.rememberMe);
-        setUserInfo({...userData, ...loginData, rememberMe: loginData.rememberMe});
-        setCustomerInfo(userData.customerInfo);
-        //登录成功，获取当前用户的权限菜单
-        await permissionMenus(condition, "-1").then((res2) => {
-            createRouterAndMenuList(res2.data.data);
-            data = userData;
-        });
+        if (loginData.tokenId != userData.dataNo) {
+            errMsg = "Token不一致，登录可能被非法劫持，请重新登录";
+        } else {
+            const condition = {
+                userId: userData.idUsersinfo
+            };
+            userData["rememberMe"] = loginData.rememberMe;
+            userStore.login(userData);
+            setToken(userData.dataNo, data.rememberMe);
+            setUserInfo(userData);
+            setCustomerInfo(userData.customerInfo);
+            //登录成功，获取当前用户的权限菜单
+            await permissionMenus(condition, "-1").then((res2) => {
+                createRouterAndMenuList(res2.data.data);
+                data = userData;
+            });
+        }
     }
     return {data, errMsg};
 }
 
 /**
  * 退出登录
- * @param data
- * @returns {Promise<AxiosResponse<any>>}
+ * @param data 登出参数
  */
 export async function userLogout(data: Array<any>) {
     const resultDdata = await loadData(`${ServiceEnums.SYSTEM_PREFIX}usersAuditEntity/userLogout`, data);
@@ -207,7 +209,7 @@ export async function loadPagePermission(menuId: string) {
 /**
  * 一次性加载用户权限菜单
  * @param data
- * @returns {Promise<AxiosResponse<any>>}
+ * @param sysId
  */
 export async function permissionMenus(data: any, sysId: string) {
     const userId = data.userId || getUserId();

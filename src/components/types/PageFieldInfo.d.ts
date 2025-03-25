@@ -2,6 +2,7 @@ import {SearchFields, SelectOption} from '@/components/types/SearchProps';
 import {ApiUrls} from '@/components/types/ApiUrls';
 import {SearchParams} from '@/components/types/Params';
 import {RuleType} from "@/components/types/RuleType";
+import {Ref} from "vue";
 
 /**
  * Tab 表单数据
@@ -137,7 +138,7 @@ export declare interface FieldInfo {
     /**
      * 备选数据列表，目前仅支持下拉
      */
-    optionList?: SelectOption[];
+    optionList?: SelectOption[] | Ref<SelectOption[]>;
     /**
      * 是否禁用,Y 禁用 N 非禁用
      */

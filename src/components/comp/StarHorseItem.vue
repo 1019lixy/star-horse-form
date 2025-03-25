@@ -181,7 +181,8 @@ const compPreps = () => {
     field.value.preps = {...field.value.preps, ...props.item.preps};
   }
   //编辑数据时需要禁用的组件,此处不能将代码放在上一个if 之前，否则可能被覆盖
-  if (!props.isEdit && (props.item.editDisabled || props.item.preps?.editDisabled == "Y")) {
+  if (!props.isEdit && (props.item.editDisabled == 'Y' || props.item.editDisabled === true
+      || props.item.preps?.editDisabled === true || props.item.preps?.editDisabled == "Y")) {
     field.value.preps["disabled"] = "Y";
   }
   if (itemType.value == "upload" && !field.value.preps["action"]) {

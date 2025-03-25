@@ -1061,6 +1061,8 @@ defineExpose({
 }
 
 .tb_title {
+  display: flex;
+  align-items: center;
   flex: 1;
   color: var(--star-horse-style);
 }
