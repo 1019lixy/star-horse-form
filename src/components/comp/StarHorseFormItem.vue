@@ -14,13 +14,14 @@ defineProps({
   // 数据索引
   dataIndex: {type: Number, default: -1},
   // 父节点名称
-  propPrefix: {type: String,default:""},
+  propPrefix: {type: String, default: ""},
   batchName: {type: String, default: "batchDataList"},
   batchFieldName: {type: String, default: "batchFieldList"},
   primaryKey: {type: String},
   compSize: {type: String, default: Config.compSize},
   rules: {type: Object},
-  isView: {type: Boolean, default: false}
+  isView: {type: Boolean, default: false},
+  isEdit: {type: Boolean, default: true},
 });
 const dataForm: ModelRef<any> = defineModel("dataForm");
 const dialogProps = inject<DialogProps>("dialogProps", {});
@@ -42,7 +43,7 @@ const dialogProps = inject<DialogProps>("dialogProps", {});
         :propPrefix="propPrefix"
         v-model:dataForm="dataForm"
         :parentPreps="fieldList.preps"
-        :isEdit="!dialogProps?.ids || dialogProps?.ids == -1"
+        :isEdit="!isEdit||!dialogProps?.ids || dialogProps?.ids == -1"
     />
 
     <tab-item
@@ -60,7 +61,7 @@ const dialogProps = inject<DialogProps>("dialogProps", {});
         :propPrefix="propPrefix"
         v-model:dataForm="dataForm"
         :parentPreps="fieldList.preps"
-        :isEdit="!dialogProps?.ids || dialogProps?.ids == -1"
+        :isEdit="!isEdit||!dialogProps?.ids || dialogProps?.ids == -1"
     />
 
     <collapse-item
@@ -78,7 +79,7 @@ const dialogProps = inject<DialogProps>("dialogProps", {});
         :propPrefix="propPrefix"
         v-model:dataForm="dataForm"
         :parentPreps="fieldList.preps"
-        :isEdit="!dialogProps?.ids || dialogProps?.ids == -1"
+        :isEdit="!isEdit||!dialogProps?.ids || dialogProps?.ids == -1"
     />
     <card-item
         :primary-key="primaryKey"
@@ -95,7 +96,7 @@ const dialogProps = inject<DialogProps>("dialogProps", {});
         :propPrefix="propPrefix"
         v-model:dataForm="dataForm"
         :parentPreps="fieldList.preps"
-        :isEdit="!dialogProps?.ids || dialogProps?.ids == -1"
+        :isEdit="!isEdit||!dialogProps?.ids || dialogProps?.ids == -1"
     />
     <dytable-item
         :primary-key="primaryKey"
@@ -112,7 +113,7 @@ const dialogProps = inject<DialogProps>("dialogProps", {});
         :propPrefix="propPrefix"
         v-model:dataForm="dataForm"
         :parentPreps="fieldList.preps"
-        :isEdit="!dialogProps?.ids || dialogProps?.ids == -1"
+        :isEdit="!isEdit||!dialogProps?.ids || dialogProps?.ids == -1"
     />
     <other-item
         :primary-key="primaryKey"
@@ -129,7 +130,7 @@ const dialogProps = inject<DialogProps>("dialogProps", {});
         :propPrefix="propPrefix"
         v-model:dataForm="dataForm"
         :parentPreps="fieldList.preps"
-        :isEdit="!dialogProps?.ids || dialogProps?.ids == -1"
+        :isEdit="!isEdit||!dialogProps?.ids || dialogProps?.ids == -1"
     />
   </template>
   <table-item
@@ -147,7 +148,7 @@ const dialogProps = inject<DialogProps>("dialogProps", {});
       :propPrefix="propPrefix"
       v-model:dataForm="dataForm"
       :parentPreps="fieldList.preps"
-      :isEdit="!dialogProps?.ids || dialogProps?.ids == -1"
+      :isEdit="!isEdit||!dialogProps?.ids || dialogProps?.ids == -1"
   />
 </template>
 <style lang="scss" scoped></style>

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {getPublicKey, getUserInfo} from "@/utils/auth.ts";
-import {computed, onMounted, reactive, ref} from "vue";
-import {copy} from "@/api/star_horse_utils.ts";
+import {computed, onMounted, provide, reactive, ref} from "vue";
+import {copy, dialogPreps} from "@/api/star_horse_utils.ts";
 import StarHorseForm from "@/components/comp/StarHorseForm.vue";
 import {PageFieldInfo} from "@/components/types/PageFieldInfo";
 import {initSelectData, userEditFieldInfo} from "@/views/system/utils/UserFields.ts";
@@ -12,6 +12,7 @@ import {useGlobalConfigStore} from "@/store/GlobalConfig.ts";
 import piniaInstance from "@/store";
 import {Config} from "@/api/settings.ts";
 import {JSEncrypt} from "jsencrypt";
+import {ServiceEnums} from "@/components/enums/ServiceEnums.ts";
 
 let userInfo = ref<any>({});
 let depts = ref<string>("--");
@@ -21,10 +22,11 @@ let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.co
 const userFormRef = ref<Record<string, InstanceType<typeof StarHorseForm>>>({});// 明确组件类型
 const activeName = ref<string>('basic');
 const url: any = {
-  basic: "/system-config/system/usersinfoEntity/userSelfEdit",
-  password: "/system-config/system/usersAuditEntity/editPassword"
+  basic: `${ServiceEnums.SYSTEM_PREFIX}usersinfoEntity/userSelfEdit`,
+  password: `${ServiceEnums.SYSTEM_PREFIX}usersAuditEntity/editPassword`
 }
-
+const dialogProps = dialogPreps();
+provide("dialogProps", dialogProps);
 const baseFieldList = reactive<PageFieldInfo | any>({
   fieldList: userEditFieldInfo
 });
@@ -122,6 +124,7 @@ const setRef = (name: string) => (el: InstanceType<typeof StarHorseForm> | null)
 const init = async () => {
   userInfo.value = getUserInfo();
   await initSelectData();
+  dialogProps.ids = userInfo.value.idUsersinfo;
   depts.value = userInfo.value.deptList
       ?.map((item: any) => {
         return item.deptName;
@@ -153,7 +156,7 @@ onMounted(async () => {
                 shape="square"
                 :size="100"
                 :fit="'cover'"
-                :src="'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'"
+                :src="ServiceEnums.SYSTEM_SERVICE+userInfo.photoUrl"
             />
           </div>
           <div class="details">
@@ -212,14 +215,13 @@ onMounted(async () => {
             <el-tabs v-model="activeName">
               <el-tab-pane label="基本资料" name="basic">
                 <star-horse-form
-                    :outer-form-data="userInfo"
+                    :outerFormData="userInfo"
                     :fieldList="baseFieldList"
                     :ref="setRef('basic')"
                 />
               </el-tab-pane>
               <el-tab-pane label="修改密码" name="password">
                 <star-horse-form
-                    :outer-form-data="userInfo"
                     :fieldList="passwordFieldList"
                     :ref="setRef('password')"
                 />

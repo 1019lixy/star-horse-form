@@ -282,7 +282,7 @@ watch(
               @visible-change="visibleChange"
               :class="['tags-item', $route.path === item.path ? 'is-active' : '']"
           >
-            <div>
+            <div class="flex items-center justify-between">
               <router-link :ref="tagLinksRefs.set" :to="{ ...item }" custom v-slot="{ navigate }">
                 <div @click="navigate" class="tags">
                   <el-icon
@@ -382,6 +382,7 @@ watch(
 .prefixCls {
   display: flex;
   width: 100%;
+  align-items: center;
   background: var(--star-horse-background);
   border: 1px solid #eee;
 
@@ -414,10 +415,9 @@ watch(
 
   .tags-item {
     position: relative;
-    top: 3px;
     align-items: center;
-    padding-right: 5px;
-    margin-left: 4px;
+    margin: 0 3px;
+    padding-right: 4px;
     font-size: 12px;
     cursor: pointer;
     height: 100%;
@@ -425,19 +425,16 @@ watch(
     display: inline-flex;
 
     .close-icon {
-      position: relative;
-      top: 35%;
-      color: #333;
+      color: var(--el-color-error);
       display: none;
-      transform: translate(0, -50%);
     }
 
     :not(.close-icon):hover {
+      padding-right: unset;
       .close-icon {
         display: block;
       }
     }
-
     .tags {
       height: 28px;
       display: flex;
