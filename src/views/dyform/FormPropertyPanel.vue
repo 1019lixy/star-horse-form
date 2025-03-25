@@ -421,6 +421,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                       label: "字段信息",
                       fieldName: "fieldName",
                       type: "select",
+                      required: true,
                       optionList: commonField(),
                       formVisible: true,
                       preps: {
