@@ -124,8 +124,6 @@ const loadData = async () => {
  * 加载了数据，检查是否有数据联动的相关方法
  */
 const checkActionRelation = () => {
-  // if (formFields instanceof Array) {
-  //   console.log("is array");
   for (let key in formFields) {
     let temp = formFields[key];
     let preps = temp?.preps;
@@ -204,7 +202,7 @@ const analysisSameToParentField = (): Array<string> => {
 const doMerge = (type: string) => {
   assignStatusName();
   let tempForm: any = [];
-  let tempDatas = JSON.parse(JSON.stringify(dataForm.value));
+  let tempDatas: any = JSON.parse(JSON.stringify(dataForm.value));
   let mergeUrl = props.compUrl?.mergeUrl;
   let flag = true;
   //单独批量数据和嵌入fieldList 里的批量数据

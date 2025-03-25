@@ -448,7 +448,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                       label: "列表显示",
                       fieldName: "listVisible",
                       type: "switch",
-                      defaultValue: "N",
+                      defaultValue: "Y",
                       formVisible: true
                     }
                   ]

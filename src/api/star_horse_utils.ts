@@ -1,5 +1,5 @@
 import {JoinSearchParams, SearchInfo, SearchParams} from "@/components/types/Params";
-import {reactive, ShallowRef} from "vue";
+import {reactive, ShallowRef, unref} from "vue";
 import {ElLoading} from "element-plus";
 import {download, getRequest, postRequest, uploadRequest} from "@/api/star_horse_apis.ts";
 import {error, operationConfirm, success, warning} from "@/utils/message";
@@ -633,18 +633,20 @@ export function formFieldMapping(fieldList: PageFieldInfo) {
             if (!defaultDatas[temp.batchName]) {
                 defaultDatas[temp.batchName] = [];
             }
-            if (!batchDefaultValues[temp.batchName]) {
-                batchDefaultValues[temp.batchName] = [];
+            if (!batchDefaultValues[temp.batchName + "DefaultValue"]) {
+                batchDefaultValues[temp.batchName + "DefaultValue"] = [];
             }
             const fieldList = temp.fieldList as Array<FieldInfo>;
+            let tempData: any = {};
             fieldList?.forEach((item) => {
                 if (item.defaultValue) {
                     if (isJson(item.defaultValue)) {
-                        batchDefaultValues[temp.batchName] = {...batchDefaultValues[temp.batchName], ...item.defaultValue};
+                        let subTemp = {...batchDefaultValues[temp.batchName], ...item.defaultValue};
+                        Object.entries(subTemp).forEach(([key, value]) => {
+                            tempData[key] = value;
+                        });
                     } else {
-                        const data: any = {};
-                        data[item.fieldName] = item.defaultValue;
-                        batchDefaultValues[temp.batchName].push(data);
+                        tempData[item.fieldName] = item.defaultValue;
                     }
                 }
                 if (item.aliasName) {
@@ -659,6 +661,7 @@ export function formFieldMapping(fieldList: PageFieldInfo) {
                     });
                 }
             });
+            batchDefaultValues[temp.batchName + "DefaultValue"].push(tempData);
         }
     };
     const fieldsOperation = (dataList: any, defaultData: any) => {
@@ -732,7 +735,7 @@ export function formFieldMapping(fieldList: PageFieldInfo) {
  * 批量列表数据默认值
  * @param datas
  */
-export function batchFieldDefaultValues(datas: BatchFieldInfo) {
+export function batchFieldDefaultValues(datas: BatchFieldInfo, dataForm: any) {
     let defaultValues: any = {};
     if (datas["batchDefaultData"]) {
         defaultValues = {...datas["batchDefaultData"]};
@@ -748,6 +751,12 @@ export function batchFieldDefaultValues(datas: BatchFieldInfo) {
             } else {
                 defaultValues[temp.fieldName] = temp.defaultValue;
             }
+        }
+    }
+    if (dataForm) {
+        let temp = unref(dataForm)[datas.batchName];
+        if (temp) {
+            defaultValues = {...temp, ...defaultValues};
         }
     }
     return defaultValues;

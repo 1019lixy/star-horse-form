@@ -346,6 +346,15 @@ export const useDesignFormStore = defineStore("designForm", () => {
     const setShortKeyDisabled = (disabled: boolean) => {
         shortKeyDisabled.value = disabled;
     };
+    /**
+     * 获取字段索引
+     */
+    const getFieldDataIndex = () => {
+        if (!formInfo.value["dataIndex"]) {
+            formInfo.value["dataIndex"] = 1;
+        }
+        return formInfo.value["dataIndex"]++;
+    }
     return {
         formData,
         formInfo,
@@ -398,6 +407,7 @@ export const useDesignFormStore = defineStore("designForm", () => {
         setComponentVisible,
         setBatchEditFieldVisible,
         setPreviewVisible,
-        setShortKeyDisabled
+        setShortKeyDisabled,
+        getFieldDataIndex
     };
 });

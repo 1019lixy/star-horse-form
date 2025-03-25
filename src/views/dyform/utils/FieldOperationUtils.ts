@@ -6,7 +6,6 @@ import {SearchParams} from "@/components/types/Params";
 import {postRequest} from "@/api/star_horse_apis.ts";
 
 const designForm = useDesignFormStore(piniaInstance);
-const formInfo = computed(() => designForm.formInfo);
 const formData = computed(() => designForm.formData);
 const numField: Array<string> = [
     "minlength",
@@ -48,10 +47,7 @@ const getDefaultVal = (type: string) => {
 export function fieldCopy(data: any, type: string) {
     const reData = JSON.parse(JSON.stringify(data));
     //如果数据没有索引，则初始化索引
-    if (!formInfo.value["dataIndex"]) {
-        formInfo.value["dataIndex"] = 1;
-    }
-    const ms = formInfo.value["dataIndex"]++;
+    const ms = designForm.getFieldDataIndex();
     const mvData: any = {};
     mvData["id"] = "Id" + uuid();
     // console.log(reData);

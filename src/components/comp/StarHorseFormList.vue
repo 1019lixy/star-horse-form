@@ -204,6 +204,7 @@ const init = async () => {
       }
     }
   }
+  console.log(dataForm.value[props.batchName]);
   moveColumn();
 };
 onMounted(async () => {

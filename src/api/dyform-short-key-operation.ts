@@ -11,7 +11,6 @@ const designForm = useDesignFormStore(piniaInstance);
 const copyerOperation = useCopyerOperationStore(piniaInstance);
 
 const list = computed(() => designForm.compList);
-const formInfo = computed(() => designForm.formInfo);
 const currentComp = computed(() => designForm.currentComp);
 const action = computed(() => copyerOperation.action);
 const shortKeyDisabled = computed(() => designForm.shortKeyDisabled);
@@ -68,16 +67,14 @@ const dyPaste = () => {
     } else {
         copyItem.id = uuid();
         copyItem.preps.id = copyItem.id;
-        if (!formInfo.value["dataIndex"]) {
-            formInfo.value["dataIndex"] = 1;
-        }
+
         copyItem.preps.label = copyItem.preps.label + "(复制)";
         //判断copyItem.preps.name是否以数字结尾，如果是，则去掉数字，然后加上formInfo.value["dataIndex"]
         let name = copyItem.preps.name;
         if (name.match(/\d+$/)) {
             name = name.replace(/\d+$/, "");
         }
-        copyItem.preps.name = name + formInfo.value["dataIndex"]++;
+        copyItem.preps.name = name + designForm.getFieldDataIndex();
         list.value.push(copyItem);
     }
     designForm.selectItem(copyItem, itemType, "");
