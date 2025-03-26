@@ -20,7 +20,9 @@ const props = defineProps({
   //自定义按钮
   extandBtns: {type: Array as PropType<UserFuncInfo[]>},
   //预检查方法,如果设置了预检查方法，必须要检查通过后，按钮事件才能继续往下执行
-  preValidFunc: {type: Object, default: {}}
+  preValidFunc: {type: Object, default: {}},
+  //按钮权限
+  btnPermission: {type: Object as PropType<any>},
 });
 const emits = defineEmits([
   "upload",
@@ -179,7 +181,12 @@ const setFormData = (val: any) => {
   dataForm.value = {...val};
 };
 const init = async () => {
-  permissions.value = await pagePermission.addRoute(route);
+  if (props.btnPermission && Object.keys(props.btnPermission).length > 0) {
+    permissions.value = props.btnPermission;
+  } else {
+    permissions.value = await pagePermission.addRoute(route);
+  }
+
 };
 onMounted(() => {
   init();
