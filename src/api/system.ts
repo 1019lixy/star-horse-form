@@ -366,7 +366,7 @@ export function commonField() {
  */
 export function createComponent(compInfo: DyCompField) {
     const app = createApp(App);
-    app.component(compInfo.name, {
+    return app.component(compInfo.name, {
         components: compInfo.components || {},
         template: compInfo.template,
         data: () => compInfo.data || {},
@@ -379,7 +379,6 @@ export function createComponent(compInfo: DyCompField) {
         onActivated: compInfo.onActivated,
         onDeactivated: compInfo.onDeactivated
     });
-    return app.component(compInfo.name);
 }
 
 /**
