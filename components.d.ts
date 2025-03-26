@@ -33,6 +33,7 @@ declare module 'vue' {
     BarItem: typeof import('./src/components/formcomp/charts/bar-item.vue')['default']
     BaseInfo: typeof import('./src/views/workflow/formItems/BaseInfo.vue')['default']
     BasicInfo: typeof import('./src/views/workflow/plugin/BasicInfo.vue')['default']
+    BatchEditFields: typeof import('./src/views/dyform/BatchEditFields.vue')['default']
     BoxContainer: typeof import('./src/components/formcomp/container/box-container.vue')['default']
     BoxItem: typeof import('./src/components/comp/items/boxItem.vue')['default']
     BoxplotItem: typeof import('./src/components/formcomp/charts/boxplot-item.vue')['default']

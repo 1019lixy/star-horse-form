@@ -38,6 +38,7 @@ import {dynamicFormContextMenuData} from "@/plugins/AblesPlugin.ts";
 import {ModuleEnums} from "@/components/enums/ModuleEnums.ts";
 import {compFieldInit} from "@/views/dyform/utils/FieldOperationUtils.ts";
 import FormMenuShot from "@/views/dyform/utils/FormMenuShot.vue";
+import BatchEditFields from "@/views/dyform/BatchEditFields.vue";
 
 const dataUrl = apiInstance("userdb-manage", "userdb/dynamicForm");
 let designForm = useDesignFormStore(piniaInstance);
@@ -282,14 +283,7 @@ const batchEdit = () => {
 const configDialogVisible = ref(false);
 const codeDialogVisible = ref(false);
 const isSubmit = ref(false);
-let batchModifyData = reactive<any>({
-  maxLength: 100,
-  precision: 0,
-  required: "N",
-  formVisible: "Y",
-  searchVisible: "Y",
-  listVisible: "Y"
-});
+
 const tableEdit = async (submit: boolean) => {
   isSubmit.value = submit;
   configDialogVisible.value = true;
@@ -371,9 +365,7 @@ const actions = (action: string) => {
       break;
   }
 };
-const batchOperation = (val: any, fieldName: string) => {
-  batchModifyAction(list.value, val, fieldName);
-};
+
 const analysisParentParam = () => {
   let parentId = route.query["parentId"];
   if (parentId && "0" != parentId) {
@@ -507,125 +499,7 @@ let prepsModel = ref("one");
   >
     <el-tabs v-model="prepsModel">
       <el-tab-pane name="one" label="业务字段" class="flex overflow-hidden flex-col">
-        <el-row style="font-weight: bold; font-size: 12px; margin: 5px 0">
-          <el-col :span="3">容器名称</el-col>
-          <el-col :span="3">标签名称</el-col>
-          <el-col :span="3">属性名称</el-col>
-          <el-col :span="3">最大长度/精度</el-col>
-          <el-col :span="3">是否必须</el-col>
-          <el-col :span="2">表单显示</el-col>
-          <el-col :span="2">查询显示</el-col>
-          <el-col :span="2">列表显示</el-col>
-          <el-col :span="3">默认值</el-col>
-        </el-row>
-        <el-row style="font-weight: bold; font-size: 12px; margin: 10px 0">
-          <el-col :span="3">批量设置</el-col>
-          <el-col :span="2">--</el-col>
-          <el-col :span="2">--</el-col>
-          <el-col :span="5">
-            <el-row>
-              <el-col :span="12">
-                <el-input-number
-                    v-model="batchModifyData.maxLength"
-                    controls-position="right"
-                    :size="compSize"
-                    @change="(val: any) => batchOperation(val, 'maxLength')"
-                    placeholder="字段长度"
-                    clearable
-                />
-              </el-col>
-              <el-col :span="12">
-                <el-input-number
-                    v-model="batchModifyData.precision"
-                    controls-position="right"
-                    :size="compSize"
-                    @change="(val: any) => batchOperation(val, 'precision')"
-                    placeholder="精度"
-                    clearable
-                />
-              </el-col>
-            </el-row>
-          </el-col>
-          <el-col :span="3">
-            <el-switch
-                v-model="batchModifyData.required"
-                :size="compSize"
-                @change="(val: any) => batchOperation(val, 'required')"
-                active-value="Y"
-                active-text="是"
-                inactive-value="N"
-                inactive-text="否"
-            />
-          </el-col>
-          <el-col :span="2">
-            <el-switch
-                v-model="batchModifyData.formVisible"
-                :size="compSize"
-                @change="(val: any) => batchOperation(val, 'formVisible')"
-                active-value="Y"
-                active-text="是"
-                inactive-value="N"
-                inactive-text="否"
-            />
-          </el-col>
-          <el-col :span="2">
-            <el-switch
-                v-model="batchModifyData.searchVisible"
-                :size="compSize"
-                @change="(val: any) => batchOperation(val, 'searchVisible')"
-                active-value="Y"
-                active-text="是"
-                inactive-value="N"
-                inactive-text="否"
-            />
-          </el-col>
-          <el-col :span="2">
-            <el-switch
-                v-model="batchModifyData.listVisible"
-                :size="compSize"
-                @change="(val: any) => batchOperation(val, 'listVisible')"
-                active-value="Y"
-                active-text="是"
-                inactive-value="N"
-                inactive-text="否"
-            />
-          </el-col>
-          <el-col :span="3"></el-col>
-        </el-row>
-        <el-divider content-position="center">字段信息</el-divider>
-        <div class="flex-1 overflow-hidden">
-          <el-scrollbar height="100%">
-            <template v-for="(item, index) in list">
-              <template v-if="item.compType == 'container'" v-for="sitem in item.preps['elements']">
-                <template v-for="sitem1 in sitem['columns']">
-                  <template v-for="(sitem2, sindex) in sitem1.items">
-                    <FieldAnalysis
-                        :index="index + sindex + 1"
-                        :size="compSize"
-                        :field="sitem2"
-                        :container="item.preps.label"
-                    />
-                  </template>
-                </template>
-                <template v-for="(sitem2, sindex) in sitem.items">
-                  <FieldAnalysis
-                      :index="index + sindex + 1"
-                      :size="compSize"
-                      :field="sitem2"
-                      :container="sitem.label || item.preps.label"
-                  />
-                </template>
-              </template>
-              <FieldAnalysis
-                  :index="index + 1"
-                  :field="item"
-                  :size="compSize"
-                  v-if="item.compType == 'formItem'"
-                  :container="'--'"
-              />
-            </template>
-          </el-scrollbar>
-        </div>
+        <batch-edit-fields :compSize="compSize"/>
       </el-tab-pane>
       <el-tab-pane name="two" label="公共字段"> 在配置或者提交功能里设置</el-tab-pane>
     </el-tabs>
@@ -763,8 +637,6 @@ let prepsModel = ref("one");
   height: 100%;
   border: 1px dashed var(--star-horse-style);
   background: var(--star-horse-background);
-
-
 }
 
 :deep(.el-divider--horizontal) {
