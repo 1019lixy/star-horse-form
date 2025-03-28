@@ -12,8 +12,7 @@
   import { GridStack } from "gridstack";
   import { GridStackWidget } from "gridstack/dist/types";
   import { createComponent } from "@/api/system.ts";
-  import StarHorseDraggable from "@/components/comp/StarHorseDraggable.vue";
-  import { DynamicNode } from "@/components/types/DynamicNode";
+  import { DynamicNode } from "star-horse-lowcode";
 
   const dataUrl = apiInstance("userdb-manage", "userdb/dynamicPage");
   const horizontalGuides = ref();

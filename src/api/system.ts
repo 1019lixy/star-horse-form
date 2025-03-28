@@ -1,13 +1,10 @@
 import {TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
-import {SearchInfo, SearchParams} from "@/components/types/Params";
+import {SearchInfo, SearchParams,SelectOption,FieldInfo,DyCompField} from "star-horse-lowcode";
 import {createCondition, isJson, loadData} from "@/api/star_horse_utils.ts";
-import {SelectOption} from "@/components/types/SearchProps";
 import {useDark, useToggle} from "@vueuse/core";
 import {useGlobalConfigStore} from "@/store/GlobalConfig.ts";
 import piniaInstance from "@/store";
 import {v4 as uuidv4} from "uuid";
-import {FieldInfo} from "@/components/types/PageFieldInfo";
-import {DyCompField} from "@/components/types/DyCompField";
 import {computed, createApp, Ref, unref, ref} from "vue";
 import previewImage from "preview-image-js";
 import "preview-image-js/icon.js";

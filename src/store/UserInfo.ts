@@ -1,5 +1,5 @@
 import {defineStore} from "pinia";
-import {MenusInfo} from "@/components/types/MenusInfo";
+import {MenusInfo} from "star-horse-lowcode";
 import {ref} from "vue";
 
 export const useUserInfoStore = defineStore(

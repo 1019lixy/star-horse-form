@@ -1,6 +1,5 @@
 <script setup lang="ts">
   import { computed, ref } from "vue";
-  import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 
   const props = defineProps({
     dataList: { type: Array<any>, required: true },

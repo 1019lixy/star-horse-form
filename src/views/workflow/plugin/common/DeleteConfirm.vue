@@ -12,7 +12,6 @@
 </template>
 <script setup lang="ts">
   import { delNode, flowCommon } from "@/views/workflow/plugin/utils/flowCommon.ts";
-  import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 
   defineOptions({
     name: "DeleteConfirm"

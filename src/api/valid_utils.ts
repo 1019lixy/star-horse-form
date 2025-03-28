@@ -1,4 +1,4 @@
-import {SelectOption} from "@/components/types/SearchProps";
+import {SelectOption} from "star-horse-lowcode";
 
 const validTypes: any = [
     {

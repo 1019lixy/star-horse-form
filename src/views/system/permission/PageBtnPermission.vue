@@ -12,15 +12,12 @@
   import { ApiUrls } from "@/components/types/ApiUrls";
   import { Config } from "@/api/settings.ts";
   import { computed, onMounted, provide, reactive, ref } from "vue";
-  import { SearchFields, SelectOption } from "@/components/types/SearchProps";
-  import { PageFieldInfo } from "@/components/types/PageFieldInfo";
+  import { SearchFields, SelectOption, PageFieldInfo,SearchParams } from "star-horse-lowcode";
   import { ElTreeV2 } from "element-plus";
   import { TreeNodeData } from "element-plus/es/components/tree-v2/src/types";
   import { useGlobalConfigStore } from "@/store/GlobalConfig.ts";
   import piniaInstance from "@/store";
-  import StarHorseTree from "@/components/comp/StarHorseTree.vue";
   import { warning } from "@/utils/message.ts";
-  import { SearchParams } from "@/components/types/Params";
   import { useButtonPermissionStore } from "@/store/ButtonPermission.ts";
 
   const dataUrl: ApiUrls = apiInstance("system-config", "system/rolesPkBtnAuthority");

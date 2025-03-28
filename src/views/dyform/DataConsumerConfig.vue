@@ -4,13 +4,10 @@
   import { closeLoad, dictData, load, loadData, loadRolesInfo } from "@/api/star_horse_utils.ts";
   import { error, success, warning } from "@/utils/message";
   import { postRequest } from "@/api/star_horse_apis.ts";
-  import { SelectOption } from "@/components/types/SearchProps";
   import { LocationQueryValue, useRoute } from "vue-router";
   import { apiInstance } from "@/api/star_horse_utils.ts";
-  import { ApiUrls } from "@/components/types/ApiUrls";
-  import StarHorseDialog from "@/components/comp/StarHorseDialog.vue";
+  import { ApiUrls ,SelectOption,CustomerItem} from "star-horse-lowcode";
   import DataPreview from "@/views/dyform/DataPreview.vue";
-  import { CustomerItem } from "@/components/types/CompInfo.d.ts";
   import {
     consumerNodeData,
     relationFieldInfo,

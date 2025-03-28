@@ -31,7 +31,7 @@
   import piniaInstance from "@/store";
   import { ModelRef } from "vue-demi";
   import ExecutionListeners from "@/views/workflow/plugin/preps/utils/ExecutionListeners.vue";
-  import StarHorseDataSelector from "@/components/comp/StarHorseDataSelector.vue";
+  import StarHorseDataSelector from "star-horse-lowcode";
 
   defineOptions({
     name: "ApplyPrep"

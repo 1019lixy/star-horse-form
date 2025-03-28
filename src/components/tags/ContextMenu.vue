@@ -1,7 +1,6 @@
 <script setup lang="ts" name="ContextMenu">
   import { PropType, ref } from "vue";
   import type { RouteLocationNormalizedLoaded } from "vue-router";
-  import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 
   const emit = defineEmits(["visibleChange"]);
   const props = defineProps({

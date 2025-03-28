@@ -1,6 +1,5 @@
 <script setup lang="ts">
   import { ref } from "vue";
-  import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
   import BaseInfo from "@/views/workflow/formItems/BaseInfo.vue";
   import FlowParams from "@/views/workflow/formItems/FlowParams.vue";
   import FlowStatus from "@/views/workflow/formItems/FlowStatus.vue";

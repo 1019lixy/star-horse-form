@@ -1,11 +1,6 @@
 <script setup lang="ts">
   import { onMounted, provide, reactive, ref } from "vue";
-  import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-  import StarHorseForm from "@/components/comp/StarHorseForm.vue";
-  import { ApiUrls } from "@/components/types/ApiUrls.d.ts";
-  import StarHorseFormTable from "@/components/comp/StarHorseFormTable.vue";
-  import { BatchFieldInfo } from "@/components/types/PageFieldInfo.d.ts";
-  import { SelectOption } from "@/components/types/SearchProps";
+  import { ApiUrls,BatchFieldInfo,SelectOption } from "star-horse-lowcode";
   import { initDbList } from "@/views/dbsearch/utils/DbSearchUtils.ts";
   import { apiInstance } from "@/api/star_horse_utils.ts";
 

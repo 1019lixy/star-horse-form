@@ -2,8 +2,7 @@
 import {createRouterAndMenuList, permissionMenus} from "@/api/star_horse_apis.ts";
 import {computed, nextTick, onMounted, reactive, ref, unref, watch} from "vue";
 import {useUserInfoStore} from "@/store/UserInfo.ts";
-import {MenusInfo} from "@/components/types/MenusInfo";
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
+import {MenusInfo} from "star-horse-lowcode";
 import SubMenu from "@/components/menu/SubMenu.vue";
 import {filterTree} from "@/api/star_horse_utils.ts";
 import piniaInstance from "@/store";

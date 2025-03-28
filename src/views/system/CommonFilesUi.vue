@@ -1,10 +1,8 @@
 <script setup lang="ts" name="CommonFiles">
   import { apiInstance, dialogPreps } from "@/api/star_horse_utils.ts";
-  import { ApiUrls } from "@/components/types/ApiUrls";
   import { Config } from "@/api/settings";
   import { onMounted, provide, reactive, ref, onActivated, onDeactivated } from "vue";
-  import { SearchFields } from "@/components/types/SearchProps";
-  import { PageFieldInfo, UserFuncInfo } from "@/components/types/PageFieldInfo";
+  import { ApiUrls ,SearchFields,PageFieldInfo, UserFuncInfo } from "star-horse-lowcode";
   import { getCustomerParam, getToken } from "@/utils/auth";
   import { warning } from "@/utils/message.ts";
   import { download } from "@/api/star_horse_apis.ts";

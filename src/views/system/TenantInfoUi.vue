@@ -1,10 +1,8 @@
 <script setup lang="ts">
   import { apiInstance, dialogPreps } from "@/api/star_horse_utils.ts";
-  import { ApiUrls } from "@/components/types/ApiUrls";
   import { Config } from "@/api/settings";
   import { onMounted, provide, reactive, ref, onActivated, onDeactivated, nextTick } from "vue";
-  import { SearchFields, SelectOption } from "@/components/types/SearchProps";
-  import { PageFieldInfo } from "@/components/types/PageFieldInfo";
+  import { ApiUrls, SearchFields, SelectOption,PageFieldInfo } from "star-horse-lowcode";
   import { getCustomerParam } from "@/utils/auth";
   import { createDatetime } from "@/api/date_utils.ts";
   import { loadDict } from "@/api/star_horse_apis.ts";

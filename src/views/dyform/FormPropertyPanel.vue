@@ -8,15 +8,12 @@ import {
   loadElementPlusIcon,
   loadSystemInfo
 } from "@/api/star_horse_utils.ts";
-import {SelectOption} from "@/components/types/SearchProps";
 import {getRequest, loadDict, permissionMenus, postRequest} from "@/api/star_horse_apis.ts";
 import {useDesignFormStore} from "@/store/DesignForm.ts";
 import piniaInstance from "@/store/index.ts";
-import {PageFieldInfo} from "@/components/types/PageFieldInfo";
-import StarHorseForm from "@/components/comp/StarHorseForm.vue";
+import {PageFieldInfo,SelectOption,ApiUrls} from "star-horse-lowcode";
 import {Config} from "@/api/settings.ts";
 import {ascOrDesc, commonField, httpMethod} from "@/api/system.ts";
-import {ApiUrls} from "@/components/types/ApiUrls";
 
 const apiUrl: ApiUrls = apiInstance("userdb-manage", "userdb/dynamicForm")
 let designForm = useDesignFormStore(piniaInstance);

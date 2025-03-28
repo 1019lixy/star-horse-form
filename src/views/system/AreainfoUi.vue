@@ -1,10 +1,8 @@
 <script setup lang="ts" name="Areainfo">
-  import { ApiUrls } from "@/components/types/ApiUrls";
   import { apiInstance, dialogPreps } from "@/api/star_horse_utils.ts";
   import { Config } from "@/api/settings.ts";
   import { onMounted, provide, reactive, ref } from "vue";
-  import { SearchFields } from "@/components/types/SearchProps";
-  import { PageFieldInfo } from "@/components/types/PageFieldInfo";
+  import { ApiUrls,SearchFields, PageFieldInfo } from "star-horse-lowcode";
   import { commonField } from "@/api/system.ts";
 
   const dataUrl: ApiUrls = apiInstance("system-config", "system/areainfo");

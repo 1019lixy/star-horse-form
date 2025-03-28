@@ -1,7 +1,6 @@
 <script setup lang="ts">
   import { onMounted, ref, watch } from "vue";
   import { convertToCamelCase } from "@/api/star_horse_utils.ts";
-  import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 
   const props = defineProps({
     formInfo: { type: Object, required: true },

@@ -1,7 +1,6 @@
 <script setup lang="ts">
   import { computed, onMounted, ref } from "vue";
   import { dictData } from "@/api/star_horse_utils.ts";
-  import StarHorseForm from "@/components/comp/StarHorseForm.vue";
   import { flowFormFields, setFlowGroups } from "@/views/workflow/utils/FlowFormUtils.ts";
   import { useFlowDesignStore } from "@/store/FlowDesign.ts";
   import piniaInstance from "@/store";

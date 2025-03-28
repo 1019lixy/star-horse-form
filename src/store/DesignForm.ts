@@ -1,5 +1,5 @@
 import {defineStore} from "pinia";
-import {SelectOption} from "@/components/types/SearchProps";
+import {SelectOption} from "star-horse-lowcode";
 import {Config} from "@/api/settings.ts";
 import {ref, unref} from "vue";
 

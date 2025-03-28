@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import {flowCommon} from "@/views/workflow/plugin/utils/flowCommon.ts";
 import {nextTick, onMounted, ref} from "vue";
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 
 defineProps({
   menus: {

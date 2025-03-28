@@ -5,7 +5,6 @@
   import { useFlowDesignStore } from "@/store/FlowDesign.ts";
   import piniaInstance from "@/store";
   import { warning } from "@/utils/message.ts";
-  import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 
   defineProps({
     currentNav: {

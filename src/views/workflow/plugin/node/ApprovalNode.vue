@@ -45,7 +45,6 @@
   import { computed, onMounted, ref } from "vue";
   import { useFlowDesignStore } from "@/store/FlowDesign.ts";
   import piniaInstance from "@/store";
-  import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
   import { FlowNodeEnums } from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
   import { closeLoad } from "@/api/star_horse_utils.ts";
 

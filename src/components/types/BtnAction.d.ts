@@ -1,5 +1,4 @@
-import {FieldInfo} from "@/components/types/PageFieldInfo";
-import {SearchParams} from "@/components/types/Params";
+import {FieldInfo,SearchParams} from "star-horse-lowcode";
 
 export declare interface DynamicParamField {
     //参数名称

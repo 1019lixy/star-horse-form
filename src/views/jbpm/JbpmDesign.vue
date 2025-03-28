@@ -14,7 +14,6 @@
   import { xmlStrNew } from "./utils/linting-cloud.js";
   import { useFlowDesignStore } from "@/store/FlowDesign.ts";
   import piniaInstance from "@/store";
-  import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
   import { ElementRegistry } from "bpmn-js/lib/features/auto-place/BpmnAutoPlaceUtil";
   // 模拟流转流程
 

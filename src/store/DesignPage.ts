@@ -1,6 +1,6 @@
 import {defineStore} from "pinia";
 import {ref} from "vue";
-import {DynamicNode} from "@/components/types/DynamicNode";
+import {DynamicNode} from "star-horse-lowcode";
 
 export const useDesignPageStore = defineStore("designPage",
     () => {

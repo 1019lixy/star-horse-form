@@ -3,11 +3,9 @@
   import { ApiUrls } from "@/components/types/ApiUrls";
   import { Config } from "@/api/settings";
   import { computed, nextTick, onActivated, onDeactivated, onMounted, provide, reactive, ref } from "vue";
-  import { SearchFields, SelectOption } from "@/components/types/SearchProps";
-  import { PageFieldInfo } from "@/components/types/PageFieldInfo";
+  import { SearchFields, SelectOption, PageFieldInfo } from "star-horse-lowcode";
   import { createDatetime } from "@/api/date_utils.ts";
   import { loadDict, postRequest } from "@/api/star_horse_apis.ts";
-  import StarHorseTree from "@/components/comp/StarHorseTree.vue";
   import { useGlobalConfigStore } from "@/store/GlobalConfig.ts";
   import piniaInstance from "@/store";
   import { operationConfirm } from "@/utils/message.ts";

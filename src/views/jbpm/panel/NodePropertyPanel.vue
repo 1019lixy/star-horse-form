@@ -21,7 +21,6 @@
   />
 </template>
 <script setup lang="ts" name="NodePropertyPanel">
-  import StarHorseForm from "@/components/comp/StarHorseForm.vue";
   import { serviceTaskNodeField, userTaskNodeField } from "@/views/jbpm/panel/Fields.ts";
   import { computed, ref, watch } from "vue";
   import { Config } from "@/api/settings.ts";

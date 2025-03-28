@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {computed, onMounted, provide, reactive, ref, watch} from "vue";
 import {apiInstance, closeLoad, dialogPreps, load} from "@/api/star_horse_utils.ts";
-import {SearchProps} from "@/components/types/SearchProps";
+import {SearchProps} from "star-horse-lowcode";
 import DataPreview from "@/views/dyform/DataPreview.vue";
 import {analysisSearchData, viewColumns, viewDataList} from "@/views/dyform/utils/preview";
 import {download} from "@/api/star_horse_apis.ts";

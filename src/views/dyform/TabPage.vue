@@ -1,14 +1,11 @@
 <script setup lang="ts">
   import { nextTick, onMounted, provide, reactive, ref, watch } from "vue";
   import {apiInstance, closeLoad, dialogPreps, load, loadData, loadGetData} from "@/api/star_horse_utils.ts";
-  import { ApiUrls } from "@/components/types/ApiUrls";
-  import { SearchProps } from "@/components/types/SearchProps";
-  import { PageFieldInfo, UserFuncInfo } from "@/components/types/PageFieldInfo";
+  import { PageFieldInfo, UserFuncInfo,SearchProps,ApiUrls } from "star-horse-lowcode";
   import { TabsPaneContext } from "element-plus";
   import { Config } from "@/api/settings.ts";
   import { useDesignFormStore } from "@/store/DesignForm.ts";
   import piniaInstance from "@/store/index.ts";
-  import StarHorseForm from "@/components/comp/StarHorseForm.vue";
   import { userAction } from "@/api/user_func.ts";
   import {createDatetime} from "@/api/date_utils.ts";
 

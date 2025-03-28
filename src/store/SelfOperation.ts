@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { Ref, ref } from "vue";
-import { PageFieldInfo } from "@/components/types/PageFieldInfo";
+import { PageFieldInfo } from "star-horse-lowcode";
 
 /**
  * 用户自定义方法处理逻辑

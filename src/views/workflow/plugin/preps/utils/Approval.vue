@@ -6,7 +6,6 @@
   import piniaInstance from "@/store";
   import { createCondition } from "@/api/star_horse_utils.ts";
   import { postRequest } from "@/api/star_horse_apis.ts";
-  import StarHorseDataSelector from "@/components/comp/StarHorseDataSelector.vue";
 
   const props = defineProps({
     groups: {

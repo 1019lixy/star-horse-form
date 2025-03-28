@@ -1,7 +1,6 @@
 <script setup lang="ts" name="ProcessProperty">
   import { onMounted, reactive, ref } from "vue";
-  import { PageFieldInfo } from "@/components/types/PageFieldInfo";
-  import StarHorseForm from "@/components/comp/StarHorseForm.vue";
+  import { PageFieldInfo } from "star-horse-lowcode";
   import {
     dataTypeList,
     entityTypeList,

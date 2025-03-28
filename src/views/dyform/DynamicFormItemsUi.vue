@@ -1,9 +1,7 @@
 <script setup lang="ts" name="DynamicFormItems">
   import { apiInstance, dialogPreps } from "@/api/star_horse_utils.ts";
-  import { ApiUrls } from "@/components/types/ApiUrls";
   import { onMounted, provide, reactive, ref } from "vue";
-  import { SearchFields, SelectOption } from "@/components/types/SearchProps";
-  import { PageFieldInfo } from "@/components/types/PageFieldInfo";
+  import { ApiUrls,SearchFields, SelectOption, PageFieldInfo } from "star-horse-lowcode";
   import { Config } from "@/api/settings.ts";
   //后端交互接口地址
   const dataUrl: ApiUrls = apiInstance("userdb-manage", "userdb/dynamicFormItems");

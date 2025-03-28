@@ -4,7 +4,6 @@
   import DeleteConfirm from "@/views/workflow/plugin/common/DeleteConfirm.vue";
   import { useFlowDesignStore } from "@/store/FlowDesign.ts";
   import piniaInstance from "@/store";
-  import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
   import { FlowNodeEnums } from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
   import { onMounted } from "vue";
   import { closeLoad } from "@/api/star_horse_utils.ts";

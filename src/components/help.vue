@@ -1,5 +1,4 @@
 <script setup lang="ts" name="help">
-  import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 
   defineProps({
     width: { type: Number, default: 340 },

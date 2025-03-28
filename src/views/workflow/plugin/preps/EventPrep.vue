@@ -82,7 +82,6 @@
 <script setup lang="ts" name="Event">
   import { flowCommon } from "@/views/workflow/plugin/utils/flowCommon.ts";
   import FlowDrawerFooter from "@/views/workflow/plugin/common/DrawerFooter.vue";
-  import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
   import { useFlowDesignStore } from "@/store/FlowDesign.ts";
   import piniaInstance from "@/store";
   import { ModelRef } from "vue-demi";

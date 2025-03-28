@@ -4,13 +4,9 @@
   import { postRequest, trim, userLogout } from "@/api/star_horse_apis.ts";
   import { operationConfirm, error, success, warning } from "@/utils/message";
   import { apiInstance, dialogPreps } from "@/api/star_horse_utils.ts";
-  import { ApiUrls } from "@/components/types/ApiUrls";
   import { getCustomerInfo, getCustomerParam, getUserInfo } from "@/utils/auth";
-  import { PageFieldInfo } from "@/components/types/PageFieldInfo";
-  import { ElTable } from "element-plus";
+  import { PageFieldInfo,ApiUrls } from "star-horse-lowcode";
   import { closeLoad, filterTree, load } from "@/api/star_horse_utils.ts";
-  import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-  import StarHorseTableComp from "@/components/comp/StarHorseTableComp.vue";
   import { getLang, setLang } from "@/theme/localStorge.ts";
   import { LangType } from "@/theme/theme.ts";
   import { i18n } from "../lang";
@@ -20,7 +16,7 @@
   import { toggleDark } from "@/api/system.ts";
   import { Moon, Sunny } from "@element-plus/icons-vue";
   import { useRouter } from "vue-router";
-  import MessageItem from "@/components/comp/items/messageItem.vue";
+  import MessageItem from "star-horse-lowcode";
   const userStore = useUserInfoStore(piniaInstance);
   const shortcutMenuList = ref<Array<any>>([]);
   let systemName = Config.title;

@@ -7,7 +7,6 @@ import {onMounted, reactive, ref, watch} from "vue";
 import {RouteLocationNormalized, useRouter} from "vue-router";
 import type {ElForm, FormInstance, FormRules, TabsPaneContext} from 'element-plus'
 import {warning} from "@/utils/message";
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {i18n} from "@/lang";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
 import piniaInstance from "@/store";

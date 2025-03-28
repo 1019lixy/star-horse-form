@@ -15,7 +15,6 @@ import HeaderComp from "@/components/HeaderComp.vue";
 import PageConfig from "@/components/PageConfig.vue";
 import {useGlobalConfigStore} from "@/store/GlobalConfig.ts";
 import FixedMenu from "@/components/FixedMenu.vue";
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 
 let configStore = useGlobalConfigStore(piniaInstance);
 const route = router.getRoutes().find((item) => item.path == "/home");

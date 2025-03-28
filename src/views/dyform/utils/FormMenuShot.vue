@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import {nextTick, onMounted, PropType, ref} from "vue";
-import StarHorseTree from "@/components/comp/StarHorseTree.vue";
-import {ApiUrls} from "@/components/types/ApiUrls";
+import {ApiUrls} from "star-horse-lowcode";
 import {postRequest} from "@/api/star_horse_apis.ts";
 import {operationConfirm, success, warning} from "@/utils/message.ts";
 import {createCondition} from "@/api/star_horse_utils.ts";

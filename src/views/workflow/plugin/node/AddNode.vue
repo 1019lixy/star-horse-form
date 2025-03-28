@@ -33,10 +33,8 @@
   import { computed, onMounted, ref } from "vue";
   import { useFlowDesignStore } from "@/store/FlowDesign.ts";
   import piniaInstance from "@/store";
-  import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-  import { ApiUrls } from "@/components/types/ApiUrls";
+  import { ApiUrls,SearchParams } from "star-horse-lowcode";
   import { apiInstance, createCondition } from "@/api/star_horse_utils.ts";
-  import { SearchParams } from "@/components/types/Params";
   import { nodeInfoList, nodePrepList } from "@/views/workflow/plugin/utils/nodePreps.ts";
   import { FlowNodeEnums } from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
 

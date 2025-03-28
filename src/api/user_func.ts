@@ -6,7 +6,7 @@ import {Ref} from "vue";
 import {createCondition} from "@/api/star_horse_utils.ts";
 import {success, warning} from "@/utils/message.ts";
 import router from "@/router";
-import {UserFuncInfo} from "@/components/types/PageFieldInfo";
+import {UserFuncInfo} from "star-horse-lowcode";
 
 /**
  * 动态表单用户自定义驱动

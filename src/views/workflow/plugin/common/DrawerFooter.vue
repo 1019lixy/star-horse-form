@@ -14,7 +14,6 @@
 <script setup lang="ts">
   import { flowCommon } from "@/views/workflow/plugin/utils/flowCommon.ts";
   import { scale } from "@/views/workflow/plugin/utils/deviceUtil";
-  import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 
   const emits = defineEmits(["save", "close"]);
   const onSave = () => {

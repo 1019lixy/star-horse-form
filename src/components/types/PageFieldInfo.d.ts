@@ -1,7 +1,4 @@
-import {SearchFields, SelectOption} from '@/components/types/SearchProps';
-import {ApiUrls} from '@/components/types/ApiUrls';
-import {SearchParams} from '@/components/types/Params';
-import {RuleType} from "@/components/types/RuleType";
+import {SearchFields, SelectOption,ApiUrls,SearchParams,RuleType} from "star-horse-lowcode";
 import {Ref} from "vue";
 
 /**

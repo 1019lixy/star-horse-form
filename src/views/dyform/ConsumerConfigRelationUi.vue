@@ -1,9 +1,7 @@
 <script setup lang="ts" name="ConsumerConfigRelation">
   import { apiInstance, dialogPreps } from "@/api/star_horse_utils.ts";
-  import { ApiUrls } from "@/components/types/ApiUrls";
+  import { ApiUrls,SearchFields,PageFieldInfo } from "star-horse-lowcode";
   import { onMounted, provide, reactive, ref } from "vue";
-  import { SearchFields } from "@/components/types/SearchProps";
-  import { PageFieldInfo } from "@/components/types/PageFieldInfo";
   import { Config } from "@/api/settings.ts";
   //后端交互接口地址
   const dataUrl: ApiUrls = apiInstance("userdb-manage", "userdb/consumerConfigRelation");

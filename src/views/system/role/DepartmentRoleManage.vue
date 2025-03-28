@@ -3,19 +3,16 @@
   import { ApiUrls } from "@/components/types/ApiUrls";
   import { Config } from "@/api/settings";
   import { computed, onActivated, onDeactivated, onMounted, provide, reactive, ref } from "vue";
-  import { SearchFields, SelectOption } from "@/components/types/SearchProps";
-  import { PageFieldInfo } from "@/components/types/PageFieldInfo";
+  import { SearchFields, SelectOption, PageFieldInfo ,SearchParams} from "star-horse-lowcode";
   import { getCustomerParam } from "@/utils/auth";
   import { useGlobalConfigStore } from "@/store/GlobalConfig.ts";
   import piniaInstance from "@/store";
-  import { SearchParams } from "@/components/types/Params";
   import { TreeNodeData } from "element-plus/es/components/tree-v2/src/types";
   import { error, success, warning } from "@/utils/message.ts";
   import { postRequest } from "@/api/star_horse_apis.ts";
   import { getRowIdentity } from "element-plus/es/components/table/src/util";
   import UserManage from "@/views/system/UserManage.vue";
   import RoleUserList from "@/views/system/comp/RoleUserList.vue";
-  import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
   //后端交互接口地址
   const dataUrl: ApiUrls = apiInstance("system-config", "system/companyRole");
   dataUrl.pageListUrl = "/system-config/system/companyRole/departRoleUserList";

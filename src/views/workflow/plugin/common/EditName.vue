@@ -21,7 +21,6 @@
 </template>
 <script setup lang="ts">
   import { ref } from "vue";
-  import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 
   defineProps({
     node: {

@@ -16,7 +16,6 @@
   import { currentMonthRange, monthRange, currentDate } from "@/api/date_utils.ts";
   import { success, warning } from "@/utils/message.ts";
   import { SearchParams } from "@/components/types/Params";
-  import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 
   const props = defineProps({
     eventList: { type: Array, default: [] },

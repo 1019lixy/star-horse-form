@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 import {getPublicKey, getUserInfo} from "@/utils/auth.ts";
 import {computed, onMounted, provide, reactive, ref} from "vue";
 import {copy, dialogPreps} from "@/api/star_horse_utils.ts";
-import StarHorseForm from "@/components/comp/StarHorseForm.vue";
-import {PageFieldInfo} from "@/components/types/PageFieldInfo";
+import {PageFieldInfo} from "star-horse-lowcode";
 import {initSelectData, userEditFieldInfo} from "@/views/system/utils/UserFields.ts";
 import {postRequest} from "@/api/star_horse_apis.ts";
 import {success, warning} from "@/utils/message.ts";

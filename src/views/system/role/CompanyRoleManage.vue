@@ -8,10 +8,8 @@
   import piniaInstance from "@/store";
   import UserManage from "@/views/system/UserManage.vue";
   import { postRequest } from "@/api/star_horse_apis.ts";
-  import { SearchFields } from "@/components/types/SearchProps";
+  import { SearchFields,SearchParams } from "star-horse-lowcode";
   import { Config } from "@/api/settings.ts";
-  import { SearchParams } from "@/components/types/Params";
-  import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
   import RoleUserList from "@/views/system/comp/RoleUserList.vue";
 
   let configStore = useGlobalConfigStore(piniaInstance);

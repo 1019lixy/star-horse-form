@@ -18,7 +18,6 @@
   import FlowAddNode from "@/views/workflow/plugin/node/AddNode.vue";
   import EditName from "@/views/workflow/plugin/common/EditName.vue";
   import { onMounted } from "vue";
-  import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
   import { closeLoad } from "@/api/star_horse_utils.ts";
   import { useFlowDesignStore } from "@/store/FlowDesign.ts";
   import piniaInstance from "@/store";

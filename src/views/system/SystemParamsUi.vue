@@ -1,10 +1,8 @@
 <script setup lang="ts" name="SystemParams">
   import { apiInstance, dialogPreps } from "@/api/star_horse_utils.ts";
-  import { ApiUrls } from "@/components/types/ApiUrls";
   import { Config } from "@/api/settings";
   import { onActivated, onDeactivated, onMounted, provide, reactive, ref } from "vue";
-  import { SearchFields } from "@/components/types/SearchProps";
-  import { PageFieldInfo } from "@/components/types/PageFieldInfo";
+  import { ApiUrls,SearchFields,PageFieldInfo } from "star-horse-lowcode";
   import { getCustomerParam } from "@/utils/auth";
   //后端交互接口地址
   const dataUrl: ApiUrls = apiInstance("system-config", "system/systemParams");

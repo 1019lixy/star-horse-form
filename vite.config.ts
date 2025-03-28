@@ -34,7 +34,6 @@ export default defineConfig((mode) => {
             "vue",
             "vue-router",
             "vue3-guides",
-            "element-plus/es",
             "vue3-infinite-viewer",
             "lodash-es",
             "smooth-signature",
@@ -53,29 +52,10 @@ export default defineConfig((mode) => {
             "qs",
             "gridstack",
             "preview-image-js",
-            "bpmn-js/lib/Modeler",
-            "bpmn-js-token-simulation",
-            "bpmn-js-bpmnlint",
-            "diagram-js-minimap",
+
             "html2canvas",
             "echarts",
-            "codemirror",
-            "@codemirror/view",
-            "@codemirror/state",
-            "@codemirror/commands",
-            "@codemirror/autocomplete",
-            "@codemirror/lang-python",
-            "@codemirror/lang-javascript",
-            "@codemirror/lang-java",
-            "@codemirror/lang-json",
-            "@codemirror/lang-yaml",
-            "@codemirror/lang-vue",
-            "@codemirror/lang-html",
-            "@codemirror/lang-cpp",
-            "@codemirror/lang-xml",
-            "@codemirror/lang-markdown",
-            "@codemirror/lang-go",
-            "@codemirror/lang-sql",
+
             "thememirror",
             "sortablejs",
             "jsencrypt",
@@ -150,7 +130,11 @@ export default defineConfig((mode) => {
         },
         optimizeDeps: {
             // force: true,
-            include: optimizeDepsList
+            // include: optimizeDepsList,
+            exclude: [
+                'babel-polyfill',  // 明确排除 babel-polyfill
+                '@babel/polyfill'
+            ]
             // exclude:[]
         },
         plugins: [

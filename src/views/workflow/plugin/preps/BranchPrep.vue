@@ -6,8 +6,7 @@
   import { useFlowDesignStore } from "@/store/FlowDesign.ts";
   import piniaInstance from "@/store";
   import { dictData, searchMatchList } from "@/api/star_horse_utils.ts";
-  import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-  import { SelectOption } from "@/components/types/SearchProps";
+  import { SelectOption } from "star-horse-lowcode";
   import { ModelRef } from "vue-demi";
 
   defineOptions({

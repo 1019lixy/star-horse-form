@@ -68,9 +68,7 @@
   import { useFlowDesignStore } from "@/store/FlowDesign.ts";
   import piniaInstance from "@/store";
   import { ModelRef } from "vue-demi";
-  import StarHorseDataSelector from "@/components/comp/StarHorseDataSelector.vue";
-  import StarHorseFormList from "@/components/comp/StarHorseFormList.vue";
-  import { FieldInfo } from "@/components/types/PageFieldInfo";
+  import { FieldInfo } from "star-horse-lowcode";
   import { getValidType } from "@/api/valid_utils.ts";
   import { warning } from "@/utils/message.ts";
 

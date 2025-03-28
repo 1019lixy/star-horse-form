@@ -1,5 +1,5 @@
 import { ref } from "vue";
-import { ShortKey } from "@/components/types/ShortKey";
+import { ShortKey } from "star-horse-lowcode";
 import { ModuleEnums } from "@/components/enums/ModuleEnums.ts";
 import {
   altDownFun,

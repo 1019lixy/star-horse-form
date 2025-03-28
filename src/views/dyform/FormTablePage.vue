@@ -1,11 +1,9 @@
 <script setup lang="ts">
   import { nextTick, onMounted, provide, reactive, ref, watch } from "vue";
   import { apiInstance, closeLoad, dialogPreps, load, loadGetData } from "@/api/star_horse_utils.ts";
-  import { ApiUrls } from "@/components/types/ApiUrls";
   import { useRoute, useRouter } from "vue-router";
   import { useNavBarListStore } from "@/store/NavBarList.ts";
-  import { SearchProps } from "@/components/types/SearchProps";
-  import { PageFieldInfo } from "@/components/types/PageFieldInfo";
+  import { ApiUrls,SearchProps,PageFieldInfo } from "star-horse-lowcode";
   import { Config } from "@/api/settings.ts";
 
   const navBarListStore = useNavBarListStore();

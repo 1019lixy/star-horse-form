@@ -1,7 +1,6 @@
 <script lang="ts" setup name="JbpmHeader">
   import { nextTick, onMounted, PropType, ref } from "vue";
   import { flowButtonList, setBpmnModeler } from "@/views/jbpm/utils/FlowData.ts";
-  import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 
   const props = defineProps({
     processData: {

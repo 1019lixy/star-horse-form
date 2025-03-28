@@ -1,8 +1,6 @@
 <script setup lang="ts" name="DataPreview">
   import { onMounted, ref, watch } from "vue";
-  import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
   import { commonDataFormat } from "@/api/star_horse_utils.ts";
-  import { createDatetime } from "@/api/date_utils.ts";
   import { Config } from "@/api/settings.ts";
 
   const props = defineProps({

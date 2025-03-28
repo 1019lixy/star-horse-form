@@ -3,8 +3,7 @@
   import { initDbList, openDatabase, tableColumns } from "@/views/dbsearch/utils/DbSearchUtils.ts";
   import piniaInstance from "@/store";
   import { useGlobalConfigStore } from "@/store/GlobalConfig.ts";
-  import { SelectOption } from "@/components/types/SearchProps.d.ts";
-  import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
+  import { SelectOption } from "star-horse-lowcode";
   import { useConsumerViewStore } from "@/store/ConsumerView.ts";
   import { Config } from "@/api/settings.ts";
 

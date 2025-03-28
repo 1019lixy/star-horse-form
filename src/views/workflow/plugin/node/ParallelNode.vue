@@ -61,7 +61,6 @@
   import EditName from "@/views/workflow/plugin/common/EditName.vue";
   import DeleteConfirm from "@/views/workflow/plugin/common/DeleteConfirm.vue";
   import { computed, onMounted } from "vue";
-  import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
   import { useFlowDesignStore } from "@/store/FlowDesign.ts";
   import piniaInstance from "@/store";
   import { FlowNodeEnums } from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";

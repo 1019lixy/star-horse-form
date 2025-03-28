@@ -2,7 +2,6 @@
   import { uuid } from "@/api/system.ts";
   import { onMounted, ref } from "vue";
   import { scale } from "@/views/workflow/plugin/utils/deviceUtil.ts";
-  import StarHorseDialog from "@/components/comp/StarHorseDialog.vue";
   import { ModelRef } from "vue-demi";
 
   defineOptions({

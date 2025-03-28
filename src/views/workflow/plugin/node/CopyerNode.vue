@@ -6,7 +6,6 @@
   import { useFlowDesignStore } from "@/store/FlowDesign.ts";
   import piniaInstance from "@/store";
   import { closeLoad } from "@/api/star_horse_utils.ts";
-  import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
 
   defineOptions({
     name: "CopyerNode"

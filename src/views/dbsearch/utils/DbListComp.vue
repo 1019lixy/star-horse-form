@@ -7,11 +7,7 @@ import {useDesignFormStore} from "@/store/DesignForm.ts";
 import piniaInstance from "@/store";
 import {useGlobalConfigStore} from "@/store/GlobalConfig.ts";
 import Help from "@/components/help.vue";
-import {PageFieldInfo} from "@/components/types/PageFieldInfo.d.ts";
-import {SelectOption} from "@/components/types/SearchProps.d.ts";
-import StarHorseIcon from "@/components/comp/StarHorseIcon.vue";
-import StarHorseDialog from "@/components/comp/StarHorseDialog.vue";
-import {BtnAuth} from "@/components/types/BtnAuth";
+import {PageFieldInfo,SelectOption,BtnAuth} from "star-horse-lowcode";
 
 let configStore = useGlobalConfigStore(piniaInstance);
 let designForm = useDesignFormStore(piniaInstance);
