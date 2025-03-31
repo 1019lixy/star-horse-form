@@ -1,5 +1,5 @@
 <script setup lang="ts" name="DynamicFormActions">
-  import { apiInstance, dialogPreps } from "@/api/star_horse_utils.ts";
+  import { apiInstance, dialogPreps } from "star-horse-lowcode";
   import { onMounted, provide, reactive, ref } from "vue";
   import { ApiUrls,SearchFields,PageFieldInfo } from "star-horse-lowcode";
   import { Config } from "@/api/settings.ts";

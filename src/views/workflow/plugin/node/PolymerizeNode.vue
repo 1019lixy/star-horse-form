@@ -18,10 +18,10 @@
   import FlowAddNode from "@/views/workflow/plugin/node/AddNode.vue";
   import EditName from "@/views/workflow/plugin/common/EditName.vue";
   import { onMounted } from "vue";
-  import { closeLoad } from "@/api/star_horse_utils.ts";
+  import { closeLoad } from "star-horse-lowcode";
   import { useFlowDesignStore } from "@/store/FlowDesign.ts";
-  import piniaInstance from "@/store";
-  import { warning } from "@/utils/message.ts";
+  import {piniaInstance} from "star-horse-lowcode";
+  import { warning } from "star-horse-lowcode";
   import DeleteConfirm from "@/views/workflow/plugin/common/DeleteConfirm.vue";
 
   const flowDesign = useFlowDesignStore(piniaInstance);

@@ -28,7 +28,7 @@
   import FlowDrawerFooter from "@/views/workflow/plugin/common/DrawerFooter.vue";
   import AuthForm from "@/views/workflow/plugin/common/AuthForm.vue";
   import { useFlowDesignStore } from "@/store/FlowDesign.ts";
-  import piniaInstance from "@/store";
+  import {piniaInstance} from "star-horse-lowcode";
   import { ModelRef } from "vue-demi";
   import ExecutionListeners from "@/views/workflow/plugin/preps/utils/ExecutionListeners.vue";
   import StarHorseDataSelector from "star-horse-lowcode";

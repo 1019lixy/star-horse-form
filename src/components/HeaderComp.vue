@@ -1,19 +1,17 @@
 <script lang="ts" setup name="Header">
   import { computed, nextTick, onMounted, ref, unref } from "vue";
   import { Config } from "@/api/settings.ts";
-  import { postRequest, trim, userLogout } from "@/api/star_horse_apis.ts";
-  import { operationConfirm, error, success, warning } from "@/utils/message";
-  import { apiInstance, dialogPreps } from "@/api/star_horse_utils.ts";
+  import {userLogout } from "@/api/star_horse_apis.ts";
+  import { operationConfirm,postRequest, trim, error, success, warning } from "star-horse-lowcode";
+  import { apiInstance, dialogPreps } from "star-horse-lowcode";
   import { getCustomerInfo, getCustomerParam, getUserInfo } from "@/utils/auth";
   import { PageFieldInfo,ApiUrls } from "star-horse-lowcode";
-  import { closeLoad, filterTree, load } from "@/api/star_horse_utils.ts";
+  import { closeLoad, filterTree, load } from "star-horse-lowcode";
   import { getLang, setLang } from "@/theme/localStorge.ts";
   import { LangType } from "@/theme/theme.ts";
   import { i18n } from "../lang";
-  import { useGlobalConfigStore } from "@/store/GlobalConfig.ts";
-  import piniaInstance from "@/store";
-  import { useUserInfoStore } from "@/store/UserInfo.ts";
-  import { toggleDark } from "@/api/system.ts";
+  import { useGlobalConfigStore,useUserInfoStore,piniaInstance } from "star-horse-lowcode";
+  import { toggleDark } from "star-horse-lowcode";
   import { Moon, Sunny } from "@element-plus/icons-vue";
   import { useRouter } from "vue-router";
   import MessageItem from "star-horse-lowcode";

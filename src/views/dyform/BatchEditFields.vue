@@ -1,10 +1,10 @@
 <script setup lang="ts" name="BatchEditFields">
 import {computed, reactive} from "vue";
-import {useDesignFormStore} from "@/store/DesignForm.ts";
-import piniaInstance from "@/store";
+import {useDesignFormStore} from "star-horse-lowcode";
+import {piniaInstance} from "star-horse-lowcode";
 import {Config} from "@/api/settings.ts";
 import FieldAnalysis from "@/views/dyform/FieldAnalysis.vue";
-import {batchModifyAction} from "@/api/system.ts";
+import {batchModifyAction} from "star-horse-lowcode";
 
 defineProps({
   compSize: {type: String, default: Config.compSize},

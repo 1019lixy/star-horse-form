@@ -1,13 +1,10 @@
 import {nextTick, reactive, Ref, ref} from "vue";
-import {FieldInfo, PageFieldInfo} from "@/components/types/PageFieldInfo";
-import {SelectOption} from "@/components/types/SearchProps";
-import {dictData, loadData, searchMatchList} from "@/api/star_horse_utils.ts";
-import {ascOrDesc, dataType, httpMethod, validDataUrl} from "@/api/system.ts";
-import {error, success, warning} from "@/utils/message.ts";
-import {useDesignFormStore} from "@/store/DesignForm.ts";
-import piniaInstance from "@/store";
+import {FieldInfo, PageFieldInfo,SelectOption,useDesignFormStore} from "star-horse-lowcode";
+import {dictData, loadData, searchMatchList} from "star-horse-lowcode";
+import {ascOrDesc, dataType, httpMethod, validDataUrl} from "star-horse-lowcode";
+import {error, success, warning} from "star-horse-lowcode";
+import {piniaInstance} from "star-horse-lowcode";
 import {validRulesList} from "@/api/valid_utils.ts";
-import {matchesType} from "react-dnd-html5-backend/dist/matchesType";
 
 const designForm = useDesignFormStore(piniaInstance);
 

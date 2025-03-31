@@ -1,11 +1,11 @@
 <script setup lang="ts">
   import { flowCommon } from "@/views/workflow/plugin/utils/flowCommon.ts";
-  import { uuid } from "@/api/system.ts";
+  import { uuid } from "star-horse-lowcode";
   import FlowDrawerFooter from "@/views/workflow/plugin/common/DrawerFooter.vue";
   import { onMounted, ref, computed, onActivated, watch } from "vue";
   import { useFlowDesignStore } from "@/store/FlowDesign.ts";
-  import piniaInstance from "@/store";
-  import { dictData, searchMatchList } from "@/api/star_horse_utils.ts";
+  import {piniaInstance} from "star-horse-lowcode";
+  import { dictData, searchMatchList } from "star-horse-lowcode";
   import { SelectOption } from "star-horse-lowcode";
   import { ModelRef } from "vue-demi";
 

@@ -2,13 +2,15 @@
 import {computed, nextTick, onMounted, ref, watch} from "vue";
 import ToolInfo from "@/views/continuous/ToolInfo.vue";
 import DeployTemplate from "@/views/continuous/DeployTemplate.vue";
-import {warning} from "@/utils/message.ts";
-import {useContinusConfigStore} from "@/store/ContinusConfig.ts";
-import piniaInstance from "@/store";
-import {SelectOption} from "@/components/types/SearchProps";
-import {PageFieldInfo} from "@/components/types/PageFieldInfo";
-import {uuid} from "@/api/system.ts";
-import {loadDict} from "@/api/star_horse_apis.ts";
+import {
+  warning,
+  useContinusConfigStore,
+  SelectOption,
+  PageFieldInfo,
+  piniaInstance,
+  uuid,
+  loadDict
+} from "star-horse-lowcode";
 import NodeFields from "@/views/continuous/utils/NodeFields.vue";
 import {pipelineFields} from "@/views/continuous/utils/FieldsUtils.ts";
 

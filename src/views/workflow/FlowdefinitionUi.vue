@@ -1,12 +1,9 @@
 <script setup lang="ts" name="EnvInfo">
-  import { apiInstance, dialogPreps, dictData } from "@/api/star_horse_utils.ts";
-  import { ApiUrls } from "@/components/types/ApiUrls";
-  import { onMounted, provide, reactive, ref } from "vue";
-  import { SearchFields, SelectOption } from "@/components/types/SearchProps.d.ts";
-  import { Config } from "@/api/settings.ts";
-  import { flowFormFields, setFlowGroups } from "@/views/workflow/utils/FlowFormUtils.ts";
-  import { UserFuncInfo } from "@/components/types/PageFieldInfo";
-  import { useRouter } from "vue-router";
+import { onMounted, provide, reactive, ref } from "vue";
+import { Config } from "@/api/settings.ts";
+import { useRouter } from "vue-router";
+import { flowFormFields, setFlowGroups } from "@/views/workflow/utils/FlowFormUtils.ts";
+import { apiInstance, dialogPreps, dictData,ApiUrls,SearchFields, SelectOption ,UserFuncInfo } from "star-horse-lowcode";
 
   const dataUrl: ApiUrls = apiInstance("flow-engine", "workflow/flowoperation");
   let flowGroupList = ref<SelectOption[]>([]);

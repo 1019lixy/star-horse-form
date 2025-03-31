@@ -1,10 +1,10 @@
 <script setup lang="ts">
-  import { apiInstance, createCondition, dialogPreps, loadData } from "@/api/star_horse_utils.ts";
+  import { apiInstance, createCondition, dialogPreps, loadData } from "star-horse-lowcode";
   import { Config } from "@/api/settings.ts";
   import { onMounted, provide, reactive, ref, onActivated, onDeactivated, nextTick } from "vue";
   import { ApiUrls,SearchFields, SelectOption,PageFieldInfo, UserFuncInfo,SearchParams } from "star-horse-lowcode";
-  import { loadDepartmentInfo } from "@/api/star_horse_utils.ts";
-  import { warning } from "@/utils/message.ts";
+  import { loadDepartmentInfo } from "star-horse-lowcode";
+  import { warning } from "star-horse-lowcode";
   import { TreeNodeData } from "element-plus/es/components/tree-v2/src/types";
 
   const dataUrl: ApiUrls = apiInstance("system-config", "system/departmentEntity");

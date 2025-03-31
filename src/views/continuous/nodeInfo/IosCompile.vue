@@ -1,10 +1,8 @@
 <script setup lang="ts" name="IosCompile">
-  import { onMounted, reactive, ref } from "vue";
-  import { SelectOption } from "@/components/types/SearchProps";
-  import { loadData } from "@/api/star_horse_utils.ts";
-  import { FieldInfo, PageFieldInfo } from "@/components/types/PageFieldInfo";
-  import ToolInfo from "@/views/continuous/ToolInfo.vue";
-  import { warning } from "@/utils/message.ts";
+import {onMounted, reactive, ref} from "vue";
+import ToolInfo from "@/views/continuous/ToolInfo.vue";
+import {SelectOption, loadData, FieldInfo, PageFieldInfo, warning} from "star-horse-lowcode";
+
 
   const buildCfgRef = ref();
   const toolInfoRef = ref();

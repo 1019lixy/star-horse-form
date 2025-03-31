@@ -1,14 +1,13 @@
 <script lang="ts" setup>
 import {Config} from "@/api/settings.ts";
-import {getValidateImg, userLogin} from "@/api/star_horse_apis.ts";
+import {getValidateImg, userLogin} from "star-horse-lowcode";
 import {JSEncrypt} from "jsencrypt";
 import {onMounted, reactive, ref, watch} from "vue";
 import {useRouter} from "vue-router";
 import type {ElForm, FormInstance, FormRules} from "element-plus";
-import {warning} from "@/utils/message";
+import {warning} from "star-horse-lowcode";
 import {i18n} from "@/lang";
-import piniaInstance from "@/store";
-import {useUserInfoStore} from "@/store/UserInfo.ts";
+import {useUserInfoStore,piniaInstance} from "star-horse-lowcode";
 import {setPublicKey} from "@/utils/auth.ts";
 
 interface LoginInfo {

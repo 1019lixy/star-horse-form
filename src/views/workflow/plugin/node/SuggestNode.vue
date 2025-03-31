@@ -3,10 +3,10 @@
   import FlowAddNode from "@/views/workflow/plugin/node/AddNode.vue";
   import DeleteConfirm from "@/views/workflow/plugin/common/DeleteConfirm.vue";
   import { useFlowDesignStore } from "@/store/FlowDesign.ts";
-  import piniaInstance from "@/store";
+  import {piniaInstance} from "star-horse-lowcode";
   import { FlowNodeEnums } from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
   import { onMounted } from "vue";
-  import { closeLoad } from "@/api/star_horse_utils.ts";
+  import { closeLoad } from "star-horse-lowcode";
 
   const props = defineProps({
     node: {

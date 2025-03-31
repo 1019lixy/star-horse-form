@@ -2,7 +2,7 @@
   import { dynamicPageContextMenuData, Editable } from "@/plugins/AblesPlugin.ts";
   import VueMoveable from "vue3-moveable";
   import { onMounted, ref } from "vue";
-  import { uuid } from "@/api/system.ts";
+  import { uuid } from "star-horse-lowcode";
 
   const props = defineProps({
     field: { type: Object, required: true },

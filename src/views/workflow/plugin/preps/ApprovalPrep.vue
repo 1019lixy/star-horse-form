@@ -6,11 +6,11 @@
   import AuthForm from "@/views/workflow/plugin/common/AuthForm.vue";
   import { ref, computed, onMounted } from "vue";
   import { useFlowDesignStore } from "@/store/FlowDesign.ts";
-  import piniaInstance from "@/store";
+  import {piniaInstance} from "star-horse-lowcode";
   import { ModelRef } from "vue-demi";
   import { FlowNodeEnums } from "../enums/FlowNodeEnums.ts";
-  import { postRequest } from "@/api/star_horse_apis.ts";
-  import { createCondition } from "@/api/star_horse_utils.ts";
+  import { postRequest } from "star-horse-lowcode";
+  import { createCondition } from "star-horse-lowcode";
   import ExecutionListeners from "@/views/workflow/plugin/preps/utils/ExecutionListeners.vue";
 
   defineOptions({

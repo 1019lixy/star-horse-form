@@ -1,8 +1,6 @@
 <script setup lang="ts" name="JunitReport">
-  import { apiInstance, dialogPreps } from "@/api/star_horse_utils.ts";
-  import { ApiUrls } from "@/components/types/ApiUrls";
-  import { onMounted, provide, reactive, ref } from "vue";
-  import { SearchFields } from "@/components/types/SearchProps";
+import { onMounted, provide, reactive, ref } from "vue";
+import { apiInstance, dialogPreps, ApiUrls,SearchFields } from "star-horse-lowcode";
   import { Config } from "@/api/settings.ts";
 
   const dataUrl: ApiUrls = apiInstance("continuous-manage", "continuous/junitReport");

@@ -1,11 +1,11 @@
 <script setup lang="ts">
-  import { apiInstance, dialogPreps } from "@/api/star_horse_utils.ts";
+  import { apiInstance, dialogPreps } from "star-horse-lowcode";
   import { Config } from "@/api/settings";
   import { onMounted, provide, reactive, ref, onActivated, onDeactivated, nextTick } from "vue";
   import { ApiUrls, SearchFields, SelectOption,PageFieldInfo } from "star-horse-lowcode";
   import { getCustomerParam } from "@/utils/auth";
-  import { createDatetime } from "@/api/date_utils.ts";
-  import { loadDict } from "@/api/star_horse_apis.ts";
+  import { createDatetime } from "star-horse-lowcode";
+  import { loadDict } from "star-horse-lowcode";
 
   defineOptions({
     name: "TenantInfo"

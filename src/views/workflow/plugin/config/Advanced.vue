@@ -1,8 +1,7 @@
 <script setup lang="ts">
   import { onMounted, ref } from "vue";
   import { scale } from "@/views/workflow/plugin/utils/deviceUtil.ts";
-  import { ApiUrls } from "@/components/types/ApiUrls";
-  import { apiInstance, createCondition } from "@/api/star_horse_utils.ts";
+  import { ApiUrls,apiInstance, createCondition } from "star-horse-lowcode";
 
   const dataUrl: ApiUrls = apiInstance("flow-engine", "workflow/categoryItemConfig");
   const props = defineProps({

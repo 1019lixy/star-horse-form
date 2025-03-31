@@ -1,9 +1,9 @@
 <script setup lang="ts" name="Customer">
-  import { apiInstance, dialogPreps } from "@/api/star_horse_utils.ts";
+  import { apiInstance, dialogPreps } from "star-horse-lowcode";
   import { Config } from "@/api/settings.ts";
   import { onMounted, provide, reactive, ref } from "vue";
   import { ApiUrls,SearchFields, SelectOption,PageFieldInfo } from "star-horse-lowcode";
-  import { loadElementPlusIcon } from "@/api/star_horse_utils.ts";
+  import { loadElementPlusIcon } from "star-horse-lowcode";
   //后端交互接口地址
   const dataUrl: ApiUrls = apiInstance("system-config", "system/customer");
   //查询属性
@@ -180,6 +180,7 @@
       />
     </div>
     <hr />
+    {{customerRef.permissionList()}}
     <star-horse-table-comp
       ref="customerRef"
       :fieldList="tableFieldList"

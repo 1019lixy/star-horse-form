@@ -1,13 +1,12 @@
 <script setup lang="ts">
   import { computed, onMounted, ref } from "vue";
-  import { useGlobalConfigStore } from "@/store/GlobalConfig.ts";
-  import piniaInstance from "@/store";
-  import { useDesignFormStore } from "@/store/DesignForm.ts";
+  import { useGlobalConfigStore ,useDesignFormStore } from "star-horse-lowcode";
+  import {piniaInstance} from "star-horse-lowcode";
   import Vue3 from "@/views/dyform/code/Vue3.vue";
   import Vue2 from "@/views/dyform/code/Vue2.vue";
   import React from "@/views/dyform/code/React.vue";
-  import { postRequest } from "@/api/star_horse_apis.ts";
-  import { warning } from "@/utils/message.ts";
+  import { postRequest } from "star-horse-lowcode";
+  import { warning } from "star-horse-lowcode";
   import { Config } from "@/api/settings.ts";
 
   let configStore = useGlobalConfigStore(piniaInstance);

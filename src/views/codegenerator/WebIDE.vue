@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { onMounted, ref } from "vue";
   import { loadTemplate, templateList } from "@/views/codegenerator/utils/IdeOperation.ts";
-  import { SelectOption } from "@/components/types/SearchProps";
+  import { SelectOption } from "star-horse-lowcode";
   import Help from "@/components/help.vue";
   import { commands } from "@/utils/sh_design.ts";
 

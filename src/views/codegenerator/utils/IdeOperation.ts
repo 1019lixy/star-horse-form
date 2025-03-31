@@ -1,5 +1,4 @@
-import { postRequest } from "@/api/star_horse_apis.ts";
-import { SelectOption } from "@/components/types/SearchProps";
+import { postRequest,SelectOption } from "star-horse-lowcode";
 
 const templateListUrl: string = "/code-generator/dynamic/code/templateList";
 const loadTemplateUrl: string = "/code-generator/dynamic/code/loadTemplate";

@@ -1,14 +1,12 @@
 <script setup lang="ts">
   import { computed, onMounted, provide, reactive, ref } from "vue";
-  import { apiInstance, closeLoad, createCondition, dialogPreps, load, loadData } from "@/api/star_horse_utils.ts";
-  import { error, success, warning } from "@/utils/message.ts";
-  import { PageFieldInfo } from "@/components/types/PageFieldInfo";
+  import { apiInstance, closeLoad, createCondition, dialogPreps, load, loadData } from "star-horse-lowcode";
+  import { error, success, warning } from "star-horse-lowcode";
+  import { PageFieldInfo,useGlobalConfigStore,SearchFields,SearchParams } from "star-horse-lowcode";
   import { getRowIdentity } from "element-plus/es/components/table/src/util";
-  import { useGlobalConfigStore } from "@/store/GlobalConfig.ts";
-  import piniaInstance from "@/store";
+  import {piniaInstance} from "star-horse-lowcode";
   import UserManage from "@/views/system/UserManage.vue";
-  import { postRequest } from "@/api/star_horse_apis.ts";
-  import { SearchFields,SearchParams } from "star-horse-lowcode";
+  import { postRequest } from "star-horse-lowcode";
   import { Config } from "@/api/settings.ts";
   import RoleUserList from "@/views/system/comp/RoleUserList.vue";
 

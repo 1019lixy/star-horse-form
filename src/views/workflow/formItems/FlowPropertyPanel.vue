@@ -1,7 +1,6 @@
 <script setup lang="ts">
   import { reactive, ref } from "vue";
-  import { FieldInfo } from "@/components/types/PageFieldInfo";
-  import { SelectOption } from "@/components/types/SearchProps";
+  import { FieldInfo,SelectOption } from "star-horse-lowcode";
 
   const props = defineProps({});
   const flowPropertyPanel = ref();

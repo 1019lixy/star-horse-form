@@ -1,8 +1,8 @@
 <script setup lang="ts">
   import { computed, onMounted } from "vue";
-  import { useDesignPageStore } from "@/store/DesignPage.ts";
-  import piniaInstance from "@/store";
-  import { uuid } from "@/api/system.ts";
+  import { useDesignPageStore } from "star-horse-lowcode";
+  import {piniaInstance} from "star-horse-lowcode";
+  import { uuid } from "star-horse-lowcode";
 
   let designPage = useDesignPageStore(piniaInstance);
   let nodeList = computed(() => designPage.nodeList);

@@ -1,5 +1,5 @@
 import {reactive} from "vue";
-import {PageFieldInfo} from "@/components/types/PageFieldInfo";
+import {PageFieldInfo} from "star-horse-lowcode";
 
 const pipelineFields = reactive<PageFieldInfo | any>({
     fieldList: [

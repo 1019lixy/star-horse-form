@@ -3,8 +3,8 @@
   import { flowCommon } from "@/views/workflow/plugin/utils/flowCommon.ts";
   import { scale } from "@/views/workflow/plugin/utils/deviceUtil";
   import { useFlowDesignStore } from "@/store/FlowDesign.ts";
-  import piniaInstance from "@/store";
-  import { warning } from "@/utils/message.ts";
+  import {piniaInstance} from "star-horse-lowcode";
+  import { warning } from "star-horse-lowcode";
 
   defineProps({
     currentNav: {

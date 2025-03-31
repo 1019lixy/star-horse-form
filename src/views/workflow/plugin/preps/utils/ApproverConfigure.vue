@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { uuid } from "@/api/system.ts";
+  import { uuid } from "star-horse-lowcode";
   import { onMounted, ref } from "vue";
   import { scale } from "@/views/workflow/plugin/utils/deviceUtil.ts";
   import { ModelRef } from "vue-demi";

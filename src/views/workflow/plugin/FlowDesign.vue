@@ -31,13 +31,11 @@
   import FlowNode from "@/views/workflow/plugin/node/FlowNode.vue";
   import { computed, onMounted, ref, watch } from "vue";
   import { useFlowDesignStore } from "@/store/FlowDesign.ts";
-  import piniaInstance from "@/store";
   import html2canvas from "html2canvas";
   import FlowMap from "@/views/workflow/plugin/common/FlowMap.vue";
   import { scale } from "@/views/workflow/plugin/utils/deviceUtil.ts";
   import { useRouter } from "vue-router";
-  import { ApiUrls } from "@/components/types/ApiUrls";
-  import { apiInstance } from "@/api/star_horse_utils.ts";
+  import { ApiUrls, apiInstance,piniaInstance} from "star-horse-lowcode";
 
   defineProps({
     saveBtnVisible: {

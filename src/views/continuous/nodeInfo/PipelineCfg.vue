@@ -1,8 +1,6 @@
 <script setup lang="ts" name="PipelineCfg">
 import {onMounted, reactive, ref} from "vue";
-import {SelectOption} from "@/components/types/SearchProps";
-import {PageFieldInfo} from "@/components/types/PageFieldInfo";
-import {loadDict} from "@/api/star_horse_apis.ts";
+import {SelectOption,PageFieldInfo,loadDict} from "star-horse-lowcode";
 
 let repoList = ref<SelectOption[]>([]);
 let execTypeList = ref<SelectOption[]>([]);

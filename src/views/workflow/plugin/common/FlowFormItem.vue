@@ -3,8 +3,7 @@
 </template>
 <script setup lang="ts">
   import { onMounted, ref } from "vue";
-  import { closeLoad, loadGetData } from "@/api/star_horse_utils.ts";
-  import { SearchProps } from "@/components/types/SearchProps";
+  import { closeLoad, loadGetData,SearchProps } from "star-horse-lowcode";
 
   const props = defineProps({
     dataNo: { type: String, required: true },

@@ -1,6 +1,6 @@
 <script setup lang="ts" name="ItemPropertiesPanel">
 import {computed, nextTick, onMounted, ref, unref, watch} from "vue";
-import {formFieldMapping, isJson, searchMatchList} from "@/api/star_horse_utils.ts";
+import {formFieldMapping, isJson, searchMatchList} from "star-horse-lowcode";
 import {SelectOption} from "star-horse-lowcode";
 import {
   buttonClickDataField,
@@ -12,13 +12,11 @@ import {
   relationDataField,
   validInterface
 } from "@/views/dyform/utils/ItemPreps.ts";
-import {useDesignFormStore} from "@/store/DesignForm.ts";
-import piniaInstance from "@/store/index.ts";
-import {error, success, warning} from "@/utils/message.ts";
-import {useGlobalConfigStore} from "@/store/GlobalConfig.ts";
-import {PageFieldInfo} from "star-horse-lowcode";
+import {piniaInstance} from "star-horse-lowcode";
+import {error, success, warning} from "star-horse-lowcode";
+import {PageFieldInfo,useDesignFormStore,useGlobalConfigStore} from "star-horse-lowcode";
 import {Config} from "@/api/settings.ts";
-import {loadDict} from "@/api/star_horse_apis.ts";
+import {loadDict} from "star-horse-lowcode";
 
 let designForm = useDesignFormStore(piniaInstance);
 let formDataList = computed(() => designForm.formDataList);

@@ -1,10 +1,7 @@
 <script setup lang="ts" name="BuildCfg">
   import { onMounted, reactive, ref } from "vue";
-  import { SelectOption } from "@/components/types/SearchProps";
-  import { loadData } from "@/api/star_horse_utils.ts";
-  import { FieldInfo, PageFieldInfo } from "@/components/types/PageFieldInfo";
+  import { SelectOption ,loadData, FieldInfo, PageFieldInfo,warning } from "star-horse-lowcode";
   import ToolInfo from "@/views/continuous/ToolInfo.vue";
-  import { warning } from "@/utils/message.ts";
 
   const buildCfgRef = ref();
   const toolInfoRef = ref();

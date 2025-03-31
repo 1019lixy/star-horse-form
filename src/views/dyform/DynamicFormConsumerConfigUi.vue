@@ -1,8 +1,8 @@
 <script setup lang="ts" name="DynamicFormConsumerConfig">
-  import { apiInstance, dialogPreps } from "@/api/star_horse_utils.ts";
+  import { apiInstance, dialogPreps } from "star-horse-lowcode";
   import { onMounted, provide, reactive, ref } from "vue";
   import { ApiUrls,SearchFields, SelectOption , PageFieldInfo, UserFuncInfo } from "star-horse-lowcode";
-  import { dictData } from "@/api/star_horse_utils.ts";
+  import { dictData } from "star-horse-lowcode";
   import { useRouter } from "vue-router";
   import ViewPage from "@/views/dyform/ViewPage.vue";
   import { Config } from "@/api/settings.ts";

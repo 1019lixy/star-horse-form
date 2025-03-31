@@ -1,9 +1,9 @@
 <script setup lang="ts">
   import { computed, onMounted, ref } from "vue";
-  import { dictData } from "@/api/star_horse_utils.ts";
+  import { dictData } from "star-horse-lowcode";
   import { flowFormFields, setFlowGroups } from "@/views/workflow/utils/FlowFormUtils.ts";
   import { useFlowDesignStore } from "@/store/FlowDesign.ts";
-  import piniaInstance from "@/store";
+  import {piniaInstance} from "star-horse-lowcode";
 
   defineProps({
     navable: {

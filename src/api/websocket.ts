@@ -1,5 +1,5 @@
 // WebSocket地址
-import { warning } from "@/utils/message.ts";
+import { warning } from "star-horse-lowcode";
 import { getUserInfo } from "@/utils/auth.ts";
 
 let globalUrl: string = "";

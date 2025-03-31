@@ -37,7 +37,7 @@
   import { computed, ref } from "vue";
   import { scale } from "@/views/workflow/plugin/utils/deviceUtil.ts";
   import { useFlowDesignStore } from "@/store/FlowDesign.ts";
-  import piniaInstance from "@/store";
+  import {piniaInstance} from "star-horse-lowcode";
 
   const flowDesign = useFlowDesignStore(piniaInstance);
   const props = defineProps({

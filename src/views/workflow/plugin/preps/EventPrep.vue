@@ -83,7 +83,7 @@
   import { flowCommon } from "@/views/workflow/plugin/utils/flowCommon.ts";
   import FlowDrawerFooter from "@/views/workflow/plugin/common/DrawerFooter.vue";
   import { useFlowDesignStore } from "@/store/FlowDesign.ts";
-  import piniaInstance from "@/store";
+  import {piniaInstance} from "star-horse-lowcode";
   import { ModelRef } from "vue-demi";
 
   let node: ModelRef<any> = defineModel("activeData");

@@ -2,9 +2,7 @@
   import { computed, onMounted, ref } from "vue";
   import { scale } from "@/views/workflow/plugin/utils/deviceUtil";
   import { useFlowDesignStore } from "@/store/FlowDesign.ts";
-  import piniaInstance from "@/store";
-  import { ApiUrls } from "@/components/types/ApiUrls";
-  import { apiInstance, createCondition, loadData } from "@/api/star_horse_utils.ts";
+  import { ApiUrls,apiInstance, createCondition, loadData,piniaInstance} from "star-horse-lowcode";
 
   const dataUrl: ApiUrls = apiInstance("flow-engine", "workflow/categoryItemConfig");
   const flowDesign = useFlowDesignStore(piniaInstance);

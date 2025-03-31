@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { Config } from "@/api/settings.ts";
   import { computed, ref } from "vue";
-  import { commonField } from "@/api/system.ts";
+  import { commonField } from "star-horse-lowcode";
 
   const props = defineProps({
     list: { type: Array<any>, required: true },

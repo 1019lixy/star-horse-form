@@ -1,9 +1,9 @@
 <script setup lang="ts" name="Rolesinfo">
-  import { apiInstance, dialogPreps } from "@/api/star_horse_utils.ts";
+  import { apiInstance, dialogPreps } from "star-horse-lowcode";
   import { Config } from "@/api/settings.ts";
   import { onMounted, provide, reactive, ref } from "vue";
   import { ApiUrls,SearchFields, SelectOption, PageFieldInfo, UserFuncInfo } from "star-horse-lowcode";
-  import { loadDepartmentInfo, loadSystemInfo } from "@/api/star_horse_utils.ts";
+  import { loadDepartmentInfo, loadSystemInfo } from "star-horse-lowcode";
   import { isSystemManage } from "@/utils/auth.ts";
 
   const dataUrl: ApiUrls = apiInstance("system-config", "system/rolesinfoEntity");
