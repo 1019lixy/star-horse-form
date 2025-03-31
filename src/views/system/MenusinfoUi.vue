@@ -21,9 +21,9 @@ import {
   UserFuncInfo
 } from "star-horse-lowcode";
 import {postRequest} from "star-horse-lowcode";
-import {error, success, warning} from "@/utils/message";
+import {error, success, warning} from "star-horse-lowcode";
 import {TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
-import {findNodesWithValue, treeCheckChange} from "@/api/system";
+import {findNodesWithValue, treeCheckChange} from "star-horse-lowcode";
 
 const dataUrl: ApiUrls = apiInstance("system-config", "system/menusinfoEntity");
 let parentMenus: any = ref<any>([]);

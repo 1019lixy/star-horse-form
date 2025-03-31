@@ -1,10 +1,10 @@
 <script setup lang="ts" name="MessageRecord">
-  import { apiInstance, dialogPreps } from "@/api/star_horse_utils.ts";
+  import { apiInstance, dialogPreps } from "star-horse-lowcode";
   import { Config } from "@/api/settings";
   import { onMounted, provide, reactive, ref, onActivated, onDeactivated } from "vue";
   import { ApiUrls, SearchFields, SelectOption,PageFieldInfo } from "star-horse-lowcode";
   import { getCustomerParam } from "@/utils/auth";
-  import { loadDict } from "@/api/star_horse_apis.ts";
+  import { loadDict } from "star-horse-lowcode";
   //后端交互接口地址
   const dataUrl: ApiUrls = apiInstance("system-config", "system/messageRecord");
   //主键

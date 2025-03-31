@@ -7,12 +7,12 @@ import {
   loadData,
   loadElementPlusIcon,
   loadSystemInfo
-} from "@/api/star_horse_utils.ts";
-import {getRequest, loadDict, permissionMenus, postRequest} from "@/api/star_horse_apis.ts";
+} from "star-horse-lowcode";
+import {getRequest, loadDict, permissionMenus, postRequest} from "star-horse-lowcode";
 import {piniaInstance} from "star-horse-lowcode";
 import {PageFieldInfo,SelectOption,ApiUrls,useDesignFormStore} from "star-horse-lowcode";
 import {Config} from "@/api/settings.ts";
-import {ascOrDesc, commonField, httpMethod} from "@/api/system.ts";
+import {ascOrDesc, commonField, httpMethod} from "star-horse-lowcode";
 
 const apiUrl: ApiUrls = apiInstance("userdb-manage", "userdb/dynamicForm")
 let designForm = useDesignFormStore(piniaInstance);

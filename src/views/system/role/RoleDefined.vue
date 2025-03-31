@@ -7,7 +7,7 @@ import {
   dictData,
   load,
   loadData
-} from "@/api/star_horse_utils.ts";
+} from "star-horse-lowcode";
 import {Config} from "@/api/settings";
 import {computed, nextTick, onActivated, onDeactivated, onMounted, provide, reactive, ref} from "vue";
 import {
@@ -24,7 +24,7 @@ import {
 } from "star-horse-lowcode";
 import {getCustomerParam} from "@/utils/auth";
 import {TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
-import {operationConfirm, error, success, warning} from "@/utils/message.ts";
+import {operationConfirm, error, success, warning} from "star-horse-lowcode";
 import {statusList} from "@/views/system/utils/UserFields.ts";
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance("system-config", "system/companyRole");

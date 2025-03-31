@@ -1,5 +1,5 @@
 <script setup lang="ts" name="DynamicFormDetails">
-  import { apiInstance, dialogPreps } from "@/api/star_horse_utils.ts";
+  import { apiInstance, dialogPreps } from "star-horse-lowcode";
   import { onMounted, provide, reactive, ref } from "vue";
   import { ApiUrls,SearchFields } from "star-horse-lowcode";
   import { Config } from "@/api/settings.ts";

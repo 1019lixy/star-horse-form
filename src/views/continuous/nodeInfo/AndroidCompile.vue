@@ -1,6 +1,6 @@
 <script setup lang="ts" name="AndroidCompile">
   import { onMounted, reactive, ref } from "vue";
-  import { SelectOption, loadData, FieldInfo, PageFieldInfo, warning } from "@/utils/message.ts";
+  import { SelectOption, loadData, FieldInfo, PageFieldInfo, warning } from "star-horse-lowcode";
   import ToolInfo from "@/views/continuous/ToolInfo.vue";
 
   const buildCfgRef = ref();

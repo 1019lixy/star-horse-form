@@ -88,10 +88,10 @@
   import { ModelRef } from "vue-demi";
   import { useFlowDesignStore } from "@/store/FlowDesign.ts";
   import {piniaInstance} from "star-horse-lowcode";
-  import { copy, loadData } from "@/api/star_horse_utils.ts";
-  import { downloadData } from "@/api/star_horse_apis.ts";
-  import { uuid } from "@/api/system.ts";
-  import { warning } from "@/utils/message.ts";
+  import { copy, loadData } from "star-horse-lowcode";
+  import { downloadData } from "star-horse-lowcode";
+  import { uuid } from "star-horse-lowcode";
+  import { warning } from "star-horse-lowcode";
   import { flowCommon } from "@/views/workflow/plugin/utils/flowCommon.ts";
   import BasicInfo from "@/views/workflow/plugin/BasicInfo.vue";
   import { doSaveData } from "@/views/workflow/utils/FlowFormUtils.ts";

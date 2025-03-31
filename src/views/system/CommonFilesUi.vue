@@ -1,11 +1,11 @@
 <script setup lang="ts" name="CommonFiles">
-  import { apiInstance, dialogPreps } from "@/api/star_horse_utils.ts";
+  import { apiInstance, dialogPreps } from "star-horse-lowcode";
   import { Config } from "@/api/settings";
   import { onMounted, provide, reactive, ref, onActivated, onDeactivated } from "vue";
   import { ApiUrls ,SearchFields,PageFieldInfo, UserFuncInfo } from "star-horse-lowcode";
   import { getCustomerParam, getToken } from "@/utils/auth";
-  import { warning } from "@/utils/message.ts";
-  import { download } from "@/api/star_horse_apis.ts";
+  import { warning } from "star-horse-lowcode";
+  import { download } from "star-horse-lowcode";
   //后端交互接口地址
   const dataUrl: ApiUrls = apiInstance("system-config", "system/commonFiles");
   //主键

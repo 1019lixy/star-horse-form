@@ -1,5 +1,5 @@
 import { FlowNodeEnums } from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
-import { uuid } from "@/api/system.ts";
+import { uuid } from "star-horse-lowcode";
 
 const nodeInfoList = () => {
   return [

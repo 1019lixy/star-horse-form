@@ -1,23 +1,29 @@
 import axios, {AxiosResponse, InternalAxiosRequestConfig} from "axios";
-import {getToken, getUserInfo, removeToken, setCustomerInfo, setToken, setUserInfo} from "@/utils/auth";
 import router from "@/router";
-import {error, warning} from "../utils/message";
 import {Config} from "@/api/settings.ts";
 import {reactive} from "vue";
-import {MenusInfo, SelectOption, useUserInfoStore, useButtonPermissionStore} from "star-horse-lowcode";
-import {piniaInstance} from "star-horse-lowcode";
-import piniaCompInstance from "@/store";
+import {getToken, getUserInfo, removeToken, setCustomerInfo, setToken, setUserInfo} from "@/utils/auth";
+import {
+    MenusInfo,
+    SelectOption,
+    useUserInfoStore,
+    useButtonPermissionStore,
+    error,
+    warning,
+    piniaInstance,
+    loadData
+} from "star-horse-lowcode";
+
 import {useNavBarListStore} from "@/store/NavBarList.ts";
 import {useViewCacheStore} from "@/store/ViewCache.ts";
 import {NavigationGuardNext, RouteLocationNormalized} from "vue-router";
-import {loadData} from "@/api/star_horse_utils.ts";
 import {getFingerId} from "@/api/finger_utils.ts";
 import {ServiceEnums} from "@/components/enums/ServiceEnums.ts";
 
-const navBarListStore = useNavBarListStore(piniaCompInstance);
+const navBarListStore = useNavBarListStore(piniaInstance);
 const userStore = useUserInfoStore(piniaInstance);
 const pagePermission = useButtonPermissionStore(piniaInstance);
-const viewListStore = useViewCacheStore(piniaCompInstance);
+const viewListStore = useViewCacheStore(piniaInstance);
 
 const service = axios.create({
     baseURL: "/",
@@ -369,100 +375,8 @@ export function downloadData(data: any, name: string) {
     window.URL.revokeObjectURL(href); //释放URL 对象
 }
 
-/**
- * 加载资源文件
- * @param url
- * @param method
- */
-export async function blobData(url: string, method: string = "post") {
-    let redata: any = null;
-    if (method == "get") {
-        await service.get(url, {responseType: "blob"}).then((res) => {
-            redata = new Blob([res.data]);
-        });
-    } else {
-        await service.post(url, [], {responseType: "blob"}).then((res) => {
-            redata = new Blob([res.data]);
-        });
-    }
-    return redata;
-}
 
-/**
- * 下载文件
- * @param fileUrl 文件路径
- * @param fileName 文件名称
- * @param method 请求方式
- */
-export function downloadFile(fileUrl: string, fileName: string, method: string = "post") {
-    return new Promise(async (resolve, reject) => {
-        try {
-            let blob = await blobData(fileUrl, method);
-            let delement = document.createElement("a");
-            let href = window.URL.createObjectURL(blob);
-            delement.href = href;
-            delement.download = fileName;        //下载后文件名
-            document.body.appendChild(delement);    //body中添加a标签
-            delement.click();       //点击a标签
-            document.body.removeChild(delement);   //移除a标签
-            window.URL.revokeObjectURL(href);      //释放掉blob对象
-            // downloadData(blob.data,fileName)
-            resolve(null);
-        } catch (e) {
-            reject(e);
-        }
-    })
 
-}
-
-/**
- * 加载已配置的菜单
- * @param param
- * @returns {Promise<AxiosResponse<*>>}
- */
-export function loadConfigedMenus(param: Array<object>) {
-    return postRequest(`${ServiceEnums.SYSTEM_PREFIX}menusinfoEntity/getAllByCondition`, param);
-}
-
-/**
- * 获取部门信息
- * @param param
- * @returns {Promise<AxiosResponse<*>>}
- */
-export async function loadDepartments(param: Array<object>) {
-    let redata: any[] = [];
-    let errMsg = null;
-    await postRequest(`${ServiceEnums.SYSTEM_PREFIX}departmentEntity/getAllByCondition`, param)
-        .then((res) => {
-            if (res.data.code != 0) {
-                errMsg = res.data.cnMessage;
-            } else {
-                redata = res.data.data;
-            }
-        })
-        .catch((err) => (errMsg = err));
-    return {redata, errMsg};
-}
-
-/**
- * 获取部门信息
- * @param param
- * @returns {Promise<AxiosResponse<*>>}
- */
-export async function loadSystems(param: Array<object>) {
-    let redata: any[] = [];
-    let errMsg = null;
-    await postRequest(`${ServiceEnums.SYSTEM_PREFIX}informationsEntity/getAllByCondition`, param)
-        .then((res) => {
-            if (res.data.code != 0) {
-                errMsg = res.data.cnMessage;
-            } else {
-                redata = res.data.data;
-            }
-        })
-        .catch((err) => (errMsg = err));
-    return {redata, errMsg};
-}
 
 /**
  * 获取数据字典
@@ -492,26 +406,7 @@ export async function loadDict(dictName: string) {
     return redata;
 }
 
-/**
- * 获取下拉数据
- * @param param
- * @returns {Promise<unknown>}
- */
-export async function loadRoleDatas(param: Array<object>) {
-    let redata: any[] = [];
-    let errMsg = null;
-    await postRequest(`${ServiceEnums.SYSTEM_PREFIX}rolesinfoEntity/queryUserAllRoles`, param)
-        .then((res) => {
-            if (res?.data.code != 0) {
-                errMsg = res.data.cnMessage;
-            } else {
-                const resdata = res?.data?.data;
-                redata = resdata as any;
-            }
-        })
-        .catch((err) => (errMsg = err));
-    return {redata, errMsg};
-}
+
 
 /**
  * Post 请求
@@ -532,30 +427,7 @@ export function getRequest(url: string) {
     return service.get(url);
 }
 
-/**
- * Request 请求
- * @param url 请求地址
- * @param data 请求参数
- * @param method 请求方法
- * @returns {Promise<AxiosResponse<any>>}
- */
-export function httpRequest(url: string, method: string, data: any) {
-    return service.request({
-        url: url,
-        method: method,
-        data: data
-    })
-}
 
-/**
- * Post Upload 请求
- * @param url
- * @param data
- * @returns {Promise<AxiosResponse<any>>}
- */
-export function uploadRequest(url: string, data: Array<any>) {
-    return service.post(url, data, {headers: {"Content-Type": "multipart/form-data"}});
-}
 
 /**
  * 去除空格

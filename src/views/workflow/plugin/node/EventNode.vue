@@ -37,7 +37,7 @@
   import { computed, onMounted } from "vue";
   import { useFlowDesignStore } from "@/store/FlowDesign.ts";
   import {piniaInstance} from "star-horse-lowcode";
-  import { closeLoad } from "@/api/star_horse_utils.ts";
+  import { closeLoad } from "star-horse-lowcode";
   import { FlowNodeEnums } from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
   import EditName from "@/views/workflow/plugin/common/EditName.vue";
   import DeleteConfirm from "@/views/workflow/plugin/common/DeleteConfirm.vue";

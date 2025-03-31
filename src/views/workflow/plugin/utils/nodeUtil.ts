@@ -1,4 +1,4 @@
-import { uuid } from "@/api/system.ts";
+import { uuid } from "star-horse-lowcode";
 import html2canvas from "html2canvas";
 import { isRef, Ref } from "vue";
 import { FlowNodeEnums } from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";

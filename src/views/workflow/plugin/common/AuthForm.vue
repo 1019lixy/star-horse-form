@@ -1,8 +1,8 @@
 <script setup lang="ts">
   import { onMounted, ref, watch } from "vue";
   import FormPreview from "@/views/dyform/FormPreview.vue";
-  import { loadData } from "@/api/star_horse_utils.ts";
-  import { warning } from "@/utils/message.ts";
+  import { loadData } from "star-horse-lowcode";
+  import { warning } from "star-horse-lowcode";
   import { useVModel } from "@vueuse/core";
 
   const emits = defineEmits<{ e: "update:modelValue"; modelValue: string }>();

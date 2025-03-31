@@ -6,7 +6,7 @@
   import { onMounted, reactive, ref, watch } from "vue";
   import { RouteLocationNormalized, useRouter } from "vue-router";
   import type { ElForm, FormInstance, FormRules, TabsPaneContext } from "element-plus";
-  import { warning } from "@/utils/message";
+  import { warning } from "star-horse-lowcode";
   import { i18n } from "@/lang";
   import { useGlobalConfigStore ,piniaInstance} from "star-horse-lowcode";
   import { particlesCfg } from "@/api/particlesConfig.ts";

@@ -1,11 +1,11 @@
 <script setup lang="ts">
-  import { uuid } from "@/api/system.ts";
+  import { uuid } from "star-horse-lowcode";
   import { getApproveNodes } from "@/views/workflow/plugin/utils/nodeUtil";
   import { computed, onMounted, ref } from "vue";
   import { useFlowDesignStore } from "@/store/FlowDesign.ts";
   import {piniaInstance} from "star-horse-lowcode";
-  import { createCondition } from "@/api/star_horse_utils.ts";
-  import { postRequest } from "@/api/star_horse_apis.ts";
+  import { createCondition } from "star-horse-lowcode";
+  import { postRequest } from "star-horse-lowcode";
 
   const props = defineProps({
     groups: {

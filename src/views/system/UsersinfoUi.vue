@@ -1,14 +1,14 @@
 <script setup lang="ts" name="Usersinfo">
-  import { apiInstance, dialogPreps } from "@/api/star_horse_utils.ts";
+  import { apiInstance, dialogPreps } from "star-horse-lowcode";
   import { Config } from "@/api/settings.ts";
   import { computed, nextTick, onMounted, provide, reactive, ref } from "vue";
   import { ApiUrls, SearchFields , PageFieldInfo ,SearchParams,useGlobalConfigStore } from "star-horse-lowcode";
-  import { createCondition, loadById } from "@/api/star_horse_utils.ts";
+  import { createCondition, loadById } from "star-horse-lowcode";
   import { analysisData } from "@/api/deptment";
   import { ElTreeV2 } from "element-plus";
   import { TreeNodeData } from "element-plus/es/components/tree-v2/src/types";
-  import { postRequest, trim } from "@/api/star_horse_apis.ts";
-  import { success, warning } from "@/utils/message.ts";
+  import { postRequest, trim } from "star-horse-lowcode";
+  import { success, warning } from "star-horse-lowcode";
   import {
     baseUserFields,
     deptList,

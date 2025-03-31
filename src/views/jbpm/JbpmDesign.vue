@@ -9,7 +9,7 @@
   import "bpmn-js-token-simulation/assets/css/bpmn-js-token-simulation.css";
   import "@/assets/css/diagram-js-minimap.css";
   import { computed, nextTick, onMounted, ref } from "vue";
-  import { uuid } from "@/api/system.ts";
+  import { uuid } from "star-horse-lowcode";
   import { createBpmnModeler, createNewFlow } from "@/views/jbpm/utils/FlowData.ts";
   import { xmlStrNew } from "./utils/linting-cloud.js";
   import { useFlowDesignStore } from "@/store/FlowDesign.ts";

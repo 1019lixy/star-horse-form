@@ -39,7 +39,7 @@
   import { computed, onMounted, ref } from "vue";
   import { useFlowDesignStore } from "@/store/FlowDesign.ts";
   import {piniaInstance} from "star-horse-lowcode";
-  import { closeLoad } from "@/api/star_horse_utils.ts";
+  import { closeLoad } from "star-horse-lowcode";
 
   defineOptions({
     name: "ServiceNode"

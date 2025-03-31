@@ -1,6 +1,6 @@
 import {piniaInstance} from "star-horse-lowcode";
 import { computed, reactive, ref } from "vue";
-import { uuid } from "@/api/system.ts";
+import { uuid } from "star-horse-lowcode";
 import { useDesignFormStore, useCopyerOperationStore,useDesignPageStore,DynamicNode } from "star-horse-lowcode";
 
 const copyerAction = useCopyerOperationStore(piniaInstance);

@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import {getPublicKey, getUserInfo} from "@/utils/auth.ts";
 import {computed, onMounted, provide, reactive, ref} from "vue";
-import {copy, dialogPreps} from "@/api/star_horse_utils.ts";
+import {copy, dialogPreps} from "star-horse-lowcode";
 import {PageFieldInfo,useGlobalConfigStore,piniaInstance} from "star-horse-lowcode";
 import {initSelectData, userEditFieldInfo} from "@/views/system/utils/UserFields.ts";
-import {postRequest} from "@/api/star_horse_apis.ts";
-import {success, warning} from "@/utils/message.ts";
+import {postRequest} from "star-horse-lowcode";
+import {success, warning} from "star-horse-lowcode";
 import {Config} from "@/api/settings.ts";
 import {JSEncrypt} from "jsencrypt";
 import {ServiceEnums} from "@/components/enums/ServiceEnums.ts";

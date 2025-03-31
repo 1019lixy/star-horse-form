@@ -1,6 +1,6 @@
 <script lang="ts" setup name="DynamicPage">
   import { defineAsyncComponent, h, nextTick, onMounted, ref, render } from "vue";
-  import { apiInstance } from "@/api/star_horse_utils.ts";
+  import { apiInstance } from "star-horse-lowcode";
   import Guides from "vue3-guides";
   import { VueInfiniteViewer } from "vue3-infinite-viewer";
   import { i18n } from "@/lang";
@@ -11,7 +11,7 @@
   import "gridstack/dist/gridstack.min.css";
   import { GridStack } from "gridstack";
   import { GridStackWidget } from "gridstack/dist/types";
-  import { createComponent } from "@/api/system.ts";
+  import { createComponent } from "star-horse-lowcode";
   import { DynamicNode } from "star-horse-lowcode";
 
   const dataUrl = apiInstance("userdb-manage", "userdb/dynamicPage");

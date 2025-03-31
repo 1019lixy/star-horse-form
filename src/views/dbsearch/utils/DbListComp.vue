@@ -1,11 +1,18 @@
 <script setup lang="ts">
 import {computed, ComputedRef, nextTick, onMounted, ref, unref} from "vue";
-import {warning} from "@/utils/message.ts";
 import {initDbList, openDatabase, tableColumns} from "@/views/dbsearch/utils/DbSearchUtils.ts";
-import {convertToCamelCase, isJson} from "@/api/star_horse_utils.ts";
-import {piniaInstance} from "star-horse-lowcode";
 import Help from "@/components/help.vue";
-import {useDesignFormStore,useGlobalConfigStore,PageFieldInfo,SelectOption,BtnAuth} from "star-horse-lowcode";
+import {
+  warning,
+  convertToCamelCase,
+  isJson,
+  piniaInstance,
+  useDesignFormStore,
+  useGlobalConfigStore,
+  PageFieldInfo,
+  SelectOption,
+  BtnAuth
+} from "star-horse-lowcode";
 
 let configStore = useGlobalConfigStore(piniaInstance);
 let designForm = useDesignFormStore(piniaInstance);

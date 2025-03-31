@@ -8,12 +8,12 @@ import {
   load,
   loadData,
   loadGetData
-} from "@/api/star_horse_utils.ts";
+} from "star-horse-lowcode";
 import {ApiUrls,SearchProps,PageFieldInfo,useDesignFormStore} from "star-horse-lowcode";
 import {piniaInstance} from "star-horse-lowcode";
-import {postRequest} from "@/api/star_horse_apis.ts";
+import {postRequest} from "star-horse-lowcode";
 import {getUserInfo} from "@/utils/auth.ts";
-import {userAction} from "@/api/user_func.ts";
+import {userAction} from "star-horse-lowcode";
 
 let designForm = useDesignFormStore(piniaInstance);
 let dataUrl = ref<ApiUrls>(apiInstance("", ""));

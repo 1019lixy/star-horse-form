@@ -17,7 +17,7 @@
   import FlowAddNode from "@/views/workflow/plugin/node/AddNode.vue";
   import { computed, onMounted } from "vue";
   import { FlowNodeEnums } from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
-  import { closeLoad } from "@/api/star_horse_utils.ts";
+  import { closeLoad } from "star-horse-lowcode";
   import { useFlowDesignStore } from "@/store/FlowDesign.ts";
   import {piniaInstance} from "star-horse-lowcode";
 

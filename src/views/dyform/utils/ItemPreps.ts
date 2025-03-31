@@ -1,8 +1,8 @@
 import {nextTick, reactive, Ref, ref} from "vue";
 import {FieldInfo, PageFieldInfo,SelectOption,useDesignFormStore} from "star-horse-lowcode";
-import {dictData, loadData, searchMatchList} from "@/api/star_horse_utils.ts";
-import {ascOrDesc, dataType, httpMethod, validDataUrl} from "@/api/system.ts";
-import {error, success, warning} from "@/utils/message.ts";
+import {dictData, loadData, searchMatchList} from "star-horse-lowcode";
+import {ascOrDesc, dataType, httpMethod, validDataUrl} from "star-horse-lowcode";
+import {error, success, warning} from "star-horse-lowcode";
 import {piniaInstance} from "star-horse-lowcode";
 import {validRulesList} from "@/api/valid_utils.ts";
 

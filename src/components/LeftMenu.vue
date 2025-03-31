@@ -3,7 +3,7 @@ import {createRouterAndMenuList, permissionMenus} from "@/api/star_horse_apis.ts
 import {computed, nextTick, onMounted, reactive, ref, unref, watch} from "vue";
 import {useUserInfoStore,MenusInfo,useGlobalConfigStore,piniaInstance} from "star-horse-lowcode";
 import SubMenu from "@/components/menu/SubMenu.vue";
-import {filterTree} from "@/api/star_horse_utils.ts";
+import {filterTree} from "star-horse-lowcode";
 import {Config} from "@/api/settings.ts";
 
 let userInfoStore = useUserInfoStore(piniaInstance);

@@ -1,11 +1,11 @@
 <script setup lang="ts">
-  import { apiInstance, createCondition, dialogPreps, dictData, loadRolesInfo } from "@/api/star_horse_utils.ts";
+  import { apiInstance, createCondition, dialogPreps, dictData, loadRolesInfo } from "star-horse-lowcode";
   import { computed, onMounted, provide, reactive, ref } from "vue";
   import {piniaInstance} from "star-horse-lowcode";
   import { TreeNodeData } from "element-plus/es/components/tree-v2/src/types";
   import { Config } from "@/api/settings.ts";
   import { SearchFields, SelectOption ,useGlobalConfigStore,PageFieldInfo, ApiUrls,SearchParams } from "star-horse-lowcode";
-  import { warning } from "@/utils/message.ts";
+  import { warning } from "star-horse-lowcode";
 
   let rolesList = ref<SelectOption[]>([]);
   let accountPermissionStatus = ref<SelectOption[]>();

@@ -1,14 +1,14 @@
 <script setup lang="ts" name="DynamicForm">
-  import { apiInstance, dbConfigList, dialogPreps } from "@/api/star_horse_utils.ts";
+  import { apiInstance, dbConfigList, dialogPreps } from "star-horse-lowcode";
   import { computed, nextTick, onMounted, provide, reactive, ref } from "vue";
   import { ApiUrls,SearchFields, SelectOption ,PageFieldInfo, UserFuncInfo,SearchParams } from "star-horse-lowcode";
   import { useRouter } from "vue-router";
-  import { loadData } from "@/api/star_horse_utils.ts";
+  import { loadData } from "star-horse-lowcode";
   import { Config } from "@/api/settings.ts";
   import { useDesignFormStore,useGlobalConfigStore } from "star-horse-lowcode";
   import {piniaInstance} from "star-horse-lowcode";
   import FormPreview from "@/views/dyform/FormPreview.vue";
-  import { warning } from "@/utils/message.ts";
+  import { warning } from "star-horse-lowcode";
 
   const router = useRouter();
   const dataUrl: ApiUrls = apiInstance("userdb-manage", "userdb/dynamicForm");

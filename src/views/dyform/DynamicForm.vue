@@ -12,10 +12,10 @@ import {
   watch
 } from "vue";
 import PropertyPanel from "@/views/dyform/PropertyPanel.vue";
-import {postRequest} from "@/api/star_horse_apis.ts";
-import {operationConfirm, error, warning, success} from "@/utils/message";
+import {postRequest} from "star-horse-lowcode";
+import {operationConfirm, error, warning, success} from "star-horse-lowcode";
 import {useRoute, useRouter} from "vue-router";
-import {apiInstance, closeLoad, load, loadData} from "@/api/star_horse_utils.ts";
+import {apiInstance, closeLoad, load, loadData} from "star-horse-lowcode";
 import FormPropertyPanel from "@/views/dyform/FormPropertyPanel.vue";
 import Help from "@/components/help.vue";
 import {dynamicFormHelpMessage, formActions} from "@/views/dyform/utils/DynamicForm.ts";
@@ -23,7 +23,7 @@ import {useDesignFormStore,useButtonPermissionStore,useSelfOperationStore,useGlo
 import {piniaInstance} from "star-horse-lowcode";
 import {validDynamicFormCompParams} from "@/views/dyform/utils/preview.ts";
 import CodeComp from "@/views/dyform/code/CodeComp.vue";
-import {batchModifyAction} from "@/api/system.ts";
+import {batchModifyAction} from "star-horse-lowcode";
 import {delCacheData, getCacheData, setCacheData} from "@/api/cached_utils.ts";
 import {i18n} from "@/lang";
 import {Config} from "@/api/settings.ts";

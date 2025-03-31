@@ -8,13 +8,13 @@ import {
   loadData,
   loadRolesInfo,
   loadSystemInfo
-} from "@/api/star_horse_utils.ts";
-import {createDatetime} from "@/api/date_utils.ts";
+} from "star-horse-lowcode";
+import {createDatetime} from "star-horse-lowcode";
 import {Config} from "@/api/settings.ts";
 import {computed, onMounted, provide, reactive, ref} from "vue";
 import {PageFieldInfo, piniaInstance, SearchFields, SelectOption,useGlobalConfigStore,SearchParams,ApiUrls} from "star-horse-lowcode";
 import {TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
-import {warning} from "@/utils/message.ts";
+import {warning} from "star-horse-lowcode";
 import {getUserInfo} from "@/utils/auth.ts";
 import {baseUserFields, userFormat} from "@/views/system/utils/UserFields.ts";
 

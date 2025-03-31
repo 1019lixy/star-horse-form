@@ -1,8 +1,18 @@
 <script setup lang="ts">
 import {nextTick, onMounted, PropType, provide, reactive, ref, watch} from "vue";
-import {apiInstance, closeLoad, dialogPreps, load, loadGetData} from "@/api/star_horse_utils.ts";
-import {ApiUrls,SearchProps,PageFieldInfo,useContinusConfigStore,piniaInstance} from "star-horse-lowcode";
-import {warning} from "@/utils/message.ts";
+import {
+  apiInstance,
+  closeLoad,
+  dialogPreps,
+  load,
+  loadGetData,
+  ApiUrls,
+  SearchProps,
+  PageFieldInfo,
+  useContinusConfigStore,
+  piniaInstance,
+  warning
+} from "star-horse-lowcode";
 
 let dataUrl = ref<ApiUrls>(apiInstance("", ""));
 const continuousStore = useContinusConfigStore(piniaInstance);

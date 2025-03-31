@@ -4,12 +4,9 @@ import "element-plus/theme-chalk/index.css";
 import "star-horse-lowcode/dist/assets/index.css";
 import "@/assets/css/flow.scss";
 import "tailwindcss/index.css";
-
 import nodeComponent from "@/views/continuous/nodeInfo/nodecomp";
-
 import commonComponent from "@/components/common/index";
 import flowNodeComponent from "@/views/workflow/plugin/node/nodes.ts";
-
 import App from "@/App.vue";
 import {createApp} from "vue";
 // 导入svg图标
@@ -37,7 +34,9 @@ import StarHorseLowCode from "star-horse-lowcode";
 
 const app = createApp(App);
 // window.app = app;
-app.use(StarHorseLowCode);
+app.use(StarHorseLowCode,{
+    router,
+});
 app.use(piniaCompInstance);
 app.use(ElementPlus);
 app.component("draggable", draggable);

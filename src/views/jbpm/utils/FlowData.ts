@@ -1,12 +1,12 @@
 import BpmnModeler from "bpmn-js/lib/Modeler";
 import TokenSimulationModule from "bpmn-js-token-simulation";
-import { postRequest } from "@/api/star_horse_apis.ts";
-import { warning } from "@/utils/message.ts";
+import { postRequest } from "star-horse-lowcode";
+import { warning } from "star-horse-lowcode";
 import { markRaw, ref, unref, computed } from "vue";
 import { useFlowDesignStore } from "@/store/FlowDesign.ts";
 import {piniaInstance} from "star-horse-lowcode";
 import { flowTemplate } from "@/views/jbpm/utils/template.ts";
-import { uuid } from "@/api/system.ts";
+import { uuid } from "star-horse-lowcode";
 import customTranslate from "@/views/jbpm/utils/zh_CN.ts";
 import BpmnEditorActions from "bpmn-js/lib/features/editor-actions/BpmnEditorActions";
 import { Canvas, EventBus } from "bpmn-js/lib/features/context-pad/ContextPadProvider";
