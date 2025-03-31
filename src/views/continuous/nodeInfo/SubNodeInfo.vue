@@ -1,10 +1,8 @@
 <script setup lang="ts" name="SubNodeInfo">
 import {onMounted, PropType, reactive, ref} from "vue";
-import {FieldInfo, PageFieldInfo} from "@/components/types/PageFieldInfo";
-import {SelectOption} from "@/components/types/SearchProps";
 import {compileTypeList, dataInit, extendCommonFields, loadPlugin} from "@/views/continuous/utils/ToolsParams.ts";
 import {ModelRef} from "vue-demi";
-import {loadDict} from "@/api/star_horse_apis.ts";
+import {FieldInfo, PageFieldInfo, SelectOption, loadDict} from "star-horse-lowcode";
 
 const props = defineProps({
   preps: {
@@ -126,7 +124,7 @@ const fieldList = reactive<PageFieldInfo | any>({
                         if (!plugin) {
                           return;
                         }
-                        nodeParams.value =await loadPlugin(plugin);
+                        nodeParams.value = await loadPlugin(plugin);
                         console.log(nodeParams.value);
                       },
                       optionList: compileTypeList,

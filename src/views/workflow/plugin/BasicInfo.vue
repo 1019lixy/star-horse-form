@@ -3,7 +3,7 @@
   import { dictData } from "@/api/star_horse_utils.ts";
   import { flowFormFields, setFlowGroups } from "@/views/workflow/utils/FlowFormUtils.ts";
   import { useFlowDesignStore } from "@/store/FlowDesign.ts";
-  import piniaInstance from "@/store";
+  import {piniaInstance} from "star-horse-lowcode";
 
   defineProps({
     navable: {

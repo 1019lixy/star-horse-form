@@ -4,7 +4,7 @@ import { postRequest } from "@/api/star_horse_apis.ts";
 import { warning } from "@/utils/message.ts";
 import { markRaw, ref, unref, computed } from "vue";
 import { useFlowDesignStore } from "@/store/FlowDesign.ts";
-import piniaInstance from "@/store";
+import {piniaInstance} from "star-horse-lowcode";
 import { flowTemplate } from "@/views/jbpm/utils/template.ts";
 import { uuid } from "@/api/system.ts";
 import customTranslate from "@/views/jbpm/utils/zh_CN.ts";

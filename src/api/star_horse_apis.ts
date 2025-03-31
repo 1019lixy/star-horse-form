@@ -4,21 +4,20 @@ import router from "@/router";
 import {error, warning} from "../utils/message";
 import {Config} from "@/api/settings.ts";
 import {reactive} from "vue";
-import {MenusInfo,SelectOption} from "star-horse-lowcode";
-import piniaInstance from "@/store";
+import {MenusInfo, SelectOption, useUserInfoStore, useButtonPermissionStore} from "star-horse-lowcode";
+import {piniaInstance} from "star-horse-lowcode";
+import piniaCompInstance from "@/store";
 import {useNavBarListStore} from "@/store/NavBarList.ts";
-import {useUserInfoStore} from "@/store/UserInfo.ts";
 import {useViewCacheStore} from "@/store/ViewCache.ts";
 import {NavigationGuardNext, RouteLocationNormalized} from "vue-router";
-import {useButtonPermissionStore} from "@/store/ButtonPermission.ts";
 import {loadData} from "@/api/star_horse_utils.ts";
 import {getFingerId} from "@/api/finger_utils.ts";
 import {ServiceEnums} from "@/components/enums/ServiceEnums.ts";
 
-const navBarListStore = useNavBarListStore(piniaInstance);
+const navBarListStore = useNavBarListStore(piniaCompInstance);
 const userStore = useUserInfoStore(piniaInstance);
 const pagePermission = useButtonPermissionStore(piniaInstance);
-const viewListStore = useViewCacheStore(piniaInstance);
+const viewListStore = useViewCacheStore(piniaCompInstance);
 
 const service = axios.create({
     baseURL: "/",

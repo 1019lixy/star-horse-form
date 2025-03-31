@@ -14,10 +14,9 @@
     table_width,
     viewFieldInfo
   } from "@/views/dyform/utils/DataConsumer.ts";
-  import { useConsumerViewStore } from "@/store/ConsumerView.ts";
-  import piniaInstance from "@/store";
+  import { useConsumerViewStore,useGlobalConfigStore } from "star-horse-lowcode";
+  import {piniaInstance} from "star-horse-lowcode";
   import { tableColumns } from "@/views/dbsearch/utils/DbSearchUtils.ts";
-  import { useGlobalConfigStore } from "@/store/GlobalConfig.ts";
   import { Config } from "@/api/settings.ts";
 
   const route = useRoute();

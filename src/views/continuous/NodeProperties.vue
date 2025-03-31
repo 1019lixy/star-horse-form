@@ -1,8 +1,6 @@
 <script setup lang="ts" name="NodeProperties">
-  import { apiInstance, dialogPreps } from "@/api/star_horse_utils.ts";
-  import { ApiUrls } from "@/components/types/ApiUrls";
-  import { ref, reactive, provide, onMounted } from "vue";
-  import { SearchFields } from "@/components/types/SearchProps";
+import { ref, reactive, provide, onMounted } from "vue";
+import { apiInstance, dialogPreps,ApiUrls,SearchFields } from "star-horse-lowcode";
   import { Config } from "@antv/x6";
   const dataUrl: ApiUrls = apiInstance("continuous-manage", "continuous/nodeProperties");
   const searchFormData = reactive<SearchFields>({

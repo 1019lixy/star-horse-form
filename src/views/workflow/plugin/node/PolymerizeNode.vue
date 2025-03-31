@@ -20,7 +20,7 @@
   import { onMounted } from "vue";
   import { closeLoad } from "@/api/star_horse_utils.ts";
   import { useFlowDesignStore } from "@/store/FlowDesign.ts";
-  import piniaInstance from "@/store";
+  import {piniaInstance} from "star-horse-lowcode";
   import { warning } from "@/utils/message.ts";
   import DeleteConfirm from "@/views/workflow/plugin/common/DeleteConfirm.vue";
 

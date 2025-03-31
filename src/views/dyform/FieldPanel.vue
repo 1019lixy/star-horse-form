@@ -1,7 +1,7 @@
 <script setup lang="ts" name="FieldPanel">
   import { computed, ref } from "vue";
-  import { useDesignFormStore } from "@/store/DesignForm.ts";
-  import piniaInstance from "@/store/index.ts";
+  import { useDesignFormStore } from "star-horse-lowcode";
+  import {piniaInstance} from "star-horse-lowcode";
   import DbListComp from "@/views/dbsearch/utils/DbListComp.vue";
   import { fieldCopy } from "@/views/dyform/utils/FieldOperationUtils.ts";
 

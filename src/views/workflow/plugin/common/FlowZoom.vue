@@ -87,7 +87,7 @@
   import { computed, nextTick, onActivated, onDeactivated, onMounted, ref } from "vue";
   import { ModelRef } from "vue-demi";
   import { useFlowDesignStore } from "@/store/FlowDesign.ts";
-  import piniaInstance from "@/store";
+  import {piniaInstance} from "star-horse-lowcode";
   import { copy, loadData } from "@/api/star_horse_utils.ts";
   import { downloadData } from "@/api/star_horse_apis.ts";
   import { uuid } from "@/api/system.ts";

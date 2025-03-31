@@ -5,9 +5,8 @@
   import { useRouter } from "vue-router";
   import { loadData } from "@/api/star_horse_utils.ts";
   import { Config } from "@/api/settings.ts";
-  import { useDesignFormStore } from "@/store/DesignForm.ts";
-  import piniaInstance from "@/store/index.ts";
-  import { useGlobalConfigStore } from "@/store/GlobalConfig.ts";
+  import { useDesignFormStore,useGlobalConfigStore } from "star-horse-lowcode";
+  import {piniaInstance} from "star-horse-lowcode";
   import FormPreview from "@/views/dyform/FormPreview.vue";
   import { warning } from "@/utils/message.ts";
 

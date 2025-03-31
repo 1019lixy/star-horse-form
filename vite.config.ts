@@ -30,8 +30,16 @@ const userDbHost: string = "http://localhost:7758/";
 export default defineConfig((mode) => {
     let optimizeDepsList: string[] = [];
     if (mode.mode === "development") {
+        //
         optimizeDepsList = [
             "vue",
+            "pinia-plugin-persistedstate",
+            "nprogress",
+            "element-plus",
+            "vue-m-message",
+            "@fingerprintjs/fingerrprintjs",
+            "@element-plus/icons-vue",
+            "pinyin-pro",
             "vue-router",
             "vue3-guides",
             "vue3-infinite-viewer",
@@ -52,10 +60,8 @@ export default defineConfig((mode) => {
             "qs",
             "gridstack",
             "preview-image-js",
-
             "html2canvas",
             "echarts",
-
             "thememirror",
             "sortablejs",
             "jsencrypt",
@@ -130,11 +136,7 @@ export default defineConfig((mode) => {
         },
         optimizeDeps: {
             // force: true,
-            // include: optimizeDepsList,
-            exclude: [
-                'babel-polyfill',  // 明确排除 babel-polyfill
-                '@babel/polyfill'
-            ]
+            include: optimizeDepsList
             // exclude:[]
         },
         plugins: [

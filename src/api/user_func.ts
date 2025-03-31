@@ -1,12 +1,11 @@
-import {useSelfOperationStore} from "@/store/SelfOperation.ts";
-import piniaInstance from "@/store";
 import {download, getRequest, postRequest, uploadRequest} from "@/api/star_horse_apis.ts";
 import {getUserInfo} from "@/utils/auth.ts";
 import {Ref} from "vue";
 import {createCondition} from "@/api/star_horse_utils.ts";
 import {success, warning} from "@/utils/message.ts";
 import router from "@/router";
-import {UserFuncInfo} from "star-horse-lowcode";
+import {UserFuncInfo,useSelfOperationStore} from "star-horse-lowcode";
+import {piniaInstance} from "star-horse-lowcode";
 
 /**
  * 动态表单用户自定义驱动

@@ -1,9 +1,8 @@
 import { error, warning } from "@/utils/message.ts";
-import { SelectOption } from "@/components/types/SearchProps";
+import { SelectOption,useConsumerViewStore } from "star-horse-lowcode";
 import { closeLoad, load, loadGetData } from "@/api/star_horse_utils.ts";
 import { getRequest } from "@/api/star_horse_apis.ts";
-import piniaInstance from "@/store";
-import { useConsumerViewStore } from "@/store/ConsumerView.ts";
+import {piniaInstance} from "star-horse-lowcode";
 
 const consumerView = useConsumerViewStore(piniaInstance);
 

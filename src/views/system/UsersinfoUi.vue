@@ -1,15 +1,12 @@
 <script setup lang="ts" name="Usersinfo">
   import { apiInstance, dialogPreps } from "@/api/star_horse_utils.ts";
-  import { ApiUrls } from "@/components/types/ApiUrls";
   import { Config } from "@/api/settings.ts";
   import { computed, nextTick, onMounted, provide, reactive, ref } from "vue";
-  import { SearchFields } from "@/components/types/SearchProps";
-  import { PageFieldInfo } from "@/components/types/PageFieldInfo";
+  import { ApiUrls, SearchFields , PageFieldInfo ,SearchParams,useGlobalConfigStore } from "star-horse-lowcode";
   import { createCondition, loadById } from "@/api/star_horse_utils.ts";
   import { analysisData } from "@/api/deptment";
   import { ElTreeV2 } from "element-plus";
   import { TreeNodeData } from "element-plus/es/components/tree-v2/src/types";
-  import { SearchParams } from "@/components/types/Params";
   import { postRequest, trim } from "@/api/star_horse_apis.ts";
   import { success, warning } from "@/utils/message.ts";
   import {
@@ -20,8 +17,7 @@
     sexList,
     userFormat
   } from "@/views/system/utils/UserFields.ts";
-  import { useGlobalConfigStore } from "@/store/GlobalConfig.ts";
-  import piniaInstance from "@/store";
+  import {piniaInstance} from "star-horse-lowcode";
 
   const props = defineProps({
     viewRolesinfoId: { type: String },

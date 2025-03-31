@@ -1,5 +1,4 @@
-import {SelectOption} from "@/components/types/SearchProps";
-import {dictData, loadDepartmentInfo, loadRolesInfo} from "@/api/star_horse_utils.ts";
+import {SelectOption, dictData, loadDepartmentInfo, loadRolesInfo} from "star-horse-lowcode";
 import {ref} from "vue";
 import {analysisData} from "@/api/deptment.ts";
 

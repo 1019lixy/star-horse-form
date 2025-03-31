@@ -1,8 +1,7 @@
 <script setup lang="ts" name="ContinusInstanceExecRecord">
   import { ref } from "vue";
   import InstanceItemDetail from "@/views/continuous/InstanceItemDetail.vue";
-  import { ApiUrls } from "@/components/types/ApiUrls";
-  import { apiInstance } from "@/api/star_horse_utils.ts";
+  import { ApiUrls,apiInstance } from "star-horse-lowcode";
 
   const apiUrl: ApiUrls = apiInstance("continuous-manage", "continuous/continuousInstance");
   const primaryKey: string = "idContinusInst";

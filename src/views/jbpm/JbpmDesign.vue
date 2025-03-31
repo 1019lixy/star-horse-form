@@ -13,7 +13,7 @@
   import { createBpmnModeler, createNewFlow } from "@/views/jbpm/utils/FlowData.ts";
   import { xmlStrNew } from "./utils/linting-cloud.js";
   import { useFlowDesignStore } from "@/store/FlowDesign.ts";
-  import piniaInstance from "@/store";
+  import {piniaInstance} from "star-horse-lowcode";
   import { ElementRegistry } from "bpmn-js/lib/features/auto-place/BpmnAutoPlaceUtil";
   // 模拟流转流程
 

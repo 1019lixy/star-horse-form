@@ -12,11 +12,9 @@ import {
   relationDataField,
   validInterface
 } from "@/views/dyform/utils/ItemPreps.ts";
-import {useDesignFormStore} from "@/store/DesignForm.ts";
-import piniaInstance from "@/store/index.ts";
+import {piniaInstance} from "star-horse-lowcode";
 import {error, success, warning} from "@/utils/message.ts";
-import {useGlobalConfigStore} from "@/store/GlobalConfig.ts";
-import {PageFieldInfo} from "star-horse-lowcode";
+import {PageFieldInfo,useDesignFormStore,useGlobalConfigStore} from "star-horse-lowcode";
 import {Config} from "@/api/settings.ts";
 import {loadDict} from "@/api/star_horse_apis.ts";
 

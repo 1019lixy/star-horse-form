@@ -5,8 +5,8 @@
   import { download, getRequest, postRequest } from "@/api/star_horse_apis.ts";
   import Help from "@/components/help.vue";
   import { initDbList } from "@/views/dbsearch/utils/DbSearchUtils.ts";
-  import { useGlobalConfigStore } from "@/store/GlobalConfig.ts";
-  import piniaInstance from "@/store";
+  import { useGlobalConfigStore } from "star-horse-lowcode";
+  import {piniaInstance} from "star-horse-lowcode";
   import { Config } from "@/api/settings.ts";
 
   let editorRef = ref(null);

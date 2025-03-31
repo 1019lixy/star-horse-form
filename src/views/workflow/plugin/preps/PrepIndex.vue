@@ -13,7 +13,7 @@
   import { flowCommon } from "@/views/workflow/plugin/utils/flowCommon.ts";
   import EditName from "@/views/workflow/plugin/common/EditName.vue";
   import { useFlowDesignStore } from "@/store/FlowDesign.ts";
-  import piniaInstance from "@/store";
+  import {piniaInstance} from "star-horse-lowcode";
 
   let headerStyle = ref<any>({
     background: "linear-gradient(89.96deg,#fa6f32 .05%,#fb9337 79.83%)",

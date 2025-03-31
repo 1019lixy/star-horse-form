@@ -9,9 +9,8 @@ import {
   loadSystemInfo
 } from "@/api/star_horse_utils.ts";
 import {getRequest, loadDict, permissionMenus, postRequest} from "@/api/star_horse_apis.ts";
-import {useDesignFormStore} from "@/store/DesignForm.ts";
-import piniaInstance from "@/store/index.ts";
-import {PageFieldInfo,SelectOption,ApiUrls} from "star-horse-lowcode";
+import {piniaInstance} from "star-horse-lowcode";
+import {PageFieldInfo,SelectOption,ApiUrls,useDesignFormStore} from "star-horse-lowcode";
 import {Config} from "@/api/settings.ts";
 import {ascOrDesc, commonField, httpMethod} from "@/api/system.ts";
 

@@ -1,11 +1,8 @@
 <script lang="ts" name="RankType" setup>
-  import { apiInstance, dialogPreps } from "@/api/star_horse_utils.ts";
-  import { ApiUrls } from "@/components/types/ApiUrls";
-  import { Config } from "@/api/settings";
-  import { onActivated, onDeactivated, onMounted, provide, reactive, ref } from "vue";
-  import { SearchFields } from "@/components/types/SearchProps";
-  import { PageFieldInfo } from "@/components/types/PageFieldInfo";
-  import { getCustomerParam } from "@/utils/auth";
+import { Config } from "@/api/settings";
+import { onActivated, onDeactivated, onMounted, provide, reactive, ref } from "vue";
+import { getCustomerParam } from "@/utils/auth";
+import { apiInstance, dialogPreps, ApiUrls,SearchFields,PageFieldInfo } from "star-horse-lowcode";
   //后端交互接口地址
   const dataUrl: ApiUrls = apiInstance("system-config", "system/rankType");
   //主键

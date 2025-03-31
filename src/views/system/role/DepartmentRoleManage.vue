@@ -1,12 +1,10 @@
 <script setup lang="ts" name="CompanyRole">
   import { apiInstance, closeLoad, createCondition, dialogPreps, dictData, load, loadData } from "@/api/star_horse_utils.ts";
-  import { ApiUrls } from "@/components/types/ApiUrls";
   import { Config } from "@/api/settings";
   import { computed, onActivated, onDeactivated, onMounted, provide, reactive, ref } from "vue";
-  import { SearchFields, SelectOption, PageFieldInfo ,SearchParams} from "star-horse-lowcode";
+  import { ApiUrls ,useGlobalConfigStore,SearchFields, SelectOption, PageFieldInfo ,SearchParams} from "star-horse-lowcode";
   import { getCustomerParam } from "@/utils/auth";
-  import { useGlobalConfigStore } from "@/store/GlobalConfig.ts";
-  import piniaInstance from "@/store";
+  import {piniaInstance} from "star-horse-lowcode";
   import { TreeNodeData } from "element-plus/es/components/tree-v2/src/types";
   import { error, success, warning } from "@/utils/message.ts";
   import { postRequest } from "@/api/star_horse_apis.ts";

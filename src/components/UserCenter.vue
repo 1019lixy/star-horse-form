@@ -2,12 +2,10 @@
 import {getPublicKey, getUserInfo} from "@/utils/auth.ts";
 import {computed, onMounted, provide, reactive, ref} from "vue";
 import {copy, dialogPreps} from "@/api/star_horse_utils.ts";
-import {PageFieldInfo} from "star-horse-lowcode";
+import {PageFieldInfo,useGlobalConfigStore,piniaInstance} from "star-horse-lowcode";
 import {initSelectData, userEditFieldInfo} from "@/views/system/utils/UserFields.ts";
 import {postRequest} from "@/api/star_horse_apis.ts";
 import {success, warning} from "@/utils/message.ts";
-import {useGlobalConfigStore} from "@/store/GlobalConfig.ts";
-import piniaInstance from "@/store";
 import {Config} from "@/api/settings.ts";
 import {JSEncrypt} from "jsencrypt";
 import {ServiceEnums} from "@/components/enums/ServiceEnums.ts";

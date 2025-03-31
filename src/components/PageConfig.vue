@@ -1,8 +1,6 @@
 <script setup lang="ts">
   import { computed, onMounted, ref } from "vue";
-  import { SelectOption } from "star-horse-lowcode";
-  import { useGlobalConfigStore } from "@/store/GlobalConfig.ts";
-  import piniaInstance from "@/store";
+  import { SelectOption,useGlobalConfigStore,piniaInstance } from "star-horse-lowcode";
   import { useDark, useToggle } from "@vueuse/core";
   import { Config } from "@/api/settings.ts";
 

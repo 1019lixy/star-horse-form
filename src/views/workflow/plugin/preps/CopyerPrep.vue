@@ -5,7 +5,7 @@
   import FlowNodeApproval from "@/views/workflow/plugin/preps/utils/Approval.vue";
   import FlowNodeCopyerConfigure from "@/views/workflow/plugin/preps/utils/CopyerConfigure.vue";
   import { useFlowDesignStore } from "@/store/FlowDesign.ts";
-  import piniaInstance from "@/store";
+  import {piniaInstance} from "star-horse-lowcode";
   import { ModelRef } from "vue-demi";
 
   defineOptions({

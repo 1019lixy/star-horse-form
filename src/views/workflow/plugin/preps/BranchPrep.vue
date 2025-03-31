@@ -4,7 +4,7 @@
   import FlowDrawerFooter from "@/views/workflow/plugin/common/DrawerFooter.vue";
   import { onMounted, ref, computed, onActivated, watch } from "vue";
   import { useFlowDesignStore } from "@/store/FlowDesign.ts";
-  import piniaInstance from "@/store";
+  import {piniaInstance} from "star-horse-lowcode";
   import { dictData, searchMatchList } from "@/api/star_horse_utils.ts";
   import { SelectOption } from "star-horse-lowcode";
   import { ModelRef } from "vue-demi";

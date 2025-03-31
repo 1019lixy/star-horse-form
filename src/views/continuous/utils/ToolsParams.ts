@@ -2,11 +2,17 @@
  * 工具参数
  */
 import {reactive, ref} from "vue";
-import {FieldInfo} from "@/components/types/PageFieldInfo";
-import {SelectOption} from "@/components/types/SearchProps";
-import {apiInstance, createCondition, createJoinCondition, loadData} from "@/api/star_horse_utils.ts";
-import {loadDict, postRequest} from "@/api/star_horse_apis.ts";
-import {ApiUrls} from "@/components/types/ApiUrls";
+import {
+    FieldInfo,
+    SelectOption,
+    apiInstance,
+    createCondition,
+    createJoinCondition,
+    loadData,
+    loadDict,
+    postRequest,
+    ApiUrls
+} from "star-horse-lowcode";
 
 const apiUrl: ApiUrls = apiInstance("userdb-manage", "userdb/formInstance/conToolManage/idToolManage/136");
 const toolParamApi: ApiUrls = apiInstance("continuous-manage", "continuous/toolParams");

@@ -1,9 +1,8 @@
 import { error } from "@/utils/message.ts";
 import { userFunction } from "@/api/user_func.ts";
 import { createCondition } from "@/api/star_horse_utils.ts";
-import piniaInstance from "@/store";
-import { useSelfOperationStore } from "@/store/SelfOperation.ts";
-import { useDesignFormStore } from "@/store/DesignForm.ts";
+import { useSelfOperationStore, useDesignFormStore } from "star-horse-lowcode";
+import {piniaInstance} from "star-horse-lowcode";
 import { computed } from "vue";
 
 const designForm = useDesignFormStore(piniaInstance);

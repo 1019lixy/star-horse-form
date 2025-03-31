@@ -1,8 +1,6 @@
 <script setup lang="ts" name="ProjectInfoUi">
-  import { apiInstance, dialogPreps } from "@/api/star_horse_utils.ts";
-  import { ApiUrls } from "@/components/types/ApiUrls";
-  import { onMounted, provide, reactive, ref } from "vue";
-  import { SearchFields, SelectOption } from "@/components/types/SearchProps.d.ts";
+import { onMounted, provide, reactive, ref } from "vue";
+import { apiInstance, dialogPreps,ApiUrls, SearchFields, SelectOption } from "star-horse-lowcode";
   import { Config } from "@/api/settings.ts";
   import ProjectMemberUi from "@/views/continuous/ProjectMemberUi.vue";
 

@@ -7,10 +7,10 @@ import {useNavBarListStore} from "@/store/NavBarList.ts";
 import {useScrollTo} from "@/components/tags/useScrollTo";
 import ContextMenu from "@/components/tags/ContextMenu.vue";
 import {useTemplateRefsList} from "@vueuse/core";
-import piniaInstance from "@/store";
+import piniaCompInstance from "@/store";
 
 const {currentRoute, push, replace} = useRouter();
-const viewListStore = useNavBarListStore(piniaInstance);
+const viewListStore = useNavBarListStore(piniaCompInstance);
 const navTagsList = computed(() => viewListStore.navTagsList);
 // 初始化tag
 const initTags = () => {

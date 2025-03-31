@@ -9,7 +9,7 @@ import type {ElForm, FormInstance, FormRules, TabsPaneContext} from 'element-plu
 import {warning} from "@/utils/message";
 import {i18n} from "@/lang";
 import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
-import piniaInstance from "@/store";
+import {piniaInstance} from "star-horse-lowcode";
 
 interface LoginInfo {
   userName: string;

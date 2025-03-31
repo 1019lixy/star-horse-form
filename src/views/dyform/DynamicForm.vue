@@ -19,14 +19,11 @@ import {apiInstance, closeLoad, load, loadData} from "@/api/star_horse_utils.ts"
 import FormPropertyPanel from "@/views/dyform/FormPropertyPanel.vue";
 import Help from "@/components/help.vue";
 import {dynamicFormHelpMessage, formActions} from "@/views/dyform/utils/DynamicForm.ts";
-import {useDesignFormStore} from "@/store/DesignForm.ts";
-import piniaInstance from "@/store/index.ts";
+import {useDesignFormStore,useButtonPermissionStore,useSelfOperationStore,useGlobalConfigStore} from "star-horse-lowcode";
+import {piniaInstance} from "star-horse-lowcode";
 import {validDynamicFormCompParams} from "@/views/dyform/utils/preview.ts";
 import CodeComp from "@/views/dyform/code/CodeComp.vue";
-import {useButtonPermissionStore} from "@/store/ButtonPermission.ts";
-import {useSelfOperationStore} from "@/store/SelfOperation.ts";
 import {batchModifyAction} from "@/api/system.ts";
-import {useGlobalConfigStore} from "@/store/GlobalConfig.ts";
 import {delCacheData, getCacheData, setCacheData} from "@/api/cached_utils.ts";
 import {i18n} from "@/lang";
 import {Config} from "@/api/settings.ts";

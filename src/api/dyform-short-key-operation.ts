@@ -1,6 +1,5 @@
-import {useDesignFormStore} from "@/store/DesignForm.ts";
-import {useCopyerOperationStore} from "@/store/CopyerOperation.ts";
-import piniaInstance from "@/store";
+import {useDesignFormStore,useCopyerOperationStore} from "star-horse-lowcode";
+import {piniaInstance} from "star-horse-lowcode";
 import {computed} from "vue";
 import {operationConfirm, warning} from "@/utils/message.ts";
 import {ModuleEnums} from "@/components/enums/ModuleEnums.ts";

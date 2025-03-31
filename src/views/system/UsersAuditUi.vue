@@ -1,9 +1,7 @@
 <script setup lang="ts" name="UsersAudit">
-  import { apiInstance, dialogPreps } from "@/api/star_horse_utils.ts";
-  import { ApiUrls } from "@/components/types/ApiUrls";
-  import { Config } from "@/api/settings.ts";
-  import { onMounted, provide, reactive, ref } from "vue";
-  import { SearchFields } from "@/components/types/SearchProps";
+import { onMounted, provide, reactive, ref } from "vue";
+import { Config } from "@/api/settings.ts";
+import { apiInstance, dialogPreps,ApiUrls ,SearchFields } from "star-horse-lowcode";
 
   const dataUrl: ApiUrls = apiInstance("system-config", "system/usersAudit");
   const searchFormData = reactive<SearchFields>({

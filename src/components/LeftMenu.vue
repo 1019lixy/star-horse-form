@@ -1,12 +1,9 @@
 <script setup lang="ts">
 import {createRouterAndMenuList, permissionMenus} from "@/api/star_horse_apis.ts";
 import {computed, nextTick, onMounted, reactive, ref, unref, watch} from "vue";
-import {useUserInfoStore} from "@/store/UserInfo.ts";
-import {MenusInfo} from "star-horse-lowcode";
+import {useUserInfoStore,MenusInfo,useGlobalConfigStore,piniaInstance} from "star-horse-lowcode";
 import SubMenu from "@/components/menu/SubMenu.vue";
 import {filterTree} from "@/api/star_horse_utils.ts";
-import piniaInstance from "@/store";
-import {useGlobalConfigStore} from "@/store/GlobalConfig.ts";
 import {Config} from "@/api/settings.ts";
 
 let userInfoStore = useUserInfoStore(piniaInstance);

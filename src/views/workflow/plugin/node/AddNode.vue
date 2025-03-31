@@ -32,7 +32,7 @@
 <script setup lang="ts">
   import { computed, onMounted, ref } from "vue";
   import { useFlowDesignStore } from "@/store/FlowDesign.ts";
-  import piniaInstance from "@/store";
+  import {piniaInstance} from "star-horse-lowcode";
   import { ApiUrls,SearchParams } from "star-horse-lowcode";
   import { apiInstance, createCondition } from "@/api/star_horse_utils.ts";
   import { nodeInfoList, nodePrepList } from "@/views/workflow/plugin/utils/nodePreps.ts";

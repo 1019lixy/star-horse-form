@@ -4,7 +4,7 @@
   import DeleteConfirm from "@/views/workflow/plugin/common/DeleteConfirm.vue";
   import { computed, onMounted } from "vue";
   import { useFlowDesignStore } from "@/store/FlowDesign.ts";
-  import piniaInstance from "@/store";
+  import {piniaInstance} from "star-horse-lowcode";
   import { closeLoad } from "@/api/star_horse_utils.ts";
 
   defineOptions({

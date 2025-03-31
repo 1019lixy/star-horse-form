@@ -1,6 +1,6 @@
 <script setup lang="ts">
-  import { useDesignFormStore } from "@/store/DesignForm.ts";
-  import piniaInstance from "@/store";
+  import { useDesignFormStore } from "star-horse-lowcode";
+  import {piniaInstance} from "star-horse-lowcode";
   import { computed, ref } from "vue";
 
   defineOptions({

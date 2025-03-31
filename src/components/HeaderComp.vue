@@ -10,9 +10,7 @@
   import { getLang, setLang } from "@/theme/localStorge.ts";
   import { LangType } from "@/theme/theme.ts";
   import { i18n } from "../lang";
-  import { useGlobalConfigStore } from "@/store/GlobalConfig.ts";
-  import piniaInstance from "@/store";
-  import { useUserInfoStore } from "@/store/UserInfo.ts";
+  import { useGlobalConfigStore,useUserInfoStore,piniaInstance } from "star-horse-lowcode";
   import { toggleDark } from "@/api/system.ts";
   import { Moon, Sunny } from "@element-plus/icons-vue";
   import { useRouter } from "vue-router";

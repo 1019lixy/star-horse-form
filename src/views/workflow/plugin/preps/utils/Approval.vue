@@ -3,7 +3,7 @@
   import { getApproveNodes } from "@/views/workflow/plugin/utils/nodeUtil";
   import { computed, onMounted, ref } from "vue";
   import { useFlowDesignStore } from "@/store/FlowDesign.ts";
-  import piniaInstance from "@/store";
+  import {piniaInstance} from "star-horse-lowcode";
   import { createCondition } from "@/api/star_horse_utils.ts";
   import { postRequest } from "@/api/star_horse_apis.ts";
 
