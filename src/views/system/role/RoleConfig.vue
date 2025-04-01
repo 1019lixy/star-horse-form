@@ -16,8 +16,9 @@ import {
   useGlobalConfigStore,
   SearchParams,
   piniaInstance,
-  error, success, warning, statusList, postRequest
+  error, success, warning,  postRequest
 } from "star-horse-lowcode";
+import { statusList } from "@/views/system/utils/UserFields.ts";
 import {getCustomerParam} from "@/utils/auth";
 import {TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
 //后端交互接口地址
