@@ -34,6 +34,7 @@ import StarHorseLowCode from "star-horse-lowcode";
 
 const app = createApp(App);
 // window.app = app;
+app.use(router);
 app.use(StarHorseLowCode,{
     router,
 });
@@ -54,7 +55,6 @@ app.use(VueParticles, {
         await loadSlim(engine);
     },
 });
-app.use(router);
 // VMEditor.use(vuepressTheme, {
 //     Prism,
 //     Hljs: hljs

@@ -12873,8 +12873,10 @@ stackframe@^1.3.4:
   resolved "https://registry.npmmirror.com/stackframe/-/stackframe-1.3.4.tgz"
   integrity sha512-oeVtt7eWQS+Na6F//S4kJ2K2VbRlS9D43mAlMyVpVWovy9o+jfgH8O9agzANzaiLjclA0oYzUXEM4PurhSUChw==
 
-star-horse-lowcode@../testcode:
+star-horse-lowcode@^2.7.0:
   version "2.7.0"
+  resolved "https://registry.npmjs.org/star-horse-lowcode/-/star-horse-lowcode-2.7.0.tgz#6ddc26bcb7ae351fab34fc3b2e05081b1552395b"
+  integrity sha512-mBsOXcCGGd1LOFl+iUg1le0bw6HE+g8B5q/qnCCfK6vN6aAygR/1JNlsLGIFp8EN4IQuqmPD2aBr5xz8fqM0ZA==
   dependencies:
     "@antv/x6" "^2.18.1"
     "@antv/x6-plugin-clipboard" "^2.1.6"

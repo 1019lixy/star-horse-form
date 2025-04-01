@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import {Config} from "@/api/settings.ts";
-import {getValidateImg, userLogin} from "star-horse-lowcode";
+import {getValidateImg, userLogin} from "@/api/star_horse_apis.ts";
 import {JSEncrypt} from "jsencrypt";
 import {onMounted, reactive, ref, watch} from "vue";
 import {useRouter} from "vue-router";

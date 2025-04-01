@@ -6,7 +6,7 @@
         :options="particles"/>-->
   <!--  <el-watermark content="Star Horse Devops"></el-watermark>-->
   <RouterView/>
-<!--  <LoginDialog v-model:loginDialogVisible="userInfoStore.loginDialogVisible"/>-->
+  <LoginDialog v-model:loginDialogVisible="userInfoStore.loginDialogVisible"/>
 </template>
 <script lang="ts" setup>
 import {onMounted} from "vue";
