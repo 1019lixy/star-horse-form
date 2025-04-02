@@ -67,7 +67,7 @@
   import { dictData } from "star-horse-lowcode";
   import { useFlowDesignStore } from "@/store/FlowDesign.ts";
   import {piniaInstance} from "star-horse-lowcode";
-  import { ModelRef } from "vue-demi";
+  import { ModelRef } from "vue";
   import { FieldInfo } from "star-horse-lowcode";
   import { getValidType } from "@/api/valid_utils.ts";
   import { warning } from "star-horse-lowcode";

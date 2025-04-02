@@ -85,7 +85,7 @@
 </template>
 <script setup lang="ts">
   import { computed, nextTick, onActivated, onDeactivated, onMounted, ref } from "vue";
-  import { ModelRef } from "vue-demi";
+  import { ModelRef } from "vue";
   import { useFlowDesignStore } from "@/store/FlowDesign.ts";
   import {piniaInstance} from "star-horse-lowcode";
   import { copy, loadData } from "star-horse-lowcode";

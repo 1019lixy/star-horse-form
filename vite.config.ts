@@ -7,12 +7,8 @@ import topLevelAwait from "vite-plugin-top-level-await";
 import {resolve} from "path";
 import fs from "fs";
 import {createSvgIconsPlugin} from "vite-plugin-svg-icons";
-import Components from "unplugin-vue-components/vite";
-import {ElementPlusResolver} from "unplugin-vue-components/resolvers";
-import AutoImport from "unplugin-auto-import/vite";
 import {visualizer} from "rollup-plugin-visualizer";
 //此插件是处理外部依赖 比如cdn引入的js
-import vueDevTools from "vite-plugin-vue-devtools";
 import tailwindcss from "@tailwindcss/vite";
 
 const codeHost: string = "http://192.168.20.165:8888/";
@@ -28,7 +24,12 @@ const userDbHost: string = "http://localhost:7758/";
  * 此配置文件，非必需不要随便做修改，特别是打包相关的参数
  */
 export default defineConfig((mode) => {
-    let optimizeDepsList: string[] = [];
+    let optimizeDepsList: string[] = [
+        'vue',
+        'vue-router',
+        'pinia',
+        'axios'
+    ];
     if (mode.mode === "development") {
         //
         optimizeDepsList = [
@@ -148,15 +149,15 @@ export default defineConfig((mode) => {
                     defineModel: true
                 }
             }),
-            AutoImport({
-                imports: ["vue"],
-                resolvers: [ElementPlusResolver()]
-            }),
-            Components({
-                dirs: ["src/components", "src/views"],
-                // 这里就是相关ui库的解析工具, 里面的选项有是否使用自动导入样式 如果需要通过 var 变量改变主题 需要注意一下
-                resolvers: [ElementPlusResolver({importStyle: "sass"})]
-            }),
+            /*   AutoImport({
+                   imports: ["vue"],
+                   resolvers: [ElementPlusResolver()]
+               }),
+               Components({
+                   dirs: ["src/components", "src/views"],
+                   // 这里就是相关ui库的解析工具, 里面的选项有是否使用自动导入样式 如果需要通过 var 变量改变主题 需要注意一下
+                   resolvers: [ElementPlusResolver({importStyle: "sass"})]
+               }),*/
             progress(),
             topLevelAwait(),
             // viteCommonjs(),
@@ -198,8 +199,7 @@ export default defineConfig((mode) => {
         },
         resolve: {
             alias: {
-                "@": resolve(__dirname, "./src"),
-                "monaco-editor": "monaco-editor/esm/vs/editor/editor.api.js"
+                "@": resolve(__dirname, "./src")
             },
             extensions: [".js", ".vue", ".json", ".ts", ".jsx"]
         },
@@ -213,7 +213,6 @@ export default defineConfig((mode) => {
                             //此处不要随修改，否则很可能打包后代码不能正常运行
                             if (id.includes('element-plus')) return 'element-plus';
                             if (id.includes('echarts')) return 'echarts';
-                            if (id.includes('monaco-editor')) return 'monaco-editor';
                             if (id.includes('bpmn-js')) return 'bpmn-js';
                             if (id.includes('@wangeditor')) return 'wangeditor';
                             if (id.includes('flv.js')) return 'flv';
@@ -237,7 +236,7 @@ export default defineConfig((mode) => {
             // 开启并行压缩
             parallel: true,
             //chunk 大小警告的限制（以 kbs 为单位）
-            chunkSizeWarningLimit: 2000,
+            chunkSizeWarningLimit: 1000,
             //浏览器兼容性  "esnext"|"modules",升级后用modules 报错
             target: "esnext",
             //指定输出路径

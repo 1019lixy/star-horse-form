@@ -2,7 +2,7 @@
   import { uuid } from "star-horse-lowcode";
   import { onMounted, ref } from "vue";
   import { scale } from "@/views/workflow/plugin/utils/deviceUtil.ts";
-  import { ModelRef } from "vue-demi";
+  import { ModelRef } from "vue";
 
   defineOptions({
     name: "ApproverConfigure"

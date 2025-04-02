@@ -90,7 +90,7 @@ watch(
           <template #title>
             <el-input v-model="search" :size="compSize" placeholder="请输入关键字" clearable>
               <template #suffix>
-                <star-horse-icon icon-class="search" color="var(--star-horse-style)"/>
+                <star-horse-icon icon-class="search" color="var(--star-horse-style)" size="16px"/>
               </template>
             </el-input>
           </template>

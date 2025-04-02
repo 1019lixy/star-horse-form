@@ -7,7 +7,7 @@
   import {piniaInstance} from "star-horse-lowcode";
   import { dictData, searchMatchList } from "star-horse-lowcode";
   import { SelectOption } from "star-horse-lowcode";
-  import { ModelRef } from "vue-demi";
+  import { ModelRef } from "vue";
 
   defineOptions({
     name: "BranchPrep"

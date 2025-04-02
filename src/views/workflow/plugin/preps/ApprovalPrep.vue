@@ -7,7 +7,7 @@
   import { ref, computed, onMounted } from "vue";
   import { useFlowDesignStore } from "@/store/FlowDesign.ts";
   import {piniaInstance} from "star-horse-lowcode";
-  import { ModelRef } from "vue-demi";
+  import { ModelRef } from "vue";
   import { FlowNodeEnums } from "../enums/FlowNodeEnums.ts";
   import { postRequest } from "star-horse-lowcode";
   import { createCondition } from "star-horse-lowcode";

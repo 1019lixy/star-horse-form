@@ -6,7 +6,7 @@
   import FlowNodeCopyerConfigure from "@/views/workflow/plugin/preps/utils/CopyerConfigure.vue";
   import { useFlowDesignStore } from "@/store/FlowDesign.ts";
   import {piniaInstance} from "star-horse-lowcode";
-  import { ModelRef } from "vue-demi";
+  import { ModelRef } from "vue";
 
   defineOptions({
     name: "CopyerPrep"

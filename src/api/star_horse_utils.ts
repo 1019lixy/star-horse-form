@@ -25,7 +25,7 @@ import {reactive, ShallowRef, unref} from "vue";
 import {ServiceEnums} from "@/components/enums/ServiceEnums";
 import {ElLoading} from "element-plus";
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
-import {Reactive} from "vue-demi";
+import {Reactive} from "vue";
 import {pinyin} from "pinyin-pro";
 
 let loading: any = null;

@@ -26,6 +26,8 @@ import piniaCompInstance from "@/store";
 // import "prismjs/components/prism-json.js";
 // import hljs from "highlight.js";
 import ElementPlus from "element-plus";
+import ZhLocale from "element-plus/dist/locale/zh-cn.mjs"; // 中文
+
 import "element-plus/dist/index.css";
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 import VueParticles from "@tsparticles/vue3";
@@ -39,7 +41,9 @@ app.use(StarHorseLowCode,{
     router,
 });
 app.use(piniaCompInstance);
-app.use(ElementPlus);
+app.use(ElementPlus,{
+    locale: ZhLocale,
+});
 app.component("draggable", draggable);
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(key, component);

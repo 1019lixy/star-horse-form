@@ -31,7 +31,7 @@
 <script setup lang="ts">
 import FlowDrawerFooter from "@/views/workflow/plugin/common/DrawerFooter.vue";
 import {ref} from "vue";
-import {ModelRef} from "vue-demi";
+import {ModelRef} from "vue";
 import {useFlowDesignStore} from "@/store/FlowDesign.ts";
 import {piniaInstance, SelectOption} from "star-horse-lowcode";
 

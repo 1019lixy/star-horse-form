@@ -1,7 +1,7 @@
 <script setup lang="ts" name="SubNodeInfo">
 import {onMounted, PropType, reactive, ref} from "vue";
 import {compileTypeList, dataInit, extendCommonFields, loadPlugin} from "@/views/continuous/utils/ToolsParams.ts";
-import {ModelRef} from "vue-demi";
+import {ModelRef} from "vue";
 import {FieldInfo, PageFieldInfo, SelectOption, loadDict} from "star-horse-lowcode";
 
 const props = defineProps({
