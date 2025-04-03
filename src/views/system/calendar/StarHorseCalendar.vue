@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {computed, nextTick, onBeforeUnmount, onMounted, ref, watch} from "vue";
+import {nextTick, onBeforeUnmount, onMounted, ref, watch} from "vue";
 import {ArrowLeftBold, ArrowRightBold, Search} from "@element-plus/icons-vue";
 import FullCalendar from "@fullcalendar/vue3";
 import dayGridPlugin from "@fullcalendar/daygrid";
@@ -12,16 +12,16 @@ import {CalendarOptions} from "@fullcalendar/core";
 import {getUserInfo} from "@/utils/auth.ts";
 import {calendarManage, defineType} from "@/views/system/calendar/CalendarProps.ts";
 import {
-  uuid,
   createCondition,
+  currentDate,
+  currentMonthRange,
   deleteByIds,
   loadData,
-  currentMonthRange,
   monthRange,
-  currentDate,
+  SearchParams,
   success,
-  warning,
-  SearchParams
+  uuid,
+  warning
 } from "star-horse-lowcode";
 
 const props = defineProps({
