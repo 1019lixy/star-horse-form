@@ -3,6 +3,7 @@ import "star-horse-lowcode/dist/assets/index.css";
 import "@/assets/css/flow.scss";
 import "tailwindcss/index.css";
 import nodeComponent from "@/views/continuous/nodeInfo/nodecomp";
+import itemsComponent from "@/components/formcomp/items/allitem.ts";
 import commonComponent from "@/components/common/index";
 import systemComponent from "@/components/system/SystemComp.ts";
 import flowNodeComponent from "@/views/workflow/plugin/node/nodes.ts";
@@ -43,6 +44,7 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
  */
 app.use(commonComponent);
 app.use(systemComponent);
+app.use(itemsComponent);
 app.use(nodeComponent);
 app.use(flowNodeComponent);
 app.use(VueParticles, {

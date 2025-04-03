@@ -83,15 +83,22 @@ export default defineConfig((mode) => {
             "jsencrypt",
             "uuid",
             "jquery",
-            "@wangeditor/editor",
-            "@wangeditor/editor-for-vue",
             "@replit/codemirror-minimap",
             "element-plus/dist/locale/zh-cn.mjs",
             "element-plus/dist/locale/en.mjs",
             "pinia",
             "axios",
             "@vueuse/core",
-            "flv.js"
+            "flv.js",
+            "@univerjs/presets",
+            "@univerjs/presets/preset-docs-core",
+            "@univerjs/presets/preset-docs-core/locales/zh-CN",
+            "@univerjs/presets/preset-docs-drawing",
+            "@univerjs/presets/preset-docs-drawing/locales/zh-CN",
+            "@univerjs/presets/preset-docs-hyper-link",
+            "@univerjs/presets/preset-docs-hyper-link/locales/zh-CN",
+            "@univerjs/presets/preset-sheets-core",
+            "@univerjs/presets/preset-sheets-core/locales/zh-CN"
         ];
         fs.readdirSync("node_modules/element-plus/es/components").map(async (dirname) => {
             try {
