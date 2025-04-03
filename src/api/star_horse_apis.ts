@@ -110,30 +110,7 @@ export async function rtCode(content: string) {
     return data;
 }
 
-/**
- * 菜单选择树
- * @param data
- * @returns {[]}
- */
-export function selectMenusTreeData(data: any) {
-    const list: any = [];
-    data.forEach((item: any) => {
-        const temp: any = {};
-        temp["value"] = item.idMenusinfo;
-        temp["label"] = item.menuName;
-        if (item.children && item.children.length > 0) {
-            temp["children"] = [];
-            item.children.forEach((sitem: any) => {
-                const stemp: any = {};
-                stemp["value"] = sitem.idMenusinfo;
-                stemp["label"] = sitem.menuName;
-                temp["children"].push(stemp);
-            });
-        }
-        list.push(temp);
-    });
-    return list;
-}
+
 
 /**
  * 用户登录
@@ -196,19 +173,7 @@ export function getMenuId() {
     return menuId;
 }
 
-/**
- * 加载权限
- * @param menuId 菜单id
- */
-export async function loadPagePermission(menuId: string) {
-    const permission: any = {};
-    const data: any = {menuId: menuId};
-    const redata: Array<any> = await permissionResources(data);
-    redata?.forEach((item: any) => {
-        permission[item.resCode] = item.resCode;
-    });
-    return permission;
-}
+
 
 /**
  * 一次性加载用户权限菜单
@@ -218,32 +183,6 @@ export async function loadPagePermission(menuId: string) {
 export async function permissionMenus(data: any, sysId: string) {
     const userId = data.userId || getUserId();
     return await postRequest(`${ServiceEnums.SYSTEM_PREFIX}menusinfoEntity/permissionMenus/${userId}/${sysId}`, {});
-}
-
-export async function permissionResources(data: any) {
-    const permissons = userStore.pageButtonPermission[data.menuId];
-    if (permissons && permissons.length > 0) {
-        return permissons;
-    } else {
-        const userId = getUserId();
-        let redata: any = [];
-        //没拿到则到数据库中去取
-        await postRequest(`${ServiceEnums.SYSTEM_PREFIX}resourcesEntity/permissionResources/${userId}/${data.menuId}`, {}).then(
-            (res) => {
-                if (res.data.code) {
-                    console.log(res.data.cnMessage);
-                    return;
-                }
-                redata = res.data.data;
-            }
-        );
-        if (redata && redata.length > 0) {
-            userStore.pushPageButtonPermission(data.menuId, redata);
-        } else {
-            console.log("没有页面按钮操作权限,请联系系统管理员授权");
-        }
-        return redata;
-    }
 }
 
 /**
@@ -429,14 +368,3 @@ export function getRequest(url: string) {
 
 
 
-/**
- * 去除空格
- * @param data
- * @returns {*}
- */
-export function trim(data: string) {
-    if (!data) {
-        return data;
-    }
-    return data.replace(/(^\s*)|(\s*$)/g, "");
-}
