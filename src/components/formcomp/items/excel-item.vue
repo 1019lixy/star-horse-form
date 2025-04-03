@@ -5,12 +5,12 @@
       :formItem="field"
       :parentField="parentField"
   >
-    <div ref="container" style="height: 600px;width: 100%"></div>
+    <div ref="container" style="height: 600px;width: 100%;position: relative"></div>
   </starhorse-form-item>
 </template>
 
 <script lang="ts">
-import {onMounted, onBeforeUnmount, ref, toRaw, defineComponent, shallowRef} from 'vue'
+import {onMounted, onBeforeUnmount, ref, toRaw, defineComponent, shallowRef, nextTick} from 'vue'
 import {createUniver, defaultTheme, LocaleType, merge, Univer} from '@univerjs/presets';
 import {UniverSheetsCorePreset} from '@univerjs/presets/preset-sheets-core';
 import UniverPresetSheetsCoreZhCN from '@univerjs/presets/preset-sheets-core/locales/zh-CN';
@@ -42,9 +42,11 @@ export default defineComponent({
         ],
       });
 
-      univerAPI.createWorkbook({name: 'Test Sheet'});
+       univerAPI.createWorkbook({name: 'Test Sheet'});
 
       univerAPIRef.value = univerAPI;
+
+
     });
 
     onBeforeUnmount(() => {
