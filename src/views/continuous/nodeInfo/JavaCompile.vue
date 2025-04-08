@@ -1,5 +1,5 @@
 <script setup lang="ts" name="JavaCompile">
-import {onMounted, reactive, ref} from "vue";
+import {onMounted, reactive, ref,nextTick,PropType} from "vue";
 import ToolInfo from "@/views/continuous/ToolInfo.vue";
 import {SelectOption, loadData, FieldInfo, PageFieldInfo, warning} from "star-horse-lowcode";
 
