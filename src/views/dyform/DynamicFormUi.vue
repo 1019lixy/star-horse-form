@@ -249,7 +249,7 @@
         loadFormData(params[primaryKey]);
       }
     });
-    extandBtnList.value = selfBtnFunc.value.slice(1, selfBtnFunc.value.length);
+    extandBtnList.value = selfBtnFunc.value;//.slice(1, selfBtnFunc.value.length);
     dbConfigList().then((res:any) => {
       dataSource.value = res;
     });
