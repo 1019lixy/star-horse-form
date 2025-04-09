@@ -463,21 +463,16 @@ const closeAction = () => {
   >
     <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
   </star-horse-dialog>
-  <el-card class="inner_content">
-    <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line' ? 'column' : 'row' }">
+  <div class="search-content">
+    <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
       <star-horse-search-comp
           @searchData="(data: any) => codeGeneratorRef.createSearchParams(data)"
           :formData="searchFormData"
           :compUrl="dataUrl"
       />
-      <hr/>
-      <star-horse-button-list
-          @tableCompFunc="(fun: any) => codeGeneratorRef.tableCompFunc(fun)"
-          :compUrl="dataUrl"
-          :dialogProps="dialogProps"
-          :showType="Config.buttonStyle"
-      />
     </div>
+  </div>
+  <el-card class="inner_content">
     <star-horse-table-comp
         ref="codeGeneratorRef"
         :fieldList="tableFieldList"

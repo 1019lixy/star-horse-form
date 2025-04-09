@@ -203,22 +203,16 @@ import { apiInstance, dialogPreps, ApiUrls,SearchFields,PageFieldInfo } from "st
   >
     <star-horse-data-view :compUrl="dataUrl" :dataFormat="dataFormat" :field-list="tableFieldList" />
   </star-horse-dialog>
-  <el-card class="inner_content">
-    <div :style="{ 'flex-direction': Config.buttonStyle.value == 'line' ? 'column' : 'row' }" class="search_btn">
+  <div class="search-content">
+    <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
       <star-horse-search-comp
-        :compUrl="dataUrl"
-        :formData="searchFormData"
-        @searchData="(data) => rankTypeRef.createSearchParams(data)"
-      />
-      <hr />
-      <star-horse-button-list
-        :compUrl="dataUrl"
-        :dialogProps="dialogProps"
-        :showType="Config.buttonStyle"
-        @tableCompFunc="(fun) => rankTypeRef.tableCompFunc(fun)"
+          @searchData="(data: any) => rankTypeRef.createSearchParams(data)"
+          :formData="searchFormData"
+          :compUrl="dataUrl"
       />
     </div>
-    <hr />
+  </div>
+  <el-card class="inner_content">
     <star-horse-table-comp
       ref="rankTypeRef"
       :compUrl="dataUrl"

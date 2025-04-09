@@ -310,22 +310,16 @@ onDeactivated(() => {
   >
     <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
   </star-horse-dialog>
-  <el-card class="inner_content">
-    <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line' ? 'column' : 'row' }">
+  <div class="search-content">
+    <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
       <star-horse-search-comp
-          @searchData="(data) => categoryItemConfigRef.createSearchParams(data)"
+          @searchData="(data: any) => categoryItemConfigRef.createSearchParams(data)"
           :formData="searchFormData"
           :compUrl="dataUrl"
       />
-      <hr/>
-      <star-horse-button-list
-          @tableCompFunc="(fun) => categoryItemConfigRef.tableCompFunc(fun)"
-          :compUrl="dataUrl"
-          :dialogProps="dialogProps"
-          :showType="Config.buttonStyle"
-      />
     </div>
-    <hr/>
+  </div>
+  <el-card class="inner_content">
     <star-horse-table-comp
         ref="categoryItemConfigRef"
         :fieldList="tableFieldList"

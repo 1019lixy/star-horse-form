@@ -231,24 +231,17 @@
       />
     </el-col>
     <el-col :span="systemInfoList.length > 0 ? 16 : 20" style="height: 100%; overflow: hidden">
-      <el-card class="inner_content h100">
-        <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line' ? 'column' : 'row' }">
+      <div class="search-content">
+        <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
           <star-horse-search-comp
-            @searchData="(data: any) => menuPermission.createSearchParams(data)"
-            :formData="searchFields"
-            :defaultCondition="defaultCondition"
-            :compUrl="dataUrl"
-          />
-          <hr />
-          <star-horse-button-list
-            :preValidFunc="preValid"
-            @tableCompFunc="(fun: any) => menuPermission.tableCompFunc(fun)"
-            :compUrl="dataUrl"
-            :dialogProps="dialogProps"
-            :showType="Config.buttonStyle"
+              @searchData="(data: any) => menuPermission.createSearchParams(data)"
+              :formData="searchFields"
+              :defaultCondition="defaultCondition"
+              :compUrl="dataUrl"
           />
         </div>
-        <hr />
+      </div>
+      <el-card class="inner_content h100">
         <star-horse-table-comp
           ref="menuPermission"
           :fieldList="tableFieldList"

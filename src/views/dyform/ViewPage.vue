@@ -138,27 +138,17 @@ onMounted(async () => {
           :compUrl="dataUrl"
       />
     </star-horse-dialog>
-    <el-card class="inner_content">
-      <div
-          class="search_btn"
-          :style="{ display: 'flex', 'flex-direction': Config.buttonStyle.value == 'line' ? 'column' : 'row' }"
-      >
+    <div class="search-content">
+      <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
         <star-horse-search-comp
-            ref="viewSearchRef"
             @searchData="(data: any) => starHorseTableCompRef.createSearchParams(data)"
             :formData="searchFormData"
             :compUrl="dataUrl"
         />
-        <hr v-if="Config.buttonStyle.value == 'line'"/>
-        <star-horse-button-list
-            @tableCompFunc="(fun: any) => starHorseTableCompRef.tableCompFunc(fun)"
-            :viewFlag="true"
-            :compUrl="dataUrl"
-            :dialogProps="dialogProps"
-            :showType="Config.buttonStyle"
-        />
       </div>
-      <hr/>
+    </div>
+    <el-card class="inner_content">
+
       <DataPreview
           ref="starHorseTableCompRef"
           :item="previewDatas"

@@ -272,22 +272,16 @@
       />
     </el-col>
     <el-col :span="19" class="h100">
-      <el-card class="inner_content h100">
-        <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line' ? 'column' : 'row' }">
+      <div class="search-content">
+        <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
           <star-horse-search-comp
-            @searchData="(data: any) => departmentRef.createSearchParams(data)"
-            :formData="searchFormData"
-            :compUrl="dataUrl"
-          />
-          <hr />
-          <star-horse-button-list
-            @tableCompFunc="(fun: any) => departmentRef.tableCompFunc(fun)"
-            :compUrl="dataUrl"
-            :dialogProps="dialogProps"
-            :showType="Config.buttonStyle"
+              @searchData="(data: any) => departmentRef.createSearchParams(data)"
+              :formData="searchFormData"
+              :compUrl="dataUrl"
           />
         </div>
-        <hr />
+      </div>
+      <el-card class="inner_content h100">
         <star-horse-table-comp
           ref="departmentRef"
           :fieldList="tableFieldList"

@@ -222,6 +222,7 @@
       icon: "add",
       priority: 2,
       authority: "add",
+      position:"toolbar",
       funcName: () => {
         router.push("/dyform/DynamicForm");
       }
@@ -249,7 +250,7 @@
       }
     });
     extandBtnList.value = selfBtnFunc.value.slice(1, selfBtnFunc.value.length);
-    dbConfigList().then((res) => {
+    dbConfigList().then((res:any) => {
       dataSource.value = res;
     });
     viewBtnList.value.push(...tableFieldList.userTableFuncs);
@@ -308,20 +309,16 @@
   >
     <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl" />
   </star-horse-dialog>
-
-  <el-card class="inner_content">
-    <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line' ? 'column' : 'row' }">
-      <star-horse-search-comp @searchData="createSearch" :formData="searchFormData" :compUrl="dataUrl" />
-      <hr />
-      <star-horse-button-list
-        @tableCompFunc="(fun: any) => dynamicFormRef.tableCompFunc(fun)"
-        :extandBtns="[selfBtnFunc[0]]"
-        :compUrl="dataUrl"
-        :dialogProps="dialogProps"
-        :showType="Config.buttonStyle"
+  <div class="search-content">
+    <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
+      <star-horse-search-comp
+          @searchData="createSearch"
+          :formData="searchFormData"
+          :compUrl="dataUrl"
       />
     </div>
-    <hr />
+  </div>
+  <el-card class="inner_content">
     <el-tabs model-value="list" class="dyform-tabs" @tab-change="tabChange">
       <el-tab-pane label="列表视图" name="list">
         <template #label>

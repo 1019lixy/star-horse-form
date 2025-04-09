@@ -439,23 +439,16 @@ const testChange = (val: any) => {
       />
     </el-col>
     <el-col :span="19" class="h100">
-      <el-card class="inner_content h100">
-        <div class="search_btn" :style="{ 'flex-direction': Config?.buttonStyle == 'line' ? 'column' : 'row' }">
+      <div class="search-content">
+        <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
           <star-horse-search-comp
-              @searchData="(data) => employeeInfoRef.createSearchParams(data)"
+              @searchData="(data: any) => employeeInfoRef.createSearchParams(data)"
               :formData="searchFormData"
               :compUrl="dataUrl"
           />
-          <hr/>
-          <star-horse-button-list
-              @tableCompFunc="(fun) => employeeInfoRef.tableCompFunc(fun)"
-              :compUrl="dataUrl"
-              :dialogProps="dialogProps"
-              :showType="Config?.buttonStyle"
-              v-if="showButton"
-          />
         </div>
-        <hr/>
+      </div>
+      <el-card class="inner_content h100">
         <star-horse-table-comp
             ref="employeeInfoRef"
             :fieldList="tableFieldList"

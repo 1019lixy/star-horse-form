@@ -191,7 +191,7 @@ export default defineConfig((mode) => {
                 "windows.$": "jquery"
             }),
             createSvgIconsPlugin({
-                iconDirs: [resolve(process.cwd(), "src/icons"), resolve(process.cwd(), "src/assets/icons/svg")],
+                iconDirs: [resolve(process.cwd(), "src/uicons"), resolve(process.cwd(), "src/assets/icons/svg")],
                 symbolId: "icon-[dir]-[name]"
             }),
             // monacoEditorPlugin({ languageWorkers: ['editorWorkerService', 'typescript', 'json', 'html']}),

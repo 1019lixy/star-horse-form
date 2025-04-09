@@ -90,22 +90,16 @@ onMounted(async () => {
   <el-card class="inner_content">
     <div class="dict-content">
       <div class="dict-type">
-        <el-card class="inner_content">
-          <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line' ? 'column' : 'row' }">
+        <div class="search-content">
+          <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
             <star-horse-search-comp
                 @searchData="(data: any) => dictTypeRef.createSearchParams(data)"
                 :formData="searchFormData"
                 :compUrl="dataUrl"
             />
-            <hr/>
-            <star-horse-button-list
-                @tableCompFunc="(fun: any) => dictTypeRef.tableCompFunc(fun)"
-                :compUrl="dataUrl"
-                :dialogProps="dialogProps"
-                :showType="Config.buttonStyle"
-            />
           </div>
-          <hr/>
+        </div>
+        <el-card class="inner_content">
           <star-horse-table-comp
               ref="dictTypeRef"
               @selectItem="selectItemFun"

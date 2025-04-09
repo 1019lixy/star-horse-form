@@ -191,6 +191,7 @@ onMounted(async () => {
   >
     <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
   </star-horse-dialog>
+
   <el-card class="inner_content">
     <star-horse-search-comp :formData="searchFormData" :compUrl="dataUrl"/>
     <hr/>

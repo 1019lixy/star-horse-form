@@ -194,11 +194,16 @@
       ref="companyRoleManageRef"
     />
   </star-horse-dialog>
-  <el-card class="inner_content">
-    <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line' ? 'column' : 'row' }">
-      <star-horse-search-comp @searchData="loadInstanceData" :formData="searchFormData" :compUrl="dataUrl" />
+  <div class="search-content">
+    <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
+      <star-horse-search-comp
+          @searchData="loadInstanceData"
+          :formData="searchFormData"
+          :compUrl="dataUrl"
+      />
     </div>
-    <hr />
+  </div>
+  <el-card class="inner_content">
     <el-table
       ref="starHorseTableCompRef"
       :data="dataList"

@@ -229,32 +229,16 @@
   >
     <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl" />
   </star-horse-dialog>
-  <el-card class="inner_content">
-    <!--    <el-row style="height: 100%;" :gutter="10">
-          <el-col :span="viewRolesinfoId?5:5" class="h100">
-            <star-horse-tree v-model:tree-datas="deptList" :preps="{
-            label:'deptName',
-            value:'idDepartment'
-          }" @selectData="checkChange" :comp-size="compSize"/>
-          </el-col>
-          <el-col :span="viewRolesinfoId?19:19" class="h100">
-            <el-card class="inner_content h100">-->
-    <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line' ? 'column' : 'row' }">
+  <div class="search-content">
+    <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
       <star-horse-search-comp
-        @searchData="(data: any) => usersinfoTableListRef.createSearchParams(data)"
-        :formData="searchFormData"
-        :compUrl="dataUrl"
-      />
-      <hr />
-      <star-horse-button-list
-        v-if="!viewRolesinfoId"
-        @tableCompFunc="(fun: any) => usersinfoTableListRef.tableCompFunc(fun)"
-        :compUrl="dataUrl"
-        :dialogProps="dialogProps"
-        :showType="Config.buttonStyle"
+          @searchData="(data: any) => usersinfoTableListRef.createSearchParams(data)"
+          :formData="searchFormData"
+          :compUrl="dataUrl"
       />
     </div>
-    <hr />
+  </div>
+  <el-card class="inner_content">
     <star-horse-table-comp
       ref="usersinfoTableListRef"
       :fieldList="tableFieldList"
@@ -263,9 +247,6 @@
       :dataFormat="dataFormat"
       :disableAction="disableAction"
     />
-    <!--        </el-card>
-          </el-col>
-        </el-row>-->
   </el-card>
 </template>
 <style lang="scss" scoped></style>

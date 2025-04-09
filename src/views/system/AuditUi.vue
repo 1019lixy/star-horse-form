@@ -152,22 +152,16 @@
   >
     <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl" />
   </star-horse-dialog>
-  <el-card class="inner_content">
-    <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line' ? 'column' : 'row' }">
+  <div class="search-content">
+    <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
       <star-horse-search-comp
-        @searchData="(data: any) => auditRef.createSearchParams(data)"
-        :formData="searchFormData"
-        :compUrl="dataUrl"
-      />
-      <hr />
-      <star-horse-button-list
-        @tableCompFunc="(fun: any) => auditRef.tableCompFunc(fun)"
-        :compUrl="dataUrl"
-        :dialogProps="dialogProps"
-        :showType="Config.buttonStyle"
+          @searchData="(data: any) => auditRef.createSearchParams(data)"
+          :formData="searchFormData"
+          :compUrl="dataUrl"
       />
     </div>
-    <hr />
+  </div>
+  <el-card class="inner_content">
     <star-horse-table-comp
       ref="auditRef"
       :fieldList="tableFieldList"

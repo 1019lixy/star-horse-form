@@ -146,20 +146,16 @@ watch(
           :compUrl="dataUrl"
       />
     </star-horse-dialog>
-    <el-card class="inner_content">
-      <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line' ? 'column' : 'row' }">
+    <div class="search-content">
+      <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
         <star-horse-search-comp
             @searchData="(data: any) => normalPageRef.createSearchParams(data)"
             :formData="searchFormData"
             :compUrl="dataUrl"
         />
-        <star-horse-button-list
-            @tableCompFunc="(fun: any) => normalPageRef.tableCompFunc(fun)"
-            :compUrl="dataUrl"
-            :dialogProps="dialogProps"
-            :showType="Config.buttonStyle"
-        />
       </div>
+    </div>
+    <el-card class="inner_content">
       <star-horse-table-comp
           ref="normalPageRef"
           :fieldList="tableFieldList"

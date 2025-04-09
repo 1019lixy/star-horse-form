@@ -141,21 +141,15 @@
           />
         </el-tab-pane>
         <el-tab-pane label="数据列表" name="table">
-          <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line' ? 'column' : 'row' }">
-            <star-horse-search-comp
-              @searchData="(data: any) => starHorseTableCompRef.createSearchParams(data)"
-              :formData="searchFormData"
-              :compUrl="dataUrl"
-            />
-            <hr />
-            <star-horse-button-list
-              @tableCompFunc="(fun: any) => starHorseTableCompRef.tableCompFunc(fun)"
-              :compUrl="dataUrl"
-              :dialogProps="dialogProps"
-              :showType="Config.buttonStyle"
-            />
+          <div class="search-content">
+            <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
+              <star-horse-search-comp
+                  @searchData="(data: any) => starHorseTableCompRef.createSearchParams(data)"
+                  :formData="searchFormData"
+                  :compUrl="dataUrl"
+              />
+            </div>
           </div>
-          <hr />
           <star-horse-table-comp
             ref="starHorseTableCompRef"
             :fieldList="tableFieldList"

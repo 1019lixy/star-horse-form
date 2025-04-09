@@ -305,23 +305,16 @@ onDeactivated(() => {
       />
     </el-col>
     <el-col :span="20" class="h100">
-      <el-card class="inner_content h100">
-        <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line' ? 'column' : 'row' }">
+      <div class="search-content">
+        <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
           <star-horse-search-comp
               @searchData="(data: any) => companyRoleRef.createSearchParams(data)"
               :formData="searchFormData"
               :compUrl="dataUrl"
           />
-          <hr/>
-          <star-horse-button-list
-              @tableCompFunc="(fun: any) => companyRoleRef.tableCompFunc(fun)"
-              :compUrl="dataUrl"
-              :dialogProps="dialogProps"
-              :showType="Config.buttonStyle"
-              :extandBtns="extandBtns"
-          />
         </div>
-        <hr/>
+      </div>
+      <el-card class="inner_content h100">
         <star-horse-table-comp
             ref="companyRoleRef"
             :fieldList="tableFieldList"
