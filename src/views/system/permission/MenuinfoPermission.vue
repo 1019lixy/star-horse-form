@@ -230,7 +230,7 @@
         }"
       />
     </el-col>
-    <el-col :span="systemInfoList.length > 0 ? 16 : 20" style="height: 100%; overflow: hidden">
+    <el-col :span="systemInfoList.length > 0 ? 16 : 20" class="h100" style="height: 100%; overflow: hidden">
       <div class="search-content">
         <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
           <star-horse-search-comp

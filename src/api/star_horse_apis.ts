@@ -11,13 +11,13 @@ import {
     error,
     warning,
     piniaInstance,
-    loadData
+    loadData,
+    getFingerId
 } from "star-horse-lowcode";
 
 import {useNavBarListStore} from "@/store/NavBarList.ts";
 import {useViewCacheStore} from "@/store/ViewCache.ts";
 import {NavigationGuardNext, RouteLocationNormalized} from "vue-router";
-import {getFingerId} from "@/api/finger_utils.ts";
 import {ServiceEnums} from "@/components/enums/ServiceEnums.ts";
 
 const navBarListStore = useNavBarListStore(piniaInstance);
@@ -51,14 +51,14 @@ service.interceptors.request.use(
     }
 );
 const forceLoginOut = () => {
-    userStore.showLoginDialog();
-    // console.log("系统超时，请登录后再操出");
-    // removeToken();
-    // navBarListStore.clearAll();
-    // userStore.logout();
-    // router.push({path: "/login", query: {redirect: router.currentRoute.value.fullPath}}).then((r) => {
-    //     console.log(r);
-    // });
+    let menusInfo = localStorage.getItem("menusInfo");
+    if (!menusInfo) {
+        router.push({path: "/login"}).then((r) => {
+            console.log(r);
+        });
+    } else {
+        userStore.showLoginDialog();
+    }
 };
 // 添加响应拦截器
 service.interceptors.response.use(

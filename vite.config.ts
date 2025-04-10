@@ -8,6 +8,9 @@ import {resolve} from "path";
 import fs from "fs";
 import {createSvgIconsPlugin} from "vite-plugin-svg-icons";
 import {visualizer} from "rollup-plugin-visualizer";
+import Components from "unplugin-vue-components/vite";
+import {ElementPlusResolver} from "unplugin-vue-components/resolvers";
+import AutoImport from "unplugin-auto-import/vite";
 //此插件是处理外部依赖 比如cdn引入的js
 import tailwindcss from "@tailwindcss/vite";
 
@@ -171,7 +174,7 @@ export default defineConfig((mode) => {
                     defineModel: true
                 }
             }),
-            /*   AutoImport({
+               AutoImport({
                    imports: ["vue"],
                    resolvers: [ElementPlusResolver()]
                }),
@@ -179,7 +182,7 @@ export default defineConfig((mode) => {
                    dirs: ["src/components", "src/views"],
                    // 这里就是相关ui库的解析工具, 里面的选项有是否使用自动导入样式 如果需要通过 var 变量改变主题 需要注意一下
                    resolvers: [ElementPlusResolver({importStyle: "sass"})]
-               }),*/
+               }),
             progress(),
             topLevelAwait(),
             // viteCommonjs(),

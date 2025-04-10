@@ -132,11 +132,15 @@ onMounted(async () => {
   .dict-type {
     width: 50%;
     height: 100%;
+    display: flex;
+    flex-direction: column;
   }
 
   .dict-data {
     flex: 1;
     width: 100%;
+    display: flex;
+    flex-direction: column;
     overflow: hidden;
     margin-left: 8px;
   }
