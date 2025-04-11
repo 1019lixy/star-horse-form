@@ -222,7 +222,7 @@ onMounted(async () => {
         ref="dictinfoRef"
         :fieldList="tableFieldList"
         :primaryKey="primaryKey"
-        :extand-btns="extendBtns"
+        :extend-btns="extendBtns"
         :compUrl="dataUrl"
         :dataFormat="dataFormat"
     />

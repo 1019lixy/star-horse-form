@@ -288,7 +288,7 @@ const doMerge = (type: string) => {
 const resetForm = () => {
   dataForm.value = {};
 };
-let extandBtns = ref<UserFuncInfo[]>([
+let extendBtns = ref<UserFuncInfo[]>([
   {
     btnName: "添加子菜单",
     authority: "add",
@@ -359,7 +359,7 @@ onMounted(async () => {
   </star-horse-dialog>
   <el-card class="inner_content">
     <el-row style="height: 100%" :gutter="10">
-      <el-col :span="5" class="h100">
+      <el-col :span="4" class="h100">
         <star-horse-tree
             v-model:treeDatas="informationsList"
             :treeTitle="'应用列表'"
@@ -367,7 +367,7 @@ onMounted(async () => {
             :comp-size="compSize"
         />
       </el-col>
-      <el-col :span="19" class="h100">
+      <el-col :span="20" class="h100">
         <div class="search-content">
           <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
             <star-horse-search-comp
@@ -382,7 +382,7 @@ onMounted(async () => {
               :fieldList="tableFieldList"
               :primaryKey="primaryKey"
               :compUrl="dataUrl"
-              :extandBtns="extandBtns"
+              :extendBtns="extendBtns"
               :dataFormat="dataFormat"
               :show-batch-field="true"
               ref="menuTableListRef"

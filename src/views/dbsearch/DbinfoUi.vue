@@ -237,7 +237,7 @@ onMounted(() => {
         :rules="rules"
         ref="dbinfoFormRef"
     />
-    <template #extand>
+    <template #extend>
       <el-button @click="validDb" type="primary" :size="compSize">
         <star-horse-icon icon-class="valid" color="var(--star-horse-white)"/>
         验证

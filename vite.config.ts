@@ -64,6 +64,8 @@ export default defineConfig((mode) => {
             "diagram-js-minimap",
             "html2canvas",
             "echarts",
+            "pinia-plugin-persistedstate",
+            "nprogress",
             "codemirror",
             "@codemirror/view",
             "@codemirror/state",

@@ -194,7 +194,7 @@ let outerForm = ref<any>({});
 //控制弹窗相关设置
 const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
-let extandBtns = ref<UserFuncInfo[]>([]);
+let extendBtns = ref<UserFuncInfo[]>([]);
 //初始化方法
 const initData = async () => {
   roleTypeList.value = await dictData("company_role_type", ["common_role"]);
@@ -320,7 +320,7 @@ onDeactivated(() => {
             :fieldList="tableFieldList"
             :primaryKey="primaryKey"
             :compUrl="dataUrl"
-            :extandBtns="extandBtns"
+            :extendBtns="extendBtns"
             :dataFormat="dataFormat"
         />
       </el-card>

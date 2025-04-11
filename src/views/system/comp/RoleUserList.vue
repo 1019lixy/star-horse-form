@@ -280,7 +280,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 //控制弹窗相关设置
 const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
-let extandBtns = ref<UserFuncInfo[]>([
+let extendBtns = ref<UserFuncInfo[]>([
   {
     btnName: "移出",
     authority: "delete",
@@ -399,7 +399,7 @@ onDeactivated(() => {
         :filterCondition="tableFieldList.condition"
         :multipleSelect="multipleSelect"
         :disableAction="!showButton"
-        :extandBtns="extandBtns"
+        :extendBtns="extendBtns"
         :dataFormat="dataFormat"
     />
   </el-card>

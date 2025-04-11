@@ -254,7 +254,7 @@ const dataFormat = (name: string, cellValue: any, _row: any): any => {
         :primaryKey="primaryKey"
         :compUrl="dataUrl"
         :dataFormat="dataFormat"
-        :extandBtns="expandBtns"
+        :extendBtns="expandBtns"
     />
   </el-card>
 </template>

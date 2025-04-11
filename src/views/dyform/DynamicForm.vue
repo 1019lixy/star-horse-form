@@ -473,13 +473,13 @@ let prepsModel = ref("one");
       :title="'表单配置'"
   >
     <FormPropertyPanel ref="formPropertyRef"/>
-    <template #extand>
+    <template #extend>
       <el-button
           @click="doSave(true)"
           style="background: var(--star-horse-style); color: var(--star-horse-white)"
           :size="compSize"
       >
-        <star-horse-icon icon-class="short_save" style="color: var(--star-horse-white)"/>
+        <star-horse-icon icon-class="short_save" cursor="pointer" style="color: var(--star-horse-white)"/>
         暂存
       </el-button>
     </template>

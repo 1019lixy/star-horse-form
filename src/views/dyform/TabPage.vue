@@ -157,7 +157,7 @@
             :compUrl="dataUrl"
             :globalConfig="relationTables"
             :isDynamic="true"
-            :extandBtns="extBtns"
+            :extendBtns="extBtns"
             :showBatchField="true"
             :dataFormat="dataFormat"
           />

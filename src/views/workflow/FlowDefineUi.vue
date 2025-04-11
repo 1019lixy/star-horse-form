@@ -216,7 +216,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 //校验
 const rules = {};
 //扩展按钮
-const extandBtns = ref<UserFuncInfo[]>([
+const extendBtns = ref<UserFuncInfo[]>([
   {
     icon: "edit",
     btnName: "编辑",
@@ -236,7 +236,7 @@ const extandBtns = ref<UserFuncInfo[]>([
     }
   }
 ]);
-const extandBtns2 = ref<UserFuncInfo[]>([
+const extendBtns2 = ref<UserFuncInfo[]>([
   {
     icon: "add",
     btnName: "新增",
@@ -319,7 +319,7 @@ onDeactivated(() => {
         :fieldList="tableFieldList"
         :primaryKey="primaryKey"
         :compUrl="dataUrl"
-        :extand-btns="extandBtns"
+        :extend-btns="extendBtns"
         :dataFormat="dataFormat"
     />
   </el-card>

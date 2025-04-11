@@ -80,7 +80,7 @@ const rules = {};
 const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 let outerForm = ref<any>({});
-let extandBtns = ref<UserFuncInfo[]>([
+let extendBtns = ref<UserFuncInfo[]>([
   {
     btnName: "添加子节点",
     authority: "add",
@@ -147,7 +147,7 @@ onMounted(async () => {
         :fieldList="tableFieldList"
         :primaryKey="primaryKey"
         :compUrl="dataUrl"
-        :extandBtns="extandBtns"
+        :extendBtns="extendBtns"
         :dataFormat="dataFormat"
     />
   </el-card>
