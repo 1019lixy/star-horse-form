@@ -7,7 +7,7 @@
 import {ref, onMounted} from "vue";
 import LoginDev from "@/components/LoginDev.vue";
 import LoginPrd from "@/components/LoginPrd.vue";
-import {generateDeviceId} from "@/api/finger_utils.ts";
+import {generateDeviceId} from "star-horse-lowcode";
 
 const loginComponent = ref<any>(null);
 onMounted(async () => {

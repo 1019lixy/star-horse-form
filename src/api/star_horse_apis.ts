@@ -52,6 +52,7 @@ service.interceptors.request.use(
 );
 const forceLoginOut = () => {
     let menusInfo = localStorage.getItem("menusInfo");
+    console.log(menusInfo);
     if (!menusInfo) {
         router.push({path: "/login"}).then((r) => {
             console.log(r);
