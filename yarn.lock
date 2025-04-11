@@ -9938,10 +9938,10 @@ stable@^0.1.8:
   resolved "https://registry.npmjs.org/stable/-/stable-0.1.8.tgz"
   integrity sha512-ji9qxRnOVfcuLDySj9qzhGSEFVobyt1kIOSkj1qZzYLzq7Tos/oUUWvotUPQLlrsidqsK6tBH89Bc9kL5zHA6w==
 
-star-horse-lowcode@^2.7.4:
-  version "2.7.4"
-  resolved "https://registry.npmjs.org/star-horse-lowcode/-/star-horse-lowcode-2.7.4.tgz#d98b4e92eb607063dd1de40a0bdd313fc8e20e10"
-  integrity sha512-cIh4KioLnjMfNU0ZUXa63dng3OjO1UloTRD/ys3UEMHnmwspKDpcGaYPkNvu35Ut3gQ+T8hFOXxApbJFHxyMgw==
+star-horse-lowcode@^2.7.6:
+  version "2.7.6"
+  resolved "https://registry.npmjs.org/star-horse-lowcode/-/star-horse-lowcode-2.7.6.tgz#80aa2e470eb7f2e75e38019572df2aaa0d777b06"
+  integrity sha512-ZVk4w2z4cO5k7A+fSYMlgXKKCa4UtT62iqVn1r6Rl0Neufo3X320+DUXeCEYu/exnBlT7dqDHGX4W0CtzjfDkw==
   dependencies:
     "@element-plus/icons-vue" "^2.3.1"
     "@fingerprintjs/fingerprintjs" "^4.6.1"

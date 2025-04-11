@@ -19,7 +19,12 @@ import {apiInstance, closeLoad, load, loadData} from "star-horse-lowcode";
 import FormPropertyPanel from "@/views/dyform/FormPropertyPanel.vue";
 import Help from "@/components/help.vue";
 import {dynamicFormHelpMessage, formActions} from "@/views/dyform/utils/DynamicForm.ts";
-import {useDesignFormStore,useButtonPermissionStore,useSelfOperationStore,useGlobalConfigStore} from "star-horse-lowcode";
+import {
+  useDesignFormStore,
+  useButtonPermissionStore,
+  useSelfOperationStore,
+  useGlobalConfigStore
+} from "star-horse-lowcode";
 import {piniaInstance} from "star-horse-lowcode";
 import {validDynamicFormCompParams} from "@/views/dyform/utils/preview.ts";
 import CodeComp from "@/views/dyform/code/CodeComp.vue";
@@ -556,6 +561,7 @@ let prepsModel = ref("one");
           <help :message="dynamicFormHelpMessage"/>
         </div>
         <div class="main-design-a">
+
           <div class="main-design-outer" @contextmenu="contextMenu">
             <el-form
                 ref="dynamicFormRef"
@@ -577,10 +583,12 @@ let prepsModel = ref("one");
                 :status-icon="formInfo['statusIcon'] == 'Y'"
                 :validate-on-rule-change="formInfo['validateOnRuleChange'] == 'Y'"
             >
+
               <draggable
                   @add="(evt: Event) => onDragAdd(evt, list)"
                   :class="currentPageClass"
                   tag="div"
+                  style="margin: 10px auto"
                   group="starHorseGroup"
                   ghostClass="ghost"
                   animation="300"
@@ -620,6 +628,10 @@ let prepsModel = ref("one");
 <style lang="scss" scoped>
 :deep(.el-card) {
   margin: 0 !important;
+}
+
+:deep(.comp-item) {
+  margin-top: unset !important;
 }
 
 :deep(.el-card__body) {
