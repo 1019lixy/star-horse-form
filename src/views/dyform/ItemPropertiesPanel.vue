@@ -256,7 +256,7 @@ const convertFormFieldData = (items: any, type: string) => {
     item["type"] = item["fieldType"];
     item["required"] = item["required"] == "Y";
     //增加Help
-    item["helpMsg"] = `${item["remark"]}`;
+    item["helpMsg"] = `${item["remark"]??""}`;
     if (item["selectValues"] && isJson(item["selectValues"])) {
       item["optionList"] = [];
       let datas = JSON.parse(item.selectValues);
