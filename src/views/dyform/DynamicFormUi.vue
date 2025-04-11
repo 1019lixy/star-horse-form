@@ -213,7 +213,7 @@
     }
     return cellValue == "Y" ? "是" : cellValue == "N" ? "否" : cellValue;
   };
-  let extandBtnList = ref<UserFuncInfo[]>([]);
+  let extendBtnList = ref<UserFuncInfo[]>([]);
   let viewBtnList = ref<UserFuncInfo[]>([]);
 
   const initData = () => {
@@ -249,7 +249,7 @@
         loadFormData(params[primaryKey]);
       }
     });
-    extandBtnList.value = selfBtnFunc.value;//.slice(1, selfBtnFunc.value.length);
+    extendBtnList.value = selfBtnFunc.value;//.slice(1, selfBtnFunc.value.length);
     dbConfigList().then((res:any) => {
       dataSource.value = res;
     });
@@ -333,7 +333,7 @@
           :primaryKey="primaryKey"
           :compUrl="dataUrl"
           :dataFormat="dataFormat"
-          :extandBtns="extandBtnList"
+          :extendBtns="extendBtnList"
           :orderBy="[
             {
               fieldName: 'a.createdDate',

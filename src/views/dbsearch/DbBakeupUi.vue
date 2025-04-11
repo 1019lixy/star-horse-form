@@ -238,7 +238,7 @@ const dataFormat = (name: string, cellValue: any, _row: any): any => {
         :fieldList="tableFieldList"
         :primaryKey="primaryKey"
         :compUrl="dataUrl"
-        :extandBtns="extBtns"
+        :extendBtns="extBtns"
         :dataFormat="dataFormat"
     />
   </el-card>

@@ -394,7 +394,7 @@ const init = async () => {
 onMounted(async () => {
   await init();
 });
-let extandBtns = ref<UserFuncInfo[]>([
+let extendBtns = ref<UserFuncInfo[]>([
   {
     btnName: "重新生成代码",
     authority: "add",
@@ -479,7 +479,7 @@ const closeAction = () => {
         :primaryKey="primaryKey"
         :compUrl="dataUrl"
         :orderBy="orderBy"
-        :extandBtns="extandBtns"
+        :extendBtns="extendBtns"
         :dataFormat="dataFormat"
         @selectItem="selectItemFun"
     />

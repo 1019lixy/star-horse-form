@@ -191,7 +191,7 @@
   const rules = {};
   const dialogProps = dialogPreps();
   provide("dialogProps", dialogProps);
-  let extandBtns = ref<UserFuncInfo[]>([
+  let extendBtns = ref<UserFuncInfo[]>([
     {
       btnName: "添加子部门",
       authority: "add",
@@ -287,7 +287,7 @@
           :fieldList="tableFieldList"
           :primaryKey="primaryKey"
           :compUrl="dataUrl"
-          :extandBtns="extandBtns"
+          :extendBtns="extendBtns"
           :dataFormat="dataFormat"
         />
       </el-card>

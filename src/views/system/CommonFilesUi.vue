@@ -214,7 +214,7 @@
   onDeactivated(() => {
     deactivated();
   });
-  const extandBtns: UserFuncInfo[] = [
+  const extendBtns: UserFuncInfo[] = [
     {
       icon: "download",
       btnName: "下载",
@@ -258,7 +258,7 @@
       :fieldList="tableFieldList"
       :primaryKey="primaryKey"
       :compUrl="dataUrl"
-      :extandBtns="extandBtns"
+      :extendBtns="extendBtns"
       :dataFormat="dataFormat"
     />
   </el-card>

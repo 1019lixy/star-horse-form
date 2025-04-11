@@ -162,7 +162,7 @@ watch(
           :primaryKey="primaryKey"
           :globalConfig="relationTables"
           :isDynamic="true"
-          :extandBtns="extBtns"
+          :extendBtns="extBtns"
           :compUrl="dataUrl"
           :showBatchField="true"
           :dataFormat="dataFormat"

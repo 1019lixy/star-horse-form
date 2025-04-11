@@ -25,7 +25,7 @@ import { apiInstance, dialogPreps, dictData,ApiUrls,SearchFields, SelectOption ,
   const flowDefinitionRef = ref();
   const dialogProps = dialogPreps();
   provide("dialogProps", dialogProps);
-  const extandBtns: UserFuncInfo[] = [
+  const extendBtns: UserFuncInfo[] = [
     {
       icon: "edit",
       btnName: "编辑",
@@ -104,7 +104,7 @@ import { apiInstance, dialogPreps, dictData,ApiUrls,SearchFields, SelectOption ,
       :fieldList="flowFormFields"
       :primaryKey="primaryKey"
       :compUrl="dataUrl"
-      :extandBtns="extandBtns"
+      :extendBtns="extendBtns"
       :dataFormat="dataFormat"
       @selectItem="selectItemFun"
     />

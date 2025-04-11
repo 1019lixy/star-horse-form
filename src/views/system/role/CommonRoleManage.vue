@@ -228,7 +228,7 @@ const expandTable = reactive<ExpandTable>({
   expandUrls: {
     deleteUrl: "/system-config/system/companyRolePkEmployee/batchDeleteById"
   },
-  extandFuncs: [
+  extendFuncs: [
     {
       icon: "delete",
       btnName: "删除",
@@ -275,7 +275,7 @@ const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 const userTableRef = ref();
 let currentRow = ref<any>({});
-let extandBtns = ref<UserFuncInfo[]>([
+let extendBtns = ref<UserFuncInfo[]>([
   {
     btnName: "添加人员",
     authority: "add",
@@ -422,7 +422,7 @@ onDeactivated(() => {
             :compUrl="dataUrl"
             :disableAction="true"
             :expandTable="expandTable"
-            :extandBtns="extandBtns"
+            :extendBtns="extendBtns"
             :dataFormat="dataFormat"
         />
       </el-card>

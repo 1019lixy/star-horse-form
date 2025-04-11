@@ -217,12 +217,12 @@ watch(
   <div class="prefixCls">
     <el-tooltip content="向左移动">
       <span class="tool" @click="move(-200)">
-        <star-horse-icon icon-class="arrow-double-left" style="color: var(--star-horse-style)" cursor="pointer"/>
+        <star-horse-icon icon-class="arrow-double-left" size="16px" style="color: var(--star-horse-style)" cursor="pointer"/>
       </span>
     </el-tooltip>
     <div class="overflow-hidden">
       <ElScrollbar ref="scrollbarRef" style="height: 100%" @scroll="scroll">
-        <div style="display: flex; height: 100%; position: relative; z-index: 999999">
+        <div style="display: flex; align-items: center; position: relative; z-index: 999999">
           <ContextMenu
               :ref="itemRefs.set"
               v-for="item in navTagsList"
@@ -310,12 +310,12 @@ watch(
     </div>
     <el-tooltip content="向右移动">
       <span class="tool" @click="move(200)">
-        <star-horse-icon icon-class="arrow-double-right" style="color: var(--star-horse-style)" cursor="pointer"/>
+        <star-horse-icon icon-class="arrow-double-right" size="16px" style="color: var(--star-horse-style)" cursor="pointer"/>
       </span>
     </el-tooltip>
     <el-tooltip content="刷新菜单">
       <span class="tool" @click="refreshSelectedTag(selectedTag)">
-        <star-horse-icon icon-class="refresh" style="color: var(--star-horse-style)" cursor="pointer"/>
+        <star-horse-icon icon-class="refresh" size="16px" style="color: var(--star-horse-style)" cursor="pointer"/>
       </span>
     </el-tooltip>
     <ContextMenu
@@ -373,7 +373,7 @@ watch(
       ]"
     >
       <span class="tool">
-        <star-horse-icon icon-class="setting" style="color: var(--star-horse-style)" cursor="pointer"/>
+        <star-horse-icon icon-class="menu" size="16px" style="color: var(--star-horse-style)" cursor="pointer"/>
       </span>
     </ContextMenu>
   </div>
@@ -399,8 +399,8 @@ watch(
   .tool {
     position: relative;
     display: flex;
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 20px;
     align-items: center;
     vertical-align: middle;
     border-right: 1px solid var(--star-horse-style);
@@ -416,14 +416,14 @@ watch(
   .tags-item {
     position: relative;
     align-items: center;
-    margin: 0 3px;
+    margin: 1px 2px;
     padding-right: 4px;
     font-size: 12px;
     cursor: pointer;
     height: 100%;
     border: 1px solid #d9d9d9;
     display: inline-flex;
-
+    border-radius: 2px;
     .close-icon {
       color: var(--el-color-error);
       display: none;
@@ -436,11 +436,12 @@ watch(
       }
     }
     .tags {
-      height: 28px;
+      height: 23px;
       display: flex;
       position: relative;
       padding-left: 5px;
       right: 1px;
+
       vertical-align: middle;
       justify-content: center;
       align-items: center;

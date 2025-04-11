@@ -21,7 +21,7 @@ const props = defineProps({
 })
 const dataSourceFormRef = ref();
 let envList = ref<Array<SelectOption>>([]);
-const getFormData = async (extandErrorMsg?: string) => {
+const getFormData = async (extendErrorMsg?: string) => {
   let reData = toRef(props.formProps ?? {});
   let flag = true;
   await validInterface(reData, dataSourceFormRef, (dataList: any, _successMsg: string, errorMsg: string) => {
@@ -30,7 +30,7 @@ const getFormData = async (extandErrorMsg?: string) => {
       reData["values"] = createData(dataSourceFormRef, dataList).reDataList;
     } else {
       flag = false;
-      warning(extandErrorMsg ?? errorMsg);
+      warning(extendErrorMsg ?? errorMsg);
     }
   });
   if (flag)
