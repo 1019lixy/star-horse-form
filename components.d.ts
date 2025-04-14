@@ -74,6 +74,7 @@ declare module 'vue' {
     DataPermission: typeof import('./src/views/system/permission/DataPermission.vue')['default']
     DataPreview: typeof import('./src/views/dyform/DataPreview.vue')['default']
     DataSource: typeof import('./src/components/common/DataSource.vue')['default']
+    DataSourceComp: typeof import('./src/views/dyform/utils/DataSourceComp.vue')['default']
     DbBake: typeof import('./src/views/dbsearch/DbBake.vue')['default']
     DbBakeupUi: typeof import('./src/views/dbsearch/DbBakeupUi.vue')['default']
     DbinfoUi: typeof import('./src/views/dbsearch/DbinfoUi.vue')['default']

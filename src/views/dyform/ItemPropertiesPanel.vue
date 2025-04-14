@@ -14,9 +14,10 @@ import {
 } from "@/views/dyform/utils/ItemPreps.ts";
 import {piniaInstance} from "star-horse-lowcode";
 import {error, success, warning} from "star-horse-lowcode";
-import {PageFieldInfo,useDesignFormStore,useGlobalConfigStore} from "star-horse-lowcode";
+import {PageFieldInfo, useDesignFormStore, useGlobalConfigStore} from "star-horse-lowcode";
 import {Config} from "@/api/settings.ts";
 import {loadDict} from "star-horse-lowcode";
+import DataSourceComp from "@/views/dyform/utils/DataSourceComp.vue";
 
 let designForm = useDesignFormStore(piniaInstance);
 let formDataList = computed(() => designForm.formDataList);
@@ -74,15 +75,10 @@ const configParams = async (params: any) => {
   paramsConfigRef.value.setFormData(formProps.value);
 };
 const submitValid = async () => {
-  await validInterface(formProps, dataSourceFormRef, (dataList: any, _successMsg: string, errorMsg: string) => {
-    if (!errorMsg) {
-      //只保存静态数据,
-      formProps.value["values"] = createData(dataSourceFormRef, dataList).reDataList;
-      closeAction();
-    } else {
-      error(errorMsg);
-    }
-  });
+  let result = await dataSourceFormRef.value.submitValid();
+  if(result){
+    closeAction();
+  }
 };
 const dataRelationMerge = async () => {
   let flag: boolean = false;
@@ -171,6 +167,7 @@ const closeAction = () => {
   paramsDialogVisible.value = false;
   dataRelationDialogVisible.value = false;
   buttonEventDialogVisible.value = false;
+  isInitDataSourceField.value = false;
   designForm.setShortKeyDisabled(false);
 };
 const buttonEventMerge = async () => {
@@ -196,7 +193,7 @@ const dataSource = async (_type: string) => {
   dataSourceDialogVisible.value = true;
   designForm.setShortKeyDisabled(true);
   await nextTick();
-  dataSourceFormRef.value.setFormData(formProps.value);
+  dataSourceFormRef.value?.setFormData(formProps.value);
 };
 const btnClickOpen = () => {
   buttonEventDialogVisible.value = true;
@@ -256,7 +253,7 @@ const convertFormFieldData = (items: any, type: string) => {
     item["type"] = item["fieldType"];
     item["required"] = item["required"] == "Y";
     //增加Help
-    item["helpMsg"] = `${item["remark"]??""}`;
+    item["helpMsg"] = `${item["remark"] ?? ""}`;
     if (item["selectValues"] && isJson(item["selectValues"])) {
       item["optionList"] = [];
       let datas = JSON.parse(item.selectValues);
@@ -403,6 +400,17 @@ const recall = (options: SelectOption[], successMsg: string, errorMsg: string) =
     error(errorMsg);
   }
 };
+const isInitDataSourceField = ref<boolean>(false);
+const loadDatasourceFields = () => {
+  console.log("....................");
+  if (!isInitDataSourceField.value) {
+    isInitDataSourceField.value = true;
+    let dataSourceFields1 = dataSourceFields(dataSourceFormRef, envList.value, recall);
+    console.log("*********************", dataSourceFields1);
+    return dataSourceFields1;
+  }
+
+}
 const hmsg: string = `
    自定义事件,提供了如下系统参数：
    currentField:Object 当前组件的信息
@@ -469,13 +477,7 @@ watch(
       @reset="resetDataSourceForm"
       :selfFunc="true"
   >
-
-    <star-horse-form
-        :outerFormData="formProps"
-        primary-key=""
-        ref="dataSourceFormRef"
-        :fieldList="dataSourceFields(dataSourceFormRef, envList, recall)"
-    />
+    <data-source-comp ref="dataSourceFormRef" :formProps="formProps"/>
   </star-horse-dialog>
   <star-horse-dialog
       :dialogVisible="paramsDialogVisible"
