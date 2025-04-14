@@ -1,5 +1,5 @@
-import {nextTick, reactive, Ref, ref} from "vue";
-import {FieldInfo, PageFieldInfo,SelectOption,useDesignFormStore} from "star-horse-lowcode";
+import {nextTick, reactive, Ref, ref, unref} from "vue";
+import {FieldInfo, PageFieldInfo, SelectOption, useDesignFormStore} from "star-horse-lowcode";
 import {dictData, loadData, searchMatchList} from "star-horse-lowcode";
 import {ascOrDesc, dataType, httpMethod, validDataUrl} from "star-horse-lowcode";
 import {error, success, warning} from "star-horse-lowcode";
@@ -8,7 +8,7 @@ import {validRulesList} from "@/api/valid_utils.ts";
 
 const designForm = useDesignFormStore(piniaInstance);
 
-const helpMsg = `
+export const urlReturnDataHelpMsg = `
     接口返回的数据格式必须是：
         {
         "data": {
@@ -38,33 +38,36 @@ const helpMsg = `
  * @param validForm
  */
 export async function validInterface(
-    formProps: Ref<any>,
-    dataSourceRef: Ref<any>,
+    formProps: any,
+    dataSourceRef: any,
     recall: Function,
     validForm: boolean = true
 ) {
     let flag = false;
     let dataList: SelectOption[] = [];
-    const refName = dataSourceRef?.value || dataSourceRef;
+    const refName = unref(dataSourceRef);
     if (!refName) {
         return false;
     }
     const temp = refName.getFormData().value;
+    console.log("temp", temp);
     if (validForm) {
         await nextTick();
-        await dataSourceRef?.value?.$refs.starHorseFormRef.validate((res: boolean) => {
+        await refName?.$refs.starHorseFormRef.validate((res: boolean) => {
             flag = res;
         });
         if (!flag) {
             return flag;
         }
+        // formProps.value={...formProps.value, ...temp};
         for (const key in temp) {
-            formProps.value[key] = temp[key];
+            formProps[key] = temp[key];
         }
     }
     const dataSource = temp["dataSource"];
     const urlOrDictName = temp["urlOrDictName"];
     const queryParams = temp["queryParams"];
+    const customParams = temp["customParams"];
     let validErrorMsg: string = "";
     let validSuccessMsg: string = "";
     if (dataSource == "url") {
@@ -92,6 +95,13 @@ export async function validInterface(
                 fieldList: requestParams
             }
         };
+        const custom = JSON.parse(customParams || {});
+        if (Object.keys(custom).length > 0) {
+            params.searchInfo = {
+                ...params.searchInfo,
+                ...custom
+            }
+        }
         url = "/system-config/redirect/execute";
         const validResult = await loadData(url, params);
         if (validResult.error) {
@@ -103,7 +113,7 @@ export async function validInterface(
         }
     } else if (dataSource == "dict") {
         const dicts = await dictData(urlOrDictName);
-        if (Object.keys(dicts).length == 0) {
+        if (Object.keys(dicts||{}).length == 0) {
             flag = false;
             validErrorMsg = "验证失败\n数据字典可能未配置";
         } else {
@@ -113,7 +123,7 @@ export async function validInterface(
     } else {
         //静态数据
         const datas = temp["values"] as SelectOption[];
-        if (Object.keys(datas).length == 0) {
+        if (Object.keys(datas || {}).length == 0) {
             flag = false;
             validErrorMsg = "验证失败\n请设置数据";
         } else {
@@ -167,14 +177,14 @@ export function createData(dataSourceRef: any, dataList: any, needDynamicData: b
     };
 }
 
-const validOperation = async (val: any, dataSourceRef: Ref<any>, fieldList: Ref<any>, disableUrl: Ref<any>) => {
+export const validOperation = async (val: any, dataSourceRef: Ref<any>, fieldList: Ref<any>, disableUrl: Ref<any>) => {
     await validInterface(
         val,
         dataSourceRef,
         (dataList: any, successMsg: string, errorMsg: string) => {
             if (dataList && !disableUrl.value) {
                 const temp = dataList[0];
-                const keys = Object.keys(temp);
+                const keys = Object.keys(temp || {});
                 console.log(temp, keys);
                 fieldList.value = [];
                 for (const ind in keys) {
@@ -199,264 +209,7 @@ const validOperation = async (val: any, dataSourceRef: Ref<any>, fieldList: Ref<
  * 数据源属性配置
  */
 export function dataSourceFields(dataSourceRef: Ref<any>, envList: Array<SelectOption>, _recall: Function) {
-    const dataSourceList: Array<SelectOption> = [
-        {value: "url", name: "动态接口"},
-        {value: "dict", name: "数据字典"},
-        {value: "data", name: "静态数据"}
-    ];
 
-    const matchTypeList = searchMatchList();
-    const disableData = ref<boolean>(false);
-    const disableUrl = ref<boolean>(true);
-    const disableDict = ref<boolean>(true);
-    const dataRequired = ref<boolean>(true);
-    const urlRequired = ref<boolean>(false);
-    const dictRequired = ref<boolean>(false);
-    const currentTabName = ref<string>("data");
-    const fieldList = ref<SelectOption[]>([]);
-    return reactive<PageFieldInfo | any>({
-        fieldList: [
-            [
-                {
-                    label: "表单属性",
-                    fieldName: "label",
-                    type: "tag",
-                    formVisible: true,
-                    listVisible: true,
-                    preps: {
-                        colspan: 8
-                    }
-                },
-                {
-                    label: "数据源类型",
-                    fieldName: "dataSource",
-                    type: "radio",
-                    required: true,
-                    formVisible: true,
-                    listVisible: true,
-                    defaultValue: "data",
-                    optionList: dataSourceList,
-                    actionName: "change",
-                    actions: (val: any) => {
-                        console.log(val);
-                        const type = val["dataSource"];
-                        disableData.value = true;
-                        disableUrl.value = true;
-                        disableDict.value = true;
-                        dataRequired.value = false;
-                        urlRequired.value = false;
-                        dictRequired.value = false;
-                        currentTabName.value = type;
-                        if (type == "url") {
-                            disableUrl.value = false;
-                            urlRequired.value = true;
-                        } else if (type == "data") {
-                            disableData.value = false;
-                            dataRequired.value = true;
-                        } else if (type == "dict") {
-                            disableDict.value = false;
-                            dictRequired.value = true;
-                        }
-                    }
-                }
-            ],
-            {
-                fieldName: currentTabName,
-                tabList: [
-                    {
-                        title: "静态数据",
-                        tabName: "data",
-                        disabled: disableData,
-                        batchFieldList: [
-                            {
-                                batchName: "values",
-                                fieldList: [
-                                    {
-                                        label: "属性名",
-                                        fieldName: "name",
-                                        type: "input",
-                                        required: dataRequired,
-                                        formVisible: true,
-                                        listVisible: true
-                                    },
-                                    {
-                                        label: "属性值",
-                                        fieldName: "value",
-                                        type: "input",
-                                        required: dataRequired,
-                                        formVisible: true,
-                                        listVisible: true
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                        title: "动态接口参数",
-                        tabName: "url",
-                        disabled: disableUrl,
-                        fieldList: [
-                            [
-                                {
-                                    label: "系统环境",
-                                    fieldName: "env",
-                                    type: "select",
-                                    required: urlRequired,
-                                    defaultValue: "",
-                                    formVisible: true,
-                                    listVisible: true,
-                                    optionList: envList
-                                },
-                                {
-                                    label: "请求方式",
-                                    fieldName: "httpMethod",
-                                    type: "select",
-                                    required: urlRequired,
-                                    defaultValue: "POST",
-                                    formVisible: true,
-                                    listVisible: true,
-                                    optionList: httpMethod()
-                                },
-                                {
-                                    label: "协议",
-                                    fieldName: "protocol",
-                                    type: "select",
-                                    required: urlRequired,
-                                    defaultValue: "http",
-                                    formVisible: true,
-                                    listVisible: true,
-                                    optionList: [
-                                        {name: "HTTP", value: "http"},
-                                        {name: "HTTPS", value: "https"}
-                                    ]
-                                }
-                            ],
-                            [
-                                {
-                                    label: "IP/域名/服务名",
-                                    fieldName: "host",
-                                    type: "input",
-                                    required: urlRequired,
-                                    formVisible: true,
-                                    listVisible: true,
-                                    preps: {
-                                        colspan: 16
-                                    }
-                                },
-                                {
-                                    label: "端口",
-                                    fieldName: "port",
-                                    type: "number",
-                                    min: 1,
-                                    max: 65535,
-                                    formVisible: true,
-                                    listVisible: true,
-                                    preps: {
-                                        colspan: 8
-                                    }
-                                }
-                            ],
-                            {
-                                label: "接口地址",
-                                fieldName: "interfaceUrl",
-                                type: "input",
-                                required: urlRequired,
-                                helpMsg: helpMsg,
-                                formVisible: true,
-                                preps: {
-                                    appendAction: {
-                                        icon: "valid",
-                                        actions: async (val: any) => {
-                                            await validOperation(val, dataSourceRef, fieldList, disableUrl);
-                                        }
-                                    }
-                                }
-                            },
-                            [
-                                {
-                                    label: "标签名字段",
-                                    fieldName: "selectLabel",
-                                    type: "select",
-                                    optionList: fieldList,
-                                    required: urlRequired,
-                                    formVisible: true,
-                                    listVisible: true
-                                },
-                                {
-                                    label: "标签值字段",
-                                    fieldName: "selectValue",
-                                    type: "select",
-                                    optionList: fieldList,
-                                    required: urlRequired,
-                                    formVisible: true,
-                                    listVisible: true
-                                }
-                            ]
-                        ],
-                        batchFieldList: [
-                            {
-                                batchName: "queryParams",
-                                title: "参数",
-                                fieldList: [
-                                    {
-                                        label: "参数名",
-                                        fieldName: "name",
-                                        type: "select",
-                                        optionList: fieldList,
-                                        required: urlRequired,
-                                        formVisible: true,
-                                        listVisible: true
-                                    },
-                                    {
-                                        label: "参数值",
-                                        fieldName: "value",
-                                        type: "input",
-                                        required: urlRequired,
-                                        formVisible: true,
-                                        listVisible: true
-                                    },
-                                    {
-                                        label: "匹配方式",
-                                        fieldName: "matchType",
-                                        type: "select",
-                                        defaultValue: "eq",
-                                        required: urlRequired,
-                                        formVisible: true,
-                                        listVisible: true,
-                                        optionList: matchTypeList
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                        title: "数据字典",
-                        tabName: "dict",
-                        disabled: disableDict,
-                        fieldList: [
-                            {
-                                label: "字典名称",
-                                fieldName: "urlOrDictName",
-                                type: "input",
-                                required: dictRequired,
-                                formVisible: true,
-                                listVisible: true,
-                                preps: {
-                                    appendAction: {
-                                        icon: "valid",
-                                        actionTitle: "验证",
-                                        actions: async (val: any) => {
-                                            await validOperation(val, dataSourceRef, fieldList, disableUrl);
-                                        }
-                                    }
-                                }
-                            }
-                        ]
-                    }
-                ]
-            }
-        ]
-    });
 }
 
 const urlBaseInfo: FieldInfo[] = [
@@ -474,7 +227,7 @@ const urlBaseInfo: FieldInfo[] = [
         fieldName: "interfaceUrl",
         type: "input",
         required: true,
-        helpMsg: helpMsg,
+        helpMsg: urlReturnDataHelpMsg,
         formVisible: true,
         preps: {
             colspan: 24,
@@ -665,7 +418,7 @@ export function paramsFields(paramsConfigRef: Ref<any>, fieldName: string, item:
     }
     const disableUrl = ref<boolean>(false);
     let currentData: Array<any> = [];
-    datas?.forEach((item) => {
+    datas?.forEach((item: any) => {
         if (item.fieldName == fieldName) {
             currentData = item.configParams;
             return false;
@@ -742,7 +495,7 @@ export function paramsFields(paramsConfigRef: Ref<any>, fieldName: string, item:
             fieldName: "interfaceUrl",
             type: "input",
             required: true,
-            helpMsg: helpMsg,
+            helpMsg: urlReturnDataHelpMsg,
             formVisible: true,
             preps: {
                 appendAction: {
@@ -750,7 +503,6 @@ export function paramsFields(paramsConfigRef: Ref<any>, fieldName: string, item:
                     actions: async (val: any) => {
                         val["dataSource"] = "url";
                         await validOperation(val, paramsConfigRef, fieldList, disableUrl);
-                        console.log(fieldList.value)
                     }
                 },
                 colspan: 16,

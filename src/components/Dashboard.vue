@@ -25,7 +25,7 @@ let isCollapse = ref<boolean>(true);
 let sysemId = ref<string>("-1");
 let outerIsCollapse = ref<number>(64);
 
-let locale = ref();
+let locale = ref(zhCn);
 let direction = ref();
 const changeLang = (lang: LangType, _isInit: boolean) => {
   locale.value = lang == LangType.ZH_CN ? zhCn : en;
@@ -126,7 +126,7 @@ let drawer = ref<boolean>(false);
 const configInfo = computed(() => configStore.configFormInfo);
 </script>
 <template>
-  <el-config-provider :locale="locale">
+  <el-config-provider :locale="locale||zhCn">
     <el-container class="star-horse-container">
       <el-header class="star-horse-header">
         <header-comp :is-collapse="!isCollapse" @changeLang="changeLang" @layoutConfig="layoutConfig"/>
