@@ -1,22 +1,28 @@
 <script setup lang="ts" name="ItemPropertiesPanel">
 import {computed, nextTick, onMounted, ref, unref, watch} from "vue";
-import {formFieldMapping, isJson, searchMatchList} from "star-horse-lowcode";
-import {SelectOption} from "star-horse-lowcode";
+import {
+  error,
+  formFieldMapping,
+  isJson,
+  loadDict,
+  PageFieldInfo,
+  piniaInstance,
+  searchMatchList,
+  SelectOption,
+  success,
+  useDesignFormStore,
+  useGlobalConfigStore,
+  warning
+} from "star-horse-lowcode";
 import {
   buttonClickDataField,
   compCommonFields,
   containerField,
-  createData,
   dataSourceFields,
   paramsFields,
-  relationDataField,
-  validInterface
+  relationDataField
 } from "@/views/dyform/utils/ItemPreps.ts";
-import {piniaInstance} from "star-horse-lowcode";
-import {error, success, warning} from "star-horse-lowcode";
-import {PageFieldInfo, useDesignFormStore, useGlobalConfigStore} from "star-horse-lowcode";
 import {Config} from "@/api/settings.ts";
-import {loadDict} from "star-horse-lowcode";
 import DataSourceComp from "@/views/dyform/utils/DataSourceComp.vue";
 
 let designForm = useDesignFormStore(piniaInstance);
@@ -76,7 +82,7 @@ const configParams = async (params: any) => {
 };
 const submitValid = async () => {
   let result = await dataSourceFormRef.value.submitValid();
-  if(result){
+  if (result) {
     closeAction();
   }
 };

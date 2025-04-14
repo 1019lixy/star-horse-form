@@ -5,6 +5,7 @@ import {ascOrDesc, dataType, httpMethod, validDataUrl} from "star-horse-lowcode"
 import {error, success, warning} from "star-horse-lowcode";
 import {piniaInstance} from "star-horse-lowcode";
 import {validRulesList} from "@/api/valid_utils.ts";
+import DataSourceComp from "./DataSourceComp.vue";
 
 const designForm = useDesignFormStore(piniaInstance);
 
@@ -1130,12 +1131,13 @@ export function relationDataField() {
                                     helpMsg: "1、如果是作为查询条件，则填写参数名称；\n2、如果是等于某个值，则填写具体的值；",
                                     formVisible: true,
                                     listVisible: true
-                                }], {
+                                }],
+                            {
                                 label: "联动数据源",
                                 type: "usercomp",
                                 formVisible: true,
                                 preps: {
-                                    name: "DataSource",
+                                    name: DataSourceComp,
                                 }
                             }
                         ]
