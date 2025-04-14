@@ -113,7 +113,7 @@ export async function validInterface(
         }
     } else if (dataSource == "dict") {
         const dicts = await dictData(urlOrDictName);
-        if (Object.keys(dicts||{}).length == 0) {
+        if (Object.keys(dicts || {}).length == 0) {
             flag = false;
             validErrorMsg = "验证失败\n数据字典可能未配置";
         } else {
@@ -1050,13 +1050,13 @@ export function relationDataField() {
         {name: "Input", value: "input"}
     ];
     const controlConditionList: SelectOption[] = [
-        {name: "选中/输入的值作为查询条件", value: "query"},
-        {name: "选中/输入的值等于指定值禁用", value: "eqDisable"},
-        {name: "选中/输入的值等于指定值禁用否则可编辑", value: "eqDisableOrEditable"},
-        {name: "选中/输入的值等于指定值可编辑", value: "eqEditable"},
-        {name: "选中/输入的值等于指定值可编辑否则禁用", value: "eqEditableOrDisable"},
-        {name: "选中/输入的值等于指定值时赋予新值", value: "assignValue"},
-        {name: "选中/输入的值等于指定值时改变字段类型", value: "changeType"}
+        {name: "数据联动", value: "dataLinkage"},
+        {name: "当前字段的值等于指定值时禁用被关联字段", value: "eqDisable"},
+        {name: "当前字段的值等于指定值时被关联字段禁用否则可编辑", value: "eqDisableOrEditable"},
+        {name: "当前字段的值等于指定值时被关联字段可编辑", value: "eqEditable"},
+        {name: "当前字段的值等于指定值时被关联字段可编辑否则禁用", value: "eqEditableOrDisable"},
+        {name: "当前字段的值等于指定值时时被关联字段赋予新值", value: "assignValue"},
+        {name: "当前字段的值等于指定值时被关联字段改变字段类型", value: "changeType"},
     ];
     const fieldType = ref<string>("input");
     // let matchType = ref<boolean>(false);
@@ -1078,7 +1078,7 @@ export function relationDataField() {
                         staticData: "Y",
                         batchName: "relationDetails",
                         fieldList: [
-                            {
+                            [{
                                 label: "控制条件",
                                 fieldName: "controlCondition",
                                 type: "select",
@@ -1099,19 +1099,19 @@ export function relationDataField() {
                                 formVisible: true,
                                 listVisible: true
                             },
-                            {
-                                label: "被控制属性",
-                                fieldName: "relationFields",
-                                type: "tselect",
-                                optionList: fields,
-                                required: true,
-                                formVisible: true,
-                                listVisible: true,
-                                preps: {
-                                    checkStrictly: "Y"
-                                }
-                            },
-                            {
+                                {
+                                    label: "被控制属性",
+                                    fieldName: "relationFields",
+                                    type: "tselect",
+                                    optionList: fields,
+                                    required: true,
+                                    formVisible: true,
+                                    listVisible: true,
+                                    preps: {
+                                        checkStrictly: "Y"
+                                    }
+                                }],
+                            [{
                                 label: "匹配条件",
                                 fieldName: "matchType",
                                 type: "select",
@@ -1122,14 +1122,21 @@ export function relationDataField() {
                                 formVisible: true,
                                 listVisible: true
                             },
-                            {
-                                label: "参数",
-                                fieldName: "params",
-                                type: fieldType,
-                                required: false,
-                                helpMsg: "1、如果是作为查询条件，则填写参数名称；\n2、如果是等于某个值，则填写具体的值；",
+                                {
+                                    label: "参数",
+                                    fieldName: "params",
+                                    type: fieldType,
+                                    required: false,
+                                    helpMsg: "1、如果是作为查询条件，则填写参数名称；\n2、如果是等于某个值，则填写具体的值；",
+                                    formVisible: true,
+                                    listVisible: true
+                                }], {
+                                label: "联动数据源",
+                                type: "usercomp",
                                 formVisible: true,
-                                listVisible: true
+                                preps: {
+                                    name: "DataSource",
+                                }
                             }
                         ]
                     }
