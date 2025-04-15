@@ -71,7 +71,7 @@ const condifRelationPolicy = async () => {
   dataRelationDialogVisible.value = true;
   designForm.setShortKeyDisabled(true);
   await nextTick();
-  dataRelationFormRef?.value.setFormData(formProps.value["dataRelation"] || {});
+  dataRelationFormRef.value?.setFormData(formProps.value["dataRelation"] || {});
 };
 const configParams = async (params: any) => {
   fieldName.value = params;
@@ -88,7 +88,9 @@ const submitValid = async () => {
 };
 const dataRelationMerge = async () => {
   let flag: boolean = false;
-  await dataRelationFormRef?.value?.$refs.starHorseFormRef.validate((res: boolean) => {
+  let formRef = dataRelationFormRef?.value?.$refs.starHorseFormRef;
+  debugger;
+  await formRef.validate((res: boolean) => {
     flag = res;
   });
   if (!flag) {

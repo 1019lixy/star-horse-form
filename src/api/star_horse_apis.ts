@@ -54,9 +54,7 @@ service.interceptors.request.use(
 const forceLoginOut = () => {
     let menusInfo = sessionStorage.getItem("menusInfo");
     if (!menusInfo || menusInfo == "undefined" || menusInfo == "null") {
-        router.push({path: "/login"}).then((r) => {
-            console.log(r);
-        });
+        router.push({path: "/login"});
     } else {
         userStore.showLoginDialog();
     }

@@ -1060,6 +1060,7 @@ export function relationDataField() {
         {name: "当前字段的值等于指定值时被关联字段改变字段类型", value: "changeType"},
     ];
     const fieldType = ref<string>("input");
+    const fieldLinkVisible=ref<boolean>(false);
     // let matchType = ref<boolean>(false);
     return reactive<PageFieldInfo | any>({
         fieldList: [
@@ -1077,6 +1078,7 @@ export function relationDataField() {
                 batchFieldList: [
                     {
                         staticData: "Y",
+                        subFormFlag: "Y",
                         batchName: "relationDetails",
                         fieldList: [
                             [{
@@ -1087,7 +1089,7 @@ export function relationDataField() {
                                 required: true,
                                 changeName: "change",
                                 actions: (val: any) => {
-                                    // matchType.value = false;
+                                    fieldLinkVisible.value=val["controlCondition"]=="dataLinkage";
                                     val["_matchTypeEditable"] = false;
                                     delete val["_paramsType"];
                                     const temp = val["controlCondition"];
@@ -1133,10 +1135,19 @@ export function relationDataField() {
                                     listVisible: true
                                 }],
                             {
+                                type: "divider",
+                                formVisible: fieldLinkVisible,
+                                preps: {
+                                    bareFlag: "Y",
+                                    content: "数据源",
+                                }
+                            },
+                            {
                                 label: "联动数据源",
                                 type: "usercomp",
-                                formVisible: true,
+                                formVisible: fieldLinkVisible,
                                 preps: {
+                                    bareFlag: "Y",
                                     name: DataSourceComp,
                                 }
                             }

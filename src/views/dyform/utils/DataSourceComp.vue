@@ -1,10 +1,8 @@
-<script setup lang="ts" >
-import {onMounted, reactive, ref, unref, PropType} from "vue";
-import {
-  SelectOption, searchMatchList, httpMethod, PageFieldInfo, loadDict,
-  error
-} from "star-horse-lowcode";
+<script setup lang="ts">
+import {ModelRef, onMounted, PropType, reactive, ref} from "vue";
+import {error, httpMethod, loadDict, PageFieldInfo, searchMatchList, SelectOption} from "star-horse-lowcode";
 import {createData, urlReturnDataHelpMsg, validInterface, validOperation} from "@/views/dyform/utils/ItemPreps.ts";
+
 defineOptions({
   name: "DataSourceComp",
 })
@@ -17,6 +15,7 @@ const dataSourceList: Array<SelectOption> = [
   {value: "dict", name: "数据字典"}
 ];
 const dataSourceFormRef = ref();
+const dataForm: ModelRef<any> = defineModel("dataForm");
 const matchTypeList = searchMatchList();
 const disableData = ref<boolean>(false);
 const disableUrl = ref<boolean>(true);
