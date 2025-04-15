@@ -13,7 +13,6 @@ import {ElementPlusResolver} from "unplugin-vue-components/resolvers";
 import AutoImport from "unplugin-auto-import/vite";
 //此插件是处理外部依赖 比如cdn引入的js
 import tailwindcss from "@tailwindcss/vite";
-
 const codeHost: string = "http://192.168.20.165:8888/";
 // const codeHost:string = "http://localhost:8888/"
 const systemHost: string = "http://localhost:8749/";

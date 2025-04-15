@@ -1,11 +1,13 @@
-<script setup lang="ts">
+<script setup lang="ts" >
 import {onMounted, reactive, ref, unref, PropType} from "vue";
 import {
   SelectOption, searchMatchList, httpMethod, PageFieldInfo, loadDict,
   error
 } from "star-horse-lowcode";
 import {createData, urlReturnDataHelpMsg, validInterface, validOperation} from "@/views/dyform/utils/ItemPreps.ts";
-
+defineOptions({
+  name: "DataSourceComp",
+})
 const props = defineProps({
   formProps: {type: Object as PropType<any>},
 });
