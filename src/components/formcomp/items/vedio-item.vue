@@ -97,7 +97,7 @@
       };
       const getCfg = (key: string, def: any) => {
         try {
-          let ret = localStorage.getItem("vedio-item." + key);
+          let ret = sessionStorage.getItem("vedio-item." + key);
           if (ret === null) {
             ret = def;
           }
@@ -107,7 +107,7 @@
       };
       const setCfg = (key: string, value: any) => {
         try {
-          localStorage.setItem("vedio-item." + key, value);
+          sessionStorage.setItem("vedio-item." + key, value);
         } catch (e) {}
       };
       const saveSettings = () => {

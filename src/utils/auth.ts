@@ -76,4 +76,17 @@ export function setToken(token: string, rememberMe: any) {
 
 export function removeToken() {
     sessionStorage.removeItem(Config.TokenKey);
+
+}
+
+/**
+ * 删除登录信息
+ */
+export function delLoginInfo() {
+    removeToken();
+    sessionStorage.removeItem(Config.loginInfo);
+    sessionStorage.removeItem(Config.publicKey);
+    sessionStorage.removeItem(Config.customerInfo);
+    sessionStorage.removeItem("menusInfo");
+    sessionStorage.removeItem("dynamicMenusLists");
 }

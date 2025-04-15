@@ -2,7 +2,7 @@ import axios, {AxiosResponse, InternalAxiosRequestConfig} from "axios";
 import router from "@/router";
 import {Config} from "@/api/settings.ts";
 import {reactive} from "vue";
-import {getToken, getUserInfo, removeToken, setCustomerInfo, setToken, setUserInfo} from "@/utils/auth";
+import {delLoginInfo, getToken, getUserInfo, removeToken, setCustomerInfo, setToken, setUserInfo} from "@/utils/auth";
 import {
     MenusInfo,
     SelectOption,
@@ -50,10 +50,10 @@ service.interceptors.request.use(
         return Promise.reject(error);
     }
 );
+
 const forceLoginOut = () => {
-    let menusInfo = localStorage.getItem("menusInfo");
-    console.log(menusInfo);
-    if (!menusInfo) {
+    let menusInfo = sessionStorage.getItem("menusInfo");
+    if (!menusInfo || menusInfo == "undefined" || menusInfo == "null") {
         router.push({path: "/login"}).then((r) => {
             console.log(r);
         });
@@ -62,8 +62,7 @@ const forceLoginOut = () => {
     }
 };
 // 添加响应拦截器
-service.interceptors.response.use(
-    (response: AxiosResponse) => {
+service.interceptors.response.use((response: AxiosResponse) => {
         const code = response.data?.code;
         // 401 未登录
         if (code == 401) {
@@ -112,7 +111,6 @@ export async function rtCode(content: string) {
 }
 
 
-
 /**
  * 用户登录
  * @param loginData 登录参数
@@ -156,7 +154,7 @@ export async function userLogout(data: Array<any>) {
         warning(resultDdata.error);
         return;
     }
-    removeToken();
+    delLoginInfo();
     userStore.logout();
     navBarListStore.clearAll();
     viewListStore.clearAll();
@@ -175,7 +173,6 @@ export function getMenuId() {
 }
 
 
-
 /**
  * 一次性加载用户权限菜单
  * @param data
@@ -190,7 +187,7 @@ export async function permissionMenus(data: any, sysId: string) {
  * 将Store里的菜单还原
  */
 export async function restoreMenu(to: RouteLocationNormalized, _next: NavigationGuardNext) {
-    const data = localStorage.getItem("menusInfo");
+    const data = sessionStorage.getItem("menusInfo");
     if (data) {
         createRouterAndMenuList(JSON.parse(data));
     }
@@ -210,7 +207,7 @@ export async function restoreMenu(to: RouteLocationNormalized, _next: Navigation
 export function createRouterAndMenuList(redata: Array<object>): MenusInfo[] {
     let leftMenuDatas: MenusInfo[] = [];
     const pageButtonPermissions: any = {};
-    if (!redata) {
+    if (redata?.length == 0) {
         return leftMenuDatas;
     }
     const baseDir = "/src/views";
@@ -273,8 +270,8 @@ export function createRouterAndMenuList(redata: Array<object>): MenusInfo[] {
 
     userStore.addPermissionMenus(leftMenuDatas);
     pagePermission.addAllPermission(pageButtonPermissions);
-    localStorage.setItem("menusInfo", JSON.stringify(redata));
-    localStorage.setItem("dynamicMenusLists", JSON.stringify(userStore.dynamicMenus));
+    sessionStorage.setItem("menusInfo", JSON.stringify(redata));
+    sessionStorage.setItem("dynamicMenusLists", JSON.stringify(userStore.dynamicMenus));
     return leftMenuDatas;
 }
 
@@ -316,8 +313,6 @@ export function downloadData(data: any, name: string) {
 }
 
 
-
-
 /**
  * 获取数据字典
  * @param dictName
@@ -345,7 +340,6 @@ export async function loadDict(dictName: string) {
         .catch((err) => console.log(err));
     return redata;
 }
-
 
 
 /**

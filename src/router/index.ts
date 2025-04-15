@@ -65,7 +65,7 @@ router.afterEach((to, _from) => {
     if (to.path !== "/login" && to.path !== "/404") {
         //动态表单路由，导航信息拼接
         if (to.path.indexOf("page/") != -1) {
-            const menuLists = localStorage.getItem("dynamicMenusLists");
+            const menuLists = sessionStorage.getItem("dynamicMenusLists");
             if (menuLists) {
                 const menus = JSON.parse(menuLists);
                 const fdata = menus.find((item: any) => item.path == to.path);

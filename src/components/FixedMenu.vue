@@ -6,7 +6,7 @@
   import FixedSubMenu from "@/components/menu/FixedSubMenu.vue";
 
   let userStore = useUserInfoStore(piniaInstance);
-  // const emits = defineEmits(["collopseOperation"]);
+  // const emits = defineEmits(["collapseOperation"]);
   let leftMenuDatas = ref<MenusInfo[]>([]);
   let props = defineProps({
     sysemId: { type: String },
@@ -21,7 +21,7 @@
     }
     await permissionMenus({}, sysemId).then((res) => {
       let redata = res.data.data;
-      localStorage.setItem("menusInfo", JSON.stringify(redata));
+      sessionStorage.setItem("menusInfo", JSON.stringify(redata));
       leftMenuDatas.value = reactive(createRouterAndMenuList(redata));
       let allId = leftMenuDatas.value.map((item) => item.meta.menuId);
       nextTick(() => {

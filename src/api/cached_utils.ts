@@ -4,14 +4,14 @@
  * @param data
  */
 const setCacheData = (key: string, data: any) => {
-  localStorage.setItem(key, JSON.stringify(data));
+  sessionStorage.setItem(key, JSON.stringify(data));
 };
 /**
  * 获取缓存数据
  * @param key
  */
 const getCacheData = (key: string) => {
-  const item = localStorage.getItem(key);
+  const item = sessionStorage.getItem(key);
   if (item) {
     return JSON.parse(item);
   }
@@ -31,6 +31,6 @@ const getAndDelCacheData = (key: string) => {
  * @param key
  */
 const delCacheData = (key: string) => {
-  localStorage.removeItem(key);
+  sessionStorage.removeItem(key);
 };
 export { setCacheData, getCacheData, getAndDelCacheData, delCacheData };

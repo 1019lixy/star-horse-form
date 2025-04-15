@@ -131,12 +131,12 @@
     });
     load("数据提交中");
     postRequest(`/system-config/system/shortcutMenu/mergeBatch/${userInfo.idUsersinfo}`, dataList)
-      .then((res) => {
+      .then((res:any) => {
         success(res.data.cnMessage);
         dialogProps.bakeVisible1 = false;
         loadShortMenu();
       })
-      .catch((err) => {
+      .catch((err:any) => {
         error(err);
       })
       .finally(() => {

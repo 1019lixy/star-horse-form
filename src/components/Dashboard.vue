@@ -47,7 +47,7 @@ const mouseOver = () => {
 const mouseOut = () => {
   $(".star-horse-left").removeClass("show-scroll-bar");
 };
-const collopseOperation = () => {
+const collapseOperation = () => {
   isCollapse.value = !isCollapse.value;
 };
 watch(
@@ -143,7 +143,7 @@ const configInfo = computed(() => configStore.configFormInfo);
               v-if="configInfo.menusCfg == 'tradition'"
               :sysem-id="sysemId"
               :is-collapse="!isCollapse"
-              @collopseOperation="collopseOperation"
+              @collapseOperation="collapseOperation"
           />
           <FixedMenu
               :sysem-id="sysemId"

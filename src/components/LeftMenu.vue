@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {createRouterAndMenuList, permissionMenus} from "@/api/star_horse_apis.ts";
 import {computed, nextTick, onMounted, reactive, ref, unref, watch} from "vue";
-import {useUserInfoStore,MenusInfo,useGlobalConfigStore,piniaInstance} from "star-horse-lowcode";
+import {useUserInfoStore, MenusInfo, useGlobalConfigStore, piniaInstance} from "star-horse-lowcode";
 import SubMenu from "@/components/menu/SubMenu.vue";
 import {filterTree} from "star-horse-lowcode";
 import {Config} from "@/api/settings.ts";
@@ -9,7 +9,7 @@ import {Config} from "@/api/settings.ts";
 let userInfoStore = useUserInfoStore(piniaInstance);
 let configStore = useGlobalConfigStore(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
-const emits = defineEmits(["collopseOperation"]);
+const emits = defineEmits(["collapseOperation"]);
 let leftMenuDatas = ref<MenusInfo[]>([]);
 let props = defineProps({
   sysemId: {type: String},
@@ -18,29 +18,29 @@ let props = defineProps({
 let defaultOpenMenu = ref<string>("");
 let menuIcon = ref<string>("expand");
 const menuBarFun = () => {
-  emits("collopseOperation");
+  emits("collapseOperation");
 };
 const changeArrow = () => {
   menuIcon.value = unref(menuIcon) == "expand" ? "collapse" : "expand";
 };
-const loadMenus = async (sysemId: string) => {
+const loadMenus = async (sysemId?: string) => {
   if (!sysemId) {
     sysemId = "-1";
   }
   await permissionMenus({}, sysemId).then((res) => {
     let redata = res.data?.data;
     if (redata) {
-      localStorage.setItem("menusInfo", JSON.stringify(redata));
+      sessionStorage.setItem("menusInfo", JSON.stringify(redata));
       leftMenuDatas.value = reactive(createRouterAndMenuList(redata));
     }
   });
-  await nextTick( () => {
+  await nextTick(() => {
     if (leftMenuDatas.value?.length > 0) {
-      let allId = leftMenuDatas.value.find(item => item.path == "#")?.meta?.menuId;
+      let allId = leftMenuDatas.value.find((item: any) => item.path == "#")?.meta?.menuId;
       if (allId && systemMenu?.value) {
         try {
           systemMenu.value.open(allId);
-        } catch (e) {
+        } catch (e: any) {
           console.log(e.message);
         }
       }
@@ -68,7 +68,7 @@ watch(
 watch(
     () => props.sysemId,
     (val) => {
-      loadMenus(val!);
+      loadMenus(val);
     },
     {immediate: false}
 );
