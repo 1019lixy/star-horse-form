@@ -8,6 +8,8 @@ defineOptions({
 })
 const props = defineProps({
   formProps: {type: Object as PropType<any>},
+  preps: {type: Object as PropType<any>},
+  item: {type: Object as PropType<PageFieldInfo>, required: true},
 });
 const dataSourceList: Array<SelectOption> = [
   {value: "data", name: "静态数据"},
@@ -26,10 +28,7 @@ const dictRequired = ref<boolean>(false);
 const currentTabName = ref<string>("data");
 const fieldList = ref<SelectOption[]>([]);
 let envList = ref<Array<SelectOption>>([]);
-onMounted(async () => {
-  // matchTypeList.value = searchMatchList();
-  envList.value = await loadDict("system_environment");
-});
+
 const innerFunc = (type: string) => {
   disableData.value = true;
   disableUrl.value = true;
@@ -50,12 +49,6 @@ const innerFunc = (type: string) => {
   }
 }
 
-//解决窗口改变是数据变成默认的情况
-// const formData: any = unref(dataSourceRef)?.getFormData()?.value;
-// if (formData && Object.keys(formData).length > 0) {
-//   innerFunc(formData["dataSource"]);
-//   // validOperation(formData["dataSource"], dataSourceRef, fieldList, disableUrl);
-// }
 const dataSourceField = reactive<PageFieldInfo | any>({
   fieldList: [
     [
@@ -192,7 +185,7 @@ const dataSourceField = reactive<PageFieldInfo | any>({
                 appendAction: {
                   icon: "valid",
                   actions: async (val: any) => {
-                    await validOperation(val, dataSourceFormRef, fieldList, disableUrl);
+                    await validOperation(val, dataSourceFormRef, fieldList, disableUrl, !dataForm.value, dataForm);
                   }
                 }
               }
@@ -298,7 +291,7 @@ const dataSourceField = reactive<PageFieldInfo | any>({
                   icon: "valid",
                   actionTitle: "验证",
                   actions: async (val: any) => {
-                    await validOperation(val, dataSourceFormRef, fieldList, disableUrl);
+                    await validOperation(val, dataSourceFormRef, fieldList, disableUrl, !dataForm.value, dataForm);
                   }
                 }
               }
@@ -314,32 +307,68 @@ const submitValid = async () => {
   await validInterface(props.formProps, dataSourceFormRef, (dataList: any, _successMsg: string, errorMsg: string) => {
     if (!errorMsg) {
       //只保存静态数据,
-      props.formProps["values"] = createData(dataSourceFormRef, dataList).reDataList;
+      if (props.formProps) {
+        props.formProps["values"] = createData(dataSourceFormRef, dataList).reDataList;
+      }
       flag = true;
     } else {
       error(errorMsg);
       flag = false;
     }
-  });
+  }, !dataForm.value, dataForm);
   return flag;
 };
-const setFormData = (data: any) => {
-  dataSourceFormRef.value?.setFormData(data);
+const isInited = ref<boolean>(false);
+const init = () => {
+  loadDict("system_environment").then(res => {
+    envList.value = res;
+  });
+  nextTick(() => {
+    if (props.preps?.objectName && dataForm.value) {
+      let temp = dataForm.value;
+
+      setFormData(temp);
+      currentTabName.value = temp.dataSource || "data";
+      isInited.value = true;
+    }
+  });
 }
+const setFormData = (data: any) => {
+  !dataForm.value && dataSourceFormRef.value?.setFormData(data);
+}
+const getFormData = () => {
+  return dataSourceFormRef.value?.getFormData();
+}
+watch(() => dataForm.value?.dataSource, (val) => {
+  currentTabName.value = val || "data";
+});
+onMounted(() => {
+  init();
+});
+
 defineExpose({
   submitValid,
-  setFormData
+  setFormData,
+  getFormData
 });
 </script>
 
 <template>
-  <star-horse-form
-      :outerFormData="formProps"
-      ref="dataSourceFormRef"
-      :fieldList="dataSourceField"
-  />
+  <el-scrollbar height="100%">
+    <star-horse-form :fieldList="dataSourceField" ref="dataSourceFormRef" v-if="!dataForm"/>
+    <star-horse-form-item
+        v-else
+        ref="dataSourceFormRef"
+        :fieldList="dataSourceField"
+        :dataIndex="(props.preps?.params?.totalTab||1)-1"
+        :subFormFlag="'Y'"
+        :objectName="'dataSource'"
+        v-model:dataForm="dataForm"
+    />
+  </el-scrollbar>
 </template>
 
 <style scoped lang="scss">
 
 </style>
+

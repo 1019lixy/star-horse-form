@@ -42,7 +42,7 @@ export async function validInterface(
     formProps: any,
     dataSourceRef: any,
     recall: Function,
-    validForm: boolean = true
+    validForm: boolean = true, formData?: any
 ) {
     let flag = false;
     let dataList: SelectOption[] = [];
@@ -50,8 +50,7 @@ export async function validInterface(
     if (!refName) {
         return false;
     }
-    const temp = refName.getFormData().value;
-    console.log("temp", temp);
+    const temp = unref(formData) ?? unref(refName.getFormData());
     if (validForm) {
         await nextTick();
         await refName?.$refs.starHorseFormRef.validate((res: boolean) => {
@@ -178,7 +177,7 @@ export function createData(dataSourceRef: any, dataList: any, needDynamicData: b
     };
 }
 
-export const validOperation = async (val: any, dataSourceRef: Ref<any>, fieldList: Ref<any>, disableUrl: Ref<any>) => {
+export const validOperation = async (val: any, dataSourceRef: Ref<any>, fieldList: Ref<any>, disableUrl: Ref<any>, validForm: boolean = true, formData?: any) => {
     await validInterface(
         val,
         dataSourceRef,
@@ -202,7 +201,8 @@ export const validOperation = async (val: any, dataSourceRef: Ref<any>, fieldLis
             //     recall(dataList, successMsg, errorMsg);
             // }
         },
-        false
+        validForm,
+        formData
     );
 };
 
@@ -1060,7 +1060,7 @@ export function relationDataField() {
         {name: "当前字段的值等于指定值时被关联字段改变字段类型", value: "changeType"},
     ];
     const fieldType = ref<string>("input");
-    const fieldLinkVisible=ref<boolean>(false);
+    const fieldLinkVisible = ref<boolean>(false);
     // let matchType = ref<boolean>(false);
     return reactive<PageFieldInfo | any>({
         fieldList: [
@@ -1089,7 +1089,7 @@ export function relationDataField() {
                                 required: true,
                                 changeName: "change",
                                 actions: (val: any) => {
-                                    fieldLinkVisible.value=val["controlCondition"]=="dataLinkage";
+                                    fieldLinkVisible.value = val["controlCondition"] == "dataLinkage";
                                     val["_matchTypeEditable"] = false;
                                     delete val["_paramsType"];
                                     const temp = val["controlCondition"];
