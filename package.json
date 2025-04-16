@@ -121,7 +121,6 @@
     "swiper": "^11.2.5",
     "tailwindcss": "^4.0.14",
     "thememirror": "^2.0.1",
-    "tsparticles-slim": "^2.12.0",
     "typescript": "^5.8.2",
     "unplugin-auto-import": "^19.1.1",
     "unplugin-vue-components": "^28.4.1",
@@ -137,7 +136,6 @@
     "vue3-guides": "^0.12.2",
     "vue3-infinite-viewer": "^0.17.1",
     "vue3-moveable": "^0.28.0",
-    "vue3-particles": "^2.12.0",
     "vuedraggable": "^4.1.0"
   },
   "devDependencies": {

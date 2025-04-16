@@ -1,18 +1,10 @@
 <template>
-  <!--  <vue-particles
-        id="tsparticles"
-        :particlesInit="particlesInit"
-        :particlesLoaded="particlesLoaded"
-        :options="particles"/>-->
-  <!--  <el-watermark content="Star Horse Devops"></el-watermark>-->
-  <RouterView/>
-  <LoginDialog v-model:loginDialogVisible="userInfoStore.loginDialogVisible"/>
+  <dynamic-form/>
 </template>
 <script lang="ts" setup>
 import {onMounted} from "vue";
-import {useUserInfoStore} from "star-horse-lowcode";
-import {piniaInstance} from "star-horse-lowcode";
-import LoginDialog from "@/components/LoginDialog.vue";
+import {piniaInstance, useUserInfoStore} from "star-horse-lowcode";
+import DynamicForm from "@/views/dyform/DynamicForm.vue";
 
 const userInfoStore = useUserInfoStore(piniaInstance);
 const closeAction = () => {
