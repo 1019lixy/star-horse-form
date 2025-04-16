@@ -409,16 +409,6 @@ const recall = (options: SelectOption[], successMsg: string, errorMsg: string) =
   }
 };
 const isInitDataSourceField = ref<boolean>(false);
-const loadDatasourceFields = () => {
-  console.log("....................");
-  if (!isInitDataSourceField.value) {
-    isInitDataSourceField.value = true;
-    let dataSourceFields1 = dataSourceFields(dataSourceFormRef, envList.value, recall);
-    console.log("*********************", dataSourceFields1);
-    return dataSourceFields1;
-  }
-
-}
 const hmsg: string = `
    自定义事件,提供了如下系统参数：
    currentField:Object 当前组件的信息
@@ -428,10 +418,16 @@ const hmsg: string = `
    具体参数或方法切换Tab查看
 `;
 let envList = ref<Array<SelectOption>>([]);
+const itemPropertiesRef = ref();
 onMounted(async () => {
   matchTypeList.value = searchMatchList();
   envList.value = await loadDict("system_environment");
 });
+const testvalid = () => {
+  itemPropertiesRef.value?.validate((res: boolean) => {
+    console.log(res);
+  })
+}
 watch(
     () => [currentItemId, currentItemType],
     () => {
@@ -594,10 +590,9 @@ watch(
     </el-tabs>
   </star-horse-dialog>
   <div class="dynamic-form" v-if="currentItemType">
-    <el-scrollbar>
+    <el-scrollbar height="100%">
       <el-form
           :model="formProps"
-          :rules="formRules"
           class="dynamic-form"
           ref="itemPropertiesRef"
           :size="compSize"
