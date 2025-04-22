@@ -10,7 +10,7 @@ import {
 } from "star-horse-lowcode";
 import {getRequest, loadDict, permissionMenus, postRequest} from "star-horse-lowcode";
 import {piniaInstance} from "star-horse-lowcode";
-import {PageFieldInfo,SelectOption,ApiUrls,useDesignFormStore} from "star-horse-lowcode";
+import {PageFieldInfo, SelectOption, ApiUrls, useDesignFormStore} from "star-horse-lowcode";
 import {Config} from "@/api/settings.ts";
 import {ascOrDesc, commonField, httpMethod} from "star-horse-lowcode";
 
@@ -215,6 +215,18 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 formVisible: true,
                 preps: {
                   colspan: 6
+                }
+              },
+              {
+                label: "存为模板",
+                fieldName: "templateFlag",
+                type: "switch",
+                defaultValue: 2,
+                formVisible: true,
+                preps: {
+                  activeValue: 1,
+                  inactiveValue: 2,
+                  colspan: 9
                 }
               },
               {

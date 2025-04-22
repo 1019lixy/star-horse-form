@@ -43,7 +43,6 @@ const onDataCopy = (data: any, type: string) => {
                   <star-horse-icon icon-class="container" style="color: var(--star-horse-style)"/>
                 </div>
               </template>
-
               <draggable
                   :clone="onContainerCopy"
                   :group="{ name: 'starHorseGroup', pull: 'clone', put: false }"
