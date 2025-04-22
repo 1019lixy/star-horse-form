@@ -89,7 +89,6 @@ const submitValid = async () => {
 const dataRelationMerge = async () => {
   let flag: boolean = false;
   let formRef = dataRelationFormRef?.value?.$refs.starHorseFormRef;
-  debugger;
   await formRef.validate((res: boolean) => {
     flag = res;
   });

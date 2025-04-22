@@ -2,12 +2,12 @@
 import {Config} from "@/api/settings.ts";
 import {getValidateImg, userLogin} from "@/api/star_horse_apis.ts";
 import {JSEncrypt} from "jsencrypt";
-import {onMounted, reactive, ref, watch} from "vue";
+import {onMounted, reactive, ref, watch, computed} from "vue";
 import {useRouter} from "vue-router";
 import type {ElForm, FormInstance, FormRules} from "element-plus";
 import {warning} from "star-horse-lowcode";
 import {i18n} from "@/lang";
-import {useUserInfoStore,piniaInstance} from "star-horse-lowcode";
+import {useUserInfoStore, piniaInstance} from "star-horse-lowcode";
 import {setPublicKey} from "@/utils/auth.ts";
 
 interface LoginInfo {
@@ -22,6 +22,7 @@ interface LoginInfo {
 const {currentRoute, replace} = useRouter();
 const loginDialogVisible = defineModel<boolean>("loginDialogVisible")
 const userInfoStore = useUserInfoStore(piniaInstance);
+const dialogVisible = computed(() => loginDialogVisible.value && currentRoute.value.path != "/login");
 let validateImg = ref<string>("");
 let uuid = ref<string>("");
 let flag = ref<boolean>(false);
@@ -120,7 +121,7 @@ const handleClose = () => {
 
 </script>
 <template>
-  <star-horse-dialog :selfFunc="true" :isView="true" :dialogVisible="loginDialogVisible" title="超时登录"
+  <star-horse-dialog :selfFunc="true" :isView="true" :dialogVisible="dialogVisible" title="超时登录"
                      :box-width="'400px'"
                      :hideFullScreenIcon="true"
                      @closeAction="handleClose">

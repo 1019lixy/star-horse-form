@@ -491,7 +491,7 @@ onMounted(() => {
       </el-form-item>
     </el-form>
   </star-horse-dialog>
-  <el-row>
+  <el-row style="margin-top: 15px">
     <el-col :span="18">
       <el-select
           :size="compSize"

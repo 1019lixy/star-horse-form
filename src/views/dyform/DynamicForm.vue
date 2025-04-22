@@ -679,7 +679,7 @@ let prepsModel = ref("one");
   margin-top: 0;
 
   .side-panel {
-    width: 270px !important;
+    width: 280px !important;
     justify-content: flex-start;
     background: var(--star-horse-background);
     border: 1px dashed var(--star-horse-font-color);
