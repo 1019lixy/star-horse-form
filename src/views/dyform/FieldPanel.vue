@@ -193,7 +193,7 @@ const createRef = (el: any) => {
               <div class="flex items-center">
                 <div class="w-[60%]">#{{ item.formName }}</div>
                 <div class="flex-1 justify-end">
-                  <el-button size="small" link @click="loadFormData(item)">加载此模板</el-button>
+                  <el-button size="small" link @click="loadFormData(item)" icon="plus">加载此模板</el-button>
                 </div>
               </div>
             </template>
