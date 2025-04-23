@@ -37,8 +37,8 @@ const tabChange = (name: string) => {
     })
   }
 }
-const loadFormData = (data: any) => {
-  emits("loadData", data);
+const loadFormData = (formId: any) => {
+  emits("loadData", formId);
 }
 const previewRefs = ref<any[]>([]); // 新增ref数组
 // 新增：生成所有预览图片的方法
@@ -193,7 +193,7 @@ const createRef = (el: any) => {
               <div class="flex items-center">
                 <div class="w-[60%]">#{{ item.formName }}</div>
                 <div class="flex-1 justify-end">
-                  <el-button size="small" link @click="loadFormData(item)" icon="plus">加载此模板</el-button>
+                  <el-button size="small" link @click="loadFormData(item.idDynamicForm)" icon="plus">加载此模板</el-button>
                 </div>
               </div>
             </template>

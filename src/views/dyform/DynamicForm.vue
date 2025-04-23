@@ -1,34 +1,29 @@
 <script lang="ts" setup name="DynamicForm">
 import FieldPanel from "@/views/dyform/FieldPanel.vue";
-import {
-  computed,
-  nextTick,
-  onActivated,
-  onBeforeUnmount,
-  onDeactivated,
-  onMounted,
-  reactive,
-  ref,
-  watch
-} from "vue";
+import {computed, nextTick, onActivated, onBeforeUnmount, onDeactivated, onMounted, ref, watch} from "vue";
 import PropertyPanel from "@/views/dyform/PropertyPanel.vue";
-import {postRequest} from "star-horse-lowcode";
-import {operationConfirm, error, warning, success} from "star-horse-lowcode";
+import {
+  apiInstance,
+  closeLoad,
+  error,
+  load,
+  loadData,
+  operationConfirm,
+  piniaInstance,
+  postRequest,
+  success,
+  useButtonPermissionStore,
+  useDesignFormStore,
+  useGlobalConfigStore,
+  useSelfOperationStore,
+  warning
+} from "star-horse-lowcode";
 import {useRoute, useRouter} from "vue-router";
-import {apiInstance, closeLoad, load, loadData} from "star-horse-lowcode";
 import FormPropertyPanel from "@/views/dyform/FormPropertyPanel.vue";
 import Help from "@/components/help.vue";
 import {dynamicFormHelpMessage, formActions} from "@/views/dyform/utils/DynamicForm.ts";
-import {
-  useDesignFormStore,
-  useButtonPermissionStore,
-  useSelfOperationStore,
-  useGlobalConfigStore
-} from "star-horse-lowcode";
-import {piniaInstance} from "star-horse-lowcode";
 import {validDynamicFormCompParams} from "@/views/dyform/utils/preview.ts";
 import CodeComp from "@/views/dyform/code/CodeComp.vue";
-import {batchModifyAction} from "star-horse-lowcode";
 import {delCacheData, getCacheData, setCacheData} from "@/api/cached_utils.ts";
 import {i18n} from "@/lang";
 import {Config} from "@/api/settings.ts";
@@ -85,7 +80,7 @@ const init = async () => {
   cacheData.value = getCacheData(cacheName);
 };
 const propertyRef = ref();
-const loadFormData = async (formId: any, isParent: boolean) => {
+const loadFormData = async (formId: any, isParent: boolean, isTemplate?: boolean) => {
   await nextTick();
   designForm.clearAll(false);
   let resultData: any = await loadData(dataUrl.loadByIdUrl! + "/" + formId, {});
@@ -93,21 +88,48 @@ const loadFormData = async (formId: any, isParent: boolean) => {
     warning(resultData.error);
     return;
   }
-  let data = resultData.data;
+  let dynamicFormData: any = resultData.data;
   if (isParent) {
-    data["idDynamicForm"] = null;
-    data["parentId"] = formId;
+    dynamicFormData["idDynamicForm"] = null;
+    dynamicFormData["parentId"] = formId;
     //数据编号一定要清空，否则数据会跳过重复验证
-    data["dataNo"] = null;
-    data["formId"] = data["formId"] + "Sub";
-    data["tbName"] = data["tbName"] + "Sub";
+    dynamicFormData["dataNo"] = null;
+    dynamicFormData["formId"] = dynamicFormData["formId"] + "Sub";
+    dynamicFormData["tbName"] = dynamicFormData["tbName"] + "Sub";
   }
-  if (data["relations"]) {
-    data["relations"] = JSON.parse(data["relations"]);
+  if (dynamicFormData["relations"]) {
+    dynamicFormData["relations"] = JSON.parse(dynamicFormData["relations"]);
   }
-  let details = data["details"];
-  data["details"] = {};
-  designForm.setFormInfo(data);
+
+  let details = dynamicFormData["details"];
+  if (isTemplate) {
+    let times = new Date().getTime();
+    dynamicFormData["idDynamicForm"] = undefined;
+    dynamicFormData["parentId"] = undefined;
+    dynamicFormData["dataNo"] = undefined;
+    dynamicFormData["formId"] = "Id" + times + "Temp";
+    dynamicFormData["tbName"] = "Tb" + times + "Temp";
+    dynamicFormData["formName"] = undefined;
+    dynamicFormData["datasourceConfigId"] = undefined;
+    dynamicFormData["createMenu"] = "N";
+    dynamicFormData["createTable"] = "N";
+    details["idDynamicForm"] = undefined;
+    details["idDynamicFormDetails"] = undefined;
+    details["dataNo"] = undefined;
+    details["tenantId"] = undefined;
+    dynamicFormData["createdBy"] = undefined;
+    dynamicFormData["updatedBy"] = undefined;
+    dynamicFormData["createdTime"] = undefined;
+    dynamicFormData["updatedTime"] = undefined;
+    dynamicFormData["sysId"] = undefined;
+    dynamicFormData["templateFlag"] = undefined;
+    details["createdBy"] = undefined;
+    details["updatedBy"] = undefined;
+    details["createdTime"] = undefined;
+    details["updatedTime"] = undefined;
+  }
+  dynamicFormData["details"] = {};
+  designForm.setFormInfo(dynamicFormData);
   designForm.setCompList(JSON.parse(details?.content || "[]"));
   designForm.setFormData(JSON.parse(details?.fieldNames || "{}"));
   designForm.setIsEdit(true);
@@ -197,7 +219,7 @@ const doSave = async (isDraft: boolean = false) => {
   }
   load("数据提交中，请等待");
   postRequest(`${dataUrl.basePrefix}/${isDraft ? "mergeDraft" : "merge"}`, createFormInfo())
-      .then((res) => {
+      .then((res: any) => {
         if (res.data.code != 0) {
           activeTab.value = "second";
           warning(res.data.cnMessage);
@@ -380,6 +402,9 @@ const analysisQueryParams = () => {
   }
   analysisParentParam();
 };
+const loadTemplateData = (formId: string) => {
+  loadFormData(formId, false, true);
+}
 const contentMenuRef = ref();
 const contextMenu = async (evt: MouseEvent) => {
   evt.preventDefault();
@@ -517,7 +542,7 @@ let prepsModel = ref("one");
   <el-card class="inner_content">
     <div class="form_content">
       <div class="side-panel" v-show="leftPanelVisible">
-        <field-panel ref="fieldPanelRef"/>
+        <field-panel ref="fieldPanelRef" @loadData="loadTemplateData"/>
       </div>
       <div class="form-main">
         <div class="inner_button">
