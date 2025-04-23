@@ -1,10 +1,12 @@
 <script setup lang="ts" name="FieldPanel">
 import {computed, ref} from "vue";
-import {useDesignFormStore} from "star-horse-lowcode";
-import {piniaInstance} from "star-horse-lowcode";
+import {apiInstance, ApiUrls, loadData, piniaInstance, useDesignFormStore} from "star-horse-lowcode";
 import DbListComp from "@/views/dbsearch/utils/DbListComp.vue";
 import {fieldCopy} from "@/views/dyform/utils/FieldOperationUtils.ts";
+import FormPreview from "@/views/dyform/FormPreview.vue";
 
+const emits = defineEmits(["loadData"]);
+const dataUrl: ApiUrls = apiInstance("userdb-manage", "userdb/dynamicForm");
 let designForm = useDesignFormStore(piniaInstance);
 let formDataList = computed(() => designForm.formDataList);
 let containerList = computed(() => designForm.containerList);
@@ -24,10 +26,31 @@ const onDataCopy = (data: any, type: string) => {
   designForm.setDraggingItem(mvData);
   return mvData;
 };
+const templateList = ref<any[]>([]);
+const previewImages = ref<Record<string, string>>({}); // 新增：存储生成的图片
+
+const tabChange = (name: string) => {
+  if (name == "template") {
+    loadData(dataUrl.basePrefix + "/loadTemplate", {}).then(async (res: any) => {
+      templateList.value = res.data || [];
+
+    })
+  }
+}
+const loadFormData = (data: any) => {
+  emits("loadData", data);
+}
+const previewRefs = ref<any[]>([]); // 新增ref数组
+// 新增：生成所有预览图片的方法
+const createRef = (el: any) => {
+  previewRefs.value.push(el);
+}
+
 </script>
 <template>
   <el-tabs v-model="tabModel" style="width: 100%; height: 100%; "
            tab-position="left"
+           @tabChange="tabChange"
            type="border-card">
     <el-tab-pane name="component">
       <template #label>
@@ -141,6 +164,42 @@ const onDataCopy = (data: any, type: string) => {
       <template #label>
         <star-horse-icon icon-class="template" style="color: var(--star-horse-style)"/>&nbsp;<span>模板</span>
       </template>
+      <div class="field-area m-t-8">
+        <el-scrollbar height="100%">
+          <el-card class="temp-card" style="margin-bottom: 10px !important;" v-for=" item in templateList">
+            <div class="flex w-full flex-1 justify-center items-center">
+              <el-popover placement="right" :width="500">
+                <template #reference>
+                  <el-image :src="item.shortImages">
+                    <template #error>
+                      <star-horse-icon iconClass="empty_image" size="100px"/>
+                    </template>
+                  </el-image>
+                </template>
+                <template #default>
+                  <form-preview
+                      :compSize="'small'"
+                      :formDisabled="true"
+                      :list="JSON.parse(item['details'].content||[])"
+                      :ref="createRef"
+                      class="flex w-full flex-1 justify-center items-center"
+                      v-if="item['details'].content"
+                  />
+                </template>
+              </el-popover>
+
+            </div>
+            <template #footer>
+              <div class="flex items-center">
+                <div class="w-[60%]">#{{ item.formName }}</div>
+                <div class="flex-1 justify-end">
+                  <el-button size="small" link @click="loadFormData(item)">加载此模板</el-button>
+                </div>
+              </div>
+            </template>
+          </el-card>
+        </el-scrollbar>
+      </div>
     </el-tab-pane>
     <el-tab-pane name="help">
       <template #label>
@@ -155,6 +214,15 @@ const onDataCopy = (data: any, type: string) => {
   height: 100%;
   overflow: hidden;
 
+}
+
+.temp-card {
+  width: 99% !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  height: 250px !important;
+  box-shadow: none !important;
+  margin-bottom: 10px !important;
 }
 
 :deep(.el-collapse-item) {
