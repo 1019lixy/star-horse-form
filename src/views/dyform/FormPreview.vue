@@ -26,7 +26,7 @@ let fieldList = computed(() => {
 });
 let formData = ref<any>({});
 const checkIsDisabled = (item: any) => {
-  if(props.formDisabled){
+  if (props.formDisabled) {
     item.preps.disabled = "Y";
   }
   return item
@@ -52,6 +52,7 @@ defineExpose({
               :field="checkIsDisabled(data)"
               :formData="formData"
               :isDesign="false"
+              :disabled="formDisabled"
               :is="data?.itemType + '-container'"
               v-if="data?.compType === 'container'"
           >
@@ -62,12 +63,14 @@ defineExpose({
               :required="data.preps.required == 'Y'"
               v-else-if="data?.compType == 'formItem'"
           >
-            <component :field="checkIsDisabled(data)" :formData="formData" :isDesign="false" :is="data?.itemType + '-item'"/>
+            <component :field="checkIsDisabled(data)" :formData="formData" :isDesign="false" :disabled="formDisabled"
+                       :is="data?.itemType + '-item'"/>
           </el-form-item>
         </template>
         <template v-for="data in fieldList">
           <el-form-item :label="data.label" :prop="data.fieldName" :required="data.required == 'Y'">
-            <component :field="checkIsDisabled(data)" :formData="formData" :isDesign="false" :is="data?.type + '-item'"/>
+            <component :field="checkIsDisabled(data)" :formData="formData" :isDesign="false" :disabled="formDisabled"
+                       :is="data?.type + '-item'"/>
           </el-form-item>
         </template>
       </el-form>
@@ -76,6 +79,13 @@ defineExpose({
 </template>
 
 <style scoped lang="scss">
+:deep {
+  .el-tabs__item {
+    height: 40px !important;
+    writing-mode: horizontal-tb !important;
+  }
+}
+
 .form-preview {
   display: flex;
   flex-direction: column;
