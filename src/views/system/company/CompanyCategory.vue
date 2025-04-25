@@ -46,7 +46,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       required: true,
       formVisible: !false,
       listVisible: !false,
-      listPrototypeDisplay: "text",
+      listPrototypeDisplay: "tag",
       preps: {
         tagType: "info"
       }
