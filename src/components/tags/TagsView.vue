@@ -436,7 +436,7 @@ watch(
       }
     }
     .tags {
-      height: 23px;
+      height: 30px;
       display: flex;
       position: relative;
       padding-left: 5px;
