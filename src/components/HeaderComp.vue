@@ -222,7 +222,8 @@
       <star-horse-icon
         v-else
         icon-class="logo"
-        style="color: var(--star-horse-white); height: 45px; width: 45px; font-weight: bold"
+        size="45px"
+        style="color: var(--star-horse-white); font-weight: bold"
       />
     </div>
     <div class="header-left">
@@ -349,7 +350,6 @@
     overflow: hidden;
 
     .logo {
-      display: flex;
       align-items: center;
       margin-left: 10px;
     }

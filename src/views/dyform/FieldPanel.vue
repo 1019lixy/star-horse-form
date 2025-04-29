@@ -191,7 +191,7 @@ const createRef = (el: any) => {
             </div>
             <template #footer>
               <div class="flex items-center">
-                <div class="w-[60%]">#{{ item.formName }}</div>
+                <div class="w-[60%] overflow-hidden text-ellipsis whitespace-nowrap">#{{ item.formName }}</div>
                 <div class="flex-1 justify-end">
                   <el-button size="small" link @click="loadFormData(item.idDynamicForm)" icon="plus">加载此模板</el-button>
                 </div>
@@ -340,7 +340,7 @@ const createRef = (el: any) => {
   }
 
   .el-tabs__item {
-    height: 80px !important;
+    height: 80px ;
     display: flex;
     padding: 0 5px;
     align-items: center;

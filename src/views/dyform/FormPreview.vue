@@ -51,27 +51,19 @@ defineExpose({
           <component
               :field="checkIsDisabled(data)"
               :formData="formData"
-              :isDesign="false"
+              :isDesign="true"
               :disabled="formDisabled"
               :is="data?.itemType + '-container'"
               v-if="data?.compType === 'container'"
           >
           </component>
-          <el-form-item
-              :label="data.preps.label"
-              :prop="data.preps.fieldName"
-              :required="data.preps.required == 'Y'"
-              v-else-if="data?.compType == 'formItem'"
-          >
-            <component :field="checkIsDisabled(data)" :formData="formData" :isDesign="false" :disabled="formDisabled"
-                       :is="data?.itemType + '-item'"/>
-          </el-form-item>
+          <component v-else-if="data?.compType == 'formItem'" :field="checkIsDisabled(data)" :formData="formData"
+                     :isDesign="true" :disabled="formDisabled"
+                     :is="data?.itemType + '-item'"/>
         </template>
         <template v-for="data in fieldList">
-          <el-form-item :label="data.label" :prop="data.fieldName" :required="data.required == 'Y'">
-            <component :field="checkIsDisabled(data)" :formData="formData" :isDesign="false" :disabled="formDisabled"
-                       :is="data?.type + '-item'"/>
-          </el-form-item>
+          <component :field="checkIsDisabled(data)" :formData="formData" :isDesign="true" :disabled="formDisabled"
+                     :is="data?.type + '-item'"/>
         </template>
       </el-form>
     </el-scrollbar>
