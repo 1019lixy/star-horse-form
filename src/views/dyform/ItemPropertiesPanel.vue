@@ -254,6 +254,7 @@ let exclusionDataSource = ref<Array<string>>(["page-select", "switch", "dialog-i
 let formFields = ref<PageFieldInfo>({
   fieldList: []
 });
+let rules: any = {};
 const convertFormFieldData = (items: any, type: string) => {
   items.forEach((item: any) => {
     item["formVisible"] = true;
@@ -591,15 +592,20 @@ watch(
   <div class="dynamic-form" v-if="currentItemType">
     <el-scrollbar height="100%">
       <el-form
-          :model="formProps"
+          v-model="formProps"
           class="dynamic-form"
           ref="itemPropertiesRef"
           :size="compSize"
+          :rules="rules"
+          :scroll-to-error="true"
+          :scroll-into-view-options="true"
+          :inline-message="false"
+          :status-icon="true"
           label-width="auto"
           label-position="left"
           require-asterisk-position="right"
       >
-        <star-horse-form-item :fieldList="formFields" :compSize="compSize" v-model:dataForm="formProps"/>
+        <star-horse-form-item :fieldList="formFields" :rules="rules" :compSize="compSize" v-model:dataForm="formProps"/>
       </el-form>
     </el-scrollbar>
   </div>
