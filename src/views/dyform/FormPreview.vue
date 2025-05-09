@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {Config} from "@/api/settings.ts";
 import {computed, ref} from "vue";
-import {commonField} from "star-horse-lowcode";
+import {commonField,ShForm} from "star-horse-lowcode";
 
 const props = defineProps({
   list: {type: Array<any>, required: true},
@@ -27,10 +27,10 @@ let fieldList = computed(() => {
 let formData = ref<any>({});
 const checkIsDisabled = (item: any) => {
   if (props.formDisabled) {
-    item.preps.disabled = "Y";
+    item.preps.disabled = 'Y';
   }
-  return item
-}
+  return item;
+};
 defineExpose({
   formData
 });
@@ -39,33 +39,34 @@ defineExpose({
 <template>
   <div class="form-preview">
     <el-scrollbar height="100%" style="width: inherit">
-      <el-form
+      <sh-form
           label-width="auto"
           label-position="left"
           require-asterisk-position="right"
           :disabled="formDisabled"
-          :model="formData"
+          :rules="{}"
+          v-model:dataForm="formData"
           :size="compSize"
       >
         <template v-for="data in list">
           <component
               :field="checkIsDisabled(data)"
-              :formData="formData"
+              v-model:formData="formData"
               :isDesign="true"
               :disabled="formDisabled"
               :is="data?.itemType + '-container'"
               v-if="data?.compType === 'container'"
           >
           </component>
-          <component v-else-if="data?.compType == 'formItem'" :field="checkIsDisabled(data)" :formData="formData"
+          <component v-else-if="data?.compType == 'formItem'" :field="checkIsDisabled(data)" v-model:formData="formData"
                      :isDesign="true" :disabled="formDisabled"
                      :is="data?.itemType + '-item'"/>
         </template>
         <template v-for="data in fieldList">
-          <component :field="checkIsDisabled(data)" :formData="formData" :isDesign="true" :disabled="formDisabled"
+          <component :field="checkIsDisabled(data)" v-model:formData="formData" :isDesign="true" :disabled="formDisabled"
                      :is="data?.type + '-item'"/>
         </template>
-      </el-form>
+      </sh-form>
     </el-scrollbar>
   </div>
 </template>

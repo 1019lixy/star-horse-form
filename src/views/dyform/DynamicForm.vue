@@ -16,7 +16,8 @@ import {
   useDesignFormStore,
   useGlobalConfigStore,
   useSelfOperationStore,
-  warning
+  warning,
+  ShForm
 } from "star-horse-lowcode";
 import {useRoute, useRouter} from "vue-router";
 import FormPropertyPanel from "@/views/dyform/FormPropertyPanel.vue";
@@ -588,7 +589,7 @@ let prepsModel = ref("one");
         <div class="main-design-a">
 
           <div class="main-design-outer" @contextmenu="contextMenu">
-            <el-form
+            <sh-form
                 ref="dynamicFormRef"
                 class="design-form-container"
                 :class="{'dragging-area':isDragging}"
@@ -599,9 +600,9 @@ let prepsModel = ref("one");
                 :label-position="formInfo['labelPosition']"
                 :label-suffix="formInfo['labelSuffix']"
                 :label-width="formInfo['labelWidth']"
-                :model="formData"
+                v-model:dataForm="formData"
                 :require-asterisk-position="formInfo['requireAsteriskPosition']"
-                :rules="formInfo.rules"
+                :rules="formInfo.rules||{}"
                 :scroll-to-error="formInfo['scrollToError'] == 'Y'"
                 :show-message="formInfo['showMessage'] == 'Y'"
                 :size="formInfo['size']"
@@ -629,12 +630,12 @@ let prepsModel = ref("one");
                         :isDesign="true"
                         :formInfo="formInfo"
                         :is="data.itemType + (data.compType === 'container' ? '-container' : '-item')"
-                        :formData="formData"
+                        v-model:formData="formData"
                     />
                   </div>
                 </template>
               </draggable>
-            </el-form>
+            </sh-form>
             <Teleport to="body">
               <ContentMenu ref="contentMenuRef" :menu-data="dynamicFormContextMenuData({}, {})"/>
             </Teleport>

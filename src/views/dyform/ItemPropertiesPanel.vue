@@ -12,7 +12,8 @@ import {
   success,
   useDesignFormStore,
   useGlobalConfigStore,
-  warning
+  warning,
+    ShForm
 } from "star-horse-lowcode";
 import {
   buttonClickDataField,
@@ -591,8 +592,8 @@ watch(
   </star-horse-dialog>
   <div class="dynamic-form" v-if="currentItemType">
     <el-scrollbar height="100%">
-      <el-form
-          v-model="formProps"
+      <sh-form
+          v-model:dataForm="formProps"
           class="dynamic-form"
           ref="itemPropertiesRef"
           :size="compSize"
@@ -602,11 +603,11 @@ watch(
           :inline-message="false"
           :status-icon="true"
           label-width="auto"
-          label-position="left"
+          label-position="right"
           require-asterisk-position="right"
       >
         <star-horse-form-item :fieldList="formFields" :rules="rules" :compSize="compSize" v-model:dataForm="formProps"/>
-      </el-form>
+      </sh-form>
     </el-scrollbar>
   </div>
 </template>
