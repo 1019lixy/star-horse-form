@@ -63,7 +63,7 @@ const createRef = (el: any) => {
               <template #title>
                 <div class="collapse-item-title title">
                   <div style="width: 80%">布局组件</div>
-                  <star-horse-icon icon-class="container" style="color: var(--star-horse-style)"/>
+                  <star-horse-icon icon-class="container" size="24px" style="color: var(--star-horse-style);margin-right: 10px"/>
                 </div>
               </template>
               <draggable
@@ -91,7 +91,7 @@ const createRef = (el: any) => {
               <template #title>
                 <div class="collapse-item-title title">
                   <div style="width: 80%">表单组件</div>
-                  &nbsp;<star-horse-icon icon-class="form" style="color: var(--star-horse-style)"/>
+                  &nbsp;<star-horse-icon icon-class="form" size="24px" style="color: var(--star-horse-style);margin-right: 10px"/>
                 </div>
               </template>
               <draggable
@@ -121,7 +121,7 @@ const createRef = (el: any) => {
               <template #title>
                 <div class="collapse-item-title title">
                   <div style="width: 80%">自定义组件</div>
-                  &nbsp;<star-horse-icon icon-class="other" style="color: var(--star-horse-style)"/>
+                  &nbsp;<star-horse-icon icon-class="other" size="24px" style="color: var(--star-horse-style);margin-right: 10px"/>
                 </div>
               </template>
               <draggable
@@ -193,7 +193,8 @@ const createRef = (el: any) => {
               <div class="flex items-center">
                 <div class="w-[60%] overflow-hidden text-ellipsis whitespace-nowrap">#{{ item.formName }}</div>
                 <div class="flex-1 justify-end">
-                  <el-button size="small" link @click="loadFormData(item.idDynamicForm)" icon="plus">加载此模板</el-button>
+                  <el-button size="small" link @click="loadFormData(item.idDynamicForm)" icon="plus">加载此模板
+                  </el-button>
                 </div>
               </div>
             </template>
@@ -209,6 +210,11 @@ const createRef = (el: any) => {
   </el-tabs>
 </template>
 <style lang="scss" scoped>
+i {
+  font-style: normal;
+  font-size: 12px;
+}
+
 .field-area {
   width: 100%;
   height: 100%;
@@ -302,7 +308,6 @@ const createRef = (el: any) => {
           }
 
           i {
-            flex: 1;
             white-space: nowrap;
             text-overflow: ellipsis;
             overflow: hidden; // 确保这个属性存在
@@ -340,7 +345,7 @@ const createRef = (el: any) => {
   }
 
   .el-tabs__item {
-    height: 80px ;
+    height: 80px;
     display: flex;
     padding: 0 5px;
     align-items: center;

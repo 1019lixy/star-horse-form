@@ -2,6 +2,7 @@
 import FieldPanel from "@/views/dyform/FieldPanel.vue";
 import {computed, nextTick, onActivated, onBeforeUnmount, onDeactivated, onMounted, ref, watch} from "vue";
 import PropertyPanel from "@/views/dyform/PropertyPanel.vue";
+
 import {
   apiInstance,
   closeLoad,
@@ -588,7 +589,7 @@ let prepsModel = ref("one");
         <div class="main-design-a">
 
           <div class="main-design-outer" @contextmenu="contextMenu">
-            <el-form
+            <sh-form
                 ref="dynamicFormRef"
                 class="design-form-container"
                 :class="{'dragging-area':isDragging}"
@@ -599,7 +600,7 @@ let prepsModel = ref("one");
                 :label-position="formInfo['labelPosition']"
                 :label-suffix="formInfo['labelSuffix']"
                 :label-width="formInfo['labelWidth']"
-                :model="formData"
+                v-model:formData="formData"
                 :require-asterisk-position="formInfo['requireAsteriskPosition']"
                 :rules="formInfo.rules"
                 :scroll-to-error="formInfo['scrollToError'] == 'Y'"
@@ -629,12 +630,12 @@ let prepsModel = ref("one");
                         :isDesign="true"
                         :formInfo="formInfo"
                         :is="data.itemType + (data.compType === 'container' ? '-container' : '-item')"
-                        :formData="formData"
+                        v-model:formData="formData"
                     />
                   </div>
                 </template>
               </draggable>
-            </el-form>
+            </sh-form>
             <Teleport to="body">
               <ContentMenu ref="contentMenuRef" :menu-data="dynamicFormContextMenuData({}, {})"/>
             </Teleport>
