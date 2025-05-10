@@ -17,7 +17,8 @@ import {
   useDesignFormStore,
   useGlobalConfigStore,
   useSelfOperationStore,
-  warning
+  warning,
+  ShForm
 } from "star-horse-lowcode";
 import {useRoute, useRouter} from "vue-router";
 import FormPropertyPanel from "@/views/dyform/FormPropertyPanel.vue";
@@ -600,9 +601,9 @@ let prepsModel = ref("one");
                 :label-position="formInfo['labelPosition']"
                 :label-suffix="formInfo['labelSuffix']"
                 :label-width="formInfo['labelWidth']"
-                v-model:formData="formData"
+                v-model:dataForm="formData"
                 :require-asterisk-position="formInfo['requireAsteriskPosition']"
-                :rules="formInfo.rules"
+                :rules="formInfo.rules||{}"
                 :scroll-to-error="formInfo['scrollToError'] == 'Y'"
                 :show-message="formInfo['showMessage'] == 'Y'"
                 :size="formInfo['size']"

@@ -2,19 +2,27 @@
 import {computed, onMounted, reactive, ref, watch} from "vue";
 import {
   apiInstance,
+  ApiUrls,
+  ascOrDesc,
+  commonField,
   createCondition,
   dbConfigList,
+  getRequest,
+  httpMethod,
   loadData,
+  loadDict,
   loadElementPlusIcon,
-  loadSystemInfo
+  loadSystemInfo,
+  PageFieldInfo,
+  permissionMenus,
+  piniaInstance,
+  postRequest,
+  SelectOption,
+  useDesignFormStore
 } from "star-horse-lowcode";
-import {getRequest, loadDict, permissionMenus, postRequest} from "star-horse-lowcode";
-import {piniaInstance} from "star-horse-lowcode";
-import {PageFieldInfo, SelectOption, ApiUrls, useDesignFormStore} from "star-horse-lowcode";
 import {Config} from "@/api/settings.ts";
-import {ascOrDesc, commonField, httpMethod} from "star-horse-lowcode";
 
-const apiUrl: ApiUrls = apiInstance("userdb-manage", "userdb/dynamicForm")
+const apiUrl: ApiUrls = apiInstance("userdb-manage", "userdb/dynamicForm");
 let designForm = useDesignFormStore(piniaInstance);
 let formInfo = computed(() => designForm.formInfo);
 let dynamicFormItemRef = ref();
@@ -665,9 +673,15 @@ const initData = async () => {
   let params = [{propertyName: "statusCode", value: "1"}];
   informationsList.value = await loadSystemInfo(params);
   systemIconList.value = loadElementPlusIcon();
-  pageStyleList.value = await loadDict("page_style");
-  authorityList.value = await loadDict("button_authority");
-  eventTypeList.value = await loadDict("event_type");
+  loadDict("page_style").then((res) => {
+    pageStyleList.value = res;
+  });
+  loadDict("button_authority").then((res) => {
+    authorityList.value = res;
+  });
+  loadDict("event_type").then((res) => {
+    eventTypeList.value = res;
+  });
 };
 const analysisDynamicFields = async (formInfo: any) => {
   let reData = await loadData(apiUrl.basePrefix + "/analysisDynamicDatasourceFields", formInfo);

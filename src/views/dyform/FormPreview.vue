@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import {Config} from "@/api/settings.ts";
 import {computed, ref} from "vue";
-import {commonField} from "star-horse-lowcode";
-import {ShForm} from "star-horse-lowcode";
+import {commonField,ShForm} from "star-horse-lowcode";
 const props = defineProps({
   list: {type: Array<any>, required: true},
   commonFieldList: {type: Array<any>, default: []},
@@ -27,10 +26,10 @@ let fieldList = computed(() => {
 let formData = ref<any>({});
 const checkIsDisabled = (item: any) => {
   if (props.formDisabled) {
-    item.preps.disabled = "Y";
+    item.preps.disabled = 'Y';
   }
-  return item
-}
+  return item;
+};
 defineExpose({
   formData
 });
@@ -44,7 +43,8 @@ defineExpose({
           label-position="left"
           require-asterisk-position="right"
           :disabled="formDisabled"
-          v-model:formData="formData"
+          :rules="{}"
+          v-model:dataForm="formData"
           :size="compSize"
       >
         <template v-for="data in list">
@@ -57,7 +57,7 @@ defineExpose({
               v-if="data?.compType === 'container'"
           >
           </component>
-          <component v-else-if="data?.compType == 'formItem'" :field="checkIsDisabled(data)" :formData="formData"
+          <component v-else-if="data?.compType == 'formItem'" :field="checkIsDisabled(data)" v-model:formData="formData"
                      :isDesign="true" :disabled="formDisabled"
                      :is="data?.itemType + '-item'"/>
         </template>

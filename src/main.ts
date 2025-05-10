@@ -10,14 +10,13 @@ import flowNodeComponent from "@/views/workflow/plugin/node/nodes.ts";
 import App from "@/App.vue";
 import {createApp} from "vue";
 // 导入svg图标
-import "virtual:svg-icons-register";
 
 import "animate.css";
 import router from "@/router/index.ts";
 import draggable from "vuedraggable";
 import piniaCompInstance from "@/store";
 
-import ElementPlus from "element-plus";
+import ElementPlus from 'element-plus';
 import ZhLocale from "element-plus/dist/locale/zh-cn.mjs"; // 中文
 import "element-plus/dist/index.css";
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
