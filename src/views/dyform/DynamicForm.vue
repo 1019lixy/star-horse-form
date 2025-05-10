@@ -485,6 +485,15 @@ watch(
 onMounted(async () => {
   await init();
   shortKeySwitch(true);
+  window.addEventListener('scroll-to-field', (e: CustomEvent) => {
+    nextTick(() => {
+      const target = document.querySelector(`[data-field-id="${e.detail}"]`);
+      target?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center'
+      });
+    });
+  });
 });
 let prepsModel = ref("one");
 </script>
@@ -572,7 +581,7 @@ let prepsModel = ref("one");
               <draggable @add="(evt: Event) => onDragAdd(evt, list)" :class="currentPageClass" tag="div"
                 style="margin: 10px auto" group="starHorseGroup" ghostClass="ghost" animation="300" :list="list">
                 <template #item="{ element: data }">
-                  <div :class="{ 'comp-item': data?.preps['headerFlag'] != 'Y' }">
+                  <div :class="{ 'comp-item': data?.preps['headerFlag'] != 'Y' }" :data-field-id="data.id" >
                     <component :key="data.id" :field="data" :isDesign="true" :formInfo="formInfo"
                       :is="data.itemType + (data.compType === 'container' ? '-container' : '-item')"
                       v-model:formData="formData" />
@@ -593,7 +602,7 @@ let prepsModel = ref("one");
     </div>
     <div class="main-copyright">{{ i18n("starhorse.copyright") }}</div>
   </el-card>
-  <el-drawer v-model="formFieldLayer" direction="ltr" size="20%" :show-close="false">
+  <el-drawer v-model="formFieldLayer" direction="ltr" size="20%" :with-header="false" :show-close="false">
     <template #header>
       <h4>表单属性层级</h4>
     </template>

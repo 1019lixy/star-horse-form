@@ -13,11 +13,13 @@ const dataChange = (data: any) => {
   if (!data) {
     return;
   }
-  const compItem=designForm.selectItemById(data.id);
+  const compItem = designForm.selectItemById(data.id);
   // designForm.setCurrentItemId(data.id);
   // designForm.setCurrentComp(compItem);
-  designForm.selectItem(compItem,compItem.itemType,"");
-  console.log(compItem);
+  designForm.selectItem(compItem, compItem.itemType, "");
+  // 新增：触发滚动定位
+  const event = new CustomEvent('scroll-to-field', { detail: data.id });
+  window.dispatchEvent(event);
 }
 onMounted(() => {
 

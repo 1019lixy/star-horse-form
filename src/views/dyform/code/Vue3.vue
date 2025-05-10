@@ -102,16 +102,16 @@ onMounted(() => {
 </script>
 <template>
   <div class="vue3-code">
-    <div class="inner_button">
-      <el-button type="primary" @click="saveFile" :size="compSize">
-        <star-horse-icon icon-class="save" color="var(--star-horse-white)" />
-        保存为文件
-      </el-button>
-    </div>
     <div class="code-editor">
       <el-scrollbar height="100%">
         <StarHorseEditor :lang="'vue'" v-model:value="code" ref="starHorseEditorRef" />
       </el-scrollbar>
+    </div>
+    <div class="inner_button">
+      <el-button type="primary" @click="saveFile" :size="compSize">
+        <star-horse-icon icon-class="save" size="16px" color="var(--star-horse-white)" />
+        保存为文件
+      </el-button>
     </div>
   </div>
 </template>

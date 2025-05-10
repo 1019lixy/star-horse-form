@@ -48,6 +48,9 @@
       <el-tab-pane name="react" label="React">
         <react :formInfo="formInfo" :compList="pageInfo" :compSize="compSize" />
       </el-tab-pane>
+      <el-tab-pane name="json" label="Json代码">
+       <star-horse-json-editor :lang="'json'" v-model:value="compList" />
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
