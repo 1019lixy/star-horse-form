@@ -115,11 +115,7 @@
     "sortablejs": "^1.15.6",
     "ssh2": "^1.16.0",
     "ssh2-sftp-client": "^12.0.0",
-<<<<<<< HEAD
     "star-horse-lowcode": "../testcode",
-=======
-    "star-horse-lowcode": "^2.7.25",
->>>>>>> b1f7454823dfcdf625eafde74542c2146d80df90
     "string-width": "^7.2.0",
     "strip-ansi": "^7.1.0",
     "swiper": "^11.2.6",

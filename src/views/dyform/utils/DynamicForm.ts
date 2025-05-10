@@ -57,10 +57,10 @@ const formActions = [
     label: "修改属性"
   },
   {
-    icon: "setting",
-    key: "tprep",
+    icon: "dept",
+    key: "layer",
     auth: "none",
-    label: "表属性配置"
+    label: "表单层级"
   },
   {
     icon: "empty_setting",
