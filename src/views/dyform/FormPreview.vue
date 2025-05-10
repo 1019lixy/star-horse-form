@@ -37,16 +37,17 @@ defineExpose({
 
 <template>
   <div class="form-preview">
-    <el-scrollbar height="100%" style="width: inherit">
+   
       <sh-form
           label-width="auto"
-          label-position="left"
+          label-position="right"
           require-asterisk-position="right"
           :disabled="formDisabled"
           :rules="{}"
           v-model:dataForm="formData"
           :size="compSize"
       >
+      <el-scrollbar height="100%" style="width: 100% !important">
         <template v-for="data in list">
           <component
               :field="checkIsDisabled(data)"
@@ -65,8 +66,9 @@ defineExpose({
           <component :field="checkIsDisabled(data)" v-model:formData="formData" :isDesign="true" :disabled="formDisabled"
                      :is="data?.type + '-item'"/>
         </template>
+      </el-scrollbar>
       </sh-form>
-    </el-scrollbar>
+  
   </div>
 </template>
 
