@@ -169,6 +169,7 @@ const preview = async () => {
   designForm.setPreviewVisible(true);
   designForm.setIsEdit(false);
   designForm.setShortKeyDisabled(true);
+  shortKeySwitch(false);
   await nextTick();
   userOperation.setFormInstance(previewDynamicFormRef);
   list.value.forEach((item: any) => {
@@ -300,6 +301,7 @@ const onDragAdd = async (_evt: Event, dataList: Array<any>) => {
 const createCode = () => {
   codeDialogVisible.value = true;
   designForm.setShortKeyDisabled(true);
+  shortKeySwitch(false);
 };
 const batchEdit = () => {
   designForm.setBatchEditFieldVisible(true);
@@ -346,6 +348,7 @@ const cacheDataRestore = (evt: MouseEvent) => {
 };
 const formFieldLayer = ref<boolean>(false);
 const viewFieldLayer = () => {
+  shortKeySwitch(false);
   formFieldLayer.value = true;
 }
 const actions = (action: string) => {

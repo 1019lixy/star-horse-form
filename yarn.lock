@@ -4706,6 +4706,11 @@ bundle-name@^4.1.0:
   dependencies:
     run-applescript "^7.0.0"
 
+bwip-js@^4.6.0:
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/bwip-js/-/bwip-js-4.6.0.tgz#9d6ed7480bd0d44b219f468ac05e1d05cb8fe7a2"
+  integrity sha512-Djr1aQ3d1N8rpLz5XgbpNW/yrP4owC+rk5/pZTSzkqXY0WvqzJ0yJTxA8JJA6WDxOAP1hP70AcnTxiDvthy+/g==
+
 bytes@3.1.2, bytes@^3.1.2:
   version "3.1.2"
   resolved "https://registry.npmjs.org/bytes/-/bytes-3.1.2.tgz#8b0beeb98605adf1b128fa4386403c009e0221a5"
@@ -10737,8 +10742,10 @@ stable@^0.1.8:
   resolved "https://registry.npmjs.org/stable/-/stable-0.1.8.tgz"
   integrity sha512-ji9qxRnOVfcuLDySj9qzhGSEFVobyt1kIOSkj1qZzYLzq7Tos/oUUWvotUPQLlrsidqsK6tBH89Bc9kL5zHA6w==
 
-star-horse-lowcode@../testcode:
-  version "2.7.26"
+star-horse-lowcode@2.7.29:
+  version "2.7.29"
+  resolved "https://registry.yarnpkg.com/star-horse-lowcode/-/star-horse-lowcode-2.7.29.tgz#de0330fdd1b2536f1098f57d853e9d7439d57cc3"
+  integrity sha512-PNuclWWHjbKYFyEKNPcqe5sLqYeiPzCBzI5wHgQpbkLZuOdx+EAYs8N5s0q9FYgLkUWfd0UuDXYe8BYUuRKKEg==
   dependencies:
     "@element-plus/icons-vue" "^2.3.1"
     "@fingerprintjs/fingerprintjs" "^4.6.2"
@@ -10750,6 +10757,7 @@ star-horse-lowcode@../testcode:
     "@vueup/vue-quill" "^1.2.0"
     autoprefixer "^10.4.21"
     axios "^1.9.0"
+    bwip-js "^4.6.0"
     chalk "5.4.1"
     core-js "^3.42.0"
     cross-env "^7.0.3"
