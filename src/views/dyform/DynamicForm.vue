@@ -50,6 +50,7 @@ let compSize = computed(() => configStore.configFormInfo?.buttonSize || Config.c
 let draggingItem = computed(() => designForm.draggingItem);
 let list = computed(() => designForm.compList);
 let isPreview = computed(() => designForm.previewVisible);
+let isEdit = computed(() => designForm.isEdit);
 let batchEditFieldVisible = computed(() => designForm.batchEditFieldVisible);
 let activeTab = ref<any>("first");
 let errMessage = ref<string>("");
@@ -274,18 +275,12 @@ const shortKeySwitch = (val: boolean) => {
   }
 };
 const onDragAdd = async (_evt: Event, dataList: Array<any>) => {
-  if (draggingItem.value.itemType == "table") {
-    let id = draggingItem.value.id;
+  if (draggingItem.value?.itemType == "table") {
     let datas = dataList.filter((item) => item.itemType == "table");
     if (datas.length > 1) {
       warning("同级容器中只能添加一次动态列表组件");
-      for (let i = 0; i < dataList.length; i++) {
-        let temp = dataList[i];
-        if (temp.id == id) {
-          dataList.splice(i, 1);
-          break;
-        }
-      }
+      const lastIndex = dataList.findIndex(item => item.id === draggingItem.value.id);
+      if (lastIndex > -1) dataList.splice(lastIndex, 1);
     }
   }
   if (!draggingItem.value) {
@@ -417,6 +412,11 @@ const loadTemplateData = (formId: string) => {
 }
 const contentMenuRef = ref();
 const contextMenu = async (evt: MouseEvent) => {
+  console.log("右键菜单",isEdit,isPreview);
+  if(!isEdit.value) {
+    console.log("当前处于预览状态，不能右键操作");
+    return;
+  }
   evt.preventDefault();
   evt.stopPropagation();
   await nextTick();
@@ -499,6 +499,41 @@ onMounted(async () => {
   });
 });
 let prepsModel = ref("one");
+// 定义 beforeEnter 钩子
+const beforeEnter = (el: HTMLElement) => {
+  el.style.opacity = "0"; // 元素初始透明度为 0
+  el.style.transform = "translateY(-10px)"; // 元素初始位置向上偏移
+};
+
+// 定义 enter 钩子
+const enter = (el: HTMLElement, done: () => void) => {
+  const animation = el.animate(
+    [
+      { opacity: 0, transform: "translateY(-10px)" },
+      { opacity: 1, transform: "translateY(0)" },
+    ],
+    {
+      duration: 300, // 动画持续时间
+      easing: "ease-out",
+    }
+  );
+  animation.onfinish = done; // 动画完成后调用 done
+};
+
+// 定义 leave 钩子
+const leave = (el: HTMLElement, done: () => void) => {
+  const animation = el.animate(
+    [
+      { opacity: 1, transform: "translateY(0)" },
+      { opacity: 0, transform: "translateY(-10px)" },
+    ],
+    {
+      duration: 300, // 动画持续时间
+      easing: "ease-in",
+    }
+  );
+  animation.onfinish = done; // 动画完成后调用 done
+};
 </script>
 <template>
   <star-horse-dialog :dialogVisible="codeDialogVisible" @closeAction="closeAction" :selfFunc="true" :isView="true"
@@ -579,11 +614,11 @@ let prepsModel = ref("one");
               :scroll-to-error="formInfo['scrollToError'] == 'Y'" :show-message="formInfo['showMessage'] == 'Y'"
               :size="formInfo['size']" :status-icon="formInfo['statusIcon'] == 'Y'"
               :validate-on-rule-change="formInfo['validateOnRuleChange'] == 'Y'">
-              <draggable @add="(evt: Event) => onDragAdd(evt, list)" :class="currentPageClass" tag="transition-group"
-                style="margin: 10px auto;border: 1px solid red; " group="starHorseGroup" ghostClass="ghost"
-                animation="100" :list="list">
+              <draggable @add="(evt: Event) => onDragAdd(evt, list)" :class="currentPageClass" tag="div"
+                style="margin: 10px auto; " group="starHorseGroup" ghost-class="ghost"
+                :list="list">
                 <template #item="{ element: data, index }">
-                  <div class="transition-group-el">
+                  <div :class="{'comp-item': data.preps?.headerFlag == 'Y'}">
                     <component :key="data.id" :field="data" :isDesign="true" :formInfo="formInfo"
                       :index-of-parent-list="index"
                       :is="data.itemType + (data.compType === 'container' ? '-container' : '-item')"
@@ -637,21 +672,26 @@ let prepsModel = ref("one");
   height: 100%;
 }
 
-.draggable-handler {
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  height: 22px;
-  line-height: 22px;
-  background: var(--star-horse-style);
-  z-index: 9;
+.fade-move {
+  transition: transform 0.3s ease;
 }
 
+
 .design-form-container {
-  height: 100%;
-  border: 1px dashed var(--star-horse-style);
-  background: var(--star-horse-background);
+
+  width: 100%;
+  display: flex; // 改用grid布局
+  align-items: center;
 }
+
+// 在样式部分添加以下规则
+:deep(.ghost) {
+  opacity: 0.8;
+  background: var(--star-horse-style);
+  margin-top:3px !important;
+  height: 3px !important;
+}
+
 
 :deep(.el-divider--horizontal) {
   margin: 10px 0;
