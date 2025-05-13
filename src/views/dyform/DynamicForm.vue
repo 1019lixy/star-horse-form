@@ -169,6 +169,7 @@ const preview = async () => {
   designForm.setPreviewVisible(true);
   designForm.setIsEdit(false);
   designForm.setShortKeyDisabled(true);
+  shortKeySwitch(false);
   await nextTick();
   userOperation.setFormInstance(previewDynamicFormRef);
   list.value.forEach((item: any) => {
@@ -300,6 +301,7 @@ const onDragAdd = async (_evt: Event, dataList: Array<any>) => {
 const createCode = () => {
   codeDialogVisible.value = true;
   designForm.setShortKeyDisabled(true);
+  shortKeySwitch(false);
 };
 const batchEdit = () => {
   designForm.setBatchEditFieldVisible(true);
@@ -346,6 +348,7 @@ const cacheDataRestore = (evt: MouseEvent) => {
 };
 const formFieldLayer = ref<boolean>(false);
 const viewFieldLayer = () => {
+  shortKeySwitch(false);
   formFieldLayer.value = true;
 }
 const actions = (action: string) => {
@@ -490,7 +493,7 @@ onMounted(async () => {
       const target = document.querySelector(`[data-field-id="${e.detail}"]`);
       target?.scrollIntoView({
         behavior: 'smooth',
-        block: 'center'
+        block: 'nearest'
       });
     });
   });
@@ -566,23 +569,23 @@ let prepsModel = ref("one");
           <help :message="dynamicFormHelpMessage" />
         </div>
         <div class="main-design-a">
-
           <div class="main-design-outer" @contextmenu="contextMenu">
-            <sh-form ref="dynamicFormRef" class="design-form-container" :class="{ 'dragging-area': isDragging }"
-              :disabled="formInfo['disabled'] == 'Y'" :hide-required-asterisk="formInfo['hideRequiredAsterisk'] == 'Y'"
-              :inline="formInfo.inline == 'Y'" :inline-message="formInfo['inlineMessage'] == 'Y'"
-              :label-position="formInfo['labelPosition']" :label-suffix="formInfo['labelSuffix']"
-              :label-width="formInfo['labelWidth']" v-model:dataForm="formData"
+            <sh-form ref="dynamicFormRef" :needScroller="false" class="design-form-container"
+              :class="{ 'dragging-area': isDragging }" :disabled="formInfo['disabled'] == 'Y'"
+              :hide-required-asterisk="formInfo['hideRequiredAsterisk'] == 'Y'" :inline="formInfo.inline == 'Y'"
+              :inline-message="formInfo['inlineMessage'] == 'Y'" :label-position="formInfo['labelPosition']"
+              :label-suffix="formInfo['labelSuffix']" :label-width="formInfo['labelWidth']" v-model:dataForm="formData"
               :require-asterisk-position="formInfo['requireAsteriskPosition']" :rules="formInfo.rules || {}"
               :scroll-to-error="formInfo['scrollToError'] == 'Y'" :show-message="formInfo['showMessage'] == 'Y'"
               :size="formInfo['size']" :status-icon="formInfo['statusIcon'] == 'Y'"
               :validate-on-rule-change="formInfo['validateOnRuleChange'] == 'Y'">
-
-              <draggable @add="(evt: Event) => onDragAdd(evt, list)" :class="currentPageClass" tag="div"
-                style="margin: 10px auto" group="starHorseGroup" ghostClass="ghost" animation="300" :list="list">
-                <template #item="{ element: data }">
-                  <div :class="{ 'comp-item': data?.preps['headerFlag'] != 'Y' }" :data-field-id="data.id" >
+              <draggable @add="(evt: Event) => onDragAdd(evt, list)" :class="currentPageClass" tag="transition-group"
+                style="margin: 10px auto;border: 1px solid red; " group="starHorseGroup" ghostClass="ghost"
+                animation="100" :list="list">
+                <template #item="{ element: data, index }">
+                  <div class="transition-group-el">
                     <component :key="data.id" :field="data" :isDesign="true" :formInfo="formInfo"
+                      :index-of-parent-list="index"
                       :is="data.itemType + (data.compType === 'container' ? '-container' : '-item')"
                       v-model:formData="formData" />
                   </div>
@@ -607,16 +610,17 @@ let prepsModel = ref("one");
       <h4>表单属性层级</h4>
     </template>
     <template #default>
-      <FieldLayer/>
+      <FieldLayer />
     </template>
   </el-drawer>
 </template>
 <style lang="scss" scoped>
- :deep(.el-icon ){
-    color: #fff !important;
-  }
+:deep(.el-icon) {
+  color: #fff !important;
+}
+
 :deep {
- 
+
 
   .el-card {
     margin: 0 !important;
@@ -631,6 +635,16 @@ let prepsModel = ref("one");
   padding: 0 !important;
   margin: 0 !important;
   height: 100%;
+}
+
+.draggable-handler {
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  height: 22px;
+  line-height: 22px;
+  background: var(--star-horse-style);
+  z-index: 9;
 }
 
 .design-form-container {

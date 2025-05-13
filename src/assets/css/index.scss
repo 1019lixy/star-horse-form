@@ -616,12 +616,12 @@ hr {
 .main-design-pad {
   flex: 1;
   padding-top: 15px;
-  height: 100% !important;
   width: 99%;
   margin: 0 auto;
   overflow-y: auto;
   overflow-x: hidden;
   background: rgba(247, 250, 250, 0.8);
+  overflow:  hidden!important;
 }
 
 .main-design-phone {
