@@ -580,7 +580,7 @@ let prepsModel = ref("one");
               :size="formInfo['size']" :status-icon="formInfo['statusIcon'] == 'Y'"
               :validate-on-rule-change="formInfo['validateOnRuleChange'] == 'Y'">
               <draggable @add="(evt: Event) => onDragAdd(evt, list)" :class="currentPageClass" tag="transition-group"
-                style="margin: 10px auto;border: 1px solid red; " group="starHorseGroup" ghostClass="ghost"
+                style="margin: 10px auto; " group="starHorseGroup" ghostClass="ghost"
                 animation="100" :list="list">
                 <template #item="{ element: data, index }">
                   <div class="transition-group-el">
