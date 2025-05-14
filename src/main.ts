@@ -3,16 +3,16 @@ import "star-horse-lowcode/dist/assets/index.css";
 import "@/assets/css/flow.scss";
 import "tailwindcss/index.css";
 import nodeComponent from "@/views/continuous/nodeInfo/nodecomp";
-import itemsComponent from "@/components/formcomp/items/allitem.ts";
+import itemsComponent from "@/components/formcomp/items/allitem";
 import commonComponent from "@/components/common/index";
-import systemComponent from "@/components/system/SystemComp.ts";
-import flowNodeComponent from "@/views/workflow/plugin/node/nodes.ts";
+import systemComponent from "@/components/system/SystemComp";
+import flowNodeComponent from "@/views/workflow/plugin/node/nodes";
 import App from "@/App.vue";
 import {createApp} from "vue";
 // 导入svg图标
 
 import "animate.css";
-import router from "@/router/index.ts";
+import router from "@/router/index";
 import draggable from "vuedraggable";
 import piniaCompInstance from "@/store";
 

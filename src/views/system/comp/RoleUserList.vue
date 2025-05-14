@@ -382,7 +382,7 @@ onDeactivated(() => {
   </star-horse-dialog>
   <div class="search-content">
     <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
-      <star-horse-search-comp
+     <star-horse-search-comp
           @searchData="(data: any) => employeeInfoRef.createSearchParams(data)"
           :formData="searchFormData"
           :compUrl="dataUrl"

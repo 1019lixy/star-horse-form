@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { createRouterAndMenuList, permissionMenus } from "@/api/star_horse_apis.ts";
+  import { createRouterAndMenuList, permissionMenus } from "@/api/star_horse_apis";
   import { computed, nextTick, onMounted, reactive, ref, watch } from "vue";
   import { useUserInfoStore,piniaInstance } from "star-horse-lowcode";
   import { MenusInfo } from "star-horse-lowcode";

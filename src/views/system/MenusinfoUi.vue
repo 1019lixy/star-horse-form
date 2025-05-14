@@ -297,6 +297,7 @@ let extendBtns = ref<UserFuncInfo[]>([
     funcName: (row: any) => {
       dialogProps.ids = -1;
       dataForm.value["parentNo"] = row["dataNo"];
+      console.log(row);
       dialogProps.editVisible = true;
     }
   }

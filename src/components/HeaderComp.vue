@@ -1,7 +1,7 @@
 <script lang="ts" setup name="Header">
   import { computed, nextTick, onMounted, ref, unref } from "vue";
   import { Config } from "@/api/settings.ts";
-  import {userLogout } from "@/api/star_horse_apis.ts";
+  import {userLogout } from "@/api/star_horse_apis";
   import { operationConfirm,postRequest, trim, error, success, warning } from "star-horse-lowcode";
   import { apiInstance, dialogPreps } from "star-horse-lowcode";
   import { getCustomerInfo, getCustomerParam, getUserInfo } from "@/utils/auth";
@@ -12,9 +12,8 @@
   import { i18n } from "../lang";
   import { useGlobalConfigStore,useUserInfoStore,piniaInstance } from "star-horse-lowcode";
   import { toggleDark } from "star-horse-lowcode";
-  import { Moon, Sunny } from "@element-plus/icons-vue";
   import { useRouter } from "vue-router";
-  import MessageItem from "star-horse-lowcode";
+  import {MessageItem} from "star-horse-lowcode";
   const userStore = useUserInfoStore(piniaInstance);
   const shortcutMenuList = ref<Array<any>>([]);
   let systemName = Config.title;
