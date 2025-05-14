@@ -1,5 +1,5 @@
 <script lang="ts" setup name="DynamicPage">
-  import { defineAsyncComponent, h, nextTick, onMounted, ref, render } from "vue";
+  import { defineAsyncComponent, h, nextTick, onMounted, ref, render ,resolveComponent} from "vue";
   import { apiInstance } from "star-horse-lowcode";
   import Guides from "vue3-guides";
   import { VueInfiniteViewer } from "vue3-infinite-viewer";
@@ -61,10 +61,14 @@
     // ];
     // GridStack.setupDragIn('.star-horse-page', undefined, sidebarContent);
   };
-  let currentItem = ref<string>("");
+  let currentItem = ref<any>({});
   const dragItem = (item: any) => {
-    currentItem.value = item;
-    items.value.push(item);
+    const temp={
+      id:item,
+      name:item,
+    }
+    currentItem.value = temp;
+    items.value.push(temp);
     console.log(item);
   };
   const init = async () => {
@@ -77,26 +81,26 @@
   const count = ref<number>(0);
   let items = ref<Array<DynamicNode>>([
     {
-      x: 1,
-      y: 1,
-      w: 2,
-      h: 2,
+      
       id: "1",
       name: "测试",
       content: "1"
     }
   ]);
   const dynamicComponent = (itemName: string) => {
-    const AsyncComp = defineAsyncComponent({
-      // 加载函数
-      loader: () => import(`@/components/formcomp/items/${itemName}.vue`),
-      // 加载失败的回调
-      onError: (err) => {
-        console.error(err);
-      }
-    });
+      // 使用 resolveComponent 获取全局注册的组件
+  const globalComponent = resolveComponent(itemName);
+  console.log(globalComponent);
+    // const AsyncComp = defineAsyncComponent({
+    //   // 加载函数
+    //   loader: () => import("star-horse-lowcode").then(m => m[itemName]),
+    //   // 加载失败的回调
+    //   onError: (err) => {
+    //     console.error(err);
+    //   }
+    // });
     let components: any = {};
-    components[itemName] = AsyncComp;
+    components[itemName] = globalComponent;
     return createComponent({
       components: components,
       name: "dynamicComponent",
@@ -183,6 +187,10 @@
     verticalGuides.value?.scrollGuides(0);
     // vueInfiniteViewerRef.value?.scrollCenter();
   };
+  const selectNode=(item:any)=>{
+    console.log("--------------------",item);
+    currentItem.value=item;
+  }
   onMounted(async () => {
     await init();
   });
@@ -202,8 +210,8 @@
             <div class="add-weidget" @click="addNewWidget">
               <star-horse-icon icon-class="plus" color="#fefefe" />
             </div>
-            <div class="star-horse-page" @click="dragItem('input-item')">拖拽1 </div>
-            <div class="star-horse-page" @click="dragItem('switch-item')">拖拽2 </div>
+            <div class="star-horse-page" @click="dragItem('InputItem')">拖拽1 </div>
+            <div class="star-horse-page" @click="dragItem('SwitchItem')">拖拽2 </div>
           </el-tab-pane>
           <el-tab-pane label="高级信息" name="second"> </el-tab-pane>
           <el-tab-pane label="扩展信息" name="third"> </el-tab-pane>
@@ -270,8 +278,9 @@
               ...dyPageInfo.pageFont
             }"
           >
+          {{items}}
             <template v-for="(item, ind) in items">
-              <StarHorseDraggable :node="item" :msg="item.name" />
+              <StarHorseDraggable style="pointer-events: auto !important;" :node="item" :msg="item.name" :isActive="currentItem.id==item.id" @mousedown.native="selectNode(item)"/>
             </template>
           </div>
         </VueInfiniteViewer>
@@ -323,10 +332,12 @@
     top: 0;
     left: 0;
     transform: translate(0, 0);
+    z-index: 1;  // 新增层级控制
   }
 
   :deep(.grid-stack-item-content) {
     background-color: var(--star-horse-style);
+    pointer-events: auto; // 新增这行修复点击穿透
   }
 
   .title {
