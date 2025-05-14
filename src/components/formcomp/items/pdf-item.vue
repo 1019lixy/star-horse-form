@@ -56,9 +56,7 @@ let filePath = computed(() => {
   return `/lib/pdfjs/web/viewer.html${encodeURIComponent(path)}`;
 });
 let pdfPages = ref(0); // pdf文件的页数
-const itemAction = () => {
-  context.emit("selfFunc");
-};
+
 const pdfView = () => {
   if (!filePath.value.includes("file=")) {
     warning("请先上传文件");

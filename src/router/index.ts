@@ -3,7 +3,7 @@ import routeDefine from "@/router/routeDefine.ts";
 import {starhorseProcess} from "@/utils/starhorseProcess";
 import {Config} from "@/api/settings.ts";
 import {getToken} from "@/utils/auth";
-import {restoreMenu} from "@/api/star_horse_apis.ts";
+import {restoreMenu} from "@/api/star_horse_apis";
 import {useNavBarListStore} from "@/store/NavBarList.ts";
 import {useViewCacheStore} from "@/store/ViewCache.ts";
 import piniaCompInstance from "@/store";

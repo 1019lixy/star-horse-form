@@ -423,7 +423,6 @@ const loadTemplateData = (formId: string) => {
 }
 const contentMenuRef = ref();
 const contextMenu = async (evt: MouseEvent) => {
-  console.log("右键菜单", isEdit, isPreview);
   if (!isEdit.value) {
     console.log("当前处于预览状态，不能右键操作");
     return;
@@ -500,44 +499,8 @@ const listWatcher = watch(
 onMounted(async () => {
   await init();
   shortKeySwitch(true);
-  
 });
 let prepsModel = ref("one");
-// 定义 beforeEnter 钩子
-const beforeEnter = (el: HTMLElement) => {
-  el.style.opacity = "0"; // 元素初始透明度为 0
-  el.style.transform = "translateY(-10px)"; // 元素初始位置向上偏移
-};
-
-// 定义 enter 钩子
-const enter = (el: HTMLElement, done: () => void) => {
-  const animation = el.animate(
-    [
-      { opacity: 0, transform: "translateY(-10px)" },
-      { opacity: 1, transform: "translateY(0)" },
-    ],
-    {
-      duration: 300, // 动画持续时间
-      easing: "ease-out",
-    }
-  );
-  animation.onfinish = done; // 动画完成后调用 done
-};
-
-// 定义 leave 钩子
-const leave = (el: HTMLElement, done: () => void) => {
-  const animation = el.animate(
-    [
-      { opacity: 1, transform: "translateY(0)" },
-      { opacity: 0, transform: "translateY(-10px)" },
-    ],
-    {
-      duration: 300, // 动画持续时间
-      easing: "ease-in",
-    }
-  );
-  animation.onfinish = done; // 动画完成后调用 done
-};
 </script>
 <template>
   <star-horse-dialog :dialogVisible="codeDialogVisible" @closeAction="closeAction" :selfFunc="true" :isView="true"
