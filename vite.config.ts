@@ -1,16 +1,15 @@
-import {defineConfig} from "vite";
-import vue from "@vitejs/plugin-vue";
-import progress from "vite-plugin-progress";
-import vueJsx from "@vitejs/plugin-vue-jsx";
 import inject from "@rollup/plugin-inject";
-import topLevelAwait from "vite-plugin-top-level-await";
-import {resolve} from "path";
+import vue from "@vitejs/plugin-vue";
+import vueJsx from "@vitejs/plugin-vue-jsx";
 import fs from "fs";
-import {createSvgIconsPlugin} from "vite-plugin-svg-icons";
-import {visualizer} from "rollup-plugin-visualizer";
-import Components from "unplugin-vue-components/vite";
-import {ElementPlusResolver} from "unplugin-vue-components/resolvers";
+import { resolve } from "path";
+import { visualizer } from "rollup-plugin-visualizer";
 import AutoImport from "unplugin-auto-import/vite";
+import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
+import Components from "unplugin-vue-components/vite";
+import { defineConfig } from "vite";
+import progress from "vite-plugin-progress";
+import vueDevTools from "vite-plugin-vue-devtools";
 //此插件是处理外部依赖 比如cdn引入的js
 import tailwindcss from "@tailwindcss/vite";
 const codeHost: string = "http://192.168.20.165:8888/";
@@ -167,24 +166,24 @@ export default defineConfig((mode) => {
         },
         plugins: [
             tailwindcss(),
-            // vueDevTools(),
+            vueDevTools(),
             vue({
                 script: {
                     // 开启 defineModel
                     defineModel: true
                 }
             }),
-               AutoImport({
-                   imports: ["vue"],
-                   resolvers: [ElementPlusResolver()]
-               }),
-               Components({
-                   dirs: ["src/components", "src/views"],
-                   // 这里就是相关ui库的解析工具, 里面的选项有是否使用自动导入样式 如果需要通过 var 变量改变主题 需要注意一下
-                   resolvers: [ElementPlusResolver({importStyle: "sass"})]
-               }),
+            AutoImport({
+                imports: ["vue"],
+                resolvers: [ElementPlusResolver()]
+            }),
+            Components({
+
+                dirs: ["src/components", "src/views"],
+                // 这里就是相关ui库的解析工具, 里面的选项有是否使用自动导入样式 如果需要通过 var 变量改变主题 需要注意一下
+                resolvers: [ElementPlusResolver({ importStyle: "sass" })]
+            }),
             progress(),
-            topLevelAwait(),
             // viteCommonjs(),
             vueJsx({}),
             inject({
@@ -193,10 +192,7 @@ export default defineConfig((mode) => {
                 "windows.jQuery": "jquery",
                 "windows.$": "jquery"
             }),
-            createSvgIconsPlugin({
-                iconDirs: [resolve(process.cwd(), "src/uicons"), resolve(process.cwd(), "src/assets/icons/svg")],
-                symbolId: "icon-[dir]-[name]"
-            }),
+           
             // monacoEditorPlugin({ languageWorkers: ['editorWorkerService', 'typescript', 'json', 'html']}),
             //开启gzip,后端nginx 需要 gzip_static设置为on
             /* viteCompression({
@@ -236,15 +232,16 @@ export default defineConfig((mode) => {
                     manualChunks(id: any) {
                         if (id.includes("node_modules")) {
                             //此处不要随修改，否则很可能打包后代码不能正常运行
-                            if (id.includes('element-plus')) return 'element-plus';
-                            if (id.includes('echarts')) return 'echarts';
-                            if (id.includes('bpmn-js')) return 'bpmn-js';
-                            if (id.includes('@wangeditor')) return 'wangeditor';
-                            if (id.includes('flv.js')) return 'flv';
-                            if (id.includes('gridstack')) return 'gridstack';
-                            if (id.includes('sortablejs')) return 'sortablejs';
-                            if (id.includes('lodash')) return 'lodash';
-                            return "vendor";
+                            // if (id.includes('element-plus')) return 'element-plus';
+                            // if (id.includes('echarts')) return 'echarts';
+                            // if (id.includes('bpmn-js')) return 'bpmn-js';
+
+                            // if (id.includes('flv.js')) return 'flv';
+                            // if (id.includes('gridstack')) return 'gridstack';
+                            // if (id.includes('sortablejs')) return 'sortablejs';
+                            // if (id.includes('lodash')) return 'lodash';
+                            // return "vendor";
+                            return id.toString().split('node_modules/')[1].split('/')[0].toString();
                         }
                     }
                 },

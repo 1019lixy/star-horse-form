@@ -1,39 +1,53 @@
 <template>
-  <starhorse-form-item
-    :isDesign="context.attrs['isDesign']"
-    :bareFlag="context.attrs['bareFlag']"
-    :form-item="field"
-    :parentField="parentField"
-  >
-    <star-horse-editor
-      :lang="field.preps?.lang || 'javascript'"
+  <starhorse-form-item :isDesign="isDesign" :disabled="disabled" :bareFlag="bareFlag" :formItem="field"
+    :parentField="parentField">
+    <star-horse-editor :lang="field.preps?.lang || 'javascript'"
       style="min-height: 200px !important; flex-direction: column !important"
-      v-model:value="context.attrs['formData'][field.preps['name']]"
-    />
+      v-model:value="formData[field.preps['name']]" />
   </starhorse-form-item>
 </template>
-<script lang="ts" name="codeItem">
-  import { defineComponent, onMounted, shallowRef } from "vue";
-  import StarHorseEditor from "@/components/system/StarHorseEditor.vue";
+<script setup lang="ts" name="codeItem">
+import {  onMounted, shallowRef } from "vue";
+import StarHorseEditor from "@/components/system/StarHorseEditor.vue";
+const props = defineProps({
+  isDesign: {
+    type: Boolean,
+    default: false
+  },
+  disabled: {
+    type: Boolean,
+    default: false
+  },
+  bareFlag: {
+    type: Boolean,
+    default: false
+  }, isSearch: {
+    type: Boolean,
+    default: false
+  },
+  field: {
+    type: Object,
+    default: {}
+  },
+  parentField: {
+    type: Object,
+    default: {}
+  },
+  formInfo: {
+    type: Object,
+    default: {}
+  }
+});
+const emits = defineEmits(['selfFunc', 'selectItem']);
+const formData = defineModel("formData");
+const itemAction = () => {
+  emits("selfFunc", formData);
+};
+const init = async () => { };
+const rendered = () => { };
+onMounted(() => {
+  init();
+});
 
-  export default defineComponent({
-    components: { StarHorseEditor },
-    setup(_props, context) {
-      const parentField = context.attrs["parentField"];
-
-      const field = context.attrs["field"] as any;
-      let formItem = shallowRef({ label: "input", required: false });
-      let dataField = shallowRef("");
-      const itemAction = () => {
-        context.emit("selfFunc");
-      };
-      const init = async () => {};
-      const rendered = () => {};
-      onMounted(() => {
-        init();
-      });
-      return { parentField, context, field, formItem, dataField, itemAction, rendered };
-    }
-  });
 </script>
 <style scoped></style>

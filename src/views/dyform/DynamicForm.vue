@@ -50,6 +50,7 @@ let compSize = computed(() => configStore.configFormInfo?.buttonSize || Config.c
 let draggingItem = computed(() => designForm.draggingItem);
 let list = computed(() => designForm.compList);
 let isPreview = computed(() => designForm.previewVisible);
+let isEdit = computed(() => designForm.isEdit);
 let batchEditFieldVisible = computed(() => designForm.batchEditFieldVisible);
 let activeTab = ref<any>("first");
 let errMessage = ref<string>("");
@@ -262,6 +263,15 @@ const goBack = () => {
 };
 const formInfoChange = (_data: any) => {
 };
+const customerListener = (e: CustomEvent) => {
+  nextTick(() => {
+    const target = document.querySelector(`[data-field-id="${e.detail}"]`);
+    target?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest'
+    });
+  });
+}
 /**
  * 开启或者关闭快捷键
  * @param val
@@ -269,23 +279,19 @@ const formInfoChange = (_data: any) => {
 const shortKeySwitch = (val: boolean) => {
   if (val) {
     initKeyboardEvent(actions, ModuleEnums.DYNAMIC_FORM);
+    window.addEventListener('scroll-to-field', customerListener);
   } else {
     removeKeyboardEvent(actions, ModuleEnums.DYNAMIC_FORM);
+    window.removeEventListener('scroll-to-field', customerListener);
   }
 };
 const onDragAdd = async (_evt: Event, dataList: Array<any>) => {
-  if (draggingItem.value.itemType == "table") {
-    let id = draggingItem.value.id;
+  if (draggingItem.value?.itemType == "table") {
     let datas = dataList.filter((item) => item.itemType == "table");
     if (datas.length > 1) {
       warning("同级容器中只能添加一次动态列表组件");
-      for (let i = 0; i < dataList.length; i++) {
-        let temp = dataList[i];
-        if (temp.id == id) {
-          dataList.splice(i, 1);
-          break;
-        }
-      }
+      const lastIndex = dataList.findIndex(item => item.id === draggingItem.value.id);
+      if (lastIndex > -1) dataList.splice(lastIndex, 1);
     }
   }
   if (!draggingItem.value) {
@@ -417,6 +423,10 @@ const loadTemplateData = (formId: string) => {
 }
 const contentMenuRef = ref();
 const contextMenu = async (evt: MouseEvent) => {
+  if (!isEdit.value) {
+    console.log("当前处于预览状态，不能右键操作");
+    return;
+  }
   evt.preventDefault();
   evt.stopPropagation();
   await nextTick();
@@ -456,6 +466,7 @@ onDeactivated(() => {
 });
 onBeforeUnmount(() => {
   designForm.setIsEdit(false);
+  listWatcher();
 });
 watch(
   () => route.query,
@@ -467,7 +478,7 @@ watch(
   { immediate: true, deep: true }
 );
 
-watch(
+const listWatcher = watch(
   () => list.value,
   (val: any) => {
     designForm.removePromise();
@@ -488,15 +499,7 @@ watch(
 onMounted(async () => {
   await init();
   shortKeySwitch(true);
-  window.addEventListener('scroll-to-field', (e: CustomEvent) => {
-    nextTick(() => {
-      const target = document.querySelector(`[data-field-id="${e.detail}"]`);
-      target?.scrollIntoView({
-        behavior: 'smooth',
-        block: 'nearest'
-      });
-    });
-  });
+
 });
 let prepsModel = ref("one");
 </script>
@@ -579,11 +582,10 @@ let prepsModel = ref("one");
               :scroll-to-error="formInfo['scrollToError'] == 'Y'" :show-message="formInfo['showMessage'] == 'Y'"
               :size="formInfo['size']" :status-icon="formInfo['statusIcon'] == 'Y'"
               :validate-on-rule-change="formInfo['validateOnRuleChange'] == 'Y'">
-              <draggable @add="(evt: Event) => onDragAdd(evt, list)" :class="currentPageClass" tag="transition-group"
-                style="margin: 10px auto; " group="starHorseGroup" ghostClass="ghost"
-                animation="100" :list="list">
+              <draggable @add="(evt: Event) => onDragAdd(evt, list)" :class="currentPageClass" tag="div"
+                style="margin: 10px auto; " group="starHorseGroup" ghost-class="ghost" :list="list">
                 <template #item="{ element: data, index }">
-                  <div class="transition-group-el">
+                  <div :class="{ 'comp-item': data.preps?.headerFlag == 'Y' }">
                     <component :key="data.id" :field="data" :isDesign="true" :formInfo="formInfo"
                       :index-of-parent-list="index"
                       :is="data.itemType + (data.compType === 'container' ? '-container' : '-item')"
@@ -637,21 +639,26 @@ let prepsModel = ref("one");
   height: 100%;
 }
 
-.draggable-handler {
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  height: 22px;
-  line-height: 22px;
-  background: var(--star-horse-style);
-  z-index: 9;
+.fade-move {
+  transition: transform 0.3s ease;
 }
 
+
 .design-form-container {
-  height: 100%;
-  border: 1px dashed var(--star-horse-style);
-  background: var(--star-horse-background);
+
+  width: 100%;
+  display: flex; // 改用grid布局
+  align-items: center;
 }
+
+// 在样式部分添加以下规则
+:deep(.ghost) {
+  opacity: 0.8;
+  background: var(--star-horse-style);
+  margin-top: 3px !important;
+  height: 3px !important;
+}
+
 
 :deep(.el-divider--horizontal) {
   margin: 10px 0;
