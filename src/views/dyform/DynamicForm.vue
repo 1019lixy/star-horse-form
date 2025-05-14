@@ -263,6 +263,15 @@ const goBack = () => {
 };
 const formInfoChange = (_data: any) => {
 };
+const scrollHandler = (e: CustomEvent) => {
+  nextTick(() => {
+    const target = document.querySelector(`[data-field-id="${e.detail}"]`);
+    target?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest'
+    });
+  });
+}
 /**
  * 开启或者关闭快捷键
  * @param val
@@ -270,8 +279,10 @@ const formInfoChange = (_data: any) => {
 const shortKeySwitch = (val: boolean) => {
   if (val) {
     initKeyboardEvent(actions, ModuleEnums.DYNAMIC_FORM);
+    window.addEventListener('scroll-to-field', scrollHandler);
   } else {
     removeKeyboardEvent(actions, ModuleEnums.DYNAMIC_FORM);
+    window.removeEventListener('scroll-to-field', scrollHandler);
   }
 };
 const onDragAdd = async (_evt: Event, dataList: Array<any>) => {
@@ -412,8 +423,8 @@ const loadTemplateData = (formId: string) => {
 }
 const contentMenuRef = ref();
 const contextMenu = async (evt: MouseEvent) => {
-  console.log("右键菜单",isEdit,isPreview);
-  if(!isEdit.value) {
+  console.log("右键菜单", isEdit, isPreview);
+  if (!isEdit.value) {
     console.log("当前处于预览状态，不能右键操作");
     return;
   }
@@ -456,6 +467,7 @@ onDeactivated(() => {
 });
 onBeforeUnmount(() => {
   designForm.setIsEdit(false);
+  listWatcher();
 });
 watch(
   () => route.query,
@@ -467,7 +479,7 @@ watch(
   { immediate: true, deep: true }
 );
 
-watch(
+const listWatcher = watch(
   () => list.value,
   (val: any) => {
     designForm.removePromise();
@@ -488,15 +500,7 @@ watch(
 onMounted(async () => {
   await init();
   shortKeySwitch(true);
-  window.addEventListener('scroll-to-field', (e: CustomEvent) => {
-    nextTick(() => {
-      const target = document.querySelector(`[data-field-id="${e.detail}"]`);
-      target?.scrollIntoView({
-        behavior: 'smooth',
-        block: 'nearest'
-      });
-    });
-  });
+  
 });
 let prepsModel = ref("one");
 // 定义 beforeEnter 钩子
@@ -615,10 +619,9 @@ const leave = (el: HTMLElement, done: () => void) => {
               :size="formInfo['size']" :status-icon="formInfo['statusIcon'] == 'Y'"
               :validate-on-rule-change="formInfo['validateOnRuleChange'] == 'Y'">
               <draggable @add="(evt: Event) => onDragAdd(evt, list)" :class="currentPageClass" tag="div"
-                style="margin: 10px auto; " group="starHorseGroup" ghost-class="ghost"
-                :list="list">
+                style="margin: 10px auto; " group="starHorseGroup" ghost-class="ghost" :list="list">
                 <template #item="{ element: data, index }">
-                  <div :class="{'comp-item': data.preps?.headerFlag == 'Y'}">
+                  <div :class="{ 'comp-item': data.preps?.headerFlag == 'Y' }" :data-field-id="data.id" :key="data.id">
                     <component :key="data.id" :field="data" :isDesign="true" :formInfo="formInfo"
                       :index-of-parent-list="index"
                       :is="data.itemType + (data.compType === 'container' ? '-container' : '-item')"
@@ -688,7 +691,7 @@ const leave = (el: HTMLElement, done: () => void) => {
 :deep(.ghost) {
   opacity: 0.8;
   background: var(--star-horse-style);
-  margin-top:3px !important;
+  margin-top: 3px !important;
   height: 3px !important;
 }
 
