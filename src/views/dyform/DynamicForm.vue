@@ -579,7 +579,7 @@ let prepsModel = ref("one");
               :label-suffix="formInfo['labelSuffix']" :label-width="formInfo['labelWidth']" v-model:dataForm="formData"
               :require-asterisk-position="formInfo['requireAsteriskPosition']" :rules="formInfo.rules || {}"
               :scroll-to-error="formInfo['scrollToError'] == 'Y'" :show-message="formInfo['showMessage'] == 'Y'"
-              :size="formInfo['size']" :status-icon="formInfo['statusIcon'] == 'Y'"
+              :size="'default'" :status-icon="formInfo['statusIcon'] == 'Y'"
               :validate-on-rule-change="formInfo['validateOnRuleChange'] == 'Y'">
               <draggable @add="(evt: Event) => onDragAdd(evt, list)" :class="currentPageClass" tag="div"
                 style="margin: 10px auto; " group="starHorseGroup" ghost-class="ghost" :list="list">

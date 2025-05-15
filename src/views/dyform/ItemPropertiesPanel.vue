@@ -603,7 +603,7 @@ watch(
           :inline-message="false"
           :status-icon="true"
           label-width="auto"
-          label-position="right"
+          label-position="left"
           require-asterisk-position="right"
       >
         <star-horse-form-item :fieldList="formFields" :rules="rules" :compSize="compSize" v-model:dataForm="formProps"/>
