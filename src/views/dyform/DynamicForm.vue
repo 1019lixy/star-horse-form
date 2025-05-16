@@ -528,7 +528,7 @@ let prepsModel = ref("one");
       </div>
       <div class="form-main">
         <div class="inner_button">
-          <el-menu mode="horizontal" :ellipsis="true" style="height: inherit; ">
+          <el-menu mode="horizontal" :ellipsis="false" style="height: inherit; width: 100%;">
             <template v-for="(item, index) in formActions">
               <el-menu-item v-if="
                 (list.length > 0 || item.defaultEdit) &&
