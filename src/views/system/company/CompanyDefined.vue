@@ -1,16 +1,16 @@
 <script setup lang="ts" name="CompanyDefine">
-import {onMounted, provide, reactive, ref, onActivated, onDeactivated} from "vue";
+import {onActivated, onDeactivated, onMounted, provide, reactive, ref} from "vue";
 import {Config} from "@/api/settings";
 import {getCustomerParam} from "@/utils/auth";
 import {
   apiInstance,
+  ApiUrls,
   createTree,
   dialogPreps,
   loadData,
-  ApiUrls,
+  PageFieldInfo,
   SearchFields,
   SelectOption,
-  PageFieldInfo,
   UserFuncInfo,
   warning
 } from "star-horse-lowcode";

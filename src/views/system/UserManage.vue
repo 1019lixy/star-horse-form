@@ -1,18 +1,18 @@
 <script setup lang="ts" name="UserManage">
 import {Config} from "@/api/settings";
-import {onMounted, provide, reactive, ref, onActivated, onDeactivated, computed, watch} from "vue";
+import {computed, onActivated, onDeactivated, onMounted, provide, reactive, ref} from "vue";
 import {
   apiInstance,
+  ApiUrls,
   createCondition,
   createTree,
   dialogPreps,
   loadData,
-  ApiUrls,
-  SearchFields,
-  SelectOption,
   PageFieldInfo,
-  warning,
-  SearchParams
+  SearchFields,
+  SearchParams,
+  SelectOption,
+  warning
 } from "star-horse-lowcode";
 import {getCustomerParam} from "@/utils/auth";
 import {TreeNodeData} from "element-plus/es/components/tree-v2/src/types";

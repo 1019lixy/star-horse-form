@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {onMounted, ref} from "vue";
-import {apiInstance, dictData,ApiUrls,postRequest,warning,SelectOption} from "star-horse-lowcode";
+import {apiInstance, ApiUrls, dictData, postRequest, SelectOption, warning} from "star-horse-lowcode";
 
 const apiUrl: ApiUrls = apiInstance("userdb-manage", "userdb/formInstance/conNodeConfigures/idNodeConfigure/136")
 const currentItem = ref<string>("all");
@@ -31,7 +31,7 @@ const init = async () => {
   nodeList.value = [];
   nodeTypeList.value = await dictData("CONTINUS_NODE_TYPE");
   postRequest(apiUrl.listConditionUrl!, {
-    orderBy:[{fieldName:"dataSort",ascOrDesc:"asc"}]
+    orderBy: [{fieldName: "dataSort", ascOrDesc: "asc"}]
   }).then((res) => {
     let resData = res.data;
     if (resData?.code) {

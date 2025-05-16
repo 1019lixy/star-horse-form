@@ -20,7 +20,7 @@ import {
   SelectOption,
   useDesignFormStore
 } from "star-horse-lowcode";
-import {Config} from "@/api/settings.ts";
+import {Config} from "@/api/settings";
 
 const apiUrl: ApiUrls = apiInstance("userdb-manage", "userdb/dynamicForm");
 let designForm = useDesignFormStore(piniaInstance);

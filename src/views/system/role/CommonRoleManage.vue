@@ -1,27 +1,29 @@
 <script setup lang="ts" name="CompanyRole">
 import {Config} from "@/api/settings";
-import {computed, nextTick, onActivated, onDeactivated, onMounted, provide, reactive, ref} from "vue";
-import UserManage from "@/views/system/UserManage.vue";
+import {nextTick, onActivated, onDeactivated, onMounted, provide, reactive, ref} from "vue";
 import {TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
 import {statusList} from "@/views/system/utils/UserFields.ts";
 import {getCustomerParam} from "@/utils/auth";
 import {
   apiInstance,
+  ApiUrls,
   closeLoad,
   createCondition,
   dialogPreps,
   dictData,
+  DyCompField,
+  error,
+  ExpandTable,
   load,
   loadData,
-  ApiUrls,
-  SearchFields,
-  SelectOption,
-  ExpandTable,
   PageFieldInfo,
-  UserFuncInfo,
-  useGlobalConfigStore,
+  postRequest,
+  SearchFields,
   SearchParams,
-  DyCompField, piniaInstance, operationConfirm, error, success, warning, postRequest
+  SelectOption,
+  success,
+  UserFuncInfo,
+  warning
 } from "star-horse-lowcode";
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance("system-config", "system/companyRolePkEmployee");

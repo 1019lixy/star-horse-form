@@ -2,15 +2,7 @@
 import {Config} from "@/api/settings.ts";
 import {onActivated, onDeactivated, onMounted, provide, reactive, ref} from "vue";
 import {getCustomerParam} from "@/utils/auth.ts";
-import {
-  apiInstance,
-  dialogPrep,
-  ApiUrls,
-  SearchFields,
-  SelectOption,
-  PageFieldInfo,
-  loadDict
-} from "star-horse-lowcode";
+import {apiInstance, ApiUrls, loadDict, PageFieldInfo, SearchFields, SelectOption} from "star-horse-lowcode";
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance("system-config", "system/calendarManage");
 //主键

@@ -3,20 +3,20 @@ import {computed, nextTick, onActivated, onDeactivated, onMounted, provide, reac
 import {Config} from "@/api/settings";
 import {
   apiInstance,
+  ApiUrls,
   createCondition,
+  createDatetime,
   dialogPreps,
+  loadDict,
   loadMenusInfo,
   loadSystemInfo,
-  ApiUrls,
+  operationConfirm,
+  PageFieldInfo,
+  piniaInstance,
+  postRequest,
   SearchFields,
   SelectOption,
-  PageFieldInfo,
-  useGlobalConfigStore,
-  createDatetime,
-  loadDict,
-  postRequest,
-  operationConfirm,
-  piniaInstance
+  useGlobalConfigStore
 } from "star-horse-lowcode";
 
 defineOptions({
@@ -349,7 +349,8 @@ onDeactivated(() => {
             </el-col>
             <el-col :span="19" class="h100">
               <div class="search-content">
-                <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
+                <div class="search_btn"
+                     :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
                   <star-horse-search-comp
                       @searchData="(data: any) => tenantAppMenusinfoRef.createSearchParams(data)"
                       :formData="searchFormData"

@@ -4,17 +4,12 @@ import {computed, nextTick, onMounted, provide, ref, watch} from "vue";
 import {useNavBarListStore} from "@/store/NavBarList.ts";
 import {useViewCacheStore} from "@/store/ViewCache.ts";
 import piniaCompInstance from "@/store";
-import TagsView from "@/components/tags/TagsView.vue";
 import zhCn from "element-plus/dist/locale/zh-cn.mjs";
 import en from "element-plus/dist/locale/en.mjs";
 import {LangType} from "@/theme/theme.ts";
 import {getLang} from "@/theme/localStorge.ts";
 import {i18n} from "@/lang";
-import LeftMenu from "@/components/LeftMenu.vue";
-import HeaderComp from "@/components/HeaderComp.vue";
-import PageConfig from "@/components/PageConfig.vue";
-import {useGlobalConfigStore,piniaInstance} from "star-horse-lowcode";
-import FixedMenu from "@/components/FixedMenu.vue";
+import {piniaInstance, useGlobalConfigStore} from "star-horse-lowcode";
 
 let configStore = useGlobalConfigStore(piniaInstance);
 const route = router.getRoutes().find((item) => item.path == "/home");

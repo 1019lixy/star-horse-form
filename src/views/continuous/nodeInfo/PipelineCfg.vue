@@ -1,6 +1,6 @@
 <script setup lang="ts" name="PipelineCfg">
 import {onMounted, reactive, ref} from "vue";
-import {SelectOption,PageFieldInfo,loadDict} from "star-horse-lowcode";
+import {loadDict, PageFieldInfo, SelectOption} from "star-horse-lowcode";
 
 let repoList = ref<SelectOption[]>([]);
 let execTypeList = ref<SelectOption[]>([]);
@@ -19,7 +19,7 @@ const fieldList = reactive<PageFieldInfo | any>({
                 label: "流水线名称",
                 fieldName: "lineName",
                 type: "input",
-                defaultValue:"测试",
+                defaultValue: "测试",
                 required: true,
                 formVisible: true,
                 listVisible: true
@@ -28,7 +28,7 @@ const fieldList = reactive<PageFieldInfo | any>({
                 label: "代码分支",
                 fieldName: "codeBranch",
                 type: "input",
-                defaultValue:"1",
+                defaultValue: "1",
                 required: true,
                 formVisible: true,
                 listVisible: true
@@ -41,7 +41,7 @@ const fieldList = reactive<PageFieldInfo | any>({
                 type: "select",
                 optionList: execTypeList,
                 required: true,
-                defaultValue:"single",
+                defaultValue: "single",
                 formVisible: true,
                 listVisible: true
               },
@@ -68,7 +68,7 @@ const fieldList = reactive<PageFieldInfo | any>({
                 type: "select",
                 optionList: repoList,
                 required: true,
-                defaultValue:"git",
+                defaultValue: "git",
                 formVisible: true,
                 listVisible: true,
                 preps: {
@@ -79,7 +79,7 @@ const fieldList = reactive<PageFieldInfo | any>({
                 label: "URL",
                 fieldName: "vcsUrl",
                 type: "input",
-                defaultValue:"git://123.com",
+                defaultValue: "git://123.com",
                 required: true,
                 formVisible: true,
                 listVisible: true,

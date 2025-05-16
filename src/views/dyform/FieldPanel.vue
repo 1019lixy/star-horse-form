@@ -1,9 +1,7 @@
 <script setup lang="ts" name="FieldPanel">
 import {computed, ref} from "vue";
 import {apiInstance, ApiUrls, loadData, piniaInstance, useDesignFormStore} from "star-horse-lowcode";
-import DbListComp from "@/views/dbsearch/utils/DbListComp.vue";
-import {fieldCopy} from "@/views/dyform/utils/FieldOperationUtils.ts";
-import FormPreview from "@/views/dyform/FormPreview.vue";
+import {fieldCopy} from "@/views/dyform/utils/FieldOperationUtils";
 
 const emits = defineEmits(["loadData"]);
 const dataUrl: ApiUrls = apiInstance("userdb-manage", "userdb/dynamicForm");
@@ -63,7 +61,8 @@ const createRef = (el: any) => {
               <template #title>
                 <div class="collapse-item-title title">
                   <div style="width: 80%">布局组件</div>
-                  <star-horse-icon icon-class="container" size="24px" style="color: var(--star-horse-style);margin-right: 10px"/>
+                  <star-horse-icon icon-class="container" size="24px"
+                                   style="color: var(--star-horse-style);margin-right: 10px"/>
                 </div>
               </template>
               <draggable
@@ -91,7 +90,8 @@ const createRef = (el: any) => {
               <template #title>
                 <div class="collapse-item-title title">
                   <div style="width: 80%">表单组件</div>
-                  &nbsp;<star-horse-icon icon-class="form" size="24px" style="color: var(--star-horse-style);margin-right: 10px"/>
+                  &nbsp;<star-horse-icon icon-class="form" size="24px"
+                                         style="color: var(--star-horse-style);margin-right: 10px"/>
                 </div>
               </template>
               <draggable
@@ -121,7 +121,8 @@ const createRef = (el: any) => {
               <template #title>
                 <div class="collapse-item-title title">
                   <div style="width: 80%">自定义组件</div>
-                  &nbsp;<star-horse-icon icon-class="other" size="24px" style="color: var(--star-horse-style);margin-right: 10px"/>
+                  &nbsp;<star-horse-icon icon-class="other" size="24px"
+                                         style="color: var(--star-horse-style);margin-right: 10px"/>
                 </div>
               </template>
               <draggable

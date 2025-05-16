@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import {Config} from "@/api/settings.ts";
+import {Config} from "@/api/settings";
 import {computed, ref} from "vue";
-import {commonField,ShForm} from "star-horse-lowcode";
+import {commonField} from "star-horse-lowcode";
+
 const props = defineProps({
   list: {type: Array<any>, required: true},
   commonFieldList: {type: Array<any>, default: []},
@@ -37,16 +38,16 @@ defineExpose({
 
 <template>
   <div class="form-preview">
-   
-      <sh-form
-          label-width="auto"
-          label-position="right"
-          require-asterisk-position="right"
-          :disabled="formDisabled"
-          :rules="{}"
-          v-model:dataForm="formData"
-          :size="compSize"
-      >
+
+    <sh-form
+        label-width="auto"
+        label-position="right"
+        require-asterisk-position="right"
+        :disabled="formDisabled"
+        :rules="{}"
+        v-model:dataForm="formData"
+        :size="compSize"
+    >
       <el-scrollbar height="100%" style="width: 100% !important">
         <template v-for="data in list">
           <component
@@ -63,12 +64,13 @@ defineExpose({
                      :is="data?.itemType + '-item'"/>
         </template>
         <template v-for="data in fieldList">
-          <component :field="checkIsDisabled(data)" v-model:formData="formData" :isDesign="true" :disabled="formDisabled"
+          <component :field="checkIsDisabled(data)" v-model:formData="formData" :isDesign="true"
+                     :disabled="formDisabled"
                      :is="data?.type + '-item'"/>
         </template>
       </el-scrollbar>
-      </sh-form>
-  
+    </sh-form>
+
   </div>
 </template>
 

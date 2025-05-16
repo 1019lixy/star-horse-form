@@ -1,17 +1,18 @@
 <template>
   <starhorse-form-item :isDesign="isDesign" :disabled="disabled" :bareFlag="bareFlag" :formItem="field"
-    :parentField="parentField">
+                       :parentField="parentField">
     <iframe v-if="field.preps?.viewType == 'view'" :src="filePath" width="100%"
-      :web.xmlHeight="field.preps?.height || 100" />
+            :web.xmlHeight="field.preps?.height || 100"/>
     <el-button v-else type="primary" @click="pdfView" text>
-      <star-horse-icon icon-class="pdf" color="var(--star-horse-style)" />
+      <star-horse-icon icon-class="pdf" color="var(--star-horse-style)"/>
       预览
     </el-button>
   </starhorse-form-item>
 </template>
 <script setup lang="ts" name="pdfItem">
-import { computed, defineComponent, onMounted, ref, shallowRef } from "vue";
-import { warning } from "star-horse-lowcode";
+import {computed, onMounted, ref} from "vue";
+import {warning} from "star-horse-lowcode";
+
 const props = defineProps({
   isDesign: {
     type: Boolean,
@@ -64,7 +65,8 @@ const pdfView = () => {
   }
   window.open(`${filePath.value}`, "_blank");
 };
-onMounted(() => { });
+onMounted(() => {
+});
 
 </script>
 <style lang="scss" scoped>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-  defineOptions({
-    name: "PageVmenuItem"
-  });
+defineOptions({
+  name: "PageVmenuItem"
+});
 </script>
 
 <template>垂直菜单</template>

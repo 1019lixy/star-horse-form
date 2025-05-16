@@ -10,7 +10,6 @@ import flowNodeComponent from "@/views/workflow/plugin/node/nodes";
 import App from "@/App.vue";
 import {createApp} from "vue";
 // 导入svg图标
-
 import "animate.css";
 import router from "@/router/index";
 import draggable from "vuedraggable";

@@ -1,9 +1,6 @@
 <script setup lang="ts">
 import {nextTick, onMounted, PropType, ref} from "vue";
-import {ApiUrls} from "star-horse-lowcode";
-import {postRequest} from "star-horse-lowcode";
-import {operationConfirm, success, warning} from "star-horse-lowcode";
-import {createCondition} from "star-horse-lowcode";
+import {ApiUrls, operationConfirm, postRequest, success, warning} from "star-horse-lowcode";
 
 const props = defineProps({
   dynamicFormList: {

@@ -1,12 +1,13 @@
 <template>
   <starhorse-form-item :isDesign="isDesign" :disabled="disabled" :bareFlag="bareFlag" :formItem="field"
-    :parentField="parentField">
+                       :parentField="parentField">
     <audio :fid="field.preps['name']" ref="audio" controls></audio>
   </starhorse-form-item>
 </template>
 <script lang="ts" setup name="audioItem">
-import { onMounted, ref } from 'vue';
-import { blobData } from 'star-horse-lowcode';
+import {onMounted, ref} from 'vue';
+import {blobData} from 'star-horse-lowcode';
+
 const props = defineProps({
   isDesign: {
     type: Boolean,
@@ -70,26 +71,26 @@ const init = async () => {
         newAudioBuffer.copyToChannel(anotherArray, channel, offset);
       }
       /**
-     * 直接播放使用下面的代码
-     // 创建AudioBufferSourceNode对象
-     let source = audioCtx.createBufferSource();
-     // 设置AudioBufferSourceNode对象的buffer为复制的3秒AudioBuffer对象
-     source.buffer = newAudioBuffer;
-     // 这一句是必须的，表示结束，没有这一句没法播放，没有声音
-     // 这里直接结束，实际上可以对结束做一些特效处理
-     source.connect(audioCtx.destination);
-     // 资源开始播放
-     source.start();
-     */
+       * 直接播放使用下面的代码
+       // 创建AudioBufferSourceNode对象
+       let source = audioCtx.createBufferSource();
+       // 设置AudioBufferSourceNode对象的buffer为复制的3秒AudioBuffer对象
+       source.buffer = newAudioBuffer;
+       // 这一句是必须的，表示结束，没有这一句没法播放，没有声音
+       // 这里直接结束，实际上可以对结束做一些特效处理
+       source.connect(audioCtx.destination);
+       // 资源开始播放
+       source.start();
+       */
       let blob = bufferToWave(newAudioBuffer, frameCount);
       /**
-     * 转换成Base64使用下面的代码
-     let reader2 = new FileReader();
-     reader2.onload = function(evt){
-     audio.src = evt.target.result;
-     };
-     reader2.readAsDataURL(blob);
-     */
+       * 转换成Base64使用下面的代码
+       let reader2 = new FileReader();
+       reader2.onload = function(evt){
+       audio.src = evt.target.result;
+       };
+       reader2.readAsDataURL(blob);
+       */
       // 使用Blob地址
       audio.value.src = URL.createObjectURL(blob);
     });
@@ -98,14 +99,14 @@ const init = async () => {
 // Convert AudioBuffer to a Blob using WAVE representation
 const bufferToWave = (abuffer, len) => {
   let numOfChan = abuffer.numberOfChannels,
-    length = len * numOfChan * 2 + 44,
-    buffer = new ArrayBuffer(length),
-    view = new DataView(buffer),
-    channels = [],
-    i,
-    sample,
-    offset = 0,
-    pos = 0;
+      length = len * numOfChan * 2 + 44,
+      buffer = new ArrayBuffer(length),
+      view = new DataView(buffer),
+      channels = [],
+      i,
+      sample,
+      offset = 0,
+      pos = 0;
   const setUint16 = (data) => {
     view.setUint16(pos, data, true);
     pos += 2;
@@ -143,7 +144,7 @@ const bufferToWave = (abuffer, len) => {
     offset++; // next source sample
   }
   // create Blob
-  return new Blob([buffer], { type: "audio/wav" });
+  return new Blob([buffer], {type: "audio/wav"});
 };
 onMounted(() => {
   init();

@@ -1,15 +1,14 @@
 <script setup lang="ts" name="Repo">
-  import DataLog from "@/views/continuous/nodeDetail/DataLog.vue";
-  import { ref } from "vue";
+import {ref} from "vue";
 
-  const tabCurrent = ref("first");
+const tabCurrent = ref("first");
 </script>
 <style scoped></style>
 <template>
   <el-card>
     <el-tabs type="card" v-model="tabCurrent">
       <el-tab-pane label="实时日志" name="first">
-        <data-log />
+        <data-log/>
       </el-tab-pane>
     </el-tabs>
   </el-card>

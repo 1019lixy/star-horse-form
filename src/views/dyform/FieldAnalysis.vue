@@ -1,5 +1,5 @@
 <script setup lang="ts" name="FieldAnalysis">
-import {Config} from "@/api/settings.ts";
+import {Config} from "@/api/settings";
 import {onMounted} from "vue";
 
 const props = defineProps({

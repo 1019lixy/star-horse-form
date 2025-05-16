@@ -1,13 +1,19 @@
 <script setup lang="ts">
 import {computed, onMounted, provide, reactive, ref, watch} from "vue";
-import {apiInstance, closeLoad, dialogPreps, load} from "star-horse-lowcode";
-import DataPreview from "@/views/dyform/DataPreview.vue";
+import {
+  apiInstance,
+  closeLoad,
+  dialogPreps,
+  download,
+  error,
+  load,
+  piniaInstance,
+  SearchProps,
+  useDesignFormStore,
+  useGlobalConfigStore
+} from "star-horse-lowcode";
 import {analysisSearchData, viewColumns, viewDataList} from "@/views/dyform/utils/preview";
-import {download} from "star-horse-lowcode";
-import {error} from "star-horse-lowcode";
-import {Config} from "@/api/settings.ts";
-import {useDesignFormStore,useGlobalConfigStore,SearchProps} from "star-horse-lowcode";
-import {piniaInstance} from "star-horse-lowcode";
+import {Config} from "@/api/settings";
 
 let designForm = useDesignFormStore(piniaInstance);
 const props = defineProps({

@@ -1,29 +1,30 @@
 <script setup lang="ts" name="Menusinfo">
 import {
   apiInstance,
+  ApiUrls,
   closeLoad,
   createTree,
   dialogPreps,
   dictData,
+  error,
+  findNodesWithValue,
   load,
   loadData,
-  loadSystemInfo
-} from "star-horse-lowcode";
-import {Config} from "@/api/settings.ts";
-import {computed, onMounted, provide, reactive, ref, unref} from "vue";
-import {
-  ApiUrls,
+  loadSystemInfo,
   PageFieldInfo,
   piniaInstance,
+  postRequest,
   SearchFields,
   SelectOption,
+  success,
+  treeCheckChange,
   useGlobalConfigStore,
-  UserFuncInfo
+  UserFuncInfo,
+  warning
 } from "star-horse-lowcode";
-import {postRequest} from "star-horse-lowcode";
-import {error, success, warning} from "star-horse-lowcode";
+import {Config} from "@/api/settings";
+import {computed, onMounted, provide, reactive, ref, unref} from "vue";
 import {TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
-import {findNodesWithValue, treeCheckChange} from "star-horse-lowcode";
 
 const dataUrl: ApiUrls = apiInstance("system-config", "system/menusinfoEntity");
 let parentMenus: any = ref<any>([]);

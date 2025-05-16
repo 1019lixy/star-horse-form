@@ -1,7 +1,7 @@
 <script setup lang="ts">
-  defineOptions({
-    name: "PageMenubarItem"
-  });
+defineOptions({
+  name: "PageMenubarItem"
+});
 </script>
 
 <template>全局菜单</template>

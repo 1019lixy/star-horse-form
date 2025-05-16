@@ -4,12 +4,12 @@ import {Config} from "@/api/settings";
 import {getCustomerParam} from "@/utils/auth";
 import {
   apiInstance,
-  dialogPreps,
   ApiUrls,
-  SearchFields,
+  commonField,
+  dialogPreps,
   PageFieldInfo,
-  UserFuncInfo,
-  commonField
+  SearchFields,
+  UserFuncInfo
 } from "star-horse-lowcode";
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance("system-config", "system/companyCategory");

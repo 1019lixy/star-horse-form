@@ -1,8 +1,5 @@
-import {uuid} from "star-horse-lowcode";
+import {piniaInstance, postRequest, SearchParams, useDesignFormStore, uuid} from "star-horse-lowcode";
 import {computed} from "vue";
-import {piniaInstance} from "star-horse-lowcode";
-import {SearchParams,useDesignFormStore} from "star-horse-lowcode";
-import {postRequest} from "star-horse-lowcode";
 
 const designForm = useDesignFormStore(piniaInstance);
 const formData = computed(() => designForm.formData);

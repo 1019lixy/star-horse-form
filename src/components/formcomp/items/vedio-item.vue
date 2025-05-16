@@ -1,11 +1,11 @@
 <template>
   <starhorse-form-item :isDesign="isDesign" :disabled="disabled" :bareFlag="bareFlag" :formItem="field"
-    :parentField="parentField">
+                       :parentField="parentField">
     <div class="mainContainer">
       <div class="video-container">
         <div>
           <video :fid="field.preps['name']" name="videoElement" class="centeredVideo" ref="videoElement" controls
-            autoplay>
+                 autoplay>
             Your browser is too old which doesn't support HTML5 video.
           </video>
         </div>
@@ -15,14 +15,14 @@
         <el-button @click="start()">Start</el-button>
         <el-button @click="pause()">Pause</el-button>
         <el-button @click="destroy()">Destroy</el-button>
-        <el-input style="width: 100px" type="text" v-model="seekpoint" />
+        <el-input style="width: 100px" type="text" v-model="seekpoint"/>
         <el-button @click="seekto()">SeekTo</el-button>
       </div>
     </div>
   </starhorse-form-item>
 </template>
 <script setup lang="ts" name="vedioItem">
-import { defineComponent, onMounted, ref, shallowRef } from "vue";
+import {onMounted, ref} from "vue";
 import flvjs from "flv.js";
 
 const props = defineProps({
@@ -115,13 +115,15 @@ const getCfg = (key: string, def: any) => {
       ret = def;
     }
     return ret;
-  } catch (e) { }
+  } catch (e) {
+  }
   return def;
 };
 const setCfg = (key: string, value: any) => {
   try {
     sessionStorage.setItem("vedio-item." + key, value);
-  } catch (e) { }
+  } catch (e) {
+  }
 };
 const saveSettings = () => {
   setCfg("sURL", field["videoUrl"]);
@@ -151,7 +153,7 @@ onMounted(() => {
   padding-bottom: 56.25%;
 }
 
-.video-container>div {
+.video-container > div {
   position: absolute;
   top: 0;
   left: 0;

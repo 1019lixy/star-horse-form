@@ -1,116 +1,116 @@
 const formActions = [
-  {
-    icon: "left_panel",
-    defaultEdit: true,
-    key: "leftPanel",
-    auth: "none",
-    label: "左侧工具栏"
-  },
-  {
-    icon: "return",
-    defaultEdit: true,
-    key: "goBack",
-    auth: "none",
-    label: "返回列表"
-  },
-  {
-    icon: "style",
-    defaultEdit: true,
-    key: "style",
-    auth: "none",
-    label: "风格",
-    children: [
-      {
-        icon: "pc",
+    {
+        icon: "left_panel",
         defaultEdit: true,
-        key: "pc",
+        key: "leftPanel",
         auth: "none",
-        label: "电脑"
-      },
-      {
-        icon: "pad",
+        label: "左侧工具栏"
+    },
+    {
+        icon: "return",
         defaultEdit: true,
-        key: "pad",
+        key: "goBack",
         auth: "none",
-        label: "平板"
-      },
-      {
-        icon: "phone",
+        label: "返回列表"
+    },
+    {
+        icon: "style",
         defaultEdit: true,
-        key: "phone",
+        key: "style",
         auth: "none",
-        label: "手机"
-      }
-    ]
-  },
-  {
-    icon: "add",
-    defaultEdit: true,
-    key: "new",
-    auth: "none",
-    label: "新建"
-  },
-  {
-    icon: "edit",
-    key: "eprep",
-    auth: "none",
-    label: "修改属性"
-  },
-  {
-    icon: "dept",
-    key: "layer",
-    auth: "none",
-    label: "表单层级"
-  },
-  {
-    icon: "empty_setting",
-    key: "empty",
-    auth: "none",
-    label: "清空元素"
-  },
-  {
-    icon: "undo",
-    key: "undo",
-    auth: "none",
-    label: "后退一步"
-  },
-  {
-    icon: "redo",
-    key: "redo",
-    auth: "none",
-    label: "前进一步"
-  },
-  {
-    icon: "valid",
-    key: "valid",
-    auth: "none",
-    label: "校验"
-  },
-  {
-    icon: "preview",
-    key: "preview",
-    auth: "none",
-    label: "预览"
-  },
-  {
-    icon: "code",
-    key: "code",
-    auth: "none",
-    label: "生成代码"
-  },
-  {
-    icon: "save",
-    key: "save",
-    auth: "add",
-    label: "保存"
-  },
-  {
-    icon: "right_panel",
-    defaultEdit: true,
-    key: "rightPanel",
-    auth: "none",
-    label: "右侧属性栏"
-  }
+        label: "风格",
+        children: [
+            {
+                icon: "pc",
+                defaultEdit: true,
+                key: "pc",
+                auth: "none",
+                label: "电脑"
+            },
+            {
+                icon: "pad",
+                defaultEdit: true,
+                key: "pad",
+                auth: "none",
+                label: "平板"
+            },
+            {
+                icon: "phone",
+                defaultEdit: true,
+                key: "phone",
+                auth: "none",
+                label: "手机"
+            }
+        ]
+    },
+    {
+        icon: "add",
+        defaultEdit: true,
+        key: "new",
+        auth: "none",
+        label: "新建"
+    },
+    {
+        icon: "edit",
+        key: "eprep",
+        auth: "none",
+        label: "修改属性"
+    },
+    {
+        icon: "dept",
+        key: "layer",
+        auth: "none",
+        label: "表单层级"
+    },
+    {
+        icon: "empty_setting",
+        key: "empty",
+        auth: "none",
+        label: "清空元素"
+    },
+    {
+        icon: "undo",
+        key: "undo",
+        auth: "none",
+        label: "后退一步"
+    },
+    {
+        icon: "redo",
+        key: "redo",
+        auth: "none",
+        label: "前进一步"
+    },
+    {
+        icon: "valid",
+        key: "valid",
+        auth: "none",
+        label: "校验"
+    },
+    {
+        icon: "preview",
+        key: "preview",
+        auth: "none",
+        label: "预览"
+    },
+    {
+        icon: "code",
+        key: "code",
+        auth: "none",
+        label: "生成代码"
+    },
+    {
+        icon: "save",
+        key: "save",
+        auth: "add",
+        label: "保存"
+    },
+    {
+        icon: "right_panel",
+        defaultEdit: true,
+        key: "rightPanel",
+        auth: "none",
+        label: "右侧属性栏"
+    }
 ];
 const shortKeyHelpMessage = `
 快捷键：
@@ -157,4 +157,4 @@ const dynamicFormHelpMessage = `
     如果是自增，需要在保存时修改主键策略。
 ${shortKeyHelpMessage}
 `;
-export { formActions, dynamicFormHelpMessage };
+export {formActions, dynamicFormHelpMessage};

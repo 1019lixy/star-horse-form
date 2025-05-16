@@ -1,10 +1,18 @@
 <script lang="ts" setup>
-import {apiInstance, dialogPreps} from "star-horse-lowcode";
+import {
+  apiInstance,
+  ApiUrls,
+  dialogPreps,
+  loadCustomInfo,
+  loadElementPlusIcon,
+  loadSystemInfo,
+  PageFieldInfo,
+  postRequest,
+  SearchFields,
+  SelectOption
+} from "star-horse-lowcode";
 import {Config} from "@/api/settings";
 import {onMounted, provide, reactive, ref} from "vue";
-import {ApiUrls, SearchFields, SelectOption, PageFieldInfo} from "star-horse-lowcode";
-import {loadCustomInfo, loadElementPlusIcon, loadSystemInfo} from "star-horse-lowcode";
-import {postRequest} from "star-horse-lowcode";
 
 let informationsList = ref<any>([]);
 const dataUrl: ApiUrls = apiInstance("system-config", "system/informationsEntity");

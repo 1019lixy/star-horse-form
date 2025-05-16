@@ -1,9 +1,7 @@
 <script setup lang="ts" name="DictinfoType">
-import {apiInstance, dialogPreps} from "star-horse-lowcode";
-import {Config} from "@/api/settings.ts";
+import {apiInstance, ApiUrls, dialogPreps, PageFieldInfo, SearchFields, SearchParams} from "star-horse-lowcode";
+import {Config} from "@/api/settings";
 import {onMounted, provide, reactive, ref} from "vue";
-import {ApiUrls,SearchFields,PageFieldInfo,SearchParams} from "star-horse-lowcode";
-import DictinfoUI from "@/views/system/DictinfoUI.vue";
 
 const dataUrl: ApiUrls = apiInstance("system-config", "system/dictinfoType");
 const searchFormData = reactive<SearchFields>({

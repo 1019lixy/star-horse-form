@@ -1,10 +1,14 @@
-import {useDesignFormStore,useCopyerOperationStore} from "star-horse-lowcode";
-import {piniaInstance} from "star-horse-lowcode";
+import {
+    operationConfirm,
+    piniaInstance,
+    useCopyerOperationStore,
+    useDesignFormStore,
+    uuid,
+    warning
+} from "star-horse-lowcode";
 import {computed} from "vue";
-import {operationConfirm, warning} from "star-horse-lowcode";
-import {ModuleEnums} from "@/components/enums/ModuleEnums.ts";
-import {copyContainer, moveDownItem, moveUpItem, removeItem} from "@/plugins/AblesPlugin.ts";
-import {uuid} from "star-horse-lowcode";
+import {ModuleEnums} from "@/components/enums/ModuleEnums";
+import {copyContainer, moveDownItem, moveUpItem, removeItem} from "@/plugins/AblesPlugin";
 
 const designForm = useDesignFormStore(piniaInstance);
 const copyerOperation = useCopyerOperationStore(piniaInstance);

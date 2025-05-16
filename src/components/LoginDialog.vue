@@ -2,12 +2,11 @@
 import {Config} from "@/api/settings";
 import {getValidateImg, userLogin} from "@/api/star_horse_apis";
 import {JSEncrypt} from "jsencrypt";
-import {onMounted, reactive, ref, watch, computed} from "vue";
+import {computed, onMounted, reactive, ref, watch} from "vue";
 import {useRouter} from "vue-router";
-import type {ElForm, FormInstance, FormRules} from "element-plus";
-import {warning} from "star-horse-lowcode";
+import type {FormInstance, FormRules} from "element-plus";
+import {piniaInstance, useUserInfoStore, warning} from "star-horse-lowcode";
 import {i18n} from "@/lang";
-import {useUserInfoStore, piniaInstance} from "star-horse-lowcode";
 import {setPublicKey} from "@/utils/auth";
 
 interface LoginInfo {

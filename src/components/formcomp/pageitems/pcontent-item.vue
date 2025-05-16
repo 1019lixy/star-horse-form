@@ -1,7 +1,7 @@
 <script setup lang="ts">
-  defineOptions({
-    name: "PageContentItem"
-  });
+defineOptions({
+  name: "PageContentItem"
+});
 </script>
 
 <template>消息内容</template>

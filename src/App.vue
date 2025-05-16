@@ -10,9 +10,7 @@
 </template>
 <script lang="ts" setup>
 import {onMounted} from "vue";
-import {useUserInfoStore} from "star-horse-lowcode";
-import {piniaInstance} from "star-horse-lowcode";
-import LoginDialog from "@/components/LoginDialog.vue";
+import {piniaInstance, useUserInfoStore} from "star-horse-lowcode";
 
 const userInfoStore = useUserInfoStore(piniaInstance);
 const closeAction = () => {

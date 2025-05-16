@@ -2,10 +2,8 @@
 import {computed, nextTick, onMounted, ref, unref, watch} from "vue";
 import type {RouteLocationNormalizedLoaded, RouterLinkProps} from "vue-router";
 import {useRouter} from "vue-router";
-import {ElScrollbar} from "element-plus";
 import {useNavBarListStore} from "@/store/NavBarList.ts";
 import {useScrollTo} from "@/components/tags/useScrollTo";
-import ContextMenu from "@/components/tags/ContextMenu.vue";
 import {useTemplateRefsList} from "@vueuse/core";
 import piniaCompInstance from "@/store";
 
@@ -217,7 +215,8 @@ watch(
   <div class="prefixCls">
     <el-tooltip content="向左移动">
       <span class="tool" @click="move(-200)">
-        <star-horse-icon icon-class="arrow-double-left" size="16px" style="color: var(--star-horse-style)" cursor="pointer"/>
+        <star-horse-icon icon-class="arrow-double-left" size="16px" style="color: var(--star-horse-style)"
+                         cursor="pointer"/>
       </span>
     </el-tooltip>
     <div class="overflow-hidden">
@@ -310,7 +309,8 @@ watch(
     </div>
     <el-tooltip content="向右移动">
       <span class="tool" @click="move(200)">
-        <star-horse-icon icon-class="arrow-double-right" size="16px" style="color: var(--star-horse-style)" cursor="pointer"/>
+        <star-horse-icon icon-class="arrow-double-right" size="16px" style="color: var(--star-horse-style)"
+                         cursor="pointer"/>
       </span>
     </el-tooltip>
     <el-tooltip content="刷新菜单">
@@ -424,6 +424,7 @@ watch(
     border: 1px solid #d9d9d9;
     display: inline-flex;
     border-radius: 2px;
+
     .close-icon {
       color: var(--el-color-error);
       display: none;
@@ -431,10 +432,12 @@ watch(
 
     :not(.close-icon):hover {
       padding-right: unset;
+
       .close-icon {
         display: block;
       }
     }
+
     .tags {
       height: 30px;
       display: flex;
