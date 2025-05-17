@@ -2,7 +2,7 @@
 import {Config} from "@/api/settings";
 import {nextTick, onActivated, onDeactivated, onMounted, provide, reactive, ref} from "vue";
 import {TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
-import {statusList} from "@/views/system/utils/UserFields.ts";
+import {statusList} from "@/views/system/utils/UserFields";
 import {getCustomerParam} from "@/utils/auth";
 import {
   apiInstance,

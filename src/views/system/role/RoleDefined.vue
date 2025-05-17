@@ -26,7 +26,7 @@ import {Config} from "@/api/settings";
 import {computed, nextTick, onActivated, onDeactivated, onMounted, provide, reactive, ref} from "vue";
 import {getCustomerParam} from "@/utils/auth";
 import {TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
-import {statusList} from "@/views/system/utils/UserFields.ts";
+import {statusList} from "@/views/system/utils/UserFields";
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance("system-config", "system/companyRole");
 dataUrl.condition = [createCondition("a.roleType", "common_role")];

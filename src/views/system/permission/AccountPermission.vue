@@ -16,7 +16,7 @@ import {
 } from "star-horse-lowcode";
 import {computed, onMounted, provide, reactive, ref} from "vue";
 import {TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
-import {Config} from "@/api/settings.ts";
+import {Config} from "@/api/settings";
 
 let rolesList = ref<SelectOption[]>([]);
 let accountPermissionStatus = ref<SelectOption[]>();

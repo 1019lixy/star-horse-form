@@ -9,7 +9,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import {FlowNodeEnums} from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
+import {FlowNodeEnums} from "@/views/workflow/plugin/enums/FlowNodeEnums";
 
 defineOptions({
   name: "StartNode"

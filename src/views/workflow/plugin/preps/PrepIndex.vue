@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {scale} from "@/views/workflow/plugin/utils/deviceUtil.ts";
+import {scale} from "@/views/workflow/plugin/utils/deviceUtil";
 import {computed, ref} from "vue";
 import ApplyPrep from "@/views/workflow/plugin/preps/ApplyPrep.vue";
 import ApprovalPrep from "@/views/workflow/plugin/preps/ApprovalPrep.vue";

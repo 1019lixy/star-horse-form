@@ -15,7 +15,7 @@ const asssignVal = (searchFields: string, formFields: string) => {
   return `<script setup lang='ts'>
 import {ApiUrls} from "star-horse-lowcode";
 import {apiInstance,dialogPreps} "star-horse-lowcode";
-import {Config} from "@\/api\/settings.ts";
+import {Config} from "@\/api\/settings";
 import {DialogProps} from "star-horse-lowcode"
 import {onMounted, provide, reactive, ref} from "vue";
 import {SearchProps} from "star-horse-lowcode";

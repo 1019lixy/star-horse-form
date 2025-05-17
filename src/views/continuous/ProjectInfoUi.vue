@@ -1,7 +1,7 @@
 <script setup lang="ts" name="ProjectInfoUi">
 import {onMounted, provide, reactive, ref} from "vue";
 import {apiInstance, ApiUrls, dialogPreps, SearchFields, SelectOption} from "star-horse-lowcode";
-import {Config} from "@/api/settings.ts";
+import {Config} from "@/api/settings";
 
 const dataUrl: ApiUrls = apiInstance("continuous-manage", "continuous/projectInfo");
 let libTypeList = ref<Array<SelectOption>>([]);

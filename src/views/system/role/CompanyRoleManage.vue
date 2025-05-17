@@ -18,7 +18,7 @@ import {
   warning
 } from "star-horse-lowcode";
 import {getRowIdentity} from "element-plus/es/components/table/src/util";
-import {Config} from "@/api/settings.ts";
+import {Config} from "@/api/settings";
 
 let configStore = useGlobalConfigStore(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);

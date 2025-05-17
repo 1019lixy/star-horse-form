@@ -16,7 +16,7 @@ import {
     validDataUrl,
     warning
 } from "star-horse-lowcode";
-import {validRulesList} from "@/api/valid_utils.ts";
+import {validRulesList} from "@/api/valid_utils";
 import DataSourceComp from "./DataSourceComp.vue";
 
 const designForm = useDesignFormStore(piniaInstance);

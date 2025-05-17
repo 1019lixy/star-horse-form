@@ -21,9 +21,9 @@
   />
 </template>
 <script setup lang="ts" name="NodePropertyPanel">
-import {serviceTaskNodeField, userTaskNodeField} from "@/views/jbpm/panel/Fields.ts";
+import {serviceTaskNodeField, userTaskNodeField} from "@/views/jbpm/panel/Fields";
 import {computed, ref, watch} from "vue";
-import {Config} from "@/api/settings.ts";
+import {Config} from "@/api/settings";
 
 const props = defineProps({
   modeler: {

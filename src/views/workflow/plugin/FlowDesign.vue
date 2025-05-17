@@ -26,9 +26,9 @@
 </template>
 <script setup lang="ts">
 import {computed, onMounted, ref, watch} from "vue";
-import {useFlowDesignStore} from "@/store/FlowDesign.ts";
+import {useFlowDesignStore} from "@/store/FlowDesign";
 import html2canvas from "html2canvas";
-import {scale} from "@/views/workflow/plugin/utils/deviceUtil.ts";
+import {scale} from "@/views/workflow/plugin/utils/deviceUtil";
 import {useRouter} from "vue-router";
 import {apiInstance, ApiUrls, piniaInstance} from "star-horse-lowcode";
 

@@ -9,7 +9,7 @@ import {
   uuid,
   warning
 } from "star-horse-lowcode";
-import {pipelineFields} from "@/views/continuous/utils/FieldsUtils.ts";
+import {pipelineFields} from "@/views/continuous/utils/FieldsUtils";
 
 const nodeCompRef = ref<any>();
 const nodeInfoRef = ref<any>();

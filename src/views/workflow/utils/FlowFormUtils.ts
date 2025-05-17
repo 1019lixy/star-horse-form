@@ -1,6 +1,6 @@
 import {isRef, reactive, ref} from "vue";
 import {error, PageFieldInfo, piniaInstance, postRequest, SelectOption, success} from "star-horse-lowcode";
-import {useFlowDesignStore} from "@/store/FlowDesign.ts";
+import {useFlowDesignStore} from "@/store/FlowDesign";
 
 const flowDesign = useFlowDesignStore(piniaInstance);
 const flowGroups = ref<SelectOption[]>([]);

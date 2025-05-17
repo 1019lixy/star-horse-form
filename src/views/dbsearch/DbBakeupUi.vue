@@ -15,7 +15,7 @@ import {
   warning
 } from "star-horse-lowcode";
 import {Config} from "@/api/settings";
-import {initDbList} from "@/views/dbsearch/utils/DbSearchUtils.ts";
+import {initDbList} from "@/views/dbsearch/utils/DbSearchUtils";
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance("userdb-manage", "dbsearch/dbBakeup");
 let dbList = ref<SelectOption[]>([]);

@@ -13,7 +13,7 @@ import {
   useGlobalConfigStore,
   warning
 } from "star-horse-lowcode";
-import {Config} from "@/api/settings.ts";
+import {Config} from "@/api/settings";
 
 const dataUrl: ApiUrls = apiInstance("userdb-manage", "dbsearch/dbinfoEntity");
 let configStore = useGlobalConfigStore(piniaInstance);

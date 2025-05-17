@@ -31,7 +31,7 @@
 </template>
 <script setup lang="ts">
 import {computed, onMounted, ref} from "vue";
-import {useFlowDesignStore} from "@/store/FlowDesign.ts";
+import {useFlowDesignStore} from "@/store/FlowDesign";
 import {apiInstance, ApiUrls, createCondition, piniaInstance, SearchParams} from "star-horse-lowcode";
 import {nodeInfoList, nodePrepList} from "@/views/workflow/plugin/utils/nodePreps.ts";
 import {FlowNodeEnums} from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";

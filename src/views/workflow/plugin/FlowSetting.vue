@@ -28,10 +28,10 @@
   </div>
 </template>
 <script setup lang="ts">
-import {flowCommon} from "@/views/workflow/plugin/utils/flowCommon.ts";
+import {flowCommon} from "@/views/workflow/plugin/utils/flowCommon";
 import {computed, ref} from "vue";
-import {scale} from "@/views/workflow/plugin/utils/deviceUtil.ts";
-import {useFlowDesignStore} from "@/store/FlowDesign.ts";
+import {scale} from "@/views/workflow/plugin/utils/deviceUtil";
+import {useFlowDesignStore} from "@/store/FlowDesign";
 import {piniaInstance} from "star-horse-lowcode";
 
 const flowDesign = useFlowDesignStore(piniaInstance);

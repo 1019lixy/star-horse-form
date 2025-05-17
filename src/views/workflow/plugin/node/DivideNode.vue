@@ -15,9 +15,9 @@
 </template>
 <script setup lang="ts">
 import {computed, onMounted} from "vue";
-import {FlowNodeEnums} from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
+import {FlowNodeEnums} from "@/views/workflow/plugin/enums/FlowNodeEnums";
 import {closeLoad, piniaInstance} from "star-horse-lowcode";
-import {useFlowDesignStore} from "@/store/FlowDesign.ts";
+import {useFlowDesignStore} from "@/store/FlowDesign";
 
 defineOptions({
   name: "DivideNode"

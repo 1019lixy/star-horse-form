@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {flowCommon, radioStyle} from "@/views/workflow/plugin/utils/flowCommon.ts";
+import {flowCommon, radioStyle} from "@/views/workflow/plugin/utils/flowCommon";
 import {computed, ModelRef, onMounted, ref} from "vue";
 import {useFlowDesignStore} from "@/store/FlowDesign.ts";
 import {createCondition, piniaInstance, postRequest} from "star-horse-lowcode";

@@ -7,7 +7,7 @@ import {
   execListener,
   extendPrep,
   processEventTypeList
-} from "@/views/jbpm/panel/Fields.ts";
+} from "@/views/jbpm/panel/Fields";
 
 const props = defineProps({
   modeler: {

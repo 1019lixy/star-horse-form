@@ -1,5 +1,5 @@
 import {reactive} from "vue";
-import {getCustomerParam} from "@/utils/auth.ts";
+import {getCustomerParam} from "@/utils/auth";
 import {dictData, PageFieldInfo} from "star-horse-lowcode";
 
 /**

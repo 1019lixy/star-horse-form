@@ -16,8 +16,8 @@ import {
   warning
 } from "star-horse-lowcode";
 import {onMounted, provide, reactive, ref} from "vue";
-import {Config} from "@/api/settings.ts";
-import {initDbList, tableList} from "@/views/dbsearch/utils/DbSearchUtils.ts";
+import {Config} from "@/api/settings";
+import {initDbList, tableList} from "@/views/dbsearch/utils/DbSearchUtils";
 
 
 const dataUrl: ApiUrls = apiInstance("code-generator", "generator/code");

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {computed, ComputedRef, nextTick, onMounted, ref, unref} from "vue";
-import {initDbList, openDatabase, tableColumns} from "@/views/dbsearch/utils/DbSearchUtils.ts";
+import {initDbList, openDatabase, tableColumns} from "@/views/dbsearch/utils/DbSearchUtils";
 import {
   BtnAuth,
   convertToCamelCase,

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {ModelRef, nextTick, onMounted, PropType, reactive, ref, watch} from "vue";
 import {error, httpMethod, loadDict, PageFieldInfo, searchMatchList, SelectOption} from "star-horse-lowcode";
-import {createData, urlReturnDataHelpMsg, validInterface, validOperation} from "@/views/dyform/utils/ItemPreps.ts";
+import {createData, urlReturnDataHelpMsg, validInterface, validOperation} from "@/views/dyform/utils/ItemPreps";
 
 defineOptions({
   name: "DataSourceComp",
