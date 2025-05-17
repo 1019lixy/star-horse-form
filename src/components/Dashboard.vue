@@ -4,8 +4,7 @@ import {computed, nextTick, onMounted, provide, ref, watch} from "vue";
 import {useNavBarListStore} from "@/store/NavBarList.ts";
 import {useViewCacheStore} from "@/store/ViewCache.ts";
 import piniaCompInstance from "@/store";
-import zhCn from "element-plus/dist/locale/zh-cn.mjs";
-import en from "element-plus/dist/locale/en.mjs";
+
 import {LangType} from "@/theme/theme.ts";
 import {getLang} from "@/theme/localStorge.ts";
 import {i18n} from "@/lang";
@@ -121,7 +120,7 @@ let drawer = ref<boolean>(false);
 const configInfo = computed(() => configStore.configFormInfo);
 </script>
 <template>
-  <el-config-provider :locale="locale||zhCn">
+
     <el-container class="star-horse-container">
       <el-header class="star-horse-header">
         <header-comp :is-collapse="!isCollapse" @changeLang="changeLang" @layoutConfig="layoutConfig"/>
@@ -182,7 +181,7 @@ const configInfo = computed(() => configStore.configFormInfo);
       </template>
       <template #footer></template>
     </el-drawer>
-  </el-config-provider>
+
 </template>
 <style lang="scss" scoped>
 :deep(.el-header) {
