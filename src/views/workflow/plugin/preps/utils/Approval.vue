@@ -2,7 +2,7 @@
 import {createCondition, piniaInstance, postRequest, uuid} from "star-horse-lowcode";
 import {getApproveNodes} from "@/views/workflow/plugin/utils/nodeUtil";
 import {computed, onMounted, ref} from "vue";
-import {useFlowDesignStore} from "@/store/FlowDesign.ts";
+import {useFlowDesignStore} from "@/store/FlowDesign";
 
 const props = defineProps({
   groups: {

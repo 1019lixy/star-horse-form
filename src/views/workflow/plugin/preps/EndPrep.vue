@@ -3,7 +3,7 @@
   <FlowDrawerFooter @close="onClose" @save="onSave"/>
 </template>
 <script setup lang="ts">
-import {useFlowDesignStore} from "@/store/FlowDesign.ts";
+import {useFlowDesignStore} from "@/store/FlowDesign";
 import {piniaInstance} from "star-horse-lowcode";
 import {ModelRef} from "vue";
 

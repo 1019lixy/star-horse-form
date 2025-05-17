@@ -1,6 +1,6 @@
 <script lang="ts" setup name="Header">
 import {computed, nextTick, onMounted, ref, unref} from "vue";
-import {Config} from "@/api/settings.ts";
+import {Config} from "@/api/settings";
 import {userLogout} from "@/api/star_horse_apis";
 import {
   apiInstance,
@@ -21,8 +21,8 @@ import {
   warning
 } from "star-horse-lowcode";
 import {getCustomerInfo, getCustomerParam, getUserInfo} from "@/utils/auth";
-import {getLang, setLang} from "@/theme/localStorge.ts";
-import {LangType} from "@/theme/theme.ts";
+import {getLang, setLang} from "@/theme/localStorge";
+import {LangType} from "@/theme/theme";
 import {i18n} from "../lang";
 import {useRouter} from "vue-router";
 

@@ -80,8 +80,8 @@
   <FlowDrawerFooter @close="onClose"/>
 </template>
 <script setup lang="ts" name="Event">
-import {flowCommon} from "@/views/workflow/plugin/utils/flowCommon.ts";
-import {useFlowDesignStore} from "@/store/FlowDesign.ts";
+import {flowCommon} from "@/views/workflow/plugin/utils/flowCommon";
+import {useFlowDesignStore} from "@/store/FlowDesign";
 import {piniaInstance} from "star-horse-lowcode";
 import {ModelRef} from "vue";
 

@@ -34,7 +34,7 @@
 </template>
 <script setup lang="ts">
 import {computed, onMounted} from "vue";
-import {useFlowDesignStore} from "@/store/FlowDesign.ts";
+import {useFlowDesignStore} from "@/store/FlowDesign";
 import {closeLoad, piniaInstance} from "star-horse-lowcode";
 
 defineOptions({

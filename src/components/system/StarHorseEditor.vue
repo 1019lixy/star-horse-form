@@ -20,7 +20,7 @@ import {markdown} from "@codemirror/lang-markdown";
 import {go} from "@codemirror/lang-go";
 import {sql} from "@codemirror/lang-sql";
 import {showMinimap} from "@replit/codemirror-minimap";
-import {javaKeywords} from "../code/java.ts";
+import {javaKeywords} from "../code/java";
 import {amy, ayuLight, barf, bespin, birdsOfParadise, boysAndGirls, clouds, dracula} from "thememirror";
 
 const model = defineModel("value", {default: ""});

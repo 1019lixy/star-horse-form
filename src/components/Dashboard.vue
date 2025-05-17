@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import router from "@/router";
 import {computed, nextTick, onMounted, provide, ref, watch} from "vue";
-import {useNavBarListStore} from "@/store/NavBarList.ts";
-import {useViewCacheStore} from "@/store/ViewCache.ts";
+import {useNavBarListStore} from "@/store/NavBarList";
+import {useViewCacheStore} from "@/store/ViewCache";
 import piniaCompInstance from "@/store";
 
-import {LangType} from "@/theme/theme.ts";
-import {getLang} from "@/theme/localStorge.ts";
+import {LangType} from "@/theme/theme";
+import {getLang} from "@/theme/localStorge";
 import {i18n} from "@/lang";
 import {piniaInstance, useGlobalConfigStore} from "star-horse-lowcode";
 

@@ -36,7 +36,7 @@
 import {computed, onMounted} from "vue";
 import {useFlowDesignStore} from "@/store/FlowDesign";
 import {closeLoad, piniaInstance} from "star-horse-lowcode";
-import {FlowNodeEnums} from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
+import {FlowNodeEnums} from "@/views/workflow/plugin/enums/FlowNodeEnums";
 
 defineOptions({
   name: "FlowNodeEvent"

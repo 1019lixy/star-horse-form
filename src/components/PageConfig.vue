@@ -2,7 +2,7 @@
 import {computed, onMounted, ref} from "vue";
 import {piniaInstance, SelectOption, useGlobalConfigStore} from "star-horse-lowcode";
 import {useDark, useToggle} from "@vueuse/core";
-import {Config} from "@/api/settings.ts";
+import {Config} from "@/api/settings";
 
 let configStore = useGlobalConfigStore(piniaInstance);
 let sizeList = ref<Array<SelectOption>>([

@@ -15,10 +15,10 @@ import {
   useConsumerViewStore,
   warning
 } from "star-horse-lowcode";
-import {commands, configInfo, helpMessage, ports, tableConfigInfo} from "@/utils/sh_design.ts";
-import {useDesignGraphStore} from "@/store/DesignGraph.ts";
-import {Config} from "@/api/settings.ts";
-import {dynamicFormContextMenuData} from "@/plugins/AblesPlugin.ts";
+import {commands, configInfo, helpMessage, ports, tableConfigInfo} from "@/utils/sh_design";
+import {useDesignGraphStore} from "@/store/DesignGraph";
+import {Config} from "@/api/settings";
+import {dynamicFormContextMenuData} from "@/plugins/AblesPlugin";
 
 const designGraph = useDesignGraphStore(piniaInstance);
 const consumerView = useConsumerViewStore(piniaInstance);

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {getPublicKey, getUserInfo} from "@/utils/auth.ts";
+import {getPublicKey, getUserInfo} from "@/utils/auth";
 import {computed, onMounted, provide, reactive, ref} from "vue";
 import {
   copy,
@@ -11,10 +11,10 @@ import {
   useGlobalConfigStore,
   warning
 } from "star-horse-lowcode";
-import {initSelectData, userEditFieldInfo} from "@/views/system/utils/UserFields.ts";
-import {Config} from "@/api/settings.ts";
+import {initSelectData, userEditFieldInfo} from "@/views/system/utils/UserFields";
+import {Config} from "@/api/settings";
 import {JSEncrypt} from "jsencrypt";
-import {ServiceEnums} from "@/components/enums/ServiceEnums.ts";
+import {ServiceEnums} from "@/components/enums/ServiceEnums";
 
 let userInfo = ref<any>({});
 let depts = ref<string>("--");

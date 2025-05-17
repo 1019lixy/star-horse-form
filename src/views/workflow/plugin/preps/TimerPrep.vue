@@ -30,7 +30,7 @@
 </template>
 <script setup lang="ts">
 import {ModelRef, ref} from "vue";
-import {useFlowDesignStore} from "@/store/FlowDesign.ts";
+import {useFlowDesignStore} from "@/store/FlowDesign";
 import {piniaInstance, SelectOption} from "star-horse-lowcode";
 
 defineOptions({

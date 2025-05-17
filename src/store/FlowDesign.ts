@@ -1,9 +1,9 @@
 import {defineStore} from "pinia";
 import {ref} from "vue";
-import {addCondition, delBranchNode, delNode, updateMap, updateNode} from "@/views/workflow/plugin/utils/nodeUtil.ts";
-import {FlowNodeEnums} from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
+import {addCondition, delBranchNode, delNode, updateMap, updateNode} from "@/views/workflow/plugin/utils/nodeUtil";
+import {FlowNodeEnums} from "@/views/workflow/plugin/enums/FlowNodeEnums";
 import {apiInstance, ApiUrls} from "star-horse-lowcode";
-import {nodePrepList} from "@/views/workflow/plugin/utils/nodePreps.ts";
+import {nodePrepList} from "@/views/workflow/plugin/utils/nodePreps";
 
 const dataUrl: ApiUrls = apiInstance("userdb-manage", "userdb/formInstance/shFlowNode/idFlowNode/337537414606095357");
 const prepUrl: ApiUrls = apiInstance(

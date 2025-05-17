@@ -60,11 +60,11 @@
   <FlowDrawerFooter @save="onClose" @close="onClose"/>
 </template>
 <script setup lang="ts">
-import {flowCommon} from "@/views/workflow/plugin/utils/flowCommon.ts";
+import {flowCommon} from "@/views/workflow/plugin/utils/flowCommon";
 import {ModelRef, onMounted, ref} from "vue";
 import {dictData, FieldInfo, piniaInstance, warning} from "star-horse-lowcode";
-import {useFlowDesignStore} from "@/store/FlowDesign.ts";
-import {getValidType} from "@/api/valid_utils.ts";
+import {useFlowDesignStore} from "@/store/FlowDesign";
+import {getValidType} from "@/api/valid_utils";
 
 defineOptions({
   name: "NoticePrep"

@@ -10,8 +10,8 @@ import NoticePrep from "@/views/workflow/plugin/preps/NoticePrep.vue";
 import ServicePrep from "@/views/workflow/plugin/preps/ServicePrep.vue";
 import TimerPrep from "@/views/workflow/plugin/preps/TimerPrep.vue";
 import EndPrep from "@/views/workflow/plugin/preps/EndPrep.vue";
-import {flowCommon} from "@/views/workflow/plugin/utils/flowCommon.ts";
-import {useFlowDesignStore} from "@/store/FlowDesign.ts";
+import {flowCommon} from "@/views/workflow/plugin/utils/flowCommon";
+import {useFlowDesignStore} from "@/store/FlowDesign";
 import {piniaInstance} from "star-horse-lowcode";
 
 let headerStyle = ref<any>({

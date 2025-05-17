@@ -11,7 +11,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import {delNode, flowCommon} from "@/views/workflow/plugin/utils/flowCommon.ts";
+import {delNode, flowCommon} from "@/views/workflow/plugin/utils/flowCommon";
 
 defineOptions({
   name: "DeleteConfirm"
