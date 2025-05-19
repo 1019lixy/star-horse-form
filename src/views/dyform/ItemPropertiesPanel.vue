@@ -12,19 +12,16 @@ import {
   success,
   useDesignFormStore,
   useGlobalConfigStore,
-  warning,
-    ShForm
+  warning
 } from "star-horse-lowcode";
 import {
   buttonClickDataField,
   compCommonFields,
   containerField,
-  dataSourceFields,
   paramsFields,
   relationDataField
-} from "@/views/dyform/utils/ItemPreps.ts";
-import {Config} from "@/api/settings.ts";
-import DataSourceComp from "@/views/dyform/utils/DataSourceComp.vue";
+} from "@/views/dyform/utils/ItemPreps";
+import {Config} from "@/api/settings";
 
 let designForm = useDesignFormStore(piniaInstance);
 let formDataList = computed(() => designForm.formDataList);

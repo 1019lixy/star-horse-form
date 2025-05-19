@@ -1,11 +1,17 @@
 <script setup lang="ts" name="DynamicFormConsumerConfig">
-import {apiInstance, dialogPreps} from "star-horse-lowcode";
+import {
+  apiInstance,
+  ApiUrls,
+  dialogPreps,
+  dictData,
+  PageFieldInfo,
+  SearchFields,
+  SelectOption,
+  UserFuncInfo
+} from "star-horse-lowcode";
 import {onMounted, provide, reactive, ref} from "vue";
-import {ApiUrls, SearchFields, SelectOption, PageFieldInfo, UserFuncInfo} from "star-horse-lowcode";
-import {dictData} from "star-horse-lowcode";
 import {useRouter} from "vue-router";
-import ViewPage from "@/views/dyform/ViewPage.vue";
-import {Config} from "@/api/settings.ts";
+import {Config} from "@/api/settings";
 
 const router = useRouter();
 //后端交互接口地址
@@ -141,7 +147,13 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: true
     }
   ],
-  userTableFuncs: [{btnName: "数据预览", authority: "view",icon:"preview", priority: 3, funcName: (row: any) => preview(row, 1, 20)}]
+  userTableFuncs: [{
+    btnName: "数据预览",
+    authority: "view",
+    icon: "preview",
+    priority: 3,
+    funcName: (row: any) => preview(row, 1, 20)
+  }]
 });
 //主键
 const primaryKey = "idConsumerConfig";

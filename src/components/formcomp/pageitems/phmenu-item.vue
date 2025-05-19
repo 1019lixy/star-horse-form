@@ -1,7 +1,7 @@
 <script setup lang="ts">
-  defineOptions({
-    name: "PageHMenuItem"
-  });
+defineOptions({
+  name: "PageHMenuItem"
+});
 </script>
 
 <template>水平菜单</template>

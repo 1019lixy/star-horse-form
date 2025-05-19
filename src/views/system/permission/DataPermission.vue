@@ -1,22 +1,28 @@
 <script setup lang="ts" name="ResourcesSummary">
 import {
   apiInstance,
+  ApiUrls,
   createCondition,
+  createDatetime,
   createTree,
   dialogPreps,
   dictData,
   loadData,
   loadRolesInfo,
-  loadSystemInfo
+  loadSystemInfo,
+  PageFieldInfo,
+  piniaInstance,
+  SearchFields,
+  SearchParams,
+  SelectOption,
+  useGlobalConfigStore,
+  warning
 } from "star-horse-lowcode";
-import {createDatetime} from "star-horse-lowcode";
-import {Config} from "@/api/settings.ts";
+import {Config} from "@/api/settings";
 import {computed, onMounted, provide, reactive, ref} from "vue";
-import {PageFieldInfo, piniaInstance, SearchFields, SelectOption,useGlobalConfigStore,SearchParams,ApiUrls} from "star-horse-lowcode";
 import {TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
-import {warning} from "star-horse-lowcode";
-import {getUserInfo} from "@/utils/auth.ts";
-import {baseUserFields, userFormat} from "@/views/system/utils/UserFields.ts";
+import {getUserInfo} from "@/utils/auth";
+import {baseUserFields, userFormat} from "@/views/system/utils/UserFields";
 
 const dataUrl: ApiUrls = apiInstance("system-config", "system/dataPermission");
 let systemInfoList = ref<SelectOption[]>([]);

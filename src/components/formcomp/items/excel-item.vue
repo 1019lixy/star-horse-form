@@ -1,16 +1,17 @@
 <template>
   <starhorse-form-item :isDesign="isDesign" :disabled="disabled" :bareFlag="bareFlag" :formItem="field"
-    :parentField="parentField">
+                       :parentField="parentField">
     <div ref="container" style="height: 600px;width: 100%;position: relative"></div>
   </starhorse-form-item>
 </template>
 
 <script setup lang="ts">
-import { onMounted, onBeforeUnmount, ref, toRaw, defineComponent, shallowRef, nextTick } from 'vue'
-import { createUniver, defaultTheme, LocaleType, merge, Univer } from '@univerjs/presets';
-import { UniverSheetsCorePreset } from '@univerjs/presets/preset-sheets-core';
+import {onBeforeUnmount, onMounted, ref} from 'vue'
+import {createUniver, defaultTheme, LocaleType, merge, Univer} from '@univerjs/presets';
+import {UniverSheetsCorePreset} from '@univerjs/presets/preset-sheets-core';
 import UniverPresetSheetsCoreZhCN from '@univerjs/presets/preset-sheets-core/locales/zh-CN';
 import '@univerjs/presets/lib/styles/preset-sheets-core.css';
+
 const props = defineProps({
   isDesign: {
     type: Boolean,
@@ -49,12 +50,12 @@ const container = ref<HTMLElement | null>(null);
 const univerAPIRef = ref<Univer | null>(null);
 
 onMounted(() => {
-  const { univerAPI } = createUniver({
+  const {univerAPI} = createUniver({
     locale: LocaleType.ZH_CN,
     locales: {
       [LocaleType.ZH_CN]: merge(
-        {},
-        UniverPresetSheetsCoreZhCN,
+          {},
+          UniverPresetSheetsCoreZhCN,
       ),
     },
     theme: defaultTheme,
@@ -65,7 +66,7 @@ onMounted(() => {
     ],
   });
 
-  univerAPI.createWorkbook({ name: 'Test Sheet' });
+  univerAPI.createWorkbook({name: 'Test Sheet'});
 
   univerAPIRef.value = univerAPI;
 

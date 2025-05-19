@@ -1,173 +1,174 @@
 <script setup lang="ts" name="ProjectMember">
-import { onMounted, provide, reactive, ref, watch } from "vue";
-import { apiInstance, dialogPreps,ApiUrls,SearchFields,SearchParams } from "star-horse-lowcode";
+import {onMounted, provide, reactive, ref, watch} from "vue";
+import {apiInstance, ApiUrls, dialogPreps, SearchFields, SearchParams} from "star-horse-lowcode";
 
-  const props = defineProps({
-    projectId: { type: Number }
-  });
-  const dataUrl: ApiUrls = apiInstance("continuous-manage", "continuous/projectMember");
-  const searchFormData = reactive<SearchFields>({ fieldList: [] });
-  const tableFieldList = reactive({
-    fieldList: [
-      {
-        label: "主键",
-        fieldName: "idprojectMember",
-        type: "long"
-      },
-      {
-        label: "归属项目",
-        fieldName: "projectId",
-        type: "input",
-        formVisible: true,
-        listVisible: true
-      },
-      {
-        label: "用户名",
-        fieldName: "username",
-        type: "input",
-        formVisible: true,
-        listVisible: true
-      },
-      {
-        label: "姓名",
-        fieldName: "name",
-        type: "input",
-        formVisible: true,
-        listVisible: true
-      },
-      {
-        label: "角色名称",
-        fieldName: "roleName",
-        type: "input",
-        formVisible: true,
-        listVisible: true
-      },
-      {
-        label: "生效时间",
-        fieldName: "effectiveDate",
-        type: "input",
-        formVisible: true,
-        listVisible: true
-      },
-      {
-        label: "失效日期",
-        fieldName: "expirationDate",
-        type: "input",
-        formVisible: true,
-        listVisible: true
-      },
-      {
-        label: "是否管理员 1是 2否",
-        fieldName: "isManager",
-        type: "input",
-        formVisible: true,
-        listVisible: true
-      },
-      {
-        label: "创建人",
-        disabled: "Y",
-        fieldName: "createdBy",
-        type: "input"
-      },
-      {
-        label: "修改人",
-        disabled: "Y",
-        fieldName: "updatedBy",
-        type: "input"
-      },
-      {
-        label: "创建日期",
-        disabled: "Y",
-        fieldName: "createdDate",
-        type: "date"
-      },
-      {
-        label: "修改日期",
-        disabled: "Y",
-        fieldName: "updatedDate",
-        type: "date"
-      },
-      {
-        label: "数据版本号",
-        fieldName: "version",
-        type: "number"
-      },
-      {
-        label: "是否已逻辑",
-        fieldName: "isDel",
-        type: "number"
-      },
-      {
-        label: "数据编号",
-        fieldName: "dataNo",
-        type: "input"
-      },
-      {
-        label: "状态码",
-        fieldName: "statusCode",
-        type: "input"
-      },
-      {
-        label: "状态码名称",
-        fieldName: "statusName",
-        type: "input"
-      },
-      {
-        label: "国际码",
-        fieldName: "local",
-        type: "input"
-      }
-    ],
-    stopAutoLoad: true
-  });
-  const primaryKey = "idprojectMember";
-  const projectMemberRef = ref();
-  const rules = {};
-  const dialogProps = dialogPreps();
-  provide("dialogProps", dialogProps);
+const props = defineProps({
+  projectId: {type: Number}
+});
+const dataUrl: ApiUrls = apiInstance("continuous-manage", "continuous/projectMember");
+const searchFormData = reactive<SearchFields>({fieldList: []});
+const tableFieldList = reactive({
+  fieldList: [
+    {
+      label: "主键",
+      fieldName: "idprojectMember",
+      type: "long"
+    },
+    {
+      label: "归属项目",
+      fieldName: "projectId",
+      type: "input",
+      formVisible: true,
+      listVisible: true
+    },
+    {
+      label: "用户名",
+      fieldName: "username",
+      type: "input",
+      formVisible: true,
+      listVisible: true
+    },
+    {
+      label: "姓名",
+      fieldName: "name",
+      type: "input",
+      formVisible: true,
+      listVisible: true
+    },
+    {
+      label: "角色名称",
+      fieldName: "roleName",
+      type: "input",
+      formVisible: true,
+      listVisible: true
+    },
+    {
+      label: "生效时间",
+      fieldName: "effectiveDate",
+      type: "input",
+      formVisible: true,
+      listVisible: true
+    },
+    {
+      label: "失效日期",
+      fieldName: "expirationDate",
+      type: "input",
+      formVisible: true,
+      listVisible: true
+    },
+    {
+      label: "是否管理员 1是 2否",
+      fieldName: "isManager",
+      type: "input",
+      formVisible: true,
+      listVisible: true
+    },
+    {
+      label: "创建人",
+      disabled: "Y",
+      fieldName: "createdBy",
+      type: "input"
+    },
+    {
+      label: "修改人",
+      disabled: "Y",
+      fieldName: "updatedBy",
+      type: "input"
+    },
+    {
+      label: "创建日期",
+      disabled: "Y",
+      fieldName: "createdDate",
+      type: "date"
+    },
+    {
+      label: "修改日期",
+      disabled: "Y",
+      fieldName: "updatedDate",
+      type: "date"
+    },
+    {
+      label: "数据版本号",
+      fieldName: "version",
+      type: "number"
+    },
+    {
+      label: "是否已逻辑",
+      fieldName: "isDel",
+      type: "number"
+    },
+    {
+      label: "数据编号",
+      fieldName: "dataNo",
+      type: "input"
+    },
+    {
+      label: "状态码",
+      fieldName: "statusCode",
+      type: "input"
+    },
+    {
+      label: "状态码名称",
+      fieldName: "statusName",
+      type: "input"
+    },
+    {
+      label: "国际码",
+      fieldName: "local",
+      type: "input"
+    }
+  ],
+  stopAutoLoad: true
+});
+const primaryKey = "idprojectMember";
+const projectMemberRef = ref();
+const rules = {};
+const dialogProps = dialogPreps();
+provide("dialogProps", dialogProps);
 
-  const dataFormat = (name: string, cellValue: object): any => {
-    return cellValue;
-  };
-  const init = async () => {};
-  let filterCondition = ref<SearchParams[]>([]);
-  const filterFun = () => {
-    filterCondition.value = [];
-    filterCondition.value.push({
-      propertyName: "idProjectInfo",
-      value: props.projectId
-    });
-    projectMemberRef.value.createSearchParams(filterCondition.value, []);
-  };
-  watch(
+const dataFormat = (name: string, cellValue: object): any => {
+  return cellValue;
+};
+const init = async () => {
+};
+let filterCondition = ref<SearchParams[]>([]);
+const filterFun = () => {
+  filterCondition.value = [];
+  filterCondition.value.push({
+    propertyName: "idProjectInfo",
+    value: props.projectId
+  });
+  projectMemberRef.value.createSearchParams(filterCondition.value, []);
+};
+watch(
     () => props.mainId,
     () => {
       if (projectMemberRef.value && props.projectId) {
         filterFun();
       }
     },
-    { deep: true, immediate: true }
-  );
-  onMounted(async () => {
-    await init();
-  });
+    {deep: true, immediate: true}
+);
+onMounted(async () => {
+  await init();
+});
 </script>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
     <star-horse-form
-      @refresh="projectMemberRef.loadByPage()"
-      :compUrl="dataUrl"
-      :fieldList="tableFieldList"
-      :rules="rules"
+        @refresh="projectMemberRef.loadByPage()"
+        :compUrl="dataUrl"
+        :fieldList="tableFieldList"
+        :rules="rules"
     />
   </star-horse-dialog>
   <star-horse-dialog
-    :dialog-visible="dialogProps.viewVisible"
-    :dialogProps="dialogProps"
-    :title="'查看数据'"
-    :is-view="true"
+      :dialog-visible="dialogProps.viewVisible"
+      :dialogProps="dialogProps"
+      :title="'查看数据'"
+      :is-view="true"
   >
-    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl" />
+    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
   </star-horse-dialog>
   <el-card class="inner_content">
     <!--    <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
@@ -178,11 +179,11 @@ import { apiInstance, dialogPreps,ApiUrls,SearchFields,SearchParams } from "star
                                   :dialogProps="dialogProps" :showType="Config.buttonStyle"/>
         </div>-->
     <star-horse-table-comp
-      ref="projectMemberRef"
-      :fieldList="tableFieldList"
-      :primaryKey="primaryKey"
-      :compUrl="dataUrl"
-      :dataFormat="dataFormat"
+        ref="projectMemberRef"
+        :fieldList="tableFieldList"
+        :primaryKey="primaryKey"
+        :compUrl="dataUrl"
+        :dataFormat="dataFormat"
     />
   </el-card>
 </template>

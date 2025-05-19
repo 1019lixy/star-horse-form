@@ -1,7 +1,7 @@
 <script setup lang="ts">
-  defineOptions({
-    name: "PageLogoItem"
-  });
+defineOptions({
+  name: "PageLogoItem"
+});
 </script>
 
 <template>logo内容</template>

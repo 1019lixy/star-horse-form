@@ -1,19 +1,18 @@
 <script setup lang="ts" name="DbSearch">
-import {onMounted, ref, unref, computed} from "vue";
-import {Config} from "@/api/settings.ts";
-import Help from "@/components/help.vue";
-import {initDbList} from "@/views/dbsearch/utils/DbSearchUtils.ts";
+import {computed, onMounted, ref, unref} from "vue";
+import {Config} from "@/api/settings";
+import {initDbList} from "@/views/dbsearch/utils/DbSearchUtils";
 import {
   closeLoad,
   commonParseCodeToName,
-  load,
-  error,
-  warning,
   download,
+  error,
   getRequest,
+  load,
+  piniaInstance,
   postRequest,
   useGlobalConfigStore,
-  piniaInstance
+  warning
 } from "star-horse-lowcode";
 
 let editorRef = ref(null);

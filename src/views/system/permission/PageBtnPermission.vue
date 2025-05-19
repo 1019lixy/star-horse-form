@@ -1,26 +1,25 @@
 <script setup lang="ts" name="ResourcesSummary">
 import {
   apiInstance,
+  ApiUrls,
   createCondition,
   createTree,
   dialogPreps,
   dictData,
   loadData,
-  loadRolesInfo
-} from "star-horse-lowcode";
-import {Config} from "@/api/settings.ts";
-import {computed, onMounted, provide, reactive, ref} from "vue";
-import {piniaInstance,
+  loadRolesInfo,
   PageFieldInfo,
+  piniaInstance,
   SearchFields,
   SearchParams,
   SelectOption,
-  ApiUrls,
+  useButtonPermissionStore,
   useGlobalConfigStore,
-  useButtonPermissionStore
+  warning
 } from "star-horse-lowcode";
+import {Config} from "@/api/settings";
+import {computed, onMounted, provide, reactive, ref} from "vue";
 import {TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
-import {warning} from "star-horse-lowcode";
 
 const dataUrl: ApiUrls = apiInstance("system-config", "system/rolesPkBtnAuthority");
 dataUrl.mergeUrl = "/system-config/system/resourcesSummaryEntity/merge";

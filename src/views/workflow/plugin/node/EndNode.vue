@@ -8,24 +8,24 @@
   </div>
 </template>
 <script setup lang="ts">
-  defineOptions({
-    name: "FlowNodeEnd"
-  });
-  const props = defineProps({
-    node: {
-      type: Object,
-      default: function () {
-        return {};
-      }
-    },
-    readable: {
-      type: Boolean,
-      default: false
+defineOptions({
+  name: "FlowNodeEnd"
+});
+const props = defineProps({
+  node: {
+    type: Object,
+    default: function () {
+      return {};
     }
-  });
+  },
+  readable: {
+    type: Boolean,
+    default: false
+  }
+});
 
-  const emits = defineEmits(["selectNode"]);
-  const selectNode = () => {
-    emits("selectNode", props.node);
-  };
+const emits = defineEmits(["selectNode"]);
+const selectNode = () => {
+  emits("selectNode", props.node);
+};
 </script>

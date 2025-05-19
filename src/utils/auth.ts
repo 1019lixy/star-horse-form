@@ -1,4 +1,4 @@
-import {Config} from "@/api/settings.ts";
+import {Config} from "@/api/settings";
 import {SearchParams} from "star-horse-lowcode";
 
 export function getToken() {

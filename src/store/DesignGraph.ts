@@ -1,13 +1,12 @@
 import {defineStore} from "pinia";
 import {Cell, Graph} from "@antv/x6";
-import {warning} from "star-horse-lowcode";
+import {EdgeInfo, NodeInfo, warning} from "star-horse-lowcode";
 import {Transform} from "@antv/x6-plugin-transform";
 import {Snapline} from "@antv/x6-plugin-snapline";
 import {Keyboard} from "@antv/x6-plugin-keyboard";
 import {Clipboard} from "@antv/x6-plugin-clipboard";
 import {History} from "@antv/x6-plugin-history";
 import {Selection} from "@antv/x6-plugin-selection";
-import {EdgeInfo, NodeInfo} from "star-horse-lowcode";
 import {ref, unref} from "vue";
 
 export const useDesignGraphStore = defineStore("designGraph",

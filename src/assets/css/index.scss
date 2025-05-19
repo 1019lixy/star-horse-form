@@ -11,6 +11,7 @@
   --star-horse-shadow-rgba: rgba(75, 61, 89, 0.3);
   --el-header-padding: 0;
 }
+
 ul {
   list-style-type: none;
   padding-left: 0;
@@ -42,9 +43,8 @@ body {
   width: 100%;
   height: 100%;
   font-size: 12px;
-  font-family:
-    "PingFang SC", "Lantinghei SC", "Microsoft YaHei", "HanHei SC", "Helvetica Neue", "Open Sans", Arial,
-    "Hiragino Sans GB", "微软雅黑", STHeiti, "WenQuanYi Micro Hei", SimSun, sans-serif;
+  font-family: "PingFang SC", "Lantinghei SC", "Microsoft YaHei", "HanHei SC", "Helvetica Neue", "Open Sans", Arial,
+  "Hiragino Sans GB", "微软雅黑", STHeiti, "WenQuanYi Micro Hei", SimSun, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   margin: 0;
@@ -101,7 +101,7 @@ a {
 .el-autocomplete,
 .el-input-number,
 .el-input-number--small {
-  width: 100%;
+  width: 100% !important;
 }
 
 .el-form-item__content {
@@ -629,7 +629,7 @@ hr {
   overflow-y: auto;
   overflow-x: hidden;
   background: rgba(247, 250, 250, 0.8);
-  overflow:  hidden!important;
+  overflow: hidden !important;
 }
 
 .main-design-phone {
@@ -924,6 +924,7 @@ button.el-collapse-item__header {
     color: var(--star-horse-style);
   }
 }
+
 .dragging-area {
   background: #e5e5e5 !important;
   border: 2px dashed var(--star-horse-style) !important;

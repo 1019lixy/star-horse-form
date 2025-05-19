@@ -1,19 +1,19 @@
 <script setup lang="ts">
 import {nextTick, onActivated, onDeactivated, onMounted, provide, reactive, ref} from "vue";
 import {Config} from "@/api/settings";
-import {formVisibleTypeList} from "@/views/workflow/utils/FlowFormUtils.ts";
-import {useFlowDesignStore} from "@/store/FlowDesign.ts";
+import {formVisibleTypeList} from "@/views/workflow/utils/FlowFormUtils";
+import {useFlowDesignStore} from "@/store/FlowDesign";
 import {useRouter} from "vue-router";
 import {
   apiInstance,
+  ApiUrls,
   dialogPreps,
   dictData,
-  ApiUrls,
+  PageFieldInfo,
+  piniaInstance,
   SearchFields,
   SelectOption,
-  PageFieldInfo,
-  UserFuncInfo,
-  piniaInstance
+  UserFuncInfo
 } from "star-horse-lowcode";
 
 defineOptions({

@@ -1,7 +1,6 @@
 <script setup lang="ts" name="JavaCompile">
-import {onMounted, reactive, ref, PropType, nextTick} from "vue";
-import {SelectOption, loadData, FieldInfo, PageFieldInfo, warning} from "star-horse-lowcode";
-import ToolInfo from "@/views/continuous/ToolInfo.vue";
+import {nextTick, onMounted, PropType, reactive, ref} from "vue";
+import {FieldInfo, loadData, PageFieldInfo, SelectOption, warning} from "star-horse-lowcode";
 
 const props = defineProps({
   //节点信息

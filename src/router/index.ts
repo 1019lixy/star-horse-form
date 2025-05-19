@@ -1,12 +1,13 @@
 import {createRouter, createWebHistory, NavigationGuardNext, RouteLocationNormalized} from "vue-router";
-import routeDefine from "@/router/routeDefine.ts";
+import routeDefine from "@/router/routeDefine";
 import {starhorseProcess} from "@/utils/starhorseProcess";
-import {Config} from "@/api/settings.ts";
+import {Config} from "@/api/settings";
 import {getToken} from "@/utils/auth";
 import {restoreMenu} from "@/api/star_horse_apis";
-import {useNavBarListStore} from "@/store/NavBarList.ts";
-import {useViewCacheStore} from "@/store/ViewCache.ts";
+import {useNavBarListStore} from "@/store/NavBarList";
+import {useViewCacheStore} from "@/store/ViewCache";
 import piniaCompInstance from "@/store";
+
 const {start, done} = starhorseProcess();
 const navBarListStore = useNavBarListStore(piniaCompInstance);
 const viewListStore = useViewCacheStore(piniaCompInstance);
@@ -15,7 +16,7 @@ const router = createRouter({
     routes: routeDefine,
     scrollBehavior: () => ({left: 0, top: 0})
 });
-const whiteList = ["/login","/home", "/workFlowForm", "/flowDesign", "/jbpmDesign"]; // N redirect whitelist
+const whiteList = ["/login", "/home", "/workFlowForm", "/flowDesign", "/jbpmDesign"]; // N redirect whitelist
 const assignTitle = (meta: any) => {
     if (meta.title) {
         document.title = meta.title + " - " + Config.title;

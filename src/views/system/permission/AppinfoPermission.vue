@@ -1,181 +1,192 @@
 <script setup lang="ts">
-  import { apiInstance, dialogPreps, dictData, loadRolesInfo, loadSystemInfo } from "star-horse-lowcode";
-  import { computed, onMounted, provide, reactive, ref } from "vue";
-  import { SearchFields, SelectOption,useGlobalConfigStore,ApiUrls,PageFieldInfo,SearchParams } from "star-horse-lowcode";
-  import {piniaInstance} from "star-horse-lowcode";
-  import { TreeNodeData } from "element-plus/es/components/tree-v2/src/types";
-  import { Config } from "@/api/settings.ts";
-  import { warning } from "star-horse-lowcode";
+import {
+  apiInstance,
+  ApiUrls,
+  dialogPreps,
+  dictData,
+  loadRolesInfo,
+  loadSystemInfo,
+  PageFieldInfo,
+  piniaInstance,
+  SearchFields,
+  SearchParams,
+  SelectOption,
+  useGlobalConfigStore,
+  warning
+} from "star-horse-lowcode";
+import {computed, onMounted, provide, reactive, ref} from "vue";
+import {TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
+import {Config} from "@/api/settings";
 
-  let informationsList = ref<any>([]);
-  let appPermissionStatus = ref<SelectOption[]>([]);
-  const dataUrl: ApiUrls = apiInstance("system-config", "system/rolesPkAppinfo");
-  const appinfoPermission = ref();
-  let rolesList = ref<SelectOption[]>();
-  let configStore = useGlobalConfigStore(piniaInstance);
-  let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
-  let currentUserGroupId = ref<number>(0);
-  let defaultCondition = ref<SearchParams[]>([]);
-  const checkChange = (data: TreeNodeData, checked: boolean) => {
-    currentUserGroupId.value = data.value;
-    defaultCondition.value = [
-      {
-        propertyName: "b.idRolesinfo",
-        value: data.value
-      }
-    ];
-    appinfoPermission.value.createSearchParams(defaultCondition.value);
-  };
-  const searchFields = reactive<SearchFields>({
-    fieldList: [
-      {
-        label: "系统名称",
-        fieldName: "b.idInformations",
-        defaultVisible: true,
-        type: "tselect",
-        optionList: informationsList,
-        matchType: "eq"
-      },
-      {
-        label: "状态",
-        fieldName: "b.statusCode",
-        type: "select",
-        optionList: appPermissionStatus,
-        defaultVisible: true
-      }
-    ]
-  });
-  const formFieldList = reactive<PageFieldInfo>({
-    fieldList: [
-      {
-        label: "分组名称",
-        fieldName: "idRolesinfo",
-        type: "select",
-        optionList: rolesList,
-        formVisible: true,
-        required: true,
-        viewVisible: false,
-        disabled: "Y"
-      },
-      {
-        label: "应用名称",
-        fieldName: "appList",
-        type: "tselect",
-        optionList: informationsList,
-        formVisible: true,
-        required: true,
-        viewVisible: false,
-        multiple: "Y",
-        helpMsg: "选择子节点时，一定要先选中父节点，否则在头部应用菜单栏无法显示",
-        preps: {
-          checkStrictly: "Y"
-        }
-      },
-      {
-        label: "状态",
-        fieldName: "statusCode",
-        type: "select",
-        listVisible: true,
-        formVisible: true,
-        optionList: appPermissionStatus
-      }
-    ]
-  });
-  const tableFieldList = reactive<PageFieldInfo>({
-    fieldList: [
-      {
-        label: "分组名称",
-        fieldName: "roleName",
-        type: "input",
-        listVisible: true
-      },
-      {
-        label: "分组编码",
-        fieldName: "roleCode",
-        type: "input",
-        listVisible: true
-      },
-      {
-        label: "系统名称",
-        fieldName: "sysName",
-        type: "input",
-        listVisible: true
-      },
-      {
-        label: "系统编码",
-        fieldName: "sysCode",
-        type: "input",
-        listVisible: true
-      },
-      {
-        label: "状态",
-        fieldName: "statusName",
-        type: "input",
-        listVisible: true
-      }
-    ],
-    orderBy: [
-      {
-        fieldName: "idRolesinfo",
-        ascOrDesc: "asc"
-      }
-    ]
-  });
-  const primaryKey = ["idInformations", "idRolesinfo"];
-  const dialogProps = dialogPreps();
-  provide("dialogProps", dialogProps);
-  let preValid = ref<any>({
-    add: () => {
-      if (!currentUserGroupId.value) {
-        warning("请先选择用户分组");
-        return false;
-      }
-      return true;
+let informationsList = ref<any>([]);
+let appPermissionStatus = ref<SelectOption[]>([]);
+const dataUrl: ApiUrls = apiInstance("system-config", "system/rolesPkAppinfo");
+const appinfoPermission = ref();
+let rolesList = ref<SelectOption[]>();
+let configStore = useGlobalConfigStore(piniaInstance);
+let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
+let currentUserGroupId = ref<number>(0);
+let defaultCondition = ref<SearchParams[]>([]);
+const checkChange = (data: TreeNodeData, checked: boolean) => {
+  currentUserGroupId.value = data.value;
+  defaultCondition.value = [
+    {
+      propertyName: "b.idRolesinfo",
+      value: data.value
     }
-  });
-  const dataFormat = (name: string, cellValue: object): any => {
-    if (name == "statusCode") {
-      return appPermissionStatus.value.find((item) => item.value == cellValue)?.name || cellValue;
+  ];
+  appinfoPermission.value.createSearchParams(defaultCondition.value);
+};
+const searchFields = reactive<SearchFields>({
+  fieldList: [
+    {
+      label: "系统名称",
+      fieldName: "b.idInformations",
+      defaultVisible: true,
+      type: "tselect",
+      optionList: informationsList,
+      matchType: "eq"
+    },
+    {
+      label: "状态",
+      fieldName: "b.statusCode",
+      type: "select",
+      optionList: appPermissionStatus,
+      defaultVisible: true
     }
-    return cellValue;
-  };
+  ]
+});
+const formFieldList = reactive<PageFieldInfo>({
+  fieldList: [
+    {
+      label: "分组名称",
+      fieldName: "idRolesinfo",
+      type: "select",
+      optionList: rolesList,
+      formVisible: true,
+      required: true,
+      viewVisible: false,
+      disabled: "Y"
+    },
+    {
+      label: "应用名称",
+      fieldName: "appList",
+      type: "tselect",
+      optionList: informationsList,
+      formVisible: true,
+      required: true,
+      viewVisible: false,
+      multiple: "Y",
+      helpMsg: "选择子节点时，一定要先选中父节点，否则在头部应用菜单栏无法显示",
+      preps: {
+        checkStrictly: "Y"
+      }
+    },
+    {
+      label: "状态",
+      fieldName: "statusCode",
+      type: "select",
+      listVisible: true,
+      formVisible: true,
+      optionList: appPermissionStatus
+    }
+  ]
+});
+const tableFieldList = reactive<PageFieldInfo>({
+  fieldList: [
+    {
+      label: "分组名称",
+      fieldName: "roleName",
+      type: "input",
+      listVisible: true
+    },
+    {
+      label: "分组编码",
+      fieldName: "roleCode",
+      type: "input",
+      listVisible: true
+    },
+    {
+      label: "系统名称",
+      fieldName: "sysName",
+      type: "input",
+      listVisible: true
+    },
+    {
+      label: "系统编码",
+      fieldName: "sysCode",
+      type: "input",
+      listVisible: true
+    },
+    {
+      label: "状态",
+      fieldName: "statusName",
+      type: "input",
+      listVisible: true
+    }
+  ],
+  orderBy: [
+    {
+      fieldName: "idRolesinfo",
+      ascOrDesc: "asc"
+    }
+  ]
+});
+const primaryKey = ["idInformations", "idRolesinfo"];
+const dialogProps = dialogPreps();
+provide("dialogProps", dialogProps);
+let preValid = ref<any>({
+  add: () => {
+    if (!currentUserGroupId.value) {
+      warning("请先选择用户分组");
+      return false;
+    }
+    return true;
+  }
+});
+const dataFormat = (name: string, cellValue: object): any => {
+  if (name == "statusCode") {
+    return appPermissionStatus.value.find((item) => item.value == cellValue)?.name || cellValue;
+  }
+  return cellValue;
+};
 
-  const initData = async () => {
-    informationsList.value = await loadSystemInfo([]);
-    rolesList.value = await loadRolesInfo([]);
-    appPermissionStatus.value = await dictData("app_permission_status");
-  };
-  onMounted(async () => {
-    await initData();
-  });
+const initData = async () => {
+  informationsList.value = await loadSystemInfo([]);
+  rolesList.value = await loadRolesInfo([]);
+  appPermissionStatus.value = await dictData("app_permission_status");
+};
+onMounted(async () => {
+  await initData();
+});
 </script>
 
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
     <star-horse-form
-      :outerFormData="{
+        :outerFormData="{
         idRolesinfo: currentUserGroupId
       }"
-      @refresh="appinfoPermission.loadByPage()"
-      :compUrl="dataUrl"
-      :fieldList="formFieldList"
+        @refresh="appinfoPermission.loadByPage()"
+        :compUrl="dataUrl"
+        :fieldList="formFieldList"
     />
   </star-horse-dialog>
   <star-horse-dialog
-    :dialog-visible="dialogProps.viewVisible"
-    :dialogProps="dialogProps"
-    :title="'查看数据'"
-    :is-view="true"
+      :dialog-visible="dialogProps.viewVisible"
+      :dialogProps="dialogProps"
+      :title="'查看数据'"
+      :is-view="true"
   >
-    <star-horse-data-view :data-format="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl" />
+    <star-horse-data-view :data-format="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
   </star-horse-dialog>
   <el-row :gutter="10" class="h100-overflow-hidden">
     <el-col :span="5" class="h100">
       <star-horse-tree
-        v-model:tree-datas="rolesList"
-        treeTitle="用户组"
-        @selectData="checkChange"
-        :compSize="compSize"
+          v-model:tree-datas="rolesList"
+          treeTitle="用户组"
+          @selectData="checkChange"
+          :compSize="compSize"
       />
     </el-col>
     <el-col :span="19" class="h100">
@@ -191,12 +202,12 @@
       </div>
       <el-card class="inner_content h100">
         <star-horse-table-comp
-          ref="appinfoPermission"
-          :fieldList="tableFieldList"
-          :primaryKey="primaryKey"
-          :compUrl="dataUrl"
-          :orderBy="tableFieldList.orderBy"
-          :dataFormat="dataFormat"
+            ref="appinfoPermission"
+            :fieldList="tableFieldList"
+            :primaryKey="primaryKey"
+            :compUrl="dataUrl"
+            :orderBy="tableFieldList.orderBy"
+            :dataFormat="dataFormat"
         />
       </el-card>
     </el-col>

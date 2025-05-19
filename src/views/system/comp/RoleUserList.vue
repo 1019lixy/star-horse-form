@@ -5,20 +5,19 @@ import {getCustomerParam} from "@/utils/auth";
 import {
   analysisField,
   apiInstance,
+  ApiUrls,
   closeLoad,
-  createCondition,
   dialogPreps,
   load,
   loadData,
-  ApiUrls,
-  SearchFields,
-  PageFieldInfo,
-  UserFuncInfo,
   operationConfirm,
-  success,
-  warning,
+  PageFieldInfo,
+  postRequest,
+  SearchFields,
   SearchParams,
-  postRequest
+  success,
+  UserFuncInfo,
+  warning
 } from "star-horse-lowcode";
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance("system-config", "system/employeeInfo");
@@ -382,7 +381,7 @@ onDeactivated(() => {
   </star-horse-dialog>
   <div class="search-content">
     <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
-     <star-horse-search-comp
+      <star-horse-search-comp
           @searchData="(data: any) => employeeInfoRef.createSearchParams(data)"
           :formData="searchFormData"
           :compUrl="dataUrl"

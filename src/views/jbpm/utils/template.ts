@@ -1,5 +1,5 @@
 const flowTemplate = (flowName: string, processId: string) => {
-  return `
+    return `
       <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
 xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
 xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
@@ -31,4 +31,4 @@ xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
     </bpmn:definitions>`;
 };
 
-export { flowTemplate };
+export {flowTemplate};

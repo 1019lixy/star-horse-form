@@ -1,40 +1,40 @@
-import { uuid } from "star-horse-lowcode";
+import {uuid} from "star-horse-lowcode";
 import html2canvas from "html2canvas";
-import { isRef, Ref } from "vue";
-import { FlowNodeEnums } from "@/views/workflow/plugin/enums/FlowNodeEnums.ts";
+import {isRef, Ref} from "vue";
+import {FlowNodeEnums} from "@/views/workflow/plugin/enums/FlowNodeEnums";
 
 /**
  *   获取条件/并行节点
  */
 export function addCondition(node: any, len: any) {
-  return {
-    pid: node.id,
-    id: uuid(),
-    name: (node.type == FlowNodeEnums.BRANCH_NODE ? "分支" : "并行") + len,
-    type:
-      node.type == FlowNodeEnums.BRANCH_NODE ? FlowNodeEnums.BRANCH_CONDITION_NODE : FlowNodeEnums.PARALLEL_SUB_NODE,
-    // 显示添加按钮
-    addable: true,
-    //状态
-    statusCode: "-1",
-    otherFlag: false,
-    // 可删除提示
-    deletable: false,
-    showPriorityLevel: node.type == FlowNodeEnums.BRANCH_NODE,
-    // 优先级
-    priorityLevel: len,
-    // 是否有错误
-    error: false,
-    // 分支类型
-    branchType: node.type == FlowNodeEnums.BRANCH_NODE ? "rule" : null,
-    // 显示内容
-    content: node.type == FlowNodeEnums.BRANCH_NODE ? null : "任意(其他)",
-    // 子节点
-    childNode: null,
-    errorMsg: "",
-    // 条件组
-    conditionGroups: []
-  };
+    return {
+        pid: node.id,
+        id: uuid(),
+        name: (node.type == FlowNodeEnums.BRANCH_NODE ? "分支" : "并行") + len,
+        type:
+            node.type == FlowNodeEnums.BRANCH_NODE ? FlowNodeEnums.BRANCH_CONDITION_NODE : FlowNodeEnums.PARALLEL_SUB_NODE,
+        // 显示添加按钮
+        addable: true,
+        //状态
+        statusCode: "-1",
+        otherFlag: false,
+        // 可删除提示
+        deletable: false,
+        showPriorityLevel: node.type == FlowNodeEnums.BRANCH_NODE,
+        // 优先级
+        priorityLevel: len,
+        // 是否有错误
+        error: false,
+        // 分支类型
+        branchType: node.type == FlowNodeEnums.BRANCH_NODE ? "rule" : null,
+        // 显示内容
+        content: node.type == FlowNodeEnums.BRANCH_NODE ? null : "任意(其他)",
+        // 子节点
+        childNode: null,
+        errorMsg: "",
+        // 条件组
+        conditionGroups: []
+    };
 }
 
 /**
@@ -68,73 +68,73 @@ export function addCondition(node: any, len: any) {
  *   添加分支
  */
 export function addBranch(node: any, currNode: any) {
-  if (node && node.id == currNode.id) {
-    node.conditionNodes = currNode.conditionNodes;
-  } else if (node) {
-    addBranch(node.childNode, currNode);
-    if (node.conditionNodes) {
-      node.conditionNodes.forEach((conditionNode: any) => {
-        addBranch(conditionNode, currNode);
-      });
+    if (node && node.id == currNode.id) {
+        node.conditionNodes = currNode.conditionNodes;
+    } else if (node) {
+        addBranch(node.childNode, currNode);
+        if (node.conditionNodes) {
+            node.conditionNodes.forEach((conditionNode: any) => {
+                addBranch(conditionNode, currNode);
+            });
+        }
     }
-  }
 }
 
 /**
  *   删除节点
  */
 export function delNode(node: any, currNode: any) {
-  if (node && currNode && node.id == currNode.pid) {
-    // 当前节点的子节点暂存
-    const childNode = currNode.childNode;
-    // 如果删除的是并行节点
-    // if (currNode.type == FlowNodeEnums.PARALLEL_NODE) {
-    //     childNode = currNode.childNode?.childNode;
-    // }
-    if (childNode && childNode.hasOwnProperty("name")) {
-      childNode.pid = currNode.pid;
+    if (node && currNode && node.id == currNode.pid) {
+        // 当前节点的子节点暂存
+        const childNode = currNode.childNode;
+        // 如果删除的是并行节点
+        // if (currNode.type == FlowNodeEnums.PARALLEL_NODE) {
+        //     childNode = currNode.childNode?.childNode;
+        // }
+        if (childNode && childNode.hasOwnProperty("name")) {
+            childNode.pid = currNode.pid;
+        }
+        //  将当前节点的子节点挂载到父节点
+        node.childNode = childNode;
+    } else if (node && currNode) {
+        delNode(node.childNode, currNode);
+        if (node.conditionNodes) {
+            node.conditionNodes.forEach((conditionNode: any) => {
+                delNode(conditionNode, currNode);
+            });
+        }
     }
-    //  将当前节点的子节点挂载到父节点
-    node.childNode = childNode;
-  } else if (node && currNode) {
-    delNode(node.childNode, currNode);
-    if (node.conditionNodes) {
-      node.conditionNodes.forEach((conditionNode: any) => {
-        delNode(conditionNode, currNode);
-      });
-    }
-  }
 }
 
 /**
  *   删除分支节点
  */
 export function delBranchNode(node: any, snode: any, currNode: any) {
-  if (snode && currNode && snode.id == currNode.pid) {
-    // 只有两个分支
-    if (snode.conditionNodes.length == 2) {
-      if (snode.id == node.id) {
-        node = {};
-      } else {
-        // 需要将路由节点删除
-        delNode(node, snode);
-      }
-    } else {
-      // 执行删除当前分支
-      snode.conditionNodes.forEach((conditionNode: any, index: number) => {
-        if (conditionNode.id == currNode.id) {
-          snode.conditionNodes.splice(index, 1);
+    if (snode && currNode && snode.id == currNode.pid) {
+        // 只有两个分支
+        if (snode.conditionNodes.length == 2) {
+            if (snode.id == node.id) {
+                node = {};
+            } else {
+                // 需要将路由节点删除
+                delNode(node, snode);
+            }
+        } else {
+            // 执行删除当前分支
+            snode.conditionNodes.forEach((conditionNode: any, index: number) => {
+                if (conditionNode.id == currNode.id) {
+                    snode.conditionNodes.splice(index, 1);
+                }
+            });
         }
-      });
+    } else if (snode && currNode) {
+        delBranchNode(node, snode.childNode, currNode);
+        if (snode.conditionNodes) {
+            snode.conditionNodes.forEach((conditionNode: any) => {
+                delBranchNode(node, conditionNode, currNode);
+            });
+        }
     }
-  } else if (snode && currNode) {
-    delBranchNode(node, snode.childNode, currNode);
-    if (snode.conditionNodes) {
-      snode.conditionNodes.forEach((conditionNode: any) => {
-        delBranchNode(node, conditionNode, currNode);
-      });
-    }
-  }
 }
 
 /**
@@ -142,16 +142,16 @@ export function delBranchNode(node: any, snode: any, currNode: any) {
  *
  */
 export function updateNode(node: any, currNode: any, field: any, value: any) {
-  if (node && currNode && node.id == currNode.id) {
-    node[field] = value;
-  } else if (node && currNode) {
-    updateNode(node.childNode, currNode, field, value);
-    if (node.conditionNodes) {
-      node.conditionNodes.forEach((conditionNode: any) => {
-        updateNode(conditionNode, currNode, field, value);
-      });
+    if (node && currNode && node.id == currNode.id) {
+        node[field] = value;
+    } else if (node && currNode) {
+        updateNode(node.childNode, currNode, field, value);
+        if (node.conditionNodes) {
+            node.conditionNodes.forEach((conditionNode: any) => {
+                updateNode(conditionNode, currNode, field, value);
+            });
+        }
     }
-  }
 }
 
 /**
@@ -160,21 +160,21 @@ export function updateNode(node: any, currNode: any, field: any, value: any) {
  * @param {*} approveNodes
  */
 export function getApproveNodes(node: any, approveNodes: Array<any>) {
-  isRef(node) && (node = node.value);
-  if (node.type == FlowNodeEnums.APPROVER_NODE) {
-    approveNodes.push(node);
-  }
-  // 如果有孩子节点
-  const childNode = node.childNode;
-  if (childNode) {
-    getApproveNodes(childNode, approveNodes);
-  }
-  const conditionNodes = node.conditionNodes;
-  if (conditionNodes) {
-    conditionNodes.forEach((conditionNode: any) => {
-      getApproveNodes(conditionNode, approveNodes);
-    });
-  }
+    isRef(node) && (node = node.value);
+    if (node.type == FlowNodeEnums.APPROVER_NODE) {
+        approveNodes.push(node);
+    }
+    // 如果有孩子节点
+    const childNode = node.childNode;
+    if (childNode) {
+        getApproveNodes(childNode, approveNodes);
+    }
+    const conditionNodes = node.conditionNodes;
+    if (conditionNodes) {
+        conditionNodes.forEach((conditionNode: any) => {
+            getApproveNodes(conditionNode, approveNodes);
+        });
+    }
 }
 
 /**
@@ -182,17 +182,17 @@ export function getApproveNodes(node: any, approveNodes: Array<any>) {
  *
  */
 export async function updateMap(mapImg: Ref<string>) {
-  // await nextTick();
-  setTimeout(() => {
-    const content: any = document.querySelector("#sh-flow-editor-content");
-    html2canvas(content, {
-      backgroundColor: "#aaa",
-      scale: 1,
-      width: content.clientWidth,
-      height: content.scrollHeight,
-      windowHeight: content.scrollHeight
-    }).then((canvas) => {
-      mapImg.value = canvas.toDataURL("image/jpeg", 0.8);
-    });
-  }, 300);
+    // await nextTick();
+    setTimeout(() => {
+        const content: any = document.querySelector("#sh-flow-editor-content");
+        html2canvas(content, {
+            backgroundColor: "#aaa",
+            scale: 1,
+            width: content.clientWidth,
+            height: content.scrollHeight,
+            windowHeight: content.scrollHeight
+        }).then((canvas) => {
+            mapImg.value = canvas.toDataURL("image/jpeg", 0.8);
+        });
+    }, 300);
 }

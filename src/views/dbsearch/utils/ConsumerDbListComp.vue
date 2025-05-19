@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import {computed, onMounted, ref, watch} from "vue";
-import {initDbList, openDatabase, tableColumns} from "@/views/dbsearch/utils/DbSearchUtils.ts";
-import {piniaInstance} from "star-horse-lowcode";
-import {useGlobalConfigStore, useConsumerViewStore, SelectOption} from "star-horse-lowcode";
-import {Config} from "@/api/settings.ts";
+import {initDbList, openDatabase, tableColumns} from "@/views/dbsearch/utils/DbSearchUtils";
+import {piniaInstance, SelectOption, useConsumerViewStore, useGlobalConfigStore} from "star-horse-lowcode";
+import {Config} from "@/api/settings";
 
 let configStore = useGlobalConfigStore(piniaInstance);
 const consumerView = useConsumerViewStore(piniaInstance);

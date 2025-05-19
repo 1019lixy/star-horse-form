@@ -1,7 +1,6 @@
 <script setup lang="ts" name="CppTest">
 import {onMounted, reactive, ref} from "vue";
-import ToolInfo from "@/views/continuous/ToolInfo.vue";
-import {SelectOption, loadData, FieldInfo, PageFieldInfo, warning} from "star-horse-lowcode";
+import {FieldInfo, loadData, PageFieldInfo, SelectOption, warning} from "star-horse-lowcode";
 
 const buildCfgRef = ref();
 const toolInfoRef = ref();

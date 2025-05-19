@@ -2,22 +2,27 @@
 import {computed, nextTick, onMounted, ref, unref, watch} from "vue";
 import {LocationQueryValue, useRoute} from "vue-router";
 import {Cell} from "@antv/x6";
-import DataPreview from "@/views/dyform/DataPreview.vue";
-import {closeLoad, dictData, load, loadData, loadRolesInfo} from "star-horse-lowcode";
-import {error, success, warning} from "star-horse-lowcode";
-import {postRequest} from "star-horse-lowcode";
-import {apiInstance} from "star-horse-lowcode";
-import {ApiUrls, SelectOption, CustomerItem} from "star-horse-lowcode";
 import {
-  consumerNodeData,
-  relationFieldInfo,
-  table_width,
-  viewFieldInfo
-} from "@/views/dyform/utils/DataConsumer.ts";
-import {useConsumerViewStore, useGlobalConfigStore} from "star-horse-lowcode";
-import {piniaInstance} from "star-horse-lowcode";
-import {tableColumns} from "@/views/dbsearch/utils/DbSearchUtils.ts";
-import {Config} from "@/api/settings.ts";
+  apiInstance,
+  ApiUrls,
+  closeLoad,
+  CustomerItem,
+  dictData,
+  error,
+  load,
+  loadData,
+  loadRolesInfo,
+  piniaInstance,
+  postRequest,
+  SelectOption,
+  success,
+  useConsumerViewStore,
+  useGlobalConfigStore,
+  warning
+} from "star-horse-lowcode";
+import {consumerNodeData, relationFieldInfo, table_width, viewFieldInfo} from "@/views/dyform/utils/DataConsumer";
+import {tableColumns} from "@/views/dbsearch/utils/DbSearchUtils";
+import {Config} from "@/api/settings";
 
 const route = useRoute();
 const isView = ref<boolean>(false);

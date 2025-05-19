@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import {nextTick, onBeforeUnmount, onMounted, ref, watch} from "vue";
-import {ArrowLeftBold, ArrowRightBold, Search} from "@element-plus/icons-vue";
-import FullCalendar from "@fullcalendar/vue3";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import multiMonthPlugin from "@fullcalendar/multimonth";
@@ -9,8 +7,8 @@ import interactionPlugin from "@fullcalendar/interaction";
 import zhCnLocale from "@fullcalendar/core/locales/zh-cn";
 import listPlugin from "@fullcalendar/list";
 import {CalendarOptions} from "@fullcalendar/core";
-import {getUserInfo} from "@/utils/auth.ts";
-import {calendarManage, defineType} from "@/views/system/calendar/CalendarProps.ts";
+import {getUserInfo} from "@/utils/auth";
+import {calendarManage, defineType} from "@/views/system/calendar/CalendarProps";
 import {
   createCondition,
   currentDate,

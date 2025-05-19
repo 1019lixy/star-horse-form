@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {onMounted, ref} from "vue";
-import {ApiUrls, apiInstance, createJoinCondition, loadData, postRequest, warning} from "star-horse-lowcode";
+import {apiInstance, ApiUrls, createJoinCondition, loadData, postRequest, warning} from "star-horse-lowcode";
 
 const apiUrl: ApiUrls = apiInstance("userdb-manage", "/userdb/formInstance/conTemplate/idTemplate/136");
 const nodeCfgUrl: ApiUrls = apiInstance("userdb-manage", "userdb/formInstance/conNodeConfigures/idNodeConfigure/136")

@@ -1,8 +1,5 @@
 <script lang="ts" setup name="DynamicForm">
-import FieldPanel from "@/views/dyform/FieldPanel.vue";
-import { computed, nextTick, onActivated, onBeforeUnmount, onDeactivated, onMounted, ref, watch } from "vue";
-import PropertyPanel from "@/views/dyform/PropertyPanel.vue";
-import FieldLayer from "@/views/dyform/FieldLayer.vue";
+import {computed, nextTick, onActivated, onBeforeUnmount, onDeactivated, onMounted, ref, watch} from "vue";
 
 import {
   apiInstance,
@@ -18,25 +15,18 @@ import {
   useDesignFormStore,
   useGlobalConfigStore,
   useSelfOperationStore,
-  warning,
-  ShForm
+  warning
 } from "star-horse-lowcode";
-import { useRoute, useRouter } from "vue-router";
-import FormPropertyPanel from "@/views/dyform/FormPropertyPanel.vue";
-import Help from "@/components/help.vue";
-import { dynamicFormHelpMessage, formActions } from "@/views/dyform/utils/DynamicForm.ts";
-import { validDynamicFormCompParams } from "@/views/dyform/utils/preview.ts";
-import CodeComp from "@/views/dyform/code/CodeComp.vue";
-import { delCacheData, getCacheData, setCacheData } from "@/api/cached_utils.ts";
-import { i18n } from "@/lang";
-import { Config } from "@/api/settings.ts";
-import FormPreview from "@/views/dyform/FormPreview.vue";
-import { initKeyboardEvent, removeKeyboardEvent } from "@/api/keyboard-event-utils.ts";
-import { dynamicFormContextMenuData } from "@/plugins/AblesPlugin.ts";
-import { ModuleEnums } from "@/components/enums/ModuleEnums.ts";
-import { compFieldInit } from "@/views/dyform/utils/FieldOperationUtils.ts";
-import FormMenuShot from "@/views/dyform/utils/FormMenuShot.vue";
-import BatchEditFields from "@/views/dyform/BatchEditFields.vue";
+import {useRoute, useRouter} from "vue-router";
+import {dynamicFormHelpMessage, formActions} from "@/views/dyform/utils/DynamicForm";
+import {validDynamicFormCompParams} from "@/views/dyform/utils/preview";
+import {delCacheData, getCacheData, setCacheData} from "@/api/cached_utils";
+import {i18n} from "@/lang";
+import {Config} from "@/api/settings";
+import {initKeyboardEvent, removeKeyboardEvent} from "@/api/keyboard-event-utils";
+import {dynamicFormContextMenuData} from "@/plugins/AblesPlugin";
+import {ModuleEnums} from "@/components/enums/ModuleEnums";
+import {compFieldInit} from "@/views/dyform/utils/FieldOperationUtils";
 
 const dataUrl = apiInstance("userdb-manage", "userdb/dynamicForm");
 let designForm = useDesignFormStore(piniaInstance);
@@ -63,7 +53,7 @@ const dynamicFormRef = ref();
 const previewDynamicFormRef = ref();
 let reOrUnDoFlag = ref<boolean>(false);
 let initFinish = ref<boolean>(false);
-let currentPageStyle = ref<any>({ label: "电脑", key: "pc" });
+let currentPageStyle = ref<any>({label: "电脑", key: "pc"});
 let currentPageClass = ref<string>("main-design");
 let cacheData = ref<any>("");
 let cacheName = "dynamicFormCache";
@@ -190,9 +180,9 @@ const createFormInfo = () => {
   let dynameForm = JSON.parse(JSON.stringify(formInfo.value));
   //解决多次转换
   dynameForm!["relations"] =
-    dynameForm["relations"] && dynameForm["relations"] instanceof Array
-      ? JSON.stringify(dynameForm["relations"])
-      : dynameForm["relations"];
+      dynameForm["relations"] && dynameForm["relations"] instanceof Array
+          ? JSON.stringify(dynameForm["relations"])
+          : dynameForm["relations"];
   dynameForm!["details"] = {};
   dynameForm!["details"]["content"] = JSON.stringify(list.value);
   dynameForm!["details"]["fieldNames"] = "{}"; //JSON.stringify(formData.value);
@@ -224,35 +214,35 @@ const doSave = async (isDraft: boolean = false) => {
   }
   load("数据提交中，请等待");
   postRequest(`${dataUrl.basePrefix}/${isDraft ? "mergeDraft" : "merge"}`, createFormInfo())
-    .then((res: any) => {
-      if (res.data.code != 0) {
-        activeTab.value = "second";
-        warning(res.data.cnMessage);
-        return;
-      }
-      closeAction();
-      delCacheData(cacheName);
-      //添加成功清空缓存
-      designForm.clearAll(false);
-      success(res.data.cnMessage);
-      //添加成功后是否还要继续添加，
-      // operationConfirm(res.data.cnMessage + ",是否继续留在当前页面")
-      //     .then((cfm: boolean) => {
-      //       if (cfm) {
-      //         analysisParentParam();
-      //       }
-      //     })
-      //     .catch(() => {
-      //       goBack();
-      //     });
-    })
-    .catch((err) => {
-      closeAction();
-      error("操作异常:" + err);
-    })
-    .finally(() => {
-      closeLoad();
-    });
+      .then((res: any) => {
+        if (res.data.code != 0) {
+          activeTab.value = "second";
+          warning(res.data.cnMessage);
+          return;
+        }
+        closeAction();
+        delCacheData(cacheName);
+        //添加成功清空缓存
+        designForm.clearAll(false);
+        success(res.data.cnMessage);
+        //添加成功后是否还要继续添加，
+        // operationConfirm(res.data.cnMessage + ",是否继续留在当前页面")
+        //     .then((cfm: boolean) => {
+        //       if (cfm) {
+        //         analysisParentParam();
+        //       }
+        //     })
+        //     .catch(() => {
+        //       goBack();
+        //     });
+      })
+      .catch((err) => {
+        closeAction();
+        error("操作异常:" + err);
+      })
+      .finally(() => {
+        closeLoad();
+      });
 };
 const goBack = () => {
   let sdata = {
@@ -469,31 +459,31 @@ onBeforeUnmount(() => {
   listWatcher();
 });
 watch(
-  () => route.query,
-  (val) => {
-    if (val) {
-      analysisQueryParams();
-    }
-  },
-  { immediate: true, deep: true }
+    () => route.query,
+    (val) => {
+      if (val) {
+        analysisQueryParams();
+      }
+    },
+    {immediate: true, deep: true}
 );
 
 const listWatcher = watch(
-  () => list.value,
-  (val: any) => {
-    designForm.removePromise();
-    designForm.setRefresh();
-    designForm.addHistoryRecord(reOrUnDoFlag.value);
-    reOrUnDoFlag.value = false;
-    userOperation.setFormInstance(dynamicFormRef);
-    userOperation.setFormData(formData);
-    userOperation.addFormItemList(val);
-    setCacheData(cacheName, val);
-  },
-  {
-    immediate: false,
-    deep: true
-  }
+    () => list.value,
+    (val: any) => {
+      designForm.removePromise();
+      designForm.setRefresh();
+      designForm.addHistoryRecord(reOrUnDoFlag.value);
+      reOrUnDoFlag.value = false;
+      userOperation.setFormInstance(dynamicFormRef);
+      userOperation.setFormData(formData);
+      userOperation.addFormItemList(val);
+      setCacheData(cacheName, val);
+    },
+    {
+      immediate: false,
+      deep: true
+    }
 );
 
 onMounted(async () => {
@@ -504,41 +494,41 @@ let prepsModel = ref("one");
 </script>
 <template>
   <star-horse-dialog :dialogVisible="codeDialogVisible" @closeAction="closeAction" :selfFunc="true" :isView="true"
-    :full-screen="true" :compSize="compSize" @merge="codeDoSave" :title="'代码'">
-    <code-comp />
+                     :full-screen="true" :compSize="compSize" @merge="codeDoSave" :title="'代码'">
+    <code-comp/>
   </star-horse-dialog>
   <star-horse-dialog :dialogVisible="configDialogVisible" @closeAction="closeAction" :selfFunc="true"
-    :compSize="compSize" @merge="doSave(false)" :title="'表单配置'">
-    <FormPropertyPanel ref="formPropertyRef" />
+                     :compSize="compSize" @merge="doSave(false)" :title="'表单配置'">
+    <FormPropertyPanel ref="formPropertyRef"/>
     <template #extend>
       <el-button @click="doSave(true)" style="background: var(--star-horse-style); color: var(--star-horse-white)"
-        :size="compSize">
-        <star-horse-icon icon-class="short_save" cursor="pointer" style="color: var(--star-horse-white)" />
+                 :size="compSize">
+        <star-horse-icon icon-class="short_save" cursor="pointer" style="color: var(--star-horse-white)"/>
         暂存
       </el-button>
     </template>
   </star-horse-dialog>
   <star-horse-dialog :dialogVisible="batchEditFieldVisible" @closeAction="closeAction" :selfFunc="true"
-    :compSize="compSize" @merge="closeAction" :title="'批量修改属性'">
+                     :compSize="compSize" @merge="closeAction" :title="'批量修改属性'">
     <el-tabs v-model="prepsModel">
       <el-tab-pane name="one" label="业务字段" class="flex overflow-hidden flex-col">
-        <batch-edit-fields :compSize="compSize" />
+        <batch-edit-fields :compSize="compSize"/>
       </el-tab-pane>
       <el-tab-pane name="two" label="公共字段"> 在配置或者提交功能里设置</el-tab-pane>
     </el-tabs>
   </star-horse-dialog>
   <star-horse-dialog :dialogVisible="isPreview" @closeAction="closeAction" :selfFunc="true" :compSize="compSize"
-    :title="'表单预览'" :is-view="true">
-    <form-preview :list="list" />
+                     :title="'表单预览'" :is-view="true">
+    <form-preview :list="list"/>
   </star-horse-dialog>
   <el-card class="inner_content">
     <div class="form_content">
       <div class="side-panel" v-show="leftPanelVisible">
-        <field-panel ref="fieldPanelRef" @loadData="loadTemplateData" />
+        <field-panel ref="fieldPanelRef" @loadData="loadTemplateData"/>
       </div>
       <div class="form-main">
         <div class="inner_button">
-          <el-menu mode="horizontal" :ellipsis="false" style="height: inherit; width: 100%">
+          <el-menu mode="horizontal" :ellipsis="false" style="height: inherit; width: 100%;">
             <template v-for="(item, index) in formActions">
               <el-menu-item v-if="
                 (list.length > 0 || item.defaultEdit) &&
@@ -546,19 +536,19 @@ let prepsModel = ref("one");
                 !item.children
               " :index="'1_' + index" @click="actions(item.key)">
                 <el-tooltip class="item" :content="item.label" effect="dark" placement="bottom">
-                  <star-horse-icon :icon-class="item.icon" size="24px" style="color: var(--star-horse-style)" />
+                  <star-horse-icon :icon-class="item.icon" size="24px" style="color: var(--star-horse-style)"/>
                 </el-tooltip>
               </el-menu-item>
               <template v-if="item.children && item.children.length > 0">
                 <el-sub-menu :index="'1_' + index">
                   <template #title>
                     <el-tooltip class="item" :content="currentPageStyle.label" effect="dark" placement="bottom">
-                      <star-horse-icon :icon-class="item.icon" size="24px" style="color: var(--star-horse-style)" />
+                      <star-horse-icon :icon-class="item.icon" size="24px" style="color: var(--star-horse-style)"/>
                     </el-tooltip>
                   </template>
                   <el-menu-item v-for="(sitem, sindex) in item.children" :index="'2_' + sindex"
-                    @click="actionsStyle(sitem)">
-                    <star-horse-icon :icon-class="sitem.icon" size="24px" style="color: var(--star-horse-style)" />
+                                @click="actionsStyle(sitem)">
+                    <star-horse-icon :icon-class="sitem.icon" size="24px" style="color: var(--star-horse-style)"/>
                     {{ sitem.label }}
                   </el-menu-item>
                 </el-sub-menu>
@@ -566,40 +556,41 @@ let prepsModel = ref("one");
             </template>
           </el-menu>
           <el-tooltip content="恢复缓存数据" v-if="cacheData && cacheData.length > 0">
-            <star-horse-icon icon-class="reset" @click="cacheDataRestore($event)" />
+            <star-horse-icon icon-class="reset" @click="cacheDataRestore($event)"/>
           </el-tooltip>
-          <help :message="dynamicFormHelpMessage" />
+          <help :message="dynamicFormHelpMessage"/>
         </div>
         <div class="main-design-a">
           <div class="main-design-outer" @contextmenu="contextMenu">
             <sh-form ref="dynamicFormRef" :needScroller="false" class="design-form-container"
-              :class="{ 'dragging-area': isDragging }" :disabled="formInfo['disabled'] == 'Y'"
-              :hide-required-asterisk="formInfo['hideRequiredAsterisk'] == 'Y'" :inline="formInfo.inline == 'Y'"
-              :inline-message="formInfo['inlineMessage'] == 'Y'" :label-position="formInfo['labelPosition']"
-              :label-suffix="formInfo['labelSuffix']" :label-width="formInfo['labelWidth']" v-model:dataForm="formData"
-              :require-asterisk-position="formInfo['requireAsteriskPosition']" :rules="formInfo.rules || {}"
-              :scroll-to-error="formInfo['scrollToError'] == 'Y'" :show-message="formInfo['showMessage'] == 'Y'"
-              :size="formInfo['size']" :status-icon="formInfo['statusIcon'] == 'Y'"
-              :validate-on-rule-change="formInfo['validateOnRuleChange'] == 'Y'">
+                     :class="{ 'dragging-area': isDragging }" :disabled="formInfo['disabled'] == 'Y'"
+                     :hide-required-asterisk="formInfo['hideRequiredAsterisk'] == 'Y'" :inline="formInfo.inline == 'Y'"
+                     :inline-message="formInfo['inlineMessage'] == 'Y'" :label-position="formInfo['labelPosition']"
+                     :label-suffix="formInfo['labelSuffix']" :label-width="formInfo['labelWidth']"
+                     v-model:dataForm="formData"
+                     :require-asterisk-position="formInfo['requireAsteriskPosition']" :rules="formInfo.rules || {}"
+                     :scroll-to-error="formInfo['scrollToError'] == 'Y'" :show-message="formInfo['showMessage'] == 'Y'"
+                     :size="'default'" :status-icon="formInfo['statusIcon'] == 'Y'"
+                     :validate-on-rule-change="formInfo['validateOnRuleChange'] == 'Y'">
               <draggable @add="(evt: Event) => onDragAdd(evt, list)" :class="currentPageClass" tag="div"
-                style="margin: 10px auto; " group="starHorseGroup" ghost-class="ghost" :list="list">
+                         style="margin: 10px auto; " group="starHorseGroup" ghost-class="ghost" :list="list">
                 <template #item="{ element: data, index }">
                   <div :class="{ 'comp-item': data.preps?.headerFlag == 'Y' }" :data-field-id="data.id" :key="data.id">
                     <component :key="data.id" :field="data" :isDesign="true" :formInfo="formInfo"
-                      :index-of-parent-list="index"
-                      :is="data.itemType + (data.compType === 'container' ? '-container' : '-item')"
-                      v-model:formData="formData" />
+                               :index-of-parent-list="index"
+                               :is="data.itemType + (data.compType === 'container' ? '-container' : '-item')"
+                               v-model:formData="formData"/>
                   </div>
                 </template>
               </draggable>
             </sh-form>
             <Teleport to="body">
-              <ContentMenu ref="contentMenuRef" :menu-data="dynamicFormContextMenuData({}, {})" />
+              <ContentMenu ref="contentMenuRef" :menu-data="dynamicFormContextMenuData({}, {})"/>
             </Teleport>
-            <FormMenuShot ref="formListRef" @change="changeDataHandle" :dataUrl="dataUrl" primaryKey="idDynamicForm" />
+            <FormMenuShot ref="formListRef" @change="changeDataHandle" :dataUrl="dataUrl" primaryKey="idDynamicForm"/>
           </div>
           <div class="side-panel-item" v-show="rightPanelVisible">
-            <property-panel :activeTab="activeTab" @formInfoChange="formInfoChange" ref="propertyRef" />
+            <property-panel :activeTab="activeTab" @formInfoChange="formInfoChange" ref="propertyRef"/>
           </div>
         </div>
       </div>
@@ -611,7 +602,7 @@ let prepsModel = ref("one");
       <h4>表单属性层级</h4>
     </template>
     <template #default>
-      <FieldLayer />
+      <FieldLayer/>
     </template>
   </el-drawer>
 </template>

@@ -1,10 +1,17 @@
 <script setup lang="ts" name="Statusinfo">
-import {apiInstance, dialogPreps} from "star-horse-lowcode";
-import {Config} from "@/api/settings.ts";
+import {
+  apiInstance,
+  ApiUrls,
+  createCondition,
+  dialogPreps,
+  loadDict,
+  PageFieldInfo,
+  SearchFields,
+  SelectOption,
+  UserFuncInfo
+} from "star-horse-lowcode";
+import {Config} from "@/api/settings";
 import {computed, onMounted, provide, reactive, ref, watch} from "vue";
-import {ApiUrls,SearchFields, SelectOption,PageFieldInfo, UserFuncInfo} from "star-horse-lowcode";
-import {loadDict} from "star-horse-lowcode";
-import {createCondition} from "star-horse-lowcode";
 
 const dictinfoRef = ref();
 const dictSearchRef = ref();

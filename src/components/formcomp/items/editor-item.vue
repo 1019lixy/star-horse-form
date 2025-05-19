@@ -1,14 +1,14 @@
 <template>
   <starhorse-form-item :isDesign="isDesign" :disabled="disabled" :bareFlag="bareFlag" :formItem="field"
-    :parentField="parentField">
+                       :parentField="parentField">
     <star-horse-editor :lang="field.preps?.lang || 'javascript'"
-      style="min-height: 200px !important; flex-direction: column !important"
-      v-model:value="formData[field.preps['name']]" />
+                       style="min-height: 200px !important; flex-direction: column !important"
+                       v-model:value="formData[field.preps['name']]"/>
   </starhorse-form-item>
 </template>
 <script setup lang="ts" name="codeItem">
-import {  onMounted, shallowRef } from "vue";
-import StarHorseEditor from "@/components/system/StarHorseEditor.vue";
+import {onMounted} from "vue";
+
 const props = defineProps({
   isDesign: {
     type: Boolean,
@@ -43,8 +43,10 @@ const formData = defineModel("formData");
 const itemAction = () => {
   emits("selfFunc", formData);
 };
-const init = async () => { };
-const rendered = () => { };
+const init = async () => {
+};
+const rendered = () => {
+};
 onMounted(() => {
   init();
 });

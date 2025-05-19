@@ -1,7 +1,7 @@
 <script setup lang="ts">
-  defineOptions({
-    name: "PageBannerItem"
-  });
+defineOptions({
+  name: "PageBannerItem"
+});
 </script>
 
 <template>广告栏</template>

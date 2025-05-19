@@ -1,8 +1,8 @@
 <script setup lang="ts" name="CalendarDefine">
-import {onMounted, provide, reactive, ref, onActivated, onDeactivated} from "vue";
-import {Config} from "@/api/settings.ts";
-import {apiInstance, dialogPreps, ApiUrls, SearchFields, PageFieldInfo} from "star-horse-lowcode";
-import {getCustomerParam} from "@/utils/auth.ts";
+import {onActivated, onDeactivated, onMounted, provide, reactive, ref} from "vue";
+import {Config} from "@/api/settings";
+import {apiInstance, ApiUrls, dialogPreps, PageFieldInfo, SearchFields} from "star-horse-lowcode";
+import {getCustomerParam} from "@/utils/auth";
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance("system-config", "system/calendarDefine");
 //主键

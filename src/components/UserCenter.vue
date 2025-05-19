@@ -1,14 +1,20 @@
 <script setup lang="ts">
-import {getPublicKey, getUserInfo} from "@/utils/auth.ts";
+import {getPublicKey, getUserInfo} from "@/utils/auth";
 import {computed, onMounted, provide, reactive, ref} from "vue";
-import {copy, dialogPreps} from "star-horse-lowcode";
-import {PageFieldInfo,useGlobalConfigStore,piniaInstance} from "star-horse-lowcode";
-import {initSelectData, userEditFieldInfo} from "@/views/system/utils/UserFields.ts";
-import {postRequest} from "star-horse-lowcode";
-import {success, warning} from "star-horse-lowcode";
-import {Config} from "@/api/settings.ts";
+import {
+  copy,
+  dialogPreps,
+  PageFieldInfo,
+  piniaInstance,
+  postRequest,
+  success,
+  useGlobalConfigStore,
+  warning
+} from "star-horse-lowcode";
+import {initSelectData, userEditFieldInfo} from "@/views/system/utils/UserFields";
+import {Config} from "@/api/settings";
 import {JSEncrypt} from "jsencrypt";
-import {ServiceEnums} from "@/components/enums/ServiceEnums.ts";
+import {ServiceEnums} from "@/components/enums/ServiceEnums";
 
 let userInfo = ref<any>({});
 let depts = ref<string>("--");

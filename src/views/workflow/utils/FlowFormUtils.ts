@@ -1,161 +1,161 @@
-import { reactive, ref, isRef } from "vue";
-import { SelectOption,PageFieldInfo,piniaInstance,postRequest,error, success } from "star-horse-lowcode";
-import { useFlowDesignStore } from "@/store/FlowDesign.ts";
+import {isRef, reactive, ref} from "vue";
+import {error, PageFieldInfo, piniaInstance, postRequest, SelectOption, success} from "star-horse-lowcode";
+import {useFlowDesignStore} from "@/store/FlowDesign";
 
 const flowDesign = useFlowDesignStore(piniaInstance);
 const flowGroups = ref<SelectOption[]>([]);
 const formVisibleTypeList = ref<SelectOption[]>([
-  { name: "标签栏", value: "tab" },
-  { name: "步进式", value: "step" },
-  { name: "顺序显示", value: "seq" }
+    {name: "标签栏", value: "tab"},
+    {name: "步进式", value: "step"},
+    {name: "顺序显示", value: "seq"}
 ]);
 const flowFormFields = reactive<PageFieldInfo>({
-  fieldList: [
-    {
-      label: "流程名称",
-      fieldName: "name",
-      type: "input",
-      required: true,
-      formVisible: true,
-      listVisible: true
-    },
-    {
-      label: "流程分类",
-      fieldName: "flowGroup",
-      type: "select",
-      optionList: flowGroups,
-      required: true,
-      formVisible: true,
-      listVisible: true
-    },
-    {
-      label: "图标",
-      fieldName: "flowIcon",
-      type: "icon",
-      defaultValue: "document",
-      formVisible: true,
-      listVisible: true
-    },
-    {
-      label: "绑定表单",
-      fieldName: "bindFormName",
-      aliasName: "bindForm",
-      type: "page-select",
-      params: {
-        primaryKey: "idDynamicForm",
-        dataUrl: {
-          pageListUrl: "/userdb-manage/userdb/dynamicForm/pageList"
-        },
-        needField: [
-          { sourceField: "formName", distField: "bindFormName" },
-          { sourceField: "dataNo", distField: "bindForm" }
-        ],
-        fieldList: [
-          {
-            label: "表单名称",
-            type: "input",
-            fieldName: "formName",
-            searchVisible: true,
-            listVisible: true
-          },
-          {
-            label: "表单图标",
-            type: "icon",
-            fieldName: "formIcon",
-            listVisible: true
-          },
-          {
-            label: "创建人",
-            type: "input",
-            fieldName: "createdBy",
-            listVisible: true
-          },
-          {
-            label: "创建时间",
-            type: "input",
-            fieldName: "createdDate",
-            listVisible: true
-          }
-        ]
-      },
-      required: false,
-      formVisible: true,
-      listVisible: true,
-      preps: {
-        multiple: "Y"
-      }
-    },
-    {
-      label: "流程图类型",
-      fieldName: "flowType",
-      type: "input",
-      formVisible: false,
-      listVisible: true
-    },
-    {
-      label: "流程版本",
-      fieldName: "flowVersion",
-      type: "input",
-      formVisible: false,
-      listVisible: true
-    },
-    {
-      label: "多表单显示模式",
-      fieldName: "formVisibleType",
-      type: "radio",
-      optionList: formVisibleTypeList,
-      defaultValue: "step",
-      formVisible: true,
-      listVisible: true
-    },
-    {
-      label: "谁可以管理这个流程",
-      fieldName: "flowManagerName",
-      aliasName: "flowManager",
-      type: "page-select",
-      params: {
-        primaryKey: "idEmployeeInfo",
-        dataUrl: {
-          pageListUrl: "/system-config/system/employeeInfo/pageList"
-        },
-        needField: [
-          { sourceField: "name", distField: "flowManagerName" },
-          { sourceField: "idEmployeeInfo", distField: "flowManager" }
-        ],
-        fieldList: [
-          {
-            label: "姓名",
-            type: "input",
-            searchVisible: true,
+    fieldList: [
+        {
+            label: "流程名称",
             fieldName: "name",
-            listVisible: true
-          },
-          {
-            label: "用户名",
             type: "input",
-            searchVisible: true,
-            fieldName: "employeeNo",
+            required: true,
+            formVisible: true,
             listVisible: true
-          }
-        ]
-      },
-      formVisible: true,
-      listVisible: true,
-      preps: {
-        multiple: "Y"
-      }
-    },
-    {
-      label: "说明",
-      fieldName: "remark",
-      type: "textarea",
-      formVisible: true,
-      listVisible: false
-    }
-  ]
+        },
+        {
+            label: "流程分类",
+            fieldName: "flowGroup",
+            type: "select",
+            optionList: flowGroups,
+            required: true,
+            formVisible: true,
+            listVisible: true
+        },
+        {
+            label: "图标",
+            fieldName: "flowIcon",
+            type: "icon",
+            defaultValue: "document",
+            formVisible: true,
+            listVisible: true
+        },
+        {
+            label: "绑定表单",
+            fieldName: "bindFormName",
+            aliasName: "bindForm",
+            type: "page-select",
+            params: {
+                primaryKey: "idDynamicForm",
+                dataUrl: {
+                    pageListUrl: "/userdb-manage/userdb/dynamicForm/pageList"
+                },
+                needField: [
+                    {sourceField: "formName", distField: "bindFormName"},
+                    {sourceField: "dataNo", distField: "bindForm"}
+                ],
+                fieldList: [
+                    {
+                        label: "表单名称",
+                        type: "input",
+                        fieldName: "formName",
+                        searchVisible: true,
+                        listVisible: true
+                    },
+                    {
+                        label: "表单图标",
+                        type: "icon",
+                        fieldName: "formIcon",
+                        listVisible: true
+                    },
+                    {
+                        label: "创建人",
+                        type: "input",
+                        fieldName: "createdBy",
+                        listVisible: true
+                    },
+                    {
+                        label: "创建时间",
+                        type: "input",
+                        fieldName: "createdDate",
+                        listVisible: true
+                    }
+                ]
+            },
+            required: false,
+            formVisible: true,
+            listVisible: true,
+            preps: {
+                multiple: "Y"
+            }
+        },
+        {
+            label: "流程图类型",
+            fieldName: "flowType",
+            type: "input",
+            formVisible: false,
+            listVisible: true
+        },
+        {
+            label: "流程版本",
+            fieldName: "flowVersion",
+            type: "input",
+            formVisible: false,
+            listVisible: true
+        },
+        {
+            label: "多表单显示模式",
+            fieldName: "formVisibleType",
+            type: "radio",
+            optionList: formVisibleTypeList,
+            defaultValue: "step",
+            formVisible: true,
+            listVisible: true
+        },
+        {
+            label: "谁可以管理这个流程",
+            fieldName: "flowManagerName",
+            aliasName: "flowManager",
+            type: "page-select",
+            params: {
+                primaryKey: "idEmployeeInfo",
+                dataUrl: {
+                    pageListUrl: "/system-config/system/employeeInfo/pageList"
+                },
+                needField: [
+                    {sourceField: "name", distField: "flowManagerName"},
+                    {sourceField: "idEmployeeInfo", distField: "flowManager"}
+                ],
+                fieldList: [
+                    {
+                        label: "姓名",
+                        type: "input",
+                        searchVisible: true,
+                        fieldName: "name",
+                        listVisible: true
+                    },
+                    {
+                        label: "用户名",
+                        type: "input",
+                        searchVisible: true,
+                        fieldName: "employeeNo",
+                        listVisible: true
+                    }
+                ]
+            },
+            formVisible: true,
+            listVisible: true,
+            preps: {
+                multiple: "Y"
+            }
+        },
+        {
+            label: "说明",
+            fieldName: "remark",
+            type: "textarea",
+            formVisible: true,
+            listVisible: false
+        }
+    ]
 });
 const setFlowGroups = (data: any) => {
-  flowGroups.value = data;
+    flowGroups.value = data;
 };
 /**
  * 保存数据
@@ -164,22 +164,22 @@ const setFlowGroups = (data: any) => {
  * @param router
  */
 const doSaveData = (formInfo: any, type: string, router?: any) => {
-  formInfo = isRef(formInfo) ? formInfo.value : formInfo;
-  formInfo.submitType = type;
-  formInfo.process = flowDesign.node;
-  postRequest("/flow-engine/workflow/flowdefinition/saveOrDeployProcess", formInfo).then((reData) => {
-    const res = reData.data;
-    if (res.code) {
-      error(res.message);
-      return;
-    } else {
-      success(type == "publish" ? "发布成功" : "保存成功");
-      if (router) {
-        router.push({
-          path: "/workflow/FlowDefineUi"
-        });
-      }
-    }
-  });
+    formInfo = isRef(formInfo) ? formInfo.value : formInfo;
+    formInfo.submitType = type;
+    formInfo.process = flowDesign.node;
+    postRequest("/flow-engine/workflow/flowdefinition/saveOrDeployProcess", formInfo).then((reData) => {
+        const res = reData.data;
+        if (res.code) {
+            error(res.message);
+            return;
+        } else {
+            success(type == "publish" ? "发布成功" : "保存成功");
+            if (router) {
+                router.push({
+                    path: "/workflow/FlowDefineUi"
+                });
+            }
+        }
+    });
 };
-export { flowFormFields, formVisibleTypeList, doSaveData, setFlowGroups };
+export {flowFormFields, formVisibleTypeList, doSaveData, setFlowGroups};

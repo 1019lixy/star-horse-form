@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import {Config} from "@/api/settings.ts";
+import {Config} from "@/api/settings";
 import {getValidateImg, rtCode, userLogin} from "@/api/star_horse";
 import {JSEncrypt} from "jsencrypt";
 import {removeToken} from "@/utils/auth";
@@ -8,7 +8,7 @@ import {RouteLocationNormalized, useRouter} from "vue-router";
 import type {ElForm, FormInstance, FormRules, TabsPaneContext} from 'element-plus'
 import {warning} from "star-horse-lowcode";
 import {i18n} from "@/lang";
-import {GlobalConfig} from "@/store/GlobalConfigStore.ts";
+import {GlobalConfig} from "@/store/GlobalConfigStore";
 import {piniaInstance} from "star-horse-lowcode";
 
 interface LoginInfo {

@@ -178,10 +178,11 @@ export default defineConfig((mode) => {
                 resolvers: [ElementPlusResolver()]
             }),
             Components({
-
                 dirs: ["src/components", "src/views"],
                 // 这里就是相关ui库的解析工具, 里面的选项有是否使用自动导入样式 如果需要通过 var 变量改变主题 需要注意一下
-                resolvers: [ElementPlusResolver({ importStyle: "sass" })]
+                resolvers: [ElementPlusResolver({
+                    importStyle: false
+                })]
             }),
             progress(),
             // viteCommonjs(),
@@ -192,7 +193,7 @@ export default defineConfig((mode) => {
                 "windows.jQuery": "jquery",
                 "windows.$": "jquery"
             }),
-           
+
             // monacoEditorPlugin({ languageWorkers: ['editorWorkerService', 'typescript', 'json', 'html']}),
             //开启gzip,后端nginx 需要 gzip_static设置为on
             /* viteCompression({
@@ -204,11 +205,11 @@ export default defineConfig((mode) => {
                        deleteOriginFile: true,
                        ext: '.gz',
                    }),*/
-            visualizer({
-                open: false, // 构建完成后自动打开分析页面
-                gzipSize: true,
-                brotliSize: true
-            })
+            // visualizer({
+            //     open: false, // 构建完成后自动打开分析页面
+            //     gzipSize: true,
+            //     brotliSize: true
+            // })
         ],
         css: {
             //解决 Deprecation Warning: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
@@ -222,6 +223,8 @@ export default defineConfig((mode) => {
             alias: {
                 "@": resolve(__dirname, "./src")
             },
+            'element-plus/es': 'element-plus/es',
+            'element-plus/lib': 'element-plus/es',
             extensions: [".js", ".vue", ".json", ".ts", ".jsx"]
         },
         cacheDir: "node_modules/.vite",

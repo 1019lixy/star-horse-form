@@ -1,9 +1,17 @@
 <script setup lang="ts" name="Customer">
-import {apiInstance, dialogPreps, piniaInstance} from "star-horse-lowcode";
-import {Config} from "@/api/settings.ts";
-import {onMounted, provide, reactive, ref, computed} from "vue";
-import {ApiUrls, SearchFields, SelectOption, PageFieldInfo, useButtonPermissionStore} from "star-horse-lowcode";
-import {loadElementPlusIcon} from "star-horse-lowcode";
+import {
+  apiInstance,
+  ApiUrls,
+  dialogPreps,
+  loadElementPlusIcon,
+  PageFieldInfo,
+  piniaInstance,
+  SearchFields,
+  SelectOption,
+  useButtonPermissionStore
+} from "star-horse-lowcode";
+import {Config} from "@/api/settings";
+import {computed, onMounted, provide, reactive, ref} from "vue";
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance("system-config", "system/customer");
 const buttonPermission = useButtonPermissionStore(piniaInstance);

@@ -29,10 +29,8 @@
   <FlowDrawerFooter @close="onClose" @save="onSave"/>
 </template>
 <script setup lang="ts">
-import FlowDrawerFooter from "@/views/workflow/plugin/common/DrawerFooter.vue";
-import {ref} from "vue";
-import {ModelRef} from "vue";
-import {useFlowDesignStore} from "@/store/FlowDesign.ts";
+import {ModelRef, ref} from "vue";
+import {useFlowDesignStore} from "@/store/FlowDesign";
 import {piniaInstance, SelectOption} from "star-horse-lowcode";
 
 defineOptions({

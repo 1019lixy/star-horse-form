@@ -1,20 +1,14 @@
 <script lang="ts" setup>
 import router from "@/router";
 import {computed, nextTick, onMounted, provide, ref, watch} from "vue";
-import {useNavBarListStore} from "@/store/NavBarList.ts";
-import {useViewCacheStore} from "@/store/ViewCache.ts";
+import {useNavBarListStore} from "@/store/NavBarList";
+import {useViewCacheStore} from "@/store/ViewCache";
 import piniaCompInstance from "@/store";
-import TagsView from "@/components/tags/TagsView.vue";
-import zhCn from "element-plus/dist/locale/zh-cn.mjs";
-import en from "element-plus/dist/locale/en.mjs";
-import {LangType} from "@/theme/theme.ts";
-import {getLang} from "@/theme/localStorge.ts";
+
+import {LangType} from "@/theme/theme";
+import {getLang} from "@/theme/localStorge";
 import {i18n} from "@/lang";
-import LeftMenu from "@/components/LeftMenu.vue";
-import HeaderComp from "@/components/HeaderComp.vue";
-import PageConfig from "@/components/PageConfig.vue";
-import {useGlobalConfigStore,piniaInstance} from "star-horse-lowcode";
-import FixedMenu from "@/components/FixedMenu.vue";
+import {piniaInstance, useGlobalConfigStore} from "star-horse-lowcode";
 
 let configStore = useGlobalConfigStore(piniaInstance);
 const route = router.getRoutes().find((item) => item.path == "/home");
@@ -126,7 +120,7 @@ let drawer = ref<boolean>(false);
 const configInfo = computed(() => configStore.configFormInfo);
 </script>
 <template>
-  <el-config-provider :locale="locale||zhCn">
+
     <el-container class="star-horse-container">
       <el-header class="star-horse-header">
         <header-comp :is-collapse="!isCollapse" @changeLang="changeLang" @layoutConfig="layoutConfig"/>
@@ -187,7 +181,7 @@ const configInfo = computed(() => configStore.configFormInfo);
       </template>
       <template #footer></template>
     </el-drawer>
-  </el-config-provider>
+
 </template>
 <style lang="scss" scoped>
 :deep(.el-header) {

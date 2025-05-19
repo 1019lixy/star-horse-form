@@ -1,11 +1,20 @@
 <script setup lang="ts">
 import {nextTick, onMounted, provide, reactive, ref, watch} from "vue";
-import {apiInstance, closeLoad, dialogPreps, load, loadData, loadGetData} from "star-horse-lowcode";
-import {ApiUrls,SearchProps,UserFuncInfo,useDesignFormStore} from "star-horse-lowcode";
-import {Config} from "@/api/settings.ts";
-import {piniaInstance} from "star-horse-lowcode";
-import {createDatetime} from "star-horse-lowcode";
-import {userAction} from "star-horse-lowcode";
+import {
+  apiInstance,
+  ApiUrls,
+  closeLoad,
+  createDatetime,
+  dialogPreps,
+  load,
+  loadData,
+  piniaInstance,
+  SearchProps,
+  useDesignFormStore,
+  userAction,
+  UserFuncInfo
+} from "star-horse-lowcode";
+import {Config} from "@/api/settings";
 
 let designForm = useDesignFormStore(piniaInstance);
 const normalPageRef = ref();

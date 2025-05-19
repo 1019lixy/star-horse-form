@@ -1,23 +1,23 @@
 <script setup lang="ts" name="EnvInfo">
 import {
   apiInstance,
+  ApiUrls,
   closeLoad,
+  createDatetime,
   dialogPreps,
   dictData,
+  download,
   load,
-  createDatetime,
-  ApiUrls,
-  SearchFields,
-  SelectOption,
   OrderByInfo,
   PageFieldInfo,
+  SearchFields,
+  SelectOption,
   UserFuncInfo,
-  download,
   warning
 } from "star-horse-lowcode";
 import {onMounted, provide, reactive, ref} from "vue";
-import {Config} from "@/api/settings.ts";
-import {initDbList, tableList} from "@/views/dbsearch/utils/DbSearchUtils.ts";
+import {Config} from "@/api/settings";
+import {initDbList, tableList} from "@/views/dbsearch/utils/DbSearchUtils";
 
 
 const dataUrl: ApiUrls = apiInstance("code-generator", "generator/code");

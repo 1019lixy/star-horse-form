@@ -1,11 +1,11 @@
 import {computed} from "vue";
 import {
-    error,
-    userFunction,
     createCondition,
-    useSelfOperationStore,
+    error,
+    piniaInstance,
     useDesignFormStore,
-    piniaInstance
+    userFunction,
+    useSelfOperationStore
 } from "star-horse-lowcode";
 
 const designForm = useDesignFormStore(piniaInstance);

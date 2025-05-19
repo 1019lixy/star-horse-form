@@ -1,18 +1,15 @@
 <script setup lang="ts" name="ContinusInstanceInit">
 import {computed, nextTick, onMounted, ref, watch} from "vue";
-import ToolInfo from "@/views/continuous/ToolInfo.vue";
-import DeployTemplate from "@/views/continuous/DeployTemplate.vue";
 import {
-  warning,
-  useContinusConfigStore,
-  SelectOption,
+  loadDict,
   PageFieldInfo,
   piniaInstance,
+  SelectOption,
+  useContinusConfigStore,
   uuid,
-  loadDict
+  warning
 } from "star-horse-lowcode";
-import NodeFields from "@/views/continuous/utils/NodeFields.vue";
-import {pipelineFields} from "@/views/continuous/utils/FieldsUtils.ts";
+import {pipelineFields} from "@/views/continuous/utils/FieldsUtils";
 
 const nodeCompRef = ref<any>();
 const nodeInfoRef = ref<any>();

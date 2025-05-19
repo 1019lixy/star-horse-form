@@ -1,7 +1,7 @@
 <script setup lang="ts">
-  defineOptions({
-    name: "PageCopyrightItem"
-  });
+defineOptions({
+  name: "PageCopyrightItem"
+});
 </script>
 
 <template>版权</template>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-  defineOptions({
-    name: "PageFormItem"
-  });
+defineOptions({
+  name: "PageFormItem"
+});
 </script>
 
 <template>表单内容</template>

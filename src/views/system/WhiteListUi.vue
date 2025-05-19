@@ -1,14 +1,14 @@
 <script setup lang="ts" name="WhiteList">
-import {Config} from "@/api/settings.ts";
+import {Config} from "@/api/settings";
 import {onMounted, provide, reactive, ref} from "vue";
 import {
   apiInstance,
-  dialogPreps,
   ApiUrls,
-  SearchFields,
-  SelectOption,
+  dialogPreps,
+  dictData,
   PageFieldInfo,
-  dictData
+  SearchFields,
+  SelectOption
 } from "star-horse-lowcode";
 
 const dataUrl: ApiUrls = apiInstance("system-config", "system/whiteList");
