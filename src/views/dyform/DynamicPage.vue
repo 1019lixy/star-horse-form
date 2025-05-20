@@ -1,10 +1,18 @@
 <script lang="ts" setup name="DynamicPage">
-import {h, nextTick, onMounted, ref, render, resolveComponent} from "vue";
-import {apiInstance, createComponent, DynamicNode} from "star-horse-lowcode";
-import {i18n} from "@/lang";
+import {  h, nextTick, onMounted, ref, render } from "vue";
+import { apiInstance } from "star-horse-lowcode";
+import Guides from "vue3-guides";
+import { VueInfiniteViewer } from "vue3-infinite-viewer";
+import { i18n } from "@/lang";
+import PageHeader from "@/views/dyform/page/PageHeader.vue";
+import PagePosition from "@/views/dyform/page/PagePosition.vue";
+import PageBackground from "@/views/dyform/page/PageBackground.vue";
+import PageFont from "@/views/dyform/page/PageFont.vue";
 import "gridstack/dist/gridstack.min.css";
-import {GridStack} from "gridstack";
-import {GridStackWidget} from "gridstack/dist/types";
+import { GridStack } from "gridstack";
+import { GridStackWidget } from "gridstack/dist/types";
+import { createComponent } from "star-horse-lowcode";
+import { DynamicNode } from "star-horse-lowcode";
 
 const dataUrl = apiInstance("userdb-manage", "userdb/dynamicPage");
 const horizontalGuides = ref();
