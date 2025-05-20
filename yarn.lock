@@ -8109,6 +8109,13 @@ pinia-plugin-persistedstate@^4.3.0:
     defu "^6.1.4"
     destr "^2.0.5"
 
+pinia-plugin-reset@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.npmjs.org/pinia-plugin-reset/-/pinia-plugin-reset-1.0.2.tgz#f90fd32581cf5543f45d28da4b2379430fe77585"
+  integrity sha512-gkcz3FKKRbQT9GgpmN61e8aqVW85LyqTR4mNpLnkBYiNGMmGnmwf6sFt+JpUX4PNokkLIHJXOT3zx0zdv6Bk+w==
+  dependencies:
+    lodash.clonedeep "^4.5.0"
+
 pinia@^3.0.2:
   version "3.0.2"
   resolved "https://registry.npmjs.org/pinia/-/pinia-3.0.2.tgz#0616c2e1b39915f253c7626db3c81b7cdad695da"
@@ -9479,8 +9486,10 @@ stable@^0.1.8:
   resolved "https://registry.npmjs.org/stable/-/stable-0.1.8.tgz#836eb3c8382fe2936feaf544631017ce7d47a3cf"
   integrity sha512-ji9qxRnOVfcuLDySj9qzhGSEFVobyt1kIOSkj1qZzYLzq7Tos/oUUWvotUPQLlrsidqsK6tBH89Bc9kL5zHA6w==
 
-star-horse-lowcode@../testcode:
+star-horse-lowcode@^2.7.33:
   version "2.7.33"
+  resolved "https://registry.npmjs.org/star-horse-lowcode/-/star-horse-lowcode-2.7.33.tgz#90fded3937d89111ced279fdec01128e20d03f4d"
+  integrity sha512-RJuSLmhH9ddWDv35aer8yIqctydEmqOBFzGe8UTGlTXx9zx2Cx/jUZqA/NRz1tqM+w5rEFppbAxWqHgClJbrNg==
   dependencies:
     "@element-plus/icons-vue" "^2.3.1"
     "@fingerprintjs/fingerprintjs" "^4.6.2"

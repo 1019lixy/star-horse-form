@@ -238,7 +238,7 @@ let configInfo = computed(() => configStore.configFormInfo);
       />
     </div>
     <div class="header-left">
-      <star-horse-hmenu v-if="configInfo.menusCfg == 'tradition'"/>
+      <star-horse-hmenu :ellipsis="false" v-if="configInfo.menusCfg == 'tradition'"/>
     </div>
     <div class="header-right">
       <div class="message">
