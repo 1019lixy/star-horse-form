@@ -714,7 +714,7 @@ const analysisMainFields = async () => {
   mainTableFieldList.value = reData.data;
   orderByFieldList.value = reData.data;
   allTableFieldList.value = [...mainTableFieldList.value, ...commonField().map(item => {
-    return {name: item.label, value: item.fieldName}
+    return {name: item.label, value: item.fieldName};
   })];
 };
 let currentDataSourceId = ref<string>("");
