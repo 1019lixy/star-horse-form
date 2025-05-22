@@ -129,13 +129,13 @@ const tableFieldList = reactive<PageFieldInfo>({
     {
       label: "创建日期",
       disabled: "Y",
-      fieldName: "createdDate",
+      fieldName: "createdTime",
       type: "date"
     },
     {
       label: "修改日期",
       disabled: "Y",
-      fieldName: "updatedDate",
+      fieldName: "updatedTime",
       type: "date"
     },
     {
@@ -269,7 +269,7 @@ onMounted(() => {
         :compUrl="dataUrl"
         :order-by="[
         {
-          fieldName: 'createdDate',
+          fieldName: 'createdTime',
           ascOrDesc: 'desc'
         }
       ]"

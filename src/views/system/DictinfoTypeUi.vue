@@ -106,7 +106,7 @@ onMounted(async () => {
               :compUrl="dataUrl"
               :order-by="[
               {
-                fieldName: 'createdDate',
+                fieldName: 'createdTime',
                 ascOrDesc: 'desc'
               }
             ]"

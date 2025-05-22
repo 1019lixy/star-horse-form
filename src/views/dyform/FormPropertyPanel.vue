@@ -63,6 +63,8 @@ let dataLoadConditionList = ref<SelectOption[]>([
 ]);
 let dynamicFieldList = ref<SelectOption[]>([]);
 let mainTableFieldList = ref<SelectOption[]>([]);
+let allTableFieldList = ref<SelectOption[]>([]);
+let orderByFieldList = ref<SelectOption[]>([]);
 let tableColumnsList = ref<SelectOption[]>([]);
 let authorityList = ref<SelectOption[]>([]);
 let eventTypeList = ref<SelectOption[]>([]);
@@ -91,7 +93,7 @@ const loadMenus = (val: any) => {
   if (!val) {
     return;
   }
-  permissionMenus({}, val).then((res) => {
+  permissionMenus({}, val).then((res: any) => {
     menusInfoList.value = res.data.data;
     // redata.forEach((item: any) => {
     //   menusInfoList.value.push({name: item.menuName, value: item.dataNo});
@@ -414,7 +416,16 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 fieldName: "needCommonFields",
                 type: "switch",
                 defaultValue: "Y",
-                formVisible: true
+                formVisible: true,
+                actionName: "change",
+                actions: (val: any) => {
+                  if (val["needCommonFields"] == "Y") {
+                    orderByFieldList.value = allTableFieldList.value;
+                  } else {
+                    orderByFieldList.value = mainTableFieldList.value;
+                  }
+
+                }
               },
               {
                 label: "状态字典",
@@ -641,7 +652,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                   fieldName: "fieldName",
                   type: "select",
                   required: true,
-                  optionList: mainTableFieldList,
+                  optionList: orderByFieldList,
                   formVisible: true
                 },
                 {
@@ -701,6 +712,10 @@ const analysisMainFields = async () => {
     return;
   }
   mainTableFieldList.value = reData.data;
+  orderByFieldList.value = reData.data;
+  allTableFieldList.value = [...mainTableFieldList.value, ...commonField().map(item => {
+    return {name: item.label, value: item.fieldName}
+  })];
 };
 let currentDataSourceId = ref<string>("");
 //获取同数据源下的表,用来配置对应的关系
@@ -745,7 +760,7 @@ const loadTableColumns = (tbName: any) => {
   }
   tableColumnsList.value = [];
   getRequest(`/userdb-manage/dbsearch/dbinfoEntity/tableColumns/${currentDataSourceId.value}/${tbName}`).then(
-      (res) => {
+      (res: any) => {
         if (res.data.code != 0) {
           return;
         }

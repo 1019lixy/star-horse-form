@@ -213,14 +213,14 @@ const fullUserField: Array<any> = [
     {
         label: "创建日期",
         disabled: "Y",
-        fieldName: "createdDate",
+        fieldName: "createdTime",
         type: "date",
         listVisible: true
     },
     {
         label: "修改日期",
         disabled: "Y",
-        fieldName: "updatedDate",
+        fieldName: "updatedTime",
         type: "date"
     },
     {

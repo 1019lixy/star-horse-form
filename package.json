@@ -116,11 +116,7 @@
     "sortablejs": "^1.15.6",
     "ssh2": "^1.16.0",
     "ssh2-sftp-client": "^12.0.0",
-<<<<<<< HEAD
-    "star-horse-lowcode": "^2.7.33",
-=======
-    "star-horse-lowcode": "../shplugin",
->>>>>>> feceb0571dd6a5dc18e5dc5032226d1784935655
+    "star-horse-lowcode": "^2.7.35",
     "string-width": "^7.2.0",
     "strip-ansi": "^7.1.0",
     "swiper": "^11.2.6",

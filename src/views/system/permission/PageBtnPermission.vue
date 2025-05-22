@@ -34,7 +34,7 @@ let defaultCondition = ref<SearchParams[]>([]);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {label: "角色名称", defaultVisible: true, fieldName: "idRolesinfo", type: "select", optionList: rolesList},
-    {label: "创建日期", fieldName: "createdDate", type: "date", matchType: "bt"}
+    {label: "创建日期", fieldName: "createdTime", type: "date", matchType: "bt"}
   ]
 });
 const formFieldList = reactive<PageFieldInfo | any>({

@@ -166,7 +166,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     },
     {
       label: "创建日期",
-      fieldName: "createdDate",
+      fieldName: "createdTime",
       type: "datetime",
       formVisible: false,
       listVisible: true,
