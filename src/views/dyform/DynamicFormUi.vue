@@ -60,7 +60,7 @@ const searchFormData = reactive<SearchFields>({
 
     {
       label: "创建时间",
-      fieldName: "createdDate",
+      fieldName: "createdTime",
       defaultVisible: true,
       type: "date",
       matchType: "bt",
@@ -145,7 +145,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "创建日期",
       disabled: "Y",
-      fieldName: "createdDate",
+      fieldName: "createdTime",
       type: "date",
       listVisible: true
     },
@@ -159,7 +159,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "修改日期",
       disabled: "Y",
-      fieldName: "updatedDate",
+      fieldName: "updatedTime",
       type: "date",
       listVisible: true
     },
@@ -345,7 +345,7 @@ onMounted(() => {
             :extendBtns="extendBtnList"
             :orderBy="[
             {
-              fieldName: 'a.createdDate',
+              fieldName: 'a.createdTime',
               ascOrDesc: 'desc'
             }
           ]"

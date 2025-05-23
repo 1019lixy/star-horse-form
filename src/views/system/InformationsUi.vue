@@ -29,7 +29,7 @@ const searchFormData = reactive<SearchFields>({
       type: "input",
       matchType: "lk"
     },
-    {label: "添加时间", fieldName: "createdDate", type: "daterange", matchType: "bt"}
+    {label: "添加时间", fieldName: "createdTime", type: "daterange", matchType: "bt"}
   ]
 });
 const testFun = (formData: any) => {
@@ -132,13 +132,13 @@ const tableFieldList = reactive<PageFieldInfo>({
     {
       label: "创建日期",
       disabled: "Y",
-      fieldName: "createdDate",
+      fieldName: "createdTime",
       type: "date"
     },
     {
       label: "修改日期",
       disabled: "Y",
-      fieldName: "updatedDate",
+      fieldName: "updatedTime",
       type: "date"
     },
     {

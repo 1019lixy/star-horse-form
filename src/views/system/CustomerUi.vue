@@ -89,12 +89,12 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     },
     {
       label: "创建时间",
-      fieldName: "createdDate",
+      fieldName: "createdTime",
       type: "date"
     },
     {
       label: "修改时间",
-      fieldName: "updatedDate",
+      fieldName: "updatedTime",
       type: "date"
     },
     {

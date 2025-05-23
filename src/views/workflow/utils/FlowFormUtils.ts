@@ -73,7 +73,7 @@ const flowFormFields = reactive<PageFieldInfo>({
                     {
                         label: "创建时间",
                         type: "input",
-                        fieldName: "createdDate",
+                        fieldName: "createdTime",
                         listVisible: true
                     }
                 ]
