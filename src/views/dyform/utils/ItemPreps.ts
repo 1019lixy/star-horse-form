@@ -108,7 +108,7 @@ export async function validInterface(
                 fieldList: requestParams
             }
         };
-        const custom = JSON.parse(customParams || {});
+        const custom = customParams ? JSON.parse(customParams) : {};
         if (Object.keys(custom).length > 0) {
             params.searchInfo = {
                 ...params.searchInfo,

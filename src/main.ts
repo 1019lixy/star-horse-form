@@ -1,5 +1,5 @@
 import "element-plus/theme-chalk/index.css";
-import "star-horse-lowcode/dist/assets/index.css";
+import "star-horse-lowcode/assets/index.css";
 import "@/assets/css/flow.scss";
 import "tailwindcss/index.css";
 import nodeComponent from "@/views/continuous/nodeInfo/nodecomp";

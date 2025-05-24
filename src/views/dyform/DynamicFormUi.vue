@@ -13,7 +13,8 @@ import {
   useDesignFormStore,
   useGlobalConfigStore,
   UserFuncInfo,
-  warning
+  warning,
+  loadSystemInfo
 } from "star-horse-lowcode";
 import {computed, nextTick, onMounted, provide, reactive, ref} from "vue";
 import {useRouter} from "vue-router";
@@ -77,6 +78,13 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       label: "主键",
       fieldName: "idDynamicForm",
       type: "long"
+    },
+    {
+      label: "所属应用",
+      fieldName: "sysId",
+      type: "input",
+      formVisible: true,
+      listVisible: true
     },
     {
       label: "表单名称",
@@ -224,6 +232,7 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
 };
 let extendBtnList = ref<UserFuncInfo[]>([]);
 let viewBtnList = ref<UserFuncInfo[]>([]);
+let informationsList = ref<UserFuncInfo[]>([]);
 
 const initData = () => {
   selfBtnFunc.value?.push({
@@ -263,7 +272,9 @@ const initData = () => {
     dataSource.value = res;
   });
   viewBtnList.value.push(...tableFieldList.userTableFuncs);
-  viewBtnList.value.push(selfBtnFunc.value[1]);
+  viewBtnList.value.push(selfBtnFunc.value[1])
+  let params = [{propertyName: "statusCode", value: "1"}];
+  informationsList.value = await loadSystemInfo(params);
 };
 let currentTab = ref<string>("list");
 const createSearch = (data: SearchParams[]) => {
