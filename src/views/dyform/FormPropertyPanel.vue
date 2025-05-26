@@ -130,45 +130,95 @@ const tableFieldList = reactive<PageFieldInfo | any>({
           title: "基础属性",
           tabName: "tab1",
           fieldList: [
-            {
+            [{
               label: "表名",
               fieldName: "tbName",
               type: "input",
               required: true,
               formVisible: true,
-              editDisabled: "Y"
-            },
-            {
+              editDisabled: "Y",
+              preps: {
+                colspan: 16
+              }
+            },{
+              label: "创建表",
+              fieldName: "createTable",
+              type: "switch",
+              defaultValue: "N",
+              formVisible: true,
+              preps: {
+                colspan: 8
+              }
+            }],
+            [{
               label: "主键",
               fieldName: "formId",
               type: "input",
               required: true,
               formVisible: true,
-              editDisabled: "Y"
-            },
-            [
-              {
-                label: "创建表",
-                fieldName: "createTable",
-                type: "switch",
-                defaultValue: "N",
-                formVisible: true,
-                preps: {
-                  colspan: 6
-                }
-              },
-              {
-                label: "主键策略",
-                fieldName: "primaryKeyPolicy",
-                type: "select",
-                optionList: primaryKeyPolicyList,
-                formVisible: true,
-                editDisabled: "Y",
-                preps: {
-                  colspan: 18
-                }
+              editDisabled: "Y",
+              preps: {
+                colspan: 16
               }
-            ],
+            }, {
+              label: "主键策略",
+              fieldName: "primaryKeyPolicy",
+              type: "select",
+              optionList: primaryKeyPolicyList,
+              formVisible: true,
+              editDisabled: "Y",
+              preps: {
+                colspan: 8
+              }
+            }],
+            [{
+              label: "所属系统",
+              fieldName: "sysId",
+              type: "tselect",
+              optionList: informationsList,
+              actionName: "change",
+              actions: (val: any) => {
+                loadMenus(val["sysId"]);
+              },
+              formVisible: true,
+              required: true,
+              preps: {
+                checkStrictly: "Y",
+                colspan: 9
+              }
+            }, {
+              label: "表单图标",
+              fieldName: "formIcon",
+              type: "icon",
+              formVisible: true,
+              preps: {
+                colspan: 8
+              }
+            }],
+            [
+            {
+              label: "存为模板",
+              fieldName: "templateFlag",
+              type: "switch",
+              defaultValue: 2,
+              formVisible: true,
+              preps: {
+                activeValue: 1,
+                inactiveValue: 2,
+                colspan: 8
+              }
+            },{
+              label: "级联删除",
+              helpMsg: "页面字段删除时同步删除数据库对应表字段",
+              fieldName: "deleteCascade",
+              type: "switch",
+              defaultValue: "Y",
+              formVisible: true,
+              preps: {
+                colspan: 8
+              }
+            },],
+
             [
               {
                 label: "创建菜单",
@@ -184,21 +234,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                   colspan: 6
                 }
               },
-              {
-                label: "所属系统",
-                fieldName: "sysId",
-                type: "select",
-                optionList: informationsList,
-                actionName: "change",
-                actions: (val: any) => {
-                  loadMenus(val["sysId"]);
-                },
-                formVisible: menuFlag,
-                required: true,
-                preps: {
-                  colspan: 9
-                }
-              },
+
               {
                 label: "父级菜单",
                 fieldName: "parentMenuId",
@@ -207,7 +243,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 formVisible: menuFlag,
                 preps: {
                   checkStrictly: "Y",
-                  colspan: 9,
+                  colspan: 18,
                   props: {
                     label: "menuName",
                     value: "dataNo"
@@ -215,66 +251,30 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 }
               }
             ],
-            [
-              {
-                label: "级联删除",
-                helpMsg: "页面字段删除时同步删除数据库对应表字段",
-                fieldName: "deleteCascade",
-                type: "switch",
-                defaultValue: "Y",
-                formVisible: true,
-                preps: {
-                  colspan: 6
-                }
+            [{
+              label: "页面版式",
+              fieldName: "pageStyle",
+              type: "select",
+              optionList: pageStyleList,
+              formVisible: true,
+              actionName: "change",
+              actions: (val: any) => {
+                conditionFlag.value = val["pageStyle"] == "form";
               },
-              {
-                label: "存为模板",
-                fieldName: "templateFlag",
-                type: "switch",
-                defaultValue: 2,
-                formVisible: true,
-                preps: {
-                  activeValue: 1,
-                  inactiveValue: 2,
-                  colspan: 9
-                }
-              },
-              {
-                label: "表单图标",
-                fieldName: "formIcon",
-                type: "icon",
-                formVisible: true,
-                preps: {
-                  colspan: 9
-                }
+              preps: {
+                colspan: 6
               }
-            ],
-            [
-              {
-                label: "页面版式",
-                fieldName: "pageStyle",
-                type: "select",
-                optionList: pageStyleList,
-                formVisible: true,
-                actionName: "change",
-                actions: (val: any) => {
-                  conditionFlag.value = val["pageStyle"] == "form";
-                },
-                preps: {
-                  colspan: 6
-                }
-              },
-              {
-                label: "数据加载条件",
-                fieldName: "dataLoadField",
-                type: "select",
-                formVisible: conditionFlag,
-                optionList: dataLoadConditionList,
-                preps: {
-                  colspan: 18
-                }
+            }, {
+              label: "数据加载条件",
+              fieldName: "dataLoadField",
+              type: "select",
+              formVisible: conditionFlag,
+              optionList: dataLoadConditionList,
+              preps: {
+                colspan: 9
               }
-            ]
+            }],
+
           ]
         },
         {

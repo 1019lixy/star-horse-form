@@ -15,7 +15,6 @@ import {computed, onMounted, provide, reactive, ref} from "vue";
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance("system-config", "system/customer");
 const buttonPermission = useButtonPermissionStore(piniaInstance);
-const permissons = computed(() => buttonPermission.currentPermission);
 //查询属性
 const searchFormData = reactive<SearchFields>({
   fieldList: [
@@ -64,9 +63,13 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       label: "Logo",
       fieldName: "customerLogo",
       type: "icon",
+
       formVisible: true,
       listVisible: true,
-      optionList: systemIconList
+      preps:{
+        listPrototypeDisplay:true,
+        listView:"Y"
+      }
     },
     {
       label: "描述",
