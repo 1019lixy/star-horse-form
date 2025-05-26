@@ -5,6 +5,7 @@ import {
   dbConfigList,
   dialogPreps,
   loadData,
+  loadSystemInfo,
   PageFieldInfo,
   piniaInstance,
   SearchFields,
@@ -13,8 +14,7 @@ import {
   useDesignFormStore,
   useGlobalConfigStore,
   UserFuncInfo,
-  warning,
-  loadSystemInfo
+  warning
 } from "star-horse-lowcode";
 import {computed, nextTick, onMounted, provide, reactive, ref} from "vue";
 import {useRouter} from "vue-router";
@@ -274,7 +274,10 @@ const initData = () => {
   viewBtnList.value.push(...tableFieldList.userTableFuncs);
   viewBtnList.value.push(selfBtnFunc.value[1])
   let params = [{propertyName: "statusCode", value: "1"}];
-  informationsList.value = await loadSystemInfo(params);
+  loadSystemInfo(params).then((res: SelectOption[]) => {
+        informationsList.value = res;
+      }
+  )
 };
 let currentTab = ref<string>("list");
 const createSearch = (data: SearchParams[]) => {
