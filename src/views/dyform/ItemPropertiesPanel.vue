@@ -68,15 +68,26 @@ const jsButtonClick = (data: any, actionName: string) => {
 const condifRelationPolicy = async () => {
   dataRelationDialogVisible.value = true;
   designForm.setShortKeyDisabled(true);
+  let temp = formProps.value["dataRelation"] ?? {};
   await nextTick();
-  dataRelationFormRef.value?.setFormData(formProps.value["dataRelation"] || {});
+  setTimeout(() => {
+    dataRelationFormRef.value?.setFormData(temp);
+  }, 200);
 };
 const configParams = async (params: any) => {
-  fieldName.value = params;
   paramsDialogVisible.value = true;
-  designForm.setShortKeyDisabled(true);
+  // 等待对话框渲染完成
   await nextTick();
-  paramsConfigRef.value.setFormData(formProps.value);
+  fieldName.value = params;
+  designForm.setShortKeyDisabled(true);
+  let temp = formProps.value ?? {};
+  // 再次等待确保子组件挂载
+  await nextTick();
+  console.log(temp);
+  setTimeout(() => {
+    paramsConfigRef.value?.setFormData(temp);
+  }, 200);
+  // paramsConfigRef.value?.setFormData(temp);
 };
 const submitValid = async () => {
   let result = await dataSourceFormRef.value.submitValid();
@@ -658,5 +669,9 @@ watch(
   width: 300px;
   height: 100%;
   overflow: hidden;
+}
+
+:deep(.el-tabs) {
+  overflow: auto !important;
 }
 </style>
