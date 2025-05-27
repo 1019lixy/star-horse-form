@@ -1,7 +1,6 @@
 <script setup lang="ts" name="ContinusInstanceInit">
 import {computed, nextTick, onMounted, ref, watch} from "vue";
 import {
-  loadDict,
   PageFieldInfo,
   piniaInstance,
   SelectOption,
@@ -9,6 +8,7 @@ import {
   uuid,
   warning
 } from "star-horse-lowcode";
+import {loadDict} from "@/api/star_horse_apis";
 import {pipelineFields} from "@/views/continuous/utils/FieldsUtils";
 
 const nodeCompRef = ref<any>();

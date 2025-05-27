@@ -1,11 +1,10 @@
 import {nextTick, reactive, Ref, ref, unref} from "vue";
 import {
-    ascOrDesc,
-    dataType,
+
     dictData,
     error,
     FieldInfo,
-    httpMethod,
+
     loadData,
     PageFieldInfo,
     piniaInstance,
@@ -13,9 +12,10 @@ import {
     SelectOption,
     success,
     useDesignFormStore,
-    validDataUrl,
+
     warning
 } from "star-horse-lowcode";
+import {httpMethod,validDataUrl, ascOrDesc,  dataType} from "@/api/system";
 import {validRulesList} from "@/api/valid_utils";
 import DataSourceComp from "./DataSourceComp.vue";
 

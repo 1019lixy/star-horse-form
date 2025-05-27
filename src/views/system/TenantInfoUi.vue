@@ -4,11 +4,11 @@ import {
   ApiUrls,
   createDatetime,
   dialogPreps,
-  loadDict,
   PageFieldInfo,
   SearchFields,
   SelectOption
 } from "star-horse-lowcode";
+import {loadDict} from "@/api/star_horse_apis";
 import {Config} from "@/api/settings";
 import {nextTick, onActivated, onDeactivated, onMounted, provide, reactive, ref} from "vue";
 

@@ -6,14 +6,13 @@ import {
     apiInstance,
     ApiUrls,
     createCondition,
-    createJoinCondition,
     FieldInfo,
     loadData,
-    loadDict,
     postRequest,
     SelectOption
 } from "star-horse-lowcode";
-
+import {loadDict} from "@/api/star_horse_apis";
+import {createJoinCondition,} from "@/api/star_horse_utils";
 const apiUrl: ApiUrls = apiInstance("userdb-manage", "userdb/formInstance/conToolManage/idToolManage/136");
 const toolParamApi: ApiUrls = apiInstance("continuous-manage", "continuous/toolParams");
 const compileLanguageList = ref<SelectOption[]>([]);

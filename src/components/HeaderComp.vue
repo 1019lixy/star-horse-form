@@ -8,7 +8,6 @@ import {
   closeLoad,
   dialogPreps,
   error,
-  filterTree,
   load,
   operationConfirm,
   PageFieldInfo,
@@ -20,11 +19,13 @@ import {
   useUserInfoStore,
   warning
 } from "star-horse-lowcode";
+import {filterTree} from "@/api/star_horse_utils";
 import {getCustomerInfo, getCustomerParam, getUserInfo} from "@/utils/auth";
 import {getLang, setLang} from "@/theme/localStorge";
 import {LangType} from "@/theme/theme";
 import {i18n} from "../lang";
 import {useRouter} from "vue-router";
+import Message from "@/components/Message.vue";
 
 const userStore = useUserInfoStore(piniaInstance);
 const shortcutMenuList = ref<Array<any>>([]);
@@ -37,10 +38,21 @@ let configStore = useGlobalConfigStore(piniaInstance);
 let router = useRouter();
 const emits = defineEmits(["changeLang", "layoutConfig"]);
 const dialogProps = dialogPreps();
-
+const appinfoList = ref<any>([]);
+const loadAppInfo = () => {
+  let query = getUserInfo()?.idUsersinfo;
+  postRequest('/system-config/system/informationsEntity/getUserSystem/' + query, [])
+      .then((res) => {
+        appinfoList.value = res?.data?.data;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+};
 const initData = async () => {
   await loadShortMenu();
   changeLang(getLang(), true);
+  loadAppInfo();
 };
 onMounted(() => {
   initData();
@@ -238,7 +250,7 @@ let configInfo = computed(() => configStore.configFormInfo);
       />
     </div>
     <div class="header-left">
-      <star-horse-hmenu :ellipsis="false" v-if="configInfo.menusCfg == 'tradition'"/>
+      <star-horse-hmenu :ellipsis="false" v-if="configInfo.menusCfg == 'tradition'" :dataList="appinfoList"/>
     </div>
     <div class="header-right">
       <div class="message">
@@ -251,7 +263,7 @@ let configInfo = computed(() => configStore.configFormInfo);
            :inactive-action-icon="Moon"
            style="width: 50%"
          /> -->
-        <message-item/>
+        <Message/>
       </div>
       <div class="user-info">
         <el-dropdown class="lang" @command="handleLanguageChanged" :show-arrow="false">

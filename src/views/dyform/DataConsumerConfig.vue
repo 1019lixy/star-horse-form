@@ -11,7 +11,6 @@ import {
   error,
   load,
   loadData,
-  loadRolesInfo,
   piniaInstance,
   postRequest,
   SelectOption,
@@ -20,6 +19,7 @@ import {
   useGlobalConfigStore,
   warning
 } from "star-horse-lowcode";
+import {loadRolesInfo} from "@/api/star_horse_utils";
 import {consumerNodeData, relationFieldInfo, table_width, viewFieldInfo} from "@/views/dyform/utils/DataConsumer";
 import {tableColumns} from "@/views/dbsearch/utils/DbSearchUtils";
 import {Config} from "@/api/settings";

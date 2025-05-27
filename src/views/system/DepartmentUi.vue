@@ -5,7 +5,6 @@ import {
   createCondition,
   dialogPreps,
   loadData,
-  loadDepartmentInfo,
   PageFieldInfo,
   SearchFields,
   SearchParams,
@@ -13,6 +12,7 @@ import {
   UserFuncInfo,
   warning
 } from "star-horse-lowcode";
+import {  loadDepartmentInfo} from "@/api/star_horse_utils";
 import {Config} from "@/api/settings";
 import {nextTick, onActivated, onDeactivated, onMounted, provide, reactive, ref} from "vue";
 import {TreeNodeData} from "element-plus/es/components/tree-v2/src/types";

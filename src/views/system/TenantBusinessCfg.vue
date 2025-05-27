@@ -7,9 +7,7 @@ import {
   createCondition,
   createDatetime,
   dialogPreps,
-  loadDict,
-  loadMenusInfo,
-  loadSystemInfo,
+
   operationConfirm,
   PageFieldInfo,
   piniaInstance,
@@ -18,6 +16,8 @@ import {
   SelectOption,
   useGlobalConfigStore
 } from "star-horse-lowcode";
+import {loadDict} from "@/api/star_horse_apis";
+import {loadMenusInfo,loadSystemInfo} from "@/api/star_horse_utils";
 
 defineOptions({
   name: "TenantInfo"

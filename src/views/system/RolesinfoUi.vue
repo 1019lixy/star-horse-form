@@ -3,13 +3,12 @@ import {
   apiInstance,
   ApiUrls,
   dialogPreps,
-  loadDepartmentInfo,
-  loadSystemInfo,
   PageFieldInfo,
   SearchFields,
   SelectOption,
   UserFuncInfo
 } from "star-horse-lowcode";
+import {  loadDepartmentInfo, loadSystemInfo} from "@/api/star_horse_utils";
 import {Config} from "@/api/settings";
 import {onMounted, provide, reactive, ref} from "vue";
 import {isSystemManage} from "@/utils/auth";

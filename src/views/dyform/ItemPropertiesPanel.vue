@@ -4,7 +4,6 @@ import {
   error,
   formFieldMapping,
   isJson,
-  loadDict,
   PageFieldInfo,
   piniaInstance,
   searchMatchList,
@@ -14,6 +13,7 @@ import {
   useGlobalConfigStore,
   warning
 } from "star-horse-lowcode";
+import { loadDict} from "@/api/star_horse_apis";
 import {
   buttonClickDataField,
   compCommonFields,

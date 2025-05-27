@@ -1,6 +1,6 @@
 <script setup lang="ts" name="DataPreview">
 import {onMounted, ref, watch} from "vue";
-import {commonDataFormat} from "star-horse-lowcode";
+import {commonDataFormat} from "@/api/star_horse_utils";
 import {Config} from "@/api/settings";
 
 const props = defineProps({

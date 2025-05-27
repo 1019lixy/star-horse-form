@@ -3,24 +3,26 @@ import {computed, onMounted, reactive, ref, watch} from "vue";
 import {
   apiInstance,
   ApiUrls,
-  ascOrDesc,
-  commonField,
+
   createCondition,
   dbConfigList,
   getRequest,
-  httpMethod,
+
   loadData,
-  loadDict,
+
   loadElementPlusIcon,
-  loadSystemInfo,
+
   PageFieldInfo,
-  permissionMenus,
+
   piniaInstance,
   postRequest,
   SelectOption,
   useDesignFormStore
 } from "star-horse-lowcode";
 import {Config} from "@/api/settings";
+import { loadDict, permissionMenus} from "@/api/star_horse_apis";
+import {   loadSystemInfo  } from "@/api/star_horse_utils";
+import {ascOrDesc,commonField,httpMethod} from "@/api/system";
 
 const apiUrl: ApiUrls = apiInstance("userdb-manage", "userdb/dynamicForm");
 let designForm = useDesignFormStore(piniaInstance);

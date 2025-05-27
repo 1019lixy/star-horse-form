@@ -5,7 +5,6 @@ import {
   dbConfigList,
   dialogPreps,
   loadData,
-  loadSystemInfo,
   PageFieldInfo,
   piniaInstance,
   SearchFields,
@@ -16,6 +15,7 @@ import {
   UserFuncInfo,
   warning
 } from "star-horse-lowcode";
+import {   loadSystemInfo  } from "@/api/star_horse_utils";
 import {computed, nextTick, onMounted, provide, reactive, ref} from "vue";
 import {useRouter} from "vue-router";
 import {Config} from "@/api/settings";

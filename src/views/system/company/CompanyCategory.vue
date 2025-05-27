@@ -5,12 +5,12 @@ import {getCustomerParam} from "@/utils/auth";
 import {
   apiInstance,
   ApiUrls,
-  commonField,
   dialogPreps,
   PageFieldInfo,
   SearchFields,
   UserFuncInfo
 } from "star-horse-lowcode";
+import {commonField} from "@/api/system";
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance("system-config", "system/companyCategory");
 //主键

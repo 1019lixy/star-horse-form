@@ -121,7 +121,7 @@ let drawer = ref<boolean>(false);
 const configInfo = computed(() => configStore.configFormInfo);
 </script>
 <template>
-  <el-config-provider :locale="zh">
+  <el-config-provider :locale="locale">
     <el-container class="star-horse-container">
       <el-header class="star-horse-header">
         <header-comp :is-collapse="!isCollapse" @changeLang="changeLang" @layoutConfig="layoutConfig"/>

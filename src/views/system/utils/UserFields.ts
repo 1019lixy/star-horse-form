@@ -1,4 +1,5 @@
-import {dictData, loadDepartmentInfo, loadRolesInfo, SelectOption} from "star-horse-lowcode";
+import {dictData,   SelectOption} from "star-horse-lowcode";
+import {loadRolesInfo,loadDepartmentInfo} from "@/api/star_horse_utils";
 import {ref} from "vue";
 import {analysisData} from "@/api/deptment";
 

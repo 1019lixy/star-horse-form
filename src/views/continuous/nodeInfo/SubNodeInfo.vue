@@ -1,8 +1,8 @@
 <script setup lang="ts" name="SubNodeInfo">
 import {ModelRef, onMounted, PropType, reactive, ref} from "vue";
 import {compileTypeList, dataInit, extendCommonFields, loadPlugin} from "@/views/continuous/utils/ToolsParams";
-import {FieldInfo, loadDict, PageFieldInfo, SelectOption} from "star-horse-lowcode";
-
+import {FieldInfo,  PageFieldInfo, SelectOption} from "star-horse-lowcode";
+import {loadDict} from "@/api/star_horse_apis";
 const props = defineProps({
   preps: {
     type: Object as PropType<any>, default: () => {

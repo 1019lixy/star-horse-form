@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import {createRouterAndMenuList, permissionMenus} from "@/api/star_horse_apis";
 import {computed, nextTick, onMounted, reactive, ref, unref, watch} from "vue";
-import {filterTree, MenusInfo, piniaInstance, useGlobalConfigStore, useUserInfoStore} from "star-horse-lowcode";
+import { MenusInfo, piniaInstance, useGlobalConfigStore, useUserInfoStore} from "star-horse-lowcode";
 import {Config} from "@/api/settings";
-
+import {filterTree} from "@/api/star_horse_utils";
 let userInfoStore = useUserInfoStore(piniaInstance);
 let configStore = useGlobalConfigStore(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);

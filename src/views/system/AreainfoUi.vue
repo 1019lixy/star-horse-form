@@ -1,5 +1,6 @@
 <script setup lang="ts" name="Areainfo">
-import {apiInstance, ApiUrls, commonField, dialogPreps, PageFieldInfo, SearchFields} from "star-horse-lowcode";
+import {apiInstance, ApiUrls, dialogPreps, PageFieldInfo, SearchFields} from "star-horse-lowcode";
+import {commonField} from "@/api/system";
 import {Config} from "@/api/settings";
 import {onMounted, provide, reactive, ref} from "vue";
 

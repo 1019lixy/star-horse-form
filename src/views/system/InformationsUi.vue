@@ -3,14 +3,13 @@ import {
   apiInstance,
   ApiUrls,
   dialogPreps,
-  loadCustomInfo,
   loadElementPlusIcon,
-  loadSystemInfo,
   PageFieldInfo,
   postRequest,
   SearchFields,
   SelectOption
 } from "star-horse-lowcode";
+import {  loadCustomInfo,loadSystemInfo} from "@/api/star_horse_utils";
 import {Config} from "@/api/settings";
 import {onMounted, provide, reactive, ref} from "vue";
 
