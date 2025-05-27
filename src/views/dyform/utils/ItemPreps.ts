@@ -440,7 +440,7 @@ export function paramsFields(paramsConfigRef: Ref<any>, fieldName: string, item:
     });
     const fields: Array<any> = [];
     const fieldList = ref<SelectOption[]>([]);
-    const dataUrls: FieldInfo[] = [
+    const dataUrls: FieldInfo[]|any = [
         [
             {
                 label: "系统环境",
@@ -548,7 +548,7 @@ export function paramsFields(paramsConfigRef: Ref<any>, fieldName: string, item:
             optionList: ascOrDesc()
         }
     ];
-    const fieldLists: FieldInfo[] = [
+    const fieldLists: FieldInfo[]|any = [
         {
             label: "列名",
             fieldName: "label",
@@ -604,8 +604,20 @@ export function paramsFields(paramsConfigRef: Ref<any>, fieldName: string, item:
     if (otherField) {
         fields.push(...otherField);
     }
-    const tabInfo = {
+    const tabInfo:any = {
         fieldName: "fieldLists",
+        fieldList: [
+            {
+                label: "数据源",
+                fieldName: "dataSource",
+                type: "input",
+                required: true,
+                defaultValue: "data",
+                formVisible: true,
+                listVisible: true,
+
+            }
+        ],
         batchFieldList: [
             {
                 title: "显示属性",
@@ -624,8 +636,24 @@ export function paramsFields(paramsConfigRef: Ref<any>, fieldName: string, item:
                 tabName: "orderBy",
                 batchName: "orderBy",
                 fieldList: orderBys
+            },
+            {
+                title: "接口参数",
+                tabName: "params",
+                batchName: "params",
+                formFlag:"Y",
+                fieldList: [{
+                    label: "接口参数",
+                    fieldName: "params",
+                    type: "json-array",
+                    formVisible: true,
+                    preps:{
+                        devType:"Y"
+                    }
+                }]
             }
-        ]
+        ],
+
     };
     fields.push(tabInfo);
     if (returnField) {
