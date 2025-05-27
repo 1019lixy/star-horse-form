@@ -7,7 +7,6 @@ import {
   dialogPreps,
   dictData,
   error,
-
   load,
   loadData,
   PageFieldInfo,
@@ -16,7 +15,6 @@ import {
   SearchFields,
   SelectOption,
   success,
-
   useGlobalConfigStore,
   UserFuncInfo,
   warning
@@ -41,7 +39,6 @@ const searchFormData = reactive<SearchFields>({
     {label: "菜单编码", fieldName: "menuCode", type: "input", matchType: "lk"}
   ]
 });
-let menuIconList = ref<SelectOption[]>([]);
 let openTypeList = ref<SelectOption[]>([]);
 const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
