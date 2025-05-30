@@ -1,8 +1,12 @@
 import inject from "@rollup/plugin-inject";
 import vue from "@vitejs/plugin-vue";
 import vueJsx from "@vitejs/plugin-vue-jsx";
+import { univerPlugin } from '@univerjs/vite-plugin'
 import fs from "fs";
-import { resolve } from "path";
+import { fileURLToPath } from 'url'
+import { dirname, resolve } from 'path'
+
+import tailwindcss from '@tailwindcss/vite';
 import { visualizer } from "rollup-plugin-visualizer";
 import AutoImport from "unplugin-auto-import/vite";
 import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
@@ -11,7 +15,6 @@ import { defineConfig } from "vite";
 import progress from "vite-plugin-progress";
 import vueDevTools from "vite-plugin-vue-devtools";
 //此插件是处理外部依赖 比如cdn引入的js
-import tailwindcss from "@tailwindcss/vite";
 const codeHost: string = "http://192.168.20.165:8888/";
 // const codeHost:string = "http://localhost:8888/"
 const systemHost: string = "http://localhost:8749/";
@@ -164,9 +167,11 @@ export default defineConfig((mode) => {
             include: optimizeDepsList
             // exclude:[]
         },
+
         plugins: [
-            tailwindcss(),
             vueDevTools(),
+            tailwindcss(),
+            univerPlugin(),
             vue({
                 script: {
                     // 开启 defineModel
@@ -221,7 +226,7 @@ export default defineConfig((mode) => {
         },
         resolve: {
             alias: {
-                "@": resolve(__dirname, "./src")
+                "@": resolve(dirname(fileURLToPath(import.meta.url)), "./src")
             },
             'element-plus/es': 'element-plus/es',
             'element-plus/lib': 'element-plus/es',
@@ -231,6 +236,12 @@ export default defineConfig((mode) => {
         build: {
             //  告诉打包工具 "vue-demi" 也是外部依赖项
             rollupOptions: {
+                external: [
+                    'react',
+                    'react-dom',
+                    'react/jsx-runtime',
+                    'react-dom/client'
+                ],
                 output: {
                     manualChunks(id: any) {
                         if (id.includes("node_modules")) {
@@ -249,7 +260,7 @@ export default defineConfig((mode) => {
                     }
                 },
                 input: {
-                    main: resolve(__dirname, "index.html")
+                    main: resolve(dirname(fileURLToPath(import.meta.url)), "index.html")
                 }
             },
             terserOptions: {

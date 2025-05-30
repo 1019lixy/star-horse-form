@@ -7,10 +7,7 @@
 
 <script setup lang="ts">
 import {onBeforeUnmount, onMounted, ref} from 'vue'
-import {createUniver, defaultTheme, LocaleType, merge, Univer} from '@univerjs/presets';
-import {UniverSheetsCorePreset} from '@univerjs/presets/preset-sheets-core';
-import UniverPresetSheetsCoreZhCN from '@univerjs/presets/preset-sheets-core/locales/zh-CN';
-import '@univerjs/presets/lib/styles/preset-sheets-core.css';
+import {setupUniver} from "@/components/formcomp/utils/setup-univer.ts";
 
 const props = defineProps({
   isDesign: {
@@ -47,29 +44,11 @@ const itemAction = () => {
   emits("selfFunc", formData);
 };
 const container = ref<HTMLElement | null>(null);
-const univerAPIRef = ref<Univer | null>(null);
+const univerAPIRef = ref<any>(null);
 
 onMounted(() => {
-  const {univerAPI} = createUniver({
-    locale: LocaleType.ZH_CN,
-    locales: {
-      [LocaleType.ZH_CN]: merge(
-          {},
-          UniverPresetSheetsCoreZhCN,
-      ),
-    },
-    theme: defaultTheme,
-    presets: [
-      UniverSheetsCorePreset({
-        container: container.value,
-      }),
-    ],
-  });
 
-  univerAPI.createWorkbook({name: 'Test Sheet'});
-
-  univerAPIRef.value = univerAPI;
-
+  univerAPIRef.value = setupUniver(container.value)
 
 });
 

@@ -9,6 +9,8 @@
     "paths": {
       "@/*": ["./src/*"]
     },
+    /** univer plugin */
+    "experimentalDecorators": true,
     /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,

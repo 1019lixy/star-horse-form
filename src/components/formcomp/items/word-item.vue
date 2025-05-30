@@ -6,16 +6,7 @@
 </template>
 <script setup lang="ts" name="excelItem">
 import {onMounted, ref} from "vue";
-import {createUniver, defaultTheme, LocaleType, merge} from '@univerjs/presets'
-import {UniverDocsCorePreset} from '@univerjs/presets/preset-docs-core'
-import docsCoreZhCN from '@univerjs/presets/preset-docs-core/locales/zh-CN'
-import {UniverDocsDrawingPreset} from '@univerjs/presets/preset-docs-drawing'
-import docsDrawingZhCN from '@univerjs/presets/preset-docs-drawing/locales/zh-CN'
-import {UniverDocsHyperLinkPreset} from '@univerjs/presets/preset-docs-hyper-link'
-import docsHyperLinkZhCN from '@univerjs/presets/preset-docs-hyper-link/locales/zh-CN'
-import '@univerjs/presets/lib/styles/preset-docs-core.css'
-import '@univerjs/presets/lib/styles/preset-docs-drawing.css'
-import '@univerjs/presets/lib/styles/preset-docs-hyper-link.css'
+import {docSetupUniver} from "@/components/formcomp/utils/setup-univer.ts";
 
 
 const props = defineProps({
@@ -55,26 +46,7 @@ const itemAction = () => {
 const container = ref<HTMLElement | null>(null);
 
 const init = async () => {
-  const {univerAPI} = createUniver({
-    locale: LocaleType.ZH_CN,
-    locales: {
-      [LocaleType.ZH_CN]: merge(
-          {},
-          docsCoreZhCN,
-          docsDrawingZhCN,
-          docsHyperLinkZhCN,
-      ),
-    },
-    theme: defaultTheme,
-    presets: [
-      UniverDocsCorePreset({
-        container: container.value,
-      }),
-      UniverDocsDrawingPreset(),
-      UniverDocsHyperLinkPreset(),
-    ],
-  })
-  univerAPI.createUniverDoc({})
+  docSetupUniver(container.value);
 };
 const rendered = () => {
 };

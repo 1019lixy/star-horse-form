@@ -114,9 +114,9 @@ const formActions = [
 ];
 const shortKeyHelpMessage = `
 快捷键：
-  1、Ctrl + X 剪切操作；
-  2、Ctrl + C 复制操作；
-  3、Ctrl + V 粘贴操作；
+  1、Ctrl +Alt+ X 剪切操作；
+  2、Ctrl +Alt+ C 复制操作；
+  3、Ctrl +Alt+ V 粘贴操作；
   4、Ctrl + Z 后退一步操作；
   5、Ctrl + Y 前进一步操作；
   6、Alt + V 校验操作；

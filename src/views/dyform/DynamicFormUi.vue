@@ -2,7 +2,6 @@
 import {
   apiInstance,
   ApiUrls,
-  dbConfigList,
   dialogPreps,
   loadData,
   PageFieldInfo,
@@ -15,7 +14,7 @@ import {
   UserFuncInfo,
   warning
 } from "star-horse-lowcode";
-import {   loadSystemInfo  } from "@/api/star_horse_utils";
+import {dbConfigList, loadSystemInfo} from "@/api/star_horse_utils";
 import {computed, nextTick, onMounted, provide, reactive, ref} from "vue";
 import {useRouter} from "vue-router";
 import {Config} from "@/api/settings";
@@ -393,7 +392,7 @@ onMounted(() => {
           </el-col>
           <el-col :span="19" class="h100">
             <el-card class="inner_content h100">
-              <div class="inner_button" v-if="dataList && dataList.length > 0">
+              <div class="inner_button" v-if="dataList?.length > 0">
                 <el-menu mode="horizontal" style="height: inherit; width: 100%">
                   <template v-for="(item, index) in viewBtnList">
                     <el-menu-item

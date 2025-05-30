@@ -3,26 +3,20 @@ import {computed, onMounted, reactive, ref, watch} from "vue";
 import {
   apiInstance,
   ApiUrls,
-
   createCondition,
-  dbConfigList,
   getRequest,
-
   loadData,
-
   loadElementPlusIcon,
-
   PageFieldInfo,
-
   piniaInstance,
   postRequest,
   SelectOption,
   useDesignFormStore
 } from "star-horse-lowcode";
 import {Config} from "@/api/settings";
-import { loadDict, permissionMenus} from "@/api/star_horse_apis";
-import {   loadSystemInfo  } from "@/api/star_horse_utils";
-import {ascOrDesc,commonField,httpMethod} from "@/api/system";
+import {loadDict, permissionMenus} from "@/api/star_horse_apis";
+import {dbConfigList, loadSystemInfo} from "@/api/star_horse_utils";
+import {ascOrDesc, commonField, httpMethod} from "@/api/system";
 
 const apiUrl: ApiUrls = apiInstance("userdb-manage", "userdb/dynamicForm");
 let designForm = useDesignFormStore(piniaInstance);
@@ -142,7 +136,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
               preps: {
                 colspan: 16
               }
-            },{
+            }, {
               label: "创建表",
               fieldName: "createTable",
               type: "switch",
@@ -198,18 +192,18 @@ const tableFieldList = reactive<PageFieldInfo | any>({
               }
             }],
             [
-            {
-              label: "存为模板",
-              fieldName: "templateFlag",
-              type: "switch",
-              defaultValue: 2,
-              formVisible: true,
-              preps: {
-                activeValue: 1,
-                inactiveValue: 2,
-                colspan: 8
-              }
-            },{
+              {
+                label: "存为模板",
+                fieldName: "templateFlag",
+                type: "switch",
+                defaultValue: 2,
+                formVisible: true,
+                preps: {
+                  activeValue: 1,
+                  inactiveValue: 2,
+                  colspan: 8
+                }
+              }, {
               label: "级联删除",
               helpMsg: "页面字段删除时同步删除数据库对应表字段",
               fieldName: "deleteCascade",

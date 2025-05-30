@@ -109,18 +109,21 @@ const shortKeyList = (model: ModuleEnums) => {
             key: "c",
             action: "copy",
             ctrl: true,
+            alt: true,
             handler: () => copyFun(model)
         },
         {
             key: "x",
             action: "cut",
             ctrl: true,
+            alt: true,
             handler: () => cutFun(model)
         },
         {
             key: "v",
             action: "paste",
             ctrl: true,
+            alt: true,
             handler: () => pasteFun(model)
         },
         {
