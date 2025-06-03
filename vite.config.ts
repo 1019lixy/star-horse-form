@@ -122,7 +122,7 @@ export default defineConfig((mode) => {
         });
     }
     return {
-        base: "/",
+        base: "./",
         server: {
             port: 8880,
             host: true,

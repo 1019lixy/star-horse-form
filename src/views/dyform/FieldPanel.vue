@@ -9,6 +9,7 @@ let designForm = useDesignFormStore(piniaInstance);
 let formDataList = computed(() => designForm.formDataList);
 let containerList = computed(() => designForm.containerList);
 let selfFormDataList = computed(() => designForm.selfFormDataList);
+let list = computed(() => designForm.compList);
 let tabModel = ref<string>("component");
 let activeNames = ref(["a", "b", "c", "d"]);
 
@@ -43,7 +44,17 @@ const previewRefs = ref<any[]>([]); // 新增ref数组
 const createRef = (el: any) => {
   previewRefs.value.push(el);
 }
-
+const addElement = (element: any, type: string) => {
+  let mvData = fieldCopy(element, type);
+  list.value.push(mvData);
+  if (Array.isArray(mvData)) {
+    let temp = mvData[mvData.length - 1];
+    designForm.selectItem(temp, temp["itemType"], "");
+  } else {
+    designForm.selectItem(mvData, mvData["itemType"], "");
+  }
+  // designForm.addElement(element,type)
+}
 </script>
 <template>
   <el-tabs v-model="tabModel" style="width: 100%; height: 100%; "
@@ -76,7 +87,8 @@ const createRef = (el: any) => {
                   :list="containerList"
               >
                 <template #item="{ element }">
-                  <li class="field-item"
+                  <li class="field-item" @dblclick="addElement(element,'container')"
+                      :title="element.itemName"
                   >&nbsp;&nbsp;
                     <span
                     ><star-horse-icon :icon-class="element.itemIcon"
@@ -105,7 +117,8 @@ const createRef = (el: any) => {
                   :list="formDataList"
               >
                 <template #item="{ element }">
-                  <li class="field-item"
+                  <li class="field-item" @dblclick="addElement(element,'item')"
+                      :title="element.itemName"
                   >&nbsp;&nbsp;
                     <span
                     ><star-horse-icon
@@ -136,7 +149,9 @@ const createRef = (el: any) => {
                   :list="selfFormDataList"
               >
                 <template #item="{ element }">
-                  <li class="field-item">&nbsp;&nbsp;
+                  <li class="field-item" @dblclick="addElement(element,'item')"
+                      :title="element.itemName"
+                  >&nbsp;&nbsp;
                     <span><star-horse-icon
                         :icon-class="element.itemIcon"
                         style="color: var(--star-horse-style)"

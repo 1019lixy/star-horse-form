@@ -276,14 +276,14 @@ const shortKeySwitch = (val: boolean) => {
   }
 };
 const onDragAdd = async (_evt: Event, dataList: Array<any>) => {
-  if (draggingItem.value?.itemType == "table") {
-    let datas = dataList.filter((item) => item.itemType == "table");
-    if (datas.length > 1) {
-      warning("同级容器中只能添加一次动态列表组件");
-      const lastIndex = dataList.findIndex(item => item.id === draggingItem.value.id);
-      if (lastIndex > -1) dataList.splice(lastIndex, 1);
-    }
-  }
+  // if (draggingItem.value?.itemType == "table") {
+  //   let datas = dataList.filter((item) => item.itemType == "table");
+  //   if (datas.length > 1) {
+  //     warning("同级容器中只能添加一次动态列表组件");
+  //     const lastIndex = dataList.findIndex(item => item.id === draggingItem.value.id);
+  //     if (lastIndex > -1) dataList.splice(lastIndex, 1);
+  //   }
+  // }
   if (!draggingItem.value) {
     return;
   }
@@ -572,6 +572,9 @@ let prepsModel = ref("one");
                      :scroll-to-error="formInfo['scrollToError'] == 'Y'" :show-message="formInfo['showMessage'] == 'Y'"
                      :size="'default'" :status-icon="formInfo['statusIcon'] == 'Y'"
                      :validate-on-rule-change="formInfo['validateOnRuleChange'] == 'Y'">
+              <template v-if="list.length === 0">
+                <div class="empty-info">请从左侧组件库中选择一个组件, 然后用鼠标双击或者拖动该组件放置于此处</div>
+              </template>
               <draggable @add="(evt: Event) => onDragAdd(evt, list)" :class="currentPageClass" tag="div"
                          style="margin: 10px auto; " group="starHorseGroup" ghost-class="ghost" :list="list">
                 <template #item="{ element: data, index }">
@@ -612,8 +615,6 @@ let prepsModel = ref("one");
 }
 
 :deep {
-
-
   .el-card {
     margin: 0 !important;
   }
@@ -633,6 +634,20 @@ let prepsModel = ref("one");
   transition: transform 0.3s ease;
 }
 
+.empty-info {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 18px;
+  color: #999999;
+}
 
 .design-form-container {
 
