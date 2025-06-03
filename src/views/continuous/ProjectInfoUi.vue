@@ -1,10 +1,13 @@
 <script setup lang="ts" name="ProjectInfoUi">
 import {onMounted, provide, reactive, ref} from "vue";
-import {apiInstance, ApiUrls, dialogPreps, SearchFields, SelectOption} from "star-horse-lowcode";
+import {apiInstance, ApiUrls, dialogPreps, dictData, SearchFields, SelectOption} from "star-horse-lowcode";
 import {Config} from "@/api/settings";
 
 const dataUrl: ApiUrls = apiInstance("continuous-manage", "continuous/projectInfo");
 let libTypeList = ref<Array<SelectOption>>([]);
+let languageList = ref<Array<SelectOption>>([]);
+let charsetList = ref<Array<SelectOption>>([]);
+let projectRoleList = ref<Array<SelectOption>>([]);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {label: "项目名称", fieldName: "projectName", type: "input", matchType: "lk", defaultVisible: true},
@@ -33,13 +36,16 @@ const tableFieldList = reactive({
         label: "代码库地址",
         fieldName: "host",
         type: "input",
+        helpMsg: "eg:[http://|https://|ssh://|git@]192.168.0.1/test",
         formVisible: true,
         listVisible: true
       },
       {
-        label: "代码库端口",
-        fieldName: "port",
-        type: "number",
+        label: "程序语言",
+        fieldName: "language",
+        type: "select",
+        optionList: languageList,
+        required: true,
         formVisible: true,
         listVisible: true
       }
@@ -54,27 +60,11 @@ const tableFieldList = reactive({
         listVisible: true
       },
       {
-        label: "项目编码",
+        label: "字符集",
         fieldName: "projectCharset",
-        type: "input",
-        required: true,
-        formVisible: true,
-        listVisible: true
-      }
-    ],
-    [
-      {
-        label: "项目类型",
-        fieldName: "projectType",
-        type: "input",
-        required: true,
-        formVisible: true,
-        listVisible: true
-      },
-      {
-        label: "程序语言",
-        fieldName: "language",
-        type: "input",
+        type: "select",
+        defaultValue: "UTF-8",
+        optionList: charsetList,
         required: true,
         formVisible: true,
         listVisible: true
@@ -111,44 +101,106 @@ const tableFieldList = reactive({
             {
               label: "用户名",
               fieldName: "username",
-              type: "input",
+              type: "dialog-input",
               formVisible: true,
-              listVisible: true
+              listVisible: true,
+              params: {
+                primaryKey: "idEmployeeInfo",
+                dataUrl: {
+                  pageListUrl: "system-config/system/employeeInfo/pageList",
+                },
+                needField: [
+                  {sourceField: "employeeNo", distField: "username"},
+                  {sourceField: "name", distField: "name"}
+                ],
+
+                fieldList: [{
+                  label: "姓名",
+                  fieldName: "name",
+                  type: "input",
+                  required: true,
+                  formVisible: !false,
+                  listVisible: !false,
+                  searchFlag: "Y"
+                },
+                  {
+                    label: "工号",
+                    fieldName: "employeeNo",
+                    type: "input",
+                    editDisabled: "Y",
+                    helpMsg: "如不填写系统自动生成",
+                    required: false,
+                    formVisible: !false,
+                    listVisible: !false,
+                    searchFlag: "Y"
+                  },
+                  {
+                    label: "职级",
+                    fieldName: "rank",
+                    type: "tselect",
+
+                    required: false,
+                    formVisible: !false,
+                    listVisible: !false,
+                    preps: {
+                      showCode: "Y"
+                    }
+                  },
+                  {
+                    label: "岗位",
+                    fieldName: "station",
+                    type: "tselect",
+                    required: false,
+                    formVisible: !false,
+                    listVisible: !false,
+                    preps: {
+                      showCode: "Y"
+                    }
+                  }]
+              },
             },
             {
               label: "姓名",
               fieldName: "name",
-              type: "input",
+              type: "tag",
               formVisible: true,
               listVisible: true
             },
             {
               label: "角色名称",
               fieldName: "roleName",
-              type: "input",
+              type: "select",
+              optionList: projectRoleList,
               formVisible: true,
               listVisible: true
             },
             {
               label: "生效时间",
               fieldName: "effectiveDate",
-              type: "input",
+              type: "datetime",
               formVisible: true,
               listVisible: true
             },
             {
               label: "失效日期",
               fieldName: "expirationDate",
-              type: "input",
+              type: "datetime",
               formVisible: true,
               listVisible: true
             },
             {
-              label: "是否管理员 1是 2否",
+              label: "是否管理员",
               fieldName: "isManager",
-              type: "input",
+              type: "switch",
+              defaultValue: "2",
               formVisible: true,
-              listVisible: true
+              listVisible: true,
+              preps: {
+                activeValue: "1",
+                activeText: "是",
+                inactiveValue: "2",
+                inactiveText: "否"
+              }
             }
           ]
         }
@@ -221,6 +273,18 @@ const dataFormat = (name: string, cellValue: object): any => {
   return cellValue;
 };
 const init = async () => {
+  dictData("REPO_TYPE").then(res => {
+    libTypeList.value = res;
+  });
+  dictData("program_language").then(res => {
+    languageList.value = res;
+  });
+  dictData("CHARSET").then(res => {
+    charsetList.value = res;
+  });
+  dictData("PROJECT_ROLE").then(res => {
+    projectRoleList.value = res;
+  });
 };
 let projectId = ref<number>(-1);
 const selectItemFun = (row: any) => {
@@ -247,21 +311,16 @@ onMounted(async () => {
   >
     <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
   </star-horse-dialog>
-  <el-card class="inner_content">
+  <div class="search-content">
     <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line' ? 'column' : 'row' }">
       <star-horse-search-comp
           @searchData="(data: any) => projectInfoRef.createSearchParams(data)"
           :formData="searchFormData"
           :compUrl="dataUrl"
       />
-      <hr/>
-      <star-horse-button-list
-          @tableCompFunc="(fun: any) => projectInfoRef.tableCompFunc(fun)"
-          :compUrl="dataUrl"
-          :dialogProps="dialogProps"
-          :showType="Config.buttonStyle"
-      />
     </div>
+  </div>
+  <el-card class="inner_content">
     <star-horse-table-comp
         ref="projectInfoRef"
         :fieldList="tableFieldList"

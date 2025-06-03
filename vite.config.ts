@@ -236,12 +236,6 @@ export default defineConfig((mode) => {
         build: {
             //  告诉打包工具 "vue-demi" 也是外部依赖项
             rollupOptions: {
-                external: [
-                    'react',
-                    'react-dom',
-                    'react/jsx-runtime',
-                    'react-dom/client'
-                ],
                 output: {
                     manualChunks(id: any) {
                         if (id.includes("node_modules")) {

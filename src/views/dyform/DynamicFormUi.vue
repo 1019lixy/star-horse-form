@@ -227,6 +227,21 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
   if (name == "datasourceConfigId") {
     return dataSource.value.find((item) => item.value!.toString() == cellValue)?.name || cellValue;
   }
+  if (name == "sysId") {
+    // 新增递归查找方法
+    const findInfo = (list: any[]): any => {
+      for (const item of list) {
+        if (item.value == cellValue) return item;
+        if (item.children?.length) {
+          const found = findInfo(item.children);
+          if (found) return found;
+        }
+      }
+      return null;
+    };
+
+    return findInfo(informationsList.value)?.name || cellValue;
+  }
   return cellValue == "Y" ? "是" : cellValue == "N" ? "否" : cellValue;
 };
 let extendBtnList = ref<UserFuncInfo[]>([]);
