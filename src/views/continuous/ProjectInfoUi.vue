@@ -24,7 +24,7 @@ const tableFieldList = reactive({
     },
     {
       label: "代码库类型",
-      fieldName: "type",
+      fieldName: "repoType",
       type: "select",
       optionList: libTypeList,
       required: true,
@@ -34,7 +34,7 @@ const tableFieldList = reactive({
     [
       {
         label: "代码库地址",
-        fieldName: "host",
+        fieldName: "repoUrl",
         type: "input",
         helpMsg: "eg:[http://|https://|ssh://|git@]192.168.0.1/test",
         formVisible: true,
@@ -42,7 +42,7 @@ const tableFieldList = reactive({
       },
       {
         label: "程序语言",
-        fieldName: "language",
+        fieldName: "programLanguage",
         type: "select",
         optionList: languageList,
         required: true,
@@ -60,7 +60,7 @@ const tableFieldList = reactive({
         listVisible: true
       },
       {
-        label: "字符集",
+        label: "项目字符集",
         fieldName: "projectCharset",
         type: "select",
         defaultValue: "UTF-8",
@@ -73,14 +73,14 @@ const tableFieldList = reactive({
     [
       {
         label: "流水线账号",
-        fieldName: "account",
+        fieldName: "lineAccount",
         type: "input",
         formVisible: true,
         listVisible: true
       },
       {
         label: "流水线密码",
-        fieldName: "security",
+        fieldName: "lineSecurity",
         type: "input",
         formVisible: true,
         listVisible: true
@@ -103,7 +103,7 @@ const tableFieldList = reactive({
               fieldName: "username",
               type: "dialog-input",
               formVisible: true,
-              listVisible: true,
+
               params: {
                 primaryKey: "idEmployeeInfo",
                 dataUrl: {
@@ -119,26 +119,27 @@ const tableFieldList = reactive({
                   fieldName: "name",
                   type: "input",
                   required: true,
+                  prefix: "a",
                   formVisible: !false,
                   listVisible: !false,
-                  searchFlag: "Y"
+                  searchVisible: true,
                 },
                   {
                     label: "工号",
                     fieldName: "employeeNo",
                     type: "input",
                     editDisabled: "Y",
+                    prefix: "a",
                     helpMsg: "如不填写系统自动生成",
                     required: false,
                     formVisible: !false,
                     listVisible: !false,
-                    searchFlag: "Y"
+                    searchVisible: true,
                   },
                   {
                     label: "职级",
                     fieldName: "rank",
                     type: "tselect",
-
                     required: false,
                     formVisible: !false,
                     listVisible: !false,
@@ -164,7 +165,6 @@ const tableFieldList = reactive({
               fieldName: "name",
               type: "tag",
               formVisible: true,
-              listVisible: true
             },
             {
               label: "角色名称",
@@ -172,21 +172,18 @@ const tableFieldList = reactive({
               type: "select",
               optionList: projectRoleList,
               formVisible: true,
-              listVisible: true
             },
             {
               label: "生效时间",
               fieldName: "effectiveDate",
               type: "datetime",
               formVisible: true,
-              listVisible: true
             },
             {
               label: "失效日期",
               fieldName: "expirationDate",
               type: "datetime",
               formVisible: true,
-              listVisible: true
             },
             {
               label: "是否管理员",
@@ -194,7 +191,6 @@ const tableFieldList = reactive({
               type: "switch",
               defaultValue: "2",
               formVisible: true,
-              listVisible: true,
               preps: {
                 activeValue: "1",
                 activeText: "是",
@@ -210,25 +206,31 @@ const tableFieldList = reactive({
       label: "创建人",
       disabled: "Y",
       fieldName: "createdBy",
-      type: "input"
-    },
-    {
-      label: "修改人",
-      disabled: "Y",
-      fieldName: "updatedBy",
-      type: "input"
+      type: "input",
+      listVisible: true,
+
     },
     {
       label: "创建日期",
       disabled: "Y",
       fieldName: "createdTime",
-      type: "date"
+      type: "date",
+      listVisible: true,
     },
+    {
+      label: "修改人",
+      disabled: "Y",
+      fieldName: "updatedBy",
+      type: "input",
+      listVisible: true,
+    },
+
     {
       label: "修改日期",
       disabled: "Y",
       fieldName: "updatedTime",
-      type: "date"
+      type: "date",
+      listVisible: true,
     },
     {
       label: "数据版本号",
@@ -269,7 +271,12 @@ const rules = {};
 const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 
-const dataFormat = (name: string, cellValue: object): any => {
+const dataFormat = (name: string, cellValue: any, row: any): any => {
+  if (name == "isManager")
+    return cellValue == "1" ? "是" : "否";
+  if (name == "roleName")
+    return projectRoleList.value.find((item) => item.value == cellValue)?.name || cellValue;
+
   return cellValue;
 };
 const init = async () => {
@@ -295,7 +302,10 @@ onMounted(async () => {
 });
 </script>
 <template>
-  <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
+  <star-horse-dialog
+      :isShowBtnContinue="true"
+      :dialogVisible="dialogProps.editVisible"
+      :dialogProps="dialogProps">
     <star-horse-form
         @refresh="projectInfoRef.loadByPage()"
         :compUrl="dataUrl"
@@ -321,15 +331,25 @@ onMounted(async () => {
     </div>
   </div>
   <el-card class="inner_content">
-    <star-horse-table-comp
-        ref="projectInfoRef"
-        :fieldList="tableFieldList"
-        :primaryKey="primaryKey"
-        :compUrl="dataUrl"
-        :dataFormat="dataFormat"
-        @selectItem="selectItemFun"
-    />
-    <project-member-ui :projectId="projectId"/>
+    <div class="flex  h-full w-full overflow-hidden">
+      <div class="flex direction-vertical w-2/3">
+        <el-card class="inner_content">
+          <star-horse-table-comp
+              ref="projectInfoRef"
+              :fieldList="tableFieldList"
+              :primaryKey="primaryKey"
+              :compUrl="dataUrl"
+              :dataFormat="dataFormat"
+              @selectItem="selectItemFun"
+          />
+        </el-card>
+      </div>
+      <div class="flex-1 flex direction-vertical overflow-hidden ml-[8px]">
+        <project-member-ui :projectId="projectId" :roleList="projectRoleList"/>
+      </div>
+    </div>
+
+
   </el-card>
 </template>
 <style lang="scss" scoped></style>

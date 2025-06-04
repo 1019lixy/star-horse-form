@@ -1,132 +1,156 @@
 <script setup lang="ts" name="ProjectMember">
-import {onMounted, provide, reactive, ref, watch} from "vue";
-import {apiInstance, ApiUrls, dialogPreps, SearchFields, SearchParams} from "star-horse-lowcode";
+import {computed, onMounted, provide, reactive, ref, watch} from "vue";
+import {apiInstance, ApiUrls, dialogPreps, SearchFields, SearchParams, warning} from "star-horse-lowcode";
 
 const props = defineProps({
-  projectId: {type: Number}
+  projectId: {type: String},
+  roleList: {
+    type: Array,
+    default: () => []
+  }
 });
 const dataUrl: ApiUrls = apiInstance("continuous-manage", "continuous/projectMember");
 const searchFormData = reactive<SearchFields>({fieldList: []});
+const rolesList = computed(() => props.roleList)
 const tableFieldList = reactive({
   fieldList: [
     {
       label: "主键",
-      fieldName: "idprojectMember",
+      fieldName: "idProjectMember",
       type: "long"
     },
-    {
-      label: "归属项目",
-      fieldName: "projectId",
-      type: "input",
-      formVisible: true,
-      listVisible: true
-    },
-    {
+
+    [{
       label: "用户名",
       fieldName: "username",
-      type: "input",
+      type: "dialog-input",
       formVisible: true,
-      listVisible: true
+      listVisible: true,
+      required: true,
+      params: {
+        primaryKey: "idEmployeeInfo",
+        dataUrl: {
+          pageListUrl: "system-config/system/employeeInfo/pageList",
+        },
+        needField: [
+          {sourceField: "employeeNo", distField: "username"},
+          {sourceField: "name", distField: "name"}
+        ],
+
+        fieldList: [{
+          label: "姓名",
+          fieldName: "name",
+          type: "input",
+          required: true,
+          prefix: "a",
+          formVisible: !false,
+          listVisible: !false,
+          searchVisible: true,
+        },
+          {
+            label: "工号",
+            fieldName: "employeeNo",
+            type: "input",
+            editDisabled: "Y",
+            prefix: "a",
+            helpMsg: "如不填写系统自动生成",
+            required: false,
+            formVisible: !false,
+            listVisible: !false,
+            searchVisible: true,
+          },
+          {
+            label: "职级",
+            fieldName: "rank",
+            type: "tselect",
+            required: false,
+            formVisible: !false,
+            listVisible: !false,
+            preps: {
+              showCode: "Y"
+            }
+          },
+          {
+            label: "岗位",
+            fieldName: "station",
+            type: "tselect",
+            required: false,
+            formVisible: !false,
+            listVisible: !false,
+            preps: {
+              showCode: "Y"
+            }
+          }]
+      },
     },
-    {
-      label: "姓名",
-      fieldName: "name",
-      type: "input",
-      formVisible: true,
-      listVisible: true
-    },
-    {
+      {
+        label: "姓名",
+        fieldName: "name",
+        type: "tag",
+        formVisible: true,
+        listVisible: true,
+      }],
+    [{
       label: "角色名称",
       fieldName: "roleName",
-      type: "input",
+      type: "select",
+      required: true,
+      optionList: rolesList,
       formVisible: true,
-      listVisible: true
+      listVisible: true,
     },
-    {
+      {
+        label: "是否管理员",
+        fieldName: "isManager",
+        type: "switch",
+        defaultValue: "2",
+        formVisible: true,
+        listVisible: true,
+        preps: {
+          activeValue: "1",
+          activeText: "是",
+          inactiveValue: "2",
+          inactiveText: "否"
+        }
+      }],
+    [{
       label: "生效时间",
       fieldName: "effectiveDate",
-      type: "input",
+      type: "datetime",
       formVisible: true,
       listVisible: true
     },
-    {
-      label: "失效日期",
-      fieldName: "expirationDate",
-      type: "input",
-      formVisible: true,
-      listVisible: true
-    },
-    {
-      label: "是否管理员 1是 2否",
-      fieldName: "isManager",
-      type: "input",
-      formVisible: true,
-      listVisible: true
-    },
+      {
+        label: "失效日期",
+        fieldName: "expirationDate",
+        type: "datetime",
+        formVisible: true,
+        listVisible: true
+      }],
+
     {
       label: "创建人",
       disabled: "Y",
       fieldName: "createdBy",
       type: "input"
     },
-    {
-      label: "修改人",
-      disabled: "Y",
-      fieldName: "updatedBy",
-      type: "input"
-    },
-    {
-      label: "创建日期",
-      disabled: "Y",
-      fieldName: "createdTime",
-      type: "date"
-    },
-    {
-      label: "修改日期",
-      disabled: "Y",
-      fieldName: "updatedTime",
-      type: "date"
-    },
-    {
-      label: "数据版本号",
-      fieldName: "version",
-      type: "number"
-    },
-    {
-      label: "是否已逻辑",
-      fieldName: "isDel",
-      type: "number"
-    },
-    {
-      label: "数据编号",
-      fieldName: "dataNo",
-      type: "input"
-    },
-    {
-      label: "状态码",
-      fieldName: "statusCode",
-      type: "input"
-    },
-    {
-      label: "状态码名称",
-      fieldName: "statusName",
-      type: "input"
-    },
-    {
-      label: "国际码",
-      fieldName: "local",
-      type: "input"
-    }
+
   ],
   stopAutoLoad: true
 });
-const primaryKey = "idprojectMember";
+const primaryKey = "idProjectMember";
 const projectMemberRef = ref();
 const rules = {};
 const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 
-const dataFormat = (name: string, cellValue: object): any => {
+const dataFormat = (name: string, cellValue: any, row: any): any => {
+  if (name == "isManager") {
+    return "1" == cellValue ? "是" : "否";
+  }
+  if (name == "roleName") {
+    return props.roleList.find((item: any) => item.value == cellValue)?.name || cellValue;
+  }
   return cellValue;
 };
 const init = async () => {
@@ -141,7 +165,7 @@ const filterFun = () => {
   projectMemberRef.value.createSearchParams(filterCondition.value, []);
 };
 watch(
-    () => props.mainId,
+    () => props.projectId,
     () => {
       if (projectMemberRef.value && props.projectId) {
         filterFun();
@@ -158,6 +182,9 @@ onMounted(async () => {
     <star-horse-form
         @refresh="projectMemberRef.loadByPage()"
         :compUrl="dataUrl"
+        :outerFormData="{
+          idProjectInfo: projectId,
+        }"
         :fieldList="tableFieldList"
         :rules="rules"
     />
@@ -171,11 +198,24 @@ onMounted(async () => {
     <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
   </star-horse-dialog>
   <el-card class="inner_content">
-
     <star-horse-table-comp
         ref="projectMemberRef"
         :fieldList="tableFieldList"
         :primaryKey="primaryKey"
+        :extendBtns="[{
+          authority:'add',
+          btnName:'新增',
+          icon:'add',
+          position:'toolbar',
+          funcName:(data:any)=>{
+            console.log('---------------',data,projectId);
+            if(projectId=='-1'){
+              warning('请先选择项目');
+               return;
+            }
+            dialogProps.editVisible = true;
+          }
+        }]"
         :compUrl="dataUrl"
         :dataFormat="dataFormat"
     />
