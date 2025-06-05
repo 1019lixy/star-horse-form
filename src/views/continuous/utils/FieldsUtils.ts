@@ -56,37 +56,65 @@ const pipelineFields = reactive<PageFieldInfo | any>({
                     ]
                 },
                 {
-                    title: "代码源",
+                    title: "项目信息",
                     tableName: "dataSource",
                     fieldList: [
                         [
                             {
-                                label: "代码源类型",
-                                fieldName: "vcsType",
-                                type: "select",
-                                required: true,
-                                defaultValue: "git",
-                                formVisible: true,
-                                listVisible: true,
-                                preps: {
-                                    colspan: 6,
-                                    dataSource: "dict",
-                                    urlOrDictName: "REPO_TYPE"
-                                }
-                            },
-                            {
-                                label: "URL",
-                                fieldName: "vcsUrl",
-                                type: "input",
-                                defaultValue: "git://123.com",
+                                label: "项目名称",
+                                fieldName: "projectName",
+                                aliasName:"idProjectInfo",
+                                type: "dialog-input",
                                 required: true,
                                 formVisible: true,
                                 listVisible: true,
-                                preps: {
-                                    rules: ["url"],
-                                    colspan: 12
-                                }
+                                actionName:"change",
+                                actions:(data:any)=>{
+
+                                },
+                                params: {
+                                    primaryKey: "idProjectInfo",
+                                    dataUrl: {
+                                        pageListUrl: "continuous-manage/continuous/projectInfo/pageList",
+                                    },
+                                    needField: [
+                                        {sourceField: "idProjectInfo", distField: "idProjectInfo"},
+                                        {sourceField: "projectName", distField: "projectName"}
+                                    ],
+
+                                    fieldList: [{
+                                        label: "项目名称",
+                                        fieldName: "projectName",
+                                        type: "input",
+                                        required: true,
+                                        prefix: "a",
+                                        formVisible: !false,
+                                        listVisible: !false,
+                                        searchVisible: true,
+                                    },
+                                        {
+                                            label: "程序语言",
+                                            fieldName: "programLanguage",
+                                            type: "input",
+                                            prefix: "a",
+                                            required: false,
+                                            formVisible: !false,
+                                            listVisible: !false,
+                                            searchVisible: true,
+                                        },
+                                        {
+                                            label: "代码库地址",
+                                            fieldName: "repoUrl",
+                                            type: "input",
+                                            required: false,
+                                            formVisible: !false,
+                                            listVisible: !false,
+
+                                        }
+                                       ]
+                                },
                             },
+
                             {
                                 label: "自动触发",
                                 fieldName: "autoExecution",
@@ -95,16 +123,14 @@ const pipelineFields = reactive<PageFieldInfo | any>({
                                 required: false,
                                 formVisible: true,
                                 listVisible: true,
-                                preps: {
-                                    colspan: 6
-                                }
+
                             }
                         ],
                         [
                             {
-                                label: "版本号",
+                                label: "代码分支",
                                 fieldName: "dataVersion",
-                                type: "input",
+                                type: "select",
                                 required: false,
                                 formVisible: true,
                                 listVisible: true,

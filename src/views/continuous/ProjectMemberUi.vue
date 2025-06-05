@@ -1,6 +1,6 @@
 <script setup lang="ts" name="ProjectMember">
 import {computed, onMounted, provide, reactive, ref, watch} from "vue";
-import {apiInstance, ApiUrls, dialogPreps, SearchFields, SearchParams, warning} from "star-horse-lowcode";
+import {apiInstance, ApiUrls, dialogPreps, SearchFields, SearchParams} from "star-horse-lowcode";
 
 const props = defineProps({
   projectId: {type: String},
@@ -202,18 +202,12 @@ onMounted(async () => {
         ref="projectMemberRef"
         :fieldList="tableFieldList"
         :primaryKey="primaryKey"
-        :extendBtns="[{
+        :preValidFunc="[{
           authority:'add',
-          btnName:'新增',
-          icon:'add',
-          position:'toolbar',
-          funcName:(data:any)=>{
-            if(projectId=='-1'){
-              warning('请先选择项目');
-               return;
-            }
-            dialogProps.editVisible = true;
-          }
+          valid:()=>{
+            return projectId !='-1'
+          },
+          msg:'请先选择项目'
         }]"
         :compUrl="dataUrl"
         :dataFormat="dataFormat"
