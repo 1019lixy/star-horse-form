@@ -402,6 +402,7 @@ watch(
     width: 30px;
     height: 20px;
     align-items: center;
+    justify-content: center;
     vertical-align: middle;
     border-right: 1px solid var(--star-horse-style);
     border-left: 1px solid var(--star-horse-style);

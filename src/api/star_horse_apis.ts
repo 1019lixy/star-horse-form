@@ -54,9 +54,11 @@ service.interceptors.request.use(
 const forceLoginOut = () => {
     let menusInfo = sessionStorage.getItem("menusInfo");
     const token = getToken();
-    if (!token || !menusInfo || menusInfo == "undefined" || menusInfo == "null") {
+    if (!token || token == "undefined" || !menusInfo || menusInfo == "undefined" || menusInfo == "null") {
+        console.log("toLogin")
         router.push({path: "/login"});
     } else {
+        console.log("showLoginDialog")
         userStore.showLoginDialog();
     }
 };
@@ -71,10 +73,11 @@ service.interceptors.response.use((response: AxiosResponse) => {
         }
     },
     (err) => {
-        const data = err.toString().toLowerCase();
-        if (data?.includes("status code 401")) {
+        const data = err?.response?.status ?? err.toString().toLowerCase();
+
+        if (data == 401 || data?.includes("status code 401")) {
             forceLoginOut();
-        } else if (data?.includes("status code 500")) {
+        } else if (data == 500 || data?.includes("status code 500")) {
             error("服务接口异常，请联系管理员");
             return Promise.reject(err);
         } else {

@@ -208,7 +208,6 @@ onMounted(async () => {
           icon:'add',
           position:'toolbar',
           funcName:(data:any)=>{
-            console.log('---------------',data,projectId);
             if(projectId=='-1'){
               warning('请先选择项目');
                return;

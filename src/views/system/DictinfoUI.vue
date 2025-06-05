@@ -7,10 +7,11 @@ import {
   PageFieldInfo,
   SearchFields,
   SelectOption,
-  UserFuncInfo
+  UserFuncInfo,
+  warning
 } from "star-horse-lowcode";
 import {Config} from "@/api/settings";
-import { loadDict} from "@/api/star_horse_apis";
+import {loadDict} from "@/api/star_horse_apis";
 import {computed, onMounted, provide, reactive, ref, watch} from "vue";
 
 const dictinfoRef = ref();
@@ -177,6 +178,19 @@ const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 const extendBtns = ref<UserFuncInfo[]>([
   {
+    authority: 'add',
+    btnName: '新增',
+    icon: 'add',
+    position: 'toolbar',
+    funcName: (data: any) => {
+      if (!props.dictType || props.dictType == '-1') {
+        warning('请先选择字典类别');
+        return;
+      }
+      dialogProps.editVisible = true;
+    }
+  },
+  {
     btnName: "编辑",
     authority: "edit",
     icon: "edit",
@@ -232,6 +246,7 @@ onMounted(async () => {
         :extend-btns="extendBtns"
         :compUrl="dataUrl"
         :dataFormat="dataFormat"
+
     />
   </el-card>
 </template>

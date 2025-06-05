@@ -246,6 +246,8 @@ let configInfo = computed(() => configStore.configFormInfo);
           v-else
           icon-class="logo"
           size="45px"
+          width="45px"
+          height="45px"
           style="color: var(--star-horse-white); font-weight: bold"
       />
     </div>
@@ -282,6 +284,8 @@ let configInfo = computed(() => configStore.configFormInfo);
             <star-horse-icon
                 icon-class="user-circle"
                 size="30px"
+                width="30px"
+                height="30px"
                 cursor="pointer"
                 style="vertical-align: middle; color: var(--star-horse-white)"
             />
