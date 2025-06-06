@@ -2,6 +2,7 @@
 import {onMounted, ref} from "vue";
 import {apiInstance, ApiUrls, dictData, postRequest, SelectOption, warning} from "star-horse-lowcode";
 
+const emits = defineEmits(["selectNode"]);
 const apiUrl: ApiUrls = apiInstance("userdb-manage", "userdb/formInstance/conNodeConfigures/idNodeConfigure/136")
 const currentItem = ref<string>("all");
 const currentNode = ref<any>({});
@@ -18,8 +19,11 @@ const changeNode = (nodeType: string) => {
   }
   currentNode.value = categoryNodeList.value.find((item) => item.defaultFlag == "Y");
 };
-const selectNode = (item: any) => {
+const selectNode = (item: any, action: string) => {
   currentNode.value = item;
+  if (action == "dblClick") {
+    emits("selectNode", item);
+  }
 };
 const setNode = (nodeCode: string) => {
   currentNode.value = nodeList.value.find((item) => item.nodeCode == nodeCode);
@@ -68,7 +72,8 @@ defineExpose({
             <div class="item-box" v-for="(item, index) in categoryNodeList">
               <div
                   class="node-info"
-                  @click="selectNode(item)"
+                  @dblclick="selectNode(item,'dblClick')"
+                  @click="selectNode(item,'click')"
                   :class="{ 'item-active': item.nodeCode == currentNode?.nodeCode }"
               >
                 <div class="item-logo">

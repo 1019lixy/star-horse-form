@@ -24,15 +24,5 @@ const nodeDetail = (id: number) => {
   <compliance/>
 </template>
 <style lang="scss" scoped>
-.config-nav-bar {
-  .nav-bar-left {
-    width: 81%;
-  }
 
-  .nav-bar-right {
-    justify-items: right;
-    align-items: center;
-    text-align: center;
-  }
-}
 </style>

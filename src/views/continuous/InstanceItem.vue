@@ -3,13 +3,17 @@ import {useRouter} from "vue-router";
 
 const router = useRouter();
 const props = defineProps({
+  nodeInfo: {
+    type: Object, default: () => {
+    }
+  },
   isEdit: {
     type: Number,
     default: 1 //1 编辑 2 已发布
   }
 });
 const execRecord = (instanceId: string) => {
-  this.$router.push({
+  router.push({
     path: "/continuous/instanceExecRecord",
     query: {instanceId: instanceId, isEdit: props.isEdit}
   });
@@ -24,6 +28,10 @@ const execLine = (instanceId: string) => {
   console.log("执行");
 };
 const configLine = (instanceId: string) => {
+  router.push({
+    path: "/continuous/ContinusInstanceInit",
+    query: {instanceId: instanceId, isEdit: props.isEdit}
+  });
 };
 const publishLine = (instanceId: string) => {
 };
@@ -42,33 +50,28 @@ const publishLine = (instanceId: string) => {
         <span>#71992</span>
       </div>
       <div class="item-bar-right">
-        <el-button
-            @click="execLine(1)"
-            link
-            title=""
-            style="background: var(--star-horse-style); color: var(--star-horse-white)"
-        >
-          <star-horse-icon icon-class="fa-circle-play"/>
-          <el-tooltip content="执行">执行</el-tooltip>
-        </el-button>
-        <el-button
-            @click="configLine(1)"
-            link
-            title=""
-            style="background: var(--star-horse-style); color: var(--star-horse-white)"
-        >
-          <star-horse-icon icon-class="fa-gear"/>
-          <el-tooltip content="配置">配置</el-tooltip>
-        </el-button>
-        <el-button
-            @click="publishLine(1)"
-            link
-            title=""
-            style="background: var(--star-horse-style); color: var(--star-horse-white)"
-        >
-          <star-horse-icon icon-class="fa-gear"/>
-          <el-tooltip content="发布">发布</el-tooltip>
-        </el-button>
+        <ul class="nav_ul">
+          <li>
+            <el-button
+                @click="execLine(1)"
+                link>
+              <star-horse-icon icon-class="run" size="16px"/>
+              执行
+            </el-button>
+          </li>
+          <li>
+            <el-button @click="configLine(1)" link>
+              <star-horse-icon icon-class="setting" size="16px"/>
+              配置
+            </el-button>
+          </li>
+          <li v-if="!nodeInfo?.isPublished">
+            <el-button @click="publishLine(1)" link>
+              <star-horse-icon icon-class="publish" size="16px"/>
+              发布
+            </el-button>
+          </li>
+        </ul>
       </div>
     </div>
     <div class="item-line">

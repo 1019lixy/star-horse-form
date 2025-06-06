@@ -1,18 +1,12 @@
 <script setup lang="ts" name="ContinusInstanceInit">
-import {computed, nextTick, onMounted, ref, watch} from "vue";
-import {
-  PageFieldInfo,
-  piniaInstance,
-  SelectOption,
-  useContinusConfigStore,
-  uuid,
-  warning
-} from "star-horse-lowcode";
+import {computed, nextTick, onMounted, ref} from "vue";
+import {PageFieldInfo, piniaInstance, SelectOption, useContinusConfigStore, uuid, warning} from "star-horse-lowcode";
 import {loadDict} from "@/api/star_horse_apis";
 import {pipelineFields} from "@/views/continuous/utils/FieldsUtils";
-
+import {useRouter} from "vue-router";
+let router = useRouter();
 const nodeCompRef = ref<any>();
-const nodeInfoRef = ref<any>();
+// const nodeInfoRef = ref<any>();
 const toolInfoRef = ref<any>();
 const deployTemplateRef = ref<any>();
 const tempDialog = ref<boolean>(false);
@@ -20,6 +14,7 @@ const nodeDialog = ref<boolean>(false);
 const currentNodeIndex = ref<number>(-1);
 const continuousStore = useContinusConfigStore(piniaInstance);
 const nodeInfo = computed(() => continuousStore.nodeInfo);
+let pipeLineData = computed(() => continuousStore.getNodeInfo(pipelineNode.id));
 let currentCompName = ref<string>("PipelineCfg");
 let formNo = ref<string>("");
 const processList = ref<any>([]);
@@ -61,6 +56,7 @@ let nodeField = ref<PageFieldInfo>({
         fieldName: "nodeSuccessCondition",
         type: "radio",
         optionList: nodeSuccessConditionList,
+        defaultValue: "any",
         actionName: "change",
         actions: (val: any) => {
           console.log(val);
@@ -95,54 +91,74 @@ const changeTemplate = () => {
     deployTemplateRef.value.setTemplate(nodeInfo.value.pipelineCfg);
   });
 };
-const addNode = (currentIndex: number) => {
-  currentNodeIndex.value = currentIndex;
-  currentFieldList.value = {};
-  // nodeInfoRef.value?.resetForm();
+const goBack = () => {
+  router.push({
+    path: "/continuous/ContinusInstanceConfig"
+  });
+}
+const preCurrentNodeIndex = ref<number>(-1);
+/**
+ * 添加节点
+ * @param currentIndex 当前节点索引
+ */
+const addNode = async (currentIndex: number) => {
+  let result = await validate();
+  if (!result) {
+    warning("请先填写节点信息");
+    return;
+  }
+  preCurrentNodeIndex.value = currentIndex;
   addSubNode();
 };
-const editNode = async (node: any, currentIndex: number) => {
+/**
+ * 校验节点信息
+ */
+const validate = async () => {
   let result = await nodeCompRef.value.getFormData();
-  let nodeResult = true;
-  if (nodeInfoRef.value) {
-    nodeResult = await nodeInfoRef.value?.$refs.starHorseFormRef.validate();
+  if (!result) {
+    return false;
   }
-  if (!result || !nodeResult) {
+  continuousStore.addNodeInfo(currentNode.value.id, result);
+  return true;
+}
+
+const isChange = ref<boolean>(false);
+/** 编辑节点
+ * @param node 当前节点
+ * @param currentIndex 当前节点索引
+ */
+const editNode = async (node: any, currentIndex: number) => {
+  let result = await validate()
+  if (!result) {
     return "error";
   }
-  if (currentNodeIndex.value == -1) {
-    continuousStore.addNodeInfo("pipelineCfg", result);
-  }
-  let nodeData = nodeInfoRef.value?.getFormData().value;
-  if (nodeData) {
-    let keys = Object.keys(nodeData);
-    for (let key of keys) {
-      currentNode.value[key] = nodeData[key];
-    }
-  }
-  currentNode.value["dataList"] = result;
-  console.log(currentNode.value, node);
   //如果点击的是当前节点，则不做任何操作
   if (currentNode.value.id == node.id) {
     return "same";
   }
+  nodeCompRef.value?.resetForm();
+  // nodeInfoRef.value?.resetForm();
+  isChange.value = true;
   currentNode.value = node;
   currentCompName.value = node.nodeCode;
-
   if (node.nodeCode == "PipelineCfg") {
     formNo.value = "";
     currentFieldList.value = pipelineFields;
   } else {
     formNo.value = node.dynamicFormNo;
-    // nodeInfoRef.value?.resetForm();
     currentFieldList.value = {};
   }
   currentNodeIndex.value = currentIndex;
+  const formData = continuousStore.getNodeInfo(node.id);
+  if (formData) {
+    nodeCompRef.value.setFormData(formData);
+  }
   return "ok";
 };
 const delNode = (item: any) => {
   let index = processList.value.indexOf(item);
   processList.value.splice(index, 1);
+  continuousStore.removeNode(item.id);
 };
 const addSubNode = () => {
   nodeDialog.value = true;
@@ -151,63 +167,73 @@ const closeAction = () => {
   nodeDialog.value = false;
   tempDialog.value = false;
 };
-const dataSubmit = () => {
+/**
+ * 保存选择的节点
+ */
+const dataSubmit = async () => {
   let node = toolInfoRef.value.getNode();
+  console.log(node);
   if (!node) {
     warning("请先选择要配置的节点");
     return;
   }
   node = JSON.parse(JSON.stringify(node));
   node["id"] = uuid();
-  let index = currentNodeIndex.value == -1 ? processList.value.length : currentNodeIndex.value;
+  let index = preCurrentNodeIndex.value == -1 ? processList.value.length : preCurrentNodeIndex.value;
+  await editNode(node, index);
   processList.value.splice(index, 0, node);
   currentNodeIndex.value = index;
   currentCompName.value = node.nodeCode;
   formNo.value = node.dynamicFormNo;
-  // nodeInfoRef.value?.resetForm();
   currentNode.value = node;
   closeAction();
 };
-const selectTemplate = () => {
+const selectTemplate = async () => {
   let template = deployTemplateRef.value.getTemplate();
   if (!template || Object.keys(template).length == 0) {
     warning("请选择要更换的模板");
     return;
   }
-  if (!nodeInfo.value.pipelineCfg) {
-    nodeInfo.value["pipelineCfg"] = {};
-  }
-  nodeInfo.value.pipelineCfg.templateName = template.templateName;
-  nodeInfo.value.pipelineCfg.idTemplate = template.idTemplate;
+  pipelineNode.templateName = template.templateName;
+  pipelineNode.idTemplate = template.idTemplate;
   let nodeList = JSON.parse(JSON.stringify(template.nodeList));
   nodeList.forEach((item: any) => {
     item["id"] = uuid();
   })
   processList.value = nodeList;
   closeAction();
+  const result = await validate();
+  if (result) {
+    currentNode.value = nodeList[0];
+    currentCompName.value = nodeList[0].nodeCode;
+    currentNodeIndex.value = 0;
+    formNo.value = nodeList[0].dynamicFormNo;
+  }
+
 };
+/**
+ * 保存数据
+ * @param type
+ */
 const save = async (type: string) => {
-  let result = await editNode(currentNode.value, currentNodeIndex.value);
-  if (result == "error") {
+  let result = await validate();
+  if (!result) {
     return;
   }
-  let pipeLineData = continuousStore.getNodeInfo("pipelineCfg");
+
+
   let nodeList: any = [];
   if (!processList.value || processList.value.length == 0) {
     warning("请先添加节点");
     return;
   }
   processList.value?.forEach((item: any) => {
-    let data = item.dataList;
-    delete item.dataList;
-    Object.keys(item).forEach((key: string) => {
-      data[key] = item[key];
-    });
-    nodeList.push(data);
+    item["params"] = continuousStore.getNodeInfo(item.id);
+    nodeList.push(item);
   });
   pipeLineData["nodeList"] = nodeList;
   pipeLineData["type"] = type;
-  console.log(pipeLineData);
+  console.log(processList.value, pipeLineData);
 };
 const init = async () => {
   currentNode.value = {...pipelineNode};
@@ -224,13 +250,7 @@ const init = async () => {
 onMounted(async () => {
   await init();
 });
-watch(
-    () => nodeInfoRef.value?.getFormData()?.value,
-    (val) => {
-      currentNode.value["nodeName"] = val?.nodeName;
-    },
-    {deep: true}
-)
+
 </script>
 <template>
   <star-horse-dialog
@@ -242,7 +262,7 @@ watch(
       :is-batch="false"
       :is-show-btn-continue="false"
   >
-    <ToolInfo ref="toolInfoRef"/>
+    <ToolInfo ref="toolInfoRef" @selectNode="dataSubmit"/>
   </star-horse-dialog>
   <star-horse-dialog
       :title="'更换模板'"
@@ -251,18 +271,22 @@ watch(
       :self-func="true"
       @closeAction="closeAction"
   >
-    <deploy-template ref="deployTemplateRef"/>
+    <deploy-template ref="deployTemplateRef" @selectTemplate="selectTemplate"/>
   </star-horse-dialog>
   <el-card class="inner_content relative">
     <div class="config-nav-bar relative">
       <div class="nav-bar-left">
-        <span>{{ nodeInfo.pipelineCfg?.lineName || "未定义" }}</span>
+        <span>{{ pipeLineData?.lineName || "未定义" }}</span>
         <span style="width: 40px"></span>
-        <span>当前模板：{{ nodeInfo.pipelineCfg?.templateName || "无" }}</span
+        <span>当前模板：{{ pipelineNode.templateName || "无" }}</span
         >&nbsp;&nbsp;
         <el-button @click="changeTemplate" link class="flex items-center">
           <star-horse-icon icon-class="transfer"/>
           更换模板
+        </el-button>
+        <el-button @click="goBack" link class="flex items-center">
+          <star-horse-icon icon-class="return"/>
+          返回列表
         </el-button>
       </div>
       <div class="nav-bar-right">
@@ -310,7 +334,8 @@ watch(
               <div :class="{ 'is-active': index == currentNodeIndex }" @click.stop="editNode(item, index)"
                    class="nav-panel">
                 <div class="relative flex flex-row items-center justify-center">
-                  <star-horse-icon :icon-class="item.icon" size="30px"/>
+                  <star-horse-icon :icon-class="item.icon" size="30px"
+                                   :color="index == currentNodeIndex?'var(--star-horse-white)':'var(--star-horse-style)'"/>
                   <span>{{ item.nodeName }}</span>
                   <i class="icon pright">
                     <star-horse-icon @click.stop="delNode(item)" icon-class="close" cursor="pointer" color="red"/>
@@ -338,249 +363,21 @@ watch(
       </div>
     </div>
     <div class="config-content relative">
-      <div class="  mx-[7px] my-[10px] border-solid border-1 rounded"
+      <div class=" py-[7px] mx-[7px] my-[10px] border-solid border-1 rounded"
            style="border-color: var(--el-border-color-light);"
-           v-if="currentNodeIndex!==-1">
-        <star-horse-form ref="nodeInfoRef" class="build-cfg" :outerFormData="currentNode" :fieldList="nodeField"/>
-      </div>
-      <div class="flex-1 overflow-hidden">
+      >
         <node-fields :formNo="formNo" :staticFieldData="currentFieldList" ref="nodeCompRef"/>
+        <!--每个节点的基础信息-->
+        <!--        <star-horse-form ref="nodeInfoRef" class="build-cfg" :outerFormData="currentNode" :fieldList="nodeField"/>-->
       </div>
+
+      <!--      <div class="flex-1 overflow-hidden">
+              &lt;!&ndash;每个节点挂载的表单信息&ndash;&gt;
+
+            </div>-->
     </div>
   </el-card>
 </template>
 <style lang="scss" scoped>
 
-.config-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-.config-nav-bar {
-  display: flex;
-  justify-content: space-between; // 左右分散对齐
-  align-items: center;
-  padding: 10px 0;
-
-  .nav-bar-left {
-    display: flex;
-    align-items: center;
-    gap: 20px; // 添加间隙
-  }
-
-  .nav-bar-right {
-    justify-items: right;
-    align-items: center;
-    text-align: center;
-  }
-}
-
-.pipeline-nav {
-  display: block;
-  position: relative;
-
-  .icon {
-    font-style: normal;
-    text-align: center;
-    line-height: 0;
-    color: #e8e8e8;
-    display: inline-block;
-    align-items: center;
-    margin: 0 5px;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-
-    &.node-add,
-    &.node-arrow {
-      position: absolute;
-      top: 50%;
-      left: 40%;
-      transform: translate(-50%, -50%);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 1px solid #e8e8e8;
-    }
-  }
-
-  .pright {
-    color: #e8e8e8;
-    cursor: pointer;
-    font-size: 16px;
-    right: -7px;
-    top: -2px;
-    display: none;
-    position: absolute;
-  }
-
-  .nav-panel {
-    background: var(--star-horse-background);
-    border: 1px solid #dadada;
-    border-radius: 4px;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.04);
-    cursor: pointer;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    padding: 0 8px;
-    height: 35px;
-    line-height: 35px;
-    position: relative;
-    text-align: center;
-    flex-shrink: 0; // 禁止面板缩小
-    width: 120px; // 加宽面板
-    .relative {
-      // 内部flex容器
-      min-width: 0; // 允许内容收缩
-      span {
-        display: inline-block;
-        max-width: 80px; // 控制文本最大宽度
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-    }
-
-    .label {
-      display: block;
-      width: 110px;
-    }
-
-    &:hover .pright {
-      display: block;
-    }
-
-    .text-overflow {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-  }
-
-  .nav-panel.is-active {
-    background: var(--star-horse-style);
-    border: 1px solid var(--star-horse-style);
-    box-shadow: none;
-    flex-shrink: 0;
-    color: var(--star-horse-white) !important;
-
-    &:after {
-      border: 10px solid transparent;
-      border-top-color: var(--star-horse-style);
-      content: "";
-      height: 0;
-      left: 45%;
-      position: absolute;
-      top: 100%;
-      width: 0;
-    }
-  }
-
-  .step {
-    flex-shrink: 0;
-    position: relative;
-    text-align: center;
-    width: 40px;
-    display: flex;
-    align-items: center;
-
-    .node-add {
-      cursor: pointer;
-      display: none;
-      color: var(--star-horse-style);
-      font-size: 16px;
-      position: absolute;
-    }
-
-    .node-arrow {
-      cursor: pointer;
-      font-size: 16px;
-      align-items: center;
-      display: flex;
-    }
-
-    &:hover .node-arrow {
-      display: none;
-    }
-
-    &:hover .node-add {
-      display: flex;
-    }
-
-    &:before {
-      left: 0;
-    }
-
-    &:after {
-      right: 0;
-    }
-  }
-
-  .nav {
-    display: flex;
-    align-items: center;
-    padding: 10px 0;
-    border-bottom: 2px solid #e8e8e8;
-
-    .nav-setting {
-      align-items: center;
-      color: #383838;
-      display: flex;
-      margin-left: 5px;
-      justify-content: center;
-    }
-
-    .nav-line {
-      background-color: #dadada;
-      height: 52px;
-      font-weight: bold;
-      margin: 0 5px;
-      width: 2px;
-    }
-
-    .start_end {
-      border: 1px solid #e8e8e8;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 100%;
-      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.04);
-      color: #898989;
-      flex-shrink: 0;
-      font-size: 12px;
-      height: 35px;
-      width: 35px;
-      line-height: 35px;
-      text-align: center;
-      vertical-align: middle;
-    }
-
-    .init-btn {
-      margin-left: 20px;
-      background: 0 0;
-      color: var(--star-horse-style);
-      padding-left: 0;
-      padding-right: 0;
-
-      &:hover {
-        background-color: transparent;
-        -webkit-box-shadow: none;
-        box-shadow: none;
-      }
-    }
-
-    .nav-nodes {
-      align-items: center;
-      display: flex;
-      height: 74px;
-
-      .continuous-node-content {
-        align-items: center;
-        height: 35px;
-        display: flex;
-      }
-    }
-  }
-}
 </style>
