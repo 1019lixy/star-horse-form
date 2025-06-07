@@ -97,7 +97,7 @@ const pipelineFields = reactive<PageFieldInfo | any>({
                         },
                             {
                                 label: "代码分支",
-                                fieldName: "branchName",
+                                fieldName: "codeBranch",
                                 type: "select",
                                 required: false,
                                 defaultValue: "master",

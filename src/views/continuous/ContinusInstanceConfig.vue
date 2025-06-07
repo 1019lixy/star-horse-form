@@ -1,11 +1,12 @@
 <script setup lang="ts" name="ContinusInstanceConfig">
-import {onMounted, onUpdated, ref} from "vue";
+import {onBeforeUnmount, onMounted, onUpdated, reactive, ref} from "vue";
 import {useRouter} from "vue-router";
-import {postRequest, success} from "star-horse-lowcode";
-
+import {apiInstance, ApiUrls, createCondition, PageProps, postRequest} from "star-horse-lowcode";
+const dataUrl: ApiUrls = apiInstance("continuous-manage", "continuous/pipelineConfig");
 const router = useRouter();
 const keyWords = ref<string>("");
-const loading = ref(false);
+const loading = ref<boolean>(false);
+const isSearch = ref<boolean>(false);
 let pageInfo = reactive<PageProps>({
   pageSize: 20,
   currentPage: 1,
@@ -14,11 +15,10 @@ let pageInfo = reactive<PageProps>({
   dataList: []
 });
 
-const addDataFun = () => {
-  router.push("/continuous/instanceInit");
-};
 const dataFilter = () => {
-  success(keyWords.value);
+  pageInfo.currentPage = 1;
+  isSearch.value = true;
+  init();
 }
 const newPipeline = () => {
   router.push("/continuous/ContinusInstanceInit");
@@ -33,32 +33,44 @@ const handleScroll = (e: Event) => {
 };
 // 初始化加载数据
 const init = async () => {
-      if (loading.value || (pageInfo.totalData && pageInfo.dataList.length >= pageInfo.totalData)) return;
+      if (loading.value || (pageInfo.totalData && pageInfo.dataList.length >= pageInfo.totalData && !isSearch.value)) return;
       loading.value = true;
+      const params = [];
+      if (keyWords.value) {
+        params.push(createCondition("projectName", keyWords.value, "lk"))
+      }
       try {
-        postRequest("/continuous-manage/continuous/projectInfo/pageList",
+        postRequest(dataUrl.pageListUrl,
             {
               currentPage: pageInfo.currentPage,
               pageSize: pageInfo.pageSize,
-              fieldList: [],
-              orderBy: []
+              fieldList: params,
+              orderBy: [{fieldName: "createdTime", orderType: "desc"}]
             }).then((res: any) => {
           if (res?.data?.code != 0) {
             res && console.error(res?.data?.cnMessage);
             return;
           }
           let redata = res?.data?.data;
+          if (isSearch.value) {
+            pageInfo.dataList = [];
+          }
           //如果不是分页之间显示返回的所有数据
-          pageInfo.dataList = redata?.dataList || redata;
+          pageInfo.dataList = [...pageInfo.dataList, ...(redata?.dataList || redata)];
           pageInfo.totalPage = redata?.totalPages;
           pageInfo.totalData = redata?.totalDatas;
           pageInfo.currentPage += 1;
+          isSearch.value = false;
         })
       } finally {
         loading.value = false;
       }
     }
-;
+const goBack = () => {
+  router.push({
+    path: "/home"
+  });
+}
 // 生命周期
 onBeforeUnmount(() => {
   const scrollbar = document.querySelector('.el-scrollbar__wrap');
@@ -80,6 +92,10 @@ onMounted(() => {
     <div class="config-nav-bar relative">
       <div class="nav-bar-left items-center">
         <span><star-horse-icon icon-class="flow"/>流水线</span>
+        <el-button @click="goBack" link class="flex items-center">
+          <star-horse-icon icon-class="return"/>
+          返回主页
+        </el-button>
       </div>
       <div class="nav-bar-right">
         <ul class="nav_ul">
@@ -94,9 +110,9 @@ onMounted(() => {
           </li>
           <li>
             <el-button
-                @click="addDataFun"
+                @click="newPipeline"
                 link>
-              <star-horse-icon @click="newPipeline" cursor="pointer" icon-class="add"/>
+              <star-horse-icon  cursor="pointer" icon-class="add"/>
               新建流水线
             </el-button>
           </li>

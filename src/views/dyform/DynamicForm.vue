@@ -740,4 +740,16 @@ let prepsModel = ref("one");
     }
   }
 }
+
+.inner_button {
+  ul {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  li {
+    border: none !important;
+  }
+}
 </style>

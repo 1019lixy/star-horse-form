@@ -1,10 +1,23 @@
 <script setup lang="ts" name="ContinusInstanceInit">
-import {computed, nextTick, onMounted, ref} from "vue";
-import {PageFieldInfo, piniaInstance, SelectOption, useContinusConfigStore, uuid, warning} from "star-horse-lowcode";
+import {computed, ComputedRef, nextTick, onMounted, ref} from "vue";
+import {
+  apiInstance,
+  ApiUrls,
+  operationConfirm,
+  PageFieldInfo,
+  piniaInstance,
+  postRequest,
+  SelectOption,
+  useContinusConfigStore,
+  uuid,
+  warning
+} from "star-horse-lowcode";
 import {loadDict} from "@/api/star_horse_apis";
 import {pipelineFields} from "@/views/continuous/utils/FieldsUtils";
 import {useRouter} from "vue-router";
+
 let router = useRouter();
+const dataUrl: ApiUrls = apiInstance("continuous-manage", "continuous/pipelineConfig");
 const nodeCompRef = ref<any>();
 // const nodeInfoRef = ref<any>();
 const toolInfoRef = ref<any>();
@@ -14,7 +27,7 @@ const nodeDialog = ref<boolean>(false);
 const currentNodeIndex = ref<number>(-1);
 const continuousStore = useContinusConfigStore(piniaInstance);
 const nodeInfo = computed(() => continuousStore.nodeInfo);
-let pipeLineData = computed(() => continuousStore.getNodeInfo(pipelineNode.id));
+let pipeLineData: ComputedRef = computed(() => continuousStore.getNodeInfo(pipelineNode.id));
 let currentCompName = ref<string>("PipelineCfg");
 let formNo = ref<string>("");
 const processList = ref<any>([]);
@@ -209,7 +222,6 @@ const selectTemplate = async () => {
     currentNodeIndex.value = 0;
     formNo.value = nodeList[0].dynamicFormNo;
   }
-
 };
 /**
  * 保存数据
@@ -220,25 +232,47 @@ const save = async (type: string) => {
   if (!result) {
     return;
   }
-
-
   let nodeList: any = [];
   if (!processList.value || processList.value.length == 0) {
     warning("请先添加节点");
     return;
   }
-  processList.value?.forEach((item: any) => {
-    item["params"] = continuousStore.getNodeInfo(item.id);
+  processList.value?.forEach((item: any, num: number) => {
+    const params = continuousStore.getNodeInfo(item.id);
+    item["nodeParams"] = Array.isArray(params) ? params : [params];
+    item["dataIndex"] = num + 1;
     nodeList.push(item);
   });
-  pipeLineData["nodeList"] = nodeList;
-  pipeLineData["type"] = type;
-  console.log(processList.value, pipeLineData);
+  pipeLineData.value["nodeList"] = nodeList;
+  pipeLineData.value["execFlag"] = type;
+  pipeLineData.value["isPublished"] = "Y";
+  postRequest(dataUrl.mergeUrl, pipeLineData.value).then((res: any) => {
+    let result = res?.data;
+    if (result?.code) {
+      warning(result.cnMessage);
+      return;
+    }
+    operationConfirm("提交成功,是否返回列表？").then((res:boolean) => {
+      if (res) {
+        goBack();
+      } else {
+        reset();
+      }
+    });
+  });
 };
-const init = async () => {
+/**
+ * 重置
+ */
+const reset = () => {
   currentNode.value = {...pipelineNode};
   currentCompName.value = pipelineNode.nodeCode;
   currentFieldList.value = pipelineFields;
+  continuousStore.clear();
+  processList.value = [];
+}
+const init = async () => {
+  reset();
   loadDict("CONTINUS_SUBNODE_FINISH_CONDITION").then((res) => {
     nodeSuccessConditionList.value = res;
   });

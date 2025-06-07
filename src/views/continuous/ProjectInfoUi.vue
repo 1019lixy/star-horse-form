@@ -11,9 +11,10 @@ let projectRoleList = ref<Array<SelectOption>>([]);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {label: "项目名称", fieldName: "projectName", type: "input", matchType: "lk", defaultVisible: true},
-    {label: "程序语言", fieldName: "programLanguage",
-      type: "select",
-      optionList: languageList, matchType: "lk", defaultVisible: true}
+    {
+      label: "程序语言", fieldName: "programLanguage",
+      type: "select", optionList: languageList, matchType: "lk", defaultVisible: true
+    }
   ]
 });
 const tableFieldList = reactive({
