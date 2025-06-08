@@ -38,7 +38,7 @@ const assignField = (data: any) => {
   dataUrl.value = apiInstance(data["dataUrl"].appName, data["dataUrl"].contextUrl);
   searchFormData.value = data["searchFormData"] as SearchProps[];
   primaryKey.value = data["primaryKey"];
-  tableFieldList.value = data["tableFieldList"] as PageFieldInfo;
+  tableFieldList.value = {...data["tableFieldList"]} as PageFieldInfo;
   relationTables.value = data["relationTables"];
   rules.value = data["rules"];
   formInfo.value = data["formInfo"];
@@ -102,13 +102,17 @@ const setFormData = (data: any) => {
     nodeFormRef.value?.setFormData(data);
   })
 }
+const resetForm = () => {
+  tableFieldList.value.fieldList = [];// 这样做会导致所有缓存的表单数据都丢失
+  nodeFormRef.value?.resetForm();
+}
 const init = async () => {
   if (!props.formNo && !props.staticFieldData) {
     warning("NodeFields组件缺少参数");
     return;
   }
   if (props.staticFieldData?.fieldList?.length > 0) {
-    tableFieldList.value = props.staticFieldData;
+    tableFieldList.value = {...props.staticFieldData};
   } else {
     await loadFormData(props.formNo!);
   }
@@ -118,7 +122,8 @@ onMounted(async () => {
 });
 defineExpose({
   getFormData,
-  setFormData
+  setFormData,
+  resetForm
 })
 </script>
 <template>

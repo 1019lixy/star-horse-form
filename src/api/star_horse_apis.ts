@@ -323,7 +323,7 @@ export function downloadData(data: any, name: string) {
 export async function loadDict(dictName: string) {
     let redata: Array<SelectOption> = [];
     const param = {
-        fieldList: [{propertyName: "dictType", value: dictName ? dictName : "common"}]
+        fieldList: [{propertyName: "dictType", value: dictName ?? "public"}]
     };
     await postRequest(`${ServiceEnums.SYSTEM_PREFIX}dictinfoEntity/getAllByCondition`, param)
         .then((res) => {

@@ -39,31 +39,5 @@ const handleClick = (tab: string, event: Event) => {
   </el-tabs>
 </template>
 <style lang="scss" scoped>
-.config-nav-bar {
-  position: fixed;
-  width: 100%;
-  height: 60px;
-  display: flex;
-  z-index: 9999;
-  flex-direction: row;
-  background: #f1f2f3;
-  margin-left: -20px;
-  margin-top: -12px;
-  align-items: center;
 
-  .nav-bar-left {
-    width: 55%;
-
-    span {
-      margin-left: 15px;
-    }
-  }
-
-  .nav-bar-right {
-    display: flex;
-    position: relative;
-    right: 15px;
-    flex-direction: row;
-  }
-}
 </style>

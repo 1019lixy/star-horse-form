@@ -7,8 +7,7 @@ import {
   PageFieldInfo,
   SearchFields,
   SelectOption,
-  UserFuncInfo,
-  warning
+  UserFuncInfo
 } from "star-horse-lowcode";
 import {Config} from "@/api/settings";
 import {loadDict} from "@/api/star_horse_apis";
@@ -178,19 +177,6 @@ const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 const extendBtns = ref<UserFuncInfo[]>([
   {
-    authority: 'add',
-    btnName: '新增',
-    icon: 'add',
-    position: 'toolbar',
-    funcName: (data: any) => {
-      if (!props.dictType || props.dictType == '-1') {
-        warning('请先选择字典类别');
-        return;
-      }
-      dialogProps.editVisible = true;
-    }
-  },
-  {
     btnName: "编辑",
     authority: "edit",
     icon: "edit",
@@ -208,7 +194,7 @@ const dataFormat = (name: string, cellValue: any): any => {
   return cellValue;
 };
 const initData = async () => {
-  commonDictList.value = await loadDict("");
+  commonDictList.value = await loadDict("public");
 };
 onMounted(async () => {
   await initData();
@@ -244,9 +230,15 @@ onMounted(async () => {
         :fieldList="tableFieldList"
         :primaryKey="primaryKey"
         :extend-btns="extendBtns"
+        :preValidFunc="[{
+          authority:'add',
+          valid:()=>{
+            return dictType&&dictType != '-1'
+          },
+          msg:'请先选择字典类别'
+        }]"
         :compUrl="dataUrl"
         :dataFormat="dataFormat"
-
     />
   </el-card>
 </template>

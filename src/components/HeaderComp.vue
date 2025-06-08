@@ -23,31 +23,34 @@ import {filterTree} from "@/api/star_horse_utils";
 import {getCustomerInfo, getCustomerParam, getUserInfo} from "@/utils/auth";
 import {getLang, setLang} from "@/theme/localStorge";
 import {LangType} from "@/theme/theme";
-import {i18n} from "../lang";
+import {i18n} from "@/lang";
 import {useRouter} from "vue-router";
 import Message from "@/components/Message.vue";
 
 const userStore = useUserInfoStore(piniaInstance);
+
+const dataUrl: ApiUrls = apiInstance("system-config", "system/dictinfoEntity", [getCustomerParam()]);
+const configStore = useGlobalConfigStore(piniaInstance);
+const filterTableData = computed(() => filterTree(search.value, permissionMenuList.value));
+const configInfo = computed(() => configStore.configFormInfo);
+const router = useRouter();
+const emits = defineEmits(["changeLang", "layoutConfig"]);
+const dialogProps = dialogPreps();
+const appinfoList = ref<any>([]);
+const search = ref<string>();
 const shortcutMenuList = ref<Array<any>>([]);
 let systemName = Config.title;
 let userInfo = getUserInfo();
 let permissionMenuList = ref<Array<any>>([]);
 const shortcutMultipleTable = ref();
-const dataUrl: ApiUrls = apiInstance("system-config", "system/dictinfoEntity", [getCustomerParam()]);
-let configStore = useGlobalConfigStore(piniaInstance);
-let router = useRouter();
-const emits = defineEmits(["changeLang", "layoutConfig"]);
-const dialogProps = dialogPreps();
-const appinfoList = ref<any>([]);
 const loadAppInfo = () => {
   let query = getUserInfo()?.idUsersinfo;
   postRequest('/system-config/system/informationsEntity/getUserSystem/' + query, [])
       .then((res) => {
         appinfoList.value = res?.data?.data;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      }).catch((err) => {
+    console.log(err);
+  });
 };
 const initData = async () => {
   await loadShortMenu();
@@ -87,8 +90,7 @@ const loadShortMenu = async () => {
   await postRequest("/system-config/system/shortcutMenu/currentUserShortcut", param)
       .then((res) => {
         shortcutMenuList.value = res?.data?.data;
-      })
-      .catch((err) => {
+      }).catch((err) => {
         console.log(err);
       });
 };
@@ -200,10 +202,7 @@ const dataFormat = (name: string, val: any, row: any) => {
   }
   return val;
 };
-const search = ref<string>();
-let theme = ref<string>("light");
-const filterTableData = computed(() => filterTree(search.value, permissionMenuList.value));
-let configInfo = computed(() => configStore.configFormInfo);
+
 </script>
 <template>
   <star-horse-dialog

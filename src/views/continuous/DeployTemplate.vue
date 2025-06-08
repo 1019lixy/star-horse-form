@@ -2,6 +2,8 @@
 import {onMounted, ref} from "vue";
 import {apiInstance, ApiUrls, loadData, postRequest, warning} from "star-horse-lowcode";
 import {createJoinCondition,} from "@/api/star_horse_utils";
+
+const emits = defineEmits(["selectTemplate"]);
 const apiUrl: ApiUrls = apiInstance("userdb-manage", "/userdb/formInstance/conTemplate/idTemplate/136");
 const nodeCfgUrl: ApiUrls = apiInstance("userdb-manage", "userdb/formInstance/conNodeConfigures/idNodeConfigure/136")
 const nodeList = ref<any>([]);
@@ -42,8 +44,11 @@ const loadTemplate = async () => {
   });
 };
 
-const selectItem = (item: any) => {
+const selectItem = (item: any, action: string) => {
   currentTemplate.value = item;
+  if (action == "dblClick") {
+    emits("selectTemplate", item);
+  }
 };
 const getTemplate = () => {
   return currentTemplate.value;
@@ -66,7 +71,8 @@ defineExpose({
       <div
           class="template-item"
           :class="{ 'is-active': currentTemplate?.idTemplate == item.idTemplate }"
-          @click="selectItem(item)"
+          @click="selectItem(item,'click')"
+          @dblclick="selectItem(item,'dblClick')"
       >
         <div class="title">
           <el-tag type="info">{{ item.templateName }}</el-tag>
