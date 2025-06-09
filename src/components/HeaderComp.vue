@@ -1,5 +1,5 @@
 <script lang="ts" setup name="Header">
-import {computed, nextTick, onMounted, ref, unref} from "vue";
+import {computed, nextTick, onMounted, ref, unref, watch} from "vue";
 import {Config} from "@/api/settings";
 import {userLogout} from "@/api/star_horse_apis";
 import {
@@ -20,7 +20,7 @@ import {
   warning
 } from "star-horse-lowcode";
 import {filterTree} from "@/api/star_horse_utils";
-import {getCustomerInfo, getCustomerParam, getUserInfo} from "@/utils/auth";
+import {getCustomerInfo, getCustomerParam, getToken, getUserInfo} from "@/utils/auth";
 import {getLang, setLang} from "@/theme/localStorge";
 import {LangType} from "@/theme/theme";
 import {i18n} from "@/lang";
@@ -202,7 +202,11 @@ const dataFormat = (name: string, val: any, row: any) => {
   }
   return val;
 };
-
+watch(() => getToken(), (val) => {
+  if (val) {
+    initData();
+  }
+}, {deep: true})
 </script>
 <template>
   <star-horse-dialog
