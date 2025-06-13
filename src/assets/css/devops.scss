@@ -431,3 +431,36 @@
     }
   }
 }
+.db_table_list {
+  margin: 5px;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+
+  li {
+    margin:1px auto;
+    display: flex;
+    width: 98%;
+    .el-tooltip__trigger {
+      display: inline-flex;
+      align-items: center;
+      margin-top: 0;
+      overflow: hidden;
+      vertical-align: middle;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      text-align: left;
+      height: inherit;
+      flex: 1;
+    }
+
+  }
+
+  li:nth-child(even) {
+    background: #e5e5e5;
+  }
+
+  li:nth-child(odd) {
+    background: #f1f2f3;
+  }
+}

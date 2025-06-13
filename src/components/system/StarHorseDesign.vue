@@ -812,7 +812,7 @@ defineExpose({
               </el-collapse>
             </el-scrollbar>
           </el-tab-pane>
-          <el-tab-pane name="dbList" v-if="showDbList">
+          <el-tab-pane name="dbList" v-if="showDbList" class="flex items-center">
             <template #label>
               <star-horse-icon icon-class="database" style="color: var(--star-horse-style)"/>&nbsp;<span>数据源</span>
             </template>
@@ -831,6 +831,7 @@ defineExpose({
                         @click="transform(item.key)"
                         :icon-class="item.icon"
                         size="22px"
+                        width="26px"
                         style="color: var(--star-horse-style)"
                     />
                   </el-tooltip>
@@ -856,7 +857,7 @@ defineExpose({
           </Teleport>
         </div>
       </el-splitter-panel>
-      <el-splitter-panel v-if="panelStyle == 'normal'">
+      <el-splitter-panel v-if="panelStyle == 'normal'" size="280" min="250" max="400">
         <div class="right-attr-panel" v-show="normalRightPanel">
           <div class="title">属性面板</div>
           <div class="item" style="border-bottom: none">
@@ -965,124 +966,58 @@ hr {
   }
 }
 
-.design-content {
-  display: flex;
+.design-main {
   height: 100%;
   width: 100%;
-  flex-direction: row;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 
-  .comp-list {
-    min-width: 205px;
-    margin-right: 5px;
-    border: 1px solid #eee;
-
-    .el-collapse {
-      padding-left: 5px;
-    }
-
-    &:after,
-    &:before {
-      box-sizing: border-box;
-    }
+  .inner_button {
+    height: 40px;
+    text-align: left;
+    justify-content: flex-start;
+    background-color: #fafafa;
+    border: solid 1px #ccc;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 
     ul {
-      margin: 0;
-      padding: 0;
+      height: 99% !important;
+      background: inherit;
+    }
 
-      &:after {
-        content: "";
-        display: block;
-        clear: both;
-      }
-
-      .field-item {
-        display: flex;
-        height: 28px;
-        line-height: 28px;
-        width: 99%;
-        margin-bottom: 2px;
-        margin-left: 2px;
-        cursor: move;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        background: var(--star-horse-font-color);
-        border-radius: 3px;
-
-        span {
-          display: flex;
-          align-content: center;
-          align-items: center;
-        }
-      }
-
-      .field-item:first-child {
-        margin-top: 5px;
-      }
-
-      .field-item:hover {
-        background: #ebeef5;
-        outline: 1px solid #999999;
-      }
-
-      .drag-handler {
-        position: absolute;
-        top: 0;
-        left: 160px;
-        background-color: #dddddd;
-        border-radius: 5px;
-        padding-right: 5px;
-        font-size: 11px;
-        color: #666666;
-      }
+    li {
+      border: none;
     }
   }
 
-  .design-main {
+  .background-grid-app {
+    display: flex;
     flex: 1;
-    height: 100%;
-    /*min-height: 500px;*/
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-
-    .inner_button {
-      height: 40px;
-      text-align: left;
-      justify-content: flex-start;
-      background-color: #fafafa;
-      border: solid 1px #ccc;
-      -moz-user-select: none;
-      -webkit-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-    }
-
-    .background-grid-app {
-      display: flex;
-      flex: 1;
-      padding: 0;
-      font-family: sans-serif;
-    }
+    padding: 0;
+    font-family: sans-serif;
   }
+}
 
-  .right-attr-panel {
-    width: 280px;
-    display: flex;
-    flex-direction: column;
-    border: 1px solid #eee;
-    margin-left: 5px;
+.right-attr-panel {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #eee;
+  margin-left: 5px;
 
-    .title {
-      padding-left: 5px;
-      align-items: center;
-      vertical-align: middle;
-      width: 99%;
-      line-height: 40px;
-      height: 40px;
-      font-size: 14px;
-      background: #eee;
-    }
+  .title {
+    padding-left: 5px;
+    align-items: center;
+    vertical-align: middle;
+    width: 99%;
+    line-height: 40px;
+    height: 40px;
+    font-size: 14px;
+    background: #eee;
   }
 }
 </style>

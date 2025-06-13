@@ -14,7 +14,7 @@ import lintModule from "bpmn-js-bpmnlint";
 import bpmnlintConfig from "../packed-config.js";
 import minimapModule from "diagram-js-minimap";
 import {ElementRegistry} from "bpmn-js/lib/features/auto-place/BpmnAutoPlaceUtil";
-
+import route from "@/router";
 let bpmnModeler: any = null;
 const execution = ref<string>("exec1");
 const executionLabel = ref<string>("模拟运行");
@@ -489,13 +489,16 @@ const valid = async (modeler: BpmnModeler) => {
 };
 
 const flowButtonList = (modeler: BpmnModeler) => {
-    return ref<Array<any>>([
+    return [
         {
-            icon: "left_panel",
+            icon: "return",
             defaultEdit: true,
             disabled: false,
-            key: "leftPanel",
-            label: "左侧工具栏"
+            key: "back",
+            label: "返回",
+            action: async () => {
+                route.go(-1);
+            },
         },
         {
             icon: "new-file",
@@ -710,14 +713,14 @@ const flowButtonList = (modeler: BpmnModeler) => {
             },
             label: miniMapLabel
         },
-        {
+       /* {
             icon: "right_panel",
             defaultEdit: true,
             disabled: false,
             key: "rightPanel",
             label: "右侧属性栏"
-        }
-    ]);
+        }*/
+    ];
 };
 
 export {

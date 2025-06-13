@@ -1,12 +1,12 @@
 import {Shape} from "@antv/x6";
 
-const commands = [
-    {
+const commands:any = [
+   /* {
         icon: "left_panel",
         defaultEdit: true,
         key: "leftPanel",
         label: "左侧工具栏"
-    },
+    },*/
     {
         icon: "zoom_in",
         defaultEdit: true,

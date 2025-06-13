@@ -3,7 +3,7 @@ import {nextTick, onMounted, ref} from "vue";
 import {basicSetup} from "codemirror";
 import {EditorView, keymap} from "@codemirror/view";
 import {Compartment} from "@codemirror/state";
-import {insertTab, standardKeymap,historyKeymap} from "@codemirror/commands";
+import {insertTab, standardKeymap, historyKeymap} from "@codemirror/commands";
 import {autocompletion, CompletionContext} from "@codemirror/autocomplete";
 import {python} from "@codemirror/lang-python";
 import {javascript, javascriptLanguage, scopeCompletionSource} from "@codemirror/lang-javascript";
@@ -215,70 +215,72 @@ defineExpose({
 });
 </script>
 <template>
-  <div class="inner_button justify-between">
-    <el-menu mode="horizontal" :ellipsis="false" style="height: inherit; flex: 1; ">
-      <template v-for="(item, index) in btnList">
-        <template v-if="item.children?.length > 0">
-          <el-sub-menu :index="'1_' + index">
-            <template #title>
-              <el-tooltip class="item" :content="item.label" effect="dark" placement="bottom">
-                <star-horse-icon :icon-class="item.icon" size="24px" style="color: var(--star-horse-style)"/>
-              </el-tooltip>
-            </template>
-            <el-menu-item
-                v-for="(sitem, sindex) in item.children"
-                :disabled="sitem.disabled?.value === true"
-                :index="'2_' + sindex"
-                @click="sitem.actions"
-            >
-              <star-horse-icon :icon-class="sitem.icon" size="24px" style="color: var(--star-horse-style)"/>
-              {{ sitem.label }}
-            </el-menu-item>
-          </el-sub-menu>
+  <div class="flex flex-col h-full">
+    <div class="flex items-center h-[40px] justify-between">
+      <el-menu mode="horizontal" :ellipsis="false" style="height: inherit; flex: 1; ">
+        <template v-for="(item, index) in btnList">
+          <template v-if="item.children?.length > 0">
+            <el-sub-menu :index="'1_' + index">
+              <template #title>
+                <el-tooltip class="item" :content="item.label" effect="dark" placement="bottom">
+                  <star-horse-icon :icon-class="item.icon" size="24px" style="color: var(--star-horse-style)"/>
+                </el-tooltip>
+              </template>
+              <el-menu-item
+                  v-for="(sitem, sindex) in item.children"
+                  :disabled="sitem.disabled?.value === true"
+                  :index="'2_' + sindex"
+                  @click="sitem.actions"
+              >
+                <star-horse-icon :icon-class="sitem.icon" size="24px" style="color: var(--star-horse-style)"/>
+                {{ sitem.label }}
+              </el-menu-item>
+            </el-sub-menu>
+          </template>
+          <el-menu-item v-else :disabled="item.disabled?.value === true" :index="'1_' + index" @click="item.actions">
+            <el-tooltip class="item" :content="item.label" effect="dark" placement="bottom">
+              <star-horse-icon :icon-class="item.icon" size="24px" style="color: var(--star-horse-style)"/>
+            </el-tooltip>
+          </el-menu-item>
         </template>
-        <el-menu-item v-else :disabled="item.disabled?.value === true" :index="'1_' + index" @click="item.actions">
-          <el-tooltip class="item" :content="item.label" effect="dark" placement="bottom">
-            <star-horse-icon :icon-class="item.icon" size="24px" style="color: var(--star-horse-style)"/>
-          </el-tooltip>
-        </el-menu-item>
-      </template>
-    </el-menu>
-    <el-dropdown>
+      </el-menu>
+      <el-dropdown>
       <span class="el-dropdown-link">
         主题
         <el-icon class="el-icon--right">
           <arrow-down/>
         </el-icon>
       </span>
-      <template #dropdown>
-        <el-dropdown-menu>
-          <el-dropdown-item @click="customerTheme(item.value)" v-for="item in themes">
-            <star-horse-icon :icon-class="item.icon" color="gray" size="14px"/>
-            {{ item.name }}
-          </el-dropdown-item>
-        </el-dropdown-menu>
-      </template>
-    </el-dropdown>
-    &nbsp;&nbsp;
-    <el-dropdown v-if="!lang">
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item @click="customerTheme(item.value)" v-for="item in themes">
+              <star-horse-icon :icon-class="item.icon" color="gray" size="14px"/>
+              {{ item.name }}
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+      &nbsp;&nbsp;
+      <el-dropdown v-if="!lang">
       <span class="el-dropdown-link">
         语言
         <el-icon class="el-icon--right">
           <arrow-down/>
         </el-icon>
       </span>
-      <template #dropdown>
-        <el-dropdown-menu>
-          <el-dropdown-item @click="langInfo(item.value)" v-for="item in languages">
-            <star-horse-icon :icon-class="item.icon" color="gray" size="14px"/>
-            {{ item.name }}
-          </el-dropdown-item>
-        </el-dropdown-menu>
-      </template>
-    </el-dropdown>
-    <help :message="helpMsg" v-if="helpMsg"/>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item @click="langInfo(item.value)" v-for="item in languages">
+              <star-horse-icon :icon-class="item.icon" color="gray" size="14px"/>
+              {{ item.name }}
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+      <help :message="helpMsg" v-if="helpMsg"/>
+    </div>
+    <div ref="codemirror" class="coder flex-1"></div>
   </div>
-  <div ref="codemirror" class="coder"></div>
 </template>
 <style lang="scss" scoped>
 .inner_button {
@@ -291,7 +293,7 @@ defineExpose({
   height: v-bind(boxHeight);
 
   :deep(.cm-editor) {
-    height: inherit;
+    height: 100%;
   }
 }
 </style>

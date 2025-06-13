@@ -126,48 +126,51 @@ onMounted(() => {
 </script>
 <template>
   <el-card class="inner_content">
-    <div class="sh-flow-editor">
-      <div class="jbpm">
-        <jbpm-header :modeler="bpmnModeler" :process-data="initData" @flowCheck="flowCheck" @restart="restart"/>
-        <div class="bpmn-container">
-          <div class="bpmn-content" ref="canvas"></div>
-          <div class="bpmn-linter open">
-            <div class="toggle-btn" @click="showMessage">
-              <star-horse-icon :iconClass="isShow ? 'arrow-double-down' : 'arrow-double-up'"/>
-            </div>
-            <el-card>
-              <template #header>
-                <div class="flow-message">
-                  <div class="title">流程校验</div>
-                  <div class="message-count">
-                    <el-tag type="danger">错误 {{ errorNums }}</el-tag>
-                    <el-tag type="warning">警告 {{ warningNums }}</el-tag>
-                    <el-tag type="info">提示 {{ infoNums }}</el-tag>
-                  </div>
-                </div>
-              </template>
-              <el-collapse accordion v-if="isShow">
-                <el-collapse-item v-for="(data, key) in lintDatas">
-                  <template #title>
-                    <div class="title" style="justify-content: space-between; display: flex; align-items: center">
-                      <div style="width: 80%">{{ key }}</div>
-                      <star-horse-icon
-                          icon-class="position"
-                          style="cursor: pointer"
-                          @click="elementPosition(key, $event)"
-                      />
+    <el-splitter>
+      <el-splitter-panel>
+        <div class="jbpm">
+          <jbpm-header :modeler="bpmnModeler" :process-data="initData" @flowCheck="flowCheck" @restart="restart"/>
+          <div class="bpmn-container">
+            <div class="bpmn-content" ref="canvas"></div>
+            <div class="bpmn-linter open">
+              <div class="toggle-btn" @click="showMessage">
+                <star-horse-icon :iconClass="isShow ? 'arrow-double-down' : 'arrow-double-up'"/>
+              </div>
+              <el-card>
+                <template #header>
+                  <div class="flow-message">
+                    <div class="title">流程校验</div>
+                    <div class="message-count">
+                      <el-tag type="danger">错误 {{ errorNums }}</el-tag>
+                      <el-tag type="warning">警告 {{ warningNums }}</el-tag>
+                      <el-tag type="info">提示 {{ infoNums }}</el-tag>
                     </div>
-                  </template>
-                  <div class="message-item" v-for="(item, sindex) in data"> {{ sindex + 1 }}.{{ item.message }}</div>
-                </el-collapse-item>
-              </el-collapse>
-            </el-card>
+                  </div>
+                </template>
+                <el-collapse accordion v-if="isShow">
+                  <el-collapse-item v-for="(data, key) in lintDatas">
+                    <template #title>
+                      <div class="title" style="justify-content: space-between; display: flex; align-items: center">
+                        <div style="width: 80%">{{ key }}</div>
+                        <star-horse-icon
+                            icon-class="position"
+                            style="cursor: pointer"
+                            @click="elementPosition(key, $event)"
+                        />
+                      </div>
+                    </template>
+                    <div class="message-item" v-for="(item, sindex) in data"> {{ sindex + 1 }}.{{ item.message }}</div>
+                  </el-collapse-item>
+                </el-collapse>
+              </el-card>
+            </div>
           </div>
         </div>
-      </div>
-      <!--            <div class="property" ref="properties"></div>-->
-      <jbpm-property-panel :modeler="bpmnModeler" :process="initData" v-if="bpmnModeler"/>
-    </div>
+      </el-splitter-panel>
+      <el-splitter-panel collapsible size="350" min="250" max="500">
+        <jbpm-property-panel :modeler="bpmnModeler" :process="initData" v-if="bpmnModeler"/>
+      </el-splitter-panel>
+    </el-splitter>
   </el-card>
 </template>
 <style lang="scss" scoped>
@@ -175,41 +178,31 @@ onMounted(() => {
   display: flex;
   width: 100%;
 }
-
-.sh-flow-editor {
+.jbpm {
   display: flex;
   height: 100%;
-  width: 100%;
-  flex-direction: row;
+  overflow: hidden;
+  flex-direction: column;
 
-  .jbpm {
-    display: flex;
+  .bpmn-container {
+    /*padding: 10px;*/
+    position: relative;
+    height: 100%;
     flex: 1;
-    flex-direction: column;
 
-    .bpmn-container {
-      /*padding: 10px;*/
-      position: relative;
+    .bpmn-content {
+      width: 100%;
       height: 100%;
-      flex: 1;
+      background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImEiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTTAgMTBoNDBNMTAgMHY0ME0wIDIwaDQwTTIwIDB2NDBNMCAzMGg0ME0zMCAwdjQwIiBmaWxsPSJub25lIiBzdHJva2U9IiNlMGUwZTAiIG9wYWNpdHk9Ii4yIi8+PHBhdGggZD0iTTQwIDBIMHY0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZTBlMGUwIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2EpIi8+PC9zdmc+") repeat !important;
+    }
 
-      .bpmn-content {
-        width: 100%;
-        height: 100%;
-        background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImEiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTTAgMTBoNDBNMTAgMHY0ME0wIDIwaDQwTTIwIDB2NDBNMCAzMGg0ME0zMCAwdjQwIiBmaWxsPSJub25lIiBzdHJva2U9IiNlMGUwZTAiIG9wYWNpdHk9Ii4yIi8+PHBhdGggZD0iTTQwIDBIMHY0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZTBlMGUwIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2EpIi8+PC9zdmc+") repeat !important;
-      }
-
-      .canvas {
-        width: 100%;
-        height: 100%;
-      }
+    .canvas {
+      width: 100%;
+      height: 100%;
     }
   }
-
-  .property {
-    width: 30%;
-  }
 }
+
 
 .container {
   height: inherit;
@@ -295,11 +288,6 @@ onMounted(() => {
   text-align: center;
   line-height: 20px;
 }
-
-//.bpmn-linter .toggle-btn {
-//  transition: all ease .24s;
-//  transform: scaleX(1.5)
-//}
 
 .flow-message {
   display: flex;

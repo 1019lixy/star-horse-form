@@ -141,48 +141,47 @@ onMounted(() => {
 });
 </script>
 <template>
-  <el-row>
-    <el-col :span="24">
-      <el-select
-          :size="compSize"
-          @change="openDb"
-          clearable
-          filterable
-          id="dbInfo"
-          placeholder="请选择数据库信息"
-          v-model="dbIndex"
-      >
-        <el-option :key="sitem.value" :label="sitem.name" :value="sitem.value" v-for="sitem in dbList"></el-option>
-      </el-select>
-    </el-col>
-  </el-row>
-  <div style="margin-top: 5px"></div>
-  <el-input :size="compSize" placeholder="请输入关键字" v-model="filterTableName" @keydown.enter="filterData">
-    <template #append>
-      <star-horse-icon @click="filterData" icon-class="search" color="var(--star-horse-style)"/>
-    </template>
-  </el-input>
-  <el-scrollbar height="90%">
-    <ul class="ghost">
-      <template v-for="(data, idx) in assignDataList">
-        <li
-            draggable="true"
-            @dragstart="async (evt) => await dratStart(data, evt)"
-            :style="{
-            border: currentData.tableName == data.tableName ? '2px dashed var(--star-horse-style)' : 'none',
-            'align-items': 'center',
-            cursor: 'move'
-          }"
-            @click="(evt) => contextOperation(evt, data, idx)"
-        >
-          <star-horse-icon icon-class="table" style="height: 18px"/>
-          <el-tooltip :content="data.comment">
-            {{ data.tableName }}
-          </el-tooltip>
-        </li>
+  <div class="flex flex-col items-start h-full overflow-hidden " style="margin: 1px auto">
+    <el-select
+        :size="compSize"
+        @change="openDb"
+        clearable
+        filterable
+        id="dbInfo"
+        placeholder="请选择数据库信息"
+        v-model="dbIndex"
+    >
+      <el-option :key="sitem.value" :label="sitem.name" :value="sitem.value" v-for="sitem in dbList"></el-option>
+    </el-select>
+    <div style="margin-top: 5px"></div>
+    <el-input :size="compSize" placeholder="请输入关键字" v-model="filterTableName" @keydown.enter="filterData">
+      <template #append>
+        <star-horse-icon @click="filterData" icon-class="search" color="var(--star-horse-style)"/>
       </template>
-    </ul>
-  </el-scrollbar>
+    </el-input>
+    <div class="flex-1 overflow-hidden">
+      <el-scrollbar>
+        <ul class="db_table_list">
+          <template v-for="(data, idx) in assignDataList">
+            <li
+                draggable="true"
+                @dragstart="async (evt) => await dratStart(data, evt)"
+                class="flex items-center cursor-move h-[30px] "
+                :style="{
+            border: currentData.tableName == data.tableName ? '2px dashed var(--star-horse-style)' : 'none',
+          }"
+                @click="(evt) => contextOperation(evt, data, idx)"
+            >
+              <star-horse-icon icon-class="table" size="16px" height="16px" width="16px"/>
+              <el-tooltip :content="data.comment">
+                {{ data.tableName }}
+              </el-tooltip>
+            </li>
+          </template>
+        </ul>
+      </el-scrollbar>
+    </div>
+  </div>
 </template>
 <style scoped lang="scss">
 :deep(.el-popover) {
@@ -196,45 +195,7 @@ onMounted(() => {
   justify-content: end;
 }
 
-ul {
-  margin: 5px;
-  display: flex;
-  flex-direction: column;
 
-  li {
-    height: 25px;
-    border-radius: 2px;
-    cursor: pointer;
-    margin: 1px;
-    display: flex;
-
-    :deep(.el-tooltip__trigger) {
-      display: inline-flex;
-      align-items: center;
-      margin-top: 0;
-      overflow: hidden;
-      vertical-align: middle;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      text-align: left;
-      height: inherit;
-      flex: 1;
-    }
-
-    .svg-icon {
-      width: 18px;
-      height: 18px;
-    }
-  }
-
-  li:nth-child(even) {
-    background: #e5e5e5;
-  }
-
-  li:nth-child(odd) {
-    background: #f1f2f3;
-  }
-}
 
 .field-table {
   border: 1px solid var(--star-horse-style);

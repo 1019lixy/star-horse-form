@@ -56,13 +56,7 @@ const handleModeler = () => {
     }
     element.value = el;
   });
-  // //
-  // props.modeler.on("commandStack.changed", () => {
-  //   console.log("commandStack.changed");
-  //   props.modeler.saveXML({format: true}, function (err, xml) {
-  //     emits('updateXml', xml)
-  //   });
-  // })
+
   //节点选择变化
   props.modeler.on("selection.changed", (e: any) => {
     console.log("selection.changed", e);
@@ -114,18 +108,6 @@ const handleFormData = (element: any) => {
   if (!element.id) {
     return;
   }
-  // let businessObject = element.businessObject;
-  // formData.value = {
-  //   type: element.type,
-  //   id: businessObject.id,
-  //   name: businessObject.name,
-  //   userType: businessObject.$attrs.userType,
-  //   assignee: businessObject.$attrs.assignee,
-  //   candidateGroups: businessObject.$attrs.candidateGroups,
-  //   candidateUsers: businessObject.$attrs.candidateUsers ? businessObject.$attrs.candidateUsers.split(",") : [],
-  //   sequenceFlow: businessObject.conditionExpression ? businessObject.conditionExpression.body : ''
-  // }
-  console.log(element);
   nodeElement.value = element;
 };
 const modifyFormData = (data: any) => {
@@ -136,7 +118,7 @@ const modifyFormData = (data: any) => {
 
 <style lang="scss" scoped>
 .bpmn-panel {
-  width: 350px;
+  width: 100%;
   border: 1px solid var(--star-horse-border—color);
   padding: 0 5px;
   height: 100%;
@@ -169,7 +151,7 @@ const modifyFormData = (data: any) => {
 }
 
 .bpmn-panel {
-  width: 370px;
+  width: 100%;
   border: 1px solid #eeeeee;
   padding: 0 5px;
 }
