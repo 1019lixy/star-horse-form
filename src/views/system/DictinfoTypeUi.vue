@@ -86,18 +86,19 @@ onMounted(async () => {
     <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
   </star-horse-dialog>
   <el-card class="inner_content">
-    <div class="dict-content">
-      <div class="dict-type">
-        <div class="search-content">
-          <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
-            <star-horse-search-comp
-                @searchData="(data: any) => dictTypeRef.createSearchParams(data)"
-                :formData="searchFormData"
-                :compUrl="dataUrl"
-            />
-          </div>
-        </div>
+    <el-splitter>
+      <el-splitter-panel collapsible>
         <el-card class="inner_content">
+          <div class="search-content">
+            <div class="search_btn"
+                 :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
+              <star-horse-search-comp
+                  @searchData="(data: any) => dictTypeRef.createSearchParams(data)"
+                  :formData="searchFormData"
+                  :compUrl="dataUrl"
+              />
+            </div>
+          </div>
           <star-horse-table-comp
               ref="dictTypeRef"
               @selectItem="selectItemFun"
@@ -113,34 +114,15 @@ onMounted(async () => {
               :dataFormat="dataFormat"
           />
         </el-card>
-      </div>
-      <div class="dict-data">
-        <dictinfo-u-i :dictType="dictTypeCode"/>
-      </div>
-    </div>
+      </el-splitter-panel>
+      <el-splitter-panel collapsible>
+        <div class="h-full overflow-hidden">
+          <dictinfo-u-i :dictType="dictTypeCode"/>
+        </div>
+      </el-splitter-panel>
+    </el-splitter>
+
   </el-card>
 </template>
 <style lang="scss" scoped>
-.dict-content {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  overflow: hidden;
-
-  .dict-type {
-    width: 50%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .dict-data {
-    flex: 1;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    margin-left: 8px;
-  }
-}
 </style>

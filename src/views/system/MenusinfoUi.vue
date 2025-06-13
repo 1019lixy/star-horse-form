@@ -358,26 +358,27 @@ onMounted(async () => {
     <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
   </star-horse-dialog>
   <el-card class="inner_content">
-    <el-row style="height: 100%" :gutter="10">
-      <el-col :span="4" class="h100">
+    <el-splitter>
+      <el-splitter-panel collapsible size="240"  min="100" max="500">
         <star-horse-tree
             v-model:treeDatas="informationsList"
             :treeTitle="'应用列表'"
             @selectData="checkChange"
             :comp-size="compSize"
         />
-      </el-col>
-      <el-col :span="20" class="h100">
-        <div class="search-content">
-          <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
-            <star-horse-search-comp
-                @searchData="(data: any) => menuTableListRef.createSearchParams(data)"
-                :formData="searchFormData"
-                :compUrl="dataUrl"
-            />
+      </el-splitter-panel>
+      <el-splitter-panel>
+
+        <el-card class="inner_content">
+          <div class="search-content">
+            <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
+              <star-horse-search-comp
+                  @searchData="(data: any) => menuTableListRef.createSearchParams(data)"
+                  :formData="searchFormData"
+                  :compUrl="dataUrl"
+              />
+            </div>
           </div>
-        </div>
-        <el-card class="inner_content h100">
           <star-horse-table-comp
               :fieldList="tableFieldList"
               :primaryKey="primaryKey"
@@ -388,7 +389,8 @@ onMounted(async () => {
               ref="menuTableListRef"
           />
         </el-card>
-      </el-col>
-    </el-row>
+      </el-splitter-panel>
+    </el-splitter>
+
   </el-card>
 </template>

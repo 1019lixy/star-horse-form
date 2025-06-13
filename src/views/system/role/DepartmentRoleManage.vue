@@ -252,87 +252,89 @@ onDeactivated(() => {
     />
   </star-horse-dialog>
 
-  <el-row :gutter="10" class="h100-overflow-hidden">
-    <el-col :span="5" class="h100">
-      <star-horse-tree
-          v-model:tree-datas="companyList"
-          :expand="true"
-          treeTitle="公司列表"
-          @selectData="companyChange"
-          :preps="{
+  <el-card class="inner_content">
+    <el-splitter>
+      <el-splitter-panel collapsible size="240" min="100" max="500">
+        <star-horse-tree
+            v-model:tree-datas="companyList"
+            :expand="true"
+            treeTitle="公司列表"
+            @selectData="companyChange"
+            :preps="{
           label: 'name',
           value: 'idCompanyDefine'
         }"
-          :compSize="compSize"
-      />
-    </el-col>
-    <el-col :span="19" class="h100">
-      <div class="search-content">
-        <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
-          <star-horse-search-comp
-              @searchData="loadInstanceData"
-              :formData="searchFormData"
-              :compUrl="dataUrl"
-          />
-        </div>
-      </div>
-      <el-card class="inner_content h100">
-        <el-table
-            ref="starHorseTableCompRef"
-            :data="dataList"
-            :row-key="getRowIdentity"
-            :stripe="false"
-            :fit="true"
-            :size="compSize"
-            :min-height="400"
-            :highlight-current-row="false"
-            :row-style="{ height: '80px' }"
-            :cell-style="{ height: '80px', 'font-size': '12px' }"
-            :header-cell-style="{
+            :compSize="compSize"
+        />
+      </el-splitter-panel>
+      <el-splitter-panel>
+        <el-card class="inner_content ">
+          <div class="search-content">
+            <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
+              <star-horse-search-comp
+                  @searchData="loadInstanceData"
+                  :formData="searchFormData"
+                  :compUrl="dataUrl"
+              />
+            </div>
+          </div>
+          <el-table
+              ref="starHorseTableCompRef"
+              :data="dataList"
+              :row-key="getRowIdentity"
+              :stripe="false"
+              :fit="true"
+              :size="compSize"
+              :min-height="400"
+              :highlight-current-row="false"
+              :row-style="{ height: '80px' }"
+              :cell-style="{ height: '80px', 'font-size': '12px' }"
+              :header-cell-style="{
             background: '#f2f2f2',
             color: '#707070',
             'font-size': '13px',
             'background-image': '-webkit-gradient(linear,left 0,left 100%,from(#f8f8f8),to(#ececec))'
           }"
-            border
-        >
-          <template v-for="item in pageField.fieldList">
-            <el-table-column
-                :prop="item.fieldName"
-                :label="item.label"
-                :min-width="200"
-                :fixed="item.fieldName == 'deptName' ? 'left' : false"
-            >
-              <template #default="scope">
-                <div
-                    v-if="!scope.row[item.fieldName] || scope.row[item.fieldName].length == 0"
-                    :class="{ 'role-user-operation': true }"
-                    @click="cellClick(scope.row, item)"
-                >
-                  设置人员
-                </div>
-                <div class="role-user-content" v-else @click="cellClick(scope.row, item)">
-                  <template v-if="item.fieldName == 'deptName'">
-                    {{ scope.row[item.fieldName] }}
-                  </template>
-                  <template v-else>
-                    <el-tag type="success" v-for="temp in scope.row[item.fieldName]">{{ temp.name }}</el-tag>
-                    <star-horse-icon
-                        icon-class="more"
-                        v-if="scope.row[item.fieldName].length > 10"
-                        style="cursor: pointer"
-                        title="查看所有人员信息"
-                        @click="showAllUsers(scope.row, item, $event)"
-                    />
-                  </template>
-                </div>
-              </template>
-            </el-table-column>
-          </template>
-        </el-table>
-      </el-card>
-    </el-col>
-  </el-row>
+              border
+          >
+            <template v-for="item in pageField.fieldList">
+              <el-table-column
+                  :prop="item.fieldName"
+                  :label="item.label"
+                  :min-width="200"
+                  :fixed="item.fieldName == 'deptName' ? 'left' : false"
+              >
+                <template #default="scope">
+                  <div
+                      v-if="!scope.row[item.fieldName] || scope.row[item.fieldName].length == 0"
+                      :class="{ 'role-user-operation': true }"
+                      @click="cellClick(scope.row, item)"
+                  >
+                    设置人员
+                  </div>
+                  <div class="role-user-content" v-else @click="cellClick(scope.row, item)">
+                    <template v-if="item.fieldName == 'deptName'">
+                      {{ scope.row[item.fieldName] }}
+                    </template>
+                    <template v-else>
+                      <el-tag type="success" v-for="temp in scope.row[item.fieldName]">{{ temp.name }}</el-tag>
+                      <star-horse-icon
+                          icon-class="more"
+                          v-if="scope.row[item.fieldName].length > 10"
+                          style="cursor: pointer"
+                          title="查看所有人员信息"
+                          @click="showAllUsers(scope.row, item, $event)"
+                      />
+                    </template>
+                  </div>
+                </template>
+              </el-table-column>
+            </template>
+          </el-table>
+        </el-card>
+      </el-splitter-panel>
+    </el-splitter>
+  </el-card>
 </template>
 <style lang="scss">
 :deep(.cell) {

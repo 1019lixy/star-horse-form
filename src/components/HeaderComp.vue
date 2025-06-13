@@ -33,7 +33,7 @@ const dataUrl: ApiUrls = apiInstance("system-config", "system/dictinfoEntity", [
 const configStore = useGlobalConfigStore(piniaInstance);
 const filterTableData = computed(() => filterTree(search.value, permissionMenuList.value));
 const configInfo = computed(() => configStore.configFormInfo);
-const router = useRouter();
+const {currentRoute, push, replace} = useRouter();
 const emits = defineEmits(["changeLang", "layoutConfig"]);
 const dialogProps = dialogPreps();
 const appinfoList = ref<any>([]);
@@ -73,7 +73,7 @@ const modifyInfo = () => {
   // dialogProps.dialogTitle = "更新个人信息";
   // dialogProps.editVisible = true;
   // resetForm();
-  router.push("/userCenter");
+  push("/userCenter");
 };
 
 const loginOut = () => {
@@ -202,9 +202,19 @@ const dataFormat = (name: string, val: any, row: any) => {
   }
   return val;
 };
+const refreshCurrentView = async () => {
+  const {fullPath, query} = currentRoute.value;
+  query["redirectPath"] = fullPath;
+  await nextTick();
+  await replace({
+    path: "/redirect",
+    query: query
+  });
+}
 watch(() => getToken(), (val) => {
   if (val) {
     initData();
+    refreshCurrentView();
   }
 }, {deep: true})
 </script>
@@ -303,7 +313,7 @@ watch(() => getToken(), (val) => {
                 <star-horse-icon icon-class="user-circle" color="var(--star-horse-style)"/>
                 {{ i18n("main.header.authority") }}
               </el-dropdown-item>
-              <el-dropdown-item divided class="clearfix" @click="router.push('/shcalendar')">
+              <el-dropdown-item divided class="clearfix" @click="push('/shcalendar')">
                 <star-horse-icon icon-class="calendar" color="var(--star-horse-style)"/>
                 {{ i18n("main.header.calendar") }}
               </el-dropdown-item>

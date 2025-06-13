@@ -279,16 +279,16 @@ onMounted(async () => {
     <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
   </star-horse-dialog>
   <el-card class="inner_content">
-    <el-row gutter="5" class="h100-overflow-hidden">
-      <el-col :span="4" class="h100">
+    <el-splitter>
+      <el-splitter-panel collapsible size="240" min="100" max="500">
         <star-horse-tree
             v-model:tree-datas="rolesList"
             treeTitle="用户组"
             @selectData="roleChange"
             :compSize="compSize"
         />
-      </el-col>
-      <el-col v-if="systemInfoList?.length > 0" :span="4" class="h100">
+      </el-splitter-panel>
+      <el-splitter-panel v-if="systemInfoList?.length > 0" size="200" min="100" max="300">
         <star-horse-tree
             v-model:treeDatas="systemInfoList"
             treeTitle="应用系统"
@@ -299,8 +299,8 @@ onMounted(async () => {
             @selectData="systemChange"
             :compSize="compSize"
         />
-      </el-col>
-      <el-col v-if="systemInfoList?.length > 0" :span="4" class="h100">
+      </el-splitter-panel>
+      <el-splitter-panel v-if="systemInfoList?.length > 0" size="200" min="100" max="300">
         <star-horse-tree
             v-model:treeDatas="menusList"
             treeTitle="系统菜单"
@@ -312,8 +312,8 @@ onMounted(async () => {
             @selectData="menuChange"
             :compSize="compSize"
         />
-      </el-col>
-      <el-col :span="systemInfoList?.length > 0 ? 12 : 20" class="h100">
+      </el-splitter-panel>
+      <el-splitter-panel>
         <div class="search-content">
           <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
             <star-horse-search-comp
@@ -324,7 +324,7 @@ onMounted(async () => {
             />
           </div>
         </div>
-        <el-card class="inner_content h100">
+        <el-card class="inner_content">
           <star-horse-table-comp
               :fieldList="tableFieldList"
               :primaryKey="primaryKey"
@@ -333,7 +333,7 @@ onMounted(async () => {
               ref="menuBtnTableRef"
           />
         </el-card>
-      </el-col>
-    </el-row>
+      </el-splitter-panel>
+    </el-splitter>
   </el-card>
 </template>

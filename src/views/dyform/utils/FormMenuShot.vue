@@ -170,7 +170,7 @@ defineExpose({
 })
 </script>
 <template>
-  <div v-show="show" ref="screenshot" id="screenshot" class="absolute left-[20px] bottom-[20px]">
+  <div v-show="show" ref="screenshot" id="screenshot" class="absolute left-[20px] bottom-[20px] z-9999999">
     <div ref="screenshotDropdown" v-if="dropDownVisible" class="form-list" @click.stop.prevent>
       <star-horse-tree
           ref="starHorseTreeRef"

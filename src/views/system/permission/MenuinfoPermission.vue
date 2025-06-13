@@ -15,7 +15,7 @@ import {
   useGlobalConfigStore,
   warning
 } from "star-horse-lowcode";
-import {loadRolesInfo,loadMenusInfo} from "@/api/star_horse_utils";
+import {loadMenusInfo, loadRolesInfo} from "@/api/star_horse_utils";
 import {computed, onMounted, provide, reactive, ref} from "vue";
 import {TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
 import {Config} from "@/api/settings";
@@ -213,50 +213,52 @@ onMounted(async () => {
   >
     <star-horse-data-view :data-format="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
   </star-horse-dialog>
-  <el-row :gutter="10" style="height: 100%; overflow: hidden">
-    <el-col :span="4" class="h100">
-      <star-horse-tree
-          v-model:treeDatas="rolesList"
-          treeTitle="用户组"
-          @selectData="userGroupChange"
-          :compSize="compSize"
-      />
-    </el-col>
-    <el-col v-if="systemInfoList.length > 0" :span="4" class="h100">
-      <star-horse-tree
-          v-model:treeDatas="systemInfoList"
-          treeTitle="应用系统"
-          @selectData="systemChange"
-          :compSize="compSize"
-          :preps="{
+  <el-card class="inner_content">
+    <el-splitter>
+      <el-splitter-panel collapsible size="240" min="100" max="500">
+        <star-horse-tree
+            v-model:treeDatas="rolesList"
+            treeTitle="用户组"
+            @selectData="userGroupChange"
+            :compSize="compSize"
+        />
+      </el-splitter-panel>
+      <el-splitter-panel v-if="systemInfoList.length > 0"  size="220" min="100" max="400">
+        <star-horse-tree
+            v-model:treeDatas="systemInfoList"
+            treeTitle="应用系统"
+            @selectData="systemChange"
+            :compSize="compSize"
+            :preps="{
           label: 'sysName',
           value: 'idInformations'
         }"
-      />
-    </el-col>
-    <el-col :span="systemInfoList.length > 0 ? 16 : 20" class="h100" style="height: 100%; overflow: hidden">
-      <div class="search-content">
-        <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
-          <star-horse-search-comp
-              @searchData="(data: any) => menuPermission.createSearchParams(data)"
-              :formData="searchFields"
-              :defaultCondition="defaultCondition"
-              :compUrl="dataUrl"
-          />
-        </div>
-      </div>
-      <el-card class="inner_content h100">
-        <star-horse-table-comp
-            ref="menuPermission"
-            :fieldList="tableFieldList"
-            :primaryKey="primaryKey"
-            :compUrl="dataUrl"
-            :orderBy="tableFieldList.orderBy"
-            :dataFormat="dataFormat"
         />
-      </el-card>
-    </el-col>
-  </el-row>
+      </el-splitter-panel>
+      <el-splitter-panel>
+        <el-card class="inner_content ">
+          <div class="search-content">
+            <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
+              <star-horse-search-comp
+                  @searchData="(data: any) => menuPermission.createSearchParams(data)"
+                  :formData="searchFields"
+                  :defaultCondition="defaultCondition"
+                  :compUrl="dataUrl"
+              />
+            </div>
+          </div>
+          <star-horse-table-comp
+              ref="menuPermission"
+              :fieldList="tableFieldList"
+              :primaryKey="primaryKey"
+              :compUrl="dataUrl"
+              :orderBy="tableFieldList.orderBy"
+              :dataFormat="dataFormat"
+          />
+        </el-card>
+      </el-splitter-panel>
+    </el-splitter>
+  </el-card>
 </template>
 
 <style scoped lang="scss"></style>

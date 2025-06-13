@@ -12,7 +12,7 @@ import {
   UserFuncInfo,
   warning
 } from "star-horse-lowcode";
-import {  loadDepartmentInfo} from "@/api/star_horse_utils";
+import {loadDepartmentInfo} from "@/api/star_horse_utils";
 import {Config} from "@/api/settings";
 import {nextTick, onActivated, onDeactivated, onMounted, provide, reactive, ref} from "vue";
 import {TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
@@ -269,39 +269,41 @@ onDeactivated(() => {
   >
     <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
   </star-horse-dialog>
-  <el-row :gutter="10" class="h100-overflow-hidden">
-    <el-col :span="5" class="h100">
-      <star-horse-tree
-          v-model:tree-datas="companyList"
-          :expand="true"
-          treeTitle="公司列表"
-          @selectData="companyChange"
-          :preps="{
+  <el-card class="inner_content">
+    <el-splitter>
+      <el-splitter-panel collapsible size="240" min="100" max="500">
+        <star-horse-tree
+            v-model:tree-datas="companyList"
+            :expand="true"
+            treeTitle="公司列表"
+            @selectData="companyChange"
+            :preps="{
           label: 'name',
           value: 'idCompanyDefine'
         }"
-      />
-    </el-col>
-    <el-col :span="19" class="h100">
-      <div class="search-content">
-        <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
-          <star-horse-search-comp
-              @searchData="(data: any) => departmentRef.createSearchParams(data)"
-              :formData="searchFormData"
-              :compUrl="dataUrl"
-          />
-        </div>
-      </div>
-      <el-card class="inner_content h100">
-        <star-horse-table-comp
-            ref="departmentRef"
-            :fieldList="tableFieldList"
-            :primaryKey="primaryKey"
-            :compUrl="dataUrl"
-            :extendBtns="extendBtns"
-            :dataFormat="dataFormat"
         />
-      </el-card>
-    </el-col>
-  </el-row>
+      </el-splitter-panel>
+      <el-splitter-panel>
+        <el-card class="inner_content ">
+          <div class="search-content">
+            <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
+              <star-horse-search-comp
+                  @searchData="(data: any) => departmentRef.createSearchParams(data)"
+                  :formData="searchFormData"
+                  :compUrl="dataUrl"
+              />
+            </div>
+          </div>
+          <star-horse-table-comp
+              ref="departmentRef"
+              :fieldList="tableFieldList"
+              :primaryKey="primaryKey"
+              :compUrl="dataUrl"
+              :extendBtns="extendBtns"
+              :dataFormat="dataFormat"
+          />
+        </el-card>
+      </el-splitter-panel>
+    </el-splitter>
+  </el-card>
 </template>

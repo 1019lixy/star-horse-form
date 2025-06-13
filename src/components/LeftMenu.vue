@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import {createRouterAndMenuList, permissionMenus} from "@/api/star_horse_apis";
 import {computed, nextTick, onMounted, reactive, ref, unref, watch} from "vue";
-import { MenusInfo, piniaInstance, useGlobalConfigStore, useUserInfoStore} from "star-horse-lowcode";
+import {MenusInfo, piniaInstance, useGlobalConfigStore, useUserInfoStore} from "star-horse-lowcode";
 import {Config} from "@/api/settings";
 import {filterTree} from "@/api/star_horse_utils";
+
 let userInfoStore = useUserInfoStore(piniaInstance);
 let configStore = useGlobalConfigStore(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
@@ -96,9 +97,9 @@ watch(
         <SubMenu v-model:dataList="filterTableData"/>
       </el-menu>
     </el-scrollbar>
-    <div @click="menuBarFun" class="menu-button">
-      <star-horse-icon :icon-class="menuIcon" color="var(--star-horse-style)"/>
-    </div>
+<!--    <div @click="menuBarFun" class="menu-button">
+      <star-horse-icon :icon-class="menuIcon" color="var(&#45;&#45;star-horse-style)"/>
+    </div>-->
   </div>
 </template>
 <style lang="scss" scoped>
@@ -108,9 +109,10 @@ watch(
 
 .starhorse-menu {
   height: 100%;
-  width: inherit;
+  width: 100%;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 
   .base {
     border-radius: 3px;
