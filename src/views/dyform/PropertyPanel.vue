@@ -15,5 +15,5 @@ watch(
 </script>
 <style lang="scss" scoped></style>
 <template>
-  <item-properties-panel ref="formItemRef"/>
+
 </template>

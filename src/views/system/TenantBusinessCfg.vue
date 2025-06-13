@@ -7,7 +7,6 @@ import {
   createCondition,
   createDatetime,
   dialogPreps,
-
   operationConfirm,
   PageFieldInfo,
   piniaInstance,
@@ -17,7 +16,7 @@ import {
   useGlobalConfigStore
 } from "star-horse-lowcode";
 import {loadDict} from "@/api/star_horse_apis";
-import {loadMenusInfo,loadSystemInfo} from "@/api/star_horse_utils";
+import {loadMenusInfo, loadSystemInfo} from "@/api/star_horse_utils";
 
 defineOptions({
   name: "TenantInfo"
@@ -297,8 +296,8 @@ onDeactivated(() => {
     />
   </star-horse-dialog>
   <el-card class="inner_content">
-    <el-row :gutter="10" class="h100-overflow-hidden">
-      <el-col :span="5" class="h100">
+    <el-splitter>
+      <el-splitter-panel collapsible size="240" min="100" max="500">
         <star-horse-tree
             v-model:tree-datas="dynamicFormList"
             ref="starHorseTreeRef"
@@ -319,11 +318,11 @@ onDeactivated(() => {
             :compUrl="dataUrl"
             :compSize="compSize"
         />
-      </el-col>
-      <el-col :span="19" class="h100">
+      </el-splitter-panel>
+      <el-splitter-panel>
         <el-card class="inner_content h100">
-          <el-row :gutter="10" class="h100-overflow-hidden">
-            <el-col :span="5" class="h100">
+          <el-splitter>
+            <el-splitter-panel collapsible size="220" min="100" max="400">
               <star-horse-tree
                   ref="tenantAppTreeRef"
                   :expand="true"
@@ -346,19 +345,19 @@ onDeactivated(() => {
                   :compUrl="tenantAppDataUrl"
                   :compSize="compSize"
               />
-            </el-col>
-            <el-col :span="19" class="h100">
-              <div class="search-content">
-                <div class="search_btn"
-                     :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
-                  <star-horse-search-comp
-                      @searchData="(data: any) => tenantAppMenusinfoRef.createSearchParams(data)"
-                      :formData="searchFormData"
-                      :compUrl="dataUrl"
-                  />
-                </div>
-              </div>
+            </el-splitter-panel>
+            <el-splitter-panel>
               <el-card class="inner_content">
+                <div class="search-content">
+                  <div class="search_btn"
+                       :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
+                    <star-horse-search-comp
+                        @searchData="(data: any) => tenantAppMenusinfoRef.createSearchParams(data)"
+                        :formData="searchFormData"
+                        :compUrl="dataUrl"
+                    />
+                  </div>
+                </div>
                 <star-horse-table-comp
                     ref="tenantAppMenusinfoRef"
                     :fieldList="tableFieldList"
@@ -368,11 +367,11 @@ onDeactivated(() => {
                     :hideButtonList="true"
                 />
               </el-card>
-            </el-col>
-          </el-row>
+            </el-splitter-panel>
+          </el-splitter>
         </el-card>
-      </el-col>
-    </el-row>
+      </el-splitter-panel>
+    </el-splitter>
   </el-card>
 </template>
 <style lang="scss" scoped>

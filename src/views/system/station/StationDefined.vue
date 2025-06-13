@@ -264,40 +264,42 @@ onDeactivated(() => {
   >
     <star-horse-data-view :compUrl="dataUrl" :dataFormat="dataFormat" :field-list="tableFieldList"/>
   </star-horse-dialog>
-  <el-row :gutter="10" class="h100-overflow-hidden">
-    <el-col :span="5" class="h100">
-      <star-horse-tree
-          v-model:tree-datas="stationSequenceList"
-          :expand="true"
-          treeTitle="职位序列"
-          @selectData="sequenceChange"
-          :preps="{
+  <el-card class="inner_content">
+    <el-splitter>
+      <el-splitter-panel collapsible size="240" min="100" max="500">
+        <star-horse-tree
+            v-model:tree-datas="stationSequenceList"
+            :expand="true"
+            treeTitle="职位序列"
+            @selectData="sequenceChange"
+            :preps="{
           label: 'seqName',
           value: 'idStationSequence'
         }"
-      />
-    </el-col>
-    <el-col :span="19" class="h100">
-      <div class="search-content">
-        <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
-          <star-horse-search-comp
-              @searchData="(data: any) => stationDefineRef.createSearchParams(data)"
-              :formData="searchFormData"
-              :compUrl="dataUrl"
-          />
-        </div>
-      </div>
-      <el-card class="inner_content h100">
-        <star-horse-table-comp
-            ref="stationDefineRef"
-            :compUrl="dataUrl"
-            :dataFormat="dataFormat"
-            :fieldList="tableFieldList"
-            :primaryKey="primaryKey"
         />
-      </el-card>
-    </el-col>
-  </el-row>
+      </el-splitter-panel>
+      <el-splitter-panel>
+        <el-card class="inner_content ">
+          <div class="search-content">
+            <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
+              <star-horse-search-comp
+                  @searchData="(data: any) => stationDefineRef.createSearchParams(data)"
+                  :formData="searchFormData"
+                  :compUrl="dataUrl"
+              />
+            </div>
+          </div>
+          <star-horse-table-comp
+              ref="stationDefineRef"
+              :compUrl="dataUrl"
+              :dataFormat="dataFormat"
+              :fieldList="tableFieldList"
+              :primaryKey="primaryKey"
+          />
+        </el-card>
+      </el-splitter-panel>
+    </el-splitter>
+  </el-card>
 </template>
 <style lang="scss" scoped>
 //todo

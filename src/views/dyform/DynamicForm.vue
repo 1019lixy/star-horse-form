@@ -18,15 +18,15 @@ import {
   warning
 } from "star-horse-lowcode";
 import {useRoute, useRouter} from "vue-router";
-import {dynamicFormHelpMessage, formActions} from "@/views/dyform/utils/DynamicForm";
 import {validDynamicFormCompParams} from "@/views/dyform/utils/preview";
 import {delCacheData, getCacheData, setCacheData} from "@/api/cached_utils";
 import {i18n} from "@/lang";
 import {Config} from "@/api/settings";
 import {initKeyboardEvent, removeKeyboardEvent} from "@/api/keyboard-event-utils";
-import {dynamicFormContextMenuData} from "@/plugins/AblesPlugin";
 import {ModuleEnums} from "@/components/enums/ModuleEnums";
 import {compFieldInit} from "@/views/dyform/utils/FieldOperationUtils";
+import {dynamicFormContextMenuData} from "@/plugins/AblesPlugin.ts";
+import {dynamicFormHelpMessage, formActions} from "@/views/dyform/utils/DynamicForm.ts";
 
 const dataUrl = apiInstance("userdb-manage", "userdb/dynamicForm");
 let designForm = useDesignFormStore(piniaInstance);
@@ -521,84 +521,89 @@ let prepsModel = ref("one");
                      :title="'表单预览'" :is-view="true">
     <form-preview :list="list"/>
   </star-horse-dialog>
-  <el-card class="inner_content">
-    <div class="form_content">
-      <div class="side-panel" v-show="leftPanelVisible">
+  <el-card class="inner_content my-0 mx-[5px]">
+    <el-splitter>
+      <el-splitter-panel collapsible size="270" min="180" max="350">
         <field-panel ref="fieldPanelRef" @loadData="loadTemplateData"/>
-      </div>
-      <div class="form-main">
-        <div class="inner_button">
-          <el-menu mode="horizontal" :ellipsis="false" style="height: inherit; width: 100%;">
-            <template v-for="(item, index) in formActions">
-              <el-menu-item v-if="
+      </el-splitter-panel>
+      <el-splitter-panel>
+        <div class="main-design-outer">
+          <div class="inner_button">
+            <el-menu mode="horizontal" :ellipsis="false" style="height: inherit; width: 100%;">
+              <template v-for="(item, index) in formActions">
+                <el-menu-item v-if="
                 (list.length > 0 || item.defaultEdit) &&
                 (item.auth == 'none' || permissions[item.auth]) &&
                 !item.children
               " :index="'1_' + index" @click="actions(item.key)">
-                <el-tooltip class="item" :content="item.label" effect="dark" placement="bottom">
-                  <star-horse-icon :icon-class="item.icon" size="24px" style="color: var(--star-horse-style)"/>
-                </el-tooltip>
-              </el-menu-item>
-              <template v-if="item.children && item.children.length > 0">
-                <el-sub-menu :index="'1_' + index">
-                  <template #title>
-                    <el-tooltip class="item" :content="currentPageStyle.label" effect="dark" placement="bottom">
-                      <star-horse-icon :icon-class="item.icon" size="24px" style="color: var(--star-horse-style)"/>
-                    </el-tooltip>
-                  </template>
-                  <el-menu-item v-for="(sitem, sindex) in item.children" :index="'2_' + sindex"
-                                @click="actionsStyle(sitem)">
-                    <star-horse-icon :icon-class="sitem.icon" size="24px" style="color: var(--star-horse-style)"/>
-                    {{ sitem.label }}
-                  </el-menu-item>
-                </el-sub-menu>
-              </template>
-            </template>
-          </el-menu>
-          <el-tooltip content="恢复缓存数据" v-if="cacheData && cacheData.length > 0">
-            <star-horse-icon icon-class="reset" @click="cacheDataRestore($event)"/>
-          </el-tooltip>
-          <help :message="dynamicFormHelpMessage"/>
-        </div>
-        <div class="main-design-a">
-          <div class="main-design-outer" @contextmenu="contextMenu">
-            <sh-form ref="dynamicFormRef" :needScroller="false" class="design-form-container"
-                     :class="{ 'dragging-area': isDragging }" :disabled="formInfo['disabled'] == 'Y'"
-                     :hide-required-asterisk="formInfo['hideRequiredAsterisk'] == 'Y'" :inline="formInfo.inline == 'Y'"
-                     :inline-message="formInfo['inlineMessage'] == 'Y'" :label-position="formInfo['labelPosition']"
-                     :label-suffix="formInfo['labelSuffix']" :label-width="formInfo['labelWidth']"
-                     v-model:dataForm="formData"
-                     :require-asterisk-position="formInfo['requireAsteriskPosition']" :rules="formInfo.rules || {}"
-                     :scroll-to-error="formInfo['scrollToError'] == 'Y'" :show-message="formInfo['showMessage'] == 'Y'"
-                     :size="'default'" :status-icon="formInfo['statusIcon'] == 'Y'"
-                     :validate-on-rule-change="formInfo['validateOnRuleChange'] == 'Y'">
-              <template v-if="list.length === 0">
-                <div class="empty-info">请从左侧组件库中选择一个组件, 然后用鼠标双击或者拖动该组件放置于此处</div>
-              </template>
-              <draggable @add="(evt: Event) => onDragAdd(evt, list)" :class="currentPageClass" tag="div"
-                         style="margin: 10px auto; " group="starHorseGroup" ghost-class="ghost" :list="list">
-                <template #item="{ element: data, index }">
-                  <div :class="{ 'comp-item': data.preps?.headerFlag == 'Y' }" :data-field-id="data.id" :key="data.id">
-                    <component :key="data.id" :field="data" :isDesign="true" :formInfo="formInfo"
-                               :index-of-parent-list="index"
-                               :is="data.itemType + (data.compType === 'container' ? '-container' : '-item')"
-                               v-model:formData="formData"/>
-                  </div>
+                  <el-tooltip class="item" :content="item.label" effect="dark" placement="bottom">
+                    <star-horse-icon :icon-class="item.icon" size="24px" style="color: var(--star-horse-style)"/>
+                  </el-tooltip>
+                </el-menu-item>
+                <template v-if="item.children && item.children.length > 0">
+                  <el-sub-menu :index="'1_' + index">
+                    <template #title>
+                      <el-tooltip class="item" :content="currentPageStyle.label" effect="dark" placement="bottom">
+                        <star-horse-icon :icon-class="item.icon" size="24px" style="color: var(--star-horse-style)"/>
+                      </el-tooltip>
+                    </template>
+                    <el-menu-item v-for="(sitem, sindex) in item.children" :index="'2_' + sindex"
+                                  @click="actionsStyle(sitem)">
+                      <star-horse-icon :icon-class="sitem.icon" size="24px" style="color: var(--star-horse-style)"/>
+                      {{ sitem.label }}
+                    </el-menu-item>
+                  </el-sub-menu>
                 </template>
-              </draggable>
-            </sh-form>
-            <Teleport to="body">
-              <ContentMenu ref="contentMenuRef" :menu-data="dynamicFormContextMenuData({}, {})"/>
-            </Teleport>
-            <FormMenuShot ref="formListRef" @change="changeDataHandle" :dataUrl="dataUrl" primaryKey="idDynamicForm"/>
+              </template>
+            </el-menu>
+            <el-tooltip content="恢复缓存数据" v-if="cacheData && cacheData.length > 0">
+              <star-horse-icon icon-class="reset" @click="cacheDataRestore($event)"/>
+            </el-tooltip>
+            <help :message="dynamicFormHelpMessage"/>
           </div>
-          <div class="side-panel-item" v-show="rightPanelVisible">
-            <property-panel :activeTab="activeTab" @formInfoChange="formInfoChange" ref="propertyRef"/>
-          </div>
+          <sh-form ref="dynamicFormRef" :needScroller="false" class="design-form-container"
+                   :class="{ 'dragging-area': isDragging }" :disabled="formInfo['disabled'] == 'Y'"
+                   :hide-required-asterisk="formInfo['hideRequiredAsterisk'] == 'Y'" :inline="formInfo.inline == 'Y'"
+                   :inline-message="formInfo['inlineMessage'] == 'Y'" :label-position="formInfo['labelPosition']"
+                   :label-suffix="formInfo['labelSuffix']" :label-width="formInfo['labelWidth']"
+                   v-model:dataForm="formData"
+                   :require-asterisk-position="formInfo['requireAsteriskPosition']" :rules="formInfo.rules || {}"
+                   :scroll-to-error="formInfo['scrollToError'] == 'Y'" :show-message="formInfo['showMessage'] == 'Y'"
+                   :size="'default'" :status-icon="formInfo['statusIcon'] == 'Y'"
+                   :validate-on-rule-change="formInfo['validateOnRuleChange'] == 'Y'">
+            <template v-if="list.length === 0">
+              <div class="empty-info">请从左侧组件库中选择一个组件, 然后用鼠标双击或者拖动该组件放置于此处</div>
+            </template>
+            <div class="w-full h-full overflow-hidden" @contextmenu="contextMenu">
+              <el-scrollbar height="100%">
+                <draggable @add="(evt: Event) => onDragAdd(evt, list)" :class="currentPageClass" tag="div"
+                           group="starHorseGroup" ghost-class="ghost" :list="list">
+                  <template #item="{ element: data, index }">
+                    <div :class="{ 'comp-item': data.preps?.headerFlag == 'Y' }" :data-field-id="data.id"
+                         :key="data.id">
+                      <component :key="data.id" :field="data" :isDesign="true" :formInfo="formInfo"
+                                 :index-of-parent-list="index"
+                                 :is="data.itemType + (data.compType === 'container' ? '-container' : '-item')"
+                                 v-model:formData="formData"/>
+                    </div>
+                  </template>
+                </draggable>
+              </el-scrollbar>
+            </div>
+          </sh-form>
+          <Teleport to="body">
+            <ContentMenu ref="contentMenuRef" :menu-data="dynamicFormContextMenuData({}, {})"/>
+          </Teleport>
+          <FormMenuShot ref="formListRef" @change="changeDataHandle" :dataUrl="dataUrl" primaryKey="idDynamicForm"/>
+          <div class="main-copyright">{{ i18n("starhorse.copyright") }}</div>
         </div>
-      </div>
-    </div>
-    <div class="main-copyright">{{ i18n("starhorse.copyright") }}</div>
+
+      </el-splitter-panel>
+      <el-splitter-panel collapsible size="280" min="260" max="500">
+        <item-properties-panel ref="propertyRef"/>
+      </el-splitter-panel>
+    </el-splitter>
+
   </el-card>
   <el-drawer v-model="formFieldLayer" direction="ltr" size="20%" :with-header="false" :show-close="false">
     <template #header>
@@ -650,7 +655,6 @@ let prepsModel = ref("one");
 }
 
 .design-form-container {
-
   width: 100%;
   display: flex; // 改用grid布局
   align-items: center;
@@ -688,58 +692,23 @@ let prepsModel = ref("one");
   flex: 1;
 }
 
-.form_content {
-  display: flex;
-  width: 100%;
+.main-design-outer {
   flex: 1;
   height: 100%;
+  position: relative;
+  background: var(--star-horse-background);
+  justify-content: center;
+  border: 1px dashed var(--star-horse-shadow);
+  padding: 0 5px;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
-  flex-direction: row;
-  margin-top: 0;
-
-  .side-panel {
-    width: 280px !important;
-    justify-content: flex-start;
-    background: var(--star-horse-background);
-    border: 1px dashed var(--star-horse-font-color);
-    overflow: hidden;
-  }
-
-  .form-main {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    /*height: 100%;*/
-    overflow: hidden;
-
-    .main-design-a {
-      display: flex;
-      flex-direction: row;
-      flex: 1;
-      overflow: hidden;
-
-      .main-design-outer {
-        flex: 1;
-        position: relative;
-        background: var(--star-horse-background);
-        justify-content: center;
-        border: 1px dashed var(--star-horse-shadow);
-        padding: 0 5px;
-        border-radius: 3px;
-        display: flex;
-        flex-direction: column;
-        top: 0;
-        left: 0;
-        transform: translate(0, 0);
-      }
-
-      .side-panel-item {
-        margin-top: 0;
-        border: 1px dashed var(--star-horse-font-color);
-      }
-    }
-  }
+  top: 0;
+  left: 0;
+  transform: translate(0, 0);
 }
+
 
 .inner_button {
   ul {
@@ -748,6 +717,7 @@ let prepsModel = ref("one");
     align-items: center;
     justify-content: flex-start;
   }
+
   li {
     border: none !important;
   }

@@ -215,16 +215,17 @@ onMounted(async () => {
   >
     <star-horse-data-view :dataFormat="dataFormat" :field-list="editFormField" :compUrl="dataUrl"/>
   </star-horse-dialog>
-  <div class="search-content">
-    <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
-      <star-horse-search-comp
-          @searchData="(data: any) => dictinfoRef.createSearchParams(data)"
-          :formData="searchFormData"
-          :compUrl="dataUrl"
-      />
-    </div>
-  </div>
+
   <el-card class="inner_content">
+    <div class="search-content">
+      <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
+        <star-horse-search-comp
+            @searchData="(data: any) => dictinfoRef.createSearchParams(data)"
+            :formData="searchFormData"
+            :compUrl="dataUrl"
+        />
+      </div>
+    </div>
     <star-horse-table-comp
         ref="dictinfoRef"
         :fieldList="tableFieldList"

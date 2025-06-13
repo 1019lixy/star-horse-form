@@ -5,7 +5,6 @@ import {
   createCondition,
   dialogPreps,
   dictData,
-
   PageFieldInfo,
   piniaInstance,
   SearchFields,
@@ -230,28 +229,29 @@ onMounted(async () => {
   >
     <star-horse-data-view :data-format="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
   </star-horse-dialog>
-  <el-card class="inner_content h100">
-    <el-row :gutter="10" style="height: 100%">
-      <el-col :span="5" class="h100">
+  <el-card class="inner_content">
+    <el-splitter>
+      <el-splitter-panel collapsible size="240" min="100" max="500">
         <star-horse-tree
             v-model:tree-datas="rolesList"
             treeTitle="用户组"
             @selectData="checkChange"
             :compSize="compSize"
         />
-      </el-col>
-      <el-col :span="19" class="h100" style="height: 100%; overflow: hidden">
-        <div class="search-content">
-          <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
-            <star-horse-search-comp
-                @searchData="(data: any) => accountPermission.createSearchParams(data)"
-                :formData="searchFields"
-                :defaultCondition="defaultCondition"
-                :compUrl="dataUrl"
-            />
+      </el-splitter-panel>
+      <el-splitter-panel>
+
+        <el-card class="inner_content ">
+          <div class="search-content">
+            <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
+              <star-horse-search-comp
+                  @searchData="(data: any) => accountPermission.createSearchParams(data)"
+                  :formData="searchFields"
+                  :defaultCondition="defaultCondition"
+                  :compUrl="dataUrl"
+              />
+            </div>
           </div>
-        </div>
-        <el-card class="inner_content h100">
           <star-horse-table-comp
               ref="accountPermission"
               :fieldList="tableFieldList"
@@ -261,8 +261,8 @@ onMounted(async () => {
               :dataFormat="dataFormat"
           />
         </el-card>
-      </el-col>
-    </el-row>
+      </el-splitter-panel>
+    </el-splitter>
   </el-card>
 </template>
 

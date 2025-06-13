@@ -249,42 +249,45 @@ onDeactivated(() => {
   >
     <star-horse-data-view :compUrl="dataUrl" :dataFormat="dataFormat" :field-list="tableFieldList"/>
   </star-horse-dialog>
-  <el-row :gutter="10" class="h100-overflow-hidden">
-    <el-col :span="4" class="h100">
-      <star-horse-tree
-          v-model:tree-datas="rankTypeList"
-          :expand="true"
-          :showCode="true"
-          treeTitle="职级分类"
-          @selectData="rankTypeChange"
-          :preps="{
+  <el-card class="inner_content">
+    <el-splitter>
+      <el-splitter-panel collapsible size="240" min="100" max="500">
+        <star-horse-tree
+            v-model:tree-datas="rankTypeList"
+            :expand="true"
+            :showCode="true"
+            treeTitle="职级分类"
+            @selectData="rankTypeChange"
+            :preps="{
           label: 'rankTypeName',
           value: 'idRankType',
           code: 'rankTypeCode'
         }"
-      />
-    </el-col>
-    <el-col :span="20" class="h100">
-      <div class="search-content">
-        <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
-          <star-horse-search-comp
-              @searchData="(data: any) => rankDefineRef.createSearchParams(data)"
-              :formData="searchFormData"
-              :compUrl="dataUrl"
-          />
-        </div>
-      </div>
-      <el-card class="inner_content h100">
-        <star-horse-table-comp
-            ref="rankDefineRef"
-            :compUrl="dataUrl"
-            :dataFormat="dataFormat"
-            :fieldList="tableFieldList"
-            :primaryKey="primaryKey"
         />
-      </el-card>
-    </el-col>
-  </el-row>
+      </el-splitter-panel>
+      <el-splitter-panel>
+
+        <el-card class="inner_content ">
+          <div class="search-content">
+            <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
+              <star-horse-search-comp
+                  @searchData="(data: any) => rankDefineRef.createSearchParams(data)"
+                  :formData="searchFormData"
+                  :compUrl="dataUrl"
+              />
+            </div>
+          </div>
+          <star-horse-table-comp
+              ref="rankDefineRef"
+              :compUrl="dataUrl"
+              :dataFormat="dataFormat"
+              :fieldList="tableFieldList"
+              :primaryKey="primaryKey"
+          />
+        </el-card>
+      </el-splitter-panel>
+    </el-splitter>
+  </el-card>
 </template>
 <style lang="scss" scoped>
 //todo

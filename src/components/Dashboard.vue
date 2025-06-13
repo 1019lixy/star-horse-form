@@ -13,6 +13,8 @@ import {piniaInstance, useGlobalConfigStore} from "star-horse-lowcode";
 
 let configStore = useGlobalConfigStore(piniaInstance);
 const route = router.getRoutes().find((item) => item.path == "/home");
+let drawer = ref<boolean>(false);
+const configInfo = computed(() => configStore.configFormInfo);
 let viewListStore = useViewCacheStore(piniaCompInstance);
 const navBarListStore = useNavBarListStore(piniaCompInstance);
 const cachedDatas = computed(() => viewListStore.viewListDatas);
@@ -33,71 +35,43 @@ const loadMenuFun = (data: string) => {
   sysemId.value = data;
 };
 provide("loadMenu", loadMenuFun);
-const mouseOver = () => {
-  if (configInfo.value.menusCfg == "fixed") {
-    return;
-  }
-  $(".star-horse-left").addClass("show-scroll-bar");
-};
-const mouseOut = () => {
-  $(".star-horse-left").removeClass("show-scroll-bar");
-};
+
 const collapseOperation = () => {
   isCollapse.value = !isCollapse.value;
 };
 watch(
-    () => isCollapse.value,
-    (val: boolean) => {
+    () => [isCollapse.value, configInfo.value.menusCfg],
+    ([val, oval], [sval, osval]) => {
+      if (sval == 'tradition') {
+        outerIsCollapse.value = 200;
+      } else {
+        outerIsCollapse.value = 95;
+      }
       setTimeout(() => {
-        outerIsCollapse.value = val ? 200 : 64;
+        if (configInfo.value.menusCfg == 'fixed') {
+          outerIsCollapse.value = 95;
+        } else {
+          outerIsCollapse.value = val ? 200 : 64;
+        }
       }, 200);
     },
     {
       immediate: true
     }
 );
-let dragging = ref<boolean>(false);
-let mainLeftAside = ref();
-let resizerRef = ref();
-// 移动完成
 
-let initialX = ref<number>(0); // 记录鼠标按下时的初始位置
 
-const mouseDow = (event: MouseEvent) => {
-  event.preventDefault();
-  dragging.value = true;
-  initialX.value = event.clientX;
-  // 添加全局事件监听
-  document.addEventListener('mousemove', dragStart);
-  document.addEventListener('mouseup', () => {
-    dragging.value = false;
-    resizerRef.value.style.cursor = '';
-    document.body.style.cursor = '';
-    document.removeEventListener('mousemove', dragStart);
-  }, {once: true});
-};
-const dragStart = (event: MouseEvent) => {
-  if (!dragging.value) return;
-  event.preventDefault();
-  if (configInfo.value.menusCfg != "tradition") {
-    return;
-  }
-
-  const offsetX = event.clientX - initialX.value; // 计算偏移量
-  const newWidth = outerIsCollapse.value + offsetX; // 计算新的宽度
-  //设置最小和最大宽带
-  if (newWidth <= 64) {
+const sizeChange = (size: number) => {
+  if (size <= 64) {
     isCollapse.value = false;
     outerIsCollapse.value = 64;
-  } else if (newWidth > 500) {
+  } else if (size > 500) {
     outerIsCollapse.value = 500;
   } else {
     isCollapse.value = true;
-    outerIsCollapse.value = newWidth;
+    outerIsCollapse.value = size;
   }
-  initialX.value = event.clientX; // 更新初始位置
-};
-
+}
 onMounted(async () => {
   await nextTick();
   changeLang(getLang(), true);
@@ -108,17 +82,9 @@ onMounted(async () => {
     $(".star-horse-left").removeClass("animate__animated animate__bounceInLeft");
   }, 1000);
 
-  //添加浏览器事件，当从其它地方切换过来时，检查session 是否超时
-  window.addEventListener("visibilitychange", () => {
-    // if (!document.hidden) {}
-  });
-  window.addEventListener("mouseup", () => {
-    dragging.value = false;
-  });
 });
 
-let drawer = ref<boolean>(false);
-const configInfo = computed(() => configStore.configFormInfo);
+
 </script>
 <template>
   <el-config-provider :locale="locale">
@@ -127,48 +93,40 @@ const configInfo = computed(() => configStore.configFormInfo);
         <header-comp :is-collapse="!isCollapse" @changeLang="changeLang" @layoutConfig="layoutConfig"/>
       </el-header>
       <el-container class="star-horse-container-main">
-        <el-aside
-            :width="(configInfo.menusCfg == 'tradition' ? outerIsCollapse : 90) + 'px'"
-            ref="mainLeftAside"
-            class="star-horse-left"
-            @mouseover="mouseOver"
-            @mouseout="mouseOut"
-        >
-          <left-menu
-              v-if="configInfo.menusCfg == 'tradition'"
-              :sysem-id="sysemId"
-              :is-collapse="!isCollapse"
-              @collapseOperation="collapseOperation"
-          />
-          <FixedMenu
-              :sysem-id="sysemId"
-              :top="configInfo.shortCutMenus == 'N' ? '53px' : '83px'"
-              v-if="configInfo.menusCfg == 'fixed'"
-          />
-        </el-aside>
-        <div
-            v-if="configInfo.menusCfg == 'tradition'"
-            ref="resizerRef"
-            class="vertical"
-            @mousemove="dragStart"
-            @mousedown="mouseDow"
-            style="user-select: none;"
-        >
-        </div>
-        <el-main class="star-horse-main animate__animated animate__bounceInUp">
-          <tags-view v-if="configInfo.tagsView == 'Y'"/>
-          <router-view v-slot="{ Component }">
-            <transition name="solid">
-              <keep-alive :include="cachedDatas">
-                <Suspense>
-                  <component :is="Component"/>
-                  <template #fallback> 数据加载中...</template>
-                </Suspense>
-              </keep-alive>
-            </transition>
-          </router-view>
-          <div class="main-copyright">{{ i18n("starhorse.copyright") }}</div>
-        </el-main>
+        <el-splitter>
+          <el-splitter-panel @update:size="sizeChange"
+                             :collapsible="configInfo.menusCfg == 'tradition'"
+                             :size="outerIsCollapse" min="64px" :max="'500px'">
+            <left-menu
+                v-if="configInfo.menusCfg == 'tradition'"
+                :sysem-id="sysemId"
+                :is-collapse="!isCollapse"
+                @collapseOperation="collapseOperation"
+            />
+            <FixedMenu
+                :sysem-id="sysemId"
+                :top="configInfo.shortCutMenus == 'N' ? '53px' : '83px'"
+                v-if="configInfo.menusCfg == 'fixed'"
+            />
+
+          </el-splitter-panel>
+          <el-splitter-panel :resizable="configInfo.menusCfg == 'tradition'">
+            <el-main class="star-horse-main animate__animated animate__bounceInUp">
+              <tags-view v-if="configInfo.tagsView == 'Y'"/>
+              <router-view v-slot="{ Component }">
+                <transition name="solid">
+                  <keep-alive :include="cachedDatas">
+                    <Suspense>
+                      <component :is="Component"/>
+                      <template #fallback> 数据加载中...</template>
+                    </Suspense>
+                  </keep-alive>
+                </transition>
+              </router-view>
+              <div class="main-copyright">{{ i18n("starhorse.copyright") }}</div>
+            </el-main>
+          </el-splitter-panel>
+        </el-splitter>
       </el-container>
     </el-container>
     <el-drawer v-model="drawer" :direction="direction">

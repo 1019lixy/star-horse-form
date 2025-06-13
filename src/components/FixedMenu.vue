@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import {createRouterAndMenuList, permissionMenus} from "@/api/star_horse_apis";
-import {computed, nextTick, onMounted, reactive, ref, watch} from "vue";
+import {computed, nextTick, onMounted, reactive, ref, unref, watch} from "vue";
 import {MenusInfo, piniaInstance, useUserInfoStore} from "star-horse-lowcode";
 
 let userStore = useUserInfoStore(piniaInstance);
-// const emits = defineEmits(["collapseOperation"]);
+const menus = computed(() => userStore.permissionMenus);
 let leftMenuDatas = ref<MenusInfo[]>([]);
 let props = defineProps({
   sysemId: {type: String},
@@ -27,22 +27,18 @@ const loadMenus = async (sysemId: string) => {
     });
   });
 };
-// const search = ref<String>();
 let currentItem = ref<any>({});
 
-// const _filterTableData = computed(() => filterTree(search.value, leftMenuDatas.value));
 const overHandler = (item: any) => {
   currentItem.value = item;
 };
-/*const _outHandler = (_item: any) => {
-currentItem.value = {};
-}*/
+
 onMounted(async () => {
-  let menus = userStore.getPermissionMenus;
-  if (!menus || menus.length == 0) {
+  let temp = unref(menus);
+  if (!temp || temp.length == 0) {
     await loadMenus("-1");
   } else {
-    leftMenuDatas.value = menus;
+    leftMenuDatas.value = temp;
   }
 });
 

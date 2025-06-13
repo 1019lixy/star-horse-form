@@ -7,11 +7,11 @@ import {
   PageFieldInfo,
   postRequest,
   SearchFields,
-  SelectOption
+  SelectOption, warning
 } from "star-horse-lowcode";
 import {  loadCustomInfo,loadSystemInfo} from "@/api/star_horse_utils";
 import {Config} from "@/api/settings";
-import {onMounted, provide, reactive, ref} from "vue";
+import {onActivated, onMounted, provide, reactive, ref} from "vue";
 
 let informationsList = ref<any>([]);
 const dataUrl: ApiUrls = apiInstance("system-config", "system/informationsEntity");
@@ -198,6 +198,9 @@ const initData = async () => {
 onMounted(async () => {
   await initData();
 });
+onActivated(() => {
+  warning("warning");
+})
 </script>
 <style></style>
 <template>

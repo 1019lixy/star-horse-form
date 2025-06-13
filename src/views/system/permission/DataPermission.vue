@@ -16,7 +16,7 @@ import {
   useGlobalConfigStore,
   warning
 } from "star-horse-lowcode";
-import {loadRolesInfo,loadSystemInfo} from "@/api/star_horse_utils";
+import {loadRolesInfo, loadSystemInfo} from "@/api/star_horse_utils";
 import {Config} from "@/api/settings";
 import {computed, onMounted, provide, reactive, ref} from "vue";
 import {TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
@@ -312,16 +312,16 @@ onMounted(async () => {
     <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
   </star-horse-dialog>
   <el-card class="inner_content">
-    <el-row gutter="5" class="h100-overflow-hidden">
-      <el-col :span="4" class="h100">
+    <el-splitter>
+      <el-splitter-panel collapsible size="240" min="100" max="500">
         <star-horse-tree
             v-model:tree-datas="systemInfoList"
             treeTitle="应用系统"
             @selectData="systemChange"
             :compSize="compSize"
         />
-      </el-col>
-      <el-col v-if="menusList?.length > 0" :span="4" class="h100">
+      </el-splitter-panel>
+      <el-splitter-panel v-if="menusList?.length>0" size="220" min="100" max="300">
         <star-horse-tree
             v-model:tree-datas="menusList"
             treeTitle="系统菜单"
@@ -333,8 +333,8 @@ onMounted(async () => {
             @selectData="menuChange"
             :compSize="compSize"
         />
-      </el-col>
-      <el-col :span="menusList?.length > 0 ? 16 : 20" class="h100">
+      </el-splitter-panel>
+      <el-splitter-panel>
         <div class="search-content">
           <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
             <star-horse-search-comp
@@ -354,7 +354,7 @@ onMounted(async () => {
               ref="dataPermissionRef"
           />
         </el-card>
-      </el-col>
-    </el-row>
+      </el-splitter-panel>
+    </el-splitter>
   </el-card>
 </template>

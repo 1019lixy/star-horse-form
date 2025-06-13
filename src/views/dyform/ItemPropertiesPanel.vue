@@ -13,7 +13,7 @@ import {
   useGlobalConfigStore,
   warning
 } from "star-horse-lowcode";
-import { loadDict} from "@/api/star_horse_apis";
+import {loadDict} from "@/api/star_horse_apis";
 import {
   buttonClickDataField,
   compCommonFields,
@@ -44,7 +44,6 @@ let dataRelationDialogVisible = ref<boolean>(false);
 let buttonEventDialogVisible = ref<boolean>(false);
 let paramsDialogVisible = ref<boolean>(false);
 let codeTab = ref<string>("code");
-let formRules = ref<any>({});
 let jsValue = ref<string>("console.log('hello world')");
 let fieldName = ref<string>("");
 const codeCompRef = ref<any>(null);
@@ -83,7 +82,6 @@ const configParams = async (params: any) => {
   let temp = formProps.value ?? {};
   // 再次等待确保子组件挂载
   await nextTick();
-  console.log(temp);
   setTimeout(() => {
     paramsConfigRef.value?.setFormData(temp);
   }, 200);
@@ -105,7 +103,6 @@ const dataRelationMerge = async () => {
     return;
   }
   formProps.value["dataRelation"] = dataRelationFormRef?.value.getFormData().value;
-  console.log(formProps.value);
   closeAction();
 };
 const paramsValid = async () => {
@@ -381,7 +378,8 @@ const assignValue = (fieldInfo: any) => {
             tabName: "other",
             icon: "advance_preps",
             preps: {
-              labelPosition: "top"
+              labelPosition: "top",
+              labelWidth: "120px"
             },
             fieldList: temp.advancedFields
           },
@@ -390,7 +388,8 @@ const assignValue = (fieldInfo: any) => {
             tabName: "action",
             icon: "event-action",
             preps: {
-              labelPosition: "top"
+              labelPosition: "top",
+              labelWidth: "120px"
             },
             fieldList: temp.actions
           }
@@ -666,8 +665,8 @@ watch(
 }
 
 .dynamic-form {
-  width: 300px;
-  height: 100%;
+  width: 100%;
+  margin: 5px auto;
   overflow: hidden;
 }
 

@@ -12,7 +12,7 @@ import {
   useGlobalConfigStore,
   warning
 } from "star-horse-lowcode";
-import {loadRolesInfo,loadSystemInfo} from "@/api/star_horse_utils";
+import {loadRolesInfo, loadSystemInfo} from "@/api/star_horse_utils";
 import {computed, onMounted, provide, reactive, ref} from "vue";
 import {TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
 import {Config} from "@/api/settings";
@@ -179,38 +179,41 @@ onMounted(async () => {
   >
     <star-horse-data-view :data-format="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
   </star-horse-dialog>
-  <el-row :gutter="10" class="h100-overflow-hidden">
-    <el-col :span="5" class="h100">
-      <star-horse-tree
-          v-model:tree-datas="rolesList"
-          treeTitle="用户组"
-          @selectData="checkChange"
-          :compSize="compSize"
-      />
-    </el-col>
-    <el-col :span="19" class="h100">
-      <div class="search-content">
-        <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
-          <star-horse-search-comp
-              @searchData="(data: any) => appinfoPermission.createSearchParams(data)"
-              :formData="searchFields"
-              :defaultCondition="defaultCondition"
-              :compUrl="dataUrl"
-          />
-        </div>
-      </div>
-      <el-card class="inner_content h100">
-        <star-horse-table-comp
-            ref="appinfoPermission"
-            :fieldList="tableFieldList"
-            :primaryKey="primaryKey"
-            :compUrl="dataUrl"
-            :orderBy="tableFieldList.orderBy"
-            :dataFormat="dataFormat"
+  <el-card class="inner_content">
+    <el-splitter>
+      <el-splitter-panel collapsible size="240" min="100" max="500">
+        <star-horse-tree
+            v-model:tree-datas="rolesList"
+            treeTitle="用户组"
+            @selectData="checkChange"
+            :compSize="compSize"
         />
-      </el-card>
-    </el-col>
-  </el-row>
+      </el-splitter-panel>
+      <el-splitter-panel>
+
+        <el-card class="inner_content">
+          <div class="search-content">
+            <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
+              <star-horse-search-comp
+                  @searchData="(data: any) => appinfoPermission.createSearchParams(data)"
+                  :formData="searchFields"
+                  :defaultCondition="defaultCondition"
+                  :compUrl="dataUrl"
+              />
+            </div>
+          </div>
+          <star-horse-table-comp
+              ref="appinfoPermission"
+              :fieldList="tableFieldList"
+              :primaryKey="primaryKey"
+              :compUrl="dataUrl"
+              :orderBy="tableFieldList.orderBy"
+              :dataFormat="dataFormat"
+          />
+        </el-card>
+      </el-splitter-panel>
+    </el-splitter>
+  </el-card>
 </template>
 
 <style scoped lang="scss"></style>

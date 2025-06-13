@@ -1,11 +1,11 @@
 const formActions = [
-    {
+   /* {
         icon: "left_panel",
         defaultEdit: true,
         key: "leftPanel",
         auth: "none",
         label: "左侧工具栏"
-    },
+    },*/
     {
         icon: "return",
         defaultEdit: true,
@@ -104,13 +104,13 @@ const formActions = [
         auth: "add",
         label: "保存"
     },
-    {
+   /* {
         icon: "right_panel",
         defaultEdit: true,
         key: "rightPanel",
         auth: "none",
         label: "右侧属性栏"
-    }
+    }*/
 ];
 const shortKeyHelpMessage = `
 快捷键：
