@@ -769,128 +769,132 @@ defineExpose({
   >
     <star-horse-editor :value="jsonData" :lang="'json'"/>
   </star-horse-dialog>
-  <div class="design-content">
-    <div class="comp-list" v-show="leftPanelVisible && !readonly">
-      <el-tabs v-model="tabModel">
-        <el-tab-pane name="dynamicTable" v-if="showCompList">
-          <template #label>
-            <star-horse-icon icon-class="setting" style="color: var(--star-horse-style)"/>&nbsp;<span>组件</span>
-          </template>
-          <el-input
-              v-model="query"
-              :size="Config.compSize"
-              clearable
-              placeholder="请输入关键字"
-              @keydown.enter="onQueryChanged"
-          >
-            <template #append>
-              <star-horse-icon @click="onQueryChanged" icon-class="search" color="var(--star-horse-style)"/>
+  <el-card class="inner_content">
+    <el-splitter v-show="!readonly">
+      <el-splitter-panel collapsible size="240" min="100" max="500">
+        <el-tabs v-model="tabModel">
+          <el-tab-pane name="dynamicTable" v-if="showCompList">
+            <template #label>
+              <star-horse-icon icon-class="setting" style="color: var(--star-horse-style)"/>&nbsp;<span>组件</span>
             </template>
-          </el-input>
-          <el-scrollbar>
-            <el-collapse accordion v-model="activeItem">
-              <template v-for="item in filterDatas">
-                <el-collapse-item :name="item.name" :title="item.title" type="default">
-                  <el-scrollbar max-height="350">
-                    <ul>
-                      <li
-                          draggable="true"
-                          @dragstart="(evt) => dratStart(sitem, evt)"
-                          class="field-item"
-                          v-for="sitem in item.compItems"
-                      ><span
-                      >&nbsp;&nbsp;<star-horse-icon :icon-class="sitem.icon || 'default'"/>&nbsp;{{
-                          sitem.label || sitem.name
-                        }}</span
-                      >
-                      </li>
-                    </ul>
-                  </el-scrollbar>
-                </el-collapse-item>
+            <el-input
+                v-model="query"
+                :size="Config.compSize"
+                clearable
+                placeholder="请输入关键字"
+                @keydown.enter="onQueryChanged"
+            >
+              <template #append>
+                <star-horse-icon @click="onQueryChanged" icon-class="search" color="var(--star-horse-style)"/>
               </template>
-            </el-collapse>
-          </el-scrollbar>
-        </el-tab-pane>
-        <el-tab-pane name="dbList" v-if="showDbList">
-          <template #label>
-            <star-horse-icon icon-class="database" style="color: var(--star-horse-style)"/>&nbsp;<span>数据源</span>
-          </template>
-          <ConsumerDbListComp/>
-        </el-tab-pane>
-      </el-tabs>
-    </div>
-    <div class="design-main">
-      <div class="inner_button">
-        <el-menu mode="horizontal" :ellipsis="false" style="height: inherit; width: 100%">
-          <template v-for="(item, index) in commands">
-            <el-menu-item v-if="(hasData.length > 0 && !readonly) || item.defaultEdit">
-              <el-tooltip class="item" :content="item.label" :index="index" effect="dark" placement="bottom">
-                <star-horse-icon
-                    @click="transform(item.key)"
-                    :icon-class="item.icon"
-                    size="22px"
-                    style="color: var(--star-horse-style)"
-                />
-              </el-tooltip>
-            </el-menu-item>
-          </template>
-        </el-menu>
-        <help :message="helpMessage"/>
-      </div>
-      <div class="background-grid-app">
-        <div
-            id="graph-dropdown"
-            @dragover.prevent="dragOver"
-            @drop="dragDrop"
-            class="app-content"
-            ref="starHorseDesignRef"
-        ></div>
-        <Teleport to="body">
-          <ContentMenu
-              ref="contextmenuRef"
-              :style="{ 'z-index': 99999999, position: 'absolute', top: menuPosition.top, left: menuPosition.left }"
-              v-if="contextMenuVisible && !readonly"
-              :menu-data="dynamicFormContextMenuData({}, {}, 'scene', contextMenuOperation)"
+            </el-input>
+            <el-scrollbar>
+              <el-collapse accordion v-model="activeItem">
+                <template v-for="item in filterDatas">
+                  <el-collapse-item :name="item.name" :title="item.title" type="default">
+                    <el-scrollbar max-height="350">
+                      <ul>
+                        <li
+                            draggable="true"
+                            @dragstart="(evt) => dratStart(sitem, evt)"
+                            class="field-item"
+                            v-for="sitem in item.compItems"
+                        ><span
+                        >&nbsp;&nbsp;<star-horse-icon :icon-class="sitem.icon || 'default'"/>&nbsp;{{
+                            sitem.label || sitem.name
+                          }}</span
+                        >
+                        </li>
+                      </ul>
+                    </el-scrollbar>
+                  </el-collapse-item>
+                </template>
+              </el-collapse>
+            </el-scrollbar>
+          </el-tab-pane>
+          <el-tab-pane name="dbList" v-if="showDbList">
+            <template #label>
+              <star-horse-icon icon-class="database" style="color: var(--star-horse-style)"/>&nbsp;<span>数据源</span>
+            </template>
+            <ConsumerDbListComp/>
+          </el-tab-pane>
+        </el-tabs>
+      </el-splitter-panel>
+      <el-splitter-panel>
+        <div class="design-main">
+          <div class="inner_button">
+            <el-menu mode="horizontal" :ellipsis="false" style="height: inherit; width: 100%">
+              <template v-for="(item, index) in commands">
+                <el-menu-item v-if="(hasData.length > 0 && !readonly) || item.defaultEdit">
+                  <el-tooltip class="item" :content="item.label" :index="index" effect="dark" placement="bottom">
+                    <star-horse-icon
+                        @click="transform(item.key)"
+                        :icon-class="item.icon"
+                        size="22px"
+                        style="color: var(--star-horse-style)"
+                    />
+                  </el-tooltip>
+                </el-menu-item>
+              </template>
+            </el-menu>
+            <help :message="helpMessage"/>
+          </div>
+          <div
+              id="graph-dropdown"
+              @dragover.prevent="dragOver"
+              @drop="dragDrop"
+              class="app-content"
+              ref="starHorseDesignRef"
+          ></div>
+          <Teleport to="body">
+            <ContentMenu
+                ref="contextmenuRef"
+                :style="{ 'z-index': 99999999, position: 'absolute', top: menuPosition.top, left: menuPosition.left }"
+                v-if="contextMenuVisible && !readonly"
+                :menu-data="dynamicFormContextMenuData({}, {}, 'scene', contextMenuOperation)"
+            />
+          </Teleport>
+        </div>
+      </el-splitter-panel>
+      <el-splitter-panel v-if="panelStyle == 'normal'">
+        <div class="right-attr-panel" v-show="normalRightPanel">
+          <div class="title">属性面板</div>
+          <div class="item" style="border-bottom: none">
+            <div class="content" v-if="checkIsNode() == 1">
+              <h3>{{ compAttr["label"] || currentComp.label }}({{ compAttr["belongTo"] || "组件" }})</h3>
+            </div>
+            <div class="content" v-else-if="checkIsNode() == 2">
+              <h3>连线属性</h3>
+            </div>
+          </div>
+          <hr/>
+          <star-horse-form
+              v-model:data-form="dataForm"
+              v-if="checkIsNode() == 1"
+              :isView="readonly"
+              ref="rightAttrPanel"
+              @refresh="() => {}"
+              :compUrl="compUrl"
+              :fieldList="nodeFieldList"
+              :rules="rules"
           />
-        </Teleport>
-      </div>
-    </div>
-    <div class="right-attr-panel" v-if="panelStyle == 'normal'" v-show="normalRightPanel">
-      <div class="title">属性面板</div>
-      <div class="item" style="border-bottom: none">
-        <div class="content" v-if="checkIsNode() == 1">
-          <h3>{{ compAttr["label"] || currentComp.label }}({{ compAttr["belongTo"] || "组件" }})</h3>
+          <star-horse-form
+              v-model:data-form="dataForm"
+              v-else-if="checkIsNode() == 2"
+              :isView="readonly"
+              ref="rightAttrPanel"
+              @refresh="() => {}"
+              :compUrl="compUrl"
+              :fieldList="lineFieldList"
+              :rules="rules"
+          />
+          <div v-else class="empty-info">
+            <el-empty description="点击画布中的组件或者连线可设置属性"/>
+          </div>
         </div>
-        <div class="content" v-else-if="checkIsNode() == 2">
-          <h3>连线属性</h3>
-        </div>
-      </div>
-      <hr/>
-      <star-horse-form
-          v-model:data-form="dataForm"
-          v-if="checkIsNode() == 1"
-          :isView="readonly"
-          ref="rightAttrPanel"
-          @refresh="() => {}"
-          :compUrl="compUrl"
-          :fieldList="nodeFieldList"
-          :rules="rules"
-      />
-      <star-horse-form
-          v-model:data-form="dataForm"
-          v-else-if="checkIsNode() == 2"
-          :isView="readonly"
-          ref="rightAttrPanel"
-          @refresh="() => {}"
-          :compUrl="compUrl"
-          :fieldList="lineFieldList"
-          :rules="rules"
-      />
-      <div v-else class="empty-info">
-        <el-empty description="点击画布中的组件或者连线可设置属性"/>
-      </div>
-    </div>
-  </div>
+      </el-splitter-panel>
+    </el-splitter>
+  </el-card>
   <el-drawer
       v-if="panelStyle == 'drawer'"
       v-model="rightPanel"
@@ -1040,6 +1044,7 @@ hr {
     /*min-height: 500px;*/
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 
     .inner_button {
       height: 40px;

@@ -527,7 +527,6 @@ let prepsModel = ref("one");
         <field-panel ref="fieldPanelRef" @loadData="loadTemplateData"/>
       </el-splitter-panel>
       <el-splitter-panel>
-
         <div class="main-design-outer">
           <div class="inner_button">
             <el-menu mode="horizontal" :ellipsis="false" style="height: inherit; width: 100%;">
@@ -656,7 +655,6 @@ let prepsModel = ref("one");
 }
 
 .design-form-container {
-
   width: 100%;
   display: flex; // 改用grid布局
   align-items: center;
@@ -711,59 +709,6 @@ let prepsModel = ref("one");
   transform: translate(0, 0);
 }
 
-
-.form_content {
-  display: flex;
-  width: 100%;
-  flex: 1;
-  height: 100%;
-  overflow: hidden;
-  flex-direction: row;
-  margin-top: 0;
-
-  .side-panel {
-    width: 280px !important;
-    justify-content: flex-start;
-    background: var(--star-horse-background);
-    border: 1px dashed var(--star-horse-font-color);
-    overflow: hidden;
-  }
-
-  .form-main {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    /*height: 100%;*/
-    overflow: hidden;
-
-    .main-design-a {
-      display: flex;
-      flex-direction: row;
-      flex: 1;
-      overflow: hidden;
-
-      .main-design-outer {
-        flex: 1;
-        position: relative;
-        background: var(--star-horse-background);
-        justify-content: center;
-        border: 1px dashed var(--star-horse-shadow);
-        padding: 0 5px;
-        border-radius: 3px;
-        display: flex;
-        flex-direction: column;
-        top: 0;
-        left: 0;
-        transform: translate(0, 0);
-      }
-
-      .side-panel-item {
-        margin-top: 0;
-        border: 1px dashed var(--star-horse-font-color);
-      }
-    }
-  }
-}
 
 .inner_button {
   ul {
