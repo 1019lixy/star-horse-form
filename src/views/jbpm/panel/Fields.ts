@@ -658,7 +658,7 @@ const assignee: FieldInfo = {
     label: "分配人员",
     fieldName: "assignee",
     type: "dialog-input",
-    params: {},
+    preps: {},
     formVisible: true,
     listVisible: true
 };
@@ -666,7 +666,7 @@ const candidateUsers: FieldInfo = {
     label: "候选人员",
     fieldName: "candidateUsers",
     type: "dialog-input",
-    params: {},
+    preps: {},
     formVisible: true,
     listVisible: true
 };
@@ -674,7 +674,7 @@ const candidateRoles: FieldInfo = {
     label: "候选角色",
     fieldName: "candidateRoles",
     type: "dialog-input",
-    params: {},
+    preps: {},
     formVisible: true,
     listVisible: true
 };
