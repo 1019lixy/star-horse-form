@@ -499,7 +499,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
           ]
         },
         {
-          fieldName: "tab6",
+          tabName: "tab6",
           title: "列表显示配置",
           helpMsg: tableListMsg,
           batchFieldList: [
@@ -570,7 +570,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
           ]
         },
         {
-          fieldName: "tab7",
+          tabName: "tab7",
           title: "列表自定义事件",
           batchFieldList: [
             {
@@ -651,7 +651,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
           ]
         },
         {
-          fieldName: "tab8",
+          tabName: "tab8",
           title: "列表排序字段",
           batchFieldList: [
             {
