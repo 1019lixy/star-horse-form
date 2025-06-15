@@ -49,7 +49,7 @@ const tableFieldList = reactive({
       required: true,
       formVisible: true,
       listVisible: true,
-      editDisabled: "Y"
+      editdisabled: true,
     },
     [
       {
@@ -59,7 +59,7 @@ const tableFieldList = reactive({
         optionList: assignType,
         required: true,
         formVisible: true,
-        editDisabled: "Y",
+        editdisabled: true,
         actionName: "change",
         actions: (val: any) => {
           searchUserOrRole(val);
@@ -72,7 +72,7 @@ const tableFieldList = reactive({
         type: "page-select",
         required: true,
         formVisible: true,
-        editDisabled: "Y",
+        editdisabled: true,
         // optionList: userOrRoleList,
         params: params,
         listVisible: true
@@ -122,25 +122,25 @@ const tableFieldList = reactive({
 
     {
       label: "创建人",
-      disabled: "Y",
+      disabled: true,
       fieldName: "createdBy",
       type: "input"
     },
     {
       label: "修改人",
-      disabled: "Y",
+      disabled: true,
       fieldName: "updatedBy",
       type: "input"
     },
     {
       label: "创建日期",
-      disabled: "Y",
+      disabled: true,
       fieldName: "createdTime",
       type: "date"
     },
     {
       label: "修改日期",
-      disabled: "Y",
+      disabled: true,
       fieldName: "updatedTime",
       type: "date"
     },

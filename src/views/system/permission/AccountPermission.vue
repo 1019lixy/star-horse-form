@@ -67,13 +67,13 @@ const formFieldList = reactive<PageFieldInfo>({
       optionList: rolesList,
       formVisible: true,
       required: true,
-      disabled: "Y"
+      disabled: true,
     },
     {
       label: "账号信息",
       fieldName: "userNameList",
       aliasName: "userList",
-      multiple: "Y",
+      multiple: true,
       type: "page-select",
       params: {
         dataUrl: {

@@ -33,7 +33,7 @@ const processField = reactive<PageFieldInfo | any>({
               label: "ID",
               fieldName: "processId",
               type: "input",
-              disabled: "Y",
+              disabled: true,
               formVisible: true,
               listVisible: true
             },
@@ -228,7 +228,7 @@ const processField = reactive<PageFieldInfo | any>({
                   formVisible: true,
                   listVisible: true,
                   preps: {
-                    multiple: "Y"
+                    multiple: true,
                   }
                 },
                 {

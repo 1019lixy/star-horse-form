@@ -79,7 +79,7 @@ const formFieldList = reactive<PageFieldInfo | any>({
         optionList: menusList,
         required: true,
         formVisible: true,
-        multiple: "Y",
+        multiple: true,
         listVisible: true,
         preps: {
           props: {
@@ -96,7 +96,7 @@ const formFieldList = reactive<PageFieldInfo | any>({
       optionList: rolesList,
       required: true,
       formVisible: groupVisible,
-      multiple: "Y",
+      multiple: true,
       listVisible: true
     },
     {
@@ -137,7 +137,7 @@ const formFieldList = reactive<PageFieldInfo | any>({
       optionList: authorityList,
       required: true,
       formVisible: true,
-      multiple: "Y",
+      multiple: true,
       defaultValue: ["view"],
       listVisible: true
     },

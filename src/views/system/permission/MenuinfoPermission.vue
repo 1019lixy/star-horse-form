@@ -95,7 +95,7 @@ const formFieldList = reactive<PageFieldInfo>({
       formVisible: true,
       required: true,
       viewVisible: false,
-      disabled: "Y"
+      disabled: true,
     },
     {
       label: "菜单名称",
@@ -105,10 +105,10 @@ const formFieldList = reactive<PageFieldInfo>({
       formVisible: true,
       required: true,
       viewVisible: false,
-      multiple: "Y",
+      multiple: true,
       helpMsg: "选择子节点时，一定要先选中父节点，否则左侧菜单栏无法显示",
       preps: {
-        checkStrictly: "Y",
+        checkStrictly: true,
         props: {
           label: "menuName",
           value: "idMenusinfo"

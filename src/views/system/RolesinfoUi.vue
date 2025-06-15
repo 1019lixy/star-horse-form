@@ -67,7 +67,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       fieldName: "roleCode",
       type: "input",
       listVisible: true,
-      editDisabled: "Y",
+      editdisabled: true,
       required: true
     },
     {
@@ -77,7 +77,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       optionList: roleTypes,
       required: true,
       formVisible: true,
-      editDisabled: "Y",
+      editdisabled: true,
       listVisible: true
     },
     {
@@ -97,7 +97,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         type: "select",
         optionList: systemList,
         required: true,
-        multiple: "Y"
+        multiple: true,
       },
       {
         label: "菜单权限",
@@ -105,7 +105,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         type: "tselect",
         optionList: menusList,
         required: true,
-        multiple: "Y"
+        multiple: true,
       }
     ],
     {
@@ -117,27 +117,27 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     },
     {
       label: "创建人",
-      disabled: "Y",
+      disabled: true,
       fieldName: "createdBy",
       type: "input",
       listVisible: true
     },
     {
       label: "修改人",
-      disabled: "Y",
+      disabled: true,
       fieldName: "updatedBy",
       type: "input"
     },
     {
       label: "创建日期",
-      disabled: "Y",
+      disabled: true,
       fieldName: "createdTime",
       type: "date",
       listVisible: true
     },
     {
       label: "修改日期",
-      disabled: "Y",
+      disabled: true,
       fieldName: "updatedTime",
       type: "date"
     },

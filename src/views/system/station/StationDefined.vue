@@ -82,7 +82,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         formVisible: !false,
         listVisible: !false,
         preps: {
-          checkStrictly: "Y",
+          checkStrictly: true,
           props: {
             label: "seqName",
             value: "idStationSequence"

@@ -62,7 +62,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         label: "公司编码",
         fieldName: "code",
         type: "input",
-        editDisabled: "Y",
+        editdisabled: true,
         required: true,
         formVisible: !false,
         listVisible: !false
@@ -78,7 +78,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         formVisible: !false,
         listVisible: !false,
         preps: {
-          checkStrictly: "Y",
+          checkStrictly: true,
           defaultExpandAll: "Y"
         }
       },
@@ -107,7 +107,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         optionList: companyList,
         formVisible: !false,
         preps: {
-          checkStrictly: "Y",
+          checkStrictly: true,
           defaultExpandAll: "Y"
         }
       }

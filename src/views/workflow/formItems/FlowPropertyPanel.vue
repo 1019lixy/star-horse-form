@@ -22,7 +22,7 @@ const basicFieldList = ref<FieldInfo[]>([
     fieldName: "taskId",
     required: true,
     type: "input",
-    disabled: "Y",
+    disabled: true,
     formVisible: true
   },
   {

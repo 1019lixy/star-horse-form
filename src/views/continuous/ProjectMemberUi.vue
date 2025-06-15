@@ -51,7 +51,7 @@ const tableFieldList = reactive({
             label: "工号",
             fieldName: "employeeNo",
             type: "input",
-            editDisabled: "Y",
+            editdisabled: true,
             prefix: "a",
             helpMsg: "如不填写系统自动生成",
             required: false,
@@ -130,7 +130,7 @@ const tableFieldList = reactive({
 
     {
       label: "创建人",
-      disabled: "Y",
+      disabled: true,
       fieldName: "createdBy",
       type: "input"
     },

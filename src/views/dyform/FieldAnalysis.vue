@@ -1,10 +1,10 @@
 <script setup lang="ts" name="FieldAnalysis">
 import {Config} from "@/api/settings";
-import {onMounted} from "vue";
+import {onMounted, PropType} from "vue";
 
 const props = defineProps({
   container: {type: String, default: ""},
-  field: {type: Object, required: true},
+  field: {type: Object as PropType<any>, required: true},
   index: {type: Number, required: true, default: 1},
   size: {type: String, default: Config.compSize}
 });
@@ -96,40 +96,32 @@ onMounted(() => {
         <el-switch
             v-model="field.preps['required']"
             :size="size"
-            active-value="Y"
-            active-text="是"
-            inactive-value="N"
-            inactive-text="否"
+            :active-value=true
+            :inactive-value=false
         />
       </el-col>
       <el-col :span="2">
         <el-switch
             v-model="field.preps['formVisible']"
             :size="size"
-            active-value="Y"
-            active-text="是"
-            inactive-value="N"
-            inactive-text="否"
+            :active-value=true
+            :inactive-value=false
         />
       </el-col>
       <el-col :span="2">
         <el-switch
             v-model="field.preps['searchVisible']"
             :size="size"
-            active-value="Y"
-            active-text="是"
-            inactive-value="N"
-            inactive-text="否"
+            :active-value=true
+            :inactive-value=false
         />
       </el-col>
       <el-col :span="2">
         <el-switch
             v-model="field.preps['listVisible']"
             :size="size"
-            active-value="Y"
-            active-text="是"
-            inactive-value="N"
-            inactive-text="否"
+            :active-value=true
+            :inactive-value=false
         />
       </el-col>
       <el-col :span="3">

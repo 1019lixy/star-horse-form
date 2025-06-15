@@ -46,7 +46,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       label: "编码",
       fieldName: "rankTypeCode",
       type: "input",
-      editDisabled: "Y",
+      editdisabled: true,
       required: true,
       formVisible: !false,
       listVisible: !false

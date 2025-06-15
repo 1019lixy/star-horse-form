@@ -1244,77 +1244,77 @@ export function compCommonFields(customerValid: Function): FieldInfo[] {
                 }
             },
             preps: {
-                multiple: "Y"
+                multiple: true
             }
         },
         {
             label: "表单显示",
             fieldName: "formVisible",
             type: "switch",
-            defaultValue: "Y",
+            defaultValue: true,
             formVisible: true
         },
         {
             label: "查询显示",
             fieldName: "searchVisible",
             type: "switch",
-            defaultValue: "N",
+            defaultValue: false,
             formVisible: true
         },
         {
             label: "列表显示",
             fieldName: "listVisible",
             type: "switch",
-            defaultValue: "Y",
+            defaultValue: true,
             formVisible: true
         },
         {
             label: "查看显示",
             fieldName: "viewVisible",
             type: "switch",
-            defaultValue: "Y",
+            defaultValue: true,
             formVisible: true
         },
         {
             label: "隐藏标签",
             fieldName: "hideLabel",
             type: "switch",
-            defaultValue: "N",
+            defaultValue: false,
             formVisible: true
         },
         {
             label: "是否必须",
             fieldName: "required",
             type: "switch",
-            defaultValue: "N",
+            defaultValue: false,
             formVisible: true
         },
         {
             label: "全局禁用",
             fieldName: "disabled",
             type: "switch",
-            defaultValue: "N",
+            defaultValue:false,
             formVisible: true
         },
         {
             label: "修改禁用",
             fieldName: "editDisabled",
             type: "switch",
-            defaultValue: "N",
+            defaultValue: false,
             formVisible: true
         },
         {
             label: "可清除",
             fieldName: "clearable",
             type: "switch",
-            defaultValue: "Y",
+            defaultValue: true,
             formVisible: true
         },
         {
             label: "只读",
             fieldName: "readonly",
             type: "switch",
-            defaultValue: "N",
+            defaultValue: false,
             formVisible: true
         },
         {
@@ -1322,15 +1322,15 @@ export function compCommonFields(customerValid: Function): FieldInfo[] {
             helpMsg: "在列表上原样显示组件,\n此属性开启可能会导致列表数据加载缓慢",
             fieldName: "prototypeDisplay",
             type: "switch",
-            defaultValue: "N",
+            defaultValue: false,
             actionName: "change",
             actions: (val: any) => {
-                if (val.prototypeDisplay == "Y") {
-                    val["listPrototypeDisplay"] = "Y";
+                if (val.prototypeDisplay) {
+                    val["listPrototypeDisplay"] = true;
                     listPrototypeVisible.value = true;
                 } else {
                     listPrototypeVisible.value = false;
-                    val["listPrototypeDisplay"] = "N";
+                    val["listPrototypeDisplay"] = false;
                 }
             },
             formVisible: true
@@ -1340,7 +1340,7 @@ export function compCommonFields(customerValid: Function): FieldInfo[] {
             helpMsg: "可指定显示为什么组件",
             fieldName: "listPrototypeDisplay",
             type: "input",
-            defaultValue: "N",
+            defaultValue: false,
             formVisible: listPrototypeVisible
         },
         {
@@ -1348,7 +1348,7 @@ export function compCommonFields(customerValid: Function): FieldInfo[] {
             fieldName: "uniqueValid",
             type: "switch",
             helpMsg: "如果开启此功能，\n在新增数据时系统对数据进行唯一性校验。",
-            defaultValue: "N",
+            defaultValue:false,
             formVisible: true
         },
         {

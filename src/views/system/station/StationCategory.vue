@@ -81,7 +81,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         label: "编码",
         fieldName: "seqCode",
         type: "input",
-        editDisabled: "Y",
+        editdisabled: true,
         required: true,
         formVisible: !false,
         listVisible: !false
@@ -97,7 +97,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         formVisible: !false,
         listVisible: false,
         preps: {
-          checkStrictly: "Y",
+          checkStrictly: true,
           props: {
             label: "seqName",
             value: "idStationSequence"

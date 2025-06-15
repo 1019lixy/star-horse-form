@@ -107,7 +107,7 @@ const tableFieldList = reactive<PageFieldInfo>({
       label: "需要生成的表名",
       fieldName: "tablesList",
       type: "select",
-      multiple: "Y",
+      multiple: true,
       optionList: tableInfoList,
       helpMsg: `该属性为空表示生成所有数据库表的代码,
 如果表数量太多（>100），程序自动转异步执行，
@@ -119,7 +119,7 @@ const tableFieldList = reactive<PageFieldInfo>({
       label: "需要排除的表",
       fieldName: "excludesList",
       type: "select",
-      multiple: "Y",
+      multiple: true,
       optionList: tableInfoList,
       formVisible: true,
       listVisible: true
@@ -151,7 +151,7 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
       fieldName: "fileTypesList",
       type: "select",
       formVisible: true,
-      multiple: "Y",
+      multiple: true,
       optionList: fileTypeList,
       helpMsg: "为空生成所有类型文件",
       listVisible: true
@@ -305,21 +305,21 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
     },
     {
       label: "创建人",
-      disabled: "Y",
+      disabled: true,
       fieldName: "createdBy",
       type: "input",
       listVisible: true
     },
     {
       label: "创建日期",
-      disabled: "Y",
+      disabled: true,
       fieldName: "createdTime",
       type: "date",
       listVisible: true
     },
     {
       label: "修改人",
-      disabled: "Y",
+      disabled: true,
       fieldName: "updatedBy",
       type: "input",
       listVisible: true
@@ -327,7 +327,7 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
 
     {
       label: "修改日期",
-      disabled: "Y",
+      disabled: true,
       fieldName: "updatedTime",
       type: "date",
       listVisible: true

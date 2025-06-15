@@ -115,7 +115,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       formVisible: personsVisible,
       listVisible: !false,
       preps: {
-        multiple: "Y"
+        multiple: true,
       }
     },
     {

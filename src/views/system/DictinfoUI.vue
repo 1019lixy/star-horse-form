@@ -23,7 +23,7 @@ const props = defineProps({
 let dictType = computed(() => props.dictType);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "字典类型", fieldName: "dictType", type: "input", defaultValue: dictType, disabled: "Y"},
+    {label: "字典类型", fieldName: "dictType", type: "input", defaultValue: dictType, disabled: true,},
     {label: "字典名称", defaultVisible: true, fieldName: "dictName", type: "input", matchType: "lk"}
   ]
 });
@@ -98,7 +98,7 @@ const tableFieldList = reactive<PageFieldInfo>({
       formVisible: true,
       defaultValue: dictType,
       listVisible: true,
-      disabled: "Y"
+      disabled: true,
     },
     {
       batchFieldList: [
@@ -112,25 +112,25 @@ const tableFieldList = reactive<PageFieldInfo>({
     },
     {
       label: "创建人",
-      disabled: "Y",
+      disabled: true,
       fieldName: "createdBy",
       type: "input"
     },
     {
       label: "修改人",
-      disabled: "Y",
+      disabled: true,
       fieldName: "updatedBy",
       type: "input"
     },
     {
       label: "创建日期",
-      disabled: "Y",
+      disabled: true,
       fieldName: "createdTime",
       type: "date"
     },
     {
       label: "修改日期",
-      disabled: "Y",
+      disabled: true,
       fieldName: "updatedTime",
       type: "date"
     },

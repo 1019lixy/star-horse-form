@@ -90,7 +90,7 @@ let dataFieldInfo = ref<PageFieldInfo>({
       label: "排除字段",
       fieldName: "exclusionFields",
       type: "select",
-      multiple: "Y",
+      multiple: true,
       optionList: selectFields,
       formVisible: true,
       listVisible: true
@@ -285,7 +285,7 @@ const onDataCopy = async (data: any) => {
       required: reData["nullFlag"] == "n" ? "Y" : "N",
       controlsPosition: "",
       disabled: "N",
-      formVisible: "Y",
+      formVisible: true,
       placeholder: ""
     };
     mvData["itemType"] = getFieldType(reData, data.fieldCompTypes);
@@ -305,7 +305,7 @@ const onDataCopy = async (data: any) => {
     mvData.preps["itemNameLabel"] = labelName;
     mvData.preps["name"] = fieldName;
     formData.value[fieldName] = getDefaultVal(mvData["itemType"]);
-    mvData["compType"] = "formItem";
+    mvData["compType"] = "item";
     mvDataList.push(mvData);
   }
   if (compLength == 0 || compLength == 1) {
@@ -326,7 +326,7 @@ const onDataCopy = async (data: any) => {
         justify: "start",
         readonly: "N",
         required: "N",
-        searchVisible: "N",
+        searchVisible: false,
         size: "small",
         listVisible: "N",
         tag: "div",
@@ -367,15 +367,15 @@ const onDataCopy = async (data: any) => {
         primaryKeyName: formInfo.formId,
         columns: mvDataList.length,
         comment: "",
-        formVisible: "N",
-        readonly: "N",
-        required: "N",
-        searchVisible: "N",
+        formVisible: false,
+        readonly: false,
+        required: false,
+        searchVisible: false,
         size: "small",
-        listVisible: "N",
+        listVisible: false,
         label: "动态列表",
-        templateDownFlag: "N",
-        importFlag: "N",
+        templateDownFlag:false,
+        importFlag: false,
         name: "table"
       }
     };

@@ -59,7 +59,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         label: "租户编码",
         fieldName: "tenantCode",
         type: "input",
-        editDisabled: "Y",
+        editdisabled: true,
         required: true,
         formVisible: true,
         listVisible: true,

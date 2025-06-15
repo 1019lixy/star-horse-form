@@ -107,7 +107,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         fieldName: "datasourceConfigId",
         helpMsg: dbPositionMsg,
         type: "select",
-        optionList: dbList,
         actionName: "change",
         actions: (val: any) => {
           if (val["datasourceConfigId"]) {
@@ -116,7 +115,10 @@ const tableFieldList = reactive<PageFieldInfo | any>({
           }
         },
         required: true,
-        formVisible: true
+        formVisible: true,
+        preps:{
+          values:dbList
+        }
       }
     ],
     {
@@ -132,7 +134,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
               type: "input",
               required: true,
               formVisible: true,
-              editDisabled: "Y",
+              editdisabled: true,
               preps: {
                 colspan: 16
               }
@@ -143,7 +145,9 @@ const tableFieldList = reactive<PageFieldInfo | any>({
               defaultValue: "N",
               formVisible: true,
               preps: {
-                colspan: 8
+                colspan: 8,
+                activeValue: "Y",
+                inactiveValue: "N"
               }
             }],
             [{
@@ -152,7 +156,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
               type: "input",
               required: true,
               formVisible: true,
-              editDisabled: "Y",
+              editdisabled: true,
               preps: {
                 colspan: 16
               }
@@ -162,7 +166,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
               type: "select",
               optionList: primaryKeyPolicyList,
               formVisible: true,
-              editDisabled: "Y",
+              editdisabled: true,
               preps: {
                 colspan: 8
               }
@@ -171,7 +175,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
               label: "所属系统",
               fieldName: "sysId",
               type: "tselect",
-              optionList: informationsList,
+
               actionName: "change",
               actions: (val: any) => {
                 loadMenus(val["sysId"]);
@@ -179,8 +183,9 @@ const tableFieldList = reactive<PageFieldInfo | any>({
               formVisible: true,
               required: true,
               preps: {
-                checkStrictly: "Y",
-                colspan: 9
+                checkStrictly: true,
+                colspan: 9,
+                data:informationsList
               }
             }, {
               label: "表单图标",
@@ -211,7 +216,9 @@ const tableFieldList = reactive<PageFieldInfo | any>({
               defaultValue: "Y",
               formVisible: true,
               preps: {
-                colspan: 8
+                colspan: 8,
+                activeValue: "Y",
+                inactiveValue: "N"
               }
             },],
 
@@ -227,7 +234,9 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 defaultValue: "N",
                 formVisible: true,
                 preps: {
-                  colspan: 6
+                  colspan: 6,
+                  activeValue: "Y",
+                  inactiveValue: "N"
                 }
               },
 
@@ -235,11 +244,11 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 label: "父级菜单",
                 fieldName: "parentMenuId",
                 type: "tselect",
-                optionList: menusInfoList,
                 formVisible: menuFlag,
                 preps: {
-                  checkStrictly: "Y",
+                  checkStrictly: true,
                   colspan: 18,
+                  data: menusInfoList,
                   props: {
                     label: "menuName",
                     value: "dataNo"
@@ -251,14 +260,14 @@ const tableFieldList = reactive<PageFieldInfo | any>({
               label: "页面版式",
               fieldName: "pageStyle",
               type: "select",
-              optionList: pageStyleList,
               formVisible: true,
               actionName: "change",
               actions: (val: any) => {
                 conditionFlag.value = val["pageStyle"] == "form";
               },
               preps: {
-                colspan: 6
+                colspan: 6,
+                values:pageStyleList
               }
             }, {
               label: "数据加载条件",
@@ -286,18 +295,22 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                   label: "关联表",
                   fieldName: "tableId",
                   type: "select",
-                  optionList: relationDataList,
                   required: true,
-                  formVisible: true
+                  formVisible: true,
+                  preps: {
+                    values:relationDataList
+                  }
                 },
                 {
                   label: "映射关系",
                   fieldName: "relationType",
                   type: "select",
                   defaultValue: "1n",
-                  optionList: relationTypeList,
                   required: true,
-                  formVisible: true
+                  formVisible: true,
+                  preps: {
+                    values:relationTypeList
+                  }
                 }
               ]
             }
@@ -340,7 +353,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 formVisible: true
               },
               {label: "表单域标签的后缀", fieldName: "labelSuffix", type: "input", formVisible: true},
-              {label: "禁用所有组件", fieldName: "disabled", defaultValue: "N", type: "switch", formVisible: true}
+              {label: "禁用所有组件", fieldName: "disabled", defaultValue: false, type: "switch", formVisible: true}
             ],
             [
               {
@@ -397,7 +410,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 type: "switch",
                 formVisible: true
               },
-              {label: "行内表单模式", fieldName: "inline", defaultValue: "Y", type: "switch", formVisible: true}
+              {label: "行内表单模式", fieldName: "inline", defaultValue: true, type: "switch", formVisible: true}
             ]
           ]
         },
@@ -421,6 +434,10 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                     orderByFieldList.value = mainTableFieldList.value;
                   }
 
+                },
+                preps: {
+                  activeValue: "Y",
+                  inactiveValue: "N"
                 }
               },
               {
@@ -458,14 +475,14 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                       label: "查询显示",
                       fieldName: "searchVisible",
                       type: "switch",
-                      defaultValue: "N",
+                      defaultValue: false,
                       formVisible: true
                     },
                     {
                       label: "表单显示",
                       fieldName: "formVisible",
                       type: "switch",
-                      defaultValue: "N",
+                      defaultValue: false,
                       formVisible: true
                     },
                     {
@@ -648,8 +665,10 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                   fieldName: "fieldName",
                   type: "select",
                   required: true,
-                  optionList: orderByFieldList,
-                  formVisible: true
+                  formVisible: true,
+                  preps: {
+                    values: orderByFieldList,
+                  }
                 },
                 {
                   label: "排序方式",

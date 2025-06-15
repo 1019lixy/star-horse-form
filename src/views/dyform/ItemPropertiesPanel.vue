@@ -265,7 +265,6 @@ const convertFormFieldData = (items: any, type: string) => {
   items.forEach((item: any) => {
     item["formVisible"] = true;
     item["type"] = item["fieldType"];
-    item["required"] = item["required"] == "Y";
     //增加Help
     item["helpMsg"] = `${item["remark"] ?? ""}`;
     if (item["selectValues"] && isJson(item["selectValues"])) {
@@ -325,6 +324,7 @@ const assignValue = (fieldInfo: any) => {
       }
     } else {
       let commonFields = compCommonFields(customerValid);
+      debugger;
       if (relationComps.value.includes(currentItemType.value)) {
         commonFields.push({
           label: "配置联动策略",

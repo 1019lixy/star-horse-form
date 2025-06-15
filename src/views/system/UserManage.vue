@@ -96,7 +96,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             label: "工号",
             fieldName: "employeeNo",
             type: "input",
-            editDisabled: "Y",
+            editdisabled: true,
             helpMsg: "如不填写系统自动生成",
             required: false,
             formVisible: !false,

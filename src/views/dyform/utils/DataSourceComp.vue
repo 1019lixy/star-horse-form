@@ -76,6 +76,9 @@ const dataSourceField = reactive<PageFieldInfo | any>({
         actions: (val: any) => {
           const type = val["dataSource"];
           innerFunc(type);
+        },
+        preps: {
+          radioType: "button"
         }
       }
     ],

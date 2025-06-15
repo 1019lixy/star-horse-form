@@ -103,7 +103,7 @@ const tableFieldList = reactive<PageFieldInfo>({
       fieldName: "menuCode",
       type: "input",
       required: true,
-      disabled: "Y",
+      disabled: true,
       listVisible: true
     },
     [
@@ -153,25 +153,25 @@ const tableFieldList = reactive<PageFieldInfo>({
     },
     {
       label: "创建人",
-      disabled: "Y",
+      disabled: true,
       fieldName: "createdBy",
       type: "input"
     },
     {
       label: "修改人",
-      disabled: "Y",
+      disabled: true,
       fieldName: "updatedBy",
       type: "input"
     },
     {
       label: "创建日期",
-      disabled: "Y",
+      disabled: true,
       fieldName: "createdTime",
       type: "date"
     },
     {
       label: "修改日期",
-      disabled: "Y",
+      disabled: true,
       fieldName: "updatedTime",
       type: "date"
     },

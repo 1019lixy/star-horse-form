@@ -12,9 +12,9 @@ let batchModifyData = reactive<any>({
   maxLength: 100,
   precision: 0,
   required: "N",
-  formVisible: "Y",
-  searchVisible: "Y",
-  listVisible: "Y"
+  formVisible: true,
+  searchVisible: true,
+  listVisible: true
 });
 const batchOperation = (val: any, fieldName: string) => {
   batchModifyAction(list.value, val, fieldName);
@@ -65,10 +65,8 @@ const batchOperation = (val: any, fieldName: string) => {
           v-model="batchModifyData.required"
           :size="compSize"
           @change="(val: any) => batchOperation(val, 'required')"
-          active-value="Y"
-          active-text="是"
-          inactive-value="N"
-          inactive-text="否"
+          :active-value=true
+          :inactive-value=false
       />
     </el-col>
     <el-col :span="2">
@@ -76,10 +74,8 @@ const batchOperation = (val: any, fieldName: string) => {
           v-model="batchModifyData.formVisible"
           :size="compSize"
           @change="(val: any) => batchOperation(val, 'formVisible')"
-          active-value="Y"
-          active-text="是"
-          inactive-value="N"
-          inactive-text="否"
+          :active-value=true
+          :inactive-value=false
       />
     </el-col>
     <el-col :span="2">
@@ -87,10 +83,8 @@ const batchOperation = (val: any, fieldName: string) => {
           v-model="batchModifyData.searchVisible"
           :size="compSize"
           @change="(val: any) => batchOperation(val, 'searchVisible')"
-          active-value="Y"
-          active-text="是"
-          inactive-value="N"
-          inactive-text="否"
+          :active-value=true
+          :inactive-value=false
       />
     </el-col>
     <el-col :span="2">
@@ -98,10 +92,8 @@ const batchOperation = (val: any, fieldName: string) => {
           v-model="batchModifyData.listVisible"
           :size="compSize"
           @change="(val: any) => batchOperation(val, 'listVisible')"
-          active-value="Y"
-          active-text="是"
-          inactive-value="N"
-          inactive-text="否"
+          :active-value=true
+          :inactive-value=false
       />
     </el-col>
     <el-col :span="3"></el-col>
@@ -134,7 +126,7 @@ const batchOperation = (val: any, fieldName: string) => {
             :index="index + 1"
             :field="item"
             :size="compSize"
-            v-if="item.compType == 'formItem'"
+            v-if="item.compType == 'item'||item.compType == 'formItem'"
             :container="'--'"
         />
       </template>

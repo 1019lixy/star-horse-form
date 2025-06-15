@@ -13,7 +13,7 @@ let commonFields = commonField();
 let fieldList = computed(() => {
   let tempList: any = [];
   props.commonFieldList
-      ?.filter((item) => item.formVisible == "Y")
+      ?.filter((item) => item.formVisible)
       .forEach((item) => {
         let tempItem = commonFields.find((item2) => item2.fieldName == item.fieldName);
         if (tempItem) {
@@ -27,7 +27,7 @@ let fieldList = computed(() => {
 let formData = ref<any>({});
 const checkIsDisabled = (item: any) => {
   if (props.formDisabled) {
-    item.preps.disabled = 'Y';
+    item.preps.disabled = true;
   }
   return item;
 };
@@ -38,7 +38,6 @@ defineExpose({
 
 <template>
   <div class="form-preview">
-
     <sh-form
         label-width="auto"
         label-position="right"
@@ -59,7 +58,8 @@ defineExpose({
               v-if="data?.compType === 'container'"
           >
           </component>
-          <component v-else-if="data?.compType == 'formItem'" :field="checkIsDisabled(data)" v-model:formData="formData"
+          <component v-else-if="data?.compType == 'formItem'||data?.compType == 'item'" :field="checkIsDisabled(data)"
+                     v-model:formData="formData"
                      :isDesign="true" :disabled="formDisabled"
                      :is="data?.itemType + '-item'"/>
         </template>
