@@ -73,11 +73,11 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         label: "公司类别",
         fieldName: "category",
         type: "tselect",
-        optionList: companyCategoryList,
         required: true,
         formVisible: !false,
         listVisible: !false,
         preps: {
+          data:companyCategoryList,
           checkStrictly: true,
           defaultExpandAll: "Y"
         }
@@ -104,9 +104,9 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         label: "父节点",
         fieldName: "parentId",
         type: "tselect",
-        optionList: companyList,
         formVisible: !false,
         preps: {
+          data:companyList,
           checkStrictly: true,
           defaultExpandAll: "Y"
         }

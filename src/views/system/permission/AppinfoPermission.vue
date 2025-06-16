@@ -43,8 +43,10 @@ const searchFields = reactive<SearchFields>({
       fieldName: "b.idInformations",
       defaultVisible: true,
       type: "tselect",
-      optionList: informationsList,
-      matchType: "eq"
+      matchType: "eq",
+      preps:{
+        data:informationsList
+      }
     },
     {
       label: "状态",
@@ -71,13 +73,13 @@ const formFieldList = reactive<PageFieldInfo>({
       label: "应用名称",
       fieldName: "appList",
       type: "tselect",
-      optionList: informationsList,
       formVisible: true,
       required: true,
       viewVisible: false,
       multiple: true,
       helpMsg: "选择子节点时，一定要先选中父节点，否则在头部应用菜单栏无法显示",
       preps: {
+        data:informationsList,
         checkStrictly: "Y"
       }
     },

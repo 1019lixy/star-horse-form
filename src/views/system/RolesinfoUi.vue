@@ -103,9 +103,11 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         label: "菜单权限",
         fieldName: "menusList",
         type: "tselect",
-        optionList: menusList,
         required: true,
         multiple: true,
+        preps:{
+          data:menusList
+        }
       }
     ],
     {

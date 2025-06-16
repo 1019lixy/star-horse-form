@@ -91,23 +91,25 @@ const formFieldList = reactive<PageFieldInfo>({
       label: "系统名称",
       fieldName: "idInformations",
       type: "tselect",
-      optionList: appinfoList,
       formVisible: true,
       required: true,
       viewVisible: false,
       disabled: true,
+      preps:{
+        data:appinfoList
+      }
     },
     {
       label: "菜单名称",
       fieldName: "menuList",
       type: "tselect",
-      optionList: menusList,
       formVisible: true,
       required: true,
       viewVisible: false,
       multiple: true,
       helpMsg: "选择子节点时，一定要先选中父节点，否则左侧菜单栏无法显示",
       preps: {
+        data:menusList,
         checkStrictly: true,
         props: {
           label: "menuName",

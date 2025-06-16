@@ -1147,11 +1147,11 @@ export function relationDataField() {
                                     label: "被控制属性",
                                     fieldName: "relationFields",
                                     type: "tselect",
-                                    optionList: fields,
                                     required: true,
                                     formVisible: true,
                                     listVisible: true,
                                     preps: {
+                                        data:fields,
                                         checkStrictly: "Y"
                                     }
                                 }],

@@ -69,12 +69,12 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         label: "所属分类",
         fieldName: "idRankType",
         type: "tselect",
-        optionList: rankTypeList,
         required: false,
         formVisible: !false,
         listVisible: !false,
         preps: {
           checkStrictly: true,
+          data:rankTypeList,
           props: {
             label: "rankTypeName",
             value: "idRankType"

@@ -64,14 +64,13 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       label: "Logo",
       fieldName: "customerLogo",
       type: "icon",
-
       formVisible: true,
       listVisible: true,
       preps:{
-        listPrototypeDisplay:true,
+        listPrototypeDisplay:false,
         values:loadSvgIcons(),
         iconType:"user",
-        listView:"Y"
+        listView:false
       }
     },
     {

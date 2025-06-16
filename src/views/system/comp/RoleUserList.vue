@@ -57,15 +57,19 @@ const searchFormData = reactive<SearchFields>({
       label: "职级",
       fieldName: "rank",
       defaultVisible: false,
-      optionList: rankList,
-      type: "tselect"
+      type: "tselect",
+      preps:{
+        data:rankList
+      }
     },
     {
       label: "岗位",
       fieldName: "station",
       defaultVisible: false,
-      optionList: stationList,
-      type: "tselect"
+      type: "tselect",
+      preps:{
+        data:stationList
+      }
     }
   ]
 });
@@ -122,11 +126,11 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             label: "职级",
             fieldName: "rank",
             type: "tselect",
-            optionList: rankList,
             required: false,
             formVisible: !false,
             listVisible: !false,
             preps: {
+              data:rankList,
               showCode: "Y"
             }
           },
@@ -134,11 +138,11 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             label: "岗位",
             fieldName: "station",
             type: "tselect",
-            optionList: stationList,
             required: false,
             formVisible: !false,
             listVisible: !false,
             preps: {
+              data:stationList,
               showCode: "Y"
             }
           }

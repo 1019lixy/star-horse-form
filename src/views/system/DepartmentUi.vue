@@ -37,11 +37,11 @@ const tableFieldList = reactive<PageFieldInfo>({
       label: "上级部门",
       fieldName: "parentDept",
       type: "tselect",
-      optionList: departmentList,
       formVisible: true,
       preps: {
         checkStrictly: true,
         filterable: "Y",
+        data:departmentList,
         props: {
           label: "deptName",
           value: "idDepartment"
@@ -113,9 +113,9 @@ const tableFieldList = reactive<PageFieldInfo>({
         type: "tselect",
         required: true,
         formVisible: true,
-        optionList: companyList,
         preps: {
           checkStrictly: true,
+          data:companyList,
           props: {
             label: "name",
             value: "idCompanyDefine"

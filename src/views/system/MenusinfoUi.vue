@@ -70,7 +70,6 @@ const tableFieldList = reactive<PageFieldInfo>({
         label: "归属应用名称",
         fieldName: "idInformations",
         type: "tselect",
-        optionList: informationsList,
         required: true,
         formVisible: true,
         defaultValue: currentInformation,
@@ -84,6 +83,7 @@ const tableFieldList = reactive<PageFieldInfo>({
         },
         listVisible: true,
         preps: {
+          data:informationsList,
           checkStrictly: "Y"
         }
       },
@@ -91,10 +91,10 @@ const tableFieldList = reactive<PageFieldInfo>({
         label: "父菜单",
         fieldName: "parentNo",
         type: "tselect",
-        optionList: parentMenus,
         formVisible: true,
         preps: {
-          checkStrictly: "Y"
+          checkStrictly: "Y",
+          data:parentMenus
         }
       }
     ],

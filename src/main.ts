@@ -60,9 +60,7 @@ app.config.performance = true;
  * @param info
  */
 app.config.errorHandler = (err, instance, info) => {
-    console.log(err);
-    console.log(instance);
-    console.log(info);
+    console.error("未捕获异常", err, instance, info);
 };
 /**
  * 处理警告

@@ -56,15 +56,19 @@ const searchFormData = reactive<SearchFields>({
       label: "职级",
       fieldName: "a.rank",
       defaultVisible: false,
-      optionList: rankList,
-      type: "tselect"
+      type: "tselect",
+      preps:{
+        data:rankList
+      }
     },
     {
       label: "岗位",
       fieldName: "a.station",
       defaultVisible: false,
-      optionList: stationList,
-      type: "tselect"
+      type: "tselect",
+      preps:{
+        data:stationList
+      }
     }
   ]
 });
@@ -122,11 +126,11 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             label: "职级",
             fieldName: "rank",
             type: "tselect",
-            optionList: rankList,
             required: false,
             formVisible: !false,
             listVisible: !false,
             preps: {
+              data:rankList,
               showCode: "Y"
             }
           },
@@ -134,11 +138,11 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             label: "岗位",
             fieldName: "station",
             type: "tselect",
-            optionList: stationList,
             required: false,
             formVisible: !false,
             listVisible: !false,
             preps: {
+              data:stationList,
               showCode: "Y"
             }
           }
@@ -148,7 +152,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             label: "所属公司",
             fieldName: "idCompanyDefine",
             type: "tselect",
-            optionList: companyDataList,
             required: true,
             formVisible: !false,
             listVisible: !false,
@@ -157,6 +160,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
               loadDepartByCompId(val);
             },
             preps: {
+              data:companyDataList,
               checkStrictly: "Y"
             }
           },
@@ -164,11 +168,11 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             label: "所属部门",
             fieldName: "idDepartmentInfo",
             type: "tselect",
-            optionList: departDataList,
             required: true,
             formVisible: !false,
             listVisible: !false,
             preps: {
+              data:departDataList,
               checkStrictly: "Y"
             }
           }

@@ -259,7 +259,8 @@ export default defineConfig((mode) => {
             terserOptions: {
                 compress: {
                     drop_console: mode.mode === "production",
-                    drop_debugger: mode.mode === "production"
+                    drop_debugger: mode.mode === "production",
+                    warnings: false,
                 }
             },
             // 开启并行压缩

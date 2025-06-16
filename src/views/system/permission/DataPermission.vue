@@ -76,12 +76,12 @@ const formFieldList = reactive<PageFieldInfo | any>({
         label: "授权菜单",
         fieldName: "menuList",
         type: "tselect",
-        optionList: menusList,
         required: true,
         formVisible: true,
         multiple: true,
         listVisible: true,
         preps: {
+          data:menusList,
           props: {
             label: "menuName",
             value: "idMenusinfo"
@@ -93,11 +93,13 @@ const formFieldList = reactive<PageFieldInfo | any>({
       label: "用户组",
       fieldName: "userGroup",
       type: "tselect",
-      optionList: rolesList,
       required: true,
       formVisible: groupVisible,
       multiple: true,
-      listVisible: true
+      listVisible: true,
+      preps:{
+        data:rolesList
+      }
     },
     {
       label: "被授权账号",

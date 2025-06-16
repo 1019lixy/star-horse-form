@@ -77,11 +77,11 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         label: "所属序列",
         fieldName: "idStationSequence",
         type: "tselect",
-        optionList: stationSequenceList,
         required: false,
         formVisible: !false,
         listVisible: !false,
         preps: {
+          data:stationSequenceList,
           checkStrictly: true,
           props: {
             label: "seqName",

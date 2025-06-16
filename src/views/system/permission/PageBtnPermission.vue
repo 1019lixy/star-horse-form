@@ -66,11 +66,13 @@ const formFieldList = reactive<PageFieldInfo | any>({
         label: "菜单名称",
         fieldName: "menusList",
         type: "tselect",
-        optionList: menusSelectList,
         required: true,
         formVisible: true,
         multiple: true,
-        listVisible: true
+        listVisible: true,
+        preps:{
+          data:menusSelectList
+        }
       },
       {
         label: "权限",

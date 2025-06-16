@@ -265,7 +265,10 @@ watch(() => getToken(), (val) => {
       />
     </div>
     <div class="header-left">
-      <star-horse-hmenu :ellipsis="false" v-if="configInfo.menusCfg == 'tradition'" :dataList="appinfoList"/>
+      <star-horse-hmenu :ellipsis="false" v-if="configInfo.menusCfg == 'tradition'"
+                        :dataList="appinfoList"
+                        style="width: 100%; max-width: 100%; overflow: hidden;"
+      />
     </div>
     <div class="header-right">
       <div class="message">
