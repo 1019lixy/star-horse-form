@@ -1,5 +1,5 @@
 <script setup lang="ts" name="FormPropertyPanel">
-import {computed, onMounted, reactive, ref, watch} from "vue";
+import {computed, onMounted, onUpdated, reactive, ref, watch} from "vue";
 import {
   apiInstance,
   ApiUrls,
@@ -91,9 +91,6 @@ const loadMenus = (val: any) => {
   }
   permissionMenus({}, val).then((res: any) => {
     menusInfoList.value = res.data.data;
-    // redata.forEach((item: any) => {
-    //   menusInfoList.value.push({name: item.menuName, value: item.dataNo});
-    // });
   });
 };
 let urlFieldVisible = ref<boolean>(false);
@@ -110,14 +107,13 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         actionName: "change",
         actions: (val: any) => {
           if (val["datasourceConfigId"]) {
-            console.log(val["datasourceConfigId"]);
             loadSameDataSourceTables(val);
           }
         },
         required: true,
         formVisible: true,
-        preps:{
-          values:dbList
+        preps: {
+          values: dbList
         }
       }
     ],
@@ -175,7 +171,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
               label: "所属系统",
               fieldName: "sysId",
               type: "tselect",
-
               actionName: "change",
               actions: (val: any) => {
                 loadMenus(val["sysId"]);
@@ -185,7 +180,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
               preps: {
                 checkStrictly: true,
                 colspan: 9,
-                data:informationsList
+                data: informationsList
               }
             }, {
               label: "表单图标",
@@ -229,6 +224,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 type: "switch",
                 actionName: "change",
                 actions: (val: any) => {
+                  loadMenus(val["sysId"]);
                   menuFlag.value = val["createMenu"] == "Y";
                 },
                 defaultValue: "N",
@@ -267,16 +263,17 @@ const tableFieldList = reactive<PageFieldInfo | any>({
               },
               preps: {
                 colspan: 6,
-                values:pageStyleList
+                values: pageStyleList
               }
             }, {
               label: "数据加载条件",
               fieldName: "dataLoadField",
               type: "select",
               formVisible: conditionFlag,
-              optionList: dataLoadConditionList,
+
               preps: {
-                colspan: 9
+                colspan: 9,
+                values: dataLoadConditionList,
               }
             }],
 
@@ -298,7 +295,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                   required: true,
                   formVisible: true,
                   preps: {
-                    values:relationDataList
+                    values: relationDataList
                   }
                 },
                 {
@@ -309,7 +306,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                   required: true,
                   formVisible: true,
                   preps: {
-                    values:relationTypeList
+                    values: relationTypeList
                   }
                 }
               ]
@@ -331,8 +328,10 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 fieldName: "labelPosition",
                 defaultValue: "left",
                 type: "select",
-                optionList: labelPositionList,
-                formVisible: true
+                formVisible: true,
+                preps:{
+                  values: labelPositionList,
+                }
               },
               {label: "标签长度", fieldName: "labelWidth", helpMsg: "如：50px", type: "input", formVisible: true},
               {
@@ -349,8 +348,10 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 fieldName: "size",
                 defaultValue: Config.compSize,
                 type: "select",
-                optionList: formSizeList,
-                formVisible: true
+                formVisible: true,
+                preps: {
+                  values: formSizeList
+                }
               },
               {label: "表单域标签的后缀", fieldName: "labelSuffix", type: "input", formVisible: true},
               {label: "禁用所有组件", fieldName: "disabled", defaultValue: false, type: "switch", formVisible: true}
@@ -375,8 +376,10 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 fieldName: "requireAsteriskPosition",
                 defaultValue: "right",
                 type: "radio",
-                optionList: requireAsteriskPositionList,
-                formVisible: true
+                formVisible: true,
+                preps: {
+                  values: requireAsteriskPositionList
+                }
               }
             ],
             [
@@ -513,19 +516,21 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                   label: "字段信息",
                   fieldName: "fieldName",
                   type: "select",
-                  optionList: dynamicFieldList,
                   formVisible: true,
-                  required: true
+                  required: true,
+                  preps: {
+                    values: dynamicFieldList,
+                  }
                 },
                 {
                   label: "映射表",
                   fieldName: "mappingTable",
                   type: "select",
                   formVisible: true,
-                  optionList: dataSourceData,
                   actionName: "change",
                   required: true,
                   preps: {
+                    values: dataSourceData,
                     props: {
                       label: "formName",
                       value: "tbName"
@@ -540,16 +545,21 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                   fieldName: "mappingField",
                   type: "select",
                   required: true,
-                  optionList: tableColumnsList,
-                  formVisible: true
+                  formVisible: true,
+                  preps:{
+                    values: tableColumnsList,
+                  }
                 },
                 {
                   label: "显示字段",
                   fieldName: "mappingDisplayField",
                   type: "select",
                   required: true,
-                  optionList: tableColumnsList,
-                  formVisible: true
+
+                  formVisible: true,
+                  preps:{
+                    values: tableColumnsList,
+                  }
                 },
                 {
                   label: "显示别名",
@@ -599,20 +609,24 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                     fieldName: "authority",
                     type: "select",
                     required: true,
-                    optionList: authorityList,
-                    formVisible: true
+                    formVisible: true,
+                    preps:{
+                      values: authorityList,
+                    }
                   },
                   {
                     label: "事件类别",
                     fieldName: "eventType",
                     type: "select",
                     required: true,
-                    optionList: eventTypeList,
                     formVisible: true,
                     actionName: "change",
                     actions: (val: any) => {
                       urlFieldVisible.value = val["eventType"] && val["eventType"] != "dialog";
                       httpMethodVisible.value = val["eventType"] && val["eventType"] == "interface";
+                    },
+                    preps: {
+                      values: eventTypeList,
                     }
                   }
                 ],
@@ -699,13 +713,13 @@ const initData = async () => {
   let params = [{propertyName: "statusCode", value: "1"}];
   informationsList.value = await loadSystemInfo(params);
   systemIconList.value = loadElementPlusIcon();
-  loadDict("page_style").then((res) => {
+  loadDict("page_style").then((res:any) => {
     pageStyleList.value = res;
   });
-  loadDict("button_authority").then((res) => {
+  loadDict("button_authority").then((res:any) => {
     authorityList.value = res;
   });
-  loadDict("event_type").then((res) => {
+  loadDict("event_type").then((res:any) => {
     eventTypeList.value = res;
   });
 };
@@ -728,7 +742,7 @@ const analysisMainFields = async () => {
   }
   mainTableFieldList.value = reData.data;
   orderByFieldList.value = reData.data;
-  allTableFieldList.value = [...mainTableFieldList.value, ...commonField().map(item => {
+  allTableFieldList.value = [...mainTableFieldList.value, ...commonField().map((item:any) => {
     return {name: item.label, value: item.fieldName};
   })];
   if (formInfo.value?.needCommonFields == "Y") {
@@ -805,6 +819,9 @@ onMounted(() => {
   initDbList();
   loadMenus(formInfo.value["sysId"]);
   analysisMainFields();
+});
+onUpdated(() => {
+ console.info("onUpdated");
 });
 
 watch(

@@ -181,7 +181,7 @@ export function getMenuId() {
  * @param sysId
  */
 export async function permissionMenus(data: any, sysId: string) {
-    const userId = data.userId || getUserId();
+    const userId = data?.userId || getUserId();
     return await postRequest(`${ServiceEnums.SYSTEM_PREFIX}menusinfoEntity/permissionMenus/${userId}/${sysId}`, {});
 }
 
