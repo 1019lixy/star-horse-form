@@ -3,7 +3,7 @@ import {
   apiInstance,
   ApiUrls,
   dialogPreps,
-  loadElementPlusIcon,
+
   PageFieldInfo,
   piniaInstance,
   SearchFields,
@@ -12,6 +12,7 @@ import {
 } from "star-horse-lowcode";
 import {Config} from "@/api/settings";
 import {computed, onMounted, provide, reactive, ref} from "vue";
+import {loadSvgIcons,loadElementPlusIcon,} from "@/api/star_horse_utils.js";
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance("system-config", "system/customer");
 const buttonPermission = useButtonPermissionStore(piniaInstance);
@@ -68,6 +69,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: true,
       preps:{
         listPrototypeDisplay:true,
+        values:loadSvgIcons(),
+        iconType:"user",
         listView:"Y"
       }
     },

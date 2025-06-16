@@ -1,6 +1,7 @@
 import {isRef, reactive, ref} from "vue";
 import {error, PageFieldInfo, piniaInstance, postRequest, SelectOption, success} from "star-horse-lowcode";
 import {useFlowDesignStore} from "@/store/FlowDesign";
+import {loadSvgIcons} from "@/api/star_horse_utils";
 
 const flowDesign = useFlowDesignStore(piniaInstance);
 const flowGroups = ref<SelectOption[]>([]);
@@ -34,7 +35,11 @@ const flowFormFields = reactive<PageFieldInfo>({
             type: "icon",
             defaultValue: "document",
             formVisible: true,
-            listVisible: true
+            listVisible: true,
+            preps: {
+                iconType:"user",
+                values:loadSvgIcons()
+            }
         },
         {
             label: "绑定表单",
@@ -62,7 +67,11 @@ const flowFormFields = reactive<PageFieldInfo>({
                         label: "表单图标",
                         type: "icon",
                         fieldName: "formIcon",
-                        listVisible: true
+                        listVisible: true,
+                        preps: {
+                            iconType:"user",
+                            values:loadSvgIcons()
+                        }
                     },
                     {
                         label: "创建人",

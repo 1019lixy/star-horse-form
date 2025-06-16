@@ -598,6 +598,7 @@ watch(
     </el-tabs>
   </star-horse-dialog>
   <div class="dynamic-form" v-if="currentItemType">
+    {{formProps}}
     <el-scrollbar height="100%">
       <sh-form
           v-model:dataForm="formProps"

@@ -25,7 +25,7 @@ import {loadSlim} from "@tsparticles/slim";
 import StarHorseLowCode from "star-horse-lowcode";
 
 const app = createApp(App);
-// window.app = app;
+export const appInstance = app;
 app.use(router);
 app.use(StarHorseLowCode, {
     router,
@@ -76,4 +76,5 @@ app.config.warnHandler = () => null;
 //     console.log(instance);
 //     console.log(trace);
 // }
+
 app.mount("#app");

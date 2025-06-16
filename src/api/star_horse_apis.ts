@@ -51,15 +51,13 @@ service.interceptors.request.use(
     }
 );
 
-const forceLoginOut = () => {
+const forceLoginOut = (showDialog?: boolean) => {
     let menusInfo = sessionStorage.getItem("menusInfo");
     const token = getToken();
     if (!token || token == "undefined" || !menusInfo || menusInfo == "undefined" || menusInfo == "null") {
-        console.log("toLogin")
         router.push({path: "/login"});
     } else {
-        console.log("showLoginDialog")
-        userStore.showLoginDialog();
+        !showDialog && userStore.showLoginDialog();
     }
 };
 // 添加响应拦截器
@@ -73,15 +71,15 @@ service.interceptors.response.use((response: AxiosResponse) => {
         }
     },
     (err) => {
-        const data = err?.response?.status ?? err.toString().toLowerCase();
-
-        if (data == 401 || data?.includes("status code 401")) {
+        let data = err?.response?.status ?? err.toString().toLowerCase();
+        data = String(data);
+        if (data == "401" || data?.includes("status code 401")) {
             forceLoginOut();
-        } else if (data == 500 || data?.includes("status code 500")) {
+        } else if (data == "500" || data?.includes("status code 500")) {
+            forceLoginOut(true);
             error("服务接口异常，请联系管理员");
             return Promise.reject(err);
         } else {
-            console.log(err);
             // 对响应错误做点什么
             return Promise.reject(err);
         }
@@ -193,7 +191,7 @@ export async function restoreMenu(to: RouteLocationNormalized, _next: Navigation
     if (data) {
         createRouterAndMenuList(JSON.parse(data));
     }
-    const redata = router.getRoutes().find((item) => item.path == to.fullPath);
+    const redata = router.getRoutes().find((item: any) => item.path == to.fullPath);
     if (redata) {
         await router.push(to);
     } else {

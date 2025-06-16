@@ -20,7 +20,7 @@ import {
   warning
 } from "star-horse-lowcode";
 import {findNodesWithValue, treeCheckChange,} from "@/api/system";
-import { loadSystemInfo} from "@/api/star_horse_utils";
+import {loadSvgIcons, loadSystemInfo} from "@/api/star_horse_utils";
 import {Config} from "@/api/settings";
 import {computed, onMounted, provide, reactive, ref, unref} from "vue";
 import {TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
@@ -121,7 +121,11 @@ const tableFieldList = reactive<PageFieldInfo>({
         type: "icon",
         required: false,
         formVisible: true,
-        listVisible: true
+        listVisible: true,
+        preps:{
+          iconType:"user",
+          values:loadSvgIcons()
+        }
       }
     ],
     [

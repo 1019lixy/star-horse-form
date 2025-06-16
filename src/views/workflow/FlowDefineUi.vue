@@ -15,6 +15,7 @@ import {
   SelectOption,
   UserFuncInfo
 } from "star-horse-lowcode";
+import {loadSvgIcons} from "@/api/star_horse_utils.js";
 
 defineOptions({
   name: "FlowDefine"
@@ -101,6 +102,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       formVisible: true,
       listVisible: true,
       preps: {
+        iconType: "user",
+        values: loadSvgIcons(),
         listView: "Y"
       }
     },

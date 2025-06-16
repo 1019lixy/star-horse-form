@@ -3,13 +3,13 @@ import {
   apiInstance,
   ApiUrls,
   dialogPreps,
-  loadElementPlusIcon,
+
   PageFieldInfo,
   postRequest,
   SearchFields,
   SelectOption, warning
 } from "star-horse-lowcode";
-import {  loadCustomInfo,loadSystemInfo} from "@/api/star_horse_utils";
+import {  loadCustomInfo,loadSystemInfo,  loadElementPlusIcon} from "@/api/star_horse_utils";
 import {Config} from "@/api/settings";
 import {onActivated, onMounted, provide, reactive, ref} from "vue";
 
@@ -96,7 +96,8 @@ const tableFieldList = reactive<PageFieldInfo>({
         formVisible: true,
         listVisible: true,
         preps: {
-          iconType: "system"
+          iconType: "system",
+          values:loadElementPlusIcon()
         }
       },
       {
@@ -192,14 +193,12 @@ const initData = async () => {
   const customs = await loadCustomInfo(params);
   informationsList.value = datas;
   customerList.value = customs;
-
   systemIconList.value = loadElementPlusIcon();
 };
 onMounted(async () => {
   await initData();
 });
 onActivated(() => {
-  warning("warning");
 })
 </script>
 <style></style>

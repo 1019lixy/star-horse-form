@@ -10,6 +10,7 @@ import {
   SearchFields,
   SelectOption
 } from "star-horse-lowcode";
+import {loadSvgIcons} from "@/api/star_horse_utils.js";
 
 defineOptions({
   name: "CategoryItemConfig"
@@ -125,7 +126,10 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         required: false,
         formVisible: true,
         listVisible: true,
-        preps: {}
+        preps:{
+          iconType:"user",
+          values:loadSvgIcons()
+        }
       }
     ],
     {

@@ -6,7 +6,7 @@ import {
   createCondition,
   getRequest,
   loadData,
-  loadElementPlusIcon,
+
   PageFieldInfo,
   piniaInstance,
   postRequest,
@@ -15,7 +15,7 @@ import {
 } from "star-horse-lowcode";
 import {Config} from "@/api/settings";
 import {loadDict, permissionMenus} from "@/api/star_horse_apis";
-import {dbConfigList, loadSystemInfo} from "@/api/star_horse_utils";
+import {dbConfigList, loadSvgIcons, loadSystemInfo,loadElementPlusIcon,} from "@/api/star_horse_utils";
 import {ascOrDesc, commonField, httpMethod} from "@/api/system";
 
 const apiUrl: ApiUrls = apiInstance("userdb-manage", "userdb/dynamicForm");
@@ -188,7 +188,9 @@ const tableFieldList = reactive<PageFieldInfo | any>({
               type: "icon",
               formVisible: true,
               preps: {
-                colspan: 8
+                colspan: 8,
+                iconType:"user",
+                values: loadSvgIcons()
               }
             }],
             [
@@ -599,7 +601,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                     formVisible: true,
                     required: true,
                     preps: {
-                      iconType: "user"
+                      iconType: "user",
+                      values:loadSvgIcons()
                     }
                   }
                 ],
