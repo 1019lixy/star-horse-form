@@ -1318,6 +1318,14 @@ export function compCommonFields(customerValid: Function): FieldInfo[] {
             formVisible: true
         },
         {
+            label: "查询区域显示类别",
+            fieldName: "defaultVisible",
+            helpMsg: "如果开启此功能，查询区域的此组件默认展示，\n否则需要点击高级查询时才会展示",
+            type: "switch",
+            defaultValue: false,
+            formVisible: true
+        },
+        {
             label: "组件原样显示",
             helpMsg: "在列表上原样显示组件,\n此属性开启可能会导致列表数据加载缓慢",
             fieldName: "prototypeDisplay",

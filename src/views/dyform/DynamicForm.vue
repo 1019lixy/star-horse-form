@@ -638,12 +638,11 @@ let prepsModel = ref("one");
 .fade-move {
   transition: transform 0.3s ease;
 }
-
 .empty-info {
   position: absolute;
   left: 0;
   right: 0;
-  top: 0;
+  top: 30px;
   bottom: 0;
   height: 100%;
   display: flex;

@@ -460,7 +460,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                   objectName: "commonFieldControllers",
                   batchName: "commonFieldControllers",
                   initRows: 0,
-                  subFormFlag: true,
+                  subFormFlag: "Y",
                   fieldList: [
                     {
                       label: "字段信息",
@@ -511,7 +511,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             {
               objectName: "fieldMappingList",
               batchName: "fieldMappingList",
-              subFormFlag: true,
+              subFormFlag: "Y",
               initRows: 0,
               fieldList: [
                 {
@@ -588,7 +588,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             {
               objectName: "listActions",
               batchName: "listActions",
-              subFormFlag: true,
+              subFormFlag: "Y",
               staticData: "Y",
               initRows: 0,
               fieldList: [
@@ -674,7 +674,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             {
               objectName: "orderBy",
               batchName: "orderBy",
-              subFormFlag: true,
+              subFormFlag: "Y",
               initRows: 0,
               fieldList: [
                 {
