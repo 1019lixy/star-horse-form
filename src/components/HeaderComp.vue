@@ -265,37 +265,25 @@ watch(() => getToken(), (val) => {
       />
     </div>
     <div class="header-left">
-      <star-horse-hmenu :ellipsis="false" v-if="configInfo.menusCfg == 'tradition'"
-                        :dataList="appinfoList"
-                        style="width: 100%; max-width: 100%; overflow: hidden;"
-      />
+      <star-horse-hmenu :ellipsis="true" v-if="configInfo.menusCfg == 'tradition'"
+                        v-model:dataList="appinfoList"/>
+
     </div>
     <div class="header-right">
-      <div class="message">
-        <!--  <el-switch
-           @change="toggleDark"
-           v-model="theme"
-           active-value="light"
-           inactive-value="dark"
-           :active-action-icon="Sunny"
-           :inactive-action-icon="Moon"
-           style="width: 50%"
-         /> -->
-        <Message/>
-      </div>
-      <div class="user-info">
-        <el-dropdown class="lang" @command="handleLanguageChanged" :show-arrow="false">
-          <span class="el-dropdown-link"
-          >{{ curLangName }}<star-horse-icon icon-class="arrow-down" style="color: var(--star-horse-white)"
+      <Message/>
+      <el-dropdown class="lang" @command="handleLanguageChanged" :show-arrow="false">
+          <span class=" flex items-center flex-row" style="cursor: pointer;color:#fff">
+          {{ curLangName }}<star-horse-icon icon-class="arrow-down" style="color: var(--star-horse-white)"
           /></span>
-          <template #dropdown>
-            <el-dropdown-menu>
-              <el-dropdown-item command="zh_cn">中文</el-dropdown-item>
-              <el-dropdown-item command="en_us">English</el-dropdown-item>
-            </el-dropdown-menu>
-          </template>
-        </el-dropdown>
-        <el-dropdown trigger="click" :show-arrow="false">
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item command="zh_cn">中文</el-dropdown-item>
+            <el-dropdown-item command="en_us">English</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+
+      <el-dropdown trigger="click" :show-arrow="false">
           <span class="el-dropdown-link">
             <star-horse-icon
                 icon-class="user-circle"
@@ -306,33 +294,32 @@ watch(() => getToken(), (val) => {
                 style="vertical-align: middle; color: var(--star-horse-white)"
             />
           </span>
-          <template #dropdown>
-            <el-dropdown-menu>
-              <el-dropdown-item>
-                <span>{{ userInfo.name }}</span>
-                <p>({{ userInfo.username }})</p>
-              </el-dropdown-item>
-              <el-dropdown-item divided class="clearfix" @click="modifyInfo">
-                <star-horse-icon icon-class="user-circle" color="var(--star-horse-style)"/>
-                {{ i18n("main.header.authority") }}
-              </el-dropdown-item>
-              <el-dropdown-item divided class="clearfix" @click="push('/shcalendar')">
-                <star-horse-icon icon-class="calendar" color="var(--star-horse-style)"/>
-                {{ i18n("main.header.calendar") }}
-              </el-dropdown-item>
-              <el-dropdown-item divided class="clearfix" @click="layoutConfig">
-                <star-horse-icon icon-class="layout" color="var(--star-horse-style)"/>
-                {{ i18n("main.header.layoutConfig") }}
-              </el-dropdown-item>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item>
+              <span>{{ userInfo.name }}</span>
+              <p>({{ userInfo.username }})</p>
+            </el-dropdown-item>
+            <el-dropdown-item divided class="clearfix" @click="modifyInfo">
+              <star-horse-icon icon-class="user-circle" color="var(--star-horse-style)"/>
+              {{ i18n("main.header.authority") }}
+            </el-dropdown-item>
+            <el-dropdown-item divided class="clearfix" @click="push('/shcalendar')">
+              <star-horse-icon icon-class="calendar" color="var(--star-horse-style)"/>
+              {{ i18n("main.header.calendar") }}
+            </el-dropdown-item>
+            <el-dropdown-item divided class="clearfix" @click="layoutConfig">
+              <star-horse-icon icon-class="layout" color="var(--star-horse-style)"/>
+              {{ i18n("main.header.layoutConfig") }}
+            </el-dropdown-item>
 
-              <el-dropdown-item divided @click="loginOut" class="clearfix">
-                <star-horse-icon icon-class="login_out" style="vertical-align: middle; color: #f56c6c"/>
-                {{ i18n("main.header.logout") }}
-              </el-dropdown-item>
-            </el-dropdown-menu>
-          </template>
-        </el-dropdown>
-      </div>
+            <el-dropdown-item divided @click="loginOut" class="clearfix">
+              <star-horse-icon icon-class="login_out" style="vertical-align: middle; color: #f56c6c"/>
+              {{ i18n("main.header.logout") }}
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
     </div>
   </div>
   <div style="clear: both"></div>
@@ -408,53 +395,19 @@ watch(() => getToken(), (val) => {
   }
 
   .header-right {
-    width: 15%;
+    width: 180px;
     height: 100%;
     display: flex;
+    flex-wrap: nowrap;
     flex-direction: row;
     align-items: center;
+    justify-content: space-between;
 
-    .message {
-      height: 40px;
-      width: 45%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      vertical-align: middle;
-      cursor: pointer;
-
-      .el-badge {
-        svg {
-          width: 2em;
-          height: 2em;
-        }
-      }
-    }
-
-    .user-info {
-      flex: 1;
-      width: 30%;
-      height: 100%;
-      cursor: pointer;
+    .lang{
       display: flex;
       flex-direction: row;
-      vertical-align: middle;
-      align-items: center;
-
-      .lang {
-        width: 50%;
-        align-items: center;
-        justify-content: center;
-        vertical-align: middle;
-      }
-
-      .el-dropdown-link {
-        color: var(--star-horse-white);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
     }
+
   }
 }
 
