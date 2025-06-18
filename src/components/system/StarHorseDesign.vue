@@ -496,34 +496,6 @@ const registerPort = (portName: string) => {
       },
       true
   );
-  // 注册自定义节点 图标+标题+描述
-  Shape.HTML.register({
-    shape: "cu-data-node",
-    width: "auto",
-    height: 104,
-    effect: ["data"],
-    html(cell) {
-      // 获取节点传递过来的数据
-      const redata = cell.getData();
-      // 创建自定义的节点容器
-      const container = document.createElement("div");
-      container.setAttribute("class", "cu-container");
-      // 图片根据不同的类型进行切换，可以是后端返回的图标，也可以是自己本地的图标，如果是后端返回就通过节点的data传进来
-      const container_img = document.createElement("img");
-      container_img.src = "@/icons/default.svg";
-      container_img.setAttribute("class", "cu-container-img");
-      const container_title = document.createElement("div");
-      container_title.innerText = redata.label;
-      container_title.setAttribute("class", "cu-container-title");
-      const container_desc = document.createElement("div");
-      container_desc.setAttribute("class", "cu-container-desc");
-      container_desc.innerText = redata.desc || "描述信息";
-      container.appendChild(container_img);
-      container.appendChild(container_title);
-      container.appendChild(container_desc);
-      return container;
-    }
-  });
   if (portName) {
     Graph.registerPortLayout(
         portName,

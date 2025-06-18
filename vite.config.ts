@@ -179,7 +179,7 @@ export default defineConfig((mode) => {
             }),
             AutoImport({
                 imports: ["vue"],
-                resolvers: [ElementPlusResolver()]
+                resolvers: [ElementPlusResolver({ importStyle: false })]
             }),
             Components({
                 dirs: ["src/components", "src/views"],

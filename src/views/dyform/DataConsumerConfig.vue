@@ -243,6 +243,7 @@ const loadConfigData = async (configId: string | LocationQueryValue[]) => {
     console.log(cells.value);
     containerDiagramRef.value.graph.resetCells(cells.value);
   }
+
 };
 const createMergeData = () => {
   let configInfo = viewConfigInfo.value;

@@ -332,15 +332,13 @@ watch(() => getToken(), (val) => {
               <el-icon class="star-icon" style="color: var(--star-horse-white); font-size: 18px">
                 <component :is="item.menuIcon || 'document'"/>
               </el-icon>
-              &nbsp;{{ item["menuName"] }}</router-link
-            >
+              &nbsp;{{ item["menuName"] }}</router-link>
           </el-tooltip>
         </span>
         <span
             style="display: flex; height: 100%; width: 1px; cursor: none; color: #ffd04b"
             v-if="index < shortcutMenuList.length - 1"
-        >|</span
-        >
+        >|</span>
       </template>
       <span @click="addShortcutMenu">
         <el-tooltip content="添加快捷菜单">
@@ -384,6 +382,8 @@ watch(() => getToken(), (val) => {
     margin-left: 10px;
   }
 
+
+
   .header-left {
     height: 100%;
     flex: 1;
@@ -398,12 +398,13 @@ watch(() => getToken(), (val) => {
     width: 180px;
     height: 100%;
     display: flex;
+    margin-right: 10px;
     flex-wrap: nowrap;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
 
-    .lang{
+    .lang {
       display: flex;
       flex-direction: row;
     }

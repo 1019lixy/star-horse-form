@@ -141,7 +141,7 @@ onMounted(() => {
 });
 </script>
 <template>
-  <div class="flex flex-col items-start h-full overflow-hidden " style="margin: 1px auto">
+  <div class="flex flex-col items-start h-full  overflow-hidden " style="margin: 1px auto;width:95%">
     <el-select
         :size="compSize"
         @change="openDb"
@@ -159,7 +159,7 @@ onMounted(() => {
         <star-horse-icon @click="filterData" icon-class="search" color="var(--star-horse-style)"/>
       </template>
     </el-input>
-    <div class="flex-1 overflow-hidden">
+    <div class="flex-1 w-full overflow-hidden">
       <el-scrollbar>
         <ul class="db_table_list">
           <template v-for="(data, idx) in assignDataList">
@@ -194,7 +194,6 @@ onMounted(() => {
   height: 30px;
   justify-content: end;
 }
-
 
 
 .field-table {

@@ -263,7 +263,7 @@ const operMsg = `
   <el-card class="inner_content">
     <el-splitter>
       <el-splitter-panel collapsible size="260" min="250" max="350">
-        <div class="flex flex-col items-center h-full overflow-hidden">
+        <div class="flex flex-col items-center h-full overflow-hidden" style="width:98%">
           <el-select
               :size="compSize"
               @change="openDb"
