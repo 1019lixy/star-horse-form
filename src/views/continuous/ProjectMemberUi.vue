@@ -180,7 +180,7 @@ onMounted(async () => {
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
     <star-horse-form
-        @refresh="projectMemberRef.loadByPage()"
+        @refresh="projectMemberRef?.loadByPage()"
         :compUrl="dataUrl"
         :outerFormData="{
           idProjectInfo: projectId,

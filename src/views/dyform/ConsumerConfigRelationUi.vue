@@ -185,7 +185,7 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
     <star-horse-form
-        @refresh="consumerConfigRelationRef.loadByPage()"
+        @refresh="consumerConfigRelationRef?.loadByPage()"
         :compUrl="dataUrl"
         :fieldList="tableFieldList"
         :rules="rules"
@@ -202,7 +202,7 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
   <div class="search-content">
     <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
       <star-horse-search-comp
-          @searchData="(data: any) => consumerConfigRelationRef.createSearchParams(data)"
+          @searchData="(data: any) => consumerConfigRelationRef?.createSearchParams(data)"
           :formData="searchFormData"
           :compUrl="dataUrl"
       />

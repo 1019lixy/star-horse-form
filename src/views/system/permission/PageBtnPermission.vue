@@ -319,7 +319,7 @@ onMounted(async () => {
         <div class="search-content">
           <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
             <star-horse-search-comp
-                @searchData="(data: any) => menuBtnTableRef.createSearchParams(data)"
+                @searchData="(data: any) => menuBtnTableRef?.createSearchParams(data)"
                 :formData="searchFormData"
                 :defaultCondition="defaultCondition"
                 :compUrl="dataUrl"

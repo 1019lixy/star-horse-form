@@ -142,7 +142,7 @@ onMounted(async () => {
 <style lang="scss" scoped></style>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form @refresh="auditRef.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList" :rules="rules"/>
+    <star-horse-form @refresh="auditRef?.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList" :rules="rules"/>
   </star-horse-dialog>
   <star-horse-dialog
       :dialog-visible="dialogProps.viewVisible"
@@ -155,7 +155,7 @@ onMounted(async () => {
   <div class="search-content">
     <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
       <star-horse-search-comp
-          @searchData="(data: any) => auditRef.createSearchParams(data)"
+          @searchData="(data: any) => auditRef?.createSearchParams(data)"
           :formData="searchFormData"
           :compUrl="dataUrl"
       />

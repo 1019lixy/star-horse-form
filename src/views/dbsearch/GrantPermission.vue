@@ -284,7 +284,7 @@ onMounted(() => {
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
     <star-horse-form
-        @refresh="grantPermissionRef.loadByPage()"
+        @refresh="grantPermissionRef?.loadByPage()"
         :compUrl="dataUrl"
         :fieldList="tableFieldList"
         :rules="rules"
@@ -301,7 +301,7 @@ onMounted(() => {
   <el-card class="inner_content">
     <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line' ? 'column' : 'row' }">
       <star-horse-search-comp
-          @searchData="(data: any) => grantPermissionRef.createSearchParams(data)"
+          @searchData="(data: any) => grantPermissionRef?.createSearchParams(data)"
           :formData="searchFormData"
           :compUrl="dataUrl"
       />

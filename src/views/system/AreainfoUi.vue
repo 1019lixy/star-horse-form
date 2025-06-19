@@ -61,7 +61,7 @@ onMounted(() => {
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
     <star-horse-form
-        @refresh="areainfoRef.loadByPage()"
+        @refresh="areainfoRef?.loadByPage()"
         :compUrl="dataUrl"
         :fieldList="tableFieldList"
         :rules="rules"
@@ -78,7 +78,7 @@ onMounted(() => {
   <div class="search-content">
     <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
       <star-horse-search-comp
-          @searchData="(data: any) => areainfoRef.createSearchParams(data)"
+          @searchData="(data: any) => areainfoRef?.createSearchParams(data)"
           :formData="searchFormData"
           :compUrl="dataUrl"
       />

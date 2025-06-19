@@ -449,7 +449,7 @@ const closeAction = () => {
   >
     <star-horse-form
         ref="generateFormRef"
-        @refresh="codeGeneratorRef.loadByPage()"
+        @refresh="codeGeneratorRef?.loadByPage()"
         :compUrl="dataUrl"
         :fieldList="tableFieldList"
         :rules="rules"
@@ -466,7 +466,7 @@ const closeAction = () => {
   <div class="search-content">
     <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
       <star-horse-search-comp
-          @searchData="(data: any) => codeGeneratorRef.createSearchParams(data)"
+          @searchData="(data: any) => codeGeneratorRef?.createSearchParams(data)"
           :formData="searchFormData"
           :compUrl="dataUrl"
       />

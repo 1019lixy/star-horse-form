@@ -196,7 +196,7 @@ onMounted(async () => {
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
     <star-horse-form
-        @refresh="nodePropertyRef.loadByPage()"
+        @refresh="nodePropertyRef?.loadByPage()"
         :compUrl="dataUrl"
         :fieldList="tableFieldList"
         :rules="rules"
@@ -213,7 +213,7 @@ onMounted(async () => {
   <el-card class="inner_content">
     <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line' ? 'column' : 'row' }">
       <star-horse-search-comp
-          @searchData="(data: any) => nodePropertyRef.createSearchParams(data)"
+          @searchData="(data: any) => nodePropertyRef?.createSearchParams(data)"
           :formData="searchFormData"
           :compUrl="dataUrl"
       />

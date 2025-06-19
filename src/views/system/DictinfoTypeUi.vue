@@ -70,7 +70,7 @@ onMounted(async () => {
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
     <star-horse-form
-        @refresh="dictTypeRef.loadByPage()"
+        @refresh="dictTypeRef?.loadByPage()"
         :compUrl="dataUrl"
         ref="dictTypeFormRef"
         :fieldList="tableFieldList"
@@ -93,7 +93,7 @@ onMounted(async () => {
             <div class="search_btn"
                  :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
               <star-horse-search-comp
-                  @searchData="(data: any) => dictTypeRef.createSearchParams(data)"
+                  @searchData="(data: any) => dictTypeRef?.createSearchParams(data)"
                   :formData="searchFormData"
                   :compUrl="dataUrl"
               />

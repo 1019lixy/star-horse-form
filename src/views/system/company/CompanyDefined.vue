@@ -180,7 +180,7 @@ onDeactivated(() => {
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialog-visible="dialogProps.editVisible" :dialogProps="dialogProps">
     <star-horse-form
-        @refresh="companyDefineRef.loadByPage()"
+        @refresh="companyDefineRef?.loadByPage()"
         :compUrl="dataUrl"
         :fieldList="tableFieldList"
         :rules="rules"
@@ -198,7 +198,7 @@ onDeactivated(() => {
   <div class="search-content">
     <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
       <star-horse-search-comp
-          @searchData="(data: any) => companyDefineRef.createSearchParams(data)"
+          @searchData="(data: any) => companyDefineRef?.createSearchParams(data)"
           :formData="searchFormData"
           :compUrl="dataUrl"
       />

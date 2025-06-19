@@ -253,7 +253,7 @@ onDeactivated(() => {
         :fieldList="tableFieldList"
         :rules="rules"
         :outerFormData="outForm"
-        @refresh="stationDefineRef.loadByPage()"
+        @refresh="stationDefineRef?.loadByPage()"
     />
   </star-horse-dialog>
   <star-horse-dialog
@@ -283,7 +283,7 @@ onDeactivated(() => {
           <div class="search-content">
             <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
               <star-horse-search-comp
-                  @searchData="(data: any) => stationDefineRef.createSearchParams(data)"
+                  @searchData="(data: any) => stationDefineRef?.createSearchParams(data)"
                   :formData="searchFormData"
                   :compUrl="dataUrl"
               />

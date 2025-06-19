@@ -419,7 +419,7 @@ const testChange = (val: any) => {
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialog-visible="dialogProps?.editVisible" :dialogProps="dialogProps">
     <star-horse-form
-        @refresh="employeeInfoRef.loadByPage()"
+        @refresh="employeeInfoRef?.loadByPage()"
         :compUrl="dataUrl"
         :fieldList="tableFieldList"
         :rules="rules"
@@ -449,7 +449,7 @@ const testChange = (val: any) => {
           <div class="search-content">
             <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
               <star-horse-search-comp
-                  @searchData="(data: any) => employeeInfoRef.createSearchParams(data)"
+                  @searchData="(data: any) => employeeInfoRef?.createSearchParams(data)"
                   :formData="searchFormData"
                   :compUrl="dataUrl"
               />

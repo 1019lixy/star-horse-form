@@ -131,7 +131,7 @@ watch(
   <template v-if="hasData">
     <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
       <star-horse-form
-          @refresh="normalPageRef.loadByPage()"
+          @refresh="normalPageRef?.loadByPage()"
           :compUrl="dataUrl"
           :fieldList="tableFieldList"
           :primary-key="primaryKey"
@@ -158,7 +158,7 @@ watch(
     <div class="search-content">
       <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
         <star-horse-search-comp
-            @searchData="(data: any) => normalPageRef.createSearchParams(data)"
+            @searchData="(data: any) => normalPageRef?.createSearchParams(data)"
             :formData="searchFormData"
             :compUrl="dataUrl"
         />

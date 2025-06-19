@@ -355,7 +355,7 @@ onDeactivated(() => {
                   <div class="search_btn"
                        :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
                     <star-horse-search-comp
-                        @searchData="(data: any) => tenantAppMenusinfoRef.createSearchParams(data)"
+                        @searchData="(data: any) => tenantAppMenusinfoRef?.createSearchParams(data)"
                         :formData="searchFormData"
                         :compUrl="dataUrl"
                     />

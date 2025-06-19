@@ -299,7 +299,7 @@ onMounted(async () => {
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
     <star-horse-form
         :outerFormData="dataForm"
-        @refresh="dataPermissionRef.loadByPage()"
+        @refresh="dataPermissionRef?.loadByPage()"
         :compUrl="dataUrl"
         :fieldList="formFieldList"
         :rules="rules"
@@ -340,7 +340,7 @@ onMounted(async () => {
         <div class="search-content">
           <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
             <star-horse-search-comp
-                @searchData="(data: any) => dataPermissionRef.createSearchParams(data)"
+                @searchData="(data: any) => dataPermissionRef?.createSearchParams(data)"
                 :formData="searchFormData"
                 :defaultCondition="defaultCondition"
                 :compUrl="dataUrl"

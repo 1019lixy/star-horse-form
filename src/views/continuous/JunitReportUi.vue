@@ -215,7 +215,7 @@ onMounted(async () => {
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
     <star-horse-form
-        @refresh="junitReportRef.loadByPage()"
+        @refresh="junitReportRef?.loadByPage()"
         :compUrl="dataUrl"
         :fieldList="tableFieldList"
         :rules="rules"
@@ -232,7 +232,7 @@ onMounted(async () => {
   <el-card class="inner_content">
     <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line' ? 'column' : 'row' }">
       <star-horse-search-comp
-          @searchData="(data: any) => junitReportRef.createSearchParams(data)"
+          @searchData="(data: any) => junitReportRef?.createSearchParams(data)"
           :formData="searchFormData"
           :compUrl="dataUrl"
       />
