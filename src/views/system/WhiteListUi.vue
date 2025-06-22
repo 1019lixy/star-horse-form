@@ -15,7 +15,11 @@ const dataUrl: ApiUrls = apiInstance("system-config", "system/whiteList");
 let typeList = ref<SelectOption[]>([]);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "过滤类型", fieldName: "whiteType", defaultVisible: true, type: "select", optionList: typeList},
+    {label: "过滤类型", fieldName: "whiteType", defaultVisible: true, type: "select",
+     preps:{
+       values: typeList
+     }
+    },
     {label: "过滤内容", fieldName: "whiteName", defaultVisible: true, type: "input", matchType: "lk"}
   ]
 });
@@ -30,10 +34,12 @@ const tableFieldList = reactive<PageFieldInfo>({
       label: "过滤类型",
       fieldName: "whiteType",
       type: "select",
-      optionList: typeList,
       required: true,
       formVisible: true,
-      listVisible: true
+      listVisible: true,
+      preps:{
+        values: typeList,
+      }
     },
     {
       label: "过滤内容",

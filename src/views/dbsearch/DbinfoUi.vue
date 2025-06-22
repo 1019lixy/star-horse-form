@@ -21,7 +21,11 @@ let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.co
 let dbTypeList = ref<Array<any>>([]);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "数据库类型", fieldName: "dbType", type: "select", defaultVisible: true, optionList: dbTypeList},
+    {label: "数据库类型", fieldName: "dbType", type: "select", defaultVisible: true,
+      preps:{
+      values:dbTypeList
+      }
+    },
     {label: "数据库名称", fieldName: "dbName", type: "input", defaultVisible: true, matchType: "lk"}
   ]
 });
@@ -37,14 +41,16 @@ const tableFieldList = reactive<PageFieldInfo>({
         label: "数据库类型",
         fieldName: "dbType",
         type: "select",
-        optionList: dbTypeList,
         required: true,
         formVisible: true,
         actionName: "change",
         actions: (val: any) => {
           val["port"] = dbTypeList.value.find((item) => item.value == val["dbType"])?.port || val["port"];
         },
-        listVisible: true
+        listVisible: true,
+        preps:{
+          values:dbTypeList
+        }
       },
       {
         label: "数据库名称/实例",
@@ -59,7 +65,9 @@ const tableFieldList = reactive<PageFieldInfo>({
             type: "radio",
             defaultValue: "N",
             formVisible: true,
-            optionList: [{name: "不存在创建", value: "Y"}]
+            preps:{
+              values:[{name: "不存在创建", value: "Y"}]
+            }
           }
         ]
       }

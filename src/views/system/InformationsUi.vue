@@ -3,13 +3,12 @@ import {
   apiInstance,
   ApiUrls,
   dialogPreps,
-
   PageFieldInfo,
   postRequest,
   SearchFields,
-  SelectOption, warning
+  SelectOption
 } from "star-horse-lowcode";
-import {  loadCustomInfo,loadSystemInfo,  loadElementPlusIcon} from "@/api/star_horse_utils";
+import {loadCustomInfo, loadElementPlusIcon, loadSystemInfo} from "@/api/star_horse_utils";
 import {Config} from "@/api/settings";
 import {onActivated, onMounted, provide, reactive, ref} from "vue";
 
@@ -20,7 +19,12 @@ let systemIconList = ref<SelectOption[]>([]);
 let customerList = ref<SelectOption[]>([]);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "归属主体", fieldName: "idCustomer", type: "select", optionList: customerList},
+    {
+      label: "归属主体", fieldName: "idCustomer", type: "select",
+      preps: {
+        values: customerList
+      }
+    },
     {
       label: "系统名称",
       defaultVisible: true,
@@ -51,10 +55,12 @@ const tableFieldList = reactive<PageFieldInfo>({
       label: "上级系统",
       fieldName: "parentId",
       type: "select",
-      optionList: informationsList,
       formVisible: true,
       actionName: "change",
-      actions: testFun
+      actions: testFun,
+      preps:{
+        values: informationsList,
+      }
     },
     [
       {
@@ -69,10 +75,12 @@ const tableFieldList = reactive<PageFieldInfo>({
         label: "归属主体",
         fieldName: "idCustomer",
         type: "select",
-        optionList: customerList,
         required: true,
         formVisible: true,
-        listVisible: true
+        listVisible: true,
+        preps:{
+          values: customerList,
+        }
       }
     ],
     /* {
@@ -97,7 +105,7 @@ const tableFieldList = reactive<PageFieldInfo>({
         listVisible: true,
         preps: {
           iconType: "system",
-          values:loadElementPlusIcon()
+          values: loadElementPlusIcon()
         }
       },
       {

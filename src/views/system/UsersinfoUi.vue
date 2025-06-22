@@ -38,8 +38,10 @@ const searchFormData = reactive<SearchFields>({
       type: "select",
       prefix: "b",
       defaultValue: props.viewRolesinfoId,
-      optionList: rolesList,
-      disabled: !!props.viewRolesinfoId
+      disabled: !!props.viewRolesinfoId,
+      preps:{
+        values:rolesList
+      }
     }
   ]
 });

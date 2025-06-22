@@ -49,21 +49,27 @@ const searchFormData = reactive<SearchFields>({
       fieldName: "publicFlag",
       defaultVisible: false,
       type: "select",
-      optionList: commonSelectList
+     preps:{
+       values: commonSelectList
+     }
     },
     {
       label: "是否允许订阅",
       fieldName: "subscribeFlag",
       defaultVisible: false,
       type: "select",
-      optionList: commonSelectList
+      preps:{
+        values: commonSelectList
+      }
     },
     {
       label: "是否消息提醒",
       fieldName: "messageFlag",
       defaultVisible: false,
       type: "select",
-      optionList: commonSelectList
+      preps:{
+        values: commonSelectList
+      }
     }
   ]
 });
@@ -169,10 +175,12 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       label: "消息提醒方式",
       fieldName: "messageType",
       type: "select",
-      optionList: messageTypeList,
       required: false,
       formVisible: !false,
-      listVisible: !false
+      listVisible: !false,
+      preps:{
+        values: messageTypeList,
+      }
     },
     {
       label: "版本号",

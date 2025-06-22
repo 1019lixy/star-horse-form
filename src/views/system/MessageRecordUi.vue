@@ -27,16 +27,20 @@ const searchFormData = reactive<SearchFields>({
     {
       label: "分类",
       fieldName: "category",
-      optionList: categoryList,
       defaultVisible: true,
-      type: "select"
+      type: "select",
+      preps:{
+        values: categoryList,
+      }
     },
     {
       label: "类别",
       fieldName: "type",
-      optionList: typeList,
       defaultVisible: true,
-      type: "select"
+      type: "select",
+      preps:{
+        values: typeList,
+      }
     },
     {
       label: "标题",
@@ -59,18 +63,22 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         fieldName: "category",
         type: "select",
         required: true,
-        optionList: categoryList,
         formVisible: !false,
-        listVisible: !false
+        listVisible: !false,
+        preps:{
+          values: categoryList,
+        }
       },
       {
         label: "类别",
         fieldName: "type",
         type: "select",
         required: true,
-        optionList: typeList,
         formVisible: !false,
-        listVisible: !false
+        listVisible: !false,
+        preps:{
+          values: typeList,
+        }
       }
     ],
     {
@@ -100,10 +108,12 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         label: "状态",
         fieldName: "statusCode",
         type: "select",
-        optionList: statusList,
         required: false,
         formVisible: true,
-        listVisible: !true
+        listVisible: !true,
+        preps:{
+          values: statusList,
+        }
       }
     ],
     {

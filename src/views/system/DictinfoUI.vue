@@ -68,11 +68,13 @@ const editFormField = reactive<PageFieldInfo>({
       label: "状态",
       fieldName: "statusCode",
       type: "select",
-      optionList: commonDictList,
       required: false,
       formVisible: true,
       defaultValue: "1",
-      listVisible: false
+      listVisible: false,
+      preps:{
+        values: commonDictList,
+      }
     },
     {
       label: "字典描述",

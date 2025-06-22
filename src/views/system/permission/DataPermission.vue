@@ -44,7 +44,9 @@ const searchFormData = reactive<SearchFields>({
       defaultVisible: true,
       fieldName: "permissionType",
       type: "select",
-      optionList: permissionType
+      preps:{
+        values: permissionType
+      }
     },
     {label: "被授权用户组/人", defaultVisible: true, fieldName: "userGroup", type: "input", matchType: "lk"}
   ]
@@ -58,7 +60,6 @@ const formFieldList = reactive<PageFieldInfo | any>({
         label: "权限类型",
         fieldName: "permissionType",
         type: "select",
-        optionList: permissionType,
         defaultValue: "sharePerson",
         actionName: "change",
         helpMsg:
@@ -70,7 +71,10 @@ const formFieldList = reactive<PageFieldInfo | any>({
         },
         required: true,
         formVisible: true,
-        listVisible: true
+        listVisible: true,
+        preps:{
+          values: permissionType,
+        }
       },
       {
         label: "授权菜单",
@@ -136,12 +140,14 @@ const formFieldList = reactive<PageFieldInfo | any>({
       label: "权限",
       fieldName: "permissionList",
       type: "select",
-      optionList: authorityList,
       required: true,
       formVisible: true,
       multiple: true,
       defaultValue: ["view"],
-      listVisible: true
+      listVisible: true,
+      preps:{
+        values: authorityList,
+      }
     },
     {
       label: "有效期",

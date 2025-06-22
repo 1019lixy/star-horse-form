@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import {ModelRef, nextTick, onMounted, PropType, reactive, ref, watch} from "vue";
-import {error,  PageFieldInfo, searchMatchList, SelectOption} from "star-horse-lowcode";
+import {error, PageFieldInfo, searchMatchList, SelectOption} from "star-horse-lowcode";
 import {createData, urlReturnDataHelpMsg, validInterface, validOperation} from "@/views/dyform/utils/ItemPreps";
-import { loadDict} from "@/api/star_horse_apis";
-import { httpMethod} from "@/api/system";
+import {loadDict} from "@/api/star_horse_apis";
+import {httpMethod} from "@/api/system";
+
 defineOptions({
   name: "DataSourceComp",
 })
@@ -71,13 +72,13 @@ const dataSourceField = reactive<PageFieldInfo | any>({
         formVisible: true,
         listVisible: true,
         defaultValue: "data",
-        optionList: dataSourceList,
         actionName: "change",
         actions: (val: any) => {
           const type = val["dataSource"];
           innerFunc(type);
         },
         preps: {
+          values: dataSourceList,
           radioType: "button"
         }
       }
@@ -127,7 +128,9 @@ const dataSourceField = reactive<PageFieldInfo | any>({
                 defaultValue: "",
                 formVisible: true,
                 listVisible: true,
-                optionList: envList
+                preps: {
+                  values: envList
+                }
               },
               {
                 label: "请求方式",
@@ -137,7 +140,9 @@ const dataSourceField = reactive<PageFieldInfo | any>({
                 defaultValue: "POST",
                 formVisible: true,
                 listVisible: true,
-                optionList: httpMethod()
+                preps: {
+                  values: httpMethod()
+                }
               },
               {
                 label: "协议",
@@ -147,10 +152,12 @@ const dataSourceField = reactive<PageFieldInfo | any>({
                 defaultValue: "http",
                 formVisible: true,
                 listVisible: true,
-                optionList: [
-                  {name: "HTTP", value: "http"},
-                  {name: "HTTPS", value: "https"}
-                ]
+                preps: {
+                  values: [
+                    {name: "HTTP", value: "http"},
+                    {name: "HTTPS", value: "https"}
+                  ]
+                }
               }
             ],
             [
@@ -199,16 +206,21 @@ const dataSourceField = reactive<PageFieldInfo | any>({
                 label: "标签名字段",
                 fieldName: "selectLabel",
                 type: "select",
-                optionList: fieldList,
+
                 required: urlRequired,
                 formVisible: true,
-                listVisible: true
+                listVisible: true,
+                preps:{
+                  values: fieldList,
+                }
               },
               {
                 label: "标签值字段",
                 fieldName: "selectValue",
                 type: "select",
-                optionList: fieldList,
+                preps:{
+                  values: fieldList,
+                },
                 required: urlRequired,
                 formVisible: true,
                 listVisible: true
@@ -228,11 +240,11 @@ const dataSourceField = reactive<PageFieldInfo | any>({
                         label: "参数名",
                         fieldName: "name",
                         type: "select",
-                        optionList: fieldList,
                         required: urlRequired,
                         formVisible: true,
                         listVisible: true,
                         preps: {
+                          values:fieldList,
                           allowCreate: "Y",
                         }
                       },
@@ -252,7 +264,10 @@ const dataSourceField = reactive<PageFieldInfo | any>({
                         required: urlRequired,
                         formVisible: true,
                         listVisible: true,
-                        optionList: matchTypeList
+                        preps:{
+                          values: matchTypeList
+                        }
+
                       }
                     ]
                   }

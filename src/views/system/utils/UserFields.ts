@@ -46,10 +46,12 @@ const userEditFieldInfo: Array<any> = [
             label: "性别",
             fieldName: "sex",
             type: "radio",
-            optionList: sexList,
             defaultValue: 3,
             formVisible: true,
-            listVisible: true
+            listVisible: true,
+            preps:{
+                values: sexList,
+            }
         }
     ],
     {

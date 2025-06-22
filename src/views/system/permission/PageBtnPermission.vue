@@ -33,7 +33,12 @@ let dataForm = ref<any>({});
 let defaultCondition = ref<SearchParams[]>([]);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "角色名称", defaultVisible: true, fieldName: "idRolesinfo", type: "select", optionList: rolesList},
+    {
+      label: "角色名称", defaultVisible: true, fieldName: "idRolesinfo", type: "select",
+      preps: {
+        values: rolesList
+      }
+    },
     {label: "创建日期", fieldName: "createdTime", type: "date", matchType: "bt"}
   ]
 });
@@ -44,21 +49,25 @@ const formFieldList = reactive<PageFieldInfo | any>({
         label: "角色名称",
         fieldName: "idRolesinfo",
         type: "select",
-        optionList: rolesList,
         required: true,
         formVisible: true,
         disabled: true,
-        listVisible: true
+        listVisible: true,
+        preps:{
+          values: rolesList,
+        }
       },
       {
         label: "所属系统",
         fieldName: "idInformations",
         type: "select",
-        optionList: appinfoList,
         required: true,
         formVisible: true,
         disabled: true,
-        listVisible: true
+        listVisible: true,
+        preps:{
+          values: appinfoList,
+        }
       }
     ],
     [
@@ -70,19 +79,21 @@ const formFieldList = reactive<PageFieldInfo | any>({
         formVisible: true,
         multiple: true,
         listVisible: true,
-        preps:{
-          data:menusSelectList
+        preps: {
+          data: menusSelectList
         }
       },
       {
         label: "权限",
         fieldName: "resourcesPos",
         type: "select",
-        optionList: authorityList,
         required: true,
         formVisible: true,
         multiple: true,
-        listVisible: true
+        listVisible: true,
+        preps:{
+          values: authorityList,
+        }
       }
     ]
   ],

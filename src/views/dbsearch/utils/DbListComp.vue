@@ -64,11 +64,13 @@ let dataFieldInfo = ref<PageFieldInfo>({
         label: "展示方式",
         fieldName: "containerType",
         type: "select",
-        optionList: containerTypeList,
         formVisible: true,
         listVisible: true,
         actionNames: "change",
-        actions: (val: any) => containerTypeOperation(val)
+        actions: (val: any) => containerTypeOperation(val),
+        preps:{
+          values:containerTypeList
+        }
       },
       {
         label: "列数",

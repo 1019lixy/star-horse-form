@@ -38,8 +38,10 @@ const searchFormData = reactive<SearchFields>({
       actions: (value) => {
 
       },
-      optionList: effectiveTimeList,
-      defaultVisible: true
+      defaultVisible: true,
+      preps:{
+        values: effectiveTimeList,
+      }
     }
   ]
 });
