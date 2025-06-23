@@ -40,14 +40,9 @@ const collapseOperation = () => {
   isCollapse.value = !isCollapse.value;
 };
 watch(
-    () => [isCollapse.value, configInfo.value?.menusCfg],
-    ([val, oval], [sval, osval]) => {
+    () => isCollapse.value,
+    (val) => {
       if (!configInfo.value) return;
-      if (sval == 'tradition') {
-        outerIsCollapse.value = 200;
-      } else {
-        outerIsCollapse.value = 95;
-      }
       setTimeout(() => {
         if (configInfo.value?.menusCfg == 'fixed') {
           outerIsCollapse.value = 95;
@@ -60,8 +55,20 @@ watch(
       immediate: true
     }
 );
-
-
+watch(
+    () => configInfo.value?.menusCfg,
+    (sval) => {
+      if (!configInfo.value) return;
+      if (sval == 'tradition') {
+        outerIsCollapse.value = 200;
+      } else {
+        outerIsCollapse.value = 95;
+      }
+    },
+    {
+      immediate: true
+    }
+);
 const sizeChange = (size: number) => {
   if (size <= 64) {
     isCollapse.value = false;

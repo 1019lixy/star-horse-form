@@ -160,10 +160,10 @@ const tableFieldList = reactive<PageFieldInfo | any>({
               label: "主键策略",
               fieldName: "primaryKeyPolicy",
               type: "select",
-              optionList: primaryKeyPolicyList,
               formVisible: true,
               editdisabled: true,
               preps: {
+                values:primaryKeyPolicyList,
                 colspan: 8
               }
             }],
@@ -467,9 +467,9 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                       fieldName: "fieldName",
                       type: "select",
                       required: true,
-                      optionList: commonField(),
                       formVisible: true,
                       preps: {
+                        values:commonField(),
                         props: {
                           label: "label",
                           value: "fieldName"
@@ -650,9 +650,10 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                     fieldName: "httpMethod",
                     defaultValue: "POST",
                     type: "select",
-                    optionList: httpMethod(),
+
                     formVisible: httpMethodVisible,
                     preps: {
+                      values: httpMethod(),
                       colspan: 5
                     }
                   }
@@ -691,8 +692,11 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                   label: "排序方式",
                   fieldName: "ascOrDesc",
                   type: "select",
-                  optionList: ascOrDesc(),
-                  formVisible: true
+
+                  formVisible: true,
+                  preps:{
+                    values: ascOrDesc(),
+                  }
                 },
                 {
                   label: "优先级",

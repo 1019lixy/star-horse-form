@@ -22,9 +22,11 @@ const searchFormData = reactive<SearchFields>({
       label: "流程分类",
       fieldName: "flowGroup",
       type: "select",
-      optionList: flowGroupList,
       matchType: "lk",
-      defaultVisible: true
+      defaultVisible: true,
+      preps: {
+        values: flowGroupList,
+      }
     }
   ]
 });

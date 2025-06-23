@@ -11,10 +11,12 @@ const tableFieldList = reactive({
       label: "数据库信息",
       fieldName: "dbconfigId",
       type: "select",
-      optionList: dbList,
       required: true,
       formVisible: true,
-      listVisible: true
+      listVisible: true,
+      preps:{
+        values:dbList
+      }
     },
     {
       label: "表名",

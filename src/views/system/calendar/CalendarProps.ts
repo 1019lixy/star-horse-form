@@ -94,10 +94,12 @@ export function calendarManage(calendarList: Array<any>) {
                         label: "全天",
                         fieldName: "allDay",
                         type: "checkbox",
-                        optionList: [{name: "全天", value: "all"}],
                         required: false,
                         formVisible: !false,
-                        listVisible: !false
+                        listVisible: !false,
+                        preps: {
+                            values: [{name: "全天", value: "all"}],
+                        }
                     }
                 ]
             },
@@ -159,11 +161,11 @@ export function calendarManage(calendarList: Array<any>) {
                 label: "日历",
                 fieldName: "idCalendarDefine",
                 type: "select",
-                optionList: calendarList,
                 required: false,
                 formVisible: !false,
                 listVisible: !false,
                 preps: {
+                    values: calendarList,
                     props: {
                         label: "calendarName",
                         value: "idCalendarDefine"
@@ -176,32 +178,38 @@ export function calendarManage(calendarList: Array<any>) {
                 type: "select",
                 required: false,
                 defaultValue: "2",
-                optionList: remindTime,
                 formVisible: !false,
-                listVisible: !false
+                listVisible: !false,
+                preps: {
+                    values: remindTime,
+                }
             },
             {
                 label: "重复",
                 fieldName: "repeatRemind",
                 type: "select",
                 defaultValue: "A",
-                optionList: repeatRemindType,
                 required: false,
                 formVisible: !false,
-                listVisible: !false
+                listVisible: !false,
+                preps: {
+                    values: repeatRemindType,
+                }
             },
             {
                 label: "设置",
                 fieldName: "messageFlagList",
                 type: "checkbox",
                 defaultValue: ["1"],
-                optionList: [
-                    {name: "允许成员主动加入", value: "1"},
-                    {name: "同时邮件通知参与人", value: "2"}
-                ],
                 required: false,
                 formVisible: !false,
-                listVisible: !false
+                listVisible: !false,
+                preps: {
+                    values: [
+                        {name: "允许成员主动加入", value: "1"},
+                        {name: "同时邮件通知参与人", value: "2"}
+                    ],
+                }
             },
             {
                 label: "是否允许订阅",

@@ -162,7 +162,9 @@ export function viewFieldInfo(
                     type: "select",
                     required: true,
                     formVisible: true,
-                    optionList: viewTypeList
+                    preps: {
+                        values: viewTypeList
+                    }
                 }
             ],
             [
@@ -170,9 +172,11 @@ export function viewFieldInfo(
                     label: "消费权限",
                     fieldName: "consumeAuthority",
                     type: "select",
-                    optionList: consumeAuthorityList,
                     required: true,
-                    formVisible: true
+                    formVisible: true,
+                    preps: {
+                        values: consumeAuthorityList,
+                    }
                 },
                 {
                     label: "单次最大数量",
@@ -258,13 +262,15 @@ export function viewFieldInfo(
                                 label: "表名",
                                 fieldName: "tableName",
                                 type: "select",
-                                optionList: tableList,
                                 actionName: "change",
                                 actions: (val: any) => {
                                     val["fieldNameOptionList"] = lineDatas[val["tableName"]];
                                     console.log(val);
                                 },
-                                formVisible: true
+                                formVisible: true,
+                                preps: {
+                                    values: tableList,
+                                }
                             },
                             {
                                 label: "属性名",
@@ -289,14 +295,16 @@ export function viewFieldInfo(
                                 label: "表名",
                                 fieldName: "tableName",
                                 type: "select",
-                                optionList: tableList,
                                 actionName: "change",
                                 actions: (val: any) => {
                                     val["fieldNameOptionList"] = lineDatas[val["tableName"]];
                                     val["exclusionFieldNameOptionList"] = lineDatas[val["tableName"]];
                                     console.log(val);
                                 },
-                                formVisible: true
+                                formVisible: true,
+                                preps:{
+                                    values: tableList,
+                                }
                             },
                             {
                                 label: "返回字段",
@@ -342,7 +350,7 @@ export function relationFieldInfo(datas: any) {
     });
     console.log(datas);
     lineDatas[datas.to] = [];
-    datas.toData?.items?.forEach((item) => {
+    datas.toData?.items?.forEach((item:any) => {
         lineDatas[datas.to].push({
             name: item.comment || item.fieldName,
             value: item.fieldName
@@ -410,30 +418,36 @@ export function relationFieldInfo(datas: any) {
                                 label: "表名",
                                 fieldName: "tableName",
                                 type: "select",
-                                optionList: tableList,
                                 actionName: "change",
                                 actions: (val: any) => {
                                     fieldNameList.value = lineDatas[val["tableName"]];
                                     console.log(val, fieldNameList.value);
                                 },
                                 required: relationRequired,
-                                formVisible: true
+                                formVisible: true,
+                                preps:{
+                                    values: tableList,
+                                }
                             },
                             {
                                 label: "属性名",
                                 fieldName: "fieldName",
                                 type: "select",
-                                optionList: fieldNameList,
                                 required: relationRequired,
-                                formVisible: true
+                                formVisible: true,
+                                preps:{
+                                    values: fieldNameList,
+                                }
                             },
                             {
                                 label: "匹配方式",
                                 fieldName: "matchType",
                                 type: "select",
-                                optionList: searchMatchList(),
                                 required: relationRequired,
-                                formVisible: true
+                                formVisible: true,
+                                preps: {
+                                    values: searchMatchList(),
+                                }
                             },
                             {
                                 label: "匹配值",

@@ -1,10 +1,8 @@
 import {nextTick, reactive, Ref, ref, unref} from "vue";
 import {
-
     dictData,
     error,
     FieldInfo,
-
     loadData,
     PageFieldInfo,
     piniaInstance,
@@ -12,10 +10,9 @@ import {
     SelectOption,
     success,
     useDesignFormStore,
-
     warning
 } from "star-horse-lowcode";
-import {httpMethod,validDataUrl, ascOrDesc,  dataType} from "@/api/system";
+import {ascOrDesc, dataType, httpMethod, validDataUrl} from "@/api/system";
 import {validRulesList} from "@/api/valid_utils";
 import DataSourceComp from "./DataSourceComp.vue";
 
@@ -269,9 +266,9 @@ export function urlFields() {
             type: "select",
             defaultValue: "POST",
             required: true,
-            optionList: httpMethod(),
             formVisible: true,
             preps: {
+                values: httpMethod(),
                 colspan: 10
             }
         },
@@ -282,8 +279,8 @@ export function urlFields() {
             defaultValue: "JSON",
             formVisible: true,
             required: true,
-            optionList: dataType(),
             preps: {
+                values: dataType(),
                 colspan: 10
             }
         },
@@ -331,7 +328,9 @@ export function urlFields() {
             fieldName: "ascOrDesc",
             type: "select",
             formVisible: true,
-            optionList: ascOrDesc()
+            preps: {
+                values: ascOrDesc()
+            }
         }
     ];
 
@@ -340,8 +339,10 @@ export function urlFields() {
             label: "原属性名",
             fieldName: "sourceField",
             type: "select",
-            optionList: fieldList,
-            formVisible: true
+            formVisible: true,
+            preps: {
+                values: fieldList,
+            }
         },
         {
             label: "目标属性名",
@@ -376,7 +377,9 @@ export function urlFields() {
                         type: "select",
                         defaultValue: "eq",
                         formVisible: true,
-                        optionList: searchMatchList()
+                        preps: {
+                            values: searchMatchList()
+                        }
                     },
                     {
                         label: "参数值",
@@ -440,7 +443,7 @@ export function paramsFields(paramsConfigRef: Ref<any>, fieldName: string, item:
     });
     const fields: Array<any> = [];
     const fieldList = ref<SelectOption[]>([]);
-    const dataUrls: FieldInfo[]|any = [
+    const dataUrls: FieldInfo[] | any = [
         [
             {
                 label: "系统环境",
@@ -463,7 +466,9 @@ export function paramsFields(paramsConfigRef: Ref<any>, fieldName: string, item:
                 defaultValue: "POST",
                 formVisible: true,
                 listVisible: true,
-                optionList: httpMethod()
+                preps: {
+                    values: httpMethod()
+                }
             },
             {
                 label: "协议",
@@ -473,10 +478,12 @@ export function paramsFields(paramsConfigRef: Ref<any>, fieldName: string, item:
                 defaultValue: "http",
                 formVisible: true,
                 listVisible: true,
-                optionList: [
-                    {name: "HTTP", value: "http"},
-                    {name: "HTTPS", value: "https"}
-                ]
+                preps: {
+                    values: [
+                        {name: "HTTP", value: "http"},
+                        {name: "HTTPS", value: "https"}
+                    ]
+                }
             }
         ],
         [
@@ -526,9 +533,9 @@ export function paramsFields(paramsConfigRef: Ref<any>, fieldName: string, item:
             fieldName: "primaryKey",
             type: "select",
             required: true,
-            optionList: fieldList,
             formVisible: true,
             preps: {
+                values: fieldList,
                 colspan: 8
             }
         },]
@@ -545,10 +552,12 @@ export function paramsFields(paramsConfigRef: Ref<any>, fieldName: string, item:
             fieldName: "ascOrDesc",
             type: "select",
             formVisible: true,
-            optionList: ascOrDesc()
+            preps:{
+                values: ascOrDesc()
+            }
         }
     ];
-    const fieldLists: FieldInfo[]|any = [
+    const fieldLists: FieldInfo[] | any = [
         {
             label: "列名",
             fieldName: "label",
@@ -560,8 +569,10 @@ export function paramsFields(paramsConfigRef: Ref<any>, fieldName: string, item:
             fieldName: "fieldName",
             type: "select",
             allowCreate: true,
-            optionList: fieldList,
-            formVisible: true
+            formVisible: true,
+            preps:{
+                values: fieldList,
+            }
         },
         {
             label: "搜索显示",
@@ -576,8 +587,10 @@ export function paramsFields(paramsConfigRef: Ref<any>, fieldName: string, item:
             label: "原属性名",
             fieldName: "sourceField",
             type: "select",
-            optionList: fieldList,
-            formVisible: true
+            formVisible: true,
+            preps:{
+                values: fieldList,
+            }
         },
         {
             label: "目标属性名",
@@ -604,7 +617,7 @@ export function paramsFields(paramsConfigRef: Ref<any>, fieldName: string, item:
     if (otherField) {
         fields.push(...otherField);
     }
-    const tabInfo:any = {
+    const tabInfo: any = {
         fieldName: "fieldLists",
         fieldList: [
             {
@@ -641,14 +654,14 @@ export function paramsFields(paramsConfigRef: Ref<any>, fieldName: string, item:
                 title: "接口参数",
                 tabName: "params",
                 batchName: "params",
-                formFlag:"Y",
+                formFlag: "Y",
                 fieldList: [{
                     label: "接口参数",
                     fieldName: "params",
                     type: "json-array",
                     formVisible: true,
-                    preps:{
-                        devType:"Y"
+                    preps: {
+                        devType: "Y"
                     }
                 }]
             }
@@ -1062,7 +1075,6 @@ export function buttonClickDataField() {
                 label: "响应内容",
                 fieldName: "viewType",
                 type: "radio",
-                optionList: eventList,
                 required: true,
                 defaultValue: "form",
                 formVisible: true,
@@ -1073,6 +1085,9 @@ export function buttonClickDataField() {
                     if (viewType) {
                         currentField.value = [fieldMap[viewType]];
                     }
+                },
+                preps:{
+                    values: eventList,
                 }
             },
             {
@@ -1151,7 +1166,7 @@ export function relationDataField() {
                                     formVisible: true,
                                     listVisible: true,
                                     preps: {
-                                        data:fields,
+                                        data: fields,
                                         checkStrictly: "Y"
                                     }
                                 }],
@@ -1293,7 +1308,7 @@ export function compCommonFields(customerValid: Function): FieldInfo[] {
             label: "全局禁用",
             fieldName: "disabled",
             type: "switch",
-            defaultValue:false,
+            defaultValue: false,
             formVisible: true
         },
         {
@@ -1356,7 +1371,7 @@ export function compCommonFields(customerValid: Function): FieldInfo[] {
             fieldName: "uniqueValid",
             type: "switch",
             helpMsg: "如果开启此功能，\n在新增数据时系统对数据进行唯一性校验。",
-            defaultValue:false,
+            defaultValue: false,
             formVisible: true
         },
         {

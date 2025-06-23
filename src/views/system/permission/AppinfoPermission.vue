@@ -44,16 +44,18 @@ const searchFields = reactive<SearchFields>({
       defaultVisible: true,
       type: "tselect",
       matchType: "eq",
-      preps:{
-        data:informationsList
+      preps: {
+        data: informationsList
       }
     },
     {
       label: "状态",
       fieldName: "b.statusCode",
       type: "select",
-      optionList: appPermissionStatus,
-      defaultVisible: true
+      defaultVisible: true,
+      preps: {
+        values: appPermissionStatus,
+      }
     }
   ]
 });
@@ -63,11 +65,13 @@ const formFieldList = reactive<PageFieldInfo>({
       label: "分组名称",
       fieldName: "idRolesinfo",
       type: "select",
-      optionList: rolesList,
       formVisible: true,
       required: true,
       viewVisible: false,
       disabled: true,
+      preps: {
+        values: rolesList,
+      }
     },
     {
       label: "应用名称",
@@ -79,7 +83,7 @@ const formFieldList = reactive<PageFieldInfo>({
       multiple: true,
       helpMsg: "选择子节点时，一定要先选中父节点，否则在头部应用菜单栏无法显示",
       preps: {
-        data:informationsList,
+        data: informationsList,
         checkStrictly: "Y"
       }
     },
@@ -89,7 +93,9 @@ const formFieldList = reactive<PageFieldInfo>({
       type: "select",
       listVisible: true,
       formVisible: true,
-      optionList: appPermissionStatus
+      preps:{
+        values: appPermissionStatus
+      }
     }
   ]
 });

@@ -55,7 +55,9 @@ const searchFormData = reactive<SearchFields>({
       fieldName: "datasourceConfigId",
       defaultVisible: true,
       type: "select",
-      optionList: dataSource
+      preps:{
+        values:dataSource
+      }
     },
 
     {

@@ -25,9 +25,18 @@ let auditList = ref<SelectOption[]>([
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {label: "视图名称", fieldName: "viewName", defaultVisible: true, type: "input", matchType: "lk"},
-    {label: "视图类别", fieldName: "viewType", defaultVisible: true, type: "select", optionList: viewTypeList},
+    {
+      label: "视图类别", fieldName: "viewType", defaultVisible: true, type: "select",
+      preps: {
+        values: viewTypeList
+      }
+    },
     {label: "消费权限", fieldName: "consumeAuthority", defaultVisible: true, type: "select"},
-    {label: "是否需要认证", fieldName: "isAudit", defaultVisible: true, type: "select", optionList: auditList}
+    {
+      label: "是否需要认证", fieldName: "isAudit", defaultVisible: true, type: "select", preps: {
+        values: auditList
+      }
+    }
   ]
 });
 const currentRow = ref<any>({});

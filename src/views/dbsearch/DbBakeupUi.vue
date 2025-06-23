@@ -27,8 +27,10 @@ const searchFormData = reactive<SearchFields>({
       label: "数据库配置",
       fieldName: "datasourceConfigId",
       type: "select",
-      optionList: dbList,
-      defaultVisible: true
+      defaultVisible: true,
+      preps:{
+        values:dbList
+      }
     },
     {
       label: "备份日期",
@@ -54,10 +56,12 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       label: "数据库信息",
       fieldName: "datasourceConfigId",
       type: "select",
-      optionList: dbList,
       required: true,
       formVisible: true,
-      listVisible: true
+      listVisible: true,
+      preps:{
+        values:dbList
+      }
     },
     [
       {
@@ -65,9 +69,11 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         fieldName: "bakePolicy",
         type: "select",
         helpMsg: "数据字段：BAKE_POLICY",
-        optionList: bakePolicyList,
         formVisible: true,
-        listVisible: true
+        listVisible: true,
+        preps:{
+          values:bakePolicyList
+        }
       },
       {
         label: "定时备份",

@@ -76,10 +76,12 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       label: "角色类型",
       fieldName: "roleType",
       type: "select",
-      optionList: roleTypeList,
       required: true,
       formVisible: !false,
-      listVisible: !false
+      listVisible: !false,
+      preps: {
+        values: roleTypeList,
+      }
     },
     {
       label: "角色名称",
@@ -150,10 +152,12 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       label: "状态码",
       fieldName: "statusCode",
       type: "select",
-      optionList: statusList,
       required: false,
       formVisible: true,
-      listVisible: !true
+      listVisible: !true,
+      preps: {
+        values: statusList,
+      }
     },
     {
       label: "状态名称",

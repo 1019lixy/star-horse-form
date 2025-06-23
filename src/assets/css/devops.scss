@@ -110,7 +110,8 @@
             padding-right: 10px;
           }
         }
-        .inst-node-item{
+
+        .inst-node-item {
           position: relative;
           display: flex;
           width: calc(100% - 10px);
@@ -431,6 +432,7 @@
     }
   }
 }
+
 .db_table_list {
   margin: 5px;
   display: flex;
@@ -438,9 +440,10 @@
   flex-direction: column;
 
   li {
-    margin:1px auto;
+    margin: 1px auto;
     display: flex;
     width: 100%;
+
     .el-tooltip__trigger {
       display: inline-flex;
       align-items: center;
@@ -463,4 +466,10 @@
   li:nth-child(odd) {
     background: #f1f2f3;
   }
+}
+
+.el-date-picker__header {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
 }

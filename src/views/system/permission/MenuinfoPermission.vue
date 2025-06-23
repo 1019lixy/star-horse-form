@@ -80,8 +80,10 @@ const searchFields = reactive<SearchFields>({
       label: "状态",
       fieldName: "b.statusCode",
       type: "select",
-      optionList: menuPermissionStatus,
-      defaultVisible: true
+      defaultVisible: true,
+      preps:{
+        values: menuPermissionStatus,
+      }
     }
   ]
 });

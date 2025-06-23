@@ -23,7 +23,11 @@ const searchFormData = reactive<SearchFields>({
   fieldList: [
     {label: "名称", fieldName: "itemName", type: "input", matchType: "lk"},
     {label: "类别", fieldName: "itemType", type: "input", matchType: "lk"},
-    {label: "分类", fieldName: "category", type: "select", optionList: categoryList}
+    {
+      label: "分类", fieldName: "category", type: "select", preps: {
+        values: categoryList
+      }
+    }
   ]
 });
 //页面属性
@@ -63,10 +67,12 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       label: "分类",
       fieldName: "category",
       type: "select",
-      optionList: categoryList,
       required: true,
       formVisible: true,
-      listVisible: true
+      listVisible: true,
+      preps:{
+        values:categoryList
+      }
     },
     {
       label: "版本号",

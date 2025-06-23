@@ -239,9 +239,9 @@ export default defineConfig((mode) => {
                     manualChunks(id: any) {
                         if (id.includes("node_modules")) {
                             //此处不要随修改，否则很可能打包后代码不能正常运行
-                            // if (id.includes('element-plus')) return 'element-plus';
-                            // if (id.includes('echarts')) return 'echarts';
-                            // if (id.includes('bpmn-js')) return 'bpmn-js';
+                            if (id.includes('element-plus')) return 'element-plus';
+                            if (id.includes('echarts')) return 'echarts';
+                            if (id.includes('bpmn-js')) return 'bpmn-js';
 
                             // if (id.includes('flv.js')) return 'flv';
                             // if (id.includes('gridstack')) return 'gridstack';
@@ -261,7 +261,15 @@ export default defineConfig((mode) => {
                     drop_console: mode.mode === "production",
                     drop_debugger: mode.mode === "production",
                     warnings: false,
-                }
+                    // 新增：移除未使用的变量/函数（需确保业务代码无副作用）
+                    unused: true,
+                    // 新增：合并连续变量声明
+                    sequences: true,
+                },
+                // 新增：保留类名（若业务依赖类名反射则关闭）
+                keep_classnames: false,
+                // 新增：保留函数名（若业务依赖函数名反射则关闭）
+                keep_fnames: false,
             },
             // 开启并行压缩
             parallel: true,
@@ -287,8 +295,6 @@ export default defineConfig((mode) => {
                 transformMixedEsModules: true
             },
             //构建的库
-            // Vite项目 build打包后浏览器中可直接使用的方法 https://blog.csdn.net/weixin_54898878/article/details/129730628
-            // lib: {},
             //当设置为 true，构建后将会生成 manifest.json 文件
             manifest: false,
             // 设置为 false 可以禁用最小化混淆，

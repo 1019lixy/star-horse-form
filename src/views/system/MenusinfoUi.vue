@@ -141,11 +141,13 @@ const tableFieldList = reactive<PageFieldInfo>({
         label: "页面打开方式",
         fieldName: "openType",
         type: "select",
-        optionList: openTypeList,
         required: true,
         formVisible: true,
         defaultValue: "self",
-        listVisible: true
+        listVisible: true,
+        preps:{
+          values: openTypeList,
+        }
       }
     ],
     {

@@ -224,10 +224,11 @@ const processField = reactive<PageFieldInfo | any>({
                   label: "事件类型",
                   fieldName: "eventType",
                   type: "select",
-                  optionList: processEventTypeList,
+
                   formVisible: true,
                   listVisible: true,
                   preps: {
+                    values: processEventTypeList,
                     multiple: true,
                   }
                 },
@@ -235,13 +236,13 @@ const processField = reactive<PageFieldInfo | any>({
                   label: "监听器类型",
                   fieldName: "listenerType",
                   type: "radio",
-                  optionList: [
-                    {name: "Java类", value: "java"},
-                    {name: "代理表达式", value: "proxyExp"}
-                  ],
                   formVisible: true,
                   listVisible: true,
                   preps: {
+                    values: [
+                      {name: "Java类", value: "java"},
+                      {name: "代理表达式", value: "proxyExp"}
+                    ],
                     radioType: "button"
                   }
                 },
@@ -249,13 +250,14 @@ const processField = reactive<PageFieldInfo | any>({
                   label: "抛出事件",
                   fieldName: "throwEvent",
                   type: "radio",
-                  optionList: [
-                    {name: "是", value: "Y"},
-                    {name: "否", value: "N"}
-                  ],
+
                   formVisible: true,
                   listVisible: true,
                   preps: {
+                    values: [
+                      {name: "是", value: "Y"},
+                      {name: "否", value: "N"}
+                    ],
                     radioType: "button"
                   }
                 },
@@ -270,9 +272,11 @@ const processField = reactive<PageFieldInfo | any>({
                   label: "实体类型",
                   fieldName: "entityType",
                   type: "select",
-                  optionList: entityTypeList,
                   formVisible: true,
-                  listVisible: true
+                  listVisible: true,
+                  preps:{
+                    values: entityTypeList,
+                  }
                 }
               ]
             }
@@ -297,9 +301,11 @@ const processField = reactive<PageFieldInfo | any>({
                   label: "数据类型",
                   fieldName: "dataType",
                   type: "select",
-                  optionList: dataTypeList,
                   formVisible: true,
-                  listVisible: true
+                  listVisible: true,
+                  preps:{
+                    values: dataTypeList,
+                  }
                 },
                 {
                   label: "默认值",

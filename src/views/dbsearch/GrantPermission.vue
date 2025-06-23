@@ -26,7 +26,10 @@ const dataUrl: ApiUrls = apiInstance("userdb-manage", "dbsearch/dbAssign");
 
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "授权数据库", fieldName: "dbinfoSingle", defaultVisible: true, type: "select", optionList: dbList},
+    {label: "授权数据库", fieldName: "dbinfoSingle", defaultVisible: true, type: "select",
+      preps:{
+      values:dbList
+      }},
     {label: "被授权人编号", fieldName: "assignNo", defaultVisible: true, type: "input", matchType: "lk"},
     {label: "授权类型 ", fieldName: "assignType", defaultVisible: true, type: "select", optionList: assignType},
     {label: "经办人", fieldName: "operator", type: "input"}

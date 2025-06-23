@@ -8,7 +8,7 @@ import {
   SelectOption,
   UserFuncInfo
 } from "star-horse-lowcode";
-import {  loadDepartmentInfo, loadSystemInfo} from "@/api/star_horse_utils";
+import {loadDepartmentInfo, loadSystemInfo} from "@/api/star_horse_utils";
 import {Config} from "@/api/settings";
 import {onMounted, provide, reactive, ref} from "vue";
 import {isSystemManage} from "@/utils/auth";
@@ -36,7 +36,12 @@ const searchFormData = reactive<SearchFields>({
   fieldList: [
     {label: "用户组名称", fieldName: "roleName", defaultVisible: true, type: "input", matchType: "lk"},
     /* {label: "角色编码", fieldName: "roleCode", type: "input", matchType: "lk"},*/
-    {label: "用户组类型", fieldName: "roleType", defaultVisible: true, type: "select", optionList: roleTypes}
+    {
+      label: "用户组类型", fieldName: "roleType", defaultVisible: true, type: "select",
+      preps: {
+        values: roleTypes
+      }
+    }
   ]
 });
 const tableFieldList = reactive<PageFieldInfo | any>({
@@ -105,8 +110,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         type: "tselect",
         required: true,
         multiple: true,
-        preps:{
-          data:menusList
+        preps: {
+          data: menusList
         }
       }
     ],

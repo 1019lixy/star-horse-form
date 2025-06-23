@@ -33,7 +33,9 @@ const searchFormData = reactive<SearchFields>({
       type: "select",
       matchType: "eq",
       defaultVisible: true,
-      optionList: cfgCategoryList
+      preps:{
+        values: cfgCategoryList
+      }
     },
     {
       label: "名称",

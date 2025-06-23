@@ -1,6 +1,7 @@
 import {reactive, ref} from "vue";
 import {FieldInfo, PageFieldInfo, SelectOption, TabFieldInfo} from "star-horse-lowcode";
 import {httpMethod} from "@/api/system";
+
 const processEventTypeList = ref<SelectOption[]>([
     {name: "ENGINE_CREATED", value: "ENGINE_CREATED"},
     {name: "ENGINE_CLOSED", value: "ENGINE_CLOSED"},
@@ -77,17 +78,17 @@ const listenerTypeFields = {
     label: "监听器类型",
     fieldName: "listenerType",
     type: "radio",
-    optionList: [
-        {name: "Java类", value: "java"},
-        {name: "表达式", value: "exp"},
-        {
-            name: "代理表达式",
-            value: "proxyExp"
-        }
-    ],
     formVisible: true,
     listVisible: true,
     preps: {
+        values: [
+            {name: "Java类", value: "java"},
+            {name: "表达式", value: "exp"},
+            {
+                name: "代理表达式",
+                value: "proxyExp"
+            }
+        ],
         radioType: "button"
     }
 };
@@ -109,13 +110,13 @@ const injectColumnsFields = {
                     label: "字段类型",
                     fieldName: "type",
                     type: "radio",
-                    optionList: [
-                        {name: "字符串", value: "str"},
-                        {name: "表达式", value: "exp"}
-                    ],
                     formVisible: true,
                     listVisible: true,
                     preps: {
+                        values: [
+                            {name: "字符串", value: "str"},
+                            {name: "表达式", value: "exp"}
+                        ],
                         radioType: "button"
                     }
                 },
@@ -143,10 +144,11 @@ const execListener = (type: string, title: string, tabName: string, batchName: s
                         label: "事件类型",
                         fieldName: "eventType",
                         type: "radio",
-                        optionList: type == "task" ? taskTypeList : eventTypeList,
+
                         formVisible: true,
                         listVisible: true,
                         preps: {
+                            values: type == "task" ? taskTypeList : eventTypeList,
                             radioType: "button"
                         }
                     },
@@ -155,17 +157,18 @@ const execListener = (type: string, title: string, tabName: string, batchName: s
                         label: "事务类型",
                         fieldName: "transnationalType",
                         type: "radio",
-                        optionList: [
-                            {name: "提交前", value: "beforeSubmit"},
-                            {
-                                name: "提交后",
-                                value: "afterSubmit"
-                            },
-                            {name: "回滚", value: "rollBack"}
-                        ],
+
                         formVisible: true,
                         listVisible: true,
                         preps: {
+                            values: [
+                                {name: "提交前", value: "beforeSubmit"},
+                                {
+                                    name: "提交后",
+                                    value: "afterSubmit"
+                                },
+                                {name: "回滚", value: "rollBack"}
+                            ],
                             radioType: "button"
                         }
                     },
@@ -202,9 +205,11 @@ const extendPrep = {
                     label: "数据类型",
                     fieldName: "dataType",
                     type: "select",
-                    optionList: dataTypeList,
                     formVisible: true,
-                    listVisible: true
+                    listVisible: true,
+                    preps: {
+                        values: dataTypeList,
+                    }
                 },
                 {
                     label: "属性值",
@@ -240,9 +245,11 @@ const restTaskField = reactive<TabFieldInfo | any>({
             label: "请求方式",
             fieldName: "httpMethod",
             type: "select",
-            optionList: httpMethod(),
             formVisible: true,
-            listVisible: true
+            listVisible: true,
+            preps: {
+                values: httpMethod(),
+            }
         },
         {
             label: "请求头",

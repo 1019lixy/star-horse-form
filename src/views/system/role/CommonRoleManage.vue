@@ -173,10 +173,12 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       label: "状态码",
       fieldName: "statusCode",
       type: "select",
-      optionList: statusList,
       required: false,
       formVisible: true,
-      listVisible: !true
+      listVisible: !true,
+      preps:{
+        values: statusList,
+      }
     },
     {
       label: "状态名称",
