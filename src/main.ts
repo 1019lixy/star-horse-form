@@ -68,7 +68,7 @@ app.config.errorHandler = (err, instance, info) => {
  * @param instance
  * @param info
  */
-app.config.warnHandler = () => null;
+app.config.warnHandler = () => {};
 // app.config.warnHandler=(msg, instance, trace)=>{
 //     console.log(msg);
 //     console.log(instance);

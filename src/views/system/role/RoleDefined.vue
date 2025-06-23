@@ -74,7 +74,6 @@ const viewCompField = ref<DyCompField>({
   emits: ["closeAction"],
   methods: {
     closeAction: (role: any, item: any) => {
-      console.log(role, item);
       operationConfirm("确定要删除吗？").then((_) => {
         postRequest(
             `/system-config/system/companyRolePkDefine/deleteData/${role.idCompanyRole}/${item.idCompanyDefine}`,
@@ -138,13 +137,13 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       required: false,
       listVisible: true,
       preps: {
-        showComp: "Y",
+        showComp: true,
         compAction: "click",
         styles: {
           cursor: "pointer"
         },
-        popover: "Y",
-        compField: viewCompField,
+        popover: true,
+        compInfo: viewCompField,
         placeholder: "0",
         compFunc: (val: any) => {
           alert(val["assignCompanies"]);

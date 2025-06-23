@@ -1,5 +1,5 @@
 <script lang="ts" setup name="DynamicPage">
-import {h, nextTick, onMounted, ref, render} from "vue";
+import {h, nextTick, onMounted, ref, render, resolveComponent} from "vue";
 import {apiInstance, createComponent, DynamicNode} from "star-horse-lowcode";
 import Guides from "vue3-guides";
 import {VueInfiniteViewer} from "vue3-infinite-viewer";
@@ -13,6 +13,10 @@ import {GridStack} from "gridstack";
 import {GridStackWidget} from "gridstack/dist/types";
 import {appInstance} from "@/main";
 
+/**
+ * 页面设计需要先设置排版，然后在排版上增加具体的组件，这样页面发布后才不会乱,
+ * 那么前提是要先设计好页面的排版得模版库，可参照flexbox-labs，然后再增加组件，这样才能保证页面的排版不会乱
+ */
 const dataUrl = apiInstance("userdb-manage", "userdb/dynamicPage");
 const horizontalGuides = ref();
 const verticalGuides = ref();
@@ -62,7 +66,7 @@ const initGuides = async () => {
 };
 let currentItem = ref<any>({});
 const dragItem = (item: any) => {
-  const temp = {
+  const temp: DynamicNode = {
     id: item,
     name: item,
   }
@@ -184,7 +188,7 @@ const onRestore = () => {
   horizontalGuides.value?.scrollGuides(0);
   verticalGuides.value?.scroll(0);
   verticalGuides.value?.scrollGuides(0);
-  // vueInfiniteViewerRef.value?.scrollCenter();
+  selectNode(items.value[0]);
 };
 const selectNode = (item: any) => {
   console.log("--------------------", item);
@@ -205,7 +209,9 @@ onMounted(async () => {
             type="border-card"
             v-model="panelModel"
         >
-          <el-tab-pane label="基础信息" name="first">
+          <el-tab-pane label="布局模版" name="zero">
+          </el-tab-pane>
+          <el-tab-pane label="组件信息" name="first">
             <div class="add-weidget" @click="addNewWidget">
               <star-horse-icon icon-class="plus" color="#fefefe"/>
             </div>
@@ -278,8 +284,8 @@ onMounted(async () => {
             }"
           >
             {{ items }}
-            <template v-for="(item, ind) in items">
-              <StarHorseDraggable style="pointer-events: auto !important;" :node="item" :msg="item.name"
+            <template v-for="(item, ind) in items" :key="'data'+ind">
+              <StarHorseDraggable  style="pointer-events: auto !important;" :node="item" :msg="item.name"
                                   :isActive="currentItem.id==item.id" @mousedown.native="selectNode(item)"/>
             </template>
           </div>

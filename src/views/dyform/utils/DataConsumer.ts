@@ -350,7 +350,7 @@ export function relationFieldInfo(datas: any) {
     });
     console.log(datas);
     lineDatas[datas.to] = [];
-    datas.toData?.items?.forEach((item) => {
+    datas.toData?.items?.forEach((item:any) => {
         lineDatas[datas.to].push({
             name: item.comment || item.fieldName,
             value: item.fieldName
