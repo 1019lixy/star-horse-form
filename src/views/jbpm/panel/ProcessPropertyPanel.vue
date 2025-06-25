@@ -32,7 +32,7 @@ const processField = reactive<PageFieldInfo | any>({
             {
               label: "ID",
               fieldName: "processId",
-              type: "input",
+
               disabled: true,
               formVisible: true,
               listVisible: true
@@ -40,7 +40,7 @@ const processField = reactive<PageFieldInfo | any>({
             {
               label: "流程名称",
               fieldName: "processName",
-              type: "input",
+
               required: true,
               formVisible: true,
               listVisible: true
@@ -89,14 +89,14 @@ const processField = reactive<PageFieldInfo | any>({
                         {
                           label: "ID",
                           fieldName: "id",
-                          type: "input",
+
                           formVisible: true,
                           listVisible: true
                         },
                         {
                           label: "名称",
                           fieldName: "name",
-                          type: "input",
+
                           formVisible: true,
                           listVisible: true
                         }
@@ -115,21 +115,21 @@ const processField = reactive<PageFieldInfo | any>({
                         {
                           label: "ID",
                           fieldName: "id",
-                          type: "input",
+
                           formVisible: true,
                           listVisible: true
                         },
                         {
                           label: "名称",
                           fieldName: "name",
-                          type: "input",
+
                           formVisible: true,
                           listVisible: true
                         },
                         {
                           label: "错误编码",
                           fieldName: "errorCode",
-                          type: "input",
+
                           formVisible: true,
                           listVisible: true
                         }
@@ -148,14 +148,14 @@ const processField = reactive<PageFieldInfo | any>({
                         {
                           label: "ID",
                           fieldName: "id",
-                          type: "input",
+
                           formVisible: true,
                           listVisible: true
                         },
                         {
                           label: "名称",
                           fieldName: "name",
-                          type: "input",
+
                           formVisible: true,
                           listVisible: true
                         },
@@ -185,21 +185,21 @@ const processField = reactive<PageFieldInfo | any>({
                         {
                           label: "ID",
                           fieldName: "id",
-                          type: "input",
+
                           formVisible: true,
                           listVisible: true
                         },
                         {
                           label: "名称",
                           fieldName: "name",
-                          type: "input",
+
                           formVisible: true,
                           listVisible: true
                         },
                         {
                           label: "升级编码",
                           fieldName: "code",
-                          type: "input",
+
                           formVisible: true,
                           listVisible: true
                         }
@@ -264,7 +264,7 @@ const processField = reactive<PageFieldInfo | any>({
                 {
                   label: "监听器",
                   fieldName: "listenerName",
-                  type: "input",
+
                   formVisible: true,
                   listVisible: true
                 },
@@ -293,7 +293,7 @@ const processField = reactive<PageFieldInfo | any>({
                 {
                   label: "名称",
                   fieldName: "name",
-                  type: "input",
+
                   formVisible: true,
                   listVisible: true
                 },
@@ -310,7 +310,7 @@ const processField = reactive<PageFieldInfo | any>({
                 {
                   label: "默认值",
                   fieldName: "defaultValue",
-                  type: "input",
+
                   formVisible: true,
                   listVisible: true
                 }

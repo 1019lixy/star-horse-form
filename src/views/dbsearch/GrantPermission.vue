@@ -30,9 +30,9 @@ const searchFormData = reactive<SearchFields>({
       preps:{
       values:dbList
       }},
-    {label: "被授权人编号", fieldName: "assignNo", defaultVisible: true, type: "input", matchType: "lk"},
+    {label: "被授权人编号", fieldName: "assignNo", defaultVisible: true,  matchType: "lk"},
     {label: "授权类型 ", fieldName: "assignType", defaultVisible: true, type: "select", optionList: assignType},
-    {label: "经办人", fieldName: "operator", type: "input"}
+    {label: "经办人", fieldName: "operator", }
   ]
 });
 let params = ref<CompParams>({dataUrl: {}, fieldList: [], needField: [], primaryKey: ""});
@@ -103,7 +103,7 @@ const tableFieldList = reactive({
     {
       label: "经办人",
       fieldName: "operator",
-      type: "input",
+
       listVisible: true
     },
     {
@@ -127,13 +127,13 @@ const tableFieldList = reactive({
       label: "创建人",
       disabled: true,
       fieldName: "createdBy",
-      type: "input"
+
     },
     {
       label: "修改人",
       disabled: true,
       fieldName: "updatedBy",
-      type: "input"
+
     },
     {
       label: "创建日期",
@@ -160,22 +160,22 @@ const tableFieldList = reactive({
     {
       label: "数据编号",
       fieldName: "dataNo",
-      type: "input"
+
     },
     {
       label: "状态码",
       fieldName: "statusCode",
-      type: "input"
+
     },
     {
       label: "状态码名称",
       fieldName: "statusName",
-      type: "input"
+
     },
     {
       label: "国际码",
       fieldName: "local",
-      type: "input"
+
     }
   ],
   batchFieldList: []
@@ -201,19 +201,19 @@ const searchUserOrRole = (val: any) => {
       {
         label: "用户名",
         fieldName: "username",
-        type: "input",
+
         listVisible: true
       },
       {
         label: "姓名",
         fieldName: "name",
-        type: "input",
+
         listVisible: true
       },
       {
         label: "工号",
         fieldName: "employeeNo",
-        type: "input",
+
         listVisible: true
       }
     ];
@@ -227,18 +227,18 @@ const searchUserOrRole = (val: any) => {
       {
         label: "角色名称",
         fieldName: "roleName",
-        type: "input",
+
         listVisible: true
       },
       {
         label: "角色编码",
-        type: "input",
+
         fieldName: "roleCode",
         listVisible: true
       },
       {
         label: "角色类型",
-        type: "input",
+
         fieldName: "roleType",
         listVisible: true
       }

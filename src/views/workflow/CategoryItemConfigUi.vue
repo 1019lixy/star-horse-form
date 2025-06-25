@@ -40,7 +40,7 @@ const searchFormData = reactive<SearchFields>({
     {
       label: "名称",
       fieldName: "name",
-      type: "input",
+
       matchType: "lk",
       defaultVisible: true,
       preps: {}
@@ -48,7 +48,7 @@ const searchFormData = reactive<SearchFields>({
     {
       label: "编码",
       fieldName: "code",
-      type: "input",
+
       matchType: "lk",
       defaultVisible: true,
       preps: {}
@@ -82,7 +82,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "名称",
       fieldName: "name",
-      type: "input",
+
       required: true,
       formVisible: true,
       listVisible: true,
@@ -92,7 +92,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       {
         label: "编码",
         fieldName: "code",
-        type: "input",
+
         required: false,
         formVisible: true,
         listVisible: true,
@@ -146,8 +146,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "创建人",
       fieldName: "createdBy",
-      type: "input",
-      formVisible: false,
+
+
       listVisible: true,
       preps: {},
       commonFlag: "Y"
@@ -155,9 +155,9 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "修改人",
       fieldName: "updatedBy",
-      type: "input",
-      formVisible: false,
-      listVisible: false,
+
+
+
       preps: {},
       commonFlag: "Y"
     },
@@ -165,7 +165,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       label: "创建时间",
       fieldName: "createdTime",
       type: "datetime",
-      formVisible: false,
+
       listVisible: true,
       preps: {},
       commonFlag: "Y"
@@ -174,7 +174,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       label: "创建日期",
       fieldName: "createdTime",
       type: "datetime",
-      formVisible: false,
+
       listVisible: true,
       preps: {},
       commonFlag: "N"
@@ -183,8 +183,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       label: "修改时间",
       fieldName: "updatedTime",
       type: "datetime",
-      formVisible: false,
-      listVisible: false,
+
+
       preps: {},
       commonFlag: "Y"
     },
@@ -192,7 +192,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       label: "版本号",
       fieldName: "version",
       type: "number",
-      formVisible: false,
+
       listVisible: true,
       preps: {},
       commonFlag: "Y"
@@ -201,26 +201,26 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       label: "是否删除",
       fieldName: "isDel",
       type: "number",
-      formVisible: false,
-      listVisible: false,
+
+
       preps: {},
       commonFlag: "Y"
     },
     {
       label: "数据编号",
       fieldName: "dataNo",
-      type: "input",
-      formVisible: false,
-      listVisible: false,
+
+
+
       preps: {},
       commonFlag: "Y"
     },
     {
       label: "状态码",
       fieldName: "statusCode",
-      type: "input",
-      formVisible: false,
-      listVisible: false,
+
+
+
       preps: {},
       commonFlag: "Y"
     },
@@ -228,26 +228,26 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       label: "状态名称",
       fieldName: "statusName",
       type: "string",
-      formVisible: false,
-      listVisible: false,
+
+
       preps: {},
       commonFlag: "Y"
     },
     {
       label: "国际编码",
       fieldName: "local",
-      type: "input",
-      formVisible: false,
-      listVisible: false,
+
+
+
       preps: {},
       commonFlag: "Y"
     },
     {
       label: "备注",
       fieldName: "remark",
-      type: "input",
-      formVisible: false,
-      listVisible: false,
+
+
+
       preps: {},
       commonFlag: "Y"
     }

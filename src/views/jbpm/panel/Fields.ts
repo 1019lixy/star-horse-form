@@ -102,7 +102,7 @@ const injectColumnsFields = {
                 {
                     label: "字段名称",
                     fieldName: "name",
-                    type: "input",
+                    
                     formVisible: true,
                     listVisible: true
                 },
@@ -123,7 +123,7 @@ const injectColumnsFields = {
                 {
                     label: "字段值",
                     fieldName: "value",
-                    type: "input",
+                    
                     formVisible: true,
                     listVisible: true
                 }
@@ -197,7 +197,7 @@ const extendPrep = {
                 {
                     label: "属性名",
                     fieldName: "name",
-                    type: "input",
+                    
                     formVisible: true,
                     listVisible: true
                 },
@@ -214,7 +214,7 @@ const extendPrep = {
                 {
                     label: "属性值",
                     fieldName: "vaLue",
-                    type: "input",
+                    
                     formVisible: true,
                     listVisible: true
                 }
@@ -237,7 +237,7 @@ const restTaskField = reactive<TabFieldInfo | any>({
         {
             label: "请求地址",
             fieldName: "url",
-            type: "input",
+            
             formVisible: true,
             listVisible: true
         },
@@ -274,7 +274,7 @@ const httpTaskField = reactive<TabFieldInfo | any>({
         {
             label: "请求地址",
             fieldName: "url",
-            type: "input",
+            
             formVisible: true,
             listVisible: true
         },
@@ -303,7 +303,7 @@ const httpTaskField = reactive<TabFieldInfo | any>({
         {
             label: "返回变量",
             fieldName: "responseParam",
-            type: "input",
+            
             formVisible: true,
             listVisible: true
         },
@@ -344,7 +344,7 @@ const mqTaskField = reactive<TabFieldInfo | any>({
         {
             label: "队列名称",
             fieldName: "queueName",
-            type: "input",
+            
             formVisible: true,
             listVisible: true
         },
@@ -372,7 +372,7 @@ const emailTaskField = reactive<TabFieldInfo | any>({
         {
             label: "主题",
             fieldName: "subject",
-            type: "input",
+            
             formVisible: true,
             listVisible: true
         },
@@ -392,7 +392,7 @@ const shellTaskField = reactive<TabFieldInfo | any>({
         {
             label: "命令",
             fieldName: "command",
-            type: "input",
+            
             formVisible: true,
             listVisible: true
         },
@@ -404,7 +404,7 @@ const shellTaskField = reactive<TabFieldInfo | any>({
                         {
                             label: "参数名",
                             fieldName: "paramName",
-                            type: "input",
+                            
                             formVisible: true,
                             listVisible: true
                         }
@@ -415,7 +415,7 @@ const shellTaskField = reactive<TabFieldInfo | any>({
         {
             label: "输出变量",
             fieldName: "outputParam",
-            type: "input",
+            
             formVisible: true,
             listVisible: true
         },
@@ -491,7 +491,7 @@ const callActivityField = reactive<TabFieldInfo | any>({
     fieldList: [
         {
             label: "实例名称",
-            type: "input",
+            
             fieldName: "instanceName",
             formVisible: true,
             listVisible: true
@@ -523,14 +523,14 @@ const callActivityField = reactive<TabFieldInfo | any>({
                     fieldList: [
                         {
                             label: "源",
-                            type: "input",
+                            
                             fieldName: "source",
                             formVisible: true,
                             listVisible: true
                         },
                         {
                             label: "目标",
-                            type: "input",
+                            
                             fieldName: "dist",
                             formVisible: true,
                             listVisible: true
@@ -544,14 +544,14 @@ const callActivityField = reactive<TabFieldInfo | any>({
                     fieldList: [
                         {
                             label: "源",
-                            type: "input",
+                            
                             fieldName: "source",
                             formVisible: true,
                             listVisible: true
                         },
                         {
                             label: "目标",
-                            type: "input",
+                            
                             fieldName: "dist",
                             formVisible: true,
                             listVisible: true
@@ -591,7 +591,7 @@ const generalItem = (node: any) => {
         {
             label: "Id",
             fieldName: "id",
-            type: "input",
+            
             disabled: "Y",
             formVisible: true,
             listVisible: true
@@ -599,7 +599,7 @@ const generalItem = (node: any) => {
         {
             label: "名称",
             fieldName: "name",
-            type: "input",
+            
             required: true,
             formVisible: true,
             listVisible: true
@@ -703,7 +703,7 @@ const userTaskNodeField = reactive<PageFieldInfo | any>({
                         {
                             label: "ID",
                             fieldName: "id",
-                            type: "input",
+                            
                             disabled: "Y",
                             formVisible: true,
                             listVisible: true,
@@ -726,7 +726,7 @@ const userTaskNodeField = reactive<PageFieldInfo | any>({
                         {
                             label: "跳过表达式",
                             fieldName: "jumpExp",
-                            type: "input",
+                            
                             formVisible: true,
                             listVisible: true
                         },
@@ -786,7 +786,7 @@ const userTaskNodeField = reactive<PageFieldInfo | any>({
                         {
                             label: "到期时间",
                             fieldName: "timeout",
-                            type: "input",
+                            
                             formVisible: true,
                             listVisible: true
                         },
@@ -813,14 +813,14 @@ const userTaskNodeField = reactive<PageFieldInfo | any>({
                             fieldList: [
                                 {
                                     label: "名称",
-                                    type: "input",
+                                    
                                     fieldName: "name",
                                     formVisible: true,
                                     listVisible: true
                                 },
                                 {
                                     label: "编码",
-                                    type: "input",
+                                    
                                     fieldName: "code",
                                     formVisible: true,
                                     listVisible: true
@@ -842,14 +842,14 @@ const userTaskNodeField = reactive<PageFieldInfo | any>({
                             fieldList: [
                                 {
                                     label: "名称",
-                                    type: "input",
+                                    
                                     fieldName: "name",
                                     formVisible: true,
                                     listVisible: true
                                 },
                                 {
                                     label: "编码",
-                                    type: "input",
+                                    
                                     fieldName: "code",
                                     formVisible: true,
                                     listVisible: true

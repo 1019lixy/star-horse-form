@@ -34,8 +34,8 @@ const sessionTimeOut = [
 ];
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "用户组名称", fieldName: "roleName", defaultVisible: true, type: "input", matchType: "lk"},
-    /* {label: "角色编码", fieldName: "roleCode", type: "input", matchType: "lk"},*/
+    {label: "用户组名称", fieldName: "roleName", defaultVisible: true,  matchType: "lk"},
+    /* {label: "角色编码", fieldName: "roleCode",  matchType: "lk"},*/
     {
       label: "用户组类型", fieldName: "roleType", defaultVisible: true, type: "select",
       preps: {
@@ -54,7 +54,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "用户组名称",
       fieldName: "roleName",
-      type: "input",
+
       required: true,
       formVisible: true,
       listVisible: true
@@ -70,7 +70,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "用户组编码",
       fieldName: "roleCode",
-      type: "input",
+
       listVisible: true,
       editdisabled: true,
       required: true
@@ -126,14 +126,14 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       label: "创建人",
       disabled: true,
       fieldName: "createdBy",
-      type: "input",
+
       listVisible: true
     },
     {
       label: "修改人",
       disabled: true,
       fieldName: "updatedBy",
-      type: "input"
+
     },
     {
       label: "创建日期",
@@ -161,22 +161,22 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "数据编号",
       fieldName: "dataNo",
-      type: "input"
+
     },
     {
       label: "状态码",
       fieldName: "statusCode",
-      type: "input"
+
     },
     {
       label: "状态码名称",
       fieldName: "statusName",
-      type: "input"
+
     },
     {
       label: "国际码",
       fieldName: "local",
-      type: "input"
+
     }
   ]
 });

@@ -9,14 +9,14 @@ const searchFormData = reactive<SearchFields>({
   fieldList: [
     {label: "主键", fieldName: "idConsumerConfigRelation", type: "long"},
     {label: "消费配置ID", fieldName: "idConsumerConfig", type: "long"},
-    {label: "关联主表名", fieldName: "fromTable", type: "input"},
-    {label: "关联主表Key", fieldName: "fromKey", type: "input"},
-    {label: "关联主表字段名", fieldName: "fromField", type: "input"},
-    {label: "被关联表名", fieldName: "toTable", type: "input"},
-    {label: "被关联表Key", fieldName: "toKey", type: "input"},
-    {label: "被关联表字段", fieldName: "toField", type: "input"},
-    {label: "关联映射关系 默认 eq", fieldName: "mapper", type: "input"},
-    {label: "备注", fieldName: "remark", type: "input"}
+    {label: "关联主表名", fieldName: "fromTable", },
+    {label: "关联主表Key", fieldName: "fromKey", },
+    {label: "关联主表字段名", fieldName: "fromField", },
+    {label: "被关联表名", fieldName: "toTable", },
+    {label: "被关联表Key", fieldName: "toKey", },
+    {label: "被关联表字段", fieldName: "toField", },
+    {label: "关联映射关系 默认 eq", fieldName: "mapper", },
+    {label: "备注", fieldName: "remark", }
   ]
 });
 //页面属性
@@ -41,7 +41,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "关联主表名",
       fieldName: "fromTable",
-      type: "input",
+
       required: true,
       formVisible: true,
       listVisible: true
@@ -49,7 +49,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "关联主表Key",
       fieldName: "fromKey",
-      type: "input",
+
       required: true,
       formVisible: true,
       listVisible: true
@@ -57,7 +57,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "关联主表字段名",
       fieldName: "fromField",
-      type: "input",
+
       required: true,
       formVisible: true,
       listVisible: true
@@ -65,7 +65,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "被关联表名",
       fieldName: "toTable",
-      type: "input",
+
       required: true,
       formVisible: true,
       listVisible: true
@@ -73,7 +73,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "被关联表Key",
       fieldName: "toKey",
-      type: "input",
+
       required: true,
       formVisible: true,
       listVisible: true
@@ -81,7 +81,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "被关联表字段",
       fieldName: "toField",
-      type: "input",
+
       required: true,
       formVisible: true,
       listVisible: true
@@ -89,7 +89,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "关联映射关系 默认 eq",
       fieldName: "mapper",
-      type: "input",
+
       required: true,
       formVisible: true,
       listVisible: true
@@ -103,7 +103,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       label: "创建人",
       disabled: true,
       fieldName: "createdBy",
-      type: "input"
+
     },
     {
       label: "创建时间",
@@ -114,7 +114,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       label: "修改人",
       disabled: true,
       fieldName: "updatedBy",
-      type: "input"
+
     },
     {
       label: "修改时间",
@@ -124,17 +124,17 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "数据编号",
       fieldName: "dataNo",
-      type: "input"
+
     },
     {
       label: "状态吗",
       fieldName: "statusCode",
-      type: "input"
+
     },
     {
       label: "状态名称",
       fieldName: "statusName",
-      type: "input"
+
     },
     {
       label: "是否删除",
@@ -144,12 +144,12 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "国际码",
       fieldName: "local",
-      type: "input"
+
     },
     {
       label: "备注",
       fieldName: "remark",
-      type: "input",
+
       formVisible: true,
       listVisible: true
     }

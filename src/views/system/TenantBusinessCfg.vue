@@ -46,7 +46,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "菜单名称",
       fieldName: "menuName",
-      type: "input",
+
       required: false,
       formVisible: true,
       listVisible: true,
@@ -61,10 +61,10 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: true,
       preps: {}
     },
-    {label: "创建人", fieldName: "createdBy", type: "input", listVisible: true, preps: {}, commonFlag: "Y"},
+    {label: "创建人", fieldName: "createdBy",  listVisible: true, preps: {}, commonFlag: "Y"},
     {label: "创建时间", fieldName: "createdTime", type: "datetime", listVisible: true, preps: {}, commonFlag: "Y"},
-    {label: "修改人", fieldName: "updatedBy", type: "input", listVisible: false, preps: {}, commonFlag: "Y"},
-    {label: "修改时间", fieldName: "updatedTime", type: "datetime", listVisible: false, preps: {}, commonFlag: "Y"}
+    {label: "修改人", fieldName: "updatedBy",   preps: {}, commonFlag: "Y"},
+    {label: "修改时间", fieldName: "updatedTime", type: "datetime", preps: {}, commonFlag: "Y"}
   ],
   batchFieldList: [],
   userTableFuncs: [],

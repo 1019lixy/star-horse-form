@@ -39,14 +39,14 @@ const searchFields = reactive<SearchFields>({
       label: "账号",
       fieldName: "c.username",
       defaultVisible: true,
-      type: "input",
+
       matchType: "lk"
     },
     {
       label: "姓名",
       fieldName: "c.name",
       defaultVisible: true,
-      type: "input",
+
       matchType: "lk"
     },
     {
@@ -87,25 +87,25 @@ const formFieldList = reactive<PageFieldInfo>({
           {
             label: "用户名",
             fieldName: "username",
-            type: "input",
+
             listVisible: true
           },
           {
             label: "姓名",
             fieldName: "name",
-            type: "input",
+
             listVisible: true
           },
           {
             label: "联系电话",
             fieldName: "phone",
-            type: "input",
+
             listVisible: true
           },
           {
             label: "邮箱",
             fieldName: "email",
-            type: "input",
+
             listVisible: true
           }
         ]
@@ -129,37 +129,37 @@ const tableFieldList = reactive<PageFieldInfo>({
     {
       label: "分组名称",
       fieldName: "roleName",
-      type: "input",
+
       listVisible: true
     },
     {
       label: "分组编码",
       fieldName: "roleCode",
-      type: "input",
+
       listVisible: true
     },
     {
       label: "用户名",
       fieldName: "username",
-      type: "input",
+
       listVisible: true
     },
     {
       label: "姓名",
       fieldName: "name",
-      type: "input",
+
       listVisible: true
     },
     {
       label: "联系电话",
       fieldName: "phone",
-      type: "input",
+
       listVisible: true
     },
     {
       label: "邮箱地址",
       fieldName: "email",
-      type: "input",
+
       listVisible: true
     },
     {

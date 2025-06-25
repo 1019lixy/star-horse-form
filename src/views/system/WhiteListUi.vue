@@ -20,7 +20,7 @@ const searchFormData = reactive<SearchFields>({
        values: typeList
      }
     },
-    {label: "过滤内容", fieldName: "whiteName", defaultVisible: true, type: "input", matchType: "lk"}
+    {label: "过滤内容", fieldName: "whiteName", defaultVisible: true,  matchType: "lk"}
   ]
 });
 const tableFieldList = reactive<PageFieldInfo>({
@@ -44,7 +44,7 @@ const tableFieldList = reactive<PageFieldInfo>({
     {
       label: "过滤内容",
       fieldName: "whiteName",
-      type: "input",
+
       required: true,
       formVisible: true,
       listVisible: true
@@ -53,7 +53,7 @@ const tableFieldList = reactive<PageFieldInfo>({
       label: "创建人",
       disabled: true,
       fieldName: "createdBy",
-      type: "input",
+
       listVisible: true
     },
     {
@@ -67,7 +67,7 @@ const tableFieldList = reactive<PageFieldInfo>({
       label: "修改人",
       disabled: true,
       fieldName: "updatedBy",
-      type: "input",
+
       listVisible: true
     },
     {
@@ -90,22 +90,22 @@ const tableFieldList = reactive<PageFieldInfo>({
     {
       label: "数据编号",
       fieldName: "dataNo",
-      type: "input"
+
     },
     {
       label: "状态码",
       fieldName: "statusCode",
-      type: "input"
+
     },
     {
       label: "状态码名称",
       fieldName: "statusName",
-      type: "input"
+
     },
     {
       label: "国际码",
       fieldName: "local",
-      type: "input"
+
     },
     {
       label: "备注",

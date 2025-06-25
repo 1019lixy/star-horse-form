@@ -29,7 +29,7 @@ const searchFormData = reactive<SearchFields>({
       label: "系统名称",
       defaultVisible: true,
       fieldName: "sysName",
-      type: "input",
+
       matchType: "lk"
     },
     {label: "添加时间", fieldName: "createdTime", type: "daterange", matchType: "bt"}
@@ -66,7 +66,7 @@ const tableFieldList = reactive<PageFieldInfo>({
       {
         label: "系统名称",
         fieldName: "sysName",
-        type: "input",
+
         required: true,
         formVisible: true,
         listVisible: true
@@ -91,7 +91,7 @@ const tableFieldList = reactive<PageFieldInfo>({
     {
       label: "系统编码",
       fieldName: "sysCode",
-      type: "input",
+
       required: true,
       disabled: true,
       listVisible: true
@@ -129,13 +129,13 @@ const tableFieldList = reactive<PageFieldInfo>({
       label: "创建人",
       disabled: true,
       fieldName: "createdBy",
-      type: "input"
+
     },
     {
       label: "修改人",
       disabled: true,
       fieldName: "updatedBy",
-      type: "input"
+
     },
     {
       label: "创建日期",
@@ -162,22 +162,22 @@ const tableFieldList = reactive<PageFieldInfo>({
     {
       label: "数据编号",
       fieldName: "dataNo",
-      type: "input"
+
     },
     {
       label: "状态码",
       fieldName: "statusCode",
-      type: "input"
+
     },
     {
       label: "状态码名称",
       fieldName: "statusName",
-      type: "input"
+
     },
     {
       label: "国际码",
       fieldName: "local",
-      type: "input"
+
     }
   ]
 });

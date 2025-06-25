@@ -17,7 +17,7 @@ const dataUrl: ApiUrls = apiInstance("flow-engine", "workflow/flowoperation");
 let flowGroupList = ref<SelectOption[]>([]);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "流程名称", fieldName: "flowName", type: "input", matchType: "lk", defaultVisible: true},
+    {label: "流程名称", fieldName: "flowName",  matchType: "lk", defaultVisible: true},
     {
       label: "流程分类",
       fieldName: "flowGroup",

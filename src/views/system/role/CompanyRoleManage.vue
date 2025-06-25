@@ -32,14 +32,14 @@ const searchFormData = reactive<SearchFields>({
       fieldName: "companyName",
       defaultVisible: true,
       matchType: "lk",
-      type: "input"
+
     },
     {
       label: "角色名称/编码",
       fieldName: "roleName",
       defaultVisible: true,
       matchType: "lk",
-      type: "input"
+
     }
   ]
 });
@@ -48,7 +48,7 @@ let pageField = reactive<PageFieldInfo>({
     {
       label: "公司名称",
       fieldName: "companyName",
-      type: "input",
+
       listVisible: true
     }
   ]

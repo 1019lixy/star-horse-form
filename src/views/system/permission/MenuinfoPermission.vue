@@ -73,7 +73,7 @@ const searchFields = reactive<SearchFields>({
       label: "菜单名称",
       fieldName: "d.menuName",
       defaultVisible: true,
-      type: "input",
+
       matchType: "lk"
     },
     {
@@ -135,25 +135,25 @@ const tableFieldList = reactive<PageFieldInfo>({
     {
       label: "系统名称",
       fieldName: "sysName",
-      type: "input",
+
       listVisible: true
     },
     {
       label: "系统编码",
       fieldName: "sysCode",
-      type: "input",
+
       listVisible: true
     },
     {
       label: "菜单名称",
       fieldName: "menuName",
-      type: "input",
+
       listVisible: true
     },
     {
       label: "状态",
       fieldName: "statusName",
-      type: "input",
+
       listVisible: true
     }
   ],

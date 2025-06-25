@@ -6,7 +6,7 @@ import {Config} from "@/api/settings";
 const dataUrl: ApiUrls = apiInstance("continuous-manage", "continuous/safetyScanReport");
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "节点", fieldName: "idNodeProperty", type: "input", matchType: "lk", defaultVisible: true},
+    {label: "节点", fieldName: "idNodeProperty",  matchType: "lk", defaultVisible: true},
     {label: "测试报告类型", fieldName: "projectType", type: "reportType", matchType: "lk", defaultVisible: true}
   ]
 });
@@ -15,12 +15,12 @@ const tableFieldList = reactive({
     {
       label: "主键",
       fieldName: "idSafetyReport",
-      type: "input"
+
     },
     {
       label: "节点主键",
       fieldName: "idNodeProperty",
-      type: "input",
+
       required: true,
       formVisible: true,
       listVisible: true
@@ -96,13 +96,13 @@ const tableFieldList = reactive({
       label: "创建人",
       disabled: true,
       fieldName: "createdBy",
-      type: "input"
+
     },
     {
       label: "修改人",
       disabled: true,
       fieldName: "updatedBy",
-      type: "input"
+
     },
     {
       label: "创建日期",
@@ -129,22 +129,22 @@ const tableFieldList = reactive({
     {
       label: "数据编号",
       fieldName: "dataNo",
-      type: "input"
+
     },
     {
       label: "状态码",
       fieldName: "statusCode",
-      type: "input"
+
     },
     {
       label: "状态码名称",
       fieldName: "statusName",
-      type: "input"
+
     },
     {
       label: "国际码",
       fieldName: "local",
-      type: "input"
+
     }
   ],
   batchFieldList: []

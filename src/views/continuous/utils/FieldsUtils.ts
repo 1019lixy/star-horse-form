@@ -19,7 +19,7 @@ const pipelineFields = reactive<PageFieldInfo | any>({
                             {
                                 label: "流水线名称",
                                 fieldName: "lineName",
-                                type: "input",
+                                
                                 defaultValue: "测试",
                                 required: true,
                                 formVisible: true,
@@ -64,30 +64,30 @@ const pipelineFields = reactive<PageFieldInfo | any>({
                                 fieldList: [{
                                     label: "项目名称",
                                     fieldName: "projectName",
-                                    type: "input",
+                                    
                                     required: true,
                                     prefix: "a",
-                                    formVisible: !false,
-                                    listVisible: !false,
+                                    formVisible: true,
+                                    listVisible: true,
                                     searchVisible: true,
                                 },
                                     {
                                         label: "程序语言",
                                         fieldName: "programLanguage",
-                                        type: "input",
+                                        
                                         prefix: "a",
                                         required: false,
-                                        formVisible: !false,
-                                        listVisible: !false,
+                                        formVisible: true,
+                                        listVisible: true,
                                         searchVisible: true,
                                     },
                                     {
                                         label: "代码库地址",
                                         fieldName: "repoUrl",
-                                        type: "input",
+                                        
                                         required: false,
-                                        formVisible: !false,
-                                        listVisible: !false,
+                                        formVisible: true,
+                                        listVisible: true,
 
                                     }
                                 ]
@@ -115,7 +115,7 @@ const pipelineFields = reactive<PageFieldInfo | any>({
                             },{
                                 label: "代码下载目标目录",
                                 fieldName: "targetDir",
-                                type: "input",
+                                
                                 required: false,
                                 formVisible: true,
                                 listVisible: true,

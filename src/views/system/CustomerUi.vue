@@ -23,13 +23,13 @@ const searchFormData = reactive<SearchFields>({
       label: "客户名称",
       defaultVisible: true,
       fieldName: "customerName",
-      type: "input",
+
       matchType: "lk"
     },
     {
       label: "客户编码",
       fieldName: "customerCode",
-      type: "input",
+
       defaultVisible: true,
       matchType: "lk"
     }
@@ -48,7 +48,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "客户名称",
       fieldName: "customerName",
-      type: "input",
+
       required: true,
       formVisible: true,
       listVisible: true
@@ -56,7 +56,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "客户编码",
       fieldName: "customerCode",
-      type: "input",
+
       disabled: true,
       listVisible: true
     },
@@ -84,13 +84,13 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       label: "创建人",
       disabled: true,
       fieldName: "createdBy",
-      type: "input"
+
     },
     {
       label: "修改人",
       disabled: true,
       fieldName: "updatedBy",
-      type: "input"
+
     },
     {
       label: "创建时间",
@@ -115,22 +115,22 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "数据编号",
       fieldName: "dataNo",
-      type: "input"
+
     },
     {
       label: "状态码",
       fieldName: "statusCode",
-      type: "input"
+
     },
     {
       label: "状态名称",
       fieldName: "statusName",
-      type: "input"
+
     },
     {
       label: "国际码",
       fieldName: "local",
-      type: "input"
+
     }
   ],
   cellEditable: true

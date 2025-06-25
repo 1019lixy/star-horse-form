@@ -21,8 +21,8 @@ const categoryList = ref<SelectOption[]>([
 //查询属性
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "名称", fieldName: "itemName", type: "input", matchType: "lk"},
-    {label: "类别", fieldName: "itemType", type: "input", matchType: "lk"},
+    {label: "名称", fieldName: "itemName",  matchType: "lk"},
+    {label: "类别", fieldName: "itemType",  matchType: "lk"},
     {
       label: "分类", fieldName: "category", type: "select", preps: {
         values: categoryList
@@ -42,7 +42,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "名称",
       fieldName: "itemName",
-      type: "input",
+
       required: true,
       formVisible: true,
       listVisible: true
@@ -50,7 +50,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "类别",
       fieldName: "itemType",
-      type: "input",
+
       required: true,
       formVisible: true,
       listVisible: true
@@ -58,7 +58,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "图标",
       fieldName: "itemIcon",
-      type: "input",
+
       required: true,
       formVisible: true,
       listVisible: true
@@ -83,7 +83,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       label: "创建人",
       disabled: true,
       fieldName: "createdBy",
-      type: "input"
+
     },
     {
       label: "创建时间",
@@ -94,7 +94,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       label: "修改人",
       disabled: true,
       fieldName: "updatedBy",
-      type: "input"
+
     },
     {
       label: "修改时间",
@@ -104,17 +104,17 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "数据编号",
       fieldName: "dataNo",
-      type: "input"
+
     },
     {
       label: "状态吗",
       fieldName: "statusCode",
-      type: "input"
+
     },
     {
       label: "状态名称",
       fieldName: "statusName",
-      type: "input"
+
     },
     {
       label: "是否删除",
@@ -124,12 +124,12 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "国际码",
       fieldName: "local",
-      type: "input"
+
     },
     {
       label: "备注",
       fieldName: "remark",
-      type: "input",
+
       formVisible: true,
       listVisible: true
     },

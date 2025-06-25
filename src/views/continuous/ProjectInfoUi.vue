@@ -10,7 +10,7 @@ let charsetList = ref<Array<SelectOption>>([]);
 let projectRoleList = ref<Array<SelectOption>>([]);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "项目名称", fieldName: "projectName", type: "input", matchType: "lk", defaultVisible: true},
+    {label: "项目名称", fieldName: "projectName",  matchType: "lk", defaultVisible: true},
     {
       label: "程序语言", fieldName: "programLanguage",
       type: "select", optionList: languageList, matchType: "lk", defaultVisible: true
@@ -37,7 +37,7 @@ const tableFieldList = reactive({
       {
         label: "代码库地址",
         fieldName: "repoUrl",
-        type: "input",
+
         helpMsg: "eg:[http://|https://|ssh://|git@]192.168.0.1/test",
         formVisible: true,
         listVisible: true
@@ -56,7 +56,7 @@ const tableFieldList = reactive({
       {
         label: "项目名称",
         fieldName: "projectName",
-        type: "input",
+
         required: true,
         formVisible: true,
         listVisible: true
@@ -76,14 +76,14 @@ const tableFieldList = reactive({
       {
         label: "流水线账号",
         fieldName: "lineAccount",
-        type: "input",
+
         formVisible: true,
         listVisible: true
       },
       {
         label: "流水线密码",
         fieldName: "lineSecurity",
-        type: "input",
+
         formVisible: true,
         listVisible: true
       }
@@ -118,23 +118,23 @@ const tableFieldList = reactive({
                 fieldList: [{
                   label: "姓名",
                   fieldName: "name",
-                  type: "input",
+
                   required: true,
                   prefix: "a",
-                  formVisible: !false,
-                  listVisible: !false,
+                  formVisible: true,
+                  listVisible: true,
                   searchVisible: true,
                 },
                   {
                     label: "工号",
                     fieldName: "employeeNo",
-                    type: "input",
+
                     editdisabled: true,
                     prefix: "a",
                     helpMsg: "如不填写系统自动生成",
                     required: false,
-                    formVisible: !false,
-                    listVisible: !false,
+                    formVisible: true,
+                    listVisible: true,
                     searchVisible: true,
                   },
                   {
@@ -142,8 +142,8 @@ const tableFieldList = reactive({
                     fieldName: "rank",
                     type: "tselect",
                     required: false,
-                    formVisible: !false,
-                    listVisible: !false,
+                    formVisible: true,
+                    listVisible: true,
                     preps: {
                       showCode: "Y"
                     }
@@ -153,8 +153,8 @@ const tableFieldList = reactive({
                     fieldName: "station",
                     type: "tselect",
                     required: false,
-                    formVisible: !false,
-                    listVisible: !false,
+                    formVisible: true,
+                    listVisible: true,
                     preps: {
                       showCode: "Y"
                     }
@@ -207,7 +207,7 @@ const tableFieldList = reactive({
       label: "创建人",
       disabled: true,
       fieldName: "createdBy",
-      type: "input",
+
       listVisible: true,
 
     },
@@ -222,7 +222,7 @@ const tableFieldList = reactive({
       label: "修改人",
       disabled: true,
       fieldName: "updatedBy",
-      type: "input",
+
       listVisible: true,
     },
 
@@ -246,22 +246,22 @@ const tableFieldList = reactive({
     {
       label: "数据编号",
       fieldName: "dataNo",
-      type: "input"
+
     },
     {
       label: "状态码",
       fieldName: "statusCode",
-      type: "input"
+
     },
     {
       label: "状态码名称",
       fieldName: "statusName",
-      type: "input"
+
     },
     {
       label: "国际码",
       fieldName: "local",
-      type: "input"
+
     }
   ],
   batchFieldList: []

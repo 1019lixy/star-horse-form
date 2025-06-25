@@ -23,8 +23,8 @@ const props = defineProps({
 let dictType = computed(() => props.dictType);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "字典类型", fieldName: "dictType", type: "input", defaultValue: dictType, disabled: true,},
-    {label: "字典名称", defaultVisible: true, fieldName: "dictName", type: "input", matchType: "lk"}
+    {label: "字典类型", fieldName: "dictType",  defaultValue: dictType, disabled: true,},
+    {label: "字典名称", defaultVisible: true, fieldName: "dictName",  matchType: "lk"}
   ]
 });
 const editFormField = reactive<PageFieldInfo>({
@@ -32,7 +32,7 @@ const editFormField = reactive<PageFieldInfo>({
     {
       label: "字典名称",
       fieldName: "dictName",
-      type: "input",
+
       required: true,
       formVisible: true,
       listVisible: true
@@ -40,7 +40,7 @@ const editFormField = reactive<PageFieldInfo>({
     {
       label: "字典编码",
       fieldName: "dictCode",
-      type: "input",
+
       required: true,
       formVisible: true,
       listVisible: true
@@ -60,7 +60,7 @@ const editFormField = reactive<PageFieldInfo>({
     {
       label: "状态",
       fieldName: "statusName",
-      type: "input",
+
       required: false,
       listVisible: true
     },
@@ -71,7 +71,7 @@ const editFormField = reactive<PageFieldInfo>({
       required: false,
       formVisible: true,
       defaultValue: "1",
-      listVisible: false,
+
       preps:{
         values: commonDictList,
       }
@@ -95,7 +95,7 @@ const tableFieldList = reactive<PageFieldInfo>({
     {
       label: "字典类型",
       fieldName: "dictType",
-      type: "input",
+
       required: true,
       formVisible: true,
       defaultValue: dictType,
@@ -116,13 +116,13 @@ const tableFieldList = reactive<PageFieldInfo>({
       label: "创建人",
       disabled: true,
       fieldName: "createdBy",
-      type: "input"
+
     },
     {
       label: "修改人",
       disabled: true,
       fieldName: "updatedBy",
-      type: "input"
+
     },
     {
       label: "创建日期",
@@ -149,12 +149,12 @@ const tableFieldList = reactive<PageFieldInfo>({
     {
       label: "数据编号",
       fieldName: "dataNo",
-      type: "input"
+
     },
     {
       label: "国际码",
       fieldName: "local",
-      type: "input"
+
     }
   ],
   //阻止初始化时自动加载列表数据

@@ -226,8 +226,8 @@ export function dataSourceFields(dataSourceRef: Ref<any>, envList: Array<SelectO
 const urlBaseInfo: FieldInfo[] = [
     {
         fieldName: "preinterfaceUrl",
-        type: "input",
-        formVisible: false,
+        
+        
         defaultValue: "http://",
         preps: {
             colspan: -1
@@ -236,7 +236,7 @@ const urlBaseInfo: FieldInfo[] = [
     {
         label: "接口地址",
         fieldName: "interfaceUrl",
-        type: "input",
+        
         required: true,
         helpMsg: urlReturnDataHelpMsg,
         formVisible: true,
@@ -320,7 +320,7 @@ export function urlFields() {
         {
             label: "列名",
             fieldName: "fieldName",
-            type: "input",
+            
             formVisible: true
         },
         {
@@ -347,7 +347,7 @@ export function urlFields() {
         {
             label: "目标属性名",
             fieldName: "distField",
-            type: "input",
+            
             formVisible: true
         }
     ];
@@ -368,7 +368,7 @@ export function urlFields() {
                         label: "参数名",
                         fieldName: "paramName",
                         required: true,
-                        type: "input",
+                        
                         formVisible: true
                     },
                     {
@@ -490,7 +490,7 @@ export function paramsFields(paramsConfigRef: Ref<any>, fieldName: string, item:
             {
                 label: "IP/域名/服务名",
                 fieldName: "host",
-                type: "input",
+                
                 required: true,
                 formVisible: true,
                 listVisible: true,
@@ -514,7 +514,7 @@ export function paramsFields(paramsConfigRef: Ref<any>, fieldName: string, item:
         [{
             label: "接口地址",
             fieldName: "interfaceUrl",
-            type: "input",
+            
             required: true,
             helpMsg: urlReturnDataHelpMsg,
             formVisible: true,
@@ -544,7 +544,7 @@ export function paramsFields(paramsConfigRef: Ref<any>, fieldName: string, item:
         {
             label: "列名",
             fieldName: "fieldName",
-            type: "input",
+            
             formVisible: true
         },
         {
@@ -561,7 +561,7 @@ export function paramsFields(paramsConfigRef: Ref<any>, fieldName: string, item:
         {
             label: "列名",
             fieldName: "label",
-            type: "input",
+            
             formVisible: true
         },
         {
@@ -595,7 +595,7 @@ export function paramsFields(paramsConfigRef: Ref<any>, fieldName: string, item:
         {
             label: "目标属性名",
             fieldName: "distField",
-            type: "input",
+            
             formVisible: true
         }
     ];
@@ -607,7 +607,7 @@ export function paramsFields(paramsConfigRef: Ref<any>, fieldName: string, item:
             otherField.push({
                 label: temp.label,
                 fieldName: temp.fieldName,
-                type: "input",
+                
                 listVisible: true
             });
         }
@@ -623,7 +623,7 @@ export function paramsFields(paramsConfigRef: Ref<any>, fieldName: string, item:
             {
                 label: "数据源",
                 fieldName: "dataSource",
-                type: "input",
+                
                 required: true,
                 defaultValue: "data",
                 formVisible: true,
@@ -692,7 +692,7 @@ export function containerField(fieldName: string) {
                     {
                         label: "Tab名字",
                         fieldName: "label",
-                        type: "input",
+                        
                         required: true,
                         formVisible: true,
                         listVisible: true
@@ -702,7 +702,7 @@ export function containerField(fieldName: string) {
                         fieldName: "tabName",
                         helpMsg: `默认作为tab组件的名称，
                 当设置对应关系时,系统作为表的主键`,
-                        type: "input",
+                        
                         required: true,
                         formVisible: true,
                         listVisible: true
@@ -710,7 +710,7 @@ export function containerField(fieldName: string) {
                     {
                         label: "对象名字",
                         fieldName: "objectName",
-                        type: "input",
+                        
                         required: true,
                         formVisible: true,
                         listVisible: true
@@ -738,7 +738,7 @@ export function containerField(fieldName: string) {
                     {
                         label: "Collapse名字",
                         fieldName: "label",
-                        type: "input",
+                        
                         required: true,
                         formVisible: true,
                         listVisible: true
@@ -748,7 +748,7 @@ export function containerField(fieldName: string) {
                         fieldName: "tabName",
                         helpMsg: `默认作为Collapse组件的名称，
                 当设置对应关系时,系统作为表的主键`,
-                        type: "input",
+                        
                         required: true,
                         formVisible: true,
                         listVisible: true
@@ -756,7 +756,7 @@ export function containerField(fieldName: string) {
                     {
                         label: "对象名字",
                         fieldName: "objectName",
-                        type: "input",
+                        
                         required: true,
                         formVisible: true,
                         listVisible: true
@@ -784,7 +784,7 @@ export function containerField(fieldName: string) {
                     {
                         label: "Card名字",
                         fieldName: "title",
-                        type: "input",
+                        
                         required: true,
                         formVisible: true,
                         listVisible: true
@@ -794,7 +794,7 @@ export function containerField(fieldName: string) {
                         fieldName: "tabName",
                         helpMsg: `默认作为Card组件的名称，
                 当设置对应关系时,系统作为表的主键`,
-                        type: "input",
+                        
                         required: true,
                         formVisible: true,
                         listVisible: true
@@ -802,7 +802,7 @@ export function containerField(fieldName: string) {
                     {
                         label: "对象名字",
                         fieldName: "objectName",
-                        type: "input",
+                        
                         required: true,
                         formVisible: true,
                         listVisible: true
@@ -831,7 +831,7 @@ export function containerField(fieldName: string) {
                     {
                         label: "列",
                         fieldName: "colIndex",
-                        type: "input",
+                        
                         required: true,
                         formVisible: true,
                         listVisible: true,
@@ -883,7 +883,7 @@ export function containerField(fieldName: string) {
                     {
                         label: "列",
                         fieldName: "colIndex",
-                        type: "input",
+                        
                         required: true,
                         formVisible: true,
                         listVisible: true,
@@ -1018,7 +1018,7 @@ const fieldMap: any = reactive({
             {
                 label: "组件名称",
                 fieldName: "componentName",
-                type: "input",
+                
                 required: true,
                 formVisible: true,
                 listVisible: true
@@ -1037,7 +1037,7 @@ const fieldMap: any = reactive({
             {
                 label: "函数名称",
                 fieldName: "method",
-                type: "input",
+                
                 required: true,
                 formVisible: true,
                 listVisible: true
@@ -1225,7 +1225,7 @@ export function compCommonFields(customerValid: Function): FieldInfo[] {
         {
             label: "标签名称",
             fieldName: "label",
-            type: "input",
+            
             required: true,
             formVisible: true
         },
@@ -1233,7 +1233,7 @@ export function compCommonFields(customerValid: Function): FieldInfo[] {
             label: "属性名称",
             fieldName: "name",
             required: true,
-            type: "input",
+            
             formVisible: true
         },
 
@@ -1362,7 +1362,7 @@ export function compCommonFields(customerValid: Function): FieldInfo[] {
             label: "组件值",
             helpMsg: "可指定显示为什么组件",
             fieldName: "listPrototypeDisplay",
-            type: "input",
+            
             defaultValue: false,
             formVisible: listPrototypeVisible
         },

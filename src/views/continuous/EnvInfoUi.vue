@@ -6,9 +6,9 @@ import {Config} from "@/api/settings";
 const dataUrl: ApiUrls = apiInstance("continuous-manage", "continuous/envInfo");
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "项目名称", fieldName: "projectName", type: "input", matchType: "lk", defaultVisible: true},
-    {label: "项目类型", fieldName: "projectType", type: "input", matchType: "lk", defaultVisible: true},
-    {label: "程序语言", fieldName: "language", type: "input", matchType: "lk", defaultVisible: true}
+    {label: "项目名称", fieldName: "projectName",  matchType: "lk", defaultVisible: true},
+    {label: "项目类型", fieldName: "projectType",  matchType: "lk", defaultVisible: true},
+    {label: "程序语言", fieldName: "language",  matchType: "lk", defaultVisible: true}
   ]
 });
 const tableFieldList = reactive({
@@ -21,7 +21,7 @@ const tableFieldList = reactive({
     {
       label: "环境名称",
       fieldName: "envName",
-      type: "input",
+
       required: true,
       formVisible: true,
       listVisible: true
@@ -30,7 +30,7 @@ const tableFieldList = reactive({
       {
         label: "环境编码",
         fieldName: "nevCode",
-        type: "input",
+
         formVisible: true,
         listVisible: true
       },
@@ -46,7 +46,7 @@ const tableFieldList = reactive({
       {
         label: "环境端口",
         fieldName: "envPort",
-        type: "input",
+
         required: true,
         formVisible: true,
         listVisible: true
@@ -54,7 +54,7 @@ const tableFieldList = reactive({
       {
         label: "初始空间大小",
         fieldName: "envInitSpace",
-        type: "input",
+
         required: true,
         formVisible: true,
         listVisible: true
@@ -64,7 +64,7 @@ const tableFieldList = reactive({
       {
         label: "已使用空间大小",
         fieldName: "envUsedSpace",
-        type: "input",
+
         required: true,
         formVisible: true,
         listVisible: true
@@ -72,7 +72,7 @@ const tableFieldList = reactive({
       {
         label: "程序语言",
         fieldName: "language",
-        type: "input",
+
         required: true,
         formVisible: true,
         listVisible: true
@@ -82,14 +82,14 @@ const tableFieldList = reactive({
       {
         label: "失效日期",
         fieldName: "expirationDate",
-        type: "input",
+
         formVisible: true,
         listVisible: true
       },
       {
         label: "生效时间",
         fieldName: "effectiveDate",
-        type: "input",
+
         formVisible: true,
         listVisible: true
       }
@@ -104,13 +104,13 @@ const tableFieldList = reactive({
       label: "创建人",
       disabled: true,
       fieldName: "createdBy",
-      type: "input"
+
     },
     {
       label: "修改人",
       disabled: true,
       fieldName: "updatedBy",
-      type: "input"
+
     },
     {
       label: "创建日期",
@@ -137,22 +137,22 @@ const tableFieldList = reactive({
     {
       label: "数据编号",
       fieldName: "dataNo",
-      type: "input"
+
     },
     {
       label: "状态码",
       fieldName: "statusCode",
-      type: "input"
+
     },
     {
       label: "状态码名称",
       fieldName: "statusName",
-      type: "input"
+
     },
     {
       label: "国际码",
       fieldName: "local",
-      type: "input"
+
     }
   ],
   batchFieldList: []

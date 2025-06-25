@@ -97,7 +97,7 @@ const addExtendData = (type: string) => {
       {
         label: "手机号",
         fieldName: "phone",
-        type: "input",
+
         required: true,
         rules: getValidType("phone"),
         formVisible: true
@@ -114,7 +114,7 @@ const addExtendData = (type: string) => {
       {
         label: "邮箱号",
         fieldName: "email",
-        type: "input",
+
         required: true,
         rules: getValidType("email"),
         formVisible: true

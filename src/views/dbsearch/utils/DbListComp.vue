@@ -369,12 +369,12 @@ const onDataCopy = async (data: any) => {
         primaryKeyName: formInfo.formId,
         columns: mvDataList.length,
         comment: "",
-        formVisible: false,
+
         readonly: false,
         required: false,
         searchVisible: false,
         size: "small",
-        listVisible: false,
+
         label: "动态列表",
         templateDownFlag:false,
         importFlag: false,

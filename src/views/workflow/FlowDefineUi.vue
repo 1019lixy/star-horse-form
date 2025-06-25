@@ -39,7 +39,7 @@ let flowDeploymentList = ref<SelectOption[]>([
 //查询属性
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "流程名称", fieldName: "name", type: "input", matchType: "lk", defaultVisible: true},
+    {label: "流程名称", fieldName: "name",  matchType: "lk", defaultVisible: true},
     {
       label: "流程分类",
       fieldName: "flowGroup",
@@ -64,7 +64,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "流程名称",
       fieldName: "name",
-      type: "input",
+
       required: true,
       formVisible: true,
       listVisible: true
@@ -72,7 +72,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "流程部署ID",
       fieldName: "flowDeploymentId",
-      type: "input",
+
       required: true,
       formVisible: true,
       listVisible: true
@@ -80,7 +80,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "流程分类",
       fieldName: "flowGroup",
-      type: "input",
+
       required: false,
       formVisible: true,
       listVisible: true
@@ -88,7 +88,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "绑定表单信息",
       fieldName: "bindForm",
-      type: "input",
+
       required: false,
       formVisible: true,
       listVisible: true
@@ -110,10 +110,10 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "流程类型",
       fieldName: "flowType",
-      type: "input",
+
       required: false,
-      formVisible: false,
-      listVisible: false
+
+
     },
     {
       label: "状态",
@@ -132,7 +132,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "流程版本",
       fieldName: "flowVersion",
-      type: "input",
+
       required: false,
       formVisible: true,
       listVisible: true
@@ -140,7 +140,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "多表单显示模式",
       fieldName: "formVisibleType",
-      type: "input",
+
       required: false,
       formVisible: true,
       listVisible: true
@@ -148,7 +148,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "流程管理员",
       fieldName: "flowManager",
-      type: "input",
+
       required: false,
       formVisible: true,
       listVisible: true
@@ -156,25 +156,25 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "流程Xml文件",
       fieldName: "xmlFile",
-      type: "input",
+
       required: true,
       formVisible: true,
-      listVisible: false
+
     },
     {
       label: "流程Json文件",
       fieldName: "jsonFile",
-      type: "input",
+
       required: true,
       formVisible: true,
-      listVisible: false
+
     },
-    {label: "创建人", fieldName: "createdBy", type: "input", listVisible: true, preps: {}, commonFlag: "Y"},
+    {label: "创建人", fieldName: "createdBy",  listVisible: true, preps: {}, commonFlag: "Y"},
     {
       label: "修改人",
       fieldName: "updatedBy",
-      type: "input",
-      listVisible: false,
+
+
       preps: {},
       commonFlag: "Y"
     },
@@ -190,23 +190,23 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       label: "修改时间",
       fieldName: "updatedTime",
       type: "datetime",
-      listVisible: false,
+
       preps: {},
       commonFlag: "Y"
     },
     {label: "版本号", fieldName: "version", type: "number", listVisible: true, preps: {}, commonFlag: "Y"},
-    {label: "是否删除", fieldName: "isDel", type: "number", listVisible: false, preps: {}, commonFlag: "Y"},
-    {label: "数据编号", fieldName: "dataNo", type: "input", listVisible: false, preps: {}, commonFlag: "Y"},
+    {label: "是否删除", fieldName: "isDel", type: "number", preps: {}, commonFlag: "Y"},
+    {label: "数据编号", fieldName: "dataNo",   preps: {}, commonFlag: "Y"},
     {
       label: "状态名称",
       fieldName: "statusName",
-      type: "input",
-      listVisible: false,
+
+
       preps: {},
       commonFlag: "Y"
     },
-    {label: "国际编码", fieldName: "local", type: "input", listVisible: false, preps: {}, commonFlag: "Y"},
-    {label: "备注", fieldName: "remark", type: "textarea", listVisible: false, preps: {}, commonFlag: "Y"}
+    {label: "国际编码", fieldName: "local",   preps: {}, commonFlag: "Y"},
+    {label: "备注", fieldName: "remark", type: "textarea", preps: {}, commonFlag: "Y"}
   ],
   batchFieldList: [],
   userTableFuncs: [],

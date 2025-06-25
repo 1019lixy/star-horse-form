@@ -9,14 +9,14 @@ const searchFormData = reactive<SearchFields>({
   fieldList: [
     {label: "主键", fieldName: "idFormFields", type: "long"},
     {label: "归属元素", fieldName: "idFormItems", type: "long"},
-    {label: "标签名称", fieldName: "label", type: "input"},
-    {label: "属性名称", fieldName: "fieldName", type: "input"},
-    {label: "属性类别", fieldName: "fieldType", type: "input"},
-    {label: "是否必须 Y 是 N 否 默认 Y", fieldName: "required", type: "input"},
-    {label: "备选值", fieldName: "selectValues", type: "input"},
-    {label: "默认值", fieldName: "defaultValues", type: "input"},
+    {label: "标签名称", fieldName: "label", },
+    {label: "属性名称", fieldName: "fieldName", },
+    {label: "属性类别", fieldName: "fieldType", },
+    {label: "是否必须 Y 是 N 否 默认 Y", fieldName: "required", },
+    {label: "备选值", fieldName: "selectValues", },
+    {label: "默认值", fieldName: "defaultValues", },
     {label: "分类 1 普通属性 2 高级属性 默认 1", fieldName: "category", type: "number"},
-    {label: "备注", fieldName: "remark", type: "input"},
+    {label: "备注", fieldName: "remark", },
     {label: "元素排序", fieldName: "dataSort", type: "number"}
   ]
 });
@@ -42,7 +42,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "标签名称",
       fieldName: "label",
-      type: "input",
+
       required: true,
       formVisible: true,
       listVisible: true
@@ -50,7 +50,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "属性名称",
       fieldName: "fieldName",
-      type: "input",
+
       required: true,
       formVisible: true,
       listVisible: true
@@ -58,7 +58,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "属性类别",
       fieldName: "fieldType",
-      type: "input",
+
       required: true,
       formVisible: true,
       listVisible: true
@@ -66,7 +66,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "是否必须 Y 是 N 否 默认 Y",
       fieldName: "required",
-      type: "input",
+
       required: true,
       formVisible: true,
       listVisible: true
@@ -74,7 +74,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "备选值",
       fieldName: "selectValues",
-      type: "input",
+
       required: true,
       formVisible: true,
       listVisible: true
@@ -82,7 +82,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "默认值",
       fieldName: "defaultValues",
-      type: "input",
+
       required: true,
       formVisible: true,
       listVisible: true
@@ -104,7 +104,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       label: "创建人",
       disabled: true,
       fieldName: "createdBy",
-      type: "input"
+
     },
     {
       label: "创建时间",
@@ -115,7 +115,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       label: "修改人",
       disabled: true,
       fieldName: "updatedBy",
-      type: "input"
+
     },
     {
       label: "修改时间",
@@ -125,17 +125,17 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "数据编号",
       fieldName: "dataNo",
-      type: "input"
+
     },
     {
       label: "状态吗",
       fieldName: "statusCode",
-      type: "input"
+
     },
     {
       label: "状态名称",
       fieldName: "statusName",
-      type: "input"
+
     },
     {
       label: "是否删除",
@@ -145,12 +145,12 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "国际码",
       fieldName: "local",
-      type: "input"
+
     },
     {
       label: "备注",
       fieldName: "remark",
-      type: "input",
+
       formVisible: true,
       listVisible: true
     },

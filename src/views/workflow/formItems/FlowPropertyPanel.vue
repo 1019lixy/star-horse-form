@@ -21,7 +21,7 @@ const basicFieldList = ref<FieldInfo[]>([
     label: "任务Id",
     fieldName: "taskId",
     required: true,
-    type: "input",
+
     disabled: true,
     formVisible: true
   },
@@ -29,7 +29,7 @@ const basicFieldList = ref<FieldInfo[]>([
     label: "任务名称",
     fieldName: "taskName",
     required: true,
-    type: "input",
+
     formVisible: true
   },
   {
@@ -71,7 +71,7 @@ const basicFieldList = ref<FieldInfo[]>([
   {
     label: "超时设置",
     fieldName: "timeOutSetting",
-    type: "input",
+
     formVisible: true
   },
   {
@@ -133,7 +133,7 @@ const buttonFieldList = ref<FieldInfo[]>([
           {
             label: "按钮名称",
             fieldName: "btnName",
-            type: "input",
+
             formVisible: true
           },
           {
@@ -275,7 +275,7 @@ const otherFieldList = ref<FieldInfo[]>([
           {
             label: labelName,
             fieldName: "dataValue",
-            type: "input",
+
             required: true,
             formVisible: formVisible,
             preps: {
@@ -299,7 +299,7 @@ const otherFieldList = ref<FieldInfo[]>([
                   {
                     label: "字段名称",
                     fieldName: "name",
-                    type: "input",
+
                     formVisible: true
                   },
                   {
@@ -312,7 +312,7 @@ const otherFieldList = ref<FieldInfo[]>([
                   {
                     label: "值/表达式",
                     fieldName: "columnValue",
-                    type: "input",
+
                     formVisible: true
                   }
                 ]
@@ -336,7 +336,7 @@ const otherFieldList = ref<FieldInfo[]>([
           {
             label: "监听器Id",
             fieldName: "listenerId",
-            type: "input",
+
             formVisible: true
           },
           {
@@ -363,7 +363,7 @@ const otherFieldList = ref<FieldInfo[]>([
           {
             label: labelName,
             fieldName: "dataValue",
-            type: "input",
+
             required: true,
             formVisible: formVisible,
             preps: {
@@ -387,7 +387,7 @@ const otherFieldList = ref<FieldInfo[]>([
                   {
                     label: "字段名称",
                     fieldName: "name",
-                    type: "input",
+
                     formVisible: true
                   },
                   {
@@ -400,7 +400,7 @@ const otherFieldList = ref<FieldInfo[]>([
                   {
                     label: "值/表达式",
                     fieldName: "columnValue",
-                    type: "input",
+
                     formVisible: true
                   }
                 ]
@@ -417,13 +417,13 @@ const otherFieldList = ref<FieldInfo[]>([
           {
             label: "属性名",
             fieldName: "propName",
-            type: "input",
+
             formVisible: true
           },
           {
             label: "属性值",
             fieldName: "propValue",
-            type: "input",
+
             formVisible: true
           }
         ]

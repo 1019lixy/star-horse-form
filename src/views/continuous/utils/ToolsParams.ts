@@ -94,7 +94,7 @@ const extendCommonFields: FieldInfo[] = [
                     {
                         label: "通知人",
                         type: "checkbox",
-                        formVisible: false,
+                        
                         optionList: reportPersonList,
                         fieldName: "errorReportPerson",
                         actionName: "change",
@@ -110,7 +110,7 @@ const extendCommonFields: FieldInfo[] = [
                             {
                                 type: "select",
                                 label: "  ",
-                                formVisible: false,
+                                
                                 optionList: codeCommitorList,
                                 fieldName: "errorCodeCommitor",
                                 preps: {
@@ -122,7 +122,7 @@ const extendCommonFields: FieldInfo[] = [
                     {
                         label: "通知方式",
                         type: "checkbox",
-                        formVisible: false,
+                        
                         optionList: reportTypeList,
                         fieldName: "errorReportType",
                         preps: {
@@ -149,7 +149,7 @@ const extendCommonFields: FieldInfo[] = [
                     {
                         label: "通知人",
                         type: "checkbox",
-                        formVisible: false,
+                        
                         actionName: "change",
                         actions: (val: any) => {
                             const temp = val["successReportPerson"];
@@ -164,7 +164,7 @@ const extendCommonFields: FieldInfo[] = [
                             {
                                 type: "select",
                                 label: "  ",
-                                formVisible: false,
+                                
                                 optionList: codeCommitorList,
                                 fieldName: "successCodeCommitorVisible",
                                 preps: {
@@ -176,7 +176,7 @@ const extendCommonFields: FieldInfo[] = [
                     {
                         label: "通知方式",
                         type: "checkbox",
-                        formVisible: false,
+                        
                         optionList: reportTypeList,
                         fieldName: "successReportType"
                     }
@@ -199,7 +199,7 @@ const gradleTools = reactive<any>([
         {
             label: "Gradle文件",
             fieldName: "fileName",
-            type: "input",
+            
             defaultValue: "gradlew.bat",
             required: false,
             formVisible: true
@@ -227,7 +227,7 @@ const antTools = reactive<any>([
         {
             label: "Ant文件",
             fieldName: "fileName",
-            type: "input",
+            
             defaultValue: "build.xml",
             required: false,
             formVisible: true

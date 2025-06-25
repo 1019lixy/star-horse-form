@@ -48,7 +48,7 @@ const searchFormData = reactive<SearchFields>({
         values: permissionType
       }
     },
-    {label: "被授权用户组/人", defaultVisible: true, fieldName: "userGroup", type: "input", matchType: "lk"}
+    {label: "被授权用户组/人", defaultVisible: true, fieldName: "userGroup",  matchType: "lk"}
   ]
 });
 let groupVisible = ref<boolean>("false");
@@ -121,9 +121,9 @@ const formFieldList = reactive<PageFieldInfo | any>({
         },
         searchFieldList: {
           fieldList: [
-            {label: "用户名", defaultVisible: true, fieldName: "username", type: "input", matchType: "lk"},
-            {label: "姓名", defaultVisible: true, fieldName: "name", type: "input", matchType: "lk"},
-            {label: "工号", defaultVisible: true, fieldName: "employeeNo", type: "input", matchType: "lk"}
+            {label: "用户名", defaultVisible: true, fieldName: "username",  matchType: "lk"},
+            {label: "姓名", defaultVisible: true, fieldName: "name",  matchType: "lk"},
+            {label: "工号", defaultVisible: true, fieldName: "employeeNo",  matchType: "lk"}
           ]
         },
         dataFormat: (name: string, val: any, row: any) => {
@@ -165,25 +165,25 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "权限类型",
       fieldName: "permissionType",
-      type: "input",
+
       listVisible: true
     },
     {
       label: "被授权用户组/账号",
       fieldName: "userGroup",
-      type: "input",
+
       listVisible: true
     },
     {
       label: "有效期",
       fieldName: "validTime",
-      type: "input",
+
       listVisible: true
     },
     {
       label: "授权菜单",
       fieldName: "menuList",
-      type: "input",
+
       listVisible: true
     },
     {

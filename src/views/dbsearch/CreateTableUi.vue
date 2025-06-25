@@ -21,7 +21,7 @@ const tableFieldList = reactive({
     {
       label: "表名",
       fieldName: "tableName",
-      type: "input",
+
       required: true,
       formVisible: true,
       listVisible: true
@@ -42,7 +42,7 @@ const columnFieldList = reactive<BatchFieldInfo>({
     {
       label: "名称",
       fieldName: "name",
-      type: "input",
+
       required: true,
       formVisible: true,
       listVisible: true
@@ -50,7 +50,7 @@ const columnFieldList = reactive<BatchFieldInfo>({
     {
       label: "类型",
       fieldName: "type",
-      type: "input",
+
       required: true,
       formVisible: true,
       listVisible: true
@@ -58,7 +58,7 @@ const columnFieldList = reactive<BatchFieldInfo>({
     {
       label: "长度",
       fieldName: "length",
-      type: "input",
+
       formVisible: true,
       listVisible: true
     },
@@ -80,7 +80,7 @@ const columnFieldList = reactive<BatchFieldInfo>({
     {
       label: "备注",
       fieldName: "comment",
-      type: "input",
+
       required: true,
       formVisible: true,
       listVisible: true
@@ -93,7 +93,7 @@ const indexFieldList = reactive<BatchFieldInfo>({
     {
       label: "表名",
       fieldName: "tableName",
-      type: "input",
+
       required: true,
       formVisible: true,
       listVisible: true
@@ -101,7 +101,7 @@ const indexFieldList = reactive<BatchFieldInfo>({
     {
       label: "描述",
       fieldName: "comment",
-      type: "input",
+
       required: true,
       formVisible: true,
       listVisible: true

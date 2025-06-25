@@ -17,7 +17,7 @@ const searchFormData = reactive<SearchFields>({
       label: "菜单名称",
       defaultVisible: true,
       fieldName: "idMenusinfo",
-      type: "input"
+
     }
   ]
 });
@@ -50,13 +50,13 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "系统名称",
       fieldName: "sysName",
-      type: "input",
+
       listVisible: true
     },
     {
       label: "菜单名称",
       fieldName: "menuName",
-      type: "input",
+
       required: true,
       listVisible: true
     },
@@ -64,13 +64,13 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       label: "创建人",
       disabled: true,
       fieldName: "createdBy",
-      type: "input"
+
     },
     {
       label: "修改人",
       disabled: true,
       fieldName: "updatedBy",
-      type: "input"
+
     },
     {
       label: "创建时间",
@@ -95,22 +95,22 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "数据编号",
       fieldName: "dataNo",
-      type: "input"
+
     },
     {
       label: "数据状态码",
       fieldName: "statusCode",
-      type: "input"
+
     },
     {
       label: "数据状态名称",
       fieldName: "statusName",
-      type: "input"
+
     },
     {
       label: "国际码",
       fieldName: "local",
-      type: "input"
+
     }
   ],
   cellEditable: false

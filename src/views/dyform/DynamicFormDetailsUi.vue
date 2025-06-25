@@ -8,8 +8,8 @@ const searchFormData = reactive<SearchFields>({
   fieldList: [
     {label: "主键", fieldName: "idDynamicFormDetails", type: "long"},
     {label: "主键", fieldName: "idDynamicForm", type: "long"},
-    {label: "表单内容", fieldName: "content", type: "input"},
-    {label: "表单属性", fieldName: "fieldNames", type: "input"}
+    {label: "表单内容", fieldName: "content", },
+    {label: "表单属性", fieldName: "fieldNames", }
   ]
 });
 const tableFieldList = reactive({
@@ -31,14 +31,14 @@ const tableFieldList = reactive({
     {
       label: "表单内容",
       fieldName: "content",
-      type: "input",
+
       formVisible: true,
       listVisible: true
     },
     {
       label: "表单属性",
       fieldName: "fieldNames",
-      type: "input",
+
       formVisible: true,
       listVisible: true
     },
@@ -46,13 +46,13 @@ const tableFieldList = reactive({
       label: "创建人",
       disabled: true,
       fieldName: "createdBy",
-      type: "input"
+
     },
     {
       label: "修改人",
       disabled: true,
       fieldName: "updatedBy",
-      type: "input"
+
     },
     {
       label: "创建日期",
@@ -79,22 +79,22 @@ const tableFieldList = reactive({
     {
       label: "数据编号",
       fieldName: "dataNo",
-      type: "input"
+
     },
     {
       label: "状态码",
       fieldName: "statusCode",
-      type: "input"
+
     },
     {
       label: "状态码名称",
       fieldName: "statusName",
-      type: "input"
+
     },
     {
       label: "国际码",
       fieldName: "local",
-      type: "input"
+
     }
   ],
   batchFieldList: []

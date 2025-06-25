@@ -40,23 +40,23 @@ const tableFieldList = reactive({
         fieldList: [{
           label: "姓名",
           fieldName: "name",
-          type: "input",
+
           required: true,
           prefix: "a",
-          formVisible: !false,
-          listVisible: !false,
+          formVisible: true,
+          listVisible: true,
           searchVisible: true,
         },
           {
             label: "工号",
             fieldName: "employeeNo",
-            type: "input",
+
             editdisabled: true,
             prefix: "a",
             helpMsg: "如不填写系统自动生成",
             required: false,
-            formVisible: !false,
-            listVisible: !false,
+            formVisible: true,
+            listVisible: true,
             searchVisible: true,
           },
           {
@@ -64,8 +64,8 @@ const tableFieldList = reactive({
             fieldName: "rank",
             type: "tselect",
             required: false,
-            formVisible: !false,
-            listVisible: !false,
+            formVisible: true,
+            listVisible: true,
             preps: {
               showCode: "Y"
             }
@@ -75,8 +75,8 @@ const tableFieldList = reactive({
             fieldName: "station",
             type: "tselect",
             required: false,
-            formVisible: !false,
-            listVisible: !false,
+            formVisible: true,
+            listVisible: true,
             preps: {
               showCode: "Y"
             }
@@ -132,7 +132,7 @@ const tableFieldList = reactive({
       label: "创建人",
       disabled: true,
       fieldName: "createdBy",
-      type: "input"
+
     },
 
   ],

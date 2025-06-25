@@ -47,9 +47,9 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "数据库类型",
       fieldName: "dbType",
-      type: "input",
+
       required: true,
-      formVisible: false,
+
       listVisible: true
     },
     {
@@ -87,8 +87,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "备份文件路径",
       fieldName: "scriptPath",
-      type: "input",
-      formVisible: false,
+
+
       listVisible: true
     },
     {
@@ -102,14 +102,14 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       label: "创建人",
       disabled: true,
       fieldName: "createdBy",
-      type: "input",
+
       listVisible: true
     },
     {
       label: "修改人",
       disabled: true,
       fieldName: "updatedBy",
-      type: "input",
+
       listVisible: true
     },
     {
@@ -139,22 +139,22 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "数据编号",
       fieldName: "dataNo",
-      type: "input"
+
     },
     {
       label: "状态码",
       fieldName: "statusCode",
-      type: "input"
+
     },
     {
       label: "状态码名称",
       fieldName: "statusName",
-      type: "input"
+
     },
     {
       label: "国际码",
       fieldName: "local",
-      type: "input"
+
     }
   ]
 });

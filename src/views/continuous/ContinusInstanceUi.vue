@@ -6,9 +6,9 @@ import {Config} from "@/api/settings";
 const dataUrl: ApiUrls = apiInstance("continuous-manage", "continuous/continuousInstance");
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "项目名称", fieldName: "projectName", type: "input", matchType: "lk", defaultVisible: true},
-    {label: "项目类型", fieldName: "projectType", type: "input", matchType: "lk", defaultVisible: true},
-    {label: "程序语言", fieldName: "language", type: "input", matchType: "lk", defaultVisible: true}
+    {label: "项目名称", fieldName: "projectName",  matchType: "lk", defaultVisible: true},
+    {label: "项目类型", fieldName: "projectType",  matchType: "lk", defaultVisible: true},
+    {label: "程序语言", fieldName: "language",  matchType: "lk", defaultVisible: true}
   ]
 });
 const tableFieldList = reactive({
@@ -21,7 +21,7 @@ const tableFieldList = reactive({
     {
       label: "实例名称",
       fieldName: "instanceName",
-      type: "input",
+
       required: true,
       formVisible: true,
       listVisible: true
@@ -30,7 +30,7 @@ const tableFieldList = reactive({
       {
         label: "模板",
         fieldName: "template",
-        type: "input",
+
         formVisible: true,
         listVisible: true
       },
@@ -46,7 +46,7 @@ const tableFieldList = reactive({
       {
         label: "关联计划",
         fieldName: "linkDataPlan",
-        type: "input",
+
         required: true,
         formVisible: true,
         listVisible: true
@@ -64,7 +64,7 @@ const tableFieldList = reactive({
       {
         label: "代码下载后存放目录",
         fieldName: "targetDir",
-        type: "input",
+
         required: true,
         formVisible: true,
         listVisible: true
@@ -72,7 +72,7 @@ const tableFieldList = reactive({
       {
         label: "是否自动触发构建 1是 2否 默认2",
         fieldName: "autoBuild",
-        type: "input",
+
         required: true,
         formVisible: true,
         listVisible: true
@@ -88,13 +88,13 @@ const tableFieldList = reactive({
       label: "创建人",
       disabled: true,
       fieldName: "createdBy",
-      type: "input"
+
     },
     {
       label: "修改人",
       disabled: true,
       fieldName: "updatedBy",
-      type: "input"
+
     },
     {
       label: "创建日期",
@@ -121,22 +121,22 @@ const tableFieldList = reactive({
     {
       label: "数据编号",
       fieldName: "dataNo",
-      type: "input"
+
     },
     {
       label: "状态码",
       fieldName: "statusCode",
-      type: "input"
+
     },
     {
       label: "状态码名称",
       fieldName: "statusName",
-      type: "input"
+
     },
     {
       label: "国际码",
       fieldName: "local",
-      type: "input"
+
     }
   ],
   batchFieldList: []

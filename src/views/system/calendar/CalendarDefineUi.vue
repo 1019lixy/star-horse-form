@@ -19,21 +19,21 @@ const searchFormData = reactive<SearchFields>({
       fieldName: "category",
       defaultVisible: false,
       matchType: "lk",
-      type: "input"
+
     },
     {
       label: "日历名称",
       fieldName: "calendarName",
       defaultVisible: false,
       matchType: "lk",
-      type: "input"
+
     },
     {
       label: "共享成员",
       fieldName: "sharPerson",
       defaultVisible: false,
       matchType: "lk",
-      type: "input"
+
     }
   ]
 });
@@ -44,34 +44,34 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "主键",
       fieldName: "idCalendarDefine",
-      type: "input",
+
       required: true,
-      formVisible: !false,
-      listVisible: !false
+      formVisible: true,
+      listVisible: true
     },
     {
       label: "日历分类",
       fieldName: "category",
-      type: "input",
+
       required: false,
-      formVisible: !false,
-      listVisible: !false
+      formVisible: true,
+      listVisible: true
     },
     {
       label: "日历名称",
       fieldName: "calendarName",
-      type: "input",
+
       required: false,
-      formVisible: !false,
-      listVisible: !false
+      formVisible: true,
+      listVisible: true
     },
     {
       label: "共享成员",
       fieldName: "sharPerson",
-      type: "input",
+
       required: false,
-      formVisible: !false,
-      listVisible: !false
+      formVisible: true,
+      listVisible: true
     },
     {
       label: "版本号",
@@ -84,7 +84,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "创建人",
       fieldName: "createdBy",
-      type: "input",
+
       required: false,
       formVisible: !true,
       listVisible: !true
@@ -100,7 +100,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "修改人",
       fieldName: "updatedBy",
-      type: "input",
+
       required: false,
       formVisible: !true,
       listVisible: !true
@@ -116,7 +116,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "数据编号",
       fieldName: "dataNo",
-      type: "input",
+
       required: false,
       formVisible: !true,
       listVisible: !true
@@ -124,7 +124,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "状态码",
       fieldName: "statusCode",
-      type: "input",
+
       required: false,
       formVisible: !true,
       listVisible: !true
@@ -132,7 +132,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "状态名称",
       fieldName: "statusName",
-      type: "input",
+
       required: false,
       formVisible: !true,
       listVisible: !true
@@ -148,7 +148,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "国际编码",
       fieldName: "local",
-      type: "input",
+
       required: false,
       formVisible: !true,
       listVisible: !true
@@ -156,7 +156,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "备注",
       fieldName: "remark",
-      type: "input",
+
       required: false,
       formVisible: !true,
       listVisible: !true

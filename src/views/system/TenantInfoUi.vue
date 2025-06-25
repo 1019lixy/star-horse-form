@@ -51,7 +51,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       {
         label: "租户名称",
         fieldName: "tenantName",
-        type: "input",
+
         required: true,
         formVisible: true,
         listVisible: true,
@@ -60,7 +60,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       {
         label: "租户编码",
         fieldName: "tenantCode",
-        type: "input",
+
         editdisabled: true,
         required: true,
         formVisible: true,
@@ -72,7 +72,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       {
         label: "联系人",
         fieldName: "linkMan",
-        type: "input",
+
         required: true,
         formVisible: true,
         listVisible: true,
@@ -81,7 +81,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       {
         label: "联系电话",
         fieldName: "phone",
-        type: "input",
+
         required: true,
         formVisible: true,
         listVisible: true,
@@ -92,7 +92,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       {
         label: "邮箱",
         fieldName: "email",
-        type: "input",
+
         required: true,
         formVisible: true,
         listVisible: true,
@@ -101,7 +101,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       {
         label: "座机",
         fieldName: "tel",
-        type: "input",
+
         required: false,
         formVisible: true,
         listVisible: true,
@@ -209,24 +209,24 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         preps: {}
       }
     ],
-    {label: "创建人", fieldName: "createdBy", type: "input", listVisible: true, preps: {}, commonFlag: "Y"},
-    {label: "修改人", fieldName: "updatedBy", type: "input", listVisible: false, preps: {}, commonFlag: "Y"},
+    {label: "创建人", fieldName: "createdBy",  listVisible: true, preps: {}, commonFlag: "Y"},
+    {label: "修改人", fieldName: "updatedBy",   preps: {}, commonFlag: "Y"},
     {label: "创建时间", fieldName: "createdTime", type: "datetime", listVisible: true, preps: {}, commonFlag: "Y"},
-    {label: "修改时间", fieldName: "updatedTime", type: "datetime", listVisible: false, preps: {}, commonFlag: "Y"},
+    {label: "修改时间", fieldName: "updatedTime", type: "datetime", preps: {}, commonFlag: "Y"},
     {label: "版本号", fieldName: "version", type: "number", listVisible: true, preps: {}, commonFlag: "Y"},
-    {label: "是否删除", fieldName: "isDel", type: "number", listVisible: false, preps: {}, commonFlag: "Y"},
-    {label: "数据编号", fieldName: "dataNo", type: "input", listVisible: false, preps: {}, commonFlag: "Y"},
+    {label: "是否删除", fieldName: "isDel", type: "number", preps: {}, commonFlag: "Y"},
+    {label: "数据编号", fieldName: "dataNo",   preps: {}, commonFlag: "Y"},
     {
       label: "状态",
       fieldName: "statusCode",
       type: "select",
-      listVisible: false,
+
       preps: {urlOrDictName: "common", name: "statusCode", dataSource: "dict"},
       commonFlag: "Y"
     },
-    {label: "状态名称", fieldName: "statusName", type: "input", listVisible: false, preps: {}, commonFlag: "Y"},
-    {label: "国际编码", fieldName: "local", type: "input", listVisible: false, preps: {}, commonFlag: "Y"},
-    {label: "备注", fieldName: "remark", type: "textarea", listVisible: false, preps: {}, commonFlag: "Y"}
+    {label: "状态名称", fieldName: "statusName",   preps: {}, commonFlag: "Y"},
+    {label: "国际编码", fieldName: "local",   preps: {}, commonFlag: "Y"},
+    {label: "备注", fieldName: "remark", type: "textarea", preps: {}, commonFlag: "Y"}
   ],
   batchFieldList: [],
   userTableFuncs: [],

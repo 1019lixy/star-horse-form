@@ -52,7 +52,7 @@ const fieldList = reactive<PageFieldInfo | any>({
               {
                 label: "节点名称",
                 fieldName: "nodeName",
-                type: "input",
+
                 required: true,
                 formVisible: true
               },
@@ -69,7 +69,7 @@ const fieldList = reactive<PageFieldInfo | any>({
               {
                 label: "归档制品",
                 fieldName: "uploadProduct",
-                type: "input",
+
                 required: true,
                 formVisible: true,
                 brotherNodes: [
@@ -88,7 +88,7 @@ const fieldList = reactive<PageFieldInfo | any>({
               {
                 label: "获取制品",
                 fieldName: "downloadProduct",
-                type: "input",
+
                 required: true,
                 formVisible: true,
                 brotherNodes: [

@@ -44,8 +44,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       label: "名称",
       fieldName: "categoryName",
       required: true,
-      formVisible: !false,
-      listVisible: !false,
+      formVisible: true,
+      listVisible: true,
       listPrototypeDisplay: "tag",
       preps: {
         tagType: "info"
@@ -56,16 +56,16 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       fieldName: "categoryCode",
       required: true,
       editdisabled: true,
-      formVisible: !false,
-      listVisible: !false
+      formVisible: true,
+      listVisible: true
     },
     {
       label: "序号",
       fieldName: "dataSort",
       type: "number",
       required: false,
-      formVisible: !false,
-      listVisible: !false,
+      formVisible: true,
+      listVisible: true,
       listPrototypeDisplay: "text"
     },
     ...commonField()

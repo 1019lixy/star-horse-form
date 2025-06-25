@@ -8,10 +8,10 @@ const searchFormData = reactive<SearchFields>({
   fieldList: [
     {label: "主键", fieldName: "idUsersAudit", type: "long"},
     {label: "主键", fieldName: "idUserinfo", type: "long"},
-    {label: "密码", fieldName: "password", type: "input"},
+    {label: "密码", fieldName: "password", },
     {label: "生效日期", fieldName: "effectiveDate", type: "date"},
     {label: "失效日期", fieldName: "expiredDate", type: "date"},
-    {label: "备注", fieldName: "remark", type: "input"},
+    {label: "备注", fieldName: "remark", },
     {label: "数据类型", fieldName: "dataType", type: "number"}
   ]
 });
@@ -34,7 +34,7 @@ const tableFieldList = reactive({
     {
       label: "密码",
       fieldName: "password",
-      type: "input",
+
       formVisible: true,
       listVisible: true
     },
@@ -55,7 +55,7 @@ const tableFieldList = reactive({
     {
       label: "备注",
       fieldName: "remark",
-      type: "input",
+
       formVisible: true,
       listVisible: true
     },
@@ -70,13 +70,13 @@ const tableFieldList = reactive({
       label: "创建人",
       disabled: true,
       fieldName: "createdBy",
-      type: "input"
+
     },
     {
       label: "修改人",
       disabled: true,
       fieldName: "updatedBy",
-      type: "input"
+
     },
     {
       label: "创建日期",
@@ -103,22 +103,22 @@ const tableFieldList = reactive({
     {
       label: "数据编号",
       fieldName: "dataNo",
-      type: "input"
+
     },
     {
       label: "状态码",
       fieldName: "statusCode",
-      type: "input"
+
     },
     {
       label: "状态码名称",
       fieldName: "statusName",
-      type: "input"
+
     },
     {
       label: "国际码",
       fieldName: "local",
-      type: "input"
+
     }
   ],
   batchFieldList: []

@@ -83,16 +83,16 @@ defineProps({
         fieldName: 'title',
         type: 'input',
         required: true,
-        formVisible: !false,
-        listVisible: !false
+        formVisible: true,
+        listVisible: true
       },
       {
         label: '内容',
         fieldName: 'content',
         type: 'markdown',
         required: true,
-        formVisible: !false,
-        listVisible: !false
+        formVisible: true,
+        listVisible: true
       }
     ]
   });

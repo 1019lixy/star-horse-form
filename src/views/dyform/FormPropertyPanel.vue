@@ -98,7 +98,7 @@ let httpMethodVisible = ref<boolean>(false);
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     [
-      {label: "表单名称", fieldName: "formName", type: "input", required: true, formVisible: true},
+      {label: "表单名称", fieldName: "formName",  required: true, formVisible: true},
       {
         label: "数据源",
         fieldName: "datasourceConfigId",
@@ -127,7 +127,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             [{
               label: "表名",
               fieldName: "tbName",
-              type: "input",
+
               required: true,
               formVisible: true,
               editdisabled: true,
@@ -149,7 +149,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             [{
               label: "主键",
               fieldName: "formId",
-              type: "input",
+
               required: true,
               formVisible: true,
               editdisabled: true,
@@ -335,12 +335,12 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                   values: labelPositionList,
                 }
               },
-              {label: "标签长度", fieldName: "labelWidth", helpMsg: "如：50px", type: "input", formVisible: true},
+              {label: "标签长度", fieldName: "labelWidth", helpMsg: "如：50px",  formVisible: true},
               {
                 label: "表单验证规则名称",
                 fieldName: "rules",
                 defaultValue: "rules",
-                type: "input",
+
                 formVisible: true
               }
             ],
@@ -355,7 +355,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                   values: formSizeList
                 }
               },
-              {label: "表单域标签的后缀", fieldName: "labelSuffix", type: "input", formVisible: true},
+              {label: "表单域标签的后缀", fieldName: "labelSuffix",  formVisible: true},
               {label: "禁用所有组件", fieldName: "disabled", defaultValue: false, type: "switch", formVisible: true}
             ],
             [
@@ -449,7 +449,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 label: "状态字典",
                 helpMsg: "系统字段中配置的类型编码",
                 fieldName: "statusDictName",
-                type: "input",
+
                 defaultValue: "common",
                 formVisible: true
               }
@@ -566,7 +566,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 {
                   label: "显示别名",
                   fieldName: "displayAliasField",
-                  type: "input",
+
                   helpMsg: "关联字段与主表字段冲突时配置,\n必须以字母开头不能有特殊符号",
                   formVisible: true,
                   rules: [
@@ -593,7 +593,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
               initRows: 0,
               fieldList: [
                 [
-                  {label: "事件名称", fieldName: "eventName", type: "input", formVisible: true, required: true},
+                  {label: "事件名称", fieldName: "eventName",  formVisible: true, required: true},
                   {
                     label: "图标",
                     fieldName: "icon",

@@ -97,7 +97,7 @@ const dataSourceField = reactive<PageFieldInfo | any>({
                 {
                   label: "属性名",
                   fieldName: "name",
-                  type: "input",
+
                   required: dataRequired,
                   formVisible: true,
                   listVisible: true
@@ -105,7 +105,7 @@ const dataSourceField = reactive<PageFieldInfo | any>({
                 {
                   label: "属性值",
                   fieldName: "value",
-                  type: "input",
+
                   required: dataRequired,
                   formVisible: true,
                   listVisible: true
@@ -164,7 +164,7 @@ const dataSourceField = reactive<PageFieldInfo | any>({
               {
                 label: "IP/域名/服务名",
                 fieldName: "host",
-                type: "input",
+
                 required: urlRequired,
                 formVisible: true,
                 listVisible: true,
@@ -188,7 +188,7 @@ const dataSourceField = reactive<PageFieldInfo | any>({
             {
               label: "接口地址",
               fieldName: "interfaceUrl",
-              type: "input",
+
               required: urlRequired,
               helpMsg: urlReturnDataHelpMsg,
               formVisible: true,
@@ -251,7 +251,7 @@ const dataSourceField = reactive<PageFieldInfo | any>({
                       {
                         label: "参数值",
                         fieldName: "value",
-                        type: "input",
+
                         required: urlRequired,
                         formVisible: true,
                         listVisible: true
@@ -301,7 +301,7 @@ const dataSourceField = reactive<PageFieldInfo | any>({
             {
               label: "字典名称",
               fieldName: "urlOrDictName",
-              type: "input",
+
               required: dictRequired,
               formVisible: true,
               listVisible: true,

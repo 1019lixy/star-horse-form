@@ -11,19 +11,19 @@ export function defineType(type: string) {
         {
             label: "日历分类",
             fieldName: "category",
-            type: "input",
+            
             defaultValue: type,
             required: true,
-            formVisible: false,
-            listVisible: !false
+            
+            listVisible: true
         },
         {
             label: "日历名称",
             fieldName: "calendarName",
-            type: "input",
+            
             required: true,
-            formVisible: !false,
-            listVisible: !false
+            formVisible: true,
+            listVisible: true
         },
         {
             label: "共享成员",
@@ -31,8 +31,8 @@ export function defineType(type: string) {
             aliasName: "sharePersonNo",
             type: "user",
             required: false,
-            formVisible: !false,
-            listVisible: !false,
+            formVisible: true,
+            listVisible: true,
             preps: {
                 multiple: "Y"
             }
@@ -53,10 +53,10 @@ export function calendarManage(calendarList: Array<any>) {
             {
                 label: "日程/会议名称",
                 fieldName: "title",
-                type: "input",
+                
                 required: true,
-                formVisible: !false,
-                listVisible: !false
+                formVisible: true,
+                listVisible: true
             },
             {
                 label: "参与人",
@@ -64,8 +64,8 @@ export function calendarManage(calendarList: Array<any>) {
                 aliasName: "invitePersons",
                 type: "user",
                 required: false,
-                formVisible: !false,
-                listVisible: !false,
+                formVisible: true,
+                listVisible: true,
                 preps: {
                     multiple: "Y"
                 }
@@ -75,8 +75,8 @@ export function calendarManage(calendarList: Array<any>) {
                 fieldName: "startStr",
                 type: "date",
                 required: false,
-                formVisible: !false,
-                listVisible: !false,
+                formVisible: true,
+                listVisible: true,
                 preps: {
                     valueFormat: "YYYY-MM-DD",
                     format: "YYYY-MM-DD"
@@ -87,16 +87,16 @@ export function calendarManage(calendarList: Array<any>) {
                         fieldName: "sTime",
                         type: "time",
                         required: false,
-                        formVisible: !false,
-                        listVisible: !false
+                        formVisible: true,
+                        listVisible: true
                     },
                     {
                         label: "全天",
                         fieldName: "allDay",
                         type: "checkbox",
                         required: false,
-                        formVisible: !false,
-                        listVisible: !false,
+                        formVisible: true,
+                        listVisible: true,
                         preps: {
                             values: [{name: "全天", value: "all"}],
                         }
@@ -108,8 +108,8 @@ export function calendarManage(calendarList: Array<any>) {
                 fieldName: "endStr",
                 type: "date",
                 required: false,
-                formVisible: !false,
-                listVisible: !false,
+                formVisible: true,
+                listVisible: true,
                 preps: {
                     valueFormat: "YYYY-MM-DD",
                     format: "YYYY-MM-DD"
@@ -120,26 +120,26 @@ export function calendarManage(calendarList: Array<any>) {
                         fieldName: "eTime",
                         type: "time",
                         required: false,
-                        formVisible: !false,
-                        listVisible: !false
+                        formVisible: true,
+                        listVisible: true
                     }
                 ]
             },
             {
                 label: "地点",
                 fieldName: "address",
-                type: "input",
+                
                 required: false,
-                formVisible: !false,
-                listVisible: !false
+                formVisible: true,
+                listVisible: true
             },
             {
                 label: "附件",
                 fieldName: "file",
                 type: "upload",
                 required: false,
-                formVisible: !false,
-                listVisible: !false,
+                formVisible: true,
+                listVisible: true,
                 preps: {
                     listType: "text",
                     action: "/system-config/annex/upload/common"
@@ -150,8 +150,8 @@ export function calendarManage(calendarList: Array<any>) {
                 fieldName: "content",
                 type: "markdown",
                 required: false,
-                formVisible: !false,
-                listVisible: !false,
+                formVisible: true,
+                listVisible: true,
                 preps: {
                     leftToolbar: "clear | bold ul ol",
                     rightToolbar: "preview fullscreen"
@@ -162,8 +162,8 @@ export function calendarManage(calendarList: Array<any>) {
                 fieldName: "idCalendarDefine",
                 type: "select",
                 required: false,
-                formVisible: !false,
-                listVisible: !false,
+                formVisible: true,
+                listVisible: true,
                 preps: {
                     values: calendarList,
                     props: {
@@ -178,8 +178,8 @@ export function calendarManage(calendarList: Array<any>) {
                 type: "select",
                 required: false,
                 defaultValue: "2",
-                formVisible: !false,
-                listVisible: !false,
+                formVisible: true,
+                listVisible: true,
                 preps: {
                     values: remindTime,
                 }
@@ -190,8 +190,8 @@ export function calendarManage(calendarList: Array<any>) {
                 type: "select",
                 defaultValue: "A",
                 required: false,
-                formVisible: !false,
-                listVisible: !false,
+                formVisible: true,
+                listVisible: true,
                 preps: {
                     values: repeatRemindType,
                 }
@@ -202,8 +202,8 @@ export function calendarManage(calendarList: Array<any>) {
                 type: "checkbox",
                 defaultValue: ["1"],
                 required: false,
-                formVisible: !false,
-                listVisible: !false,
+                formVisible: true,
+                listVisible: true,
                 preps: {
                     values: [
                         {name: "允许成员主动加入", value: "1"},
@@ -216,8 +216,8 @@ export function calendarManage(calendarList: Array<any>) {
                 fieldName: "subscribeFlag",
                 type: "switch",
                 required: false,
-                formVisible: false,
-                listVisible: !false
+                
+                listVisible: true
             },
             {
                 label: "版本号",
@@ -230,7 +230,7 @@ export function calendarManage(calendarList: Array<any>) {
             {
                 label: "创建人",
                 fieldName: "createdBy",
-                type: "input",
+                
                 required: false,
                 formVisible: !true,
                 listVisible: !true
@@ -246,7 +246,7 @@ export function calendarManage(calendarList: Array<any>) {
             {
                 label: "修改人",
                 fieldName: "updatedBy",
-                type: "input",
+                
                 required: false,
                 formVisible: !true,
                 listVisible: !true
@@ -262,7 +262,7 @@ export function calendarManage(calendarList: Array<any>) {
             {
                 label: "数据编号",
                 fieldName: "dataNo",
-                type: "input",
+                
                 required: false,
                 formVisible: !true,
                 listVisible: !true
@@ -270,7 +270,7 @@ export function calendarManage(calendarList: Array<any>) {
             {
                 label: "状态码",
                 fieldName: "statusCode",
-                type: "input",
+                
                 required: false,
                 formVisible: !true,
                 listVisible: !true
@@ -278,7 +278,7 @@ export function calendarManage(calendarList: Array<any>) {
             {
                 label: "状态名称",
                 fieldName: "statusName",
-                type: "input",
+                
                 required: false,
                 formVisible: !true,
                 listVisible: !true
@@ -294,7 +294,7 @@ export function calendarManage(calendarList: Array<any>) {
             {
                 label: "国际编码",
                 fieldName: "local",
-                type: "input",
+                
                 required: false,
                 formVisible: !true,
                 listVisible: !true
@@ -302,7 +302,7 @@ export function calendarManage(calendarList: Array<any>) {
             {
                 label: "备注",
                 fieldName: "remark",
-                type: "input",
+                
                 required: false,
                 formVisible: !true,
                 listVisible: !true

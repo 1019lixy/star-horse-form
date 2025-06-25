@@ -22,8 +22,8 @@ let departmentList = ref<SelectOption[]>([]);
 let companyList = ref<Array<any>>([]);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "部门名称", defaultVisible: true, fieldName: "deptName", type: "input", matchType: "lk"},
-    {label: "部门编码", fieldName: "deptCode", type: "input", matchType: "lk"}
+    {label: "部门名称", defaultVisible: true, fieldName: "deptName",  matchType: "lk"},
+    {label: "部门编码", fieldName: "deptCode",  matchType: "lk"}
   ]
 });
 const tableFieldList = reactive<PageFieldInfo>({
@@ -52,7 +52,7 @@ const tableFieldList = reactive<PageFieldInfo>({
       {
         label: "部门名称",
         fieldName: "deptName",
-        type: "input",
+
         required: true,
         formVisible: true,
         listVisible: true
@@ -60,7 +60,7 @@ const tableFieldList = reactive<PageFieldInfo>({
       {
         label: "部门编码",
         fieldName: "deptCode",
-        type: "input",
+
         required: true,
         editdisabled: true,
         formVisible: true,
@@ -103,7 +103,7 @@ const tableFieldList = reactive<PageFieldInfo>({
       label: "所属公司",
       disabled: true,
       fieldName: "companyName",
-      type: "input",
+
       listVisible: true
     },
     [
@@ -125,7 +125,7 @@ const tableFieldList = reactive<PageFieldInfo>({
       {
         label: "部门电话",
         fieldName: "deptPhone",
-        type: "input",
+
         formVisible: true,
         listVisible: true
       }
@@ -141,13 +141,13 @@ const tableFieldList = reactive<PageFieldInfo>({
       label: "创建人",
       disabled: true,
       fieldName: "createdBy",
-      type: "input"
+
     },
     {
       label: "修改人",
       disabled: true,
       fieldName: "updatedBy",
-      type: "input"
+
     },
     {
       label: "创建日期",
@@ -175,22 +175,22 @@ const tableFieldList = reactive<PageFieldInfo>({
     {
       label: "数据编号",
       fieldName: "dataNo",
-      type: "input"
+
     },
     {
       label: "状态码",
       fieldName: "statusCode",
-      type: "input"
+
     },
     {
       label: "状态码名称",
       fieldName: "statusName",
-      type: "input"
+
     },
     {
       label: "国际码",
       fieldName: "local",
-      type: "input"
+
     }
   ],
   stopAutoLoad: true

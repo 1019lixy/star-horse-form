@@ -13,9 +13,9 @@ const requestMethod = [
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {label: "请求方法", fieldName: "requestMethod", type: "select", optionList: requestMethod},
-    {label: "操作人", defaultVisible: true, fieldName: "operator", type: "input", matchType: "lk"},
-    {label: "访问接口", defaultVisible: true, fieldName: "signature", type: "input", matchType: "lk"},
-    {label: "访问地址", fieldName: "url", type: "input", matchType: "lk"}
+    {label: "操作人", defaultVisible: true, fieldName: "operator",  matchType: "lk"},
+    {label: "访问接口", defaultVisible: true, fieldName: "signature",  matchType: "lk"},
+    {label: "访问地址", fieldName: "url",  matchType: "lk"}
   ]
 });
 const tableFieldList = reactive<PageFieldInfo>({
@@ -28,21 +28,21 @@ const tableFieldList = reactive<PageFieldInfo>({
     {
       label: "操作人",
       fieldName: "operator",
-      type: "input",
+
       formVisible: true,
       listVisible: true
     },
     {
       label: "访问接口",
       fieldName: "signature",
-      type: "input",
+
       formVisible: true,
       listVisible: true
     },
     {
       label: "请求参数",
       fieldName: "params",
-      type: "input",
+
       formVisible: true,
       listVisible: true
     },
@@ -50,13 +50,13 @@ const tableFieldList = reactive<PageFieldInfo>({
       label: "创建人",
       disabled: true,
       fieldName: "createdBy",
-      type: "input"
+
     },
     {
       label: "修改人",
       disabled: true,
       fieldName: "updatedBy",
-      type: "input"
+
     },
     {
       label: "创建日期",
@@ -83,41 +83,41 @@ const tableFieldList = reactive<PageFieldInfo>({
     {
       label: "数据编号",
       fieldName: "dataNo",
-      type: "input"
+
     },
     {
       label: "状态码",
       fieldName: "statusCode",
-      type: "input"
+
     },
     {
       label: "状态码名称",
       fieldName: "statusName",
-      type: "input"
+
     },
     {
       label: "国际码",
       fieldName: "local",
-      type: "input"
+
     },
     {
       label: "接口地址",
       fieldName: "url",
-      type: "input",
+
       formVisible: true,
       listVisible: true
     },
     {
       label: "备注",
       fieldName: "remark",
-      type: "input",
+
       formVisible: true,
       listVisible: true
     },
     {
       label: "请求方法",
       fieldName: "requestMethod",
-      type: "input",
+
       formVisible: true,
       listVisible: true
     }

@@ -6,8 +6,8 @@ import {onMounted, provide, reactive, ref} from "vue";
 const dataUrl: ApiUrls = apiInstance("system-config", "system/dictinfoType");
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "名称", defaultVisible: false, matchType: "lk", fieldName: "dictTypeName", type: "input"},
-    {label: "编码", defaultVisible: true, matchType: "eq", fieldName: "dictTypeCode", type: "input"}
+    {label: "名称", defaultVisible: false, matchType: "lk", fieldName: "dictTypeName", },
+    {label: "编码", defaultVisible: true, matchType: "eq", fieldName: "dictTypeCode", }
   ]
 });
 const tableFieldList = reactive<PageFieldInfo>({
@@ -20,7 +20,7 @@ const tableFieldList = reactive<PageFieldInfo>({
     {
       label: "字典类型名称",
       fieldName: "dictTypeName",
-      type: "input",
+
       required: true,
       formVisible: true,
       listVisible: true
@@ -28,7 +28,7 @@ const tableFieldList = reactive<PageFieldInfo>({
     {
       label: "字典类型编码",
       fieldName: "dictTypeCode",
-      type: "input",
+
       required: true,
       formVisible: true,
       listVisible: true

@@ -104,25 +104,25 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "角色名称",
       fieldName: "roleName",
-      type: "input",
+
       formVisible: true
     },
     {
       label: "系统名称",
       fieldName: "sysName",
-      type: "input",
+
       listVisible: true
     },
     {
       label: "系统编码",
       fieldName: "sysCode",
-      type: "input",
+
       listVisible: true
     },
     {
       label: "菜单名称",
       fieldName: "menuName",
-      type: "input",
+
       listVisible: true
     },
     {

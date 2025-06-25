@@ -5,9 +5,9 @@ import {apiInstance, ApiUrls, dialogPreps, PageFieldInfo, SearchFields} from "st
 const dataUrl: ApiUrls = apiInstance("continuous-manage", "continuous/complianceScanReport");
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "致命总数", fieldName: "blocker", type: "input"},
-    {label: "严重总数", fieldName: "critical", type: "input", matchType: "lk"},
-    {label: "中度总数", fieldName: "major", type: "input", matchType: "lk"}
+    {label: "致命总数", fieldName: "blocker", },
+    {label: "严重总数", fieldName: "critical",  matchType: "lk"},
+    {label: "中度总数", fieldName: "major",  matchType: "lk"}
   ]
 });
 const tableFieldList = reactive<PageFieldInfo>({
@@ -112,13 +112,13 @@ const tableFieldList = reactive<PageFieldInfo>({
       label: "创建人",
       disabled: true,
       fieldName: "createdBy",
-      type: "input"
+
     },
     {
       label: "修改人",
       disabled: true,
       fieldName: "updatedBy",
-      type: "input"
+
     },
     {
       label: "创建日期",
@@ -145,22 +145,22 @@ const tableFieldList = reactive<PageFieldInfo>({
     {
       label: "数据编号",
       fieldName: "dataNo",
-      type: "input"
+
     },
     {
       label: "状态码",
       fieldName: "statusCode",
-      type: "input"
+
     },
     {
       label: "状态码名称",
       fieldName: "statusName",
-      type: "input"
+
     },
     {
       label: "国际码",
       fieldName: "local",
-      type: "input"
+
     }
   ]
 });

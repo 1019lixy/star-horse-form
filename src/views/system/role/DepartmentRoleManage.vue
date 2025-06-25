@@ -47,14 +47,14 @@ const searchFormData = reactive<SearchFields>({
       fieldName: "deptName",
       defaultVisible: true,
       matchType: "lk",
-      type: "input"
+
     },
     {
       label: "角色名称/编码",
       fieldName: "roleName",
       defaultVisible: true,
       matchType: "lk",
-      type: "input"
+
     }
   ]
 });
@@ -67,7 +67,7 @@ const pageField = reactive<PageFieldInfo | any>({
     {
       label: "部门名称",
       fieldName: "deptName",
-      type: "input",
+
       required: true,
       listVisible: true
     }

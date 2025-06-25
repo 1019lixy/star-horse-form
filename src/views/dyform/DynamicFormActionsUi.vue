@@ -9,10 +9,10 @@ const searchFormData = reactive<SearchFields>({
   fieldList: [
     {label: "主键", fieldName: "idFormActions", type: "long"},
     {label: "归属元素", fieldName: "idFormItems", type: "long"},
-    {label: "标签名称", fieldName: "label", type: "input"},
-    {label: "事件名称", fieldName: "actionName", type: "input"},
-    {label: "属性类别", fieldName: "fieldType", type: "input"},
-    {label: "备注", fieldName: "remark", type: "input"},
+    {label: "标签名称", fieldName: "label", },
+    {label: "事件名称", fieldName: "actionName", },
+    {label: "属性类别", fieldName: "fieldType", },
+    {label: "备注", fieldName: "remark", },
     {label: "元素排序", fieldName: "dataSort", type: "number"}
   ]
 });
@@ -38,7 +38,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "标签名称",
       fieldName: "label",
-      type: "input",
+
       required: true,
       formVisible: true,
       listVisible: true
@@ -46,7 +46,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "事件名称",
       fieldName: "actionName",
-      type: "input",
+
       required: true,
       formVisible: true,
       listVisible: true
@@ -54,7 +54,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "属性类别",
       fieldName: "fieldType",
-      type: "input",
+
       required: true,
       formVisible: true,
       listVisible: true
@@ -68,7 +68,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       label: "创建人",
       disabled: true,
       fieldName: "createdBy",
-      type: "input"
+
     },
     {
       label: "创建时间",
@@ -79,7 +79,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       label: "修改人",
       disabled: true,
       fieldName: "updatedBy",
-      type: "input"
+
     },
     {
       label: "修改时间",
@@ -89,17 +89,17 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "数据编号",
       fieldName: "dataNo",
-      type: "input"
+
     },
     {
       label: "状态吗",
       fieldName: "statusCode",
-      type: "input"
+
     },
     {
       label: "状态名称",
       fieldName: "statusName",
-      type: "input"
+
     },
     {
       label: "是否删除",
@@ -109,12 +109,12 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "国际码",
       fieldName: "local",
-      type: "input"
+
     },
     {
       label: "备注",
       fieldName: "remark",
-      type: "input",
+
       formVisible: true,
       listVisible: true
     },

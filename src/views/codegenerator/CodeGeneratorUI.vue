@@ -46,8 +46,8 @@ const searchFormData = reactive<SearchFields>({
       optionList: dbInfoList,
       defaultVisible: true
     },
-    {label: "应用名称", fieldName: "projectName", type: "input", matchType: "lk", defaultVisible: true},
-    {label: "项目名称", fieldName: "applicationName", type: "input", matchType: "lk", defaultVisible: true}
+    {label: "应用名称", fieldName: "projectName",  matchType: "lk", defaultVisible: true},
+    {label: "项目名称", fieldName: "applicationName",  matchType: "lk", defaultVisible: true}
   ]
 });
 const tableFieldList = reactive<PageFieldInfo>({
@@ -128,7 +128,7 @@ const tableFieldList = reactive<PageFieldInfo>({
       {
         label: "去除表前缀",
         fieldName: "prefixesStr",
-        type: "input",
+
         aliasName: "prefixes",
         formVisible: true,
         helpMsg: `如果该属性为空，所生成的文件会带上表前缀，
@@ -139,7 +139,7 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
       {
         label: "包名",
         fieldName: "packageName",
-        type: "input",
+
         required: true,
         formVisible: true,
         helpMsg: "eg: com.starhorse.test",
@@ -166,14 +166,14 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
             {
               label: "项目名称",
               fieldName: "projectName",
-              type: "input",
+
               formVisible: true,
               helpMsg: "生成代码归属项目"
             },
             {
               label: "模块名称",
               fieldName: "categoryName",
-              type: "input",
+
               required: true,
               formVisible: true,
               helpMsg: "Maven 项目的模块名会追加到包名的后面",
@@ -182,7 +182,7 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
             {
               label: "应用名称",
               fieldName: "applicationName",
-              type: "input",
+
               required: true,
               formVisible: true,
               helpMsg: "在配置文件application.yml中对应spring.application.name",
@@ -198,7 +198,7 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
             {
               label: "发布目录",
               fieldName: "targetDir",
-              type: "input",
+
               formVisible: true,
               helpMsg: "文件部署到服务器上的目录"
             },
@@ -221,7 +221,7 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
             {
               label: "代码版本",
               fieldName: "version",
-              type: "input",
+
               helpMsg: "对应pom.xml文件中version",
               formVisible: true
             }
@@ -234,13 +234,13 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
             {
               label: "开发人员",
               fieldName: "author",
-              type: "input",
+
               formVisible: true
             },
             {
               label: "邮箱地址",
               fieldName: "email",
-              type: "input",
+
               formVisible: true
             },
             {
@@ -273,7 +273,7 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
             {
               label: "Ui 文件后缀",
               fieldName: "uiSuffix",
-              type: "input",
+
               formVisible: true,
               defaultValue: ".vue"
             },
@@ -307,7 +307,7 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
       label: "创建人",
       disabled: true,
       fieldName: "createdBy",
-      type: "input",
+
       listVisible: true
     },
     {
@@ -321,7 +321,7 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
       label: "修改人",
       disabled: true,
       fieldName: "updatedBy",
-      type: "input",
+
       listVisible: true
     },
 
@@ -340,22 +340,22 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
     {
       label: "数据编号",
       fieldName: "dataNo",
-      type: "input"
+
     },
     {
       label: "状态码",
       fieldName: "statusCode",
-      type: "input"
+
     },
     {
       label: "状态码名称",
       fieldName: "statusName",
-      type: "input"
+
     },
     {
       label: "国际码",
       fieldName: "local",
-      type: "input"
+
     }
   ],
   batchFieldList: []

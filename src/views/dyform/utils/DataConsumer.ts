@@ -152,7 +152,7 @@ export function viewFieldInfo(
                 {
                     label: "视图名称",
                     fieldName: "viewName",
-                    type: "input",
+                    
                     required: true,
                     formVisible: true
                 },
@@ -452,7 +452,7 @@ export function relationFieldInfo(datas: any) {
                             {
                                 label: "匹配值",
                                 fieldName: "matchValue",
-                                type: "input",
+                                
                                 required: relationRequired,
                                 formVisible: true
                             }

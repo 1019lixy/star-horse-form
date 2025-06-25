@@ -26,7 +26,7 @@ const searchFormData = reactive<SearchFields>({
       values:dbTypeList
       }
     },
-    {label: "数据库名称", fieldName: "dbName", type: "input", defaultVisible: true, matchType: "lk"}
+    {label: "数据库名称", fieldName: "dbName",  defaultVisible: true, matchType: "lk"}
   ]
 });
 const tableFieldList = reactive<PageFieldInfo>({
@@ -55,7 +55,7 @@ const tableFieldList = reactive<PageFieldInfo>({
       {
         label: "数据库名称/实例",
         fieldName: "dbName",
-        type: "input",
+
         formVisible: true,
         required: true,
         listVisible: true,
@@ -76,7 +76,7 @@ const tableFieldList = reactive<PageFieldInfo>({
       {
         label: "数据库地址",
         fieldName: "host",
-        type: "input",
+
         formVisible: true,
         required: true,
         listVisible: true
@@ -94,7 +94,7 @@ const tableFieldList = reactive<PageFieldInfo>({
       {
         label: "用户名",
         fieldName: "userName",
-        type: "input",
+
         formVisible: true,
         required: true,
         listVisible: true
@@ -126,13 +126,13 @@ const tableFieldList = reactive<PageFieldInfo>({
       label: "创建人",
       disabled: true,
       fieldName: "createdBy",
-      type: "input"
+
     },
     {
       label: "修改人",
       disabled: true,
       fieldName: "updatedBy",
-      type: "input"
+
     },
     {
       label: "创建日期",
@@ -159,22 +159,22 @@ const tableFieldList = reactive<PageFieldInfo>({
     {
       label: "数据编号",
       fieldName: "dataNo",
-      type: "input"
+
     },
     {
       label: "状态码",
       fieldName: "statusCode",
-      type: "input"
+
     },
     {
       label: "状态码名称",
       fieldName: "statusName",
-      type: "input"
+
     },
     {
       label: "国际码",
       fieldName: "local",
-      type: "input"
+
     }
   ],
   batchFieldList: []

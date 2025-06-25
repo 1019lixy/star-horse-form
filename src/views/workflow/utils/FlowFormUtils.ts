@@ -15,7 +15,7 @@ const flowFormFields = reactive<PageFieldInfo>({
         {
             label: "流程名称",
             fieldName: "name",
-            type: "input",
+            
             required: true,
             formVisible: true,
             listVisible: true
@@ -58,7 +58,7 @@ const flowFormFields = reactive<PageFieldInfo>({
                 fieldList: [
                     {
                         label: "表单名称",
-                        type: "input",
+                        
                         fieldName: "formName",
                         searchVisible: true,
                         listVisible: true
@@ -75,13 +75,13 @@ const flowFormFields = reactive<PageFieldInfo>({
                     },
                     {
                         label: "创建人",
-                        type: "input",
+                        
                         fieldName: "createdBy",
                         listVisible: true
                     },
                     {
                         label: "创建时间",
-                        type: "input",
+                        
                         fieldName: "createdTime",
                         listVisible: true
                     }
@@ -97,15 +97,15 @@ const flowFormFields = reactive<PageFieldInfo>({
         {
             label: "流程图类型",
             fieldName: "flowType",
-            type: "input",
-            formVisible: false,
+            
+            
             listVisible: true
         },
         {
             label: "流程版本",
             fieldName: "flowVersion",
-            type: "input",
-            formVisible: false,
+            
+            
             listVisible: true
         },
         {
@@ -134,14 +134,14 @@ const flowFormFields = reactive<PageFieldInfo>({
                 fieldList: [
                     {
                         label: "姓名",
-                        type: "input",
+                        
                         searchVisible: true,
                         fieldName: "name",
                         listVisible: true
                     },
                     {
                         label: "用户名",
-                        type: "input",
+                        
                         searchVisible: true,
                         fieldName: "employeeNo",
                         listVisible: true
@@ -159,7 +159,7 @@ const flowFormFields = reactive<PageFieldInfo>({
             fieldName: "remark",
             type: "textarea",
             formVisible: true,
-            listVisible: false
+            
         }
     ]
 });

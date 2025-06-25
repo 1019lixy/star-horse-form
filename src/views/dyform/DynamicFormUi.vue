@@ -49,7 +49,7 @@ const loadFormData = async (formId: any) => {
 };
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "表单名称", fieldName: "formName", defaultVisible: true, type: "input", matchType: "lk"},
+    {label: "表单名称", fieldName: "formName", defaultVisible: true,  matchType: "lk"},
     {
       label: "数据源",
       fieldName: "datasourceConfigId",
@@ -83,28 +83,28 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "所属应用",
       fieldName: "sysId",
-      type: "input",
+
       formVisible: true,
       listVisible: true
     },
     {
       label: "表单名称",
       fieldName: "formName",
-      type: "input",
+
       formVisible: true,
       listVisible: true
     },
     {
       label: "表名",
       fieldName: "tbName",
-      type: "input",
+
       formVisible: true,
       listVisible: true
     },
     {
       label: "主键",
       fieldName: "formId",
-      type: "input",
+
       formVisible: true,
       listVisible: true
     },
@@ -147,7 +147,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       label: "创建人",
       disabled: true,
       fieldName: "createdBy",
-      type: "input",
+
       listVisible: true
     },
 
@@ -162,7 +162,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       label: "修改人",
       disabled: true,
       fieldName: "updatedBy",
-      type: "input",
+
       listVisible: true
     },
     {
@@ -186,22 +186,22 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "数据编号",
       fieldName: "dataNo",
-      type: "input"
+
     },
     {
       label: "状态码",
       fieldName: "statusCode",
-      type: "input"
+
     },
     {
       label: "状态码名称",
       fieldName: "statusName",
-      type: "input"
+
     },
     {
       label: "国际码",
       fieldName: "local",
-      type: "input"
+
     }
   ],
   userTableFuncs: [

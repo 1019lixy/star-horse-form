@@ -16,7 +16,7 @@ const userEditFieldInfo: Array<any> = [
         {
             label: "邮箱地址",
             fieldName: "email",
-            type: "input",
+            
             rules: "email",
             required: true,
             editDisabled: "Y",
@@ -26,7 +26,7 @@ const userEditFieldInfo: Array<any> = [
         {
             label: "联系电话",
             fieldName: "phone",
-            type: "input",
+            
             rules: "phone",
             required: true,
             formVisible: true,
@@ -37,7 +37,7 @@ const userEditFieldInfo: Array<any> = [
         {
             label: "姓名",
             fieldName: "name",
-            type: "input",
+            
             required: true,
             formVisible: true,
             listVisible: true
@@ -58,7 +58,7 @@ const userEditFieldInfo: Array<any> = [
         label: "紧急联系人电话",
         fieldName: "bakePhone",
         rules: "phone",
-        type: "input",
+        
         formVisible: true
     }
 ];
@@ -113,7 +113,7 @@ const baseUserFields: Array<any> = [
     {
         label: "状态",
         fieldName: "statusName",
-        type: "input",
+        
         listVisible: true
     }
 ];
@@ -168,7 +168,7 @@ const fullUserField: Array<any> = [
     {
         label: "证件编号",
         fieldName: "identityNo",
-        type: "input",
+        
         formVisible: true,
         listVisible: true
     },
@@ -183,7 +183,7 @@ const fullUserField: Array<any> = [
         {
             label: "通信地址",
             fieldName: "address",
-            type: "input",
+            
             formVisible: true,
             listVisible: true
         }
@@ -198,20 +198,20 @@ const fullUserField: Array<any> = [
     {
         label: "证件照",
         fieldName: "imagePath",
-        type: "input"
+        
     },
     {
         label: "创建人",
         disabled: "Y",
         fieldName: "createdBy",
-        type: "input",
+        
         listVisible: true
     },
     {
         label: "修改人",
         disabled: "Y",
         fieldName: "updatedBy",
-        type: "input"
+        
     },
     {
         label: "创建日期",
@@ -239,13 +239,13 @@ const fullUserField: Array<any> = [
     {
         label: "数据编号",
         fieldName: "dataNo",
-        type: "input"
+        
     },
 
     {
         label: "国际码",
         fieldName: "local",
-        type: "input"
+        
     }
 ];
 const initSelectData = async () => {

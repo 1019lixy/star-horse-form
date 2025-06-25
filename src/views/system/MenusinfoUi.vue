@@ -35,8 +35,8 @@ const searchFormData = reactive<SearchFields>({
   fieldList: [
     /*{label: "归属系统", fieldName: "idInformations", type: "select", optionList: informationsList},
   {label: "父菜单", fieldName: "parentNo", type: "tselect", optionList: searchParentMenus},*/
-    {label: "菜单名称", defaultVisible: true, fieldName: "menuName", type: "input", matchType: "lk"},
-    {label: "菜单编码", fieldName: "menuCode", type: "input", matchType: "lk"}
+    {label: "菜单名称", defaultVisible: true, fieldName: "menuName",  matchType: "lk"},
+    {label: "菜单编码", fieldName: "menuCode",  matchType: "lk"}
   ]
 });
 let openTypeList = ref<SelectOption[]>([]);
@@ -45,13 +45,13 @@ const tableFieldList = reactive<PageFieldInfo>({
     {
       label: "主键",
       fieldName: "idMenusinfo",
-      type: "input"
+
     },
     [
       {
         label: "菜单名称",
         fieldName: "menuName",
-        type: "input",
+
         required: true,
         formVisible: true,
         listVisible: true
@@ -59,7 +59,7 @@ const tableFieldList = reactive<PageFieldInfo>({
       {
         label: "菜单路径",
         fieldName: "menuPath",
-        type: "input",
+
         required: true,
         formVisible: true,
         listVisible: true
@@ -101,7 +101,7 @@ const tableFieldList = reactive<PageFieldInfo>({
     {
       label: "菜单编码",
       fieldName: "menuCode",
-      type: "input",
+
       required: true,
       disabled: true,
       listVisible: true
@@ -161,13 +161,13 @@ const tableFieldList = reactive<PageFieldInfo>({
       label: "创建人",
       disabled: true,
       fieldName: "createdBy",
-      type: "input"
+
     },
     {
       label: "修改人",
       disabled: true,
       fieldName: "updatedBy",
-      type: "input"
+
     },
     {
       label: "创建日期",
@@ -194,22 +194,22 @@ const tableFieldList = reactive<PageFieldInfo>({
     {
       label: "数据编号",
       fieldName: "dataNo",
-      type: "input"
+
     },
     {
       label: "状态码",
       fieldName: "statusCode",
-      type: "input"
+
     },
     {
       label: "状态码名称",
       fieldName: "statusName",
-      type: "input"
+
     },
     {
       label: "国际码",
       fieldName: "local",
-      type: "input"
+
     }
   ],
   cellEditable: true

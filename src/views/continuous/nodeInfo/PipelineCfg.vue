@@ -18,7 +18,7 @@ const fieldList = reactive<PageFieldInfo | any>({
               {
                 label: "流水线名称",
                 fieldName: "lineName",
-                type: "input",
+
                 defaultValue: "测试",
                 required: true,
                 formVisible: true,
@@ -27,7 +27,7 @@ const fieldList = reactive<PageFieldInfo | any>({
               {
                 label: "代码分支",
                 fieldName: "codeBranch",
-                type: "input",
+
                 defaultValue: "1",
                 required: true,
                 formVisible: true,
@@ -78,7 +78,7 @@ const fieldList = reactive<PageFieldInfo | any>({
               {
                 label: "URL",
                 fieldName: "vcsUrl",
-                type: "input",
+
                 defaultValue: "git://123.com",
                 required: true,
                 formVisible: true,
@@ -105,7 +105,7 @@ const fieldList = reactive<PageFieldInfo | any>({
               {
                 label: "版本号",
                 fieldName: "dataVersion",
-                type: "input",
+
                 required: false,
                 formVisible: true,
                 listVisible: true,
@@ -116,7 +116,7 @@ const fieldList = reactive<PageFieldInfo | any>({
               {
                 label: "代码下载目标目录",
                 fieldName: "targetDir",
-                type: "input",
+
                 required: false,
                 formVisible: true,
                 listVisible: true,

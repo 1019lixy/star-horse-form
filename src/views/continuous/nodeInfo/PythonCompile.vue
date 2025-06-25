@@ -26,7 +26,7 @@ const fieldList = reactive<PageFieldInfo | any>({
               {
                 label: "名称",
                 fieldName: "nodeName",
-                type: "input",
+
                 required: true,
                 formVisible: true,
                 listVisible: true

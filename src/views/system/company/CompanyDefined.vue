@@ -33,14 +33,14 @@ const searchFormData = reactive<SearchFields>({
       fieldName: "name",
       defaultVisible: true,
       matchType: "lk",
-      type: "input"
+
     },
     {
       label: "公司编码",
       fieldName: "code",
       defaultVisible: true,
       matchType: "lk",
-      type: "input"
+
     }
   ]
 });
@@ -53,19 +53,19 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       {
         label: "公司名称",
         fieldName: "name",
-        type: "input",
+
         required: true,
-        formVisible: !false,
-        listVisible: !false
+        formVisible: true,
+        listVisible: true
       },
       {
         label: "公司编码",
         fieldName: "code",
-        type: "input",
+
         editdisabled: true,
         required: true,
-        formVisible: !false,
-        listVisible: !false
+        formVisible: true,
+        listVisible: true
       }
     ],
     [
@@ -74,8 +74,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         fieldName: "category",
         type: "tselect",
         required: true,
-        formVisible: !false,
-        listVisible: !false,
+        formVisible: true,
+        listVisible: true,
         preps: {
           data:companyCategoryList,
           checkStrictly: true,
@@ -87,24 +87,24 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         fieldName: "dataSort",
         type: "number",
         required: true,
-        formVisible: !false,
-        listVisible: !false
+        formVisible: true,
+        listVisible: true
       }
     ],
     [
       {
         label: "公司简称",
         fieldName: "shortName",
-        type: "input",
+
         required: false,
-        formVisible: !false,
-        listVisible: !false
+        formVisible: true,
+        listVisible: true
       },
       {
         label: "父节点",
         fieldName: "parentId",
         type: "tselect",
-        formVisible: !false,
+        formVisible: true,
         preps: {
           data:companyList,
           checkStrictly: true,
@@ -116,8 +116,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       label: "备注",
       fieldName: "remark",
       type: "textarea",
-      formVisible: !false,
-      listVisible: !false
+      formVisible: true,
+      listVisible: true
     }
   ],
   //默认查询条件
