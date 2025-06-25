@@ -176,7 +176,7 @@ const execListener = (type: string, title: string, tabName: string, batchName: s
                         label: "监听器",
                         fieldName: "listenerName",
                         type: "dialog-input",
-                        params: {},
+                        preps: {},
                         formVisible: true,
                         listVisible: true
                     },
@@ -365,7 +365,7 @@ const emailTaskField = reactive<TabFieldInfo | any>({
             label: "收件人",
             fieldName: "receives",
             type: "dialog-input",
-            params: {},
+            preps: {},
             formVisible: true,
             listVisible: true
         },
@@ -437,7 +437,7 @@ const sendTaskField = reactive<TabFieldInfo | any>({
             label: "抄送人",
             fieldName: "cc",
             type: "dialog-input",
-            params: {},
+            preps: {},
             formVisible: true,
             listVisible: true
         },
@@ -465,7 +465,7 @@ const businessRuleTaskField = reactive<TabFieldInfo | any>({
             label: "决策",
             type: "dialog-input",
             fieldName: "policy",
-            params: {},
+            preps: {},
             formVisible: true,
             listVisible: true
         },
@@ -501,7 +501,10 @@ const callActivityField = reactive<TabFieldInfo | any>({
             type: "dialog-input",
             fieldName: "calledInstanceName",
             formVisible: true,
-            listVisible: true
+            listVisible: true,
+            preps:{
+
+            }
         },
         {
             label: "变量继承",

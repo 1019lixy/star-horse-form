@@ -52,8 +52,6 @@ const pipelineFields = reactive<PageFieldInfo | any>({
                                 recall: (data: any) => {
                                     loadBranch(data.idProjectInfo)
                                 },
-                            },
-                            params: {
                                 primaryKey: "idProjectInfo",
                                 dataUrl: {
                                     pageListUrl: "continuous-manage/continuous/projectInfo/pageList",

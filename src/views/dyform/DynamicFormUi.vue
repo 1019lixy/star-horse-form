@@ -388,8 +388,8 @@ onMounted(() => {
             <span>预览视图</span>
           </div>
         </template>
-        <el-row :gutter="10" class="h100-overflow-hidden">
-          <el-col :span="5" class="h100">
+        <el-splitter>
+          <el-splitter-panel collapsible size="240" min="100" max="500">
             <star-horse-tree
                 v-model:tree-datas="dynamicFormList"
                 ref="starHorseTreeRef"
@@ -406,11 +406,11 @@ onMounted(() => {
                 :compUrl="dataUrl"
                 :compSize="compSize"
             />
-          </el-col>
-          <el-col :span="19" class="h100">
+          </el-splitter-panel>
+          <el-splitter-panel>
             <el-card class="inner_content h100">
               <div class="inner_button" v-if="dataList?.length > 0">
-                <el-menu mode="horizontal" style="height: inherit; width: 100%">
+                <el-menu mode="horizontal" style="height: inherit; width: 100%;border:none">
                   <template v-for="(item, index) in viewBtnList">
                     <el-menu-item
                         v-if="item.authority == 'none' || dynamicFormRef.permissionList()[item.authority]"
@@ -433,8 +433,8 @@ onMounted(() => {
               />
               <el-empty description="请在左侧选择表单" v-else/>
             </el-card>
-          </el-col>
-        </el-row>
+          </el-splitter-panel>
+        </el-splitter>
       </el-tab-pane>
     </el-tabs>
   </el-card>

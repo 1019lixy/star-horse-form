@@ -105,8 +105,7 @@ const tableFieldList = reactive({
               fieldName: "username",
               type: "dialog-input",
               formVisible: true,
-
-              params: {
+              preps: {
                 primaryKey: "idEmployeeInfo",
                 dataUrl: {
                   pageListUrl: "system-config/system/employeeInfo/pageList",

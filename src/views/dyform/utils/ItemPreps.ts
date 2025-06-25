@@ -970,7 +970,7 @@ const fieldMap: any = reactive({
                 required: true,
                 formVisible: true,
                 listVisible: true,
-                params: {
+                preps: {
                     primaryKey: "idDynamicForm",
                     dataUrl: {
                         pageListUrl: "userdb-manage/userdb/dynamicForm/pageList",

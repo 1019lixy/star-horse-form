@@ -27,7 +27,7 @@ const tableFieldList = reactive({
       formVisible: true,
       listVisible: true,
       required: true,
-      params: {
+      preps: {
         primaryKey: "idEmployeeInfo",
         dataUrl: {
           pageListUrl: "system-config/system/employeeInfo/pageList",

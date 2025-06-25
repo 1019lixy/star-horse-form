@@ -2,6 +2,7 @@
 import {Config} from "@/api/settings";
 import {computed, ref} from "vue";
 import {commonField} from "@/api/system";
+import {itemCheck} from "star-horse-lowcode";
 
 const props = defineProps({
   list: {type: Array<any>, required: true},
@@ -39,9 +40,9 @@ defineExpose({
 <template>
   <div class="form-preview">
     <sh-form
-        label-width="auto"
-        label-position="right"
-        require-asterisk-position="right"
+        :label-width="'auto'"
+        :label-position="'right'"
+        :require-asterisk-position="'right'"
         :disabled="formDisabled"
         :rules="{}"
         v-model:dataForm="formData"
@@ -49,24 +50,18 @@ defineExpose({
     >
       <el-scrollbar height="100%" style="width: 100% !important">
         <template v-for="data in list">
-          <component
-              :field="checkIsDisabled(data)"
-              v-model:formData="formData"
-              :isDesign="true"
-              :disabled="formDisabled"
-              :is="data?.itemType + '-container'"
-              v-if="data?.compType === 'container'"
-          >
-          </component>
-          <component v-else-if="data?.compType == 'formItem'||data?.compType == 'item'" :field="checkIsDisabled(data)"
+          <component :field="checkIsDisabled(data)"
                      v-model:formData="formData"
-                     :isDesign="true" :disabled="formDisabled"
-                     :is="data?.itemType + '-item'"/>
+                     :isDesign="true"
+                     :disabled="formDisabled"
+                     :is="itemCheck(data)"/>
         </template>
         <template v-for="data in fieldList">
-          <component :field="checkIsDisabled(data)" v-model:formData="formData" :isDesign="true"
+          <component :field="checkIsDisabled(data)"
+                     v-model:formData="formData"
+                     :isDesign="true"
                      :disabled="formDisabled"
-                     :is="data?.type + '-item'"/>
+                     :is="itemCheck(data)"/>
         </template>
       </el-scrollbar>
     </sh-form>

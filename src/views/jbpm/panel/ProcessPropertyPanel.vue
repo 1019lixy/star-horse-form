@@ -59,7 +59,7 @@ const processField = reactive<PageFieldInfo | any>({
               type: "dialog-input",
               formVisible: true,
               listVisible: true,
-              params: {}
+              preps: {}
             },
             {
               label: "流程启角色",
@@ -67,7 +67,7 @@ const processField = reactive<PageFieldInfo | any>({
               type: "dialog-input",
               formVisible: true,
               listVisible: true,
-              params: {}
+              preps: {}
             }
           ]
         },

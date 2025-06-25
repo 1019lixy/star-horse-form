@@ -183,7 +183,7 @@ const auditorFieldList = ref<FieldInfo[]>([
     label: "添加经办人",
     fieldName: "assignees",
     type: "dialog-input",
-    params: {
+    preps: {
       dataUrl: {
         pageListUrl: ""
       },
@@ -196,7 +196,7 @@ const auditorFieldList = ref<FieldInfo[]>([
     label: "添加抄送人",
     fieldName: "ccs",
     type: "dialog-input",
-    params: {
+    preps: {
       dataUrl: {
         pageListUrl: ""
       },

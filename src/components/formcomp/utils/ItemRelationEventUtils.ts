@@ -157,8 +157,8 @@ const allAction = (context: any, actionName: string, isInit: boolean = false) =>
         return;
     }
     //处理自定义响应事件
-    if (actionName == field.preps["actionName"] && field.preps["actionRelation"]) {
-        field.preps["actionRelation"](context.attrs["formData"][field.preps["name"]], context.attrs["formData"]["xh"]);
+    if (actionName == field.preps["actionName"] && field.preps["actions"]) {
+        field.preps["actions"](context.attrs["formData"][field.preps["name"]], context.attrs["formData"]["xh"]);
     }
     try {
         context.emit("selfFunc", actionName, context.attrs["formData"]);
