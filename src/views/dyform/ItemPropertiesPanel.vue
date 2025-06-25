@@ -114,6 +114,18 @@ const paramsValid = async () => {
     return;
   }
   let formDdata = unref(paramsConfigRef.value.getFormData());
+  if (!formDdata["primaryKey"]) {
+    warning("请选择主键字段");
+    return;
+  }
+  if (!formDdata["needField"]?.length) {
+    warning("请配置回调字段");
+    return;
+  }
+  if (!formDdata["fieldLists"].length) {
+    warning("请至少配置一个显示字段");
+    return;
+  }
   for (let key in formDdata) {
     formProps.value[key] = formDdata[key];
   }
@@ -133,7 +145,7 @@ const paramsValid = async () => {
     item["listVisible"] = true;
     item["type"] = "input";
     item["formVisible"] = true;
-    if (item.searchFlag == "Y") {
+    if (item.searchFlag) {
       searchFieldList.push({...item, matchType: "lk", defaultVisible: true});
     }
   });
@@ -324,7 +336,6 @@ const assignValue = (fieldInfo: any) => {
       }
     } else {
       let commonFields = compCommonFields(customerValid);
-      debugger;
       if (relationComps.value.includes(currentItemType.value)) {
         commonFields.push({
           label: "配置联动策略",

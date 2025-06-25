@@ -146,7 +146,6 @@ defineExpose({
       </template>
     </template>
   </el-table>
-  <hr/>
   <el-pagination
       :size="compSize"
       :total="item.totalDatas"

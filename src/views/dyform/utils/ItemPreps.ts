@@ -532,7 +532,7 @@ export function paramsFields(paramsConfigRef: Ref<any>, fieldName: string, item:
             label: "主键",
             fieldName: "primaryKey",
             type: "select",
-            required: true,
+            required: false,
             formVisible: true,
             preps: {
                 values: fieldList,

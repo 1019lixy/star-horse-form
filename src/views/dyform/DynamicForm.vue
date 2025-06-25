@@ -15,7 +15,8 @@ import {
   useDesignFormStore,
   useGlobalConfigStore,
   useSelfOperationStore,
-  warning
+  warning,
+  itemCheck
 } from "star-horse-lowcode";
 import {useRoute, useRouter} from "vue-router";
 import {validDynamicFormCompParams} from "@/views/dyform/utils/preview";
@@ -276,14 +277,6 @@ const shortKeySwitch = (val: boolean) => {
   }
 };
 const onDragAdd = async (_evt: Event, dataList: Array<any>) => {
-  // if (draggingItem.value?.itemType == "table") {
-  //   let datas = dataList.filter((item) => item.itemType == "table");
-  //   if (datas.length > 1) {
-  //     warning("同级容器中只能添加一次动态列表组件");
-  //     const lastIndex = dataList.findIndex(item => item.id === draggingItem.value.id);
-  //     if (lastIndex > -1) dataList.splice(lastIndex, 1);
-  //   }
-  // }
   if (!draggingItem.value) {
     return;
   }
@@ -583,7 +576,7 @@ let prepsModel = ref("one");
                          :key="data.id">
                       <component :key="data.id" :field="data" :isDesign="true" :formInfo="formInfo"
                                  :index-of-parent-list="index"
-                                 :is="data.itemType + (data.compType === 'container' ? '-container' : '-item')"
+                                 :is="itemCheck(data)"
                                  v-model:formData="formData"/>
                     </div>
                   </template>
