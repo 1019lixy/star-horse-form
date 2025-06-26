@@ -1226,8 +1226,8 @@ const selectType = ["select", "tselect", "cascader", "autocomplete", "area", "cr
  * @param item
  * @param itemType
  */
-export function fieldPlaceholder(item: any) {
-    let preps: any = unref(designForm.currentComp);
+export function fieldPlaceholder(item: any,compInfo?:any) {
+    let preps: any =compInfo?? unref(designForm.currentComp);
     let itemType: string = preps.itemType;
     if (item['noPlaceholder']) {
         delete item['placeholder'];

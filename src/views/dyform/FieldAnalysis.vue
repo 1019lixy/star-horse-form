@@ -28,6 +28,8 @@ const needBigLengthComp: Array<string> = [
   "signature",
   "markdown"
 ];
+
+
 onMounted(() => {
   let preps = props.field.preps;
   if (needBigLengthComp.includes(props.field.itemType)) {
@@ -61,7 +63,7 @@ onMounted(() => {
         <el-tag>{{ container }}</el-tag>
       </el-col>
       <el-col :span="3">
-        <el-input v-model="field.preps['label']" @input='fieldPlaceholder(field.preps)' :size="size" placeholder="标签名称" clearable/>
+        <el-input v-model="field.preps['label']" @input='fieldPlaceholder(field.preps,field)' :size="size" placeholder="标签名称" clearable/>
       </el-col>
       <el-col :span="3">
         <el-input v-model="field.preps['name']" :size="size" placeholder="属性名称" clearable/>
